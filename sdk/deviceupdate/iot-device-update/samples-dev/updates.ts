@@ -2,34 +2,31 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Demonstrates the use of a DeviceUpdateClient to list all the update providers that have been imported to Device Update for IoT Hub
+ * This sample demonstrates how get a list of updates
+ *
+ * @summary gets a list of updates
  * @azsdk-weight 40
  */
- 
-import { DeviceUpdateClient } from "@azure/iot-device-update";
+
+import DeviceUpdate from "@azure-rest/iot-device-update";
 import { DefaultAzureCredential } from "@azure/identity";
-import { config } from "dotenv";
+import dotenv from "dotenv";
 
-config();
+dotenv.config();
 
-const accountEndpoint = process.env["ACCOUNT_ENDPOINT"] || "<ACCOUNT_ENDPOINT>";
-const instanceId = process.env["INSTANCE_ID"] || "<INSTANCE_ID>";
+const endpoint = process.env["ENDPOINT"] || "";
 
-/**
- * Get a list of all update providers that have been imported to Device Update for IoT Hub
- */
-export async function main() {
-  const credentials = new DefaultAzureCredential();
-  const client = new DeviceUpdateClient(credentials, accountEndpoint, instanceId);
+async function main() {
+  console.log("== List updates sample ==");
+  const client = DeviceUpdate(endpoint, new DefaultAzureCredential());
 
-  const providers = client.updates.listProviders();
+  const updates = await client.path("/deviceupdate/{instanceId}/updates", "test").get();
 
-  for await (const provider of providers) {
-    console.log(provider);
+  if (updates.status !== "200") {
+    throw updates.body.error;
   }
+
+  console.log(updates.body.value?.map((ups) => ups.name).join("\n"));
 }
 
-main().catch((error) => {
-  console.error("An error occurred in the sample:", error);
-  process.exit(1);
-});
+main().catch(console.error);
