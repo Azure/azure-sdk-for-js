@@ -193,16 +193,9 @@ function getTestServerUrl() {
               ? getTestServerUrl().replace(secretEndpoint, fakeEndpoint) + pathToHit
               : undefined,
             path: pathToHit,
-            body: "abcd",
-            method: "POST",
-            headers: [
-              {
-                headerName: "Content-Type",
-                value: "text/plain"
-              }
-            ]
+            method: "POST"
           },
-          { bodyProvided: "abcd" }
+          { bodyProvided: {} }
         );
       });
 
