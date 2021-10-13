@@ -62,7 +62,7 @@ describe("ClientSecretCredential (internal)", function() {
     errors.forEach((e) => {
       assert.equal(
         e.message,
-        "ClientSecretCredential: tenantId, clientId, and clientSecret are required parameters."
+        "ClientSecretCredential: tenantId, clientId, and clientSecret are required parameters. To troubleshoot, visit https://aka.ms/azsdk/js/identity/serviceprincipalauthentication/troubleshoot."
       );
     });
   });

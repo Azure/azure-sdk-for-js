@@ -132,7 +132,8 @@ export class EnvironmentCredential implements TokenCredential {
           return result;
         } catch (err) {
           const authenticationError = new AuthenticationError(400, {
-            error: "EnvironmentCredential authentication failed.",
+            error:
+              "EnvironmentCredential authentication failed. To troubleshoot, visit https://aka.ms/azsdk/js/identity/environmentcredential/troubleshoot.",
             error_description: err.message
               .toString()
               .split("More details:")
@@ -143,7 +144,7 @@ export class EnvironmentCredential implements TokenCredential {
         }
       }
       throw new CredentialUnavailableError(
-        "EnvironmentCredential is unavailable. No underlying credential could be used."
+        "EnvironmentCredential is unavailable. No underlying credential could be used. To troubleshoot, visit https://aka.ms/azsdk/js/identity/environmentcredential/troubleshoot."
       );
     });
   }

@@ -283,7 +283,13 @@ Credentials raise `AuthenticationError` when they fail to authenticate. This cla
 
 ### Logging
 
-Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
+Enabling logging may help uncover useful information about failures. To see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. You can read this environment variable from the *.env* file by explicitly specifying a file path:
+
+```javascript
+require("dotenv").config({ path: ".env" });
+```
+
+Alternatively, logging can be enabled at runtime by calling `setLogLevel` from the `@azure/logger` package:
 
 ```javascript
 import { setLogLevel } from "@azure/logger";
