@@ -307,7 +307,7 @@ Client and management libraries listed on the [Azure SDK releases page](https://
 
 ####Azure AD B2C support
 
-This library also allows other JavaScript and TypeScript apps to authenticate with Azure AD work and school accounts, Microsoft personal accounts (MSA), and other Identity providers through the [Azure AD B2C](https://docs.microsoft.com/azure/active-directory-b2c/overview) service.
+This library does not support the [Azure AD B2C](https://docs.microsoft.com/azure/active-directory-b2c/overview) service.
 
 ### Provide Feedback
 
