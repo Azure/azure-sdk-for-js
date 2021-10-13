@@ -296,47 +296,48 @@ function getTestServerUrl() {
       //   // TODO: Add more tests to cover groupForReplace
       // });
 
-      // it.only("ResetSanitizer (uses BodyRegexSanitizer as example)", async () => {
-      //   await recorder.start({});
-      //   const secretValue = "ab12cd34ef";
-      //   const fakeSecretValue = "fake_secret_info";
-      //   await recorder.addSanitizers({
-      //     bodyRegexSanitizers: [
-      //       {
-      //         regex: "(.*)&SECRET=(?<secret_content>[^&]*)&(.*)",
-      //         value: fakeSecretValue,
-      //         groupForReplace: "secret_content"
-      //       }
-      //     ]
-      //   });
-      //   const reqBody = `non_secret=i'm_no_secret&SECRET=${
-      //     isPlaybackMode() ? fakeSecretValue : secretValue
-      //   }&random=random`;
-      //   await makeRequestAndVerifyResponse(
-      //     {
-      //       path: `/api/sample_request_body`,
-      //       body: reqBody,
-      //       method: "POST",
-      //       headers: [{ headerName: "Content-Type", value: "text/plain" }]
-      //     },
-      //     { bodyProvided: reqBody }
-      //   );
+      it.skip("ResetSanitizer (uses BodyRegexSanitizer as example)", async () => {
+        await recorder.start({});
+        const secretValue = "ab12cd34ef";
+        const fakeSecretValue = "fake_secret_info";
+        await recorder.addSanitizers({
+          bodyRegexSanitizers: [
+            {
+              regex: "(.*)&SECRET=(?<secret_content>[^&]*)&(.*)",
+              value: fakeSecretValue,
+              groupForReplace: "secret_content"
+            }
+          ]
+        });
+        const reqBody = `non_secret=i'm_no_secret&SECRET=${
+          isPlaybackMode() ? fakeSecretValue : secretValue
+        }&random=random`;
+        await makeRequestAndVerifyResponse(
+          {
+            path: `/api/sample_request_body`,
+            body: reqBody,
+            method: "POST",
+            headers: [{ headerName: "Content-Type", value: "text/plain" }]
+          },
+          { bodyProvided: reqBody }
+        );
 
-      //   await recorder.addSanitizers({
-      //     resetSanitizer: true
-      //   });
+        await recorder.addSanitizers({
+          resetSanitizer: true
+        });
 
-      //   const reqBodyAfterReset = `non_secret=i'm_no_secret&SECRET=${secretValue}&random=random`;
-      //   await makeRequestAndVerifyResponse(
-      //     {
-      //       path: `/api/sample_request_body`,
-      //       body: reqBodyAfterReset,
-      //       method: "POST",
-      //       headers: [{ headerName: "Content-Type", value: "text/plain" }]
-      //     },
-      //     { bodyProvided: reqBodyAfterReset }
-      //   );
-      // });
+        const reqBodyAfterReset = `non_secret=i'm_no_secret&SECRET=${secretValue}&random=random`;
+        // TODO: BUG OBSERVED - The following request should not be sanitized, but is sanitized
+        await makeRequestAndVerifyResponse(
+          {
+            path: `/api/sample_request_body`,
+            body: reqBodyAfterReset,
+            method: "POST",
+            headers: [{ headerName: "Content-Type", value: "text/plain" }]
+          },
+          { bodyProvided: reqBodyAfterReset }
+        );
+      });
 
       // it("connection string santizer", async () => {
       //   await recorder.start({});
