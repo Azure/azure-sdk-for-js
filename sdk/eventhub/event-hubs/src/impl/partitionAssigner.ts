@@ -5,6 +5,7 @@ import { isDefined } from "../util/typeGuards";
 
 /**
  * @internal
+ * Assigns a partition based on the partition ids it knows about and an optional partition id or partition key.
  */
 export class PartitionAssigner {
   private _partitions: string[] = [];
@@ -44,7 +45,7 @@ export class PartitionAssigner {
   }
 
   private _assignPartitionForPartitionKey(partitionKey: string): string {
-    //TODO: Implement hashing function
+    // TODO: Implement hashing function
     return partitionKey ? this._partitions[0] : this._partitions[0];
   }
 

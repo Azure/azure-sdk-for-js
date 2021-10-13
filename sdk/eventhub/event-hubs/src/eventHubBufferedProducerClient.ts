@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { AbortController } from "@azure/abort-controller";
 import { AmqpAnnotatedMessage } from "@azure/core-amqp";
 import { NamedKeyCredential, SASCredential, TokenCredential } from "@azure/core-auth";
 import { BatchingPartitionChannel } from "./batchingPartitionProducer";
@@ -102,6 +103,8 @@ export interface EnqueueEventOptions extends SendBatchOptions {}
  * or assigned a specifically requested partition.
  */
 export class EventHubBufferedProducerClient {
+  private _abortController = new AbortController();
+
   /**
    * Indicates whether the client has been explicitly closed.
    */
@@ -242,6 +245,7 @@ export class EventHubBufferedProducerClient {
     if (!isDefined(options.flush) || options.flush === true) {
       await this.flush(options);
     }
+    this._abortController.abort();
     return this._producer.close();
   }
 
@@ -267,7 +271,25 @@ export class EventHubBufferedProducerClient {
     event: EventData | AmqpAnnotatedMessage,
     options: EnqueueEventOptions = {}
   ): Promise<number> {
-    throw new Error(`Not implemented ${event}, ${options}`);
+    if (this._isClosed) {
+      throw new Error(
+        `This EventHubBufferedProducerClient has already been closed. Create a new client to enqueue events.`
+      );
+    }
+
+    if (!this._partitionIds.length) {
+      this._partitionIds = await this.getPartitionIds();
+      this._partitionAssigner.setPartitionIds(this._partitionIds);
+    }
+
+    const partitionId = this._partitionAssigner.assignPartition({
+      partitionId: options.partitionId,
+      partitionKey: options.partitionKey
+    });
+
+    const partitionChannel = this._getPartitionChannel(partitionId);
+    await partitionChannel.enqueueEvent(event);
+    return this._getTotalBufferedEventsCount();
   }
 
   /**
@@ -292,27 +314,8 @@ export class EventHubBufferedProducerClient {
     events: EventData[] | AmqpAnnotatedMessage[],
     options: EnqueueEventOptions = {}
   ): Promise<number> {
-    if (this._isClosed) {
-      throw new Error(
-        `This EventHubBufferedProducerClient has already been closed. Create a new client to enqueue events.`
-      );
-    }
-
-    if (!this._partitionIds.length) {
-      this._partitionIds = await this.getPartitionIds();
-      this._partitionAssigner.setPartitionIds(this._partitionIds);
-    }
-
-    const partitionId = this._partitionAssigner.assignPartition({
-      partitionId: options.partitionId,
-      partitionKey: options.partitionKey
-    });
-
-    // TODO: assign partition key to each event.
-
-    const partitionChannel = this._getPartitionChannel(partitionId);
     for (const event of events) {
-      await partitionChannel.enqueueEvent(event);
+      await this.enqueueEvent(event, options);
     }
 
     return this._getTotalBufferedEventsCount();
@@ -327,7 +330,9 @@ export class EventHubBufferedProducerClient {
    * @param options - The set of options to apply to the operation call.
    */
   async flush(options: OperationOptions = {}): Promise<void> {
-    options;
+    await Promise.all(
+      Array.from(this._partitionChannels.values()).map((channel) => channel.flush(options))
+    );
   }
 
   /**
@@ -372,8 +377,11 @@ export class EventHubBufferedProducerClient {
     const partitionChannel =
       this._partitionChannels.get(partitionId) ??
       new BatchingPartitionChannel({
+        loopAbortSignal: this._abortController.signal,
         maxBufferSize: this._clientOptions.maxBufferedEventCount || 100,
         maxWaitTimeInMs: this._clientOptions.maxWaitTimeInMs || 1000,
+        onSendEventsErrorHandler: this._clientOptions.onSendEventsErrorHandler,
+        onSendEventsSuccessHandler: this._clientOptions.onSendEventsSuccessHandler,
         partitionId,
         producer: this._producer
       });
