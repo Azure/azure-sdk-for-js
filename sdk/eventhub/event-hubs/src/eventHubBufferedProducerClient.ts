@@ -4,7 +4,7 @@
 import { AbortController } from "@azure/abort-controller";
 import { AmqpAnnotatedMessage } from "@azure/core-amqp";
 import { NamedKeyCredential, SASCredential, TokenCredential } from "@azure/core-auth";
-import { BatchingPartitionChannel } from "./batchingPartitionProducer";
+import { BatchingPartitionChannel } from "./batchingPartitionChannel";
 import { PartitionAssigner } from "./impl/partitionAssigner";
 import { EventData, EventHubProducerClient, OperationOptions } from "./index";
 import { EventHubProperties, PartitionProperties } from "./managementClient";
@@ -56,11 +56,15 @@ export interface OnSendEventsErrorContext {
  */
 export interface EventHubBufferedProducerClientOptions extends EventHubClientOptions {
   /**
-   * The maximum number of events to buffer.
+   * The total number of events that can be buffered for publishing at a given time for a given partition.
+   *
+   * Default: 1500
    */
-  maxBufferedEventCount?: number;
+  maxEventBufferLengthPerPartition?: number;
   /**
-   * The maximum amount of time to wait before sending a batch of messages to the Event Hub.
+   * The amount of time to wait for a new event to be enqueued in the buffer before publishing a partially full batch.
+   *
+   * Default: 250 milliseconds.
    */
   maxWaitTimeInMs?: number;
   /**
@@ -103,6 +107,10 @@ export interface EnqueueEventOptions extends SendBatchOptions {}
  * or assigned a specifically requested partition.
  */
 export class EventHubBufferedProducerClient {
+  /**
+   * Controls the `abortSignal` passed to each `BatchingPartitionChannel`.
+   * Used to signal when a channel should stop waiting for events.
+   */
   private _abortController = new AbortController();
 
   /**
@@ -110,14 +118,24 @@ export class EventHubBufferedProducerClient {
    */
   private _isClosed: boolean = false;
 
+  /**
+   * Handles assigning partitions.
+   */
   private _partitionAssigner = new PartitionAssigner();
 
+  /**
+   * The known partitionIds that will be used when assigning events to partitions.
+   */
   private _partitionIds: string[] = [];
   /**
    * The EventHubProducerClient to use when creating and sending batches to the Event Hub.
    */
   private _producer: EventHubProducerClient;
 
+  /**
+   * Mapping of partitionIds to `BatchingPartitionChannels`.
+   * Each `BatchingPartitionChannel` handles buffering events and backpressure independently.
+   */
   private _partitionChannels = new Map<string, BatchingPartitionChannel>();
 
   /**
@@ -237,6 +255,10 @@ export class EventHubBufferedProducerClient {
    * Closes the AMQP connection to the Event Hub instance,
    * returning a promise that will be resolved when disconnection is completed.
    *
+   * This will wait for enqueued events to be flushed to the service before closing
+   * the connection.
+   * To close without flushing, set the `flush` option to `false`.
+   *
    * @param options - The set of options to apply to the operation call.
    * @returns Promise<void>
    * @throws Error if the underlying connection encounters an error while closing.
@@ -245,6 +267,8 @@ export class EventHubBufferedProducerClient {
     if (!isDefined(options.flush) || options.flush === true) {
       await this.flush(options);
     }
+    // Calling abort signals to the BatchingPartitionChannels that they
+    // should stop reading/sending events.
     this._abortController.abort();
     return this._producer.close();
   }
@@ -277,6 +301,8 @@ export class EventHubBufferedProducerClient {
       );
     }
 
+    // TODO: Start a loop that queries partition Ids.
+    // partition ids can be added to an Event Hub after it's been created.
     if (!this._partitionIds.length) {
       this._partitionIds = await this.getPartitionIds();
       this._partitionAssigner.setPartitionIds(this._partitionIds);
@@ -373,13 +399,18 @@ export class EventHubBufferedProducerClient {
     return this._producer.getPartitionProperties(partitionId, options);
   }
 
+  /**
+   * Gets the `BatchingPartitionChannel` associated with the partitionId.
+   *
+   * If one does not exist, it is created.
+   */
   private _getPartitionChannel(partitionId: string): BatchingPartitionChannel {
     const partitionChannel =
       this._partitionChannels.get(partitionId) ??
       new BatchingPartitionChannel({
         loopAbortSignal: this._abortController.signal,
-        maxBufferSize: this._clientOptions.maxBufferedEventCount || 100,
-        maxWaitTimeInMs: this._clientOptions.maxWaitTimeInMs || 1000,
+        maxBufferSize: this._clientOptions.maxEventBufferLengthPerPartition || 1500,
+        maxWaitTimeInMs: this._clientOptions.maxWaitTimeInMs || 250,
         onSendEventsErrorHandler: this._clientOptions.onSendEventsErrorHandler,
         onSendEventsSuccessHandler: this._clientOptions.onSendEventsSuccessHandler,
         partitionId,
@@ -389,6 +420,9 @@ export class EventHubBufferedProducerClient {
     return partitionChannel;
   }
 
+  /**
+   * Returns the total number of buffered events across all partitions.
+   */
   private _getTotalBufferedEventsCount(): number {
     let total = 0;
     for (const [_, channel] of this._partitionChannels) {

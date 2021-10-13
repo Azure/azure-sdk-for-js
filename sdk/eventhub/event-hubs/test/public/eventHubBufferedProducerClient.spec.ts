@@ -144,7 +144,7 @@ testWithServiceTypes((serviceVersion) => {
           async onSendEventsSuccessHandler(context) {
             results.push({ type: "success", context });
           },
-          maxBufferedEventCount: 2
+          maxEventBufferLengthPerPartition: 2
         });
 
         for (const testEvent of testEvents) {
@@ -194,7 +194,7 @@ testWithServiceTypes((serviceVersion) => {
           async onSendEventsSuccessHandler(context) {
             results.push({ type: "success", context });
           },
-          maxBufferedEventCount: 2
+          maxEventBufferLengthPerPartition: 2
         });
 
         /**
