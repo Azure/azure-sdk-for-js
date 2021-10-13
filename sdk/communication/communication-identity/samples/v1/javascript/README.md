@@ -51,7 +51,7 @@ node exchangeToken.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env COMMUNICATION_CONNECTION_STRING="<communication connection string>" COMMUNICATION_M365_AAD_TENANT="<communication m365 aad tenant>" COMMUNICATION_M365_APP_ID="<communication m365 app id>" COMMUNICATION_M365_SCOPE="<communication m365 scope>" COMMUNICATION_MSAL_USERNAME="<communication msal username>" COMMUNICATION_MSAL_PASSWORD="<communication msal password>" node exchangeToken.js
+npx cross-env COMMUNICATION_CONNECTION_STRING="<communication connection string>" COMMUNICATION_M365_AAD_TENANT="<communication m365 aad tenant>" COMMUNICATION_M365_APP_ID="<communication m365 app id>" COMMUNICATION_M365_SCOPE="<communication m365 scope>" COMMUNICATION_MSAL_USERNAME="<communication msal username>" COMMUNICATION_MSAL_PASSWORD="<communication msal password>" SKIP_INT_IDENTITY_EXCHANGE_TOKEN_TEST="<skip int identity exchange token test>" node exchangeToken.js
 ```
 
 ## Next Steps

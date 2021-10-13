@@ -21,9 +21,7 @@ matrix([[true, false]], async function(useAad) {
 
     before(function(this: Context) {
       const skipTests = env.SKIP_INT_IDENTITY_EXCHANGE_TOKEN_TEST === "true";
-      if (skipTests) {
-        this.skip();
-      } else if (isPlaybackMode()) {
+      if (skipTests || isPlaybackMode()) {
         this.skip();
       }
     });
@@ -45,8 +43,6 @@ matrix([[true, false]], async function(useAad) {
     });
 
     it("successfully exchanges a Teams token for an ACS token", async function() {
-      // recorder.skip();
-
       const credential = new UsernamePasswordCredential(
         env.COMMUNICATION_M365_AAD_TENANT,
         env.COMMUNICATION_M365_APP_ID,
@@ -64,9 +60,18 @@ matrix([[true, false]], async function(useAad) {
       assert.instanceOf(expiresOn, Date);
     }).timeout(5000);
 
-    it("throws an error when attempting to exchange an invalid Teams token", async function() {
-      // recorder.skip();
+    it("throws an error when attempting to exchange an empty Teams token", async function() {
+      try {
+        await client.exchangeTeamsToken("");
+      } catch (e) {
+        assert.equal(e.statusCode, 401);
+        return;
+      }
 
+      assert.fail("Should have thrown an error");
+    });
+
+    it("throws an error when attempting to exchange an invalid Teams token", async function() {
       try {
         await client.exchangeTeamsToken("invalid");
       } catch (e) {
@@ -78,8 +83,6 @@ matrix([[true, false]], async function(useAad) {
     });
 
     it("throws an error when attempting to exchange an expired Teams token", async function() {
-      // recorder.skip();
-
       try {
         await client.exchangeTeamsToken(env.COMMUNICATION_EXPIRED_TEAMS_TOKEN);
       } catch (e) {
