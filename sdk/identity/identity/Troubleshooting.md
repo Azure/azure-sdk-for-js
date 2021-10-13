@@ -31,7 +31,7 @@ The `DefaultAzureCredential` attempts to retrieve an access token by sequentiall
 
 Follow the configuration instructions in the `Credential unavailable error` sections of the troubleshooting guidelines below for the respective credential/authentication type you're looking to use via `DefaultAzureCredential`:
 
-| Credential Type               | Troubleshoot Guide                                                                                      |
+| Credential Type               | Troubleshooting Guide                                                                                      |
 | ----------------------------- | ------------------------------------------------------------------------------------------------------- |
 | Environment Credential        | [Environment Credential Troubleshoot Guide](#troubleshoot-environment-credential-authentication-issues) |
 | Managed Identity Credential   | [Managed Identity Troubleshoot Guide](#troubleshoot-managed-identity-authentication-issues)             |
