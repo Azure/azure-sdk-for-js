@@ -45,7 +45,7 @@ matrix([[true, false]], async function(useAad) {
     });
 
     it("successfully exchanges a Teams token for an ACS token", async function() {
-      //recorder.skip();
+      // recorder.skip();
 
       const credential = new UsernamePasswordCredential(
         env.COMMUNICATION_M365_AAD_TENANT,
@@ -65,7 +65,7 @@ matrix([[true, false]], async function(useAad) {
     }).timeout(5000);
 
     it("throws an error when attempting to exchange an invalid Teams token", async function() {
-      //recorder.skip();
+      // recorder.skip();
 
       try {
         await client.exchangeTeamsToken("invalid");
@@ -78,7 +78,7 @@ matrix([[true, false]], async function(useAad) {
     });
 
     it("throws an error when attempting to exchange an expired Teams token", async function() {
-      //recorder.skip();
+      // recorder.skip();
 
       try {
         await client.exchangeTeamsToken(env.COMMUNICATION_EXPIRED_TEAMS_TOKEN);
