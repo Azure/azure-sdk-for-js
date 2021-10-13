@@ -274,6 +274,7 @@ export interface SendBatchOptions extends OperationOptions {
 
 // @public
 export interface SubscribeOptions {
+    disableDeserialization?: boolean;
     maxBatchSize?: number;
     maxWaitTimeInSeconds?: number;
     ownerLevel?: number;
