@@ -94,7 +94,7 @@ async function main() {
   if (dataSources.status !== "200") {
     throw dataSources.body.error;
   }
-  const items = [];
+  const items: any[] = [];
 
   for await (const item of iter) {
     items.push(item);
