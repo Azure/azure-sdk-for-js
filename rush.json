@@ -1,8 +1,7 @@
 /**
  * This is the main configuration file for Rush.
  * For full documentation, please see https://rushjs.io
- */
-{
+ */{
   "$schema": "https://developer.microsoft.com/json-schemas/rush/v5/rush.schema.json",
   /**
    * (Required) This specifies the version of the Rush engine to be used in this repo.
@@ -15,7 +14,7 @@
    * path segment in the "$schema" field for all your Rush config files.  This will ensure
    * correct error-underlining and tab-completion for editors such as VS Code.
    */
-  "rushVersion": "5.51.1",
+  "rushVersion": "5.54.0",
   /**
    * The next field selects which package manager should be installed and determines its version.
    * Rush installs its own local copy of the package manager to ensure that your build process
@@ -843,6 +842,11 @@
       "versionPolicyName": "test"
     },
     {
+      "packageName": "@azure-tests/perf-monitor-query",
+      "projectFolder": "sdk/monitor/perf-tests/monitor-query",
+      "versionPolicyName": "test"
+    },
+    {
       "packageName": "@azure/mixed-reality-remote-rendering",
       "projectFolder": "sdk/remoterendering/mixed-reality-remote-rendering",
       "versionPolicyName": "client"
@@ -955,6 +959,16 @@
     {
       "packageName": "@azure/arm-eventgrid",
       "projectFolder": "sdk/eventgrid/arm-eventgrid",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-quota",
+      "projectFolder": "sdk/quota/arm-quota",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-extendedlocation",
+      "projectFolder": "sdk/extendedlocation/arm-extendedlocation",
       "versionPolicyName": "management"
     }
   ]

@@ -11,15 +11,12 @@ import { AzureCliCredential } from "./azureCliCredential";
 import { AzurePowerShellCredential } from "./azurePowerShellCredential";
 import { EnvironmentCredential } from "./environmentCredential";
 import { ManagedIdentityCredential } from "./managedIdentityCredential";
-import { CredentialPersistenceOptions } from "./credentialPersistenceOptions";
 import { VisualStudioCodeCredential } from "./visualStudioCodeCredential";
 
 /**
  * Provides options to configure the {@link DefaultAzureCredential} class.
  */
-export interface DefaultAzureCredentialOptions
-  extends TokenCredentialOptions,
-    CredentialPersistenceOptions {
+export interface DefaultAzureCredentialOptions extends TokenCredentialOptions {
   /**
    * Optionally pass in a Tenant ID to be used as part of the credential.
    * By default it may use a generic tenant ID depending on the underlying credential.
@@ -97,6 +94,6 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
   constructor(options?: DefaultAzureCredentialOptions) {
     super(...defaultCredentials.map((ctor) => new ctor(options)));
     this.UnavailableMessage =
-      "DefaultAzureCredential => failed to retrieve a token from the included credentials";
+      "DefaultAzureCredential => failed to retrieve a token from the included credentials. To troubleshoot, visit https://aka.ms/azsdk/js/identity/defaultazurecredential/troubleshoot.";
   }
 }

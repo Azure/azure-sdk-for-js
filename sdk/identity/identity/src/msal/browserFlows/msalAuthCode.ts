@@ -5,11 +5,11 @@ import * as msalBrowser from "@azure/msal-browser";
 
 import { AccessToken } from "@azure/core-auth";
 
-import { MsalBrowserFlowOptions, MsalBrowser } from "./browserCommon";
+import { AuthenticationRequiredError } from "../../errors";
 import { defaultLoggerCallback, msalToPublic, publicToMsal } from "../utils";
 import { AuthenticationRecord } from "../types";
-import { AuthenticationRequiredError } from "../errors";
 import { CredentialFlowGetTokenOptions } from "../credentials";
+import { MsalBrowserFlowOptions, MsalBrowser } from "./browserCommon";
 
 // We keep a copy of the redirect hash.
 const redirectHash = self.location.hash;
@@ -158,7 +158,12 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
   ): Promise<AccessToken> {
     const account = await this.getActiveAccount();
     if (!account) {
-      throw new AuthenticationRequiredError(scopes, options);
+      throw new AuthenticationRequiredError({
+        scopes,
+        getTokenOptions: options,
+        message:
+          "Silent authentication failed. We couldn't retrieve an active account from the cache."
+      });
     }
 
     const parameters: msalBrowser.SilentRequest = {
@@ -187,7 +192,12 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
   ): Promise<AccessToken> {
     const account = await this.getActiveAccount();
     if (!account) {
-      throw new AuthenticationRequiredError(scopes, options);
+      throw new AuthenticationRequiredError({
+        scopes,
+        getTokenOptions: options,
+        message:
+          "Silent authentication failed. We couldn't retrieve an active account from the cache."
+      });
     }
 
     const parameters: msalBrowser.RedirectRequest = {

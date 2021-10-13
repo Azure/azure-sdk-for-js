@@ -12,7 +12,7 @@ import {
   PipelineRequest
 } from "@azure/core-rest-pipeline";
 import { AbortController, AbortSignalLike } from "@azure/abort-controller";
-import { AuthenticationError, AuthenticationErrorName } from "./errors";
+import { AuthenticationError, AuthenticationErrorName } from "../errors";
 import { getIdentityTokenEndpointSuffix } from "../util/identityTokenEndpoint";
 import { DefaultAuthorityHost } from "../constants";
 import { createSpan } from "../util/tracing";
@@ -64,7 +64,7 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
   private abortControllers: Map<string, AbortController[] | undefined>;
 
   constructor(options?: TokenCredentialOptions) {
-    const packageDetails = `azsdk-js-identity/2.0.0-beta.7`;
+    const packageDetails = `azsdk-js-identity/2.0.0`;
     const userAgentPrefix = options?.userAgentOptions?.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
       : `${packageDetails}`;

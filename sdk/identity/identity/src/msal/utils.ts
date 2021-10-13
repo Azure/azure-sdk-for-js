@@ -8,10 +8,9 @@ import { AbortError } from "@azure/abort-controller";
 
 import { v4 as uuidv4 } from "uuid";
 import { CredentialLogger, formatError, formatSuccess } from "../util/logging";
-import { CredentialUnavailableError } from "../client/errors";
+import { CredentialUnavailableError, AuthenticationRequiredError } from "../errors";
 import { DefaultAuthorityHost, DefaultTenantId } from "../constants";
 import { AuthenticationRecord, MsalAccountInfo, MsalResult, MsalToken } from "./types";
-import { AuthenticationRequiredError } from "./errors";
 import { MsalFlowOptions } from "./flows";
 
 /**
@@ -32,11 +31,11 @@ export function ensureValidMsalToken(
 ): void {
   const error = (message: string): Error => {
     logger.getToken.info(message);
-    return new AuthenticationRequiredError(
-      Array.isArray(scopes) ? scopes : [scopes],
+    return new AuthenticationRequiredError({
+      scopes: Array.isArray(scopes) ? scopes : [scopes],
       getTokenOptions,
       message
-    );
+    });
   };
   if (!msalToken) {
     throw error("No response");
@@ -190,7 +189,7 @@ export class MsalBaseUtilities {
     ) {
       return error;
     }
-    return new AuthenticationRequiredError(scopes, getTokenOptions, error.message);
+    return new AuthenticationRequiredError({ scopes, getTokenOptions, message: error.message });
   }
 }
 

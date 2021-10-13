@@ -27,15 +27,14 @@ export async function main(): Promise<void> {
   const key = await client.createKey(keyName, "EC");
   console.log("created key", key);
 
-  // Set the key's automated rotation policy to rotate 30 days before the key expires.
+  // Set the key's automated rotation policy to rotate the key 30 days after the key is created.
   const policy = await client.updateKeyRotationPolicy(key.name, {
     lifetimeActions: [
       {
         action: "Rotate",
-        timeBeforeExpiry: "P30D"
+        timeAfterCreate: "P30D"
       }
-    ],
-    expiresIn: "P90D"
+    ]
   });
   console.log("created policy", policy);
 
@@ -43,14 +42,15 @@ export async function main(): Promise<void> {
   const currentPolicy = await client.getKeyRotationPolicy(key.name);
   console.log("fetched policy", currentPolicy);
 
-  // Update the key's automated rotation policy to notify 30 days after the key was created
+  // Update the key's automated rotation policy to notify 30 days before the key expires.
   const updatedPolicy = await client.updateKeyRotationPolicy(key.name, {
     lifetimeActions: [
       {
         action: "Notify",
-        timeAfterCreate: "P30D"
+        timeBeforeExpiry: "P30D"
       }
-    ]
+    ],
+    expiresIn: "P90D"
   });
   console.log("updated policy", updatedPolicy);
 

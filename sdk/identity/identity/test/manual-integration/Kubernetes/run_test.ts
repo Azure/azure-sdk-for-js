@@ -48,7 +48,8 @@ const argv = yargs
   .help()
   .alias("help", "h").argv;
 
-async function runCommand(command: string[], exitOnError = true): Promise<unknown> {
+function runCommand(command: string[], exitOnError = true): string | null {
+  console.log("Running command:", command);
   try {
     if (argv.verbose) {
       console.log(command);
@@ -61,11 +62,12 @@ async function runCommand(command: string[], exitOnError = true): Promise<unknow
     }
     return child;
   } catch (e) {
+    console.log("Error: " + e);
     if (exitOnError) {
       console.log("Error: " + e);
       process.exit(1);
     }
-    return e;
+    return null;
   }
 }
 
@@ -85,18 +87,18 @@ async function main(): Promise<void> {
     `image.repository=${argv.repository},image.name=${argv["image-name"]},image.tag=${argv["image-tag"]}`
   ];
 
-  await runCommand(helm_install);
+  runCommand(helm_install);
 
   // get the name of the test pod
-  let podName = await runCommand([
+  let podName = runCommand([
     "kubectl",
     "get",
     "pods",
     "--selector=job-name=" + JOB_NAME,
     "--output=jsonpath='{.items[*].metadata.name}'"
-  ]);
+  ]) as string;
 
-  if (typeof podName === "string" && podName[0] == "'") {
+  if (podName[0] == "'") {
     podName = podName.slice(1, -1);
   }
 
@@ -113,7 +115,11 @@ async function main(): Promise<void> {
   for (let x = 0; x < 10; ++x) {
     // kubectl will return '' when there are no active pods
     let active_pods = runCommand(count_active_pods);
-    logs = await runCommand(["kubectl", "logs", "-f", podName as string], false);
+    const result = runCommand(["kubectl", "logs", "-f", podName], false);
+    if (result === null) {
+      break;
+    }
+    logs = result;
     if (!active_pods) break;
     await sleep(30);
   }

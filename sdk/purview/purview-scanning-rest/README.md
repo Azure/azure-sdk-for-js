@@ -85,7 +85,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function main() {
   console.log("== List dataSources ==");
   const client = PurviewScanning(
-    "https://<my-account-name>.scan.purview.azure.com",
+    "https://<my-account-name>.purview.azure.com",
     new DefaultAzureCredential()
   );
 

@@ -37,7 +37,7 @@ Install the latest version for the Azure Service Bus client library using npm.
 - An [Azure subscription](https://azure.microsoft.com/free/)
 - A [Service Bus Namespace](https://docs.microsoft.com/azure/service-bus-messaging/) 
 
-### Configure Typescript
+### Configure TypeScript
 
 TypeScript users need to have Node type definitions installed:
 

@@ -7,7 +7,7 @@ import fs from "fs";
 import os from "os";
 import path from "path";
 
-import { CredentialUnavailableError } from "../client/errors";
+import { CredentialUnavailableError } from "../errors";
 import { IdentityClient, TokenCredentialOptions } from "../client/identityClient";
 import { AzureAuthorityHosts } from "../constants";
 import { checkTenantId } from "../util/checkTenantId";
@@ -232,14 +232,14 @@ export class VisualStudioCodeCredential implements TokenCredential {
         return tokenResponse.accessToken;
       } else {
         const error = new CredentialUnavailableError(
-          "Could not retrieve the token associated with Visual Studio Code. Have you connected using the 'Azure Account' extension recently?"
+          "Could not retrieve the token associated with Visual Studio Code. Have you connected using the 'Azure Account' extension recently? To troubleshoot, visit https://aka.ms/azsdk/js/identity/visualstudiocodecredential/troubleshoot."
         );
         logger.getToken.info(formatError(scopes, error));
         throw error;
       }
     } else {
       const error = new CredentialUnavailableError(
-        "Could not retrieve the token associated with Visual Studio Code. Did you connect using the 'Azure Account' extension?"
+        "Could not retrieve the token associated with Visual Studio Code. Did you connect using the 'Azure Account' extension? To troubleshoot, visit https://aka.ms/azsdk/js/identity/visualstudiocodecredential/troubleshoot."
       );
       logger.getToken.info(formatError(scopes, error));
       throw error;

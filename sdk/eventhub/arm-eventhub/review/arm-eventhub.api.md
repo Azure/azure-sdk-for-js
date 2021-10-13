@@ -26,6 +26,7 @@ export type AccessRights = string;
 
 // @public
 export type ArmDisasterRecovery = Resource & {
+    readonly systemData?: SystemData;
     readonly provisioningState?: ProvisioningStateDR;
     partnerNamespace?: string;
     alternateName?: string;
@@ -41,6 +42,7 @@ export interface ArmDisasterRecoveryListResult {
 
 // @public
 export type AuthorizationRule = Resource & {
+    readonly systemData?: SystemData;
     rights?: AccessRights[];
 };
 
@@ -85,6 +87,7 @@ export interface CheckNameAvailabilityResult {
 // @public
 export type Cluster = TrackedResource & {
     sku?: ClusterSku;
+    readonly systemData?: SystemData;
     readonly createdAt?: string;
     readonly updatedAt?: string;
     readonly metricId?: string;
@@ -115,6 +118,7 @@ export interface Clusters {
     get(resourceGroupName: string, clusterName: string, options?: ClustersGetOptionalParams): Promise<ClustersGetResponse>;
     listAvailableClusterRegion(options?: ClustersListAvailableClusterRegionOptionalParams): Promise<ClustersListAvailableClusterRegionResponse>;
     listByResourceGroup(resourceGroupName: string, options?: ClustersListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Cluster>;
+    listBySubscription(options?: ClustersListBySubscriptionOptionalParams): PagedAsyncIterableIterator<Cluster>;
     listNamespaces(resourceGroupName: string, clusterName: string, options?: ClustersListNamespacesOptionalParams): Promise<ClustersListNamespacesResponse>;
 }
 
@@ -171,6 +175,20 @@ export interface ClustersListByResourceGroupOptionalParams extends coreClient.Op
 export type ClustersListByResourceGroupResponse = ClusterListResult;
 
 // @public
+export interface ClustersListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ClustersListBySubscriptionNextResponse = ClusterListResult;
+
+// @public
+export interface ClustersListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ClustersListBySubscriptionResponse = ClusterListResult;
+
+// @public
 export interface ClustersListNamespacesOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -214,6 +232,7 @@ export interface ConnectionState {
 
 // @public
 export type ConsumerGroup = Resource & {
+    readonly systemData?: SystemData;
     readonly createdAt?: Date;
     readonly updatedAt?: Date;
     userMetadata?: string;
@@ -268,6 +287,9 @@ export interface ConsumerGroupsListByEventHubOptionalParams extends coreClient.O
 
 // @public
 export type ConsumerGroupsListByEventHubResponse = ConsumerGroupListResult;
+
+// @public
+export type CreatedByType = string;
 
 // @public
 export type DefaultAction = string;
@@ -373,6 +395,7 @@ export type DisasterRecoveryConfigsListResponse = ArmDisasterRecoveryListResult;
 export type EHNamespace = TrackedResource & {
     sku?: Sku;
     identity?: Identity;
+    readonly systemData?: SystemData;
     readonly provisioningState?: string;
     readonly status?: string;
     readonly createdAt?: Date;
@@ -385,6 +408,8 @@ export type EHNamespace = TrackedResource & {
     kafkaEnabled?: boolean;
     zoneRedundant?: boolean;
     encryption?: Encryption;
+    privateEndpointConnections?: PrivateEndpointConnection[];
+    disableLocalAuth?: boolean;
 };
 
 // @public
@@ -410,6 +435,7 @@ export type EncodingCaptureDescription = "Avro" | "AvroDeflate";
 export interface Encryption {
     keySource?: "Microsoft.KeyVault";
     keyVaultProperties?: KeyVaultProperties[];
+    requireInfrastructureEncryption?: boolean;
 }
 
 // @public
@@ -426,6 +452,7 @@ export interface ErrorResponse {
 
 // @public
 export type Eventhub = Resource & {
+    readonly systemData?: SystemData;
     readonly partitionIds?: string[];
     readonly createdAt?: Date;
     readonly updatedAt?: Date;
@@ -462,8 +489,6 @@ export class EventHubManagementClient extends EventHubManagementClientContext {
     privateEndpointConnections: PrivateEndpointConnections;
     // (undocumented)
     privateLinkResources: PrivateLinkResources;
-    // (undocumented)
-    regions: Regions;
 }
 
 // @public (undocumented)
@@ -582,33 +607,21 @@ export type EventHubsRegenerateKeysResponse = AccessKeys;
 
 // @public
 export interface Identity {
-    principalId?: string;
-    tenantId?: string;
-    type?: "SystemAssigned";
+    readonly principalId?: string;
+    readonly tenantId?: string;
+    type?: ManagedServiceIdentityType;
+    userAssignedIdentities?: {
+        [propertyName: string]: UserAssignedIdentity;
+    };
 }
 
 // @public
-export type IPAction = string;
-
-// @public
-export type IpFilterRule = Resource & {
-    ipMask?: string;
-    action?: IPAction;
-    filterName?: string;
-};
-
-// @public
-export interface IpFilterRuleListResult {
-    nextLink?: string;
-    value?: IpFilterRule[];
-}
-
-// @public
-type KeyType_2 = "PrimaryKey" | "SecondaryKey";
-export { KeyType_2 as KeyType }
+export type KeyType = "PrimaryKey" | "SecondaryKey";
 
 // @public
 export interface KeyVaultProperties {
+    // (undocumented)
+    identity?: UserAssignedIdentityProperties;
     keyName?: string;
     keyVaultUri?: string;
     keyVersion?: string;
@@ -628,6 +641,18 @@ export enum KnownAccessRights {
 export enum KnownClusterSkuName {
     // (undocumented)
     Dedicated = "Dedicated"
+}
+
+// @public
+export enum KnownCreatedByType {
+    // (undocumented)
+    Application = "Application",
+    // (undocumented)
+    Key = "Key",
+    // (undocumented)
+    ManagedIdentity = "ManagedIdentity",
+    // (undocumented)
+    User = "User"
 }
 
 // @public
@@ -655,14 +680,6 @@ export enum KnownEndPointProvisioningState {
 }
 
 // @public
-export enum KnownIPAction {
-    // (undocumented)
-    Accept = "Accept",
-    // (undocumented)
-    Reject = "Reject"
-}
-
-// @public
 export enum KnownNetworkRuleIPAction {
     // (undocumented)
     Allow = "Allow"
@@ -681,9 +698,19 @@ export enum KnownPrivateLinkConnectionStatus {
 }
 
 // @public
+export enum KnownPublicNetworkAccessFlag {
+    // (undocumented)
+    Disabled = "Disabled",
+    // (undocumented)
+    Enabled = "Enabled"
+}
+
+// @public
 export enum KnownSkuName {
     // (undocumented)
     Basic = "Basic",
+    // (undocumented)
+    Premium = "Premium",
     // (undocumented)
     Standard = "Standard"
 }
@@ -693,25 +720,13 @@ export enum KnownSkuTier {
     // (undocumented)
     Basic = "Basic",
     // (undocumented)
+    Premium = "Premium",
+    // (undocumented)
     Standard = "Standard"
 }
 
 // @public
-export type MessagingRegions = TrackedResource & {
-    properties?: MessagingRegionsProperties;
-};
-
-// @public
-export interface MessagingRegionsListResult {
-    readonly nextLink?: string;
-    value?: MessagingRegions[];
-}
-
-// @public
-export interface MessagingRegionsProperties {
-    readonly code?: string;
-    readonly fullName?: string;
-}
+export type ManagedServiceIdentityType = "SystemAssigned" | "UserAssigned" | "SystemAssigned, UserAssigned" | "None";
 
 // @public
 export interface Namespaces {
@@ -721,23 +736,15 @@ export interface Namespaces {
     beginDeleteAndWait(resourceGroupName: string, namespaceName: string, options?: NamespacesDeleteOptionalParams): Promise<void>;
     checkNameAvailability(parameters: CheckNameAvailabilityParameter, options?: NamespacesCheckNameAvailabilityOptionalParams): Promise<NamespacesCheckNameAvailabilityResponse>;
     createOrUpdateAuthorizationRule(resourceGroupName: string, namespaceName: string, authorizationRuleName: string, parameters: AuthorizationRule, options?: NamespacesCreateOrUpdateAuthorizationRuleOptionalParams): Promise<NamespacesCreateOrUpdateAuthorizationRuleResponse>;
-    createOrUpdateIpFilterRule(resourceGroupName: string, namespaceName: string, ipFilterRuleName: string, parameters: IpFilterRule, options?: NamespacesCreateOrUpdateIpFilterRuleOptionalParams): Promise<NamespacesCreateOrUpdateIpFilterRuleResponse>;
     createOrUpdateNetworkRuleSet(resourceGroupName: string, namespaceName: string, parameters: NetworkRuleSet, options?: NamespacesCreateOrUpdateNetworkRuleSetOptionalParams): Promise<NamespacesCreateOrUpdateNetworkRuleSetResponse>;
-    createOrUpdateVirtualNetworkRule(resourceGroupName: string, namespaceName: string, virtualNetworkRuleName: string, parameters: VirtualNetworkRule, options?: NamespacesCreateOrUpdateVirtualNetworkRuleOptionalParams): Promise<NamespacesCreateOrUpdateVirtualNetworkRuleResponse>;
     deleteAuthorizationRule(resourceGroupName: string, namespaceName: string, authorizationRuleName: string, options?: NamespacesDeleteAuthorizationRuleOptionalParams): Promise<void>;
-    deleteIpFilterRule(resourceGroupName: string, namespaceName: string, ipFilterRuleName: string, options?: NamespacesDeleteIpFilterRuleOptionalParams): Promise<void>;
-    deleteVirtualNetworkRule(resourceGroupName: string, namespaceName: string, virtualNetworkRuleName: string, options?: NamespacesDeleteVirtualNetworkRuleOptionalParams): Promise<void>;
     get(resourceGroupName: string, namespaceName: string, options?: NamespacesGetOptionalParams): Promise<NamespacesGetResponse>;
     getAuthorizationRule(resourceGroupName: string, namespaceName: string, authorizationRuleName: string, options?: NamespacesGetAuthorizationRuleOptionalParams): Promise<NamespacesGetAuthorizationRuleResponse>;
-    getIpFilterRule(resourceGroupName: string, namespaceName: string, ipFilterRuleName: string, options?: NamespacesGetIpFilterRuleOptionalParams): Promise<NamespacesGetIpFilterRuleResponse>;
     getNetworkRuleSet(resourceGroupName: string, namespaceName: string, options?: NamespacesGetNetworkRuleSetOptionalParams): Promise<NamespacesGetNetworkRuleSetResponse>;
-    getVirtualNetworkRule(resourceGroupName: string, namespaceName: string, virtualNetworkRuleName: string, options?: NamespacesGetVirtualNetworkRuleOptionalParams): Promise<NamespacesGetVirtualNetworkRuleResponse>;
     list(options?: NamespacesListOptionalParams): PagedAsyncIterableIterator<EHNamespace>;
     listAuthorizationRules(resourceGroupName: string, namespaceName: string, options?: NamespacesListAuthorizationRulesOptionalParams): PagedAsyncIterableIterator<AuthorizationRule>;
     listByResourceGroup(resourceGroupName: string, options?: NamespacesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<EHNamespace>;
-    listIPFilterRules(resourceGroupName: string, namespaceName: string, options?: NamespacesListIPFilterRulesOptionalParams): PagedAsyncIterableIterator<IpFilterRule>;
     listKeys(resourceGroupName: string, namespaceName: string, authorizationRuleName: string, options?: NamespacesListKeysOptionalParams): Promise<NamespacesListKeysResponse>;
-    listVirtualNetworkRules(resourceGroupName: string, namespaceName: string, options?: NamespacesListVirtualNetworkRulesOptionalParams): PagedAsyncIterableIterator<VirtualNetworkRule>;
     regenerateKeys(resourceGroupName: string, namespaceName: string, authorizationRuleName: string, parameters: RegenerateAccessKeyParameters, options?: NamespacesRegenerateKeysOptionalParams): Promise<NamespacesRegenerateKeysResponse>;
     update(resourceGroupName: string, namespaceName: string, parameters: EHNamespace, options?: NamespacesUpdateOptionalParams): Promise<NamespacesUpdateResponse>;
 }
@@ -757,13 +764,6 @@ export interface NamespacesCreateOrUpdateAuthorizationRuleOptionalParams extends
 export type NamespacesCreateOrUpdateAuthorizationRuleResponse = AuthorizationRule;
 
 // @public
-export interface NamespacesCreateOrUpdateIpFilterRuleOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type NamespacesCreateOrUpdateIpFilterRuleResponse = IpFilterRule;
-
-// @public
 export interface NamespacesCreateOrUpdateNetworkRuleSetOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -780,18 +780,7 @@ export interface NamespacesCreateOrUpdateOptionalParams extends coreClient.Opera
 export type NamespacesCreateOrUpdateResponse = EHNamespace;
 
 // @public
-export interface NamespacesCreateOrUpdateVirtualNetworkRuleOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type NamespacesCreateOrUpdateVirtualNetworkRuleResponse = VirtualNetworkRule;
-
-// @public
 export interface NamespacesDeleteAuthorizationRuleOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export interface NamespacesDeleteIpFilterRuleOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
@@ -801,22 +790,11 @@ export interface NamespacesDeleteOptionalParams extends coreClient.OperationOpti
 }
 
 // @public
-export interface NamespacesDeleteVirtualNetworkRuleOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
 export interface NamespacesGetAuthorizationRuleOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
 export type NamespacesGetAuthorizationRuleResponse = AuthorizationRule;
-
-// @public
-export interface NamespacesGetIpFilterRuleOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type NamespacesGetIpFilterRuleResponse = IpFilterRule;
 
 // @public
 export interface NamespacesGetNetworkRuleSetOptionalParams extends coreClient.OperationOptions {
@@ -831,13 +809,6 @@ export interface NamespacesGetOptionalParams extends coreClient.OperationOptions
 
 // @public
 export type NamespacesGetResponse = EHNamespace;
-
-// @public
-export interface NamespacesGetVirtualNetworkRuleOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type NamespacesGetVirtualNetworkRuleResponse = VirtualNetworkRule;
 
 // @public
 export interface NamespacesListAuthorizationRulesNextOptionalParams extends coreClient.OperationOptions {
@@ -868,20 +839,6 @@ export interface NamespacesListByResourceGroupOptionalParams extends coreClient.
 export type NamespacesListByResourceGroupResponse = EHNamespaceListResult;
 
 // @public
-export interface NamespacesListIPFilterRulesNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type NamespacesListIPFilterRulesNextResponse = IpFilterRuleListResult;
-
-// @public
-export interface NamespacesListIPFilterRulesOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type NamespacesListIPFilterRulesResponse = IpFilterRuleListResult;
-
-// @public
 export interface NamespacesListKeysOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -903,20 +860,6 @@ export interface NamespacesListOptionalParams extends coreClient.OperationOption
 export type NamespacesListResponse = EHNamespaceListResult;
 
 // @public
-export interface NamespacesListVirtualNetworkRulesNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type NamespacesListVirtualNetworkRulesNextResponse = VirtualNetworkRuleListResult;
-
-// @public
-export interface NamespacesListVirtualNetworkRulesOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type NamespacesListVirtualNetworkRulesResponse = VirtualNetworkRuleListResult;
-
-// @public
 export interface NamespacesRegenerateKeysOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -935,10 +878,12 @@ export type NetworkRuleIPAction = string;
 
 // @public
 export type NetworkRuleSet = Resource & {
+    readonly systemData?: SystemData;
     trustedServiceAccessEnabled?: boolean;
     defaultAction?: DefaultAction;
     virtualNetworkRules?: NWRuleSetVirtualNetworkRules[];
     ipRules?: NWRuleSetIpRules[];
+    publicNetworkAccess?: PublicNetworkAccessFlag;
 };
 
 // @public
@@ -998,6 +943,7 @@ export interface PrivateEndpoint {
 
 // @public
 export type PrivateEndpointConnection = Resource & {
+    readonly systemData?: SystemData;
     privateEndpoint?: PrivateEndpoint;
     privateLinkServiceConnectionState?: ConnectionState;
     provisioningState?: EndPointProvisioningState;
@@ -1087,29 +1033,13 @@ export interface PrivateLinkResourcesListResult {
 export type ProvisioningStateDR = "Accepted" | "Succeeded" | "Failed";
 
 // @public
+export type PublicNetworkAccessFlag = string;
+
+// @public
 export interface RegenerateAccessKeyParameters {
     key?: string;
-    keyType: KeyType_2;
+    keyType: KeyType;
 }
-
-// @public
-export interface Regions {
-    listBySku(sku: string, options?: RegionsListBySkuOptionalParams): PagedAsyncIterableIterator<MessagingRegions>;
-}
-
-// @public
-export interface RegionsListBySkuNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type RegionsListBySkuNextResponse = MessagingRegionsListResult;
-
-// @public
-export interface RegionsListBySkuOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type RegionsListBySkuResponse = MessagingRegionsListResult;
 
 // @public
 export interface Resource {
@@ -1140,6 +1070,16 @@ export interface Subnet {
 }
 
 // @public
+export interface SystemData {
+    createdAt?: Date;
+    createdBy?: string;
+    createdByType?: CreatedByType;
+    lastModifiedAt?: Date;
+    lastModifiedBy?: string;
+    lastModifiedByType?: CreatedByType;
+}
+
+// @public
 export type TrackedResource = Resource & {
     location?: string;
     tags?: {
@@ -1151,15 +1091,16 @@ export type TrackedResource = Resource & {
 export type UnavailableReason = "None" | "InvalidName" | "SubscriptionIsDisabled" | "NameInUse" | "NameInLockdown" | "TooManyNamespaceInCurrentSubscription";
 
 // @public
-export type VirtualNetworkRule = Resource & {
-    virtualNetworkSubnetId?: string;
-};
-
-// @public
-export interface VirtualNetworkRuleListResult {
-    nextLink?: string;
-    value?: VirtualNetworkRule[];
+export interface UserAssignedIdentity {
+    readonly clientId?: string;
+    readonly principalId?: string;
 }
+
+// @public (undocumented)
+export interface UserAssignedIdentityProperties {
+    userAssignedIdentity?: string;
+}
+
 
 // (No @packageDocumentation comment for this package)
 
