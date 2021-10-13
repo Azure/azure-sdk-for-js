@@ -4,6 +4,9 @@
 
 ```ts
 
+/// <reference types="node" />
+/// <reference lib="esnext.asynciterable" />
+
 import { AbortSignalLike } from '@azure/abort-controller';
 import { CommunicationIdentifier } from '@azure/communication-common';
 import * as coreHttp from '@azure/core-http';
@@ -40,10 +43,6 @@ export class CallConnection {
     addParticipant(participant: CommunicationIdentifier, alternateCallerId?: string, operationContext?: string, options?: AddParticipantOptions): Promise<CallConnectionsAddParticipantResponse>;
     cancelAllMediaOperations(operationContext?: string, options?: CancelAllMediaOperationsOptions): Promise<CallConnectionsCancelAllMediaOperationsResponse>;
     cancelParticipantMediaOperation(participant: CommunicationIdentifier, mediaOperationId: string, options?: CancelMediaOperationOptions): Promise<void>;
-    // Warning: (ae-forgotten-export) The symbol "CallConnectionsGetCallResponse" needs to be exported by the entry point index.d.ts
-    //
-    // (undocumented)
-    getCall(): Promise<CallConnectionsGetCallResponse>;
     hangUp(options?: HangUpOptions): Promise<void>;
     playAudio(audioFileUri: string, options: PlayAudioOptions): Promise<PlayAudioResult>;
     playAudioToParticipant(participant: CommunicationIdentifier, audioFileUri: string, options: PlayAudioOptions): Promise<PlayAudioResult>;
@@ -105,7 +104,7 @@ export class CallingServerClient {
     joinCall(callLocator: CallLocator, source: CommunicationIdentifier, options: JoinCallOptions): Promise<CallConnection>;
     pauseRecording(recordingId: string, options?: PauseRecordingOptions): Promise<RestResponse>;
     playAudio(callLocator: CallLocator, audioFileUri: string, options: PlayAudioOptions): Promise<PlayAudioResult>;
-    playAudioToParticipant(callLocator: CallLocator, participant: CommunicationIdentifier, audioFileUri: string, options: PlayAudioOptions): Promise<PlayAudioResult>;
+    playAudioToParticipant(callLocator: CallLocator, participant: CommunicationIdentifier, audioFileUri: string, options: PlayAudioToParticipantOptions): Promise<PlayAudioResult>;
     removeParticipant(callLocator: CallLocator, participant: CommunicationIdentifier, options?: RemoveParticipantOptions): Promise<void>;
     resumeRecording(recordingId: string, options?: ResumeRecordingOptions): Promise<RestResponse>;
     // Warning: (ae-forgotten-export) The symbol "CallLocatorModel" needs to be exported by the entry point index.d.ts
@@ -187,7 +186,7 @@ export interface DownloadOptions extends OperationOptions {
 }
 
 // @public
-export const enum EventSubscriptionType {
+export enum EventSubscriptionType {
     // (undocumented)
     DtmfReceived = "dtmfReceived",
     // (undocumented)
@@ -270,7 +269,7 @@ export class KnownCallingServerEventType {
 }
 
 // @public
-export const enum KnownOperationStatus {
+export enum KnownOperationStatus {
     // (undocumented)
     Completed = "completed",
     // (undocumented)
@@ -320,7 +319,7 @@ export const enum KnownToneValue {
 }
 
 // @public
-export const enum MediaType {
+export enum MediaType {
     // (undocumented)
     Audio = "audio",
     // (undocumented)
@@ -357,6 +356,9 @@ export interface PlayAudioResultEvent {
     resultInfo?: ResultInfo;
     status: OperationStatus;
 }
+
+// @public (undocumented)
+export type PlayAudioToParticipantOptions = PlayAudioOptions;
 
 // @public (undocumented)
 export const range: OperationParameter;
@@ -398,7 +400,6 @@ export interface ToneReceivedEvent {
 
 // @public
 export type TransferCallOptions = OperationOptions;
-
 
 // (No @packageDocumentation comment for this package)
 
