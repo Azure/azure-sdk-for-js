@@ -79,23 +79,27 @@ The following section shows you how to initialize and authenticate your client, 
 ### List All Data Sources
 
 ```typescript
-import PurviewScanning from "@azure-rest/purview-scanning";
+import PurviewScanning, { paginate } from "@azure-rest/purview-scanning";
 import { DefaultAzureCredential } from "@azure/identity";
 
 async function main() {
   console.log("== List dataSources ==");
   const client = PurviewScanning(
-    "https://<my-account-name>.purview.azure.com",
+    "https://<my-account-name>.scan.purview.azure.com",
     new DefaultAzureCredential()
   );
 
   const dataSources = await client.path("/datasources").get();
-
+  const iter = paginate(client, dataSources)
   if (dataSources.status !== "200") {
     throw dataSources.body.error;
   }
+  const items = [];
 
-  console.log(dataSources.body.value?.map((ds) => ds.name).join("\n"));
+  for await (const item of iter) {
+    items.push(item);
+  }
+  console.log(items?.map((ds) => ds.name).join("\n"));
 }
 
 main().catch(console.error);
