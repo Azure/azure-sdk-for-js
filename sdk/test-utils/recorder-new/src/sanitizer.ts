@@ -8,12 +8,18 @@ export interface SanitizerOptions {
   generalRegexSanitizers?: Array<{
     value: string;
     regex: string;
+    groupForReplace?: string;
   }>;
   connectionStringSanitizers?: Array<{
     actualConnString: string;
     fakeConnString: string;
   }>;
-  bodyKeySanitizers?: Array<{ value: string; regex: string; jsonPath: string }>;
+  bodyKeySanitizers?: Array<{
+    value: string;
+    regex: string;
+    jsonPath: string;
+    groupForReplace?: string;
+  }>;
   bodyRegexSanitizers?: Array<{ value: string; regex: string; groupForReplace?: string }>;
   continuationSanitizers?: Array<{ key: string; method?: string; resetAfterFirst: boolean }>;
   headerRegexSanitizers?: Array<{ key: string; value: string; groupForReplace?: string }>;

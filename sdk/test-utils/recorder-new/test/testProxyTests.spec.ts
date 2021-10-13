@@ -362,7 +362,14 @@ function getTestServerUrl() {
     });
 
     // Matchers
+
     // Transforms
+    describe("Other methods", () => {
+      it.only("transformsInfo()", async () => {
+        await recorder.start({});
+        await recorder["sanitizer"].transformsInfo();
+      });
+    });
   });
 });
 
