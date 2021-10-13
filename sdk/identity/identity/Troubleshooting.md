@@ -185,8 +185,7 @@ After using the VS Code extension to authenticate once, if you use the `DefaultA
 
 #### MSAL interaction required error
 
-The VS Code credential was able to read the cached credentials from the cache but the cached token is likely expired.
-In VS Code, log in to the Azure Account extension via **View** > **Command Palette** > **Azure: Sign In**.
+The VS Code credential was able to read the cached credentials from the cache but the cached token is likely expired. In VS Code, log in to the Azure Account extension via **View** > **Command Palette** > **Azure: Sign In**.
 
 #### ADFS tenant not supported
 
