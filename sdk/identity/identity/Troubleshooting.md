@@ -92,9 +92,9 @@ To utilize the desired authentication type via `EnvironmentCredential`, ensure t
 
 | Variable name   | Value                                           |
 | --------------- | ----------------------------------------------- |
-| AZURE_CLIENT_ID | ID of an Azure AD app.                          |
-| AZURE_USERNAME  | A username (usually an email address).          |
-| AZURE_PASSWORD  | The associated password for the given username. |
+| `AZURE_CLIENT_ID` | ID of an Azure AD app.                          |
+| `AZURE_USERNAME`  | A username (usually an email address).          |
+| `AZURE_PASSWORD`  | The associated password for the given username. |
 
 ### Client authentication error
 
