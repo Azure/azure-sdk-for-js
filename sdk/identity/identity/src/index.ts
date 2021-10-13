@@ -50,8 +50,8 @@ export { AzureCliCredential } from "./credentials/azureCliCredential";
 export { AzureCliCredentialOptions } from "./credentials/azureCliCredentialOptions";
 export { InteractiveBrowserCredential } from "./credentials/interactiveBrowserCredential";
 export {
-  InteractiveBrowserCredentialOptions,
-  InteractiveBrowserCredentialBrowserOptions,
+  InteractiveBrowserCredentialNodeOptions,
+  InteractiveBrowserCredentialInBrowserOptions,
   BrowserLoginStyle
 } from "./credentials/interactiveBrowserCredentialOptions";
 export { ManagedIdentityCredential } from "./credentials/managedIdentityCredential";

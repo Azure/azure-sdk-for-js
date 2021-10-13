@@ -115,6 +115,7 @@ Azure Service Fabric support hasn't been added on the initial version 2 of Ident
 - Merged the configuration and the options bag on the `OnBehalfOfCredential` into a single options bag.
 - `AuthenticationRequiredError` (introduced in 2.0.0-beta.1) now has its parameters into a single options bag.
 - `AuthenticationRequiredError` (introduced in 2.0.0-beta.1) now has its parameters in a single options bag, `AuthenticationRequiredErrorOptions`.
+- `InteractiveBrowserCredentialOptions` has been renamed to `InteractiveBrowserCredentialNodeOptions`, and `InteractiveBrowserCredentialBrowserOptions` has been named `InteractiveBrowserCredentialInBrowserOptions`.
 
 ### Bugs Fixed
 
