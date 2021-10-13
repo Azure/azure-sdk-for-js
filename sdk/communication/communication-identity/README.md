@@ -123,6 +123,8 @@ Use the `deleteUser` method to delete a user.
 await client.deleteUser(user);
 ```
 
+### Exchanging AAD access token of a Teams User
+
 ## Troubleshooting
 
 ## Next steps

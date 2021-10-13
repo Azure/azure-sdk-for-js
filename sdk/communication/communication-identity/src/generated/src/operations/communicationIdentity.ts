@@ -34,7 +34,7 @@ export class CommunicationIdentity {
   }
 
   /**
-   * Create a new identity.
+   * Create a new identity, and optionally, an access token.
    * @param options The options parameters.
    */
   create(
@@ -86,8 +86,9 @@ export class CommunicationIdentity {
   }
 
   /**
-   * Exchange an AAD access token of a Teams user for a new ACS access token.
-   * @param body
+   * Exchange an AAD access token of a Teams user for a new Communication Identity access token with a
+   * matching expiration time.
+   * @param body AAD access token of a Teams user
    * @param options The options parameters.
    */
   exchangeTeamsUserAccessToken(
@@ -106,7 +107,7 @@ export class CommunicationIdentity {
   /**
    * Issue a new token for an identity.
    * @param id Identifier of the identity to issue token for.
-   * @param body Requesting scopes for the new token.
+   * @param body Requested scopes for the new token.
    * @param options The options parameters.
    */
   issueAccessToken(
