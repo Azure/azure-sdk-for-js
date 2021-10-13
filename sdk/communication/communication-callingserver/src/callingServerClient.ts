@@ -56,12 +56,12 @@ import { SDK_VERSION } from "./constants";
 import { createSpan } from "./tracing";
 import { logger } from "./logger";
 import { extractOperationOptions } from "./extractOperationOptions";
-import { CallingServerUtils } from './utils/utils'
+import { CallingServerUtils } from "./utils/utils";
 
 /**
  * Client options used to configure CallingServer Client API requests.
  */
-export interface CallingServerClientOptions extends PipelineOptions { }
+export interface CallingServerClientOptions extends PipelineOptions {}
 
 /**
  * Checks whether the type of a value is CallingServerClientOptions or not.
@@ -101,7 +101,9 @@ export class CallingServerClient {
     maybeOptions: CallingServerClientOptions = {}
   ) {
     const { url, credential } = parseClientArguments(connectionStringOrUrl, credentialOrOptions);
-    const options = isCallingServerClientOptions(credentialOrOptions) ? credentialOrOptions : maybeOptions;
+    const options = isCallingServerClientOptions(credentialOrOptions)
+      ? credentialOrOptions
+      : maybeOptions;
     const libInfo = `azsdk-js-communication-callingserver/${SDK_VERSION}`;
 
     if (!options?.userAgentOptions) {
@@ -190,12 +192,12 @@ export class CallingServerClient {
   }
 
   /**
-  * Join the call using callLocator.
-  *
-  * @param callLocator - The callLocator contains call id.
-  * @param source - The source identity.
-  * @param options - Additional request options contains joinCall api options.
-  */
+   * Join the call using callLocator.
+   *
+   * @param callLocator - The callLocator contains call id.
+   * @param source - The source identity.
+   * @param options - Additional request options contains joinCall api options.
+   */
   public async joinCall(
     callLocator: CallLocator,
     source: CommunicationIdentifier,
@@ -250,16 +252,24 @@ export class CallingServerClient {
     const { operationOptions, restOptions } = extractOperationOptions(options);
     const { span, updatedOptions } = createSpan("ServerCallRestClient-playAudio", operationOptions);
     if (!CallingServerUtils.isValidUrl(audioFileUri)) {
-      throw new Error('audioFileUri is invalid.')
+      throw new Error("audioFileUri is invalid.");
     }
-    if (typeof options.audioFileId === 'undefined' || !options.audioFileId || !options.audioFileId.trim()) {
-      throw new Error('audioFileId is invalid.')
+    if (
+      typeof options.audioFileId === "undefined" ||
+      !options.audioFileId ||
+      !options.audioFileId.trim()
+    ) {
+      throw new Error("audioFileId is invalid.");
     }
     if (!CallingServerUtils.isValidUrl(String(options.callbackUri))) {
-      throw new Error('callbackUri is invalid.')
+      throw new Error("callbackUri is invalid.");
     }
-    if (typeof options.operationContext === 'undefined' || !options.operationContext || !options.operationContext.trim()) {
-      throw new Error('operationContext can not be null.')
+    if (
+      typeof options.operationContext === "undefined" ||
+      !options.operationContext ||
+      !options.operationContext.trim()
+    ) {
+      throw new Error("operationContext can not be null.");
     }
     const request: PlayAudioWithCallLocatorRequest = {
       callLocator: callLocator,
@@ -354,7 +364,10 @@ export class CallingServerClient {
     options: AddParticipantOptions = {}
   ): Promise<ServerCallsAddParticipantResponse> {
     const { span, updatedOptions } = createSpan("ServerCallRestClient-playAudio", options);
-    var alternate_caller_id = typeof alternateCallerId === "undefined" ? alternateCallerId : serializeCommunicationIdentifier({ phoneNumber: alternateCallerId }).phoneNumber;
+    var alternate_caller_id =
+      typeof alternateCallerId === "undefined"
+        ? alternateCallerId
+        : serializeCommunicationIdentifier({ phoneNumber: alternateCallerId }).phoneNumber;
 
     const request: AddParticipantWithCallLocatorRequest = {
       callLocator: callLocator,
@@ -432,7 +445,10 @@ export class CallingServerClient {
     mediaOperationId: string,
     options: CancelMediaOperationOptions = {}
   ): Promise<void> {
-    const { span, updatedOptions } = createSpan("ServerCallRestClient-cancelMediaOperation", options);
+    const { span, updatedOptions } = createSpan(
+      "ServerCallRestClient-cancelMediaOperation",
+      options
+    );
 
     const request: CancelMediaOperationWithCallLocatorRequest = {
       callLocator: callLocator,
@@ -471,7 +487,10 @@ export class CallingServerClient {
     mediaOperationId: string,
     options: CancelMediaOperationOptions = {}
   ): Promise<void> {
-    const { span, updatedOptions } = createSpan("ServerCallRestClient-cancelParticipantMediaOperation", options);
+    const { span, updatedOptions } = createSpan(
+      "ServerCallRestClient-cancelParticipantMediaOperation",
+      options
+    );
 
     const request: CancelParticipantMediaOperationWithCallLocatorRequest = {
       callLocator: callLocator,
@@ -511,20 +530,24 @@ export class CallingServerClient {
   ): Promise<StartCallRecordingResult> {
     const { span, updatedOptions } = createSpan("ServerCallRestClient-StartRecording", options);
 
-    if (typeof callLocator === 'undefined' || !callLocator) {
-      throw new Error('callLocator is invalid.');
+    if (typeof callLocator === "undefined" || !callLocator) {
+      throw new Error("callLocator is invalid.");
     }
-    if (typeof recordingStateCallbackUri === 'undefined' ||
+    if (
+      typeof recordingStateCallbackUri === "undefined" ||
       !recordingStateCallbackUri ||
-      !CallingServerUtils.isValidUrl(recordingStateCallbackUri)) {
-      throw new Error('recordingStateCallbackUri is invalid.');
+      !CallingServerUtils.isValidUrl(recordingStateCallbackUri)
+    ) {
+      throw new Error("recordingStateCallbackUri is invalid.");
     }
 
-    var startCallRecordingRequest: StartCallRecordingRequest = { recordingStateCallbackUri: recordingStateCallbackUri };
+    var startCallRecordingRequest: StartCallRecordingRequest = {
+      recordingStateCallbackUri: recordingStateCallbackUri
+    };
 
     var startCallRecordingWithCallLocatorRequest: StartCallRecordingWithCallLocatorRequest = {
       callLocator: callLocator,
-      'startCallRecordingRequest': startCallRecordingRequest
+      startCallRecordingRequest: startCallRecordingRequest
     };
 
     try {
@@ -556,8 +579,8 @@ export class CallingServerClient {
   ): Promise<RestResponse> {
     const { span, updatedOptions } = createSpan("ServerCallRestClient-PauseRecording", options);
 
-    if (typeof recordingId === 'undefined' || !recordingId || !recordingId.trim()) {
-      throw new Error('recordingId is invalid.')
+    if (typeof recordingId === "undefined" || !recordingId || !recordingId.trim()) {
+      throw new Error("recordingId is invalid.");
     }
 
     try {
@@ -589,8 +612,8 @@ export class CallingServerClient {
   ): Promise<RestResponse> {
     const { span, updatedOptions } = createSpan("ServerCallRestClient-ResumeRecording", options);
 
-    if (typeof recordingId === 'undefined' || !recordingId || !recordingId.trim()) {
-      throw new Error('recordingId is invalid.')
+    if (typeof recordingId === "undefined" || !recordingId || !recordingId.trim()) {
+      throw new Error("recordingId is invalid.");
     }
 
     try {
@@ -622,8 +645,8 @@ export class CallingServerClient {
   ): Promise<RestResponse> {
     const { span, updatedOptions } = createSpan("ServerCallRestClient-StopRecording", options);
 
-    if (typeof recordingId === 'undefined' || !recordingId || !recordingId.trim()) {
-      throw new Error('recordingId is invalid.')
+    if (typeof recordingId === "undefined" || !recordingId || !recordingId.trim()) {
+      throw new Error("recordingId is invalid.");
     }
 
     try {
@@ -655,8 +678,8 @@ export class CallingServerClient {
   ): Promise<CallRecordingProperties> {
     const { span, updatedOptions } = createSpan("ServerCallRestClient-Recording", options);
 
-    if (typeof recordingId === 'undefined' || !recordingId || !recordingId.trim()) {
-      throw new Error('recordingId is invalid.')
+    if (typeof recordingId === "undefined" || !recordingId || !recordingId.trim()) {
+      throw new Error("recordingId is invalid.");
     }
 
     try {

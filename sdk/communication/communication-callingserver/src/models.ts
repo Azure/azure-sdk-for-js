@@ -3,7 +3,7 @@
 import { OperationOptions } from "@azure/core-http";
 import { PhoneNumberIdentifier } from "@azure/communication-common";
 
-export { 
+export {
   PlayAudioResult,
   PlayAudioResultEvent,
   AddParticipantResult,
@@ -93,50 +93,47 @@ export type CancelMediaOperationOptions = OperationOptions;
 /**
  * Options to hang up a call.
  */
-export type HangUpOptions = OperationOptions
+export type HangUpOptions = OperationOptions;
 
 /**
  * Options to cancel all media operations.
  */
-export type CancelAllMediaOperationsOptions = OperationOptions
+export type CancelAllMediaOperationsOptions = OperationOptions;
 
 /**
  * Options to transfer call.
  */
-export type TransferCallOptions = OperationOptions
+export type TransferCallOptions = OperationOptions;
 
 /**
  * Options to start recording.
  */
- export type StartRecordingOptions = OperationOptions;
- /**
+export type StartRecordingOptions = OperationOptions;
+/**
  * Options to pause recording.
  */
- export type PauseRecordingOptions = OperationOptions;
- /**
-  * Options to resume recording.
-  */
- export type ResumeRecordingOptions = OperationOptions;
- /**
-  * Options to stop recording.
-  */
- export type StopRecordingOptions = OperationOptions;
- /**
-  * Options to get recording properties.
-  */
- export type GetRecordingPropertiesOptions = OperationOptions;
+export type PauseRecordingOptions = OperationOptions;
+/**
+ * Options to resume recording.
+ */
+export type ResumeRecordingOptions = OperationOptions;
+/**
+ * Options to stop recording.
+ */
+export type StopRecordingOptions = OperationOptions;
+/**
+ * Options to get recording properties.
+ */
+export type GetRecordingPropertiesOptions = OperationOptions;
 
 /**
  * Call Locator.
  */
-export type CallLocator =
-  | GroupCallLocator
-  | ServerCallLocator;
-
+export type CallLocator = GroupCallLocator | ServerCallLocator;
 
 /**
-* The group call locator.
-*/
+ * The group call locator.
+ */
 export interface GroupCallLocator {
   /**
    * The group call id.
@@ -144,10 +141,9 @@ export interface GroupCallLocator {
   groupCallId: string;
 }
 
-
 /**
-* An Azure Communication user.
-*/
+ * An Azure Communication user.
+ */
 export interface ServerCallLocator {
   /**
    * The server call id.
@@ -160,9 +156,7 @@ export interface ServerCallLocator {
  *
  * @param locator - The assumed GroupCallLocator to be tested.
  */
-export const isGroupCallLocator = (
-  locator: CallLocator
-): locator is GroupCallLocator => {
+export const isGroupCallLocator = (locator: CallLocator): locator is GroupCallLocator => {
   return typeof (locator as any).groupCallId === "string";
 };
 
@@ -171,18 +165,14 @@ export const isGroupCallLocator = (
  *
  * @param locator - The assumed ServerCallLocator to be tested.
  */
-export const isServerCallLocator = (
-  locator: CallLocator
-): locator is ServerCallLocator => {
+export const isServerCallLocator = (locator: CallLocator): locator is ServerCallLocator => {
   return typeof (locator as any).serverCallId === "string";
 };
 
 /**
  * The CallLocatorKind is a discriminated union that adds a property `kind` to an CallLocator.
  */
-export type CallLocatorKind =
-  | GroupCallLocatorKind
-  | ServerCallLocatorKind;
+export type CallLocatorKind = GroupCallLocatorKind | ServerCallLocatorKind;
 
 /**
  * LocatorKind for a GroupCallLocator.
@@ -209,9 +199,7 @@ export interface ServerCallLocatorKind extends ServerCallLocator {
  *
  * @param locator - The locator whose kind is to be inferred.
  */
-export const getLocatorKind = (
-  locator: CallLocator
-): CallLocatorKind => {
+export const getLocatorKind = (locator: CallLocator): CallLocatorKind => {
   if (isGroupCallLocator(locator)) {
     return { ...locator, kind: "groupCall" };
   }
@@ -223,7 +211,6 @@ export const getLocatorKind = (
 
 /** Defines values for CallingServerEventType. */
 enum CallingServerEventType {
-
   /** The call connection state change event type. */
   CALL_CONNECTION_STATE_CHANGED_EVENT = "Microsoft.Communication.CallConnectionStateChanged",
 
@@ -240,19 +227,35 @@ enum CallingServerEventType {
   PARTICIPANTS_UPDATED_EVENT = "Microsoft.Communication.ParticipantsUpdated",
 
   /** The subscribe to tone event type. */
-  TONE_RECEIVED_EVENT = "Microsoft.Communication.ToneReceived",
+  TONE_RECEIVED_EVENT = "Microsoft.Communication.ToneReceived"
 }
 
 export class KnownCallingServerEventType {
-  public static CALL_CONNECTION_STATE_CHANGED_EVENT: string | null = KnownCallingServerEventType.fromString("Microsoft.Communication.CallConnectionStateChanged")
-  public static ADD_PARTICIPANT_RESULT_EVENT: string | null = KnownCallingServerEventType.fromString("Microsoft.Communication.AddParticipantResult")
-  public static CALL_RECORDING_STATE_CHANGED_EVENT: string | null = KnownCallingServerEventType.fromString("Microsoft.Communication.CallRecordingStateChanged")
-  public static PLAY_AUDIO_RESULT_EVENT: string | null = KnownCallingServerEventType.fromString("Microsoft.Communication.PlayAudioResult")
-  public static PARTICIPANTS_UPDATED_EVENT: string | null = KnownCallingServerEventType.fromString("Microsoft.Communication.ParticipantsUpdated")
-  public static TONE_RECEIVED_EVENT: string | null = KnownCallingServerEventType.fromString("Microsoft.Communication.ToneReceived")
+  public static CALL_CONNECTION_STATE_CHANGED_EVENT:
+    | string
+    | null = KnownCallingServerEventType.fromString(
+    "Microsoft.Communication.CallConnectionStateChanged"
+  );
+  public static ADD_PARTICIPANT_RESULT_EVENT:
+    | string
+    | null = KnownCallingServerEventType.fromString("Microsoft.Communication.AddParticipantResult");
+  public static CALL_RECORDING_STATE_CHANGED_EVENT:
+    | string
+    | null = KnownCallingServerEventType.fromString(
+    "Microsoft.Communication.CallRecordingStateChanged"
+  );
+  public static PLAY_AUDIO_RESULT_EVENT: string | null = KnownCallingServerEventType.fromString(
+    "Microsoft.Communication.PlayAudioResult"
+  );
+  public static PARTICIPANTS_UPDATED_EVENT: string | null = KnownCallingServerEventType.fromString(
+    "Microsoft.Communication.ParticipantsUpdated"
+  );
+  public static TONE_RECEIVED_EVENT: string | null = KnownCallingServerEventType.fromString(
+    "Microsoft.Communication.ToneReceived"
+  );
 
   public static fromString(value: string) {
-    var allEvents = Object.values(CallingServerEventType)
+    var allEvents = Object.values(CallingServerEventType);
     for (let entry of allEvents) {
       if (entry.toString().toUpperCase() == value.toUpperCase()) {
         return value;

@@ -1,12 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  CallLocator,
-  CallLocatorKind,
-  getLocatorKind
-} from "./models";
-
+import { CallLocator, CallLocatorKind, getLocatorKind } from "./models";
 
 /**
  * @hidden
@@ -16,12 +11,12 @@ export interface SerializedCallLocator {
   /**
    * The group call.
    */
-   groupCall?: SerializedGroupCallLocator;
+  groupCall?: SerializedGroupCallLocator;
 
   /**
    * The server call.
    */
-   serverCall?: SerializedServerCallLocator;
+  serverCall?: SerializedServerCallLocator;
 }
 
 /**
@@ -75,9 +70,7 @@ const assertMaximumOneNestedModel = (locator: SerializedCallLocator): void => {
  * Translates a CallLocator to its serialized format for sending a request.
  * @param locator - The CallLocator to be serialized.
  */
-export const serializeCallLocator = (
-  locator: CallLocator
-): SerializedCallLocator => {
+export const serializeCallLocator = (locator: CallLocator): SerializedCallLocator => {
   const locatorKind = getLocatorKind(locator);
   switch (locatorKind.kind) {
     case "groupCall":
@@ -109,8 +102,10 @@ export const deserializeCommunicationIdentifier = (
   if (serverCall) {
     return {
       kind: "serverCall",
-      serverCallId: assertNotNullOrUndefined({ serverCall }, "serverCallId"),
+      serverCallId: assertNotNullOrUndefined({ serverCall }, "serverCallId")
     };
   }
-  throw new Error(`Can't deserialize an serializedCallLocator with ${(serializedCallLocator as any)}`);
+  throw new Error(
+    `Can't deserialize an serializedCallLocator with ${serializedCallLocator as any}`
+  );
 };
