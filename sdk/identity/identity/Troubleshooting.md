@@ -76,9 +76,9 @@ To utilize the desired authentication type via `EnvironmentCredential`, ensure t
 
 | Variable Name       | Value                            |
 | ------------------- | -------------------------------- |
-| AZURE_CLIENT_ID     | ID of an Azure AD app.           |
-| AZURE_TENANT_ID     | ID of the app's Azure AD tenant. |
-| AZURE_CLIENT_SECRET | One of the app's client secrets. |
+| `AZURE_CLIENT_ID`     | ID of an Azure AD app.           |
+| `AZURE_TENANT_ID`     | ID of the app's Azure AD tenant. |
+| `AZURE_CLIENT_SECRET` | One of the app's client secrets. |
 
 ##### ClientCertificate credential
 
