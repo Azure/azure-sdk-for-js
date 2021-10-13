@@ -252,9 +252,9 @@ export class CommunicationIdentityClient {
   }
 
   /**
-   * Exchanges a Teams token for a new ACS access token.
+   * Exchanges an AAD access token of a Teams user for a new Communication Identity access token with a matching expiration time.
    *
-   * @param teamsToken - The Teams access token.
+   * @param teamsToken - AAD access token of a Teams user.
    * @param options - Additional options for the request.
    */
   public async exchangeTeamsToken(

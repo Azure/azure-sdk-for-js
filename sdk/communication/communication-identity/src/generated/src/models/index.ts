@@ -91,7 +91,7 @@ export interface CommunicationError {
 
 export interface TeamsUserAccessTokenRequest {
   /**
-   * Azure Active Directory access token to acquire a new ACS access token.
+   * AAD access token of a Teams User to acquire a new Communication Identity access token.
    */
   token: string;
 }
@@ -113,6 +113,9 @@ export type CommunicationIdentityTokenScope = "chat" | "voip";
  */
 export interface CommunicationIdentityCreateOptionalParams
   extends coreHttp.OperationOptions {
+  /**
+   * If specified, creates also a Communication Identity access token associated with the identity and containing the requested scopes.
+   */
   body?: CommunicationIdentityCreateRequest;
 }
 
