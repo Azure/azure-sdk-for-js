@@ -139,8 +139,7 @@ The tenant ID is the Global Unique Identifier (GUID) that identifies your organi
 
 #### Client secret argument
 
-The client secret is the secret string that the application uses to prove its identity when requesting a token. This can also can be referred to as an application password.
-If you've already created a service principal, follow the instructions [here](https://docs.microsoft.com/azure/active-directory/develop/howto-create-service-principal-portal#option-2-create-a-new-application-secret) to get the client secret for your app.
+The client secret is the secret string that the app uses to prove its identity when requesting a token. This can also can be referred to as an app password. If you've already created a service principal, follow the instructions [here](https://docs.microsoft.com/azure/active-directory/develop/howto-create-service-principal-portal#option-2-create-a-new-application-secret) to get the client secret for your app.
 
 ### Client certificate credential issues
 
