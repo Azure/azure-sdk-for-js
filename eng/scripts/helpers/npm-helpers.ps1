@@ -30,32 +30,24 @@ function GetNpmTagVersions($packageName)
   }
 }
 
-function GetNpmPackageVersions ($packageName)
-{
-  try
-  {
-    Write-Host "Checking versions present on npm for package $packageName"
-    $existingVersion = Invoke-RestMethod -Method GET -Uri "https://registry.npmjs.com/${packageName}"
-    return ($existingVersion.versions | Get-Member -MemberType NoteProperty).Name
-  }
-  catch
-  {
-    return $null
-  }
-}
-
 function FindRecentPackageVersion($packageName)
 {
-  $versions = (GetNpmPackageVersions -packageName $packageName).Where({$_ -notmatch "alpha|dev"})
-  if ($versions.Count -gt 0)
-  {
-    $versions = [AzureEngSemanticVersion]::SortVersionStrings($versions)
-    $highestNpmVersion = $versions[0]
-    Write-Host "Recent version uploaded to NPM: $highestNpmVersion"
-    return $highestNpmVersion
+  $npmVersionInfo = GetNpmTagVersions -packageName $packageName
+  if ($null -eq $npmVersionInfo.latest) {
+    return $npmVersionInfo.next
   }
-  
-  return $null
+  if ($null -eq $npmVersionInfo.next) {
+    return $npmVersionInfo.latest
+  }
+
+  $latest = [AzureEngSemanticVersion]::ParseVersionString($npmVersionInfo.latest)
+  $next = [AzureEngSemanticVersion]::ParseVersionString($npmVersionInfo.next)
+  if ($latest.CompareTo($next) -eq 1) {
+    return $npmVersionInfo.next
+  }
+  else {
+    return $npmVersionInfo.latest
+  }
 }
 
 function GetNewNpmTags($packageName, $packageVersion)
@@ -83,8 +75,7 @@ function GetNewNpmTags($packageName, $packageVersion)
     $setLatest = $true
   }
 
-  if ($newVersion.PrereleaseLabel -eq "preview" -or $newVersion.PrereleaseLabel -eq "beta")
-  {
+  if ($newVersion.PrereleaseLabel -eq "preview" -or $newVersion.PrereleaseLabel -eq "beta") {
     Write-Host "Checking for next version tag"
     # Set next tag if new preview is higher than highest present on npm
     $highestNpmVersion = FindRecentPackageVersion -packageName $packageName
@@ -138,20 +129,22 @@ function CreateTestCase($packageName, $packageVersion, $eTag, $eAdditional)
 function TestNewTags()
 {
     # test cases are based on currently available package version on npm
-    CreateTestCase -packageVersion "1.1.0" -eTag "latest" -eAdditional "" -packageName "@azure/template"
+    CreateTestCase -packageName "@azure/template" -packageVersion "1.1.0" -eTag "latest" -eAdditional ""
     CreateTestCase -packageName "@azure/template" -packageVersion "1.1.0-preview.1" -eTag "latest" -eAdditional "next"
-    CreateTestCase -packageName "@azure/template" -packageVersion "1.0.9" -eTag "latest" -eAdditional ""
+    CreateTestCase -packageName "@azure/template" -packageVersion "1.0.13" -eTag "latest" -eAdditional ""
     CreateTestCase -packageName "@azure/template" -packageVersion "1.0.8" -eTag "" -eAdditional ""
-    CreateTestCase -packageName "@azure/core-http" -packageVersion "1.2.5" -eTag "latest" -eAdditional ""
-    CreateTestCase -packageName "@azure/core-http" -packageVersion "1.3.0-preview.1" -eTag "next" -eAdditional ""
-    CreateTestCase -packageName "@azure/core-http" -packageVersion "1.2.2" -eTag "" -eAdditional ""
-    CreateTestCase -packageName "@azure/core-http" -packageVersion "1.2.5-preview.1" -eTag "next" -eAdditional ""
-    CreateTestCase -packageName "@azure/storage-blob" -packageVersion "12.5.1" -eTag "latest" -eAdditional ""
-    CreateTestCase -packageName "@azure/storage-blob" -packageVersion "12.6.0-beta.2" -eTag "next" -eAdditional ""
-    CreateTestCase -packageName "@azure/storage-blob" -packageVersion "12.6.0" -eTag "latest" -eAdditional ""
-    CreateTestCase -packageName "@azure/storage-blob" -packageVersion "12.6.0-alpha.20210525.2" -eTag "" -eAdditional ""
+    CreateTestCase -packageName "@azure/core-http" -packageVersion "2.2.5" -eTag "latest" -eAdditional ""
+    CreateTestCase -packageName "@azure/core-http" -packageVersion "2.3.0-preview.1" -eTag "next" -eAdditional ""
+    CreateTestCase -packageName "@azure/core-http" -packageVersion "2.1.2" -eTag "" -eAdditional ""
+    CreateTestCase -packageName "@azure/core-http" -packageVersion "2.2.5-preview.1" -eTag "next" -eAdditional ""
+    CreateTestCase -packageName "@azure/storage-blob" -packageVersion "12.8.0" -eTag "" -eAdditional ""
+    CreateTestCase -packageName "@azure/storage-blob" -packageVersion "12.8.1-beta.2" -eTag "next" -eAdditional ""
+    CreateTestCase -packageName "@azure/storage-blob" -packageVersion "12.8.1" -eTag "latest" -eAdditional ""
+    CreateTestCase -packageName "@azure/storage-blob" -packageVersion "12.9.0-alpha.20210525.2" -eTag "" -eAdditional ""
     CreateTestCase -packageName "@azure/storage-blob" -packageVersion "12.4.1" -eTag "" -eAdditional ""
     CreateTestCase -packageName "@azure/storage-blob" -packageVersion "12.4.1-preview.1" -eTag "" -eAdditional ""
     CreateTestCase -packageName "@azure/dummy-new-package" -packageVersion "1.0.0" -eTag "latest" -eAdditional ""
     CreateTestCase -packageName "@azure/dummy-new-package" -packageVersion "1.0.0-preview.1" -eTag "latest" -eAdditional "next"
+    CreateTestCase -packageName "@azure/arm-apimanagement" -packageVersion "8.0.0-beta.2" -eTag "next" -eAdditional ""
+    CreateTestCase -packageName "@azure/arm-apimanagement" -packageVersion "8.0.0" -eTag "latest" -eAdditional ""
 }
