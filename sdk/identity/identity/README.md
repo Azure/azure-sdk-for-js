@@ -305,7 +305,7 @@ Client and management libraries listed on the [Azure SDK releases page](https://
 
 ### Known Issues
 
-####Azure AD B2C support
+#### Azure AD B2C support
 
 This library does not support the [Azure AD B2C](https://docs.microsoft.com/azure/active-directory-b2c/overview) service.
 
