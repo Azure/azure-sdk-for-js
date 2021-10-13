@@ -101,7 +101,7 @@ To utilize the desired authentication type via `EnvironmentCredential`, ensure t
 The `EnvironmentCredential` supports service principal authentication and username and password authentication.
 Follow the troubleshooting guidelines below for the respective authentication type that failed.
 
-| Authentication Type             | Troubleshoot Guide                                                                                 |
+| Authentication Type             | Troubleshooting Guide                                                                                 |
 | ------------------------------- | -------------------------------------------------------------------------------------------------- |
 | ClientSecret/ClientCertificate | [Service principal auth guide](#troubleshoot-service-principal-authentication-issues) |
 | Username and password               | [Username and password auth guide](#troubleshoot-username-password-authentication-issues) |
