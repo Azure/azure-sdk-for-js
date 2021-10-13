@@ -181,7 +181,7 @@ Visual Studio Code authentication is handled by an integration with the Azure Ac
 If you already had the Azure Account extension installed and had logged in to your account. Then try logging out and logging in again, as
 that will re-populate the cache on the disk and potentially mitigate the error you're getting.
 
-After using the VS Code extension to authenticate once, if you use the `DefaultAzureCredential` outside of the VS Code, it will try to authenticate with the `VSCode credentials`. In this scenario if you stop using VS Code for a while, your VS Code auth token will eventually get expired, and the sign in with `DefaultAzureCredential` will begin to fail. In such cases, you have to log out on the VS Code extension (and log in again if you want to continue using it).
+After using the VS Code extension to authenticate once, if you use the `DefaultAzureCredential` outside of the VS Code, it will try to authenticate with the `VSCode credentials`. In this scenario, if you stop using VS Code for a while, your VS Code auth token will eventually expire. The sign-in with `DefaultAzureCredential` will begin to fail. In such cases, you have to log out of the VS Code extension (and log in again if you want to continue using it).
 
 #### MSAL interaction required error
 
