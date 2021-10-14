@@ -1,6 +1,6 @@
 let nock = require('nock');
 
-module.exports.hash = "974817594eb810ea9fe6c4d0131d4766";
+module.exports.hash = "ed3569cdf2d3957ac4dde2d330e69d3e";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
@@ -22,17 +22,17 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '67735430-9056-4ced-ab02-623e905a0500',
+  '7c3b145b-e8c9-4e86-b47d-0c650ce00500',
   'x-ms-ests-server',
   '2.1.12158.5 - KRSLR1 ProdSlices',
   'Set-Cookie',
-  'fpc=Agzia1-B5qxHtthPl2cEU2jQ9y8kAQAAAJ2Y-dgOAAAA; expires=Sat, 13-Nov-2021 03:18:54 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AmiLQYeYNMdKhM2onDYtU7vQ9y8kAQAAAHKz-dgOAAAA; expires=Sat, 13-Nov-2021 05:13:22 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Thu, 14 Oct 2021 03:18:53 GMT',
+  'Thu, 14 Oct 2021 05:13:22 GMT',
   'Content-Length',
   '1679'
 ]);
@@ -42,11 +42,11 @@ nock('https://endpoint', {"encodedQueryParams":true})
   .query(true)
   .reply(200, {"value":[]}, [
   'Date',
-  'Thu, 14 Oct 2021 03:18:55 GMT',
+  'Thu, 14 Oct 2021 05:13:23 GMT',
   'Content-Type',
   'application/json; charset=utf-8',
   'Content-Length',
   '12',
   'traceparent',
-  '00-7d152769f5d25c44a76f7c7eb28ffddf-75b2be04b8b34c4c-00'
+  '00-18b24d9fe5a4a04f97a8256ffd783eaf-78080cd79cac994d-00'
 ]);

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * This sample demonstrates how get a list of updates providers
+ * This sample demonstrates how get a list of update providers
  *
  * @summary gets a list of updates providers
  * @azsdk-weight 40
@@ -18,6 +18,8 @@ const accountEndpoint = process.env["ENDPOINT"] || "";
 const instanceId = process.env["INSTANCE_ID"] || "";
 
 async function main() {
+  console.log("== List update providers ==");
+
   const credentials = new DefaultAzureCredential();
 
   const client = DeviceUpdate(accountEndpoint, credentials);
