@@ -70,7 +70,7 @@ export function nodeConfig(test = false) {
 export function browserConfig(test = false) {
   const baseConfig = {
     input: input,
-    external: ["crypto", "fs-extra"],
+    external: ["crypto"],
     output: {
       file: "dist-browser/azure-communication-callingserver.js",
       format: "umd",
@@ -91,23 +91,14 @@ export function browserConfig(test = false) {
           "if (!isNode)": "if (true)"
         }
       }),
-      shim({
-        constants: `export default {}`,
-        fs: `export default {}`,
-        os: `export default {}`,
-        dotenv: `export function config() { }`,
-        path: `export default {}`
-      }),
       nodeResolve({
         mainFields: ["module", "browser"],
         preferBuiltins: false
       }),
-      json(),
       cjs({
         namedExports: {
           chai: ["assert"],
           events: ["EventEmitter"],
-          "@azure/communication-signaling": ["CommunicationSignalingClient", "SignalingClient"],
           ...openTelemetryCommonJs()
         }
       }),
