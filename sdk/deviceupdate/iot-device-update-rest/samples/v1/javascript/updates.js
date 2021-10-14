@@ -14,6 +14,8 @@ const accountEndpoint = process.env["ENDPOINT"] || "";
 const instanceId = process.env["INSTANCE_ID"] || "";
 
 async function main() {
+  console.log("== List update providers ==");
+
   const credentials = new DefaultAzureCredential();
 
   const client = DeviceUpdate(accountEndpoint, credentials);
