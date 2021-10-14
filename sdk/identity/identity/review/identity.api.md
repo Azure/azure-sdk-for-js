@@ -214,13 +214,13 @@ export type IdentityPlugin = (context: unknown) => void;
 
 // @public
 export class InteractiveBrowserCredential implements TokenCredential {
-    constructor(options?: InteractiveBrowserCredentialOptions | InteractiveBrowserCredentialBrowserOptions);
+    constructor(options?: InteractiveBrowserCredentialNodeOptions | InteractiveBrowserCredentialInBrowserOptions);
     authenticate(scopes: string | string[], options?: GetTokenOptions): Promise<AuthenticationRecord | undefined>;
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
 }
 
 // @public
-export interface InteractiveBrowserCredentialBrowserOptions extends InteractiveCredentialOptions {
+export interface InteractiveBrowserCredentialInBrowserOptions extends InteractiveCredentialOptions {
     clientId: string;
     loginHint?: string;
     loginStyle?: BrowserLoginStyle;
@@ -229,7 +229,7 @@ export interface InteractiveBrowserCredentialBrowserOptions extends InteractiveC
 }
 
 // @public
-export interface InteractiveBrowserCredentialOptions extends InteractiveCredentialOptions, CredentialPersistenceOptions {
+export interface InteractiveBrowserCredentialNodeOptions extends InteractiveCredentialOptions, CredentialPersistenceOptions {
     clientId?: string;
     loginHint?: string;
     redirectUri?: string | (() => string);
