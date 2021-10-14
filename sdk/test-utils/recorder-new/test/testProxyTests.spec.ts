@@ -90,11 +90,10 @@ function getTestServerUrl() {
         env.SECRET_INFO = "abcdef";
         const fakeSecretInfo = "fake_secret_info";
         await recorder.start({
-          envSetupForPlayback: { SECRET_INFO: fakeSecretInfo },
-          sanitizerOptions: {
-            generalRegexSanitizers: [{ regex: env.SECRET_INFO, value: fakeSecretInfo }]
+          envSetupForPlayback: {
+            SECRET_INFO: fakeSecretInfo
           }
-        });
+        }); // Adds generalRegexSanitizers by default based on envSetupForPlayback
         await makeRequestAndVerifyResponse(
           {
             path: `/sample_response/${env.SECRET_INFO}`,
