@@ -29,3 +29,5 @@ extends:
     Artifacts:
       - name: azure-iot-device-update
         safeName: azureiotdeviceupdate
+      - name: azure-rest-iot-device-update
+        safeName: azurerestiotdeviceupdate
