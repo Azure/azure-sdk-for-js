@@ -14,6 +14,7 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { HDInsightManagementClientContext } from "./hDInsightManagementClientContext";
 
+
 class HDInsightManagementClient extends HDInsightManagementClientContext {
   // Operation groups
   clusters: operations.Clusters;
@@ -25,6 +26,8 @@ class HDInsightManagementClient extends HDInsightManagementClientContext {
   scriptExecutionHistory: operations.ScriptExecutionHistory;
   operations: operations.Operations;
   virtualMachines: operations.VirtualMachines;
+  privateEndpointConnections: operations.PrivateEndpointConnections;
+  privateLinkResources: operations.PrivateLinkResources;
 
   /**
    * Initializes a new instance of the HDInsightManagementClient class.
@@ -38,11 +41,7 @@ class HDInsightManagementClient extends HDInsightManagementClientContext {
    * subscription. The subscription ID forms part of the URI for every service call.
    * @param [options] The parameter options
    */
-  constructor(
-    credentials: msRest.ServiceClientCredentials | TokenCredential,
-    subscriptionId: string,
-    options?: Models.HDInsightManagementClientOptions
-  ) {
+  constructor(credentials: msRest.ServiceClientCredentials | TokenCredential, subscriptionId: string, options?: Models.HDInsightManagementClientOptions) {
     super(credentials, subscriptionId, options);
     this.clusters = new operations.Clusters(this);
     this.applications = new operations.Applications(this);
@@ -53,6 +52,8 @@ class HDInsightManagementClient extends HDInsightManagementClientContext {
     this.scriptExecutionHistory = new operations.ScriptExecutionHistory(this);
     this.operations = new operations.Operations(this);
     this.virtualMachines = new operations.VirtualMachines(this);
+    this.privateEndpointConnections = new operations.PrivateEndpointConnections(this);
+    this.privateLinkResources = new operations.PrivateLinkResources(this);
   }
 }
 

@@ -16,3 +16,5 @@ export * from "./scriptActions";
 export * from "./scriptExecutionHistory";
 export * from "./operations";
 export * from "./virtualMachines";
+export * from "./privateEndpointConnections";
+export * from "./privateLinkResources";
