@@ -970,6 +970,11 @@
       "packageName": "@azure/arm-extendedlocation",
       "projectFolder": "sdk/extendedlocation/arm-extendedlocation",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-security",
+      "projectFolder": "sdk/security/arm-security",
+      "versionPolicyName": "management"
     }
   ]
 }
