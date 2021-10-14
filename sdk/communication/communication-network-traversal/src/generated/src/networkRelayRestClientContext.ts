@@ -49,6 +49,6 @@ export class NetworkRelayRestClientContext extends coreHttp.ServiceClient {
     this.endpoint = endpoint;
 
     // Assigning values to Constant parameters
-    this.apiVersion = options.apiVersion || "2021-06-21-preview";
+    this.apiVersion = options.apiVersion || "2021-10-08-preview";
   }
 }

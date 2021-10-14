@@ -12,9 +12,9 @@ package-version: package-2021-06-21-preview
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-tag: package-2021-06-21-preview
+tag: package-2021-10-08-preview
 require:
-  - https://raw.githubusercontent.com/Azure/azure-rest-api-specs/4c8162b0a1f7bbd46e9aedc0e19bbe181e549c4c/specification/communication/data-plane/NetworkTraversal/readme.md
+  - https://raw.githubusercontent.com/Azure/azure-rest-api-specs/7e6be1c9e6c04f932795cb114599e9b5b0c90d0a/specification/communication/data-plane/NetworkTraversal/readme.md
 model-date-time-as-string: false
 optional-response-headers: true
 payload-flattening-threshold: 10

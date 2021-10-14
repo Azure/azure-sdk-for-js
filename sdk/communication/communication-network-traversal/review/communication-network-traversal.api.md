@@ -13,16 +13,22 @@ import { TokenCredential } from '@azure/core-auth';
 // @public
 export interface CommunicationIceServer {
     credential: string;
+    routeType: CommunicationIceServerRouteType;
     urls: string[];
     username: string;
 }
+
+// @public
+export type CommunicationIceServerRouteType = "any" | "nearest";
 
 // @public
 export class CommunicationRelayClient {
     constructor(connectionString: string, options?: CommunicationRelayClientOptions);
     constructor(endpoint: string, credential: KeyCredential, options?: CommunicationRelayClientOptions);
     constructor(endpoint: string, credential: TokenCredential, options?: CommunicationRelayClientOptions);
-    getRelayConfiguration(user?: CommunicationUserIdentifier, options?: OperationOptions): Promise<CommunicationRelayConfiguration>;
+    getRelayConfiguration(options?: GetRelayConfigurationOptions): Promise<CommunicationRelayConfiguration>;
+    getRelayConfiguration(routeType: CommunicationRelayConfigurationRequestRouteType, options?: GetRelayConfigurationOptions): Promise<CommunicationRelayConfiguration>;
+    getRelayConfiguration(user: CommunicationUserIdentifier, routeType?: CommunicationRelayConfigurationRequestRouteType, options?: GetRelayConfigurationOptions): Promise<CommunicationRelayConfiguration>;
 }
 
 // @public
@@ -35,6 +41,8 @@ export interface CommunicationRelayConfiguration {
     iceServers: CommunicationIceServer[];
 }
 
+// @public
+export type CommunicationRelayConfigurationRequestRouteType = "any" | "nearest";
 
 // (No @packageDocumentation comment for this package)
 
