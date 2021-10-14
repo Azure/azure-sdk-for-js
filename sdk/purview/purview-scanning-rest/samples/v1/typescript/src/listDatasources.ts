@@ -25,7 +25,6 @@ async function main() {
   const items: any[] = [];
 
   for await (const item of iter) {
-    // console.log(item);
     items.push(item);
   }
   console.log(items?.map((ds) => ds.name).join("\n"));
