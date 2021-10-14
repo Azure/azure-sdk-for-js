@@ -21,9 +21,11 @@ tag: package-2021-11-15-preview
 require: https://raw.githubusercontent.com/navali-msft/azure-rest-api-specs/c16d5c3b668207b9ec101294a9f05a20e7281083/specification/communication/data-plane/CallingServer/readme.md
 model-date-time-as-string: false
 optional-response-headers: true
-use-extension:
-  "@autorest/typescript": "6.0.0-dev.20210217.1"
+typescript: true
 azure-arm: false
 add-credentials: false
+disable-async-iterators: true
+use-extension:
+  "@autorest/typescript": "6.0.0-dev.20210217.1"
 package-version: 1.0.0-beta.1
 ```
