@@ -21,7 +21,6 @@ import {
 } from "./models";
 import { CallConnections, ServerCalls } from "./generated/src/operations";
 import {
-  CallLocatorModel,
   CreateCallRequest,
   JoinCallRequest,
   PlayAudioWithCallLocatorRequest,
@@ -32,12 +31,11 @@ import {
   RemoveParticipantWithCallLocatorRequest,
   CancelMediaOperationWithCallLocatorRequest,
   CancelParticipantMediaOperationWithCallLocatorRequest,
-  StartCallRecordingRequest,
   StartCallRecordingResult,
   StartCallRecordingWithCallLocatorRequest,
   CallRecordingProperties,
   RecordingContentType,
-  RecordingChannelType,
+  KnownRecordingChannelType,
   RecordingFormatType
 } from "./generated/src/models";
 import { TokenCredential } from "@azure/core-auth";
@@ -189,15 +187,15 @@ export class CallingServerClient {
     };
 
     try {
-      const response = await this.callConnectionRestClient.createCall(
+      const { ...result } = await this.callConnectionRestClient.createCall(
         request,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
 
-      if (response.callConnectionId) {
-        return new CallConnection(response.callConnectionId, this.callConnectionRestClient);
+      if (result.callConnectionId) {
+        return new CallConnection(result.callConnectionId, this.callConnectionRestClient);
       }
-      throw "callConnectionId is missing in createCall response";
+      throw "callConnectionId is missing in createCall result";
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -234,14 +232,15 @@ export class CallingServerClient {
     };
 
     try {
-      const response = await this.serverCallRestClient.joinCall(
+      const { ...result } = await this.serverCallRestClient.joinCall(
         request,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
-      if (response.callConnectionId) {
-        return new CallConnection(response.callConnectionId, this.callConnectionRestClient);
+
+      if (result.callConnectionId) {
+        return new CallConnection(result.callConnectionId, this.callConnectionRestClient);
       } else {
-        throw "callConnectionId is missing in joinCall response";
+        throw "callConnectionId is missing in joinCall result";
       }
     } catch (e) {
       span.setStatus({
@@ -290,21 +289,19 @@ export class CallingServerClient {
     }
     const request: PlayAudioWithCallLocatorRequest = {
       callLocator: callLocator,
-      playAudioRequest: {
-        audioFileUri: audioFileUri,
-        loop: restOptions.loop,
-        operationContext: restOptions.operationContext,
-        audioFileId: restOptions.audioFileId,
-        callbackUri: restOptions.callbackUri
-      }
+      audioFileUri: audioFileUri,
+      loop: restOptions.loop,
+      operationContext: restOptions.operationContext,
+      audioFileId: restOptions.audioFileId,
+      callbackUri: restOptions.callbackUri
     };
 
     try {
-      const response = await this.serverCallRestClient.playAudio(
+      const { ...result } = await this.serverCallRestClient.playAudio(
         request,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
-      return response;
+      return result;
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -335,22 +332,20 @@ export class CallingServerClient {
 
     const request: PlayAudioToParticipantWithCallLocatorRequest = {
       callLocator: callLocator,
-      playAudioToParticipantRequest: {
-        identifier: serializeCommunicationIdentifier(participant),
-        audioFileUri: audioFileUri,
-        loop: restOptions.loop,
-        operationContext: restOptions.operationContext,
-        audioFileId: restOptions.audioFileId,
-        callbackUri: restOptions.callbackUri
-      }
+      identifier: serializeCommunicationIdentifier(participant),
+      audioFileUri: audioFileUri,
+      loop: restOptions.loop,
+      operationContext: restOptions.operationContext,
+      audioFileId: restOptions.audioFileId,
+      callbackUri: restOptions.callbackUri
     };
 
     try {
-      const response = await this.serverCallRestClient.participantPlayAudio(
+      const { ...result } = await this.serverCallRestClient.participantPlayAudio(
         request,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
-      return response;
+      return result;
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -388,20 +383,18 @@ export class CallingServerClient {
 
     const request: AddParticipantWithCallLocatorRequest = {
       callLocator: callLocator,
-      addParticipantRequest: {
-        participant: serializeCommunicationIdentifier(participant),
-        alternateCallerId: alternate_caller_id,
-        operationContext: operationContext,
-        callbackUri: callbackUri
-      }
+      participant: serializeCommunicationIdentifier(participant),
+      alternateCallerId: alternate_caller_id,
+      operationContext: operationContext,
+      callbackUri: callbackUri
     };
 
     try {
-      const response = await this.serverCallRestClient.addParticipant(
+      const { ...result } = await this.serverCallRestClient.addParticipant(
         request,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
-      return response;
+      return result;
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -429,9 +422,7 @@ export class CallingServerClient {
 
     const request: RemoveParticipantWithCallLocatorRequest = {
       callLocator: callLocator,
-      removeParticipantRequest: {
-        identifier: serializeCommunicationIdentifier(participant)
-      }
+      identifier: serializeCommunicationIdentifier(participant)
     };
 
     try {
@@ -469,9 +460,7 @@ export class CallingServerClient {
 
     const request: CancelMediaOperationWithCallLocatorRequest = {
       callLocator: callLocator,
-      cancelMediaOperationRequest: {
-        mediaOperationId: mediaOperationId
-      }
+      mediaOperationId: mediaOperationId
     };
 
     try {
@@ -511,10 +500,8 @@ export class CallingServerClient {
 
     const request: CancelParticipantMediaOperationWithCallLocatorRequest = {
       callLocator: callLocator,
-      cancelParticipantMediaOperationRequest: {
-        identifier: serializeCommunicationIdentifier(participant),
-        mediaOperationId: mediaOperationId
-      }
+      identifier: serializeCommunicationIdentifier(participant),
+      mediaOperationId: mediaOperationId
     };
 
     try {
@@ -544,10 +531,10 @@ export class CallingServerClient {
    * @param options - Additional request options contains StartRecording api options.
    */
   public async startRecording(
-    callLocator: CallLocatorModel,
+    callLocator: CallLocator,
     recordingStateCallbackUri: string,
     recordingContentType?: RecordingContentType,
-    recordingChannelType?: RecordingChannelType,
+    recordingChannelType?: KnownRecordingChannelType,
     recordingFormatType?: RecordingFormatType,
     options: StartRecordingOptions = {}
   ): Promise<StartCallRecordingResult> {
@@ -556,6 +543,7 @@ export class CallingServerClient {
     if (typeof callLocator === "undefined" || !callLocator) {
       throw new Error("callLocator is invalid.");
     }
+
     if (
       typeof recordingStateCallbackUri === "undefined" ||
       !recordingStateCallbackUri ||
@@ -564,16 +552,12 @@ export class CallingServerClient {
       throw new Error("recordingStateCallbackUri is invalid.");
     }
 
-    const startCallRecordingRequest: StartCallRecordingRequest = {
-      recordingStateCallbackUri: recordingStateCallbackUri,
-      recordingChannelType: recordingChannelType,
-      recordingContentType: recordingContentType,
-      recordingFormatType: recordingFormatType
-    };
-
     const startCallRecordingWithCallLocatorRequest: StartCallRecordingWithCallLocatorRequest = {
-      callLocator: callLocator,
-      startCallRecordingRequest: startCallRecordingRequest
+      callLocator: serializeCallLocator(callLocator),
+      recordingStateCallbackUri: recordingStateCallbackUri,
+      recordingContentType: recordingContentType,
+      recordingChannelType: recordingChannelType,
+      recordingFormatType: recordingFormatType
     };
 
     try {

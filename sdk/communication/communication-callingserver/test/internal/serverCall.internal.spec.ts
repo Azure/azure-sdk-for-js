@@ -13,7 +13,7 @@ describe("ServerCall", function() {
       const callingServerClient = new CallingServerClient(connectionString);
       const callLocator: ServerCallLocator = { serverCallId: serverCallId };
 
-      try{
+      try {
         await callingServerClient.startRecording(callLocator, "/not/absolute/uri");
       } catch (e) {
         assert.equal((e as Error).message, "recordingStateCallbackUri is invalid.");

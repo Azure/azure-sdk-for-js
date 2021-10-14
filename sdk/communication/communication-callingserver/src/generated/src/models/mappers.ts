@@ -8,29 +8,27 @@
 
 import * as coreHttp from "@azure/core-http";
 
-export const CallParticipant: coreHttp.CompositeMapper = {
+export const AudioRoutingGroupResult: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "CallParticipant",
+    className: "AudioRoutingGroupResult",
     modelProperties: {
-      identifier: {
-        serializedName: "identifier",
-        type: {
-          name: "Composite",
-          className: "CommunicationIdentifierModel"
-        }
-      },
-      participantId: {
-        serializedName: "participantId",
+      audioRoutingMode: {
+        serializedName: "audioRoutingMode",
         type: {
           name: "String"
         }
       },
-      isMuted: {
-        serializedName: "isMuted",
-        required: true,
+      targets: {
+        serializedName: "targets",
         type: {
-          name: "Boolean"
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "CommunicationIdentifierModel"
+            }
+          }
         }
       }
     }
@@ -199,19 +197,14 @@ export const CommunicationError: coreHttp.CompositeMapper = {
   }
 };
 
-export const AudioRoutingGroupRequest: coreHttp.CompositeMapper = {
+export const UpdateAudioRoutingGroupRequest: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "AudioRoutingGroupRequest",
+    className: "UpdateAudioRoutingGroupRequest",
     modelProperties: {
-      audioRoutingMode: {
-        serializedName: "audioRoutingMode",
-        type: {
-          name: "String"
-        }
-      },
       targets: {
         serializedName: "targets",
+        required: true,
         type: {
           name: "Sequence",
           element: {
@@ -434,6 +427,7 @@ export const PlayAudioRequest: coreHttp.CompositeMapper = {
     modelProperties: {
       audioFileUri: {
         serializedName: "audioFileUri",
+        required: true,
         type: {
           name: "String"
         }
@@ -495,17 +489,17 @@ export const PlayAudioResult: coreHttp.CompositeMapper = {
         serializedName: "resultInfo",
         type: {
           name: "Composite",
-          className: "ResultInfo"
+          className: "CallingOperationResultDetails"
         }
       }
     }
   }
 };
 
-export const ResultInfo: coreHttp.CompositeMapper = {
+export const CallingOperationResultDetails: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ResultInfo",
+    className: "CallingOperationResultDetails",
     modelProperties: {
       code: {
         serializedName: "code",
@@ -531,56 +525,6 @@ export const ResultInfo: coreHttp.CompositeMapper = {
   }
 };
 
-export const CancelAllMediaOperationsRequest: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "CancelAllMediaOperationsRequest",
-    modelProperties: {
-      operationContext: {
-        serializedName: "operationContext",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const CancelAllMediaOperationsResult: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "CancelAllMediaOperationsResult",
-    modelProperties: {
-      operationId: {
-        serializedName: "operationId",
-        type: {
-          name: "String"
-        }
-      },
-      status: {
-        serializedName: "status",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      operationContext: {
-        serializedName: "operationContext",
-        type: {
-          name: "String"
-        }
-      },
-      resultInfo: {
-        serializedName: "resultInfo",
-        type: {
-          name: "Composite",
-          className: "ResultInfo"
-        }
-      }
-    }
-  }
-};
-
 export const TransferCallRequest: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
@@ -593,8 +537,70 @@ export const TransferCallRequest: coreHttp.CompositeMapper = {
           className: "CommunicationIdentifierModel"
         }
       },
+      targetCallConnectionId: {
+        serializedName: "targetCallConnectionId",
+        type: {
+          name: "String"
+        }
+      },
       userToUserInformation: {
         serializedName: "userToUserInformation",
+        type: {
+          name: "String"
+        }
+      },
+      operationContext: {
+        serializedName: "operationContext",
+        type: {
+          name: "String"
+        }
+      },
+      callbackUri: {
+        serializedName: "callbackUri",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AudioRoutingGroupRequest: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AudioRoutingGroupRequest",
+    modelProperties: {
+      audioRoutingMode: {
+        serializedName: "audioRoutingMode",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      targets: {
+        serializedName: "targets",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "CommunicationIdentifierModel"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const CreateAudioRoutingGroupResult: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CreateAudioRoutingGroupResult",
+    modelProperties: {
+      audioRoutingGroupId: {
+        serializedName: "audioRoutingGroupId",
         type: {
           name: "String"
         }
@@ -619,6 +625,35 @@ export const GetAllParticipantsWithCallLocatorRequest: coreHttp.CompositeMapper 
   }
 };
 
+export const CallParticipant: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CallParticipant",
+    modelProperties: {
+      identifier: {
+        serializedName: "identifier",
+        type: {
+          name: "Composite",
+          className: "CommunicationIdentifierModel"
+        }
+      },
+      participantId: {
+        serializedName: "participantId",
+        type: {
+          name: "String"
+        }
+      },
+      isMuted: {
+        serializedName: "isMuted",
+        required: true,
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
 export const AddParticipantWithCallLocatorRequest: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
@@ -631,22 +666,6 @@ export const AddParticipantWithCallLocatorRequest: coreHttp.CompositeMapper = {
           className: "CallLocatorModel"
         }
       },
-      addParticipantRequest: {
-        serializedName: "addParticipantRequest",
-        type: {
-          name: "Composite",
-          className: "AddParticipantRequest"
-        }
-      }
-    }
-  }
-};
-
-export const AddParticipantRequest: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "AddParticipantRequest",
-    modelProperties: {
       alternateCallerId: {
         serializedName: "alternateCallerId",
         type: {
@@ -704,22 +723,6 @@ export const RemoveParticipantWithCallLocatorRequest: coreHttp.CompositeMapper =
           className: "CallLocatorModel"
         }
       },
-      removeParticipantRequest: {
-        serializedName: "removeParticipantRequest",
-        type: {
-          name: "Composite",
-          className: "RemoveParticipantRequest"
-        }
-      }
-    }
-  }
-};
-
-export const RemoveParticipantRequest: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "RemoveParticipantRequest",
-    modelProperties: {
       identifier: {
         serializedName: "identifier",
         type: {
@@ -743,190 +746,11 @@ export const GetParticipantWithCallLocatorRequest: coreHttp.CompositeMapper = {
           className: "CallLocatorModel"
         }
       },
-      getParticipantRequest: {
-        serializedName: "getParticipantRequest",
-        type: {
-          name: "Composite",
-          className: "GetParticipantRequest"
-        }
-      }
-    }
-  }
-};
-
-export const GetParticipantRequest: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "GetParticipantRequest",
-    modelProperties: {
       identifier: {
         serializedName: "identifier",
         type: {
           name: "Composite",
           className: "CommunicationIdentifierModel"
-        }
-      }
-    }
-  }
-};
-
-export const StartHoldMusicWithCallLocatorRequest: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "StartHoldMusicWithCallLocatorRequest",
-    modelProperties: {
-      callLocator: {
-        serializedName: "callLocator",
-        type: {
-          name: "Composite",
-          className: "CallLocatorModel"
-        }
-      },
-      startHoldMusicRequest: {
-        serializedName: "startHoldMusicRequest",
-        type: {
-          name: "Composite",
-          className: "StartHoldMusicRequest"
-        }
-      }
-    }
-  }
-};
-
-export const StartHoldMusicRequest: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "StartHoldMusicRequest",
-    modelProperties: {
-      identifier: {
-        serializedName: "identifier",
-        type: {
-          name: "Composite",
-          className: "CommunicationIdentifierModel"
-        }
-      },
-      audioFileUri: {
-        serializedName: "audioFileUri",
-        type: {
-          name: "String"
-        }
-      },
-      audioFileId: {
-        serializedName: "audioFileId",
-        type: {
-          name: "String"
-        }
-      },
-      callbackUri: {
-        serializedName: "callbackUri",
-        type: {
-          name: "String"
-        }
-      },
-      operationContext: {
-        serializedName: "operationContext",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const StartHoldMusicResult: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "StartHoldMusicResult",
-    modelProperties: {
-      operationId: {
-        serializedName: "operationId",
-        type: {
-          name: "String"
-        }
-      },
-      status: {
-        serializedName: "status",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      operationContext: {
-        serializedName: "operationContext",
-        type: {
-          name: "String"
-        }
-      },
-      resultInfo: {
-        serializedName: "resultInfo",
-        type: {
-          name: "Composite",
-          className: "ResultInfo"
-        }
-      }
-    }
-  }
-};
-
-export const StopHoldMusicWithCallLocatorRequest: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "StopHoldMusicWithCallLocatorRequest",
-    modelProperties: {
-      callLocator: {
-        serializedName: "callLocator",
-        type: {
-          name: "Composite",
-          className: "CallLocatorModel"
-        }
-      },
-      identifier: {
-        serializedName: "identifier",
-        type: {
-          name: "Composite",
-          className: "CommunicationIdentifierModel"
-        }
-      },
-      startHoldMusicOperationId: {
-        serializedName: "startHoldMusicOperationId",
-        required: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const StopHoldMusicResult: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "StopHoldMusicResult",
-    modelProperties: {
-      operationId: {
-        serializedName: "operationId",
-        type: {
-          name: "String"
-        }
-      },
-      status: {
-        serializedName: "status",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      operationContext: {
-        serializedName: "operationContext",
-        type: {
-          name: "String"
-        }
-      },
-      resultInfo: {
-        serializedName: "resultInfo",
-        type: {
-          name: "Composite",
-          className: "ResultInfo"
         }
       }
     }
@@ -945,22 +769,6 @@ export const PlayAudioToParticipantWithCallLocatorRequest: coreHttp.CompositeMap
           className: "CallLocatorModel"
         }
       },
-      playAudioToParticipantRequest: {
-        serializedName: "playAudioToParticipantRequest",
-        type: {
-          name: "Composite",
-          className: "PlayAudioToParticipantRequest"
-        }
-      }
-    }
-  }
-};
-
-export const PlayAudioToParticipantRequest: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "PlayAudioToParticipantRequest",
-    modelProperties: {
       identifier: {
         serializedName: "identifier",
         type: {
@@ -970,6 +778,7 @@ export const PlayAudioToParticipantRequest: coreHttp.CompositeMapper = {
       },
       audioFileUri: {
         serializedName: "audioFileUri",
+        required: true,
         type: {
           name: "String"
         }
@@ -1015,22 +824,6 @@ export const CancelParticipantMediaOperationWithCallLocatorRequest: coreHttp.Com
           className: "CallLocatorModel"
         }
       },
-      cancelParticipantMediaOperationRequest: {
-        serializedName: "cancelParticipantMediaOperationRequest",
-        type: {
-          name: "Composite",
-          className: "CancelParticipantMediaOperationRequest"
-        }
-      }
-    }
-  }
-};
-
-export const CancelParticipantMediaOperationRequest: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "CancelParticipantMediaOperationRequest",
-    modelProperties: {
       identifier: {
         serializedName: "identifier",
         type: {
@@ -1141,16 +934,138 @@ export const ResumeMeetingAudioWithCallLocatorRequest: coreHttp.CompositeMapper 
   }
 };
 
-export const StopHoldMusicRequest: coreHttp.CompositeMapper = {
+export const AddParticipantRequest: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "StopHoldMusicRequest",
+    className: "AddParticipantRequest",
+    modelProperties: {
+      alternateCallerId: {
+        serializedName: "alternateCallerId",
+        type: {
+          name: "Composite",
+          className: "PhoneNumberIdentifierModel"
+        }
+      },
+      participant: {
+        serializedName: "participant",
+        type: {
+          name: "Composite",
+          className: "CommunicationIdentifierModel"
+        }
+      },
+      operationContext: {
+        serializedName: "operationContext",
+        type: {
+          name: "String"
+        }
+      },
+      callbackUri: {
+        serializedName: "callbackUri",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const RemoveParticipantRequest: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RemoveParticipantRequest",
     modelProperties: {
       identifier: {
         serializedName: "identifier",
         type: {
           name: "Composite",
           className: "CommunicationIdentifierModel"
+        }
+      }
+    }
+  }
+};
+
+export const GetParticipantRequest: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GetParticipantRequest",
+    modelProperties: {
+      identifier: {
+        serializedName: "identifier",
+        type: {
+          name: "Composite",
+          className: "CommunicationIdentifierModel"
+        }
+      }
+    }
+  }
+};
+
+export const PlayAudioToParticipantRequest: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PlayAudioToParticipantRequest",
+    modelProperties: {
+      identifier: {
+        serializedName: "identifier",
+        type: {
+          name: "Composite",
+          className: "CommunicationIdentifierModel"
+        }
+      },
+      audioFileUri: {
+        serializedName: "audioFileUri",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      loop: {
+        serializedName: "loop",
+        required: true,
+        type: {
+          name: "Boolean"
+        }
+      },
+      operationContext: {
+        serializedName: "operationContext",
+        type: {
+          name: "String"
+        }
+      },
+      audioFileId: {
+        serializedName: "audioFileId",
+        type: {
+          name: "String"
+        }
+      },
+      callbackUri: {
+        serializedName: "callbackUri",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CancelParticipantMediaOperationRequest: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CancelParticipantMediaOperationRequest",
+    modelProperties: {
+      identifier: {
+        serializedName: "identifier",
+        type: {
+          name: "Composite",
+          className: "CommunicationIdentifierModel"
+        }
+      },
+      mediaOperationId: {
+        serializedName: "mediaOperationId",
+        required: true,
+        type: {
+          name: "String"
         }
       }
     }
@@ -1233,22 +1148,6 @@ export const StartCallRecordingWithCallLocatorRequest: coreHttp.CompositeMapper 
           className: "CallLocatorModel"
         }
       },
-      startCallRecordingRequest: {
-        serializedName: "startCallRecordingRequest",
-        type: {
-          name: "Composite",
-          className: "StartCallRecordingRequest"
-        }
-      }
-    }
-  }
-};
-
-export const StartCallRecordingRequest: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "StartCallRecordingRequest",
-    modelProperties: {
       recordingStateCallbackUri: {
         serializedName: "recordingStateCallbackUri",
         type: {
@@ -1393,11 +1292,36 @@ export const PlayAudioWithCallLocatorRequest: coreHttp.CompositeMapper = {
           className: "CallLocatorModel"
         }
       },
-      playAudioRequest: {
-        serializedName: "playAudioRequest",
+      audioFileUri: {
+        serializedName: "audioFileUri",
+        required: true,
         type: {
-          name: "Composite",
-          className: "PlayAudioRequest"
+          name: "String"
+        }
+      },
+      loop: {
+        serializedName: "loop",
+        required: true,
+        type: {
+          name: "Boolean"
+        }
+      },
+      operationContext: {
+        serializedName: "operationContext",
+        type: {
+          name: "String"
+        }
+      },
+      audioFileId: {
+        serializedName: "audioFileId",
+        type: {
+          name: "String"
+        }
+      },
+      callbackUri: {
+        serializedName: "callbackUri",
+        type: {
+          name: "String"
         }
       }
     }
@@ -1416,22 +1340,6 @@ export const CancelMediaOperationWithCallLocatorRequest: coreHttp.CompositeMappe
           className: "CallLocatorModel"
         }
       },
-      cancelMediaOperationRequest: {
-        serializedName: "cancelMediaOperationRequest",
-        type: {
-          name: "Composite",
-          className: "CancelMediaOperationRequest"
-        }
-      }
-    }
-  }
-};
-
-export const CancelMediaOperationRequest: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "CancelMediaOperationRequest",
-    modelProperties: {
       mediaOperationId: {
         serializedName: "mediaOperationId",
         required: true,
@@ -1454,14 +1362,8 @@ export const AnswerCallRequest: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      participantCapacity: {
-        serializedName: "participantCapacity",
-        type: {
-          name: "Number"
-        }
-      },
-      callbackUrl: {
-        serializedName: "callbackUrl",
+      callbackUri: {
+        serializedName: "callbackUri",
         required: true,
         type: {
           name: "String"
@@ -1526,9 +1428,8 @@ export const RejectCallRequest: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      callbackUrl: {
-        serializedName: "callbackUrl",
-        required: true,
+      callbackUri: {
+        serializedName: "callbackUri",
         type: {
           name: "String"
         }
@@ -1562,15 +1463,14 @@ export const RedirectCallRequest: coreHttp.CompositeMapper = {
           }
         }
       },
-      callbackUrl: {
-        serializedName: "callbackUrl",
-        required: true,
+      callbackUri: {
+        serializedName: "callbackUri",
         type: {
           name: "String"
         }
       },
-      timeout: {
-        serializedName: "timeout",
+      timeoutInSeconds: {
+        serializedName: "timeoutInSeconds",
         type: {
           name: "Number"
         }
@@ -1584,10 +1484,11 @@ export const CallConnectionStateChangedEvent: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "CallConnectionStateChangedEvent",
     modelProperties: {
-      serverCallId: {
-        serializedName: "serverCallId",
+      callLocator: {
+        serializedName: "callLocator",
         type: {
-          name: "String"
+          name: "Composite",
+          className: "CallLocatorModel"
         }
       },
       callConnectionId: {
@@ -1618,8 +1519,8 @@ export const CallRecordingStateChangeEvent: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      state: {
-        serializedName: "state",
+      callRecordingState: {
+        serializedName: "callRecordingState",
         required: true,
         type: {
           name: "String"
@@ -1632,10 +1533,11 @@ export const CallRecordingStateChangeEvent: coreHttp.CompositeMapper = {
           name: "DateTime"
         }
       },
-      serverCallId: {
-        serializedName: "serverCallId",
+      callLocator: {
+        serializedName: "callLocator",
         type: {
-          name: "String"
+          name: "Composite",
+          className: "CallLocatorModel"
         }
       }
     }
@@ -1651,7 +1553,7 @@ export const AddParticipantResultEvent: coreHttp.CompositeMapper = {
         serializedName: "resultInfo",
         type: {
           name: "Composite",
-          className: "ResultInfo"
+          className: "CallingOperationResultDetails"
         }
       },
       operationContext: {
@@ -1707,7 +1609,7 @@ export const PlayAudioResultEvent: coreHttp.CompositeMapper = {
         serializedName: "resultInfo",
         type: {
           name: "Composite",
-          className: "ResultInfo"
+          className: "CallingOperationResultDetails"
         }
       },
       operationContext: {

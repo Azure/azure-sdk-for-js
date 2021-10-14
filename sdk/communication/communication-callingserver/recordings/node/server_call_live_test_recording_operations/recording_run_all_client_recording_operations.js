@@ -45,7 +45,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .post('/calling/recordings', {"callLocator":{"groupCallId":"31fccfc0-d804-5e92-9d9e-900b7b3eb6cc"},"startCallRecordingRequest":{"recordingStateCallbackUri":"https://bot.contoso.io/callback"}})
+  .post('/calling/recordings', {"callLocator":{"groupCallId":"31fccfc0-d804-5e92-9d9e-900b7b3eb6cc", "kind":"groupCallLocator"}, "recordingStateCallbackUri":"https://bot.contoso.io/callback"})
   .query(true)
   .reply(200, {"recordingId":"eyJQbGF0Zm9ybUVuZHBvaW50SWQiOiIyNjIwMTMwMC01NWNhLTQ3NzAtOTc5Yy01MzIwNjA1MjkxZDkiLCJSZXNvdXJjZVNwZWNpZmljSWQiOiI3ZTg5ZDU0My0yNmY2LTQ4M2YtYTg0MS1kNDkxNTc2MzlkMDMifQ"}, [
   'Content-Length',

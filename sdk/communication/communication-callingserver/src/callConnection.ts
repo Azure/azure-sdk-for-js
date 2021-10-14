@@ -4,7 +4,6 @@
 
 import { CallConnections } from "./generated/src/operations";
 import {
-  CancelAllMediaOperationsRequest,
   PlayAudioRequest,
   PlayAudioResult,
   AddParticipantRequest,
@@ -12,8 +11,7 @@ import {
   RemoveParticipantRequest,
   PlayAudioToParticipantRequest,
   CancelParticipantMediaOperationRequest,
-  TransferCallRequest,
-  CallConnectionsCancelAllMediaOperationsResponse
+  TransferCallRequest
 } from "./generated/src/models";
 import {
   HangUpOptions,
@@ -81,30 +79,22 @@ export class CallConnection {
   /**
    * Cancel all media operations in the call.
    *
-   * @param operationContext - The operation context.
    * @param options - Additional request options contains hangUp api options.
    */
 
   public async cancelAllMediaOperations(
-    operationContext?: string,
     options: CancelAllMediaOperationsOptions = {}
-  ): Promise<CallConnectionsCancelAllMediaOperationsResponse> {
+  ): Promise<void> {
     const { span, updatedOptions } = createSpan(
-      "CallConnectionRestClient-cancelAllMediaOperations",
+      "CallConnectionRestClient-CancelAllMediaOperations",
       options
     );
 
-    const request: CancelAllMediaOperationsRequest = {
-      operationContext: operationContext
-    };
-
     try {
-      const result = await this.callConnectionRestClient.cancelAllMediaOperations(
+      await this.callConnectionRestClient.cancelAllMediaOperations(
         this.callConnectionId,
-        request,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
-      return result;
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -128,7 +118,7 @@ export class CallConnection {
   ): Promise<PlayAudioResult> {
     const { operationOptions, restOptions } = extractOperationOptions(options);
     const { span, updatedOptions } = createSpan(
-      "CallConnectionRestClient-playAudio",
+      "CallConnectionRestClient-PlayAudio",
       operationOptions
     );
 
@@ -155,12 +145,12 @@ export class CallConnection {
       throw new Error("callbackUri is invalid.");
     }
     try {
-      const response = await this.callConnectionRestClient.playAudio(
+      const { ...result } = await this.callConnectionRestClient.playAudio(
         this.callConnectionId,
         request,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
-      return response;
+      return result;
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -199,12 +189,12 @@ export class CallConnection {
     };
 
     try {
-      const response = await this.callConnectionRestClient.addParticipant(
+      const { ...result } = await this.callConnectionRestClient.addParticipant(
         this.callConnectionId,
         request,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
-      return response;
+      return result;
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -280,12 +270,12 @@ export class CallConnection {
     };
 
     try {
-      const response = await this.callConnectionRestClient.participantPlayAudio(
+      const { ...result } = await this.callConnectionRestClient.participantPlayAudio(
         this.callConnectionId,
         request,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
-      return response;
+      return result;
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,

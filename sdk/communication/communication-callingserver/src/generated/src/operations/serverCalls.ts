@@ -18,10 +18,6 @@ import {
   RemoveParticipantWithCallLocatorRequest,
   GetParticipantWithCallLocatorRequest,
   ServerCallsGetParticipantResponse,
-  StartHoldMusicWithCallLocatorRequest,
-  ServerCallsStartHoldMusicResponse,
-  StopHoldMusicWithCallLocatorRequest,
-  ServerCallsStopHoldMusicResponse,
   PlayAudioToParticipantWithCallLocatorRequest,
   ServerCallsParticipantPlayAudioResponse,
   CancelParticipantMediaOperationWithCallLocatorRequest,
@@ -36,7 +32,11 @@ import {
   ServerCallsJoinCallResponse,
   PlayAudioWithCallLocatorRequest,
   ServerCallsPlayAudioResponse,
-  CancelMediaOperationWithCallLocatorRequest
+  CancelMediaOperationWithCallLocatorRequest,
+  AnswerCallRequest,
+  ServerCallsAnswerCallResponse,
+  RejectCallRequest,
+  RedirectCallRequest
 } from "../models";
 
 /** Class representing a ServerCalls. */
@@ -127,44 +127,6 @@ export class ServerCalls {
       operationArguments,
       getParticipantOperationSpec
     ) as Promise<ServerCallsGetParticipantResponse>;
-  }
-
-  /**
-   * Play hold music to a participant.
-   * @param startHoldMusicRequest The start hold music request.
-   * @param options The options parameters.
-   */
-  startHoldMusic(
-    startHoldMusicRequest: StartHoldMusicWithCallLocatorRequest,
-    options?: coreHttp.OperationOptions
-  ): Promise<ServerCallsStartHoldMusicResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      startHoldMusicRequest,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      startHoldMusicOperationSpec
-    ) as Promise<ServerCallsStartHoldMusicResponse>;
-  }
-
-  /**
-   * Stop hold music to a participant.
-   * @param stopHoldMusicRequest The stop hold music request
-   * @param options The options parameters.
-   */
-  stopHoldMusic(
-    stopHoldMusicRequest: StopHoldMusicWithCallLocatorRequest,
-    options?: coreHttp.OperationOptions
-  ): Promise<ServerCallsStopHoldMusicResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      stopHoldMusicRequest,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      stopHoldMusicOperationSpec
-    ) as Promise<ServerCallsStopHoldMusicResponse>;
   }
 
   /**
@@ -435,6 +397,63 @@ export class ServerCalls {
       cancelMediaOperationOperationSpec
     ) as Promise<coreHttp.RestResponse>;
   }
+
+  /**
+   * Answer the call.
+   * @param answerCallRequest The answer call request.
+   * @param options The options parameters.
+   */
+  answerCall(
+    answerCallRequest: AnswerCallRequest,
+    options?: coreHttp.OperationOptions
+  ): Promise<ServerCallsAnswerCallResponse> {
+    const operationArguments: coreHttp.OperationArguments = {
+      answerCallRequest,
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
+    return this.client.sendOperationRequest(
+      operationArguments,
+      answerCallOperationSpec
+    ) as Promise<ServerCallsAnswerCallResponse>;
+  }
+
+  /**
+   * Reject the call.
+   * @param rejectCallRequest The reject call request.
+   * @param options The options parameters.
+   */
+  rejectCall(
+    rejectCallRequest: RejectCallRequest,
+    options?: coreHttp.OperationOptions
+  ): Promise<coreHttp.RestResponse> {
+    const operationArguments: coreHttp.OperationArguments = {
+      rejectCallRequest,
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
+    return this.client.sendOperationRequest(
+      operationArguments,
+      rejectCallOperationSpec
+    ) as Promise<coreHttp.RestResponse>;
+  }
+
+  /**
+   * Redirect the call.
+   * @param redirectCallRequest The redirect call request.
+   * @param options The options parameters.
+   */
+  redirectCall(
+    redirectCallRequest: RedirectCallRequest,
+    options?: coreHttp.OperationOptions
+  ): Promise<coreHttp.RestResponse> {
+    const operationArguments: coreHttp.OperationArguments = {
+      redirectCallRequest,
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
+    return this.client.sendOperationRequest(
+      operationArguments,
+      redirectCallOperationSpec
+    ) as Promise<coreHttp.RestResponse>;
+  }
 }
 // Operation Specifications
 const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
@@ -581,76 +600,6 @@ const getParticipantOperationSpec: coreHttp.OperationSpec = {
     }
   },
   requestBody: Parameters.getParticipantWithCallLocatorRequest,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const startHoldMusicOperationSpec: coreHttp.OperationSpec = {
-  path: "/calling/participants:startHoldMusic",
-  httpMethod: "POST",
-  responses: {
-    202: {
-      bodyMapper: Mappers.StartHoldMusicResult
-    },
-    400: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    401: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    403: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    404: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    500: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    }
-  },
-  requestBody: Parameters.startHoldMusicRequest,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const stopHoldMusicOperationSpec: coreHttp.OperationSpec = {
-  path: "/calling/participants:stopHoldMusic",
-  httpMethod: "POST",
-  responses: {
-    202: {
-      bodyMapper: Mappers.StopHoldMusicResult
-    },
-    400: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    401: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    403: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    404: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    500: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    }
-  },
-  requestBody: Parameters.stopHoldMusicRequest1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.accept, Parameters.contentType],
@@ -1111,6 +1060,107 @@ const cancelMediaOperationOperationSpec: coreHttp.OperationSpec = {
     }
   },
   requestBody: Parameters.cancelMediaOperationRequest1,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const answerCallOperationSpec: coreHttp.OperationSpec = {
+  path: "/calling:answer",
+  httpMethod: "POST",
+  responses: {
+    201: {
+      bodyMapper: Mappers.AnswerCallResult
+    },
+    400: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    401: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    403: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    404: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    500: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    }
+  },
+  requestBody: Parameters.answerCallRequest,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const rejectCallOperationSpec: coreHttp.OperationSpec = {
+  path: "/calling:reject",
+  httpMethod: "POST",
+  responses: {
+    202: {},
+    400: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    401: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    403: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    404: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    500: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    }
+  },
+  requestBody: Parameters.rejectCallRequest,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const redirectCallOperationSpec: coreHttp.OperationSpec = {
+  path: "/calling:redirect",
+  httpMethod: "POST",
+  responses: {
+    202: {},
+    400: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    401: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    403: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    404: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    500: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    }
+  },
+  requestBody: Parameters.redirectCallRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.accept, Parameters.contentType],

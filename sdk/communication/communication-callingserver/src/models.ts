@@ -4,7 +4,11 @@ import { AbortSignalLike } from "@azure/abort-controller";
 import { OperationOptions, TransferProgressEvent } from "@azure/core-http";
 import { PhoneNumberIdentifier } from "@azure/communication-common";
 
+import { CallMediaType, CallingEventSubscriptionType } from "./generated/src/models";
+
 export {
+  CallMediaType,
+  CallingEventSubscriptionType,
   PlayAudioResult,
   PlayAudioResultEvent,
   AddParticipantResult,
@@ -18,29 +22,8 @@ export {
   CommunicationIdentifierModel,
   CommunicationUserIdentifierModel,
   KnownToneValue,
-  KnownCallConnectionState,
-  CallConnectionsCancelAllMediaOperationsResponse
+  KnownCallConnectionState
 } from "./generated/src/models";
-
-/** Known values of {@link MediaType} that the service accepts. */
-export enum MediaType {
-  Audio = "audio",
-  Video = "video"
-}
-
-/** Known values of {@link EventSubscriptionType} that the service accepts. */
-export enum EventSubscriptionType {
-  ParticipantsUpdated = "participantsUpdated",
-  ToneReceived = "toneReceived"
-}
-
-/** Known values of {@link OperationStatus} that the service accepts. */
-export enum KnownOperationStatus {
-  NotStarted = "notStarted",
-  Running = "running",
-  Completed = "completed",
-  Failed = "failed"
-}
 
 /**
  * Options to create a call.
@@ -53,9 +36,9 @@ export interface CreateCallConnectionOptions extends OperationOptions {
   /** The callback URI. */
   callbackUri: string;
   /** The requested modalities. */
-  requestedMediaTypes: MediaType[];
+  requestedMediaTypes: CallMediaType[];
   /** The requested call events to subscribe to. */
-  requestedCallEvents: EventSubscriptionType[];
+  requestedCallEvents: CallingEventSubscriptionType[];
 }
 
 /**
@@ -67,9 +50,9 @@ export interface JoinCallOptions extends OperationOptions {
   /** The callback URI. */
   callbackUri: string;
   /** The requested modalities. */
-  requestedMediaTypes?: MediaType[];
+  requestedMediaTypes?: CallMediaType[];
   /** The requested call events to subscribe to. */
-  requestedCallEvents?: EventSubscriptionType[];
+  requestedCallEvents?: CallingEventSubscriptionType[];
 }
 
 export interface PlayAudioOptions extends OperationOptions {
@@ -237,7 +220,7 @@ enum CallingServerEventType {
   PARTICIPANTS_UPDATED_EVENT = "Microsoft.Communication.ParticipantsUpdated",
 
   /** The subscribe to tone event type. */
-  TONE_RECEIVED_EVENT = "Microsoft.Communication.DtmfReceived"
+  TONE_RECEIVED_EVENT = "Microsoft.Communication.ToneReceived"
 }
 
 export interface DownloadOptions extends OperationOptions {
@@ -292,7 +275,7 @@ export class KnownCallingServerEventType {
     "Microsoft.Communication.ParticipantsUpdated"
   );
   public static TONE_RECEIVED_EVENT: string | null = KnownCallingServerEventType.fromString(
-    "Microsoft.Communication.DtmfReceived"
+    "Microsoft.Communication.ToneReceived"
   );
 
   public static fromString(value: string): string | null {
