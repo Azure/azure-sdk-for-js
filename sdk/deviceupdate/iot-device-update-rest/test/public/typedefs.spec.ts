@@ -1,9 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import {
-  DeviceUpdateRestClient,
-  paginate
-} from "../../src";
+import { DeviceUpdateRestClient, paginate } from "../../src";
 import { env, Recorder } from "@azure-tools/test-recorder";
 
 import { assert } from "chai";
@@ -24,7 +21,9 @@ describe("device update test", () => {
   });
 
   it("should list all update providers", async () => {
-    const result = await client.path("/deviceupdate/{instanceId}/updates/providers", env.INSTANCE_ID).get();
+    const result = await client
+      .path("/deviceupdate/{instanceId}/updates/providers", env.INSTANCE_ID)
+      .get();
 
     const iter = paginate(client, result);
 
@@ -42,6 +41,4 @@ describe("device update test", () => {
 
     assert.isDefined(result.body.value?.length);
   });
-
-
 }).timeout(60000000000);

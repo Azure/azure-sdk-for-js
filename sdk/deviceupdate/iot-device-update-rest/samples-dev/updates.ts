@@ -22,7 +22,9 @@ async function main() {
 
   const client = DeviceUpdate(accountEndpoint, credentials);
 
-  const result = await client.path("/deviceupdate/{instanceId}/updates/providers", instanceId).get();
+  const result = await client
+    .path("/deviceupdate/{instanceId}/updates/providers", instanceId)
+    .get();
 
   const iter = paginate(client, result);
 

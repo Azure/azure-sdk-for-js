@@ -2,12 +2,7 @@
 // Licensed under the MIT license.
 
 import { RequestParameters } from "@azure-rest/core-client";
-import {
-  ImportUpdateInputItem,
-  Group,
-  Deployment,
-  DiagnosticsOperation
-} from "./models";
+import { ImportUpdateInputItem, Group, Deployment, DiagnosticsOperation } from "./models";
 
 export interface UpdatesImportUpdateBodyParam {
   /** The update to be imported. */
@@ -38,8 +33,7 @@ export interface UpdatesListUpdateIdsQueryParam {
   queryParameters?: UpdatesListUpdateIdsQueryParamProperties;
 }
 
-export type UpdatesListUpdateIdsParameters = UpdatesListUpdateIdsQueryParam &
-  RequestParameters;
+export type UpdatesListUpdateIdsParameters = UpdatesListUpdateIdsQueryParam & RequestParameters;
 export type UpdatesGetUpdateParameters = RequestParameters;
 export type UpdatesDeleteUpdateParameters = RequestParameters;
 export type UpdatesListProvidersParameters = RequestParameters;
@@ -54,8 +48,7 @@ export interface UpdatesListVersionsQueryParam {
   queryParameters?: UpdatesListVersionsQueryParamProperties;
 }
 
-export type UpdatesListVersionsParameters = UpdatesListVersionsQueryParam &
-  RequestParameters;
+export type UpdatesListVersionsParameters = UpdatesListVersionsQueryParam & RequestParameters;
 export type UpdatesListFilesParameters = RequestParameters;
 export type UpdatesGetFileParameters = RequestParameters;
 
@@ -70,8 +63,7 @@ export interface UpdatesListOperationsQueryParam {
   queryParameters?: UpdatesListOperationsQueryParamProperties;
 }
 
-export type UpdatesListOperationsParameters = UpdatesListOperationsQueryParam &
-  RequestParameters;
+export type UpdatesListOperationsParameters = UpdatesListOperationsQueryParam & RequestParameters;
 export type UpdatesGetOperationParameters = RequestParameters;
 export type DevicesListDeviceClassesParameters = RequestParameters;
 export type DevicesGetDeviceClassParameters = RequestParameters;
@@ -87,8 +79,7 @@ export interface DevicesListDevicesQueryParam {
   queryParameters?: DevicesListDevicesQueryParamProperties;
 }
 
-export type DevicesListDevicesParameters = DevicesListDevicesQueryParam &
-  RequestParameters;
+export type DevicesListDevicesParameters = DevicesListDevicesQueryParam & RequestParameters;
 
 export interface DevicesImportDevicesBodyParam {
   /** The types of devices to import. */
@@ -148,8 +139,7 @@ export interface DevicesListOperationsQueryParam {
   queryParameters?: DevicesListOperationsQueryParamProperties;
 }
 
-export type DevicesListOperationsParameters = DevicesListOperationsQueryParam &
-  RequestParameters;
+export type DevicesListOperationsParameters = DevicesListOperationsQueryParam & RequestParameters;
 
 export interface DeploymentsListAllDeploymentsQueryParamProperties {
   /** Restricts the set of deployments returned. You can filter on update Provider, Name and Version property. */
@@ -215,8 +205,7 @@ export interface DiagnosticsUploadLogBodyParam {
   body: DiagnosticsOperation;
 }
 
-export type DiagnosticsUploadLogParameters = DiagnosticsUploadLogBodyParam &
-  RequestParameters;
+export type DiagnosticsUploadLogParameters = DiagnosticsUploadLogBodyParam & RequestParameters;
 export type DiagnosticsGetOperationParameters = RequestParameters;
 export type DiagnosticsGetOperationStatusParameters = RequestParameters;
 export type DiagnosticsListOperationsParameters = RequestParameters;
