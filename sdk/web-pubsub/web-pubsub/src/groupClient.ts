@@ -162,7 +162,6 @@ export class WebPubSubGroupImpl implements WebPubSubGroup {
   public endpoint!: string;
 
   /**
-   * @private
    * @internal
    */
   constructor(client: GeneratedClient, hubName: string, groupName: string) {
@@ -185,20 +184,21 @@ export class WebPubSubGroupImpl implements WebPubSubGroup {
       options
     );
 
-    try {
-      let response: FullOperationResponse | undefined;
-      function onResponse(rawResponse: FullOperationResponse, flatResponse: unknown): void {
-        response = rawResponse;
-        if (updatedOptions.onResponse) {
-          updatedOptions.onResponse(rawResponse, flatResponse);
-        }
+    let response: FullOperationResponse | undefined;
+    function onResponse(rawResponse: FullOperationResponse, flatResponse: unknown): void {
+      response = rawResponse;
+      if (updatedOptions.onResponse) {
+        updatedOptions.onResponse(rawResponse, flatResponse);
       }
+    }
+
+    try {
       await this.client.webPubSub.addConnectionToGroup(this.hubName, this.groupName, connectionId, {
         ...updatedOptions,
         onResponse
       });
 
-      if (response?.status === 404) {
+      if (response!.status === 404) {
         throw new RestError(`Connection id '${connectionId}' doesn't exist`, {
           statusCode: response?.status,
           request: response?.request,

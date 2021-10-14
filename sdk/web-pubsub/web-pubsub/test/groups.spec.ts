@@ -7,6 +7,7 @@ import { assert } from "chai";
 import environmentSetup from "./testEnv";
 import { FullOperationResponse } from "@azure/core-client";
 import { RestError } from "@azure/core-rest-pipeline";
+/* eslint-disable @typescript-eslint/no-invalid-this */
 
 describe("Group client working with a group", function() {
   let recorder: Recorder;

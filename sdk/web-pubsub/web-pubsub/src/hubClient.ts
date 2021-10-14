@@ -35,6 +35,7 @@ export interface HubSendToAllOptions extends OperationOptions {
   excludedConnections?: string[];
 }
 
+
 /**
  * Options for sending text messages to hubs.
  */
@@ -45,6 +46,7 @@ export interface HubSendTextToAllOptions extends HubSendToAllOptions {
 /**
  * Types which can be serialized and sent as JSON.
  */
+// eslint-disable-next-line @typescript-eslint/ban-types
 export type JSONTypes = string | number | boolean | object;
 
 /**
@@ -304,6 +306,7 @@ export class WebPubSubServiceClient {
    * @param message - The text message to send
    * @param options - Additional options
    */
+  // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
   public async sendToAll(message: string, options: HubSendTextToAllOptions): Promise<void>;
   /**
    * Broadcast a JSON message to all connections on this hub.
@@ -350,6 +353,7 @@ export class WebPubSubServiceClient {
   public async sendToUser(
     username: string,
     message: string,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: HubSendTextToUserOptions
   ): Promise<void>;
 
@@ -409,6 +413,7 @@ export class WebPubSubServiceClient {
   public async sendToConnection(
     connectionId: string,
     message: string,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: HubSendTextToConnectionOptions
   ): Promise<void>;
 
@@ -476,27 +481,27 @@ export class WebPubSubServiceClient {
       options
     );
 
-    try {
-      let response: FullOperationResponse | undefined;
-      function onResponse(rawResponse: FullOperationResponse, flatResponse: unknown): void {
-        response = rawResponse;
-        if (updatedOptions.onResponse) {
-          updatedOptions.onResponse(rawResponse, flatResponse);
-        }
+    let response: FullOperationResponse | undefined;
+    function onResponse(rawResponse: FullOperationResponse, flatResponse: unknown): void {
+      response = rawResponse;
+      if (updatedOptions.onResponse) {
+        updatedOptions.onResponse(rawResponse, flatResponse);
       }
+    }
 
+    try {
       await this.client.webPubSub.connectionExists(this.hubName, connectionId, {
         ...updatedOptions,
         onResponse
       });
 
-      if (response?.status === 200) {
+      if (response!.status === 200) {
         return true;
-      } else if (response?.status === 404) {
+      } else if (response!.status === 404) {
         return false;
       } else {
         // this is sad - wish this was handled by autorest.
-        throw new RestError(response?.bodyAsText!, {
+        throw new RestError(response!.bodyAsText!, {
           statusCode: response?.status,
           request: response?.request,
           response: response
@@ -562,26 +567,26 @@ export class WebPubSubServiceClient {
    */
   public async hasGroup(groupName: string, options: HubHasGroupOptions = {}): Promise<boolean> {
     const { span, updatedOptions } = createSpan("WebPubSubServiceClient-hub-hasGroup", options);
+    let response: FullOperationResponse | undefined;
+    function onResponse(rawResponse: FullOperationResponse, flatResponse: unknown): void {
+      response = rawResponse;
+      if (updatedOptions.onResponse) {
+        updatedOptions.onResponse(rawResponse, flatResponse);
+      }
+    }
 
     try {
-      let response: FullOperationResponse | undefined;
-      function onResponse(rawResponse: FullOperationResponse, flatResponse: unknown): void {
-        response = rawResponse;
-        if (updatedOptions.onResponse) {
-          updatedOptions.onResponse(rawResponse, flatResponse);
-        }
-      }
       await this.client.webPubSub.groupExists(this.hubName, groupName, {
         ...updatedOptions,
         onResponse
       });
 
-      if (response?.status === 200) {
+      if (response!.status === 200) {
         return true;
-      } else if (response?.status === 404) {
+      } else if (response!.status === 404) {
         return false;
       } else {
-        throw new RestError(response?.bodyAsText!, {
+        throw new RestError(response!.bodyAsText!, {
           statusCode: response?.status,
           request: response?.request,
           response: response
@@ -601,26 +606,27 @@ export class WebPubSubServiceClient {
   public async hasUser(username: string, options: HubHasUserOptions = {}): Promise<boolean> {
     const { span, updatedOptions } = createSpan("WebPubSubServiceClient-hub-hasUser", options);
 
-    try {
-      let response: FullOperationResponse | undefined;
-      function onResponse(rawResponse: FullOperationResponse, flatResponse: unknown): void {
-        response = rawResponse;
-        if (updatedOptions.onResponse) {
-          updatedOptions.onResponse(rawResponse, flatResponse);
-        }
+    let response: FullOperationResponse | undefined;
+    function onResponse(rawResponse: FullOperationResponse, flatResponse: unknown): void {
+      response = rawResponse;
+      if (updatedOptions.onResponse) {
+        updatedOptions.onResponse(rawResponse, flatResponse);
       }
+    }
+
+    try {
       await this.client.webPubSub.userExists(this.hubName, username, {
         ...updatedOptions,
         onResponse
       });
 
-      if (response?.status === 200) {
+      if (response!.status === 200) {
         return true;
-      } else if (response?.status === 404) {
+      } else if (response!.status === 404) {
         return false;
       } else {
         // this is sad - wish this was handled by autorest.
-        throw new RestError(response?.bodyAsText!, {
+        throw new RestError(response!.bodyAsText!, {
           statusCode: response?.status,
           request: response?.request,
           response: response
@@ -642,7 +648,7 @@ export class WebPubSubServiceClient {
     connectionId: string,
     permission: Permission,
     options: HubGrantPermissionOptions = {}
-  ) {
+  ): Promise<void> {
     const { span, updatedOptions } = createSpan(
       "WebPubSubServiceClient-hub-grantPermission",
       options
@@ -671,7 +677,7 @@ export class WebPubSubServiceClient {
     connectionId: string,
     permission: Permission,
     options: HubRevokePermissionOptions = {}
-  ) {
+  ): Promise<void> {
     const { span, updatedOptions } = createSpan(
       "WebPubSubServiceClient-hub-revokePermission",
       options
@@ -705,27 +711,27 @@ export class WebPubSubServiceClient {
       "WebPubSubServiceClient-hub-hasPermission",
       options
     );
+    let response: FullOperationResponse | undefined;
+    function onResponse(rawResponse: FullOperationResponse, flatResponse: unknown): void {
+      response = rawResponse;
+      if (updatedOptions.onResponse) {
+        updatedOptions.onResponse(rawResponse, flatResponse);
+      }
+    }
 
     try {
-      let response: FullOperationResponse | undefined;
-      function onResponse(rawResponse: FullOperationResponse, flatResponse: unknown): void {
-        response = rawResponse;
-        if (updatedOptions.onResponse) {
-          updatedOptions.onResponse(rawResponse, flatResponse);
-        }
-      }
       await this.client.webPubSub.checkPermission(this.hubName, permission, connectionId, {
         ...updatedOptions,
         onResponse
       });
 
-      if (response?.status === 200) {
+      if (response!.status === 200) {
         return true;
-      } else if (response?.status === 404) {
+      } else if (response!.status === 404) {
         return false;
       } else {
         // this is sad - wish this was handled by autorest.
-        throw new RestError(response?.bodyAsText!, {
+        throw new RestError(response!.bodyAsText!, {
           statusCode: response?.status,
           request: response?.request,
           response: response
