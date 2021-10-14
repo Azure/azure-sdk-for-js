@@ -400,7 +400,7 @@ describe("Keys client - create, read, update and delete operations", () => {
     );
   });
 
-  onVersions({ minVer: "7.3-preview" }).describe("key rotation", () => {
+  onVersions({ minVer: "7.3-preview" }).describe.skip("key rotation", () => {
     it("rotateKey supports rotating a key", async () => {
       const keyName = recorder.getUniqueName("keyrotate");
       const key = await client.createKey(keyName, "RSA");
