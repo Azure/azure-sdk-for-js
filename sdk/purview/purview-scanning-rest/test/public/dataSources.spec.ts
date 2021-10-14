@@ -1,11 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { PurviewScanningRestClient, paginate } from "../../src";
+import { PurviewScanningRestClient, paginate, DataSource } from "../../src";
 import { Recorder } from "@azure-tools/test-recorder";
 
 import { assert } from "chai";
 import { createClient, createRecorder } from "./utils/recordedClient";
 import { Context } from "mocha";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 
 describe("List data sources", () => {
   let recorder: Recorder;
@@ -24,9 +25,11 @@ describe("List data sources", () => {
     const result = await client.path("/datasources").get();
     const iter = paginate(client, result);
 
-    const items = [];
+    const items: DataSource[] = [];
 
-    for await (const item of iter) {
+    for await (const item of <PagedAsyncIterableIterator<DataSource, DataSource[], PageSettings>>(
+      iter
+    )) {
       items.push(item);
     }
 

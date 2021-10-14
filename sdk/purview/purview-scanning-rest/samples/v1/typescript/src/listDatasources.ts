@@ -7,7 +7,8 @@
  * @summary gets a list of datasources
  */
 
-import PurviewScanning, { paginate } from "@azure-rest/purview-scanning";
+import PurviewScanning, { paginate, DataSource } from "@azure-rest/purview-scanning";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { DefaultAzureCredential } from "@azure/identity";
 
 async function main() {
@@ -22,9 +23,12 @@ async function main() {
   if (dataSources.status !== "200") {
     throw dataSources;
   }
-  const items: any[] = [];
 
-  for await (const item of iter) {
+  const items: DataSource[] = [];
+
+  for await (const item of <PagedAsyncIterableIterator<DataSource, DataSource[], PageSettings>>(
+    iter
+  )) {
     items.push(item);
   }
   console.log(items?.map((ds) => ds.name).join("\n"));

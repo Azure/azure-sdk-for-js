@@ -79,7 +79,8 @@ The following section shows you how to initialize and authenticate your client, 
 ### List All Data Sources
 
 ```typescript
-import PurviewScanning, { paginate } from "@azure-rest/purview-scanning";
+import PurviewScanning, { paginate, DataSource } from "@azure-rest/purview-scanning";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { DefaultAzureCredential } from "@azure/identity";
 
 async function main() {
@@ -94,11 +95,12 @@ async function main() {
   if (dataSources.status !== "200") {
     throw dataSources.body.error;
   }
-  const items: any[] = [];
+  const items: DataSource[] = [];
 
-  for await (const item of iter) {
+  for await (const item of <PagedAsyncIterableIterator<DataSource, (DataSource)[], PageSettings>>iter) {
     items.push(item);
   }
+
   console.log(items?.map((ds) => ds.name).join("\n"));
 }
 
