@@ -13,7 +13,7 @@ import * as msRestAzure from "@azure/ms-rest-azure-js";
 import { TokenCredential } from "@azure/core-auth";
 
 const packageName = "@azure/arm-storagecache";
-const packageVersion = "4.2.0";
+const packageVersion = "4.3.0";
 
 export class StorageCacheManagementClientContext extends msRestAzure.AzureServiceClient {
   credentials: msRest.ServiceClientCredentials | TokenCredential;
@@ -50,7 +50,7 @@ export class StorageCacheManagementClientContext extends msRestAzure.AzureServic
 
     super(credentials, options);
 
-    this.apiVersion = '2021-05-01';
+    this.apiVersion = '2021-09-01';
     this.acceptLanguage = 'en-US';
     this.longRunningOperationRetryTimeout = 30;
     this.baseUri = options.baseUri || this.baseUri || "https://management.azure.com";

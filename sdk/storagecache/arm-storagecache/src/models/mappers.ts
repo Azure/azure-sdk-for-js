@@ -1363,6 +1363,12 @@ export const StorageTarget: msRest.CompositeMapper = {
           name: "String"
         }
       },
+      state: {
+        serializedName: "properties.state",
+        type: {
+          name: "String"
+        }
+      },
       nfs3: {
         serializedName: "properties.nfs3",
         type: {

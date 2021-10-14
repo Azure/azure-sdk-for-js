@@ -853,6 +853,11 @@ export interface StorageTarget extends StorageTargetResource {
    */
   readonly provisioningState?: ProvisioningStateType;
   /**
+   * Storage target operational state. Possible values include: 'Ready', 'Busy', 'Suspended',
+   * 'Flushing'
+   */
+  state?: OperationalStateType;
+  /**
    * Properties when targetType is nfs3.
    */
   nfs3?: Nfs3Target;
@@ -1226,6 +1231,14 @@ export type UsernameDownloadedType = 'Yes' | 'No' | 'Error';
  * @enum {string}
  */
 export type StorageTargetType = 'nfs3' | 'clfs' | 'unknown' | 'blobNfs';
+
+/**
+ * Defines values for OperationalStateType.
+ * Possible values include: 'Ready', 'Busy', 'Suspended', 'Flushing'
+ * @readonly
+ * @enum {string}
+ */
+export type OperationalStateType = 'Ready' | 'Busy' | 'Suspended' | 'Flushing';
 
 /**
  * Defines values for ReasonCode.
