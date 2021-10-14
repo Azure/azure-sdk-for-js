@@ -1,10 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { AbortController } from "@azure/abort-controller";
 import { AmqpAnnotatedMessage } from "@azure/core-amqp";
 import { NamedKeyCredential, SASCredential, TokenCredential } from "@azure/core-auth";
-import { EventData, OperationOptions } from ".";
-import { ConnectionContext, createConnectionContext } from "./connectionContext";
+import { BatchingPartitionChannel } from "./batchingPartitionChannel";
+import { PartitionAssigner } from "./impl/partitionAssigner";
+import { EventData, EventHubProducerClient, OperationOptions } from "./index";
 import { EventHubProperties, PartitionProperties } from "./managementClient";
 import {
   EventHubClientOptions,
@@ -54,11 +56,15 @@ export interface OnSendEventsErrorContext {
  */
 export interface EventHubBufferedProducerClientOptions extends EventHubClientOptions {
   /**
-   * The maximum number of events to buffer.
+   * The total number of events that can be buffered for publishing at a given time for a given partition.
+   *
+   * Default: 1500
    */
-  maxBufferedEventCount?: number;
+  maxEventBufferLengthPerPartition?: number;
   /**
-   * The maximum amount of time to wait before sending a batch of messages to the Event Hub.
+   * The amount of time to wait for a new event to be enqueued in the buffer before publishing a partially full batch.
+   *
+   * Default: 250 milliseconds.
    */
   maxWaitTimeInMs?: number;
   /**
@@ -102,21 +108,47 @@ export interface EnqueueEventOptions extends SendBatchOptions {}
  */
 export class EventHubBufferedProducerClient {
   /**
-   * Describes the amqp connection context for the client.
+   * Controls the `abortSignal` passed to each `BatchingPartitionChannel`.
+   * Used to signal when a channel should stop waiting for events.
    */
-  private _context: ConnectionContext;
+  private _abortController = new AbortController();
 
   /**
-   * The options passed by the user when creating the EventHubClient instance.
+   * Indicates whether the client has been explicitly closed.
    */
-  private _clientOptions: EventHubClientOptions;
+  private _isClosed: boolean = false;
+
+  /**
+   * Handles assigning partitions.
+   */
+  private _partitionAssigner = new PartitionAssigner();
+
+  /**
+   * The known partitionIds that will be used when assigning events to partitions.
+   */
+  private _partitionIds: string[] = [];
+  /**
+   * The EventHubProducerClient to use when creating and sending batches to the Event Hub.
+   */
+  private _producer: EventHubProducerClient;
+
+  /**
+   * Mapping of partitionIds to `BatchingPartitionChannels`.
+   * Each `BatchingPartitionChannel` handles buffering events and backpressure independently.
+   */
+  private _partitionChannels = new Map<string, BatchingPartitionChannel>();
+
+  /**
+   * The options passed by the user when creating the EventHubBufferedProducerClient instance.
+   */
+  private _clientOptions: EventHubBufferedProducerClientOptions;
 
   /**
    * @readonly
    * The name of the Event Hub instance for which this client is created.
    */
   get eventHubName(): string {
-    throw new Error("Not implemented");
+    return this._producer.eventHubName;
   }
 
   /**
@@ -125,7 +157,7 @@ export class EventHubBufferedProducerClient {
    * This is likely to be similar to <yournamespace>.servicebus.windows.net.
    */
   get fullyQualifiedNamespace(): string {
-    throw new Error("Not implemented");
+    return this._producer.fullyQualifiedNamespace;
   }
 
   /**
@@ -195,24 +227,37 @@ export class EventHubBufferedProducerClient {
       | EventHubBufferedProducerClientOptions,
     options4?: EventHubBufferedProducerClientOptions
   ) {
-    this._context = createConnectionContext(
-      fullyQualifiedNamespaceOrConnectionString1,
-      eventHubNameOrOptions2,
-      credentialOrOptions3,
-      options4
-    );
     if (typeof eventHubNameOrOptions2 !== "string") {
-      this._clientOptions = eventHubNameOrOptions2 || {};
+      this._producer = new EventHubProducerClient(
+        fullyQualifiedNamespaceOrConnectionString1,
+        eventHubNameOrOptions2
+      );
+      this._clientOptions = { ...eventHubNameOrOptions2 };
     } else if (!isCredential(credentialOrOptions3)) {
-      this._clientOptions = credentialOrOptions3 || {};
+      this._producer = new EventHubProducerClient(
+        fullyQualifiedNamespaceOrConnectionString1,
+        eventHubNameOrOptions2,
+        credentialOrOptions3
+      );
+      this._clientOptions = { ...credentialOrOptions3! };
     } else {
-      this._clientOptions = options4 || {};
+      this._producer = new EventHubProducerClient(
+        fullyQualifiedNamespaceOrConnectionString1,
+        eventHubNameOrOptions2,
+        credentialOrOptions3,
+        options4
+      );
+      this._clientOptions = { ...options4! };
     }
   }
 
   /**
    * Closes the AMQP connection to the Event Hub instance,
    * returning a promise that will be resolved when disconnection is completed.
+   *
+   * This will wait for enqueued events to be flushed to the service before closing
+   * the connection.
+   * To close without flushing, set the `flush` option to `false`.
    *
    * @param options - The set of options to apply to the operation call.
    * @returns Promise<void>
@@ -222,7 +267,10 @@ export class EventHubBufferedProducerClient {
     if (!isDefined(options.flush) || options.flush === true) {
       await this.flush(options);
     }
-    return this._context.close();
+    // Calling abort signals to the BatchingPartitionChannels that they
+    // should stop reading/sending events.
+    this._abortController.abort();
+    return this._producer.close();
   }
 
   /**
@@ -247,7 +295,27 @@ export class EventHubBufferedProducerClient {
     event: EventData | AmqpAnnotatedMessage,
     options: EnqueueEventOptions = {}
   ): Promise<number> {
-    throw new Error(`Not implemented ${event}, ${options}`);
+    if (this._isClosed) {
+      throw new Error(
+        `This EventHubBufferedProducerClient has already been closed. Create a new client to enqueue events.`
+      );
+    }
+
+    // TODO: Start a loop that queries partition Ids.
+    // partition ids can be added to an Event Hub after it's been created.
+    if (!this._partitionIds.length) {
+      this._partitionIds = await this.getPartitionIds();
+      this._partitionAssigner.setPartitionIds(this._partitionIds);
+    }
+
+    const partitionId = this._partitionAssigner.assignPartition({
+      partitionId: options.partitionId,
+      partitionKey: options.partitionKey
+    });
+
+    const partitionChannel = this._getPartitionChannel(partitionId);
+    await partitionChannel.enqueueEvent(event);
+    return this._getTotalBufferedEventsCount();
   }
 
   /**
@@ -272,7 +340,11 @@ export class EventHubBufferedProducerClient {
     events: EventData[] | AmqpAnnotatedMessage[],
     options: EnqueueEventOptions = {}
   ): Promise<number> {
-    throw new Error(`Not implemented ${events}, ${options}`);
+    for (const event of events) {
+      await this.enqueueEvent(event, options);
+    }
+
+    return this._getTotalBufferedEventsCount();
   }
 
   /**
@@ -284,7 +356,9 @@ export class EventHubBufferedProducerClient {
    * @param options - The set of options to apply to the operation call.
    */
   async flush(options: OperationOptions = {}): Promise<void> {
-    throw new Error(`Not implemented ${options}`);
+    await Promise.all(
+      Array.from(this._partitionChannels.values()).map((channel) => channel.flush(options))
+    );
   }
 
   /**
@@ -295,10 +369,7 @@ export class EventHubBufferedProducerClient {
    * @throws AbortError if the operation is cancelled via the abortSignal.
    */
   getEventHubProperties(options: GetEventHubPropertiesOptions = {}): Promise<EventHubProperties> {
-    return this._context.managementSession!.getEventHubProperties({
-      ...options,
-      retryOptions: this._clientOptions.retryOptions
-    });
+    return this._producer.getEventHubProperties(options);
   }
 
   /**
@@ -310,14 +381,7 @@ export class EventHubBufferedProducerClient {
    * @throws AbortError if the operation is cancelled via the abortSignal.
    */
   getPartitionIds(options: GetPartitionIdsOptions = {}): Promise<Array<string>> {
-    return this._context
-      .managementSession!.getEventHubProperties({
-        ...options,
-        retryOptions: this._clientOptions.retryOptions
-      })
-      .then((eventHubProperties) => {
-        return eventHubProperties.partitionIds;
-      });
+    return this._producer.getPartitionIds(options);
   }
 
   /**
@@ -332,9 +396,39 @@ export class EventHubBufferedProducerClient {
     partitionId: string,
     options: GetPartitionPropertiesOptions = {}
   ): Promise<PartitionProperties> {
-    return this._context.managementSession!.getPartitionProperties(partitionId, {
-      ...options,
-      retryOptions: this._clientOptions.retryOptions
-    });
+    return this._producer.getPartitionProperties(partitionId, options);
+  }
+
+  /**
+   * Gets the `BatchingPartitionChannel` associated with the partitionId.
+   *
+   * If one does not exist, it is created.
+   */
+  private _getPartitionChannel(partitionId: string): BatchingPartitionChannel {
+    const partitionChannel =
+      this._partitionChannels.get(partitionId) ??
+      new BatchingPartitionChannel({
+        loopAbortSignal: this._abortController.signal,
+        maxBufferSize: this._clientOptions.maxEventBufferLengthPerPartition || 1500,
+        maxWaitTimeInMs: this._clientOptions.maxWaitTimeInMs || 250,
+        onSendEventsErrorHandler: this._clientOptions.onSendEventsErrorHandler,
+        onSendEventsSuccessHandler: this._clientOptions.onSendEventsSuccessHandler,
+        partitionId,
+        producer: this._producer
+      });
+    this._partitionChannels.set(partitionId, partitionChannel);
+    return partitionChannel;
+  }
+
+  /**
+   * Returns the total number of buffered events across all partitions.
+   */
+  private _getTotalBufferedEventsCount(): number {
+    let total = 0;
+    for (const [_, channel] of this._partitionChannels) {
+      total += channel.getCurrentBufferedCount();
+    }
+
+    return total;
   }
 }
