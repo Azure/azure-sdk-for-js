@@ -10,7 +10,7 @@ import { dataSectionTypeCode, defaultDataTransformer } from "../../src/dataTrans
 import { testWithServiceTypes } from "../public/utils/testWithServiceTypes";
 
 testWithServiceTypes(() => {
-  describe("DataTransformer", function () {
+  describe("DataTransformer", function() {
     const objectBody: any = {
       id: "123-456-789",
       weight: 10,
@@ -430,8 +430,8 @@ testWithServiceTypes(() => {
 
       it("should correctly decode a buffer message body and that body is a JSON string", (done) => {
         const jsonBody = {
-          foo: 'bar',
-        }
+          foo: "bar"
+        };
         const jsonStringBufferBody = Buffer.from(JSON.stringify(jsonBody), "utf8");
         const { body: decoded, bodyType: decodedType } = transformer.decode(jsonStringBufferBody);
         should.equal(decodedType, "data");
@@ -441,10 +441,13 @@ testWithServiceTypes(() => {
 
       it("should correctly decode a buffer message body and that body is a JSON string, setting disableDeserialization to true", (done) => {
         const jsonBody = {
-          foo: 'bar',
-        }
+          foo: "bar"
+        };
         const jsonStringBufferBody = Buffer.from(JSON.stringify(jsonBody), "utf8");
-        const { body: decoded, bodyType: decodedType } = transformer.decode(jsonStringBufferBody, true);
+        const { body: decoded, bodyType: decodedType } = transformer.decode(
+          jsonStringBufferBody,
+          true
+        );
         should.equal(decodedType, "data");
         assert.deepStrictEqual(decoded, jsonStringBufferBody);
         done();
@@ -452,13 +455,13 @@ testWithServiceTypes(() => {
 
       it("should correctly decode a buffer message body and that body is a JSON string for a rhea AMQP section", (done) => {
         const jsonBody = {
-          foo: 'bar',
-        }
+          foo: "bar"
+        };
         const jsonStringBufferBody = Buffer.from(JSON.stringify(jsonBody), "utf8");
         const rheaAmqpSection = {
           typecode: dataSectionTypeCode,
-          content: jsonStringBufferBody,
-        }
+          content: jsonStringBufferBody
+        };
         const { body: decoded, bodyType: decodedType } = transformer.decode(rheaAmqpSection);
         should.equal(decodedType, "data");
         assert.deepStrictEqual(decoded, jsonBody);
@@ -467,13 +470,13 @@ testWithServiceTypes(() => {
 
       it("should correctly decode a buffer message body and that body is a JSON string for a rhea AMQP section, setting disableDeserialization to true", (done) => {
         const jsonBody = {
-          foo: 'bar',
-        }
+          foo: "bar"
+        };
         const jsonStringBufferBody = Buffer.from(JSON.stringify(jsonBody), "utf8");
         const rheaAmqpSection = {
           typecode: dataSectionTypeCode,
-          content: jsonStringBufferBody,
-        }
+          content: jsonStringBufferBody
+        };
         const { body: decoded, bodyType: decodedType } = transformer.decode(rheaAmqpSection, true);
         should.equal(decodedType, "data");
         assert.deepStrictEqual(decoded, jsonStringBufferBody);
