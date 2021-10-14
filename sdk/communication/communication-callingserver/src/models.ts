@@ -3,7 +3,11 @@
 import { OperationOptions } from "@azure/core-http";
 import { PhoneNumberIdentifier } from "@azure/communication-common";
 
+import { CallMediaType, CallingEventSubscriptionType } from "./generated/src/models";
+
 export {
+  CallMediaType,
+  CallingEventSubscriptionType,
   PlayAudioResult,
   PlayAudioResultEvent,
   AddParticipantResult,
@@ -17,22 +21,8 @@ export {
   CommunicationIdentifierModel,
   CommunicationUserIdentifierModel,
   KnownToneValue,
-  KnownCallConnectionState,
-  KnownOperationStatus,
-  CallConnectionsCancelAllMediaOperationsResponse
+  KnownCallConnectionState
 } from "./generated/src/models";
-
-/** Known values of {@link MediaType} that the service accepts. */
-export const enum MediaType {
-  Audio = "audio",
-  Video = "video"
-}
-
-/** Known values of {@link EventSubscriptionType} that the service accepts. */
-export const enum EventSubscriptionType {
-  ParticipantsUpdated = "participantsUpdated",
-  ToneReceived = "toneReceived"
-}
 
 /**
  * Options to create a call.
@@ -45,9 +35,9 @@ export interface CreateCallOptions extends OperationOptions {
   /** The callback URI. */
   callbackUri: string;
   /** The requested modalities. */
-  requestedMediaTypes: MediaType[];
+  requestedMediaTypes: CallMediaType[];
   /** The requested call events to subscribe to. */
-  requestedCallEvents: EventSubscriptionType[];
+  requestedCallEvents: CallingEventSubscriptionType[];
 }
 
 /**
@@ -59,9 +49,9 @@ export interface JoinCallOptions extends OperationOptions {
   /** The callback URI. */
   callbackUri: string;
   /** The requested modalities. */
-  requestedMediaTypes?: MediaType[];
+  requestedMediaTypes?: CallMediaType[];
   /** The requested call events to subscribe to. */
-  requestedCallEvents?: EventSubscriptionType[];
+  requestedCallEvents?: CallingEventSubscriptionType[];
 }
 
 export interface PlayAudioOptions extends OperationOptions {
