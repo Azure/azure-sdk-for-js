@@ -4,7 +4,7 @@
 
 After multiple beta releases over the past year, we're proud to announce the general availability of version 2 of the `@azure/identity` package. This version includes the best parts of v1, plus several improvements.
 
-This changelog entry showcases the changes that have been made from version 1 of this package. See the [v1-to-v2 migration guide](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/migration-v1-v2.md) for details on how to upgrade your application to use the version 2 of `@azure/identity`.
+This changelog entry showcases the changes that have been made from version 1 of this package. See the [v1-to-v2 migration guide](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/migration-v1-v2.md) for details on how to upgrade your application to use the version 2 of `@azure/identity`. For information on troubleshooting the Identity package, see the [troubleshooting guide](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/Troubleshooting.md).
 
 ### Features Added
 
@@ -68,6 +68,7 @@ A new method `authenticate()` is added to these credentials which is similar to 
 - `authenticate()` might succeed and still return `undefined` if we're unable to pick just one account record from the cache. This might happen if the cache is being used by more than one credential, or if multiple users have authenticated using the same Client ID and Tenant ID. To ensure consistency on a program with many users, please keep track of the `AuthenticationRecord` and provide them in the constructors of the credentials on initialization.
 
 Learn more via the below samples
+
 - [Samples around controlling user interaction](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#control-user-interaction).
 - [Samples around persisting user authentication data](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#persist-user-authentication-data).
 
@@ -114,6 +115,7 @@ Azure Service Fabric support hasn't been added on the initial version 2 of Ident
 - Merged the configuration and the options bag on the `OnBehalfOfCredential` into a single options bag.
 - `AuthenticationRequiredError` (introduced in 2.0.0-beta.1) now has its parameters into a single options bag.
 - `AuthenticationRequiredError` (introduced in 2.0.0-beta.1) now has its parameters in a single options bag, `AuthenticationRequiredErrorOptions`.
+- `InteractiveBrowserCredentialOptions` has been renamed to `InteractiveBrowserCredentialNodeOptions`, and `InteractiveBrowserCredentialBrowserOptions` has been named `InteractiveBrowserCredentialInBrowserOptions`.
 
 ### Bugs Fixed
 

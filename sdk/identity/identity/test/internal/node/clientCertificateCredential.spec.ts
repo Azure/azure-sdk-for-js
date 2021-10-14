@@ -86,7 +86,7 @@ describe("ClientCertificateCredential (internal)", function() {
     errors.forEach((e) => {
       assert.equal(
         e.message,
-        "ClientCertificateCredential: Provide either a PEM certificate in string form, or the path to that certificate in the filesystem."
+        "ClientCertificateCredential: Provide either a PEM certificate in string form, or the path to that certificate in the filesystem. To troubleshoot, visit https://aka.ms/azsdk/js/identity/serviceprincipalauthentication/troubleshoot."
       );
     });
 
@@ -103,7 +103,7 @@ describe("ClientCertificateCredential (internal)", function() {
     assert.ok(error);
     assert.equal(
       (error as Error).message,
-      "ClientCertificateCredential: To avoid unexpected behaviors, providing both the contents of a PEM certificate and the path to a PEM certificate is forbidden."
+      "ClientCertificateCredential: To avoid unexpected behaviors, providing both the contents of a PEM certificate and the path to a PEM certificate is forbidden. To troubleshoot, visit https://aka.ms/azsdk/js/identity/serviceprincipalauthentication/troubleshoot."
     );
   });
 
