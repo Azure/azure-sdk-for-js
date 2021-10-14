@@ -35,7 +35,6 @@ export interface HubSendToAllOptions extends OperationOptions {
   excludedConnections?: string[];
 }
 
-
 /**
  * Options for sending text messages to hubs.
  */
