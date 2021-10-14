@@ -975,6 +975,11 @@
       "packageName": "@azure/arm-security",
       "projectFolder": "sdk/security/arm-security",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-operationalinsights",
+      "projectFolder": "sdk/operationalinsights/arm-operationalinsights",
+      "versionPolicyName": "management"
     }
   ]
 }
