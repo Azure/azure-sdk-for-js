@@ -199,7 +199,7 @@ export interface SubscribeOptions {
    */
   tracingOptions?: OperationTracingOptions;
   /**
-   * Boolean to skip automatic parsing when JSON string are received in the body.
+   * Optional boolean to disable automatic JSON parsing when receiving a string in the event body.
    */
   disableDeserialization?: boolean;
 }

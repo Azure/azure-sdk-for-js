@@ -75,15 +75,21 @@ export const defaultDataTransformer = {
    * indicating which part of the AMQP message the body was decoded from.
    *
    * @param body - The AMQP message body as received from rhea.
-   * @param disableDeserialization - Optional boolean to disable automatic JSON parsing when receiving JSON string in the event body.
+   * @param disableDeserialization - Optional boolean to disable automatic JSON parsing when receiving a string in the event body.
    * @returns The decoded/raw body and the body type.
    */
-  decode(body: unknown | RheaAmqpSection, disableDeserialization?: boolean): { body: unknown; bodyType: BodyTypes } {
+  decode(
+    body: unknown | RheaAmqpSection,
+    disableDeserialization?: boolean
+  ): { body: unknown; bodyType: BodyTypes } {
     try {
       if (isRheaAmqpSection(body)) {
         switch (body.typecode) {
           case dataSectionTypeCode:
-            return { body: tryToJsonDecode(body.content, disableDeserialization), bodyType: "data" };
+            return {
+              body: tryToJsonDecode(body.content, disableDeserialization),
+              bodyType: "data"
+            };
           case sequenceSectionTypeCode:
             return { body: body.content, bodyType: "sequence" };
           case valueSectionTypeCode:
@@ -111,7 +117,7 @@ export const defaultDataTransformer = {
  * verbatim.
  *
  * @param body - An AMQP message body.
- * @param disableDeserialization - Optional boolean to disable automatic JSON parsing when receiving JSON string in the event body.
+ * @param disableDeserialization - Optional boolean to disable automatic JSON parsing when receiving a string in the event body.
  * @returns A JSON decoded object, or body if body was not a JSON string.
  *
  * @internal
@@ -142,9 +148,9 @@ function tryToJsonDecode(body: unknown, disableDeserialization?: boolean): unkno
  */
 export interface RheaAmqpSection {
   typecode:
-  | typeof dataSectionTypeCode
-  | typeof sequenceSectionTypeCode
-  | typeof valueSectionTypeCode;
+    | typeof dataSectionTypeCode
+    | typeof sequenceSectionTypeCode
+    | typeof valueSectionTypeCode;
   content: any;
 }
 
