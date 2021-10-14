@@ -22,16 +22,17 @@ const environmentSetup: RecorderEnvironmentSetup = {
 };
 
 describe("Server Call Live Test", function() {
-  const connectionString =
-    env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING ||
-    "endpoint=https://endpoint/;accesskey=banana";
 
   describe("Recording Operations", function() {
     let recorder: Recorder;
+    let connectionString: string;
 
     beforeEach(async function(this: Context) {
       recorder = record(this, environmentSetup);
       /* Place your code here*/
+      connectionString =
+        env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING ||
+        "endpoint=https://endpoint/;accesskey=banana";
     });
 
     afterEach(async function(this: Context) {
@@ -40,7 +41,7 @@ describe("Server Call Live Test", function() {
       }
     });
 
-    it("Run all client recording operations", async function(this: Context) {
+    it.only("Run all client recording operations", async function(this: Context) {
       this.timeout(0);
       const groupId = TestUtils.getGroupId("Run all client recording operations");
       const fromUser = await TestUtils.getUserId("fromUser", connectionString);
