@@ -59,5 +59,5 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [updates]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/deviceupdate/iot-device-update-rest/samples/v1/javascript/updates.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/iot-device-update
 [freesub]: https://azure.microsoft.com/free/
-[createinstance_azuredeviceupdateforiothubinstance]: https://docs.microsoft.com/azure/iot-hub-device-update-rest/understand-device-update
-[package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/deviceupdate/iot-device-update/README.md
+[createinstance_azuredeviceupdateforiothubinstance]: https://docs.microsoft.com/azure/iot-hub-device-update/understand-device-update
+[package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/deviceupdate/iot-device-update-rest/README.md
