@@ -7,7 +7,7 @@ import * as Parameters from "./parameters";
 import * as Mappers from "./generated/src/models/mappers";
 import * as ExtraMappers from "./mappers";
 import { CallingServerApiClientContext } from "./generated/src/callingServerApiClientContext";
-import { URL } from "url";
+import { URLBuilder } from "@azure/core-http";
 import { OperationQueryParameter } from "@azure/core-http";
 import { createSpan } from "./tracing";
 import { SpanStatusCode } from "@azure/core-tracing";
@@ -65,8 +65,8 @@ export class ContentDownloader {
       options: operationOptionsToRequestOptionsBase(options || {})
     };
 
-    const q = new URL(contentUri);
-    const formattedUrl = q.pathname.startsWith("/") ? q.pathname.substr(1) : q.pathname;
+    const q = URLBuilder.parse(contentUri);
+    const formattedUrl = q.getPath()!.startsWith("/") ? q.getPath()!.substr(1) : q.getPath()!;
     const stringToSign = this.client.endpoint + formattedUrl;
     return this.client.sendOperationRequest(
       operationArguments,

@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import assert from "assert";
+import { assert } from "chai";
 import { CallingServerClient, ServerCallLocator } from "../../src";
 
 describe("ServerCall", function() {
   describe("Recording", function() {
-    it("Start recording with relative url fails", function() {
+    it("Start recording with relative url fails", async () => {
       const connectionString =
         "endpoint=https://REDACTED.communication.azure.com/;accesskey=eyJhbG==";
       const serverCallId =
@@ -13,10 +13,11 @@ describe("ServerCall", function() {
       const callingServerClient = new CallingServerClient(connectionString);
       const callLocator: ServerCallLocator = { serverCallId: serverCallId };
 
-      const execution = async function(): Promise<void> {
+      try{
         await callingServerClient.startRecording(callLocator, "/not/absolute/uri");
-      };
-      assert.rejects(execution, Error);
+      } catch (e) {
+        assert.equal((e as Error).message, "recordingStateCallbackUri is invalid.");
+      }
     });
   });
 });
