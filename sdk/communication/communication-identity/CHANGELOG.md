@@ -2,7 +2,7 @@
 
 ## 1.1.0-beta.1 (Unreleased)
 
-- Updated the version of the ACS Identity API to enable the Custom Teams Endpoint feature (the `exchangeTeamsToken` method) for Public Preview
+- Updated the version of Identity API to enable to build custom Teams endpoint using M365 Teams identities (the `exchangeTeamsToken` method)
 
 ### Features Added
 
