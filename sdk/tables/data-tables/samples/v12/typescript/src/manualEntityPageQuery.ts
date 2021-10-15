@@ -6,12 +6,7 @@
  * @summary queries entities in a table by page manually handling continuation tokens
  */
 
-import {
-  TableClient,
-  AzureSASCredential,
-  TransactionAction,
-  TableEntityResultPage
-} from "@azure/data-tables";
+import { TableClient, AzureSASCredential, TransactionAction } from "@azure/data-tables";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -36,30 +31,33 @@ async function listEntitiesPage() {
   }
   await client.submitTransaction(actions);
 
-  // Get the first page and limit the size to 2 entities by page
+  // Limit the size to 2 entities by page
   let iterator = client.listEntities().byPage({ maxPageSize: 2 });
 
-  let pageCount = 0;
-
-  while (true) {
-    const result = await iterator.next();
-    const page: TableEntityResultPage<any> = result.value;
-    if (!page.continuationToken) {
-      break;
+  // Iterating the pages to find the page that contains row key 50
+  let interestingPage: string | undefined;
+  for await (const page of iterator) {
+    if (page.some((p) => p.rowKey === "50")) {
+      interestingPage = page.continuationToken;
     }
-
-    pageCount++;
-    console.log(
-      `Page #${pageCount} has ${page.length} entities ${page.map((p: any) => p.foo).join(", ")}`
-    );
-
-    // Manually set continuation token to be the one corresponding to the next page.
-    iterator = client
-      .listEntities()
-      .byPage({ maxPageSize: 2, continuationToken: page.continuationToken });
   }
 
-  console.log(`Total pages: ${pageCount}`);
+  if (!interestingPage) {
+    console.error("Didn't find entity with rowKey = 50");
+    return;
+  }
+
+  // Fetch only the page that contains rowKey 50;
+  const page = await client
+    .listEntities()
+    .byPage({ maxPageSize: 2, continuationToken: interestingPage })
+    .next();
+
+  if (!page.done) {
+    for (const entity of page.value) {
+      console.log(entity.rowKey);
+    }
+  }
 }
 
 listEntitiesPage().catch((err) => {

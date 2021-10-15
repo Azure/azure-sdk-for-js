@@ -294,7 +294,7 @@ export type TableEntityResult<T> = T & {
 };
 
 // @public
-export type TableEntityResultPage<T> = Array<T> & {
+export type TableEntityResultPage<T> = Array<TableEntityResult<T>> & {
     continuationToken?: string;
 };
 

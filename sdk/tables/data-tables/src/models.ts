@@ -115,7 +115,7 @@ export type TableEntityResult<T> = T & {
 /**
  * Output page type for query operations
  */
-export type TableEntityResultPage<T> = Array<T> & {
+export type TableEntityResultPage<T> = Array<TableEntityResult<T>> & {
   /**
    * Continuation token to get the next page
    */

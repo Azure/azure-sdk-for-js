@@ -18,7 +18,6 @@ import {
   SignedIdentifier,
   GetAccessPolicyResponse,
   TableEntityResultPage
-  
 } from "./models";
 import {
   UpdateEntityResponse,
@@ -444,10 +443,7 @@ export class TableClient {
   public listEntities<T extends object = Record<string, unknown>>(
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: ListTableEntitiesOptions = {}
-  ): PagedAsyncIterableIterator<
-    TableEntityResult<T>,
-    TableEntityResultPage<T>
-  > {
+  ): PagedAsyncIterableIterator<TableEntityResult<T>, TableEntityResultPage<T>> {
     const tableName = this.tableName;
     const iter = this.listEntitiesAll<T>(tableName, options);
 
