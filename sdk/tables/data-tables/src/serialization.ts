@@ -183,7 +183,7 @@ function inferTypedObject(propertyName: string, value: number | string | boolean
  */
 function getTypedNumber(value: number): { value: string; type: "Int32" | "Double" } {
   const valueStr = String(value);
-  if (Number.isInteger(value) && Number.isSafeInteger(value)) {
+  if (Number.isSafeInteger(value)) {
     return { value: valueStr, type: "Int32" };
   } else {
     return { value: valueStr, type: "Double" };
