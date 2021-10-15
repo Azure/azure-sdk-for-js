@@ -40,13 +40,6 @@ describe("Secret client - list secrets in various ways", () => {
   // The next tests will produce a more consistent output.
   // This test is only useful while developing locally.
   it("can purge all secrets", async function(this: Context): Promise<void> {
-    console.log("------------------");
-    var aa = process.env["ENABLEHSM"];
-    console.log(aa);
-    // for (var i = 0; i < aa.length; i++) {
-    //     console.log(aa[i]);
-    // }
-    console.log("-------------------");
     // WARNING: When TEST_MODE equals "record", all of the secrets in the indicated KEYVAULT_URI will be deleted as part of this test.
     if (!isRecordMode()) {
       return this.skip();
