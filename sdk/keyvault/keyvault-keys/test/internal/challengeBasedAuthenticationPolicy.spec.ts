@@ -16,7 +16,7 @@ import { KeyClient } from "../../src";
 import { authenticate } from "../utils/testAuthentication";
 import TestClient from "../utils/testClient";
 import { getServiceVersion } from "../utils/utils.common";
-import { HttpHeaders, WebResource } from "@azure/core-http";
+import { HttpHeaders, isNode, WebResource } from "@azure/core-http";
 import { ClientSecretCredential } from "@azure/identity";
 import sinon from "sinon";
 
@@ -95,6 +95,22 @@ describe("Challenge based authentication tests", () => {
     sandbox.restore();
 
     // Note: Failing to authenticate will make network requests throw.
+  });
+
+  it.only("supports multi-tenant authentication", async function(this: Context) {
+    if (!isNode) {
+      this.skip();
+    }
+    const credential = new ClientSecretCredential(
+      // any bogus tenant would suffice, because the challenge tenantId will be used
+      "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee",
+      env.AZURE_CLIENT_ID!,
+      env.AZURE_CLIENT_SECRET!
+    );
+
+    const subject = new KeyClient(client.vaultUrl, credential);
+    const keyName = recorder.getUniqueName("multitenantauth");
+    await subject.createRsaKey(keyName);
   });
 });
 
