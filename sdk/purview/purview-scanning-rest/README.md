@@ -91,10 +91,11 @@ async function main() {
   );
 
   const dataSources = await client.path("/datasources").get();
-  const iter = paginate(client, dataSources)
   if (dataSources.status !== "200") {
     throw dataSources.body.error;
   }
+  const iter = paginate(client, dataSources)
+
   const items: DataSource[] = [];
 
   for await (const item of <PagedAsyncIterableIterator<DataSource, (DataSource)[], PageSettings>>iter) {

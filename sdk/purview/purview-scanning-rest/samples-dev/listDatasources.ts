@@ -22,10 +22,10 @@ async function main() {
   const client = PurviewScanning(endpoint, new DefaultAzureCredential());
 
   const dataSources = await client.path("/datasources").get();
-  const iter = paginate(client, dataSources);
   if (dataSources.status !== "200") {
-    throw dataSources;
+    throw dataSources.body.error;
   }
+  const iter = paginate(client, dataSources);
 
   const items: DataSource[] = [];
 
