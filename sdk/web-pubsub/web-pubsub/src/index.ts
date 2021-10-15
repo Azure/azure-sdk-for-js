@@ -5,7 +5,9 @@ export {
   WebPubSubServiceClient,
   HubSendToAllOptions,
   ClientTokenResponse,
-  CloseConnectionOptions,
+  HubCloseConnectionOptions,
+  HubCloseAllConnectionsOptions,
+  HubCloseUserConnectionsOptions,
   GenerateClientTokenOptions,
   HasConnectionOptions,
   HubHasGroupOptions,
@@ -26,6 +28,7 @@ export {
 export {
   WebPubSubGroup,
   GroupAddConnectionOptions,
+  GroupCloseAllConnectionsOptions,
   GroupAddUserOptions,
   GroupAdminClientOptions,
   GroupHasUserOptions,

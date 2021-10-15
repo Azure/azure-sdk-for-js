@@ -12,10 +12,10 @@ import {
   OperationParameter
 } from "@azure/core-client";
 
-export const $host: OperationURLParameter = {
-  parameterPath: "$host",
+export const endpoint: OperationURLParameter = {
+  parameterPath: "endpoint",
   mapper: {
-    serializedName: "$host",
+    serializedName: "Endpoint",
     required: true,
     type: {
       name: "String"
@@ -27,7 +27,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-08-01-preview",
+    defaultValue: "2021-10-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -65,7 +65,6 @@ export const hub: OperationURLParameter = {
 export const userId: OperationQueryParameter = {
   parameterPath: ["options", "userId"],
   mapper: {
-    defaultValue: "",
     serializedName: "userId",
     type: {
       name: "String"
@@ -100,6 +99,32 @@ export const expirationTimeInMinutes: OperationQueryParameter = {
   }
 };
 
+export const excluded: OperationQueryParameter = {
+  parameterPath: ["options", "excluded"],
+  mapper: {
+    serializedName: "excluded",
+    type: {
+      name: "Sequence",
+      element: {
+        type: {
+          name: "String"
+        }
+      }
+    }
+  },
+  collectionFormat: "Multi"
+};
+
+export const reason: OperationQueryParameter = {
+  parameterPath: ["options", "reason"],
+  mapper: {
+    serializedName: "reason",
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const contentType: OperationParameter = {
   parameterPath: "contentType",
   mapper: {
@@ -123,6 +148,18 @@ export const message: OperationParameter = {
   }
 };
 
+export const accept1: OperationParameter = {
+  parameterPath: "accept",
+  mapper: {
+    defaultValue: "application/json, text/json",
+    isConstant: true,
+    serializedName: "Accept",
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const contentType1: OperationParameter = {
   parameterPath: "contentType",
   mapper: {
@@ -140,6 +177,18 @@ export const message1: OperationParameter = {
   mapper: {
     serializedName: "message",
     required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const accept2: OperationParameter = {
+  parameterPath: "accept",
+  mapper: {
+    defaultValue: "application/json, text/json",
+    isConstant: true,
+    serializedName: "Accept",
     type: {
       name: "String"
     }
@@ -170,16 +219,6 @@ export const connectionId: OperationURLParameter = {
     },
     serializedName: "connectionId",
     required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const reason: OperationQueryParameter = {
-  parameterPath: ["options", "reason"],
-  mapper: {
-    serializedName: "reason",
     type: {
       name: "String"
     }

@@ -46,6 +46,6 @@ const getServiceStatusOperationSpec: coreClient.OperationSpec = {
   httpMethod: "HEAD",
   responses: { 200: {}, default: {} },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host],
+  urlParameters: [Parameters.endpoint],
   serializer
 };

@@ -18,12 +18,33 @@ import { webPubSubReverseProxyPolicy } from "./reverseProxyPolicy";
 /**
  * Options for closing a connection to a hub.
  */
-export interface CloseConnectionOptions extends OperationOptions {
+export interface HubCloseConnectionOptions extends OperationOptions {
   /**
    * Reason the connection is being closed.
    */
   reason?: string;
 }
+
+/**
+ * Options for closing all connections to a hub.
+ */
+ export interface HubCloseAllConnectionsOptions extends OperationOptions {
+  /**
+   * Reason the connection is being closed.
+   */
+  reason?: string;
+}
+
+/**
+ * Options for closing all of a user's connections to a hub.
+ */
+ export interface HubCloseUserConnectionsOptions extends OperationOptions {
+  /**
+   * Reason the connection is being closed.
+   */
+  reason?: string;
+}
+
 
 /**
  * Options for sending messages to hubs.
@@ -34,6 +55,7 @@ export interface HubSendToAllOptions extends OperationOptions {
    */
   excludedConnections?: string[];
 }
+
 
 /**
  * Options for sending text messages to hubs.
@@ -76,7 +98,7 @@ export interface HubHasUserOptions extends OperationOptions {}
 /**
  * Options for removing a user from all groups.
  */
-export interface HubRemoveUserFromAllGroupsOptions extends CloseConnectionOptions {}
+export interface HubRemoveUserFromAllGroupsOptions extends HubCloseConnectionOptions {}
 
 /**
  * Options for sending a message to a specific connection.
@@ -197,7 +219,7 @@ export class WebPubSubServiceClient {
   /**
    * The Web PubSub API version being used by this client
    */
-  public readonly apiVersion: string = "2021-08-01-preview";
+  public readonly apiVersion: string = "2021-10-01";
 
   /**
    * The Web PubSub endpoint this client is connected to
@@ -519,10 +541,10 @@ export class WebPubSubServiceClient {
    */
   public async closeConnection(
     connectionId: string,
-    options: CloseConnectionOptions = {}
+    options: HubCloseConnectionOptions = {}
   ): Promise<void> {
     const { span, updatedOptions } = createSpan(
-      "WebPubSubServiceClient-hub-removeConnection",
+      "WebPubSubServiceClient-hub-closeConnection",
       options
     );
 
@@ -538,13 +560,62 @@ export class WebPubSubServiceClient {
   }
 
   /**
+   * Close all connections to this hub
+   *
+   * @param options - Additional options
+   */
+   public async closeAllConnections(
+    options: HubCloseAllConnectionsOptions = {}
+  ): Promise<void> {
+    const { span, updatedOptions } = createSpan(
+      "WebPubSubServiceClient-hub-closeAllConnections",
+      options
+    );
+
+    try {
+      return await this.client.webPubSub.closeAllConnections(
+        this.hubName,
+        updatedOptions
+      );
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Close all connections with the given user id
+   *
+   * @param user - User id to close
+   * @param options - Additional options
+   */
+   public async closeUserConnections(
+    userId: string,
+    options: HubCloseUserConnectionsOptions = {}
+  ): Promise<void> {
+    const { span, updatedOptions } = createSpan(
+      "WebPubSubServiceClient-hub-closeUserConnections",
+      options
+    );
+
+    try {
+      return await this.client.webPubSub.closeUserConnections(
+        this.hubName,
+        userId,
+        updatedOptions
+      );
+    } finally {
+      span.end();
+    }
+  }  
+
+  /**
    * Remove a specific user from all groups they are joined to
    * @param userId - The user id to remove from all groups
    * @param options - Additional options
    */
   public async removeUserFromAllGroups(
     userId: string,
-    options: CloseConnectionOptions = {}
+    options: HubCloseConnectionOptions = {}
   ): Promise<void> {
     const { span, updatedOptions } = createSpan(
       "WebPubSubServiceClient-hub-removeUserFromAllGroups",

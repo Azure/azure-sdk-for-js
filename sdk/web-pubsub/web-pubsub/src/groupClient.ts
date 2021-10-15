@@ -59,6 +59,18 @@ export interface GroupSendTextToAllOptions extends OperationOptions {
   contentType: "text/plain";
 }
 
+
+/**
+ * Options for closing all connections to a group.
+ */
+ export interface GroupCloseAllConnectionsOptions extends OperationOptions {
+  /**
+   * Reason the connection is being closed.
+   */
+  reason?: string;
+}
+
+
 export interface WebPubSubGroup {
   /**
    * The name of this group
@@ -237,6 +249,29 @@ export class WebPubSubGroupImpl implements WebPubSubGroup {
     }
   }
 
+  /**
+   * Close all connections to this group
+   *
+   * @param options - Additional options
+   */
+   public async closeAllConnections(
+    options: GroupCloseAllConnectionsOptions = {}
+  ): Promise<void> {
+    const { span, updatedOptions } = createSpan(
+      "WebPubSubServiceClient-hub-closeAllConnections",
+      options
+    );
+
+    try {
+      return await this.client.webPubSub.closeGroupConnections(
+        this.hubName,
+        this.groupName,
+        updatedOptions
+      );
+    } finally {
+      span.end();
+    }
+  }
   /**
    * Add a user to this group
    *

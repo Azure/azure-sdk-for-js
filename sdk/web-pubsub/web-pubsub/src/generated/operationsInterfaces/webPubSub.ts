@@ -10,6 +10,7 @@ import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import {
   WebPubSubGenerateClientTokenOptionalParams,
   WebPubSubGenerateClientTokenResponse,
+  WebPubSubCloseAllConnectionsOptionalParams,
   ContentType,
   WebPubSubSendToAll$binaryOptionalParams,
   WebPubSubSendToAll$textOptionalParams,
@@ -18,11 +19,13 @@ import {
   WebPubSubSendToConnection$binaryOptionalParams,
   WebPubSubSendToConnection$textOptionalParams,
   WebPubSubGroupExistsOptionalParams,
+  WebPubSubCloseGroupConnectionsOptionalParams,
   WebPubSubSendToGroup$binaryOptionalParams,
   WebPubSubSendToGroup$textOptionalParams,
   WebPubSubAddConnectionToGroupOptionalParams,
   WebPubSubRemoveConnectionFromGroupOptionalParams,
   WebPubSubUserExistsOptionalParams,
+  WebPubSubCloseUserConnectionsOptionalParams,
   WebPubSubSendToUser$binaryOptionalParams,
   WebPubSubSendToUser$textOptionalParams,
   WebPubSubAddUserToGroupOptionalParams,
@@ -46,6 +49,16 @@ export interface WebPubSub {
     hub: string,
     options?: WebPubSubGenerateClientTokenOptionalParams
   ): Promise<WebPubSubGenerateClientTokenResponse>;
+  /**
+   * Close the connections in the hub.
+   * @param hub Target hub name, which should start with alphabetic characters and only contain
+   *            alpha-numeric characters or underscore.
+   * @param options The options parameters.
+   */
+  closeAllConnections(
+    hub: string,
+    options?: WebPubSubCloseAllConnectionsOptionalParams
+  ): Promise<void>;
   /**
    * Broadcast content inside request body to all the connected client connections.
    * @param args Includes all the parameters for this operation.
@@ -118,6 +131,18 @@ export interface WebPubSub {
     options?: WebPubSubGroupExistsOptionalParams
   ): Promise<void>;
   /**
+   * Close connections in the specific group.
+   * @param hub Target hub name, which should start with alphabetic characters and only contain
+   *            alpha-numeric characters or underscore.
+   * @param group Target group name, which length should be greater than 0 and less than 1025.
+   * @param options The options parameters.
+   */
+  closeGroupConnections(
+    hub: string,
+    group: string,
+    options?: WebPubSubCloseGroupConnectionsOptionalParams
+  ): Promise<void>;
+  /**
    * Send content inside request body to a group of connections.
    * @param args Includes all the parameters for this operation.
    */
@@ -177,6 +202,18 @@ export interface WebPubSub {
     hub: string,
     userId: string,
     options?: WebPubSubUserExistsOptionalParams
+  ): Promise<void>;
+  /**
+   * Close connections for the specific user.
+   * @param hub Target hub name, which should start with alphabetic characters and only contain
+   *            alpha-numeric characters or underscore.
+   * @param userId The user Id.
+   * @param options The options parameters.
+   */
+  closeUserConnections(
+    hub: string,
+    userId: string,
+    options?: WebPubSubCloseUserConnectionsOptionalParams
   ): Promise<void>;
   /**
    * Send content inside request body to the specific user.
