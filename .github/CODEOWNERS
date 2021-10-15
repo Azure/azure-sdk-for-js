@@ -66,7 +66,7 @@
 /sdk/keyvault/ @maorleger @sadasant 
 
 # PRLabel: %Service Bus
-/sdk/servicebus/ @deyaaeldeen @jeremymeng @HarshaNalluru @ramya-rao-a
+/sdk/servicebus/ @deyaaeldeen @jeremymeng @HarshaNalluru @ramya-rao-a @richardpark-msft 
 
 # PRLabel: %Storage
 /sdk/storage/ @XiaoningLiu @jeremymeng @vinjiang @jiacfan @ljian3377 @EmmaZhu
