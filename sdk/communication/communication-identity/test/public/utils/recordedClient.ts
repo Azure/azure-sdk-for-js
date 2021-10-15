@@ -41,11 +41,11 @@ const replaceableVariables: { [k: string]: string } = {
   AZURE_TENANT_ID: "SomeTenantId",
   COMMUNICATION_MSAL_USERNAME: "MSALUsername",
   COMMUNICATION_MSAL_PASSWORD: "MSALPassword",
-  COMMUNICATION_M365_APP_ID: "M365AppId",
-  COMMUNICATION_M365_AAD_TENANT: "M365AADTenant",
+  COMMUNICATION_M365_APP_ID: "00000000-0000-0000-0000-000000000000",
+  COMMUNICATION_M365_AAD_TENANT: "00000000-0000-0000-0000-000000000000",
   COMMUNICATION_M365_SCOPE: "M365Scope",
   COMMUNICATION_EXPIRED_TEAMS_TOKEN: "ExpiredToken",
-  SKIP_INT_IDENTITY_EXCHANGE_TOKEN_TEST: "true"
+  SKIP_INT_IDENTITY_EXCHANGE_TOKEN_TEST: "false"
 };
 
 export const environmentSetup: RecorderEnvironmentSetup = {
@@ -55,7 +55,7 @@ export const environmentSetup: RecorderEnvironmentSetup = {
       recording.replace(/"token"\s?:\s?"[^"]*"/g, `"token":"sanitized"`),
     (recording: string): string =>
       recording.replace(/"access_token"\s?:\s?"[^"]*"/g, `"access_token":"sanitized"`),
-    (recording: string): string => recording.replace(/(https:\/\/)([^/',]*)/, "$1endpoint"),
+      (recording: string): string => recording.replace(/(https:\/\/)([^/',]*)/, "$1endpoint"),
     (recording: string): string => recording.replace(/"id"\s?:\s?"[^"]*"/g, `"id":"sanitized"`),
     (recording: string): string => {
       return recording.replace(
@@ -67,7 +67,10 @@ export const environmentSetup: RecorderEnvironmentSetup = {
       recording.replace(/\/identities\/[^/'",]*/, "/identities/sanitized"),
     (recording: string): string => recording.replace(/\+\d{1}\d{3}\d{3}\d{4}/g, "+18005551234"),
     (recording: string): string =>
-      recording.replace(/[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}/gi, "sanitized")
+      recording.replace(
+        /[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}/gi,
+        "00000000-0000-0000-0000-000000000000"
+      )
   ],
   queryParametersToSkip: []
 };
