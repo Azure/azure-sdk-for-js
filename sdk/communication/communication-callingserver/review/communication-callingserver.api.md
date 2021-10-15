@@ -4,6 +4,9 @@
 
 ```ts
 
+/// <reference types="node" />
+/// <reference lib="esnext.asynciterable" />
+
 import { AbortSignalLike } from '@azure/abort-controller';
 import { CommunicationIdentifier } from '@azure/communication-common';
 import * as coreHttp from '@azure/core-http';
@@ -358,7 +361,6 @@ export interface ToneReceivedEvent {
 
 // @public
 export type TransferCallOptions = OperationOptions;
-
 
 // (No @packageDocumentation comment for this package)
 
