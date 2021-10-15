@@ -113,6 +113,16 @@ export type TableEntityResult<T> = T & {
 };
 
 /**
+ * Output page type for query operations
+ */
+export type TableEntityResultPage<T> = Array<TableEntityResult<T>> & {
+  /**
+   * Continuation token to get the next page
+   */
+  continuationToken?: string;
+};
+
+/**
  * List entities optional parameters.
  */
 export type ListTableEntitiesOptions = OperationOptions & {

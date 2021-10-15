@@ -6,7 +6,7 @@
 
 ```yaml
 v3: true
-package-version: 12.1.3
+package-version: 12.2.0
 package-name: "@azure/data-tables"
 title: TablesClient
 description: Tables Client
