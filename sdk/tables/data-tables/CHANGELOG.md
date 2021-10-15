@@ -1,8 +1,9 @@
 # Release History
 
-## 12.1.3 (Unreleased)
+## 12.2.0 (Unreleased)
 
 ### Features Added
+- Take `continuationToken` as a `PageSetting` and expose it in the page when listing entities `byPage`. [#](https://github.com/Azure/azure-sdk-for-js/pull/)
 
 ### Breaking Changes
 

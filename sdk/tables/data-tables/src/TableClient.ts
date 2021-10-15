@@ -16,7 +16,9 @@ import {
   TransactionAction,
   TableTransactionResponse,
   SignedIdentifier,
-  GetAccessPolicyResponse
+  GetAccessPolicyResponse,
+  TableEntityResultPage,
+  TableEntityPageSettings
 } from "./models";
 import {
   UpdateEntityResponse,
@@ -24,7 +26,10 @@ import {
   DeleteTableEntityResponse,
   SetAccessPolicyResponse
 } from "./generatedModels";
-import { QueryOptions as GeneratedQueryOptions } from "./generated/models";
+import {
+  QueryOptions as GeneratedQueryOptions,
+  TableQueryEntitiesOptionalParams
+} from "./generated/models";
 import { getClientParamsFromConnectionString } from "./utils/connectionString";
 import {
   isNamedKeyCredential,
@@ -64,6 +69,7 @@ import { isCredential } from "./utils/isCredential";
 import { tablesSASTokenPolicy } from "./tablesSASTokenPolicy";
 import { isCosmosEndpoint } from "./utils/isCosmosEndpoint";
 import { cosmosPatchPolicy } from "./cosmosPathPolicy";
+import { decodeContinuationToken, encodeContinuationToken } from "./utils/continuationToken";
 
 /**
  * A TableClient represents a Client to the Azure Tables service allowing you
@@ -438,7 +444,11 @@ export class TableClient {
   public listEntities<T extends object = Record<string, unknown>>(
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: ListTableEntitiesOptions = {}
-  ): PagedAsyncIterableIterator<TableEntityResult<T>, TableEntityResult<T>[]> {
+  ): PagedAsyncIterableIterator<
+    TableEntityResult<T>,
+    TableEntityResultPage<T>,
+    TableEntityPageSettings
+  > {
     const tableName = this.tableName;
     const iter = this.listEntitiesAll<T>(tableName, options);
 
@@ -454,6 +464,11 @@ export class TableClient {
           ...options,
           queryOptions: { ...options.queryOptions, top: settings?.maxPageSize }
         };
+
+        if (settings?.continuationToken) {
+          pageOptions.continuationToken = settings.continuationToken;
+        }
+
         return this.listEntitiesPage(tableName, pageOptions);
       }
     };
@@ -464,13 +479,11 @@ export class TableClient {
     options?: InternalListTableEntitiesOptions
   ): AsyncIterableIterator<TableEntityResult<T>> {
     const firstPage = await this._listEntities<T>(tableName, options);
-    const { nextPartitionKey, nextRowKey } = firstPage;
     yield* firstPage;
-    if (nextRowKey && nextPartitionKey) {
+    if (firstPage.continuationToken) {
       const optionsWithContinuation: InternalListTableEntitiesOptions = {
         ...options,
-        nextPartitionKey,
-        nextRowKey
+        continuationToken: firstPage.continuationToken
       };
       for await (const page of this.listEntitiesPage<T>(tableName, optionsWithContinuation)) {
         yield* page;
@@ -489,12 +502,12 @@ export class TableClient {
 
       yield result;
 
-      while (result.nextPartitionKey && result.nextRowKey) {
+      while (result.continuationToken) {
         const optionsWithContinuation: InternalListTableEntitiesOptions = {
           ...updatedOptions,
-          nextPartitionKey: result.nextPartitionKey,
-          nextRowKey: result.nextRowKey
+          continuationToken: result.continuationToken
         };
+
         result = await this._listEntities(tableName, optionsWithContinuation);
 
         yield result;
@@ -516,23 +529,34 @@ export class TableClient {
   ): Promise<ListEntitiesResponse<TableEntityResult<T>>> {
     const { disableTypeConversion = false } = options;
     const queryOptions = this.convertQueryOptions(options.queryOptions || {});
+    const listEntitiesOptions: TableQueryEntitiesOptionalParams = {
+      ...options,
+      queryOptions
+    };
+
+    // If a continuation token is used, decode it and set the next row and partition key
+    if (options.continuationToken) {
+      const continuationToken = decodeContinuationToken(options.continuationToken);
+      listEntitiesOptions.nextRowKey = continuationToken.nextRowKey;
+      listEntitiesOptions.nextPartitionKey = continuationToken.nextPartitionKey;
+    }
+
     const {
       xMsContinuationNextPartitionKey: nextPartitionKey,
       xMsContinuationNextRowKey: nextRowKey,
       value
-    } = await this.table.queryEntities(tableName, {
-      ...options,
-      queryOptions
-    });
+    } = await this.table.queryEntities(tableName, listEntitiesOptions);
 
     const tableEntities = deserializeObjectsArray<TableEntityResult<T>>(
       value ?? [],
       disableTypeConversion
     );
 
+    // Encode nextPartitionKey and nextRowKey as a single continuation token and add it as a
+    // property to the page.
+    const continuationToken = encodeContinuationToken(nextPartitionKey, nextRowKey);
     return Object.assign([...tableEntities], {
-      nextPartitionKey,
-      nextRowKey
+      continuationToken
     });
   }
 
@@ -945,11 +969,7 @@ interface InternalListTableEntitiesOptions extends ListTableEntitiesOptions {
   /**
    * An entity query continuation token from a previous call.
    */
-  nextPartitionKey?: string;
-  /**
-   * An entity query continuation token from a previous call.
-   */
-  nextRowKey?: string;
+  continuationToken?: string;
   /**
    * If true, automatic type conversion will be disabled and entity properties will
    * be represented by full metadata types. For example, an Int32 value will be \{value: "123", type: "Int32"\} instead of 123.

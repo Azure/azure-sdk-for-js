@@ -12,19 +12,20 @@ urlFragment: data-tables-typescript
 
 These sample programs show how to use the TypeScript client libraries for Azure Data Tables in some common scenarios.
 
-| **File Name**                                         | **Description**                                            |
-| ----------------------------------------------------- | ---------------------------------------------------------- |
-| [workingWithBigInt.ts][workingwithbigint]             | creates and works with an entity containing a bigint       |
-| [workingWithInt64.ts][workingwithint64]               | creates and works with an entity containing an Int64 value |
-| [transactionWithHelper.ts][transactionwithhelper]     | sends transactional request using TableTransaction helper  |
-| [transactionOperations.ts][transactionoperations]     | sends transactional batch requests                         |
-| [authenticationMethods.ts][authenticationmethods]     | authenticates using different authentication methods       |
-| [createAndDeleteEntities.ts][createanddeleteentities] | creates and deletes a entities in a table                  |
-| [createAndDeleteTable.ts][createanddeletetable]       | creates and deletes a table                                |
-| [generateTableSAS.ts][generatetablesas]               | generate a Table Account SAS token                         |
-| [queryEntities.ts][queryentities]                     | queries entities in a table                                |
-| [queryTables.ts][querytables]                         | queries tables                                             |
-| [updateAndUpsertEntities.ts][updateandupsertentities] | updates and upserts entities in a table                    |
+| **File Name**                                         | **Description**                                                           |
+| ----------------------------------------------------- | ------------------------------------------------------------------------- |
+| [workingWithBigInt.ts][workingwithbigint]             | creates and works with an entity containing a bigint                      |
+| [workingWithInt64.ts][workingwithint64]               | creates and works with an entity containing an Int64 value                |
+| [transactionWithHelper.ts][transactionwithhelper]     | sends transactional request using TableTransaction helper                 |
+| [manualEntityPageQuery.ts][manualentitypagequery]     | queries entities in a table by page manually handling continuation tokens |
+| [transactionOperations.ts][transactionoperations]     | sends transactional batch requests                                        |
+| [authenticationMethods.ts][authenticationmethods]     | authenticates using different authentication methods                      |
+| [createAndDeleteEntities.ts][createanddeleteentities] | creates and deletes a entities in a table                                 |
+| [createAndDeleteTable.ts][createanddeletetable]       | creates and deletes a table                                               |
+| [generateTableSAS.ts][generatetablesas]               | generate a Table Account SAS token                                        |
+| [queryEntities.ts][queryentities]                     | queries entities in a table                                               |
+| [queryTables.ts][querytables]                         | queries tables                                                            |
+| [updateAndUpsertEntities.ts][updateandupsertentities] | updates and upserts entities in a table                                   |
 
 ## Prerequisites
 
@@ -81,6 +82,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [workingwithbigint]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/tables/data-tables/samples/v12/typescript/src/workingWithBigInt.ts
 [workingwithint64]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/tables/data-tables/samples/v12/typescript/src/workingWithInt64.ts
 [transactionwithhelper]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/tables/data-tables/samples/v12/typescript/src/transactionWithHelper.ts
+[manualentitypagequery]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/tables/data-tables/samples/v12/typescript/src/manualEntityPageQuery.ts
 [transactionoperations]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/tables/data-tables/samples/v12/typescript/src/transactionOperations.ts
 [authenticationmethods]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/tables/data-tables/samples/v12/typescript/src/authenticationMethods.ts
 [createanddeleteentities]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/tables/data-tables/samples/v12/typescript/src/createAndDeleteEntities.ts

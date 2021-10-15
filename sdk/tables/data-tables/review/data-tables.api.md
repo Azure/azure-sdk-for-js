@@ -238,7 +238,7 @@ export class TableClient {
     static fromConnectionString(connectionString: string, tableName: string, options?: TableServiceClientOptions): TableClient;
     getAccessPolicy(options?: OperationOptions): Promise<GetAccessPolicyResponse>;
     getEntity<T extends object = Record<string, unknown>>(partitionKey: string, rowKey: string, options?: GetTableEntityOptions): Promise<GetTableEntityResponse<TableEntityResult<T>>>;
-    listEntities<T extends object = Record<string, unknown>>(options?: ListTableEntitiesOptions): PagedAsyncIterableIterator<TableEntityResult<T>, TableEntityResult<T>[]>;
+    listEntities<T extends object = Record<string, unknown>>(options?: ListTableEntitiesOptions): PagedAsyncIterableIterator<TableEntityResult<T>, TableEntityResultPage<T>, TableEntityPageSettings>;
     pipeline: Pipeline;
     setAccessPolicy(tableAcl: SignedIdentifier[], options?: OperationOptions): Promise<SetAccessPolicyResponse>;
     submitTransaction(actions: TransactionAction[]): Promise<TableTransactionResponse>;
@@ -280,6 +280,12 @@ export type TableEntity<T extends object = Record<string, unknown>> = T & {
 };
 
 // @public
+export type TableEntityPageSettings = {
+    maxPageSize?: number;
+    continuationToken?: string;
+};
+
+// @public
 export interface TableEntityQueryOptions {
     filter?: string;
     select?: string[];
@@ -291,6 +297,11 @@ export type TableEntityResult<T> = T & {
     partitionKey?: string;
     rowKey?: string;
     timestamp?: string;
+};
+
+// @public
+export type TableEntityResultPage<T> = Array<T> & {
+    continuationToken?: string;
 };
 
 // @public
@@ -447,7 +458,6 @@ export type UpdateTableEntityOptions = OperationOptions & {
 
 // @public
 export type UpsertEntityResponse = TableMergeEntityHeaders;
-
 
 // (No @packageDocumentation comment for this package)
 
