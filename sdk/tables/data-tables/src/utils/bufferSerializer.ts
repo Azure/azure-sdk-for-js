@@ -6,7 +6,7 @@
  * @param value - The Uint8Aray to encode
  * @param value - The Uint8Aray or string to encode
  */
- export function base64Encode(value: Uint8Array): string {
+export function base64Encode(value: Uint8Array): string {
   const bufferValue = value instanceof Buffer ? value : Buffer.from(value.buffer);
   return bufferValue.toString("base64");
 }
