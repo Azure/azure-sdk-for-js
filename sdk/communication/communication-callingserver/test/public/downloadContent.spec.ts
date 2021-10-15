@@ -7,9 +7,10 @@ import {
   Recorder,
   RecorderEnvironmentSetup
 } from "@azure-tools/test-recorder";
-import assert from "assert";
+import { assert } from "chai";
 import { CallingServerClient } from "../../src";
 import { Context } from "mocha";
+import { bodyToString } from "./utils";
 import { RestError } from "@azure/core-http";
 
 const replaceableVariables: { [k: string]: string } = {
@@ -31,6 +32,7 @@ describe("Download Content", function() {
     "https://endpoint/v1/objects/0-eus-d15-af5689148b0afa252a57a0121b744dcd/content/acsmetadata";
   const callingServerServiceClient = new CallingServerClient(
     "endpoint=https://endpoint/;accesskey=banana"
+    // "endpoint=https://recording-e2e-sample-xiaoxli.communication.azure.com/;accesskey=TyYsQlMbQ7+zgmepk1+XbNJt4k0wqSsxnhvAGin8+oMkK6XPWcVzz6NHZ2CggW+Sj2w52/51/z12PP8zDuZClw=="
   );
 
   beforeEach(async function(this: Context) {
@@ -44,22 +46,6 @@ describe("Download Content", function() {
     }
   });
 
-  function bodyToString(stream: NodeJS.ReadableStream, length: number): Promise<string> {
-    return new Promise<string>((resolve, reject) => {
-      stream.on("readable", () => {
-        const chunk = stream.read(length);
-        if (chunk) {
-          resolve(chunk.toString());
-        }
-      });
-
-      stream.on("error", reject);
-      stream.on("end", () => {
-        resolve("");
-      });
-    });
-  }
-
   it("download", async function(this: Context) {
     if (!isPlaybackMode()) {
       // tslint:disable-next-line:no-invalid-this
@@ -67,26 +53,23 @@ describe("Download Content", function() {
     }
 
     const downloadResponse = await callingServerServiceClient.download(uri);
-    const metadataStream = downloadResponse.readableStreamBody;
-    assert.notStrictEqual(metadataStream, null);
-    const metadata = await bodyToString(metadataStream!, downloadResponse.contentLength!);
+    const metadata = await bodyToString(downloadResponse, downloadResponse.contentLength!);
     assert.strictEqual(metadata.includes("0-eus-d15-af5689148b0afa252a57a0121b744dcd"), true);
-  });
+  })
 
   it("download with redirection", async function(this: Context) {
     if (!isPlaybackMode()) {
       // tslint:disable-next-line:no-invalid-this
       this.skip();
     }
-
     const redirectedUri =
       "https://endpoint/v1/objects/0-sa-d4-a29f0c0212c0a2a634ab078245184de8/content/acsmetadata";
     const downloadResponse = await callingServerServiceClient.download(redirectedUri);
     const metadataStream = downloadResponse.readableStreamBody;
     assert.notStrictEqual(metadataStream, null);
-    const metadata = await bodyToString(metadataStream!, downloadResponse.contentLength!);
+    const metadata = await bodyToString(downloadResponse, downloadResponse.contentLength!);
     assert.strictEqual(metadata.includes("0-sa-d4-a29f0c0212c0a2a634ab078245184de8"), true);
-  }).timeout(0);
+  })
 
   it("unauthorized download", async function(this: Context) {
     if (!isPlaybackMode()) {
@@ -94,9 +77,10 @@ describe("Download Content", function() {
       this.skip();
     }
 
-    const execution = async function(): Promise<void> {
+    try {
       await callingServerServiceClient.download(uri);
-    };
-    assert.rejects(execution, RestError);
+    } catch (e) {
+      assert.equal((e as RestError).statusCode, 401);
+    }
   });
 });

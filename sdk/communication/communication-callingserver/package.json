@@ -8,7 +8,8 @@
   "browser": {
     "stream": "./node_modules/stream-browserify/index.js",
     "./dist-esm/src/credentials/cryptoUtils.js": "./dist-esm/src/credentials/cryptoUtils.browser.js",
-    "./dist-esm/src/RepeatableContentDownloadResponse.js": "./dist-esm/src/RepeatableContentDownloadResponse.browser.js"
+    "./dist-esm/src/RepeatableContentDownloadResponse.js": "./dist-esm/src/RepeatableContentDownloadResponse.browser.js",
+    "./dist-esm/test/public/utils/index.js": "./dist-esm/test/public/utils/index.browser.js"
   },
   "types": "types/communication-callingserver.d.ts",
   "scripts": {
@@ -125,7 +126,8 @@
     "sinon": "^9.0.2",
     "typescript": "~4.2.0",
     "util": "^0.12.1",
-    "typedoc": "0.15.2"
+    "typedoc": "0.15.2",
+    "tslib": "^2.2.0"
   },
   "//metadata": {
     "constantPaths": [

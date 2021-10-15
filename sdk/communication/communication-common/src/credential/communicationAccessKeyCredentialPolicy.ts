@@ -74,9 +74,9 @@ class CommunicationAccessKeyCredentialPolicy extends BaseRequestPolicy {
     if (webResource.headers.get("UriToSignWith")) {
       const uri_to_sign_with = webResource.headers.get("UriToSignWith");
       const q = URLBuilder.parse(uri_to_sign_with!);
-      hostAndPort = q.getHost()! + q.getPort() !== undefined ? q.getPort() : "";
+      hostAndPort = q.getHost()! + (q.getPort() !== undefined ? q.getPort() : "");
       webResource.headers.set("x-ms-host", String(hostAndPort));
-      urlPathAndQuery = q.getPath()! + q.getQuery() !== undefined ? q.getQuery() : "";
+      urlPathAndQuery = q.getPath()! + (q.getQuery() !== undefined ? q.getQuery() : "");
     }
 
     const stringToSign = `${verb}\n${urlPathAndQuery}\n${utcNow};${hostAndPort};${contentHash}`;

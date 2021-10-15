@@ -41,7 +41,7 @@ describe("Server Call Live Test", function() {
       }
     });
 
-    it.only("Run all client recording operations", async function(this: Context) {
+    it("Run all client recording operations", async function(this: Context) {
       this.timeout(0);
       const groupId = TestUtils.getGroupId("Run all client recording operations");
       const fromUser = await TestUtils.getUserId("fromUser", connectionString);

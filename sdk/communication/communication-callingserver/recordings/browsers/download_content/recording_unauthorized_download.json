@@ -1,0 +1,23 @@
+{
+ "recordings": [
+  {
+   "method": "GET",
+   "url": "https://endpoint/v1/objects/0-eus-d15-af5689148b0afa252a57a0121b744dcd/content/acsmetadata",
+   "query": {},
+   "requestBody": null,
+   "status": 401,
+   "response": "",
+   "responseHeaders": {
+    "content-length": "0",
+    "date": "Thu, 14 Oct 2021 23:05:06 GMT",
+    "server": "Microsoft-HTTPAPI/2.0",
+    "strict-transport-security": "max-age=31536000; includeSubDomains"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "7711f7a1c25e2565db804c3a1cc1b04a"
+}

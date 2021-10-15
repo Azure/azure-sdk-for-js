@@ -1,0 +1,26 @@
+{
+ "recordings": [
+  {
+   "method": "GET",
+   "url": "https://endpoint/v1/objects/0-sa-d4-a29f0c0212c0a2a634ab078245184de8/content/acsmetadata",
+   "query": {},
+   "requestBody": null,
+   "status": 200,
+   "response": "{\r\n  \"chunkDocumentId\": \"0-sa-d4-a29f0c0212c0a2a634ab078245184de8\"\r\n}",
+   "responseHeaders": {
+    "cache-control": "no-cache, max-age=0, s-maxage=0, private",
+    "content-length": "62",
+    "content-range": "bytes 0-61/62",
+    "content-type": "application/octet-stream",
+    "date": "Thu, 14 Oct 2021 23:48:30 GMT",
+    "server": "Microsoft-HTTPAPI/2.0",
+    "strict-transport-security": "max-age=31536000; includeSubDomains"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "7086d64cd74997887e2fe4e73ad0a5f0"
+}
