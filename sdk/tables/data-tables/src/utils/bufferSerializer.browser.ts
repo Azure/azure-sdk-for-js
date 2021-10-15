@@ -7,7 +7,7 @@
  */
 export function base64Encode(value: Uint8Array | string): string {
   let str = "";
-  if(typeof value === "string") {
+  if (typeof value === "string") {
     str = value;
   } else {
     for (let i = 0; i < value.length; i++) {

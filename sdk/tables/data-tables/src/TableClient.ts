@@ -550,7 +550,7 @@ export class TableClient {
     // Encode nextPartitionKey and nextRowKey as a single continuation token and add it as a
     // property to the page.
     const continuationToken = encodeContinuationToken(nextPartitionKey, nextRowKey);
-    const page: TableEntityResultPage<T> =  Object.assign([...tableEntities], {
+    const page: TableEntityResultPage<T> = Object.assign([...tableEntities], {
       continuationToken
     });
 
