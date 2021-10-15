@@ -238,7 +238,7 @@ export class TableClient {
     static fromConnectionString(connectionString: string, tableName: string, options?: TableServiceClientOptions): TableClient;
     getAccessPolicy(options?: OperationOptions): Promise<GetAccessPolicyResponse>;
     getEntity<T extends object = Record<string, unknown>>(partitionKey: string, rowKey: string, options?: GetTableEntityOptions): Promise<GetTableEntityResponse<TableEntityResult<T>>>;
-    listEntities<T extends object = Record<string, unknown>>(options?: ListTableEntitiesOptions): PagedAsyncIterableIterator<TableEntityResult<T>, TableEntityResultPage<T>, TableEntityPageSettings>;
+    listEntities<T extends object = Record<string, unknown>>(options?: ListTableEntitiesOptions): PagedAsyncIterableIterator<TableEntityResult<T>, TableEntityResultPage<T>>;
     pipeline: Pipeline;
     setAccessPolicy(tableAcl: SignedIdentifier[], options?: OperationOptions): Promise<SetAccessPolicyResponse>;
     submitTransaction(actions: TransactionAction[]): Promise<TableTransactionResponse>;
@@ -277,12 +277,6 @@ export interface TableDeleteHeaders {
 export type TableEntity<T extends object = Record<string, unknown>> = T & {
     partitionKey: string;
     rowKey: string;
-};
-
-// @public
-export type TableEntityPageSettings = {
-    maxPageSize?: number;
-    continuationToken?: string;
 };
 
 // @public

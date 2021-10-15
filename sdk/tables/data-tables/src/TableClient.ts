@@ -17,8 +17,8 @@ import {
   TableTransactionResponse,
   SignedIdentifier,
   GetAccessPolicyResponse,
-  TableEntityResultPage,
-  TableEntityPageSettings
+  TableEntityResultPage
+  
 } from "./models";
 import {
   UpdateEntityResponse,
@@ -446,8 +446,7 @@ export class TableClient {
     options: ListTableEntitiesOptions = {}
   ): PagedAsyncIterableIterator<
     TableEntityResult<T>,
-    TableEntityResultPage<T>,
-    TableEntityPageSettings
+    TableEntityResultPage<T>
   > {
     const tableName = this.tableName;
     const iter = this.listEntitiesAll<T>(tableName, options);

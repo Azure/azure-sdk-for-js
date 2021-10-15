@@ -123,20 +123,6 @@ export type TableEntityResultPage<T> = Array<T> & {
 };
 
 /**
- * Settings to query entities by page
- */
-export type TableEntityPageSettings = {
-  /**
-   * The size of the page during paged iteration
-   */
-  maxPageSize?: number;
-  /**
-   * continuation token
-   */
-  continuationToken?: string;
-};
-
-/**
  * List entities optional parameters.
  */
 export type ListTableEntitiesOptions = OperationOptions & {
