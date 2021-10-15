@@ -12,20 +12,19 @@ urlFragment: data-tables-javascript
 
 These sample programs show how to use the JavaScript client libraries for Azure Data Tables in some common scenarios.
 
-| **File Name**                                         | **Description**                                                           |
-| ----------------------------------------------------- | ------------------------------------------------------------------------- |
-| [workingWithBigInt.js][workingwithbigint]             | creates and works with an entity containing a bigint                      |
-| [workingWithInt64.js][workingwithint64]               | creates and works with an entity containing an Int64 value                |
-| [transactionWithHelper.js][transactionwithhelper]     | sends transactional request using TableTransaction helper                 |
-| [manualEntityPageQuery.js][manualentitypagequery]     | queries entities in a table by page manually handling continuation tokens |
-| [transactionOperations.js][transactionoperations]     | sends transactional batch requests                                        |
-| [authenticationMethods.js][authenticationmethods]     | authenticates using different authentication methods                      |
-| [createAndDeleteEntities.js][createanddeleteentities] | creates and deletes a entities in a table                                 |
-| [createAndDeleteTable.js][createanddeletetable]       | creates and deletes a table                                               |
-| [generateTableSAS.js][generatetablesas]               | generate a Table Account SAS token                                        |
-| [queryEntities.js][queryentities]                     | queries entities in a table                                               |
-| [queryTables.js][querytables]                         | queries tables                                                            |
-| [updateAndUpsertEntities.js][updateandupsertentities] | updates and upserts entities in a table                                   |
+| **File Name**                                         | **Description**                                            |
+| ----------------------------------------------------- | ---------------------------------------------------------- |
+| [workingWithBigInt.js][workingwithbigint]             | creates and works with an entity containing a bigint       |
+| [workingWithInt64.js][workingwithint64]               | creates and works with an entity containing an Int64 value |
+| [transactionWithHelper.js][transactionwithhelper]     | sends transactional request using TableTransaction helper  |
+| [transactionOperations.js][transactionoperations]     | sends transactional batch requests                         |
+| [authenticationMethods.js][authenticationmethods]     | authenticates using different authentication methods       |
+| [createAndDeleteEntities.js][createanddeleteentities] | creates and deletes a entities in a table                  |
+| [createAndDeleteTable.js][createanddeletetable]       | creates and deletes a table                                |
+| [generateTableSAS.js][generatetablesas]               | generate a Table Account SAS token                         |
+| [queryEntities.js][queryentities]                     | queries entities in a table                                |
+| [queryTables.js][querytables]                         | queries tables                                             |
+| [updateAndUpsertEntities.js][updateandupsertentities] | updates and upserts entities in a table                    |
 
 ## Prerequisites
 
@@ -70,7 +69,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [workingwithbigint]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/tables/data-tables/samples/v12/javascript/workingWithBigInt.js
 [workingwithint64]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/tables/data-tables/samples/v12/javascript/workingWithInt64.js
 [transactionwithhelper]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/tables/data-tables/samples/v12/javascript/transactionWithHelper.js
-[manualentitypagequery]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/tables/data-tables/samples/v12/javascript/manualEntityPageQuery.js
 [transactionoperations]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/tables/data-tables/samples/v12/javascript/transactionOperations.js
 [authenticationmethods]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/tables/data-tables/samples/v12/javascript/authenticationMethods.js
 [createanddeleteentities]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/tables/data-tables/samples/v12/javascript/createAndDeleteEntities.js
