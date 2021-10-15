@@ -102,6 +102,7 @@ describe("Secret client - restore secrets and recover backups", () => {
   }
 
   it("can backup a secret", async function(this: Context) {
+    env["AZURE_AUTHORITY_HOST"] = "https://login.microsoftonline.us";
     const secretName = testClient.formatName(
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
     );
