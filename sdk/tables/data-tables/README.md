@@ -353,7 +353,7 @@ main();
 
 ## Azurite and Storage Emulator
 
-The Azure Tables Client SDK can work with both the Azurite which can emulate the Table service you can find more information about setting up and starting Azurite ([here](https://github.com/Azure/Azurite#azurite-v3)).
+The Azure Tables Client SDK also works with Azurite, an Azure Storage and Tables API compatible server emulator. Please refer to the ([Azurite repository](https://github.com/Azure/Azurite#azurite-v3)) on how to get started using it.
 
 ### Connecting to Azurite with Connection String shortcut
 The easiest way to connect to Azurite from your application is to configure a connection string that references the shortcut `UseDevelopmentStorage=true`. The shortcut is equivalent to the full connection string for the emulator, which specifies the account name, the account key, and the emulator endpoints for each of the Azure Storage services: ([see more](https://github.com/Azure/Azurite#http-connection-strings)). Using this shortcut, the Azure Tables Client SDK would setup the default connection string and `allowInsecureConnection` in the client options.
