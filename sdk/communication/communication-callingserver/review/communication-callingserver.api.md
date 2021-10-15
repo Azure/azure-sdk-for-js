@@ -4,13 +4,17 @@
 
 ```ts
 
+import { AbortSignalLike } from '@azure/abort-controller';
 import { CommunicationIdentifier } from '@azure/communication-common';
 import * as coreHttp from '@azure/core-http';
+import { HttpResponse } from '@azure/core-http';
 import { OperationOptions } from '@azure/core-http';
+import { OperationParameter } from '@azure/core-http';
 import { PhoneNumberIdentifier } from '@azure/communication-common';
 import { PipelineOptions } from '@azure/core-http';
 import { RestResponse } from '@azure/core-http';
 import { TokenCredential } from '@azure/core-auth';
+import { TransferProgressEvent } from '@azure/core-http';
 
 // @public
 export type AddParticipantOptions = OperationOptions;
@@ -80,14 +84,19 @@ export class CallingServerClient {
     addParticipant(callLocator: CallLocator, participant: CommunicationIdentifier, callbackUri: string, alternateCallerId?: string, operationContext?: string, options?: AddParticipantOptions): Promise<ServerCallsAddParticipantResponse>;
     cancelMediaOperation(callLocator: CallLocator, mediaOperationId: string, options?: CancelMediaOperationOptions): Promise<void>;
     cancelParticipantMediaOperation(callLocator: CallLocator, participant: CommunicationIdentifier, mediaOperationId: string, options?: CancelMediaOperationOptions): Promise<void>;
-    createCallConnection(source: CommunicationIdentifier, targets: CommunicationIdentifier[], options: CreateCallOptions): Promise<CallConnection>;
+    createCallConnection(source: CommunicationIdentifier, targets: CommunicationIdentifier[], options: CreateCallConnectionOptions): Promise<CallConnection>;
+    download(uri: string, offset?: number, count?: number, options?: DownloadOptions): Promise<ContentDownloadResponse>;
     getCallConnection(callConnectionId: string): CallConnection;
     // Warning: (ae-forgotten-export) The symbol "CallRecordingProperties" needs to be exported by the entry point index.d.ts
     getRecordingProperties(recordingId: string, options?: GetRecordingPropertiesOptions): Promise<CallRecordingProperties>;
+    // Warning: (ae-forgotten-export) The symbol "ContentDownloader" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    initializeContentDownloader(): ContentDownloader;
     joinCall(callLocator: CallLocator, source: CommunicationIdentifier, options: JoinCallOptions): Promise<CallConnection>;
     pauseRecording(recordingId: string, options?: PauseRecordingOptions): Promise<RestResponse>;
     playAudio(callLocator: CallLocator, audioFileUri: string, options: PlayAudioOptions): Promise<PlayAudioResult>;
-    playAudioToParticipant(callLocator: CallLocator, participant: CommunicationIdentifier, audioFileUri: string, options: PlayAudioOptions): Promise<PlayAudioResult>;
+    playAudioToParticipant(callLocator: CallLocator, participant: CommunicationIdentifier, audioFileUri: string, options: PlayAudioToParticipantOptions): Promise<PlayAudioResult>;
     removeParticipant(callLocator: CallLocator, participant: CommunicationIdentifier, options?: RemoveParticipantOptions): Promise<void>;
     resumeRecording(recordingId: string, options?: ResumeRecordingOptions): Promise<RestResponse>;
     // Warning: (ae-forgotten-export) The symbol "RecordingContentType" needs to be exported by the entry point index.d.ts
@@ -132,7 +141,25 @@ export interface CommunicationUserIdentifierModel {
 }
 
 // @public
-export interface CreateCallOptions extends OperationOptions {
+export interface ContentDownloadHeaders {
+    contentLength?: number;
+    contentRange?: string;
+    contentType?: string;
+    date?: Date;
+    errorCode?: string;
+}
+
+// @public
+export type ContentDownloadResponse = ContentDownloadHeaders & {
+    blobBody?: Promise<Blob>;
+    readableStreamBody?: NodeJS.ReadableStream;
+    _response: HttpResponse & {
+        parsedHeaders: ContentDownloadHeaders;
+    };
+};
+
+// @public
+export interface CreateCallConnectionOptions extends OperationOptions {
     alternateCallerId?: PhoneNumberIdentifier;
     callbackUri: string;
     requestedCallEvents: CallingEventSubscriptionType[];
@@ -140,12 +167,16 @@ export interface CreateCallOptions extends OperationOptions {
     subject?: string;
 }
 
-// @public
-export const enum EventSubscriptionType {
-    // (undocumented)
-    ParticipantsUpdated = "participantsUpdated",
-    // (undocumented)
-    ToneReceived = "toneReceived"
+// @public (undocumented)
+export interface DownloadContentOptions extends DownloadOptions {
+    range?: string;
+}
+
+// @public (undocumented)
+export interface DownloadOptions extends OperationOptions {
+    abortSignal?: AbortSignalLike;
+    maxRetryRequests?: number;
+    onProgress?: (progress: TransferProgressEvent) => void;
 }
 
 // @public
@@ -283,6 +314,12 @@ export interface PlayAudioResultEvent {
     resultInfo?: CallingOperationResultDetails;
     status: CallingOperationStatus;
 }
+
+// @public (undocumented)
+export type PlayAudioToParticipantOptions = PlayAudioOptions;
+
+// @public (undocumented)
+export const range: OperationParameter;
 
 // @public
 export type RemoveParticipantOptions = OperationOptions;

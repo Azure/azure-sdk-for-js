@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { GroupCallLocator, ServerCallLocator } from ".";
+import { CallLocatorModel } from "./generated/src";
 import { CallLocator, CallLocatorKind, getLocatorKind } from "./models";
 
 /**
@@ -70,13 +72,19 @@ const assertMaximumOneNestedModel = (locator: SerializedCallLocator): void => {
  * Translates a CallLocator to its serialized format for sending a request.
  * @param locator - The CallLocator to be serialized.
  */
-export const serializeCallLocator = (locator: CallLocator): SerializedCallLocator => {
+export const serializeCallLocator = (locator: CallLocator): CallLocatorModel => {
   const locatorKind = getLocatorKind(locator);
   switch (locatorKind.kind) {
     case "groupCall":
-      return { groupCall: { groupCallId: locatorKind.groupCallId } };
+      return {
+        groupCallId: (locator as GroupCallLocator).groupCallId,
+        kind: locatorKind.kind + "Locator"
+      };
     case "serverCall":
-      return { serverCall: { serverCallId: locatorKind.serverCallId } };
+      return {
+        serverCallId: (locator as ServerCallLocator).serverCallId,
+        kind: locatorKind.kind + "Locator"
+      };
     default:
       throw new Error(`Can't serialize an calllocator with kind ${(locatorKind as any).kind}`);
   }
