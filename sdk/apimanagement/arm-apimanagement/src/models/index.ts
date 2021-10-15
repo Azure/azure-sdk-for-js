@@ -108,7 +108,7 @@ export interface Resource extends BaseResource {
 }
 
 /**
- * The object defining the schema of the exported Api Detail
+ * The object defining the schema of the exported API Detail
  */
 export interface ApiExportResultValue {
   /**
@@ -127,12 +127,12 @@ export interface ApiExportResult {
    */
   id?: string;
   /**
-   * Format in which the Api Details are exported to the Storage Blob with Sas Key valid for 5
+   * Format in which the API Details are exported to the Storage Blob with Sas Key valid for 5
    * minutes. Possible values include: 'Swagger', 'Wsdl', 'Wadl', 'OpenApi'
    */
   exportResultFormat?: ExportResultFormat;
   /**
-   * The object defining the schema of the exported Api Detail
+   * The object defining the schema of the exported API Detail
    */
   value?: ApiExportResultValue;
 }
@@ -208,17 +208,17 @@ export interface OperationTagResourceContractProperties {
    */
   readonly name?: string;
   /**
-   * Api Name.
+   * API Name.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly apiName?: string;
   /**
-   * Api Revision.
+   * API Revision.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly apiRevision?: string;
   /**
-   * Api Version.
+   * API Version.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly apiVersion?: string;
@@ -239,6 +239,39 @@ export interface OperationTagResourceContractProperties {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly urlTemplate?: string;
+}
+
+/**
+ * API license information
+ */
+export interface ApiLicenseInformation {
+  /**
+   * The license name used for the API
+   */
+  name?: string;
+  /**
+   * A URL to the license used for the API. MUST be in the format of a URL
+   */
+  url?: string;
+}
+
+/**
+ * API contact information
+ */
+export interface ApiContactInformation {
+  /**
+   * The identifying name of the contact person/organization
+   */
+  name?: string;
+  /**
+   * The URL pointing to the contact information. MUST be in the format of a URL
+   */
+  url?: string;
+  /**
+   * The email address of the contact person/organization. MUST be in the format of an email
+   * address
+   */
+  email?: string;
 }
 
 /**
@@ -360,15 +393,15 @@ export interface ApiEntityBaseContract {
    */
   subscriptionKeyParameterNames?: SubscriptionKeyParameterNamesContract;
   /**
-   * Type of API. Possible values include: 'http', 'soap'
+   * Type of API. Possible values include: 'http', 'soap', 'websocket'
    */
   apiType?: ApiType;
   /**
-   * Describes the Revision of the Api. If no value is provided, default revision 1 is created
+   * Describes the revision of the API. If no value is provided, default revision 1 is created
    */
   apiRevision?: string;
   /**
-   * Indicates the Version identifier of the API if the API is versioned
+   * Indicates the version identifier of the API if the API is versioned
    */
   apiVersion?: string;
   /**
@@ -381,11 +414,11 @@ export interface ApiEntityBaseContract {
    */
   readonly isOnline?: boolean;
   /**
-   * Description of the Api Revision.
+   * Description of the API Revision.
    */
   apiRevisionDescription?: string;
   /**
-   * Description of the Api Version.
+   * Description of the API Version.
    */
   apiVersionDescription?: string;
   /**
@@ -396,10 +429,22 @@ export interface ApiEntityBaseContract {
    * Specifies whether an API or Product subscription is required for accessing the API.
    */
   subscriptionRequired?: boolean;
+  /**
+   * A URL to the Terms of Service for the API. MUST be in the format of a URL.
+   */
+  termsOfServiceUrl?: string;
+  /**
+   * Contact information for the API.
+   */
+  contact?: ApiContactInformation;
+  /**
+   * License information for the API.
+   */
+  license?: ApiLicenseInformation;
 }
 
 /**
- * Api Entity Properties
+ * API Entity Properties
  */
 export interface ApiContractProperties extends ApiEntityBaseContract {
   /**
@@ -482,7 +527,7 @@ export interface TagResourceContract {
    */
   tag: TagTagResourceContractProperties;
   /**
-   * Api associated with the tag.
+   * API associated with the tag.
    */
   api?: ApiTagResourceContractProperties;
   /**
@@ -811,14 +856,9 @@ export interface SchemaContract extends Resource {
    */
   contentType: string;
   /**
-   * Json escaped string defining the document representing the Schema. Used for schemas other than
-   * Swagger/OpenAPI.
+   * Create or update Properties of the Schema Document.
    */
-  value?: string;
-  /**
-   * Types definitions. Used for Swagger/OpenAPI schemas only, null otherwise.
-   */
-  definitions?: any;
+  document?: any;
 }
 
 /**
@@ -902,6 +942,28 @@ export interface ProductContract extends Resource {
 }
 
 /**
+ * Parameter example.
+ */
+export interface ParameterExampleContract {
+  /**
+   * Short description for the example
+   */
+  summary?: string;
+  /**
+   * Long description for the example
+   */
+  description?: string;
+  /**
+   * Example value. May be a primitive value, or an object.
+   */
+  value?: any;
+  /**
+   * A URL that points to the literal example
+   */
+  externalValue?: string;
+}
+
+/**
  * Operation parameters details.
  */
 export interface ParameterContract {
@@ -929,6 +991,18 @@ export interface ParameterContract {
    * Parameter values.
    */
   values?: string[];
+  /**
+   * Schema identifier.
+   */
+  schemaId?: string;
+  /**
+   * Type name defined by the schema.
+   */
+  typeName?: string;
+  /**
+   * Exampled defined for the parameter.
+   */
+  examples?: { [propertyName: string]: ParameterExampleContract };
 }
 
 /**
@@ -939,10 +1013,6 @@ export interface RepresentationContract {
    * Specifies a registered or custom content type for this representation, e.g. application/xml.
    */
   contentType: string;
-  /**
-   * An example of the representation.
-   */
-  sample?: string;
   /**
    * Schema identifier. Applicable only if 'contentType' value is neither
    * 'application/x-www-form-urlencoded' nor 'multipart/form-data'.
@@ -1005,7 +1075,7 @@ export interface RequestContract {
 }
 
 /**
- * Api Operation Entity Base Contract details.
+ * API Operation Entity Base Contract details.
  */
 export interface OperationEntityBaseContract {
   /**
@@ -1031,7 +1101,7 @@ export interface OperationEntityBaseContract {
 }
 
 /**
- * Api Operation details.
+ * API Operation details.
  */
 export interface OperationContract extends Resource {
   /**
@@ -1071,7 +1141,7 @@ export interface OperationContract extends Resource {
 }
 
 /**
- * Api Operation Update Contract details.
+ * API Operation Update Contract details.
  */
 export interface OperationUpdateContract {
   /**
@@ -1184,7 +1254,7 @@ export interface ApiRevisionContract {
 }
 
 /**
- * Api details.
+ * API details.
  */
 export interface ApiContract extends Resource {
   /**
@@ -1200,15 +1270,15 @@ export interface ApiContract extends Resource {
    */
   subscriptionKeyParameterNames?: SubscriptionKeyParameterNamesContract;
   /**
-   * Type of API. Possible values include: 'http', 'soap'
+   * Type of API. Possible values include: 'http', 'soap', 'websocket'
    */
   apiType?: ApiType;
   /**
-   * Describes the Revision of the Api. If no value is provided, default revision 1 is created
+   * Describes the revision of the API. If no value is provided, default revision 1 is created
    */
   apiRevision?: string;
   /**
-   * Indicates the Version identifier of the API if the API is versioned
+   * Indicates the version identifier of the API if the API is versioned
    */
   apiVersion?: string;
   /**
@@ -1221,11 +1291,11 @@ export interface ApiContract extends Resource {
    */
   readonly isOnline?: boolean;
   /**
-   * Description of the Api Revision.
+   * Description of the API Revision.
    */
   apiRevisionDescription?: string;
   /**
-   * Description of the Api Version.
+   * Description of the API Version.
    */
   apiVersionDescription?: string;
   /**
@@ -1236,6 +1306,18 @@ export interface ApiContract extends Resource {
    * Specifies whether an API or Product subscription is required for accessing the API.
    */
   subscriptionRequired?: boolean;
+  /**
+   * A URL to the Terms of Service for the API. MUST be in the format of a URL.
+   */
+  termsOfServiceUrl?: string;
+  /**
+   * Contact information for the API.
+   */
+  contact?: ApiContactInformation;
+  /**
+   * License information for the API.
+   */
+  license?: ApiLicenseInformation;
   /**
    * API identifier of the source API.
    */
@@ -1282,15 +1364,15 @@ export interface ApiUpdateContract {
    */
   subscriptionKeyParameterNames?: SubscriptionKeyParameterNamesContract;
   /**
-   * Type of API. Possible values include: 'http', 'soap'
+   * Type of API. Possible values include: 'http', 'soap', 'websocket'
    */
   apiType?: ApiType;
   /**
-   * Describes the Revision of the Api. If no value is provided, default revision 1 is created
+   * Describes the revision of the API. If no value is provided, default revision 1 is created
    */
   apiRevision?: string;
   /**
-   * Indicates the Version identifier of the API if the API is versioned
+   * Indicates the version identifier of the API if the API is versioned
    */
   apiVersion?: string;
   /**
@@ -1303,11 +1385,11 @@ export interface ApiUpdateContract {
    */
   readonly isOnline?: boolean;
   /**
-   * Description of the Api Revision.
+   * Description of the API Revision.
    */
   apiRevisionDescription?: string;
   /**
-   * Description of the Api Version.
+   * Description of the API Version.
    */
   apiVersionDescription?: string;
   /**
@@ -1318,6 +1400,18 @@ export interface ApiUpdateContract {
    * Specifies whether an API or Product subscription is required for accessing the API.
    */
   subscriptionRequired?: boolean;
+  /**
+   * A URL to the Terms of Service for the API. MUST be in the format of a URL.
+   */
+  termsOfServiceUrl?: string;
+  /**
+   * Contact information for the API.
+   */
+  contact?: ApiContactInformation;
+  /**
+   * License information for the API.
+   */
+  license?: ApiLicenseInformation;
   /**
    * API name.
    */
@@ -1355,15 +1449,15 @@ export interface ApiCreateOrUpdateParameter {
    */
   subscriptionKeyParameterNames?: SubscriptionKeyParameterNamesContract;
   /**
-   * Type of API. Possible values include: 'http', 'soap'
+   * Type of API. Possible values include: 'http', 'soap', 'websocket'
    */
   apiType?: ApiType;
   /**
-   * Describes the Revision of the Api. If no value is provided, default revision 1 is created
+   * Describes the revision of the API. If no value is provided, default revision 1 is created
    */
   apiRevision?: string;
   /**
-   * Indicates the Version identifier of the API if the API is versioned
+   * Indicates the version identifier of the API if the API is versioned
    */
   apiVersion?: string;
   /**
@@ -1376,11 +1470,11 @@ export interface ApiCreateOrUpdateParameter {
    */
   readonly isOnline?: boolean;
   /**
-   * Description of the Api Revision.
+   * Description of the API Revision.
    */
   apiRevisionDescription?: string;
   /**
-   * Description of the Api Version.
+   * Description of the API Version.
    */
   apiVersionDescription?: string;
   /**
@@ -1391,6 +1485,18 @@ export interface ApiCreateOrUpdateParameter {
    * Specifies whether an API or Product subscription is required for accessing the API.
    */
   subscriptionRequired?: boolean;
+  /**
+   * A URL to the Terms of Service for the API. MUST be in the format of a URL.
+   */
+  termsOfServiceUrl?: string;
+  /**
+   * Contact information for the API.
+   */
+  contact?: ApiContactInformation;
+  /**
+   * License information for the API.
+   */
+  license?: ApiLicenseInformation;
   /**
    * API identifier of the source API.
    */
@@ -1433,16 +1539,17 @@ export interface ApiCreateOrUpdateParameter {
    */
   wsdlSelector?: ApiCreateOrUpdatePropertiesWsdlSelector;
   /**
-   * Type of Api to create.
-   * * `http` creates a SOAP to REST API
-   * * `soap` creates a SOAP pass-through API. Possible values include: 'SoapToRest',
-   * 'SoapPassThrough'
+   * Type of API to create.
+   * * `http` creates a REST API
+   * * `soap` creates a SOAP pass-through API
+   * * `websocket` creates websocket API. Possible values include: 'SoapToRest', 'SoapPassThrough',
+   * 'WebSocket'
    */
   soapApiType?: SoapApiType;
 }
 
 /**
- * Api Version set base parameters
+ * API Version set base parameters
  */
 export interface ApiVersionSetEntityBase {
   /**
@@ -1461,7 +1568,7 @@ export interface ApiVersionSetEntityBase {
 }
 
 /**
- * Api Version Set Contract details.
+ * API Version Set Contract details.
  */
 export interface ApiVersionSetContract extends Resource {
   /**
@@ -1489,7 +1596,7 @@ export interface ApiVersionSetContract extends Resource {
 }
 
 /**
- * Parameters to update or create an Api Version Set Contract.
+ * Parameters to update or create an API Version Set Contract.
  */
 export interface ApiVersionSetUpdateParameters {
   /**
@@ -1922,7 +2029,7 @@ export interface BackendBaseParameters {
   description?: string;
   /**
    * Management Uri of the Resource in External System. This url can be the Arm Resource Id of
-   * Logic Apps, Function Apps or Api Apps.
+   * Logic Apps, Function Apps or API Apps.
    */
   resourceId?: string;
   /**
@@ -1957,7 +2064,7 @@ export interface BackendContract extends Resource {
   description?: string;
   /**
    * Management Uri of the Resource in External System. This url can be the Arm Resource Id of
-   * Logic Apps, Function Apps or Api Apps.
+   * Logic Apps, Function Apps or API Apps.
    */
   resourceId?: string;
   /**
@@ -2000,7 +2107,7 @@ export interface BackendUpdateParameters {
   description?: string;
   /**
    * Management Uri of the Resource in External System. This url can be the Arm Resource Id of
-   * Logic Apps, Function Apps or Api Apps.
+   * Logic Apps, Function Apps or API Apps.
    */
   resourceId?: string;
   /**
@@ -2081,7 +2188,7 @@ export interface CacheUpdateParameters {
 export interface KeyVaultContractCreateProperties {
   /**
    * Key vault secret identifier for fetching secret. Providing a versioned secret will prevent
-   * auto-refresh. This requires Api Management service to be configured with aka.ms/apimmsi
+   * auto-refresh. This requires API Management service to be configured with aka.ms/apimmsi
    */
   secretIdentifier?: string;
   /**
@@ -2198,7 +2305,7 @@ export interface ContentTypeContract extends Resource {
 }
 
 /**
- * Deleted Api Management Service information.
+ * Deleted API Management Service information.
  */
 export interface DeletedServiceContract extends Resource {
   /**
@@ -2216,7 +2323,7 @@ export interface DeletedServiceContract extends Resource {
    */
   deletionDate?: Date;
   /**
-   * Api Management Service Master Location.
+   * API Management Service Master Location.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly location?: string;
@@ -2373,6 +2480,14 @@ export interface HostnameConfiguration {
    * Certificate information.
    */
   certificate?: CertificateInformation;
+  /**
+   * Certificate Source. Possible values include: 'Managed', 'KeyVault', 'Custom', 'BuiltIn'
+   */
+  certificateSource?: CertificateSource;
+  /**
+   * Certificate Status. Possible values include: 'Completed', 'Failed', 'InProgress'
+   */
+  certificateStatus?: CertificateStatus;
 }
 
 /**
@@ -2440,6 +2555,11 @@ export interface AdditionalLocation {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly privateIPAddresses?: string[];
+  /**
+   * Public Standard SKU IP V4 based IP address to be associated with Virtual Network deployed
+   * service in the location. Supported only for Premium SKU being deployed in Virtual Network.
+   */
+  publicIpAddressId?: string;
   /**
    * Virtual network configuration for the location.
    */
@@ -2563,6 +2683,12 @@ export interface ApiManagementServiceBaseProperties {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly privateIPAddresses?: string[];
+  /**
+   * Public Standard SKU IP V4 based IP address to be associated with Virtual Network deployed
+   * service in the region. Supported only for Developer and Premium SKU being deployed in Virtual
+   * Network.
+   */
+  publicIpAddressId?: string;
   /**
    * Virtual network configuration of the API Management service.
    */
@@ -2781,6 +2907,12 @@ export interface ApiManagementServiceResource extends ApimResource {
    */
   readonly privateIPAddresses?: string[];
   /**
+   * Public Standard SKU IP V4 based IP address to be associated with Virtual Network deployed
+   * service in the region. Supported only for Developer and Premium SKU being deployed in Virtual
+   * Network.
+   */
+  publicIpAddressId?: string;
+  /**
    * Virtual network configuration of the API Management service.
    */
   virtualNetworkConfiguration?: VirtualNetworkConfiguration;
@@ -2958,6 +3090,12 @@ export interface ApiManagementServiceUpdateParameters extends ApimResource {
    */
   readonly privateIPAddresses?: string[];
   /**
+   * Public Standard SKU IP V4 based IP address to be associated with Virtual Network deployed
+   * service in the region. Supported only for Developer and Premium SKU being deployed in Virtual
+   * Network.
+   */
+  publicIpAddressId?: string;
+  /**
    * Virtual network configuration of the API Management service.
    */
   virtualNetworkConfiguration?: VirtualNetworkConfiguration;
@@ -3050,6 +3188,10 @@ export interface ApiManagementServiceUpdateParameters extends ApimResource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly etag?: string;
+  /**
+   * A list of availability zones denoting where the resource needs to come from.
+   */
+  zones?: string[];
 }
 
 /**
@@ -3204,7 +3346,7 @@ export interface EmailTemplateContract extends Resource {
    */
   description?: string;
   /**
-   * Whether the template is the default template provided by Api Management or has been edited.
+   * Whether the template is the default template provided by API Management or has been edited.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly isDefault?: boolean;
@@ -4165,7 +4307,7 @@ export interface PolicyDescriptionCollection {
 }
 
 /**
- * Portal revisions contract details.
+ * Portal Revision's contract details.
  */
 export interface PortalRevisionContract extends Resource {
   /**
@@ -4178,17 +4320,17 @@ export interface PortalRevisionContract extends Resource {
    */
   readonly statusDetails?: string;
   /**
-   * Portal revision publishing status. Possible values include: 'pending', 'publishing',
+   * Status of the portal's revision. Possible values include: 'pending', 'publishing',
    * 'completed', 'failed'
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly status?: PortalRevisionStatus;
   /**
-   * Indicates if the Portal Revision is public.
+   * Indicates if the portal's revision is public.
    */
   isCurrent?: boolean;
   /**
-   * Portal revision creation date and time.
+   * Portal's revision creation date and time.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly createdDateTime?: Date;
@@ -5089,7 +5231,7 @@ export interface TagCreateUpdateParameters {
 }
 
 /**
- * Tenant Configuration Synchronization State.
+ * Result of Tenant Configuration Sync State.
  */
 export interface TenantConfigurationSyncStateContract {
   /**
@@ -5122,6 +5264,10 @@ export interface TenantConfigurationSyncStateContract {
    * `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard.
    */
   configurationChangeDate?: Date;
+  /**
+   * Most recent tenant configuration operation identifier
+   */
+  lastOperationId?: string;
 }
 
 /**
@@ -5143,13 +5289,13 @@ export interface OperationResultLogItemContract {
 }
 
 /**
- * Operation Result.
+ * Long Running Git Operation Results.
  */
-export interface OperationResultContract {
+export interface OperationResultContract extends Resource {
   /**
    * Operation result identifier.
    */
-  id?: string;
+  operationResultContractId?: string;
   /**
    * Status of an async operation. Possible values include: 'Started', 'InProgress', 'Succeeded',
    * 'Failed'
@@ -10260,7 +10406,7 @@ export interface UserSubscriptionGetHeaders {
 
 /**
  * @interface
- * Paged Api list representation.
+ * Paged API list representation.
  * @extends Array<ApiContract>
  */
 export interface ApiCollection extends Array<ApiContract> {
@@ -10293,7 +10439,7 @@ export interface TagResourceCollection extends Array<TagResourceContract> {
 
 /**
  * @interface
- * Paged Api Revision list representation.
+ * Paged API Revision list representation.
  * @extends Array<ApiRevisionContract>
  */
 export interface ApiRevisionCollection extends Array<ApiRevisionContract> {
@@ -10476,7 +10622,7 @@ export interface TagDescriptionCollection extends Array<TagDescriptionContract> 
 
 /**
  * @interface
- * Paged Api Version Set list representation.
+ * Paged API Version Set list representation.
  * @extends Array<ApiVersionSetContract>
  */
 export interface ApiVersionSetCollection extends Array<ApiVersionSetContract> {
@@ -10582,7 +10728,7 @@ export interface ContentItemCollection extends Array<ContentItemContract> {
 
 /**
  * @interface
- * Paged deleted Api Management Services List Representation.
+ * Paged deleted API Management Services List Representation.
  * @extends Array<DeletedServiceContract>
  */
 export interface DeletedServicesCollection extends Array<DeletedServiceContract> {
@@ -10961,11 +11107,11 @@ export type BearerTokenSendingMethods = 'authorizationHeader' | 'query';
 
 /**
  * Defines values for Protocol.
- * Possible values include: 'http', 'https'
+ * Possible values include: 'http', 'https', 'ws', 'wss'
  * @readonly
  * @enum {string}
  */
-export type Protocol = 'http' | 'https';
+export type Protocol = 'http' | 'https' | 'ws' | 'wss';
 
 /**
  * Defines values for ContentFormat.
@@ -10978,19 +11124,19 @@ export type ContentFormat = 'wadl-xml' | 'wadl-link-json' | 'swagger-json' | 'sw
 
 /**
  * Defines values for SoapApiType.
- * Possible values include: 'SoapToRest', 'SoapPassThrough'
+ * Possible values include: 'SoapToRest', 'SoapPassThrough', 'WebSocket'
  * @readonly
  * @enum {string}
  */
-export type SoapApiType = 'http' | 'soap';
+export type SoapApiType = 'http' | 'soap' | 'websocket';
 
 /**
  * Defines values for ApiType.
- * Possible values include: 'http', 'soap'
+ * Possible values include: 'http', 'soap', 'websocket'
  * @readonly
  * @enum {string}
  */
-export type ApiType = 'http' | 'soap';
+export type ApiType = 'http' | 'soap' | 'websocket';
 
 /**
  * Defines values for State.
@@ -11128,6 +11274,22 @@ export type ResourceSkuCapacityScaleType = 'automatic' | 'manual' | 'none';
  * @enum {string}
  */
 export type HostnameType = 'Proxy' | 'Portal' | 'Management' | 'Scm' | 'DeveloperPortal';
+
+/**
+ * Defines values for CertificateSource.
+ * Possible values include: 'Managed', 'KeyVault', 'Custom', 'BuiltIn'
+ * @readonly
+ * @enum {string}
+ */
+export type CertificateSource = 'Managed' | 'KeyVault' | 'Custom' | 'BuiltIn';
+
+/**
+ * Defines values for CertificateStatus.
+ * Possible values include: 'Completed', 'Failed', 'InProgress'
+ * @readonly
+ * @enum {string}
+ */
+export type CertificateStatus = 'Completed' | 'Failed' | 'InProgress';
 
 /**
  * Defines values for VirtualNetworkType.
