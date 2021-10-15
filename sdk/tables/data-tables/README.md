@@ -366,7 +366,7 @@ const client = TableClient.fromConnectionString(connectionString, "myTable");
 ```
 
 ### Connecting to Azurite without Connection String shortcut
-You can connect to azurite manually without using the connection string shortcut by specifiying the service URL, and `AzureNamedKeyCredential`  or a custom Connection String. When connecting to Azurite this way, the Azure Tables Client SDK doesn't set up `allowInsecureConnection` automatically and it would need to be set manually in case Azurite runs in an `http` endpoint.
+You can connect to azurite manually without using the connection string shortcut by specifying the service URL and `AzureNamedKeyCredential` or a custom connection string. However, `allowInsecureConnection` will need to be set manually in case Azurite runs in an `http` endpoint.
 
 ```typescript
 import { TableClient, AzureNamedKeyCredential } from "@azure/data-tables"
