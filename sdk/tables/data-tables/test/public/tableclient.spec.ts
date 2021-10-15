@@ -206,7 +206,9 @@ authModes.forEach((authMode) => {
 
         await client.createEntity(testEntity);
 
-        const result = await client.getEntity(testEntity.partitionKey, testEntity.rowKey, {queryOptions: {select: ["baz", "partitionKey", "rowKey", "etag"]}});
+        const result = await client.getEntity(testEntity.partitionKey, testEntity.rowKey, {
+          queryOptions: { select: ["baz", "partitionKey", "rowKey", "etag"] }
+        });
 
         assert.isDefined(result.etag);
         assert.equal(result.baz, testEntity.baz);
@@ -216,7 +218,7 @@ authModes.forEach((authMode) => {
         // properties not included in select should be undefined in the result
         assert.isUndefined(result.bar);
         assert.isUndefined(result.foo);
-      })
+      });
 
       it("should createEntity with Date", async () => {
         const testDate = "2020-09-17T00:00:00.111Z";

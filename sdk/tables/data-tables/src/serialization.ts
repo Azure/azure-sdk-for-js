@@ -253,7 +253,10 @@ export function serializeQueryOptions(query: TableEntityQueryOptions): Generated
   // Properties that are always returned by the service but are not allowed in select
   const excludeFromSelect = ["etag", "odata.etag"];
   if (select) {
-    mappedQuery.select = select.filter(p => !excludeFromSelect.includes(p)).map(translatePropertyNameForSerialization).join(",");
+    mappedQuery.select = select
+      .filter((p) => !excludeFromSelect.includes(p))
+      .map(translatePropertyNameForSerialization)
+      .join(",");
   }
   return mappedQuery;
 }

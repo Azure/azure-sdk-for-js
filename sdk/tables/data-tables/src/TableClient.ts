@@ -25,9 +25,7 @@ import {
   DeleteTableEntityResponse,
   SetAccessPolicyResponse
 } from "./generatedModels";
-import {
-  TableQueryEntitiesOptionalParams
-} from "./generated/models";
+import { TableQueryEntitiesOptionalParams } from "./generated/models";
 import { getClientParamsFromConnectionString } from "./utils/connectionString";
 import {
   isNamedKeyCredential,
