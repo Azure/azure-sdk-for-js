@@ -12,7 +12,7 @@
 /sdk/core/ @xirzec @jeremymeng @deyaaeldeen
 
 # PRLabel: %Azure.Core
-/sdk/core/core-amqp/ @jeremymeng @deyaaeldeen @HarshaNalluru
+/sdk/core/core-amqp/ @jeremymeng @deyaaeldeen @HarshaNalluru @ramya-rao-a
 
 # PRLabel: %Azure.Core
 /sdk/core/core-auth/ @sadasant @xirzec @jeremymeng @deyaaeldeen
@@ -54,7 +54,7 @@
 /sdk/eventgrid/ @xirzec @ellismg
 
 # PRLabel: %Event Hubs
-/sdk/eventhub/ @deyaaeldeen @jeremymeng @HarshaNalluru
+/sdk/eventhub/ @deyaaeldeen @jeremymeng @HarshaNalluru @ramya-rao-a
 
 # PRLabel: %Azure.Identity
 /sdk/identity/ @sadasant @witemple-msft @schaabs
@@ -66,7 +66,7 @@
 /sdk/keyvault/ @maorleger @sadasant 
 
 # PRLabel: %Service Bus
-/sdk/servicebus/ @deyaaeldeen @jeremymeng @HarshaNalluru
+/sdk/servicebus/ @deyaaeldeen @jeremymeng @HarshaNalluru @ramya-rao-a
 
 # PRLabel: %Storage
 /sdk/storage/ @XiaoningLiu @jeremymeng @vinjiang @jiacfan @ljian3377 @EmmaZhu
