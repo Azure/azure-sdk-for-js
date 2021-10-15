@@ -76,7 +76,7 @@ export interface CommonEventProcessorOptions
  * consumers to fail if their `ownerLevel` is lower or doesn't exist.
  * - `retryOptions`: The retry options used to govern retry attempts when an issue is encountered while receiving events.
  * A simple usage can be `{ "maxRetries": 4 }`.
- * - `disableDeserialization` : Optional boolean to disable automatic JSON parsing when receiving a string in the event body.
+ * - `skipJsonParsingContent` : Optional boolean to disable automatic JSON parsing when receiving a string in the event body.
  *
  * Example usage:
  * ```js
@@ -117,5 +117,5 @@ export interface EventHubConsumerOptions {
   /**
    * Optional boolean to disable automatic JSON parsing when receiving a string in the event body.
    */
-  disableDeserialization?: boolean;
+  skipJsonParsingContent?: boolean;
 }

@@ -274,10 +274,10 @@ export interface SendBatchOptions extends OperationOptions {
 
 // @public
 export interface SubscribeOptions {
-    disableDeserialization?: boolean;
     maxBatchSize?: number;
     maxWaitTimeInSeconds?: number;
     ownerLevel?: number;
+    skipJsonParsingContent?: boolean;
     startPosition?: EventPosition | {
         [partitionId: string]: EventPosition;
     };

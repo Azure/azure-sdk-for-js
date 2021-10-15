@@ -156,15 +156,15 @@ const messagePropertiesMap = {
 /**
  * Converts the AMQP message to an EventData.
  * @param msg - The AMQP message that needs to be converted to EventData.
- * @param disableDeserialization - Optional boolean to disable automatic JSON parsing when receiving a string in the event body.
+ * @param skipJsonParsingContent - Boolean to disable automatic JSON parsing when receiving a string in the event body.
  * @hidden
  */
 export function fromRheaMessage(
   msg: RheaMessage,
-  disableDeserialization?: boolean
+  skipJsonParsingContent: boolean
 ): EventDataInternal {
   const rawMessage = AmqpAnnotatedMessage.fromRheaMessage(msg);
-  const { body, bodyType } = defaultDataTransformer.decode(msg.body, disableDeserialization);
+  const { body, bodyType } = defaultDataTransformer.decode(msg.body, skipJsonParsingContent);
   rawMessage.bodyType = bodyType;
 
   const data: EventDataInternal = {
