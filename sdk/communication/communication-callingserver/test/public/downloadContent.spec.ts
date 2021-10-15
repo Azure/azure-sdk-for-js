@@ -32,7 +32,6 @@ describe("Download Content", function() {
     "https://endpoint/v1/objects/0-eus-d15-af5689148b0afa252a57a0121b744dcd/content/acsmetadata";
   const callingServerServiceClient = new CallingServerClient(
     "endpoint=https://endpoint/;accesskey=banana"
-    // "endpoint=https://recording-e2e-sample-xiaoxli.communication.azure.com/;accesskey=TyYsQlMbQ7+zgmepk1+XbNJt4k0wqSsxnhvAGin8+oMkK6XPWcVzz6NHZ2CggW+Sj2w52/51/z12PP8zDuZClw=="
   );
 
   beforeEach(async function(this: Context) {
