@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0-beta.2 (2021-10-15)
+## 1.0.0-beta.3 (2021-10-15)
 - Refresh the package
 - Add polling helper support
 
