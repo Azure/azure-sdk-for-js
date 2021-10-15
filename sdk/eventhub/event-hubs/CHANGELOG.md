@@ -3,7 +3,7 @@
 ## 5.7.0 (Unreleased)
 
 ### Features Added
-- Added `disableDeserialization` optional parameter to `EventHubConsumerClient.subscribe` method. When se to `true` it will disable all automatic `JSON.parse` when the body of an event (`event body` or `event.body.content`) is a stringified JSON.
+- Added `skipJsonParsingContent` optional parameter to `EventHubConsumerClient.subscribe` method. When se to `true` it will disable all automatic `JSON.parse` when the body of an event (`event body` or `event.body.content`) is a stringified JSON.
 
 ### Breaking Changes
 
