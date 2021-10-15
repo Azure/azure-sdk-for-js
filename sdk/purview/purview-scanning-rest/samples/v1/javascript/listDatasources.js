@@ -7,7 +7,7 @@
  * @summary gets a list of datasources
  */
 
-const PurviewScanning, { paginate } = require("@azure-rest/purview-scanning");
+import PurviewScanning, { paginate } from "@azure-rest/purview-scanning";
 const { DefaultAzureCredential } = require("@azure/identity");
 const dotenv = require("dotenv");
 
@@ -16,14 +16,14 @@ dotenv.config();
 const endpoint = process.env["ENDPOINT"] || "";
 
 async function main() {
-  console.log("== List dataSources sample ==");
+  console.log("== List dataSources ==");
   const client = PurviewScanning(endpoint, new DefaultAzureCredential());
 
   const dataSources = await client.path("/datasources").get();
   if (dataSources.status !== "200") {
     throw dataSources.body.error;
   }
-  const iter = paginate(client, dataSources)
+  const iter = paginate(client, dataSources);
 
   const items = [];
 
