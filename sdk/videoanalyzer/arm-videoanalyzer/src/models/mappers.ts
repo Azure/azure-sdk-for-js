@@ -542,6 +542,7 @@ export const EndpointBase: msRest.CompositeMapper = {
     className: "EndpointBase",
     modelProperties: {
       credentials: {
+        required: true,
         serializedName: "credentials",
         type: {
           name: "Composite",
