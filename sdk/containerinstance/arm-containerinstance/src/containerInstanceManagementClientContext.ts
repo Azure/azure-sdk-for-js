@@ -13,7 +13,7 @@ import * as msRestAzure from "@azure/ms-rest-azure-js";
 import { TokenCredential } from "@azure/core-auth";
 
 const packageName = "@azure/arm-containerinstance";
-const packageVersion = "7.0.0";
+const packageVersion = "7.1.0";
 
 export class ContainerInstanceManagementClientContext extends msRestAzure.AzureServiceClient {
   credentials: msRest.ServiceClientCredentials | TokenCredential;
@@ -50,7 +50,7 @@ export class ContainerInstanceManagementClientContext extends msRestAzure.AzureS
 
     super(credentials, options);
 
-    this.apiVersion = '2021-07-01';
+    this.apiVersion = '2021-09-01';
     this.acceptLanguage = 'en-US';
     this.longRunningOperationRetryTimeout = 30;
     this.baseUri = options.baseUri || this.baseUri || "https://management.azure.com";

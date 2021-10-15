@@ -714,6 +714,10 @@ export interface Resource extends BaseResource {
    * The resource tags.
    */
   tags?: { [propertyName: string]: string };
+  /**
+   * The zones for the container group.
+   */
+  zones?: string[];
 }
 
 /**

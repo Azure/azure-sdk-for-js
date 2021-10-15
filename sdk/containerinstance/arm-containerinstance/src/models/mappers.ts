@@ -1221,6 +1221,17 @@ export const Resource: msRest.CompositeMapper = {
             }
           }
         }
+      },
+      zones: {
+        serializedName: "zones",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
       }
     }
   }
