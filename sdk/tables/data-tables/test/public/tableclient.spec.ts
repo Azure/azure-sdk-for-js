@@ -195,6 +195,29 @@ authModes.forEach((authMode) => {
         assert.equal(result.testField, testEntity.testField);
       });
 
+      it("should select specific properties", async () => {
+        const testEntity = {
+          partitionKey: `P2_${suffix}`,
+          rowKey: "R1",
+          foo: "testEntity",
+          bar: 123,
+          baz: true
+        };
+
+        await client.createEntity(testEntity);
+
+        const result = await client.getEntity(testEntity.partitionKey, testEntity.rowKey, {queryOptions: {select: ["baz", "partitionKey", "rowKey", "etag"]}});
+
+        assert.isDefined(result.etag);
+        assert.equal(result.baz, testEntity.baz);
+        assert.equal(result.partitionKey, testEntity.partitionKey);
+        assert.equal(result.rowKey, testEntity.rowKey);
+
+        // properties not included in select should be undefined in the result
+        assert.isUndefined(result.bar);
+        assert.isUndefined(result.foo);
+      })
+
       it("should createEntity with Date", async () => {
         const testDate = "2020-09-17T00:00:00.111Z";
         const testEntity = {
@@ -407,6 +430,38 @@ authModes.forEach((authMode) => {
         assert.equal(result.rowKey, testEntity.rowKey);
         assert.equal(result.integerNumber, 3);
         assert.equal(result.floatingPointNumber, 3.14);
+      });
+
+      it("should createEntity with double number in scientific notation", async () => {
+        const inputEntity = {
+          partitionKey: "doubleSci",
+          rowKey: "0",
+          Value: { value: "1.23456789012346e+24", type: "Double" }
+        };
+
+        await client.createEntity(inputEntity);
+
+        const result = await client.getEntity(inputEntity.partitionKey, inputEntity.rowKey, {
+          disableTypeConversion: true
+        });
+
+        assert.deepEqual(result.Value, inputEntity.Value);
+      });
+
+      it("should createEntity with empty string", async () => {
+        const inputEntity = {
+          partitionKey: "emptyString",
+          rowKey: "0",
+          value: { value: "", type: "String" }
+        };
+
+        await client.createEntity(inputEntity);
+
+        const result = await client.getEntity(inputEntity.partitionKey, inputEntity.rowKey, {
+          disableTypeConversion: true
+        });
+
+        assert.deepEqual(result.value, inputEntity.value);
       });
 
       it("should createEntity with primitive int and float without automatic type conversion", async () => {

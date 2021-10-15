@@ -26,7 +26,6 @@ import {
   SetAccessPolicyResponse
 } from "./generatedModels";
 import {
-  QueryOptions as GeneratedQueryOptions,
   TableQueryEntitiesOptionalParams
 } from "./generated/models";
 import { getClientParamsFromConnectionString } from "./utils/connectionString";
@@ -47,6 +46,7 @@ import {
   deserializeObjectsArray,
   deserializeSignedIdentifier,
   serialize,
+  serializeQueryOptions,
   serializeSignedIdentifiers
 } from "./serialization";
 import { Table } from "./generated/operationsInterfaces";
@@ -393,7 +393,7 @@ export class TableClient {
       const { disableTypeConversion, queryOptions, ...getEntityOptions } = updatedOptions || {};
       await this.table.queryEntitiesWithPartitionAndRowKey(this.tableName, partitionKey, rowKey, {
         ...getEntityOptions,
-        queryOptions: this.convertQueryOptions(queryOptions || {}),
+        queryOptions: serializeQueryOptions(queryOptions || {}),
         onResponse
       });
       const tableEntity = deserialize<TableEntityResult<T>>(
@@ -523,7 +523,7 @@ export class TableClient {
     options: InternalListTableEntitiesOptions = {}
   ): Promise<TableEntityResultPage<T>> {
     const { disableTypeConversion = false } = options;
-    const queryOptions = this.convertQueryOptions(options.queryOptions || {});
+    const queryOptions = serializeQueryOptions(options.queryOptions || {});
     const listEntitiesOptions: TableQueryEntitiesOptionalParams = {
       ...options,
       queryOptions
@@ -918,15 +918,6 @@ export class TableClient {
     }
 
     return this.transactionClient.submitTransaction();
-  }
-
-  private convertQueryOptions(query: TableEntityQueryOptions): GeneratedQueryOptions {
-    const { select, ...queryOptions } = query;
-    const mappedQuery: GeneratedQueryOptions = { ...queryOptions };
-    if (select) {
-      mappedQuery.select = select.join(",");
-    }
-    return mappedQuery;
   }
 
   /**
