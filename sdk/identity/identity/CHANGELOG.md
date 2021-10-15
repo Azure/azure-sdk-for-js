@@ -1,6 +1,6 @@
 # Release History
 
-## 2.0.0 (2021-10-14)
+## 2.0.0 (2021-10-15)
 
 After multiple beta releases over the past year, we're proud to announce the general availability of version 2 of the `@azure/identity` package. This version includes the best parts of v1, plus several improvements.
 
