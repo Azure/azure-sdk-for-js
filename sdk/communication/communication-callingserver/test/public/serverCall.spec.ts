@@ -22,7 +22,6 @@ const environmentSetup: RecorderEnvironmentSetup = {
 };
 
 describe("Server Call Live Test", function() {
-
   describe("Recording Operations", function() {
     let recorder: Recorder;
     let connectionString: string;

@@ -55,7 +55,7 @@ describe("Download Content", function() {
     const downloadResponse = await callingServerServiceClient.download(uri);
     const metadata = await bodyToString(downloadResponse, downloadResponse.contentLength!);
     assert.strictEqual(metadata.includes("0-eus-d15-af5689148b0afa252a57a0121b744dcd"), true);
-  })
+  });
 
   it("download with redirection", async function(this: Context) {
     if (!isPlaybackMode()) {
@@ -69,7 +69,7 @@ describe("Download Content", function() {
     assert.notStrictEqual(metadataStream, null);
     const metadata = await bodyToString(downloadResponse, downloadResponse.contentLength!);
     assert.strictEqual(metadata.includes("0-sa-d4-a29f0c0212c0a2a634ab078245184de8"), true);
-  })
+  });
 
   it("unauthorized download", async function(this: Context) {
     if (!isPlaybackMode()) {
