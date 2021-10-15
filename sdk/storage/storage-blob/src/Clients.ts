@@ -4187,7 +4187,7 @@ export class BlockBlobClient extends BlobClient {
    * Uploads data to block blob. Requires a bodyFactory as the data source,
    * which need to return a {@link HttpRequestBody} object with the offset and size provided.
    *
-   * When data length is no more than the specifiled {@link BlockBlobParallelUploadOptions.maxSingleShotSize} (default is
+   * When data length is no more than the specified {@link BlockBlobParallelUploadOptions.maxSingleShotSize} (default is
    * {@link BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES}), this method will use 1 {@link upload} call to finish the upload.
    * Otherwise, this method will call {@link stageBlock} to upload blocks, and finally call {@link commitBlockList}
    * to commit the block list.
