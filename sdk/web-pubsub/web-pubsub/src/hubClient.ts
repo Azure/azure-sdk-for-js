@@ -28,7 +28,7 @@ export interface HubCloseConnectionOptions extends OperationOptions {
 /**
  * Options for closing all connections to a hub.
  */
- export interface HubCloseAllConnectionsOptions extends OperationOptions {
+export interface HubCloseAllConnectionsOptions extends OperationOptions {
   /**
    * Reason the connection is being closed.
    */
@@ -38,13 +38,12 @@ export interface HubCloseConnectionOptions extends OperationOptions {
 /**
  * Options for closing all of a user's connections to a hub.
  */
- export interface HubCloseUserConnectionsOptions extends OperationOptions {
+export interface HubCloseUserConnectionsOptions extends OperationOptions {
   /**
    * Reason the connection is being closed.
    */
   reason?: string;
 }
-
 
 /**
  * Options for sending messages to hubs.
@@ -55,7 +54,6 @@ export interface HubSendToAllOptions extends OperationOptions {
    */
   excludedConnections?: string[];
 }
-
 
 /**
  * Options for sending text messages to hubs.
@@ -564,19 +562,14 @@ export class WebPubSubServiceClient {
    *
    * @param options - Additional options
    */
-   public async closeAllConnections(
-    options: HubCloseAllConnectionsOptions = {}
-  ): Promise<void> {
+  public async closeAllConnections(options: HubCloseAllConnectionsOptions = {}): Promise<void> {
     const { span, updatedOptions } = createSpan(
       "WebPubSubServiceClient-hub-closeAllConnections",
       options
     );
 
     try {
-      return await this.client.webPubSub.closeAllConnections(
-        this.hubName,
-        updatedOptions
-      );
+      return await this.client.webPubSub.closeAllConnections(this.hubName, updatedOptions);
     } finally {
       span.end();
     }
@@ -588,7 +581,7 @@ export class WebPubSubServiceClient {
    * @param user - User id to close
    * @param options - Additional options
    */
-   public async closeUserConnections(
+  public async closeUserConnections(
     userId: string,
     options: HubCloseUserConnectionsOptions = {}
   ): Promise<void> {
@@ -598,15 +591,11 @@ export class WebPubSubServiceClient {
     );
 
     try {
-      return await this.client.webPubSub.closeUserConnections(
-        this.hubName,
-        userId,
-        updatedOptions
-      );
+      return await this.client.webPubSub.closeUserConnections(this.hubName, userId, updatedOptions);
     } finally {
       span.end();
     }
-  }  
+  }
 
   /**
    * Remove a specific user from all groups they are joined to
