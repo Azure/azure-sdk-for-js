@@ -920,15 +920,15 @@ const token = await credential.getToken("api://AAD_APP_CLIENT_ID/CUSTOM_SCOPE_NA
 Once the token is retrieved, pass it in the `userAssertionToken` property of the `OnBehalfOfCredentialOptions`, along with `tenantId`, `clientId`, and `clientSecret`. Once initialized, this credential will have granted the user access to the resources available to the app registration.
 
 ```ts
-import { InteractiveBrowserCredential } from "@azure/identity";
+import { InteractiveBrowserCredential, OnBehalfOfCredential } from "@azure/identity";
 
 async function main(): Promise<void> {
   // One would use AuthCodeCredential in real life.
   const credential = new InteractiveBrowserCredential();
 
-  const token = await deviceCred.getToken("api://AAD_APP_CLIENT_ID/Read");
+  const token = await credential.getToken("api://AAD_APP_CLIENT_ID/Read");
 
-  const oboCred = new identity.OnBehalfOfCredential({
+  const oboCred = new OnBehalfOfCredential({
     tenantId: "TENANT",
     clientId: "AAD_APP_CLIENT_ID",
     clientSecret: "AAD_APP_CLIENT_SECRET",
