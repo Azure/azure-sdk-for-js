@@ -58,7 +58,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 
 [accountcollections]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/purview/purview-administration-rest/samples/v1/javascript/accountCollections.js
 [metadatapolicies]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/purview/purview-administration-rest/samples/v1/javascript/metadataPolicies.js
-[apiref]: https://docs.microsoft.com/azure/purview/tutorial-using-rest-apis
+[apiref]: https://docs.microsoft.com/javascript/api/@azure/purview-administration
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azurepurviewinstance]: https://docs.microsoft.com/azure/purview/create-catalog-portal
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/purview/purview-administration-rest/README.md
