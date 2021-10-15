@@ -16,7 +16,7 @@ dotenv.config();
 const tablesUrl = process.env["TABLES_URL"] || "";
 const sasToken = process.env["SAS_TOKEN"] || "";
 
-async function listEntitiesPage() {
+async function manualPageQuery() {
   const tableName = `manualListByPage`;
 
   // See authenticationMethods sample for other options of creating a new client
@@ -61,6 +61,6 @@ async function listEntitiesPage() {
   }
 }
 
-listEntitiesPage().catch((err) => {
+manualPageQuery().catch((err) => {
   console.error("The sample encountered an error:", err);
 });
