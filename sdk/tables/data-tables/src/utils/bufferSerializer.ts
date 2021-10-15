@@ -2,15 +2,9 @@
 // Licensed under the MIT license.
 
 /**
- * Encodes a string in base64 format.
- * @param value - The Uint8Aray to encode
- */
-export function base64Encode(value: string): string;
-/**
  * Encodes a byte array in base64 format.
- * @param value - The Uint8Aray to encode
+ * @param value - The Uint8Aray or string to encode
  */
-export function base64Encode(value: Uint8Array): string;
 export function base64Encode(value: Uint8Array | string): string {
   if (value instanceof Uint8Array) {
     const bufferValue = value instanceof Buffer ? value : Buffer.from(value.buffer);

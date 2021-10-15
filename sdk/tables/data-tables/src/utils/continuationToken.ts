@@ -31,7 +31,13 @@ export function encodeContinuationToken(
  * Decodes a continuationToken into an object containing a nextPartitionKey and nextRowKey
  */
 export function decodeContinuationToken(encodedToken: string): ContinuationToken {
-  const continuationToken: ContinuationToken = JSON.parse(base64Decode(encodedToken).toString());
+  const decodedToken = base64Decode(encodedToken);
+  let tokenStr = "";
+
+  for (const byte of decodedToken) {
+    tokenStr += String.fromCharCode(byte);
+  }
+  const continuationToken: ContinuationToken = JSON.parse(tokenStr);
 
   return continuationToken;
 }

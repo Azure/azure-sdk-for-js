@@ -521,7 +521,7 @@ export class TableClient {
   private async _listEntities<T extends object>(
     tableName: string,
     options: InternalListTableEntitiesOptions = {}
-  ): Promise<ListEntitiesResponse<TableEntityResult<T>>> {
+  ): Promise<TableEntityResultPage<T>> {
     const { disableTypeConversion = false } = options;
     const queryOptions = this.convertQueryOptions(options.queryOptions || {});
     const listEntitiesOptions: TableQueryEntitiesOptionalParams = {
@@ -550,9 +550,11 @@ export class TableClient {
     // Encode nextPartitionKey and nextRowKey as a single continuation token and add it as a
     // property to the page.
     const continuationToken = encodeContinuationToken(nextPartitionKey, nextRowKey);
-    return Object.assign([...tableEntities], {
+    const page: TableEntityResultPage<T> =  Object.assign([...tableEntities], {
       continuationToken
     });
+
+    return page;
   }
 
   /**
