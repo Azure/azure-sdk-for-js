@@ -73,15 +73,8 @@ function serializeObject(obj: { value: any; type: EdmTypes }): serializedType {
     serializedValue.value = obj.value;
     serializedValue.type = Edm[obj.type];
   } else if (obj.type === "Binary") {
-    if (obj.value instanceof Uint8Array) {
-      serializedValue.value = base64Encode(obj.value);
-      serializedValue.type = Edm.Binary;
-    } else if (typeof obj.value === "string") {
-      serializedValue.value = obj.value;
-      serializedValue.type = Edm.Binary;
-    } else {
-      throw new Error(`Binary values only support string and UInt8Array`);
-    }
+    serializedValue.value = base64Encode(obj.value);
+    serializedValue.type = Edm.Binary;
   } else {
     throw new Error(`Unknown EDM type ${typeof obj.value}`);
   }
