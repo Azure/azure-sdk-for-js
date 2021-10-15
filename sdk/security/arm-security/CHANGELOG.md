@@ -1,5 +1,15 @@
 # Release History
 
+## 4.0.0-beta.2 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 4.0.0-beta.1 (2021-10-14)
 
 This is the first preview for the new version of the `@azure/arm-security` package that follows the new [guidelines for TypeScript SDKs](https://azure.github.io/azure-sdk/typescript_introduction.html) for Azure services.
