@@ -17,7 +17,7 @@ const input = "dist-esm/src/index.js";
 const production = process.env.NODE_ENV === "production";
 
 export function nodeConfig(test = false) {
-  const externalNodeBuiltins = ["events", "crypto"];
+  const externalNodeBuiltins = ["events", "crypto", "stream"];
   const baseConfig = {
     input: input,
     external: depNames.concat(externalNodeBuiltins),
@@ -30,7 +30,8 @@ export function nodeConfig(test = false) {
         values: {
           // replace dynamic checks with if (true) since this is for node only.
           // Allows rollup's dead code elimination to be more aggressive.
-          "if (isNode)": "if (true)"
+          "if (isNode)": "if (true)",
+          "if (!isNode)": "if (false)"
         }
       }),
       nodeResolve({ preferBuiltins: true }),
@@ -69,7 +70,7 @@ export function nodeConfig(test = false) {
 export function browserConfig(test = false) {
   const baseConfig = {
     input: input,
-    external: ["crypto", "fs-extra"],
+    external: ["crypto"],
     output: {
       file: "dist-browser/azure-communication-callingserver.js",
       format: "umd",
@@ -86,26 +87,18 @@ export function browserConfig(test = false) {
           // replace dynamic checks with if (false) since this is for
           // browser only. Rollup's dead code elimination will remove
           // any code guarded by if (isNode) { ... }
-          "if (isNode)": "if (false)"
+          "if (isNode)": "if (false)",
+          "if (!isNode)": "if (true)"
         }
-      }),
-      shim({
-        constants: `export default {}`,
-        fs: `export default {}`,
-        os: `export default {}`,
-        dotenv: `export function config() { }`,
-        path: `export default {}`
       }),
       nodeResolve({
         mainFields: ["module", "browser"],
         preferBuiltins: false
       }),
-      json(),
       cjs({
         namedExports: {
           chai: ["assert"],
           events: ["EventEmitter"],
-          "@azure/communication-signaling": ["CommunicationSignalingClient", "SignalingClient"],
           ...openTelemetryCommonJs()
         }
       }),

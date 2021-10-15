@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { OperationOptions } from "@azure/core-http";
+import { AbortSignalLike } from "@azure/abort-controller";
+import { OperationOptions, TransferProgressEvent } from "@azure/core-http";
 import { PhoneNumberIdentifier } from "@azure/communication-common";
 
 import { CallMediaType, CallingEventSubscriptionType } from "./generated/src/models";
@@ -27,7 +28,7 @@ export {
 /**
  * Options to create a call.
  */
-export interface CreateCallOptions extends OperationOptions {
+export interface CreateCallConnectionOptions extends OperationOptions {
   /** The alternate identity of the source of the call if dialing out to a pstn number */
   alternateCallerId?: PhoneNumberIdentifier;
   /** The subject. */
@@ -64,6 +65,8 @@ export interface PlayAudioOptions extends OperationOptions {
   /** The callback Uri to receive PlayAudio status notifications. */
   callbackUri: string;
 }
+
+export type PlayAudioToParticipantOptions = PlayAudioOptions;
 
 /**
  * Options to add participant to the call.
@@ -220,6 +223,37 @@ enum CallingServerEventType {
   TONE_RECEIVED_EVENT = "Microsoft.Communication.ToneReceived"
 }
 
+export interface DownloadOptions extends OperationOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   */
+  abortSignal?: AbortSignalLike;
+  /**
+   * Call back to receive events on the progress of download operation.
+   */
+  onProgress?: (progress: TransferProgressEvent) => void;
+
+  /**
+   * Optional. ONLY AVAILABLE IN NODE.JS.
+   *
+   * How many retries will perform when original body download stream unexpected ends.
+   * Above kind of ends will not trigger retry policy defined in a pipeline,
+   * because they doesn't emit network errors.
+   *
+   * With this option, every additional retry means an additional `FileClient.download()` request will be made
+   * from the broken point, until the requested range has been successfully downloaded or maxRetryRequests is reached.
+   *
+   * Default value is 5, please set a larger value when loading large files in poor network.
+   */
+  maxRetryRequests?: number;
+}
+
+export interface DownloadContentOptions extends DownloadOptions {
+  /** Return only the bytes of the blob in the specified range. */
+  range?: string;
+}
+
 export class KnownCallingServerEventType {
   public static CALL_CONNECTION_STATE_CHANGED_EVENT:
     | string
@@ -244,10 +278,10 @@ export class KnownCallingServerEventType {
     "Microsoft.Communication.ToneReceived"
   );
 
-  public static fromString(value: string) {
-    var allEvents = Object.values(CallingServerEventType);
-    for (let entry of allEvents) {
-      if (entry.toString().toUpperCase() == value.toUpperCase()) {
+  public static fromString(value: string): string | null {
+    const allEvents = Object.values(CallingServerEventType);
+    for (const entry of allEvents) {
+      if (entry.toString().toUpperCase() === value.toUpperCase()) {
         return value;
       }
     }

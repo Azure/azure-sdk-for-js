@@ -2,12 +2,14 @@
 // Licensed under the MIT license.
 /// <reference lib="esnext.asynciterable" />
 
-import { CallConnection } from ".";
+import { CallConnection, ContentDownloadResponse } from ".";
 import {
-  CreateCallOptions,
+  CreateCallConnectionOptions,
+  DownloadOptions,
   JoinCallOptions,
   CallLocator,
   PlayAudioOptions,
+  PlayAudioToParticipantOptions,
   AddParticipantOptions,
   RemoveParticipantOptions,
   CancelMediaOperationOptions,
@@ -46,6 +48,7 @@ import {
   serializeCommunicationIdentifier
 } from "@azure/communication-common";
 import {
+  isNode,
   PipelineOptions,
   InternalPipelineOptions,
   createPipelineFromOptions,
@@ -54,11 +57,16 @@ import {
 } from "@azure/core-http";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { CallingServerApiClient } from "./generated/src/callingServerApiClient";
+import { CallingServerApiClientContext } from "./generated/src/callingServerApiClientContext";
 import { SDK_VERSION } from "./constants";
-import { createSpan } from "./tracing";
+import { convertTracingToRequestOptionsBase, createSpan } from "./tracing";
 import { logger } from "./logger";
+import { ContentDownloader } from "./ContentDownloader";
+import { rangeToString } from "./Range";
+import { RepeatableContentDownloadResponse } from "./RepeatableContentDownloadResponse";
 import { extractOperationOptions } from "./extractOperationOptions";
 import { CallingServerUtils } from "./utils/utils";
+import { serializeCallLocator } from "./callLocatorModelSerializer";
 
 /**
  * Client options used to configure CallingServer Client API requests.
@@ -80,6 +88,7 @@ export class CallingServerClient {
   private readonly callingServerServiceClient: CallingServerApiClient;
   private readonly callConnectionRestClient: CallConnections;
   private readonly serverCallRestClient: ServerCalls;
+  private readonly downloadCallingServerApiClient: CallingServerApiClientContext;
 
   /**
    * Initializes a new instance of the CallingServerClient class.
@@ -132,6 +141,7 @@ export class CallingServerClient {
     this.callingServerServiceClient = new CallingServerApiClient(url, pipeline);
     this.callConnectionRestClient = this.callingServerServiceClient.callConnections;
     this.serverCallRestClient = this.callingServerServiceClient.serverCalls;
+    this.downloadCallingServerApiClient = new CallingServerApiClientContext(url, pipeline);
   }
 
   /**
@@ -140,6 +150,10 @@ export class CallingServerClient {
    */
   public getCallConnection(callConnectionId: string): CallConnection {
     return new CallConnection(callConnectionId, this.callConnectionRestClient);
+  }
+
+  public initializeContentDownloader(): ContentDownloader {
+    return new ContentDownloader(this.downloadCallingServerApiClient);
   }
 
   /**
@@ -151,7 +165,7 @@ export class CallingServerClient {
   public async createCallConnection(
     source: CommunicationIdentifier,
     targets: CommunicationIdentifier[],
-    options: CreateCallOptions
+    options: CreateCallConnectionOptions
   ): Promise<CallConnection> {
     const { operationOptions, restOptions } = extractOperationOptions(options);
     const { span, updatedOptions } = createSpan(
@@ -209,7 +223,7 @@ export class CallingServerClient {
     const { span, updatedOptions } = createSpan("ServerCallRestClient-JoinCall", operationOptions);
 
     const request: JoinCallRequest = {
-      callLocator: callLocator,
+      callLocator: serializeCallLocator(callLocator),
       source: serializeCommunicationIdentifier(source),
       callbackUri: restOptions.callbackUri,
       requestedMediaTypes: restOptions.requestedMediaTypes,
@@ -311,7 +325,7 @@ export class CallingServerClient {
     callLocator: CallLocator,
     participant: CommunicationIdentifier,
     audioFileUri: string,
-    options: PlayAudioOptions
+    options: PlayAudioToParticipantOptions
   ): Promise<PlayAudioResult> {
     const { operationOptions, restOptions } = extractOperationOptions(options);
     const { span, updatedOptions } = createSpan("ServerCallRestClient-playAudio", operationOptions);
@@ -362,7 +376,7 @@ export class CallingServerClient {
     options: AddParticipantOptions = {}
   ): Promise<ServerCallsAddParticipantResponse> {
     const { span, updatedOptions } = createSpan("ServerCallRestClient-playAudio", options);
-    var alternate_caller_id =
+    const alternate_caller_id =
       typeof alternateCallerId === "undefined"
         ? alternateCallerId
         : serializeCommunicationIdentifier({ phoneNumber: alternateCallerId }).phoneNumber;
@@ -511,6 +525,9 @@ export class CallingServerClient {
    *
    * @param callLocator - The callLocator contains server call id.
    * @param recordingStateCallbackUri - The call back uri for recording state.
+   * @param recordingContentType - Content type of call recording.
+   * @param recordingChannelType - Channel type of call recording.
+   * @param recordingFormatType - Format type of call recording.
    * @param options - Additional request options contains StartRecording api options.
    */
   public async startRecording(
@@ -527,8 +544,16 @@ export class CallingServerClient {
       throw new Error("callLocator is invalid.");
     }
 
-    var startCallRecordingWithCallLocatorRequest: StartCallRecordingWithCallLocatorRequest = {
-      callLocator: callLocator,
+    if (
+      typeof recordingStateCallbackUri === "undefined" ||
+      !recordingStateCallbackUri ||
+      !CallingServerUtils.isValidUrl(recordingStateCallbackUri)
+    ) {
+      throw new Error("recordingStateCallbackUri is invalid.");
+    }
+
+    const startCallRecordingWithCallLocatorRequest: StartCallRecordingWithCallLocatorRequest = {
+      callLocator: serializeCallLocator(callLocator),
       recordingStateCallbackUri: recordingStateCallbackUri,
       recordingContentType: recordingContentType,
       recordingChannelType: recordingChannelType,
@@ -629,7 +654,6 @@ export class CallingServerClient {
     options: StopRecordingOptions = {}
   ): Promise<RestResponse> {
     const { span, updatedOptions } = createSpan("ServerCallRestClient-StopRecording", options);
-
     if (typeof recordingId === "undefined" || !recordingId || !recordingId.trim()) {
       throw new Error("recordingId is invalid.");
     }
@@ -673,6 +697,134 @@ export class CallingServerClient {
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
       return result;
+    } catch (e) {
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Downloads the content pointed to the uri passed as a parameter.
+   *
+   * * In Node.js, data returns in a Readable stream readableStreamBody
+   * * In browsers, data returns in a promise blobBody
+   *
+   * @param uri - Endpoint where the content exists.
+   * @param offset - From which position of the blob to download, greater than or equal to 0.
+   * @param count - How much data to be downloaded, greater than 0. Will download to the end when undefined
+   * @param options - Optional options to Download operation.
+   *
+   *
+   * Example usage (Node.js):
+   *
+   * ```js
+   * // Download and convert a blob to a string
+   * const downloadResponse = await callingServerClient.download();
+   * const downloaded = await streamToBuffer(downloadResponse.readableStreamBody);
+   * console.log("Downloaded content:", downloaded.toString());
+   *
+   * async function streamToBuffer(readableStream) {
+   * return new Promise((resolve, reject) => {
+   * const chunks = [];
+   * readableStream.on("data", (data) => {
+   * chunks.push(data instanceof Buffer ? data : Buffer.from(data));
+   * });
+   * readableStream.on("end", () => {
+   * resolve(Buffer.concat(chunks));
+   * });
+   * readableStream.on("error", reject);
+   * });
+   * }
+   * ```
+   *
+   * Example usage (browser):
+   *
+   * ```js
+   * // Download and convert a content blob to a string
+   * const downloadResponse = await callingServerClient.download();
+   * const downloaded = await blobToString(await downloadResponse.blobBody);
+   * console.log(
+   *   "Downloaded blob content",
+   *   downloaded
+   * );
+   *
+   * async function blobToString(blob: Blob): Promise<string> {
+   *   const fileReader = new FileReader();
+   *   return new Promise<string>((resolve, reject) => {
+   *     fileReader.onloadend = (ev: any) => {
+   *       resolve(ev.target!.result);
+   *     };
+   *     fileReader.onerror = reject;
+   *     fileReader.readAsText(blob);
+   *   });
+   * }
+   * ```
+   */
+  public async download(
+    uri: string,
+    offset: number = 0,
+    count?: number,
+    options: DownloadOptions = {}
+  ): Promise<ContentDownloadResponse> {
+    const { span, updatedOptions } = createSpan("ServerCallRestClient-download", options);
+    const DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS = 3;
+    const contentDownloader = this.initializeContentDownloader();
+    try {
+      const res = await contentDownloader.downloadContent(uri, {
+        abortSignal: options.abortSignal,
+        requestOptions: {
+          onDownloadProgress: isNode ? undefined : options.onProgress // for Node.js, progress is reported by RetriableReadableStream
+        },
+        range: offset === 0 && !count ? undefined : rangeToString({ offset, count }),
+        ...convertTracingToRequestOptionsBase(updatedOptions)
+      });
+
+      // Return browser response immediately
+      if (!isNode) {
+        return res;
+      }
+
+      // We support retrying when download stream unexpected ends in Node.js runtime
+      if (options.maxRetryRequests === undefined || options.maxRetryRequests < 0) {
+        options.maxRetryRequests = DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS;
+      }
+
+      if (res.contentLength === undefined) {
+        throw new RangeError(`File download response doesn't contain valid content length header`);
+      }
+      return new RepeatableContentDownloadResponse(
+        res,
+        async (start: number): Promise<NodeJS.ReadableStream> => {
+          // Debug purpose only
+          // console.log(
+          //   `Read from internal stream, range: ${
+          //     updatedOptions.range
+          //   }, options: ${JSON.stringify(updatedOptions)}`
+          // );
+
+          return (
+            await contentDownloader.downloadContent(uri, {
+              abortSignal: options.abortSignal,
+              range: rangeToString({
+                count: offset + res.contentLength! - start,
+                offset: start
+              }),
+              ...convertTracingToRequestOptionsBase(updatedOptions)
+            })
+          ).readableStreamBody!;
+        },
+        offset,
+        res.contentLength!,
+        {
+          maxRetryRequests: options.maxRetryRequests,
+          onProgress: options.onProgress
+        }
+      );
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,

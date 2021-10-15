@@ -177,7 +177,7 @@ export class CallConnection {
     options: AddParticipantOptions = {}
   ): Promise<CallConnectionsAddParticipantResponse> {
     const { span, updatedOptions } = createSpan("CallConnectionRestClient-playAudio", options);
-    var alternate_caller_id =
+    const alternate_caller_id =
       typeof alternateCallerId === "undefined"
         ? alternateCallerId
         : serializeCommunicationIdentifier({ phoneNumber: alternateCallerId }).phoneNumber;
