@@ -97,7 +97,7 @@ describe("Challenge based authentication tests", () => {
     // Note: Failing to authenticate will make network requests throw.
   });
 
-  it.only("supports multi-tenant authentication", async function(this: Context) {
+  it("supports multi-tenant authentication", async function(this: Context) {
     if (!isNode) {
       this.skip();
     }
