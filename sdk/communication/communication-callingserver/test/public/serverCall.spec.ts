@@ -9,7 +9,7 @@ import assert from "assert";
 import { Context } from "mocha";
 
 const replaceableVariables: { [k: string]: string } = {
-  COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING: "endpoint=https://endpoint/;accesskey=banana"
+  COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING: "endpoint=https://endpoint/;accesskey=banana"
 };
 
 const environmentSetup: RecorderEnvironmentSetup = {
@@ -30,7 +30,7 @@ describe("Server Call Live Test", function() {
       recorder = record(this, environmentSetup);
       /* Place your code here*/
       connectionString =
-        env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING ||
+        env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING ||
         "endpoint=https://endpoint/;accesskey=banana";
     });
 

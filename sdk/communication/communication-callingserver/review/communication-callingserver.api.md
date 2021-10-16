@@ -84,7 +84,7 @@ export class CallingServerClient {
     addParticipant(callLocator: CallLocator, participant: CommunicationIdentifier, callbackUri: string, alternateCallerId?: string, operationContext?: string, options?: AddParticipantOptions): Promise<ServerCallsAddParticipantResponse>;
     cancelMediaOperation(callLocator: CallLocator, mediaOperationId: string, options?: CancelMediaOperationOptions): Promise<void>;
     cancelParticipantMediaOperation(callLocator: CallLocator, participant: CommunicationIdentifier, mediaOperationId: string, options?: CancelMediaOperationOptions): Promise<void>;
-    createCallConnection(source: CommunicationIdentifier, targets: CommunicationIdentifier[], options: CreateCallConnectionOptions): Promise<CallConnection>;
+    createCallConnection(source: CommunicationIdentifier, targets: CommunicationIdentifier[], options: CreateCallOptions): Promise<CallConnection>;
     download(uri: string, offset?: number, count?: number, options?: DownloadOptions): Promise<ContentDownloadResponse>;
     getCallConnection(callConnectionId: string): CallConnection;
     // Warning: (ae-forgotten-export) The symbol "CallRecordingProperties" needs to be exported by the entry point index.d.ts
@@ -159,7 +159,7 @@ export type ContentDownloadResponse = ContentDownloadHeaders & {
 };
 
 // @public
-export interface CreateCallConnectionOptions extends OperationOptions {
+export interface CreateCallOptions extends OperationOptions {
     alternateCallerId?: PhoneNumberIdentifier;
     callbackUri: string;
     requestedCallEvents: CallingEventSubscriptionType[];

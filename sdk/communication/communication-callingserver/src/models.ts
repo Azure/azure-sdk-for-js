@@ -28,7 +28,7 @@ export {
 /**
  * Options to create a call.
  */
-export interface CreateCallConnectionOptions extends OperationOptions {
+export interface CreateCallOptions extends OperationOptions {
   /** The alternate identity of the source of the call if dialing out to a pstn number */
   alternateCallerId?: PhoneNumberIdentifier;
   /** The subject. */
