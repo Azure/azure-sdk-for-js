@@ -7,7 +7,7 @@ module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 nock('https://fakeaccount.table.core.windows.net:443', {"encodedQueryParams":true})
   .post('/Tables', {"TableName":"batchTableTestSASConnectionStringnode"})
   .query(true)
-  .reply(409, {"odata.error":{"code":"TableAlreadyExists","message":{"lang":"en-US","value":"The table specified already exists.\nRequestId:5af80769-c002-000d-3bdf-c16eb3000000\nTime:2021-10-15T16:13:23.5680666Z"}}}, [
+  .reply(409, {"odata.error":{"code":"TableAlreadyExists","message":{"lang":"en-US","value":"The table specified already exists.\nRequestId:0076600a-e002-0038-1a04-a4c0e6000000\nTime:2021-09-07T16:24:23.5132682Z"}}}, [
   'Cache-Control',
   'no-cache',
   'Transfer-Encoding',
@@ -17,45 +17,45 @@ nock('https://fakeaccount.table.core.windows.net:443', {"encodedQueryParams":tru
   'Server',
   'Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '5af80769-c002-000d-3bdf-c16eb3000000',
+  '0076600a-e002-0038-1a04-a4c0e6000000',
   'x-ms-client-request-id',
-  '52e24e49-ded9-4905-bb08-0a801338fcae',
+  '262b8940-be9a-4b81-a14c-60874895e421',
   'x-ms-version',
   '2019-02-02',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 15 Oct 2021 16:13:23 GMT'
+  'Tue, 07 Sep 2021 16:24:23 GMT'
 ]);
 
 nock('https://fakeaccount.table.core.windows.net:443', {"encodedQueryParams":true})
   .post('/$batch', "--batch_fakeId\r\ncontent-type: multipart/mixed; boundary=changeset_fakeId\r\n\r\n\r\n--changeset_fakeId\r\ncontent-type: application/http\r\ncontent-transfer-encoding: binary\r\n\r\nPUT https://fakeaccount.table.core.windows.net/batchTableTestSASConnectionStringnode(PartitionKey='batchTest',RowKey='1') HTTP/1.1\r\ncontent-type: application/json\r\ndataserviceversion: 3.0\r\naccept: application/json\r\nif-match: *\r\n\r\n\r\n{\"PartitionKey\":\"batchTest\",\"RowKey\":\"1\",\"name\":\"updated\"}\r\n--changeset_fakeId\r\ncontent-type: application/http\r\ncontent-transfer-encoding: binary\r\n\r\nPUT https://fakeaccount.table.core.windows.net/batchTableTestSASConnectionStringnode(PartitionKey='batchTest',RowKey='2') HTTP/1.1\r\ncontent-type: application/json\r\ndataserviceversion: 3.0\r\naccept: application/json\r\nif-match: *\r\n\r\n\r\n{\"PartitionKey\":\"batchTest\",\"RowKey\":\"2\",\"name\":\"updated\"}\r\n--changeset_fakeId\r\ncontent-type: application/http\r\ncontent-transfer-encoding: binary\r\n\r\nPUT https://fakeaccount.table.core.windows.net/batchTableTestSASConnectionStringnode(PartitionKey='batchTest',RowKey='3') HTTP/1.1\r\ncontent-type: application/json\r\ndataserviceversion: 3.0\r\naccept: application/json\r\nif-match: *\r\n\r\n\r\n{\"PartitionKey\":\"batchTest\",\"RowKey\":\"3\",\"name\":\"updated\"}\r\n--changeset_fakeId--\r\n--batch_fakeId--\r\n")
   .query(true)
-  .reply(202, "--batchresponse_3618ccc5-f0e3-48af-a139-48e88185a6c3\r\nContent-Type: multipart/mixed; boundary=changesetresponse_9439eaa0-54e2-4c6c-9738-a9a9142f4665\r\n\r\n--changesetresponse_9439eaa0-54e2-4c6c-9738-a9a9142f4665\r\nContent-Type: application/http\r\nContent-Transfer-Encoding: binary\r\n\r\nHTTP/1.1 204 No Content\r\nX-Content-Type-Options: nosniff\r\nCache-Control: no-cache\r\nDataServiceVersion: 1.0;\r\nETag: W/\"datetime'2021-10-15T16%3A13%3A23.6410363Z'\"\r\n\r\n\r\n--changesetresponse_9439eaa0-54e2-4c6c-9738-a9a9142f4665\r\nContent-Type: application/http\r\nContent-Transfer-Encoding: binary\r\n\r\nHTTP/1.1 204 No Content\r\nX-Content-Type-Options: nosniff\r\nCache-Control: no-cache\r\nDataServiceVersion: 1.0;\r\nETag: W/\"datetime'2021-10-15T16%3A13%3A23.6420366Z'\"\r\n\r\n\r\n--changesetresponse_9439eaa0-54e2-4c6c-9738-a9a9142f4665\r\nContent-Type: application/http\r\nContent-Transfer-Encoding: binary\r\n\r\nHTTP/1.1 204 No Content\r\nX-Content-Type-Options: nosniff\r\nCache-Control: no-cache\r\nDataServiceVersion: 1.0;\r\nETag: W/\"datetime'2021-10-15T16%3A13%3A23.6420366Z'\"\r\n\r\n\r\n--changesetresponse_9439eaa0-54e2-4c6c-9738-a9a9142f4665--\r\n--batchresponse_3618ccc5-f0e3-48af-a139-48e88185a6c3--\r\n", [
+  .reply(202, "--batchresponse_ce597f91-db2d-423f-8caa-f73177382980\r\nContent-Type: multipart/mixed; boundary=changesetresponse_cd9c39af-cf23-459d-8cc5-9d87e4a300a3\r\n\r\n--changesetresponse_cd9c39af-cf23-459d-8cc5-9d87e4a300a3\r\nContent-Type: application/http\r\nContent-Transfer-Encoding: binary\r\n\r\nHTTP/1.1 204 No Content\r\nX-Content-Type-Options: nosniff\r\nCache-Control: no-cache\r\nDataServiceVersion: 1.0;\r\nETag: W/\"datetime'2021-09-07T16%3A24%3A23.5898159Z'\"\r\n\r\n\r\n--changesetresponse_cd9c39af-cf23-459d-8cc5-9d87e4a300a3\r\nContent-Type: application/http\r\nContent-Transfer-Encoding: binary\r\n\r\nHTTP/1.1 204 No Content\r\nX-Content-Type-Options: nosniff\r\nCache-Control: no-cache\r\nDataServiceVersion: 1.0;\r\nETag: W/\"datetime'2021-09-07T16%3A24%3A23.5898159Z'\"\r\n\r\n\r\n--changesetresponse_cd9c39af-cf23-459d-8cc5-9d87e4a300a3\r\nContent-Type: application/http\r\nContent-Transfer-Encoding: binary\r\n\r\nHTTP/1.1 204 No Content\r\nX-Content-Type-Options: nosniff\r\nCache-Control: no-cache\r\nDataServiceVersion: 1.0;\r\nETag: W/\"datetime'2021-09-07T16%3A24%3A23.5898159Z'\"\r\n\r\n\r\n--changesetresponse_cd9c39af-cf23-459d-8cc5-9d87e4a300a3--\r\n--batchresponse_ce597f91-db2d-423f-8caa-f73177382980--\r\n", [
   'Cache-Control',
   'no-cache',
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
-  'multipart/mixed; boundary=batchresponse_3618ccc5-f0e3-48af-a139-48e88185a6c3',
+  'multipart/mixed; boundary=batchresponse_ce597f91-db2d-423f-8caa-f73177382980',
   'Server',
   'Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '5af80797-c002-000d-65df-c16eb3000000',
+  '00766017-e002-0038-2704-a4c0e6000000',
   'x-ms-client-request-id',
-  'd2ca2574-feef-4272-9386-92c51e4bbeb2',
+  '8774aa32-e5f5-458b-a27e-0a37a50e012d',
   'x-ms-version',
   '2019-02-02',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 15 Oct 2021 16:13:23 GMT'
+  'Tue, 07 Sep 2021 16:24:23 GMT'
 ]);
 
 nock('https://fakeaccount.table.core.windows.net:443', {"encodedQueryParams":true})
   .get('/batchTableTestSASConnectionStringnode()')
   .query(true)
-  .reply(200, {"odata.metadata":"https://fakeaccount.table.core.windows.net/$metadata#batchTableTestSASConnectionStringnode","value":[{"odata.etag":"W/\"datetime'2021-10-15T16%3A13%3A23.6410363Z'\"","PartitionKey":"batchTest","RowKey":"1","Timestamp":"2021-10-15T16:13:23.6410363Z","name":"updated"},{"odata.etag":"W/\"datetime'2021-10-15T16%3A13%3A23.6420366Z'\"","PartitionKey":"batchTest","RowKey":"2","Timestamp":"2021-10-15T16:13:23.6420366Z","name":"updated"},{"odata.etag":"W/\"datetime'2021-10-15T16%3A13%3A23.6420366Z'\"","PartitionKey":"batchTest","RowKey":"3","Timestamp":"2021-10-15T16:13:23.6420366Z","name":"updated"}]}, [
+  .reply(200, {"odata.metadata":"https://fakeaccount.table.core.windows.net/$metadata#batchTableTestSASConnectionStringnode","value":[{"odata.etag":"W/\"datetime'2021-09-07T16%3A24%3A23.5898159Z'\"","PartitionKey":"batchTest","RowKey":"1","Timestamp":"2021-09-07T16:24:23.5898159Z","name":"updated"},{"odata.etag":"W/\"datetime'2021-09-07T16%3A24%3A23.5898159Z'\"","PartitionKey":"batchTest","RowKey":"2","Timestamp":"2021-09-07T16:24:23.5898159Z","name":"updated"},{"odata.etag":"W/\"datetime'2021-09-07T16%3A24%3A23.5898159Z'\"","PartitionKey":"batchTest","RowKey":"3","Timestamp":"2021-09-07T16:24:23.5898159Z","name":"updated"}]}, [
   'Cache-Control',
   'no-cache',
   'Transfer-Encoding',
@@ -65,9 +65,9 @@ nock('https://fakeaccount.table.core.windows.net:443', {"encodedQueryParams":tru
   'Server',
   'Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '5af807cc-c002-000d-19df-c16eb3000000',
+  '00766022-e002-0038-3204-a4c0e6000000',
   'x-ms-client-request-id',
-  '31a0bad1-6631-4259-a806-c830b950aa91',
+  'ab965f09-8d0a-48c1-a7c2-1b3153bab6cc',
   'x-ms-version',
   '2019-02-02',
   'X-Content-Type-Options',
@@ -77,5 +77,5 @@ nock('https://fakeaccount.table.core.windows.net:443', {"encodedQueryParams":tru
   'Access-Control-Allow-Origin',
   '*',
   'Date',
-  'Fri, 15 Oct 2021 16:13:23 GMT'
+  'Tue, 07 Sep 2021 16:24:23 GMT'
 ]);

@@ -13,15 +13,15 @@ nock('https://fakeaccount.table.core.windows.net:443', {"encodedQueryParams":tru
   'Content-Length',
   '0',
   'ETag',
-  `W/"datetime'2021-10-15T16%3A13%3A12.5123362Z'"`,
+  `W/"datetime'2021-09-07T16%3A24%3A07.786071Z'"`,
   'Location',
   "https://fakeaccount.table.core.windows.net/tableClientTestSASConnectionStringnode(PartitionKey='P6_node',RowKey='R6')",
   'Server',
   'Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '5af7e791-c002-000d-2bdf-c16eb3000000',
+  '0076547d-e002-0038-2a04-a4c0e6000000',
   'x-ms-client-request-id',
-  'd283e987-59c3-4a1d-afa6-acec8a4a10f5',
+  '4f462ecc-08a8-4e56-9587-162b9898d60f',
   'x-ms-version',
   '2019-02-02',
   'X-Content-Type-Options',
@@ -31,13 +31,13 @@ nock('https://fakeaccount.table.core.windows.net:443', {"encodedQueryParams":tru
   'DataServiceId',
   "https://fakeaccount.table.core.windows.net/tableClientTestSASConnectionStringnode(PartitionKey='P6_node',RowKey='R6')",
   'Date',
-  'Fri, 15 Oct 2021 16:13:12 GMT'
+  'Tue, 07 Sep 2021 16:24:07 GMT'
 ]);
 
 nock('https://fakeaccount.table.core.windows.net:443', {"encodedQueryParams":true})
   .get(`/tableClientTestSASConnectionStringnode(PartitionKey='P6_node',RowKey='R6')`)
   .query(true)
-  .reply(200, {"odata.metadata":"https://fakeaccount.table.core.windows.net/$metadata#tableClientTestSASConnectionStringnode/@Element","odata.etag":"W/\"datetime'2021-10-15T16%3A13%3A12.5123362Z'\"","PartitionKey":"P6_node","RowKey":"R6","Timestamp":"2021-10-15T16:13:12.5123362Z","testField":true}, [
+  .reply(200, {"odata.metadata":"https://fakeaccount.table.core.windows.net/$metadata#tableClientTestSASConnectionStringnode/@Element","odata.etag":"W/\"datetime'2021-09-07T16%3A24%3A07.786071Z'\"","PartitionKey":"P6_node","RowKey":"R6","Timestamp":"2021-09-07T16:24:07.786071Z","testField":true}, [
   'Cache-Control',
   'no-cache',
   'Transfer-Encoding',
@@ -45,13 +45,13 @@ nock('https://fakeaccount.table.core.windows.net:443', {"encodedQueryParams":tru
   'Content-Type',
   'application/json;odata=minimalmetadata;streaming=true;charset=utf-8',
   'ETag',
-  `W/"datetime'2021-10-15T16%3A13%3A12.5123362Z'"`,
+  `W/"datetime'2021-09-07T16%3A24%3A07.786071Z'"`,
   'Server',
   'Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '5af7e7ab-c002-000d-45df-c16eb3000000',
+  '00765488-e002-0038-3404-a4c0e6000000',
   'x-ms-client-request-id',
-  '8640d104-7ef1-40a3-b8eb-ff14696e6927',
+  '1767b759-1526-49f6-933a-e83def95549a',
   'x-ms-version',
   '2019-02-02',
   'X-Content-Type-Options',
@@ -61,7 +61,7 @@ nock('https://fakeaccount.table.core.windows.net:443', {"encodedQueryParams":tru
   'Access-Control-Allow-Origin',
   '*',
   'Date',
-  'Fri, 15 Oct 2021 16:13:12 GMT'
+  'Tue, 07 Sep 2021 16:24:07 GMT'
 ]);
 
 nock('https://fakeaccount.table.core.windows.net:443', {"encodedQueryParams":true})
@@ -75,13 +75,13 @@ nock('https://fakeaccount.table.core.windows.net:443', {"encodedQueryParams":tru
   'Server',
   'Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '5af7e7c9-c002-000d-62df-c16eb3000000',
+  '00765492-e002-0038-3d04-a4c0e6000000',
   'x-ms-client-request-id',
-  '00d034e9-c81e-4406-8221-e5e1efaa45a9',
+  'b97d207c-9367-48a5-bf59-af47ffa76940',
   'x-ms-version',
   '2019-02-02',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 15 Oct 2021 16:13:12 GMT'
+  'Tue, 07 Sep 2021 16:24:07 GMT'
 ]);

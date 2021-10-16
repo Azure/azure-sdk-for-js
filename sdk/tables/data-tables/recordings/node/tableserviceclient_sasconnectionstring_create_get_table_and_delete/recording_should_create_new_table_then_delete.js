@@ -19,9 +19,9 @@ nock('https://fakeaccount.table.core.windows.net:443', {"encodedQueryParams":tru
   'Server',
   'Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '5af7f64e-c002-000d-29df-c16eb3000000',
+  '0076595a-e002-0038-1304-a4c0e6000000',
   'x-ms-client-request-id',
-  '4b067a74-e79f-4a44-8a0c-39441aea4597',
+  '2130fe9d-83f3-4159-a5ce-17060a20e37c',
   'x-ms-version',
   '2019-02-02',
   'X-Content-Type-Options',
@@ -29,13 +29,13 @@ nock('https://fakeaccount.table.core.windows.net:443', {"encodedQueryParams":tru
   'Preference-Applied',
   'return-content',
   'Date',
-  'Fri, 15 Oct 2021 16:13:16 GMT'
+  'Tue, 07 Sep 2021 16:24:13 GMT'
 ]);
 
 nock('https://fakeaccount.table.core.windows.net:443', {"encodedQueryParams":true})
   .get('/Tables')
   .query(true)
-  .reply(200, {"odata.metadata":"https://fakeaccount.table.core.windows.net/$metadata#Tables","value":[{"TableName":"byPageTest"},{"TableName":"CreateSimpleEntityBatchPerf"},{"TableName":"createTableNew"},{"TableName":"createTableNew2"},{"TableName":"createTableOld"},{"TableName":"doublesTest"},{"TableName":"TestChars"},{"TableName":"TestChars2"},{"TableName":"TestChars3"},{"TableName":"testTable"},{"TableName":"testTableSASConnectionStringnode"},{"TableName":"TestTestTest"}]}, [
+  .reply(200, {"odata.metadata":"https://fakeaccount.table.core.windows.net/$metadata#Tables","value":[{"TableName":"CreateSimpleEntityBatchPerf"},{"TableName":"createTableNew"},{"TableName":"createTableNew2"},{"TableName":"createTableOld"},{"TableName":"testTable"},{"TableName":"testTableSASConnectionStringnode"},{"TableName":"TestTestTest"}]}, [
   'Cache-Control',
   'no-cache',
   'Transfer-Encoding',
@@ -45,9 +45,9 @@ nock('https://fakeaccount.table.core.windows.net:443', {"encodedQueryParams":tru
   'Server',
   'Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '5af7f66f-c002-000d-49df-c16eb3000000',
+  '00765970-e002-0038-2704-a4c0e6000000',
   'x-ms-client-request-id',
-  '49d241e9-2f59-4fa2-a67f-6c65b1e87ce5',
+  '74482ca5-04e2-4835-aec3-9133485e4607',
   'x-ms-version',
   '2019-02-02',
   'X-Content-Type-Options',
@@ -57,7 +57,7 @@ nock('https://fakeaccount.table.core.windows.net:443', {"encodedQueryParams":tru
   'Access-Control-Allow-Origin',
   '*',
   'Date',
-  'Fri, 15 Oct 2021 16:13:16 GMT'
+  'Tue, 07 Sep 2021 16:24:13 GMT'
 ]);
 
 nock('https://fakeaccount.table.core.windows.net:443', {"encodedQueryParams":true})
@@ -71,13 +71,13 @@ nock('https://fakeaccount.table.core.windows.net:443', {"encodedQueryParams":tru
   'Server',
   'Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '5af7f68c-c002-000d-64df-c16eb3000000',
+  '00765985-e002-0038-3a04-a4c0e6000000',
   'x-ms-client-request-id',
-  '50cd5f88-2dd7-4c7b-b4d5-950e965ec395',
+  '645e053a-2221-4006-a13c-e39be87eb75e',
   'x-ms-version',
   '2019-02-02',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 15 Oct 2021 16:13:16 GMT'
+  'Tue, 07 Sep 2021 16:24:13 GMT'
 ]);
