@@ -92,7 +92,14 @@ export class TestProxyHttpClient {
     return request;
   }
 
+  /**
+   * addSanitizers adds the sanitizers for the current recording which will be applied on it before being saved.
+   *
+   * Takes SanitizerOptions as the input, passes on to the proxy-tool.
+   * @param {SanitizerOptions} options
+   */
   async addSanitizers(options: SanitizerOptions): Promise<void> {
+    // If check needed because we only sanitize when the recording is being generated, and we need a recording to apply the sanitizers on.
     if (isRecordMode()) {
       return this.sanitizer.addSanitizers(options);
     }
@@ -115,6 +122,13 @@ export class TestProxyHttpClient {
    * Call this method to ping the proxy-tool with a start request
    * signalling to start recording in the record mode
    * or to start playing back in the playback mode.
+   *
+   * Takes RecorderStartOptions as the input, which will get used in record and playback modes.
+   * Includes
+   * - envSetupForPlayback - The key-value pairs will be used as the environment variables in playback mode. If the env variables are present in the recordings as plain strings, they will be replaced with the provided values.
+   * - sanitizerOptions - Generated recordings are updated by the "proxy-tool" based on the sanitizer options provided.
+   *
+   * @param {RecorderStartOptions} options
    */
   async start(options: RecorderStartOptions): Promise<void> {
     if (isPlaybackMode() || isRecordMode()) {
@@ -146,6 +160,8 @@ export class TestProxyHttpClient {
             shouldExistErrorMessage("TestProxyHttpClient.sanitizer", this.mode)
           );
         }
+        // Setting the recordingId in the sanitizer,
+        // the sanitizers added will take the recording id and only be part of the current test
         this.sanitizer.setRecordingId(this.recordingId);
       }
     }
@@ -153,6 +169,8 @@ export class TestProxyHttpClient {
     await handleEnvSetupForPlayback(options.envSetupForPlayback, this.sanitizer);
 
     if (options.sanitizerOptions) {
+      // Makes a call to the proxy-tool to add the sanitizers for the current recording id
+      // Recordings of the current test will be influenced by the sanitizers that are being added here
       await this.addSanitizers(options.sanitizerOptions);
     }
   }

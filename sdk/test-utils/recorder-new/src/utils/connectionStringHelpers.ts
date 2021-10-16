@@ -1,12 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export function getValueInConnString(connectionString: string, argument: string): string {
-  const searchKey = argument.toLowerCase();
+/**
+ * Returns the value of a key in connection string.
+ */
+export function getValueInConnString(connectionString: string, key: string): string {
+  const searchKey = key.toLowerCase();
   const elements = connectionString.split(";").filter((e) => Boolean(e));
   for (const element of elements) {
     const trimmedElement = element.trim();
-    const [elementKey, value] = getValuePair(trimmedElement);
+    const [elementKey, value] = getKeyValuePair(trimmedElement);
     const key = elementKey.toLowerCase();
     if (key === searchKey) {
       return value;
@@ -15,7 +18,10 @@ export function getValueInConnString(connectionString: string, argument: string)
   return "";
 }
 
-export function getValuePair(kvp: string): string[] {
+/**
+ * Returns the key and value from `<key>=<value>` string.
+ */
+export function getKeyValuePair(kvp: string): string[] {
   // If the string is not in kvp format <key>=<value> return an empty array
   if (!kvp || kvp.indexOf("=") === -1) {
     return [];
@@ -28,20 +34,38 @@ export function getValuePair(kvp: string): string[] {
   return [key, value];
 }
 
+/**
+ * Get real and fake values mapped from the provided connection strings.
+ *
+ * Example:
+ *  connectionString = "endpoint=secretive.azure.io;token=a1b2c3d4;secret=totally_secret"
+ *  fakeConnString   = "endpoint=randomval.azure.io;token=mask_tok;secret=totally_faked"
+ *
+ *  // Ordering/spaces are not important
+ *
+ * Returns
+ * ```
+ * {
+ *   "secretive.azure.io": "randomval.azure.io",
+ *   "a1b2c3d4"          : "mask_tok",
+ *   "totally_secret"    : "totally_faked"
+ * }
+ * ```
+ */
 export function getRealAndFakePairs(
   connectionString: string,
   fakeConnString: string
-): { [key: string]: string } {
-  let realFakePairs = {};
+): Record<string, string> {
+  let realAndFakePairs = {};
   const elements = fakeConnString.split(";").filter((e) => Boolean(e));
   for (const element of elements) {
     const trimmedElement = element.trim();
-    const [elementKey, value] = getValuePair(trimmedElement);
-    realFakePairs = {
-      ...realFakePairs,
-      [getValueInConnString(connectionString, elementKey)]: value
+    const [elementKey, value] = getKeyValuePair(trimmedElement);
+    realAndFakePairs = {
+      ...realAndFakePairs,
+      [getValueInConnString(connectionString, elementKey)]: value // "real value" : "fake value"
     };
   }
 
-  return realFakePairs;
+  return realAndFakePairs;
 }

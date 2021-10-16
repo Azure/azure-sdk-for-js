@@ -4,12 +4,9 @@ import { getRealAndFakePairs } from "./utils/connectionStringHelpers";
 import { paths } from "./utils/paths";
 import { RecorderError, SanitizerOptions } from "./utils/utils";
 
-// TODO:
-// - Add docs
-// - Simplify or merge _createRecordingRequest
-// - See if sessionFile is needed or recording ID is just enough
-// - Test in live mode
-
+/**
+ * Sanitizer class to handle communication with the proxy-tool relating to the sanitizers adding/resetting, etc.
+ */
 export class Sanitizer {
   constructor(private mode: string, private url: string, private httpClient?: HttpClient) {}
   private recordingId: string | undefined;
@@ -18,6 +15,11 @@ export class Sanitizer {
     this.recordingId = recordingId;
   }
 
+  /**
+   * Returns the html document of all the available transforms in the proxy-tool
+   *
+   * @returns
+   */
   async transformsInfo(): Promise<string | null | undefined> {
     if (this.recordingId !== undefined) {
       const infoUri = `${this.url}${paths.info}${paths.available}`;
@@ -42,6 +44,11 @@ export class Sanitizer {
     }
   }
 
+  /**
+   * addSanitizers adds the sanitizers for the current recording which will be applied on it before being saved.
+   *
+   * Takes SanitizerOptions as the input, passes on to the proxy-tool.
+   */
   async addSanitizers(options: SanitizerOptions): Promise<void> {
     if (options.connectionStringSanitizers) {
       for (const connectionStringSanitizer of options.connectionStringSanitizers) {
@@ -50,7 +57,10 @@ export class Sanitizer {
     }
     if (options.generalRegexSanitizers) {
       for (const replacer of options.generalRegexSanitizers) {
-        await this.addRegexSanitizer(replacer);
+        await this.addSanitizer({
+          sanitizer: "GeneralRegexSanitizer",
+          body: JSON.stringify(replacer)
+        });
       }
     }
     if (options.removeHeaderSanitizer) {
@@ -90,7 +100,6 @@ export class Sanitizer {
       }
     }
     if (options.headerRegexSanitizers) {
-      // TODO: Test
       for (const replacer of options.headerRegexSanitizers) {
         await this.addSanitizer({
           sanitizer: "HeaderRegexSanitizer",
@@ -106,7 +115,6 @@ export class Sanitizer {
       });
     }
     if (options.uriRegexSanitizers) {
-      // TODO: Test
       for (const replacer of options.uriRegexSanitizers) {
         await this.addSanitizer({
           sanitizer: "UriRegexSanitizer",
@@ -115,7 +123,6 @@ export class Sanitizer {
       }
     }
     if (options.uriSubscriptionIdSanitizer) {
-      // TODO: Test
       await this.addSanitizer({
         sanitizer: "UriSubscriptionIdSanitizer",
         body: JSON.stringify(options.uriSubscriptionIdSanitizer)
@@ -130,24 +137,29 @@ export class Sanitizer {
     }
   }
 
+  /**
+   *  Internally,
+   * - connection strings are parsed and
+   * - each part of the connection string is mapped with its corresponding fake value
+   * - generalRegexSanitizer is applied for each of the parts with the real and fake values that are parsed
+   */
   async addConnectionStringSanitizer(replacer: {
     actualConnString: string;
     fakeConnString: string;
   }): Promise<void> {
     // extract connection string parts and match call
     const pairsMatched = getRealAndFakePairs(replacer.actualConnString, replacer.fakeConnString);
-    for (const [key, value] of Object.entries(pairsMatched)) {
-      await this.addRegexSanitizer({ value: value, regex: key });
-    }
-  }
-
-  async addRegexSanitizer(replacer: { value: string; regex: string }): Promise<void> {
-    return this.addSanitizer({
-      sanitizer: "GeneralRegexSanitizer",
-      body: JSON.stringify(replacer)
+    await this.addSanitizers({
+      generalRegexSanitizers: Object.entries(pairsMatched).map(([key, value]) => {
+        return { value: value, regex: key };
+      })
     });
   }
 
+  /**
+   * Atomic method to add a simple sanitizer.
+   * @param options
+   */
   private async addSanitizer(options: {
     sanitizer:
       | "GeneralRegexSanitizer"

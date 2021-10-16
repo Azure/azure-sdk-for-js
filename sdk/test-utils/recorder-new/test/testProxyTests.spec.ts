@@ -19,7 +19,16 @@ const setTestMode = (mode: TestMode): TestMode => {
   return mode;
 };
 
+/**
+ * Returns the test server url
+ * Acts as the endpoint [ Works as a substitute to the actual Azure Services ]
+ */
 function getTestServerUrl() {
+  // utils/server.ts creates a localhost server at port 8080
+  // - In "live" mode, we are hitting directly the localhost endpoint
+  // - In "record" and "playback" modes, we need to hit the localhost of the host network
+  //   from the proxy tool running in the docker container.
+  //   `host.docker.internal` alias can be used in the docker container to access host's network(localhost)
   return !isLiveMode()
     ? `http://host.docker.internal:8080` // Accessing host's network(localhost) through docker container
     : `http://127.0.0.1:8080`;

@@ -141,7 +141,11 @@ export interface SanitizerOptions {
    */
   continuationSanitizers?: Array<{ key: string; method?: string; resetAfterFirst: boolean }>;
   /**
-   * The capture group that needs to be operated upon. Do not set if you're invoking a simple replacement operation.
+   * Can be used for multiple purposes:
+   *
+   * 1) To replace a key with a specific value, do not set "regex" value.
+   * 2) To do a simple regex replace operation, define arguments "key", "value", and "regex"
+   * 3) To do a targeted substitution of a specific group, define all arguments "key", "value", and "regex"
    */
   headerRegexSanitizers?: Array<{
     /**
