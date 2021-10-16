@@ -4,6 +4,8 @@
 
 ## 2021-10-15
 
+[#17379](https://github.com/Azure/azure-sdk-for-js/pull/17379)
+
 - Add sanitizers method to support
   - BodyKeySanitizer
   - BodyRegexSanitizer
@@ -15,13 +17,14 @@
   - Connection String sanitizer
 - Adds `SanitizerOptions`, env setup for playback as the options of the `start()` method
   - Applies `generalRegexSanitizers` on the env setup for playback options by default to eliminate any plain text secrets in the recordings
-- Testing - All the tests are run in the `recorder-new` folder run in all three modes - "record", "playback" and "live"
+- Testing - All the tests are run in the `recorder-new` folder run in all three modes - "record", "playback" and "live" everytime the test commands are run
 
 ## 2021-09-27
 
-- `TestProxyClient` now takes the test context to determine the location of the recordings. [#17388](https://github.com/Azure/azure-sdk-for-js/pull/17388)
+[#17388](https://github.com/Azure/azure-sdk-for-js/pull/17388)
+
+- `TestProxyClient` now takes the test context to determine the location of the recordings.
 - Adds a server for the tests, to play the role of an actual service to be able to test the proxy-tool end-to-end.
-  [#17388](https://github.com/Azure/azure-sdk-for-js/pull/17388)
 
 ## 2021-07-17
 
