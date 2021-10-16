@@ -11,7 +11,7 @@
 
 const opentelemetry = require("@opentelemetry/api");
 const { Resource } = require("@opentelemetry/resources");
-const { ResourceAttributes } = require("@opentelemetry/semantic-conventions");
+const { SemanticResourceAttributes } = require("@opentelemetry/semantic-conventions");
 const { BasicTracerProvider, SimpleSpanProcessor } = require("@opentelemetry/tracing");
 const { AzureMonitorTraceExporter } = require("@azure/monitor-opentelemetry-exporter");
 
@@ -21,7 +21,7 @@ dotenv.config();
 
 const provider = new BasicTracerProvider({
   resource: new Resource({
-    [ResourceAttributes.SERVICE_NAME]: "basic-service"
+    [SemanticResourceAttributes.SERVICE_NAME]: "basic-service"
   })
 });
 

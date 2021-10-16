@@ -11,7 +11,7 @@ export function PurviewMetadataPoliciesClient(
   options: ClientOptions = {}
 ): PurviewMetadataPoliciesRestClient {
   const baseUrl = options.baseUrl ?? `${Endpoint}/policyStore`;
-  options.apiVersion = options.apiVersion ?? "2021-07-01";
+  options.apiVersion = options.apiVersion ?? "2021-07-01-preview";
   options = {
     ...options,
     credentials: {

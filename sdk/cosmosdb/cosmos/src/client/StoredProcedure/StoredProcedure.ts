@@ -18,7 +18,7 @@ import { StoredProcedureResponse } from "./StoredProcedureResponse";
 /**
  * Operations for reading, replacing, deleting, or executing a specific, existing stored procedure by id.
  *
- * For operations to create, upsert, read all, or query Stored Procedures,
+ * For operations to create, read all, or query Stored Procedures,
  */
 export class StoredProcedure {
   /**

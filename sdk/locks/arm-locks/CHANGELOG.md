@@ -1,5 +1,15 @@
 # Release History
 
+## 2.0.0-beta.2 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 2.0.0-beta.1 (2021-10-09)
 
 This is the first preview for the new version of the `@azure/arm-locks` package that follows the new [guidelines for TypeScript SDKs](https://azure.github.io/azure-sdk/typescript_introduction.html) for Azure services.
