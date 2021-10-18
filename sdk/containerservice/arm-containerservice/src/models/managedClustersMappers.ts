@@ -78,5 +78,6 @@ export {
   TagsObject,
   TimeInWeek,
   TimeSpan,
-  UserAssignedIdentity
+  UserAssignedIdentity,
+  WindowsGmsaProfile
 } from "../models/mappers";

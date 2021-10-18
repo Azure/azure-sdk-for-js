@@ -554,10 +554,12 @@ export interface ManagedClusterAgentPoolProfileProperties {
    */
   readonly provisioningState?: string;
   /**
-   * Describes whether the Agent Pool is Running or Stopped
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * Whether the Agent Pool is running or stopped. When an Agent Pool is first created it is
+   * initially Running. The Agent Pool can be stopped by setting this field to Stopped. A stopped
+   * Agent Pool stops all of its VMs and does not accrue billing charges. An Agent Pool can only be
+   * stopped if it is Running and provisioning state is Succeeded
    */
-  readonly powerState?: PowerState;
+  powerState?: PowerState;
   /**
    * The list of Availability zones to use for nodes. This can only be specified if the
    * AgentPoolType property is 'VirtualMachineScaleSets'.
@@ -765,10 +767,12 @@ export interface AgentPool extends SubResource {
    */
   readonly provisioningState?: string;
   /**
-   * Describes whether the Agent Pool is Running or Stopped
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * Whether the Agent Pool is running or stopped. When an Agent Pool is first created it is
+   * initially Running. The Agent Pool can be stopped by setting this field to Stopped. A stopped
+   * Agent Pool stops all of its VMs and does not accrue billing charges. An Agent Pool can only be
+   * stopped if it is Running and provisioning state is Succeeded
    */
-  readonly powerState?: PowerState;
+  powerState?: PowerState;
   /**
    * The list of Availability zones to use for nodes. This can only be specified if the
    * AgentPoolType property is 'VirtualMachineScaleSets'.
@@ -861,6 +865,27 @@ export interface AgentPool extends SubResource {
 }
 
 /**
+ * Windows gMSA Profile in the managed cluster.
+ */
+export interface WindowsGmsaProfile {
+  /**
+   * Whether to enable Windows gMSA. Specifies whether to enable Windows gMSA in the managed
+   * cluster.
+   */
+  enabled?: boolean;
+  /**
+   * Specifies the DNS server for Windows gMSA. <br><br> Set it to empty if you have configured the
+   * DNS server in the vnet which is used to create the managed cluster.
+   */
+  dnsServer?: string;
+  /**
+   * Specifies the root domain name for Windows gMSA. <br><br> Set it to empty if you have
+   * configured the DNS server in the vnet which is used to create the managed cluster.
+   */
+  rootDomainName?: string;
+}
+
+/**
  * Profile for Windows VMs in the managed cluster.
  */
 export interface ManagedClusterWindowsProfile {
@@ -893,6 +918,10 @@ export interface ManagedClusterWindowsProfile {
    * repo](https://github.com/kubernetes-csi/csi-proxy).
    */
   enableCSIProxy?: boolean;
+  /**
+   * The Windows gMSA Profile in the Managed Cluster.
+   */
+  gmsaProfile?: WindowsGmsaProfile;
 }
 
 /**
@@ -2333,6 +2362,37 @@ export interface Snapshot extends Resource {
    * Possible values include: 'NodePool'. Default value: 'NodePool'.
    */
   snapshotType?: SnapshotType;
+  /**
+   * The version of Kubernetes.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly kubernetesVersion?: string;
+  /**
+   * The version of node image.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nodeImageVersion?: string;
+  /**
+   * Possible values include: 'Linux', 'Windows'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**.
+   * Default value: 'Linux'.
+   */
+  readonly osType?: OSType;
+  /**
+   * Possible values include: 'Ubuntu', 'CBLMariner'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly osSku?: OSSKU;
+  /**
+   * The size of the VM.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly vmSize?: string;
+  /**
+   * Whether to use a FIPS-enabled OS.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly enableFIPS?: boolean;
 }
 
 /**
