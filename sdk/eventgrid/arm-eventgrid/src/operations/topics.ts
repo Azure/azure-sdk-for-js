@@ -627,7 +627,6 @@ const beginRegenerateKeyOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.TopicSharedAccessKeys
     },
-    202: {},
     default: {
       bodyMapper: Mappers.CloudError
     }
