@@ -3,6 +3,7 @@
 
 import { SpanContext, TraceFlags } from "../interfaces";
 
+// TODO: where should this logic live?
 const VERSION = "00";
 
 /**
