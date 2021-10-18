@@ -114,9 +114,8 @@ export function buildQueue(rawQueue: Record<string, any>): QueueProperties {
 
     availabilityStatus: rawQueue[Constants.ENTITY_AVAILABILITY_STATUS],
 
-    maxMessageSizeInKilobytes: getInteger(
-      rawQueue[Constants.MAX_MESSAGE_SIZE_IN_KILOBYTES],
-      "maxMessageSizeInKilobytes"
+    maxMessageSizeInKilobytes: getIntegerOrUndefined(
+      rawQueue[Constants.MAX_MESSAGE_SIZE_IN_KILOBYTES]
     )
   };
 }
@@ -315,7 +314,7 @@ export interface QueueProperties {
   /**
    * The maximum message size in kilobytes for messages sent to this queue.
    */
-  maxMessageSizeInKilobytes: number;
+  maxMessageSizeInKilobytes?: number;
 
   /**
    * If enabled, the topic will detect duplicate messages within the time
