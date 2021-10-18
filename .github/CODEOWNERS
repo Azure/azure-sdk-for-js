@@ -78,7 +78,7 @@
 /sdk/tables/ @joheredi
 
 # PRLabel: %Purview
-/sdk/purview/ @joheredi
+/sdk/purview/ @qiaozha
 
 # PRLabel: %Farmbeats
 /sdk/agrifood/ @joheredi
