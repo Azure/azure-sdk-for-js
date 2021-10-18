@@ -1,9 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { base64Encode, base64Decode } from "./utils/bufferSerializer";
-import { EdmTypes, SignedIdentifier } from "./models";
+import { EdmTypes, SignedIdentifier, TableEntityQueryOptions } from "./models";
 import { truncatedISO8061Date } from "./utils/truncateISO8061Date";
-import { SignedIdentifier as GeneratedSignedIdentifier } from "./generated/models";
+import {
+  SignedIdentifier as GeneratedSignedIdentifier,
+  QueryOptions as GeneratedQueryOptions
+} from "./generated/models";
 
 const propertyCaseMap: Map<string, string> = new Map<string, string>([
   ["PartitionKey", "partitionKey"],
@@ -80,7 +83,7 @@ function serializeObject(obj: { value: any; type: EdmTypes }): serializedType {
 }
 
 function getSerializedValue(value: any): serializedType {
-  if (typeof value === "object" && value?.value && value?.type) {
+  if (typeof value === "object" && value?.value !== undefined && value?.type !== undefined) {
     return serializeObject(value);
   } else {
     return serializePrimitive(value);
@@ -180,7 +183,7 @@ function inferTypedObject(propertyName: string, value: number | string | boolean
  */
 function getTypedNumber(value: number): { value: string; type: "Int32" | "Double" } {
   const valueStr = String(value);
-  if (Number.isInteger(value)) {
+  if (Number.isSafeInteger(value)) {
     return { value: valueStr, type: "Int32" };
   } else {
     return { value: valueStr, type: "Double" };
@@ -242,4 +245,18 @@ export function deserializeSignedIdentifier(
       }
     };
   });
+}
+
+export function serializeQueryOptions(query: TableEntityQueryOptions): GeneratedQueryOptions {
+  const { select, ...queryOptions } = query;
+  const mappedQuery: GeneratedQueryOptions = { ...queryOptions };
+  // Properties that are always returned by the service but are not allowed in select
+  const excludeFromSelect = ["etag", "odata.etag"];
+  if (select) {
+    mappedQuery.select = select
+      .filter((p) => !excludeFromSelect.includes(p))
+      .map(translatePropertyNameForSerialization)
+      .join(",");
+  }
+  return mappedQuery;
 }
