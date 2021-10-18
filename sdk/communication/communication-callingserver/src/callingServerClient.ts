@@ -757,13 +757,13 @@ export class CallingServerClient {
   public async download(
     uri: string,
     offset: number = 0,
-    count?: number,
     options: DownloadOptions = {}
   ): Promise<ContentDownloadResponse> {
     const { span, updatedOptions } = createSpan("ServerCallRestClient-download", options);
     const DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS = 3;
     const contentDownloader = this.initializeContentDownloader();
     try {
+      const count = updatedOptions.count;
       const res = await contentDownloader.downloadContent(uri, {
         abortSignal: options.abortSignal,
         requestOptions: {

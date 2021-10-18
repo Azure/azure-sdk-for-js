@@ -260,6 +260,8 @@ export interface DownloadOptions extends OperationOptions {
    * Default value is 5, please set a larger value when loading large files in poor network.
    */
   maxRetryRequests?: number;
+
+  count?: number;
 }
 
 export interface DownloadContentOptions extends DownloadOptions {
