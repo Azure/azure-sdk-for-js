@@ -9,7 +9,7 @@ import chaiPromises from "chai-as-promised";
 chaiUse(chaiPromises);
 
 import { matrix } from "@azure/test-utils";
-import { isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
+import { env, isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
 
 import { AuthMethod, createClient, createRecorder } from "./utils/recordedClient";
 import {
@@ -942,8 +942,8 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             {
               recognizeCustomEntitiesActions: [
                 {
-                  projectName: "88ee0f78-fbca-444d-98e2-7c4c8631e494",
-                  deploymentName: "88ee0f78-fbca-444d-98e2-7c4c8631e494"
+                  projectName: env.TEXT_ANALYTICS_RECOGNIZE_CUSTOM_ENTITIES_PROJECT_NAME,
+                  deploymentName: env.TEXT_ANALYTICS_RECOGNIZE_CUSTOM_ENTITIES_DEPLOYMENT_NAME
                 }
               ]
             },
@@ -994,8 +994,8 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             {
               singleCategoryClassifyActions: [
                 {
-                  projectName: "659c1851-be0b-4142-b12a-087da9785926",
-                  deploymentName: "659c1851-be0b-4142-b12a-087da9785926"
+                  projectName: env.TEXT_ANALYTICS_SINGLE_CATEGORY_CLASSIFY_PROJECT_NAME,
+                  deploymentName: env.TEXT_ANALYTICS_SINGLE_CATEGORY_CLASSIFY_DEPLOYMENT_NAME
                 }
               ]
             },
@@ -1045,8 +1045,8 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             {
               multiCategoryClassifyActions: [
                 {
-                  projectName: "7cdace98-537b-494a-b69a-c19754718025",
-                  deploymentName: "7cdace98-537b-494a-b69a-c19754718025"
+                  projectName: env.TEXT_ANALYTICS_MULTI_CATEGORY_CLASSIFY_PROJECT_NAME,
+                  deploymentName: env.TEXT_ANALYTICS_MULTI_CATEGORY_CLASSIFY_DEPLOYMENT_NAME
                 }
               ]
             },

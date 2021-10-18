@@ -40,20 +40,20 @@ export async function main() {
   const actions: TextAnalyticsActions = {
     recognizeCustomEntitiesActions: [
       {
-        projectName: process.env["RECOGNIZE_CUSTOM_ENTITIES_PROJECT_NAME"]!,
-        deploymentName: process.env["RECOGNIZE_CUSTOM_ENTITIES_DEPLOYMENT_NAME"]!
+        projectName: process.env["TEXT_ANALYTICS_RECOGNIZE_CUSTOM_ENTITIES_PROJECT_NAME"]!,
+        deploymentName: process.env["TEXT_ANALYTICS_RECOGNIZE_CUSTOM_ENTITIES_DEPLOYMENT_NAME"]!
       }
     ],
-    classifyDocumentSingleCategoryActions: [
+    singleCategoryClassifyActions: [
       {
-        projectName: process.env["CLASSIFY_DOCUMENT_SINGLE_CATEGORY_PROJECT_NAME"]!,
-        deploymentName: process.env["CLASSIFY_DOCUMENT_SINGLE_CATEGORY_DEPLOYMENT_NAME"]!
+        projectName: process.env["TEXT_ANALYTICS_SINGLE_CATEGORY_CLASSIFY_PROJECT_NAME"]!,
+        deploymentName: process.env["TEXT_ANALYTICS_SINGLE_CATEGORY_CLASSIFY_DEPLOYMENT_NAME"]!
       }
     ],
-    classifyDocumentMultiCategoriesActions: [
+    multiCategoryClassifyActions: [
       {
-        projectName: process.env["CLASSIFY_DOCUMENT_MULTIPLE_CATEGORY_PROJECT_NAME"]!,
-        deploymentName: process.env["CLASSIFY_DOCUMENT_MULTIPLE_CATEGORY_DEPLOYMENT_NAME"]!
+        projectName: process.env["TEXT_ANALYTICS_MULTI_CATEGORY_CLASSIFY_PROJECT_NAME"]!,
+        deploymentName: process.env["TEXT_ANALYTICS_MULTI_CATEGORY_CLASSIFY_DEPLOYMENT_NAME"]!
       }
     ]
   };
@@ -93,7 +93,7 @@ export async function main() {
       console.log(JSON.stringify(customEntitiesAction.results.statistics, null, 2));
     }
 
-    const singleCatClassificationAction = page.classifyDocumentSingleCategoryResults[0];
+    const singleCatClassificationAction = page.singleCategoryClassifyResults[0];
     if (!singleCatClassificationAction.error) {
       for (const doc of singleCatClassificationAction.results) {
         console.log(`- Document ${doc.id}`);
@@ -109,9 +109,9 @@ export async function main() {
       console.log(JSON.stringify(singleCatClassificationAction.results.statistics));
     }
 
-    const multipleCatClassificationAction = page.classifyDocumentMultiCategoriesResults[0];
-    if (!multipleCatClassificationAction.error) {
-      for (const doc of multipleCatClassificationAction.results) {
+    const multiCatClassificationAction = page.multiCategoryClassifyResults[0];
+    if (!multiCatClassificationAction.error) {
+      for (const doc of multiCatClassificationAction.results) {
         console.log(`- Document ${doc.id}`);
         if (!doc.error) {
           console.log("\tCategories:");
@@ -125,7 +125,7 @@ export async function main() {
         }
       }
       console.log("Action statistics: ");
-      console.log(JSON.stringify(multipleCatClassificationAction.results.statistics));
+      console.log(JSON.stringify(multiCatClassificationAction.results.statistics));
     }
   }
 }
