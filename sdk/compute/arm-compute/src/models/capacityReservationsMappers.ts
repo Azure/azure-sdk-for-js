@@ -183,6 +183,7 @@ export {
   SubResource,
   SubResourceReadOnly,
   SubResourceWithColocationStatus,
+  SupportedCapabilities,
   TargetRegion,
   TerminateNotificationProfile,
   UefiSettings,

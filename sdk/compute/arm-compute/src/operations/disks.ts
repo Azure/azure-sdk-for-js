@@ -30,7 +30,7 @@ export class Disks {
    * Creates or updates a disk.
    * @param resourceGroupName The name of the resource group.
    * @param diskName The name of the managed disk that is being created. The name can't be changed
-   * after the disk is created. Supported characters for the name are a-z, A-Z, 0-9 and _. The
+   * after the disk is created. Supported characters for the name are a-z, A-Z, 0-9, _ and -. The
    * maximum name length is 80 characters.
    * @param disk Disk object supplied in the body of the Put disk operation.
    * @param [options] The optional parameters
@@ -45,7 +45,7 @@ export class Disks {
    * Updates (patches) a disk.
    * @param resourceGroupName The name of the resource group.
    * @param diskName The name of the managed disk that is being created. The name can't be changed
-   * after the disk is created. Supported characters for the name are a-z, A-Z, 0-9 and _. The
+   * after the disk is created. Supported characters for the name are a-z, A-Z, 0-9, _ and -. The
    * maximum name length is 80 characters.
    * @param disk Disk object supplied in the body of the Patch disk operation.
    * @param [options] The optional parameters
@@ -60,7 +60,7 @@ export class Disks {
    * Gets information about a disk.
    * @param resourceGroupName The name of the resource group.
    * @param diskName The name of the managed disk that is being created. The name can't be changed
-   * after the disk is created. Supported characters for the name are a-z, A-Z, 0-9 and _. The
+   * after the disk is created. Supported characters for the name are a-z, A-Z, 0-9, _ and -. The
    * maximum name length is 80 characters.
    * @param [options] The optional parameters
    * @returns Promise<Models.DisksGetResponse>
@@ -69,7 +69,7 @@ export class Disks {
   /**
    * @param resourceGroupName The name of the resource group.
    * @param diskName The name of the managed disk that is being created. The name can't be changed
-   * after the disk is created. Supported characters for the name are a-z, A-Z, 0-9 and _. The
+   * after the disk is created. Supported characters for the name are a-z, A-Z, 0-9, _ and -. The
    * maximum name length is 80 characters.
    * @param callback The callback
    */
@@ -77,7 +77,7 @@ export class Disks {
   /**
    * @param resourceGroupName The name of the resource group.
    * @param diskName The name of the managed disk that is being created. The name can't be changed
-   * after the disk is created. Supported characters for the name are a-z, A-Z, 0-9 and _. The
+   * after the disk is created. Supported characters for the name are a-z, A-Z, 0-9, _ and -. The
    * maximum name length is 80 characters.
    * @param options The optional parameters
    * @param callback The callback
@@ -98,7 +98,7 @@ export class Disks {
    * Deletes a disk.
    * @param resourceGroupName The name of the resource group.
    * @param diskName The name of the managed disk that is being created. The name can't be changed
-   * after the disk is created. Supported characters for the name are a-z, A-Z, 0-9 and _. The
+   * after the disk is created. Supported characters for the name are a-z, A-Z, 0-9, _ and -. The
    * maximum name length is 80 characters.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
@@ -164,7 +164,7 @@ export class Disks {
    * Grants access to a disk.
    * @param resourceGroupName The name of the resource group.
    * @param diskName The name of the managed disk that is being created. The name can't be changed
-   * after the disk is created. Supported characters for the name are a-z, A-Z, 0-9 and _. The
+   * after the disk is created. Supported characters for the name are a-z, A-Z, 0-9, _ and -. The
    * maximum name length is 80 characters.
    * @param grantAccessData Access data object supplied in the body of the get disk access operation.
    * @param [options] The optional parameters
@@ -179,7 +179,7 @@ export class Disks {
    * Revokes access to a disk.
    * @param resourceGroupName The name of the resource group.
    * @param diskName The name of the managed disk that is being created. The name can't be changed
-   * after the disk is created. Supported characters for the name are a-z, A-Z, 0-9 and _. The
+   * after the disk is created. Supported characters for the name are a-z, A-Z, 0-9, _ and -. The
    * maximum name length is 80 characters.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
@@ -193,7 +193,7 @@ export class Disks {
    * Creates or updates a disk.
    * @param resourceGroupName The name of the resource group.
    * @param diskName The name of the managed disk that is being created. The name can't be changed
-   * after the disk is created. Supported characters for the name are a-z, A-Z, 0-9 and _. The
+   * after the disk is created. Supported characters for the name are a-z, A-Z, 0-9, _ and -. The
    * maximum name length is 80 characters.
    * @param disk Disk object supplied in the body of the Put disk operation.
    * @param [options] The optional parameters
@@ -215,7 +215,7 @@ export class Disks {
    * Updates (patches) a disk.
    * @param resourceGroupName The name of the resource group.
    * @param diskName The name of the managed disk that is being created. The name can't be changed
-   * after the disk is created. Supported characters for the name are a-z, A-Z, 0-9 and _. The
+   * after the disk is created. Supported characters for the name are a-z, A-Z, 0-9, _ and -. The
    * maximum name length is 80 characters.
    * @param disk Disk object supplied in the body of the Patch disk operation.
    * @param [options] The optional parameters
@@ -237,7 +237,7 @@ export class Disks {
    * Deletes a disk.
    * @param resourceGroupName The name of the resource group.
    * @param diskName The name of the managed disk that is being created. The name can't be changed
-   * after the disk is created. Supported characters for the name are a-z, A-Z, 0-9 and _. The
+   * after the disk is created. Supported characters for the name are a-z, A-Z, 0-9, _ and -. The
    * maximum name length is 80 characters.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
@@ -257,7 +257,7 @@ export class Disks {
    * Grants access to a disk.
    * @param resourceGroupName The name of the resource group.
    * @param diskName The name of the managed disk that is being created. The name can't be changed
-   * after the disk is created. Supported characters for the name are a-z, A-Z, 0-9 and _. The
+   * after the disk is created. Supported characters for the name are a-z, A-Z, 0-9, _ and -. The
    * maximum name length is 80 characters.
    * @param grantAccessData Access data object supplied in the body of the get disk access operation.
    * @param [options] The optional parameters
@@ -279,7 +279,7 @@ export class Disks {
    * Revokes access to a disk.
    * @param resourceGroupName The name of the resource group.
    * @param diskName The name of the managed disk that is being created. The name can't be changed
-   * after the disk is created. Supported characters for the name are a-z, A-Z, 0-9 and _. The
+   * after the disk is created. Supported characters for the name are a-z, A-Z, 0-9, _ and -. The
    * maximum name length is 80 characters.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>

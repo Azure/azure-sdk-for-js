@@ -37,7 +37,7 @@ export const apiVersion1: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "api-version",
-    defaultValue: '2020-12-01',
+    defaultValue: '2021-04-01',
     type: {
       name: "String"
     }
@@ -444,6 +444,16 @@ export const proximityPlacementGroupName: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "proximityPlacementGroupName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const publicGalleryName: msRest.OperationURLParameter = {
+  parameterPath: "publicGalleryName",
+  mapper: {
+    required: true,
+    serializedName: "publicGalleryName",
     type: {
       name: "String"
     }

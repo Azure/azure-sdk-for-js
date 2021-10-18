@@ -9978,6 +9978,22 @@ export const DiskSku: msRest.CompositeMapper = {
   }
 };
 
+export const SupportedCapabilities: msRest.CompositeMapper = {
+  serializedName: "SupportedCapabilities",
+  type: {
+    name: "Composite",
+    className: "SupportedCapabilities",
+    modelProperties: {
+      acceleratedNetwork: {
+        serializedName: "acceleratedNetwork",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
 export const ImageDiskReference: msRest.CompositeMapper = {
   serializedName: "ImageDiskReference",
   type: {
@@ -10346,6 +10362,13 @@ export const Disk: msRest.CompositeMapper = {
           className: "PurchasePlan"
         }
       },
+      supportedCapabilities: {
+        serializedName: "properties.supportedCapabilities",
+        type: {
+          name: "Composite",
+          className: "SupportedCapabilities"
+        }
+      },
       creationData: {
         required: true,
         serializedName: "properties.creationData",
@@ -10488,6 +10511,18 @@ export const Disk: msRest.CompositeMapper = {
           name: "Composite",
           className: "DiskSecurityProfile"
         }
+      },
+      completionPercent: {
+        serializedName: "properties.completionPercent",
+        type: {
+          name: "Number"
+        }
+      },
+      publicNetworkAccess: {
+        serializedName: "properties.publicNetworkAccess",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -10590,6 +10625,13 @@ export const DiskUpdate: msRest.CompositeMapper = {
           className: "PurchasePlan"
         }
       },
+      supportedCapabilities: {
+        serializedName: "properties.supportedCapabilities",
+        type: {
+          name: "Composite",
+          className: "SupportedCapabilities"
+        }
+      },
       propertyUpdatesInProgress: {
         readOnly: true,
         serializedName: "properties.propertyUpdatesInProgress",
@@ -10602,6 +10644,12 @@ export const DiskUpdate: msRest.CompositeMapper = {
         serializedName: "properties.supportsHibernation",
         type: {
           name: "Boolean"
+        }
+      },
+      publicNetworkAccess: {
+        serializedName: "properties.publicNetworkAccess",
+        type: {
+          name: "String"
         }
       },
       tags: {
@@ -10772,6 +10820,13 @@ export const Snapshot: msRest.CompositeMapper = {
           className: "PurchasePlan"
         }
       },
+      supportedCapabilities: {
+        serializedName: "properties.supportedCapabilities",
+        type: {
+          name: "Composite",
+          className: "SupportedCapabilities"
+        }
+      },
       creationData: {
         required: true,
         serializedName: "properties.creationData",
@@ -10850,6 +10905,18 @@ export const Snapshot: msRest.CompositeMapper = {
         type: {
           name: "Boolean"
         }
+      },
+      publicNetworkAccess: {
+        serializedName: "properties.publicNetworkAccess",
+        type: {
+          name: "String"
+        }
+      },
+      completionPercent: {
+        serializedName: "properties.completionPercent",
+        type: {
+          name: "Number"
+        }
       }
     }
   }
@@ -10907,6 +10974,12 @@ export const SnapshotUpdate: msRest.CompositeMapper = {
         serializedName: "properties.supportsHibernation",
         type: {
           name: "Boolean"
+        }
+      },
+      publicNetworkAccess: {
+        serializedName: "properties.publicNetworkAccess",
+        type: {
+          name: "String"
         }
       },
       tags: {
@@ -11019,6 +11092,14 @@ export const DiskEncryptionSet: msRest.CompositeMapper = {
         serializedName: "properties.lastKeyRotationTimestamp",
         type: {
           name: "DateTime"
+        }
+      },
+      autoKeyRotationError: {
+        readOnly: true,
+        serializedName: "properties.autoKeyRotationError",
+        type: {
+          name: "Composite",
+          className: "ApiError"
         }
       }
     }
@@ -11203,6 +11284,13 @@ export const DiskAccess: msRest.CompositeMapper = {
         type: {
           name: "DateTime"
         }
+      },
+      extendedLocation: {
+        serializedName: "extendedLocation",
+        type: {
+          name: "Composite",
+          className: "ExtendedLocation"
+        }
       }
     }
   }
@@ -11335,6 +11423,13 @@ export const DiskRestorePoint: msRest.CompositeMapper = {
           className: "PurchasePlan"
         }
       },
+      supportedCapabilities: {
+        serializedName: "properties.supportedCapabilities",
+        type: {
+          name: "Composite",
+          className: "SupportedCapabilities"
+        }
+      },
       familyId: {
         readOnly: true,
         serializedName: "properties.familyId",
@@ -11361,6 +11456,30 @@ export const DiskRestorePoint: msRest.CompositeMapper = {
         serializedName: "properties.supportsHibernation",
         type: {
           name: "Boolean"
+        }
+      },
+      networkAccessPolicy: {
+        serializedName: "properties.networkAccessPolicy",
+        type: {
+          name: "String"
+        }
+      },
+      publicNetworkAccess: {
+        serializedName: "properties.publicNetworkAccess",
+        type: {
+          name: "String"
+        }
+      },
+      diskAccessId: {
+        serializedName: "properties.diskAccessId",
+        type: {
+          name: "String"
+        }
+      },
+      completionPercent: {
+        serializedName: "properties.completionPercent",
+        type: {
+          name: "Number"
         }
       }
     }
@@ -12910,6 +13029,163 @@ export const SharedGalleryImageVersion: msRest.CompositeMapper = {
     className: "SharedGalleryImageVersion",
     modelProperties: {
       ...PirSharedGalleryResource.type.modelProperties,
+      publishedDate: {
+        serializedName: "properties.publishedDate",
+        type: {
+          name: "DateTime"
+        }
+      },
+      endOfLifeDate: {
+        serializedName: "properties.endOfLifeDate",
+        type: {
+          name: "DateTime"
+        }
+      }
+    }
+  }
+};
+
+export const PirCommunityGalleryResource: msRest.CompositeMapper = {
+  serializedName: "PirCommunityGalleryResource",
+  type: {
+    name: "Composite",
+    className: "PirCommunityGalleryResource",
+    modelProperties: {
+      name: {
+        readOnly: true,
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      location: {
+        readOnly: true,
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        readOnly: true,
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      uniqueId: {
+        serializedName: "identifier.uniqueId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CommunityGallery: msRest.CompositeMapper = {
+  serializedName: "CommunityGallery",
+  type: {
+    name: "Composite",
+    className: "CommunityGallery",
+    modelProperties: {
+      ...PirCommunityGalleryResource.type.modelProperties
+    }
+  }
+};
+
+export const CommunityGalleryImage: msRest.CompositeMapper = {
+  serializedName: "CommunityGalleryImage",
+  type: {
+    name: "Composite",
+    className: "CommunityGalleryImage",
+    modelProperties: {
+      ...PirCommunityGalleryResource.type.modelProperties,
+      osType: {
+        required: true,
+        serializedName: "properties.osType",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "Windows",
+            "Linux"
+          ]
+        }
+      },
+      osState: {
+        required: true,
+        serializedName: "properties.osState",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "Generalized",
+            "Specialized"
+          ]
+        }
+      },
+      endOfLifeDate: {
+        serializedName: "properties.endOfLifeDate",
+        type: {
+          name: "DateTime"
+        }
+      },
+      identifier: {
+        required: true,
+        serializedName: "properties.identifier",
+        type: {
+          name: "Composite",
+          className: "GalleryImageIdentifier"
+        }
+      },
+      recommended: {
+        serializedName: "properties.recommended",
+        type: {
+          name: "Composite",
+          className: "RecommendedMachineConfiguration"
+        }
+      },
+      disallowed: {
+        serializedName: "properties.disallowed",
+        type: {
+          name: "Composite",
+          className: "Disallowed"
+        }
+      },
+      hyperVGeneration: {
+        serializedName: "properties.hyperVGeneration",
+        type: {
+          name: "String"
+        }
+      },
+      features: {
+        serializedName: "properties.features",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "GalleryImageFeature"
+            }
+          }
+        }
+      },
+      purchasePlan: {
+        serializedName: "properties.purchasePlan",
+        type: {
+          name: "Composite",
+          className: "ImagePurchasePlan"
+        }
+      }
+    }
+  }
+};
+
+export const CommunityGalleryImageVersion: msRest.CompositeMapper = {
+  serializedName: "CommunityGalleryImageVersion",
+  type: {
+    name: "Composite",
+    className: "CommunityGalleryImageVersion",
+    modelProperties: {
+      ...PirCommunityGalleryResource.type.modelProperties,
       publishedDate: {
         serializedName: "properties.publishedDate",
         type: {

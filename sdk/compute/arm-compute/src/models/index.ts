@@ -6502,6 +6502,17 @@ export interface DiskSku {
 }
 
 /**
+ * List of supported capabilities (like accelerated networking) persisted on the disk resource for
+ * VM use.
+ */
+export interface SupportedCapabilities {
+  /**
+   * True if the image from which the OS disk is created supports accelerated networking.
+   */
+  acceleratedNetwork?: boolean;
+}
+
+/**
  * The source image used for creating the disk.
  */
 export interface ImageDiskReference {
@@ -6522,7 +6533,7 @@ export interface ImageDiskReference {
 export interface CreationData {
   /**
    * This enumerates the possible sources of a disk's creation. Possible values include: 'Empty',
-   * 'Attach', 'FromImage', 'Import', 'Copy', 'Restore', 'Upload'
+   * 'Attach', 'FromImage', 'Import', 'Copy', 'Restore', 'Upload', 'CopyStart'
    */
   createOption: DiskCreateOption;
   /**
@@ -6733,6 +6744,10 @@ export interface Disk extends Resource {
    */
   purchasePlan?: PurchasePlan;
   /**
+   * List of supported capabilities for the image from which the OS disk was created.
+   */
+  supportedCapabilities?: SupportedCapabilities;
+  /**
    * Disk source information. CreationData information cannot be changed after the disk has been
    * created.
    */
@@ -6787,7 +6802,7 @@ export interface Disk extends Resource {
   diskMBpsReadOnly?: number;
   /**
    * The state of the disk. Possible values include: 'Unattached', 'Attached', 'Reserved',
-   * 'ActiveSAS', 'ReadyToUpload', 'ActiveUpload'
+   * 'Frozen', 'ActiveSAS', 'ActiveSASFrozen', 'ReadyToUpload', 'ActiveUpload'
    */
   diskState?: DiskState;
   /**
@@ -6838,6 +6853,15 @@ export interface Disk extends Resource {
    * Contains the security related information for the resource.
    */
   securityProfile?: DiskSecurityProfile;
+  /**
+   * Percentage complete for the background copy when a resource is created via the CopyStart
+   * operation.
+   */
+  completionPercent?: number;
+  /**
+   * Possible values include: 'Enabled', 'Disabled'
+   */
+  publicNetworkAccess?: PublicNetworkAccess;
 }
 
 /**
@@ -6915,6 +6939,10 @@ export interface DiskUpdate {
    */
   purchasePlan?: PurchasePlan;
   /**
+   * List of supported capabilities (like accelerated networking) to be added on the OS disk.
+   */
+  supportedCapabilities?: SupportedCapabilities;
+  /**
    * Properties of the disk for which update is pending.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
@@ -6923,6 +6951,10 @@ export interface DiskUpdate {
    * Indicates the OS on a disk supports hibernation.
    */
   supportsHibernation?: boolean;
+  /**
+   * Possible values include: 'Enabled', 'Disabled'
+   */
+  publicNetworkAccess?: PublicNetworkAccess;
   /**
    * Resource tags
    */
@@ -7022,6 +7054,11 @@ export interface Snapshot extends Resource {
    */
   purchasePlan?: PurchasePlan;
   /**
+   * List of supported capabilities (like Accelerated Networking) for the image from which the
+   * source disk from the snapshot was originally created.
+   */
+  supportedCapabilities?: SupportedCapabilities;
+  /**
    * Disk source information. CreationData information cannot be changed after the disk has been
    * created.
    */
@@ -7040,7 +7077,7 @@ export interface Snapshot extends Resource {
   readonly diskSizeBytes?: number;
   /**
    * The state of the snapshot. Possible values include: 'Unattached', 'Attached', 'Reserved',
-   * 'ActiveSAS', 'ReadyToUpload', 'ActiveUpload'
+   * 'Frozen', 'ActiveSAS', 'ActiveSASFrozen', 'ReadyToUpload', 'ActiveUpload'
    */
   diskState?: DiskState;
   /**
@@ -7080,6 +7117,15 @@ export interface Snapshot extends Resource {
    * Indicates the OS on a snapshot supports hibernation.
    */
   supportsHibernation?: boolean;
+  /**
+   * Possible values include: 'Enabled', 'Disabled'
+   */
+  publicNetworkAccess?: PublicNetworkAccess;
+  /**
+   * Percentage complete for the background copy when a resource is created via the CopyStart
+   * operation.
+   */
+  completionPercent?: number;
 }
 
 /**
@@ -7119,6 +7165,10 @@ export interface SnapshotUpdate {
    * Indicates the OS on a snapshot supports hibernation.
    */
   supportsHibernation?: boolean;
+  /**
+   * Possible values include: 'Enabled', 'Disabled'
+   */
+  publicNetworkAccess?: PublicNetworkAccess;
   /**
    * Resource tags
    */
@@ -7189,6 +7239,12 @@ export interface DiskEncryptionSet extends Resource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly lastKeyRotationTimestamp?: Date;
+  /**
+   * The error that was encountered during auto-key rotation. If an error is present, then auto-key
+   * rotation will not be attempted until the error on this disk encryption set is fixed.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly autoKeyRotationError?: ApiError;
 }
 
 /**
@@ -7300,6 +7356,11 @@ export interface DiskAccess extends Resource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly timeCreated?: Date;
+  /**
+   * The extended location where the disk access will be created. Extended location cannot be
+   * changed.
+   */
+  extendedLocation?: ExtendedLocation;
 }
 
 /**
@@ -7376,6 +7437,11 @@ export interface DiskRestorePoint extends ProxyOnlyResource {
    */
   purchasePlan?: PurchasePlan;
   /**
+   * List of supported capabilities (like accelerated networking) for the image from which the OS
+   * disk was created.
+   */
+  supportedCapabilities?: SupportedCapabilities;
+  /**
    * id of the backing snapshot's MIS family
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
@@ -7395,6 +7461,23 @@ export interface DiskRestorePoint extends ProxyOnlyResource {
    * Indicates the OS on a disk supports hibernation.
    */
   supportsHibernation?: boolean;
+  /**
+   * Possible values include: 'AllowAll', 'AllowPrivate', 'DenyAll'
+   */
+  networkAccessPolicy?: NetworkAccessPolicy;
+  /**
+   * Possible values include: 'Enabled', 'Disabled'
+   */
+  publicNetworkAccess?: PublicNetworkAccess;
+  /**
+   * ARM id of the DiskAccess resource for using private endpoints on disks.
+   */
+  diskAccessId?: string;
+  /**
+   * Percentage complete for the background copy when a resource is created via the CopyStart
+   * operation.
+   */
+  completionPercent?: number;
 }
 
 /**
@@ -8233,6 +8316,88 @@ export interface SharedGalleryImage extends PirSharedGalleryResource {
  * Specifies information about the gallery image version that you want to create or update.
  */
 export interface SharedGalleryImageVersion extends PirSharedGalleryResource {
+  /**
+   * The published date of the gallery image version Definition. This property can be used for
+   * decommissioning purposes. This property is updatable.
+   */
+  publishedDate?: Date;
+  /**
+   * The end of life date of the gallery image version Definition. This property can be used for
+   * decommissioning purposes. This property is updatable.
+   */
+  endOfLifeDate?: Date;
+}
+
+/**
+ * Base information about the community gallery resource in pir.
+ */
+export interface PirCommunityGalleryResource {
+  /**
+   * Resource name
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * Resource location
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly location?: string;
+  /**
+   * Resource type
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
+   * The unique id of this community gallery.
+   */
+  uniqueId?: string;
+}
+
+/**
+ * Specifies information about the Community Gallery that you want to create or update.
+ */
+export interface CommunityGallery extends PirCommunityGalleryResource {
+}
+
+/**
+ * Specifies information about the gallery image definition that you want to create or update.
+ */
+export interface CommunityGalleryImage extends PirCommunityGalleryResource {
+  /**
+   * This property allows you to specify the type of the OS that is included in the disk when
+   * creating a VM from a managed image. <br><br> Possible values are: <br><br> **Windows**
+   * <br><br> **Linux**. Possible values include: 'Windows', 'Linux'
+   */
+  osType: OperatingSystemTypes;
+  /**
+   * This property allows the user to specify whether the virtual machines created under this image
+   * are 'Generalized' or 'Specialized'. Possible values include: 'Generalized', 'Specialized'
+   */
+  osState: OperatingSystemStateTypes;
+  /**
+   * The end of life date of the gallery image definition. This property can be used for
+   * decommissioning purposes. This property is updatable.
+   */
+  endOfLifeDate?: Date;
+  identifier: GalleryImageIdentifier;
+  recommended?: RecommendedMachineConfiguration;
+  disallowed?: Disallowed;
+  /**
+   * The hypervisor generation of the Virtual Machine. Applicable to OS disks only. Possible values
+   * include: 'V1', 'V2'
+   */
+  hyperVGeneration?: HyperVGeneration;
+  /**
+   * A list of gallery image features.
+   */
+  features?: GalleryImageFeature[];
+  purchasePlan?: ImagePurchasePlan;
+}
+
+/**
+ * Specifies information about the gallery image version that you want to create or update.
+ */
+export interface CommunityGalleryImageVersion extends PirCommunityGalleryResource {
   /**
    * The published date of the gallery image version Definition. This property can be used for
    * decommissioning purposes. This property is updatable.
@@ -11135,20 +11300,21 @@ export type HyperVGeneration = 'V1' | 'V2';
 
 /**
  * Defines values for DiskCreateOption.
- * Possible values include: 'Empty', 'Attach', 'FromImage', 'Import', 'Copy', 'Restore', 'Upload'
+ * Possible values include: 'Empty', 'Attach', 'FromImage', 'Import', 'Copy', 'Restore', 'Upload',
+ * 'CopyStart'
  * @readonly
  * @enum {string}
  */
-export type DiskCreateOption = 'Empty' | 'Attach' | 'FromImage' | 'Import' | 'Copy' | 'Restore' | 'Upload';
+export type DiskCreateOption = 'Empty' | 'Attach' | 'FromImage' | 'Import' | 'Copy' | 'Restore' | 'Upload' | 'CopyStart';
 
 /**
  * Defines values for DiskState.
- * Possible values include: 'Unattached', 'Attached', 'Reserved', 'ActiveSAS', 'ReadyToUpload',
- * 'ActiveUpload'
+ * Possible values include: 'Unattached', 'Attached', 'Reserved', 'Frozen', 'ActiveSAS',
+ * 'ActiveSASFrozen', 'ReadyToUpload', 'ActiveUpload'
  * @readonly
  * @enum {string}
  */
-export type DiskState = 'Unattached' | 'Attached' | 'Reserved' | 'ActiveSAS' | 'ReadyToUpload' | 'ActiveUpload';
+export type DiskState = 'Unattached' | 'Attached' | 'Reserved' | 'Frozen' | 'ActiveSAS' | 'ActiveSASFrozen' | 'ReadyToUpload' | 'ActiveUpload';
 
 /**
  * Defines values for EncryptionType.
@@ -11174,6 +11340,14 @@ export type NetworkAccessPolicy = 'AllowAll' | 'AllowPrivate' | 'DenyAll';
  * @enum {string}
  */
 export type DiskSecurityTypes = 'TrustedLaunch';
+
+/**
+ * Defines values for PublicNetworkAccess.
+ * Possible values include: 'Enabled', 'Disabled'
+ * @readonly
+ * @enum {string}
+ */
+export type PublicNetworkAccess = 'Enabled' | 'Disabled';
 
 /**
  * Defines values for SnapshotStorageAccountTypes.
@@ -16977,6 +17151,66 @@ export type SharedGalleryImageVersionsListNextResponse = SharedGalleryImageVersi
        * The response body as parsed JSON or XML
        */
       parsedBody: SharedGalleryImageVersionList;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type CommunityGalleriesGetResponse = CommunityGallery & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CommunityGallery;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type CommunityGalleryImagesGetResponse = CommunityGalleryImage & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CommunityGalleryImage;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type CommunityGalleryImageVersionsGetResponse = CommunityGalleryImageVersion & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CommunityGalleryImageVersion;
     };
 };
 

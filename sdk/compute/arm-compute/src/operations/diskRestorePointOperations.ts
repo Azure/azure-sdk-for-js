@@ -30,13 +30,10 @@ export class DiskRestorePointOperations {
    * Get disk restorePoint resource
    * @param resourceGroupName The name of the resource group.
    * @param restorePointCollectionName The name of the restore point collection that the disk restore
-   * point belongs. Supported characters for the name are a-z, A-Z, 0-9 and _. The maximum name
-   * length is 80 characters.
+   * point belongs.
    * @param vmRestorePointName The name of the vm restore point that the disk disk restore point
-   * belongs. Supported characters for the name are a-z, A-Z, 0-9 and _. The maximum name length is
-   * 80 characters.
-   * @param diskRestorePointName The name of the disk restore point created. Supported characters for
-   * the name are a-z, A-Z, 0-9 and _. The maximum name length is 80 characters.
+   * belongs.
+   * @param diskRestorePointName The name of the disk restore point created.
    * @param [options] The optional parameters
    * @returns Promise<Models.DiskRestorePointGetResponse>
    */
@@ -44,26 +41,20 @@ export class DiskRestorePointOperations {
   /**
    * @param resourceGroupName The name of the resource group.
    * @param restorePointCollectionName The name of the restore point collection that the disk restore
-   * point belongs. Supported characters for the name are a-z, A-Z, 0-9 and _. The maximum name
-   * length is 80 characters.
+   * point belongs.
    * @param vmRestorePointName The name of the vm restore point that the disk disk restore point
-   * belongs. Supported characters for the name are a-z, A-Z, 0-9 and _. The maximum name length is
-   * 80 characters.
-   * @param diskRestorePointName The name of the disk restore point created. Supported characters for
-   * the name are a-z, A-Z, 0-9 and _. The maximum name length is 80 characters.
+   * belongs.
+   * @param diskRestorePointName The name of the disk restore point created.
    * @param callback The callback
    */
   get(resourceGroupName: string, restorePointCollectionName: string, vmRestorePointName: string, diskRestorePointName: string, callback: msRest.ServiceCallback<Models.DiskRestorePoint>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param restorePointCollectionName The name of the restore point collection that the disk restore
-   * point belongs. Supported characters for the name are a-z, A-Z, 0-9 and _. The maximum name
-   * length is 80 characters.
+   * point belongs.
    * @param vmRestorePointName The name of the vm restore point that the disk disk restore point
-   * belongs. Supported characters for the name are a-z, A-Z, 0-9 and _. The maximum name length is
-   * 80 characters.
-   * @param diskRestorePointName The name of the disk restore point created. Supported characters for
-   * the name are a-z, A-Z, 0-9 and _. The maximum name length is 80 characters.
+   * belongs.
+   * @param diskRestorePointName The name of the disk restore point created.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -85,11 +76,9 @@ export class DiskRestorePointOperations {
    * Lists diskRestorePoints under a vmRestorePoint.
    * @param resourceGroupName The name of the resource group.
    * @param restorePointCollectionName The name of the restore point collection that the disk restore
-   * point belongs. Supported characters for the name are a-z, A-Z, 0-9 and _. The maximum name
-   * length is 80 characters.
+   * point belongs.
    * @param vmRestorePointName The name of the vm restore point that the disk disk restore point
-   * belongs. Supported characters for the name are a-z, A-Z, 0-9 and _. The maximum name length is
-   * 80 characters.
+   * belongs.
    * @param [options] The optional parameters
    * @returns Promise<Models.DiskRestorePointListByRestorePointResponse>
    */
@@ -97,22 +86,18 @@ export class DiskRestorePointOperations {
   /**
    * @param resourceGroupName The name of the resource group.
    * @param restorePointCollectionName The name of the restore point collection that the disk restore
-   * point belongs. Supported characters for the name are a-z, A-Z, 0-9 and _. The maximum name
-   * length is 80 characters.
+   * point belongs.
    * @param vmRestorePointName The name of the vm restore point that the disk disk restore point
-   * belongs. Supported characters for the name are a-z, A-Z, 0-9 and _. The maximum name length is
-   * 80 characters.
+   * belongs.
    * @param callback The callback
    */
   listByRestorePoint(resourceGroupName: string, restorePointCollectionName: string, vmRestorePointName: string, callback: msRest.ServiceCallback<Models.DiskRestorePointList>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param restorePointCollectionName The name of the restore point collection that the disk restore
-   * point belongs. Supported characters for the name are a-z, A-Z, 0-9 and _. The maximum name
-   * length is 80 characters.
+   * point belongs.
    * @param vmRestorePointName The name of the vm restore point that the disk disk restore point
-   * belongs. Supported characters for the name are a-z, A-Z, 0-9 and _. The maximum name length is
-   * 80 characters.
+   * belongs.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -133,13 +118,10 @@ export class DiskRestorePointOperations {
    * Grants access to a diskRestorePoint.
    * @param resourceGroupName The name of the resource group.
    * @param restorePointCollectionName The name of the restore point collection that the disk restore
-   * point belongs. Supported characters for the name are a-z, A-Z, 0-9 and _. The maximum name
-   * length is 80 characters.
+   * point belongs.
    * @param vmRestorePointName The name of the vm restore point that the disk disk restore point
-   * belongs. Supported characters for the name are a-z, A-Z, 0-9 and _. The maximum name length is
-   * 80 characters.
-   * @param diskRestorePointName The name of the disk restore point created. Supported characters for
-   * the name are a-z, A-Z, 0-9 and _. The maximum name length is 80 characters.
+   * belongs.
+   * @param diskRestorePointName The name of the disk restore point created.
    * @param grantAccessData Access data object supplied in the body of the get disk access operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.DiskRestorePointGrantAccessResponse>
@@ -153,13 +135,10 @@ export class DiskRestorePointOperations {
    * Revokes access to a diskRestorePoint.
    * @param resourceGroupName The name of the resource group.
    * @param restorePointCollectionName The name of the restore point collection that the disk restore
-   * point belongs. Supported characters for the name are a-z, A-Z, 0-9 and _. The maximum name
-   * length is 80 characters.
+   * point belongs.
    * @param vmRestorePointName The name of the vm restore point that the disk disk restore point
-   * belongs. Supported characters for the name are a-z, A-Z, 0-9 and _. The maximum name length is
-   * 80 characters.
-   * @param diskRestorePointName The name of the disk restore point created. Supported characters for
-   * the name are a-z, A-Z, 0-9 and _. The maximum name length is 80 characters.
+   * belongs.
+   * @param diskRestorePointName The name of the disk restore point created.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
@@ -172,13 +151,10 @@ export class DiskRestorePointOperations {
    * Grants access to a diskRestorePoint.
    * @param resourceGroupName The name of the resource group.
    * @param restorePointCollectionName The name of the restore point collection that the disk restore
-   * point belongs. Supported characters for the name are a-z, A-Z, 0-9 and _. The maximum name
-   * length is 80 characters.
+   * point belongs.
    * @param vmRestorePointName The name of the vm restore point that the disk disk restore point
-   * belongs. Supported characters for the name are a-z, A-Z, 0-9 and _. The maximum name length is
-   * 80 characters.
-   * @param diskRestorePointName The name of the disk restore point created. Supported characters for
-   * the name are a-z, A-Z, 0-9 and _. The maximum name length is 80 characters.
+   * belongs.
+   * @param diskRestorePointName The name of the disk restore point created.
    * @param grantAccessData Access data object supplied in the body of the get disk access operation.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
@@ -201,13 +177,10 @@ export class DiskRestorePointOperations {
    * Revokes access to a diskRestorePoint.
    * @param resourceGroupName The name of the resource group.
    * @param restorePointCollectionName The name of the restore point collection that the disk restore
-   * point belongs. Supported characters for the name are a-z, A-Z, 0-9 and _. The maximum name
-   * length is 80 characters.
+   * point belongs.
    * @param vmRestorePointName The name of the vm restore point that the disk disk restore point
-   * belongs. Supported characters for the name are a-z, A-Z, 0-9 and _. The maximum name length is
-   * 80 characters.
-   * @param diskRestorePointName The name of the disk restore point created. Supported characters for
-   * the name are a-z, A-Z, 0-9 and _. The maximum name length is 80 characters.
+   * belongs.
+   * @param diskRestorePointName The name of the disk restore point created.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */

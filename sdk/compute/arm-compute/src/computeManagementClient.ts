@@ -58,6 +58,9 @@ class ComputeManagementClient extends ComputeManagementClientContext {
   sharedGalleries: operations.SharedGalleries;
   sharedGalleryImages: operations.SharedGalleryImages;
   sharedGalleryImageVersions: operations.SharedGalleryImageVersions;
+  communityGalleries: operations.CommunityGalleries;
+  communityGalleryImages: operations.CommunityGalleryImages;
+  communityGalleryImageVersions: operations.CommunityGalleryImageVersions;
   cloudServiceRoleInstances: operations.CloudServiceRoleInstances;
   cloudServiceRoles: operations.CloudServiceRoles;
   cloudServices: operations.CloudServices;
@@ -119,6 +122,9 @@ class ComputeManagementClient extends ComputeManagementClientContext {
     this.sharedGalleries = new operations.SharedGalleries(this);
     this.sharedGalleryImages = new operations.SharedGalleryImages(this);
     this.sharedGalleryImageVersions = new operations.SharedGalleryImageVersions(this);
+    this.communityGalleries = new operations.CommunityGalleries(this);
+    this.communityGalleryImages = new operations.CommunityGalleryImages(this);
+    this.communityGalleryImageVersions = new operations.CommunityGalleryImageVersions(this);
     this.cloudServiceRoleInstances = new operations.CloudServiceRoleInstances(this);
     this.cloudServiceRoles = new operations.CloudServiceRoles(this);
     this.cloudServices = new operations.CloudServices(this);
