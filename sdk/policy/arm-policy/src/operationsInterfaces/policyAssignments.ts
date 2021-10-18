@@ -6,17 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   PolicyAssignment,
-  PolicyAssignmentsListForResourceGroupNextOptionalParams,
   PolicyAssignmentsListForResourceGroupOptionalParams,
-  PolicyAssignmentsListForResourceNextOptionalParams,
   PolicyAssignmentsListForResourceOptionalParams,
-  PolicyAssignmentsListForManagementGroupNextOptionalParams,
   PolicyAssignmentsListForManagementGroupOptionalParams,
-  PolicyAssignmentsListNextOptionalParams,
   PolicyAssignmentsListOptionalParams,
   PolicyAssignmentsDeleteOptionalParams,
   PolicyAssignmentsDeleteResponse,
@@ -24,12 +19,17 @@ import {
   PolicyAssignmentsCreateResponse,
   PolicyAssignmentsGetOptionalParams,
   PolicyAssignmentsGetResponse,
+  PolicyAssignmentUpdate,
+  PolicyAssignmentsUpdateOptionalParams,
+  PolicyAssignmentsUpdateResponse,
   PolicyAssignmentsDeleteByIdOptionalParams,
   PolicyAssignmentsDeleteByIdResponse,
   PolicyAssignmentsCreateByIdOptionalParams,
   PolicyAssignmentsCreateByIdResponse,
   PolicyAssignmentsGetByIdOptionalParams,
-  PolicyAssignmentsGetByIdResponse
+  PolicyAssignmentsGetByIdResponse,
+  PolicyAssignmentsUpdateByIdOptionalParams,
+  PolicyAssignmentsUpdateByIdResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -128,58 +128,6 @@ export interface PolicyAssignments {
     options?: PolicyAssignmentsListOptionalParams
   ): PagedAsyncIterableIterator<PolicyAssignment>;
   /**
-   * ListForResourceGroupNext
-   * @param resourceGroupName The name of the resource group that contains policy assignments.
-   * @param nextLink The nextLink from the previous successful call to the ListForResourceGroup method.
-   * @param options The options parameters.
-   */
-  listForResourceGroupNext(
-    resourceGroupName: string,
-    nextLink: string,
-    options?: PolicyAssignmentsListForResourceGroupNextOptionalParams
-  ): PagedAsyncIterableIterator<PolicyAssignment>;
-  /**
-   * ListForResourceNext
-   * @param resourceGroupName The name of the resource group containing the resource.
-   * @param resourceProviderNamespace The namespace of the resource provider. For example, the namespace
-   *                                  of a virtual machine is Microsoft.Compute (from Microsoft.Compute/virtualMachines)
-   * @param parentResourcePath The parent resource path. Use empty string if there is none.
-   * @param resourceType The resource type name. For example the type name of a web app is 'sites' (from
-   *                     Microsoft.Web/sites).
-   * @param resourceName The name of the resource.
-   * @param nextLink The nextLink from the previous successful call to the ListForResource method.
-   * @param options The options parameters.
-   */
-  listForResourceNext(
-    resourceGroupName: string,
-    resourceProviderNamespace: string,
-    parentResourcePath: string,
-    resourceType: string,
-    resourceName: string,
-    nextLink: string,
-    options?: PolicyAssignmentsListForResourceNextOptionalParams
-  ): PagedAsyncIterableIterator<PolicyAssignment>;
-  /**
-   * ListForManagementGroupNext
-   * @param managementGroupId The ID of the management group.
-   * @param nextLink The nextLink from the previous successful call to the ListForManagementGroup method.
-   * @param options The options parameters.
-   */
-  listForManagementGroupNext(
-    managementGroupId: string,
-    nextLink: string,
-    options?: PolicyAssignmentsListForManagementGroupNextOptionalParams
-  ): PagedAsyncIterableIterator<PolicyAssignment>;
-  /**
-   * ListNext
-   * @param nextLink The nextLink from the previous successful call to the List method.
-   * @param options The options parameters.
-   */
-  listNext(
-    nextLink: string,
-    options?: PolicyAssignmentsListNextOptionalParams
-  ): PagedAsyncIterableIterator<PolicyAssignment>;
-  /**
    * This operation deletes a policy assignment, given its name and the scope it was created in. The
    * scope of a policy assignment is the part of its ID preceding
    * '/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}'.
@@ -230,6 +178,25 @@ export interface PolicyAssignments {
     policyAssignmentName: string,
     options?: PolicyAssignmentsGetOptionalParams
   ): Promise<PolicyAssignmentsGetResponse>;
+  /**
+   *  This operation updates a policy assignment with the given scope and name. Policy assignments apply
+   * to all resources contained within their scope. For example, when you assign a policy at resource
+   * group scope, that policy applies to all resources in the group.
+   * @param scope The scope of the policy assignment. Valid scopes are: management group (format:
+   *              '/providers/Microsoft.Management/managementGroups/{managementGroup}'), subscription (format:
+   *              '/subscriptions/{subscriptionId}'), resource group (format:
+   *              '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}', or resource (format:
+   *              '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/[{parentResourcePath}/]{resourceType}/{resourceName}'
+   * @param policyAssignmentName The name of the policy assignment.
+   * @param parameters Parameters for policy assignment patch request.
+   * @param options The options parameters.
+   */
+  update(
+    scope: string,
+    policyAssignmentName: string,
+    parameters: PolicyAssignmentUpdate,
+    options?: PolicyAssignmentsUpdateOptionalParams
+  ): Promise<PolicyAssignmentsUpdateResponse>;
   /**
    * This operation deletes the policy with the given ID. Policy assignment IDs have this format:
    * '{scope}/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}'. Valid formats
@@ -282,4 +249,24 @@ export interface PolicyAssignments {
     policyAssignmentId: string,
     options?: PolicyAssignmentsGetByIdOptionalParams
   ): Promise<PolicyAssignmentsGetByIdResponse>;
+  /**
+   * This operation updates the policy assignment with the given ID. Policy assignments made on a scope
+   * apply to all resources contained in that scope. For example, when you assign a policy to a resource
+   * group that policy applies to all resources in the group. Policy assignment IDs have this format:
+   * '{scope}/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}'. Valid scopes
+   * are: management group (format:
+   * '/providers/Microsoft.Management/managementGroups/{managementGroup}'), subscription (format:
+   * '/subscriptions/{subscriptionId}'), resource group (format:
+   * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}', or resource (format:
+   * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/[{parentResourcePath}/]{resourceType}/{resourceName}'.
+   * @param policyAssignmentId The ID of the policy assignment to update. Use the format
+   *                           '{scope}/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}'.
+   * @param parameters Parameters for policy assignment patch request.
+   * @param options The options parameters.
+   */
+  updateById(
+    policyAssignmentId: string,
+    parameters: PolicyAssignmentUpdate,
+    options?: PolicyAssignmentsUpdateByIdOptionalParams
+  ): Promise<PolicyAssignmentsUpdateByIdResponse>;
 }

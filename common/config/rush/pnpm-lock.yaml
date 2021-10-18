@@ -366,9 +366,25 @@ packages:
       util: 0.11.1
     dev: false
 
+  /@azure/arm-network/26.0.0-beta.1:
+    resolution: {integrity: sha512-uTX8AmRmyXZO2EDY+4ZOy8OGg7acetv7RqGVE+r5YxwUdp7z7cws/gR0NCwWs0j474yk8Wp4p60IfhUKHVcWRg==}
+    engines: {node: '>=12.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.0.4
+      '@azure/core-auth': 1.3.2
+      '@azure/core-client': 1.3.1
+      '@azure/core-lro': 2.2.1
+      '@azure/core-paging': 1.2.0
+      '@azure/core-rest-pipeline': 1.3.1
+      tslib: 2.3.1
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@azure/arm-network/30.0.0-beta.3:
     resolution: {integrity: sha512-+wjvjsWQ4CNsA96jvQxbWkRQrkbPqf7rHUuV9O3aj5wD2ECkDVvhvy8TjRE2UWuEPJoFkJkKrpaAwx2xNIZJBg==}
     engines: {node: '>=12.0.0'}
+    deprecated: it's deprecated
     dependencies:
       '@azure/abort-controller': 1.0.4
       '@azure/core-auth': 1.3.2
@@ -384,6 +400,7 @@ packages:
   /@azure/arm-storage/30.0.0-beta.2:
     resolution: {integrity: sha512-KCmM5z3HlWZI6SXxwqoCi8V9Toau99EDSv/3t4zUTGrSv1v4UmuwKemsuvukvaEeOu6Y1gR9jO71snCJolD/yg==}
     engines: {node: '>=12.0.0'}
+    deprecated: it's deprecated
     dependencies:
       '@azure/abort-controller': 1.0.4
       '@azure/core-auth': 1.3.2
@@ -8609,21 +8626,28 @@ packages:
     dev: false
 
   file:projects/arm-compute.tgz:
-    resolution: {integrity: sha512-Xn4t1yWRD9vhj8MkZ02f2OIV3CaCIUFJwRTL8dTxVsafJbmeFJqs97mzIem8G2yosfRQxJx4Lxyb+Z6vmL1zBQ==, tarball: file:projects/arm-compute.tgz}
+    resolution: {integrity: sha512-FaD4eIsZKSPaCdi+sZG/rLdxIK53N2kLSPC9WpA9R16MNspd5oGDdIrNBaqMm0wIiGVgmaF0I/Bz0xhjwpJRlg==, tarball: file:projects/arm-compute.tgz}
     name: '@rush-temp/arm-compute'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.18.15
+      '@azure/arm-network': 26.0.0-beta.1
+      '@azure/identity': 2.0.0-beta.6
+      '@microsoft/api-extractor': 7.7.11
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
       '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
       mkdirp: 1.0.4
+      mocha: 7.2.0
       rollup: 1.32.1
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.14.2
+    transitivePeerDependencies:
+      - debug
+      - supports-color
     dev: false
 
   file:projects/arm-eventgrid.tgz:
@@ -8838,22 +8862,28 @@ packages:
     dev: false
 
   file:projects/arm-policy.tgz:
-    resolution: {integrity: sha512-lKzDSKhoHFS6qttMoOn8BYpXGwvkgnZHQlgA52pgsAVYdAnlp/CwOxtmq/pysPuRoeg/9/2LGX0zT3XCl1JOsg==, tarball: file:projects/arm-policy.tgz}
+    resolution: {integrity: sha512-7O/gYIgeBj6BnFxnLUmxWCdnsljPzs6XDy4NqM0RYlBRToxlIdV+Tn6TADE+ZkHM0tMBLTLVMj0LAHAHVnQO2g==, tarball: file:projects/arm-policy.tgz}
     name: '@rush-temp/arm-policy'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.18.15
+      '@azure/identity': 2.0.0-beta.6
+      '@microsoft/api-extractor': 7.7.11
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
       '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
       mkdirp: 1.0.4
+      mocha: 7.2.0
       rollup: 1.32.1
       rollup-plugin-node-resolve: 3.4.0
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.14.2
+    transitivePeerDependencies:
+      - debug
+      - supports-color
     dev: false
 
   file:projects/arm-purview.tgz:
