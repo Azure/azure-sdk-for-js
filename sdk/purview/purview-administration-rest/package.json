@@ -46,7 +46,9 @@
     ],
     "requiredResources": {
       "Azure Purview instance": "https://docs.microsoft.com/azure/purview/create-catalog-portal"
-    }
+    },
+    "disableDocsMs": true,
+    "apiRefLink": "https://docs.microsoft.com/rest/api/purview/"
   },
   "browser": {
     "./dist-esm/test/public/utils/env.js": "./dist-esm/test/public/utils/env.browser.js"
