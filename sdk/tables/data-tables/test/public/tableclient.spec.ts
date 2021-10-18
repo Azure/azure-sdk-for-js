@@ -285,7 +285,7 @@ authModes.forEach((authMode) => {
         }
       });
 
-      it("should create binary entities as primitive and metadata without automatic type conversion", async () => {
+      it("should create binary entities without automatic type conversion", async () => {
         const primitive = new Uint8Array([66, 97, 114]);
         const base64Value = "QmFy";
         interface TestEntity extends TableEntity {
