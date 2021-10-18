@@ -164,12 +164,6 @@ describe("Secret client - restore secrets and recover backups", () => {
   }
 
   it("can restore a secret (Malformed Backup Bytes)", async function() {
-    conosle.log("----------------------");
-    var aa = env["AZURE_SUBSCRIPTION_ID"]!.toString();
-    for (var i = 0; i < aa.length; i++) {
-        console.log(aa[i]);
-    }
-    conosle.log("----------------------");
     const backup = new Uint8Array(4728);
     let error;
     try {
