@@ -66,7 +66,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion, {}) => {
     before(() => {
       serviceBusAtomManagementClient = new ServiceBusAdministrationClient(
         env[EnvVarNames.SERVICEBUS_CONNECTION_STRING],
-        { apiVersion: serviceVersion as ServiceBusAtomAPIVersion }
+        { serviceVersion: serviceVersion as ServiceBusAtomAPIVersion }
       );
     });
 

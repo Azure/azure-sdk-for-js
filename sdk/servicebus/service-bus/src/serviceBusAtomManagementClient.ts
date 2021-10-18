@@ -115,7 +115,7 @@ export type WithResponse<T extends object> = T & {
  * Represents the client options of the `ServiceBusAdministrationClient`.
  */
 export type ServiceBusAdministrationClientOptions = PipelineOptions & {
-  apiVersion?: ServiceBusAtomAPIVersion;
+  serviceVersion?: ServiceBusAtomAPIVersion;
 };
 
 /**
@@ -140,7 +140,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    */
   private endpointWithProtocol: string;
 
-  private apiVersion: ServiceBusAtomAPIVersion;
+  private serviceVersion: ServiceBusAtomAPIVersion;
 
   /**
    * Singleton instances of serializers used across the various operations.
@@ -239,7 +239,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     this.endpointWithProtocol = fullyQualifiedNamespace.endsWith("/")
       ? "sb://" + fullyQualifiedNamespace
       : "sb://" + fullyQualifiedNamespace + "/";
-    this.apiVersion = options.apiVersion ?? Constants.CURRENT_API_VERSION;
+    this.serviceVersion = options.serviceVersion ?? Constants.CURRENT_API_VERSION;
     this.credentials = credentials;
     this.namespaceResourceSerializer = new NamespaceResourceSerializer();
     this.queueResourceSerializer = new QueueResourceSerializer();
@@ -2357,7 +2357,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     const baseUri = `https://${this.endpoint}/${path}`;
 
     const requestUrl: URLBuilder = URLBuilder.parse(baseUri);
-    requestUrl.setQueryParameter(Constants.API_VERSION_QUERY_KEY, this.apiVersion);
+    requestUrl.setQueryParameter(Constants.API_VERSION_QUERY_KEY, this.serviceVersion);
 
     if (queryParams) {
       for (const key of Object.keys(queryParams)) {
