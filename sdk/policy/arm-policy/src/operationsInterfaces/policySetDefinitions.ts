@@ -6,15 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   PolicySetDefinition,
-  PolicySetDefinitionsListNextOptionalParams,
   PolicySetDefinitionsListOptionalParams,
-  PolicySetDefinitionsListBuiltInNextOptionalParams,
   PolicySetDefinitionsListBuiltInOptionalParams,
-  PolicySetDefinitionsListByManagementGroupNextOptionalParams,
   PolicySetDefinitionsListByManagementGroupOptionalParams,
   PolicySetDefinitionsCreateOrUpdateOptionalParams,
   PolicySetDefinitionsCreateOrUpdateResponse,
@@ -75,35 +71,6 @@ export interface PolicySetDefinitions {
   listByManagementGroup(
     managementGroupId: string,
     options?: PolicySetDefinitionsListByManagementGroupOptionalParams
-  ): PagedAsyncIterableIterator<PolicySetDefinition>;
-  /**
-   * ListNext
-   * @param nextLink The nextLink from the previous successful call to the List method.
-   * @param options The options parameters.
-   */
-  listNext(
-    nextLink: string,
-    options?: PolicySetDefinitionsListNextOptionalParams
-  ): PagedAsyncIterableIterator<PolicySetDefinition>;
-  /**
-   * ListBuiltInNext
-   * @param nextLink The nextLink from the previous successful call to the ListBuiltIn method.
-   * @param options The options parameters.
-   */
-  listBuiltInNext(
-    nextLink: string,
-    options?: PolicySetDefinitionsListBuiltInNextOptionalParams
-  ): PagedAsyncIterableIterator<PolicySetDefinition>;
-  /**
-   * ListByManagementGroupNext
-   * @param managementGroupId The ID of the management group.
-   * @param nextLink The nextLink from the previous successful call to the ListByManagementGroup method.
-   * @param options The options parameters.
-   */
-  listByManagementGroupNext(
-    managementGroupId: string,
-    nextLink: string,
-    options?: PolicySetDefinitionsListByManagementGroupNextOptionalParams
   ): PagedAsyncIterableIterator<PolicySetDefinition>;
   /**
    * This operation creates or updates a policy set definition in the given subscription with the given
