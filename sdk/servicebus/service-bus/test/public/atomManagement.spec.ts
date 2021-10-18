@@ -116,7 +116,7 @@ describe(`ATOM APIs - version ${serviceVersion}`, () => {
       );
     });
 
-    it.only("subscription: forwarding", async () => {
+    it("subscription: forwarding", async () => {
       const willForward = await serviceBusClient.test.createTestEntities(
         TestClientType.PartitionedSubscription
       );
