@@ -366,6 +366,21 @@ packages:
       util: 0.11.1
     dev: false
 
+  /@azure/arm-network/26.0.0-beta.1:
+    resolution: {integrity: sha512-uTX8AmRmyXZO2EDY+4ZOy8OGg7acetv7RqGVE+r5YxwUdp7z7cws/gR0NCwWs0j474yk8Wp4p60IfhUKHVcWRg==}
+    engines: {node: '>=12.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.0.4
+      '@azure/core-auth': 1.3.2
+      '@azure/core-client': 1.3.1
+      '@azure/core-lro': 2.2.1
+      '@azure/core-paging': 1.2.0
+      '@azure/core-rest-pipeline': 1.3.1
+      tslib: 2.3.1
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@azure/arm-network/30.0.0-beta.3:
     resolution: {integrity: sha512-+wjvjsWQ4CNsA96jvQxbWkRQrkbPqf7rHUuV9O3aj5wD2ECkDVvhvy8TjRE2UWuEPJoFkJkKrpaAwx2xNIZJBg==}
     engines: {node: '>=12.0.0'}
@@ -8611,10 +8626,11 @@ packages:
     dev: false
 
   file:projects/arm-compute.tgz:
-    resolution: {integrity: sha512-5BqAukGEZXq9+mAIu0BcKj+eI0JE509xxS9qghbJDACkaj4ek/dijKq/rBL/RmPC1Wk+WTnBdRcYZ/DdaIZarQ==, tarball: file:projects/arm-compute.tgz}
+    resolution: {integrity: sha512-FaD4eIsZKSPaCdi+sZG/rLdxIK53N2kLSPC9WpA9R16MNspd5oGDdIrNBaqMm0wIiGVgmaF0I/Bz0xhjwpJRlg==, tarball: file:projects/arm-compute.tgz}
     name: '@rush-temp/arm-compute'
     version: 0.0.0
     dependencies:
+      '@azure/arm-network': 26.0.0-beta.1
       '@azure/identity': 2.0.0-beta.6
       '@microsoft/api-extractor': 7.7.11
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
