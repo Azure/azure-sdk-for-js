@@ -18,5 +18,4 @@ export interface ModelsRepositoryClientOptions extends CommonClientOptions {
    * of the service.
    */
   apiVersion?: string;
-
 }

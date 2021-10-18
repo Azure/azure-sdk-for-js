@@ -50,7 +50,6 @@ export class ModelsRepositoryClient {
     this._apiVersion = options?.apiVersion || DEFAULT_API_VERSION;
   }
 
-
   /**
    * Though currently not relevant, can specify API Version for communicating with
    * the service.
@@ -65,7 +64,6 @@ export class ModelsRepositoryClient {
   get repositoryLocation(): string {
     return this._repositoryLocation;
   }
-
 
   /**
    * Because of the local / remote optionality of this client, the service client

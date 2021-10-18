@@ -52,10 +52,7 @@ export class PseudoParser {
       logger.info(`Outstanding dependencies found: ${dependenciesToResolve}`);
       let resolvedDependenciesMap: { [s: string]: unknown };
       try {
-        resolvedDependenciesMap = await this._resolver.resolve(
-          dependenciesToResolve,
-          expanded
-        );
+        resolvedDependenciesMap = await this._resolver.resolve(dependenciesToResolve, expanded);
       } catch (e) {
         if (e instanceof RestError) {
           resolvedDependenciesMap = await this._resolver.resolve(dependenciesToResolve, false);

@@ -38,7 +38,8 @@ interface RemoteResolutionScenario {
 }
 
 const remoteRepositoryLocation = "https://www.devicemodels.contoso.com";
-const noMetadataRepositoryLocation = "https://raw.githubusercontent.com/Azure/iot-plugandplay-models/main";
+const noMetadataRepositoryLocation =
+  "https://raw.githubusercontent.com/Azure/iot-plugandplay-models/main";
 
 const metadataBodyWithExpanded: ModelsRepositoryMetadata = {
   commitId: "test",
