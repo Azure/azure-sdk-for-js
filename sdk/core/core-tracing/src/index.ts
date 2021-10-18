@@ -41,28 +41,34 @@
 //   getTraceParentHeader
 // } from "./utils/traceParentHeader";
 
+export const knownContextKeys = {
+  Span: Symbol.for("@azure/core-tracing span"),
+  Namespace: Symbol.for("@azure/core-tracing namespace")
+};
 export interface Tracer {
   startSpan(
-    operationName: string,
+    name: string,
     options: TracingSpanOptions
-  ): { span: TracingSpan; tracingContext: unknown };
+  ): { span: TracingSpan; tracingContext: TracingContext };
   withTrace<
-    Callback extends (context: unknown, span: Omit<TracingSpan, "end">) => ReturnType<Callback>
+    Callback extends (
+      context: TracingContext,
+      span: Omit<TracingSpan, "end">
+    ) => ReturnType<Callback>
   >(
-    operationName: string,
-    fn: Callback,
+    name: string,
+    callback: Callback,
     options: TracingSpanOptions,
     callbackThis?: ThisParameterType<Callback>
   ): Promise<ReturnType<Callback>>;
-  withContext<Callback extends (args: Parameters<Callback>) => ReturnType<Callback>>(
+  withContext<Callback extends (...args: unknown[]) => ReturnType<Callback>>(
     callback: Callback,
     options: TracingSpanOptions,
     callbackThis?: ThisParameterType<Callback>,
-    ...callbackArgs: Parameters<Callback>
+    ...callbackArgs: unknown[]
   ): ReturnType<Callback>;
 }
 
-/* eslint-disable  */
 export type SpanStatus =
   | {
       status: "success";
@@ -84,24 +90,25 @@ export interface TracingSpanOptions {
 }
 
 export class NoOpTracer implements Tracer {
-  startSpan(): { span: TracingSpan; tracingContext: unknown } {
+  startSpan(): { span: TracingSpan; tracingContext: TracingContext } {
     return {
       span: new NoOpSpan(),
       tracingContext: new TracingContextImpl(new Map<symbol, unknown>())
     };
   }
   withTrace<
-    Callback extends (context: unknown, span: Omit<TracingSpan, "end">) => ReturnType<Callback>
+    Callback extends (
+      context: TracingContext,
+      span: Omit<TracingSpan, "end">
+    ) => ReturnType<Callback>
   >(
-    _operationName: string,
+    _name: string,
     fn: Callback,
     _options: TracingSpanOptions,
     callbackThis?: ThisParameterType<Callback>
   ): Promise<ReturnType<Callback>> {
-    return Promise.resolve(
-      fn.call(callbackThis, new TracingContextImpl(new Map<symbol, unknown>()), new NoOpSpan())
-    );
-    throw new Error("Method not implemented.");
+    const { span, tracingContext } = this.startSpan();
+    return Promise.resolve(fn.call(callbackThis, tracingContext, span));
   }
   withContext<Callback extends (args: Parameters<Callback>) => ReturnType<Callback>>(
     callback: Callback,
@@ -127,7 +134,6 @@ export interface TracingContext {
   deleteValue(key: symbol): TracingContext;
 }
 
-// UNTESTED
 export class TracingContextImpl implements TracingContext {
   private _contextMap: Map<symbol, unknown>;
   constructor(initialContext: Map<symbol, unknown>) {
@@ -149,4 +155,75 @@ export class TracingContextImpl implements TracingContext {
     newContextMap.delete(key);
     return new TracingContextImpl(newContextMap);
   }
+}
+
+// Using an object here allows us to hot-swap the implementation of the tracer
+export let tracerImplementation: Tracer = new NoOpTracer();
+
+export function useTracer(tracer: Tracer): void {
+  tracerImplementation = tracer;
+}
+
+export interface TracingClient extends Tracer {}
+
+export interface TracingClientOptions {
+  namespace: string;
+  tracer?: Tracer;
+}
+
+export class TracingClientImpl implements TracingClient {
+  private _namespace: string;
+  private _tracer: Tracer;
+
+  constructor(options: TracingClientOptions) {
+    this._namespace = options.namespace;
+    this._tracer = options.tracer || tracerImplementation;
+  }
+  startSpan(
+    name: string,
+    options: TracingSpanOptions
+  ): { span: TracingSpan; tracingContext: TracingContext } {
+    let { span, tracingContext } = this._tracer.startSpan(name, options);
+    tracingContext = tracingContext.setValue(knownContextKeys.Namespace, this._namespace);
+    span.setAttribute("az.namespace", this._namespace);
+    return { span, tracingContext };
+  }
+  withTrace<
+    Callback extends (
+      context: TracingContext,
+      span: Omit<TracingSpan, "end">
+    ) => ReturnType<Callback>
+  >(
+    name: string,
+    fn: Callback,
+    options: TracingSpanOptions,
+    callbackThis?: ThisParameterType<Callback>
+  ): Promise<ReturnType<Callback>> {
+    return this._tracer.withTrace(
+      name,
+      (context: TracingContext, span: Omit<TracingSpan, "end">) => {
+        context = context.setValue(knownContextKeys.Namespace, this._namespace);
+        span.setAttribute("az.namespace", this._namespace);
+        return fn.call(callbackThis, context, span);
+      },
+      options,
+      callbackThis
+    );
+  }
+  withContext<Callback extends (...args: unknown[]) => ReturnType<Callback>>(
+    callback: Callback,
+    options: TracingSpanOptions,
+    callbackThis?: ThisParameterType<Callback>,
+    ...callbackArgs: unknown[]
+  ): ReturnType<Callback> {
+    return this._tracer.withContext(callback, options, callbackThis, ...callbackArgs);
+  }
+}
+
+export function createTracingClient(options: TracingClientOptions): TracingClient {
+  return new TracingClientImpl(options);
+}
+
+export function createTracingContext(baseContext?: TracingContext): TracingContext {
+  return new TracingContextImpl(new Map<symbol, unknown>());
 }
