@@ -33,7 +33,7 @@ import {
   CancelParticipantMediaOperationWithCallLocatorRequest,
   StartCallRecordingResult,
   StartCallRecordingWithCallLocatorRequest,
-  CallRecordingProperties,
+  CallRecordingProperties
 } from "./generated/src/models";
 import { TokenCredential } from "@azure/core-auth";
 
@@ -546,7 +546,7 @@ export class CallingServerClient {
     const startCallRecordingWithCallLocatorRequest: StartCallRecordingWithCallLocatorRequest = {
       callLocator: serializeCallLocator(callLocator),
       recordingStateCallbackUri: recordingStateCallbackUri,
-      ... updatedOptions
+      ...updatedOptions
     };
 
     try {

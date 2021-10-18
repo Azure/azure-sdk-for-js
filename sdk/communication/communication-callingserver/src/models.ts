@@ -4,7 +4,7 @@ import { AbortSignalLike } from "@azure/abort-controller";
 import { OperationOptions, TransferProgressEvent } from "@azure/core-http";
 import { PhoneNumberIdentifier } from "@azure/communication-common";
 
-import { 
+import {
   CallMediaType,
   CallingEventSubscriptionType,
   RecordingContentType,
@@ -111,9 +111,9 @@ export type TransferCallOptions = OperationOptions;
  * Options to start recording.
  */
 export interface StartRecordingOptions extends OperationOptions {
-  recordingContentType?: RecordingContentType,
-  recordingChannelType?: KnownRecordingChannelType,
-  recordingFormatType?: RecordingFormatType,
+  recordingContentType?: RecordingContentType;
+  recordingChannelType?: KnownRecordingChannelType;
+  recordingFormatType?: RecordingFormatType;
 }
 /**
  * Options to pause recording.
