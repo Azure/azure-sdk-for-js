@@ -898,7 +898,7 @@ export const diskName: OperationURLParameter = {
 export const apiVersion1: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2020-12-01",
+    defaultValue: "2021-04-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -1162,6 +1162,17 @@ export const galleryUniqueName: OperationURLParameter = {
   parameterPath: "galleryUniqueName",
   mapper: {
     serializedName: "galleryUniqueName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const publicGalleryName: OperationURLParameter = {
+  parameterPath: "publicGalleryName",
+  mapper: {
+    serializedName: "publicGalleryName",
     required: true,
     type: {
       name: "String"
