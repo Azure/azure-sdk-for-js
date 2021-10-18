@@ -6,15 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   PolicyDefinition,
-  PolicyDefinitionsListNextOptionalParams,
   PolicyDefinitionsListOptionalParams,
-  PolicyDefinitionsListBuiltInNextOptionalParams,
   PolicyDefinitionsListBuiltInOptionalParams,
-  PolicyDefinitionsListByManagementGroupNextOptionalParams,
   PolicyDefinitionsListByManagementGroupOptionalParams,
   PolicyDefinitionsCreateOrUpdateOptionalParams,
   PolicyDefinitionsCreateOrUpdateResponse,
@@ -77,35 +73,6 @@ export interface PolicyDefinitions {
   listByManagementGroup(
     managementGroupId: string,
     options?: PolicyDefinitionsListByManagementGroupOptionalParams
-  ): PagedAsyncIterableIterator<PolicyDefinition>;
-  /**
-   * ListNext
-   * @param nextLink The nextLink from the previous successful call to the List method.
-   * @param options The options parameters.
-   */
-  listNext(
-    nextLink: string,
-    options?: PolicyDefinitionsListNextOptionalParams
-  ): PagedAsyncIterableIterator<PolicyDefinition>;
-  /**
-   * ListBuiltInNext
-   * @param nextLink The nextLink from the previous successful call to the ListBuiltIn method.
-   * @param options The options parameters.
-   */
-  listBuiltInNext(
-    nextLink: string,
-    options?: PolicyDefinitionsListBuiltInNextOptionalParams
-  ): PagedAsyncIterableIterator<PolicyDefinition>;
-  /**
-   * ListByManagementGroupNext
-   * @param managementGroupId The ID of the management group.
-   * @param nextLink The nextLink from the previous successful call to the ListByManagementGroup method.
-   * @param options The options parameters.
-   */
-  listByManagementGroupNext(
-    managementGroupId: string,
-    nextLink: string,
-    options?: PolicyDefinitionsListByManagementGroupNextOptionalParams
   ): PagedAsyncIterableIterator<PolicyDefinition>;
   /**
    * This operation creates or updates a policy definition in the given subscription with the given name.

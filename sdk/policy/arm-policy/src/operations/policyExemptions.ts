@@ -6,7 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { PolicyExemptions } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
@@ -23,10 +22,6 @@ import {
   PolicyExemptionsListForResourceOptionalParams,
   PolicyExemptionsListForManagementGroupNextOptionalParams,
   PolicyExemptionsListForManagementGroupOptionalParams,
-  PolicyExemptionsListNextNextOptionalParams,
-  PolicyExemptionsListForResourceGroupNextNextOptionalParams,
-  PolicyExemptionsListForResourceNextNextOptionalParams,
-  PolicyExemptionsListForManagementGroupNextNextOptionalParams,
   PolicyExemptionsDeleteOptionalParams,
   PolicyExemptionsCreateOrUpdateOptionalParams,
   PolicyExemptionsCreateOrUpdateResponse,
@@ -39,15 +34,11 @@ import {
   PolicyExemptionsListNextResponse,
   PolicyExemptionsListForResourceGroupNextResponse,
   PolicyExemptionsListForResourceNextResponse,
-  PolicyExemptionsListForManagementGroupNextResponse,
-  PolicyExemptionsListNextNextResponse,
-  PolicyExemptionsListForResourceGroupNextNextResponse,
-  PolicyExemptionsListForResourceNextNextResponse,
-  PolicyExemptionsListForManagementGroupNextNextResponse
+  PolicyExemptionsListForManagementGroupNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a PolicyExemptions. */
+/** Class containing PolicyExemptions operations. */
 export class PolicyExemptionsImpl implements PolicyExemptions {
   private readonly client: PolicyClientContext;
 
@@ -343,300 +334,6 @@ export class PolicyExemptionsImpl implements PolicyExemptions {
   }
 
   /**
-   * ListNext
-   * @param nextLink The nextLink from the previous successful call to the List method.
-   * @param options The options parameters.
-   */
-  public listNext(
-    nextLink: string,
-    options?: PolicyExemptionsListNextOptionalParams
-  ): PagedAsyncIterableIterator<PolicyExemption> {
-    const iter = this.listNextPagingAll(nextLink, options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: () => {
-        return this.listNextPagingPage(nextLink, options);
-      }
-    };
-  }
-
-  private async *listNextPagingPage(
-    nextLink: string,
-    options?: PolicyExemptionsListNextOptionalParams
-  ): AsyncIterableIterator<PolicyExemption[]> {
-    let result = await this._listNext(nextLink, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
-    while (continuationToken) {
-      result = await this._listNextNext(continuationToken, options);
-      continuationToken = result.nextLink;
-      yield result.value || [];
-    }
-  }
-
-  private async *listNextPagingAll(
-    nextLink: string,
-    options?: PolicyExemptionsListNextOptionalParams
-  ): AsyncIterableIterator<PolicyExemption> {
-    for await (const page of this.listNextPagingPage(nextLink, options)) {
-      yield* page;
-    }
-  }
-
-  /**
-   * ListForResourceGroupNext
-   * @param resourceGroupName The name of the resource group containing the resource.
-   * @param nextLink The nextLink from the previous successful call to the ListForResourceGroup method.
-   * @param options The options parameters.
-   */
-  public listForResourceGroupNext(
-    resourceGroupName: string,
-    nextLink: string,
-    options?: PolicyExemptionsListForResourceGroupNextOptionalParams
-  ): PagedAsyncIterableIterator<PolicyExemption> {
-    const iter = this.listForResourceGroupNextPagingAll(
-      resourceGroupName,
-      nextLink,
-      options
-    );
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: () => {
-        return this.listForResourceGroupNextPagingPage(
-          resourceGroupName,
-          nextLink,
-          options
-        );
-      }
-    };
-  }
-
-  private async *listForResourceGroupNextPagingPage(
-    resourceGroupName: string,
-    nextLink: string,
-    options?: PolicyExemptionsListForResourceGroupNextOptionalParams
-  ): AsyncIterableIterator<PolicyExemption[]> {
-    let result = await this._listForResourceGroupNext(
-      resourceGroupName,
-      nextLink,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
-    while (continuationToken) {
-      result = await this._listForResourceGroupNextNext(
-        resourceGroupName,
-        continuationToken,
-        options
-      );
-      continuationToken = result.nextLink;
-      yield result.value || [];
-    }
-  }
-
-  private async *listForResourceGroupNextPagingAll(
-    resourceGroupName: string,
-    nextLink: string,
-    options?: PolicyExemptionsListForResourceGroupNextOptionalParams
-  ): AsyncIterableIterator<PolicyExemption> {
-    for await (const page of this.listForResourceGroupNextPagingPage(
-      resourceGroupName,
-      nextLink,
-      options
-    )) {
-      yield* page;
-    }
-  }
-
-  /**
-   * ListForResourceNext
-   * @param resourceGroupName The name of the resource group containing the resource.
-   * @param resourceProviderNamespace The namespace of the resource provider. For example, the namespace
-   *                                  of a virtual machine is Microsoft.Compute (from Microsoft.Compute/virtualMachines)
-   * @param parentResourcePath The parent resource path. Use empty string if there is none.
-   * @param resourceType The resource type name. For example the type name of a web app is 'sites' (from
-   *                     Microsoft.Web/sites).
-   * @param resourceName The name of the resource.
-   * @param nextLink The nextLink from the previous successful call to the ListForResource method.
-   * @param options The options parameters.
-   */
-  public listForResourceNext(
-    resourceGroupName: string,
-    resourceProviderNamespace: string,
-    parentResourcePath: string,
-    resourceType: string,
-    resourceName: string,
-    nextLink: string,
-    options?: PolicyExemptionsListForResourceNextOptionalParams
-  ): PagedAsyncIterableIterator<PolicyExemption> {
-    const iter = this.listForResourceNextPagingAll(
-      resourceGroupName,
-      resourceProviderNamespace,
-      parentResourcePath,
-      resourceType,
-      resourceName,
-      nextLink,
-      options
-    );
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: () => {
-        return this.listForResourceNextPagingPage(
-          resourceGroupName,
-          resourceProviderNamespace,
-          parentResourcePath,
-          resourceType,
-          resourceName,
-          nextLink,
-          options
-        );
-      }
-    };
-  }
-
-  private async *listForResourceNextPagingPage(
-    resourceGroupName: string,
-    resourceProviderNamespace: string,
-    parentResourcePath: string,
-    resourceType: string,
-    resourceName: string,
-    nextLink: string,
-    options?: PolicyExemptionsListForResourceNextOptionalParams
-  ): AsyncIterableIterator<PolicyExemption[]> {
-    let result = await this._listForResourceNext(
-      resourceGroupName,
-      resourceProviderNamespace,
-      parentResourcePath,
-      resourceType,
-      resourceName,
-      nextLink,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
-    while (continuationToken) {
-      result = await this._listForResourceNextNext(
-        resourceGroupName,
-        resourceProviderNamespace,
-        parentResourcePath,
-        resourceType,
-        resourceName,
-        continuationToken,
-        options
-      );
-      continuationToken = result.nextLink;
-      yield result.value || [];
-    }
-  }
-
-  private async *listForResourceNextPagingAll(
-    resourceGroupName: string,
-    resourceProviderNamespace: string,
-    parentResourcePath: string,
-    resourceType: string,
-    resourceName: string,
-    nextLink: string,
-    options?: PolicyExemptionsListForResourceNextOptionalParams
-  ): AsyncIterableIterator<PolicyExemption> {
-    for await (const page of this.listForResourceNextPagingPage(
-      resourceGroupName,
-      resourceProviderNamespace,
-      parentResourcePath,
-      resourceType,
-      resourceName,
-      nextLink,
-      options
-    )) {
-      yield* page;
-    }
-  }
-
-  /**
-   * ListForManagementGroupNext
-   * @param managementGroupId The ID of the management group.
-   * @param nextLink The nextLink from the previous successful call to the ListForManagementGroup method.
-   * @param options The options parameters.
-   */
-  public listForManagementGroupNext(
-    managementGroupId: string,
-    nextLink: string,
-    options?: PolicyExemptionsListForManagementGroupNextOptionalParams
-  ): PagedAsyncIterableIterator<PolicyExemption> {
-    const iter = this.listForManagementGroupNextPagingAll(
-      managementGroupId,
-      nextLink,
-      options
-    );
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: () => {
-        return this.listForManagementGroupNextPagingPage(
-          managementGroupId,
-          nextLink,
-          options
-        );
-      }
-    };
-  }
-
-  private async *listForManagementGroupNextPagingPage(
-    managementGroupId: string,
-    nextLink: string,
-    options?: PolicyExemptionsListForManagementGroupNextOptionalParams
-  ): AsyncIterableIterator<PolicyExemption[]> {
-    let result = await this._listForManagementGroupNext(
-      managementGroupId,
-      nextLink,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
-    while (continuationToken) {
-      result = await this._listForManagementGroupNextNext(
-        managementGroupId,
-        continuationToken,
-        options
-      );
-      continuationToken = result.nextLink;
-      yield result.value || [];
-    }
-  }
-
-  private async *listForManagementGroupNextPagingAll(
-    managementGroupId: string,
-    nextLink: string,
-    options?: PolicyExemptionsListForManagementGroupNextOptionalParams
-  ): AsyncIterableIterator<PolicyExemption> {
-    for await (const page of this.listForManagementGroupNextPagingPage(
-      managementGroupId,
-      nextLink,
-      options
-    )) {
-      yield* page;
-    }
-  }
-
-  /**
    * This operation deletes a policy exemption, given its name and the scope it was created in. The scope
    * of a policy exemption is the part of its ID preceding
    * '/providers/Microsoft.Authorization/policyExemptions/{policyExemptionName}'.
@@ -890,92 +587,6 @@ export class PolicyExemptionsImpl implements PolicyExemptions {
       listForManagementGroupNextOperationSpec
     );
   }
-
-  /**
-   * ListNextNext
-   * @param nextLink The nextLink from the previous successful call to the ListNext method.
-   * @param options The options parameters.
-   */
-  private _listNextNext(
-    nextLink: string,
-    options?: PolicyExemptionsListNextNextOptionalParams
-  ): Promise<PolicyExemptionsListNextNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextNextOperationSpec
-    );
-  }
-
-  /**
-   * ListForResourceGroupNextNext
-   * @param resourceGroupName The name of the resource group containing the resource.
-   * @param nextLink The nextLink from the previous successful call to the ListForResourceGroupNext
-   *                 method.
-   * @param options The options parameters.
-   */
-  private _listForResourceGroupNextNext(
-    resourceGroupName: string,
-    nextLink: string,
-    options?: PolicyExemptionsListForResourceGroupNextNextOptionalParams
-  ): Promise<PolicyExemptionsListForResourceGroupNextNextResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, nextLink, options },
-      listForResourceGroupNextNextOperationSpec
-    );
-  }
-
-  /**
-   * ListForResourceNextNext
-   * @param resourceGroupName The name of the resource group containing the resource.
-   * @param resourceProviderNamespace The namespace of the resource provider. For example, the namespace
-   *                                  of a virtual machine is Microsoft.Compute (from Microsoft.Compute/virtualMachines)
-   * @param parentResourcePath The parent resource path. Use empty string if there is none.
-   * @param resourceType The resource type name. For example the type name of a web app is 'sites' (from
-   *                     Microsoft.Web/sites).
-   * @param resourceName The name of the resource.
-   * @param nextLink The nextLink from the previous successful call to the ListForResourceNext method.
-   * @param options The options parameters.
-   */
-  private _listForResourceNextNext(
-    resourceGroupName: string,
-    resourceProviderNamespace: string,
-    parentResourcePath: string,
-    resourceType: string,
-    resourceName: string,
-    nextLink: string,
-    options?: PolicyExemptionsListForResourceNextNextOptionalParams
-  ): Promise<PolicyExemptionsListForResourceNextNextResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        resourceProviderNamespace,
-        parentResourcePath,
-        resourceType,
-        resourceName,
-        nextLink,
-        options
-      },
-      listForResourceNextNextOperationSpec
-    );
-  }
-
-  /**
-   * ListForManagementGroupNextNext
-   * @param managementGroupId The ID of the management group.
-   * @param nextLink The nextLink from the previous successful call to the ListForManagementGroupNext
-   *                 method.
-   * @param options The options parameters.
-   */
-  private _listForManagementGroupNextNext(
-    managementGroupId: string,
-    nextLink: string,
-    options?: PolicyExemptionsListForManagementGroupNextNextOptionalParams
-  ): Promise<PolicyExemptionsListForManagementGroupNextNextResponse> {
-    return this.client.sendOperationRequest(
-      { managementGroupId, nextLink, options },
-      listForManagementGroupNextNextOperationSpec
-    );
-  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
@@ -991,7 +602,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.scope,
@@ -1015,8 +626,8 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters3,
-  queryParameters: [Parameters.apiVersion1],
+  requestBody: Parameters.parameters4,
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.scope,
@@ -1038,7 +649,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.scope,
@@ -1059,7 +670,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.filter, Parameters.apiVersion1],
+  queryParameters: [Parameters.filter, Parameters.apiVersion2],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer
@@ -1076,7 +687,7 @@ const listForResourceGroupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.filter, Parameters.apiVersion1],
+  queryParameters: [Parameters.filter, Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -1097,7 +708,7 @@ const listForResourceOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.filter, Parameters.apiVersion1],
+  queryParameters: [Parameters.filter, Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -1122,7 +733,7 @@ const listForManagementGroupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.filter, Parameters.apiVersion1],
+  queryParameters: [Parameters.filter, Parameters.apiVersion2],
   urlParameters: [Parameters.$host, Parameters.managementGroupId],
   headerParameters: [Parameters.accept],
   serializer
@@ -1138,7 +749,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.filter, Parameters.apiVersion1],
+  queryParameters: [Parameters.filter, Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
@@ -1158,7 +769,7 @@ const listForResourceGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.filter, Parameters.apiVersion1],
+  queryParameters: [Parameters.filter, Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
@@ -1179,7 +790,7 @@ const listForResourceNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.filter, Parameters.apiVersion1],
+  queryParameters: [Parameters.filter, Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
@@ -1204,93 +815,7 @@ const listForManagementGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.filter, Parameters.apiVersion1],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.nextLink,
-    Parameters.managementGroupId
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listNextNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PolicyExemptionListResult
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.filter, Parameters.apiVersion1],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.nextLink,
-    Parameters.subscriptionId
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listForResourceGroupNextNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PolicyExemptionListResult
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.filter, Parameters.apiVersion1],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.nextLink,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listForResourceNextNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PolicyExemptionListResult
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.filter, Parameters.apiVersion1],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.nextLink,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-    Parameters.resourceProviderNamespace,
-    Parameters.parentResourcePath,
-    Parameters.resourceType,
-    Parameters.resourceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listForManagementGroupNextNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PolicyExemptionListResult
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.filter, Parameters.apiVersion1],
+  queryParameters: [Parameters.filter, Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,

@@ -13,6 +13,7 @@ import {
 } from "@azure/core-client";
 import {
   PolicyAssignment as PolicyAssignmentMapper,
+  PolicyAssignmentUpdate as PolicyAssignmentUpdateMapper,
   PolicyDefinition as PolicyDefinitionMapper,
   PolicySetDefinition as PolicySetDefinitionMapper,
   PolicyExemption as PolicyExemptionMapper
@@ -111,6 +112,18 @@ export const policyAssignmentName: OperationURLParameter = {
   }
 };
 
+export const apiVersion1: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2021-06-01",
+    isConstant: true,
+    serializedName: "api-version",
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const contentType: OperationParameter = {
   parameterPath: ["options", "contentType"],
   mapper: {
@@ -126,6 +139,11 @@ export const contentType: OperationParameter = {
 export const parameters: OperationParameter = {
   parameterPath: "parameters",
   mapper: PolicyAssignmentMapper
+};
+
+export const parameters1: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: PolicyAssignmentUpdateMapper
 };
 
 export const resourceGroupName: OperationURLParameter = {
@@ -238,7 +256,7 @@ export const policyAssignmentId: OperationURLParameter = {
   skipEncoding: true
 };
 
-export const parameters1: OperationParameter = {
+export const parameters2: OperationParameter = {
   parameterPath: "parameters",
   mapper: PolicyDefinitionMapper
 };
@@ -254,7 +272,7 @@ export const policyDefinitionName: OperationURLParameter = {
   }
 };
 
-export const parameters2: OperationParameter = {
+export const parameters3: OperationParameter = {
   parameterPath: "parameters",
   mapper: PolicySetDefinitionMapper
 };
@@ -281,7 +299,7 @@ export const policyExemptionName: OperationURLParameter = {
   }
 };
 
-export const apiVersion1: OperationQueryParameter = {
+export const apiVersion2: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     defaultValue: "2020-07-01-preview",
@@ -293,7 +311,7 @@ export const apiVersion1: OperationQueryParameter = {
   }
 };
 
-export const parameters3: OperationParameter = {
+export const parameters4: OperationParameter = {
   parameterPath: "parameters",
   mapper: PolicyExemptionMapper
 };

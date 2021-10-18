@@ -6,7 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { PolicySetDefinitions } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
@@ -21,9 +20,6 @@ import {
   PolicySetDefinitionsListBuiltInOptionalParams,
   PolicySetDefinitionsListByManagementGroupNextOptionalParams,
   PolicySetDefinitionsListByManagementGroupOptionalParams,
-  PolicySetDefinitionsListNextNextOptionalParams,
-  PolicySetDefinitionsListBuiltInNextNextOptionalParams,
-  PolicySetDefinitionsListByManagementGroupNextNextOptionalParams,
   PolicySetDefinitionsCreateOrUpdateOptionalParams,
   PolicySetDefinitionsCreateOrUpdateResponse,
   PolicySetDefinitionsDeleteOptionalParams,
@@ -41,14 +37,11 @@ import {
   PolicySetDefinitionsListByManagementGroupResponse,
   PolicySetDefinitionsListNextResponse,
   PolicySetDefinitionsListBuiltInNextResponse,
-  PolicySetDefinitionsListByManagementGroupNextResponse,
-  PolicySetDefinitionsListNextNextResponse,
-  PolicySetDefinitionsListBuiltInNextNextResponse,
-  PolicySetDefinitionsListByManagementGroupNextNextResponse
+  PolicySetDefinitionsListByManagementGroupNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a PolicySetDefinitions. */
+/** Class containing PolicySetDefinitions operations. */
 export class PolicySetDefinitionsImpl implements PolicySetDefinitions {
   private readonly client: PolicyClientContext;
 
@@ -214,171 +207,6 @@ export class PolicySetDefinitionsImpl implements PolicySetDefinitions {
   ): AsyncIterableIterator<PolicySetDefinition> {
     for await (const page of this.listByManagementGroupPagingPage(
       managementGroupId,
-      options
-    )) {
-      yield* page;
-    }
-  }
-
-  /**
-   * ListNext
-   * @param nextLink The nextLink from the previous successful call to the List method.
-   * @param options The options parameters.
-   */
-  public listNext(
-    nextLink: string,
-    options?: PolicySetDefinitionsListNextOptionalParams
-  ): PagedAsyncIterableIterator<PolicySetDefinition> {
-    const iter = this.listNextPagingAll(nextLink, options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: () => {
-        return this.listNextPagingPage(nextLink, options);
-      }
-    };
-  }
-
-  private async *listNextPagingPage(
-    nextLink: string,
-    options?: PolicySetDefinitionsListNextOptionalParams
-  ): AsyncIterableIterator<PolicySetDefinition[]> {
-    let result = await this._listNext(nextLink, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
-    while (continuationToken) {
-      result = await this._listNextNext(continuationToken, options);
-      continuationToken = result.nextLink;
-      yield result.value || [];
-    }
-  }
-
-  private async *listNextPagingAll(
-    nextLink: string,
-    options?: PolicySetDefinitionsListNextOptionalParams
-  ): AsyncIterableIterator<PolicySetDefinition> {
-    for await (const page of this.listNextPagingPage(nextLink, options)) {
-      yield* page;
-    }
-  }
-
-  /**
-   * ListBuiltInNext
-   * @param nextLink The nextLink from the previous successful call to the ListBuiltIn method.
-   * @param options The options parameters.
-   */
-  public listBuiltInNext(
-    nextLink: string,
-    options?: PolicySetDefinitionsListBuiltInNextOptionalParams
-  ): PagedAsyncIterableIterator<PolicySetDefinition> {
-    const iter = this.listBuiltInNextPagingAll(nextLink, options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: () => {
-        return this.listBuiltInNextPagingPage(nextLink, options);
-      }
-    };
-  }
-
-  private async *listBuiltInNextPagingPage(
-    nextLink: string,
-    options?: PolicySetDefinitionsListBuiltInNextOptionalParams
-  ): AsyncIterableIterator<PolicySetDefinition[]> {
-    let result = await this._listBuiltInNext(nextLink, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
-    while (continuationToken) {
-      result = await this._listBuiltInNextNext(continuationToken, options);
-      continuationToken = result.nextLink;
-      yield result.value || [];
-    }
-  }
-
-  private async *listBuiltInNextPagingAll(
-    nextLink: string,
-    options?: PolicySetDefinitionsListBuiltInNextOptionalParams
-  ): AsyncIterableIterator<PolicySetDefinition> {
-    for await (const page of this.listBuiltInNextPagingPage(
-      nextLink,
-      options
-    )) {
-      yield* page;
-    }
-  }
-
-  /**
-   * ListByManagementGroupNext
-   * @param managementGroupId The ID of the management group.
-   * @param nextLink The nextLink from the previous successful call to the ListByManagementGroup method.
-   * @param options The options parameters.
-   */
-  public listByManagementGroupNext(
-    managementGroupId: string,
-    nextLink: string,
-    options?: PolicySetDefinitionsListByManagementGroupNextOptionalParams
-  ): PagedAsyncIterableIterator<PolicySetDefinition> {
-    const iter = this.listByManagementGroupNextPagingAll(
-      managementGroupId,
-      nextLink,
-      options
-    );
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: () => {
-        return this.listByManagementGroupNextPagingPage(
-          managementGroupId,
-          nextLink,
-          options
-        );
-      }
-    };
-  }
-
-  private async *listByManagementGroupNextPagingPage(
-    managementGroupId: string,
-    nextLink: string,
-    options?: PolicySetDefinitionsListByManagementGroupNextOptionalParams
-  ): AsyncIterableIterator<PolicySetDefinition[]> {
-    let result = await this._listByManagementGroupNext(
-      managementGroupId,
-      nextLink,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
-    while (continuationToken) {
-      result = await this._listByManagementGroupNextNext(
-        managementGroupId,
-        continuationToken,
-        options
-      );
-      continuationToken = result.nextLink;
-      yield result.value || [];
-    }
-  }
-
-  private async *listByManagementGroupNextPagingAll(
-    managementGroupId: string,
-    nextLink: string,
-    options?: PolicySetDefinitionsListByManagementGroupNextOptionalParams
-  ): AsyncIterableIterator<PolicySetDefinition> {
-    for await (const page of this.listByManagementGroupNextPagingPage(
-      managementGroupId,
-      nextLink,
       options
     )) {
       yield* page;
@@ -607,54 +435,6 @@ export class PolicySetDefinitionsImpl implements PolicySetDefinitions {
       listByManagementGroupNextOperationSpec
     );
   }
-
-  /**
-   * ListNextNext
-   * @param nextLink The nextLink from the previous successful call to the ListNext method.
-   * @param options The options parameters.
-   */
-  private _listNextNext(
-    nextLink: string,
-    options?: PolicySetDefinitionsListNextNextOptionalParams
-  ): Promise<PolicySetDefinitionsListNextNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextNextOperationSpec
-    );
-  }
-
-  /**
-   * ListBuiltInNextNext
-   * @param nextLink The nextLink from the previous successful call to the ListBuiltInNext method.
-   * @param options The options parameters.
-   */
-  private _listBuiltInNextNext(
-    nextLink: string,
-    options?: PolicySetDefinitionsListBuiltInNextNextOptionalParams
-  ): Promise<PolicySetDefinitionsListBuiltInNextNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listBuiltInNextNextOperationSpec
-    );
-  }
-
-  /**
-   * ListByManagementGroupNextNext
-   * @param managementGroupId The ID of the management group.
-   * @param nextLink The nextLink from the previous successful call to the ListByManagementGroupNext
-   *                 method.
-   * @param options The options parameters.
-   */
-  private _listByManagementGroupNextNext(
-    managementGroupId: string,
-    nextLink: string,
-    options?: PolicySetDefinitionsListByManagementGroupNextNextOptionalParams
-  ): Promise<PolicySetDefinitionsListByManagementGroupNextNextResponse> {
-    return this.client.sendOperationRequest(
-      { managementGroupId, nextLink, options },
-      listByManagementGroupNextNextOperationSpec
-    );
-  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
@@ -674,8 +454,8 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters2,
-  queryParameters: [Parameters.apiVersion],
+  requestBody: Parameters.parameters3,
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -696,7 +476,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -717,7 +497,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -738,7 +518,7 @@ const getBuiltInOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [Parameters.$host, Parameters.policySetDefinitionName],
   headerParameters: [Parameters.accept],
   serializer
@@ -755,7 +535,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top],
+  queryParameters: [Parameters.filter, Parameters.apiVersion1, Parameters.top],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer
@@ -771,7 +551,7 @@ const listBuiltInOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top],
+  queryParameters: [Parameters.filter, Parameters.apiVersion1, Parameters.top],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept],
   serializer
@@ -791,8 +571,8 @@ const createOrUpdateAtManagementGroupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters2,
-  queryParameters: [Parameters.apiVersion],
+  requestBody: Parameters.parameters3,
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.managementGroupId,
@@ -813,7 +593,7 @@ const deleteAtManagementGroupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.managementGroupId,
@@ -834,7 +614,7 @@ const getAtManagementGroupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.managementGroupId,
@@ -855,7 +635,7 @@ const listByManagementGroupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top],
+  queryParameters: [Parameters.filter, Parameters.apiVersion1, Parameters.top],
   urlParameters: [Parameters.$host, Parameters.managementGroupId],
   headerParameters: [Parameters.accept],
   serializer
@@ -871,7 +651,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top],
+  queryParameters: [Parameters.filter, Parameters.apiVersion1, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
@@ -891,7 +671,7 @@ const listBuiltInNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top],
+  queryParameters: [Parameters.filter, Parameters.apiVersion1, Parameters.top],
   urlParameters: [Parameters.$host, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer
@@ -907,63 +687,7 @@ const listByManagementGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.nextLink,
-    Parameters.managementGroupId
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listNextNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PolicySetDefinitionListResult
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.nextLink,
-    Parameters.subscriptionId
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listBuiltInNextNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PolicySetDefinitionListResult
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top],
-  urlParameters: [Parameters.$host, Parameters.nextLink],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listByManagementGroupNextNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PolicySetDefinitionListResult
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top],
+  queryParameters: [Parameters.filter, Parameters.apiVersion1, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
