@@ -1,0 +1,263 @@
+# Guide for migrating to `@azure/storage-blob` from `azure-storage`
+
+This guide is intended to assist in the migration to `@azure/storage-blob` from the legacy `azure-storage` package. It will focus on side-by-side comparisons for similar operations between the two packages.
+
+We assume that you are familiar with `azure-storage`. If you are new to the Azure Storage Blob client library for JavaScript, please refer to the [README](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storage/storage-blob/README.md) and [samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-blob/samples) rather than this guide.
+
+## Table of contents
+
+- [Migration benefits](#migration-benefits)
+  - [Cross Service SDK improvements](#cross-service-sdk-improvements)
+- [Important changes](#important-changes)
+  - [Package name and structure](#package-name-and-structure)
+  - [Constructing the clients](#constructing-the-clients)
+  - [Creating a container](#creating-a-container)
+  - [Uploading a blob to the container](#uploading-a-blob-to-the-container)
+  - [Fetching properties of a blob](#fetching-properties-of-a-blob)
+  - [Listing blobs from the container](#listing-blobs-from-the-container)
+  - [Sequential actions](#sequential-actions)
+- [Additional samples](#additional-samples)
+
+## Migration benefits
+
+As Azure has matured and been embraced by a more diverse group of developers, we have been focused on learning the patterns and practices to best support developer productivity and to understand the gaps that the JavaScript client libraries have.
+
+There were several areas of consistent feedback expressed across the Azure client library ecosystem. One of the most important is that the client libraries for different Azure services have not had a consistent approach to organization, naming, and API structure. Additionally, many developers have felt that the learning curve was difficult, and the APIs did not offer a good, approachable, and consistent onboarding story for those learning Azure or exploring a specific Azure service.
+
+To improve the development experience across Azure services, a set of uniform [design guidelines](https://azure.github.io/azure-sdk/general_introduction.html) was created for all languages to drive a consistent experience with established API patterns for all services. A set of [TypeScript & JavaScript Guidelines](https://azure.github.io/azure-sdk/typescript_introduction.html) was also introduced to ensure that TypeScript clients have a natural and idiomatic feel with respect to the TypeScript and JavaScript ecosystems. The new `@azure/storage-blob` follows these guidelines.
+
+### Cross Service SDK improvements
+
+The modern `@azure/storage-blob` client library also provides the ability to share in some of the cross-service improvements made to the Azure development experience, such as
+
+- A unified logging and diagnostics pipeline offering a common view of the activities across each of the client libraries
+- Use of promises rather than callbacks for a simplified programming experience
+- Use of async iterators in paging APIs
+
+## Important changes
+
+### Package name and structure
+
+The modern client library is named `@azure/storage-blob` and was released beginning with version 10. The legacy client library is named `azure-storage` with version of 2.x.x or below.
+
+The legacy library `azure-storage` grouped functionality to work with multiple services in the same package such as `Blob`, `Queue`, `Files` and `Tables`. The new `@azure/storage-blob` is dedicated to `Blob` there are new generation packages for the other storage services `@azure/data-tables`, `@azure/storage-queue`, `@azure/storage-file-share` this provides more granular control on which dependencies to take on your project.
+
+### Constructing the clients
+
+Previously in `azure-storage`, you would use `createBlobService` which can be used to get an instance of the `BlobService` in order to perform service level operations.
+
+```javascript
+const azure = require("azure-storage");
+const blobService = azure.createBlobService("<connection-string>");
+```
+
+Now, in `@azure/storage-blob`, we need a `BlobServiceClient` for service level operations.
+
+```javascript
+const { BlobServiceClient } = require("@azure/storage-blob");
+const blobService = BlobServiceClient.fromConnectionString("<connection-string>");
+```
+
+### Creating a container
+
+Previously in `azure-storage`, you would use a `BlobService` instance to create a container. The `createContainer` method would take a callback to execute once the blob container has been created. This forces sequential operations to be inside the callback, potentially creating a callback chain
+
+```javascript
+const azure = require("azure-storage");
+const blobService = azure.createBlobService("<connection-string>");
+
+const containerName = "<container-name>";
+blobService.createContainer(containerName, function() {
+  console.log(`Container created`);
+});
+```
+
+With `@azure/storage-blob` you have access to all container level operations directly from the `BlobServiceClient`. Because the blob service client is not affinitized to any one container, it is ideal for scenarios where you need to create, delete, or list more than one blob container.
+
+```javascript
+const { BlobServiceClient, StorageSharedKeyCredential } = require("@azure/storage-blob");
+const containerName = "<container-name>";
+const blobEndpoint = "https://<account-name>.blob.core.windows.net";
+
+const blobService = new BlobServiceClient(
+  blobEndpoint,
+  new StorageSharedKeyCredential("<accountName>", "<accountKey>")
+);
+
+// Creates the container with `<container-name>`
+const containerClient = await blobService.createContainer(containerName);
+console.log(`Container created`);
+```
+
+If your intention is to work only in the context of a single container, it's also possible to create a container from the `ContainerClient`.
+
+```javascript
+const { ContainerClient, StorageSharedKeyCredential } = require("@azure/storage-blob");
+const containerUrl = "https://<account-name>.blob.core.windows.net/<container-name>";
+
+const containerClient = new ContainerClient(
+  containerUrl,
+  new StorageSharedKeyCredential("<accountName>", "<accountKey>")
+);
+
+// Creates the container with `<container-name>`
+const response = await containerClient.create();
+console.log(`Container created`);
+```
+
+### Uploading a blob to the container
+
+Previously in `azure-storage`, A `BlobService` instance would be used for blob operations. `BlobService` has methods for blob operations for each blob type. `createBlockBlobFromLocalFile` would be used to upload from a local file to a block blob.
+
+```javascript
+const azure = require("azure-storage");
+const containerName = "<container-name>";
+const blobName = "<blob-name>";
+const filePath = "<local-file-path>";
+const blobService = azure.createBlobService("<connection-string>");
+
+blobService.createBlockBlobFromLocalFile(containerName, blobName, filePath, function() {
+  console.log("Blob uploaded");
+});
+```
+
+Now in the new `@azure/storage-blob` SDK, instances of `BlockBlobClient`, `PageBlobClient` and `AppendBlobClient` would be used for blob operations. Method `uploadFile` of a `BlockBlobClient` can be used to upload from a local file to a block blob.
+
+```javascript
+const { BlockBlobClient, StorageSharedKeyCredential } = require("@azure/storage-blob");
+const filePath = "<local-file-path>";
+const blobUrl = "https://<account-name>.blob.core.windows.net/<container-name>/<blob-name>";
+
+const blockBlobClient = new BlockBlobClient(
+  blobUrl,
+  new StorageSharedKeyCredential("<accountName>", "<accountKey>")
+);
+
+await blockBlobClient.uploadFile(filePath);
+```
+
+### Fetching properties of a blob
+
+Previously in `azure-storage`, method `getBlobProperties` in a `BlobService` instance can be used to fetch properties of a blob.
+
+```javascript
+const azure = require("azure-storage");
+const blobService = azure.createBlobService("<connection-string>");
+
+const containerName = "<container-name>";
+const blobName = "<blob-name>";
+blobService.getBlobProperties(containerName, blobName, function(error, result) {
+  if (!error) {
+    // result contains the blob properties
+    console.log(result);
+  }
+});
+```
+
+Now with `@azure/storage-blob`, we use method `getProperties` in an instance of `BlobClient`, the return type is a Promise of the properties which can be awaited, making the code cleaner.
+
+```javascript
+const { BlobClient, StorageSharedKeyCredential } = require("@azure/storage-blob");
+const blobUrl = "https://<account-name>.blob.core.windows.net/<container-name>/<blob-name>";
+
+const blobClient = new BlobClient(
+  blobUrl,
+  new StorageSharedKeyCredential("<accountName>", "<accountKey>")
+);
+
+const blobProperties = await blobClient.getProperties();
+console.log(blobProperties);
+```
+
+### Listing blobs from the container
+
+Previously in `azure-storage`, listing a container didn't provide a built in way to handle pagination, looking as follows.
+
+```javascript
+const azure = require("azure-storage");
+const blobService = azure.createBlobService("<connection-string>");
+const containerName = "<container-name>";
+
+let blobs = [];
+
+function listBlobs(continuationToken, callback) {
+  blobService.listBlobsSegmented(containerName, continuationToken, function(error, result) {
+    blobs.push.apply(blobs, result.entries);
+    const continuationToken = result.continuationToken;
+    if (continuationToken) {
+      listBlobs(continuationToken, callback);
+    } else {
+      console.log("completed listing all blobs");
+      callback();
+    }
+  });
+}
+
+listBlobs(null, function() {
+  console.log(blobs);
+});
+```
+
+In the new `@azure/storage-blob` we return a `PagedAsyncIterableIterator` that handles the details of pagination internally, simplifying the task of iteration.
+
+```javascript
+const { ContainerClient, StorageSharedKeyCredential } = require("@azure/storage-blob");
+const containerUrl = "https://<account-name>.blob.core.windows.net/<container-name>";
+
+const containerClient = new ContainerClient(
+  containerUrl,
+  new StorageSharedKeyCredential("<accountName>", "<accountKey>")
+);
+
+const iterator = containerClient.listBlobsFlat();
+let blobItem = await iterator.next();
+while (!blobItem.done) {
+  console.log(blobItem.value);
+  blobItem = await iterator.next();
+}
+```
+
+### Sequential actions
+
+Previously in `azure-storage`, all the operations took a callback which would be executed once the operation completed. For example, to create a container and then upload two blobs we would like to write the following nested code
+
+```javascript
+const azure = require("azure-storage");
+const blobService = azure.createBlobService("<connection-string>");
+const containerName = "<container-name>";
+const firstBlobName = "<first-blob-name>";
+const secondBlobName = "<second-blob-name>";
+const blobContent = "Hello, World!";
+
+blobService.createContainer(containerName, function() {
+  blobService.createBlockBlobFromText(containerName, firstBlobName, blobContent, function() {
+    blobService.createBlockBlobFromText(containerName, secondBlobName, blobContent, function() {
+      console.log("Uploaded blobs");
+    });
+  });
+});
+```
+
+With `@azure/storage-blob` we work with promises which makes the programming experience better, leveraging async/await we no longer need nested code blocks to perform sequential actions
+
+```javascript
+const { ContainerClient, StorageSharedKeyCredential } = require("@azure/storage-blob");
+const containerUrl = "https://<account-name>.blob.core.windows.net/<container-name>";
+const firstBlobName = "<first-blob-name>";
+const secondBlobName = "<second-blob-name>";
+const blobContent = "Hello, World!";
+
+const containerClient = new ContainerClient(
+  containerUrl,
+  new StorageSharedKeyCredential("<accountName>", "<accountKey>")
+);
+
+await containerClient.create();
+await containerClient.getBlockBlobClient(firstBlobName).upload(blobContent, blobContent.length);
+await containerClient.getBlockBlobClient(secondBlobName).upload(blobContent, blobContent.length);
+console.log("Uploaded blobs");
+```
+
+## Additional samples
+
+More samples can be found [here](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-blob/samples)
