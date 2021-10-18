@@ -6,18 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   DiskRestorePoint,
-  DiskRestorePointOperationsListByRestorePointOptionalParams,
-  DiskRestorePointOperationsGetOptionalParams,
-  DiskRestorePointOperationsGetResponse,
+  DiskRestorePointListByRestorePointOptionalParams,
+  DiskRestorePointGetOptionalParams,
+  DiskRestorePointGetResponse,
   GrantAccessData,
-  DiskRestorePointOperationsGrantAccessOptionalParams,
-  DiskRestorePointOperationsGrantAccessResponse,
-  DiskRestorePointOperationsRevokeAccessOptionalParams
+  DiskRestorePointGrantAccessOptionalParams,
+  DiskRestorePointGrantAccessResponse,
+  DiskRestorePointRevokeAccessOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -27,28 +26,23 @@ export interface DiskRestorePointOperations {
    * Lists diskRestorePoints under a vmRestorePoint.
    * @param resourceGroupName The name of the resource group.
    * @param restorePointCollectionName The name of the restore point collection that the disk restore
-   *                                   point belongs. Supported characters for the name are a-z, A-Z, 0-9 and _. The maximum name length is
-   *                                   80 characters.
+   *                                   point belongs.
    * @param vmRestorePointName The name of the vm restore point that the disk disk restore point belongs.
-   *                           Supported characters for the name are a-z, A-Z, 0-9 and _. The maximum name length is 80 characters.
    * @param options The options parameters.
    */
   listByRestorePoint(
     resourceGroupName: string,
     restorePointCollectionName: string,
     vmRestorePointName: string,
-    options?: DiskRestorePointOperationsListByRestorePointOptionalParams
+    options?: DiskRestorePointListByRestorePointOptionalParams
   ): PagedAsyncIterableIterator<DiskRestorePoint>;
   /**
    * Get disk restorePoint resource
    * @param resourceGroupName The name of the resource group.
    * @param restorePointCollectionName The name of the restore point collection that the disk restore
-   *                                   point belongs. Supported characters for the name are a-z, A-Z, 0-9 and _. The maximum name length is
-   *                                   80 characters.
+   *                                   point belongs.
    * @param vmRestorePointName The name of the vm restore point that the disk disk restore point belongs.
-   *                           Supported characters for the name are a-z, A-Z, 0-9 and _. The maximum name length is 80 characters.
-   * @param diskRestorePointName The name of the disk restore point created. Supported characters for the
-   *                             name are a-z, A-Z, 0-9 and _. The maximum name length is 80 characters.
+   * @param diskRestorePointName The name of the disk restore point created.
    * @param options The options parameters.
    */
   get(
@@ -56,18 +50,15 @@ export interface DiskRestorePointOperations {
     restorePointCollectionName: string,
     vmRestorePointName: string,
     diskRestorePointName: string,
-    options?: DiskRestorePointOperationsGetOptionalParams
-  ): Promise<DiskRestorePointOperationsGetResponse>;
+    options?: DiskRestorePointGetOptionalParams
+  ): Promise<DiskRestorePointGetResponse>;
   /**
    * Grants access to a diskRestorePoint.
    * @param resourceGroupName The name of the resource group.
    * @param restorePointCollectionName The name of the restore point collection that the disk restore
-   *                                   point belongs. Supported characters for the name are a-z, A-Z, 0-9 and _. The maximum name length is
-   *                                   80 characters.
+   *                                   point belongs.
    * @param vmRestorePointName The name of the vm restore point that the disk disk restore point belongs.
-   *                           Supported characters for the name are a-z, A-Z, 0-9 and _. The maximum name length is 80 characters.
-   * @param diskRestorePointName The name of the disk restore point created. Supported characters for the
-   *                             name are a-z, A-Z, 0-9 and _. The maximum name length is 80 characters.
+   * @param diskRestorePointName The name of the disk restore point created.
    * @param grantAccessData Access data object supplied in the body of the get disk access operation.
    * @param options The options parameters.
    */
@@ -77,23 +68,20 @@ export interface DiskRestorePointOperations {
     vmRestorePointName: string,
     diskRestorePointName: string,
     grantAccessData: GrantAccessData,
-    options?: DiskRestorePointOperationsGrantAccessOptionalParams
+    options?: DiskRestorePointGrantAccessOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<DiskRestorePointOperationsGrantAccessResponse>,
-      DiskRestorePointOperationsGrantAccessResponse
+      PollOperationState<DiskRestorePointGrantAccessResponse>,
+      DiskRestorePointGrantAccessResponse
     >
   >;
   /**
    * Grants access to a diskRestorePoint.
    * @param resourceGroupName The name of the resource group.
    * @param restorePointCollectionName The name of the restore point collection that the disk restore
-   *                                   point belongs. Supported characters for the name are a-z, A-Z, 0-9 and _. The maximum name length is
-   *                                   80 characters.
+   *                                   point belongs.
    * @param vmRestorePointName The name of the vm restore point that the disk disk restore point belongs.
-   *                           Supported characters for the name are a-z, A-Z, 0-9 and _. The maximum name length is 80 characters.
-   * @param diskRestorePointName The name of the disk restore point created. Supported characters for the
-   *                             name are a-z, A-Z, 0-9 and _. The maximum name length is 80 characters.
+   * @param diskRestorePointName The name of the disk restore point created.
    * @param grantAccessData Access data object supplied in the body of the get disk access operation.
    * @param options The options parameters.
    */
@@ -103,18 +91,15 @@ export interface DiskRestorePointOperations {
     vmRestorePointName: string,
     diskRestorePointName: string,
     grantAccessData: GrantAccessData,
-    options?: DiskRestorePointOperationsGrantAccessOptionalParams
-  ): Promise<DiskRestorePointOperationsGrantAccessResponse>;
+    options?: DiskRestorePointGrantAccessOptionalParams
+  ): Promise<DiskRestorePointGrantAccessResponse>;
   /**
    * Revokes access to a diskRestorePoint.
    * @param resourceGroupName The name of the resource group.
    * @param restorePointCollectionName The name of the restore point collection that the disk restore
-   *                                   point belongs. Supported characters for the name are a-z, A-Z, 0-9 and _. The maximum name length is
-   *                                   80 characters.
+   *                                   point belongs.
    * @param vmRestorePointName The name of the vm restore point that the disk disk restore point belongs.
-   *                           Supported characters for the name are a-z, A-Z, 0-9 and _. The maximum name length is 80 characters.
-   * @param diskRestorePointName The name of the disk restore point created. Supported characters for the
-   *                             name are a-z, A-Z, 0-9 and _. The maximum name length is 80 characters.
+   * @param diskRestorePointName The name of the disk restore point created.
    * @param options The options parameters.
    */
   beginRevokeAccess(
@@ -122,18 +107,15 @@ export interface DiskRestorePointOperations {
     restorePointCollectionName: string,
     vmRestorePointName: string,
     diskRestorePointName: string,
-    options?: DiskRestorePointOperationsRevokeAccessOptionalParams
+    options?: DiskRestorePointRevokeAccessOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
    * Revokes access to a diskRestorePoint.
    * @param resourceGroupName The name of the resource group.
    * @param restorePointCollectionName The name of the restore point collection that the disk restore
-   *                                   point belongs. Supported characters for the name are a-z, A-Z, 0-9 and _. The maximum name length is
-   *                                   80 characters.
+   *                                   point belongs.
    * @param vmRestorePointName The name of the vm restore point that the disk disk restore point belongs.
-   *                           Supported characters for the name are a-z, A-Z, 0-9 and _. The maximum name length is 80 characters.
-   * @param diskRestorePointName The name of the disk restore point created. Supported characters for the
-   *                             name are a-z, A-Z, 0-9 and _. The maximum name length is 80 characters.
+   * @param diskRestorePointName The name of the disk restore point created.
    * @param options The options parameters.
    */
   beginRevokeAccessAndWait(
@@ -141,6 +123,6 @@ export interface DiskRestorePointOperations {
     restorePointCollectionName: string,
     vmRestorePointName: string,
     diskRestorePointName: string,
-    options?: DiskRestorePointOperationsRevokeAccessOptionalParams
+    options?: DiskRestorePointRevokeAccessOptionalParams
   ): Promise<void>;
 }

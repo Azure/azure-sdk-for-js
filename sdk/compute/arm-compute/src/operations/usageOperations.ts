@@ -6,7 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { UsageOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
@@ -15,10 +14,10 @@ import * as Parameters from "../models/parameters";
 import { ComputeManagementClientContext } from "../computeManagementClientContext";
 import {
   Usage,
-  UsageOperationsListNextOptionalParams,
-  UsageOperationsListOptionalParams,
-  UsageOperationsListResponse,
-  UsageOperationsListNextResponse
+  UsageListNextOptionalParams,
+  UsageListOptionalParams,
+  UsageListResponse,
+  UsageListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -42,7 +41,7 @@ export class UsageOperationsImpl implements UsageOperations {
    */
   public list(
     location: string,
-    options?: UsageOperationsListOptionalParams
+    options?: UsageListOptionalParams
   ): PagedAsyncIterableIterator<Usage> {
     const iter = this.listPagingAll(location, options);
     return {
@@ -60,7 +59,7 @@ export class UsageOperationsImpl implements UsageOperations {
 
   private async *listPagingPage(
     location: string,
-    options?: UsageOperationsListOptionalParams
+    options?: UsageListOptionalParams
   ): AsyncIterableIterator<Usage[]> {
     let result = await this._list(location, options);
     yield result.value || [];
@@ -74,7 +73,7 @@ export class UsageOperationsImpl implements UsageOperations {
 
   private async *listPagingAll(
     location: string,
-    options?: UsageOperationsListOptionalParams
+    options?: UsageListOptionalParams
   ): AsyncIterableIterator<Usage> {
     for await (const page of this.listPagingPage(location, options)) {
       yield* page;
@@ -89,8 +88,8 @@ export class UsageOperationsImpl implements UsageOperations {
    */
   private _list(
     location: string,
-    options?: UsageOperationsListOptionalParams
-  ): Promise<UsageOperationsListResponse> {
+    options?: UsageListOptionalParams
+  ): Promise<UsageListResponse> {
     return this.client.sendOperationRequest(
       { location, options },
       listOperationSpec
@@ -106,8 +105,8 @@ export class UsageOperationsImpl implements UsageOperations {
   private _listNext(
     location: string,
     nextLink: string,
-    options?: UsageOperationsListNextOptionalParams
-  ): Promise<UsageOperationsListNextResponse> {
+    options?: UsageListNextOptionalParams
+  ): Promise<UsageListNextResponse> {
     return this.client.sendOperationRequest(
       { location, nextLink, options },
       listNextOperationSpec
