@@ -155,7 +155,7 @@ console.log(fullyQualifiedModelPath);
 
 - Review the [DTDL Spec](https://docs.microsoft.com/azure/iot-pnp/concepts-model-parser).
 - Understand the [Device Models Repository](https://devicemodels.azure.com/).
-- Code a IoT Plug and Play 'Device' using the [Azure IoT SDK for Node](https://github.com/Azure/azure-iot-sdk-node/tree/master/device/samples/pnp/readme.md).  
+- Code a IoT Plug and Play 'Device' using the [Azure IoT SDK for Node](https://github.com/Azure/azure-iot-sdk-node/blob/master/device/samples/javascript/pnp/readme.md).  
 
 # Related projects
 
