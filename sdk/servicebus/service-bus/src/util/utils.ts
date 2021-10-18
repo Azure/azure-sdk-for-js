@@ -642,3 +642,8 @@ export const getHttpResponseOnly = ({
   status,
   headers
 });
+
+/**
+ * Type with the service versions for the ATOM API.
+ */
+export type ServiceBusAtomAPIVersion = "2021-05" | "2017-04";

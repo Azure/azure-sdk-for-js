@@ -243,8 +243,8 @@ export interface RuleProperties {
 
 // @public
 export class ServiceBusAdministrationClient extends ServiceClient {
-    constructor(connectionString: string, options?: PipelineOptions);
-    constructor(fullyQualifiedNamespace: string, credential: TokenCredential | NamedKeyCredential, options?: PipelineOptions);
+    constructor(connectionString: string, options?: ServiceBusAdministrationClientOptions);
+    constructor(fullyQualifiedNamespace: string, credential: TokenCredential | NamedKeyCredential, options?: ServiceBusAdministrationClientOptions);
     createQueue(queueName: string, options?: CreateQueueOptions): Promise<WithResponse<QueueProperties>>;
     createRule(topicName: string, subscriptionName: string, ruleName: string, ruleFilter: SqlRuleFilter | CorrelationRuleFilter, operationOptions?: OperationOptions): Promise<WithResponse<RuleProperties>>;
     createRule(topicName: string, subscriptionName: string, ruleName: string, ruleFilter: SqlRuleFilter | CorrelationRuleFilter, ruleAction: SqlRuleAction, operationOptions?: OperationOptions): Promise<WithResponse<RuleProperties>>;
@@ -278,6 +278,14 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     updateSubscription(subscription: WithResponse<SubscriptionProperties>, operationOptions?: OperationOptions): Promise<WithResponse<SubscriptionProperties>>;
     updateTopic(topic: WithResponse<TopicProperties>, operationOptions?: OperationOptions): Promise<WithResponse<TopicProperties>>;
 }
+
+// @public
+export type ServiceBusAdministrationClientOptions = PipelineOptions & {
+    apiVersion?: ServiceBusAtomAPIVersion;
+};
+
+// @public
+export type ServiceBusAtomAPIVersion = "2021-05" | "2017-04";
 
 // @public
 export class ServiceBusClient {
