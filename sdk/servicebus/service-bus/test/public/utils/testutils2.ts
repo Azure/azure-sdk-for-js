@@ -8,7 +8,8 @@ import {
   ServiceBusReceiver,
   ServiceBusSessionReceiver,
   ServiceBusClientOptions,
-  ServiceBusSender
+  ServiceBusSender,
+  ServiceBusAtomAPIVersion
 } from "../../../src";
 
 import { TestClientType, TestMessage } from "./testUtils";
@@ -615,4 +616,9 @@ export function addServiceBusClientForLiveTesting(
     receiver: () => receiver,
     entityNames: () => entityNames
   };
+}
+
+export function getRandomServiceVersion(): ServiceBusAtomAPIVersion {
+  const serviceApiVersions: ServiceBusAtomAPIVersion[] = ["2021-05", "2017-04"];
+  return Math.random() > 0.5 ? serviceApiVersions[0] : serviceApiVersions[1];
 }
