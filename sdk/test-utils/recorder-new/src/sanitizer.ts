@@ -65,6 +65,7 @@ export class Sanitizer {
 
     await Promise.all(
       ([
+        // The following sanitizers have similar request bodies and this abstraction avoids duplication
         "generalRegexSanitizers",
         "bodyKeySanitizers",
         "bodyRegexSanitizers",
@@ -74,7 +75,7 @@ export class Sanitizer {
         const replacers = options[prop];
         if (replacers) {
           return Promise.all(
-            replacers.map((replacer) =>
+            replacers.map((replacer: unknown) =>
               this.addSanitizer({
                 sanitizer: sanitizerKeywordMapping[prop],
                 body: JSON.stringify(replacer)
@@ -86,7 +87,11 @@ export class Sanitizer {
     );
 
     await Promise.all(
-      (["resetSanitizer", "oAuthResponseSanitizer"] as const).map((prop) => {
+      ([
+        // The following sanitizers have similar request bodies and this abstraction avoids duplication
+        "resetSanitizer",
+        "oAuthResponseSanitizer"
+      ] as const).map((prop) => {
         // TODO: Test
         if (options[prop]) {
           return this.addSanitizer({
