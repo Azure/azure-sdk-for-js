@@ -23,6 +23,7 @@ export function getRequestUrl(
     operationArguments,
     fallbackObject
   );
+  const isAbsoluteURL = operationSpec.path ? isAbsoluteUrl(operationSpec.path) : false;
 
   let requestUrl = replaceAll(baseUri, urlReplacements);
   if (operationSpec.path) {
@@ -30,20 +31,20 @@ export function getRequestUrl(
     // QUIRK: sometimes we get a path component like {nextLink}
     // which may be a fully formed URL. In that case, we should
     // ignore the baseUri.
-    if (isAbsoluteUrl(path)) {
+    if (isAbsoluteURL) {
       requestUrl = path;
     } else {
       requestUrl = appendPath(requestUrl, path);
     }
   }
-
-  const { queryParams, sequenceParams } = calculateQueryParameters(
-    operationSpec,
-    operationArguments,
-    fallbackObject
-  );
-  requestUrl = appendQueryParams(requestUrl, queryParams, sequenceParams);
-
+  if (!isAbsoluteURL) {
+    const { queryParams, sequenceParams } = calculateQueryParameters(
+      operationSpec,
+      operationArguments,
+      fallbackObject
+    );
+    requestUrl = appendQueryParams(requestUrl, queryParams, sequenceParams);
+  }
   return requestUrl;
 }
 
