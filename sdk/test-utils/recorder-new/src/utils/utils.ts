@@ -235,15 +235,6 @@ export interface RecorderStartOptions {
 }
 
 /**
- * Helper TypeGuard that checks if something is defined.
- * @param thing - Anything
- * @internal
- */
-export function isDefined<T>(thing: T | undefined | null): thing is T {
-  return typeof thing !== "undefined" && thing !== null;
-}
-
-/**
  * Template error message when the `label` is not defined when it should have been defined.
  */
 export function shouldExistErrorMessage(label: string, mode: string) {

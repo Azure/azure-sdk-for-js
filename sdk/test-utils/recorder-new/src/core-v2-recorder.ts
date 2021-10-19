@@ -14,7 +14,6 @@ import {
 } from "@azure/core-rest-pipeline";
 import { env, isPlaybackMode, isRecordMode } from "@azure-tools/test-recorder";
 import {
-  isDefined,
   RecorderError,
   RecorderStartOptions,
   RecordingStateManager,
@@ -138,7 +137,7 @@ export class TestProxyHttpClient {
           paths.start
         }`;
         const req = this._createRecordingRequest(startUri);
-        if (!isDefined(this.httpClient)) {
+        if (!this.httpClient) {
           throw new RecorderError(
             shouldExistErrorMessage("TestProxyHttpClient.httpClient", this.mode)
           );
@@ -155,7 +154,7 @@ export class TestProxyHttpClient {
           throw new RecorderError("No recording ID returned for a successful start request.");
         }
         this.recordingId = id;
-        if (!isDefined(this.sanitizer)) {
+        if (!this.sanitizer) {
           throw new RecorderError(
             shouldExistErrorMessage("TestProxyHttpClient.sanitizer", this.mode)
           );
@@ -188,7 +187,7 @@ export class TestProxyHttpClient {
         const req = this._createRecordingRequest(stopUri);
         req.headers.set("x-recording-save", "true");
 
-        if (!isDefined(this.httpClient)) {
+        if (!this.httpClient) {
           throw new RecorderError(
             shouldExistErrorMessage("TestProxyHttpClient.httpClient", this.mode)
           );
@@ -214,8 +213,8 @@ export class TestProxyHttpClient {
    * @param {string} url
    */
   private _createRecordingRequest(url: string, method: HttpMethods | undefined = "POST") {
-    const req = createPipelineRequest({ url: url, method });
-    if (!isDefined(this.sessionFile)) {
+    const req = createPipelineRequest({ url, method });
+    if (!this.sessionFile) {
       throw new RecorderError(shouldExistErrorMessage("sessionFile", this.mode));
     }
     req.headers.set("x-recording-file", this.sessionFile);

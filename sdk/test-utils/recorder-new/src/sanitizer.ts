@@ -21,7 +21,7 @@ export class Sanitizer {
    * @returns
    */
   async transformsInfo(): Promise<string | null | undefined> {
-    if (this.recordingId !== undefined) {
+    if (this.recordingId) {
       const infoUri = `${this.url}${paths.info}${paths.available}`;
       const req = this._createRecordingRequest(infoUri, "GET");
       if (!this.httpClient) {
@@ -51,9 +51,11 @@ export class Sanitizer {
    */
   async addSanitizers(options: SanitizerOptions): Promise<void> {
     if (options.connectionStringSanitizers) {
-      for (const connectionStringSanitizer of options.connectionStringSanitizers) {
-        await this.addConnectionStringSanitizer(connectionStringSanitizer);
-      }
+      await Promise.all(
+        options.connectionStringSanitizers.map((replacer) =>
+          this.addConnectionStringSanitizer(replacer.actualConnString, replacer.fakeConnString)
+        )
+      );
     }
     if (options.generalRegexSanitizers) {
       for (const replacer of options.generalRegexSanitizers) {
@@ -72,40 +74,48 @@ export class Sanitizer {
       });
     }
     if (options.bodyKeySanitizers) {
-      for (const replacer of options.bodyKeySanitizers) {
-        await this.addSanitizer({
-          sanitizer: "BodyKeySanitizer",
-          body: JSON.stringify(replacer)
-        });
-      }
+      await Promise.all(
+        options.bodyKeySanitizers.map((replacer) =>
+          this.addSanitizer({
+            sanitizer: "BodyKeySanitizer",
+            body: JSON.stringify(replacer)
+          })
+        )
+      );
     }
     if (options.bodyRegexSanitizers) {
-      for (const replacer of options.bodyRegexSanitizers) {
-        await this.addSanitizer({
-          sanitizer: "BodyRegexSanitizer",
-          body: JSON.stringify(replacer)
-        });
-      }
+      await Promise.all(
+        options.bodyRegexSanitizers.map((replacer) =>
+          this.addSanitizer({
+            sanitizer: "BodyRegexSanitizer",
+            body: JSON.stringify(replacer)
+          })
+        )
+      );
     }
     if (options.continuationSanitizers) {
       // TODO: Test
-      for (const replacer of options.continuationSanitizers) {
-        await this.addSanitizer({
-          sanitizer: "ContinuationSanitizer",
-          body: JSON.stringify({
-            ...replacer,
-            resetAfterFirst: replacer.resetAfterFirst.toString()
+      await Promise.all(
+        options.continuationSanitizers.map((replacer) =>
+          this.addSanitizer({
+            sanitizer: "ContinuationSanitizer",
+            body: JSON.stringify({
+              ...replacer,
+              resetAfterFirst: replacer.resetAfterFirst.toString()
+            })
           })
-        });
-      }
+        )
+      );
     }
     if (options.headerRegexSanitizers) {
-      for (const replacer of options.headerRegexSanitizers) {
-        await this.addSanitizer({
-          sanitizer: "HeaderRegexSanitizer",
-          body: JSON.stringify(replacer)
-        });
-      }
+      await Promise.all(
+        options.headerRegexSanitizers.map((replacer) =>
+          this.addSanitizer({
+            sanitizer: "HeaderRegexSanitizer",
+            body: JSON.stringify(replacer)
+          })
+        )
+      );
     }
     if (options.oAuthResponseSanitizer) {
       // TODO: Test
@@ -115,12 +125,14 @@ export class Sanitizer {
       });
     }
     if (options.uriRegexSanitizers) {
-      for (const replacer of options.uriRegexSanitizers) {
-        await this.addSanitizer({
-          sanitizer: "UriRegexSanitizer",
-          body: JSON.stringify(replacer)
-        });
-      }
+      await Promise.all(
+        options.uriRegexSanitizers.map((replacer) =>
+          this.addSanitizer({
+            sanitizer: "UriRegexSanitizer",
+            body: JSON.stringify(replacer)
+          })
+        )
+      );
     }
     if (options.uriSubscriptionIdSanitizer) {
       await this.addSanitizer({
@@ -143,15 +155,15 @@ export class Sanitizer {
    * - each part of the connection string is mapped with its corresponding fake value
    * - generalRegexSanitizer is applied for each of the parts with the real and fake values that are parsed
    */
-  async addConnectionStringSanitizer(replacer: {
-    actualConnString: string;
-    fakeConnString: string;
-  }): Promise<void> {
+  async addConnectionStringSanitizer(
+    actualConnString: string,
+    fakeConnString: string
+  ): Promise<void> {
     // extract connection string parts and match call
-    const pairsMatched = getRealAndFakePairs(replacer.actualConnString, replacer.fakeConnString);
+    const pairsMatched = getRealAndFakePairs(actualConnString, fakeConnString);
     await this.addSanitizers({
       generalRegexSanitizers: Object.entries(pairsMatched).map(([key, value]) => {
-        return { value: value, regex: key };
+        return { value, regex: key };
       })
     });
   }
