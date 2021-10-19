@@ -904,7 +904,7 @@ Both accounts must belong to the same Azure AD tenant.
 
 For this authentication flow to work, app registrations must be configured with a custom scope. To create a scope through the Azure portal:
 
-1. Select **Active Directory** > **Enterprise Applications**.
+1. Select **Active Directory** > **App registrations**.
 2. Go to the app you want to authenticate against.
 3. On the left menu, select **Expose an API** > **Add a scope**.
 
