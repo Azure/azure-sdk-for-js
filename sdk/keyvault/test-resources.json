@@ -319,9 +319,9 @@
       "condition": "[parameters('enableHsm')]",
       "value": "[format('https://{0}/', reference(variables('attestationSite')).defaultHostName)]"
     },
-    "ENABLEHSM": {
-      "type": "bool",
-      "value": "[parameters('enableHsm')]"
+    "KEYVAULTSKU": {
+      "type": "string",
+      "value": "[parameters('keyVaultSku')]"
     }
   }
 }
