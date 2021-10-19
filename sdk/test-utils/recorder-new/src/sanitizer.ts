@@ -2,7 +2,12 @@ import { HttpClient } from "@azure/core-rest-pipeline";
 import { createPipelineRequest, HttpMethods } from "@azure/core-rest-pipeline";
 import { getRealAndFakePairs } from "./utils/connectionStringHelpers";
 import { paths } from "./utils/paths";
-import { ProxyToolSanitizers, RecorderError, SanitizerOptions } from "./utils/utils";
+import {
+  ProxyToolSanitizers,
+  RecorderError,
+  sanitizerKeywordMapping,
+  SanitizerOptions
+} from "./utils/utils";
 
 /**
  * Sanitizer class to handle communication with the proxy-tool relating to the sanitizers adding/resetting, etc.
@@ -57,16 +62,40 @@ export class Sanitizer {
         )
       );
     }
-    if (options.generalRegexSanitizers) {
-      await Promise.all(
-        options.generalRegexSanitizers.map((replacer) =>
-          this.addSanitizer({
-            sanitizer: "GeneralRegexSanitizer",
-            body: JSON.stringify(replacer)
-          })
-        )
-      );
-    }
+
+    await Promise.all(
+      ([
+        "generalRegexSanitizers",
+        "bodyKeySanitizers",
+        "bodyRegexSanitizers",
+        "headerRegexSanitizers",
+        "uriRegexSanitizers"
+      ] as const).map((prop) => {
+        const replacers = options[prop];
+        if (replacers) {
+          return Promise.all(
+            replacers.map((replacer) =>
+              this.addSanitizer({
+                sanitizer: sanitizerKeywordMapping[prop],
+                body: JSON.stringify(replacer)
+              })
+            )
+          );
+        } else return;
+      })
+    );
+
+    await Promise.all(
+      (["resetSanitizer", "oAuthResponseSanitizer"] as const).map((prop) => {
+        // TODO: Test
+        if (options[prop]) {
+          return this.addSanitizer({
+            sanitizer: sanitizerKeywordMapping[prop],
+            body: undefined
+          });
+        } else return;
+      })
+    );
 
     if (options.removeHeaderSanitizer) {
       this.addSanitizer({
@@ -76,26 +105,7 @@ export class Sanitizer {
         })
       });
     }
-    if (options.bodyKeySanitizers) {
-      await Promise.all(
-        options.bodyKeySanitizers.map((replacer) =>
-          this.addSanitizer({
-            sanitizer: "BodyKeySanitizer",
-            body: JSON.stringify(replacer)
-          })
-        )
-      );
-    }
-    if (options.bodyRegexSanitizers) {
-      await Promise.all(
-        options.bodyRegexSanitizers.map((replacer) =>
-          this.addSanitizer({
-            sanitizer: "BodyRegexSanitizer",
-            body: JSON.stringify(replacer)
-          })
-        )
-      );
-    }
+
     if (options.continuationSanitizers) {
       // TODO: Test
       await Promise.all(
@@ -110,44 +120,11 @@ export class Sanitizer {
         )
       );
     }
-    if (options.headerRegexSanitizers) {
-      await Promise.all(
-        options.headerRegexSanitizers.map((replacer) =>
-          this.addSanitizer({
-            sanitizer: "HeaderRegexSanitizer",
-            body: JSON.stringify(replacer)
-          })
-        )
-      );
-    }
-    if (options.oAuthResponseSanitizer) {
-      // TODO: Test
-      await this.addSanitizer({
-        sanitizer: "OAuthResponseSanitizer",
-        body: undefined
-      });
-    }
-    if (options.uriRegexSanitizers) {
-      await Promise.all(
-        options.uriRegexSanitizers.map((replacer) =>
-          this.addSanitizer({
-            sanitizer: "UriRegexSanitizer",
-            body: JSON.stringify(replacer)
-          })
-        )
-      );
-    }
+
     if (options.uriSubscriptionIdSanitizer) {
       await this.addSanitizer({
         sanitizer: "UriSubscriptionIdSanitizer",
         body: JSON.stringify(options.uriSubscriptionIdSanitizer)
-      });
-    }
-    if (options.resetSanitizer) {
-      // TODO: Test
-      await this.addSanitizer({
-        sanitizer: "Reset",
-        body: undefined
       });
     }
   }
