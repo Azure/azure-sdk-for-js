@@ -40,8 +40,15 @@ export class ModelsRepositoryClient {
     }
 
 // @public
+export interface ModelsRepositoryClientMetadataOptions {
+    enabled?: boolean;
+    expirationInMinutes?: number;
+}
+
+// @public
 export interface ModelsRepositoryClientOptions extends CommonClientOptions {
     apiVersion?: string;
+    metadata?: ModelsRepositoryClientMetadataOptions;
     repositoryLocation?: string;
 }
 

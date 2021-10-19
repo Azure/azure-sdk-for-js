@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { CommonClientOptions } from "@azure/core-client";
+import { ModelsRepositoryClientMetadataOptions } from "./modelsRepositoryClientMetadataOptions";
 
 /**
  * Options for creating a Pipeline to use with ModelsRepositoryClient.
@@ -18,4 +19,8 @@ export interface ModelsRepositoryClientOptions extends CommonClientOptions {
    * of the service.
    */
   apiVersion?: string;
+  /**
+   * Options to configure how the client uses repository metadata.
+   */
+  metadata?: ModelsRepositoryClientMetadataOptions;
 }

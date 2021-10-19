@@ -23,16 +23,19 @@ import { HttpFetcher } from "./fetcherHTTP";
 import { GetModelsOptions } from "./interfaces/getModelsOptions";
 import { DTDL } from "./psuedoDtdl";
 import { ModelsRepositoryMetadata } from "./interfaces/modelsRepositoryMetadata";
+import { MetadataScheduler } from "./metadataScheduler";
 
 /**
  * Initializes a new instance of the IoT Models Repository Client.
  */
 export class ModelsRepositoryClient {
   private _repositoryLocation: string;
+  private _metadataScheduler: MetadataScheduler;
   private _apiVersion: string;
   private _fetcher: Fetcher;
   private _resolver: DtmiResolver;
   private _pseudoParser: PseudoParser;
+  private _repositorySupportsExpanded: boolean;
 
   /**
    * The ModelsRepositoryClient constructor
@@ -41,6 +44,8 @@ export class ModelsRepositoryClient {
    */
   constructor(options?: ModelsRepositoryClientOptions) {
     this._repositoryLocation = options?.repositoryLocation ?? DEFAULT_REPOSITORY_LOCATION;
+    this._metadataScheduler = new MetadataScheduler(options?.metadata);
+    this._repositorySupportsExpanded = false;
     logger.info(`Client configured for repository location ${this._repositoryLocation}`);
     this._fetcher = this._createFetcher(this._repositoryLocation, options ?? {});
     this._resolver = new DtmiResolver(this._fetcher);
@@ -163,20 +168,26 @@ export class ModelsRepositoryClient {
 
     // Default dependency mode is `enabled` unless one is specified in the options.
     const dependencyResolution = options?.dependencyResolution ?? DEPENDENCY_MODE_ENABLED;
-    let supportsExpanded = false;
+    // if dependency resolution is disabled, just get the base model
     if (dependencyResolution === DEPENDENCY_MODE_DISABLED) {
       logger.info("Getting models w/ dependency resolution mode: disabled");
       logger.info(`Retreiving model(s): ${dtmis}...`);
       modelMap = await this._resolver.resolve(dtmis, false, options);
     } else if (dependencyResolution === DEPENDENCY_MODE_ENABLED) {
-      // try to fetch metadata
+      // need to check for dependencies
       try {
-        logger.info(`Attempting to retrieve metadata from repository`);
-        const metadata = await this._fetcher.fetch<ModelsRepositoryMetadata>(
-          METADATA_PATH,
-          options
-        );
-        supportsExpanded = metadata?.features?.expanded;
+        // determine if we need to check for new metadata
+        if (this._metadataScheduler.hasExpired()) {
+          // metadata needs to be fetched
+          logger.info(`Repository metadata has not been fetched or has expired.`);
+          logger.info(`Attempting to retrieve metadata from repository`);
+          const metadata = await this._fetcher.fetch<ModelsRepositoryMetadata>(
+            METADATA_PATH,
+            options
+          );
+          this._repositorySupportsExpanded = metadata?.features?.expanded;
+          this._metadataScheduler.reset();
+        }
       } catch (e) {
         logger.info(`Repository metadata does not exist, or does not support expanded models`);
       }
@@ -184,7 +195,7 @@ export class ModelsRepositoryClient {
       // try to get models
       try {
         // metadata exists and expanded support is enabled
-        if (supportsExpanded) {
+        if (this._repositorySupportsExpanded) {
           logger.info(`Repository metadata supports expanded models.`);
           logger.info(`Retreiving expanded model(s): ${dtmis}...`);
           modelMap = await this._resolver.resolve(dtmis, true, options);

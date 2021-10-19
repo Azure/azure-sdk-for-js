@@ -39,6 +39,7 @@
 export { ModelsRepositoryClient } from "./modelsRepositoryClient";
 export { GetModelsOptions } from "./interfaces/getModelsOptions";
 export { ModelsRepositoryClientOptions } from "./interfaces/modelsRepositoryClientOptions";
+export { ModelsRepositoryClientMetadataOptions } from "./interfaces/modelsRepositoryClientMetadataOptions";
 export { dependencyResolutionType } from "./dependencyResolutionType";
 export { ModelError } from "./exceptions";
 export { getModelUri, isValidDtmi } from "./dtmiConventions";
