@@ -1,10 +1,16 @@
 # Release History
 
-## 2.0.1 (2021-10-20)
+## 2.0.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
 
 ### Bugs Fixed
 
 - Fixed a bug that caused the `AzureCliCredential` to fail on Windows. Issue [18268](https://github.com/Azure/azure-sdk-for-js/issues/18268).
+
+### Other Changes
 
 ## 2.0.0 (2021-10-15)
 
