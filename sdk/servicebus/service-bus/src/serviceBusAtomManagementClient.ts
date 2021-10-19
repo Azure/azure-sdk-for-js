@@ -119,6 +119,8 @@ export interface ServiceBusAdministrationClientOptions extends PipelineOptions {
    * Service version of the ATOM API.
    *
    * Currently supported = "2021-05" | "2017-04"
+   *
+   * Defaults to "2021-05".
    */
   serviceVersion?: ServiceBusAtomAPIVersion;
 }

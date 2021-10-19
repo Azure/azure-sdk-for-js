@@ -280,9 +280,9 @@ export class ServiceBusAdministrationClient extends ServiceClient {
 }
 
 // @public
-export type ServiceBusAdministrationClientOptions = PipelineOptions & {
+export interface ServiceBusAdministrationClientOptions extends PipelineOptions {
     serviceVersion?: ServiceBusAtomAPIVersion;
-};
+}
 
 // @public
 export type ServiceBusAtomAPIVersion = "2021-05" | "2017-04";
