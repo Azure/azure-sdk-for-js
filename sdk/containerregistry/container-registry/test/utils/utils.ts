@@ -83,6 +83,7 @@ function getAudience(authority?: AzureAuthorityHosts): KnownContainerRegistryAud
   }
 }
 
+type ContainerRegistryServiceVersions = "2021-07-01";
 export function createRegistryClient(
   endpoint: string,
   serviceVersion: string,
@@ -91,7 +92,7 @@ export function createRegistryClient(
   const authorityHost = getAuthority(endpoint);
   const audience = getAudience(authorityHost);
   const tokenCredentialOptions = authorityHost ? { authorityHost } : undefined;
-  const clientOptions = { audience, serviceVersion };
+  const clientOptions = { audience, serviceVersion: serviceVersion as ContainerRegistryServiceVersions };
 
   if (options.anonymous) {
     return new ContainerRegistryClient(endpoint, clientOptions);

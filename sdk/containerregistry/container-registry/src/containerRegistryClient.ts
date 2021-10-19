@@ -31,8 +31,6 @@ import { ContainerRegistryRefreshTokenCredential } from "./containerRegistryToke
 
 const LATEST_API_VERSION = "2021-07-01";
 
-const validServiceVersions = ["2021-07-01"];
-
 /**
  * Client options used to configure Container Registry Repository API requests.
  */
@@ -46,7 +44,7 @@ export interface ContainerRegistryClientOptions extends PipelineOptions {
   /**
    * The version of service API to make calls against.
    */
-  serviceVersion?: string;
+  serviceVersion?: "2021-07-01";
 }
 
 /**
@@ -141,10 +139,6 @@ export class ContainerRegistryClient {
       throw new Error(
         "ContainerRegistryClientOptions.audience must be set to initialize ContainerRegistryClient."
       );
-    }
-
-    if (options.serviceVersion && !validServiceVersions.includes(options.serviceVersion)) {
-      throw new Error(`Invalid service version: ${options.serviceVersion}`);
     }
 
     const defaultScope = `${options.audience}/.default`;
