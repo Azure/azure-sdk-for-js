@@ -43,10 +43,13 @@ describe("AzureCliCredential (internal)", function() {
     assert.deepEqual(azArgs, [
       ["account", "get-access-token", "--output", "json", "--resource", "https://service"]
     ]);
-    // Used the shell
+    // Used a working directory, and a shell
     assert.deepEqual(
-      azOptions.map((options) => options.shell),
-      [true]
+      {
+        cwd: [process.env.SystemRoot, "/bin"].includes(azOptions[0].cwd),
+        shell: azOptions[0].shell
+      },
+      { cwd: true, shell: true }
     );
   });
 
@@ -70,10 +73,13 @@ describe("AzureCliCredential (internal)", function() {
         "tenantId"
       ]
     ]);
-    // Used the shell
+    // Used a working directory, and a shell
     assert.deepEqual(
-      azOptions.map((options) => options.shell),
-      [true]
+      {
+        cwd: [process.env.SystemRoot, "/bin"].includes(azOptions[0].cwd),
+        shell: azOptions[0].shell
+      },
+      { cwd: true, shell: true }
     );
   });
 
