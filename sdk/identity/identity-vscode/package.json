@@ -1,6 +1,6 @@
 {
   "name": "@azure/identity-vscode",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "sdk-type": "client",
   "description": "Use the Azure Account extension for Visual Studio Code to authenticate with Azure Identity",
   "main": "dist/index.js",

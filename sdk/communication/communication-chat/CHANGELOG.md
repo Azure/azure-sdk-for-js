@@ -1,6 +1,6 @@
 # Release History
 
-## 1.1.1 (Not released)
+## 1.1.1 (2021-10-19)
 
 ### Features Added
 - Updated to @azure/communication-signaling@1.0.0-beta.11.
