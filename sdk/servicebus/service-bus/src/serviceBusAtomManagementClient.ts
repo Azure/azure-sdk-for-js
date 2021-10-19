@@ -115,6 +115,11 @@ export type WithResponse<T extends object> = T & {
  * Represents the client options of the `ServiceBusAdministrationClient`.
  */
 export interface ServiceBusAdministrationClientOptions extends PipelineOptions {
+  /**
+   * Service version of the ATOM API.
+   *
+   * Currently supported = "2021-05" | "2017-04"
+   */
   serviceVersion?: ServiceBusAtomAPIVersion;
 }
 
