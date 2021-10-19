@@ -4,7 +4,7 @@
 import { StorageBlobDownloadWithSASTest } from "./dowloadWithSAS.spec";
 import node_fetch from "node-fetch";
 import https from "https";
-import { drainStream } from "@azure/test-utils-perfstress";
+import { drainStream } from "@azure/test-utils-perf";
 export class NodeFetchDownloadWithSASTest extends StorageBlobDownloadWithSASTest {
   agent: https.Agent;
   constructor() {

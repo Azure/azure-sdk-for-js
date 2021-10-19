@@ -2,43 +2,43 @@
 // Licensed under the MIT license.
 
 import { AbortController } from "@azure/abort-controller";
-import { PerfStressTest, PerfStressTestConstructor } from "./tests";
+import { PerfTest, PerfTestConstructor } from "./tests";
 import {
-  PerfStressOptionDictionary,
-  parsePerfStressOption,
-  defaultPerfStressOptions,
-  DefaultPerfStressOptions
+  PerfOptionDictionary,
+  parsePerfOption,
+  defaultPerfOptions,
+  DefaultPerfOptions
 } from "./options";
-import { PerfStressParallel } from "./parallel";
+import { PerfParallel } from "./parallel";
 import { TestProxyHttpClientV1, TestProxyHttpClient } from "./testProxyHttpClient";
 
 export type TestType = "";
 
 /**
- * PerfStressProgram
- * receives a class extending PerfStressTest with specific command line parameter names (or just "string"),
+ * PerfProgram
+ * receives a class extending PerfTest with specific command line parameter names (or just "string"),
  * then gets the test ready for a performance/stress test run.
  *
  * Use it like:
  *
  * ```ts
- * export class Delay500ms extends PerfStressTest<string> {
+ * export class Delay500ms extends PerfTest<string> {
  *   public options = {};
  *   async run(): Promise<void> {
  *     await delay(500);
  *   }
  * }
  *
- * const perfStressProgram = new PerfStressProgram(Delay500ms);
+ * const perfProgram = new PerfProgram(Delay500ms);
  *
- * perfStressProgram.run();
+ * perfProgram.run();
  * ```
  */
-export class PerfStressProgram {
+export class PerfProgram {
   private testName: string;
-  private parsedDefaultOptions: Required<PerfStressOptionDictionary<DefaultPerfStressOptions>>;
+  private parsedDefaultOptions: Required<PerfOptionDictionary<DefaultPerfOptions>>;
   private parallelNumber: number;
-  private tests: PerfStressTest[];
+  private tests: PerfTest[];
 
   /**
    * Receives a test class to instantiate and execute.
@@ -48,13 +48,13 @@ export class PerfStressProgram {
    *
    * @param testClass The testClass to be instantiated.
    */
-  constructor(testClass: PerfStressTestConstructor) {
+  constructor(testClass: PerfTestConstructor) {
     this.testName = testClass.name;
-    this.parsedDefaultOptions = parsePerfStressOption(defaultPerfStressOptions);
+    this.parsedDefaultOptions = parsePerfOption(defaultPerfOptions);
     this.parallelNumber = Number(this.parsedDefaultOptions.parallel.value);
 
     console.log(`=== Creating ${this.parallelNumber} instance(s) of ${this.testName} ===`);
-    this.tests = new Array<PerfStressTest<DefaultPerfStressOptions>>(this.parallelNumber);
+    this.tests = new Array<PerfTest<DefaultPerfOptions>>(this.parallelNumber);
 
     for (let i = 0; i < this.parallelNumber; i++) {
       const test = new testClass();
@@ -62,11 +62,11 @@ export class PerfStressProgram {
     }
   }
 
-  private getCompletedOperations(parallels: PerfStressParallel[]): number {
+  private getCompletedOperations(parallels: PerfParallel[]): number {
     return parallels.reduce((sum, i) => sum + i.completedOperations, 0);
   }
 
-  private getOperationsPerSecond(parallels: PerfStressParallel[]): number {
+  private getOperationsPerSecond(parallels: PerfParallel[]): number {
     return parallels.reduce((sum, parallel) => {
       let parallelResult = 0;
       if (parallel.completedOperations > 0) {
@@ -96,7 +96,7 @@ export class PerfStressProgram {
    *
    * @param parallels Parallel executions
    */
-  private logResults(parallels: PerfStressParallel[]): void {
+  private logResults(parallels: PerfParallel[]): void {
     const totalOperations = this.getCompletedOperations(parallels);
     const operationsPerSecond = this.getOperationsPerSecond(parallels);
     const secondsPerOperation = 1 / operationsPerSecond;
@@ -123,7 +123,7 @@ export class PerfStressProgram {
   /**
    * Runs the test in scope repeatedly, without waiting for any promises to finish,
    * as many times as possible until durationMilliseconds is reached.
-   * For each test run, it will report one more completedOperations on the PerfStressParallel given,
+   * For each test run, it will report one more completedOperations on the PerfParallel given,
    * as well as the lastMillisecondsElapsed that reports the last test execution's elapsed time in comparison
    * to the beginning of the execution of runLoop.
    *
@@ -132,8 +132,8 @@ export class PerfStressProgram {
    * @param abortController Allows us to send through a signal determining when to abort any execution.
    */
   private async runLoopAsync(
-    test: PerfStressTest,
-    parallel: PerfStressParallel,
+    test: PerfTest,
+    parallel: PerfParallel,
     durationMilliseconds: number,
     abortController: AbortController
   ): Promise<void> {
@@ -168,7 +168,7 @@ export class PerfStressProgram {
     durationSeconds: number,
     title: string
   ): Promise<void> {
-    const parallels: PerfStressParallel[] = new Array<PerfStressParallel>(this.parallelNumber);
+    const parallels: PerfParallel[] = new Array<PerfParallel>(this.parallelNumber);
     const parallelTestResults: Array<Promise<void>> = new Array<Promise<void>>(this.parallelNumber);
 
     const abortController = new AbortController();
@@ -201,7 +201,7 @@ export class PerfStressProgram {
 
     const runLoop = this.runLoopAsync;
 
-    // Unhandled exceptions should stop the whole PerfStress process.
+    // Unhandled exceptions should stop the whole Perf process.
     process.on("unhandledRejection", (error) => {
       throw error;
     });
@@ -213,7 +213,7 @@ export class PerfStressProgram {
     // then in another loop, we wait for each one of these promises to finish.
     // This should allow for the event loop to decide when to process each test call.
     for (let i = 0; i < parallel; i++) {
-      const parallel: PerfStressParallel = {
+      const parallel: PerfParallel = {
         completedOperations: 0,
         lastMillisecondsElapsed: 0
       };
@@ -253,10 +253,10 @@ export class PerfStressProgram {
    * until as many seconds as the "warmup" parameter says. This is to adjust
    * to any possible real-time optimizations that the JavaScript runtime might
    * do while executing something repeatedly. This is also a requirement to align with the
-   * PerfStress framework in other languages.
+   * Perf framework in other languages.
    *
    * If any exception is encountered, the whole process will stop, unless
-   * these exceptions are instances of the class PerfStressTestError, which defines expected errors.
+   * these exceptions are instances of the class PerfTestError, which defines expected errors.
    */
   public async run(): Promise<void> {
     // There should be no test execution if the help option is passed.
@@ -287,7 +287,7 @@ export class PerfStressProgram {
     }
 
     if (this.tests[0].parsedOptions["test-proxies"].value) {
-      // Records requests(in runAsync method) for all the instantiated PerfStressTest classes,
+      // Records requests(in runAsync method) for all the instantiated PerfTest classes,
       // and asks the proxy-tool to start playing back for future requests.
       await Promise.all(this.tests.map((test) => this.recordAndStartPlayback(test)));
     }
@@ -349,7 +349,7 @@ export class PerfStressProgram {
    *   - making a request to the proxy server to stop playing back
    * - delete the live resources that we have created before
    */
-  private async recordAndStartPlayback(test: PerfStressTest) {
+  private async recordAndStartPlayback(test: PerfTest) {
     // If test-proxy,
     // => then start record
     // => run the runAsync
@@ -378,7 +378,7 @@ export class PerfStressProgram {
     recorder._mode = "playback";
   }
 
-  private async stopPlayback(test: PerfStressTest) {
+  private async stopPlayback(test: PerfTest) {
     if (test.testProxyHttpClient) {
       await test.testProxyHttpClient.stopPlayback();
     } else if (test.testProxyHttpClientV1) {

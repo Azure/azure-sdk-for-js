@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { PerfStressOptionDictionary } from "@azure/test-utils-perfstress";
+import { PerfOptionDictionary } from "@azure/test-utils-perf";
 import { ContainerRegistryTest, ContainerRegistryTestOptions } from "./client.spec";
 
 export class RepositoryListTest extends ContainerRegistryTest<ContainerRegistryTestOptions> {
-  public options: PerfStressOptionDictionary<ContainerRegistryTestOptions> = {};
+  public options: PerfOptionDictionary<ContainerRegistryTestOptions> = {};
   constructor() {
     super();
   }

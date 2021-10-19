@@ -2,10 +2,10 @@
 // Licensed under the MIT license.
 
 import {
-  PerfStressTest,
-  PerfStressOptionDictionary,
+  PerfTest,
+  PerfOptionDictionary,
   getEnvVar
-} from "@azure/test-utils-perfstress";
+} from "@azure/test-utils-perf";
 import {
   AzureKeyCredential,
   TextAnalyticsClient,
@@ -17,8 +17,8 @@ interface DetectLanguagePerfTestOptions extends DetectLanguageOptions {
   "documents-count": number;
 }
 
-export class DetectLanguageTest extends PerfStressTest<DetectLanguagePerfTestOptions> {
-  options: PerfStressOptionDictionary<DetectLanguagePerfTestOptions> = {
+export class DetectLanguageTest extends PerfTest<DetectLanguagePerfTestOptions> {
+  options: PerfOptionDictionary<DetectLanguagePerfTestOptions> = {
     "documents-count": {
       required: true,
       description: "Number of documents",

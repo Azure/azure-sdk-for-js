@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PerfStressOptionDictionary, drainStream } from "@azure/test-utils-perfstress";
+import { PerfOptionDictionary, drainStream } from "@azure/test-utils-perf";
 import { Aborter, FileURL } from "@azure/storage-file";
 import { StorageFileShareTest } from "./storageTest";
 import { generateUuid } from "@azure/core-http";
@@ -13,7 +13,7 @@ interface StorageFileShareDownloadTestOptions {
 export class StorageFileShareDownloadTest extends StorageFileShareTest<
   StorageFileShareDownloadTestOptions
 > {
-  public options: PerfStressOptionDictionary<StorageFileShareDownloadTestOptions> = {
+  public options: PerfOptionDictionary<StorageFileShareDownloadTestOptions> = {
     size: {
       required: true,
       description: "Size in bytes",

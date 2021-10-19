@@ -3,7 +3,7 @@
 
 import { v4 as generateUuid } from "uuid";
 import { Aborter, BlockBlobURL } from "@azure/storage-blob";
-import { PerfStressOptionDictionary } from "@azure/test-utils-perfstress";
+import { PerfOptionDictionary } from "@azure/test-utils-perf";
 import { StorageBlobTest } from "./storageTest.spec";
 interface StorageBlobUploadTestOptions {
   size: number;
@@ -13,7 +13,7 @@ export class StorageBlobUploadTest extends StorageBlobTest<StorageBlobUploadTest
   blobName: string;
   blockBlobClient: BlockBlobURL;
   buffer: Buffer;
-  public options: PerfStressOptionDictionary<StorageBlobUploadTestOptions> = {
+  public options: PerfOptionDictionary<StorageBlobUploadTestOptions> = {
     size: {
       required: true,
       description: "Size in bytes",

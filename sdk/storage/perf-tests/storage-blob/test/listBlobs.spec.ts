@@ -2,14 +2,14 @@
 // Licensed under the MIT license.
 
 import { generateUuid } from "@azure/core-http";
-import { PerfStressOptionDictionary, executeParallel } from "@azure/test-utils-perfstress";
+import { PerfOptionDictionary, executeParallel } from "@azure/test-utils-perf";
 import { StorageBlobTest } from "./storageTest.spec";
 interface StorageBlobListTestOptions {
   count: number;
 }
 
 export class StorageBlobListTest extends StorageBlobTest<StorageBlobListTestOptions> {
-  public options: PerfStressOptionDictionary<StorageBlobListTestOptions> = {
+  public options: PerfOptionDictionary<StorageBlobListTestOptions> = {
     count: {
       required: true,
       description: "Number of blobs to be listed",

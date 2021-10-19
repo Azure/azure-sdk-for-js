@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PerfStressOptionDictionary } from "@azure/test-utils-perfstress";
+import { PerfOptionDictionary } from "@azure/test-utils-perf";
 import { ServiceBusMessage, ServiceBusSender } from "@azure/service-bus";
 import { ServiceBusTest } from "./sbBase.spec";
 
@@ -13,7 +13,7 @@ interface SendTestOptions {
 export class BatchSendTest extends ServiceBusTest<SendTestOptions> {
   static sender: ServiceBusSender = ServiceBusTest.sbClient.createSender(BatchSendTest.queueName);
   batch: ServiceBusMessage[];
-  public options: PerfStressOptionDictionary<SendTestOptions> = {
+  public options: PerfOptionDictionary<SendTestOptions> = {
     messageBodySize: {
       required: true,
       description: "Size in bytes",

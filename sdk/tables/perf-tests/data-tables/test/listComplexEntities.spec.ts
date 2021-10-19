@@ -1,4 +1,4 @@
-import { PerfStressOptionDictionary } from "@azure/test-utils-perfstress";
+import { PerfOptionDictionary } from "@azure/test-utils-perf";
 import { TablesTest } from "./tables.spec";
 import { TableEntityResult, TransactionAction } from "@azure/data-tables";
 import { createBatch } from "./utils/createBaseEntity";
@@ -8,7 +8,7 @@ interface ListComplexEntitiesTestOptions {
 }
 
 export class ListComplexEntitiesTest extends TablesTest<ListComplexEntitiesTestOptions> {
-  public options: PerfStressOptionDictionary<ListComplexEntitiesTestOptions> = {
+  public options: PerfOptionDictionary<ListComplexEntitiesTestOptions> = {
     entityCount: {
       defaultValue: 100,
       longName: "entityCount",

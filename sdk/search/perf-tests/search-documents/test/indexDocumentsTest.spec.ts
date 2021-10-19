@@ -1,11 +1,11 @@
 import { SearchDocumentsBase, SearchDocumentsTestOptions } from "./core/searchDocumentsBase.spec";
-import { PerfStressOptionDictionary } from "@azure/test-utils-perfstress";
+import { PerfOptionDictionary } from "@azure/test-utils-perf";
 import { generateHotels } from "./core/documentsGenerator";
 import { Hotel } from "./core/hotel";
 import { IndexDocumentsBatch } from "@azure/search-documents";
 
 export class IndexDocumentsTest extends SearchDocumentsBase<SearchDocumentsTestOptions> {
-  public options: PerfStressOptionDictionary<SearchDocumentsTestOptions> = {
+  public options: PerfOptionDictionary<SearchDocumentsTestOptions> = {
     documentsCount: {
       required: true,
       description: "Number of Documents to be created",

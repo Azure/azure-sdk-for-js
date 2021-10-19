@@ -5,7 +5,7 @@
  * Track 1 perf tests are not maintained through rush in this repository.
  *
  * This helper script is meant to be used to "build" and "install"
- * the `@azure/test-utils-perfstress` package in the track-1 perf-test projects
+ * the `@azure/test-utils-perf` package in the track-1 perf-test projects
  * so that the track 1 perf tests can leverage the perf framework.
  *
  * Additionally, this runs `npm install` in the track-1 perf test projects.
@@ -21,18 +21,18 @@ function spawn(command) {
   }
 }
 
-const navigateToPerfStressFolder = `cd ${path.resolve(
+const navigateToPerfFolder = `cd ${path.resolve(
   "..",
   "..",
   "..",
   "test-utils",
-  "perfstress"
+  "perf"
 )}`;
-const buildPerfStressPackage = `rush build -t test-utils-perfstress`;
+const buildPerfPackage = `rush build -t test-utils-perf`;
 const rushxPack = `rushx pack`;
 
-console.log(`\nGetting perfstress package...`);
-spawn(`${navigateToPerfStressFolder} && ${buildPerfStressPackage} && ${rushxPack}`);
+console.log(`\nGetting perf package...`);
+spawn(`${navigateToPerfFolder} && ${buildPerfPackage} && ${rushxPack}`);
 
 console.log(`\nRunning "npm install"...`);
 spawn(`npm install`);

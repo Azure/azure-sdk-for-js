@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 /**
- * PerfStressParallel helps keep track of the total completed operations
+ * PerfParallel helps keep track of the total completed operations
  * and the last milliseconds elapsed on each parallel call.
  *
  * In languages supporting threads, "parallels" mean new threads created in which we run
@@ -11,7 +11,7 @@
  * promises that are executed one after the other without waiting for the previous one to finish.
  * We wait for all of the promises to resolve to consider the "parallel" execution finished.
  */
-export interface PerfStressParallel {
+export interface PerfParallel {
   /**
    * Tracks the number of completed operations during a given parallel call.
    */

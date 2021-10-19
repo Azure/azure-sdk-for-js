@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { drainStream, PerfStressOptionDictionary } from "@azure/test-utils-perfstress";
+import { drainStream, PerfOptionDictionary } from "@azure/test-utils-perf";
 import { StorageBlobTest } from "./storageTest.spec";
 import { BlockBlobClient } from "@azure/storage-blob";
 import { generateUuid } from "@azure/core-http";
@@ -11,7 +11,7 @@ interface StorageBlobDownloadTestOptions {
 }
 
 export class StorageBlobDownloadTest extends StorageBlobTest<StorageBlobDownloadTestOptions> {
-  public options: PerfStressOptionDictionary<StorageBlobDownloadTestOptions> = {
+  public options: PerfOptionDictionary<StorageBlobDownloadTestOptions> = {
     size: {
       required: true,
       description: "Size in bytes",

@@ -3,7 +3,7 @@
 
 import { createPipelineRequest, PipelineRequest } from "@azure/core-rest-pipeline";
 import { ServiceClient } from "@azure/core-client";
-import { PerfStressTest, PerfStressOptionDictionary, drainStream } from "../src";
+import { PerfTest, PerfOptionDictionary, drainStream } from "../src";
 import { getCachedHttpsAgent } from "../src/utils";
 
 interface ServiceClientGetOptions {
@@ -11,12 +11,12 @@ interface ServiceClientGetOptions {
   url: string;
 }
 
-export class ServiceClientGetTest extends PerfStressTest<ServiceClientGetOptions> {
+export class ServiceClientGetTest extends PerfTest<ServiceClientGetOptions> {
   client: ServiceClient;
   request: PipelineRequest;
   firstRun: boolean = true;
 
-  public options: PerfStressOptionDictionary<ServiceClientGetOptions> = {
+  public options: PerfOptionDictionary<ServiceClientGetOptions> = {
     "first-run-extra-requests": {
       description:
         "Extra requests to send on first run.  " +

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PerfStressOptionDictionary } from "@azure/test-utils-perfstress";
+import { PerfOptionDictionary } from "@azure/test-utils-perf";
 import { ShareFileClient } from "@azure/storage-file-share";
 import fs from "fs";
 import util from "util";
@@ -20,7 +20,7 @@ const localDirName = "temp";
 export class StorageFileShareDownloadToFileTest extends StorageFileShareTest<
   StorageFileShareDownloadTestOptions
 > {
-  public options: PerfStressOptionDictionary<StorageFileShareDownloadTestOptions> = {
+  public options: PerfOptionDictionary<StorageFileShareDownloadTestOptions> = {
     size: {
       required: true,
       description: "Size in bytes",

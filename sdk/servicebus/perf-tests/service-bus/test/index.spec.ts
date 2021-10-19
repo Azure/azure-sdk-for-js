@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PerfStressProgram, selectPerfStressTest } from "@azure/test-utils-perfstress";
+import { PerfProgram, selectPerfTest } from "@azure/test-utils-perf";
 import { BatchSendTest } from "./sendBatch.spec";
 
-console.log("=== Starting the perfStress test ===");
+console.log("=== Starting the perf test ===");
 
-const perfStressProgram = new PerfStressProgram(selectPerfStressTest([BatchSendTest]));
+const perfProgram = new PerfProgram(selectPerfTest([BatchSendTest]));
 
-perfStressProgram.run();
+perfProgram.run();

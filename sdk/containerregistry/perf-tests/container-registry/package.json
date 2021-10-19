@@ -8,7 +8,7 @@
   "license": "ISC",
   "dependencies": {
     "@azure/container-registry": "1.0.0-beta.4",
-    "@azure/test-utils-perfstress": "^1.0.0",
+    "@azure/test-utils-perf": "^1.0.0",
     "dotenv": "^8.2.0"
   },
   "devDependencies": {

@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { PerfStressOptionDictionary, getEnvVar } from "@azure/test-utils-perfstress";
+import { PerfOptionDictionary, getEnvVar } from "@azure/test-utils-perf";
 import { AggregationType } from "@azure/monitor-query";
 import { MonitorQueryMetrics } from "./monitorQueryMetrics.spec";
 
@@ -10,7 +10,7 @@ export class MetricsQueryTest extends MonitorQueryMetrics<MonitorQueryTestOption
   metricsUri: string;
   metricNames: string[];
   aggregations: AggregationType[];
-  public options: PerfStressOptionDictionary<MonitorQueryTestOptions> = {};
+  public options: PerfOptionDictionary<MonitorQueryTestOptions> = {};
   constructor() {
     super();
     this.metricsUri = getEnvVar("METRICS_RESOURCE_ID");

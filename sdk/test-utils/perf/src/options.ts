@@ -5,7 +5,7 @@ import { default as minimist, ParsedArgs as MinimistParsedArgs } from "minimist"
 import { isDefined } from "./utils";
 
 /**
- * The structure of a PerfStress option. They represent command line parameters.
+ * The structure of a Perf option. They represent command line parameters.
  */
 export interface OptionDetails<TType> {
   /**
@@ -21,7 +21,7 @@ export interface OptionDetails<TType> {
   /**
    * The longName represents a command line argument that is usually longer than the shortName,
    * and when sent through the command line, it should have two dashes `--` before the longName specified.
-   * Options don't need to define longName, since it will be derived from the properties PerfStressOptionDictionary.
+   * Options don't need to define longName, since it will be derived from the properties PerfOptionDictionary.
    */
   longName?: string;
   /**
@@ -43,22 +43,22 @@ export interface OptionDetails<TType> {
 }
 
 /**
- * A group of options is called PerfStressOptionDictionary,
+ * A group of options is called PerfOptionDictionary,
  * and is shaped as a plain object to make it easier to access them.
  *
  * `keyof TOptions` provides the names of the options. This is necessary to allow TypeScript to suggest the appropriate names
  * for the options and parsedOptions.
  */
-export type PerfStressOptionDictionary<TOptions = {}> = {
+export type PerfOptionDictionary<TOptions = {}> = {
   [longName in keyof TOptions]: OptionDetails<TOptions[longName]>;
 };
 
 /**
  * These represent the default options the tests can assume.
  *
- * @interface DefaultPerfStressOptions
+ * @interface DefaultPerfOptions
  */
-export interface DefaultPerfStressOptions {
+export interface DefaultPerfOptions {
   help: string;
   parallel: number;
   duration: number;
@@ -73,7 +73,7 @@ export interface DefaultPerfStressOptions {
 /**
  * These are the default options in full.
  */
-export const defaultPerfStressOptions: PerfStressOptionDictionary<DefaultPerfStressOptions> = {
+export const defaultPerfOptions: PerfOptionDictionary<DefaultPerfOptions> = {
   help: {
     description: "Shows all of the available options",
     shortName: "h"
@@ -125,14 +125,14 @@ export const defaultPerfStressOptions: PerfStressOptionDictionary<DefaultPerfStr
  * @param options A dictionary of options to parse using minimist.
  * @returns A new options dictionary.
  */
-export function parsePerfStressOption<TOptions>(
-  options: PerfStressOptionDictionary<TOptions>
-): Required<PerfStressOptionDictionary<TOptions>> {
+export function parsePerfOption<TOptions>(
+  options: PerfOptionDictionary<TOptions>
+): Required<PerfOptionDictionary<TOptions>> {
   const minimistResult: MinimistParsedArgs = minimist(
     process.argv,
     getBooleanOptionDetails(options)
   );
-  const result: Partial<PerfStressOptionDictionary<TOptions>> = {};
+  const result: Partial<PerfOptionDictionary<TOptions>> = {};
 
   for (const longName of Object.keys(options)) {
     // This cast is needed since we're picking up options from process.argv
@@ -150,7 +150,7 @@ export function parsePerfStressOption<TOptions>(
     if (required && !isDefined(value)) {
       throw new Error(`Option ${longName} is required`);
     }
-    // Options don't need to define longName, it can be derived from the properties PerfStressOptionDictionary.
+    // Options don't need to define longName, it can be derived from the properties PerfOptionDictionary.
     result[longName as keyof TOptions] = {
       ...option,
       longName,
@@ -158,10 +158,10 @@ export function parsePerfStressOption<TOptions>(
     };
   }
 
-  return result as Required<PerfStressOptionDictionary<TOptions>>;
+  return result as Required<PerfOptionDictionary<TOptions>>;
 }
 
-function getBooleanOptionDetails<TOptions>(options: PerfStressOptionDictionary<TOptions>) {
+function getBooleanOptionDetails<TOptions>(options: PerfOptionDictionary<TOptions>) {
   let booleanProps: { boolean: string[]; default: { [key: string]: boolean } } = {
     boolean: [],
     default: {}

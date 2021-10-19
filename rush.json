@@ -712,8 +712,8 @@
       "versionPolicyName": "utility"
     },
     {
-      "packageName": "@azure/test-utils-perfstress",
-      "projectFolder": "sdk/test-utils/perfstress",
+      "packageName": "@azure/test-utils-perf",
+      "projectFolder": "sdk/test-utils/perf",
       "versionPolicyName": "utility"
     },
     {

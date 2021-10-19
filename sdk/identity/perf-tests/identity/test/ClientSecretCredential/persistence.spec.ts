@@ -1,4 +1,4 @@
-import { PerfStressTest, getEnvVar } from "@azure/test-utils-perfstress";
+import { PerfTest, getEnvVar } from "@azure/test-utils-perf";
 import { useIdentityPlugin, ClientSecretCredential } from "@azure/identity";
 
 import { cachePersistencePlugin } from "@azure/identity-cache-persistence";
@@ -9,7 +9,7 @@ const scope = `https://servicebus.azure.net/.default`;
 /**
  * This test does silent authentication with persistence enabled.
  */
-export class ClientSecretCredentialPersistenceTest extends PerfStressTest {
+export class ClientSecretCredentialPersistenceTest extends PerfTest {
   options = {};
   static credential: ClientSecretCredential;
 

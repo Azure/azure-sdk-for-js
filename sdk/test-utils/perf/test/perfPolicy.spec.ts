@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import * as url from "url";
-import { PerfStressTest, PerfStressOptionDictionary, PerfStressPolicy } from "../src";
+import { PerfTest, PerfOptionDictionary, PerfPolicy } from "../src";
 import {
   WebResource,
   HttpOperationResponse,
@@ -10,7 +10,7 @@ import {
   RequestPolicyOptions
 } from "@azure/core-http";
 
-interface PerfStressPolicyOptions {
+interface PerfPolicyOptions {
   url: string;
 }
 
@@ -21,11 +21,11 @@ const defaultResponse = {
 };
 
 /**
- * Tests the behavior of the PerfStressPolicy.
+ * Tests the behavior of the PerfPolicy.
  * Similar to the tests available in the core-http package of the default policies provided.
  */
-export class PerfStressPolicyTest extends PerfStressTest<PerfStressPolicyOptions> {
-  public options: PerfStressOptionDictionary<PerfStressPolicyOptions> = {
+export class PerfPolicyTest extends PerfTest<PerfPolicyOptions> {
+  public options: PerfOptionDictionary<PerfPolicyOptions> = {
     url: {
       required: true,
       description: "URL that will replace any request's original targeted URL",
@@ -58,7 +58,7 @@ export class PerfStressPolicyTest extends PerfStressTest<PerfStressPolicyOptions
       }
     };
 
-    const policy = new PerfStressPolicy(
+    const policy = new PerfPolicy(
       nextPolicy,
       new RequestPolicyOptions(),
       targetUrl.host!,

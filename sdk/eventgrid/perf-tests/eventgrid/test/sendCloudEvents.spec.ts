@@ -2,10 +2,10 @@
 // Licensed under the MIT license.
 
 import {
-  PerfStressTest,
-  PerfStressOptionDictionary,
+  PerfTest,
+  PerfOptionDictionary,
   getEnvVar
-} from "@azure/test-utils-perfstress";
+} from "@azure/test-utils-perf";
 import {
   EventGridPublisherClient,
   AzureKeyCredential,
@@ -16,8 +16,8 @@ interface SendCloudEventsPerfTestOptions {
   "event-count": number;
 }
 
-export class SendCloudEventsTest extends PerfStressTest<SendCloudEventsPerfTestOptions> {
-  options: PerfStressOptionDictionary<SendCloudEventsPerfTestOptions> = {
+export class SendCloudEventsTest extends PerfTest<SendCloudEventsPerfTestOptions> {
+  options: PerfOptionDictionary<SendCloudEventsPerfTestOptions> = {
     "event-count": {
       required: true,
       description: "Number of events to send in a single request",

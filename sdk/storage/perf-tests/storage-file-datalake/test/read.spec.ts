@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { drainStream, PerfStressOptionDictionary } from "@azure/test-utils-perfstress";
+import { drainStream, PerfOptionDictionary } from "@azure/test-utils-perf";
 import { StorageDFSTest } from "./storageTest.spec";
 import { DataLakeFileClient } from "@azure/storage-file-datalake";
 import { v4 as generateUuid } from "uuid";
@@ -10,7 +10,7 @@ interface StorageDFSReadTestOptions {
 }
 
 export class StorageDFSReadTest extends StorageDFSTest<StorageDFSReadTestOptions> {
-  public options: PerfStressOptionDictionary<StorageDFSReadTestOptions> = {
+  public options: PerfOptionDictionary<StorageDFSReadTestOptions> = {
     size: {
       required: true,
       description: "Size in bytes",

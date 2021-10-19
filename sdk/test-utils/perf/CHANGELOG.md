@@ -21,7 +21,7 @@
 
 ### 2021-09-24
 
-- Instead of using the cached proxy-clients(to leverage the proxy-tool), we now get a new client for each of the instantiated PerfStressTest classes. [#17832](https://github.com/Azure/azure-sdk-for-js/pull/17832)
+- Instead of using the cached proxy-clients(to leverage the proxy-tool), we now get a new client for each of the instantiated PerfTest classes. [#17832](https://github.com/Azure/azure-sdk-for-js/pull/17832)
 
 ### 2021-09-23
 
@@ -39,8 +39,8 @@
 
 ### 2021-07-14
 
-- Removed the run method in the `PerfStressTest` class as we only deal with the async methods when it comes to performance.
+- Removed the run method in the `PerfTest` class as we only deal with the async methods when it comes to performance.
 
 ### 2020-04-22
 
-- Merged the first working implementation of perfstress.
+- Merged the first working implementation of perf.

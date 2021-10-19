@@ -1,4 +1,4 @@
-import { PerfStressTest } from "@azure/test-utils-perfstress";
+import { PerfTest } from "@azure/test-utils-perf";
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import {
   AuthorizeRequestOnChallengeOptions,
@@ -116,7 +116,7 @@ class MockRefreshAzureCredential implements TokenCredential {
   }
 }
 
-export class BearerTokenAuthenticationPolicyChallengeTest extends PerfStressTest {
+export class BearerTokenAuthenticationPolicyChallengeTest extends PerfTest {
   options = {};
 
   constructor() {

@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PerfStressTest } from "../src";
+import { PerfTest } from "../src";
 import { delay } from "@azure/core-http";
 
 /**
  * Delay500ms waits for 500 milliseconds on every test call,
- * which helps track how the PerfStress framework works internally.
+ * which helps track how the Perf framework works internally.
  *
  * Let's say this test is executed with the following parameters:
  * `--duration 4 --iterations 2`, then this test should be executed twice every 500ms, until 4 seconds are reached.
@@ -32,7 +32,7 @@ import { delay } from "@azure/core-http";
  * Completed 8 operations in a weighted-average of 4.00s (2.00 ops/s 0.501 s/op)
  * ```
  */
-export class Delay500ms extends PerfStressTest {
+export class Delay500ms extends PerfTest {
   /**
    * This test doesn't receive command line parameters.
    */

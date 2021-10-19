@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { PerfStressOptionDictionary, getEnvVar } from "@azure/test-utils-perfstress";
+import { PerfOptionDictionary, getEnvVar } from "@azure/test-utils-perf";
 import { MonitorQueryLog } from "./monitorQueryLog.spec";
 import { QueryBatch } from "@azure/monitor-query";
 
@@ -9,7 +9,7 @@ type MonitorQueryTestOptions = Record<string, unknown>;
 export class LogQueryBatchTest extends MonitorQueryLog<MonitorQueryTestOptions> {
   workspaceId: string;
   queryBatch: QueryBatch[];
-  public options: PerfStressOptionDictionary<MonitorQueryTestOptions> = {};
+  public options: PerfOptionDictionary<MonitorQueryTestOptions> = {};
   constructor() {
     super();
     this.workspaceId = getEnvVar("MONITOR_WORKSPACE_ID");

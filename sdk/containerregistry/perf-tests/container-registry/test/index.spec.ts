@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PerfStressProgram, selectPerfStressTest } from "@azure/test-utils-perfstress";
+import { PerfProgram, selectPerfTest } from "@azure/test-utils-perf";
 import { ArtifactListTest } from "./listArtifacts.spec";
 import { RepositoryListTest } from "./listRepositories.spec";
-console.log("=== Starting the perfStress test ===");
+console.log("=== Starting the perf test ===");
 
-const perfStressProgram = new PerfStressProgram(
-  selectPerfStressTest([RepositoryListTest, ArtifactListTest])
+const perfProgram = new PerfProgram(
+  selectPerfTest([RepositoryListTest, ArtifactListTest])
 );
-perfStressProgram.run();
+perfProgram.run();

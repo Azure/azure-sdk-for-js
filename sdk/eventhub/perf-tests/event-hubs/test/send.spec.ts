@@ -3,9 +3,9 @@
 
 import {
   getEnvVar,
-  PerfStressOptionDictionary,
-  PerfStressTest
-} from "@azure/test-utils-perfstress";
+  PerfOptionDictionary,
+  PerfTest
+} from "@azure/test-utils-perf";
 import { EventHubProducerClient, EventData } from "@azure/event-hubs";
 
 // Expects the .env file at the same level as the "test" folder
@@ -21,10 +21,10 @@ const connectionString = getEnvVar("EVENTHUB_CONNECTION_STRING");
 const eventHubName = getEnvVar("EVENTHUB_NAME");
 
 const producer = new EventHubProducerClient(connectionString, eventHubName);
-export class SendTest extends PerfStressTest<SendTestOptions> {
+export class SendTest extends PerfTest<SendTestOptions> {
   producer: EventHubProducerClient;
   eventBatch: EventData[];
-  public options: PerfStressOptionDictionary<SendTestOptions> = {
+  public options: PerfOptionDictionary<SendTestOptions> = {
     eventBodySize: {
       required: true,
       description: "Size in bytes",

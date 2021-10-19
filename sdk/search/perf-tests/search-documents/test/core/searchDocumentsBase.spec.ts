@@ -1,4 +1,4 @@
-import { PerfStressTest, getEnvVar } from "@azure/test-utils-perfstress";
+import { PerfTest, getEnvVar } from "@azure/test-utils-perf";
 import {
   SearchClient,
   AzureKeyCredential,
@@ -15,7 +15,7 @@ export interface SearchDocumentsTestOptions {
 
 export abstract class SearchDocumentsBase<
   TOptions = Record<string, unknown>
-> extends PerfStressTest<TOptions> {
+> extends PerfTest<TOptions> {
   searchIndexClient: SearchIndexClient;
   searchClient: SearchClient<Hotel>;
   indexName: string;

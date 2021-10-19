@@ -1,4 +1,4 @@
-import { PerfStressOptionDictionary } from "@azure/test-utils-perfstress";
+import { PerfOptionDictionary } from "@azure/test-utils-perf";
 import { SecretTest } from "./secretTest";
 import { v4 as uuid } from "uuid";
 
@@ -8,7 +8,7 @@ interface ListSecretPerfTestOptions {
 
 export class ListSecretsTest extends SecretTest<ListSecretPerfTestOptions> {
   static secretsToDelete: string[] = [];
-  options: PerfStressOptionDictionary<ListSecretPerfTestOptions> = {
+  options: PerfOptionDictionary<ListSecretPerfTestOptions> = {
     count: {
       required: false,
       description: "The number of secrets to create",

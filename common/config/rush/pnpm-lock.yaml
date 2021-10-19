@@ -128,7 +128,7 @@ specifiers:
   '@rush-temp/test-recorder': file:./projects/test-recorder.tgz
   '@rush-temp/test-recorder-new': file:./projects/test-recorder-new.tgz
   '@rush-temp/test-utils': file:./projects/test-utils.tgz
-  '@rush-temp/test-utils-perfstress': file:./projects/test-utils-perfstress.tgz
+  '@rush-temp/test-utils-perf': file:./projects/test-utils-perf.tgz
   '@rush-temp/testing-recorder-new': file:./projects/testing-recorder-new.tgz
   '@rush-temp/video-analyzer-edge': file:./projects/video-analyzer-edge.tgz
   '@rush-temp/web-pubsub': file:./projects/web-pubsub.tgz
@@ -262,7 +262,7 @@ dependencies:
   '@rush-temp/test-recorder': file:projects/test-recorder.tgz
   '@rush-temp/test-recorder-new': file:projects/test-recorder-new.tgz
   '@rush-temp/test-utils': file:projects/test-utils.tgz
-  '@rush-temp/test-utils-perfstress': file:projects/test-utils-perfstress.tgz
+  '@rush-temp/test-utils-perf': file:projects/test-utils-perf.tgz
   '@rush-temp/testing-recorder-new': file:projects/testing-recorder-new.tgz
   '@rush-temp/video-analyzer-edge': file:projects/video-analyzer-edge.tgz
   '@rush-temp/web-pubsub': file:projects/web-pubsub.tgz
@@ -13179,9 +13179,9 @@ packages:
       - utf-8-validate
     dev: false
 
-  file:projects/test-utils-perfstress.tgz:
-    resolution: {integrity: sha512-RYaN04zHouUgjzQ9x25yRE/XBAnAIADGNe1Th5m6lgEXeohWPorl+nFH3cqS5LdppUoTXnif5cL5Im0gwZ1YUA==, tarball: file:projects/test-utils-perfstress.tgz}
-    name: '@rush-temp/test-utils-perfstress'
+  file:projects/test-utils-perf.tgz:
+    resolution: {integrity: sha512-RYaN04zHouUgjzQ9x25yRE/XBAnAIADGNe1Th5m6lgEXeohWPorl+nFH3cqS5LdppUoTXnif5cL5Im0gwZ1YUA==, tarball: file:projects/test-utils-perf.tgz}
+    name: '@rush-temp/test-utils-perf'
     version: 0.0.0
     dependencies:
       '@types/minimist': 1.2.2

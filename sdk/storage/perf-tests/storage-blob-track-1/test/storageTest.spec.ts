@@ -9,13 +9,13 @@ import {
   SharedKeyCredential,
   StorageURL
 } from "@azure/storage-blob";
-import { PerfStressTest, getEnvVar } from "@azure/test-utils-perfstress";
+import { PerfTest, getEnvVar } from "@azure/test-utils-perf";
 
 // Expects the .env file at the same level
 import * as dotenv from "dotenv";
 dotenv.config();
 
-export abstract class StorageBlobTest<TOptions> extends PerfStressTest<TOptions> {
+export abstract class StorageBlobTest<TOptions> extends PerfTest<TOptions> {
   blobServiceClient: ServiceURL;
   containerClient: ContainerURL;
   static containerName = generateUuid();

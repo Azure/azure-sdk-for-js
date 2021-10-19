@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { PerfStressOptionDictionary, getEnvVar } from "@azure/test-utils-perfstress";
+import { PerfOptionDictionary, getEnvVar } from "@azure/test-utils-perf";
 import { MetricsAdvisorTest } from "./metricsAdvisor.spec";
 type MetricsAdvisorTestOptions = Record<string, unknown>;
 
 export class RootCauseTest extends MetricsAdvisorTest<MetricsAdvisorTestOptions> {
   detectionConfigId: string;
   incidentId: string;
-  public options: PerfStressOptionDictionary<MetricsAdvisorTestOptions> = {};
+  public options: PerfOptionDictionary<MetricsAdvisorTestOptions> = {};
   constructor() {
     super();
     this.detectionConfigId = getEnvVar("METRICS_ADVISOR_DETECTION_CONFIG_ID");
