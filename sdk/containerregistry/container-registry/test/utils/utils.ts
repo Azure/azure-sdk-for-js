@@ -92,7 +92,10 @@ export function createRegistryClient(
   const authorityHost = getAuthority(endpoint);
   const audience = getAudience(authorityHost);
   const tokenCredentialOptions = authorityHost ? { authorityHost } : undefined;
-  const clientOptions = { audience, serviceVersion: serviceVersion as ContainerRegistryServiceVersions };
+  const clientOptions = {
+    audience,
+    serviceVersion: serviceVersion as ContainerRegistryServiceVersions
+  };
 
   if (options.anonymous) {
     return new ContainerRegistryClient(endpoint, clientOptions);
