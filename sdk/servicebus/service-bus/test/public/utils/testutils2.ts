@@ -620,5 +620,5 @@ export function addServiceBusClientForLiveTesting(
 
 export function getRandomServiceVersion(): ServiceBusAtomAPIVersion {
   const serviceApiVersions: ServiceBusAtomAPIVersion[] = ["2021-05", "2017-04"];
-  return Math.random() > 0.5 ? serviceApiVersions[0] : serviceApiVersions[1];
+  return serviceApiVersions[Math.floor(Math.random() * 2)];
 }

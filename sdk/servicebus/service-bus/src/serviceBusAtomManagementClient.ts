@@ -114,9 +114,9 @@ export type WithResponse<T extends object> = T & {
 /**
  * Represents the client options of the `ServiceBusAdministrationClient`.
  */
-export type ServiceBusAdministrationClientOptions = PipelineOptions & {
+export interface ServiceBusAdministrationClientOptions extends PipelineOptions {
   serviceVersion?: ServiceBusAtomAPIVersion;
-};
+}
 
 /**
  * Represents the result of list operation on entities which also contains the `continuationToken` to start iterating over from.
