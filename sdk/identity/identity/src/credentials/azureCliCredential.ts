@@ -58,7 +58,7 @@ export const cliCredentialInternals = {
             resource,
             ...tenantSection
           ],
-          { cwd: cliCredentialInternals.getSafeWorkingDir() },
+          { cwd: cliCredentialInternals.getSafeWorkingDir(), shell: true },
           (error, stdout, stderr) => {
             resolve({ stdout: stdout, stderr: stderr, error });
           }
