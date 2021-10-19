@@ -1,6 +1,11 @@
 import { assert } from "chai";
 import { Context } from "mocha";
 import {
+  createTracingClient,
+  TracingClient,
+  createTracingContext,
+  knownContextKeys,
+  TracingClientImpl,
   tracerImplementation,
   NoOpSpan,
   NoOpTracer,
@@ -8,15 +13,11 @@ import {
   Tracer,
   TracingContextImpl,
   TracingSpan,
-  createTracingClient,
-  TracingClient,
-  createTracingContext,
-  TracingContext,
-  knownContextKeys
+  TracingContext
 } from "../src";
 import sinon from "sinon";
 
-describe.only("Tracer", () => {
+describe("Tracer", () => {
   describe("NoOpTracer", () => {
     let tracer: Tracer;
     const name = "test-operation";
@@ -36,57 +37,17 @@ describe.only("Tracer", () => {
         assert.exists(tracingContext);
       });
 
-      it("returns context with all existing properties");
-    });
+      it("returns context with all existing properties", () => {
+        const [key, value] = [Symbol.for("key"), "value"];
+        let context = createTracingContext().setValue(key, value);
 
-    describe("#withTrace", () => {
-      it("passes context and span to callback", async () => {
-        await tracer.withTrace(
-          name,
-          (context, span) => {
-            assert.instanceOf(span, NoOpSpan);
-            assert.exists(context);
-          },
-          {}
-        );
-      });
-
-      it("promisifies asynchronous functions", async () => {
-        const result = await tracer.withTrace(
-          name,
-          () => {
-            return 5;
-          },
-          {}
-        );
-        assert.equal(result, 5);
-      });
-
-      it("supports synchronous functions", async () => {
-        const result = await tracer.withTrace(
-          name,
-          () => {
-            return Promise.resolve(5);
-          },
-          {}
-        );
-        assert.equal(result, 5);
-      });
-
-      it("returns context with all existing properties");
-      it("sets `this` correctly", async function(this: Context) {
-        const that = this;
-
-        await tracer.withTrace(
-          name,
-          () => {
-            assert.strictEqual(this, that);
-          },
-          {},
-          that
-        );
+        const { tracingContext } = tracer.startSpan(name, { context });
+        assert.strictEqual(tracingContext.getValue(key), value);
       });
     });
+
+    // describe("#withTrace", () => {
+    // });
 
     describe("#withContext", () => {
       it("applies the callback", () => {
@@ -175,6 +136,40 @@ describe.only("Tracer", () => {
     });
   });
 
+  describe("#createTracingContext", () => {
+    it("returns a new context", () => {
+      const context = createTracingContext();
+      assert.exists(context);
+      assert.instanceOf(context, TracingContextImpl);
+    });
+
+    it("can add known attributes", () => {
+      const client = createTracingClient();
+      const span = new NoOpSpan();
+      const providerContext = createTracingContext();
+      const namespace = "test-namespace";
+      const newContext = createTracingContext({
+        client,
+        span,
+        providerContext,
+        namespace
+      });
+      assert.strictEqual(newContext.getValue(knownContextKeys.Client), client);
+      assert.strictEqual(newContext.getValue(knownContextKeys.Namespace), namespace);
+      assert.strictEqual(newContext.getValue(knownContextKeys.ProviderContext), providerContext);
+      assert.strictEqual(newContext.getValue(knownContextKeys.Span), span);
+    });
+
+    it("can be initialized from an existing context", () => {
+      const providerContext = createTracingContext().setValue(
+        knownContextKeys.Namespace,
+        "test-namespace"
+      );
+      const newContext = createTracingContext({ providerContext });
+      assert.equal(newContext.getValue(knownContextKeys.Namespace), "test-namespace");
+    });
+  });
+
   describe("defaultTracer", () => {
     it("returns NoOpTracer", () => {
       assert.instanceOf(tracerImplementation, NoOpTracer);
@@ -202,14 +197,6 @@ describe.only("Tracer", () => {
       tracer = new NoOpTracer();
       span = new NoOpSpan();
       context = createTracingContext();
-      // Set our tracer to always return the same span and context so we
-      // can inspect them.
-      tracer.startSpan = () => {
-        return {
-          span,
-          tracingContext: context
-        };
-      };
 
       useTracer(tracer);
       client = createTracingClient({
@@ -221,27 +208,16 @@ describe.only("Tracer", () => {
       sinon.restore();
     });
 
-    describe("createTracingClient", () => {
-      it("can create a tracing client with provided options", () => {
-        const tracer = new NoOpTracer();
-        const spy = sinon.spy(tracer);
-
-        const client = createTracingClient({
-          namespace: "az.namespace",
-          tracer
-        });
-        client.startSpan("test", {});
-        client.withTrace("test", () => {}, {});
-        client.withContext(() => {}, {});
-
-        assert.isTrue(spy.startSpan.called);
-        assert.isTrue(spy.withTrace.called);
-        assert.isTrue(spy.withContext.called);
-      });
-    });
-
     describe("#startSpan", () => {
       it("sets namespace on span", () => {
+        // Set our tracer to always return the same span and context so we
+        // can inspect them.
+        tracer.startSpan = () => {
+          return {
+            span,
+            tracingContext: context
+          };
+        };
         const setAttributeSpy = sinon.spy(span, "setAttribute");
         client.startSpan("test", {});
         assert.isTrue(
@@ -251,30 +227,101 @@ describe.only("Tracer", () => {
       });
 
       it("sets namespace on context", () => {
-        const { tracingContext } = client.startSpan("test", {});
-        assert.equal(tracingContext.getValue(knownContextKeys.Namespace), "Microsoft.Test");
+        const { updatedOptions } = client.startSpan("test");
+        assert.equal(
+          updatedOptions.tracingOptions?.context?.getValue(knownContextKeys.Namespace),
+          expectedNamespace
+        );
       });
     });
 
     describe("#withTrace", () => {
-      it("sets namespace on span", () => {
+      const spanName = "test-span";
+
+      it("sets namespace on span", async () => {
+        // Set our tracer to always return the same span and context so we
+        // can inspect them.
+        tracer.startSpan = () => {
+          return {
+            span,
+            tracingContext: context
+          };
+        };
         const setAttributeSpy = sinon.spy(span, "setAttribute");
-        client.withTrace("test", () => {}, {});
+        await client.withTrace(spanName, async () => {}, {});
         assert.isTrue(
           setAttributeSpy.calledWith("az.namespace", expectedNamespace),
           `expected span.setAttribute("az.namespace", "${expectedNamespace}") to have been called`
         );
       });
 
-      it("sets namespace on context", async () => {
+      it("passes options and span to callback", async () => {
         await client.withTrace(
-          "test",
-          (context) => {
-            assert.equal(context.getValue(knownContextKeys.Namespace), "Microsoft.Test");
+          spanName,
+          (options, span) => {
+            assert.instanceOf(span, NoOpSpan);
+            assert.exists(options);
+            return true;
           },
           {}
         );
       });
+
+      it("promisifies synchronous functions", async () => {
+        const result = await (client as TracingClientImpl).withTrace(spanName, () => {
+          return 5;
+        });
+        assert.equal(result, 5);
+      });
+
+      it("supports asynchronous functions", async () => {
+        const result = await client.withTrace(
+          spanName,
+          () => {
+            return Promise.resolve(5);
+          },
+          {}
+        );
+        assert.equal(result, 5);
+      });
+
+      it("returns context with all existing properties", async () => {
+        const [key, value] = [Symbol.for("key"), "value"];
+        const parentContext = createTracingContext().setValue(key, value);
+        await client.withTrace(
+          spanName,
+          (updatedOptions) => {
+            console.log(updatedOptions.tracingOptions.context);
+            assert.strictEqual(updatedOptions.tracingOptions.context.getValue(key), value);
+          },
+          {
+            tracingOptions: {
+              context: parentContext
+            }
+          }
+        );
+      });
+
+      it("sets `this` correctly", async function(this: Context) {
+        const that = this;
+
+        await client.withTrace(
+          spanName,
+          () => {
+            assert.strictEqual(this, that);
+          },
+          {},
+          this
+        );
+      });
     });
   });
+
+  // describe("#withContext", () => {
+  //   it("delegates to the provider's withContext", async () => {
+  //     const providerSpy = sinon.spy(tracer, "withContext");
+  //     await client.withContext(() => {}, { context });
+  //     assert.isTrue(providerSpy.calledWith(sinon.match.any, { context }));
+  //   });
+  // });
 });
