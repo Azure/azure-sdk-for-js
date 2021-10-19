@@ -64,7 +64,10 @@ export type ProxyToolSanitizers =
   | "Reset";
 
 /**
- * Keywords that should be passed as part of the headers to the proxy-tool to be able to leverage the sanitizer.
+ * Maps the sanitizer options to the header value expected by the proxy-tool
+ * 
+ * Keys   = Keys of the SanitizerOptions(excluding `connectionStringSanitizers`)
+ * Values = Keywords that should be passed as part of the headers to the proxy-tool to be able to leverage the sanitizer.
  */
 export const sanitizerKeywordMapping: Record<
   Exclude<keyof SanitizerOptions, "connectionStringSanitizers">,
