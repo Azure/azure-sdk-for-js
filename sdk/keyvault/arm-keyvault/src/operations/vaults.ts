@@ -619,9 +619,6 @@ const updateAccessPolicyOperationSpec: msRest.OperationSpec = {
     201: {
       bodyMapper: Mappers.VaultAccessPolicyParameters
     },
-    404: {
-      bodyMapper: Mappers.CloudError
-    },
     default: {
       bodyMapper: Mappers.CloudError
     }
@@ -833,9 +830,6 @@ const beginPurgeDeletedOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {},
     202: {},
-    404: {
-      bodyMapper: Mappers.CloudError
-    },
     default: {
       bodyMapper: Mappers.CloudError
     }
