@@ -2,7 +2,7 @@ import { HttpClient } from "@azure/core-rest-pipeline";
 import { createPipelineRequest, HttpMethods } from "@azure/core-rest-pipeline";
 import { getRealAndFakePairs } from "./utils/connectionStringHelpers";
 import { paths } from "./utils/paths";
-import { RecorderError, SanitizerOptions } from "./utils/utils";
+import { ProxyToolSanitizers, RecorderError, SanitizerOptions } from "./utils/utils";
 
 /**
  * Sanitizer class to handle communication with the proxy-tool relating to the sanitizers adding/resetting, etc.
@@ -58,13 +58,16 @@ export class Sanitizer {
       );
     }
     if (options.generalRegexSanitizers) {
-      for (const replacer of options.generalRegexSanitizers) {
-        await this.addSanitizer({
-          sanitizer: "GeneralRegexSanitizer",
-          body: JSON.stringify(replacer)
-        });
-      }
+      await Promise.all(
+        options.generalRegexSanitizers.map((replacer) =>
+          this.addSanitizer({
+            sanitizer: "GeneralRegexSanitizer",
+            body: JSON.stringify(replacer)
+          })
+        )
+      );
     }
+
     if (options.removeHeaderSanitizer) {
       this.addSanitizer({
         sanitizer: "RemoveHeaderSanitizer",
@@ -173,17 +176,7 @@ export class Sanitizer {
    * @param options
    */
   private async addSanitizer(options: {
-    sanitizer:
-      | "GeneralRegexSanitizer"
-      | "RemoveHeaderSanitizer"
-      | "BodyKeySanitizer"
-      | "BodyRegexSanitizer"
-      | "ContinuationSanitizer"
-      | "HeaderRegexSanitizer"
-      | "OAuthResponseSanitizer"
-      | "UriRegexSanitizer"
-      | "UriSubscriptionIdSanitizer"
-      | "Reset";
+    sanitizer: ProxyToolSanitizers;
     body: string | undefined;
   }): Promise<void> {
     if (this.recordingId !== undefined) {

@@ -47,6 +47,42 @@ export class RecordingStateManager {
 }
 
 /**
+ * Keywords that should be passed as part of the headers(except for "Reset") to the proxy-tool to be able to leverage the sanitizer.
+ *
+ * "x-abstraction-identifier" - header
+ */
+export type ProxyToolSanitizers =
+  | "GeneralRegexSanitizer"
+  | "RemoveHeaderSanitizer"
+  | "BodyKeySanitizer"
+  | "BodyRegexSanitizer"
+  | "ContinuationSanitizer"
+  | "HeaderRegexSanitizer"
+  | "OAuthResponseSanitizer"
+  | "UriRegexSanitizer"
+  | "UriSubscriptionIdSanitizer"
+  | "Reset";
+
+/**
+ * Keywords that should be passed as part of the headers to the proxy-tool to be able to leverage the sanitizer.
+ */
+export const sanitizerKeywordMapping: Record<
+  Exclude<keyof SanitizerOptions, "connectionStringSanitizers">,
+  ProxyToolSanitizers
+> = {
+  bodyKeySanitizers: "BodyKeySanitizer",
+  bodyRegexSanitizers: "BodyRegexSanitizer",
+  continuationSanitizers: "ContinuationSanitizer",
+  generalRegexSanitizers: "GeneralRegexSanitizer",
+  headerRegexSanitizers: "HeaderRegexSanitizer",
+  oAuthResponseSanitizer: "OAuthResponseSanitizer",
+  removeHeaderSanitizer: "RemoveHeaderSanitizer",
+  resetSanitizer: "Reset",
+  uriRegexSanitizers: "UriRegexSanitizer",
+  uriSubscriptionIdSanitizer: "UriSubscriptionIdSanitizer"
+};
+
+/**
  * Test-proxy tool supports "extensions" or "customizations" to the recording experience.
  * This means that non-default sanitizations such as the generalized regex find/replace on different parts of the recordings in various ways are possible.
  */
