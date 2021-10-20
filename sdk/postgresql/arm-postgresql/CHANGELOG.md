@@ -1,4 +1,16 @@
-## 6.0.0-beta.1 (2021-10-19)
+## Release History
+
+### 6.0.0-beta.2 (Unreleased)
+
+#### Features Added
+
+#### Breaking Changes
+
+#### Bugs Fixed
+
+#### Other Changes
+
+### 6.0.0-beta.1 (2021-10-19)
 
 This is the first preview for the new version of the `@azure/arm-postgresql` package that follows the new [guidelines for TypeScript SDKs](https://azure.github.io/azure-sdk/typescript_introduction.html) for Azure services.
 
