@@ -21,7 +21,7 @@ export class SearchDocumentsTest extends SearchDocumentsBase<SearchDocumentsTest
     await super.populateIndex(this.parsedOptions.documentsCount.value!);
   }
 
-  async runAsync(): Promise<void> {
+  async run(): Promise<void> {
     await this.searchClient.search("");
   }
 }

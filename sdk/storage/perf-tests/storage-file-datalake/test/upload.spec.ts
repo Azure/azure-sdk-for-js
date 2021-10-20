@@ -30,7 +30,7 @@ export class StorageDFSUploadTest extends StorageDFSTest<StorageFileShareUploadT
     this.buffer = Buffer.alloc(this.parsedOptions.size.value!);
   }
 
-  async runAsync(): Promise<void> {
+  async run(): Promise<void> {
     await this.fileClient.upload(this.buffer);
   }
 }

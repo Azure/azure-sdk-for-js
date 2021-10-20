@@ -9,7 +9,7 @@ export class RepositoryListTest extends ContainerRegistryTest<ContainerRegistryT
     super();
   }
 
-  async runAsync(): Promise<void> {
+  async run(): Promise<void> {
     const listIterator = this.client.listRepositoryNames();
 
     // eslint-disable-next-line no-empty

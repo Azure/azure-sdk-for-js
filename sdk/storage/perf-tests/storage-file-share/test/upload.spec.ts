@@ -32,7 +32,7 @@ export class StorageFileShareUploadTest extends StorageFileShareTest<
     this.buffer = Buffer.alloc(this.parsedOptions.size.value!);
   }
 
-  async runAsync(): Promise<void> {
+  async run(): Promise<void> {
     await this.fileClient.uploadData(this.buffer);
   }
 }

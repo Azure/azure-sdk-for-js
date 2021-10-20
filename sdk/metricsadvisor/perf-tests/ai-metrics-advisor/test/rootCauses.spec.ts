@@ -14,7 +14,7 @@ export class RootCauseTest extends MetricsAdvisorTest<MetricsAdvisorTestOptions>
     this.incidentId = getEnvVar("METRICS_ADVISOR_INCIDENT_ID");
   }
 
-  async runAsync(): Promise<void> {
+  async run(): Promise<void> {
     const result = await this.client.getIncidentRootCauses(this.detectionConfigId, this.incidentId);
     // eslint-disable-next-line no-empty
     for (const _rootcause of result.rootCauses) {

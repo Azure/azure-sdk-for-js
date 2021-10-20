@@ -30,7 +30,7 @@ export class StorageBlobUploadTest extends StorageBlobTest<StorageBlobUploadTest
     this.buffer = Buffer.alloc(this.parsedOptions.size.value!);
   }
 
-  async runAsync(): Promise<void> {
+  async run(): Promise<void> {
     await this.blockBlobClient.upload(Aborter.none, this.buffer, this.parsedOptions.size.value!);
   }
 }

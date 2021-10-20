@@ -35,7 +35,7 @@ export abstract class CertificateTest extends PerfTest {
 export class GetCertificateTest extends CertificateTest {
   public options = {};
 
-  async runAsync(): Promise<void> {
+  async run(): Promise<void> {
     await this.certificateClient.getCertificate(CertificateTest.certificateName);
   }
 }

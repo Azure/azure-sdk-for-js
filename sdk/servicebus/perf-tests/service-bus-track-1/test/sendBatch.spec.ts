@@ -38,7 +38,7 @@ export class BatchSendTest extends ServiceBusTest<SendTestOptions> {
     this.batch = new Array(this.parsedOptions.numberOfMessages.value!).fill(sbMessage);
   }
 
-  async runAsync(): Promise<void> {
+  async run(): Promise<void> {
     await BatchSendTest.sender.sendBatch(this.batch);
   }
 }

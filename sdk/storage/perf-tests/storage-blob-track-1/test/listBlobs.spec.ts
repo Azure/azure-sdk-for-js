@@ -31,7 +31,7 @@ export class StorageBlobListTest extends StorageBlobTest<StorageBlobListTestOpti
     );
   }
 
-  async runAsync(): Promise<void> {
+  async run(): Promise<void> {
     // List blobs
     let marker = undefined;
     do {

@@ -50,7 +50,7 @@ export class StorageFileShareUploadFromFileTest extends StorageFileShareTest<
     await super.globalCleanup();
   }
 
-  async runAsync(): Promise<void> {
+  async run(): Promise<void> {
     await this.fileClient.uploadFile(localFileName);
   }
 }

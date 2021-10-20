@@ -31,7 +31,7 @@ export class CreateSimpleEntityBatchTest extends TablesTest<
     await super.globalCleanup();
   }
 
-  async runAsync(): Promise<void> {
+  async run(): Promise<void> {
     const batches: TransactionAction[][] = createBatch(
       "simple",
       this.parsedOptions.batchSize.value!

@@ -43,7 +43,7 @@ export abstract class KeyTest extends PerfTest<KeyPerfTestOptions> {
 }
 
 export class GetKeyTest extends KeyTest {
-  async runAsync(): Promise<void> {
+  async run(): Promise<void> {
     await this.keyClient.getKey(KeyTest.keyName);
   }
 }

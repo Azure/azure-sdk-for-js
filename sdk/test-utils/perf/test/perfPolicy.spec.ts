@@ -32,7 +32,7 @@ export class PerfPolicyTest extends PerfTest<PerfPolicyOptions> {
       shortName: "u"
     }
   };
-  async runAsync(): Promise<void> {
+  async run(): Promise<void> {
     const targetUrl = url.parse(this.parsedOptions.url.value!);
     const differentUrl = url.parse(this.parsedOptions.url.value!);
     differentUrl.host = `not-${differentUrl.host}`;

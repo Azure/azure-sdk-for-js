@@ -40,7 +40,7 @@ export class ListSecretsTest extends SecretTest<ListSecretPerfTestOptions> {
     await Promise.all(secretToCreate);
   }
 
-  async runAsync(): Promise<void> {
+  async run(): Promise<void> {
     // eslint-disable-next-line no-empty
     for await (const _secret of this.secretClient.listPropertiesOfSecrets()) {
     }

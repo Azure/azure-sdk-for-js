@@ -32,7 +32,7 @@ export class StorageDFSAppendTest extends StorageDFSTest<StorageDFSAppendTestOpt
     await this.fileClient.create();
   }
 
-  async runAsync(): Promise<void> {
+  async run(): Promise<void> {
     await this.fileClient.append(this.buffer, 0, this.parsedOptions.size.value!);
   }
 }

@@ -49,7 +49,7 @@ export class ServiceClientGetTest extends PerfTest<ServiceClientGetOptions> {
     }
   }
 
-  async runAsync(): Promise<void> {
+  async run(): Promise<void> {
     var response;
 
     if (this.firstRun) {

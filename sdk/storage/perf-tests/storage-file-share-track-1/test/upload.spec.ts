@@ -35,7 +35,7 @@ export class StorageFileShareUploadTest extends StorageFileShareTest<
     await this.fileClient.create(Aborter.none, this.parsedOptions.size.value!);
   }
 
-  async runAsync(): Promise<void> {
+  async run(): Promise<void> {
     await this.fileClient.uploadRange(Aborter.none, this.buffer, 0, this.parsedOptions.size.value!);
   }
 }

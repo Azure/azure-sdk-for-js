@@ -71,7 +71,7 @@ export abstract class PerfTest<TOptions = {}> {
   public setup?(): void | Promise<void>;
   public cleanup?(): void | Promise<void>;
 
-  public async runAsync?(abortSignal?: AbortSignalLike): Promise<void>;
+  public async run?(abortSignal?: AbortSignalLike): Promise<void>;
 
   /**
    * configureClientOptionsCoreV1

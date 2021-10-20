@@ -193,7 +193,7 @@ export class BearerTokenAuthenticationPolicyChallengeTest extends PerfTest {
     };
   }
 
-  async runAsync(): Promise<void> {
+  async run(): Promise<void> {
     const { pipeline, testHttpsClient, request } = BearerTokenAuthenticationPolicyChallengeTest;
     await pipeline!.sendRequest(testHttpsClient!, request!);
   }

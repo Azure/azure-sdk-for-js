@@ -16,7 +16,7 @@ export class LogQueryTest extends MonitorQueryLog<MonitorQueryTestOptions> {
       "AppRequests | summarize avgRequestDuration=avg(DurationMs) by bin(TimeGenerated, 10m), _ResourceId";
   }
 
-  async runAsync(): Promise<void> {
+  async run(): Promise<void> {
     await this.client.queryWorkspace(this.workspaceId, this.query, {
       startTime: new Date("2021-07-25"),
       endTime: new Date("2021-07-26")

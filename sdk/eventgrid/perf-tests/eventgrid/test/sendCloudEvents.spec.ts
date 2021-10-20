@@ -47,7 +47,7 @@ export class SendCloudEventsTest extends PerfTest<SendCloudEventsPerfTestOptions
     this.client = new EventGridPublisherClient(endpoint, "CloudEvent", new AzureKeyCredential(key));
   }
 
-  async runAsync(): Promise<void> {
+  async run(): Promise<void> {
     await this.client.send(this.events);
   }
 }

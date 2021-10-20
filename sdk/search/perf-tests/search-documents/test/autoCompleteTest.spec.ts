@@ -21,7 +21,7 @@ export class AutoCompleteTest extends SearchDocumentsBase<SearchDocumentsTestOpt
     await super.populateIndex(this.parsedOptions.documentsCount.value!);
   }
 
-  async runAsync(): Promise<void> {
+  async run(): Promise<void> {
     await this.searchClient.autocomplete("historic", this.suggesterName);
   }
 }

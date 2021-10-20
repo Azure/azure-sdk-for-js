@@ -47,5 +47,5 @@ export class SetupCleanupTest extends PerfTest {
     }
   }
 
-  async runAsync() {}
+  async run() {}
 }

@@ -201,7 +201,7 @@ export class `ServiceNameAPIName`Test extends ServiceNameTest {
     // Add any additional setup
   }
 
-  async runAsync(): Promise<void> {
+  async run(): Promise<void> {
     // call the method on `serviceNameClient` that you're interested in testing
   }
 }
@@ -231,8 +231,8 @@ export class `ServiceNameAPIName`Test extends ServiceNameTest<`ServiceNameAPINam
     }
   };
 
-  async runAsync(): Promise<void> {
-    // You can leverage the parsedOptions in the setup or globalSetup or runAsync methods as shown below.
+  async run(): Promise<void> {
+    // You can leverage the parsedOptions in the setup or globalSetup or run methods as shown below.
     // this.parsedOptions.duration.value!
     // this.parsedOptions.newOption.value!
   }

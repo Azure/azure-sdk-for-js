@@ -32,7 +32,7 @@ export class NodeFetchTest extends PerfTest<NodeFetchOptions> {
     this.url = this.options.url.value as string;
   }
 
-  async runAsync(): Promise<void> {
+  async run(): Promise<void> {
     const response = await fetch(this.url, NodeFetchTest.fetchOptions);
     await response.text();
   }

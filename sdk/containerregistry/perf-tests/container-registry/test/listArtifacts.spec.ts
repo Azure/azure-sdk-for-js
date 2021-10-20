@@ -12,7 +12,7 @@ export class ArtifactListTest extends ContainerRegistryTest<ContainerRegistryTes
     this.repository = this.client.getRepository(getEnvVar("REPOSITORY_NAME"));
   }
 
-  async runAsync(): Promise<void> {
+  async run(): Promise<void> {
     const listIterator = this.repository.listManifestProperties();
 
     for await (const manifest of listIterator) {

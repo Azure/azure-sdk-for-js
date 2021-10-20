@@ -21,7 +21,7 @@ export class IndexDocumentsTest extends SearchDocumentsBase<SearchDocumentsTestO
     this.hotels = generateHotels(this.parsedOptions.documentsCount.value!);
   }
 
-  async runAsync(): Promise<void> {
+  async run(): Promise<void> {
     for (let i = 0; i < this.hotels.length; i++) {
       this.hotels[i].hotelId = Math.floor(
         Math.random() * (this.hotels.length * 2 - this.hotels.length + 1) + this.hotels.length

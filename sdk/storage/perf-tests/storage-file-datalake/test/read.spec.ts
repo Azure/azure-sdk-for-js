@@ -32,7 +32,7 @@ export class StorageDFSReadTest extends StorageDFSTest<StorageDFSReadTestOptions
     await this.fileClient.upload(Buffer.alloc(this.parsedOptions.size.value!));
   }
 
-  async runAsync(): Promise<void> {
+  async run(): Promise<void> {
     const ReadResponse = await this.fileClient.read();
     await drainStream(ReadResponse.readableStreamBody!);
   }

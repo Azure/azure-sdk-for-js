@@ -18,7 +18,7 @@ export class MetricsQueryTest extends MonitorQueryMetrics<MonitorQueryTestOption
     this.aggregations = ["Count"];
   }
 
-  async runAsync(): Promise<void> {
+  async run(): Promise<void> {
     await this.client.queryResource(this.metricsUri, this.metricNames, {
       aggregations: this.aggregations
     });

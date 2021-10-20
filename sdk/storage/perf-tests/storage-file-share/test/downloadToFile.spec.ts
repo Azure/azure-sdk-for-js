@@ -51,7 +51,7 @@ export class StorageFileShareDownloadToFileTest extends StorageFileShareTest<
     await deleteFile(`${localDirName}/${this.localFileName}`);
   }
 
-  async runAsync(): Promise<void> {
+  async run(): Promise<void> {
     await this.fileClient.downloadToFile(`${localDirName}/${this.localFileName}`, 0);
   }
 }

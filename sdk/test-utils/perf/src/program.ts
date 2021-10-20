@@ -137,12 +137,12 @@ export class PerfProgram {
     durationMilliseconds: number,
     abortController: AbortController
   ): Promise<void> {
-    if (!test.runAsync) {
-      throw new Error(`The "runAsync" method is missing in the test ${this.testName}`);
+    if (!test.run) {
+      throw new Error(`The "run" method is missing in the test ${this.testName}`);
     }
     const start = process.hrtime();
     while (!abortController.signal.aborted) {
-      await test.runAsync(abortController.signal);
+      await test.run(abortController.signal);
 
       const elapsed = process.hrtime(start);
       const elapsedMilliseconds = elapsed[0] * 1000 + elapsed[1] / 1000000;
@@ -287,7 +287,7 @@ export class PerfProgram {
     }
 
     if (this.tests[0].parsedOptions["test-proxies"].value) {
-      // Records requests(in runAsync method) for all the instantiated PerfTest classes,
+      // Records requests(in the run method) for all the instantiated PerfTest classes,
       // and asks the proxy-tool to start playing back for future requests.
       await Promise.all(this.tests.map((test) => this.recordAndStartPlayback(test)));
     }
@@ -326,7 +326,7 @@ export class PerfProgram {
 
   /**
    * This method records the requests-responses and lets the proxy-server know when to playback.
-   * We run runAsync once in record mode to save the requests and responses in memory and then a ton of times in playback.
+   * We run run() once in record mode to save the requests and responses in memory and then a ton of times in playback.
    *
    * ## Workflow of the perf test
    * - test resources are setup
@@ -334,7 +334,7 @@ export class PerfProgram {
    * - then start record
    *   - making a request to the proxy server to start recording
    *   - proxy server gives a recording id, we'll use this id to save the actual requests and responses
-   * - run the runAsync once
+   * - run the run method once
    *   - proxy-server saves all the requests and responses in memory
    * - stop record
    *   - making a request to the proxy server to stop recording
@@ -342,17 +342,17 @@ export class PerfProgram {
    *   - making a request to the proxy server to start playback
    *   - we use the same recording-id that we used in the record mode since that's the only way proxy-server knows what requests are supposed to be played back
    *   - as a response, we get a new recording-id, which will be used for future playback requests
-   * - run runAsync again
+   * - run the run method again
    *   - based on the duration, iterations, and parallel options provided for the perf test
-   *   - all the requests in the runAsync method are played back since we have already recorded them before
-   * - when the runAsync loops end, stop playback
+   *   - all the requests in the run method are played back since we have already recorded them before
+   * - when the run loops end, stop playback
    *   - making a request to the proxy server to stop playing back
    * - delete the live resources that we have created before
    */
   private async recordAndStartPlayback(test: PerfTest) {
     // If test-proxy,
     // => then start record
-    // => run the runAsync
+    // => call the run method
     // => stop record
     // => start playback
     let recorder: TestProxyHttpClientV1 | TestProxyHttpClient;
@@ -367,11 +367,11 @@ export class PerfProgram {
     }
 
     // Call Run() once before starting recording, to avoid capturing one-time setup like authorization requests.
-    await test.runAsync!();
+    await test.run!();
 
     await recorder.startRecording();
     recorder._mode = "record";
-    await test.runAsync!();
+    await test.run!();
 
     await recorder.stopRecording();
     await recorder.startPlayback();

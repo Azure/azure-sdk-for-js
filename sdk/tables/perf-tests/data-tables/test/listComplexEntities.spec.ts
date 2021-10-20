@@ -37,7 +37,7 @@ export class ListComplexEntitiesTest extends TablesTest<ListComplexEntitiesTestO
     await super.globalCleanup();
   }
 
-  async runAsync(): Promise<void> {
+  async run(): Promise<void> {
     const iter = this.client.listEntities();
     const entities: TableEntityResult<Record<string, unknown>>[] = [];
 

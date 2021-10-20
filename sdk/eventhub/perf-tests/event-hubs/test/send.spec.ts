@@ -54,7 +54,7 @@ export class SendTest extends PerfTest<SendTestOptions> {
     await this.producer.close();
   }
 
-  async runAsync(): Promise<void> {
+  async run(): Promise<void> {
     await this.producer.sendBatch(this.eventBatch);
   }
 }

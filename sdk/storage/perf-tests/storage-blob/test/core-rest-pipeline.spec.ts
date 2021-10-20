@@ -22,7 +22,7 @@ export class CoreHTTPSDownloadWithSASTest extends StorageBlobDownloadWithSASTest
     });
   }
 
-  async runAsync(): Promise<void> {
+  async run(): Promise<void> {
     const response = await this.client.sendRequest(this.request);
     await drainStream(response.readableStreamBody!);
   }

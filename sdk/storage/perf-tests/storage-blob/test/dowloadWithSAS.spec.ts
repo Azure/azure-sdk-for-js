@@ -70,7 +70,7 @@ export class StorageBlobDownloadWithSASTest extends StorageBlobTest<
     );
   }
 
-  async runAsync(): Promise<void> {
+  async run(): Promise<void> {
     const downloadResponse = await this.blobClientFromSAS.download();
     await drainStream(downloadResponse.readableStreamBody!);
   }

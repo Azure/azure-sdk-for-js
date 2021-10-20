@@ -18,7 +18,7 @@ export class CreateComplexEntityTest extends TablesTest {
     await super.globalCleanup();
   }
 
-  async runAsync(): Promise<void> {
+  async run(): Promise<void> {
     const complexEntity: TableEntity = createComplexEntity();
     await this.client.createEntity(complexEntity);
   }

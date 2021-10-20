@@ -12,7 +12,7 @@ export class NodeFetchDownloadWithSASTest extends StorageBlobDownloadWithSASTest
     this.agent = new https.Agent({ keepAlive: true });
   }
 
-  async runAsync(): Promise<void> {
+  async run(): Promise<void> {
     const response = await node_fetch(this.sasUrl, { agent: this.agent });
     await drainStream(response.body);
   }

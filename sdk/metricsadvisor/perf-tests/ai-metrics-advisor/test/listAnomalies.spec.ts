@@ -14,7 +14,7 @@ export class AnomaliesListTest extends MetricsAdvisorTest<MetricsAdvisorTestOpti
     this.alertConfigId = getEnvVar("METRICS_ADVISOR_ALERT_CONFIG_ID");
   }
 
-  async runAsync(): Promise<void> {
+  async run(): Promise<void> {
     const listIterator = this.client.listAnomalies({
       alertConfigId: this.alertConfigId,
       id: this.alertId

@@ -83,7 +83,7 @@ export class CustomModelRecognitionTest extends PerfTest<BeginRecognizeCustomFor
     }
   }
 
-  async runAsync(): Promise<void> {
+  async run(): Promise<void> {
     const modelId = CustomModelRecognitionTest.sessionModel?.modelId;
     if (!modelId) {
       return unreachable("Failed to initialize model.");

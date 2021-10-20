@@ -34,7 +34,7 @@ export class ClientSecretCredentialPersistenceTest extends PerfTest {
     ClientSecretCredentialPersistenceTest.credential = credential;
   }
 
-  async runAsync(): Promise<void> {
+  async run(): Promise<void> {
     await ClientSecretCredentialPersistenceTest.credential.getToken(scope);
   }
 }

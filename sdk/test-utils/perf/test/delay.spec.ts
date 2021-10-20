@@ -41,7 +41,7 @@ export class Delay500ms extends PerfTest {
   /**
    * Waits 500 milliseconds.
    */
-  async runAsync(): Promise<void> {
+  async run(): Promise<void> {
     await delay(500);
   }
 }

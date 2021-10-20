@@ -39,7 +39,7 @@ export class ListSettingsTest extends AppConfigTest<ListTestOptions> {
     );
   }
 
-  async runAsync(): Promise<void> {
+  async run(): Promise<void> {
     for await (const response of this.client
       .listConfigurationSettings({ keyFilter: ListSettingsTest.prefix + "*" })
       .byPage()) {

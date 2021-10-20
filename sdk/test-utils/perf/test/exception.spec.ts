@@ -11,7 +11,7 @@ import { PerfTest } from "../src";
 export class Exception extends PerfTest {
   public options = {};
 
-  async runAsync(): Promise<void> {
+  async run(): Promise<void> {
     try {
       throw new Error();
     } catch (e) {

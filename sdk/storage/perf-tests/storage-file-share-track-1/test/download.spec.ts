@@ -42,7 +42,7 @@ export class StorageFileShareDownloadTest extends StorageFileShareTest<
     await this.fileClient.uploadRange(Aborter.none, this.buffer, 0, this.parsedOptions.size.value!);
   }
 
-  async runAsync(): Promise<void> {
+  async run(): Promise<void> {
     const downloadResponse = await this.fileClient.download(Aborter.none, 0);
     await drainStream(downloadResponse.readableStreamBody!);
   }

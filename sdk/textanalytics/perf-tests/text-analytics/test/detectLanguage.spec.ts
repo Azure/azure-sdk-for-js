@@ -49,7 +49,7 @@ export class DetectLanguageTest extends PerfTest<DetectLanguagePerfTestOptions> 
     this.client = new TextAnalyticsClient(endpoint, credential);
   }
 
-  async runAsync(): Promise<void> {
+  async run(): Promise<void> {
     await this.client.detectLanguage(this.docs, "en");
   }
 }

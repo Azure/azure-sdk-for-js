@@ -34,7 +34,7 @@ export class LogQueryBatchTest extends MonitorQueryLog<MonitorQueryTestOptions> 
     ];
   }
 
-  async runAsync(): Promise<void> {
+  async run(): Promise<void> {
     await this.client.queryBatch(this.queryBatch);
   }
 }

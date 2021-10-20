@@ -21,7 +21,7 @@ export class SleepTest extends PerfTest {
     this.secondsPerOperation = Math.pow(2, SleepTest.instanceCount);
   }
 
-  async runAsync(): Promise<void> {
+  async run(): Promise<void> {
     await delay(this.secondsPerOperation * 1000);
   }
 }

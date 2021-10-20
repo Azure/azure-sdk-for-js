@@ -21,7 +21,7 @@ export class SuggestTest extends SearchDocumentsBase<SearchDocumentsTestOptions>
     await super.populateIndex(this.parsedOptions.documentsCount.value!);
   }
 
-  async runAsync(): Promise<void> {
+  async run(): Promise<void> {
     await this.searchClient.suggest("historic", this.suggesterName);
   }
 }
