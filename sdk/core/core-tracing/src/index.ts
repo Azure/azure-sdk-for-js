@@ -95,7 +95,6 @@ export interface TracingClientOptions {
 export class TracingClientImpl implements TracingClient {
   private _namespace: string;
   private _tracer: Tracer;
-  // make this optional and then check...
   constructor(options?: TracingClientOptions) {
     this._namespace = options?.namespace || "";
     this._tracer = options?.tracer || tracerImplementation;
@@ -133,7 +132,14 @@ export class TracingClientImpl implements TracingClient {
     let { span, updatedOptions } = this.startSpan(name, options);
     try {
       span.setStatus({ status: "success" });
-      return await Promise.resolve(fn.call(callbackThis, updatedOptions, span));
+      const result = await this.withContext(
+        async () => {
+          return await Promise.resolve(fn.call(callbackThis, updatedOptions, span));
+        },
+        updatedOptions?.tracingOptions || {},
+        callbackThis
+      );
+      return result;
     } catch (err) {
       span.setStatus({ status: "error", error: err });
       throw err;
