@@ -292,7 +292,7 @@ export class WebPubSubServiceClient {
       },
       ...(isTokenCredential(this.credential)
         ? {
-            credential: isTokenCredential(this.credential) ? this.credential : undefined,
+            credential: this.credential,
             credentialScopes: ["https://webpubsub.azure.com/.default"]
           }
         : {})
