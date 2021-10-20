@@ -1,6 +1,6 @@
 let nock = require('nock');
 
-module.exports.hash = "c923c157e4f22a44bd939a63c8b3378a";
+module.exports.hash = "71ae618c02b1a3abb2bc19443fbfbf1c";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
@@ -13,7 +13,7 @@ nock('https://rp-endpoint:443', {"encodedQueryParams":true})
   'Strict-Transport-Security',
   'max-age=15724800; includeSubDomains',
   'Date',
-  'Mon, 13 Sep 2021 20:55:21 GMT',
+  'Wed, 20 Oct 2021 16:55:29 GMT',
   'Content-Length',
   '0'
 ]);
@@ -27,7 +27,7 @@ nock('https://rp-endpoint:443', {"encodedQueryParams":true})
   'Strict-Transport-Security',
   'max-age=15724800; includeSubDomains',
   'Date',
-  'Mon, 13 Sep 2021 20:55:21 GMT',
+  'Wed, 20 Oct 2021 16:55:29 GMT',
   'Content-Length',
   '0'
 ]);
@@ -41,7 +41,7 @@ nock('https://rp-endpoint:443', {"encodedQueryParams":true})
   'Strict-Transport-Security',
   'max-age=15724800; includeSubDomains',
   'Date',
-  'Mon, 13 Sep 2021 20:55:21 GMT',
+  'Wed, 20 Oct 2021 16:55:29 GMT',
   'Content-Length',
   '0'
 ]);
