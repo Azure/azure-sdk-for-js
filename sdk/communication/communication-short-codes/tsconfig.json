@@ -1,0 +1,17 @@
+{
+  "extends": "../../../tsconfig.package",
+  "compilerOptions": {
+    "outDir": "./dist-esm/src",
+    "declarationDir": "./types/src",
+    "paths": {
+      "@azure-tools/communication-short-numbers": [
+        "./src/index"
+      ]
+    }
+  },
+  "include": [
+    "src/**/*.ts",
+    "test/**/*.ts",
+    "samples-dev/**/*.ts"
+  ]
+}
