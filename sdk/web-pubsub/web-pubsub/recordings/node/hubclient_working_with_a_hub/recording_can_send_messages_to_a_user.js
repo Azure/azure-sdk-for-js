@@ -1,6 +1,6 @@
 let nock = require('nock');
 
-module.exports.hash = "361c9509cd3971c97ef38170fb523f80";
+module.exports.hash = "b918001ae52fe6973a983d7ceb40459f";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
@@ -9,7 +9,7 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   .query(true)
   .reply(202, "", [
   'Date',
-  'Thu, 22 Apr 2021 16:33:15 GMT',
+  'Wed, 20 Oct 2021 18:53:20 GMT',
   'Content-Length',
   '0',
   'Connection',
@@ -23,7 +23,7 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   .query(true)
   .reply(202, "", [
   'Date',
-  'Thu, 22 Apr 2021 16:33:15 GMT',
+  'Wed, 20 Oct 2021 18:53:20 GMT',
   'Content-Length',
   '0',
   'Connection',
@@ -37,7 +37,7 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   .query(true)
   .reply(202, "", [
   'Date',
-  'Thu, 22 Apr 2021 16:33:15 GMT',
+  'Wed, 20 Oct 2021 18:53:20 GMT',
   'Content-Length',
   '0',
   'Connection',
