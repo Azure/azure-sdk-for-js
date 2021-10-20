@@ -28,6 +28,7 @@ export const commandInfo = makeCommandInfo(
 );
 
 export default leafCommand(commandInfo, async (_options) => {
+  // Add options to enable/disable logs
   // Allow providing port
   // Volume will be hard-coded - will be evalated to be the root of the repo
   // Runnign this script will create a background process which would end when called "docker stop"
@@ -64,5 +65,6 @@ export default leafCommand(commandInfo, async (_options) => {
     }
   );
   subprocess.unref();
+  log.info("Test proxy is running at http://localhost:5000 & https://localhost:5001");
   return true;
 });
