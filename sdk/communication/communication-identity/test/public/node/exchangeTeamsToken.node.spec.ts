@@ -23,8 +23,6 @@ matrix([[true, false]], async function(useAad) {
       const skipTests = env.SKIP_INT_IDENTITY_EXCHANGE_TOKEN_TEST === "true";
       if (skipTests) {
         this.skip();
-      } else if (isPlaybackMode()) {
-        this.skip();
       }
     });
 
@@ -34,8 +32,6 @@ matrix([[true, false]], async function(useAad) {
       } else {
         ({ client, recorder } = createRecordedCommunicationIdentityClient(this));
       }
-
-      await recorder.stop();
     });
 
     afterEach(async function(this: Context) {
@@ -45,30 +41,65 @@ matrix([[true, false]], async function(useAad) {
     });
 
     it("successfully exchanges a Teams token for an ACS token", async function() {
-      recorder.skip();
+      let teamsToken = "";
+      if (isPlaybackMode()) {
+        teamsToken = "sanitized";
+      } else {
+        const credential = new UsernamePasswordCredential(
+          env.COMMUNICATION_M365_AAD_TENANT,
+          env.COMMUNICATION_M365_APP_ID,
+          env.COMMUNICATION_MSAL_USERNAME,
+          env.COMMUNICATION_MSAL_PASSWORD
+        );
 
-      const credential = new UsernamePasswordCredential(
-        env.COMMUNICATION_M365_AAD_TENANT,
-        env.COMMUNICATION_M365_APP_ID,
-        env.COMMUNICATION_MSAL_USERNAME,
-        env.COMMUNICATION_MSAL_PASSWORD
-      );
-
-      const response = await credential.getToken([env.COMMUNICATION_M365_SCOPE]);
-      assert.isNotNull(response);
-
+        const response = await credential.getToken([env.COMMUNICATION_M365_SCOPE]);
+        assert.isNotNull(response);
+        teamsToken = response!.token;
+      }
       const { token, expiresOn }: CommunicationAccessToken = await client.exchangeTeamsToken(
-        response!.token
+        teamsToken
       );
       assert.isString(token);
       assert.instanceOf(expiresOn, Date);
     }).timeout(5000);
 
-    it("throws an error when attempting to exchange an invalid Teams token", async function() {
-      recorder.skip();
-
+    it("throws an error when attempting to exchange an empty Teams token", async function() {
       try {
-        await client.exchangeTeamsToken("invalid");
+        let emptyToken = "";
+        if (isPlaybackMode()) {
+          emptyToken = "sanitized";
+        }
+        await client.exchangeTeamsToken(emptyToken);
+      } catch (e) {
+        assert.equal(e.statusCode, 401);
+        return;
+      }
+
+      assert.fail("Should have thrown an error");
+    });
+
+    it("throws an error when attempting to exchange an invalid Teams token", async function() {
+      try {
+        let invalidToken = "invalid";
+        if (isPlaybackMode()) {
+          invalidToken = "sanitized";
+        }
+        await client.exchangeTeamsToken(invalidToken);
+      } catch (e) {
+        assert.equal(e.statusCode, 401);
+        return;
+      }
+
+      assert.fail("Should have thrown an error");
+    });
+
+    it("throws an error when attempting to exchange an expired Teams token", async function() {
+      try {
+        let expiredToken = env.COMMUNICATION_EXPIRED_TEAMS_TOKEN;
+        if (isPlaybackMode()) {
+          expiredToken = "sanitized";
+        }
+        await client.exchangeTeamsToken(expiredToken);
       } catch (e) {
         assert.equal(e.statusCode, 401);
         return;
