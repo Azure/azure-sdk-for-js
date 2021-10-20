@@ -14,6 +14,3 @@ export const DEPENDENCY_MODE_DISABLED = "disabled";
 export const DEPENDENCY_MODE_ENABLED = "enabled";
 
 export const METADATA_PATH = "metadata.json";
-
-export const DEFAULT_CLIENT_METADATA_ENABLED = true;
-export const DEFAULT_CLIENT_METADATA_EXPIRATION = Number.MAX_VALUE;

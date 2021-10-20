@@ -2,10 +2,6 @@
 // Licensed under the MIT license.
 
 import { ModelsRepositoryClientMetadataOptions } from "./interfaces/modelsRepositoryClientMetadataOptions";
-import {
-  DEFAULT_CLIENT_METADATA_ENABLED,
-  DEFAULT_CLIENT_METADATA_EXPIRATION
-} from "./utils/constants";
 
 /**
  * Class to support handling repository metadata expiration
@@ -37,10 +33,13 @@ export class MetadataScheduler {
   constructor(options?: ModelsRepositoryClientMetadataOptions) {
     this._lastFetchedMetadata = new Date(0);
     this._initialFetch = true;
-    this._desiredElapsedTimeSpan = options?.expirationInMinutes
-      ? options.expirationInMinutes * 60 * 1000
-      : DEFAULT_CLIENT_METADATA_EXPIRATION;
-    this._enabled = options?.enabled ?? DEFAULT_CLIENT_METADATA_ENABLED;
+    // check for negative expiration times
+    if (options?.expirationInMs && options?.expirationInMs < 0) {
+      throw new EvalError("Metadata expiration time must be greater than or equal to 0.");
+    }
+    this._desiredElapsedTimeSpan = options?.expirationInMs ?? Number.MAX_SAFE_INTEGER;
+    // enabled by default
+    this._enabled = options?.enabled ?? true;
   }
 
   /**

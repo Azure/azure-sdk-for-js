@@ -8,7 +8,7 @@ export interface ModelsRepositoryClientMetadataOptions {
   /**
    * The timespan (in minutes) at which repository metadata is considered stale.
    */
-  expirationInMinutes?: number;
+  expirationInMs?: number;
   /**
    * Indicates if models repository metadata processing should be enabled for the client.
    */

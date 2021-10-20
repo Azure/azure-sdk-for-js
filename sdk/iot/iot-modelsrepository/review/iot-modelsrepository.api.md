@@ -42,7 +42,7 @@ export class ModelsRepositoryClient {
 // @public
 export interface ModelsRepositoryClientMetadataOptions {
     enabled?: boolean;
-    expirationInMinutes?: number;
+    expirationInMs?: number;
 }
 
 // @public

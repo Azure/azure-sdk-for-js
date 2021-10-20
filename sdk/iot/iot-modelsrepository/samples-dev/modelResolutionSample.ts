@@ -15,8 +15,17 @@ console.log(repositoryEndpoint, dtmi);
 async function main() {
   // When no URI is provided for instantiation, the Azure IoT Models Repository global endpoint
   // https://devicemodels.azure.com/ is used and the model dependency resolution
-  // configuration is set to enabled.
-  const client = new ModelsRepositoryClient({ repositoryLocation: repositoryEndpoint });
+  // configuration is enabled.
+  // Metadata configuration options can be provided to the constructor to determine if,
+  // and how often, the client fetches metdata for the repository. In this example,
+  // metadata fetching is enabled, and has a timeout of 1 hour.
+  const client = new ModelsRepositoryClient({
+    repositoryLocation: repositoryEndpoint,
+    metadata: {
+      enabled: true,
+      expirationInMs: 3600000
+    }
+  });
   const result = await client.getModels(dtmi, { dependencyResolution: "enabled" });
   Object.keys(result).forEach((fetchedDtmi) => {
     const currentDtdl = result[fetchedDtmi] as any;
