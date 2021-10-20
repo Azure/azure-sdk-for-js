@@ -3,12 +3,16 @@
 
 /**
  * Encodes a byte array in base64 format.
- * @param value - The Uint8Aray to encode
+ * @param value - The Uint8Aray or string to encode
  */
-export function base64Encode(value: Uint8Array): string {
+export function base64Encode(value: Uint8Array | string): string {
   let str = "";
-  for (let i = 0; i < value.length; i++) {
-    str += String.fromCharCode(value[i]);
+  if (typeof value === "string") {
+    str = value;
+  } else {
+    for (let i = 0; i < value.length; i++) {
+      str += String.fromCharCode(value[i]);
+    }
   }
   return btoa(str);
 }

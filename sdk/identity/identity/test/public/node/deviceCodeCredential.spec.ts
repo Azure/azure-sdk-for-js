@@ -160,7 +160,7 @@ describe("DeviceCodeCredential", function() {
       },
       children: [
         {
-          name: "Azure.Identity.DeviceCodeCredential.getToken",
+          name: "DeviceCodeCredential.getToken",
           children: []
         }
       ]

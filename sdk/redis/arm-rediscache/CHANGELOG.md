@@ -1,16 +1,16 @@
-## Release History
+# Release History
 
-### 30.0.0-beta.2 (Unreleased)
+## 6.0.0-beta.2 (Unreleased)
 
-#### Features Added
+### Features Added
 
-#### Breaking Changes
+### Breaking Changes
 
-#### Bugs Fixed
+### Bugs Fixed
 
-#### Other Changes
+### Other Changes
 
-### 30.0.0-beta.1 (2021-09-28)
+## 6.0.0-beta.1 (2021-10-09)
 
 This is the first preview for the new version of the `@azure/arm-rediscache` package that follows the new [guidelines for TypeScript SDKs](https://azure.github.io/azure-sdk/typescript_introduction.html) for Azure services.
 

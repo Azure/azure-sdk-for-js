@@ -6,7 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { Snapshots } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
@@ -151,7 +150,7 @@ export class SnapshotsImpl implements Snapshots {
    * Creates or updates a snapshot.
    * @param resourceGroupName The name of the resource group.
    * @param snapshotName The name of the snapshot that is being created. The name can't be changed after
-   *                     the snapshot is created. Supported characters for the name are a-z, A-Z, 0-9 and _. The max name
+   *                     the snapshot is created. Supported characters for the name are a-z, A-Z, 0-9, _ and -. The max name
    *                     length is 80 characters.
    * @param snapshot Snapshot object supplied in the body of the Put disk operation.
    * @param options The options parameters.
@@ -221,7 +220,7 @@ export class SnapshotsImpl implements Snapshots {
    * Creates or updates a snapshot.
    * @param resourceGroupName The name of the resource group.
    * @param snapshotName The name of the snapshot that is being created. The name can't be changed after
-   *                     the snapshot is created. Supported characters for the name are a-z, A-Z, 0-9 and _. The max name
+   *                     the snapshot is created. Supported characters for the name are a-z, A-Z, 0-9, _ and -. The max name
    *                     length is 80 characters.
    * @param snapshot Snapshot object supplied in the body of the Put disk operation.
    * @param options The options parameters.
@@ -245,7 +244,7 @@ export class SnapshotsImpl implements Snapshots {
    * Updates (patches) a snapshot.
    * @param resourceGroupName The name of the resource group.
    * @param snapshotName The name of the snapshot that is being created. The name can't be changed after
-   *                     the snapshot is created. Supported characters for the name are a-z, A-Z, 0-9 and _. The max name
+   *                     the snapshot is created. Supported characters for the name are a-z, A-Z, 0-9, _ and -. The max name
    *                     length is 80 characters.
    * @param snapshot Snapshot object supplied in the body of the Patch snapshot operation.
    * @param options The options parameters.
@@ -315,7 +314,7 @@ export class SnapshotsImpl implements Snapshots {
    * Updates (patches) a snapshot.
    * @param resourceGroupName The name of the resource group.
    * @param snapshotName The name of the snapshot that is being created. The name can't be changed after
-   *                     the snapshot is created. Supported characters for the name are a-z, A-Z, 0-9 and _. The max name
+   *                     the snapshot is created. Supported characters for the name are a-z, A-Z, 0-9, _ and -. The max name
    *                     length is 80 characters.
    * @param snapshot Snapshot object supplied in the body of the Patch snapshot operation.
    * @param options The options parameters.
@@ -339,7 +338,7 @@ export class SnapshotsImpl implements Snapshots {
    * Gets information about a snapshot.
    * @param resourceGroupName The name of the resource group.
    * @param snapshotName The name of the snapshot that is being created. The name can't be changed after
-   *                     the snapshot is created. Supported characters for the name are a-z, A-Z, 0-9 and _. The max name
+   *                     the snapshot is created. Supported characters for the name are a-z, A-Z, 0-9, _ and -. The max name
    *                     length is 80 characters.
    * @param options The options parameters.
    */
@@ -358,7 +357,7 @@ export class SnapshotsImpl implements Snapshots {
    * Deletes a snapshot.
    * @param resourceGroupName The name of the resource group.
    * @param snapshotName The name of the snapshot that is being created. The name can't be changed after
-   *                     the snapshot is created. Supported characters for the name are a-z, A-Z, 0-9 and _. The max name
+   *                     the snapshot is created. Supported characters for the name are a-z, A-Z, 0-9, _ and -. The max name
    *                     length is 80 characters.
    * @param options The options parameters.
    */
@@ -421,7 +420,7 @@ export class SnapshotsImpl implements Snapshots {
    * Deletes a snapshot.
    * @param resourceGroupName The name of the resource group.
    * @param snapshotName The name of the snapshot that is being created. The name can't be changed after
-   *                     the snapshot is created. Supported characters for the name are a-z, A-Z, 0-9 and _. The max name
+   *                     the snapshot is created. Supported characters for the name are a-z, A-Z, 0-9, _ and -. The max name
    *                     length is 80 characters.
    * @param options The options parameters.
    */
@@ -467,7 +466,7 @@ export class SnapshotsImpl implements Snapshots {
    * Grants access to a snapshot.
    * @param resourceGroupName The name of the resource group.
    * @param snapshotName The name of the snapshot that is being created. The name can't be changed after
-   *                     the snapshot is created. Supported characters for the name are a-z, A-Z, 0-9 and _. The max name
+   *                     the snapshot is created. Supported characters for the name are a-z, A-Z, 0-9, _ and -. The max name
    *                     length is 80 characters.
    * @param grantAccessData Access data object supplied in the body of the get snapshot access operation.
    * @param options The options parameters.
@@ -538,7 +537,7 @@ export class SnapshotsImpl implements Snapshots {
    * Grants access to a snapshot.
    * @param resourceGroupName The name of the resource group.
    * @param snapshotName The name of the snapshot that is being created. The name can't be changed after
-   *                     the snapshot is created. Supported characters for the name are a-z, A-Z, 0-9 and _. The max name
+   *                     the snapshot is created. Supported characters for the name are a-z, A-Z, 0-9, _ and -. The max name
    *                     length is 80 characters.
    * @param grantAccessData Access data object supplied in the body of the get snapshot access operation.
    * @param options The options parameters.
@@ -562,7 +561,7 @@ export class SnapshotsImpl implements Snapshots {
    * Revokes access to a snapshot.
    * @param resourceGroupName The name of the resource group.
    * @param snapshotName The name of the snapshot that is being created. The name can't be changed after
-   *                     the snapshot is created. Supported characters for the name are a-z, A-Z, 0-9 and _. The max name
+   *                     the snapshot is created. Supported characters for the name are a-z, A-Z, 0-9, _ and -. The max name
    *                     length is 80 characters.
    * @param options The options parameters.
    */
@@ -626,7 +625,7 @@ export class SnapshotsImpl implements Snapshots {
    * Revokes access to a snapshot.
    * @param resourceGroupName The name of the resource group.
    * @param snapshotName The name of the snapshot that is being created. The name can't be changed after
-   *                     the snapshot is created. Supported characters for the name are a-z, A-Z, 0-9 and _. The max name
+   *                     the snapshot is created. Supported characters for the name are a-z, A-Z, 0-9, _ and -. The max name
    *                     length is 80 characters.
    * @param options The options parameters.
    */

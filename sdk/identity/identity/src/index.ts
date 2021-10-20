@@ -8,8 +8,19 @@ export { IdentityPlugin } from "./plugins/provider";
 import { TokenCredential } from "@azure/core-auth";
 import { DefaultAzureCredential } from "./credentials/defaultAzureCredential";
 
+export {
+  AuthenticationError,
+  ErrorResponse,
+  AggregateAuthenticationError,
+  AuthenticationErrorName,
+  AggregateAuthenticationErrorName,
+  CredentialUnavailableError,
+  CredentialUnavailableErrorName,
+  AuthenticationRequiredError,
+  AuthenticationRequiredErrorOptions
+} from "./errors";
+
 export { AuthenticationRecord } from "./msal/types";
-export { AuthenticationRequiredError } from "./msal/errors";
 export { serializeAuthenticationRecord, deserializeAuthenticationRecord } from "./msal/utils";
 export { TokenCredentialOptions } from "./client/identityClient";
 
@@ -29,15 +40,18 @@ export {
 } from "./credentials/environmentCredential";
 export { ClientSecretCredential } from "./credentials/clientSecretCredential";
 export { ClientSecretCredentialOptions } from "./credentials/clientSecretCredentialOptions";
-export { ClientCertificateCredential } from "./credentials/clientCertificateCredential";
+export {
+  ClientCertificateCredential,
+  ClientCertificateCredentialPEMConfiguration
+} from "./credentials/clientCertificateCredential";
 export { ClientCertificateCredentialOptions } from "./credentials/clientCertificateCredentialOptions";
 export { CredentialPersistenceOptions } from "./credentials/credentialPersistenceOptions";
 export { AzureCliCredential } from "./credentials/azureCliCredential";
 export { AzureCliCredentialOptions } from "./credentials/azureCliCredentialOptions";
 export { InteractiveBrowserCredential } from "./credentials/interactiveBrowserCredential";
 export {
-  InteractiveBrowserCredentialOptions,
-  InteractiveBrowserCredentialBrowserOptions,
+  InteractiveBrowserCredentialNodeOptions,
+  InteractiveBrowserCredentialInBrowserOptions,
   BrowserLoginStyle
 } from "./credentials/interactiveBrowserCredentialOptions";
 export { ManagedIdentityCredential } from "./credentials/managedIdentityCredential";
@@ -52,10 +66,6 @@ export { UsernamePasswordCredentialOptions } from "./credentials/usernamePasswor
 export { AuthorizationCodeCredential } from "./credentials/authorizationCodeCredential";
 export { AzurePowerShellCredential } from "./credentials/azurePowerShellCredential";
 export { AzurePowerShellCredentialOptions } from "./credentials/azurePowerShellCredentialOptions";
-export {
-  AzureApplicationCredential as ApplicationCredential,
-  AzureApplicationCredentialOptions as ApplicationCredentialOptions
-} from "./credentials/azureApplicationCredential";
 
 export {
   VisualStudioCodeCredential,
@@ -70,16 +80,6 @@ export {
 } from "./credentials/onBehalfOfCredentialOptions";
 
 export { TokenCachePersistenceOptions } from "./msal/nodeFlows/tokenCachePersistenceOptions";
-
-export {
-  AuthenticationError,
-  ErrorResponse,
-  AggregateAuthenticationError,
-  AuthenticationErrorName,
-  AggregateAuthenticationErrorName,
-  CredentialUnavailableError,
-  CredentialUnavailableErrorName
-} from "./client/errors";
 
 export { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-auth";
 export { logger } from "./util/logging";

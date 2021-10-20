@@ -40,7 +40,7 @@ export class ClientSecretCredential implements TokenCredential {
   ) {
     if (!tenantId || !clientId || !clientSecret) {
       throw new Error(
-        "ClientSecretCredential: tenantId, clientId, and clientSecret are required parameters."
+        "ClientSecretCredential: tenantId, clientId, and clientSecret are required parameters. To troubleshoot, visit https://aka.ms/azsdk/js/identity/serviceprincipalauthentication/troubleshoot."
       );
     }
     this.msalFlow = new MsalClientSecret({

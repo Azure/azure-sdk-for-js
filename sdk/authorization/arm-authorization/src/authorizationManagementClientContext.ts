@@ -42,7 +42,7 @@ export class AuthorizationManagementClientContext extends coreClient.ServiceClie
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-authorization/30.0.0-beta.1`;
+    const packageDetails = `azsdk-js-arm-authorization/9.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`

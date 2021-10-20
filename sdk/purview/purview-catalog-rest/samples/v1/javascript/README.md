@@ -1,13 +1,3 @@
----
-page_type: sample
-languages:
-  - javascript
-products:
-  - azure
-urlFragment: purview-catalog-javascript
-disableDocsMs: true
----
-
 # Azure Purview Scanning rest client library samples for JavaScript
 
 These sample programs show how to use the JavaScript client libraries for Azure Purview Scanning rest in some common scenarios.
@@ -18,7 +8,7 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 
 ## Prerequisites
 
-The sample programs are compatible with Node.js >=12.0.0.
+The sample programs are compatible with [LTS versions of Node.js](https://nodejs.org/about/releases/).
 
 You need [an Azure subscription][freesub] and the following Azure resources to run these sample programs:
 
@@ -57,7 +47,7 @@ npx cross-env ENDPOINT="<endpoint>" node typedefs.js
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
 [typedefs]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/purview/purview-catalog-rest/samples/v1/javascript/typedefs.js
-[apiref]: https://docs.microsoft.com/azure/purview/tutorial-using-rest-apis
+[apiref]: https://docs.microsoft.com/rest/api/purview/
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azurecognitiveservicesinstance]: https://docs.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/purview/purview-catalog-rest/README.md

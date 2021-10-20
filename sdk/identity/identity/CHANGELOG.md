@@ -1,10 +1,22 @@
 # Release History
 
-## 2.0.0 (2021-10-12)
+## 2.0.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+- Fixed a bug that caused the `AzureCliCredential` to fail on Windows. Issue [18268](https://github.com/Azure/azure-sdk-for-js/issues/18268).
+
+### Other Changes
+
+## 2.0.0 (2021-10-15)
 
 After multiple beta releases over the past year, we're proud to announce the general availability of version 2 of the `@azure/identity` package. This version includes the best parts of v1, plus several improvements.
 
-This changelog entry showcases the changes that have been made from version 1 of this package. See the [v1-to-v2 migration guide](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/migration-v1-v2.md) for details on how to upgrade your application to use the version 2 of `@azure/identity`.
+This changelog entry showcases the changes that have been made from version 1 of this package. See the [v1-to-v2 migration guide](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/migration-v1-v2.md) for details on how to upgrade your application to use the version 2 of `@azure/identity`. For information on troubleshooting the Identity package, see the [troubleshooting guide](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/Troubleshooting.md).
 
 ### Features Added
 
@@ -37,10 +49,9 @@ async function main() {
 
 #### New credentials
 
-Identity v2 includes three new credential types:
+Identity v2 includes two new credential types:
 
 - `AzurePowerShellCredential`, which re-uses any account previously authenticated with the `Az.Account` PowerShell module.
-- `ApplicationCredential`, which is a simplified `DefaultAzureCredential` that only includes `EnvironmentCredential` and `ManagedIdentityCredential`.
 - `OnBehalfOfCredential`, which enables the [On-Behalf-Of authentication flow](https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-on-behalf-of-flow).
 
 #### New features in all credentials
@@ -69,6 +80,7 @@ A new method `authenticate()` is added to these credentials which is similar to 
 - `authenticate()` might succeed and still return `undefined` if we're unable to pick just one account record from the cache. This might happen if the cache is being used by more than one credential, or if multiple users have authenticated using the same Client ID and Tenant ID. To ensure consistency on a program with many users, please keep track of the `AuthenticationRecord` and provide them in the constructors of the credentials on initialization.
 
 Learn more via the below samples
+
 - [Samples around controlling user interaction](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#control-user-interaction).
 - [Samples around persisting user authentication data](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#persist-user-authentication-data).
 
@@ -80,6 +92,7 @@ Azure Service Fabric support hasn't been added on the initial version 2 of Ident
 
 #### Other features
 
+- `ClientCertificateCredential` now optionally accepts a configuration object as its third constructor parameter, instead of the PEM certificate path. This new object, called `ClientCertificateCredentialPEMConfiguration`, can contain either the PEM certificate path with the `certificatePath` property, or the contents of the PEM certificate with the `certificate` property..
 - The Node.js version of `InteractiveBrowserCredential` has [Proof Key for Code Exchange (PKCE)](https://datatracker.ietf.org/doc/html/rfc7636) enabled by default.
 - `InteractiveBrowserCredential` has a new `loginHint` constructor option, which allows a username to be pre-selected for interactive logins.
 - In `AzureCliCredential`, we allow specifying a `tenantId` in the parameters through the `AzureCliCredentialOptions`.
@@ -100,6 +113,8 @@ Azure Service Fabric support hasn't been added on the initial version 2 of Ident
   - Identity v2 also removes the `postLogoutRedirectUri` from the options to the constructor for `InteractiveBrowserCredential`. This option wasn't being used. Instead of using this option, use MSAL directly. For more information, see [Authenticating with the @azure/msal-browser Public Client](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-with-the-azuremsal-browser-public-client).
   - In Identity v2, `VisualStudioCodeCredential` throws a `CredentialUnavailableError` unless the new [@azure/identity-vscode](https://www.npmjs.com/package/@azure/identity-vscode) plugin is used.
 
+- Standardizing the tracing span names to be `<className>.<operationName>` over `<className>-<operationName>`
+
 #### Breaking Changes from 2.0.0-beta.4
 
 - Removed the `allowMultiTenantAuthentication` option from all of the credentials. Multi-tenant authentication is now enabled by default. On Node.js, it can be disabled with the `AZURE_IDENTITY_DISABLE_MULTITENANTAUTH` environment variable.
@@ -107,9 +122,12 @@ Azure Service Fabric support hasn't been added on the initial version 2 of Ident
 
 #### Breaking Changes from 2.0.0-beta.6
 
-- Renamed the `ApplicationCredential` to `AzureApplicationCredential`.
+- Stopped exporting the `ApplicationCredential` from the package. This will be re-introduced in the future.
 - Removed the `CredentialPersistenceOptions` from `DefaultAzureCredential` and `EnvironmentCredential`.
 - Merged the configuration and the options bag on the `OnBehalfOfCredential` into a single options bag.
+- `AuthenticationRequiredError` (introduced in 2.0.0-beta.1) now has its parameters into a single options bag.
+- `AuthenticationRequiredError` (introduced in 2.0.0-beta.1) now has its parameters in a single options bag, `AuthenticationRequiredErrorOptions`.
+- `InteractiveBrowserCredentialOptions` has been renamed to `InteractiveBrowserCredentialNodeOptions`, and `InteractiveBrowserCredentialBrowserOptions` has been named `InteractiveBrowserCredentialInBrowserOptions`.
 
 ### Bugs Fixed
 
@@ -150,6 +168,15 @@ Identity v2 for JavaScript now also depends on the latest available versions of 
 
 - The errors thrown by the `ManagedIdentityCredential` have been improved.
 
+## 1.5.2 (2021-09-01)
+
+- Fixed a bug introduced on 1.5.0 that caused the `ManagedIdentityCredential` to fail authenticating in Arc environments. Since our new core disables unsafe requests by default, we had to change the security settings for the first request of the Arc MSI, which retrieves the file path where the authentication value is stored since this request generally happens through an HTTP endpoint.
+
+## 1.5.1 (2021-08-12)
+
+- Fixed how we verify the IMDS endpoint is available. Now, besides skipping the `Metadata` header, we skip the URL query. Both will ensure that all the known IMDS endpoints return as early as possible.
+- Added support for the `AZURE_POD_IDENTITY_AUTHORITY_HOST` environment variable. If present, the IMDS endpoint initial verification will be skipped.
+
 ## 2.0.0-beta.5 (2021-08-10)
 
 ### Features Added
@@ -168,15 +195,6 @@ Identity v2 for JavaScript now also depends on the latest available versions of 
 ### Bugs Fixed
 
 - With this release, we've migrated from using `@azure/core-http` to `@azure/core-rest-pipeline` for the handling of HTTP requests. See [Azure Core v1 vs v2](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-rest-pipeline/documentation/core2.md) for more on the difference and benefits of the move. This removes our dependency on `node-fetch` and along with it issues we have seen in using this dependency in specific environments like Kubernetes pods.
-
-## 1.5.2 (2021-09-01)
-
-- Fixed a bug introduced on 1.5.0 that caused the `ManagedIdentityCredential` to fail authenticating in Arc environments. Since our new core disables unsafe requests by default, we had to change the security settings for the first request of the Arc MSI, which retrieves the file path where the authentication value is stored since this request generally happens through an HTTP endpoint.
-
-## 1.5.1 (2021-08-12)
-
-- Fixed how we verify the IMDS endpoint is available. Now, besides skipping the `Metadata` header, we skip the URL query. Both will ensure that all the known IMDS endpoints return as early as possible.
-- Added support for the `AZURE_POD_IDENTITY_AUTHORITY_HOST` environment variable. If present, the IMDS endpoint initial verification will be skipped.
 
 ## 1.5.0 (2021-07-19)
 

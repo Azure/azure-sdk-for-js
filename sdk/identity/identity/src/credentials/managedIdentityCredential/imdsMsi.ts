@@ -16,7 +16,7 @@ import { createSpan } from "../../util/tracing";
 import { imdsApiVersion, imdsEndpointPath, imdsHost } from "./constants";
 import { MSI, MSIConfiguration } from "./models";
 import { mapScopesToResource, msiGenericGetToken } from "./utils";
-import { AuthenticationError } from "../../client/errors";
+import { AuthenticationError } from "../../errors";
 
 const msiName = "ManagedIdentityCredential - IMDS";
 const logger = credentialLogger(msiName);

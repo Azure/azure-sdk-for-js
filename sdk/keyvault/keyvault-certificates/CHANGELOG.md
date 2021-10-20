@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- Support multi-tenant authentication against Key Vault and Managed HSM when using @azure/identity 2.0.0 or newer.
+
 ### Breaking Changes
 
 ### Bugs Fixed

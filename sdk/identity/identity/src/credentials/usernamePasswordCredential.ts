@@ -40,7 +40,7 @@ export class UsernamePasswordCredential implements TokenCredential {
   ) {
     if (!tenantId || !clientId || !username || !password) {
       throw new Error(
-        "UsernamePasswordCredential: tenantId, clientId, username and password are required parameters."
+        "UsernamePasswordCredential: tenantId, clientId, username and password are required parameters. To troubleshoot, visit https://aka.ms/azsdk/js/identity/usernamepasswordcredential/troubleshoot."
       );
     }
     this.msalFlow = new MsalUsernamePassword({
