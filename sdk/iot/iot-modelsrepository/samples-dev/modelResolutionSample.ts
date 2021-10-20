@@ -23,7 +23,7 @@ async function main() {
     repositoryLocation: repositoryEndpoint,
     metadata: {
       enabled: true,
-      expirationInMs: 3600000
+      expirationInHours: 1
     }
   });
   const result = await client.getModels(dtmi, { dependencyResolution: "enabled" });

@@ -34,10 +34,10 @@ export class MetadataScheduler {
     this._lastFetchedMetadata = new Date(0);
     this._initialFetch = true;
     // check for negative expiration times
-    if (options?.expirationInMs && options?.expirationInMs < 0) {
+    if (options?.expirationInHours && options?.expirationInHours < 0) {
       throw new EvalError("Metadata expiration time must be greater than or equal to 0.");
     }
-    this._desiredElapsedTimeSpan = options?.expirationInMs ?? Number.MAX_SAFE_INTEGER;
+    this._desiredElapsedTimeSpan = options?.expirationInHours ?? Number.MAX_SAFE_INTEGER;
     // enabled by default
     this._enabled = options?.enabled ?? true;
   }
@@ -53,7 +53,9 @@ export class MetadataScheduler {
     if (this._initialFetch) {
       return true;
     }
-    return Date.now() - this._lastFetchedMetadata.getTime() >= this._desiredElapsedTimeSpan;
+    const diffInMs = Date.now() - this._lastFetchedMetadata.getTime();
+    const diffInHours = diffInMs / 36e5;
+    return diffInHours >= this._desiredElapsedTimeSpan;
   }
 
   /**
