@@ -58,3 +58,16 @@ export function createClient(options?: ClientOptions): AccessControlRestClient {
 export function createRecorder(context: Context): Recorder {
   return record(context, environmentSetup);
 }
+
+export function getWorkspaceName() {
+  const url: string = env.ENDPOINT ?? "";
+  const matches = url.match(/^(?:https?:\/\/)?(?:[^@\/\n]+@)?(?:www\.)?([^:\/?\n]+)/) ?? [];
+
+  if (matches.length < 2) {
+    throw new Error(`Could not extract workspace name from the environment ENDPOINT`);
+  }
+
+  const parts = matches[1].split(".");
+  console.log(parts[0]);
+  return `workspaces/${parts[0]}`;
+}
