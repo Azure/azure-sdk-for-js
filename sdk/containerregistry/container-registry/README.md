@@ -26,6 +26,8 @@ Key links:
 
 See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
 
+> Note: This package cannot be used in the browser due to service limitations, please refer to [this document][cors] for guidance.
+
 ### Prerequisites
 
 - An [Azure Subscription](https://azure.microsoft.com)
@@ -278,6 +280,7 @@ If you'd like to contribute to this library, please read the [contributing guide
 [api_docs]: https://docs.microsoft.com/javascript/api/@azure/container-registry
 [rest_docs]: https://docs.microsoft.com/rest/api/containerregistry/
 [product_docs]: https://docs.microsoft.com/azure/container-registry/
+[cors]: https://github.com/Azure/azure-sdk-for-js/blob/main/samples/cors/ts/README.md
 [samples]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/containerregistry/container-registry/samples
 [container_registry_docs]: https://docs.microsoft.com/azure/container-registry/container-registry-intro
 [container_registry_create_ps]: https://docs.microsoft.com/azure/container-registry/container-registry-get-started-powershell
