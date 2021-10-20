@@ -54,11 +54,14 @@ describe("Group client working with a group", function() {
     }
   });
 
-  it("can manage users", async () => {
+  // skipping until we can record better tests with an actual user active.
+  it.skip("can manage users", async () => {
+    // service returns 404, this should likely be raised as an error but isn't
+    // due to the swagger design
     await client.addUser("brian");
-    // this always returns 404, perhaps need an active connection
-    // from this user.
-    // await client.removeUser("brian");
+
+    // service returns 404 and this throws.
+    await client.removeUser("brian");
   });
 
   afterEach(async function() {

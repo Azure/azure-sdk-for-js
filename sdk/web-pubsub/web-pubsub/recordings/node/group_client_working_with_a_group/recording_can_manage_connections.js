@@ -9,7 +9,7 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   .query(true)
   .reply(404, "Connection `xxxx` is not found.", [
   'Date',
-  'Wed, 20 Oct 2021 16:55:27 GMT',
+  'Wed, 20 Oct 2021 18:53:18 GMT',
   'Content-Type',
   'application/json; charset=utf-8',
   'Content-Length',
@@ -25,7 +25,7 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   .query(true)
   .reply(200, "Ok", [
   'Date',
-  'Wed, 20 Oct 2021 16:55:27 GMT',
+  'Wed, 20 Oct 2021 18:53:18 GMT',
   'Content-Type',
   'application/json; charset=utf-8',
   'Content-Length',
