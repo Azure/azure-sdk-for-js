@@ -293,7 +293,7 @@ export class Serializer {
       }
     }
 
-    if (mapper.isConstant) {
+    if (mapper.isConstant && !payload && mapper.defaultValue) {
       payload = mapper.defaultValue;
     }
 
