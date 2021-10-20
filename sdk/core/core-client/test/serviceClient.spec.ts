@@ -589,11 +589,11 @@ describe("ServiceClient", function() {
           name: MapperTypeNames.Number
         }
       };
-      const parameterValue: any = getOperationArgumentValueFromParameter(operationArguments, {
+      const parameterValue = getOperationArgumentValueFromParameter(operationArguments, {
         parameterPath,
         mapper: parameterMapper
       });
-      assert.strictEqual(parameterValue, undefined);
+      assert.strictEqual(parameterValue.value, undefined);
     });
 
     it("should return undefined when the parameter path is found in the operation arguments but is undefined and doesn't have a default value", () => {
@@ -607,11 +607,11 @@ describe("ServiceClient", function() {
           name: MapperTypeNames.Number
         }
       };
-      const parameterValue: any = getOperationArgumentValueFromParameter(operationArguments, {
+      const parameterValue = getOperationArgumentValueFromParameter(operationArguments, {
         parameterPath,
         mapper: parameterMapper
       });
-      assert.strictEqual(parameterValue, undefined);
+      assert.strictEqual(parameterValue.value, undefined);
     });
 
     it("should return null when the parameter path is null in the operation arguments but is undefined and doesn't have a default value", () => {
@@ -625,12 +625,12 @@ describe("ServiceClient", function() {
           name: MapperTypeNames.Number
         }
       };
-      const parameterValue: any = getOperationArgumentValueFromParameter(operationArguments, {
+      const parameterValue = getOperationArgumentValueFromParameter(operationArguments, {
         parameterPath,
         mapper: parameterMapper
       });
 
-      assert.strictEqual(parameterValue, null);
+      assert.strictEqual(parameterValue.value, null);
     });
 
     it("should return the operation argument value when the parameter path is found in the operation arguments", () => {
@@ -644,11 +644,11 @@ describe("ServiceClient", function() {
           name: MapperTypeNames.Number
         }
       };
-      const parameterValue: any = getOperationArgumentValueFromParameter(operationArguments, {
+      const parameterValue = getOperationArgumentValueFromParameter(operationArguments, {
         mapper: parameterMapper,
         parameterPath
       });
-      assert.strictEqual(parameterValue, 20);
+      assert.strictEqual(parameterValue.value, 20);
     });
 
     // TODO: confirm if we need this support from RequestOptionsBase
@@ -686,7 +686,7 @@ describe("ServiceClient", function() {
           name: MapperTypeNames.Number
         }
       };
-      const parameterValue: any = getOperationArgumentValueFromParameter(
+      const parameterValue = getOperationArgumentValueFromParameter(
         operationArguments,
         {
           parameterPath,
@@ -695,7 +695,7 @@ describe("ServiceClient", function() {
 
         serviceClient
       );
-      assert.strictEqual(parameterValue, 21);
+      assert.strictEqual(parameterValue.value, 21);
     });
 
     it("should return the operation argument value when the parameter path is found in both the operation arguments and the service client", () => {
@@ -711,7 +711,7 @@ describe("ServiceClient", function() {
           name: MapperTypeNames.Number
         }
       };
-      const parameterValue: any = getOperationArgumentValueFromParameter(
+      const parameterValue = getOperationArgumentValueFromParameter(
         operationArguments,
         {
           parameterPath,
@@ -720,7 +720,7 @@ describe("ServiceClient", function() {
 
         serviceClient
       );
-      assert.strictEqual(parameterValue, 22);
+      assert.strictEqual(parameterValue.value, 22);
     });
 
     it("should return the default value when it is a constant and the parameter path doesn't exist in other places", () => {
@@ -734,11 +734,11 @@ describe("ServiceClient", function() {
           name: MapperTypeNames.Number
         }
       };
-      const parameterValue: any = getOperationArgumentValueFromParameter(operationArguments, {
+      const parameterValue = getOperationArgumentValueFromParameter(operationArguments, {
         parameterPath,
         mapper: parameterMapper
       });
-      assert.strictEqual(parameterValue, 1);
+      assert.strictEqual(parameterValue.value, 1);
     });
 
     it("should return the default value when it is a constant and the parameter path exists in other places", () => {
@@ -760,7 +760,7 @@ describe("ServiceClient", function() {
           name: MapperTypeNames.Number
         }
       };
-      const parameterValue: any = getOperationArgumentValueFromParameter(
+      const parameterValue = getOperationArgumentValueFromParameter(
         operationArguments,
         {
           parameterPath,
@@ -768,7 +768,7 @@ describe("ServiceClient", function() {
         },
         serviceClient
       );
-      assert.strictEqual(parameterValue, 4);
+      assert.strictEqual(parameterValue.value, 4);
     });
 
     it("should return undefined when the parameter path isn't found in the operation arguments or the service client, the parameter is optional, and it has a default value", () => {
@@ -782,7 +782,7 @@ describe("ServiceClient", function() {
           name: MapperTypeNames.Number
         }
       };
-      const parameterValue: any = getOperationArgumentValueFromParameter(
+      const parameterValue = getOperationArgumentValueFromParameter(
         operationArguments,
         {
           parameterPath,
@@ -790,7 +790,7 @@ describe("ServiceClient", function() {
         },
         serviceClient
       );
-      assert.strictEqual(parameterValue, undefined);
+      assert.strictEqual(parameterValue.value, undefined);
     });
 
     it("should return the default value when the parameter path isn't found in the operation arguments or the service client, the parameter is required, and it has a default value", () => {
@@ -805,7 +805,7 @@ describe("ServiceClient", function() {
           name: MapperTypeNames.Number
         }
       };
-      const parameterValue: any = getOperationArgumentValueFromParameter(
+      const parameterValue = getOperationArgumentValueFromParameter(
         operationArguments,
         {
           parameterPath,
@@ -813,7 +813,7 @@ describe("ServiceClient", function() {
         },
         serviceClient
       );
-      assert.strictEqual(parameterValue, 21);
+      assert.strictEqual(parameterValue.value, 21);
     });
 
     it("should return the default value when the parameter path is partially found in the operation arguments, the parameter is required, and it has a default value", () => {
@@ -831,11 +831,11 @@ describe("ServiceClient", function() {
           name: MapperTypeNames.Number
         }
       };
-      const parameterValue: any = getOperationArgumentValueFromParameter(operationArguments, {
+      const parameterValue = getOperationArgumentValueFromParameter(operationArguments, {
         parameterPath,
         mapper: parameterMapper
       });
-      assert.strictEqual(parameterValue, 21);
+      assert.strictEqual(parameterValue.value, 21);
     });
 
     it("should return undefined when the parameter path is partially found in the operation arguments, the parameter is optional, and it has a default value", () => {
@@ -852,11 +852,11 @@ describe("ServiceClient", function() {
           name: MapperTypeNames.Number
         }
       };
-      const parameterValue: any = getOperationArgumentValueFromParameter(operationArguments, {
+      const parameterValue = getOperationArgumentValueFromParameter(operationArguments, {
         parameterPath,
         mapper: parameterMapper
       });
-      assert.strictEqual(parameterValue, undefined);
+      assert.strictEqual(parameterValue.value, undefined);
     });
 
     it("should return the default value when the parameter path is not found in the options operation arguments and it has a default value", () => {
@@ -869,11 +869,11 @@ describe("ServiceClient", function() {
           name: MapperTypeNames.Number
         }
       };
-      const parameterValue: any = getOperationArgumentValueFromParameter(operationArguments, {
+      const parameterValue = getOperationArgumentValueFromParameter(operationArguments, {
         parameterPath,
         mapper: parameterMapper
       });
-      assert.strictEqual(parameterValue, 21);
+      assert.strictEqual(parameterValue.value, 21);
     });
 
     it("should return undefined when the parameter path is not found as a property on a parameter within the options operation arguments and it has a default value", () => {
@@ -886,11 +886,11 @@ describe("ServiceClient", function() {
           name: MapperTypeNames.Number
         }
       };
-      const parameterValue: any = getOperationArgumentValueFromParameter(operationArguments, {
+      const parameterValue = getOperationArgumentValueFromParameter(operationArguments, {
         parameterPath,
         mapper: parameterMapper
       });
-      assert.strictEqual(parameterValue, undefined);
+      assert.strictEqual(parameterValue.value, undefined);
     });
 
     it("should return null when the parameter path is null in the operation arguments but is undefined and it has a default value", () => {
@@ -905,12 +905,12 @@ describe("ServiceClient", function() {
           name: MapperTypeNames.Number
         }
       };
-      const parameterValue: any = getOperationArgumentValueFromParameter(operationArguments, {
+      const parameterValue = getOperationArgumentValueFromParameter(operationArguments, {
         parameterPath,
         mapper: parameterMapper
       });
 
-      assert.strictEqual(parameterValue, null);
+      assert.strictEqual(parameterValue.value, null);
     });
 
     it("should return the service client value when the parameter path is found in the service client and it has a default value", () => {
@@ -925,7 +925,7 @@ describe("ServiceClient", function() {
           name: MapperTypeNames.Number
         }
       };
-      const parameterValue: any = getOperationArgumentValueFromParameter(
+      const parameterValue = getOperationArgumentValueFromParameter(
         operationArguments,
         {
           parameterPath,
@@ -934,7 +934,7 @@ describe("ServiceClient", function() {
         serviceClient
       );
 
-      assert.strictEqual(parameterValue, 5);
+      assert.strictEqual(parameterValue.value, 5);
     });
   });
 
@@ -1367,7 +1367,6 @@ describe("ServiceClient", function() {
 
   it("should not replace existing queries in request URLs", async function() {
     let request: PipelineRequest;
-    const requestURL = "https://example.com/path?$skip=10&$top=10";
     const topQueryParam: OperationQueryParameter = {
       parameterPath: ["options", "top"],
       mapper: {
@@ -1396,7 +1395,7 @@ describe("ServiceClient", function() {
       }
     };
     const operationSpec: OperationSpec = {
-      path: requestURL,
+      path: "https://example.com/path?$skip=10&$top=20",
       queryParameters: [topQueryParam, skipQueryParam],
       httpMethod: "GET",
       responses: {
@@ -1421,8 +1420,8 @@ describe("ServiceClient", function() {
         }
       }
     });
-    await client.sendOperationRequest<String>({ options: { top: 10 } as any }, operationSpec);
-    assert.equal(request!.url, requestURL);
+    await client.sendOperationRequest<string>({ options: { top: 10 } as any }, operationSpec);
+    assert.equal(request!.url, "https://example.com/path?$skip=10&$top=10");
   });
 });
 

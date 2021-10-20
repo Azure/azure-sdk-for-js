@@ -559,3 +559,8 @@ export interface CommonClientOptions extends PipelineOptions {
    */
   allowInsecureConnection?: boolean;
 }
+
+export interface QueryParameterValue<T = unknown> {
+  value: T;
+  source: "default" | "input";
+}

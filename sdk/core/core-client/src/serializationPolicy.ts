@@ -1,7 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PipelineResponse, SendRequest, PipelinePolicy } from "@azure/core-rest-pipeline";
+import {
+  PipelineResponse,
+  SendRequest,
+  PipelinePolicy,
+  RequestBodyType
+} from "@azure/core-rest-pipeline";
 import {
   OperationRequest,
   SerializerOptions,
@@ -72,7 +77,11 @@ export function serializeHeaders(
 ): void {
   if (operationSpec.headerParameters) {
     for (const headerParameter of operationSpec.headerParameters) {
-      let headerValue = getOperationArgumentValueFromParameter(operationArguments, headerParameter);
+      const calculatedHeader = getOperationArgumentValueFromParameter(
+        operationArguments,
+        headerParameter
+      );
+      let headerValue = calculatedHeader.value;
       if ((headerValue !== null && headerValue !== undefined) || headerParameter.mapper.required) {
         headerValue = operationSpec.serializer.serialize(
           headerParameter.mapper,
@@ -82,13 +91,16 @@ export function serializeHeaders(
         const headerCollectionPrefix = (headerParameter.mapper as DictionaryMapper)
           .headerCollectionPrefix;
         if (headerCollectionPrefix) {
-          for (const key of Object.keys(headerValue)) {
-            request.headers.set(headerCollectionPrefix + key, headerValue[key]);
+          for (const key of Object.keys(headerValue as Record<string, unknown>)) {
+            request.headers.set(
+              headerCollectionPrefix + key,
+              (headerValue as Record<string, string | number | boolean>)[key]
+            );
           }
         } else {
           request.headers.set(
             headerParameter.mapper.serializedName || getPathStringFromParameter(headerParameter),
-            headerValue
+            headerValue as string | number | boolean
           );
         }
       }
@@ -127,7 +139,7 @@ export function serializeRequestBody(
     request.body = getOperationArgumentValueFromParameter(
       operationArguments,
       operationSpec.requestBody
-    );
+    ).value as RequestBodyType | undefined;
 
     const bodyMapper = operationSpec.requestBody.mapper;
     const {

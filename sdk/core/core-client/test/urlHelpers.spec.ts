@@ -9,6 +9,7 @@ import {
   createSerializer,
   OperationQueryParameter
 } from "../src";
+import { QueryParameterValue } from "../src/interfaces";
 
 describe("getRequestUrl", function() {
   const urlParameter: OperationURLParameter = {
@@ -148,8 +149,11 @@ describe("getRequestUrl", function() {
     const url: string =
       "https://management.azure.com/subscriptions/subscription-id/resourceGroups/rg2/providers/Microsoft.Network/virtualNetworks/samplename";
 
-    const queryParams: Map<string, string | string[]> = new Map<string, string | string[]>();
-    queryParams.set("api-version", "2020-08-01");
+    const queryParams: Map<string, QueryParameterValue<string | string[]>> = new Map<
+      string,
+      QueryParameterValue<string | string[]>
+    >();
+    queryParams.set("api-version", { value: "2020-08-01", source: "input" });
 
     const res: string = appendQueryParams(url, queryParams, new Set<string>());
 
@@ -163,8 +167,11 @@ describe("getRequestUrl", function() {
     const url: string =
       "https://management.azure.com/subscriptions/subscription-id/resourceGroups/rg2/providers/Microsoft.Network/virtualNetworks/samplename?api-version=2020-08-01&api-version=2021-08-01";
 
-    const queryParams: Map<string, string | string[]> = new Map<string, string | string[]>();
-    queryParams.set("api-version", "2022-08-01");
+    const queryParams: Map<string, QueryParameterValue<string | string[]>> = new Map<
+      string,
+      QueryParameterValue<string | string[]>
+    >();
+    queryParams.set("api-version", { value: "2022-08-01", source: "input" });
 
     const set: Set<string> = new Set<string>();
     set.add("api-version");
@@ -180,8 +187,11 @@ describe("getRequestUrl", function() {
     const url: string =
       "https://management.azure.com/subscriptions/subscription-id/resourceGroups/rg2/providers/Microsoft.Network/virtualNetworks/samplename?api-version=2020-08-01&api-version=2021-08-01";
 
-    const queryParams: Map<string, string | string[]> = new Map<string, string | string[]>();
-    queryParams.set("api-version", ["2020-08-01", "2021-08-01"]);
+    const queryParams: Map<string, QueryParameterValue<string | string[]>> = new Map<
+      string,
+      QueryParameterValue<string | string[]>
+    >();
+    queryParams.set("api-version", { value: ["2020-08-01", "2021-08-01"], source: "input" });
 
     const set: Set<string> = new Set<string>();
     set.add("api-version");
@@ -197,8 +207,11 @@ describe("getRequestUrl", function() {
     const url: string =
       "https://management.azure.com/subscriptions/subscription-id/resourceGroups/rg2/providers/Microsoft.Network/virtualNetworks/samplename?api-version=2020-08-01&api-version=2021-08-01";
 
-    const queryParams: Map<string, string | string[]> = new Map<string, string | string[]>();
-    queryParams.set("api-version", ["2022-08-01", "2023-08-01"]);
+    const queryParams: Map<string, QueryParameterValue<string | string[]>> = new Map<
+      string,
+      QueryParameterValue<string | string[]>
+    >();
+    queryParams.set("api-version", { value: ["2022-08-01", "2023-08-01"], source: "input" });
 
     const set: Set<string> = new Set<string>();
     set.add("api-version");
@@ -214,8 +227,11 @@ describe("getRequestUrl", function() {
     const url: string =
       "https://management.azure.com/subscriptions/subscription-id/resourceGroups/rg2/providers/Microsoft.Network/virtualNetworks/samplename?api-version=2020-08-01";
 
-    const queryParams: Map<string, string | string[]> = new Map<string, string | string[]>();
-    queryParams.set("api-version", "2020-08-01");
+    const queryParams: Map<string, QueryParameterValue<string | string[]>> = new Map<
+      string,
+      QueryParameterValue<string | string[]>
+    >();
+    queryParams.set("api-version", { value: "2020-08-01", source: "input" });
 
     const res: string = appendQueryParams(url, queryParams, new Set<string>());
 
@@ -229,8 +245,11 @@ describe("getRequestUrl", function() {
     const url: string =
       "https://management.azure.com/subscriptions/subscription-id/resourceGroups/rg2/providers/Microsoft.Network/virtualNetworks/samplename?api-version=2020-08-01";
 
-    const queryParams: Map<string, string | string[]> = new Map<string, string | string[]>();
-    queryParams.set("api-version", "2021-08-01");
+    const queryParams: Map<string, QueryParameterValue<string | string[]>> = new Map<
+      string,
+      QueryParameterValue<string | string[]>
+    >();
+    queryParams.set("api-version", { value: "2021-08-01", source: "input" });
 
     const res: string = appendQueryParams(url, queryParams, new Set<string>());
 
@@ -244,8 +263,11 @@ describe("getRequestUrl", function() {
     const url: string =
       "https://management.azure.com/subscriptions/subscription-id/resourceGroups/rg2/providers/Microsoft.Network/virtualNetworks/samplename?api-version=2020-08-01";
 
-    const queryParams: Map<string, string | string[]> = new Map<string, string | string[]>();
-    queryParams.set("api-version", ["2021-08-01", "2022-08-01"]);
+    const queryParams: Map<string, QueryParameterValue<string | string[]>> = new Map<
+      string,
+      QueryParameterValue<string | string[]>
+    >();
+    queryParams.set("api-version", { value: ["2021-08-01", "2022-08-01"], source: "input" });
 
     const res: string = appendQueryParams(url, queryParams, new Set<string>());
     assert.strictEqual(

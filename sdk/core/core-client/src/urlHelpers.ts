@@ -1,6 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { OperationSpec, OperationArguments, QueryCollectionFormat } from "./interfaces";
+import {
+  OperationSpec,
+  OperationArguments,
+  QueryCollectionFormat,
+  QueryParameterValue
+} from "./interfaces";
 import { getOperationArgumentValueFromParameter } from "./operationHelpers";
 import { getPathStringFromParameter } from "./interfaceHelpers";
 
@@ -37,21 +42,19 @@ export function getRequestUrl(
       requestUrl = appendPath(requestUrl, path);
     }
   }
-  if (!isAbsoluteURL) {
-    const { queryParams, sequenceParams } = calculateQueryParameters(
-      operationSpec,
-      operationArguments,
-      fallbackObject
-    );
-    requestUrl = appendQueryParams(requestUrl, queryParams, sequenceParams);
-  }
+  const { queryParams, sequenceParams } = calculateQueryParameters(
+    operationSpec,
+    operationArguments,
+    fallbackObject
+  );
+  requestUrl = appendQueryParams(requestUrl, queryParams, sequenceParams);
   return requestUrl;
 }
 
-function replaceAll(input: string, replacements: Map<string, string>): string {
+function replaceAll(input: string, replacements: Map<string, QueryParameterValue<string>>): string {
   let result = input;
   for (const [searchValue, replaceValue] of replacements) {
-    result = result.split(searchValue).join(replaceValue);
+    result = result.split(searchValue).join(replaceValue.value);
   }
   return result;
 }
@@ -60,27 +63,29 @@ function calculateUrlReplacements(
   operationSpec: OperationSpec,
   operationArguments: OperationArguments,
   fallbackObject: { [parameterName: string]: any }
-): Map<string, string> {
-  const result = new Map<string, string>();
+): Map<string, QueryParameterValue<string>> {
+  const result = new Map<string, QueryParameterValue<string>>();
   if (operationSpec.urlParameters?.length) {
     for (const urlParameter of operationSpec.urlParameters) {
-      let urlParameterValue: string = getOperationArgumentValueFromParameter(
+      const calculatedUrlParameter: QueryParameterValue<unknown> = getOperationArgumentValueFromParameter(
         operationArguments,
         urlParameter,
         fallbackObject
       );
       const parameterPathString = getPathStringFromParameter(urlParameter);
-      urlParameterValue = operationSpec.serializer.serialize(
+      calculatedUrlParameter.value = operationSpec.serializer.serialize(
         urlParameter.mapper,
-        urlParameterValue,
+        calculatedUrlParameter.value,
         parameterPathString
       );
       if (!urlParameter.skipEncoding) {
-        urlParameterValue = encodeURIComponent(urlParameterValue);
+        calculatedUrlParameter.value = encodeURIComponent(
+          calculatedUrlParameter.value as string | number | boolean
+        );
       }
       result.set(
         `{${urlParameter.mapper.serializedName || parameterPathString}}`,
-        urlParameterValue
+        calculatedUrlParameter as QueryParameterValue<string>
       );
     }
   }
@@ -129,10 +134,10 @@ function calculateQueryParameters(
   operationArguments: OperationArguments,
   fallbackObject: { [parameterName: string]: any }
 ): {
-  queryParams: Map<string, string | string[]>;
+  queryParams: Map<string, QueryParameterValue<string | string[]>>;
   sequenceParams: Set<string>;
 } {
-  const result = new Map<string, string | string[]>();
+  const result = new Map<string, QueryParameterValue<string | string[]>>();
   const sequenceParams: Set<string> = new Set<string>();
 
   if (operationSpec.queryParameters?.length) {
@@ -140,27 +145,27 @@ function calculateQueryParameters(
       if (queryParameter.mapper.type.name === "Sequence" && queryParameter.mapper.serializedName) {
         sequenceParams.add(queryParameter.mapper.serializedName);
       }
-      let queryParameterValue: string | string[] = getOperationArgumentValueFromParameter(
+      const queryParam = getOperationArgumentValueFromParameter(
         operationArguments,
         queryParameter,
         fallbackObject
       );
       if (
-        (queryParameterValue !== undefined && queryParameterValue !== null) ||
+        (queryParam.value !== undefined && queryParam.value !== null) ||
         queryParameter.mapper.required
       ) {
-        queryParameterValue = operationSpec.serializer.serialize(
+        queryParam.value = operationSpec.serializer.serialize(
           queryParameter.mapper,
-          queryParameterValue,
+          queryParam.value,
           getPathStringFromParameter(queryParameter)
         );
 
         const delimiter = queryParameter.collectionFormat
           ? CollectionFormatToDelimiterMap[queryParameter.collectionFormat]
           : "";
-        if (Array.isArray(queryParameterValue)) {
+        if (Array.isArray(queryParam.value)) {
           // replace null and undefined
-          queryParameterValue = queryParameterValue.map((item) => {
+          queryParam.value = queryParam.value.map((item) => {
             if (item === null || item === undefined) {
               return "";
             }
@@ -168,35 +173,38 @@ function calculateQueryParameters(
             return item;
           });
         }
-        if (queryParameter.collectionFormat === "Multi" && queryParameterValue.length === 0) {
+        if (
+          queryParameter.collectionFormat === "Multi" &&
+          (queryParam.value as unknown[])?.length === 0
+        ) {
           continue;
         } else if (
-          Array.isArray(queryParameterValue) &&
+          Array.isArray(queryParam.value) &&
           (queryParameter.collectionFormat === "SSV" || queryParameter.collectionFormat === "TSV")
         ) {
-          queryParameterValue = queryParameterValue.join(delimiter);
+          queryParam.value = queryParam.value.join(delimiter);
         }
         if (!queryParameter.skipEncoding) {
-          if (Array.isArray(queryParameterValue)) {
-            queryParameterValue = queryParameterValue.map((item: string) => {
+          if (Array.isArray(queryParam.value)) {
+            queryParam.value = queryParam.value.map((item: string) => {
               return encodeURIComponent(item);
             });
           } else {
-            queryParameterValue = encodeURIComponent(queryParameterValue);
+            queryParam.value = encodeURIComponent(queryParam.value as string | number | boolean);
           }
         }
 
         // Join pipes and CSV *after* encoding, or the server will be upset.
         if (
-          Array.isArray(queryParameterValue) &&
+          Array.isArray(queryParam.value) &&
           (queryParameter.collectionFormat === "CSV" || queryParameter.collectionFormat === "Pipes")
         ) {
-          queryParameterValue = queryParameterValue.join(delimiter);
+          queryParam.value = queryParam.value.join(delimiter);
         }
 
         result.set(
           queryParameter.mapper.serializedName || getPathStringFromParameter(queryParameter),
-          queryParameterValue
+          queryParam as QueryParameterValue<string | string[]>
         );
       }
     }
@@ -237,7 +245,7 @@ function simpleParseQueryParams(queryString: string): Map<string, string | strin
 /** @internal */
 export function appendQueryParams(
   url: string,
-  queryParams: Map<string, string | string[]>,
+  queryParams: Map<string, QueryParameterValue<string | string[]>>,
   sequenceParams: Set<string>
 ): string {
   if (queryParams.size === 0) {
@@ -254,23 +262,26 @@ export function appendQueryParams(
   for (const [name, value] of queryParams) {
     const existingValue = combinedParams.get(name);
     if (Array.isArray(existingValue)) {
-      if (Array.isArray(value)) {
-        existingValue.push(...value);
+      if (Array.isArray(value.value)) {
+        existingValue.push(...value.value);
         const valueSet = new Set(existingValue);
         combinedParams.set(name, Array.from(valueSet));
       } else {
-        existingValue.push(value);
+        existingValue.push(value.value);
       }
     } else if (existingValue) {
-      let newValue = value;
-      if (Array.isArray(value)) {
-        value.unshift(existingValue);
+      let newValue = value.value;
+      if (Array.isArray(value.value)) {
+        value.value.unshift(existingValue);
       } else if (sequenceParams.has(name)) {
-        newValue = [existingValue, value];
+        newValue = [existingValue, value.value];
       }
-      combinedParams.set(name, newValue);
+      // update the query value in the URL only if it was explicitly set (not a swagger default value)
+      if (value.source === "input") {
+        combinedParams.set(name, newValue);
+      }
     } else {
-      combinedParams.set(name, value);
+      combinedParams.set(name, value.value);
     }
   }
 

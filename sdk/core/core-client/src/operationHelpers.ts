@@ -8,7 +8,8 @@ import {
   CompositeMapper,
   ParameterPath,
   OperationRequestInfo,
-  OperationRequest
+  OperationRequest,
+  QueryParameterValue
 } from "./interfaces";
 
 /**
@@ -23,17 +24,17 @@ export function getOperationArgumentValueFromParameter(
   operationArguments: OperationArguments,
   parameter: OperationParameter,
   fallbackObject?: { [parameterName: string]: any }
-): any {
+): QueryParameterValue {
   let parameterPath = parameter.parameterPath;
   const parameterMapper = parameter.mapper;
-  let value: any;
+  const queryParam: QueryParameterValue = { value: undefined, source: "default" };
   if (typeof parameterPath === "string") {
     parameterPath = [parameterPath];
   }
   if (Array.isArray(parameterPath)) {
     if (parameterPath.length > 0) {
       if (parameterMapper.isConstant) {
-        value = parameterMapper.defaultValue;
+        queryParam.value = parameterMapper.defaultValue;
       } else {
         let propertySearchResult = getPropertyFromParameterPath(operationArguments, parameterPath);
 
@@ -47,12 +48,17 @@ export function getOperationArgumentValueFromParameter(
             parameterMapper.required ||
             (parameterPath[0] === "options" && parameterPath.length === 2);
         }
-        value = useDefaultValue ? parameterMapper.defaultValue : propertySearchResult.propertyValue;
+        if (useDefaultValue) {
+          queryParam.value = parameterMapper.defaultValue;
+        } else {
+          queryParam.value = propertySearchResult.propertyValue;
+          queryParam.source = "input";
+        }
       }
     }
   } else {
     if (parameterMapper.required) {
-      value = {};
+      queryParam.value = {};
     }
 
     for (const propertyName in parameterPath) {
@@ -69,14 +75,14 @@ export function getOperationArgumentValueFromParameter(
         fallbackObject
       );
       if (propertyValue !== undefined) {
-        if (!value) {
-          value = {};
+        if (!queryParam.value) {
+          queryParam.value = {};
         }
-        value[propertyName] = propertyValue;
+        (queryParam.value as Record<string, unknown>)[propertyName] = propertyValue;
       }
     }
   }
-  return value;
+  return queryParam;
 }
 
 interface PropertySearchResult {
