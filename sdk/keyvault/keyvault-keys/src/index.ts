@@ -440,6 +440,8 @@ export class KeyClient {
       };
     }
 
+    // Here for backwards compatibility with the deprecated keyOps field
+    // Can be removed when we remove keyOps entirely in version 5.x
     if (key.keyOps && !key.key_ops) {
       key.key_ops = key.keyOps;
     }
