@@ -440,6 +440,10 @@ export class KeyClient {
       };
     }
 
+    if (key.keyOps && !key.key_ops) {
+      key.key_ops = key.keyOps;
+    }
+
     return withTrace(`importKey`, unflattenedOptions, async (updatedOptions) => {
       const response = await this.client.importKey(this.vaultUrl, name, key, updatedOptions);
       return getKeyFromKeyBundle(response);

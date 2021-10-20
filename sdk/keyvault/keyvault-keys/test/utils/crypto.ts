@@ -44,7 +44,7 @@ function toBytes(hex: string): Uint8Array {
 export function createRsaKey(): JsonWebKey {
   return {
     kty: "RSA",
-    keyOps: ["encrypt", "decrypt", "sign", "verify", "wrapKey", "unwrapKey"],
+    key_ops: ["encrypt", "decrypt", "sign", "verify", "wrapKey", "unwrapKey"],
     n: toBytes(
       "00a0914d00234ac683b21b4c15d5bed887bdc959c2e57af54ae734e8f00720d775d275e455207e3784ceeb60a50a4655dd72a7a94d271e8ee8f7959a669ca6e775bf0e23badae991b4529d978528b4bd90521d32dd2656796ba82b6bbfc7668c8f5eeb5053747fd199319d29a8440d08f4412d527ff9311eda71825920b47b1c46b11ab3e91d7316407e89c7f340f7b85a34042ce51743b27d4718403d34c7b438af6181be05e4d11eb985d38253d7fe9bf53fc2f1b002d22d2d793fa79a504b6ab42d0492804d7071d727a06cf3a8893aa542b1503f832b296371b6707d4dc6e372f8fe67d8ded1c908fde45ce03bc086a71487fa75e43aa0e0679aa0d20efe35"
     ),

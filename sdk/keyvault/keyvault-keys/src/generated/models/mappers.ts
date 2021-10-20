@@ -198,7 +198,7 @@ export const JsonWebKey: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      keyOps: {
+      key_ops: {
         serializedName: "key_ops",
         type: {
           name: "Sequence",

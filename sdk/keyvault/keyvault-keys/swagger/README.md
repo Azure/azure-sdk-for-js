@@ -48,3 +48,22 @@ directive:
       $.values[0].value = "Rotate";
       $.values[1].value = "Notify";
 ```
+
+### Prevent key_ops from being converted to keyOps when generating types for JsonWebKey
+
+key_ops is the correct name as per the IETF standard
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.JsonWebKey.properties.key_ops
+    transform: >
+      $["x-ms-client-name"] = "key_ops_keep_snakecase";
+```
+
+```yaml
+modelerfour:
+  naming:
+    override:
+      key_ops_keep_snakecase: $DO_NOT_NORMALIZE$key_ops
+```
