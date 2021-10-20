@@ -143,12 +143,6 @@ describe("Keys client - restore keys and recover backups", () => {
   });
 
   it("fails to restore a key with a malformed backup", async function() {
-    console.log("---------------------");
-    var aa = env["KEYVAULTSKU"]!.toString();
-    for (var i = 0; i < aa.length; i++) {
-        console.log(aa[i]);
-    }
-    console.log("---------------------");
     const backup = new Uint8Array(8693);
     let error;
     try {
