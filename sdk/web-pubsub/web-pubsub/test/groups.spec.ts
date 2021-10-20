@@ -52,7 +52,6 @@ describe("Group client working with a group", function() {
       assert.exists(error);
       assert.strictEqual(error?.name, "RestError");
     }
-    
   });
 
   it("can manage users", async () => {
