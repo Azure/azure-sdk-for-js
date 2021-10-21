@@ -22,7 +22,6 @@ import { TestConstants } from "./fakeTestSecrets";
 import { AzureNamedKeyCredential } from "@azure/core-auth";
 import { createServiceBusClientForTests, ServiceBusClientForTests } from "./utils/testutils2";
 import { versionsToTest } from "@azure/test-utils";
-import { ServiceBusAtomAPIVersion } from "../../src/util/utils";
 
 chai.use(chaiAsPromised);
 chai.use(chaiExclude);
@@ -68,7 +67,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion, {}) => {
     before(() => {
       serviceBusAtomManagementClient = new ServiceBusAdministrationClient(
         env[EnvVarNames.SERVICEBUS_CONNECTION_STRING],
-        { serviceVersion: serviceVersion as ServiceBusAtomAPIVersion }
+        { serviceVersion: serviceVersion as "2021-05" | "2017-04" }
       );
     });
     /**
