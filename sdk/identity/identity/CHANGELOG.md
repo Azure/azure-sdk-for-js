@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- The `ManagedIdentityCredential` now supports the Service Fabric environment.
+
 ### Breaking Changes
 
 ### Bugs Fixed
