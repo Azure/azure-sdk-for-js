@@ -123,9 +123,7 @@ export abstract class PerfTest<TOptions = {}> {
  * given classes, all of which must extend PerfTest.
  * @param tests An array of classes that extend PerfTest
  */
-export function selectPerfTest(
-  tests: PerfTestConstructor[]
-): PerfTestConstructor {
+export function selectPerfTest(tests: PerfTestConstructor[]): PerfTestConstructor {
   const testsNames: string[] = tests.map((test) => test.name);
   const minimistResult: MinimistParsedArgs = minimist(process.argv);
   const testName = minimistResult._[minimistResult._.length - 1];

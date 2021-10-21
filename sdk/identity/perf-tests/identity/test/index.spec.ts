@@ -5,8 +5,6 @@ dotenv.config();
 
 console.log("=== Starting the perf test ===");
 
-const perfProgram = new PerfProgram(
-  selectPerfTest([ClientSecretCredentialPersistenceTest])
-);
+const perfProgram = new PerfProgram(selectPerfTest([ClientSecretCredentialPersistenceTest]));
 
 perfProgram.run();

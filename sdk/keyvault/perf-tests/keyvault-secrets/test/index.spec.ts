@@ -4,8 +4,6 @@ import { ListSecretsTest } from "./listSecrets.spec";
 
 console.log("=== Starting the perf test ===");
 
-const perfProgram = new PerfProgram(
-  selectPerfTest([GetSecretTest, ListSecretsTest])
-);
+const perfProgram = new PerfProgram(selectPerfTest([GetSecretTest, ListSecretsTest]));
 
 perfProgram.run();

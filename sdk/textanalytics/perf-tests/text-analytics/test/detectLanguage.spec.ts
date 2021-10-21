@@ -1,11 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  PerfTest,
-  PerfOptionDictionary,
-  getEnvVar
-} from "@azure/test-utils-perf";
+import { PerfTest, PerfOptionDictionary, getEnvVar } from "@azure/test-utils-perf";
 import {
   AzureKeyCredential,
   TextAnalyticsClient,

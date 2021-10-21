@@ -2,9 +2,7 @@ import { SecretClient } from "@azure/keyvault-secrets";
 import { PerfTest } from "@azure/test-utils-perf";
 import { keyVaultUri, credential } from "./utils";
 
-export abstract class SecretTest<TOptions = Record<string, unknown>> extends PerfTest<
-  TOptions
-> {
+export abstract class SecretTest<TOptions = Record<string, unknown>> extends PerfTest<TOptions> {
   secretClient: SecretClient;
 
   constructor() {

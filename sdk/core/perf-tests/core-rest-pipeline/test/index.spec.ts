@@ -3,8 +3,6 @@ import { BearerTokenAuthenticationPolicyChallengeTest } from "./bearerTokenChall
 
 console.log("=== Starting the perf test ===");
 
-const perfProgram = new PerfProgram(
-  selectPerfTest([BearerTokenAuthenticationPolicyChallengeTest])
-);
+const perfProgram = new PerfProgram(selectPerfTest([BearerTokenAuthenticationPolicyChallengeTest]));
 
 perfProgram.run();

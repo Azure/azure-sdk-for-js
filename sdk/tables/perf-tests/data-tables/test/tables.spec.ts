@@ -2,9 +2,7 @@ import { PerfTest, getEnvVar } from "@azure/test-utils-perf";
 
 import { TableClient } from "@azure/data-tables";
 
-export abstract class TablesTest<TOptions = Record<string, unknown>> extends PerfTest<
-  TOptions
-> {
+export abstract class TablesTest<TOptions = Record<string, unknown>> extends PerfTest<TOptions> {
   client: TableClient;
   constructor(tableName: string) {
     super();
