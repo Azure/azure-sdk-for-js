@@ -733,7 +733,6 @@ export const ManagedClusterAgentPoolProfileProperties: msRest.CompositeMapper = 
         }
       },
       powerState: {
-        readOnly: true,
         serializedName: "powerState",
         type: {
           name: "Composite",
@@ -1030,7 +1029,6 @@ export const AgentPool: msRest.CompositeMapper = {
         }
       },
       powerState: {
-        readOnly: true,
         serializedName: "properties.powerState",
         type: {
           name: "Composite",
@@ -1168,6 +1166,34 @@ export const AgentPool: msRest.CompositeMapper = {
   }
 };
 
+export const WindowsGmsaProfile: msRest.CompositeMapper = {
+  serializedName: "WindowsGmsaProfile",
+  type: {
+    name: "Composite",
+    className: "WindowsGmsaProfile",
+    modelProperties: {
+      enabled: {
+        serializedName: "enabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      dnsServer: {
+        serializedName: "dnsServer",
+        type: {
+          name: "String"
+        }
+      },
+      rootDomainName: {
+        serializedName: "rootDomainName",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const ManagedClusterWindowsProfile: msRest.CompositeMapper = {
   serializedName: "ManagedClusterWindowsProfile",
   type: {
@@ -1197,6 +1223,13 @@ export const ManagedClusterWindowsProfile: msRest.CompositeMapper = {
         serializedName: "enableCSIProxy",
         type: {
           name: "Boolean"
+        }
+      },
+      gmsaProfile: {
+        serializedName: "gmsaProfile",
+        type: {
+          name: "Composite",
+          className: "WindowsGmsaProfile"
         }
       }
     }
@@ -3519,6 +3552,49 @@ export const Snapshot: msRest.CompositeMapper = {
         defaultValue: 'NodePool',
         type: {
           name: "String"
+        }
+      },
+      kubernetesVersion: {
+        readOnly: true,
+        serializedName: "properties.kubernetesVersion",
+        type: {
+          name: "String"
+        }
+      },
+      nodeImageVersion: {
+        readOnly: true,
+        serializedName: "properties.nodeImageVersion",
+        type: {
+          name: "String"
+        }
+      },
+      osType: {
+        readOnly: true,
+        serializedName: "properties.osType",
+        defaultValue: 'Linux',
+        type: {
+          name: "String"
+        }
+      },
+      osSku: {
+        readOnly: true,
+        serializedName: "properties.osSku",
+        type: {
+          name: "String"
+        }
+      },
+      vmSize: {
+        readOnly: true,
+        serializedName: "properties.vmSize",
+        type: {
+          name: "String"
+        }
+      },
+      enableFIPS: {
+        readOnly: true,
+        serializedName: "properties.enableFIPS",
+        type: {
+          name: "Boolean"
         }
       }
     }
