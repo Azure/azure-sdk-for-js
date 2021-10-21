@@ -13,7 +13,7 @@ import {
 import { Context } from "mocha";
 
 matrix([[true, false]], async function(useAad) {
-  describe(`Exchange Teams User AAD token for a Communication access token [Playback/Live]${
+  describe(`Exchange Teams User AAD token for ACS token [Playback/Live]${
     useAad ? " [AAD]" : ""
   }`, function() {
     let recorder: Recorder;
