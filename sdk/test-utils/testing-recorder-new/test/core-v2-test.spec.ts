@@ -18,7 +18,7 @@ const sanitizerOptions: SanitizerOptions = {
       fakeConnString
     }
   ],
-  removeHeaderSanitizer: { headers: ["X-Content-Type-Options"] },
+  removeHeaderSanitizer: { headersForRemoval: ["X-Content-Type-Options"] },
   generalRegexSanitizers: [{ regex: "abc", value: "fake_abc" }]
 };
 
@@ -28,7 +28,9 @@ describe("Core V2 tests", () => {
   beforeEach(async function() {
     recorder = new TestProxyHttpClient(this.currentTest);
     await recorder.start({
-      TABLES_SAS_CONNECTION_STRING: fakeConnString
+      envSetupForPlayback: {
+        TABLES_SAS_CONNECTION_STRING: fakeConnString
+      }
     });
     await recorder.addSanitizers(sanitizerOptions);
   });

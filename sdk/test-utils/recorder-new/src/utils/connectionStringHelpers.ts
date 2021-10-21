@@ -20,18 +20,16 @@ function getValueInConnString(connectionString: string, key: string): string {
 
 /**
  * Returns the key and value from `<key>=<value>` string.
+ *
+ * `a=b=c` => ["a", "b=c"]
  */
 function getKeyValuePair(kvp: string): string[] {
   // If the string is not in kvp format <key>=<value> return an empty array
   if (!kvp || kvp.indexOf("=") === -1) {
     return [];
   }
-  // Get the substring before the first '='
-  const key = kvp.substr(0, kvp.indexOf("="));
-  // Get the substring after the first '='
-  const value = kvp.substr(kvp.indexOf("=") + 1);
 
-  return [key, value];
+  return kvp.split(/=(.*)/).slice(0, 2);
 }
 
 /**

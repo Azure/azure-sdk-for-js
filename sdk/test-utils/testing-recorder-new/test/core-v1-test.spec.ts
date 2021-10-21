@@ -18,7 +18,9 @@ describe("Core V1 tests", () => {
     recorder = new TestProxyHttpClientCoreV1(this.currentTest);
 
     await recorder.start({
-      STORAGE_SAS_URL: fakeSASUrl
+      envSetupForPlayback: {
+        STORAGE_SAS_URL: fakeSASUrl
+      }
     });
     await recorder.addSanitizers({
       generalRegexSanitizers: [
