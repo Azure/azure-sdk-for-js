@@ -8,7 +8,11 @@
 
 ### Bugs Fixed
 
+- Fixed a bug that caused the `AzureCliCredential` to fail on Windows. Issue [18268](https://github.com/Azure/azure-sdk-for-js/issues/18268).
+
 ### Other Changes
+
+- Added a reference to the troubleshooting guide on the error cases of the credentials that use MSAL directly.
 
 ## 2.0.0 (2021-10-15)
 

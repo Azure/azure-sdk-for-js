@@ -1,6 +1,6 @@
 let nock = require('nock');
 
-module.exports.hash = "399b91360ae62a2dcf9c54d97beed470";
+module.exports.hash = "7109ea8d6ec0bd806a842601669f7996";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
@@ -8,54 +8,54 @@ nock('https://endpoint', {"encodedQueryParams":true})
   .post('/identities')
   .query(true)
   .reply(201, {"identity":{"id":"sanitized"}}, [
-  'Transfer-Encoding',
-  'chunked',
+  'Content-Length',
+  '101',
   'Content-Type',
   'application/json; charset=utf-8',
   'Request-Context',
   'appId=',
   'MS-CV',
-  'zxK4T4XKfk+UrQXNvqGi1g.0',
+  'UD2i0BQP7USloRUq6X+coQ.0',
   'Strict-Transport-Security',
   'max-age=2592000',
   'x-ms-client-request-id',
-  'sanitized',
+  '00000000-0000-0000-0000-000000000000',
   'api-supported-versions',
-  '2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-03-31-preview1',
+  '2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-03-31-preview1, 2021-10-31-preview',
   'X-Processing-Time',
-  '22ms',
+  '98ms',
   'X-Cache',
   'CONFIG_NOCACHE',
   'X-Azure-Ref',
-  '0Ga62YAAAAACoL9GGTyN7TKPDUgusp6lWWVZSMzBFREdFMDMxNwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
+  '0GsppYQAAAAAusNstrZjyQ7nW68SAqHZ6UFJHMDFFREdFMDcxNQBmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=',
   'Date',
-  'Tue, 01 Jun 2021 22:00:57 GMT'
+  'Fri, 15 Oct 2021 18:36:10 GMT'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
   .post('/identities/sanitized/:issueAccessToken', {"scopes":["chat","voip"]})
   .query(true)
-  .reply(200, {"token":"sanitized","expiresOn":"2021-06-02T22:00:57.0003807+00:00"}, [
-  'Transfer-Encoding',
-  'chunked',
+  .reply(200, {"token":"sanitized","expiresOn":"2021-10-16T18:36:11.4449862+00:00"}, [
+  'Content-Length',
+  '811',
   'Content-Type',
   'application/json; charset=utf-8',
   'Request-Context',
   'appId=',
   'MS-CV',
-  'Im+DalkO/0OyT8F4zzsBdA.0',
+  'g14mPTB0+EycfwdTfe89Ow.0',
   'Strict-Transport-Security',
   'max-age=2592000',
   'x-ms-client-request-id',
-  'sanitized',
+  '00000000-0000-0000-0000-000000000000',
   'api-supported-versions',
-  '2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-03-31-preview1',
+  '2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-03-31-preview1, 2021-10-31-preview',
   'X-Processing-Time',
-  '41ms',
+  '111ms',
   'X-Cache',
   'CONFIG_NOCACHE',
   'X-Azure-Ref',
-  '0Ga62YAAAAACbXwQi1N+zSoOb+Nu0TSW8WVZSMzBFREdFMDMxNwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
+  '0G8ppYQAAAACJfn2+UxuuTI3EimD356wiUFJHMDFFREdFMDcxNQBmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=',
   'Date',
-  'Tue, 01 Jun 2021 22:00:57 GMT'
+  'Fri, 15 Oct 2021 18:36:11 GMT'
 ]);

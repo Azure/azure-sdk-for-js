@@ -980,6 +980,16 @@
       "packageName": "@azure/arm-operationalinsights",
       "projectFolder": "sdk/operationalinsights/arm-operationalinsights",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-postgresql",
+      "projectFolder": "sdk/postgresql/arm-postgresql",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-containerregistry",
+      "projectFolder": "sdk/containerregistry/arm-containerregistry",
+      "versionPolicyName": "management"
     }
   ]
 }

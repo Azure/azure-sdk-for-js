@@ -1,35 +1,35 @@
 let nock = require('nock');
 
-module.exports.hash = "284c5e2e658ae008ca855e610331d7fe";
+module.exports.hash = "b6315c3102987354fe49806f064f6b1b";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://endpoint', {"encodedQueryParams":true})
   .post('/identities', {"createTokenWithScopes":["chat","voip"]})
   .query(true)
-  .reply(201, {"identity":{"id":"sanitized"},"accessToken":{"token":"sanitized","expiresOn":"2021-06-02T22:00:57.7046742+00:00"}}, [
-  'Transfer-Encoding',
-  'chunked',
+  .reply(201, {"identity":{"id":"sanitized"},"accessToken":{"token":"sanitized","expiresOn":"2021-10-16T18:36:12.8639829+00:00"}}, [
+  'Content-Length',
+  '927',
   'Content-Type',
   'application/json; charset=utf-8',
   'Request-Context',
   'appId=',
   'MS-CV',
-  '71DsINmKdkyaoEN03vi1Cg.0',
+  'a7VwO2KV0EuGDplLnXZa0g.0',
   'Strict-Transport-Security',
   'max-age=2592000',
   'x-ms-client-request-id',
-  'sanitized',
+  '00000000-0000-0000-0000-000000000000',
   'api-supported-versions',
-  '2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-03-31-preview1',
+  '2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-03-31-preview1, 2021-10-31-preview',
   'X-Processing-Time',
-  '294ms',
+  '192ms',
   'X-Cache',
   'CONFIG_NOCACHE',
   'X-Azure-Ref',
-  '0Gq62YAAAAAAnzkY9hPJfSLeVhegB2zrNWVZSMzBFREdFMDQyMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
+  '0HMppYQAAAAAqof0PoCYZQrJL8sCY12hXUFJHMDFFREdFMDYxNgBmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=',
   'Date',
-  'Tue, 01 Jun 2021 22:00:58 GMT'
+  'Fri, 15 Oct 2021 18:36:12 GMT'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
@@ -39,19 +39,19 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'Request-Context',
   'appId=',
   'MS-CV',
-  'C6kHC4B1uEi0KsX337YyXQ.0',
+  'ev1vZ5mIZUC9BSXJDo636g.0',
   'Strict-Transport-Security',
   'max-age=2592000',
   'x-ms-client-request-id',
-  'sanitized',
+  '00000000-0000-0000-0000-000000000000',
   'api-supported-versions',
-  '2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-03-31-preview1',
+  '2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-03-31-preview1, 2021-10-31-preview',
   'X-Processing-Time',
-  '218ms',
+  '173ms',
   'X-Cache',
   'CONFIG_NOCACHE',
   'X-Azure-Ref',
-  '0Gq62YAAAAAA7J3tvCr7GR7UX+A5h7Z4JWVZSMzBFREdFMDQyMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
+  '0HMppYQAAAAAS2CBnPu07RawVGXOIQh2wUFJHMDFFREdFMDYxNgBmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=',
   'Date',
-  'Tue, 01 Jun 2021 22:00:58 GMT'
+  'Fri, 15 Oct 2021 18:36:12 GMT'
 ]);

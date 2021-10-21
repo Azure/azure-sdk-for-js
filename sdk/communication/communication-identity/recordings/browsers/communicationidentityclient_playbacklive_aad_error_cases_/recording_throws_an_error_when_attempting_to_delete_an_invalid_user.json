@@ -4,47 +4,46 @@
    "method": "POST",
    "url": "https://endpoint/SomeTenantId/oauth2/v2.0/token",
    "query": {},
-   "requestBody": "response_type=token&grant_type=client_credentials&client_id=SomeClientId&client_secret=azure_client_secret&scope=https%3A%2F%2Fsanitized%2F",
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=SomeClientId&client_secret=CDr7Q%7EKYoVreBSYmel36eFHlits-iwmAIwPoE&scope=https%3A%2F%2Fsanitized%2F",
    "status": 200,
    "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"sanitized\"}",
    "responseHeaders": {
     "cache-control": "no-store, no-cache",
     "content-length": "1327",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 01 Jun 2021 22:01:06 GMT",
+    "date": "Tue, 19 Oct 2021 15:50:00 GMT",
     "expires": "-1",
     "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
-    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://endpoint/api/report?catId=GW+estsfd+est\"}]}",
+    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://endpoint/api/report?catId=GW+estsfd+ams2\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11722.26 - EUS ProdSlices",
-    "x-ms-request-id": "sanitized"
+    "x-ms-ests-server": "2.1.12108.11 - NCUS ProdSlices",
+    "x-ms-request-id": "00000000-0000-0000-0000-000000000000"
    }
   },
   {
    "method": "DELETE",
    "url": "https://endpoint/identities/sanitized",
    "query": {
-    "api-version": "2021-03-31-preview1"
+    "api-version": "2021-10-31-preview"
    },
    "requestBody": null,
    "status": 401,
    "response": "{\"error\":{\"code\":\"IdentityNotOwned\",\"message\":\"Provided identity doesn't belong to the resource.\"}}",
    "responseHeaders": {
-    "api-supported-versions": "2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-03-31-preview1",
+    "api-supported-versions": "2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-03-31-preview1, 2021-10-31-preview",
     "content-type": "application/json",
-    "date": "Tue, 01 Jun 2021 22:01:06 GMT",
-    "ms-cv": "pTqrMghVCEipb7/0ucV/XA.0",
+    "date": "Tue, 19 Oct 2021 15:49:59 GMT",
+    "ms-cv": "QgpNUvbYWk+7RuSXKYWHHA.0",
     "request-context": "appId=",
-    "status": "401",
     "strict-transport-security": "max-age=2592000",
-    "x-azure-ref": "0I662YAAAAAAbXRShE6d6QZ9gKBxp9VzQWVZSMzBFREdFMDMxMwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+    "x-azure-ref": "0KOluYQAAAADjuMyzDGXCTZ4OyF3mXlUlUFJHMDFFREdFMDcxNABmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
     "x-cache": "CONFIG_NOCACHE",
-    "x-ms-client-request-id": "sanitized",
-    "x-processing-time": "14ms"
+    "x-ms-client-request-id": "00000000-0000-0000-0000-000000000000",
+    "x-processing-time": "16ms"
    }
   }
  ],
@@ -52,5 +51,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "ed72e5bf86d4aa2d2a265f33f1e6bc2a"
+ "hash": "d4c36d330cf943ffc89cfd00cc968d56"
 }
