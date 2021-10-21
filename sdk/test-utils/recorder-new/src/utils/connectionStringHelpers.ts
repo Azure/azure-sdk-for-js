@@ -4,7 +4,7 @@
 /**
  * Returns the value of a key in connection string.
  */
-export function getValueInConnString(connectionString: string, key: string): string {
+function getValueInConnString(connectionString: string, key: string): string {
   const searchKey = key.toLowerCase();
   const elements = connectionString.split(";").filter((e) => Boolean(e));
   for (const element of elements) {
@@ -21,7 +21,7 @@ export function getValueInConnString(connectionString: string, key: string): str
 /**
  * Returns the key and value from `<key>=<value>` string.
  */
-export function getKeyValuePair(kvp: string): string[] {
+function getKeyValuePair(kvp: string): string[] {
   // If the string is not in kvp format <key>=<value> return an empty array
   if (!kvp || kvp.indexOf("=") === -1) {
     return [];

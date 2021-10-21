@@ -14,17 +14,17 @@ import {
 } from "@azure/core-rest-pipeline";
 import { env, isPlaybackMode, isRecordMode } from "@azure-tools/test-recorder";
 import {
+  ensureExistence,
   RecorderError,
   RecorderStartOptions,
-  RecordingStateManager,
-  shouldExistErrorMessage
+  RecordingStateManager
 } from "./utils/utils";
 import { Test } from "mocha";
 import { sessionFilePath } from "./utils/sessionFilePath";
 import { SanitizerOptions } from "./utils/utils";
 import { paths } from "./utils/paths";
 import { Sanitizer } from "./sanitizer";
-import { handleEnvSetupForPlayback } from "./utils/envSetupForPlayback";
+import { handleEnvSetup } from "./utils/envSetupForPlayback";
 
 /**
  * This client manages the recorder life cycle and interacts with the proxy-tool to do the recording,
@@ -40,7 +40,7 @@ export class TestProxyHttpClient {
   private stateManager = new RecordingStateManager();
   public httpClient: HttpClient | undefined = undefined;
   private sessionFile: string | undefined = undefined;
-  private sanitizer: Sanitizer;
+  private sanitizer: Sanitizer | undefined;
 
   constructor(private testContext?: Test | undefined) {
     this.mode = env.TEST_MODE;
@@ -53,8 +53,8 @@ export class TestProxyHttpClient {
           "Unable to determine the recording file path, testContext provided is not defined."
         );
       }
+      this.sanitizer = new Sanitizer(this.mode, this.url, this.httpClient);
     }
-    this.sanitizer = new Sanitizer(this.mode, this.url, this.httpClient);
   }
 
   /**
@@ -99,7 +99,7 @@ export class TestProxyHttpClient {
    */
   async addSanitizers(options: SanitizerOptions): Promise<void> {
     // If check needed because we only sanitize when the recording is being generated, and we need a recording to apply the sanitizers on.
-    if (isRecordMode()) {
+    if (isRecordMode() && ensureExistence(this.sanitizer, "this.sanitizer", this.mode)) {
       return this.sanitizer.addSanitizers(options);
     }
   }
@@ -137,35 +137,29 @@ export class TestProxyHttpClient {
           paths.start
         }`;
         const req = this._createRecordingRequest(startUri);
-        if (!this.httpClient) {
-          throw new RecorderError(
-            shouldExistErrorMessage("TestProxyHttpClient.httpClient", this.mode)
-          );
+
+        if (ensureExistence(this.httpClient, "TestProxyHttpClient.httpClient", this.mode)) {
+          const rsp = await this.httpClient.sendRequest({
+            ...req,
+            allowInsecureConnection: true
+          });
+          if (rsp.status !== 200) {
+            throw new RecorderError("Start request failed.");
+          }
+          const id = rsp.headers.get("x-recording-id");
+          if (!id) {
+            throw new RecorderError("No recording ID returned for a successful start request.");
+          }
+          this.recordingId = id;
+          if (ensureExistence(this.sanitizer, "TestProxyHttpClient.sanitizer", this.mode)) {
+            // Setting the recordingId in the sanitizer,
+            // the sanitizers added will take the recording id and only be part of the current test
+            this.sanitizer.setRecordingId(this.recordingId);
+            await handleEnvSetup(options.envSetupForPlayback, this.sanitizer);
+          }
         }
-        const rsp = await this.httpClient.sendRequest({
-          ...req,
-          allowInsecureConnection: true
-        });
-        if (rsp.status !== 200) {
-          throw new RecorderError("Start request failed.");
-        }
-        const id = rsp.headers.get("x-recording-id");
-        if (!id) {
-          throw new RecorderError("No recording ID returned for a successful start request.");
-        }
-        this.recordingId = id;
-        if (!this.sanitizer) {
-          throw new RecorderError(
-            shouldExistErrorMessage("TestProxyHttpClient.sanitizer", this.mode)
-          );
-        }
-        // Setting the recordingId in the sanitizer,
-        // the sanitizers added will take the recording id and only be part of the current test
-        this.sanitizer.setRecordingId(this.recordingId);
       }
     }
-
-    await handleEnvSetupForPlayback(options.envSetupForPlayback, this.sanitizer);
 
     if (options.sanitizerOptions) {
       // Makes a call to the proxy-tool to add the sanitizers for the current recording id
@@ -187,17 +181,14 @@ export class TestProxyHttpClient {
         const req = this._createRecordingRequest(stopUri);
         req.headers.set("x-recording-save", "true");
 
-        if (!this.httpClient) {
-          throw new RecorderError(
-            shouldExistErrorMessage("TestProxyHttpClient.httpClient", this.mode)
-          );
-        }
-        const rsp = await this.httpClient.sendRequest({
-          ...req,
-          allowInsecureConnection: true
-        });
-        if (rsp.status !== 200) {
-          throw new RecorderError("Stop request failed.");
+        if (ensureExistence(this.httpClient, "TestProxyHttpClient.httpClient", this.mode)) {
+          const rsp = await this.httpClient.sendRequest({
+            ...req,
+            allowInsecureConnection: true
+          });
+          if (rsp.status !== 200) {
+            throw new RecorderError("Stop request failed.");
+          }
         }
       } else {
         throw new RecorderError("Bad state, recordingId is not defined when called stop.");
@@ -212,12 +203,11 @@ export class TestProxyHttpClient {
    * @private
    * @param {string} url
    */
-  private _createRecordingRequest(url: string, method: HttpMethods | undefined = "POST") {
+  private _createRecordingRequest(url: string, method: HttpMethods = "POST") {
     const req = createPipelineRequest({ url, method });
-    if (!this.sessionFile) {
-      throw new RecorderError(shouldExistErrorMessage("sessionFile", this.mode));
+    if (ensureExistence(this.sessionFile, "sessionFile", this.mode)) {
+      req.headers.set("x-recording-file", this.sessionFile);
     }
-    req.headers.set("x-recording-file", this.sessionFile);
     if (this.recordingId !== undefined) {
       req.headers.set("x-recording-id", this.recordingId);
     }

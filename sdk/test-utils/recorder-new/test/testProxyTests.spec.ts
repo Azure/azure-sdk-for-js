@@ -373,7 +373,7 @@ function getTestServerUrl() {
       it("transformsInfo()", async () => {
         if (!isLiveMode()) {
           await recorder.start({ envSetupForPlayback: {} });
-          await recorder["sanitizer"].transformsInfo();
+          await recorder["sanitizer"]!.transformsInfo();
         }
       });
     });

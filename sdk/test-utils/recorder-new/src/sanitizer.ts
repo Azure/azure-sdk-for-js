@@ -13,7 +13,7 @@ import {
  * Sanitizer class to handle communication with the proxy-tool relating to the sanitizers adding/resetting, etc.
  */
 export class Sanitizer {
-  constructor(private mode: string, private url: string, private httpClient?: HttpClient) {}
+  constructor(private mode: string, private url: string, private httpClient: HttpClient) {}
   private recordingId: string | undefined;
 
   setRecordingId(recordingId: string) {
@@ -50,7 +50,7 @@ export class Sanitizer {
   }
 
   /**
-   * addSanitizers adds the sanitizers for the current recording which will be applied on it before being saved.
+   * addSanitizers adds sanitizers to the current recording. Sanitizers will be applied before recordings are saved.
    *
    * Takes SanitizerOptions as the input, passes on to the proxy-tool.
    */
@@ -191,10 +191,9 @@ export class Sanitizer {
    * Adds the recording id headers to the requests that are sent to the proxy tool.
    * These are required to appropriately save the recordings in the record mode and picking them up in playback.
    *
-   * @private
    * @param {string} url
    */
-  private _createRecordingRequest(url: string, method: HttpMethods | undefined = "POST") {
+  private _createRecordingRequest(url: string, method: HttpMethods = "POST") {
     const req = createPipelineRequest({ url: url, method });
     if (this.recordingId !== undefined) {
       req.headers.set("x-recording-id", this.recordingId);

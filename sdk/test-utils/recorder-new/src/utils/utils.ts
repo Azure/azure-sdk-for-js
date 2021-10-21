@@ -65,7 +65,7 @@ export type ProxyToolSanitizers =
 
 /**
  * Maps the sanitizer options to the header value expected by the proxy-tool
- * 
+ *
  * Keys   = Keys of the SanitizerOptions(excluding `connectionStringSanitizers`)
  * Values = Keywords that should be passed as part of the headers to the proxy-tool to be able to leverage the sanitizer.
  */
@@ -274,8 +274,19 @@ export interface RecorderStartOptions {
 }
 
 /**
- * Template error message when the `label` is not defined when it should have been defined.
+ * Throws error message when the `label` is not defined when it should have been defined in the given mode.
+ *
+ * Returns true if the param exists.
  */
-export function shouldExistErrorMessage(label: string, mode: string) {
-  return `Something went wrong, ${label} should not have been undefined in ${mode} mode.`;
+export function ensureExistence<T>(
+  thing: T,
+  label: string,
+  mode: string
+): thing is Exclude<T, undefined> {
+  if (!thing) {
+    throw new RecorderError(
+      `Something went wrong, ${label} should not have been undefined in ${mode} mode.`
+    );
+  }
+  return true; // Since we would throw error if undefined
 }
