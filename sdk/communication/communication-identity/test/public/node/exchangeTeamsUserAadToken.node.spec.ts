@@ -13,7 +13,7 @@ import {
 import { Context } from "mocha";
 
 matrix([[true, false]], async function(useAad) {
-  describe(`Exchange Teams token for ACS token [Playback/Live]${
+  describe(`Exchange Teams User AAD token for a Communication access token [Playback/Live]${
     useAad ? " [AAD]" : ""
   }`, function() {
     let recorder: Recorder;
@@ -40,7 +40,7 @@ matrix([[true, false]], async function(useAad) {
       }
     });
 
-    it("successfully exchanges a Teams token for an ACS token", async function() {
+    it("successfully exchanges a Teams User AAD token for a Communication access token", async function() {
       let teamsToken = "";
       if (isPlaybackMode()) {
         teamsToken = "sanitized";
@@ -56,20 +56,20 @@ matrix([[true, false]], async function(useAad) {
         assert.isNotNull(response);
         teamsToken = response!.token;
       }
-      const { token, expiresOn }: CommunicationAccessToken = await client.exchangeTeamsToken(
+      const { token, expiresOn }: CommunicationAccessToken = await client.exchangeTeamsUserAadToken(
         teamsToken
       );
       assert.isString(token);
       assert.instanceOf(expiresOn, Date);
     }).timeout(5000);
 
-    it("throws an error when attempting to exchange an empty Teams token", async function() {
+    it("throws an error when attempting to exchange an empty Teams User AAD token", async function() {
       try {
         let emptyToken = "";
         if (isPlaybackMode()) {
           emptyToken = "sanitized";
         }
-        await client.exchangeTeamsToken(emptyToken);
+        await client.exchangeTeamsUserAadToken(emptyToken);
       } catch (e) {
         assert.equal(e.statusCode, 401);
         return;
@@ -78,13 +78,13 @@ matrix([[true, false]], async function(useAad) {
       assert.fail("Should have thrown an error");
     });
 
-    it("throws an error when attempting to exchange an invalid Teams token", async function() {
+    it("throws an error when attempting to exchange an invalid Teams User AAD token", async function() {
       try {
         let invalidToken = "invalid";
         if (isPlaybackMode()) {
           invalidToken = "sanitized";
         }
-        await client.exchangeTeamsToken(invalidToken);
+        await client.exchangeTeamsUserAadToken(invalidToken);
       } catch (e) {
         assert.equal(e.statusCode, 401);
         return;
@@ -93,13 +93,13 @@ matrix([[true, false]], async function(useAad) {
       assert.fail("Should have thrown an error");
     });
 
-    it("throws an error when attempting to exchange an expired Teams token", async function() {
+    it("throws an error when attempting to exchange an expired Teams User AAD token", async function() {
       try {
         let expiredToken = env.COMMUNICATION_EXPIRED_TEAMS_TOKEN;
         if (isPlaybackMode()) {
           expiredToken = "sanitized";
         }
-        await client.exchangeTeamsToken(expiredToken);
+        await client.exchangeTeamsUserAadToken(expiredToken);
       } catch (e) {
         assert.equal(e.statusCode, 401);
         return;
