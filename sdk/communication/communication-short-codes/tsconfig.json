@@ -4,7 +4,7 @@
     "outDir": "./dist-esm/src",
     "declarationDir": "./types/src",
     "paths": {
-      "@azure-tools/communication-short-numbers": [
+      "@azure-tools/communication-short-codes": [
         "./src/index"
       ]
     }
