@@ -4,6 +4,8 @@
 
 ```ts
 
+/// <reference types="node" />
+
 import { KeyCredential } from '@azure/core-auth';
 import { Pipeline } from '@azure/core-rest-pipeline';
 import { PipelineOptions } from '@azure/core-rest-pipeline';
@@ -22,16 +24,7 @@ export interface CertificateCredential {
 // @public
 export interface Client {
     path: Function;
-    pathUnchecked: (path: string, ...args: Array<any>) => {
-        get: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
-        post: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
-        put: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
-        patch: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
-        delete: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
-        head: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
-        options: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
-        trace: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
-    };
+    pathUnchecked: (path: string, ...args: Array<any>) => ClientResource;
     pipeline: Pipeline;
 }
 
@@ -46,6 +39,31 @@ export type ClientOptions = PipelineOptions & {
     allowInsecureConnection?: boolean;
 };
 
+// @public (undocumented)
+export interface ClientResource<TResponse = Thenable<PathUncheckedResponse>> {
+    // (undocumented)
+    delete: (options?: RequestParameters) => TResponse;
+    // (undocumented)
+    get: (options?: RequestParameters) => TResponse;
+    // (undocumented)
+    head: (options?: RequestParameters) => TResponse;
+    // (undocumented)
+    options: (options?: RequestParameters) => TResponse;
+    // (undocumented)
+    patch: (options?: RequestParameters) => TResponse;
+    // (undocumented)
+    post: (options?: RequestParameters) => TResponse;
+    // (undocumented)
+    put: (options?: RequestParameters) => TResponse;
+    // (undocumented)
+    trace: (options?: RequestParameters) => TResponse;
+}
+
+// @public
+export interface ClientWithAsStream extends Client {
+    pathUnchecked: (path: string, ...args: Array<any>) => ClientResource<MethodwithAsStream>;
+}
+
 // @public
 export function createDefaultPipeline(baseUrl: string, credential?: TokenCredential | KeyCredential, options?: ClientOptions): Pipeline;
 
@@ -59,6 +77,12 @@ export function getClient(baseUrl: string, options?: ClientOptions): Client;
 export function getClient(baseUrl: string, credentials?: TokenCredential | KeyCredential, options?: ClientOptions): Client;
 
 // @public
+export function getClientWithStream(baseUrl: string, options?: ClientOptions): ClientWithAsStream;
+
+// @public
+export function getClientWithStream(baseUrl: string, credentials?: TokenCredential | KeyCredential, options?: ClientOptions): ClientWithAsStream;
+
+// @public
 export type HttpResponse = {
     request: PipelineRequest;
     headers: RawHttpHeaders;
@@ -68,6 +92,11 @@ export type HttpResponse = {
 
 // @public
 export function isCertificateCredential(credential: unknown): credential is CertificateCredential;
+
+// @public (undocumented)
+export type MethodwithAsStream = Thenable<PathUncheckedResponse> & {
+    asStream: () => Promise<NodeJS.ReadableStream | ReadableStream>;
+};
 
 // @public
 export type PathUncheckedResponse = HttpResponse & {
@@ -86,10 +115,15 @@ export type RequestParameters = {
 
 // @public
 export type RouteParams<TRoute extends string> = TRoute extends `${infer _Head}/{${infer _Param}}${infer Tail}` ? [
-    pathParam: string,
-    ...pathParams: RouteParams<Tail>
+pathParam: string,
+...pathParams: RouteParams<Tail>
 ] : [
 ];
 
+// @public (undocumented)
+export interface Thenable<TResult> {
+    // (undocumented)
+    then: (onFulfilled: (p: TResult) => TResult) => Promise<TResult>;
+}
 
 ```

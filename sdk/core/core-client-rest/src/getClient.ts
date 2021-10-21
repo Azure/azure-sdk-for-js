@@ -10,6 +10,10 @@ import { RequestParameters } from "./pathClientTypes";
 import { sendRequest } from "./sendRequest";
 import { buildRequestUrl } from "./urlHelpers";
 
+export interface Thenable<TResult> {
+  then: (onFulfilled: (p: TResult) => TResult) => Promise<TResult>;
+}
+
 /**
  * Type to use with pathUnchecked, overrides the body type to any to allow flexibility
  */
@@ -32,19 +36,32 @@ export interface Client {
   /**
    * This method allows arbitrary paths and doesn't provide strong types
    */
-  pathUnchecked: (
-    path: string,
-    ...args: Array<any>
-  ) => {
-    get: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
-    post: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
-    put: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
-    patch: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
-    delete: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
-    head: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
-    options: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
-    trace: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
-  };
+  pathUnchecked: (path: string, ...args: Array<any>) => ClientResource;
+}
+
+export interface ClientResource<TResponse = Thenable<PathUncheckedResponse>> {
+  get: (options?: RequestParameters) => TResponse;
+  post: (options?: RequestParameters) => TResponse;
+  put: (options?: RequestParameters) => TResponse;
+  patch: (options?: RequestParameters) => TResponse;
+  delete: (options?: RequestParameters) => TResponse;
+  head: (options?: RequestParameters) => TResponse;
+  options: (options?: RequestParameters) => TResponse;
+  trace: (options?: RequestParameters) => TResponse;
+}
+
+export type MethodwithAsStream = Thenable<PathUncheckedResponse> & {
+  asStream: () => Promise<NodeJS.ReadableStream | ReadableStream>;
+};
+
+/**
+ * Shape of a Rest Level Client
+ */
+export interface ClientWithAsStream extends Client {
+  /**
+   * This method allows arbitrary paths and doesn't provide strong types
+   */
+  pathUnchecked: (path: string, ...args: Array<any>) => ClientResource<MethodwithAsStream>;
 }
 
 /**
@@ -176,6 +193,207 @@ export function getClient(
   return {
     path: client,
     pathUnchecked: client,
+    pipeline,
+  };
+}
+
+/**
+ * Creates a client with a default pipeline
+ * @param baseUrl - Base endpoint for the client
+ * @param options - Client options
+ */
+export function getClientWithStream(baseUrl: string, options?: ClientOptions): ClientWithAsStream;
+/**
+ * Creates a client with a default pipeline
+ * @param baseUrl - Base endpoint for the client
+ * @param credentials - Credentials to authenticate the requests
+ * @param options - Client options
+ */
+export function getClientWithStream(
+  baseUrl: string,
+  credentials?: TokenCredential | KeyCredential,
+  options?: ClientOptions
+): ClientWithAsStream;
+export function getClientWithStream(
+  baseUrl: string,
+  credentialsOrPipelineOptions?: (TokenCredential | KeyCredential) | ClientOptions,
+  clientOptions: ClientOptions = {}
+): ClientWithAsStream {
+  let credentials: TokenCredential | KeyCredential | undefined;
+  if (credentialsOrPipelineOptions) {
+    if (isCredential(credentialsOrPipelineOptions)) {
+      credentials = credentialsOrPipelineOptions;
+    } else {
+      clientOptions = credentialsOrPipelineOptions ?? {};
+    }
+  }
+
+  const pipeline = createDefaultPipeline(baseUrl, credentials, clientOptions);
+  const { allowInsecureConnection } = clientOptions;
+
+  const resourceWithAsStream = (
+    path: string,
+    ...args: Array<any>
+  ): ClientResource<MethodwithAsStream> => ({
+    get(options: RequestParameters = {}) {
+      return {
+        then: async function (
+          onfulfilled: (r: PathUncheckedResponse) => PathUncheckedResponse
+        ): Promise<PathUncheckedResponse> {
+          const result: PathUncheckedResponse = await buildSendRequest(
+            "GET",
+            clientOptions,
+            baseUrl,
+            path,
+            pipeline,
+            { allowInsecureConnection, ...options },
+            args
+          );
+          return onfulfilled(result);
+        },
+        async asStream() {
+          throw new Error("NYI");
+        },
+      };
+    },
+    post(options: RequestParameters = {}) {
+      return {
+        then: async function (onfulfilled: (r: PathUncheckedResponse) => PathUncheckedResponse) {
+          const result = await buildSendRequest(
+            "POST",
+            clientOptions,
+            baseUrl,
+            path,
+            pipeline,
+            { allowInsecureConnection, ...options },
+            args
+          );
+          return onfulfilled(result);
+        },
+        async asStream() {
+          throw new Error("NYI");
+        },
+      };
+    },
+    put: (options: RequestParameters = {}) => {
+      return {
+        then: async function (onfulfilled: (r: PathUncheckedResponse) => PathUncheckedResponse) {
+          const result = await buildSendRequest(
+            "PUT",
+            clientOptions,
+            baseUrl,
+            path,
+            pipeline,
+            { allowInsecureConnection, ...options },
+            args
+          );
+          return onfulfilled(result);
+        },
+        async asStream() {
+          throw new Error("NYI");
+        },
+      };
+    },
+    patch: (options: RequestParameters = {}) => {
+      return {
+        then: async function (onfulfilled: (r: PathUncheckedResponse) => PathUncheckedResponse) {
+          const result = await buildSendRequest(
+            "PATCH",
+            clientOptions,
+            baseUrl,
+            path,
+            pipeline,
+            { allowInsecureConnection, ...options },
+            args
+          );
+          return onfulfilled(result);
+        },
+        async asStream() {
+          throw new Error("NYI");
+        },
+      };
+    },
+    delete: (options: RequestParameters = {}) => {
+      return {
+        then: async function (onfulfilled: (r: PathUncheckedResponse) => PathUncheckedResponse) {
+          const result = await buildSendRequest(
+            "DELETE",
+            clientOptions,
+            baseUrl,
+            path,
+            pipeline,
+            { allowInsecureConnection, ...options },
+            args
+          );
+          return onfulfilled(result);
+        },
+        async asStream() {
+          throw new Error("NYI");
+        },
+      };
+    },
+    head: (options: RequestParameters = {}) => {
+      return {
+        then: async function (onfulfilled: (r: PathUncheckedResponse) => PathUncheckedResponse) {
+          const result = await buildSendRequest(
+            "HEAD",
+            clientOptions,
+            baseUrl,
+            path,
+            pipeline,
+            { allowInsecureConnection, ...options },
+            args
+          );
+          return onfulfilled(result);
+        },
+        async asStream() {
+          throw new Error("NYI");
+        },
+      };
+    },
+    options: (options: RequestParameters = {}) => {
+      return {
+        then: async function (onfulfilled: (r: PathUncheckedResponse) => PathUncheckedResponse) {
+          const result = await buildSendRequest(
+            "OPTIONS",
+            clientOptions,
+            baseUrl,
+            path,
+            pipeline,
+            { allowInsecureConnection, ...options },
+            args
+          );
+          return onfulfilled(result);
+        },
+        async asStream() {
+          throw new Error("NYI");
+        },
+      };
+    },
+    trace: (options: RequestParameters = {}) => {
+      return {
+        then: async function (onfulfilled: (r: PathUncheckedResponse) => PathUncheckedResponse) {
+          const result = await buildSendRequest(
+            "TRACE",
+            clientOptions,
+            baseUrl,
+            path,
+            pipeline,
+            { allowInsecureConnection, ...options },
+            args
+          );
+          return onfulfilled(result);
+        },
+        async asStream() {
+          throw new Error("NYI");
+        },
+      };
+    },
+  });
+
+  return {
+    path: () => ({} as any),
+    pathUnchecked: resourceWithAsStream,
     pipeline,
   };
 }
