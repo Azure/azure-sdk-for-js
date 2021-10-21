@@ -258,7 +258,7 @@ export interface TopicProperties {
   /**
    * The maximum message size in kilobytes for messages sent to this queue/topic.
    *
-   * "2021-05" API version(set by default) populates this value, whereas "2017-04" doesn't.
+   * Not applicable if service version "2017-04" is chosen when creating the `ServiceBusAdministrationClient`.
    */
   maxMessageSizeInKilobytes?: number;
 
