@@ -4,8 +4,6 @@
 
 ```ts
 
-import * as api from '@opentelemetry/api';
-
 // @public (undocumented)
 export function createTracingClient(options?: TracingClientOptions): TracingClient;
 
@@ -22,63 +20,6 @@ export interface CreateTracingContextOptions {
     providerContext?: TracingContext;
     // (undocumented)
     span?: TracingSpan;
-}
-
-// @public (undocumented)
-export const knownContextKeys: {
-    Span: symbol;
-    Namespace: symbol;
-    Client: symbol;
-    ProviderContext: symbol;
-};
-
-// @public (undocumented)
-export class NoOpSpan implements TracingSpan {
-    // (undocumented)
-    end(): void;
-    // (undocumented)
-    setAttribute(): void;
-    // (undocumented)
-    setStatus(): void;
-    // (undocumented)
-    unwrap(): unknown;
-}
-
-// @public (undocumented)
-export class NoOpTracer implements Tracer {
-    // (undocumented)
-    startSpan(_name?: string, options?: TracerCreateSpanOptions): {
-        span: TracingSpan;
-        tracingContext: TracingContext;
-    };
-    // (undocumented)
-    withContext<Callback extends (args: Parameters<Callback>) => ReturnType<Callback>>(callback: Callback, _options: TracerCreateSpanOptions, callbackThis?: ThisParameterType<Callback>, ...callbackArgs: Parameters<Callback>): ReturnType<Callback>;
-    // (undocumented)
-    withTrace<Callback extends (context: TracingContext, span: Omit<TracingSpan, "end">) => ReturnType<Callback>>(_name: string, fn: Callback, _options: TracerCreateSpanOptions, callbackThis?: ThisParameterType<Callback>): Promise<ReturnType<Callback>>;
-}
-
-// @public (undocumented)
-export class OpenTelemetrySpanWrapper implements TracingSpan {
-    constructor(span: api.Span);
-    // (undocumented)
-    end(): void;
-    // (undocumented)
-    setAttribute(name: string, value: unknown): void;
-    // (undocumented)
-    setStatus(status: SpanStatus): void;
-    // (undocumented)
-    unwrap(): unknown;
-}
-
-// @public (undocumented)
-export class OpenTelemetryTracer implements Tracer {
-    // (undocumented)
-    startSpan(name: string, options: TracerCreateSpanOptions): {
-        span: TracingSpan;
-        tracingContext: TracingContext;
-    };
-    // (undocumented)
-    withContext<Callback extends (args: Parameters<Callback>) => ReturnType<Callback>>(callback: Callback, options: TracerCreateSpanOptions, callbackThis?: ThisParameterType<Callback>, ...callbackArgs: Parameters<Callback>): ReturnType<Callback>;
 }
 
 // @public (undocumented)
@@ -113,9 +54,6 @@ export interface TracerCreateSpanOptions {
 }
 
 // @public (undocumented)
-export let tracerImplementation: Tracer;
-
-// @public (undocumented)
 export interface TracingClient {
     // (undocumented)
     startSpan<Options extends {
@@ -133,26 +71,6 @@ export interface TracingClient {
 }
 
 // @public (undocumented)
-export class TracingClientImpl implements TracingClient {
-    constructor(options?: TracingClientOptions);
-    // (undocumented)
-    startSpan<Options extends {
-        tracingOptions?: OperationTracingOptions;
-    }>(name: string, options?: Options): {
-        span: TracingSpan;
-        updatedOptions: Options;
-    };
-    // (undocumented)
-    withContext<Callback extends (args: Parameters<Callback>) => ReturnType<Callback>>(callback: Callback, options: OperationTracingOptions, callbackThis?: ThisParameterType<Callback>, ...callbackArgs: Parameters<Callback>): ReturnType<Callback>;
-    // (undocumented)
-    withTrace<Options extends {
-        tracingOptions?: {
-            context?: TracingContext;
-        };
-    }, Callback extends (updatedOptions: Options, span: Omit<TracingSpan, "end">) => ReturnType<Callback>>(name: string, fn: Callback, options?: Options, callbackThis?: ThisParameterType<Callback>): Promise<ReturnType<Callback>>;
-}
-
-// @public (undocumented)
 export interface TracingClientOptions {
     // (undocumented)
     namespace: string;
@@ -162,17 +80,6 @@ export interface TracingClientOptions {
 
 // @public (undocumented)
 export interface TracingContext {
-    // (undocumented)
-    deleteValue(key: symbol): TracingContext;
-    // (undocumented)
-    getValue(key: symbol): unknown;
-    // (undocumented)
-    setValue(key: symbol, value: unknown): TracingContext;
-}
-
-// @public (undocumented)
-export class TracingContextImpl implements TracingContext {
-    constructor(initialContext: Map<symbol, unknown>);
     // (undocumented)
     deleteValue(key: symbol): TracingContext;
     // (undocumented)

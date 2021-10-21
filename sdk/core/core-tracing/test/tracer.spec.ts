@@ -1,21 +1,10 @@
 import { assert } from "chai";
 import { Context } from "mocha";
-import {
-  createTracingClient,
-  TracingClient,
-  createTracingContext,
-  knownContextKeys,
-  TracingClientImpl,
-  tracerImplementation,
-  NoOpSpan,
-  NoOpTracer,
-  useTracer,
-  Tracer,
-  TracingContextImpl,
-  TracingSpan,
-  TracingContext
-} from "../src";
 import sinon from "sinon";
+import { Tracer, TracingSpan, TracingContext, TracingClient } from "../src/interfaces";
+import { NoOpTracer, NoOpSpan, tracerImplementation, useTracer } from "../src/tracer";
+import { createTracingClient, TracingClientImpl } from "../src/tracingClient";
+import { TracingContextImpl, knownContextKeys, createTracingContext } from "../src/tracingContext";
 
 describe("Tracer", () => {
   describe("NoOpTracer", () => {
