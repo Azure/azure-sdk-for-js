@@ -81,7 +81,9 @@ export async function parseCertificate(
   } while (match);
 
   if (publicKeys.length === 0) {
-    throw new Error("The file at the specified path does not contain a PEM-encoded certificate.");
+    throw new Error(
+      "The file at the specified path does not contain a PEM-encoded certificate. To troubleshoot, visit https://aka.ms/azsdk/js/identity/serviceprincipalauthentication/troubleshoot."
+    );
   }
 
   certificateParts.thumbprint = createHash("sha1")

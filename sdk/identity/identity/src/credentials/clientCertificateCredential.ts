@@ -86,7 +86,9 @@ export class ClientCertificateCredential implements TokenCredential {
     options: ClientCertificateCredentialOptions = {}
   ) {
     if (!tenantId || !clientId) {
-      throw new Error(`${credentialName}: tenantId and clientId are required parameters.`);
+      throw new Error(
+        `${credentialName}: tenantId and clientId are required parameters. To troubleshoot, visit https://aka.ms/azsdk/js/identity/serviceprincipalauthentication/troubleshoot.`
+      );
     }
     const configuration: ClientCertificateCredentialPEMConfiguration = {
       ...(typeof certificatePathOrConfiguration === "string"

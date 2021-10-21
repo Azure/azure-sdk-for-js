@@ -65,7 +65,7 @@ describe("ClientCertificateCredential (internal)", function() {
     errors.forEach((e) => {
       assert.equal(
         e.message,
-        "ClientCertificateCredential: tenantId and clientId are required parameters."
+        "ClientCertificateCredential: tenantId and clientId are required parameters. To troubleshoot, visit https://aka.ms/azsdk/js/identity/serviceprincipalauthentication/troubleshoot."
       );
     });
 
@@ -139,7 +139,7 @@ describe("ClientCertificateCredential (internal)", function() {
     assert.ok(error);
     assert.deepEqual(
       error?.message,
-      `The file at the specified path does not contain a PEM-encoded certificate.`
+      `The file at the specified path does not contain a PEM-encoded certificate. To troubleshoot, visit https://aka.ms/azsdk/js/identity/serviceprincipalauthentication/troubleshoot.`
     );
   });
 
