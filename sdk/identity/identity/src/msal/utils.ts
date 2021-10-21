@@ -158,7 +158,7 @@ export class MsalBaseUtilities {
    * Handles MSAL errors.
    */
   protected handleError(scopes: string[], error: Error, getTokenOptions?: GetTokenOptions): Error {
-    const troubleshoot = `To troubleshoot, visit https://aka.ms/azsdk/js/identity/usernamepasswordcredential/troubleshoot.`;
+    const troubleshoot = `To troubleshoot, visit https://aka.ms/azsdk/js/identity/defaultazurecredential/troubleshoot`;
     if (
       error.name === "AuthError" ||
       error.name === "ClientAuthError" ||

@@ -147,7 +147,7 @@ describe("IdentityClient", function() {
       assert.strictEqual(error?.name, "AuthenticationRequiredError");
       assert.strictEqual(
         error?.message,
-        `Response had no "expiresOn" property.\nTo troubleshoot, visit https://aka.ms/azsdk/js/identity/usernamepasswordcredential/troubleshoot.`
+        `Response had no "expiresOn" property.\nTo troubleshoot, visit https://aka.ms/azsdk/js/identity/defaultazurecredential/troubleshoot`
       );
     } else {
       // The browser version of this credential uses a legacy approach.
