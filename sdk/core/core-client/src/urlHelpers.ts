@@ -45,6 +45,12 @@ export function getRequestUrl(
     operationArguments,
     fallbackObject
   );
+  /**
+   * Notice that this call sets the `noOverwrite` parameter to true if the `requestUrl`
+   * is an absolute path. This ensures that existing query parameter values in `requestUrl`
+   * do not get overwritten. On the other hand when `requestUrl` is not absolute path, it
+   * is still being built so there is nothing to overwrite.
+   */
   requestUrl = appendQueryParams(requestUrl, queryParams, sequenceParams, isAbsolutePath);
 
   return requestUrl;
