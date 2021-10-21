@@ -255,11 +255,7 @@ export interface RecorderStartOptions {
  *
  * Returns true if the param exists.
  */
-export function ensureExistence<T>(
-  thing: T,
-  label: string,
-  mode: string
-): thing is Exclude<T, undefined> {
+export function ensureExistence<T>(thing: T | undefined, label: string, mode: string): thing is T {
   if (!thing) {
     throw new RecorderError(
       `Something went wrong, ${label} should not have been undefined in ${mode} mode.`
