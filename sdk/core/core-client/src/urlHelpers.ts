@@ -24,6 +24,8 @@ export function getRequestUrl(
     fallbackObject
   );
 
+  let isAbsolutePath = false;
+
   let requestUrl = replaceAll(baseUri, urlReplacements);
   if (operationSpec.path) {
     const path = replaceAll(operationSpec.path, urlReplacements);
@@ -32,6 +34,7 @@ export function getRequestUrl(
     // ignore the baseUri.
     if (isAbsoluteUrl(path)) {
       requestUrl = path;
+      isAbsolutePath = true;
     } else {
       requestUrl = appendPath(requestUrl, path);
     }
@@ -42,7 +45,7 @@ export function getRequestUrl(
     operationArguments,
     fallbackObject
   );
-  requestUrl = appendQueryParams(requestUrl, queryParams, sequenceParams);
+  requestUrl = appendQueryParams(requestUrl, queryParams, sequenceParams, isAbsolutePath);
 
   return requestUrl;
 }
@@ -237,7 +240,8 @@ function simpleParseQueryParams(queryString: string): Map<string, string | strin
 export function appendQueryParams(
   url: string,
   queryParams: Map<string, string | string[]>,
-  sequenceParams: Set<string>
+  sequenceParams: Set<string>,
+  noOverwrite: boolean = false
 ): string {
   if (queryParams.size === 0) {
     return url;
@@ -267,7 +271,9 @@ export function appendQueryParams(
       } else if (sequenceParams.has(name)) {
         newValue = [existingValue, value];
       }
-      combinedParams.set(name, newValue);
+      if (!noOverwrite) {
+        combinedParams.set(name, newValue);
+      }
     } else {
       combinedParams.set(name, value);
     }
