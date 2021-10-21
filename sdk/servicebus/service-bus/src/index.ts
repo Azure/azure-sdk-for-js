@@ -55,7 +55,6 @@ export {
   WithResponse,
   ServiceBusAdministrationClientOptions
 } from "./serviceBusAtomManagementClient";
-export { ServiceBusAtomAPIVersion } from "./util/utils";
 export { ServiceBusClient } from "./serviceBusClient";
 export { isServiceBusError, ServiceBusError, ServiceBusErrorCode } from "./serviceBusError";
 export {

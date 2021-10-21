@@ -8,7 +8,7 @@ import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import chaiExclude from "chai-exclude";
 import * as dotenv from "dotenv";
-import { parseServiceBusConnectionString, ServiceBusAtomAPIVersion } from "../../src";
+import { parseServiceBusConnectionString } from "../../src";
 import { CreateQueueOptions } from "../../src";
 import { RuleProperties } from "../../src";
 import { CreateSubscriptionOptions, SubscriptionProperties } from "../../src";
@@ -22,6 +22,7 @@ import { TestConstants } from "./fakeTestSecrets";
 import { AzureNamedKeyCredential } from "@azure/core-auth";
 import { createServiceBusClientForTests, ServiceBusClientForTests } from "./utils/testutils2";
 import { versionsToTest } from "@azure/test-utils";
+import { ServiceBusAtomAPIVersion } from "../../src/util/utils";
 
 chai.use(chaiAsPromised);
 chai.use(chaiExclude);
@@ -58,7 +59,7 @@ const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
 type AccessRights = ("Manage" | "Send" | "Listen")[];
 const randomDate = new Date();
 
-const serviceApiVersions: ServiceBusAtomAPIVersion[] = ["2021-05", "2017-04"];
+const serviceApiVersions = ["2021-05", "2017-04"];
 let serviceBusAtomManagementClient: ServiceBusAdministrationClient;
 
 // TEST_MODE must be set to "live" to run both the versions

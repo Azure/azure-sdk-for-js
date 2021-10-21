@@ -122,7 +122,7 @@ export interface ServiceBusAdministrationClientOptions extends PipelineOptions {
    *
    * Defaults to "2021-05".
    */
-  serviceVersion?: ServiceBusAtomAPIVersion;
+  serviceVersion?: "2021-05" | "2017-04";
 }
 
 /**

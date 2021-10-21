@@ -281,11 +281,8 @@ export class ServiceBusAdministrationClient extends ServiceClient {
 
 // @public
 export interface ServiceBusAdministrationClientOptions extends PipelineOptions {
-    serviceVersion?: ServiceBusAtomAPIVersion;
+    serviceVersion?: "2021-05" | "2017-04";
 }
-
-// @public
-export type ServiceBusAtomAPIVersion = "2021-05" | "2017-04";
 
 // @public
 export class ServiceBusClient {
