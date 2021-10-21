@@ -2,20 +2,17 @@
 // Licensed under the MIT license.
 
 /**
- * Returns the value of a key in connection string.
+ * Returns the connection string parsed as JSON object.
  */
-function getValueInConnString(connectionString: string, key: string): string {
-  const searchKey = key.toLowerCase();
-  const elements = connectionString.split(";").filter((e) => !!e);
+function getConnStringAsJSON(connectionString: string): Record<string, string> {
+  const keyValuePairs: Record<string, string> = {};
+  const elements = connectionString.split(";").filter((e) => Boolean(e));
   for (const element of elements) {
     const trimmedElement = element.trim();
     const [elementKey, value] = getKeyValuePair(trimmedElement);
-    const key = elementKey.toLowerCase();
-    if (key === searchKey) {
-      return value;
-    }
+    keyValuePairs[elementKey] = value;
   }
-  return "";
+  return keyValuePairs;
 }
 
 /**
@@ -54,16 +51,11 @@ export function getRealAndFakePairs(
   connectionString: string,
   fakeConnString: string
 ): Record<string, string> {
-  let realAndFakePairs = {};
-  const elements = fakeConnString.split(";").filter((e) => Boolean(e));
-  for (const element of elements) {
-    const trimmedElement = element.trim();
-    const [elementKey, value] = getKeyValuePair(trimmedElement);
-    realAndFakePairs = {
-      ...realAndFakePairs,
-      [getValueInConnString(connectionString, elementKey)]: value // "real value" : "fake value"
-    };
+  let realAndFakePairs: Record<string, string> = {};
+  const fakeValues = getConnStringAsJSON(fakeConnString);
+  const realValues = getConnStringAsJSON(connectionString);
+  for (const key in fakeValues) {
+    realAndFakePairs[realValues[key]] = fakeValues[key]; // "real value" : "fake value"
   }
-
   return realAndFakePairs;
 }
