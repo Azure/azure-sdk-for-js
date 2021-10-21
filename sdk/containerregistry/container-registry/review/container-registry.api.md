@@ -65,6 +65,7 @@ export class ContainerRegistryClient {
 // @public
 export interface ContainerRegistryClientOptions extends PipelineOptions {
     audience?: string;
+    serviceVersion?: "2021-07-01";
 }
 
 // @public
