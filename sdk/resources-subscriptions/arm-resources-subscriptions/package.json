@@ -2,7 +2,7 @@
   "name": "@azure/arm-resources-subscriptions",
   "author": "Microsoft Corporation",
   "description": "SubscriptionClient Library with typescript type definitions for node.js and browser.",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "dependencies": {
     "@azure/ms-rest-azure-js": "^2.1.0",
     "@azure/ms-rest-js": "^2.2.0",
