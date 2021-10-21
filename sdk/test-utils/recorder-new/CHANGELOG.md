@@ -6,7 +6,7 @@
 
 [#17379](https://github.com/Azure/azure-sdk-for-js/pull/17379)
 
-- Add sanitizers method to support
+- Added `addSanitizers` method to support
   - BodyKeySanitizer
   - BodyRegexSanitizer
   - GeneralRegexSanitizer

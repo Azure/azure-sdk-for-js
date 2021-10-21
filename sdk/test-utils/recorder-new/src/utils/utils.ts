@@ -86,6 +86,76 @@ export const sanitizerKeywordMapping: Record<
 };
 
 /**
+ * This sanitizer offers a general regex replace across request/response Body, Headers, and URI. For the body, this means regex applying to the raw JSON.
+ */
+interface RegexSanitizer {
+  /**
+   * The substitution value.
+   */
+  value: string;
+  /**
+   * A regex. Can be defined as a simple regex replace OR if groupForReplace is set, a subsitution operation.
+   */
+  regex: string;
+  /**
+   * The capture group that needs to be operated upon. Do not set if you're invoking a simple replacement operation.
+   */
+  groupForReplace?: string;
+}
+
+/**
+ * This sanitizer offers regex update of a specific JTokenPath.
+ *
+ * EG: "TableName" within a json response body having its value replaced by whatever substitution is offered.
+ * This simply means that if you are attempting to replace a specific key wholesale, this sanitizer will be simpler
+ * than configuring a BodyRegexSanitizer that has to match against the full "KeyName": "Value" that is part of the json structure.
+ *
+ * Further reading is available [here](https://www.newtonsoft.com/json/help/html/SelectToken.htm#SelectTokenJSONPath).
+ *
+ * If the body is NOT a JSON object, this sanitizer will NOT be applied.
+ */
+interface BodyKeySanitizer extends RegexSanitizer {
+  /**
+   * The SelectToken path (which could possibly match multiple entries) that will be used to select JTokens for value replacement.
+   */
+  jsonPath: string;
+}
+
+/**
+ * Can be used for multiple purposes:
+ *
+ * 1) To replace a key with a specific value, do not set "regex" value.
+ * 2) To do a simple regex replace operation, define arguments "key", "value", and "regex"
+ * 3) To do a targeted substitution of a specific group, define all arguments "key", "value", and "regex"
+ */
+interface HeaderRegexSanitizer extends Omit<RegexSanitizer, "regex"> {
+  /**
+   * The name of the header we're operating against.
+   */
+  key: string;
+  /**
+   * A regex. Can be defined as a simple regex replace OR if groupForReplace is set, a subsitution operation.
+   */
+  regex?: string;
+}
+/**
+ * Internally,
+ * - connection strings are parsed and
+ * - each part of the connection string is mapped with its corresponding fake value
+ * - `generalRegexSanitizer` is applied for each of the parts with the real and fake values that are parsed
+ */
+interface ConnectionStringSanitizer {
+  /**
+   * Real connection string with all the secrets
+   */
+  actualConnString: string;
+  /**
+   * Fake connection string - with all the parts of the connection string mapped to fake values
+   */
+  fakeConnString: string;
+}
+
+/**
  * Test-proxy tool supports "extensions" or "customizations" to the recording experience.
  * This means that non-default sanitizations such as the generalized regex find/replace on different parts of the recordings in various ways are possible.
  */
@@ -93,36 +163,14 @@ export interface SanitizerOptions {
   /**
    * This sanitizer offers a general regex replace across request/response Body, Headers, and URI. For the body, this means regex applying to the raw JSON.
    */
-  generalRegexSanitizers?: Array<{
-    /**
-     * The substitution value.
-     */
-    value: string;
-    /**
-     * A regex. Can be defined as a simple regex replace OR if groupForReplace is set, a subsitution operation.
-     */
-    regex: string;
-    /**
-     * The capture group that needs to be operated upon. Do not set if you're invoking a simple replacement operation.
-     */
-    groupForReplace?: string;
-  }>;
+  generalRegexSanitizers?: RegexSanitizer[];
   /**
    * Internally,
    * - connection strings are parsed and
    * - each part of the connection string is mapped with its corresponding fake value
    * - `generalRegexSanitizer` is applied for each of the parts with the real and fake values that are parsed
    */
-  connectionStringSanitizers?: Array<{
-    /**
-     * Real connection string with all the secrets
-     */
-    actualConnString: string;
-    /**
-     * Fake connection string - with all the parts of the connection string mapped to fake values
-     */
-    fakeConnString: string;
-  }>;
+  connectionStringSanitizers?: ConnectionStringSanitizer[];
   /**
    * This sanitizer offers regex replace within a returned body.
    *
@@ -131,49 +179,9 @@ export interface SanitizerOptions {
    *
    * Regardless, there are examples present in `recorder-new/test/testProxyTests.spec.ts`.
    */
-  bodyRegexSanitizers?: Array<{
-    /**
-     * The substitution value.
-     */
-    value: string;
-    /**
-     * A regex. Can be defined as a simple regex replace OR if groupForReplace is set, a subsitution operation.
-     */
-    regex: string;
-    /**
-     * The capture group that needs to be operated upon. Do not set if you're invoking a simple replacement operation.
-     */
-    groupForReplace?: string;
-  }>;
-  /**
-   * This sanitizer offers regex update of a specific JTokenPath.
-   *
-   * EG: "TableName" within a json response body having its value replaced by whatever substitution is offered.
-   * This simply means that if you are attempting to replace a specific key wholesale, this sanitizer will be simpler
-   * than configuring a BodyRegexSanitizer that has to match against the full "KeyName": "Value" that is part of the json structure.
-   *
-   * Further reading is available [here](https://www.newtonsoft.com/json/help/html/SelectToken.htm#SelectTokenJSONPath).
-   *
-   * If the body is NOT a JSON object, this sanitizer will NOT be applied.
-   */
-  bodyKeySanitizers?: Array<{
-    /**
-     * The substitution value.
-     */
-    value: string;
-    /**
-     * A regex. Can be defined as a simple regex replace OR if groupForReplace is set, a subsitution operation. Defaults to replacing the entire string.
-     */
-    regex: string;
-    /**
-     * The SelectToken path (which could possibly match multiple entries) that will be used to select JTokens for value replacement.
-     */
-    jsonPath: string;
-    /**
-     * A regex. Can be defined as a simple regex replace OR if groupForReplace is set, a subsitution operation. Defaults to replacing the entire string.
-     */
-    groupForReplace?: string;
-  }>;
+  bodyRegexSanitizers?: RegexSanitizer[];
+
+  bodyKeySanitizers?: BodyKeySanitizer[];
   /**
    * TODO
    * Has a bug, not implemented fully.
@@ -186,41 +194,11 @@ export interface SanitizerOptions {
    * 2) To do a simple regex replace operation, define arguments "key", "value", and "regex"
    * 3) To do a targeted substitution of a specific group, define all arguments "key", "value", and "regex"
    */
-  headerRegexSanitizers?: Array<{
-    /**
-     * The name of the header we're operating against.
-     */
-    key: string;
-    /**
-     * The substitution or whole new header value, depending on "regex" setting.
-     */
-    value: string;
-    /**
-     * A regex. Can be defined as a simple regex replace OR if groupForReplace is set, a subsitution operation.
-     */
-    regex?: string;
-    /**
-     * The capture group that needs to be operated upon. Do not set if you're invoking a simple replacement operation.
-     */
-    groupForReplace?: string;
-  }>;
+  headerRegexSanitizers?: (HeaderRegexSanitizer & {})[];
   /**
    * General use sanitizer for cleaning URIs via regex. Runs a regex replace on the member of your choice.
    */
-  uriRegexSanitizers?: Array<{
-    /**
-     * The substitution value.
-     */
-    value: string;
-    /**
-     * A regex. Can be defined as a simple regex replace OR if groupForReplace is set, a subsitution operation.
-     */
-    regex: string;
-    /**
-     * The capture group that needs to be operated upon. Do not set if you're invoking a simple replacement operation.
-     */
-    groupForReplace?: string;
-  }>;
+  uriRegexSanitizers?: RegexSanitizer[];
   /**
    * A simple sanitizer that should be used to clean out one or multiple headers by their key.
    * Removes headers from before saving a recording.
@@ -242,7 +220,6 @@ export interface SanitizerOptions {
   uriSubscriptionIdSanitizer?: {
     /**
      * The fake subscriptionId that will be placed where the real one is in the real request. The default replacement value is "00000000-0000-0000-0000-000000000000".
-     *
      */
     value: string;
   };

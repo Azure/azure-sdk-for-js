@@ -6,7 +6,7 @@
  */
 function getValueInConnString(connectionString: string, key: string): string {
   const searchKey = key.toLowerCase();
-  const elements = connectionString.split(";").filter((e) => Boolean(e));
+  const elements = connectionString.split(";").filter((e) => !!e);
   for (const element of elements) {
     const trimmedElement = element.trim();
     const [elementKey, value] = getKeyValuePair(trimmedElement);
