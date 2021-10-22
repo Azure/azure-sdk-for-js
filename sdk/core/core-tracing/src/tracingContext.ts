@@ -9,24 +9,6 @@ export const knownContextKeys = {
 };
 
 export function createTracingContext(options: CreateTracingContextOptions = {}): TracingContext {
-  // TODO: untested
-  if (options.providerContext) {
-    let newContext = options.providerContext;
-    newContext = newContext.setValue(knownContextKeys.ProviderContext, options.providerContext);
-    if (options?.span) {
-      newContext = newContext.setValue(knownContextKeys.Span, options.span);
-    }
-
-    if (options?.client) {
-      newContext = newContext.setValue(knownContextKeys.Client, options.client);
-    }
-
-    if (options?.namespace) {
-      newContext = newContext.setValue(knownContextKeys.Namespace, options.namespace);
-    }
-    return newContext;
-  }
-
   const newContextMap = new Map<symbol, unknown>();
   if (options?.span) {
     newContextMap.set(knownContextKeys.Span, options.span);
@@ -38,6 +20,10 @@ export function createTracingContext(options: CreateTracingContextOptions = {}):
 
   if (options?.namespace) {
     newContextMap.set(knownContextKeys.Namespace, options.namespace);
+  }
+
+  if (options?.providerContext) {
+    newContextMap.set(knownContextKeys.ProviderContext, options.providerContext);
   }
 
   return new TracingContextImpl(newContextMap);
@@ -57,12 +43,23 @@ export class TracingContextImpl implements TracingContext {
   }
 
   getValue(key: symbol): unknown {
-    return this._contextMap.get(key);
+    if (this._contextMap.has(key)) {
+      return this._contextMap.get(key);
+    } else if (this._contextMap.has(knownContextKeys.ProviderContext)) {
+      const parent = this._contextMap.get(knownContextKeys.ProviderContext) as TracingContext;
+      return parent.getValue(key);
+    } else {
+      return undefined;
+    }
   }
 
   deleteValue(key: symbol): TracingContext {
     const newContextMap = new Map<symbol, unknown>(this._contextMap);
     newContextMap.delete(key);
+    const parent = this._contextMap.get(knownContextKeys.ProviderContext) as TracingContext;
+    if (parent) {
+      this._contextMap.set(knownContextKeys.ProviderContext, parent.deleteValue(key));
+    }
     return new TracingContextImpl(newContextMap);
   }
 }

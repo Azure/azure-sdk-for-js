@@ -106,6 +106,16 @@ describe("Tracer", () => {
         context.setValue(Symbol.for("newKey"), "newVal");
         assert.notExists(context.getValue(Symbol.for("newKey")));
       });
+
+      it("can fetch parent chain data", () => {
+        const context = createTracingContext()
+          .setValue(Symbol.for("ancestry"), "grandparent")
+          .setValue(Symbol.for("ancestry"), "parent")
+          .setValue(Symbol.for("self"), "self"); // use a different key for current context
+
+        assert.equal(context.getValue(Symbol.for("ancestry")), "parent");
+        assert.equal(context.getValue(Symbol.for("self")), "self");
+      });
     });
 
     describe("#deleteValue", () => {
@@ -120,6 +130,23 @@ describe("Tracer", () => {
         const newContext = context.setValue(Symbol.for("newKey"), "newVal");
         newContext.deleteValue(Symbol.for("newKey"));
         assert.equal(newContext.getValue(Symbol.for("newKey")), "newVal");
+      });
+
+      it("deletes parent chain data", () => {
+        const context = createTracingContext()
+          .setValue(Symbol.for("ancestry"), "grandparent")
+          .setValue(Symbol.for("ancestry"), "parent")
+          .setValue(Symbol.for("self"), "self");
+
+        assert.isDefined(context.getValue(Symbol.for("ancestry")));
+        assert.isDefined(context.getValue(Symbol.for("self")));
+
+        const updatedContext = context
+          .deleteValue(Symbol.for("ancestry"))
+          .deleteValue(Symbol.for("self"));
+
+        assert.isUndefined(updatedContext.getValue(Symbol.for("ancestry")));
+        assert.isUndefined(updatedContext.getValue(Symbol.for("self")));
       });
     });
   });
