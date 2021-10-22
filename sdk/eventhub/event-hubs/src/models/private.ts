@@ -76,7 +76,9 @@ export interface CommonEventProcessorOptions
  * consumers to fail if their `ownerLevel` is lower or doesn't exist.
  * - `retryOptions`: The retry options used to govern retry attempts when an issue is encountered while receiving events.
  * A simple usage can be `{ "maxRetries": 4 }`.
- * - `skipJsonParsingContent` : Optional boolean to disable automatic JSON parsing when receiving a string in the event body.
+ * - `skipJsonParsingContent` : Option to disable the client from running JSON.parse() on the message body when receiving the message.
+ * Not applicable if the message was sent with AMQP body type value or sequence. Use this option when you prefer to work directly with
+ * the bytes present in the message body than have the client attempt to parse it.
  *
  * Example usage:
  * ```js
@@ -84,7 +86,8 @@ export interface CommonEventProcessorOptions
  *     retryOptions: {
  *         maxRetries: 4
  *     },
- *     trackLastEnqueuedEventProperties: false
+ *     trackLastEnqueuedEventProperties: false,
+ *     skipJsonParsingContent: true
  * }
  * ```
  * @internal
@@ -115,7 +118,9 @@ export interface EventHubConsumerOptions {
    */
   trackLastEnqueuedEventProperties?: boolean;
   /**
-   * Optional boolean to disable automatic JSON parsing when receiving a string in the event body.
+   * Option to disable the client from running JSON.parse() on the message body when receiving the message.
+   * Not applicable if the message was sent with AMQP body type value or sequence. Use this option when you
+   * prefer to work directly with the bytes present in the message body than have the client attempt to parse it.
    */
   skipJsonParsingContent?: boolean;
 }
