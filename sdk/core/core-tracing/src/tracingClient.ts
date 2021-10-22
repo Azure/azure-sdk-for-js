@@ -20,7 +20,11 @@ export class TracingClientImpl implements TracingClient {
   startSpan<Options extends { tracingOptions?: OperationTracingOptions }>(
     name: string,
     options?: Options
-  ): { span: TracingSpan; tracingContext: TracingContext; updatedOptions: Options } {
+  ): {
+    span: TracingSpan;
+    tracingContext: TracingContext;
+    updatedOptions: Options;
+  } {
     let { span, tracingContext } = this._tracer.startSpan(name, {
       tracingContext: options?.tracingOptions?.tracingContext
     });

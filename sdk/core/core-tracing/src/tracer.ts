@@ -38,6 +38,7 @@ export class NoOpTracer implements Tracer {
     return callback.apply(callbackThis, callbackArgs);
   }
 }
+
 /** @internal */
 export class NoOpSpan implements TracingSpan {
   setStatus(): void {}
@@ -45,6 +46,9 @@ export class NoOpSpan implements TracingSpan {
   end(): void {}
   unwrap(): unknown {
     return undefined;
+  }
+  serialize(): Record<string, string> {
+    return {};
   }
 }
 

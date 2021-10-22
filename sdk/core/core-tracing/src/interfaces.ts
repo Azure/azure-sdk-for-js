@@ -73,6 +73,10 @@ export interface TracingSpan {
   setStatus(status: SpanStatus): void;
   setAttribute(name: string, value: unknown): void;
   end(): void;
+  /** Serializes a span to a set of headers */
+  serialize(): Record<string, string>;
+  // TODO: deserialize
+  // deserialize(traceParentHeader: string): TracingSpan;
   unwrap(): unknown;
 }
 export interface TracingContext {

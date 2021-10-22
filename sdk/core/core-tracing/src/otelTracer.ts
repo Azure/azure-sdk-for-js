@@ -5,7 +5,6 @@ import {
   TracingContext,
   TracingSpan
 } from "./interfaces";
-import { createTracingContext } from "./tracingContext";
 import * as api from "@opentelemetry/api";
 import { setSpan } from "@opentelemetry/api/build/src/trace/context-utils";
 import { SpanAttributeValue } from "@opentelemetry/api";
@@ -40,8 +39,18 @@ export class OpenTelemetryTracer implements Tracer {
     );
   }
 }
+/**
+ * Shorthand enum for common traceFlags values inside SpanContext
+ */
+enum TraceFlags {
+  /** No flag set. */
+  NONE = 0x0,
+  /** Caller is collecting trace information. */
+  SAMPLED = 0x1
+}
 
 class OpenTelemetrySpanWrapper implements TracingSpan {
+  VERSION = "00";
   constructor(private span: api.Span) {}
   setStatus(status: SpanStatus): void {
     if (status.status === "error") {
@@ -64,5 +73,25 @@ class OpenTelemetrySpanWrapper implements TracingSpan {
   }
   unwrap(): unknown {
     return this.span;
+  }
+  serialize(): Record<string, string> {
+    const spanContext = this.span.spanContext();
+    if (!spanContext.traceId || !spanContext.spanId) {
+      return {};
+    }
+
+    const flags = spanContext.traceFlags || TraceFlags.NONE;
+    const hexFlags = flags.toString(16);
+    const traceFlags = hexFlags.length === 1 ? `0${hexFlags}` : hexFlags;
+
+    const result: Record<string, string> = {
+      // https://www.w3.org/TR/trace-context/#traceparent-header-field-values
+      traceparent: `${this.VERSION}-${spanContext.traceId}-${spanContext.spanId}-${traceFlags}`
+    };
+
+    if (spanContext.traceState) {
+      result["tracestate"] = spanContext.traceState.serialize();
+    }
+    return result;
   }
 }
