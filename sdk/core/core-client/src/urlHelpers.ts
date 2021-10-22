@@ -271,14 +271,13 @@ export function appendQueryParams(
         existingValue.push(value);
       }
     } else if (existingValue) {
-      let newValue = value;
       if (Array.isArray(value)) {
         value.unshift(existingValue);
       } else if (sequenceParams.has(name)) {
-        newValue = [existingValue, value];
+        combinedParams.set(name, [existingValue, value]);
       }
       if (!noOverwrite) {
-        combinedParams.set(name, newValue);
+        combinedParams.set(name, value);
       }
     } else {
       combinedParams.set(name, value);
