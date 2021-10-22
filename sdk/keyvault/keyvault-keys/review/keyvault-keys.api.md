@@ -214,8 +214,6 @@ interface JsonWebKey_2 {
     dq?: Uint8Array;
     e?: Uint8Array;
     k?: Uint8Array;
-    key_ops?: KeyOperation[];
-    // @deprecated
     keyOps?: KeyOperation[];
     kid?: string;
     kty?: KeyType_2;
