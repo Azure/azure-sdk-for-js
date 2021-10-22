@@ -241,7 +241,7 @@ export class KeyClient {
     getDeletedKey(name: string, options?: GetDeletedKeyOptions): Promise<DeletedKey>;
     getKey(name: string, options?: GetKeyOptions): Promise<KeyVaultKey>;
     getKeyRotationPolicy(name: string, options?: GetKeyRotationPolicyOptions): Promise<KeyRotationPolicy>;
-    getRandomBytes(count: number, options?: GetRandomBytesOptions): Promise<RandomBytes>;
+    getRandomBytes(count: number, options?: GetRandomBytesOptions): Promise<Uint8Array>;
     importKey(name: string, key: JsonWebKey_2, options?: ImportKeyOptions): Promise<KeyVaultKey>;
     listDeletedKeys(options?: ListDeletedKeysOptions): PagedAsyncIterableIterator<DeletedKey>;
     listPropertiesOfKeys(options?: ListPropertiesOfKeysOptions): PagedAsyncIterableIterator<KeyProperties>;
@@ -462,11 +462,6 @@ export { PollOperationState }
 
 // @public
 export interface PurgeDeletedKeyOptions extends coreHttp.OperationOptions {
-}
-
-// @public
-export interface RandomBytes {
-    bytes: Uint8Array;
 }
 
 // @public

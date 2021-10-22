@@ -597,14 +597,6 @@ export type KeyExportEncryptionAlgorithm = string;
 /* eslint-enable tsdoc/syntax */
 
 /**
- * Result of the {@link KeyClient.getRandomBytes} operation.
- */
-export interface RandomBytes {
-  /** The random bytes returned by the service. */
-  bytes: Uint8Array;
-}
-
-/**
  * Options for {@link KeyClient.getCryptographyClient}.
  */
 export interface GetCryptographyClientOptions {
