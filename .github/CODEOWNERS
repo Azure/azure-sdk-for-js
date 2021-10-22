@@ -581,7 +581,7 @@
 /sdk/vmwarecloudsimple/arm-vmwarecloudsimple @qiaozha @dw511214992
 
 # PRLabel: %Mgmt
-/resources-subscriptions/arm-resources-subscriptions @qiaozha @dw511214992
+/sdk/resources-subscriptions/arm-resources-subscriptions @qiaozha @dw511214992
 
 # PRLabel: %Monitor
 /sdk/monitor/ @hectorhdzg @applicationinsights-js-owners @richardpark-msft
