@@ -990,6 +990,11 @@
       "packageName": "@azure/arm-containerregistry",
       "projectFolder": "sdk/containerregistry/arm-containerregistry",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-logic",
+      "projectFolder": "sdk/logic/arm-logic",
+      "versionPolicyName": "management"
     }
   ]
 }
