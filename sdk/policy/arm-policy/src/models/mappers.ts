@@ -513,6 +513,13 @@ export const PolicyAssignment: coreClient.CompositeMapper = {
           className: "Identity"
         }
       },
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
+        }
+      },
       displayName: {
         serializedName: "properties.displayName",
         type: {
@@ -649,7 +656,109 @@ export const Identity: coreClient.CompositeMapper = {
         serializedName: "type",
         type: {
           name: "Enum",
-          allowedValues: ["SystemAssigned", "None"]
+          allowedValues: ["SystemAssigned", "UserAssigned", "None"]
+        }
+      },
+      userAssignedIdentities: {
+        serializedName: "userAssignedIdentities",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Composite",
+              className: "UserAssignedIdentitiesValue"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const UserAssignedIdentitiesValue: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "UserAssignedIdentitiesValue",
+    modelProperties: {
+      principalId: {
+        serializedName: "principalId",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      clientId: {
+        serializedName: "clientId",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SystemData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SystemData",
+    modelProperties: {
+      createdBy: {
+        serializedName: "createdBy",
+        type: {
+          name: "String"
+        }
+      },
+      createdByType: {
+        serializedName: "createdByType",
+        type: {
+          name: "String"
+        }
+      },
+      createdAt: {
+        serializedName: "createdAt",
+        type: {
+          name: "DateTime"
+        }
+      },
+      lastModifiedBy: {
+        serializedName: "lastModifiedBy",
+        type: {
+          name: "String"
+        }
+      },
+      lastModifiedByType: {
+        serializedName: "lastModifiedByType",
+        type: {
+          name: "String"
+        }
+      },
+      lastModifiedAt: {
+        serializedName: "lastModifiedAt",
+        type: {
+          name: "DateTime"
+        }
+      }
+    }
+  }
+};
+
+export const PolicyAssignmentUpdate: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PolicyAssignmentUpdate",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "Identity"
         }
       }
     }
@@ -707,6 +816,13 @@ export const PolicyDefinition: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "String"
+        }
+      },
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
         }
       },
       policyType: {
@@ -887,6 +1003,13 @@ export const PolicySetDefinition: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "String"
+        }
+      },
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
         }
       },
       policyType: {
@@ -1141,51 +1264,6 @@ export const PolicyExemption: coreClient.CompositeMapper = {
         type: {
           name: "Dictionary",
           value: { type: { name: "any" } }
-        }
-      }
-    }
-  }
-};
-
-export const SystemData: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "SystemData",
-    modelProperties: {
-      createdBy: {
-        serializedName: "createdBy",
-        type: {
-          name: "String"
-        }
-      },
-      createdByType: {
-        serializedName: "createdByType",
-        type: {
-          name: "String"
-        }
-      },
-      createdAt: {
-        serializedName: "createdAt",
-        type: {
-          name: "DateTime"
-        }
-      },
-      lastModifiedBy: {
-        serializedName: "lastModifiedBy",
-        type: {
-          name: "String"
-        }
-      },
-      lastModifiedByType: {
-        serializedName: "lastModifiedByType",
-        type: {
-          name: "String"
-        }
-      },
-      lastModifiedAt: {
-        serializedName: "lastModifiedAt",
-        type: {
-          name: "DateTime"
         }
       }
     }

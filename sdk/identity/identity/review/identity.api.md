@@ -63,16 +63,6 @@ export class AuthorizationCodeCredential implements TokenCredential {
 }
 
 // @public
-export class AzureApplicationCredential extends ChainedTokenCredential {
-    constructor(options?: AzureApplicationCredentialOptions);
-}
-
-// @public
-export interface AzureApplicationCredentialOptions extends TokenCredentialOptions, CredentialPersistenceOptions {
-    managedIdentityClientId?: string;
-}
-
-// @public
 export enum AzureAuthorityHosts {
     AzureChina = "https://login.chinacloudapi.cn",
     AzureGermany = "https://login.microsoftonline.de",
@@ -115,6 +105,7 @@ export class ChainedTokenCredential implements TokenCredential {
 // @public
 export class ClientCertificateCredential implements TokenCredential {
     constructor(tenantId: string, clientId: string, certificatePath: string, options?: ClientCertificateCredentialOptions);
+    constructor(tenantId: string, clientId: string, configuration: ClientCertificateCredentialPEMConfiguration, options?: ClientCertificateCredentialOptions);
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
 }
 
@@ -122,6 +113,15 @@ export class ClientCertificateCredential implements TokenCredential {
 export interface ClientCertificateCredentialOptions extends TokenCredentialOptions, CredentialPersistenceOptions {
     sendCertificateChain?: boolean;
 }
+
+// @public
+export type ClientCertificateCredentialPEMConfiguration = {
+    certificate: string;
+    certificatePath?: never;
+} | {
+    certificate?: never;
+    certificatePath: string;
+};
 
 // @public
 export class ClientSecretCredential implements TokenCredential {
@@ -214,13 +214,13 @@ export type IdentityPlugin = (context: unknown) => void;
 
 // @public
 export class InteractiveBrowserCredential implements TokenCredential {
-    constructor(options?: InteractiveBrowserCredentialOptions | InteractiveBrowserCredentialBrowserOptions);
+    constructor(options?: InteractiveBrowserCredentialNodeOptions | InteractiveBrowserCredentialInBrowserOptions);
     authenticate(scopes: string | string[], options?: GetTokenOptions): Promise<AuthenticationRecord | undefined>;
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
 }
 
 // @public
-export interface InteractiveBrowserCredentialBrowserOptions extends InteractiveCredentialOptions {
+export interface InteractiveBrowserCredentialInBrowserOptions extends InteractiveCredentialOptions {
     clientId: string;
     loginHint?: string;
     loginStyle?: BrowserLoginStyle;
@@ -229,7 +229,7 @@ export interface InteractiveBrowserCredentialBrowserOptions extends InteractiveC
 }
 
 // @public
-export interface InteractiveBrowserCredentialOptions extends InteractiveCredentialOptions, CredentialPersistenceOptions {
+export interface InteractiveBrowserCredentialNodeOptions extends InteractiveCredentialOptions, CredentialPersistenceOptions {
     clientId?: string;
     loginHint?: string;
     redirectUri?: string | (() => string);

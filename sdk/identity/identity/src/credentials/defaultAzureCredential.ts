@@ -94,6 +94,6 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
   constructor(options?: DefaultAzureCredentialOptions) {
     super(...defaultCredentials.map((ctor) => new ctor(options)));
     this.UnavailableMessage =
-      "DefaultAzureCredential => failed to retrieve a token from the included credentials";
+      "DefaultAzureCredential => failed to retrieve a token from the included credentials. To troubleshoot, visit https://aka.ms/azsdk/js/identity/defaultazurecredential/troubleshoot.";
   }
 }

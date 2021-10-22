@@ -68,8 +68,8 @@ export class QueryIterator<T> {
    *
    * @example Iterate over all databases
    * ```typescript
-   * for await(const {result: db} in client.databases.readAll().getAsyncIterator()) {
-   *   console.log(`Got ${db.id} from AsyncIterator`);
+   * for await(const { resources: db } of client.databases.readAll().getAsyncIterator()) {
+   *   console.log(`Got ${db} from AsyncIterator`);
    * }
    * ```
    */

@@ -58,7 +58,7 @@ export const cliCredentialInternals = {
             resource,
             ...tenantSection
           ],
-          { cwd: cliCredentialInternals.getSafeWorkingDir() },
+          { cwd: cliCredentialInternals.getSafeWorkingDir(), shell: true },
           (error, stdout, stderr) => {
             resolve({ stdout: stdout, stderr: stderr, error });
           }
@@ -117,7 +117,7 @@ export class AzureCliCredential implements TokenCredential {
 
     let responseData = "";
 
-    const { span } = createSpan("AzureCliCredential-getToken", options);
+    const { span } = createSpan("AzureCliCredential.getToken", options);
 
     try {
       const obj = await cliCredentialInternals.getAzureCliAccessToken(resource, tenantId);

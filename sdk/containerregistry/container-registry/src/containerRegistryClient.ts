@@ -29,6 +29,8 @@ import {
 import { RegistryArtifact } from "./registryArtifact";
 import { ContainerRegistryRefreshTokenCredential } from "./containerRegistryTokenCredential";
 
+const LATEST_API_VERSION = "2021-07-01";
+
 /**
  * Client options used to configure Container Registry Repository API requests.
  */
@@ -39,6 +41,10 @@ export interface ContainerRegistryClientOptions extends PipelineOptions {
    * See {@link KnownContainerRegistryAudience} for known audience values.
    */
   audience?: string;
+  /**
+   * The version of service API to make calls against.
+   */
+  serviceVersion?: "2021-07-01";
 }
 
 /**
@@ -134,9 +140,11 @@ export class ContainerRegistryClient {
         "ContainerRegistryClientOptions.audience must be set to initialize ContainerRegistryClient."
       );
     }
+
     const defaultScope = `${options.audience}/.default`;
-    const authClient = new GeneratedClient(endpoint, internalPipelineOptions);
-    this.client = new GeneratedClient(endpoint, internalPipelineOptions);
+    const serviceVersion = options.serviceVersion ?? LATEST_API_VERSION;
+    const authClient = new GeneratedClient(endpoint, serviceVersion, internalPipelineOptions);
+    this.client = new GeneratedClient(endpoint, serviceVersion, internalPipelineOptions);
     this.client.pipeline.addPolicy(
       bearerTokenAuthenticationPolicy({
         credential,

@@ -6,2493 +6,1520 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import * as coreClient from "@azure/core-client";
 
-export { BaseResource, CloudError };
+export type ServerPropertiesForCreateUnion =
+  | ServerPropertiesForCreate
+  | ServerPropertiesForDefaultCreate
+  | ServerPropertiesForRestore
+  | ServerPropertiesForGeoRestore
+  | ServerPropertiesForReplica;
 
-/**
- * An interface representing PrivateEndpointProperty.
- */
-export interface PrivateEndpointProperty extends BaseResource {
-  /**
-   * Resource id of the private endpoint.
-   */
-  id?: string;
+/** Represents a server to be created. */
+export interface ServerForCreate {
+  /** The Azure Active Directory identity of the server. */
+  identity?: ResourceIdentity;
+  /** The SKU (pricing tier) of the server. */
+  sku?: Sku;
+  /** Properties of the server. */
+  properties: ServerPropertiesForCreateUnion;
+  /** The location the resource resides in. */
+  location: string;
+  /** Application-specific metadata in the form of key-value pairs. */
+  tags?: { [propertyName: string]: string };
 }
 
-/**
- * An interface representing ServerPrivateLinkServiceConnectionStateProperty.
- */
-export interface ServerPrivateLinkServiceConnectionStateProperty {
-  /**
-   * The private link service connection status. Possible values include: 'Approved', 'Pending',
-   * 'Rejected', 'Disconnected'
-   */
-  status: PrivateLinkServiceConnectionStateStatus;
-  /**
-   * The private link service connection description.
-   */
-  description: string;
-  /**
-   * The actions required for private link service connection. Possible values include: 'None'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly actionsRequired?: PrivateLinkServiceConnectionStateActionsRequire;
-}
-
-/**
- * Properties of a private endpoint connection.
- */
-export interface ServerPrivateEndpointConnectionProperties {
-  /**
-   * Private endpoint which the connection belongs to.
-   */
-  privateEndpoint?: PrivateEndpointProperty;
-  /**
-   * Connection state of the private endpoint connection.
-   */
-  privateLinkServiceConnectionState?: ServerPrivateLinkServiceConnectionStateProperty;
-  /**
-   * State of the private endpoint connection. Possible values include: 'Approving', 'Ready',
-   * 'Dropping', 'Failed', 'Rejecting'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly provisioningState?: PrivateEndpointProvisioningState;
-}
-
-/**
- * A private endpoint connection under a server
- */
-export interface ServerPrivateEndpointConnection {
-  /**
-   * Resource ID of the Private Endpoint Connection.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly id?: string;
-  /**
-   * Private endpoint connection properties
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly properties?: ServerPrivateEndpointConnectionProperties;
-}
-
-/**
- * Storage Profile properties of a server
- */
-export interface StorageProfile {
-  /**
-   * Backup retention days for the server.
-   */
-  backupRetentionDays?: number;
-  /**
-   * Enable Geo-redundant or not for server backup. Possible values include: 'Enabled', 'Disabled'
-   */
-  geoRedundantBackup?: GeoRedundantBackup;
-  /**
-   * Max storage allowed for a server.
-   */
-  storageMB?: number;
-  /**
-   * Enable Storage Auto Grow. Possible values include: 'Enabled', 'Disabled'
-   */
-  storageAutogrow?: StorageAutogrow;
-}
-
-/**
- * Contains the possible cases for ServerPropertiesForCreate.
- */
-export type ServerPropertiesForCreateUnion = ServerPropertiesForCreate | ServerPropertiesForDefaultCreate | ServerPropertiesForRestore | ServerPropertiesForGeoRestore | ServerPropertiesForReplica;
-
-/**
- * The properties used to create a new server.
- */
-export interface ServerPropertiesForCreate {
-  /**
-   * Polymorphic Discriminator
-   */
-  createMode: "ServerPropertiesForCreate";
-  /**
-   * Server version. Possible values include: '9.5', '9.6', '10', '10.0', '10.2', '11'
-   */
-  version?: ServerVersion;
-  /**
-   * Enable ssl enforcement or not when connect to server. Possible values include: 'Enabled',
-   * 'Disabled'
-   */
-  sslEnforcement?: SslEnforcementEnum;
-  /**
-   * Enforce a minimal Tls version for the server. Possible values include: 'TLS1_0', 'TLS1_1',
-   * 'TLS1_2', 'TLSEnforcementDisabled'
-   */
-  minimalTlsVersion?: MinimalTlsVersionEnum;
-  /**
-   * Status showing whether the server enabled infrastructure encryption. Possible values include:
-   * 'Enabled', 'Disabled'
-   */
-  infrastructureEncryption?: InfrastructureEncryption;
-  /**
-   * Whether or not public network access is allowed for this server. Value is optional but if
-   * passed in, must be 'Enabled' or 'Disabled'. Possible values include: 'Enabled', 'Disabled'
-   */
-  publicNetworkAccess?: PublicNetworkAccessEnum;
-  /**
-   * Storage profile of a server.
-   */
-  storageProfile?: StorageProfile;
-}
-
-/**
- * The properties used to create a new server.
- */
-export interface ServerPropertiesForDefaultCreate {
-  /**
-   * Polymorphic Discriminator
-   */
-  createMode: "Default";
-  /**
-   * Server version. Possible values include: '9.5', '9.6', '10', '10.0', '10.2', '11'
-   */
-  version?: ServerVersion;
-  /**
-   * Enable ssl enforcement or not when connect to server. Possible values include: 'Enabled',
-   * 'Disabled'
-   */
-  sslEnforcement?: SslEnforcementEnum;
-  /**
-   * Enforce a minimal Tls version for the server. Possible values include: 'TLS1_0', 'TLS1_1',
-   * 'TLS1_2', 'TLSEnforcementDisabled'
-   */
-  minimalTlsVersion?: MinimalTlsVersionEnum;
-  /**
-   * Status showing whether the server enabled infrastructure encryption. Possible values include:
-   * 'Enabled', 'Disabled'
-   */
-  infrastructureEncryption?: InfrastructureEncryption;
-  /**
-   * Whether or not public network access is allowed for this server. Value is optional but if
-   * passed in, must be 'Enabled' or 'Disabled'. Possible values include: 'Enabled', 'Disabled'
-   */
-  publicNetworkAccess?: PublicNetworkAccessEnum;
-  /**
-   * Storage profile of a server.
-   */
-  storageProfile?: StorageProfile;
-  /**
-   * The administrator's login name of a server. Can only be specified when the server is being
-   * created (and is required for creation).
-   */
-  administratorLogin: string;
-  /**
-   * The password of the administrator login.
-   */
-  administratorLoginPassword: string;
-}
-
-/**
- * The properties used to create a new server by restoring from a backup.
- */
-export interface ServerPropertiesForRestore {
-  /**
-   * Polymorphic Discriminator
-   */
-  createMode: "PointInTimeRestore";
-  /**
-   * Server version. Possible values include: '9.5', '9.6', '10', '10.0', '10.2', '11'
-   */
-  version?: ServerVersion;
-  /**
-   * Enable ssl enforcement or not when connect to server. Possible values include: 'Enabled',
-   * 'Disabled'
-   */
-  sslEnforcement?: SslEnforcementEnum;
-  /**
-   * Enforce a minimal Tls version for the server. Possible values include: 'TLS1_0', 'TLS1_1',
-   * 'TLS1_2', 'TLSEnforcementDisabled'
-   */
-  minimalTlsVersion?: MinimalTlsVersionEnum;
-  /**
-   * Status showing whether the server enabled infrastructure encryption. Possible values include:
-   * 'Enabled', 'Disabled'
-   */
-  infrastructureEncryption?: InfrastructureEncryption;
-  /**
-   * Whether or not public network access is allowed for this server. Value is optional but if
-   * passed in, must be 'Enabled' or 'Disabled'. Possible values include: 'Enabled', 'Disabled'
-   */
-  publicNetworkAccess?: PublicNetworkAccessEnum;
-  /**
-   * Storage profile of a server.
-   */
-  storageProfile?: StorageProfile;
-  /**
-   * The source server id to restore from.
-   */
-  sourceServerId: string;
-  /**
-   * Restore point creation time (ISO8601 format), specifying the time to restore from.
-   */
-  restorePointInTime: Date;
-}
-
-/**
- * The properties used to create a new server by restoring to a different region from a geo
- * replicated backup.
- */
-export interface ServerPropertiesForGeoRestore {
-  /**
-   * Polymorphic Discriminator
-   */
-  createMode: "GeoRestore";
-  /**
-   * Server version. Possible values include: '9.5', '9.6', '10', '10.0', '10.2', '11'
-   */
-  version?: ServerVersion;
-  /**
-   * Enable ssl enforcement or not when connect to server. Possible values include: 'Enabled',
-   * 'Disabled'
-   */
-  sslEnforcement?: SslEnforcementEnum;
-  /**
-   * Enforce a minimal Tls version for the server. Possible values include: 'TLS1_0', 'TLS1_1',
-   * 'TLS1_2', 'TLSEnforcementDisabled'
-   */
-  minimalTlsVersion?: MinimalTlsVersionEnum;
-  /**
-   * Status showing whether the server enabled infrastructure encryption. Possible values include:
-   * 'Enabled', 'Disabled'
-   */
-  infrastructureEncryption?: InfrastructureEncryption;
-  /**
-   * Whether or not public network access is allowed for this server. Value is optional but if
-   * passed in, must be 'Enabled' or 'Disabled'. Possible values include: 'Enabled', 'Disabled'
-   */
-  publicNetworkAccess?: PublicNetworkAccessEnum;
-  /**
-   * Storage profile of a server.
-   */
-  storageProfile?: StorageProfile;
-  /**
-   * The source server id to restore from.
-   */
-  sourceServerId: string;
-}
-
-/**
- * The properties to create a new replica.
- */
-export interface ServerPropertiesForReplica {
-  /**
-   * Polymorphic Discriminator
-   */
-  createMode: "Replica";
-  /**
-   * Server version. Possible values include: '9.5', '9.6', '10', '10.0', '10.2', '11'
-   */
-  version?: ServerVersion;
-  /**
-   * Enable ssl enforcement or not when connect to server. Possible values include: 'Enabled',
-   * 'Disabled'
-   */
-  sslEnforcement?: SslEnforcementEnum;
-  /**
-   * Enforce a minimal Tls version for the server. Possible values include: 'TLS1_0', 'TLS1_1',
-   * 'TLS1_2', 'TLSEnforcementDisabled'
-   */
-  minimalTlsVersion?: MinimalTlsVersionEnum;
-  /**
-   * Status showing whether the server enabled infrastructure encryption. Possible values include:
-   * 'Enabled', 'Disabled'
-   */
-  infrastructureEncryption?: InfrastructureEncryption;
-  /**
-   * Whether or not public network access is allowed for this server. Value is optional but if
-   * passed in, must be 'Enabled' or 'Disabled'. Possible values include: 'Enabled', 'Disabled'
-   */
-  publicNetworkAccess?: PublicNetworkAccessEnum;
-  /**
-   * Storage profile of a server.
-   */
-  storageProfile?: StorageProfile;
-  /**
-   * The master server id to create replica from.
-   */
-  sourceServerId: string;
-}
-
-/**
- * Billing information related properties of a server.
- */
-export interface Sku {
-  /**
-   * The name of the sku, typically, tier + family + cores, e.g. B_Gen4_1, GP_Gen5_8.
-   */
-  name: string;
-  /**
-   * The tier of the particular SKU, e.g. Basic. Possible values include: 'Basic',
-   * 'GeneralPurpose', 'MemoryOptimized'
-   */
-  tier?: SkuTier;
-  /**
-   * The scale up/out capacity, representing server's compute units.
-   */
-  capacity?: number;
-  /**
-   * The size code, to be interpreted by resource as appropriate.
-   */
-  size?: string;
-  /**
-   * The family of hardware.
-   */
-  family?: string;
-}
-
-/**
- * Azure Active Directory identity configuration for a resource.
- */
+/** Azure Active Directory identity configuration for a resource. */
 export interface ResourceIdentity {
   /**
    * The Azure Active Directory principal id.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly principalId?: string;
-  /**
-   * The identity type. Set this to 'SystemAssigned' in order to automatically create and assign an
-   * Azure Active Directory principal for the resource. Possible values include: 'SystemAssigned'
-   */
+  /** The identity type. Set this to 'SystemAssigned' in order to automatically create and assign an Azure Active Directory principal for the resource. */
   type?: IdentityType;
   /**
    * The Azure Active Directory tenant id.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly tenantId?: string;
 }
 
-/**
- * Common fields that are returned in the response for all Azure Resource Manager resources
- * @summary Resource
- */
-export interface Resource extends BaseResource {
+/** Billing information related properties of a server. */
+export interface Sku {
+  /** The name of the sku, typically, tier + family + cores, e.g. B_Gen4_1, GP_Gen5_8. */
+  name: string;
+  /** The tier of the particular SKU, e.g. Basic. */
+  tier?: SkuTier;
+  /** The scale up/out capacity, representing server's compute units. */
+  capacity?: number;
+  /** The size code, to be interpreted by resource as appropriate. */
+  size?: string;
+  /** The family of hardware. */
+  family?: string;
+}
+
+/** The properties used to create a new server. */
+export interface ServerPropertiesForCreate {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  createMode: "Default" | "PointInTimeRestore" | "GeoRestore" | "Replica";
+  /** Server version. */
+  version?: ServerVersion;
+  /** Enable ssl enforcement or not when connect to server. */
+  sslEnforcement?: SslEnforcementEnum;
+  /** Enforce a minimal Tls version for the server. */
+  minimalTlsVersion?: MinimalTlsVersionEnum;
+  /** Status showing whether the server enabled infrastructure encryption. */
+  infrastructureEncryption?: InfrastructureEncryption;
+  /** Whether or not public network access is allowed for this server. Value is optional but if passed in, must be 'Enabled' or 'Disabled' */
+  publicNetworkAccess?: PublicNetworkAccessEnum;
+  /** Storage profile of a server. */
+  storageProfile?: StorageProfile;
+}
+
+/** Storage Profile properties of a server */
+export interface StorageProfile {
+  /** Backup retention days for the server. */
+  backupRetentionDays?: number;
+  /** Enable Geo-redundant or not for server backup. */
+  geoRedundantBackup?: GeoRedundantBackup;
+  /** Max storage allowed for a server. */
+  storageMB?: number;
+  /** Enable Storage Auto Grow. */
+  storageAutogrow?: StorageAutogrow;
+}
+
+/** Common fields that are returned in the response for all Azure Resource Manager resources */
+export interface Resource {
   /**
-   * Fully qualified resource ID for the resource. Ex -
-   * /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly id?: string;
   /**
    * The name of the resource
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly name?: string;
   /**
-   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
-   * "Microsoft.Storage/storageAccounts"
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly type?: string;
 }
 
-/**
- * The resource model definition for an Azure Resource Manager tracked top level resource which has
- * 'tags' and a 'location'
- * @summary Tracked Resource
- */
-export interface TrackedResource extends Resource {
+/** A private endpoint connection under a server */
+export interface ServerPrivateEndpointConnection {
   /**
-   * Resource tags.
+   * Resource ID of the Private Endpoint Connection.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  tags?: { [propertyName: string]: string };
+  readonly id?: string;
   /**
-   * The geo-location where the resource lives
+   * Private endpoint connection properties
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  location: string;
+  readonly properties?: ServerPrivateEndpointConnectionProperties;
 }
 
-/**
- * Represents a server.
- */
-export interface Server extends TrackedResource {
+/** Properties of a private endpoint connection. */
+export interface ServerPrivateEndpointConnectionProperties {
+  /** Private endpoint which the connection belongs to. */
+  privateEndpoint?: PrivateEndpointProperty;
+  /** Connection state of the private endpoint connection. */
+  privateLinkServiceConnectionState?: ServerPrivateLinkServiceConnectionStateProperty;
   /**
-   * The Azure Active Directory identity of the server.
+   * State of the private endpoint connection.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  identity?: ResourceIdentity;
-  /**
-   * The SKU (pricing tier) of the server.
-   */
-  sku?: Sku;
-  /**
-   * The administrator's login name of a server. Can only be specified when the server is being
-   * created (and is required for creation).
-   */
-  administratorLogin?: string;
-  /**
-   * Server version. Possible values include: '9.5', '9.6', '10', '10.0', '10.2', '11'
-   */
-  version?: ServerVersion;
-  /**
-   * Enable ssl enforcement or not when connect to server. Possible values include: 'Enabled',
-   * 'Disabled'
-   */
-  sslEnforcement?: SslEnforcementEnum;
-  /**
-   * Enforce a minimal Tls version for the server. Possible values include: 'TLS1_0', 'TLS1_1',
-   * 'TLS1_2', 'TLSEnforcementDisabled'
-   */
-  minimalTlsVersion?: MinimalTlsVersionEnum;
-  /**
-   * Status showing whether the server data encryption is enabled with customer-managed keys.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly byokEnforcement?: string;
-  /**
-   * Status showing whether the server enabled infrastructure encryption. Possible values include:
-   * 'Enabled', 'Disabled'
-   */
-  infrastructureEncryption?: InfrastructureEncryption;
-  /**
-   * A state of a server that is visible to user. Possible values include: 'Ready', 'Dropping',
-   * 'Disabled', 'Inaccessible'
-   */
-  userVisibleState?: ServerState;
-  /**
-   * The fully qualified domain name of a server.
-   */
-  fullyQualifiedDomainName?: string;
-  /**
-   * Earliest restore point creation time (ISO8601 format)
-   */
-  earliestRestoreDate?: Date;
-  /**
-   * Storage profile of a server.
-   */
-  storageProfile?: StorageProfile;
-  /**
-   * The replication role of the server.
-   */
-  replicationRole?: string;
-  /**
-   * The master server id of a replica server.
-   */
-  masterServerId?: string;
-  /**
-   * The maximum number of replicas that a master server can have.
-   */
-  replicaCapacity?: number;
-  /**
-   * Whether or not public network access is allowed for this server. Value is optional but if
-   * passed in, must be 'Enabled' or 'Disabled'. Possible values include: 'Enabled', 'Disabled'
-   */
-  publicNetworkAccess?: PublicNetworkAccessEnum;
-  /**
-   * List of private endpoint connections on a server
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly privateEndpointConnections?: ServerPrivateEndpointConnection[];
+  readonly provisioningState?: PrivateEndpointProvisioningState;
 }
 
-/**
- * Represents a server to be created.
- */
-export interface ServerForCreate {
-  /**
-   * The Azure Active Directory identity of the server.
-   */
-  identity?: ResourceIdentity;
-  /**
-   * The SKU (pricing tier) of the server.
-   */
-  sku?: Sku;
-  /**
-   * Properties of the server.
-   */
-  properties: ServerPropertiesForCreateUnion;
-  /**
-   * The location the resource resides in.
-   */
-  location: string;
-  /**
-   * Application-specific metadata in the form of key-value pairs.
-   */
-  tags?: { [propertyName: string]: string };
-}
-
-/**
- * Parameters allowed to update for a server.
- */
-export interface ServerUpdateParameters {
-  /**
-   * The Azure Active Directory identity of the server.
-   */
-  identity?: ResourceIdentity;
-  /**
-   * The SKU (pricing tier) of the server.
-   */
-  sku?: Sku;
-  /**
-   * Storage profile of a server.
-   */
-  storageProfile?: StorageProfile;
-  /**
-   * The password of the administrator login.
-   */
-  administratorLoginPassword?: string;
-  /**
-   * The version of a server. Possible values include: '9.5', '9.6', '10', '10.0', '10.2', '11'
-   */
-  version?: ServerVersion;
-  /**
-   * Enable ssl enforcement or not when connect to server. Possible values include: 'Enabled',
-   * 'Disabled'
-   */
-  sslEnforcement?: SslEnforcementEnum;
-  /**
-   * Enforce a minimal Tls version for the server. Possible values include: 'TLS1_0', 'TLS1_1',
-   * 'TLS1_2', 'TLSEnforcementDisabled'
-   */
-  minimalTlsVersion?: MinimalTlsVersionEnum;
-  /**
-   * Whether or not public network access is allowed for this server. Value is optional but if
-   * passed in, must be 'Enabled' or 'Disabled'. Possible values include: 'Enabled', 'Disabled'
-   */
-  publicNetworkAccess?: PublicNetworkAccessEnum;
-  /**
-   * The replication role of the server.
-   */
-  replicationRole?: string;
-  /**
-   * Application-specific metadata in the form of key-value pairs.
-   */
-  tags?: { [propertyName: string]: string };
-}
-
-/**
- * The resource model definition for a Azure Resource Manager proxy resource. It will not have tags
- * and a location
- * @summary Proxy Resource
- */
-export interface ProxyResource extends Resource {
-}
-
-/**
- * Represents a server firewall rule.
- */
-export interface FirewallRule extends ProxyResource {
-  /**
-   * The start IP address of the server firewall rule. Must be IPv4 format.
-   */
-  startIpAddress: string;
-  /**
-   * The end IP address of the server firewall rule. Must be IPv4 format.
-   */
-  endIpAddress: string;
-}
-
-/**
- * A virtual network rule.
- */
-export interface VirtualNetworkRule extends ProxyResource {
-  /**
-   * The ARM resource id of the virtual network subnet.
-   */
-  virtualNetworkSubnetId: string;
-  /**
-   * Create firewall rule before the virtual network has vnet service endpoint enabled.
-   */
-  ignoreMissingVnetServiceEndpoint?: boolean;
-  /**
-   * Virtual Network Rule State. Possible values include: 'Initializing', 'InProgress', 'Ready',
-   * 'Deleting', 'Unknown'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly state?: VirtualNetworkRuleState;
-}
-
-/**
- * Represents a Database.
- */
-export interface Database extends ProxyResource {
-  /**
-   * The charset of the database.
-   */
-  charset?: string;
-  /**
-   * The collation of the database.
-   */
-  collation?: string;
-}
-
-/**
- * Represents a Configuration.
- */
-export interface Configuration extends ProxyResource {
-  /**
-   * Value of the configuration.
-   */
-  value?: string;
-  /**
-   * Description of the configuration.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly description?: string;
-  /**
-   * Default value of the configuration.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly defaultValue?: string;
-  /**
-   * Data type of the configuration.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly dataType?: string;
-  /**
-   * Allowed values of the configuration.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly allowedValues?: string;
-  /**
-   * Source of the configuration.
-   */
-  source?: string;
-}
-
-/**
- * Display metadata associated with the operation.
- */
-export interface OperationDisplay {
-  /**
-   * Operation resource provider name.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly provider?: string;
-  /**
-   * Resource on which the operation is performed.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly resource?: string;
-  /**
-   * Localized friendly name for the operation.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly operation?: string;
-  /**
-   * Operation description.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly description?: string;
-}
-
-/**
- * REST API operation definition.
- */
-export interface Operation {
-  /**
-   * The name of the operation being performed on this particular object.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name?: string;
-  /**
-   * The localized display information for this particular operation or action.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly display?: OperationDisplay;
-  /**
-   * The intended executor of the operation. Possible values include: 'NotSpecified', 'user',
-   * 'system'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly origin?: OperationOrigin;
-  /**
-   * Additional descriptions for the operation.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly properties?: { [propertyName: string]: any };
-}
-
-/**
- * A list of resource provider operations.
- */
-export interface OperationListResult {
-  /**
-   * The list of resource provider operations.
-   */
-  value?: Operation[];
-}
-
-/**
- * Represents a log file.
- */
-export interface LogFile extends ProxyResource {
-  /**
-   * Size of the log file.
-   */
-  sizeInKB?: number;
-  /**
-   * Creation timestamp of the log file.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly createdTime?: Date;
-  /**
-   * Last modified timestamp of the log file.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly lastModifiedTime?: Date;
-  /**
-   * Type of the log file.
-   */
-  logFileType?: string;
-  /**
-   * The url to download the log file from.
-   */
-  url?: string;
-}
-
-/**
- * Service level objectives for performance tier.
- */
-export interface PerformanceTierServiceLevelObjectives {
-  /**
-   * ID for the service level objective.
-   */
+export interface PrivateEndpointProperty {
+  /** Resource id of the private endpoint. */
   id?: string;
-  /**
-   * Edition of the performance tier.
-   */
-  edition?: string;
-  /**
-   * vCore associated with the service level objective
-   */
-  vCore?: number;
-  /**
-   * Hardware generation associated with the service level objective
-   */
-  hardwareGeneration?: string;
-  /**
-   * Maximum Backup retention in days for the performance tier edition
-   */
-  maxBackupRetentionDays?: number;
-  /**
-   * Minimum Backup retention in days for the performance tier edition
-   */
-  minBackupRetentionDays?: number;
-  /**
-   * Max storage allowed for a server.
-   */
-  maxStorageMB?: number;
-  /**
-   * Max storage allowed for a server.
-   */
-  minStorageMB?: number;
 }
 
-/**
- * Performance tier properties
- */
-export interface PerformanceTierProperties {
+export interface ServerPrivateLinkServiceConnectionStateProperty {
+  /** The private link service connection status. */
+  status: PrivateLinkServiceConnectionStateStatus;
+  /** The private link service connection description. */
+  description: string;
   /**
-   * ID of the performance tier.
+   * The actions required for private link service connection.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  id?: string;
-  /**
-   * Maximum Backup retention in days for the performance tier edition
-   */
-  maxBackupRetentionDays?: number;
-  /**
-   * Minimum Backup retention in days for the performance tier edition
-   */
-  minBackupRetentionDays?: number;
-  /**
-   * Max storage allowed for a server.
-   */
-  maxStorageMB?: number;
-  /**
-   * Max storage allowed for a server.
-   */
-  minLargeStorageMB?: number;
-  /**
-   * Max storage allowed for a server.
-   */
-  maxLargeStorageMB?: number;
-  /**
-   * Max storage allowed for a server.
-   */
-  minStorageMB?: number;
-  /**
-   * Service level objectives associated with the performance tier
-   */
-  serviceLevelObjectives?: PerformanceTierServiceLevelObjectives[];
+  readonly actionsRequired?: PrivateLinkServiceConnectionStateActionsRequire;
 }
 
-/**
- * Request from client to check resource name availability.
- */
-export interface NameAvailabilityRequest {
-  /**
-   * Resource name to verify.
-   */
-  name: string;
-  /**
-   * Resource type used for verification.
-   */
-  type?: string;
+/** An error response from the Batch service. */
+export interface CloudError {
+  /** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.) */
+  error?: ErrorResponse;
 }
 
-/**
- * Represents a resource name availability.
- */
-export interface NameAvailability {
-  /**
-   * Error Message.
-   */
-  message?: string;
-  /**
-   * Indicates whether the resource name is available.
-   */
-  nameAvailable?: boolean;
-  /**
-   * Reason for name being unavailable.
-   */
-  reason?: string;
-}
-
-/**
- * The resource management error additional info.
- */
-export interface ErrorAdditionalInfo {
-  /**
-   * The additional info type.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly type?: string;
-  /**
-   * The additional info.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly info?: any;
-}
-
-/**
- * Common error response for all Azure Resource Manager APIs to return error details for failed
- * operations. (This also follows the OData error response format.)
- * @summary Error Response
- */
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.) */
 export interface ErrorResponse {
   /**
    * The error code.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly code?: string;
   /**
    * The error message.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly message?: string;
   /**
    * The error target.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly target?: string;
   /**
    * The error details.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly details?: ErrorResponse[];
   /**
    * The error additional info.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly additionalInfo?: ErrorAdditionalInfo[];
 }
 
-/**
- * Represents a and external administrator to be created.
- */
-export interface ServerAdministratorResource extends ProxyResource {
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
   /**
-   * The server administrator login account name.
+   * The additional info type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  login: string;
+  readonly type?: string;
   /**
-   * The server administrator Sid (Secure ID).
+   * The additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  sid: string;
-  /**
-   * The server Active Directory Administrator tenant id.
-   */
-  tenantId: string;
+  readonly info?: Record<string, unknown>;
 }
 
-/**
- * A recoverable server resource.
- */
-export interface RecoverableServerResource extends ProxyResource {
+/** Parameters allowed to update for a server. */
+export interface ServerUpdateParameters {
+  /** The Azure Active Directory identity of the server. */
+  identity?: ResourceIdentity;
+  /** The SKU (pricing tier) of the server. */
+  sku?: Sku;
+  /** Application-specific metadata in the form of key-value pairs. */
+  tags?: { [propertyName: string]: string };
+  /** Storage profile of a server. */
+  storageProfile?: StorageProfile;
   /**
-   * The last available backup date time.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * The password of the administrator login.
+   * This value contains a credential. Consider obscuring before showing to users
    */
-  readonly lastAvailableBackupDateTime?: string;
-  /**
-   * The service level objective
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly serviceLevelObjective?: string;
-  /**
-   * Edition of the performance tier.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly edition?: string;
-  /**
-   * vCore associated with the service level objective
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly vCore?: number;
-  /**
-   * Hardware generation associated with the service level objective
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly hardwareGeneration?: string;
-  /**
-   * The PostgreSQL version
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly version?: string;
+  administratorLoginPassword?: string;
+  /** The version of a server. */
+  version?: ServerVersion;
+  /** Enable ssl enforcement or not when connect to server. */
+  sslEnforcement?: SslEnforcementEnum;
+  /** Enforce a minimal Tls version for the server. */
+  minimalTlsVersion?: MinimalTlsVersionEnum;
+  /** Whether or not public network access is allowed for this server. Value is optional but if passed in, must be 'Enabled' or 'Disabled' */
+  publicNetworkAccess?: PublicNetworkAccessEnum;
+  /** The replication role of the server. */
+  replicationRole?: string;
 }
 
-/**
- * The resource model definition for an Azure Resource Manager resource with an etag.
- * @summary Entity Resource
- */
-export interface AzureEntityResource extends Resource {
-  /**
-   * Resource Etag.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly etag?: string;
+/** A list of servers. */
+export interface ServerListResult {
+  /** The list of servers */
+  value?: Server[];
 }
 
-/**
- * A server security alert policy.
- */
-export interface ServerSecurityAlertPolicy extends ProxyResource {
-  /**
-   * Specifies the state of the policy, whether it is enabled or disabled. Possible values include:
-   * 'Enabled', 'Disabled'
-   */
-  state: ServerSecurityAlertPolicyState;
-  /**
-   * Specifies an array of alerts that are disabled. Allowed values are: Sql_Injection,
-   * Sql_Injection_Vulnerability, Access_Anomaly
-   */
-  disabledAlerts?: string[];
-  /**
-   * Specifies an array of e-mail addresses to which the alert is sent.
-   */
-  emailAddresses?: string[];
-  /**
-   * Specifies that the alert is sent to the account administrators.
-   */
-  emailAccountAdmins?: boolean;
-  /**
-   * Specifies the blob storage endpoint (e.g. https://MyAccount.blob.core.windows.net). This blob
-   * storage will hold all Threat Detection audit logs.
-   */
-  storageEndpoint?: string;
-  /**
-   * Specifies the identifier key of the Threat Detection audit storage account.
-   */
-  storageAccountAccessKey?: string;
-  /**
-   * Specifies the number of days to keep in the Threat Detection audit logs.
-   */
-  retentionDays?: number;
+/** A list of firewall rules. */
+export interface FirewallRuleListResult {
+  /** The list of firewall rules in a server. */
+  value?: FirewallRule[];
 }
 
-/**
- * An interface representing PrivateLinkServiceConnectionStateProperty.
- */
+/** A list of virtual network rules. */
+export interface VirtualNetworkRuleListResult {
+  /**
+   * Array of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: VirtualNetworkRule[];
+  /**
+   * Link to retrieve next page of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** A List of databases. */
+export interface DatabaseListResult {
+  /** The list of databases housed in a server */
+  value?: Database[];
+}
+
+/** A list of server configurations. */
+export interface ConfigurationListResult {
+  /** The list of server configurations. */
+  value?: Configuration[];
+}
+
+/** A list of log files. */
+export interface LogFileListResult {
+  /** The list of log files. */
+  value?: LogFile[];
+}
+
+/** The response to a list Active Directory Administrators request. */
+export interface ServerAdministratorResourceListResult {
+  /** The list of server Active Directory Administrators for the server. */
+  value?: ServerAdministratorResource[];
+}
+
+/** A list of performance tiers. */
+export interface PerformanceTierListResult {
+  /** The list of performance tiers */
+  value?: PerformanceTierProperties[];
+}
+
+/** Performance tier properties */
+export interface PerformanceTierProperties {
+  /** ID of the performance tier. */
+  id?: string;
+  /** Maximum Backup retention in days for the performance tier edition */
+  maxBackupRetentionDays?: number;
+  /** Minimum Backup retention in days for the performance tier edition */
+  minBackupRetentionDays?: number;
+  /** Max storage allowed for a server. */
+  maxStorageMB?: number;
+  /** Max storage allowed for a server. */
+  minLargeStorageMB?: number;
+  /** Max storage allowed for a server. */
+  maxLargeStorageMB?: number;
+  /** Max storage allowed for a server. */
+  minStorageMB?: number;
+  /** Service level objectives associated with the performance tier */
+  serviceLevelObjectives?: PerformanceTierServiceLevelObjectives[];
+}
+
+/** Service level objectives for performance tier. */
+export interface PerformanceTierServiceLevelObjectives {
+  /** ID for the service level objective. */
+  id?: string;
+  /** Edition of the performance tier. */
+  edition?: string;
+  /** vCore associated with the service level objective */
+  vCore?: number;
+  /** Hardware generation associated with the service level objective */
+  hardwareGeneration?: string;
+  /** Maximum Backup retention in days for the performance tier edition */
+  maxBackupRetentionDays?: number;
+  /** Minimum Backup retention in days for the performance tier edition */
+  minBackupRetentionDays?: number;
+  /** Max storage allowed for a server. */
+  maxStorageMB?: number;
+  /** Max storage allowed for a server. */
+  minStorageMB?: number;
+}
+
+/** Request from client to check resource name availability. */
+export interface NameAvailabilityRequest {
+  /** Resource name to verify. */
+  name: string;
+  /** Resource type used for verification. */
+  type?: string;
+}
+
+/** Represents a resource name availability. */
+export interface NameAvailability {
+  /** Error Message. */
+  message?: string;
+  /** Indicates whether the resource name is available. */
+  nameAvailable?: boolean;
+  /** Reason for name being unavailable. */
+  reason?: string;
+}
+
+/** A list of resource provider operations. */
+export interface OperationListResult {
+  /** The list of resource provider operations. */
+  value?: Operation[];
+}
+
+/** REST API operation definition. */
+export interface Operation {
+  /**
+   * The name of the operation being performed on this particular object.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The localized display information for this particular operation or action.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly display?: OperationDisplay;
+  /**
+   * The intended executor of the operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly origin?: OperationOrigin;
+  /**
+   * Additional descriptions for the operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly properties?: { [propertyName: string]: Record<string, unknown> };
+}
+
+/** Display metadata associated with the operation. */
+export interface OperationDisplay {
+  /**
+   * Operation resource provider name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provider?: string;
+  /**
+   * Resource on which the operation is performed.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resource?: string;
+  /**
+   * Localized friendly name for the operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly operation?: string;
+  /**
+   * Operation description.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly description?: string;
+}
+
+/** A list of the server's security alert policies. */
+export interface ServerSecurityAlertPolicyListResult {
+  /**
+   * Array of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: ServerSecurityAlertPolicy[];
+  /**
+   * Link to retrieve next page of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
 export interface PrivateLinkServiceConnectionStateProperty {
-  /**
-   * The private link service connection status.
-   */
+  /** The private link service connection status. */
   status: string;
-  /**
-   * The private link service connection description.
-   */
+  /** The private link service connection description. */
   description: string;
   /**
    * The actions required for private link service connection.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly actionsRequired?: string;
 }
 
-/**
- * A private endpoint connection
- */
-export interface PrivateEndpointConnection extends ProxyResource {
-  /**
-   * Private endpoint which the connection belongs to.
-   */
-  privateEndpoint?: PrivateEndpointProperty;
-  /**
-   * Connection state of the private endpoint connection.
-   */
-  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionStateProperty;
-  /**
-   * State of the private endpoint connection.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly provisioningState?: string;
-}
-
-/**
- * Tags object for patch operations.
- */
+/** Tags object for patch operations. */
 export interface TagsObject {
-  /**
-   * Resource tags.
-   */
+  /** Resource tags. */
   tags?: { [propertyName: string]: string };
 }
 
-/**
- * Properties of a private link resource.
- */
+/** A list of private endpoint connections. */
+export interface PrivateEndpointConnectionListResult {
+  /**
+   * Array of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: PrivateEndpointConnection[];
+  /**
+   * Link to retrieve next page of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** A list of private link resources */
+export interface PrivateLinkResourceListResult {
+  /**
+   * Array of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: PrivateLinkResource[];
+  /**
+   * Link to retrieve next page of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Properties of a private link resource. */
 export interface PrivateLinkResourceProperties {
   /**
    * The private link resource group id.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly groupId?: string;
   /**
    * The private link resource required member names.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly requiredMembers?: string[];
 }
 
-/**
- * A private link resource
- */
-export interface PrivateLinkResource extends ProxyResource {
+/** A list of PostgreSQL Server keys. */
+export interface ServerKeyListResult {
   /**
-   * The private link resource group id.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * A list of PostgreSQL Server keys.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly properties?: PrivateLinkResourceProperties;
+  readonly value?: ServerKey[];
+  /**
+   * Link to retrieve next page of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
 }
 
-/**
- * A PostgreSQL Server key.
- */
-export interface ServerKey extends ProxyResource {
+/** The properties used to create a new server. */
+export type ServerPropertiesForDefaultCreate = ServerPropertiesForCreate & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  createMode: "Default";
+  /** The administrator's login name of a server. Can only be specified when the server is being created (and is required for creation). */
+  administratorLogin: string;
+  /**
+   * The password of the administrator login.
+   * This value contains a credential. Consider obscuring before showing to users
+   */
+  administratorLoginPassword: string;
+};
+
+/** The properties used to create a new server by restoring from a backup. */
+export type ServerPropertiesForRestore = ServerPropertiesForCreate & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  createMode: "PointInTimeRestore";
+  /** The source server id to restore from. */
+  sourceServerId: string;
+  /** Restore point creation time (ISO8601 format), specifying the time to restore from. */
+  restorePointInTime: Date;
+};
+
+/** The properties used to create a new server by restoring to a different region from a geo replicated backup. */
+export type ServerPropertiesForGeoRestore = ServerPropertiesForCreate & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  createMode: "GeoRestore";
+  /** The source server id to restore from. */
+  sourceServerId: string;
+};
+
+/** The properties to create a new replica. */
+export type ServerPropertiesForReplica = ServerPropertiesForCreate & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  createMode: "Replica";
+  /** The master server id to create replica from. */
+  sourceServerId: string;
+};
+
+/** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
+export type TrackedResource = Resource & {
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+  /** The geo-location where the resource lives */
+  location: string;
+};
+
+/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
+export type ProxyResource = Resource & {};
+
+/** Represents a server. */
+export type Server = TrackedResource & {
+  /** The Azure Active Directory identity of the server. */
+  identity?: ResourceIdentity;
+  /** The SKU (pricing tier) of the server. */
+  sku?: Sku;
+  /** The administrator's login name of a server. Can only be specified when the server is being created (and is required for creation). */
+  administratorLogin?: string;
+  /** Server version. */
+  version?: ServerVersion;
+  /** Enable ssl enforcement or not when connect to server. */
+  sslEnforcement?: SslEnforcementEnum;
+  /** Enforce a minimal Tls version for the server. */
+  minimalTlsVersion?: MinimalTlsVersionEnum;
+  /**
+   * Status showing whether the server data encryption is enabled with customer-managed keys.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly byokEnforcement?: string;
+  /** Status showing whether the server enabled infrastructure encryption. */
+  infrastructureEncryption?: InfrastructureEncryption;
+  /** A state of a server that is visible to user. */
+  userVisibleState?: ServerState;
+  /** The fully qualified domain name of a server. */
+  fullyQualifiedDomainName?: string;
+  /** Earliest restore point creation time (ISO8601 format) */
+  earliestRestoreDate?: Date;
+  /** Storage profile of a server. */
+  storageProfile?: StorageProfile;
+  /** The replication role of the server. */
+  replicationRole?: string;
+  /** The master server id of a replica server. */
+  masterServerId?: string;
+  /** The maximum number of replicas that a master server can have. */
+  replicaCapacity?: number;
+  /** Whether or not public network access is allowed for this server. Value is optional but if passed in, must be 'Enabled' or 'Disabled' */
+  publicNetworkAccess?: PublicNetworkAccessEnum;
+  /**
+   * List of private endpoint connections on a server
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly privateEndpointConnections?: ServerPrivateEndpointConnection[];
+};
+
+/** Represents a server firewall rule. */
+export type FirewallRule = ProxyResource & {
+  /** The start IP address of the server firewall rule. Must be IPv4 format. */
+  startIpAddress: string;
+  /** The end IP address of the server firewall rule. Must be IPv4 format. */
+  endIpAddress: string;
+};
+
+/** A virtual network rule. */
+export type VirtualNetworkRule = ProxyResource & {
+  /** The ARM resource id of the virtual network subnet. */
+  virtualNetworkSubnetId?: string;
+  /** Create firewall rule before the virtual network has vnet service endpoint enabled. */
+  ignoreMissingVnetServiceEndpoint?: boolean;
+  /**
+   * Virtual Network Rule State
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly state?: VirtualNetworkRuleState;
+};
+
+/** Represents a Database. */
+export type Database = ProxyResource & {
+  /** The charset of the database. */
+  charset?: string;
+  /** The collation of the database. */
+  collation?: string;
+};
+
+/** Represents a Configuration. */
+export type Configuration = ProxyResource & {
+  /** Value of the configuration. */
+  value?: string;
+  /**
+   * Description of the configuration.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly description?: string;
+  /**
+   * Default value of the configuration.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly defaultValue?: string;
+  /**
+   * Data type of the configuration.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly dataType?: string;
+  /**
+   * Allowed values of the configuration.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly allowedValues?: string;
+  /** Source of the configuration. */
+  source?: string;
+};
+
+/** Represents a log file. */
+export type LogFile = ProxyResource & {
+  /** Size of the log file. */
+  sizeInKB?: number;
+  /**
+   * Creation timestamp of the log file.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdTime?: Date;
+  /**
+   * Last modified timestamp of the log file.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastModifiedTime?: Date;
+  /** Type of the log file. */
+  typePropertiesType?: string;
+  /** The url to download the log file from. */
+  url?: string;
+};
+
+/** Represents a and external administrator to be created. */
+export type ServerAdministratorResource = ProxyResource & {
+  /** The type of administrator. */
+  administratorType?: "ActiveDirectory";
+  /** The server administrator login account name. */
+  login?: string;
+  /** The server administrator Sid (Secure ID). */
+  sid?: string;
+  /** The server Active Directory Administrator tenant id. */
+  tenantId?: string;
+};
+
+/** A recoverable server resource. */
+export type RecoverableServerResource = ProxyResource & {
+  /**
+   * The last available backup date time.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastAvailableBackupDateTime?: string;
+  /**
+   * The service level objective
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly serviceLevelObjective?: string;
+  /**
+   * Edition of the performance tier.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly edition?: string;
+  /**
+   * vCore associated with the service level objective
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly vCore?: number;
+  /**
+   * Hardware generation associated with the service level objective
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly hardwareGeneration?: string;
+  /**
+   * The PostgreSQL version
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly version?: string;
+};
+
+/** A server security alert policy. */
+export type ServerSecurityAlertPolicy = ProxyResource & {
+  /** Specifies the state of the policy, whether it is enabled or disabled. */
+  state?: ServerSecurityAlertPolicyState;
+  /** Specifies an array of alerts that are disabled. Allowed values are: Sql_Injection, Sql_Injection_Vulnerability, Access_Anomaly */
+  disabledAlerts?: string[];
+  /** Specifies an array of e-mail addresses to which the alert is sent. */
+  emailAddresses?: string[];
+  /** Specifies that the alert is sent to the account administrators. */
+  emailAccountAdmins?: boolean;
+  /** Specifies the blob storage endpoint (e.g. https://MyAccount.blob.core.windows.net). This blob storage will hold all Threat Detection audit logs. */
+  storageEndpoint?: string;
+  /** Specifies the identifier key of the Threat Detection audit storage account. */
+  storageAccountAccessKey?: string;
+  /** Specifies the number of days to keep in the Threat Detection audit logs. */
+  retentionDays?: number;
+};
+
+/** A private endpoint connection */
+export type PrivateEndpointConnection = ProxyResource & {
+  /** Private endpoint which the connection belongs to. */
+  privateEndpoint?: PrivateEndpointProperty;
+  /** Connection state of the private endpoint connection. */
+  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionStateProperty;
+  /**
+   * State of the private endpoint connection.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: string;
+};
+
+/** A private link resource */
+export type PrivateLinkResource = ProxyResource & {
+  /**
+   * The private link resource group id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly properties?: PrivateLinkResourceProperties;
+};
+
+/** A PostgreSQL Server key. */
+export type ServerKey = ProxyResource & {
   /**
    * Kind of encryption protector used to protect the key.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly kind?: string;
-  /**
-   * The URI of the key.
-   */
+  /** The key type like 'AzureKeyVault'. */
+  serverKeyType?: ServerKeyType;
+  /** The URI of the key. */
   uri?: string;
   /**
    * The key creation date.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly creationDate?: Date;
+};
+
+/** Known values of {@link IdentityType} that the service accepts. */
+export enum KnownIdentityType {
+  SystemAssigned = "SystemAssigned"
 }
 
 /**
- * An interface representing PostgreSQLManagementClientOptions.
+ * Defines values for IdentityType. \
+ * {@link KnownIdentityType} can be used interchangeably with IdentityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **SystemAssigned**
  */
-export interface PostgreSQLManagementClientOptions extends AzureServiceClientOptions {
-  baseUri?: string;
+export type IdentityType = string;
+
+/** Known values of {@link SkuTier} that the service accepts. */
+export enum KnownSkuTier {
+  Basic = "Basic",
+  GeneralPurpose = "GeneralPurpose",
+  MemoryOptimized = "MemoryOptimized"
 }
 
 /**
- * @interface
- * A list of servers.
- * @extends Array<Server>
+ * Defines values for SkuTier. \
+ * {@link KnownSkuTier} can be used interchangeably with SkuTier,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Basic** \
+ * **GeneralPurpose** \
+ * **MemoryOptimized**
  */
-export interface ServerListResult extends Array<Server> {
+export type SkuTier = string;
+
+/** Known values of {@link ServerVersion} that the service accepts. */
+export enum KnownServerVersion {
+  Nine5 = "9.5",
+  Nine6 = "9.6",
+  Ten = "10",
+  Ten0 = "10.0",
+  Ten2 = "10.2",
+  Eleven = "11"
 }
 
 /**
- * @interface
- * A list of firewall rules.
- * @extends Array<FirewallRule>
+ * Defines values for ServerVersion. \
+ * {@link KnownServerVersion} can be used interchangeably with ServerVersion,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **9.5** \
+ * **9.6** \
+ * **10** \
+ * **10.0** \
+ * **10.2** \
+ * **11**
  */
-export interface FirewallRuleListResult extends Array<FirewallRule> {
+export type ServerVersion = string;
+
+/** Known values of {@link MinimalTlsVersionEnum} that the service accepts. */
+export enum KnownMinimalTlsVersionEnum {
+  TLS10 = "TLS1_0",
+  TLS11 = "TLS1_1",
+  TLS12 = "TLS1_2",
+  TLSEnforcementDisabled = "TLSEnforcementDisabled"
 }
 
 /**
- * @interface
- * A list of virtual network rules.
- * @extends Array<VirtualNetworkRule>
+ * Defines values for MinimalTlsVersionEnum. \
+ * {@link KnownMinimalTlsVersionEnum} can be used interchangeably with MinimalTlsVersionEnum,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **TLS1_0** \
+ * **TLS1_1** \
+ * **TLS1_2** \
+ * **TLSEnforcementDisabled**
  */
-export interface VirtualNetworkRuleListResult extends Array<VirtualNetworkRule> {
-  /**
-   * Link to retrieve next page of results.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly nextLink?: string;
+export type MinimalTlsVersionEnum = string;
+
+/** Known values of {@link InfrastructureEncryption} that the service accepts. */
+export enum KnownInfrastructureEncryption {
+  /** Default value for single layer of encryption for data at rest. */
+  Enabled = "Enabled",
+  /** Additional (2nd) layer of encryption for data at rest */
+  Disabled = "Disabled"
 }
 
 /**
- * @interface
- * A List of databases.
- * @extends Array<Database>
+ * Defines values for InfrastructureEncryption. \
+ * {@link KnownInfrastructureEncryption} can be used interchangeably with InfrastructureEncryption,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled**: Default value for single layer of encryption for data at rest. \
+ * **Disabled**: Additional (2nd) layer of encryption for data at rest
  */
-export interface DatabaseListResult extends Array<Database> {
+export type InfrastructureEncryption = string;
+
+/** Known values of {@link PublicNetworkAccessEnum} that the service accepts. */
+export enum KnownPublicNetworkAccessEnum {
+  Enabled = "Enabled",
+  Disabled = "Disabled"
 }
 
 /**
- * @interface
- * A list of server configurations.
- * @extends Array<Configuration>
+ * Defines values for PublicNetworkAccessEnum. \
+ * {@link KnownPublicNetworkAccessEnum} can be used interchangeably with PublicNetworkAccessEnum,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled** \
+ * **Disabled**
  */
-export interface ConfigurationListResult extends Array<Configuration> {
+export type PublicNetworkAccessEnum = string;
+
+/** Known values of {@link GeoRedundantBackup} that the service accepts. */
+export enum KnownGeoRedundantBackup {
+  Enabled = "Enabled",
+  Disabled = "Disabled"
 }
 
 /**
- * @interface
- * A list of log files.
- * @extends Array<LogFile>
+ * Defines values for GeoRedundantBackup. \
+ * {@link KnownGeoRedundantBackup} can be used interchangeably with GeoRedundantBackup,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled** \
+ * **Disabled**
  */
-export interface LogFileListResult extends Array<LogFile> {
+export type GeoRedundantBackup = string;
+
+/** Known values of {@link StorageAutogrow} that the service accepts. */
+export enum KnownStorageAutogrow {
+  Enabled = "Enabled",
+  Disabled = "Disabled"
 }
 
 /**
- * @interface
- * The response to a list Active Directory Administrators request.
- * @extends Array<ServerAdministratorResource>
+ * Defines values for StorageAutogrow. \
+ * {@link KnownStorageAutogrow} can be used interchangeably with StorageAutogrow,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled** \
+ * **Disabled**
  */
-export interface ServerAdministratorResourceListResult extends Array<ServerAdministratorResource> {
+export type StorageAutogrow = string;
+
+/** Known values of {@link CreateMode} that the service accepts. */
+export enum KnownCreateMode {
+  Default = "Default",
+  PointInTimeRestore = "PointInTimeRestore",
+  GeoRestore = "GeoRestore",
+  Replica = "Replica"
 }
 
 /**
- * @interface
- * A list of performance tiers.
- * @extends Array<PerformanceTierProperties>
+ * Defines values for CreateMode. \
+ * {@link KnownCreateMode} can be used interchangeably with CreateMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Default** \
+ * **PointInTimeRestore** \
+ * **GeoRestore** \
+ * **Replica**
  */
-export interface PerformanceTierListResult extends Array<PerformanceTierProperties> {
+export type CreateMode = string;
+
+/** Known values of {@link ServerState} that the service accepts. */
+export enum KnownServerState {
+  Ready = "Ready",
+  Dropping = "Dropping",
+  Disabled = "Disabled",
+  Inaccessible = "Inaccessible"
 }
 
 /**
- * @interface
- * A list of the server's security alert policies.
- * @extends Array<ServerSecurityAlertPolicy>
+ * Defines values for ServerState. \
+ * {@link KnownServerState} can be used interchangeably with ServerState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Ready** \
+ * **Dropping** \
+ * **Disabled** \
+ * **Inaccessible**
  */
-export interface ServerSecurityAlertPolicyListResult extends Array<ServerSecurityAlertPolicy> {
-  /**
-   * Link to retrieve next page of results.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly nextLink?: string;
+export type ServerState = string;
+
+/** Known values of {@link PrivateLinkServiceConnectionStateStatus} that the service accepts. */
+export enum KnownPrivateLinkServiceConnectionStateStatus {
+  Approved = "Approved",
+  Pending = "Pending",
+  Rejected = "Rejected",
+  Disconnected = "Disconnected"
 }
 
 /**
- * @interface
- * A list of private endpoint connections.
- * @extends Array<PrivateEndpointConnection>
+ * Defines values for PrivateLinkServiceConnectionStateStatus. \
+ * {@link KnownPrivateLinkServiceConnectionStateStatus} can be used interchangeably with PrivateLinkServiceConnectionStateStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Approved** \
+ * **Pending** \
+ * **Rejected** \
+ * **Disconnected**
  */
-export interface PrivateEndpointConnectionListResult extends Array<PrivateEndpointConnection> {
-  /**
-   * Link to retrieve next page of results.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly nextLink?: string;
+export type PrivateLinkServiceConnectionStateStatus = string;
+
+/** Known values of {@link PrivateLinkServiceConnectionStateActionsRequire} that the service accepts. */
+export enum KnownPrivateLinkServiceConnectionStateActionsRequire {
+  None = "None"
 }
 
 /**
- * @interface
- * A list of private link resources
- * @extends Array<PrivateLinkResource>
+ * Defines values for PrivateLinkServiceConnectionStateActionsRequire. \
+ * {@link KnownPrivateLinkServiceConnectionStateActionsRequire} can be used interchangeably with PrivateLinkServiceConnectionStateActionsRequire,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None**
  */
-export interface PrivateLinkResourceListResult extends Array<PrivateLinkResource> {
-  /**
-   * Link to retrieve next page of results.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly nextLink?: string;
+export type PrivateLinkServiceConnectionStateActionsRequire = string;
+
+/** Known values of {@link PrivateEndpointProvisioningState} that the service accepts. */
+export enum KnownPrivateEndpointProvisioningState {
+  Approving = "Approving",
+  Ready = "Ready",
+  Dropping = "Dropping",
+  Failed = "Failed",
+  Rejecting = "Rejecting"
 }
 
 /**
- * @interface
- * A list of PostgreSQL Server keys.
- * @extends Array<ServerKey>
+ * Defines values for PrivateEndpointProvisioningState. \
+ * {@link KnownPrivateEndpointProvisioningState} can be used interchangeably with PrivateEndpointProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Approving** \
+ * **Ready** \
+ * **Dropping** \
+ * **Failed** \
+ * **Rejecting**
  */
-export interface ServerKeyListResult extends Array<ServerKey> {
-  /**
-   * Link to retrieve next page of results.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly nextLink?: string;
+export type PrivateEndpointProvisioningState = string;
+
+/** Known values of {@link VirtualNetworkRuleState} that the service accepts. */
+export enum KnownVirtualNetworkRuleState {
+  Initializing = "Initializing",
+  InProgress = "InProgress",
+  Ready = "Ready",
+  Deleting = "Deleting",
+  Unknown = "Unknown"
 }
 
 /**
- * Defines values for ServerVersion.
- * Possible values include: '9.5', '9.6', '10', '10.0', '10.2', '11'
- * @readonly
- * @enum {string}
- */
-export type ServerVersion = '9.5' | '9.6' | '10' | '10.0' | '10.2' | '11';
-
-/**
- * Defines values for SslEnforcementEnum.
- * Possible values include: 'Enabled', 'Disabled'
- * @readonly
- * @enum {string}
- */
-export type SslEnforcementEnum = 'Enabled' | 'Disabled';
-
-/**
- * Defines values for MinimalTlsVersionEnum.
- * Possible values include: 'TLS1_0', 'TLS1_1', 'TLS1_2', 'TLSEnforcementDisabled'
- * @readonly
- * @enum {string}
- */
-export type MinimalTlsVersionEnum = 'TLS1_0' | 'TLS1_1' | 'TLS1_2' | 'TLSEnforcementDisabled';
-
-/**
- * Defines values for InfrastructureEncryption.
- * Possible values include: 'Enabled', 'Disabled'
- * @readonly
- * @enum {string}
- */
-export type InfrastructureEncryption = 'Enabled' | 'Disabled';
-
-/**
- * Defines values for PublicNetworkAccessEnum.
- * Possible values include: 'Enabled', 'Disabled'
- * @readonly
- * @enum {string}
- */
-export type PublicNetworkAccessEnum = 'Enabled' | 'Disabled';
-
-/**
- * Defines values for PrivateLinkServiceConnectionStateStatus.
- * Possible values include: 'Approved', 'Pending', 'Rejected', 'Disconnected'
- * @readonly
- * @enum {string}
- */
-export type PrivateLinkServiceConnectionStateStatus = 'Approved' | 'Pending' | 'Rejected' | 'Disconnected';
-
-/**
- * Defines values for PrivateLinkServiceConnectionStateActionsRequire.
- * Possible values include: 'None'
- * @readonly
- * @enum {string}
- */
-export type PrivateLinkServiceConnectionStateActionsRequire = 'None';
-
-/**
- * Defines values for PrivateEndpointProvisioningState.
- * Possible values include: 'Approving', 'Ready', 'Dropping', 'Failed', 'Rejecting'
- * @readonly
- * @enum {string}
- */
-export type PrivateEndpointProvisioningState = 'Approving' | 'Ready' | 'Dropping' | 'Failed' | 'Rejecting';
-
-/**
- * Defines values for ServerState.
- * Possible values include: 'Ready', 'Dropping', 'Disabled', 'Inaccessible'
- * @readonly
- * @enum {string}
- */
-export type ServerState = 'Ready' | 'Dropping' | 'Disabled' | 'Inaccessible';
-
-/**
- * Defines values for GeoRedundantBackup.
- * Possible values include: 'Enabled', 'Disabled'
- * @readonly
- * @enum {string}
- */
-export type GeoRedundantBackup = 'Enabled' | 'Disabled';
-
-/**
- * Defines values for StorageAutogrow.
- * Possible values include: 'Enabled', 'Disabled'
- * @readonly
- * @enum {string}
- */
-export type StorageAutogrow = 'Enabled' | 'Disabled';
-
-/**
- * Defines values for SkuTier.
- * Possible values include: 'Basic', 'GeneralPurpose', 'MemoryOptimized'
- * @readonly
- * @enum {string}
- */
-export type SkuTier = 'Basic' | 'GeneralPurpose' | 'MemoryOptimized';
-
-/**
- * Defines values for IdentityType.
- * Possible values include: 'SystemAssigned'
- * @readonly
- * @enum {string}
- */
-export type IdentityType = 'SystemAssigned';
-
-/**
- * Defines values for VirtualNetworkRuleState.
- * Possible values include: 'Initializing', 'InProgress', 'Ready', 'Deleting', 'Unknown'
- * @readonly
- * @enum {string}
- */
-export type VirtualNetworkRuleState = 'Initializing' | 'InProgress' | 'Ready' | 'Deleting' | 'Unknown';
-
-/**
- * Defines values for OperationOrigin.
- * Possible values include: 'NotSpecified', 'user', 'system'
- * @readonly
- * @enum {string}
- */
-export type OperationOrigin = 'NotSpecified' | 'user' | 'system';
-
-/**
- * Defines values for ServerSecurityAlertPolicyState.
- * Possible values include: 'Enabled', 'Disabled'
- * @readonly
- * @enum {string}
- */
-export type ServerSecurityAlertPolicyState = 'Enabled' | 'Disabled';
-
-/**
- * Contains response data for the create operation.
- */
-export type ServersCreateResponse = Server & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Server;
-    };
-};
-
-/**
- * Contains response data for the update operation.
- */
-export type ServersUpdateResponse = Server & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Server;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type ServersGetResponse = Server & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Server;
-    };
-};
-
-/**
- * Contains response data for the listByResourceGroup operation.
- */
-export type ServersListByResourceGroupResponse = ServerListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServerListResult;
-    };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type ServersListResponse = ServerListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServerListResult;
-    };
-};
-
-/**
- * Contains response data for the beginCreate operation.
- */
-export type ServersBeginCreateResponse = Server & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Server;
-    };
-};
-
-/**
- * Contains response data for the beginUpdate operation.
- */
-export type ServersBeginUpdateResponse = Server & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Server;
-    };
-};
-
-/**
- * Contains response data for the listByServer operation.
- */
-export type ReplicasListByServerResponse = ServerListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServerListResult;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type FirewallRulesCreateOrUpdateResponse = FirewallRule & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: FirewallRule;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type FirewallRulesGetResponse = FirewallRule & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: FirewallRule;
-    };
-};
-
-/**
- * Contains response data for the listByServer operation.
- */
-export type FirewallRulesListByServerResponse = FirewallRuleListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: FirewallRuleListResult;
-    };
-};
-
-/**
- * Contains response data for the beginCreateOrUpdate operation.
- */
-export type FirewallRulesBeginCreateOrUpdateResponse = FirewallRule & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: FirewallRule;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type VirtualNetworkRulesGetResponse = VirtualNetworkRule & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualNetworkRule;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type VirtualNetworkRulesCreateOrUpdateResponse = VirtualNetworkRule & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualNetworkRule;
-    };
-};
-
-/**
- * Contains response data for the listByServer operation.
- */
-export type VirtualNetworkRulesListByServerResponse = VirtualNetworkRuleListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualNetworkRuleListResult;
-    };
-};
-
-/**
- * Contains response data for the beginCreateOrUpdate operation.
- */
-export type VirtualNetworkRulesBeginCreateOrUpdateResponse = VirtualNetworkRule & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualNetworkRule;
-    };
-};
-
-/**
- * Contains response data for the listByServerNext operation.
- */
-export type VirtualNetworkRulesListByServerNextResponse = VirtualNetworkRuleListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualNetworkRuleListResult;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type DatabasesCreateOrUpdateResponse = Database & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Database;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type DatabasesGetResponse = Database & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Database;
-    };
-};
-
-/**
- * Contains response data for the listByServer operation.
- */
-export type DatabasesListByServerResponse = DatabaseListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DatabaseListResult;
-    };
-};
-
-/**
- * Contains response data for the beginCreateOrUpdate operation.
- */
-export type DatabasesBeginCreateOrUpdateResponse = Database & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Database;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type ConfigurationsCreateOrUpdateResponse = Configuration & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Configuration;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type ConfigurationsGetResponse = Configuration & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Configuration;
-    };
-};
-
-/**
- * Contains response data for the listByServer operation.
- */
-export type ConfigurationsListByServerResponse = ConfigurationListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ConfigurationListResult;
-    };
-};
-
-/**
- * Contains response data for the beginCreateOrUpdate operation.
- */
-export type ConfigurationsBeginCreateOrUpdateResponse = Configuration & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Configuration;
-    };
-};
-
-/**
- * Contains response data for the listUpdateConfigurations operation.
- */
-export type ServerParametersListUpdateConfigurationsResponse = ConfigurationListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ConfigurationListResult;
-    };
-};
-
-/**
- * Contains response data for the beginListUpdateConfigurations operation.
- */
-export type ServerParametersBeginListUpdateConfigurationsResponse = ConfigurationListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ConfigurationListResult;
-    };
-};
-
-/**
- * Contains response data for the listByServer operation.
- */
-export type LogFilesListByServerResponse = LogFileListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: LogFileListResult;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type ServerAdministratorsGetResponse = ServerAdministratorResource & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServerAdministratorResource;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type ServerAdministratorsCreateOrUpdateResponse = ServerAdministratorResource & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServerAdministratorResource;
-    };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type ServerAdministratorsListResponse = ServerAdministratorResourceListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServerAdministratorResourceListResult;
-    };
-};
-
-/**
- * Contains response data for the beginCreateOrUpdate operation.
- */
-export type ServerAdministratorsBeginCreateOrUpdateResponse = ServerAdministratorResource & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServerAdministratorResource;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type RecoverableServersGetResponse = RecoverableServerResource & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RecoverableServerResource;
-    };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type ServerBasedPerformanceTierListResponse = PerformanceTierListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PerformanceTierListResult;
-    };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type LocationBasedPerformanceTierListResponse = PerformanceTierListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PerformanceTierListResult;
-    };
-};
-
-/**
- * Contains response data for the execute operation.
- */
-export type CheckNameAvailabilityExecuteResponse = NameAvailability & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NameAvailability;
-    };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type OperationsListResponse = OperationListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type ServerSecurityAlertPoliciesGetResponse = ServerSecurityAlertPolicy & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServerSecurityAlertPolicy;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type ServerSecurityAlertPoliciesCreateOrUpdateResponse = ServerSecurityAlertPolicy & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServerSecurityAlertPolicy;
-    };
-};
-
-/**
- * Contains response data for the listByServer operation.
- */
-export type ServerSecurityAlertPoliciesListByServerResponse = ServerSecurityAlertPolicyListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServerSecurityAlertPolicyListResult;
-    };
-};
-
-/**
- * Contains response data for the beginCreateOrUpdate operation.
- */
-export type ServerSecurityAlertPoliciesBeginCreateOrUpdateResponse = ServerSecurityAlertPolicy & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServerSecurityAlertPolicy;
-    };
-};
-
-/**
- * Contains response data for the listByServerNext operation.
- */
-export type ServerSecurityAlertPoliciesListByServerNextResponse = ServerSecurityAlertPolicyListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServerSecurityAlertPolicyListResult;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type PrivateEndpointConnectionsGetResponse = PrivateEndpointConnection & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateEndpointConnection;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type PrivateEndpointConnectionsCreateOrUpdateResponse = PrivateEndpointConnection & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateEndpointConnection;
-    };
-};
-
-/**
- * Contains response data for the updateTags operation.
- */
-export type PrivateEndpointConnectionsUpdateTagsResponse = PrivateEndpointConnection & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateEndpointConnection;
-    };
-};
-
-/**
- * Contains response data for the listByServer operation.
- */
-export type PrivateEndpointConnectionsListByServerResponse = PrivateEndpointConnectionListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateEndpointConnectionListResult;
-    };
-};
-
-/**
- * Contains response data for the beginCreateOrUpdate operation.
- */
-export type PrivateEndpointConnectionsBeginCreateOrUpdateResponse = PrivateEndpointConnection & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateEndpointConnection;
-    };
-};
-
-/**
- * Contains response data for the beginUpdateTags operation.
- */
-export type PrivateEndpointConnectionsBeginUpdateTagsResponse = PrivateEndpointConnection & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateEndpointConnection;
-    };
-};
-
-/**
- * Contains response data for the listByServerNext operation.
- */
-export type PrivateEndpointConnectionsListByServerNextResponse = PrivateEndpointConnectionListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateEndpointConnectionListResult;
-    };
-};
-
-/**
- * Contains response data for the listByServer operation.
- */
-export type PrivateLinkResourcesListByServerResponse = PrivateLinkResourceListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateLinkResourceListResult;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type PrivateLinkResourcesGetResponse = PrivateLinkResource & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateLinkResource;
-    };
-};
-
-/**
- * Contains response data for the listByServerNext operation.
- */
-export type PrivateLinkResourcesListByServerNextResponse = PrivateLinkResourceListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateLinkResourceListResult;
-    };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type ServerKeysListResponse = ServerKeyListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServerKeyListResult;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type ServerKeysGetResponse = ServerKey & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServerKey;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type ServerKeysCreateOrUpdateResponse = ServerKey & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServerKey;
-    };
-};
-
-/**
- * Contains response data for the beginCreateOrUpdate operation.
- */
-export type ServerKeysBeginCreateOrUpdateResponse = ServerKey & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServerKey;
-    };
-};
-
-/**
- * Contains response data for the listNext operation.
- */
-export type ServerKeysListNextResponse = ServerKeyListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServerKeyListResult;
-    };
-};
+ * Defines values for VirtualNetworkRuleState. \
+ * {@link KnownVirtualNetworkRuleState} can be used interchangeably with VirtualNetworkRuleState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Initializing** \
+ * **InProgress** \
+ * **Ready** \
+ * **Deleting** \
+ * **Unknown**
+ */
+export type VirtualNetworkRuleState = string;
+
+/** Known values of {@link OperationOrigin} that the service accepts. */
+export enum KnownOperationOrigin {
+  NotSpecified = "NotSpecified",
+  User = "user",
+  System = "system"
+}
+
+/**
+ * Defines values for OperationOrigin. \
+ * {@link KnownOperationOrigin} can be used interchangeably with OperationOrigin,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NotSpecified** \
+ * **user** \
+ * **system**
+ */
+export type OperationOrigin = string;
+
+/** Known values of {@link SecurityAlertPolicyName} that the service accepts. */
+export enum KnownSecurityAlertPolicyName {
+  Default = "Default"
+}
+
+/**
+ * Defines values for SecurityAlertPolicyName. \
+ * {@link KnownSecurityAlertPolicyName} can be used interchangeably with SecurityAlertPolicyName,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Default**
+ */
+export type SecurityAlertPolicyName = string;
+
+/** Known values of {@link ServerKeyType} that the service accepts. */
+export enum KnownServerKeyType {
+  AzureKeyVault = "AzureKeyVault"
+}
+
+/**
+ * Defines values for ServerKeyType. \
+ * {@link KnownServerKeyType} can be used interchangeably with ServerKeyType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AzureKeyVault**
+ */
+export type ServerKeyType = string;
+/** Defines values for SslEnforcementEnum. */
+export type SslEnforcementEnum = "Enabled" | "Disabled";
+/** Defines values for ServerSecurityAlertPolicyState. */
+export type ServerSecurityAlertPolicyState = "Enabled" | "Disabled";
+
+/** Optional parameters. */
+export interface ServersCreateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the create operation. */
+export type ServersCreateResponse = Server;
+
+/** Optional parameters. */
+export interface ServersUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type ServersUpdateResponse = Server;
+
+/** Optional parameters. */
+export interface ServersDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface ServersGetOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ServersGetResponse = Server;
+
+/** Optional parameters. */
+export interface ServersListByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroup operation. */
+export type ServersListByResourceGroupResponse = ServerListResult;
+
+/** Optional parameters. */
+export interface ServersListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type ServersListResponse = ServerListResult;
+
+/** Optional parameters. */
+export interface ServersRestartOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface ReplicasListByServerOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByServer operation. */
+export type ReplicasListByServerResponse = ServerListResult;
+
+/** Optional parameters. */
+export interface FirewallRulesCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type FirewallRulesCreateOrUpdateResponse = FirewallRule;
+
+/** Optional parameters. */
+export interface FirewallRulesDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface FirewallRulesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type FirewallRulesGetResponse = FirewallRule;
+
+/** Optional parameters. */
+export interface FirewallRulesListByServerOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByServer operation. */
+export type FirewallRulesListByServerResponse = FirewallRuleListResult;
+
+/** Optional parameters. */
+export interface VirtualNetworkRulesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type VirtualNetworkRulesGetResponse = VirtualNetworkRule;
+
+/** Optional parameters. */
+export interface VirtualNetworkRulesCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type VirtualNetworkRulesCreateOrUpdateResponse = VirtualNetworkRule;
+
+/** Optional parameters. */
+export interface VirtualNetworkRulesDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface VirtualNetworkRulesListByServerOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByServer operation. */
+export type VirtualNetworkRulesListByServerResponse = VirtualNetworkRuleListResult;
+
+/** Optional parameters. */
+export interface VirtualNetworkRulesListByServerNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByServerNext operation. */
+export type VirtualNetworkRulesListByServerNextResponse = VirtualNetworkRuleListResult;
+
+/** Optional parameters. */
+export interface DatabasesCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type DatabasesCreateOrUpdateResponse = Database;
+
+/** Optional parameters. */
+export interface DatabasesDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface DatabasesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type DatabasesGetResponse = Database;
+
+/** Optional parameters. */
+export interface DatabasesListByServerOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByServer operation. */
+export type DatabasesListByServerResponse = DatabaseListResult;
+
+/** Optional parameters. */
+export interface ConfigurationsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type ConfigurationsCreateOrUpdateResponse = Configuration;
+
+/** Optional parameters. */
+export interface ConfigurationsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ConfigurationsGetResponse = Configuration;
+
+/** Optional parameters. */
+export interface ConfigurationsListByServerOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByServer operation. */
+export type ConfigurationsListByServerResponse = ConfigurationListResult;
+
+/** Optional parameters. */
+export interface ServerParametersListUpdateConfigurationsOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the listUpdateConfigurations operation. */
+export type ServerParametersListUpdateConfigurationsResponse = ConfigurationListResult;
+
+/** Optional parameters. */
+export interface LogFilesListByServerOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByServer operation. */
+export type LogFilesListByServerResponse = LogFileListResult;
+
+/** Optional parameters. */
+export interface ServerAdministratorsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ServerAdministratorsGetResponse = ServerAdministratorResource;
+
+/** Optional parameters. */
+export interface ServerAdministratorsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type ServerAdministratorsCreateOrUpdateResponse = ServerAdministratorResource;
+
+/** Optional parameters. */
+export interface ServerAdministratorsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface ServerAdministratorsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type ServerAdministratorsListResponse = ServerAdministratorResourceListResult;
+
+/** Optional parameters. */
+export interface RecoverableServersGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type RecoverableServersGetResponse = RecoverableServerResource;
+
+/** Optional parameters. */
+export interface ServerBasedPerformanceTierListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type ServerBasedPerformanceTierListResponse = PerformanceTierListResult;
+
+/** Optional parameters. */
+export interface LocationBasedPerformanceTierListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type LocationBasedPerformanceTierListResponse = PerformanceTierListResult;
+
+/** Optional parameters. */
+export interface CheckNameAvailabilityExecuteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the execute operation. */
+export type CheckNameAvailabilityExecuteResponse = NameAvailability;
+
+/** Optional parameters. */
+export interface OperationsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type OperationsListResponse = OperationListResult;
+
+/** Optional parameters. */
+export interface ServerSecurityAlertPoliciesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ServerSecurityAlertPoliciesGetResponse = ServerSecurityAlertPolicy;
+
+/** Optional parameters. */
+export interface ServerSecurityAlertPoliciesCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type ServerSecurityAlertPoliciesCreateOrUpdateResponse = ServerSecurityAlertPolicy;
+
+/** Optional parameters. */
+export interface ServerSecurityAlertPoliciesListByServerOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByServer operation. */
+export type ServerSecurityAlertPoliciesListByServerResponse = ServerSecurityAlertPolicyListResult;
+
+/** Optional parameters. */
+export interface ServerSecurityAlertPoliciesListByServerNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByServerNext operation. */
+export type ServerSecurityAlertPoliciesListByServerNextResponse = ServerSecurityAlertPolicyListResult;
+
+/** Optional parameters. */
+export interface PrivateEndpointConnectionsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type PrivateEndpointConnectionsGetResponse = PrivateEndpointConnection;
+
+/** Optional parameters. */
+export interface PrivateEndpointConnectionsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type PrivateEndpointConnectionsCreateOrUpdateResponse = PrivateEndpointConnection;
+
+/** Optional parameters. */
+export interface PrivateEndpointConnectionsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface PrivateEndpointConnectionsUpdateTagsOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the updateTags operation. */
+export type PrivateEndpointConnectionsUpdateTagsResponse = PrivateEndpointConnection;
+
+/** Optional parameters. */
+export interface PrivateEndpointConnectionsListByServerOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByServer operation. */
+export type PrivateEndpointConnectionsListByServerResponse = PrivateEndpointConnectionListResult;
+
+/** Optional parameters. */
+export interface PrivateEndpointConnectionsListByServerNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByServerNext operation. */
+export type PrivateEndpointConnectionsListByServerNextResponse = PrivateEndpointConnectionListResult;
+
+/** Optional parameters. */
+export interface PrivateLinkResourcesListByServerOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByServer operation. */
+export type PrivateLinkResourcesListByServerResponse = PrivateLinkResourceListResult;
+
+/** Optional parameters. */
+export interface PrivateLinkResourcesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type PrivateLinkResourcesGetResponse = PrivateLinkResource;
+
+/** Optional parameters. */
+export interface PrivateLinkResourcesListByServerNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByServerNext operation. */
+export type PrivateLinkResourcesListByServerNextResponse = PrivateLinkResourceListResult;
+
+/** Optional parameters. */
+export interface ServerKeysListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type ServerKeysListResponse = ServerKeyListResult;
+
+/** Optional parameters. */
+export interface ServerKeysGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ServerKeysGetResponse = ServerKey;
+
+/** Optional parameters. */
+export interface ServerKeysCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type ServerKeysCreateOrUpdateResponse = ServerKey;
+
+/** Optional parameters. */
+export interface ServerKeysDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface ServerKeysListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type ServerKeysListNextResponse = ServerKeyListResult;
+
+/** Optional parameters. */
+export interface PostgreSQLManagementClientOptionalParams
+  extends coreClient.ServiceClientOptions {
+  /** server parameter */
+  $host?: string;
+  /** Overrides client endpoint. */
+  endpoint?: string;
+}

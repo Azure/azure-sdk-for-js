@@ -3,7 +3,7 @@
 
 import { assert } from "chai";
 import { RestError } from "@azure/core-rest-pipeline";
-import { AzureApplicationCredential } from "../../../src";
+import { AzureApplicationCredential } from "../../../src/credentials/azureApplicationCredential";
 import { prepareIdentityTests } from "../../httpRequests";
 import {
   createResponse,

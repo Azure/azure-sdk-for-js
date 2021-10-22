@@ -40,15 +40,18 @@ export {
 } from "./credentials/environmentCredential";
 export { ClientSecretCredential } from "./credentials/clientSecretCredential";
 export { ClientSecretCredentialOptions } from "./credentials/clientSecretCredentialOptions";
-export { ClientCertificateCredential } from "./credentials/clientCertificateCredential";
+export {
+  ClientCertificateCredential,
+  ClientCertificateCredentialPEMConfiguration
+} from "./credentials/clientCertificateCredential";
 export { ClientCertificateCredentialOptions } from "./credentials/clientCertificateCredentialOptions";
 export { CredentialPersistenceOptions } from "./credentials/credentialPersistenceOptions";
 export { AzureCliCredential } from "./credentials/azureCliCredential";
 export { AzureCliCredentialOptions } from "./credentials/azureCliCredentialOptions";
 export { InteractiveBrowserCredential } from "./credentials/interactiveBrowserCredential";
 export {
-  InteractiveBrowserCredentialOptions,
-  InteractiveBrowserCredentialBrowserOptions,
+  InteractiveBrowserCredentialNodeOptions,
+  InteractiveBrowserCredentialInBrowserOptions,
   BrowserLoginStyle
 } from "./credentials/interactiveBrowserCredentialOptions";
 export { ManagedIdentityCredential } from "./credentials/managedIdentityCredential";
@@ -63,10 +66,6 @@ export { UsernamePasswordCredentialOptions } from "./credentials/usernamePasswor
 export { AuthorizationCodeCredential } from "./credentials/authorizationCodeCredential";
 export { AzurePowerShellCredential } from "./credentials/azurePowerShellCredential";
 export { AzurePowerShellCredentialOptions } from "./credentials/azurePowerShellCredentialOptions";
-export {
-  AzureApplicationCredential,
-  AzureApplicationCredentialOptions
-} from "./credentials/azureApplicationCredential";
 
 export {
   VisualStudioCodeCredential,

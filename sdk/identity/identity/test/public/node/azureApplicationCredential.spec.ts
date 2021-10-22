@@ -2,12 +2,20 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import { AzureApplicationCredential } from "../../../src";
 import { MsalTestCleanup, msalNodeTestSetup, testTracing } from "../../msalTestUtils";
 import { getError } from "../../authTestUtils";
 import { Context } from "mocha";
+import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 
-describe("AzureApplicationCredential", function() {
+// TODO: Use the real one once we decide to re-enable this on the public API.
+class AzureApplicationCredential implements TokenCredential {
+  getToken(_scope: string | string[], _getTokenOptions?: GetTokenOptions): Promise<AccessToken> {
+    throw new Error("Not implemented");
+  }
+}
+
+// TODO: Re-enable this when possible.
+describe.skip("AzureApplicationCredential", function() {
   let cleanup: MsalTestCleanup;
   const environmentVariableNames = ["AZURE_TENANT_ID", "AZURE_CLIENT_ID", "AZURE_CLIENT_SECRET"];
   const cachedValues: Record<string, string | undefined> = {};
@@ -61,13 +69,13 @@ describe("AzureApplicationCredential", function() {
       },
       children: [
         {
-          name: "Azure.Identity.ChainedTokenCredential-getToken",
+          name: "ChainedTokenCredential.getToken",
           children: [
             {
-              name: "Azure.Identity.EnvironmentCredential.getToken",
+              name: "EnvironmentCredential.getToken",
               children: [
                 {
-                  name: "Azure.Identity.ClientSecretCredential.getToken",
+                  name: "ClientSecretCredential.getToken",
                   children: []
                 }
               ]

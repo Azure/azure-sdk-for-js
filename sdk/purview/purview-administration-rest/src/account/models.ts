@@ -208,14 +208,14 @@ export interface Collection {
   name?: string;
   /** Gets or sets the parent collection reference. */
   parentCollection?: CollectionReference;
-  /** Gets the system data that contains information about who and when created and updated the resource. */
+  /** Metadata pertaining to creation and last modification of the resource. */
   systemData?: CollectionSystemData;
 }
 
 export interface CollectionReference {
   /** Gets or sets the reference name. */
   referenceName?: string;
-  /** Gets the reference type property. */
+  /** Gets or sets the reference type property. */
   type?: string;
 }
 

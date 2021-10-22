@@ -6,7 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { DataPolicyManifests } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
@@ -17,16 +16,14 @@ import {
   DataPolicyManifest,
   DataPolicyManifestsListNextOptionalParams,
   DataPolicyManifestsListOptionalParams,
-  DataPolicyManifestsListNextNextOptionalParams,
   DataPolicyManifestsGetByPolicyModeOptionalParams,
   DataPolicyManifestsGetByPolicyModeResponse,
   DataPolicyManifestsListResponse,
-  DataPolicyManifestsListNextResponse,
-  DataPolicyManifestsListNextNextResponse
+  DataPolicyManifestsListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a DataPolicyManifests. */
+/** Class containing DataPolicyManifests operations. */
 export class DataPolicyManifestsImpl implements DataPolicyManifests {
   private readonly client: PolicyClientContext;
 
@@ -85,52 +82,6 @@ export class DataPolicyManifestsImpl implements DataPolicyManifests {
   }
 
   /**
-   * ListNext
-   * @param nextLink The nextLink from the previous successful call to the List method.
-   * @param options The options parameters.
-   */
-  public listNext(
-    nextLink: string,
-    options?: DataPolicyManifestsListNextOptionalParams
-  ): PagedAsyncIterableIterator<DataPolicyManifest> {
-    const iter = this.listNextPagingAll(nextLink, options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: () => {
-        return this.listNextPagingPage(nextLink, options);
-      }
-    };
-  }
-
-  private async *listNextPagingPage(
-    nextLink: string,
-    options?: DataPolicyManifestsListNextOptionalParams
-  ): AsyncIterableIterator<DataPolicyManifest[]> {
-    let result = await this._listNext(nextLink, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
-    while (continuationToken) {
-      result = await this._listNextNext(continuationToken, options);
-      continuationToken = result.nextLink;
-      yield result.value || [];
-    }
-  }
-
-  private async *listNextPagingAll(
-    nextLink: string,
-    options?: DataPolicyManifestsListNextOptionalParams
-  ): AsyncIterableIterator<DataPolicyManifest> {
-    for await (const page of this.listNextPagingPage(nextLink, options)) {
-      yield* page;
-    }
-  }
-
-  /**
    * This operation retrieves the data policy manifest with the given policy mode.
    * @param policyMode The policy mode of the data policy manifest to get.
    * @param options The options parameters.
@@ -173,21 +124,6 @@ export class DataPolicyManifestsImpl implements DataPolicyManifests {
       listNextOperationSpec
     );
   }
-
-  /**
-   * ListNextNext
-   * @param nextLink The nextLink from the previous successful call to the ListNext method.
-   * @param options The options parameters.
-   */
-  private _listNextNext(
-    nextLink: string,
-    options?: DataPolicyManifestsListNextNextOptionalParams
-  ): Promise<DataPolicyManifestsListNextNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextNextOperationSpec
-    );
-  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
@@ -225,22 +161,6 @@ const listOperationSpec: coreClient.OperationSpec = {
   serializer
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DataPolicyManifestListResult
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.filter],
-  urlParameters: [Parameters.$host, Parameters.nextLink],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listNextNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
