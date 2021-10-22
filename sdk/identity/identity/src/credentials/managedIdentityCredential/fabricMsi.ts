@@ -106,7 +106,8 @@ export const fabricMsi: MSI = {
       expiresInParser,
       getTokenOptions,
       new https.Agent({
-        // This is necessary. The alternative path is to verify the certificate using the IDENTITY_SERVER_THUMBPRINT env variable.
+        // This is necessary because Service Fabric provides a self-signed certificate.
+        // The alternative path is to verify the certificate using the IDENTITY_SERVER_THUMBPRINT env variable.
         rejectUnauthorized: false
       })
     );
