@@ -9,7 +9,7 @@ export class NoOpTracer implements Tracer {
   ): { span: TracingSpan; tracingContext: TracingContext } {
     return {
       span: new NoOpSpan(),
-      tracingContext: createTracingContext({ providerContext: options?.context })
+      tracingContext: createTracingContext({ providerContext: options?.tracingContext })
     };
   }
   withTrace<
@@ -26,11 +26,14 @@ export class NoOpTracer implements Tracer {
     const { span, tracingContext } = this.startSpan();
     return Promise.resolve(fn.call(callbackThis, tracingContext, span));
   }
-  withContext<Callback extends (args: Parameters<Callback>) => ReturnType<Callback>>(
+  withContext<
+    CallbackArgs extends unknown[],
+    Callback extends (...args: CallbackArgs) => ReturnType<Callback>
+  >(
+    _context: TracingContext,
     callback: Callback,
-    _options: TracerCreateSpanOptions,
     callbackThis?: ThisParameterType<Callback>,
-    ...callbackArgs: Parameters<Callback>
+    ...callbackArgs: CallbackArgs
   ): ReturnType<Callback> {
     return callback.apply(callbackThis, callbackArgs);
   }

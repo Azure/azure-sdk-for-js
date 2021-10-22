@@ -15,7 +15,7 @@ export class OpenTelemetryTracer implements Tracer {
     name: string,
     options: TracerCreateSpanOptions
   ): { span: TracingSpan; tracingContext: TracingContext } {
-    let context = options.context || api.context.active();
+    let context = options.tracingContext || api.context.active();
     const span = api.trace.getTracer("@azure/core-tracing").startSpan(name);
     context = setSpan(context, span);
     return {
@@ -23,14 +23,17 @@ export class OpenTelemetryTracer implements Tracer {
       tracingContext: context
     };
   }
-  withContext<Callback extends (args: Parameters<Callback>) => ReturnType<Callback>>(
+  withContext<
+    CallbackArgs extends unknown[],
+    Callback extends (...args: CallbackArgs) => ReturnType<Callback>
+  >(
+    context: TracingContext,
     callback: Callback,
-    options: TracerCreateSpanOptions, // todo: should context actually be required??
     callbackThis?: ThisParameterType<Callback>,
-    ...callbackArgs: Parameters<Callback>
+    ...callbackArgs: CallbackArgs
   ): ReturnType<Callback> {
     return api.context.with(
-      options.context || api.context.active(),
+      context || api.context.active(),
       callback,
       callbackThis,
       ...callbackArgs

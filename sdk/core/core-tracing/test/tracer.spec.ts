@@ -30,7 +30,7 @@ describe("Tracer", () => {
         const [key, value] = [Symbol.for("key"), "value"];
         let context = createTracingContext().setValue(key, value);
 
-        const { tracingContext } = tracer.startSpan(name, { context });
+        const { tracingContext } = tracer.startSpan(name, { tracingContext: context });
         assert.strictEqual(tracingContext.getValue(key), value);
       });
     });
@@ -41,9 +41,7 @@ describe("Tracer", () => {
     describe("#withContext", () => {
       it("applies the callback", () => {
         const expectedText = "expected";
-        const result = tracer.withContext(() => {
-          return expectedText;
-        }, {});
+        const result = tracer.withContext(createTracingContext(), () => expectedText);
         assert.equal(result, expectedText);
       });
 
@@ -51,10 +49,10 @@ describe("Tracer", () => {
         const that = this;
 
         tracer.withContext(
+          createTracingContext(),
           () => {
             assert.strictEqual(this, that);
           },
-          {},
           that
         );
       });
@@ -160,10 +158,6 @@ describe("Tracer", () => {
   });
 
   describe("defaultTracer", () => {
-    it("returns NoOpTracer", () => {
-      assert.instanceOf(tracerImplementation, NoOpTracer);
-    });
-
     it("allows setting the default tracer", () => {
       const tracer = new NoOpTracer();
 
@@ -218,9 +212,14 @@ describe("Tracer", () => {
       it("sets namespace on context", () => {
         const { updatedOptions } = client.startSpan("test");
         assert.equal(
-          updatedOptions.tracingOptions?.context?.getValue(knownContextKeys.Namespace),
+          updatedOptions.tracingOptions?.tracingContext?.getValue(knownContextKeys.Namespace),
           expectedNamespace
         );
+      });
+
+      it("returns the same context in options", () => {
+        const { updatedOptions, tracingContext } = client.startSpan("test");
+        assert.strictEqual(updatedOptions.tracingOptions!.tracingContext, tracingContext);
       });
     });
 
@@ -280,12 +279,12 @@ describe("Tracer", () => {
         await client.withTrace(
           spanName,
           (updatedOptions) => {
-            console.log(updatedOptions.tracingOptions.context);
-            assert.strictEqual(updatedOptions.tracingOptions.context.getValue(key), value);
+            console.log(updatedOptions.tracingOptions?.tracingContext);
+            assert.strictEqual(updatedOptions.tracingOptions?.tracingContext.getValue(key), value);
           },
           {
             tracingOptions: {
-              context: parentContext
+              tracingContext: parentContext
             }
           }
         );

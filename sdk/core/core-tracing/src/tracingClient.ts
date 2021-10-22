@@ -7,7 +7,7 @@ import {
   TracingContext
 } from "./interfaces";
 import { tracerImplementation } from "./tracer";
-import { knownContextKeys } from "./tracingContext";
+import { createTracingContext, knownContextKeys } from "./tracingContext";
 
 /** @internal */
 export class TracingClientImpl implements TracingClient {
@@ -20,23 +20,28 @@ export class TracingClientImpl implements TracingClient {
   startSpan<Options extends { tracingOptions?: OperationTracingOptions }>(
     name: string,
     options?: Options
-  ): { span: TracingSpan; updatedOptions: Options } {
+  ): { span: TracingSpan; tracingContext: TracingContext; updatedOptions: Options } {
     let { span, tracingContext } = this._tracer.startSpan(name, {
-      context: options?.tracingOptions?.context
+      tracingContext: options?.tracingOptions?.tracingContext
     });
     tracingContext = tracingContext.setValue(knownContextKeys.Namespace, this._namespace);
     span.setAttribute("az.namespace", this._namespace);
+    const updatedOptions = {
+      ...options,
+      tracingOptions: {
+        tracingContext
+      }
+    } as Options;
+    // TODO: it's nice to return the context so we don't have to do null assertions later
+    // but it's also duplicating data - is it the same context? can they drift? Which one do I use?
     return {
       span,
-      updatedOptions: {
-        tracingOptions: {
-          context: tracingContext
-        }
-      } as Options
+      tracingContext,
+      updatedOptions
     };
   }
   async withTrace<
-    Options extends { tracingOptions?: { context?: TracingContext } },
+    Options extends { tracingOptions?: { tracingContext?: TracingContext } },
     Callback extends (
       updatedOptions: Options,
       span: Omit<TracingSpan, "end">
@@ -47,14 +52,12 @@ export class TracingClientImpl implements TracingClient {
     options?: Options,
     callbackThis?: ThisParameterType<Callback>
   ): Promise<ReturnType<Callback>> {
-    let { span, updatedOptions } = this.startSpan(name, options);
+    let { span, tracingContext, updatedOptions } = this.startSpan(name, options);
     try {
       span.setStatus({ status: "success" });
       const result = await this.withContext(
-        async () => {
-          return await Promise.resolve(fn.call(callbackThis, updatedOptions, span));
-        },
-        updatedOptions?.tracingOptions || {},
+        tracingContext,
+        () => Promise.resolve(fn.call(callbackThis, updatedOptions, span)),
         callbackThis
       );
       return result;
@@ -65,13 +68,16 @@ export class TracingClientImpl implements TracingClient {
       span.end();
     }
   }
-  withContext<Callback extends (args: Parameters<Callback>) => ReturnType<Callback>>(
+  withContext<
+    CallbackArgs extends unknown[],
+    Callback extends (...args: CallbackArgs) => ReturnType<Callback>
+  >(
+    context: TracingContext,
     callback: Callback,
-    options: OperationTracingOptions,
     callbackThis?: ThisParameterType<Callback>,
-    ...callbackArgs: Parameters<Callback>
+    ...callbackArgs: CallbackArgs
   ): ReturnType<Callback> {
-    return this._tracer.withContext(callback, options, callbackThis, ...callbackArgs);
+    return this._tracer.withContext(context, callback, callbackThis, ...callbackArgs);
   }
 }
 

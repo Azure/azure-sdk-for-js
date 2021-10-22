@@ -25,7 +25,7 @@ export interface CreateTracingContextOptions {
 // @public (undocumented)
 export interface OperationTracingOptions {
     // (undocumented)
-    context?: TracingContext;
+    tracingContext?: TracingContext;
 }
 
 // @public (undocumented)
@@ -39,18 +39,18 @@ export type SpanStatus = {
 // @public (undocumented)
 export interface Tracer {
     // (undocumented)
-    startSpan(name: string, options: TracerCreateSpanOptions): {
+    startSpan(name: string, options?: TracerCreateSpanOptions): {
         span: TracingSpan;
         tracingContext: TracingContext;
     };
     // (undocumented)
-    withContext<Callback extends (args: Parameters<Callback>) => ReturnType<Callback>>(callback: Callback, options: TracerCreateSpanOptions, callbackThis?: ThisParameterType<Callback>, ...callbackArgs: Parameters<Callback>): ReturnType<Callback>;
+    withContext<CallbackArgs extends unknown[], Callback extends (...args: CallbackArgs) => ReturnType<Callback>>(context: TracingContext, callback: Callback, callbackThis?: ThisParameterType<Callback>, ...callbackArgs: CallbackArgs): ReturnType<Callback>;
 }
 
 // @public (undocumented)
 export interface TracerCreateSpanOptions {
     // (undocumented)
-    context?: TracingContext;
+    tracingContext?: TracingContext;
 }
 
 // @public (undocumented)
@@ -60,10 +60,11 @@ export interface TracingClient {
         tracingOptions?: OperationTracingOptions;
     }>(name: string, options?: Options): {
         span: TracingSpan;
+        tracingContext: TracingContext;
         updatedOptions: Options;
     };
     // (undocumented)
-    withContext<Callback extends (...args: unknown[]) => ReturnType<Callback>>(callback: Callback, options: OperationTracingOptions, callbackThis?: ThisParameterType<Callback>, ...callbackArgs: unknown[]): ReturnType<Callback>;
+    withContext<CallbackArgs extends unknown[], Callback extends (...args: CallbackArgs) => ReturnType<Callback>>(context: TracingContext, callback: Callback, callbackThis?: ThisParameterType<Callback>, ...callbackArgs: CallbackArgs): ReturnType<Callback>;
     // (undocumented)
     withTrace<Options extends {
         tracingOptions?: OperationTracingOptions;
