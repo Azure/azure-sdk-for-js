@@ -5,6 +5,7 @@ import { spawn } from "child_process";
 import fs from "fs";
 import { leafCommand, makeCommandInfo } from "../../framework/command";
 import { createPrinter } from "../../util/printer";
+import path from "path";
 
 const log = createPrinter("info");
 
@@ -22,26 +23,6 @@ export const commandInfo = makeCommandInfo(
 );
 
 export default leafCommand(commandInfo, async (_options) => {
-  // Add options to enable/disable logs
-  // Allow providing port
-  // Volume will be hard-coded - will be evalated to be the root of the repo
-  // Runnign this script will create a background process which would end when called "docker stop"
-  // dev-tool command will be used in the respective SDKs to run this script before the tests are run for both node and browser
-  // Create a script to docker stop which will be run after the test scripts
-  // Should not start the container in live mode, this is only meant for record and playback modes
-  //  - We should load the .env and check the TEST_MODE variable before starting
-  // Check http://localhost:5000 & https://localhost:5001
-  // - Only start docker run if they are not active
-  // After starting http://localhost:5000 & https://localhost:5001
-  // - Make sure http://localhost:5000 & https://localhost:5001 are active
-  // Helpful commands
-  // - dev-tool test-proxy start
-  // - dev-tool test-proxy stop // figure out how to do
-  // - dev-tool test-proxy isRunning // logs true
-
-  // docker run command should run in background
-  // - allow putting logs into a file if a flag --debug is specified
-  // If docker run fails, throw the error
   const outFileName = "test-proxy-output.log";
   const out = fs.openSync(`./${outFileName}`, "a");
   const err = fs.openSync(`./${outFileName}`, "a");
@@ -49,16 +30,40 @@ export default leafCommand(commandInfo, async (_options) => {
   
             Check the output file ${outFileName} for test-proxy logs.
   `);
-  const subprocess = spawn(
-    "docker run -v /workspaces/azure-sdk-for-js/:/etc/testproxy -p 5001:5001 -p 5000:5000 --add-host host.docker.internal:host-gateway azsdkengsys.azurecr.io/engsys/testproxy-lin:latest",
-    [],
-    {
-      shell: true,
-      detached: true,
-      stdio: ["ignore", out, err]
-    }
-  );
+  const subprocess = spawn(getDockerRunCommand(), [], {
+    shell: true,
+    detached: true,
+    stdio: ["ignore", out, err]
+  });
   subprocess.unref();
   log.info("Test proxy is running at http://localhost:5000 & https://localhost:5001");
   return true;
 });
+
+function getRootLocation() {
+  let currentPath = process.cwd(); // Gives the current working directory
+  log.info(currentPath);
+  if (fs.existsSync(path.join(currentPath, "package.json"))) {
+    // <root>/sdk/service/project/package.json
+    const expectedRootPath = path.join(currentPath, "..", "..", ".."); // <root>/
+    if (
+      fs.existsSync(path.join(expectedRootPath, "sdk/")) && // <root>/sdk
+      fs.existsSync(path.join(expectedRootPath, "rush.json")) // <root>/rush.json
+    ) {
+      // reached root path
+      return expectedRootPath;
+    } else {
+      throw new Error("rootPath could not be calculated properly from process.cwd()");
+    }
+  } else {
+    throw new Error(`Expected 'package.json' to be found at ${currentPath}`);
+  }
+}
+
+function getDockerRunCommand() {
+  const repoRoot = getRootLocation(); // /workspaces/azure-sdk-for-js/``
+  const testProxyRecordingsLocation = "/etc/testproxy";
+  const allowLocalhostAccess = "--add-host host.docker.internal:host-gateway";
+  const imageToLoad = "azsdkengsys.azurecr.io/engsys/testproxy-lin:latest";
+  return `docker run -v ${repoRoot}:${testProxyRecordingsLocation} -p 5001:5001 -p 5000:5000 ${allowLocalhostAccess} ${imageToLoad}`;
+}
