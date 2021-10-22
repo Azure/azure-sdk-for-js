@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Skip query parameter replacement for absolute URLs. [PR #18310](https://github.com/Azure/azure-sdk-for-js/pull/18310)
+
 ### Other Changes
 
 ## 1.3.1 (2021-09-30)
