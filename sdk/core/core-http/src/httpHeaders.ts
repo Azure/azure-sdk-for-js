@@ -178,7 +178,7 @@ export class HttpHeaders implements HttpHeadersLike {
     const result: RawHttpHeaders = {};
     for (const headerKey in this._headersMap) {
       const header: HttpHeader = this._headersMap[headerKey];
-      result[header.name.toLowerCase()] = header.value;
+      result[header.name] = header.value;
     }
     return result;
   }
