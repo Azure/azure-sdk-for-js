@@ -35,7 +35,7 @@ export function getKeyFromKeyBundle(
   delete keyBundle.attributes;
 
   const resultObject: KeyVaultKey | DeletedKey = {
-    key: { ...keyBundle.key, key_ops: keyBundle.key?.keyOps },
+    key: keyBundle.key,
     id: keyBundle.key ? keyBundle.key.kid : undefined,
     name: parsedId.name,
     keyOperations: keyBundle.key ? keyBundle.key.keyOps : undefined,

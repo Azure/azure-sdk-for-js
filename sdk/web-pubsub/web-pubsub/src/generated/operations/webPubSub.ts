@@ -9,22 +9,28 @@
 import { WebPubSub } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
+import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { GeneratedClientContext } from "../generatedClientContext";
 import {
+  WebPubSubGenerateClientTokenOptionalParams,
+  WebPubSubGenerateClientTokenResponse,
+  WebPubSubCloseAllConnectionsOptionalParams,
   ContentType,
   WebPubSubSendToAll$binaryOptionalParams,
   WebPubSubSendToAll$textOptionalParams,
   WebPubSubConnectionExistsOptionalParams,
-  WebPubSubCloseClientConnectionOptionalParams,
+  WebPubSubCloseConnectionOptionalParams,
   WebPubSubSendToConnection$binaryOptionalParams,
   WebPubSubSendToConnection$textOptionalParams,
   WebPubSubGroupExistsOptionalParams,
+  WebPubSubCloseGroupConnectionsOptionalParams,
   WebPubSubSendToGroup$binaryOptionalParams,
   WebPubSubSendToGroup$textOptionalParams,
   WebPubSubAddConnectionToGroupOptionalParams,
   WebPubSubRemoveConnectionFromGroupOptionalParams,
   WebPubSubUserExistsOptionalParams,
+  WebPubSubCloseUserConnectionsOptionalParams,
   WebPubSubSendToUser$binaryOptionalParams,
   WebPubSubSendToUser$textOptionalParams,
   WebPubSubAddUserToGroupOptionalParams,
@@ -36,7 +42,7 @@ import {
   WebPubSubCheckPermissionOptionalParams
 } from "../models";
 
-/** Class representing a WebPubSub. */
+/** Class containing WebPubSub operations. */
 export class WebPubSubImpl implements WebPubSub {
   private readonly client: GeneratedClientContext;
 
@@ -46,6 +52,38 @@ export class WebPubSubImpl implements WebPubSub {
    */
   constructor(client: GeneratedClientContext) {
     this.client = client;
+  }
+
+  /**
+   * Generate token for the client to connect Azure Web PubSub service.
+   * @param hub Target hub name, which should start with alphabetic characters and only contain
+   *            alpha-numeric characters or underscore.
+   * @param options The options parameters.
+   */
+  generateClientToken(
+    hub: string,
+    options?: WebPubSubGenerateClientTokenOptionalParams
+  ): Promise<WebPubSubGenerateClientTokenResponse> {
+    return this.client.sendOperationRequest(
+      { hub, options },
+      generateClientTokenOperationSpec
+    );
+  }
+
+  /**
+   * Close the connections in the hub.
+   * @param hub Target hub name, which should start with alphabetic characters and only contain
+   *            alpha-numeric characters or underscore.
+   * @param options The options parameters.
+   */
+  closeAllConnections(
+    hub: string,
+    options?: WebPubSubCloseAllConnectionsOptionalParams
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { hub, options },
+      closeAllConnectionsOperationSpec
+    );
   }
 
   /**
@@ -148,14 +186,14 @@ export class WebPubSubImpl implements WebPubSub {
    * @param connectionId Target connection Id.
    * @param options The options parameters.
    */
-  closeClientConnection(
+  closeConnection(
     hub: string,
     connectionId: string,
-    options?: WebPubSubCloseClientConnectionOptionalParams
+    options?: WebPubSubCloseConnectionOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { hub, connectionId, options },
-      closeClientConnectionOperationSpec
+      closeConnectionOperationSpec
     );
   }
 
@@ -262,6 +300,24 @@ export class WebPubSubImpl implements WebPubSub {
     return this.client.sendOperationRequest(
       { hub, group, options },
       groupExistsOperationSpec
+    );
+  }
+
+  /**
+   * Close connections in the specific group.
+   * @param hub Target hub name, which should start with alphabetic characters and only contain
+   *            alpha-numeric characters or underscore.
+   * @param group Target group name, which length should be greater than 0 and less than 1025.
+   * @param options The options parameters.
+   */
+  closeGroupConnections(
+    hub: string,
+    group: string,
+    options?: WebPubSubCloseGroupConnectionsOptionalParams
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { hub, group, options },
+      closeGroupConnectionsOperationSpec
     );
   }
 
@@ -408,6 +464,24 @@ export class WebPubSubImpl implements WebPubSub {
     return this.client.sendOperationRequest(
       { hub, userId, options },
       userExistsOperationSpec
+    );
+  }
+
+  /**
+   * Close connections for the specific user.
+   * @param hub Target hub name, which should start with alphabetic characters and only contain
+   *            alpha-numeric characters or underscore.
+   * @param userId The user Id.
+   * @param options The options parameters.
+   */
+  closeUserConnections(
+    hub: string,
+    userId: string,
+    options?: WebPubSubCloseUserConnectionsOptionalParams
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { hub, userId, options },
+      closeUserConnectionsOperationSpec
     );
   }
 
@@ -618,224 +692,441 @@ export class WebPubSubImpl implements WebPubSub {
   }
 }
 // Operation Specifications
-const serializer = coreClient.createSerializer({}, /* isXml */ false);
+const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const generateClientTokenOperationSpec: coreClient.OperationSpec = {
+  path: "/api/hubs/{hub}/:generateToken",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ClientTokenResponse
+    },
+    default: {
+      bodyMapper: Mappers.ErrorDetail,
+      headersMapper: Mappers.WebPubSubGenerateClientTokenExceptionHeaders
+    }
+  },
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.userId,
+    Parameters.roles,
+    Parameters.expirationTimeInMinutes
+  ],
+  urlParameters: [Parameters.endpoint, Parameters.hub],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const closeAllConnectionsOperationSpec: coreClient.OperationSpec = {
+  path: "/api/hubs/{hub}/:closeConnections",
+  httpMethod: "POST",
+  responses: {
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorDetail,
+      headersMapper: Mappers.WebPubSubCloseAllConnectionsExceptionHeaders
+    }
+  },
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.excluded,
+    Parameters.reason
+  ],
+  urlParameters: [Parameters.endpoint, Parameters.hub],
+  headerParameters: [Parameters.accept],
+  serializer
+};
 const sendToAll$binaryOperationSpec: coreClient.OperationSpec = {
   path: "/api/hubs/{hub}/:send",
   httpMethod: "POST",
-  responses: { 202: {}, default: {} },
+  responses: {
+    202: {},
+    default: {
+      bodyMapper: Mappers.ErrorDetail,
+      headersMapper: Mappers.WebPubSubSendToAllExceptionHeaders
+    }
+  },
   requestBody: Parameters.message,
-  queryParameters: [Parameters.apiVersion, Parameters.excluded],
-  urlParameters: [Parameters.$host, Parameters.hub],
-  headerParameters: [Parameters.contentType],
+  queryParameters: [Parameters.apiVersion, Parameters.excludedConnections],
+  urlParameters: [Parameters.endpoint, Parameters.hub],
+  headerParameters: [Parameters.contentType, Parameters.accept1],
   mediaType: "binary",
   serializer
 };
 const sendToAll$textOperationSpec: coreClient.OperationSpec = {
   path: "/api/hubs/{hub}/:send",
   httpMethod: "POST",
-  responses: { 202: {}, default: {} },
+  responses: {
+    202: {},
+    default: {
+      bodyMapper: Mappers.ErrorDetail,
+      headersMapper: Mappers.WebPubSubSendToAllExceptionHeaders
+    }
+  },
   requestBody: Parameters.message1,
-  queryParameters: [Parameters.apiVersion, Parameters.excluded],
-  urlParameters: [Parameters.$host, Parameters.hub],
-  headerParameters: [Parameters.contentType1],
+  queryParameters: [Parameters.apiVersion, Parameters.excludedConnections],
+  urlParameters: [Parameters.endpoint, Parameters.hub],
+  headerParameters: [Parameters.contentType1, Parameters.accept2],
   mediaType: "text",
   serializer
 };
 const connectionExistsOperationSpec: coreClient.OperationSpec = {
   path: "/api/hubs/{hub}/connections/{connectionId}",
   httpMethod: "HEAD",
-  responses: { 200: {}, 404: {}, default: {} },
+  responses: {
+    200: {},
+    404: {},
+    default: {
+      bodyMapper: Mappers.ErrorDetail,
+      headersMapper: Mappers.WebPubSubConnectionExistsExceptionHeaders
+    }
+  },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.hub, Parameters.connectionId],
+  urlParameters: [Parameters.endpoint, Parameters.hub, Parameters.connectionId],
+  headerParameters: [Parameters.accept],
   serializer
 };
-const closeClientConnectionOperationSpec: coreClient.OperationSpec = {
+const closeConnectionOperationSpec: coreClient.OperationSpec = {
   path: "/api/hubs/{hub}/connections/{connectionId}",
   httpMethod: "DELETE",
-  responses: { 200: {}, default: {} },
+  responses: {
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorDetail,
+      headersMapper: Mappers.WebPubSubCloseConnectionExceptionHeaders
+    }
+  },
   queryParameters: [Parameters.apiVersion, Parameters.reason],
-  urlParameters: [Parameters.$host, Parameters.hub, Parameters.connectionId],
+  urlParameters: [Parameters.endpoint, Parameters.hub, Parameters.connectionId],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const sendToConnection$binaryOperationSpec: coreClient.OperationSpec = {
   path: "/api/hubs/{hub}/connections/{connectionId}/:send",
   httpMethod: "POST",
-  responses: { 202: {}, default: {} },
+  responses: {
+    202: {},
+    default: {
+      bodyMapper: Mappers.ErrorDetail,
+      headersMapper: Mappers.WebPubSubSendToConnectionExceptionHeaders
+    }
+  },
   requestBody: Parameters.message,
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.hub, Parameters.connectionId],
-  headerParameters: [Parameters.contentType],
+  urlParameters: [Parameters.endpoint, Parameters.hub, Parameters.connectionId],
+  headerParameters: [Parameters.contentType, Parameters.accept1],
   mediaType: "binary",
   serializer
 };
 const sendToConnection$textOperationSpec: coreClient.OperationSpec = {
   path: "/api/hubs/{hub}/connections/{connectionId}/:send",
   httpMethod: "POST",
-  responses: { 202: {}, default: {} },
+  responses: {
+    202: {},
+    default: {
+      bodyMapper: Mappers.ErrorDetail,
+      headersMapper: Mappers.WebPubSubSendToConnectionExceptionHeaders
+    }
+  },
   requestBody: Parameters.message1,
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.hub, Parameters.connectionId],
-  headerParameters: [Parameters.contentType1],
+  urlParameters: [Parameters.endpoint, Parameters.hub, Parameters.connectionId],
+  headerParameters: [Parameters.contentType1, Parameters.accept2],
   mediaType: "text",
   serializer
 };
 const groupExistsOperationSpec: coreClient.OperationSpec = {
   path: "/api/hubs/{hub}/groups/{group}",
   httpMethod: "HEAD",
-  responses: { 200: {}, 404: {}, default: {} },
+  responses: {
+    200: {},
+    404: {},
+    default: {
+      bodyMapper: Mappers.ErrorDetail,
+      headersMapper: Mappers.WebPubSubGroupExistsExceptionHeaders
+    }
+  },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.hub, Parameters.group],
+  urlParameters: [Parameters.endpoint, Parameters.hub, Parameters.group],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const closeGroupConnectionsOperationSpec: coreClient.OperationSpec = {
+  path: "/api/hubs/{hub}/groups/{group}/:closeConnections",
+  httpMethod: "POST",
+  responses: {
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorDetail,
+      headersMapper: Mappers.WebPubSubCloseGroupConnectionsExceptionHeaders
+    }
+  },
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.excluded,
+    Parameters.reason
+  ],
+  urlParameters: [Parameters.endpoint, Parameters.hub, Parameters.group],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const sendToGroup$binaryOperationSpec: coreClient.OperationSpec = {
   path: "/api/hubs/{hub}/groups/{group}/:send",
   httpMethod: "POST",
-  responses: { 202: {}, default: {} },
+  responses: {
+    202: {},
+    default: {
+      bodyMapper: Mappers.ErrorDetail,
+      headersMapper: Mappers.WebPubSubSendToGroupExceptionHeaders
+    }
+  },
   requestBody: Parameters.message,
-  queryParameters: [Parameters.apiVersion, Parameters.excluded],
-  urlParameters: [Parameters.$host, Parameters.hub, Parameters.group],
-  headerParameters: [Parameters.contentType],
+  queryParameters: [Parameters.apiVersion, Parameters.excludedConnections],
+  urlParameters: [Parameters.endpoint, Parameters.hub, Parameters.group],
+  headerParameters: [Parameters.contentType, Parameters.accept1],
   mediaType: "binary",
   serializer
 };
 const sendToGroup$textOperationSpec: coreClient.OperationSpec = {
   path: "/api/hubs/{hub}/groups/{group}/:send",
   httpMethod: "POST",
-  responses: { 202: {}, default: {} },
+  responses: {
+    202: {},
+    default: {
+      bodyMapper: Mappers.ErrorDetail,
+      headersMapper: Mappers.WebPubSubSendToGroupExceptionHeaders
+    }
+  },
   requestBody: Parameters.message1,
-  queryParameters: [Parameters.apiVersion, Parameters.excluded],
-  urlParameters: [Parameters.$host, Parameters.hub, Parameters.group],
-  headerParameters: [Parameters.contentType1],
+  queryParameters: [Parameters.apiVersion, Parameters.excludedConnections],
+  urlParameters: [Parameters.endpoint, Parameters.hub, Parameters.group],
+  headerParameters: [Parameters.contentType1, Parameters.accept2],
   mediaType: "text",
   serializer
 };
 const addConnectionToGroupOperationSpec: coreClient.OperationSpec = {
   path: "/api/hubs/{hub}/groups/{group}/connections/{connectionId}",
   httpMethod: "PUT",
-  responses: { 200: {}, 404: {}, default: {} },
+  responses: {
+    200: {},
+    404: {},
+    default: {
+      bodyMapper: Mappers.ErrorDetail,
+      headersMapper: Mappers.WebPubSubAddConnectionToGroupExceptionHeaders
+    }
+  },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
-    Parameters.$host,
+    Parameters.endpoint,
     Parameters.hub,
     Parameters.connectionId,
     Parameters.group
   ],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const removeConnectionFromGroupOperationSpec: coreClient.OperationSpec = {
   path: "/api/hubs/{hub}/groups/{group}/connections/{connectionId}",
   httpMethod: "DELETE",
-  responses: { 200: {}, default: {} },
+  responses: {
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorDetail,
+      headersMapper: Mappers.WebPubSubRemoveConnectionFromGroupExceptionHeaders
+    }
+  },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
-    Parameters.$host,
+    Parameters.endpoint,
     Parameters.hub,
     Parameters.connectionId,
     Parameters.group
   ],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const userExistsOperationSpec: coreClient.OperationSpec = {
   path: "/api/hubs/{hub}/users/{userId}",
   httpMethod: "HEAD",
-  responses: { 200: {}, 404: {}, default: {} },
+  responses: {
+    200: {},
+    404: {},
+    default: {
+      bodyMapper: Mappers.ErrorDetail,
+      headersMapper: Mappers.WebPubSubUserExistsExceptionHeaders
+    }
+  },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.hub, Parameters.userId],
+  urlParameters: [Parameters.endpoint, Parameters.hub, Parameters.userId1],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const closeUserConnectionsOperationSpec: coreClient.OperationSpec = {
+  path: "/api/hubs/{hub}/users/{userId}/:closeConnections",
+  httpMethod: "POST",
+  responses: {
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorDetail,
+      headersMapper: Mappers.WebPubSubCloseUserConnectionsExceptionHeaders
+    }
+  },
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.excluded,
+    Parameters.reason
+  ],
+  urlParameters: [Parameters.endpoint, Parameters.hub, Parameters.userId1],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const sendToUser$binaryOperationSpec: coreClient.OperationSpec = {
   path: "/api/hubs/{hub}/users/{userId}/:send",
   httpMethod: "POST",
-  responses: { 202: {}, default: {} },
+  responses: {
+    202: {},
+    default: {
+      bodyMapper: Mappers.ErrorDetail,
+      headersMapper: Mappers.WebPubSubSendToUserExceptionHeaders
+    }
+  },
   requestBody: Parameters.message,
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.hub, Parameters.userId],
-  headerParameters: [Parameters.contentType],
+  urlParameters: [Parameters.endpoint, Parameters.hub, Parameters.userId1],
+  headerParameters: [Parameters.contentType, Parameters.accept1],
   mediaType: "binary",
   serializer
 };
 const sendToUser$textOperationSpec: coreClient.OperationSpec = {
   path: "/api/hubs/{hub}/users/{userId}/:send",
   httpMethod: "POST",
-  responses: { 202: {}, default: {} },
+  responses: {
+    202: {},
+    default: {
+      bodyMapper: Mappers.ErrorDetail,
+      headersMapper: Mappers.WebPubSubSendToUserExceptionHeaders
+    }
+  },
   requestBody: Parameters.message1,
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.hub, Parameters.userId],
-  headerParameters: [Parameters.contentType1],
+  urlParameters: [Parameters.endpoint, Parameters.hub, Parameters.userId1],
+  headerParameters: [Parameters.contentType1, Parameters.accept2],
   mediaType: "text",
   serializer
 };
 const addUserToGroupOperationSpec: coreClient.OperationSpec = {
   path: "/api/hubs/{hub}/users/{userId}/groups/{group}",
   httpMethod: "PUT",
-  responses: { 200: {}, 404: {}, default: {} },
+  responses: {
+    200: {},
+    404: {},
+    default: {
+      bodyMapper: Mappers.ErrorDetail,
+      headersMapper: Mappers.WebPubSubAddUserToGroupExceptionHeaders
+    }
+  },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
-    Parameters.$host,
+    Parameters.endpoint,
     Parameters.hub,
     Parameters.group,
-    Parameters.userId
+    Parameters.userId1
   ],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const removeUserFromGroupOperationSpec: coreClient.OperationSpec = {
   path: "/api/hubs/{hub}/users/{userId}/groups/{group}",
   httpMethod: "DELETE",
-  responses: { 200: {}, default: {} },
+  responses: {
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorDetail,
+      headersMapper: Mappers.WebPubSubRemoveUserFromGroupExceptionHeaders
+    }
+  },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
-    Parameters.$host,
+    Parameters.endpoint,
     Parameters.hub,
     Parameters.group,
-    Parameters.userId
+    Parameters.userId1
   ],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const removeUserFromAllGroupsOperationSpec: coreClient.OperationSpec = {
   path: "/api/hubs/{hub}/users/{userId}/groups",
   httpMethod: "DELETE",
-  responses: { 200: {}, default: {} },
+  responses: {
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorDetail,
+      headersMapper: Mappers.WebPubSubRemoveUserFromAllGroupsExceptionHeaders
+    }
+  },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.hub, Parameters.userId],
+  urlParameters: [Parameters.endpoint, Parameters.hub, Parameters.userId1],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const grantPermissionOperationSpec: coreClient.OperationSpec = {
   path: "/api/hubs/{hub}/permissions/{permission}/connections/{connectionId}",
   httpMethod: "PUT",
-  responses: { 200: {}, default: {} },
+  responses: {
+    200: {},
+    default: {
+      bodyMapper: Mappers.ErrorDetail,
+      headersMapper: Mappers.WebPubSubGrantPermissionExceptionHeaders
+    }
+  },
   queryParameters: [Parameters.apiVersion, Parameters.targetName],
   urlParameters: [
-    Parameters.$host,
+    Parameters.endpoint,
     Parameters.hub,
     Parameters.connectionId,
     Parameters.permission
   ],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const revokePermissionOperationSpec: coreClient.OperationSpec = {
   path: "/api/hubs/{hub}/permissions/{permission}/connections/{connectionId}",
   httpMethod: "DELETE",
-  responses: { 200: {}, default: {} },
+  responses: {
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorDetail,
+      headersMapper: Mappers.WebPubSubRevokePermissionExceptionHeaders
+    }
+  },
   queryParameters: [Parameters.apiVersion, Parameters.targetName],
   urlParameters: [
-    Parameters.$host,
+    Parameters.endpoint,
     Parameters.hub,
     Parameters.connectionId,
     Parameters.permission
   ],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const checkPermissionOperationSpec: coreClient.OperationSpec = {
   path: "/api/hubs/{hub}/permissions/{permission}/connections/{connectionId}",
   httpMethod: "HEAD",
-  responses: { 200: {}, 404: {}, default: {} },
+  responses: {
+    200: {},
+    404: {},
+    default: {
+      bodyMapper: Mappers.ErrorDetail,
+      headersMapper: Mappers.WebPubSubCheckPermissionExceptionHeaders
+    }
+  },
   queryParameters: [Parameters.apiVersion, Parameters.targetName],
   urlParameters: [
-    Parameters.$host,
+    Parameters.endpoint,
     Parameters.hub,
     Parameters.connectionId,
     Parameters.permission
   ],
+  headerParameters: [Parameters.accept],
   serializer
 };

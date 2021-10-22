@@ -145,7 +145,10 @@ describe("IdentityClient", function() {
     });
     if (isNode) {
       assert.strictEqual(error?.name, "AuthenticationRequiredError");
-      assert.strictEqual(error?.message, `Response had no "expiresOn" property.`);
+      assert.strictEqual(
+        error?.message,
+        `Response had no "expiresOn" property.\nTo troubleshoot, visit https://aka.ms/azsdk/js/identity/usernamepasswordcredential/troubleshoot.`
+      );
     } else {
       // The browser version of this credential uses a legacy approach.
       // While the Node version uses MSAL, the browser version does the network requests directly.

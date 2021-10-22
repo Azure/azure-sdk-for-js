@@ -53,7 +53,7 @@ export async function main() {
   // Exchanges the AAD access token of a Teams user for a new Communication Identity access token
   console.log("Exchanging the AAD access token for a Communication access token");
 
-  const communicationAccessToken: CommunicationAccessToken = await client.exchangeTeamsToken(
+  const communicationAccessToken: CommunicationAccessToken = await client.exchangeTeamsUserAadToken(
     response!.token
   );
 
