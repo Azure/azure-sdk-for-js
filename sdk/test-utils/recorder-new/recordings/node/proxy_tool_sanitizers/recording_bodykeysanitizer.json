@@ -1,27 +1,33 @@
 {
   "Entries": [
     {
-      "RequestUri": "http://host.docker.internal:8080/sample_response",
-      "RequestMethod": "GET",
+      "RequestUri": "http://host.docker.internal:8080/api/sample_request_body",
+      "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept-Encoding": "gzip,deflate",
         "Connection": "keep-alive",
+        "Content-Length": "34",
+        "Content-Type": "application/json",
         "User-Agent": "core-rest-pipeline/1.3.2 Node/v14.17.6 OS/(x64-Linux-5.4.0-1059-azure)",
-        "x-ms-client-request-id": "755e7d76-48bc-48b1-a822-15e11b9fe507"
+        "x-ms-client-request-id": "728dbd3f-8803-470a-a221-c476effca224"
       },
-      "RequestBody": null,
+      "RequestBody": {
+        "secret_info": "fake_secret_info"
+      },
       "StatusCode": 200,
       "ResponseHeaders": {
         "Connection": "keep-alive",
-        "Content-Length": "13",
+        "Content-Length": "51",
         "Content-Type": "application/json; charset=utf-8",
         "Date": "Wed, 13 Oct 2021 20:11:56 GMT",
-        "ETag": "W/\u0022d-ua9UN3rfp1JzmLYtPUOjtDq\u002B3co\u0022",
+        "ETag": "W/\u00222d-3c9vGlWamYvpVYwgKfUZ1iCktJw\u0022",
         "Keep-Alive": "timeout=5",
         "X-Powered-By": "Express"
       },
       "ResponseBody": {
-        "val": "abc"
+        "bodyProvided": {
+          "secret_info": "fake_secret_info"
+        }
       }
     }
   ],
