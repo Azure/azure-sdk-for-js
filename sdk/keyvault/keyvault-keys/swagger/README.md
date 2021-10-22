@@ -47,7 +47,7 @@ directive:
       $.values[1].value = "Notify";
 ```
 
-### Rename ReleasePolicy.data to ReleasePolicy.encodedPolicy
+### Rename KeyReleasePolicy.data to KeyReleasePolicy.encodedPolicy
 
 ```yaml
 directive:
