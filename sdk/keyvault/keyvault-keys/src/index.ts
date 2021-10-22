@@ -820,12 +820,12 @@ export class KeyClient {
    * ```
    *
    * @param name - The name of the key.
-   * @param target - The attestation assertion for the target of the key release.
+   * @param targetAttestationToken - The attestation assertion for the target of the key release.
    * @param options - The optional parameters.
    */
   public releaseKey(
     name: string,
-    target: string,
+    targetAttestationToken: string,
     options: ReleaseKeyOptions = {}
   ): Promise<ReleaseKeyResult> {
     return withTrace("releaseKey", options, async (updatedOptions) => {
@@ -834,7 +834,7 @@ export class KeyClient {
         this.vaultUrl,
         name,
         options?.version || "",
-        target,
+        targetAttestationToken,
         {
           enc: algorithm,
           nonce,

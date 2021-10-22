@@ -247,7 +247,7 @@ export class KeyClient {
     listPropertiesOfKeys(options?: ListPropertiesOfKeysOptions): PagedAsyncIterableIterator<KeyProperties>;
     listPropertiesOfKeyVersions(name: string, options?: ListPropertiesOfKeyVersionsOptions): PagedAsyncIterableIterator<KeyProperties>;
     purgeDeletedKey(name: string, options?: PurgeDeletedKeyOptions): Promise<void>;
-    releaseKey(name: string, target: string, options?: ReleaseKeyOptions): Promise<ReleaseKeyResult>;
+    releaseKey(name: string, targetAttestationToken: string, options?: ReleaseKeyOptions): Promise<ReleaseKeyResult>;
     restoreKeyBackup(backup: Uint8Array, options?: RestoreKeyBackupOptions): Promise<KeyVaultKey>;
     rotateKey(name: string, options?: RotateKeyOptions): Promise<KeyVaultKey>;
     updateKeyProperties(name: string, keyVersion: string, options?: UpdateKeyPropertiesOptions): Promise<KeyVaultKey>;
@@ -300,7 +300,7 @@ export interface KeyProperties {
 // @public
 export interface KeyReleasePolicy {
     contentType?: string;
-    data?: Uint8Array;
+    encodedPolicy?: Uint8Array;
 }
 
 // @public
