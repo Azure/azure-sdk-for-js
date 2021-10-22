@@ -38,8 +38,6 @@ directive:
 
 ### Update swagger enum values for LifetimeActionsType to reflect what the service actually returns
 
-There is an ongoing thread about changing the swagger or returning lowercase values for enum values.
-
 ```yaml
 directive:
   - from: swagger-document
@@ -47,4 +45,14 @@ directive:
     transform: >
       $.values[0].value = "Rotate";
       $.values[1].value = "Notify";
+```
+
+### Rename ReleasePolicy.data to ReleasePolicy.encodedPolicy
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.KeyReleasePolicy.properties.data
+    transform: >
+      $["x-ms-client-name"] = "encodedPolicy";
 ```

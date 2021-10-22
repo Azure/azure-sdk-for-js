@@ -286,7 +286,7 @@ export interface KeyReleasePolicy {
   contentType?: string;
 
   /** Blob encoding the policy rules under which the key can be released. */
-  data?: Uint8Array;
+  encodedPolicy?: Uint8Array;
 }
 
 /**
