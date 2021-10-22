@@ -8,7 +8,7 @@ import { createPrinter } from "../../util/printer";
 import path from "path";
 import os from "os";
 
-const log = createPrinter("info");
+const log = createPrinter("test-proxy-script");
 
 export const commandInfo = makeCommandInfo(
   "test-proxy",
@@ -28,16 +28,16 @@ export default leafCommand(commandInfo, async (_options) => {
   const out = fs.openSync(`./${outFileName}`, "a");
   const err = fs.openSync(`./${outFileName}`, "a");
   log.info(`Attempting to start test proxy at http://localhost:5000 & https://localhost:5001.`);
-  if (!(os.platform() === "win32")) {
+
+  !(os.platform() === "win32") &&
     log.info(`Check the output file ${outFileName} for test-proxy logs.`);
-  }
+
   const subprocess = spawn(getDockerRunCommand(), [], {
     shell: true,
     detached: true,
     stdio: ["ignore", out, err]
   });
   subprocess.unref();
-  log.info("Test proxy is running at http://localhost:5000 & https://localhost:5001");
   return true;
 });
 
