@@ -14,8 +14,6 @@ import { parseKeyVaultKeyIdentifier } from "./identifier";
 import {
   DeletedKey,
   KeyVaultKey,
-  JsonWebKey,
-  KeyOperation,
   KeyProperties,
   KeyRotationPolicy,
   KeyRotationPolicyProperties
