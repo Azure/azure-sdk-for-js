@@ -14,6 +14,8 @@ import { parseKeyVaultKeyIdentifier } from "./identifier";
 import {
   DeletedKey,
   KeyVaultKey,
+  JsonWebKey,
+  KeyOperation,
   KeyProperties,
   KeyRotationPolicy,
   KeyRotationPolicyProperties
@@ -35,10 +37,10 @@ export function getKeyFromKeyBundle(
   delete keyBundle.attributes;
 
   const resultObject: KeyVaultKey | DeletedKey = {
-    key: { ...keyBundle.key, key_ops: keyBundle.key?.keyOps },
+    key: keyBundle.key as JsonWebKey,
     id: keyBundle.key ? keyBundle.key.kid : undefined,
     name: parsedId.name,
-    keyOperations: keyBundle.key ? keyBundle.key.keyOps : undefined,
+    keyOperations: keyBundle.key ? (keyBundle.key.keyOps as KeyOperation[]) : undefined,
     keyType: keyBundle.key ? keyBundle.key.kty : undefined,
     properties: {
       tags: keyBundle.tags,
