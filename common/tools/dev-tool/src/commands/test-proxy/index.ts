@@ -3,7 +3,10 @@
 
 import { subCommand, makeCommandInfo } from "../../framework/command";
 
-export const commandInfo = makeCommandInfo("test-proxy", "manage SDK packages in the monorepo");
+export const commandInfo = makeCommandInfo(
+  "test-proxy",
+  "runs the proxy-tool with the `docker run ...` command"
+);
 
 export default subCommand(commandInfo, {
   start: () => import("./start"),

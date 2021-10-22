@@ -9,21 +9,15 @@ import { createPrinter } from "../../util/printer";
 const log = createPrinter("info");
 
 export const commandInfo = makeCommandInfo(
-  "resolve",
-  "display information about the project that owns a directory",
+  "test-proxy",
+  "runs the proxy-tool with the `docker run ...` command",
   {
-    directory: {
-      shortName: "d",
-      kind: "string",
-      description: "base directory for resolution (uses CWD if unset)",
-      allowMultiple: true
-    },
-    quiet: {
-      shortName: "q",
-      kind: "boolean",
-      default: false,
-      description: "output only the directory name with no extra formatting"
-    }
+    // "log-in-file": {
+    //   kind: "boolean",
+    //   description:
+    //     "Boolean to indicate whether to save the the stdout and sterr for npm commands to the log.txt log file",
+    //   default: true
+    // }
   }
 );
 
