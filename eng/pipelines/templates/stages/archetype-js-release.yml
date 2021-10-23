@@ -280,6 +280,13 @@ stages:
       pool:
         name: azsdk-pool-mms-ubuntu-2004-general
         vmImage: MMSUbuntu20.04
+      variables:
+        - name: containerRegistry
+          value: azuresdkimages.azurecr.io
+        - name: imageName
+          value: jsrefautocr
+        - name: tag
+          value: latest
       steps:
         - template: /eng/common/pipelines/templates/steps/sparse-checkout.yml
           parameters:
@@ -290,7 +297,20 @@ stages:
         - pwsh: |
             Get-ChildItem -Recurse $(Pipeline.Workspace)/${{parameters.ArtifactName}}/
           displayName: Show visible artifacts
-
+        # Pull and build the docker image
+        - pwsh: |
+            docker login $(containerRegistry) -u $(azuresdkimages-cr-clientid) -p $(azuresdkimages-cr-clientsecret)
+          displayName: Login container registry
+        - pwsh: |
+            docker pull '$(containerRegistry)/$(imageName):$(tag)'
+          displayName: docker pull the image
+        - ${{ each artifact in parameters.Artifacts }}:
+          - pwsh: |
+              $packageJson = Get-content '$(Pipeline.Workspace)/${{parameters.ArtifactName}}/PackageInfo/${{artifact.name}}.json' | ConvertFrom-Json
+              $packageTag = "$($packageJson.Name)@$($packageJson.DevVersion)"
+              Write-Host "Here is the package tag: $packageTag"
+              docker run -e TARGET_PACKAGE="@azure/arm-appservice@latest" -it azuresdkimages.azurecr.io/jsrefautocr:latest
+            displayName: docker run package ${{artifact.name}}
         - template: /eng/common/pipelines/templates/steps/update-docsms-metadata.yml
           parameters:
             PackageInfoLocations:
