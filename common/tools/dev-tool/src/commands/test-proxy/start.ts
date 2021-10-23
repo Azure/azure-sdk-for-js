@@ -1,70 +1,41 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { spawn } from "child_process";
-import fs from "fs";
 import { leafCommand, makeCommandInfo } from "../../framework/command";
 import { createPrinter } from "../../util/printer";
-import path from "path";
-import os from "os";
+import { config } from "dotenv";
+import { isProxyToolActive, startProxyTool } from "../../util/testProxyUtils";
+config();
 
 const log = createPrinter("test-proxy-script");
 
 export const commandInfo = makeCommandInfo(
   "test-proxy",
   "runs the proxy-tool with the `docker run ...` command",
-  {
-    // "log-in-file": {
-    //   kind: "boolean",
-    //   description:
-    //     "Boolean to indicate whether to save the the stdout and sterr for npm commands to the log.txt log file",
-    //   default: true
-    // }
-  }
+  {}
 );
 
 export default leafCommand(commandInfo, async (_options) => {
-  const outFileName = "test-proxy-output.log";
-  const out = fs.openSync(`./${outFileName}`, "a");
-  const err = fs.openSync(`./${outFileName}`, "a");
-  log.info(`Attempting to start test proxy at http://localhost:5000 & https://localhost:5001.`);
-
-  !(os.platform() === "win32") &&
-    log.info(`Check the output file ${outFileName} for test-proxy logs.`);
-
-  const subprocess = spawn(getDockerRunCommand(), [], {
-    shell: true,
-    detached: true,
-    stdio: ["ignore", out, err]
-  });
-  subprocess.unref();
-  return true;
-});
-
-function getRootLocation() {
-  let currentPath = process.cwd(); // Gives the current working directory
-  log.info(currentPath);
-  if (fs.existsSync(path.join(currentPath, "package.json"))) {
-    // <root>/sdk/service/project/package.json
-    const expectedRootPath = path.join(currentPath, "..", "..", ".."); // <root>/
-    if (
-      fs.existsSync(path.join(expectedRootPath, "sdk/")) && // <root>/sdk
-      fs.existsSync(path.join(expectedRootPath, "rush.json")) // <root>/rush.json
-    ) {
-      // reached root path
-      return expectedRootPath;
-    } else {
-      throw new Error("rootPath could not be calculated properly from process.cwd()");
-    }
+  const mode = process.env.TEST_MODE;
+  if (mode === "live") {
+    return true; // No need to start the proxy tool in the live mode
   } else {
-    throw new Error(`Expected 'package.json' to be found at ${currentPath}`);
+    try {
+      await isProxyToolActive();
+      // No need to run a new one if it is already active
+      // Especially, CI uses this path
+      log.info(
+        `Proxy tool seems to be active, not attempting to start the test proxy at http://localhost:5000 & https://localhost:5001.\n`
+      );
+      return true;
+    } catch (error) {
+      if ((error as { code: string }).code === "ECONNREFUSED") {
+        // Proxy tool is not active, attempt to start the proxy tool now
+        await startProxyTool(mode);
+        return true;
+      } else {
+        throw error;
+      }
+    }
   }
-}
-
-function getDockerRunCommand() {
-  const repoRoot = getRootLocation(); // /workspaces/azure-sdk-for-js/``
-  const testProxyRecordingsLocation = "/etc/testproxy";
-  const allowLocalhostAccess = "--add-host host.docker.internal:host-gateway";
-  const imageToLoad = "azsdkengsys.azurecr.io/engsys/testproxy-lin:latest";
-  return `docker run -v ${repoRoot}:${testProxyRecordingsLocation} -p 5001:5001 -p 5000:5000 ${allowLocalhostAccess} ${imageToLoad}`;
-}
+});
