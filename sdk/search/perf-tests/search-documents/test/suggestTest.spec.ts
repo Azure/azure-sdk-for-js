@@ -1,8 +1,8 @@
 import { SearchDocumentsBase, SearchDocumentsTestOptions } from "./core/searchDocumentsBase.spec";
-import { PerfStressOptionDictionary } from "@azure/test-utils-perfstress";
+import { PerfOptionDictionary } from "@azure/test-utils-perf";
 
 export class SuggestTest extends SearchDocumentsBase<SearchDocumentsTestOptions> {
-  public options: PerfStressOptionDictionary<SearchDocumentsTestOptions> = {
+  public options: PerfOptionDictionary<SearchDocumentsTestOptions> = {
     documentsCount: {
       required: true,
       description: "Number of Documents to be created",
@@ -21,7 +21,7 @@ export class SuggestTest extends SearchDocumentsBase<SearchDocumentsTestOptions>
     await super.populateIndex(this.parsedOptions.documentsCount.value!);
   }
 
-  async runAsync(): Promise<void> {
+  async run(): Promise<void> {
     await this.searchClient.suggest("historic", this.suggesterName);
   }
 }

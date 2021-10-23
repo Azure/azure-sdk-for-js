@@ -2,6 +2,11 @@
 
 ## 1.0.0 (Unreleased)
 
+### 2021-10-20
+
+- Clean up some naming: `PerfStress` to `Perf` everywhere; also rename the `runAsync` method to `run`.
+  [#18290](https://github.com/Azure/azure-sdk-for-js/pull/18290)
+
 ### 2021-10-05
 
 - Support multiple test proxies

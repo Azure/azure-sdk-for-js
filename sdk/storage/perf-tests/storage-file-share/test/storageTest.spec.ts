@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PerfStressTest, getEnvVar } from "@azure/test-utils-perfstress";
+import { PerfTest, getEnvVar } from "@azure/test-utils-perf";
 
 import { ShareClient, ShareDirectoryClient, ShareServiceClient } from "@azure/storage-file-share";
 
@@ -10,7 +10,7 @@ import * as dotenv from "dotenv";
 import { v4 as generateUuid } from "uuid";
 dotenv.config();
 
-export abstract class StorageFileShareTest<TOptions> extends PerfStressTest<TOptions> {
+export abstract class StorageFileShareTest<TOptions> extends PerfTest<TOptions> {
   shareServiceClient: ShareServiceClient;
   shareClient: ShareClient;
   directoryClient: ShareDirectoryClient;

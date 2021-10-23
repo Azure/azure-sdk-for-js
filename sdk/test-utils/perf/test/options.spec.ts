@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { default as minimist, ParsedArgs as MinimistParsedArgs } from "minimist";
-import { PerfStressTest, PerfStressOptionDictionary } from "../src";
+import { PerfTest, PerfOptionDictionary } from "../src";
 
 interface OptionsTestOptions {
   "non-req": string;
@@ -14,10 +14,10 @@ interface OptionsTestOptions {
 }
 
 /**
- * Showcases and verifies some of the expected behaviors of the PerfStress options
+ * Showcases and verifies some of the expected behaviors of the Perf options
  */
-export class OptionsTest extends PerfStressTest<OptionsTestOptions> {
-  public options: PerfStressOptionDictionary<OptionsTestOptions> = {
+export class OptionsTest extends PerfTest<OptionsTestOptions> {
+  public options: PerfOptionDictionary<OptionsTestOptions> = {
     "non-req": {
       description: "Non-required option"
     },
@@ -71,7 +71,7 @@ export class OptionsTest extends PerfStressTest<OptionsTestOptions> {
     }
   }
 
-  async runAsync() {
+  async run() {
     for (const key in this.options) {
       this.compare(key as keyof OptionsTestOptions);
     }

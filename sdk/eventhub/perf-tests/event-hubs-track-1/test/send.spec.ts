@@ -3,9 +3,9 @@
 
 import {
   getEnvVar,
-  PerfStressOptionDictionary,
-  PerfStressTest
-} from "@azure/test-utils-perfstress";
+  PerfOptionDictionary,
+  PerfTest
+} from "@azure/test-utils-perf";
 import { EventHubClient, EventData } from "@azure/event-hubs";
 
 import { config } from "dotenv";
@@ -20,10 +20,10 @@ interface SendTestOptions {
 }
 
 const client = EventHubClient.createFromConnectionString(connectionString, eventHubName);
-export class SendTest extends PerfStressTest<SendTestOptions> {
+export class SendTest extends PerfTest<SendTestOptions> {
   producer: EventHubClient;
   eventBatch: EventData[];
-  public options: PerfStressOptionDictionary<SendTestOptions> = {
+  public options: PerfOptionDictionary<SendTestOptions> = {
     eventBodySize: {
       required: true,
       description: "Size in bytes",
@@ -53,7 +53,7 @@ export class SendTest extends PerfStressTest<SendTestOptions> {
     await this.producer.close();
   }
 
-  async runAsync(): Promise<void> {
+  async run(): Promise<void> {
     await this.producer.sendBatch(this.eventBatch);
   }
 }

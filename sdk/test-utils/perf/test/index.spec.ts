@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PerfStressProgram, selectPerfStressTest } from "../src";
+import { PerfProgram, selectPerfTest } from "../src";
 
 // Tests:
 import { NoOp } from "./noop.spec";
@@ -9,25 +9,25 @@ import { OptionsTest } from "./options.spec";
 import { SetupCleanupTest } from "./setupCleanup.spec";
 import { Delay500ms } from "./delay.spec";
 import { Exception } from "./exception.spec";
-import { PerfStressPolicyTest } from "./perfStressPolicy.spec";
+import { PerfPolicyTest } from "./perfPolicy.spec";
 import { SleepTest } from "./sleep.spec";
 import { NodeFetchTest } from "./nodeFetch.spec";
 import { ServiceClientGetTest } from "./serviceClientGet.spec";
 
-console.log("=== Starting the perfStress test ===");
+console.log("=== Starting the perf test ===");
 
-const perfStressProgram = new PerfStressProgram(
-  selectPerfStressTest([
+const perfProgram = new PerfProgram(
+  selectPerfTest([
     NoOp,
     OptionsTest,
     SetupCleanupTest,
     Delay500ms,
     Exception,
-    PerfStressPolicyTest,
+    PerfPolicyTest,
     SleepTest,
     NodeFetchTest,
     ServiceClientGetTest
   ])
 );
 
-perfStressProgram.run();
+perfProgram.run();

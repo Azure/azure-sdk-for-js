@@ -40,16 +40,16 @@ To add perf tests for the `sdk/<service>/<service-sdk>` package, follow the step
 3.  Tests will live under `sdk/<service>/perf-tests/<service-sdk>/test`
 4.  Add a `package.json` such as [example-perf-package.json](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storage/perf-tests/storage-file-datalake/package.json) at `sdk/<service>/perf-tests/<service-sdk>` folder.
 
-    Make sure to import your `<service-sdk>` and the `test-utils-perfstress` project.
+    Make sure to import your `<service-sdk>` and the `test-utils-perf` project.
 
     ```json
       "dependencies": {
          "@azure/<service-sdk>": "^<version-in-master-branch>",
-         "@azure/test-utils-perfstress": "^1.0.0"
+         "@azure/test-utils-perf": "^1.0.0"
        }
     ```
 
-    _Note: `"@azure/test-utils-perfstress"` is not a published npm package._
+    _Note: `"@azure/test-utils-perf"` is not a published npm package._
 
     Set the name of the package and mark it as private.
 
@@ -93,12 +93,12 @@ To add perf tests for the `sdk/<service>/<service-sdk>` package, follow the step
 
 3. Add a `package.json` such as [example-track-1-perf-package.json](https://github.com/Azure/azure-sdk-for-js/blob/fe9b1e5a50946f53b6491d7f67b2420d8ee1b229/sdk/storage/perf-tests/storage-blob-track-1/package.json) at `sdk/<service>/perf-tests/<service-sdk>` folder.
 
-   Make sure to import your `<service-sdk>` and the `test-utils-perfstress` project.
+   Make sure to import your `<service-sdk>` and the `test-utils-perf` project.
 
    ```json
      "dependencies": {
         "@azure/<service-sdk>": "^<latest-track-1-version>",
-        "@azure/test-utils-perfstress": "file:../../../test-utils/perfstress/azure-test-utils-perfstress-1.0.0.tgz",
+        "@azure/test-utils-perf": "file:../../../test-utils/perf/azure-test-utils-perf-1.0.0.tgz",
       }
    ```
 
@@ -131,7 +131,7 @@ To add perf tests for the `sdk/<service>/<service-sdk>` package, follow the step
 Add an `index.spec.ts` at `sdk/<service>/perf-tests/<service-sdk>/test/`.
 
 ```js
-import { PerfStressProgram, selectPerfStressTest } from "@azure/test-utils-perfstress";
+import { PerfProgram, selectPerfTest } from "@azure/test-utils-perf";
 import { `ServiceNameAPI1Name`Test } from "./api1-name.spec";
 import { `ServiceNameAPI2Name`Test } from "./api2-name.spec";
 
@@ -139,11 +139,11 @@ import { `ServiceNameAPI2Name`Test } from "./api2-name.spec";
 import * as dotenv from "dotenv";
 dotenv.config();
 
-console.log("=== Starting the perfStress test ===");
+console.log("=== Starting the perf test ===");
 
-const perfStressProgram = new PerfStressProgram(selectPerfStressTest([`ServiceNameAPIName`Test, `ServiceNameAPIName2`Test]));
+const perfProgram = new PerfProgram(selectPerfTest([`ServiceNameAPIName`Test, `ServiceNameAPIName2`Test]));
 
-perfStressProgram.run();
+perfProgram.run();
 ```
 
 ### [Base Class](#base-class)
@@ -153,12 +153,12 @@ Base class would have all the common code that would be repeated for each of the
 Create a new file such as `serviceName.spec.ts` at `sdk/<service>/perf-tests/<service-sdk>/test/`.
 
 ```js
-import { PerfStressTest, getEnvVar } from "@azure/test-utils-perfstress";
+import { PerfTest, getEnvVar } from "@azure/test-utils-perf";
 import {
   ServiceNameClient
 } from "@azure/<service-sdk>";
 
-export abstract class `ServiceName`Test<TOptions = {}> extends PerfStressTest<TOptions> {
+export abstract class `ServiceName`Test<TOptions = {}> extends PerfTest<TOptions> {
   serviceNameClient: ServiceNameClient;
 
   constructor() {
@@ -182,12 +182,12 @@ Following code shows how the individual perf test files would look like.
 
 ```js
 import { ServiceNameClient } from "@azure/<service-sdk>";
-import { PerfStressOptionDictionary, drainStream } from "@azure/test-utils-perfstress";
+import { PerfOptionDictionary, drainStream } from "@azure/test-utils-perf";
 import { `ServiceName`Test } from "./serviceNameTest.spec";
 
 export class `ServiceNameAPIName`Test extends ServiceNameTest {
   // The next section talks about the custom options that you can provide for a test
-  public options: PerfStressOptionDictionary = {};
+  public options: PerfOptionDictionary = {};
 
   serviceNameClient: `ServiceName`Client;
 
@@ -201,7 +201,7 @@ export class `ServiceNameAPIName`Test extends ServiceNameTest {
     // Add any additional setup
   }
 
-  async runAsync(): Promise<void> {
+  async run(): Promise<void> {
     // call the method on `serviceNameClient` that you're interested in testing
   }
 }
@@ -221,7 +221,7 @@ interface `ServiceNameAPIName`TestOptions {
 }
 
 export class `ServiceNameAPIName`Test extends ServiceNameTest<`ServiceNameAPIName`TestOptions> {
-  public options: PerfStressOptionDictionary<`ServiceNameAPIName`TestOptions> = {
+  public options: PerfOptionDictionary<`ServiceNameAPIName`TestOptions> = {
     newOption: {
       required: true,
       description: "A new option",
@@ -231,8 +231,8 @@ export class `ServiceNameAPIName`Test extends ServiceNameTest<`ServiceNameAPINam
     }
   };
 
-  async runAsync(): Promise<void> {
-    // You can leverage the parsedOptions in the setup or globalSetup or runAsync methods as shown below.
+  async run(): Promise<void> {
+    // You can leverage the parsedOptions in the setup or globalSetup or run methods as shown below.
     // this.parsedOptions.duration.value!
     // this.parsedOptions.newOption.value!
   }

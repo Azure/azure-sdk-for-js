@@ -12,7 +12,7 @@ import * as url from "url";
  * any targeted URL. The original host is kept as a header
  * on the outgoing request.
  */
-export class PerfStressPolicy extends BaseRequestPolicy {
+export class PerfPolicy extends BaseRequestPolicy {
   private host: string;
   private port?: string | null;
 

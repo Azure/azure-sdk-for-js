@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PerfStressTest, PerfStressOptionDictionary } from "../src";
+import { PerfTest, PerfOptionDictionary } from "../src";
 
 /**
  * Showcases and verifies some of the expected behaviors of the setup, globalSetup, cleanup and globalCleanup methods
- * of the PerfStressTest class.
+ * of the PerfTest class.
  */
-export class SetupCleanupTest extends PerfStressTest {
-  public options: PerfStressOptionDictionary = {};
+export class SetupCleanupTest extends PerfTest {
+  public options: PerfOptionDictionary = {};
 
   public state = {
     globalSetup: 0,
@@ -47,5 +47,5 @@ export class SetupCleanupTest extends PerfStressTest {
     }
   }
 
-  async runAsync() {}
+  async run() {}
 }

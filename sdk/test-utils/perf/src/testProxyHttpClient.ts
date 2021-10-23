@@ -23,7 +23,7 @@ const paths = {
  * Helper class to manage the recording state to make sure the proxy-tool is not flooded with unintended requests.
  *
  * => then start record
- * => run the runAsync
+ * => run the run method
  * => stop record
  * => start playback
  * => stop playback

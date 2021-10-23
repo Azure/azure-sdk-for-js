@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PerfStressProgram, selectPerfStressTest } from "@azure/test-utils-perfstress";
+import { PerfProgram, selectPerfTest } from "@azure/test-utils-perf";
 import { StorageFileShareDownloadTest } from "./download.spec";
 import { StorageFileShareUploadTest } from "./upload.spec";
-console.log("=== Starting the perfStress test ===");
+console.log("=== Starting the perf test ===");
 
-const perfStressProgram = new PerfStressProgram(
-  selectPerfStressTest([StorageFileShareDownloadTest, StorageFileShareUploadTest])
+const perfProgram = new PerfProgram(
+  selectPerfTest([StorageFileShareDownloadTest, StorageFileShareUploadTest])
 );
 
-perfStressProgram.run();
+perfProgram.run();
