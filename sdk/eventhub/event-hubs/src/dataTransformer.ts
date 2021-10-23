@@ -75,7 +75,7 @@ export const defaultDataTransformer = {
    * indicating which part of the AMQP message the body was decoded from.
    *
    * @param body - The AMQP message body as received from rhea.
-   * @param skipJsonParsingContent - Boolean to disable automatic JSON parsing when receiving a string in the event body.
+   * @param skipJsonParsingContent - Boolean to skip running JSON.parse() on message body when body type is `content`.
    * @returns The decoded/raw body and the body type.
    */
   decode(

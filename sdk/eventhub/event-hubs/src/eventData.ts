@@ -156,7 +156,7 @@ const messagePropertiesMap = {
 /**
  * Converts the AMQP message to an EventData.
  * @param msg - The AMQP message that needs to be converted to EventData.
- * @param skipJsonParsingContent - Boolean to disable automatic JSON parsing when receiving a string in the event body.
+ * @param skipJsonParsingContent - Boolean to skip running JSON.parse() on message body when body type is `content`.
  * @hidden
  */
 export function fromRheaMessage(
