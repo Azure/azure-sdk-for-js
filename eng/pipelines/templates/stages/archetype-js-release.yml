@@ -299,7 +299,7 @@ stages:
           displayName: Show visible artifacts
         # Pull and build the docker image
         - pwsh: |
-            docker login $(containerRegistry) -u $(azuresdkimages-cr-clientid) -p $(azuresdkimages-cr-clientsecret)
+            docker login $(containerRegistry) -u "$(azuresdkimages-cr-clientid)" -p "$(azuresdkimages-cr-clientsecret)"
           displayName: Login container registry
         - pwsh: |
             docker pull '$(containerRegistry)/$(imageName):$(tag)'
