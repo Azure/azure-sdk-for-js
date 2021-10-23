@@ -77,7 +77,6 @@ export interface TracingSpan {
   serialize(): Record<string, string>;
   // TODO: deserialize
   // deserialize(traceParentHeader: string): TracingSpan;
-  unwrap(): unknown;
 }
 export interface TracingContext {
   setValue(key: symbol, value: unknown): TracingContext;

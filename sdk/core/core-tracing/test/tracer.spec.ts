@@ -65,7 +65,6 @@ describe("Tracer", () => {
       span.setStatus({ status: "success" });
       span.setAttribute("foo", "bar");
       span.end();
-      assert.isUndefined(span.unwrap());
       assert.isEmpty(span.serialize());
     });
   });

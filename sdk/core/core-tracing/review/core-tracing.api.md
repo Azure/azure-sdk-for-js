@@ -93,6 +93,7 @@ export interface TracingContext {
 export interface TracingSpan {
     // (undocumented)
     end(): void;
+    serialize(): Record<string, string>;
     // (undocumented)
     setAttribute(name: string, value: unknown): void;
     // (undocumented)

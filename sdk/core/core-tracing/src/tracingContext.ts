@@ -10,22 +10,18 @@ export const knownContextKeys = {
 
 export function createTracingContext(options: CreateTracingContextOptions = {}): TracingContext {
   const newContextMap = new Map<symbol, unknown>();
-  if (options?.span) {
+  if (options.span) {
     newContextMap.set(knownContextKeys.Span, options.span);
   }
-
-  if (options?.client) {
+  if (options.client) {
     newContextMap.set(knownContextKeys.Client, options.client);
   }
-
-  if (options?.namespace) {
-    newContextMap.set(knownContextKeys.Namespace, options.namespace);
-  }
-
-  if (options?.providerContext) {
+  if (options.providerContext) {
     newContextMap.set(knownContextKeys.ProviderContext, options.providerContext);
   }
-
+  if (options.namespace) {
+    newContextMap.set(knownContextKeys.Namespace, options.namespace);
+  }
   return new TracingContextImpl(newContextMap);
 }
 
@@ -45,19 +41,19 @@ export class TracingContextImpl implements TracingContext {
   getValue(key: symbol): unknown {
     if (this._contextMap.has(key)) {
       return this._contextMap.get(key);
-    } else if (this._contextMap.has(knownContextKeys.ProviderContext)) {
-      const parent = this._contextMap.get(knownContextKeys.ProviderContext) as TracingContext;
-      return parent.getValue(key);
-    } else {
-      return undefined;
     }
+    const parent = this._contextMap.get(knownContextKeys.ProviderContext);
+    if (parent instanceof TracingContextImpl) {
+      return parent.getValue(key);
+    }
+    return undefined;
   }
 
   deleteValue(key: symbol): TracingContext {
     const newContextMap = new Map<symbol, unknown>(this._contextMap);
     newContextMap.delete(key);
-    const parent = this._contextMap.get(knownContextKeys.ProviderContext) as TracingContext;
-    if (parent) {
+    const parent = this._contextMap.get(knownContextKeys.ProviderContext);
+    if (parent instanceof TracingContextImpl) {
       this._contextMap.set(knownContextKeys.ProviderContext, parent.deleteValue(key));
     }
     return new TracingContextImpl(newContextMap);
