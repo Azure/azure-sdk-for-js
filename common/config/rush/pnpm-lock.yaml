@@ -1453,6 +1453,7 @@ packages:
   /@opentelemetry/node/0.22.0_@opentelemetry+api@1.0.3:
     resolution: {integrity: sha512-+HhGbDruQ7cwejVOIYyxRa28uosnG8W95NiQZ6qE8PXXPsDSyGeftAPbtYpGit0H2f5hrVcMlwmWHeAo9xkSLA==}
     engines: {node: '>=8.0.0'}
+    deprecated: Package renamed to @opentelemetry/sdk-trace-node
     peerDependencies:
       '@opentelemetry/api': ^1.0.0
     dependencies:
@@ -1509,6 +1510,7 @@ packages:
   /@opentelemetry/tracing/0.22.0_@opentelemetry+api@1.0.3:
     resolution: {integrity: sha512-EFrKTFndiEdh/KnzwDgo/EcphG/5z/NyLck8oiUUY+YMP7hskXNYHjTWSAv9UxtYe1MzgLbjmAateTuMmFIVNw==}
     engines: {node: '>=8.0.0'}
+    deprecated: Package renamed to @opentelemetry/sdk-trace-base
     peerDependencies:
       '@opentelemetry/api': ^1.0.0
     dependencies:
@@ -4850,6 +4852,10 @@ packages:
     engines: {node: '>=6'}
     dev: false
 
+  /jenkins-hash-lookup3/1.0.0:
+    resolution: {integrity: sha512-JswqF3V3H2GJ38iDuLrqpFCFDAilbcBXQ++voW5fV75KkuQbh9rIYexK3edW9pMGHG/b61VxtlH3uqcBc9QKyg==}
+    dev: false
+
   /jest-worker/24.9.0:
     resolution: {integrity: sha512-51PE4haMSXcHohnSMdM42anbvZANYTqMrr52tVKPqqsPJMzoP6FYYDVqahX/HrAoKEKz3uUPzSvKs9A3qR4iVw==}
     engines: {node: '>= 6'}
@@ -7971,7 +7977,7 @@ packages:
     dev: false
 
   file:projects/abort-controller.tgz:
-    resolution: {integrity: sha512-eR+UlnZbcpldxjFwjUnWL9mMa99CaJHOHHtgK8IcL2E/hmQXM7E4R5fxhf2s1I3cdDa5pZLu96aV94TfRLDjKg==, tarball: file:projects/abort-controller.tgz}
+    resolution: {integrity: sha512-F0UODn3OfxiXEQnhR58UOsRkForwyumaX3cEVJBnRaZ59S8BVPjWKSS79mgRbh/w1R/rNv5Fj2vqDFt3eValTg==, tarball: file:projects/abort-controller.tgz}
     name: '@rush-temp/abort-controller'
     version: 0.0.0
     dependencies:
@@ -8653,7 +8659,7 @@ packages:
     dev: false
 
   file:projects/arm-sql.tgz:
-    resolution: {integrity: sha512-d740cACOOsMXQ3bwlpaXrGeOxAVZMCf+6D+LKN8ltZbTJHPrw5Jv0q6tCp7k+aa+nY6hBP1qYtYfKpk0Rg4wuA==, tarball: file:projects/arm-sql.tgz}
+    resolution: {integrity: sha512-1nv+fHLm/8KtX6rSVv/pmclEN7WzLAFtJuFqOOGUCSYEH0uK/vjrTWdV9/z5v2hCopmTGrnLM1m1JyQTwEL5aA==, tarball: file:projects/arm-sql.tgz}
     name: '@rush-temp/arm-sql'
     version: 0.0.0
     dependencies:
@@ -10132,7 +10138,7 @@ packages:
     dev: false
 
   file:projects/event-hubs.tgz:
-    resolution: {integrity: sha512-Znp/pWCEiVRhPM+mk2OVq9n1+fbGl7kkvL9mkWWKuHIXsjQZB9hBAL7EclBtRsqDVABFj9tRos4SXkDvj/cUVQ==, tarball: file:projects/event-hubs.tgz}
+    resolution: {integrity: sha512-Wv9s2+TiAgpcmRVXRKHVYfLkdoF1PHorzmGa4wpfFfBu34SZSS1ALdToeUlS2MVQihsu4uRynXzvi1AqzjRu1A==, tarball: file:projects/event-hubs.tgz}
     name: '@rush-temp/event-hubs'
     version: 0.0.0
     dependencies:
@@ -10170,6 +10176,7 @@ packages:
       esm: 3.2.25
       https-proxy-agent: 5.0.0
       is-buffer: 2.0.5
+      jenkins-hash-lookup3: 1.0.0
       jssha: 3.2.0
       karma: 6.3.4_debug@4.3.2
       karma-chrome-launcher: 3.1.0
@@ -11882,7 +11889,7 @@ packages:
     dev: false
 
   file:projects/service-bus.tgz:
-    resolution: {integrity: sha512-taRKsIxjmgo9TDFPIs0WoZdV8kXMUQrOAGHo0Xn0+4WCo2dtDWAjTRRznNIQ78QDljnqHOLRdMYtNCLxlysM4g==, tarball: file:projects/service-bus.tgz}
+    resolution: {integrity: sha512-xh1FsCAYQEN2au5fCao9WDKzmIls6PF2KVZkSOZaTxhSeYcZmijoOVP0biICIL7nzqT5iLQv5wCEdnSLkFGZMg==, tarball: file:projects/service-bus.tgz}
     name: '@rush-temp/service-bus'
     version: 0.0.0
     dependencies:

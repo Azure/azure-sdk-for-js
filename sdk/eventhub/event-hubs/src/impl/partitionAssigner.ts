@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { hashlittle } from "jenkins-hash-lookup3";
+
 import { isDefined } from "../util/typeGuards";
 
 /**
@@ -59,8 +61,7 @@ export class PartitionAssigner {
   }
 
   private _assignPartitionForPartitionKey(partitionKey: string): string {
-    // TODO: Implement hashing function
-    return partitionKey ? this._partitions[0] : this._partitions[0];
+    return hashlittle(partitionKey).c.toString();
   }
 
   private _assignRoundRobinPartition(): string {
