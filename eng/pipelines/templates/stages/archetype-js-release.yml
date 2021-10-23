@@ -335,4 +335,4 @@ stages:
           - pwsh: |
               Write-Host "This is a placeholder for now."
             displayName: File an issue if package not passed the validation
-            conditions: and(succeeded(), eq(variable['DockerRunResult'], 'false'))
+            condition: and(succeeded(), eq(variable['DockerRunResult'], 'false'))
