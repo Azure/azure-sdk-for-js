@@ -310,18 +310,29 @@ stages:
               $packageTag = "$($packageJson.Name)@$($packageJson.DevVersion)"
               Write-Host "Here is the package tag: $packageTag"
               docker run -e TARGET_PACKAGE="@azure/arm-appservice@latest" -it azuresdkimages.azurecr.io/jsrefautocr:latest
+              $commandResult = $true
+              if ($LASTEXITCODE -ne 0) {
+                $commandResult = $false
+              }
+              echo "##vso[task.setvariable variable=DockerRunResult]$commandResult"
             displayName: docker run package ${{artifact.name}}
-        - template: /eng/common/pipelines/templates/steps/update-docsms-metadata.yml
-          parameters:
-            PackageInfoLocations:
-              - ${{ each artifact in parameters.Artifacts }}:
-                - $(Pipeline.Workspace)/${{parameters.ArtifactName}}/PackageInfo/${{artifact.name}}.json
-            RepoId: Azure/azure-sdk-for-js
-            WorkingDirectory: $(System.DefaultWorkingDirectory)
-            TargetDocRepoOwner: ${{parameters.TargetDocRepoOwner}}
-            TargetDocRepoName: ${{parameters.TargetDocRepoName}}
-            Language: 'javascript'
-            DailyDocsBuild: true
-            SparseCheckoutPaths:
-              - docs-ref-services/
-              - metadata/
+          
+          - ${{if eq(variables['DockerRunResult'], 'true')}}:
+            - template: /eng/common/pipelines/templates/steps/update-docsms-metadata.yml
+              parameters:
+                PackageInfoLocations:
+                  - $(Pipeline.Workspace)/${{parameters.ArtifactName}}/PackageInfo/${{artifact.name}}.json
+                RepoId: Azure/azure-sdk-for-js
+                WorkingDirectory: $(System.DefaultWorkingDirectory)
+                TargetDocRepoOwner: ${{parameters.TargetDocRepoOwner}}
+                TargetDocRepoName: ${{parameters.TargetDocRepoName}}
+                Language: 'javascript'
+                DailyDocsBuild: true
+                SparseCheckoutPaths:
+                  - docs-ref-services/
+                  - metadata/
+
+          - pwsh: |
+              Write-Host "This is a placeholder for now."
+            displayName: File an issue if package not passed the validation
+            conditions: and(succeeded(), eq(variable['DockerRunResult'], 'false'))
