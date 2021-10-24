@@ -309,7 +309,7 @@ stages:
               $packageJson = Get-content '$(Pipeline.Workspace)/${{parameters.ArtifactName}}/PackageInfo/${{artifact.name}}.json' | ConvertFrom-Json
               $packageTag = "$($packageJson.Name)@$($packageJson.DevVersion)"
               Write-Host "Here is the package tag: $packageTag"
-              docker run -e TARGET_PACKAGE=$packageTag azuresdkimages.azurecr.io/jsrefautocr:latest
+              docker run -e TARGET_PACKAGE="@azure/template@1.0.12-alpha.20211029.5" azuresdkimages.azurecr.io/jsrefautocr:latest
               $commandResult = $true
               if ($LASTEXITCODE -ne 0) {
                 $commandResult = $false
@@ -332,7 +332,11 @@ stages:
                   - docs-ref-services/
                   - metadata/
 
-          - pwsh: |
-              Write-Host "This is a placeholder for now."
+          - task: Powershell@2
+            inputs:
+              pwsh: true
+              filePath: eng/common/scripts/Create-Issue.ps1
+              arguments: -RepoOwner ${{parameters.TargetDocRepoOwner}} -RepoName ${{parameters.TargetDocRepoName}} `
+                        -Title "${{artifact.name}} failed to update to Doc.ms." -AuthToken $(azuresdk-github-pat)
             displayName: File an issue if package not passed the validation
             condition: and(succeeded(), eq(variables['DockerRunResult'], 'false'))
