@@ -309,7 +309,7 @@ stages:
               $packageJson = Get-content '$(Pipeline.Workspace)/${{parameters.ArtifactName}}/PackageInfo/${{artifact.name}}.json' | ConvertFrom-Json
               $packageTag = "$($packageJson.Name)@$($packageJson.DevVersion)"
               Write-Host "Here is the package tag: $packageTag"
-              docker run -e TARGET_PACKAGE="@azure/arm-appservice@latest" -it azuresdkimages.azurecr.io/jsrefautocr:latest
+              docker run -e TARGET_PACKAGE=$packageTag azuresdkimages.azurecr.io/jsrefautocr:latest
               $commandResult = $true
               if ($LASTEXITCODE -ne 0) {
                 $commandResult = $false
