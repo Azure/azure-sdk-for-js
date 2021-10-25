@@ -49,8 +49,7 @@ export const ShortCode: coreHttp.CompositeMapper = {
       numberType: {
         serializedName: "numberType",
         type: {
-          name: "Enum",
-          allowedValues: ["shortCode", "alphaId"]
+          name: "String"
         }
       },
       countryCode: {
@@ -178,14 +177,14 @@ export const USProgramBrief: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      notes: {
-        serializedName: "notes",
+      reviewNotes: {
+        serializedName: "reviewNotes",
         type: {
           name: "Sequence",
           element: {
             type: {
               name: "Composite",
-              className: "Note"
+              className: "ReviewNote"
             }
           }
         }
@@ -246,10 +245,10 @@ export const USProgramBrief: coreHttp.CompositeMapper = {
   }
 };
 
-export const Note: coreHttp.CompositeMapper = {
+export const ReviewNote: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "Note",
+    className: "ReviewNote",
     modelProperties: {
       message: {
         serializedName: "message",
@@ -490,8 +489,8 @@ export const MessageDetails: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "MessageDetails",
     modelProperties: {
-      types: {
-        serializedName: "types",
+      supportedProtocols: {
+        serializedName: "supportedProtocols",
         type: {
           name: "Sequence",
           element: {
@@ -509,43 +508,16 @@ export const MessageDetails: coreHttp.CompositeMapper = {
           allowedValues: ["subscription", "transaction"]
         }
       },
-      contentTypes: {
-        serializedName: "contentTypes",
+      helpMessage: {
+        serializedName: "helpMessage",
         type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Enum",
-              allowedValues: [
-                "ringTones",
-                "smsChat",
-                "video",
-                "loyaltyProgramPointsPrizes",
-                "gifting",
-                "inApplicationBilling",
-                "textToScreen",
-                "games",
-                "audioChat",
-                "mmsPictures",
-                "sweepstakesContestAuction",
-                "financialBanking",
-                "premiumWap",
-                "queryService",
-                "wallpaperScreensaver",
-                "voting",
-                "application",
-                "mobileGivingDonations",
-                "coupons",
-                "loyaltyProgram",
-                "noPointsPrizes",
-                "informationalAlerts",
-                "microBilling",
-                "trivia",
-                "entertainmentAlerts",
-                "other"
-              ]
-            }
-          }
+          name: "String"
+        }
+      },
+      optOutMessage: {
+        serializedName: "optOutMessage",
+        type: {
+          name: "String"
         }
       },
       optInMessage: {
@@ -566,11 +538,131 @@ export const MessageDetails: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      useCase: {
-        serializedName: "useCase",
+      estimatedRampUpTimeInDays: {
+        constraints: {
+          InclusiveMaximum: 2147483647,
+          InclusiveMinimum: 0
+        },
+        serializedName: "estimatedRampUpTimeInDays",
+        type: {
+          name: "Number"
+        }
+      },
+      directionality: {
+        serializedName: "directionality",
         type: {
           name: "Enum",
           allowedValues: ["oneWay", "twoWay"]
+        }
+      },
+      useCases: {
+        serializedName: "useCases",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "UseCase"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const UseCase: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "UseCase",
+    modelProperties: {
+      contentCategory: {
+        serializedName: "contentCategory",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "ringTones",
+            "smsChat",
+            "video",
+            "loyaltyProgramPointsPrizes",
+            "gifting",
+            "inApplicationBilling",
+            "textToScreen",
+            "games",
+            "audioChat",
+            "mmsPictures",
+            "sweepstakesContestAuction",
+            "financialBanking",
+            "premiumWap",
+            "queryService",
+            "wallpaperScreensaver",
+            "voting",
+            "application",
+            "mobileGivingDonations",
+            "coupons",
+            "loyaltyProgram",
+            "noPointsPrizes",
+            "informationalAlerts",
+            "microBilling",
+            "trivia",
+            "entertainmentAlerts",
+            "other"
+          ]
+        }
+      },
+      examples: {
+        serializedName: "examples",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "MessageExampleSequence"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const MessageExampleSequence: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MessageExampleSequence",
+    modelProperties: {
+      messages: {
+        serializedName: "messages",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "MessageExample"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const MessageExample: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MessageExample",
+    modelProperties: {
+      direction: {
+        serializedName: "direction",
+        type: {
+          name: "Enum",
+          allowedValues: ["toUser", "fromUser"]
+        }
+      },
+      text: {
+        serializedName: "text",
+        type: {
+          name: "String"
         }
       }
     }
@@ -582,19 +674,31 @@ export const TrafficDetails: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "TrafficDetails",
     modelProperties: {
-      estimatedVolume: {
-        serializedName: "estimatedVolume",
+      totalMonthlyVolume: {
+        constraints: {
+          InclusiveMaximum: 2147483647,
+          InclusiveMinimum: 0
+        },
+        serializedName: "totalMonthlyVolume",
         type: {
           name: "Number"
         }
       },
       monthlyAverageMessagesFromUser: {
+        constraints: {
+          InclusiveMaximum: 2147483647,
+          InclusiveMinimum: 0
+        },
         serializedName: "monthlyAverageMessagesFromUser",
         type: {
           name: "Number"
         }
       },
       monthlyAverageMessagesToUser: {
+        constraints: {
+          InclusiveMaximum: 2147483647,
+          InclusiveMinimum: 0
+        },
         serializedName: "monthlyAverageMessagesToUser",
         type: {
           name: "Number"
