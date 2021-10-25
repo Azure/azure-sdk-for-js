@@ -70,6 +70,7 @@
   "devDependencies": {
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/dev-tool": "^1.0.0",
+    "@azure/test-utils": "^1.0.0",
     "@azure-tools/test-recorder": "^1.0.0",
     "@microsoft/api-extractor": "^7.18.11",
     "@types/jws": "^3.2.2",
