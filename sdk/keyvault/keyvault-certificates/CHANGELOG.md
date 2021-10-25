@@ -5,6 +5,7 @@
 ### Features Added
 
 - Support multi-tenant authentication against Key Vault and Managed HSM when using @azure/identity 2.0.0 or newer.
+- Updated CertificateClient to use service version 7.3-preview by default.
 
 ### Breaking Changes
 
