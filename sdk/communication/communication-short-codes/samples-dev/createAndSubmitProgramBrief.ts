@@ -58,18 +58,21 @@ export async function main() {
         }
       },
       messageDetails: {
-        types: ["sms"],
+        supportedProtocols: ["sms"],
         recurrence: "subscription",
-        contentTypes: ["coupons", "loyaltyProgram", "loyaltyProgramPointsPrizes"],
+        useCases: [
+          { contentCategory: "coupons", examples: [{ messages: [{ direction: "fromUser", text: "txtMessage" }] }] },
+          { contentCategory: "loyaltyProgram", examples: [{ messages: [{ direction: "toUser", text: "txtMessage" }] }] },
+          { contentCategory: "loyaltyProgramPointsPrizes", examples: [{ messages: [{ direction: "toUser", text: "txtMessage" }] }] }],
         optInMessage:
           "Someone requested to subscribe this number to receive updates about Contoso's loyalty program.  To confirm subscription, reply to this message with 'JOIN'",
         optInReply: "JOIN",
         confirmationMessage:
           "Congrats, you have been successfully subscribed to loyalty program updates.  Welcome!",
-        useCase: "twoWay"
+        directionality: "twoWay"
       },
       trafficDetails: {
-        estimatedVolume: 10000,
+        totalMonthlyVolume: 10000,
         monthlyAverageMessagesFromUser: 1,
         monthlyAverageMessagesToUser: 3,
         isSpiky: true,
@@ -83,9 +86,8 @@ export async function main() {
   var createResponse = await client.upsertUSProgramBrief(programBriefId, programBriefRequest);
   if (createResponse._response.status != 201) {
     throw new Error(`Program brief creation failed.
-    Status code: ${createResponse._response.status}; Error: ${
-      createResponse._response.bodyAsText
-    }; CV: ${createResponse._response.headers.get("MS-CV")}`);
+    Status code: ${createResponse._response.status}; Error: ${createResponse._response.bodyAsText
+      }; CV: ${createResponse._response.headers.get("MS-CV")}`);
   } else {
     console.log(`Successfully created a new program brief with Id ${programBriefId}.`);
   }
@@ -96,9 +98,8 @@ export async function main() {
     console.log(`Successfully submitted program brief with Id ${programBriefId}`);
   } else {
     throw new Error(`Failed to submit program brief with Id ${programBriefId}.
-    Status code: ${submittedProgramBrief._response.status}; Error: ${
-      submittedProgramBrief._response.bodyAsText
-    }; CV: ${submittedProgramBrief._response.headers.get("MS-CV")}`);
+    Status code: ${submittedProgramBrief._response.status}; Error: ${submittedProgramBrief._response.bodyAsText
+      }; CV: ${submittedProgramBrief._response.headers.get("MS-CV")}`);
   }
 }
 
