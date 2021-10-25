@@ -487,6 +487,39 @@ export interface EventSubscriptionDestination {
 }
 
 /**
+ * The identity information with the event subscription.
+ */
+export interface EventSubscriptionIdentity {
+  /**
+   * The type of managed identity used. The type 'SystemAssigned, UserAssigned' includes both an
+   * implicitly created identity and a set of user-assigned identities. The type 'None' will remove
+   * any identity. Possible values include: 'SystemAssigned', 'UserAssigned'
+   */
+  type?: EventSubscriptionIdentityType;
+  /**
+   * The user identity associated with the resource.
+   */
+  userAssignedIdentity?: string;
+}
+
+/**
+ * Information about the delivery for an event subscription with resource identity.
+ */
+export interface DeliveryWithResourceIdentity {
+  /**
+   * The identity to use when delivering events.
+   */
+  identity?: EventSubscriptionIdentity;
+  /**
+   * Information about the destination where events have to be delivered for the event
+   * subscription.
+   * Uses Azure Event Grid's identity to acquire the authentication tokens being used during
+   * delivery / dead-lettering.
+   */
+  destination?: EventSubscriptionDestinationUnion;
+}
+
+/**
  * Contains the possible cases for AdvancedFilter.
  */
 export type AdvancedFilterUnion = AdvancedFilter | NumberInAdvancedFilter | NumberNotInAdvancedFilter | NumberLessThanAdvancedFilter | NumberGreaterThanAdvancedFilter | NumberLessThanOrEqualsAdvancedFilter | NumberGreaterThanOrEqualsAdvancedFilter | BoolEqualsAdvancedFilter | StringInAdvancedFilter | StringNotInAdvancedFilter | StringBeginsWithAdvancedFilter | StringEndsWithAdvancedFilter | StringContainsAdvancedFilter;
@@ -574,6 +607,23 @@ export interface DeadLetterDestination {
    * Polymorphic Discriminator
    */
   endpointType: "DeadLetterDestination";
+}
+
+/**
+ * Information about the deadletter destination with resource identity.
+ */
+export interface DeadLetterWithResourceIdentity {
+  /**
+   * The identity to use when dead-lettering events.
+   */
+  identity?: EventSubscriptionIdentity;
+  /**
+   * Information about the destination where events have to be delivered for the event
+   * subscription.
+   * Uses the managed identity setup on the parent resource (namely, topic or domain) to acquire
+   * the authentication tokens being used during delivery / dead-lettering.
+   */
+  deadLetterDestination?: DeadLetterDestinationUnion;
 }
 
 /**
@@ -1058,6 +1108,13 @@ export interface EventSubscription extends Resource {
    */
   destination?: EventSubscriptionDestinationUnion;
   /**
+   * Information about the destination where events have to be delivered for the event
+   * subscription.
+   * Uses the managed identity setup on the parent resource (namely, topic or domain) to acquire
+   * the authentication tokens being used during delivery / dead-lettering.
+   */
+  deliveryWithResourceIdentity?: DeliveryWithResourceIdentity;
+  /**
    * Information about the filter for the event subscription.
    */
   filter?: EventSubscriptionFilter;
@@ -1085,6 +1142,13 @@ export interface EventSubscription extends Resource {
    */
   deadLetterDestination?: DeadLetterDestinationUnion;
   /**
+   * The dead letter destination of the event subscription. Any event that cannot be delivered to
+   * its' destination is sent to the dead letter destination.
+   * Uses the managed identity setup on the parent resource (namely, topic or domain) to acquire
+   * the authentication tokens being used during delivery / dead-lettering.
+   */
+  deadLetterWithResourceIdentity?: DeadLetterWithResourceIdentity;
+  /**
    * The system metadata relating to Event Subscription resource.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
@@ -1100,6 +1164,13 @@ export interface EventSubscriptionUpdateParameters {
    * subscription.
    */
   destination?: EventSubscriptionDestinationUnion;
+  /**
+   * Information about the destination where events have to be delivered for the event
+   * subscription.
+   * Uses the managed identity setup on the parent resource (topic / domain) to acquire the
+   * authentication tokens being used during delivery / dead-lettering.
+   */
+  deliveryWithResourceIdentity?: DeliveryWithResourceIdentity;
   /**
    * Information about the filter for the event subscription.
    */
@@ -1126,6 +1197,13 @@ export interface EventSubscriptionUpdateParameters {
    * The DeadLetter destination of the event subscription.
    */
   deadLetterDestination?: DeadLetterDestinationUnion;
+  /**
+   * The dead letter destination of the event subscription. Any event that cannot be delivered to
+   * its' destination is sent to the dead letter destination.
+   * Uses the managed identity setup on the parent resource (topic / domain) to acquire the
+   * authentication tokens being used during delivery / dead-lettering.
+   */
+  deadLetterWithResourceIdentity?: DeadLetterWithResourceIdentity;
 }
 
 /**
@@ -1317,6 +1395,10 @@ export interface Topic extends TrackedResource {
    */
   disableLocalAuth?: boolean;
   /**
+   * Identity information for the resource.
+   */
+  identity?: IdentityInfo;
+  /**
    * The system metadata relating to Topic resource.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
@@ -1331,6 +1413,10 @@ export interface TopicUpdateParameters {
    * Tags of the resource.
    */
   tags?: { [propertyName: string]: string };
+  /**
+   * Topic resource identity information.
+   */
+  identity?: IdentityInfo;
   /**
    * This determines if traffic is allowed over public network. By default it is enabled.
    * You can further restrict to specific IPs by configuring <seealso
@@ -1373,6 +1459,26 @@ export interface TopicRegenerateKeyRequest {
    * Key name to regenerate key1 or key2
    */
   keyName: string;
+}
+
+/**
+ * Event grid Extension Topic. This is used for getting Event Grid related metrics for Azure
+ * resources.
+ */
+export interface ExtensionTopic extends Resource {
+  /**
+   * Description of the extension topic.
+   */
+  description?: string;
+  /**
+   * System topic resource id which is mapped to the source.
+   */
+  systemTopic?: string;
+  /**
+   * The system metadata relating to the Extension Topic resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly systemData?: SystemData;
 }
 
 /**
@@ -2472,6 +2578,14 @@ export type DomainTopicProvisioningState = 'Creating' | 'Updating' | 'Deleting' 
  * @enum {string}
  */
 export type EventSubscriptionProvisioningState = 'Creating' | 'Updating' | 'Deleting' | 'Succeeded' | 'Canceled' | 'Failed' | 'AwaitingManualAction';
+
+/**
+ * Defines values for EventSubscriptionIdentityType.
+ * Possible values include: 'SystemAssigned', 'UserAssigned'
+ * @readonly
+ * @enum {string}
+ */
+export type EventSubscriptionIdentityType = 'SystemAssigned' | 'UserAssigned';
 
 /**
  * Defines values for EventDeliverySchema.
@@ -4194,6 +4308,26 @@ export type SystemTopicsListByResourceGroupNextResponse = SystemTopicsListResult
        * The response body as parsed JSON or XML
        */
       parsedBody: SystemTopicsListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type ExtensionTopicsGetResponse = ExtensionTopic & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ExtensionTopic;
     };
 };
 

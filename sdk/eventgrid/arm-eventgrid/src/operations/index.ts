@@ -16,4 +16,5 @@ export * from "./topics";
 export * from "./privateEndpointConnections";
 export * from "./privateLinkResources";
 export * from "./systemTopics";
+export * from "./extensionTopics";
 export * from "./topicTypes";

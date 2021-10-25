@@ -26,6 +26,7 @@ class EventGridManagementClient extends EventGridManagementClientContext {
   privateEndpointConnections: operations.PrivateEndpointConnections;
   privateLinkResources: operations.PrivateLinkResources;
   systemTopics: operations.SystemTopics;
+  extensionTopics: operations.ExtensionTopics;
   topicTypes: operations.TopicTypes;
 
   /**
@@ -51,6 +52,7 @@ class EventGridManagementClient extends EventGridManagementClientContext {
     this.privateEndpointConnections = new operations.PrivateEndpointConnections(this);
     this.privateLinkResources = new operations.PrivateLinkResources(this);
     this.systemTopics = new operations.SystemTopics(this);
+    this.extensionTopics = new operations.ExtensionTopics(this);
     this.topicTypes = new operations.TopicTypes(this);
   }
 }

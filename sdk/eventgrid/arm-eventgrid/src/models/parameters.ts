@@ -172,7 +172,7 @@ export const resourceTypeName: msRest.OperationURLParameter = {
     }
   }
 };
-export const scope: msRest.OperationURLParameter = {
+export const scope0: msRest.OperationURLParameter = {
   parameterPath: "scope",
   mapper: {
     required: true,
@@ -182,6 +182,16 @@ export const scope: msRest.OperationURLParameter = {
     }
   },
   skipEncoding: true
+};
+export const scope1: msRest.OperationURLParameter = {
+  parameterPath: "scope",
+  mapper: {
+    required: true,
+    serializedName: "scope",
+    type: {
+      name: "String"
+    }
+  }
 };
 export const subscriptionId: msRest.OperationURLParameter = {
   parameterPath: "subscriptionId",
