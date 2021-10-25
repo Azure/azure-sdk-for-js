@@ -162,13 +162,15 @@ export class AppConfigurationClient {
       appConfigEndpoint = connectionStringOrEndpoint;
     } else {
       appConfigOptions = (tokenCredentialOrOptions as InternalAppConfigurationClientOptions) || {};
-
-      const regexMatch = connectionStringOrEndpoint.match(ConnectionStringRegex);
-
-      if (regexMatch) {
-        appConfigCredential = new AppConfigCredential(regexMatch[2], regexMatch[3]);
-        appConfigEndpoint = regexMatch[1];
-      } else {
+      try {
+        const regexMatch = connectionStringOrEndpoint.match(ConnectionStringRegex);
+        if (regexMatch) {
+          appConfigCredential = new AppConfigCredential(regexMatch[2], regexMatch[3]);
+          appConfigEndpoint = regexMatch[1];
+        } else {
+          throw "empty regexMatch";
+        }
+      } catch (error) {
         throw new Error(
           `Invalid connection string. Valid connection strings should match the regex '${ConnectionStringRegex.source}'.`
         );
