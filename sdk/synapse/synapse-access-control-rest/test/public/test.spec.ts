@@ -61,13 +61,7 @@ describe("Access Control smoke", () => {
     it("should create a role assignment", async () => {
       const result = await client
         .path("/roleAssignments/{roleAssignmentId}", roleAssignmentId)
-        .put({
-          body: {
-            principalId,
-            scope,
-            roleId
-          }
-        });
+        .put({ body: { principalId, roleId, scope } });
 
       if (result.status !== "200") {
         assert.fail(`Unexpected status ${result.status}\n ${JSON.stringify(result.body)}`);
