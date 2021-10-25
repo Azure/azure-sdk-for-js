@@ -99,7 +99,7 @@ The following sections provide code snippets that cover some of the common tasks
 Initialize a `ShortCodesCreateUSProgramBriefParams` object and populate it with the details for your program brief.
 
 ```typescript
-import { ShortCodesClient } from "@azure/communication-phone-numbers";
+import { ShortCodesClient } from "@azure-tools/communication-short-codes";
 
 const connectionString = "endpoint=<endpoint>;accessKey=<accessKey>";
 const client = new ShortCodesClient(connectionString);
@@ -159,11 +159,11 @@ async main function() {
 main();
 ```
 
-Then add a call to `createUSProgramBrief` and use the object you created as the parameter. This will create a program brief object which can then be modified as much as needed until it's ready to be submitted.
+Then add a call to `upsertUSProgramBrief` and use the object you created as the parameter. This will create a program brief object which can then be modified as much as needed until it's ready to be submitted.
 
 ```typescript
   // create program brief
-  var createResponse = await client.createUSProgramBrief(programBriefId, programBriefRequest);
+  var createResponse = await client.upsertUSProgramBrief(programBriefId, programBriefRequest);
   if (createResponse._response.status != 201) {
     throw new Error(`Program brief creation failed.
     Status code: ${createResponse._response.status}; Error: ${createResponse._response.bodyAsText}; CV: ${createResponse._response.headers.get("MS-CV")}`);
@@ -189,7 +189,7 @@ When ready to submit, call `submitUSProgramBrief` to submit for processing. Afte
 Use the `listUSProgramBriefs` method to page through all program briefs for an ACS resource. Use `deleteUSProgramBrief` to delete unwanted program briefs. Keep in mind that once a program brief is submitted it is not eligible for deletion.
 
 ```typescript
-import { ShortCodesClient } from "@azure/communication-phone-numbers";
+import { ShortCodesClient } from "@azure-tools/communication-short-codes";
 
 const connectionString = "endpoint=<endpoint>;accessKey=<accessKey>";
 const client = new ShortCodesClient(connectionString);
