@@ -4,7 +4,7 @@
 import { assert } from "chai";
 import { HttpHeaders } from "../src/httpHeaders";
 
-describe.only("HttpHeaders", () => {
+describe("HttpHeaders", () => {
   it("clone() should keep the original header names", () => {
     const rawHeaders = {
       lowercase: "lower case value",
