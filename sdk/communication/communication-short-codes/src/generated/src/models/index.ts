@@ -12,7 +12,7 @@ import * as coreHttp from "@azure/core-http";
 export interface ShortCodes {
   /** List of short codes. */
   shortCodes?: ShortCode[];
-  /** Represents the URL link to the next page */
+  /** Represents the URL link to the next page. */
   nextLink?: string;
 }
 
@@ -21,7 +21,7 @@ export interface ShortCode {
   /** The value of the ShortCode or the alpha numeric e.g. '555555', 'CONTOSO', etc. */
   number?: string;
   /** The type of number e.g. 'ShortCode', 'AlphaId'. */
-  numberType?: NumberType;
+  numberType?: ShortCodeNumberType;
   /** ISO 3166 2-char code representing the country e.g. 'US'. */
   countryCode?: string;
   /** Program Brief Name. */
@@ -75,7 +75,7 @@ export interface USProgramBrief {
    * Notes added to the Program Brief after being reviewed to help customer understand
    * review results and necessary follow up actions.
    */
-  notes?: Note[];
+  reviewNotes?: ReviewNote[];
   /** Represents the costs tied to the number. */
   costs?: ShortCodeCost[];
   /** Date and time when the Program Brief was submitted. */
@@ -89,7 +89,7 @@ export interface USProgramBrief {
 }
 
 /** Holds a note about a Program Brief that has gone thru stages of review process. */
-export interface Note {
+export interface ReviewNote {
   /** Note related to a Program Brief that may imply changes needed from the client. */
   message?: string;
   /** Date and time when the note was added to the Program Brief. */
@@ -176,23 +176,57 @@ export interface CustomerCareInformation {
 }
 
 export interface MessageDetails {
-  /** Applicable message types used in the program e.g. SMS, MMS. */
-  types?: MessageType[];
+  /** Applicable message protocols used in the program e.g. SMS, MMS. */
+  supportedProtocols?: MessageProtocol[];
   /** Indicates the nature of the messaging associated with the program e.g. 'subscription', 'transaction'. */
   recurrence?: Recurrence;
-  /** Indicates the messaging content types used in the program e.g. 'ringTones', 'smsChat', 'video', 'loyaltyProgramPointsPrizes', 'gifting', 'inApplicationBilling', 'textToScreen', etc. */
-  contentTypes?: ContentType[];
+  /**
+   * Message text for mobile terminated message associated with HELP keyword
+   * e.g 'This is the HELP message test.'.
+   */
+  helpMessage?: string;
+  /**
+   * "Message text for mobile terminated message associated with STOP keyword
+   * e.g. 'This is the STOP message test.'.
+   */
+  optOutMessage?: string;
   optInMessage?: string;
   /** Keyword used to confirm double Opt-In method e.g. 'JOIN'. */
   optInReply?: string;
   confirmationMessage?: string;
-  /** Messaging use case describing directionality e.g. oneWay or twoWay */
-  useCase?: UseCase;
+  /** Numbers of days in which is expected to start sending messages from the short code. */
+  estimatedRampUpTimeInDays?: number;
+  /** Describes directionality e.g. oneWay or twoWay */
+  directionality?: MessageDirectionality;
+  /** Provides message exchange examples from and to end user for each supported message content type. */
+  useCases?: UseCase[];
+}
+
+/** Describes a messaging use case for a given content type by providing example messages. */
+export interface UseCase {
+  /** Indicates the messaging content category used in the program e.g. 'ringTones', 'smsChat', 'video', 'loyaltyProgramPointsPrizes', 'gifting', 'inApplicationBilling', 'textToScreen'. */
+  contentCategory?: MessageContentCategory;
+  /** Example messages to be sent to and from the end user for the indicated content type. */
+  examples?: MessageExampleSequence[];
+}
+
+/** A sequence of example messages to and from the end user. */
+export interface MessageExampleSequence {
+  /** Example messages to be sent to and from the end user. */
+  messages?: MessageExample[];
+}
+
+/** Represents a message example to be sent from or to the end user. */
+export interface MessageExample {
+  /** Indicates whether the message example is supposed to be sent to or from the end user e.g. toUser */
+  direction?: MessageDirection;
+  /** Actual example text for the message e.g. 'Want me to notify you when package in the way?' */
+  text?: string;
 }
 
 export interface TrafficDetails {
   /** Estimated total messages per month. */
-  estimatedVolume?: number;
+  totalMonthlyVolume?: number;
   /** Estimated number of Mobile-Originated messages likely to be received from a user per month. */
   monthlyAverageMessagesFromUser?: number;
   /** Estimated number of Mobile-Terminated messages likely to be sent per user per month. */
@@ -214,8 +248,21 @@ export interface USProgramBriefs {
   nextLink?: string;
 }
 
-/** Defines values for NumberType. */
-export type NumberType = "shortCode" | "alphaId";
+/** Known values of {@link ShortCodeNumberType} that the service accepts. */
+export const enum KnownShortCodeNumberType {
+  ShortCode = "shortCode",
+  AlphaId = "alphaId"
+}
+
+/**
+ * Defines values for ShortCodeNumberType. \
+ * {@link KnownShortCodeNumberType} can be used interchangeably with ShortCodeNumberType,
+ *  this enum contains the known values that the service supports.
+ * ### Know values supported by the service
+ * **shortCode** \
+ * **alphaId**
+ */
+export type ShortCodeNumberType = string;
 /** Defines values for ProgramBriefStatus. */
 export type ProgramBriefStatus =
   | "submitted"
@@ -226,18 +273,22 @@ export type ProgramBriefStatus =
   | "denied";
 /** Defines values for BillingFrequency. */
 export type BillingFrequency = "monthly" | "once";
+/** Defines values for NumberType. */
+export type NumberType = "shortCode" | "alphaId";
 /** Defines values for ProgramSignUpType. */
 export type ProgramSignUpType =
   | "website"
   | "pointOfSale"
   | "sms"
   | "interactiveVoiceResponse";
-/** Defines values for MessageType. */
-export type MessageType = "sms" | "mms";
+/** Defines values for MessageProtocol. */
+export type MessageProtocol = "sms" | "mms";
 /** Defines values for Recurrence. */
 export type Recurrence = "subscription" | "transaction";
-/** Defines values for ContentType. */
-export type ContentType =
+/** Defines values for MessageDirectionality. */
+export type MessageDirectionality = "oneWay" | "twoWay";
+/** Defines values for MessageContentCategory. */
+export type MessageContentCategory =
   | "ringTones"
   | "smsChat"
   | "video"
@@ -264,8 +315,8 @@ export type ContentType =
   | "trivia"
   | "entertainmentAlerts"
   | "other";
-/** Defines values for UseCase. */
-export type UseCase = "oneWay" | "twoWay";
+/** Defines values for MessageDirection. */
+export type MessageDirection = "toUser" | "fromUser";
 
 /** Optional parameters. */
 export interface ShortCodesGetShortCodesOptionalParams

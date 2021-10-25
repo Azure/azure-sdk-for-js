@@ -7,7 +7,7 @@
 
 import {
   ShortCodesClient,
-  ShortCodesUpsertUSProgramBriefOptionalParams,
+  ShortCodesUpsertUSProgramBriefOptionalParams
 } from "@azure-tools/communication-short-codes";
 
 // Load the .env file if it exists
@@ -31,7 +31,8 @@ export async function main() {
     body: {
       id: programBriefId,
       programDetails: {
-        description: "Customers can sign up to receive regular updates on coupons and other perks of our loyalty program.",
+        description:
+          "Customers can sign up to receive regular updates on coupons and other perks of our loyalty program.",
         expectedDateOfService: new Date(2022, 1, 25),
         isPoliticalCampaign: false,
         isVanity: false,
@@ -60,9 +61,11 @@ export async function main() {
         types: ["sms"],
         recurrence: "subscription",
         contentTypes: ["coupons", "loyaltyProgram", "loyaltyProgramPointsPrizes"],
-        optInMessage: "Someone requested to subscribe this number to receive updates about Contoso's loyalty program.  To confirm subscription, reply to this message with 'JOIN'",
+        optInMessage:
+          "Someone requested to subscribe this number to receive updates about Contoso's loyalty program.  To confirm subscription, reply to this message with 'JOIN'",
         optInReply: "JOIN",
-        confirmationMessage: "Congrats, you have been successfully subscribed to loyalty program updates.  Welcome!",
+        confirmationMessage:
+          "Congrats, you have been successfully subscribed to loyalty program updates.  Welcome!",
         useCase: "twoWay"
       },
       trafficDetails: {
@@ -70,16 +73,19 @@ export async function main() {
         monthlyAverageMessagesFromUser: 1,
         monthlyAverageMessagesToUser: 3,
         isSpiky: true,
-        spikeDetails: "Higher traffic expected around major shopping holidays, most notably Black Friday and Memorial Day."
+        spikeDetails:
+          "Higher traffic expected around major shopping holidays, most notably Black Friday and Memorial Day."
       }
     }
-  }
+  };
 
   // create program brief
   var createResponse = await client.upsertUSProgramBrief(programBriefId, programBriefRequest);
   if (createResponse._response.status != 201) {
     throw new Error(`Program brief creation failed.
-    Status code: ${createResponse._response.status}; Error: ${createResponse._response.bodyAsText}; CV: ${createResponse._response.headers.get("MS-CV")}`);
+    Status code: ${createResponse._response.status}; Error: ${
+      createResponse._response.bodyAsText
+    }; CV: ${createResponse._response.headers.get("MS-CV")}`);
   } else {
     console.log(`Successfully created a new program brief with Id ${programBriefId}.`);
   }
@@ -90,7 +96,9 @@ export async function main() {
     console.log(`Successfully submitted program brief with Id ${programBriefId}`);
   } else {
     throw new Error(`Failed to submit program brief with Id ${programBriefId}.
-    Status code: ${submittedProgramBrief._response.status}; Error: ${submittedProgramBrief._response.bodyAsText}; CV: ${submittedProgramBrief._response.headers.get("MS-CV")}`);
+    Status code: ${submittedProgramBrief._response.status}; Error: ${
+      submittedProgramBrief._response.bodyAsText
+    }; CV: ${submittedProgramBrief._response.headers.get("MS-CV")}`);
   }
 }
 
