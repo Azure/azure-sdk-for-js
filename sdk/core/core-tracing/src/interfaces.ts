@@ -67,6 +67,13 @@ export type SpanStatus =
   | {
       status: "error";
       error: Error | string;
+    }
+  | {
+      // backwards compatibility and ignored
+      // Todo: is this needed?
+      code: 0 | 1 | 2;
+      message?: string;
+      status?: "otel";
     };
 
 export interface TracingSpan {

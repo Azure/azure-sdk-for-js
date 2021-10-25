@@ -34,6 +34,10 @@ export type SpanStatus = {
 } | {
     status: "error";
     error: Error | string;
+} | {
+    code: 0 | 1 | 2;
+    message?: string;
+    status?: "otel";
 };
 
 // @public (undocumented)
@@ -98,8 +102,6 @@ export interface TracingSpan {
     setAttribute(name: string, value: unknown): void;
     // (undocumented)
     setStatus(status: SpanStatus): void;
-    // (undocumented)
-    unwrap(): unknown;
 }
 
 // @public (undocumented)
