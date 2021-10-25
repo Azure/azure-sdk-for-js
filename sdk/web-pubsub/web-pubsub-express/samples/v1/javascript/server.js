@@ -10,7 +10,6 @@ const express = require("express");
 
 const handler = new WebPubSubEventHandler("chat", {
   path: "/api/webpubsub",
-  dumpRequest: true,
   handleConnect(req, res) {
     console.log(req);
     res.success();
