@@ -225,7 +225,7 @@ main();
 Use the `getUSProgramBrief` to retrieve a single program brief by its Id. Use the `upsertUSProgramBrief` to update a program brief. `upsertUSProgramBrief` accepts a `ShortCodesUpsertUSProgramBriefOptionalParams` object, in which only the fields that are changing need to be set.
 
 ```typescript
-import { ShortCodesClient } from "@azure/communication-phone-numbers";
+import { ShortCodesClient } from "@azure-tools/communication-short-codes";
 
 const connectionString = "endpoint=<endpoint>;accessKey=<accessKey>";
 const client = new ShortCodesClient(connectionString);
@@ -262,7 +262,7 @@ main();
 Use `listShortCodes` to page through all short codes owned by a resource.
 
 ```typescript
-import { ShortCodesClient } from "@azure/communication-phone-numbers";
+import { ShortCodesClient } from "@azure-tools/communication-short-codes";
 
 const connectionString = "endpoint=<endpoint>;accessKey=<accessKey>";
 const client = new ShortCodesClient(connectionString);
