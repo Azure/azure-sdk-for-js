@@ -25,11 +25,11 @@ As Azure has matured and been embraced by a more diverse group of developers, we
 
 There were several areas of consistent feedback expressed across the Azure client library ecosystem. One of the most important is that the client libraries for different Azure services have not had a consistent approach to organization, naming, and API structure. Additionally, many developers have felt that the learning curve was difficult, and the APIs did not offer a good, approachable, and consistent onboarding story for those learning Azure or exploring a specific Azure service.
 
-To improve the development experience across Azure services, a set of uniform [design guidelines](https://azure.github.io/azure-sdk/general_introduction.html) was created for all languages to drive a consistent experience with established API patterns for all services. A set of [TypeScript & JavaScript Guidelines](https://azure.github.io/azure-sdk/typescript_introduction.html) was also introduced to ensure that TypeScript clients have a natural and idiomatic feel with respect to the TypeScript and JavaScript ecosystems. The new `@azure/storage-file-share` follows these guidelines.
+To improve the development experience across Azure services, a set of uniform [design guidelines](https://azure.github.io/azure-sdk/general_introduction.html) was created for all languages to drive a consistent experience with established API patterns for all services. A set of [TypeScript & JavaScript Guidelines](https://azure.github.io/azure-sdk/typescript_introduction.html) was also introduced to ensure that TypeScript clients have a natural and idiomatic feel with respect to the TypeScript and JavaScript ecosystems. The new `@azure/storage-file-share` client library follows these guidelines.
 
 ### Cross Service SDK improvements
 
-The modern `@azure/storage-file-share` client library also provides the ability to share in some of the cross-service improvements made to the Azure development experience, such as
+The modern `@azure/storage-file-share` client library is also benefited from the cross-service improvements made to the Azure development experience, such as
 
 - A unified logging and diagnostics pipeline offering a common view of the activities across each of the client libraries
 - Use of promises rather than callbacks for a simplified programming experience
@@ -41,7 +41,7 @@ The modern `@azure/storage-file-share` client library also provides the ability 
 
 The modern client library is named `@azure/storage-file-share` and was released beginning with version 10. The legacy client library is named `azure-storage` with version of 2.x.x or below.
 
-The legacy library `azure-storage` grouped functionality to work with multiple services in the same package such as `Blob`, `Queue`, `Files` and `Tables`. The new `@azure/storage-file-share` is dedicated to `Files` there are new generation packages for the other storage services `@azure/data-tables`, `@azure/storage-queue`, `@azure/storage-blob` this provides more granular control on which dependencies to take on your project.
+The legacy library `azure-storage` grouped functionality to work with multiple services in the same package such as `Blob`, `Queue`, `Files` and `Tables`. The new `@azure/storage-file-share` is dedicated to `Files` service. New generation packages are available for the other storage services as well: `@azure/data-tables`, `@azure/storage-queue` and `@azure/storage-blob`. This provides more granular control on which dependencies to take on your project.
 
 ### Constructing the clients
 
@@ -226,7 +226,7 @@ console.log(fileProperties);
 
 ### Listing files and directories from a directory
 
-Previously in `azure-storage`, listing a directory didn't provide a built in way to handle pagination, looking as follows.
+Previously in `azure-storage`, there is no built-in way to handle pagination when listing files and directories in a directory. Users have to use `continuationToken` to get the next page of result then retrieve the items.
 
 ```javascript
 const azure = require("azure-storage");
