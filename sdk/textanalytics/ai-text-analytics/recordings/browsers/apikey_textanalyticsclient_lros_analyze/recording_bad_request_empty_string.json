@@ -2,17 +2,16 @@
  "recordings": [
   {
    "method": "POST",
-   "url": "https://endpoint/text/analytics/v3.2-preview.1/analyze",
+   "url": "https://endpoint/text/analytics/v3.2-preview.2/analyze",
    "query": {},
    "requestBody": "{\"analysisInput\":{\"documents\":[{\"id\":\"0\",\"text\":\"\",\"language\":\"en\"}]},\"tasks\":{\"entityRecognitionPiiTasks\":[{\"parameters\":{\"model-version\":\"latest\",\"stringIndexType\":\"Utf16CodeUnit\"}}]}}",
    "status": 400,
    "response": "{\"error\":{\"code\":\"InvalidRequest\",\"message\":\"Invalid document in request.\",\"innererror\":{\"code\":\"InvalidDocumentBatch\",\"message\":\"Document text is empty.\"}}}",
    "responseHeaders": {
-    "apim-request-id": "80e62672-7bf4-4ba1-8622-86be987fda78",
+    "apim-request-id": "0660fecd-c080-453a-98d3-98ced974ea17",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 03 Aug 2021 22:55:24 GMT",
+    "date": "Sat, 23 Oct 2021 00:51:59 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
     "x-envoy-upstream-service-time": "5"
    }

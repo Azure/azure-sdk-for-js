@@ -11,414 +11,242 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1331",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 03 Aug 2021 23:01:05 GMT",
+    "date": "Sat, 23 Oct 2021 00:57:44 GMT",
     "expires": "-1",
     "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
-    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+san\"}]}",
+    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+wst\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11898.12 - EUS ProdSlices",
-    "x-ms-request-id": "322cff96-e65e-4b6a-a4ac-9605028b3b01"
+    "x-ms-ests-server": "2.1.12171.14 - SCUS ProdSlices",
+    "x-ms-request-id": "04c4e784-742d-4592-94ea-27b856330600"
    }
   },
   {
    "method": "POST",
-   "url": "https://endpoint/text/analytics/v3.2-preview.1/analyze",
+   "url": "https://endpoint/text/analytics/v3.2-preview.2/analyze",
    "query": {},
    "requestBody": "{\"analysisInput\":{\"documents\":[{\"id\":\"0\",\"text\":\"Microsoft moved its headquarters to Bellevue, Washington in January 1979.\",\"language\":\"en\"},{\"id\":\"1\",\"text\":\"Steve Ballmer stepped down as CEO of Microsoft and was succeeded by Satya Nadella.\",\"language\":\"en\"}]},\"tasks\":{\"entityLinkingTasks\":[{\"parameters\":{\"stringIndexType\":\"Utf16CodeUnit\"}}]}}",
    "status": 202,
    "response": "",
    "responseHeaders": {
-    "apim-request-id": "6ffbe97f-b550-415f-ac29-dca154f7db84",
-    "date": "Tue, 03 Aug 2021 23:01:05 GMT",
-    "operation-location": "https://endpoint/text/analytics/v3.2-preview.1/analyze/jobs/b514bbaa-9e43-468d-819f-2aaf45852708",
+    "apim-request-id": "e1044204-48e1-413a-83c7-261be324b823",
+    "date": "Sat, 23 Oct 2021 00:57:45 GMT",
+    "operation-location": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/fcfdf80b-1cd3-480a-8836-5761a0e9826c",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "184"
+    "x-envoy-upstream-service-time": "227"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.2-preview.1/analyze/jobs/b514bbaa-9e43-468d-819f-2aaf45852708",
+   "url": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/fcfdf80b-1cd3-480a-8836-5761a0e9826c",
    "query": {
-    "$top": "20"
+    "$top": "20",
+    "$skip": "0"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"b514bbaa-9e43-468d-819f-2aaf45852708\",\"lastUpdateDateTime\":\"2021-08-03T23:01:05Z\",\"createdDateTime\":\"2021-08-03T23:01:05Z\",\"expirationDateTime\":\"2021-08-04T23:01:05Z\",\"status\":\"notStarted\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
+   "response": "{\"jobId\":\"fcfdf80b-1cd3-480a-8836-5761a0e9826c\",\"lastUpdateDateTime\":\"2021-10-23T00:57:45Z\",\"createdDateTime\":\"2021-10-23T00:57:45Z\",\"expirationDateTime\":\"2021-10-24T00:57:45Z\",\"status\":\"notStarted\",\"errors\":[],\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
    "responseHeaders": {
-    "apim-request-id": "be1aeffa-3ff8-4895-8a77-67be968a5969",
+    "apim-request-id": "8c1178da-8ed2-4f18-b945-75d8aeb574f6",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 03 Aug 2021 23:01:05 GMT",
+    "date": "Sat, 23 Oct 2021 00:57:45 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "7"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.2-preview.1/analyze/jobs/b514bbaa-9e43-468d-819f-2aaf45852708",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"b514bbaa-9e43-468d-819f-2aaf45852708\",\"lastUpdateDateTime\":\"2021-08-03T23:01:06Z\",\"createdDateTime\":\"2021-08-03T23:01:05Z\",\"expirationDateTime\":\"2021-08-04T23:01:05Z\",\"status\":\"running\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
-   "responseHeaders": {
-    "apim-request-id": "ef5a6901-5939-4605-8a6d-ab23cf8c1972",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 03 Aug 2021 23:01:05 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "7"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.2-preview.1/analyze/jobs/b514bbaa-9e43-468d-819f-2aaf45852708",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"b514bbaa-9e43-468d-819f-2aaf45852708\",\"lastUpdateDateTime\":\"2021-08-03T23:01:06Z\",\"createdDateTime\":\"2021-08-03T23:01:05Z\",\"expirationDateTime\":\"2021-08-04T23:01:05Z\",\"status\":\"running\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
-   "responseHeaders": {
-    "apim-request-id": "3222a00d-c7ed-4716-ba35-2a36221a46dc",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 03 Aug 2021 23:01:07 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
     "x-envoy-upstream-service-time": "6"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.2-preview.1/analyze/jobs/b514bbaa-9e43-468d-819f-2aaf45852708",
+   "url": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/fcfdf80b-1cd3-480a-8836-5761a0e9826c",
    "query": {
-    "$top": "20"
+    "$top": "20",
+    "$skip": "0"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"b514bbaa-9e43-468d-819f-2aaf45852708\",\"lastUpdateDateTime\":\"2021-08-03T23:01:06Z\",\"createdDateTime\":\"2021-08-03T23:01:05Z\",\"expirationDateTime\":\"2021-08-04T23:01:05Z\",\"status\":\"running\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
+   "response": "{\"jobId\":\"fcfdf80b-1cd3-480a-8836-5761a0e9826c\",\"lastUpdateDateTime\":\"2021-10-23T00:57:45Z\",\"createdDateTime\":\"2021-10-23T00:57:45Z\",\"expirationDateTime\":\"2021-10-24T00:57:45Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
    "responseHeaders": {
-    "apim-request-id": "13ef8581-0f4d-49eb-9cd1-7731f6ce5c0a",
+    "apim-request-id": "d27facc6-271d-43d4-828b-99be0287c2fb",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 03 Aug 2021 23:01:09 GMT",
+    "date": "Sat, 23 Oct 2021 00:57:45 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "6"
+    "x-envoy-upstream-service-time": "7"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.2-preview.1/analyze/jobs/b514bbaa-9e43-468d-819f-2aaf45852708",
+   "url": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/fcfdf80b-1cd3-480a-8836-5761a0e9826c",
    "query": {
-    "$top": "20"
+    "$top": "20",
+    "$skip": "0"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"b514bbaa-9e43-468d-819f-2aaf45852708\",\"lastUpdateDateTime\":\"2021-08-03T23:01:06Z\",\"createdDateTime\":\"2021-08-03T23:01:05Z\",\"expirationDateTime\":\"2021-08-04T23:01:05Z\",\"status\":\"running\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
+   "response": "{\"jobId\":\"fcfdf80b-1cd3-480a-8836-5761a0e9826c\",\"lastUpdateDateTime\":\"2021-10-23T00:57:45Z\",\"createdDateTime\":\"2021-10-23T00:57:45Z\",\"expirationDateTime\":\"2021-10-24T00:57:45Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
    "responseHeaders": {
-    "apim-request-id": "2cc01e04-213c-4b13-b858-bdc941074884",
+    "apim-request-id": "483bc0a0-b9d5-4441-aa3a-3d98b65649d3",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 03 Aug 2021 23:01:12 GMT",
+    "date": "Sat, 23 Oct 2021 00:57:46 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "7"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/fcfdf80b-1cd3-480a-8836-5761a0e9826c",
+   "query": {
+    "$top": "20",
+    "$skip": "0"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"fcfdf80b-1cd3-480a-8836-5761a0e9826c\",\"lastUpdateDateTime\":\"2021-10-23T00:57:45Z\",\"createdDateTime\":\"2021-10-23T00:57:45Z\",\"expirationDateTime\":\"2021-10-24T00:57:45Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
+   "responseHeaders": {
+    "apim-request-id": "2fbd5709-a55e-4b21-8a13-325ee55bb947",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Sat, 23 Oct 2021 00:57:49 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
     "x-envoy-upstream-service-time": "8"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.2-preview.1/analyze/jobs/b514bbaa-9e43-468d-819f-2aaf45852708",
+   "url": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/fcfdf80b-1cd3-480a-8836-5761a0e9826c",
    "query": {
-    "$top": "20"
+    "$top": "20",
+    "$skip": "0"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"b514bbaa-9e43-468d-819f-2aaf45852708\",\"lastUpdateDateTime\":\"2021-08-03T23:01:06Z\",\"createdDateTime\":\"2021-08-03T23:01:05Z\",\"expirationDateTime\":\"2021-08-04T23:01:05Z\",\"status\":\"running\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
+   "response": "{\"jobId\":\"fcfdf80b-1cd3-480a-8836-5761a0e9826c\",\"lastUpdateDateTime\":\"2021-10-23T00:57:45Z\",\"createdDateTime\":\"2021-10-23T00:57:45Z\",\"expirationDateTime\":\"2021-10-24T00:57:45Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
    "responseHeaders": {
-    "apim-request-id": "266b82a0-36d8-43ad-91cf-36d535796823",
+    "apim-request-id": "caeba517-37fe-4d78-b047-0724f21f4f9e",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 03 Aug 2021 23:01:14 GMT",
+    "date": "Sat, 23 Oct 2021 00:57:51 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "6"
+    "x-envoy-upstream-service-time": "10"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.2-preview.1/analyze/jobs/b514bbaa-9e43-468d-819f-2aaf45852708",
+   "url": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/fcfdf80b-1cd3-480a-8836-5761a0e9826c",
    "query": {
-    "$top": "20"
+    "$top": "20",
+    "$skip": "0"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"b514bbaa-9e43-468d-819f-2aaf45852708\",\"lastUpdateDateTime\":\"2021-08-03T23:01:06Z\",\"createdDateTime\":\"2021-08-03T23:01:05Z\",\"expirationDateTime\":\"2021-08-04T23:01:05Z\",\"status\":\"running\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
+   "response": "{\"jobId\":\"fcfdf80b-1cd3-480a-8836-5761a0e9826c\",\"lastUpdateDateTime\":\"2021-10-23T00:57:45Z\",\"createdDateTime\":\"2021-10-23T00:57:45Z\",\"expirationDateTime\":\"2021-10-24T00:57:45Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
    "responseHeaders": {
-    "apim-request-id": "6a7496b2-dd81-4f97-b1c7-c668ac2524a2",
+    "apim-request-id": "f0a1f0b1-44a5-4113-9101-239ded30e101",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 03 Aug 2021 23:01:16 GMT",
+    "date": "Sat, 23 Oct 2021 00:57:53 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "7"
+    "x-envoy-upstream-service-time": "68"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.2-preview.1/analyze/jobs/b514bbaa-9e43-468d-819f-2aaf45852708",
+   "url": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/fcfdf80b-1cd3-480a-8836-5761a0e9826c",
    "query": {
-    "$top": "20"
+    "$top": "20",
+    "$skip": "0"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"b514bbaa-9e43-468d-819f-2aaf45852708\",\"lastUpdateDateTime\":\"2021-08-03T23:01:06Z\",\"createdDateTime\":\"2021-08-03T23:01:05Z\",\"expirationDateTime\":\"2021-08-04T23:01:05Z\",\"status\":\"running\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
+   "response": "{\"jobId\":\"fcfdf80b-1cd3-480a-8836-5761a0e9826c\",\"lastUpdateDateTime\":\"2021-10-23T00:57:45Z\",\"createdDateTime\":\"2021-10-23T00:57:45Z\",\"expirationDateTime\":\"2021-10-24T00:57:45Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
    "responseHeaders": {
-    "apim-request-id": "e4ab991d-6fac-470f-b96f-ddc9b771ef1f",
+    "apim-request-id": "eae531ac-08e4-4f37-b518-8fd39143f093",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 03 Aug 2021 23:01:18 GMT",
+    "date": "Sat, 23 Oct 2021 00:57:55 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
     "x-envoy-upstream-service-time": "8"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.2-preview.1/analyze/jobs/b514bbaa-9e43-468d-819f-2aaf45852708",
+   "url": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/fcfdf80b-1cd3-480a-8836-5761a0e9826c",
    "query": {
-    "$top": "20"
+    "$top": "20",
+    "$skip": "0"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"b514bbaa-9e43-468d-819f-2aaf45852708\",\"lastUpdateDateTime\":\"2021-08-03T23:01:06Z\",\"createdDateTime\":\"2021-08-03T23:01:05Z\",\"expirationDateTime\":\"2021-08-04T23:01:05Z\",\"status\":\"running\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
+   "response": "{\"jobId\":\"fcfdf80b-1cd3-480a-8836-5761a0e9826c\",\"lastUpdateDateTime\":\"2021-10-23T00:57:45Z\",\"createdDateTime\":\"2021-10-23T00:57:45Z\",\"expirationDateTime\":\"2021-10-24T00:57:45Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
    "responseHeaders": {
-    "apim-request-id": "14561d41-6dfb-4d93-9808-66d92ebe46b9",
+    "apim-request-id": "70a96682-741b-4afa-8029-26339b87cbb3",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 03 Aug 2021 23:01:20 GMT",
+    "date": "Sat, 23 Oct 2021 00:57:57 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "7"
+    "x-envoy-upstream-service-time": "16"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.2-preview.1/analyze/jobs/b514bbaa-9e43-468d-819f-2aaf45852708",
+   "url": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/fcfdf80b-1cd3-480a-8836-5761a0e9826c",
    "query": {
-    "$top": "20"
+    "$top": "20",
+    "$skip": "0"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"b514bbaa-9e43-468d-819f-2aaf45852708\",\"lastUpdateDateTime\":\"2021-08-03T23:01:06Z\",\"createdDateTime\":\"2021-08-03T23:01:05Z\",\"expirationDateTime\":\"2021-08-04T23:01:05Z\",\"status\":\"running\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
+   "response": "{\"jobId\":\"fcfdf80b-1cd3-480a-8836-5761a0e9826c\",\"lastUpdateDateTime\":\"2021-10-23T00:57:45Z\",\"createdDateTime\":\"2021-10-23T00:57:45Z\",\"expirationDateTime\":\"2021-10-24T00:57:45Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
    "responseHeaders": {
-    "apim-request-id": "13223398-010a-4d1a-b3ff-532ca655ec55",
+    "apim-request-id": "148d91cc-36ac-4ca6-8948-ea516b863027",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 03 Aug 2021 23:01:23 GMT",
+    "date": "Sat, 23 Oct 2021 00:57:59 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "6"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.2-preview.1/analyze/jobs/b514bbaa-9e43-468d-819f-2aaf45852708",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"b514bbaa-9e43-468d-819f-2aaf45852708\",\"lastUpdateDateTime\":\"2021-08-03T23:01:06Z\",\"createdDateTime\":\"2021-08-03T23:01:05Z\",\"expirationDateTime\":\"2021-08-04T23:01:05Z\",\"status\":\"running\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
-   "responseHeaders": {
-    "apim-request-id": "9b72dd9e-638e-4e1f-9b1e-12a664491daf",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 03 Aug 2021 23:01:25 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "6"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.2-preview.1/analyze/jobs/b514bbaa-9e43-468d-819f-2aaf45852708",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"b514bbaa-9e43-468d-819f-2aaf45852708\",\"lastUpdateDateTime\":\"2021-08-03T23:01:06Z\",\"createdDateTime\":\"2021-08-03T23:01:05Z\",\"expirationDateTime\":\"2021-08-04T23:01:05Z\",\"status\":\"running\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
-   "responseHeaders": {
-    "apim-request-id": "7352d1ba-e80e-41d9-b27b-c0b6f24cc662",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 03 Aug 2021 23:01:27 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "19"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.2-preview.1/analyze/jobs/b514bbaa-9e43-468d-819f-2aaf45852708",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"b514bbaa-9e43-468d-819f-2aaf45852708\",\"lastUpdateDateTime\":\"2021-08-03T23:01:06Z\",\"createdDateTime\":\"2021-08-03T23:01:05Z\",\"expirationDateTime\":\"2021-08-04T23:01:05Z\",\"status\":\"running\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
-   "responseHeaders": {
-    "apim-request-id": "29e791d2-b0b6-4fe2-8eec-7ea6d481fb35",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 03 Aug 2021 23:01:29 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "6"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.2-preview.1/analyze/jobs/b514bbaa-9e43-468d-819f-2aaf45852708",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"b514bbaa-9e43-468d-819f-2aaf45852708\",\"lastUpdateDateTime\":\"2021-08-03T23:01:06Z\",\"createdDateTime\":\"2021-08-03T23:01:05Z\",\"expirationDateTime\":\"2021-08-04T23:01:05Z\",\"status\":\"running\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
-   "responseHeaders": {
-    "apim-request-id": "80c7fe17-f814-4e8a-9087-c2e34dc66572",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 03 Aug 2021 23:01:31 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "7"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.2-preview.1/analyze/jobs/b514bbaa-9e43-468d-819f-2aaf45852708",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"b514bbaa-9e43-468d-819f-2aaf45852708\",\"lastUpdateDateTime\":\"2021-08-03T23:01:06Z\",\"createdDateTime\":\"2021-08-03T23:01:05Z\",\"expirationDateTime\":\"2021-08-04T23:01:05Z\",\"status\":\"running\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
-   "responseHeaders": {
-    "apim-request-id": "474c8580-993f-4d1c-9762-0092f1de6f44",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 03 Aug 2021 23:01:33 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
     "x-envoy-upstream-service-time": "8"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.2-preview.1/analyze/jobs/b514bbaa-9e43-468d-819f-2aaf45852708",
+   "url": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/fcfdf80b-1cd3-480a-8836-5761a0e9826c",
    "query": {
-    "$top": "20"
+    "$top": "20",
+    "$skip": "0"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"b514bbaa-9e43-468d-819f-2aaf45852708\",\"lastUpdateDateTime\":\"2021-08-03T23:01:06Z\",\"createdDateTime\":\"2021-08-03T23:01:05Z\",\"expirationDateTime\":\"2021-08-04T23:01:05Z\",\"status\":\"running\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
+   "response": "{\"jobId\":\"fcfdf80b-1cd3-480a-8836-5761a0e9826c\",\"lastUpdateDateTime\":\"2021-10-23T00:58:00Z\",\"createdDateTime\":\"2021-10-23T00:57:45Z\",\"expirationDateTime\":\"2021-10-24T00:57:45Z\",\"status\":\"succeeded\",\"errors\":[],\"tasks\":{\"completed\":1,\"failed\":0,\"inProgress\":0,\"total\":1,\"entityLinkingTasks\":[{\"lastUpdateDateTime\":\"2021-10-23T00:58:00.7197941Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"0\",\"entities\":[{\"bingId\":\"a093e9b9-90f5-a3d5-c4b8-5855e1b01f85\",\"name\":\"Microsoft\",\"matches\":[{\"text\":\"Microsoft\",\"offset\":0,\"length\":9,\"confidenceScore\":0.39}],\"language\":\"en\",\"id\":\"Microsoft\",\"url\":\"https://en.wikipedia.org/wiki/Microsoft\",\"dataSource\":\"Wikipedia\"},{\"bingId\":\"a2e3a3eb-b83e-42f0-bf19-95b4c4c9d3c0\",\"name\":\"Bellevue, Washington\",\"matches\":[{\"text\":\"Bellevue, Washington\",\"offset\":36,\"length\":20,\"confidenceScore\":0.87}],\"language\":\"en\",\"id\":\"Bellevue, Washington\",\"url\":\"https://en.wikipedia.org/wiki/Bellevue,_Washington\",\"dataSource\":\"Wikipedia\"},{\"bingId\":\"19fb6fb4-3c50-f314-30e4-7b5470e08274\",\"name\":\"Briann January\",\"matches\":[{\"text\":\"January\",\"offset\":60,\"length\":7,\"confidenceScore\":0.14}],\"language\":\"en\",\"id\":\"Briann January\",\"url\":\"https://en.wikipedia.org/wiki/Briann_January\",\"dataSource\":\"Wikipedia\"}],\"warnings\":[]},{\"id\":\"1\",\"entities\":[{\"bingId\":\"56ff0719-4791-406b-99de-0e99c3e8cefc\",\"name\":\"Steve Ballmer\",\"matches\":[{\"text\":\"Steve Ballmer\",\"offset\":0,\"length\":13,\"confidenceScore\":0.92}],\"language\":\"en\",\"id\":\"Steve Ballmer\",\"url\":\"https://en.wikipedia.org/wiki/Steve_Ballmer\",\"dataSource\":\"Wikipedia\"},{\"bingId\":\"cf5db860-9fd2-390d-0b6d-5ba856efed49\",\"name\":\"Chief executive officer\",\"matches\":[{\"text\":\"CEO\",\"offset\":30,\"length\":3,\"confidenceScore\":0.25}],\"language\":\"en\",\"id\":\"Chief executive officer\",\"url\":\"https://en.wikipedia.org/wiki/Chief_executive_officer\",\"dataSource\":\"Wikipedia\"},{\"bingId\":\"a093e9b9-90f5-a3d5-c4b8-5855e1b01f85\",\"name\":\"Microsoft\",\"matches\":[{\"text\":\"Microsoft\",\"offset\":37,\"length\":9,\"confidenceScore\":0.36}],\"language\":\"en\",\"id\":\"Microsoft\",\"url\":\"https://en.wikipedia.org/wiki/Microsoft\",\"dataSource\":\"Wikipedia\"},{\"bingId\":\"e23e51ed-d16f-4800-9a31-ed056168b9a2\",\"name\":\"Satya Nadella\",\"matches\":[{\"text\":\"Satya Nadella\",\"offset\":68,\"length\":13,\"confidenceScore\":0.9}],\"language\":\"en\",\"id\":\"Satya Nadella\",\"url\":\"https://en.wikipedia.org/wiki/Satya_Nadella\",\"dataSource\":\"Wikipedia\"}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-06-01\"}}]}}",
    "responseHeaders": {
-    "apim-request-id": "b674d017-86fc-4cbf-b457-cfe2942ab070",
+    "apim-request-id": "f39e113e-f902-42cd-b560-a754f5e18c1e",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 03 Aug 2021 23:01:35 GMT",
+    "date": "Sat, 23 Oct 2021 00:58:01 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "6"
+    "x-envoy-upstream-service-time": "80"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.2-preview.1/analyze/jobs/b514bbaa-9e43-468d-819f-2aaf45852708",
+   "url": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/fcfdf80b-1cd3-480a-8836-5761a0e9826c",
    "query": {
-    "$top": "20"
+    "$top": "20",
+    "$skip": "0"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"b514bbaa-9e43-468d-819f-2aaf45852708\",\"lastUpdateDateTime\":\"2021-08-03T23:01:06Z\",\"createdDateTime\":\"2021-08-03T23:01:05Z\",\"expirationDateTime\":\"2021-08-04T23:01:05Z\",\"status\":\"running\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
+   "response": "{\"jobId\":\"fcfdf80b-1cd3-480a-8836-5761a0e9826c\",\"lastUpdateDateTime\":\"2021-10-23T00:58:00Z\",\"createdDateTime\":\"2021-10-23T00:57:45Z\",\"expirationDateTime\":\"2021-10-24T00:57:45Z\",\"status\":\"succeeded\",\"errors\":[],\"tasks\":{\"completed\":1,\"failed\":0,\"inProgress\":0,\"total\":1,\"entityLinkingTasks\":[{\"lastUpdateDateTime\":\"2021-10-23T00:58:00.7197941Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"0\",\"entities\":[{\"bingId\":\"a093e9b9-90f5-a3d5-c4b8-5855e1b01f85\",\"name\":\"Microsoft\",\"matches\":[{\"text\":\"Microsoft\",\"offset\":0,\"length\":9,\"confidenceScore\":0.39}],\"language\":\"en\",\"id\":\"Microsoft\",\"url\":\"https://en.wikipedia.org/wiki/Microsoft\",\"dataSource\":\"Wikipedia\"},{\"bingId\":\"a2e3a3eb-b83e-42f0-bf19-95b4c4c9d3c0\",\"name\":\"Bellevue, Washington\",\"matches\":[{\"text\":\"Bellevue, Washington\",\"offset\":36,\"length\":20,\"confidenceScore\":0.87}],\"language\":\"en\",\"id\":\"Bellevue, Washington\",\"url\":\"https://en.wikipedia.org/wiki/Bellevue,_Washington\",\"dataSource\":\"Wikipedia\"},{\"bingId\":\"19fb6fb4-3c50-f314-30e4-7b5470e08274\",\"name\":\"Briann January\",\"matches\":[{\"text\":\"January\",\"offset\":60,\"length\":7,\"confidenceScore\":0.14}],\"language\":\"en\",\"id\":\"Briann January\",\"url\":\"https://en.wikipedia.org/wiki/Briann_January\",\"dataSource\":\"Wikipedia\"}],\"warnings\":[]},{\"id\":\"1\",\"entities\":[{\"bingId\":\"56ff0719-4791-406b-99de-0e99c3e8cefc\",\"name\":\"Steve Ballmer\",\"matches\":[{\"text\":\"Steve Ballmer\",\"offset\":0,\"length\":13,\"confidenceScore\":0.92}],\"language\":\"en\",\"id\":\"Steve Ballmer\",\"url\":\"https://en.wikipedia.org/wiki/Steve_Ballmer\",\"dataSource\":\"Wikipedia\"},{\"bingId\":\"cf5db860-9fd2-390d-0b6d-5ba856efed49\",\"name\":\"Chief executive officer\",\"matches\":[{\"text\":\"CEO\",\"offset\":30,\"length\":3,\"confidenceScore\":0.25}],\"language\":\"en\",\"id\":\"Chief executive officer\",\"url\":\"https://en.wikipedia.org/wiki/Chief_executive_officer\",\"dataSource\":\"Wikipedia\"},{\"bingId\":\"a093e9b9-90f5-a3d5-c4b8-5855e1b01f85\",\"name\":\"Microsoft\",\"matches\":[{\"text\":\"Microsoft\",\"offset\":37,\"length\":9,\"confidenceScore\":0.36}],\"language\":\"en\",\"id\":\"Microsoft\",\"url\":\"https://en.wikipedia.org/wiki/Microsoft\",\"dataSource\":\"Wikipedia\"},{\"bingId\":\"e23e51ed-d16f-4800-9a31-ed056168b9a2\",\"name\":\"Satya Nadella\",\"matches\":[{\"text\":\"Satya Nadella\",\"offset\":68,\"length\":13,\"confidenceScore\":0.9}],\"language\":\"en\",\"id\":\"Satya Nadella\",\"url\":\"https://en.wikipedia.org/wiki/Satya_Nadella\",\"dataSource\":\"Wikipedia\"}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-06-01\"}}]}}",
    "responseHeaders": {
-    "apim-request-id": "e61a5347-6cc2-438e-b6ee-6af772f5a58b",
+    "apim-request-id": "c69cc1d6-dca3-4090-be10-47727e103fb1",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 03 Aug 2021 23:01:37 GMT",
+    "date": "Sat, 23 Oct 2021 00:58:01 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "7"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.2-preview.1/analyze/jobs/b514bbaa-9e43-468d-819f-2aaf45852708",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"b514bbaa-9e43-468d-819f-2aaf45852708\",\"lastUpdateDateTime\":\"2021-08-03T23:01:06Z\",\"createdDateTime\":\"2021-08-03T23:01:05Z\",\"expirationDateTime\":\"2021-08-04T23:01:05Z\",\"status\":\"running\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
-   "responseHeaders": {
-    "apim-request-id": "47ef3326-28c0-4e9b-a425-5b2fca4b1db0",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 03 Aug 2021 23:01:39 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "9"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.2-preview.1/analyze/jobs/b514bbaa-9e43-468d-819f-2aaf45852708",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"b514bbaa-9e43-468d-819f-2aaf45852708\",\"lastUpdateDateTime\":\"2021-08-03T23:01:41Z\",\"createdDateTime\":\"2021-08-03T23:01:05Z\",\"expirationDateTime\":\"2021-08-04T23:01:05Z\",\"status\":\"succeeded\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":1,\"failed\":0,\"inProgress\":0,\"total\":1,\"entityLinkingTasks\":[{\"lastUpdateDateTime\":\"2021-08-03T23:01:41.2826294Z\",\"taskName\":\"EntityLinking_latest\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"0\",\"entities\":[{\"bingId\":\"a093e9b9-90f5-a3d5-c4b8-5855e1b01f85\",\"name\":\"Microsoft\",\"matches\":[{\"text\":\"Microsoft\",\"offset\":0,\"length\":9,\"confidenceScore\":0.39}],\"language\":\"en\",\"id\":\"Microsoft\",\"url\":\"https://en.wikipedia.org/wiki/Microsoft\",\"dataSource\":\"Wikipedia\"},{\"bingId\":\"a2e3a3eb-b83e-42f0-bf19-95b4c4c9d3c0\",\"name\":\"Bellevue, Washington\",\"matches\":[{\"text\":\"Bellevue, Washington\",\"offset\":36,\"length\":20,\"confidenceScore\":0.87}],\"language\":\"en\",\"id\":\"Bellevue, Washington\",\"url\":\"https://en.wikipedia.org/wiki/Bellevue,_Washington\",\"dataSource\":\"Wikipedia\"},{\"bingId\":\"19fb6fb4-3c50-f314-30e4-7b5470e08274\",\"name\":\"Briann January\",\"matches\":[{\"text\":\"January\",\"offset\":60,\"length\":7,\"confidenceScore\":0.14}],\"language\":\"en\",\"id\":\"Briann January\",\"url\":\"https://en.wikipedia.org/wiki/Briann_January\",\"dataSource\":\"Wikipedia\"}],\"warnings\":[]},{\"id\":\"1\",\"entities\":[{\"bingId\":\"56ff0719-4791-406b-99de-0e99c3e8cefc\",\"name\":\"Steve Ballmer\",\"matches\":[{\"text\":\"Steve Ballmer\",\"offset\":0,\"length\":13,\"confidenceScore\":0.92}],\"language\":\"en\",\"id\":\"Steve Ballmer\",\"url\":\"https://en.wikipedia.org/wiki/Steve_Ballmer\",\"dataSource\":\"Wikipedia\"},{\"bingId\":\"cf5db860-9fd2-390d-0b6d-5ba856efed49\",\"name\":\"Chief executive officer\",\"matches\":[{\"text\":\"CEO\",\"offset\":30,\"length\":3,\"confidenceScore\":0.25}],\"language\":\"en\",\"id\":\"Chief executive officer\",\"url\":\"https://en.wikipedia.org/wiki/Chief_executive_officer\",\"dataSource\":\"Wikipedia\"},{\"bingId\":\"a093e9b9-90f5-a3d5-c4b8-5855e1b01f85\",\"name\":\"Microsoft\",\"matches\":[{\"text\":\"Microsoft\",\"offset\":37,\"length\":9,\"confidenceScore\":0.36}],\"language\":\"en\",\"id\":\"Microsoft\",\"url\":\"https://en.wikipedia.org/wiki/Microsoft\",\"dataSource\":\"Wikipedia\"},{\"bingId\":\"e23e51ed-d16f-4800-9a31-ed056168b9a2\",\"name\":\"Satya Nadella\",\"matches\":[{\"text\":\"Satya Nadella\",\"offset\":68,\"length\":13,\"confidenceScore\":0.9}],\"language\":\"en\",\"id\":\"Satya Nadella\",\"url\":\"https://en.wikipedia.org/wiki/Satya_Nadella\",\"dataSource\":\"Wikipedia\"}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-06-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "3d885311-39ef-46b8-84e4-fa36fa16dc35",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 03 Aug 2021 23:01:41 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "48"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.2-preview.1/analyze/jobs/b514bbaa-9e43-468d-819f-2aaf45852708",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"b514bbaa-9e43-468d-819f-2aaf45852708\",\"lastUpdateDateTime\":\"2021-08-03T23:01:41Z\",\"createdDateTime\":\"2021-08-03T23:01:05Z\",\"expirationDateTime\":\"2021-08-04T23:01:05Z\",\"status\":\"succeeded\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":1,\"failed\":0,\"inProgress\":0,\"total\":1,\"entityLinkingTasks\":[{\"lastUpdateDateTime\":\"2021-08-03T23:01:41.2826294Z\",\"taskName\":\"EntityLinking_latest\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"0\",\"entities\":[{\"bingId\":\"a093e9b9-90f5-a3d5-c4b8-5855e1b01f85\",\"name\":\"Microsoft\",\"matches\":[{\"text\":\"Microsoft\",\"offset\":0,\"length\":9,\"confidenceScore\":0.39}],\"language\":\"en\",\"id\":\"Microsoft\",\"url\":\"https://en.wikipedia.org/wiki/Microsoft\",\"dataSource\":\"Wikipedia\"},{\"bingId\":\"a2e3a3eb-b83e-42f0-bf19-95b4c4c9d3c0\",\"name\":\"Bellevue, Washington\",\"matches\":[{\"text\":\"Bellevue, Washington\",\"offset\":36,\"length\":20,\"confidenceScore\":0.87}],\"language\":\"en\",\"id\":\"Bellevue, Washington\",\"url\":\"https://en.wikipedia.org/wiki/Bellevue,_Washington\",\"dataSource\":\"Wikipedia\"},{\"bingId\":\"19fb6fb4-3c50-f314-30e4-7b5470e08274\",\"name\":\"Briann January\",\"matches\":[{\"text\":\"January\",\"offset\":60,\"length\":7,\"confidenceScore\":0.14}],\"language\":\"en\",\"id\":\"Briann January\",\"url\":\"https://en.wikipedia.org/wiki/Briann_January\",\"dataSource\":\"Wikipedia\"}],\"warnings\":[]},{\"id\":\"1\",\"entities\":[{\"bingId\":\"56ff0719-4791-406b-99de-0e99c3e8cefc\",\"name\":\"Steve Ballmer\",\"matches\":[{\"text\":\"Steve Ballmer\",\"offset\":0,\"length\":13,\"confidenceScore\":0.92}],\"language\":\"en\",\"id\":\"Steve Ballmer\",\"url\":\"https://en.wikipedia.org/wiki/Steve_Ballmer\",\"dataSource\":\"Wikipedia\"},{\"bingId\":\"cf5db860-9fd2-390d-0b6d-5ba856efed49\",\"name\":\"Chief executive officer\",\"matches\":[{\"text\":\"CEO\",\"offset\":30,\"length\":3,\"confidenceScore\":0.25}],\"language\":\"en\",\"id\":\"Chief executive officer\",\"url\":\"https://en.wikipedia.org/wiki/Chief_executive_officer\",\"dataSource\":\"Wikipedia\"},{\"bingId\":\"a093e9b9-90f5-a3d5-c4b8-5855e1b01f85\",\"name\":\"Microsoft\",\"matches\":[{\"text\":\"Microsoft\",\"offset\":37,\"length\":9,\"confidenceScore\":0.36}],\"language\":\"en\",\"id\":\"Microsoft\",\"url\":\"https://en.wikipedia.org/wiki/Microsoft\",\"dataSource\":\"Wikipedia\"},{\"bingId\":\"e23e51ed-d16f-4800-9a31-ed056168b9a2\",\"name\":\"Satya Nadella\",\"matches\":[{\"text\":\"Satya Nadella\",\"offset\":68,\"length\":13,\"confidenceScore\":0.9}],\"language\":\"en\",\"id\":\"Satya Nadella\",\"url\":\"https://en.wikipedia.org/wiki/Satya_Nadella\",\"dataSource\":\"Wikipedia\"}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-06-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "828110ad-fc1a-40f3-8584-160e3813453d",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 03 Aug 2021 23:01:41 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "55"
+    "x-envoy-upstream-service-time": "148"
    }
   }
  ],
@@ -426,5 +254,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "bf12d1e5f85193b8addbb360077d8088"
+ "hash": "9c5664a52dc41a919dd18eff3d6b217c"
 }
