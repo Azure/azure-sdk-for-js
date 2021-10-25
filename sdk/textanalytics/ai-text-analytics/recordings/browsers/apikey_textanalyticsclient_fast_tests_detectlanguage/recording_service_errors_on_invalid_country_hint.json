@@ -2,17 +2,16 @@
  "recordings": [
   {
    "method": "POST",
-   "url": "https://endpoint/text/analytics/v3.2-preview.1/languages",
+   "url": "https://endpoint/text/analytics/v3.2-preview.2/languages",
    "query": {},
    "requestBody": "{\"documents\":[{\"id\":\"0\",\"text\":\"hello\",\"countryHint\":\"invalidcountry\"}]}",
    "status": 200,
    "response": "{\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid Country Hint.\",\"innererror\":{\"code\":\"InvalidCountryHint\",\"message\":\"Country hint is not valid. Please specify an ISO 3166-1 alpha-2 two letter country code.\"}}}],\"modelVersion\":\"2021-01-05\"}",
    "responseHeaders": {
-    "apim-request-id": "51f7bcde-12fc-471b-8ba3-255f1392be52",
+    "apim-request-id": "5f4ef4d2-6b75-43ab-abd9-b32661fca374",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 03 Aug 2021 22:52:52 GMT",
+    "date": "Sat, 23 Oct 2021 00:50:09 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
     "x-envoy-upstream-service-time": "3"
    }

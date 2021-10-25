@@ -11,35 +11,34 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1331",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 03 Aug 2021 22:59:49 GMT",
+    "date": "Sat, 23 Oct 2021 00:56:43 GMT",
     "expires": "-1",
     "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
-    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+san\"}]}",
+    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+wst\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11898.12 - SCUS ProdSlices",
-    "x-ms-request-id": "dde74c90-065e-42fb-ab0e-d8dc1fce3401"
+    "x-ms-ests-server": "2.1.12171.14 - NCUS ProdSlices",
+    "x-ms-request-id": "b3b93de1-7a2a-491d-a3df-aa19180c0400"
    }
   },
   {
    "method": "POST",
-   "url": "https://endpoint/text/analytics/v3.2-preview.1/keyPhrases",
+   "url": "https://endpoint/text/analytics/v3.2-preview.2/keyPhrases",
    "query": {},
    "requestBody": "{\"documents\":[{\"id\":\"1\",\"text\":\"I had a wonderful trip to Seattle last week and even visited the Space Needle 2 times!\",\"language\":\"en\"},{\"id\":\"2\",\"text\":\"Unfortunately, it rained during my entire trip to Seattle. I didn't even get to visit the Space Needle\",\"language\":\"en\"},{\"id\":\"3\",\"text\":\"I went to see a movie on Saturday and it was perfectly average, nothing more or less than I expected.\",\"language\":\"en\"},{\"id\":\"4\",\"text\":\"I didn't like the last book I read at all.\",\"language\":\"en\"},{\"id\":\"5\",\"text\":\"Los caminos que llevan hasta Monte Rainier son espectaculares y hermosos.\",\"language\":\"es\"},{\"id\":\"6\",\"text\":\"La carretera estaba atascada. Había mucho tráfico el día de ayer.\",\"language\":\"es\"}]}",
    "status": 200,
-   "response": "{\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"wonderful trip\",\"Space Needle\",\"Seattle\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"entire trip\",\"Seattle\",\"Space\",\"Needle\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"movie\",\"Saturday\"],\"warnings\":[]},{\"id\":\"4\",\"keyPhrases\":[\"last book\"],\"warnings\":[]},{\"id\":\"5\",\"keyPhrases\":[\"Los\",\"caminos\",\"Monte\",\"Rainier\"],\"warnings\":[]},{\"id\":\"6\",\"keyPhrases\":[\"mucho tráfico\",\"carretera\",\"ayer\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-06-01\"}",
+   "response": "{\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"wonderful trip\",\"Space Needle\",\"Seattle\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"entire trip\",\"Space Needle\",\"Seattle\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"movie\",\"Saturday\"],\"warnings\":[]},{\"id\":\"4\",\"keyPhrases\":[\"last book\"],\"warnings\":[]},{\"id\":\"5\",\"keyPhrases\":[\"Monte Rainier\",\"caminos\"],\"warnings\":[]},{\"id\":\"6\",\"keyPhrases\":[\"mucho tráfico\",\"día\",\"carretera\",\"ayer\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-06-01\"}",
    "responseHeaders": {
-    "apim-request-id": "1c18f387-c7bd-4886-9b0b-70cb56a3c03b",
+    "apim-request-id": "ca738c44-7e18-4f8e-abef-0f39cd2c4578",
     "content-type": "application/json; charset=utf-8",
     "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=6,CognitiveServices.TextAnalytics.TextRecords=6",
-    "date": "Tue, 03 Aug 2021 22:59:49 GMT",
+    "date": "Sat, 23 Oct 2021 00:56:44 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "41"
+    "x-envoy-upstream-service-time": "23"
    }
   }
  ],
