@@ -693,6 +693,11 @@ export interface NetworkInterface extends Resource {
    */
   readonly primary?: boolean;
   /**
+   * Whether the virtual machine this nic is attached to supports encryption.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly vnetEncryptionSupported?: boolean;
+  /**
    * If the network interface is accelerated networking enabled.
    */
   enableAcceleratedNetworking?: boolean;
@@ -1769,6 +1774,24 @@ export interface GatewayLoadBalancerTunnelInterface {
 }
 
 /**
+ * Individual port mappings for inbound NAT rule created for backend pool.
+ */
+export interface NatRulePortMapping {
+  /**
+   * Name of inbound NAT rule.
+   */
+  inboundNatRuleName?: string;
+  /**
+   * Frontend port.
+   */
+  frontendPort?: number;
+  /**
+   * Backend port.
+   */
+  backendPort?: number;
+}
+
+/**
  * Load balancer backend addresses.
  */
 export interface LoadBalancerBackendAddress {
@@ -1793,6 +1816,11 @@ export interface LoadBalancerBackendAddress {
    * Reference to the frontend ip address configuration defined in regional loadbalancer.
    */
   loadBalancerFrontendIPConfiguration?: SubResource;
+  /**
+   * Collection of inbound NAT rule port mappings.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly inboundNatRulesPortMapping?: NatRulePortMapping[];
   /**
    * Name of the backend address.
    */
@@ -1835,6 +1863,11 @@ export interface BackendAddressPool extends SubResource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly outboundRules?: SubResource[];
+  /**
+   * An array of references to inbound NAT rules that use this backend address pool.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly inboundNatRules?: SubResource[];
   /**
    * The provisioning state of the backend address pool resource. Possible values include:
    * 'Succeeded', 'Updating', 'Deleting', 'Failed'
@@ -4202,7 +4235,7 @@ export interface AzureFirewallSku {
    */
   name?: AzureFirewallSkuName;
   /**
-   * Tier of an Azure Firewall. Possible values include: 'Standard', 'Premium'
+   * Tier of an Azure Firewall. Possible values include: 'Standard', 'Premium', 'Basic'
    */
   tier?: AzureFirewallSkuTier;
 }
@@ -4599,12 +4632,12 @@ export interface CustomIpPrefix extends Resource {
   /**
    * The Parent CustomIpPrefix for IPv6 /64 CustomIpPrefix.
    */
-  customIpPrefixParent?: CustomIpPrefix;
+  customIpPrefixParent?: SubResource;
   /**
    * The list of all Children for IPv6 /48 CustomIpPrefix.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly childCustomIpPrefixes?: CustomIpPrefix[];
+  readonly childCustomIpPrefixes?: SubResource[];
   /**
    * The commissioned state of the Custom IP Prefix. Possible values include: 'Provisioning',
    * 'Provisioned', 'Commissioning', 'Commissioned', 'Decommissioning', 'Deprovisioning'
@@ -6147,7 +6180,7 @@ export interface FirewallPolicyTransportSecurity {
  */
 export interface FirewallPolicySku {
   /**
-   * Tier of Firewall Policy. Possible values include: 'Standard', 'Premium'
+   * Tier of Firewall Policy. Possible values include: 'Standard', 'Premium', 'Basic'
    */
   tier?: FirewallPolicySkuTier;
 }
@@ -6550,6 +6583,186 @@ export interface NetworkRule {
 }
 
 /**
+ * Will contain the filter name and values to operate on
+ */
+export interface FilterItems {
+  /**
+   * The name of the field we would like to filter
+   */
+  field?: string;
+  /**
+   * List of values to filter the current field by
+   */
+  values?: string[];
+}
+
+/**
+ * Describes a column to sort
+ */
+export interface OrderBy {
+  /**
+   * Describes the actual column name to sort by
+   */
+  field?: string;
+  /**
+   * Describes if results should be in ascending/descending order. Possible values include:
+   * 'Ascending', 'Descending'
+   */
+  order?: Order;
+}
+
+/**
+ * Will describe the query to run against the IDPS signatures DB
+ */
+export interface IDPSQueryObject {
+  /**
+   * Contain all filters names and values
+   */
+  filters?: FilterItems[];
+  /**
+   * Search term in all columns
+   */
+  search?: string;
+  /**
+   * Column to sort response by
+   */
+  orderBy?: OrderBy;
+  /**
+   * The number of the results to return in each page
+   */
+  resultsPerPage?: number;
+  /**
+   * The number of records matching the filter to skip
+   */
+  skip?: number;
+}
+
+/**
+ * An interface representing SingleQueryResult.
+ */
+export interface SingleQueryResult {
+  /**
+   * The ID of the signature
+   */
+  signatureId?: number;
+  /**
+   * The current mode enforced, 0 - Disabled, 1 - Alert, 2 -Deny
+   */
+  mode?: number;
+  /**
+   * Describes the severity of signature: 1 - Low, 2 - Medium, 3 - High
+   */
+  severity?: number;
+  /**
+   * Describes in which direction signature is being enforced: 0 - Inbound, 1 - OutBound, 2 -
+   * Bidirectional
+   */
+  direction?: number;
+  /**
+   * Describes the groups the signature belongs to
+   */
+  group?: string;
+  /**
+   * Describes what is the signature enforces
+   */
+  description?: string;
+  /**
+   * Describes the protocol the signatures is being enforced in
+   */
+  protocol?: string;
+  /**
+   * Describes the list of source ports related to this signature
+   */
+  sourcePorts?: string[];
+  /**
+   * Describes the list of destination ports related to this signature
+   */
+  destinationPorts?: string[];
+  /**
+   * Describes the last updated time of the signature (provided from 3rd party vendor)
+   */
+  lastUpdated?: string;
+  /**
+   * Describes if this override is inherited from base policy or not
+   */
+  inheritedFromParentPolicy?: boolean;
+}
+
+/**
+ * Query result
+ */
+export interface QueryResults {
+  /**
+   * Number of total records matching the query.
+   */
+  matchingRecordsCount?: number;
+  /**
+   * Array containing the results of the query
+   */
+  signatures?: SingleQueryResult[];
+}
+
+/**
+ * Will contain the properties of the resource (the actual signature overrides)
+ */
+export interface SignaturesOverridesProperties {
+  signatures?: { [propertyName: string]: string };
+}
+
+/**
+ * Contains all specific policy signatures overrides for the IDPS
+ */
+export interface SignaturesOverrides extends BaseResource {
+  /**
+   * Contains the name of the resource (default)
+   */
+  name?: string;
+  /**
+   * Will contain the resource id of the signature override resource
+   */
+  id?: string;
+  /**
+   * Will contain the type of the resource:
+   * Microsoft.Network/firewallPolicies/intrusionDetectionSignaturesOverrides
+   */
+  type?: string;
+  /**
+   * Will contain the properties of the resource (the actual signature overrides)
+   */
+  properties?: SignaturesOverridesProperties;
+}
+
+/**
+ * Describes an object containing an array with a single item
+ */
+export interface SignaturesOverridesList {
+  /**
+   * Describes a list consisting exactly one item describing the policy's signature override status
+   */
+  value?: SignaturesOverrides[];
+}
+
+/**
+ * Describes the filter values possibles for a given column
+ */
+export interface SignatureOverridesFilterValuesQuery {
+  /**
+   * Describes the name of the column which values will be returned
+   */
+  filterName?: string;
+}
+
+/**
+ * Describes the list of all possible values for a specific filter value
+ */
+export interface SignatureOverridesFilterValuesResponse {
+  /**
+   * Describes the possible values
+   */
+  filterValues?: string[];
+}
+
+/**
  * IpAllocation resource.
  */
 export interface IpAllocation extends Resource {
@@ -6947,7 +7160,7 @@ export interface LoadBalancer extends Resource {
    * Defines an external port range for inbound NAT to a single backend port on NICs associated
    * with a load balancer. Inbound NAT rules are created automatically for each NIC associated with
    * the Load Balancer using an external port from this range. Defining an Inbound NAT pool on your
-   * Load Balancer is mutually exclusive with defining inbound Nat rules. Inbound NAT pools are
+   * Load Balancer is mutually exclusive with defining inbound NAT rules. Inbound NAT pools are
    * referenced from virtual machine scale sets. NICs that are associated with individual virtual
    * machines cannot reference an inbound NAT pool. They have to reference individual inbound NAT
    * rules.
@@ -6997,6 +7210,58 @@ export interface LoadBalancerVipSwapRequest {
    * A list of frontend IP configuration resources that should swap VIPs.
    */
   frontendIPConfigurations?: LoadBalancerVipSwapRequestFrontendIPConfiguration[];
+}
+
+/**
+ * The request for a QueryInboundNatRulePortMapping API. Either IpConfiguration or IpAddress should
+ * be set
+ */
+export interface QueryInboundNatRulePortMappingRequest {
+  /**
+   * NetworkInterfaceIPConfiguration set in load balancer backend address.
+   */
+  ipConfiguration?: SubResource;
+  /**
+   * IP address set in load balancer backend address.
+   */
+  ipAddress?: string;
+}
+
+/**
+ * Individual port mappings for inbound NAT rule created for backend pool.
+ */
+export interface InboundNatRulePortMapping {
+  /**
+   * Name of inbound NAT rule.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly inboundNatRuleName?: string;
+  /**
+   * The reference to the transport protocol used by the inbound NAT rule. Possible values include:
+   * 'Udp', 'Tcp', 'All'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly protocol?: TransportProtocol;
+  /**
+   * Frontend port.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly frontendPort?: number;
+  /**
+   * Backend port.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly backendPort?: number;
+}
+
+/**
+ * The response for a QueryInboundNatRulePortMapping API.
+ */
+export interface BackendAddressInboundNatRulePortMappings {
+  /**
+   * Collection of inbound NAT rule port mappings.
+   */
+  inboundNatRulePortMappings?: InboundNatRulePortMapping[];
 }
 
 /**
@@ -10143,6 +10408,22 @@ export interface VirtualNetworkBgpCommunities {
 }
 
 /**
+ * Indicates if encryption is enabled on virtual network and if VM without encryption is allowed in
+ * encrypted VNet.
+ */
+export interface VirtualNetworkEncryption {
+  /**
+   * Indicates if encryption is enabled on the virtual network.
+   */
+  enabled: boolean;
+  /**
+   * If the encrypted VNet allows VM that does not support encryption. Possible values include:
+   * 'DropUnencrypted', 'AllowUnencrypted'
+   */
+  enforcement?: VirtualNetworkEncryptionEnforcement;
+}
+
+/**
  * Peerings in a virtual network resource.
  */
 export interface VirtualNetworkPeering extends SubResource {
@@ -10185,6 +10466,11 @@ export interface VirtualNetworkPeering extends SubResource {
    * The reference to the remote virtual network's Bgp Communities.
    */
   remoteBgpCommunities?: VirtualNetworkBgpCommunities;
+  /**
+   * The reference to the remote virtual network's encryption
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly remoteVirtualNetworkEncryption?: VirtualNetworkEncryption;
   /**
    * The status of the virtual network peering. Possible values include: 'Initiated', 'Connected',
    * 'Disconnected'
@@ -10326,6 +10612,11 @@ export interface VirtualNetwork extends Resource {
    * Bgp Communities sent over ExpressRoute with each route corresponding to a prefix in this VNET.
    */
   bgpCommunities?: VirtualNetworkBgpCommunities;
+  /**
+   * Indicates if encryption is enabled on virtual network and if VM without encryption is allowed
+   * in encrypted VNet.
+   */
+  encryption?: VirtualNetworkEncryption;
   /**
    * Array of IpAllocation which reference this VNET.
    */
@@ -10498,6 +10789,10 @@ export interface VpnNatRuleMapping {
    * Address space for Vpn NatRule mapping.
    */
   addressSpace?: string;
+  /**
+   * Port range for Vpn NatRule mapping.
+   */
+  portRange?: string;
 }
 
 /**
@@ -13248,6 +13543,56 @@ export interface EffectiveRoutesParameters {
 }
 
 /**
+ * The routing policy object used in a RoutingIntent resource.
+ */
+export interface RoutingPolicy {
+  /**
+   * The unique name for the routing policy.
+   */
+  name: string;
+  /**
+   * List of all destinations which this routing policy is applicable to (for example: Internet,
+   * PrivateTraffic).
+   */
+  destinations: string[];
+  /**
+   * The next hop resource id on which this routing policy is applicable to.
+   */
+  nextHop: string;
+}
+
+/**
+ * The routing intent child resource of a Virtual hub.
+ */
+export interface RoutingIntent extends SubResource {
+  /**
+   * List of routing policies.
+   */
+  routingPolicies?: RoutingPolicy[];
+  /**
+   * The provisioning state of the RoutingIntent resource. Possible values include: 'Succeeded',
+   * 'Updating', 'Deleting', 'Failed'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * The name of the resource that is unique within a resource group. This name can be used to
+   * access the resource.
+   */
+  name?: string;
+  /**
+   * A unique read-only string that changes whenever the resource is updated.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly etag?: string;
+  /**
+   * Resource type.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+}
+
+/**
  * Defines contents of a web application firewall global configuration.
  */
 export interface PolicySettings {
@@ -13350,12 +13695,56 @@ export interface WebApplicationFirewallCustomRule {
 }
 
 /**
+ * Defines a managed rule to use for exclusion.
+ */
+export interface ExclusionManagedRule {
+  /**
+   * Identifier for the managed rule.
+   */
+  ruleId: string;
+}
+
+/**
+ * Defines a managed rule group to use for exclusion.
+ */
+export interface ExclusionManagedRuleGroup {
+  /**
+   * The managed rule group for exclusion.
+   */
+  ruleGroupName: string;
+  /**
+   * List of rules that will be excluded. If none specified, all rules in the group will be
+   * excluded.
+   */
+  rules?: ExclusionManagedRule[];
+}
+
+/**
+ * Defines a managed rule set for Exclusions.
+ */
+export interface ExclusionManagedRuleSet {
+  /**
+   * Defines the rule set type to use.
+   */
+  ruleSetType: string;
+  /**
+   * Defines the version of the rule set to use.
+   */
+  ruleSetVersion: string;
+  /**
+   * Defines the rule groups to apply to the rule set.
+   */
+  ruleGroups?: ExclusionManagedRuleGroup[];
+}
+
+/**
  * Allow to exclude some variable satisfy the condition for the WAF check.
  */
 export interface OwaspCrsExclusionEntry {
   /**
    * The variable to be excluded. Possible values include: 'RequestHeaderNames',
-   * 'RequestCookieNames', 'RequestArgNames'
+   * 'RequestCookieNames', 'RequestArgNames', 'RequestHeaderKeys', 'RequestHeaderValues',
+   * 'RequestCookieKeys', 'RequestCookieValues', 'RequestArgKeys', 'RequestArgValues'
    */
   matchVariable: OwaspCrsExclusionEntryMatchVariable;
   /**
@@ -13369,6 +13758,10 @@ export interface OwaspCrsExclusionEntry {
    * this exclusion applies to.
    */
   selector: string;
+  /**
+   * The managed rule sets that are associated with the exclusion.
+   */
+  exclusionManagedRuleSets?: ExclusionManagedRuleSet[];
 }
 
 /**
@@ -15349,6 +15742,18 @@ export interface ListHubRouteTablesResult extends Array<HubRouteTable> {
 
 /**
  * @interface
+ * List of the routing intent result and a URL nextLink to get the next set of results.
+ * @extends Array<RoutingIntent>
+ */
+export interface ListRoutingIntentResult extends Array<RoutingIntent> {
+  /**
+   * URL to get the next set of operation list results if there are any.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
  * Result of the request to list WebApplicationFirewallPolicies. It contains a list of
  * WebApplicationFirewallPolicy objects and a URL link to get the next set of results.
  * @extends Array<WebApplicationFirewallPolicy>
@@ -15733,11 +16138,11 @@ export type AzureFirewallSkuName = 'AZFW_VNet' | 'AZFW_Hub';
 
 /**
  * Defines values for AzureFirewallSkuTier.
- * Possible values include: 'Standard', 'Premium'
+ * Possible values include: 'Standard', 'Premium', 'Basic'
  * @readonly
  * @enum {string}
  */
-export type AzureFirewallSkuTier = 'Standard' | 'Premium';
+export type AzureFirewallSkuTier = 'Standard' | 'Premium' | 'Basic';
 
 /**
  * Defines values for BastionHostSkuName.
@@ -15918,11 +16323,11 @@ export type FirewallPolicyIntrusionDetectionProtocol = 'TCP' | 'UDP' | 'ICMP' | 
 
 /**
  * Defines values for FirewallPolicySkuTier.
- * Possible values include: 'Standard', 'Premium'
+ * Possible values include: 'Standard', 'Premium', 'Basic'
  * @readonly
  * @enum {string}
  */
-export type FirewallPolicySkuTier = 'Standard' | 'Premium';
+export type FirewallPolicySkuTier = 'Standard' | 'Premium' | 'Basic';
 
 /**
  * Defines values for FirewallPolicyNatRuleCollectionActionType.
@@ -16313,6 +16718,14 @@ export type SecurityProviderName = 'ZScaler' | 'IBoss' | 'Checkpoint';
 export type SecurityPartnerProviderConnectionStatus = 'Unknown' | 'PartiallyConnected' | 'Connected' | 'NotConnected';
 
 /**
+ * Defines values for VirtualNetworkEncryptionEnforcement.
+ * Possible values include: 'DropUnencrypted', 'AllowUnencrypted'
+ * @readonly
+ * @enum {string}
+ */
+export type VirtualNetworkEncryptionEnforcement = 'DropUnencrypted' | 'AllowUnencrypted';
+
+/**
  * Defines values for VirtualNetworkPeeringState.
  * Possible values include: 'Initiated', 'Connected', 'Disconnected'
  * @readonly
@@ -16653,11 +17066,13 @@ export type WebApplicationFirewallPolicyResourceState = 'Creating' | 'Enabling' 
 
 /**
  * Defines values for OwaspCrsExclusionEntryMatchVariable.
- * Possible values include: 'RequestHeaderNames', 'RequestCookieNames', 'RequestArgNames'
+ * Possible values include: 'RequestHeaderNames', 'RequestCookieNames', 'RequestArgNames',
+ * 'RequestHeaderKeys', 'RequestHeaderValues', 'RequestCookieKeys', 'RequestCookieValues',
+ * 'RequestArgKeys', 'RequestArgValues'
  * @readonly
  * @enum {string}
  */
-export type OwaspCrsExclusionEntryMatchVariable = 'RequestHeaderNames' | 'RequestCookieNames' | 'RequestArgNames';
+export type OwaspCrsExclusionEntryMatchVariable = 'RequestHeaderNames' | 'RequestCookieNames' | 'RequestArgNames' | 'RequestHeaderKeys' | 'RequestHeaderValues' | 'RequestCookieKeys' | 'RequestCookieValues' | 'RequestArgKeys' | 'RequestArgValues';
 
 /**
  * Defines values for OwaspCrsExclusionEntrySelectorMatchOperator.
@@ -16682,6 +17097,14 @@ export type ManagedRuleEnabledState = 'Disabled';
  * @enum {string}
  */
 export type SyncRemoteAddressSpace = 'true';
+
+/**
+ * Defines values for Order.
+ * Possible values include: 'Ascending', 'Descending'
+ * @readonly
+ * @enum {string}
+ */
+export type Order = 'Ascending' | 'Descending';
 
 /**
  * Contains response data for the get operation.
@@ -21405,6 +21828,126 @@ export type FirewallPolicyRuleCollectionGroupsListNextResponse = FirewallPolicyR
 };
 
 /**
+ * Contains response data for the list operation.
+ */
+export type FirewallPolicyIdpsSignaturesListResponse = QueryResults & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: QueryResults;
+    };
+};
+
+/**
+ * Contains response data for the patch operation.
+ */
+export type FirewallPolicyIdpsSignaturesOverridesPatchResponse = SignaturesOverrides & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SignaturesOverrides;
+    };
+};
+
+/**
+ * Contains response data for the put operation.
+ */
+export type FirewallPolicyIdpsSignaturesOverridesPutResponse = SignaturesOverrides & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SignaturesOverrides;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type FirewallPolicyIdpsSignaturesOverridesGetResponse = SignaturesOverrides & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SignaturesOverrides;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type FirewallPolicyIdpsSignaturesOverridesListResponse = SignaturesOverridesList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SignaturesOverridesList;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type FirewallPolicyIdpsSignaturesFilterValuesListResponse = SignatureOverridesFilterValuesResponse & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SignatureOverridesFilterValuesResponse;
+    };
+};
+
+/**
  * Contains response data for the get operation.
  */
 export type IpAllocationsGetResponse = IpAllocation & {
@@ -21825,6 +22368,26 @@ export type LoadBalancersListResponse = LoadBalancerListResult & {
 };
 
 /**
+ * Contains response data for the listInboundNatRulePortMappings operation.
+ */
+export type LoadBalancersListInboundNatRulePortMappingsResponse = BackendAddressInboundNatRulePortMappings & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: BackendAddressInboundNatRulePortMappings;
+    };
+};
+
+/**
  * Contains response data for the beginCreateOrUpdate operation.
  */
 export type LoadBalancersBeginCreateOrUpdateResponse = LoadBalancer & {
@@ -21841,6 +22404,26 @@ export type LoadBalancersBeginCreateOrUpdateResponse = LoadBalancer & {
        * The response body as parsed JSON or XML
        */
       parsedBody: LoadBalancer;
+    };
+};
+
+/**
+ * Contains response data for the beginListInboundNatRulePortMappings operation.
+ */
+export type LoadBalancersBeginListInboundNatRulePortMappingsResponse = BackendAddressInboundNatRulePortMappings & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: BackendAddressInboundNatRulePortMappings;
     };
 };
 
@@ -31301,6 +31884,106 @@ export type HubRouteTablesListNextResponse = ListHubRouteTablesResult & {
        * The response body as parsed JSON or XML
        */
       parsedBody: ListHubRouteTablesResult;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type RoutingIntentCreateOrUpdateResponse = RoutingIntent & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RoutingIntent;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type RoutingIntentGetResponse = RoutingIntent & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RoutingIntent;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type RoutingIntentListResponse = ListRoutingIntentResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ListRoutingIntentResult;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateOrUpdate operation.
+ */
+export type RoutingIntentBeginCreateOrUpdateResponse = RoutingIntent & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RoutingIntent;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type RoutingIntentListNextResponse = ListRoutingIntentResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ListRoutingIntentResult;
     };
 };
 

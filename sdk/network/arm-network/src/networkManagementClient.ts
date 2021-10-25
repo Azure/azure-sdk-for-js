@@ -50,6 +50,9 @@ class NetworkManagementClient extends NetworkManagementClientContext {
   expressRouteLinks: operations.ExpressRouteLinks;
   firewallPolicies: operations.FirewallPolicies;
   firewallPolicyRuleCollectionGroups: operations.FirewallPolicyRuleCollectionGroups;
+  firewallPolicyIdpsSignatures: operations.FirewallPolicyIdpsSignatures;
+  firewallPolicyIdpsSignaturesOverrides: operations.FirewallPolicyIdpsSignaturesOverrides;
+  firewallPolicyIdpsSignaturesFilterValues: operations.FirewallPolicyIdpsSignaturesFilterValues;
   ipAllocations: operations.IpAllocations;
   ipGroups: operations.IpGroups;
   loadBalancers: operations.LoadBalancers;
@@ -126,6 +129,7 @@ class NetworkManagementClient extends NetworkManagementClientContext {
   virtualHubBgpConnections: operations.VirtualHubBgpConnections;
   virtualHubIpConfiguration: operations.VirtualHubIpConfiguration;
   hubRouteTables: operations.HubRouteTables;
+  routingIntent: operations.RoutingIntentOperations;
   webApplicationFirewallPolicies: operations.WebApplicationFirewallPolicies;
 
   /**
@@ -173,6 +177,9 @@ class NetworkManagementClient extends NetworkManagementClientContext {
     this.expressRouteLinks = new operations.ExpressRouteLinks(this);
     this.firewallPolicies = new operations.FirewallPolicies(this);
     this.firewallPolicyRuleCollectionGroups = new operations.FirewallPolicyRuleCollectionGroups(this);
+    this.firewallPolicyIdpsSignatures = new operations.FirewallPolicyIdpsSignatures(this);
+    this.firewallPolicyIdpsSignaturesOverrides = new operations.FirewallPolicyIdpsSignaturesOverrides(this);
+    this.firewallPolicyIdpsSignaturesFilterValues = new operations.FirewallPolicyIdpsSignaturesFilterValues(this);
     this.ipAllocations = new operations.IpAllocations(this);
     this.ipGroups = new operations.IpGroups(this);
     this.loadBalancers = new operations.LoadBalancers(this);
@@ -249,6 +256,7 @@ class NetworkManagementClient extends NetworkManagementClientContext {
     this.virtualHubBgpConnections = new operations.VirtualHubBgpConnections(this);
     this.virtualHubIpConfiguration = new operations.VirtualHubIpConfiguration(this);
     this.hubRouteTables = new operations.HubRouteTables(this);
+    this.routingIntent = new operations.RoutingIntentOperations(this);
     this.webApplicationFirewallPolicies = new operations.WebApplicationFirewallPolicies(this);
   }
 
