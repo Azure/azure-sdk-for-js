@@ -32,9 +32,6 @@ export interface ContactInformation {
 }
 
 // @public
-export type ContentType = "ringTones" | "smsChat" | "video" | "loyaltyProgramPointsPrizes" | "gifting" | "inApplicationBilling" | "textToScreen" | "games" | "audioChat" | "mmsPictures" | "sweepstakesContestAuction" | "financialBanking" | "premiumWap" | "queryService" | "wallpaperScreensaver" | "voting" | "application" | "mobileGivingDonations" | "coupons" | "loyaltyProgram" | "noPointsPrizes" | "informationalAlerts" | "microBilling" | "trivia" | "entertainmentAlerts" | "other";
-
-// @public
 export interface CustomerCareInformation {
     email?: string;
     tollFreeNumber?: string;
@@ -47,27 +44,44 @@ export type GetPurchasedPhoneNumberOptions = OperationOptions;
 export interface ListPurchasedPhoneNumbersOptions extends OperationOptions {
 }
 
+// @public
+export type MessageContentCategory = "ringTones" | "smsChat" | "video" | "loyaltyProgramPointsPrizes" | "gifting" | "inApplicationBilling" | "textToScreen" | "games" | "audioChat" | "mmsPictures" | "sweepstakesContestAuction" | "financialBanking" | "premiumWap" | "queryService" | "wallpaperScreensaver" | "voting" | "application" | "mobileGivingDonations" | "coupons" | "loyaltyProgram" | "noPointsPrizes" | "informationalAlerts" | "microBilling" | "trivia" | "entertainmentAlerts" | "other";
+
 // @public (undocumented)
 export interface MessageDetails {
     // (undocumented)
     confirmationMessage?: string;
-    contentTypes?: ContentType[];
+    directionality?: MessageDirectionality;
+    estimatedRampUpTimeInDays?: number;
+    helpMessage?: string;
     // (undocumented)
     optInMessage?: string;
     optInReply?: string;
+    optOutMessage?: string;
     recurrence?: Recurrence;
-    types?: MessageType[];
-    useCase?: UseCase;
+    supportedProtocols?: MessageProtocol[];
+    useCases?: UseCase[];
 }
 
 // @public
-export type MessageType = "sms" | "mms";
+export type MessageDirection = "toUser" | "fromUser";
 
 // @public
-export interface Note {
-    date?: Date;
-    message?: string;
+export type MessageDirectionality = "oneWay" | "twoWay";
+
+// @public
+export interface MessageExample {
+    direction?: MessageDirection;
+    text?: string;
 }
+
+// @public
+export interface MessageExampleSequence {
+    messages?: MessageExample[];
+}
+
+// @public
+export type MessageProtocol = "sms" | "mms";
 
 // @public
 export type NumberType = "shortCode" | "alphaId";
@@ -106,10 +120,16 @@ export interface ReleasePhoneNumberResult {
 }
 
 // @public
+export interface ReviewNote {
+    date?: Date;
+    message?: string;
+}
+
+// @public
 export interface ShortCode {
     countryCode?: string;
     number?: string;
-    numberType?: NumberType;
+    numberType?: ShortCodeNumberType;
     programBriefIds?: string[];
     purchaseDate?: Date;
 }
@@ -120,6 +140,9 @@ export interface ShortCodeCost {
     billingFrequency: BillingFrequency;
     currencyCode: string;
 }
+
+// @public
+export type ShortCodeNumberType = string;
 
 // @public (undocumented)
 export class ShortCodesClient {
@@ -157,15 +180,18 @@ export interface ShortCodesUpsertUSProgramBriefOptionalParams extends coreHttp.O
 
 // @public (undocumented)
 export interface TrafficDetails {
-    estimatedVolume?: number;
     isSpiky?: boolean;
     monthlyAverageMessagesFromUser?: number;
     monthlyAverageMessagesToUser?: number;
     spikeDetails?: string;
+    totalMonthlyVolume?: number;
 }
 
 // @public
-export type UseCase = "oneWay" | "twoWay";
+export interface UseCase {
+    contentCategory?: MessageContentCategory;
+    examples?: MessageExampleSequence[];
+}
 
 // @public
 export interface USProgramBrief {
@@ -175,10 +201,10 @@ export interface USProgramBrief {
     id: string;
     // (undocumented)
     messageDetails?: MessageDetails;
-    notes?: Note[];
     number?: string;
     // (undocumented)
     programDetails?: ProgramDetails;
+    reviewNotes?: ReviewNote[];
     status?: ProgramBriefStatus;
     statusUpdatedDate?: Date;
     submissionDate?: Date;
