@@ -209,11 +209,6 @@ export interface WebPubSubEventHandlerOptions {
   path?: string;
 
   /**
-   * Configures if you'd like to dump the incoming HTTP request.
-   */
-  dumpRequest?: boolean;
-
-  /**
    * Handle 'connect' event, the service waits for the response to proceed.
    */
   handleConnect?: (connectRequest: ConnectRequest, connectResponse: ConnectResponseHandler) => void;
@@ -236,4 +231,9 @@ export interface WebPubSubEventHandlerOptions {
    * Event triggers for "disconnected" unblocking event. This is an unblocking event and the service does not wait for the response.
    */
   onDisconnected?: (disconnectedRequest: DisconnectedRequest) => void;
+
+  /**
+   * If not specified, by default allow all the endpoints, otherwise only allow specified endpoints
+   */
+  allowedEndpoints?: string[];
 }

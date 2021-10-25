@@ -77,21 +77,20 @@ export interface UserEventResponseHandler {
 
 // @public
 export class WebPubSubEventHandler {
-    constructor(hub: string, allowedEndpoints: string[], options?: WebPubSubEventHandlerOptions);
+    constructor(hub: string, options?: WebPubSubEventHandlerOptions);
     getMiddleware(): express.RequestHandler;
     readonly path: string;
 }
 
 // @public
 export interface WebPubSubEventHandlerOptions {
-    dumpRequest?: boolean;
+    allowedEndpoints?: string[];
     handleConnect?: (connectRequest: ConnectRequest, connectResponse: ConnectResponseHandler) => void;
     handleUserEvent?: (userEventRequest: UserEventRequest, userEventResponse: UserEventResponseHandler) => void;
     onConnected?: (connectedRequest: ConnectedRequest) => void;
     onDisconnected?: (disconnectedRequest: DisconnectedRequest) => void;
     path?: string;
 }
-
 
 // (No @packageDocumentation comment for this package)
 
