@@ -107,6 +107,7 @@ specifiers:
   '@rush-temp/perf-storage-blob': file:./projects/perf-storage-blob.tgz
   '@rush-temp/perf-storage-file-datalake': file:./projects/perf-storage-file-datalake.tgz
   '@rush-temp/perf-storage-file-share': file:./projects/perf-storage-file-share.tgz
+  '@rush-temp/perf-template': file:./projects/perf-template.tgz
   '@rush-temp/purview-account': file:./projects/purview-account.tgz
   '@rush-temp/purview-administration': file:./projects/purview-administration.tgz
   '@rush-temp/purview-catalog': file:./projects/purview-catalog.tgz
@@ -244,6 +245,7 @@ dependencies:
   '@rush-temp/perf-storage-blob': file:projects/perf-storage-blob.tgz
   '@rush-temp/perf-storage-file-datalake': file:projects/perf-storage-file-datalake.tgz
   '@rush-temp/perf-storage-file-share': file:projects/perf-storage-file-share.tgz
+  '@rush-temp/perf-template': file:projects/perf-template.tgz
   '@rush-temp/purview-account': file:projects/purview-account.tgz
   '@rush-temp/purview-administration': file:projects/purview-administration.tgz
   '@rush-temp/purview-catalog': file:projects/purview-catalog.tgz
@@ -1558,6 +1560,7 @@ packages:
   /@opentelemetry/node/0.22.0_@opentelemetry+api@1.0.2:
     resolution: {integrity: sha512-+HhGbDruQ7cwejVOIYyxRa28uosnG8W95NiQZ6qE8PXXPsDSyGeftAPbtYpGit0H2f5hrVcMlwmWHeAo9xkSLA==}
     engines: {node: '>=8.0.0'}
+    deprecated: Package renamed to @opentelemetry/sdk-trace-node
     peerDependencies:
       '@opentelemetry/api': ^1.0.0
     dependencies:
@@ -10782,7 +10785,7 @@ packages:
     dev: false
 
   file:projects/event-hubs.tgz:
-    resolution: {integrity: sha512-X6hU9D0COSgqBdE0v5ubVDlylLhVlTTtohW9ID8uxNtxuaxS+xkW/5gR+IMsfQtmt8CzUZD95yuWwlDF/O6w8Q==, tarball: file:projects/event-hubs.tgz}
+    resolution: {integrity: sha512-v7VGuPpThkXKi4lvegedKIKc7/UNBR2Id4Kz8b7amuUUzVd99XOaC0ihwQd3xca4DZq1lL1efjKTIlqgj5wL0Q==, tarball: file:projects/event-hubs.tgz}
     name: '@rush-temp/event-hubs'
     version: 0.0.0
     dependencies:
@@ -11814,7 +11817,7 @@ packages:
     dev: false
 
   file:projects/perf-ai-form-recognizer.tgz:
-    resolution: {integrity: sha512-NvAj3Og1OfYiQM+8BBr+VbqTrH7eR0nhPEZIHxXkwPNioxV8uBbf+EyN9WPMRVPNx1Fnugr4NnbxZqKBarUvkQ==, tarball: file:projects/perf-ai-form-recognizer.tgz}
+    resolution: {integrity: sha512-XJPp5TcRwcs4cAaqNLC1UVbjBundpSraUBkEJd8rwjzwBv/1kuwyifE4tM50iOXLlB+bQFI5H5amLhDKMHjmJw==, tarball: file:projects/perf-ai-form-recognizer.tgz}
     name: '@rush-temp/perf-ai-form-recognizer'
     version: 0.0.0
     dependencies:
@@ -11836,7 +11839,7 @@ packages:
     dev: false
 
   file:projects/perf-ai-metrics-advisor.tgz:
-    resolution: {integrity: sha512-+Bstyqsel7Lr1E0VZpUTGOyaIqVQYgTHMVqzPxAFLQ8ODpxYfwBPbrbyWelQcPVva3nKFMTHYJTth7JhyU93Hw==, tarball: file:projects/perf-ai-metrics-advisor.tgz}
+    resolution: {integrity: sha512-hstm/UKpv2C91KB1jQwEo/DFl4w/GY8TmR1+EM0E/ud8T0evC/uEU1lfPUslBRQQzsl7U7d3dckbQs5nNSvCQg==, tarball: file:projects/perf-ai-metrics-advisor.tgz}
     name: '@rush-temp/perf-ai-metrics-advisor'
     version: 0.0.0
     dependencies:
@@ -11856,7 +11859,7 @@ packages:
     dev: false
 
   file:projects/perf-ai-text-analytics.tgz:
-    resolution: {integrity: sha512-OUvjOGcvUwZAvEh5wQyZoH/6hE7Q6F8hP6swetAbfENX5eeKfobS4oAGIwhr7foFLbSTwK3hIM4/N0HaiUVDpg==, tarball: file:projects/perf-ai-text-analytics.tgz}
+    resolution: {integrity: sha512-0Hh82rtazvs8+esYQWklo3jlBOQE8xPLoGkdOZe+Q0UDB6hcRDvaNuenUI4TMkkBZ0W/SDymRR4G2s70Xm1RlQ==, tarball: file:projects/perf-ai-text-analytics.tgz}
     name: '@rush-temp/perf-ai-text-analytics'
     version: 0.0.0
     dependencies:
@@ -11878,7 +11881,7 @@ packages:
     dev: false
 
   file:projects/perf-app-configuration.tgz:
-    resolution: {integrity: sha512-W1FXSR/RtUTDUb8F7HotswZifR5KM1vsmHVq+YADBHmGlV98Kv8P56ex2Tob/tEuatSxKqD9FKcoW0/VB9CuCg==, tarball: file:projects/perf-app-configuration.tgz}
+    resolution: {integrity: sha512-ypXQCLD/XbSpaWMjdDWBwdGXxAutfuyHQ9D0N5AT9sex8zczSuL7SVS3TuaSmihn/JSsQsQzCPY7HkE94anlrg==, tarball: file:projects/perf-app-configuration.tgz}
     name: '@rush-temp/perf-app-configuration'
     version: 0.0.0
     dependencies:
@@ -11899,7 +11902,7 @@ packages:
     dev: false
 
   file:projects/perf-container-registry.tgz:
-    resolution: {integrity: sha512-piWyz44lnSEuJJGdSJGruUiWqJWYOwmO/8ce9r4MnUG2NoeIfoDlbd9Wo7GGz2Oq+xZQiiyjGo73rSenGM6eXA==, tarball: file:projects/perf-container-registry.tgz}
+    resolution: {integrity: sha512-HECbk/+c0Z5+6JKSo94dhetaJqaADEEpgBUGBEQN9L6D5M4Jrn1+1HuUi2U5CtKJN94f4/J4H2ifCCRcYCwOlg==, tarball: file:projects/perf-container-registry.tgz}
     name: '@rush-temp/perf-container-registry'
     version: 0.0.0
     dependencies:
@@ -11917,7 +11920,7 @@ packages:
     dev: false
 
   file:projects/perf-core-rest-pipeline.tgz:
-    resolution: {integrity: sha512-FKFSUVmpQQrlY4VYT11tRhq56LSkZVSdoiFjDZR369DZx2ir/ntEHqEMyuJY9LQEHBvHfpjVBHTDaWsz7pME6Q==, tarball: file:projects/perf-core-rest-pipeline.tgz}
+    resolution: {integrity: sha512-tjKpgW/wpocM7kP3VILNvj7kNOesZpGh78jgLJUVTRvUD4IC1lQNRqwwx8zUfo8Glq5R1m6N0F5jpiTNylfSKg==, tarball: file:projects/perf-core-rest-pipeline.tgz}
     name: '@rush-temp/perf-core-rest-pipeline'
     version: 0.0.0
     dependencies:
@@ -11937,7 +11940,7 @@ packages:
     dev: false
 
   file:projects/perf-data-tables.tgz:
-    resolution: {integrity: sha512-du9L8noR5FOiExxQY2nC1zHei8i6A2f4Xn9u391M8WDdMps07BGe3QkTDlCJg9SgLG+t0rDTKd7yx19Fs1J7lQ==, tarball: file:projects/perf-data-tables.tgz}
+    resolution: {integrity: sha512-nnf36UaqbvZtpzM4/bE/A4NrGEuVpNnJ1pUBonlhGJ/ziUJkwztNvQ59vyvoYjz3nWKmVCbfBO6Ic5MHoaaQyA==, tarball: file:projects/perf-data-tables.tgz}
     name: '@rush-temp/perf-data-tables'
     version: 0.0.0
     dependencies:
@@ -11958,7 +11961,7 @@ packages:
     dev: false
 
   file:projects/perf-event-hubs.tgz:
-    resolution: {integrity: sha512-VyDyhkjpGLOZYCuXVLDQNgXVKFm7kPTxhn8tcsGDAvcqrxPpkFJkGdSM6wBWPMNZJBbAAOsLGP/90+/TReXeOA==, tarball: file:projects/perf-event-hubs.tgz}
+    resolution: {integrity: sha512-SnR6+TrZmN75qGu9DVubKCJHQfpgAWvK/sX9xHAZUnZyy9G6DJigvZwFu2qAu4VDxWyTekpynfg62yuCYu9tDw==, tarball: file:projects/perf-event-hubs.tgz}
     name: '@rush-temp/perf-event-hubs'
     version: 0.0.0
     dependencies:
@@ -11980,7 +11983,7 @@ packages:
     dev: false
 
   file:projects/perf-eventgrid.tgz:
-    resolution: {integrity: sha512-KIfi5p1CleZEJQV6nkwxHxHW/1O5q1ungIjwhbqbyQjvBobiCJi36pNq8fxc/4YOcSFilgUKnQHbbttJ8hMrJw==, tarball: file:projects/perf-eventgrid.tgz}
+    resolution: {integrity: sha512-WgF8bFqeJWC6N3KUnQslzFUyq5CwwakUL6Jz24U2OQWIOPVPHEYC1e+b/H6qY65yzg7Uua9vVIV4wMdmE63h5g==, tarball: file:projects/perf-eventgrid.tgz}
     name: '@rush-temp/perf-eventgrid'
     version: 0.0.0
     dependencies:
@@ -11999,7 +12002,7 @@ packages:
     dev: false
 
   file:projects/perf-identity.tgz:
-    resolution: {integrity: sha512-mrHkM8YBl9RG5no6KaxkWs0KgGrdBj85WSpjXg/IPoGg+xyAVpXBFWMDNp2m9YfH8h798gvIVOsRbNNENZoxhw==, tarball: file:projects/perf-identity.tgz}
+    resolution: {integrity: sha512-+UNCBUAaO2bDZ4ua5tpd+PzUMrNOcb8IYEQxHI34hX3zpdFkYz7xxVNgH8EPxFMgjrvQ8J3efMs5+jfXQteVJg==, tarball: file:projects/perf-identity.tgz}
     name: '@rush-temp/perf-identity'
     version: 0.0.0
     dependencies:
@@ -12019,7 +12022,7 @@ packages:
     dev: false
 
   file:projects/perf-keyvault-certificates.tgz:
-    resolution: {integrity: sha512-9aJ0xpyiMl1E8vsV1spUpkSyXiBTaywRulAG46MKeefYn4KLIpx0Df+qnwuvrKleNtW08X5p1ke137VgT69sAA==, tarball: file:projects/perf-keyvault-certificates.tgz}
+    resolution: {integrity: sha512-rsjkf1usyhaU0mKr9jIqhHU7e4ATYqh4NkaRdBPCScjOz3MA3ndYmi2lye53i9wDUcvfxOQb/HSdtScsuXA6+g==, tarball: file:projects/perf-keyvault-certificates.tgz}
     name: '@rush-temp/perf-keyvault-certificates'
     version: 0.0.0
     dependencies:
@@ -12043,7 +12046,7 @@ packages:
     dev: false
 
   file:projects/perf-keyvault-keys.tgz:
-    resolution: {integrity: sha512-E70lXSAAAdU9JRCXksCGYaFr7bjsHdn1AP3zSB+HKyLQhhU1FxNL02tPnZLvylS7c+sC42nJTaaBqXIkWaQuKA==, tarball: file:projects/perf-keyvault-keys.tgz}
+    resolution: {integrity: sha512-6Vy8E3z4qyXvOdNXHzmUOtHLeR+TCtlwpNbqFo9iPx5AnKfQ31A/zyu8q2xWNQcxqTIS02konoPPRcwvP/AJFQ==, tarball: file:projects/perf-keyvault-keys.tgz}
     name: '@rush-temp/perf-keyvault-keys'
     version: 0.0.0
     dependencies:
@@ -12067,7 +12070,7 @@ packages:
     dev: false
 
   file:projects/perf-keyvault-secrets.tgz:
-    resolution: {integrity: sha512-iT2P+fKEwQgWOW/763gYAUoXgY5PZeyIbafuBM4fcxKJBeMyTHmLQ6Sb/KtSBJBMTqSNOdVqWl+gLKPh743Cyg==, tarball: file:projects/perf-keyvault-secrets.tgz}
+    resolution: {integrity: sha512-frFpbmjQOv8NuXI5/McYkFJ6cZGuFzR4joGz76S04k2bqRi0DkLhRn1H/iNXhy0T6cWx1WHMnR6WvY6g+61fsA==, tarball: file:projects/perf-keyvault-secrets.tgz}
     name: '@rush-temp/perf-keyvault-secrets'
     version: 0.0.0
     dependencies:
@@ -12090,7 +12093,7 @@ packages:
     dev: false
 
   file:projects/perf-monitor-query.tgz:
-    resolution: {integrity: sha512-ynQsaPzX6w6HzwbdSOp02RgxtsCBFne9V4mTbhkF3VYOlnWWuJVvWGz8xBnE/sqUnhKww6m/dTbBTwB5wVSNDA==, tarball: file:projects/perf-monitor-query.tgz}
+    resolution: {integrity: sha512-pIccjiDWBJK5jvjQHx5MO8epYpnrS7sw1E0sZBHPG+VD4M59T6HY0YMy0w8cVphqJ0t399QuIn3PmO0kn+eXhw==, tarball: file:projects/perf-monitor-query.tgz}
     name: '@rush-temp/perf-monitor-query'
     version: 0.0.0
     dependencies:
@@ -12109,7 +12112,7 @@ packages:
     dev: false
 
   file:projects/perf-search-documents.tgz:
-    resolution: {integrity: sha512-JzZnuFWDzadcVL5Ch79lQLH2bLQbEGlh4m4RjmcE2FQMSUpyEeD6RsgRZjvdp9S1snhJgUHCnjNg8C/k/2GJzg==, tarball: file:projects/perf-search-documents.tgz}
+    resolution: {integrity: sha512-ubAC6VxswC9Nb77CZzEKB9vFUDEhCH6AQUtbJK5fYgj2c+4+WlPCbR/1h/oDGPjejbG4F51JMKon8H/G8h+6/w==, tarball: file:projects/perf-search-documents.tgz}
     name: '@rush-temp/perf-search-documents'
     version: 0.0.0
     dependencies:
@@ -12130,7 +12133,7 @@ packages:
     dev: false
 
   file:projects/perf-service-bus.tgz:
-    resolution: {integrity: sha512-9nT8nbSd5Xa1x3bt0xwidByYrBER6awoMpL/okQQ/i4SMl5z99bas3642B/Kda9zMhdCjY2q5zSYcPfKRj7Vaw==, tarball: file:projects/perf-service-bus.tgz}
+    resolution: {integrity: sha512-b6AGPVr1lihogGBiieVyO3ohpQBiZG6Ch909QgYl7Ysed0tvD+FaPqnIzmn+Tla579Ia7Z+j9Qz1mv/tUFrknw==, tarball: file:projects/perf-service-bus.tgz}
     name: '@rush-temp/perf-service-bus'
     version: 0.0.0
     dependencies:
@@ -12152,7 +12155,7 @@ packages:
     dev: false
 
   file:projects/perf-storage-blob.tgz:
-    resolution: {integrity: sha512-A1FPXtOAkfSGlyKk5lOMOrFbs3eQexmAtFhO8na55jMeEKDy4y9J/GGO1rD5REqiIOERo+nvoilkSdCUQVt0GA==, tarball: file:projects/perf-storage-blob.tgz}
+    resolution: {integrity: sha512-1AHNLmzqTQsYwcFz2k6kYavFsrT/zZP7/2HgPBrNrSW/S7tFxlo+sYNDMKgRbVDbisAKmFmVlPO0aypnuS2N4w==, tarball: file:projects/perf-storage-blob.tgz}
     name: '@rush-temp/perf-storage-blob'
     version: 0.0.0
     dependencies:
@@ -12175,7 +12178,7 @@ packages:
     dev: false
 
   file:projects/perf-storage-file-datalake.tgz:
-    resolution: {integrity: sha512-dQCiU/2QRhXLoPN66wNLLPV6O80T/QoyDjemtE7U/s01DywegjULQLtnd2hjpper8cOdN+8UGGBK9zsjWenwog==, tarball: file:projects/perf-storage-file-datalake.tgz}
+    resolution: {integrity: sha512-eBgljoDw/1lZAZvDP4yL7GzVCQmjoOCv3talcLcsn0b3c8MyEu/Cm2MlFkR3MNpLosiuwYQKlxa59BGWg1bgeA==, tarball: file:projects/perf-storage-file-datalake.tgz}
     name: '@rush-temp/perf-storage-file-datalake'
     version: 0.0.0
     dependencies:
@@ -12196,8 +12199,29 @@ packages:
     dev: false
 
   file:projects/perf-storage-file-share.tgz:
-    resolution: {integrity: sha512-GUzK1okW7DaYkFQy48OiM/ogzIjlnVfMFdIs0Hmq4iFBx4K/mXNVZP+/zGT0KDuw7T59mAtay8lJYPM86GoXyA==, tarball: file:projects/perf-storage-file-share.tgz}
+    resolution: {integrity: sha512-qq+U7/kBjdtkS1PU5ITwqXlKCo8UD7YAy2c9p0OHuom+ZUHMuDUMpSE56Yvjk1lXnWSqaWTg6qXEgL1F05FYDA==, tarball: file:projects/perf-storage-file-share.tgz}
     name: '@rush-temp/perf-storage-file-share'
+    version: 0.0.0
+    dependencies:
+      '@types/node': 12.20.24
+      '@types/uuid': 8.3.1
+      dotenv: 8.6.0
+      eslint: 7.32.0
+      prettier: 1.19.1
+      rimraf: 3.0.2
+      ts-node: 10.2.1_75e14d22e8599d6a99e9b2b090c8e6eb
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uuid: 8.3.2
+    transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
+      - supports-color
+    dev: false
+
+  file:projects/perf-template.tgz:
+    resolution: {integrity: sha512-/PLV9/3T44HezNI45i13rwmYn4ZDbH231bKu0+46WpRWs7lybY8+MBk0MkNtrQ1WLvBwwKt4Xn15W6GPNx+NWw==, tarball: file:projects/perf-template.tgz}
+    name: '@rush-temp/perf-template'
     version: 0.0.0
     dependencies:
       '@types/node': 12.20.24
@@ -12632,7 +12656,7 @@ packages:
     dev: false
 
   file:projects/service-bus.tgz:
-    resolution: {integrity: sha512-QsDT4NFK11R0FYevLep0I1H91vtF+UWZ6+38gGSjR73WP4InQbZ0MC1wiO0SnBXa77lht3/KWaxUKezX5rcd9w==, tarball: file:projects/service-bus.tgz}
+    resolution: {integrity: sha512-Yohsz2Qh3iYS8sZKfQ5t2CCONUjrA7HRBSYAGxRzDICPCzJ3J3YOGHVp5muZLZlanLsYVDFGkFxz5GmnmuOKPg==, tarball: file:projects/service-bus.tgz}
     name: '@rush-temp/service-bus'
     version: 0.0.0
     dependencies:
@@ -12776,7 +12800,7 @@ packages:
     dev: false
 
   file:projects/storage-blob.tgz:
-    resolution: {integrity: sha512-KABn6rAH7Wx+XeoPZmTgU+BOJKPy6K0096mgY7tHQUQya+ERvuQUeajnFofoicMWo3agVKvbguj6E7Ra5RYLCg==, tarball: file:projects/storage-blob.tgz}
+    resolution: {integrity: sha512-v75w8qnpCN25UOWg+E7MCx+LcmSzMTbAfk5rfmcJRx2WKvG7jNEf4vPyUHsIMBsaRLN/5gPG5JBJo8yrKR8GbA==, tarball: file:projects/storage-blob.tgz}
     name: '@rush-temp/storage-blob'
     version: 0.0.0
     dependencies:
@@ -12841,7 +12865,7 @@ packages:
     dev: false
 
   file:projects/storage-file-datalake.tgz:
-    resolution: {integrity: sha512-BY1TQc+J5gR5e5T6VtAwf5EbSr39mWmaH6PUoPkTtr8Ucy5mYZLLWSX5CXBVY6/Cf/wVNnix5N5cZ/I75u2C/w==, tarball: file:projects/storage-file-datalake.tgz}
+    resolution: {integrity: sha512-3iO0i1XQ+EZ/p/BnhEQdrvS+qfRHNGRNn/PFUQmzGWoHOQl7P09BQSKxlaSQnRzdGmDyzwHHLqYxCr36FDPbYw==, tarball: file:projects/storage-file-datalake.tgz}
     name: '@rush-temp/storage-file-datalake'
     version: 0.0.0
     dependencies:
@@ -12905,7 +12929,7 @@ packages:
     dev: false
 
   file:projects/storage-file-share.tgz:
-    resolution: {integrity: sha512-MvLxske7z6M2cblVJ3p9M5f7uoaZJynIHHpnavQtPdOQw941AOfaI+Sdf4IoSRN6DtBW+F71/rOk/hepxSuMsg==, tarball: file:projects/storage-file-share.tgz}
+    resolution: {integrity: sha512-4M5woUQ3D8yKLB2Dz7Xn0eRsN0CVQWmvZTw2lOt1jCd5ZyLS4ebeshsFfRn7ufaULL/DPbK6btR/Qw0vjPa44Q==, tarball: file:projects/storage-file-share.tgz}
     name: '@rush-temp/storage-file-share'
     version: 0.0.0
     dependencies:
@@ -13483,7 +13507,7 @@ packages:
     dev: false
 
   file:projects/test-utils-perf.tgz:
-    resolution: {integrity: sha512-RYaN04zHouUgjzQ9x25yRE/XBAnAIADGNe1Th5m6lgEXeohWPorl+nFH3cqS5LdppUoTXnif5cL5Im0gwZ1YUA==, tarball: file:projects/test-utils-perf.tgz}
+    resolution: {integrity: sha512-E9KYwKJArEuue129/vMX8zxp5YuqC6lVkqJMO4iBOmjb9W+JHV4+kzuD7UpFjDpX2+5idKHGRALPWUnAiqOTWA==, tarball: file:projects/test-utils-perf.tgz}
     name: '@rush-temp/test-utils-perf'
     version: 0.0.0
     dependencies:
