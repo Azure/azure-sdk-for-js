@@ -46,7 +46,7 @@ describe("Can handle disconnected event", function() {
     const endSpy = sinon.spy(res.end);
 
     const dispatcher = new CloudEventsDispatcher("hub1");
-    var result = await dispatcher.handleRequest(req, res);
+    const result = await dispatcher.handleRequest(req, res);
     assert.isFalse(result);
     assert.isTrue(endSpy.notCalled);
   });
@@ -56,7 +56,7 @@ describe("Can handle disconnected event", function() {
     buildRequest(req, "hub", "conn1");
 
     const dispatcher = new CloudEventsDispatcher("hub1");
-    var result = await dispatcher.handleRequest(req, res);
+    const result = await dispatcher.handleRequest(req, res);
     assert.isFalse(result);
     assert.isTrue(endSpy.notCalled);
   });
@@ -66,7 +66,7 @@ describe("Can handle disconnected event", function() {
     buildRequest(req, "hub", "conn1");
 
     const dispatcher = new CloudEventsDispatcher("hub");
-    var result = await dispatcher.handleRequest(req, res);
+    const result = await dispatcher.handleRequest(req, res);
     assert.isTrue(result, "should handle");
     assert.isTrue(endSpy.calledOnce, "should call once");
     assert.equal(200, res.statusCode, "should be 200");
@@ -77,7 +77,7 @@ describe("Can handle disconnected event", function() {
     buildRequest(req, "hub", "conn1");
 
     const dispatcher = new CloudEventsDispatcher("hub", {});
-    var result = await dispatcher.handleRequest(req, res);
+    const result = await dispatcher.handleRequest(req, res);
     assert.isTrue(result, "should handle");
     assert.isTrue(endSpy.calledOnce, "should call once");
     assert.equal(200, res.statusCode, "should be 200");
@@ -92,7 +92,7 @@ describe("Can handle disconnected event", function() {
         throw new Error();
       }
     });
-    var process = dispatcher.handleRequest(req, res);
+    const process = dispatcher.handleRequest(req, res);
     mockBody(req, JSON.stringify({}));
     const result = await process;
     assert.isTrue(result, "should handle");

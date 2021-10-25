@@ -46,7 +46,7 @@ describe("Can handle user event", function() {
     const endSpy = sinon.spy(res.end);
 
     const dispatcher = new CloudEventsDispatcher("hub1");
-    var result = await dispatcher.handleRequest(req, res);
+    const result = await dispatcher.handleRequest(req, res);
     assert.isFalse(result);
     assert.isTrue(endSpy.notCalled);
   });
@@ -56,7 +56,7 @@ describe("Can handle user event", function() {
     buildRequest(req, "hub", "conn1");
 
     const dispatcher = new CloudEventsDispatcher("hub1");
-    var result = await dispatcher.handleRequest(req, res);
+    const result = await dispatcher.handleRequest(req, res);
     assert.isFalse(result);
     assert.isTrue(endSpy.notCalled);
   });
@@ -66,7 +66,7 @@ describe("Can handle user event", function() {
     buildRequest(req, "hub", "conn1");
 
     const dispatcher = new CloudEventsDispatcher("hub");
-    var result = await dispatcher.handleRequest(req, res);
+    const result = await dispatcher.handleRequest(req, res);
     assert.isTrue(result, "should handle");
     assert.isTrue(endSpy.calledOnce, "should call once");
     assert.equal(200, res.statusCode, "should be 200");
@@ -77,7 +77,7 @@ describe("Can handle user event", function() {
     buildRequest(req, "hub", "conn1");
 
     const dispatcher = new CloudEventsDispatcher("hub", {});
-    var result = await dispatcher.handleRequest(req, res);
+    const result = await dispatcher.handleRequest(req, res);
     assert.isTrue(result, "should handle");
     assert.isTrue(endSpy.calledOnce, "should call once");
     assert.equal(200, res.statusCode, "should be 200");
@@ -88,11 +88,11 @@ describe("Can handle user event", function() {
     buildRequest(req, "hub", "conn1");
 
     const dispatcher = new CloudEventsDispatcher("hub", {
-      handleUserEvent: async (_, res) => {
-        res.fail(500);
+      handleUserEvent: async (_, response) => {
+        response.fail(500);
       }
     });
-    var process = dispatcher.handleRequest(req, res);
+    const process = dispatcher.handleRequest(req, res);
     mockBody(req, JSON.stringify({}));
     const result = await process;
     assert.isTrue(result, "should handle");
@@ -105,11 +105,11 @@ describe("Can handle user event", function() {
     buildRequest(req, "hub", "conn1");
 
     const dispatcher = new CloudEventsDispatcher("hub", {
-      handleUserEvent: async (_, res) => {
-        res.success();
+      handleUserEvent: async (_, response) => {
+        response.success();
       }
     });
-    var process = dispatcher.handleRequest(req, res);
+    const process = dispatcher.handleRequest(req, res);
     mockBody(req, JSON.stringify({}));
     const result = await process;
     assert.isTrue(result, "should handle");
@@ -122,11 +122,11 @@ describe("Can handle user event", function() {
     buildRequest(req, "hub", "conn1");
 
     const dispatcher = new CloudEventsDispatcher("hub", {
-      handleUserEvent: async (_, res) => {
-        res.success("a");
+      handleUserEvent: async (_, response) => {
+        response.success("a");
       }
     });
-    var process = dispatcher.handleRequest(req, res);
+    const process = dispatcher.handleRequest(req, res);
     mockBody(req, JSON.stringify({}));
     const result = await process;
     assert.isTrue(result, "should handle");
@@ -140,11 +140,11 @@ describe("Can handle user event", function() {
     buildRequest(req, "hub", "conn1");
 
     const dispatcher = new CloudEventsDispatcher("hub", {
-      handleUserEvent: async (_, res) => {
-        res.success("a", "text");
+      handleUserEvent: async (_, response) => {
+        response.success("a", "text");
       }
     });
-    var process = dispatcher.handleRequest(req, res);
+    const process = dispatcher.handleRequest(req, res);
     mockBody(req, JSON.stringify({}));
     const result = await process;
     assert.isTrue(result, "should handle");
@@ -158,11 +158,11 @@ describe("Can handle user event", function() {
     buildRequest(req, "hub", "conn1");
 
     const dispatcher = new CloudEventsDispatcher("hub", {
-      handleUserEvent: async (_, res) => {
-        res.success("a", "json");
+      handleUserEvent: async (_, response) => {
+        response.success("a", "json");
       }
     });
-    var process = dispatcher.handleRequest(req, res);
+    const process = dispatcher.handleRequest(req, res);
     mockBody(req, JSON.stringify({}));
     const result = await process;
     assert.isTrue(result, "should handle");
@@ -180,15 +180,15 @@ describe("Can handle user event", function() {
     buildRequest(req, "hub", "conn1");
 
     const dispatcher = new CloudEventsDispatcher("hub", {
-      handleUserEvent: async (_, res) => {
-        res.setState("key1", "val1");
-        res.setState("key2", "val2");
-        res.setState("key1", "val3");
-        res.setState("key3", "");
-        res.success();
+      handleUserEvent: async (_, response) => {
+        response.setState("key1", "val1");
+        response.setState("key2", "val2");
+        response.setState("key1", "val3");
+        response.setState("key3", "");
+        response.success();
       }
     });
-    var process = dispatcher.handleRequest(req, res);
+    const process = dispatcher.handleRequest(req, res);
     mockBody(req, JSON.stringify({}));
     const result = await process;
     assert.isTrue(result, "should handle");
