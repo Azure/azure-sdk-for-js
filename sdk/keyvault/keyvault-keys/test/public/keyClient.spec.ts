@@ -9,7 +9,7 @@ chai.use(chaiAsPromised);
 import { Context } from "mocha";
 import { RestError } from "@azure/core-http";
 import { AbortController } from "@azure/abort-controller";
-import { env, isLiveMode, Recorder } from "@azure-tools/test-recorder";
+import { env, isPlaybackMode, isRecordMode, Recorder } from "@azure-tools/test-recorder";
 
 import {
   KeyClient,
@@ -408,19 +408,9 @@ describe("Keys client - create, read, update and delete operations", () => {
   });
 
   onVersions({ minVer: "7.3-preview" }).describe("key rotation", () => {
-    if (isLiveMode() && !isPublicCloud()) {
-      // Key Rotation is not yet supported in sovereign clouds, but this test will fail whenever it is added.
-      // When it does fail, we can remove this conditional entirely and always run the suite of tests below.
-      it("check if key rotation is not yet supported", async () => {
-        const keyName = recorder.getUniqueName("rotationpolicytracing");
-        const key = await client.createKey(keyName, "RSA");
-
-        await assert.isRejected(
-          client.getKeyRotationPolicy(key.name),
-          /not supported in this location/
-        );
-      });
-    } else {
+    if (isPublicCloud() || isRecordMode() || isPlaybackMode()) {
+      // Key Rotation is a preview feature that is not supported in all clouds yet.
+      // Once 7.3 GAs we should be able to run this unconditionally.
       it("rotateKey supports rotating a key", async () => {
         const keyName = recorder.getUniqueName("keyrotate");
         const key = await client.createKey(keyName, "RSA");
