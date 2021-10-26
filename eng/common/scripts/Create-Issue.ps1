@@ -25,6 +25,7 @@ param(
 . (Join-Path $PSScriptRoot common.ps1)
 
 try {
+  Write-Host "This is title: $Title"
   $resp = Create-GithubIssue -RepoOwner $RepoOwner -RepoName $RepoName -Title $Title -AuthToken $AuthToken
   $issueNumber = $resp.number
   Write-Host "This is the issue created: $($resp.html_url)"
