@@ -12,7 +12,7 @@ Measures the maximum throughput of `receiver.receive()` in package `@azure/event
  */
 
 import { EventHubClient, EventPosition, EventData } from "@azure/event-hubs";
-import { getEnvVar } from "@azure/test-utils-perfstress";
+import { getEnvVar } from "@azure/test-utils-perf";
 import moment from "moment";
 import { delay } from "@azure/core-amqp";
 

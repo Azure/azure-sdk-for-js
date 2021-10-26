@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PerfStressTest, getEnvVar } from "@azure/test-utils-perfstress";
+import { PerfTest, getEnvVar } from "@azure/test-utils-perf";
 import { ContainerRegistryClient } from "@azure/container-registry";
 
 // Expects the .env file at the same level
 import * as dotenv from "dotenv";
 dotenv.config();
 
-export abstract class ContainerRegistryTest<TOptions> extends PerfStressTest<TOptions> {
+export abstract class ContainerRegistryTest<TOptions> extends PerfTest<TOptions> {
   client: ContainerRegistryClient;
 
   constructor() {

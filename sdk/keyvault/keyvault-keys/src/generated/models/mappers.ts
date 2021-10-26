@@ -127,7 +127,7 @@ export const KeyReleasePolicy: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      data: {
+      encodedPolicy: {
         serializedName: "data",
         type: {
           name: "Base64Url"

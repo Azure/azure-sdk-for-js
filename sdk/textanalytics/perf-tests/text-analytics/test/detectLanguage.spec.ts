@@ -1,11 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  PerfStressTest,
-  PerfStressOptionDictionary,
-  getEnvVar
-} from "@azure/test-utils-perfstress";
+import { PerfTest, PerfOptionDictionary, getEnvVar } from "@azure/test-utils-perf";
 import {
   AzureKeyCredential,
   TextAnalyticsClient,
@@ -17,8 +13,8 @@ interface DetectLanguagePerfTestOptions extends DetectLanguageOptions {
   "documents-count": number;
 }
 
-export class DetectLanguageTest extends PerfStressTest<DetectLanguagePerfTestOptions> {
-  options: PerfStressOptionDictionary<DetectLanguagePerfTestOptions> = {
+export class DetectLanguageTest extends PerfTest<DetectLanguagePerfTestOptions> {
+  options: PerfOptionDictionary<DetectLanguagePerfTestOptions> = {
     "documents-count": {
       required: true,
       description: "Number of documents",
@@ -49,7 +45,7 @@ export class DetectLanguageTest extends PerfStressTest<DetectLanguagePerfTestOpt
     this.client = new TextAnalyticsClient(endpoint, credential);
   }
 
-  async runAsync(): Promise<void> {
+  async run(): Promise<void> {
     await this.client.detectLanguage(this.docs, "en");
   }
 }

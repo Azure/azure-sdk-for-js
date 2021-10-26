@@ -55,8 +55,8 @@ onVersions({ minVer: "7.2" }).describe(
     onVersions({ minVer: "7.3-preview" }).describe("getRandomBytes", () => {
       it("can return the required number of bytes", async () => {
         const result = await hsmClient.getRandomBytes(10);
-        assert.exists(result.bytes);
-        assert.equal(result.bytes.length, 10);
+        assert.exists(result);
+        assert.equal(result.length, 10);
       });
 
       it("returns an error when bytes is out of range", async () => {
@@ -106,13 +106,13 @@ onVersions({ minVer: "7.2" }).describe(
         const keyName = recorder.getUniqueName("exportkey");
         const createdKey = await hsmClient.createKey(keyName, "RSA", {
           exportable: true,
-          releasePolicy: { data: encodedReleasePolicy },
+          releasePolicy: { encodedPolicy: encodedReleasePolicy },
           keyOps: ["encrypt", "decrypt"]
         });
 
-        assert.exists(createdKey.properties.releasePolicy?.data);
+        assert.exists(createdKey.properties.releasePolicy?.encodedPolicy);
         assert.isNotEmpty(
-          JSON.parse(uint8ArrayToString(createdKey.properties.releasePolicy!.data!))
+          JSON.parse(uint8ArrayToString(createdKey.properties.releasePolicy!.encodedPolicy!))
         );
         assert.isTrue(createdKey.properties.exportable);
         const releaseResult = await hsmClient.releaseKey(keyName, attestation);
@@ -125,12 +125,12 @@ onVersions({ minVer: "7.2" }).describe(
 
         const importedKey = await hsmClient.importKey(keyName, createRsaKey(), {
           exportable: true,
-          releasePolicy: { data: encodedReleasePolicy }
+          releasePolicy: { encodedPolicy: encodedReleasePolicy }
         });
 
-        assert.exists(importedKey.properties.releasePolicy?.data);
+        assert.exists(importedKey.properties.releasePolicy?.encodedPolicy);
         assert.isNotEmpty(
-          JSON.parse(uint8ArrayToString(importedKey.properties.releasePolicy!.data!))
+          JSON.parse(uint8ArrayToString(importedKey.properties.releasePolicy!.encodedPolicy!))
         );
         const releaseResult = await hsmClient.releaseKey(keyName, attestation, {
           version: importedKey.properties.version,
@@ -145,7 +145,7 @@ onVersions({ minVer: "7.2" }).describe(
         const keyName = recorder.getUniqueName("exportkey");
         const createdKey = await hsmClient.createKey(keyName, "RSA", {
           exportable: true,
-          releasePolicy: { data: encodedReleasePolicy },
+          releasePolicy: { encodedPolicy: encodedReleasePolicy },
           keyOps: ["encrypt", "decrypt"]
         });
 
@@ -165,12 +165,12 @@ onVersions({ minVer: "7.2" }).describe(
           version: "1.0"
         };
         const updatedKey = await hsmClient.updateKeyProperties(createdKey.name, {
-          releasePolicy: { data: stringToUint8Array(JSON.stringify(newReleasePolicy)) }
+          releasePolicy: { encodedPolicy: stringToUint8Array(JSON.stringify(newReleasePolicy)) }
         });
 
-        assert.exists(updatedKey.properties.releasePolicy?.data);
+        assert.exists(updatedKey.properties.releasePolicy?.encodedPolicy);
         const decodedReleasePolicy = JSON.parse(
-          uint8ArrayToString(updatedKey.properties.releasePolicy!.data!)
+          uint8ArrayToString(updatedKey.properties.releasePolicy!.encodedPolicy!)
         );
 
         // Note: the service will parse the policy and return a different shape, for example: { "claim": "sdk-test", "equals": "false" } in this test.
@@ -188,7 +188,9 @@ onVersions({ minVer: "7.2" }).describe(
       it("errors when a key has a release policy but is not exportable", async () => {
         const keyName = recorder.getUniqueName("policynonexportable");
         await assert.isRejected(
-          hsmClient.createRsaKey(keyName, { releasePolicy: { data: encodedReleasePolicy } }),
+          hsmClient.createRsaKey(keyName, {
+            releasePolicy: { encodedPolicy: encodedReleasePolicy }
+          }),
           /exportable/i
         );
       });

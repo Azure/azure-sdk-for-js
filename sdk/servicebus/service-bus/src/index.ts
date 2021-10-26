@@ -52,7 +52,8 @@ export {
 export {
   EntitiesResponse,
   ServiceBusAdministrationClient,
-  WithResponse
+  WithResponse,
+  ServiceBusAdministrationClientOptions
 } from "./serviceBusAtomManagementClient";
 export { ServiceBusClient } from "./serviceBusClient";
 export { isServiceBusError, ServiceBusError, ServiceBusErrorCode } from "./serviceBusError";

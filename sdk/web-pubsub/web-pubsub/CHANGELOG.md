@@ -4,6 +4,10 @@
 
 ### Features Added
 
+- Support for DefaultAzureCredential
+- Added generateClientToken method to the `HubClient`.
+- Added support for reverse proxies, enabling usage of Web Pubsub with Azure API Management.
+
 ### Breaking Changes
 
 ### Bugs Fixed

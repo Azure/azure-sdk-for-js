@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PerfStressProgram, selectPerfStressTest } from "@azure/test-utils-perfstress";
+import { PerfProgram, selectPerfTest } from "@azure/test-utils-perf";
 import { MetricsQueryTest } from "./metricQuery.spec";
 import { LogQueryBatchTest } from "./logQueryBatch.spec";
 import { LogQueryTest } from "./logQuery.spec";
 
-console.log("=== Starting the perfStress test ===");
+console.log("=== Starting the perf test ===");
 
-const perfStressProgram = new PerfStressProgram(
-  selectPerfStressTest([MetricsQueryTest, LogQueryBatchTest, LogQueryTest])
+const perfProgram = new PerfProgram(
+  selectPerfTest([MetricsQueryTest, LogQueryBatchTest, LogQueryTest])
 );
-perfStressProgram.run();
+perfProgram.run();

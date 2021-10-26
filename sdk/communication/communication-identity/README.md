@@ -123,6 +123,14 @@ Use the `deleteUser` method to delete a user.
 await client.deleteUser(user);
 ```
 
+### Exchanging AAD access token of a Teams User for a Communication access token
+
+Use `exchangeTeamsUserAadToken` method to exchange an AAD access token of a Teams user for a new `CommunicationAccessToken` with a matching expiration time.
+
+```typescript
+await client.exchangeTeamsUserAadToken('<aad-access-token-of-a-teams-user>');
+```
+
 ## Troubleshooting
 
 ## Next steps

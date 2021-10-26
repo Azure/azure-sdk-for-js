@@ -3,7 +3,7 @@
 
 import { v4 as generateUuid } from "uuid";
 import { Aborter, BlobURL, BlockBlobURL } from "@azure/storage-blob";
-import { PerfStressOptionDictionary, drainStream } from "@azure/test-utils-perfstress";
+import { PerfOptionDictionary, drainStream } from "@azure/test-utils-perf";
 import { StorageBlobTest } from "./storageTest.spec";
 
 interface StorageBlobDownloadTestOptions {
@@ -11,7 +11,7 @@ interface StorageBlobDownloadTestOptions {
 }
 
 export class StorageBlobDownloadTest extends StorageBlobTest<StorageBlobDownloadTestOptions> {
-  public options: PerfStressOptionDictionary<StorageBlobDownloadTestOptions> = {
+  public options: PerfOptionDictionary<StorageBlobDownloadTestOptions> = {
     size: {
       required: true,
       description: "Size in bytes",
@@ -41,7 +41,7 @@ export class StorageBlobDownloadTest extends StorageBlobTest<StorageBlobDownload
     );
   }
 
-  async runAsync(): Promise<void> {
+  async run(): Promise<void> {
     const downloadResponse = await this.blockBlobClient.download(Aborter.none, 0);
     await drainStream(downloadResponse.readableStreamBody!);
   }

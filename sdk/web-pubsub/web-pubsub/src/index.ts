@@ -3,14 +3,16 @@
 export { AzureKeyCredential } from "@azure/core-auth";
 export {
   WebPubSubServiceClient,
-  GetAuthenticationTokenOptions,
-  GetAuthenticationTokenResponse,
   HubSendToAllOptions,
-  CloseConnectionOptions,
+  ClientTokenResponse,
+  HubCloseConnectionOptions,
+  HubCloseAllConnectionsOptions,
+  HubCloseUserConnectionsOptions,
+  GenerateClientTokenOptions,
   HasConnectionOptions,
   HubHasGroupOptions,
   HubHasUserOptions,
-  HubAdminClientOptions,
+  WebPubSubServiceClientOptions,
   HubRemoveUserFromAllGroupsOptions,
   HubSendToConnectionOptions,
   HubSendToUserOptions,
@@ -26,6 +28,7 @@ export {
 export {
   WebPubSubGroup,
   GroupAddConnectionOptions,
+  GroupCloseAllConnectionsOptions,
   GroupAddUserOptions,
   GroupAdminClientOptions,
   GroupHasUserOptions,

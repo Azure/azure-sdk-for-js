@@ -24,7 +24,7 @@ export class StorageDFSUploadFromFileTest extends StorageDFSUploadTest {
     await super.globalCleanup();
   }
 
-  async runAsync(): Promise<void> {
+  async run(): Promise<void> {
     await this.fileClient.uploadFile(localFileName);
   }
 }

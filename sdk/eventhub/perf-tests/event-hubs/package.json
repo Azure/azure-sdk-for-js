@@ -10,7 +10,7 @@
   "dependencies": {
     "@azure/event-hubs": "^5.6.0",
     "@azure/core-amqp": "^3.0.0",
-    "@azure/test-utils-perfstress": "^1.0.0",
+    "@azure/test-utils-perf": "^1.0.0",
     "dotenv": "^8.2.0",
     "moment": "^2.24.0",
     "uuid": "^8.3.0"

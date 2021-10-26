@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PerfStressProgram, selectPerfStressTest } from "@azure/test-utils-perfstress";
+import { PerfProgram, selectPerfTest } from "@azure/test-utils-perf";
 import { StorageBlobDownloadTest } from "./download.spec";
 import { StorageBlobUploadTest } from "./upload.spec";
 import { StorageBlobListTest } from "./listBlobs.spec";
 
-console.log("=== Starting the perfStress test ===");
+console.log("=== Starting the perf test ===");
 
-const perfStressProgram = new PerfStressProgram(
-  selectPerfStressTest([StorageBlobDownloadTest, StorageBlobUploadTest, StorageBlobListTest])
+const perfProgram = new PerfProgram(
+  selectPerfTest([StorageBlobDownloadTest, StorageBlobUploadTest, StorageBlobListTest])
 );
 
-perfStressProgram.run();
+perfProgram.run();

@@ -738,6 +738,21 @@ export interface ContainerRegistryBlobCheckChunkExistsHeaders {
   contentRange?: string;
 }
 
+/** Known values of {@link ApiVersion20210701} that the service accepts. */
+export enum KnownApiVersion20210701 {
+  /** Api Version '2021-07-01' */
+  TwoThousandTwentyOne0701 = "2021-07-01"
+}
+
+/**
+ * Defines values for ApiVersion20210701. \
+ * {@link KnownApiVersion20210701} can be used interchangeably with ApiVersion20210701,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **2021-07-01**: Api Version '2021-07-01'
+ */
+export type ApiVersion20210701 = string;
+
 /** Known values of {@link ArtifactArchitecture} that the service accepts. */
 export enum KnownArtifactArchitecture {
   /** i386 */
@@ -1176,8 +1191,6 @@ export type AuthenticationExchangeAcrRefreshTokenForAcrAccessTokenResponse = Acr
 /** Optional parameters. */
 export interface GeneratedClientOptionalParams
   extends coreClient.ServiceClientOptions {
-  /** Api Version */
-  apiVersion?: string;
   /** Overrides client endpoint. */
   endpoint?: string;
 }

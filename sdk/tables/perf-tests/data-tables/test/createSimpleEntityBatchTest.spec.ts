@@ -1,4 +1,4 @@
-import { PerfStressOptionDictionary } from "@azure/test-utils-perfstress";
+import { PerfOptionDictionary } from "@azure/test-utils-perf";
 import { TablesTest } from "./tables.spec";
 import { TransactionAction } from "@azure/data-tables";
 import { createBatch } from "./utils/createBaseEntity";
@@ -10,7 +10,7 @@ interface TablesCreateSimpleEntityBatchTestOptions {
 export class CreateSimpleEntityBatchTest extends TablesTest<
   TablesCreateSimpleEntityBatchTestOptions
 > {
-  public options: PerfStressOptionDictionary<TablesCreateSimpleEntityBatchTestOptions> = {
+  public options: PerfOptionDictionary<TablesCreateSimpleEntityBatchTestOptions> = {
     batchSize: {
       defaultValue: 100,
       longName: "batchSize",
@@ -31,7 +31,7 @@ export class CreateSimpleEntityBatchTest extends TablesTest<
     await super.globalCleanup();
   }
 
-  async runAsync(): Promise<void> {
+  async run(): Promise<void> {
     const batches: TransactionAction[][] = createBatch(
       "simple",
       this.parsedOptions.batchSize.value!
