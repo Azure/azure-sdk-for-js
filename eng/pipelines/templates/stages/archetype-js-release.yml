@@ -319,20 +319,21 @@ stages:
               }
             displayName: docker run package ${{artifact.name}}
             continueOnError: true
-          - ${{if eq(variables['DockerRunResult'], 'true')}}:
-            - template: /eng/common/pipelines/templates/steps/update-docsms-metadata.yml
-              parameters:
-                PackageInfoLocations:
-                  - $(Pipeline.Workspace)/${{parameters.ArtifactName}}/PackageInfo/${{artifact.name}}.json
-                RepoId: Azure/azure-sdk-for-js
-                WorkingDirectory: $(System.DefaultWorkingDirectory)
-                TargetDocRepoOwner: ${{parameters.TargetDocRepoOwner}}
-                TargetDocRepoName: ${{parameters.TargetDocRepoName}}
-                Language: 'javascript'
-                DailyDocsBuild: true
-                SparseCheckoutPaths:
-                  - docs-ref-services/
-                  - metadata/
+          
+          - template: /eng/common/pipelines/templates/steps/update-docsms-metadata.yml
+            parameters:
+              PackageInfoLocations:
+                - $(Pipeline.Workspace)/${{parameters.ArtifactName}}/PackageInfo/${{artifact.name}}.json
+              RepoId: Azure/azure-sdk-for-js
+              WorkingDirectory: $(System.DefaultWorkingDirectory)
+              TargetDocRepoOwner: ${{parameters.TargetDocRepoOwner}}
+              TargetDocRepoName: ${{parameters.TargetDocRepoName}}
+              Language: 'javascript'
+              DailyDocsBuild: true
+              UpdateMetadata: $(DockerRunResult)
+              SparseCheckoutPaths:
+                - docs-ref-services/
+                - metadata/
 
           - task: Powershell@2
             inputs:
