@@ -18,8 +18,8 @@ param(
   [Parameter(Mandatory = $false)]
   [string]$Comments,
 
-  [Parameter(Mandatory = $true)]
-  [string]$AuthToken
+  [Parameter(Mandatory = $false)]
+  [string]$AuthToken = $(azuresdk-github-pat)
 )
 
 . (Join-Path $PSScriptRoot common.ps1)
