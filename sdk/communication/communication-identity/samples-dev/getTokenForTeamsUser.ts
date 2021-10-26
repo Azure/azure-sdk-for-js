@@ -27,10 +27,10 @@ const msalPassword = process.env["COMMUNICATION_MSAL_PASSWORD"] || "<msal passwo
 
 export async function main() {
   if (process.env["SKIP_INT_IDENTITY_EXCHANGE_TOKEN_TEST"] === "true") {
-    console.log("Skipping the Exchange Access Token sample");
+    console.log("Skipping the Get Access Token for Teams User sample");
     return;
   }
-  console.log("\n== Exchange Access Token sample ==\n");
+  console.log("\n== Get Access Token for Teams User sample ==\n");
 
   const client = new CommunicationIdentityClient(connectionString);
 
@@ -50,10 +50,10 @@ export async function main() {
 
   console.log(`Retrieved a token with the expiration: ${response.expiresOnTimestamp}`);
 
-  // Exchanges the AAD access token of a Teams user for a new Communication Identity access token
   console.log("Exchanging the AAD access token for a Communication access token");
 
-  const communicationAccessToken: CommunicationAccessToken = await client.exchangeTeamsUserAadToken(
+  // Exchange the AAD access token of a Teams user for a new Communication Identity access token
+  const communicationAccessToken: CommunicationAccessToken = await client.getTokenForTeamsUser(
     response!.token
   );
 

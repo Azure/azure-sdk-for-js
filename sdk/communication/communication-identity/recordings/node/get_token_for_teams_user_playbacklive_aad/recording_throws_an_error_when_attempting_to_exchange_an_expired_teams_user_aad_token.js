@@ -1,6 +1,6 @@
 let nock = require('nock');
 
-module.exports.hash = "8f4f0ee6735c115004fb161bc138e853";
+module.exports.hash = "65c32ed61371c7d9b98a6921173cf0fd";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
@@ -25,17 +25,17 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'x-ms-request-id',
   '00000000-0000-0000-0000-000000000000',
   'x-ms-ests-server',
-  '2.1.12158.6 - NEULR2 ProdSlices',
+  '2.1.12158.6 - NEULR1 ProdSlices',
   'Set-Cookie',
-  'fpc=ArgeFKYGE2dCuTsJFXdBps0; expires=Sat, 20-Nov-2021 14:53:22 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=Atd-1cpV70tPj65VvoMrDDg; expires=Thu, 25-Nov-2021 23:13:08 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrNIGwSaip4EO9xh6DPgUI8RYu6oyR8bdTP4DdUp49rw8WpgSPUMXH1CYF9oG_kzthbxzZqQge0qy686lpodgDREg7ORcQzMgZiwRaqqrcQrkFUFMMOy2kt4Ytjt0y8XtnRJZIUMeQWvAeHckdVmaF2uF7fYdER03NAURbjWejtI4gAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
+  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7Wevrv1N95rsmbv1bmEQq5c-aVuPx4Uw98_gDHMdgPHRXl9cC21ZzzFxYliTvMzpCWO3RR9Y2PVipipGaH5WdxFqVeQSzd8ajjYUXb3ROWiV8ZTuzZa_8OhO7Bce_YJXGfwDhHaQDQt38gg9yxHprI7P69S3W0G3tfTTgTMtgnXwdG0ogAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Thu, 21 Oct 2021 14:53:22 GMT',
+  'Tue, 26 Oct 2021 23:13:08 GMT',
   'Content-Length',
   '980'
 ]);
@@ -62,15 +62,15 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'x-ms-ests-server',
   '2.1.12158.6 - WUS2 ProdSlices',
   'Set-Cookie',
-  'fpc=ArDSmF5bpdhKiytd0TDr-rs; expires=Sat, 20-Nov-2021 14:53:23 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AouZIdHpr3ROp-AVBwiZS7U; expires=Thu, 25-Nov-2021 23:13:08 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevraDZdxQsQdOyPXPVp0ElMYBkeyS5HHCqvN7L2SsvJS5au79MyZlcq7UUFJMZfThVwggVX3hKJjQgKOlzBlIcG5qlfWiR0GCvLI1ewhEeFULApc2imU7ykwAFWX58ZlZM7TKIsu8T53wsDD11fN2w5v0MTnSV-7EM1SZotHvoB0aQgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
+  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrZHbTgdxggO60ii2KQ99KvwQ0DVMlsAIqHnh6ACcWlMZF3eGgZEBkeS3A9uwGzD1TM1C7yQzjTyyf55HNtVgiyv5n20TUQYqgpFKElncTojQwVs00Lq-L8OnuFwOXIg3T785ExmbLn3t60MU2iSjXnU6U-jjEkTeAfhZDnK8C1oAgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Thu, 21 Oct 2021 14:53:22 GMT',
+  'Tue, 26 Oct 2021 23:13:08 GMT',
   'Content-Length',
   '1753'
 ]);
@@ -95,17 +95,17 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'x-ms-request-id',
   '00000000-0000-0000-0000-000000000000',
   'x-ms-ests-server',
-  '2.1.12158.6 - WUS2 ProdSlices',
+  '2.1.12158.6 - EUS ProdSlices',
   'x-ms-clitelem',
   '1,0,0,,',
   'Set-Cookie',
-  'fpc=AjIrO_UEUlFMmQdUrg0OCago7iuqAQAAAOJ1A9kOAAAA; expires=Sat, 20-Nov-2021 14:53:23 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=Ao5_mBTJ2PVHlNsYN6TPr4o; expires=Thu, 25-Nov-2021 23:13:08 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Thu, 21 Oct 2021 14:53:22 GMT',
+  'Tue, 26 Oct 2021 23:13:08 GMT',
   'Content-Length',
   '1327'
 ]);
@@ -121,17 +121,17 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'Request-Context',
   'appId=',
   'MS-CV',
-  'NijF0jdQxEu8wVyfQP9Hyw.0',
+  'nz04AyKn3kGOKRu6vm9doQ.0',
   'Strict-Transport-Security',
   'max-age=2592000',
   'x-ms-client-request-id',
   '00000000-0000-0000-0000-000000000000',
   'X-Processing-Time',
-  '16ms',
+  '25ms',
   'X-Cache',
   'CONFIG_NOCACHE',
   'X-Azure-Ref',
-  '0435xYQAAAAAH79dBfu87Rb9H0utmSbNhUFJHMDFFREdFMDcyMQBmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=',
+  '0hIt4YQAAAABZomyKhEkoRKCZe/khmGFDUFJHMDFFREdFMDYyMQBmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=',
   'Date',
-  'Thu, 21 Oct 2021 14:53:23 GMT'
+  'Tue, 26 Oct 2021 23:13:08 GMT'
 ]);
