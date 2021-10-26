@@ -111,7 +111,7 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .post('/text/analytics/v3.2-preview.2/analyze', {"analysisInput":{"documents":[{"id":"1","text":"859-98-0987 John owes Mike $100","language":"en"}]},"tasks":{"customEntityRecognitionTasks":[{"parameters":{"project-name":"88ee0f78-fbca-444d-98e2-7c4c8631e494","deployment-name":"88ee0f78-fbca-444d-98e2-7c4c8631e494","stringIndexType":"Utf16CodeUnit"}}]}})
+  .post('/text/analytics/v3.2-preview.2/analyze', {"analysisInput":{"documents":[{"id":"1","text":"A recent report by the Government Accountability Office (GAO) found that the dramatic increase in oil and natural gas development on federal lands over the past six years has stretched the staff of the BLM to a point that it has been unable to meet its environmental protection responsibilities.","language":"en"}]},"tasks":{"customEntityRecognitionTasks":[{"parameters":{"project-name":"project_name","deployment-name":"deployment_name","stringIndexType":"Utf16CodeUnit"}}]}})
   .reply(202, "", [
   'Transfer-Encoding',
   'chunked',
@@ -172,7 +172,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
 nock('https://endpoint', {"encodedQueryParams":true})
   .get('/text/analytics/v3.2-preview.2/analyze/jobs/1f0acf98-2fce-4150-9a1e-65ef0ce5cb80')
   .query(true)
-  .reply(200, {"jobId":"1f0acf98-2fce-4150-9a1e-65ef0ce5cb80","lastUpdateDateTime":"2021-10-23T00:43:57Z","createdDateTime":"2021-10-23T00:43:56Z","expirationDateTime":"2021-10-24T00:43:56Z","status":"succeeded","errors":[],"tasks":{"completed":1,"failed":0,"inProgress":0,"total":1,"customEntityRecognitionTasks":[{"lastUpdateDateTime":"2021-10-23T00:43:57.7714953Z","state":"succeeded","results":{"documents":[{"id":"1","entities":[{"text":"98-0987","category":"timeRange","offset":4,"length":7,"confidenceScore":0.55},{"text":"$100","category":"timeRange","offset":27,"length":4,"confidenceScore":0.15},{"text":"John owes","category":"artist","offset":12,"length":9,"confidenceScore":0.18},{"text":"Mike","category":"artist","offset":22,"length":4,"confidenceScore":0.35}],"warnings":[]}],"errors":[],"projectName":"88ee0f78-fbca-444d-98e2-7c4c8631e494","deploymentName":"88ee0f78-fbca-444d-98e2-7c4c8631e494"}}]}}, [
+  .reply(200, {"jobId":"1f0acf98-2fce-4150-9a1e-65ef0ce5cb80","lastUpdateDateTime":"2021-10-23T00:43:57Z","createdDateTime":"2021-10-23T00:43:56Z","expirationDateTime":"2021-10-24T00:43:56Z","status":"succeeded","errors":[],"tasks":{"completed":1,"failed":0,"inProgress":0,"total":1,"customEntityRecognitionTasks":[{"lastUpdateDateTime":"2021-10-23T00:43:57.7714953Z","state":"succeeded","results":{"documents":[{"id":"1","entities":[{"text":"98-0987","category":"timeRange","offset":4,"length":7,"confidenceScore":0.55},{"text":"$100","category":"timeRange","offset":27,"length":4,"confidenceScore":0.15},{"text":"John owes","category":"artist","offset":12,"length":9,"confidenceScore":0.18},{"text":"Mike","category":"artist","offset":22,"length":4,"confidenceScore":0.35}],"warnings":[]}],"errors":[],"projectName":"project_name","deploymentName":"deployment_name"}}]}}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
@@ -192,7 +192,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
 nock('https://endpoint', {"encodedQueryParams":true})
   .get('/text/analytics/v3.2-preview.2/analyze/jobs/1f0acf98-2fce-4150-9a1e-65ef0ce5cb80')
   .query(true)
-  .reply(200, {"jobId":"1f0acf98-2fce-4150-9a1e-65ef0ce5cb80","lastUpdateDateTime":"2021-10-23T00:43:57Z","createdDateTime":"2021-10-23T00:43:56Z","expirationDateTime":"2021-10-24T00:43:56Z","status":"succeeded","errors":[],"tasks":{"completed":1,"failed":0,"inProgress":0,"total":1,"customEntityRecognitionTasks":[{"lastUpdateDateTime":"2021-10-23T00:43:57.7714953Z","state":"succeeded","results":{"documents":[{"id":"1","entities":[{"text":"98-0987","category":"timeRange","offset":4,"length":7,"confidenceScore":0.55},{"text":"$100","category":"timeRange","offset":27,"length":4,"confidenceScore":0.15},{"text":"John owes","category":"artist","offset":12,"length":9,"confidenceScore":0.18},{"text":"Mike","category":"artist","offset":22,"length":4,"confidenceScore":0.35}],"warnings":[]}],"errors":[],"projectName":"88ee0f78-fbca-444d-98e2-7c4c8631e494","deploymentName":"88ee0f78-fbca-444d-98e2-7c4c8631e494"}}]}}, [
+  .reply(200, {"jobId":"1f0acf98-2fce-4150-9a1e-65ef0ce5cb80","lastUpdateDateTime":"2021-10-23T00:43:57Z","createdDateTime":"2021-10-23T00:43:56Z","expirationDateTime":"2021-10-24T00:43:56Z","status":"succeeded","errors":[],"tasks":{"completed":1,"failed":0,"inProgress":0,"total":1,"customEntityRecognitionTasks":[{"lastUpdateDateTime":"2021-10-23T00:43:57.7714953Z","state":"succeeded","results":{"documents":[{"id":"1","entities":[{"text":"98-0987","category":"timeRange","offset":4,"length":7,"confidenceScore":0.55},{"text":"$100","category":"timeRange","offset":27,"length":4,"confidenceScore":0.15},{"text":"John owes","category":"artist","offset":12,"length":9,"confidenceScore":0.18},{"text":"Mike","category":"artist","offset":22,"length":4,"confidenceScore":0.35}],"warnings":[]}],"errors":[],"projectName":"project_name","deploymentName":"deployment_name"}}]}}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',

@@ -4,7 +4,7 @@
    "method": "POST",
    "url": "https://endpoint/text/analytics/v3.2-preview.2/analyze",
    "query": {},
-   "requestBody": "{\"analysisInput\":{\"documents\":[{\"id\":\"1\",\"text\":\"A recent report by the Government Accountability Office (GAO) found that the dramatic increase in oil and natural gas development on federal lands over the past six years has stretched the staff of the BLM to a point that it has been unable to meet its environmental protection responsibilities.\",\"language\":\"en\"}]},\"tasks\":{\"customMultiClassificationTasks\":[{\"parameters\":{\"project-name\":\"7cdace98-537b-494a-b69a-c19754718025\",\"deployment-name\":\"7cdace98-537b-494a-b69a-c19754718025\"}}]}}",
+   "requestBody": "{\"analysisInput\":{\"documents\":[{\"id\":\"1\",\"text\":\"A recent report by the Government Accountability Office (GAO) found that the dramatic increase in oil and natural gas development on federal lands over the past six years has stretched the staff of the BLM to a point that it has been unable to meet its environmental protection responsibilities.\",\"language\":\"en\"}]},\"tasks\":{\"customMultiClassificationTasks\":[{\"parameters\":{\"project-name\":\"project_name\",\"deployment-name\":\"deployment_name\"}}]}}",
    "status": 202,
    "response": "",
    "responseHeaders": {
@@ -82,7 +82,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"8abc9d28-d469-4a97-8919-7510668e3752\",\"lastUpdateDateTime\":\"2021-10-23T00:50:24Z\",\"createdDateTime\":\"2021-10-23T00:50:21Z\",\"expirationDateTime\":\"2021-10-24T00:50:21Z\",\"status\":\"succeeded\",\"errors\":[],\"tasks\":{\"completed\":1,\"failed\":0,\"inProgress\":0,\"total\":1,\"customMultiClassificationTasks\":[{\"lastUpdateDateTime\":\"2021-10-23T00:50:24.9168023Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"1\",\"classifications\":[],\"warnings\":[]}],\"errors\":[],\"projectName\":\"7cdace98-537b-494a-b69a-c19754718025\",\"deploymentName\":\"7cdace98-537b-494a-b69a-c19754718025\"}}]}}",
+   "response": "{\"jobId\":\"8abc9d28-d469-4a97-8919-7510668e3752\",\"lastUpdateDateTime\":\"2021-10-23T00:50:24Z\",\"createdDateTime\":\"2021-10-23T00:50:21Z\",\"expirationDateTime\":\"2021-10-24T00:50:21Z\",\"status\":\"succeeded\",\"errors\":[],\"tasks\":{\"completed\":1,\"failed\":0,\"inProgress\":0,\"total\":1,\"customMultiClassificationTasks\":[{\"lastUpdateDateTime\":\"2021-10-23T00:50:24.9168023Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"1\",\"classifications\":[],\"warnings\":[]}],\"errors\":[],\"projectName\":\"project_name\",\"deploymentName\":\"deployment_name\"}}]}}",
    "responseHeaders": {
     "apim-request-id": "3f835845-d535-4c1e-b562-269d748aadcd",
     "content-type": "application/json; charset=utf-8",
@@ -101,7 +101,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"8abc9d28-d469-4a97-8919-7510668e3752\",\"lastUpdateDateTime\":\"2021-10-23T00:50:24Z\",\"createdDateTime\":\"2021-10-23T00:50:21Z\",\"expirationDateTime\":\"2021-10-24T00:50:21Z\",\"status\":\"succeeded\",\"errors\":[],\"tasks\":{\"completed\":1,\"failed\":0,\"inProgress\":0,\"total\":1,\"customMultiClassificationTasks\":[{\"lastUpdateDateTime\":\"2021-10-23T00:50:24.9168023Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"1\",\"classifications\":[],\"warnings\":[]}],\"errors\":[],\"projectName\":\"7cdace98-537b-494a-b69a-c19754718025\",\"deploymentName\":\"7cdace98-537b-494a-b69a-c19754718025\"}}]}}",
+   "response": "{\"jobId\":\"8abc9d28-d469-4a97-8919-7510668e3752\",\"lastUpdateDateTime\":\"2021-10-23T00:50:24Z\",\"createdDateTime\":\"2021-10-23T00:50:21Z\",\"expirationDateTime\":\"2021-10-24T00:50:21Z\",\"status\":\"succeeded\",\"errors\":[],\"tasks\":{\"completed\":1,\"failed\":0,\"inProgress\":0,\"total\":1,\"customMultiClassificationTasks\":[{\"lastUpdateDateTime\":\"2021-10-23T00:50:24.9168023Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"1\",\"classifications\":[],\"warnings\":[]}],\"errors\":[],\"projectName\":\"project_name\",\"deploymentName\":\"deployment_name\"}}]}}",
    "responseHeaders": {
     "apim-request-id": "507d64c4-909a-4336-92bd-65f5764e49a7",
     "content-type": "application/json; charset=utf-8",

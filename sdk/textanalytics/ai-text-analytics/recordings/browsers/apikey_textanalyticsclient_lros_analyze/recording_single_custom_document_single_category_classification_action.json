@@ -4,7 +4,7 @@
    "method": "POST",
    "url": "https://endpoint/text/analytics/v3.2-preview.2/analyze",
    "query": {},
-   "requestBody": "{\"analysisInput\":{\"documents\":[{\"id\":\"1\",\"text\":\"A recent report by the Government Accountability Office (GAO) found that the dramatic increase in oil and natural gas development on federal lands over the past six years has stretched the staff of the BLM to a point that it has been unable to meet its environmental protection responsibilities.\",\"language\":\"en\"}]},\"tasks\":{\"customSingleClassificationTasks\":[{\"parameters\":{\"project-name\":\"659c1851-be0b-4142-b12a-087da9785926\",\"deployment-name\":\"659c1851-be0b-4142-b12a-087da9785926\"}}]}}",
+   "requestBody": "{\"analysisInput\":{\"documents\":[{\"id\":\"1\",\"text\":\"A recent report by the Government Accountability Office (GAO) found that the dramatic increase in oil and natural gas development on federal lands over the past six years has stretched the staff of the BLM to a point that it has been unable to meet its environmental protection responsibilities.\",\"language\":\"en\"}]},\"tasks\":{\"customSingleClassificationTasks\":[{\"parameters\":{\"project-name\":\"project_name\",\"deployment-name\":\"deployment_name\"}}]}}",
    "status": 202,
    "response": "",
    "responseHeaders": {
@@ -63,7 +63,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"81134e80-2f1f-4fce-ac19-11cb794545b5\",\"lastUpdateDateTime\":\"2021-10-23T00:50:20Z\",\"createdDateTime\":\"2021-10-23T00:50:18Z\",\"expirationDateTime\":\"2021-10-24T00:50:18Z\",\"status\":\"succeeded\",\"errors\":[],\"tasks\":{\"completed\":1,\"failed\":0,\"inProgress\":0,\"total\":1,\"customSingleClassificationTasks\":[{\"lastUpdateDateTime\":\"2021-10-23T00:50:20.0438873Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"1\",\"classification\":{\"category\":\"RateBook\",\"confidenceScore\":0.76},\"warnings\":[]}],\"errors\":[],\"projectName\":\"659c1851-be0b-4142-b12a-087da9785926\",\"deploymentName\":\"659c1851-be0b-4142-b12a-087da9785926\"}}]}}",
+   "response": "{\"jobId\":\"81134e80-2f1f-4fce-ac19-11cb794545b5\",\"lastUpdateDateTime\":\"2021-10-23T00:50:20Z\",\"createdDateTime\":\"2021-10-23T00:50:18Z\",\"expirationDateTime\":\"2021-10-24T00:50:18Z\",\"status\":\"succeeded\",\"errors\":[],\"tasks\":{\"completed\":1,\"failed\":0,\"inProgress\":0,\"total\":1,\"customSingleClassificationTasks\":[{\"lastUpdateDateTime\":\"2021-10-23T00:50:20.0438873Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"1\",\"classification\":{\"category\":\"RateBook\",\"confidenceScore\":0.76},\"warnings\":[]}],\"errors\":[],\"projectName\":\"project_name\",\"deploymentName\":\"deployment_name\"}}]}}",
    "responseHeaders": {
     "apim-request-id": "808aaaaf-db2c-453f-9b5e-5da734f6bd09",
     "content-type": "application/json; charset=utf-8",
@@ -82,7 +82,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"81134e80-2f1f-4fce-ac19-11cb794545b5\",\"lastUpdateDateTime\":\"2021-10-23T00:50:20Z\",\"createdDateTime\":\"2021-10-23T00:50:18Z\",\"expirationDateTime\":\"2021-10-24T00:50:18Z\",\"status\":\"succeeded\",\"errors\":[],\"tasks\":{\"completed\":1,\"failed\":0,\"inProgress\":0,\"total\":1,\"customSingleClassificationTasks\":[{\"lastUpdateDateTime\":\"2021-10-23T00:50:20.0438873Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"1\",\"classification\":{\"category\":\"RateBook\",\"confidenceScore\":0.76},\"warnings\":[]}],\"errors\":[],\"projectName\":\"659c1851-be0b-4142-b12a-087da9785926\",\"deploymentName\":\"659c1851-be0b-4142-b12a-087da9785926\"}}]}}",
+   "response": "{\"jobId\":\"81134e80-2f1f-4fce-ac19-11cb794545b5\",\"lastUpdateDateTime\":\"2021-10-23T00:50:20Z\",\"createdDateTime\":\"2021-10-23T00:50:18Z\",\"expirationDateTime\":\"2021-10-24T00:50:18Z\",\"status\":\"succeeded\",\"errors\":[],\"tasks\":{\"completed\":1,\"failed\":0,\"inProgress\":0,\"total\":1,\"customSingleClassificationTasks\":[{\"lastUpdateDateTime\":\"2021-10-23T00:50:20.0438873Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"1\",\"classification\":{\"category\":\"RateBook\",\"confidenceScore\":0.76},\"warnings\":[]}],\"errors\":[],\"projectName\":\"project_name\",\"deploymentName\":\"deployment_name\"}}]}}",
    "responseHeaders": {
     "apim-request-id": "9d32a1dd-e4cc-45d6-8dd6-36761143d1bd",
     "content-type": "application/json; charset=utf-8",

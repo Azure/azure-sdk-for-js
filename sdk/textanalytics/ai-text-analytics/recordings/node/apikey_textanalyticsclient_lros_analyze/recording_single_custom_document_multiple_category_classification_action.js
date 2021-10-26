@@ -5,7 +5,7 @@ module.exports.hash = "e625fabec349c46bd68f70745afca86b";
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .post('/text/analytics/v3.2-preview.2/analyze', {"analysisInput":{"documents":[{"id":"1","text":"A recent report by the Government Accountability Office (GAO) found that the dramatic increase in oil and natural gas development on federal lands over the past six years has stretched the staff of the BLM to a point that it has been unable to meet its environmental protection responsibilities.","language":"en"}]},"tasks":{"customMultiClassificationTasks":[{"parameters":{"project-name":"7cdace98-537b-494a-b69a-c19754718025","deployment-name":"7cdace98-537b-494a-b69a-c19754718025"}}]}})
+  .post('/text/analytics/v3.2-preview.2/analyze', {"analysisInput":{"documents":[{"id":"1","text":"A recent report by the Government Accountability Office (GAO) found that the dramatic increase in oil and natural gas development on federal lands over the past six years has stretched the staff of the BLM to a point that it has been unable to meet its environmental protection responsibilities.","language":"en"}]},"tasks":{"customMultiClassificationTasks":[{"parameters":{"project-name":"project_name","deployment-name":"deployment_name"}}]}})
   .reply(202, "", [
   'Transfer-Encoding',
   'chunked',
@@ -66,7 +66,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
 nock('https://endpoint', {"encodedQueryParams":true})
   .get('/text/analytics/v3.2-preview.2/analyze/jobs/d2b3ff34-6d74-441e-8e1e-c9c295e388aa')
   .query(true)
-  .reply(200, {"jobId":"d2b3ff34-6d74-441e-8e1e-c9c295e388aa","lastUpdateDateTime":"2021-10-23T00:36:51Z","createdDateTime":"2021-10-23T00:36:50Z","expirationDateTime":"2021-10-24T00:36:50Z","status":"succeeded","errors":[],"tasks":{"completed":1,"failed":0,"inProgress":0,"total":1,"customMultiClassificationTasks":[{"lastUpdateDateTime":"2021-10-23T00:36:51.4254923Z","state":"succeeded","results":{"documents":[{"id":"1","classifications":[],"warnings":[]}],"errors":[],"projectName":"7cdace98-537b-494a-b69a-c19754718025","deploymentName":"7cdace98-537b-494a-b69a-c19754718025"}}]}}, [
+  .reply(200, {"jobId":"d2b3ff34-6d74-441e-8e1e-c9c295e388aa","lastUpdateDateTime":"2021-10-23T00:36:51Z","createdDateTime":"2021-10-23T00:36:50Z","expirationDateTime":"2021-10-24T00:36:50Z","status":"succeeded","errors":[],"tasks":{"completed":1,"failed":0,"inProgress":0,"total":1,"customMultiClassificationTasks":[{"lastUpdateDateTime":"2021-10-23T00:36:51.4254923Z","state":"succeeded","results":{"documents":[{"id":"1","classifications":[],"warnings":[]}],"errors":[],"projectName":"project_name","deploymentName":"deployment_name"}}]}}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
@@ -86,7 +86,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
 nock('https://endpoint', {"encodedQueryParams":true})
   .get('/text/analytics/v3.2-preview.2/analyze/jobs/d2b3ff34-6d74-441e-8e1e-c9c295e388aa')
   .query(true)
-  .reply(200, {"jobId":"d2b3ff34-6d74-441e-8e1e-c9c295e388aa","lastUpdateDateTime":"2021-10-23T00:36:51Z","createdDateTime":"2021-10-23T00:36:50Z","expirationDateTime":"2021-10-24T00:36:50Z","status":"succeeded","errors":[],"tasks":{"completed":1,"failed":0,"inProgress":0,"total":1,"customMultiClassificationTasks":[{"lastUpdateDateTime":"2021-10-23T00:36:51.4254923Z","state":"succeeded","results":{"documents":[{"id":"1","classifications":[],"warnings":[]}],"errors":[],"projectName":"7cdace98-537b-494a-b69a-c19754718025","deploymentName":"7cdace98-537b-494a-b69a-c19754718025"}}]}}, [
+  .reply(200, {"jobId":"d2b3ff34-6d74-441e-8e1e-c9c295e388aa","lastUpdateDateTime":"2021-10-23T00:36:51Z","createdDateTime":"2021-10-23T00:36:50Z","expirationDateTime":"2021-10-24T00:36:50Z","status":"succeeded","errors":[],"tasks":{"completed":1,"failed":0,"inProgress":0,"total":1,"customMultiClassificationTasks":[{"lastUpdateDateTime":"2021-10-23T00:36:51.4254923Z","state":"succeeded","results":{"documents":[{"id":"1","classifications":[],"warnings":[]}],"errors":[],"projectName":"project_name","deploymentName":"deployment_name"}}]}}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',

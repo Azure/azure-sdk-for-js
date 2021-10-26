@@ -111,7 +111,7 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .post('/text/analytics/v3.2-preview.2/analyze', {"analysisInput":{"documents":[{"id":"1","text":"A recent report by the Government Accountability Office (GAO) found that the dramatic increase in oil and natural gas development on federal lands over the past six years has stretched the staff of the BLM to a point that it has been unable to meet its environmental protection responsibilities.","language":"en"}]},"tasks":{"customSingleClassificationTasks":[{"parameters":{"project-name":"659c1851-be0b-4142-b12a-087da9785926","deployment-name":"659c1851-be0b-4142-b12a-087da9785926"}}]}})
+  .post('/text/analytics/v3.2-preview.2/analyze', {"analysisInput":{"documents":[{"id":"1","text":"A recent report by the Government Accountability Office (GAO) found that the dramatic increase in oil and natural gas development on federal lands over the past six years has stretched the staff of the BLM to a point that it has been unable to meet its environmental protection responsibilities.","language":"en"}]},"tasks":{"customSingleClassificationTasks":[{"parameters":{"project-name":"project_name","deployment-name":"deployment_name"}}]}})
   .reply(202, "", [
   'Transfer-Encoding',
   'chunked',
@@ -172,7 +172,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
 nock('https://endpoint', {"encodedQueryParams":true})
   .get('/text/analytics/v3.2-preview.2/analyze/jobs/56c2c115-3fd6-4bb0-8a7d-cbbe21526d8c')
   .query(true)
-  .reply(200, {"jobId":"56c2c115-3fd6-4bb0-8a7d-cbbe21526d8c","lastUpdateDateTime":"2021-10-23T00:44:01Z","createdDateTime":"2021-10-23T00:43:59Z","expirationDateTime":"2021-10-24T00:43:59Z","status":"succeeded","errors":[],"tasks":{"completed":1,"failed":0,"inProgress":0,"total":1,"customSingleClassificationTasks":[{"lastUpdateDateTime":"2021-10-23T00:44:01.1040391Z","state":"succeeded","results":{"documents":[{"id":"1","classification":{"category":"RateBook","confidenceScore":0.76},"warnings":[]}],"errors":[],"projectName":"659c1851-be0b-4142-b12a-087da9785926","deploymentName":"659c1851-be0b-4142-b12a-087da9785926"}}]}}, [
+  .reply(200, {"jobId":"56c2c115-3fd6-4bb0-8a7d-cbbe21526d8c","lastUpdateDateTime":"2021-10-23T00:44:01Z","createdDateTime":"2021-10-23T00:43:59Z","expirationDateTime":"2021-10-24T00:43:59Z","status":"succeeded","errors":[],"tasks":{"completed":1,"failed":0,"inProgress":0,"total":1,"customSingleClassificationTasks":[{"lastUpdateDateTime":"2021-10-23T00:44:01.1040391Z","state":"succeeded","results":{"documents":[{"id":"1","classification":{"category":"RateBook","confidenceScore":0.76},"warnings":[]}],"errors":[],"projectName":"project_name","deploymentName":"deployment_name"}}]}}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
@@ -192,7 +192,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
 nock('https://endpoint', {"encodedQueryParams":true})
   .get('/text/analytics/v3.2-preview.2/analyze/jobs/56c2c115-3fd6-4bb0-8a7d-cbbe21526d8c')
   .query(true)
-  .reply(200, {"jobId":"56c2c115-3fd6-4bb0-8a7d-cbbe21526d8c","lastUpdateDateTime":"2021-10-23T00:44:01Z","createdDateTime":"2021-10-23T00:43:59Z","expirationDateTime":"2021-10-24T00:43:59Z","status":"succeeded","errors":[],"tasks":{"completed":1,"failed":0,"inProgress":0,"total":1,"customSingleClassificationTasks":[{"lastUpdateDateTime":"2021-10-23T00:44:01.1040391Z","state":"succeeded","results":{"documents":[{"id":"1","classification":{"category":"RateBook","confidenceScore":0.76},"warnings":[]}],"errors":[],"projectName":"659c1851-be0b-4142-b12a-087da9785926","deploymentName":"659c1851-be0b-4142-b12a-087da9785926"}}]}}, [
+  .reply(200, {"jobId":"56c2c115-3fd6-4bb0-8a7d-cbbe21526d8c","lastUpdateDateTime":"2021-10-23T00:44:01Z","createdDateTime":"2021-10-23T00:43:59Z","expirationDateTime":"2021-10-24T00:43:59Z","status":"succeeded","errors":[],"tasks":{"completed":1,"failed":0,"inProgress":0,"total":1,"customSingleClassificationTasks":[{"lastUpdateDateTime":"2021-10-23T00:44:01.1040391Z","state":"succeeded","results":{"documents":[{"id":"1","classification":{"category":"RateBook","confidenceScore":0.76},"warnings":[]}],"errors":[],"projectName":"project_name","deploymentName":"deployment_name"}}]}}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
