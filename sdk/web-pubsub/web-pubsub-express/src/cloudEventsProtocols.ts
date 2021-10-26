@@ -74,6 +74,10 @@ export interface ConnectRequest {
    */
   queries?: Record<string, string[]>;
   /**
+   * The headers that the client WebSocket connection has when it connects.
+   */
+  headers?: Record<string, string[]>;
+  /**
    * The subprotocols that the client WebSocket connection uses to do handshake.
    */
   subprotocols?: string[];

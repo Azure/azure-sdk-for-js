@@ -32,6 +32,7 @@ export interface ConnectRequest {
     claims?: Record<string, string[]>;
     clientCertificates?: Certificate[];
     context: ConnectionContext;
+    headers?: Record<string, string[]>;
     queries?: Record<string, string[]>;
     subprotocols?: string[];
 }

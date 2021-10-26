@@ -42,8 +42,8 @@ export class WebPubSubEventHandler {
    * });
    * ```
    *
-   * @param hub The name of the hub to listen to
-   * @param options Options to configure the event handler
+   * @param hub - The name of the hub to listen to
+   * @param options - Options to configure the event handler
    */
   constructor(private hub: string, options?: WebPubSubEventHandlerOptions) {
     const path = (options?.path ?? `/api/webpubsub/hubs/${hub}/`).toLowerCase();
