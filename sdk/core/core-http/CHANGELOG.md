@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Fix the issue of `HttpHeaders.clone()` not preserving raw header names' casing [PR #18348](https://github.com/Azure/azure-sdk-for-js/pull/18348)
+
 ### Other Changes
 
 ## 2.2.1 (2021-09-30)
