@@ -11,6 +11,7 @@ import {
 } from "./options";
 import { PerfParallel } from "./parallel";
 import { TestProxyHttpClientV1, TestProxyHttpClient } from "./testProxyHttpClient";
+import { exec } from "child_process";
 
 export type TestType = "";
 
@@ -239,6 +240,18 @@ export class PerfProgram {
     this.logResults(parallels);
   }
 
+  private async logPackageVersions(): Promise<void> {
+    return new Promise((resolve) => {
+      console.log("=== Versions ===");
+      exec("npm list", (_error, stdout) => {
+        for (const dependency of stdout.split("\n").filter((line) => line.includes("@azure"))) {
+          console.log(dependency);
+        }
+        resolve();
+      });
+    });
+  }
+
   /**
    * The run() public method lets developers specify when to begin running the selected test
    * under the conditions provided by the command line options.
@@ -266,6 +279,8 @@ export class PerfProgram {
       console.table(this.tests[0].parsedOptions);
       return;
     }
+
+    await this.logPackageVersions();
 
     const options = this.tests[0].parsedOptions;
     console.log("=== Parsed options ===");
