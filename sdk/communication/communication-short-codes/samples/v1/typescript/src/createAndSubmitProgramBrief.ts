@@ -7,7 +7,7 @@
 
 import {
   ShortCodesClient,
-  ShortCodesCreateUSProgramBriefParams,
+  ShortCodesUpsertUSProgramBriefOptionalParams
 } from "@azure-tools/communication-short-codes";
 
 // Load the .env file if it exists
@@ -27,18 +27,18 @@ export async function main() {
 
   // create a new program brief request
   const programBriefId = "todo: generate guid";
-  const programBriefRequest: ShortCodesCreateUSProgramBriefParams = {
+  const programBriefRequest: ShortCodesUpsertUSProgramBriefOptionalParams = {
     body: {
       id: programBriefId,
       programDetails: {
-        description: "Customers can sign up to receive regular updates on coupons and other perks of our loyalty program.",
+        description:
+          "Customers can sign up to receive regular updates on coupons and other perks of our loyalty program.",
         expectedDateOfService: new Date(2022, 1, 25),
         isPoliticalCampaign: false,
         isVanity: false,
         name: "Contoso Loyalty Program",
         numberType: "shortCode",
         privacyPolicyUrl: "https://contoso.com/privacy",
-        signUp: "This program will allow customers to receive exclusive offers and information to help them utilize our loyalty program to their best advantage. Customers who opt-in will receive regular coupons they can use in our stores, as well as advanced notice of sales and other promotional and marketing campaigns.",
         signUpTypes: ["sms", "website"],
         termsOfServiceUrl: "https://contoso.com/terms",
         url: "https://contoso.com/loyalty-program"
@@ -58,29 +58,47 @@ export async function main() {
         }
       },
       messageDetails: {
-        types: ["sms"],
+        supportedProtocols: ["sms"],
         recurrence: "subscription",
-        contentTypes: ["coupons", "loyaltyProgram", "loyaltyProgramPointsPrizes"],
-        optInMessage: "Someone requested to subscribe this number to receive updates about Contoso's loyalty program.  To confirm subscription, reply to this message with 'JOIN'",
+        useCases: [
+          {
+            contentCategory: "coupons",
+            examples: [{ messages: [{ direction: "fromUser", text: "txtMessage" }] }]
+          },
+          {
+            contentCategory: "loyaltyProgram",
+            examples: [{ messages: [{ direction: "toUser", text: "txtMessage" }] }]
+          },
+          {
+            contentCategory: "loyaltyProgramPointsPrizes",
+            examples: [{ messages: [{ direction: "toUser", text: "txtMessage" }] }]
+          }
+        ],
+        optInMessage:
+          "Someone requested to subscribe this number to receive updates about Contoso's loyalty program.  To confirm subscription, reply to this message with 'JOIN'",
         optInReply: "JOIN",
-        confirmationMessage: "Congrats, you have been successfully subscribed to loyalty program updates.  Welcome!",
-        useCase: "two-way"
+        confirmationMessage:
+          "Congrats, you have been successfully subscribed to loyalty program updates.  Welcome!",
+        directionality: "twoWay"
       },
       trafficDetails: {
-        estimatedVolume: 10000,
+        totalMonthlyVolume: 10000,
         monthlyAverageMessagesFromUser: 1,
         monthlyAverageMessagesToUser: 3,
         isSpiky: true,
-        spikeDetails: "Higher traffic expected around major shopping holidays, most notably Black Friday and Memorial Day."
+        spikeDetails:
+          "Higher traffic expected around major shopping holidays, most notably Black Friday and Memorial Day."
       }
     }
-  }
+  };
 
   // create program brief
-  var createResponse = await client.createUSProgramBrief(programBriefId, programBriefRequest);
+  var createResponse = await client.upsertUSProgramBrief(programBriefId, programBriefRequest);
   if (createResponse._response.status != 201) {
     throw new Error(`Program brief creation failed.
-    Status code: ${createResponse._response.status}; Error: ${createResponse._response.bodyAsText}; CV: ${createResponse._response.headers.get("MS-CV")}`);
+    Status code: ${createResponse._response.status}; Error: ${
+      createResponse._response.bodyAsText
+    }; CV: ${createResponse._response.headers.get("MS-CV")}`);
   } else {
     console.log(`Successfully created a new program brief with Id ${programBriefId}.`);
   }
@@ -91,7 +109,9 @@ export async function main() {
     console.log(`Successfully submitted program brief with Id ${programBriefId}`);
   } else {
     throw new Error(`Failed to submit program brief with Id ${programBriefId}.
-    Status code: ${submittedProgramBrief._response.status}; Error: ${submittedProgramBrief._response.bodyAsText}; CV: ${submittedProgramBrief._response.headers.get("MS-CV")}`);
+    Status code: ${submittedProgramBrief._response.status}; Error: ${
+      submittedProgramBrief._response.bodyAsText
+    }; CV: ${submittedProgramBrief._response.headers.get("MS-CV")}`);
   }
 }
 

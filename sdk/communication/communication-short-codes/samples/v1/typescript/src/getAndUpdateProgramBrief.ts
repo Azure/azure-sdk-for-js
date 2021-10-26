@@ -7,7 +7,7 @@
 
 import {
   ShortCodesClient,
-  ShortCodesUpsertUSProgramBriefOptionalParams,
+  ShortCodesUpsertUSProgramBriefOptionalParams
 } from "@azure-tools/communication-short-codes";
 
 // Load the .env file if it exists
@@ -28,7 +28,9 @@ export async function main() {
   // get a program briefs for a resource
   const programBriefId = process.env.PROGRAM_BRIEF_TO_GET || "<program brief Id>";
   var programBrief = await client.getUSProgramBrief(programBriefId);
-  console.log(`Program brief with Id ${programBrief.id} has status ${programBrief.status} which was last updated ${programBrief.statusUpdatedDate}`);
+  console.log(
+    `Program brief with Id ${programBrief.id} has status ${programBrief.status} which was last updated ${programBrief.statusUpdatedDate}`
+  );
 
   // update the program brief
   var updateRequest: ShortCodesUpsertUSProgramBriefOptionalParams = {
@@ -42,10 +44,14 @@ export async function main() {
   };
   var upsertResponse = await client.upsertUSProgramBrief(programBriefId, updateRequest);
   if (upsertResponse._response.status == 200) {
-    console.log(`Successfully updated terms of service and privacy policy for program brief ${programBriefId}`);
+    console.log(
+      `Successfully updated terms of service and privacy policy for program brief ${programBriefId}`
+    );
   } else {
     throw new Error(`Failed to update program brief with Id ${programBriefId}.
-      Status code: ${upsertResponse._response.status}; Error: ${upsertResponse._response.bodyAsText}; CV: ${upsertResponse._response.headers.get("MS-CV")}`);
+      Status code: ${upsertResponse._response.status}; Error: ${
+      upsertResponse._response.bodyAsText
+    }; CV: ${upsertResponse._response.headers.get("MS-CV")}`);
   }
 }
 

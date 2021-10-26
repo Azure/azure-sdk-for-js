@@ -36,8 +36,6 @@ async function main() {
         name: "Contoso Loyalty Program",
         numberType: "shortCode",
         privacyPolicyUrl: "https://contoso.com/privacy",
-        signUp:
-          "This program will allow customers to receive exclusive offers and information to help them utilize our loyalty program to their best advantage. Customers who opt-in will receive regular coupons they can use in our stores, as well as advanced notice of sales and other promotional and marketing campaigns.",
         signUpTypes: ["sms", "website"],
         termsOfServiceUrl: "https://contoso.com/terms",
         url: "https://contoso.com/loyalty-program"
@@ -57,18 +55,31 @@ async function main() {
         }
       },
       messageDetails: {
-        types: ["sms"],
+        supportedProtocols: ["sms"],
         recurrence: "subscription",
-        contentTypes: ["coupons", "loyaltyProgram", "loyaltyProgramPointsPrizes"],
+        useCases: [
+          {
+            contentCategory: "coupons",
+            examples: [{ messages: [{ direction: "fromUser", text: "txtMessage" }] }]
+          },
+          {
+            contentCategory: "loyaltyProgram",
+            examples: [{ messages: [{ direction: "toUser", text: "txtMessage" }] }]
+          },
+          {
+            contentCategory: "loyaltyProgramPointsPrizes",
+            examples: [{ messages: [{ direction: "toUser", text: "txtMessage" }] }]
+          }
+        ],
         optInMessage:
           "Someone requested to subscribe this number to receive updates about Contoso's loyalty program.  To confirm subscription, reply to this message with 'JOIN'",
         optInReply: "JOIN",
         confirmationMessage:
           "Congrats, you have been successfully subscribed to loyalty program updates.  Welcome!",
-        useCase: "two-way"
+        directionality: "twoWay"
       },
       trafficDetails: {
-        estimatedVolume: 10000,
+        totalMonthlyVolume: 10000,
         monthlyAverageMessagesFromUser: 1,
         monthlyAverageMessagesToUser: 3,
         isSpiky: true,
@@ -79,7 +90,7 @@ async function main() {
   };
 
   // create program brief
-  var createResponse = await client.createUSProgramBrief(programBriefId, programBriefRequest);
+  var createResponse = await client.upsertUSProgramBrief(programBriefId, programBriefRequest);
   if (createResponse._response.status != 201) {
     throw new Error(`Program brief creation failed.
     Status code: ${createResponse._response.status}; Error: ${
