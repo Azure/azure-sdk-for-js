@@ -129,7 +129,7 @@ export interface ReviewNote {
 export interface ShortCode {
     countryCode?: string;
     number?: string;
-    numberType?: ShortCodeNumberType;
+    numberType?: NumberType;
     programBriefIds?: string[];
     purchaseDate?: Date;
 }
@@ -140,9 +140,6 @@ export interface ShortCodeCost {
     billingFrequency: BillingFrequency;
     currencyCode: string;
 }
-
-// @public
-export type ShortCodeNumberType = string;
 
 // @public (undocumented)
 export class ShortCodesClient {

@@ -49,7 +49,8 @@ export const ShortCode: coreHttp.CompositeMapper = {
       numberType: {
         serializedName: "numberType",
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["shortCode", "alphaId"]
         }
       },
       countryCode: {
