@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import format from "date-fns/format";
 import { AbortController } from "@azure/abort-controller";
 import { PerfTest, PerfTestConstructor } from "./tests";
 import {
@@ -190,18 +189,15 @@ export class PerfProgram {
       `\n=== ${title} mode, iteration ${iterationIndex + 1}. Logs every ${millisecondsToLog /
         1000}s ===`
     );
-    console.log(`Time\t\t\tCurrent\t\tTotal\t\tAverage`);
+    console.log(`Current\t\tTotal\t\tAverage`);
     let lastCompleted = 0;
     const logInterval = setInterval(() => {
-      const timestamp = format(new Date(), "HH:mm:ss");
       const totalCompleted = this.getCompletedOperations(parallels);
       const currentCompleted = totalCompleted - lastCompleted;
       const averageCompleted = this.getOperationsPerSecond(parallels);
 
       lastCompleted = totalCompleted;
-      console.log(
-        `${timestamp}\t\t${currentCompleted}\t\t${totalCompleted}\t\t${averageCompleted.toFixed(2)}`
-      );
+      console.log(`${currentCompleted}\t\t${totalCompleted}\t\t${averageCompleted.toFixed(2)}`);
     }, millisecondsToLog);
 
     const runLoop = this.runLoopAsync;
