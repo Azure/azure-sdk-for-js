@@ -18,14 +18,14 @@ param(
   [Parameter(Mandatory = $false)]
   [string]$Comments,
 
-  [Parameter(Mandatory = $false)]
-  [string]$AuthToken = $(azuresdk-github-pat)
+  [Parameter(Mandatory = $true)]
+  [string]$AuthToken
 )
 
 . (Join-Path $PSScriptRoot common.ps1)
 
 try {
-  $resp = Create-GithubIssue -RepoOwner $RepoOwner -RepoName $RepoName -Title $Title
+  $resp = Create-GithubIssue -RepoOwner $RepoOwner -RepoName $RepoName -Title $Title -AuthToken $AuthToken
   $issueNumber = $resp.number
   Write-Host "This is the issue created: $($resp.html_url)"
   if ($Comments) {
