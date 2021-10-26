@@ -195,24 +195,17 @@ describe("ServiceBusClient live tests", () => {
     });
 
     const testError = (err: Error | ServiceBusError, entityPath: string): void => {
-      console.log("9191919191", err);
       if (!isServiceBusError(err)) {
-        console.log("939393939339");
         should.equal(true, false, "Error expected to be instance of ServiceBusError");
       } else {
-        const err1:ServiceBusError = err;
-        console.log("77777777777777", err1.code);
         should.equal(err.code, "MessagingEntityNotFound", "Error code is different than expected");
-        console.log("88888888888888", err1.message);
         should.equal(
-          err1.message.includes(
+          err.message.includes(
             `The messaging entity 'sb://${sbClient.fullyQualifiedNamespace}/${entityPath}' could not be found.`
           ),
           true
         );
-        console.log("9999999999999999");
         errorWasThrown = true;
-        console.log("13131313131", errorWasThrown);
       }
     };
 
@@ -252,29 +245,22 @@ describe("ServiceBusClient live tests", () => {
             entityPath: args.entityPath,
             fullyQualifiedNamespace: args.fullyQualifiedNamespace
           };
-          console.log("6666666666666", actual);
-          console.log("121212121", errorWasThrown);
 
           actual.should.deep.equal({
             errorSource: "receive",
             entityPath: receiver.entityPath,
             fullyQualifiedNamespace: sbClient.fullyQualifiedNamespace
           } as Omit<ProcessErrorArgs, "error">);
-          console.log("14141414");
 
           testError(args.error, "some-name");
-          console.log("1515151515");
         }
       });
-
-      console.log("55555555555", errorWasThrown);
 
       should.equal(
         await checkWithTimeout(() => errorWasThrown === true, 10, 3000),
         true,
         "Error thrown flag must be true"
       );
-      console.log("1616161616");
       await receiver.close();
     });
 
