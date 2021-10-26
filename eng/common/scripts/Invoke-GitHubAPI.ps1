@@ -172,7 +172,7 @@ function Create-GithubIssue {
   $uri = "$GithubAPIBaseURI/$RepoOwner/$RepoName/issues"
 
   $parameters = @{
-    body = $Title
+    title = $Title
   }
 
   return Invoke-RestMethod `
