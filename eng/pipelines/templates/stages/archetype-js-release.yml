@@ -339,6 +339,8 @@ stages:
               pwsh: true
               filePath: eng/common/scripts/Create-Issue.ps1
               arguments: -RepoOwner ${{parameters.TargetDocRepoOwner}} -RepoName ${{parameters.TargetDocRepoName}} `
-                        -Title "${{artifact.name}} failed to update to Doc.ms." -AuthToken $(azuresdk-github-pat)
+                        -Title "${{artifact.name}} failed to update to Doc.ms." -AuthToken AZURE_GITHUB_AUTH_TOKEN
             displayName: File an issue if package not passed the validation
             condition: and(succeeded(), eq(variables['DockerRunResult'], 'false'))
+            env:
+              AZURE_GITHUB_AUTH_TOKEN: $(azuresdk-github-pat)
