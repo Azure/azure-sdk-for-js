@@ -56,6 +56,35 @@ async function main() {
   for await (const setting of samplesWithDevelopmentLabel) {
     console.log(`  Found key: ${setting.key}, label: ${setting.label}`);
   }
+
+  ////////////////////////////////////////////////////////
+  ///////////////  Example for .byPage()  ////////////////
+  ////////////////////////////////////////////////////////
+
+  // Passing marker as an argument
+  let iterator = client.listConfigurationSettings({ keyFilter: "sample*" }).byPage();
+  let response = await iterator.next();
+  if (!response.done) {
+    for (const setting of response.value.items) {
+      console.log(`  Found key: ${setting.key}`);
+    }
+  }
+  // Gets next marker
+  let marker = response.value.continuationToken;
+  // Passing next marker as continuationToken
+  iterator = client.listConfigurationSettings({ keyFilter: "sample*" }).byPage({
+    continuationToken: marker
+  });
+  response = await iterator.next();
+  if (response.done) {
+    console.log("List done.");
+  } else {
+    if (response.value.items) {
+      for (const setting of response.value.items) {
+        console.log(`  Found key: ${setting.key}`);
+      }
+    }
+  }
 }
 
 main().catch((err) => {
