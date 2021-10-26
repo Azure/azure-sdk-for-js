@@ -1,6 +1,6 @@
 {
   "name": "@azure/schema-registry-avro",
-  "version": "1.0.0-beta.3",
+  "version": "1.0.0-beta.4",
   "description": "Schema Registry Avro Serializer Library with typescript type definitions for node.js and browser.",
   "sdk-type": "client",
   "main": "dist/index.js",
@@ -8,7 +8,7 @@
   "browser": {
     "./dist-esm/src/utils/buffer.js": "./dist-esm/src/utils/buffer.browser.js"
   },
-  "types": "schema-registry-avro.shims.d.ts",
+  "types": "types/schema-registry-avro.shims.d.ts",
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c 2>&1",
@@ -17,7 +17,7 @@
     "build:test": "tsc -p . && rollup -c rollup.test.config.js 2>&1",
     "build": "npm run clean && tsc -p . && rollup -c 2>&1 && api-extractor run --local",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
-    "clean": "rimraf dist dist-* temp types *.tgz *.log",
+    "clean": "rimraf dist dist-* temp \"types/!(schema-registry-avro.shims.d.ts)\" *.tgz *.log",
     "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "tsc -p . && api-extractor run --local",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
@@ -39,7 +39,7 @@
     "dist/",
     "dist-esm/src/",
     "types/schema-registry-avro.d.ts",
-    "schema-registry-avro.shims.d.ts",
+    "types/schema-registry-avro.shims.d.ts",
     "README.md",
     "LICENSE"
   ],
@@ -72,7 +72,7 @@
     }
   },
   "dependencies": {
-    "@azure/schema-registry": "1.0.0-beta.3",
+    "@azure/schema-registry": "1.0.0-beta.4",
     "avsc": "^5.5.1",
     "buffer": "^6.0.0",
     "tslib": "^2.2.0"
@@ -82,7 +82,7 @@
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/identity": "2.0.0-beta.6",
     "@azure-tools/test-recorder": "^1.0.0",
-    "@microsoft/api-extractor": "^7.18.7",
+    "@microsoft/api-extractor": "^7.18.11",
     "@rollup/plugin-commonjs": "11.0.2",
     "@rollup/plugin-inject": "^4.0.0",
     "@rollup/plugin-replace": "^2.2.0",

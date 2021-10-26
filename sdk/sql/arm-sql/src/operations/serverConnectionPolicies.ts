@@ -20,7 +20,7 @@ import {
   ServerConnectionPoliciesGetResponse
 } from "../models";
 
-/** Class representing a ServerConnectionPolicies. */
+/** Class containing ServerConnectionPolicies operations. */
 export class ServerConnectionPoliciesImpl implements ServerConnectionPolicies {
   private readonly client: SqlManagementClientContext;
 

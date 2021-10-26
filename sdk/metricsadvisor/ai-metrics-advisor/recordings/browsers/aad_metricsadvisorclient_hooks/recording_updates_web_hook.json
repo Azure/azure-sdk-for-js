@@ -28,9 +28,9 @@
    "method": "PATCH",
    "url": "https://endpoint/metricsadvisor/v1.0/hooks/9d3e0d59-9062-4831-95f1-b79b5c38e87a",
    "query": {},
-   "requestBody": "{\"hookType\":\"Webhook\",\"hookParameter\":{\"endpoint\":\"https://mawebhook.azurewebsites.net/api/HttpTrigger\",\"username\":\"user1\",\"password\":\"pass123\"}}",
+   "requestBody": "{\"hookType\":\"Webhook\",\"hookParameter\":{\"endpoint\":\"https://mawebhook.azurewebsites.net/api/HttpTrigger\",\"username\":\"user1\",\"password\":\"SecretPlaceholder\"}}",
    "status": 200,
-   "response": "{\"hookId\":\"9d3e0d59-9062-4831-95f1-b79b5c38e87a\",\"hookName\":\"js-test-webHook-162266596146700623\",\"hookType\":\"Webhook\",\"externalLink\":\"\",\"description\":\"description\",\"admins\":[\"azure_client_id\"],\"hookParameter\":{\"endpoint\":\"https://mawebhook.azurewebsites.net/api/HttpTrigger\",\"username\":\"user1\",\"password\":\"pass123\",\"headers\":{},\"certificateKey\":\"\",\"certificatePassword\":\"\"}}",
+   "response": "{\"hookId\":\"9d3e0d59-9062-4831-95f1-b79b5c38e87a\",\"hookName\":\"js-test-webHook-162266596146700623\",\"hookType\":\"Webhook\",\"externalLink\":\"\",\"description\":\"description\",\"admins\":[\"azure_client_id\"],\"hookParameter\":{\"endpoint\":\"https://mawebhook.azurewebsites.net/api/HttpTrigger\",\"username\":\"user1\",\"password\":\"SecretPlaceholder\",\"headers\":{},\"certificateKey\":\"\",\"certificatePassword\":\"\"}}",
    "responseHeaders": {
     "apim-request-id": "f7f5b5f9-138e-43ee-b2aa-fc1a3bf79055",
     "content-length": "395",
@@ -48,7 +48,7 @@
    "query": {},
    "requestBody": null,
    "status": 200,
-   "response": "{\"hookId\":\"9d3e0d59-9062-4831-95f1-b79b5c38e87a\",\"hookName\":\"js-test-webHook-162266596146700623\",\"hookType\":\"Webhook\",\"externalLink\":\"\",\"description\":\"description\",\"admins\":[\"azure_client_id\"],\"hookParameter\":{\"endpoint\":\"https://mawebhook.azurewebsites.net/api/HttpTrigger\",\"username\":\"user1\",\"password\":\"pass123\",\"headers\":{},\"certificateKey\":\"\",\"certificatePassword\":\"\"}}",
+   "response": "{\"hookId\":\"9d3e0d59-9062-4831-95f1-b79b5c38e87a\",\"hookName\":\"js-test-webHook-162266596146700623\",\"hookType\":\"Webhook\",\"externalLink\":\"\",\"description\":\"description\",\"admins\":[\"azure_client_id\"],\"hookParameter\":{\"endpoint\":\"https://mawebhook.azurewebsites.net/api/HttpTrigger\",\"username\":\"user1\",\"password\":\"SecretPlaceholder\",\"headers\":{},\"certificateKey\":\"\",\"certificatePassword\":\"\"}}",
    "responseHeaders": {
     "apim-request-id": "81872f34-f470-41a2-9e27-91284ff436d4",
     "content-length": "395",

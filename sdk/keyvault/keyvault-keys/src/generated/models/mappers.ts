@@ -127,7 +127,7 @@ export const KeyReleasePolicy: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      data: {
+      encodedPolicy: {
         serializedName: "data",
         type: {
           name: "Base64Url"
@@ -864,7 +864,7 @@ export const LifetimeActionsType: coreHttp.CompositeMapper = {
         serializedName: "type",
         type: {
           name: "Enum",
-          allowedValues: ["rotate", "notify"]
+          allowedValues: ["Rotate", "Notify"]
         }
       }
     }

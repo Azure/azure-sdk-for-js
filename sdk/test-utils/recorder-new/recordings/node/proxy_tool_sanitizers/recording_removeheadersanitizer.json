@@ -1,0 +1,27 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "http://host.docker.internal:8080/sample_response",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "User-Agent": "core-rest-pipeline/1.3.2 Node/v14.17.6 OS/(x64-Linux-5.4.0-1059-azure)",
+        "x-ms-client-request-id": "df62e045-e538-4d98-bc2c-1f08070df96e"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Connection": "keep-alive",
+        "Content-Length": "13",
+        "Content-Type": "application/json; charset=utf-8",
+        "Keep-Alive": "timeout=5",
+        "X-Powered-By": "Express"
+      },
+      "ResponseBody": {
+        "val": "abc"
+      }
+    }
+  ],
+  "Variables": {}
+}

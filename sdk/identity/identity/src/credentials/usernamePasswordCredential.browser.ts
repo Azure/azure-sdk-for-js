@@ -67,7 +67,7 @@ export class UsernamePasswordCredential implements TokenCredential {
     options?: GetTokenOptions
   ): Promise<AccessToken | null> {
     const { span, updatedOptions: newOptions } = createSpan(
-      "UsernamePasswordCredential-getToken",
+      "UsernamePasswordCredential.getToken",
       options
     );
     try {

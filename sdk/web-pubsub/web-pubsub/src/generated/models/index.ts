@@ -8,8 +8,133 @@
 
 import * as coreClient from "@azure/core-client";
 
+/** The response object containing the token for the client */
+export interface ClientTokenResponse {
+  /** The token value for the WebSocket client to connect to the service */
+  token?: string;
+}
+
+/** The error object. */
+export interface ErrorDetail {
+  /** One of a server-defined set of error codes. */
+  code?: string;
+  /** A human-readable representation of the error. */
+  message?: string;
+  /** The target of the error. */
+  target?: string;
+  /** An array of details about specific errors that led to this reported error. */
+  details?: ErrorDetail[];
+  inner?: InnerError;
+}
+
+export interface InnerError {
+  /** A more specific error code than was provided by the containing error. */
+  code?: string;
+  inner?: InnerError;
+}
+
+/** Defines headers for WebPubSub_generateClientToken operation. */
+export interface WebPubSubGenerateClientTokenExceptionHeaders {
+  errorCode?: string;
+}
+
+/** Defines headers for WebPubSub_closeAllConnections operation. */
+export interface WebPubSubCloseAllConnectionsExceptionHeaders {
+  errorCode?: string;
+}
+
+/** Defines headers for WebPubSub_sendToAll operation. */
+export interface WebPubSubSendToAllExceptionHeaders {
+  errorCode?: string;
+}
+
+/** Defines headers for WebPubSub_connectionExists operation. */
+export interface WebPubSubConnectionExistsExceptionHeaders {
+  errorCode?: string;
+}
+
+/** Defines headers for WebPubSub_closeConnection operation. */
+export interface WebPubSubCloseConnectionExceptionHeaders {
+  errorCode?: string;
+}
+
+/** Defines headers for WebPubSub_sendToConnection operation. */
+export interface WebPubSubSendToConnectionExceptionHeaders {
+  errorCode?: string;
+}
+
+/** Defines headers for WebPubSub_groupExists operation. */
+export interface WebPubSubGroupExistsExceptionHeaders {
+  errorCode?: string;
+}
+
+/** Defines headers for WebPubSub_closeGroupConnections operation. */
+export interface WebPubSubCloseGroupConnectionsExceptionHeaders {
+  errorCode?: string;
+}
+
+/** Defines headers for WebPubSub_sendToGroup operation. */
+export interface WebPubSubSendToGroupExceptionHeaders {
+  errorCode?: string;
+}
+
+/** Defines headers for WebPubSub_addConnectionToGroup operation. */
+export interface WebPubSubAddConnectionToGroupExceptionHeaders {
+  errorCode?: string;
+}
+
+/** Defines headers for WebPubSub_removeConnectionFromGroup operation. */
+export interface WebPubSubRemoveConnectionFromGroupExceptionHeaders {
+  errorCode?: string;
+}
+
+/** Defines headers for WebPubSub_userExists operation. */
+export interface WebPubSubUserExistsExceptionHeaders {
+  errorCode?: string;
+}
+
+/** Defines headers for WebPubSub_closeUserConnections operation. */
+export interface WebPubSubCloseUserConnectionsExceptionHeaders {
+  errorCode?: string;
+}
+
+/** Defines headers for WebPubSub_sendToUser operation. */
+export interface WebPubSubSendToUserExceptionHeaders {
+  errorCode?: string;
+}
+
+/** Defines headers for WebPubSub_addUserToGroup operation. */
+export interface WebPubSubAddUserToGroupExceptionHeaders {
+  errorCode?: string;
+}
+
+/** Defines headers for WebPubSub_removeUserFromGroup operation. */
+export interface WebPubSubRemoveUserFromGroupExceptionHeaders {
+  errorCode?: string;
+}
+
+/** Defines headers for WebPubSub_removeUserFromAllGroups operation. */
+export interface WebPubSubRemoveUserFromAllGroupsExceptionHeaders {
+  errorCode?: string;
+}
+
+/** Defines headers for WebPubSub_grantPermission operation. */
+export interface WebPubSubGrantPermissionExceptionHeaders {
+  errorCode?: string;
+}
+
+/** Defines headers for WebPubSub_revokePermission operation. */
+export interface WebPubSubRevokePermissionExceptionHeaders {
+  errorCode?: string;
+}
+
+/** Defines headers for WebPubSub_checkPermission operation. */
+export interface WebPubSubCheckPermissionExceptionHeaders {
+  errorCode?: string;
+}
+
 /** Known values of {@link WebPubSubPermission} that the service accepts. */
-export const enum KnownWebPubSubPermission {
+export enum KnownWebPubSubPermission {
   SendToGroup = "sendToGroup",
   JoinLeaveGroup = "joinLeaveGroup"
 }
@@ -31,17 +156,40 @@ export interface HealthApiGetServiceStatusOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
+export interface WebPubSubGenerateClientTokenOptionalParams
+  extends coreClient.OperationOptions {
+  /** User Id. */
+  userId?: string;
+  /** Roles that the connection with the generated token will have. */
+  roles?: string[];
+  /** The expire time of the generated token. */
+  expirationTimeInMinutes?: number;
+}
+
+/** Contains response data for the generateClientToken operation. */
+export type WebPubSubGenerateClientTokenResponse = ClientTokenResponse;
+
+/** Optional parameters. */
+export interface WebPubSubCloseAllConnectionsOptionalParams
+  extends coreClient.OperationOptions {
+  /** Exclude these connectionIds when closing the connections in the hub. */
+  excluded?: string[];
+  /** The reason closing the client connection. */
+  reason?: string;
+}
+
+/** Optional parameters. */
 export interface WebPubSubSendToAll$binaryOptionalParams
   extends coreClient.OperationOptions {
   /** Excluded connection Ids. */
-  excluded?: string[];
+  excludedConnections?: string[];
 }
 
 /** Optional parameters. */
 export interface WebPubSubSendToAll$textOptionalParams
   extends coreClient.OperationOptions {
   /** Excluded connection Ids. */
-  excluded?: string[];
+  excludedConnections?: string[];
 }
 
 /** Optional parameters. */
@@ -49,7 +197,7 @@ export interface WebPubSubConnectionExistsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface WebPubSubCloseClientConnectionOptionalParams
+export interface WebPubSubCloseConnectionOptionalParams
   extends coreClient.OperationOptions {
   /** The reason closing the client connection. */
   reason?: string;
@@ -68,17 +216,26 @@ export interface WebPubSubGroupExistsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
+export interface WebPubSubCloseGroupConnectionsOptionalParams
+  extends coreClient.OperationOptions {
+  /** Exclude these connectionIds when closing the connections in the group. */
+  excluded?: string[];
+  /** The reason closing the client connection. */
+  reason?: string;
+}
+
+/** Optional parameters. */
 export interface WebPubSubSendToGroup$binaryOptionalParams
   extends coreClient.OperationOptions {
   /** Excluded connection Ids */
-  excluded?: string[];
+  excludedConnections?: string[];
 }
 
 /** Optional parameters. */
 export interface WebPubSubSendToGroup$textOptionalParams
   extends coreClient.OperationOptions {
   /** Excluded connection Ids */
-  excluded?: string[];
+  excludedConnections?: string[];
 }
 
 /** Optional parameters. */
@@ -92,6 +249,15 @@ export interface WebPubSubRemoveConnectionFromGroupOptionalParams
 /** Optional parameters. */
 export interface WebPubSubUserExistsOptionalParams
   extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface WebPubSubCloseUserConnectionsOptionalParams
+  extends coreClient.OperationOptions {
+  /** Exclude these connectionIds when closing the connections for the user. */
+  excluded?: string[];
+  /** The reason closing the client connection. */
+  reason?: string;
+}
 
 /** Optional parameters. */
 export interface WebPubSubSendToUser$binaryOptionalParams

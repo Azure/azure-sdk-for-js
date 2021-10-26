@@ -4,10 +4,10 @@
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-auth";
 
 import { createSpan } from "../util/tracing";
-import { CredentialUnavailableError } from "../client/errors";
+import { CredentialUnavailableError } from "../errors";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { credentialLogger, formatSuccess, formatError } from "../util/logging";
-import * as child_process from "child_process";
+import child_process from "child_process";
 import { ensureValidScope, getScopeResource } from "../util/scopeUtils";
 import { AzureCliCredentialOptions } from "./azureCliCredentialOptions";
 import { processMultiTenantRequest } from "../util/validateMultiTenant";
@@ -55,10 +55,10 @@ export const cliCredentialInternals = {
             "--output",
             "json",
             "--resource",
-            ...tenantSection,
-            resource
+            resource,
+            ...tenantSection
           ],
-          { cwd: cliCredentialInternals.getSafeWorkingDir() },
+          { cwd: cliCredentialInternals.getSafeWorkingDir(), shell: true },
           (error, stdout, stderr) => {
             resolve({ stdout: stdout, stderr: stderr, error });
           }
@@ -77,21 +77,20 @@ const logger = credentialLogger("AzureCliCredential");
  * via the Azure CLI ('az') commandline tool.
  * To do so, it will read the user access token and expire time
  * with Azure CLI command "az account get-access-token".
- * To be able to use this credential, ensure that you have already logged
- * in via the 'az' tool using the command "az login" from the commandline.
  */
 export class AzureCliCredential implements TokenCredential {
   private tenantId?: string;
-  private allowMultiTenantAuthentication?: boolean;
 
   /**
    * Creates an instance of the {@link AzureCliCredential}.
+   *
+   * To use this credential, ensure that you have already logged
+   * in via the 'az' tool using the command "az login" from the commandline.
    *
    * @param options - Options, to optionally allow multi-tenant requests.
    */
   constructor(options?: AzureCliCredentialOptions) {
     this.tenantId = options?.tenantId;
-    this.allowMultiTenantAuthentication = options?.allowMultiTenantAuthentication;
   }
 
   /**
@@ -106,11 +105,7 @@ export class AzureCliCredential implements TokenCredential {
     scopes: string | string[],
     options?: GetTokenOptions
   ): Promise<AccessToken> {
-    const tenantId = processMultiTenantRequest(
-      this.tenantId,
-      this.allowMultiTenantAuthentication,
-      options
-    );
+    const tenantId = processMultiTenantRequest(this.tenantId, options);
     if (tenantId) {
       checkTenantId(logger, tenantId);
     }
@@ -122,7 +117,7 @@ export class AzureCliCredential implements TokenCredential {
 
     let responseData = "";
 
-    const { span } = createSpan("AzureCliCredential-getToken", options);
+    const { span } = createSpan("AzureCliCredential.getToken", options);
 
     try {
       const obj = await cliCredentialInternals.getAzureCliAccessToken(resource, tenantId);

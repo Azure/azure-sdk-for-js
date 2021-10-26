@@ -172,23 +172,21 @@ export async function prepareIdentityTests({
       const totalOptions: http.RequestOptions[] = [];
 
       try {
-        sandbox.replace(
-          providerObject,
-          "request",
-          (options: string | URL | http.RequestOptions, resolve: any) => {
-            totalOptions.push(options as http.RequestOptions);
+        const fakeRequest = (options: string | URL | http.RequestOptions, resolve: any) => {
+          totalOptions.push(options as http.RequestOptions);
 
-            const { response, error } = responses.shift()!;
-            if (error) {
-              throw error;
-            } else {
-              resolve(responseToIncomingMessage(response!));
-            }
-            const request = createRequest();
-            spies.push(sandbox.spy(request, "end"));
-            return request;
+          const { response, error } = responses.shift()!;
+          if (error) {
+            throw error;
+          } else {
+            resolve(responseToIncomingMessage(response!));
           }
-        );
+          const request = createRequest();
+          spies.push(sandbox.spy(request, "end"));
+          return request;
+        };
+        sandbox.replace(providerObject, "request", fakeRequest);
+        sandbox.replace(providerObject.Agent.prototype as any, "request", fakeRequest);
       } catch (e) {
         console.debug(
           "Failed to replace the request. This might be expected if you're running multiple sendCredentialRequests() calls."

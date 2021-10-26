@@ -7,14 +7,13 @@ import { AccessToken } from "@azure/core-auth";
 
 import { DefaultTenantId } from "../../constants";
 import { resolveTenantId } from "../../util/resolveTenantId";
+import { processMultiTenantRequest } from "../../util/validateMultiTenant";
 import { BrowserLoginStyle } from "../../credentials/interactiveBrowserCredentialOptions";
+import { AuthenticationRequiredError, CredentialUnavailableError } from "../../errors";
 import { getAuthority, getKnownAuthorities, MsalBaseUtilities } from "../utils";
 import { MsalFlow, MsalFlowOptions } from "../flows";
 import { AuthenticationRecord } from "../types";
 import { CredentialFlowGetTokenOptions } from "../credentials";
-import { AuthenticationRequiredError } from "../errors";
-import { CredentialUnavailableError } from "../../client/errors";
-import { processMultiTenantRequest } from "../../util/validateMultiTenant";
 
 /**
  * Union of the constructor parameters that all MSAL flow types take.
@@ -23,7 +22,6 @@ import { processMultiTenantRequest } from "../../util/validateMultiTenant";
 export interface MsalBrowserFlowOptions extends MsalFlowOptions {
   redirectUri?: string;
   loginStyle: BrowserLoginStyle;
-  allowMultiTenantAuthentication?: boolean;
   loginHint?: string;
 }
 
@@ -71,7 +69,6 @@ export abstract class MsalBrowser extends MsalBaseUtilities implements MsalBrows
   protected loginStyle: BrowserLoginStyle;
   protected clientId: string;
   protected tenantId: string;
-  protected allowMultiTenantAuthentication?: boolean;
   protected authorityHost?: string;
   protected account: AuthenticationRecord | undefined;
   protected msalConfig: msalBrowser.Configuration;
@@ -87,7 +84,6 @@ export abstract class MsalBrowser extends MsalBaseUtilities implements MsalBrows
     }
     this.clientId = options.clientId;
     this.tenantId = resolveTenantId(this.logger, options.tenantId, options.clientId);
-    this.allowMultiTenantAuthentication = options?.allowMultiTenantAuthentication;
     this.authorityHost = options.authorityHost;
     this.msalConfig = defaultBrowserMsalConfig(options);
     this.disableAutomaticAuthentication = options.disableAutomaticAuthentication;
@@ -146,9 +142,7 @@ export abstract class MsalBrowser extends MsalBaseUtilities implements MsalBrows
     scopes: string[],
     options: CredentialFlowGetTokenOptions = {}
   ): Promise<AccessToken> {
-    const tenantId =
-      processMultiTenantRequest(this.tenantId, this.allowMultiTenantAuthentication, options) ||
-      this.tenantId;
+    const tenantId = processMultiTenantRequest(this.tenantId, options) || this.tenantId;
 
     if (!options.authority) {
       options.authority = getAuthority(tenantId, this.authorityHost);
@@ -165,11 +159,12 @@ export abstract class MsalBrowser extends MsalBaseUtilities implements MsalBrows
         throw err;
       }
       if (options?.disableAutomaticAuthentication) {
-        throw new AuthenticationRequiredError(
+        throw new AuthenticationRequiredError({
           scopes,
-          options,
-          "Automatic authentication has been disabled. You may call the authentication() method."
-        );
+          getTokenOptions: options,
+          message:
+            "Automatic authentication has been disabled. You may call the authentication() method."
+        });
       }
       this.logger.info(
         `Silent authentication failed, falling back to interactive method ${this.loginStyle}`

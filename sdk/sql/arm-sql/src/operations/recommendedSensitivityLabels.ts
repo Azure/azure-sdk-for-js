@@ -16,7 +16,7 @@ import {
   RecommendedSensitivityLabelsUpdateOptionalParams
 } from "../models";
 
-/** Class representing a RecommendedSensitivityLabels. */
+/** Class containing RecommendedSensitivityLabels operations. */
 export class RecommendedSensitivityLabelsImpl
   implements RecommendedSensitivityLabels {
   private readonly client: SqlManagementClientContext;

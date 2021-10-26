@@ -1075,7 +1075,7 @@ export interface MediaLiveEventIncomingStreamsOutOfSyncEventData {
   readonly timescaleOfMaxLastTimestamp: string;
 }
 
-/** Incoming video stream out of synch event data. Schema of the data property of an EventGridEvent for a Microsoft.Media.LiveEventIncomingVideoStreamsOutOfSync event. */
+/** Incoming video stream out of sync event data. Schema of the data property of an EventGridEvent for a Microsoft.Media.LiveEventIncomingVideoStreamsOutOfSync event. */
 export interface MediaLiveEventIncomingVideoStreamsOutOfSyncEventData {
   /**
    * Gets the first timestamp received for one of the quality levels.
@@ -1138,7 +1138,7 @@ export interface MediaLiveEventIncomingDataChunkDroppedEventData {
   readonly trackName: string;
 }
 
-/** Ingest fragment dropped event data. Schema of the data property of an EventGridEvent for a Microsoft.Media.LiveEventIngestHeartbeat event. */
+/** Ingest heartbeat event data. Schema of the data property of an EventGridEvent for a Microsoft.Media.LiveEventIngestHeartbeat event. */
 export interface MediaLiveEventIngestHeartbeatEventData {
   /**
    * Gets the type of the track (Audio / Video).
@@ -1151,6 +1151,16 @@ export interface MediaLiveEventIngestHeartbeatEventData {
    */
   readonly trackName: string;
   /**
+   * Gets the Live Transcription language.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly transcriptionLanguage: string;
+  /**
+   * Gets the Live Transcription state.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly transcriptionState: string;
+  /**
    * Gets the bitrate of the track.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
@@ -1160,6 +1170,16 @@ export interface MediaLiveEventIngestHeartbeatEventData {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly incomingBitrate: number;
+  /**
+   * Gets the track ingest drift value.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly ingestDriftValue: string;
+  /**
+   * Gets the arrival UTC time of the last fragment.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastFragmentArrivalTime: string;
   /**
    * Gets the last timestamp.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1239,6 +1259,20 @@ export interface MediaLiveEventTrackDiscontinuityDetectedEventData {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly discontinuityGap: string;
+}
+
+/** Channel Archive heartbeat event data. Schema of the data property of an EventGridEvent for a Microsoft.Media.LiveEventChannelArchiveHeartbeatEventData event. */
+export interface MediaLiveEventChannelArchiveHeartbeatEventData {
+  /**
+   * Gets the channel latency in ms.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly channelLatencyMs: string;
+  /**
+   * Gets the latency result code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly latencyResultCode: string;
 }
 
 /** Schema of the Data property of an EventGridEvent for a Geofence event (GeofenceEntered, GeofenceExited, GeofenceResult). */
@@ -1885,6 +1919,12 @@ export interface WebAppServicePlanUpdatedEventDataSku {
   capacity?: string;
 }
 
+/** Schema of the Data property of an EventGridEvent for an Microsoft.Communication.UserDisconnected event. */
+export interface AcsUserDisconnectedEventData {
+  /** The communication identifier of the user who was disconnected */
+  userCommunicationIdentifier: CommunicationIdentifierModel;
+}
+
 /** Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure communication user. This model must be interpreted as a union: Apart from rawId, at most one further property may be set. */
 export interface CommunicationIdentifierModel {
   /** Raw Id of the identifier. Optional in requests, required in responses. */
@@ -2061,6 +2101,96 @@ export interface ContainerServiceNewKubernetesVersionAvailableEventData {
   lowestMinorKubernetesVersion: string;
   /** The highest PATCH Kubernetes version considered preview for the ManagedCluster resource. There might not be any version in preview at the time of publishing the event */
   latestPreviewKubernetesVersion: string;
+}
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.UserCreated event. */
+export interface ApiManagementUserCreatedEventData {
+  /** The fully qualified ID of the resource that the compliance state change is for, including the resource name and resource type. Uses the format, `/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/<ResourceType>/<ResourceName>` */
+  resourceUri: string;
+}
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.UserUpdated event. */
+export interface ApiManagementUserUpdatedEventData {
+  /** The fully qualified ID of the resource that the compliance state change is for, including the resource name and resource type. Uses the format, `/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/<ResourceType>/<ResourceName>` */
+  resourceUri: string;
+}
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.UserDeleted event. */
+export interface ApiManagementUserDeletedEventData {
+  /** The fully qualified ID of the resource that the compliance state change is for, including the resource name and resource type. Uses the format, `/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/<ResourceType>/<ResourceName>` */
+  resourceUri: string;
+}
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.SubscriptionCreated event. */
+export interface ApiManagementSubscriptionCreatedEventData {
+  /** The fully qualified ID of the resource that the compliance state change is for, including the resource name and resource type. Uses the format, `/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/<ResourceType>/<ResourceName>` */
+  resourceUri: string;
+}
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.SubscriptionUpdated event. */
+export interface ApiManagementSubscriptionUpdatedEventData {
+  /** The fully qualified ID of the resource that the compliance state change is for, including the resource name and resource type. Uses the format, `/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/<ResourceType>/<ResourceName>` */
+  resourceUri: string;
+}
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.SubscriptionDeleted event. */
+export interface ApiManagementSubscriptionDeletedEventData {
+  /** The fully qualified ID of the resource that the compliance state change is for, including the resource name and resource type. Uses the format, `/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/<ResourceType>/<ResourceName>` */
+  resourceUri: string;
+}
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.ProductCreated event. */
+export interface ApiManagementProductCreatedEventData {
+  /** The fully qualified ID of the resource that the compliance state change is for, including the resource name and resource type. Uses the format, `/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/<ResourceType>/<ResourceName>` */
+  resourceUri: string;
+}
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.ProductUpdated event. */
+export interface ApiManagementProductUpdatedEventData {
+  /** The fully qualified ID of the resource that the compliance state change is for, including the resource name and resource type. Uses the format, `/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/<ResourceType>/<ResourceName>` */
+  resourceUri: string;
+}
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.ProductDeleted event. */
+export interface ApiManagementProductDeletedEventData {
+  /** The fully qualified ID of the resource that the compliance state change is for, including the resource name and resource type. Uses the format, `/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/<ResourceType>/<ResourceName>` */
+  resourceUri: string;
+}
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.APICreated event. */
+export interface ApiManagementApiCreatedEventData {
+  /** The fully qualified ID of the resource that the compliance state change is for, including the resource name and resource type. Uses the format, `/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/<ResourceType>/<ResourceName>` */
+  resourceUri: string;
+}
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.APIUpdated event. */
+export interface ApiManagementApiUpdatedEventData {
+  /** The fully qualified ID of the resource that the compliance state change is for, including the resource name and resource type. Uses the format, `/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/<ResourceType>/<ResourceName>` */
+  resourceUri: string;
+}
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.APIDeleted event. */
+export interface ApiManagementApiDeletedEventData {
+  /** The fully qualified ID of the resource that the compliance state change is for, including the resource name and resource type. Uses the format, `/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/<ResourceType>/<ResourceName>` */
+  resourceUri: string;
+}
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.APIReleaseCreated event. */
+export interface ApiManagementApiReleaseCreatedEventData {
+  /** The fully qualified ID of the resource that the compliance state change is for, including the resource name and resource type. Uses the format, `/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/<ResourceType>/<ResourceName>` */
+  resourceUri: string;
+}
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.APIReleaseUpdated event. */
+export interface ApiManagementApiReleaseUpdatedEventData {
+  /** The fully qualified ID of the resource that the compliance state change is for, including the resource name and resource type. Uses the format, `/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/<ResourceType>/<ResourceName>` */
+  resourceUri: string;
+}
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.APIReleaseDeleted event. */
+export interface ApiManagementApiReleaseDeletedEventData {
+  /** The fully qualified ID of the resource that the compliance state change is for, including the resource name and resource type. Uses the format, `/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/<ResourceType>/<ResourceName>` */
+  resourceUri: string;
 }
 
 /** Event data for Microsoft.Devices.DeviceCreated event. */

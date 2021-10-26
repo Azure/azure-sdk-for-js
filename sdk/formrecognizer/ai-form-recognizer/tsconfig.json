@@ -6,7 +6,8 @@
     "preserveConstEnums": true,
     "paths": {
       "@azure/ai-form-recognizer": ["./src/index"]
-    }
+    },
+    "skipLibCheck": true
   },
   "include": ["src/**/*.ts", "test/**/*.ts", "samples-dev/**/*.ts"]
 }

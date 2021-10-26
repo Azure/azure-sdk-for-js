@@ -8,7 +8,7 @@ import {
   createPipelineRequest,
   PipelineRequest
 } from "@azure/core-rest-pipeline";
-import { drainStream } from "@azure/test-utils-perfstress";
+import { drainStream } from "@azure/test-utils-perf";
 
 export class CoreHTTPSDownloadWithSASTest extends StorageBlobDownloadWithSASTest {
   client: HttpClient;
@@ -22,7 +22,7 @@ export class CoreHTTPSDownloadWithSASTest extends StorageBlobDownloadWithSASTest
     });
   }
 
-  async runAsync(): Promise<void> {
+  async run(): Promise<void> {
     const response = await this.client.sendRequest(this.request);
     await drainStream(response.readableStreamBody!);
   }

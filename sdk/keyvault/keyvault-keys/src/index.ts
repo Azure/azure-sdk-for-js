@@ -46,6 +46,7 @@ import {
   KeyPollerOptions,
   KeyType,
   KnownKeyTypes,
+  KnownKeyExportEncryptionAlgorithm,
   BeginDeleteKeyOptions,
   BeginRecoverDeletedKeyOptions,
   KeyProperties,
@@ -65,8 +66,14 @@ import {
   ReleaseKeyResult,
   KeyReleasePolicy,
   KeyExportEncryptionAlgorithm,
-  RandomBytes,
-  GetCryptographyClientOptions
+  GetCryptographyClientOptions,
+  RotateKeyOptions,
+  UpdateKeyRotationPolicyOptions,
+  GetKeyRotationPolicyOptions,
+  KeyRotationLifetimeAction,
+  KeyRotationPolicy,
+  KeyRotationPolicyProperties,
+  KeyRotationPolicyAction
 } from "./keysModels";
 
 import { CryptographyClient } from "./cryptographyClient";
@@ -109,7 +116,8 @@ import { KeyVaultKeyIdentifier, parseKeyVaultKeyIdentifier } from "./identifier"
 import {
   getDeletedKeyFromDeletedKeyItem,
   getKeyFromKeyBundle,
-  getKeyPropertiesFromKeyItem
+  getKeyPropertiesFromKeyItem,
+  keyRotationTransformations
 } from "./transformations";
 import { createTraceFunction } from "../../keyvault-common/src";
 
@@ -144,11 +152,11 @@ export {
   GetDeletedKeyOptions,
   GetKeyOptions,
   GetRandomBytesOptions,
-  RandomBytes,
   ImportKeyOptions,
   JsonWebKey,
   KeyCurveName,
   KnownKeyCurveNames,
+  KnownKeyExportEncryptionAlgorithm,
   EncryptionAlgorithm,
   KnownEncryptionAlgorithms,
   KeyOperation,
@@ -175,6 +183,7 @@ export {
   PollerLike,
   PurgeDeletedKeyOptions,
   RestoreKeyBackupOptions,
+  RotateKeyOptions,
   SignOptions,
   SignResult,
   UnwrapKeyOptions,
@@ -185,12 +194,18 @@ export {
   VerifyResult,
   WrapKeyOptions,
   WrapResult,
-  logger,
   ReleaseKeyOptions,
   ReleaseKeyResult,
   KeyReleasePolicy,
   KeyExportEncryptionAlgorithm,
-  GetCryptographyClientOptions
+  GetCryptographyClientOptions,
+  KeyRotationPolicyAction,
+  KeyRotationPolicyProperties,
+  KeyRotationPolicy,
+  KeyRotationLifetimeAction,
+  UpdateKeyRotationPolicyOptions,
+  GetKeyRotationPolicyOptions,
+  logger
 };
 
 const withTrace = createTraceFunction("Azure.KeyVault.Keys.KeyClient");
@@ -767,10 +782,29 @@ export class KeyClient {
    * @param count - The number of bytes to generate between 1 and 128 inclusive.
    * @param options - The optional parameters.
    */
-  public getRandomBytes(count: number, options: GetRandomBytesOptions = {}): Promise<RandomBytes> {
+  public getRandomBytes(count: number, options: GetRandomBytesOptions = {}): Promise<Uint8Array> {
     return withTrace("getRandomBytes", options, async (updatedOptions) => {
       const response = await this.client.getRandomBytes(this.vaultUrl, count, updatedOptions);
-      return { bytes: response.value! };
+      return response.value!;
+    });
+  }
+
+  /**
+   * Rotates the key based on the key policy by generating a new version of the key. This operation requires the keys/rotate permission.
+   *
+   * Example usage:
+   * ```ts
+   * let client = new KeyClient(vaultUrl, credentials);
+   * let key = await client.rotateKey("MyKey");
+   * ```
+   *
+   * @param name - The name of the key to rotate.
+   * @param options - The optional parameters.
+   */
+  public rotateKey(name: string, options: RotateKeyOptions = {}): Promise<KeyVaultKey> {
+    return withTrace("rotateKey", options, async (updatedOptions) => {
+      const key = await this.client.rotateKey(this.vaultUrl, name, updatedOptions);
+      return getKeyFromKeyBundle(key);
     });
   }
 
@@ -786,11 +820,12 @@ export class KeyClient {
    * ```
    *
    * @param name - The name of the key.
+   * @param targetAttestationToken - The attestation assertion for the target of the key release.
    * @param options - The optional parameters.
    */
   public releaseKey(
     name: string,
-    target: string,
+    targetAttestationToken: string,
     options: ReleaseKeyOptions = {}
   ): Promise<ReleaseKeyResult> {
     return withTrace("releaseKey", options, async (updatedOptions) => {
@@ -799,7 +834,7 @@ export class KeyClient {
         this.vaultUrl,
         name,
         options?.version || "",
-        target,
+        targetAttestationToken,
         {
           enc: algorithm,
           nonce,
@@ -810,6 +845,59 @@ export class KeyClient {
       return { value: result.value! };
     });
   }
+
+  /**
+   * Gets the rotation policy of a Key Vault Key.
+   *
+   * Example usage:
+   * ```ts
+   * let client = new KeyClient(vaultUrl, credentials);
+   * await client.updateKeyRotationPolicy("MyKey", myPolicy);
+   * let result = await client.getKeyRotationPolicy("myKey");
+   * ```
+   *
+   * @param name - The name of the key.
+   * @param options - The optional parameters.
+   */
+  public getKeyRotationPolicy(
+    name: string,
+    options: GetKeyRotationPolicyOptions = {}
+  ): Promise<KeyRotationPolicy> {
+    return withTrace("getKeyRotationPolicy", options, async () => {
+      const policy = await this.client.getKeyRotationPolicy(this.vaultUrl, name);
+      return keyRotationTransformations.generatedToPublic(policy);
+    });
+  }
+
+  /**
+   * Updates the rotation policy of a Key Vault Key.
+   *
+   * Example usage:
+   * ```ts
+   * let client = new KeyClient(vaultUrl, credentials);
+   * const setPolicy = await client.updateKeyRotationPolicy("MyKey", myPolicy);
+   * ```
+   *
+   * @param name - The name of the key.
+   * @param policyProperties - The {@link KeyRotationPolicyProperties} for the policy.
+   * @param options - The optional parameters.
+   */
+  public updateKeyRotationPolicy(
+    name: string,
+    policy: KeyRotationPolicyProperties,
+    options: UpdateKeyRotationPolicyOptions = {}
+  ): Promise<KeyRotationPolicy> {
+    return withTrace("updateKeyRotationPolicy", options, async (updatedOptions) => {
+      const result = await this.client.updateKeyRotationPolicy(
+        this.vaultUrl,
+        name,
+        keyRotationTransformations.propertiesToGenerated(policy),
+        updatedOptions
+      );
+      return keyRotationTransformations.generatedToPublic(result);
+    });
+  }
+
   /**
    * @internal
    * @hidden

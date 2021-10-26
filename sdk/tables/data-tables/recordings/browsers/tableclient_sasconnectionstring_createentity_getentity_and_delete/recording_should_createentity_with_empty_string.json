@@ -1,0 +1,53 @@
+{
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://fakeaccount.table.core.windows.net/tableClientTestSASConnectionStringbrowser",
+   "query": {},
+   "requestBody": "{\"PartitionKey\":\"emptyString\",\"RowKey\":\"0\",\"value\":\"\",\"value@odata.type\":\"Edm.String\"}",
+   "status": 204,
+   "response": "",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "0",
+    "dataserviceid": "https://fakeaccount.table.core.windows.net/tableClientTestSASConnectionStringbrowser(PartitionKey='emptyString',RowKey='0')",
+    "date": "Fri, 15 Oct 2021 16:13:35 GMT",
+    "etag": "W/\"datetime'2021-10-15T16%3A13%3A36.3391946Z'\"",
+    "location": "https://fakeaccount.table.core.windows.net/tableClientTestSASConnectionStringbrowser(PartitionKey='emptyString',RowKey='0')",
+    "preference-applied": "return-no-content",
+    "server": "Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0",
+    "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "550a1868-d933-4108-ac53-68d5b6977a26",
+    "x-ms-request-id": "8cdfcece-8002-0028-4cdf-c1f600000000",
+    "x-ms-version": "2019-02-02"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://fakeaccount.table.core.windows.net/tableClientTestSASConnectionStringbrowser(PartitionKey='emptyString',RowKey='0')",
+   "query": {},
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"odata.metadata\":\"https://fakeaccount.table.core.windows.net/$metadata#tableClientTestSASConnectionStringbrowser/@Element\",\"odata.etag\":\"W/\\\"datetime'2021-10-15T16%3A13%3A36.3391946Z'\\\"\",\"PartitionKey\":\"emptyString\",\"RowKey\":\"0\",\"Timestamp\":\"2021-10-15T16:13:36.3391946Z\",\"value\":\"\"}",
+   "responseHeaders": {
+    "access-control-allow-origin": "*",
+    "access-control-expose-headers": "x-ms-request-id,x-ms-client-request-id,Server,x-ms-version,X-Content-Type-Options,Cache-Control,ETag,Content-Type,Content-Length,Date,Transfer-Encoding",
+    "cache-control": "no-cache",
+    "content-type": "application/json;odata=minimalmetadata;streaming=true;charset=utf-8",
+    "date": "Fri, 15 Oct 2021 16:13:35 GMT",
+    "etag": "W/\"datetime'2021-10-15T16%3A13%3A36.3391946Z'\"",
+    "server": "Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "8431b603-e921-4886-98e2-38d1b538f7ad",
+    "x-ms-request-id": "8cdfced3-8002-0028-51df-c1f600000000",
+    "x-ms-version": "2019-02-02"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "492b3df9da7ef54dc9bd2793d3b3c229"
+}

@@ -1,6 +1,6 @@
 # Release History
 
-## 30.0.0-beta.2 (Unreleased)
+## 9.0.0-beta.2 (Unreleased)
 
 ### Features Added
 
@@ -10,7 +10,7 @@
 
 ### Other Changes
 
-## 30.0.0-beta.1 (2021-08-31)
+## 9.0.0-beta.1 (2021-10-09)
 
 This is the first preview for the new version of the `@azure/arm-authorization` package that follows the new [guidelines for TypeScript SDKs](https://azure.github.io/azure-sdk/typescript_introduction.html) for Azure services.
 

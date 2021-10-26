@@ -32,7 +32,7 @@ export async function main(): Promise<void> {
     credential,
     "https://mysynapse.dev.azuresynapse.net"
   );
-  let list = await client.listRoleDefinitions();
+  let list = await client.roleDefinitions.listRoleDefinitions();
   for await (let item of list) {
     console.log("item:", item);
   }

@@ -6,21 +6,20 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   PipelineResource,
-  PipelineOperationsGetPipelinesByWorkspaceOptionalParams,
-  PipelineOperationsCreateOrUpdatePipelineOptionalParams,
-  PipelineOperationsCreateOrUpdatePipelineResponse,
-  PipelineOperationsGetPipelineOptionalParams,
-  PipelineOperationsGetPipelineResponse,
-  PipelineOperationsDeletePipelineOptionalParams,
+  PipelineGetPipelinesByWorkspaceOptionalParams,
+  PipelineCreateOrUpdatePipelineOptionalParams,
+  PipelineCreateOrUpdatePipelineResponse,
+  PipelineGetPipelineOptionalParams,
+  PipelineGetPipelineResponse,
+  PipelineDeletePipelineOptionalParams,
   ArtifactRenameRequest,
-  PipelineOperationsRenamePipelineOptionalParams,
-  PipelineOperationsCreatePipelineRunOptionalParams,
-  PipelineOperationsCreatePipelineRunResponse
+  PipelineRenamePipelineOptionalParams,
+  PipelineCreatePipelineRunOptionalParams,
+  PipelineCreatePipelineRunResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -31,7 +30,7 @@ export interface PipelineOperations {
    * @param options The options parameters.
    */
   listPipelinesByWorkspace(
-    options?: PipelineOperationsGetPipelinesByWorkspaceOptionalParams
+    options?: PipelineGetPipelinesByWorkspaceOptionalParams
   ): PagedAsyncIterableIterator<PipelineResource>;
   /**
    * Creates or updates a pipeline.
@@ -42,11 +41,11 @@ export interface PipelineOperations {
   beginCreateOrUpdatePipeline(
     pipelineName: string,
     pipeline: PipelineResource,
-    options?: PipelineOperationsCreateOrUpdatePipelineOptionalParams
+    options?: PipelineCreateOrUpdatePipelineOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<PipelineOperationsCreateOrUpdatePipelineResponse>,
-      PipelineOperationsCreateOrUpdatePipelineResponse
+      PollOperationState<PipelineCreateOrUpdatePipelineResponse>,
+      PipelineCreateOrUpdatePipelineResponse
     >
   >;
   /**
@@ -58,8 +57,8 @@ export interface PipelineOperations {
   beginCreateOrUpdatePipelineAndWait(
     pipelineName: string,
     pipeline: PipelineResource,
-    options?: PipelineOperationsCreateOrUpdatePipelineOptionalParams
-  ): Promise<PipelineOperationsCreateOrUpdatePipelineResponse>;
+    options?: PipelineCreateOrUpdatePipelineOptionalParams
+  ): Promise<PipelineCreateOrUpdatePipelineResponse>;
   /**
    * Gets a pipeline.
    * @param pipelineName The pipeline name.
@@ -67,8 +66,8 @@ export interface PipelineOperations {
    */
   getPipeline(
     pipelineName: string,
-    options?: PipelineOperationsGetPipelineOptionalParams
-  ): Promise<PipelineOperationsGetPipelineResponse>;
+    options?: PipelineGetPipelineOptionalParams
+  ): Promise<PipelineGetPipelineResponse>;
   /**
    * Deletes a pipeline.
    * @param pipelineName The pipeline name.
@@ -76,7 +75,7 @@ export interface PipelineOperations {
    */
   beginDeletePipeline(
     pipelineName: string,
-    options?: PipelineOperationsDeletePipelineOptionalParams
+    options?: PipelineDeletePipelineOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
    * Deletes a pipeline.
@@ -85,7 +84,7 @@ export interface PipelineOperations {
    */
   beginDeletePipelineAndWait(
     pipelineName: string,
-    options?: PipelineOperationsDeletePipelineOptionalParams
+    options?: PipelineDeletePipelineOptionalParams
   ): Promise<void>;
   /**
    * Renames a pipeline.
@@ -96,7 +95,7 @@ export interface PipelineOperations {
   beginRenamePipeline(
     pipelineName: string,
     request: ArtifactRenameRequest,
-    options?: PipelineOperationsRenamePipelineOptionalParams
+    options?: PipelineRenamePipelineOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
    * Renames a pipeline.
@@ -107,7 +106,7 @@ export interface PipelineOperations {
   beginRenamePipelineAndWait(
     pipelineName: string,
     request: ArtifactRenameRequest,
-    options?: PipelineOperationsRenamePipelineOptionalParams
+    options?: PipelineRenamePipelineOptionalParams
   ): Promise<void>;
   /**
    * Creates a run of a pipeline.
@@ -116,6 +115,6 @@ export interface PipelineOperations {
    */
   createPipelineRun(
     pipelineName: string,
-    options?: PipelineOperationsCreatePipelineRunOptionalParams
-  ): Promise<PipelineOperationsCreatePipelineRunResponse>;
+    options?: PipelineCreatePipelineRunOptionalParams
+  ): Promise<PipelineCreatePipelineRunResponse>;
 }

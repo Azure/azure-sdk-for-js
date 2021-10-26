@@ -6,17 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   PolicyExemption,
-  PolicyExemptionsListNextOptionalParams,
   PolicyExemptionsListOptionalParams,
-  PolicyExemptionsListForResourceGroupNextOptionalParams,
   PolicyExemptionsListForResourceGroupOptionalParams,
-  PolicyExemptionsListForResourceNextOptionalParams,
   PolicyExemptionsListForResourceOptionalParams,
-  PolicyExemptionsListForManagementGroupNextOptionalParams,
   PolicyExemptionsListForManagementGroupOptionalParams,
   PolicyExemptionsDeleteOptionalParams,
   PolicyExemptionsCreateOrUpdateOptionalParams,
@@ -100,58 +95,6 @@ export interface PolicyExemptions {
   listForManagementGroup(
     managementGroupId: string,
     options?: PolicyExemptionsListForManagementGroupOptionalParams
-  ): PagedAsyncIterableIterator<PolicyExemption>;
-  /**
-   * ListNext
-   * @param nextLink The nextLink from the previous successful call to the List method.
-   * @param options The options parameters.
-   */
-  listNext(
-    nextLink: string,
-    options?: PolicyExemptionsListNextOptionalParams
-  ): PagedAsyncIterableIterator<PolicyExemption>;
-  /**
-   * ListForResourceGroupNext
-   * @param resourceGroupName The name of the resource group containing the resource.
-   * @param nextLink The nextLink from the previous successful call to the ListForResourceGroup method.
-   * @param options The options parameters.
-   */
-  listForResourceGroupNext(
-    resourceGroupName: string,
-    nextLink: string,
-    options?: PolicyExemptionsListForResourceGroupNextOptionalParams
-  ): PagedAsyncIterableIterator<PolicyExemption>;
-  /**
-   * ListForResourceNext
-   * @param resourceGroupName The name of the resource group containing the resource.
-   * @param resourceProviderNamespace The namespace of the resource provider. For example, the namespace
-   *                                  of a virtual machine is Microsoft.Compute (from Microsoft.Compute/virtualMachines)
-   * @param parentResourcePath The parent resource path. Use empty string if there is none.
-   * @param resourceType The resource type name. For example the type name of a web app is 'sites' (from
-   *                     Microsoft.Web/sites).
-   * @param resourceName The name of the resource.
-   * @param nextLink The nextLink from the previous successful call to the ListForResource method.
-   * @param options The options parameters.
-   */
-  listForResourceNext(
-    resourceGroupName: string,
-    resourceProviderNamespace: string,
-    parentResourcePath: string,
-    resourceType: string,
-    resourceName: string,
-    nextLink: string,
-    options?: PolicyExemptionsListForResourceNextOptionalParams
-  ): PagedAsyncIterableIterator<PolicyExemption>;
-  /**
-   * ListForManagementGroupNext
-   * @param managementGroupId The ID of the management group.
-   * @param nextLink The nextLink from the previous successful call to the ListForManagementGroup method.
-   * @param options The options parameters.
-   */
-  listForManagementGroupNext(
-    managementGroupId: string,
-    nextLink: string,
-    options?: PolicyExemptionsListForManagementGroupNextOptionalParams
   ): PagedAsyncIterableIterator<PolicyExemption>;
   /**
    * This operation deletes a policy exemption, given its name and the scope it was created in. The scope

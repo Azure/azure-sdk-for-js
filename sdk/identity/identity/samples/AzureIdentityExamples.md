@@ -15,10 +15,10 @@
   - [Authenticating with a pre-fetched access token](#authenticating-with-a-pre-fetched-access-token).
   - [Authenticating with MSAL directly](#authenticating-with-msal-directly).
     - [Authenticating with the @azure/msal-node Confidential Client](#authenticating-with-the-@azure/msal-node-confidential-client).
-    - [Authenticating with the @azure/msal-node On Behalf Flow](#authenticating-with-the-@azure/msal-node-on-behalf-of-flow).
     - [Authenticating with the @azure/msal-browser Public Client](#authenticating-with-the-@azure/msal-browser-public-client).
   - [Authenticating with Key Vault Certificates](#authenticating-with-key-vault-certificates)
   - [Rolling Certificates](#rolling-certificates)
+  - [Authenticate on behalf of](#authenticate-on-behalf-of)
   - [Control user interaction](#control-user-interaction)
   - [Persist user authentication data](#persist-user-authentication-data)
     - [Persist the token cache](#persist-the-token-cache)
@@ -558,16 +558,15 @@ export interface AccessToken {
 
 As long as a valid `AccessToken` is returned, the parameters are not required to be used by a method implementing the `TokenCredential` interface. So, the simplest possible object compatible with the `TokenCredential` interface is one that has a `getToken` method that may return either null, or an object with two properties, a numeric property called `expiresOnTimestamp`, and a string property called `token`. Example:
 
-
 ```ts
 const mySimpleCredential = {
   getToken() {
     return {
       expiresOnTimestamp: Date.now() + 1000, // Expires in a second
       token: "my access token"
-    }
+    };
   }
-}
+};
 ```
 
 ### Authenticating with a pre-fetched access token
@@ -664,64 +663,6 @@ async function main() {
     "https://myvault.vault.azure.net/",
     new ConfidentialClientCredential(confidentialClient)
   );
-}
-```
-
-#### Authenticating with the @azure/msal-node On Behalf Of Flow
-
-Currently, the `@azure/identity` library doesn't provide a credential type for clients which need to authenticate via the [On Behalf of Flow](https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/master/lib/msal-common/docs/request.md#on-behalf-of-flow). While we may add support for this feature in the future, users currently requiring this will have to implement their own `TokenCredential` class.
-
-In this example, the `OnBehalfOfCredential` accepts a client ID, client secret, and a user's access token. It then creates an instance of `ConfidentialClientApplication` from MSAL to obtain an OBO token that can authenticate client requests.
-
-**Prerequisites**
-
-Install the [@azure/msal-node][msal_node_npm] and [@azure/core-auth][core_auth].
-
-> For more information about MSAL for Node.js, see [the README of the `@azure/msal-node` package][msal_node_readme].
-> For more information about working with the Confidential Client of MSAL, see [Initialization of MSAL (Node.js)](https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/master/lib/msal-node/docs/initialize-confidential-client-application.md).
-> For more information about working with the On Behalf Flow with MSAL, see [On Behalf of Flow](https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/master/lib/msal-common/docs/request.md#on-behalf-of-flow).
-
-```ts
-import { TokenCredential, AccessToken } from "@azure/core-auth";
-import * as msalNode from "@azure/msal-node";
-
-class OnBehalfOfCredential implements TokenCredential {
-  private confidentialApp: msalNode.ConfidentialClientApplication;
-
-  constructor(
-    private clientId: string,
-    private clientSecret: string,
-    private userAccessToken: string
-  ) {
-    this.confidentialApp = new msalNode.ConfidentialClientApplication({
-      auth: {
-        clientId,
-        clientSecret
-      }
-    });
-  }
-  async getToken(scopes: string | string[]): Promise<AccessToken> {
-    const result = await this.confidentialApp.acquireTokenOnBehalfOf({
-      scopes: Array.isArray(scopes) ? scopes : [scopes],
-      oboAssertion: this.userAccessToken
-    });
-    return {
-      token: result.accessToken,
-      expiresOnTimestamp: result.expiresOn.getTime()
-    };
-  }
-}
-```
-
-The following example shows an how the `OnBehalfOfCredential` could be used to authenticate a `SecretClient`:
-
-```ts
-import { SecretClient } from "@azure/keyvault-secrets";
-
-async function main() {
-  const oboCredential = new OnBehalfOfCredential(clientId, clientSecret, userAccessToken);
-
-  const client = new SecretClient("https://myvault.vault.azure.net/", oboCredential);
 }
 ```
 
@@ -950,6 +891,64 @@ class RotatingCertificateCredential implements TokenCredential {
 
 In this example, the custom credential type `RotatingCertificateCredential` again uses a `ClientCertificateCredential` instance to retrieve tokens. However, in this case, it will attempt to refresh the certificate before obtaining the token. The method `RefreshCertificate` will query to see if the certificate has changed. If so, it will replace `this.credential` with a new instance of the certificate credential using the same certificate path.
 
+### Authenticate on behalf of
+
+Many multi-user apps use the [On-Behalf-Of (OBO) flow](https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-on-behalf-of-flow) to make authenticated requests between two services that would otherwise be unreachable. The Identity SDK provides an `OnBehalfOfCredential` that supports this form of authentication.
+
+Two accounts participate in the OBO flow:
+
+- A user, which aims to obtain a special access level.
+- An app registration, which will act as the provider of the special access level.
+
+Both accounts must belong to the same Azure AD tenant.
+
+For this authentication flow to work, app registrations must be configured with a custom scope. To create a scope through the Azure portal:
+
+1. Select **Active Directory** > **App registrations**.
+2. Go to the app you want to authenticate against.
+3. On the left menu, select **Expose an API** > **Add a scope**.
+
+While other credentials authenticate requesting access to a set of resources, the OBO flow requires the user token to have access specifically to the scope of the Azure AD app that will delegate its access to the users.
+
+```ts
+const credential = new InteractiveBrowserCredential();
+
+// Make sure to use the custom scope created on your app registration.
+const token = await credential.getToken("api://AAD_APP_CLIENT_ID/CUSTOM_SCOPE_NAME");
+```
+
+Once the token is retrieved, pass it in the `userAssertionToken` property of the `OnBehalfOfCredentialOptions`, along with `tenantId`, `clientId`, and `clientSecret`. Once initialized, this credential will have granted the user access to the resources available to the app registration.
+
+```ts
+import { InteractiveBrowserCredential, OnBehalfOfCredential } from "@azure/identity";
+
+async function main(): Promise<void> {
+  // One would use AuthCodeCredential in real life.
+  const credential = new InteractiveBrowserCredential();
+
+  const token = await credential.getToken("api://AAD_APP_CLIENT_ID/Read");
+
+  const oboCred = new OnBehalfOfCredential({
+    tenantId: "TENANT",
+    clientId: "AAD_APP_CLIENT_ID",
+    clientSecret: "AAD_APP_CLIENT_SECRET",
+    userAssertionToken: token.token
+  });
+
+  // Now, the originally authenticated user will be granted access by the app registration
+  // to previously inaccessible resources.
+  const token2 = await oboCred.getToken("https://storage.azure.com/.default");
+  console.log({ token, token2 });
+}
+
+main().catch((err) => {
+  console.log("error code: ", err.code);
+  console.log("error message: ", err.message);
+  console.log("error stack: ", err.stack);
+  process.exit(1);
+});
+```
+
 ### Control user interaction
 
 In many cases, applications require tight control over user interaction. In these applications, automatically blocking on required user interaction is often undesired or impractical. For this reason, credentials in the `@azure/identity` library that interact with the user offer mechanisms to fully control user interaction. These settings are available under `InteractiveCredentialOptions` in both Node.js and the browser.
@@ -1156,20 +1155,25 @@ National clouds are physically isolated instances of Azure. These regions of Azu
 All credentials have `authorityHost` as a setting in the constructor at some level. To authenticate for various national cloud or a private cloud, we can send the most appropriate `authorityHost`. We provide a set of common values through the `AzureAuthorityHosts` interface. So, for the US Government cloud, you could instantiate a credential this way:
 
 ```ts
-const identity = require("@azure/identity");
-const credential = new identity.ClientSecretCredential({
-  authorityHost: identity.AzureAuthorityHosts.AzureGovernment
-});
+import { AzureAuthorityHosts, ClientSecretCredential } from "@azure/identity";
+const credential = new ClientSecretCredential(
+  "<YOUR_TENANT_ID>",
+  "<YOUR_CLIENT_ID>",
+  "<YOUR_CLIENT_SECRET>",
+  {
+    authorityHost: AzureAuthorityHosts.AzureGovernment
+  }
+);
 ```
 
 The following table shows common values provided through the `AzureAuthorityHosts`.
 
-| National Cloud | Azure AD authentication endpoint | AzureAuthorityHost |
-| ----------------------------------- | ---------------------------------------- | -------------------------------------- |
-| Azure AD for US Government | https://login.microsoftonline.us | `AzureAuthorityHosts.AzureGovernment` |
-| Azure AD Germany | https://login.microsoftonline.de | `AzureAuthorityHosts.AzureGermany` |
-| Azure AD China operated by 21Vianet | https://login.partner.microsoftonline.cn | `AzureAuthorityHosts.AzureChina` |
-| Azure AD (global service) | https://login.microsoftonline.com | `AzureAuthorityHosts.AzurePublicCloud` |
+| National Cloud                      | Azure AD authentication endpoint  | AzureAuthorityHost                     |
+| ----------------------------------- | --------------------------------- | -------------------------------------- |
+| Azure AD for US Government          | https://login.microsoftonline.us  | `AzureAuthorityHosts.AzureGovernment`  |
+| Azure AD Germany                    | https://login.microsoftonline.de  | `AzureAuthorityHosts.AzureGermany`     |
+| Azure AD China operated by 21Vianet | https://login.chinacloudapi.cn    | `AzureAuthorityHosts.AzureChina`       |
+| Azure AD (global service)           | https://login.microsoftonline.com | `AzureAuthorityHosts.AzurePublicCloud` |
 
 To learn more about Azure Authentication for National Clouds, see [National clouds](https://docs.microsoft.com/azure/active-directory/develop/authentication-national-cloud).
 

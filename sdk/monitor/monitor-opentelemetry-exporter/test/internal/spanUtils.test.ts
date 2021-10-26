@@ -9,6 +9,7 @@ import * as assert from "assert";
 import { hrTimeToMilliseconds } from "@opentelemetry/core";
 import { Resource } from "@opentelemetry/resources";
 import {
+  DbSystemValues,
   SemanticAttributes,
   SemanticResourceAttributes
 } from "@opentelemetry/semantic-conventions";
@@ -306,7 +307,7 @@ describe("spanUtils.ts", () => {
         const expectedTags: Tags = {};
         expectedTags[KnownContextTagKeys.AiOperationId] = "traceid";
         expectedTags[KnownContextTagKeys.AiOperationParentId] = "parentSpanId";
-        expectedTags[KnownContextTagKeys.AiOperationName] = "GET parent span";
+        expectedTags[KnownContextTagKeys.AiOperationName] = "GET /api/example";
 
         const expectedProperties = {
           "extra.attribute": "foo"
@@ -318,7 +319,7 @@ describe("spanUtils.ts", () => {
           success: true,
           responseCode: "200",
           url: "https://example.com/api/example",
-          name: `parent span`,
+          name: expectedTags[KnownContextTagKeys.AiOperationName],
           version: 2,
           source: undefined,
           properties: expectedProperties,
@@ -371,6 +372,59 @@ describe("spanUtils.ts", () => {
           type: "Http",
           target: "https://someotherexample.com/api/example",
           data: "https://example.com/api/example",
+          name: `GET /api/example`,
+          version: 2,
+          properties: expectedProperties,
+          measurements: {}
+        };
+
+        const envelope = readableSpanToEnvelope(span, "ikey");
+        assertEnvelope(
+          envelope,
+          "Microsoft.ApplicationInsights.RemoteDependency",
+          "RemoteDependencyData",
+          expectedTags,
+          expectedProperties,
+          emptyMeasurements,
+          expectedBaseData
+        );
+      });
+    });
+
+    describe("DB", () => {
+      it("should create a Dependency Envelope for Client Spans", () => {
+        const span = new Span(
+          tracer,
+          ROOT_CONTEXT,
+          "parent span",
+          { traceId: "traceid", spanId: "spanId", traceFlags: 0 },
+          SpanKind.CLIENT,
+          "parentSpanId"
+        );
+        span.setAttributes({
+          [SemanticAttributes.DB_SYSTEM]: DbSystemValues.MYSQL,
+          [SemanticAttributes.DB_STATEMENT]: "SELECT * FROM Test",
+          "extra.attribute": "foo"
+        });
+        span.setStatus({
+          code: SpanStatusCode.OK
+        });
+        span.end();
+        const expectedTags: Tags = {};
+        expectedTags[KnownContextTagKeys.AiOperationId] = span.spanContext().traceId;
+        expectedTags[KnownContextTagKeys.AiOperationParentId] = "parentSpanId";
+        const expectedProperties = {
+          "extra.attribute": "foo"
+        };
+
+        const expectedBaseData: RemoteDependencyData = {
+          duration: msToTimeSpan(hrTimeToMilliseconds(span.duration)),
+          id: `spanId`,
+          success: true,
+          resultCode: "0",
+          type: "mysql",
+          target: "mysql",
+          data: "SELECT * FROM Test",
           name: `parent span`,
           version: 2,
           properties: expectedProperties,

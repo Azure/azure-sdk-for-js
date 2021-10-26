@@ -6,7 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { Clusters } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
@@ -17,10 +16,13 @@ import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
   Cluster,
+  ClustersListBySubscriptionNextOptionalParams,
+  ClustersListBySubscriptionOptionalParams,
   ClustersListByResourceGroupNextOptionalParams,
   ClustersListByResourceGroupOptionalParams,
   ClustersListAvailableClusterRegionOptionalParams,
   ClustersListAvailableClusterRegionResponse,
+  ClustersListBySubscriptionResponse,
   ClustersListByResourceGroupResponse,
   ClustersGetOptionalParams,
   ClustersGetResponse,
@@ -31,6 +33,7 @@ import {
   ClustersDeleteOptionalParams,
   ClustersListNamespacesOptionalParams,
   ClustersListNamespacesResponse,
+  ClustersListBySubscriptionNextResponse,
   ClustersListByResourceGroupNextResponse
 } from "../models";
 
@@ -45,6 +48,48 @@ export class ClustersImpl implements Clusters {
    */
   constructor(client: EventHubManagementClientContext) {
     this.client = client;
+  }
+
+  /**
+   * Lists the available Event Hubs Clusters within an ARM resource group
+   * @param options The options parameters.
+   */
+  public listBySubscription(
+    options?: ClustersListBySubscriptionOptionalParams
+  ): PagedAsyncIterableIterator<Cluster> {
+    const iter = this.listBySubscriptionPagingAll(options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: () => {
+        return this.listBySubscriptionPagingPage(options);
+      }
+    };
+  }
+
+  private async *listBySubscriptionPagingPage(
+    options?: ClustersListBySubscriptionOptionalParams
+  ): AsyncIterableIterator<Cluster[]> {
+    let result = await this._listBySubscription(options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
+    while (continuationToken) {
+      result = await this._listBySubscriptionNext(continuationToken, options);
+      continuationToken = result.nextLink;
+      yield result.value || [];
+    }
+  }
+
+  private async *listBySubscriptionPagingAll(
+    options?: ClustersListBySubscriptionOptionalParams
+  ): AsyncIterableIterator<Cluster> {
+    for await (const page of this.listBySubscriptionPagingPage(options)) {
+      yield* page;
+    }
   }
 
   /**
@@ -110,6 +155,19 @@ export class ClustersImpl implements Clusters {
     return this.client.sendOperationRequest(
       { options },
       listAvailableClusterRegionOperationSpec
+    );
+  }
+
+  /**
+   * Lists the available Event Hubs Clusters within an ARM resource group
+   * @param options The options parameters.
+   */
+  private _listBySubscription(
+    options?: ClustersListBySubscriptionOptionalParams
+  ): Promise<ClustersListBySubscriptionResponse> {
+    return this.client.sendOperationRequest(
+      { options },
+      listBySubscriptionOperationSpec
     );
   }
 
@@ -423,6 +481,21 @@ export class ClustersImpl implements Clusters {
   }
 
   /**
+   * ListBySubscriptionNext
+   * @param nextLink The nextLink from the previous successful call to the ListBySubscription method.
+   * @param options The options parameters.
+   */
+  private _listBySubscriptionNext(
+    nextLink: string,
+    options?: ClustersListBySubscriptionNextOptionalParams
+  ): Promise<ClustersListBySubscriptionNextResponse> {
+    return this.client.sendOperationRequest(
+      { nextLink, options },
+      listBySubscriptionNextOperationSpec
+    );
+  }
+
+  /**
    * ListByResourceGroupNext
    * @param resourceGroupName Name of the resource group within the azure subscription.
    * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
@@ -449,6 +522,22 @@ const listAvailableClusterRegionOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.AvailableClustersList
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.EventHub/clusters",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ClusterListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -609,6 +698,26 @@ const listNamespacesOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.clusterName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ClusterListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
   serializer

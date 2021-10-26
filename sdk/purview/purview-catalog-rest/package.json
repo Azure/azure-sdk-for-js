@@ -3,7 +3,7 @@
   "sdk-type": "client",
   "author": "Microsoft Corporation",
   "description": "An isomorphic rest level client library for the Azure Purview Catalog service.",
-  "version": "1.0.0-beta.2",
+  "version": "1.0.0-beta.4",
   "keywords": [
     "node",
     "azure",
@@ -46,7 +46,9 @@
     ],
     "requiredResources": {
       "Azure Cognitive Services instance": "https://docs.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account"
-    }
+    },
+    "disableDocsMs": true,
+    "apiRefLink": "https://docs.microsoft.com/rest/api/purview/"
   },
   "browser": {
     "./dist-esm/test/public/utils/env.js": "./dist-esm/test/public/utils/env.browser.js"
@@ -74,14 +76,15 @@
     "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser",
     "test:node": "npm run clean && npm run build:test && npm run unit-test:node",
     "test": "npm run clean && npm run build:test && npm run unit-test",
-    "unit-test:browser": "karma start --single-run",
-    "unit-test:node": "mocha -r esm --require ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 1200000 --full-trace \"test/{,!(browser)/**/}*.spec.ts\"",
+    "unit-test:browser": "cross-env TEST_MODE=playback karma start --single-run",
+    "unit-test:node": "cross-env TEST_MODE=playback mocha -r esm --require ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 1200000 --full-trace \"test/{,!(browser)/**/}*.spec.ts\"",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "docs": "typedoc --excludePrivate --excludeExternals  --out ./dist/docs ./src"
   },
   "sideEffects": false,
   "autoPublish": false,
   "dependencies": {
+    "@azure/core-lro": "^2.2.0",
     "@azure/core-auth": "^1.3.0",
     "@azure-rest/core-client": "1.0.0-beta.7",
     "@azure/core-rest-pipeline": "^1.1.0",
@@ -93,7 +96,7 @@
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/identity": "^1.1.0",
     "@azure-tools/test-recorder": "^1.0.0",
-    "@microsoft/api-extractor": "7.13.2",
+    "@microsoft/api-extractor": "^7.18.11",
     "@types/chai": "^4.1.6",
     "@types/mocha": "^7.0.2",
     "@types/node": "^12.0.0",

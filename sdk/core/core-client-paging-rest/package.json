@@ -9,6 +9,9 @@
   "browser": {
     "./dist-esm/src/url.js": "./dist-esm/src/url.browser.js"
   },
+  "react-native": {
+    "./dist/index.js": "./dist-esm/src/index.js"
+  },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:samples": "echo Obsolete",
@@ -63,7 +66,7 @@
     "tslib": "^2.2.0"
   },
   "devDependencies": {
-    "@microsoft/api-extractor": "7.13.2",
+    "@microsoft/api-extractor": "^7.18.11",
     "@types/chai": "^4.1.6",
     "@types/mocha": "^7.0.2",
     "@types/node": "^12.0.0",

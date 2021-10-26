@@ -1,6 +1,6 @@
 # Release History
 
-## 30.0.0-beta.4 (Unreleased)
+## 9.0.0-beta.2 (Unreleased)
 
 ### Features Added
 
@@ -10,19 +10,7 @@
 
 ### Other Changes
 
-## 30.0.0-beta.3 (2021-09-06)
-
-**Bug Fixes**
-
-	- fix homepage issues
-
-## 30.0.0-beta.2 (2021-08-20)
-
-**Bug Fixes**
-
-    - fix package issues
-
-## 30.0.0-beta.1 (2021-08-13)
+## 9.0.0-beta.1 (2021-10-09)
 
 This is the first preview for the new version of the `@azure/arm-sql` package that follows the new [guidelines for TypeScript SDKs](https://azure.github.io/azure-sdk/typescript_introduction.html) for Azure services.
 

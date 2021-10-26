@@ -6,7 +6,7 @@
 
 ```yaml
 package-name: "@azure/synapse-artifacts"
-package-version: "1.0.0-beta.6"
+package-version: "1.0.0-beta.7"
 add-credentials: true
 license-header: MICROSOFT_MIT_NO_VERSION
 credential-scopes: https://dev.azuresynapse.net/.default
@@ -15,9 +15,10 @@ clear-output-folder: false
 tracing-info:
   namespace: "Azure.Synapse.Artifacts"
   packagePrefix: "Microsoft.Synapse"
-require: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/3d6211cf28f83236cdf78e7cfc50efd3fb7cba72/specification/synapse/data-plane/readme.md
+require: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/bee724836ffdeb5458274037dc75f4d43576b5e3/specification/synapse/data-plane/readme.md
 use-extension:
   "@autorest/typescript": "latest"
+tag: package-artifacts-composite-v1
 
 typescript:
   generate-metadata: false

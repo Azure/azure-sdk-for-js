@@ -17,33 +17,14 @@ export const Durations: {
     readonly sevenDays: "P7D";
     readonly threeDays: "P3D";
     readonly twoDays: "P2D";
-    readonly OneDay: "P1D";
-    readonly OneHour: "PT1H";
-    readonly FourHours: "PT4H";
-    readonly TwentyFourHours: "P1D";
-    readonly FourtyEightHours: "P2D";
-    readonly ThirtyMinutes: "PT30M";
-    readonly FiveMinutes: "PT5M";
+    readonly oneDay: "P1D";
+    readonly oneHour: "PT1H";
+    readonly fourHours: "PT4H";
+    readonly twentyFourHours: "P1D";
+    readonly fourtyEightHours: "P2D";
+    readonly thirtyMinutes: "PT30M";
+    readonly fiveMinutes: "PT5M";
 };
-
-// @public
-export interface ErrorDetail {
-    additionalProperties?: Record<string, unknown>;
-    code: string;
-    message: string;
-    resources?: string[];
-    target?: string;
-    value?: string;
-}
-
-// @public
-export interface ErrorInfo extends Error {
-    additionalProperties?: Record<string, unknown>;
-    code: string;
-    details?: ErrorDetail[];
-    innerError?: ErrorInfo;
-    message: string;
-}
 
 // @public
 export interface ListMetricDefinitionsOptions extends OperationOptions {
@@ -65,34 +46,33 @@ export interface LogsColumn {
 export type LogsColumnType = string;
 
 // @public
-export interface LogsQueryBatchOptions extends OperationOptions {
-    throwOnAnyFailure?: boolean;
+export interface LogsErrorInfo extends Error {
+    code: string;
 }
 
 // @public
-export interface LogsQueryBatchResult {
-    results: {
-        tables?: LogsTable[];
-        error?: ErrorInfo;
-        status?: LogsQueryResultStatus;
-        statistics?: Record<string, unknown>;
-        visualization?: Record<string, unknown>;
-    }[];
+export interface LogsQueryBatchOptions extends OperationOptions {
 }
+
+// @public
+export type LogsQueryBatchResult = Array<LogsQueryPartialResult | LogsQuerySuccessfulResult | LogsQueryError>;
 
 // @public
 export class LogsQueryClient {
     constructor(tokenCredential: TokenCredential, options?: LogsQueryClientOptions);
-    query(workspaceId: string, query: string, timespan: TimeInterval, options?: LogsQueryOptions): Promise<LogsQueryResult>;
     queryBatch(batch: QueryBatch[], options?: LogsQueryBatchOptions): Promise<LogsQueryBatchResult>;
+    queryWorkspace(workspaceId: string, query: string, timespan: QueryTimeInterval, options?: LogsQueryOptions): Promise<LogsQueryResult>;
 }
 
 // @public
 export interface LogsQueryClientOptions extends CommonClientOptions {
-    credentialOptions?: {
-        credentialScopes?: string | string[];
-    };
     endpoint?: string;
+}
+
+// @public
+export interface LogsQueryError extends Error {
+    code: string;
+    status: LogsQueryResultStatus.Failure;
 }
 
 // @public
@@ -101,20 +81,34 @@ export interface LogsQueryOptions extends OperationOptions {
     includeQueryStatistics?: boolean;
     includeVisualization?: boolean;
     serverTimeoutInSeconds?: number;
-    throwOnAnyFailure?: boolean;
 }
 
 // @public
-export interface LogsQueryResult {
-    error?: ErrorInfo;
+export interface LogsQueryPartialResult {
+    partialError: LogsErrorInfo;
+    partialTables: LogsTable[];
     statistics?: Record<string, unknown>;
-    status: LogsQueryResultStatus;
-    tables: LogsTable[];
+    status: LogsQueryResultStatus.PartialFailure;
     visualization?: Record<string, unknown>;
 }
 
 // @public
-export type LogsQueryResultStatus = "Partial" | "Success" | "Failed";
+export type LogsQueryResult = LogsQuerySuccessfulResult | LogsQueryPartialResult;
+
+// @public
+export enum LogsQueryResultStatus {
+    Failure = "Failure",
+    PartialFailure = "PartialFailure",
+    Success = "Success"
+}
+
+// @public
+export interface LogsQuerySuccessfulResult {
+    statistics?: Record<string, unknown>;
+    status: LogsQueryResultStatus.Success;
+    tables: LogsTable[];
+    visualization?: Record<string, unknown>;
+}
 
 // @public
 export interface LogsTable {
@@ -143,8 +137,8 @@ export interface Metric {
 
 // @public
 export interface MetricAvailability {
+    granularity?: string;
     retention?: string;
-    timeGrain?: string;
 }
 
 // @public
@@ -185,9 +179,8 @@ export interface MetricsClientOptions extends CommonClientOptions {
 export class MetricsQueryClient {
     constructor(tokenCredential: TokenCredential, options?: MetricsClientOptions);
     listMetricDefinitions(resourceUri: string, options?: ListMetricDefinitionsOptions): PagedAsyncIterableIterator<MetricDefinition>;
-    // Warning: (ae-forgotten-export) The symbol "MetricNamespace" needs to be exported by the entry point index.d.ts
-    listMetricNamespaces(resourceUri: string, options?: ListMetricNamespacesOptions): PagedAsyncIterableIterator<MetricNamespace_2>;
-    query(resourceUri: string, metricNames: string[], options?: MetricsQueryOptions): Promise<MetricsQueryResult>;
+    listMetricNamespaces(resourceUri: string, options?: ListMetricNamespacesOptions): PagedAsyncIterableIterator<MetricNamespace>;
+    queryResource(resourceUri: string, metricNames: string[], options?: MetricsQueryOptions): Promise<MetricsQueryResult>;
 }
 
 // @public
@@ -198,7 +191,7 @@ export interface MetricsQueryOptions extends OperationOptions {
     metricNamespace?: string;
     orderBy?: string;
     resultType?: ResultType;
-    timespan?: TimeInterval;
+    timespan?: QueryTimeInterval;
     top?: number;
 }
 
@@ -210,7 +203,7 @@ export interface MetricsQueryResult {
     metrics: Metric[];
     namespace?: string;
     resourceRegion?: string;
-    timespan: TimeInterval;
+    timespan: QueryTimeInterval;
 }
 
 // @public
@@ -236,15 +229,12 @@ export interface QueryBatch {
     includeVisualization?: boolean;
     query: string;
     serverTimeoutInSeconds?: number;
-    timespan: TimeInterval;
+    timespan: QueryTimeInterval;
     workspaceId: string;
 }
 
 // @public
-export type ResultType = "Data" | "Metadata";
-
-// @public
-export type TimeInterval = {
+export type QueryTimeInterval = {
     startTime: Date;
     endTime: Date;
 } | {
@@ -258,11 +248,13 @@ export type TimeInterval = {
 };
 
 // @public
+export type ResultType = "Data" | "Metadata";
+
+// @public
 export interface TimeSeriesElement {
     data?: MetricValue[];
     metadataValues?: MetadataValue[];
 }
-
 
 // (No @packageDocumentation comment for this package)
 

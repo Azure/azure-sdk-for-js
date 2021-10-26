@@ -31,7 +31,7 @@ import {
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a BackupShortTermRetentionPolicies. */
+/** Class containing BackupShortTermRetentionPolicies operations. */
 export class BackupShortTermRetentionPoliciesImpl
   implements BackupShortTermRetentionPolicies {
   private readonly client: SqlManagementClientContext;

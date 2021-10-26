@@ -18,7 +18,7 @@ export type BrowserLoginStyle = "redirect" | "popup";
 /**
  * Defines the common options for the InteractiveBrowserCredential class.
  */
-export interface InteractiveBrowserCredentialOptions
+export interface InteractiveBrowserCredentialNodeOptions
   extends InteractiveCredentialOptions,
     CredentialPersistenceOptions {
   /**
@@ -47,7 +47,7 @@ export interface InteractiveBrowserCredentialOptions
 /**
  * Defines the common options for the InteractiveBrowserCredential class.
  */
-export interface InteractiveBrowserCredentialBrowserOptions extends InteractiveCredentialOptions {
+export interface InteractiveBrowserCredentialInBrowserOptions extends InteractiveCredentialOptions {
   /**
    * Gets the redirect URI of the application. This should be same as the value
    * in the application registration portal.  Defaults to `window.location.href`.

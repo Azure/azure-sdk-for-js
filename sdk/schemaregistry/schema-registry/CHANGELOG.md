@@ -1,8 +1,16 @@
 # Release History
 
-## 1.0.0-beta.3 (Unreleased)
+## 1.0.0-beta.4 (Unreleased)
 
 ### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 1.0.0-beta.3 (2021-10-05)
 
 ### Breaking Changes
 
@@ -10,10 +18,11 @@
 - renames `SchemaId` to `SchemaProperties`
 - renames `getSchemaById` to `getSchema`
 - renames `GetSchemaByIdOptions` to `GetSchemaOptions`
-
-### Bugs Fixed
+- renames `content` to `schemaDefinition`, `serializationType` to `format`, and `KnownSerializationType` to `KnownSchemaFormat`
 
 ### Other Changes
+
+- remove caching from the client. The customer can rely on the one in the serializer package such as `@azure/schema-registry-avro` or write their own that makes most sense in their application.
 
 ## 1.0.0-beta.2 (2021-08-17)
 

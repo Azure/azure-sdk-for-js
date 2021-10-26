@@ -24,7 +24,7 @@ import {
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a DatabaseSchemas. */
+/** Class containing DatabaseSchemas operations. */
 export class DatabaseSchemasImpl implements DatabaseSchemas {
   private readonly client: SqlManagementClientContext;
 

@@ -91,8 +91,8 @@ describe("Can handle connect event", function() {
     buildRequest(req, "hub", "conn1");
 
     const dispatcher = new CloudEventsDispatcher("hub", ["*"], {
-      handleConnect: async (_, res) => {
-        res.fail(400);
+      handleConnect: async (_, response) => {
+        response.fail(400);
       }
     });
     const process = dispatcher.processRequest(req, res);
@@ -108,8 +108,8 @@ describe("Can handle connect event", function() {
     buildRequest(req, "hub", "conn1");
 
     const dispatcher = new CloudEventsDispatcher("hub", ["*"], {
-      handleConnect: async (_, res) => {
-        res.success();
+      handleConnect: async (_, response) => {
+        response.success();
       }
     });
     const process = dispatcher.processRequest(req, res);
@@ -125,8 +125,8 @@ describe("Can handle connect event", function() {
     buildRequest(req, "hub", "conn1");
 
     const dispatcher = new CloudEventsDispatcher("hub", ["*"], {
-      handleConnect: async (_, res) => {
-        res.success({ userId: "vic" });
+      handleConnect: async (_, response) => {
+        response.success({ userId: "vic" });
       }
     });
     const process = dispatcher.processRequest(req, res);
@@ -142,12 +142,12 @@ describe("Can handle connect event", function() {
     buildRequest(req, "hub", "conn1");
 
     const dispatcher = new CloudEventsDispatcher("hub", ["*"], {
-      handleConnect: async (_, res) => {
-        res.setState("key1", "val1");
-        res.setState("key2", "val2");
-        res.setState("key1", ["val3"]);
-        res.setState("key3", "");
-        res.success({ userId: "vic" });
+      handleConnect: async (_, response) => {
+        response.setState("key1", "val1");
+        response.setState("key2", "val2");
+        response.setState("key1", ["val3"]);
+        response.setState("key3", "");
+        response.success({ userId: "vic" });
       }
     });
     const process = dispatcher.processRequest(req, res);
@@ -175,10 +175,10 @@ describe("Can handle connect event", function() {
     });
     buildRequest(req, "hub1", "conn1", undefined, states);
     const dispatcher = new CloudEventsDispatcher("hub1", ["*"], {
-      handleConnect: (req, response) => {
-        assert.equal("val3", req.context.states["key1"][0]);
-        assert.equal("val2", req.context.states["key2"]);
-        assert.equal("", req.context.states["key3"]);
+      handleConnect: (request, response) => {
+        assert.equal("val3", request.context.states["key1"][0]);
+        assert.equal("val2", request.context.states["key2"]);
+        assert.equal("", request.context.states["key3"]);
         response.success();
       }
     });
@@ -194,8 +194,8 @@ describe("Can handle connect event", function() {
     const endSpy = sinon.spy(res, "end");
     buildRequest(req, "hub1", "conn1", undefined, "");
     const dispatcher = new CloudEventsDispatcher("hub1", ["*"], {
-      handleConnect: (req, response) => {
-        assert.deepEqual({}, req.context.states);
+      handleConnect: (request, response) => {
+        assert.deepEqual({}, request.context.states);
         response.success();
       }
     });

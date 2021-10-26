@@ -12,17 +12,17 @@ export const Durations = {
   /** Alias for ISO8601 value 'P2D' */
   twoDays: "P2D",
   /** Alias for ISO8601 value 'P1D' */
-  OneDay: "P1D",
+  oneDay: "P1D",
   /** Alias for ISO8601 value 'PT1H' */
-  OneHour: "PT1H",
+  oneHour: "PT1H",
   /** Alias for ISO8601 value 'PT4H' */
-  FourHours: "PT4H",
+  fourHours: "PT4H",
   /** Alias for ISO8601 value 'P1D' */
-  TwentyFourHours: "P1D",
+  twentyFourHours: "P1D",
   /** Alias for ISO8601 value 'P2D' */
-  FourtyEightHours: "P2D",
+  fourtyEightHours: "P2D",
   /** Alias for ISO8601 value 'PT30M' */
-  ThirtyMinutes: "PT30M",
+  thirtyMinutes: "PT30M",
   /** Alias for ISO8601 value 'PT5M' */
-  FiveMinutes: "PT5M"
+  fiveMinutes: "PT5M"
 } as const;

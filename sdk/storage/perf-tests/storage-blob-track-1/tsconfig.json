@@ -1,7 +1,6 @@
 {
   "extends": "../../../../tsconfig.package",
   "compilerOptions": {
-    "target": "es5",
     "module": "commonjs",
     "declarationDir": "./typings/latest",
     "outDir": "./dist-esm",

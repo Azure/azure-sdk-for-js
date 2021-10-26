@@ -10,9 +10,9 @@ import { AbortSignalLike } from "@azure/abort-controller";
 import { DeveloperSignOnClientId } from "../../constants";
 import { IdentityClient, TokenCredentialOptions } from "../../client/identityClient";
 import { resolveTenantId } from "../../util/resolveTenantId";
+import { AuthenticationRequiredError } from "../../errors";
 import { CredentialFlowGetTokenOptions } from "../credentials";
 import { MsalFlow, MsalFlowOptions } from "../flows";
-import { AuthenticationRequiredError } from "../errors";
 import { AuthenticationRecord } from "../types";
 import {
   defaultLoggerCallback,
@@ -23,8 +23,8 @@ import {
   publicToMsal
 } from "../utils";
 import { TokenCachePersistenceOptions } from "./tokenCachePersistenceOptions";
-import { RegionalAuthority } from "../../regionalAuthority";
 import { processMultiTenantRequest } from "../../util/validateMultiTenant";
+import { RegionalAuthority } from "../../regionalAuthority";
 
 /**
  * Union of the constructor parameters that all MSAL flow types for Node.
@@ -33,7 +33,6 @@ import { processMultiTenantRequest } from "../../util/validateMultiTenant";
 export interface MsalNodeOptions extends MsalFlowOptions {
   tokenCachePersistenceOptions?: TokenCachePersistenceOptions;
   tokenCredentialOptions: TokenCredentialOptions;
-  allowMultiTenantAuthentication?: boolean;
   /**
    * Specifies a regional authority. Please refer to the {@link RegionalAuthority} type for the accepted values.
    * If {@link RegionalAuthority.AutoDiscoverRegion} is specified, we will try to discover the regional authority endpoint.
@@ -75,7 +74,6 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
   protected msalConfig: msalNode.Configuration;
   protected clientId: string;
   protected tenantId: string;
-  protected allowMultiTenantAuthentication?: boolean;
   protected authorityHost?: string;
   protected identityClient?: IdentityClient;
   protected requiresConfidential: boolean = false;
@@ -86,7 +84,6 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
     super(options);
     this.msalConfig = this.defaultNodeMsalConfig(options);
     this.tenantId = resolveTenantId(options.logger, options.tenantId, options.clientId);
-    this.allowMultiTenantAuthentication = options?.allowMultiTenantAuthentication;
     this.clientId = this.msalConfig.auth.clientId;
 
     // If persistence has been configured
@@ -245,7 +242,12 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
   ): Promise<AccessToken> {
     await this.getActiveAccount();
     if (!this.account) {
-      throw new AuthenticationRequiredError(scopes, options);
+      throw new AuthenticationRequiredError({
+        scopes,
+        getTokenOptions: options,
+        message:
+          "Silent authentication failed. We couldn't retrieve an active account from the cache."
+      });
     }
 
     const silentRequest: msalNode.SilentFlowRequest = {
@@ -280,9 +282,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
     scopes: string[],
     options: CredentialFlowGetTokenOptions = {}
   ): Promise<AccessToken> {
-    const tenantId =
-      processMultiTenantRequest(this.tenantId, this.allowMultiTenantAuthentication, options) ||
-      this.tenantId;
+    const tenantId = processMultiTenantRequest(this.tenantId, options) || this.tenantId;
 
     options.authority = getAuthority(tenantId, this.authorityHost);
 
@@ -296,11 +296,12 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
         throw err;
       }
       if (options?.disableAutomaticAuthentication) {
-        throw new AuthenticationRequiredError(
+        throw new AuthenticationRequiredError({
           scopes,
-          options,
-          "Automatic authentication has been disabled. You may call the authentication() method."
-        );
+          getTokenOptions: options,
+          message:
+            "Automatic authentication has been disabled. You may call the authentication() method."
+        });
       }
       this.logger.info(`Silent authentication failed, falling back to interactive method.`);
       return this.doGetToken(scopes, options);

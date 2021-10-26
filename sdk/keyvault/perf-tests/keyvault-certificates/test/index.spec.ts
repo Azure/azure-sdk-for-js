@@ -1,8 +1,8 @@
-import { PerfStressProgram, selectPerfStressTest } from "@azure/test-utils-perfstress";
+import { PerfProgram, selectPerfTest } from "@azure/test-utils-perf";
 import { GetCertificateTest } from "./getCertificate.spec";
 
-console.log("=== Starting the perfStress test ===");
+console.log("=== Starting the perf test ===");
 
-const perfStressProgram = new PerfStressProgram(selectPerfStressTest([GetCertificateTest]));
+const perfProgram = new PerfProgram(selectPerfTest([GetCertificateTest]));
 
-perfStressProgram.run();
+perfProgram.run();

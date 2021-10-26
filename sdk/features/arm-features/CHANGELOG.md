@@ -1,6 +1,6 @@
 # Release History
 
-## 30.0.0-beta.5 (Unreleased)
+## 3.0.0-beta.2 (Unreleased)
 
 ### Features Added
 
@@ -10,49 +10,7 @@
 
 ### Other Changes
 
-## 30.0.0-beta.4 (2021-09-07)
-
-**Bug Fixes**
-
-	- readme samples update
-
-## 30.0.0-beta.3 (2021-07-27)
-
-**Features**
-
-	- Added operation group SubscriptionFeatureRegistrations
-	- Added Interface AuthorizationProfile
-	- Added Interface ErrorDefinition
-	- Added Interface ErrorResponse
-	- Added Interface ProxyResource
-	- Added Interface SubscriptionFeatureRegistrationList
-	- Added Interface SubscriptionFeatureRegistrationProperties
-	- Added Interface SubscriptionFeatureRegistrationsCreateOrUpdateOptionalParams
-	- Added Interface SubscriptionFeatureRegistrationsDeleteOptionalParams
-	- Added Interface SubscriptionFeatureRegistrationsGetOptionalParams
-	- Added Interface SubscriptionFeatureRegistrationsListAllBySubscriptionNextOptionalParams
-	- Added Interface SubscriptionFeatureRegistrationsListAllBySubscriptionOptionalParams
-	- Added Interface SubscriptionFeatureRegistrationsListBySubscriptionNextOptionalParams
-	- Added Interface SubscriptionFeatureRegistrationsListBySubscriptionOptionalParams
-	- Added Type Alias SubscriptionFeatureRegistration
-	- Added Type Alias SubscriptionFeatureRegistrationApprovalType
-	- Added Type Alias SubscriptionFeatureRegistrationsCreateOrUpdateResponse
-	- Added Type Alias SubscriptionFeatureRegistrationsGetResponse
-	- Added Type Alias SubscriptionFeatureRegistrationsListAllBySubscriptionNextResponse
-	- Added Type Alias SubscriptionFeatureRegistrationsListAllBySubscriptionResponse
-	- Added Type Alias SubscriptionFeatureRegistrationsListBySubscriptionNextResponse
-	- Added Type Alias SubscriptionFeatureRegistrationsListBySubscriptionResponse
-	- Added Type Alias SubscriptionFeatureRegistrationState
-	- Added Enum KnownSubscriptionFeatureRegistrationApprovalType
-	- Added Enum KnownSubscriptionFeatureRegistrationState
-
-**Breaking Changes**
-
-	- Removed operation Features.listAllNext
-	- Removed operation Features.listNext
-	- Class FeatureClient has a new required parameter subscriptionFeatureRegistrations
-
-## 30.0.0-beta.2 (2021-07-16)
+## 3.0.0-beta.1 (2021-10-09)
 
 This is the first preview for the new version of the `@azure/arm-features` package that follows the new [guidelines for TypeScript SDKs](https://azure.github.io/azure-sdk/typescript_introduction.html) for Azure services.
 

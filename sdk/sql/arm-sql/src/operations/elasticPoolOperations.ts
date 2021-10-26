@@ -23,7 +23,7 @@ import {
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a ElasticPoolOperations. */
+/** Class containing ElasticPoolOperations operations. */
 export class ElasticPoolOperationsImpl implements ElasticPoolOperations {
   private readonly client: SqlManagementClientContext;
 

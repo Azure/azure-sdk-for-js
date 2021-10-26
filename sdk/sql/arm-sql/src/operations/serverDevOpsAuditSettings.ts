@@ -28,7 +28,7 @@ import {
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a ServerDevOpsAuditSettings. */
+/** Class containing ServerDevOpsAuditSettings operations. */
 export class ServerDevOpsAuditSettingsImpl
   implements ServerDevOpsAuditSettings {
   private readonly client: SqlManagementClientContext;

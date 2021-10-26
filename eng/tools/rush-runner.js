@@ -19,9 +19,21 @@ const reducedDependencyTestMatrix = {
     '@azure/storage-blob',
     '@azure/template',
     '@azure/test-utils',
-    '@azure/test-utils-perfstress',
+    '@azure/test-utils-perf',
     '@azure-tools/test-recorder',
     '@azure/synapse-monitoring'
+  ],
+  'test-utils': [
+    '@azure-rest/purview-account',
+    '@azure-tests/perf-storage-blob',
+    '@azure-tests/perf-data-tables',
+    '@azure/arm-eventgrid',
+    '@azure/ai-text-analytics',
+    '@azure/identity',
+    '@azure/identity-cache-persistence',
+    '@azure/identity-vscode',
+    '@azure/storage-file-share',
+    '@azure/template'
   ]
 };
 

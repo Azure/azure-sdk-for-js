@@ -5,7 +5,7 @@ import { SpanStatusCode } from "@azure/core-tracing";
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 
 import { IdentityClient, TokenCredentialOptions } from "../../client/identityClient";
-import { AuthenticationError, CredentialUnavailableError } from "../../client/errors";
+import { AuthenticationError, CredentialUnavailableError } from "../../errors";
 import { credentialLogger, formatSuccess, formatError } from "../../util/logging";
 import { appServiceMsi2017 } from "./appServiceMsi2017";
 import { createSpan } from "../../util/tracing";
@@ -14,6 +14,7 @@ import { imdsMsi } from "./imdsMsi";
 import { MSI } from "./models";
 import { arcMsi } from "./arcMsi";
 import { tokenExchangeMsi } from "./tokenExchangeMsi";
+import { fabricMsi } from "./fabricMsi";
 
 const logger = credentialLogger("ManagedIdentityCredential");
 
@@ -74,9 +75,7 @@ export class ManagedIdentityCredential implements TokenCredential {
       return this.cachedMSI;
     }
 
-    // "fabricMsi" can't be added yet because our HTTPs pipeline doesn't allow skipping the SSL verification step,
-    // which is necessary since Service Fabric only provides self-signed certificates on their Identity Endpoint.
-    const MSIs = [appServiceMsi2017, cloudShellMsi, arcMsi, tokenExchangeMsi(), imdsMsi];
+    const MSIs = [fabricMsi, appServiceMsi2017, cloudShellMsi, arcMsi, tokenExchangeMsi(), imdsMsi];
 
     for (const msi of MSIs) {
       if (await msi.isAvailable(scopes, this.identityClient, clientId, getTokenOptions)) {
@@ -136,7 +135,7 @@ export class ManagedIdentityCredential implements TokenCredential {
   ): Promise<AccessToken> {
     let result: AccessToken | null = null;
 
-    const { span, updatedOptions } = createSpan("ManagedIdentityCredential-getToken", options);
+    const { span, updatedOptions } = createSpan("ManagedIdentityCredential.getToken", options);
 
     try {
       // isEndpointAvailable can be true, false, or null,
