@@ -4,3 +4,4 @@ export * from "./interfaces";
 export { useTracer } from "./tracer";
 export { createTracingClient } from "./tracingClient";
 export { createTracingContext } from "./tracingContext";
+export { createSpanFunction } from "./createSpan";

@@ -163,12 +163,12 @@ describe("Tracer", () => {
       const newContext = createTracingContext({
         client,
         span,
-        providerContext,
+        parentContext: providerContext,
         namespace
       });
       assert.strictEqual(newContext.getValue(knownContextKeys.Client), client);
       assert.strictEqual(newContext.getValue(knownContextKeys.Namespace), namespace);
-      assert.strictEqual(newContext.getValue(knownContextKeys.ProviderContext), providerContext);
+      assert.strictEqual(newContext.getValue(knownContextKeys.ParentContext), providerContext);
       assert.strictEqual(newContext.getValue(knownContextKeys.Span), span);
     });
 
@@ -177,7 +177,7 @@ describe("Tracer", () => {
         knownContextKeys.Namespace,
         "test-namespace"
       );
-      const newContext = createTracingContext({ providerContext });
+      const newContext = createTracingContext({ parentContext: providerContext });
       assert.equal(newContext.getValue(knownContextKeys.Namespace), "test-namespace");
     });
   });

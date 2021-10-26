@@ -9,7 +9,7 @@ export class NoOpTracer implements Tracer {
   ): { span: TracingSpan; tracingContext: TracingContext } {
     return {
       span: new NoOpSpan(),
-      tracingContext: createTracingContext({ providerContext: options?.tracingContext })
+      tracingContext: createTracingContext({ parentContext: options?.tracingContext })
     };
   }
   withTrace<

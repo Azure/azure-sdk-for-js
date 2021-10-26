@@ -5,7 +5,7 @@ export const knownContextKeys = {
   Span: Symbol.for("@azure/core-tracing span"),
   Namespace: Symbol.for("@azure/core-tracing namespace"),
   Client: Symbol.for("@azure/core-tracing client"),
-  ProviderContext: Symbol.for("@azure/core-tracing provider context")
+  ParentContext: Symbol.for("@azure/core-tracing provider context")
 };
 
 export function createTracingContext(options: CreateTracingContextOptions = {}): TracingContext {
@@ -16,8 +16,8 @@ export function createTracingContext(options: CreateTracingContextOptions = {}):
   if (options.client) {
     newContextMap.set(knownContextKeys.Client, options.client);
   }
-  if (options.providerContext) {
-    newContextMap.set(knownContextKeys.ProviderContext, options.providerContext);
+  if (options.parentContext) {
+    newContextMap.set(knownContextKeys.ParentContext, options.parentContext);
   }
   if (options.namespace) {
     newContextMap.set(knownContextKeys.Namespace, options.namespace);
@@ -42,7 +42,7 @@ export class TracingContextImpl implements TracingContext {
     if (this._contextMap.has(key)) {
       return this._contextMap.get(key);
     }
-    const parent = this._contextMap.get(knownContextKeys.ProviderContext);
+    const parent = this._contextMap.get(knownContextKeys.ParentContext);
     if (parent instanceof TracingContextImpl) {
       return parent.getValue(key);
     }
@@ -52,9 +52,9 @@ export class TracingContextImpl implements TracingContext {
   deleteValue(key: symbol): TracingContext {
     const newContextMap = new Map<symbol, unknown>(this._contextMap);
     newContextMap.delete(key);
-    const parent = this._contextMap.get(knownContextKeys.ProviderContext);
+    const parent = this._contextMap.get(knownContextKeys.ParentContext);
     if (parent instanceof TracingContextImpl) {
-      this._contextMap.set(knownContextKeys.ProviderContext, parent.deleteValue(key));
+      this._contextMap.set(knownContextKeys.ParentContext, parent.deleteValue(key));
     }
     return new TracingContextImpl(newContextMap);
   }

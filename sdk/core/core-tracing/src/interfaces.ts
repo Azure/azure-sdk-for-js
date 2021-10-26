@@ -37,7 +37,7 @@ export interface TracingClientOptions {
 export interface CreateTracingContextOptions {
   span?: TracingSpan;
   client?: TracingClient;
-  providerContext?: TracingContext;
+  parentContext?: TracingContext;
   namespace?: string;
 }
 
