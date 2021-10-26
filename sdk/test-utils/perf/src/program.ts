@@ -189,15 +189,28 @@ export class PerfProgram {
       `\n=== ${title} mode, iteration ${iterationIndex + 1}. Logs every ${millisecondsToLog /
         1000}s ===`
     );
-    console.log(`Current\t\tTotal\t\tAverage`);
+    console.log(`Elapsed\t\tCurrent\t\tTotal\t\tAverage`);
     let lastCompleted = 0;
+    const startMillis = new Date().getTime();
+
     const logInterval = setInterval(() => {
       const totalCompleted = this.getCompletedOperations(parallels);
       const currentCompleted = totalCompleted - lastCompleted;
       const averageCompleted = this.getOperationsPerSecond(parallels);
 
+      const elapsedMillis = new Date().getTime() - startMillis;
+      const elapsedSeconds = Math.floor((elapsedMillis / 1000) % 60);
+      const elapsedMinutes = Math.floor(elapsedMillis / 1000 / 60);
+      const elapsedDisplay = `${elapsedMinutes < 10 ? "0" : ""}${elapsedMinutes}:${
+        elapsedSeconds < 10 ? "0" : ""
+      }${elapsedSeconds}`;
+
       lastCompleted = totalCompleted;
-      console.log(`${currentCompleted}\t\t${totalCompleted}\t\t${averageCompleted.toFixed(2)}`);
+      console.log(
+        `${elapsedDisplay}\t\t${currentCompleted}\t\t${totalCompleted}\t\t${averageCompleted.toFixed(
+          2
+        )}`
+      );
     }, millisecondsToLog);
 
     const runLoop = this.runLoopAsync;

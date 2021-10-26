@@ -4,7 +4,7 @@
 
 ### 2021-10-29
 
-- Add a timestamp column to the snapshot log output.
+- Add an elapsed time column to the snapshot log output.
   [#18353](https://github.com/Azure/azure-sdk-for-js/pull/18353)
 
 ### 2021-10-27
