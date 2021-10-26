@@ -620,34 +620,26 @@ export namespace ConnectionContext {
       // Close all the senders.
       const senderNames = Object.keys(context.senders);
       logger.verbose(`${logPrefix} Permanently closing ${senderNames.length} senders.`);
-      for (const senderName of senderNames) {
-        await context.senders[senderName].close();
-      }
+      await Promise.all(senderNames.map(n => context.senders[n].close()));
 
       // Close all MessageReceiver instances
       const messageReceiverNames = Object.keys(context.messageReceivers);
       logger.verbose(`${logPrefix} Permanently closing ${messageReceiverNames.length} receivers.`);
-      for (const receiverName of messageReceiverNames) {
-        await context.messageReceivers[receiverName].close();
-      }
+      await Promise.all(messageReceiverNames.map(n => context.messageReceivers[n].close()));
 
       // Close all MessageSession instances
       const messageSessionNames = Object.keys(context.messageSessions);
       logger.verbose(
         `${logPrefix} Permanently closing ${messageSessionNames.length} session receivers.`
       );
-      for (const messageSessionName of messageSessionNames) {
-        await context.messageSessions[messageSessionName].close();
-      }
+      await Promise.all(messageSessionNames.map(n => context.messageSessions[n].close()));
 
       // Close all the ManagementClients.
       const managementClientsEntityPaths = Object.keys(context.managementClients);
       logger.verbose(
         `${logPrefix} Permanently closing ${managementClientsEntityPaths.length} session receivers.`
       );
-      for (const entityPath of managementClientsEntityPaths) {
-        await context.managementClients[entityPath].close();
-      }
+      await Promise.all(managementClientsEntityPaths.map(p => context.managementClients[p].close()));
 
       logger.verbose(`${logPrefix} Permanently closing cbsSession`);
       await context.cbsSession.close();
