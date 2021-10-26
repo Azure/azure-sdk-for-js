@@ -7,16 +7,21 @@ import { registerInstrumentations } from "@opentelemetry/instrumentation";
 const provider = new NodeTracerProvider();
 provider.addSpanProcessor(new SimpleSpanProcessor(new JaegerExporter()));
 provider.addSpanProcessor(new SimpleSpanProcessor(new ConsoleSpanExporter()));
+const otSpan = provider.getTracer("ot-sdk").startSpan("ff");
+const ourSpan = new NoOpSpan() as TracingSpan;
+ourSpan.setAttribute("key", "value");
+ourSpan.setStatus({ code: 0 });
 
 provider.register();
 registerInstrumentations({
   instrumentations: [getNodeAutoInstrumentations()]
 });
-import { createTracingClient, TracingClient, useTracer } from "../src";
+import { createTracingClient, TracingClient, TracingSpan, useTracer } from "../src";
 import { OpenTelemetryTracer } from "../src/otelTracer";
 import * as https from "https";
+import { NoOpSpan } from "../src/tracer";
 
-describe("Tracer", () => {
+describe.only("Tracer", () => {
   it("works...", async () => {
     const tracer = new OpenTelemetryTracer();
     useTracer(tracer);
