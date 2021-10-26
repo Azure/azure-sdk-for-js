@@ -309,14 +309,17 @@ stages:
               $packageJson = Get-content '$(Pipeline.Workspace)/${{parameters.ArtifactName}}/PackageInfo/${{artifact.name}}.json' | ConvertFrom-Json
               $packageTag = "$($packageJson.Name)@$($packageJson.DevVersion)"
               Write-Host "Here is the package tag: $packageTag"
-              docker run -e TARGET_PACKAGE="@azure/template@1.0.12-alpha.20211029.5" azuresdkimages.azurecr.io/jsrefautocr:latest
+              
               $commandResult = $true
-              if ($LASTEXITCODE -ne 0) {
-                $commandResult = $false
+              try {
+                docker run -e TARGET_PACKAGE="@azure/template@1.0.12-alpha.20211029.5" azuresdkimages.azurecr.io/jsrefautocr:latest
               }
-              echo "##vso[task.setvariable variable=DockerRunResult]$commandResult"
+              catch {
+                $commandResult = $false
+                echo "##vso[task.setvariable variable=DockerRunResult]$commandResult"
+              }
             displayName: docker run package ${{artifact.name}}
-          
+    
           - ${{if eq(variables['DockerRunResult'], 'true')}}:
             - template: /eng/common/pipelines/templates/steps/update-docsms-metadata.yml
               parameters:
