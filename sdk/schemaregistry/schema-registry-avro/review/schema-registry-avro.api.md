@@ -9,6 +9,28 @@
 import { SchemaRegistry } from '@azure/schema-registry';
 
 // @public
+export interface AvroSchemaRegistryEncoder {
+    decodeBody: (message: MessageWithMetadata, schema?: string) => Promise<unknown>;
+    encodeBody: (value: unknown, schema: string) => Promise<MessageWithMetadata>;
+}
+
+// @public
+export interface EventData extends MessageWithMetadata {
+}
+
+// @public
+export interface MessageWithMetadata {
+    contentType: string;
+    data: Uint8Array;
+}
+
+// @public
+export interface ReadOnlyMessageWithMetadata {
+    readonly contentType: string;
+    readonly data: Uint8Array;
+}
+
+// @public
 export class SchemaRegistryAvroSerializer {
     constructor(client: SchemaRegistry, options?: SchemaRegistryAvroSerializerOptions);
     deserialize(input: Buffer | Blob | Uint8Array): Promise<unknown>;
@@ -19,6 +41,14 @@ export class SchemaRegistryAvroSerializer {
 export interface SchemaRegistryAvroSerializerOptions {
     autoRegisterSchemas?: boolean;
     groupName?: string;
+}
+
+// @public
+export interface ServiceBusMessage extends MessageWithMetadata {
+}
+
+// @public
+export interface ServiceBusReceivedMessage extends ReadOnlyMessageWithMetadata {
 }
 
 // (No @packageDocumentation comment for this package)
