@@ -311,15 +311,14 @@ stages:
               Write-Host "Here is the package tag: $packageTag"
               
               $commandResult = $true
-              try {
-                docker run -e TARGET_PACKAGE="@azure/template@1.0.12-alpha.20211029.5" azuresdkimages.azurecr.io/jsrefautocr:latest
-              }
-              catch {
+              docker run -e TARGET_PACKAGE="@azure/template@1.0.12-alpha.20211029.5" azuresdkimages.azurecr.io/jsrefautocr:latest
+              
+              if($LASTEXITCODE -ne 0) {
                 $commandResult = $false
                 echo "##vso[task.setvariable variable=DockerRunResult]$commandResult"
               }
             displayName: docker run package ${{artifact.name}}
-    
+            continueOnError: true
           - ${{if eq(variables['DockerRunResult'], 'true')}}:
             - template: /eng/common/pipelines/templates/steps/update-docsms-metadata.yml
               parameters:
