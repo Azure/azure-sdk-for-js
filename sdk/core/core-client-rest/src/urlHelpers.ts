@@ -25,7 +25,14 @@ export function buildRequestUrl(
   }
 
   for (const pathParam of pathParameters) {
-    path = path.replace(/{([^/]+)}/, pathParam);
+    if (options.enablePathParameterEncoding) {
+      const encodeParam = encodeURIComponent(pathParam);
+      path = path.replace(/{([^/]+)}/, encodeParam);    
+    } else {
+      path = path.replace(/{([^/]+)}/, pathParam);
+    }
+    
+    
   }
 
   const url = new URL(`${baseUrl}/${path}`);
@@ -34,11 +41,20 @@ export function buildRequestUrl(
     const queryParams = options.queryParameters;
     for (const key of Object.keys(queryParams)) {
       const param = queryParams[key] as any;
+      if (param === undefined || param === null) {
+        continue;
+      }
       if (!param.toString || typeof param.toString !== "function") {
         throw new Error(`Query parameters must be able to be represented as string, ${key} can't`);
       }
       const value = param.toISOString !== undefined ? param.toISOString() : param.toString();
-      url.searchParams.append(key, value);
+      if (options.enableQueryParameterEncoding) {
+        const encodeParam = encodeURIComponent(value);
+        url.searchParams.append(key, encodeParam);
+      } else {
+        url.searchParams.append(key, value);
+      }
+      
     }
   }
 

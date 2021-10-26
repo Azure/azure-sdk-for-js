@@ -82,14 +82,15 @@ export type RequestParameters = {
     queryParameters?: Record<string, unknown>;
     contentType?: string;
     allowInsecureConnection?: boolean;
+    enablePathParameterEncoding?: boolean;
+    enableQueryParameterEncoding?: boolean;
 };
 
 // @public
 export type RouteParams<TRoute extends string> = TRoute extends `${infer _Head}/{${infer _Param}}${infer Tail}` ? [
-    pathParam: string,
-    ...pathParams: RouteParams<Tail>
+pathParam: string,
+...pathParams: RouteParams<Tail>
 ] : [
 ];
-
 
 ```

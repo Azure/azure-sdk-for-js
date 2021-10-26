@@ -31,6 +31,10 @@ export type RequestParameters = {
   contentType?: string;
   /** Set to true if the request is sent over HTTP instead of HTTPS */
   allowInsecureConnection?: boolean;
+  /** Set to true if you want to encide the path parameters */
+  enablePathParameterEncoding?: boolean;
+  /** Set to true if you want to encide the query parameters */
+  enableQueryParameterEncoding?: boolean;
 };
 
 /**
