@@ -22,21 +22,18 @@ parameters:
   - name: DailyDocsBuild
     type: boolean
     default: false
-  - name: UpdateMetadata
-    type: boolean
-    default: true
   - name: SparseCheckoutPaths
     type: object
     default:
       - '**'
 
 steps:
-- ${{ if eq(parameters.UpdateMetadata, true) }}:
   - template: /eng/common/pipelines/templates/steps/enable-long-path-support.yml
 
   - pwsh: |
       Write-Host "###vso[task.setvariable variable=DocRepoLocation]${{ parameters.WorkingDirectory }}/doc"
     displayName: Set $(DocRepoLocation)
+    condition: and(succeeded(), ne(variables['DockerRunResult'], 'false'))
 
   - template: /eng/common/pipelines/templates/steps/sparse-checkout.yml
     parameters:

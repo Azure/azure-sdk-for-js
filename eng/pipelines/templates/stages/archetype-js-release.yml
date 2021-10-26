@@ -330,7 +330,6 @@ stages:
               TargetDocRepoName: ${{parameters.TargetDocRepoName}}
               Language: 'javascript'
               DailyDocsBuild: true
-              UpdateMetadata: $(DockerRunResult)
               SparseCheckoutPaths:
                 - docs-ref-services/
                 - metadata/
