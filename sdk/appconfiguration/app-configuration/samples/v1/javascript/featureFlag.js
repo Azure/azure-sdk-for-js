@@ -144,23 +144,9 @@ async function cleanupSampleValues(keys, client) {
 }
 
 /**
- * Returns the environment variable, throws an error if not defined.
- *
- * @export
- * @param {string} name
- */
-export function getEnvVar(name) {
-  const val = process.env[name];
-  if (!val) {
-    throw `Environment variable ${name} is not defined.`;
-  }
-  return val;
-}
-
-/**
  * typeguard - for targeting client filter
  */
-export function isTargetingClientFilter(clientFilter) {
+function isTargetingClientFilter(clientFilter) {
   return (
     clientFilter.name === "Microsoft.Targeting" &&
     clientFilter.parameters &&
