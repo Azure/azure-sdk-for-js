@@ -4,6 +4,14 @@
 
 ```ts
 
+// @public @deprecated
+export function createSpanFunction(_args: any): <T extends {
+    tracingOptions?: OperationTracingOptions | undefined;
+}>(_operationName: string, operationOptions?: T | undefined) => {
+    span: TracingSpan;
+    updatedOptions: T;
+};
+
 // @public (undocumented)
 export function createTracingClient(options?: TracingClientOptions): TracingClient;
 
@@ -17,7 +25,7 @@ export interface CreateTracingContextOptions {
     // (undocumented)
     namespace?: string;
     // (undocumented)
-    providerContext?: TracingContext;
+    parentContext?: TracingContext;
     // (undocumented)
     span?: TracingSpan;
 }

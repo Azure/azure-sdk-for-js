@@ -304,7 +304,6 @@ describe("Tracer", () => {
         await client.withTrace(
           spanName,
           (updatedOptions) => {
-            console.log(updatedOptions.tracingOptions?.tracingContext);
             assert.strictEqual(updatedOptions.tracingOptions?.tracingContext.getValue(key), value);
           },
           {
