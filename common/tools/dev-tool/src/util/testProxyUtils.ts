@@ -6,29 +6,29 @@ import fs from "fs";
 import path from "path";
 import os from "os";
 import { IncomingMessage, request, RequestOptions } from "http";
-import { createPrinter } from "./printer";
-
-const log = createPrinter("test-proxy-script");
 
 export async function startProxyTool(mode: string | undefined) {
   const outFileName = "test-proxy-output.log";
   const out = fs.openSync(`./${outFileName}`, "a");
   const err = fs.openSync(`./${outFileName}`, "a");
 
-  log.info(`===TEST_MODE="${mode}"===`);
-  log.info(`Attempting to start test proxy at http://localhost:5000 & https://localhost:5001.\n`);
+  console.log(`===TEST_MODE="${mode}"===`);
+  console.log(
+    `Attempting to start test proxy at http://localhost:5000 & https://localhost:5001.\n`
+  );
 
   const command = await getDockerRunCommand();
 
   !(os.platform() === "win32") &&
-    log.info(`Check the output file ${outFileName} for test-proxy logs.`); // Opens a cmd prompt for windows instead
+    console.log(`Check the output file ${outFileName} for test-proxy logs.`); // Opens a cmd prompt for windows instead
 
-  const subprocess = spawn(command, [], {
+  // const subprocess =
+  spawn(command, [], {
     shell: true,
-    detached: true,
+    // detached: true,
     stdio: ["ignore", out, err]
   });
-  subprocess.unref();
+  // subprocess.unref();
 }
 
 function getRootLocation() {
@@ -60,7 +60,7 @@ async function getDockerRunCommand() {
 
 export async function isProxyToolActive() {
   await makeRequest("http://localhost:5000/info/available", {});
-  log.info(`Proxy tool seems to be active at http://localhost:5000\n`);
+  console.log(`Proxy tool seems to be active at http://localhost:5000\n`);
 }
 
 async function makeRequest(uri: string, requestOptions: RequestOptions): Promise<IncomingMessage> {
@@ -82,10 +82,10 @@ async function getImageTag() {
       "utf-8"
     );
     const tag = contentInPWSHScript.match(/\$SELECTED_IMAGE_TAG \= \"(.*)\"/)![1];
-    log.info(`Image tag obtained from the powershell script => ${tag}\n`);
+    console.log(`Image tag obtained from the powershell script => ${tag}\n`);
     return tag;
   } catch (_) {
-    log.info(
+    console.log(
       `Unable to get the image tag from the powershell script, trying "latest" tag instead\n`
     );
     return "latest";

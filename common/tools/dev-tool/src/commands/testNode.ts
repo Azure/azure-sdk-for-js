@@ -3,6 +3,9 @@
 
 import { leafCommand, makeCommandInfo } from "../framework/command";
 import concurrently from "concurrently";
+import { config } from "dotenv";
+import { isProxyToolActive } from "../util/testProxyUtils";
+config();
 
 export const commandInfo = makeCommandInfo(
   "test:node",
@@ -27,12 +30,43 @@ export default leafCommand(commandInfo, async (_) => {
   const mochaCMDWithDefaults =
     "nyc mocha -r esm --require ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js --full-trace";
   const mochaCommand = `${mochaCMDWithDefaults} ${process.argv[4]}`;
-  const command = `concurrently "${testProxyStart}" "${mochaCommand}" --kill-others --success first`;
-  console.log(command);
 
-  concurrently([testProxyStart, mochaCommand, { command: mochaCommand, name: "abcd" }], {
-    prefix: "name",
-    killOthers: ["failure", "success"]
-  });
+  let runOnlyMochaCommand = false; // Boolean to figure out if we need to run just the mocha command or the test-proxy too
+
+  const mode = process.env.TEST_MODE;
+  if (mode === "live") {
+    runOnlyMochaCommand = true; // No need to start the proxy tool in the live mode
+  } else {
+    try {
+      await isProxyToolActive();
+      // No need to run a new one if it is already active
+      // Especially, CI uses this path
+      console.log(
+        `Proxy tool seems to be active, not attempting to start the test proxy at http://localhost:5000 & https://localhost:5001.\n`
+      );
+      runOnlyMochaCommand = true;
+    } catch (error) {
+      if ((error as { code: string }).code === "ECONNREFUSED") {
+        // Proxy tool is not active, attempt to start the proxy tool now
+        runOnlyMochaCommand = false;
+      } else {
+        throw error;
+      }
+    }
+  }
+
+  const mochaCommandObj: concurrently.CommandObj = {
+    command: mochaCommand,
+    name: "node-tests"
+  };
+
+  if (runOnlyMochaCommand) {
+    await concurrently([mochaCommandObj]);
+  } else {
+    await concurrently([{ command: testProxyStart, name: "test-proxy" }, mochaCommandObj], {
+      killOthers: ["failure", "success"],
+      successCondition: "first"
+    });
+  }
   return true;
 });

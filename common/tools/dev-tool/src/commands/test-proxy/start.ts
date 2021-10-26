@@ -2,12 +2,9 @@
 // Licensed under the MIT license.
 
 import { leafCommand, makeCommandInfo } from "../../framework/command";
-import { createPrinter } from "../../util/printer";
 import { config } from "dotenv";
 import { isProxyToolActive, startProxyTool } from "../../util/testProxyUtils";
 config();
-
-const log = createPrinter("test-proxy-script");
 
 export const commandInfo = makeCommandInfo(
   "test-proxy",
@@ -24,7 +21,7 @@ export default leafCommand(commandInfo, async (_options) => {
       await isProxyToolActive();
       // No need to run a new one if it is already active
       // Especially, CI uses this path
-      log.info(
+      console.log(
         `Proxy tool seems to be active, not attempting to start the test proxy at http://localhost:5000 & https://localhost:5001.\n`
       );
       return true;
