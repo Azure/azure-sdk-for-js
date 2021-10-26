@@ -4,7 +4,7 @@
 
 ### 2021-10-26
 
-- Log transitive dependencies (@azure packages only) on perf test start.
+- Log transitive dependencies (`@azure` packages only) on perf test start.
   [#18366](https://github.com/Azure/azure-sdk-for-js/pull/18366)
 
 ### 2021-10-20
