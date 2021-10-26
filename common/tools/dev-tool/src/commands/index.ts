@@ -13,7 +13,8 @@ export const baseCommands = {
   about: () => import("./about"),
   package: () => import("./package"),
   samples: () => import("./samples"),
-  "test-proxy": () => import("./test-proxy")
+  "test-proxy": () => import("./test-proxy"),
+  "test:node": () => import("./testNode")
 } as const;
 
 /**

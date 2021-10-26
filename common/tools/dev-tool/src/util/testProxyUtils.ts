@@ -5,7 +5,7 @@ import { spawn } from "child_process";
 import fs from "fs";
 import path from "path";
 import os from "os";
-import { ClientRequest, IncomingMessage, request, RequestOptions } from "http";
+import { IncomingMessage, request, RequestOptions } from "http";
 import { createPrinter } from "./printer";
 
 const log = createPrinter("test-proxy-script");
@@ -59,13 +59,13 @@ async function getDockerRunCommand() {
 }
 
 export async function isProxyToolActive() {
-  return makeRequest("http://localhost:5000/info/available", {});
+  await makeRequest("http://localhost:5000/info/available", {});
+  log.info(`Proxy tool seems to be active at http://localhost:5000\n`);
 }
 
 async function makeRequest(uri: string, requestOptions: RequestOptions): Promise<IncomingMessage> {
   return new Promise<IncomingMessage>((resolve, reject) => {
-    let req: ClientRequest;
-    req = request(uri, requestOptions, resolve);
+    let req = request(uri, requestOptions, resolve);
     req.once("error", reject);
     req.end();
   });

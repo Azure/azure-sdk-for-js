@@ -9,6 +9,5 @@ export const commandInfo = makeCommandInfo(
 );
 
 export default subCommand(commandInfo, {
-  start: () => import("./start"),
-  stop: () => import("./start")
+  start: () => import("./start")
 });
