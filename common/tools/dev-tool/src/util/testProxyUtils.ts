@@ -4,7 +4,6 @@
 import { spawn } from "child_process";
 import fs from "fs";
 import path from "path";
-import os from "os";
 import { IncomingMessage, request, RequestOptions } from "http";
 
 export async function startProxyTool(mode: string | undefined) {
@@ -19,15 +18,15 @@ export async function startProxyTool(mode: string | undefined) {
 
   const command = await getDockerRunCommand();
 
-  !(os.platform() === "win32") &&
-    console.log(`Check the output file ${outFileName} for test-proxy logs.`); // Opens a cmd prompt for windows instead
+  console.log(`Check the output file "${outFileName}" for test-proxy logs.`);
 
-  // const subprocess =
   spawn(command, [], {
     shell: true,
-    // detached: true,
     stdio: ["ignore", out, err]
   });
+
+  // If you want it to be detached, add the following option and call unref()
+  // // detached: true,
   // subprocess.unref();
 }
 
