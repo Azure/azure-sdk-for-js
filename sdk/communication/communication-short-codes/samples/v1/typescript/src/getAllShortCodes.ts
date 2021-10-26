@@ -5,9 +5,7 @@
  * @summary Get all Short Codes for a resource
  */
 
-import {
-  ShortCodesClient,
-} from "@azure-tools/communication-short-codes";
+import { ShortCodesClient } from "@azure-tools/communication-short-codes";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
