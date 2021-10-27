@@ -47,6 +47,21 @@ export const apiVersion: msRest.OperationQueryParameter = {
     }
   }
 };
+export const clusterName: msRest.OperationURLParameter = {
+  parameterPath: "clusterName",
+  mapper: {
+    required: true,
+    serializedName: "clusterName",
+    constraints: {
+      MaxLength: 100,
+      MinLength: 1,
+      Pattern: /^[a-zA-Z0-9]+(-[a-zA-Z0-9]+)*$/
+    },
+    type: {
+      name: "String"
+    }
+  }
+};
 export const collectionName: msRest.OperationURLParameter = {
   parameterPath: "collectionName",
   mapper: {
@@ -92,6 +107,21 @@ export const databaseRid: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "databaseRid",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const dataCenterName: msRest.OperationURLParameter = {
+  parameterPath: "dataCenterName",
+  mapper: {
+    required: true,
+    serializedName: "dataCenterName",
+    constraints: {
+      MaxLength: 100,
+      MinLength: 1,
+      Pattern: /^[a-zA-Z0-9]+(-[a-zA-Z0-9]+)*$/
+    },
     type: {
       name: "String"
     }

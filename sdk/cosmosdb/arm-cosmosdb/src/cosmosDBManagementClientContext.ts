@@ -13,12 +13,12 @@ import * as msRestAzure from "@azure/ms-rest-azure-js";
 import { TokenCredential } from "@azure/core-auth";
 
 const packageName = "@azure/arm-cosmosdb";
-const packageVersion = "14.1.1";
+const packageVersion = "14.2.0";
 
 export class CosmosDBManagementClientContext extends msRestAzure.AzureServiceClient {
   credentials: msRest.ServiceClientCredentials | TokenCredential;
-  apiVersion?: string;
   subscriptionId: string;
+  apiVersion?: string;
 
   /**
    * Initializes a new instance of the CosmosDBManagementClient class.
@@ -49,7 +49,7 @@ export class CosmosDBManagementClientContext extends msRestAzure.AzureServiceCli
 
     super(credentials, options);
 
-    this.apiVersion = '2021-06-15';
+    this.apiVersion = '2021-10-15';
     this.acceptLanguage = 'en-US';
     this.longRunningOperationRetryTimeout = 30;
     this.baseUri = options.baseUri || this.baseUri || "https://management.azure.com";
