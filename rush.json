@@ -1010,6 +1010,11 @@
       "packageName": "@azure/arm-containerservice",
       "projectFolder": "sdk/containerservice/arm-containerservice",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-videoanalyzer",
+      "projectFolder": "sdk/videoanalyzer/arm-videoanalyzer",
+      "versionPolicyName": "management"
     }
   ]
 }
