@@ -4,6 +4,7 @@
 ### Features Added
 
 - Add options to support enable path parameter encoding and query parameter encoding.
+
 ## 1.0.0-beta.7 (2021-09-02)
 
 ### Other Changes
