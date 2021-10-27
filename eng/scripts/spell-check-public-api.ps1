@@ -85,7 +85,7 @@ $packageFoldersToScan = $packageDirectories.Where({
 $failed = $false
 foreach ($directory in $packageFoldersToScan) { 
   Write-Host "cspell lint --config '.vscode/cspell.json' --no-must-find-files `"$directory/review/**/*.md`""
-  cspell lint `
+  npx cspell lint `
     --config "$REPO_ROOT/.vscode/cspell.json" `
     --no-must-find-files `
     --root $REPO_ROOT/ `
