@@ -33,10 +33,7 @@ import {
   CancelParticipantMediaOperationWithCallLocatorRequest,
   StartCallRecordingResult,
   StartCallRecordingWithCallLocatorRequest,
-  CallRecordingProperties,
-  RecordingContentType,
-  KnownRecordingChannelType,
-  RecordingFormatType
+  CallRecordingProperties
 } from "./generated/src/models";
 import { TokenCredential } from "@azure/core-auth";
 
@@ -525,17 +522,11 @@ export class CallingServerClient {
    *
    * @param callLocator - The callLocator contains server call id.
    * @param recordingStateCallbackUri - The call back uri for recording state.
-   * @param recordingContentType - Content type of call recording.
-   * @param recordingChannelType - Channel type of call recording.
-   * @param recordingFormatType - Format type of call recording.
    * @param options - Additional request options contains StartRecording api options.
    */
   public async startRecording(
     callLocator: CallLocator,
     recordingStateCallbackUri: string,
-    recordingContentType?: RecordingContentType,
-    recordingChannelType?: KnownRecordingChannelType,
-    recordingFormatType?: RecordingFormatType,
     options: StartRecordingOptions = {}
   ): Promise<StartCallRecordingResult> {
     const { span, updatedOptions } = createSpan("ServerCallRestClient-StartRecording", options);
@@ -555,9 +546,7 @@ export class CallingServerClient {
     const startCallRecordingWithCallLocatorRequest: StartCallRecordingWithCallLocatorRequest = {
       callLocator: serializeCallLocator(callLocator),
       recordingStateCallbackUri: recordingStateCallbackUri,
-      recordingContentType: recordingContentType,
-      recordingChannelType: recordingChannelType,
-      recordingFormatType: recordingFormatType
+      ...updatedOptions
     };
 
     try {
@@ -768,13 +757,13 @@ export class CallingServerClient {
   public async download(
     uri: string,
     offset: number = 0,
-    count?: number,
     options: DownloadOptions = {}
   ): Promise<ContentDownloadResponse> {
     const { span, updatedOptions } = createSpan("ServerCallRestClient-download", options);
     const DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS = 3;
     const contentDownloader = this.initializeContentDownloader();
     try {
+      const count = updatedOptions.count;
       const res = await contentDownloader.downloadContent(uri, {
         abortSignal: options.abortSignal,
         requestOptions: {

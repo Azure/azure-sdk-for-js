@@ -84,8 +84,8 @@ export class CallingServerClient {
     addParticipant(callLocator: CallLocator, participant: CommunicationIdentifier, callbackUri: string, alternateCallerId?: string, operationContext?: string, options?: AddParticipantOptions): Promise<ServerCallsAddParticipantResponse>;
     cancelMediaOperation(callLocator: CallLocator, mediaOperationId: string, options?: CancelMediaOperationOptions): Promise<void>;
     cancelParticipantMediaOperation(callLocator: CallLocator, participant: CommunicationIdentifier, mediaOperationId: string, options?: CancelMediaOperationOptions): Promise<void>;
-    createCallConnection(source: CommunicationIdentifier, targets: CommunicationIdentifier[], options: CreateCallOptions): Promise<CallConnection>;
-    download(uri: string, offset?: number, count?: number, options?: DownloadOptions): Promise<ContentDownloadResponse>;
+    createCallConnection(source: CommunicationIdentifier, targets: CommunicationIdentifier[], options: CreateCallConnectionOptions): Promise<CallConnection>;
+    download(uri: string, offset?: number, options?: DownloadOptions): Promise<ContentDownloadResponse>;
     getCallConnection(callConnectionId: string): CallConnection;
     // Warning: (ae-forgotten-export) The symbol "CallRecordingProperties" needs to be exported by the entry point index.d.ts
     getRecordingProperties(recordingId: string, options?: GetRecordingPropertiesOptions): Promise<CallRecordingProperties>;
@@ -99,11 +99,8 @@ export class CallingServerClient {
     playAudioToParticipant(callLocator: CallLocator, participant: CommunicationIdentifier, audioFileUri: string, options: PlayAudioToParticipantOptions): Promise<PlayAudioResult>;
     removeParticipant(callLocator: CallLocator, participant: CommunicationIdentifier, options?: RemoveParticipantOptions): Promise<void>;
     resumeRecording(recordingId: string, options?: ResumeRecordingOptions): Promise<RestResponse>;
-    // Warning: (ae-forgotten-export) The symbol "RecordingContentType" needs to be exported by the entry point index.d.ts
-    // Warning: (ae-forgotten-export) The symbol "KnownRecordingChannelType" needs to be exported by the entry point index.d.ts
-    // Warning: (ae-forgotten-export) The symbol "RecordingFormatType" needs to be exported by the entry point index.d.ts
     // Warning: (ae-forgotten-export) The symbol "StartCallRecordingResult" needs to be exported by the entry point index.d.ts
-    startRecording(callLocator: CallLocator, recordingStateCallbackUri: string, recordingContentType?: RecordingContentType, recordingChannelType?: KnownRecordingChannelType, recordingFormatType?: RecordingFormatType, options?: StartRecordingOptions): Promise<StartCallRecordingResult>;
+    startRecording(callLocator: CallLocator, recordingStateCallbackUri: string, options?: StartRecordingOptions): Promise<StartCallRecordingResult>;
     stopRecording(recordingId: string, options?: StopRecordingOptions): Promise<RestResponse>;
 }
 
@@ -175,6 +172,8 @@ export interface DownloadContentOptions extends DownloadOptions {
 // @public (undocumented)
 export interface DownloadOptions extends OperationOptions {
     abortSignal?: AbortSignalLike;
+    // (undocumented)
+    count?: number;
     maxRetryRequests?: number;
     onProgress?: (progress: TransferProgressEvent) => void;
 }
@@ -244,6 +243,14 @@ export class KnownCallingServerEventType {
     static PLAY_AUDIO_RESULT_EVENT: string | null;
     // (undocumented)
     static TONE_RECEIVED_EVENT: string | null;
+}
+
+// @public
+export const enum KnownRecordingChannelType {
+    // (undocumented)
+    Mixed = "mixed",
+    // (undocumented)
+    Unmixed = "unmixed"
 }
 
 // @public
@@ -322,6 +329,12 @@ export type PlayAudioToParticipantOptions = PlayAudioOptions;
 export const range: OperationParameter;
 
 // @public
+export type RecordingChannelType = string;
+
+// @public
+export type RecordingContentType = string;
+
+// @public
 export type RemoveParticipantOptions = OperationOptions;
 
 // @public
@@ -338,7 +351,16 @@ export interface ServerCallLocatorKind extends ServerCallLocator {
 }
 
 // @public
-export type StartRecordingOptions = OperationOptions;
+export interface StartRecordingOptions extends OperationOptions {
+    // (undocumented)
+    recordingChannelType?: KnownRecordingChannelType;
+    // (undocumented)
+    recordingContentType?: RecordingContentType;
+    // Warning: (ae-forgotten-export) The symbol "RecordingFormatType" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    recordingFormatType?: RecordingFormatType;
+}
 
 // @public
 export type StopRecordingOptions = OperationOptions;

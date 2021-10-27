@@ -4,7 +4,13 @@ import { AbortSignalLike } from "@azure/abort-controller";
 import { OperationOptions, TransferProgressEvent } from "@azure/core-http";
 import { PhoneNumberIdentifier } from "@azure/communication-common";
 
-import { CallMediaType, CallingEventSubscriptionType } from "./generated/src/models";
+import {
+  CallMediaType,
+  CallingEventSubscriptionType,
+  RecordingContentType,
+  KnownRecordingChannelType,
+  RecordingFormatType
+} from "./generated/src/";
 
 export {
   CallMediaType,
@@ -19,10 +25,13 @@ export {
   CallConnectionsAddParticipantResponse,
   CallConnectionsPlayAudioResponse,
   PhoneNumberIdentifierModel,
+  RecordingChannelType,
+  RecordingContentType,
   CommunicationIdentifierModel,
   CommunicationUserIdentifierModel,
   KnownToneValue,
-  KnownCallConnectionState
+  KnownCallConnectionState,
+  KnownRecordingChannelType
 } from "./generated/src/models";
 
 /**
@@ -101,7 +110,11 @@ export type TransferCallOptions = OperationOptions;
 /**
  * Options to start recording.
  */
-export type StartRecordingOptions = OperationOptions;
+export interface StartRecordingOptions extends OperationOptions {
+  recordingContentType?: RecordingContentType;
+  recordingChannelType?: KnownRecordingChannelType;
+  recordingFormatType?: RecordingFormatType;
+}
 /**
  * Options to pause recording.
  */
@@ -247,6 +260,8 @@ export interface DownloadOptions extends OperationOptions {
    * Default value is 5, please set a larger value when loading large files in poor network.
    */
   maxRetryRequests?: number;
+
+  count?: number;
 }
 
 export interface DownloadContentOptions extends DownloadOptions {
