@@ -20,4 +20,5 @@ use-extension:
 azure-arm: false
 add-credentials: false
 package-version: 1.1.0
+v3: true
 ```

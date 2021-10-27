@@ -20,6 +20,7 @@ typescript: true
 hide-clients: true
 use-extension:
   "@autorest/typescript": "6.0.0-beta.4"
+v3: true
 ```
 
 ## Customizations

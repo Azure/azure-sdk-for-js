@@ -21,4 +21,5 @@ use-extension:
   "@autorest/typescript": "6.0.0-dev.20200623.2"
 add-credentials: false
 azure-arm: false
+v3: true
 ```
