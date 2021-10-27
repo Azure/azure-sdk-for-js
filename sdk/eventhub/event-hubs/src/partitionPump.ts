@@ -91,7 +91,7 @@ export class PartitionPump {
         ownerLevel: this._processorOptions.ownerLevel,
         trackLastEnqueuedEventProperties: this._processorOptions.trackLastEnqueuedEventProperties,
         retryOptions: this._processorOptions.retryOptions,
-        skipJsonParsingContent: this._processorOptions.skipJsonParsingContent
+        skipParsingBodyAsJson: this._processorOptions.skipParsingBodyAsJson
       }
     );
 

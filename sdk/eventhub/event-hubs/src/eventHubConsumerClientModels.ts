@@ -203,7 +203,7 @@ export interface SubscribeOptions {
    * Not applicable if the message was sent with AMQP body type value or sequence. Use this option when you
    * prefer to work directly with the bytes present in the message body than have the client attempt to parse it.
    */
-  skipJsonParsingContent?: boolean;
+  skipParsingBodyAsJson?: boolean;
 }
 
 /**

@@ -75,19 +75,19 @@ export const defaultDataTransformer = {
    * indicating which part of the AMQP message the body was decoded from.
    *
    * @param body - The AMQP message body as received from rhea.
-   * @param skipJsonParsingContent - Boolean to skip running JSON.parse() on message body when body type is `content`.
+   * @param skipParsingBodyAsJson - Boolean to skip running JSON.parse() on message body when body type is `content`.
    * @returns The decoded/raw body and the body type.
    */
   decode(
     body: unknown | RheaAmqpSection,
-    skipJsonParsingContent: boolean
+    skipParsingBodyAsJson: boolean
   ): { body: unknown; bodyType: BodyTypes } {
     try {
       if (isRheaAmqpSection(body)) {
         switch (body.typecode) {
           case dataSectionTypeCode:
             return {
-              body: skipJsonParsingContent ? body.content : tryToJsonDecode(body.content),
+              body: skipParsingBodyAsJson ? body.content : tryToJsonDecode(body.content),
               bodyType: "data"
             };
           case sequenceSectionTypeCode:
@@ -97,7 +97,7 @@ export const defaultDataTransformer = {
         }
       } else {
         if (isBuffer(body)) {
-          return { body: skipJsonParsingContent ? body : tryToJsonDecode(body), bodyType: "data" };
+          return { body: skipParsingBodyAsJson ? body : tryToJsonDecode(body), bodyType: "data" };
         }
 
         return { body, bodyType: "value" };

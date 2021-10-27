@@ -295,7 +295,7 @@ testWithServiceTypes(() => {
         done();
       });
 
-      it("should correctly decode a string message body, setting skipJsonParsingContent to true", (done) => {
+      it("should correctly decode a string message body, setting skipParsingBodyAsJson to true", (done) => {
         const { body: decoded, bodyType: decodedType } = transformer.decode(stringBody, true);
         should.equal(decodedType, "value");
         (decoded as any).should.equal(stringBody);
@@ -309,7 +309,7 @@ testWithServiceTypes(() => {
         done();
       });
 
-      it("should correctly decode a number message body, setting skipJsonParsingContent to true", (done) => {
+      it("should correctly decode a number message body, setting skipParsingBodyAsJson to true", (done) => {
         const { body: decoded, bodyType: decodedType } = transformer.decode(numberBody, true);
         should.equal(decodedType, "value");
         (decoded as any).should.equal(numberBody);
@@ -323,7 +323,7 @@ testWithServiceTypes(() => {
         done();
       });
 
-      it("should correctly decode a boolean message body, setting skipJsonParsingContent to true", (done) => {
+      it("should correctly decode a boolean message body, setting skipParsingBodyAsJson to true", (done) => {
         const { body: decoded, bodyType: decodedType } = transformer.decode(booleanBody, true);
         should.equal(decodedType, "value");
         (decoded as any).should.equal(booleanBody);
@@ -337,7 +337,7 @@ testWithServiceTypes(() => {
         done();
       });
 
-      it("should correctly decode a null message body, setting skipJsonParsingContent to true", (done) => {
+      it("should correctly decode a null message body, setting skipParsingBodyAsJson to true", (done) => {
         const { body: decoded, bodyType: decodedType } = transformer.decode(nullBody, true);
         should.equal(decodedType, "value");
         should.equal(decoded, nullBody);
@@ -351,7 +351,7 @@ testWithServiceTypes(() => {
         done();
       });
 
-      it("should correctly decode an undefined message body, setting skipJsonParsingContent to true", (done) => {
+      it("should correctly decode an undefined message body, setting skipParsingBodyAsJson to true", (done) => {
         const { body: decoded, bodyType: decodedType } = transformer.decode(undefinedBody, true);
         should.equal(decodedType, "value");
         should.equal(decoded, undefined);
@@ -365,7 +365,7 @@ testWithServiceTypes(() => {
         done();
       });
 
-      it("should correctly decode an empty string message body, setting skipJsonParsingContent to true", (done) => {
+      it("should correctly decode an empty string message body, setting skipParsingBodyAsJson to true", (done) => {
         const { body: decoded, bodyType: decodedType } = transformer.decode(emptyStringBody, true);
         should.equal(decodedType, "value");
         (decoded as any).should.equal(emptyStringBody);
@@ -379,7 +379,7 @@ testWithServiceTypes(() => {
         done();
       });
 
-      it("should correctly decode an array message body, setting skipJsonParsingContent to true", (done) => {
+      it("should correctly decode an array message body, setting skipParsingBodyAsJson to true", (done) => {
         const { body: decoded, bodyType: decodedType } = transformer.decode(arrayBody, true);
         should.equal(decodedType, "value");
         assert.deepStrictEqual(decoded, arrayBody);
@@ -393,7 +393,7 @@ testWithServiceTypes(() => {
         done();
       });
 
-      it("should correctly decode an object message body, setting skipJsonParsingContent to true", (done) => {
+      it("should correctly decode an object message body, setting skipParsingBodyAsJson to true", (done) => {
         const { body: decoded, bodyType: decodedType } = transformer.decode(objectBody, true);
         should.equal(decodedType, "value");
         assert.deepStrictEqual(decoded, objectBody);
@@ -407,7 +407,7 @@ testWithServiceTypes(() => {
         done();
       });
 
-      it("should correctly decode a buffer message body, setting skipJsonParsingContent to true", (done) => {
+      it("should correctly decode a buffer message body, setting skipParsingBodyAsJson to true", (done) => {
         const { body: decoded, bodyType: decodedType } = transformer.decode(bufferBody, true);
         should.equal(decodedType, "data");
         assert.deepStrictEqual(decoded, bufferBody);
@@ -421,7 +421,7 @@ testWithServiceTypes(() => {
         done();
       });
 
-      it("should correctly decode a hex buffer message body, setting skipJsonParsingContent to true", (done) => {
+      it("should correctly decode a hex buffer message body, setting skipParsingBodyAsJson to true", (done) => {
         const { body: decoded, bodyType: decodedType } = transformer.decode(hexBufferBody, false);
         should.equal(decodedType, "data");
         assert.deepStrictEqual(decoded, hexBufferBody);
@@ -442,7 +442,7 @@ testWithServiceTypes(() => {
         done();
       });
 
-      it("should correctly decode a buffer message body and that body is a JSON string, setting skipJsonParsingContent to true", (done) => {
+      it("should correctly decode a buffer message body and that body is a JSON string, setting skipParsingBodyAsJson to true", (done) => {
         const jsonBody = {
           foo: "bar"
         };
@@ -471,7 +471,7 @@ testWithServiceTypes(() => {
         done();
       });
 
-      it("should correctly decode a buffer message body and that body is a JSON string for a rhea AMQP section, setting skipJsonParsingContent to true", (done) => {
+      it("should correctly decode a buffer message body and that body is a JSON string for a rhea AMQP section, setting skipParsingBodyAsJson to true", (done) => {
         const jsonBody = {
           foo: "bar"
         };

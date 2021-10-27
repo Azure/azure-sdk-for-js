@@ -223,7 +223,7 @@ export class EventHubReceiver extends LinkEntity {
     }
     const data: EventDataInternal = fromRheaMessage(
       context.message,
-      !!this.options.skipJsonParsingContent
+      !!this.options.skipParsingBodyAsJson
     );
     const rawMessage = data.getRawAmqpMessage();
     const receivedEventData: ReceivedEventData = {
