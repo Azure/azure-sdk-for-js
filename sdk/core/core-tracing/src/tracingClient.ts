@@ -7,7 +7,8 @@ import {
   TracingClientOptions,
   OperationTracingOptions,
   TracingSpan,
-  TracingContext
+  TracingContext,
+  TracingSpanOptions
 } from "./interfaces";
 import { tracerImplementation } from "./tracer";
 import { knownContextKeys } from "./tracingContext";
@@ -22,19 +23,21 @@ export class TracingClientImpl implements TracingClient {
   }
   startSpan<Options extends { tracingOptions?: OperationTracingOptions }>(
     name: string,
-    options?: Options
+    operationOptions?: Options,
+    spanOptions?: TracingSpanOptions
   ): {
     span: TracingSpan;
     tracingContext: TracingContext;
     updatedOptions: Options;
   } {
     const { span, tracingContext } = this._tracer.startSpan(name, {
-      tracingContext: options?.tracingOptions?.tracingContext
+      ...spanOptions,
+      tracingContext: operationOptions?.tracingOptions?.tracingContext
     });
     const newContext = tracingContext.setValue(knownContextKeys.Namespace, this._namespace);
     span.setAttribute("az.namespace", this._namespace);
     const updatedOptions = {
-      ...options,
+      ...operationOptions,
       tracingOptions: {
         tracingContext: newContext
       }
@@ -55,16 +58,21 @@ export class TracingClientImpl implements TracingClient {
     ) => ReturnType<Callback>
   >(
     name: string,
-    fn: Callback,
-    options?: Options,
+    callback: Callback,
+    operationOptions?: Options,
+    spanOptions?: TracingSpanOptions,
     callbackThis?: ThisParameterType<Callback>
   ): Promise<ReturnType<Callback>> {
-    const { span, tracingContext, updatedOptions } = this.startSpan(name, options);
+    const { span, tracingContext, updatedOptions } = this.startSpan(
+      name,
+      operationOptions,
+      spanOptions
+    );
     try {
       span.setStatus({ status: "success" });
       const result = await this.withContext(
         tracingContext,
-        () => Promise.resolve(fn.call(callbackThis, updatedOptions, span)),
+        () => Promise.resolve(callback.call(callbackThis, updatedOptions, span)),
         callbackThis
       );
       return result;

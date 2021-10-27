@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Tracer, TracerCreateSpanOptions, TracingSpan, TracingContext } from "./interfaces";
+import { Tracer, TracingSpanOptions, TracingSpan, TracingContext } from "./interfaces";
 import { createTracingContext } from "./tracingContext";
 
 /** @internal */
 export class NoOpTracer implements Tracer {
   startSpan(
     _name?: string,
-    options?: TracerCreateSpanOptions
+    options?: TracingSpanOptions
   ): { span: TracingSpan; tracingContext: TracingContext } {
     return {
       span: new NoOpSpan(),
@@ -23,7 +23,7 @@ export class NoOpTracer implements Tracer {
   >(
     _name: string,
     fn: Callback,
-    _options: TracerCreateSpanOptions,
+    _options: TracingSpanOptions,
     callbackThis?: ThisParameterType<Callback>
   ): Promise<ReturnType<Callback>> {
     const { span, tracingContext } = this.startSpan();

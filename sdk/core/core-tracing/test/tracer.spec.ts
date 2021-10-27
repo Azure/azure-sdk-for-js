@@ -336,6 +336,7 @@ describe("Tracer", () => {
             assert.strictEqual(this, that);
           },
           {},
+          {},
           this
         );
       });

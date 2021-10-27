@@ -11,6 +11,11 @@ export const knownContextKeys = {
   ParentContext: Symbol.for("@azure/core-tracing provider context")
 };
 
+/**
+ * Creates a new {@link TracingContext} with the given options.
+ * @param options - A set of known keys that may be set on the context.
+ * @returns A new {@link TracingContext} with the given options.
+ */
 export function createTracingContext(options: CreateTracingContextOptions = {}): TracingContext {
   const newContextMap = new Map<symbol, unknown>();
   if (options.span) {

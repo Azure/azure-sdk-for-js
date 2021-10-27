@@ -1,7 +1,27 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+/**
+ * Represents a client that can integrate with the currently configured {@link Tracer}.
+ *
+ * Create an instance using {@link createTracingClient}.
+ */
 export interface TracingClient {
+  /**
+   * Wraps a callback in a tracing span, calls the callback, and closes the span.
+   *
+   * This is the primary interface for using Tracing and will handle error recording as well as setting the status on the span.
+   *
+   * Example:
+   *
+   * ```ts
+   * const myOperationResult = await withTrace("myClassName.myOperationName", (updatedOptions) => myOperation(updatedOptions), options);
+   * ```
+   * @param name The name of the span. By convention this should be `${className}.${methodName}`.
+   * @param callback - The callback to be invoked with the updated options and newly created {@link TracingSpan}.
+   * @param operationOptions - The original options passed to the method. The callback will receive these options with the newly created {@link TracingContext}.
+   * @param callbackThis - An optional `this` parameter to bind the callback to.
+   */
   withTrace<
     Options extends { tracingOptions?: OperationTracingOptions },
     Callback extends (
@@ -10,14 +30,40 @@ export interface TracingClient {
     ) => ReturnType<Callback>
   >(
     name: string,
-    fn: Callback,
-    options?: Options,
+    callback: Callback,
+    operationOptions?: Options,
+    spanOptions?: TracingSpanOptions,
     callbackThis?: ThisParameterType<Callback>
   ): Promise<ReturnType<Callback>>;
+  /**
+   * Start a given span but does not set it as the active span.
+   *
+   * You must end the span using {@link TracingSpan.end}.
+   *
+   * Most of the time you will want to use {@link withTrace} instead.
+   *
+   * @param name - The name of the span. By convention this should be `${className}.${methodName}`.
+   * @param operationOptions - The original operation options.
+   * @param spanOptions - The options to use when creating the span.
+   *
+   * @returns A {@link TracingSpan} that can be used to end the span, the newly updated tracingContext, and the updated operation options.
+   */
   startSpan<Options extends { tracingOptions?: OperationTracingOptions }>(
     name: string,
-    options?: Options
+    operationOptions?: Options,
+    spanOptions?: TracingSpanOptions
   ): { span: TracingSpan; tracingContext: TracingContext; updatedOptions: Options };
+  /**
+   * Wraps a callback with an active context and calls the callback.
+   * Depending on the implementation, this may set the globally available active context.
+   *
+   * Useful when you want to leave the boundaries of the SDK (make a request or callback to user code) and are unable to use the {@link withTrace} interface.
+   *
+   * @param context - The {@link TracingContext} to use as the active context in the scope of the callback.
+   * @param callback - The callback to be invoked with the given context set as the globally active context.
+   * @param callbackThis - An optional `this` parameter to bind the callback to.
+   * @param callbackArgs - The callback arguments.
+   */
   withContext<
     CallbackArgs extends unknown[],
     Callback extends (...args: CallbackArgs) => ReturnType<Callback>
@@ -29,26 +75,68 @@ export interface TracingClient {
   ): ReturnType<Callback>;
 }
 
+/**
+ * Options that can be passed to {@link createTracingClient}.
+ */
 export interface TracingClientOptions {
+  /** The value of the az.namespace tracing attribute on any given spans */
   namespace: string;
+  /** An optional {@link Tracer}. If omitted, the globally set tracer will be used */
   tracer?: Tracer;
 }
 
+/**
+ * Represents a set of items that can be set when creating a new {@link TracingContext}.
+ */
 export interface CreateTracingContextOptions {
-  span?: TracingSpan;
-  client?: TracingClient;
+  /** The {@link parentContext} - the newly created context will contain all the values of the parent context unless overriden. */
   parentContext?: TracingContext;
+  /** The span to set on the context. */
+  span?: TracingSpan;
+  /** The tracing client used to create this context. */
+  client?: TracingClient;
+  /** The namespace to set on any child spans. */
   namespace?: string;
 }
 
-export interface TracerCreateSpanOptions {
-  tracingContext?: TracingContext;
+/** The kind of span. */
+export type SpanKind = "client" | "server" | "producer" | "consumer";
+
+/** Options used to configure the newly created span. */
+export interface TracingSpanOptions {
+  /** The kind of span. Implementations should default this to "client". */
+  spanKind?: SpanKind;
+  // TODO: what should this be?
+  /** A collection of spans to link to this span. */
+  spanLinks?: TracingSpan[];
+  /** The tracingContext to set the newly created span on. Defaults to the globally active context. */
+  tracingContext?: TracingContext; // TODO: is this needed?
 }
+
+/**
+ * Represents an implementation agnostic tracer.
+ */
 export interface Tracer {
+  /**
+   * Creates a new {@link TracingSpan} with the given name and options and sets it on a new context.
+   * @param name - The name of the span. By convention this should be `${className}.${methodName}`.
+   * @param spanOptions - The options to use when creating the span.
+   *
+   * @returns A {@link TracingSpan} that can be used to end the span, and the context this span has been set on.
+   */
   startSpan(
     name: string,
-    options?: TracerCreateSpanOptions
+    spanOptions?: TracingSpanOptions
   ): { span: TracingSpan; tracingContext: TracingContext };
+  /**
+   * Wraps a callback with an active context and calls the callback.
+   * Depending on the implementation, this may set the globally available active context.
+   *
+   * @param context - The {@link TracingContext} to use as the active context in the scope of the callback.
+   * @param callback - The callback to be invoked with the given context set as the globally active context.
+   * @param callbackThis - An optional `this` parameter to bind the callback to.
+   * @param callbackArgs - The callback arguments.
+   */
   withContext<
     CallbackArgs extends unknown[],
     Callback extends (...args: CallbackArgs) => ReturnType<Callback>
@@ -60,6 +148,12 @@ export interface Tracer {
   ): ReturnType<Callback>;
 }
 
+/**
+ * Represents the statuses that can be passed to {@link TracingSpan.setStatus}.
+ *
+ * Discriminated by the status field - note that only "success" and "error" are valid statuses.
+ * The "otel" status is here for backwards compatibility only.
+ */
 export type SpanStatus =
   | {
       status: "success";
@@ -76,21 +170,60 @@ export type SpanStatus =
       status?: "otel";
     };
 
+/**
+ * Represents an implementation agnostic tracing span.
+ */
 export interface TracingSpan {
+  /**
+   * Sets the status of the span.
+   *
+   * @param status - The status to set on the span.
+   */
   setStatus(status: SpanStatus): void;
-  setAttribute(name: string, value: unknown): void;
+  /**
+   *
+   * @param name - The attribute's name to use.
+   * @param value - The attribute's value to use. May be any non-null value.
+   */
+  setAttribute(name: string, value: NonNullable<unknown>): void;
+  /**
+   * Ends the span.
+   */
   end(): void;
-  /** Serializes a span to a set of headers */
+  /** Serializes a span to a set of request headers. */
   serialize(): Record<string, string>;
   // TODO: deserialize
   // deserialize(traceParentHeader: string): TracingSpan;
 }
+
+/** An immutable context bag of tracing values for the current operation. */
 export interface TracingContext {
+  /**
+   * Sets a given object on a context.
+   * @param key - The key of the given context value.
+   * @param value - The value to set on the context.
+   *
+   * @returns - A new context with the given value set.
+   */
   setValue(key: symbol, value: unknown): TracingContext;
+  /**
+   * Gets an object from the context if it exists.
+   * @param key - The key of the given context value.
+   *
+   * @returns - The value of the given context value if it exists, otherwise `undefined`.
+   */
   getValue(key: symbol): unknown;
+  /**
+   * Deletes an object from the context if it exists.
+   * @param key - The key of the given context value to delete.
+   */
   deleteValue(key: symbol): TracingContext;
 }
 
+/**
+ * Tracing options to set on an operation.
+ */
 export interface OperationTracingOptions {
+  /** The context to use for created Tracing Spans. */
   tracingContext?: TracingContext;
 }
