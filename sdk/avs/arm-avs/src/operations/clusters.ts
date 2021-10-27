@@ -113,11 +113,12 @@ export class Clusters {
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
    * @param clusterName Name of the cluster in the private cloud
+   * @param clusterUpdate The cluster properties to be updated
    * @param [options] The optional parameters
    * @returns Promise<Models.ClustersUpdateResponse>
    */
-  update(resourceGroupName: string, privateCloudName: string, clusterName: string, options?: Models.ClustersUpdateOptionalParams): Promise<Models.ClustersUpdateResponse> {
-    return this.beginUpdate(resourceGroupName,privateCloudName,clusterName,options)
+  update(resourceGroupName: string, privateCloudName: string, clusterName: string, clusterUpdate: Models.ClusterUpdate, options?: msRest.RequestOptionsBase): Promise<Models.ClustersUpdateResponse> {
+    return this.beginUpdate(resourceGroupName,privateCloudName,clusterName,clusterUpdate,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ClustersUpdateResponse>;
   }
 
@@ -161,15 +162,17 @@ export class Clusters {
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
    * @param clusterName Name of the cluster in the private cloud
+   * @param clusterUpdate The cluster properties to be updated
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginUpdate(resourceGroupName: string, privateCloudName: string, clusterName: string, options?: Models.ClustersBeginUpdateOptionalParams): Promise<msRestAzure.LROPoller> {
+  beginUpdate(resourceGroupName: string, privateCloudName: string, clusterName: string, clusterUpdate: Models.ClusterUpdate, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
         privateCloudName,
         clusterName,
+        clusterUpdate,
         options
       },
       beginUpdateOperationSpec,
@@ -330,12 +333,7 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.acceptLanguage
   ],
   requestBody: {
-    parameterPath: {
-      clusterSize: [
-        "options",
-        "clusterSize"
-      ]
-    },
+    parameterPath: "clusterUpdate",
     mapper: {
       ...Mappers.ClusterUpdate,
       required: true

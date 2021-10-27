@@ -27,7 +27,7 @@ export class ScriptExecutions {
   }
 
   /**
-   * @summary Get an script execution resource by name in a private cloud
+   * @summary List script executions in a private cloud
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
    * @param [options] The optional parameters
@@ -59,7 +59,7 @@ export class ScriptExecutions {
   }
 
   /**
-   * @summary Get an script execution resource by name in a private cloud
+   * @summary Get an script execution by name in a private cloud
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
    * @param scriptExecutionName Name of the user-invoked script execution resource
@@ -95,7 +95,7 @@ export class ScriptExecutions {
   }
 
   /**
-   * @summary Create or update a script execution resource in a private cloud
+   * @summary Create or update a script execution in a private cloud
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName The name of the private cloud.
    * @param scriptExecutionName Name of the user-invoked script execution resource
@@ -158,7 +158,7 @@ export class ScriptExecutions {
   }
 
   /**
-   * @summary Create or update a script execution resource in a private cloud
+   * @summary Create or update a script execution in a private cloud
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName The name of the private cloud.
    * @param scriptExecutionName Name of the user-invoked script execution resource
@@ -200,7 +200,7 @@ export class ScriptExecutions {
   }
 
   /**
-   * @summary Get an script execution resource by name in a private cloud
+   * @summary List script executions in a private cloud
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.ScriptExecutionsListNextResponse>

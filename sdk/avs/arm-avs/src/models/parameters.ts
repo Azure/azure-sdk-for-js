@@ -163,6 +163,16 @@ export const nextPageLink: msRest.OperationURLParameter = {
   },
   skipEncoding: true
 };
+export const placementPolicyName: msRest.OperationURLParameter = {
+  parameterPath: "placementPolicyName",
+  mapper: {
+    required: true,
+    serializedName: "placementPolicyName",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const portMirroringId: msRest.OperationURLParameter = {
   parameterPath: "portMirroringId",
   mapper: {
