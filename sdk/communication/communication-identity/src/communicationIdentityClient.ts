@@ -257,12 +257,12 @@ export class CommunicationIdentityClient {
    * @param teamsToken - AAD access token of a Teams user.
    * @param options - Additional options for the request.
    */
-  public async exchangeTeamsUserAadToken(
+  public async getTokenForTeamsUser(
     teamsUserAadToken: string,
     options: OperationOptions = {}
   ): Promise<CommunicationAccessToken> {
     const { span, updatedOptions } = createSpan(
-      "CommunicationIdentity-exchangeTeamsUserAadToken",
+      "CommunicationIdentity-getTokenForTeamsUser",
       options
     );
     try {

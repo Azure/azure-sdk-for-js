@@ -13,9 +13,7 @@ import {
 import { Context } from "mocha";
 
 matrix([[true, false]], async function(useAad) {
-  describe(`Exchange Teams User AAD token for ACS token [Playback/Live]${
-    useAad ? " [AAD]" : ""
-  }`, function() {
+  describe(`Get Token For Teams User [Playback/Live]${useAad ? " [AAD]" : ""}`, function() {
     let recorder: Recorder;
     let client: CommunicationIdentityClient;
 
@@ -56,7 +54,7 @@ matrix([[true, false]], async function(useAad) {
         assert.isNotNull(response);
         teamsToken = response!.token;
       }
-      const { token, expiresOn }: CommunicationAccessToken = await client.exchangeTeamsUserAadToken(
+      const { token, expiresOn }: CommunicationAccessToken = await client.getTokenForTeamsUser(
         teamsToken
       );
       assert.isString(token);
@@ -69,7 +67,7 @@ matrix([[true, false]], async function(useAad) {
         if (isPlaybackMode()) {
           emptyToken = "sanitized";
         }
-        await client.exchangeTeamsUserAadToken(emptyToken);
+        await client.getTokenForTeamsUser(emptyToken);
       } catch (e) {
         assert.equal(e.statusCode, 401);
         return;
@@ -84,7 +82,7 @@ matrix([[true, false]], async function(useAad) {
         if (isPlaybackMode()) {
           invalidToken = "sanitized";
         }
-        await client.exchangeTeamsUserAadToken(invalidToken);
+        await client.getTokenForTeamsUser(invalidToken);
       } catch (e) {
         assert.equal(e.statusCode, 401);
         return;
@@ -99,7 +97,7 @@ matrix([[true, false]], async function(useAad) {
         if (isPlaybackMode()) {
           expiredToken = "sanitized";
         }
-        await client.exchangeTeamsUserAadToken(expiredToken);
+        await client.getTokenForTeamsUser(expiredToken);
       } catch (e) {
         assert.equal(e.statusCode, 401);
         return;

@@ -1,6 +1,6 @@
 let nock = require('nock');
 
-module.exports.hash = "b06401222f6495704496033a41a8f3ac";
+module.exports.hash = "b1f4170b74dcc0b449f5079440989357";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
@@ -15,17 +15,17 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'Request-Context',
   'appId=',
   'MS-CV',
-  'x9aTyaEVc06Seipy0Rjipg.0',
+  'Zaoy9VDEL0W6xx5b9F/WJw.0',
   'Strict-Transport-Security',
   'max-age=2592000',
   'x-ms-client-request-id',
   '00000000-0000-0000-0000-000000000000',
   'X-Processing-Time',
-  '18ms',
+  '19ms',
   'X-Cache',
   'CONFIG_NOCACHE',
   'X-Azure-Ref',
-  '0535xYQAAAAD8198XQBMvR7mbsqf1CMtdUFJHMDFFREdFMDYwOABmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=',
+  '0h4t4YQAAAAAK1c8zMjSeRrzKB4I5r/7XUFJHMDFFREdFMDkxMwBmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=',
   'Date',
-  'Thu, 21 Oct 2021 14:53:26 GMT'
+  'Tue, 26 Oct 2021 23:13:11 GMT'
 ]);
