@@ -240,10 +240,10 @@ export class PerfProgram {
     this.logResults(parallels);
   }
 
-  private async logPackageVersions(): Promise<void> {
+  private async logPackageVersions(listTransitiveDeps: boolean): Promise<void> {
     return new Promise((resolve) => {
       console.log("=== Versions ===");
-      exec("npm list", (_error, stdout) => {
+      exec(`npm list --prod ${listTransitiveDeps ? "" : "--depth=0"}`, (_error, stdout) => {
         for (const dependency of stdout.split("\n").filter((line) => line.includes("@azure"))) {
           console.log(dependency);
         }
@@ -280,7 +280,9 @@ export class PerfProgram {
       return;
     }
 
-    await this.logPackageVersions();
+    await this.logPackageVersions(
+      this.parsedDefaultOptions["list-transitive-dependencies"].value ?? false
+    );
 
     const options = this.tests[0].parsedOptions;
     console.log("=== Parsed options ===");
