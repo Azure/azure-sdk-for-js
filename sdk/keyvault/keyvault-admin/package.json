@@ -109,7 +109,7 @@
     "@azure/core-lro": "^2.2.0",
     "@azure/core-paging": "^1.1.1",
     "@azure/core-rest-pipeline": "^1.1.0",
-    "@azure/core-tracing": "1.0.0-preview.13",
+    "@azure/core-tracing": "1.0.0-preview.14",
     "@azure/logger": "^1.0.0",
     "@types/uuid": "^8.0.0",
     "tslib": "^2.2.0",

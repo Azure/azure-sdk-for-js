@@ -45,7 +45,7 @@ describe("KeyVaultAccessControlClient", () => {
       }
     ];
 
-    it("can list role definitions", async function() {
+    it.only("can list role definitions", async function() {
       const expectedType = "Microsoft.Authorization/roleDefinitions";
       let receivedRoles: string[] = [];
 

@@ -173,6 +173,9 @@ export function createSpanFunction(args: CreateSpanFunctionArgs) {
     operationOptions?: T,
     startSpanOptions?: SpanOptions
   ): { span: Span; updatedOptions: T } {
+    console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+    console.log("version: preview.14");
+    console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
     const [tracingOptions, spanOptions] = disambiguateParameters(
       operationOptions || ({} as T),
       startSpanOptions

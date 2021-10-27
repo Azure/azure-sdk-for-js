@@ -3,6 +3,7 @@
 
 import { createSpanFunction, SpanStatusCode, Span } from "@azure/core-tracing";
 import { OperationOptions } from "@azure/core-client";
+import * as fs from "fs";
 
 /**
  * Creates a span using the global tracer.
@@ -29,6 +30,14 @@ export async function trace<ReturnT>(
   fn: (options: OperationOptions, span: Span) => Promise<ReturnT>,
   createSpanFn = createSpan
 ): Promise<ReturnT> {
+  console.log("from identity:");
+  // this runs from /home/mleger/workspace/azure-sdk-for-js/sdk/keyvault/keyvault-admin/dist-test
+  console.log(
+    "packageJson: ",
+    JSON.parse(fs.readFileSync(__dirname + "/../../../identity/identity/package.json", "utf8"))
+      .dependencies["@azure/core-tracing"]
+  );
+  // console.log(createSpanFn.toString());
   const { updatedOptions, span } = createSpanFn(operationName, options);
 
   try {

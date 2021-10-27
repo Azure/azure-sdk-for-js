@@ -10,6 +10,8 @@ import {
 } from "@azure/core-rest-pipeline";
 import { GetTokenOptions } from "@azure/core-auth";
 import { ParsedWWWAuthenticate, parseWWWAuthenticate } from "../../keyvault-common/src";
+import * as coreTracing from "@azure/core-tracing";
+import * as fs from "fs";
 
 /**
  * @internal
@@ -90,8 +92,16 @@ export function createChallengeCallbacks(): ChallengeCallbacks {
   async function authorizeRequestOnChallenge(
     options: AuthorizeRequestOnChallengeOptions
   ): Promise<boolean> {
+    console.log("\n\n");
+    console.log("from keyvault-admin:");
+    console.log(
+      "packageJson: ",
+      JSON.parse(fs.readFileSync(__dirname + "/../package.json", "utf8")).dependencies[
+        "@azure/core-tracing"
+      ]
+    );
+    coreTracing.createSpanFunction({ namespace: "", packagePrefix: "" })("foo");
     const { scopes, request, response } = options;
-
     if (request.body === null && challengeState.status === "started") {
       // Reset the original body before doing anything else.
       // Note: If successful status will be "complete", otherwise "none" will
