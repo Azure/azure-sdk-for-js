@@ -23,7 +23,8 @@
     "*.crt",
     "*.key",
     ".vscode/cspell.json",
-    "sdk/**/arm-*/**"
+    "sdk/**/arm-*/**",
+    "sdk/test-utils/**"
   ],
   "words": [
     "adfs",
