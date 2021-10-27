@@ -15,28 +15,26 @@ export function createSpanFunction(..._args: unknown[]): <T extends {
 // @public (undocumented)
 export function createTracingClient(options?: TracingClientOptions): TracingClient;
 
-// @public (undocumented)
+// @public
 export function createTracingContext(options?: CreateTracingContextOptions): TracingContext;
 
-// @public (undocumented)
+// @public
 export interface CreateTracingContextOptions {
-    // (undocumented)
     client?: TracingClient;
-    // (undocumented)
     namespace?: string;
-    // (undocumented)
     parentContext?: TracingContext;
-    // (undocumented)
     span?: TracingSpan;
 }
 
-// @public (undocumented)
+// @public
 export interface OperationTracingOptions {
-    // (undocumented)
     tracingContext?: TracingContext;
 }
 
-// @public (undocumented)
+// @public
+export type SpanKind = "client" | "server" | "producer" | "consumer";
+
+// @public
 export type SpanStatus = {
     status: "success";
 } | {
@@ -48,68 +46,57 @@ export type SpanStatus = {
     status?: "otel";
 };
 
-// @public (undocumented)
+// @public
 export interface Tracer {
-    // (undocumented)
-    startSpan(name: string, options?: TracerCreateSpanOptions): {
+    startSpan(name: string, spanOptions?: TracingSpanOptions & {
+        tracingContext?: TracingContext;
+    }): {
         span: TracingSpan;
         tracingContext: TracingContext;
     };
-    // (undocumented)
     withContext<CallbackArgs extends unknown[], Callback extends (...args: CallbackArgs) => ReturnType<Callback>>(context: TracingContext, callback: Callback, callbackThis?: ThisParameterType<Callback>, ...callbackArgs: CallbackArgs): ReturnType<Callback>;
 }
 
-// @public (undocumented)
-export interface TracerCreateSpanOptions {
-    // (undocumented)
-    tracingContext?: TracingContext;
-}
-
-// @public (undocumented)
+// @public
 export interface TracingClient {
-    // (undocumented)
     startSpan<Options extends {
         tracingOptions?: OperationTracingOptions;
-    }>(name: string, options?: Options): {
+    }>(name: string, operationOptions?: Options, spanOptions?: TracingSpanOptions): {
         span: TracingSpan;
         tracingContext: TracingContext;
         updatedOptions: Options;
     };
-    // (undocumented)
     withContext<CallbackArgs extends unknown[], Callback extends (...args: CallbackArgs) => ReturnType<Callback>>(context: TracingContext, callback: Callback, callbackThis?: ThisParameterType<Callback>, ...callbackArgs: CallbackArgs): ReturnType<Callback>;
-    // (undocumented)
     withTrace<Options extends {
         tracingOptions?: OperationTracingOptions;
-    }, Callback extends (updatedOptions: Options, span: Omit<TracingSpan, "end">) => ReturnType<Callback>>(name: string, fn: Callback, options?: Options, callbackThis?: ThisParameterType<Callback>): Promise<ReturnType<Callback>>;
+    }, Callback extends (updatedOptions: Options, span: Omit<TracingSpan, "end">) => ReturnType<Callback>>(name: string, callback: Callback, operationOptions?: Options, spanOptions?: TracingSpanOptions, callbackThis?: ThisParameterType<Callback>): Promise<ReturnType<Callback>>;
 }
 
-// @public (undocumented)
+// @public
 export interface TracingClientOptions {
-    // (undocumented)
     namespace: string;
-    // (undocumented)
     tracer?: Tracer;
 }
 
-// @public (undocumented)
+// @public
 export interface TracingContext {
-    // (undocumented)
     deleteValue(key: symbol): TracingContext;
-    // (undocumented)
     getValue(key: symbol): unknown;
-    // (undocumented)
     setValue(key: symbol, value: unknown): TracingContext;
 }
 
-// @public (undocumented)
+// @public
 export interface TracingSpan {
-    // (undocumented)
     end(): void;
     serialize(): Record<string, string>;
-    // (undocumented)
     setAttribute(name: string, value: unknown): void;
-    // (undocumented)
     setStatus(status: SpanStatus): void;
+}
+
+// @public
+export interface TracingSpanOptions {
+    spanKind?: SpanKind;
+    spanLinks?: TracingSpan[];
 }
 
 // @public (undocumented)

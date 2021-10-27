@@ -8,11 +8,11 @@ import { createTracingContext } from "./tracingContext";
 export class NoOpTracer implements Tracer {
   startSpan(
     _name?: string,
-    options?: TracingSpanOptions
+    spanOptions?: TracingSpanOptions & { tracingContext?: TracingContext }
   ): { span: TracingSpan; tracingContext: TracingContext } {
     return {
       span: new NoOpSpan(),
-      tracingContext: createTracingContext({ parentContext: options?.tracingContext })
+      tracingContext: createTracingContext({ parentContext: spanOptions?.tracingContext })
     };
   }
   withTrace<

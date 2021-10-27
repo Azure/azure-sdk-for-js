@@ -17,7 +17,7 @@ export interface TracingClient {
    * ```ts
    * const myOperationResult = await withTrace("myClassName.myOperationName", (updatedOptions) => myOperation(updatedOptions), options);
    * ```
-   * @param name The name of the span. By convention this should be `${className}.${methodName}`.
+   * @param name - The name of the span. By convention this should be `${className}.${methodName}`.
    * @param callback - The callback to be invoked with the updated options and newly created {@link TracingSpan}.
    * @param operationOptions - The original options passed to the method. The callback will receive these options with the newly created {@link TracingContext}.
    * @param callbackThis - An optional `this` parameter to bind the callback to.
@@ -109,8 +109,6 @@ export interface TracingSpanOptions {
   // TODO: what should this be?
   /** A collection of spans to link to this span. */
   spanLinks?: TracingSpan[];
-  /** The tracingContext to set the newly created span on. Defaults to the globally active context. */
-  tracingContext?: TracingContext; // TODO: is this needed?
 }
 
 /**
@@ -126,7 +124,7 @@ export interface Tracer {
    */
   startSpan(
     name: string,
-    spanOptions?: TracingSpanOptions
+    spanOptions?: TracingSpanOptions & { tracingContext?: TracingContext }
   ): { span: TracingSpan; tracingContext: TracingContext };
   /**
    * Wraps a callback with an active context and calls the callback.
@@ -181,11 +179,12 @@ export interface TracingSpan {
    */
   setStatus(status: SpanStatus): void;
   /**
+   * Sets a given attribute on a span.
    *
-   * @param name - The attribute's name to use.
-   * @param value - The attribute's value to use. May be any non-null value.
+   * @param name - The attribute's name.
+   * @param value - The attribute's value to set. May be any non-nullish value.
    */
-  setAttribute(name: string, value: NonNullable<unknown>): void;
+  setAttribute(name: string, value: unknown): void;
   /**
    * Ends the span.
    */
