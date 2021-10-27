@@ -16,8 +16,7 @@ export async function authenticate(that: Context): Promise<any> {
       AZURE_CLIENT_SECRET: "azure_client_secret",
       AZURE_TENANT_ID: "12345678-1234-1234-1234-123456789012",
       KEYVAULT_NAME: "keyvault_name",
-      KEYVAULT_URI: "https://keyvault_name.vault.azure.net/",
-      KEYVAULT_AZURE_AUTHORITY_HOST: "https://login.microsoftonline.com"
+      KEYVAULT_URI: "https://keyvault_name.vault.azure.net/"
     },
     customizationsOnRecordings: [
       (recording: any): any =>
@@ -33,7 +32,7 @@ export async function authenticate(that: Context): Promise<any> {
     env.AZURE_CLIENT_ID,
     env.AZURE_CLIENT_SECRET,
     {
-      authorityHost: env.KEYVAULT_AZURE_AUTHORITY_HOST
+      authorityHost: env.AZURE_AUTHORITY_HOST
     }
   );
 
