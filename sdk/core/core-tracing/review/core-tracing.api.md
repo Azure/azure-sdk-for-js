@@ -5,7 +5,7 @@
 ```ts
 
 // @public @deprecated
-export function createSpanFunction(_args: any): <T extends {
+export function createSpanFunction(..._args: unknown[]): <T extends {
     tracingOptions?: OperationTracingOptions | undefined;
 }>(_operationName: string, operationOptions?: T | undefined) => {
     span: TracingSpan;
