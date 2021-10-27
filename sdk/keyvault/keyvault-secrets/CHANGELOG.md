@@ -12,6 +12,8 @@
 
 ### Other Changes
 
+- Updated SecretClient to use service version 7.3-preview by default.
+
 ## 4.4.0-beta.1 (2021-09-07)
 
 ### Other Changes

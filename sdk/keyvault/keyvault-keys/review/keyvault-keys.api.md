@@ -241,13 +241,13 @@ export class KeyClient {
     getDeletedKey(name: string, options?: GetDeletedKeyOptions): Promise<DeletedKey>;
     getKey(name: string, options?: GetKeyOptions): Promise<KeyVaultKey>;
     getKeyRotationPolicy(name: string, options?: GetKeyRotationPolicyOptions): Promise<KeyRotationPolicy>;
-    getRandomBytes(count: number, options?: GetRandomBytesOptions): Promise<RandomBytes>;
+    getRandomBytes(count: number, options?: GetRandomBytesOptions): Promise<Uint8Array>;
     importKey(name: string, key: JsonWebKey_2, options?: ImportKeyOptions): Promise<KeyVaultKey>;
     listDeletedKeys(options?: ListDeletedKeysOptions): PagedAsyncIterableIterator<DeletedKey>;
     listPropertiesOfKeys(options?: ListPropertiesOfKeysOptions): PagedAsyncIterableIterator<KeyProperties>;
     listPropertiesOfKeyVersions(name: string, options?: ListPropertiesOfKeyVersionsOptions): PagedAsyncIterableIterator<KeyProperties>;
     purgeDeletedKey(name: string, options?: PurgeDeletedKeyOptions): Promise<void>;
-    releaseKey(name: string, target: string, options?: ReleaseKeyOptions): Promise<ReleaseKeyResult>;
+    releaseKey(name: string, targetAttestationToken: string, options?: ReleaseKeyOptions): Promise<ReleaseKeyResult>;
     restoreKeyBackup(backup: Uint8Array, options?: RestoreKeyBackupOptions): Promise<KeyVaultKey>;
     rotateKey(name: string, options?: RotateKeyOptions): Promise<KeyVaultKey>;
     updateKeyProperties(name: string, keyVersion: string, options?: UpdateKeyPropertiesOptions): Promise<KeyVaultKey>;
@@ -300,7 +300,7 @@ export interface KeyProperties {
 // @public
 export interface KeyReleasePolicy {
     contentType?: string;
-    data?: Uint8Array;
+    encodedPolicy?: Uint8Array;
 }
 
 // @public
@@ -462,11 +462,6 @@ export { PollOperationState }
 
 // @public
 export interface PurgeDeletedKeyOptions extends coreHttp.OperationOptions {
-}
-
-// @public
-export interface RandomBytes {
-    bytes: Uint8Array;
 }
 
 // @public

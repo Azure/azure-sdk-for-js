@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PerfStressProgram, selectPerfStressTest } from "@azure/test-utils-perfstress";
+import { PerfProgram, selectPerfTest } from "@azure/test-utils-perf";
 import { StorageDFSAppendTest } from "./append.spec";
 import { StorageDFSReadTest } from "./read.spec";
 import { StorageDFSUploadTest } from "./upload.spec";
 import { StorageDFSUploadFromFileTest } from "./uploadFromFile.spec";
 
-console.log("=== Starting the perfStress test ===");
+console.log("=== Starting the perf test ===");
 
-const perfStressProgram = new PerfStressProgram(
-  selectPerfStressTest([
+const perfProgram = new PerfProgram(
+  selectPerfTest([
     StorageDFSAppendTest,
     StorageDFSReadTest,
     StorageDFSUploadTest,
@@ -18,4 +18,4 @@ const perfStressProgram = new PerfStressProgram(
   ])
 );
 
-perfStressProgram.run();
+perfProgram.run();

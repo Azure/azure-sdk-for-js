@@ -7,6 +7,14 @@ import {
   makeAnalyzeSentimentResultArray
 } from "./analyzeSentimentResultArray";
 import {
+  MultiCategoryClassifyResultArray,
+  makeMultiCategoryClassifyResultArray
+} from "./multiCategoryClassifyResultArray";
+import {
+  SingleCategoryClassifyResultArray,
+  makeSingleCategoryClassifyResultArray
+} from "./singleCategoryClassifyResultArray";
+import {
   ExtractKeyPhrasesResultArray,
   makeExtractKeyPhrasesResultArray
 } from "./extractKeyPhrasesResultArray";
@@ -19,6 +27,10 @@ import {
   makeRecognizeCategorizedEntitiesResultArray,
   RecognizeCategorizedEntitiesResultArray
 } from "./recognizeCategorizedEntitiesResultArray";
+import {
+  makeRecognizeCustomEntitiesResultArray,
+  RecognizeCustomEntitiesResultArray
+} from "./recognizeCustomEntitiesResultArray";
 import {
   makeRecognizeLinkedEntitiesResultArray,
   RecognizeLinkedEntitiesResultArray
@@ -57,6 +69,18 @@ export interface AnalyzeActionsResult {
    * Array of the results for each extract summary action.
    */
   extractSummaryResults: ExtractSummaryActionResult[];
+  /**
+   * Array of the results for each recognize custom entities action.
+   */
+  recognizeCustomEntitiesResults: RecognizeCustomEntitiesActionResult[];
+  /**
+   * Array of the results for each custom classify document single category action.
+   */
+  singleCategoryClassifyResults: SingleCategoryClassifyActionResult[];
+  /**
+   * Array of the results for each custom classify document multi category action.
+   */
+  multiCategoryClassifyResults: MultiCategoryClassifyActionResult[];
 }
 
 /**
@@ -222,6 +246,73 @@ export type ExtractSummaryActionResult =
   | ExtractSummaryActionErrorResult;
 
 /**
+ * The error of a custom recognize entities action.
+ */
+export type RecongizeCustomEntitiesActionErrorResult = TextAnalyticsActionErrorResult;
+
+/**
+ * The results of a succeeded custom recognize entities action.
+ */
+export interface RecongizeCustomEntitiesActionSuccessResult
+  extends TextAnalyticsActionSuccessState {
+  /**
+   * Array of the results for each custom recognize entities action.
+   */
+  results: RecognizeCustomEntitiesResultArray;
+}
+
+/**
+ * The result of a custom recognize entities action.
+ */
+export type RecognizeCustomEntitiesActionResult =
+  | RecongizeCustomEntitiesActionSuccessResult
+  | RecongizeCustomEntitiesActionErrorResult;
+
+/**
+ * The error of a custom classify document single category action.
+ */
+export type SingleCategoryClassifyActionErrorResult = TextAnalyticsActionErrorResult;
+
+/**
+ * The results of a succeeded custom classify document single category action.
+ */
+export interface SingleCategoryClassifyActionSuccessResult extends TextAnalyticsActionSuccessState {
+  /**
+   * Array of the results for each custom classify document single category action.
+   */
+  results: SingleCategoryClassifyResultArray;
+}
+
+/**
+ * The result of a custom classify document single category action.
+ */
+export type SingleCategoryClassifyActionResult =
+  | SingleCategoryClassifyActionSuccessResult
+  | SingleCategoryClassifyActionErrorResult;
+
+/**
+ * The error of a custom classify document multi category action.
+ */
+export type MultiCategoryClassifyActionErrorResult = TextAnalyticsActionErrorResult;
+
+/**
+ * The results of a succeeded custom classify document multi category action.
+ */
+export interface MultiCategoryClassifyActionSuccessResult extends TextAnalyticsActionSuccessState {
+  /**
+   * Array of the results for each custom classify document multi category action.
+   */
+  results: MultiCategoryClassifyResultArray;
+}
+
+/**
+ * The result of a custom classify document multi category action.
+ */
+export type MultiCategoryClassifyActionResult =
+  | MultiCategoryClassifyActionSuccessResult
+  | MultiCategoryClassifyActionErrorResult;
+
+/**
  * The results of an analyze Actions operation represented as a paged iterator that
  * iterates over the results of the requested actions.
  */
@@ -253,7 +344,10 @@ type TextAnalyticsActionType =
   | "ExtractKeyPhrases"
   | "RecognizeLinkedEntities"
   | "AnalyzeSentiment"
-  | "ExtractSummary";
+  | "ExtractSummary"
+  | "RecognizeCustomEntities"
+  | "SingleCategoryClassify"
+  | "MultiCategoryClassify";
 
 /**
  * The type of an action error with the type of the action that erred and its
@@ -305,6 +399,15 @@ function convertTaskTypeToActionType(taskType: string): TextAnalyticsActionType 
     case "extractiveSummarizationTasks": {
       return "ExtractSummary";
     }
+    case "customEntityRecognitionTasks": {
+      return "RecognizeCustomEntities";
+    }
+    case "customSingleClassificationTasks": {
+      return "SingleCategoryClassify";
+    }
+    case "customMultiClassificationTasks": {
+      return "MultiCategoryClassify";
+    }
     default: {
       throw new Error(`unexpected action type from the service: ${taskType}`);
     }
@@ -320,7 +423,7 @@ function convertTaskTypeToActionType(taskType: string): TextAnalyticsActionType 
 export function parseActionError(erredActions: TextAnalyticsError): TextAnalyticsActionError {
   if (erredActions.target) {
     const regex = new RegExp(
-      /#\/tasks\/(entityRecognitionTasks|entityRecognitionPiiTasks|keyPhraseExtractionTasks|entityLinkingTasks|sentimentAnalysisTasks|extractiveSummarizationTasks)\/(\d+)/
+      /#\/tasks\/(entityRecognitionTasks|entityRecognitionPiiTasks|keyPhraseExtractionTasks|entityLinkingTasks|sentimentAnalysisTasks|extractiveSummarizationTasks|customEntityRecognitionTasks|customSingleClassificationTasks|customMultiClassificationTasks)\/(\d+)/
     );
     const result = regex.exec(erredActions.target);
     if (result !== null) {
@@ -355,7 +458,10 @@ function categorizeActionErrors(
   extractKeyPhrasesActionErrors: TextAnalyticsActionError[],
   recognizeLinkedEntitiesActionErrors: TextAnalyticsActionError[],
   analyzeSentimentActionErrors: TextAnalyticsActionError[],
-  extractSummarySentencesActionErrors: TextAnalyticsActionError[]
+  extractSummarySentencesActionErrors: TextAnalyticsActionError[],
+  recognizeCustomEntitiesActionErrors: TextAnalyticsActionError[],
+  singleCategoryClassifyActionErrors: TextAnalyticsActionError[],
+  multiCategoryClassifyActionErrors: TextAnalyticsActionError[]
 ): void {
   for (const error of erredActions) {
     const actionError = parseActionError(error);
@@ -382,6 +488,18 @@ function categorizeActionErrors(
       }
       case "ExtractSummary": {
         extractSummarySentencesActionErrors.push(actionError);
+        break;
+      }
+      case "RecognizeCustomEntities": {
+        recognizeCustomEntitiesActionErrors.push(actionError);
+        break;
+      }
+      case "SingleCategoryClassify": {
+        singleCategoryClassifyActionErrors.push(actionError);
+        break;
+      }
+      case "MultiCategoryClassify": {
+        multiCategoryClassifyActionErrors.push(actionError);
         break;
       }
     }
@@ -465,6 +583,9 @@ export function createAnalyzeActionsResult(
   const recognizeLinkedEntitiesActionErrors: TextAnalyticsActionError[] = [];
   const analyzeSentimentActionErrors: TextAnalyticsActionError[] = [];
   const extractSummarySentencesActionErrors: TextAnalyticsActionError[] = [];
+  const recognizeCustomEntitiesActionErrors: TextAnalyticsActionError[] = [];
+  const singleCategoryClassifyActionErrors: TextAnalyticsActionError[] = [];
+  const multiCategoryClassifyActionErrors: TextAnalyticsActionError[] = [];
   categorizeActionErrors(
     response?.errors ?? [],
     recognizeEntitiesActionErrors,
@@ -472,7 +593,10 @@ export function createAnalyzeActionsResult(
     extractKeyPhrasesActionErrors,
     recognizeLinkedEntitiesActionErrors,
     analyzeSentimentActionErrors,
-    extractSummarySentencesActionErrors
+    extractSummarySentencesActionErrors,
+    recognizeCustomEntitiesActionErrors,
+    singleCategoryClassifyActionErrors,
+    multiCategoryClassifyActionErrors
   );
   return {
     recognizeEntitiesResults: makeActionResult(
@@ -510,6 +634,24 @@ export function createAnalyzeActionsResult(
       makeExtractSummaryResultArray,
       response.tasks.extractiveSummarizationTasks ?? [],
       extractSummarySentencesActionErrors
+    ),
+    recognizeCustomEntitiesResults: makeActionResult(
+      documents,
+      makeRecognizeCustomEntitiesResultArray,
+      response.tasks.customEntityRecognitionTasks ?? [],
+      recognizeCustomEntitiesActionErrors
+    ),
+    singleCategoryClassifyResults: makeActionResult(
+      documents,
+      makeSingleCategoryClassifyResultArray,
+      response.tasks.customSingleClassificationTasks ?? [],
+      singleCategoryClassifyActionErrors
+    ),
+    multiCategoryClassifyResults: makeActionResult(
+      documents,
+      makeMultiCategoryClassifyResultArray,
+      response.tasks.customMultiClassificationTasks ?? [],
+      multiCategoryClassifyActionErrors
     )
   };
 }

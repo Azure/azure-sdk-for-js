@@ -1,6 +1,6 @@
 # Release History
 
-## 1.3.2 (Unreleased)
+## 1.3.3 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,12 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 1.3.2 (2021-10-25)
+
+### Bugs Fixed
+
+- Skip query parameter replacement for absolute URLs. [PR #18310](https://github.com/Azure/azure-sdk-for-js/pull/18310)
 
 ## 1.3.1 (2021-09-30)
 

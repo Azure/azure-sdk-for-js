@@ -23,14 +23,6 @@ describe("Authentication", () => {
   afterEach(async function() {
     await recorder.stop();
   });
-
-  it("invalid connection string gives a decent error message", () => {
-    assert.throws(
-      () => new AppConfigurationClient("an invalid connection string"),
-      /Invalid connection string\. Valid connection strings should match the regex 'Endpoint=\(\.\*\);Id=\(\.\*\);Secret=\(\.\*\)'/
-    );
-  });
-
   it("token authentication works", async function() {
     const client = new AppConfigurationClient(
       credsAndEndpoint.endpoint,
@@ -43,5 +35,21 @@ describe("Authentication", () => {
       key: `token-authentication-test-${recorder.newDate("label-1").valueOf()}`,
       value: "hello"
     });
+  });
+});
+
+describe("AppConfigurationClient constructor error cases", () => {
+  it("invalid connection string gives a decent error message", () => {
+    assert.throws(
+      () => new AppConfigurationClient("an invalid connection string"),
+      /Invalid connection string\. Valid connection strings should match the regex 'Endpoint=\(\.\*\);Id=\(\.\*\);Secret=\(\.\*\)'/
+    );
+  });
+
+  it("undefined connection string gives a decent error message", () => {
+    assert.throws(
+      () => new AppConfigurationClient(undefined as any),
+      /Invalid connection string\. Valid connection strings should match the regex 'Endpoint=\(\.\*\);Id=\(\.\*\);Secret=\(\.\*\)'/
+    );
   });
 });

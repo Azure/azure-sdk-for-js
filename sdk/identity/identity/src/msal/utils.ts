@@ -158,7 +158,6 @@ export class MsalBaseUtilities {
    * Handles MSAL errors.
    */
   protected handleError(scopes: string[], error: Error, getTokenOptions?: GetTokenOptions): Error {
-    const troubleshoot = `To troubleshoot, visit https://aka.ms/azsdk/js/identity/usernamepasswordcredential/troubleshoot.`;
     if (
       error.name === "AuthError" ||
       error.name === "ClientAuthError" ||
@@ -168,11 +167,9 @@ export class MsalBaseUtilities {
       switch (msalError.errorCode) {
         case "endpoints_resolution_error":
           this.logger.info(formatError(scopes, error.message));
-          return new CredentialUnavailableError(`${error.message}\n${troubleshoot}`);
+          return new CredentialUnavailableError(error.message);
         case "device_code_polling_cancelled":
-          return new AbortError(
-            `The authentication has been aborted by the caller. ${troubleshoot}`
-          );
+          return new AbortError("The authentication has been aborted by the caller.");
         case "consent_required":
         case "interaction_required":
         case "login_required":
@@ -190,10 +187,8 @@ export class MsalBaseUtilities {
       error.name === "BrowserConfigurationAuthError" ||
       error.name === "AbortError"
     ) {
-      error.message = `${error.message}\n${troubleshoot}`;
       return error;
     }
-    error.message = `${error.message}\n${troubleshoot}`;
     return new AuthenticationRequiredError({ scopes, getTokenOptions, message: error.message });
   }
 }

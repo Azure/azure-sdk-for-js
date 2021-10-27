@@ -11,7 +11,7 @@ export class SignTest extends CryptographyTest {
       .digest();
   }
 
-  async runAsync(): Promise<void> {
+  async run(): Promise<void> {
     await CryptographyTest.cryptoClient!.sign("RS256", this.digest!);
   }
 }

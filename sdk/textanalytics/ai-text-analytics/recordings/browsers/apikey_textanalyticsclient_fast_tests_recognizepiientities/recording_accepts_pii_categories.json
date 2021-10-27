@@ -2,7 +2,7 @@
  "recordings": [
   {
    "method": "POST",
-   "url": "https://endpoint/text/analytics/v3.2-preview.1/entities/recognition/pii",
+   "url": "https://endpoint/text/analytics/v3.2-preview.2/entities/recognition/pii",
    "query": {
     "stringIndexType": "Utf16CodeUnit",
     "piiCategories": "USSocialSecurityNumber"
@@ -11,14 +11,13 @@
    "status": 200,
    "response": "{\"documents\":[{\"redactedText\":\"Patient name is Joe and SSN is ***********\",\"id\":\"0\",\"entities\":[{\"text\":\"859-98-0987\",\"category\":\"USSocialSecurityNumber\",\"offset\":31,\"length\":11,\"confidenceScore\":0.65}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-01-15\"}",
    "responseHeaders": {
-    "apim-request-id": "27642e58-4f4c-4c17-b650-ab6062fdec37",
+    "apim-request-id": "afa502a7-5599-4272-8ba5-49b2ba174fc5",
     "content-type": "application/json; charset=utf-8",
     "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=1,CognitiveServices.TextAnalytics.TextRecords=1",
-    "date": "Tue, 03 Aug 2021 22:52:54 GMT",
+    "date": "Sat, 23 Oct 2021 00:50:10 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "35"
+    "x-envoy-upstream-service-time": "22"
    }
   }
  ],

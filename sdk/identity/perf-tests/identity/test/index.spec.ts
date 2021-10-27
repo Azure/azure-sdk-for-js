@@ -1,12 +1,10 @@
 import { ClientSecretCredentialPersistenceTest } from "./ClientSecretCredential/persistence.spec";
-import { PerfStressProgram, selectPerfStressTest } from "@azure/test-utils-perfstress";
+import { PerfProgram, selectPerfTest } from "@azure/test-utils-perf";
 import * as dotenv from "dotenv";
 dotenv.config();
 
-console.log("=== Starting the perfStress test ===");
+console.log("=== Starting the perf test ===");
 
-const perfStressProgram = new PerfStressProgram(
-  selectPerfStressTest([ClientSecretCredentialPersistenceTest])
-);
+const perfProgram = new PerfProgram(selectPerfTest([ClientSecretCredentialPersistenceTest]));
 
-perfStressProgram.run();
+perfProgram.run();
