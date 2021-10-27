@@ -18,6 +18,7 @@ describe("Abuse protection works", function() {
 
   it("Support * in allowed endpoints", function() {
     const req = new IncomingMessage(new Socket());
+    req.headers["ce-awpsversion"] = "1.0";
     req.headers["webhook-request-origin"] = "a.com";
     const res = new ServerResponse(req);
     const dispatcher = new CloudEventsDispatcher("hub");
@@ -29,6 +30,7 @@ describe("Abuse protection works", function() {
 
   it("Support valid url in allowed endpoints", function() {
     const req = new IncomingMessage(new Socket());
+    req.headers["ce-awpsversion"] = "1.0";
     req.headers["webhook-request-origin"] = "a.com";
     const res = new ServerResponse(req);
     const dispatcher = new CloudEventsDispatcher("hub", {
