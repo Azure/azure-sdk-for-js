@@ -1,0 +1,125 @@
+{
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/88888888-8888-8888-8888-888888888888/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fsanitized%2F",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "cache-control": "no-store, no-cache",
+    "content-length": "1331",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Sat, 23 Oct 2021 00:56:50 GMT",
+    "expires": "-1",
+    "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "pragma": "no-cache",
+    "referrer-policy": "strict-origin-when-cross-origin",
+    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+wst\"}]}",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-ests-server": "2.1.12171.14 - NCUS ProdSlices",
+    "x-ms-request-id": "f948e482-dbea-4a35-9a49-344e493d0300"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://endpoint/text/analytics/v3.2-preview.2/analyze",
+   "query": {},
+   "requestBody": "{\"analysisInput\":{\"documents\":[{\"id\":\"1\",\"text\":\"A recent report by the Government Accountability Office (GAO) found that the dramatic increase in oil and natural gas development on federal lands over the past six years has stretched the staff of the BLM to a point that it has been unable to meet its environmental protection responsibilities.\",\"language\":\"en\"}]},\"tasks\":{\"customEntityRecognitionTasks\":[{\"parameters\":{\"project-name\":\"project_name\",\"deployment-name\":\"deployment_name\",\"stringIndexType\":\"Utf16CodeUnit\"}}]}}",
+   "status": 202,
+   "response": "",
+   "responseHeaders": {
+    "apim-request-id": "26c6fa5f-5ebb-4b69-8f31-f3620eceacac",
+    "date": "Sat, 23 Oct 2021 00:56:52 GMT",
+    "operation-location": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/7c2fee25-531c-4479-b5d4-4f07bc539c99",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "453"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/7c2fee25-531c-4479-b5d4-4f07bc539c99",
+   "query": {
+    "$top": "20",
+    "$skip": "0"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"7c2fee25-531c-4479-b5d4-4f07bc539c99\",\"lastUpdateDateTime\":\"2021-10-23T00:56:52Z\",\"createdDateTime\":\"2021-10-23T00:56:52Z\",\"expirationDateTime\":\"2021-10-24T00:56:52Z\",\"status\":\"notStarted\",\"errors\":[],\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
+   "responseHeaders": {
+    "apim-request-id": "590ed684-4209-4fc2-92c4-b7dec31e213e",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Sat, 23 Oct 2021 00:56:52 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "10"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/7c2fee25-531c-4479-b5d4-4f07bc539c99",
+   "query": {
+    "$top": "20",
+    "$skip": "0"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"7c2fee25-531c-4479-b5d4-4f07bc539c99\",\"lastUpdateDateTime\":\"2021-10-23T00:56:52Z\",\"createdDateTime\":\"2021-10-23T00:56:52Z\",\"expirationDateTime\":\"2021-10-24T00:56:52Z\",\"status\":\"notStarted\",\"errors\":[],\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
+   "responseHeaders": {
+    "apim-request-id": "de892a14-fa1e-4237-ba38-a152818e7fec",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Sat, 23 Oct 2021 00:56:52 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "9"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/7c2fee25-531c-4479-b5d4-4f07bc539c99",
+   "query": {
+    "$top": "20",
+    "$skip": "0"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"7c2fee25-531c-4479-b5d4-4f07bc539c99\",\"lastUpdateDateTime\":\"2021-10-23T00:56:54Z\",\"createdDateTime\":\"2021-10-23T00:56:52Z\",\"expirationDateTime\":\"2021-10-24T00:56:52Z\",\"status\":\"succeeded\",\"errors\":[],\"tasks\":{\"completed\":1,\"failed\":0,\"inProgress\":0,\"total\":1,\"customEntityRecognitionTasks\":[{\"lastUpdateDateTime\":\"2021-10-23T00:56:54.0570397Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"1\",\"entities\":[{\"text\":\"98-0987\",\"category\":\"timeRange\",\"offset\":4,\"length\":7,\"confidenceScore\":0.55},{\"text\":\"$100\",\"category\":\"timeRange\",\"offset\":27,\"length\":4,\"confidenceScore\":0.15},{\"text\":\"John owes\",\"category\":\"artist\",\"offset\":12,\"length\":9,\"confidenceScore\":0.18},{\"text\":\"Mike\",\"category\":\"artist\",\"offset\":22,\"length\":4,\"confidenceScore\":0.35}],\"warnings\":[]}],\"errors\":[],\"projectName\":\"project_name\",\"deploymentName\":\"deployment_name\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "5764c693-dec7-41fd-834b-f809942c4739",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Sat, 23 Oct 2021 00:56:54 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "113"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/7c2fee25-531c-4479-b5d4-4f07bc539c99",
+   "query": {
+    "$top": "20",
+    "$skip": "0"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"7c2fee25-531c-4479-b5d4-4f07bc539c99\",\"lastUpdateDateTime\":\"2021-10-23T00:56:54Z\",\"createdDateTime\":\"2021-10-23T00:56:52Z\",\"expirationDateTime\":\"2021-10-24T00:56:52Z\",\"status\":\"succeeded\",\"errors\":[],\"tasks\":{\"completed\":1,\"failed\":0,\"inProgress\":0,\"total\":1,\"customEntityRecognitionTasks\":[{\"lastUpdateDateTime\":\"2021-10-23T00:56:54.0570397Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"1\",\"entities\":[{\"text\":\"98-0987\",\"category\":\"timeRange\",\"offset\":4,\"length\":7,\"confidenceScore\":0.55},{\"text\":\"$100\",\"category\":\"timeRange\",\"offset\":27,\"length\":4,\"confidenceScore\":0.15},{\"text\":\"John owes\",\"category\":\"artist\",\"offset\":12,\"length\":9,\"confidenceScore\":0.18},{\"text\":\"Mike\",\"category\":\"artist\",\"offset\":22,\"length\":4,\"confidenceScore\":0.35}],\"warnings\":[]}],\"errors\":[],\"projectName\":\"project_name\",\"deploymentName\":\"deployment_name\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "77134912-4c6e-4b96-bf96-8ec193655716",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Sat, 23 Oct 2021 00:56:54 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "75"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "63240757f49fb6f3f2c6e3eee2dc656f"
+}

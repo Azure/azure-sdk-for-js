@@ -2,21 +2,20 @@
  "recordings": [
   {
    "method": "POST",
-   "url": "https://endpoint/text/analytics/v3.2-preview.1/entities/recognition/pii",
+   "url": "https://endpoint/text/analytics/v3.2-preview.2/entities/recognition/pii",
    "query": {
     "stringIndexType": "Utf16CodeUnit",
     "domain": "PHI"
    },
    "requestBody": "{\"documents\":[{\"id\":\"0\",\"text\":\"I work at Microsoft and my phone number is 333-333-3333\",\"language\":\"en\"}]}",
    "status": 200,
-   "response": "{\"documents\":[{\"redactedText\":\"I work at ********* and my phone number is ************\",\"id\":\"0\",\"entities\":[{\"text\":\"Microsoft\",\"category\":\"Organization\",\"offset\":10,\"length\":9,\"confidenceScore\":0.95},{\"text\":\"333-333-3333\",\"category\":\"PhoneNumber\",\"offset\":43,\"length\":12,\"confidenceScore\":0.8}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-01-15\"}",
+   "response": "{\"documents\":[{\"redactedText\":\"I work at ********* and my phone number is ************\",\"id\":\"0\",\"entities\":[{\"text\":\"Microsoft\",\"category\":\"Organization\",\"offset\":10,\"length\":9,\"confidenceScore\":0.94},{\"text\":\"333-333-3333\",\"category\":\"PhoneNumber\",\"offset\":43,\"length\":12,\"confidenceScore\":0.8}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-01-15\"}",
    "responseHeaders": {
-    "apim-request-id": "cbff805b-9837-487c-a388-1f1e0aeabc3f",
+    "apim-request-id": "64fd9673-7e37-4f6a-80d0-f559067561ab",
     "content-type": "application/json; charset=utf-8",
     "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=1,CognitiveServices.TextAnalytics.TextRecords=1",
-    "date": "Tue, 03 Aug 2021 22:52:54 GMT",
+    "date": "Sat, 23 Oct 2021 00:50:10 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
     "x-envoy-upstream-service-time": "34"
    }

@@ -2,7 +2,7 @@
  "recordings": [
   {
    "method": "POST",
-   "url": "https://endpoint/text/analytics/v3.2-preview.1/entities/linking",
+   "url": "https://endpoint/text/analytics/v3.2-preview.2/entities/linking",
    "query": {
     "stringIndexType": "Utf16CodeUnit"
    },
@@ -10,14 +10,13 @@
    "status": 200,
    "response": "{\"documents\":[{\"id\":\"0\",\"entities\":[{\"bingId\":\"5fbba6b8-85e1-4d41-9444-d9055436e473\",\"name\":\"Seattle\",\"matches\":[{\"text\":\"Seattle\",\"offset\":26,\"length\":7,\"confidenceScore\":0.21}],\"language\":\"en\",\"id\":\"Seattle\",\"url\":\"https://en.wikipedia.org/wiki/Seattle\",\"dataSource\":\"Wikipedia\"},{\"bingId\":\"f8dd5b08-206d-2554-6e4a-893f51f4de7e\",\"name\":\"Space Needle\",\"matches\":[{\"text\":\"Space Needle\",\"offset\":65,\"length\":12,\"confidenceScore\":0.42}],\"language\":\"en\",\"id\":\"Space Needle\",\"url\":\"https://en.wikipedia.org/wiki/Space_Needle\",\"dataSource\":\"Wikipedia\"}],\"warnings\":[]},{\"id\":\"1\",\"entities\":[{\"bingId\":\"5fbba6b8-85e1-4d41-9444-d9055436e473\",\"name\":\"Seattle\",\"matches\":[{\"text\":\"Seattle\",\"offset\":50,\"length\":7,\"confidenceScore\":0.2}],\"language\":\"en\",\"id\":\"Seattle\",\"url\":\"https://en.wikipedia.org/wiki/Seattle\",\"dataSource\":\"Wikipedia\"},{\"bingId\":\"f8dd5b08-206d-2554-6e4a-893f51f4de7e\",\"name\":\"Space Needle\",\"matches\":[{\"text\":\"Space Needle\",\"offset\":90,\"length\":12,\"confidenceScore\":0.36}],\"language\":\"en\",\"id\":\"Space Needle\",\"url\":\"https://en.wikipedia.org/wiki/Space_Needle\",\"dataSource\":\"Wikipedia\"}],\"warnings\":[]},{\"id\":\"2\",\"entities\":[{\"bingId\":\"296617ab-4ddb-cc10-beba-56e0f42af76b\",\"name\":\"Saturday\",\"matches\":[{\"text\":\"Saturday\",\"offset\":25,\"length\":8,\"confidenceScore\":0.05}],\"language\":\"en\",\"id\":\"Saturday\",\"url\":\"https://en.wikipedia.org/wiki/Saturday\",\"dataSource\":\"Wikipedia\"}],\"warnings\":[]},{\"id\":\"3\",\"entities\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-06-01\"}",
    "responseHeaders": {
-    "apim-request-id": "3a5891d6-078a-4925-9c9b-47a58156a8e7",
+    "apim-request-id": "1e0e79d2-ad8d-40ee-850f-1e032353a0b5",
     "content-type": "application/json; charset=utf-8",
     "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=4,CognitiveServices.TextAnalytics.TextRecords=4",
-    "date": "Tue, 03 Aug 2021 22:52:55 GMT",
+    "date": "Sat, 23 Oct 2021 00:50:10 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "23"
+    "x-envoy-upstream-service-time": "18"
    }
   }
  ],

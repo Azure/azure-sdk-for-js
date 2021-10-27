@@ -2,22 +2,21 @@
  "recordings": [
   {
    "method": "POST",
-   "url": "https://endpoint/text/analytics/v3.2-preview.1/entities/recognition/pii",
+   "url": "https://endpoint/text/analytics/v3.2-preview.2/entities/recognition/pii",
    "query": {
     "stringIndexType": "UnicodeCodePoint"
    },
-   "requestBody": "{\"documents\":[{\"id\":\"0\",\"text\":\"\uD83D\uDC69\uD83C\uDFFB\u200D\uD83D\uDC69\uD83C\uDFFD\u200D\uD83D\uDC67\uD83C\uDFFE\u200D\uD83D\uDC66\uD83C\uDFFF SSN: 859-98-0987\",\"language\":\"en\"}]}",
+   "requestBody": "{\"documents\":[{\"id\":\"0\",\"text\":\"\ud83d\udc69\ud83c\udffb\u200d\ud83d\udc69\ud83c\udffd\u200d\ud83d\udc67\ud83c\udffe\u200d\ud83d\udc66\ud83c\udfff SSN: 859-98-0987\",\"language\":\"en\"}]}",
    "status": 200,
-   "response": "{\"documents\":[{\"redactedText\":\"\uD83D\uDC69\uD83C\uDFFB\u200D\uD83D\uDC69\uD83C\uDFFD\u200D\uD83D\uDC67\uD83C\uDFFE\u200D\uD83D\uDC66\uD83C\uDFFF SSN: ***********\",\"id\":\"0\",\"entities\":[{\"text\":\"859-98-0987\",\"category\":\"USSocialSecurityNumber\",\"offset\":17,\"length\":11,\"confidenceScore\":0.65}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-01-15\"}",
+   "response": "{\"documents\":[{\"redactedText\":\"\ud83d\udc69\ud83c\udffb\u200d\ud83d\udc69\ud83c\udffd\u200d\ud83d\udc67\ud83c\udffe\u200d\ud83d\udc66\ud83c\udfff SSN: ***********\",\"id\":\"0\",\"entities\":[{\"text\":\"859-98-0987\",\"category\":\"USSocialSecurityNumber\",\"offset\":17,\"length\":11,\"confidenceScore\":0.65}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-01-15\"}",
    "responseHeaders": {
-    "apim-request-id": "67cb469b-699d-4ccb-87e1-b2ea31c7c2f6",
+    "apim-request-id": "dee4c4ff-df67-46f3-9ce2-a2dcdfcf3379",
     "content-type": "application/json; charset=utf-8",
     "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=1,CognitiveServices.TextAnalytics.TextRecords=1",
-    "date": "Tue, 03 Aug 2021 22:52:56 GMT",
+    "date": "Sat, 23 Oct 2021 00:50:12 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "39"
+    "x-envoy-upstream-service-time": "24"
    }
   }
  ],

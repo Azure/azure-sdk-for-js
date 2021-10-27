@@ -4,7 +4,6 @@
 import { RestError } from "@azure/core-rest-pipeline";
 import { FullOperationResponse, OperationOptions, OperationSpec } from "@azure/core-client";
 import { SpanStatusCode } from "@azure/core-tracing";
-import { URL, URLSearchParams } from "./utils/url";
 import { logger } from "./logger";
 import { GeneratedClient, StringIndexType as GeneratedStringIndexType } from "./generated";
 import { TextAnalyticsAction } from "./textAnalyticsAction";
@@ -184,30 +183,6 @@ export function setModelVersionParam<X extends { modelVersion?: string }>(
 export interface PageParam {
   top: number;
   skip: number;
-}
-
-/**
- * @internal
- */
-export function nextLinkToTopAndSkip(nextLink: string): PageParam {
-  const url = new URL(nextLink);
-  const searchParams = new URLSearchParams(url.searchParams);
-  let top: number;
-  if (searchParams.has("$top")) {
-    top = parseInt(searchParams.get("$top")!);
-  } else {
-    throw new Error(`nextLink URL does not have the $top param: ${nextLink}`);
-  }
-  let skip: number;
-  if (searchParams.has("$skip")) {
-    skip = parseInt(searchParams.get("$skip")!);
-  } else {
-    throw new Error(`nextLink URL does not have the $skip param: ${nextLink}`);
-  }
-  return {
-    skip: skip,
-    top: top
-  };
 }
 
 /**
