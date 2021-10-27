@@ -15,7 +15,6 @@ import {
 import * as assert from "assert";
 import { ClientSecretCredential } from "@azure/identity";
 import { ContainerServiceClient } from "../src/containerServiceClient";
-import { string } from "yargs";
 
 const recorderEnvSetup: RecorderEnvironmentSetup = {
   replaceableVariables: {
