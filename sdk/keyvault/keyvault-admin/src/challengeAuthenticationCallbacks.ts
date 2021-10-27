@@ -11,7 +11,7 @@ import {
 import { GetTokenOptions } from "@azure/core-auth";
 import { ParsedWWWAuthenticate, parseWWWAuthenticate } from "../../keyvault-common/src";
 import * as coreTracing from "@azure/core-tracing";
-import * as fs from "fs";
+// import * as fs from "fs";
 
 /**
  * @internal
@@ -94,12 +94,12 @@ export function createChallengeCallbacks(): ChallengeCallbacks {
   ): Promise<boolean> {
     console.log("\n\n");
     console.log("from keyvault-admin:");
-    console.log(
-      "packageJson: ",
-      JSON.parse(fs.readFileSync(__dirname + "/../package.json", "utf8")).dependencies[
-        "@azure/core-tracing"
-      ]
-    );
+    // console.log(
+    //   "packageJson: ",
+    //   JSON.parse(fs.readFileSync(__dirname + "/../package.json", "utf8")).dependencies[
+    //     "@azure/core-tracing"
+    //   ]
+    // );
     coreTracing.createSpanFunction({ namespace: "", packagePrefix: "" })("foo");
     const { scopes, request, response } = options;
     if (request.body === null && challengeState.status === "started") {
