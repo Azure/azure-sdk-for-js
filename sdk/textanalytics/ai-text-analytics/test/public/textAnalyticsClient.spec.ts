@@ -447,7 +447,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             assert.equal(e.code, "InvalidDocumentBatch");
             assert.equal(
               e.message,
-              "Batch request contains too many records. Max 5 records are permitted."
+              "Invalid document in request. Batch request contains too many records. Max 5 records are permitted."
             );
           }
         });
@@ -723,7 +723,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             assert.equal(e.code, "InvalidDocumentBatch");
             assert.equal(
               e.message,
-              "Batch request contains too many records. Max 5 records are permitted."
+              "Invalid document in request. Batch request contains too many records. Max 5 records are permitted."
             );
           }
         });
@@ -2222,7 +2222,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           }
         });
 
-        it("duplicate multiple actions per type are disallowed", async function() {
+        it.only("duplicate actions of the same type are disallowed", async function() {
           const docs = [{ id: "1", text: "I will go to the park." }];
 
           try {
@@ -2251,7 +2251,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           }
         });
 
-        it("unique multiple actions per type are allowed", async function() {
+        it.only("unique multiple actions per type are allowed", async function() {
           const docs = [{ id: "1", text: "I will go to the park." }];
 
           const response = await client.beginAnalyzeActions(
@@ -2480,7 +2480,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             assert.equal(e.code, "InvalidDocumentBatch");
             assert.equal(
               e.message,
-              "Batch request contains too many records. Max 10 records are permitted."
+              "Invalid document in request. Batch request contains too many records. Max 10 records are permitted."
             );
           }
         });
@@ -2511,7 +2511,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             assert.equal(e.code, "InvalidDocumentBatch");
             assert.equal(
               e.message,
-              "Request Payload sent is too large to be processed. Limit request size to: 524288"
+              "Invalid document in request. Request Payload sent is too large to be processed. Limit request size to: 524288"
             );
           }
         });

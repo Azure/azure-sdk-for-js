@@ -199,6 +199,14 @@ export function getOperationId(operationLocation: string): string {
   return operationLocation.substring(lastSlashIndex + 1);
 }
 
+function appendReadableErrorMessage(currentMessage: string, innerMessage: string): string {
+  let message = currentMessage;
+  if (message.slice(-1) !== ".") {
+    message = message + ".";
+  }
+  return message + " " + innerMessage;
+}
+
 /**
  * @internal
  * parses incoming errors from the service and if the inner error code is
@@ -221,7 +229,7 @@ export function compileError(errorResponse: unknown): any {
       if (error.innererror.code === "InvalidDocumentBatch") {
         invalidDocumentBatchCode = true;
       }
-      errorMessage = errorMessage + ". " + error.innererror.message;
+      errorMessage = appendReadableErrorMessage(errorMessage, error.innererror.message);
       return unwrap(error.innererror);
     }
     return error as TextAnalyticsError;

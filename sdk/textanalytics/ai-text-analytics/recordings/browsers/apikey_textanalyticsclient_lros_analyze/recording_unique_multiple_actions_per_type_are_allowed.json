@@ -8,28 +8,28 @@
    "status": 202,
    "response": "",
    "responseHeaders": {
-    "apim-request-id": "976429f9-c72e-4af7-a0b3-363350fe81ae",
-    "date": "Wed, 27 Oct 2021 03:31:43 GMT",
-    "operation-location": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/98870a0b-6b49-4cfd-bf4a-71dd8dbd87c3",
+    "apim-request-id": "b7b61454-ef18-48c3-bc22-877bc22b2228",
+    "date": "Wed, 27 Oct 2021 23:28:15 GMT",
+    "operation-location": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/e3fe9900-61bc-4291-86d1-6c039aa2919a",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "224"
+    "x-envoy-upstream-service-time": "408"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/98870a0b-6b49-4cfd-bf4a-71dd8dbd87c3",
+   "url": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/e3fe9900-61bc-4291-86d1-6c039aa2919a",
    "query": {
     "$top": "20",
     "$skip": "0"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"98870a0b-6b49-4cfd-bf4a-71dd8dbd87c3\",\"lastUpdateDateTime\":\"2021-10-27T03:31:44Z\",\"createdDateTime\":\"2021-10-27T03:31:43Z\",\"expirationDateTime\":\"2021-10-28T03:31:43Z\",\"status\":\"notStarted\",\"errors\":[],\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":2,\"total\":2}}",
+   "response": "{\"jobId\":\"e3fe9900-61bc-4291-86d1-6c039aa2919a\",\"lastUpdateDateTime\":\"2021-10-27T23:28:15Z\",\"createdDateTime\":\"2021-10-27T23:28:15Z\",\"expirationDateTime\":\"2021-10-28T23:28:15Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":2,\"total\":2}}",
    "responseHeaders": {
-    "apim-request-id": "20529fbe-e527-466a-b854-c667fa743421",
+    "apim-request-id": "b7f62acc-a900-4fdc-89dd-74a31076e514",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 27 Oct 2021 03:31:43 GMT",
+    "date": "Wed, 27 Oct 2021 23:28:15 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
     "x-envoy-upstream-service-time": "7"
