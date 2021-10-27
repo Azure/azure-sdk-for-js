@@ -83,5 +83,15 @@
     "Vertica",
     "westus"
   ],
-  "allowCompoundWords": true
+  "allowCompoundWords": true,
+  "overrides": [
+    {
+      "filename": "eng/pipelines",
+      "words": [
+        "azuresdkartifacts",
+        "policheck",
+        "gdnbaselines"
+      ]
+    }
+  ]
 }
