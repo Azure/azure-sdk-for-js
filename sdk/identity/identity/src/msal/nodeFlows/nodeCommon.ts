@@ -121,7 +121,7 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
       authorityHost: authority
     });
 
-    let clientCapabilities: string[] = ["CP1"];
+    let clientCapabilities: string[] = ["cp1"];
     if (process.env.AZURE_IDENTITY_DISABLE_CP1) {
       clientCapabilities = [];
     }

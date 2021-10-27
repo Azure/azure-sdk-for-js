@@ -13,6 +13,9 @@ import { assert } from "chai";
 import { OperationTracingOptions, setSpan, context as otContext } from "@azure/core-tracing";
 import { SpanGraph, setTracer } from "@azure/test-utils";
 import { MsalBaseUtilities } from "../src/msal/utils";
+import * as dotenv from "dotenv";
+
+dotenv.config({ path: ".env" });
 
 export type MsalTestCleanup = () => Promise<void>;
 
@@ -90,7 +93,8 @@ export function msalNodeTestSetup(
       AZURE_CLIENT_ID: "azure_client_id",
       AZURE_CLIENT_SECRET: "azure_client_secret",
       AZURE_USERNAME: "azure_username",
-      AZURE_PASSWORD: "azure_password"
+      AZURE_PASSWORD: "azure_password",
+      CAE_ARM_MANAGEMENT_NAME: "management-name"
     },
     customizationsOnRecordings: [
       (recording: string): string =>
