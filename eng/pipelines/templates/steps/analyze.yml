@@ -8,11 +8,12 @@ steps:
     parameters:
       ContinueOnError: false
 
-  - pwsh: |
-      npx cspell lint `
-        --config ./.vscode/cspell.json `
-        --no-must-find-files `
-        'sdk/${{ parameters.ServiceDirectory }}/*/review/**/*.md'
+  - task: PowerShell@2
+    inputs:
+      targetType: filePath
+      filePath: eng/scripts/spell-check-public-api.ps1
+      arguments: -ServiceDirectory ${{ parameters.ServiceDirectory }}
+      pwsh: true
     displayName: Check spelling of public API surface
 
   - template: /eng/common/pipelines/templates/steps/set-test-pipeline-version.yml
