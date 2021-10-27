@@ -8,6 +8,13 @@ steps:
     parameters:
       ContinueOnError: false
 
+  - pwsh: |
+      npx cspell lint `
+        --config ./.vscode/cspell.json `
+        --no-must-find-files `
+        'sdk/${{ parameters.ServiceDirectory }}/*/review/**/*.md'
+    displayName: Check spelling of public API surface
+
   - template: /eng/common/pipelines/templates/steps/set-test-pipeline-version.yml
     parameters:
       PackageName: "@azure/template"

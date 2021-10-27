@@ -24,6 +24,17 @@ stages:
             inputs:
               versionSpec: 10.x
 
+          - pwsh: |
+              npx cspell lint `
+                --config ./.vscode/cspell.json `
+                --no-must-find-files `
+                'sdk/*/*/review/**/*.md'
+            displayName: Check spelling of public API surface
+            # Spelling errors in public api surface are not blockers yet but will
+            # become blockers when this is rolled out to all services. For now, turn
+            # the pipeline yellow if spelling errors are detected but do not block.
+            continueOnError: true
+
           - template: ../common/pipelines/templates/steps/verify-links.yml
             parameters:
               Directory: ""
