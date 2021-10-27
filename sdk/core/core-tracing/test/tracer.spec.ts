@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { assert } from "chai";
 import { Context } from "mocha";
 import sinon from "sinon";
@@ -28,7 +31,7 @@ describe("Tracer", () => {
 
       it("returns context with all existing properties", () => {
         const [key, value] = [Symbol.for("key"), "value"];
-        let context = createTracingContext().setValue(key, value);
+        const context = createTracingContext().setValue(key, value);
 
         const { tracingContext } = tracer.startSpan(name, { tracingContext: context });
         assert.strictEqual(tracingContext.getValue(key), value);
@@ -43,14 +46,15 @@ describe("Tracer", () => {
       });
 
       it("sets `this` correctly", function(this: Context) {
+        // eslint-disable-next-line @typescript-eslint/no-this-alias
         const that = this;
 
         tracer.withContext(
           createTracingContext(),
-          () => {
+          function(this: Context) {
             assert.strictEqual(this, that);
           },
-          that
+          this
         );
       });
     });
@@ -105,13 +109,13 @@ describe("Tracer", () => {
       });
 
       it("can fetch parent chain data", () => {
-        const context = createTracingContext()
+        const newContext = context
           .setValue(Symbol.for("ancestry"), "grandparent")
           .setValue(Symbol.for("ancestry"), "parent")
           .setValue(Symbol.for("self"), "self"); // use a different key for current context
 
-        assert.equal(context.getValue(Symbol.for("ancestry")), "parent");
-        assert.equal(context.getValue(Symbol.for("self")), "self");
+        assert.equal(newContext.getValue(Symbol.for("ancestry")), "parent");
+        assert.equal(newContext.getValue(Symbol.for("self")), "self");
       });
     });
 
@@ -130,15 +134,15 @@ describe("Tracer", () => {
       });
 
       it("deletes parent chain data", () => {
-        const context = createTracingContext()
+        const newContext = context
           .setValue(Symbol.for("ancestry"), "grandparent")
           .setValue(Symbol.for("ancestry"), "parent")
           .setValue(Symbol.for("self"), "self");
 
-        assert.isDefined(context.getValue(Symbol.for("ancestry")));
-        assert.isDefined(context.getValue(Symbol.for("self")));
+        assert.isDefined(newContext.getValue(Symbol.for("ancestry")));
+        assert.isDefined(newContext.getValue(Symbol.for("self")));
 
-        const updatedContext = context
+        const updatedContext = newContext
           .deleteValue(Symbol.for("ancestry"))
           .deleteValue(Symbol.for("self"));
 
@@ -261,7 +265,13 @@ describe("Tracer", () => {
           };
         };
         const setAttributeSpy = sinon.spy(span, "setAttribute");
-        await client.withTrace(spanName, async () => {}, {});
+        await client.withTrace(
+          spanName,
+          async () => {
+            // no op
+          },
+          {}
+        );
         assert.isTrue(
           setAttributeSpy.calledWith("az.namespace", expectedNamespace),
           `expected span.setAttribute("az.namespace", "${expectedNamespace}") to have been called`
@@ -271,12 +281,14 @@ describe("Tracer", () => {
       it("passes options and span to callback", async () => {
         await client.withTrace(
           spanName,
-          (options, span) => {
-            assert.instanceOf(span, NoOpSpan);
+          (options, currentSpan) => {
+            assert.instanceOf(currentSpan, NoOpSpan);
             assert.exists(options);
+            assert.equal(options.foo, "foo");
+            assert.equal(options.bar, "bar");
             return true;
           },
-          {}
+          { foo: "foo", bar: "bar" } as any
         );
       });
 
@@ -315,6 +327,7 @@ describe("Tracer", () => {
       });
 
       it("sets `this` correctly", async function(this: Context) {
+        // eslint-disable-next-line @typescript-eslint/no-this-alias
         const that = this;
 
         await client.withTrace(

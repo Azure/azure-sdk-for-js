@@ -1,8 +1,6 @@
 {
   "extends": "../../../tsconfig.package",
   "compilerOptions": {
-    "noUnusedLocals": false,
-    "noUnusedParameters": false,
     "declarationDir": "./types",
     "outDir": "./dist-esm"
   }

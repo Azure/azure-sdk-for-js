@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { CreateTracingContextOptions, TracingContext } from "./interfaces";
 
 /** @internal */

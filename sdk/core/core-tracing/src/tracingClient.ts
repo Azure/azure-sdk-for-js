@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import {
   TracingClient,
   Tracer,
@@ -7,7 +10,7 @@ import {
   TracingContext
 } from "./interfaces";
 import { tracerImplementation } from "./tracer";
-import { createTracingContext, knownContextKeys } from "./tracingContext";
+import { knownContextKeys } from "./tracingContext";
 
 /** @internal */
 export class TracingClientImpl implements TracingClient {
@@ -25,22 +28,22 @@ export class TracingClientImpl implements TracingClient {
     tracingContext: TracingContext;
     updatedOptions: Options;
   } {
-    let { span, tracingContext } = this._tracer.startSpan(name, {
+    const { span, tracingContext } = this._tracer.startSpan(name, {
       tracingContext: options?.tracingOptions?.tracingContext
     });
-    tracingContext = tracingContext.setValue(knownContextKeys.Namespace, this._namespace);
+    const newContext = tracingContext.setValue(knownContextKeys.Namespace, this._namespace);
     span.setAttribute("az.namespace", this._namespace);
     const updatedOptions = {
       ...options,
       tracingOptions: {
-        tracingContext
+        tracingContext: newContext
       }
     } as Options;
     // TODO: it's nice to return the context so we don't have to do null assertions later
     // but it's also duplicating data - is it the same context? can they drift? Which one do I use?
     return {
       span,
-      tracingContext,
+      tracingContext: newContext,
       updatedOptions
     };
   }
@@ -56,7 +59,7 @@ export class TracingClientImpl implements TracingClient {
     options?: Options,
     callbackThis?: ThisParameterType<Callback>
   ): Promise<ReturnType<Callback>> {
-    let { span, tracingContext, updatedOptions } = this.startSpan(name, options);
+    const { span, tracingContext, updatedOptions } = this.startSpan(name, options);
     try {
       span.setStatus({ status: "success" });
       const result = await this.withContext(

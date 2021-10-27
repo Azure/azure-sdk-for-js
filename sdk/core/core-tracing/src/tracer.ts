@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { Tracer, TracerCreateSpanOptions, TracingSpan, TracingContext } from "./interfaces";
 import { createTracingContext } from "./tracingContext";
 
@@ -41,11 +44,14 @@ export class NoOpTracer implements Tracer {
 
 /** @internal */
 export class NoOpSpan implements TracingSpan {
-  setStatus(): void {}
-  setAttribute(): void {}
-  end(): void {}
-  unwrap(): unknown {
-    return undefined;
+  setStatus(): void {
+    // noop
+  }
+  setAttribute(): void {
+    // noop
+  }
+  end(): void {
+    // noop
   }
   serialize(): Record<string, string> {
     return {};

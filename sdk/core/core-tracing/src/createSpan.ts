@@ -10,7 +10,7 @@ import { createTracingContext } from "./tracingContext";
  *
  * @deprecated this will return a no-op span. Please use methods on `tracingClient` instead.
  */
-export function createSpanFunction(_args: any) {
+export function createSpanFunction(..._args: unknown[]) {
   return function<T extends { tracingOptions?: OperationTracingOptions }>(
     _operationName: string,
     operationOptions?: T
@@ -20,7 +20,7 @@ export function createSpanFunction(_args: any) {
       ...tracingOptions,
       tracingContext: tracingOptions.tracingContext || createTracingContext()
     };
-    let span = new NoOpSpan();
+    const span = new NoOpSpan();
 
     const newOperationOptions = {
       ...(operationOptions as T),
