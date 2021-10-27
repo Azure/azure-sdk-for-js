@@ -47,6 +47,9 @@ export interface JobManifestTasks {
   entityLinkingTasks?: EntityLinkingTask[];
   sentimentAnalysisTasks?: SentimentAnalysisTask[];
   extractiveSummarizationTasks?: ExtractiveSummarizationTask[];
+  customEntityRecognitionTasks?: CustomEntitiesTask[];
+  customSingleClassificationTasks?: CustomSingleClassificationTask[];
+  customMultiClassificationTasks?: CustomMultiClassificationTask[];
 }
 
 export interface EntitiesTask {
@@ -114,6 +117,37 @@ export interface ExtractiveSummarizationTaskParameters {
   sortBy?: ExtractiveSummarizationTaskParametersSortBy;
 }
 
+export interface CustomEntitiesTask {
+  parameters?: CustomEntitiesTaskParameters;
+}
+
+export interface CustomEntitiesTaskParameters {
+  projectName: string;
+  deploymentName: string;
+  loggingOptOut?: boolean;
+  stringIndexType?: StringIndexType;
+}
+
+export interface CustomSingleClassificationTask {
+  parameters?: CustomSingleClassificationTaskParameters;
+}
+
+export interface CustomSingleClassificationTaskParameters {
+  projectName: string;
+  deploymentName: string;
+  loggingOptOut?: boolean;
+}
+
+export interface CustomMultiClassificationTask {
+  parameters?: CustomMultiClassificationTaskParameters;
+}
+
+export interface CustomMultiClassificationTaskParameters {
+  projectName: string;
+  deploymentName: string;
+  loggingOptOut?: boolean;
+}
+
 export interface ErrorResponse {
   /** Document Error. */
   error: TextAnalyticsError;
@@ -172,6 +206,9 @@ export interface TasksStateTasks {
   entityLinkingTasks?: TasksStateTasksEntityLinkingTasksItem[];
   sentimentAnalysisTasks?: TasksStateTasksSentimentAnalysisTasksItem[];
   extractiveSummarizationTasks?: TasksStateTasksExtractiveSummarizationTasksItem[];
+  customEntityRecognitionTasks?: TasksStateTasksCustomEntityRecognitionTasksItem[];
+  customSingleClassificationTasks?: TasksStateTasksCustomSingleClassificationTasksItem[];
+  customMultiClassificationTasks?: TasksStateTasksCustomMultiClassificationTasksItem[];
 }
 
 export interface TaskState {
@@ -501,6 +538,85 @@ export interface ExtractedSummarySentence {
   length: number;
 }
 
+export interface CustomEntitiesTaskResult {
+  results?: CustomEntitiesResult;
+}
+
+export interface CustomEntitiesResult {
+  /** Response by document */
+  documents: DocumentEntities[];
+  /** Errors by document id. */
+  errors: DocumentError[];
+  /** if includeStatistics=true was specified in the request this field will contain information about the request payload. */
+  statistics?: TextDocumentBatchStatistics;
+  /** This field indicates the project name for the model. */
+  projectName: string;
+  /** This field indicates the deployment name for the model. */
+  deploymentName: string;
+}
+
+export interface CustomSingleClassificationTaskResult {
+  results?: CustomSingleClassificationResult;
+}
+
+export interface CustomSingleClassificationResult {
+  /** Response by document */
+  documents: SingleClassificationDocument[];
+  /** Errors by document id. */
+  errors: DocumentError[];
+  /** if includeStatistics=true was specified in the request this field will contain information about the request payload. */
+  statistics?: TextDocumentBatchStatistics;
+  /** This field indicates the project name for the model. */
+  projectName: string;
+  /** This field indicates the deployment name for the model. */
+  deploymentName: string;
+}
+
+export interface SingleClassificationDocument {
+  /** Unique, non-empty document identifier. */
+  id: string;
+  classification: ClassificationResult;
+  /** Warnings encountered while processing document. */
+  warnings: TextAnalyticsWarning[];
+  /** if showStats=true was specified in the request this field will contain information about the document payload. */
+  statistics?: TextDocumentStatistics;
+}
+
+export interface ClassificationResult {
+  /** Classification type. */
+  category: string;
+  /** Confidence score between 0 and 1 of the recognized classification. */
+  confidenceScore: number;
+}
+
+export interface CustomMultiClassificationTaskResult {
+  results?: CustomMultiClassificationResult;
+}
+
+export interface CustomMultiClassificationResult {
+  /** Response by document */
+  documents: MultiClassificationDocument[];
+  /** Errors by document id. */
+  errors: DocumentError[];
+  /** if includeStatistics=true was specified in the request this field will contain information about the request payload. */
+  statistics?: TextDocumentBatchStatistics;
+  /** This field indicates the project name for the model. */
+  projectName: string;
+  /** This field indicates the deployment name for the model. */
+  deploymentName: string;
+}
+
+export interface MultiClassificationDocument {
+  /** Unique, non-empty document identifier. */
+  id: string;
+  /** Recognized classification results in the document. */
+  classifications: ClassificationResult[];
+  /** Warnings encountered while processing document. */
+  warnings: TextAnalyticsWarning[];
+  /** if showStats=true was specified in the request this field will contain information about the document payload. */
+  statistics?: TextDocumentStatistics;
+}
+
 export interface AnalyzeJobErrorsAndStatistics {
   errors?: TextAnalyticsError[];
   /** if includeStatistics=true was specified in the request this field will contain information about the request payload. */
@@ -670,6 +786,15 @@ export type TasksStateTasksSentimentAnalysisTasksItem = TaskState &
 
 export type TasksStateTasksExtractiveSummarizationTasksItem = TaskState &
   ExtractiveSummarizationTaskResult & {};
+
+export type TasksStateTasksCustomEntityRecognitionTasksItem = TaskState &
+  CustomEntitiesTaskResult & {};
+
+export type TasksStateTasksCustomSingleClassificationTasksItem = TaskState &
+  CustomSingleClassificationTaskResult & {};
+
+export type TasksStateTasksCustomMultiClassificationTasksItem = TaskState &
+  CustomMultiClassificationTaskResult & {};
 
 export type HealthcareEntity = HealthcareEntityProperties &
   HealthcareLinkingProperties & {};

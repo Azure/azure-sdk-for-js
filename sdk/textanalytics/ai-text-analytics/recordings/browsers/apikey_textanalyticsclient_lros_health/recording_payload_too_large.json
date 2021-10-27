@@ -2,7 +2,7 @@
  "recordings": [
   {
    "method": "POST",
-   "url": "https://endpoint/text/analytics/v3.2-preview.1/entities/health/jobs",
+   "url": "https://endpoint/text/analytics/v3.2-preview.2/entities/health/jobs",
    "query": {
     "stringIndexType": "Utf16CodeUnit"
    },
@@ -10,13 +10,12 @@
    "status": 413,
    "response": "{\"error\":{\"code\":\"InvalidRequest\",\"message\":\"Invalid document in request.\",\"innererror\":{\"code\":\"InvalidDocumentBatch\",\"message\":\"Request Payload sent is too large to be processed. Limit request size to: 524288\"}}}",
    "responseHeaders": {
-    "apim-request-id": "7fdfd4e1-4abe-42a2-ac4b-f6907f88ffe0",
+    "apim-request-id": "420f3e1d-a24e-432b-a3ab-c4e7cad63633",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 03 Aug 2021 22:58:47 GMT",
+    "date": "Sat, 23 Oct 2021 00:55:34 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "26"
+    "x-envoy-upstream-service-time": "22"
    }
   }
  ],

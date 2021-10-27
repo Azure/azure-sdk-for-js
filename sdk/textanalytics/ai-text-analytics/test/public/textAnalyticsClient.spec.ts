@@ -9,7 +9,7 @@ import chaiPromises from "chai-as-promised";
 chaiUse(chaiPromises);
 
 import { matrix } from "@azure/test-utils";
-import { isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
+import { env, isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
 
 import { AuthMethod, createClient, createRecorder } from "./utils/recordedClient";
 import {
@@ -927,6 +927,164 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
       });
 
       describe("#analyze", function() {
+        it("single custom entity recognition action", async function() {
+          const docs = [
+            {
+              id: "1",
+              language: "en",
+              text:
+                "A recent report by the Government Accountability Office (GAO) found that the dramatic increase in oil and natural gas development on federal lands over the past six years has stretched the staff of the BLM to a point that it has been unable to meet its environmental protection responsibilities."
+            }
+          ];
+
+          const poller = await client.beginAnalyzeActions(
+            docs,
+            {
+              recognizeCustomEntitiesActions: [
+                {
+                  projectName: env.TEXT_ANALYTICS_RECOGNIZE_CUSTOM_ENTITIES_PROJECT_NAME,
+                  deploymentName: env.TEXT_ANALYTICS_RECOGNIZE_CUSTOM_ENTITIES_DEPLOYMENT_NAME
+                }
+              ]
+            },
+            {
+              updateIntervalInMs: pollingInterval
+            }
+          );
+          const results = await poller.pollUntilDone();
+          for await (const page of results) {
+            const entitiesResult = page.recognizeCustomEntitiesResults;
+            if (entitiesResult.length === 1) {
+              const action = entitiesResult[0];
+              if (!action.error) {
+                for (const result of action.results) {
+                  if (!result.error) {
+                    assert.isDefined(result.id);
+                    assert.isDefined(result.entities);
+                    for (const entity of result.entities) {
+                      assert.isDefined(entity.category, "entity category not found");
+                      assert.isDefined(entity.confidenceScore, "confidence score not found");
+                      assert.isDefined(entity.length, "length not found");
+                      assert.isDefined(entity.offset, "offset not found");
+                      assert.isDefined(entity.text, "text not found");
+                    }
+                  } else {
+                    assert.fail("did not expect document errors but got one.");
+                  }
+                }
+              }
+            } else {
+              assert.fail("expected an array of entities results but did not get one.");
+            }
+          }
+        });
+
+        it("single custom document single category classification action", async function() {
+          const docs = [
+            {
+              id: "1",
+              language: "en",
+              text:
+                "A recent report by the Government Accountability Office (GAO) found that the dramatic increase in oil and natural gas development on federal lands over the past six years has stretched the staff of the BLM to a point that it has been unable to meet its environmental protection responsibilities."
+            }
+          ];
+
+          const poller = await client.beginAnalyzeActions(
+            docs,
+            {
+              singleCategoryClassifyActions: [
+                {
+                  projectName: env.TEXT_ANALYTICS_SINGLE_CATEGORY_CLASSIFY_PROJECT_NAME,
+                  deploymentName: env.TEXT_ANALYTICS_SINGLE_CATEGORY_CLASSIFY_DEPLOYMENT_NAME
+                }
+              ]
+            },
+            {
+              updateIntervalInMs: pollingInterval
+            }
+          );
+          const results = await poller.pollUntilDone();
+          for await (const page of results) {
+            const classificationResult = page.singleCategoryClassifyResults;
+            if (classificationResult.length === 1) {
+              const action = classificationResult[0];
+              if (!action.error) {
+                for (const result of action.results) {
+                  if (!result.error) {
+                    assert.ok(result.id);
+                    assert.ok(result.classification);
+                    assert.ok(result.classification.category);
+                    assert.ok(result.classification.confidenceScore);
+                  } else {
+                    assert.fail("did not expect document errors but got one.");
+                  }
+                }
+              }
+            } else {
+              assert.fail(
+                `expected an array of single category classification results but got: ${JSON.stringify(
+                  classificationResult
+                )}`
+              );
+            }
+          }
+        });
+
+        it("single custom document multiple category classification action", async function() {
+          const docs = [
+            {
+              id: "1",
+              language: "en",
+              text:
+                "A recent report by the Government Accountability Office (GAO) found that the dramatic increase in oil and natural gas development on federal lands over the past six years has stretched the staff of the BLM to a point that it has been unable to meet its environmental protection responsibilities."
+            }
+          ];
+
+          const poller = await client.beginAnalyzeActions(
+            docs,
+            {
+              multiCategoryClassifyActions: [
+                {
+                  projectName: env.TEXT_ANALYTICS_MULTI_CATEGORY_CLASSIFY_PROJECT_NAME,
+                  deploymentName: env.TEXT_ANALYTICS_MULTI_CATEGORY_CLASSIFY_DEPLOYMENT_NAME
+                }
+              ]
+            },
+            {
+              updateIntervalInMs: pollingInterval
+            }
+          );
+          const results = await poller.pollUntilDone();
+          for await (const page of results) {
+            const classificationResult = page.multiCategoryClassifyResults;
+            if (classificationResult.length === 1) {
+              const action = classificationResult[0];
+              if (!action.error) {
+                for (const result of action.results) {
+                  if (!result.error) {
+                    assert.ok(result.id);
+                    assert.ok(result.classifications);
+                    for (const classification of result.classifications) {
+                      assert.ok(classification.category);
+                      assert.ok(classification.confidenceScore);
+                    }
+                  } else {
+                    assert.fail(
+                      `did not expect document errors but got: ${JSON.stringify(
+                        classificationResult
+                      )}`
+                    );
+                  }
+                }
+              }
+            } else {
+              assert.fail(
+                "expected an array of multi category classification results but did not get one."
+              );
+            }
+          }
+        });
+
         it("single extract summary action", async function() {
           // Source: https://news.microsoft.com/innovation-stories/cloud-pc-windows-365/
           const windows365ArticlePart1 = `

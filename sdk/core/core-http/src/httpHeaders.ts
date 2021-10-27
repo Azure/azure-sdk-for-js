@@ -236,6 +236,11 @@ export class HttpHeaders implements HttpHeadersLike {
    * Create a deep clone/copy of this HttpHeaders collection.
    */
   public clone(): HttpHeaders {
-    return new HttpHeaders(this.rawHeaders());
+    const resultPreservingCasing: RawHttpHeaders = {};
+    for (const headerKey in this._headersMap) {
+      const header: HttpHeader = this._headersMap[headerKey];
+      resultPreservingCasing[header.name] = header.value;
+    }
+    return new HttpHeaders(resultPreservingCasing);
   }
 }
