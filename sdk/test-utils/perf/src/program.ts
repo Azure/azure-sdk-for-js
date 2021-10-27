@@ -162,6 +162,14 @@ export class PerfProgram {
     }
   }
 
+  private formatElapsedTime(elapsedMillis: number): string {
+    const elapsedSeconds = Math.floor((elapsedMillis / 1000) % 60);
+    const elapsedMinutes = Math.floor(elapsedMillis / 1000 / 60);
+    return `${elapsedMinutes < 10 ? "0" : ""}${elapsedMinutes}:${
+      elapsedSeconds < 10 ? "0" : ""
+    }${elapsedSeconds}`;
+  }
+
   // Triggers runLoop as many times as parallels have been passed in through the options.
   // Stops all test executions once the durationSeconds has been reached.
   private async runTest(
@@ -197,17 +205,11 @@ export class PerfProgram {
       const totalCompleted = this.getCompletedOperations(parallels);
       const currentCompleted = totalCompleted - lastCompleted;
       const averageCompleted = this.getOperationsPerSecond(parallels);
-
-      const elapsedMillis = new Date().getTime() - startMillis;
-      const elapsedSeconds = Math.floor((elapsedMillis / 1000) % 60);
-      const elapsedMinutes = Math.floor(elapsedMillis / 1000 / 60);
-      const elapsedDisplay = `${elapsedMinutes < 10 ? "0" : ""}${elapsedMinutes}:${
-        elapsedSeconds < 10 ? "0" : ""
-      }${elapsedSeconds}`;
+      const elapsedTime = this.formatElapsedTime(new Date().getTime() - startMillis);
 
       lastCompleted = totalCompleted;
       console.log(
-        `${elapsedDisplay}\t\t${currentCompleted}\t\t${totalCompleted}\t\t${averageCompleted.toFixed(
+        `${elapsedTime}\t\t${currentCompleted}\t\t${totalCompleted}\t\t${averageCompleted.toFixed(
           2
         )}`
       );
