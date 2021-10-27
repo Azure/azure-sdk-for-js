@@ -15,6 +15,7 @@ specifiers:
   '@rush-temp/arm-authorization': file:./projects/arm-authorization.tgz
   '@rush-temp/arm-compute': file:./projects/arm-compute.tgz
   '@rush-temp/arm-containerregistry': file:./projects/arm-containerregistry.tgz
+  '@rush-temp/arm-containerservice': file:./projects/arm-containerservice.tgz
   '@rush-temp/arm-eventgrid': file:./projects/arm-eventgrid.tgz
   '@rush-temp/arm-eventhub': file:./projects/arm-eventhub.tgz
   '@rush-temp/arm-extendedlocation': file:./projects/arm-extendedlocation.tgz
@@ -154,6 +155,7 @@ dependencies:
   '@rush-temp/arm-authorization': file:projects/arm-authorization.tgz
   '@rush-temp/arm-compute': file:projects/arm-compute.tgz
   '@rush-temp/arm-containerregistry': file:projects/arm-containerregistry.tgz
+  '@rush-temp/arm-containerservice': file:projects/arm-containerservice.tgz
   '@rush-temp/arm-eventgrid': file:projects/arm-eventgrid.tgz
   '@rush-temp/arm-eventhub': file:projects/arm-eventhub.tgz
   '@rush-temp/arm-extendedlocation': file:projects/arm-extendedlocation.tgz
@@ -8692,6 +8694,30 @@ packages:
   file:projects/arm-containerregistry.tgz:
     resolution: {integrity: sha512-Rid9aO/03T0CWDM7YAIbD+EOH9XPisQuabEDScieEtcQBVApQEoGa26or+BEiuGyZckW4qINlAHRAllqrre4eQ==, tarball: file:projects/arm-containerregistry.tgz}
     name: '@rush-temp/arm-containerregistry'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.0.0-beta.6
+      '@microsoft/api-extractor': 7.7.11
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.14.2
+    transitivePeerDependencies:
+      - debug
+      - supports-color
+    dev: false
+
+  file:projects/arm-containerservice.tgz:
+    resolution: {integrity: sha512-8dMhPZWfeynHxwOOjEWch3Im4U/Xspmhtka9ydrQ9OSlqyvKBX+NUYXlNOGBDh+REpaU/Aw91HHs1djC4T9fCA==, tarball: file:projects/arm-containerservice.tgz}
+    name: '@rush-temp/arm-containerservice'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.0.0-beta.6
