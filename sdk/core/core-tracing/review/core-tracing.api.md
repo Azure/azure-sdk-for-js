@@ -12,7 +12,7 @@ export function createSpanFunction(..._args: unknown[]): <T extends {
     updatedOptions: T;
 };
 
-// @public (undocumented)
+// @public
 export function createTracingClient(options?: TracingClientOptions): TracingClient;
 
 // @public
