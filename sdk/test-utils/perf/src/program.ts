@@ -197,7 +197,7 @@ export class PerfProgram {
       `\n=== ${title} mode, iteration ${iterationIndex + 1}. Logs every ${millisecondsToLog /
         1000}s ===`
     );
-    console.log(`Elapsed\t\tCurrent\t\tTotal\t\tAverage`);
+    console.log(`ElapsedTime\tCurrent\t\tTotal\t\tAverage`);
     let lastCompleted = 0;
     const startMillis = new Date().getTime();
 
