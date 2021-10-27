@@ -28,7 +28,6 @@ stages:
             inputs:
               targetType: filePath
               filePath: eng/scripts/spell-check-public-api.ps1
-              arguments: -ServiceDirectory ${{ parameters.ServiceDirectory }}
               pwsh: true
             displayName: Check spelling of public API surface
             # Spelling errors in public api surface are not blockers yet but will
