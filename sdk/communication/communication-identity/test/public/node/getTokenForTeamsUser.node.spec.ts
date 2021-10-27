@@ -13,9 +13,7 @@ import {
 import { Context } from "mocha";
 
 matrix([[true, false]], async function(useAad) {
-  describe(`Get Token For Teams User [Playback/Live]${
-    useAad ? " [AAD]" : ""
-  }`, function() {
+  describe(`Get Token For Teams User [Playback/Live]${useAad ? " [AAD]" : ""}`, function() {
     let recorder: Recorder;
     let client: CommunicationIdentityClient;
 
