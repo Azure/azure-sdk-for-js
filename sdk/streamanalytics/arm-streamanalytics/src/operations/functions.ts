@@ -362,7 +362,7 @@ const createOrReplaceOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.FunctionsCreateOrReplaceHeaders
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorModel,
       headersMapper: Mappers.FunctionsCreateOrReplaceHeaders
     }
   },
@@ -398,7 +398,7 @@ const updateOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.FunctionsUpdateHeaders
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorModel,
       headersMapper: Mappers.FunctionsUpdateHeaders
     }
   },
@@ -424,7 +424,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorModel
     }
   },
   serializer
@@ -451,7 +451,7 @@ const getOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.FunctionsGetHeaders
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorModel,
       headersMapper: Mappers.FunctionsGetHeaders
     }
   },
@@ -478,7 +478,7 @@ const listByStreamingJobOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.FunctionListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorModel
     }
   },
   serializer
@@ -486,7 +486,7 @@ const listByStreamingJobOperationSpec: msRest.OperationSpec = {
 
 const retrieveDefaultDefinitionOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StreamAnalytics/streamingjobs/{jobName}/functions/{functionName}/RetrieveDefaultDefinition",
+  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StreamAnalytics/streamingjobs/{jobName}/functions/{functionName}/retrieveDefaultDefinition",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -511,7 +511,7 @@ const retrieveDefaultDefinitionOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.FunctionModel
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorModel
     }
   },
   serializer
@@ -545,7 +545,7 @@ const beginTestOperationSpec: msRest.OperationSpec = {
     },
     202: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorModel
     }
   },
   serializer
@@ -570,7 +570,7 @@ const listByStreamingJobNextOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.FunctionListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorModel
     }
   },
   serializer

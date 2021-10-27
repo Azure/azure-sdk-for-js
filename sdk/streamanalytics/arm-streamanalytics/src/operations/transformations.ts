@@ -193,7 +193,7 @@ const createOrReplaceOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.TransformationsCreateOrReplaceHeaders
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorModel,
       headersMapper: Mappers.TransformationsCreateOrReplaceHeaders
     }
   },
@@ -229,7 +229,7 @@ const updateOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.TransformationsUpdateHeaders
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorModel,
       headersMapper: Mappers.TransformationsUpdateHeaders
     }
   },
@@ -257,7 +257,7 @@ const getOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.TransformationsGetHeaders
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorModel,
       headersMapper: Mappers.TransformationsGetHeaders
     }
   },
