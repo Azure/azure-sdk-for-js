@@ -29,6 +29,37 @@ export const AppSkuInfo: msRest.CompositeMapper = {
   }
 };
 
+export const SystemAssignedServiceIdentity: msRest.CompositeMapper = {
+  serializedName: "SystemAssignedServiceIdentity",
+  type: {
+    name: "Composite",
+    className: "SystemAssignedServiceIdentity",
+    modelProperties: {
+      principalId: {
+        readOnly: true,
+        serializedName: "principalId",
+        type: {
+          name: "Uuid"
+        }
+      },
+      tenantId: {
+        readOnly: true,
+        serializedName: "tenantId",
+        type: {
+          name: "Uuid"
+        }
+      },
+      type: {
+        required: true,
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const Resource: msRest.CompositeMapper = {
   serializedName: "Resource",
   type: {
@@ -113,12 +144,25 @@ export const App: msRest.CompositeMapper = {
           name: "String"
         }
       },
+      state: {
+        serializedName: "properties.state",
+        type: {
+          name: "String"
+        }
+      },
       sku: {
         required: true,
         serializedName: "sku",
         type: {
           name: "Composite",
           className: "AppSkuInfo"
+        }
+      },
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "SystemAssignedServiceIdentity"
         }
       }
     }
@@ -172,6 +216,19 @@ export const AppPatch: msRest.CompositeMapper = {
         serializedName: "properties.template",
         type: {
           name: "String"
+        }
+      },
+      state: {
+        serializedName: "properties.state",
+        type: {
+          name: "String"
+        }
+      },
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "SystemAssignedServiceIdentity"
         }
       }
     }

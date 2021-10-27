@@ -16,9 +16,31 @@ export { BaseResource, CloudError };
  */
 export interface AppSkuInfo {
   /**
-   * The name of the SKU. Possible values include: 'F1', 'S1', 'ST0', 'ST1', 'ST2'
+   * The name of the SKU. Possible values include: 'ST0', 'ST1', 'ST2'
    */
   name: AppSku;
+}
+
+/**
+ * Managed service identity (either system assigned, or none)
+ */
+export interface SystemAssignedServiceIdentity {
+  /**
+   * The service principal ID of the system assigned identity. This property will only be provided
+   * for a system assigned identity.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly principalId?: string;
+  /**
+   * The tenant ID of the system assigned identity. This property will only be provided for a
+   * system assigned identity.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly tenantId?: string;
+  /**
+   * Possible values include: 'None', 'SystemAssigned'
+   */
+  type: SystemAssignedServiceIdentityType;
 }
 
 /**
@@ -74,9 +96,17 @@ export interface App extends Resource {
    */
   template?: string;
   /**
+   * The current state of the application. Possible values include: 'created', 'suspended'
+   */
+  state?: AppState;
+  /**
    * A valid instance SKU.
    */
   sku: AppSkuInfo;
+  /**
+   * The managed identities for the IoT Central application.
+   */
+  identity?: SystemAssignedServiceIdentity;
 }
 
 /**
@@ -110,6 +140,14 @@ export interface AppPatch {
    * allows the application to be defined from scratch.
    */
   template?: string;
+  /**
+   * The current state of the application. Possible values include: 'created', 'suspended'
+   */
+  state?: AppState;
+  /**
+   * The managed identities for the IoT Central application.
+   */
+  identity?: SystemAssignedServiceIdentity;
 }
 
 /**
@@ -331,12 +369,28 @@ export interface OperationListResult extends Array<Operation> {
 }
 
 /**
- * Defines values for AppSku.
- * Possible values include: 'F1', 'S1', 'ST0', 'ST1', 'ST2'
+ * Defines values for AppState.
+ * Possible values include: 'created', 'suspended'
  * @readonly
  * @enum {string}
  */
-export type AppSku = 'F1' | 'S1' | 'ST0' | 'ST1' | 'ST2';
+export type AppState = 'created' | 'suspended';
+
+/**
+ * Defines values for AppSku.
+ * Possible values include: 'ST0', 'ST1', 'ST2'
+ * @readonly
+ * @enum {string}
+ */
+export type AppSku = 'ST0' | 'ST1' | 'ST2';
+
+/**
+ * Defines values for SystemAssignedServiceIdentityType.
+ * Possible values include: 'None', 'SystemAssigned'
+ * @readonly
+ * @enum {string}
+ */
+export type SystemAssignedServiceIdentityType = 'None' | 'SystemAssigned';
 
 /**
  * Contains response data for the get operation.

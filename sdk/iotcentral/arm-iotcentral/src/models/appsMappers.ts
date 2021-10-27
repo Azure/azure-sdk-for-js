@@ -18,5 +18,6 @@ export {
   BaseResource,
   CloudError,
   OperationInputs,
-  Resource
+  Resource,
+  SystemAssignedServiceIdentity
 } from "../models/mappers";
