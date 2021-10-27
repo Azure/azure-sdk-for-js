@@ -995,6 +995,11 @@
       "packageName": "@azure/arm-logic",
       "projectFolder": "sdk/logic/arm-logic",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-appplatform",
+      "projectFolder": "sdk/appplatform/arm-appplatform",
+      "versionPolicyName": "management"
     }
   ]
 }
