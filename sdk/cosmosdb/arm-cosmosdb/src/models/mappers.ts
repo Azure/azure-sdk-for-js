@@ -590,6 +590,25 @@ export const CorsPolicy: msRest.CompositeMapper = {
   }
 };
 
+export const Capacity: msRest.CompositeMapper = {
+  serializedName: "Capacity",
+  type: {
+    name: "Composite",
+    className: "Capacity",
+    modelProperties: {
+      totalThroughputLimit: {
+        serializedName: "totalThroughputLimit",
+        constraints: {
+          InclusiveMinimum: -1
+        },
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
 export const SystemData: msRest.CompositeMapper = {
   serializedName: "systemData",
   type: {
@@ -981,6 +1000,13 @@ export const DatabaseAccountGetResults: msRest.CompositeMapper = {
         serializedName: "properties.disableLocalAuth",
         type: {
           name: "Boolean"
+        }
+      },
+      capacity: {
+        serializedName: "properties.capacity",
+        type: {
+          name: "Composite",
+          className: "Capacity"
         }
       },
       systemData: {
@@ -3000,6 +3026,13 @@ export const DatabaseAccountCreateUpdateParameters: msRest.CompositeMapper = {
           name: "Composite",
           className: "RestoreParameters"
         }
+      },
+      capacity: {
+        serializedName: "properties.capacity",
+        type: {
+          name: "Composite",
+          className: "Capacity"
+        }
       }
     }
   }
@@ -3214,6 +3247,13 @@ export const DatabaseAccountUpdateParameters: msRest.CompositeMapper = {
         serializedName: "properties.disableLocalAuth",
         type: {
           name: "Boolean"
+        }
+      },
+      capacity: {
+        serializedName: "properties.capacity",
+        type: {
+          name: "Composite",
+          className: "Capacity"
         }
       }
     }
@@ -4597,6 +4637,12 @@ export const PeriodicModeProperties: msRest.CompositeMapper = {
         type: {
           name: "Number"
         }
+      },
+      backupStorageRedundancy: {
+        serializedName: "backupStorageRedundancy",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -4631,6 +4677,60 @@ export const ContinuousModeBackupPolicy: msRest.CompositeMapper = {
     className: "ContinuousModeBackupPolicy",
     modelProperties: {
       ...BackupPolicy.type.modelProperties
+    }
+  }
+};
+
+export const LocationProperties: msRest.CompositeMapper = {
+  serializedName: "LocationProperties",
+  type: {
+    name: "Composite",
+    className: "LocationProperties",
+    modelProperties: {
+      supportsAvailabilityZone: {
+        readOnly: true,
+        serializedName: "supportsAvailabilityZone",
+        type: {
+          name: "Boolean"
+        }
+      },
+      isResidencyRestricted: {
+        readOnly: true,
+        serializedName: "isResidencyRestricted",
+        type: {
+          name: "Boolean"
+        }
+      },
+      backupStorageRedundancies: {
+        readOnly: true,
+        serializedName: "backupStorageRedundancies",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const LocationGetResult: msRest.CompositeMapper = {
+  serializedName: "LocationGetResult",
+  type: {
+    name: "Composite",
+    className: "LocationGetResult",
+    modelProperties: {
+      ...ARMProxyResource.type.modelProperties,
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "LocationProperties"
+        }
+      }
     }
   }
 };
@@ -5624,6 +5724,731 @@ export const BackupInformation: msRest.CompositeMapper = {
   }
 };
 
+export const SeedNode: msRest.CompositeMapper = {
+  serializedName: "SeedNode",
+  type: {
+    name: "Composite",
+    className: "SeedNode",
+    modelProperties: {
+      ipAddress: {
+        serializedName: "ipAddress",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const Certificate: msRest.CompositeMapper = {
+  serializedName: "Certificate",
+  type: {
+    name: "Composite",
+    className: "Certificate",
+    modelProperties: {
+      pem: {
+        serializedName: "pem",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ClusterResourceProperties: msRest.CompositeMapper = {
+  serializedName: "ClusterResource_properties",
+  type: {
+    name: "Composite",
+    className: "ClusterResourceProperties",
+    modelProperties: {
+      provisioningState: {
+        serializedName: "provisioningState",
+        type: {
+          name: "String"
+        }
+      },
+      restoreFromBackupId: {
+        serializedName: "restoreFromBackupId",
+        type: {
+          name: "String"
+        }
+      },
+      delegatedManagementSubnetId: {
+        serializedName: "delegatedManagementSubnetId",
+        type: {
+          name: "String"
+        }
+      },
+      cassandraVersion: {
+        serializedName: "cassandraVersion",
+        type: {
+          name: "String"
+        }
+      },
+      clusterNameOverride: {
+        serializedName: "clusterNameOverride",
+        type: {
+          name: "String"
+        }
+      },
+      authenticationMethod: {
+        serializedName: "authenticationMethod",
+        type: {
+          name: "String"
+        }
+      },
+      initialCassandraAdminPassword: {
+        serializedName: "initialCassandraAdminPassword",
+        type: {
+          name: "String"
+        }
+      },
+      prometheusEndpoint: {
+        serializedName: "prometheusEndpoint",
+        type: {
+          name: "Composite",
+          className: "SeedNode"
+        }
+      },
+      repairEnabled: {
+        serializedName: "repairEnabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      clientCertificates: {
+        serializedName: "clientCertificates",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Certificate"
+            }
+          }
+        }
+      },
+      externalGossipCertificates: {
+        serializedName: "externalGossipCertificates",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Certificate"
+            }
+          }
+        }
+      },
+      gossipCertificates: {
+        readOnly: true,
+        serializedName: "gossipCertificates",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Certificate"
+            }
+          }
+        }
+      },
+      externalSeedNodes: {
+        serializedName: "externalSeedNodes",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SeedNode"
+            }
+          }
+        }
+      },
+      seedNodes: {
+        readOnly: true,
+        serializedName: "seedNodes",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SeedNode"
+            }
+          }
+        }
+      },
+      hoursBetweenBackups: {
+        serializedName: "hoursBetweenBackups",
+        type: {
+          name: "Number"
+        }
+      },
+      deallocated: {
+        serializedName: "deallocated",
+        type: {
+          name: "Boolean"
+        }
+      },
+      cassandraAuditLoggingEnabled: {
+        serializedName: "cassandraAuditLoggingEnabled",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const ManagedCassandraARMResourceProperties: msRest.CompositeMapper = {
+  serializedName: "ManagedCassandraARMResourceProperties",
+  type: {
+    name: "Composite",
+    className: "ManagedCassandraARMResourceProperties",
+    modelProperties: {
+      id: {
+        readOnly: true,
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        readOnly: true,
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        readOnly: true,
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "ManagedCassandraManagedServiceIdentity"
+        }
+      }
+    }
+  }
+};
+
+export const ClusterResource: msRest.CompositeMapper = {
+  serializedName: "ClusterResource",
+  type: {
+    name: "Composite",
+    className: "ClusterResource",
+    modelProperties: {
+      ...ManagedCassandraARMResourceProperties.type.modelProperties,
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "ClusterResourceProperties"
+        }
+      }
+    }
+  }
+};
+
+export const ManagedCassandraManagedServiceIdentity: msRest.CompositeMapper = {
+  serializedName: "ManagedCassandraManagedServiceIdentity",
+  type: {
+    name: "Composite",
+    className: "ManagedCassandraManagedServiceIdentity",
+    modelProperties: {
+      principalId: {
+        readOnly: true,
+        serializedName: "principalId",
+        type: {
+          name: "String"
+        }
+      },
+      tenantId: {
+        readOnly: true,
+        serializedName: "tenantId",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ManagedCassandraReaperStatus: msRest.CompositeMapper = {
+  serializedName: "ManagedCassandraReaperStatus",
+  type: {
+    name: "Composite",
+    className: "ManagedCassandraReaperStatus",
+    modelProperties: {
+      healthy: {
+        serializedName: "healthy",
+        type: {
+          name: "Boolean"
+        }
+      },
+      repairRunIds: {
+        serializedName: "repairRunIds",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      repairSchedules: {
+        serializedName: "repairSchedules",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ConnectionError: msRest.CompositeMapper = {
+  serializedName: "ConnectionError",
+  type: {
+    name: "Composite",
+    className: "ConnectionError",
+    modelProperties: {
+      connectionState: {
+        serializedName: "connectionState",
+        type: {
+          name: "String"
+        }
+      },
+      iPFrom: {
+        serializedName: "iPFrom",
+        type: {
+          name: "String"
+        }
+      },
+      iPTo: {
+        serializedName: "iPTo",
+        type: {
+          name: "String"
+        }
+      },
+      port: {
+        serializedName: "port",
+        type: {
+          name: "Number"
+        }
+      },
+      exception: {
+        serializedName: "exception",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CassandraClusterPublicStatusDataCentersItemNodesItem: msRest.CompositeMapper = {
+  serializedName: "CassandraClusterPublicStatus_dataCentersItem_nodesItem",
+  type: {
+    name: "Composite",
+    className: "CassandraClusterPublicStatusDataCentersItemNodesItem",
+    modelProperties: {
+      address: {
+        serializedName: "address",
+        type: {
+          name: "String"
+        }
+      },
+      state: {
+        serializedName: "state",
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        type: {
+          name: "String"
+        }
+      },
+      load: {
+        serializedName: "load",
+        type: {
+          name: "String"
+        }
+      },
+      tokens: {
+        serializedName: "tokens",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      size: {
+        serializedName: "size",
+        type: {
+          name: "Number"
+        }
+      },
+      hostID: {
+        serializedName: "hostID",
+        type: {
+          name: "String"
+        }
+      },
+      rack: {
+        serializedName: "rack",
+        type: {
+          name: "String"
+        }
+      },
+      timestamp: {
+        serializedName: "timestamp",
+        type: {
+          name: "String"
+        }
+      },
+      diskUsedKB: {
+        serializedName: "diskUsedKB",
+        type: {
+          name: "Number"
+        }
+      },
+      diskFreeKB: {
+        serializedName: "diskFreeKB",
+        type: {
+          name: "Number"
+        }
+      },
+      memoryUsedKB: {
+        serializedName: "memoryUsedKB",
+        type: {
+          name: "Number"
+        }
+      },
+      memoryBuffersAndCachedKB: {
+        serializedName: "memoryBuffersAndCachedKB",
+        type: {
+          name: "Number"
+        }
+      },
+      memoryFreeKB: {
+        serializedName: "memoryFreeKB",
+        type: {
+          name: "Number"
+        }
+      },
+      memoryTotalKB: {
+        serializedName: "memoryTotalKB",
+        type: {
+          name: "Number"
+        }
+      },
+      cpuUsage: {
+        serializedName: "cpuUsage",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const CassandraClusterPublicStatusDataCentersItem: msRest.CompositeMapper = {
+  serializedName: "CassandraClusterPublicStatus_dataCentersItem",
+  type: {
+    name: "Composite",
+    className: "CassandraClusterPublicStatusDataCentersItem",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      seedNodes: {
+        serializedName: "seedNodes",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      nodes: {
+        serializedName: "nodes",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "CassandraClusterPublicStatusDataCentersItemNodesItem"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const CassandraClusterPublicStatus: msRest.CompositeMapper = {
+  serializedName: "CassandraClusterPublicStatus",
+  type: {
+    name: "Composite",
+    className: "CassandraClusterPublicStatus",
+    modelProperties: {
+      eTag: {
+        serializedName: "eTag",
+        type: {
+          name: "String"
+        }
+      },
+      reaperStatus: {
+        serializedName: "reaperStatus",
+        type: {
+          name: "Composite",
+          className: "ManagedCassandraReaperStatus"
+        }
+      },
+      connectionErrors: {
+        serializedName: "connectionErrors",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ConnectionError"
+            }
+          }
+        }
+      },
+      dataCenters: {
+        serializedName: "dataCenters",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "CassandraClusterPublicStatusDataCentersItem"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const CommandPostBody: msRest.CompositeMapper = {
+  serializedName: "CommandPostBody",
+  type: {
+    name: "Composite",
+    className: "CommandPostBody",
+    modelProperties: {
+      command: {
+        required: true,
+        serializedName: "command",
+        type: {
+          name: "String"
+        }
+      },
+      argumentsProperty: {
+        serializedName: "arguments",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      host: {
+        required: true,
+        serializedName: "host",
+        type: {
+          name: "String"
+        }
+      },
+      cassandraStopStart: {
+        serializedName: "cassandra-stop-start",
+        type: {
+          name: "Boolean"
+        }
+      },
+      readwrite: {
+        serializedName: "readwrite",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const CommandOutput: msRest.CompositeMapper = {
+  serializedName: "CommandOutput",
+  type: {
+    name: "Composite",
+    className: "CommandOutput",
+    modelProperties: {
+      commandOutput: {
+        serializedName: "commandOutput",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DataCenterResourceProperties: msRest.CompositeMapper = {
+  serializedName: "DataCenterResource_properties",
+  type: {
+    name: "Composite",
+    className: "DataCenterResourceProperties",
+    modelProperties: {
+      provisioningState: {
+        serializedName: "provisioningState",
+        type: {
+          name: "String"
+        }
+      },
+      dataCenterLocation: {
+        serializedName: "dataCenterLocation",
+        type: {
+          name: "String"
+        }
+      },
+      delegatedSubnetId: {
+        serializedName: "delegatedSubnetId",
+        type: {
+          name: "String"
+        }
+      },
+      nodeCount: {
+        serializedName: "nodeCount",
+        type: {
+          name: "Number"
+        }
+      },
+      seedNodes: {
+        readOnly: true,
+        serializedName: "seedNodes",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SeedNode"
+            }
+          }
+        }
+      },
+      base64EncodedCassandraYamlFragment: {
+        serializedName: "base64EncodedCassandraYamlFragment",
+        type: {
+          name: "String"
+        }
+      },
+      managedDiskCustomerKeyUri: {
+        serializedName: "managedDiskCustomerKeyUri",
+        type: {
+          name: "String"
+        }
+      },
+      backupStorageCustomerKeyUri: {
+        serializedName: "backupStorageCustomerKeyUri",
+        type: {
+          name: "String"
+        }
+      },
+      sku: {
+        serializedName: "sku",
+        type: {
+          name: "String"
+        }
+      },
+      diskSku: {
+        serializedName: "diskSku",
+        type: {
+          name: "String"
+        }
+      },
+      diskCapacity: {
+        serializedName: "diskCapacity",
+        type: {
+          name: "Number"
+        }
+      },
+      availabilityZone: {
+        serializedName: "availabilityZone",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const DataCenterResource: msRest.CompositeMapper = {
+  serializedName: "DataCenterResource",
+  type: {
+    name: "Composite",
+    className: "DataCenterResource",
+    modelProperties: {
+      ...ARMProxyResource.type.modelProperties,
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "DataCenterResourceProperties"
+        }
+      }
+    }
+  }
+};
+
 export const DatabaseAccountsListResult: msRest.CompositeMapper = {
   serializedName: "DatabaseAccountsListResult",
   type: {
@@ -6135,6 +6960,29 @@ export const GremlinGraphListResult: msRest.CompositeMapper = {
   }
 };
 
+export const LocationListResult: msRest.CompositeMapper = {
+  serializedName: "LocationListResult",
+  type: {
+    name: "Composite",
+    className: "LocationListResult",
+    modelProperties: {
+      value: {
+        readOnly: true,
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "LocationGetResult"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const NotebookWorkspaceListResult: msRest.CompositeMapper = {
   serializedName: "NotebookWorkspaceListResult",
   type: {
@@ -6354,6 +7202,51 @@ export const RestorableMongodbResourcesListResult: msRest.CompositeMapper = {
             type: {
               name: "Composite",
               className: "DatabaseRestoreResource"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ListClusters: msRest.CompositeMapper = {
+  serializedName: "ListClusters",
+  type: {
+    name: "Composite",
+    className: "ListClusters",
+    modelProperties: {
+      value: {
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ClusterResource"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ListDataCenters: msRest.CompositeMapper = {
+  serializedName: "ListDataCenters",
+  type: {
+    name: "Composite",
+    className: "ListDataCenters",
+    modelProperties: {
+      value: {
+        readOnly: true,
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DataCenterResource"
             }
           }
         }

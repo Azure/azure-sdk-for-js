@@ -35,6 +35,7 @@ class CosmosDBManagementClient extends CosmosDBManagementClientContext {
   tableResources: operations.TableResources;
   cassandraResources: operations.CassandraResources;
   gremlinResources: operations.GremlinResources;
+  locations: operations.Locations;
   notebookWorkspaces: operations.NotebookWorkspaces;
   privateEndpointConnections: operations.PrivateEndpointConnections;
   privateLinkResources: operations.PrivateLinkResources;
@@ -45,6 +46,8 @@ class CosmosDBManagementClient extends CosmosDBManagementClientContext {
   restorableMongodbDatabases: operations.RestorableMongodbDatabases;
   restorableMongodbCollections: operations.RestorableMongodbCollections;
   restorableMongodbResources: operations.RestorableMongodbResources;
+  cassandraClusters: operations.CassandraClusters;
+  cassandraDataCenters: operations.CassandraDataCenters;
 
   /**
    * Initializes a new instance of the CosmosDBManagementClient class.
@@ -77,6 +80,7 @@ class CosmosDBManagementClient extends CosmosDBManagementClientContext {
     this.tableResources = new operations.TableResources(this);
     this.cassandraResources = new operations.CassandraResources(this);
     this.gremlinResources = new operations.GremlinResources(this);
+    this.locations = new operations.Locations(this);
     this.notebookWorkspaces = new operations.NotebookWorkspaces(this);
     this.privateEndpointConnections = new operations.PrivateEndpointConnections(this);
     this.privateLinkResources = new operations.PrivateLinkResources(this);
@@ -87,6 +91,8 @@ class CosmosDBManagementClient extends CosmosDBManagementClientContext {
     this.restorableMongodbDatabases = new operations.RestorableMongodbDatabases(this);
     this.restorableMongodbCollections = new operations.RestorableMongodbCollections(this);
     this.restorableMongodbResources = new operations.RestorableMongodbResources(this);
+    this.cassandraClusters = new operations.CassandraClusters(this);
+    this.cassandraDataCenters = new operations.CassandraDataCenters(this);
   }
 }
 

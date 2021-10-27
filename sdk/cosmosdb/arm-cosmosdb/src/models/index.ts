@@ -384,6 +384,18 @@ export interface CorsPolicy {
 }
 
 /**
+ * The object that represents all properties related to capacity enforcement on an account.
+ */
+export interface Capacity {
+  /**
+   * The total throughput limit imposed on the account. A totalThroughputLimit of 2000 imposes a
+   * strict limit of max throughput that can be provisioned on that account to be 2000. A
+   * totalThroughputLimit of -1 indicates no limits on provisioning of throughput.
+   */
+  totalThroughputLimit?: number;
+}
+
+/**
  * Metadata pertaining to creation and last modification of the resource.
  */
 export interface SystemData {
@@ -600,6 +612,10 @@ export interface DatabaseAccountGetResults extends ARMResourceProperties {
    * authentication.
    */
   disableLocalAuth?: boolean;
+  /**
+   * The object that represents all properties related to capacity enforcement on an account.
+   */
+  capacity?: Capacity;
   /**
    * The system meta data relating to this resource.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -1746,6 +1762,10 @@ export interface DatabaseAccountCreateUpdateParameters extends ARMResourceProper
    * Parameters to indicate the information about the restore.
    */
   restoreParameters?: RestoreParameters;
+  /**
+   * The object that represents all properties related to capacity enforcement on an account.
+   */
+  capacity?: Capacity;
 }
 
 /**
@@ -1859,6 +1879,10 @@ export interface DatabaseAccountUpdateParameters {
    * authentication.
    */
   disableLocalAuth?: boolean;
+  /**
+   * The object that represents all properties related to capacity enforcement on an account.
+   */
+  capacity?: Capacity;
 }
 
 /**
@@ -2711,6 +2735,10 @@ export interface PeriodicModeProperties {
    * An integer representing the time (in hours) that each backup is retained
    */
   backupRetentionIntervalInHours?: number;
+  /**
+   * Enum to indicate type of backup residency. Possible values include: 'Geo', 'Local', 'Zone'
+   */
+  backupStorageRedundancy?: BackupStorageRedundancy;
 }
 
 /**
@@ -2743,6 +2771,37 @@ export interface ContinuousModeBackupPolicy {
    * The object representing the state of the migration between the backup policies.
    */
   migrationState?: BackupPolicyMigrationState;
+}
+
+/**
+ * Cosmos DB location metadata
+ */
+export interface LocationProperties {
+  /**
+   * Flag indicating whether the location supports availability zones or not.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly supportsAvailabilityZone?: boolean;
+  /**
+   * Flag indicating whether the location is residency sensitive.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly isResidencyRestricted?: boolean;
+  /**
+   * The properties of available backup storage redundancies.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly backupStorageRedundancies?: BackupStorageRedundancy[];
+}
+
+/**
+ * Cosmos DB location get result
+ */
+export interface LocationGetResult extends ARMProxyResource {
+  /**
+   * Cosmos DB location metadata
+   */
+  properties?: LocationProperties;
 }
 
 /**
@@ -3381,6 +3440,432 @@ export interface BackupInformation {
 }
 
 /**
+ * An interface representing SeedNode.
+ */
+export interface SeedNode {
+  /**
+   * IP address of this seed node.
+   */
+  ipAddress?: string;
+}
+
+/**
+ * An interface representing Certificate.
+ */
+export interface Certificate {
+  /**
+   * PEM formatted public key.
+   */
+  pem?: string;
+}
+
+/**
+ * Properties of a managed Cassandra cluster.
+ */
+export interface ClusterResourceProperties {
+  /**
+   * Possible values include: 'Creating', 'Updating', 'Deleting', 'Succeeded', 'Failed', 'Canceled'
+   */
+  provisioningState?: ManagedCassandraProvisioningState;
+  /**
+   * To create an empty cluster, omit this field or set it to null. To restore a backup into a new
+   * cluster, set this field to the resource id of the backup.
+   */
+  restoreFromBackupId?: string;
+  /**
+   * Resource id of a subnet that this cluster's management service should have its network
+   * interface attached to. The subnet must be routable to all subnets that will be delegated to
+   * data centers. The resource id must be of the form '/subscriptions/<subscription
+   * id>/resourceGroups/<resource group>/providers/Microsoft.Network/virtualNetworks/<virtual
+   * network>/subnets/<subnet>'
+   */
+  delegatedManagementSubnetId?: string;
+  /**
+   * Which version of Cassandra should this cluster converge to running (e.g., 3.11). When updated,
+   * the cluster may take some time to migrate to the new version.
+   */
+  cassandraVersion?: string;
+  /**
+   * If you need to set the clusterName property in cassandra.yaml to something besides the
+   * resource name of the cluster, set the value to use on this property.
+   */
+  clusterNameOverride?: string;
+  /**
+   * Which authentication method Cassandra should use to authenticate clients. 'None' turns off
+   * authentication, so should not be used except in emergencies. 'Cassandra' is the default
+   * password based authentication. The default is 'Cassandra'. Possible values include: 'None',
+   * 'Cassandra'
+   */
+  authenticationMethod?: AuthenticationMethod;
+  /**
+   * Initial password for clients connecting as admin to the cluster. Should be changed after
+   * cluster creation. Returns null on GET. This field only applies when the authenticationMethod
+   * field is 'Cassandra'.
+   */
+  initialCassandraAdminPassword?: string;
+  /**
+   * Hostname or IP address where the Prometheus endpoint containing data about the managed
+   * Cassandra nodes can be reached.
+   */
+  prometheusEndpoint?: SeedNode;
+  /**
+   * Should automatic repairs run on this cluster? If omitted, this is true, and should stay true
+   * unless you are running a hybrid cluster where you are already doing your own repairs.
+   */
+  repairEnabled?: boolean;
+  /**
+   * List of TLS certificates used to authorize clients connecting to the cluster. All connections
+   * are TLS encrypted whether clientCertificates is set or not, but if clientCertificates is set,
+   * the managed Cassandra cluster will reject all connections not bearing a TLS client certificate
+   * that can be validated from one or more of the public certificates in this property.
+   */
+  clientCertificates?: Certificate[];
+  /**
+   * List of TLS certificates used to authorize gossip from unmanaged data centers. The TLS
+   * certificates of all nodes in unmanaged data centers must be verifiable using one of the
+   * certificates provided in this property.
+   */
+  externalGossipCertificates?: Certificate[];
+  /**
+   * List of TLS certificates that unmanaged nodes must trust for gossip with managed nodes. All
+   * managed nodes will present TLS client certificates that are verifiable using one of the
+   * certificates provided in this property.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly gossipCertificates?: Certificate[];
+  /**
+   * List of IP addresses of seed nodes in unmanaged data centers. These will be added to the seed
+   * node lists of all managed nodes.
+   */
+  externalSeedNodes?: SeedNode[];
+  /**
+   * List of IP addresses of seed nodes in the managed data centers. These should be added to the
+   * seed node lists of all unmanaged nodes.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly seedNodes?: SeedNode[];
+  /**
+   * Number of hours to wait between taking a backup of the cluster. To disable backups, set this
+   * property to 0.
+   */
+  hoursBetweenBackups?: number;
+  /**
+   * Whether the cluster and associated data centers has been deallocated.
+   */
+  deallocated?: boolean;
+  /**
+   * Whether Cassandra audit logging is enabled
+   */
+  cassandraAuditLoggingEnabled?: boolean;
+}
+
+/**
+ * The core properties of ARM resources.
+ */
+export interface ManagedCassandraARMResourceProperties extends BaseResource {
+  /**
+   * The unique resource identifier of the ARM resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * The name of the ARM resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * The type of Azure resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
+   * The location of the resource group to which the resource belongs.
+   */
+  location?: string;
+  tags?: { [propertyName: string]: string };
+  identity?: ManagedCassandraManagedServiceIdentity;
+}
+
+/**
+ * Representation of a managed Cassandra cluster.
+ */
+export interface ClusterResource extends ManagedCassandraARMResourceProperties {
+  /**
+   * Properties of a managed Cassandra cluster.
+   */
+  properties?: ClusterResourceProperties;
+}
+
+/**
+ * Identity for the resource.
+ */
+export interface ManagedCassandraManagedServiceIdentity {
+  /**
+   * The object id of the identity resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly principalId?: string;
+  /**
+   * The tenant id of the resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly tenantId?: string;
+  /**
+   * The type of the resource. Possible values include: 'SystemAssigned', 'None'
+   */
+  type?: ManagedCassandraResourceIdentityType;
+}
+
+/**
+ * An interface representing ManagedCassandraReaperStatus.
+ */
+export interface ManagedCassandraReaperStatus {
+  healthy?: boolean;
+  repairRunIds?: { [propertyName: string]: string };
+  repairSchedules?: { [propertyName: string]: string };
+}
+
+/**
+ * An interface representing ConnectionError.
+ */
+export interface ConnectionError {
+  /**
+   * The kind of connection error that occurred. Possible values include: 'Unknown', 'OK',
+   * 'OperatorToDataCenterNetworkError', 'DatacenterToDatacenterNetworkError',
+   * 'InternalOperatorToDataCenterCertificateError', 'InternalError'
+   */
+  connectionState?: ConnectionState;
+  /**
+   * The IP of host that originated the failed connection.
+   */
+  iPFrom?: string;
+  /**
+   * The IP that the connection attempted to reach.
+   */
+  iPTo?: string;
+  /**
+   * The TCP port the connection was attempted on.
+   */
+  port?: number;
+  /**
+   * Detailed error message about the failed connection.
+   */
+  exception?: string;
+}
+
+/**
+ * An interface representing CassandraClusterPublicStatusDataCentersItemNodesItem.
+ */
+export interface CassandraClusterPublicStatusDataCentersItemNodesItem {
+  /**
+   * The node's IP address.
+   */
+  address?: string;
+  /**
+   * Possible values include: 'Normal', 'Leaving', 'Joining', 'Moving', 'Stopped'
+   */
+  state?: NodeState;
+  status?: string;
+  /**
+   * The amount of file system data in the data directory (e.g., 47.66 kB), excluding all content
+   * in the snapshots subdirectories. Because all SSTable data files are included, any data that is
+   * not cleaned up (such as TTL-expired cells or tombstones) is counted.
+   */
+  load?: string;
+  /**
+   * List of tokens this node covers.
+   */
+  tokens?: string[];
+  size?: number;
+  /**
+   * The network ID of the node.
+   */
+  hostID?: string;
+  /**
+   * The rack this node is part of.
+   */
+  rack?: string;
+  /**
+   * The timestamp when these statistics were captured.
+   */
+  timestamp?: string;
+  /**
+   * The amount of disk used, in kB, of the directory /var/lib/cassandra.
+   */
+  diskUsedKB?: number;
+  /**
+   * The amount of disk free, in kB, of the directory /var/lib/cassandra.
+   */
+  diskFreeKB?: number;
+  /**
+   * Used memory (calculated as total - free - buffers - cache), in kB.
+   */
+  memoryUsedKB?: number;
+  /**
+   * Memory used by kernel buffers (Buffers in /proc/meminfo) and page cache and slabs (Cached and
+   * SReclaimable in /proc/meminfo), in kB.
+   */
+  memoryBuffersAndCachedKB?: number;
+  /**
+   * Unused memory (MemFree and SwapFree in /proc/meminfo), in kB.
+   */
+  memoryFreeKB?: number;
+  /**
+   * Total installed memory (MemTotal and SwapTotal in /proc/meminfo), in kB.
+   */
+  memoryTotalKB?: number;
+  /**
+   * A float representing the current system-wide CPU utilization as a percentage.
+   */
+  cpuUsage?: number;
+}
+
+/**
+ * An interface representing CassandraClusterPublicStatusDataCentersItem.
+ */
+export interface CassandraClusterPublicStatusDataCentersItem {
+  /**
+   * The name of this Datacenter.
+   */
+  name?: string;
+  /**
+   * A list of all seed nodes in the cluster, managed and unmanaged.
+   */
+  seedNodes?: string[];
+  nodes?: CassandraClusterPublicStatusDataCentersItemNodesItem[];
+}
+
+/**
+ * Properties of a managed Cassandra cluster public status.
+ */
+export interface CassandraClusterPublicStatus {
+  eTag?: string;
+  reaperStatus?: ManagedCassandraReaperStatus;
+  /**
+   * List relevant information about any connection errors to the Datacenters.
+   */
+  connectionErrors?: ConnectionError[];
+  /**
+   * List of the status of each datacenter in this cluster.
+   */
+  dataCenters?: CassandraClusterPublicStatusDataCentersItem[];
+}
+
+/**
+ * Specification of which command to run where
+ */
+export interface CommandPostBody {
+  /**
+   * The command which should be run
+   */
+  command: string;
+  /**
+   * The arguments for the command to be run
+   */
+  argumentsProperty?: { [propertyName: string]: string };
+  /**
+   * IP address of the cassandra host to run the command on
+   */
+  host: string;
+  /**
+   * If true, stops cassandra before executing the command and then start it again
+   */
+  cassandraStopStart?: boolean;
+  /**
+   * If true, allows the command to *write* to the cassandra directory, otherwise read-only.
+   */
+  readwrite?: boolean;
+}
+
+/**
+ * Response of /command api
+ */
+export interface CommandOutput {
+  /**
+   * Output of the command.
+   */
+  commandOutput?: string;
+}
+
+/**
+ * Properties of a managed Cassandra data center.
+ */
+export interface DataCenterResourceProperties {
+  /**
+   * Possible values include: 'Creating', 'Updating', 'Deleting', 'Succeeded', 'Failed', 'Canceled'
+   */
+  provisioningState?: ManagedCassandraProvisioningState;
+  /**
+   * The region this data center should be created in.
+   */
+  dataCenterLocation?: string;
+  /**
+   * Resource id of a subnet the nodes in this data center should have their network interfaces
+   * connected to. The subnet must be in the same region specified in 'dataCenterLocation' and must
+   * be able to route to the subnet specified in the cluster's 'delegatedManagementSubnetId'
+   * property. This resource id will be of the form '/subscriptions/<subscription
+   * id>/resourceGroups/<resource group>/providers/Microsoft.Network/virtualNetworks/<virtual
+   * network>/subnets/<subnet>'.
+   */
+  delegatedSubnetId?: string;
+  /**
+   * The number of nodes the data center should have. This is the desired number. After it is set,
+   * it may take some time for the data center to be scaled to match. To monitor the number of
+   * nodes and their status, use the fetchNodeStatus method on the cluster.
+   */
+  nodeCount?: number;
+  /**
+   * IP addresses for seed nodes in this data center. This is for reference. Generally you will
+   * want to use the seedNodes property on the cluster, which aggregates the seed nodes from all
+   * data centers in the cluster.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly seedNodes?: SeedNode[];
+  /**
+   * A fragment of a cassandra.yaml configuration file to be included in the cassandra.yaml for all
+   * nodes in this data center. The fragment should be Base64 encoded, and only a subset of keys
+   * are allowed.
+   */
+  base64EncodedCassandraYamlFragment?: string;
+  /**
+   * Key uri to use for encryption of managed disks. Ensure the system assigned identity of the
+   * cluster has been assigned appropriate permissions(key get/wrap/unwrap permissions) on the key.
+   */
+  managedDiskCustomerKeyUri?: string;
+  /**
+   * Indicates the Key Uri of the customer key to use for encryption of the backup storage account.
+   */
+  backupStorageCustomerKeyUri?: string;
+  /**
+   * Virtual Machine SKU used for data centers. Default value is Standard_DS14_v2
+   */
+  sku?: string;
+  /**
+   * Disk SKU used for data centers. Default value is P30.
+   */
+  diskSku?: string;
+  /**
+   * Number of disk used for data centers. Default value is 4.
+   */
+  diskCapacity?: number;
+  /**
+   * If the azure data center has Availability Zone support, apply it to the Virtual Machine
+   * ScaleSet that host the cassandra data center virtual machines.
+   */
+  availabilityZone?: boolean;
+}
+
+/**
+ * A managed Cassandra data center.
+ */
+export interface DataCenterResource extends ARMProxyResource {
+  /**
+   * Properties of a managed Cassandra data center.
+   */
+  properties?: DataCenterResourceProperties;
+}
+
+/**
  * Optional Parameters.
  */
 export interface DatabaseAccountsListUsagesOptionalParams extends msRest.RequestOptionsBase {
@@ -3670,6 +4155,14 @@ export interface GremlinGraphListResult extends Array<GremlinGraphGetResults> {
 
 /**
  * @interface
+ * The List operation response, that contains Cosmos DB locations and their properties.
+ * @extends Array<LocationGetResult>
+ */
+export interface LocationListResult extends Array<LocationGetResult> {
+}
+
+/**
+ * @interface
  * A list of notebook workspace resources
  * @extends Array<NotebookWorkspace>
  */
@@ -3747,6 +4240,22 @@ export interface RestorableMongodbCollectionsListResult extends Array<Restorable
  * @extends Array<DatabaseRestoreResource>
  */
 export interface RestorableMongodbResourcesListResult extends Array<DatabaseRestoreResource> {
+}
+
+/**
+ * @interface
+ * List of managed Cassandra clusters.
+ * @extends Array<ClusterResource>
+ */
+export interface ListClusters extends Array<ClusterResource> {
+}
+
+/**
+ * @interface
+ * List of managed Cassandra data centers and their properties.
+ * @extends Array<DataCenterResource>
+ */
+export interface ListDataCenters extends Array<DataCenterResource> {
 }
 
 /**
@@ -3959,6 +4468,14 @@ export type UnitType = 'Count' | 'Bytes' | 'Seconds' | 'Percent' | 'CountPerSeco
 export type PrimaryAggregationType = 'None' | 'Average' | 'Total' | 'Minimum' | 'Maximum' | 'Last';
 
 /**
+ * Defines values for BackupStorageRedundancy.
+ * Possible values include: 'Geo', 'Local', 'Zone'
+ * @readonly
+ * @enum {string}
+ */
+export type BackupStorageRedundancy = 'Geo' | 'Local' | 'Zone';
+
+/**
  * Defines values for RoleDefinitionType.
  * Possible values include: 'BuiltInRole', 'CustomRole'
  * @readonly
@@ -3981,6 +4498,56 @@ export type ApiType = 'MongoDB' | 'Gremlin' | 'Cassandra' | 'Table' | 'Sql' | 'G
  * @enum {string}
  */
 export type OperationType = 'Create' | 'Replace' | 'Delete' | 'SystemOperation';
+
+/**
+ * Defines values for ManagedCassandraProvisioningState.
+ * Possible values include: 'Creating', 'Updating', 'Deleting', 'Succeeded', 'Failed', 'Canceled'
+ * @readonly
+ * @enum {string}
+ */
+export type ManagedCassandraProvisioningState = 'Creating' | 'Updating' | 'Deleting' | 'Succeeded' | 'Failed' | 'Canceled';
+
+/**
+ * Defines values for AuthenticationMethod.
+ * Possible values include: 'None', 'Cassandra'
+ * @readonly
+ * @enum {string}
+ */
+export type AuthenticationMethod = 'None' | 'Cassandra';
+
+/**
+ * Defines values for ManagedCassandraResourceIdentityType.
+ * Possible values include: 'SystemAssigned', 'None'
+ * @readonly
+ * @enum {string}
+ */
+export type ManagedCassandraResourceIdentityType = 'SystemAssigned' | 'None';
+
+/**
+ * Defines values for NodeStatus.
+ * Possible values include: 'Up', 'Down'
+ * @readonly
+ * @enum {string}
+ */
+export type NodeStatus = 'Up' | 'Down';
+
+/**
+ * Defines values for NodeState.
+ * Possible values include: 'Normal', 'Leaving', 'Joining', 'Moving', 'Stopped'
+ * @readonly
+ * @enum {string}
+ */
+export type NodeState = 'Normal' | 'Leaving' | 'Joining' | 'Moving' | 'Stopped';
+
+/**
+ * Defines values for ConnectionState.
+ * Possible values include: 'Unknown', 'OK', 'OperatorToDataCenterNetworkError',
+ * 'DatacenterToDatacenterNetworkError', 'InternalOperatorToDataCenterCertificateError',
+ * 'InternalError'
+ * @readonly
+ * @enum {string}
+ */
+export type ConnectionState = 'Unknown' | 'OK' | 'OperatorToDataCenterNetworkError' | 'DatacenterToDatacenterNetworkError' | 'InternalOperatorToDataCenterCertificateError' | 'InternalError';
 
 /**
  * Contains response data for the get operation.
@@ -5808,6 +6375,26 @@ export type MongoDBResourcesMigrateMongoDBCollectionToManualThroughputResponse =
 };
 
 /**
+ * Contains response data for the retrieveContinuousBackupInformation operation.
+ */
+export type MongoDBResourcesRetrieveContinuousBackupInformationResponse = BackupInformation & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: BackupInformation;
+    };
+};
+
+/**
  * Contains response data for the beginCreateUpdateMongoDBDatabase operation.
  */
 export type MongoDBResourcesBeginCreateUpdateMongoDBDatabaseResponse = MongoDBDatabaseGetResults & {
@@ -5964,6 +6551,26 @@ export type MongoDBResourcesBeginMigrateMongoDBCollectionToManualThroughputRespo
        * The response body as parsed JSON or XML
        */
       parsedBody: ThroughputSettingsGetResults;
+    };
+};
+
+/**
+ * Contains response data for the beginRetrieveContinuousBackupInformation operation.
+ */
+export type MongoDBResourcesBeginRetrieveContinuousBackupInformationResponse = BackupInformation & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: BackupInformation;
     };
 };
 
@@ -7068,6 +7675,46 @@ export type GremlinResourcesBeginMigrateGremlinGraphToManualThroughputResponse =
 };
 
 /**
+ * Contains response data for the list operation.
+ */
+export type LocationsListResponse = LocationListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: LocationListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type LocationsGetResponse = LocationGetResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: LocationGetResult;
+    };
+};
+
+/**
  * Contains response data for the listByDatabaseAccount operation.
  */
 export type NotebookWorkspacesListByDatabaseAccountResponse = NotebookWorkspaceListResult & {
@@ -7464,5 +8111,325 @@ export type RestorableMongodbResourcesListResponse = RestorableMongodbResourcesL
        * The response body as parsed JSON or XML
        */
       parsedBody: RestorableMongodbResourcesListResult;
+    };
+};
+
+/**
+ * Contains response data for the listBySubscription operation.
+ */
+export type CassandraClustersListBySubscriptionResponse = ListClusters & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ListClusters;
+    };
+};
+
+/**
+ * Contains response data for the listByResourceGroup operation.
+ */
+export type CassandraClustersListByResourceGroupResponse = ListClusters & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ListClusters;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type CassandraClustersGetResponse = ClusterResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ClusterResource;
+    };
+};
+
+/**
+ * Contains response data for the createUpdate operation.
+ */
+export type CassandraClustersCreateUpdateResponse = ClusterResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ClusterResource;
+    };
+};
+
+/**
+ * Contains response data for the update operation.
+ */
+export type CassandraClustersUpdateResponse = ClusterResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ClusterResource;
+    };
+};
+
+/**
+ * Contains response data for the invokeCommand operation.
+ */
+export type CassandraClustersInvokeCommandResponse = CommandOutput & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CommandOutput;
+    };
+};
+
+/**
+ * Contains response data for the status operation.
+ */
+export type CassandraClustersStatusResponse = CassandraClusterPublicStatus & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CassandraClusterPublicStatus;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateUpdate operation.
+ */
+export type CassandraClustersBeginCreateUpdateResponse = ClusterResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ClusterResource;
+    };
+};
+
+/**
+ * Contains response data for the beginUpdate operation.
+ */
+export type CassandraClustersBeginUpdateResponse = ClusterResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ClusterResource;
+    };
+};
+
+/**
+ * Contains response data for the beginInvokeCommand operation.
+ */
+export type CassandraClustersBeginInvokeCommandResponse = CommandOutput & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CommandOutput;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type CassandraDataCentersListResponse = ListDataCenters & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ListDataCenters;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type CassandraDataCentersGetResponse = DataCenterResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DataCenterResource;
+    };
+};
+
+/**
+ * Contains response data for the createUpdate operation.
+ */
+export type CassandraDataCentersCreateUpdateResponse = DataCenterResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DataCenterResource;
+    };
+};
+
+/**
+ * Contains response data for the update operation.
+ */
+export type CassandraDataCentersUpdateResponse = DataCenterResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DataCenterResource;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateUpdate operation.
+ */
+export type CassandraDataCentersBeginCreateUpdateResponse = DataCenterResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DataCenterResource;
+    };
+};
+
+/**
+ * Contains response data for the beginUpdate operation.
+ */
+export type CassandraDataCentersBeginUpdateResponse = DataCenterResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DataCenterResource;
     };
 };
