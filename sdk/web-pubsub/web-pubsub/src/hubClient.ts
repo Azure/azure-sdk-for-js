@@ -662,7 +662,7 @@ export class WebPubSubServiceClient {
    * @param username - The user name to check for
    * @param options - Additional options
    */
-  public async hasUser(username: string, options: HubHasUserOptions = {}): Promise<boolean> {
+  public async userExists(username: string, options: HubHasUserOptions = {}): Promise<boolean> {
     const { span, updatedOptions } = createSpan("WebPubSubServiceClient-hub-hasUser", options);
 
     let response: FullOperationResponse | undefined;
@@ -806,7 +806,7 @@ export class WebPubSubServiceClient {
    *
    * @param options - Additional options
    */
-  public async generateClientToken(
+  public async getClientAccessToken(
     options: GenerateClientTokenOptions = {}
   ): Promise<ClientTokenResponse> {
     const { span, updatedOptions } = createSpan(

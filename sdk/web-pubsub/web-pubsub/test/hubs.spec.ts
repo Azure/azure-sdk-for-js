@@ -138,7 +138,7 @@ describe("HubClient", function() {
     // `removeUserFromAllGroups` always times out.
     it.skip("can manage users", async () => {
       this.timeout(Infinity);
-      const res = await client.hasUser("foo");
+      const res = await client.userExists("foo");
       assert.ok(!res);
       await client.removeUserFromAllGroups("brian", { onResponse });
       assert.equal(lastResponse?.status, 200);
@@ -177,7 +177,7 @@ describe("HubClient", function() {
 
     // service API doesn't work yet.
     it.skip("can generate client tokens", async () => {
-      await client.generateClientToken({
+      await client.getClientAccessToken({
         userId: "brian"
       });
     });
