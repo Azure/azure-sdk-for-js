@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { AbortSignalLike } from "@azure/abort-controller";
-import { Context } from "./tracing";
+import { TracingContext } from "./tracing";
 
 /**
  * Represents a credential capable of providing an authentication token.
@@ -43,9 +43,9 @@ export interface GetTokenOptions {
    */
   tracingOptions?: {
     /**
-     * OpenTelemetry context
+     * Tracing Context for the current request.
      */
-    tracingContext?: Context;
+    tracingContext?: TracingContext;
   };
 
   /**
