@@ -5,9 +5,6 @@ parameters:
 
 steps:
   - template: /eng/common/pipelines/templates/steps/check-spelling.yml
-    parameters:
-      ContinueOnError: false
-
   - task: PowerShell@2
     inputs:
       targetType: filePath
