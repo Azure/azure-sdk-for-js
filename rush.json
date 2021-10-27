@@ -1000,6 +1000,11 @@
       "packageName": "@azure/arm-recoveryservices",
       "projectFolder": "sdk/recoveryservices/arm-recoveryservices",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-appplatform",
+      "projectFolder": "sdk/appplatform/arm-appplatform",
+      "versionPolicyName": "management"
     }
   ]
 }
