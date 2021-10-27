@@ -2222,7 +2222,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           }
         });
 
-        it.only("duplicate actions of the same type are disallowed", async function() {
+        it("duplicate actions of the same type are disallowed", async function() {
           const docs = [{ id: "1", text: "I will go to the park." }];
 
           try {
@@ -2251,7 +2251,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           }
         });
 
-        it.only("unique multiple actions per type are allowed", async function() {
+        it("unique multiple actions per type are allowed", async function() {
           const docs = [{ id: "1", text: "I will go to the park." }];
 
           const response = await client.beginAnalyzeActions(
