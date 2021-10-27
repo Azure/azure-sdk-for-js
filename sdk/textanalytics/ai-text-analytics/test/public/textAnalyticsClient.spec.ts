@@ -2222,29 +2222,51 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           }
         });
 
-        it("multiple actions per type are disallowed", async function() {
+        it("duplicate multiple actions per type are disallowed", async function() {
           const docs = [{ id: "1", text: "I will go to the park." }];
 
           try {
-            await client.beginAnalyzeActions(
+            const response = await client.beginAnalyzeActions(
               docs,
               {
                 recognizePiiEntitiesActions: [
                   { modelVersion: "latest" },
-                  { modelVersion: "latest", stringIndexType: "TextElement_v8" }
+                  { modelVersion: "latest" }
                 ]
               },
               {
                 updateIntervalInMs: pollingInterval
               }
             );
-            throw new Error("Expected an error to occur");
-          } catch (e) {
-            assert.equal(
-              e.message,
-              "beginAnalyzeActions: Currently, the service can accept up to one action only for recognizePiiEntities actions."
+            assert.fail(
+              `expected a failure but received the following intead: ${JSON.stringify(
+                response,
+                null,
+                2
+              )}`
             );
+          } catch (e) {
+            assert.equal(e.code, "InvalidRequest");
+            assert.include(e.message, "Duplicate task name");
           }
+        });
+
+        it("unique multiple actions per type are allowed", async function() {
+          const docs = [{ id: "1", text: "I will go to the park." }];
+
+          const response = await client.beginAnalyzeActions(
+            docs,
+            {
+              recognizePiiEntitiesActions: [
+                { modelVersion: "latest", actionName: "action1" },
+                { modelVersion: "latest", actionName: "action2" }
+              ]
+            },
+            {
+              updateIntervalInMs: pollingInterval
+            }
+          );
+          assert.isDefined(response);
         });
       });
 

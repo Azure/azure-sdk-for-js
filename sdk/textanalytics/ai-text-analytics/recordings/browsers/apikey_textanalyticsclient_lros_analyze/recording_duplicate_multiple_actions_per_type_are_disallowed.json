@@ -1,0 +1,25 @@
+{
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://endpoint/text/analytics/v3.2-preview.2/analyze",
+   "query": {},
+   "requestBody": "{\"analysisInput\":{\"documents\":[{\"id\":\"1\",\"text\":\"I will go to the park.\"}]},\"tasks\":{\"entityRecognitionPiiTasks\":[{\"parameters\":{\"model-version\":\"latest\",\"stringIndexType\":\"Utf16CodeUnit\"}},{\"parameters\":{\"model-version\":\"latest\",\"stringIndexType\":\"Utf16CodeUnit\"}}]}}",
+   "status": 400,
+   "response": "{\"error\":{\"code\":\"InvalidRequest\",\"message\":\"InvalidTask in AnalyzeInput\",\"innererror\":{\"code\":\"InvalidRequestBodyFormat\",\"message\":\"Duplicate task name  for task type PersonallyIdentifiableInformation. Make sure each task under a task type has a unique name\"}}}",
+   "responseHeaders": {
+    "apim-request-id": "a690ef99-d493-4c60-bbe4-d709c2470e77",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 27 Oct 2021 02:56:29 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "5"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "b622bb90bc1506f299109d6581856a55"
+}
