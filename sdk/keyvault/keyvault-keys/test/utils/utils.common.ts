@@ -65,6 +65,6 @@ export function onVersions(
  *
  * @returns - true if running on public cloud, false otherwise.
  */
-export function isPublicCloud() {
-  return (env.KEYVAULT_AZURE_AUTHORITY_HOST ?? "").includes(".microsoftonline.com");
+export function isPublicCloud(): boolean {
+  return (env.AZURE_AUTHORITY_HOST ?? "").includes(".microsoftonline.com");
 }
