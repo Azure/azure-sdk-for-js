@@ -173,12 +173,12 @@ export class WebPubSubServiceClient {
     closeAllConnections(options?: HubCloseAllConnectionsOptions): Promise<void>;
     closeConnection(connectionId: string, options?: HubCloseConnectionOptions): Promise<void>;
     closeUserConnections(userId: string, options?: HubCloseUserConnectionsOptions): Promise<void>;
+    connectionExists(connectionId: string, options?: HasConnectionOptions): Promise<boolean>;
     endpoint: string;
     getClientAccessToken(options?: GenerateClientTokenOptions): Promise<ClientTokenResponse>;
     grantPermission(connectionId: string, permission: Permission, options?: HubGrantPermissionOptions): Promise<void>;
     group(groupName: string): WebPubSubGroup;
-    hasConnection(connectionId: string, options?: HasConnectionOptions): Promise<boolean>;
-    hasGroup(groupName: string, options?: HubHasGroupOptions): Promise<boolean>;
+    groupExists(groupName: string, options?: HubHasGroupOptions): Promise<boolean>;
     hasPermission(connectionId: string, permission: Permission, options?: HubHasPermissionOptions): Promise<boolean>;
     readonly hubName: string;
     removeUserFromAllGroups(userId: string, options?: HubCloseConnectionOptions): Promise<void>;
