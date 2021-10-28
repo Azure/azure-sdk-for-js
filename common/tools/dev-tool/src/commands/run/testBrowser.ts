@@ -12,7 +12,7 @@ export const commandInfo = makeCommandInfo(
     karma: {
       kind: "string",
       description: "Karma options (such as --single-run)",
-      default: ""
+      default: "--single-run"
     }
   }
 );
