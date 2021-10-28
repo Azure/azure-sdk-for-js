@@ -13,6 +13,17 @@
 
 ### Other Changes
 
+- `beginAnalyzeActions` supports multiple actions of the same type so you can pass a list of any particular action type, e.g.
+
+
+    ```typescript
+    await client.beginAnalyzeActions(docs, { recognizePiiEntitiesActions: [
+      { modelVersion: "latest", actionName: "action1" },
+      { modelVersion: "2021-01-15", actionName: "action2" }] 
+    });
+    ```
+- `beginAnalyzeActions` supports actions to be named and the name is now accessible in each action result.
+
 ## 5.2.0-beta.1 (2021-08-09)
 
 ### Features Added
