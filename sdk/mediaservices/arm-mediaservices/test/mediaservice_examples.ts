@@ -66,18 +66,17 @@ describe("MediaServices test", () => {
   });
 
   it("mediaservices create test", async function() {
-    const storageAccount = await storage_client.storageAccounts.getProperties(resourceGroup,storageAccountName);
     const res = await client.mediaservices.createOrUpdate(resourceGroup,mediaName,{
       location: location,
         storageAccounts: [
             {
-                id: storageAccount.id,
+                id: "/subscriptions/"+subscriptionId+"/resourceGroups/"+resourceGroup+"/providers/Microsoft.Storage/storageAccounts/"+storageAccountName,
                 type: "Primary"
             }
         ]
     });
     assert.equal(res.name,mediaName);
-  }).timeout(3600000);
+  });
 
   it("mediaservices get test", async function() {
     const res = await client.mediaservices.get(resourceGroup,mediaName);
