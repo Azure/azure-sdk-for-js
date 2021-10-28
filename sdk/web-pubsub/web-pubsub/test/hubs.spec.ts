@@ -147,7 +147,7 @@ describe("HubClient", function() {
     it("can check if a connection exists", async function() {
       // likely bug in recorder for this test - recording not generating properly
       if (!isLiveMode()) this.skip();
-      const res = await client.hasConnection("xxx");
+      const res = await client.connectionExists("xxx");
       assert.ok(!res);
     });
 
