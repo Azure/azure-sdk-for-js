@@ -1,0 +1,120 @@
+{
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://endpoint/text/analytics/v3.2-preview.2/analyze",
+   "query": {},
+   "requestBody": "{\"analysisInput\":{\"documents\":[{\"id\":\"1\",\"text\":\"A recent report by the Government Accountability Office (GAO) found that the dramatic increase in oil and natural gas development on federal lands over the past six years has stretched the staff of the BLM to a point that it has been unable to meet its environmental protection responsibilities.\",\"language\":\"en\"}]},\"tasks\":{\"customMultiClassificationTasks\":[{\"parameters\":{\"project-name\":\"project_name\",\"deployment-name\":\"deployment_name\"}}]}}",
+   "status": 202,
+   "response": "",
+   "responseHeaders": {
+    "apim-request-id": "23bf57c3-cf23-46f7-af68-0d4f987ae819",
+    "date": "Sat, 23 Oct 2021 00:50:21 GMT",
+    "operation-location": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/8abc9d28-d469-4a97-8919-7510668e3752",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "475"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/8abc9d28-d469-4a97-8919-7510668e3752",
+   "query": {
+    "$top": "20",
+    "$skip": "0"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"8abc9d28-d469-4a97-8919-7510668e3752\",\"lastUpdateDateTime\":\"2021-10-23T00:50:22Z\",\"createdDateTime\":\"2021-10-23T00:50:21Z\",\"expirationDateTime\":\"2021-10-24T00:50:21Z\",\"status\":\"notStarted\",\"errors\":[],\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
+   "responseHeaders": {
+    "apim-request-id": "2b3a77fe-a46b-46a7-b107-7e91fb2d52b0",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Sat, 23 Oct 2021 00:50:21 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "11"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/8abc9d28-d469-4a97-8919-7510668e3752",
+   "query": {
+    "$top": "20",
+    "$skip": "0"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"8abc9d28-d469-4a97-8919-7510668e3752\",\"lastUpdateDateTime\":\"2021-10-23T00:50:22Z\",\"createdDateTime\":\"2021-10-23T00:50:21Z\",\"expirationDateTime\":\"2021-10-24T00:50:21Z\",\"status\":\"notStarted\",\"errors\":[],\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
+   "responseHeaders": {
+    "apim-request-id": "68a15ae0-1ac8-42f7-8041-8bc534b4ed5e",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Sat, 23 Oct 2021 00:50:21 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "14"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/8abc9d28-d469-4a97-8919-7510668e3752",
+   "query": {
+    "$top": "20",
+    "$skip": "0"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"8abc9d28-d469-4a97-8919-7510668e3752\",\"lastUpdateDateTime\":\"2021-10-23T00:50:22Z\",\"createdDateTime\":\"2021-10-23T00:50:21Z\",\"expirationDateTime\":\"2021-10-24T00:50:21Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
+   "responseHeaders": {
+    "apim-request-id": "dbad7e50-63cf-41bf-b40a-a19f9ffd83fa",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Sat, 23 Oct 2021 00:50:23 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "7"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/8abc9d28-d469-4a97-8919-7510668e3752",
+   "query": {
+    "$top": "20",
+    "$skip": "0"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"8abc9d28-d469-4a97-8919-7510668e3752\",\"lastUpdateDateTime\":\"2021-10-23T00:50:24Z\",\"createdDateTime\":\"2021-10-23T00:50:21Z\",\"expirationDateTime\":\"2021-10-24T00:50:21Z\",\"status\":\"succeeded\",\"errors\":[],\"tasks\":{\"completed\":1,\"failed\":0,\"inProgress\":0,\"total\":1,\"customMultiClassificationTasks\":[{\"lastUpdateDateTime\":\"2021-10-23T00:50:24.9168023Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"1\",\"classifications\":[],\"warnings\":[]}],\"errors\":[],\"projectName\":\"project_name\",\"deploymentName\":\"deployment_name\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "3f835845-d535-4c1e-b562-269d748aadcd",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Sat, 23 Oct 2021 00:50:25 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "85"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/8abc9d28-d469-4a97-8919-7510668e3752",
+   "query": {
+    "$top": "20",
+    "$skip": "0"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"8abc9d28-d469-4a97-8919-7510668e3752\",\"lastUpdateDateTime\":\"2021-10-23T00:50:24Z\",\"createdDateTime\":\"2021-10-23T00:50:21Z\",\"expirationDateTime\":\"2021-10-24T00:50:21Z\",\"status\":\"succeeded\",\"errors\":[],\"tasks\":{\"completed\":1,\"failed\":0,\"inProgress\":0,\"total\":1,\"customMultiClassificationTasks\":[{\"lastUpdateDateTime\":\"2021-10-23T00:50:24.9168023Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"1\",\"classifications\":[],\"warnings\":[]}],\"errors\":[],\"projectName\":\"project_name\",\"deploymentName\":\"deployment_name\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "507d64c4-909a-4336-92bd-65f5764e49a7",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Sat, 23 Oct 2021 00:50:25 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "78"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "f7018320baace5b2ccad9e798e3906eb"
+}

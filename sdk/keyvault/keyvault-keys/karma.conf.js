@@ -49,7 +49,8 @@ module.exports = function(config) {
       "KEYVAULT_URI",
       "AZURE_MANAGEDHSM_URI",
       "AZURE_KEYVAULT_ATTESTATION_URI",
-      "TEST_MODE"
+      "TEST_MODE",
+      "AZURE_AUTHORITY_HOST"
     ],
 
     reporters: ["mocha", "coverage", "junit", "json-to-file"],

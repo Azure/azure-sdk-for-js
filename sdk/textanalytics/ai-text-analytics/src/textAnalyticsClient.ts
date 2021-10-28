@@ -62,7 +62,7 @@ import {
 } from "./util";
 import { TextAnalyticsOperationOptions } from "./textAnalyticsOperationOptions";
 import { AnalysisPollOperationState, OperationMetadata } from "./pollerModels";
-import { TextAnalyticsAction } from "./textAnalyticsAction";
+import { CustomTextAnalyticsAction, TextAnalyticsAction } from "./textAnalyticsAction";
 import {
   AnalyzeHealthcareEntitiesPollerLike,
   AnalyzeHealthcareOperationState,
@@ -332,9 +332,51 @@ export interface ExtractSummaryAction extends TextAnalyticsAction {
    */
   maxSentenceCount?: number;
   /**
-   * Specifies how to sort the returned sentences. Please refer to {@link KnownSummarySentencesSortBy} for possible values.
+   * Specifies how to sort the returned sentences. Please refer to {@link KnownSummarySentencesOrderBy} for possible values.
    */
   orderBy?: string;
+}
+
+/**
+ * Options for a custom recognize entities action.
+ */
+export interface RecognizeCustomEntitiesAction extends CustomTextAnalyticsAction {
+  /**
+   * Specifies the measurement unit used to calculate the offset and length properties.
+   * Possible units are "TextElements_v8", "UnicodeCodePoint", and "Utf16CodeUnit".
+   * The default is the JavaScript's default which is "Utf16CodeUnit".
+   */
+  stringIndexType?: StringIndexType;
+  /**
+   * If set to true, you opt-out of having your text input logged for troubleshooting. By default, Text Analytics
+   * logs your input text for 48 hours, solely to allow for troubleshooting issues. Setting this parameter to true,
+   * disables input logging and may limit our ability to remediate issues that occur.
+   */
+  disableServiceLogs?: boolean;
+}
+
+/**
+ * Options for an custom classify document single category action.
+ */
+export interface SingleCategoryClassifyAction extends CustomTextAnalyticsAction {
+  /**
+   * If set to true, you opt-out of having your text input logged for troubleshooting. By default, Text Analytics
+   * logs your input text for 48 hours, solely to allow for troubleshooting issues. Setting this parameter to true,
+   * disables input logging and may limit our ability to remediate issues that occur.
+   */
+  disableServiceLogs?: boolean;
+}
+
+/**
+ * Options for a custom classify document multi categories action.
+ */
+export interface MultiCategoryClassifyAction extends CustomTextAnalyticsAction {
+  /**
+   * If set to true, you opt-out of having your text input logged for troubleshooting. By default, Text Analytics
+   * logs your input text for 48 hours, solely to allow for troubleshooting issues. Setting this parameter to true,
+   * disables input logging and may limit our ability to remediate issues that occur.
+   */
+  disableServiceLogs?: boolean;
 }
 
 /**
@@ -365,6 +407,18 @@ export interface TextAnalyticsActions {
    * A collection of descriptions of summarization extraction actions. However, currently, the service can accept up to one action only for `extractSummary`.
    */
   extractSummaryActions?: ExtractSummaryAction[];
+  /**
+   * A collection of descriptions of custom entity recognition actions. However, currently, the service can accept up to one action only for `customRecognizeEntities`.
+   */
+  recognizeCustomEntitiesActions?: RecognizeCustomEntitiesAction[];
+  /**
+   * A collection of descriptions of custom single classification actions. However, currently, the service can accept up to one action only for `singleCategoryClassifyActions`.
+   */
+  singleCategoryClassifyActions?: SingleCategoryClassifyAction[];
+  /**
+   * A collection of descriptions of custom multi classification actions. However, currently, the service can accept up to one action only for `multiCategoryClassifyActions`.
+   */
+  multiCategoryClassifyActions?: MultiCategoryClassifyAction[];
 }
 /**
  * Client class for interacting with Azure Text Analytics.
@@ -1149,7 +1203,12 @@ function compileAnalyzeInput(actions: TextAnalyticsActions): GeneratedActions {
     ),
     extractiveSummarizationTasks: actions.extractSummaryActions?.map(
       compose(setStrEncodingParam, compose(setSentenceCount, compose(setOrderBy, addParamsToTask)))
-    )
+    ),
+    customEntityRecognitionTasks: actions.recognizeCustomEntitiesActions?.map(
+      compose(setStrEncodingParam, addParamsToTask)
+    ),
+    customSingleClassificationTasks: actions.singleCategoryClassifyActions?.map(addParamsToTask),
+    customMultiClassificationTasks: actions.multiCategoryClassifyActions?.map(addParamsToTask)
   };
 }
 

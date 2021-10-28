@@ -2,6 +2,11 @@
 
 ## 1.0.0 (Unreleased)
 
+### 2021-10-27
+
+- Log dependencies (`@azure` packages only) on perf test start. Extended output of transitive dependencies can be enabled using the new `--list-transitive-dependencies` flag.
+  [#18366](https://github.com/Azure/azure-sdk-for-js/pull/18366)
+
 ### 2021-10-20
 
 - Clean up some naming: `PerfStress` to `Perf` everywhere; also rename the `runAsync` method to `run`.
