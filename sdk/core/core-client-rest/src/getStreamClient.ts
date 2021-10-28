@@ -12,8 +12,9 @@ import {
   PathUncheckedResponse,
 } from "./common";
 import { RequestParameters } from "./pathClientTypes";
+import { buildSendRequestForStream, isCredential, StreamType } from "./helpers/getClientHelpers";
+import { HttpNodeStreamResponse } from ".";
 import { getNodeStreamResponse } from "./helpers/streamHelpers";
-import { buildSendRequestForStream, isCredential } from "./helpers/getClientHelpers";
 
 /**
  * Shape of a Rest Level Client
@@ -67,107 +68,115 @@ export function getClientWithStream(
     ...args: Array<any>
   ): ClientResource<MethodwithAsStream> => ({
     get(options: RequestParameters = {}) {
-      const operation = (asStream?: boolean) =>
+      const operation = (streamType?: StreamType) =>
         buildSendRequestForStream(
           "GET",
           clientOptions,
           baseUrl,
           path,
           pipeline,
-          { allowInsecureConnection, ...options, responseAsStream: asStream },
+          streamType,
+          { allowInsecureConnection, ...options },
           args
         );
 
       return getStreamableMethods(operation);
     },
     post(options: RequestParameters = {}) {
-      const operation = (asStream?: boolean) =>
+      const operation = (streamType?: StreamType) =>
         buildSendRequestForStream(
           "POST",
           clientOptions,
           baseUrl,
           path,
           pipeline,
-          { allowInsecureConnection, ...options, responseAsStream: asStream },
+          streamType,
+          { allowInsecureConnection, ...options },
           args
         );
       return getStreamableMethods(operation);
     },
     put: (options: RequestParameters = {}) => {
-      const operation = (asStream?: boolean) =>
+      const operation = (streamType?: StreamType) =>
         buildSendRequestForStream(
           "PUT",
           clientOptions,
           baseUrl,
           path,
           pipeline,
-          { allowInsecureConnection, ...options, responseAsStream: asStream },
+          streamType,
+          { allowInsecureConnection, ...options },
           args
         );
       return getStreamableMethods(operation);
     },
     patch: (options: RequestParameters = {}) => {
-      const operation = (asStream?: boolean) =>
+      const operation = (streamType?: StreamType) =>
         buildSendRequestForStream(
           "PATCH",
           clientOptions,
           baseUrl,
           path,
           pipeline,
-          { allowInsecureConnection, ...options, responseAsStream: asStream },
+          streamType,
+          { allowInsecureConnection, ...options },
           args
         );
       return getStreamableMethods(operation);
     },
     delete: (options: RequestParameters = {}) => {
-      const operation = (asStream?: boolean) =>
+      const operation = (streamType?: StreamType) =>
         buildSendRequestForStream(
           "DELETE",
           clientOptions,
           baseUrl,
           path,
           pipeline,
-          { allowInsecureConnection, ...options, responseAsStream: asStream },
+          streamType,
+          { allowInsecureConnection, ...options },
           args
         );
 
       return getStreamableMethods(operation);
     },
     head: (options: RequestParameters = {}) => {
-      const operation = (asStream?: boolean) =>
+      const operation = (streamType?: StreamType) =>
         buildSendRequestForStream(
           "HEAD",
           clientOptions,
           baseUrl,
           path,
           pipeline,
-          { allowInsecureConnection, ...options, responseAsStream: asStream },
+          streamType,
+          { allowInsecureConnection, ...options },
           args
         );
       return getStreamableMethods(operation);
     },
     options: (options: RequestParameters = {}) => {
-      const operation = (asStream?: boolean) =>
+      const operation = (streamType?: StreamType) =>
         buildSendRequestForStream(
           "OPTIONS",
           clientOptions,
           baseUrl,
           path,
           pipeline,
-          { allowInsecureConnection, ...options, responseAsStream: asStream },
+          streamType,
+          { allowInsecureConnection, ...options },
           args
         );
       return getStreamableMethods(operation);
     },
     trace: (options: RequestParameters = {}) => {
-      const operation = (asStream?: boolean) =>
+      const operation = (streamType?: StreamType) =>
         buildSendRequestForStream(
           "TRACE",
           clientOptions,
           baseUrl,
           path,
           pipeline,
-          { allowInsecureConnection, ...options, responseAsStream: asStream },
+          streamType,
+          { allowInsecureConnection, ...options },
           args
         );
       return getStreamableMethods(operation);
@@ -181,16 +190,19 @@ export function getClientWithStream(
   };
 }
 
-function getStreamableMethods(
-  sendRequest: (asStream?: boolean) => Promise<HttpResponse>
-): MethodwithAsStream {
+interface SendRequestOperation {
+  (streamType: "NodeJS"): Promise<HttpNodeStreamResponse>;
+  (streamType?: StreamType): Promise<HttpResponse>;
+}
+
+function getStreamableMethods(sendRequest: SendRequestOperation): MethodwithAsStream {
   return {
     then: async function (onfulfilled: (r: PathUncheckedResponse) => PathUncheckedResponse) {
       const result = await sendRequest();
       return onfulfilled(result);
     },
     async asNodeStream() {
-      const result = await sendRequest(true);
+      const result = await sendRequest("NodeJS");
       return getNodeStreamResponse(result);
     },
   };

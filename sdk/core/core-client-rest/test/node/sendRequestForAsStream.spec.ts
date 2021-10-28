@@ -53,9 +53,7 @@ describe("sendRequestForAsStream", () => {
     const clientRequest = createRequest();
     stubbedHttpsRequest.returns(clientRequest);
 
-    const promise = sendRequestForAsStream("POST", mockBaseUrl, mockPipeline, {
-      responseAsStream: true,
-    });
+    const promise = sendRequestForAsStream("POST", mockBaseUrl, mockPipeline, "NodeJS");
     stubbedHttpsRequest.yield(createResponse(200, JSON.stringify(expectedBody)));
     const response = (await promise) as HttpNodeStreamResponse;
 

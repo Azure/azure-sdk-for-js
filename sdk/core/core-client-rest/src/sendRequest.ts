@@ -16,6 +16,7 @@ import {
 import { getCachedDefaultHttpsClient } from "./clientHelpers";
 import { RequestParameters } from "./pathClientTypes";
 import { HttpResponse } from "./common";
+import { StreamType } from "./helpers/getClientHelpers";
 
 export interface InternalRequestParameters extends RequestParameters {
   responseAsStream?: boolean;
@@ -60,8 +61,12 @@ export async function sendRequestForAsStream(
   method: HttpMethods,
   url: string,
   pipeline: Pipeline,
+  streamType?: StreamType,
   options: InternalRequestParameters = {}
 ): Promise<HttpResponse> {
+  if (streamType) {
+    options.responseAsStream = true;
+  }
   const httpClient = getCachedDefaultHttpsClient();
   const request = buildPipelineRequest(method, url, options);
   const response = await pipeline.sendRequest(httpClient, request);
@@ -69,7 +74,7 @@ export async function sendRequestForAsStream(
 
   let parsedBody: RequestBodyType | undefined;
 
-  if (options.responseAsStream) {
+  if (streamType === "NodeJS") {
     // Give the user back the raw stream
     parsedBody = response.readableStreamBody;
   } else {

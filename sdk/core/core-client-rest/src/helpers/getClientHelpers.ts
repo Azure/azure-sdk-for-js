@@ -3,6 +3,7 @@
 
 import { isTokenCredential, KeyCredential, TokenCredential } from "@azure/core-auth";
 import { HttpMethods, Pipeline, PipelineOptions } from "@azure/core-rest-pipeline";
+import { HttpNodeStreamResponse } from "..";
 import { isCertificateCredential } from "../certificateCredential";
 import { ClientOptions, HttpResponse } from "../common";
 import { InternalRequestParameters, sendRequest, sendRequestForAsStream } from "../sendRequest";
@@ -36,18 +37,41 @@ export function buildSendRequest(
   return sendRequest(method, url, pipeline, requestOptions);
 }
 
+export type StreamType = "NodeJS" | "WebStream";
+
 export function buildSendRequestForStream(
   method: HttpMethods,
   clientOptions: ClientOptions,
   baseUrl: string,
   path: string,
   pipeline: Pipeline,
+  streamType: "NodeJS",
+  requestOptions?: InternalRequestParameters,
+  args?: string[]
+): Promise<HttpNodeStreamResponse>;
+export function buildSendRequestForStream(
+  method: HttpMethods,
+  clientOptions: ClientOptions,
+  baseUrl: string,
+  path: string,
+  pipeline: Pipeline,
+  streamType?: StreamType,
+  requestOptions?: InternalRequestParameters,
+  args?: string[]
+): Promise<HttpNodeStreamResponse>;
+export function buildSendRequestForStream(
+  method: HttpMethods,
+  clientOptions: ClientOptions,
+  baseUrl: string,
+  path: string,
+  pipeline: Pipeline,
+  streamType?: StreamType,
   requestOptions: InternalRequestParameters = {},
   args: string[] = []
 ): Promise<HttpResponse> {
   addApiVersionHeader(requestOptions, clientOptions);
   const url = buildRequestUrl(baseUrl, path, args, requestOptions);
-  return sendRequestForAsStream(method, url, pipeline, requestOptions);
+  return sendRequestForAsStream(method, url, pipeline, streamType, requestOptions);
 }
 
 function addApiVersionHeader(
