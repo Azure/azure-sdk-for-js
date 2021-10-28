@@ -3,9 +3,7 @@
 
 import { leafCommand, makeCommandInfo } from "../framework/command";
 import concurrently from "concurrently";
-import { config } from "dotenv";
 import { isProxyToolActive } from "../util/testProxyUtils";
-config();
 
 export const commandInfo = makeCommandInfo(
   "test:browser",
