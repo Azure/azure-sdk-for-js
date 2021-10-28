@@ -198,6 +198,12 @@ export interface SubscribeOptions {
    * Options for configuring tracing.
    */
   tracingOptions?: OperationTracingOptions;
+  /**
+   * Option to disable the client from running JSON.parse() on the message body when receiving the message.
+   * Not applicable if the message was sent with AMQP body type value or sequence. Use this option when you
+   * prefer to work directly with the bytes present in the message body than have the client attempt to parse it.
+   */
+  skipParsingBodyAsJson?: boolean;
 }
 
 /**

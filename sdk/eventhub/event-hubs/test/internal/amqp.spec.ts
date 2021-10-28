@@ -12,23 +12,29 @@ describe("AMQP message encoding", () => {
     assert.isFalse(isAmqpAnnotatedMessage({ body: "hello world" }));
     assert.isFalse(
       isAmqpAnnotatedMessage(
-        fromRheaMessage({
-          message_annotations: {
-            [Constants.enqueuedTime]: Date.now()
+        fromRheaMessage(
+          {
+            message_annotations: {
+              [Constants.enqueuedTime]: Date.now()
+            },
+            body: undefined
           },
-          body: undefined
-        })
+          false
+        )
       )
     );
 
     assert.isTrue(
       isAmqpAnnotatedMessage(
-        fromRheaMessage({
-          message_annotations: {
-            [Constants.enqueuedTime]: Date.now()
+        fromRheaMessage(
+          {
+            message_annotations: {
+              [Constants.enqueuedTime]: Date.now()
+            },
+            body: undefined
           },
-          body: undefined
-        }).getRawAmqpMessage()
+          false
+        ).getRawAmqpMessage()
       )
     );
 

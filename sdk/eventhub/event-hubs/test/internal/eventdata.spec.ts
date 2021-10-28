@@ -46,15 +46,18 @@ const messageFromED = toRheaMessage(testSourceEventData);
 describe("EventData", function(): void {
   describe("fromRheaMessage", function(): void {
     it("populates body with the message body", function(): void {
-      const testEventData = fromRheaMessage(testMessage);
+      const testEventData = fromRheaMessage(testMessage, false);
       testEventData.body.should.equal(testBody);
     });
 
     it("populates top-level fields", () => {
-      const testEventData = fromRheaMessage({
-        ...testMessage,
-        ...{ content_type: "application/json", correlation_id: "cid", message_id: 1 }
-      });
+      const testEventData = fromRheaMessage(
+        {
+          ...testMessage,
+          ...{ content_type: "application/json", correlation_id: "cid", message_id: 1 }
+        },
+        false
+      );
       should().equal(testEventData.messageId, 1, "Unexpected messageId found.");
       should().equal(
         testEventData.contentType,
@@ -66,24 +69,24 @@ describe("EventData", function(): void {
 
     describe("properties", function(): void {
       it("enqueuedTimeUtc gets the enqueued time from system properties", function(): void {
-        const testEventData = fromRheaMessage(testMessage);
+        const testEventData = fromRheaMessage(testMessage, false);
         testEventData
           .enqueuedTimeUtc!.getTime()
           .should.equal(testAnnotations["x-opt-enqueued-time"]);
       });
 
       it("offset gets the offset from system properties", function(): void {
-        const testEventData = fromRheaMessage(testMessage);
+        const testEventData = fromRheaMessage(testMessage, false);
         testEventData.offset!.should.equal(testAnnotations["x-opt-offset"]);
       });
 
       it("sequenceNumber gets the sequence number from system properties", function(): void {
-        const testEventData = fromRheaMessage(testMessage);
+        const testEventData = fromRheaMessage(testMessage, false);
         testEventData.sequenceNumber!.should.equal(testAnnotations["x-opt-sequence-number"]);
       });
 
       it("partitionKey gets the sequence number from system properties", function(): void {
-        const testEventData = fromRheaMessage(testMessage);
+        const testEventData = fromRheaMessage(testMessage, false);
         testEventData.partitionKey!.should.equal(testAnnotations["x-opt-partition-key"]);
       });
 
@@ -92,14 +95,17 @@ describe("EventData", function(): void {
           "x-iot-foo-prop": "just-a-foo",
           "x-iot-bar-prop": "bar-above-the-rest"
         };
-        const testEventData = fromRheaMessage({
-          body: testBody,
-          application_properties: applicationProperties,
-          message_annotations: {
-            ...testAnnotations,
-            ...extraAnnotations
-          }
-        });
+        const testEventData = fromRheaMessage(
+          {
+            body: testBody,
+            application_properties: applicationProperties,
+            message_annotations: {
+              ...testAnnotations,
+              ...extraAnnotations
+            }
+          },
+          false
+        );
         testEventData
           .enqueuedTimeUtc!.getTime()
           .should.equal(testAnnotations["x-opt-enqueued-time"]);
@@ -115,24 +121,27 @@ describe("EventData", function(): void {
       });
 
       it("returns systemProperties for special known properties", function(): void {
-        const testEventData = fromRheaMessage({
-          body: testBody,
-          application_properties: applicationProperties,
-          message_annotations: testAnnotations,
-          message_id: "messageId",
-          user_id: "userId",
-          to: "to",
-          subject: "subject",
-          reply_to: "replyTo",
-          reply_to_group_id: "replyToGroupId",
-          content_encoding: "utf-8",
-          content_type: "application/json",
-          correlation_id: "id2",
-          absolute_expiry_time: new Date(0),
-          creation_time: new Date(0),
-          group_id: "groupId",
-          group_sequence: 1
-        });
+        const testEventData = fromRheaMessage(
+          {
+            body: testBody,
+            application_properties: applicationProperties,
+            message_annotations: testAnnotations,
+            message_id: "messageId",
+            user_id: "userId",
+            to: "to",
+            subject: "subject",
+            reply_to: "replyTo",
+            reply_to_group_id: "replyToGroupId",
+            content_encoding: "utf-8",
+            content_type: "application/json",
+            correlation_id: "id2",
+            absolute_expiry_time: new Date(0),
+            creation_time: new Date(0),
+            group_id: "groupId",
+            group_sequence: 1
+          },
+          false
+        );
 
         testEventData
           .enqueuedTimeUtc!.getTime()
@@ -162,20 +171,23 @@ describe("EventData", function(): void {
         "x-date": timestamp,
         "x-number": timestamp.getTime()
       };
-      const testEventData = fromRheaMessage({
-        body: testBody,
-        application_properties: {
-          topLevelDate: timestamp,
-          child: {
-            nestedDate: timestamp,
-            children: [timestamp, { deepDate: timestamp }]
+      const testEventData = fromRheaMessage(
+        {
+          body: testBody,
+          application_properties: {
+            topLevelDate: timestamp,
+            child: {
+              nestedDate: timestamp,
+              children: [timestamp, { deepDate: timestamp }]
+            }
+          },
+          message_annotations: {
+            ...testAnnotations,
+            ...extraAnnotations
           }
         },
-        message_annotations: {
-          ...testAnnotations,
-          ...extraAnnotations
-        }
-      });
+        false
+      );
       testEventData.enqueuedTimeUtc!.getTime().should.equal(testAnnotations["x-opt-enqueued-time"]);
       testEventData.offset!.should.equal(testAnnotations["x-opt-offset"]);
       testEventData.sequenceNumber!.should.equal(testAnnotations["x-opt-sequence-number"]);

@@ -274,6 +274,7 @@ export interface SubscribeOptions {
     maxBatchSize?: number;
     maxWaitTimeInSeconds?: number;
     ownerLevel?: number;
+    skipParsingBodyAsJson?: boolean;
     startPosition?: EventPosition | {
         [partitionId: string]: EventPosition;
     };
