@@ -2,8 +2,7 @@
 // Licensed under the MIT license.
 
 import { Stream } from "stream";
-import { HttpNodeStreamResponse } from "..";
-import { HttpResponse } from "../common";
+import { HttpResponse, HttpNodeStreamResponse } from "../common";
 
 export function getNodeStreamResponse(response: HttpResponse): HttpNodeStreamResponse {
   if (isStream(response.body)) {
