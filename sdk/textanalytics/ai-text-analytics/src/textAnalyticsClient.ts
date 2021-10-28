@@ -338,7 +338,8 @@ export interface ExtractSummaryAction extends TextAnalyticsAction {
 }
 
 /**
- * Options for a custom recognize entities action.
+ * Options for a custom recognize entities action. For more information, please refer
+ * to the service documentation: {@link https://aka.ms/azsdk/textanalytics/customfunctionalities}
  */
 export interface RecognizeCustomEntitiesAction extends CustomTextAnalyticsAction {
   /**
@@ -356,7 +357,8 @@ export interface RecognizeCustomEntitiesAction extends CustomTextAnalyticsAction
 }
 
 /**
- * Options for an custom classify document single category action.
+ * Options for an custom classify document single category action. For more information, please refer
+ * to the service documentation: {@link https://aka.ms/azsdk/textanalytics/customfunctionalities}
  */
 export interface SingleCategoryClassifyAction extends CustomTextAnalyticsAction {
   /**
@@ -368,7 +370,8 @@ export interface SingleCategoryClassifyAction extends CustomTextAnalyticsAction 
 }
 
 /**
- * Options for a custom classify document multi categories action.
+ * Options for a custom classify document multi categories action. For more information, please refer
+ * to the service documentation: {@link https://aka.ms/azsdk/textanalytics/customfunctionalities}
  */
 export interface MultiCategoryClassifyAction extends CustomTextAnalyticsAction {
   /**
@@ -408,15 +411,18 @@ export interface TextAnalyticsActions {
    */
   extractSummaryActions?: ExtractSummaryAction[];
   /**
-   * A collection of descriptions of custom entity recognition actions.
+   * A collection of descriptions of custom entity recognition actions. For more information, please refer
+   * to the service documentation: {@link https://aka.ms/azsdk/textanalytics/customfunctionalities}
    */
   recognizeCustomEntitiesActions?: RecognizeCustomEntitiesAction[];
   /**
-   * A collection of descriptions of custom single classification actions.
+   * A collection of descriptions of custom single classification actions. For more information, please refer
+   * to the service documentation: {@link https://aka.ms/azsdk/textanalytics/customfunctionalities}
    */
   singleCategoryClassifyActions?: SingleCategoryClassifyAction[];
   /**
-   * A collection of descriptions of custom multi classification actions.
+   * A collection of descriptions of custom multi classification actions. For more information, please refer
+   * to the service documentation: {@link https://aka.ms/azsdk/textanalytics/customfunctionalities}
    */
   multiCategoryClassifyActions?: MultiCategoryClassifyAction[];
 }
