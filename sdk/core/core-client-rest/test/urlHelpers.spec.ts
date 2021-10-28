@@ -59,7 +59,7 @@ describe("urlHelpers", () => {
 
   it("should encode url when enable path parameter encoding", () => {
     const result = buildRequestUrl(mockBaseUrl, "/foo bar", [], {
-      enablePathParameterEncoding: true
+      enableUrlEncoding: true
     });
     assert.equal(result, `https://example.org/foo%20bar`);
   });
@@ -67,7 +67,7 @@ describe("urlHelpers", () => {
   it("should encode url when enable query parameter encoding", () => {
     const result = buildRequestUrl(mockBaseUrl, "/foo", [], {
       queryParameters: { foo: ' aaaa', bar: 'b= ' },
-      enableQueryParameterEncoding: true,
+      enableUrlEncoding: true
     });
     assert.equal(result, `https://example.org/foo?foo=%2520aaaa&bar=b%253D%2520`);
   });
