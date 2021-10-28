@@ -14,7 +14,9 @@ export class TestUtils {
 
   public static async getUserId(userName: string, connectionString: string): Promise<string> {
     const communicationIdentityClient = new CommunicationIdentityClient(connectionString);
-    const tenant_id = env.COMMUNICATION_LIVETEST_STATIC_RESOURCE_IDENTIFIER || "016a7064-0581-40b9-be73-6dde64d69d72";
+    const tenant_id =
+      env.COMMUNICATION_LIVETEST_STATIC_RESOURCE_IDENTIFIER ||
+      "016a7064-0581-40b9-be73-6dde64d69d72";
 
     if (!isLiveMode()) {
       return "8:acs:" + tenant_id + "_" + uuidv5(userName, Constants.NAMESPACE_UUID);

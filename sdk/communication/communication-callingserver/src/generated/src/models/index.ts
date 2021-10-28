@@ -193,8 +193,18 @@ export interface TransferCallRequest {
   userToUserInformation?: string;
   /** The operation context. */
   operationContext?: string;
-  /** The callback URI. */
-  callbackUri?: string;
+}
+
+/** The response payload for transfer call operation. */
+export interface TransferCallResult {
+  /** The operation id. */
+  operationId?: string;
+  /** The status of the operation */
+  status: CallingOperationStatus;
+  /** The operation context provided by client. */
+  operationContext?: string;
+  /** The result info for the operation. */
+  resultInfo?: CallingOperationResultDetails;
 }
 
 /** The audio routing group request. */
@@ -234,7 +244,7 @@ export interface AddParticipantWithCallLocatorRequest {
   /** The alternate identity of source participant. */
   alternateCallerId?: PhoneNumberIdentifierModel;
   /** The participant to be added to the call. */
-  participant?: CommunicationIdentifierModel;
+  participant: CommunicationIdentifierModel;
   /** The operation context. */
   operationContext?: string;
   /** The callback URI. */
@@ -292,40 +302,8 @@ export interface CancelParticipantMediaOperationWithCallLocatorRequest {
   callLocator: CallLocatorModel;
   /** The identifier of the participant. */
   identifier: CommunicationIdentifierModel;
-  /** The operationId of the media operation to cancel */
+  /** The operationId of the media operation to cancel. */
   mediaOperationId: string;
-}
-
-/** The request payload for muting any participant using call locator. */
-export interface MuteParticipantWithCallLocatorRequest {
-  /** The call locator. */
-  callLocator: CallLocatorModel;
-  /** The identifier of the participant to be muted in the call. */
-  identifier: CommunicationIdentifierModel;
-}
-
-/** The request payload for unmuting any participant */
-export interface UnmuteParticipantWithCallLocatorRequest {
-  /** The call locator. */
-  callLocator: CallLocatorModel;
-  /** The identifier of the participant to be unmuted in the call. */
-  identifier: CommunicationIdentifierModel;
-}
-
-/** The request payload for holding meeting audio for a participant. */
-export interface HoldMeetingAudioWithCallLocatorRequest {
-  /** The call locator. */
-  callLocator: CallLocatorModel;
-  /** The identifier of the participant. */
-  identifier: CommunicationIdentifierModel;
-}
-
-/** The request payload for resuming meeting audio for a participant. */
-export interface ResumeMeetingAudioWithCallLocatorRequest {
-  /** The call locator. */
-  callLocator: CallLocatorModel;
-  /** The identifier of the participant. */
-  identifier: CommunicationIdentifierModel;
 }
 
 /** The add participant request. */
@@ -333,7 +311,7 @@ export interface AddParticipantRequest {
   /** The alternate identity of source participant. */
   alternateCallerId?: PhoneNumberIdentifierModel;
   /** The participant to be added to the call. */
-  participant?: CommunicationIdentifierModel;
+  participant: CommunicationIdentifierModel;
   /** The operation context. */
   operationContext?: string;
   /** The callback URI. */
@@ -377,7 +355,7 @@ export interface PlayAudioToParticipantRequest {
 export interface CancelParticipantMediaOperationRequest {
   /** The identifier of the participant. */
   identifier: CommunicationIdentifierModel;
-  /** The operationId of the media operation to cancel */
+  /** The operationId of the media operation to cancel. */
   mediaOperationId: string;
 }
 
@@ -385,12 +363,16 @@ export interface CancelParticipantMediaOperationRequest {
 export interface MuteParticipantRequest {
   /** The identifier of the participant to be muted in the call. */
   identifier: CommunicationIdentifierModel;
+  /** The operation context. */
+  operationContext?: string;
 }
 
 /** The request payload for unmuting any participant */
 export interface UnmuteParticipantRequest {
   /** The identifier of the participant to be unmuted in the call. */
   identifier: CommunicationIdentifierModel;
+  /** The operation context. */
+  operationContext?: string;
 }
 
 /** The request payload for holding meeting audio for a participant. */
@@ -411,11 +393,11 @@ export interface StartCallRecordingWithCallLocatorRequest {
   callLocator: CallLocatorModel;
   /** The uri to send notifications to. */
   recordingStateCallbackUri?: string;
-  /** Content type of call recording. */
+  /** The content type of call recording. */
   recordingContentType?: RecordingContentType;
-  /** Channel type of call recording. */
+  /** The channel type of call recording. */
   recordingChannelType?: RecordingChannelType;
-  /** Format type of call recording. */
+  /** The format type of call recording. */
   recordingFormatType?: RecordingFormatType;
 }
 
@@ -485,9 +467,9 @@ export interface CancelMediaOperationWithCallLocatorRequest {
 /** The request payload for answering the call. */
 export interface AnswerCallRequest {
   /** The context associated with the call. */
-  incomingCallContext?: string;
+  incomingCallContext: string;
   /** The callback uri. */
-  callbackUri: string;
+  callbackUri?: string;
   /** The requested modalities. */
   requestedMediaTypes?: CallMediaType[];
   /** The requested call events to subscribe to. */
@@ -585,6 +567,16 @@ export interface ToneInfo {
   sequenceId: number;
   /** The tone value. */
   tone: ToneValue;
+}
+
+/** The transfer call result event. */
+export interface TransferCallResultEvent {
+  /** The result details. */
+  resultInfo?: CallingOperationResultDetails;
+  /** The operation context. */
+  operationContext?: string;
+  /** The status of the operation */
+  status: CallingOperationStatus;
 }
 
 /** Known values of {@link AudioRoutingMode} that the service accepts. */
@@ -888,6 +880,18 @@ export type CallConnectionsPlayAudioResponse = PlayAudioResult & {
 
     /** The response body as parsed JSON or XML */
     parsedBody: PlayAudioResult;
+  };
+};
+
+/** Contains response data for the transfer operation. */
+export type CallConnectionsTransferResponse = TransferCallResult & {
+  /** The underlying HTTP response. */
+  _response: coreHttp.HttpResponse & {
+    /** The response body as text (string format) */
+    bodyAsText: string;
+
+    /** The response body as parsed JSON or XML */
+    parsedBody: TransferCallResult;
   };
 };
 

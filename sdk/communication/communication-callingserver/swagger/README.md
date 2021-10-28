@@ -18,7 +18,7 @@ generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
 tag: package-2021-11-15-preview
-require: https://raw.githubusercontent.com/navali-msft/azure-rest-api-specs/c16d5c3b668207b9ec101294a9f05a20e7281083/specification/communication/data-plane/CallingServer/readme.md
+require: https://raw.githubusercontent.com/navali-msft/azure-rest-api-specs/b52f2591ccbe19b4d158b5008874615c87b9a38b/specification/communication/data-plane/CallingServer/readme.md
 model-date-time-as-string: false
 optional-response-headers: true
 typescript: true
