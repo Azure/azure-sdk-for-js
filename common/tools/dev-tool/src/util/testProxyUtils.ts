@@ -5,6 +5,7 @@ import { spawn } from "child_process";
 import fs from "fs";
 import path from "path";
 import { IncomingMessage, request, RequestOptions } from "http";
+import fsExtra from "fs-extra";
 
 export async function startProxyTool(mode: string | undefined) {
   const outFileName = "test-proxy-output.log";
@@ -30,27 +31,22 @@ export async function startProxyTool(mode: string | undefined) {
   // subprocess.unref();
 }
 
-function getRootLocation() {
-  let currentPath = process.cwd(); // Gives the current working directory
-  if (fs.existsSync(path.join(currentPath, "package.json"))) {
-    // <root>/sdk/service/project/package.json
-    const expectedRootPath = path.join(currentPath, "..", "..", ".."); // <root>/
-    if (
-      fs.existsSync(path.join(expectedRootPath, "sdk/")) && // <root>/sdk
-      fs.existsSync(path.join(expectedRootPath, "rush.json")) // <root>/rush.json
-    ) {
-      // reached root path
-      return expectedRootPath;
-    } else {
-      throw new Error("rootPath could not be calculated properly from process.cwd()");
-    }
+async function getRootLocation(start?: string): Promise<string> {
+  start ??= process.cwd();
+  if (await fsExtra.pathExists(path.join(start, "rush.json"))) {
+    return start;
   } else {
-    throw new Error(`Expected 'package.json' to be found at ${currentPath}`);
+    const nextPath = path.resolve(start, "..");
+    if (nextPath === start) {
+      throw new Error("Reached filesystem root, but no rush.json was found.");
+    } else {
+      return getRootLocation(nextPath);
+    }
   }
 }
 
 async function getDockerRunCommand() {
-  const repoRoot = getRootLocation(); // /workspaces/azure-sdk-for-js/
+  const repoRoot = await getRootLocation(); // /workspaces/azure-sdk-for-js/
   const testProxyRecordingsLocation = "/etc/testproxy";
   const allowLocalhostAccess = "--add-host host.docker.internal:host-gateway";
   const imageToLoad = `azsdkengsys.azurecr.io/engsys/testproxy-lin:${await getImageTag()}`;
@@ -76,8 +72,8 @@ async function getImageTag() {
   // $SELECTED_IMAGE_TAG = "1147815";
   // (Bot regularly updates the tag in the file above.)
   try {
-    const contentInPWSHScript = await fs.promises.readFile(
-      `${path.join(getRootLocation(), "eng/common/testproxy/docker-start-proxy.ps1")}`,
+    const contentInPWSHScript = await fsExtra.readFile(
+      `${path.join(await getRootLocation(), "eng/common/testproxy/docker-start-proxy.ps1")}`,
       "utf-8"
     );
     const tag = contentInPWSHScript.match(/\$SELECTED_IMAGE_TAG \= \"(.*)\"/)![1];
