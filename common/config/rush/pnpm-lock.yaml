@@ -25,6 +25,7 @@ specifiers:
   '@rush-temp/arm-locks': file:./projects/arm-locks.tgz
   '@rush-temp/arm-logic': file:./projects/arm-logic.tgz
   '@rush-temp/arm-managedapplications': file:./projects/arm-managedapplications.tgz
+  '@rush-temp/arm-mediaservices': file:./projects/arm-mediaservices.tgz
   '@rush-temp/arm-network': file:./projects/arm-network.tgz
   '@rush-temp/arm-operationalinsights': file:./projects/arm-operationalinsights.tgz
   '@rush-temp/arm-policy': file:./projects/arm-policy.tgz
@@ -165,6 +166,7 @@ dependencies:
   '@rush-temp/arm-locks': file:projects/arm-locks.tgz
   '@rush-temp/arm-logic': file:projects/arm-logic.tgz
   '@rush-temp/arm-managedapplications': file:projects/arm-managedapplications.tgz
+  '@rush-temp/arm-mediaservices': file:projects/arm-mediaservices.tgz
   '@rush-temp/arm-network': file:projects/arm-network.tgz
   '@rush-temp/arm-operationalinsights': file:projects/arm-operationalinsights.tgz
   '@rush-temp/arm-policy': file:projects/arm-policy.tgz
@@ -8932,6 +8934,30 @@ packages:
       uglify-js: 3.14.2
     dev: false
 
+  file:projects/arm-mediaservices.tgz:
+    resolution: {integrity: sha512-3Umn8knfccMOuwf0O1zxyw39vW9u1wC4Yp43EmYmSHsu8a2pH4cp0bMepRo87OJeWIRtQERfKqrhBDv7N58CVQ==, tarball: file:projects/arm-mediaservices.tgz}
+    name: '@rush-temp/arm-mediaservices'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.0.0-beta.6
+      '@microsoft/api-extractor': 7.7.11
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.14.2
+    transitivePeerDependencies:
+      - debug
+      - supports-color
+    dev: false
+
   file:projects/arm-network.tgz:
     resolution: {integrity: sha512-V6PUn85sJgrqj+Q1dtj+3y1rIaeirmEAWQHqs7LwG28ZatoFcvTCCPZdDniK8Feb1rIHR19GE8UG0za33HiPjw==, tarball: file:projects/arm-network.tgz}
     name: '@rush-temp/arm-network'
@@ -13517,7 +13543,7 @@ packages:
     dev: false
 
   file:projects/web-pubsub-express.tgz:
-    resolution: {integrity: sha512-BwLiUnPrFgV4H1B+OpDkMtThaGZGb2/4SmiL2CCuXJNbSFQ/0tHKPrYiHuvSu0IQNqxtmvPZvX188OTw7LxnYA==, tarball: file:projects/web-pubsub-express.tgz}
+    resolution: {integrity: sha512-Lo9UvjD8tDlR/EFi5d4mIezt9UuwSChzouW/PbvTxVr61oCNFPPgR5d/52fLh2lPe0OFtofBV0C/IviZg89weA==, tarball: file:projects/web-pubsub-express.tgz}
     name: '@rush-temp/web-pubsub-express'
     version: 0.0.0
     dependencies:
