@@ -15,7 +15,6 @@ import {
 import * as assert from "assert";
 import { ClientSecretCredential } from "@azure/identity";
 import { AzureMediaServices } from "../src/azureMediaServices";
-import { StorageManagementClient,StorageAccountCreateParameters} from "@azure/arm-storage";
 
 const recorderEnvSetup: RecorderEnvironmentSetup = {
   replaceableVariables: {
@@ -38,7 +37,6 @@ describe("MediaServices test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: AzureMediaServices;
-  let storage_client: StorageManagementClient;
   let location: string;
   let resourceGroup: string;
   let mediaName: string;
@@ -54,7 +52,6 @@ describe("MediaServices test", () => {
       env.AZURE_CLIENT_SECRET
     );
     client = new AzureMediaServices(credential, subscriptionId);
-    storage_client = new StorageManagementClient(credential,subscriptionId);
     location = "eastus";
     resourceGroup = "myjstest";
     mediaName = "mymediaxxx";
