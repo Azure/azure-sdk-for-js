@@ -2254,7 +2254,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
         it("unique multiple actions per type are allowed", async function() {
           const docs = [{ id: "1", text: "I will go to the park." }];
 
-          const response = await client.beginAnalyzeActions(
+          const poller = await client.beginAnalyzeActions(
             docs,
             {
               recognizePiiEntitiesActions: [
@@ -2266,7 +2266,10 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
               updateIntervalInMs: pollingInterval
             }
           );
-          assert.isDefined(response);
+          const pollerResult = await poller.pollUntilDone();
+          const firstResult = (await pollerResult.next()).value;
+          assert.equal(firstResult.recognizePiiEntitiesResults[0].actionName, "action1");
+          assert.equal(firstResult.recognizePiiEntitiesResults[1].actionName, "action2");
         });
       });
 

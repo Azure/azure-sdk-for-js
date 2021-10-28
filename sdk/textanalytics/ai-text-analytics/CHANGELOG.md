@@ -22,6 +22,7 @@
       { modelVersion: "2021-01-15", actionName: "action2" }] 
     });
     ```
+- `beginAnalyzeActions` supports actions to be named and the name is now accessible in each action result.
 
 ## 5.2.0-beta.1 (2021-08-09)
 
