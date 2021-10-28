@@ -65,40 +65,6 @@ describe("MediaServices test", () => {
     await recorder.stop();
   });
 
-  // storageAccounts.beginCreateAndWait
-  async function storageAccounts_beginCreateAndWait() {
-      const parameter: StorageAccountCreateParameters = {
-        sku: {
-          name: "Standard_GRS",
-        },
-        kind: "StorageV2",
-        location: "westeurope",
-        encryption: {
-          services: {
-            file: {
-              keyType: "Account",
-              enabled: true,
-            },
-            blob: {
-              keyType: "Account",
-              enabled: true,
-            },
-          },
-          keySource: "Microsoft.Storage",
-        },
-        tags: {
-          key1: "value1",
-          key2: "value2",
-        },
-      };
-      const storageaccount = await storage_client.storageAccounts.beginCreateAndWait(
-        resourceGroup,
-        storageAccountName,
-        parameter
-      );
-      return storageaccount;
-  }
-
   it("mediaservices create test", async function() {
     const storageAccount = await storage_client.storageAccounts.getProperties(resourceGroup,storageAccountName);
     const res = await client.mediaservices.createOrUpdate(resourceGroup,mediaName,{
