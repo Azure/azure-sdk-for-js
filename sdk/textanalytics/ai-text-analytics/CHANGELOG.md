@@ -13,7 +13,7 @@
 
 ### Other Changes
 
-- `beginAnalyzeActions` supports multiple actins of the same type so you can pass a list of any particular action type, e.g.
+- `beginAnalyzeActions` supports multiple actions of the same type so you can pass a list of any particular action type, e.g.
 
 
     ```typescript
