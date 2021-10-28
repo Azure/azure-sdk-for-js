@@ -10,30 +10,34 @@ describe("Abuse protection works", function() {
   it("Only requests with valid header will be processed", function() {
     const req = new IncomingMessage(new Socket());
     const res = new ServerResponse(req);
-    const dispatcher = new CloudEventsDispatcher("hub", ["*"]);
+    const dispatcher = new CloudEventsDispatcher("hub");
 
-    const result = dispatcher.processValidateRequest(req, res);
+    const result = dispatcher.handlePreflight(req, res);
     assert.isFalse(result);
   });
 
   it("Support * in allowed endpoints", function() {
     const req = new IncomingMessage(new Socket());
+    req.headers["ce-awpsversion"] = "1.0";
     req.headers["webhook-request-origin"] = "a.com";
     const res = new ServerResponse(req);
-    const dispatcher = new CloudEventsDispatcher("hub", ["*"]);
+    const dispatcher = new CloudEventsDispatcher("hub");
 
-    const result = dispatcher.processValidateRequest(req, res);
+    const result = dispatcher.handlePreflight(req, res);
     assert.isTrue(result);
     assert.equal("*", res.getHeader("webhook-allowed-origin"));
   });
 
   it("Support valid url in allowed endpoints", function() {
     const req = new IncomingMessage(new Socket());
+    req.headers["ce-awpsversion"] = "1.0";
     req.headers["webhook-request-origin"] = "a.com";
     const res = new ServerResponse(req);
-    const dispatcher = new CloudEventsDispatcher("hub", ["*", "https://a.com/c"]);
+    const dispatcher = new CloudEventsDispatcher("hub", {
+      allowedEndpoints: ["*", "https://a.com/c"]
+    });
 
-    const result = dispatcher.processValidateRequest(req, res);
+    const result = dispatcher.handlePreflight(req, res);
     assert.isTrue(result);
     assert.equal("*,a.com", res.getHeader("webhook-allowed-origin"));
   });
