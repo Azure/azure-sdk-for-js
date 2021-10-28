@@ -1552,6 +1552,7 @@ packages:
   /@opentelemetry/node/0.22.0_@opentelemetry+api@1.0.3:
     resolution: {integrity: sha512-+HhGbDruQ7cwejVOIYyxRa28uosnG8W95NiQZ6qE8PXXPsDSyGeftAPbtYpGit0H2f5hrVcMlwmWHeAo9xkSLA==}
     engines: {node: '>=8.0.0'}
+    deprecated: Package renamed to @opentelemetry/sdk-trace-node
     peerDependencies:
       '@opentelemetry/api': ^1.0.0
     dependencies:
@@ -2512,12 +2513,12 @@ packages:
       - debug
     dev: false
 
-  /azure-iot-amqp-base/2.4.12:
-    resolution: {integrity: sha512-ECVFvGBvtNevn0mxkGbycEmxYQu1/IgDjjyPkVEMqgG9P30RTFsFc02JTJGLoP26CJXiBr0W5YbL0haUl2PoHg==}
+  /azure-iot-amqp-base/2.4.13:
+    resolution: {integrity: sha512-IzIaaKG60wX/nuVQ2zRX+JCYeoN3FveLjTuZ6xHSP8XH0eB6/d/HztJFsB+Q3pQ3DJo8MWe7vHyDz1HkpAD15g==}
     engines: {node: '>= 12.0.0'}
     dependencies:
       async: 2.6.3
-      azure-iot-common: 1.12.12
+      azure-iot-common: 1.12.13
       debug: 4.3.2
       lodash.merge: 4.6.2
       machina: 4.0.2
@@ -2528,8 +2529,8 @@ packages:
       - supports-color
     dev: false
 
-  /azure-iot-common/1.12.12:
-    resolution: {integrity: sha512-ltuk1UAliI9Rr3sCX+eWVcU5EvNkZZlliZBya7iz+/p32/ZGGcqnZbFxtNw6SX/9XtuUhSXf5z++oN4CIdAb3Q==}
+  /azure-iot-common/1.12.13:
+    resolution: {integrity: sha512-s29mPg+Wj17bVaKMM8im4+sWeXYSs4ern5Eelqs3qKU8dc4REWQ43Ln2t6J/A1MqZ/UxAPgXrVhHk1DCN8NQGQ==}
     engines: {node: '>= 12.0.0'}
     dependencies:
       debug: 4.3.2
@@ -2538,28 +2539,28 @@ packages:
       - supports-color
     dev: false
 
-  /azure-iot-http-base/1.11.12:
-    resolution: {integrity: sha512-Ryaz1cX4Bh7qOd583PWMftNuMut2FAXp8hVY5HsE029fecVhRGa2D28Ab1f9D9mSxOH3A7QrZguq3b74FsAMmg==}
+  /azure-iot-http-base/1.11.13:
+    resolution: {integrity: sha512-JwVqtloxXWvhsJpXXNz2tri4at7uzukbsJjGjMQsgqJ8HT9jBYVcLY5sJlIhFT6E2tmx7kXX4i9w6GUQVMdKUw==}
     engines: {node: '>= 12.0.0'}
     dependencies:
-      azure-iot-common: 1.12.12
+      azure-iot-common: 1.12.13
       debug: 4.3.2
       uuid: 8.3.2
     transitivePeerDependencies:
       - supports-color
     dev: false
 
-  /azure-iothub/1.14.5:
-    resolution: {integrity: sha512-g/lf3lD3uKk/BfaR4bQ9VQ0OFLvJWeuWrLfcxeqY5377oI7c/7Ueo7SNzNG1d+Z2oyYuuSXcZ7gFcvYQu3g0HA==}
+  /azure-iothub/1.14.6:
+    resolution: {integrity: sha512-Yb7oEGdMd0caqSeBomwBGe+TXvXLiul4k/yqHA8i/+Sqt8cpDs2/MBunKGz8Lv/RYxAVClLv6Q8XXPfG1nNZ/g==}
     engines: {node: '>= 12.0.0'}
     dependencies:
       '@azure/core-http': 1.2.3
       '@azure/identity': 1.2.5_debug@4.3.2
       '@azure/ms-rest-js': 2.6.0
       async: 2.6.3
-      azure-iot-amqp-base: 2.4.12
-      azure-iot-common: 1.12.12
-      azure-iot-http-base: 1.11.12
+      azure-iot-amqp-base: 2.4.13
+      azure-iot-common: 1.12.13
+      azure-iot-http-base: 1.11.13
       debug: 4.3.2
       lodash: 4.17.21
       machina: 4.0.2
@@ -13347,7 +13348,7 @@ packages:
     dev: false
 
   file:projects/video-analyzer-edge.tgz:
-    resolution: {integrity: sha512-Cl4jjmfkJuO8NZ72KUrRa1bQlcQGLYRpJcCwlmQY3LIhRTDAz0eJYbSiAjzq0S15LzmCw/2mzVoMK6kP+vgNvQ==, tarball: file:projects/video-analyzer-edge.tgz}
+    resolution: {integrity: sha512-9+t+mAcyAqPYLyp4a41bdqOppIV2die1AY4A2bP/szdpcSfp+AA/ZQc2kyfHWBB5fVXlfHI75WYq687WY8qxcQ==, tarball: file:projects/video-analyzer-edge.tgz}
     name: '@rush-temp/video-analyzer-edge'
     version: 0.0.0
     dependencies:
@@ -13357,7 +13358,7 @@ packages:
       '@types/chai-as-promised': 7.1.4
       '@types/mocha': 7.0.2
       '@types/node': 12.20.33
-      azure-iothub: 1.14.5
+      azure-iothub: 1.14.6
       chai: 4.3.4
       chai-as-promised: 7.1.1_chai@4.3.4
       cross-env: 7.0.3
@@ -13455,7 +13456,7 @@ packages:
     dev: false
 
   file:projects/web-pubsub.tgz:
-    resolution: {integrity: sha512-oVNzjy9G/kKI1/CctYffS7IPtBPbpwziyDHpPPtsZDbYyQSUfLghCp4z84SeNabCyRDc0Obr2i9LAE/0h8X7jA==, tarball: file:projects/web-pubsub.tgz}
+    resolution: {integrity: sha512-6Sn9wzvUjUf7+lkq3GGOkhY5Y0jRQxH4J0tcN30b6Qfogl3oaQZZEssDgxQWkD7LpSx4ODyTCgL4ZbaIwGGQJA==, tarball: file:projects/web-pubsub.tgz}
     name: '@rush-temp/web-pubsub'
     version: 0.0.0
     dependencies:
