@@ -182,22 +182,14 @@ function getRequestBody(body?: unknown, contentType: string = "application/json"
 
   const firstType = contentType.split(";")[0];
 
-  if (contentType === "application/json" || firstType === "application/json") {
-    return { body: JSON.stringify(body) };
-  }
-
-  let resolvedBody: RequestBody = { body: body as RequestBodyType };
-
   switch (firstType) {
     case "multipart/form-data":
-      resolvedBody = isFormData(body) ? { formData: body } : { body: JSON.stringify(body) };
-      break;
+      return isFormData(body) ? { formData: body } : { body: JSON.stringify(body) };
     case "text/plain":
-      resolvedBody = { body: String(body) };
-      break;
+      return { body: String(body) };
+    default:
+      return { body: JSON.stringify(body) };
   }
-
-  return resolvedBody;
 }
 
 function isFormData(body: unknown): body is FormDataMap {
