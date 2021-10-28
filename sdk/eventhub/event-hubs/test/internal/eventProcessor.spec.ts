@@ -282,7 +282,6 @@ testWithServiceTypes((serviceVersion) => {
         });
 
         it("non-useful errors are filtered out", async () => {
-          console.log("11111111111111");
           // the user's error handler will throw an error - won't escape from this function
 
           await eventProcessor["_handleSubscriptionError"](new AbortError("test error"));
@@ -294,7 +293,6 @@ testWithServiceTypes((serviceVersion) => {
       });
 
       it("if we fail to claim partitions we don't start up new processors", async () => {
-        console.log("222222222222222");
         const checkpointStore = {
           claimOwnershipCalled: false,
 
