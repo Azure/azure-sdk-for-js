@@ -12,6 +12,7 @@ import {
 import { PerfParallel } from "./parallel";
 import { TestProxyHttpClientV1, TestProxyHttpClient } from "./testProxyHttpClient";
 import { exec } from "child_process";
+import { formatDuration } from "./utils";
 
 export type TestType = "";
 
@@ -162,14 +163,6 @@ export class PerfProgram {
     }
   }
 
-  private formatElapsedTime(elapsedMillis: number): string {
-    const elapsedSeconds = Math.floor((elapsedMillis / 1000) % 60);
-    const elapsedMinutes = Math.floor(elapsedMillis / 1000 / 60);
-    return `${elapsedMinutes < 10 ? "0" : ""}${elapsedMinutes}:${
-      elapsedSeconds < 10 ? "0" : ""
-    }${elapsedSeconds}`;
-  }
-
   // Triggers runLoop as many times as parallels have been passed in through the options.
   // Stops all test executions once the durationSeconds has been reached.
   private async runTest(
@@ -205,7 +198,7 @@ export class PerfProgram {
       const totalCompleted = this.getCompletedOperations(parallels);
       const currentCompleted = totalCompleted - lastCompleted;
       const averageCompleted = this.getOperationsPerSecond(parallels);
-      const elapsedTime = this.formatElapsedTime(new Date().getTime() - startMillis);
+      const elapsedTime = formatDuration(new Date().getTime() - startMillis);
 
       lastCompleted = totalCompleted;
       console.log(
