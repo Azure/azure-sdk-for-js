@@ -1,7 +1,7 @@
 {
   "name": "@azure-tools/testing-recorder-new",
   "version": "1.0.0",
-  "sdk-type": "client",
+  "sdk-type": "utility",
   "description": "This library uses the interfaces and helper methods from @azure-tools/test-recorder-new in the tests to show an example",
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",

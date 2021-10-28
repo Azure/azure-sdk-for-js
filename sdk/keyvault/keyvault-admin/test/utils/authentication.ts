@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { ClientSecretCredential } from "@azure/identity";
-import { isPlaybackMode, record, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
+import { env, isPlaybackMode, record, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
 import { KeyClient } from "@azure/keyvault-keys";
 import { v4 as uuidv4 } from "uuid";
 
@@ -61,7 +61,10 @@ export async function authenticate(that: any): Promise<any> {
   const credential = new ClientSecretCredential(
     getEnvironmentVariable("AZURE_TENANT_ID"),
     getEnvironmentVariable("AZURE_CLIENT_ID"),
-    getEnvironmentVariable("AZURE_CLIENT_SECRET")
+    getEnvironmentVariable("AZURE_CLIENT_SECRET"),
+    {
+      authorityHost: env.AZURE_AUTHORITY_HOST // undefined by default is expected
+    }
   );
 
   const keyVaultHsmUrl = getEnvironmentVariable("AZURE_MANAGEDHSM_URI");
