@@ -8,7 +8,6 @@ import * as Mappers from "./generated/src/models/mappers";
 import * as ExtraMappers from "./mappers";
 import { CallingServerApiClientContext } from "./generated/src/callingServerApiClientContext";
 import { URLBuilder } from "@azure/core-http";
-import { OperationQueryParameter } from "@azure/core-http";
 import { createSpan } from "./tracing";
 import { SpanStatusCode } from "@azure/core-tracing";
 
@@ -20,6 +19,7 @@ import {
   OperationSpec
 } from "@azure/core-http";
 import { ContentDownloadResponse } from ".";
+import { CallingServerUtils } from "./utils/utils";
 
 export class ContentDownloader {
   private readonly client: CallingServerApiClientContext;
@@ -79,17 +79,7 @@ export class ContentDownloader {
 const serializer = new Serializer(Mappers, /* isXml */ false);
 
 function getDownloadContentOperationSpec(url: string, stringToSign: string): OperationSpec {
-  const stringToSignHeader: OperationQueryParameter = {
-    parameterPath: "UriToSignWith",
-    mapper: {
-      defaultValue: stringToSign,
-      isConstant: true,
-      serializedName: "UriToSignWith",
-      type: {
-        name: "String"
-      }
-    }
-  };
+  const stringToSignHeader = CallingServerUtils.getStringToSignHeader(stringToSign);
 
   const downloadContentOperationSpec: OperationSpec = {
     path: "",

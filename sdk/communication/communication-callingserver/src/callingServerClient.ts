@@ -35,6 +35,7 @@ import {
   StartCallRecordingWithCallLocatorRequest,
   CallRecordingProperties
 } from "./generated/src/models";
+import * as Mappers from "./generated/src/models/mappers";
 import { TokenCredential } from "@azure/core-auth";
 
 import {
@@ -50,7 +51,12 @@ import {
   InternalPipelineOptions,
   createPipelineFromOptions,
   operationOptionsToRequestOptionsBase,
-  RestResponse
+  RestResponse,
+  OperationArguments,
+  OperationOptions,
+  OperationSpec,
+  Serializer,
+  URLBuilder
 } from "@azure/core-http";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { CallingServerApiClient } from "./generated/src/callingServerApiClient";
@@ -85,7 +91,7 @@ export class CallingServerClient {
   private readonly callingServerServiceClient: CallingServerApiClient;
   private readonly callConnectionRestClient: CallConnections;
   private readonly serverCallRestClient: ServerCalls;
-  private readonly downloadCallingServerApiClient: CallingServerApiClientContext;
+  private readonly deleteAndDownloadCallingServerApiClient: CallingServerApiClientContext;
 
   /**
    * Initializes a new instance of the CallingServerClient class.
@@ -138,7 +144,7 @@ export class CallingServerClient {
     this.callingServerServiceClient = new CallingServerApiClient(url, pipeline);
     this.callConnectionRestClient = this.callingServerServiceClient.callConnections;
     this.serverCallRestClient = this.callingServerServiceClient.serverCalls;
-    this.downloadCallingServerApiClient = new CallingServerApiClientContext(url, pipeline);
+    this.deleteAndDownloadCallingServerApiClient = new CallingServerApiClientContext(url, pipeline);
   }
 
   /**
@@ -150,7 +156,7 @@ export class CallingServerClient {
   }
 
   public initializeContentDownloader(): ContentDownloader {
-    return new ContentDownloader(this.downloadCallingServerApiClient);
+    return new ContentDownloader(this.deleteAndDownloadCallingServerApiClient);
   }
 
   /**
@@ -824,4 +830,80 @@ export class CallingServerClient {
       span.end();
     }
   }
+
+    /**
+   * Deletes the content pointed to the uri passed as a parameter.
+   *
+   * * In Node.js, data returns ?
+   * * In browsers, data returns ?
+   *
+   * @param deleteUri - Endpoint where the content exists.
+   *
+   * Example usage (Node.js):
+   *
+   * ```js
+   * // Delete and convert a blob to a string
+   * const deleteUri = "https://deleteUri.com";
+   * const deleteResponse = await callingServerClient.delete(deleteUri);
+   *
+   * ```
+   */
+  public async delete(
+    deleteUri: string,
+    options: OperationOptions = {}
+  ): Promise<RestResponse>
+  {
+    const { span, updatedOptions } = createSpan("ServerCallRestClient-delete", options);
+
+    const operationArguments: OperationArguments = {
+      options: operationOptionsToRequestOptionsBase(updatedOptions)
+    };
+
+    try 
+    {
+      const q = URLBuilder.parse(deleteUri);
+      const formattedUrl = q.getPath()!.startsWith("/") ? q.getPath()!.substr(1) : q.getPath()!;
+      const stringToSign = this.deleteAndDownloadCallingServerApiClient.endpoint + formattedUrl;
+
+    return this.deleteAndDownloadCallingServerApiClient.sendOperationRequest(
+        operationArguments,
+        getDeleteOperationSpec(deleteUri, stringToSign)
+      ) as Promise<RestResponse>
+    } catch(e) {
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: e.message
+      });
+       throw e;
+    } finally {
+      span.end();
+    }
+
+  }
+}
+
+
+function getDeleteOperationSpec(url: string, stringToSign: string): OperationSpec {
+  // Operation Specifications
+  const serializer = new Serializer(Mappers, /* isXml */ false);
+  const stringToSignHeader = CallingServerUtils.getStringToSignHeader(stringToSign);
+
+  const deleteOperationSpec: OperationSpec = {
+    path: "",
+    baseUrl: url,
+    httpMethod: "DELETE",
+    responses: {
+      200: {},
+      default: {
+        bodyMapper: Mappers.CommunicationErrorResponse
+      }
+    },
+    requestBody: undefined,
+    queryParameters: [],
+    urlParameters: [],
+    headerParameters: [stringToSignHeader],
+    serializer
+  };
+
+  return deleteOperationSpec;
 }
