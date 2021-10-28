@@ -13,7 +13,7 @@ export const commandInfo = makeCommandInfo(
       kind: "string",
       description:
         "Mocha options along with the test files(glob pattern) in TS as expected by mocha",
-      default: ""
+      default: '--timeout 1200000 --exclude "test/**/browser/*.spec.ts" "test/**/*.spec.ts"'
     }
   }
 );

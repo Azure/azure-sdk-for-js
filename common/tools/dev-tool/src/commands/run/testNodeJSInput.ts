@@ -13,7 +13,7 @@ export const commandInfo = makeCommandInfo(
       kind: "string",
       description:
         "Mocha options along with the bundled test file(JS) with rollup as expected by mocha",
-      default: ""
+      default: '--timeout 5000000 "dist-esm/test/{,!(browser)/**/}/*.spec.js"'
     }
   }
 );
