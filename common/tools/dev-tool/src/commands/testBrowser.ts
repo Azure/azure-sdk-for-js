@@ -8,34 +8,32 @@ import { isProxyToolActive } from "../util/testProxyUtils";
 config();
 
 export const commandInfo = makeCommandInfo(
-  "test:node",
-  "runs the node tests using mocha with the default and the provided options; starts the proxy-tool in record and playback modes",
+  "test:browser",
+  "runs the browser tests using karma with the default and the provided options; starts the proxy-tool in record and playback modes",
   {
-    mocha: {
+    karma: {
       kind: "string",
-      description: "Mocha options along with the test files(glob pattern) as expected by mocha",
+      description: "Karma options (such as --single-run)",
       default: ""
     }
   }
 );
 
 export default leafCommand(commandInfo, async (_) => {
-  if (process.argv[3] !== "--mocha" && !process.argv[4]) {
+  if (process.argv[3] !== "--karma" && !process.argv[4]) {
     throw new Error(
-      "unexpected command provided; expected = `dev-tool test:node --mocha '<options>'`"
+      "unexpected command provided; expected = `dev-tool test:browser --karma '<options>'`"
     );
   }
 
   const testProxyStart = "dev-tool test-proxy start";
-  const mochaCMDWithDefaults =
-    "nyc mocha -r esm --require ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js --full-trace";
-  const mochaCommand = `${mochaCMDWithDefaults} ${process.argv[4]}`;
+  const karmaCMD = `karma start ${process.argv[4]}`;
 
-  let runOnlyMochaCommand = false; // Boolean to figure out if we need to run just the mocha command or the test-proxy too
+  let runOnlyKarmaCommand = false; // Boolean to figure out if we need to run just the karma command or the test-proxy too
 
   const mode = process.env.TEST_MODE;
   if (mode === "live") {
-    runOnlyMochaCommand = true; // No need to start the proxy tool in the live mode
+    runOnlyKarmaCommand = true; // No need to start the proxy tool in the live mode
   } else {
     try {
       await isProxyToolActive();
@@ -44,26 +42,26 @@ export default leafCommand(commandInfo, async (_) => {
       console.log(
         `Proxy tool seems to be active, not attempting to start the test proxy at http://localhost:5000 & https://localhost:5001.\n`
       );
-      runOnlyMochaCommand = true;
+      runOnlyKarmaCommand = true;
     } catch (error) {
       if ((error as { code: string }).code === "ECONNREFUSED") {
         // Proxy tool is not active, attempt to start the proxy tool now
-        runOnlyMochaCommand = false;
+        runOnlyKarmaCommand = false;
       } else {
         throw error;
       }
     }
   }
 
-  const mochaCommandObj: concurrently.CommandObj = {
-    command: mochaCommand,
-    name: "node-tests"
+  const karmaCommandObj: concurrently.CommandObj = {
+    command: karmaCMD,
+    name: "browser-tests"
   };
 
-  if (runOnlyMochaCommand) {
-    await concurrently([mochaCommandObj]);
+  if (runOnlyKarmaCommand) {
+    await concurrently([karmaCommandObj]);
   } else {
-    await concurrently([{ command: testProxyStart, name: "test-proxy" }, mochaCommandObj], {
+    await concurrently([{ command: testProxyStart, name: "test-proxy" }, karmaCommandObj], {
       killOthers: ["failure", "success"],
       successCondition: "first"
     });
