@@ -43,14 +43,14 @@ const express = require("express");
 const { WebPubSubEventHandler } = require("@azure/web-pubsub-express");
 const handler = new WebPubSubEventHandler(
   "chat",
-  ["https://<yourAllowedService>.webpubsub.azure.com"],
   {
     handleConnect: (req, res) => {
       // auth the connection and set the userId of the connection
       res.success({
         userId: "<userId>"
       });
-    }
+    },
+    allowedEndpoints: ["https://<yourAllowedService>.webpubsub.azure.com"]
   }
 );
 
