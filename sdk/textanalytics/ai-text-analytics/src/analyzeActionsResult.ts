@@ -84,9 +84,19 @@ export interface AnalyzeActionsResult {
 }
 
 /**
+ * The state of an action
+ */
+export interface TextAnalyticsActionState {
+  /**
+   * The name of the action.
+   */
+  actionName?: string;
+}
+
+/**
  * The state of a succeeded action.
  */
-export interface TextAnalyticsActionSuccessState {
+export interface TextAnalyticsActionSuccessState extends TextAnalyticsActionState {
   /**
    * When this action was completed by the service.
    */
@@ -100,7 +110,7 @@ export interface TextAnalyticsActionSuccessState {
 /**
  * The error of an analyze batch action.
  */
-export interface TextAnalyticsActionErrorResult {
+export interface TextAnalyticsActionErrorResult extends TextAnalyticsActionState {
   /**
    * When this action was completed by the service.
    */
@@ -513,13 +523,19 @@ function categorizeActionErrors(
  */
 function createErredAction(
   error: TextAnalyticsActionError,
-  lastUpdateDateTime: Date
+  lastUpdateDateTime: Date,
+  taskName?: string
 ): TextAnalyticsActionErrorResult {
-  return { error: intoTextAnalyticsError(error), failedOn: lastUpdateDateTime };
+  return {
+    error: intoTextAnalyticsError(error),
+    failedOn: lastUpdateDateTime,
+    actionName: taskName
+  };
 }
 
 interface TaskSuccessResult<T> {
   results?: T;
+  taskName?: string;
   lastUpdateDateTime: Date;
 }
 
@@ -549,18 +565,22 @@ function makeActionResult<TTaskResult, TActionResult>(
     actions: ActionResult<TActionResult>[],
     task: TaskSuccessResult<TTaskResult>
   ): ActionResult<TActionResult>[] {
-    const { results: actionResults, lastUpdateDateTime } = task;
+    const { results: actionResults, lastUpdateDateTime, taskName } = task;
     if (actionResults !== undefined) {
       const recognizeEntitiesResults = makeResultsArray(documents, actionResults);
       return [
         ...actions,
         {
           results: recognizeEntitiesResults,
-          completedOn: lastUpdateDateTime
+          completedOn: lastUpdateDateTime,
+          actionName: taskName
         }
       ];
     } else {
-      return [...actions, createErredAction(erredActions[errorIndex++], lastUpdateDateTime)];
+      return [
+        ...actions,
+        createErredAction(erredActions[errorIndex++], lastUpdateDateTime, taskName)
+      ];
     }
   }
   return succeededTasks.reduce(convertTasksToActions, []);
