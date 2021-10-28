@@ -30,11 +30,11 @@ export default leafCommand(commandInfo, async (_) => {
     "mocha -r esm -r ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js --full-trace";
   const mochaCommand = `${mochaCMDWithDefaults} ${process.argv[5]}`;
 
-  let runOnlyMochaCommand = false; // Boolean to figure out if we need to run just the mocha command or the test-proxy too
+  let runOnlyTestCommand = false; // Boolean to figure out if we need to run just the mocha command or the test-proxy too
 
   const mode = process.env.TEST_MODE;
   if (mode === "live") {
-    runOnlyMochaCommand = true; // No need to start the proxy tool in the live mode
+    runOnlyTestCommand = true; // No need to start the proxy tool in the live mode
   } else {
     try {
       await isProxyToolActive();
@@ -43,11 +43,11 @@ export default leafCommand(commandInfo, async (_) => {
       console.log(
         `Proxy tool seems to be active, not attempting to start the test proxy at http://localhost:5000 & https://localhost:5001.\n`
       );
-      runOnlyMochaCommand = true;
+      runOnlyTestCommand = true;
     } catch (error) {
       if ((error as { code: string }).code === "ECONNREFUSED") {
         // Proxy tool is not active, attempt to start the proxy tool now
-        runOnlyMochaCommand = false;
+        runOnlyTestCommand = false;
       } else {
         throw error;
       }
@@ -59,7 +59,7 @@ export default leafCommand(commandInfo, async (_) => {
     name: "node-tests"
   };
 
-  if (runOnlyMochaCommand) {
+  if (runOnlyTestCommand) {
     await concurrently([mochaCommandObj]);
   } else {
     await concurrently([{ command: testProxyStart, name: "test-proxy" }, mochaCommandObj], {

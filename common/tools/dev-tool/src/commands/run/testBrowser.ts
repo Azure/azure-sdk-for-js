@@ -27,11 +27,11 @@ export default leafCommand(commandInfo, async (_) => {
   const testProxyStart = "dev-tool test-proxy start";
   const karmaCMD = `karma start ${process.argv[5]}`;
 
-  let runOnlyKarmaCommand = false; // Boolean to figure out if we need to run just the karma command or the test-proxy too
+  let runOnlyTestCommand = false; // Boolean to figure out if we need to run just the karma command or the test-proxy too
 
   const mode = process.env.TEST_MODE;
   if (mode === "live") {
-    runOnlyKarmaCommand = true; // No need to start the proxy tool in the live mode
+    runOnlyTestCommand = true; // No need to start the proxy tool in the live mode
   } else {
     try {
       await isProxyToolActive();
@@ -40,11 +40,11 @@ export default leafCommand(commandInfo, async (_) => {
       console.log(
         `Proxy tool seems to be active, not attempting to start the test proxy at http://localhost:5000 & https://localhost:5001.\n`
       );
-      runOnlyKarmaCommand = true;
+      runOnlyTestCommand = true;
     } catch (error) {
       if ((error as { code: string }).code === "ECONNREFUSED") {
         // Proxy tool is not active, attempt to start the proxy tool now
-        runOnlyKarmaCommand = false;
+        runOnlyTestCommand = false;
       } else {
         throw error;
       }
@@ -56,7 +56,7 @@ export default leafCommand(commandInfo, async (_) => {
     name: "browser-tests"
   };
 
-  if (runOnlyKarmaCommand) {
+  if (runOnlyTestCommand) {
     await concurrently([karmaCommandObj]);
   } else {
     await concurrently([{ command: testProxyStart, name: "test-proxy" }, karmaCommandObj], {
