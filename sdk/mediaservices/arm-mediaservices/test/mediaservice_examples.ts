@@ -111,7 +111,7 @@ describe("MediaServices test", () => {
         ]
     });
     assert.equal(res.name,mediaName);
-  });
+  }).timeout(3600000);
 
   it("mediaservices get test", async function() {
     const res = await client.mediaservices.get(resourceGroup,mediaName);
