@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PathUncheckedResponse } from "./getClient";
+import { PathUncheckedResponse } from "./common";
 import { RestError, PipelineResponse, createHttpHeaders } from "@azure/core-rest-pipeline";
 
 /**

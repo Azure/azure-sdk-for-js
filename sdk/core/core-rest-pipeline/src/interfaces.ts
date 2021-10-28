@@ -142,6 +142,11 @@ export interface PipelineRequest {
   streamResponseStatusCodes?: Set<number>;
 
   /**
+   * If set, body will be returned as a stream.
+   */
+  responseAsStream?: boolean;
+
+  /**
    * Proxy configuration.
    */
   proxySettings?: ProxySettings;

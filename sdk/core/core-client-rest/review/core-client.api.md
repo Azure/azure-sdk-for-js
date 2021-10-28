@@ -61,7 +61,7 @@ export interface ClientResource<TResponse = Thenable<PathUncheckedResponse>> {
 
 // @public
 export interface ClientWithAsStream extends Client {
-    pathUnchecked: (path: string, ...args: Array<any>) => ClientResource<MethodwithAsStream>;
+    pathUnchecked: (path: string, ...args: Array<string | number | boolean>) => ClientResource<MethodwithAsStream>;
 }
 
 // @public
@@ -83,6 +83,11 @@ export function getClientWithStream(baseUrl: string, options?: ClientOptions): C
 export function getClientWithStream(baseUrl: string, credentials?: TokenCredential | KeyCredential, options?: ClientOptions): ClientWithAsStream;
 
 // @public
+export type HttpNodeStreamResponse = HttpResponse & {
+    body: NodeJS.ReadableStream;
+};
+
+// @public
 export type HttpResponse = {
     request: PipelineRequest;
     headers: RawHttpHeaders;
@@ -95,7 +100,7 @@ export function isCertificateCredential(credential: unknown): credential is Cert
 
 // @public (undocumented)
 export type MethodwithAsStream = Thenable<PathUncheckedResponse> & {
-    asStream: () => Promise<NodeJS.ReadableStream | ReadableStream>;
+    asNodeStream: () => Promise<HttpNodeStreamResponse>;
 };
 
 // @public

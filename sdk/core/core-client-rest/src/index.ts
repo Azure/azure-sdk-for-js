@@ -11,4 +11,5 @@ export { CertificateCredential, isCertificateCredential } from "./certificateCre
 export { createRestError } from "./restError";
 export * from "./common";
 export * from "./getClient";
+export * from "./getStreamClient";
 export * from "./pathClientTypes";
