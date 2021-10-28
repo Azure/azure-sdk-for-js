@@ -4,11 +4,25 @@
 
 ### Features Added
 
+- We are now targeting the service's v3.2-preview.2 API as the default instead of v3.2-preview.1.
+- Adding support for a three new actions in `beginAnalyzeActions`: `recognizeCustomEntities`, `singleCategoryClassify`, and `multiCategoryClassify`. The new actions allow you to use custom models to perform entity recognition and classification actions.
+
 ### Breaking Changes
 
 ### Bugs Fixed
 
 ### Other Changes
+
+- `beginAnalyzeActions` supports multiple actions of the same type so you can pass a list of any particular action type, e.g.
+
+
+    ```typescript
+    await client.beginAnalyzeActions(docs, { recognizePiiEntitiesActions: [
+      { modelVersion: "latest", actionName: "action1" },
+      { modelVersion: "2021-01-15", actionName: "action2" }] 
+    });
+    ```
+- `beginAnalyzeActions` supports actions to be named and the name is now accessible in each action result.
 
 ## 5.2.0-beta.1 (2021-08-09)
 

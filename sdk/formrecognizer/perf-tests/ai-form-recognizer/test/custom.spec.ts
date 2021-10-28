@@ -1,11 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  PerfStressOptionDictionary,
-  PerfStressTest,
-  getEnvVar
-} from "@azure/test-utils-perfstress";
+import { PerfOptionDictionary, PerfTest, getEnvVar } from "@azure/test-utils-perf";
 import {
   AzureKeyCredential,
   BeginRecognizeCustomFormsOptions,
@@ -19,8 +15,8 @@ function unreachable(message?: string): never {
   throw new Error(message ?? "Unreachable Exception.");
 }
 
-export class CustomModelRecognitionTest extends PerfStressTest<BeginRecognizeCustomFormsOptions> {
-  public options: PerfStressOptionDictionary<BeginRecognizeCustomFormsOptions> = {
+export class CustomModelRecognitionTest extends PerfTest<BeginRecognizeCustomFormsOptions> {
+  public options: PerfOptionDictionary<BeginRecognizeCustomFormsOptions> = {
     updateIntervalInMs: {
       required: false,
       description: "Polling interval in milliseconds",
@@ -83,7 +79,7 @@ export class CustomModelRecognitionTest extends PerfStressTest<BeginRecognizeCus
     }
   }
 
-  async runAsync(): Promise<void> {
+  async run(): Promise<void> {
     const modelId = CustomModelRecognitionTest.sessionModel?.modelId;
     if (!modelId) {
       return unreachable("Failed to initialize model.");

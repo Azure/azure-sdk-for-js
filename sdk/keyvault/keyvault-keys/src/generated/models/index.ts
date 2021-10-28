@@ -51,7 +51,7 @@ export interface KeyReleasePolicy {
   /** Content type and version of key release policy */
   contentType?: string;
   /** Blob encoding the policy rules under which the key can be released. */
-  data?: Uint8Array;
+  encodedPolicy?: Uint8Array;
 }
 
 /** A KeyBundle consisting of a WebKey plus its attributes. */

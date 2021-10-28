@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PerfStressProgram, selectPerfStressTest } from "@azure/test-utils-perfstress";
+import { PerfProgram, selectPerfTest } from "@azure/test-utils-perf";
 import { AnomaliesListTest } from "./listAnomalies.spec";
 import { IncidentsListTest } from "./listIncidents.spec";
 import { RootCauseTest } from "./rootCauses.spec";
-console.log("=== Starting the perfStress test ===");
+console.log("=== Starting the perf test ===");
 
-const perfStressProgram = new PerfStressProgram(
-  selectPerfStressTest([AnomaliesListTest, IncidentsListTest, RootCauseTest])
+const perfProgram = new PerfProgram(
+  selectPerfTest([AnomaliesListTest, IncidentsListTest, RootCauseTest])
 );
-perfStressProgram.run();
+perfProgram.run();

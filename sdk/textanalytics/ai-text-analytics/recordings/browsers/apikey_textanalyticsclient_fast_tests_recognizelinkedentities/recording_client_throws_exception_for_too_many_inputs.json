@@ -2,7 +2,7 @@
  "recordings": [
   {
    "method": "POST",
-   "url": "https://endpoint/text/analytics/v3.2-preview.1/entities/recognition/general",
+   "url": "https://endpoint/text/analytics/v3.2-preview.2/entities/recognition/general",
    "query": {
     "stringIndexType": "Utf16CodeUnit"
    },
@@ -10,13 +10,12 @@
    "status": 400,
    "response": "{\"error\":{\"code\":\"InvalidRequest\",\"message\":\"Invalid document in request.\",\"innererror\":{\"code\":\"InvalidDocumentBatch\",\"message\":\"Batch request contains too many records. Max 5 records are permitted.\"}}}",
    "responseHeaders": {
-    "apim-request-id": "444afbcb-0060-4fad-ac97-6433db0470dd",
+    "apim-request-id": "fd208731-6557-4f26-a2ea-8493c7915e67",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 03 Aug 2021 22:52:55 GMT",
+    "date": "Sat, 23 Oct 2021 00:50:11 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "5"
+    "x-envoy-upstream-service-time": "6"
    }
   }
  ],

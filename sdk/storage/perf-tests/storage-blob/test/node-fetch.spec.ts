@@ -4,7 +4,7 @@
 import { StorageBlobDownloadWithSASTest } from "./dowloadWithSAS.spec";
 import node_fetch from "node-fetch";
 import https from "https";
-import { drainStream } from "@azure/test-utils-perfstress";
+import { drainStream } from "@azure/test-utils-perf";
 export class NodeFetchDownloadWithSASTest extends StorageBlobDownloadWithSASTest {
   agent: https.Agent;
   constructor() {
@@ -12,7 +12,7 @@ export class NodeFetchDownloadWithSASTest extends StorageBlobDownloadWithSASTest
     this.agent = new https.Agent({ keepAlive: true });
   }
 
-  async runAsync(): Promise<void> {
+  async run(): Promise<void> {
     const response = await node_fetch(this.sasUrl, { agent: this.agent });
     await drainStream(response.body);
   }

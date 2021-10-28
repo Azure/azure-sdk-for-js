@@ -4,26 +4,26 @@
    "method": "POST",
    "url": "https://keyvault_name.vault.azure.net/certificates/lroCreateCertificateName-canresumefromastoppedpoller-/create",
    "query": {
-    "api-version": "7.2"
+    "api-version": "7.3-preview"
    },
    "requestBody": "",
    "status": 401,
-   "response": "{\"error\":{\"code\":\"Unauthorized\",\"message\":\"Request is missing a Bearer or PoP token.\"}}",
+   "response": "{\"error\":{\"code\":\"Unauthorized\",\"message\":\"AKV10000: Request is missing a Bearer or PoP token.\"}}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "87",
+    "content-length": "97",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 16 Feb 2021 19:23:33 GMT",
+    "date": "Mon, 25 Oct 2021 21:22:59 GMT",
     "expires": "-1",
     "pragma": "no-cache",
-    "status": "401",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
     "www-authenticate": "Bearer authorization=\"https://login.windows.net/12345678-1234-1234-1234-123456789012\", resource=\"https://vault.azure.net\"",
     "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "e22d96d3-86eb-49c7-9406-5052c0dd675a",
     "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
     "x-ms-keyvault-region": "westus2",
-    "x-ms-keyvault-service-version": "1.2.164.2",
-    "x-ms-request-id": "9a44fbb3-3446-4b1e-b1a6-6b40e391a63d",
+    "x-ms-keyvault-service-version": "1.9.150.1",
+    "x-ms-request-id": "afeb61e4-2a40-4161-b811-65c2b3320d7b",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -31,49 +31,51 @@
    "method": "POST",
    "url": "https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token",
    "query": {},
-   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default",
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fsanitized%2F",
    "status": 200,
    "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
    "responseHeaders": {
     "cache-control": "no-store, no-cache",
     "content-length": "1315",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 16 Feb 2021 19:23:34 GMT",
+    "date": "Mon, 25 Oct 2021 21:23:00 GMT",
     "expires": "-1",
+    "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
+    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+est\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11496.5 - EUS ProdSlices",
-    "x-ms-request-id": "4f2530ee-5954-4a7f-969f-c4409cfaf900"
+    "x-ms-ests-server": "2.1.12171.14 - SCUS ProdSlices",
+    "x-ms-request-id": "a224a3d5-f16b-4788-9790-f431c1ab8800"
    }
   },
   {
    "method": "POST",
    "url": "https://keyvault_name.vault.azure.net/certificates/lroCreateCertificateName-canresumefromastoppedpoller-/create",
    "query": {
-    "api-version": "7.2"
+    "api-version": "7.3-preview"
    },
    "requestBody": "{\"policy\":{\"key_props\":{},\"secret_props\":{},\"x509_props\":{\"subject\":\"cn=MyCert\",\"sans\":{}},\"issuer\":{\"name\":\"Self\"},\"attributes\":{}},\"attributes\":{}}",
    "status": 202,
-   "response": "{\"id\":\"https://keyvault_name.vault.azure.net/certificates/lroCreateCertificateName-canresumefromastoppedpoller-/pending\",\"issuer\":{\"name\":\"Self\"},\"csr\":\"MIICoTCCAYkCAQAwETEPMA0GA1UEAxMGTXlDZXJ0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAuMzryg1vwFQuTxDf17evBJmJ5KEoJrJWaUzhTqcBQXdV5uCdD9nxQzhi3r+f4e4OAvFIqMo230pptlTPB0vKLxlOrTNKbBYTBQuDl6hg4kcDeTHvVhPYvLLi2yyVLdDlXu/mpEk5Hnn77JV5ozubdW9a8Ye/hnc3dUkCtxiOg8IUC/Hyp1Oem+E6/5DnHO8amS+6joUZ2UyUANWg6u9BaK2Yy/k98TxFb0xWOvz53k/W9yTaCS7OcCVQ1QQyQgLk/hbcH3/WZdpq9aEqE3wg7DvjYxm6I159q2OW82yAu3+tmXCtNjNXAoLZ0FX0JgX9oqIXuCtlHOqqa2OWy96+0QIDAQABoEswSQYJKoZIhvcNAQkOMTwwOjAOBgNVHQ8BAf8EBAMCBaAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAkGA1UdEwQCMAAwDQYJKoZIhvcNAQELBQADggEBAD2NIx6cr+tfihXcrJ1Bqaj6D5ELWTUxKeoT+pynjj65Yj2FssvAryZzy3VS5q9dueoFGIlNAHWG6K1se7RgoEVWsRWqqVD96e/ltTZCar2tFwlxmCby8du0gCdNMPo66DFlmdGRZk/XBswgSw7xgpBphtmoDINQIRjS/uW+OOEzBQVFtYKW93Q3Zf3SD2uq3URosHj7Ylon2FSFpDwFbIg/HoYSp1lzXOwuHdreugsEMUdQiVrD0uXlbgTp+hxZVZGpBxYdddd/UVdueJn9EQgkg7zDyVqOV05EZmwmgBk2dQ2XSI2SmOK1zSS6sl0gen7LwgkBtrccA8KHsILi9f8=\",\"cancellation_requested\":false,\"status\":\"inProgress\",\"status_details\":\"Pending certificate created. Certificate request is in progress. This may take some time based on the issuer provider. Please check again later.\",\"request_id\":\"75ee2612e6224741aecd99ecc3affbe9\"}",
+   "response": "{\"id\":\"https://keyvault_name.vault.azure.net/certificates/lroCreateCertificateName-canresumefromastoppedpoller-/pending\",\"issuer\":{\"name\":\"Self\"},\"csr\":\"MIICoTCCAYkCAQAwETEPMA0GA1UEAxMGTXlDZXJ0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAynECFFOjE2xG55He0WPF/YyXxzja4mob/hYDRMiiBIwVhb56emunmSCsmibc+HJx8UISiiEKuBEqCOtEuYpD/TwjIcULYcJSotOSeYqaO1ATFfCIJXewgnKlPHPAyJfeu909I8cq9i99smySSRZM41BaSkjE7ayLZmqtNAUzobY55ZLhsAxBMnfeN5dPqSuVkAdLfKt+vv+uBMPn7Otym2tRCn7HxHE9yN1f01XWitTrG/g/P52ugLlL3tmUjhUXy8BKG2/tp8nYf7JYWB2F1xcutUr+KIuocsxLpk1e2DldZso6I+5+BEte0v3C/KnaOAWp/aJl6NvqORUgVB8G8QIDAQABoEswSQYJKoZIhvcNAQkOMTwwOjAOBgNVHQ8BAf8EBAMCBaAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAkGA1UdEwQCMAAwDQYJKoZIhvcNAQELBQADggEBAG/C0Eowgf7VhkUEGK2xBo+Ke9xqbaseTAxPJWNYT4YfJsaTwsHxgZdp3KbOXghoI8+KtBY3XZGGMSwP55cBsgwis12ua6EajfPyP75gpV7p/OSIcvtQ16ao4wcXycxPlAMOF4NUanqKfN/+NACBQcOCH32ugiC7Xbd3urmOcYv4XZ9v8M3PIgUGHi3uvKHPIX/geZjrjVZ130i2opDv4avJ1r4mimWzhR9BYeFguiCgLdLjQA31/xolq8W/U36EaSeKbkg2LzEJq8PqricG89YcTMMtMA9q29U5JAHBfXYbV468aTyKdboTc8ZkbJHKmnQZo5HCzdkSRpA4f4TdjnA=\",\"cancellation_requested\":false,\"status\":\"inProgress\",\"status_details\":\"Pending certificate created. Certificate request is in progress. This may take some time based on the issuer provider. Please check again later.\",\"request_id\":\"32e87f3d94864b978ab1cf0e3f93f3f5\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "1337",
+    "content-length": "1335",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 16 Feb 2021 19:23:37 GMT",
+    "date": "Mon, 25 Oct 2021 21:23:00 GMT",
     "expires": "-1",
-    "location": "https://keyvault_name.vault.azure.net/certificates/lroCreateCertificateName-canresumefromastoppedpoller-/pending?api-version=7.2&request_id=75ee2612e6224741aecd99ecc3affbe9",
+    "location": "https://keyvault_name.vault.azure.net/certificates/lroCreateCertificateName-canresumefromastoppedpoller-/pending?api-version=7.3-preview&request_id=32e87f3d94864b978ab1cf0e3f93f3f5",
     "pragma": "no-cache",
     "retry-after": "10",
-    "status": "202",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
     "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "e22d96d3-86eb-49c7-9406-5052c0dd675a",
     "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
     "x-ms-keyvault-region": "westus2",
-    "x-ms-keyvault-service-version": "1.2.164.2",
-    "x-ms-request-id": "6c23389c-fb74-443f-8707-efef30fd0799",
+    "x-ms-keyvault-service-version": "1.9.150.1",
+    "x-ms-request-id": "574bd0fb-12c7-4138-bb1a-c2e8b79a1eee",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -81,26 +83,26 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/certificates/lroCreateCertificateName-canresumefromastoppedpoller-/pending",
    "query": {
-    "api-version": "7.2"
+    "api-version": "7.3-preview"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"id\":\"https://keyvault_name.vault.azure.net/certificates/lroCreateCertificateName-canresumefromastoppedpoller-/pending\",\"issuer\":{\"name\":\"Self\"},\"csr\":\"MIICoTCCAYkCAQAwETEPMA0GA1UEAxMGTXlDZXJ0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAuMzryg1vwFQuTxDf17evBJmJ5KEoJrJWaUzhTqcBQXdV5uCdD9nxQzhi3r+f4e4OAvFIqMo230pptlTPB0vKLxlOrTNKbBYTBQuDl6hg4kcDeTHvVhPYvLLi2yyVLdDlXu/mpEk5Hnn77JV5ozubdW9a8Ye/hnc3dUkCtxiOg8IUC/Hyp1Oem+E6/5DnHO8amS+6joUZ2UyUANWg6u9BaK2Yy/k98TxFb0xWOvz53k/W9yTaCS7OcCVQ1QQyQgLk/hbcH3/WZdpq9aEqE3wg7DvjYxm6I159q2OW82yAu3+tmXCtNjNXAoLZ0FX0JgX9oqIXuCtlHOqqa2OWy96+0QIDAQABoEswSQYJKoZIhvcNAQkOMTwwOjAOBgNVHQ8BAf8EBAMCBaAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAkGA1UdEwQCMAAwDQYJKoZIhvcNAQELBQADggEBAD2NIx6cr+tfihXcrJ1Bqaj6D5ELWTUxKeoT+pynjj65Yj2FssvAryZzy3VS5q9dueoFGIlNAHWG6K1se7RgoEVWsRWqqVD96e/ltTZCar2tFwlxmCby8du0gCdNMPo66DFlmdGRZk/XBswgSw7xgpBphtmoDINQIRjS/uW+OOEzBQVFtYKW93Q3Zf3SD2uq3URosHj7Ylon2FSFpDwFbIg/HoYSp1lzXOwuHdreugsEMUdQiVrD0uXlbgTp+hxZVZGpBxYdddd/UVdueJn9EQgkg7zDyVqOV05EZmwmgBk2dQ2XSI2SmOK1zSS6sl0gen7LwgkBtrccA8KHsILi9f8=\",\"cancellation_requested\":false,\"status\":\"inProgress\",\"status_details\":\"Pending certificate created. Certificate request is in progress. This may take some time based on the issuer provider. Please check again later.\",\"request_id\":\"75ee2612e6224741aecd99ecc3affbe9\"}",
+   "response": "{\"id\":\"https://keyvault_name.vault.azure.net/certificates/lroCreateCertificateName-canresumefromastoppedpoller-/pending\",\"issuer\":{\"name\":\"Self\"},\"csr\":\"MIICoTCCAYkCAQAwETEPMA0GA1UEAxMGTXlDZXJ0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAynECFFOjE2xG55He0WPF/YyXxzja4mob/hYDRMiiBIwVhb56emunmSCsmibc+HJx8UISiiEKuBEqCOtEuYpD/TwjIcULYcJSotOSeYqaO1ATFfCIJXewgnKlPHPAyJfeu909I8cq9i99smySSRZM41BaSkjE7ayLZmqtNAUzobY55ZLhsAxBMnfeN5dPqSuVkAdLfKt+vv+uBMPn7Otym2tRCn7HxHE9yN1f01XWitTrG/g/P52ugLlL3tmUjhUXy8BKG2/tp8nYf7JYWB2F1xcutUr+KIuocsxLpk1e2DldZso6I+5+BEte0v3C/KnaOAWp/aJl6NvqORUgVB8G8QIDAQABoEswSQYJKoZIhvcNAQkOMTwwOjAOBgNVHQ8BAf8EBAMCBaAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAkGA1UdEwQCMAAwDQYJKoZIhvcNAQELBQADggEBAG/C0Eowgf7VhkUEGK2xBo+Ke9xqbaseTAxPJWNYT4YfJsaTwsHxgZdp3KbOXghoI8+KtBY3XZGGMSwP55cBsgwis12ua6EajfPyP75gpV7p/OSIcvtQ16ao4wcXycxPlAMOF4NUanqKfN/+NACBQcOCH32ugiC7Xbd3urmOcYv4XZ9v8M3PIgUGHi3uvKHPIX/geZjrjVZ130i2opDv4avJ1r4mimWzhR9BYeFguiCgLdLjQA31/xolq8W/U36EaSeKbkg2LzEJq8PqricG89YcTMMtMA9q29U5JAHBfXYbV468aTyKdboTc8ZkbJHKmnQZo5HCzdkSRpA4f4TdjnA=\",\"cancellation_requested\":false,\"status\":\"inProgress\",\"status_details\":\"Pending certificate created. Certificate request is in progress. This may take some time based on the issuer provider. Please check again later.\",\"request_id\":\"32e87f3d94864b978ab1cf0e3f93f3f5\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "1337",
+    "content-length": "1335",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 16 Feb 2021 19:23:37 GMT",
+    "date": "Mon, 25 Oct 2021 21:23:00 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "retry-after": "10",
-    "status": "200",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
     "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "a0aca78b-1b2b-4042-9e70-9aa9fec7ec3d",
     "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
     "x-ms-keyvault-region": "westus2",
-    "x-ms-keyvault-service-version": "1.2.164.2",
-    "x-ms-request-id": "458cf285-9642-4c43-930e-d28dea99b5d4",
+    "x-ms-keyvault-service-version": "1.9.150.1",
+    "x-ms-request-id": "79909e47-820a-46c9-a161-ec2477e6a72b",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -108,26 +110,26 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/certificates/lroCreateCertificateName-canresumefromastoppedpoller-/pending",
    "query": {
-    "api-version": "7.2"
+    "api-version": "7.3-preview"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"id\":\"https://keyvault_name.vault.azure.net/certificates/lroCreateCertificateName-canresumefromastoppedpoller-/pending\",\"issuer\":{\"name\":\"Self\"},\"csr\":\"MIICoTCCAYkCAQAwETEPMA0GA1UEAxMGTXlDZXJ0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAuMzryg1vwFQuTxDf17evBJmJ5KEoJrJWaUzhTqcBQXdV5uCdD9nxQzhi3r+f4e4OAvFIqMo230pptlTPB0vKLxlOrTNKbBYTBQuDl6hg4kcDeTHvVhPYvLLi2yyVLdDlXu/mpEk5Hnn77JV5ozubdW9a8Ye/hnc3dUkCtxiOg8IUC/Hyp1Oem+E6/5DnHO8amS+6joUZ2UyUANWg6u9BaK2Yy/k98TxFb0xWOvz53k/W9yTaCS7OcCVQ1QQyQgLk/hbcH3/WZdpq9aEqE3wg7DvjYxm6I159q2OW82yAu3+tmXCtNjNXAoLZ0FX0JgX9oqIXuCtlHOqqa2OWy96+0QIDAQABoEswSQYJKoZIhvcNAQkOMTwwOjAOBgNVHQ8BAf8EBAMCBaAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAkGA1UdEwQCMAAwDQYJKoZIhvcNAQELBQADggEBAD2NIx6cr+tfihXcrJ1Bqaj6D5ELWTUxKeoT+pynjj65Yj2FssvAryZzy3VS5q9dueoFGIlNAHWG6K1se7RgoEVWsRWqqVD96e/ltTZCar2tFwlxmCby8du0gCdNMPo66DFlmdGRZk/XBswgSw7xgpBphtmoDINQIRjS/uW+OOEzBQVFtYKW93Q3Zf3SD2uq3URosHj7Ylon2FSFpDwFbIg/HoYSp1lzXOwuHdreugsEMUdQiVrD0uXlbgTp+hxZVZGpBxYdddd/UVdueJn9EQgkg7zDyVqOV05EZmwmgBk2dQ2XSI2SmOK1zSS6sl0gen7LwgkBtrccA8KHsILi9f8=\",\"cancellation_requested\":false,\"status\":\"inProgress\",\"status_details\":\"Pending certificate created. Certificate request is in progress. This may take some time based on the issuer provider. Please check again later.\",\"request_id\":\"75ee2612e6224741aecd99ecc3affbe9\"}",
+   "response": "{\"id\":\"https://keyvault_name.vault.azure.net/certificates/lroCreateCertificateName-canresumefromastoppedpoller-/pending\",\"issuer\":{\"name\":\"Self\"},\"csr\":\"MIICoTCCAYkCAQAwETEPMA0GA1UEAxMGTXlDZXJ0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAynECFFOjE2xG55He0WPF/YyXxzja4mob/hYDRMiiBIwVhb56emunmSCsmibc+HJx8UISiiEKuBEqCOtEuYpD/TwjIcULYcJSotOSeYqaO1ATFfCIJXewgnKlPHPAyJfeu909I8cq9i99smySSRZM41BaSkjE7ayLZmqtNAUzobY55ZLhsAxBMnfeN5dPqSuVkAdLfKt+vv+uBMPn7Otym2tRCn7HxHE9yN1f01XWitTrG/g/P52ugLlL3tmUjhUXy8BKG2/tp8nYf7JYWB2F1xcutUr+KIuocsxLpk1e2DldZso6I+5+BEte0v3C/KnaOAWp/aJl6NvqORUgVB8G8QIDAQABoEswSQYJKoZIhvcNAQkOMTwwOjAOBgNVHQ8BAf8EBAMCBaAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAkGA1UdEwQCMAAwDQYJKoZIhvcNAQELBQADggEBAG/C0Eowgf7VhkUEGK2xBo+Ke9xqbaseTAxPJWNYT4YfJsaTwsHxgZdp3KbOXghoI8+KtBY3XZGGMSwP55cBsgwis12ua6EajfPyP75gpV7p/OSIcvtQ16ao4wcXycxPlAMOF4NUanqKfN/+NACBQcOCH32ugiC7Xbd3urmOcYv4XZ9v8M3PIgUGHi3uvKHPIX/geZjrjVZ130i2opDv4avJ1r4mimWzhR9BYeFguiCgLdLjQA31/xolq8W/U36EaSeKbkg2LzEJq8PqricG89YcTMMtMA9q29U5JAHBfXYbV468aTyKdboTc8ZkbJHKmnQZo5HCzdkSRpA4f4TdjnA=\",\"cancellation_requested\":false,\"status\":\"inProgress\",\"status_details\":\"Pending certificate created. Certificate request is in progress. This may take some time based on the issuer provider. Please check again later.\",\"request_id\":\"32e87f3d94864b978ab1cf0e3f93f3f5\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "1337",
+    "content-length": "1335",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 16 Feb 2021 19:23:37 GMT",
+    "date": "Mon, 25 Oct 2021 21:23:00 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "retry-after": "10",
-    "status": "200",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
     "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "1d145b6d-d4a2-4d28-823d-590873ddff9f",
     "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
     "x-ms-keyvault-region": "westus2",
-    "x-ms-keyvault-service-version": "1.2.164.2",
-    "x-ms-request-id": "b58bcbf2-d068-462d-8225-9be57761b91a",
+    "x-ms-keyvault-service-version": "1.9.150.1",
+    "x-ms-request-id": "83f4752b-b404-416f-902b-fe96141926c7",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -135,26 +137,26 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/certificates/lroCreateCertificateName-canresumefromastoppedpoller-/pending",
    "query": {
-    "api-version": "7.2"
+    "api-version": "7.3-preview"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"id\":\"https://keyvault_name.vault.azure.net/certificates/lroCreateCertificateName-canresumefromastoppedpoller-/pending\",\"issuer\":{\"name\":\"Self\"},\"csr\":\"MIICoTCCAYkCAQAwETEPMA0GA1UEAxMGTXlDZXJ0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAuMzryg1vwFQuTxDf17evBJmJ5KEoJrJWaUzhTqcBQXdV5uCdD9nxQzhi3r+f4e4OAvFIqMo230pptlTPB0vKLxlOrTNKbBYTBQuDl6hg4kcDeTHvVhPYvLLi2yyVLdDlXu/mpEk5Hnn77JV5ozubdW9a8Ye/hnc3dUkCtxiOg8IUC/Hyp1Oem+E6/5DnHO8amS+6joUZ2UyUANWg6u9BaK2Yy/k98TxFb0xWOvz53k/W9yTaCS7OcCVQ1QQyQgLk/hbcH3/WZdpq9aEqE3wg7DvjYxm6I159q2OW82yAu3+tmXCtNjNXAoLZ0FX0JgX9oqIXuCtlHOqqa2OWy96+0QIDAQABoEswSQYJKoZIhvcNAQkOMTwwOjAOBgNVHQ8BAf8EBAMCBaAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAkGA1UdEwQCMAAwDQYJKoZIhvcNAQELBQADggEBAD2NIx6cr+tfihXcrJ1Bqaj6D5ELWTUxKeoT+pynjj65Yj2FssvAryZzy3VS5q9dueoFGIlNAHWG6K1se7RgoEVWsRWqqVD96e/ltTZCar2tFwlxmCby8du0gCdNMPo66DFlmdGRZk/XBswgSw7xgpBphtmoDINQIRjS/uW+OOEzBQVFtYKW93Q3Zf3SD2uq3URosHj7Ylon2FSFpDwFbIg/HoYSp1lzXOwuHdreugsEMUdQiVrD0uXlbgTp+hxZVZGpBxYdddd/UVdueJn9EQgkg7zDyVqOV05EZmwmgBk2dQ2XSI2SmOK1zSS6sl0gen7LwgkBtrccA8KHsILi9f8=\",\"cancellation_requested\":false,\"status\":\"inProgress\",\"status_details\":\"Pending certificate created. Certificate request is in progress. This may take some time based on the issuer provider. Please check again later.\",\"request_id\":\"75ee2612e6224741aecd99ecc3affbe9\"}",
+   "response": "{\"id\":\"https://keyvault_name.vault.azure.net/certificates/lroCreateCertificateName-canresumefromastoppedpoller-/pending\",\"issuer\":{\"name\":\"Self\"},\"csr\":\"MIICoTCCAYkCAQAwETEPMA0GA1UEAxMGTXlDZXJ0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAynECFFOjE2xG55He0WPF/YyXxzja4mob/hYDRMiiBIwVhb56emunmSCsmibc+HJx8UISiiEKuBEqCOtEuYpD/TwjIcULYcJSotOSeYqaO1ATFfCIJXewgnKlPHPAyJfeu909I8cq9i99smySSRZM41BaSkjE7ayLZmqtNAUzobY55ZLhsAxBMnfeN5dPqSuVkAdLfKt+vv+uBMPn7Otym2tRCn7HxHE9yN1f01XWitTrG/g/P52ugLlL3tmUjhUXy8BKG2/tp8nYf7JYWB2F1xcutUr+KIuocsxLpk1e2DldZso6I+5+BEte0v3C/KnaOAWp/aJl6NvqORUgVB8G8QIDAQABoEswSQYJKoZIhvcNAQkOMTwwOjAOBgNVHQ8BAf8EBAMCBaAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAkGA1UdEwQCMAAwDQYJKoZIhvcNAQELBQADggEBAG/C0Eowgf7VhkUEGK2xBo+Ke9xqbaseTAxPJWNYT4YfJsaTwsHxgZdp3KbOXghoI8+KtBY3XZGGMSwP55cBsgwis12ua6EajfPyP75gpV7p/OSIcvtQ16ao4wcXycxPlAMOF4NUanqKfN/+NACBQcOCH32ugiC7Xbd3urmOcYv4XZ9v8M3PIgUGHi3uvKHPIX/geZjrjVZ130i2opDv4avJ1r4mimWzhR9BYeFguiCgLdLjQA31/xolq8W/U36EaSeKbkg2LzEJq8PqricG89YcTMMtMA9q29U5JAHBfXYbV468aTyKdboTc8ZkbJHKmnQZo5HCzdkSRpA4f4TdjnA=\",\"cancellation_requested\":false,\"status\":\"inProgress\",\"status_details\":\"Pending certificate created. Certificate request is in progress. This may take some time based on the issuer provider. Please check again later.\",\"request_id\":\"32e87f3d94864b978ab1cf0e3f93f3f5\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "1337",
+    "content-length": "1335",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 16 Feb 2021 19:23:37 GMT",
+    "date": "Mon, 25 Oct 2021 21:23:00 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "retry-after": "10",
-    "status": "200",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
     "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "848dde8a-0400-450d-863e-5a2813538f69",
     "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
     "x-ms-keyvault-region": "westus2",
-    "x-ms-keyvault-service-version": "1.2.164.2",
-    "x-ms-request-id": "1f4db0e6-f5dc-4e56-964f-f431bb51832f",
+    "x-ms-keyvault-service-version": "1.9.150.1",
+    "x-ms-request-id": "7ff06e82-f360-4a75-8212-a92136f9ce57",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -162,26 +164,26 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/certificates/lroCreateCertificateName-canresumefromastoppedpoller-/pending",
    "query": {
-    "api-version": "7.2"
+    "api-version": "7.3-preview"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"id\":\"https://keyvault_name.vault.azure.net/certificates/lroCreateCertificateName-canresumefromastoppedpoller-/pending\",\"issuer\":{\"name\":\"Self\"},\"csr\":\"MIICoTCCAYkCAQAwETEPMA0GA1UEAxMGTXlDZXJ0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAuMzryg1vwFQuTxDf17evBJmJ5KEoJrJWaUzhTqcBQXdV5uCdD9nxQzhi3r+f4e4OAvFIqMo230pptlTPB0vKLxlOrTNKbBYTBQuDl6hg4kcDeTHvVhPYvLLi2yyVLdDlXu/mpEk5Hnn77JV5ozubdW9a8Ye/hnc3dUkCtxiOg8IUC/Hyp1Oem+E6/5DnHO8amS+6joUZ2UyUANWg6u9BaK2Yy/k98TxFb0xWOvz53k/W9yTaCS7OcCVQ1QQyQgLk/hbcH3/WZdpq9aEqE3wg7DvjYxm6I159q2OW82yAu3+tmXCtNjNXAoLZ0FX0JgX9oqIXuCtlHOqqa2OWy96+0QIDAQABoEswSQYJKoZIhvcNAQkOMTwwOjAOBgNVHQ8BAf8EBAMCBaAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAkGA1UdEwQCMAAwDQYJKoZIhvcNAQELBQADggEBAD2NIx6cr+tfihXcrJ1Bqaj6D5ELWTUxKeoT+pynjj65Yj2FssvAryZzy3VS5q9dueoFGIlNAHWG6K1se7RgoEVWsRWqqVD96e/ltTZCar2tFwlxmCby8du0gCdNMPo66DFlmdGRZk/XBswgSw7xgpBphtmoDINQIRjS/uW+OOEzBQVFtYKW93Q3Zf3SD2uq3URosHj7Ylon2FSFpDwFbIg/HoYSp1lzXOwuHdreugsEMUdQiVrD0uXlbgTp+hxZVZGpBxYdddd/UVdueJn9EQgkg7zDyVqOV05EZmwmgBk2dQ2XSI2SmOK1zSS6sl0gen7LwgkBtrccA8KHsILi9f8=\",\"cancellation_requested\":false,\"status\":\"inProgress\",\"status_details\":\"Pending certificate created. Certificate request is in progress. This may take some time based on the issuer provider. Please check again later.\",\"request_id\":\"75ee2612e6224741aecd99ecc3affbe9\"}",
+   "response": "{\"id\":\"https://keyvault_name.vault.azure.net/certificates/lroCreateCertificateName-canresumefromastoppedpoller-/pending\",\"issuer\":{\"name\":\"Self\"},\"csr\":\"MIICoTCCAYkCAQAwETEPMA0GA1UEAxMGTXlDZXJ0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAynECFFOjE2xG55He0WPF/YyXxzja4mob/hYDRMiiBIwVhb56emunmSCsmibc+HJx8UISiiEKuBEqCOtEuYpD/TwjIcULYcJSotOSeYqaO1ATFfCIJXewgnKlPHPAyJfeu909I8cq9i99smySSRZM41BaSkjE7ayLZmqtNAUzobY55ZLhsAxBMnfeN5dPqSuVkAdLfKt+vv+uBMPn7Otym2tRCn7HxHE9yN1f01XWitTrG/g/P52ugLlL3tmUjhUXy8BKG2/tp8nYf7JYWB2F1xcutUr+KIuocsxLpk1e2DldZso6I+5+BEte0v3C/KnaOAWp/aJl6NvqORUgVB8G8QIDAQABoEswSQYJKoZIhvcNAQkOMTwwOjAOBgNVHQ8BAf8EBAMCBaAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAkGA1UdEwQCMAAwDQYJKoZIhvcNAQELBQADggEBAG/C0Eowgf7VhkUEGK2xBo+Ke9xqbaseTAxPJWNYT4YfJsaTwsHxgZdp3KbOXghoI8+KtBY3XZGGMSwP55cBsgwis12ua6EajfPyP75gpV7p/OSIcvtQ16ao4wcXycxPlAMOF4NUanqKfN/+NACBQcOCH32ugiC7Xbd3urmOcYv4XZ9v8M3PIgUGHi3uvKHPIX/geZjrjVZ130i2opDv4avJ1r4mimWzhR9BYeFguiCgLdLjQA31/xolq8W/U36EaSeKbkg2LzEJq8PqricG89YcTMMtMA9q29U5JAHBfXYbV468aTyKdboTc8ZkbJHKmnQZo5HCzdkSRpA4f4TdjnA=\",\"cancellation_requested\":false,\"status\":\"inProgress\",\"status_details\":\"Pending certificate created. Certificate request is in progress. This may take some time based on the issuer provider. Please check again later.\",\"request_id\":\"32e87f3d94864b978ab1cf0e3f93f3f5\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "1337",
+    "content-length": "1335",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 16 Feb 2021 19:23:37 GMT",
+    "date": "Mon, 25 Oct 2021 21:23:00 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "retry-after": "10",
-    "status": "200",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
     "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "cf1ba5a4-928e-45f6-bc9d-02ac857258f3",
     "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
     "x-ms-keyvault-region": "westus2",
-    "x-ms-keyvault-service-version": "1.2.164.2",
-    "x-ms-request-id": "888ed83e-7558-4a4e-a3d4-20e8dc18f9d1",
+    "x-ms-keyvault-service-version": "1.9.150.1",
+    "x-ms-request-id": "13235a51-715b-4256-8b3f-fb2372271494",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -189,26 +191,26 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/certificates/lroCreateCertificateName-canresumefromastoppedpoller-/pending",
    "query": {
-    "api-version": "7.2"
+    "api-version": "7.3-preview"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"id\":\"https://keyvault_name.vault.azure.net/certificates/lroCreateCertificateName-canresumefromastoppedpoller-/pending\",\"issuer\":{\"name\":\"Self\"},\"csr\":\"MIICoTCCAYkCAQAwETEPMA0GA1UEAxMGTXlDZXJ0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAuMzryg1vwFQuTxDf17evBJmJ5KEoJrJWaUzhTqcBQXdV5uCdD9nxQzhi3r+f4e4OAvFIqMo230pptlTPB0vKLxlOrTNKbBYTBQuDl6hg4kcDeTHvVhPYvLLi2yyVLdDlXu/mpEk5Hnn77JV5ozubdW9a8Ye/hnc3dUkCtxiOg8IUC/Hyp1Oem+E6/5DnHO8amS+6joUZ2UyUANWg6u9BaK2Yy/k98TxFb0xWOvz53k/W9yTaCS7OcCVQ1QQyQgLk/hbcH3/WZdpq9aEqE3wg7DvjYxm6I159q2OW82yAu3+tmXCtNjNXAoLZ0FX0JgX9oqIXuCtlHOqqa2OWy96+0QIDAQABoEswSQYJKoZIhvcNAQkOMTwwOjAOBgNVHQ8BAf8EBAMCBaAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAkGA1UdEwQCMAAwDQYJKoZIhvcNAQELBQADggEBAD2NIx6cr+tfihXcrJ1Bqaj6D5ELWTUxKeoT+pynjj65Yj2FssvAryZzy3VS5q9dueoFGIlNAHWG6K1se7RgoEVWsRWqqVD96e/ltTZCar2tFwlxmCby8du0gCdNMPo66DFlmdGRZk/XBswgSw7xgpBphtmoDINQIRjS/uW+OOEzBQVFtYKW93Q3Zf3SD2uq3URosHj7Ylon2FSFpDwFbIg/HoYSp1lzXOwuHdreugsEMUdQiVrD0uXlbgTp+hxZVZGpBxYdddd/UVdueJn9EQgkg7zDyVqOV05EZmwmgBk2dQ2XSI2SmOK1zSS6sl0gen7LwgkBtrccA8KHsILi9f8=\",\"cancellation_requested\":false,\"status\":\"inProgress\",\"status_details\":\"Pending certificate created. Certificate request is in progress. This may take some time based on the issuer provider. Please check again later.\",\"request_id\":\"75ee2612e6224741aecd99ecc3affbe9\"}",
+   "response": "{\"id\":\"https://keyvault_name.vault.azure.net/certificates/lroCreateCertificateName-canresumefromastoppedpoller-/pending\",\"issuer\":{\"name\":\"Self\"},\"csr\":\"MIICoTCCAYkCAQAwETEPMA0GA1UEAxMGTXlDZXJ0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAynECFFOjE2xG55He0WPF/YyXxzja4mob/hYDRMiiBIwVhb56emunmSCsmibc+HJx8UISiiEKuBEqCOtEuYpD/TwjIcULYcJSotOSeYqaO1ATFfCIJXewgnKlPHPAyJfeu909I8cq9i99smySSRZM41BaSkjE7ayLZmqtNAUzobY55ZLhsAxBMnfeN5dPqSuVkAdLfKt+vv+uBMPn7Otym2tRCn7HxHE9yN1f01XWitTrG/g/P52ugLlL3tmUjhUXy8BKG2/tp8nYf7JYWB2F1xcutUr+KIuocsxLpk1e2DldZso6I+5+BEte0v3C/KnaOAWp/aJl6NvqORUgVB8G8QIDAQABoEswSQYJKoZIhvcNAQkOMTwwOjAOBgNVHQ8BAf8EBAMCBaAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAkGA1UdEwQCMAAwDQYJKoZIhvcNAQELBQADggEBAG/C0Eowgf7VhkUEGK2xBo+Ke9xqbaseTAxPJWNYT4YfJsaTwsHxgZdp3KbOXghoI8+KtBY3XZGGMSwP55cBsgwis12ua6EajfPyP75gpV7p/OSIcvtQ16ao4wcXycxPlAMOF4NUanqKfN/+NACBQcOCH32ugiC7Xbd3urmOcYv4XZ9v8M3PIgUGHi3uvKHPIX/geZjrjVZ130i2opDv4avJ1r4mimWzhR9BYeFguiCgLdLjQA31/xolq8W/U36EaSeKbkg2LzEJq8PqricG89YcTMMtMA9q29U5JAHBfXYbV468aTyKdboTc8ZkbJHKmnQZo5HCzdkSRpA4f4TdjnA=\",\"cancellation_requested\":false,\"status\":\"inProgress\",\"status_details\":\"Pending certificate created. Certificate request is in progress. This may take some time based on the issuer provider. Please check again later.\",\"request_id\":\"32e87f3d94864b978ab1cf0e3f93f3f5\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "1337",
+    "content-length": "1335",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 16 Feb 2021 19:23:39 GMT",
+    "date": "Mon, 25 Oct 2021 21:23:02 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "retry-after": "10",
-    "status": "200",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
     "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "3b33a2f2-d023-45b1-b9a5-937ad137a886",
     "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
     "x-ms-keyvault-region": "westus2",
-    "x-ms-keyvault-service-version": "1.2.164.2",
-    "x-ms-request-id": "38126331-e00d-422e-bd6e-1031592e5c6f",
+    "x-ms-keyvault-service-version": "1.9.150.1",
+    "x-ms-request-id": "19cc53b3-3636-474e-8c96-0bc8516469c3",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -216,52 +218,25 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/certificates/lroCreateCertificateName-canresumefromastoppedpoller-/pending",
    "query": {
-    "api-version": "7.2"
+    "api-version": "7.3-preview"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"id\":\"https://keyvault_name.vault.azure.net/certificates/lroCreateCertificateName-canresumefromastoppedpoller-/pending\",\"issuer\":{\"name\":\"Self\"},\"csr\":\"MIICoTCCAYkCAQAwETEPMA0GA1UEAxMGTXlDZXJ0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAuMzryg1vwFQuTxDf17evBJmJ5KEoJrJWaUzhTqcBQXdV5uCdD9nxQzhi3r+f4e4OAvFIqMo230pptlTPB0vKLxlOrTNKbBYTBQuDl6hg4kcDeTHvVhPYvLLi2yyVLdDlXu/mpEk5Hnn77JV5ozubdW9a8Ye/hnc3dUkCtxiOg8IUC/Hyp1Oem+E6/5DnHO8amS+6joUZ2UyUANWg6u9BaK2Yy/k98TxFb0xWOvz53k/W9yTaCS7OcCVQ1QQyQgLk/hbcH3/WZdpq9aEqE3wg7DvjYxm6I159q2OW82yAu3+tmXCtNjNXAoLZ0FX0JgX9oqIXuCtlHOqqa2OWy96+0QIDAQABoEswSQYJKoZIhvcNAQkOMTwwOjAOBgNVHQ8BAf8EBAMCBaAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAkGA1UdEwQCMAAwDQYJKoZIhvcNAQELBQADggEBAD2NIx6cr+tfihXcrJ1Bqaj6D5ELWTUxKeoT+pynjj65Yj2FssvAryZzy3VS5q9dueoFGIlNAHWG6K1se7RgoEVWsRWqqVD96e/ltTZCar2tFwlxmCby8du0gCdNMPo66DFlmdGRZk/XBswgSw7xgpBphtmoDINQIRjS/uW+OOEzBQVFtYKW93Q3Zf3SD2uq3URosHj7Ylon2FSFpDwFbIg/HoYSp1lzXOwuHdreugsEMUdQiVrD0uXlbgTp+hxZVZGpBxYdddd/UVdueJn9EQgkg7zDyVqOV05EZmwmgBk2dQ2XSI2SmOK1zSS6sl0gen7LwgkBtrccA8KHsILi9f8=\",\"cancellation_requested\":false,\"status\":\"inProgress\",\"status_details\":\"Pending certificate created. Certificate request is in progress. This may take some time based on the issuer provider. Please check again later.\",\"request_id\":\"75ee2612e6224741aecd99ecc3affbe9\"}",
+   "response": "{\"id\":\"https://keyvault_name.vault.azure.net/certificates/lroCreateCertificateName-canresumefromastoppedpoller-/pending\",\"issuer\":{\"name\":\"Self\"},\"csr\":\"MIICoTCCAYkCAQAwETEPMA0GA1UEAxMGTXlDZXJ0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAynECFFOjE2xG55He0WPF/YyXxzja4mob/hYDRMiiBIwVhb56emunmSCsmibc+HJx8UISiiEKuBEqCOtEuYpD/TwjIcULYcJSotOSeYqaO1ATFfCIJXewgnKlPHPAyJfeu909I8cq9i99smySSRZM41BaSkjE7ayLZmqtNAUzobY55ZLhsAxBMnfeN5dPqSuVkAdLfKt+vv+uBMPn7Otym2tRCn7HxHE9yN1f01XWitTrG/g/P52ugLlL3tmUjhUXy8BKG2/tp8nYf7JYWB2F1xcutUr+KIuocsxLpk1e2DldZso6I+5+BEte0v3C/KnaOAWp/aJl6NvqORUgVB8G8QIDAQABoEswSQYJKoZIhvcNAQkOMTwwOjAOBgNVHQ8BAf8EBAMCBaAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAkGA1UdEwQCMAAwDQYJKoZIhvcNAQELBQADggEBAG/C0Eowgf7VhkUEGK2xBo+Ke9xqbaseTAxPJWNYT4YfJsaTwsHxgZdp3KbOXghoI8+KtBY3XZGGMSwP55cBsgwis12ua6EajfPyP75gpV7p/OSIcvtQ16ao4wcXycxPlAMOF4NUanqKfN/+NACBQcOCH32ugiC7Xbd3urmOcYv4XZ9v8M3PIgUGHi3uvKHPIX/geZjrjVZ130i2opDv4avJ1r4mimWzhR9BYeFguiCgLdLjQA31/xolq8W/U36EaSeKbkg2LzEJq8PqricG89YcTMMtMA9q29U5JAHBfXYbV468aTyKdboTc8ZkbJHKmnQZo5HCzdkSRpA4f4TdjnA=\",\"cancellation_requested\":false,\"status\":\"completed\",\"target\":\"https://keyvault_name.vault.azure.net/certificates/lroCreateCertificateName-canresumefromastoppedpoller-\",\"request_id\":\"32e87f3d94864b978ab1cf0e3f93f3f5\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "1337",
+    "content-length": "1297",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 16 Feb 2021 19:23:41 GMT",
+    "date": "Mon, 25 Oct 2021 21:23:04 GMT",
     "expires": "-1",
     "pragma": "no-cache",
-    "retry-after": "10",
-    "status": "200",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
     "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "0e2af336-27c5-485d-9443-2579ce82b692",
     "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
     "x-ms-keyvault-region": "westus2",
-    "x-ms-keyvault-service-version": "1.2.164.2",
-    "x-ms-request-id": "6a8763cd-2ae1-4b85-83b3-55918500a5b7",
-    "x-powered-by": "ASP.NET"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://keyvault_name.vault.azure.net/certificates/lroCreateCertificateName-canresumefromastoppedpoller-/pending",
-   "query": {
-    "api-version": "7.2"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"id\":\"https://keyvault_name.vault.azure.net/certificates/lroCreateCertificateName-canresumefromastoppedpoller-/pending\",\"issuer\":{\"name\":\"Self\"},\"csr\":\"MIICoTCCAYkCAQAwETEPMA0GA1UEAxMGTXlDZXJ0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAuMzryg1vwFQuTxDf17evBJmJ5KEoJrJWaUzhTqcBQXdV5uCdD9nxQzhi3r+f4e4OAvFIqMo230pptlTPB0vKLxlOrTNKbBYTBQuDl6hg4kcDeTHvVhPYvLLi2yyVLdDlXu/mpEk5Hnn77JV5ozubdW9a8Ye/hnc3dUkCtxiOg8IUC/Hyp1Oem+E6/5DnHO8amS+6joUZ2UyUANWg6u9BaK2Yy/k98TxFb0xWOvz53k/W9yTaCS7OcCVQ1QQyQgLk/hbcH3/WZdpq9aEqE3wg7DvjYxm6I159q2OW82yAu3+tmXCtNjNXAoLZ0FX0JgX9oqIXuCtlHOqqa2OWy96+0QIDAQABoEswSQYJKoZIhvcNAQkOMTwwOjAOBgNVHQ8BAf8EBAMCBaAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAkGA1UdEwQCMAAwDQYJKoZIhvcNAQELBQADggEBAD2NIx6cr+tfihXcrJ1Bqaj6D5ELWTUxKeoT+pynjj65Yj2FssvAryZzy3VS5q9dueoFGIlNAHWG6K1se7RgoEVWsRWqqVD96e/ltTZCar2tFwlxmCby8du0gCdNMPo66DFlmdGRZk/XBswgSw7xgpBphtmoDINQIRjS/uW+OOEzBQVFtYKW93Q3Zf3SD2uq3URosHj7Ylon2FSFpDwFbIg/HoYSp1lzXOwuHdreugsEMUdQiVrD0uXlbgTp+hxZVZGpBxYdddd/UVdueJn9EQgkg7zDyVqOV05EZmwmgBk2dQ2XSI2SmOK1zSS6sl0gen7LwgkBtrccA8KHsILi9f8=\",\"cancellation_requested\":false,\"status\":\"completed\",\"target\":\"https://keyvault_name.vault.azure.net/certificates/lroCreateCertificateName-canresumefromastoppedpoller-\",\"request_id\":\"75ee2612e6224741aecd99ecc3affbe9\"}",
-   "responseHeaders": {
-    "cache-control": "no-cache",
-    "content-length": "1301",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 16 Feb 2021 19:23:43 GMT",
-    "expires": "-1",
-    "pragma": "no-cache",
-    "status": "200",
-    "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus2",
-    "x-ms-keyvault-service-version": "1.2.164.2",
-    "x-ms-request-id": "9b6088a2-b575-43af-925d-e51b11419b94",
+    "x-ms-keyvault-service-version": "1.9.150.1",
+    "x-ms-request-id": "1aaf82df-3058-4f29-9960-670a55289c32",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -269,231 +244,25 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/certificates/lroCreateCertificateName-canresumefromastoppedpoller-/",
    "query": {
-    "api-version": "7.2"
+    "api-version": "7.3-preview"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"id\":\"https://keyvault_name.vault.azure.net/certificates/lroCreateCertificateName-canresumefromastoppedpoller-/105605f8043e47eebbb862622b790ee4\",\"kid\":\"https://keyvault_name.vault.azure.net/keys/lroCreateCertificateName-canresumefromastoppedpoller-/105605f8043e47eebbb862622b790ee4\",\"sid\":\"https://keyvault_name.vault.azure.net/secrets/lroCreateCertificateName-canresumefromastoppedpoller-/105605f8043e47eebbb862622b790ee4\",\"x5t\":\"Izn66QZUtzLNmpyN6yTJ5gdZIHQ\",\"cer\":\"MIIDKDCCAhCgAwIBAgIQdir34zcHTwiM+LuQMSkUpjANBgkqhkiG9w0BAQsFADARMQ8wDQYDVQQDEwZNeUNlcnQwHhcNMjEwMjE2MTkxMzQyWhcNMjIwMjE2MTkyMzQyWjARMQ8wDQYDVQQDEwZNeUNlcnQwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQC4zOvKDW/AVC5PEN/Xt68EmYnkoSgmslZpTOFOpwFBd1Xm4J0P2fFDOGLev5/h7g4C8UioyjbfSmm2VM8HS8ovGU6tM0psFhMFC4OXqGDiRwN5Me9WE9i8suLbLJUt0OVe7+akSTkeefvslXmjO5t1b1rxh7+Gdzd1SQK3GI6DwhQL8fKnU56b4Tr/kOcc7xqZL7qOhRnZTJQA1aDq70ForZjL+T3xPEVvTFY6/PneT9b3JNoJLs5wJVDVBDJCAuT+Ftwff9Zl2mr1oSoTfCDsO+NjGbojXn2rY5bzbIC7f62ZcK02M1cCgtnQVfQmBf2iohe4K2Uc6qprY5bL3r7RAgMBAAGjfDB6MA4GA1UdDwEB/wQEAwIFoDAJBgNVHRMEAjAAMB0GA1UdJQQWMBQGCCsGAQUFBwMBBggrBgEFBQcDAjAfBgNVHSMEGDAWgBR/d4ymNl/tyN7wVOp7PT1HqY0fNjAdBgNVHQ4EFgQUf3eMpjZf7cje8FTqez09R6mNHzYwDQYJKoZIhvcNAQELBQADggEBAAc5HNaIWDvw8gf4h/bGJq2KpCgUdW4D0b51VpXASOIlbTBOXdFtjHv1jw7Ef9iCZQ6FfNsUJFj7bbaAihnQp2wRFqxKZNeJ1NlCEpzCVNlSQoHdMnyrnk0o0C+a5pPVhYYdI3JGFgXs/SSHEL6MXQu7m8J4VM07AAAet82vvBC7SxvnN1Cp+cm4pLVKmn/fdi9nYE1U3h2Xzoz0qCnN7+xAlTXdM1XXYX7Qz69+uFS3lFueYZudSQLV/kk222OzpEvax8PAAy5rcE8Bh8QlZ5sHdHwrtFSnWLfUGTV+7fTEqPYUl8OUbcwEvTXHtVs6qQoPTQmxR2qZF6rm6Fsnq8w=\",\"attributes\":{\"enabled\":true,\"nbf\":1613502822,\"exp\":1645039422,\"created\":1613503422,\"updated\":1613503422,\"recoveryLevel\":\"CustomizedRecoverable+Purgeable\",\"recoverableDays\":7},\"policy\":{\"id\":\"https://keyvault_name.vault.azure.net/certificates/lroCreateCertificateName-canresumefromastoppedpoller-/policy\",\"key_props\":{\"exportable\":true,\"kty\":\"RSA\",\"key_size\":2048,\"reuse_key\":false},\"secret_props\":{\"contentType\":\"application/x-pkcs12\"},\"x509_props\":{\"subject\":\"cn=MyCert\",\"sans\":{},\"ekus\":[\"1.3.6.1.5.5.7.3.1\",\"1.3.6.1.5.5.7.3.2\"],\"key_usage\":[\"digitalSignature\",\"keyEncipherment\"],\"validity_months\":12,\"basic_constraints\":{\"ca\":false}},\"lifetime_actions\":[{\"trigger\":{\"lifetime_percentage\":80},\"action\":{\"action_type\":\"AutoRenew\"}}],\"issuer\":{\"name\":\"Self\"},\"attributes\":{\"enabled\":true,\"created\":1613503417,\"updated\":1613503417}},\"pending\":{\"id\":\"https://keyvault_name.vault.azure.net/certificates/lroCreateCertificateName-canresumefromastoppedpoller-/pending\"}}",
+   "response": "{\"id\":\"https://keyvault_name.vault.azure.net/certificates/lroCreateCertificateName-canresumefromastoppedpoller-/8401a7ca79a94c27b18616bb89356000\",\"kid\":\"https://keyvault_name.vault.azure.net/keys/lroCreateCertificateName-canresumefromastoppedpoller-/8401a7ca79a94c27b18616bb89356000\",\"sid\":\"https://keyvault_name.vault.azure.net/secrets/lroCreateCertificateName-canresumefromastoppedpoller-/8401a7ca79a94c27b18616bb89356000\",\"x5t\":\"1l3BcBwiru4qC0nyRgwa4vTQvyc\",\"cer\":\"MIIDKDCCAhCgAwIBAgIQI0ICj6zaT6SXcU1jGUY+kzANBgkqhkiG9w0BAQsFADARMQ8wDQYDVQQDEwZNeUNlcnQwHhcNMjExMDI1MjExMzAzWhcNMjIxMDI1MjEyMzAzWjARMQ8wDQYDVQQDEwZNeUNlcnQwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDKcQIUU6MTbEbnkd7RY8X9jJfHONriahv+FgNEyKIEjBWFvnp6a6eZIKyaJtz4cnHxQhKKIQq4ESoI60S5ikP9PCMhxQthwlKi05J5ipo7UBMV8Igld7CCcqU8c8DIl9673T0jxyr2L32ybJJJFkzjUFpKSMTtrItmaq00BTOhtjnlkuGwDEEyd943l0+pK5WQB0t8q36+/64Ew+fs63Kba1EKfsfEcT3I3V/TVdaK1Osb+D8/na6AuUve2ZSOFRfLwEobb+2nydh/slhYHYXXFy61Sv4oi6hyzEumTV7YOV1myjoj7n4ES17S/cL8qdo4Ban9omXo2+o5FSBUHwbxAgMBAAGjfDB6MA4GA1UdDwEB/wQEAwIFoDAJBgNVHRMEAjAAMB0GA1UdJQQWMBQGCCsGAQUFBwMBBggrBgEFBQcDAjAfBgNVHSMEGDAWgBTGhJrynZBRZn4rMatL+5UBOgP4WDAdBgNVHQ4EFgQUxoSa8p2QUWZ+KzGrS/uVAToD+FgwDQYJKoZIhvcNAQELBQADggEBADQD+Ha19WcQ4VkCuuTzviPzWsMkIR6NkGBGugqT2lhqep5rIZeeJPorneMOgbQ1JBSje7Cqzq5eWdZkLCgM8Q+LZbBMDnVdODsEsNSkPHW9FL95T8OB6VpBVWGOBYUXwQUeAATKY/HiDZgwspjRqnyDrysoZRoaTffsmevWoPwTVe+cgIGUI2eu7lDFajr+4mxptbBJsqiOVgLdC5yhkBb7AAy3sRfWSqvouFZaZg6HELbH4jTB4S/3+x2zuRmqS3Y02XMoAsnlAXeIRulikwyWfUb3CqgLvaTScUqLGpz5ZYd+kGUOTq/CuXAjvrJnY7tPF0gcjfHIZ76axx+S9Ag=\",\"attributes\":{\"enabled\":true,\"nbf\":1635196383,\"exp\":1666732983,\"created\":1635196983,\"updated\":1635196983,\"recoveryLevel\":\"CustomizedRecoverable+Purgeable\",\"recoverableDays\":7},\"policy\":{\"id\":\"https://keyvault_name.vault.azure.net/certificates/lroCreateCertificateName-canresumefromastoppedpoller-/policy\",\"key_props\":{\"exportable\":true,\"kty\":\"RSA\",\"key_size\":2048,\"reuse_key\":false},\"secret_props\":{\"contentType\":\"application/x-pkcs12\"},\"x509_props\":{\"subject\":\"cn=MyCert\",\"sans\":{},\"ekus\":[\"1.3.6.1.5.5.7.3.1\",\"1.3.6.1.5.5.7.3.2\"],\"key_usage\":[\"digitalSignature\",\"keyEncipherment\"],\"validity_months\":12,\"basic_constraints\":{\"ca\":false}},\"lifetime_actions\":[{\"trigger\":{\"lifetime_percentage\":80},\"action\":{\"action_type\":\"AutoRenew\"}}],\"issuer\":{\"name\":\"Self\"},\"attributes\":{\"enabled\":true,\"created\":1635196980,\"updated\":1635196980}},\"pending\":{\"id\":\"https://keyvault_name.vault.azure.net/certificates/lroCreateCertificateName-canresumefromastoppedpoller-/pending\"}}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "2584",
+    "content-length": "2574",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 16 Feb 2021 19:23:43 GMT",
+    "date": "Mon, 25 Oct 2021 21:23:04 GMT",
     "expires": "-1",
     "pragma": "no-cache",
-    "status": "200",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
     "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "1ee1820f-dda8-4acc-b5e0-aec37e8bacbc",
     "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
     "x-ms-keyvault-region": "westus2",
-    "x-ms-keyvault-service-version": "1.2.164.2",
-    "x-ms-request-id": "72f44e25-f413-47a1-8b9b-0db1bfcdee87",
-    "x-powered-by": "ASP.NET"
-   }
-  },
-  {
-   "method": "DELETE",
-   "url": "https://keyvault_name.vault.azure.net/certificates/lroCreateCertificateName-canresumefromastoppedpoller-",
-   "query": {
-    "api-version": "7.2"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"recoveryId\":\"https://keyvault_name.vault.azure.net/deletedcertificates/lroCreateCertificateName-canresumefromastoppedpoller-\",\"deletedDate\":1613503423,\"scheduledPurgeDate\":1614108223,\"id\":\"https://keyvault_name.vault.azure.net/certificates/lroCreateCertificateName-canresumefromastoppedpoller-/105605f8043e47eebbb862622b790ee4\",\"kid\":\"https://keyvault_name.vault.azure.net/keys/lroCreateCertificateName-canresumefromastoppedpoller-/105605f8043e47eebbb862622b790ee4\",\"sid\":\"https://keyvault_name.vault.azure.net/secrets/lroCreateCertificateName-canresumefromastoppedpoller-/105605f8043e47eebbb862622b790ee4\",\"x5t\":\"Izn66QZUtzLNmpyN6yTJ5gdZIHQ\",\"cer\":\"MIIDKDCCAhCgAwIBAgIQdir34zcHTwiM+LuQMSkUpjANBgkqhkiG9w0BAQsFADARMQ8wDQYDVQQDEwZNeUNlcnQwHhcNMjEwMjE2MTkxMzQyWhcNMjIwMjE2MTkyMzQyWjARMQ8wDQYDVQQDEwZNeUNlcnQwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQC4zOvKDW/AVC5PEN/Xt68EmYnkoSgmslZpTOFOpwFBd1Xm4J0P2fFDOGLev5/h7g4C8UioyjbfSmm2VM8HS8ovGU6tM0psFhMFC4OXqGDiRwN5Me9WE9i8suLbLJUt0OVe7+akSTkeefvslXmjO5t1b1rxh7+Gdzd1SQK3GI6DwhQL8fKnU56b4Tr/kOcc7xqZL7qOhRnZTJQA1aDq70ForZjL+T3xPEVvTFY6/PneT9b3JNoJLs5wJVDVBDJCAuT+Ftwff9Zl2mr1oSoTfCDsO+NjGbojXn2rY5bzbIC7f62ZcK02M1cCgtnQVfQmBf2iohe4K2Uc6qprY5bL3r7RAgMBAAGjfDB6MA4GA1UdDwEB/wQEAwIFoDAJBgNVHRMEAjAAMB0GA1UdJQQWMBQGCCsGAQUFBwMBBggrBgEFBQcDAjAfBgNVHSMEGDAWgBR/d4ymNl/tyN7wVOp7PT1HqY0fNjAdBgNVHQ4EFgQUf3eMpjZf7cje8FTqez09R6mNHzYwDQYJKoZIhvcNAQELBQADggEBAAc5HNaIWDvw8gf4h/bGJq2KpCgUdW4D0b51VpXASOIlbTBOXdFtjHv1jw7Ef9iCZQ6FfNsUJFj7bbaAihnQp2wRFqxKZNeJ1NlCEpzCVNlSQoHdMnyrnk0o0C+a5pPVhYYdI3JGFgXs/SSHEL6MXQu7m8J4VM07AAAet82vvBC7SxvnN1Cp+cm4pLVKmn/fdi9nYE1U3h2Xzoz0qCnN7+xAlTXdM1XXYX7Qz69+uFS3lFueYZudSQLV/kk222OzpEvax8PAAy5rcE8Bh8QlZ5sHdHwrtFSnWLfUGTV+7fTEqPYUl8OUbcwEvTXHtVs6qQoPTQmxR2qZF6rm6Fsnq8w=\",\"attributes\":{\"enabled\":true,\"nbf\":1613502822,\"exp\":1645039422,\"created\":1613503422,\"updated\":1613503422,\"recoveryLevel\":\"CustomizedRecoverable+Purgeable\",\"recoverableDays\":7},\"policy\":{\"id\":\"https://keyvault_name.vault.azure.net/certificates/lroCreateCertificateName-canresumefromastoppedpoller-/policy\",\"key_props\":{\"exportable\":true,\"kty\":\"RSA\",\"key_size\":2048,\"reuse_key\":false},\"secret_props\":{\"contentType\":\"application/x-pkcs12\"},\"x509_props\":{\"subject\":\"cn=MyCert\",\"sans\":{},\"ekus\":[\"1.3.6.1.5.5.7.3.1\",\"1.3.6.1.5.5.7.3.2\"],\"key_usage\":[\"digitalSignature\",\"keyEncipherment\"],\"validity_months\":12,\"basic_constraints\":{\"ca\":false}},\"lifetime_actions\":[{\"trigger\":{\"lifetime_percentage\":80},\"action\":{\"action_type\":\"AutoRenew\"}}],\"issuer\":{\"name\":\"Self\"},\"attributes\":{\"enabled\":true,\"created\":1613503417,\"updated\":1613503417}},\"pending\":{\"id\":\"https://keyvault_name.vault.azure.net/certificates/lroCreateCertificateName-canresumefromastoppedpoller-/pending\"}}",
-   "responseHeaders": {
-    "cache-control": "no-cache",
-    "content-length": "2781",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 16 Feb 2021 19:23:43 GMT",
-    "expires": "-1",
-    "pragma": "no-cache",
-    "status": "200",
-    "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus2",
-    "x-ms-keyvault-service-version": "1.2.164.2",
-    "x-ms-request-id": "70b7b3da-5750-4493-b169-4c5fe99cf6b6",
-    "x-powered-by": "ASP.NET"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://keyvault_name.vault.azure.net/deletedcertificates/lroCreateCertificateName-canresumefromastoppedpoller-",
-   "query": {
-    "api-version": "7.2"
-   },
-   "requestBody": null,
-   "status": 404,
-   "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: lroCreateCertificateName-canresumefromastoppedpoller-\"}}",
-   "responseHeaders": {
-    "cache-control": "no-cache",
-    "content-length": "154",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 16 Feb 2021 19:23:43 GMT",
-    "expires": "-1",
-    "pragma": "no-cache",
-    "status": "404",
-    "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus2",
-    "x-ms-keyvault-service-version": "1.2.164.2",
-    "x-ms-request-id": "bdcea47f-0767-4ebd-b884-37f329a8a296",
-    "x-powered-by": "ASP.NET"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://keyvault_name.vault.azure.net/deletedcertificates/lroCreateCertificateName-canresumefromastoppedpoller-",
-   "query": {
-    "api-version": "7.2"
-   },
-   "requestBody": null,
-   "status": 404,
-   "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: lroCreateCertificateName-canresumefromastoppedpoller-\"}}",
-   "responseHeaders": {
-    "cache-control": "no-cache",
-    "content-length": "154",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 16 Feb 2021 19:23:43 GMT",
-    "expires": "-1",
-    "pragma": "no-cache",
-    "status": "404",
-    "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus2",
-    "x-ms-keyvault-service-version": "1.2.164.2",
-    "x-ms-request-id": "8bbfe099-546f-4933-8681-ea53ad1abaad",
-    "x-powered-by": "ASP.NET"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://keyvault_name.vault.azure.net/deletedcertificates/lroCreateCertificateName-canresumefromastoppedpoller-",
-   "query": {
-    "api-version": "7.2"
-   },
-   "requestBody": null,
-   "status": 404,
-   "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: lroCreateCertificateName-canresumefromastoppedpoller-\"}}",
-   "responseHeaders": {
-    "cache-control": "no-cache",
-    "content-length": "154",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 16 Feb 2021 19:23:45 GMT",
-    "expires": "-1",
-    "pragma": "no-cache",
-    "status": "404",
-    "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus2",
-    "x-ms-keyvault-service-version": "1.2.164.2",
-    "x-ms-request-id": "878ca8d8-4ecc-40f4-bd12-bd7c755ed220",
-    "x-powered-by": "ASP.NET"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://keyvault_name.vault.azure.net/deletedcertificates/lroCreateCertificateName-canresumefromastoppedpoller-",
-   "query": {
-    "api-version": "7.2"
-   },
-   "requestBody": null,
-   "status": 404,
-   "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: lroCreateCertificateName-canresumefromastoppedpoller-\"}}",
-   "responseHeaders": {
-    "cache-control": "no-cache",
-    "content-length": "154",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 16 Feb 2021 19:23:47 GMT",
-    "expires": "-1",
-    "pragma": "no-cache",
-    "status": "404",
-    "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus2",
-    "x-ms-keyvault-service-version": "1.2.164.2",
-    "x-ms-request-id": "8418460d-c33f-498d-90ea-ff3fc6b8a026",
-    "x-powered-by": "ASP.NET"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://keyvault_name.vault.azure.net/deletedcertificates/lroCreateCertificateName-canresumefromastoppedpoller-",
-   "query": {
-    "api-version": "7.2"
-   },
-   "requestBody": null,
-   "status": 404,
-   "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: lroCreateCertificateName-canresumefromastoppedpoller-\"}}",
-   "responseHeaders": {
-    "cache-control": "no-cache",
-    "content-length": "154",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 16 Feb 2021 19:23:49 GMT",
-    "expires": "-1",
-    "pragma": "no-cache",
-    "status": "404",
-    "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus2",
-    "x-ms-keyvault-service-version": "1.2.164.2",
-    "x-ms-request-id": "9c6cdeae-1411-46a5-9d69-1019af1b7490",
-    "x-powered-by": "ASP.NET"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://keyvault_name.vault.azure.net/deletedcertificates/lroCreateCertificateName-canresumefromastoppedpoller-",
-   "query": {
-    "api-version": "7.2"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"recoveryId\":\"https://keyvault_name.vault.azure.net/deletedcertificates/lroCreateCertificateName-canresumefromastoppedpoller-\",\"deletedDate\":1613503423,\"scheduledPurgeDate\":1614108223,\"id\":\"https://keyvault_name.vault.azure.net/certificates/lroCreateCertificateName-canresumefromastoppedpoller-/105605f8043e47eebbb862622b790ee4\",\"kid\":\"https://keyvault_name.vault.azure.net/keys/lroCreateCertificateName-canresumefromastoppedpoller-/105605f8043e47eebbb862622b790ee4\",\"sid\":\"https://keyvault_name.vault.azure.net/secrets/lroCreateCertificateName-canresumefromastoppedpoller-/105605f8043e47eebbb862622b790ee4\",\"x5t\":\"Izn66QZUtzLNmpyN6yTJ5gdZIHQ\",\"cer\":\"MIIDKDCCAhCgAwIBAgIQdir34zcHTwiM+LuQMSkUpjANBgkqhkiG9w0BAQsFADARMQ8wDQYDVQQDEwZNeUNlcnQwHhcNMjEwMjE2MTkxMzQyWhcNMjIwMjE2MTkyMzQyWjARMQ8wDQYDVQQDEwZNeUNlcnQwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQC4zOvKDW/AVC5PEN/Xt68EmYnkoSgmslZpTOFOpwFBd1Xm4J0P2fFDOGLev5/h7g4C8UioyjbfSmm2VM8HS8ovGU6tM0psFhMFC4OXqGDiRwN5Me9WE9i8suLbLJUt0OVe7+akSTkeefvslXmjO5t1b1rxh7+Gdzd1SQK3GI6DwhQL8fKnU56b4Tr/kOcc7xqZL7qOhRnZTJQA1aDq70ForZjL+T3xPEVvTFY6/PneT9b3JNoJLs5wJVDVBDJCAuT+Ftwff9Zl2mr1oSoTfCDsO+NjGbojXn2rY5bzbIC7f62ZcK02M1cCgtnQVfQmBf2iohe4K2Uc6qprY5bL3r7RAgMBAAGjfDB6MA4GA1UdDwEB/wQEAwIFoDAJBgNVHRMEAjAAMB0GA1UdJQQWMBQGCCsGAQUFBwMBBggrBgEFBQcDAjAfBgNVHSMEGDAWgBR/d4ymNl/tyN7wVOp7PT1HqY0fNjAdBgNVHQ4EFgQUf3eMpjZf7cje8FTqez09R6mNHzYwDQYJKoZIhvcNAQELBQADggEBAAc5HNaIWDvw8gf4h/bGJq2KpCgUdW4D0b51VpXASOIlbTBOXdFtjHv1jw7Ef9iCZQ6FfNsUJFj7bbaAihnQp2wRFqxKZNeJ1NlCEpzCVNlSQoHdMnyrnk0o0C+a5pPVhYYdI3JGFgXs/SSHEL6MXQu7m8J4VM07AAAet82vvBC7SxvnN1Cp+cm4pLVKmn/fdi9nYE1U3h2Xzoz0qCnN7+xAlTXdM1XXYX7Qz69+uFS3lFueYZudSQLV/kk222OzpEvax8PAAy5rcE8Bh8QlZ5sHdHwrtFSnWLfUGTV+7fTEqPYUl8OUbcwEvTXHtVs6qQoPTQmxR2qZF6rm6Fsnq8w=\",\"attributes\":{\"enabled\":true,\"nbf\":1613502822,\"exp\":1645039422,\"created\":1613503422,\"updated\":1613503422,\"recoveryLevel\":\"CustomizedRecoverable+Purgeable\",\"recoverableDays\":7},\"policy\":{\"id\":\"https://keyvault_name.vault.azure.net/certificates/lroCreateCertificateName-canresumefromastoppedpoller-/policy\",\"key_props\":{\"exportable\":true,\"kty\":\"RSA\",\"key_size\":2048,\"reuse_key\":false},\"secret_props\":{\"contentType\":\"application/x-pkcs12\"},\"x509_props\":{\"subject\":\"cn=MyCert\",\"sans\":{},\"ekus\":[\"1.3.6.1.5.5.7.3.1\",\"1.3.6.1.5.5.7.3.2\"],\"key_usage\":[\"digitalSignature\",\"keyEncipherment\"],\"validity_months\":12,\"basic_constraints\":{\"ca\":false}},\"lifetime_actions\":[{\"trigger\":{\"lifetime_percentage\":80},\"action\":{\"action_type\":\"AutoRenew\"}}],\"issuer\":{\"name\":\"Self\"},\"attributes\":{\"enabled\":true,\"created\":1613503417,\"updated\":1613503417}},\"pending\":{\"id\":\"https://keyvault_name.vault.azure.net/certificates/lroCreateCertificateName-canresumefromastoppedpoller-/pending\"}}",
-   "responseHeaders": {
-    "cache-control": "no-cache",
-    "content-length": "2781",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 16 Feb 2021 19:23:51 GMT",
-    "expires": "-1",
-    "pragma": "no-cache",
-    "status": "200",
-    "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus2",
-    "x-ms-keyvault-service-version": "1.2.164.2",
-    "x-ms-request-id": "64d728c8-2c5d-4f51-a5de-edf0e9f69312",
-    "x-powered-by": "ASP.NET"
-   }
-  },
-  {
-   "method": "DELETE",
-   "url": "https://keyvault_name.vault.azure.net/deletedcertificates/lroCreateCertificateName-canresumefromastoppedpoller-",
-   "query": {
-    "api-version": "7.2"
-   },
-   "requestBody": null,
-   "status": 204,
-   "response": "",
-   "responseHeaders": {
-    "cache-control": "no-cache",
-    "date": "Tue, 16 Feb 2021 19:23:52 GMT",
-    "expires": "-1",
-    "pragma": "no-cache",
-    "status": "204",
-    "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus2",
-    "x-ms-keyvault-service-version": "1.2.164.2",
-    "x-ms-request-id": "0d5e8363-e09c-45e2-a1ed-7886aae0613b",
+    "x-ms-keyvault-service-version": "1.9.150.1",
+    "x-ms-request-id": "10c73079-63f6-415b-a260-5a41c319b802",
     "x-powered-by": "ASP.NET"
    }
   }
@@ -502,5 +271,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "83dea136db05d205544ba0ef410405ef"
+ "hash": "6a75abb9c358cbad807fe774d6e9aa68"
 }

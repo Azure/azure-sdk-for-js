@@ -6,22 +6,25 @@ import {
   createDefaultHttpClient,
   createPipelineRequest,
   HttpClient,
+  HttpMethods,
   PipelinePolicy,
   PipelineRequest,
   PipelineResponse,
   SendRequest
 } from "@azure/core-rest-pipeline";
 import { env, isPlaybackMode, isRecordMode } from "@azure-tools/test-recorder";
-import { RecorderError, RecordingStateManager } from "./utils/utils";
+import {
+  ensureExistence,
+  RecorderError,
+  RecorderStartOptions,
+  RecordingStateManager
+} from "./utils/utils";
 import { Test } from "mocha";
 import { sessionFilePath } from "./utils/sessionFilePath";
-
-const paths = {
-  playback: "/playback",
-  record: "/record",
-  start: "/start",
-  stop: "/stop"
-};
+import { SanitizerOptions } from "./utils/utils";
+import { paths } from "./utils/paths";
+import { Sanitizer } from "./sanitizer";
+import { handleEnvSetup } from "./utils/envSetupForPlayback";
 
 /**
  * This client manages the recorder life cycle and interacts with the proxy-tool to do the recording,
@@ -37,6 +40,7 @@ export class TestProxyHttpClient {
   private stateManager = new RecordingStateManager();
   public httpClient: HttpClient | undefined = undefined;
   private sessionFile: string | undefined = undefined;
+  private sanitizer: Sanitizer | undefined;
 
   constructor(private testContext?: Test | undefined) {
     this.mode = env.TEST_MODE;
@@ -49,6 +53,7 @@ export class TestProxyHttpClient {
           "Unable to determine the recording file path, testContext provided is not defined."
         );
       }
+      this.sanitizer = new Sanitizer(this.mode, this.url, this.httpClient);
     }
   }
 
@@ -87,6 +92,19 @@ export class TestProxyHttpClient {
   }
 
   /**
+   * addSanitizers adds the sanitizers for the current recording which will be applied on it before being saved.
+   *
+   * Takes SanitizerOptions as the input, passes on to the proxy-tool.
+   * @param {SanitizerOptions} options
+   */
+  async addSanitizers(options: SanitizerOptions): Promise<void> {
+    // If check needed because we only sanitize when the recording is being generated, and we need a recording to apply the sanitizers on.
+    if (isRecordMode() && ensureExistence(this.sanitizer, "this.sanitizer", this.mode)) {
+      return this.sanitizer.addSanitizers(options);
+    }
+  }
+
+  /**
    * recorderHttpPolicy calls this method on the request to modify and hit the proxy-tool with appropriate headers.
    */
   async modifyRequest(request: PipelineRequest): Promise<PipelineRequest> {
@@ -103,8 +121,15 @@ export class TestProxyHttpClient {
    * Call this method to ping the proxy-tool with a start request
    * signalling to start recording in the record mode
    * or to start playing back in the playback mode.
+   *
+   * Takes RecorderStartOptions as the input, which will get used in record and playback modes.
+   * Includes
+   * - envSetupForPlayback - The key-value pairs will be used as the environment variables in playback mode. If the env variables are present in the recordings as plain strings, they will be replaced with the provided values.
+   * - sanitizerOptions - Generated recordings are updated by the "proxy-tool" based on the sanitizer options provided.
+   *
+   * @param {RecorderStartOptions} options
    */
-  async start(): Promise<void> {
+  async start(options: RecorderStartOptions): Promise<void> {
     if (isPlaybackMode() || isRecordMode()) {
       this.stateManager.state = "started";
       if (this.recordingId === undefined) {
@@ -112,24 +137,34 @@ export class TestProxyHttpClient {
           paths.start
         }`;
         const req = this._createRecordingRequest(startUri);
-        if (!this.httpClient) {
-          throw new RecorderError(
-            `Something went wrong, TestProxyHttpClient.httpClient should not have been undefined in ${this.mode} mode.`
-          );
+
+        if (ensureExistence(this.httpClient, "TestProxyHttpClient.httpClient", this.mode)) {
+          const rsp = await this.httpClient.sendRequest({
+            ...req,
+            allowInsecureConnection: true
+          });
+          if (rsp.status !== 200) {
+            throw new RecorderError("Start request failed.");
+          }
+          const id = rsp.headers.get("x-recording-id");
+          if (!id) {
+            throw new RecorderError("No recording ID returned for a successful start request.");
+          }
+          this.recordingId = id;
+          if (ensureExistence(this.sanitizer, "TestProxyHttpClient.sanitizer", this.mode)) {
+            // Setting the recordingId in the sanitizer,
+            // the sanitizers added will take the recording id and only be part of the current test
+            this.sanitizer.setRecordingId(this.recordingId);
+            await handleEnvSetup(options.envSetupForPlayback, this.sanitizer);
+          }
         }
-        const rsp = await this.httpClient.sendRequest({
-          ...req,
-          allowInsecureConnection: true
-        });
-        if (rsp.status !== 200) {
-          throw new RecorderError("Start request failed.");
-        }
-        const id = rsp.headers.get("x-recording-id");
-        if (!id) {
-          throw new RecorderError("No recording ID returned for a successful start request.");
-        }
-        this.recordingId = id;
       }
+    }
+
+    if (options.sanitizerOptions) {
+      // Makes a call to the proxy-tool to add the sanitizers for the current recording id
+      // Recordings of the current test will be influenced by the sanitizers that are being added here
+      await this.addSanitizers(options.sanitizerOptions);
     }
   }
 
@@ -146,17 +181,14 @@ export class TestProxyHttpClient {
         const req = this._createRecordingRequest(stopUri);
         req.headers.set("x-recording-save", "true");
 
-        if (!this.httpClient) {
-          throw new RecorderError(
-            `Something went wrong, TestProxyHttpClient.httpClient should not have been undefined in ${this.mode} mode.`
-          );
-        }
-        const rsp = await this.httpClient.sendRequest({
-          ...req,
-          allowInsecureConnection: true
-        });
-        if (rsp.status !== 200) {
-          throw new RecorderError("Stop request failed.");
+        if (ensureExistence(this.httpClient, "TestProxyHttpClient.httpClient", this.mode)) {
+          const rsp = await this.httpClient.sendRequest({
+            ...req,
+            allowInsecureConnection: true
+          });
+          if (rsp.status !== 200) {
+            throw new RecorderError("Stop request failed.");
+          }
         }
       } else {
         throw new RecorderError("Bad state, recordingId is not defined when called stop.");
@@ -171,14 +203,11 @@ export class TestProxyHttpClient {
    * @private
    * @param {string} url
    */
-  private _createRecordingRequest(url: string) {
-    const req = createPipelineRequest({ url: url, method: "POST" });
-    if (!this.sessionFile) {
-      throw new RecorderError(
-        `Something went wrong, TestProxyHttpClient.sessionFile should not have been undefined in ${this.mode} mode.`
-      );
+  private _createRecordingRequest(url: string, method: HttpMethods = "POST") {
+    const req = createPipelineRequest({ url, method });
+    if (ensureExistence(this.sessionFile, "sessionFile", this.mode)) {
+      req.headers.set("x-recording-file", this.sessionFile);
     }
-    req.headers.set("x-recording-file", this.sessionFile);
     if (this.recordingId !== undefined) {
       req.headers.set("x-recording-id", this.recordingId);
     }

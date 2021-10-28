@@ -29,7 +29,6 @@ import { RecorderError } from "./utils";
  */
 export function relativeRecordingsPath() {
   let currentPath = process.cwd(); // Gives the current working directory
-  console.log(currentPath);
 
   let rootPath = undefined;
   let expectedProjectPath = undefined;

@@ -48,7 +48,10 @@ export async function authenticate(that: Context, version: string): Promise<any>
   const credential = new ClientSecretCredential(
     env.AZURE_TENANT_ID,
     env.AZURE_CLIENT_ID,
-    env.AZURE_CLIENT_SECRET
+    env.AZURE_CLIENT_SECRET,
+    {
+      authorityHost: env.AZURE_AUTHORITY_HOST
+    }
   );
 
   const keyVaultUrl = env.KEYVAULT_URI;

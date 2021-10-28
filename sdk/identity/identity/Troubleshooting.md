@@ -224,8 +224,10 @@ The `Azure PowerShell Credential` utilizes the locally installed `PowerShell` co
 
 The Azure PowerShell credential failed to execute, as the Azure Az module isn't installed. To use the Azure PowerShell credential, install the Azure Az PowerShell module:
 
-````powershell
+```powershell
 Install-Module -Name Az -Scope CurrentUser -Repository PSGallery -Force
+```
+
 Then try running the credential again.
 
 #### Azure account not logged in
@@ -239,7 +241,7 @@ The Azure PowerShell credential was able to retrieve a response when attempting 
 
 ```powershell
 Get-AzAccessToken -ResourceUrl "<Scopes-Url>"
-````
+```
 
 If the preceding command isn't working properly, follow the instructions to resolve the Azure PowerShell issue. Then try running the credential again.
 
