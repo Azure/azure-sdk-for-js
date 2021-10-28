@@ -54,11 +54,11 @@ import { IndexDocumentsClient } from "./searchIndexingBufferedSender";
 export interface SearchClientOptions extends CommonClientOptions {
   /**
    * The API version to use when communicating with the service.
-	 * @deprecated use {@Link serviceVersion} instead
+   * @deprecated use {@Link serviceVersion} instead
    */
   apiVersion?: string;
 
-	/**
+  /**
    * The service version to use when communicating with the service.
    */
   serviceVersion?: string;
@@ -74,15 +74,14 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
   /// the ContinuationToken logic will need to be updated below.
 
   /**
-   * The API version to use when communicating with the service.
-	 * @deprecated use {@Link serviceVersion} instead
+   *  The service version to use when communicating with the service.
    */
-  public readonly apiVersion: string = "2020-06-30-Preview";
+  public readonly serviceVersion: string = "2020-06-30-Preview";
 
-	/**
-   * The service version to use when communicating with the service.
+  /**
+   *  The api version
    */
-	public readonly serviceVersion: string = "2020-06-30-Preview";
+  public readonly apiVersion: string = this.serviceVersion;
 
   /**
    * The endpoint of the search service
