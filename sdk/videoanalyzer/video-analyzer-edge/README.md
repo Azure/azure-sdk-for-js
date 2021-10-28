@@ -31,7 +31,9 @@ npm install @azure/video-analyzer-edge
 
   | SDK          | Video Analyzer edge module |
   | ------------ | -------------------------- |
-  | 1.0.0-beta.x | 1.0                        |
+  | 1.0.0-beta.3 | 1.1                        |
+  | 1.0.0-beta.2 | 1.0                        |
+  | 1.0.0-beta.1 | 1.0                        |
 
 ### Creating a pipeline topology and making requests
 
