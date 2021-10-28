@@ -4,7 +4,7 @@ languages:
   - javascript
 products:
   - azure
-  - azure-video-analyzer-edge
+  - azure-video-analyzer
 urlFragment: video-analyzer-edge-javascript
 ---
 

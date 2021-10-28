@@ -109,7 +109,7 @@
     "productName": "Azure Video Analyzer",
     "productSlugs": [
       "azure",
-      "azure-video-analyzer-edge"
+      "azure-video-analyzer"
     ],
     "requiredResources": {
       "Azure IoT Hub account": "https://docs.microsoft.com/azure/iot-hub/iot-hub-create-through-portal"
