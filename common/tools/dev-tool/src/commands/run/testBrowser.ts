@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license
 
-import { leafCommand, makeCommandInfo } from "../framework/command";
+import { leafCommand, makeCommandInfo } from "../../framework/command";
 import concurrently from "concurrently";
-import { isProxyToolActive } from "../util/testProxyUtils";
+import { isProxyToolActive } from "../../util/testProxyUtils";
 
 export const commandInfo = makeCommandInfo(
   "test:browser",
@@ -18,14 +18,14 @@ export const commandInfo = makeCommandInfo(
 );
 
 export default leafCommand(commandInfo, async (_) => {
-  if (process.argv[3] !== "--karma" && !process.argv[4]) {
+  if (process.argv[4] !== "--karma" && !process.argv[5]) {
     throw new Error(
-      "unexpected command provided; expected = `dev-tool test:browser --karma '<options>'`"
+      "unexpected command provided; expected = `dev-tool run test:browser --karma '<options>'`"
     );
   }
 
   const testProxyStart = "dev-tool test-proxy start";
-  const karmaCMD = `karma start ${process.argv[4]}`;
+  const karmaCMD = `karma start ${process.argv[5]}`;
 
   let runOnlyKarmaCommand = false; // Boolean to figure out if we need to run just the karma command or the test-proxy too
 

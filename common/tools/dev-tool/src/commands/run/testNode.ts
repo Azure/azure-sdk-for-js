@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license
 
-import { leafCommand, makeCommandInfo } from "../framework/command";
+import { leafCommand, makeCommandInfo } from "../../framework/command";
 import concurrently from "concurrently";
-import { isProxyToolActive } from "../util/testProxyUtils";
+import { isProxyToolActive } from "../../util/testProxyUtils";
 
 export const commandInfo = makeCommandInfo(
   "test:node",
@@ -18,16 +18,16 @@ export const commandInfo = makeCommandInfo(
 );
 
 export default leafCommand(commandInfo, async (_) => {
-  if (process.argv[3] !== "--mocha" && !process.argv[4]) {
+  if (process.argv[4] !== "--mocha" && !process.argv[5]) {
     throw new Error(
-      "unexpected command provided; expected = `dev-tool test:node --mocha '<options>'`"
+      "unexpected command provided; expected = `dev-tool run test:node --mocha '<options>'`"
     );
   }
 
   const testProxyStart = "dev-tool test-proxy start";
   const mochaCMDWithDefaults =
     "nyc mocha -r esm --require ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js --full-trace";
-  const mochaCommand = `${mochaCMDWithDefaults} ${process.argv[4]}`;
+  const mochaCommand = `${mochaCMDWithDefaults} ${process.argv[5]}`;
 
   let runOnlyMochaCommand = false; // Boolean to figure out if we need to run just the mocha command or the test-proxy too
 
