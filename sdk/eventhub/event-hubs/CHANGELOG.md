@@ -1,8 +1,9 @@
 # Release History
 
-## 5.6.1 (Unreleased)
+## 5.7.0 (Unreleased)
 
 ### Features Added
+- Added `skipParsingBodyAsJson` optional parameter to `EventHubConsumerClient.subscribe` method. When set to `true` it will disable the client from running `JSON.parse()` on the message body when receiving the message. Not applicable if the message was sent with AMQP body type `value` or `sequence`.
 
 ### Breaking Changes
 
