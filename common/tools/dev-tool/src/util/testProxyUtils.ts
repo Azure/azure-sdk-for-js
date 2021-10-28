@@ -2,38 +2,31 @@
 // Licensed under the MIT license.
 
 import { spawn } from "child_process";
-import fs from "fs";
 import path from "path";
 import { IncomingMessage, request, RequestOptions } from "http";
-import fsExtra from "fs-extra";
+import fs from "fs-extra";
 
 export async function startProxyTool(mode: string | undefined) {
-  const outFileName = "test-proxy-output.log";
-  const out = fs.openSync(`./${outFileName}`, "a");
-  const err = fs.openSync(`./${outFileName}`, "a");
-
   console.log(`===TEST_MODE="${mode}"===`);
   console.log(
     `Attempting to start test proxy at http://localhost:5000 & https://localhost:5001.\n`
   );
 
-  const command = await getDockerRunCommand();
-
-  console.log(`Check the output file "${outFileName}" for test-proxy logs.`);
-
-  spawn(command, [], {
-    shell: true,
-    stdio: ["ignore", out, err]
+  const subprocess = spawn(await getDockerRunCommand(), [], {
+    shell: true
   });
-
-  // If you want it to be detached, add the following option and call unref()
-  // // detached: true,
-  // subprocess.unref();
+  
+  const outFileName = "test-proxy-output.log";
+  const out = fs.createWriteStream(`./${outFileName}`,{flags:'a'});
+  subprocess.stdout.pipe(out);
+  subprocess.stderr.pipe(out);
+  
+  console.log(`Check the output file "${outFileName}" for test-proxy logs.`);
 }
 
 async function getRootLocation(start?: string): Promise<string> {
   start ??= process.cwd();
-  if (await fsExtra.pathExists(path.join(start, "rush.json"))) {
+  if (await fs.pathExists(path.join(start, "rush.json"))) {
     return start;
   } else {
     const nextPath = path.resolve(start, "..");
@@ -72,7 +65,7 @@ async function getImageTag() {
   // $SELECTED_IMAGE_TAG = "1147815";
   // (Bot regularly updates the tag in the file above.)
   try {
-    const contentInPWSHScript = await fsExtra.readFile(
+    const contentInPWSHScript = await fs.readFile(
       `${path.join(await getRootLocation(), "eng/common/testproxy/docker-start-proxy.ps1")}`,
       "utf-8"
     );
