@@ -100,7 +100,7 @@ describe("MediaServices test", () => {
   }
 
   it("mediaservices create test", async function() {
-    const storageAccount = await storageAccounts_beginCreateAndWait();
+    const storageAccount = await storage_client.storageAccounts.getProperties(resourceGroup,storageAccountName);
     const res = await client.mediaservices.createOrUpdate(resourceGroup,mediaName,{
       location: location,
         storageAccounts: [
