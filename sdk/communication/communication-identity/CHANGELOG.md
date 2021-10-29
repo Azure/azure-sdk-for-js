@@ -1,6 +1,6 @@
 # Release History
 
-## 1.1.0-beta.1 (Unreleased)
+## 1.1.0-beta.1 (2021-10-30)
 
 ### Features Added
 
@@ -9,12 +9,6 @@
 - Changed TS compilation target to ES2017 in order to produce smaller bundles and use more native platform features
 - Added support to build custom Teams endpoint using M365 Teams identities
   - `CommunicationIdentityClient` added a new method `getTokenForTeamsUser` that provides the ability to exchange an AAD access token of a Teams user for a Communication Identity access token
-
-### Breaking Changes
-
-### Key Bugs Fixed
-
-### Fixed
 
 ## 1.0.0 (2021-03-29)
 
