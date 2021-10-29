@@ -4,7 +4,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
 import { assert } from "chai";
-import { env, isPlaybackMode } from "@azure-tools/test-recorder";
+import { delay, env, isPlaybackMode } from "@azure-tools/test-recorder";
 import { MsalTestCleanup, msalNodeTestSetup } from "../../msalTestUtils";
 import { DeviceCodeCredential } from "../../../src";
 import { Context } from "mocha";
@@ -15,7 +15,6 @@ import {
   createEmptyPipeline,
   createPipelineRequest
 } from "@azure/core-rest-pipeline";
-import { delay } from "@azure/core-util";
 import { authorizeRequestOnClaimChallenge } from "@azure/core-client";
 
 describe("CAE on ARM clients", function() {
@@ -32,64 +31,72 @@ describe("CAE on ARM clients", function() {
       this.skip();
     }
 
-    // This test first retrieves a token, then revokes this token.
-    // Right afterwards, it forces an HTTP pipeline to use the revoked token
-    // with a specific management endpoint that supports challenges,
-    // which in turn triggers the CAE challenge flow.
-    // Finally, this test verifies that the credential token has indeed changed.
-    //
-    // Note: this test relies on recordings to validate the underlying expected network requests.
+    const graphScope = "https://graph.microsoft.com/User.ReadWrite.All";
+    const revokeUrl = "https://graph.microsoft.com/v1.0/me/revokeSignInSessions";
 
-    const credential = new DeviceCodeCredential({
-      tenantId: env.AZURE_TENANT_ID
-    });
+    // Important: Recording test may only work in certain tenants.
+    const credential = new DeviceCodeCredential({ tenantId: env.AZURE_TENANT_ID });
 
-    // Retrieving a token
-    const token = await credential.getToken("User.ReadWrite.All");
-    assert.ok(token?.token);
-    assert.ok(token?.expiresOnTimestamp! > Date.now());
+    // First, we retrieve a graph token valid to revoke the active sessions.
+    const graphToken = await credential.getToken(graphScope);
+    assert.ok(graphToken?.token);
+    assert.ok(graphToken?.expiresOnTimestamp! > Date.now());
 
-    // Revoking that token, which is about the same as to wait for that token to expire.
+    // Our goal is to revoke the token, so that the challenge flow can be triggered.
+    // me/revokeSignInSessions does not work immediately, so we wait until the service reports the management token is expired.
+    // We do this by calling to the me/revokeSignInSessions endpoint outside of the pipeline every so often, until the service stops answering with status code 200.
+    let count = 0;
     const client = new IdentityClient();
-    const response = await client.sendPostRequestAsync(
-      "https://graph.microsoft.com/v1.0/me/revokeSignInSessions",
-      {
+    while (count < 100) {
+      const subscriptionsRequest = await client.sendPostRequestAsync(revokeUrl, {
         headers: {
-          Authorization: `Bearer ${token!.token}`,
-          "Content-Type": "application/json"
+          Authorization: `Bearer ${graphToken!.token}`
         }
+      });
+      if (subscriptionsRequest.status !== 200) {
+        break;
       }
-    );
-    assert.equal(response.status, 200, "Session revocation failed");
-    await delay(400);
+      // This log line helps us see how long this is taking on record mode.
+      console.log("revoke 200", count++);
+      await delay(30000);
+    }
 
-    // Setting up a simple pipeline that uses the revoked token on its first request.
-    // This emulates using an expired token.
-    // We use a management endpoint that we know supports this feature.
-    const managementScopes = ["https://management.azure.com/.default"];
+    // Setting up a simple pipeline that uses the original token that should be invalid now.
+    // This pipeline will trigger the CAE challenge and handle the CAE flow.
     const pipeline = createEmptyPipeline();
-    const bearerPolicy = bearerTokenAuthenticationPolicy({
-      scopes: managementScopes,
-      credential,
-      challengeCallbacks: {
-        async authorizeRequest({ request }) {
-          // Forcing the pipeline to use the revoked token.
-          request.headers.set("Authorization", `Bearer ${token!.token}`);
-        },
-        authorizeRequestOnChallenge: authorizeRequestOnClaimChallenge
-      }
-    });
-    pipeline.addPolicy(bearerPolicy);
+    pipeline.addPolicy(
+      bearerTokenAuthenticationPolicy({
+        scopes: [graphScope],
+        credential,
+        challengeCallbacks: {
+          async authorizeRequest({ request }): Promise<void> {
+            request.headers.set("Authorization", `Bearer ${graphToken.token}`);
+          },
+          authorizeRequestOnChallenge: authorizeRequestOnClaimChallenge
+        }
+      })
+    );
     const httpClient = createDefaultHttpClient();
-    const pipelineRequest = createPipelineRequest({
-      url: `https://${env.CAE_ARM_MANAGEMENT_NAME}.management.azure.com/subscriptions?api-version=2020-01-01`
-    });
-    await pipeline.sendRequest(httpClient, pipelineRequest);
 
-    // At this point, the management request must have failed then retrieved a new token.
+    // Sending a final request through the pipeline.
+    // On the recordings, we should see that:
+    // 1. This request fails with 401 and has a WWW-Authenticate header in its response.
+    // 2. Then we do a token request with the claims received from the challenge.
+    // 3. Then the original request is repeated and succeeds.
+    const subscriptions = await pipeline.sendRequest(
+      httpClient,
+      createPipelineRequest({
+        url: revokeUrl,
+        method: "POST"
+      })
+    );
+    assert.equal(subscriptions.status, 200, "Final response failed.");
+
     // Getting a new token at this point should return a token different from the initially obtained.
     // Recordings help us verify that the internal flow indeed happened.
-    const newToken = await credential.getToken(managementScopes);
-    assert.notDeepEqual(token, newToken);
+    const finalAccessToken = await credential.getToken(graphScope);
+    assert.ok(finalAccessToken?.token);
+    assert.ok(finalAccessToken?.expiresOnTimestamp! > Date.now());
+    assert.notDeepEqual(graphToken, finalAccessToken);
   });
 });

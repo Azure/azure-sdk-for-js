@@ -255,7 +255,8 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
       account: publicToMsal(this.account),
       correlationId: options?.correlationId,
       scopes,
-      authority: options?.authority
+      authority: options?.authority,
+      claims: options?.claims
     };
 
     try {

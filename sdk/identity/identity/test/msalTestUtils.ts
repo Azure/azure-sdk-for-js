@@ -93,8 +93,7 @@ export function msalNodeTestSetup(
       AZURE_CLIENT_ID: "azure_client_id",
       AZURE_CLIENT_SECRET: "azure_client_secret",
       AZURE_USERNAME: "azure_username",
-      AZURE_PASSWORD: "azure_password",
-      CAE_ARM_MANAGEMENT_NAME: "management-name"
+      AZURE_PASSWORD: "azure_password"
     },
     customizationsOnRecordings: [
       (recording: string): string =>

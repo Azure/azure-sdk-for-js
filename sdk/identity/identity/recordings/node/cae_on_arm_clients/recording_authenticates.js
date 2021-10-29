@@ -1,6 +1,6 @@
 let nock = require('nock');
 
-module.exports.hash = "f5819c7754290db7e40701e8e3d09391";
+module.exports.hash = "015dbdeacf332f615b0e235986d146ad";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
@@ -23,11 +23,11 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  'fd359f4b-e31f-4e29-b10b-bd2cb5444a00',
+  '75154b2a-8b7d-4056-96dc-0b4e97821f00',
   'x-ms-ests-server',
   '2.1.12171.14 - EUS ProdSlices',
   'Set-Cookie',
-  'fpc=fpc;; expires=Sat, 27-Nov-2021 02:42:29 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=fpc;; expires=Sun, 28-Nov-2021 13:45:24 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'esctx=esctx; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
@@ -35,7 +35,7 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Thu, 28 Oct 2021 02:42:29 GMT',
+  'Fri, 29 Oct 2021 13:45:23 GMT',
   'Content-Length',
   '980'
 ]);
@@ -58,11 +58,11 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '858328b9-f19a-451e-9b8b-3f0f5c125a00',
+  '025c8e7b-6ed7-4703-be5c-ee77ac51ad00',
   'x-ms-ests-server',
-  '2.1.12171.14 - SCUS ProdSlices',
+  '2.1.12171.14 - EUS ProdSlices',
   'Set-Cookie',
-  'fpc=fpc;; expires=Sat, 27-Nov-2021 02:42:30 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=fpc;; expires=Sun, 28-Nov-2021 13:45:24 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'esctx=esctx; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
@@ -70,13 +70,13 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Thu, 28 Oct 2021 02:42:29 GMT',
+  'Fri, 29 Oct 2021 13:45:23 GMT',
   'Content-Length',
   '1753'
 ]);
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/12345678-1234-1234-1234-123456789012/oauth2/v2.0/devicecode', "scope=User.ReadWrite.All%20openid%20profile%20offline_access&client_id=04b07795-8ddb-461a-bbee-02f9e1bf7b46&claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22cp1%22%5D%7D%7D%7D")
+  .post('/12345678-1234-1234-1234-123456789012/oauth2/v2.0/devicecode', "scope=https%3A%2F%2Fgraph.microsoft.com%2FUser.ReadWrite.All%20openid%20profile%20offline_access&client_id=04b07795-8ddb-461a-bbee-02f9e1bf7b46&claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22cp1%22%5D%7D%7D%7D")
   .reply(200, {"user_code":"USER_CODE","device_code":"DEVICE_CODE","verification_uri":"https://microsoft.com/devicelogin","expires_in":900,"interval": 0,"message":"To sign in, use a web browser to open the page https://microsoft.com/devicelogin and enter the code USER_CODE to authenticate."}, [
   'Cache-Control',
   'no-store, no-cache',
@@ -93,11 +93,11 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  'fa1c727f-d52e-4f97-a6da-4de9b7583d00',
+  'd7b0931e-b754-4aa3-bbf0-93258f21ad00',
   'x-ms-ests-server',
-  '2.1.12171.14 - NCUS ProdSlices',
+  '2.1.12171.14 - EUS ProdSlices',
   'Set-Cookie',
-  'fpc=fpc;; expires=Sat, 27-Nov-2021 02:42:30 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=fpc;; expires=Sun, 28-Nov-2021 13:45:24 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'esctx=esctx; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
@@ -105,14 +105,14 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Thu, 28 Oct 2021 02:42:29 GMT',
+  'Fri, 29 Oct 2021 13:45:23 GMT',
   'Content-Length',
   '473'
 ]);
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token', "scope=User.ReadWrite.All%20openid%20profile%20offline_access&client_id=04b07795-8ddb-461a-bbee-02f9e1bf7b46&grant_type=device_code&device_code=DEVICE_CODE&client-request-id=client-request-id&client_info=1&x-client-SKU=msal.js.node&x-client-VER=1.3.2&x-client-OS=linux&x-client-CPU=x64&x-ms-lib-capability=retry-after, h429&x-client-current-telemetry=5|671,0,,,|,&x-client-last-telemetry=5|0|||0,0&claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22cp1%22%5D%7D%7D%7D")
-  .reply(400, {"error":"authorization_pending","error_description":"AADSTS70016: OAuth 2.0 device flow error. Authorization is pending. Continue polling.\r\nTrace ID: e71224af-842d-4892-9aac-d27a1aad4000\r\nCorrelation ID: 42247718-e969-4da0-b8a2-b7bffb55eb57\r\nTimestamp: 2021-10-28 02:42:35Z","error_codes":[70016],"timestamp":"2021-10-28 02:42:35Z","trace_id":"e71224af-842d-4892-9aac-d27a1aad4000","correlation_id":"42247718-e969-4da0-b8a2-b7bffb55eb57","error_uri":"https://login.microsoftonline.com/error?code=70016"}, [
+  .post('/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token', "scope=https%3A%2F%2Fgraph.microsoft.com%2FUser.ReadWrite.All%20openid%20profile%20offline_access&client_id=04b07795-8ddb-461a-bbee-02f9e1bf7b46&grant_type=device_code&device_code=DEVICE_CODE&client-request-id=client-request-id&client_info=1&x-client-SKU=msal.js.node&x-client-VER=1.3.2&x-client-OS=linux&x-client-CPU=x64&x-ms-lib-capability=retry-after, h429&x-client-current-telemetry=5|671,0,,,|,&x-client-last-telemetry=5|0|||0,0&claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22cp1%22%5D%7D%7D%7D")
+  .reply(400, {"error":"authorization_pending","error_description":"AADSTS70016: OAuth 2.0 device flow error. Authorization is pending. Continue polling.\r\nTrace ID: 3d3aff8e-151f-4202-a985-933a3b5b9500\r\nCorrelation ID: d46cd437-1da1-4d05-970b-4d2d61cb727f\r\nTimestamp: 2021-10-29 13:45:24Z","error_codes":[70016],"timestamp":"2021-10-29 13:45:24Z","trace_id":"3d3aff8e-151f-4202-a985-933a3b5b9500","correlation_id":"d46cd437-1da1-4d05-970b-4d2d61cb727f","error_uri":"https://login.microsoftonline.com/error?code=70016"}, [
   'Cache-Control',
   'no-store, no-cache',
   'Pragma',
@@ -128,26 +128,26 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  'e71224af-842d-4892-9aac-d27a1aad4000',
+  '3d3aff8e-151f-4202-a985-933a3b5b9500',
   'x-ms-ests-server',
   '2.1.12171.14 - NCUS ProdSlices',
   'x-ms-clitelem',
   '1,70016,0,,',
   'Set-Cookie',
-  'fpc=fpc;; expires=Sat, 27-Nov-2021 02:42:35 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=fpc;; expires=Sun, 28-Nov-2021 13:45:24 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Thu, 28 Oct 2021 02:42:35 GMT',
+  'Fri, 29 Oct 2021 13:45:23 GMT',
   'Content-Length',
   '510'
 ]);
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token', "scope=User.ReadWrite.All%20openid%20profile%20offline_access&client_id=04b07795-8ddb-461a-bbee-02f9e1bf7b46&grant_type=device_code&device_code=DEVICE_CODE&client-request-id=client-request-id&client_info=1&x-client-SKU=msal.js.node&x-client-VER=1.3.2&x-client-OS=linux&x-client-CPU=x64&x-ms-lib-capability=retry-after, h429&x-client-current-telemetry=5|671,0,,,|,&x-client-last-telemetry=5|0|||0,0&claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22cp1%22%5D%7D%7D%7D")
-  .reply(400, {"error":"authorization_pending","error_description":"AADSTS70016: OAuth 2.0 device flow error. Authorization is pending. Continue polling.\r\nTrace ID: e71224af-842d-4892-9aac-d27a1fb04000\r\nCorrelation ID: 42247718-e969-4da0-b8a2-b7bffb55eb57\r\nTimestamp: 2021-10-28 02:42:57Z","error_codes":[70016],"timestamp":"2021-10-28 02:42:57Z","trace_id":"e71224af-842d-4892-9aac-d27a1fb04000","correlation_id":"42247718-e969-4da0-b8a2-b7bffb55eb57","error_uri":"https://login.microsoftonline.com/error?code=70016"}, [
+  .post('/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token', "scope=https%3A%2F%2Fgraph.microsoft.com%2FUser.ReadWrite.All%20openid%20profile%20offline_access&client_id=04b07795-8ddb-461a-bbee-02f9e1bf7b46&grant_type=device_code&device_code=DEVICE_CODE&client-request-id=client-request-id&client_info=1&x-client-SKU=msal.js.node&x-client-VER=1.3.2&x-client-OS=linux&x-client-CPU=x64&x-ms-lib-capability=retry-after, h429&x-client-current-telemetry=5|671,0,,,|,&x-client-last-telemetry=5|0|||0,0&claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22cp1%22%5D%7D%7D%7D")
+  .reply(400, {"error":"authorization_pending","error_description":"AADSTS70016: OAuth 2.0 device flow error. Authorization is pending. Continue polling.\r\nTrace ID: 3b2e7b2f-538d-4873-a648-a32e7cc1b300\r\nCorrelation ID: d46cd437-1da1-4d05-970b-4d2d61cb727f\r\nTimestamp: 2021-10-29 13:46:11Z","error_codes":[70016],"timestamp":"2021-10-29 13:46:11Z","trace_id":"3b2e7b2f-538d-4873-a648-a32e7cc1b300","correlation_id":"d46cd437-1da1-4d05-970b-4d2d61cb727f","error_uri":"https://login.microsoftonline.com/error?code=70016"}, [
   'Cache-Control',
   'no-store, no-cache',
   'Pragma',
@@ -163,26 +163,26 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  'e71224af-842d-4892-9aac-d27a1fb04000',
+  '3b2e7b2f-538d-4873-a648-a32e7cc1b300',
   'x-ms-ests-server',
-  '2.1.12171.14 - NCUS ProdSlices',
+  '2.1.12171.14 - SCUS ProdSlices',
   'x-ms-clitelem',
   '1,70016,0,,',
   'Set-Cookie',
-  'fpc=fpc;; expires=Sat, 27-Nov-2021 02:42:57 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=fpc;; expires=Sun, 28-Nov-2021 13:46:11 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Thu, 28 Oct 2021 02:42:56 GMT',
+  'Fri, 29 Oct 2021 13:46:11 GMT',
   'Content-Length',
   '510'
 ]);
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token', "scope=User.ReadWrite.All%20openid%20profile%20offline_access&client_id=04b07795-8ddb-461a-bbee-02f9e1bf7b46&grant_type=device_code&device_code=DEVICE_CODE&client-request-id=client-request-id&client_info=1&x-client-SKU=msal.js.node&x-client-VER=1.3.2&x-client-OS=linux&x-client-CPU=x64&x-ms-lib-capability=retry-after, h429&x-client-current-telemetry=5|671,0,,,|,&x-client-last-telemetry=5|0|||0,0&claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22cp1%22%5D%7D%7D%7D")
-  .reply(200, {"token_type":"Bearer","scope":"AuditLog.Read.All Directory.AccessAsUser.All email Group.ReadWrite.All openid profile User.ReadWrite.All","expires_in":86400,"ext_expires_in":86400,"access_token":"access_token","refresh_token":"refresh_token","foci":"1","id_token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6ImtpZCJ9.eyJhdWQiOiJhdWQiLCJpc3MiOiJodHRwczovL2xvZ2luLm1pY3Jvc29mdG9ubGluZS5jb20vMTIzNDU2NzgtMTIzNC0xMjM0LTEyMzQtMTIzNDU2Nzg5MDEyL3YyLjAiLCJpYXQiOjE2MTUzMzcxNjMsIm5iZiI6MTYxNTMzNzE2MywiZXhwIjoxNjE1MzQxMDYzLCJhaW8iOiJhaW8iLCJpZHAiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC9pZHAvIiwibmFtZSI6IkRhbmllbCBSb2Ryw61ndWV6Iiwib2lkIjoib2lkIiwicHJlZmVycmVkX3VzZXJuYW1lIjoiZGFucm9kcmlAbWljcm9zb2Z0LmNvbSIsInJoIjoicmguIiwic3ViIjoic3ViIiwidGlkIjoiMTIzNDU2NzgtMTIzNC0xMjM0LTEyMzQtMTIzNDU2Nzg5MDEyIiwidXRpIjoidXRpIiwidmVyIjoiMi4wIn0=.bm9faWRlYV93aGF0c190aGlz","client_info":"eyJ1aWQiOiIxMjM0NTY3OC0xMjM0LTEyMzQtMTIzNC0xMjM0NTY3ODkwMTIiLCJ1dGlkIjoiMTIzNDU2NzgtMTIzNC0xMjM0LTEyMzQtMTIzNDU2Nzg5MDEyIn0K"}, [
+  .post('/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token', "scope=https%3A%2F%2Fgraph.microsoft.com%2FUser.ReadWrite.All%20openid%20profile%20offline_access&client_id=04b07795-8ddb-461a-bbee-02f9e1bf7b46&grant_type=device_code&device_code=DEVICE_CODE&client-request-id=client-request-id&client_info=1&x-client-SKU=msal.js.node&x-client-VER=1.3.2&x-client-OS=linux&x-client-CPU=x64&x-ms-lib-capability=retry-after, h429&x-client-current-telemetry=5|671,0,,,|,&x-client-last-telemetry=5|0|||0,0&claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22cp1%22%5D%7D%7D%7D")
+  .reply(400, {"error":"authorization_pending","error_description":"AADSTS70016: OAuth 2.0 device flow error. Authorization is pending. Continue polling.\r\nTrace ID: a60c3fcf-acff-4ed9-a1ba-163e54d7a800\r\nCorrelation ID: d46cd437-1da1-4d05-970b-4d2d61cb727f\r\nTimestamp: 2021-10-29 13:46:17Z","error_codes":[70016],"timestamp":"2021-10-29 13:46:17Z","trace_id":"a60c3fcf-acff-4ed9-a1ba-163e54d7a800","correlation_id":"d46cd437-1da1-4d05-970b-4d2d61cb727f","error_uri":"https://login.microsoftonline.com/error?code=70016"}, [
   'Cache-Control',
   'no-store, no-cache',
   'Pragma',
@@ -198,28 +198,63 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '4eda4cc4-74ad-494f-a053-62dad1915500',
+  'a60c3fcf-acff-4ed9-a1ba-163e54d7a800',
   'x-ms-ests-server',
-  '2.1.12171.14 - EUS ProdSlices',
+  '2.1.12171.14 - SCUS ProdSlices',
+  'x-ms-clitelem',
+  '1,70016,0,,',
+  'Set-Cookie',
+  'fpc=fpc;; expires=Sun, 28-Nov-2021 13:46:17 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'Set-Cookie',
+  'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
+  'Set-Cookie',
+  'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
+  'Date',
+  'Fri, 29 Oct 2021 13:46:16 GMT',
+  'Content-Length',
+  '510'
+]);
+
+nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
+  .post('/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token', "scope=https%3A%2F%2Fgraph.microsoft.com%2FUser.ReadWrite.All%20openid%20profile%20offline_access&client_id=04b07795-8ddb-461a-bbee-02f9e1bf7b46&grant_type=device_code&device_code=DEVICE_CODE&client-request-id=client-request-id&client_info=1&x-client-SKU=msal.js.node&x-client-VER=1.3.2&x-client-OS=linux&x-client-CPU=x64&x-ms-lib-capability=retry-after, h429&x-client-current-telemetry=5|671,0,,,|,&x-client-last-telemetry=5|0|||0,0&claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22cp1%22%5D%7D%7D%7D")
+  .reply(200, {"token_type":"Bearer","scope":"email openid profile https://graph.microsoft.com/AuditLog.Read.All https://graph.microsoft.com/Directory.AccessAsUser.All https://graph.microsoft.com/Group.ReadWrite.All https://graph.microsoft.com/User.ReadWrite.All","expires_in":86400,"ext_expires_in":86400,"access_token":"access_token","refresh_token":"refresh_token","foci":"1","id_token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6ImtpZCJ9.eyJhdWQiOiJhdWQiLCJpc3MiOiJodHRwczovL2xvZ2luLm1pY3Jvc29mdG9ubGluZS5jb20vMTIzNDU2NzgtMTIzNC0xMjM0LTEyMzQtMTIzNDU2Nzg5MDEyL3YyLjAiLCJpYXQiOjE2MTUzMzcxNjMsIm5iZiI6MTYxNTMzNzE2MywiZXhwIjoxNjE1MzQxMDYzLCJhaW8iOiJhaW8iLCJpZHAiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC9pZHAvIiwibmFtZSI6IkRhbmllbCBSb2Ryw61ndWV6Iiwib2lkIjoib2lkIiwicHJlZmVycmVkX3VzZXJuYW1lIjoiZGFucm9kcmlAbWljcm9zb2Z0LmNvbSIsInJoIjoicmguIiwic3ViIjoic3ViIiwidGlkIjoiMTIzNDU2NzgtMTIzNC0xMjM0LTEyMzQtMTIzNDU2Nzg5MDEyIiwidXRpIjoidXRpIiwidmVyIjoiMi4wIn0=.bm9faWRlYV93aGF0c190aGlz","client_info":"eyJ1aWQiOiIxMjM0NTY3OC0xMjM0LTEyMzQtMTIzNC0xMjM0NTY3ODkwMTIiLCJ1dGlkIjoiMTIzNDU2NzgtMTIzNC0xMjM0LTEyMzQtMTIzNDU2Nzg5MDEyIn0K"}, [
+  'Cache-Control',
+  'no-store, no-cache',
+  'Pragma',
+  'no-cache',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'Expires',
+  '-1',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains',
+  'X-Content-Type-Options',
+  'nosniff',
+  'P3P',
+  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
+  'x-ms-request-id',
+  '70a2b95b-5eb1-42b7-8984-dea2a9488900',
+  'x-ms-ests-server',
+  '2.1.12171.14 - WUS2 ProdSlices',
   'x-ms-clitelem',
   '1,0,0,,',
   'Set-Cookie',
-  'fpc=fpc;; expires=Sat, 27-Nov-2021 02:43:08 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=fpc;; expires=Sun, 28-Nov-2021 13:46:22 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Thu, 28 Oct 2021 02:43:08 GMT',
+  'Fri, 29 Oct 2021 13:46:21 GMT',
   'Content-Length',
-  '4774'
+  '4852'
 ]);
 
 nock('https://graph.microsoft.com:443', {"encodedQueryParams":true})
   .post('/v1.0/me/revokeSignInSessions')
   .reply(200, ["1f8b080000000000040a","14cb4b0a80201000d0bb4c2d63acadab083ac8a0d307d2111d2588ee1ebdfd7b60164f4ae8242adf0a160ed554ac317ba67460385d96229ba29360da84a3e9032bfda95b7dc045e4628a3040a3ab3258cd95df0f0000ffff","0300f23761a858000000"], [
   'Date',
-  'Thu, 28 Oct 2021 02:43:08 GMT',
+  'Fri, 29 Oct 2021 13:46:22 GMT',
   'Content-Type',
   'application/json;odata.metadata=minimal;odata.streaming=true;IEEE754Compatible=false;charset=utf-8',
   'Cache-Control',
@@ -235,54 +270,97 @@ nock('https://graph.microsoft.com:443', {"encodedQueryParams":true})
   'Strict-Transport-Security',
   'max-age=31536000',
   'request-id',
-  'ff7ede8b-f249-4831-a5b9-275b87789631',
+  'dce4b11b-b30b-44f9-bb05-c6777f5f8111',
   'client-request-id',
-  'ff7ede8b-f249-4831-a5b9-275b87789631',
+  'dce4b11b-b30b-44f9-bb05-c6777f5f8111',
   'x-ms-ags-diagnostic',
-  '{"ServerInfo":{"DataCenter":"East US","Slice":"E","Ring":"5","ScaleUnit":"004","RoleInstance":"BL02EPF000028BE"}}',
+  '{"ServerInfo":{"DataCenter":"East US","Slice":"E","Ring":"5","ScaleUnit":"000","RoleInstance":"BL6PEPF0000E787"}}',
   'x-ms-resource-unit',
   '1',
   'OData-Version',
   '4.0'
 ]);
 
-nock('https://management-name.management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions')
-  .query(true)
-  .reply(401, {"error":{"code":"AuthenticationFailed","message":"Authentication failed."}}, [
+nock('https://graph.microsoft.com:443', {"encodedQueryParams":true})
+  .post('/v1.0/me/revokeSignInSessions')
+  .reply(200, ["1f8b080000000000040a","14cb4b0a80201000d0bb4c2d63acadab083ac8a0d307d2111d2588ee1ebdfd7b60164f4ae8242adf0a160ed554ac317ba67460385d96229ba29360da84a3e9032bfda95b7dc045e4628a3040a3ab3258cd95df0f0000ffff","0300f23761a858000000"], [
+  'Date',
+  'Fri, 29 Oct 2021 13:55:56 GMT',
+  'Content-Type',
+  'application/json;odata.metadata=minimal;odata.streaming=true;IEEE754Compatible=false;charset=utf-8',
   'Cache-Control',
   'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'WWW-Authenticate',
-  'Bearer authorization_uri="https://login.windows.net/", error="invalid_token", error_description="Could not find identity for access token."',
-  'x-ms-failure-cause',
-  'gateway',
-  'x-ms-request-id',
-  'd3be5da9-713b-42e8-9b00-af1e413df190',
-  'x-ms-correlation-request-id',
-  'd3be5da9-713b-42e8-9b00-af1e413df190',
-  'x-ms-routing-request-id',
-  'EASTUS2EUAP:20211028T024309Z:d3be5da9-713b-42e8-9b00-af1e413df190',
+  'Transfer-Encoding',
+  'chunked',
+  'Content-Encoding',
+  'gzip',
+  'Location',
+  'https://graph.microsoft.com',
+  'Vary',
+  'Accept-Encoding',
   'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
+  'max-age=31536000',
+  'request-id',
+  'ef1bd4b5-5dd9-42ea-97eb-dcb2cf8ce9e3',
+  'client-request-id',
+  'ef1bd4b5-5dd9-42ea-97eb-dcb2cf8ce9e3',
+  'x-ms-ags-diagnostic',
+  '{"ServerInfo":{"DataCenter":"East US","Slice":"E","Ring":"5","ScaleUnit":"000","RoleInstance":"BL6PEPF0000E787"}}',
+  'x-ms-resource-unit',
+  '1',
+  'OData-Version',
+  '4.0'
+]);
+
+nock('https://graph.microsoft.com:443', {"encodedQueryParams":true})
+  .post('/v1.0/me/revokeSignInSessions')
+  .reply(401, ["1f8b080000000000040a","948f4b6e83301445b762bd319680140a9eb555074ca36cc0b12f8955f3dcf84307117baf88d205747eaeceb977428c2192ba930916a468e2557b67df4abe82b3333abbc0a7f005a68a16a4a42f3bf611383b2ea124a18d414a02abf6e5418b88547c86158e85f1da2d4998abf61e7c81f871f9fa24949838236ab33b8eb815176185662bf618251eda29a502fb8e39441cb18667915b90b25ebea922c78cf8f9f7c3eabc07b675dbc8a696ed786a0eaaeb55db534511b78294a5b3a4c8f6b599cd00d9cdafad7c19e6b31cf5d0c879ecd1d57d733837035564bc0367f9ffe9b66dbf000000ffff","0300731d2dfa60010000"], [
   'Date',
-  'Thu, 28 Oct 2021 02:43:09 GMT',
-  'Connection',
-  'close',
-  'Content-Length',
-  '76'
+  'Fri, 29 Oct 2021 13:56:25 GMT',
+  'Content-Type',
+  'application/json',
+  'Transfer-Encoding',
+  'chunked',
+  'Content-Encoding',
+  'gzip',
+  'Vary',
+  'Accept-Encoding',
+  'WWW-Authenticate',
+  'Bearer realm="", authorization_uri="https://login.microsoftonline.com/common/oauth2/authorize", client_id="00000003-0000-0000-c000-000000000000", error="insufficient_claims", claims="eyJhY2Nlc3NfdG9rZW4iOnsibmJmIjp7ImVzc2VudGlhbCI6dHJ1ZSwgInZhbHVlIjoiMTYzNTUxNTc4NiJ9fX0="',
+  'Strict-Transport-Security',
+  'max-age=31536000',
+  'request-id',
+  'd60cfc8e-5f72-48fb-9a81-f96e50613b18',
+  'client-request-id',
+  'd60cfc8e-5f72-48fb-9a81-f96e50613b18',
+  'x-ms-ags-diagnostic',
+  '{"ServerInfo":{"DataCenter":"East US","Slice":"E","Ring":"5","ScaleUnit":"000","RoleInstance":"BL6PEPF0000E787"}}'
+]);
+
+nock('https://graph.microsoft.com:443', {"encodedQueryParams":true})
+  .post('/v1.0/me/revokeSignInSessions')
+  .reply(401, {"error":{"code":"InvalidAuthenticationToken","message":"Continuous access evaluation resulted in claims challenge with result: InteractionRequired and code: TokenIssuedBeforeRevocationTimestamp","innerError":{"date":"2021-10-29T13:56:26","request-id":"f91f9246-0daf-4038-8c9b-8cbd1d5eaabf","client-request-id":"f91f9246-0daf-4038-8c9b-8cbd1d5eaabf"}}}, [
+  'Date',
+  'Fri, 29 Oct 2021 13:56:26 GMT',
+  'Content-Type',
+  'application/json',
+  'Transfer-Encoding',
+  'chunked',
+  'WWW-Authenticate',
+  'Bearer realm="", authorization_uri="https://login.microsoftonline.com/common/oauth2/authorize", client_id="00000003-0000-0000-c000-000000000000", error="insufficient_claims", claims="eyJhY2Nlc3NfdG9rZW4iOnsibmJmIjp7ImVzc2VudGlhbCI6dHJ1ZSwgInZhbHVlIjoiMTYzNTUxNTc4NiJ9fX0="',
+  'Strict-Transport-Security',
+  'max-age=31536000',
+  'request-id',
+  'f91f9246-0daf-4038-8c9b-8cbd1d5eaabf',
+  'client-request-id',
+  'f91f9246-0daf-4038-8c9b-8cbd1d5eaabf',
+  'x-ms-ags-diagnostic',
+  '{"ServerInfo":{"DataCenter":"East US","Slice":"E","Ring":"5","ScaleUnit":"003","RoleInstance":"BL6PEPF0000C445"}}'
 ]);
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token', "client_id=04b07795-8ddb-461a-bbee-02f9e1bf7b46&scope=https%3A%2F%2Fsanitized%2F&grant_type=refresh_token&client_info=1&x-client-SKU=msal.js.node&x-client-VER=1.3.2&x-client-OS=linux&x-client-CPU=x64&x-ms-lib-capability=retry-after, h429&x-client-current-telemetry=5|62,2,,,|,&x-client-last-telemetry=5|0|||0,0&client-request-id=client-request-id&refresh_token=refresh_token&claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22cp1%22%5D%7D%7D%7D")
-  .reply(400, {"error":"invalid_grant","error_description":"AADSTS50173: The provided grant has expired due to it being revoked, a fresh auth token is needed. The user might have changed or reset their password. The grant was issued on '2021-10-28T02:43:02.2477124Z' and the TokensValidFrom date (before which tokens are not valid) for this user is '2021-10-28T02:43:08.0000000Z'.\r\nTrace ID: 17da34df-db8c-4e42-b28b-5132fcfb5600\r\nCorrelation ID: 73a44101-febc-4be3-904b-53159b0dcffd\r\nTimestamp: 2021-10-28 02:43:09Z","error_codes":[50173],"timestamp":"2021-10-28 02:43:09Z","trace_id":"17da34df-db8c-4e42-b28b-5132fcfb5600","correlation_id":"73a44101-febc-4be3-904b-53159b0dcffd","error_uri":"https://login.microsoftonline.com/error?code=50173","suberror":"bad_token"}, [
+  .post('/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token', "client_id=04b07795-8ddb-461a-bbee-02f9e1bf7b46&scope=https%3A%2F%2Fgraph.microsoft.com%2FUser.ReadWrite.All%20openid%20profile%20offline_access&grant_type=refresh_token&client_info=1&x-client-SKU=msal.js.node&x-client-VER=1.3.2&x-client-OS=linux&x-client-CPU=x64&x-ms-lib-capability=retry-after, h429&x-client-current-telemetry=5|62,0,,,|,&x-client-last-telemetry=5|0|||0,0&client-request-id=client-request-id&refresh_token=refresh_token&claims=%7B%22access_token%22%3A%7B%22nbf%22%3A%7B%22essential%22%3Atrue%2C%22value%22%3A%221635515786%22%7D%2C%22xms_cc%22%3A%7B%22values%22%3A%5B%22cp1%22%5D%7D%7D%7D")
+  .reply(400, {"error":"invalid_grant","error_description":"AADSTS50173: The provided grant has expired due to it being revoked, a fresh auth token is needed. The user might have changed or reset their password. The grant was issued on '2021-10-29T13:46:18.4237674Z' and the TokensValidFrom date (before which tokens are not valid) for this user is '2021-10-29T13:55:56.0000000Z'.\r\nTrace ID: 8c67b76b-d652-442f-9ffc-458a7570a500\r\nCorrelation ID: 837ecc82-853a-4a09-8fad-6637d36312c8\r\nTimestamp: 2021-10-29 13:56:27Z","error_codes":[50173],"timestamp":"2021-10-29 13:56:27Z","trace_id":"8c67b76b-d652-442f-9ffc-458a7570a500","correlation_id":"837ecc82-853a-4a09-8fad-6637d36312c8","error_uri":"https://login.microsoftonline.com/error?code=50173","suberror":"bad_token"}, [
   'Cache-Control',
   'no-store, no-cache',
   'Pragma',
@@ -298,25 +376,25 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '17da34df-db8c-4e42-b28b-5132fcfb5600',
+  '8c67b76b-d652-442f-9ffc-458a7570a500',
   'x-ms-ests-server',
-  '2.1.12171.14 - SCUS ProdSlices',
+  '2.1.12171.14 - EUS ProdSlices',
   'x-ms-clitelem',
-  '1,50173,0,1087.7207,',
+  '1,50173,0,604738.1112,',
   'Set-Cookie',
-  'fpc=fpc;; expires=Sat, 27-Nov-2021 02:43:09 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=fpc;; expires=Sun, 28-Nov-2021 13:56:27 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Thu, 28 Oct 2021 02:43:08 GMT',
+  'Fri, 29 Oct 2021 13:56:26 GMT',
   'Content-Length',
   '760'
 ]);
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/12345678-1234-1234-1234-123456789012/oauth2/v2.0/devicecode', "scope=https%3A%2F%2Fsanitized%2F&client_id=04b07795-8ddb-461a-bbee-02f9e1bf7b46&claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22cp1%22%5D%7D%7D%7D")
+  .post('/12345678-1234-1234-1234-123456789012/oauth2/v2.0/devicecode', "scope=https%3A%2F%2Fgraph.microsoft.com%2FUser.ReadWrite.All%20openid%20profile%20offline_access&client_id=04b07795-8ddb-461a-bbee-02f9e1bf7b46&claims=%7B%22access_token%22%3A%7B%22nbf%22%3A%7B%22essential%22%3Atrue%2C%22value%22%3A%221635515786%22%7D%2C%22xms_cc%22%3A%7B%22values%22%3A%5B%22cp1%22%5D%7D%7D%7D")
   .reply(200, {"user_code":"USER_CODE","device_code":"DEVICE_CODE","verification_uri":"https://microsoft.com/devicelogin","expires_in":900,"interval": 0,"message":"To sign in, use a web browser to open the page https://microsoft.com/devicelogin and enter the code USER_CODE to authenticate."}, [
   'Cache-Control',
   'no-store, no-cache',
@@ -333,11 +411,11 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '0efdd2a8-ff90-4b16-ae2a-7f43c25d5a00',
+  '81d486ee-83ce-4bf0-a652-0679aaf50d01',
   'x-ms-ests-server',
-  '2.1.12171.14 - SCUS ProdSlices',
+  '2.1.12171.14 - WUS2 ProdSlices',
   'Set-Cookie',
-  'fpc=fpc;; expires=Sat, 27-Nov-2021 02:43:09 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=fpc;; expires=Sun, 28-Nov-2021 13:56:27 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'esctx=esctx; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
@@ -345,14 +423,14 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Thu, 28 Oct 2021 02:43:09 GMT',
+  'Fri, 29 Oct 2021 13:56:27 GMT',
   'Content-Length',
   '473'
 ]);
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token', "scope=https%3A%2F%2Fsanitized%2F&client_id=04b07795-8ddb-461a-bbee-02f9e1bf7b46&grant_type=device_code&device_code=DEVICE_CODE&client-request-id=client-request-id&client_info=1&x-client-SKU=msal.js.node&x-client-VER=1.3.2&x-client-OS=linux&x-client-CPU=x64&x-ms-lib-capability=retry-after, h429&x-client-current-telemetry=5|671,0,,,|,&x-client-last-telemetry=5|0|||0,0&claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22cp1%22%5D%7D%7D%7D")
-  .reply(400, {"error":"authorization_pending","error_description":"AADSTS70016: OAuth 2.0 device flow error. Authorization is pending. Continue polling.\r\nTrace ID: 858328b9-f19a-451e-9b8b-3f0f0e175a00\r\nCorrelation ID: 7fd9a29b-eda4-4dd2-aa0f-57ef8a6dc820\r\nTimestamp: 2021-10-28 02:43:09Z","error_codes":[70016],"timestamp":"2021-10-28 02:43:09Z","trace_id":"858328b9-f19a-451e-9b8b-3f0f0e175a00","correlation_id":"7fd9a29b-eda4-4dd2-aa0f-57ef8a6dc820","error_uri":"https://login.microsoftonline.com/error?code=70016"}, [
+  .post('/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token', "scope=https%3A%2F%2Fgraph.microsoft.com%2FUser.ReadWrite.All%20openid%20profile%20offline_access&client_id=04b07795-8ddb-461a-bbee-02f9e1bf7b46&grant_type=device_code&device_code=DEVICE_CODE&client-request-id=client-request-id&client_info=1&x-client-SKU=msal.js.node&x-client-VER=1.3.2&x-client-OS=linux&x-client-CPU=x64&x-ms-lib-capability=retry-after, h429&x-client-current-telemetry=5|671,0,,,|,&x-client-last-telemetry=5|0|||0,0&claims=%7B%22access_token%22%3A%7B%22nbf%22%3A%7B%22essential%22%3Atrue%2C%22value%22%3A%221635515786%22%7D%2C%22xms_cc%22%3A%7B%22values%22%3A%5B%22cp1%22%5D%7D%7D%7D")
+  .reply(400, {"error":"authorization_pending","error_description":"AADSTS70016: OAuth 2.0 device flow error. Authorization is pending. Continue polling.\r\nTrace ID: ad2ceeea-80b8-4159-adf6-b5ddb559a600\r\nCorrelation ID: 2d6099bc-0967-447f-b025-9cff32e4a9e5\r\nTimestamp: 2021-10-29 13:56:27Z","error_codes":[70016],"timestamp":"2021-10-29 13:56:27Z","trace_id":"ad2ceeea-80b8-4159-adf6-b5ddb559a600","correlation_id":"2d6099bc-0967-447f-b025-9cff32e4a9e5","error_uri":"https://login.microsoftonline.com/error?code=70016"}, [
   'Cache-Control',
   'no-store, no-cache',
   'Pragma',
@@ -368,26 +446,26 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '858328b9-f19a-451e-9b8b-3f0f0e175a00',
+  'ad2ceeea-80b8-4159-adf6-b5ddb559a600',
   'x-ms-ests-server',
-  '2.1.12171.14 - SCUS ProdSlices',
+  '2.1.12171.14 - EUS ProdSlices',
   'x-ms-clitelem',
   '1,70016,0,,',
   'Set-Cookie',
-  'fpc=fpc;; expires=Sat, 27-Nov-2021 02:43:09 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=fpc;; expires=Sun, 28-Nov-2021 13:56:27 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Thu, 28 Oct 2021 02:43:09 GMT',
+  'Fri, 29 Oct 2021 13:56:27 GMT',
   'Content-Length',
   '510'
 ]);
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token', "scope=https%3A%2F%2Fsanitized%2F&client_id=04b07795-8ddb-461a-bbee-02f9e1bf7b46&grant_type=device_code&device_code=DEVICE_CODE&client-request-id=client-request-id&client_info=1&x-client-SKU=msal.js.node&x-client-VER=1.3.2&x-client-OS=linux&x-client-CPU=x64&x-ms-lib-capability=retry-after, h429&x-client-current-telemetry=5|671,0,,,|,&x-client-last-telemetry=5|0|||0,0&claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22cp1%22%5D%7D%7D%7D")
-  .reply(400, {"error":"authorization_pending","error_description":"AADSTS70016: OAuth 2.0 device flow error. Authorization is pending. Continue polling.\r\nTrace ID: 58629896-41eb-4a22-9fe5-5c56d7f75500\r\nCorrelation ID: 7fd9a29b-eda4-4dd2-aa0f-57ef8a6dc820\r\nTimestamp: 2021-10-28 02:43:30Z","error_codes":[70016],"timestamp":"2021-10-28 02:43:30Z","trace_id":"58629896-41eb-4a22-9fe5-5c56d7f75500","correlation_id":"7fd9a29b-eda4-4dd2-aa0f-57ef8a6dc820","error_uri":"https://login.microsoftonline.com/error?code=70016"}, [
+  .post('/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token', "scope=https%3A%2F%2Fgraph.microsoft.com%2FUser.ReadWrite.All%20openid%20profile%20offline_access&client_id=04b07795-8ddb-461a-bbee-02f9e1bf7b46&grant_type=device_code&device_code=DEVICE_CODE&client-request-id=client-request-id&client_info=1&x-client-SKU=msal.js.node&x-client-VER=1.3.2&x-client-OS=linux&x-client-CPU=x64&x-ms-lib-capability=retry-after, h429&x-client-current-telemetry=5|671,0,,,|,&x-client-last-telemetry=5|0|||0,0&claims=%7B%22access_token%22%3A%7B%22nbf%22%3A%7B%22essential%22%3Atrue%2C%22value%22%3A%221635515786%22%7D%2C%22xms_cc%22%3A%7B%22values%22%3A%5B%22cp1%22%5D%7D%7D%7D")
+  .reply(400, {"error":"authorization_pending","error_description":"AADSTS70016: OAuth 2.0 device flow error. Authorization is pending. Continue polling.\r\nTrace ID: c66b4bf3-4c5a-4eb1-9972-d1de66c70e01\r\nCorrelation ID: 2d6099bc-0967-447f-b025-9cff32e4a9e5\r\nTimestamp: 2021-10-29 13:57:35Z","error_codes":[70016],"timestamp":"2021-10-29 13:57:35Z","trace_id":"c66b4bf3-4c5a-4eb1-9972-d1de66c70e01","correlation_id":"2d6099bc-0967-447f-b025-9cff32e4a9e5","error_uri":"https://login.microsoftonline.com/error?code=70016"}, [
   'Cache-Control',
   'no-store, no-cache',
   'Pragma',
@@ -403,26 +481,26 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '58629896-41eb-4a22-9fe5-5c56d7f75500',
+  'c66b4bf3-4c5a-4eb1-9972-d1de66c70e01',
   'x-ms-ests-server',
-  '2.1.12171.14 - SCUS ProdSlices',
+  '2.1.12171.14 - WUS2 ProdSlices',
   'x-ms-clitelem',
   '1,70016,0,,',
   'Set-Cookie',
-  'fpc=fpc;; expires=Sat, 27-Nov-2021 02:43:30 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=fpc;; expires=Sun, 28-Nov-2021 13:57:35 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Thu, 28 Oct 2021 02:43:29 GMT',
+  'Fri, 29 Oct 2021 13:57:35 GMT',
   'Content-Length',
   '510'
 ]);
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token', "scope=https%3A%2F%2Fsanitized%2F&client_id=04b07795-8ddb-461a-bbee-02f9e1bf7b46&grant_type=device_code&device_code=DEVICE_CODE&client-request-id=client-request-id&client_info=1&x-client-SKU=msal.js.node&x-client-VER=1.3.2&x-client-OS=linux&x-client-CPU=x64&x-ms-lib-capability=retry-after, h429&x-client-current-telemetry=5|671,0,,,|,&x-client-last-telemetry=5|0|||0,0&claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22cp1%22%5D%7D%7D%7D")
-  .reply(200, {"token_type":"Bearer","scope":"https://management.azure.com/user_impersonation https://management.azure.com/.default","expires_in":86400,"ext_expires_in":86400,"access_token":"access_token","refresh_token":"refresh_token","foci":"1","id_token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6ImtpZCJ9.eyJhdWQiOiJhdWQiLCJpc3MiOiJodHRwczovL2xvZ2luLm1pY3Jvc29mdG9ubGluZS5jb20vMTIzNDU2NzgtMTIzNC0xMjM0LTEyMzQtMTIzNDU2Nzg5MDEyL3YyLjAiLCJpYXQiOjE2MTUzMzcxNjMsIm5iZiI6MTYxNTMzNzE2MywiZXhwIjoxNjE1MzQxMDYzLCJhaW8iOiJhaW8iLCJpZHAiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC9pZHAvIiwibmFtZSI6IkRhbmllbCBSb2Ryw61ndWV6Iiwib2lkIjoib2lkIiwicHJlZmVycmVkX3VzZXJuYW1lIjoiZGFucm9kcmlAbWljcm9zb2Z0LmNvbSIsInJoIjoicmguIiwic3ViIjoic3ViIiwidGlkIjoiMTIzNDU2NzgtMTIzNC0xMjM0LTEyMzQtMTIzNDU2Nzg5MDEyIiwidXRpIjoidXRpIiwidmVyIjoiMi4wIn0=.bm9faWRlYV93aGF0c190aGlz","client_info":"eyJ1aWQiOiIxMjM0NTY3OC0xMjM0LTEyMzQtMTIzNC0xMjM0NTY3ODkwMTIiLCJ1dGlkIjoiMTIzNDU2NzgtMTIzNC0xMjM0LTEyMzQtMTIzNDU2Nzg5MDEyIn0K"}, [
+  .post('/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token', "scope=https%3A%2F%2Fgraph.microsoft.com%2FUser.ReadWrite.All%20openid%20profile%20offline_access&client_id=04b07795-8ddb-461a-bbee-02f9e1bf7b46&grant_type=device_code&device_code=DEVICE_CODE&client-request-id=client-request-id&client_info=1&x-client-SKU=msal.js.node&x-client-VER=1.3.2&x-client-OS=linux&x-client-CPU=x64&x-ms-lib-capability=retry-after, h429&x-client-current-telemetry=5|671,0,,,|,&x-client-last-telemetry=5|0|||0,0&claims=%7B%22access_token%22%3A%7B%22nbf%22%3A%7B%22essential%22%3Atrue%2C%22value%22%3A%221635515786%22%7D%2C%22xms_cc%22%3A%7B%22values%22%3A%5B%22cp1%22%5D%7D%7D%7D")
+  .reply(200, {"token_type":"Bearer","scope":"email openid profile https://graph.microsoft.com/AuditLog.Read.All https://graph.microsoft.com/Directory.AccessAsUser.All https://graph.microsoft.com/Group.ReadWrite.All https://graph.microsoft.com/User.ReadWrite.All","expires_in":86399,"ext_expires_in":86399,"access_token":"access_token","refresh_token":"refresh_token","foci":"1","id_token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6ImtpZCJ9.eyJhdWQiOiJhdWQiLCJpc3MiOiJodHRwczovL2xvZ2luLm1pY3Jvc29mdG9ubGluZS5jb20vMTIzNDU2NzgtMTIzNC0xMjM0LTEyMzQtMTIzNDU2Nzg5MDEyL3YyLjAiLCJpYXQiOjE2MTUzMzcxNjMsIm5iZiI6MTYxNTMzNzE2MywiZXhwIjoxNjE1MzQxMDYzLCJhaW8iOiJhaW8iLCJpZHAiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC9pZHAvIiwibmFtZSI6IkRhbmllbCBSb2Ryw61ndWV6Iiwib2lkIjoib2lkIiwicHJlZmVycmVkX3VzZXJuYW1lIjoiZGFucm9kcmlAbWljcm9zb2Z0LmNvbSIsInJoIjoicmguIiwic3ViIjoic3ViIiwidGlkIjoiMTIzNDU2NzgtMTIzNC0xMjM0LTEyMzQtMTIzNDU2Nzg5MDEyIiwidXRpIjoidXRpIiwidmVyIjoiMi4wIn0=.bm9faWRlYV93aGF0c190aGlz","client_info":"eyJ1aWQiOiIxMjM0NTY3OC0xMjM0LTEyMzQtMTIzNC0xMjM0NTY3ODkwMTIiLCJ1dGlkIjoiMTIzNDU2NzgtMTIzNC0xMjM0LTEyMzQtMTIzNDU2Nzg5MDEyIn0K"}, [
   'Cache-Control',
   'no-store, no-cache',
   'Pragma',
@@ -438,19 +516,46 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  'e71224af-842d-4892-9aac-d27aa1b34000',
+  '8d144d87-e069-49b7-82e5-ff6a0cc3a100',
   'x-ms-ests-server',
-  '2.1.12171.14 - NCUS ProdSlices',
+  '2.1.12171.14 - EUS ProdSlices',
   'x-ms-clitelem',
   '1,0,0,,',
   'Set-Cookie',
-  'fpc=fpc;; expires=Sat, 27-Nov-2021 02:43:35 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=fpc;; expires=Sun, 28-Nov-2021 13:57:41 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Thu, 28 Oct 2021 02:43:35 GMT',
+  'Fri, 29 Oct 2021 13:57:41 GMT',
   'Content-Length',
-  '4387'
+  '4846'
+]);
+
+nock('https://graph.microsoft.com:443', {"encodedQueryParams":true})
+  .post('/v1.0/me/revokeSignInSessions')
+  .reply(200, {"@odata.context":"https://graph.microsoft.com/v1.0/$metadata#Edm.Boolean","value":true}, [
+  'Date',
+  'Fri, 29 Oct 2021 13:57:40 GMT',
+  'Content-Type',
+  'application/json;odata.metadata=minimal;odata.streaming=true;IEEE754Compatible=false;charset=utf-8',
+  'Cache-Control',
+  'no-cache',
+  'Transfer-Encoding',
+  'chunked',
+  'Location',
+  'https://graph.microsoft.com',
+  'Strict-Transport-Security',
+  'max-age=31536000',
+  'request-id',
+  '7b121496-a083-4423-86e3-9e34252a9011',
+  'client-request-id',
+  '7b121496-a083-4423-86e3-9e34252a9011',
+  'x-ms-ags-diagnostic',
+  '{"ServerInfo":{"DataCenter":"East US","Slice":"E","Ring":"5","ScaleUnit":"003","RoleInstance":"BL6PEPF0000C445"}}',
+  'x-ms-resource-unit',
+  '1',
+  'OData-Version',
+  '4.0'
 ]);
