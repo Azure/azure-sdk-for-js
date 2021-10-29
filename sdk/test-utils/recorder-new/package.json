@@ -24,7 +24,7 @@
     "integration-test:browser": "concurrently \"npm run tests:server\" \"npm run test:browser-with-proxy\" --kill-others --success first",
     "integration-test:node": "concurrently \"npm run tests:server\" \"npm run test:node-with-proxy\" --kill-others --success first",
     "test:node-with-proxy": "dev-tool run test:node-js-input --mocha=\"--timeout 1200000 'test/*.spec.ts'\"",
-    "test:browser-with-proxy": "dev-tool run test:browser --karma=\"--single-run\"",
+    "test:browser-with-proxy": "dev-tool run test:browser",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "tests:server": "cross-env TS_NODE_COMPILER_OPTIONS=\"{\\\"module\\\": \\\"commonjs\\\"}\" ts-node test/utils/server.ts",
     "temp-integration-test:browser": "concurrently \"npm run tests:server\" \"karma start --single-run\" --kill-others --success first",
