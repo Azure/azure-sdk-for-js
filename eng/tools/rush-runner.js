@@ -97,11 +97,8 @@ const getServicePackages = (baseDir, serviceDirs) => {
     const packageJsons = getPackageJsons(searchDir);
     for (const filePath of packageJsons) {
       const contents = JSON.parse(fs.readFileSync(filePath, "utf8"));
-      const sdkType = contents["sdk-type"];
-      if (sdkType === "client" || sdkType === "mgmt" || sdkType === "perf-test" || sdkType === "utility") {
-        packageNames.push(contents.name);
-        packageDirs.push(path.dirname(filePath));
-      }
+      packageNames.push(contents.name);
+      packageDirs.push(path.dirname(filePath));
     }
   }
 
