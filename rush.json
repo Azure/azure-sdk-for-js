@@ -1020,6 +1020,11 @@
       "packageName": "@azure/arm-mediaservices",
       "projectFolder": "sdk/mediaservices/arm-mediaservices",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-databricks",
+      "projectFolder": "sdk/databricks/arm-databricks",
+      "versionPolicyName": "management"
     }
   ]
 }
