@@ -48,6 +48,7 @@ async function graphChallengeFlow(credential: TokenCredential): Promise<AccessTo
   // We do this by calling to the me/revokeSignInSessions endpoint outside of the pipeline every so often, until the service stops answering with status code 200.
   const client = new IdentityClient();
   let count = 0;
+  // The only way this is going to finish in a reasonable time is if the token is revoked by the service.
   while (count < 100) {
     const subscriptionsRequest = await client.sendPostRequestAsync(revokeUrl, {
       headers: {
@@ -87,14 +88,14 @@ async function graphChallengeFlow(credential: TokenCredential): Promise<AccessTo
   // 1. This request fails with 401 and has a WWW-Authenticate header in its response.
   // 2. Then we do a token request with the claims received from the challenge.
   // 3. Then the original request is repeated and succeeds.
-  const subscriptions = await pipeline.sendRequest(
+  const finalResponse = await pipeline.sendRequest(
     httpClient,
     createPipelineRequest({
       url: revokeUrl,
       method: "POST"
     })
   );
-  assert.equal(subscriptions.status, 200, "Final response failed.");
+  assert.equal(finalResponse.status, 200, "Final response failed.");
 
   // Getting a new token at this point should return a token different from the initially obtained.
   // Recordings help us verify that the internal flow indeed happened.
@@ -115,13 +116,13 @@ describe("CAE", function() {
     await cleanup();
   });
 
-  // Improtant:
-  // After recording these tests, the scopes in the recordings need to be changed manually.
-  // At the time these tests were written, the recorder would automatically obscure the scopes for security reasons.
-  // However, we need the scopes intact for our tests.
-
   it("DeviceCodeCredential", async function(this: Context) {
     // Important: Recording this test may only work in certain tenants.
+
+    // Improtant:
+    // After recording these tests, the scopes in the recordings need to be changed manually.
+    // This is because MSAL is changing the scopes here: https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/a81fcef3d82523e03828d91bb0ee8d2ab2cc20d8/lib/msal-common/src/request/RequestParameterBuilder.ts#L49-L53
+    // in a way that breaks the recorder's sanitizeScopeUrl: https://github.com/Azure/azure-sdk-for-js/blob/1514d847f5a4fdb868d0407f40dcf308e5086f5a/sdk/test-utils/recorder/src/utils/index.ts#L539-L541
 
     if (!isPlaybackMode()) {
       this.skip();
@@ -132,6 +133,7 @@ describe("CAE", function() {
     );
 
     // Verifying that the first access token and the final one are different works in this test as expected.
+    // The service answered with the same expiration date both times.
     assert.notDeepEqual(firstAccessToken, finalAccessToken);
   });
 
@@ -139,10 +141,10 @@ describe("CAE", function() {
     // Important: Recording this test may only work in certain tenants.
 
     if (!isPlaybackMode()) {
-      this.skip();
+      // this.skip();
     }
 
-    await graphChallengeFlow(
+    const [firstAccessToken, finalAccessToken] = await graphChallengeFlow(
       new UsernamePasswordCredential(
         env.AZURE_TENANT_ID,
         DeveloperSignOnClientId,
@@ -152,9 +154,12 @@ describe("CAE", function() {
     );
 
     // Important:
-    //   ONLY IN PLAYBACK MODE (uncomenting this line in record mode would work)
+    //   IN PLAYBACK MODE...
     //   Verifying that the first access token and the final one are different does not work in this test.
-    //   This seems to be a recorder bug.
-    // assert.notDeepEqual(firstAccessToken, finalAccessToken);
+    //   The recorder strips out the access tokens from the responses on the recordings,
+    //   and for the recordings of the UsernamePasswordCredential, the service answered with the same expiration date both times.
+    if (!isPlaybackMode()) {
+      assert.notDeepEqual(firstAccessToken, finalAccessToken);
+    }
   });
 });
