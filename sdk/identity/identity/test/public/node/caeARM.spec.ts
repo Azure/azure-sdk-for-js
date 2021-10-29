@@ -132,9 +132,13 @@ describe("CAE", function() {
       new DeviceCodeCredential({ tenantId: env.AZURE_TENANT_ID })
     );
 
-    // Verifying that the first access token and the final one are different works in this test as expected.
-    // The service answered with the same expiration date both times.
-    assert.notDeepEqual(firstAccessToken, finalAccessToken);
+    // Important:
+    // IN PLAYBACK MODE...
+    // Verifying that the first access token and the final one are different will not work consistently in this test.
+    // The recorder strips out the access tokens from the responses on the recordings.
+    if (!isPlaybackMode()) {
+      assert.notDeepEqual(firstAccessToken, finalAccessToken);
+    }
   });
 
   it("UsernamePasswordCredential", async function(this: Context) {
@@ -154,10 +158,9 @@ describe("CAE", function() {
     );
 
     // Important:
-    //   IN PLAYBACK MODE...
-    //   Verifying that the first access token and the final one are different does not work in this test.
-    //   The recorder strips out the access tokens from the responses on the recordings,
-    //   and for the recordings of the UsernamePasswordCredential, the service answered with the same expiration date both times.
+    // IN PLAYBACK MODE...
+    // Verifying that the first access token and the final one are different will not work consistently in this test.
+    // The recorder strips out the access tokens from the responses on the recordings.
     if (!isPlaybackMode()) {
       assert.notDeepEqual(firstAccessToken, finalAccessToken);
     }
