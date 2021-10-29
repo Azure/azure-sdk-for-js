@@ -14,6 +14,7 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { ConfluentManagementClientContext } from "./confluentManagementClientContext";
 
+
 class ConfluentManagementClient extends ConfluentManagementClientContext {
   // Operation groups
   marketplaceAgreements: operations.MarketplaceAgreements;
@@ -32,11 +33,7 @@ class ConfluentManagementClient extends ConfluentManagementClientContext {
    * @param subscriptionId Microsoft Azure subscription id
    * @param [options] The parameter options
    */
-  constructor(
-    credentials: msRest.ServiceClientCredentials | TokenCredential,
-    subscriptionId: string,
-    options?: Models.ConfluentManagementClientOptions
-  ) {
+  constructor(credentials: msRest.ServiceClientCredentials | TokenCredential, subscriptionId: string, options?: Models.ConfluentManagementClientOptions) {
     super(credentials, subscriptionId, options);
     this.marketplaceAgreements = new operations.MarketplaceAgreements(this);
     this.organizationOperations = new operations.OrganizationOperations(this);
