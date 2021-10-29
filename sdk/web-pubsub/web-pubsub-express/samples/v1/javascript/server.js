@@ -8,8 +8,8 @@
 const { WebPubSubEventHandler } = require("@azure/web-pubsub-express");
 const express = require("express");
 
-const handler = new WebPubSubEventHandler("chat", ["https://xxx.webpubsub.azure.com"], {
-  dumpRequest: false,
+const handler = new WebPubSubEventHandler("chat", {
+  path: "/api/webpubsub",
   handleConnect(req, res) {
     console.log(req);
     res.success();

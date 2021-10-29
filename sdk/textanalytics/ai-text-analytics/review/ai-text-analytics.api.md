@@ -37,9 +37,12 @@ export interface AnalyzeActionsResult {
     analyzeSentimentResults: AnalyzeSentimentActionResult[];
     extractKeyPhrasesResults: ExtractKeyPhrasesActionResult[];
     extractSummaryResults: ExtractSummaryActionResult[];
+    multiCategoryClassifyResults: MultiCategoryClassifyActionResult[];
+    recognizeCustomEntitiesResults: RecognizeCustomEntitiesActionResult[];
     recognizeEntitiesResults: RecognizeCategorizedEntitiesActionResult[];
     recognizeLinkedEntitiesResults: RecognizeLinkedEntitiesActionResult[];
     recognizePiiEntitiesResults: RecognizePiiEntitiesActionResult[];
+    singleCategoryClassifyResults: SingleCategoryClassifyActionResult[];
 }
 
 // @public
@@ -131,6 +134,23 @@ export interface BeginAnalyzeHealthcareEntitiesOptions extends TextAnalyticsOper
 
 // @public
 export interface CategorizedEntity extends Entity {
+}
+
+// @public
+export interface ClassificationCategory extends ClassificationResult {
+}
+
+// @public (undocumented)
+export interface ClassificationResult {
+    category: string;
+    confidenceScore: number;
+}
+
+// @public
+export interface CustomTextAnalyticsAction {
+    actionName?: string;
+    deploymentName: string;
+    projectName: string;
 }
 
 // @public
@@ -425,6 +445,40 @@ export interface Match {
 }
 
 // @public
+export interface MultiCategoryClassifyAction extends CustomTextAnalyticsAction {
+    disableServiceLogs?: boolean;
+}
+
+// @public
+export type MultiCategoryClassifyActionErrorResult = TextAnalyticsActionErrorResult;
+
+// @public
+export type MultiCategoryClassifyActionResult = MultiCategoryClassifyActionSuccessResult | MultiCategoryClassifyActionErrorResult;
+
+// @public
+export interface MultiCategoryClassifyActionSuccessResult extends TextAnalyticsActionSuccessState {
+    results: MultiCategoryClassifyResultArray;
+}
+
+// @public
+export type MultiCategoryClassifyErrorResult = TextAnalyticsErrorResult;
+
+// @public
+export type MultiCategoryClassifyResult = MultiCategoryClassifySuccessResult | MultiCategoryClassifyErrorResult;
+
+// @public
+export interface MultiCategoryClassifyResultArray extends Array<MultiCategoryClassifyResult> {
+    deploymentName: string;
+    projectName: string;
+    statistics?: TextDocumentBatchStatistics;
+}
+
+// @public
+export interface MultiCategoryClassifySuccessResult extends TextAnalyticsSuccessResult {
+    classifications: ClassificationCategory[];
+}
+
+// @public
 export interface OperationMetadata {
     createdOn: Date;
     expiresOn?: Date;
@@ -505,6 +559,33 @@ export interface RecognizeCategorizedEntitiesResultArray extends Array<Recognize
 // @public
 export interface RecognizeCategorizedEntitiesSuccessResult extends TextAnalyticsSuccessResult {
     readonly entities: CategorizedEntity[];
+}
+
+// @public
+export interface RecognizeCustomEntitiesAction extends CustomTextAnalyticsAction {
+    disableServiceLogs?: boolean;
+    stringIndexType?: StringIndexType;
+}
+
+// @public
+export type RecognizeCustomEntitiesActionResult = RecongizeCustomEntitiesActionSuccessResult | RecongizeCustomEntitiesActionErrorResult;
+
+// @public
+export type RecognizeCustomEntitiesErrorResult = TextAnalyticsErrorResult;
+
+// @public
+export type RecognizeCustomEntitiesResult = RecognizeCustomEntitiesSuccessResult | RecognizeCustomEntitiesErrorResult;
+
+// @public
+export interface RecognizeCustomEntitiesResultArray extends Array<RecognizeCustomEntitiesResult> {
+    deploymentName: string;
+    projectName: string;
+    statistics?: TextDocumentBatchStatistics;
+}
+
+// @public
+export interface RecognizeCustomEntitiesSuccessResult extends TextAnalyticsSuccessResult {
+    entities: CategorizedEntity[];
 }
 
 // @public
@@ -590,6 +671,14 @@ export interface RecognizePiiEntitiesSuccessResult extends TextAnalyticsSuccessR
     redactedText: string;
 }
 
+// @public
+export type RecongizeCustomEntitiesActionErrorResult = TextAnalyticsActionErrorResult;
+
+// @public
+export interface RecongizeCustomEntitiesActionSuccessResult extends TextAnalyticsActionSuccessState {
+    results: RecognizeCustomEntitiesResultArray;
+}
+
 // @public (undocumented)
 export interface SentenceAssessment {
     confidenceScores: TargetConfidenceScoreLabel;
@@ -621,6 +710,40 @@ export interface SentimentConfidenceScores {
     neutral: number;
     // (undocumented)
     positive: number;
+}
+
+// @public
+export interface SingleCategoryClassifyAction extends CustomTextAnalyticsAction {
+    disableServiceLogs?: boolean;
+}
+
+// @public
+export type SingleCategoryClassifyActionErrorResult = TextAnalyticsActionErrorResult;
+
+// @public
+export type SingleCategoryClassifyActionResult = SingleCategoryClassifyActionSuccessResult | SingleCategoryClassifyActionErrorResult;
+
+// @public
+export interface SingleCategoryClassifyActionSuccessResult extends TextAnalyticsActionSuccessState {
+    results: SingleCategoryClassifyResultArray;
+}
+
+// @public
+export type SingleCategoryClassifyErrorResult = TextAnalyticsErrorResult;
+
+// @public
+export type SingleCategoryClassifyResult = SingleCategoryClassifySuccessResult | SingleCategoryClassifyErrorResult;
+
+// @public
+export interface SingleCategoryClassifyResultArray extends Array<SingleCategoryClassifyResult> {
+    deploymentName: string;
+    projectName: string;
+    statistics?: TextDocumentBatchStatistics;
+}
+
+// @public
+export interface SingleCategoryClassifySuccessResult extends TextAnalyticsSuccessResult {
+    classification: ClassificationCategory;
 }
 
 // @public
@@ -658,7 +781,7 @@ export interface TextAnalyticsAction {
 }
 
 // @public
-export interface TextAnalyticsActionErrorResult {
+export interface TextAnalyticsActionErrorResult extends TextAnalyticsActionState {
     readonly error: TextAnalyticsError;
     readonly failedOn: Date;
 }
@@ -668,13 +791,21 @@ export interface TextAnalyticsActions {
     analyzeSentimentActions?: AnalyzeSentimentAction[];
     extractKeyPhrasesActions?: ExtractKeyPhrasesAction[];
     extractSummaryActions?: ExtractSummaryAction[];
+    multiCategoryClassifyActions?: MultiCategoryClassifyAction[];
+    recognizeCustomEntitiesActions?: RecognizeCustomEntitiesAction[];
     recognizeEntitiesActions?: RecognizeCategorizedEntitiesAction[];
     recognizeLinkedEntitiesActions?: RecognizeLinkedEntitiesAction[];
     recognizePiiEntitiesActions?: RecognizePiiEntitiesAction[];
+    singleCategoryClassifyActions?: SingleCategoryClassifyAction[];
 }
 
 // @public
-export interface TextAnalyticsActionSuccessState {
+export interface TextAnalyticsActionState {
+    actionName?: string;
+}
+
+// @public
+export interface TextAnalyticsActionSuccessState extends TextAnalyticsActionState {
     readonly completedOn: Date;
     readonly error?: undefined;
 }
@@ -772,7 +903,6 @@ export type TokenSentimentValue = "positive" | "mixed" | "negative";
 
 // @public
 export type WarningCode = string;
-
 
 // (No @packageDocumentation comment for this package)
 

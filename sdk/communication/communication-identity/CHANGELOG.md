@@ -1,6 +1,6 @@
 # Release History
 
-## 1.1.0-beta.1 (Unreleased)
+## 1.1.0-beta.1 (2021-10-29)
 
 ### Features Added
 
@@ -8,13 +8,7 @@
 - Updated our internal core package dependencies to their latest versions in order to add support for Opentelemetry 1.0.0 which is compatible with the latest versions of our other client libraries.
 - Changed TS compilation target to ES2017 in order to produce smaller bundles and use more native platform features
 - Added support to build custom Teams endpoint using M365 Teams identities
-  - `CommunicationIdentityClient` added a new method `exchangeTeamsUserAadToken` that provides the ability to exchange an AAD access token of a Teams user for a Communication Identity access token
-
-### Breaking Changes
-
-### Key Bugs Fixed
-
-### Fixed
+  - `CommunicationIdentityClient` added a new method `getTokenForTeamsUser` that provides the ability to exchange an AAD access token of a Teams user for a Communication Identity access token
 
 ## 1.0.0 (2021-03-29)
 

@@ -2,7 +2,7 @@
  "recordings": [
   {
    "method": "POST",
-   "url": "https://endpoint/text/analytics/v3.2-preview.1/entities/health/jobs",
+   "url": "https://endpoint/text/analytics/v3.2-preview.2/entities/health/jobs",
    "query": {
     "stringIndexType": "Utf16CodeUnit"
    },
@@ -10,32 +10,31 @@
    "status": 202,
    "response": "",
    "responseHeaders": {
-    "apim-request-id": "8daa2def-32e8-43be-8ecc-5785e7f67357",
-    "date": "Tue, 03 Aug 2021 22:59:27 GMT",
-    "operation-location": "https://endpoint/text/analytics/v3.2-preview.1/entities/health/jobs/a50681ff-0c76-48bd-8f85-51e21217ca72",
+    "apim-request-id": "90679c22-822a-4f82-9415-5410fdd7c3ce",
+    "date": "Sat, 23 Oct 2021 00:56:18 GMT",
+    "operation-location": "https://endpoint/text/analytics/v3.2-preview.1/entities/health/jobs/c13668e6-6270-4e6a-b746-8a6e756f724b",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "181"
+    "x-envoy-upstream-service-time": "172"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.2-preview.1/entities/health/jobs/a50681ff-0c76-48bd-8f85-51e21217ca72",
+   "url": "https://endpoint/text/analytics/v3.2-preview.1/entities/health/jobs/c13668e6-6270-4e6a-b746-8a6e756f724b",
    "query": {
-    "$top": "20"
+    "$top": "20",
+    "$skip": "0"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"a50681ff-0c76-48bd-8f85-51e21217ca72\",\"lastUpdateDateTime\":\"2021-08-03T22:59:27Z\",\"createdDateTime\":\"2021-08-03T22:59:27Z\",\"expirationDateTime\":\"2021-08-04T22:59:27Z\",\"status\":\"notStarted\",\"errors\":[]}",
+   "response": "{\"jobId\":\"c13668e6-6270-4e6a-b746-8a6e756f724b\",\"lastUpdateDateTime\":\"2021-10-23T00:56:19Z\",\"createdDateTime\":\"2021-10-23T00:56:19Z\",\"expirationDateTime\":\"2021-10-24T00:56:19Z\",\"status\":\"notStarted\",\"errors\":[]}",
    "responseHeaders": {
-    "apim-request-id": "25126423-54bd-4a90-92fe-e462c3874577",
+    "apim-request-id": "b24aa2bb-b4a2-43b9-b997-9c57cfc989e5",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 03 Aug 2021 22:59:27 GMT",
+    "date": "Sat, 23 Oct 2021 00:56:18 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "6"
+    "x-envoy-upstream-service-time": "7"
    }
   }
  ],

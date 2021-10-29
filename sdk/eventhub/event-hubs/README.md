@@ -40,7 +40,7 @@ See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUP
 - An [Azure subscription](https://azure.microsoft.com/free/)
 - An [Event Hubs Namespace](https://docs.microsoft.com/azure/event-hubs/)
 
-#### Configure Typescript
+#### Configure TypeScript
 
 TypeScript users need to have Node type definitions installed:
 

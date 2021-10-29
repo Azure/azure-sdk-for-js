@@ -995,6 +995,31 @@
       "packageName": "@azure/arm-logic",
       "projectFolder": "sdk/logic/arm-logic",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-recoveryservices",
+      "projectFolder": "sdk/recoveryservices/arm-recoveryservices",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-appplatform",
+      "projectFolder": "sdk/appplatform/arm-appplatform",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-containerservice",
+      "projectFolder": "sdk/containerservice/arm-containerservice",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-operations",
+      "projectFolder": "sdk/operationsmanagement/arm-operations",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-mediaservices",
+      "projectFolder": "sdk/mediaservices/arm-mediaservices",
+      "versionPolicyName": "management"
     }
   ]
 }
