@@ -73,7 +73,7 @@ async function getImageTag() {
     console.log(`Image tag obtained from the powershell script => ${tag}\n`);
     return tag;
   } catch (_) {
-    console.log(
+    console.warn(
       `Unable to get the image tag from the powershell script, trying "latest" tag instead\n`
     );
     return "latest";

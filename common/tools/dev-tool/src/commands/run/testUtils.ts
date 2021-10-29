@@ -22,7 +22,7 @@ async function shouldRunProxyTool(): Promise<boolean> {
         throw error;
       }
     }
-  }
+  } 
 }
 
 export async function runTestsWithProxyTool(
