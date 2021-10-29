@@ -5,7 +5,7 @@ stages:
     parameters:
       PackageName: "@azure/event-hubs"
       ServiceDirectory: eventhub
-      TimeoutInMinutes: 180
+      TimeoutInMinutes: 90
       SupportedClouds: 'Public,UsGov,China'
       EnvVars:
         AZURE_CLIENT_ID: $(EVENTHUB_CLIENT_ID)
