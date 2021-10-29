@@ -64,7 +64,7 @@ describe("urlHelpers", () => {
 
   it("should encode url when enable query parameter encoding", () => {
     const result = buildRequestUrl(mockBaseUrl, "/foo", [], {
-      queryParameters: { foo: ' aaaa', bar: 'b= ' },
+      queryParameters: { foo: " aaaa", bar: "b= " },
     });
     assert.equal(result, `https://example.org/foo?foo=+aaaa&bar=b%3D+`);
   });

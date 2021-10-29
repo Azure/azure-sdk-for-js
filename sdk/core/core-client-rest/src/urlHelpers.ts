@@ -25,12 +25,12 @@ export function buildRequestUrl(
   }
 
   for (const pathParam of pathParameters) {
-    const value = pathParam
-    if (!options.skipUrlEncoding)  {
-      encodeURIComponent(pathParam)
+    let value = pathParam;
+    if (!options.skipUrlEncoding) {
+      value = encodeURIComponent(pathParam);
     }
 
-    path = path.replace(/{([^/]+)}/, value); 
+    path = path.replace(/{([^/]+)}/, value);
   }
 
   const url = new URL(`${baseUrl}/${path}`);
@@ -47,7 +47,6 @@ export function buildRequestUrl(
       }
       const value = param.toISOString !== undefined ? param.toISOString() : param.toString();
       url.searchParams.append(key, value);
-      
     }
   }
 
