@@ -11,10 +11,14 @@ import {
   Document as GeneratedDocument,
   DocumentEntity,
   DocumentKeyValuePair,
-  DocumentPage,
+  DocumentPage as GeneratedDocumentPage,
+  DocumentLine as GeneratedDocumentLine,
+  DocumentSelectionMark,
   DocumentSpan,
   DocumentStyle,
   DocumentTable,
+  DocumentWord,
+  LengthUnit,
 } from "../generated";
 import { DocumentField, toAnalyzedDocumentFieldsFromGenerated } from "../models/fields";
 import { FormRecognizerApiVersion, PollerOptions } from "../options";
@@ -133,6 +137,197 @@ export interface AnalyzeResult<Document = AnalyzedDocument> {
 }
 
 /**
+ * A page within an analysis result.
+ */
+export interface DocumentPage {
+  /**
+   * 1-based page number in the input document.
+   */
+  pageNumber: number;
+
+  /**
+   * The general orientation of the content in clockwise direction, measured in degrees between (-180, 180].
+   */
+  angle: number;
+
+  /**
+   * The width of the image/PDF in pixels/inches, respectively.
+   */
+  width: number;
+
+  /**
+   * The height of the image/PDF in pixels/inches, respectively.
+   */
+  height: number;
+
+  /**
+   * The unit used by the width, height, and boundingBox properties. For images, the unit is "pixel". For PDF, the unit is "inch".
+   */
+  unit: LengthUnit;
+
+  /**
+   * Location of the page in the reading order concatenated content.
+   */
+  spans: DocumentSpan[];
+
+  /**
+   * Extracted words from the page.
+   */
+  words: DocumentWord[];
+
+  /**
+   * Extracted selection marks from the page.
+   */
+  selectionMarks?: DocumentSelectionMark[];
+
+  /**
+   * Extracted lines from the page, potentially containing both textual and visual elements.
+   */
+  lines: DocumentLine[];
+}
+
+export function toDocumentPageFromGenerated(generated: GeneratedDocumentPage): DocumentPage {
+  generated.lines = generated.lines.map((line) => toDocumentLineFromGenerated(line, generated));
+  return generated;
+}
+
+/**
+ * A line of adjacent content elements on a page.
+ */
+export interface DocumentLine {
+  /**
+   * Concatenated content of the contained elements in reading order.
+   */
+  content: string;
+
+  /**
+   * Bounding box of the line.
+   */
+  boundingBox?: number[];
+
+  /**
+   * Location of the line in the reading order concatenated content.
+   */
+  spans: DocumentSpan[];
+
+  /**
+   * An iterable of words within the line. This property is only defined
+   *
+   * This property is not enumerable and will not be included if the `DocumentLine` is serialized.
+   */
+  readonly words?: IterableIterator<DocumentWord>;
+}
+
+/**
+ * Tests if one span contains another, by testing that the outer span starts before or at the same character as the
+ * inner span, and that the end position of the outer span is greater than or equal to the end position of the inner
+ * span.
+ *
+ * @param outer the outer (potentially containing) span
+ * @param inner the span to test if `outer` contains
+ * @returns true if `inner` is contained inside of `outer`.
+ */
+export function contains(outer: DocumentSpan, inner: DocumentSpan): boolean {
+  return outer.offset <= inner.offset && outer.offset + outer.length >= inner.offset + inner.length;
+}
+
+function* empty(): IterableIterator<never> {}
+
+function* iterFrom<T>(items: T[], idx: number): IterableIterator<T> {
+  let i = idx;
+
+  while (i < items.length) {
+    yield items[i++];
+  }
+}
+
+function iteratorFromFirstMatchBinarySearch<Spanned extends { span: DocumentSpan }>(
+  span: DocumentSpan,
+  items: Spanned[]
+): IterableIterator<Spanned> {
+  let idx = Math.floor(items.length / 2);
+  let prevIdx = idx;
+  let min = 0;
+  let max = items.length - 1;
+
+  const predicate = (): boolean =>
+    items[idx].span.offset >= span.offset && (items[idx - 1]?.span?.offset ?? -1) < span.offset;
+
+  // Binary search to find the first element that could be a child
+  do {
+    if (predicate()) {
+      return iterFrom(items, idx);
+    } else if (span.offset > items[idx].span.offset) {
+      min = prevIdx = idx;
+      idx = Math.floor(idx + (max - idx) / 2);
+    } else {
+      max = prevIdx = idx;
+      idx = Math.floor(idx - (idx - min) / 2);
+    }
+  } while (idx !== prevIdx);
+
+  // This might seem weird, but it's a simple way to make an empty iterator;
+  return empty();
+}
+
+function* intoIter<T>(value: T[]): IterableIterator<T> {
+  yield* value;
+}
+
+export function* fastGetChildren<Spanned extends { span: DocumentSpan }>(
+  spans: Iterator<DocumentSpan>,
+  childrenArray: Spanned[]
+): IterableIterator<Spanned> {
+  let curSpan = spans.next();
+
+  // Need to exit early if
+  if (curSpan.done) {
+    return;
+  }
+
+  const children = iteratorFromFirstMatchBinarySearch(curSpan.value as DocumentSpan, childrenArray);
+  let curChild = children.next();
+
+  while (!(curChild.done || curSpan.done)) {
+    if (contains(curSpan.value, curChild.value.span)) {
+      //
+      yield curChild.value;
+      curChild = children.next();
+    } else if (curSpan.value.offset + curSpan.value.length < curChild.value.span.offset) {
+      curSpan = spans.next();
+    } else {
+      curChild = children.next();
+    }
+  }
+}
+
+/*function* naiveGetWords(
+  spans: DocumentSpan[],
+  words: DocumentWord[]
+): IterableIterator<DocumentWord> {
+  for (const span of spans) {
+    // Naive implementation that looks at every word.
+    for (const word of words) {
+      if (contains(span, word.span)) {
+        yield word;
+      }
+    }
+  }
+}*/
+
+function toDocumentLineFromGenerated(
+  generated: GeneratedDocumentLine,
+  page: DocumentPage
+): DocumentLine {
+  return Object.defineProperty(generated, "words", {
+    // We do this so that if the object is serialized or for-in'd, the dynamic words property (which is expensive to
+    // compute) is not included.
+    enumerable: false,
+    get: () => fastGetChildren(intoIter(generated.spans), page.words),
+  });
+}
+
+/**
  * The state of an analysis operation, which will eventually produce the result type that corresponds to the model.
  */
 export interface DocumentAnalysisPollOperationState<Result = AnalyzeResult<AnalyzedDocument>>
@@ -201,7 +396,7 @@ export function toAnalyzeResultFromGenerated<
     apiVersion: result.apiVersion as FormRecognizerApiVersion,
     modelId: result.modelId,
     content: result.content,
-    pages: result.pages,
+    pages: result.pages.map((page) => toDocumentPageFromGenerated(page)),
     tables: result.tables ?? [],
     keyValuePairs: result.keyValuePairs ?? [],
     entities: result.entities ?? [],
