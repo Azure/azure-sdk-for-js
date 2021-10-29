@@ -1,15 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * @summary Demonstrates the use of a Azure Video Analyzer Edge sdk.
+ */
+
 import {
   PipelineTopology,
-  Request,
   RtspSource,
   UnsecuredEndpoint,
   NodeInput,
   LivePipeline,
+  Request,
   createRequest,
-  IotHubMessageSink
+  RemoteDeviceAdapterProperties,
+  RemoteDeviceAdapter,
+  VideoSink
 } from "@azure/video-analyzer-edge";
 
 import { Client } from "azure-iothub";
@@ -35,12 +41,13 @@ function buildPipelineTopology() {
     nodeName: "rtspSource"
   };
 
-  const msgSink: IotHubMessageSink = {
-    //Create a sink for your pipeline topology
-    name: "msgSink",
+  const videoSink: VideoSink = {
+    name: "videoSink",
     inputs: [nodeInput],
-    hubOutputName: "${hubSinkOutputName}",
-    "@type": "#Microsoft.VideoAnalyzer.IotHubMessageSink"
+    videoName: "video",
+    localMediaCachePath: "/var/lib/videoanalyzer/tmp/",
+    localMediaCacheMaximumSizeMiB: "1024",
+    "@type": "#Microsoft.VideoAnalyzer.VideoSink"
   };
 
   const pipelineTopology: PipelineTopology = {
@@ -50,11 +57,10 @@ function buildPipelineTopology() {
       parameters: [
         { name: "rtspUserName", type: "String", default: "testUsername" },
         { name: "rtspPassword", type: "SecretString", default: "testPassword" },
-        { name: "rtspUrl", type: "String" },
-        { name: "hubSinkOutputName", type: "String" }
+        { name: "rtspUrl", type: "String" }
       ],
       sources: [rtspSource],
-      sinks: [msgSink]
+      sinks: [videoSink]
     }
   };
 
@@ -74,15 +80,35 @@ function buildLivePipeline(pipelineTopologyName: string) {
   return livePipeline;
 }
 
+function createRemoteDeviceAdapter(deviceName: string, iotDeviceName: string): RemoteDeviceAdapter {
+  const remoteDeviceProperties: RemoteDeviceAdapterProperties = {
+    target: { host: "camerasimulator" },
+    iotHubDeviceConnection: {
+      deviceId: iotDeviceName,
+      credentials: {
+        "@type": "#Microsoft.VideoAnalyzer.SymmetricKeyCredentials",
+        key: process.env.iothub_deviceprimarykey
+      }
+    }
+  };
+
+  const remoteDeviceAdapter: RemoteDeviceAdapter = {
+    name: deviceName,
+    properties: remoteDeviceProperties
+  };
+
+  return remoteDeviceAdapter;
+}
+
 export async function main() {
-  const deviceId = "lva-sample-device";
-  const moduleId = "mediaEdge";
-  const connectionString = "connectionString";
-  const iotHubClient = Client.fromConnectionString(connectionString); //Connect to your IoT Hub
+  const deviceId = process.env.iothub_deviceid;
+  const moduleId = process.env.iothub_moduleid;
+  const connectionString = process.env.iothub_connectionstring;
+  const iotHubClient = Client.fromConnectionString(connectionString ?? ""); //Connect to your IoT Hub
 
   async function invokeMethodHelper<T>(methodRequest: Request<T>) {
     //Helper method to send a module method request to your IoT Hub device
-    return await iotHubClient.invokeDeviceMethod(deviceId, moduleId, {
+    return await iotHubClient.invokeDeviceMethod(deviceId ?? "", moduleId ?? "", {
       methodName: methodRequest.methodName,
       payload: methodRequest.payload
     });
@@ -130,6 +156,50 @@ export async function main() {
   const deletePipelineTopRequest = createRequest("pipelineTopologyDelete", pipelineTopology.name);
   const deletePipelineTopResponse = await invokeMethodHelper(deletePipelineTopRequest);
   console.log(deletePipelineTopResponse);
+
+  const endpoint: UnsecuredEndpoint = {
+    url: "http://camerasimulator:8554",
+    "@type": "#Microsoft.VideoAnalyzer.UnsecuredEndpoint"
+  };
+  const getOnvifDeviceRequest = createRequest("onvifDeviceGet", endpoint);
+  const getOnvifDeviceResponse = await invokeMethodHelper(getOnvifDeviceRequest);
+  console.log(getOnvifDeviceResponse);
+
+  const listOnvifDeviceRequest = createRequest("onvifDeviceDiscover");
+  const listOnvifDeviceResponse = await invokeMethodHelper(listOnvifDeviceRequest);
+  console.log(listOnvifDeviceResponse);
+
+  const remoteDeviceAdapter = await createRemoteDeviceAdapter(
+    "remoteDeviceAdapterSample",
+    "iotDeviceNameSample"
+  );
+  console.log(remoteDeviceAdapter);
+  const setRemoteDeviceAdapterRequest = createRequest(
+    "remoteDeviceAdapterSet",
+    remoteDeviceAdapter
+  );
+  const setRemoteDeviceAdapterResponse = await invokeMethodHelper(setRemoteDeviceAdapterRequest);
+  console.log(setRemoteDeviceAdapterResponse);
+
+  const getRemoteDeviceAdapterRequest = createRequest(
+    "remoteDeviceAdapterGet",
+    remoteDeviceAdapter.name
+  );
+  const getRemoteDeviceAdapterResponse = await invokeMethodHelper(getRemoteDeviceAdapterRequest);
+  console.log(getRemoteDeviceAdapterResponse);
+
+  const listRemoteDeviceAdapterRequest = createRequest("remoteDeviceAdapterList");
+  const listRemoteDeviceAdapterResponse = await invokeMethodHelper(listRemoteDeviceAdapterRequest);
+  console.log(listRemoteDeviceAdapterResponse);
+
+  const deleteRemoteDeviceAdapterRequest = createRequest(
+    "remoteDeviceAdapterDelete",
+    remoteDeviceAdapter.name
+  );
+  const deleteRemoteDeviceAdapterResponse = await invokeMethodHelper(
+    deleteRemoteDeviceAdapterRequest
+  );
+  console.log(deleteRemoteDeviceAdapterResponse);
 }
 
 main().catch((err) => {

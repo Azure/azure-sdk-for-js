@@ -13545,7 +13545,7 @@ packages:
     dev: false
 
   file:projects/video-analyzer-edge.tgz:
-    resolution: {integrity: sha512-Cl4jjmfkJuO8NZ72KUrRa1bQlcQGLYRpJcCwlmQY3LIhRTDAz0eJYbSiAjzq0S15LzmCw/2mzVoMK6kP+vgNvQ==, tarball: file:projects/video-analyzer-edge.tgz}
+    resolution: {integrity: sha512-9+t+mAcyAqPYLyp4a41bdqOppIV2die1AY4A2bP/szdpcSfp+AA/ZQc2kyfHWBB5fVXlfHI75WYq687WY8qxcQ==, tarball: file:projects/video-analyzer-edge.tgz}
     name: '@rush-temp/video-analyzer-edge'
     version: 0.0.0
     dependencies:
@@ -13554,7 +13554,7 @@ packages:
       '@types/chai': 4.2.22
       '@types/chai-as-promised': 7.1.4
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.34
+      '@types/node': 12.20.33
       azure-iothub: 1.14.6
       chai: 4.3.4
       chai-as-promised: 7.1.1_chai@4.3.4
