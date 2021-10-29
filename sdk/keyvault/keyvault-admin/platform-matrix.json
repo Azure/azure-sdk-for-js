@@ -9,7 +9,7 @@
         }
       },
       "TestType": "node",
-      "NodeTestVersion": "10.x"
+      "NodeTestVersion": "12.x"
     }
   ]
 }
