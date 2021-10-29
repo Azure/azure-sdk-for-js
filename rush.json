@@ -1015,6 +1015,11 @@
       "packageName": "@azure/arm-operations",
       "projectFolder": "sdk/operationsmanagement/arm-operations",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-mediaservices",
+      "projectFolder": "sdk/mediaservices/arm-mediaservices",
+      "versionPolicyName": "management"
     }
   ]
 }
