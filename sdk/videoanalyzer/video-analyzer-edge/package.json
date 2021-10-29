@@ -108,8 +108,7 @@
   "//sampleConfiguration": {
     "productName": "Azure Video Analyzer",
     "productSlugs": [
-      "azure",
-      "ai-machine-learning"
+      "azure"
     ],
     "requiredResources": {
       "Azure IoT Hub account": "https://docs.microsoft.com/azure/iot-hub/iot-hub-create-through-portal"
