@@ -3,7 +3,7 @@
 
 ### Features Added
 
-- Add options to support enable path parameter encoding and query parameter encoding.
+- Add options skipUrlEncoding to support skip path parameter encoding.
 
 ## 1.0.0-beta.7 (2021-09-02)
 
