@@ -194,8 +194,6 @@ export interface MessageDetails {
   /** Keyword used to confirm double Opt-In method e.g. 'JOIN'. */
   optInReply?: string;
   confirmationMessage?: string;
-  /** Numbers of days in which is expected to start sending messages from the short code. */
-  estimatedRampUpTimeInDays?: number;
   /** Describes directionality e.g. oneWay or twoWay */
   directionality?: MessageDirectionality;
   /** Provides message exchange examples from and to end user for each supported message content type. */
@@ -238,6 +236,8 @@ export interface TrafficDetails {
    * e.g. 'Higher traffic expected during holiday season and Black Friday.'.
    */
   spikeDetails?: string;
+  /** Numbers of days in which is expected to start sending messages from the short code. */
+  estimatedRampUpTimeInDays?: number;
 }
 
 /** A wrapper for a list of USProgramBrief entities. */
@@ -299,6 +299,21 @@ export type MessageContentCategory =
   | "microBilling"
   | "trivia"
   | "entertainmentAlerts"
+  | "accountNotification"
+  | "ageGatedContent"
+  | "conversationalMessaging"
+  | "deliveryNotification"
+  | "education"
+  | "emergencyAlerts"
+  | "fraudAlerts"
+  | "loanArrangement"
+  | "onBehalfOfCarrier"
+  | "political"
+  | "promotionalMarketing"
+  | "publicServiceAnnouncements"
+  | "securityAlerts"
+  | "socialMedia"
+  | "twoFactorAuthentication"
   | "other";
 /** Defines values for MessageDirection. */
 export type MessageDirection = "toUser" | "fromUser";

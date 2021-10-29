@@ -8,24 +8,24 @@ import { Context } from "mocha";
 import { ShortCodesClient } from "../../src";
 import { createRecordedClient, createRecordedClientWithToken } from "./utils/recordedClient";
 
-matrix([[true, false]], async function (useAad) {
-  describe(`ShortCodesClient - get US Program Brief${useAad ? " [AAD]" : ""}`, function () {
+matrix([[true, false]], async function(useAad) {
+  describe(`ShortCodesClient - get US Program Brief${useAad ? " [AAD]" : ""}`, function() {
     let recorder: Recorder;
     let client: ShortCodesClient;
 
-    beforeEach(function (this: Context) {
+    beforeEach(function(this: Context) {
       ({ client, recorder } = useAad
         ? createRecordedClientWithToken(this)!
         : createRecordedClient(this));
     });
 
-    afterEach(async function (this: Context) {
+    afterEach(async function(this: Context) {
       if (!this.currentTest?.isPending()) {
         await recorder.stop();
       }
     });
 
-    it("can get an existing US Program Brief", async function (this: Context) {
+    it("can get an existing US Program Brief", async function(this: Context) {
       //const purchasedPhoneNumber = isPlaybackMode() ? "+14155550100" : env.AZURE_PHONE_NUMBER;
       const usProbramBriefId = "todo guid";
       const { id } = await client.getUSProgramBrief(usProbramBriefId);

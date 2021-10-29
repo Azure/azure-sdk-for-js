@@ -8,24 +8,24 @@ import { Context } from "mocha";
 import { ShortCodesClient } from "../../src";
 import { createRecordedClient, createRecordedClientWithToken } from "./utils/recordedClient";
 
-matrix([[true, false]], async function (useAad) {
-  describe(`ShortCodesClient - lists Short Codes${useAad ? " [AAD]" : ""}`, function () {
+matrix([[true, false]], async function(useAad) {
+  describe(`ShortCodesClient - lists Short Codes${useAad ? " [AAD]" : ""}`, function() {
     let recorder: Recorder;
     let client: ShortCodesClient;
 
-    beforeEach(function (this: Context) {
+    beforeEach(function(this: Context) {
       ({ client, recorder } = useAad
         ? createRecordedClientWithToken(this)!
         : createRecordedClient(this));
     });
 
-    afterEach(async function (this: Context) {
+    afterEach(async function(this: Context) {
       if (!this.currentTest?.isPending()) {
         await recorder.stop();
       }
     });
 
-    it("can list all acquired short codes", async function () {
+    it("can list all acquired short codes", async function() {
       let all = 0;
       for await (const shortCode of client.listUSProgramBriefs()) {
         //assert.match(programBrief.id, /\+\d{1}\d{3}\d{3}\d{4}/g);

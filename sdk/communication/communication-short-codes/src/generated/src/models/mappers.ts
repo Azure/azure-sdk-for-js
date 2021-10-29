@@ -539,16 +539,6 @@ export const MessageDetails: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      estimatedRampUpTimeInDays: {
-        constraints: {
-          InclusiveMaximum: 2147483647,
-          InclusiveMinimum: 0
-        },
-        serializedName: "estimatedRampUpTimeInDays",
-        type: {
-          name: "Number"
-        }
-      },
       directionality: {
         serializedName: "directionality",
         type: {
@@ -607,6 +597,21 @@ export const UseCase: coreHttp.CompositeMapper = {
             "microBilling",
             "trivia",
             "entertainmentAlerts",
+            "accountNotification",
+            "ageGatedContent",
+            "conversationalMessaging",
+            "deliveryNotification",
+            "education",
+            "emergencyAlerts",
+            "fraudAlerts",
+            "loanArrangement",
+            "onBehalfOfCarrier",
+            "political",
+            "promotionalMarketing",
+            "publicServiceAnnouncements",
+            "securityAlerts",
+            "socialMedia",
+            "twoFactorAuthentication",
             "other"
           ]
         }
@@ -715,6 +720,16 @@ export const TrafficDetails: coreHttp.CompositeMapper = {
         serializedName: "spikeDetails",
         type: {
           name: "String"
+        }
+      },
+      estimatedRampUpTimeInDays: {
+        constraints: {
+          InclusiveMaximum: 2147483647,
+          InclusiveMinimum: 0
+        },
+        serializedName: "estimatedRampUpTimeInDays",
+        type: {
+          name: "Number"
         }
       }
     }

@@ -120,13 +120,14 @@ function createTestHttpClient(): HttpClient {
   const customHttpClient = new DefaultHttpClient();
 
   const originalSendRequest = customHttpClient.sendRequest;
-  customHttpClient.sendRequest = async function (
+  customHttpClient.sendRequest = async function(
     httpRequest: WebResourceLike
   ): Promise<HttpOperationResponse> {
     const requestResponse = await originalSendRequest.apply(this, [httpRequest]);
 
     console.log(
-      `MS-CV header for request: ${httpRequest.url} (${requestResponse.status
+      `MS-CV header for request: ${httpRequest.url} (${
+        requestResponse.status
       } - ${requestResponse.headers.get("ms-cv")})`
     );
 

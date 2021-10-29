@@ -45,14 +45,13 @@ export interface ListPurchasedPhoneNumbersOptions extends OperationOptions {
 }
 
 // @public
-export type MessageContentCategory = "ringTones" | "smsChat" | "video" | "loyaltyProgramPointsPrizes" | "gifting" | "inApplicationBilling" | "textToScreen" | "games" | "audioChat" | "mmsPictures" | "sweepstakesContestAuction" | "financialBanking" | "premiumWap" | "queryService" | "wallpaperScreensaver" | "voting" | "application" | "mobileGivingDonations" | "coupons" | "loyaltyProgram" | "noPointsPrizes" | "informationalAlerts" | "microBilling" | "trivia" | "entertainmentAlerts" | "other";
+export type MessageContentCategory = "ringTones" | "smsChat" | "video" | "loyaltyProgramPointsPrizes" | "gifting" | "inApplicationBilling" | "textToScreen" | "games" | "audioChat" | "mmsPictures" | "sweepstakesContestAuction" | "financialBanking" | "premiumWap" | "queryService" | "wallpaperScreensaver" | "voting" | "application" | "mobileGivingDonations" | "coupons" | "loyaltyProgram" | "noPointsPrizes" | "informationalAlerts" | "microBilling" | "trivia" | "entertainmentAlerts" | "accountNotification" | "ageGatedContent" | "conversationalMessaging" | "deliveryNotification" | "education" | "emergencyAlerts" | "fraudAlerts" | "loanArrangement" | "onBehalfOfCarrier" | "political" | "promotionalMarketing" | "publicServiceAnnouncements" | "securityAlerts" | "socialMedia" | "twoFactorAuthentication" | "other";
 
 // @public (undocumented)
 export interface MessageDetails {
     // (undocumented)
     confirmationMessage?: string;
     directionality?: MessageDirectionality;
-    estimatedRampUpTimeInDays?: number;
     helpMessage?: string;
     // (undocumented)
     optInMessage?: string;
@@ -177,6 +176,7 @@ export interface ShortCodesUpsertUSProgramBriefOptionalParams extends coreHttp.O
 
 // @public (undocumented)
 export interface TrafficDetails {
+    estimatedRampUpTimeInDays?: number;
     isSpiky?: boolean;
     monthlyAverageMessagesFromUser?: number;
     monthlyAverageMessagesToUser?: number;
