@@ -47,7 +47,7 @@ describe("test", () => {
         parameters: [
           { name: "rtspUserName", type: "String", default: "dummyUsername" },
           { name: "rtspPassword", type: "SecretString", default: "dummyPassword" },
-          { name: "rtspUrl", type: "String" },
+          { name: "rtspUrl", type: "String" }
         ],
         sources: [rtspSource],
         sinks: [videoSink]
