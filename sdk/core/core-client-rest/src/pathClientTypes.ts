@@ -32,7 +32,7 @@ export type RequestParameters = {
   /** Set to true if the request is sent over HTTP instead of HTTPS */
   allowInsecureConnection?: boolean;
   /** Set to true if you want to encode the path or query parameters */
-  enableUrlEncoding?: boolean;
+  skipUrlEncoding?: boolean;
 };
 
 /**

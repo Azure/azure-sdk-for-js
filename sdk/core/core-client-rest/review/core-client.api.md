@@ -82,7 +82,7 @@ export type RequestParameters = {
     queryParameters?: Record<string, unknown>;
     contentType?: string;
     allowInsecureConnection?: boolean;
-    enableUrlEncoding?: boolean;
+    skipUrlEncoding?: boolean;
 };
 
 // @public

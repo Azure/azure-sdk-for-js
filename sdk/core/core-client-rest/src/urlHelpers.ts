@@ -25,12 +25,12 @@ export function buildRequestUrl(
   }
 
   for (const pathParam of pathParameters) {
-    if (options.enableUrlEncoding) {
-      const encodeParam = encodeURIComponent(pathParam);
-      path = path.replace(/{([^/]+)}/, encodeParam);   
-    } else {
-      path = path.replace(/{([^/]+)}/, pathParam); 
-    }  
+    const value = pathParam
+    if (!options.skipUrlEncoding)  {
+      encodeURIComponent(pathParam)
+    }
+
+    path = path.replace(/{([^/]+)}/, value); 
   }
 
   const url = new URL(`${baseUrl}/${path}`);
@@ -46,12 +46,7 @@ export function buildRequestUrl(
         throw new Error(`Query parameters must be able to be represented as string, ${key} can't`);
       }
       const value = param.toISOString !== undefined ? param.toISOString() : param.toString();
-      if (options.enableUrlEncoding) {
-        const encodeParam = encodeURIComponent(value);
-        url.searchParams.append(key, encodeParam);
-      } else {
-        url.searchParams.append(key, value);
-      }
+      url.searchParams.append(key, value);
       
     }
   }
