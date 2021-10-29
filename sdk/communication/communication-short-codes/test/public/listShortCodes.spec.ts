@@ -9,7 +9,7 @@ import { ShortCodesClient } from "../../src";
 import { createRecordedClient, createRecordedClientWithToken } from "./utils/recordedClient";
 
 matrix([[true, false]], async function (useAad) {
-  describe(`ShortCodesClient - lists${useAad ? " [AAD]" : ""}`, function () {
+  describe(`ShortCodesClient - lists Short Codes${useAad ? " [AAD]" : ""}`, function () {
     let recorder: Recorder;
     let client: ShortCodesClient;
 
