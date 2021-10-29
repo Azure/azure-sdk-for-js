@@ -152,6 +152,7 @@ describe("CAE", function() {
     );
 
     // Important:
+    //   ONLY IN PLAYBACK MODE (this works in record mode)
     //   Verifying that the first access token and the final one are different does not work in this test.
     //   This seems to be a recorder bug.
     // assert.notDeepEqual(firstAccessToken, finalAccessToken);
