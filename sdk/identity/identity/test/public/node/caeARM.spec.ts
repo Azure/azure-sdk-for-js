@@ -17,7 +17,7 @@ import {
 } from "@azure/core-rest-pipeline";
 import { authorizeRequestOnClaimChallenge } from "@azure/core-client";
 
-describe("CAE on ARM clients", function() {
+describe("CAE", function() {
   let cleanup: MsalTestCleanup;
   beforeEach(function(this: Context) {
     cleanup = msalNodeTestSetup(this).cleanup;
@@ -26,7 +26,7 @@ describe("CAE on ARM clients", function() {
     await cleanup();
   });
 
-  it("authenticates", async function(this: Context) {
+  it("DeviceCodeCredential", async function(this: Context) {
     if (!isPlaybackMode()) {
       this.skip();
     }
