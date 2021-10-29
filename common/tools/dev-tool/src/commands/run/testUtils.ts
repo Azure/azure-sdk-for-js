@@ -1,5 +1,8 @@
 import { isProxyToolActive } from "../../util/testProxyUtils";
 import concurrently from "concurrently";
+import { createPrinter } from "../../util/printer";
+
+const log = createPrinter("preparing-proxy-tool");
 
 async function shouldRunProxyTool(): Promise<boolean> {
   const mode = process.env.TEST_MODE;
@@ -10,7 +13,7 @@ async function shouldRunProxyTool(): Promise<boolean> {
       await isProxyToolActive();
       // No need to run a new one if it is already active
       // Especially, CI uses this path
-      console.log(
+      log.info(
         `Proxy tool seems to be active, not attempting to start the test proxy at http://localhost:5000 & https://localhost:5001.\n`
       );
       return false;
@@ -30,7 +33,7 @@ export async function runTestsWithProxyTool(testCommandObj: concurrently.Command
   if (
     await shouldRunProxyTool() // Boolean to figure out if we need to run just the mocha command or the test-proxy too
   ) {
-    await concurrently([{ command: testProxyCMD, name: "test-proxy" }, testCommandObj], {
+    await concurrently([{ command: testProxyCMD }, testCommandObj], {
       killOthers: ["failure", "success"],
       successCondition: "first"
     });

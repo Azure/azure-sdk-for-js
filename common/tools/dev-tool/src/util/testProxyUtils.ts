@@ -5,10 +5,12 @@ import { spawn } from "child_process";
 import path from "path";
 import { IncomingMessage, request, RequestOptions } from "http";
 import fs from "fs-extra";
+import { createPrinter } from "./printer";
 
+const log = createPrinter("test-proxy");
 export async function startProxyTool(mode: string | undefined) {
-  console.log(`===TEST_MODE="${mode}"===`);
-  console.log(
+  log.info(`===TEST_MODE="${mode}"===`);
+  log.info(
     `Attempting to start test proxy at http://localhost:5000 & https://localhost:5001.\n`
   );
 
@@ -21,7 +23,7 @@ export async function startProxyTool(mode: string | undefined) {
   subprocess.stdout.pipe(out);
   subprocess.stderr.pipe(out);
   
-  console.log(`Check the output file "${outFileName}" for test-proxy logs.`);
+  log.info(`Check the output file "${outFileName}" for test-proxy logs.`);
 }
 
 async function getRootLocation(start?: string): Promise<string> {
@@ -48,12 +50,12 @@ async function getDockerRunCommand() {
 
 export async function isProxyToolActive() {
   await makeRequest("http://localhost:5000/info/available", {});
-  console.log(`Proxy tool seems to be active at http://localhost:5000\n`);
+  log.info(`Proxy tool seems to be active at http://localhost:5000\n`);
 }
 
 async function makeRequest(uri: string, requestOptions: RequestOptions): Promise<IncomingMessage> {
   return new Promise<IncomingMessage>((resolve, reject) => {
-    let req = request(uri, requestOptions, resolve);
+    const req = request(uri, requestOptions, resolve);
     req.once("error", reject);
     req.end();
   });
@@ -70,10 +72,10 @@ async function getImageTag() {
       "utf-8"
     );
     const tag = contentInPWSHScript.match(/\$SELECTED_IMAGE_TAG \= \"(.*)\"/)![1];
-    console.log(`Image tag obtained from the powershell script => ${tag}\n`);
+    log.info(`Image tag obtained from the powershell script => ${tag}\n`);
     return tag;
   } catch (_) {
-    console.warn(
+    log.warn(
       `Unable to get the image tag from the powershell script, trying "latest" tag instead\n`
     );
     return "latest";
