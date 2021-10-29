@@ -17,8 +17,7 @@ export interface TextAnalyticsAction {
 }
 
 /**
- * The type of a custom text analytics action. For more information, please refer
- * to the service documentation: {@link https://aka.ms/azsdk/textanalytics/customfunctionalities}
+ * The type of a custom text analytics action.
  */
 export interface CustomTextAnalyticsAction {
   /**

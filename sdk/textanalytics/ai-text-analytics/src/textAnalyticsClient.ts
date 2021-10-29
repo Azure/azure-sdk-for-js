@@ -339,7 +339,7 @@ export interface ExtractSummaryAction extends TextAnalyticsAction {
 
 /**
  * Options for a custom recognize entities action. For more information, please refer
- * to the service documentation: {@link https://aka.ms/azsdk/textanalytics/customfunctionalities}
+ * to the service documentation: {@link https://aka.ms/azsdk/textanalytics/customentityrecognition}
  */
 export interface RecognizeCustomEntitiesAction extends CustomTextAnalyticsAction {
   /**
@@ -412,7 +412,7 @@ export interface TextAnalyticsActions {
   extractSummaryActions?: ExtractSummaryAction[];
   /**
    * A collection of descriptions of custom entity recognition actions. For more information, please refer
-   * to the service documentation: {@link https://aka.ms/azsdk/textanalytics/customfunctionalities}
+   * to the service documentation: {@link https://aka.ms/azsdk/textanalytics/customentityrecognition}
    */
   recognizeCustomEntitiesActions?: RecognizeCustomEntitiesAction[];
   /**
