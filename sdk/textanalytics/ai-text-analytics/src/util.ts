@@ -5,7 +5,13 @@ import { RestError } from "@azure/core-rest-pipeline";
 import { FullOperationResponse, OperationOptions, OperationSpec } from "@azure/core-client";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { logger } from "./logger";
-import { GeneratedClient, StringIndexType as GeneratedStringIndexType } from "./generated";
+import {
+  ErrorResponse,
+  GeneratedClient,
+  InnerError,
+  StringIndexType as GeneratedStringIndexType,
+  TextAnalyticsError
+} from "./generated";
 import { TextAnalyticsAction } from "./textAnalyticsAction";
 import { createSpan } from "./tracing";
 import { LroResponse } from "@azure/core-lro";
@@ -193,44 +199,46 @@ export function getOperationId(operationLocation: string): string {
   return operationLocation.substring(lastSlashIndex + 1);
 }
 
+function appendReadableErrorMessage(currentMessage: string, innerMessage: string): string {
+  let message = currentMessage;
+  if (message.slice(-1) !== ".") {
+    message = message + ".";
+  }
+  return message + " " + innerMessage;
+}
+
 /**
  * @internal
  * parses incoming errors from the service and if the inner error code is
  * InvalidDocumentBatch, it exposes that as the statusCode instead.
  * @param error - the incoming error
  */
-export function handleInvalidDocumentBatch(error: unknown): any {
-  const castError = error as {
+export function compileError(errorResponse: unknown): any {
+  const castErrorResponse = errorResponse as {
     response: {
-      parsedBody?: {
-        error?: {
-          innererror?: {
-            code: string;
-            message: string;
-          };
-        };
-      };
+      parsedBody?: ErrorResponse;
     };
     statusCode: number;
   };
-  const innerCode = castError.response?.parsedBody?.error?.innererror?.code;
-  const innerMessage = castError.response?.parsedBody?.error?.innererror?.message;
-  if (innerMessage) {
-    return innerCode === "InvalidDocumentBatch"
-      ? new RestError(innerMessage, { code: innerCode, statusCode: castError.statusCode })
-      : error;
-  } else {
-    // unfortunately, the service currently does not follow the swagger definition
-    // for errors in some cases.
-    // Issue: https://msazure.visualstudio.com/Cognitive%20Services/_workitems/edit/8775003/?workitem=8972164
-    // throw new Error(
-    //   `The error coming from the service does not follow the expected structure: ${error}`
-    // );
-    logger.warning(
-      `The error coming from the service does not follow the expected structure: ${error}`
-    );
-    return error;
+  const topLevelError = castErrorResponse.response.parsedBody?.error;
+  if (!topLevelError) return errorResponse;
+  let errorMessage = topLevelError.message || "";
+  let invalidDocumentBatchCode = false;
+  function unwrap(error: TextAnalyticsError | InnerError): TextAnalyticsError {
+    if (error?.innererror !== undefined && error.innererror.message !== undefined) {
+      if (error.innererror.code === "InvalidDocumentBatch") {
+        invalidDocumentBatchCode = true;
+      }
+      errorMessage = appendReadableErrorMessage(errorMessage, error.innererror.message);
+      return unwrap(error.innererror);
+    }
+    return error as TextAnalyticsError;
   }
+  unwrap(topLevelError);
+  return new RestError(errorMessage, {
+    code: invalidDocumentBatchCode ? "InvalidDocumentBatch" : topLevelError.code,
+    statusCode: castErrorResponse.statusCode
+  });
 }
 
 /**

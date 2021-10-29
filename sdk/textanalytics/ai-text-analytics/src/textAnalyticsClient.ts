@@ -51,7 +51,7 @@ import { textAnalyticsAzureKeyCredentialPolicy } from "./azureKeyCredentialPolic
 import {
   addParamsToTask,
   compose,
-  handleInvalidDocumentBatch,
+  compileError,
   setCategoriesFilter,
   setOpinionMining,
   setOrderBy,
@@ -380,43 +380,43 @@ export interface MultiCategoryClassifyAction extends CustomTextAnalyticsAction {
 }
 
 /**
- * Description of collection of actions for the analyze API to perform on input documents. However, currently, the service can accept up to one action only per action type.
+ * Description of collection of actions for the analyze API to perform on input documents.
  */
 export interface TextAnalyticsActions {
   /**
-   * A collection of descriptions of entities recognition actions. However, currently, the service can accept up to one action only for `recognizeEntities`.
+   * A collection of descriptions of entities recognition actions.
    */
   recognizeEntitiesActions?: RecognizeCategorizedEntitiesAction[];
   /**
-   * A collection of descriptions of Pii entities recognition actions. However, currently, the service can accept up to one action only for `recognizePiiEntities`.
+   * A collection of descriptions of Pii entities recognition actions.
    */
   recognizePiiEntitiesActions?: RecognizePiiEntitiesAction[];
   /**
-   * A collection of descriptions of key phrases recognition actions. However, currently, the service can accept up to one action only for `extractKeyPhrases`.
+   * A collection of descriptions of key phrases recognition actions.
    */
   extractKeyPhrasesActions?: ExtractKeyPhrasesAction[];
   /**
-   * A collection of descriptions of entities linking actions. However, currently, the service can accept up to one action only for `recognizeLinkedEntities`.
+   * A collection of descriptions of entities linking actions.
    */
   recognizeLinkedEntitiesActions?: RecognizeLinkedEntitiesAction[];
   /**
-   * A collection of descriptions of sentiment analysis actions. However, currently, the service can accept up to one action only for `analyzeSentiment`.
+   * A collection of descriptions of sentiment analysis actions.
    */
   analyzeSentimentActions?: AnalyzeSentimentAction[];
   /**
-   * A collection of descriptions of summarization extraction actions. However, currently, the service can accept up to one action only for `extractSummary`.
+   * A collection of descriptions of summarization extraction actions.
    */
   extractSummaryActions?: ExtractSummaryAction[];
   /**
-   * A collection of descriptions of custom entity recognition actions. However, currently, the service can accept up to one action only for `customRecognizeEntities`.
+   * A collection of descriptions of custom entity recognition actions.
    */
   recognizeCustomEntitiesActions?: RecognizeCustomEntitiesAction[];
   /**
-   * A collection of descriptions of custom single classification actions. However, currently, the service can accept up to one action only for `singleCategoryClassifyActions`.
+   * A collection of descriptions of custom single classification actions.
    */
   singleCategoryClassifyActions?: SingleCategoryClassifyAction[];
   /**
-   * A collection of descriptions of custom multi classification actions. However, currently, the service can accept up to one action only for `multiCategoryClassifyActions`.
+   * A collection of descriptions of custom multi classification actions.
    */
   multiCategoryClassifyActions?: MultiCategoryClassifyAction[];
 }
@@ -657,7 +657,7 @@ export class TextAnalyticsClient {
        * earlier versions were throwing an exception that included the inner
        * code only.
        */
-      const backwardCompatibleException = handleInvalidDocumentBatch(e);
+      const backwardCompatibleException = compileError(e);
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: backwardCompatibleException.message
@@ -1119,7 +1119,6 @@ export class TextAnalyticsClient {
       realInputs = documents;
       realOptions = (languageOrOptions as BeginAnalyzeActionsOptions) || {};
     }
-    validateActions(actions);
     const compiledActions = compileAnalyzeInput(actions);
     const {
       updateIntervalInMs,
@@ -1165,22 +1164,6 @@ export class TextAnalyticsClient {
     await poller.poll();
     return poller;
   }
-}
-
-function validateActions(actions: TextAnalyticsActions): void {
-  function validateActionType(actionList: unknown[] | undefined, actionType: string): void {
-    if ((actionList?.length ?? 0) > 1) {
-      throw new Error(
-        `beginAnalyzeActions: Currently, the service can accept up to one action only for ${actionType} actions.`
-      );
-    }
-  }
-  validateActionType(actions.analyzeSentimentActions, `analyzeSentiment`);
-  validateActionType(actions.extractKeyPhrasesActions, `extractKeyPhrases`);
-  validateActionType(actions.recognizeEntitiesActions, `recognizeEntities`);
-  validateActionType(actions.recognizeLinkedEntitiesActions, `recognizeLinkedEntities`);
-  validateActionType(actions.recognizePiiEntitiesActions, `recognizePiiEntities`);
-  validateActionType(actions.extractSummaryActions, `extractSummary`);
 }
 
 /**
