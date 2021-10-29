@@ -16,19 +16,9 @@ export const commandInfo = makeCommandInfo(
   }
 );
 
-export default leafCommand(commandInfo, async (_) => {
-  if (process.argv[4] !== "--karma" && !process.argv[5]) {
-    throw new Error(
-      "unexpected command provided; expected = `dev-tool run test:browser --karma '<options>'`"
-    );
-  }
-
-  const testProxyStart = "dev-tool test-proxy start";
-  const karmaCMD = `karma start ${process.argv[5]}`;
-
-  await runTestsWithProxyTool(testProxyStart, {
-    command: karmaCMD,
+export default leafCommand(commandInfo, async (options) => {
+  return runTestsWithProxyTool({
+    command: `karma start ${options.karma}`,
     name: "browser-tests"
   });
-  return true;
 });

@@ -18,23 +18,8 @@ export const commandInfo = makeCommandInfo(
 );
 
 export default leafCommand(commandInfo, async (options) => {
-  console.log(options);
-  console.log(options.mocha);
-  if (process.argv[4] !== "--mocha" && !process.argv[5]) {
-    throw new Error(
-      "unexpected command provided; expected = `dev-tool run test:node-ts-input --mocha '<options>'`"
-    );
-  }
-
-  const testProxyStart = "dev-tool test-proxy start";
-  const mochaCMDWithDefaults =
-    "mocha -r esm -r ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js --full-trace";
-  const mochaCommand = `${mochaCMDWithDefaults} ${process.argv[5]}`;
-
-  await runTestsWithProxyTool(testProxyStart, {
-    command: mochaCommand,
+  return runTestsWithProxyTool({
+    command: `mocha -r esm -r ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js --full-trace ${options.mocha}`,
     name: "node-tests"
   });
-
-  return true;
 });

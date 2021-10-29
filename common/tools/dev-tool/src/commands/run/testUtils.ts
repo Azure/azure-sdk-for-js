@@ -22,13 +22,11 @@ async function shouldRunProxyTool(): Promise<boolean> {
         throw error;
       }
     }
-  } 
+  }
 }
 
-export async function runTestsWithProxyTool(
-  testProxyCMD: string,
-  testCommandObj: concurrently.CommandObj
-) {
+export async function runTestsWithProxyTool(testCommandObj: concurrently.CommandObj) {
+  const testProxyCMD = "dev-tool test-proxy start";
   if (
     await shouldRunProxyTool() // Boolean to figure out if we need to run just the mocha command or the test-proxy too
   ) {

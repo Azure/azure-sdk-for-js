@@ -17,21 +17,9 @@ export const commandInfo = makeCommandInfo(
   }
 );
 
-export default leafCommand(commandInfo, async (_) => {
-  if (process.argv[4] !== "--mocha" && !process.argv[5]) {
-    throw new Error(
-      "unexpected command provided; expected = `dev-tool run test:node-js-input --mocha '<options>'`"
-    );
-  }
-
-  const testProxyStart = "dev-tool test-proxy start";
-  const mochaCMDWithDefaults =
-    "nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --full-trace";
-  const mochaCommand = `${mochaCMDWithDefaults} ${process.argv[5]}`;
-
-  await runTestsWithProxyTool(testProxyStart, {
-    command: mochaCommand,
+export default leafCommand(commandInfo, async (options) => {
+  return runTestsWithProxyTool({
+    command: `nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --full-trace ${options.mocha}`,
     name: "node-tests"
   });
-  return true;
 });
