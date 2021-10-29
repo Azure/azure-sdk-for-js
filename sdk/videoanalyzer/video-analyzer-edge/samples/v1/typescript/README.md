@@ -4,7 +4,7 @@ languages:
   - typescript
 products:
   - azure
-  - azure-video-analyzer
+  - ai-machine-learning
 urlFragment: video-analyzer-edge-typescript
 ---
 
