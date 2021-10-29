@@ -3,6 +3,7 @@
 /// <reference lib="esnext.asynciterable" />
 
 import { CallConnection, ContentDownloadResponse } from ".";
+import { CallConnectionImpl } from "./callConnection";
 import {
   CreateCallOptions,
   DownloadOptions,
@@ -146,7 +147,7 @@ export class CallingServerClient {
    * @param callConnectionId - The CallConnection id for the CallConnection instance. (ex: endpoint=https://REDACTED.communication.azure.com/;accesskey=eyJhbG==).
    */
   public getCallConnection(callConnectionId: string): CallConnection {
-    return new CallConnection(callConnectionId, this.callConnectionRestClient);
+    return new CallConnectionImpl(callConnectionId, this.callConnectionRestClient);
   }
 
   public initializeContentDownloader(): ContentDownloader {
@@ -190,7 +191,7 @@ export class CallingServerClient {
       );
 
       if (result.callConnectionId) {
-        return new CallConnection(result.callConnectionId, this.callConnectionRestClient);
+        return new CallConnectionImpl(result.callConnectionId, this.callConnectionRestClient);
       }
       throw "callConnectionId is missing in createCall result";
     } catch (e) {
@@ -235,7 +236,7 @@ export class CallingServerClient {
       );
 
       if (result.callConnectionId) {
-        return new CallConnection(result.callConnectionId, this.callConnectionRestClient);
+        return new CallConnectionImpl(result.callConnectionId, this.callConnectionRestClient);
       } else {
         throw "callConnectionId is missing in joinCall result";
       }

@@ -33,10 +33,56 @@ import { SpanStatusCode } from "@azure/core-tracing";
 import { extractOperationOptions } from "./extractOperationOptions";
 import { CallingServerUtils } from "./utils/utils";
 
+
+export interface CallConnection{
+  getCallConnectionId(): string;
+
+  hangUp(options?: HangUpOptions): Promise<void>;
+
+  cancelAllMediaOperations(
+    options?: CancelAllMediaOperationsOptions
+  ): Promise<void>;
+
+  playAudio(
+    audioFileUri: string,
+    options: PlayAudioOptions
+  ): Promise<PlayAudioResult>;
+
+  addParticipant(
+    participant: CommunicationIdentifier,
+    alternateCallerId?: string,
+    operationContext?: string,
+    options?: AddParticipantOptions
+  ): Promise<CallConnectionsAddParticipantResponse>;
+
+  removeParticipant(
+    participant: CommunicationIdentifier,
+    options?: RemoveParticipantOptions
+  ): Promise<void>;
+
+  playAudioToParticipant(
+    participant: CommunicationIdentifier,
+    audioFileUri: string,
+    options: PlayAudioOptions
+  ): Promise<PlayAudioResult>;
+
+  cancelParticipantMediaOperation(
+    participant: CommunicationIdentifier,
+    mediaOperationId: string,
+    options?: CancelMediaOperationOptions
+  ): Promise<void>;
+
+  transferCall(
+    targetParticipant: CommunicationIdentifier,
+    userToUserInformation: string,
+    options?: TransferCallOptions
+  ): Promise<void>
+}
+
 /**
  * The client to do call connection operations
  */
-export class CallConnection {
+export class CallConnectionImpl implements CallConnection {
   private readonly callConnectionId: string;
   private readonly callConnectionRestClient: CallConnections;
 

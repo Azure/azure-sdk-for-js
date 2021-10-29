@@ -5,7 +5,7 @@ import { HttpResponse } from "@azure/core-http";
 export * from "./models";
 export * from "./parameters";
 export * from "./callingServerClient";
-export * from "./callConnection";
+export {CallConnection} from "./callConnection";
 
 /** Defines headers for Content download operation. */
 export interface ContentDownloadHeaders {

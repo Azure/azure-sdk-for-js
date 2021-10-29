@@ -33,18 +33,25 @@ export interface AddParticipantResultEvent {
     status: CallingOperationStatus;
 }
 
-// @public
-export class CallConnection {
-    // Warning: (ae-forgotten-export) The symbol "CallConnections" needs to be exported by the entry point index.d.ts
-    constructor(callConnectionId: string, callConnectionRestClient: CallConnections);
+// @public (undocumented)
+export interface CallConnection {
+    // (undocumented)
     addParticipant(participant: CommunicationIdentifier, alternateCallerId?: string, operationContext?: string, options?: AddParticipantOptions): Promise<CallConnectionsAddParticipantResponse>;
+    // (undocumented)
     cancelAllMediaOperations(options?: CancelAllMediaOperationsOptions): Promise<void>;
+    // (undocumented)
     cancelParticipantMediaOperation(participant: CommunicationIdentifier, mediaOperationId: string, options?: CancelMediaOperationOptions): Promise<void>;
+    // (undocumented)
     getCallConnectionId(): string;
+    // (undocumented)
     hangUp(options?: HangUpOptions): Promise<void>;
+    // (undocumented)
     playAudio(audioFileUri: string, options: PlayAudioOptions): Promise<PlayAudioResult>;
+    // (undocumented)
     playAudioToParticipant(participant: CommunicationIdentifier, audioFileUri: string, options: PlayAudioOptions): Promise<PlayAudioResult>;
+    // (undocumented)
     removeParticipant(participant: CommunicationIdentifier, options?: RemoveParticipantOptions): Promise<void>;
+    // (undocumented)
     transferCall(targetParticipant: CommunicationIdentifier, userToUserInformation: string, options?: TransferCallOptions): Promise<void>;
 }
 
@@ -84,7 +91,7 @@ export class CallingServerClient {
     addParticipant(callLocator: CallLocator, participant: CommunicationIdentifier, callbackUri: string, alternateCallerId?: string, operationContext?: string, options?: AddParticipantOptions): Promise<ServerCallsAddParticipantResponse>;
     cancelMediaOperation(callLocator: CallLocator, mediaOperationId: string, options?: CancelMediaOperationOptions): Promise<void>;
     cancelParticipantMediaOperation(callLocator: CallLocator, participant: CommunicationIdentifier, mediaOperationId: string, options?: CancelMediaOperationOptions): Promise<void>;
-    createCallConnection(source: CommunicationIdentifier, targets: CommunicationIdentifier[], options: CreateCallConnectionOptions): Promise<CallConnection>;
+    createCallConnection(source: CommunicationIdentifier, targets: CommunicationIdentifier[], options: CreateCallOptions): Promise<CallConnection>;
     download(uri: string, offset?: number, options?: DownloadOptions): Promise<ContentDownloadResponse>;
     getCallConnection(callConnectionId: string): CallConnection;
     // Warning: (ae-forgotten-export) The symbol "CallRecordingProperties" needs to be exported by the entry point index.d.ts
