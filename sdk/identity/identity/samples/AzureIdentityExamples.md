@@ -897,8 +897,8 @@ Many multi-user apps use the [On-Behalf-Of (OBO) flow](https://docs.microsoft.co
 
 Two accounts participate in the OBO flow:
 
-- A user, which aims to obtain a special access level. Typically, the `AuthorizationCodeCredential` would be used. We will call this identity the **User Account**.
-- An app registration, which will act as the provider of the special access level. We will call this identity the **Target App Registration**.
+- A user, which aims to obtain a special access level. Typically, the `AuthorizationCodeCredential` would be used. We'll call this identity the **User Account**.
+- An app registration, which will act as the provider of the special access level. We'll call this identity the **Target App Registration**.
 
 Both accounts must belong to the same Azure AD tenant.
 
@@ -919,10 +919,10 @@ Once the **Target App Registration** is fully configured, no further configurati
 1. Select **Active Directory** > **App registrations**.
 2. Go to the app you want to authenticate against.
 3. On the left menu, select **API permissions** > **Add a permission** > **My APIs**.
-4. Click on the permission related to the scope that we created for our **Target App Registration**.
-5. Click on the "user_impersonation" permission checkbox, then click on **Add permissions**.
+4. Select the permission related to the scope that we created for our **Target App Registration**.
+5. Select the **user_impersonation** permission checkbox. Then select **Add permissions**.
 
-After everything is set, the code below should work. It will:
+After everything is set, the code below will work. It will:
 
 1. Authenticate a **User Account** with a credential (in this case, the `InteractiveBrowserCredential`), using the **Target App Registration**'s scope (in this example, `api://AAD_APP_CLIENT_ID/Read`).
   - If a specific app registration is the desired approach, make sure to use the **User Account** app registration that we mentioned above.
@@ -933,7 +933,7 @@ After everything is set, the code below should work. It will:
 import { InteractiveBrowserCredential, OnBehalfOfCredential } from "@azure/identity";
 
 async function main(): Promise<void> {
-  // Most On-Behalf-of scenarios would likely use the AuthCodeCredential.
+  // Most On-Behalf-Of scenarios would likely use the AuthorizationCodeCredential.
   const credential = new InteractiveBrowserCredential();
 
   const token = await credential.getToken("api://AAD_APP_CLIENT_ID/Read");
