@@ -13,9 +13,13 @@ import { assert } from "chai";
 import { OperationTracingOptions, setSpan, context as otContext } from "@azure/core-tracing";
 import { SpanGraph, setTracer } from "@azure/test-utils";
 import { MsalBaseUtilities } from "../src/msal/utils";
+import { isNode } from "@azure/core-util";
 import * as dotenv from "dotenv";
 
-dotenv.config({ path: ".env" });
+// Browser tests fail without this.
+if (isNode) {
+  dotenv.config({ path: ".env" });
+}
 
 export type MsalTestCleanup = () => Promise<void>;
 
