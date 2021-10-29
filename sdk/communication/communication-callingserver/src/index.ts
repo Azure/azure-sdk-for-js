@@ -6,6 +6,7 @@ export * from "./models";
 export * from "./parameters";
 export * from "./callingServerClient";
 export {CallConnection} from "./callConnection";
+export { TokenCredential } from "@azure/core-auth";
 
 /** Defines headers for Content download operation. */
 export interface ContentDownloadHeaders {
