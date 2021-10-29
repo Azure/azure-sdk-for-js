@@ -17,7 +17,9 @@ export const commandInfo = makeCommandInfo(
   }
 );
 
-export default leafCommand(commandInfo, async (_) => {
+export default leafCommand(commandInfo, async (options) => {
+  console.log(options);
+  console.log(options.mocha);
   if (process.argv[4] !== "--mocha" && !process.argv[5]) {
     throw new Error(
       "unexpected command provided; expected = `dev-tool run test:node-ts-input --mocha '<options>'`"
