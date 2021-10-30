@@ -40,3 +40,11 @@ export function decodeString(value: string): Uint8Array {
   }
   return arr;
 }
+
+/**
+ * Decodes a base64 string into a string.
+ * @param value - the base64 string to decode
+ */
+export function decodeStringToString(value: string): string {
+  return atob(value);
+}

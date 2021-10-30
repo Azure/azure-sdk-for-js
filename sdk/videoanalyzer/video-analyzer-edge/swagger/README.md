@@ -12,10 +12,11 @@ generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src/generated
-require: https://github.com/Azure/azure-rest-api-specs/blob/55b3e2d075398ec62f9322829494ff6a4323e299/specification/videoanalyzer/data-plane/readme.md
+require: https://github.com/Azure/azure-rest-api-specs/blob/60fcb275cbce38d343f9c35411786e672aba154e/specification/videoanalyzer/data-plane/readme.md
 add-credentials: false
 use-extension:
-  "@autorest/typescript": "6.0.0-dev.20210223.1"
+  "@autorest/typescript": "6.0.0-beta.13"
+use-core-v2: true
 modelerfour:
   naming:
     override:
@@ -38,6 +39,13 @@ directive:
           || definition == 'LivePipelineGetRequest'
           || definition == 'LivePipelineActivateRequest'
           || definition == 'LivePipelineDeactivateRequest'
+          || definition == 'OnvifDeviceDiscoverRequest'
+          || definition == 'OnvifDeviceGetRequest'
+          || definition == 'RemoteDeviceAdapterSetRequest'
+          || definition == 'RemoteDeviceAdapterSetRequestBody'
+          || definition == 'RemoteDeviceAdapterListRequest'
+          || definition == 'RemoteDeviceAdapterGetRequest'
+          || definition == 'RemoteDeviceAdapterDeleteRequest'
           || definition == 'LivePipelineDeleteRequest') {
           delete $[definition];
         }
