@@ -4,6 +4,7 @@
 import { hashlittle } from "jenkins-hash-lookup3";
 
 import { isDefined } from "../util/typeGuards";
+import { mapPartitionKeyToId } from "./patitionKeyToIdMapper";
 
 /**
  * @internal
@@ -54,16 +55,10 @@ export class PartitionAssigner {
     }
 
     if (isDefined(partitionKey)) {
-      const hashedParitionKey = this._assignPartitionForPartitionKey(partitionKey);
-      return Math.abs(hashedParitionKey % this._partitions.length).toString();
+      return mapPartitionKeyToId(partitionKey, this._partitions.length).toString();
     }
 
     return this._assignRoundRobinPartition();
-  }
-
-  private _assignPartitionForPartitionKey(partitionKey: string): number {
-    const hash =  hashlittle(partitionKey);
-    return hash.b ^ hash.c;
   }
 
   private _assignRoundRobinPartition(): string {
