@@ -25,6 +25,7 @@ specifiers:
   '@rush-temp/arm-locks': file:./projects/arm-locks.tgz
   '@rush-temp/arm-logic': file:./projects/arm-logic.tgz
   '@rush-temp/arm-managedapplications': file:./projects/arm-managedapplications.tgz
+  '@rush-temp/arm-mediaservices': file:./projects/arm-mediaservices.tgz
   '@rush-temp/arm-network': file:./projects/arm-network.tgz
   '@rush-temp/arm-operationalinsights': file:./projects/arm-operationalinsights.tgz
   '@rush-temp/arm-operations': file:./projects/arm-operations.tgz
@@ -166,6 +167,7 @@ dependencies:
   '@rush-temp/arm-locks': file:projects/arm-locks.tgz
   '@rush-temp/arm-logic': file:projects/arm-logic.tgz
   '@rush-temp/arm-managedapplications': file:projects/arm-managedapplications.tgz
+  '@rush-temp/arm-mediaservices': file:projects/arm-mediaservices.tgz
   '@rush-temp/arm-network': file:projects/arm-network.tgz
   '@rush-temp/arm-operationalinsights': file:projects/arm-operationalinsights.tgz
   '@rush-temp/arm-operations': file:projects/arm-operations.tgz
@@ -2126,6 +2128,7 @@ packages:
 
   /@types/yauzl/2.9.2:
     resolution: {integrity: sha512-8uALY5LTvSuHgloDVUvWP3pIauILm+8/0pDMokuDYIoNsOkSwd5AiHBTSEJjKTDcZr5z8UpgOWZkxBF4iJftoA==}
+    requiresBuild: true
     dependencies:
       '@types/node': 12.20.24
     dev: false
@@ -2555,25 +2558,25 @@ packages:
       - debug
     dev: false
 
-  /azure-iot-amqp-base/2.4.10:
-    resolution: {integrity: sha512-SOHBS3c7GM0apDJRdt1YcbkzYa5HvHnNKLVeUGcdRQ6e9T3u5FZF4kfbzbpAEfJxZYGpqrHehMCw53m4w/d7DQ==}
-    engines: {node: '>= 10.0.0'}
+  /azure-iot-amqp-base/2.4.13:
+    resolution: {integrity: sha512-IzIaaKG60wX/nuVQ2zRX+JCYeoN3FveLjTuZ6xHSP8XH0eB6/d/HztJFsB+Q3pQ3DJo8MWe7vHyDz1HkpAD15g==}
+    engines: {node: '>= 12.0.0'}
     dependencies:
       async: 2.6.3
-      azure-iot-common: 1.12.10
+      azure-iot-common: 1.12.13
       debug: 4.3.2
       lodash.merge: 4.6.2
       machina: 4.0.2
       rhea: 1.0.24
-      uuid: 3.4.0
+      uuid: 8.3.2
       ws: 6.2.2
     transitivePeerDependencies:
       - supports-color
     dev: false
 
-  /azure-iot-common/1.12.10:
-    resolution: {integrity: sha512-6cftCaiLv1RVviq3EW7TXRXLCK1iWziMC/9zIATJU6gslVUCA+4hRMkT+6JLfJB1h+ids5fT5XSDFJwWyTLRFw==}
-    engines: {node: '>= 10.0.0'}
+  /azure-iot-common/1.12.13:
+    resolution: {integrity: sha512-s29mPg+Wj17bVaKMM8im4+sWeXYSs4ern5Eelqs3qKU8dc4REWQ43Ln2t6J/A1MqZ/UxAPgXrVhHk1DCN8NQGQ==}
+    engines: {node: '>= 12.0.0'}
     dependencies:
       debug: 4.3.2
       getos: 3.2.1
@@ -2581,28 +2584,28 @@ packages:
       - supports-color
     dev: false
 
-  /azure-iot-http-base/1.11.10:
-    resolution: {integrity: sha512-3XI+NWD3fmTyOrSVi9HUdnzzeQDa4QKtnjFgT0I98VOX9m6dybUXzJyGf8VxaJ61ik8Ol1hYqjgBA61Bk+p/Gw==}
-    engines: {node: '>= 10.0.0'}
+  /azure-iot-http-base/1.11.13:
+    resolution: {integrity: sha512-JwVqtloxXWvhsJpXXNz2tri4at7uzukbsJjGjMQsgqJ8HT9jBYVcLY5sJlIhFT6E2tmx7kXX4i9w6GUQVMdKUw==}
+    engines: {node: '>= 12.0.0'}
     dependencies:
-      azure-iot-common: 1.12.10
+      azure-iot-common: 1.12.13
       debug: 4.3.2
-      uuid: 3.4.0
+      uuid: 8.3.2
     transitivePeerDependencies:
       - supports-color
     dev: false
 
-  /azure-iothub/1.14.3:
-    resolution: {integrity: sha512-sQlarDu808lCZwWl+x/4MkW/sXxTHeaHFDPkDRJvaH7MKBgZCsnfYqEcF2auFY1cqw/VuKQPalpGRql3vJ203A==}
-    engines: {node: '>= 10.0.0'}
+  /azure-iothub/1.14.6:
+    resolution: {integrity: sha512-Yb7oEGdMd0caqSeBomwBGe+TXvXLiul4k/yqHA8i/+Sqt8cpDs2/MBunKGz8Lv/RYxAVClLv6Q8XXPfG1nNZ/g==}
+    engines: {node: '>= 12.0.0'}
     dependencies:
       '@azure/core-http': 1.2.3
       '@azure/identity': 1.2.5_debug@4.3.2
       '@azure/ms-rest-js': 2.6.0
       async: 2.6.3
-      azure-iot-amqp-base: 2.4.10
-      azure-iot-common: 1.12.10
-      azure-iot-http-base: 1.11.10
+      azure-iot-amqp-base: 2.4.13
+      azure-iot-common: 1.12.13
+      azure-iot-http-base: 1.11.13
       debug: 4.3.2
       lodash: 4.17.21
       machina: 4.0.2
@@ -4197,6 +4200,7 @@ packages:
     engines: {node: ^8.16.0 || ^10.6.0 || >=11.0.0}
     os: [darwin]
     deprecated: '"Please update to latest v2.3 or v2.2"'
+    requiresBuild: true
     dev: false
     optional: true
 
@@ -4204,6 +4208,7 @@ packages:
     resolution: {integrity: sha512-xiqMQR4xAeHTuB9uWm+fFRcIOgKBMiOBP+eXiyT7jsgVCq1bkVygt00oASowB7EdtpOHaaPgKt812P9ab+DDKA==}
     engines: {node: ^8.16.0 || ^10.6.0 || >=11.0.0}
     os: [darwin]
+    requiresBuild: true
     dev: false
     optional: true
 
@@ -9103,6 +9108,30 @@ packages:
       uglify-js: 3.14.1
     dev: false
 
+  file:projects/arm-mediaservices.tgz:
+    resolution: {integrity: sha512-3Umn8knfccMOuwf0O1zxyw39vW9u1wC4Yp43EmYmSHsu8a2pH4cp0bMepRo87OJeWIRtQERfKqrhBDv7N58CVQ==, tarball: file:projects/arm-mediaservices.tgz}
+    name: '@rush-temp/arm-mediaservices'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.0.0-beta.6
+      '@microsoft/api-extractor': 7.7.11
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.14.1
+    transitivePeerDependencies:
+      - debug
+      - supports-color
+    dev: false
+
   file:projects/arm-network.tgz:
     resolution: {integrity: sha512-V6PUn85sJgrqj+Q1dtj+3y1rIaeirmEAWQHqs7LwG28ZatoFcvTCCPZdDniK8Feb1rIHR19GE8UG0za33HiPjw==, tarball: file:projects/arm-network.tgz}
     name: '@rush-temp/arm-network'
@@ -10071,7 +10100,7 @@ packages:
     dev: false
 
   file:projects/core-client-1.tgz:
-    resolution: {integrity: sha512-Jrk9XZOCfamdJtybs9LCJtiu3FTJk7aVJq5A9sVtFpvycqk7OvjKp/MvK8qNoFH78eLnpk0BYH5rSqtkYYR9yg==, tarball: file:projects/core-client-1.tgz}
+    resolution: {integrity: sha512-QaeQvylrF11K0BFVJrRaCxuiREwZB4Der1ouLAQ+al+jA2T3gue2BqUEOZ7PBOPqBJSnF9G3C22PhD0zrqZwhQ==, tarball: file:projects/core-client-1.tgz}
     name: '@rush-temp/core-client-1'
     version: 0.0.0
     dependencies:
@@ -13697,7 +13726,7 @@ packages:
     dev: false
 
   file:projects/video-analyzer-edge.tgz:
-    resolution: {integrity: sha512-Cl4jjmfkJuO8NZ72KUrRa1bQlcQGLYRpJcCwlmQY3LIhRTDAz0eJYbSiAjzq0S15LzmCw/2mzVoMK6kP+vgNvQ==, tarball: file:projects/video-analyzer-edge.tgz}
+    resolution: {integrity: sha512-9+t+mAcyAqPYLyp4a41bdqOppIV2die1AY4A2bP/szdpcSfp+AA/ZQc2kyfHWBB5fVXlfHI75WYq687WY8qxcQ==, tarball: file:projects/video-analyzer-edge.tgz}
     name: '@rush-temp/video-analyzer-edge'
     version: 0.0.0
     dependencies:
@@ -13707,7 +13736,7 @@ packages:
       '@types/chai-as-promised': 7.1.4
       '@types/mocha': 7.0.2
       '@types/node': 12.20.24
-      azure-iothub: 1.14.3
+      azure-iothub: 1.14.6
       chai: 4.3.4
       chai-as-promised: 7.1.1_chai@4.3.4
       cross-env: 7.0.3
