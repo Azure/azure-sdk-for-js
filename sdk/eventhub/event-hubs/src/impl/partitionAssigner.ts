@@ -1,8 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { hashlittle } from "jenkins-hash-lookup3";
-
 import { isDefined } from "../util/typeGuards";
 import { mapPartitionKeyToId } from "./patitionKeyToIdMapper";
 
