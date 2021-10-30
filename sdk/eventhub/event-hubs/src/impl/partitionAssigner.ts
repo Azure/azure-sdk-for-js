@@ -54,14 +54,16 @@ export class PartitionAssigner {
     }
 
     if (isDefined(partitionKey)) {
-      return this._assignPartitionForPartitionKey(partitionKey);
+      const hashedParitionKey = this._assignPartitionForPartitionKey(partitionKey);
+      return Math.abs(hashedParitionKey % this._partitions.length).toString();
     }
 
     return this._assignRoundRobinPartition();
   }
 
-  private _assignPartitionForPartitionKey(partitionKey: string): string {
-    return hashlittle(partitionKey).c.toString();
+  private _assignPartitionForPartitionKey(partitionKey: string): number {
+    const hash =  hashlittle(partitionKey);
+    return hash.b ^ hash.c;
   }
 
   private _assignRoundRobinPartition(): string {
