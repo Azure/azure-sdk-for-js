@@ -100,12 +100,12 @@ export interface CreateTracingContextOptions {
 }
 
 /** The kind of span. */
-export type SpanKind = "client" | "server" | "producer" | "consumer";
+export type TracingSpanKind = "client" | "server" | "producer" | "consumer";
 
 /** Options used to configure the newly created span. */
 export interface TracingSpanOptions {
   /** The kind of span. Implementations should default this to "client". */
-  spanKind?: SpanKind;
+  spanKind?: TracingSpanKind;
   // TODO: what should this be?
   /** A collection of spans to link to this span. */
   spanLinks?: TracingSpan[];
@@ -159,13 +159,6 @@ export type SpanStatus =
   | {
       status: "error";
       error: Error | string;
-    }
-  | {
-      // backwards compatibility and ignored
-      // Todo: is this needed?
-      code: 0 | 1 | 2;
-      message?: string;
-      status?: "otel";
     };
 
 /**
