@@ -908,7 +908,7 @@ While other credentials authenticate requesting access to a set of resources, th
 2. Go to the app you want to authenticate against.
 3. On the left menu, select **Expose an API** > **Add a scope**.
 
-Besides that, the **Target App Registration** must have admin consent. It can be granted as follows:
+The **Target App Registration** must also have admin consent, which can be granted as follows:
 
 1. Select **Active Directory** > **App registrations**.
 2. Go to the app you want to authenticate against.
