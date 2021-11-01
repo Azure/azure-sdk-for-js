@@ -184,6 +184,20 @@ export class LoadBalancers {
   }
 
   /**
+   * List of inbound NAT rule port mappings.
+   * @param groupName The name of the resource group.
+   * @param loadBalancerName The name of the load balancer.
+   * @param backendPoolName The name of the load balancer backend address pool.
+   * @param parameters Query inbound NAT rule port mapping request.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.LoadBalancersListInboundNatRulePortMappingsResponse>
+   */
+  listInboundNatRulePortMappings(groupName: string, loadBalancerName: string, backendPoolName: string, parameters: Models.QueryInboundNatRulePortMappingRequest, options?: msRest.RequestOptionsBase): Promise<Models.LoadBalancersListInboundNatRulePortMappingsResponse> {
+    return this.beginListInboundNatRulePortMappings(groupName,loadBalancerName,backendPoolName,parameters,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.LoadBalancersListInboundNatRulePortMappingsResponse>;
+  }
+
+  /**
    * Deletes the specified load balancer.
    * @param resourceGroupName The name of the resource group.
    * @param loadBalancerName The name of the load balancer.
@@ -236,6 +250,28 @@ export class LoadBalancers {
         options
       },
       beginSwapPublicIpAddressesOperationSpec,
+      options);
+  }
+
+  /**
+   * List of inbound NAT rule port mappings.
+   * @param groupName The name of the resource group.
+   * @param loadBalancerName The name of the load balancer.
+   * @param backendPoolName The name of the load balancer backend address pool.
+   * @param parameters Query inbound NAT rule port mapping request.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginListInboundNatRulePortMappings(groupName: string, loadBalancerName: string, backendPoolName: string, parameters: Models.QueryInboundNatRulePortMappingRequest, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        groupName,
+        loadBalancerName,
+        backendPoolName,
+        parameters,
+        options
+      },
+      beginListInboundNatRulePortMappingsOperationSpec,
       options);
   }
 
@@ -486,6 +522,42 @@ const beginSwapPublicIpAddressesOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {},
     202: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginListInboundNatRulePortMappingsOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/backendAddressPools/{backendPoolName}/queryInboundNatRulePortMapping",
+  urlParameters: [
+    Parameters.groupName,
+    Parameters.loadBalancerName,
+    Parameters.backendPoolName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "parameters",
+    mapper: {
+      ...Mappers.QueryInboundNatRulePortMappingRequest,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.BackendAddressInboundNatRulePortMappings
+    },
+    202: {
+      bodyMapper: Mappers.BackendAddressInboundNatRulePortMappings
+    },
     default: {
       bodyMapper: Mappers.CloudError
     }

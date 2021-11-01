@@ -27,7 +27,7 @@ export class InboundNatRules {
   }
 
   /**
-   * Gets all the inbound nat rules in a load balancer.
+   * Gets all the inbound NAT rules in a load balancer.
    * @param resourceGroupName The name of the resource group.
    * @param loadBalancerName The name of the load balancer.
    * @param [options] The optional parameters
@@ -59,10 +59,10 @@ export class InboundNatRules {
   }
 
   /**
-   * Deletes the specified load balancer inbound nat rule.
+   * Deletes the specified load balancer inbound NAT rule.
    * @param resourceGroupName The name of the resource group.
    * @param loadBalancerName The name of the load balancer.
-   * @param inboundNatRuleName The name of the inbound nat rule.
+   * @param inboundNatRuleName The name of the inbound NAT rule.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
@@ -72,10 +72,10 @@ export class InboundNatRules {
   }
 
   /**
-   * Gets the specified load balancer inbound nat rule.
+   * Gets the specified load balancer inbound NAT rule.
    * @param resourceGroupName The name of the resource group.
    * @param loadBalancerName The name of the load balancer.
-   * @param inboundNatRuleName The name of the inbound nat rule.
+   * @param inboundNatRuleName The name of the inbound NAT rule.
    * @param [options] The optional parameters
    * @returns Promise<Models.InboundNatRulesGetResponse>
    */
@@ -83,14 +83,14 @@ export class InboundNatRules {
   /**
    * @param resourceGroupName The name of the resource group.
    * @param loadBalancerName The name of the load balancer.
-   * @param inboundNatRuleName The name of the inbound nat rule.
+   * @param inboundNatRuleName The name of the inbound NAT rule.
    * @param callback The callback
    */
   get(resourceGroupName: string, loadBalancerName: string, inboundNatRuleName: string, callback: msRest.ServiceCallback<Models.InboundNatRule>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param loadBalancerName The name of the load balancer.
-   * @param inboundNatRuleName The name of the inbound nat rule.
+   * @param inboundNatRuleName The name of the inbound NAT rule.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -108,11 +108,11 @@ export class InboundNatRules {
   }
 
   /**
-   * Creates or updates a load balancer inbound nat rule.
+   * Creates or updates a load balancer inbound NAT rule.
    * @param resourceGroupName The name of the resource group.
    * @param loadBalancerName The name of the load balancer.
-   * @param inboundNatRuleName The name of the inbound nat rule.
-   * @param inboundNatRuleParameters Parameters supplied to the create or update inbound nat rule
+   * @param inboundNatRuleName The name of the inbound NAT rule.
+   * @param inboundNatRuleParameters Parameters supplied to the create or update inbound NAT rule
    * operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.InboundNatRulesCreateOrUpdateResponse>
@@ -123,10 +123,10 @@ export class InboundNatRules {
   }
 
   /**
-   * Deletes the specified load balancer inbound nat rule.
+   * Deletes the specified load balancer inbound NAT rule.
    * @param resourceGroupName The name of the resource group.
    * @param loadBalancerName The name of the load balancer.
-   * @param inboundNatRuleName The name of the inbound nat rule.
+   * @param inboundNatRuleName The name of the inbound NAT rule.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
@@ -143,11 +143,11 @@ export class InboundNatRules {
   }
 
   /**
-   * Creates or updates a load balancer inbound nat rule.
+   * Creates or updates a load balancer inbound NAT rule.
    * @param resourceGroupName The name of the resource group.
    * @param loadBalancerName The name of the load balancer.
-   * @param inboundNatRuleName The name of the inbound nat rule.
-   * @param inboundNatRuleParameters Parameters supplied to the create or update inbound nat rule
+   * @param inboundNatRuleName The name of the inbound NAT rule.
+   * @param inboundNatRuleParameters Parameters supplied to the create or update inbound NAT rule
    * operation.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
@@ -166,7 +166,7 @@ export class InboundNatRules {
   }
 
   /**
-   * Gets all the inbound nat rules in a load balancer.
+   * Gets all the inbound NAT rules in a load balancer.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.InboundNatRulesListNextResponse>
