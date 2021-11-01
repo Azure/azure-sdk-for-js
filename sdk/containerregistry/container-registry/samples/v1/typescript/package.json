@@ -29,7 +29,7 @@
   "dependencies": {
     "@azure/container-registry": "next",
     "dotenv": "latest",
-    "@azure/identity": "^1.3.0"
+    "@azure/identity": "^2.0.1"
   },
   "devDependencies": {
     "typescript": "~4.2.0",

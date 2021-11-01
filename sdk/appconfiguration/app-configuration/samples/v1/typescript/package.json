@@ -33,7 +33,7 @@
     "@azure/app-configuration": "latest",
     "dotenv": "latest",
     "@azure/keyvault-secrets": "^4.2.0",
-    "@azure/identity": "2.0.0-beta.6"
+    "@azure/identity": "^2.0.1"
   },
   "devDependencies": {
     "typescript": "~4.4.0",
