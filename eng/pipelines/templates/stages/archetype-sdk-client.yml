@@ -70,6 +70,7 @@ stages:
       parameters:
         DependsOn: Build
         ServiceDirectory: ${{ parameters.ServiceDirectory }}
+        TestProxy: ${{ parameters.TestProxy }}
         Artifacts: ${{ parameters.Artifacts }}
         ${{ if eq(parameters.ServiceDirectory, 'template') }}:
           TestPipeline: true

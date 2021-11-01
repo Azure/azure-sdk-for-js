@@ -76,3 +76,4 @@ jobs:
         AdditionalParameters:
           ServiceDirectory: ${{ parameters.ServiceDirectory }}
           Artifacts: ${{ parameters.Artifacts }}
+          TestProxy: ${{ parameters.TestProxy }}
