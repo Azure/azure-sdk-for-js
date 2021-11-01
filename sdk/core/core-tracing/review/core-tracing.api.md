@@ -81,7 +81,7 @@ export interface TracingSpan {
 }
 
 // @public (undocumented)
-export type TracingSpanIdentifier = Record<string, unknown>;
+export type TracingSpanIdentifier = unknown;
 
 // @public
 export type TracingSpanKind = "client" | "server" | "producer" | "consumer";

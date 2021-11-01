@@ -110,7 +110,7 @@ export interface TracingSpanOptions {
   spanLinks?: TracingSpanIdentifier[];
 }
 
-export type TracingSpanIdentifier = Record<string, unknown>;
+export type TracingSpanIdentifier = unknown;
 
 /**
  * Represents an implementation agnostic tracer.
