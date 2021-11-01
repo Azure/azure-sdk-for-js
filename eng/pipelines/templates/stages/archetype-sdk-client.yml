@@ -46,7 +46,7 @@ stages:
       - template: /eng/pipelines/templates/jobs/ci.yml
         parameters:
           ServiceDirectory: ${{ parameters.ServiceDirectory }}          
-          TestProxy: ${{ parameterse.TestProxy }}
+          TestProxy: ${{ parameters.TestProxy }}
           Artifacts: ${{ parameters.Artifacts }}
           ${{ if eq(parameters.ServiceDirectory, 'template') }}:
             TestPipeline: true
