@@ -124,6 +124,9 @@
 # PRLabel: %Remote Rendering
 /sdk/remoterendering/ @MalcolmTyrrell
 
+# PRLabel: %VideoAnalyzer
+/sdk/videoanalyzer/video-analyzer-edge @hivyas @bterlson
+
 # Smoke Tests
 /common/smoke-test/ @ramya-rao-a @sadasant @jeremymeng
 
