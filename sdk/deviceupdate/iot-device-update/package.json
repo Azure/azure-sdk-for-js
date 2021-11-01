@@ -25,7 +25,7 @@
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "@azure/identity": "2.0.0-beta.6",
+    "@azure/identity": "^2.0.1",
     "@microsoft/api-extractor": "^7.18.11",
     "@types/node": "^12.0.0",
     "@types/uuid": "^8.0.0",
