@@ -3,18 +3,10 @@
 
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
 import { createDefaultPipeline } from "./clientHelpers";
-import {
-  ClientOptions,
-  HttpResponse,
-  Client,
-  ClientResource,
-  MethodwithAsStream,
-  PathUncheckedResponse,
-} from "./common";
-import { RequestParameters } from "./pathClientTypes";
+import { ClientOptions, HttpResponse, Client, ClientResource, MethodwithAsStream } from "./common";
+import { RequestParameters, RouteParams } from "./pathClientTypes";
 import { buildSendRequestForStream, isCredential, StreamType } from "./helpers/getClientHelpers";
 import { HttpNodeStreamResponse } from ".";
-import { getNodeStreamResponse } from "./helpers/streamHelpers";
 
 /**
  * Shape of a Rest Level Client
@@ -23,9 +15,9 @@ export interface ClientWithAsStream extends Client {
   /**
    * This method allows arbitrary paths and doesn't provide strong types
    */
-  pathUnchecked: (
-    path: string,
-    ...args: Array<string | number | boolean>
+  pathUnchecked: <TPath extends string>(
+    path: TPath,
+    ...args: RouteParams<TPath>
   ) => ClientResource<MethodwithAsStream>;
 }
 
@@ -197,13 +189,12 @@ interface SendRequestOperation {
 
 function getStreamableMethods(sendRequest: SendRequestOperation): MethodwithAsStream {
   return {
-    then: async function (onfulfilled: (r: PathUncheckedResponse) => PathUncheckedResponse) {
+    then: async function (onfulfilled) {
       const result = await sendRequest();
       return onfulfilled(result);
     },
     async asNodeStream() {
-      const result = await sendRequest("NodeJS");
-      return getNodeStreamResponse(result);
+      return sendRequest("NodeJS");
     },
   };
 }

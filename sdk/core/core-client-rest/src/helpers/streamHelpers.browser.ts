@@ -1,8 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { HttpResponse, HttpNodeStreamResponse } from "../common";
+import { InternalRequestParameters } from "../sendRequest";
+import { StreamType } from "./getClientHelpers";
 
-export function getNodeStreamResponse(_response: HttpResponse): HttpNodeStreamResponse {
-  throw new Error("Node streams are not supported in browser environment.");
+export function getOptionsForStream(
+  options: InternalRequestParameters,
+  streamType?: StreamType
+): InternalRequestParameters {
+  if (streamType === "NodeJS") {
+    throw new Error("Node streams are not supported in browser environment.");
+  }
+  return options;
 }

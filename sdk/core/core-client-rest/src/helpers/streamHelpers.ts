@@ -1,8 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { HttpNodeStreamResponse } from "../common";
+import { InternalRequestParameters } from "../sendRequest";
+import { StreamType } from "./getClientHelpers";
 
-export function getNodeStreamResponse(response: HttpNodeStreamResponse): HttpNodeStreamResponse {
-  return response;
+export function getOptionsForStream(
+  options: InternalRequestParameters,
+  streamType?: StreamType
+): InternalRequestParameters {
+  if (streamType === "NodeJS") {
+    return { ...options, responseAsStream: true };
+  }
+  return options;
 }

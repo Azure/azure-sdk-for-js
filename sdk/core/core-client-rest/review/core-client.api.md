@@ -24,7 +24,7 @@ export interface CertificateCredential {
 // @public
 export interface Client {
     path: Function;
-    pathUnchecked: (path: string, ...args: Array<any>) => ClientResource;
+    pathUnchecked: <TPath extends string = string>(path: TPath, ...args: RouteParams<TPath>) => ClientResource;
     pipeline: Pipeline;
 }
 
@@ -39,29 +39,21 @@ export type ClientOptions = PipelineOptions & {
     allowInsecureConnection?: boolean;
 };
 
-// @public (undocumented)
+// @public
 export interface ClientResource<TResponse = Thenable<PathUncheckedResponse>> {
-    // (undocumented)
     delete: (options?: RequestParameters) => TResponse;
-    // (undocumented)
     get: (options?: RequestParameters) => TResponse;
-    // (undocumented)
     head: (options?: RequestParameters) => TResponse;
-    // (undocumented)
     options: (options?: RequestParameters) => TResponse;
-    // (undocumented)
     patch: (options?: RequestParameters) => TResponse;
-    // (undocumented)
     post: (options?: RequestParameters) => TResponse;
-    // (undocumented)
     put: (options?: RequestParameters) => TResponse;
-    // (undocumented)
     trace: (options?: RequestParameters) => TResponse;
 }
 
 // @public
 export interface ClientWithAsStream extends Client {
-    pathUnchecked: (path: string, ...args: Array<string | number | boolean>) => ClientResource<MethodwithAsStream>;
+    pathUnchecked: <TPath extends string>(path: TPath, ...args: RouteParams<TPath>) => ClientResource<MethodwithAsStream>;
 }
 
 // @public
@@ -98,7 +90,7 @@ export type HttpResponse = {
 // @public
 export function isCertificateCredential(credential: unknown): credential is CertificateCredential;
 
-// @public (undocumented)
+// @public
 export type MethodwithAsStream = Thenable<PathUncheckedResponse> & {
     asNodeStream: () => Promise<HttpNodeStreamResponse>;
 };
@@ -120,7 +112,7 @@ export type RequestParameters = {
 
 // @public
 export type RouteParams<TRoute extends string> = TRoute extends `${infer _Head}/{${infer _Param}}${infer Tail}` ? [
-pathParam: string,
+pathParam: string | number | boolean,
 ...pathParams: RouteParams<Tail>
 ] : [
 ];

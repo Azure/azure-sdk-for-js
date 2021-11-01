@@ -52,7 +52,7 @@ export type RouteParams<
     // additional parameters we can call RouteParameters recursively on the Tail to match the remaining parts,
     // in case the Tail has more parameters, it will return a tuple with the parameters found in tail.
     // We spread the second path params to end up with a single dimension tuple at the end.
-    [pathParam: string, ...pathParams: RouteParams<Tail>]
+    [pathParam: string | number | boolean, ...pathParams: RouteParams<Tail>]
   : // When the path doesn't match the template, it means that we have no path parameters so we return
     // an empty tuple.
     [];
