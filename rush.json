@@ -1030,6 +1030,11 @@
       "packageName": "@azure/arm-videoanalyzer",
       "projectFolder": "sdk/videoanalyzer/arm-videoanalyzer",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-notificationhubs",
+      "projectFolder": "sdk/notificationhubs/arm-notificationhubs",
+      "versionPolicyName": "management"
     }
   ]
 }
