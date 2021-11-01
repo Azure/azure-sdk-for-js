@@ -9,7 +9,6 @@
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build": "npm run clean && tsc -p . && rollup -c 2>&1 && api-extractor run --local",
-    "build:autorest": "autorest --typescript --version=3.0.6267  --v3 ./swagger/README.md && rushx format",
     "build:clean": "rush update --recheck && rush rebuild && npm run build",
     "build:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c 2>&1",
     "build:node": "tsc -p . && cross-env ONLY_NODE=true rollup -c 2>&1",
@@ -22,6 +21,7 @@
     "execute:ts-samples": "dev-tool samples run dist-samples/typescript/dist/dist-samples/typescript/src/",
     "extract-api": "tsc -p . && api-extractor run --local",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
+    "generate:client": "autorest --typescript ./swagger/README.md && rushx format",
     "integration-test:browser": "karma start --single-run",
     "integration-test:node": "nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --full-trace -t 300000  dist-esm/test/public/*.spec.js dist-esm/test/public/node/*.spec.js",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
