@@ -7,26 +7,26 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { Operation } from "../operationsInterfaces";
+import { QuotaOperation } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AzureQuotaExtensionAPIContext } from "../azureQuotaExtensionAPIContext";
 import {
   OperationResponse,
-  OperationListNextOptionalParams,
-  OperationListOptionalParams,
-  OperationListResponse,
-  OperationListNextResponse
+  QuotaOperationListNextOptionalParams,
+  QuotaOperationListOptionalParams,
+  QuotaOperationListResponse,
+  QuotaOperationListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing Operation operations. */
-export class OperationImpl implements Operation {
+/** Class containing QuotaOperation operations. */
+export class QuotaOperationImpl implements QuotaOperation {
   private readonly client: AzureQuotaExtensionAPIContext;
 
   /**
-   * Initialize a new instance of the class Operation class.
+   * Initialize a new instance of the class QuotaOperation class.
    * @param client Reference to the service client
    */
   constructor(client: AzureQuotaExtensionAPIContext) {
@@ -38,7 +38,7 @@ export class OperationImpl implements Operation {
    * @param options The options parameters.
    */
   public list(
-    options?: OperationListOptionalParams
+    options?: QuotaOperationListOptionalParams
   ): PagedAsyncIterableIterator<OperationResponse> {
     const iter = this.listPagingAll(options);
     return {
@@ -55,7 +55,7 @@ export class OperationImpl implements Operation {
   }
 
   private async *listPagingPage(
-    options?: OperationListOptionalParams
+    options?: QuotaOperationListOptionalParams
   ): AsyncIterableIterator<OperationResponse[]> {
     let result = await this._list(options);
     yield result.value || [];
@@ -68,7 +68,7 @@ export class OperationImpl implements Operation {
   }
 
   private async *listPagingAll(
-    options?: OperationListOptionalParams
+    options?: QuotaOperationListOptionalParams
   ): AsyncIterableIterator<OperationResponse> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -80,8 +80,8 @@ export class OperationImpl implements Operation {
    * @param options The options parameters.
    */
   private _list(
-    options?: OperationListOptionalParams
-  ): Promise<OperationListResponse> {
+    options?: QuotaOperationListOptionalParams
+  ): Promise<QuotaOperationListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
@@ -92,8 +92,8 @@ export class OperationImpl implements Operation {
    */
   private _listNext(
     nextLink: string,
-    options?: OperationListNextOptionalParams
-  ): Promise<OperationListNextResponse> {
+    options?: QuotaOperationListNextOptionalParams
+  ): Promise<QuotaOperationListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
       listNextOperationSpec
