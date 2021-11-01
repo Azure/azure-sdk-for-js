@@ -87,18 +87,20 @@ function Get-javascript-PackageInfoFromPackageFile ($pkg, $workingDirectory)
 
   $packageJSON = ResolvePkgJson -workFolder $workFolder | Get-Content | ConvertFrom-Json
   $pkgId = $packageJSON.name
-  $docsReadMeName = $pkgId -replace "^@azure/" , ""
+  # regex generated readme name as follows
+  # @azure/core-client  -> core-client
+  # @azure-rest/client  -> rest-core-client
+  # @azure/arm-storage  -> arm-storage
+  $docsReadMeName = $pkgId -replace "^@[a-z]*(\-?)([a-z]*)?/" , "`${2}`${1}"
   $pkgVersion = $packageJSON.version
 
   $changeLogLoc = @(Get-ChildItem -Path $workFolder -Recurse -Include "CHANGELOG.md")[0]
-  if ($changeLogLoc)
-  {
+  if ($changeLogLoc) {
     $releaseNotes = Get-ChangeLogEntryAsString -ChangeLogLocation $changeLogLoc -VersionString $pkgVersion
   }
 
   $readmeContentLoc = @(Get-ChildItem -Path $workFolder -Recurse -Include "README.md") | Select-Object -Last 1
-  if ($readmeContentLoc)
-  {
+  if ($readmeContentLoc) {
     $readmeContent = Get-Content -Raw $readmeContentLoc
   }
 
@@ -118,14 +120,18 @@ function Get-javascript-PackageInfoFromPackageFile ($pkg, $workingDirectory)
   return $resultObj
 }
 
-function Get-javascript-DocsMsMetadataForPackage($PackageInfo) { 
-  $docsReadmeName = Split-Path -Path $PackageInfo.DirectoryPath -Leaf
+function Get-javascript-DocsMsMetadataForPackage($PackageInfo) {
+  # example docs read me name
+  # azure-core-client -> core-client
+  # azure-rest-core-client - > rest-core-client
+  # azure-rest-purview-account - > rest-purview-account
+  $docsReadmeName = $PackageInfo.ArtifactName -replace "^[a-z]*\-" , ""
   Write-Host "Docs.ms Readme name: $($docsReadmeName)"
   New-Object PSObject -Property @{ 
     DocsMsReadMeName      = $docsReadmeName
     LatestReadMeLocation  = 'docs-ref-services/latest'
     PreviewReadMeLocation = 'docs-ref-services/preview'
-    Suffix = ''
+    Suffix                = ''
   }
 }
 
@@ -134,22 +140,18 @@ function Get-javascript-DocsMsMetadataForPackage($PackageInfo) {
 # published at the "dev" tag. To prevent using a version which does not exist in 
 # NPM, use the "dev" tag instead.
 function Get-javascript-DocsMsDevLanguageSpecificPackageInfo($packageInfo) {
-  try
-  {
+  try {
     $npmPackageInfo = Invoke-RestMethod -Uri "https://registry.npmjs.com/$($packageInfo.Name)"
 
-    if ($npmPackageInfo.'dist-tags'.dev)
-    {
+    if ($npmPackageInfo.'dist-tags'.dev) {
       Write-Host "Using published version at 'dev' tag: '$($npmPackageInfo.'dist-tags'.dev)'"
       $packageInfo.Version = $npmPackageInfo.'dist-tags'.dev
     }
-    else
-    {
+    else {
       LogWarning "No 'dev' dist-tag available for '$($packageInfo.Name)'. Keeping current version '$($packageInfo.Version)'"
     }
   }
-  catch
-  {
+  catch {
     LogWarning "Error getting package info from NPM for $($packageInfo.Name)"
     LogWarning $_.Exception
     LogWarning $_.Exception.StackTrace
@@ -159,49 +161,42 @@ function Get-javascript-DocsMsDevLanguageSpecificPackageInfo($packageInfo) {
 }
 
 # Stage and Upload Docs to blob Storage
-function Publish-javascript-GithubIODocs ($DocLocation, $PublicArtifactLocation)
-{
+function Publish-javascript-GithubIODocs ($DocLocation, $PublicArtifactLocation) {
   $PublishedDocs = Get-ChildItem "$($DocLocation)/documentation" | Where-Object -FilterScript { $_.Name.EndsWith(".zip") }
 
-  foreach ($Item in $PublishedDocs)
-  {
+  foreach ($Item in $PublishedDocs) {
     Expand-Archive -Force -Path "$($DocLocation)/documentation/$($Item.Name)" -DestinationPath "$($DocLocation)/documentation/$($Item.BaseName)"
     $dirList = Get-ChildItem "$($DocLocation)/documentation/$($Item.BaseName)/$($Item.BaseName)" -Attributes Directory
 
-    if ($dirList.Length -eq 1)
-    {
+    if ($dirList.Length -eq 1) {
       $DocVersion = $dirList[0].Name
       $pkgs = Get-ChildItem -Path $PublicArtifactLocation -Include "*.tgz" -Recurse -File
       # set default package name
       $PkgName = "azure-$($Item.BaseName)"
-      if ($pkgs -and $pkgs.Count -eq 1)
-      {
+      if ($pkgs -and $pkgs.Count -eq 1) {
         $parsedPackage = Get-javascript-PackageInfoFromPackageFile $pkgs[0] $PublicArtifactLocation
         $PkgName = $parsedPackage.PackageId.Replace("@", "").Replace("/", "-")
       }
-      else
-      {
+      else {
         Write-Host "Package info is not available from artifact. Assuming package is in default scope @azure."
       }
       Write-Host "Uploading Doc for $($PkgName) Version:- $($DocVersion)..."
       $releaseTag = RetrieveReleaseTag $PublicArtifactLocation
       Upload-Blobs -DocDir "$($DocLocation)/documentation/$($Item.BaseName)/$($Item.BaseName)/$($DocVersion)" -PkgName $PkgName -DocVersion $DocVersion -ReleaseTag $releaseTag
     }
-    else
-    {
+    else {
       Write-Host "found more than 1 folder under the documentation for package - $($Item.Name)"
     }
   }
 }
 
-function Get-javascript-GithubIoDocIndex()
-{
+function Get-javascript-GithubIoDocIndex() {
   # Update the main.js and docfx.json language content
-  UpdateDocIndexFiles -appTitleLang JavaScript -packageRegex "/\@(.*)\//i" -regexReplacement "`$1-"
+  UpdateDocIndexFiles -appTitleLang JavaScript -packageRegex "/\@(.*)\//iU" -regexReplacement "`$1-"
   # Fetch out all package metadata from csv file.
   $metadata = Get-CSVMetadata -MetadataUri $MetadataUri
   # Get the artifacts name from blob storage
-  $artifacts = Get-BlobStorage-Artifacts -blobStorageUrl $BlobStorageUrl -blobDirectoryRegex "^javascript/([a-z]*)-(.*)/$" -blobArtifactsReplacement "@`${1}/`${2}"
+  $artifacts = Get-BlobStorage-Artifacts -blobStorageUrl $BlobStorageUrl -blobDirectoryRegex "^javascript/(azure-rest|azure)-(.*)/$" -blobArtifactsReplacement "@`${1}/`${2}"
   # Build up the artifact to service name mapping for GithubIo toc.
   $tocContent = Get-TocMapping -metadata $metadata -artifacts $artifacts
   # Generate yml/md toc files and build site.
