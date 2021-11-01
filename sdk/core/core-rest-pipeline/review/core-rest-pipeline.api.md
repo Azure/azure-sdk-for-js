@@ -8,6 +8,7 @@
 
 import { AbortSignalLike } from '@azure/abort-controller';
 import { AccessToken } from '@azure/core-auth';
+import { AzureLogger } from '@azure/logger';
 import { Debugger } from '@azure/logger';
 import { GetTokenOptions } from '@azure/core-auth';
 import { OperationTracingOptions } from '@azure/core-tracing';
@@ -33,6 +34,7 @@ export interface Agent {
 // @public
 export interface AuthorizeRequestOnChallengeOptions {
     getAccessToken: (scopes: string[], options: GetTokenOptions) => Promise<AccessToken | null>;
+    logger?: AzureLogger;
     request: PipelineRequest;
     response: PipelineResponse;
     scopes: string[];
@@ -41,6 +43,7 @@ export interface AuthorizeRequestOnChallengeOptions {
 // @public
 export interface AuthorizeRequestOptions {
     getAccessToken: (scopes: string[], options: GetTokenOptions) => Promise<AccessToken | null>;
+    logger?: AzureLogger;
     request: PipelineRequest;
     scopes: string[];
 }
@@ -55,6 +58,7 @@ export const bearerTokenAuthenticationPolicyName = "bearerTokenAuthenticationPol
 export interface BearerTokenAuthenticationPolicyOptions {
     challengeCallbacks?: ChallengeCallbacks;
     credential?: TokenCredential;
+    logger?: AzureLogger;
     scopes: string | string[];
 }
 

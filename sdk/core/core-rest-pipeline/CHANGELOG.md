@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- The `bearerTokenAuthenticationPolicy` now accepts a logger.
+
 ### Breaking Changes
 
 ### Bugs Fixed
