@@ -2,6 +2,7 @@
   "name": "@azure/dev-tool",
   "version": "1.0.0",
   "description": "A helpful command for azure-sdk-for-js developers",
+  "sdk-type": "utility",
   "bin": {
     "dev-tool": "launch.js"
   },
