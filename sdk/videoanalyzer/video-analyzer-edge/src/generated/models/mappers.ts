@@ -6,9 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import * as coreClient from "@azure/core-client";
 
-export const LivePipeline: coreHttp.CompositeMapper = {
+export const LivePipeline: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "LivePipeline",
@@ -38,7 +38,7 @@ export const LivePipeline: coreHttp.CompositeMapper = {
   }
 };
 
-export const SystemData: coreHttp.CompositeMapper = {
+export const SystemData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SystemData",
@@ -59,7 +59,7 @@ export const SystemData: coreHttp.CompositeMapper = {
   }
 };
 
-export const LivePipelineProperties: coreHttp.CompositeMapper = {
+export const LivePipelineProperties: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "LivePipelineProperties",
@@ -98,7 +98,7 @@ export const LivePipelineProperties: coreHttp.CompositeMapper = {
   }
 };
 
-export const ParameterDefinition: coreHttp.CompositeMapper = {
+export const ParameterDefinition: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ParameterDefinition",
@@ -120,7 +120,7 @@ export const ParameterDefinition: coreHttp.CompositeMapper = {
   }
 };
 
-export const LivePipelineCollection: coreHttp.CompositeMapper = {
+export const LivePipelineCollection: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "LivePipelineCollection",
@@ -147,7 +147,7 @@ export const LivePipelineCollection: coreHttp.CompositeMapper = {
   }
 };
 
-export const PipelineTopologyCollection: coreHttp.CompositeMapper = {
+export const PipelineTopologyCollection: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "PipelineTopologyCollection",
@@ -174,7 +174,7 @@ export const PipelineTopologyCollection: coreHttp.CompositeMapper = {
   }
 };
 
-export const PipelineTopology: coreHttp.CompositeMapper = {
+export const PipelineTopology: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "PipelineTopology",
@@ -204,7 +204,7 @@ export const PipelineTopology: coreHttp.CompositeMapper = {
   }
 };
 
-export const PipelineTopologyProperties: coreHttp.CompositeMapper = {
+export const PipelineTopologyProperties: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "PipelineTopologyProperties",
@@ -267,7 +267,7 @@ export const PipelineTopologyProperties: coreHttp.CompositeMapper = {
   }
 };
 
-export const ParameterDeclaration: coreHttp.CompositeMapper = {
+export const ParameterDeclaration: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ParameterDeclaration",
@@ -305,7 +305,7 @@ export const ParameterDeclaration: coreHttp.CompositeMapper = {
   }
 };
 
-export const SourceNodeBase: coreHttp.CompositeMapper = {
+export const SourceNodeBase: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SourceNodeBase",
@@ -333,7 +333,7 @@ export const SourceNodeBase: coreHttp.CompositeMapper = {
   }
 };
 
-export const ProcessorNodeBase: coreHttp.CompositeMapper = {
+export const ProcessorNodeBase: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ProcessorNodeBase",
@@ -374,7 +374,7 @@ export const ProcessorNodeBase: coreHttp.CompositeMapper = {
   }
 };
 
-export const NodeInput: coreHttp.CompositeMapper = {
+export const NodeInput: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "NodeInput",
@@ -402,7 +402,7 @@ export const NodeInput: coreHttp.CompositeMapper = {
   }
 };
 
-export const OutputSelector: coreHttp.CompositeMapper = {
+export const OutputSelector: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "OutputSelector",
@@ -429,7 +429,7 @@ export const OutputSelector: coreHttp.CompositeMapper = {
   }
 };
 
-export const SinkNodeBase: coreHttp.CompositeMapper = {
+export const SinkNodeBase: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SinkNodeBase",
@@ -470,7 +470,7 @@ export const SinkNodeBase: coreHttp.CompositeMapper = {
   }
 };
 
-export const EndpointBase: coreHttp.CompositeMapper = {
+export const EndpointBase: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "EndpointBase",
@@ -505,7 +505,7 @@ export const EndpointBase: coreHttp.CompositeMapper = {
   }
 };
 
-export const CredentialsBase: coreHttp.CompositeMapper = {
+export const CredentialsBase: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "CredentialsBase",
@@ -526,7 +526,7 @@ export const CredentialsBase: coreHttp.CompositeMapper = {
   }
 };
 
-export const CertificateSource: coreHttp.CompositeMapper = {
+export const CertificateSource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "CertificateSource",
@@ -547,7 +547,7 @@ export const CertificateSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const TlsValidationOptions: coreHttp.CompositeMapper = {
+export const TlsValidationOptions: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "TlsValidationOptions",
@@ -568,7 +568,22 @@ export const TlsValidationOptions: coreHttp.CompositeMapper = {
   }
 };
 
-export const VideoCreationProperties: coreHttp.CompositeMapper = {
+export const VideoPublishingOptions: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VideoPublishingOptions",
+    modelProperties: {
+      enableVideoPreviewImage: {
+        serializedName: "enableVideoPreviewImage",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const VideoCreationProperties: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "VideoCreationProperties",
@@ -590,12 +605,18 @@ export const VideoCreationProperties: coreHttp.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      retentionPeriod: {
+        serializedName: "retentionPeriod",
+        type: {
+          name: "String"
+        }
       }
     }
   }
 };
 
-export const NamedLineBase: coreHttp.CompositeMapper = {
+export const NamedLineBase: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "NamedLineBase",
@@ -623,7 +644,7 @@ export const NamedLineBase: coreHttp.CompositeMapper = {
   }
 };
 
-export const ImageProperties: coreHttp.CompositeMapper = {
+export const ImageProperties: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ImageProperties",
@@ -646,7 +667,7 @@ export const ImageProperties: coreHttp.CompositeMapper = {
   }
 };
 
-export const ImageScale: coreHttp.CompositeMapper = {
+export const ImageScale: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ImageScale",
@@ -673,7 +694,7 @@ export const ImageScale: coreHttp.CompositeMapper = {
   }
 };
 
-export const ImageFormatProperties: coreHttp.CompositeMapper = {
+export const ImageFormatProperties: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ImageFormatProperties",
@@ -694,7 +715,7 @@ export const ImageFormatProperties: coreHttp.CompositeMapper = {
   }
 };
 
-export const SamplingOptions: coreHttp.CompositeMapper = {
+export const SamplingOptions: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SamplingOptions",
@@ -715,7 +736,7 @@ export const SamplingOptions: coreHttp.CompositeMapper = {
   }
 };
 
-export const GrpcExtensionDataTransfer: coreHttp.CompositeMapper = {
+export const GrpcExtensionDataTransfer: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.VideoAnalyzer.GrpcExtensionDataTransfer",
   type: {
     name: "Composite",
@@ -738,7 +759,7 @@ export const GrpcExtensionDataTransfer: coreHttp.CompositeMapper = {
   }
 };
 
-export const NamedPolygonBase: coreHttp.CompositeMapper = {
+export const NamedPolygonBase: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "NamedPolygonBase",
@@ -766,7 +787,7 @@ export const NamedPolygonBase: coreHttp.CompositeMapper = {
   }
 };
 
-export const SpatialAnalysisOperationBase: coreHttp.CompositeMapper = {
+export const SpatialAnalysisOperationBase: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SpatialAnalysisOperationBase",
@@ -787,7 +808,7 @@ export const SpatialAnalysisOperationBase: coreHttp.CompositeMapper = {
   }
 };
 
-export const SpatialAnalysisOperationEventBase: coreHttp.CompositeMapper = {
+export const SpatialAnalysisOperationEventBase: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SpatialAnalysisOperationEventBase",
@@ -808,7 +829,7 @@ export const SpatialAnalysisOperationEventBase: coreHttp.CompositeMapper = {
   }
 };
 
-export const SpatialAnalysisPersonCountZoneEvents: coreHttp.CompositeMapper = {
+export const SpatialAnalysisPersonCountZoneEvents: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SpatialAnalysisPersonCountZoneEvents",
@@ -836,7 +857,7 @@ export const SpatialAnalysisPersonCountZoneEvents: coreHttp.CompositeMapper = {
   }
 };
 
-export const SpatialAnalysisPersonZoneCrossingZoneEvents: coreHttp.CompositeMapper = {
+export const SpatialAnalysisPersonZoneCrossingZoneEvents: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SpatialAnalysisPersonZoneCrossingZoneEvents",
@@ -864,7 +885,7 @@ export const SpatialAnalysisPersonZoneCrossingZoneEvents: coreHttp.CompositeMapp
   }
 };
 
-export const SpatialAnalysisPersonDistanceZoneEvents: coreHttp.CompositeMapper = {
+export const SpatialAnalysisPersonDistanceZoneEvents: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SpatialAnalysisPersonDistanceZoneEvents",
@@ -892,7 +913,7 @@ export const SpatialAnalysisPersonDistanceZoneEvents: coreHttp.CompositeMapper =
   }
 };
 
-export const SpatialAnalysisPersonLineCrossingLineEvents: coreHttp.CompositeMapper = {
+export const SpatialAnalysisPersonLineCrossingLineEvents: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SpatialAnalysisPersonLineCrossingLineEvents",
@@ -920,7 +941,512 @@ export const SpatialAnalysisPersonLineCrossingLineEvents: coreHttp.CompositeMapp
   }
 };
 
-export const MethodRequest: coreHttp.CompositeMapper = {
+export const RemoteDeviceAdapter: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RemoteDeviceAdapter",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "RemoteDeviceAdapterProperties"
+        }
+      }
+    }
+  }
+};
+
+export const RemoteDeviceAdapterProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RemoteDeviceAdapterProperties",
+    modelProperties: {
+      description: {
+        serializedName: "description",
+        type: {
+          name: "String"
+        }
+      },
+      target: {
+        serializedName: "target",
+        type: {
+          name: "Composite",
+          className: "RemoteDeviceAdapterTarget"
+        }
+      },
+      iotHubDeviceConnection: {
+        serializedName: "iotHubDeviceConnection",
+        type: {
+          name: "Composite",
+          className: "IotHubDeviceConnection"
+        }
+      }
+    }
+  }
+};
+
+export const RemoteDeviceAdapterTarget: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RemoteDeviceAdapterTarget",
+    modelProperties: {
+      host: {
+        serializedName: "host",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const IotHubDeviceConnection: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "IotHubDeviceConnection",
+    modelProperties: {
+      deviceId: {
+        serializedName: "deviceId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      credentials: {
+        serializedName: "credentials",
+        type: {
+          name: "Composite",
+          className: "CredentialsBase"
+        }
+      }
+    }
+  }
+};
+
+export const RemoteDeviceAdapterCollection: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RemoteDeviceAdapterCollection",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "RemoteDeviceAdapter"
+            }
+          }
+        }
+      },
+      continuationToken: {
+        serializedName: "@continuationToken",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DiscoveredOnvifDeviceCollection: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DiscoveredOnvifDeviceCollection",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DiscoveredOnvifDevice"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const DiscoveredOnvifDevice: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DiscoveredOnvifDevice",
+    modelProperties: {
+      serviceIdentifier: {
+        serializedName: "serviceIdentifier",
+        type: {
+          name: "String"
+        }
+      },
+      remoteIPAddress: {
+        serializedName: "remoteIPAddress",
+        type: {
+          name: "String"
+        }
+      },
+      scopes: {
+        serializedName: "scopes",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      endpoints: {
+        serializedName: "endpoints",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const OnvifDevice: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "OnvifDevice",
+    modelProperties: {
+      hostname: {
+        serializedName: "hostname",
+        type: {
+          name: "Composite",
+          className: "OnvifHostName"
+        }
+      },
+      systemDateTime: {
+        serializedName: "systemDateTime",
+        type: {
+          name: "Composite",
+          className: "OnvifSystemDateTime"
+        }
+      },
+      dns: {
+        serializedName: "dns",
+        type: {
+          name: "Composite",
+          className: "OnvifDns"
+        }
+      },
+      mediaProfiles: {
+        serializedName: "mediaProfiles",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "MediaProfile"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const OnvifHostName: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "OnvifHostName",
+    modelProperties: {
+      fromDhcp: {
+        serializedName: "fromDhcp",
+        type: {
+          name: "Boolean"
+        }
+      },
+      hostname: {
+        serializedName: "hostname",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const OnvifSystemDateTime: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "OnvifSystemDateTime",
+    modelProperties: {
+      type: {
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      time: {
+        serializedName: "time",
+        type: {
+          name: "String"
+        }
+      },
+      timeZone: {
+        serializedName: "timeZone",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const OnvifDns: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "OnvifDns",
+    modelProperties: {
+      fromDhcp: {
+        serializedName: "fromDhcp",
+        type: {
+          name: "Boolean"
+        }
+      },
+      ipv4Address: {
+        serializedName: "ipv4Address",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      ipv6Address: {
+        serializedName: "ipv6Address",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const MediaProfile: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MediaProfile",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      mediaUri: {
+        serializedName: "mediaUri",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      },
+      videoEncoderConfiguration: {
+        serializedName: "videoEncoderConfiguration",
+        type: {
+          name: "Composite",
+          className: "VideoEncoderConfiguration"
+        }
+      }
+    }
+  }
+};
+
+export const VideoEncoderConfiguration: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VideoEncoderConfiguration",
+    modelProperties: {
+      encoding: {
+        serializedName: "encoding",
+        type: {
+          name: "String"
+        }
+      },
+      quality: {
+        serializedName: "quality",
+        type: {
+          name: "Number"
+        }
+      },
+      resolution: {
+        serializedName: "resolution",
+        type: {
+          name: "Composite",
+          className: "VideoResolution"
+        }
+      },
+      rateControl: {
+        serializedName: "rateControl",
+        type: {
+          name: "Composite",
+          className: "RateControl"
+        }
+      },
+      h264: {
+        serializedName: "h264",
+        type: {
+          name: "Composite",
+          className: "H264Configuration"
+        }
+      },
+      mpeg4: {
+        serializedName: "mpeg4",
+        type: {
+          name: "Composite",
+          className: "Mpeg4Configuration"
+        }
+      }
+    }
+  }
+};
+
+export const VideoResolution: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VideoResolution",
+    modelProperties: {
+      width: {
+        serializedName: "width",
+        type: {
+          name: "Number"
+        }
+      },
+      height: {
+        serializedName: "height",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const RateControl: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RateControl",
+    modelProperties: {
+      bitRateLimit: {
+        serializedName: "bitRateLimit",
+        type: {
+          name: "Number"
+        }
+      },
+      encodingInterval: {
+        serializedName: "encodingInterval",
+        type: {
+          name: "Number"
+        }
+      },
+      frameRateLimit: {
+        serializedName: "frameRateLimit",
+        type: {
+          name: "Number"
+        }
+      },
+      guaranteedFrameRate: {
+        serializedName: "guaranteedFrameRate",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const H264Configuration: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "H264Configuration",
+    modelProperties: {
+      govLength: {
+        serializedName: "govLength",
+        type: {
+          name: "Number"
+        }
+      },
+      profile: {
+        serializedName: "profile",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const Mpeg4Configuration: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Mpeg4Configuration",
+    modelProperties: {
+      govLength: {
+        serializedName: "govLength",
+        type: {
+          name: "Number"
+        }
+      },
+      profile: {
+        serializedName: "profile",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const MediaUri: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MediaUri",
+    modelProperties: {
+      uri: {
+        serializedName: "uri",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const MethodRequest: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MethodRequest",
@@ -939,7 +1465,7 @@ export const MethodRequest: coreHttp.CompositeMapper = {
         }
       },
       apiVersion: {
-        defaultValue: "1.0",
+        defaultValue: "1.1",
         isConstant: true,
         serializedName: "@apiVersion",
         type: {
@@ -950,7 +1476,7 @@ export const MethodRequest: coreHttp.CompositeMapper = {
   }
 };
 
-export const RtspSource: coreHttp.CompositeMapper = {
+export const RtspSource: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.VideoAnalyzer.RtspSource",
   type: {
     name: "Composite",
@@ -976,7 +1502,7 @@ export const RtspSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const IotHubMessageSource: coreHttp.CompositeMapper = {
+export const IotHubMessageSource: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.VideoAnalyzer.IotHubMessageSource",
   type: {
     name: "Composite",
@@ -995,7 +1521,7 @@ export const IotHubMessageSource: coreHttp.CompositeMapper = {
   }
 };
 
-export const MotionDetectionProcessor: coreHttp.CompositeMapper = {
+export const MotionDetectionProcessor: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.VideoAnalyzer.MotionDetectionProcessor",
   type: {
     name: "Composite",
@@ -1026,7 +1552,7 @@ export const MotionDetectionProcessor: coreHttp.CompositeMapper = {
   }
 };
 
-export const ObjectTrackingProcessor: coreHttp.CompositeMapper = {
+export const ObjectTrackingProcessor: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.VideoAnalyzer.ObjectTrackingProcessor",
   type: {
     name: "Composite",
@@ -1045,7 +1571,7 @@ export const ObjectTrackingProcessor: coreHttp.CompositeMapper = {
   }
 };
 
-export const LineCrossingProcessor: coreHttp.CompositeMapper = {
+export const LineCrossingProcessor: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.VideoAnalyzer.LineCrossingProcessor",
   type: {
     name: "Composite",
@@ -1071,7 +1597,7 @@ export const LineCrossingProcessor: coreHttp.CompositeMapper = {
   }
 };
 
-export const ExtensionProcessorBase: coreHttp.CompositeMapper = {
+export const ExtensionProcessorBase: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.VideoAnalyzer.ExtensionProcessorBase",
   type: {
     name: "Composite",
@@ -1108,7 +1634,7 @@ export const ExtensionProcessorBase: coreHttp.CompositeMapper = {
   }
 };
 
-export const SignalGateProcessor: coreHttp.CompositeMapper = {
+export const SignalGateProcessor: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.VideoAnalyzer.SignalGateProcessor",
   type: {
     name: "Composite",
@@ -1145,7 +1671,7 @@ export const SignalGateProcessor: coreHttp.CompositeMapper = {
   }
 };
 
-export const CognitiveServicesVisionProcessor: coreHttp.CompositeMapper = {
+export const CognitiveServicesVisionProcessor: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.VideoAnalyzer.CognitiveServicesVisionProcessor",
   type: {
     name: "Composite",
@@ -1186,7 +1712,7 @@ export const CognitiveServicesVisionProcessor: coreHttp.CompositeMapper = {
   }
 };
 
-export const IotHubMessageSink: coreHttp.CompositeMapper = {
+export const IotHubMessageSink: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.VideoAnalyzer.IotHubMessageSink",
   type: {
     name: "Composite",
@@ -1206,7 +1732,7 @@ export const IotHubMessageSink: coreHttp.CompositeMapper = {
   }
 };
 
-export const FileSink: coreHttp.CompositeMapper = {
+export const FileSink: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.VideoAnalyzer.FileSink",
   type: {
     name: "Composite",
@@ -1240,7 +1766,7 @@ export const FileSink: coreHttp.CompositeMapper = {
   }
 };
 
-export const VideoSink: coreHttp.CompositeMapper = {
+export const VideoSink: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.VideoAnalyzer.VideoSink",
   type: {
     name: "Composite",
@@ -1263,6 +1789,13 @@ export const VideoSink: coreHttp.CompositeMapper = {
           className: "VideoCreationProperties"
         }
       },
+      videoPublishingOptions: {
+        serializedName: "videoPublishingOptions",
+        type: {
+          name: "Composite",
+          className: "VideoPublishingOptions"
+        }
+      },
       localMediaCachePath: {
         serializedName: "localMediaCachePath",
         required: true,
@@ -1281,7 +1814,7 @@ export const VideoSink: coreHttp.CompositeMapper = {
   }
 };
 
-export const UnsecuredEndpoint: coreHttp.CompositeMapper = {
+export const UnsecuredEndpoint: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.VideoAnalyzer.UnsecuredEndpoint",
   type: {
     name: "Composite",
@@ -1294,7 +1827,7 @@ export const UnsecuredEndpoint: coreHttp.CompositeMapper = {
   }
 };
 
-export const TlsEndpoint: coreHttp.CompositeMapper = {
+export const TlsEndpoint: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.VideoAnalyzer.TlsEndpoint",
   type: {
     name: "Composite",
@@ -1321,7 +1854,7 @@ export const TlsEndpoint: coreHttp.CompositeMapper = {
   }
 };
 
-export const UsernamePasswordCredentials: coreHttp.CompositeMapper = {
+export const UsernamePasswordCredentials: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.VideoAnalyzer.UsernamePasswordCredentials",
   type: {
     name: "Composite",
@@ -1348,7 +1881,7 @@ export const UsernamePasswordCredentials: coreHttp.CompositeMapper = {
   }
 };
 
-export const HttpHeaderCredentials: coreHttp.CompositeMapper = {
+export const HttpHeaderCredentials: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.VideoAnalyzer.HttpHeaderCredentials",
   type: {
     name: "Composite",
@@ -1375,7 +1908,27 @@ export const HttpHeaderCredentials: coreHttp.CompositeMapper = {
   }
 };
 
-export const PemCertificateList: coreHttp.CompositeMapper = {
+export const SymmetricKeyCredentials: coreClient.CompositeMapper = {
+  serializedName: "#Microsoft.VideoAnalyzer.SymmetricKeyCredentials",
+  type: {
+    name: "Composite",
+    className: "SymmetricKeyCredentials",
+    uberParent: "CredentialsBase",
+    polymorphicDiscriminator: CredentialsBase.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...CredentialsBase.type.modelProperties,
+      key: {
+        serializedName: "key",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const PemCertificateList: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.VideoAnalyzer.PemCertificateList",
   type: {
     name: "Composite",
@@ -1400,7 +1953,7 @@ export const PemCertificateList: coreHttp.CompositeMapper = {
   }
 };
 
-export const NamedLineString: coreHttp.CompositeMapper = {
+export const NamedLineString: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.VideoAnalyzer.NamedLineString",
   type: {
     name: "Composite",
@@ -1420,7 +1973,7 @@ export const NamedLineString: coreHttp.CompositeMapper = {
   }
 };
 
-export const ImageFormatRaw: coreHttp.CompositeMapper = {
+export const ImageFormatRaw: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.VideoAnalyzer.ImageFormatRaw",
   type: {
     name: "Composite",
@@ -1441,7 +1994,7 @@ export const ImageFormatRaw: coreHttp.CompositeMapper = {
   }
 };
 
-export const ImageFormatJpeg: coreHttp.CompositeMapper = {
+export const ImageFormatJpeg: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.VideoAnalyzer.ImageFormatJpeg",
   type: {
     name: "Composite",
@@ -1461,7 +2014,7 @@ export const ImageFormatJpeg: coreHttp.CompositeMapper = {
   }
 };
 
-export const ImageFormatBmp: coreHttp.CompositeMapper = {
+export const ImageFormatBmp: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.VideoAnalyzer.ImageFormatBmp",
   type: {
     name: "Composite",
@@ -1475,7 +2028,7 @@ export const ImageFormatBmp: coreHttp.CompositeMapper = {
   }
 };
 
-export const ImageFormatPng: coreHttp.CompositeMapper = {
+export const ImageFormatPng: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.VideoAnalyzer.ImageFormatPng",
   type: {
     name: "Composite",
@@ -1489,7 +2042,7 @@ export const ImageFormatPng: coreHttp.CompositeMapper = {
   }
 };
 
-export const NamedPolygonString: coreHttp.CompositeMapper = {
+export const NamedPolygonString: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.VideoAnalyzer.NamedPolygonString",
   type: {
     name: "Composite",
@@ -1509,7 +2062,7 @@ export const NamedPolygonString: coreHttp.CompositeMapper = {
   }
 };
 
-export const SpatialAnalysisCustomOperation: coreHttp.CompositeMapper = {
+export const SpatialAnalysisCustomOperation: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.VideoAnalyzer.SpatialAnalysisCustomOperation",
   type: {
     name: "Composite",
@@ -1530,7 +2083,7 @@ export const SpatialAnalysisCustomOperation: coreHttp.CompositeMapper = {
   }
 };
 
-export const SpatialAnalysisTypedOperationBase: coreHttp.CompositeMapper = {
+export const SpatialAnalysisTypedOperationBase: coreClient.CompositeMapper = {
   serializedName: "SpatialAnalysisTypedOperationBase",
   type: {
     name: "Composite",
@@ -1548,14 +2101,32 @@ export const SpatialAnalysisTypedOperationBase: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
+      calibrationConfiguration: {
+        serializedName: "calibrationConfiguration",
+        type: {
+          name: "String"
+        }
+      },
       cameraConfiguration: {
         serializedName: "cameraConfiguration",
         type: {
           name: "String"
         }
       },
+      cameraCalibratorNodeConfiguration: {
+        serializedName: "cameraCalibratorNodeConfiguration",
+        type: {
+          name: "String"
+        }
+      },
       detectorNodeConfiguration: {
         serializedName: "detectorNodeConfiguration",
+        type: {
+          name: "String"
+        }
+      },
+      trackerNodeConfiguration: {
+        serializedName: "trackerNodeConfiguration",
         type: {
           name: "String"
         }
@@ -1570,7 +2141,7 @@ export const SpatialAnalysisTypedOperationBase: coreHttp.CompositeMapper = {
   }
 };
 
-export const SpatialAnalysisPersonCountEvent: coreHttp.CompositeMapper = {
+export const SpatialAnalysisPersonCountEvent: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SpatialAnalysisPersonCountEvent",
@@ -1592,7 +2163,7 @@ export const SpatialAnalysisPersonCountEvent: coreHttp.CompositeMapper = {
   }
 };
 
-export const SpatialAnalysisPersonZoneCrossingEvent: coreHttp.CompositeMapper = {
+export const SpatialAnalysisPersonZoneCrossingEvent: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SpatialAnalysisPersonZoneCrossingEvent",
@@ -1608,7 +2179,7 @@ export const SpatialAnalysisPersonZoneCrossingEvent: coreHttp.CompositeMapper = 
   }
 };
 
-export const SpatialAnalysisPersonDistanceEvent: coreHttp.CompositeMapper = {
+export const SpatialAnalysisPersonDistanceEvent: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SpatialAnalysisPersonDistanceEvent",
@@ -1642,7 +2213,7 @@ export const SpatialAnalysisPersonDistanceEvent: coreHttp.CompositeMapper = {
   }
 };
 
-export const SpatialAnalysisPersonLineCrossingEvent: coreHttp.CompositeMapper = {
+export const SpatialAnalysisPersonLineCrossingEvent: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SpatialAnalysisPersonLineCrossingEvent",
@@ -1652,7 +2223,7 @@ export const SpatialAnalysisPersonLineCrossingEvent: coreHttp.CompositeMapper = 
   }
 };
 
-export const GrpcExtension: coreHttp.CompositeMapper = {
+export const GrpcExtension: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.VideoAnalyzer.GrpcExtension",
   type: {
     name: "Composite",
@@ -1678,7 +2249,7 @@ export const GrpcExtension: coreHttp.CompositeMapper = {
   }
 };
 
-export const HttpExtension: coreHttp.CompositeMapper = {
+export const HttpExtension: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.VideoAnalyzer.HttpExtension",
   type: {
     name: "Composite",
@@ -1691,7 +2262,7 @@ export const HttpExtension: coreHttp.CompositeMapper = {
   }
 };
 
-export const SpatialAnalysisPersonCountOperation: coreHttp.CompositeMapper = {
+export const SpatialAnalysisPersonCountOperation: coreClient.CompositeMapper = {
   serializedName:
     "#Microsoft.VideoAnalyzer.SpatialAnalysisPersonCountOperation",
   type: {
@@ -1719,7 +2290,7 @@ export const SpatialAnalysisPersonCountOperation: coreHttp.CompositeMapper = {
   }
 };
 
-export const SpatialAnalysisPersonZoneCrossingOperation: coreHttp.CompositeMapper = {
+export const SpatialAnalysisPersonZoneCrossingOperation: coreClient.CompositeMapper = {
   serializedName:
     "#Microsoft.VideoAnalyzer.SpatialAnalysisPersonZoneCrossingOperation",
   type: {
@@ -1747,7 +2318,7 @@ export const SpatialAnalysisPersonZoneCrossingOperation: coreHttp.CompositeMappe
   }
 };
 
-export const SpatialAnalysisPersonDistanceOperation: coreHttp.CompositeMapper = {
+export const SpatialAnalysisPersonDistanceOperation: coreClient.CompositeMapper = {
   serializedName:
     "#Microsoft.VideoAnalyzer.SpatialAnalysisPersonDistanceOperation",
   type: {
@@ -1775,7 +2346,7 @@ export const SpatialAnalysisPersonDistanceOperation: coreHttp.CompositeMapper = 
   }
 };
 
-export const SpatialAnalysisPersonLineCrossingOperation: coreHttp.CompositeMapper = {
+export const SpatialAnalysisPersonLineCrossingOperation: coreClient.CompositeMapper = {
   serializedName:
     "#Microsoft.VideoAnalyzer.SpatialAnalysisPersonLineCrossingOperation",
   type: {
@@ -1830,6 +2401,7 @@ export let discriminators = {
   "EndpointBase.#Microsoft.VideoAnalyzer.TlsEndpoint": TlsEndpoint,
   "CredentialsBase.#Microsoft.VideoAnalyzer.UsernamePasswordCredentials": UsernamePasswordCredentials,
   "CredentialsBase.#Microsoft.VideoAnalyzer.HttpHeaderCredentials": HttpHeaderCredentials,
+  "CredentialsBase.#Microsoft.VideoAnalyzer.SymmetricKeyCredentials": SymmetricKeyCredentials,
   "CertificateSource.#Microsoft.VideoAnalyzer.PemCertificateList": PemCertificateList,
   "NamedLineBase.#Microsoft.VideoAnalyzer.NamedLineString": NamedLineString,
   "ImageFormatProperties.#Microsoft.VideoAnalyzer.ImageFormatRaw": ImageFormatRaw,

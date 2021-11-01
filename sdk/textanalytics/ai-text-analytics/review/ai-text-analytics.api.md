@@ -781,7 +781,7 @@ export interface TextAnalyticsAction {
 }
 
 // @public
-export interface TextAnalyticsActionErrorResult {
+export interface TextAnalyticsActionErrorResult extends TextAnalyticsActionState {
     readonly error: TextAnalyticsError;
     readonly failedOn: Date;
 }
@@ -800,7 +800,12 @@ export interface TextAnalyticsActions {
 }
 
 // @public
-export interface TextAnalyticsActionSuccessState {
+export interface TextAnalyticsActionState {
+    actionName?: string;
+}
+
+// @public
+export interface TextAnalyticsActionSuccessState extends TextAnalyticsActionState {
     readonly completedOn: Date;
     readonly error?: undefined;
 }

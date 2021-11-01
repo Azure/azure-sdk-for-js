@@ -491,7 +491,7 @@ export class WebPubSubServiceClient {
    * @param connectionId - Connection id to check
    * @param options - Additional options
    */
-  public async hasConnection(
+  public async connectionExists(
     connectionId: string,
     options: HasConnectionOptions = {}
   ): Promise<boolean> {
@@ -624,7 +624,7 @@ export class WebPubSubServiceClient {
    * @param groupName - The group name to check for
    * @param options - Additional options
    */
-  public async hasGroup(groupName: string, options: HubHasGroupOptions = {}): Promise<boolean> {
+  public async groupExists(groupName: string, options: HubHasGroupOptions = {}): Promise<boolean> {
     const { span, updatedOptions } = createSpan("WebPubSubServiceClient-hub-hasGroup", options);
     let response: FullOperationResponse | undefined;
     function onResponse(rawResponse: FullOperationResponse, flatResponse: unknown): void {
@@ -662,7 +662,7 @@ export class WebPubSubServiceClient {
    * @param username - The user name to check for
    * @param options - Additional options
    */
-  public async hasUser(username: string, options: HubHasUserOptions = {}): Promise<boolean> {
+  public async userExists(username: string, options: HubHasUserOptions = {}): Promise<boolean> {
     const { span, updatedOptions } = createSpan("WebPubSubServiceClient-hub-hasUser", options);
 
     let response: FullOperationResponse | undefined;
@@ -806,7 +806,7 @@ export class WebPubSubServiceClient {
    *
    * @param options - Additional options
    */
-  public async generateClientToken(
+  public async getClientAccessToken(
     options: GenerateClientTokenOptions = {}
   ): Promise<ClientTokenResponse> {
     const { span, updatedOptions } = createSpan(
