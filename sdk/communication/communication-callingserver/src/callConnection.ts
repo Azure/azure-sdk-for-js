@@ -37,17 +37,41 @@ import { CallingServerUtils } from "./utils/utils";
 export interface CallConnection{
   getCallConnectionId(): string;
 
+  /**
+   * Disconnect the current caller in a group-call or end a p2p-call.
+   *
+   * @param options - Additional request options contains hangUp api options.
+   */
   hangUp(options?: HangUpOptions): Promise<void>;
 
+  /**
+   * Cancel all media operations in the call.
+   *
+   * @param options - Additional request options contains hangUp api options.
+   */
   cancelAllMediaOperations(
     options?: CancelAllMediaOperationsOptions
   ): Promise<void>;
 
+  /**
+   * Play audio.
+   *
+   * @param audioFileUri - The id for the media in the AudioFileUri, using which we cache the media resource.
+   * @param options - Additional request options contains playAudio api options.
+   */
   playAudio(
     audioFileUri: string,
     options: PlayAudioOptions
   ): Promise<PlayAudioResult>;
 
+  /**
+   * Add participant to the call.
+   *
+   * @param participant - The identifier of the participant.
+   * @param alternateCallerId - The phone number to use when adding a pstn participant.
+   * @param operationContext - The operation context.
+   * @param options - Additional request options contains addParticipant api options.
+   */
   addParticipant(
     participant: CommunicationIdentifier,
     alternateCallerId?: string,
@@ -55,23 +79,50 @@ export interface CallConnection{
     options?: AddParticipantOptions
   ): Promise<CallConnectionsAddParticipantResponse>;
 
+  /**
+   * Remove participant from the call.
+   *
+   * @param participant - The identifier of the participant.
+   * @param options - Additional request options contains removeParticipant api options.
+   */
   removeParticipant(
     participant: CommunicationIdentifier,
     options?: RemoveParticipantOptions
   ): Promise<void>;
 
+  /**
+   * Play audio to a participant.
+   *
+   * @param participant - The identifier of the participant.
+   * @param audioFileUri - The id for the media in the AudioFileUri, using which we cache the media resource.
+   * @param options - Additional request options contains playAudioToParticipant api options.
+   */
   playAudioToParticipant(
     participant: CommunicationIdentifier,
     audioFileUri: string,
     options: PlayAudioOptions
   ): Promise<PlayAudioResult>;
 
+  /**
+   * Cancel media operation of a participant.
+   *
+   * @param participant - The identifier of the participant.
+   * @param mediaOperationId - The operationId of the media operation to cancel.
+   * @param options - Additional request options contains cancelMediaOperation api options.
+   */
   cancelParticipantMediaOperation(
     participant: CommunicationIdentifier,
     mediaOperationId: string,
     options?: CancelMediaOperationOptions
   ): Promise<void>;
 
+  /**
+   * Transfer a call.
+   *
+   * @param targetParticipant - The identity of the target where call should be transfer to.
+   * @param userToUserInformation - The user to user information.
+   * @param options - Additional request options contains transferCall api options.
+   */
   transferCall(
     targetParticipant: CommunicationIdentifier,
     userToUserInformation: string,
@@ -127,7 +178,6 @@ export class CallConnectionImpl implements CallConnection {
    *
    * @param options - Additional request options contains hangUp api options.
    */
-
   public async cancelAllMediaOperations(
     options: CancelAllMediaOperationsOptions = {}
   ): Promise<void> {
