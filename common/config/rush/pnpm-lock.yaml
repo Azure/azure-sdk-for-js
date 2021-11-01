@@ -43,6 +43,7 @@ specifiers:
   '@rush-temp/arm-sql': file:./projects/arm-sql.tgz
   '@rush-temp/arm-storage': file:./projects/arm-storage.tgz
   '@rush-temp/arm-templatespecs': file:./projects/arm-templatespecs.tgz
+  '@rush-temp/arm-videoanalyzer': file:./projects/arm-videoanalyzer.tgz
   '@rush-temp/arm-webpubsub': file:./projects/arm-webpubsub.tgz
   '@rush-temp/attestation': file:./projects/attestation.tgz
   '@rush-temp/communication-chat': file:./projects/communication-chat.tgz
@@ -186,6 +187,7 @@ dependencies:
   '@rush-temp/arm-sql': file:projects/arm-sql.tgz
   '@rush-temp/arm-storage': file:projects/arm-storage.tgz
   '@rush-temp/arm-templatespecs': file:projects/arm-templatespecs.tgz
+  '@rush-temp/arm-videoanalyzer': file:projects/arm-videoanalyzer.tgz
   '@rush-temp/arm-webpubsub': file:projects/arm-webpubsub.tgz
   '@rush-temp/attestation': file:projects/attestation.tgz
   '@rush-temp/communication-chat': file:projects/communication-chat.tgz
@@ -9346,6 +9348,30 @@ packages:
       uglify-js: 3.14.2
     dev: false
 
+  file:projects/arm-videoanalyzer.tgz:
+    resolution: {integrity: sha512-fxZzJ1MBtbFk1P55q5Lm/9mYbcnYlX3s1R/nOUrqeZy6Wsz62rvOge7Lxji+qeiaTFc5U3i/JojuWnJsH1RrQg==, tarball: file:projects/arm-videoanalyzer.tgz}
+    name: '@rush-temp/arm-videoanalyzer'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.0.0-beta.6
+      '@microsoft/api-extractor': 7.7.11
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.14.2
+    transitivePeerDependencies:
+      - debug
+      - supports-color
+    dev: false
+
   file:projects/arm-webpubsub.tgz:
     resolution: {integrity: sha512-outReJxntlsc+34E+MMqYNybnLClXCh8GSmgwhybPn1YwfEUFmD2lG9P+w4HDstkAshJ0gDu5su/JBlpU94AkQ==, tarball: file:projects/arm-webpubsub.tgz}
     name: '@rush-temp/arm-webpubsub'
@@ -9969,7 +9995,7 @@ packages:
     dev: false
 
   file:projects/core-client-1.tgz:
-    resolution: {integrity: sha512-Jrk9XZOCfamdJtybs9LCJtiu3FTJk7aVJq5A9sVtFpvycqk7OvjKp/MvK8qNoFH78eLnpk0BYH5rSqtkYYR9yg==, tarball: file:projects/core-client-1.tgz}
+    resolution: {integrity: sha512-QaeQvylrF11K0BFVJrRaCxuiREwZB4Der1ouLAQ+al+jA2T3gue2BqUEOZ7PBOPqBJSnF9G3C22PhD0zrqZwhQ==, tarball: file:projects/core-client-1.tgz}
     name: '@rush-temp/core-client-1'
     version: 0.0.0
     dependencies:
@@ -13579,7 +13605,7 @@ packages:
       '@types/chai': 4.2.22
       '@types/chai-as-promised': 7.1.4
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.33
+      '@types/node': 12.20.34
       azure-iothub: 1.14.6
       chai: 4.3.4
       chai-as-promised: 7.1.1_chai@4.3.4
