@@ -97,8 +97,9 @@ export async function main() {
   var createResponse = await client.upsertUSProgramBrief(programBriefId, programBriefRequest);
   if (createResponse._response.status != 201) {
     throw new Error(`Program brief creation failed.
-    Status code: ${createResponse._response.status}; Error: ${createResponse._response.bodyAsText
-      }; CV: ${createResponse._response.headers.get("MS-CV")}`);
+    Status code: ${createResponse._response.status}; Error: ${
+      createResponse._response.bodyAsText
+    }; CV: ${createResponse._response.headers.get("MS-CV")}`);
   } else {
     console.log(`Successfully created a new program brief with Id ${programBriefId}.`);
   }
@@ -109,8 +110,9 @@ export async function main() {
     console.log(`Successfully submitted program brief with Id ${programBriefId}`);
   } else {
     throw new Error(`Failed to submit program brief with Id ${programBriefId}.
-    Status code: ${submittedProgramBrief._response.status}; Error: ${submittedProgramBrief._response.bodyAsText
-      }; CV: ${submittedProgramBrief._response.headers.get("MS-CV")}`);
+    Status code: ${submittedProgramBrief._response.status}; Error: ${
+      submittedProgramBrief._response.bodyAsText
+    }; CV: ${submittedProgramBrief._response.headers.get("MS-CV")}`);
   }
 }
 
