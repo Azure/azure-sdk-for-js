@@ -96,7 +96,7 @@ export interface BearerTokenAuthenticationPolicyOptions {
    */
   challengeCallbacks?: ChallengeCallbacks;
   /**
-   * A logger can be sent for debugging purposes..
+   * A logger can be sent for debugging purposes.
    */
   logger?: AzureLogger;
 }
