@@ -89,10 +89,20 @@ export interface Client {
   /**
    * This method allows arbitrary paths and doesn't provide strong types
    */
-  pathUnchecked: (path: string, ...args: Array<any>) => ClientResource;
+  pathUnchecked: <TPath extends string>(
+    path: TPath,
+    ...args: RouteParams<TPath>
+  ) => ClientResource<StreamableMethod>;
 }
 
+/**
+ * An object that defines a then property that can takes a
+ * callback for the resolution and can be awaited
+ */
 export interface Thenable<TResult> {
+  /**
+   * Attaches callbacks for the resolution of the thenable.
+   */
   then: (onFulfilled: (p: TResult) => TResult) => Promise<TResult>;
 }
 
@@ -101,17 +111,72 @@ export interface Thenable<TResult> {
  */
 export type PathUncheckedResponse = HttpResponse & { body: any };
 
+/**
+ * Defines a REST resoruce and the methods that can be called on it
+ */
 export interface ClientResource<TResponse = Thenable<PathUncheckedResponse>> {
+  /**
+   * GET method for a REST resource
+   */
   get: (options?: RequestParameters) => TResponse;
+  /**
+   * POST method for a REST resource
+   */
   post: (options?: RequestParameters) => TResponse;
+  /**
+   * PUT method for a REST resource
+   */
   put: (options?: RequestParameters) => TResponse;
+  /**
+   * PATCH method for a REST resource
+   */
   patch: (options?: RequestParameters) => TResponse;
+  /**
+   * DELETE method for a REST resource
+   */
   delete: (options?: RequestParameters) => TResponse;
+  /**
+   * HEAD method for a REST resource
+   */
   head: (options?: RequestParameters) => TResponse;
+  /**
+   * OPTIONS method for a REST resource
+   */
   options: (options?: RequestParameters) => TResponse;
+  /**
+   * TRACE method for a REST resource
+   */
   trace: (options?: RequestParameters) => TResponse;
 }
 
-export type MethodwithAsStream = Thenable<PathUncheckedResponse> & {
+/**
+ * Defines the type for a method that supports getting the response body as
+ * a raw stream
+ */
+export type StreamableMethod = Thenable<PathUncheckedResponse> & {
   asNodeStream: () => Promise<HttpNodeStreamResponse>;
 };
+
+/**
+ * Helper type used to detect parameters in a path template
+ * keys surounded by \{\} will be considered a path parameter
+ */
+export type RouteParams<
+  TRoute extends string
+  // This is trying to match the string in TRoute with a template where HEAD/{PARAM}/TAIL
+  // for example in the followint path: /foo/{fooId}/bar/{barId}/baz the template will infer
+  // HEAD: /foo
+  // Param: fooId
+  // Tail: /bar/{barId}/baz
+  // The above sample path would return [pathParam: string, pathParam: string]
+> = TRoute extends `${infer _Head}/{${infer _Param}}${infer Tail}`
+  ? // In case we have a match for the template above we know for sure
+    // that we have at least one pathParameter, that's why we set the first pathParam
+    // in the tuple. At this point we have only matched up until param, if we want to identify
+    // additional parameters we can call RouteParameters recursively on the Tail to match the remaining parts,
+    // in case the Tail has more parameters, it will return a tuple with the parameters found in tail.
+    // We spread the second path params to end up with a single dimension tuple at the end.
+    [pathParam: string | number | boolean, ...pathParams: RouteParams<Tail>]
+  : // When the path doesn't match the template, it means that we have no path parameters so we return
+    // an empty tuple.
+    [];

@@ -25,45 +25,15 @@ export interface InternalRequestParameters extends RequestParameters {
 
 /**
  * Helper function to send request used by the client
- * @param method - method to use to send the request
- * @param url - url to send the request to
- * @param pipeline - pipeline with the policies to run when sending the request
- * @param options - request options
- * @returns returns and HttpResponse
+ * This helper will always get the body as a stream from
+ * core-rest-pipeline.
  */
 export async function sendRequest(
   method: HttpMethods,
   url: string,
   pipeline: Pipeline,
-  options: InternalRequestParameters = {}
-): Promise<HttpResponse> {
-  const httpClient = getCachedDefaultHttpsClient();
-  const request = buildPipelineRequest(method, url, options);
-
-  const result = await pipeline.sendRequest(httpClient, request);
-  const rawHeaders: RawHttpHeaders = result.headers.toJSON();
-
-  const parsedBody = await getResponseBody(result);
-
-  return {
-    request,
-    headers: rawHeaders,
-    status: `${result.status}`,
-    body: parsedBody,
-  };
-}
-
-/**
- * Helper function to send request used by the client
- * This helper will always get the body as a stream from
- * core-rest-pipeline.
- */
-export async function sendRequestForAsStream(
-  method: HttpMethods,
-  url: string,
-  pipeline: Pipeline,
-  streamType?: StreamType,
-  options: InternalRequestParameters = {}
+  options: InternalRequestParameters = {},
+  streamType?: StreamType
 ): Promise<HttpResponse> {
   const requestOptions = getOptionsForStream(options, streamType);
   const httpClient = getCachedDefaultHttpsClient();

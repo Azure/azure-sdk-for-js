@@ -24,7 +24,7 @@ export interface CertificateCredential {
 // @public
 export interface Client {
     path: Function;
-    pathUnchecked: <TPath extends string = string>(path: TPath, ...args: RouteParams<TPath>) => ClientResource;
+    pathUnchecked: <TPath extends string>(path: TPath, ...args: RouteParams<TPath>) => ClientResource<StreamableMethod>;
     pipeline: Pipeline;
 }
 
@@ -52,14 +52,6 @@ export interface ClientResource<TResponse = Thenable<PathUncheckedResponse>> {
 }
 
 // @public
-export interface ClientWithAsStream extends Client {
-    pathUnchecked: <TPath extends string>(path: TPath, ...args: RouteParams<TPath>) => ClientResource<MethodwithAsStream>;
-}
-
-// @public
-export function createDefaultPipeline(baseUrl: string, credential?: TokenCredential | KeyCredential, options?: ClientOptions): Pipeline;
-
-// @public
 export function createRestError(message: string, response: PathUncheckedResponse): RestError;
 
 // @public
@@ -67,12 +59,6 @@ export function getClient(baseUrl: string, options?: ClientOptions): Client;
 
 // @public
 export function getClient(baseUrl: string, credentials?: TokenCredential | KeyCredential, options?: ClientOptions): Client;
-
-// @public
-export function getClientWithStream(baseUrl: string, options?: ClientOptions): ClientWithAsStream;
-
-// @public
-export function getClientWithStream(baseUrl: string, credentials?: TokenCredential | KeyCredential, options?: ClientOptions): ClientWithAsStream;
 
 // @public
 export type HttpNodeStreamResponse = HttpResponse & {
@@ -89,11 +75,6 @@ export type HttpResponse = {
 
 // @public
 export function isCertificateCredential(credential: unknown): credential is CertificateCredential;
-
-// @public
-export type MethodwithAsStream = Thenable<PathUncheckedResponse> & {
-    asNodeStream: () => Promise<HttpNodeStreamResponse>;
-};
 
 // @public
 export type PathUncheckedResponse = HttpResponse & {
@@ -117,9 +98,13 @@ pathParam: string | number | boolean,
 ] : [
 ];
 
-// @public (undocumented)
+// @public
+export type StreamableMethod = Thenable<PathUncheckedResponse> & {
+    asNodeStream: () => Promise<HttpNodeStreamResponse>;
+};
+
+// @public
 export interface Thenable<TResult> {
-    // (undocumented)
     then: (onFulfilled: (p: TResult) => TResult) => Promise<TResult>;
 }
 

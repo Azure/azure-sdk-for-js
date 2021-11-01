@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { sendRequestForAsStream } from "../../src/sendRequest";
+import { sendRequest } from "../../src/sendRequest";
 import { assert } from "chai";
 import { createEmptyPipeline, Pipeline } from "@azure/core-rest-pipeline";
 import { ClientRequest, IncomingHttpHeaders, IncomingMessage } from "http";
@@ -22,7 +22,7 @@ class FakeResponse extends PassThrough {
 
 class FakeRequest extends PassThrough {}
 
-describe("sendRequestForAsStream", () => {
+describe("sendRequest", () => {
   let stubbedHttpsRequest: sinon.SinonStub;
 
   beforeEach(function () {
@@ -40,7 +40,7 @@ describe("sendRequestForAsStream", () => {
     const clientRequest = createRequest();
     stubbedHttpsRequest.returns(clientRequest);
 
-    const promise = sendRequestForAsStream("POST", mockBaseUrl, mockPipeline);
+    const promise = sendRequest("POST", mockBaseUrl, mockPipeline);
     stubbedHttpsRequest.yield(createResponse(200, JSON.stringify(expectedBody)));
     const response = await promise;
 
@@ -53,7 +53,7 @@ describe("sendRequestForAsStream", () => {
     const clientRequest = createRequest();
     stubbedHttpsRequest.returns(clientRequest);
 
-    const promise = sendRequestForAsStream("POST", mockBaseUrl, mockPipeline, "NodeJS");
+    const promise = sendRequest("POST", mockBaseUrl, mockPipeline, {}, "NodeJS");
     stubbedHttpsRequest.yield(createResponse(200, JSON.stringify(expectedBody)));
     const response = (await promise) as HttpNodeStreamResponse;
 

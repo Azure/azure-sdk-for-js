@@ -6,7 +6,7 @@ import { HttpMethods, Pipeline, PipelineOptions } from "@azure/core-rest-pipelin
 import { HttpNodeStreamResponse } from "..";
 import { isCertificateCredential } from "../certificateCredential";
 import { ClientOptions, HttpResponse } from "../common";
-import { InternalRequestParameters, sendRequest, sendRequestForAsStream } from "../sendRequest";
+import { InternalRequestParameters, sendRequest } from "../sendRequest";
 import { buildRequestUrl } from "../urlHelpers";
 
 export function isCredential(
@@ -23,23 +23,9 @@ export function isCredential(
   return false;
 }
 
+export type StreamType = "NodeJS";
+
 export function buildSendRequest(
-  method: HttpMethods,
-  clientOptions: ClientOptions,
-  baseUrl: string,
-  path: string,
-  pipeline: Pipeline,
-  requestOptions: InternalRequestParameters = {},
-  args: string[] = []
-): Promise<HttpResponse> {
-  addApiVersionHeader(requestOptions, clientOptions);
-  const url = buildRequestUrl(baseUrl, path, args, requestOptions);
-  return sendRequest(method, url, pipeline, requestOptions);
-}
-
-export type StreamType = "NodeJS" | "WebStream";
-
-export function buildSendRequestForStream(
   method: HttpMethods,
   clientOptions: ClientOptions,
   baseUrl: string,
@@ -49,7 +35,7 @@ export function buildSendRequestForStream(
   requestOptions?: InternalRequestParameters,
   args?: string[]
 ): Promise<HttpNodeStreamResponse>;
-export function buildSendRequestForStream(
+export function buildSendRequest(
   method: HttpMethods,
   clientOptions: ClientOptions,
   baseUrl: string,
@@ -59,7 +45,7 @@ export function buildSendRequestForStream(
   requestOptions?: InternalRequestParameters,
   args?: string[]
 ): Promise<HttpNodeStreamResponse>;
-export function buildSendRequestForStream(
+export function buildSendRequest(
   method: HttpMethods,
   clientOptions: ClientOptions,
   baseUrl: string,
@@ -71,7 +57,7 @@ export function buildSendRequestForStream(
 ): Promise<HttpResponse> {
   addApiVersionHeader(requestOptions, clientOptions);
   const url = buildRequestUrl(baseUrl, path, args, requestOptions);
-  return sendRequestForAsStream(method, url, pipeline, streamType, requestOptions);
+  return sendRequest(method, url, pipeline, requestOptions, streamType);
 }
 
 function addApiVersionHeader(

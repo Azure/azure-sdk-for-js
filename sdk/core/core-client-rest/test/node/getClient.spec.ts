@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { getClientWithStream } from "../../src/getStreamClient";
+import { getClient } from "../../src/getClient";
 import { assert } from "chai";
 import { ClientRequest, IncomingHttpHeaders, IncomingMessage } from "http";
 import { PassThrough } from "stream";
@@ -33,7 +33,7 @@ describe("sendRequestForAsStream", () => {
 
   const mockBaseUrl = "https://example.org";
   it("should get a JSON body response", async () => {
-    const client = getClientWithStream(mockBaseUrl);
+    const client = getClient(mockBaseUrl);
     const expectedBody = { foo: "foo" };
     const clientRequest = createRequest();
     stubbedHttpsRequest.returns(clientRequest);
@@ -51,7 +51,7 @@ describe("sendRequestForAsStream", () => {
   });
 
   it("should get a JSON body response as a stream", async () => {
-    const client = getClientWithStream(mockBaseUrl);
+    const client = getClient(mockBaseUrl);
     const expectedBody = { foo: "foo" };
     const clientRequest = createRequest();
     stubbedHttpsRequest.returns(clientRequest);
