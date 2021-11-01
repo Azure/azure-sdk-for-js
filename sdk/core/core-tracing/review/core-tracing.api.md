@@ -4,14 +4,6 @@
 
 ```ts
 
-// @public @deprecated
-export function createSpanFunction(..._args: unknown[]): <T extends {
-    tracingOptions?: OperationTracingOptions | undefined;
-}>(_operationName: string, operationOptions?: T | undefined) => {
-    span: TracingSpan;
-    updatedOptions: T;
-};
-
 // @public
 export function createTracingClient(options?: TracingClientOptions): TracingClient;
 
@@ -32,22 +24,16 @@ export interface OperationTracingOptions {
 }
 
 // @public
-export type SpanKind = "client" | "server" | "producer" | "consumer";
-
-// @public
 export type SpanStatus = {
     status: "success";
 } | {
     status: "error";
     error: Error | string;
-} | {
-    code: 0 | 1 | 2;
-    message?: string;
-    status?: "otel";
 };
 
 // @public
 export interface Tracer {
+    parseTraceparentHeader(traceparentHeader: string): TracingSpanIdentifier | undefined;
     startSpan(name: string, spanOptions?: TracingSpanOptions & {
         tracingContext?: TracingContext;
     }): {
@@ -88,15 +74,22 @@ export interface TracingContext {
 // @public
 export interface TracingSpan {
     end(): void;
-    serialize(): Record<string, string>;
     setAttribute(name: string, value: unknown): void;
     setStatus(status: SpanStatus): void;
+    toRequestHeaders(): Record<string, string>;
+    readonly tracingSpanId: TracingSpanIdentifier;
 }
+
+// @public (undocumented)
+export type TracingSpanIdentifier = Record<string, unknown>;
+
+// @public
+export type TracingSpanKind = "client" | "server" | "producer" | "consumer";
 
 // @public
 export interface TracingSpanOptions {
-    spanKind?: SpanKind;
-    spanLinks?: TracingSpan[];
+    spanKind?: TracingSpanKind;
+    spanLinks?: TracingSpanIdentifier[];
 }
 
 // @public (undocumented)

@@ -106,10 +106,11 @@ export type TracingSpanKind = "client" | "server" | "producer" | "consumer";
 export interface TracingSpanOptions {
   /** The kind of span. Implementations should default this to "client". */
   spanKind?: TracingSpanKind;
-  // TODO: what should this be?
-  /** A collection of spans to link to this span. */
-  spanLinks?: TracingSpan[];
+  /** A collection of span identifiers to link to this span. */
+  spanLinks?: TracingSpanIdentifier[];
 }
+
+export type TracingSpanIdentifier = Record<string, unknown>;
 
 /**
  * Represents an implementation agnostic tracer.
@@ -144,6 +145,12 @@ export interface Tracer {
     callbackThis?: ThisParameterType<Callback>,
     ...callbackArgs: CallbackArgs
   ): ReturnType<Callback>;
+
+  /**
+   * Provides an implementation-specific method to parse a {@link https://www.w3.org/TR/trace-context/#traceparent-header}
+   * into a {@link TracingSpanIdentifier} which can be used to link non-parented spans together.
+   */
+  parseTraceparentHeader(traceparentHeader: string): TracingSpanIdentifier | undefined;
 }
 
 /**
@@ -183,9 +190,10 @@ export interface TracingSpan {
    */
   end(): void;
   /** Serializes a span to a set of request headers. */
-  serialize(): Record<string, string>;
-  // TODO: deserialize
-  // deserialize(traceParentHeader: string): TracingSpan;
+  toRequestHeaders(): Record<string, string>;
+
+  /** A set of implementation-specific key-value pairs that can uniquely identify a given span. */
+  readonly tracingSpanId: TracingSpanIdentifier;
 }
 
 /** An immutable context bag of tracing values for the current operation. */

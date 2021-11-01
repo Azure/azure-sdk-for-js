@@ -1,7 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Tracer, TracingSpanOptions, TracingSpan, TracingContext } from "./interfaces";
+import {
+  Tracer,
+  TracingSpanOptions,
+  TracingSpan,
+  TracingContext,
+  TracingSpanIdentifier
+} from "./interfaces";
 import { createTracingContext } from "./tracingContext";
 
 /** @internal */
@@ -40,6 +46,9 @@ export class NoOpTracer implements Tracer {
   ): ReturnType<Callback> {
     return callback.apply(callbackThis, callbackArgs);
   }
+  parseTraceparentHeader(_traceparentHeader: string): TracingSpanIdentifier | undefined {
+    return undefined;
+  }
 }
 
 /** @internal */
@@ -53,7 +62,10 @@ export class NoOpSpan implements TracingSpan {
   end(): void {
     // noop
   }
-  serialize(): Record<string, string> {
+  toRequestHeaders(): Record<string, string> {
+    return {};
+  }
+  get tracingSpanId(): TracingSpanIdentifier {
     return {};
   }
 }
@@ -63,4 +75,10 @@ export let tracerImplementation: Tracer = new NoOpTracer();
 
 export function useTracer(tracer: Tracer): void {
   tracerImplementation = tracer;
+}
+
+export function fromTraceparentHeader(
+  traceparentHeader: string
+): TracingSpanIdentifier | undefined {
+  return tracerImplementation.parseTraceparentHeader(traceparentHeader);
 }
