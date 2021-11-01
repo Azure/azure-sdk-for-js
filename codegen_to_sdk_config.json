@@ -1,0 +1,38 @@
+{
+    "tasks": [
+        {
+            "name": "GenerateCode",
+            "script": "bash",
+            "path": "eng/generate_code.sh",
+            "resultParseCriterion": {
+                "stderr": {
+                    "prefix": {
+                        "FATAL": 1,
+                        "Exception": 3,
+                        "Error": 1
+                    },
+                    "ignore": [
+                        "[WARNING]"
+                    ]
+                }
+            }
+        },
+        {
+            "name": "Build",
+            "script": "bash",
+            "path": "eng/build.sh",
+            "resultParseCriterion": {
+                "stderr": {
+                    "prefix": {
+                        "FATAL": 1,
+                        "Exception": 3,
+                        "Error": 1
+                    },
+                    "ignore": [
+                        "[WARNING]"
+                    ]
+                }
+            }
+        }
+    ]
+}
