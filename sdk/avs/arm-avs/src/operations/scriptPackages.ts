@@ -26,7 +26,7 @@ export class ScriptPackages {
   }
 
   /**
-   * Return script packages available for a private cloud to run on their Private Cloud
+   * List script packages available to run on the private cloud
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
    * @param [options] The optional parameters
@@ -58,7 +58,7 @@ export class ScriptPackages {
   }
 
   /**
-   * Return script package available to run on an Private Cloud
+   * Get a script package available to run on a private cloud
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
    * @param scriptPackageName Name of the script package in the private cloud
@@ -94,7 +94,7 @@ export class ScriptPackages {
   }
 
   /**
-   * Return script packages available for a private cloud to run on their Private Cloud
+   * List script packages available to run on the private cloud
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.ScriptPackagesListNextResponse>

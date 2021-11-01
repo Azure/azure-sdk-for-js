@@ -102,7 +102,7 @@ export class Authorizations {
    * @param [options] The optional parameters
    * @returns Promise<Models.AuthorizationsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, privateCloudName: string, authorizationName: string, options?: msRest.RequestOptionsBase): Promise<Models.AuthorizationsCreateOrUpdateResponse> {
+  createOrUpdate(resourceGroupName: string, privateCloudName: string, authorizationName: string, options?: Models.AuthorizationsCreateOrUpdateOptionalParams): Promise<Models.AuthorizationsCreateOrUpdateResponse> {
     return this.beginCreateOrUpdate(resourceGroupName,privateCloudName,authorizationName,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.AuthorizationsCreateOrUpdateResponse>;
   }
@@ -128,7 +128,7 @@ export class Authorizations {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, privateCloudName: string, authorizationName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(resourceGroupName: string, privateCloudName: string, authorizationName: string, options?: Models.AuthorizationsBeginCreateOrUpdateOptionalParams): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -258,7 +258,12 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.acceptLanguage
   ],
   requestBody: {
-    parameterPath: "authorization",
+    parameterPath: {
+      expressRouteId: [
+        "options",
+        "expressRouteId"
+      ]
+    },
     mapper: {
       ...Mappers.ExpressRouteAuthorization,
       required: true

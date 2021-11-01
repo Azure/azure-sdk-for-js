@@ -28,6 +28,8 @@ class AvsClient extends AvsClientContext {
   workloadNetworks: operations.WorkloadNetworks;
   cloudLinks: operations.CloudLinks;
   addons: operations.Addons;
+  virtualMachines: operations.VirtualMachines;
+  placementPolicies: operations.PlacementPolicies;
   scriptPackages: operations.ScriptPackages;
   scriptCmdlets: operations.ScriptCmdlets;
   scriptExecutions: operations.ScriptExecutions;
@@ -56,6 +58,8 @@ class AvsClient extends AvsClientContext {
     this.workloadNetworks = new operations.WorkloadNetworks(this);
     this.cloudLinks = new operations.CloudLinks(this);
     this.addons = new operations.Addons(this);
+    this.virtualMachines = new operations.VirtualMachines(this);
+    this.placementPolicies = new operations.PlacementPolicies(this);
     this.scriptPackages = new operations.ScriptPackages(this);
     this.scriptCmdlets = new operations.ScriptCmdlets(this);
     this.scriptExecutions = new operations.ScriptExecutions(this);

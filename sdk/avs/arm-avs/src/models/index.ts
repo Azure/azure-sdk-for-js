@@ -332,6 +332,10 @@ export interface ExpressRouteAuthorization extends Resource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly expressRouteAuthorizationKey?: string;
+  /**
+   * The ID of the ExpressRoute Circuit
+   */
+  expressRouteId?: string;
 }
 
 /**
@@ -358,6 +362,49 @@ export interface Circuit {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly expressRoutePrivatePeeringID?: string;
+}
+
+/**
+ * An Encryption Key
+ */
+export interface EncryptionKeyVaultProperties {
+  /**
+   * The name of the key.
+   */
+  keyName?: string;
+  /**
+   * The version of the key.
+   */
+  keyVersion?: string;
+  /**
+   * The URL of the vault.
+   */
+  keyVaultUrl?: string;
+  /**
+   * The state of key provided. Possible values include: 'Connected', 'AccessDenied'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly keyState?: EncryptionKeyStatus;
+  /**
+   * Property of the key if user provided or auto detected. Possible values include: 'Fixed',
+   * 'AutoDetected'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly versionType?: EncryptionVersionType;
+}
+
+/**
+ * The properties of customer managed encryption key
+ */
+export interface Encryption {
+  /**
+   * Status of customer managed encryption key. Possible values include: 'Enabled', 'Disabled'
+   */
+  status?: EncryptionState;
+  /**
+   * The key vault where the encryption key is stored
+   */
+  keyVaultProperties?: EncryptionKeyVaultProperties;
 }
 
 /**
@@ -431,6 +478,25 @@ export interface IdentitySource {
 }
 
 /**
+ * The properties describing private cloud availability zone distribution
+ */
+export interface AvailabilityProperties {
+  /**
+   * The availability strategy for the private cloud. Possible values include: 'SingleZone',
+   * 'DualZone'
+   */
+  strategy?: AvailabilityStrategy;
+  /**
+   * The primary availability zone for the private cloud
+   */
+  zone?: number;
+  /**
+   * The secondary availability zone for the private cloud
+   */
+  secondaryZone?: number;
+}
+
+/**
  * The resource model definition representing SKU
  */
 export interface Sku {
@@ -438,6 +504,30 @@ export interface Sku {
    * The name of the SKU.
    */
   name: string;
+}
+
+/**
+ * Identity for the virtual machine.
+ */
+export interface PrivateCloudIdentity {
+  /**
+   * The principal ID of private cloud identity. This property will only be provided for a system
+   * assigned identity.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly principalId?: string;
+  /**
+   * The tenant ID associated with the private cloud. This property will only be provided for a
+   * system assigned identity.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly tenantId?: string;
+  /**
+   * The type of identity used for the private cloud. The type 'SystemAssigned' refers to an
+   * implicitly created identity. The type 'None' will remove any identities from the Private
+   * Cloud. Possible values include: 'SystemAssigned', 'None'
+   */
+  type?: ResourceIdentityType;
 }
 
 /**
@@ -461,6 +551,14 @@ export interface PrivateCloud extends TrackedResource {
    * vCenter Single Sign On Identity Sources
    */
   identitySources?: IdentitySource[];
+  /**
+   * Properties describing how the cloud is distributed across availability zones
+   */
+  availability?: AvailabilityProperties;
+  /**
+   * Customer managed key encryption, can be enabled or disabled
+   */
+  encryption?: Encryption;
   /**
    * The provisioning state. Possible values include: 'Succeeded', 'Failed', 'Cancelled',
    * 'Pending', 'Building', 'Deleting', 'Updating'
@@ -520,6 +618,14 @@ export interface PrivateCloud extends TrackedResource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly externalCloudLinks?: string[];
+  /**
+   * A secondary expressRoute circuit from a separate AZ. Only present in a stretched private cloud
+   */
+  secondaryCircuit?: Circuit;
+  /**
+   * The identity of the private cloud, if configured.
+   */
+  identity?: PrivateCloudIdentity;
 }
 
 /**
@@ -542,9 +648,8 @@ export interface CommonClusterProperties {
   readonly clusterId?: number;
   /**
    * The hosts
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly hosts?: string[];
+  hosts?: string[];
 }
 
 /**
@@ -574,6 +679,18 @@ export interface PrivateCloudUpdate {
    * vCenter Single Sign On Identity Sources
    */
   identitySources?: IdentitySource[];
+  /**
+   * Properties describing how the cloud is distributed across availability zones
+   */
+  availability?: AvailabilityProperties;
+  /**
+   * Customer managed key encryption, can be enabled or disabled
+   */
+  encryption?: Encryption;
+  /**
+   * The identity of the private cloud, if configured.
+   */
+  identity?: PrivateCloudIdentity;
 }
 
 /**
@@ -600,9 +717,8 @@ export interface Cluster extends Resource {
   readonly clusterId?: number;
   /**
    * The hosts
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly hosts?: string[];
+  hosts?: string[];
 }
 
 /**
@@ -613,6 +729,10 @@ export interface ClusterUpdate {
    * The cluster size
    */
   clusterSize?: number;
+  /**
+   * The hosts
+   */
+  hosts?: string[];
 }
 
 /**
@@ -663,7 +783,7 @@ export interface AddonSrmProperties {
   /**
    * The Site Recovery Manager (SRM) license
    */
-  licenseKey: string;
+  licenseKey?: string;
 }
 
 /**
@@ -758,6 +878,12 @@ export interface Datastore extends Resource {
    * An iSCSI volume
    */
   diskPoolVolume?: DiskPoolVolume;
+  /**
+   * The operational status of the datastore. Possible values include: 'Unknown', 'Accessible',
+   * 'Inaccessible', 'Attached', 'Detached', 'LostCommunication', 'DeadOrError'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly status?: DatastoreStatus;
 }
 
 /**
@@ -833,6 +959,11 @@ export interface GlobalReachConnection extends Resource {
    * Identifier of the ExpressRoute Circuit to peer with in the global reach connection
    */
   peerExpressRouteCircuit?: string;
+  /**
+   * The ID of the Private Cloud's ExpressRoute Circuit that is participating in the global reach
+   * connection
+   */
+  expressRouteId?: string;
 }
 
 /**
@@ -897,7 +1028,7 @@ export interface WorkloadNetworkSegment extends ProxyResource {
    */
   readonly portVif?: WorkloadNetworkSegmentPortVif[];
   /**
-   * Segment status. Possible values include: 'SUCCESS, FAILURE'
+   * Segment status. Possible values include: 'SUCCESS', 'FAILURE'
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly status?: SegmentStatusEnum;
@@ -1036,7 +1167,8 @@ export interface WorkloadNetworkPortMirroring extends ProxyResource {
    */
   displayName?: string;
   /**
-   * Direction of port mirroring profile. Possible values include: 'INGRESS, EGRESS, BIDIRECTIONAL'
+   * Direction of port mirroring profile. Possible values include: 'INGRESS', 'EGRESS',
+   * 'BIDIRECTIONAL'
    */
   direction?: PortMirroringDirectionEnum;
   /**
@@ -1048,7 +1180,7 @@ export interface WorkloadNetworkPortMirroring extends ProxyResource {
    */
   destination?: string;
   /**
-   * Port Mirroring Status. Possible values include: 'SUCCESS, FAILURE'
+   * Port Mirroring Status. Possible values include: 'SUCCESS', 'FAILURE'
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly status?: PortMirroringStatusEnum;
@@ -1077,7 +1209,7 @@ export interface WorkloadNetworkVMGroup extends ProxyResource {
    */
   members?: string[];
   /**
-   * VM Group status. Possible values include: 'SUCCESS, FAILURE'
+   * VM Group status. Possible values include: 'SUCCESS', 'FAILURE'
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly status?: VMGroupStatusEnum;
@@ -1102,7 +1234,7 @@ export interface WorkloadNetworkVirtualMachine extends ProxyResource {
    */
   displayName?: string;
   /**
-   * Virtual machine type. Possible values include: 'REGULAR, EDGE, SERVICE'
+   * Virtual machine type. Possible values include: 'REGULAR', 'EDGE', 'SERVICE'
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly vmType?: VMTypeEnum;
@@ -1223,6 +1355,171 @@ export interface WorkloadNetworkPublicIP extends ProxyResource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly provisioningState?: WorkloadNetworkPublicIPProvisioningState;
+}
+
+/**
+ * Set VM DRS-driven movement to restricted (enabled) or not (disabled)
+ */
+export interface VirtualMachineRestrictMovement {
+  /**
+   * Possible values include: 'Enabled', 'Disabled'
+   */
+  restrictMovement?: VirtualMachineRestrictMovementState;
+}
+
+/**
+ * Virtual Machine
+ */
+export interface VirtualMachine extends ProxyResource {
+  /**
+   * Display name of the VM.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly displayName?: string;
+  /**
+   * Virtual machine managed object reference id
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly moRefId?: string;
+  /**
+   * Path to virtual machine's folder starting from datacenter virtual machine folder
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly folderPath?: string;
+  /**
+   * Possible values include: 'Enabled', 'Disabled'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly restrictMovement?: VirtualMachineRestrictMovementState;
+}
+
+/**
+ * Contains the possible cases for PlacementPolicyProperties.
+ */
+export type PlacementPolicyPropertiesUnion = PlacementPolicyProperties | VmVmPlacementPolicyProperties | VmHostPlacementPolicyProperties;
+
+/**
+ * Abstract placement policy properties
+ */
+export interface PlacementPolicyProperties {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "PlacementPolicyProperties";
+  /**
+   * Whether the placement policy is enabled or disabled. Possible values include: 'Enabled',
+   * 'Disabled'
+   */
+  state?: PlacementPolicyState;
+  /**
+   * Display name of the placement policy
+   */
+  displayName?: string;
+  /**
+   * The provisioning state. Possible values include: 'Succeeded', 'Failed', 'Building',
+   * 'Deleting', 'Updating'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: PlacementPolicyProvisioningState;
+}
+
+/**
+ * VM-VM placement policy properties
+ */
+export interface VmVmPlacementPolicyProperties {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "VmVm";
+  /**
+   * Whether the placement policy is enabled or disabled. Possible values include: 'Enabled',
+   * 'Disabled'
+   */
+  state?: PlacementPolicyState;
+  /**
+   * Display name of the placement policy
+   */
+  displayName?: string;
+  /**
+   * The provisioning state. Possible values include: 'Succeeded', 'Failed', 'Building',
+   * 'Deleting', 'Updating'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: PlacementPolicyProvisioningState;
+  /**
+   * Virtual machine members list
+   */
+  vmMembers: string[];
+  /**
+   * placement policy affinity type. Possible values include: 'Affinity', 'AntiAffinity'
+   */
+  affinityType: AffinityType;
+}
+
+/**
+ * VM-Host placement policy properties
+ */
+export interface VmHostPlacementPolicyProperties {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "VmHost";
+  /**
+   * Whether the placement policy is enabled or disabled. Possible values include: 'Enabled',
+   * 'Disabled'
+   */
+  state?: PlacementPolicyState;
+  /**
+   * Display name of the placement policy
+   */
+  displayName?: string;
+  /**
+   * The provisioning state. Possible values include: 'Succeeded', 'Failed', 'Building',
+   * 'Deleting', 'Updating'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: PlacementPolicyProvisioningState;
+  /**
+   * Virtual machine members list
+   */
+  vmMembers: string[];
+  /**
+   * Host members list
+   */
+  hostMembers: string[];
+  /**
+   * placement policy affinity type. Possible values include: 'Affinity', 'AntiAffinity'
+   */
+  affinityType: AffinityType;
+}
+
+/**
+ * A vSphere Distributed Resource Scheduler (DRS) placement policy
+ */
+export interface PlacementPolicy extends Resource {
+  /**
+   * placement policy properties
+   */
+  properties?: PlacementPolicyPropertiesUnion;
+}
+
+/**
+ * An update of a DRS placement policy resource
+ */
+export interface PlacementPolicyUpdate {
+  /**
+   * Whether the placement policy is enabled or disabled. Possible values include: 'Enabled',
+   * 'Disabled'
+   */
+  state?: PlacementPolicyState;
+  /**
+   * Virtual machine members list
+   */
+  vmMembers?: string[];
+  /**
+   * Host members list
+   */
+  hostMembers?: string[];
 }
 
 /**
@@ -1449,21 +1746,21 @@ export interface PSCredentialExecutionParameter {
 /**
  * Optional Parameters.
  */
-export interface ClustersUpdateOptionalParams extends msRest.RequestOptionsBase {
+export interface AuthorizationsCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * The cluster size
+   * The ID of the ExpressRoute Circuit
    */
-  clusterSize?: number;
+  expressRouteId?: string;
 }
 
 /**
  * Optional Parameters.
  */
-export interface ClustersBeginUpdateOptionalParams extends msRest.RequestOptionsBase {
+export interface AuthorizationsBeginCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * The cluster size
+   * The ID of the ExpressRoute Circuit
    */
-  clusterSize?: number;
+  expressRouteId?: string;
 }
 
 /**
@@ -1544,6 +1841,46 @@ export interface AddonsBeginCreateOrUpdateOptionalParams extends msRest.RequestO
    * The properties of an addon resource
    */
   properties?: AddonPropertiesUnion;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface VirtualMachinesRestrictMovementOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Possible values include: 'Enabled', 'Disabled'
+   */
+  restrictMovementParameter?: VirtualMachineRestrictMovementState;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface VirtualMachinesBeginRestrictMovementOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Possible values include: 'Enabled', 'Disabled'
+   */
+  restrictMovementParameter?: VirtualMachineRestrictMovementState;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface PlacementPoliciesCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * placement policy properties
+   */
+  properties?: PlacementPolicyPropertiesUnion;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface PlacementPoliciesBeginCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * placement policy properties
+   */
+  properties?: PlacementPolicyPropertiesUnion;
 }
 
 /**
@@ -1800,6 +2137,32 @@ export interface AddonList extends Array<Addon> {
 
 /**
  * @interface
+ * A list of Virtual Machines
+ * @extends Array<VirtualMachine>
+ */
+export interface VirtualMachinesList extends Array<VirtualMachine> {
+  /**
+   * URL to get the next page if any
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * Represents list of placement policies
+ * @extends Array<PlacementPolicy>
+ */
+export interface PlacementPoliciesList extends Array<PlacementPolicy> {
+  /**
+   * URL to get the next page if any
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
  * A list of the available script packages
  * @extends Array<ScriptPackage>
  */
@@ -1862,12 +2225,44 @@ export type QuotaEnabled = 'Enabled' | 'Disabled';
 export type ExpressRouteAuthorizationProvisioningState = 'Succeeded' | 'Failed' | 'Updating';
 
 /**
+ * Defines values for EncryptionKeyStatus.
+ * Possible values include: 'Connected', 'AccessDenied'
+ * @readonly
+ * @enum {string}
+ */
+export type EncryptionKeyStatus = 'Connected' | 'AccessDenied';
+
+/**
+ * Defines values for EncryptionVersionType.
+ * Possible values include: 'Fixed', 'AutoDetected'
+ * @readonly
+ * @enum {string}
+ */
+export type EncryptionVersionType = 'Fixed' | 'AutoDetected';
+
+/**
+ * Defines values for EncryptionState.
+ * Possible values include: 'Enabled', 'Disabled'
+ * @readonly
+ * @enum {string}
+ */
+export type EncryptionState = 'Enabled' | 'Disabled';
+
+/**
  * Defines values for SslEnum.
  * Possible values include: 'Enabled', 'Disabled'
  * @readonly
  * @enum {string}
  */
 export type SslEnum = 'Enabled' | 'Disabled';
+
+/**
+ * Defines values for AvailabilityStrategy.
+ * Possible values include: 'SingleZone', 'DualZone'
+ * @readonly
+ * @enum {string}
+ */
+export type AvailabilityStrategy = 'SingleZone' | 'DualZone';
 
 /**
  * Defines values for PrivateCloudProvisioningState.
@@ -1877,6 +2272,14 @@ export type SslEnum = 'Enabled' | 'Disabled';
  * @enum {string}
  */
 export type PrivateCloudProvisioningState = 'Succeeded' | 'Failed' | 'Cancelled' | 'Pending' | 'Building' | 'Deleting' | 'Updating';
+
+/**
+ * Defines values for ResourceIdentityType.
+ * Possible values include: 'SystemAssigned', 'None'
+ * @readonly
+ * @enum {string}
+ */
+export type ResourceIdentityType = 'SystemAssigned' | 'None';
 
 /**
  * Defines values for InternetEnum.
@@ -1920,6 +2323,15 @@ export type DatastoreProvisioningState = 'Succeeded' | 'Failed' | 'Cancelled' | 
 export type MountOptionEnum = 'MOUNT' | 'ATTACH';
 
 /**
+ * Defines values for DatastoreStatus.
+ * Possible values include: 'Unknown', 'Accessible', 'Inaccessible', 'Attached', 'Detached',
+ * 'LostCommunication', 'DeadOrError'
+ * @readonly
+ * @enum {string}
+ */
+export type DatastoreStatus = 'Unknown' | 'Accessible' | 'Inaccessible' | 'Attached' | 'Detached' | 'LostCommunication' | 'DeadOrError';
+
+/**
  * Defines values for HcxEnterpriseSiteStatus.
  * Possible values include: 'Available', 'Consumed', 'Deactivated', 'Deleted'
  * @readonly
@@ -1953,11 +2365,11 @@ export type CloudLinkStatus = 'Active' | 'Building' | 'Deleting' | 'Failed' | 'D
 
 /**
  * Defines values for SegmentStatusEnum.
- * Possible values include: 'SUCCESS, FAILURE'
+ * Possible values include: 'SUCCESS', 'FAILURE'
  * @readonly
  * @enum {string}
  */
-export type SegmentStatusEnum = 'SUCCESS, FAILURE';
+export type SegmentStatusEnum = 'SUCCESS' | 'FAILURE';
 
 /**
  * Defines values for WorkloadNetworkSegmentProvisioningState.
@@ -1977,19 +2389,19 @@ export type WorkloadNetworkDhcpProvisioningState = 'Succeeded' | 'Failed' | 'Bui
 
 /**
  * Defines values for PortMirroringDirectionEnum.
- * Possible values include: 'INGRESS, EGRESS, BIDIRECTIONAL'
+ * Possible values include: 'INGRESS', 'EGRESS', 'BIDIRECTIONAL'
  * @readonly
  * @enum {string}
  */
-export type PortMirroringDirectionEnum = 'INGRESS, EGRESS, BIDIRECTIONAL';
+export type PortMirroringDirectionEnum = 'INGRESS' | 'EGRESS' | 'BIDIRECTIONAL';
 
 /**
  * Defines values for PortMirroringStatusEnum.
- * Possible values include: 'SUCCESS, FAILURE'
+ * Possible values include: 'SUCCESS', 'FAILURE'
  * @readonly
  * @enum {string}
  */
-export type PortMirroringStatusEnum = 'SUCCESS, FAILURE';
+export type PortMirroringStatusEnum = 'SUCCESS' | 'FAILURE';
 
 /**
  * Defines values for WorkloadNetworkPortMirroringProvisioningState.
@@ -2001,11 +2413,11 @@ export type WorkloadNetworkPortMirroringProvisioningState = 'Succeeded' | 'Faile
 
 /**
  * Defines values for VMGroupStatusEnum.
- * Possible values include: 'SUCCESS, FAILURE'
+ * Possible values include: 'SUCCESS', 'FAILURE'
  * @readonly
  * @enum {string}
  */
-export type VMGroupStatusEnum = 'SUCCESS, FAILURE';
+export type VMGroupStatusEnum = 'SUCCESS' | 'FAILURE';
 
 /**
  * Defines values for WorkloadNetworkVMGroupProvisioningState.
@@ -2017,11 +2429,11 @@ export type WorkloadNetworkVMGroupProvisioningState = 'Succeeded' | 'Failed' | '
 
 /**
  * Defines values for VMTypeEnum.
- * Possible values include: 'REGULAR, EDGE, SERVICE'
+ * Possible values include: 'REGULAR', 'EDGE', 'SERVICE'
  * @readonly
  * @enum {string}
  */
-export type VMTypeEnum = 'REGULAR, EDGE, SERVICE';
+export type VMTypeEnum = 'REGULAR' | 'EDGE' | 'SERVICE';
 
 /**
  * Defines values for DnsServiceLogLevelEnum.
@@ -2062,6 +2474,38 @@ export type WorkloadNetworkDnsZoneProvisioningState = 'Succeeded' | 'Failed' | '
  * @enum {string}
  */
 export type WorkloadNetworkPublicIPProvisioningState = 'Succeeded' | 'Failed' | 'Building' | 'Deleting' | 'Updating';
+
+/**
+ * Defines values for VirtualMachineRestrictMovementState.
+ * Possible values include: 'Enabled', 'Disabled'
+ * @readonly
+ * @enum {string}
+ */
+export type VirtualMachineRestrictMovementState = 'Enabled' | 'Disabled';
+
+/**
+ * Defines values for PlacementPolicyState.
+ * Possible values include: 'Enabled', 'Disabled'
+ * @readonly
+ * @enum {string}
+ */
+export type PlacementPolicyState = 'Enabled' | 'Disabled';
+
+/**
+ * Defines values for PlacementPolicyProvisioningState.
+ * Possible values include: 'Succeeded', 'Failed', 'Building', 'Deleting', 'Updating'
+ * @readonly
+ * @enum {string}
+ */
+export type PlacementPolicyProvisioningState = 'Succeeded' | 'Failed' | 'Building' | 'Deleting' | 'Updating';
+
+/**
+ * Defines values for AffinityType.
+ * Possible values include: 'Affinity', 'AntiAffinity'
+ * @readonly
+ * @enum {string}
+ */
+export type AffinityType = 'Affinity' | 'AntiAffinity';
 
 /**
  * Defines values for ScriptParameterTypes.
@@ -4161,6 +4605,206 @@ export type AddonsListNextResponse = AddonList & {
        * The response body as parsed JSON or XML
        */
       parsedBody: AddonList;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type VirtualMachinesListResponse = VirtualMachinesList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VirtualMachinesList;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type VirtualMachinesGetResponse = VirtualMachine & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VirtualMachine;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type VirtualMachinesListNextResponse = VirtualMachinesList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VirtualMachinesList;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type PlacementPoliciesListResponse = PlacementPoliciesList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PlacementPoliciesList;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type PlacementPoliciesGetResponse = PlacementPolicy & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PlacementPolicy;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type PlacementPoliciesCreateOrUpdateResponse = PlacementPolicy & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PlacementPolicy;
+    };
+};
+
+/**
+ * Contains response data for the update operation.
+ */
+export type PlacementPoliciesUpdateResponse = PlacementPolicy & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PlacementPolicy;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateOrUpdate operation.
+ */
+export type PlacementPoliciesBeginCreateOrUpdateResponse = PlacementPolicy & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PlacementPolicy;
+    };
+};
+
+/**
+ * Contains response data for the beginUpdate operation.
+ */
+export type PlacementPoliciesBeginUpdateResponse = PlacementPolicy & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PlacementPolicy;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type PlacementPoliciesListNextResponse = PlacementPoliciesList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PlacementPoliciesList;
     };
 };
 

@@ -18,6 +18,8 @@ export * from "./globalReachConnections";
 export * from "./workloadNetworks";
 export * from "./cloudLinks";
 export * from "./addons";
+export * from "./virtualMachines";
+export * from "./placementPolicies";
 export * from "./scriptPackages";
 export * from "./scriptCmdlets";
 export * from "./scriptExecutions";
