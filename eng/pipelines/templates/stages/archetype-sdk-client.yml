@@ -8,6 +8,9 @@ parameters:
   - name: ServiceDirectory
     type: string
     default: not-specified
+  - name: TestProxy
+    type: boolean
+    default: false
   - name: IncludeRelease
     type: boolean
     default: true
