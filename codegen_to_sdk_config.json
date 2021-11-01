@@ -3,7 +3,7 @@
         {
             "name": "GenerateCode",
             "script": "bash",
-            "path": "eng/generate_code.sh",
+            "path": "eng/scripts/generate_code.sh",
             "resultParseCriterion": {
                 "stderr": {
                     "prefix": {
@@ -20,7 +20,7 @@
         {
             "name": "Build",
             "script": "bash",
-            "path": "eng/build.sh",
+            "path": "eng/scripts/build.sh",
             "resultParseCriterion": {
                 "stderr": {
                     "prefix": {
