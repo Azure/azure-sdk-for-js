@@ -68,6 +68,7 @@ export interface DefaultPerfOptions {
   "milliseconds-to-log": number;
   "test-proxies": string;
   insecure: boolean;
+  "list-transitive-dependencies": boolean;
 }
 
 /**
@@ -115,6 +116,11 @@ export const defaultPerfOptions: PerfOptionDictionary<DefaultPerfOptions> = {
     description: "Log frequency in milliseconds",
     shortName: "mtl",
     defaultValue: 1000
+  },
+  "list-transitive-dependencies": {
+    description: "List all dependencies, instead of only direct ones, before test run",
+    shortName: "ltd",
+    defaultValue: false
   }
 };
 

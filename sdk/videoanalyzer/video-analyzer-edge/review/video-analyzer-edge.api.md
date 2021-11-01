@@ -4,7 +4,7 @@
 
 ```ts
 
-import * as coreHttp from '@azure/core-http';
+import * as coreClient from '@azure/core-client';
 
 // @public
 export interface CertificateSource {
@@ -24,42 +24,73 @@ export type CognitiveServicesVisionProcessor = ProcessorNodeBase & {
 };
 
 // @public
-export function createRequest(request: "pipelineTopologySet", payload: PipelineTopology): Request_2<PipelineTopology>;
+export function createRequest(request: "pipelineTopologySet", payload: PipelineTopology): Request<PipelineTopology>;
 
 // @public
-export function createRequest(request: "pipelineTopologyGet", payload: string): Request_2<NameObject>;
+export function createRequest(request: "pipelineTopologyGet", payload: string): Request<NameObject>;
 
 // @public
-export function createRequest(request: "pipelineTopologyList"): Request_2;
+export function createRequest(request: "pipelineTopologyList"): Request;
 
 // @public
-export function createRequest(request: "pipelineTopologyDelete", payload: string): Request_2<NameObject>;
+export function createRequest(request: "pipelineTopologyDelete", payload: string): Request<NameObject>;
 
 // @public
-export function createRequest(request: "livePipelineSet", payload: LivePipeline): Request_2<LivePipeline>;
+export function createRequest(request: "livePipelineSet", payload: LivePipeline): Request<LivePipeline>;
 
 // @public
-export function createRequest(request: "livePipelineGet", payload: string): Request_2<NameObject>;
+export function createRequest(request: "livePipelineGet", payload: string): Request<NameObject>;
 
 // @public
-export function createRequest(request: "livePipelineList"): Request_2;
+export function createRequest(request: "livePipelineList"): Request;
 
 // @public
-export function createRequest(request: "livePipelineDelete", payload: string): Request_2<NameObject>;
+export function createRequest(request: "livePipelineDelete", payload: string): Request<NameObject>;
 
 // @public
-export function createRequest(request: "livePipelineActivate", payload: string): Request_2<NameObject>;
+export function createRequest(request: "livePipelineActivate", payload: string): Request<NameObject>;
 
 // @public
-export function createRequest(request: "livePipelineDeactivate", payload: string): Request_2<NameObject>;
+export function createRequest(request: "livePipelineDeactivate", payload: string): Request<NameObject>;
+
+// @public
+export function createRequest(request: "onvifDeviceDiscover"): Request;
+
+// @public
+export function createRequest(request: "onvifDeviceGet", payload: UnsecuredEndpoint): Request<UnsecuredEndpoint>;
+
+// @public
+export function createRequest(request: "remoteDeviceAdapterSet", payload: RemoteDeviceAdapter): Request<RemoteDeviceAdapter>;
+
+// @public
+export function createRequest(request: "remoteDeviceAdapterList"): Request;
+
+// @public
+export function createRequest(request: "remoteDeviceAdapterGet", payload: string): Request<NameObject>;
+
+// @public
+export function createRequest(request: "remoteDeviceAdapterDelete", payload: string): Request<NameObject>;
 
 // @public
 export interface CredentialsBase {
-    "@type": "#Microsoft.VideoAnalyzer.UsernamePasswordCredentials" | "#Microsoft.VideoAnalyzer.HttpHeaderCredentials";
+    "@type": "#Microsoft.VideoAnalyzer.UsernamePasswordCredentials" | "#Microsoft.VideoAnalyzer.HttpHeaderCredentials" | "#Microsoft.VideoAnalyzer.SymmetricKeyCredentials";
 }
 
 // @public (undocumented)
-export type CredentialsBaseUnion = CredentialsBase | UsernamePasswordCredentials | HttpHeaderCredentials;
+export type CredentialsBaseUnion = CredentialsBase | UsernamePasswordCredentials | HttpHeaderCredentials | SymmetricKeyCredentials;
+
+// @public
+export interface DiscoveredOnvifDevice {
+    endpoints?: string[];
+    remoteIPAddress?: string;
+    scopes?: string[];
+    serviceIdentifier?: string;
+}
+
+// @public
+export interface DiscoveredOnvifDeviceCollection {
+    value?: DiscoveredOnvifDevice[];
+}
 
 // @public
 export interface EndpointBase {
@@ -73,7 +104,7 @@ export type EndpointBaseUnion = EndpointBase | UnsecuredEndpoint | TlsEndpoint;
 
 // @public
 export type ExtensionProcessorBase = ProcessorNodeBase & {
-    "@type": "#Microsoft.VideoAnalyzer.ExtensionProcessorBase";
+    "@type": "#Microsoft.VideoAnalyzer.ExtensionProcessorBase" | "#Microsoft.VideoAnalyzer.GrpcExtension" | "#Microsoft.VideoAnalyzer.HttpExtension";
     endpoint: EndpointBaseUnion;
     image: ImageProperties;
     samplingOptions?: SamplingOptions;
@@ -91,7 +122,7 @@ export type FileSink = SinkNodeBase & {
 };
 
 // @public
-export interface GeneratedClientOptionalParams extends coreHttp.ServiceClientOptions {
+export interface GeneratedClientOptionalParams extends coreClient.ServiceClientOptions {
     endpoint?: string;
 }
 
@@ -110,6 +141,15 @@ export interface GrpcExtensionDataTransfer {
 
 // @public
 export type GrpcExtensionDataTransferMode = string;
+
+// @public
+export interface H264Configuration {
+    govLength?: number;
+    profile?: H264Profile;
+}
+
+// @public
+export type H264Profile = string;
 
 // @public
 export type HttpExtension = ExtensionProcessorBase & {
@@ -173,6 +213,12 @@ export interface ImageScale {
 export type ImageScaleMode = string;
 
 // @public
+export interface IotHubDeviceConnection {
+    credentials?: CredentialsBaseUnion;
+    deviceId: string;
+}
+
+// @public
 export type IotHubMessageSink = SinkNodeBase & {
     "@type": "#Microsoft.VideoAnalyzer.IotHubMessageSink";
     hubOutputName: string;
@@ -185,13 +231,25 @@ export type IotHubMessageSource = SourceNodeBase & {
 };
 
 // @public
-export const enum KnownGrpcExtensionDataTransferMode {
+export enum KnownGrpcExtensionDataTransferMode {
     Embedded = "embedded",
     SharedMemory = "sharedMemory"
 }
 
 // @public
-export const enum KnownImageFormatRawPixelFormat {
+export enum KnownH264Profile {
+    // (undocumented)
+    Baseline = "Baseline",
+    // (undocumented)
+    Extended = "Extended",
+    // (undocumented)
+    High = "High",
+    // (undocumented)
+    Main = "Main"
+}
+
+// @public
+export enum KnownImageFormatRawPixelFormat {
     Abgr = "abgr",
     Argb = "argb",
     Bgr24 = "bgr24",
@@ -206,14 +264,14 @@ export const enum KnownImageFormatRawPixelFormat {
 }
 
 // @public
-export const enum KnownImageScaleMode {
+export enum KnownImageScaleMode {
     Pad = "pad",
     PreserveAspectRatio = "preserveAspectRatio",
     Stretch = "stretch"
 }
 
 // @public
-export const enum KnownLivePipelineState {
+export enum KnownLivePipelineState {
     Activating = "activating",
     Active = "active",
     Deactivating = "deactivating",
@@ -221,32 +279,46 @@ export const enum KnownLivePipelineState {
 }
 
 // @public
-export const enum KnownMotionDetectionSensitivity {
+export enum KnownMotionDetectionSensitivity {
     High = "high",
     Low = "low",
     Medium = "medium"
 }
 
 // @public
-export const enum KnownObjectTrackingAccuracy {
+export enum KnownMpeg4Profile {
+    ASP = "ASP",
+    SP = "SP"
+}
+
+// @public
+export enum KnownObjectTrackingAccuracy {
     High = "high",
     Low = "low",
     Medium = "medium"
 }
 
 // @public
-export const enum KnownOutputSelectorOperator {
+export enum KnownOnvifSystemDateTimeType {
+    // (undocumented)
+    Manual = "Manual",
+    // (undocumented)
+    Ntp = "Ntp"
+}
+
+// @public
+export enum KnownOutputSelectorOperator {
     Is = "is",
     IsNot = "isNot"
 }
 
 // @public
-export const enum KnownOutputSelectorProperty {
+export enum KnownOutputSelectorProperty {
     MediaType = "mediaType"
 }
 
 // @public
-export const enum KnownParameterType {
+export enum KnownParameterType {
     Bool = "bool",
     Double = "double",
     Int = "int",
@@ -255,34 +327,41 @@ export const enum KnownParameterType {
 }
 
 // @public
-export const enum KnownRtspTransport {
+export enum KnownRtspTransport {
     Http = "http",
     Tcp = "tcp"
 }
 
 // @public
-export const enum KnownSpatialAnalysisOperationFocus {
+export enum KnownSpatialAnalysisOperationFocus {
     BottomCenter = "bottomCenter",
     Center = "center",
     Footprint = "footprint"
 }
 
 // @public
-export const enum KnownSpatialAnalysisPersonCountEventTrigger {
+export enum KnownSpatialAnalysisPersonCountEventTrigger {
     Event = "event",
     Interval = "interval"
 }
 
 // @public
-export const enum KnownSpatialAnalysisPersonDistanceEventTrigger {
+export enum KnownSpatialAnalysisPersonDistanceEventTrigger {
     Event = "event",
     Interval = "interval"
 }
 
 // @public
-export const enum KnownSpatialAnalysisPersonZoneCrossingEventType {
+export enum KnownSpatialAnalysisPersonZoneCrossingEventType {
     ZoneCrossing = "zoneCrossing",
     ZoneDwellTime = "zoneDwellTime"
+}
+
+// @public
+export enum KnownVideoEncoding {
+    H264 = "H264",
+    Jpeg = "JPEG",
+    Mpeg4 = "MPEG4"
 }
 
 // @public
@@ -316,8 +395,20 @@ export interface LivePipelineProperties {
 export type LivePipelineState = string;
 
 // @public
+export interface MediaProfile {
+    mediaUri?: Record<string, unknown>;
+    name?: string;
+    videoEncoderConfiguration?: VideoEncoderConfiguration;
+}
+
+// @public
+export interface MediaUri {
+    uri?: string;
+}
+
+// @public
 export interface MethodRequest {
-    apiVersion?: "1.0";
+    apiVersion?: "1.1";
     methodName: "undefined";
 }
 
@@ -331,6 +422,15 @@ export type MotionDetectionProcessor = ProcessorNodeBase & {
 
 // @public
 export type MotionDetectionSensitivity = string;
+
+// @public
+export interface Mpeg4Configuration {
+    govLength?: number;
+    profile?: Mpeg4Profile;
+}
+
+// @public
+export type Mpeg4Profile = string;
 
 // @public
 export interface NamedLineBase {
@@ -381,6 +481,37 @@ export type ObjectTrackingProcessor = ProcessorNodeBase & {
     "@type": "#Microsoft.VideoAnalyzer.ObjectTrackingProcessor";
     accuracy?: ObjectTrackingAccuracy;
 };
+
+// @public
+export interface OnvifDevice {
+    dns?: OnvifDns;
+    hostname?: OnvifHostName;
+    mediaProfiles?: MediaProfile[];
+    systemDateTime?: OnvifSystemDateTime;
+}
+
+// @public
+export interface OnvifDns {
+    fromDhcp?: boolean;
+    ipv4Address?: string[];
+    ipv6Address?: string[];
+}
+
+// @public
+export interface OnvifHostName {
+    fromDhcp?: boolean;
+    hostname?: string;
+}
+
+// @public
+export interface OnvifSystemDateTime {
+    time?: string;
+    timeZone?: string;
+    type?: OnvifSystemDateTimeType;
+}
+
+// @public
+export type OnvifSystemDateTimeType = string;
 
 // @public
 export interface OutputSelector {
@@ -451,16 +582,48 @@ export interface ProcessorNodeBase {
 export type ProcessorNodeBaseUnion = ProcessorNodeBase | MotionDetectionProcessor | ObjectTrackingProcessor | LineCrossingProcessor | ExtensionProcessorBaseUnion | SignalGateProcessor | CognitiveServicesVisionProcessor;
 
 // @public
-interface Request_2<T = Record<string, unknown>> {
+export interface RateControl {
+    bitRateLimit?: number;
+    encodingInterval?: number;
+    frameRateLimit?: number;
+    guaranteedFrameRate?: boolean;
+}
+
+// @public
+export interface RemoteDeviceAdapter {
+    name: string;
+    properties?: RemoteDeviceAdapterProperties;
+    systemData?: SystemData;
+}
+
+// @public
+export interface RemoteDeviceAdapterCollection {
+    continuationToken?: string;
+    value?: RemoteDeviceAdapter[];
+}
+
+// @public
+export interface RemoteDeviceAdapterProperties {
+    description?: string;
+    iotHubDeviceConnection: IotHubDeviceConnection;
+    target: RemoteDeviceAdapterTarget;
+}
+
+// @public
+export interface RemoteDeviceAdapterTarget {
+    host: string;
+}
+
+// @public
+export interface Request<T = Record<string, unknown>> {
     methodName: string;
     payload: T & {
         "@apiVersion": string;
     };
 }
-export { Request_2 as Request }
 
 // @public
-export type RequestType = "pipelineTopologySet" | "pipelineTopologyGet" | "pipelineTopologyList" | "pipelineTopologyDelete" | "livePipelineSet" | "livePipelineGet" | "livePipelineList" | "livePipelineDelete" | "livePipelineActivate" | "livePipelineDeactivate";
+export type RequestType = "pipelineTopologySet" | "pipelineTopologyGet" | "pipelineTopologyList" | "pipelineTopologyDelete" | "livePipelineSet" | "livePipelineGet" | "livePipelineList" | "livePipelineDelete" | "livePipelineActivate" | "livePipelineDeactivate" | "onvifDeviceDiscover" | "onvifDeviceGet" | "remoteDeviceAdapterSet" | "remoteDeviceAdapterList" | "remoteDeviceAdapterGet" | "remoteDeviceAdapterDelete";
 
 // @public
 export type RtspSource = SourceNodeBase & {
@@ -610,15 +773,24 @@ export interface SpatialAnalysisPersonZoneCrossingZoneEvents {
 
 // @public
 export type SpatialAnalysisTypedOperationBase = SpatialAnalysisOperationBase & {
-    "@type": "SpatialAnalysisTypedOperationBase";
+    "@type": "SpatialAnalysisTypedOperationBase" | "#Microsoft.VideoAnalyzer.SpatialAnalysisPersonCountOperation" | "#Microsoft.VideoAnalyzer.SpatialAnalysisPersonZoneCrossingOperation" | "#Microsoft.VideoAnalyzer.SpatialAnalysisPersonDistanceOperation" | "#Microsoft.VideoAnalyzer.SpatialAnalysisPersonLineCrossingOperation";
     debug?: string;
+    calibrationConfiguration?: string;
     cameraConfiguration?: string;
+    cameraCalibratorNodeConfiguration?: string;
     detectorNodeConfiguration?: string;
+    trackerNodeConfiguration?: string;
     enableFaceMaskClassifier?: string;
 };
 
 // @public (undocumented)
 export type SpatialAnalysisTypedOperationBaseUnion = SpatialAnalysisTypedOperationBase | SpatialAnalysisPersonCountOperation | SpatialAnalysisPersonZoneCrossingOperation | SpatialAnalysisPersonDistanceOperation | SpatialAnalysisPersonLineCrossingOperation;
+
+// @public
+export type SymmetricKeyCredentials = CredentialsBase & {
+    "@type": "#Microsoft.VideoAnalyzer.SymmetricKeyCredentials";
+    key: string;
+};
 
 // @public
 export interface SystemData {
@@ -654,8 +826,33 @@ export type UsernamePasswordCredentials = CredentialsBase & {
 // @public
 export interface VideoCreationProperties {
     description?: string;
+    retentionPeriod?: string;
     segmentLength?: string;
     title?: string;
+}
+
+// @public
+export interface VideoEncoderConfiguration {
+    encoding?: VideoEncoding;
+    h264?: H264Configuration;
+    mpeg4?: Mpeg4Configuration;
+    quality?: number;
+    rateControl?: RateControl;
+    resolution?: VideoResolution;
+}
+
+// @public
+export type VideoEncoding = string;
+
+// @public
+export interface VideoPublishingOptions {
+    enableVideoPreviewImage?: string;
+}
+
+// @public
+export interface VideoResolution {
+    height?: number;
+    width?: number;
 }
 
 // @public
@@ -663,6 +860,7 @@ export type VideoSink = SinkNodeBase & {
     "@type": "#Microsoft.VideoAnalyzer.VideoSink";
     videoName: string;
     videoCreationProperties?: VideoCreationProperties;
+    videoPublishingOptions?: VideoPublishingOptions;
     localMediaCachePath: string;
     localMediaCacheMaximumSizeMiB: string;
 };

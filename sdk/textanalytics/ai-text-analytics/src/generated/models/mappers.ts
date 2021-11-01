@@ -234,6 +234,12 @@ export const EntitiesTask: coreClient.CompositeMapper = {
           name: "Composite",
           className: "EntitiesTaskParameters"
         }
+      },
+      taskName: {
+        serializedName: "taskName",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -278,6 +284,12 @@ export const PiiTask: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "PiiTaskParameters"
+        }
+      },
+      taskName: {
+        serializedName: "taskName",
+        type: {
+          name: "String"
         }
       }
     }
@@ -345,6 +357,12 @@ export const KeyPhrasesTask: coreClient.CompositeMapper = {
           name: "Composite",
           className: "KeyPhrasesTaskParameters"
         }
+      },
+      taskName: {
+        serializedName: "taskName",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -383,6 +401,12 @@ export const EntityLinkingTask: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "EntityLinkingTaskParameters"
+        }
+      },
+      taskName: {
+        serializedName: "taskName",
+        type: {
+          name: "String"
         }
       }
     }
@@ -428,6 +452,12 @@ export const SentimentAnalysisTask: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "SentimentAnalysisTaskParameters"
+        }
+      },
+      taskName: {
+        serializedName: "taskName",
+        type: {
+          name: "String"
         }
       }
     }
@@ -480,6 +510,12 @@ export const ExtractiveSummarizationTask: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ExtractiveSummarizationTaskParameters"
+        }
+      },
+      taskName: {
+        serializedName: "taskName",
+        type: {
+          name: "String"
         }
       }
     }
@@ -540,6 +576,12 @@ export const CustomEntitiesTask: coreClient.CompositeMapper = {
           name: "Composite",
           className: "CustomEntitiesTaskParameters"
         }
+      },
+      taskName: {
+        serializedName: "taskName",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -592,6 +634,12 @@ export const CustomSingleClassificationTask: coreClient.CompositeMapper = {
           name: "Composite",
           className: "CustomSingleClassificationTaskParameters"
         }
+      },
+      taskName: {
+        serializedName: "taskName",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -637,6 +685,12 @@ export const CustomMultiClassificationTask: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "CustomMultiClassificationTaskParameters"
+        }
+      },
+      taskName: {
+        serializedName: "taskName",
+        type: {
+          name: "String"
         }
       }
     }
@@ -1018,6 +1072,13 @@ export const TaskState: coreClient.CompositeMapper = {
         required: true,
         type: {
           name: "DateTime"
+        }
+      },
+      taskName: {
+        serializedName: "taskName",
+        required: true,
+        type: {
+          name: "String"
         }
       },
       status: {

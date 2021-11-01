@@ -128,6 +128,7 @@ export {
   RecognizeCategorizedEntitiesActionResult,
   RecognizePiiEntitiesActionResult,
   ExtractKeyPhrasesActionResult,
+  TextAnalyticsActionState,
   TextAnalyticsActionSuccessState,
   TextAnalyticsActionErrorResult,
   RecognizeCategorizedEntitiesActionErrorResult,
