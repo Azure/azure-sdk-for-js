@@ -613,6 +613,9 @@
 /sdk/resources-subscriptions/arm-resources-subscriptions @qiaozha @dw511214992
 
 # PRLabel: %Mgmt
+/sdk/videoanalyzer/arm-videoanalyzer @qiaozha @dw511214992
+
+# PRLabel: %Mgmt
 /sdk/templatespecs/arm-templatespecs @qiaozha @dw511214992
 
 # PRLabel: %Monitor
