@@ -1022,6 +1022,11 @@
       "versionPolicyName": "management"
     },
     {
+      "packageName": "@azure/arm-databricks",
+      "projectFolder": "sdk/databricks/arm-databricks",
+      "versionPolicyName": "management"
+    },
+    {
       "packageName": "@azure/arm-videoanalyzer",
       "projectFolder": "sdk/videoanalyzer/arm-videoanalyzer",
       "versionPolicyName": "management"

@@ -16,6 +16,7 @@ specifiers:
   '@rush-temp/arm-compute': file:./projects/arm-compute.tgz
   '@rush-temp/arm-containerregistry': file:./projects/arm-containerregistry.tgz
   '@rush-temp/arm-containerservice': file:./projects/arm-containerservice.tgz
+  '@rush-temp/arm-databricks': file:./projects/arm-databricks.tgz
   '@rush-temp/arm-eventgrid': file:./projects/arm-eventgrid.tgz
   '@rush-temp/arm-eventhub': file:./projects/arm-eventhub.tgz
   '@rush-temp/arm-extendedlocation': file:./projects/arm-extendedlocation.tgz
@@ -159,6 +160,7 @@ dependencies:
   '@rush-temp/arm-compute': file:projects/arm-compute.tgz
   '@rush-temp/arm-containerregistry': file:projects/arm-containerregistry.tgz
   '@rush-temp/arm-containerservice': file:projects/arm-containerservice.tgz
+  '@rush-temp/arm-databricks': file:projects/arm-databricks.tgz
   '@rush-temp/arm-eventgrid': file:projects/arm-eventgrid.tgz
   '@rush-temp/arm-eventhub': file:projects/arm-eventhub.tgz
   '@rush-temp/arm-extendedlocation': file:projects/arm-extendedlocation.tgz
@@ -8743,6 +8745,30 @@ packages:
   file:projects/arm-containerservice.tgz:
     resolution: {integrity: sha512-8dMhPZWfeynHxwOOjEWch3Im4U/Xspmhtka9ydrQ9OSlqyvKBX+NUYXlNOGBDh+REpaU/Aw91HHs1djC4T9fCA==, tarball: file:projects/arm-containerservice.tgz}
     name: '@rush-temp/arm-containerservice'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.0.0-beta.6
+      '@microsoft/api-extractor': 7.7.11
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.14.2
+    transitivePeerDependencies:
+      - debug
+      - supports-color
+    dev: false
+
+  file:projects/arm-databricks.tgz:
+    resolution: {integrity: sha512-XaemWrbL7egMo3Z96O0TViAxYXm8zBldQJ/LqzH3opwYmClVCzQ7NJawaNEV7XBplB4c/27YOhxDbTt15krrLA==, tarball: file:projects/arm-databricks.tgz}
+    name: '@rush-temp/arm-databricks'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.0.0-beta.6
