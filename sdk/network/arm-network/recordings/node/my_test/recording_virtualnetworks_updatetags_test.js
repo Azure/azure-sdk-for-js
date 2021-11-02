@@ -1,0 +1,153 @@
+let nock = require('nock');
+
+module.exports.hash = "ccda8012da16b9a68cf6918badd27dea";
+
+module.exports.testInfo = {"uniqueName":{},"newDate":{}}
+
+nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
+  .get('/common/discovery/instance')
+  .query(true)
+  .reply(200, {"tenant_discovery_endpoint":"https://login.microsoftonline.com/88888888-8888-8888-8888-888888888888/v2.0/.well-known/openid-configuration","api-version":"1.1","metadata":[{"preferred_network":"login.microsoftonline.com","preferred_cache":"login.windows.net","aliases":["login.microsoftonline.com","login.windows.net","login.microsoft.com","sts.windows.net"]},{"preferred_network":"login.partner.microsoftonline.cn","preferred_cache":"login.partner.microsoftonline.cn","aliases":["login.partner.microsoftonline.cn","login.chinacloudapi.cn"]},{"preferred_network":"login.microsoftonline.de","preferred_cache":"login.microsoftonline.de","aliases":["login.microsoftonline.de"]},{"preferred_network":"login.microsoftonline.us","preferred_cache":"login.microsoftonline.us","aliases":["login.microsoftonline.us","login.usgovcloudapi.net"]},{"preferred_network":"login-us.microsoftonline.com","preferred_cache":"login-us.microsoftonline.com","aliases":["login-us.microsoftonline.com"]}]}, [
+  'Cache-Control',
+  'max-age=86400, private',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Access-Control-Allow-Origin',
+  '*',
+  'Access-Control-Allow-Methods',
+  'GET, OPTIONS',
+  'P3P',
+  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
+  'x-ms-request-id',
+  '4212c40b-2185-4860-9f88-8475bbeb1f00',
+  'x-ms-ests-server',
+  '2.1.12171.15 - SEASLR2 ProdSlices',
+  'Set-Cookie',
+  'fpc=AqwOqk_6kBFIou-KEq3evbc; expires=Thu, 02-Dec-2021 02:02:13 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'Set-Cookie',
+  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrNwUtZaGxmnBGb9qaOtZkgMG8bKRYK3SY8zAvZktQIhdVpOZRyY45sQn-5FdWCMjIyei5_luo3qH45XkyhD8qbMmlB4DJrrYDSxRDRd_3ZM3O7rp2EdW-GqYFi3bpkGkCIQU6N3VHNnRzfaRcm1iCyIgr42Hqh5ntt5Mbtijb3Q0gAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
+  'Set-Cookie',
+  'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
+  'Set-Cookie',
+  'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
+  'Date',
+  'Tue, 02 Nov 2021 02:02:13 GMT',
+  'Content-Length',
+  '980'
+]);
+
+nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
+  .get('/88888888-8888-8888-8888-888888888888/v2.0/.well-known/openid-configuration')
+  .reply(200, {"token_endpoint":"https://login.microsoftonline.com/88888888-8888-8888-8888-888888888888/oauth2/v2.0/token","token_endpoint_auth_methods_supported":["client_secret_post","private_key_jwt","client_secret_basic"],"jwks_uri":"https://login.microsoftonline.com/88888888-8888-8888-8888-888888888888/discovery/v2.0/keys","response_modes_supported":["query","fragment","form_post"],"subject_types_supported":["pairwise"],"id_token_signing_alg_values_supported":["RS256"],"response_types_supported":["code","id_token","code id_token","id_token token"],"scopes_supported":["openid","profile","email","offline_access"],"issuer":"https://login.microsoftonline.com/88888888-8888-8888-8888-888888888888/v2.0","request_uri_parameter_supported":false,"userinfo_endpoint":"https://graph.microsoft.com/oidc/userinfo","authorization_endpoint":"https://login.microsoftonline.com/88888888-8888-8888-8888-888888888888/oauth2/v2.0/authorize","device_authorization_endpoint":"https://login.microsoftonline.com/88888888-8888-8888-8888-888888888888/oauth2/v2.0/devicecode","http_logout_supported":true,"frontchannel_logout_supported":true,"end_session_endpoint":"https://login.microsoftonline.com/88888888-8888-8888-8888-888888888888/oauth2/v2.0/logout","claims_supported":["sub","iss","cloud_instance_name","cloud_instance_host_name","cloud_graph_host_name","msgraph_host","aud","exp","iat","auth_time","acr","nonce","preferred_username","name","tid","ver","at_hash","c_hash","email"],"kerberos_endpoint":"https://login.microsoftonline.com/88888888-8888-8888-8888-888888888888/kerberos","tenant_region_scope":"WW","cloud_instance_name":"microsoftonline.com","cloud_graph_host_name":"graph.windows.net","msgraph_host":"graph.microsoft.com","rbac_url":"https://pas.windows.net"}, [
+  'Cache-Control',
+  'max-age=86400, private',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Access-Control-Allow-Origin',
+  '*',
+  'Access-Control-Allow-Methods',
+  'GET, OPTIONS',
+  'P3P',
+  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
+  'x-ms-request-id',
+  '4212c40b-2185-4860-9f88-8475bdeb1f00',
+  'x-ms-ests-server',
+  '2.1.12171.15 - SEASLR2 ProdSlices',
+  'Set-Cookie',
+  'fpc=AsEImvNYSBFMtDMWBTJZeIA; expires=Thu, 02-Dec-2021 02:02:13 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'Set-Cookie',
+  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrEEsGhBam7MjTYtnb1Nhl1YN6RN1uBevSfV1VvT55sec9FmmmKz3mQpt2XTBVzpDaTYGIf7jWEQcTzIeh7PePSPhFQZV7LJ6hSD-SCZJcpJyecr2oE-9Zrq5vwdpw93Xtw3QAdqa57d2twwIQwsBq8ZQmLFmasFvf46ZcSKotoIsgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
+  'Set-Cookie',
+  'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
+  'Set-Cookie',
+  'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
+  'Date',
+  'Tue, 02 Nov 2021 02:02:13 GMT',
+  'Content-Length',
+  '1753'
+]);
+
+nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
+  .post('/88888888-8888-8888-8888-888888888888/oauth2/v2.0/token', "client_id=azure_client_id&scope=https%3A%2F%2Fsanitized%2F&grant_type=client_credentials&x-client-SKU=msal.js.node&x-client-VER=1.3.2&x-client-OS=win32&x-client-CPU=x64&x-ms-lib-capability=retry-after, h429&x-client-current-telemetry=5|771,2,,,|,&x-client-last-telemetry=5|0|||0,0&client-request-id=daa87a11-9bd6-4da3-8bf8-22105fddedd6&client_secret=azure_client_secret&claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22CP1%22%5D%7D%7D%7D")
+  .reply(200, {"token_type":"Bearer","expires_in":86399,"ext_expires_in":86399,"access_token":"access_token"}, [
+  'Cache-Control',
+  'no-store, no-cache',
+  'Pragma',
+  'no-cache',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'Expires',
+  '-1',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains',
+  'X-Content-Type-Options',
+  'nosniff',
+  'P3P',
+  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
+  'x-ms-request-id',
+  '4212c40b-2185-4860-9f88-8475beeb1f00',
+  'x-ms-ests-server',
+  '2.1.12171.15 - SEASLR2 ProdSlices',
+  'x-ms-clitelem',
+  '1,0,0,,',
+  'Set-Cookie',
+  'fpc=Aqx9-E7CUtBOsU713jtbsnkWPr5BAQAAACSTEtkOAAAA; expires=Thu, 02-Dec-2021 02:02:13 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'Set-Cookie',
+  'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
+  'Set-Cookie',
+  'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
+  'Date',
+  'Tue, 02 Nov 2021 02:02:13 GMT',
+  'Content-Length',
+  '1351'
+]);
+
+nock('https://management.azure.com:443', {"encodedQueryParams":true})
+  .patch('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Network/virtualNetworks/virtualnetworkzzz', {"tags":{"tag1":"value1","tag2":"value2"}})
+  .query(true)
+  .reply(200, ["1f8b0800000000000400edbd07601c499625262f6dca7b7f4af54ad7e074a10880601324d8904010ecc188cde692ec1d69472329ab2a81ca6556655d661640cced9dbcf7de7befbdf7de7befbdf7ba3b9d4e27f7dfff3f5c6664016cf6ce4adac99e2180aac81f3f7e7c1f3f227ef16f9ca4e947cb6c917ff428fde8b2a8db75562ef3f6aaaadffee0073ff868c4df17337c7bb7594f9a695dacdaa25a36771fee9d3fbc3f3b38dfbe37fdf4c1f6feeedefef6c3dde983ed83e9f9ce83e96c72beb7bf7bb7ce9b6a5d4ff3cfeb6abd6aee2eae7fba69f3a6bdbbaaabcb6296d7cddd2f8a695d35d5793b7e21ddde552cf4cfc6fcddc32a6fb30be0f5ddbbbfef47d34f777677b3f3e9f6fecebdd9f6fec3dd6c3bdbfdf460fbdedec38759bef760babf77fefb7ea42fb6d72b1eee8d5d6bfbb29a661833dec9b3a65d9b2f0881863e6422ca9fbbf4e7479759b9ce77a58d7cbc673fdefb089ffe12feee23a2c22aafdb22f7a1d087974543dd15cb8bd76dd632aaafd7d3699ecff299856a29bb96d9d9bfffe9c3f3fb9fee6e7f7a9e9dd374ecef6c4f0e263b4486fb9f4ee8ab07f9ce43fb72369bd1fbcdeb55360578edda7df1b2cecf8b778cd6f7cc77f4edeece98ffbbbbfb290f03cff7e5171911b52126a1990adeb4e0e96bc36ad2cc4ea63cff6f63b4bb8408fdd5e84ffa24c0f6eb32a03c98e8deeccb83af6ec103f284738686769af6f63b4d6779995f302fa3cfef7d3ffc76551797d4d7e972b6aa8a65ab74795995c55490fce874994dca1e02fadef362f9f6755e5f16d37cc3abee4dc332786e2f933a178d05f44be4173316a3c4b4fdcb3caf898840c10ef7a39c71793aab8868559b4f41106a709e954d8e2604f297","fc3f58fed9411a050000"], [
+  'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Transfer-Encoding',
+  'chunked',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'Content-Encoding',
+  'gzip',
+  'Expires',
+  '-1',
+  'Vary',
+  'Accept-Encoding',
+  'x-ms-request-id',
+  'a0e1c262-3a1c-47e1-99bd-3f80bc4bf5cf',
+  'x-ms-correlation-request-id',
+  '039ac052-9c2a-4ea5-b579-c2a2bb80b6b0',
+  'Azure-AsyncNotification',
+  'Enabled',
+  'x-ms-arm-service-request-id',
+  'be414cf8-c09a-4887-929b-260d8472d342',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains',
+  'Server',
+  'Microsoft-HTTPAPI/2.0',
+  'Server',
+  'Microsoft-HTTPAPI/2.0',
+  'x-ms-ratelimit-remaining-subscription-writes',
+  '1196',
+  'x-ms-routing-request-id',
+  'SOUTHEASTASIA:20211102T020216Z:039ac052-9c2a-4ea5-b579-c2a2bb80b6b0',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Tue, 02 Nov 2021 02:02:15 GMT'
+]);
