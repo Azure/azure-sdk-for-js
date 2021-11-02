@@ -5,7 +5,7 @@
 import { CallConnection, ContentDownloadResponse } from ".";
 import { CallConnectionImpl } from "./callConnection";
 import {
-  CreateCallOptions,
+  CreateCallConnectionOptions,
   DownloadOptions,
   JoinCallOptions,
   CallLocator,
@@ -166,7 +166,7 @@ export class CallingServerClient {
   public async createCallConnection(
     source: CommunicationIdentifier,
     targets: CommunicationIdentifier[],
-    options: CreateCallOptions
+    options: CreateCallConnectionOptions
   ): Promise<CallConnection> {
     const { operationOptions, restOptions } = extractOperationOptions(options);
     const { span, updatedOptions } = createSpan(

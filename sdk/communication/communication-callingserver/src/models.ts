@@ -42,7 +42,7 @@ export {
 /**
  * Options to create a call.
  */
-export interface CreateCallOptions extends OperationOptions {
+export interface CreateCallConnectionOptions extends OperationOptions {
   /** The alternate identity of the source of the call if dialing out to a pstn number */
   alternateCallerId?: PhoneNumberIdentifier;
   /** The subject. */
@@ -298,15 +298,15 @@ export const enum CallingServerEventTypeValue {
 }
 
 /**
- * Defines values for CallingServerEventType. \
+ * Defines values for CallingServerEventType.
  * {@link CallingServerEventTypeValue} can be used interchangeably with CallingServerEventType,
  *  this enum contains the known values that the service supports.
  * ### Know values supported by the service
- * **Microsoft.Communication.CallConnectionStateChanged** \
- * **Microsoft.Communication.AddParticipantResult** \
- * **Microsoft.Communication.CallRecordingStateChanged** \
- * **Microsoft.Communication.PlayAudioResult** \
- * **Microsoft.Communication.ParticipantsUpdated** \
+ * **Microsoft.Communication.CallConnectionStateChanged**
+ * **Microsoft.Communication.AddParticipantResult**
+ * **Microsoft.Communication.CallRecordingStateChanged**
+ * **Microsoft.Communication.PlayAudioResult**
+ * **Microsoft.Communication.ParticipantsUpdated**
  * **Microsoft.Communication.ToneReceived**
  */
 export type CallingServerEventType = string;
