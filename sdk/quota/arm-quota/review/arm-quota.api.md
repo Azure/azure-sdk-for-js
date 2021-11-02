@@ -14,9 +14,9 @@ import { PollOperationState } from '@azure/core-lro';
 export class AzureQuotaExtensionAPI extends AzureQuotaExtensionAPIContext {
     constructor(credentials: coreAuth.TokenCredential, options?: AzureQuotaExtensionAPIOptionalParams);
     // (undocumented)
-    operation: Operation;
-    // (undocumented)
     quota: Quota;
+    // (undocumented)
+    quotaOperation: QuotaOperation;
     // (undocumented)
     quotaRequestStatus: QuotaRequestStatus;
     // (undocumented)
@@ -114,27 +114,17 @@ export interface LimitJsonObject {
 }
 
 // @public (undocumented)
-export type LimitJsonObjectUnion = LimitJsonObject | LimitValue;
+export type LimitJsonObjectUnion = LimitJsonObject | LimitObject;
 
 // @public
-export interface LimitObject {
-    limitObjectType?: LimitType;
-    limitType?: QuotaLimitTypes;
-    value: number;
-}
-
-// @public
-export type LimitType = string;
-
-// @public
-export type LimitValue = LimitJsonObject & LimitObject & {
+export type LimitObject = LimitJsonObject & {
     limitObjectType: "LimitValue";
+    value: number;
+    limitType?: QuotaLimitTypes;
 };
 
 // @public
-export interface Operation {
-    list(options?: OperationListOptionalParams): PagedAsyncIterableIterator<OperationResponse>;
-}
+export type LimitType = string;
 
 // @public (undocumented)
 export interface OperationDisplay {
@@ -150,20 +140,6 @@ export interface OperationList {
     // (undocumented)
     value?: OperationResponse[];
 }
-
-// @public
-export interface OperationListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OperationListNextResponse = OperationList;
-
-// @public
-export interface OperationListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OperationListResponse = OperationList;
 
 // @public (undocumented)
 export interface OperationResponse {
@@ -244,6 +220,25 @@ export interface QuotaListOptionalParams extends coreClient.OperationOptions {
 
 // @public
 export type QuotaListResponse = QuotaListHeaders & QuotaLimits;
+
+// @public
+export interface QuotaOperation {
+    list(options?: QuotaOperationListOptionalParams): PagedAsyncIterableIterator<OperationResponse>;
+}
+
+// @public
+export interface QuotaOperationListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type QuotaOperationListNextResponse = OperationList;
+
+// @public
+export interface QuotaOperationListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type QuotaOperationListResponse = OperationList;
 
 // @public
 export interface QuotaProperties {

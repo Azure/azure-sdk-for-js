@@ -7,16 +7,16 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { OperationResponse, OperationListOptionalParams } from "../models";
+import { OperationResponse, QuotaOperationListOptionalParams } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Interface representing a Operation. */
-export interface Operation {
+/** Interface representing a QuotaOperation. */
+export interface QuotaOperation {
   /**
    * List all the operations supported by the Microsoft.Quota resource provider.
    * @param options The options parameters.
    */
   list(
-    options?: OperationListOptionalParams
+    options?: QuotaOperationListOptionalParams
   ): PagedAsyncIterableIterator<OperationResponse>;
 }
