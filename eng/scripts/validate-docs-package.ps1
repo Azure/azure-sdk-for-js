@@ -31,8 +31,8 @@ param(
 function GetResult($success, $package, $output) { 
   return @{ Success = $success; Package = $package; Output = $output }
 }
-$registry = "TARGET_REGISTRY=$($Package.registry)"
-$folder = "TARGET_FOLDER=$($Package.folder)"
+$registry = " -e TARGET_REGISTRY=$($Package.registry)"
+$folder = " -e TARGET_FOLDER=$($Package.folder)"
 $commandLine = "docker run --restart=on-failure:3 -e TARGET_PACKAGE='$($Package.name)'"
 if ("$($Package.registry)") {
   $commandLine = "$commandLine$registry"
