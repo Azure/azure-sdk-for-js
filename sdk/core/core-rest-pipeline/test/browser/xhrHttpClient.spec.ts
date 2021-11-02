@@ -157,7 +157,7 @@ describe("XhrHttpClient", function() {
     const client = createDefaultHttpClient();
     const request = createPipelineRequest({
       url: "https://example.com",
-      responseAsStream: true
+      streamResponseStatusCodes: new Set([Number.POSITIVE_INFINITY])
     });
     const promise = client.sendRequest(request);
     assert.equal(requests.length, 1);

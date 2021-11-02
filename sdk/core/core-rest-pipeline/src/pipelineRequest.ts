@@ -69,11 +69,6 @@ export interface PipelineRequestOptions {
   streamResponseStatusCodes?: Set<number>;
 
   /**
-   * If set, body will be returned as a raw stream.
-   */
-  responseAsStream?: boolean;
-
-  /**
    * Proxy configuration.
    */
   proxySettings?: ProxySettings;
@@ -135,7 +130,6 @@ class PipelineRequestImpl implements PipelineRequest {
     this.disableKeepAlive = options.disableKeepAlive ?? false;
     this.proxySettings = options.proxySettings;
     this.streamResponseStatusCodes = options.streamResponseStatusCodes;
-    this.responseAsStream = options.responseAsStream;
     this.withCredentials = options.withCredentials ?? false;
     this.abortSignal = options.abortSignal;
     this.tracingOptions = options.tracingOptions;

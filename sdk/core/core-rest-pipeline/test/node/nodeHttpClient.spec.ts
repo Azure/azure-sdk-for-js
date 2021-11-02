@@ -200,7 +200,7 @@ describe("NodeHttpClient", function() {
     stubbedHttpsRequest.returns(clientRequest);
     const request = createPipelineRequest({
       url: "https://example.com",
-      responseAsStream: true
+      streamResponseStatusCodes: new Set([Number.POSITIVE_INFINITY])
     });
     const promise = client.sendRequest(request);
     stubbedHttpsRequest.yield(createResponse(200, "body"));
