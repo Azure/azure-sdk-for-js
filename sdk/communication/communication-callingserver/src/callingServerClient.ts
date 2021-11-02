@@ -54,10 +54,8 @@ import {
   operationOptionsToRequestOptionsBase,
   RestResponse,
   OperationArguments,
-  OperationOptions,
   OperationSpec,
-  Serializer,
-  URLBuilder
+  Serializer
 } from "@azure/core-http";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { CallingServerApiClient } from "./generated/src/callingServerApiClient";
