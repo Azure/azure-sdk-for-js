@@ -28,6 +28,6 @@
   "dependencies": {
     "@azure-rest/purview-administration": "next",
     "dotenv": "latest",
-    "@azure/identity": "^1.1.0"
+    "@azure/identity": "^2.0.1"
   }
 }

@@ -897,33 +897,43 @@ Many multi-user apps use the [On-Behalf-Of (OBO) flow](https://docs.microsoft.co
 
 Two accounts participate in the OBO flow:
 
-- A user, which aims to obtain a special access level.
-- An app registration, which will act as the provider of the special access level.
+- A user, which aims to obtain a special access level. Typically, the `AuthorizationCodeCredential` would be used. We'll call this identity the **User Account**.
+- An app registration, which will act as the provider of the special access level. We'll call this identity the **Target App Registration**.
 
 Both accounts must belong to the same Azure AD tenant.
 
-For this authentication flow to work, app registrations must be configured with a custom scope. To create a scope through the Azure portal:
+While other credentials authenticate requesting access to a set of resources, the OBO flow requires the user token to have access specifically to the scope of the Azure AD app that will delegate its access to the users. For this authentication flow to work, the **Target App Registration** must be configured with a custom scope. To create a scope through the Azure portal:
 
 1. Select **Active Directory** > **App registrations**.
 2. Go to the app you want to authenticate against.
 3. On the left menu, select **Expose an API** > **Add a scope**.
 
-While other credentials authenticate requesting access to a set of resources, the OBO flow requires the user token to have access specifically to the scope of the Azure AD app that will delegate its access to the users.
+The **Target App Registration** must also have admin consent, which can be granted as follows:
 
-```ts
-const credential = new InteractiveBrowserCredential();
+1. Select **Active Directory** > **App registrations**.
+2. Go to the app you want to authenticate against.
+3. On the left menu, select **API permissions** > **Grant admin consent**.
 
-// Make sure to use the custom scope created on your app registration.
-const token = await credential.getToken("api://AAD_APP_CLIENT_ID/CUSTOM_SCOPE_NAME");
-```
+Once the **Target App Registration** is fully configured, no further configurations are needed on the **User Account** side for the credentials that allow skipping the client ID. In case a specific client ID wants to be specified for the **User Account**, like in the case of the `AuthorizationCodeCredential`, the App Registration used to authenticate in that step must be allowed to authenticate using the scope of the **Target App Registration**. This permission is granted as follows:
 
-Once the token is retrieved, pass it in the `userAssertionToken` property of the `OnBehalfOfCredentialOptions`, along with `tenantId`, `clientId`, and `clientSecret`. Once initialized, this credential will have granted the user access to the resources available to the app registration.
+1. Select **Active Directory** > **App registrations**.
+2. Go to the app you want to authenticate against.
+3. On the left menu, select **API permissions** > **Add a permission** > **My APIs**.
+4. Select the permission related to the scope that we created for our **Target App Registration**.
+5. Select the **user_impersonation** permission checkbox. Then select **Add permissions**.
+
+After everything is set, the code below will work. It will:
+
+1. Authenticate a **User Account** with a credential (in this case, the `InteractiveBrowserCredential`), using the **Target App Registration**'s scope (in this example, `api://AAD_APP_CLIENT_ID/Read`).
+  - If a specific app registration is the desired approach, make sure to use the **User Account** app registration that we mentioned above.
+2. Once the token is retrieved, pass it in the `userAssertionToken` property of the `OnBehalfOfCredentialOptions`, along with `tenantId`, `clientId`, and `clientSecret` of the **Target App Registration**.
+3. Once initialized, this credential will have granted the **User Account** access to the resources available to the **Target App Registration**.
 
 ```ts
 import { InteractiveBrowserCredential, OnBehalfOfCredential } from "@azure/identity";
 
 async function main(): Promise<void> {
-  // One would use AuthCodeCredential in real life.
+  // Most On-Behalf-Of scenarios would likely use the AuthorizationCodeCredential.
   const credential = new InteractiveBrowserCredential();
 
   const token = await credential.getToken("api://AAD_APP_CLIENT_ID/Read");

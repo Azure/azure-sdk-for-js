@@ -6,7 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
@@ -22,7 +21,10 @@ import {
   LoadBalancersUpdateTagsOptionalParams,
   LoadBalancersUpdateTagsResponse,
   LoadBalancerVipSwapRequest,
-  LoadBalancersSwapPublicIpAddressesOptionalParams
+  LoadBalancersSwapPublicIpAddressesOptionalParams,
+  QueryInboundNatRulePortMappingRequest,
+  LoadBalancersListInboundNatRulePortMappingsOptionalParams,
+  LoadBalancersListInboundNatRulePortMappingsResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -143,4 +145,39 @@ export interface LoadBalancers {
     parameters: LoadBalancerVipSwapRequest,
     options?: LoadBalancersSwapPublicIpAddressesOptionalParams
   ): Promise<void>;
+  /**
+   * List of inbound NAT rule port mappings.
+   * @param groupName The name of the resource group.
+   * @param loadBalancerName The name of the load balancer.
+   * @param backendPoolName The name of the load balancer backend address pool.
+   * @param parameters Query inbound NAT rule port mapping request.
+   * @param options The options parameters.
+   */
+  beginListInboundNatRulePortMappings(
+    groupName: string,
+    loadBalancerName: string,
+    backendPoolName: string,
+    parameters: QueryInboundNatRulePortMappingRequest,
+    options?: LoadBalancersListInboundNatRulePortMappingsOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<LoadBalancersListInboundNatRulePortMappingsResponse>,
+      LoadBalancersListInboundNatRulePortMappingsResponse
+    >
+  >;
+  /**
+   * List of inbound NAT rule port mappings.
+   * @param groupName The name of the resource group.
+   * @param loadBalancerName The name of the load balancer.
+   * @param backendPoolName The name of the load balancer backend address pool.
+   * @param parameters Query inbound NAT rule port mapping request.
+   * @param options The options parameters.
+   */
+  beginListInboundNatRulePortMappingsAndWait(
+    groupName: string,
+    loadBalancerName: string,
+    backendPoolName: string,
+    parameters: QueryInboundNatRulePortMappingRequest,
+    options?: LoadBalancersListInboundNatRulePortMappingsOptionalParams
+  ): Promise<LoadBalancersListInboundNatRulePortMappingsResponse>;
 }

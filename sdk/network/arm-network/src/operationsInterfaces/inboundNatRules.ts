@@ -6,7 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
@@ -23,7 +22,7 @@ import {
 /** Interface representing a InboundNatRules. */
 export interface InboundNatRules {
   /**
-   * Gets all the inbound nat rules in a load balancer.
+   * Gets all the inbound NAT rules in a load balancer.
    * @param resourceGroupName The name of the resource group.
    * @param loadBalancerName The name of the load balancer.
    * @param options The options parameters.
@@ -34,10 +33,10 @@ export interface InboundNatRules {
     options?: InboundNatRulesListOptionalParams
   ): PagedAsyncIterableIterator<InboundNatRule>;
   /**
-   * Deletes the specified load balancer inbound nat rule.
+   * Deletes the specified load balancer inbound NAT rule.
    * @param resourceGroupName The name of the resource group.
    * @param loadBalancerName The name of the load balancer.
-   * @param inboundNatRuleName The name of the inbound nat rule.
+   * @param inboundNatRuleName The name of the inbound NAT rule.
    * @param options The options parameters.
    */
   beginDelete(
@@ -47,10 +46,10 @@ export interface InboundNatRules {
     options?: InboundNatRulesDeleteOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
-   * Deletes the specified load balancer inbound nat rule.
+   * Deletes the specified load balancer inbound NAT rule.
    * @param resourceGroupName The name of the resource group.
    * @param loadBalancerName The name of the load balancer.
-   * @param inboundNatRuleName The name of the inbound nat rule.
+   * @param inboundNatRuleName The name of the inbound NAT rule.
    * @param options The options parameters.
    */
   beginDeleteAndWait(
@@ -60,10 +59,10 @@ export interface InboundNatRules {
     options?: InboundNatRulesDeleteOptionalParams
   ): Promise<void>;
   /**
-   * Gets the specified load balancer inbound nat rule.
+   * Gets the specified load balancer inbound NAT rule.
    * @param resourceGroupName The name of the resource group.
    * @param loadBalancerName The name of the load balancer.
-   * @param inboundNatRuleName The name of the inbound nat rule.
+   * @param inboundNatRuleName The name of the inbound NAT rule.
    * @param options The options parameters.
    */
   get(
@@ -73,11 +72,11 @@ export interface InboundNatRules {
     options?: InboundNatRulesGetOptionalParams
   ): Promise<InboundNatRulesGetResponse>;
   /**
-   * Creates or updates a load balancer inbound nat rule.
+   * Creates or updates a load balancer inbound NAT rule.
    * @param resourceGroupName The name of the resource group.
    * @param loadBalancerName The name of the load balancer.
-   * @param inboundNatRuleName The name of the inbound nat rule.
-   * @param inboundNatRuleParameters Parameters supplied to the create or update inbound nat rule
+   * @param inboundNatRuleName The name of the inbound NAT rule.
+   * @param inboundNatRuleParameters Parameters supplied to the create or update inbound NAT rule
    *                                 operation.
    * @param options The options parameters.
    */
@@ -94,11 +93,11 @@ export interface InboundNatRules {
     >
   >;
   /**
-   * Creates or updates a load balancer inbound nat rule.
+   * Creates or updates a load balancer inbound NAT rule.
    * @param resourceGroupName The name of the resource group.
    * @param loadBalancerName The name of the load balancer.
-   * @param inboundNatRuleName The name of the inbound nat rule.
-   * @param inboundNatRuleParameters Parameters supplied to the create or update inbound nat rule
+   * @param inboundNatRuleName The name of the inbound NAT rule.
+   * @param inboundNatRuleParameters Parameters supplied to the create or update inbound NAT rule
    *                                 operation.
    * @param options The options parameters.
    */

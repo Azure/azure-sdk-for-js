@@ -27,4 +27,5 @@ use-extension:
   "@autorest/typescript": "latest"
 package-version: 1.0.0-beta.6
 typescript: true
+v3: true
 ```
