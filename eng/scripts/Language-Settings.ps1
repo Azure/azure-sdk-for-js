@@ -243,8 +243,7 @@ function ValidatePackagesForDocs($packages) {
   $validationOutput = $packages | Foreach-Object -Parallel {
     # Get value for variables outside of the Foreach-Object scope
     $scriptRoot = "$using:scriptRoot"
-    $workingDirectory = "$using:tempDirectory"
-    return ."$scriptRoot\validate-docs-package.ps1" -Package $_ -WorkingDirectory $workingDirectory
+    return ."$scriptRoot\validate-docs-package.ps1" -Package $_ -DocValidationImageId "$using:imageId"
   }
 
   # Clean up temp folder
