@@ -615,6 +615,9 @@
 # PRLabel: %Mgmt
 /sdk/templatespecs/arm-templatespecs @qiaozha @dw511214992
 
+# PRLabel: %Mgmt
+/sdk/quota/arm-quota @qiaozha @dw511214992
+
 # PRLabel: %Monitor
 /sdk/monitor/ @hectorhdzg @applicationinsights-js-owners
 /sdk/monitor/monitor-query @KarishmaGhiya @maorleger
