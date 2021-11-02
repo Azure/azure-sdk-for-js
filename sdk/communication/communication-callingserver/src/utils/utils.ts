@@ -15,10 +15,7 @@ export class CallingServerUtils {
     return url.getScheme() === "http" || url.getScheme() === "https";
   }
 
-  public static getStringToSignHeader(
-    stringToSign: string
-  ): OperationQueryParameter
-  {
+  public static getStringToSignHeader(stringToSign: string): OperationQueryParameter {
     return {
       parameterPath: "UriToSignWith",
       mapper: {
@@ -32,10 +29,7 @@ export class CallingServerUtils {
     };
   }
 
-  public static getMsHostHeaders(
-    hostName: string
-  ): OperationQueryParameter
-  {
+  public static getMsHostHeaders(hostName: string): OperationQueryParameter {
     const q = URLBuilder.parse(hostName!);
     const hostAndPort = q.getHost()! + (q.getPort() !== undefined ? q.getPort() : "");
     return {
@@ -48,16 +42,12 @@ export class CallingServerUtils {
           name: "String"
         }
       }
-    }
+    };
   }
 
-  public static getStringToSign(
-    resourceEndpoint: string,
-    requestUri: string
-  ): string
-  {
+  public static getStringToSign(resourceEndpoint: string, requestUri: string): string {
     const q = URLBuilder.parse(requestUri);
     const formattedUrl = q.getPath()!.startsWith("/") ? q.getPath()!.substr(1) : q.getPath()!;
-    return resourceEndpoint + formattedUrl;;
+    return resourceEndpoint + formattedUrl;
   }
 }

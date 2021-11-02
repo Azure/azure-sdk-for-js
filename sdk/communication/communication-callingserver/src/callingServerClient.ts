@@ -74,7 +74,7 @@ import { serializeCallLocator } from "./callLocatorModelSerializer";
 /**
  * Client options used to configure CallingServer Client API requests.
  */
-export interface CallingServerClientOptions extends PipelineOptions { }
+export interface CallingServerClientOptions extends PipelineOptions {}
 
 /**
  * Checks whether the type of a value is CallingServerClientOptions or not.
@@ -832,25 +832,22 @@ export class CallingServerClient {
   }
 
   /**
- * Deletes the content pointed to the uri passed as a parameter.
- *
- * * Returns a RestResponse indicating the result of the delete operation.
- *
- * @param deleteUri - Endpoint where the content exists.
- *
- * Example usage:
- *
- * ```js
- * // Delete content
- * const deleteUri = "https://deleteUri.com";
- * const deleteResponse = await callingServerClient.delete(deleteUri);
- *
- * ```
- */
-  public async delete(
-    deleteUri: string,
-    options: OperationOptions = {}
-  ): Promise<RestResponse> {
+   * Deletes the content pointed to the uri passed as a parameter.
+   *
+   * * Returns a RestResponse indicating the result of the delete operation.
+   *
+   * @param deleteUri - Endpoint where the content exists.
+   *
+   * Example usage:
+   *
+   * ```js
+   * // Delete content
+   * const deleteUri = "https://deleteUri.com";
+   * const deleteResponse = await callingServerClient.delete(deleteUri);
+   *
+   * ```
+   */
+  public async delete(deleteUri: string, options: OperationOptions = {}): Promise<RestResponse> {
     const { span, updatedOptions } = createSpan("ServerCallRestClient-delete", options);
 
     const operationArguments: OperationArguments = {
@@ -865,7 +862,7 @@ export class CallingServerClient {
       return this.storageApiClient.sendOperationRequest(
         operationArguments,
         getDeleteOperationSpec(deleteUri, stringToSign)
-      ) as Promise<RestResponse>
+      ) as Promise<RestResponse>;
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -875,10 +872,8 @@ export class CallingServerClient {
     } finally {
       span.end();
     }
-
   }
 }
-
 
 function getDeleteOperationSpec(url: string, stringToSign: string): OperationSpec {
   // Operation Specifications
