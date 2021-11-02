@@ -31,9 +31,10 @@ param(
 function GetResult($success, $package, $output) { 
   return @{ Success = $success; Package = $package; Output = $output }
 }
-
-Write-Host "docker run --restart=on-failure:3 -e TARGET_PACKAGE='$($Package.name)' TARGET_REGISTRY='$($Package.registry)'' TARGET_FOLDER='$($Package.folder)'' $DocValidationImageId"
-$installOutput = docker run --restart=on-failure:3 -e TARGET_PACKAGE=$($Package.name) TARGET_REGISTRY="$($Package.registry)" TARGET_FOLDER="$($Package.folder)" $DocValidationImageId 2>&1
+$registry = "$($Package.registry)"
+$folder = "$($Package.folder)"
+Write-Host "docker run --restart=on-failure:3 -e TARGET_PACKAGE='$($Package.name)' TARGET_REGISTRY=$registry TARGET_FOLDER=$folder $DocValidationImageId"
+$installOutput = docker run --restart=on-failure:3 -e TARGET_PACKAGE=$($Package.name) TARGET_REGISTRY=$registry TARGET_FOLDER=$folder $DocValidationImageId 2>&1
 
 # The docker exit codes: https://docs.docker.com/engine/reference/run/#exit-status
 # If the docker failed because of docker itself instead of the application, 
