@@ -53,7 +53,6 @@ describe("urlHelpers", () => {
 
   it("should handle full urls as path", () => {
     const result = buildRequestUrl(mockBaseUrl, "https://example2.org", []);
-
     assert.equal(result, `https://example2.org`);
   });
 
@@ -71,7 +70,7 @@ describe("urlHelpers", () => {
 
   it("should encode url when skip encoding path parameter", () => {
     const result = buildRequestUrl(mockBaseUrl, "/foo%bar", [], {
-      skipUrlEncoding: true
+      skipUrlEncoding: true,
     });
     assert.equal(result, `https://example.org/foo%bar`);
   });
