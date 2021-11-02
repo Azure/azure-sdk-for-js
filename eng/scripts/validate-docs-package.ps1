@@ -28,7 +28,8 @@ node_modules folder is created and the package is installed
 
 param(
   [object] $Package,
-  [string] $DocValidationImageId
+  [string] $DocValidationImageId,
+  [string] $WorkingDirectory
 )
 ."$PSScriptRoot\..\common\scripts\common.ps1"
 
