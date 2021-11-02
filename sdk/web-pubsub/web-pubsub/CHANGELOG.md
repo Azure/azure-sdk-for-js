@@ -1,14 +1,21 @@
 # Release History
 
-## 1.0.0-beta.4 (Unreleased)
+## 1.0.0-beta.4 (2021-11-01)
 
 ### Features Added
 
 - Support for DefaultAzureCredential
-- Added generateClientToken method to the `HubClient`.
 - Added support for reverse proxies, enabling usage of Web Pubsub with Azure API Management.
+- Added method to close all connections in a hub `serviceClient.closeAllConnections`,
+- Added method to close all connections in a group `groupClient.closeAllConnections`
+- Added method to close all connections for a user `serviceClient.closeUserConnections`.
 
 ### Breaking Changes
+
+- Renamed method `getAuthenticationToken` to `getClientAccessToken`
+- Renamed method `hasUser` to `userExists`
+- Renamed method `hasGroup` to `groupExists`
+- Renamed method `hasConnection` to `connnectionExists`
 
 ### Bugs Fixed
 
