@@ -125,7 +125,7 @@ export function browserConfig(test = false) {
         namedExports: {
           ...openTelemetryCommonJs(),
           chai: ["should", "assert"],
-          assert: ["equal", "deepEqual", "notEqual"]
+          assert: ["equal", "deepEqual", "notEqual", "deepStrictEqual"]
         }
       }),
 
