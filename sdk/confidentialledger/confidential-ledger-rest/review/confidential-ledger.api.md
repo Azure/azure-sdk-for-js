@@ -14,6 +14,7 @@ import { TokenCredential } from '@azure/core-auth';
 
 // @public (undocumented)
 function ConfidentialLedger(ledgerBaseUrl: string, ledgerTlsCertificate: string, credentials: TokenCredential | CertificateCredential, options?: ClientOptions): ConfidentialLedgerRestClient;
+
 export default ConfidentialLedger;
 
 // @public (undocumented)
@@ -38,7 +39,9 @@ export interface ConfidentialLedgerErrorBody {
 export type ConfidentialLedgerQueryState = "Loading" | "Ready";
 
 // @public (undocumented)
-export type ConfidentialLedgerRestClient = Client<Routes>;
+export type ConfidentialLedgerRestClient = Client & {
+    path: Routes;
+};
 
 // @public (undocumented)
 export type ConfidentialLedgerUserRoleName = "Administrator" | "Contributor" | "Reader";
@@ -504,6 +507,7 @@ export interface TransactionStatus {
     state: TransactionState;
     transactionId: string;
 }
+
 
 // (No @packageDocumentation comment for this package)
 

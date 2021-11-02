@@ -20,8 +20,8 @@ export interface CertificateCredential {
 }
 
 // @public
-export interface Client<T extends PathUnchecked<"Partial">> {
-    path: T;
+export interface Client {
+    path: Function;
     pathUnchecked: PathUnchecked;
     pipeline: Pipeline;
 }
@@ -41,10 +41,10 @@ export type ClientOptions = PipelineOptions & {
 export function createRestError(message: string, response: PathUncheckedResponse): RestError;
 
 // @public
-export function getClient<T extends PathUnchecked<"Partial">>(baseUrl: string, options?: ClientOptions): Client<T>;
+export function getClient(baseUrl: string, options?: ClientOptions): Client;
 
 // @public
-export function getClient<T extends PathUnchecked<"Partial">>(baseUrl: string, credentials?: TokenCredential | KeyCredential, options?: ClientOptions): Client<T>;
+export function getClient(baseUrl: string, credentials?: TokenCredential | KeyCredential, options?: ClientOptions): Client;
 
 // @public
 export type HttpResponse = {
@@ -65,7 +65,7 @@ pathParameter: string,
 ];
 
 // @public
-export type PathUnchecked<MethodType extends "Full" | "Partial" = "Full"> = <TPath extends string>(path: TPath, ...args: PathParameters<TPath>) => MethodType extends "Full" ? ResourceMethods : Partial<ResourceMethods>;
+export type PathUnchecked = <TPath extends string>(path: TPath, ...args: PathParameters<TPath>) => ResourceMethods;
 
 // @public
 export type PathUncheckedResponse = HttpResponse & {

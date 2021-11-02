@@ -49,7 +49,7 @@ export type PathUncheckedResponse = HttpResponse & { body: any };
 /**
  * Shape of a Rest Level Client
  */
-export interface Client<T extends PathUnchecked<"Partial">> {
+export interface Client {
   /**
    * The pipeline used by this client to make requests
    */
@@ -58,8 +58,7 @@ export interface Client<T extends PathUnchecked<"Partial">> {
    * This method will be used to send request that would check the path to provide
    * strong types
    */
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  path: T;
+  path: Function;
   /**
    * This method allows arbitrary paths and doesn't provide strong types
    */
@@ -69,10 +68,10 @@ export interface Client<T extends PathUnchecked<"Partial">> {
 /**
  * Defines the signature for pathUnchecked.
  */
-export type PathUnchecked<MethodType extends "Full" | "Partial" = "Full"> = <TPath extends string>(
+export type PathUnchecked = <TPath extends string>(
   path: TPath,
   ...args: PathParameters<TPath>
-) => MethodType extends "Full" ? ResourceMethods : Partial<ResourceMethods>;
+) => ResourceMethods;
 
 /**
  * Defines the methods that can be called on a resource
@@ -167,7 +166,7 @@ export type HttpResponse = {
 
 /**
  * Helper type used to detect parameters in a path template
- * keys surounded by \{\} will be considered a path parameter
+ * text surrounded by \{\} will be considered a path parameter
  */
 export type PathParameters<
   TRoute extends string
