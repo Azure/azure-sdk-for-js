@@ -91,7 +91,12 @@ export type PlayAudioToParticipantOptions = PlayAudioOptions;
 /**
  * Options to add participant to the call.
  */
-export type AddParticipantOptions = OperationOptions;
+export interface AddParticipantOptions extends OperationOptions {
+  /** The phone number to use when adding a pstn participant. */
+  alternateCallerId?: string;
+  /** The operation context. */
+  operationContext?: string;
+}
 
 /**
  * Options to remove participant from the call.

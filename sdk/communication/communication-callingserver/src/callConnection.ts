@@ -73,14 +73,10 @@ export interface CallConnection{
    * Add participant to the call.
    *
    * @param participant - The identifier of the participant.
-   * @param alternateCallerId - The phone number to use when adding a pstn participant.
-   * @param operationContext - The operation context.
    * @param options - Additional request options contains addParticipant api options.
    */
   addParticipant(
     participant: CommunicationIdentifier,
-    alternateCallerId?: string,
-    operationContext?: string,
     options?: AddParticipantOptions
   ): Promise<CallConnectionsAddParticipantResponse>;
 
@@ -252,26 +248,23 @@ export class CallConnectionImpl implements CallConnection {
    * Add participant to the call.
    *
    * @param participant - The identifier of the participant.
-   * @param alternateCallerId - The phone number to use when adding a pstn participant.
-   * @param operationContext - The operation context.
    * @param options - Additional request options contains addParticipant api options.
    */
   public async addParticipant(
     participant: CommunicationIdentifier,
-    alternateCallerId?: string,
-    operationContext?: string,
     options: AddParticipantOptions = {}
   ): Promise<CallConnectionsAddParticipantResponse> {
-    const { span, updatedOptions } = createSpan("CallConnectionRestClient-playAudio", options);
+    const { operationOptions, restOptions } = extractOperationOptions(options);
+    const { span, updatedOptions } = createSpan("CallConnectionRestClient-playAudio", operationOptions);
     const alternate_caller_id =
-      typeof alternateCallerId === "undefined"
-        ? alternateCallerId
-        : serializeCommunicationIdentifier({ phoneNumber: alternateCallerId }).phoneNumber;
+      typeof restOptions?.alternateCallerId === "undefined"
+        ? restOptions?.alternateCallerId
+        : serializeCommunicationIdentifier({ phoneNumber: restOptions.alternateCallerId }).phoneNumber;
 
     const request: AddParticipantRequest = {
       participant: serializeCommunicationIdentifier(participant),
       alternateCallerId: alternate_caller_id,
-      operationContext: operationContext
+      operationContext: restOptions?.operationContext
     };
 
     try {
