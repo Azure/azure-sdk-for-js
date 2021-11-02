@@ -2,21 +2,19 @@
 
 [Azure Web PubSub service](https://aka.ms/awps/doc) is an Azure-managed service that helps developers easily build web applications with real-time features and publish-subscribe pattern. Any scenario that requires real-time publish-subscribe messaging between server and clients or among clients can use Azure Web PubSub service. Traditional real-time features that often require polling from server or submitting HTTP requests can also use Azure Web PubSub service.
 
-Use the library to:
+This library can be used to do the following actions. Details about the terms used here are described in [Key concepts](#key-concepts) section.
 
 - Send messages to hubs and groups.
 - Send messages to particular users and connections.
 - Organize users and connections into groups.
 - Close connections
-- Grant/revoke/check permissions for an existing connection
+- Grant, revoke, and check permissions for an existing connection
 
-Key links:
-
-- [Source code](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/web-pubsub/web-pubsub)
-- [Package (NPM)](https://www.npmjs.com/package/@azure/web-pubsub)
-- [API reference documentation](https://aka.ms/awps/sdk/js)
-- [Product documentation](https://aka.ms/awps/doc)
-- [Samples][samples_ref]
+[Source code](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/web-pubsub/web-pubsub) | 
+[Package (NPM)](https://www.npmjs.com/package/@azure/web-pubsub) | 
+[API reference documentation](https://aka.ms/awps/sdk/js) |
+[Product documentation](https://aka.ms/awps/doc) |
+[Samples][samples_ref] 
 
 ## Getting started
 
