@@ -49,7 +49,7 @@ export type PathUncheckedResponse = HttpResponse & { body: any };
 /**
  * Shape of a Rest Level Client
  */
-export interface Client {
+export interface Client<T extends PathUnchecked<"Partial">> {
   /**
    * The pipeline used by this client to make requests
    */
@@ -59,23 +59,30 @@ export interface Client {
    * strong types
    */
   // eslint-disable-next-line @typescript-eslint/ban-types
-  path: Function;
+  path: T;
   /**
    * This method allows arbitrary paths and doesn't provide strong types
    */
-  pathUnchecked: <TPath extends string>(
-    path: TPath,
-    ...args: PathParameters<TPath>
-  ) => {
-    get: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
-    post: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
-    put: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
-    patch: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
-    delete: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
-    head: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
-    options: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
-    trace: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
-  };
+  pathUnchecked: PathUnchecked;
+}
+
+/**
+ * Defines the signature for pathUnchecked.
+ */
+export type PathUnchecked<MethodType extends "Full" | "Partial" = "Full"> = <TPath extends string>(
+  path: TPath,
+  ...args: PathParameters<TPath>
+) => MethodType extends "Full" ? ResourceMethods : Partial<ResourceMethods>;
+
+export interface ResourceMethods {
+  get: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
+  post: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
+  put: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
+  patch: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
+  delete: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
+  head: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
+  options: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
+  trace: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
 }
 
 /**

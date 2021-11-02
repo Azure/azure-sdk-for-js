@@ -136,9 +136,7 @@ export interface Routes {
   (path: "/app/users/{userId}", userId: string): CreateOrUpdateUser;
 }
 
-export type ConfidentialLedgerRestClient = Client & {
-  path: Routes;
-};
+export type ConfidentialLedgerRestClient = Client<Routes>
 
 export default function ConfidentialLedger(
   ledgerUri: string,
@@ -154,5 +152,5 @@ export default function ConfidentialLedger(
     },
   };
 
-  return getClient(baseUrl, credentials, options) as ConfidentialLedgerRestClient;
+  return getClient(baseUrl, credentials, options);
 }

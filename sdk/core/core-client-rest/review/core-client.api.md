@@ -19,19 +19,12 @@ export interface CertificateCredential {
     certKey: string;
 }
 
-// @public
-export interface Client {
-    path: Function;
-    pathUnchecked: <TPath extends string>(path: TPath, ...args: PathParameters<TPath>) => {
-        get: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
-        post: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
-        put: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
-        patch: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
-        delete: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
-        head: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
-        options: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
-        trace: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
-    };
+// Warning: (ae-forgotten-export) The symbol "FOO" needs to be exported by the entry point index.d.ts
+//
+// @public (undocumented)
+export interface Client<T extends FOO> {
+    path: T;
+    pathUnchecked: PathUnchecked;
     pipeline: Pipeline;
 }
 
@@ -50,10 +43,10 @@ export type ClientOptions = PipelineOptions & {
 export function createRestError(message: string, response: PathUncheckedResponse): RestError;
 
 // @public
-export function getClient(baseUrl: string, options?: ClientOptions): Client;
+export function getClient<T extends PathUnchecked<"Partial">>(baseUrl: string, options?: ClientOptions): Client<T>;
 
 // @public
-export function getClient(baseUrl: string, credentials?: TokenCredential | KeyCredential, options?: ClientOptions): Client;
+export function getClient<T extends PathUnchecked<"Partial">>(baseUrl: string, credentials?: TokenCredential | KeyCredential, options?: ClientOptions): Client<T>;
 
 // @public
 export type HttpResponse = {
@@ -72,6 +65,9 @@ pathParameter: string,
 ...pathParameters: PathParameters<Tail>
 ] : [
 ];
+
+// @public
+export type PathUnchecked<MethodType extends "Full" | "Partial" = "Full"> = <TPath extends string>(path: TPath, ...args: PathParameters<TPath>) => MethodType extends "Full" ? ResourceMethods : Partial<ResourceMethods>;
 
 // @public
 export type PathUncheckedResponse = HttpResponse & {
