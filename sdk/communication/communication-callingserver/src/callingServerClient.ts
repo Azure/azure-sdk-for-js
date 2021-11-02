@@ -356,9 +356,10 @@ export class CallingServerClient {
     const { operationOptions, restOptions } = extractOperationOptions(options);
     const { span, updatedOptions } = createSpan("ServerCallRestClient-playAudio", operationOptions);
     const alternate_caller_id =
-    typeof restOptions?.alternateCallerId === "undefined"
-      ? restOptions?.alternateCallerId
-      : serializeCommunicationIdentifier({ phoneNumber: restOptions.alternateCallerId }).phoneNumber;
+      typeof restOptions?.alternateCallerId === "undefined"
+        ? restOptions?.alternateCallerId
+        : serializeCommunicationIdentifier({ phoneNumber: restOptions.alternateCallerId })
+            .phoneNumber;
 
     const request: AddParticipantWithCallLocatorRequest = {
       callLocator: callLocator,

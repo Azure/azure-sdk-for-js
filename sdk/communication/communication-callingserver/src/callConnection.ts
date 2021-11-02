@@ -35,8 +35,7 @@ import { extractOperationOptions } from "./extractOperationOptions";
 /**
  * A CallConnection interface represents call connection based APIs.
  */
-export interface CallConnection{
-
+export interface CallConnection {
   /**
    * Returns the call connection id.
    */
@@ -54,9 +53,7 @@ export interface CallConnection{
    *
    * @param options - Additional request options contains hangUp api options.
    */
-  cancelAllMediaOperations(
-    options?: CancelAllMediaOperationsOptions
-  ): Promise<void>;
+  cancelAllMediaOperations(options?: CancelAllMediaOperationsOptions): Promise<void>;
 
   /**
    * Play audio.
@@ -64,10 +61,7 @@ export interface CallConnection{
    * @param audioFileUri - The id for the media in the AudioFileUri, using which we cache the media resource.
    * @param options - Additional request options contains playAudio api options.
    */
-  playAudio(
-    audioFileUri: string,
-    options: PlayAudioOptions
-  ): Promise<PlayAudioResult>;
+  playAudio(audioFileUri: string, options: PlayAudioOptions): Promise<PlayAudioResult>;
 
   /**
    * Add participant to the call.
@@ -255,11 +249,15 @@ export class CallConnectionImpl implements CallConnection {
     options: AddParticipantOptions = {}
   ): Promise<CallConnectionsAddParticipantResponse> {
     const { operationOptions, restOptions } = extractOperationOptions(options);
-    const { span, updatedOptions } = createSpan("CallConnectionRestClient-playAudio", operationOptions);
+    const { span, updatedOptions } = createSpan(
+      "CallConnectionRestClient-playAudio",
+      operationOptions
+    );
     const alternate_caller_id =
       typeof restOptions?.alternateCallerId === "undefined"
         ? restOptions?.alternateCallerId
-        : serializeCommunicationIdentifier({ phoneNumber: restOptions.alternateCallerId }).phoneNumber;
+        : serializeCommunicationIdentifier({ phoneNumber: restOptions.alternateCallerId })
+            .phoneNumber;
 
     const request: AddParticipantRequest = {
       participant: serializeCommunicationIdentifier(participant),

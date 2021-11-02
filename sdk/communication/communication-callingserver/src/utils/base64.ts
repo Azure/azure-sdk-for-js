@@ -18,7 +18,7 @@ export function base64encode(content: string): string {
  *
  * @internal
  * @param encodedString - string need to be decoded
-*/
+ */
 export function base64decode(encodedString: string): string {
   return isNode ? Buffer.from(encodedString, "base64").toString() : atob(encodedString);
 }

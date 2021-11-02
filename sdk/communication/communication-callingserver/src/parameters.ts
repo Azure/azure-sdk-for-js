@@ -9,7 +9,7 @@
 
 import { OperationParameter } from "@azure/core-http";
 
- /** Specified range used to indicate the bytes of the blob. */
+/** Specified range used to indicate the bytes of the blob. */
 export const range: OperationParameter = {
   parameterPath: ["options", "range"],
   mapper: {
