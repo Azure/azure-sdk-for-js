@@ -31,4 +31,23 @@ export class CallingServerUtils {
       }
     };
   }
+
+  public static getMsHostHeaders(
+    hostName: string
+  ): OperationQueryParameter
+  {
+    const q = URLBuilder.parse(hostName!);
+    const hostAndPort = q.getHost()! + (q.getPort() !== undefined ? q.getPort() : "");
+    return {
+      parameterPath: "x-ms-host",
+      mapper: {
+        defaultValue: hostAndPort,
+        isConstant: true,
+        serializedName: "x-ms-host",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
 }

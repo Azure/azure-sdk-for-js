@@ -887,6 +887,7 @@ function getDeleteOperationSpec(url: string, stringToSign: string): OperationSpe
   // Operation Specifications
   const serializer = new Serializer(Mappers, /* isXml */ false);
   const stringToSignHeader = CallingServerUtils.getStringToSignHeader(stringToSign);
+  const hostHeader = CallingServerUtils.getMsHostHeaders(stringToSign);
 
   const deleteOperationSpec: OperationSpec = {
     path: "",
@@ -901,7 +902,7 @@ function getDeleteOperationSpec(url: string, stringToSign: string): OperationSpe
     requestBody: undefined,
     queryParameters: [],
     urlParameters: [],
-    headerParameters: [stringToSignHeader],
+    headerParameters: [stringToSignHeader, hostHeader],
     serializer
   };
 

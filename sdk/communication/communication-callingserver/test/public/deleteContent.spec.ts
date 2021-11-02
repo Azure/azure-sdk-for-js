@@ -28,9 +28,8 @@ import {
   
   describe("Delete Live Tests", function() {
     let recorder: Recorder;
-
-    const uri =
-      "https://endpoint/v1/objects/0-eus-d8-24d744599871098c7a22f28a4cb738d5";
+    const uri = "https://endpoint/v1/objects/0-wus-d6-fdf8ff0fdcd668bca8c52c0b1ee79b05";
+    const invalidUri = "https://endpoint/v1/objects/0-wus-d4-ca4017a32f8514aa9f054f0917270000";
 
     const callingServerServiceClient = new CallingServerClient(
         env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING ||
@@ -53,13 +52,13 @@ import {
         this.skip();
       }
   
-      const deleteRepsonse = await callingServerServiceClient.delete(uri);
-      assert.strictEqual(200, deleteRepsonse._response.status);
+      const result = await callingServerServiceClient.delete(uri);
+      assert.equal(200, result._response.status);
     });
   
     it("unauthorized delete", async function(this: Context) {
       if (!isPlaybackMode()) {
-        // tslint:disable-next-line:no-invalid-this
+        // tslint:disable-next-l ine:no-invalid-this
         this.skip();
       }
   
@@ -78,12 +77,11 @@ import {
           // tslint:disable-next-line:no-invalid-this
           this.skip();
         }
-        const invalidUri = "https://storage.asm.skype.com/v1/objects/0-eus-d3-00000000000000000000000000000000";
         try {
           await callingServerServiceClient.download(invalidUri);
         } catch (e) {
           assert.equal((e as RestError).statusCode, 404);
         }
       });
-});
+  });
   
