@@ -40,17 +40,18 @@ if ("$($Package.registry)") {
 if ("$($Package.folder)") {
   $commandLine = "$commandLine$folder"
 }
-$commandLine = "$commandLine $DocValidationImageId 2>&1" 
-Write-Host $commandLine
+$commandLine = "$commandLine $DocValidationImageId 2>&1"
 $installOutput = Invoke-Expression $commandLine
 
 # The docker exit codes: https://docs.docker.com/engine/reference/run/#exit-status
 # If the docker failed because of docker itself instead of the application, 
 # we should skip the validation and keep the packages. 
-if ($LASTEXITCODE -eq 125 -Or $LASTEXITCODE -eq 126 -Or $LASTEXITCODE -eq 127) {
+if ($LASTEXITCODE -eq 125 -Or $LASTEXITCODE -eq 126 -Or $LASTEXITCODE -eq 127) { 
+  Write-Host $commandLine
   LogWarning "The `docker` command does not work with exit code $LASTEXITCODE. Skipvalidation of $($Package.name)."
 }
-elseif ($LASTEXITCODE -ne 0) {
+elseif ($LASTEXITCODE -ne 0) { 
+  Write-Host $commandLine
   LogWarning "Package $($Package.name) ref docs validation failed."
   return GetResult $false $package $installOutput
 }
