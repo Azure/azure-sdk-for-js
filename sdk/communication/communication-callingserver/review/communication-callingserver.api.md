@@ -93,7 +93,7 @@ export class CallingServerClient {
     addParticipant(callLocator: CallLocator, participant: CommunicationIdentifier, callbackUri: string, options?: AddParticipantOptions): Promise<ServerCallsAddParticipantResponse>;
     cancelMediaOperation(callLocator: CallLocator, mediaOperationId: string, options?: CancelMediaOperationOptions): Promise<void>;
     cancelParticipantMediaOperation(callLocator: CallLocator, participant: CommunicationIdentifier, mediaOperationId: string, options?: CancelMediaOperationOptions): Promise<void>;
-    createCallConnection(source: CommunicationIdentifier, targets: CommunicationIdentifier[], options: CreateCallOptions): Promise<CallConnection>;
+    createCallConnection(source: CommunicationIdentifier, targets: CommunicationIdentifier[], options: CreateCallConnectionOptions): Promise<CallConnection>;
     download(uri: string, offset?: number, options?: DownloadOptions): Promise<ContentDownloadResponse>;
     getCallConnection(callConnectionId: string): CallConnection;
     getRecordingProperties(recordingId: string, options?: GetRecordingPropertiesOptions): Promise<CallRecordingProperties>;
@@ -183,7 +183,7 @@ export type ContentDownloadResponse = ContentDownloadHeaders & {
 };
 
 // @public
-export interface CreateCallOptions extends OperationOptions {
+export interface CreateCallConnectionOptions extends OperationOptions {
     alternateCallerId?: PhoneNumberIdentifier;
     callbackUri: string;
     requestedCallEvents: CallingEventSubscriptionType[];

@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { env, record, Recorder, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
-import { CallingServerClient, CreateCallOptions, PlayAudioOptions } from "../../src";
+import { CallingServerClient, CreateCallConnectionOptions, PlayAudioOptions } from "../../src";
 import { TestUtils } from "./utils/testUtils";
 import { Context } from "mocha";
 import * as Constants from "./utils/constants";
@@ -40,7 +40,7 @@ describe("Call Connection Live Test", function() {
       }
     });
 
-    it.only("Run create_play_cancel_hangup scenario", async function(this: Context) {
+    it("Run create_play_cancel_hangup scenario", async function(this: Context) {
       this.timeout(0);
       // this.callingServer = createCallingServerClient();
       // this.callingServer = createSmsClient();
@@ -55,7 +55,7 @@ describe("Call Connection Live Test", function() {
       };
       const from_phone_number = "+18445764430";
       // create call option
-      const options: CreateCallOptions = {
+      const createCallOptions: CreateCallConnectionOptions = {
         callbackUri: Constants.CALLBACK_URI,
         requestedMediaTypes: ["audio"],
         requestedCallEvents: ["participantsUpdated", "toneReceived"],
@@ -64,18 +64,18 @@ describe("Call Connection Live Test", function() {
       const callConnection = await callingServer.createCallConnection(
         from_user,
         [to_user],
-        options
+        createCallOptions
       );
       try {
         // create PlayAudio option
-        const options: PlayAudioOptions = {
+        const playAudioOptions: PlayAudioOptions = {
           loop: true,
           audioFileId: recorder.getUniqueName("audioFileId"),
           callbackUri: Constants.CALLBACK_URI,
           operationContext: recorder.getUniqueName("operationContext")
         };
         await TestUtils.delayIfLive();
-        await callConnection.playAudio(Constants.Audio_File_Url, options);
+        await callConnection.playAudio(Constants.Audio_File_Url, playAudioOptions);
         await callConnection.cancelAllMediaOperations();
         await TestUtils.delayIfLive();
       } finally {
