@@ -26,14 +26,10 @@ matrix([[true, false]], async function(useAad) {
     });
 
     it("can list all acquired short codes", async function() {
-      let all = 0;
       for await (const shortCode of client.listUSProgramBriefs()) {
         //assert.match(programBrief.id, /\+\d{1}\d{3}\d{3}\d{4}/g);
         assert.isNotNull(shortCode.number);
-        all++;
       }
-
-      assert.isTrue(all > 0);
     }).timeout(60000);
   });
 });

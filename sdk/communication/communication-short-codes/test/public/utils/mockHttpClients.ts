@@ -21,7 +21,7 @@ export const createMockHttpClient = <T = Record<string, unknown>>(
 };
 
 export const getUSProgramBriefHttpClient: HttpClient = createMockHttpClient<USProgramBrief>(200, {
-  id: "todo: generate guid",
+  id: "9fb78ef0-5704-4866-bca2-6a040ec83c0b",
   programDetails: {
     description:
       "Customers can sign up to receive regular updates on coupons and other perks of our loyalty program.",

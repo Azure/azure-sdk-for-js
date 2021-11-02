@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { matrix } from "@azure/test-utils";
-import { Recorder } from "@azure-tools/test-recorder";
+import { Recorder, env } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { Context } from "mocha";
 import { ShortCodesClient, ShortCodesUpsertUSProgramBriefOptionalParams } from "../../src";
@@ -26,7 +26,7 @@ matrix([[true, false]], async function(useAad) {
     });
 
     it("can upsert a US Program Brief", async function() {
-      const programBriefId = "todo: generate guid";
+      const programBriefId = env.US_PROGRAM_BRIEF_ID;
       const programBriefRequest: ShortCodesUpsertUSProgramBriefOptionalParams = {
         body: {
           id: programBriefId,
@@ -41,12 +41,13 @@ matrix([[true, false]], async function(useAad) {
             privacyPolicyUrl: "https://contoso.com/privacy",
             signUpTypes: ["sms", "website"],
             termsOfServiceUrl: "https://contoso.com/terms",
-            url: "https://contoso.com/loyalty-program"
+            url: "https://contoso.com/loyalty-program",
+            signUpUrl: "https://contoso.com/sign-up"
           },
           companyInformation: {
             address: "1 Contoso Way Redmond, WA 98052",
             name: "Contoso",
-            url: "contoso.com",
+            url: "http://www.contoso.com/",
             contactInformation: {
               email: "alex@contoso.com",
               name: "Alex",

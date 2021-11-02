@@ -26,7 +26,7 @@ describe("PhoneNumbersClient - headers", function() {
 
   it("calls the spy", async function() {
     const spy = sinon.spy(getUSProgramBriefHttpClient, "sendRequest");
-    await client.getUSProgramBrief("todo: generate guid");
+    await client.getUSProgramBrief("9fb78ef0-5704-4866-bca2-6a040ec83c0b");
     sinon.assert.calledOnce(spy);
 
     request = spy.getCall(0).args[0];
@@ -66,7 +66,7 @@ describe("PhoneNumbersClient - headers", function() {
     });
 
     const spy = sinon.spy(getUSProgramBriefHttpClient, "sendRequest");
-    await client.getUSProgramBrief("todo: generate guid");
+    await client.getUSProgramBrief("9fb78ef0-5704-4866-bca2-6a040ec83c0b");
     sinon.assert.calledOnce(spy);
 
     request = spy.getCall(0).args[0];
@@ -85,7 +85,7 @@ describe("PhoneNumbersClient - headers", function() {
     });
 
     const spy = sinon.spy(getUSProgramBriefHttpClient, "sendRequest");
-    await client.getUSProgramBrief("todo: generate guid");
+    await client.getUSProgramBrief("9fb78ef0-5704-4866-bca2-6a040ec83c0b");
     sinon.assert.calledOnce(spy);
 
     request = spy.getCall(0).args[0];
@@ -102,7 +102,7 @@ describe("PhoneNumbersClient - headers", function() {
     });
 
     const spy = sinon.spy(getUSProgramBriefHttpClient, "sendRequest");
-    await client.getUSProgramBrief("todo: generate guid");
+    await client.getUSProgramBrief("9fb78ef0-5704-4866-bca2-6a040ec83c0b");
     sinon.assert.calledOnce(spy);
 
     request = spy.getCall(0).args[0];
