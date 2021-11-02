@@ -51,7 +51,7 @@ export type PathUncheckedResponse = HttpResponse & { body: any };
 /**
  * Shape of a Rest Level Client
  */
-export interface Client<T extends PathUnchecked<"Partial">> {
+export interface Client {
   /**
    * The pipeline used by this client to make requests
    */
@@ -66,8 +66,7 @@ export interface Client<T extends PathUnchecked<"Partial">> {
    * }
    * ```
    */
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  path: T;
+  path: Function;
   /**
    * This method allows arbitrary paths and doesn't provide strong types
    */
