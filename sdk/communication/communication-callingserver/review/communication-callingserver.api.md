@@ -85,6 +85,7 @@ export class CallingServerClient {
     cancelMediaOperation(callLocator: CallLocator, mediaOperationId: string, options?: CancelMediaOperationOptions): Promise<void>;
     cancelParticipantMediaOperation(callLocator: CallLocator, participant: CommunicationIdentifier, mediaOperationId: string, options?: CancelMediaOperationOptions): Promise<void>;
     createCallConnection(source: CommunicationIdentifier, targets: CommunicationIdentifier[], options: CreateCallConnectionOptions): Promise<CallConnection>;
+    delete(deleteUri: string, options?: DeleteOptions): Promise<RestResponse>;
     download(uri: string, offset?: number, options?: DownloadOptions): Promise<ContentDownloadResponse>;
     getCallConnection(callConnectionId: string): CallConnection;
     // Warning: (ae-forgotten-export) The symbol "CallRecordingProperties" needs to be exported by the entry point index.d.ts
@@ -102,7 +103,7 @@ export class CallingServerClient {
     // Warning: (ae-forgotten-export) The symbol "StartCallRecordingResult" needs to be exported by the entry point index.d.ts
     startRecording(callLocator: CallLocator, recordingStateCallbackUri: string, options?: StartRecordingOptions): Promise<StartCallRecordingResult>;
     stopRecording(recordingId: string, options?: StopRecordingOptions): Promise<RestResponse>;
-}
+    }
 
 // @public
 export interface CallingServerClientOptions extends PipelineOptions {
@@ -163,6 +164,9 @@ export interface CreateCallConnectionOptions extends OperationOptions {
     requestedMediaTypes: CallMediaType[];
     subject?: string;
 }
+
+// @public
+export type DeleteOptions = OperationOptions;
 
 // @public (undocumented)
 export interface DownloadContentOptions extends DownloadOptions {
