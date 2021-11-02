@@ -11,13 +11,13 @@ import {
   UsagesImpl,
   QuotaImpl,
   QuotaRequestStatusImpl,
-  OperationImpl
+  QuotaOperationImpl
 } from "./operations";
 import {
   Usages,
   Quota,
   QuotaRequestStatus,
-  Operation
+  QuotaOperation
 } from "./operationsInterfaces";
 import { AzureQuotaExtensionAPIContext } from "./azureQuotaExtensionAPIContext";
 import { AzureQuotaExtensionAPIOptionalParams } from "./models";
@@ -36,11 +36,11 @@ export class AzureQuotaExtensionAPI extends AzureQuotaExtensionAPIContext {
     this.usages = new UsagesImpl(this);
     this.quota = new QuotaImpl(this);
     this.quotaRequestStatus = new QuotaRequestStatusImpl(this);
-    this.operation = new OperationImpl(this);
+    this.quotaOperation = new QuotaOperationImpl(this);
   }
 
   usages: Usages;
   quota: Quota;
   quotaRequestStatus: QuotaRequestStatus;
-  operation: Operation;
+  quotaOperation: QuotaOperation;
 }
