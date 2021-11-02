@@ -7,9 +7,6 @@ stages:
       ServiceDirectory: keyvault
       TimeoutInMinutes: 90
       # KV HSM limitation prevents us from running live tests
-      # against multiple platforms in parallel (we're limited to a single
-      # instance per region per subscription) so we're only running
-      # live tests against a single instance.
       SupportedClouds: 'Public,UsGov,China'
       CloudConfig:
         Public:
@@ -23,6 +20,9 @@ stages:
           SubscriptionConfiguration: $(sub-config-cn-test-resources)
           MatrixFilters:
             - ArmTemplateParameters=^(?!.*enableHsm.*true)
+      # against multiple platforms in parallel (we're limited to a single
+      # instance per region per subscription) so we're only running
+      # live tests against a single instance.
       AdditionalMatrixConfigs:
         - Name: Keyvault_live_test_base
           Path: sdk/keyvault/keyvault-keys/platform-matrix.json
