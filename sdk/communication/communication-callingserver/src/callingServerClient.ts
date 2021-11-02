@@ -268,26 +268,7 @@ export class CallingServerClient {
   ): Promise<PlayAudioResult> {
     const { operationOptions, restOptions } = extractOperationOptions(options);
     const { span, updatedOptions } = createSpan("ServerCallRestClient-playAudio", operationOptions);
-    if (!CallingServerUtils.isValidUrl(audioFileUri)) {
-      throw new Error("audioFileUri is invalid.");
-    }
-    if (
-      typeof options.audioFileId === "undefined" ||
-      !options.audioFileId ||
-      !options.audioFileId.trim()
-    ) {
-      throw new Error("audioFileId is invalid.");
-    }
-    if (!CallingServerUtils.isValidUrl(String(options.callbackUri))) {
-      throw new Error("callbackUri is invalid.");
-    }
-    if (
-      typeof options.operationContext === "undefined" ||
-      !options.operationContext ||
-      !options.operationContext.trim()
-    ) {
-      throw new Error("operationContext can not be null.");
-    }
+
     const request: PlayAudioWithCallLocatorRequest = {
       callLocator: callLocator,
       audioFileUri: audioFileUri,

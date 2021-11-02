@@ -31,7 +31,6 @@ import { createSpan } from "./tracing";
 import { operationOptionsToRequestOptionsBase } from "@azure/core-http";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { extractOperationOptions } from "./extractOperationOptions";
-import { CallingServerUtils } from "./utils/utils";
 
 /**
  * A CallConnection interface represents call connection based APIs.
@@ -231,21 +230,6 @@ export class CallConnectionImpl implements CallConnection {
       audioFileId: restOptions.audioFileId,
       callbackUri: restOptions.callbackUri
     };
-    if (!CallingServerUtils.isValidUrl(audioFileUri)) {
-      throw new Error("audioFileUri is invalid.");
-    }
-    if (
-      !(
-        typeof options.audioFileId !== "undefined" &&
-        options.audioFileId &&
-        options.audioFileId.trim()
-      )
-    ) {
-      throw new Error("audioFileId is invalid.");
-    }
-    if (!CallingServerUtils.isValidUrl(String(options.callbackUri))) {
-      throw new Error("callbackUri is invalid.");
-    }
     try {
       const { ...result } = await this.callConnectionRestClient.playAudio(
         this.callConnectionId,
