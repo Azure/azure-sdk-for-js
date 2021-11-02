@@ -17,7 +17,8 @@ import {
   PauseRecordingOptions,
   ResumeRecordingOptions,
   StopRecordingOptions,
-  GetRecordingPropertiesOptions
+  GetRecordingPropertiesOptions,
+  DeleteOptions
 } from "./models";
 import { CallConnections, ServerCalls } from "./generated/src/operations";
 import {
@@ -847,7 +848,7 @@ export class CallingServerClient {
    *
    * ```
    */
-  public async delete(deleteUri: string, options: OperationOptions = {}): Promise<RestResponse> {
+  public async delete(deleteUri: string, options: DeleteOptions = {}): Promise<RestResponse> {
     const { span, updatedOptions } = createSpan("ServerCallRestClient-delete", options);
 
     const operationArguments: OperationArguments = {
@@ -855,10 +856,10 @@ export class CallingServerClient {
     };
 
     try {
-      const q = URLBuilder.parse(deleteUri);
-      const formattedUrl = q.getPath()!.startsWith("/") ? q.getPath()!.substr(1) : q.getPath()!;
-      const stringToSign = this.storageApiClient.endpoint + formattedUrl;
-
+      const stringToSign = CallingServerUtils.getStringToSign(
+        this.storageApiClient.endpoint,
+        deleteUri
+      );
       return this.storageApiClient.sendOperationRequest(
         operationArguments,
         getDeleteOperationSpec(deleteUri, stringToSign)

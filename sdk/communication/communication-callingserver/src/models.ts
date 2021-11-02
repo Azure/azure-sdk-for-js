@@ -131,6 +131,10 @@ export type StopRecordingOptions = OperationOptions;
  * Options to get recording properties.
  */
 export type GetRecordingPropertiesOptions = OperationOptions;
+/**
+ * Options to delete recording.
+ */
+export type DeleteOptions = OperationOptions;
 
 /**
  * Call Locator.
