@@ -9,6 +9,6 @@
   "dependencies": {
     "@azure/core-http": "latest",
     "@azure/storage-blob": "latest",
-    "@azure/identity": "2.0.0-beta.5"
+    "@azure/identity": "^2.0.1"
   }
 }

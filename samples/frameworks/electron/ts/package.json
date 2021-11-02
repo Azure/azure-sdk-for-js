@@ -23,7 +23,7 @@
     "webpack": "^5.6.0"
   },
   "dependencies": {
-    "@azure/identity": "^1.2.0",
+    "@azure/identity": "^2.0.1",
     "@azure/logger": "^1.0.0",
     "@azure/service-bus": "^7.0.0",
     "@azure/storage-blob": "^12.3.0",
