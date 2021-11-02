@@ -1,9 +1,5 @@
 #!/usr/bin/env bash
-echo "first parameter"
-echo $1
-echo "second parameter"
-echo $2
-echo "third parameter"
-echo $3
-echo "fourth parameter"
-echo $4
+npm install -g dwtest-release-tools
+cd $3
+README=$1/$2/resource-manager/readme.md
+track2-codegen-automation-for-sdk-generation-pipeline --task=generateCode --use=@autorest/typescript@6.0.0-beta.14 --readme=$README
