@@ -140,7 +140,7 @@ matrix([[true, false]] as const, async (useAad) => {
           testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DETECTION_CONFIG_ID,
           new Date(Date.UTC(2021, 4, 5)),
           new Date(Date.UTC(2021, 10, 1)),
-          "city"
+          "category"
         );
         let result = await iterator.next();
         assert.ok(result.value, "Expecting first dimension value");
@@ -153,7 +153,7 @@ matrix([[true, false]] as const, async (useAad) => {
           testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DETECTION_CONFIG_ID,
           "2021-01-05T00:00:00.000Z",
           "2021-11-05T00:00:00.000Z",
-          "city"
+          "category"
         );
         let result = await iterator.next();
         assert.ok(result.value, "Expecting first dimension value");
@@ -167,7 +167,7 @@ matrix([[true, false]] as const, async (useAad) => {
             testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DETECTION_CONFIG_ID,
             new Date(Date.UTC(2021, 4, 5)),
             new Date(Date.UTC(2021, 10, 1)),
-            "city"
+            "category"
           )
           .byPage({ maxPageSize: 2 });
         let result = await iterator.next();
@@ -303,7 +303,7 @@ matrix([[true, false]] as const, async (useAad) => {
       it("listMetricDimensionValues()", async function() {
         const iterator = client.listMetricDimensionValues(
           testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1,
-          "city"
+          "category"
         );
         let result = await iterator.next();
         assert.ok(result.value, "Expecting first dimension value");
@@ -313,7 +313,10 @@ matrix([[true, false]] as const, async (useAad) => {
 
       it("listMetricDimensionValues() by page", async function() {
         const iterator = client
-          .listMetricDimensionValues(testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1, "city")
+          .listMetricDimensionValues(
+            testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1,
+            "category"
+          )
           .byPage({ maxPageSize: 2 });
         let result = await iterator.next();
         assert.equal(result.value.length, 2, "Expecting two dimension values in first page");
@@ -325,8 +328,8 @@ matrix([[true, false]] as const, async (useAad) => {
         const data = await client.getMetricSeriesData(
           testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1,
           [
-            { city: "Manila", category: "Shoes Handbags & Sunglasses" },
-            { city: "Cairo", category: "Home & Garden" }
+            { region: "Manila", category: "Shoes Handbags & Sunglasses" },
+            { region: "Cairo", category: "Home & Garden" }
           ],
           new Date(Date.UTC(2021, 7, 5)),
           new Date(Date.UTC(2021, 8, 5))
@@ -337,7 +340,7 @@ matrix([[true, false]] as const, async (useAad) => {
           testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1
         );
         assert.deepStrictEqual(data![0].definition.seriesKey, {
-          city: "Manila",
+          region: "Manila",
           category: "Shoes Handbags & Sunglasses"
         });
 
@@ -354,7 +357,7 @@ matrix([[true, false]] as const, async (useAad) => {
           testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1
         );
         assert.deepStrictEqual(data![1].definition.seriesKey, {
-          city: "Cairo",
+          region: "Cairo",
           category: "Home & Garden"
         });
 
@@ -371,8 +374,8 @@ matrix([[true, false]] as const, async (useAad) => {
         const data = await client.getMetricSeriesData(
           testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1,
           [
-            { city: "Cairo", category: "Home & Garden" },
-            { city: "Manila", category: "Shoes Handbags & Sunglasses" }
+            { region: "Cairo", category: "Home & Garden" },
+            { region: "Manila", category: "Shoes Handbags & Sunglasses" }
           ],
           "2021-08-05T00:00:00.000Z",
           "2021-09-05T00:00:00.000Z"
@@ -383,7 +386,7 @@ matrix([[true, false]] as const, async (useAad) => {
           testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1
         );
         assert.deepStrictEqual(data![0].definition.seriesKey, {
-          city: "Cairo",
+          region: "Cairo",
           category: "Home & Garden"
         });
 
@@ -400,8 +403,8 @@ matrix([[true, false]] as const, async (useAad) => {
         const data = await client.getMetricEnrichedSeriesData(
           testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DETECTION_CONFIG_ID,
           [
-            { city: "Manila", category: "Shoes Handbags & Sunglasses" },
-            { city: "Cairo", category: "Home & Garden" }
+            { region: "Manila", category: "Shoes Handbags & Sunglasses" },
+            { region: "Cairo", category: "Home & Garden" }
           ],
           new Date(Date.UTC(2021, 7, 1)),
           new Date(Date.UTC(2021, 7, 27))
@@ -409,7 +412,7 @@ matrix([[true, false]] as const, async (useAad) => {
         assert.ok(data && data!.length === 2, "Expecting data for two time series");
 
         assert.deepStrictEqual(data![0].seriesKey, {
-          city: "Manila",
+          region: "Manila",
           category: "Shoes Handbags & Sunglasses"
         });
 
@@ -424,7 +427,7 @@ matrix([[true, false]] as const, async (useAad) => {
         );
 
         assert.deepStrictEqual(data![1].seriesKey, {
-          city: "Cairo",
+          region: "Cairo",
           category: "Home & Garden"
         });
 
@@ -443,8 +446,8 @@ matrix([[true, false]] as const, async (useAad) => {
         const data = await client.getMetricEnrichedSeriesData(
           testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DETECTION_CONFIG_ID,
           [
-            { city: "Manila", category: "Shoes Handbags & Sunglasses" },
-            { city: "Cairo", category: "Home & Garden" }
+            { region: "Manila", category: "Shoes Handbags & Sunglasses" },
+            { region: "Cairo", category: "Home & Garden" }
           ],
           "2021-08-01T00:00:00.000Z",
           "2021-08-27T00:00:00.000Z"
@@ -452,7 +455,7 @@ matrix([[true, false]] as const, async (useAad) => {
         assert.ok(data && data!.length === 2, "Expecting data for two time series");
 
         assert.deepStrictEqual(data![0].seriesKey, {
-          city: "Manila",
+          region: "Manila",
           category: "Shoes Handbags & Sunglasses"
         });
       });
@@ -506,11 +509,11 @@ matrix([[true, false]] as const, async (useAad) => {
           "Expecting non empty root cause list"
         );
         const first = result.rootCauses[0];
-        assert.deepStrictEqual(first.path, ["city"]);
+        assert.deepStrictEqual(first.path, ["category"]);
         assert.ok(first.score, "Expecting score");
         assert.equal(
           first.description,
-          "Increase on category = Electronics (Consumer) | city = Karachi contributes the most to current incident."
+          "Increase on category = Electronics (Consumer) | region = Karachi contributes the most to current incident."
         );
       });
 
@@ -523,7 +526,7 @@ matrix([[true, false]] as const, async (useAad) => {
             startTime: new Date(Date.UTC(2021, 7, 5)),
             endTime: new Date(Date.UTC(2021, 7, 7)),
             value: "NotAnomaly",
-            dimensionKey: { city: "Cairo", category: "Home & Garden" }
+            dimensionKey: { region: "Cairo", category: "Home & Garden" }
           };
           const actual = await client.addFeedback(anomalyFeedback);
 
@@ -541,7 +544,7 @@ matrix([[true, false]] as const, async (useAad) => {
             feedbackType: "ChangePoint",
             startTime: new Date(Date.UTC(2021, 7, 5)),
             value: "ChangePoint",
-            dimensionKey: { city: "Cairo", category: "Home & Garden" }
+            dimensionKey: { region: "Cairo", category: "Home & Garden" }
           };
           const actual = await client.addFeedback(changePointFeedback);
 
@@ -559,7 +562,7 @@ matrix([[true, false]] as const, async (useAad) => {
             feedbackType: "Period",
             periodType: "AutoDetect",
             periodValue: 4,
-            dimensionKey: { city: "Cairo", category: "Home & Garden" }
+            dimensionKey: { region: "Cairo", category: "Home & Garden" }
           };
           const actual = await client.addFeedback(periodFeedback);
 
@@ -576,7 +579,7 @@ matrix([[true, false]] as const, async (useAad) => {
           const expectedCommentFeedback: MetricCommentFeedback = {
             metricId: testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1,
             feedbackType: "Comment",
-            dimensionKey: { city: "Cairo", category: "Home & Garden" },
+            dimensionKey: { region: "Cairo", category: "Home & Garden" },
             comment: "This is a comment"
           };
 
