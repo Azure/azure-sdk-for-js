@@ -543,6 +543,13 @@ export const TransferCallRequest: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
+      alternateCallerId: {
+        serializedName: "alternateCallerId",
+        type: {
+          name: "Composite",
+          className: "PhoneNumberIdentifierModel"
+        }
+      },
       userToUserInformation: {
         serializedName: "userToUserInformation",
         type: {

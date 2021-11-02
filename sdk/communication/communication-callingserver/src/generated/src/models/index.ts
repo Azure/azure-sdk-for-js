@@ -189,6 +189,8 @@ export interface TransferCallRequest {
   targetParticipant?: CommunicationIdentifierModel;
   /** The call connection id to replace the current call with. This parameter should be used for consultative transfer. */
   targetCallConnectionId?: string;
+  /** The alternate identity of the transferor if transferring to a pstn number. */
+  alternateCallerId?: PhoneNumberIdentifierModel;
   /** The user to user information. */
   userToUserInformation?: string;
   /** The operation context. */

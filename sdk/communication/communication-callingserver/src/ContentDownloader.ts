@@ -21,12 +21,47 @@ import {
 } from "@azure/core-http";
 import { ContentDownloadResponse } from ".";
 
-export class ContentDownloader {
+/**
+ * The ContentDownloader interface represents related APIs.
+ */
+export interface ContentDownloader{
+  /**
+   * Download recording's content.
+   * @param contentUri - The content Uri.
+   * @param options - The options parameters.
+   */
+  downloadContent(
+    contentUri: string,
+    options: DownloadContentOptions
+  ): Promise<ContentDownloadResponse>;
+
+  /**
+   * Download recording's content.
+   * @param contentUri - The content Uri.
+   * @param options - The options parameters.
+   */
+   download_content(
+    contentUri: string,
+    options?: OperationOptions
+  ): Promise<ContentDownloadResponse>;
+
+}
+
+/**
+ * The ContentDownloader contains operations.
+ */
+export class ContentDownloaderImpl implements ContentDownloader  {
   private readonly client: CallingServerApiClientContext;
+
   constructor(client: CallingServerApiClientContext) {
     this.client = client;
   }
 
+  /**
+   * Download recording's content.
+   * @param contentUri - The content Uri.
+   * @param options - The options parameters.
+   */
   public async downloadContent(
     contentUri: string,
     options: DownloadContentOptions = {}

@@ -59,7 +59,7 @@ import { CallingServerApiClientContext } from "./generated/src/callingServerApiC
 import { SDK_VERSION } from "./constants";
 import { convertTracingToRequestOptionsBase, createSpan } from "./tracing";
 import { logger } from "./logger";
-import { ContentDownloader } from "./ContentDownloader";
+import { ContentDownloader, ContentDownloaderImpl } from "./ContentDownloader";
 import { rangeToString } from "./Range";
 import { RepeatableContentDownloadResponse } from "./RepeatableContentDownloadResponse";
 import { extractOperationOptions } from "./extractOperationOptions";
@@ -150,8 +150,11 @@ export class CallingServerClient {
     return new CallConnectionImpl(callConnectionId, this.callConnectionRestClient);
   }
 
+  /**
+   * Initializes a new instance of ContentDownloader.
+   */
   public initializeContentDownloader(): ContentDownloader {
-    return new ContentDownloader(this.downloadCallingServerApiClient);
+    return new ContentDownloaderImpl(this.downloadCallingServerApiClient);
   }
 
   /**

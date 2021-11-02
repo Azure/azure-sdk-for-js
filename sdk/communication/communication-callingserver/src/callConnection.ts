@@ -33,8 +33,14 @@ import { SpanStatusCode } from "@azure/core-tracing";
 import { extractOperationOptions } from "./extractOperationOptions";
 import { CallingServerUtils } from "./utils/utils";
 
-
+/**
+ * A CallConnection interface represents call connection based APIs.
+ */
 export interface CallConnection{
+
+  /**
+   * Returns the call connection id.
+   */
   getCallConnectionId(): string;
 
   /**
@@ -127,7 +133,7 @@ export interface CallConnection{
     targetParticipant: CommunicationIdentifier,
     userToUserInformation: string,
     options?: TransferCallOptions
-  ): Promise<void>
+  ): Promise<void>;
 }
 
 /**
