@@ -17,9 +17,14 @@ import { knownContextKeys } from "./tracingContext";
 export class TracingClientImpl implements TracingClient {
   private _namespace: string;
   private _tracer: Tracer;
+  private _packageInformation: { name: string; version?: string | undefined };
+
   constructor(options?: TracingClientOptions) {
     this._namespace = options?.namespace || "";
     this._tracer = options?.tracer || tracerImplementation;
+    this._packageInformation = options?.packageInformation || {
+      name: "@azure/core-tracing"
+    };
   }
   startSpan<Options extends { tracingOptions?: OperationTracingOptions }>(
     name: string,
@@ -32,7 +37,8 @@ export class TracingClientImpl implements TracingClient {
   } {
     const { span, tracingContext } = this._tracer.startSpan(name, {
       ...spanOptions,
-      tracingContext: operationOptions?.tracingOptions?.tracingContext
+      tracingContext: operationOptions?.tracingOptions?.tracingContext,
+      packageInformation: this._packageInformation
     });
     const newContext = tracingContext.setValue(knownContextKeys.Namespace, this._namespace);
     span.setAttribute("az.namespace", this._namespace);

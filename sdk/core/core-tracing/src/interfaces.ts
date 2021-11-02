@@ -83,6 +83,13 @@ export interface TracingClientOptions {
   namespace: string;
   /** An optional {@link Tracer}. If omitted, the globally set tracer will be used */
   tracer?: Tracer;
+  /** Information about the package invoking this trace. Defaults to \@azure/core-tracing if omitted */
+  packageInformation?: {
+    /** The name of the package. */
+    name: string;
+    /** An optional package version. */
+    version?: string;
+  };
 }
 
 /**
@@ -125,7 +132,7 @@ export interface Tracer {
    */
   startSpan(
     name: string,
-    spanOptions?: TracingSpanOptions & { tracingContext?: TracingContext }
+    spanOptions?: TracerStartSpanOptions
   ): { span: TracingSpan; tracingContext: TracingContext };
   /**
    * Wraps a callback with an active context and calls the callback.
@@ -151,6 +158,21 @@ export interface Tracer {
    * into a {@link TracingSpanIdentifier} which can be used to link non-parented spans together.
    */
   parseTraceparentHeader(traceparentHeader: string): TracingSpanIdentifier | undefined;
+}
+
+/**
+ * Options passed to {@link Tracer.startSpan} as a superset of {@link TracingSpanOptions}.
+ */
+export interface TracerStartSpanOptions extends TracingSpanOptions {
+  /** The current tracing context. Defaults to an implementation-specific "active" context. */
+  tracingContext?: TracingContext;
+  /** Information about the package invoking this trace. Defaults to \@azure/core-tracing if omitted */
+  packageInformation?: {
+    /** The name of the package. */
+    name: string;
+    /** An optional package version. */
+    version?: string;
+  };
 }
 
 /**

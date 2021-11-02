@@ -212,7 +212,11 @@ describe("Tracer", () => {
 
       useTracer(tracer);
       client = createTracingClient({
-        namespace: expectedNamespace
+        namespace: expectedNamespace,
+        packageInformation: {
+          name: "test-package",
+          version: "1.0.0"
+        }
       });
     });
 
@@ -236,6 +240,29 @@ describe("Tracer", () => {
           setAttributeSpy.calledWith("az.namespace", expectedNamespace),
           `expected span.setAttribute("az.namespace", "${expectedNamespace}") to have been called`
         );
+      });
+
+      it("passes package information to tracer", () => {
+        const tracerStartSpanSpy = sinon.spy(tracer, "startSpan");
+        client.startSpan("test", {});
+        assert.isTrue(tracerStartSpanSpy.called);
+        const args = tracerStartSpanSpy.getCall(0).args;
+
+        assert.equal(args[0], "test");
+        assert.equal(args[1]?.packageInformation?.name, "test-package");
+        assert.equal(args[1]?.packageInformation?.version, "1.0.0");
+      });
+
+      it("passes defaults when package information is omitted", () => {
+        const tracerStartSpanSpy = sinon.spy(tracer, "startSpan");
+        client = createTracingClient();
+        client.startSpan("test", {});
+        assert.isTrue(tracerStartSpanSpy.called);
+        const args = tracerStartSpanSpy.getCall(0).args;
+
+        assert.equal(args[0], "test");
+        assert.equal(args[1]?.packageInformation?.name, "@azure/core-tracing");
+        assert.isUndefined(args[1]?.packageInformation?.version);
       });
 
       it("sets namespace on context", () => {

@@ -34,13 +34,20 @@ export type SpanStatus = {
 // @public
 export interface Tracer {
     parseTraceparentHeader(traceparentHeader: string): TracingSpanIdentifier | undefined;
-    startSpan(name: string, spanOptions?: TracingSpanOptions & {
-        tracingContext?: TracingContext;
-    }): {
+    startSpan(name: string, spanOptions?: TracerStartSpanOptions): {
         span: TracingSpan;
         tracingContext: TracingContext;
     };
     withContext<CallbackArgs extends unknown[], Callback extends (...args: CallbackArgs) => ReturnType<Callback>>(context: TracingContext, callback: Callback, callbackThis?: ThisParameterType<Callback>, ...callbackArgs: CallbackArgs): ReturnType<Callback>;
+}
+
+// @public
+export interface TracerStartSpanOptions extends TracingSpanOptions {
+    packageInformation?: {
+        name: string;
+        version?: string;
+    };
+    tracingContext?: TracingContext;
 }
 
 // @public
@@ -61,6 +68,10 @@ export interface TracingClient {
 // @public
 export interface TracingClientOptions {
     namespace: string;
+    packageInformation?: {
+        name: string;
+        version?: string;
+    };
     tracer?: Tracer;
 }
 
