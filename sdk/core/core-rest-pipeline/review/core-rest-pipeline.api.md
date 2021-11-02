@@ -199,6 +199,7 @@ export interface PipelineRequest {
     onUploadProgress?: (progress: TransferProgressEvent) => void;
     proxySettings?: ProxySettings;
     requestId: string;
+    responseAsStream?: boolean;
     streamResponseStatusCodes?: Set<number>;
     timeout: number;
     tracingOptions?: OperationTracingOptions;
@@ -219,6 +220,7 @@ export interface PipelineRequestOptions {
     onUploadProgress?: (progress: TransferProgressEvent) => void;
     proxySettings?: ProxySettings;
     requestId?: string;
+    responseAsStream?: boolean;
     streamResponseStatusCodes?: Set<number>;
     timeout?: number;
     tracingOptions?: OperationTracingOptions;

@@ -151,7 +151,7 @@ class NodeHttpClient implements HttpClient {
         responseStream = downloadReportStream;
       }
 
-      if (request.streamResponseStatusCodes?.has(response.status)) {
+      if (request.responseAsStream || request.streamResponseStatusCodes?.has(response.status)) {
         response.readableStreamBody = responseStream;
       } else {
         response.bodyAsText = await streamToText(responseStream);

@@ -67,7 +67,8 @@ class XhrHttpClient implements HttpClient {
     for (const [name, value] of request.headers) {
       xhr.setRequestHeader(name, value);
     }
-    xhr.responseType = request.streamResponseStatusCodes?.size ? "blob" : "text";
+    xhr.responseType =
+      request.responseAsStream || request.streamResponseStatusCodes?.size ? "blob" : "text";
 
     if (isReadableStream(request.body)) {
       throw new Error("Node streams are not supported in browser environment.");
@@ -105,7 +106,7 @@ function handleBlobResponse(
   xhr.addEventListener("readystatechange", () => {
     // Resolve as soon as headers are loaded
     if (xhr.readyState === XMLHttpRequest.HEADERS_RECEIVED) {
-      if (request.streamResponseStatusCodes?.has(xhr.status)) {
+      if (request.responseAsStream || request.streamResponseStatusCodes?.has(xhr.status)) {
         const blobBody = new Promise<Blob>((resolve, reject) => {
           xhr.addEventListener("load", () => {
             resolve(xhr.response);
