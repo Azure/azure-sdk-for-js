@@ -68,12 +68,7 @@ class XhrHttpClient implements HttpClient {
       xhr.setRequestHeader(name, value);
     }
 
-    xhr.responseType =
-      // Value of POSITIVE_INFINITY in streamResponseStatusCodes is considered as any status code
-      request.streamResponseStatusCodes?.has(Number.POSITIVE_INFINITY) ||
-      request.streamResponseStatusCodes?.size
-        ? "blob"
-        : "text";
+    xhr.responseType = request.streamResponseStatusCodes?.size ? "blob" : "text";
 
     if (isReadableStream(request.body)) {
       throw new Error("Node streams are not supported in browser environment.");

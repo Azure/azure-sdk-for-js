@@ -194,7 +194,7 @@ describe("NodeHttpClient", function() {
     assert.ok(response.readableStreamBody);
   });
 
-  it("should stream response body on responseAsStream", async function() {
+  it("should stream response body on any status code", async function() {
     const client = createDefaultHttpClient();
     const clientRequest = createRequest();
     stubbedHttpsRequest.returns(clientRequest);
@@ -203,7 +203,7 @@ describe("NodeHttpClient", function() {
       streamResponseStatusCodes: new Set([Number.POSITIVE_INFINITY])
     });
     const promise = client.sendRequest(request);
-    stubbedHttpsRequest.yield(createResponse(200, "body"));
+    stubbedHttpsRequest.yield(createResponse(201, "body"));
     const response = await promise;
     assert.equal(response.bodyAsText, undefined);
     assert.ok(response.readableStreamBody);
