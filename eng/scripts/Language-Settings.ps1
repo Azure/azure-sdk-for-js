@@ -435,7 +435,7 @@ function Find-javascript-Artifacts-For-Apireview($artifactDir, $packageName)
   return $packages
 }
 
-function SetPackageVersion ($PackageName, $Version, $ReleaseDate)
+function SetPackageVersion ($PackageName, $Version, $ReleaseDate, $ReplaceLatestEntryTitle = $true)
 {
   if ($null -eq $ReleaseDate)
   {
@@ -445,7 +445,8 @@ function SetPackageVersion ($PackageName, $Version, $ReleaseDate)
   Confirm-NodeInstallation
   npm install
   $artifactName = $PackageName.Replace("@", "").Replace("/", "-")
-  node ./set-version.js --artifact-name $artifactName --new-version $Version --release-date $ReleaseDate --repo-root $RepoRoot
+  node ./set-version.js --artifact-name $artifactName --new-version $Version --release-date $ReleaseDate `
+  --replace-latest-entry-title $ReplaceLatestEntryTitle --repo-root $RepoRoot
   Pop-Location
 }
 

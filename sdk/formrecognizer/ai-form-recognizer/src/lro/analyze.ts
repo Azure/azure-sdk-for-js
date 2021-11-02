@@ -348,9 +348,19 @@ export interface DocumentAnalysisPollOperationState<Result = AnalyzeResult<Analy
   modelId: string;
 
   /**
-   * The unique ID of this analysis operation.
+   * The URL to the operation.
    */
-  operationId: string;
+  operationLocation: string;
+
+  /**
+   * The Date and Time that the operation was created.
+   */
+  createdOn: Date;
+
+  /**
+   * The date & time that the operation state was last modified.
+   */
+  lastUpdatedOn: Date;
 }
 
 /**
@@ -361,25 +371,6 @@ export type AnalysisPoller<Result = AnalyzeResult<AnalyzedDocument>> = PollerLik
   DocumentAnalysisPollOperationState<Result>,
   Result
 >;
-
-const operationLocationRegex = /\/documentModels\/([a-zA-Z0-9-]+)\/analyzeResults\/([a-z0-9-]+)/;
-
-/**
- * Extract a model ID and analysis operation ID from an operationLocation URL.
- * @internal
- */
-export function parseOperationLocation(url: string | undefined): [string, string] {
-  if (url === undefined) {
-    throw new Error("Failed to start analysis operation: no operation-location in the response.");
-  }
-
-  const parseResult = operationLocationRegex.exec(url);
-  if (!parseResult || !parseResult[1] || !parseResult[2]) {
-    throw new Error(`Unable to parse operationLocation: "${url}"`);
-  }
-
-  return [parseResult[1], parseResult[2]];
-}
 
 /**
  * Convert a generated AnalyzeResult into a convenience layer AnalyzeResult.
@@ -425,17 +416,19 @@ export interface AnalysisOperationDefinition<Result = AnalyzeResult> {
 export function toDocumentAnalysisPollOperationState<Result>(
   definition: AnalysisOperationDefinition<Result>,
   modelId: string,
-  operationId: string,
-  result: AnalyzeResultOperation
+  operationLocation: string,
+  response: AnalyzeResultOperation
 ): DocumentAnalysisPollOperationState<Result> {
   return {
-    status: result.status,
+    status: response.status,
     modelId: modelId,
-    operationId,
-    result: result.analyzeResult && definition.transformResult(result.analyzeResult),
-    error: result.error && new FormRecognizerError(result.error),
+    lastUpdatedOn: response.lastUpdatedDateTime,
+    createdOn: response.createdDateTime,
+    operationLocation,
+    result: response.analyzeResult && definition.transformResult(response.analyzeResult),
+    error: response.error && new FormRecognizerError(response.error),
     isCancelled: false, // Not supported
-    isStarted: result.status !== "notStarted",
-    isCompleted: result.status === "succeeded",
+    isStarted: response.status !== "notStarted",
+    isCompleted: response.status === "succeeded",
   };
 }
