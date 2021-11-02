@@ -17,7 +17,7 @@ Example:
   registry = "<url>";
   ...
 }
-.PARAMETER docValidationImageId
+.PARAMETER DocValidationImageId
 The image name for package validation in format of '$containerRegistry/$imageName:$tag'. 
 e.g. azuresdkimages.azurecr.io/jsrefautocr:latest
 #>
