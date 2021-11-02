@@ -7,14 +7,14 @@
 
 const { KnownAnalyzerNames } = require("@azure/search-documents");
 
-export const WAIT_TIME = 4000;
+module.exports.WAIT_TIME = 4000;
 
-export const documentKeyRetriever = (document) => {
+module.exports.documentKeyRetriever = (document) => {
   return document.hotelId;
 };
 
 // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
-export async function createIndex(client, name) {
+module.exports.createIndex = async (client, name) => {
   const hotelIndex = {
     name,
     fields: [
