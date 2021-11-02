@@ -19,10 +19,8 @@ export interface CertificateCredential {
     certKey: string;
 }
 
-// Warning: (ae-forgotten-export) The symbol "FOO" needs to be exported by the entry point index.d.ts
-//
-// @public (undocumented)
-export interface Client<T extends FOO> {
+// @public
+export interface Client<T extends PathUnchecked<"Partial">> {
     path: T;
     pathUnchecked: PathUnchecked;
     pipeline: Pipeline;
