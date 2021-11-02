@@ -62,7 +62,7 @@
   "dependencies": {
     "@azure/core-paging": "^1.2.0",
     "@azure/core-rest-pipeline": "^1.1.0",
-    "@azure-rest/core-client": "1.0.0-beta.8",
+    "@azure-rest/core-client": "1.0.0-beta.7",
     "tslib": "^2.2.0"
   },
   "devDependencies": {
