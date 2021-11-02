@@ -116,7 +116,7 @@ export interface CallingServerClientOptions extends PipelineOptions {
 export type CallingServerEventType = string;
 
 // @public
-export const enum CallingServerEventTypeValue {
+export enum CallingServerEventTypeValue {
     AddParticipantResultEvent = "Microsoft.Communication.AddParticipantResult",
     CallConnectionStateChangedEvent = "Microsoft.Communication.CallConnectionStateChanged",
     CallRecordingStateChangedEvent = "Microsoft.Communication.CallRecordingStateChanged",

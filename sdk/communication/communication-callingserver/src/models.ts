@@ -277,7 +277,7 @@ export interface DownloadContentOptions extends DownloadOptions {
 }
 
 /** Values of {@link CallingServerEventType} that the service accepts. */
-export const enum CallingServerEventTypeValue {
+export enum CallingServerEventTypeValue {
   /** The call connection state change event type. */
   CallConnectionStateChangedEvent = "Microsoft.Communication.CallConnectionStateChanged",
 
