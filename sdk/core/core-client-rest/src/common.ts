@@ -74,14 +74,41 @@ export type PathUnchecked<MethodType extends "Full" | "Partial" = "Full"> = <TPa
   ...args: PathParameters<TPath>
 ) => MethodType extends "Full" ? ResourceMethods : Partial<ResourceMethods>;
 
+/**
+ * Defines the methods that can be called on a resource
+ */
 export interface ResourceMethods {
+  /**
+   * Definition of the GET HTTP method for a resource
+   */
   get: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
+  /**
+   * Definition of the POST HTTP method for a resource
+   */
   post: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
+  /**
+   * Definition of the PUT HTTP method for a resource
+   */
   put: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
+  /**
+   * Definition of the PATCH HTTP method for a resource
+   */
   patch: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
+  /**
+   * Definition of the DELETE HTTP method for a resource
+   */
   delete: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
+  /**
+   * Definition of the HEAD HTTP method for a resource
+   */
   head: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
+  /**
+   * Definition of the OPTIONS HTTP method for a resource
+   */
   options: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
+  /**
+   * Definition of the TRACE HTTP method for a resource
+   */
   trace: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
 }
 
