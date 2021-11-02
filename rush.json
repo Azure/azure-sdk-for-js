@@ -1035,6 +1035,11 @@
       "packageName": "@azure/arm-notificationhubs",
       "projectFolder": "sdk/notificationhubs/arm-notificationhubs",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-streamanalytics",
+      "projectFolder": "sdk/streamanalytics/arm-streamanalytics",
+      "versionPolicyName": "management"
     }
   ]
 }
