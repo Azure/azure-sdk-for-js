@@ -41,10 +41,10 @@ export type ClientOptions = PipelineOptions & {
 export function createRestError(message: string, response: PathUncheckedResponse): RestError;
 
 // @public
-export function getClient(baseUrl: string, options?: ClientOptions): Client;
+export function getClient<T extends PathUnchecked<"Partial">>(baseUrl: string, options?: ClientOptions): Client<T>;
 
 // @public
-export function getClient(baseUrl: string, credentials?: TokenCredential | KeyCredential, options?: ClientOptions): Client;
+export function getClient<T extends PathUnchecked<"Partial">>(baseUrl: string, credentials?: TokenCredential | KeyCredential, options?: ClientOptions): Client<T>;
 
 // @public
 export type HttpResponse = {

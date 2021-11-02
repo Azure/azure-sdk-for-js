@@ -5,7 +5,7 @@ import { isTokenCredential, KeyCredential, TokenCredential } from "@azure/core-a
 import { isCertificateCredential } from "./certificateCredential";
 import { HttpMethods, Pipeline, PipelineOptions } from "@azure/core-rest-pipeline";
 import { createDefaultPipeline } from "./clientHelpers";
-import { Client, ClientOptions, HttpResponse, RequestParameters } from "./common";
+import { Client, ClientOptions, HttpResponse, PathUnchecked, RequestParameters } from "./common";
 import { sendRequest } from "./sendRequest";
 import { buildRequestUrl } from "./urlHelpers";
 
@@ -14,23 +14,26 @@ import { buildRequestUrl } from "./urlHelpers";
  * @param baseUrl - Base endpoint for the client
  * @param options - Client options
  */
-export function getClient(baseUrl: string, options?: ClientOptions): Client;
+export function getClient<T extends PathUnchecked<"Partial">>(
+  baseUrl: string,
+  options?: ClientOptions
+): Client<T>;
 /**
  * Creates a client with a default pipeline
  * @param baseUrl - Base endpoint for the client
  * @param credentials - Credentials to authenticate the requests
  * @param options - Client options
  */
-export function getClient(
+export function getClient<T extends PathUnchecked<"Partial">>(
   baseUrl: string,
   credentials?: TokenCredential | KeyCredential,
   options?: ClientOptions
-): Client;
-export function getClient(
+): Client<T>;
+export function getClient<T extends PathUnchecked<"Partial">>(
   baseUrl: string,
   credentialsOrPipelineOptions?: (TokenCredential | KeyCredential) | ClientOptions,
   clientOptions: ClientOptions = {}
-): Client {
+): Client<T> {
   let credentials: TokenCredential | KeyCredential | undefined;
   if (credentialsOrPipelineOptions) {
     if (isCredential(credentialsOrPipelineOptions)) {
@@ -136,7 +139,7 @@ export function getClient(
   };
 
   return {
-    path: client,
+    path: client as T,
     pathUnchecked: client,
     pipeline,
   };
