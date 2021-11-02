@@ -56,7 +56,13 @@ export interface Client {
   pipeline: Pipeline;
   /**
    * This method will be used to send request that would check the path to provide
-   * strong types
+   * strong types. When used by the codegen this type gets overriden wit the generated
+   * types. For example:
+   * ```typescript
+   * export type MyClient = Client & {
+   *    path: Routes;
+   * }
+   * ```
    */
   path: Function;
   /**
