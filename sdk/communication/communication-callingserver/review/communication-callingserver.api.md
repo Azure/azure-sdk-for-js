@@ -17,7 +17,10 @@ import { TokenCredential } from '@azure/core-auth';
 import { TransferProgressEvent } from '@azure/core-http';
 
 // @public
-export type AddParticipantOptions = OperationOptions;
+export interface AddParticipantOptions extends OperationOptions {
+    alternateCallerId?: string;
+    operationContext?: string;
+}
 
 // @public
 export interface AddParticipantResult {
@@ -33,7 +36,7 @@ export interface AddParticipantResultEvent {
 
 // @public
 export interface CallConnection {
-    addParticipant(participant: CommunicationIdentifier, alternateCallerId?: string, operationContext?: string, options?: AddParticipantOptions): Promise<CallConnectionsAddParticipantResponse>;
+    addParticipant(participant: CommunicationIdentifier, options?: AddParticipantOptions): Promise<CallConnectionsAddParticipantResponse>;
     cancelAllMediaOperations(options?: CancelAllMediaOperationsOptions): Promise<void>;
     cancelParticipantMediaOperation(participant: CommunicationIdentifier, mediaOperationId: string, options?: CancelMediaOperationOptions): Promise<void>;
     getCallConnectionId(): string;
@@ -87,7 +90,7 @@ export type CallingOperationStatus = string;
 export class CallingServerClient {
     constructor(connectionString: string, options?: CallingServerClientOptions);
     constructor(endpoint: string, credential: TokenCredential, options?: CallingServerClientOptions);
-    addParticipant(callLocator: CallLocator, participant: CommunicationIdentifier, callbackUri: string, alternateCallerId?: string, operationContext?: string, options?: AddParticipantOptions): Promise<ServerCallsAddParticipantResponse>;
+    addParticipant(callLocator: CallLocator, participant: CommunicationIdentifier, callbackUri: string, options?: AddParticipantOptions): Promise<ServerCallsAddParticipantResponse>;
     cancelMediaOperation(callLocator: CallLocator, mediaOperationId: string, options?: CancelMediaOperationOptions): Promise<void>;
     cancelParticipantMediaOperation(callLocator: CallLocator, participant: CommunicationIdentifier, mediaOperationId: string, options?: CancelMediaOperationOptions): Promise<void>;
     createCallConnection(source: CommunicationIdentifier, targets: CommunicationIdentifier[], options: CreateCallOptions): Promise<CallConnection>;
