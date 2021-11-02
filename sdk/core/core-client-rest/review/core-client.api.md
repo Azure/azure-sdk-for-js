@@ -22,7 +22,7 @@ export interface CertificateCredential {
 // @public
 export interface Client {
     path: Function;
-    pathUnchecked: (path: string, ...args: Array<any>) => {
+    pathUnchecked: <TPath extends string>(path: TPath, ...args: PathParameters<TPath>) => {
         get: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
         post: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
         put: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
@@ -47,9 +47,6 @@ export type ClientOptions = PipelineOptions & {
 };
 
 // @public
-export function createDefaultPipeline(baseUrl: string, credential?: TokenCredential | KeyCredential, options?: ClientOptions): Pipeline;
-
-// @public
 export function createRestError(message: string, response: PathUncheckedResponse): RestError;
 
 // @public
@@ -68,6 +65,13 @@ export type HttpResponse = {
 
 // @public
 export function isCertificateCredential(credential: unknown): credential is CertificateCredential;
+
+// @public
+export type PathParameters<TRoute extends string> = TRoute extends `${infer _Head}/{${infer _Param}}${infer Tail}` ? [
+pathParameter: string,
+...pathParameters: PathParameters<Tail>
+] : [
+];
 
 // @public
 export type PathUncheckedResponse = HttpResponse & {
