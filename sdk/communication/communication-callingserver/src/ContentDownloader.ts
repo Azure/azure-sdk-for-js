@@ -20,12 +20,36 @@ import {
 import { ContentDownloadResponse } from ".";
 import { CallingServerUtils } from "./utils/utils";
 
-export class ContentDownloader {
+/**
+ * The ContentDownloader interface represents related APIs.
+ */
+export interface ContentDownloader {
+  /**
+   * Download recording's content.
+   * @param contentUri - The content Uri.
+   * @param options - The options parameters.
+   */
+  downloadContent(
+    contentUri: string,
+    options: DownloadContentOptions
+  ): Promise<ContentDownloadResponse>;
+}
+
+/**
+ * The ContentDownloader contains operations.
+ */
+export class ContentDownloaderImpl implements ContentDownloader {
   private readonly client: CallingServerApiClientContext;
+
   constructor(client: CallingServerApiClientContext) {
     this.client = client;
   }
 
+  /**
+   * Download recording's content.
+   * @param contentUri - The content Uri.
+   * @param options - The options parameters.
+   */
   public async downloadContent(
     contentUri: string,
     options: DownloadContentOptions = {}

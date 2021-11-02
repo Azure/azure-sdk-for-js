@@ -3,6 +3,7 @@
 /// <reference lib="esnext.asynciterable" />
 
 import { CallConnection, ContentDownloadResponse } from ".";
+import { CallConnectionImpl } from "./callConnection";
 import {
   CreateCallConnectionOptions,
   DownloadOptions,
@@ -63,7 +64,7 @@ import { CallingServerApiClientContext } from "./generated/src/callingServerApiC
 import { SDK_VERSION } from "./constants";
 import { convertTracingToRequestOptionsBase, createSpan } from "./tracing";
 import { logger } from "./logger";
-import { ContentDownloader } from "./ContentDownloader";
+import { ContentDownloader, ContentDownloaderImpl } from "./ContentDownloader";
 import { rangeToString } from "./Range";
 import { RepeatableContentDownloadResponse } from "./RepeatableContentDownloadResponse";
 import { extractOperationOptions } from "./extractOperationOptions";
@@ -151,11 +152,14 @@ export class CallingServerClient {
    * @param callConnectionId - The CallConnection id for the CallConnection instance. (ex: endpoint=https://REDACTED.communication.azure.com/;accesskey=eyJhbG==).
    */
   public getCallConnection(callConnectionId: string): CallConnection {
-    return new CallConnection(callConnectionId, this.callConnectionRestClient);
+    return new CallConnectionImpl(callConnectionId, this.callConnectionRestClient);
   }
 
+  /**
+   * Initializes a new instance of ContentDownloader.
+   */
   public initializeContentDownloader(): ContentDownloader {
-    return new ContentDownloader(this.storageApiClient);
+    return new ContentDownloaderImpl(this.storageApiClient);
   }
 
   /**
@@ -171,7 +175,7 @@ export class CallingServerClient {
   ): Promise<CallConnection> {
     const { operationOptions, restOptions } = extractOperationOptions(options);
     const { span, updatedOptions } = createSpan(
-      "CallConnectionRestClient-CreateCallConnection",
+      "CallConnectionRestClient-CreateCallOptions",
       operationOptions
     );
 
@@ -195,7 +199,7 @@ export class CallingServerClient {
       );
 
       if (result.callConnectionId) {
-        return new CallConnection(result.callConnectionId, this.callConnectionRestClient);
+        return new CallConnectionImpl(result.callConnectionId, this.callConnectionRestClient);
       }
       throw "callConnectionId is missing in createCall result";
     } catch (e) {
@@ -240,7 +244,7 @@ export class CallingServerClient {
       );
 
       if (result.callConnectionId) {
-        return new CallConnection(result.callConnectionId, this.callConnectionRestClient);
+        return new CallConnectionImpl(result.callConnectionId, this.callConnectionRestClient);
       } else {
         throw "callConnectionId is missing in joinCall result";
       }
@@ -269,26 +273,7 @@ export class CallingServerClient {
   ): Promise<PlayAudioResult> {
     const { operationOptions, restOptions } = extractOperationOptions(options);
     const { span, updatedOptions } = createSpan("ServerCallRestClient-playAudio", operationOptions);
-    if (!CallingServerUtils.isValidUrl(audioFileUri)) {
-      throw new Error("audioFileUri is invalid.");
-    }
-    if (
-      typeof options.audioFileId === "undefined" ||
-      !options.audioFileId ||
-      !options.audioFileId.trim()
-    ) {
-      throw new Error("audioFileId is invalid.");
-    }
-    if (!CallingServerUtils.isValidUrl(String(options.callbackUri))) {
-      throw new Error("callbackUri is invalid.");
-    }
-    if (
-      typeof options.operationContext === "undefined" ||
-      !options.operationContext ||
-      !options.operationContext.trim()
-    ) {
-      throw new Error("operationContext can not be null.");
-    }
+
     const request: PlayAudioWithCallLocatorRequest = {
       callLocator: callLocator,
       audioFileUri: audioFileUri,
@@ -365,29 +350,27 @@ export class CallingServerClient {
    * @param callLocator - The callLocator contains call id.
    * @param participant - The identifier of the participant.
    * @param callbackUri - The callback uri to receive the notification.
-   * @param alternateCallerId - The phone number to use when adding a pstn participant.
-   * @param operationContext - The operation context.
    * @param options - Additional request options contains addParticipant api options.
    */
   public async addParticipant(
     callLocator: CallLocator,
     participant: CommunicationIdentifier,
     callbackUri: string,
-    alternateCallerId?: string,
-    operationContext?: string,
     options: AddParticipantOptions = {}
   ): Promise<ServerCallsAddParticipantResponse> {
-    const { span, updatedOptions } = createSpan("ServerCallRestClient-playAudio", options);
+    const { operationOptions, restOptions } = extractOperationOptions(options);
+    const { span, updatedOptions } = createSpan("ServerCallRestClient-playAudio", operationOptions);
     const alternate_caller_id =
-      typeof alternateCallerId === "undefined"
-        ? alternateCallerId
-        : serializeCommunicationIdentifier({ phoneNumber: alternateCallerId }).phoneNumber;
+      typeof restOptions?.alternateCallerId === "undefined"
+        ? restOptions?.alternateCallerId
+        : serializeCommunicationIdentifier({ phoneNumber: restOptions.alternateCallerId })
+            .phoneNumber;
 
     const request: AddParticipantWithCallLocatorRequest = {
       callLocator: callLocator,
       participant: serializeCommunicationIdentifier(participant),
       alternateCallerId: alternate_caller_id,
-      operationContext: operationContext,
+      operationContext: restOptions?.operationContext,
       callbackUri: callbackUri
     };
 

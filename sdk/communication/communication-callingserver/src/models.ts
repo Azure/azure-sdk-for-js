@@ -8,30 +8,35 @@ import {
   CallMediaType,
   CallingEventSubscriptionType,
   RecordingContentType,
-  KnownRecordingChannelType,
+  RecordingChannelType,
   RecordingFormatType
 } from "./generated/src/";
 
 export {
+  CallLocatorKindModel,
+  CallLocatorModel,
   CallMediaType,
+  CallConnectionState,
+  CallRecordingState,
   CallingEventSubscriptionType,
+  CallingOperationStatus,
+  CallingOperationResultDetails,
+  CallRecordingProperties,
   PlayAudioResult,
   PlayAudioResultEvent,
   AddParticipantResult,
+  StartCallRecordingResult,
   ToneReceivedEvent,
   AddParticipantResultEvent,
   CallConnectionStateChangedEvent,
+  ToneValue,
   ToneInfo,
+  ServerCallsAddParticipantResponse,
   CallConnectionsAddParticipantResponse,
   CallConnectionsPlayAudioResponse,
-  PhoneNumberIdentifierModel,
-  RecordingChannelType,
   RecordingContentType,
-  CommunicationIdentifierModel,
-  CommunicationUserIdentifierModel,
-  KnownToneValue,
-  KnownCallConnectionState,
-  KnownRecordingChannelType
+  RecordingChannelType,
+  RecordingFormatType
 } from "./generated/src/models";
 
 /**
@@ -64,6 +69,9 @@ export interface JoinCallOptions extends OperationOptions {
   requestedCallEvents?: CallingEventSubscriptionType[];
 }
 
+/**
+ * Options to play audio.
+ */
 export interface PlayAudioOptions extends OperationOptions {
   /** The flag indicating whether audio file needs to be played in loop or not. */
   loop: boolean;
@@ -75,12 +83,20 @@ export interface PlayAudioOptions extends OperationOptions {
   callbackUri: string;
 }
 
+/**
+ * Options to play audio to participant.
+ */
 export type PlayAudioToParticipantOptions = PlayAudioOptions;
 
 /**
  * Options to add participant to the call.
  */
-export type AddParticipantOptions = OperationOptions;
+export interface AddParticipantOptions extends OperationOptions {
+  /** The phone number to use when adding a pstn participant. */
+  alternateCallerId?: string;
+  /** The operation context. */
+  operationContext?: string;
+}
 
 /**
  * Options to remove participant from the call.
@@ -111,8 +127,13 @@ export type TransferCallOptions = OperationOptions;
  * Options to start recording.
  */
 export interface StartRecordingOptions extends OperationOptions {
+  /** The content type of call recording. */
   recordingContentType?: RecordingContentType;
-  recordingChannelType?: KnownRecordingChannelType;
+
+  /** The channel type of call recording. */
+  recordingChannelType?: RecordingChannelType;
+
+  /** The format type of call recording. */
   recordingFormatType?: RecordingFormatType;
 }
 /**
@@ -219,27 +240,7 @@ export const getLocatorKind = (locator: CallLocator): CallLocatorKind => {
   throw "unknow CallLocator type.";
 };
 
-/** Defines values for CallingServerEventType. */
-enum CallingServerEventType {
-  /** The call connection state change event type. */
-  CALL_CONNECTION_STATE_CHANGED_EVENT = "Microsoft.Communication.CallConnectionStateChanged",
-
-  /** The add participant result event type. */
-  ADD_PARTICIPANT_RESULT_EVENT = "Microsoft.Communication.AddParticipantResult",
-
-  /** The call recording state change event type. */
-  CALL_RECORDING_STATE_CHANGED_EVENT = "Microsoft.Communication.CallRecordingStateChanged",
-
-  /** The play audio result event type. */
-  PLAY_AUDIO_RESULT_EVENT = "Microsoft.Communication.PlayAudioResult",
-
-  /** The participants updated event type. */
-  PARTICIPANTS_UPDATED_EVENT = "Microsoft.Communication.ParticipantsUpdated",
-
-  /** The subscribe to tone event type. */
-  TONE_RECEIVED_EVENT = "Microsoft.Communication.ToneReceived"
-}
-
+/** The options parameters for download api. */
 export interface DownloadOptions extends OperationOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
@@ -265,45 +266,51 @@ export interface DownloadOptions extends OperationOptions {
    */
   maxRetryRequests?: number;
 
+  /**
+   * Optional.
+   *
+   * How much data to be downloaded, greater than 0. Will download to the end when undefined
+   */
   count?: number;
 }
 
+/** The options parameters for downloadContent api. */
 export interface DownloadContentOptions extends DownloadOptions {
   /** Return only the bytes of the blob in the specified range. */
   range?: string;
 }
 
-export class KnownCallingServerEventType {
-  public static CALL_CONNECTION_STATE_CHANGED_EVENT:
-    | string
-    | null = KnownCallingServerEventType.fromString(
-    "Microsoft.Communication.CallConnectionStateChanged"
-  );
-  public static ADD_PARTICIPANT_RESULT_EVENT:
-    | string
-    | null = KnownCallingServerEventType.fromString("Microsoft.Communication.AddParticipantResult");
-  public static CALL_RECORDING_STATE_CHANGED_EVENT:
-    | string
-    | null = KnownCallingServerEventType.fromString(
-    "Microsoft.Communication.CallRecordingStateChanged"
-  );
-  public static PLAY_AUDIO_RESULT_EVENT: string | null = KnownCallingServerEventType.fromString(
-    "Microsoft.Communication.PlayAudioResult"
-  );
-  public static PARTICIPANTS_UPDATED_EVENT: string | null = KnownCallingServerEventType.fromString(
-    "Microsoft.Communication.ParticipantsUpdated"
-  );
-  public static TONE_RECEIVED_EVENT: string | null = KnownCallingServerEventType.fromString(
-    "Microsoft.Communication.ToneReceived"
-  );
+/** Values of {@link CallingServerEventType} that the service accepts. */
+export enum CallingServerEventTypeValue {
+  /** The call connection state change event type. */
+  CallConnectionStateChangedEvent = "Microsoft.Communication.CallConnectionStateChanged",
 
-  public static fromString(value: string): string | null {
-    const allEvents = Object.values(CallingServerEventType);
-    for (const entry of allEvents) {
-      if (entry.toString().toUpperCase() === value.toUpperCase()) {
-        return value;
-      }
-    }
-    return null;
-  }
+  /** The add participant result event type. */
+  AddParticipantResultEvent = "Microsoft.Communication.AddParticipantResult",
+
+  /** The call recording state change event type. */
+  CallRecordingStateChangedEvent = "Microsoft.Communication.CallRecordingStateChanged",
+
+  /** The play audio result event type. */
+  PlayAudioResultEvent = "Microsoft.Communication.PlayAudioResult",
+
+  /** The participants updated event type. */
+  ParticipantsUpdatedEvent = "Microsoft.Communication.ParticipantsUpdated",
+
+  /** The subscribe to tone event type. */
+  ToneReceivedEvent = "Microsoft.Communication.ToneReceived"
 }
+
+/**
+ * Defines values for CallingServerEventType.
+ * {@link CallingServerEventTypeValue} can be used interchangeably with CallingServerEventType,
+ *  this enum contains the known values that the service supports.
+ * ### Know values supported by the service
+ * **Microsoft.Communication.CallConnectionStateChanged**
+ * **Microsoft.Communication.AddParticipantResult**
+ * **Microsoft.Communication.CallRecordingStateChanged**
+ * **Microsoft.Communication.PlayAudioResult**
+ * **Microsoft.Communication.ParticipantsUpdated**
+ * **Microsoft.Communication.ToneReceived**
+ */
+export type CallingServerEventType = string;
