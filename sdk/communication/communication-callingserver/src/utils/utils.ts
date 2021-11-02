@@ -50,4 +50,14 @@ export class CallingServerUtils {
       }
     }
   }
+
+  public static getStringToSign(
+    resourceEndpoint: string,
+    requestUri: string
+  ): string
+  {
+    const q = URLBuilder.parse(requestUri);
+    const formattedUrl = q.getPath()!.startsWith("/") ? q.getPath()!.substr(1) : q.getPath()!;
+    return resourceEndpoint + formattedUrl;;
+  }
 }

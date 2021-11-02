@@ -74,7 +74,7 @@ import { serializeCallLocator } from "./callLocatorModelSerializer";
 /**
  * Client options used to configure CallingServer Client API requests.
  */
-export interface CallingServerClientOptions extends PipelineOptions {}
+export interface CallingServerClientOptions extends PipelineOptions { }
 
 /**
  * Checks whether the type of a value is CallingServerClientOptions or not.
@@ -91,7 +91,7 @@ export class CallingServerClient {
   private readonly callingServerServiceClient: CallingServerApiClient;
   private readonly callConnectionRestClient: CallConnections;
   private readonly serverCallRestClient: ServerCalls;
-  private readonly deleteAndDownloadCallingServerApiClient: CallingServerApiClientContext;
+  private readonly storageApiClient: CallingServerApiClientContext;
 
   /**
    * Initializes a new instance of the CallingServerClient class.
@@ -144,7 +144,7 @@ export class CallingServerClient {
     this.callingServerServiceClient = new CallingServerApiClient(url, pipeline);
     this.callConnectionRestClient = this.callingServerServiceClient.callConnections;
     this.serverCallRestClient = this.callingServerServiceClient.serverCalls;
-    this.deleteAndDownloadCallingServerApiClient = new CallingServerApiClientContext(url, pipeline);
+    this.storageApiClient = new CallingServerApiClientContext(url, pipeline);
   }
 
   /**
@@ -156,7 +156,7 @@ export class CallingServerClient {
   }
 
   public initializeContentDownloader(): ContentDownloader {
-    return new ContentDownloader(this.deleteAndDownloadCallingServerApiClient);
+    return new ContentDownloader(this.storageApiClient);
   }
 
   /**
@@ -831,50 +831,47 @@ export class CallingServerClient {
     }
   }
 
-    /**
-   * Deletes the content pointed to the uri passed as a parameter.
-   *
-   * * In Node.js, data returns ?
-   * * In browsers, data returns ?
-   *
-   * @param deleteUri - Endpoint where the content exists.
-   *
-   * Example usage (Node.js):
-   *
-   * ```js
-   * // Delete and convert a blob to a string
-   * const deleteUri = "https://deleteUri.com";
-   * const deleteResponse = await callingServerClient.delete(deleteUri);
-   *
-   * ```
-   */
+  /**
+ * Deletes the content pointed to the uri passed as a parameter.
+ *
+ * * Returns a RestResponse indicating the result of the delete operation.
+ *
+ * @param deleteUri - Endpoint where the content exists.
+ *
+ * Example usage:
+ *
+ * ```js
+ * // Delete content
+ * const deleteUri = "https://deleteUri.com";
+ * const deleteResponse = await callingServerClient.delete(deleteUri);
+ *
+ * ```
+ */
   public async delete(
     deleteUri: string,
     options: OperationOptions = {}
-  ): Promise<RestResponse>
-  {
+  ): Promise<RestResponse> {
     const { span, updatedOptions } = createSpan("ServerCallRestClient-delete", options);
 
     const operationArguments: OperationArguments = {
       options: operationOptionsToRequestOptionsBase(updatedOptions)
     };
 
-    try 
-    {
+    try {
       const q = URLBuilder.parse(deleteUri);
       const formattedUrl = q.getPath()!.startsWith("/") ? q.getPath()!.substr(1) : q.getPath()!;
-      const stringToSign = this.deleteAndDownloadCallingServerApiClient.endpoint + formattedUrl;
+      const stringToSign = this.storageApiClient.endpoint + formattedUrl;
 
-    return this.deleteAndDownloadCallingServerApiClient.sendOperationRequest(
+      return this.storageApiClient.sendOperationRequest(
         operationArguments,
         getDeleteOperationSpec(deleteUri, stringToSign)
       ) as Promise<RestResponse>
-    } catch(e) {
+    } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message
       });
-       throw e;
+      throw e;
     } finally {
       span.end();
     }
