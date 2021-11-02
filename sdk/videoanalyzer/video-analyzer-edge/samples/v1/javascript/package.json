@@ -1,0 +1,30 @@
+{
+  "name": "azure-video-analyzer-edge-samples-js",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Azure Video Analyzer client library samples for JavaScript",
+  "engines": {
+    "node": ">=12.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
+    "directory": "sdk/videoanalyzer/video-analyzer-edge"
+  },
+  "keywords": [
+    "azure",
+    "cloud",
+    "typescript"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/videoanalyzer/video-analyzer-edge",
+  "dependencies": {
+    "@azure/video-analyzer-edge": "next",
+    "dotenv": "latest",
+    "azure-iothub": "^1.14.6"
+  }
+}

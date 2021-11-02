@@ -5,6 +5,7 @@
  * This sample applies actions for customer-trained models to several documents using
  * a long-running operation. This functionality uses the generic analysis endpoint,
  * which provides a way to group several different Text Analytics actions into a single request.
+ * For more information, please refer to the service documentation: {@link https://aka.ms/azsdk/textanalytics/customfunctionalities}
  *
  * @summary applies multiple Custom Text Analytics actions per document
  * @azsdk-weight 40
