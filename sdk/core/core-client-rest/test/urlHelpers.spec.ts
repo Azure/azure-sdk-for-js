@@ -68,4 +68,11 @@ describe("urlHelpers", () => {
     });
     assert.equal(result, `https://example.org/foo?foo=+aaaa&bar=b%3D+`);
   });
+
+  it("should encode url when skip encoding path parameter", () => {
+    const result = buildRequestUrl(mockBaseUrl, "/foo%bar", [], {
+      skipUrlEncoding: true
+    });
+    assert.equal(result, `https://example.org/foo%bar`);
+  });
 });
