@@ -90,14 +90,15 @@ const getPackageJsons = (searchDir) => {
 };
 
 const getServicePackages = (baseDir, serviceDirs) => {
-  const packageNames = [],
-    packageDirs = [];
+  const packageNames = [];
+  const packageDirs = [];
+  const validSdkTypes =  ["client", "mgmt", "perf-test", "utility"]; // valid "sdk-type"s that we are looking for, to be able to apply rush-runner jobs on
   for (const serviceDir of serviceDirs) {
     const searchDir = path.resolve(path.join(baseDir, "sdk", serviceDir));
     const packageJsons = getPackageJsons(searchDir);
     for (const filePath of packageJsons) {
       const contents = JSON.parse(fs.readFileSync(filePath, "utf8"));
-      if (["client", "mgmt", "perf-test", "utility"].includes(contents["sdk-type"])) {
+      if (validSdkTypes.includes(contents["sdk-type"])) {
         packageNames.push(contents.name);
         packageDirs.push(path.dirname(filePath));
       }
