@@ -215,7 +215,7 @@ export interface DocumentLine {
    *
    * This property is not enumerable and will not be included if the `DocumentLine` is serialized.
    */
-  readonly words?: IterableIterator<DocumentWord>;
+  words?: () => IterableIterator<DocumentWord>;
 }
 
 /**
@@ -231,9 +231,9 @@ export function contains(outer: DocumentSpan, inner: DocumentSpan): boolean {
   return outer.offset <= inner.offset && outer.offset + outer.length >= inner.offset + inner.length;
 }
 
-function* empty(): IterableIterator<never> {}
+function* empty(): Generator<never> {}
 
-function* iterFrom<T>(items: T[], idx: number): IterableIterator<T> {
+function* iterFrom<T>(items: T[], idx: number): Generator<T> {
   let i = idx;
 
   while (i < items.length) {
@@ -270,14 +270,16 @@ function iteratorFromFirstMatchBinarySearch<Spanned extends { span: DocumentSpan
   return empty();
 }
 
-function* intoIter<T>(value: T[]): IterableIterator<T> {
-  yield* value;
+function* intoIter<T>(values: T[]): Generator<T> {
+  for (const value of values) {
+    yield value;
+  }
 }
 
 export function* fastGetChildren<Spanned extends { span: DocumentSpan }>(
   spans: Iterator<DocumentSpan>,
   childrenArray: Spanned[]
-): IterableIterator<Spanned> {
+): Generator<Spanned> {
   let curSpan = spans.next();
 
   // Need to exit early if
@@ -301,29 +303,16 @@ export function* fastGetChildren<Spanned extends { span: DocumentSpan }>(
   }
 }
 
-/*function* naiveGetWords(
-  spans: DocumentSpan[],
-  words: DocumentWord[]
-): IterableIterator<DocumentWord> {
-  for (const span of spans) {
-    // Naive implementation that looks at every word.
-    for (const word of words) {
-      if (contains(span, word.span)) {
-        yield word;
-      }
-    }
-  }
-}*/
-
 function toDocumentLineFromGenerated(
   generated: GeneratedDocumentLine,
   page: DocumentPage
 ): DocumentLine {
+  const method: DocumentLine["words"] = () =>
+    fastGetChildren(intoIter(generated.spans), page.words);
+
   return Object.defineProperty(generated, "words", {
-    // We do this so that if the object is serialized or for-in'd, the dynamic words property (which is expensive to
-    // compute) is not included.
     enumerable: false,
-    get: () => fastGetChildren(intoIter(generated.spans), page.words),
+    value: method,
   });
 }
 
