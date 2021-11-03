@@ -1040,6 +1040,11 @@
       "packageName": "@azure/arm-streamanalytics",
       "projectFolder": "sdk/streamanalytics/arm-streamanalytics",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-desktopvirtualization",
+      "projectFolder": "sdk/desktopvirtualization/arm-desktopvirtualization",
+      "versionPolicyName": "management"
     }
   ]
 }
