@@ -179,7 +179,7 @@ matrix([[true, false]] as const, async (useAad) => {
             },
             seriesGroupDetectionConditions: [
               {
-                groupKey: { city: "Mumbai" },
+                groupKey: { region: "Mumbai" },
                 hardThresholdCondition: {
                   anomalyDetectorDirection: "Up",
                   upperBound: 400,
@@ -189,7 +189,7 @@ matrix([[true, false]] as const, async (useAad) => {
             ],
             seriesDetectionConditions: [
               {
-                seriesKey: { city: "Kolkata", category: "Handmade" },
+                seriesKey: { region: "Kolkata", category: "Handmade" },
                 changeThresholdCondition: {
                   anomalyDetectorDirection: "Both",
                   shiftPoint: 1,

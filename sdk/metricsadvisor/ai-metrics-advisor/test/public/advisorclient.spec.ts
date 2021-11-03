@@ -192,8 +192,8 @@ matrix([[true, false]] as const, async (useAad) => {
       it("lists alerts for alert configuration with datetime strings", async function() {
         const iterator = client.listAlerts(
           testEnv.METRICS_ADVISOR_ALERT_CONFIG_ID,
+          "2021-05-05T00:00:00.000Z",
           "2021-11-01T00:00:00.000Z",
-          "2021-11-05T00:00:00.000Z",
           "AnomalyTime"
         );
         let result = await iterator.next();
@@ -328,11 +328,11 @@ matrix([[true, false]] as const, async (useAad) => {
         const data = await client.getMetricSeriesData(
           testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1,
           [
-            { region: "Manila", category: "Shoes Handbags & Sunglasses" },
-            { region: "Cairo", category: "Home & Garden" }
+            { category: "Shoes Handbags & Sunglasses", region: "Manila" },
+            { category: "Home & Garden", region: "Cairo" }
           ],
           new Date(Date.UTC(2021, 7, 5)),
-          new Date(Date.UTC(2021, 8, 5))
+          new Date(Date.UTC(2021, 10, 1))
         );
         assert.ok(data && data!.length === 2, "Expecting data for two time series");
         assert.equal(
@@ -374,8 +374,8 @@ matrix([[true, false]] as const, async (useAad) => {
         const data = await client.getMetricSeriesData(
           testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1,
           [
-            { region: "Cairo", category: "Home & Garden" },
-            { region: "Manila", category: "Shoes Handbags & Sunglasses" }
+            { category: "Home & Garden", region: "Cairo" },
+            { category: "Shoes Handbags & Sunglasses", region: "Manila" }
           ],
           "2021-08-05T00:00:00.000Z",
           "2021-09-05T00:00:00.000Z"
@@ -403,8 +403,8 @@ matrix([[true, false]] as const, async (useAad) => {
         const data = await client.getMetricEnrichedSeriesData(
           testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DETECTION_CONFIG_ID,
           [
-            { region: "Manila", category: "Shoes Handbags & Sunglasses" },
-            { region: "Cairo", category: "Home & Garden" }
+            { category: "Shoes Handbags & Sunglasses", region: "Manila" },
+            { category: "Home & Garden", region: "Cairo" }
           ],
           new Date(Date.UTC(2021, 7, 1)),
           new Date(Date.UTC(2021, 7, 27))
@@ -446,8 +446,8 @@ matrix([[true, false]] as const, async (useAad) => {
         const data = await client.getMetricEnrichedSeriesData(
           testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DETECTION_CONFIG_ID,
           [
-            { region: "Manila", category: "Shoes Handbags & Sunglasses" },
-            { region: "Cairo", category: "Home & Garden" }
+            { category: "Shoes Handbags & Sunglasses", region: "Manila" },
+            { category: "Home & Garden", region: "Cairo" }
           ],
           "2021-08-01T00:00:00.000Z",
           "2021-08-27T00:00:00.000Z"
@@ -513,7 +513,7 @@ matrix([[true, false]] as const, async (useAad) => {
         assert.ok(first.score, "Expecting score");
         assert.equal(
           first.description,
-          "Increase on category = Electronics (Consumer) | region = Karachi contributes the most to current incident."
+          "Increase on region = Beijing | category = Handmade contributes the most to current incident."
         );
       });
 
@@ -526,7 +526,7 @@ matrix([[true, false]] as const, async (useAad) => {
             startTime: new Date(Date.UTC(2021, 7, 5)),
             endTime: new Date(Date.UTC(2021, 7, 7)),
             value: "NotAnomaly",
-            dimensionKey: { region: "Cairo", category: "Home & Garden" }
+            dimensionKey: { category: "Home & Garden", region: "Cairo" }
           };
           const actual = await client.addFeedback(anomalyFeedback);
 
@@ -544,7 +544,7 @@ matrix([[true, false]] as const, async (useAad) => {
             feedbackType: "ChangePoint",
             startTime: new Date(Date.UTC(2021, 7, 5)),
             value: "ChangePoint",
-            dimensionKey: { region: "Cairo", category: "Home & Garden" }
+            dimensionKey: { category: "Home & Garden", region: "Cairo" }
           };
           const actual = await client.addFeedback(changePointFeedback);
 
@@ -562,7 +562,7 @@ matrix([[true, false]] as const, async (useAad) => {
             feedbackType: "Period",
             periodType: "AutoDetect",
             periodValue: 4,
-            dimensionKey: { region: "Cairo", category: "Home & Garden" }
+            dimensionKey: { category: "Home & Garden", region: "Cairo" }
           };
           const actual = await client.addFeedback(periodFeedback);
 
@@ -579,7 +579,7 @@ matrix([[true, false]] as const, async (useAad) => {
           const expectedCommentFeedback: MetricCommentFeedback = {
             metricId: testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1,
             feedbackType: "Comment",
-            dimensionKey: { region: "Cairo", category: "Home & Garden" },
+            dimensionKey: { category: "Home & Garden", region: "Cairo" },
             comment: "This is a comment"
           };
 

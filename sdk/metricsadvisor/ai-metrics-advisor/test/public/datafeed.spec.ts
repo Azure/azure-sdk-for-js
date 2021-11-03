@@ -319,11 +319,11 @@ matrix([[true, false]] as const, async (useAad) => {
             authenticationType: "ManagedIdentity"
           };
           const expectedIngestionSettings = {
-            ingestionStartTime: new Date(Date.UTC(2020, 7, 1)),
+            ingestionStartTime: new Date(Date.UTC(2020, 9, 30)),
             ingestionStartOffsetInSeconds: 2,
             dataSourceRequestConcurrency: 3,
             ingestionRetryDelayInSeconds: 4,
-            stopRetryAfterInSeconds: 5
+            stopRetryAfterInSeconds: 65
           };
           const patch: DataFeedPatch = {
             source: {
