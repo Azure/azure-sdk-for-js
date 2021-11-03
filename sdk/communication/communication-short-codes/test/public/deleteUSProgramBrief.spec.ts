@@ -8,7 +8,7 @@ import { Context } from "mocha";
 import { ShortCodesClient } from "../../src";
 import { createRecordedClient, createRecordedClientWithToken } from "./utils/recordedClient";
 
-matrix([[true, false]], async function (useAad) {
+matrix([[false]], async function (useAad) {
   describe(`ShortCodesClient - deletes US Program Brief${useAad ? " [AAD]" : ""}`, function () {
     let recorder: Recorder;
     let client: ShortCodesClient;

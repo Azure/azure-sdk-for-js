@@ -8,7 +8,7 @@ import { Context } from "mocha";
 import { ShortCodesClient, ShortCodesUpsertUSProgramBriefOptionalParams } from "../../src";
 import { createRecordedClient, createRecordedClientWithToken } from "./utils/recordedClient";
 
-matrix([[true, false]], async function (useAad) {
+matrix([[false]], async function (useAad) {
   describe(`ShortCodesClient - creates US Program Brief using upsert${useAad ? " [AAD]" : ""}`, function () {
     let recorder: Recorder;
     let client: ShortCodesClient;
