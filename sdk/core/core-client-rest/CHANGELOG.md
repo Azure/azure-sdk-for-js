@@ -1,4 +1,9 @@
 # Release History
+## 1.0.0-beta.8 (Unreleased)
+
+### Features Added
+
+- Add options skipUrlEncoding to support skip path parameter encoding.
 
 ## 1.0.0-beta.7 (2021-09-02)
 

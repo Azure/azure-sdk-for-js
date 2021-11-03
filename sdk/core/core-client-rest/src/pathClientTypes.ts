@@ -31,6 +31,8 @@ export type RequestParameters = {
   contentType?: string;
   /** Set to true if the request is sent over HTTP instead of HTTPS */
   allowInsecureConnection?: boolean;
+  /** Set to true if you want to skip encoding the path parameters */
+  skipUrlEncoding?: boolean;
 };
 
 /**
