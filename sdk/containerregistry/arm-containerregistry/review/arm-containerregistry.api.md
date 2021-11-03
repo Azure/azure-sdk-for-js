@@ -288,6 +288,7 @@ export type ConnectedRegistry = ProxyResource & {
     loginServer?: LoginServerProperties;
     logging?: LoggingProperties;
     readonly statusDetails?: StatusDetailProperties[];
+    notificationsList?: string[];
 };
 
 // @public
@@ -303,6 +304,7 @@ export type ConnectedRegistryMode = string;
 export interface ConnectedRegistryUpdateParameters {
     clientTokenIds?: string[];
     logging?: LoggingProperties;
+    notificationsList?: string[];
     syncProperties?: SyncUpdateProperties;
 }
 
@@ -473,17 +475,18 @@ export interface ErrorResponseBody {
 }
 
 // @public
-export type Event = EventInfo & {
+type Event_2 = EventInfo & {
     eventRequestMessage?: EventRequestMessage;
     eventResponseMessage?: EventResponseMessage;
 };
+export { Event_2 as Event }
 
 // @public
 export interface EventContent {
     action?: string;
     actor?: Actor;
     id?: string;
-    request?: Request;
+    request?: Request_2;
     source?: Source;
     target?: Target;
     timestamp?: Date;
@@ -497,7 +500,7 @@ export interface EventInfo {
 // @public
 export interface EventListResult {
     nextLink?: string;
-    value?: Event[];
+    value?: Event_2[];
 }
 
 // @public
@@ -851,6 +854,10 @@ export enum KnownCertificateType {
 export enum KnownConnectedRegistryMode {
     // (undocumented)
     Mirror = "Mirror",
+    // (undocumented)
+    ReadOnly = "ReadOnly",
+    // (undocumented)
+    ReadWrite = "ReadWrite",
     // (undocumented)
     Registry = "Registry"
 }
@@ -1948,13 +1955,14 @@ export interface ReplicationUpdateParameters {
 }
 
 // @public
-export interface Request {
+interface Request_2 {
     addr?: string;
     host?: string;
     id?: string;
     method?: string;
     useragent?: string;
 }
+export { Request_2 as Request }
 
 // @public
 export interface Resource {
@@ -2809,7 +2817,7 @@ export interface Webhooks {
     get(resourceGroupName: string, registryName: string, webhookName: string, options?: WebhooksGetOptionalParams): Promise<WebhooksGetResponse>;
     getCallbackConfig(resourceGroupName: string, registryName: string, webhookName: string, options?: WebhooksGetCallbackConfigOptionalParams): Promise<WebhooksGetCallbackConfigResponse>;
     list(resourceGroupName: string, registryName: string, options?: WebhooksListOptionalParams): PagedAsyncIterableIterator<Webhook>;
-    listEvents(resourceGroupName: string, registryName: string, webhookName: string, options?: WebhooksListEventsOptionalParams): PagedAsyncIterableIterator<Event>;
+    listEvents(resourceGroupName: string, registryName: string, webhookName: string, options?: WebhooksListEventsOptionalParams): PagedAsyncIterableIterator<Event_2>;
     ping(resourceGroupName: string, registryName: string, webhookName: string, options?: WebhooksPingOptionalParams): Promise<WebhooksPingResponse>;
 }
 
@@ -2905,7 +2913,6 @@ export interface WebhookUpdateParameters {
 
 // @public
 export type ZoneRedundancy = string;
-
 
 // (No @packageDocumentation comment for this package)
 

@@ -8627,7 +8627,7 @@ packages:
     dev: false
 
   file:projects/arm-apimanagement.tgz:
-    resolution: {integrity: sha512-Fhy/ZVzzeHAI6KpTIXUXFfm/Snv32HwUcw9otxvEujalkzeZr8Zqj2A5sL+Z4JCsXIiEdRu0ERDezW/zC9zBQw==, tarball: file:projects/arm-apimanagement.tgz}
+    resolution: {integrity: sha512-omQocPXL4sX90Auam4HZhWZxdMAXN2lLUqmkfqrJTBR45GiDSX3ozqPioi9OOCKPVyeIRI5UCImM6MVYdWqR6A==, tarball: file:projects/arm-apimanagement.tgz}
     name: '@rush-temp/arm-apimanagement'
     version: 0.0.0
     dependencies:
@@ -8645,13 +8645,10 @@ packages:
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.14.2
-    transitivePeerDependencies:
-      - debug
-      - supports-color
     dev: false
 
   file:projects/arm-appplatform.tgz:
-    resolution: {integrity: sha512-15DNfLDgoFCvpMnOXeTUvM6JaMX4itfDHbbssMmedCSBRsuoIYI7v+Aqoe6PlM0X5j3ihRh28DE3TuaGK3zz3g==, tarball: file:projects/arm-appplatform.tgz}
+    resolution: {integrity: sha512-T0o1M9Quyi1fBqxV5Ud3sGP3k0IvZiY7FhR+/INeIJTxjuoLm9A4WC0w0O8nfdOFaMpBCHFzs9LAPAqgLPe8zg==, tarball: file:projects/arm-appplatform.tgz}
     name: '@rush-temp/arm-appplatform'
     version: 0.0.0
     dependencies:
@@ -8669,9 +8666,6 @@ packages:
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.14.2
-    transitivePeerDependencies:
-      - debug
-      - supports-color
     dev: false
 
   file:projects/arm-appservice.tgz:
@@ -8712,7 +8706,7 @@ packages:
     dev: false
 
   file:projects/arm-compute.tgz:
-    resolution: {integrity: sha512-FaD4eIsZKSPaCdi+sZG/rLdxIK53N2kLSPC9WpA9R16MNspd5oGDdIrNBaqMm0wIiGVgmaF0I/Bz0xhjwpJRlg==, tarball: file:projects/arm-compute.tgz}
+    resolution: {integrity: sha512-S1XrLCLkKlv9rF9JwaiXFfaYHJfui5KxYt14LkOGUZlG4Cpy51S6Cq6FLiycSXbEhuupEfA/zNH6gQ+QdRKwvQ==, tarball: file:projects/arm-compute.tgz}
     name: '@rush-temp/arm-compute'
     version: 0.0.0
     dependencies:
@@ -8732,85 +8726,12 @@ packages:
       typescript: 4.2.4
       uglify-js: 3.14.2
     transitivePeerDependencies:
-      - debug
       - supports-color
     dev: false
 
   file:projects/arm-containerregistry.tgz:
-    resolution: {integrity: sha512-Rid9aO/03T0CWDM7YAIbD+EOH9XPisQuabEDScieEtcQBVApQEoGa26or+BEiuGyZckW4qINlAHRAllqrre4eQ==, tarball: file:projects/arm-containerregistry.tgz}
+    resolution: {integrity: sha512-Ll1nwuw78ynR/8a9E3Lct85LuUs7K7/aSfqw8QGLHIx2V0J4sWbVz2+WKyY7JZOXruRBUTyAzzkbgiS5z+4HwA==, tarball: file:projects/arm-containerregistry.tgz}
     name: '@rush-temp/arm-containerregistry'
-    version: 0.0.0
-    dependencies:
-      '@azure/identity': 2.0.0-beta.6
-      '@microsoft/api-extractor': 7.7.11
-      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
-      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
-      cross-env: 7.0.3
-      mkdirp: 1.0.4
-      mocha: 7.2.0
-      rollup: 1.32.1
-      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
-      tslib: 2.3.1
-      typescript: 4.2.4
-      uglify-js: 3.14.2
-    transitivePeerDependencies:
-      - debug
-      - supports-color
-    dev: false
-
-  file:projects/arm-containerservice.tgz:
-    resolution: {integrity: sha512-8dMhPZWfeynHxwOOjEWch3Im4U/Xspmhtka9ydrQ9OSlqyvKBX+NUYXlNOGBDh+REpaU/Aw91HHs1djC4T9fCA==, tarball: file:projects/arm-containerservice.tgz}
-    name: '@rush-temp/arm-containerservice'
-    version: 0.0.0
-    dependencies:
-      '@azure/identity': 2.0.0-beta.6
-      '@microsoft/api-extractor': 7.7.11
-      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
-      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
-      cross-env: 7.0.3
-      mkdirp: 1.0.4
-      mocha: 7.2.0
-      rollup: 1.32.1
-      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
-      tslib: 2.3.1
-      typescript: 4.2.4
-      uglify-js: 3.14.2
-    transitivePeerDependencies:
-      - debug
-      - supports-color
-    dev: false
-
-  file:projects/arm-databricks.tgz:
-    resolution: {integrity: sha512-XaemWrbL7egMo3Z96O0TViAxYXm8zBldQJ/LqzH3opwYmClVCzQ7NJawaNEV7XBplB4c/27YOhxDbTt15krrLA==, tarball: file:projects/arm-databricks.tgz}
-    name: '@rush-temp/arm-databricks'
-    version: 0.0.0
-    dependencies:
-      '@azure/identity': 2.0.0-beta.6
-      '@microsoft/api-extractor': 7.7.11
-      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
-      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
-      cross-env: 7.0.3
-      mkdirp: 1.0.4
-      mocha: 7.2.0
-      rollup: 1.32.1
-      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
-      tslib: 2.3.1
-      typescript: 4.2.4
-      uglify-js: 3.14.2
-    transitivePeerDependencies:
-      - debug
-      - supports-color
-    dev: false
-
-  file:projects/arm-eventgrid.tgz:
-    resolution: {integrity: sha512-+XOrFix8ZFVM4KwSCHmgXW5R2T/NPMLuaz69Ml0hPJBGDg8Fgjgj5jErmZ8ZEXpZFkI3i3ax0d8fBB1mNY9+SQ==, tarball: file:projects/arm-eventgrid.tgz}
-    name: '@rush-temp/arm-eventgrid'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.0.0-beta.6
@@ -8832,8 +8753,71 @@ packages:
       - supports-color
     dev: false
 
+  file:projects/arm-containerservice.tgz:
+    resolution: {integrity: sha512-dnDtHoSH9nRPyYETislryt3GQWsWDr/WpOaWSVgvDT/KF4XjHU+SA/wEdGAISugXWouXQVry36DqeZtU1Mxt4A==, tarball: file:projects/arm-containerservice.tgz}
+    name: '@rush-temp/arm-containerservice'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.0.0-beta.6
+      '@microsoft/api-extractor': 7.7.11
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.14.2
+    dev: false
+
+  file:projects/arm-databricks.tgz:
+    resolution: {integrity: sha512-t6otub9/jRDg0NTKRSRC8ADoctIa5M6ME8RnJtFj6A5PU2xjg1kwEVAnEPb+OKhxcR+t1cvQLs9L2gfNKQLeXg==, tarball: file:projects/arm-databricks.tgz}
+    name: '@rush-temp/arm-databricks'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.0.0-beta.6
+      '@microsoft/api-extractor': 7.7.11
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.14.2
+    dev: false
+
+  file:projects/arm-eventgrid.tgz:
+    resolution: {integrity: sha512-wRR2xwHMk8CUACJYBJgH9MUekJBJ4J2ilCWvL1L+6t1Gwn4JCOQWKogbFnohaZtujwJFLh1pJC48ZS1XiV9dOQ==, tarball: file:projects/arm-eventgrid.tgz}
+    name: '@rush-temp/arm-eventgrid'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.0.0-beta.6
+      '@microsoft/api-extractor': 7.18.17
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.14.2
+    dev: false
+
   file:projects/arm-eventhub.tgz:
-    resolution: {integrity: sha512-MNqGzCH0KHNhb9glqTIUDk71zsQho3XkP1YVS5uAdBHxG52vls0PyuN07mfJMSStuVPycEf1Rgk8zYW6Vx7F1w==, tarball: file:projects/arm-eventhub.tgz}
+    resolution: {integrity: sha512-xK9uI7V95KRG1FH7/xg4m+hHzZVxWBEm0WYMbkryPs2tMNgJXgZ6a+LrVdOyjShgMfhbe6w7TYHyo9UFDci5hA==, tarball: file:projects/arm-eventhub.tgz}
     name: '@rush-temp/arm-eventhub'
     version: 0.0.0
     dependencies:
@@ -8854,12 +8838,11 @@ packages:
       typescript: 4.2.4
       uglify-js: 3.14.2
     transitivePeerDependencies:
-      - debug
       - supports-color
     dev: false
 
   file:projects/arm-extendedlocation.tgz:
-    resolution: {integrity: sha512-WWytW03UCehYVkMeMjAg/vfkWLVx43lVnKaxuh22XgM/fLQ+m2ToJSCKVuUsGSKaT4/1DckjJiuRi5SM4Ikw9w==, tarball: file:projects/arm-extendedlocation.tgz}
+    resolution: {integrity: sha512-yQpzybX1YY1UBHRwPj+yqndMFqdONGLZuF1N3YIUIJlqbUkQKGVEEiVgxN0EmSDO58fHJBMwLMj75CPFG2WmOg==, tarball: file:projects/arm-extendedlocation.tgz}
     name: '@rush-temp/arm-extendedlocation'
     version: 0.0.0
     dependencies:
@@ -8877,9 +8860,6 @@ packages:
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.14.2
-    transitivePeerDependencies:
-      - debug
-      - supports-color
     dev: false
 
   file:projects/arm-features.tgz:
@@ -8959,7 +8939,7 @@ packages:
     dev: false
 
   file:projects/arm-logic.tgz:
-    resolution: {integrity: sha512-TRPgd6No0PMNfFimmv9Pb/cKJUdPpPLQjcoaVw3hO060eBu0FaH8gqR7QstLP/pZz1yGu0o3XTmmZ3s/uSsnEQ==, tarball: file:projects/arm-logic.tgz}
+    resolution: {integrity: sha512-uoLg+ypMm6FmdfBx1ou2eGBuYGuIVdGjlNEnXeEBVRenmKcgwmrdb0bSTB6PiVN125U20FgpCb0YJDOgRuF/9w==, tarball: file:projects/arm-logic.tgz}
     name: '@rush-temp/arm-logic'
     version: 0.0.0
     dependencies:
@@ -8977,9 +8957,6 @@ packages:
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.14.2
-    transitivePeerDependencies:
-      - debug
-      - supports-color
     dev: false
 
   file:projects/arm-managedapplications.tgz:
@@ -9002,7 +8979,7 @@ packages:
     dev: false
 
   file:projects/arm-mediaservices.tgz:
-    resolution: {integrity: sha512-3Umn8knfccMOuwf0O1zxyw39vW9u1wC4Yp43EmYmSHsu8a2pH4cp0bMepRo87OJeWIRtQERfKqrhBDv7N58CVQ==, tarball: file:projects/arm-mediaservices.tgz}
+    resolution: {integrity: sha512-yy6cdRD41ndTQfmklhmQgj12Wpv4ZxtoNQl7fWTrbHFE5ggWEjWzYVet4TB5ApbSCaUVcOtPStiIFBmdYUEZrw==, tarball: file:projects/arm-mediaservices.tgz}
     name: '@rush-temp/arm-mediaservices'
     version: 0.0.0
     dependencies:
@@ -9020,9 +8997,6 @@ packages:
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.14.2
-    transitivePeerDependencies:
-      - debug
-      - supports-color
     dev: false
 
   file:projects/arm-network.tgz:
@@ -9050,7 +9024,7 @@ packages:
     dev: false
 
   file:projects/arm-notificationhubs.tgz:
-    resolution: {integrity: sha512-1ilWg8HCib1zaXp/krlNaus++YfONAG4MFe9OXA2Ls9V11SqAw4bJojGAUDYmhJrYqS5qekvp6fpPLBuAHPQEg==, tarball: file:projects/arm-notificationhubs.tgz}
+    resolution: {integrity: sha512-WaL7o4K3SAfEvfn6tUdEYKWeNaS37XC5/dkQfcsIjKD5Ou6ZU42jCQVGS9wb+oY5KT2A/RXSJYJpL9KJVRCUiA==, tarball: file:projects/arm-notificationhubs.tgz}
     name: '@rush-temp/arm-notificationhubs'
     version: 0.0.0
     dependencies:
@@ -9068,13 +9042,10 @@ packages:
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.14.2
-    transitivePeerDependencies:
-      - debug
-      - supports-color
     dev: false
 
   file:projects/arm-operationalinsights.tgz:
-    resolution: {integrity: sha512-d3Xg2pFxgav2I9VnkgVNvUsCURAWxK8w4J4drE2KS/tSNoW+TIDeHi24NBbYi+D3BuDJYta9oQOtBpdj9sO4+Q==, tarball: file:projects/arm-operationalinsights.tgz}
+    resolution: {integrity: sha512-6bdNT07tb4vKV3cfDCJEf1HLAdjLyomvgTqVgYMU2WpUEh1++rgjFJf7RGDbi/h2kLJ7ERYH5xUZFXcCyFoB/g==, tarball: file:projects/arm-operationalinsights.tgz}
     name: '@rush-temp/arm-operationalinsights'
     version: 0.0.0
     dependencies:
@@ -9092,13 +9063,10 @@ packages:
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.14.2
-    transitivePeerDependencies:
-      - debug
-      - supports-color
     dev: false
 
   file:projects/arm-operations.tgz:
-    resolution: {integrity: sha512-cVFq1i6MXVaKMU/DkYw2BM9lT7pTkv1pD/CeWW+sXO/IM5xLDBq2IhknP0PEdHH60RcfTt3EwoS4q9eUPlMKbw==, tarball: file:projects/arm-operations.tgz}
+    resolution: {integrity: sha512-bfQ2YR9KigdsOYK8YBti2REdvUP+3RlGDkmnlpITR/S4AJdAVHHhruvmikMDSPvi/W5po6xwE2vHKMBQIQKYlQ==, tarball: file:projects/arm-operations.tgz}
     name: '@rush-temp/arm-operations'
     version: 0.0.0
     dependencies:
@@ -9116,13 +9084,10 @@ packages:
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.14.2
-    transitivePeerDependencies:
-      - debug
-      - supports-color
     dev: false
 
   file:projects/arm-policy.tgz:
-    resolution: {integrity: sha512-7O/gYIgeBj6BnFxnLUmxWCdnsljPzs6XDy4NqM0RYlBRToxlIdV+Tn6TADE+ZkHM0tMBLTLVMj0LAHAHVnQO2g==, tarball: file:projects/arm-policy.tgz}
+    resolution: {integrity: sha512-qV+rEimyGpmAxdLaIKUU1NI1clVddBq6NaE6GbUfg+iXADJpRxGebkSzP6pcH2mWdNZrCBId462AxKzSQvXLEg==, tarball: file:projects/arm-policy.tgz}
     name: '@rush-temp/arm-policy'
     version: 0.0.0
     dependencies:
@@ -9140,13 +9105,10 @@ packages:
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.14.2
-    transitivePeerDependencies:
-      - debug
-      - supports-color
     dev: false
 
   file:projects/arm-postgresql.tgz:
-    resolution: {integrity: sha512-0ZtEKQb3+gBDpqcRCyIa0ap1PuKUz/55GgMWRbENPHJDUS/ONODyvKJH1kdyEpGTVUDIOKV0P4MK5DODX4n5OA==, tarball: file:projects/arm-postgresql.tgz}
+    resolution: {integrity: sha512-TNrzPPYJKsZw7LBRmtUub1nETEBquEs64tsgOpMLat88idB1Bbm7Z6jImYGEm+oMTIsiLWd0ASZAaT3nsKkY3A==, tarball: file:projects/arm-postgresql.tgz}
     name: '@rush-temp/arm-postgresql'
     version: 0.0.0
     dependencies:
@@ -9164,9 +9126,6 @@ packages:
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.14.2
-    transitivePeerDependencies:
-      - debug
-      - supports-color
     dev: false
 
   file:projects/arm-purview.tgz:
@@ -9188,7 +9147,7 @@ packages:
     dev: false
 
   file:projects/arm-quota.tgz:
-    resolution: {integrity: sha512-SRpBEql0y3kdYMhc1tEuEKjQuLnvAhhXyH46MA6wynnJ6G7nPX886kGcTsUFlENVZ3rN3aT7CFmSlX8ytYg8hw==, tarball: file:projects/arm-quota.tgz}
+    resolution: {integrity: sha512-rtaLIQ4qnFja0VpqLPDIMDCulFopqMqIk5xCJmgbzYnE0abobPMp66qfu1lDK7ns/fEiLM3Ntfr/OtvYZDivBA==, tarball: file:projects/arm-quota.tgz}
     name: '@rush-temp/arm-quota'
     version: 0.0.0
     dependencies:
@@ -9206,13 +9165,10 @@ packages:
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.14.2
-    transitivePeerDependencies:
-      - debug
-      - supports-color
     dev: false
 
   file:projects/arm-recoveryservices.tgz:
-    resolution: {integrity: sha512-h96uDGJ2hS8JJrs8n4hiZk66Qn/B27mM125HLiELB+vZzkUiY2x8WdGU7/hIQjta6rF68p/vxfk5IeU7MxywCQ==, tarball: file:projects/arm-recoveryservices.tgz}
+    resolution: {integrity: sha512-PP8WcdwDjknzk3qnt5/qCg6HdbMGIqkIGJSp6tn4sdJns5ceLKwshYQ4/SI7omACeOFW+oriuYzjJnst6s15xQ==, tarball: file:projects/arm-recoveryservices.tgz}
     name: '@rush-temp/arm-recoveryservices'
     version: 0.0.0
     dependencies:
@@ -9230,13 +9186,10 @@ packages:
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.14.2
-    transitivePeerDependencies:
-      - debug
-      - supports-color
     dev: false
 
   file:projects/arm-rediscache.tgz:
-    resolution: {integrity: sha512-lxycTfI2J1fQKfUqMqJkoin1HXiLCR6JHpyQYG1uce815GRijebyNYo97vfq/e6XoWiubRlNxd6FHXSo2QHvbw==, tarball: file:projects/arm-rediscache.tgz}
+    resolution: {integrity: sha512-tz7W9ElsDyJVOyXZ3bEBZygn9/9Up4+ct470WAprZVgQdS39OI/HVZi4O1fOsLUn8YHYu8B5BHCFELzgqbQB2w==, tarball: file:projects/arm-rediscache.tgz}
     name: '@rush-temp/arm-rediscache'
     version: 0.0.0
     dependencies:
@@ -9256,7 +9209,6 @@ packages:
       typescript: 4.2.4
       uglify-js: 3.14.2
     transitivePeerDependencies:
-      - debug
       - supports-color
     dev: false
 
@@ -9299,7 +9251,7 @@ packages:
     dev: false
 
   file:projects/arm-security.tgz:
-    resolution: {integrity: sha512-egPlM7UyYRlxRPUh63hKyk9SpAAmHf12i+GLBvBQJ+I3OQObAqnLckrgndYoc0lZEy95K70g57eXfQbtlNI3Pg==, tarball: file:projects/arm-security.tgz}
+    resolution: {integrity: sha512-H6aa5+i2bHOriVDn+PUCkK+41MEGxvUdTsROIVPid3VHe60jOeVVdyUrfclje0XeFUi5E4aQHZPECNYsz27A7w==, tarball: file:projects/arm-security.tgz}
     name: '@rush-temp/arm-security'
     version: 0.0.0
     dependencies:
@@ -9317,9 +9269,6 @@ packages:
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.14.2
-    transitivePeerDependencies:
-      - debug
-      - supports-color
     dev: false
 
   file:projects/arm-servicebus.tgz:
@@ -9418,7 +9367,7 @@ packages:
     dev: false
 
   file:projects/arm-videoanalyzer.tgz:
-    resolution: {integrity: sha512-fxZzJ1MBtbFk1P55q5Lm/9mYbcnYlX3s1R/nOUrqeZy6Wsz62rvOge7Lxji+qeiaTFc5U3i/JojuWnJsH1RrQg==, tarball: file:projects/arm-videoanalyzer.tgz}
+    resolution: {integrity: sha512-85e/n7OPI5a3aJ4G7QuGI/q0ezQ+2wH6hySHj1oplCEvz6Lfvz2nEwfsQzXPjzxoIjhn/wrd/D0B0ah5M06HwQ==, tarball: file:projects/arm-videoanalyzer.tgz}
     name: '@rush-temp/arm-videoanalyzer'
     version: 0.0.0
     dependencies:
@@ -9436,9 +9385,6 @@ packages:
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.14.2
-    transitivePeerDependencies:
-      - debug
-      - supports-color
     dev: false
 
   file:projects/arm-webpubsub.tgz:
