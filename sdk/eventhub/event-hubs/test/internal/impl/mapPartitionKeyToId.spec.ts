@@ -4,7 +4,11 @@
 import { assert } from "chai";
 import { mapPartitionKeyToId } from "../../../src/impl/patitionKeyToIdMapper";
 
-describe.only("mapPartitionKeyToId", () => {
+/**
+ * These unit tests have been created from outputs received from the C# implementation
+ * of Jenkins lookup3 that the Event Hubs service uses.
+ */
+describe("mapPartitionKeyToId", () => {
   it("short key, small partitions count", () => {
     assert.equal(mapPartitionKeyToId("alphabet", 3), 0);
   });
