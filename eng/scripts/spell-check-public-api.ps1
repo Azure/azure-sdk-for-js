@@ -55,7 +55,8 @@ $cspellOutput = @()
 foreach ($directory in $packageDirectories) {
   $scanGlob = "$directory/review/**/*.md"
   Write-Host "cspell lint --config '$REPO_ROOT/.vscode/cspell.json' --no-must-find-files --root $REPO_ROOT --relative $scanGlob"
-  $cspellOutput += npx cspell lint `
+  $cspellOutput += &"$PSScriptRoot/../../eng/common/scripts/Invoke-Cspell.ps1" `
+    lint `
     --config "$REPO_ROOT/.vscode/cspell.json" `
     --no-must-find-files `
     --root $REPO_ROOT `
