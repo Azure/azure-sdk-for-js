@@ -1591,6 +1591,7 @@ packages:
   /@opentelemetry/node/0.22.0_@opentelemetry+api@1.0.3:
     resolution: {integrity: sha512-+HhGbDruQ7cwejVOIYyxRa28uosnG8W95NiQZ6qE8PXXPsDSyGeftAPbtYpGit0H2f5hrVcMlwmWHeAo9xkSLA==}
     engines: {node: '>=8.0.0'}
+    deprecated: Package renamed to @opentelemetry/sdk-trace-node
     peerDependencies:
       '@opentelemetry/api': ^1.0.0
     dependencies:
@@ -3186,6 +3187,10 @@ packages:
   /date-utils/1.2.21:
     resolution: {integrity: sha1-YfsWzcEnSzyayq/+n8ad+HIKK2Q=}
     engines: {node: '>0.4.0'}
+    dev: false
+
+  /dayjs/1.10.7:
+    resolution: {integrity: sha512-P6twpd70BcPK34K26uJ1KT3wlhpuOAPoMwJzpsIWUxHZ7wpmbdZL/hQqBDfz7hGurYSa5PhzdhDHtt319hL3ig==}
     dev: false
 
   /debounce/1.2.1:
@@ -9364,7 +9369,7 @@ packages:
     dev: false
 
   file:projects/arm-streamanalytics.tgz:
-    resolution: {integrity: sha512-GYtEbWFfsmbKa168tVMSugSMPWBxtmxwU2f3gxq5cWOXbkP3EdUf5cTnPvWELOHwGifKuKiyC29W7YWiOWhfmQ==, tarball: file:projects/arm-streamanalytics.tgz}
+    resolution: {integrity: sha512-MhbiHP5ZomEoVlRa9KOHteLHqPOvxZfszSEZ0JgUowO9APTWrir2HLd1R+bHBpX3myNuOGV0yRtk1x661KVLgg==, tarball: file:projects/arm-streamanalytics.tgz}
     name: '@rush-temp/arm-streamanalytics'
     version: 0.0.0
     dependencies:
@@ -9382,9 +9387,6 @@ packages:
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.14.2
-    transitivePeerDependencies:
-      - debug
-      - supports-color
     dev: false
 
   file:projects/arm-templatespecs.tgz:
@@ -11511,7 +11513,7 @@ packages:
     dev: false
 
   file:projects/keyvault-keys.tgz:
-    resolution: {integrity: sha512-jM7GDoaLV4A6QVyuIgtTRI8mG6i9eQYfH+xpYwnS5FS5jlLaO8HI7r1WDtUHt/0O13Vjlel+rVy5cTCsoSc48Q==, tarball: file:projects/keyvault-keys.tgz}
+    resolution: {integrity: sha512-bItJqRLx3j4rrZpKyTCxI18P4YCErPnlR6O4semzo0ufXijFot8yXhaKPvdb+H2E5toFvTqwtqSEegLK57pyfg==, tarball: file:projects/keyvault-keys.tgz}
     name: '@rush-temp/keyvault-keys'
     version: 0.0.0
     dependencies:
@@ -11532,6 +11534,7 @@ packages:
       chai-as-promised: 7.1.1_chai@4.3.4
       chai-exclude: 2.1.0_chai@4.3.4
       cross-env: 7.0.3
+      dayjs: 1.10.7
       dotenv: 8.6.0
       eslint: 7.32.0
       esm: 3.2.25
