@@ -4,5 +4,6 @@
 **/*.yml
 **/*.yaml
 **/*.d.ts
+**/*.ps1
 .env
 tsdoc-metadata.json
