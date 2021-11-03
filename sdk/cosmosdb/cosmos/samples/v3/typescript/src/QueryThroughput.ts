@@ -9,7 +9,7 @@ import path from "path";
 import * as dotenv from "dotenv";
 dotenv.config({ path: path.resolve(__dirname, "../sample.env") });
 
-import { Container, FeedOptions, SqlQuerySpec, CosmosClient } from "../dist-esm";
+import { Container, FeedOptions, SqlQuerySpec, CosmosClient } from "@azure/cosmos";
 
 const {
   COSMOS_DATABASE: dbId,

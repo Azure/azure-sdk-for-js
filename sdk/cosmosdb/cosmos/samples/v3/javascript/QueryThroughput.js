@@ -8,7 +8,7 @@
 const path = require("path");
 require("dotenv").config();
 
-const { CosmosClient } = require("../dist-esm");
+const { CosmosClient } = require("@azure/cosmos");
 
 const {
   COSMOS_DATABASE: dbId,

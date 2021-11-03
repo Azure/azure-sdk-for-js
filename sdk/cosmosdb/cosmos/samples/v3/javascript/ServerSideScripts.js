@@ -9,7 +9,7 @@ const path = require("path");
 require("dotenv").config();
 
 const { logSampleHeader, logStep, finish, handleError } = require("./Shared/handleError");
-const { CosmosClient } = require("../dist-esm");
+const { CosmosClient } = require("@azure/cosmos");
 
 logSampleHeader("Server Side Scripts");
 const {
@@ -43,7 +43,7 @@ const sprocParams = [
 let getContext;
 const sprocDefinition = {
   id: "upsert",
-  body: function(document) {
+  body: function (document) {
     const context = getContext();
     const collection = context.getCollection();
     const collectionLink = collection.getSelfLink();
@@ -63,7 +63,7 @@ const sprocDefinition = {
 
     // To replace the document, first issue a query to find it and then call replace.
     function tryReplace(doc, cback) {
-      retrieveDoc(doc, null, function(retrievedDocs) {
+      retrieveDoc(doc, null, function (retrievedDocs) {
         const isAccepted = collection.replaceDocument(retrievedDocs[0]._self, doc, cback);
         if (!isAccepted) throw new Error("Unable to schedule replace document");
         response.setBody({ op: "replaced" });
@@ -76,7 +76,7 @@ const sprocDefinition = {
         parameters: [{ name: "@id", value: doc.id }]
       };
       const requestOptions = { continuation: continuation };
-      const isAccepted = collection.queryDocuments(collectionLink, query, requestOptions, function(
+      const isAccepted = collection.queryDocuments(collectionLink, query, requestOptions, function (
         err,
         retrievedDocs,
         responseOptions

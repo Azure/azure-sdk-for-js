@@ -4,19 +4,19 @@
 const path = require("path");
 require("dotenv").config();
 
-const { CosmosClient } = require("../../dist-esm");
+const { CosmosClient } = require("@azure/cosmos");
 
 const { COSMOS_DATABASE: database, COSMOS_KEY: key, COSMOS_ENDPOINT: endpoint } = process.env;
 const client = new CosmosClient({ endpoint, key });
 
-export async function handleError(error) {
+async function handleError(error) {
   console.log("\nAn error with code '" + error.code + "' has occurred:");
   console.log(error);
   await finish();
   process.exitCode = 1;
 }
 
-export async function finish() {
+async function finish() {
   try {
     await client.database(database).delete();
     console.log("\nEnd of demo.");
@@ -29,14 +29,15 @@ export async function finish() {
 }
 
 let currentStep = 0;
-export function logStep(message) {
+function logStep(message) {
   currentStep++;
   console.log(`\n${currentStep}: ${message}`);
 }
 
-export function logSampleHeader(sampleName) {
+function logSampleHeader(sampleName) {
   console.log("Azure Cosmos DB Node.js Samples");
   console.log("================================");
   console.log(sampleName);
   console.log("================================");
 }
+module.exports = { logSampleHeader, logStep, finish, handleError }

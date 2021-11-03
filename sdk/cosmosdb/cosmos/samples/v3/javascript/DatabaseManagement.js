@@ -9,7 +9,7 @@ const path = require("path");
 require("dotenv").config();
 
 const { handleError, logStep, logSampleHeader, finish } = require("./Shared/handleError");
-const { CosmosClient } = require("../dist-esm");
+const { CosmosClient } = require("@azure/cosmos");
 const assert = require("assert");
 
 const { COSMOS_DATABASE: databaseId, COSMOS_ENDPOINT: endpoint, COSMOS_KEY: key } = process.env;

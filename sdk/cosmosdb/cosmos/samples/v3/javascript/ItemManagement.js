@@ -10,7 +10,7 @@ require("dotenv").config();
 
 const { logSampleHeader, handleError, finish, logStep } = require("./Shared/handleError");
 const { readFileSync } = require("fs");
-const { CosmosClient } = require("../dist-esm");
+const { CosmosClient } = require("@azure/cosmos");
 const {
   COSMOS_DATABASE: databaseId,
   COSMOS_CONTAINER: containerId,
@@ -21,7 +21,7 @@ const {
 logSampleHeader("Item Management");
 
 const itemDefs = JSON.parse(
-  readFileSync(path.resolve(__dirname, "./Shared/Data/Families.json"), "utf8")
+  readFileSync(path.resolve(__dirname, "../../src/Shared/Data/Families.json"), "utf8")
 ).Families;
 
 // Establish a new instance of the CosmosClient to be used throughout this demo

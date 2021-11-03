@@ -8,11 +8,8 @@
 const path = require("path");
 require("dotenv").config();
 
-const { SasTokenPermissionKind } = require("../dist-esm/common/constants");
-const { createAuthorizationSasToken } = require("../dist-esm/utils/SasToken");
+const { SasTokenPermissionKind, createAuthorizationSasToken, CosmosClient } = require("@azure/cosmos");
 const { handleError, finish, logStep } = require("./Shared/handleError");
-const { CosmosClient } = require("../dist-esm/CosmosClient");
-
 const { COSMOS_ENDPOINT: endpoint, COSMOS_KEY: masterKey } = process.env;
 const sasToken = "your-sas-token";
 

@@ -10,8 +10,7 @@ import * as dotenv from "dotenv";
 dotenv.config({ path: path.resolve(__dirname, "../sample.env") });
 
 import { logSampleHeader, logStep, finish, handleError } from "./Shared/handleError";
-import { CosmosClient, ErrorResponse } from "../dist-esm";
-import { FeedOptions, Item, Resource } from "../dist-esm";
+import { CosmosClient, ErrorResponse, FeedOptions, Item, Resource } from "@azure/cosmos";
 
 logSampleHeader("Server Side Scripts");
 const {
@@ -45,7 +44,7 @@ const sprocParams = [
 let getContext: any;
 const sprocDefinition = {
   id: "upsert",
-  body: function(document: Item) {
+  body: function (document: Item) {
     const context = getContext();
     const collection = context.getCollection();
     const collectionLink = collection.getSelfLink();
@@ -65,7 +64,7 @@ const sprocDefinition = {
 
     // To replace the document, first issue a query to find it and then call replace.
     function tryReplace(doc: Item, cback: any) {
-      retrieveDoc(doc, null, function(retrievedDocs: Resource[]) {
+      retrieveDoc(doc, null, function (retrievedDocs: Resource[]) {
         const isAccepted = collection.replaceDocument(retrievedDocs[0]._self, doc, cback);
         if (!isAccepted) throw new Error("Unable to schedule replace document");
         response.setBody({ op: "replaced" });
@@ -78,7 +77,7 @@ const sprocDefinition = {
         parameters: [{ name: "@id", value: doc.id }]
       };
       const requestOptions = { continuation: continuation };
-      const isAccepted = collection.queryDocuments(collectionLink, query, requestOptions, function(
+      const isAccepted = collection.queryDocuments(collectionLink, query, requestOptions, function (
         err: Error,
         retrievedDocs: Resource[],
         responseOptions: FeedOptions

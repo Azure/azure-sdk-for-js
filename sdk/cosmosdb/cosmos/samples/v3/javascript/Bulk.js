@@ -9,10 +9,7 @@ const path = require("path");
 require("dotenv").config();
 
 const { handleError, finish, logStep } = require("./Shared/handleError");
-const { BulkOperationType } = require("../src");
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-const { CosmosClient } = require("../dist");
+const { BulkOperationType, CosmosClient } = require("@azure/cosmos");
 
 const endpoint = process.env.COSMOS_ENDPOINT;
 const masterKey = process.env.COSMOS_KEY;

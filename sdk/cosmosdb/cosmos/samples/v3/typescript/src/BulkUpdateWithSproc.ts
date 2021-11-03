@@ -12,7 +12,7 @@ dotenv.config({ path: path.resolve(__dirname, "../sample.env") });
 import { logSampleHeader, handleError, finish, logStep } from "./Shared/handleError";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-import { CosmosClient } from "../dist";
+import { CosmosClient } from "@azure/cosmos";
 import { v4 } from "uuid";
 const uuid = v4;
 
@@ -37,7 +37,7 @@ function body(continuation: string): void {
     collection.getSelfLink(),
     "SELECT * FROM root r",
     { pageSize: 2, continuation }, // Setting this low to show how continuation tokens work
-    function(err: any, feed: any, options: any) {
+    function (err: any, feed: any, options: any) {
       if (err) throw err;
       // Set continuation token on response if we get one
       responseBody.continuation = options.continuation;
@@ -54,7 +54,7 @@ function body(continuation: string): void {
       // Grab the next document to update
       const document = documents.pop();
       document.state = "open";
-      collection.replaceDocument(document._self, document, {}, function(err: any) {
+      collection.replaceDocument(document._self, document, {}, function (err: any) {
         if (err) throw err;
         // If we have successfully updated the document, include it in the returned document ids
         responseBodyParam.updatedDocumentIds.push(document.id);
@@ -90,7 +90,7 @@ async function run(): Promise<void> {
   logStep("Execute stored procedure and follow continuation tokens");
   let continuation: string = undefined;
   let totalUpdatedDocuments = 0;
-  for (;;) {
+  for (; ;) {
     const response = await storedProcedure.execute(undefined, [continuation]);
     const result: any = response.resource;
     totalUpdatedDocuments = totalUpdatedDocuments + result.updatedDocumentIds.length;

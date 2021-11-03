@@ -10,7 +10,7 @@ import * as dotenv from "dotenv";
 dotenv.config({ path: path.resolve(__dirname, "../sample.env") });
 
 import { handleError, logStep, logSampleHeader, finish } from "./Shared/handleError";
-import { CosmosClient } from "../dist-esm";
+import { CosmosClient } from "@azure/cosmos";
 import assert from "assert";
 
 const { COSMOS_DATABASE: databaseId, COSMOS_ENDPOINT: endpoint, COSMOS_KEY: key } = process.env;

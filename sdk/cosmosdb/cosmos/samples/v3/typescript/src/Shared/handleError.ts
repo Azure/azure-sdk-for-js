@@ -5,7 +5,7 @@ import path from "path";
 import * as dotenv from "dotenv";
 dotenv.config({ path: path.resolve(__dirname, "../../sample.env") });
 
-import { CosmosClient } from "../../dist-esm";
+import { CosmosClient } from "@azure/cosmos";
 
 const { COSMOS_DATABASE: database, COSMOS_KEY: key, COSMOS_ENDPOINT: endpoint } = process.env;
 const client = new CosmosClient({ endpoint, key });

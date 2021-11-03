@@ -11,7 +11,7 @@ dotenv.config({ path: path.resolve(__dirname, "../sample.env") });
 
 import { logSampleHeader, handleError, finish, logStep } from "./Shared/handleError";
 import { readFileSync } from "fs";
-import { CosmosClient } from "../dist-esm";
+import { CosmosClient } from "@azure/cosmos";
 const {
   COSMOS_DATABASE: databaseId,
   COSMOS_CONTAINER: containerId,

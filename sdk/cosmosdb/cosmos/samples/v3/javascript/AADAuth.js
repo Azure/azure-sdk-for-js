@@ -11,7 +11,7 @@ require("dotenv").config();
 const { UsernamePasswordCredential } = require("@azure/identity");
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-const { CosmosClient } = require("../dist");
+const { CosmosClient } = require("@azure/cosmos");
 const { handleError, finish, logStep } = require("./Shared/handleError");
 
 const endpoint = "your-endpoint";
