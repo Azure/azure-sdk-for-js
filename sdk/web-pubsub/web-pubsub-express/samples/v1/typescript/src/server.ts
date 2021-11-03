@@ -8,8 +8,7 @@
 import { WebPubSubEventHandler } from "@azure/web-pubsub-express";
 import express from "express";
 
-const handler = new WebPubSubEventHandler("chat", ["https://xxx.webpubsub.azure.com"], {
-  dumpRequest: false,
+const handler = new WebPubSubEventHandler("chat", {
   handleConnect(req, res) {
     console.log(req);
     res.success();
@@ -22,7 +21,8 @@ const handler = new WebPubSubEventHandler("chat", ["https://xxx.webpubsub.azure.
   handleUserEvent(req, res) {
     console.log(req);
     res.success("Hello", "text");
-  }
+  },
+  allowedEndpoints: ["https://xxx.webpubsub.azure.com"]
 });
 
 const app = express();

@@ -15,8 +15,8 @@ import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
   InboundSecurityRule,
-  InboundSecurityRuleOperationsCreateOrUpdateOptionalParams,
-  InboundSecurityRuleOperationsCreateOrUpdateResponse
+  InboundSecurityRuleCreateOrUpdateOptionalParams,
+  InboundSecurityRuleCreateOrUpdateResponse
 } from "../models";
 
 /** Class containing InboundSecurityRuleOperations operations. */
@@ -46,17 +46,17 @@ export class InboundSecurityRuleOperationsImpl
     networkVirtualApplianceName: string,
     ruleCollectionName: string,
     parameters: InboundSecurityRule,
-    options?: InboundSecurityRuleOperationsCreateOrUpdateOptionalParams
+    options?: InboundSecurityRuleCreateOrUpdateOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<InboundSecurityRuleOperationsCreateOrUpdateResponse>,
-      InboundSecurityRuleOperationsCreateOrUpdateResponse
+      PollOperationState<InboundSecurityRuleCreateOrUpdateResponse>,
+      InboundSecurityRuleCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<InboundSecurityRuleOperationsCreateOrUpdateResponse> => {
+    ): Promise<InboundSecurityRuleCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -124,8 +124,8 @@ export class InboundSecurityRuleOperationsImpl
     networkVirtualApplianceName: string,
     ruleCollectionName: string,
     parameters: InboundSecurityRule,
-    options?: InboundSecurityRuleOperationsCreateOrUpdateOptionalParams
-  ): Promise<InboundSecurityRuleOperationsCreateOrUpdateResponse> {
+    options?: InboundSecurityRuleCreateOrUpdateOptionalParams
+  ): Promise<InboundSecurityRuleCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       networkVirtualApplianceName,
@@ -160,7 +160,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters27,
+  requestBody: Parameters.parameters31,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
