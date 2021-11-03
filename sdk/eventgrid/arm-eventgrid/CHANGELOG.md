@@ -1,14 +1,64 @@
+## 13.0.0-beta.1 (2021-11-03)
+    
+**Features**
+
+  - Added Type Alias Enum18
+  - Added Type Alias Enum19
+  - Added Type Alias Enum20
+  - Added Type Alias Enum21
+  - Type Alias ExtensionTopic has a new parameter systemData
+  - Added Enum KnownEnum18
+  - Added Enum KnownEnum19
+  - Added Enum KnownEnum20
+  - Added Enum KnownEnum21
+
+**Breaking Changes**
+
+  - Removed operation group EventChannels
+  - Removed operation group PartnerNamespaces
+  - Removed operation group PartnerRegistrations
+  - Removed operation group PartnerTopicEventSubscriptions
+  - Removed operation group PartnerTopics
+  - Operation PrivateEndpointConnections.beginDelete has a new signature
+  - Operation PrivateEndpointConnections.beginDeleteAndWait has a new signature
+  - Operation PrivateEndpointConnections.beginUpdate has a new signature
+  - Operation PrivateEndpointConnections.beginUpdateAndWait has a new signature
+  - Operation PrivateEndpointConnections.get has a new signature
+  - Operation PrivateEndpointConnections.listByResource has a new signature
+  - Interface DomainUpdateParameters no longer has parameter sku
+  - Interface Operation no longer has parameter isDataAction
+  - Interface TopicUpdateParameters no longer has parameter sku
+  - Class EventGridManagementClient no longer has parameter eventChannels
+  - Class EventGridManagementClient no longer has parameter partnerNamespaces
+  - Class EventGridManagementClient no longer has parameter partnerRegistrations
+  - Class EventGridManagementClient no longer has parameter partnerTopicEventSubscriptions
+  - Class EventGridManagementClient no longer has parameter partnerTopics
+  - Type Alias Domain no longer has parameter sku
+  - Type Alias Topic no longer has parameter sku
+  - Type Alias Topic no longer has parameter kind
+  - Type Alias Topic no longer has parameter extendedLocation
+  - Removed Enum KnownEnum25
+  - Removed Enum KnownEnum26
+  - Removed Enum KnownEnum27
+  - Removed Enum KnownEnum28
+  - Removed Enum KnownEventChannelProvisioningState
+  - Removed Enum KnownPartnerNamespaceProvisioningState
+  - Removed Enum KnownPartnerRegistrationProvisioningState
+  - Removed Enum KnownPartnerRegistrationVisibilityState
+  - Removed Enum KnownPartnerTopicActivationState
+  - Removed Enum KnownPartnerTopicProvisioningState
+  - Removed Enum KnownPartnerTopicReadinessState
+  - Removed Enum KnownResourceKind
+  - Removed Enum KnownSku
+  - Enum KnownAdvancedFilterOperatorType no longer has value IsNotNull
+  - Enum KnownAdvancedFilterOperatorType no longer has value IsNullOrUndefined
+  - Enum KnownAdvancedFilterOperatorType no longer has value NumberInRange
+  - Enum KnownAdvancedFilterOperatorType no longer has value NumberNotInRange
+  - Enum KnownAdvancedFilterOperatorType no longer has value StringNotBeginsWith
+  - Enum KnownAdvancedFilterOperatorType no longer has value StringNotContains
+  - Enum KnownAdvancedFilterOperatorType no longer has value StringNotEndsWith
+    
 # Release History
-
-## 12.0.0-beta.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
 
 ## 12.0.0-beta.1 (2021-10-09)
 
