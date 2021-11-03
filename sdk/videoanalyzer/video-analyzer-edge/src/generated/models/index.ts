@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import * as coreClient from "@azure/core-client";
 
 export type SourceNodeBaseUnion =
   | SourceNodeBase
@@ -29,7 +29,8 @@ export type EndpointBaseUnion = EndpointBase | UnsecuredEndpoint | TlsEndpoint;
 export type CredentialsBaseUnion =
   | CredentialsBase
   | UsernamePasswordCredentials
-  | HttpHeaderCredentials;
+  | HttpHeaderCredentials
+  | SymmetricKeyCredentials;
 export type CertificateSourceUnion = CertificateSource | PemCertificateList;
 export type NamedLineBaseUnion = NamedLineBase | NamedLineString;
 export type ImageFormatPropertiesUnion =
@@ -227,7 +228,8 @@ export interface CredentialsBase {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   "@type":
     | "#Microsoft.VideoAnalyzer.UsernamePasswordCredentials"
-    | "#Microsoft.VideoAnalyzer.HttpHeaderCredentials";
+    | "#Microsoft.VideoAnalyzer.HttpHeaderCredentials"
+    | "#Microsoft.VideoAnalyzer.SymmetricKeyCredentials";
 }
 
 /** Base class for certificate sources. */
@@ -244,6 +246,12 @@ export interface TlsValidationOptions {
   ignoreSignature?: string;
 }
 
+/** Options for changing video publishing behavior on the video sink and output video. */
+export interface VideoPublishingOptions {
+  /** When set to 'true' the video will publish preview images. Default is 'false'. */
+  enableVideoPreviewImage?: string;
+}
+
 /** Optional video properties to be used in case a new video resource needs to be created on the service. These will not take effect if the video already exists. */
 export interface VideoCreationProperties {
   /** Optional video title provided by the user. Value can be up to 256 characters long. */
@@ -252,6 +260,8 @@ export interface VideoCreationProperties {
   description?: string;
   /** Video segment length indicates the length of individual video files (segments) which are persisted to storage. Smaller segments provide lower archive playback latency but generate larger volume of storage transactions. Larger segments reduce the amount of storage transactions while increasing the archive playback latency. Value must be specified in ISO8601 duration format (i.e. "PT30S" equals 30 seconds) and can vary between 30 seconds to 5 minutes, in 30 seconds increments. Changing this value after the video is initially created can lead to errors when uploading media to the archive. Default value is 30 seconds. */
   segmentLength?: string;
+  /** Video retention period indicates how long the video is kept in storage, and must be a multiple of 1 day. For example, if this is set to 30 days, then content older than 30 days will be deleted. */
+  retentionPeriod?: string;
 }
 
 /** Base class for named lines. */
@@ -362,12 +372,180 @@ export interface SpatialAnalysisPersonLineCrossingLineEvents {
   events?: SpatialAnalysisPersonLineCrossingEvent[];
 }
 
+/** The Video Analyzer edge module can act as a transparent gateway for video, enabling IoT devices to send video to the cloud from behind a firewall. A remote device adapter should be created for each such IoT device. Communication between the cloud and IoT device would then flow via the Video Analyzer edge module. */
+export interface RemoteDeviceAdapter {
+  /** The unique identifier for the remote device adapter. */
+  name: string;
+  /** Read-only system metadata associated with this object. */
+  systemData?: SystemData;
+  /** Properties of the remote device adapter. */
+  properties?: RemoteDeviceAdapterProperties;
+}
+
+/** Remote device adapter properties. */
+export interface RemoteDeviceAdapterProperties {
+  /** An optional description for the remote device adapter. */
+  description?: string;
+  /** The IoT device to which this remote device will connect. */
+  target: RemoteDeviceAdapterTarget;
+  /** Information that enables communication between the IoT Hub and the IoT device - allowing this edge module to act as a transparent gateway between the two. */
+  iotHubDeviceConnection: IotHubDeviceConnection;
+}
+
+/** Properties of the remote device adapter target. */
+export interface RemoteDeviceAdapterTarget {
+  /** Hostname or IP address of the remote device. */
+  host: string;
+}
+
+/** Information that enables communication between the IoT Hub and the IoT device - allowing this edge module to act as a transparent gateway between the two. */
+export interface IotHubDeviceConnection {
+  /** The name of the IoT device configured and managed in IoT Hub. (case-sensitive) */
+  deviceId: string;
+  /** IoT device connection credentials. Currently IoT device symmetric key credentials are supported. */
+  credentials?: CredentialsBaseUnion;
+}
+
+/** A list of remote device adapters. */
+export interface RemoteDeviceAdapterCollection {
+  /** An array of remote device adapters. */
+  value?: RemoteDeviceAdapter[];
+  /** A continuation token to use in subsequent calls to enumerate through the remote device adapter collection. This is used when the collection contains too many results to return in one response. */
+  continuationToken?: string;
+}
+
+/** A list of ONVIF devices that were discovered in the same subnet as the IoT Edge device. */
+export interface DiscoveredOnvifDeviceCollection {
+  /** An array of ONVIF devices that have been discovered in the same subnet as the IoT Edge device. */
+  value?: DiscoveredOnvifDevice[];
+}
+
+/** The discovered properties of the ONVIF device that are returned during the discovery. */
+export interface DiscoveredOnvifDevice {
+  /** The unique identifier of the ONVIF device that was discovered in the same subnet as the IoT Edge device. */
+  serviceIdentifier?: string;
+  /** The IP address of the ONVIF device that was discovered in the same subnet as the IoT Edge device. */
+  remoteIPAddress?: string;
+  /** An array of hostnames for the ONVIF discovered devices that are in the same subnet as the IoT Edge device. */
+  scopes?: string[];
+  /** An array of media profile endpoints that the ONVIF discovered device supports. */
+  endpoints?: string[];
+}
+
+/** The ONVIF device properties. */
+export interface OnvifDevice {
+  /** The hostname of the ONVIF device. */
+  hostname?: OnvifHostName;
+  /** The system date and time of the ONVIF device. */
+  systemDateTime?: OnvifSystemDateTime;
+  /** The ONVIF device DNS properties. */
+  dns?: OnvifDns;
+  /** An array of of ONVIF media profiles supported by the ONVIF device. */
+  mediaProfiles?: MediaProfile[];
+}
+
+/** The ONVIF device DNS properties. */
+export interface OnvifHostName {
+  /** Result value showing if the ONVIF device is configured to use DHCP. */
+  fromDhcp?: boolean;
+  /** The hostname of the ONVIF device. */
+  hostname?: string;
+}
+
+/** The ONVIF device DNS properties. */
+export interface OnvifSystemDateTime {
+  /** An enum value determining whether the date time was configured using NTP or manual. */
+  type?: OnvifSystemDateTimeType;
+  /** The device datetime returned when calling the request. */
+  time?: string;
+  /** The timezone of the ONVIF device datetime. */
+  timeZone?: string;
+}
+
+/** The ONVIF device DNS properties. */
+export interface OnvifDns {
+  /** Result value showing if the ONVIF device is configured to use DHCP. */
+  fromDhcp?: boolean;
+  /** An array of IPv4 address for the discovered ONVIF device. */
+  ipv4Address?: string[];
+  /** An array of IPv6 address for the discovered ONVIF device. */
+  ipv6Address?: string[];
+}
+
+/** Class representing the ONVIF MediaProfiles. */
+export interface MediaProfile {
+  /** The name of the Media Profile. */
+  name?: string;
+  /** Object representing the URI that will be used to request for media streaming. */
+  mediaUri?: Record<string, unknown>;
+  /** The Video encoder configuration. */
+  videoEncoderConfiguration?: VideoEncoderConfiguration;
+}
+
+/** Class representing the MPEG4 Configuration. */
+export interface VideoEncoderConfiguration {
+  /** The video codec used by the Media Profile. */
+  encoding?: VideoEncoding;
+  /** Relative value representing the quality of the video. */
+  quality?: number;
+  /** The Video Resolution. */
+  resolution?: VideoResolution;
+  /** The Video's rate control. */
+  rateControl?: RateControl;
+  /** The H264 Configuration. */
+  h264?: H264Configuration;
+  /** The H264 Configuration. */
+  mpeg4?: Mpeg4Configuration;
+}
+
+/** The Video resolution. */
+export interface VideoResolution {
+  /** The number of columns of the Video image. */
+  width?: number;
+  /** The number of lines of the Video image. */
+  height?: number;
+}
+
+/** Class  representing the video's rate control. */
+export interface RateControl {
+  /** the maximum output bitrate in kbps. */
+  bitRateLimit?: number;
+  /** Interval at which images are encoded and transmitted. */
+  encodingInterval?: number;
+  /** Maximum output framerate in fps. */
+  frameRateLimit?: number;
+  /** A value of true indicates that frame rate is a fixed value rather than an upper limit, and that the video encoder shall prioritize frame rate over all other adaptable configuration values such as bitrate. */
+  guaranteedFrameRate?: boolean;
+}
+
+/** Class representing the H264 Configuration. */
+export interface H264Configuration {
+  /** Group of Video frames length. */
+  govLength?: number;
+  /** The H264 Profile */
+  profile?: H264Profile;
+}
+
+/** Class representing the MPEG4 Configuration. */
+export interface Mpeg4Configuration {
+  /** Group of Video frames length. */
+  govLength?: number;
+  /** The MPEG4 Profile */
+  profile?: Mpeg4Profile;
+}
+
+/** Object representing the URI that will be used to request for media streaming. */
+export interface MediaUri {
+  /** URI that can be used for media streaming. */
+  uri?: string;
+}
+
 /** Base class for direct method calls. */
 export interface MethodRequest {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   methodName: "undefined";
   /** Video Analyzer API version. */
-  apiVersion?: "1.0";
+  apiVersion?: "1.1";
 }
 
 /** RTSP source allows for media from an RTSP camera or generic RTSP server to be ingested into a live pipeline. */
@@ -419,7 +597,10 @@ export type LineCrossingProcessor = ProcessorNodeBase & {
 /** Base class for pipeline extension processors. Pipeline extensions allow for custom media analysis and processing to be plugged into the Video Analyzer pipeline. */
 export type ExtensionProcessorBase = ProcessorNodeBase & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  "@type": "#Microsoft.VideoAnalyzer.ExtensionProcessorBase";
+  "@type":
+    | "#Microsoft.VideoAnalyzer.ExtensionProcessorBase"
+    | "#Microsoft.VideoAnalyzer.GrpcExtension"
+    | "#Microsoft.VideoAnalyzer.HttpExtension";
   /** Endpoint details of the pipeline extension plugin. */
   endpoint: EndpointBaseUnion;
   /** Image transformations and formatting options to be applied to the video frame(s) prior submission to the pipeline extension plugin. */
@@ -484,6 +665,8 @@ export type VideoSink = SinkNodeBase & {
   videoName: string;
   /** Optional video properties to be used in case a new video resource needs to be created on the service. */
   videoCreationProperties?: VideoCreationProperties;
+  /** Optional video publishing options to be used for changing publishing behavior of the output video. */
+  videoPublishingOptions?: VideoPublishingOptions;
   /** Path to a local file system directory for caching of temporary media files. This will also be used to store content which cannot be immediately uploaded to Azure due to Internet connectivity issues. */
   localMediaCachePath: string;
   /** Maximum amount of disk space that can be used for caching of temporary media files. Once this limit is reached, the oldest segments of the media archive will be continuously deleted in order to make space for new media, thus leading to gaps in the cloud recorded content. */
@@ -524,6 +707,14 @@ export type HttpHeaderCredentials = CredentialsBase & {
   headerName: string;
   /** HTTP header value. It is recommended that this value is parameterized as a secret string in order to prevent this value to be returned as part of the resource on API requests. */
   headerValue: string;
+};
+
+/** Symmetric key credential. */
+export type SymmetricKeyCredentials = CredentialsBase & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  "@type": "#Microsoft.VideoAnalyzer.SymmetricKeyCredentials";
+  /** Symmetric key credential. */
+  key: string;
 };
 
 /** A list of PEM formatted certificates. */
@@ -589,13 +780,24 @@ export type SpatialAnalysisCustomOperation = SpatialAnalysisOperationBase & {
 /** Base class for Azure Cognitive Services Spatial Analysis typed operations. */
 export type SpatialAnalysisTypedOperationBase = SpatialAnalysisOperationBase & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  "@type": "SpatialAnalysisTypedOperationBase";
+  "@type":
+    | "SpatialAnalysisTypedOperationBase"
+    | "#Microsoft.VideoAnalyzer.SpatialAnalysisPersonCountOperation"
+    | "#Microsoft.VideoAnalyzer.SpatialAnalysisPersonZoneCrossingOperation"
+    | "#Microsoft.VideoAnalyzer.SpatialAnalysisPersonDistanceOperation"
+    | "#Microsoft.VideoAnalyzer.SpatialAnalysisPersonLineCrossingOperation";
   /** If set to 'true', enables debugging mode for this operation. */
   debug?: string;
+  /** Advanced calibration configuration. */
+  calibrationConfiguration?: string;
   /** Advanced camera configuration. */
   cameraConfiguration?: string;
+  /** Advanced camera calibrator configuration. */
+  cameraCalibratorNodeConfiguration?: string;
   /** Advanced detector node configuration. */
   detectorNodeConfiguration?: string;
+  /** Advanced tracker node configuration. */
+  trackerNodeConfiguration?: string;
   /** If set to 'true', enables face mask detection for this operation. */
   enableFaceMaskClassifier?: string;
 };
@@ -678,7 +880,7 @@ export type SpatialAnalysisPersonLineCrossingOperation = SpatialAnalysisTypedOpe
 };
 
 /** Known values of {@link LivePipelineState} that the service accepts. */
-export const enum KnownLivePipelineState {
+export enum KnownLivePipelineState {
   /** The live pipeline is idle and not processing media. */
   Inactive = "inactive",
   /** The live pipeline is transitioning into the active state. */
@@ -693,7 +895,7 @@ export const enum KnownLivePipelineState {
  * Defines values for LivePipelineState. \
  * {@link KnownLivePipelineState} can be used interchangeably with LivePipelineState,
  *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
+ * ### Known values supported by the service
  * **inactive**: The live pipeline is idle and not processing media. \
  * **activating**: The live pipeline is transitioning into the active state. \
  * **active**: The live pipeline is active and able to process media. If your data source is not available, for instance, if your RTSP camera is powered off or unreachable, the pipeline will still be active and periodically retrying the connection. Your Azure subscription will be billed for the duration in which the live pipeline is in the active state. \
@@ -702,7 +904,7 @@ export const enum KnownLivePipelineState {
 export type LivePipelineState = string;
 
 /** Known values of {@link ParameterType} that the service accepts. */
-export const enum KnownParameterType {
+export enum KnownParameterType {
   /** The parameter's value is a string. */
   String = "string",
   /** The parameter's value is a string that holds sensitive information. */
@@ -719,7 +921,7 @@ export const enum KnownParameterType {
  * Defines values for ParameterType. \
  * {@link KnownParameterType} can be used interchangeably with ParameterType,
  *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
+ * ### Known values supported by the service
  * **string**: The parameter's value is a string. \
  * **secretString**: The parameter's value is a string that holds sensitive information. \
  * **int**: The parameter's value is a 32-bit signed integer. \
@@ -729,7 +931,7 @@ export const enum KnownParameterType {
 export type ParameterType = string;
 
 /** Known values of {@link OutputSelectorProperty} that the service accepts. */
-export const enum KnownOutputSelectorProperty {
+export enum KnownOutputSelectorProperty {
   /** The stream's MIME type or subtype: audio, video or application */
   MediaType = "mediaType"
 }
@@ -738,13 +940,13 @@ export const enum KnownOutputSelectorProperty {
  * Defines values for OutputSelectorProperty. \
  * {@link KnownOutputSelectorProperty} can be used interchangeably with OutputSelectorProperty,
  *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
+ * ### Known values supported by the service
  * **mediaType**: The stream's MIME type or subtype: audio, video or application
  */
 export type OutputSelectorProperty = string;
 
 /** Known values of {@link OutputSelectorOperator} that the service accepts. */
-export const enum KnownOutputSelectorOperator {
+export enum KnownOutputSelectorOperator {
   /** The property is of the type defined by value. */
   Is = "is",
   /** The property is not of the type defined by value. */
@@ -755,14 +957,14 @@ export const enum KnownOutputSelectorOperator {
  * Defines values for OutputSelectorOperator. \
  * {@link KnownOutputSelectorOperator} can be used interchangeably with OutputSelectorOperator,
  *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
+ * ### Known values supported by the service
  * **is**: The property is of the type defined by value. \
  * **isNot**: The property is not of the type defined by value.
  */
 export type OutputSelectorOperator = string;
 
 /** Known values of {@link RtspTransport} that the service accepts. */
-export const enum KnownRtspTransport {
+export enum KnownRtspTransport {
   /** HTTP transport. RTSP messages are exchanged over long running HTTP requests and RTP packets are interleaved within the HTTP channel. */
   Http = "http",
   /** TCP transport. RTSP is used directly over TCP and RTP packets are interleaved within the TCP channel. */
@@ -773,14 +975,14 @@ export const enum KnownRtspTransport {
  * Defines values for RtspTransport. \
  * {@link KnownRtspTransport} can be used interchangeably with RtspTransport,
  *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
+ * ### Known values supported by the service
  * **http**: HTTP transport. RTSP messages are exchanged over long running HTTP requests and RTP packets are interleaved within the HTTP channel. \
  * **tcp**: TCP transport. RTSP is used directly over TCP and RTP packets are interleaved within the TCP channel.
  */
 export type RtspTransport = string;
 
 /** Known values of {@link MotionDetectionSensitivity} that the service accepts. */
-export const enum KnownMotionDetectionSensitivity {
+export enum KnownMotionDetectionSensitivity {
   /** Low sensitivity. */
   Low = "low",
   /** Medium sensitivity. */
@@ -793,7 +995,7 @@ export const enum KnownMotionDetectionSensitivity {
  * Defines values for MotionDetectionSensitivity. \
  * {@link KnownMotionDetectionSensitivity} can be used interchangeably with MotionDetectionSensitivity,
  *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
+ * ### Known values supported by the service
  * **low**: Low sensitivity. \
  * **medium**: Medium sensitivity. \
  * **high**: High sensitivity.
@@ -801,7 +1003,7 @@ export const enum KnownMotionDetectionSensitivity {
 export type MotionDetectionSensitivity = string;
 
 /** Known values of {@link ObjectTrackingAccuracy} that the service accepts. */
-export const enum KnownObjectTrackingAccuracy {
+export enum KnownObjectTrackingAccuracy {
   /** Low accuracy. */
   Low = "low",
   /** Medium accuracy. */
@@ -814,7 +1016,7 @@ export const enum KnownObjectTrackingAccuracy {
  * Defines values for ObjectTrackingAccuracy. \
  * {@link KnownObjectTrackingAccuracy} can be used interchangeably with ObjectTrackingAccuracy,
  *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
+ * ### Known values supported by the service
  * **low**: Low accuracy. \
  * **medium**: Medium accuracy. \
  * **high**: High accuracy.
@@ -822,7 +1024,7 @@ export const enum KnownObjectTrackingAccuracy {
 export type ObjectTrackingAccuracy = string;
 
 /** Known values of {@link ImageScaleMode} that the service accepts. */
-export const enum KnownImageScaleMode {
+export enum KnownImageScaleMode {
   /** Preserves the same aspect ratio as the input image. If only one image dimension is provided, the second dimension is calculated based on the input image aspect ratio. When 2 dimensions are provided, the image is resized to fit the most constraining dimension, considering the input image size and aspect ratio. */
   PreserveAspectRatio = "preserveAspectRatio",
   /** Pads the image with black horizontal stripes (letterbox) or black vertical stripes (pillar-box) so the image is resized to the specified dimensions while not altering the content aspect ratio. */
@@ -835,7 +1037,7 @@ export const enum KnownImageScaleMode {
  * Defines values for ImageScaleMode. \
  * {@link KnownImageScaleMode} can be used interchangeably with ImageScaleMode,
  *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
+ * ### Known values supported by the service
  * **preserveAspectRatio**: Preserves the same aspect ratio as the input image. If only one image dimension is provided, the second dimension is calculated based on the input image aspect ratio. When 2 dimensions are provided, the image is resized to fit the most constraining dimension, considering the input image size and aspect ratio. \
  * **pad**: Pads the image with black horizontal stripes (letterbox) or black vertical stripes (pillar-box) so the image is resized to the specified dimensions while not altering the content aspect ratio. \
  * **stretch**: Stretches the original image so it resized to the specified dimensions.
@@ -843,7 +1045,7 @@ export const enum KnownImageScaleMode {
 export type ImageScaleMode = string;
 
 /** Known values of {@link GrpcExtensionDataTransferMode} that the service accepts. */
-export const enum KnownGrpcExtensionDataTransferMode {
+export enum KnownGrpcExtensionDataTransferMode {
   /** Media samples are embedded into the gRPC messages. This mode is less efficient but it requires a simpler implementations and can be used with plugins which are not on the same node as the Video Analyzer module. */
   Embedded = "embedded",
   /** Media samples are made available through shared memory. This mode enables efficient data transfers but it requires that the extension plugin to be co-located on the same node and sharing the same shared memory space. */
@@ -854,14 +1056,14 @@ export const enum KnownGrpcExtensionDataTransferMode {
  * Defines values for GrpcExtensionDataTransferMode. \
  * {@link KnownGrpcExtensionDataTransferMode} can be used interchangeably with GrpcExtensionDataTransferMode,
  *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
+ * ### Known values supported by the service
  * **embedded**: Media samples are embedded into the gRPC messages. This mode is less efficient but it requires a simpler implementations and can be used with plugins which are not on the same node as the Video Analyzer module. \
  * **sharedMemory**: Media samples are made available through shared memory. This mode enables efficient data transfers but it requires that the extension plugin to be co-located on the same node and sharing the same shared memory space.
  */
 export type GrpcExtensionDataTransferMode = string;
 
 /** Known values of {@link ImageFormatRawPixelFormat} that the service accepts. */
-export const enum KnownImageFormatRawPixelFormat {
+export enum KnownImageFormatRawPixelFormat {
   /** Planar YUV 4:2:0, 12bpp, (1 Cr and Cb sample per 2x2 Y samples). */
   Yuv420P = "yuv420p",
   /** Packed RGB 5:6:5, 16bpp, (msb)   5R 6G 5B(lsb), big-endian. */
@@ -890,7 +1092,7 @@ export const enum KnownImageFormatRawPixelFormat {
  * Defines values for ImageFormatRawPixelFormat. \
  * {@link KnownImageFormatRawPixelFormat} can be used interchangeably with ImageFormatRawPixelFormat,
  *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
+ * ### Known values supported by the service
  * **yuv420p**: Planar YUV 4:2:0, 12bpp, (1 Cr and Cb sample per 2x2 Y samples). \
  * **rgb565be**: Packed RGB 5:6:5, 16bpp, (msb)   5R 6G 5B(lsb), big-endian. \
  * **rgb565le**: Packed RGB 5:6:5, 16bpp, (msb)   5R 6G 5B(lsb), little-endian. \
@@ -906,7 +1108,7 @@ export const enum KnownImageFormatRawPixelFormat {
 export type ImageFormatRawPixelFormat = string;
 
 /** Known values of {@link SpatialAnalysisOperationFocus} that the service accepts. */
-export const enum KnownSpatialAnalysisOperationFocus {
+export enum KnownSpatialAnalysisOperationFocus {
   /** The center of the object. */
   Center = "center",
   /** The bottom center of the object. */
@@ -919,7 +1121,7 @@ export const enum KnownSpatialAnalysisOperationFocus {
  * Defines values for SpatialAnalysisOperationFocus. \
  * {@link KnownSpatialAnalysisOperationFocus} can be used interchangeably with SpatialAnalysisOperationFocus,
  *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
+ * ### Known values supported by the service
  * **center**: The center of the object. \
  * **bottomCenter**: The bottom center of the object. \
  * **footprint**: The footprint.
@@ -927,7 +1129,7 @@ export const enum KnownSpatialAnalysisOperationFocus {
 export type SpatialAnalysisOperationFocus = string;
 
 /** Known values of {@link SpatialAnalysisPersonCountEventTrigger} that the service accepts. */
-export const enum KnownSpatialAnalysisPersonCountEventTrigger {
+export enum KnownSpatialAnalysisPersonCountEventTrigger {
   /** Event trigger. */
   Event = "event",
   /** Interval trigger. */
@@ -938,14 +1140,14 @@ export const enum KnownSpatialAnalysisPersonCountEventTrigger {
  * Defines values for SpatialAnalysisPersonCountEventTrigger. \
  * {@link KnownSpatialAnalysisPersonCountEventTrigger} can be used interchangeably with SpatialAnalysisPersonCountEventTrigger,
  *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
+ * ### Known values supported by the service
  * **event**: Event trigger. \
  * **interval**: Interval trigger.
  */
 export type SpatialAnalysisPersonCountEventTrigger = string;
 
 /** Known values of {@link SpatialAnalysisPersonZoneCrossingEventType} that the service accepts. */
-export const enum KnownSpatialAnalysisPersonZoneCrossingEventType {
+export enum KnownSpatialAnalysisPersonZoneCrossingEventType {
   /** Zone crossing event type. */
   ZoneCrossing = "zoneCrossing",
   /** Zone dwell time event type. */
@@ -956,14 +1158,14 @@ export const enum KnownSpatialAnalysisPersonZoneCrossingEventType {
  * Defines values for SpatialAnalysisPersonZoneCrossingEventType. \
  * {@link KnownSpatialAnalysisPersonZoneCrossingEventType} can be used interchangeably with SpatialAnalysisPersonZoneCrossingEventType,
  *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
+ * ### Known values supported by the service
  * **zoneCrossing**: Zone crossing event type. \
  * **zoneDwellTime**: Zone dwell time event type.
  */
 export type SpatialAnalysisPersonZoneCrossingEventType = string;
 
 /** Known values of {@link SpatialAnalysisPersonDistanceEventTrigger} that the service accepts. */
-export const enum KnownSpatialAnalysisPersonDistanceEventTrigger {
+export enum KnownSpatialAnalysisPersonDistanceEventTrigger {
   /** Event trigger. */
   Event = "event",
   /** Interval trigger. */
@@ -974,15 +1176,90 @@ export const enum KnownSpatialAnalysisPersonDistanceEventTrigger {
  * Defines values for SpatialAnalysisPersonDistanceEventTrigger. \
  * {@link KnownSpatialAnalysisPersonDistanceEventTrigger} can be used interchangeably with SpatialAnalysisPersonDistanceEventTrigger,
  *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
+ * ### Known values supported by the service
  * **event**: Event trigger. \
  * **interval**: Interval trigger.
  */
 export type SpatialAnalysisPersonDistanceEventTrigger = string;
 
+/** Known values of {@link OnvifSystemDateTimeType} that the service accepts. */
+export enum KnownOnvifSystemDateTimeType {
+  Ntp = "Ntp",
+  Manual = "Manual"
+}
+
+/**
+ * Defines values for OnvifSystemDateTimeType. \
+ * {@link KnownOnvifSystemDateTimeType} can be used interchangeably with OnvifSystemDateTimeType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Ntp** \
+ * **Manual**
+ */
+export type OnvifSystemDateTimeType = string;
+
+/** Known values of {@link VideoEncoding} that the service accepts. */
+export enum KnownVideoEncoding {
+  /** The Media Profile uses JPEG encoding. */
+  Jpeg = "JPEG",
+  /** The Media Profile uses H264 encoding. */
+  H264 = "H264",
+  /** The Media Profile uses MPEG4 encoding. */
+  Mpeg4 = "MPEG4"
+}
+
+/**
+ * Defines values for VideoEncoding. \
+ * {@link KnownVideoEncoding} can be used interchangeably with VideoEncoding,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **JPEG**: The Media Profile uses JPEG encoding. \
+ * **H264**: The Media Profile uses H264 encoding. \
+ * **MPEG4**: The Media Profile uses MPEG4 encoding.
+ */
+export type VideoEncoding = string;
+
+/** Known values of {@link H264Profile} that the service accepts. */
+export enum KnownH264Profile {
+  Baseline = "Baseline",
+  Main = "Main",
+  Extended = "Extended",
+  High = "High"
+}
+
+/**
+ * Defines values for H264Profile. \
+ * {@link KnownH264Profile} can be used interchangeably with H264Profile,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Baseline** \
+ * **Main** \
+ * **Extended** \
+ * **High**
+ */
+export type H264Profile = string;
+
+/** Known values of {@link Mpeg4Profile} that the service accepts. */
+export enum KnownMpeg4Profile {
+  /** Simple Profile. */
+  SP = "SP",
+  /** Advanced Simple Profile. */
+  ASP = "ASP"
+}
+
+/**
+ * Defines values for Mpeg4Profile. \
+ * {@link KnownMpeg4Profile} can be used interchangeably with Mpeg4Profile,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **SP**: Simple Profile. \
+ * **ASP**: Advanced Simple Profile.
+ */
+export type Mpeg4Profile = string;
+
 /** Optional parameters. */
 export interface GeneratedClientOptionalParams
-  extends coreHttp.ServiceClientOptions {
+  extends coreClient.ServiceClientOptions {
   /** Overrides client endpoint. */
   endpoint?: string;
 }

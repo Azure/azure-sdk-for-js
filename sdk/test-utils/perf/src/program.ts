@@ -12,6 +12,7 @@ import {
 import { PerfParallel } from "./parallel";
 import { TestProxyHttpClientV1, TestProxyHttpClient } from "./testProxyHttpClient";
 import { exec } from "child_process";
+import { formatDuration } from "./utils";
 
 export type TestType = "";
 
@@ -189,15 +190,22 @@ export class PerfProgram {
       `\n=== ${title} mode, iteration ${iterationIndex + 1}. Logs every ${millisecondsToLog /
         1000}s ===`
     );
-    console.log(`Current\t\tTotal\t\tAverage`);
+    console.log(`ElapsedTime\tCurrent\t\tTotal\t\tAverage`);
     let lastCompleted = 0;
+    const startMillis = new Date().getTime();
+
     const logInterval = setInterval(() => {
       const totalCompleted = this.getCompletedOperations(parallels);
       const currentCompleted = totalCompleted - lastCompleted;
       const averageCompleted = this.getOperationsPerSecond(parallels);
+      const elapsedTime = formatDuration(new Date().getTime() - startMillis);
 
       lastCompleted = totalCompleted;
-      console.log(`${currentCompleted}\t\t${totalCompleted}\t\t${averageCompleted.toFixed(2)}`);
+      console.log(
+        `${elapsedTime}\t\t${currentCompleted}\t\t${totalCompleted}\t\t${averageCompleted.toFixed(
+          2
+        )}`
+      );
     }, millisecondsToLog);
 
     const runLoop = this.runLoopAsync;
