@@ -84,10 +84,15 @@ export type RequestParameters = {
 };
 
 // @public
-export type RouteParams<TRoute extends string> = TRoute extends `${infer _Head}/{${infer _Param}}${infer Tail}` ? [
-pathParam: string,
-...pathParams: RouteParams<Tail>
-] : [
-];
+export interface ResourceMethods {
+    delete: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
+    get: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
+    head: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
+    options: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
+    patch: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
+    post: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
+    put: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
+    trace: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
+}
 
 ```
