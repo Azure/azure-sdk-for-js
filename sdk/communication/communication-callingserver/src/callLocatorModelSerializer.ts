@@ -93,9 +93,9 @@ export const serializeCallLocator = (locator: CallLocator): CallLocatorModel => 
 /**
  * @hidden
  * Translates the serialized format of a call locator to CallLocator.
- * @param serializedCallLocator - The SerializedCommunicationIdentifier to be deserialized.
+ * @param serializedCallLocator - The SerializedCallLocator to be deserialized.
  */
-export const deserializeCommunicationIdentifier = (
+export const deserializeCallLocator = (
   serializedCallLocator: SerializedCallLocator
 ): CallLocatorKind => {
   assertMaximumOneNestedModel(serializedCallLocator);

@@ -19,6 +19,7 @@ import {
   PlayAudioRequest,
   CallConnectionsPlayAudioResponse,
   TransferCallRequest,
+  CallConnectionsTransferResponse,
   AudioRoutingGroupRequest,
   CallConnectionsCreateAudioRoutingGroupResponse,
   CallConnectionsGetParticipantsResponse,
@@ -196,17 +197,17 @@ export class CallConnections {
   /**
    * Play audio in the call.
    * @param callConnectionId The call connection id.
-   * @param request Play audio request.
+   * @param playAudioRequest The play audio request.
    * @param options The options parameters.
    */
   playAudio(
     callConnectionId: string,
-    request: PlayAudioRequest,
+    playAudioRequest: PlayAudioRequest,
     options?: coreHttp.OperationOptions
   ): Promise<CallConnectionsPlayAudioResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       callConnectionId,
-      request,
+      playAudioRequest,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
     return this.client.sendOperationRequest(
@@ -263,7 +264,7 @@ export class CallConnections {
     callConnectionId: string,
     transferCallRequest: TransferCallRequest,
     options?: coreHttp.OperationOptions
-  ): Promise<coreHttp.RestResponse> {
+  ): Promise<CallConnectionsTransferResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       callConnectionId,
       transferCallRequest,
@@ -272,7 +273,7 @@ export class CallConnections {
     return this.client.sendOperationRequest(
       operationArguments,
       transferOperationSpec
-    ) as Promise<coreHttp.RestResponse>;
+    ) as Promise<CallConnectionsTransferResponse>;
   }
 
   /**
@@ -783,7 +784,7 @@ const playAudioOperationSpec: coreHttp.OperationSpec = {
       isError: true
     }
   },
-  requestBody: Parameters.request,
+  requestBody: Parameters.playAudioRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.callConnectionId],
   headerParameters: [Parameters.accept, Parameters.contentType],
@@ -856,7 +857,9 @@ const transferOperationSpec: coreHttp.OperationSpec = {
   path: "/calling/callConnections/{callConnectionId}/:transfer",
   httpMethod: "POST",
   responses: {
-    202: {},
+    202: {
+      bodyMapper: Mappers.TransferCallResult
+    },
     400: {
       bodyMapper: Mappers.CommunicationErrorResponse,
       isError: true

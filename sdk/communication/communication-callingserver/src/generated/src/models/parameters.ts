@@ -32,10 +32,6 @@ import {
   GetParticipantWithCallLocatorRequest as GetParticipantWithCallLocatorRequestMapper,
   PlayAudioToParticipantWithCallLocatorRequest as PlayAudioToParticipantWithCallLocatorRequestMapper,
   CancelParticipantMediaOperationWithCallLocatorRequest as CancelParticipantMediaOperationWithCallLocatorRequestMapper,
-  MuteParticipantWithCallLocatorRequest as MuteParticipantWithCallLocatorRequestMapper,
-  UnmuteParticipantWithCallLocatorRequest as UnmuteParticipantWithCallLocatorRequestMapper,
-  HoldMeetingAudioWithCallLocatorRequest as HoldMeetingAudioWithCallLocatorRequestMapper,
-  ResumeMeetingAudioWithCallLocatorRequest as ResumeMeetingAudioWithCallLocatorRequestMapper,
   StartCallRecordingWithCallLocatorRequest as StartCallRecordingWithCallLocatorRequestMapper,
   JoinCallRequest as JoinCallRequestMapper,
   PlayAudioWithCallLocatorRequest as PlayAudioWithCallLocatorRequestMapper,
@@ -125,8 +121,8 @@ export const callRequest: OperationParameter = {
   mapper: CreateCallRequestMapper
 };
 
-export const request: OperationParameter = {
-  parameterPath: "request",
+export const playAudioRequest: OperationParameter = {
+  parameterPath: "playAudioRequest",
   mapper: PlayAudioRequestMapper
 };
 
@@ -215,26 +211,6 @@ export const cancelParticipantMediaOperationRequest: OperationParameter = {
   mapper: CancelParticipantMediaOperationWithCallLocatorRequestMapper
 };
 
-export const muteParticipantWithCallLocatorRequest: OperationParameter = {
-  parameterPath: "muteParticipantWithCallLocatorRequest",
-  mapper: MuteParticipantWithCallLocatorRequestMapper
-};
-
-export const unmuteParticipantWithCallLocatorRequest: OperationParameter = {
-  parameterPath: "unmuteParticipantWithCallLocatorRequest",
-  mapper: UnmuteParticipantWithCallLocatorRequestMapper
-};
-
-export const holdMeetingAudioWithCallLocatorRequest: OperationParameter = {
-  parameterPath: "holdMeetingAudioWithCallLocatorRequest",
-  mapper: HoldMeetingAudioWithCallLocatorRequestMapper
-};
-
-export const resumeMeetingAudioWithCallLocatorRequest: OperationParameter = {
-  parameterPath: "resumeMeetingAudioWithCallLocatorRequest",
-  mapper: ResumeMeetingAudioWithCallLocatorRequestMapper
-};
-
 export const startCallRecordingWithCallLocatorRequest: OperationParameter = {
   parameterPath: "startCallRecordingWithCallLocatorRequest",
   mapper: StartCallRecordingWithCallLocatorRequestMapper
@@ -256,7 +232,7 @@ export const callRequest1: OperationParameter = {
   mapper: JoinCallRequestMapper
 };
 
-export const playAudioRequest: OperationParameter = {
+export const playAudioRequest1: OperationParameter = {
   parameterPath: "playAudioRequest",
   mapper: PlayAudioWithCallLocatorRequestMapper
 };

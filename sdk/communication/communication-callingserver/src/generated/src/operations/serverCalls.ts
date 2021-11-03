@@ -21,10 +21,6 @@ import {
   PlayAudioToParticipantWithCallLocatorRequest,
   ServerCallsParticipantPlayAudioResponse,
   CancelParticipantMediaOperationWithCallLocatorRequest,
-  MuteParticipantWithCallLocatorRequest,
-  UnmuteParticipantWithCallLocatorRequest,
-  HoldMeetingAudioWithCallLocatorRequest,
-  ResumeMeetingAudioWithCallLocatorRequest,
   StartCallRecordingWithCallLocatorRequest,
   ServerCallsStartRecordingResponse,
   ServerCallsGetRecordingPropertiesResponse,
@@ -164,85 +160,6 @@ export class ServerCalls {
     return this.client.sendOperationRequest(
       operationArguments,
       cancelParticipantMediaOperationOperationSpec
-    ) as Promise<coreHttp.RestResponse>;
-  }
-
-  /**
-   * Mute participant in the call
-   * @param muteParticipantWithCallLocatorRequest The identifier of the participant to mute in the call.
-   * @param options The options parameters.
-   */
-  muteParticipant(
-    muteParticipantWithCallLocatorRequest: MuteParticipantWithCallLocatorRequest,
-    options?: coreHttp.OperationOptions
-  ): Promise<coreHttp.RestResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      muteParticipantWithCallLocatorRequest,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      muteParticipantOperationSpec
-    ) as Promise<coreHttp.RestResponse>;
-  }
-
-  /**
-   * Unmute participant in the call
-   * @param unmuteParticipantWithCallLocatorRequest The identifier of the participant to unmute in the
-   *                                                call.
-   * @param options The options parameters.
-   */
-  unmuteParticipant(
-    unmuteParticipantWithCallLocatorRequest: UnmuteParticipantWithCallLocatorRequest,
-    options?: coreHttp.OperationOptions
-  ): Promise<coreHttp.RestResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      unmuteParticipantWithCallLocatorRequest,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      unmuteParticipantOperationSpec
-    ) as Promise<coreHttp.RestResponse>;
-  }
-
-  /**
-   * Hold meeting audio of a participant in the call.
-   * @param holdMeetingAudioWithCallLocatorRequest The request payload for holding meeting audio for a
-   *                                               participant.
-   * @param options The options parameters.
-   */
-  holdParticipantMeetingAudio(
-    holdMeetingAudioWithCallLocatorRequest: HoldMeetingAudioWithCallLocatorRequest,
-    options?: coreHttp.OperationOptions
-  ): Promise<coreHttp.RestResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      holdMeetingAudioWithCallLocatorRequest,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      holdParticipantMeetingAudioOperationSpec
-    ) as Promise<coreHttp.RestResponse>;
-  }
-
-  /**
-   * Resume meeting audio of a participant in the call.
-   * @param resumeMeetingAudioWithCallLocatorRequest The request payload for resuming meeting audio for a
-   *                                                 participant.
-   * @param options The options parameters.
-   */
-  resumeParticipantMeetingAudio(
-    resumeMeetingAudioWithCallLocatorRequest: ResumeMeetingAudioWithCallLocatorRequest,
-    options?: coreHttp.OperationOptions
-  ): Promise<coreHttp.RestResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      resumeMeetingAudioWithCallLocatorRequest,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      resumeParticipantMeetingAudioOperationSpec
     ) as Promise<coreHttp.RestResponse>;
   }
 
@@ -674,138 +591,6 @@ const cancelParticipantMediaOperationOperationSpec: coreHttp.OperationSpec = {
   mediaType: "json",
   serializer
 };
-const muteParticipantOperationSpec: coreHttp.OperationSpec = {
-  path: "/calling/participants:mute",
-  httpMethod: "POST",
-  responses: {
-    200: {},
-    400: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    401: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    403: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    404: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    500: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    }
-  },
-  requestBody: Parameters.muteParticipantWithCallLocatorRequest,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const unmuteParticipantOperationSpec: coreHttp.OperationSpec = {
-  path: "/calling/participants:unmute",
-  httpMethod: "POST",
-  responses: {
-    200: {},
-    400: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    401: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    403: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    404: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    500: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    }
-  },
-  requestBody: Parameters.unmuteParticipantWithCallLocatorRequest,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const holdParticipantMeetingAudioOperationSpec: coreHttp.OperationSpec = {
-  path: "/calling/participants:holdMeetingAudio",
-  httpMethod: "POST",
-  responses: {
-    200: {},
-    400: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    401: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    403: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    404: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    500: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    }
-  },
-  requestBody: Parameters.holdMeetingAudioWithCallLocatorRequest,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const resumeParticipantMeetingAudioOperationSpec: coreHttp.OperationSpec = {
-  path: "/calling/participants:resumeMeetingAudio",
-  httpMethod: "POST",
-  responses: {
-    200: {},
-    400: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    401: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    403: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    404: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    500: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    }
-  },
-  requestBody: Parameters.resumeMeetingAudioWithCallLocatorRequest,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
 const startRecordingOperationSpec: coreHttp.OperationSpec = {
   path: "/calling/recordings",
   httpMethod: "POST",
@@ -1026,7 +811,7 @@ const playAudioOperationSpec: coreHttp.OperationSpec = {
       isError: true
     }
   },
-  requestBody: Parameters.playAudioRequest,
+  requestBody: Parameters.playAudioRequest1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.accept, Parameters.contentType],
