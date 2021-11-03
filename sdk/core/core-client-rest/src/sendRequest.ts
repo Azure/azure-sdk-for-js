@@ -15,6 +15,7 @@ import {
 } from "@azure/core-rest-pipeline";
 import { getCachedDefaultHttpsClient } from "./clientHelpers";
 import { HttpResponse, RequestParameters } from "./common";
+import { decodeBinaryContent, encodeBinaryContent } from "./helpers/getBinaryBody";
 
 /**
  * Helper function to send request used by the client
@@ -35,7 +36,7 @@ export async function sendRequest(
   const response = await pipeline.sendRequest(httpClient, request);
   const rawHeaders: RawHttpHeaders = response.headers.toJSON();
 
-  const parsedBody: RequestBodyType | undefined = getResponseBody(response);
+  const parsedBody: RequestBodyType | undefined = getResponseBody(response, options);
 
   return {
     request,
@@ -105,9 +106,15 @@ function getRequestBody(body?: unknown, contentType: string = "application/json"
 
   const firstType = contentType.split(";")[0];
 
+  if (isBinaryContentType(firstType) || ArrayBuffer.isView(body)) {
+    return { body: decodeBinaryContent(body) };
+  }
+
   switch (firstType) {
     case "multipart/form-data":
-      return isFormData(body) ? { formData: body } : { body: JSON.stringify(body) };
+      return isFormData(body)
+        ? { formData: processFormData(body) }
+        : { body: JSON.stringify(body) };
     case "text/plain":
       return { body: String(body) };
     default:
@@ -120,9 +127,34 @@ function isFormData(body: unknown): body is FormDataMap {
 }
 
 /**
+ * decodes any Binary parts of a form data content
+ */
+function processFormData(formData?: FormDataMap) {
+  if (!formData) {
+    return formData;
+  }
+
+  let processedFormData: FormDataMap = {};
+
+  for (const element in formData) {
+    const item = formData[element];
+    if (item instanceof Uint8Array) {
+      processedFormData[element] = decodeBinaryContent(item);
+    } else {
+      processedFormData[element] = item;
+    }
+  }
+
+  return processedFormData;
+}
+
+/**
  * Prepares the response body
  */
-function getResponseBody(response: PipelineResponse): RequestBodyType | undefined {
+function getResponseBody(
+  response: PipelineResponse,
+  requestOptions: RequestParameters
+): RequestBodyType | undefined {
   // Set the default response type
   const contentType = response.headers.get("content-type") ?? "";
   const firstType = contentType.split(";")[0];
@@ -130,6 +162,10 @@ function getResponseBody(response: PipelineResponse): RequestBodyType | undefine
 
   if (firstType === "text/plain") {
     return String(bodyToParse);
+  }
+
+  if (requestOptions.binaryContent || isBinaryContentType(firstType)) {
+    return encodeBinaryContent(bodyToParse);
   }
 
   // Default to "application/json" and fallback to string;
@@ -157,4 +193,17 @@ function createParseError(response: PipelineResponse, err: any): RestError {
     request: response.request,
     response: response,
   });
+}
+
+function isBinaryContentType(contentType: string) {
+  return [
+    "application/octet-stream",
+    "application/x-rdp",
+    "image/bmp",
+    "image/gif",
+    "image/jpeg",
+    "image/png",
+    "application/pdf",
+    "application/zip",
+  ].includes(contentType);
 }

@@ -33,46 +33,45 @@ describe("purview catalog test", () => {
     assert.isDefined(result.body.entityDefs?.length);
   });
 
-  // it("Should create a glossary", async () => {
-  //   const glossary = await client.path("/atlas/v2/glossary").post({
-  //     body: {
-  //       name: "jssdkGlossary",
-  //       shortDescription: "Example Short Description",
-  //       longDescription: "Example Long Description",
-  //       language: "en",
-  //       usage: "Example Glossary",
-  //     },
-  //   });
+  it("Should create a glossary", async () => {
+    const glossary = await client.path("/atlas/v2/glossary").post({
+      body: {
+        name: "jssdkGlossary",
+        shortDescription: "Example Short Description",
+        longDescription: "Example Long Description",
+        language: "en",
+        usage: "Example Glossary",
+      },
+    });
 
-  //   console.log(glossary);
-  //   assert.strictEqual(glossary.status, "200");
-  // });
+    console.log(glossary);
+    assert.strictEqual(glossary.status, "200");
+  });
 
-  // it("should work with LRO helper", async () => {
+  it("should work with LRO helper", async () => {
+    const initialResponse = await client
+      .path("/glossary/name/{glossaryName}/terms/import", "jssdkGlossary")
+      .post({
+        headers: {
+          contentType: "multipart/form-data",
+        },
+        body: "random content",
+        contentType: "multipart/form-data",
+      });
 
-  //   const initialResponse = await client
-  //     .path("/glossary/name/{glossaryName}/terms/import", "jssdkGlossary")
-  //     .post({
-  //       headers: {
-  //         contentType: "multipart/form-data",
-  //       },
-  //       body: "random content",
-  //       contentType: "multipart/form-data",
-  //     });
+    console.log(initialResponse);
+    const poller = getLongRunningPoller(client, initialResponse, {
+      intervalInMs: 0,
+    });
 
-  //   console.log(initialResponse);
-  //   const poller = getLongRunningPoller(client, initialResponse, {
-  //     intervalInMs: 0
-  //   })
+    const result = await poller.pollUntilDone();
+    console.log(result);
+    if (result.status === "500") {
+      const error = `Unexpected status code ${result.status}`;
+      assert.fail(error);
+    }
 
-  //   const result = await poller.pollUntilDone();
-  //   console.log(result);
-  //   if (result.status === "500") {
-  //     const error = `Unexpected status code ${result.status}`;
-  //     assert.fail(error);
-  //   }
-
-  //   console.log(result);
-  //   // assert.equal(result.body.properties?.provisioningState, "Succeeded");
-  // });
+    console.log(result);
+    // assert.equal(result.body.properties?.provisioningState, "Succeeded");
+  });
 }).timeout(60000000000);
