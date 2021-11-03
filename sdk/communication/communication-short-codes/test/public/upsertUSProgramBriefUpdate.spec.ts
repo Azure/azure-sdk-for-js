@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { matrix } from "@azure/test-utils";
-import { Recorder, env } from "@azure-tools/test-recorder";
+import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { Context } from "mocha";
 import { ShortCodesClient, ShortCodesUpsertUSProgramBriefOptionalParams } from "../../src";
@@ -26,7 +26,7 @@ matrix([[false]], async function (useAad) {
     });
 
     it("can upsert a US Program Brief", async function () {
-      const programBriefId = env.US_PROGRAM_BRIEF_ID;
+      const programBriefId = "2f129c97-701d-4ab8-913b-3c2625216ad9";
       const updatedDate = new Date();
       const programBriefRequest: ShortCodesUpsertUSProgramBriefOptionalParams = {
         body: {
