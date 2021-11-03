@@ -26,14 +26,10 @@ stages:
 
           - task: PowerShell@2
             inputs:
-              targetType: filePath
+              targetType: 'filePath'
               filePath: eng/scripts/spell-check-public-api.ps1
               pwsh: true
-            displayName: Check spelling of public API surface
-            # Spelling errors in public api surface are not blockers yet but will
-            # become blockers when this is rolled out to all services. For now, turn
-            # the pipeline yellow if spelling errors are detected but do not block.
-            continueOnError: true
+            displayName: Spell check public API
 
           - template: ../common/pipelines/templates/steps/verify-links.yml
             parameters:
