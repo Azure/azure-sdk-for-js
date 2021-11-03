@@ -9,7 +9,8 @@ import * as Constants from "./utils/constants";
 import { CommunicationIdentityClient } from "@azure/communication-identity";
 import { PhoneNumberIdentifier } from "@azure/communication-common";
 const replaceableVariables: { [k: string]: string } = {
-  COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING: "endpoint=https://endpoint/;accesskey=banana"
+  COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING: "endpoint=https://endpoint/;accesskey=banana",
+  AZURE_PHONE_NUMBER: "+15551234567"
 };
 
 const environmentSetup: RecorderEnvironmentSetup = {
@@ -29,9 +30,7 @@ describe("Call Connection Live Test", function() {
     beforeEach(async function(this: Context) {
       recorder = record(this, environmentSetup);
       /* Place your code here*/
-      connectionString =
-        env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING ||
-        "endpoint=https://endpoint/;accesskey=banana";
+      connectionString = env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING;
     });
 
     afterEach(async function(this: Context) {
