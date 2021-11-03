@@ -1,53 +1,65 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { odata, TableClient, TableEntityResult, TransactionAction } from "../../src";
 import { assert } from "chai";
 import { createTableClient, recordedEnvironmentSetup } from "./utils/recordedClient";
 import { isNode } from "@azure/test-utils";
-import { record, Recorder } from "@azure-tools/test-recorder";
+import { isLiveMode, record, Recorder } from "@azure-tools/test-recorder";
+import { Context } from "mocha";
 
-describe("TableClient", () => {
+describe("SpecialCharacters", function() {
+  before(function(this: Context) {
+    if (!isLiveMode()) {
+      // Currently the recorder is having issues with the encoding of single qoutes in the
+      // query request and generates invalid JS code. Disabling this test on playback mode
+      // while these issues are resolved
+      this.skip();
+    }
+  });
   let client: TableClient;
   let recorder: Recorder;
   const suffix = isNode ? "Node" : "Browser";
   const tableName = `SpecialCharacterTest${suffix}`;
   const specialCharacters = [
-    `'`,
-    `"`,
-    `{}`,
-    `[]`,
-    `()`,
-    `:`,
-    `@`,
-    `&`,
-    `=`,
-    `+`,
-    `,`,
-    `$`,
-    `-`,
-    `_`,
-    `<>`,
-    `;`,
-    `~`,
-    `^`,
-    `!`,
-    `%`,
-    `*`
+    { char: `'`, name: "single quote" },
+    { char: `"`, name: "double quote" },
+    { char: `{}`, name: "curly braces" },
+    { char: `[]`, name: "square braces" },
+    { char: `()`, name: "parenthesis braces" },
+    { char: `:`, name: "colon braces" },
+    { char: `@`, name: "at" },
+    { char: `&`, name: "ampersand" },
+    { char: `=`, name: "equals" },
+    { char: `+`, name: "plus" },
+    { char: `,`, name: "comma" },
+    { char: `$`, name: "dollar sing" },
+    { char: `-`, name: "dash" },
+    { char: `_`, name: "underscore" },
+    { char: `<>`, name: "gt and lt" },
+    { char: `;`, name: "semi-colon" },
+    { char: `~`, name: "tilde" },
+    { char: `^`, name: "hat" },
+    { char: `!`, name: "bang" },
+    { char: `%`, name: "percentage" },
+    { char: `*`, name: "star" }
   ];
 
   describe("Single operations", () => {
-    beforeEach(function() {
+    beforeEach(function(this: Context) {
       recorder = record(this, recordedEnvironmentSetup);
-      client = createTableClient(tableName);
+      client = createTableClient(tableName, "TokenCredential");
     });
 
     afterEach(async function() {
       await recorder.stop();
     });
 
-    specialCharacters.forEach((testChar) => {
-      describe(`${testChar} roundtrip`, () => {
-        const partitionKey = `foo${testChar}`;
-        const rowKey = `${testChar}bar`;
-        const value = `test${testChar}`;
+    specialCharacters.forEach(({ char, name }) => {
+      describe(`${name} roundtrip`, () => {
+        const partitionKey = `foo${char}`;
+        const rowKey = `${char}bar`;
+        const value = `test${char}`;
 
         it("should create entity with single quote in the partitionKey and rowKey", async () => {
           await client.createTable();
@@ -120,9 +132,9 @@ describe("TableClient", () => {
   });
 
   describe("Batch", () => {
-    beforeEach(function() {
+    beforeEach(function(this: Context) {
       recorder = record(this, recordedEnvironmentSetup);
-      client = createTableClient(`${tableName}Batch`);
+      client = createTableClient(`${tableName}Batch`, "TokenCredential");
     });
 
     afterEach(async function() {
@@ -131,9 +143,9 @@ describe("TableClient", () => {
     const partitionKey = `foo'`;
     it("should create entity with single quote in the partitionKey and rowKey", async () => {
       await client.createTable();
-      const actions: TransactionAction[] = specialCharacters.map((testChar) => {
-        const rowKey = `${testChar}bar`;
-        const value = `test${testChar}`;
+      const actions: TransactionAction[] = specialCharacters.map(({ char }) => {
+        const rowKey = `${char}bar`;
+        const value = `test${char}`;
         const action: TransactionAction = ["create", { partitionKey, rowKey, value }];
         return action;
       });
@@ -142,9 +154,9 @@ describe("TableClient", () => {
     });
 
     it("should upsert merge entity with single quote in the partitionKey and rowKey", async () => {
-      const actions: TransactionAction[] = specialCharacters.map((testChar) => {
-        const rowKey = `${testChar}bar`;
-        const value = `test${testChar}`;
+      const actions: TransactionAction[] = specialCharacters.map(({ char }) => {
+        const rowKey = `${char}bar`;
+        const value = `test${char}`;
         const action: TransactionAction = ["upsert", { partitionKey, rowKey, value }, "Merge"];
         return action;
       });
@@ -153,9 +165,9 @@ describe("TableClient", () => {
     });
 
     it("should upsert replace entity with single quote in the partitionKey and rowKey", async () => {
-      const actions: TransactionAction[] = specialCharacters.map((testChar) => {
-        const rowKey = `${testChar}bar`;
-        const value = `test${testChar}`;
+      const actions: TransactionAction[] = specialCharacters.map(({ char }) => {
+        const rowKey = `${char}bar`;
+        const value = `test${char}`;
         const action: TransactionAction = ["upsert", { partitionKey, rowKey, value }, "Replace"];
         return action;
       });
@@ -164,9 +176,9 @@ describe("TableClient", () => {
     });
 
     it("should update merge entity with single quote in the partitionKey and rowKey", async () => {
-      const actions: TransactionAction[] = specialCharacters.map((testChar) => {
-        const rowKey = `${testChar}bar`;
-        const value = `test${testChar}`;
+      const actions: TransactionAction[] = specialCharacters.map(({ char }) => {
+        const rowKey = `${char}bar`;
+        const value = `test${char}`;
         const action: TransactionAction = ["update", { partitionKey, rowKey, value }, "Merge"];
         return action;
       });
@@ -175,9 +187,9 @@ describe("TableClient", () => {
     });
 
     it("should update replace entity with single quote in the partitionKey and rowKey", async () => {
-      const actions: TransactionAction[] = specialCharacters.map((testChar) => {
-        const rowKey = `${testChar}bar`;
-        const value = `test${testChar}`;
+      const actions: TransactionAction[] = specialCharacters.map(({ char }) => {
+        const rowKey = `${char}bar`;
+        const value = `test${char}`;
         const action: TransactionAction = ["update", { partitionKey, rowKey, value }, "Replace"];
         return action;
       });
@@ -199,10 +211,10 @@ describe("TableClient", () => {
       assert.lengthOf(results, 21);
     });
 
-    specialCharacters.forEach((testChar) => {
-      const rowKey = `${testChar}bar`;
-      const value = `test${testChar}`;
-      it(`should get entity with ${testChar}`, async () => {
+    specialCharacters.forEach(({ char, name }) => {
+      const rowKey = `${char}bar`;
+      const value = `test${char}`;
+      it(`should get entity with ${name}`, async () => {
         const entity = await client.getEntity(partitionKey, rowKey);
 
         assert.equal(entity.partitionKey, partitionKey);
@@ -210,7 +222,7 @@ describe("TableClient", () => {
         assert.equal(entity.value, value);
       });
 
-      it(`should filter entity by row key with ${testChar}`, async () => {
+      it(`should filter entity by row key with ${name}`, async () => {
         const entities = client.listEntities({
           queryOptions: { filter: odata`RowKey eq ${rowKey}` }
         });
@@ -236,8 +248,8 @@ describe("TableClient", () => {
     });
 
     it(`should delete in batch`, async () => {
-      const actions: TransactionAction[] = specialCharacters.map((testChar) => {
-        const rowKey = `${testChar}bar`;
+      const actions: TransactionAction[] = specialCharacters.map(({ char }) => {
+        const rowKey = `${char}bar`;
         const action: TransactionAction = ["delete", { partitionKey, rowKey }];
         return action;
       });

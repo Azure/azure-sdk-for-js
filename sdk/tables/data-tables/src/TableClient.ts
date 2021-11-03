@@ -67,6 +67,7 @@ import { tablesSASTokenPolicy } from "./tablesSASTokenPolicy";
 import { isCosmosEndpoint } from "./utils/isCosmosEndpoint";
 import { cosmosPatchPolicy } from "./cosmosPathPolicy";
 import { decodeContinuationToken, encodeContinuationToken } from "./utils/continuationToken";
+import { escapeQuotes } from "./odata";
 
 /**
  * A TableClient represents a Client to the Azure Tables service allowing you
@@ -391,8 +392,8 @@ export class TableClient {
       const { disableTypeConversion, queryOptions, ...getEntityOptions } = updatedOptions || {};
       await this.table.queryEntitiesWithPartitionAndRowKey(
         this.tableName,
-        escapeString(partitionKey),
-        escapeString(rowKey),
+        escapeQuotes(partitionKey),
+        escapeQuotes(rowKey),
         {
           ...getEntityOptions,
           queryOptions: serializeQueryOptions(queryOptions || {}),
@@ -646,8 +647,8 @@ export class TableClient {
       };
       return await this.table.deleteEntity(
         this.tableName,
-        escapeString(partitionKey),
-        escapeString(rowKey),
+        escapeQuotes(partitionKey),
+        escapeQuotes(rowKey),
         etag,
         deleteOptions
       );
@@ -711,8 +712,8 @@ export class TableClient {
         throw new Error("partitionKey and rowKey must be defined");
       }
 
-      const partitionKey = escapeString(entity.partitionKey);
-      const rowKey = escapeString(entity.rowKey);
+      const partitionKey = escapeQuotes(entity.partitionKey);
+      const rowKey = escapeQuotes(entity.rowKey);
 
       const { etag = "*", ...updateEntityOptions } = updatedOptions || {};
       if (mode === "Merge") {
@@ -787,8 +788,8 @@ export class TableClient {
         throw new Error("partitionKey and rowKey must be defined");
       }
 
-      const partitionKey = escapeString(entity.partitionKey);
-      const rowKey = escapeString(entity.rowKey);
+      const partitionKey = escapeQuotes(entity.partitionKey);
+      const rowKey = escapeQuotes(entity.rowKey);
 
       if (mode === "Merge") {
         return await this.table.mergeEntity(this.tableName, partitionKey, rowKey, {
@@ -973,8 +974,4 @@ interface InternalListTableEntitiesOptions extends ListTableEntitiesOptions {
    * This option applies for all the properties
    */
   disableTypeConversion?: boolean;
-}
-
-function escapeString(value: string) {
-  return value.replace(/'/g, "''");
 }

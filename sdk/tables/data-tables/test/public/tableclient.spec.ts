@@ -26,7 +26,13 @@ if (isLiveMode()) {
 }
 
 describe("special characters", () => {
-  it("should handle partition and row keys with special chars", async () => {
+  it("should handle partition and row keys with special chars", async function(this: Context) {
+    if (!isLiveMode()) {
+      // Currently the recorder is having issues with the encoding of single qoutes in the
+      // query request and generates invalid JS code. Disabling this test on playback mode
+      // while these issues are resolved
+      this.skip();
+    }
     const client = createTableClient(`SpecialChars`);
     await client.createTable();
 
@@ -39,18 +45,11 @@ describe("special characters", () => {
         rowKey,
         test: expectedValue
       });
-      const entities = client.listEntities();
-      for await (const entity of entities) {
-        console.log(`${entity.partitionKey}:${entity.rowKey}`);
-      }
 
       const entity = await client.getEntity(partitionKey, rowKey);
-
       assert.equal(entity.partitionKey, partitionKey);
       assert.equal(entity.rowKey, rowKey);
       assert.equal(entity.test, expectedValue);
-    } catch (e) {
-      throw e;
     } finally {
       await client.deleteTable();
     }
