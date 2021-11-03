@@ -6,342 +6,343 @@ You may refer to this [link](https://github.com/Azure/azure-sdk-for-js/blob/main
 # How to generate RLC
 We are working on to automatically generate everything right now, but currently we still need some manual work to get a releasable package. Here're the steps of how to get the package.
 1. **Create a swagger/README.md file.**  
-We are using autorest to generate the code, but there's a lot of command options and in order to make the regenerate process easier in the cases of refresh the rest api input or change the code generator version, you need to document the generate command parameters.  
-Here's an example of the swagger/README.md
-~~~
-
-# Azure Purview Catalog TypeScript Protocol Layer
-
-> see https://aka.ms/autorest
-## Configuration
-
-```yaml
-package-name: "@azure-rest/purview-account"
-title: PurviewAccount
-description: Purview Account Client
-generate-metadata: false
-license-header: MICROSOFT_MIT_NO_VERSION
-output-folder: ../
-source-code-folder-path: ./src
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/specification/purview/data-plane/Azure.Analytics.Purview.Account/preview/2019-11-01-preview/account.json
-package-version: 1.0.0-beta.1
-rest-level-client: true
-add-credentials: true
-credential-scopes: "https://purview.azure.net/.default"
-use-extension:
-  "@autorest/typescript": "6.0.0-beta.14"
-```
-~~~ 
-Here, we need to replace the value in `package-name`, `title`, `description`, `input-file`, `package-version`, `credential-scopes` into **your own service's** `package-name`, `title`, `description` etc.   
-
----
-**NOTE**
-
-It's always recommended to replace the version of code generator @autorest/typescript with the latest version you can find in [npmjs.com](https://www.npmjs.com/package/@autorest/typescript) in latest tag.  
-
-**For the first time, you will need to change the generate-metadata value as true, so that it can generate the basic package.json, tsconfig.json file for you. After the first generation, you can set it back as false as we have some manual changes in this file and don't want them get overwrite by generated ones.**   
-
----  
+    We are using autorest to generate the code, but there's a lot of command options and in order to make the regenerate process easier in the cases of refresh the rest api input or change the code generator version, you need to document the generate command parameters.  
+    Here's an example of the swagger/README.md
+    ~~~
+    
+    # Azure Purview Catalog TypeScript Protocol Layer
+    
+    > see https://aka.ms/autorest
+    ## Configuration
+    
+    ```yaml
+    package-name: "@azure-rest/purview-account"
+    title: PurviewAccount
+    description: Purview Account Client
+    generate-metadata: false
+    license-header: MICROSOFT_MIT_NO_VERSION
+    output-folder: ../
+    source-code-folder-path: ./src
+    input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/specification/purview/data-plane/Azure.Analytics.Purview.Account/preview/2019-11-01-preview/account.json
+    package-version: 1.0.0-beta.1
+    rest-level-client: true
+    add-credentials: true
+    credential-scopes: "https://purview.azure.net/.default"
+    use-extension:
+      "@autorest/typescript": "6.0.0-beta.14"
+    ```
+    ~~~ 
+    Here, we need to replace the value in `package-name`, `title`, `description`, `input-file`, `package-version`, `credential-scopes` into **your own service's** `package-name`, `title`, `description` etc.   
+    
+    ---
+    **NOTE**
+    
+    It's always recommended to replace the version of code generator @autorest/typescript with the latest version you can find in [npmjs.com](https://www.npmjs.com/package/@autorest/typescript) in latest tag.  
+    
+    **For the first time, you will need to change the generate-metadata value as true, so that it can generate the basic package.json, tsconfig.json file for you. After the first generation, you can set it back as false as we have some manual changes in this file and don't want them get overwrite by generated ones.**   
+    
+    ---  
   
 1. **edit rush.json**  
-As the libraries in this azure-sdk-for-js repository are managed by rush, you need to add an entry in rush.json under projects section to make sure it works. For example:
-```
-    {
-      "packageName": "@azure-rest/purview-account",
-      "projectFolder": "sdk/purview/purview-account-rest",
-      "versionPolicyName": "client"
-    },
-```
-Here you also need to replace the `packageName`, `projectFolder` into your own services'.
+    As the libraries in this azure-sdk-for-js repository are managed by rush, you need to add an entry in rush.json under projects section to make sure it works. For example:
+    ```
+        {
+          "packageName": "@azure-rest/purview-account",
+          "projectFolder": "sdk/purview/purview-account-rest",
+          "versionPolicyName": "client"
+        },
+    ```
+    Here you also need to replace the `packageName`, `projectFolder` into your own services'.
+    
+    ---  
+    **NOTE** 
+    
+    About the `versionPolicyName`, if the library you are working on is for data-plane, then it should be `client`, if the library you are working on is for control plane, then it should be `mgmt`.  
+    
+    ---  
 
----  
-**NOTE** 
+1. **run autorest to generate the SDK**  
 
-About the `versionPolicyName`, if the library you are working on is for data-plane, then it should be `client`, if the library you are working on is for control plane, then it should be `mgmt`.  
-
----  
-
-1. run autorest to generate the SDK
-
-Now you can run this command in swagger folder you just created. 
-```shell
-autorest --typescript ./README.md
-```
-After this finishes, you will see the generated code in src folder which are in the same level with the swagger folder.   
-
-
-After that, you can get a workable package, and run the following commands to get a artifact if you like.
-
-```shell
-rush update
-rush build -t <your-package-name>
-cd <your-sdk-folder>
-rushx pack
-``` 
-But we still need to add some tests for it. 
+    Now you can run this command in swagger folder you just created. 
+    ```shell
+    autorest --typescript ./README.md
+    ```
+    After this finishes, you will see the generated code in src folder which are in the same level with the swagger folder.   
+    
+    
+    After that, you can get a workable package, and run the following commands to get a artifact if you like.
+    
+    ```shell
+    rush update
+    rush build -t <your-package-name>
+    cd <your-sdk-folder>
+    rushx pack
+    ``` 
+    But we still need to add some tests for it. 
 # How to write test for RLC
 In order to release it, we need to add some tests for it to make sure we are delivering high quality packages. but before we add the test, we need to manual change a few things to make the test framework works. 
-1. update package.json file  
-Currently the generated will skip the actual test step. you should change it to make sure it works. 
-First, change the `scripts` section from 
-~~~
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "test:node": "echo skipped",
-    "test:browser": "echo skipped",
-    "unit-test": "echo skipped",
-    "unit-test:node": "echo skipped",
-    "unit-test:browser": "echo skipped",
-    "integration-test:browser": "echo skipped",
-    "integration-test:node": "echo skipped",
-    "integration-test": "echo skipped",
-~~~
-into 
+1. **update package.json file**  
+    Currently the generated will skip the actual test step. you should change it to make sure it works. 
+    First, change the `scripts` section from 
+    ~~~
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "test:node": "echo skipped",
+        "test:browser": "echo skipped",
+        "unit-test": "echo skipped",
+        "unit-test:node": "echo skipped",
+        "unit-test:browser": "echo skipped",
+        "integration-test:browser": "echo skipped",
+        "integration-test:node": "echo skipped",
+        "integration-test": "echo skipped",
+    ~~~
+    into 
+    
+    ~~~
+        "test": "npm run clean && npm run build:test && npm run unit-test",
+        "test:node": "npm run clean && npm run build:test && npm run unit-test:node",
+        "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser",
+        "unit-test": "npm run unit-test:node && npm run unit-test:browser",
+        "unit-test:node": "cross-env TEST_MODE=playback mocha -r esm --require ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 1200000 --full-trace \"test/{,!(browser)/**/}*.spec.ts\"",
+        "unit-test:browser": "cross-env TEST_MODE=playback karma start --single-run",
+        "integration-test:browser": "karma start --single-run",
+        "integration-test:node": "nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 5000000 --full-trace \"dist-esm/test/{,!(browser)/**/}*.spec.js\"",
+        "integration-test": "npm run integration-test:node && npm run integration-test:browser",
+    ~~~
+    
+    Then add the following test dependencies into the `devDependencies` section. 
+    ~~~
+        "@azure/identity": "2.0.1",
+        "@azure-tools/test-recorder": "^1.0.0",
+        "mocha": "^7.1.1",
+        "cross-env": "^7.0.2",
+        "karma-chrome-launcher": "^3.0.0",
+        "karma-coverage": "^2.0.0",
+        "karma-edge-launcher": "^0.4.2",
+        "karma-env-preprocessor": "^0.1.1",
+        "karma-firefox-launcher": "^1.1.0",
+        "karma-ie-launcher": "^1.0.0",
+        "karma-json-preprocessor": "^0.3.3",
+        "karma-json-to-file-reporter": "^1.0.1",
+        "karma-junit-reporter": "^2.0.1",
+        "karma-mocha-reporter": "^2.2.5",
+        "karma-mocha": "^2.0.1",
+        "karma-source-map-support": "~1.4.0",
+        "karma-sourcemap-loader": "^0.3.8",
+        "karma": "^6.2.0",
+        "mocha-junit-reporter": "^1.18.0",
+        "nyc": "^14.0.0"
+    ~~~
+    
+    --- 
+    **NOTE** 
+    We need to make sure those dependencies versions are align with other package.json files. You can double check it in [here](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/agrifood/agrifood-farming-rest/package.json)
+    
+    ---
+    
+    Finally, add this line into the package.json as well.
+    ``` 
+      "module": "./dist-esm/src/index.js"
+    ```  
 
-~~~
-    "test": "npm run clean && npm run build:test && npm run unit-test",
-    "test:node": "npm run clean && npm run build:test && npm run unit-test:node",
-    "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser",
-    "unit-test": "npm run unit-test:node && npm run unit-test:browser",
-    "unit-test:node": "cross-env TEST_MODE=playback mocha -r esm --require ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 1200000 --full-trace \"test/{,!(browser)/**/}*.spec.ts\"",
-    "unit-test:browser": "cross-env TEST_MODE=playback karma start --single-run",
-    "integration-test:browser": "karma start --single-run",
-    "integration-test:node": "nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 5000000 --full-trace \"dist-esm/test/{,!(browser)/**/}*.spec.js\"",
-    "integration-test": "npm run integration-test:node && npm run integration-test:browser",
-~~~
+1. **Update tsconfig.json file.**  
+    remove the `exclude` section and add an `include` section like this. 
+    ```
+      "include": ["src/**/*.ts", "./test/**/*.ts"]
+    ```
+1. **Update the api-extractor.json file.**  
+    change the `mainEntryPointFilePath` into `"./dist-esm/src/index.d.ts"`.  
+1. **Add a karma.conf.js file for web browser tests.**  
+    File content is like this
+    ```javascript
+    // Copyright (c) Microsoft Corporation.
+    // Licensed under the MIT license.
+    
+    // https://github.com/karma-runner/karma-chrome-launcher
+    process.env.CHROME_BIN = require("puppeteer").executablePath();
+    require("dotenv").config();
+    const {
+      jsonRecordingFilterFunction,
+      isPlaybackMode,
+      isSoftRecordMode,
+      isRecordMode
+    } = require("@azure-tools/test-recorder");
+    
+    module.exports = function(config) {
+      config.set({
+        // base path that will be used to resolve all patterns (eg. files, exclude)
+        basePath: "./",
+    
+        // frameworks to use
+        // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
+        frameworks: ["source-map-support", "mocha"],
+    
+        plugins: [
+          "karma-mocha",
+          "karma-mocha-reporter",
+          "karma-chrome-launcher",
+          "karma-edge-launcher",
+          "karma-firefox-launcher",
+          "karma-ie-launcher",
+          "karma-env-preprocessor",
+          "karma-coverage",
+          "karma-sourcemap-loader",
+          "karma-junit-reporter",
+          "karma-json-to-file-reporter",
+          "karma-source-map-support",
+          "karma-json-preprocessor"
+        ],
+    
+        // list of files / patterns to load in the browser
+        files: [
+          "dist-test/index.browser.js",
+          {
+            pattern: "dist-test/index.browser.js.map",
+            type: "html",
+            included: false,
+            served: true
+          }
+        ].concat(
+          isPlaybackMode() || isSoftRecordMode()
+            ? ["recordings/browsers/**/*.json"]
+            : []
+        ),
+    
+        // list of files / patterns to exclude
+        exclude: [],
+    
+        // preprocess matching files before serving them to the browser
+        // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
+        preprocessors: {
+          "**/*.js": ["sourcemap", "env"],
+          "recordings/browsers/**/*.json": ["json"]
+          // IMPORTANT: COMMENT following line if you want to debug in your browsers!!
+          // Preprocess source file to calculate code coverage, however this will make source file unreadable
+          // "dist-test/index.js": ["coverage"]
+        },
+    
+        envPreprocessor: [
+          "TEST_MODE",
+          "ENDPOINT",
+          "AZURE_CLIENT_SECRET",
+          "AZURE_CLIENT_ID",
+          "AZURE_TENANT_ID",
+          "SUBSCRIPTION_ID"
+        ],
+    
+        // test results reporter to use
+        // possible values: 'dots', 'progress'
+        // available reporters: https://npmjs.org/browse/keyword/karma-reporter
+        reporters: ["mocha", "coverage", "junit", "json-to-file"],
+    
+        coverageReporter: {
+          // specify a common output directory
+          dir: "coverage-browser/",
+          reporters: [
+            { type: "json", subdir: ".", file: "coverage.json" },
+            { type: "lcovonly", subdir: ".", file: "lcov.info" },
+            { type: "html", subdir: "html" },
+            { type: "cobertura", subdir: ".", file: "cobertura-coverage.xml" }
+          ]
+        },
+    
+        junitReporter: {
+          outputDir: "", // results will be saved as $outputDir/$browserName.xml
+          outputFile: "test-results.browser.xml", // if included, results will be saved as $outputDir/$browserName/$outputFile
+          suite: "", // suite will become the package name attribute in xml testsuite element
+          useBrowserName: false, // add browser name to report and classes names
+          nameFormatter: undefined, // function (browser, result) to customize the name attribute in xml testcase element
+          classNameFormatter: undefined, // function (browser, result) to customize the classname attribute in xml testcase element
+          properties: {} // key value pair of properties to add to the <properties> section of the report
+        },
+    
+        jsonToFileReporter: {
+          filter: jsonRecordingFilterFunction,
+          outputPath: "."
+        },
+    
+        // web server port
+        port: 9876,
+    
+        // enable / disable colors in the output (reporters and logs)
+        colors: true,
+    
+        // level of logging
+        // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
+        logLevel: config.LOG_INFO,
+    
+        // enable / disable watching file and executing tests whenever any file changes
+        autoWatch: false,
+    
+        // --no-sandbox allows our tests to run in Linux without having to change the system.
+        // --disable-web-security allows us to authenticate from the browser without having to write tests using interactive auth, which would be far more complex.
+        browsers: ["ChromeHeadlessNoSandbox"],
+        customLaunchers: {
+          ChromeHeadlessNoSandbox: {
+            base: "ChromeHeadless",
+            flags: ["--no-sandbox", "--disable-web-security"]
+          }
+        },
+    
+        // Continuous Integration mode
+        // if true, Karma captures browsers, runs the tests and exits
+        singleRun: false,
+    
+        // Concurrency level
+        // how many browser should be started simultaneous
+        concurrency: 1,
+    
+        browserNoActivityTimeout: 60000000,
+        browserDisconnectTimeout: 10000,
+        browserDisconnectTolerance: 3,
+        browserConsoleLogOptions: {
+          terminal: !isRecordMode()
+        },
+    
+        client: {
+          mocha: {
+            // change Karma's debug.html to the mocha web reporter
+            reporter: "html",
+            timeout: "600000"
+          }
+        }
+      });
+    };
+    ```
+1. **add test utils.**  
 
-Then add the following test dependencies into the `devDependencies` section. 
-~~~
-    "@azure/identity": "2.0.1",
-    "@azure-tools/test-recorder": "^1.0.0",
-    "mocha": "^7.1.1",
-    "cross-env": "^7.0.2",
-    "karma-chrome-launcher": "^3.0.0",
-    "karma-coverage": "^2.0.0",
-    "karma-edge-launcher": "^0.4.2",
-    "karma-env-preprocessor": "^0.1.1",
-    "karma-firefox-launcher": "^1.1.0",
-    "karma-ie-launcher": "^1.0.0",
-    "karma-json-preprocessor": "^0.3.3",
-    "karma-json-to-file-reporter": "^1.0.1",
-    "karma-junit-reporter": "^2.0.1",
-    "karma-mocha-reporter": "^2.2.5",
-    "karma-mocha": "^2.0.1",
-    "karma-source-map-support": "~1.4.0",
-    "karma-sourcemap-loader": "^0.3.8",
-    "karma": "^6.2.0",
-    "mocha-junit-reporter": "^1.18.0",
-    "nyc": "^14.0.0"
-~~~
-
---- 
-**NOTE** 
-We need to make sure those dependencies versions are align with other package.json files. You can double check it in [here](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/agrifood/agrifood-farming-rest/package.json)
-
----
-
-Finally, add this line into the package.json as well.
-``` 
-  "module": "./dist-esm/src/index.js"
-```  
-
-1. Update tsconfig.json file.  
-remove the `exclude` section and add an `include` section like this. 
-```
-  "include": ["src/**/*.ts", "./test/**/*.ts"]
-```
-1. Update the api-extractor.json file.  
-change the `mainEntryPointFilePath` into `"./dist-esm/src/index.d.ts"`.  
-1. Add a karma.conf.js file for web browser tests.
-File content is like this
-```javascript
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
-// https://github.com/karma-runner/karma-chrome-launcher
-process.env.CHROME_BIN = require("puppeteer").executablePath();
-require("dotenv").config();
-const {
-  jsonRecordingFilterFunction,
-  isPlaybackMode,
-  isSoftRecordMode,
-  isRecordMode
-} = require("@azure-tools/test-recorder");
-
-module.exports = function(config) {
-  config.set({
-    // base path that will be used to resolve all patterns (eg. files, exclude)
-    basePath: "./",
-
-    // frameworks to use
-    // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-    frameworks: ["source-map-support", "mocha"],
-
-    plugins: [
-      "karma-mocha",
-      "karma-mocha-reporter",
-      "karma-chrome-launcher",
-      "karma-edge-launcher",
-      "karma-firefox-launcher",
-      "karma-ie-launcher",
-      "karma-env-preprocessor",
-      "karma-coverage",
-      "karma-sourcemap-loader",
-      "karma-junit-reporter",
-      "karma-json-to-file-reporter",
-      "karma-source-map-support",
-      "karma-json-preprocessor"
-    ],
-
-    // list of files / patterns to load in the browser
-    files: [
-      "dist-test/index.browser.js",
-      {
-        pattern: "dist-test/index.browser.js.map",
-        type: "html",
-        included: false,
-        served: true
-      }
-    ].concat(
-      isPlaybackMode() || isSoftRecordMode()
-        ? ["recordings/browsers/**/*.json"]
-        : []
-    ),
-
-    // list of files / patterns to exclude
-    exclude: [],
-
-    // preprocess matching files before serving them to the browser
-    // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
-    preprocessors: {
-      "**/*.js": ["sourcemap", "env"],
-      "recordings/browsers/**/*.json": ["json"]
-      // IMPORTANT: COMMENT following line if you want to debug in your browsers!!
-      // Preprocess source file to calculate code coverage, however this will make source file unreadable
-      // "dist-test/index.js": ["coverage"]
-    },
-
-    envPreprocessor: [
-      "TEST_MODE",
-      "ENDPOINT",
-      "AZURE_CLIENT_SECRET",
-      "AZURE_CLIENT_ID",
-      "AZURE_TENANT_ID",
-      "SUBSCRIPTION_ID"
-    ],
-
-    // test results reporter to use
-    // possible values: 'dots', 'progress'
-    // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ["mocha", "coverage", "junit", "json-to-file"],
-
-    coverageReporter: {
-      // specify a common output directory
-      dir: "coverage-browser/",
-      reporters: [
-        { type: "json", subdir: ".", file: "coverage.json" },
-        { type: "lcovonly", subdir: ".", file: "lcov.info" },
-        { type: "html", subdir: "html" },
-        { type: "cobertura", subdir: ".", file: "cobertura-coverage.xml" }
-      ]
-    },
-
-    junitReporter: {
-      outputDir: "", // results will be saved as $outputDir/$browserName.xml
-      outputFile: "test-results.browser.xml", // if included, results will be saved as $outputDir/$browserName/$outputFile
-      suite: "", // suite will become the package name attribute in xml testsuite element
-      useBrowserName: false, // add browser name to report and classes names
-      nameFormatter: undefined, // function (browser, result) to customize the name attribute in xml testcase element
-      classNameFormatter: undefined, // function (browser, result) to customize the classname attribute in xml testcase element
-      properties: {} // key value pair of properties to add to the <properties> section of the report
-    },
-
-    jsonToFileReporter: {
-      filter: jsonRecordingFilterFunction,
-      outputPath: "."
-    },
-
-    // web server port
-    port: 9876,
-
-    // enable / disable colors in the output (reporters and logs)
-    colors: true,
-
-    // level of logging
-    // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
-    logLevel: config.LOG_INFO,
-
-    // enable / disable watching file and executing tests whenever any file changes
-    autoWatch: false,
-
-    // --no-sandbox allows our tests to run in Linux without having to change the system.
-    // --disable-web-security allows us to authenticate from the browser without having to write tests using interactive auth, which would be far more complex.
-    browsers: ["ChromeHeadlessNoSandbox"],
-    customLaunchers: {
-      ChromeHeadlessNoSandbox: {
-        base: "ChromeHeadless",
-        flags: ["--no-sandbox", "--disable-web-security"]
-      }
-    },
-
-    // Continuous Integration mode
-    // if true, Karma captures browsers, runs the tests and exits
-    singleRun: false,
-
-    // Concurrency level
-    // how many browser should be started simultaneous
-    concurrency: 1,
-
-    browserNoActivityTimeout: 60000000,
-    browserDisconnectTimeout: 10000,
-    browserDisconnectTolerance: 3,
-    browserConsoleLogOptions: {
-      terminal: !isRecordMode()
-    },
-
-    client: {
-      mocha: {
-        // change Karma's debug.html to the mocha web reporter
-        reporter: "html",
-        timeout: "600000"
-      }
-    }
-  });
-};
-```
-1. add test utils .
-create a test/public folder and then copy the content [here](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/purview/purview-account-rest/test/public/utils) into public folder
-
-Now, you can add some sample tests like 
-```typescript
-/*
- * Copyright (c) Microsoft Corporation.
- * Licensed under the MIT License.
- *
- * Code generated by Microsoft (R) AutoRest Code Generator.
- * Changes may cause incorrect behavior and will be lost if the code is regenerated.
- */
-
-import { Recorder } from "@azure-tools/test-recorder";
-import * as assert from "assert";
-import { createRecorder } from "./utils/recordedClient";
-
-describe("My test", () => {
-  let recorder: Recorder;
-
-  beforeEach(async function() {
-    recorder = createRecorder(this);
-  });
-
-  afterEach(async function() {
-    await recorder.stop();
-  });
-
-  it("sample test", async function() {
-    console.log("Hi, I'm a test!");
-  });
-});
-```
-You may change the sample test into real tests to test against your libraries. 
+    create a test/public folder and then copy the content [here](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/purview/purview-account-rest/test/public/utils) into public folder
+    
+    Now, you can add some sample tests like 
+    ```typescript
+    /*
+     * Copyright (c) Microsoft Corporation.
+     * Licensed under the MIT License.
+     *
+     * Code generated by Microsoft (R) AutoRest Code Generator.
+     * Changes may cause incorrect behavior and will be lost if the code is regenerated.
+     */
+    
+    import { Recorder } from "@azure-tools/test-recorder";
+    import * as assert from "assert";
+    import { createRecorder } from "./utils/recordedClient";
+    
+    describe("My test", () => {
+      let recorder: Recorder;
+    
+      beforeEach(async function() {
+        recorder = createRecorder(this);
+      });
+    
+      afterEach(async function() {
+        await recorder.stop();
+      });
+    
+      it("sample test", async function() {
+        console.log("Hi, I'm a test!");
+      });
+    });
+    ```
+    You may change the sample test into real tests to test against your libraries. 
 # How to write samples
 There're samples for TypeScript and JavaScript and for dev, You may copy the [samples folder](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/purview/purview-account-rest/samples) and [samples-dev folder](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/purview/purview-account-rest/samples-dev) and then change everything into your own services, including package-name, sample code, readme description etc.
 
