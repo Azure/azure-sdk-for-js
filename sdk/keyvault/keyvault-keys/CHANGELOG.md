@@ -1,6 +1,6 @@
 # Release History
 
-## 4.4.0-beta.3 (Unreleased)
+## 4.4.0-beta.3 (2021-11-09)
 
 ### Features Added
 
@@ -12,10 +12,6 @@
   - Since it's no longer used, `RandomBytes` has been removed from the public API.
 - `KeyReleasePolicy.data` has been renamed to `KeyReleasePolicy.encodedPolicy`.
 - `KeyClient.releaseKey`'s `target` parameter has been renamed to `targetAttestationToken`.
-
-### Bugs Fixed
-
-### Other Changes
 
 ## 4.4.0-beta.2 (2021-10-05)
 
