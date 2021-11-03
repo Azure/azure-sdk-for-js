@@ -134,7 +134,7 @@ function Get-javascript-DocsMsMetadataForPackage($PackageInfo)
     DocsMsReadMeName      = $docsReadmeName
     LatestReadMeLocation  = 'docs-ref-services/latest'
     PreviewReadMeLocation = 'docs-ref-services/preview'
-    Suffix                = ''
+    Suffix = ''
   }
 }
 
