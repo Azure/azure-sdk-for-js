@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { matrix } from "@azure/test-utils";
-import { Recorder } from "@azure-tools/test-recorder";
+import { Recorder, env } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { Context } from "mocha";
 import { ShortCodesClient } from "../../src";
@@ -27,7 +27,7 @@ matrix([[true, false]], async function (useAad) {
 
     it("can get an existing US Program Brief", async function (this: Context) {
       //const purchasedPhoneNumber = isPlaybackMode() ? "+14155550100" : env.AZURE_PHONE_NUMBER;
-      const usProbramBriefId = "9fb78ef0-5704-4866-bca2-6a040ec83c0b";
+      const usProbramBriefId = env.PRESAVED_US_PROGRAM_BRIEF_ID;
       const { id } = await client.getUSProgramBrief(usProbramBriefId);
 
       assert.strictEqual(usProbramBriefId, id);
