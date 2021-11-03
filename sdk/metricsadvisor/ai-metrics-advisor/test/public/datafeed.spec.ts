@@ -322,7 +322,7 @@ matrix([[true, false]] as const, async (useAad) => {
             ingestionStartTime: new Date(Date.UTC(2020, 9, 30)),
             ingestionStartOffsetInSeconds: 2,
             dataSourceRequestConcurrency: 3,
-            ingestionRetryDelayInSeconds: 4,
+            ingestionRetryDelayInSeconds: 64,
             stopRetryAfterInSeconds: 65
           };
           const patch: DataFeedPatch = {
