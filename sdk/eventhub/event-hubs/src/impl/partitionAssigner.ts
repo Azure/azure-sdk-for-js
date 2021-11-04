@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { isDefined } from "../util/typeGuards";
+import { mapPartitionKeyToId } from "./patitionKeyToIdMapper";
 
 /**
  * @internal
@@ -52,15 +53,10 @@ export class PartitionAssigner {
     }
 
     if (isDefined(partitionKey)) {
-      return this._assignPartitionForPartitionKey(partitionKey);
+      return mapPartitionKeyToId(partitionKey, this._partitions.length).toString();
     }
 
     return this._assignRoundRobinPartition();
-  }
-
-  private _assignPartitionForPartitionKey(partitionKey: string): string {
-    // TODO: Implement hashing function
-    return partitionKey ? this._partitions[0] : this._partitions[0];
   }
 
   private _assignRoundRobinPartition(): string {
