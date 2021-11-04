@@ -6,6 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import {
   SchemaGetByIdOptionalParams,
   SchemaGetByIdResponse,
@@ -70,7 +71,7 @@ export interface Schema {
   register(
     groupName: string,
     schemaName: string,
-    schemaContent: string,
+    schemaContent: coreRestPipeline.RequestBodyType,
     options?: SchemaRegisterOptionalParams
   ): Promise<SchemaRegisterResponse>;
 }

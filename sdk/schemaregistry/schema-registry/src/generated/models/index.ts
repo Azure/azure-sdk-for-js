@@ -134,10 +134,8 @@ export interface SchemaGetByIdOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getById operation. */
-export type SchemaGetByIdResponse = SchemaGetByIdHeaders & {
-  /** The parsed response body. */
-  body: string;
-};
+export type SchemaGetByIdResponse = SchemaGetByIdHeaders &
+  Record<string, unknown>;
 
 /** Optional parameters. */
 export interface SchemaGetVersionsOptionalParams

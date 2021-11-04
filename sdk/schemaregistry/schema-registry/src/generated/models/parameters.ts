@@ -119,3 +119,38 @@ export const schemaContent: OperationParameter = {
     }
   }
 };
+
+export const contentType1: OperationParameter = {
+  parameterPath: ["options", "contentType"],
+  mapper: {
+    defaultValue: "application/json; serialization=avro",
+    isConstant: true,
+    serializedName: "Content-Type",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const schemaContent1: OperationParameter = {
+  parameterPath: "schemaContent",
+  mapper: {
+    serializedName: "schemaContent",
+    required: true,
+    type: {
+      name: "Stream"
+    }
+  }
+};
+
+export const accept2: OperationParameter = {
+  parameterPath: "accept",
+  mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Accept",
+    type: {
+      name: "String"
+    }
+  }
+};

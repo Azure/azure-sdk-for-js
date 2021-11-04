@@ -146,7 +146,7 @@ describe("SchemaRegistryClient", function() {
    * {"Code":400,"Detail":"Schema validation failed: Invalid character after parsing property name. Expected ':' but got: \". Path '', line 1, position 4. TrackingId:b7f13121-9306-4d35-bf6a-63c5898f7156_G7, SystemTracker:sdktesting.servicebus.windows.net:$schemaGroups\/azsdk_js_test_group\/schemas\/azsdk_js_test2, Timestamp:2021-11-04T22:47:24"}
    * ```
    */
-  it.skip("schema with whitespace", async () => {
+  it("schema with whitespace", async () => {
     const schema2: SchemaDescription = {
       name: "azsdk_js_test2",
       groupName: env.SCHEMA_REGISTRY_GROUP,

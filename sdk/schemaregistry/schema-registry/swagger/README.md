@@ -18,7 +18,7 @@ add-credentials: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src/generated
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/52cb2c11826f6eff3b9666fc8734e09eb5ec8683/specification/schemaregistry/data-plane/Microsoft.EventHub/stable/2021-10/schemaregistry.json
+input-file: https://github.com/Azure/azure-rest-api-specs/blob/9822cfaa38c926312e4e5208e7928dc588abaca2/specification/schemaregistry/data-plane/Microsoft.EventHub/stable/2021-10/schemaregistry.json
 typescript: true
 ```
 

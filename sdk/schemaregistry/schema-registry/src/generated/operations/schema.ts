@@ -8,6 +8,7 @@
 
 import { Schema } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
+import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { GeneratedSchemaRegistryClientContext } from "../generatedSchemaRegistryClientContext";
@@ -103,7 +104,7 @@ export class SchemaImpl implements Schema {
   register(
     groupName: string,
     schemaName: string,
-    schemaContent: string,
+    schemaContent: coreRestPipeline.RequestBodyType,
     options?: SchemaRegisterOptionalParams
   ): Promise<SchemaRegisterResponse> {
     return this.client.sendOperationRequest(
@@ -120,7 +121,9 @@ const getByIdOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: { type: { name: "String" } },
+      bodyMapper: {
+        type: { name: "Dictionary", value: { type: { name: "any" } } }
+      },
       headersMapper: Mappers.SchemaGetByIdHeaders
     },
     default: {
@@ -191,14 +194,14 @@ const registerOperationSpec: coreClient.OperationSpec = {
       headersMapper: Mappers.SchemaRegisterExceptionHeaders
     }
   },
-  requestBody: Parameters.schemaContent,
+  requestBody: Parameters.schemaContent1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.endpoint,
     Parameters.groupName,
     Parameters.schemaName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
+  headerParameters: [Parameters.contentType1, Parameters.accept2],
+  mediaType: "binary",
   serializer
 };
