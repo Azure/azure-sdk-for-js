@@ -128,8 +128,10 @@
       "azure-synapse"
     ],
     "requiredResources": {
-      "Creating and managing Synapse compute resources": "https://docs.microsoft.com/en-us/azure/synapse-analytics/security/synapse-workspace-access-control-overview#creating-and-managing-synapse-compute-resources"
-    }
+      "Creating and managing Synapse compute resources": "https://docs.microsoft.com/azure/synapse-analytics/security/synapse-workspace-access-control-overview#creating-and-managing-synapse-compute-resources"
+    },
+    "disableDocsMs": true,
+    "apiRefLink": "https://docs.microsoft.com/rest/api/synapse/"
   },
   "sideEffects": false
 }

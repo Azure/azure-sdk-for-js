@@ -1,13 +1,3 @@
----
-page_type: sample
-languages:
-  - javascript
-products:
-  - azure
-  - azure-synapse
-urlFragment: synapse-access-control-javascript
----
-
 # Azure Synapse Access Control Rest client library samples for JavaScript
 
 These sample programs show how to use the JavaScript client libraries for Azure Synapse Access Control Rest in some common scenarios.
@@ -59,7 +49,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 
 [listroleassignments]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/synapse/synapse-access-control-rest/samples/v1/javascript/listRoleAssignments.js
 [createroleassignment]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/synapse/synapse-access-control-rest/samples/v1/javascript/createRoleAssignment.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/synapse-access-control
+[apiref]: https://docs.microsoft.com/rest/api/synapse/
 [freesub]: https://azure.microsoft.com/free/
-[createinstance_creatingandmanagingsynapsecomputeresources]: https://docs.microsoft.com/en-us/azure/synapse-analytics/security/synapse-workspace-access-control-overview#creating-and-managing-synapse-compute-resources
+[createinstance_creatingandmanagingsynapsecomputeresources]: https://docs.microsoft.com/azure/synapse-analytics/security/synapse-workspace-access-control-overview#creating-and-managing-synapse-compute-resources
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/synapse/synapse-access-control-rest/README.md
