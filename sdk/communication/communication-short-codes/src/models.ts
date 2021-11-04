@@ -4,24 +4,19 @@
 import { OperationOptions } from "@azure/core-http";
 
 /**
- * The result of the phone numbers purchase operation.
+ * Additional options for the delete US Program Brief request.
  */
-export interface PurchasePhoneNumbersResult { }
+export interface DeleteUSProgramBriefOptions extends OperationOptions { };
 
 /**
- * The result of the phone number release operation.
+ * Additional options for the Get US Program Brief request.
  */
-export interface ReleasePhoneNumberResult { }
+export interface GetUSProgramBriefOptions extends OperationOptions { };
 
 /**
- * Additional options for the get phone number request.
+ * Additional options for the Submit US Program Brief request.
  */
-export interface GetPurchasedPhoneNumberOptions extends OperationOptions { };
-
-/**
- * Additional options that can be passed to the list phone numbers request.
- */
-export interface ListPurchasedPhoneNumbersOptions extends OperationOptions { }
+export interface SubmitUSProgramBriefOptions extends OperationOptions { };
 
 export {
   ShortCode,

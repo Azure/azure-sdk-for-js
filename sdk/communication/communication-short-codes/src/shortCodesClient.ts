@@ -12,8 +12,7 @@ import {
   PipelineOptions,
   InternalPipelineOptions,
   createPipelineFromOptions,
-  RestResponse,
-  OperationOptions
+  RestResponse
 } from "@azure/core-http";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { logger, createSpan, SDK_VERSION } from "./utils";
@@ -26,6 +25,7 @@ import {
   USProgramBrief
 } from "./generated/src/models/";
 import { SpanStatusCode } from "@azure/core-tracing";
+import { DeleteUSProgramBriefOptions, GetUSProgramBriefOptions, SubmitUSProgramBriefOptions } from "./models";
 
 /**
  * Client options used to configure the ShortCodesClient API requests.
@@ -119,7 +119,7 @@ export class ShortCodesClient {
 
   public async deleteUSProgramBrief(
     programBriefId: string,
-    options?: OperationOptions
+    options?: DeleteUSProgramBriefOptions
   ): Promise<RestResponse> {
     const { span, updatedOptions } = createSpan("ShortCodesClient-deleteUSProgramBrief", options);
     try {
@@ -137,7 +137,7 @@ export class ShortCodesClient {
 
   public async getUSProgramBrief(
     programBriefId: string,
-    options?: OperationOptions
+    options?: GetUSProgramBriefOptions
   ): Promise<USProgramBrief> {
     const { span, updatedOptions } = createSpan("ShortCodesClient-getUSProgramBrief", options);
     try {
@@ -170,7 +170,7 @@ export class ShortCodesClient {
 
   public async submitUSProgramBrief(
     programBriefId: string,
-    options?: OperationOptions
+    options?: SubmitUSProgramBriefOptions
   ): Promise<RestResponse> {
     const { span, updatedOptions } = createSpan("ShortCodesClient-submitUSProgramBrief", options);
     try {

@@ -38,10 +38,11 @@ export interface CustomerCareInformation {
 }
 
 // @public
-export type GetPurchasedPhoneNumberOptions = OperationOptions;
+export interface DeleteUSProgramBriefOptions extends OperationOptions {
+}
 
 // @public
-export interface ListPurchasedPhoneNumbersOptions extends OperationOptions {
+export interface GetUSProgramBriefOptions extends OperationOptions {
 }
 
 // @public
@@ -108,15 +109,7 @@ export interface ProgramDetails {
 export type ProgramSignUpType = "website" | "pointOfSale" | "sms" | "interactiveVoiceResponse";
 
 // @public
-export interface PurchasePhoneNumbersResult {
-}
-
-// @public
 export type Recurrence = "subscription" | "transaction";
-
-// @public
-export interface ReleasePhoneNumberResult {
-}
 
 // @public
 export interface ReviewNote {
@@ -146,15 +139,15 @@ export class ShortCodesClient {
     constructor(url: string, credential: KeyCredential, options?: ShortCodesClientOptions);
     constructor(url: string, credential: TokenCredential, options?: ShortCodesClientOptions);
     // (undocumented)
-    deleteUSProgramBrief(programBriefId: string, options?: OperationOptions): Promise<RestResponse>;
+    deleteUSProgramBrief(programBriefId: string, options?: DeleteUSProgramBriefOptions): Promise<RestResponse>;
     // (undocumented)
-    getUSProgramBrief(programBriefId: string, options?: OperationOptions): Promise<USProgramBrief>;
+    getUSProgramBrief(programBriefId: string, options?: GetUSProgramBriefOptions): Promise<USProgramBrief>;
     // (undocumented)
     listShortCodes(options?: ShortCodesGetShortCodesOptionalParams): PagedAsyncIterableIterator<ShortCode>;
     // (undocumented)
     listUSProgramBriefs(): PagedAsyncIterableIterator<USProgramBrief>;
     // (undocumented)
-    submitUSProgramBrief(programBriefId: string, options?: OperationOptions): Promise<RestResponse>;
+    submitUSProgramBrief(programBriefId: string, options?: SubmitUSProgramBriefOptions): Promise<RestResponse>;
     // (undocumented)
     upsertUSProgramBrief(programBriefId: string, options?: ShortCodesUpsertUSProgramBriefOptionalParams): Promise<RestResponse>;
 }
@@ -172,6 +165,10 @@ export interface ShortCodesGetShortCodesOptionalParams extends coreHttp.Operatio
 // @public
 export interface ShortCodesUpsertUSProgramBriefOptionalParams extends coreHttp.OperationOptions {
     body?: USProgramBrief;
+}
+
+// @public
+export interface SubmitUSProgramBriefOptions extends OperationOptions {
 }
 
 // @public (undocumented)

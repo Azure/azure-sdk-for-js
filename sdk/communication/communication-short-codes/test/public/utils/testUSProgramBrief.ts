@@ -1,7 +1,9 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import { USProgramBrief } from "../../../src";
 
-export function getTestUSProgramBrief(id: string = "2f129c97-701d-4ab8-913b-3c2625216ad9") {
+export function getTestUSProgramBrief(id: string = "2f129c97-701d-4ab8-913b-3c2625216ad9"): USProgramBrief {
   const testUSProgramBrief: USProgramBrief = {
     id: id,
     programDetails: {
