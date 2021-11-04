@@ -86,7 +86,7 @@ Running into issues? This section should contain details as to what to do there.
 
 ## Next steps
 
-More sample code should go [here](https://github.com/Azure/azure-sdk-for-python/tree/main/sdk/communication/azure-communication-calling-server/samples), along with links out to the appropriate example tests.
+More sample code should go [here](https://github.com/Azure/azure-sdk-for-js), along with links out to the appropriate example tests.
 
 ## Provide Feedback
 

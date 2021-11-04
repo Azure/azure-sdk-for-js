@@ -27,7 +27,7 @@ export interface AddParticipantResult {
     participantId?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface AddParticipantResultEvent {
     operationContext?: string;
     resultInfo?: CallingOperationResultDetails;
