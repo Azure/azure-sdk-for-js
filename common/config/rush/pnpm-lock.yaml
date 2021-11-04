@@ -317,6 +317,18 @@ packages:
       - supports-color
     dev: false
 
+  /@azure-rest/core-client/1.0.0-beta.7:
+    resolution: {integrity: sha512-6+HEW4uN4SBGLxgTtIwPc/wawFYBPTSUkZ8k7OqDaz3EsWYXyYC5UHftrUgG7QFkxpjMAFlwqh9tHzXgvxozHQ==}
+    engines: {node: '>=12.0.0'}
+    dependencies:
+      '@azure/core-auth': 1.3.2
+      '@azure/core-rest-pipeline': 1.3.1
+      '@azure/core-util': 1.0.0-beta.1
+      tslib: 2.3.1
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@azure/abort-controller/1.0.4:
     resolution: {integrity: sha512-lNUmDRVGpanCsiUN3NWxFTdwmdFI53xwhkTFfHDGTYk46ca7Ind3nanJc+U6Zj9Tv+9nTCWRBscWEW1DyKOpTw==}
     engines: {node: '>=8.0.0'}
@@ -1591,6 +1603,7 @@ packages:
   /@opentelemetry/node/0.22.0_@opentelemetry+api@1.0.3:
     resolution: {integrity: sha512-+HhGbDruQ7cwejVOIYyxRa28uosnG8W95NiQZ6qE8PXXPsDSyGeftAPbtYpGit0H2f5hrVcMlwmWHeAo9xkSLA==}
     engines: {node: '>=8.0.0'}
+    deprecated: Package renamed to @opentelemetry/sdk-trace-node
     peerDependencies:
       '@opentelemetry/api': ^1.0.0
     dependencies:
@@ -3186,6 +3199,10 @@ packages:
   /date-utils/1.2.21:
     resolution: {integrity: sha1-YfsWzcEnSzyayq/+n8ad+HIKK2Q=}
     engines: {node: '>0.4.0'}
+    dev: false
+
+  /dayjs/1.10.7:
+    resolution: {integrity: sha512-P6twpd70BcPK34K26uJ1KT3wlhpuOAPoMwJzpsIWUxHZ7wpmbdZL/hQqBDfz7hGurYSa5PhzdhDHtt319hL3ig==}
     dev: false
 
   /debounce/1.2.1:
@@ -8254,10 +8271,11 @@ packages:
     dev: false
 
   file:projects/agrifood-farming.tgz:
-    resolution: {integrity: sha512-doOPU3+EB1HeT/+wPsN3iRalkIAm97H3z6Qp/3uXpTl73QcnhML7f3rA0If5cwtNAeD21y7lMDeqxA2fHwKjuw==, tarball: file:projects/agrifood-farming.tgz}
+    resolution: {integrity: sha512-5SL/NNg5sbTo04wrG7kF62TqoLvSuWI7tYsYpALcINxqrEqgnRBwYmYAz3ZvjPEyxUzEzMNudS3L/zI0SnHm+Q==, tarball: file:projects/agrifood-farming.tgz}
     name: '@rush-temp/agrifood-farming'
     version: 0.0.0
     dependencies:
+      '@azure-rest/core-client': 1.0.0-beta.7
       '@azure-rest/core-client-paging': 1.0.0-beta.1
       '@azure/identity': 1.5.2
       '@microsoft/api-extractor': 7.18.17
@@ -8355,10 +8373,11 @@ packages:
     dev: false
 
   file:projects/ai-document-translator.tgz:
-    resolution: {integrity: sha512-aVjpA7a84YiyFSakcI2FuS2iyTL51HF9S9ZLK1CLW3HB4d4/nU1zZLlj+BG6pyoTFL3lAs9rIkToNWTqRMujsQ==, tarball: file:projects/ai-document-translator.tgz}
+    resolution: {integrity: sha512-FVAn9cJBUOxsjTgb+6gRMZedXUXTOkROcQt3hugRaz5uFk8LZpAokqxjs25wT/nUNbk/ARZQ4qgmayo/Y0vuSw==, tarball: file:projects/ai-document-translator.tgz}
     name: '@rush-temp/ai-document-translator'
     version: 0.0.0
     dependencies:
+      '@azure-rest/core-client': 1.0.0-beta.7
       '@azure/identity': 1.5.2
       '@microsoft/api-extractor': 7.18.17
       '@types/chai': 4.2.22
@@ -9364,7 +9383,7 @@ packages:
     dev: false
 
   file:projects/arm-streamanalytics.tgz:
-    resolution: {integrity: sha512-GYtEbWFfsmbKa168tVMSugSMPWBxtmxwU2f3gxq5cWOXbkP3EdUf5cTnPvWELOHwGifKuKiyC29W7YWiOWhfmQ==, tarball: file:projects/arm-streamanalytics.tgz}
+    resolution: {integrity: sha512-MhbiHP5ZomEoVlRa9KOHteLHqPOvxZfszSEZ0JgUowO9APTWrir2HLd1R+bHBpX3myNuOGV0yRtk1x661KVLgg==, tarball: file:projects/arm-streamanalytics.tgz}
     name: '@rush-temp/arm-streamanalytics'
     version: 0.0.0
     dependencies:
@@ -9382,9 +9401,6 @@ packages:
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.14.2
-    transitivePeerDependencies:
-      - debug
-      - supports-color
     dev: false
 
   file:projects/arm-templatespecs.tgz:
@@ -9860,10 +9876,11 @@ packages:
     dev: false
 
   file:projects/confidential-ledger.tgz:
-    resolution: {integrity: sha512-tM0C9+IHHB3iahb5JZjv7kBRlZKW7Zhfzffbq7dBK9iG7nJSwN5Lo06gjWU2CqaURKblLAoqaDCtfxd/Jjdq3A==, tarball: file:projects/confidential-ledger.tgz}
+    resolution: {integrity: sha512-K7taBYr8BfWwhzPHwR/iKwPMFcbJyU93/Vjy1XfZ/wA22QD8192XBLuaPamOH3BAS7qZkzA5KtmKcwZbqveDlA==, tarball: file:projects/confidential-ledger.tgz}
     name: '@rush-temp/confidential-ledger'
     version: 0.0.0
     dependencies:
+      '@azure-rest/core-client': 1.0.0-beta.7
       '@azure/identity': 1.5.2
       '@microsoft/api-extractor': 7.18.17
       '@types/chai': 4.2.22
@@ -10100,10 +10117,11 @@ packages:
     dev: false
 
   file:projects/core-client-lro.tgz:
-    resolution: {integrity: sha512-KwN4VXaNjq7h7f9ks2/0vkiPronTala/qLwbIxxO5gZjRbmDpUu999lOwD/ynCFzB7hK4tDYwtxgOsOFKMPIcQ==, tarball: file:projects/core-client-lro.tgz}
+    resolution: {integrity: sha512-14MiFwnsKK9QvQvw2HCX58K9SBbi1vwuharI1RRrGA/QE5T1vjt003O8xyOE0+VpyFhVxOBcPJAzeve+iaVlag==, tarball: file:projects/core-client-lro.tgz}
     name: '@rush-temp/core-client-lro'
     version: 0.0.0
     dependencies:
+      '@azure-rest/core-client': 1.0.0-beta.7
       '@microsoft/api-extractor': 7.18.17
       '@types/chai': 4.2.22
       '@types/mocha': 7.0.2
@@ -10141,10 +10159,11 @@ packages:
     dev: false
 
   file:projects/core-client-paging.tgz:
-    resolution: {integrity: sha512-knla0zW4914qdG1a6+9Z16YO6LHkdRA5zNU31aE24S2h9GBRwIjqkY2nHzS4ox8BdW+jUQMq1jsglh/ZRCMOfQ==, tarball: file:projects/core-client-paging.tgz}
+    resolution: {integrity: sha512-6zYQV6oIAFUeOUZCLOQMaaOIrTxq4ZByRSK9v8y0kpJt2ONw9ZsPxeDzDl7F9/sboyw7R5I9nTBYmGHAGBD1gw==, tarball: file:projects/core-client-paging.tgz}
     name: '@rush-temp/core-client-paging'
     version: 0.0.0
     dependencies:
+      '@azure-rest/core-client': 1.0.0-beta.7
       '@microsoft/api-extractor': 7.18.17
       '@types/chai': 4.2.22
       '@types/mocha': 7.0.2
@@ -11511,7 +11530,7 @@ packages:
     dev: false
 
   file:projects/keyvault-keys.tgz:
-    resolution: {integrity: sha512-jM7GDoaLV4A6QVyuIgtTRI8mG6i9eQYfH+xpYwnS5FS5jlLaO8HI7r1WDtUHt/0O13Vjlel+rVy5cTCsoSc48Q==, tarball: file:projects/keyvault-keys.tgz}
+    resolution: {integrity: sha512-bItJqRLx3j4rrZpKyTCxI18P4YCErPnlR6O4semzo0ufXijFot8yXhaKPvdb+H2E5toFvTqwtqSEegLK57pyfg==, tarball: file:projects/keyvault-keys.tgz}
     name: '@rush-temp/keyvault-keys'
     version: 0.0.0
     dependencies:
@@ -11532,6 +11551,7 @@ packages:
       chai-as-promised: 7.1.1_chai@4.3.4
       chai-exclude: 2.1.0_chai@4.3.4
       cross-env: 7.0.3
+      dayjs: 1.10.7
       dotenv: 8.6.0
       eslint: 7.32.0
       esm: 3.2.25
@@ -12280,10 +12300,11 @@ packages:
     dev: false
 
   file:projects/purview-account.tgz:
-    resolution: {integrity: sha512-KCHH4nNsKIKCXPC8nJ42CiEto01FIZeTJHMPT0mPvuWf9MNBVf87oWMiuyZeKCBvJNaSIct+f2WZlscwn5Aarg==, tarball: file:projects/purview-account.tgz}
+    resolution: {integrity: sha512-Hy2CpT+edPfEMoOOx6R8NVfhbVPwvkeeAo79A5Sm1dDP2w3Tv59nWito5mj+LxFJh6v8WeZm3GC2s510fgWuBw==, tarball: file:projects/purview-account.tgz}
     name: '@rush-temp/purview-account'
     version: 0.0.0
     dependencies:
+      '@azure-rest/core-client': 1.0.0-beta.7
       '@azure-rest/core-client-paging': 1.0.0-beta.1
       '@azure/identity': 1.5.2
       '@microsoft/api-extractor': 7.18.17
@@ -12327,10 +12348,11 @@ packages:
     dev: false
 
   file:projects/purview-administration.tgz:
-    resolution: {integrity: sha512-rdQEVy2YorOtxN8HfvBymLYcB+CkH06b/w7Ye5LGRSr4dJ9PbbQgaWb1eLM97x8izbfCvXV5jnPCebNSVVV2ZQ==, tarball: file:projects/purview-administration.tgz}
+    resolution: {integrity: sha512-1UFzNhDP1JW3ZvxfPX9QaovLd6G5vAawXyAE4wdAyqcGS1zq29ZdYypKUuUZXVlkofV3LRCJHs/Bz7Z0Isz2Iw==, tarball: file:projects/purview-administration.tgz}
     name: '@rush-temp/purview-administration'
     version: 0.0.0
     dependencies:
+      '@azure-rest/core-client': 1.0.0-beta.7
       '@azure/identity': 1.5.2
       '@microsoft/api-extractor': 7.18.17
       '@types/chai': 4.2.22
@@ -12373,10 +12395,11 @@ packages:
     dev: false
 
   file:projects/purview-catalog.tgz:
-    resolution: {integrity: sha512-++7byWbCn/YjRbuaT00dFATWs90UgnA3xgiKHC8IQGGjKVC+5O4RT3TysswIiVmCmUhlhyQE6snwEQyisOCY1A==, tarball: file:projects/purview-catalog.tgz}
+    resolution: {integrity: sha512-OJNZ4UoJRIUpch/cFHpy0ciX774l+xjzUT5ZZO6NTlMSjRhWROVGkTsEVyviZ1mxi3deGcD4rpIrZV52jDkKNw==, tarball: file:projects/purview-catalog.tgz}
     name: '@rush-temp/purview-catalog'
     version: 0.0.0
     dependencies:
+      '@azure-rest/core-client': 1.0.0-beta.7
       '@azure/identity': 1.5.2
       '@microsoft/api-extractor': 7.18.17
       '@types/chai': 4.2.22
@@ -12419,10 +12442,11 @@ packages:
     dev: false
 
   file:projects/purview-scanning.tgz:
-    resolution: {integrity: sha512-Ns73savuHZDlXxkoUI3odSRrxrB6mbwXy67fg4afkMztZy2X+7wuFy4sI1DcqOdr9piwQ330B5F7DsGjC11Y9A==, tarball: file:projects/purview-scanning.tgz}
+    resolution: {integrity: sha512-Zbz3+Af/2Av7cAFc6zPgXXbQmkTMmjcZA+94P+3Pt+VhI+1Wi24iSO8jlMXpfG3m5fz7WpQelFh7wou2+uF3WA==, tarball: file:projects/purview-scanning.tgz}
     name: '@rush-temp/purview-scanning'
     version: 0.0.0
     dependencies:
+      '@azure-rest/core-client': 1.0.0-beta.7
       '@azure/identity': 1.5.2
       '@microsoft/api-extractor': 7.18.17
       '@types/chai': 4.2.22

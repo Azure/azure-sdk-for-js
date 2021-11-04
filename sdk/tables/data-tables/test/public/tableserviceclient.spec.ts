@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TableItem, TableServiceClient } from "../../src";
+import { TableItem, TableItemResultPage, TableServiceClient } from "../../src";
 import { Context } from "mocha";
 import { record, Recorder, isPlaybackMode, isLiveMode } from "@azure-tools/test-recorder";
 import {
@@ -123,6 +123,35 @@ authModes.forEach((authMode) => {
             `Couldn't find table ListTableTest${suffix}${i}`
           );
         }
+      });
+
+      it("should list a specific page with continuationToken", async function() {
+        const entities = client.listTables();
+
+        let lastPage: TableItemResultPage | undefined;
+        let lastContinuationToken: string | undefined;
+        for await (const page of entities.byPage({
+          maxPageSize: 2
+        })) {
+          if (page.continuationToken) {
+            lastContinuationToken = page.continuationToken;
+          }
+          lastPage = page;
+        }
+
+        assert.isDefined(lastPage);
+        assert.isDefined(lastContinuationToken);
+
+        let result: TableItemResultPage | undefined;
+        for await (const page of client.listTables().byPage({
+          maxPageSize: 2,
+          continuationToken: lastContinuationToken
+        })) {
+          result = page;
+          break;
+        }
+
+        assert.deepEqual(result, lastPage);
       });
     });
   });
