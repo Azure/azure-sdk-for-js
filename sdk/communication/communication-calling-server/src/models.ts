@@ -77,7 +77,7 @@ export interface PlayAudioOptions extends OperationOptions {
   loop: boolean;
   /** The value to identify context of the operation. */
   operationContext: string;
-  /** An id for the media in the AudioFileUri, using which we cache the media resource. */
+  /** An id for the media in the AudioUrl, using which we cache the media resource. */
   audioFileId: string;
   /** The callback Uri to receive PlayAudio status notifications. */
   callbackUri: string;

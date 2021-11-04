@@ -263,12 +263,12 @@ export class CallingServerClient {
    * Play audio using callLocator.
    *
    * @param callLocator - The callLocator contains call id.
-   * @param audioFileUri - The id for the media in the AudioFileUri, using which we cache the media resource.
+   * @param audioUrl - The audio resource url.
    * @param options - Additional request options contains playAudio api options.
    */
   public async playAudio(
     callLocator: CallLocator,
-    audioFileUri: string,
+    audioUrl: string,
     options: PlayAudioOptions
   ): Promise<PlayAudioResult> {
     const { operationOptions, restOptions } = extractOperationOptions(options);
@@ -276,7 +276,7 @@ export class CallingServerClient {
 
     const request: PlayAudioWithCallLocatorRequest = {
       callLocator: callLocator,
-      audioFileUri: audioFileUri,
+      audioUrl: audioUrl,
       loop: restOptions.loop,
       operationContext: restOptions.operationContext,
       audioFileId: restOptions.audioFileId,
@@ -305,13 +305,13 @@ export class CallingServerClient {
    *
    * @param callLocator - The callLocator contains call id.
    * @param participant - The identifier of the participant.
-   * @param audioFileUri - The id for the media in the AudioFileUri, using which we cache the media resource.
+   * @param audioUrl - The audio resource url.
    * @param options - Additional request options contains playAudioToParticipant api options.
    */
   public async playAudioToParticipant(
     callLocator: CallLocator,
     participant: CommunicationIdentifier,
-    audioFileUri: string,
+    audioUrl: string,
     options: PlayAudioToParticipantOptions
   ): Promise<PlayAudioResult> {
     const { operationOptions, restOptions } = extractOperationOptions(options);
@@ -320,7 +320,7 @@ export class CallingServerClient {
     const request: PlayAudioToParticipantWithCallLocatorRequest = {
       callLocator: callLocator,
       identifier: serializeCommunicationIdentifier(participant),
-      audioFileUri: audioFileUri,
+      audioFileUri: audioUrl,
       loop: restOptions.loop,
       operationContext: restOptions.operationContext,
       audioFileId: restOptions.audioFileId,
