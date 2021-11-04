@@ -10,6 +10,9 @@
 
 ### Bugs Fixed
 
+### Other Changes
+
+>>>>>>> 33dac6d7f9 (Post release automated changes for azure-core-rest-pipeline (#18541))
 ## 1.3.2 (2021-11-04)
 
 ### Other Changes
