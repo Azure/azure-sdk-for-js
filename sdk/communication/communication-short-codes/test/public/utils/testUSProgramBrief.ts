@@ -3,7 +3,9 @@
 
 import { USProgramBrief } from "../../../src";
 
-export function getTestUSProgramBrief(id: string = "2f129c97-701d-4ab8-913b-3c2625216ad9"): USProgramBrief {
+export function getTestUSProgramBrief(
+  id: string = "2f129c97-701d-4ab8-913b-3c2625216ad9"
+): USProgramBrief {
   const testUSProgramBrief: USProgramBrief = {
     id: id,
     programDetails: {
@@ -18,7 +20,8 @@ export function getTestUSProgramBrief(id: string = "2f129c97-701d-4ab8-913b-3c26
       signUpTypes: ["sms", "website"],
       termsOfServiceUrl: "https://contoso.com/terms",
       url: "https://contoso.com/loyalty-program"
-    }, companyInformation: {
+    },
+    companyInformation: {
       address: "1 Contoso Way Redmond, WA 98052",
       name: "Contoso",
       url: "https://contoso.com",

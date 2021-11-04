@@ -25,12 +25,16 @@ import {
   USProgramBrief
 } from "./generated/src/models/";
 import { SpanStatusCode } from "@azure/core-tracing";
-import { DeleteUSProgramBriefOptions, GetUSProgramBriefOptions, SubmitUSProgramBriefOptions } from "./models";
+import {
+  DeleteUSProgramBriefOptions,
+  GetUSProgramBriefOptions,
+  SubmitUSProgramBriefOptions
+} from "./models";
 
 /**
  * Client options used to configure the ShortCodesClient API requests.
  */
-export interface ShortCodesClientOptions extends PipelineOptions { }
+export interface ShortCodesClientOptions extends PipelineOptions {}
 
 const isShortCodesClientOptions = (options: any): options is ShortCodesClientOptions =>
   options && !isKeyCredential(options) && !isTokenCredential(options);

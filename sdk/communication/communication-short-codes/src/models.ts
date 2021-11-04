@@ -6,17 +6,17 @@ import { OperationOptions } from "@azure/core-http";
 /**
  * Additional options for the delete US Program Brief request.
  */
-export interface DeleteUSProgramBriefOptions extends OperationOptions { };
+export interface DeleteUSProgramBriefOptions extends OperationOptions {}
 
 /**
  * Additional options for the Get US Program Brief request.
  */
-export interface GetUSProgramBriefOptions extends OperationOptions { };
+export interface GetUSProgramBriefOptions extends OperationOptions {}
 
 /**
  * Additional options for the Submit US Program Brief request.
  */
-export interface SubmitUSProgramBriefOptions extends OperationOptions { };
+export interface SubmitUSProgramBriefOptions extends OperationOptions {}
 
 export {
   ShortCode,
