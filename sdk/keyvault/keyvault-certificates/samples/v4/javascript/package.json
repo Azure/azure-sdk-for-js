@@ -29,6 +29,6 @@
   "dependencies": {
     "@azure/keyvault-certificates": "next",
     "dotenv": "latest",
-    "@azure/identity": "^2.0.0"
+    "@azure/identity": "^2.0.1"
   }
 }
