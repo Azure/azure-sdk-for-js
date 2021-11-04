@@ -620,11 +620,10 @@ export namespace ConnectionContext {
       const senderNames = Object.keys(context.senders);
       const messageReceiverNames = Object.keys(context.messageReceivers);
       const messageSessionNames = Object.keys(context.messageSessions);
-
-      logger.verbose(
-        `${logPrefix} Permanently closing all the senders, MessageReceivers, MessageSessions, and ManagementClients.`
-      );
       const managementClientsEntityPaths = Object.keys(context.managementClients);
+      logger.verbose(
+        `${logPrefix} Permanently closing all the senders(${senderNames.length}), MessageReceivers(${messageReceiverNames.length}), MessageSessions(${messageSessionNames.length}), and ManagementClients(${managementClientsEntityPaths.length}).`
+      );
       await Promise.all([
         ...senderNames.map((n) => context.senders[n].close()),
         ...messageReceiverNames.map((n) => context.messageReceivers[n].close()),
