@@ -538,11 +538,10 @@ export class CallingServerClient {
     };
 
     try {
-      const result = await this.serverCallRestClient.startRecording(
+      return await this.serverCallRestClient.startRecording(
         startCallRecordingWithCallLocatorRequest,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
-      return result;
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -563,7 +562,7 @@ export class CallingServerClient {
   public async pauseRecording(
     recordingId: string,
     options: PauseRecordingOptions = {}
-  ): Promise<RestResponse> {
+  ): Promise<void> {
     const { span, updatedOptions } = createSpan("ServerCallRestClient-PauseRecording", options);
 
     if (typeof recordingId === "undefined" || !recordingId || !recordingId.trim()) {
@@ -571,11 +570,10 @@ export class CallingServerClient {
     }
 
     try {
-      const result = await this.serverCallRestClient.pauseRecording(
+      await this.serverCallRestClient.pauseRecording(
         recordingId,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
-      return result;
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -596,7 +594,7 @@ export class CallingServerClient {
   public async resumeRecording(
     recordingId: string,
     options: ResumeRecordingOptions = {}
-  ): Promise<RestResponse> {
+  ): Promise<void> {
     const { span, updatedOptions } = createSpan("ServerCallRestClient-ResumeRecording", options);
 
     if (typeof recordingId === "undefined" || !recordingId || !recordingId.trim()) {
@@ -604,11 +602,10 @@ export class CallingServerClient {
     }
 
     try {
-      const result = await this.serverCallRestClient.resumeRecording(
+      await this.serverCallRestClient.resumeRecording(
         recordingId,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
-      return result;
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -629,18 +626,17 @@ export class CallingServerClient {
   public async stopRecording(
     recordingId: string,
     options: StopRecordingOptions = {}
-  ): Promise<RestResponse> {
+  ): Promise<void> {
     const { span, updatedOptions } = createSpan("ServerCallRestClient-StopRecording", options);
     if (typeof recordingId === "undefined" || !recordingId || !recordingId.trim()) {
       throw new Error("recordingId is invalid.");
     }
 
     try {
-      const result = await this.serverCallRestClient.stopRecording(
+      await this.serverCallRestClient.stopRecording(
         recordingId,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
-      return result;
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,

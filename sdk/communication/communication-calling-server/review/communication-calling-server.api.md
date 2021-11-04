@@ -100,13 +100,13 @@ export class CallingServerClient {
     getRecordingProperties(recordingId: string, options?: GetRecordingPropertiesOptions): Promise<CallRecordingProperties>;
     initializeContentDownloader(): ContentDownloader;
     joinCall(callLocator: CallLocator, source: CommunicationIdentifier, options: JoinCallOptions): Promise<CallConnection>;
-    pauseRecording(recordingId: string, options?: PauseRecordingOptions): Promise<RestResponse>;
+    pauseRecording(recordingId: string, options?: PauseRecordingOptions): Promise<void>;
     playAudio(callLocator: CallLocator, audioFileUri: string, options: PlayAudioOptions): Promise<PlayAudioResult>;
     playAudioToParticipant(callLocator: CallLocator, participant: CommunicationIdentifier, audioFileUri: string, options: PlayAudioToParticipantOptions): Promise<PlayAudioResult>;
     removeParticipant(callLocator: CallLocator, participant: CommunicationIdentifier, options?: RemoveParticipantOptions): Promise<void>;
-    resumeRecording(recordingId: string, options?: ResumeRecordingOptions): Promise<RestResponse>;
+    resumeRecording(recordingId: string, options?: ResumeRecordingOptions): Promise<void>;
     startRecording(callLocator: CallLocator, recordingStateCallbackUri: string, options?: StartRecordingOptions): Promise<StartCallRecordingResult>;
-    stopRecording(recordingId: string, options?: StopRecordingOptions): Promise<RestResponse>;
+    stopRecording(recordingId: string, options?: StopRecordingOptions): Promise<void>;
     }
 
 // @public
