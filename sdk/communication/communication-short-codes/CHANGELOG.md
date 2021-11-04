@@ -1,5 +1,5 @@
 # Release History
 
-## 1.0.0-beta.1 (2021-11-4)
+## 1.0.0-beta.1 (2021-11-09)
 
 - Test Release Pipeline
