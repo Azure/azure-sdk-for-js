@@ -10,8 +10,8 @@ import { AuthenticationRecord } from "../msal/types";
 import { MSALAuthCode } from "../msal/browserFlows/msalAuthCode";
 import { MsalBrowserFlowOptions } from "../msal/browserFlows/browserCommon";
 import {
-  InteractiveBrowserCredentialBrowserOptions,
-  InteractiveBrowserCredentialOptions
+  InteractiveBrowserCredentialInBrowserOptions,
+  InteractiveBrowserCredentialNodeOptions
 } from "./interactiveBrowserCredentialOptions";
 
 const logger = credentialLogger("InteractiveBrowserCredential");
@@ -39,7 +39,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
    * @param options - Options for configuring the client which makes the authentication request.
    */
   constructor(
-    options: InteractiveBrowserCredentialBrowserOptions | InteractiveBrowserCredentialOptions
+    options: InteractiveBrowserCredentialInBrowserOptions | InteractiveBrowserCredentialNodeOptions
   ) {
     if (!options?.clientId) {
       const error = new Error(
@@ -49,7 +49,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
       throw error;
     }
 
-    const browserOptions = options as InteractiveBrowserCredentialBrowserOptions;
+    const browserOptions = options as InteractiveBrowserCredentialInBrowserOptions;
     const loginStyle = browserOptions.loginStyle || "popup";
     const loginStyles = ["redirect", "popup"];
 

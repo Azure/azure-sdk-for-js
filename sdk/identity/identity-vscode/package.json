@@ -1,6 +1,6 @@
 {
   "name": "@azure/identity-vscode",
-  "version": "1.0.0-beta.3",
+  "version": "1.0.1",
   "sdk-type": "client",
   "description": "Use the Azure Account extension for Visual Studio Code to authenticate with Azure Identity",
   "main": "dist/index.js",
@@ -67,6 +67,7 @@
   "devDependencies": {
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/dev-tool": "^1.0.0",
+    "@azure/test-utils": "^1.0.0",
     "@azure-tools/test-recorder": "^1.0.0",
     "@microsoft/api-extractor": "^7.18.11",
     "@types/jws": "^3.2.2",

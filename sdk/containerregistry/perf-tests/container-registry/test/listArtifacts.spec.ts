@@ -1,18 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { PerfStressOptionDictionary, getEnvVar } from "@azure/test-utils-perfstress";
+import { PerfOptionDictionary, getEnvVar } from "@azure/test-utils-perf";
 import { ContainerRepository } from "@azure/container-registry";
 import { ContainerRegistryTest, ContainerRegistryTestOptions } from "./client.spec";
 
 export class ArtifactListTest extends ContainerRegistryTest<ContainerRegistryTestOptions> {
   repository: ContainerRepository;
-  public options: PerfStressOptionDictionary<ContainerRegistryTestOptions> = {};
+  public options: PerfOptionDictionary<ContainerRegistryTestOptions> = {};
   constructor() {
     super();
     this.repository = this.client.getRepository(getEnvVar("REPOSITORY_NAME"));
   }
 
-  async runAsync(): Promise<void> {
+  async run(): Promise<void> {
     const listIterator = this.repository.listManifestProperties();
 
     for await (const manifest of listIterator) {

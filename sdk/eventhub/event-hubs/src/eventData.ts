@@ -156,11 +156,15 @@ const messagePropertiesMap = {
 /**
  * Converts the AMQP message to an EventData.
  * @param msg - The AMQP message that needs to be converted to EventData.
+ * @param skipParsingBodyAsJson - Boolean to skip running JSON.parse() on message body when body type is `content`.
  * @hidden
  */
-export function fromRheaMessage(msg: RheaMessage): EventDataInternal {
+export function fromRheaMessage(
+  msg: RheaMessage,
+  skipParsingBodyAsJson: boolean
+): EventDataInternal {
   const rawMessage = AmqpAnnotatedMessage.fromRheaMessage(msg);
-  const { body, bodyType } = defaultDataTransformer.decode(msg.body);
+  const { body, bodyType } = defaultDataTransformer.decode(msg.body, skipParsingBodyAsJson);
   rawMessage.bodyType = bodyType;
 
   const data: EventDataInternal = {

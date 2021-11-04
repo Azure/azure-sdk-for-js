@@ -45,13 +45,9 @@ export type ListTableItemsResponse = Array<TableItem> & {
  */
 export type ListEntitiesResponse<T extends object> = Array<TableEntityResult<T>> & {
   /**
-   * Contains the continuation token value for partition key.
+   * Contains the continuation token value for the next page.
    */
-  nextPartitionKey?: string;
-  /**
-   * Contains the continuation token value for row key.
-   */
-  nextRowKey?: string;
+  continuationToken?: string;
 };
 
 export interface ClientParamsFromConnectionString {

@@ -9,23 +9,23 @@
 /sdk/ @ramya-rao-a
 
 # PRLabel: %Azure.Core
-/sdk/core/ @xirzec @chradek @jeremymeng @deyaaeldeen
+/sdk/core/ @xirzec @jeremymeng @deyaaeldeen
 
 # PRLabel: %Azure.Core
-/sdk/core/core-amqp/ @chradek @richardpark-msft @HarshaNalluru
+/sdk/core/core-amqp/ @jeremymeng @deyaaeldeen @HarshaNalluru @ramya-rao-a
 
 # PRLabel: %Azure.Core
 /sdk/core/core-auth/ @sadasant @xirzec @jeremymeng @deyaaeldeen
 
 # PRLabel: %Azure.Core
-/sdk/core/core-client-rest/ @xirzec @chradek @joheredi @jeremymeng @deyaaeldeen
+/sdk/core/core-client-rest/ @xirzec @joheredi @jeremymeng @deyaaeldeen
 
 # PRLabel: %Azure.Core
-/sdk/core/core-tracing/ @xirzec @chradek @richardpark-msft @maorleger
+/sdk/core/core-tracing/ @xirzec @jeremymeng @maorleger
 
 # Service teams
 # PRLabel: %App Configuration
-/sdk/appconfiguration/ @richardpark-msft @chradek @HarshaNalluru
+/sdk/appconfiguration/ @HarshaNalluru
 
 # PRLabel: %Attestation
 /sdk/attestation/ @LarryOsterman @deyaaeldeen
@@ -54,7 +54,7 @@
 /sdk/eventgrid/ @xirzec @ellismg
 
 # PRLabel: %Event Hubs
-/sdk/eventhub/ @chradek @richardpark-msft @HarshaNalluru
+/sdk/eventhub/ @deyaaeldeen @jeremymeng @HarshaNalluru @ramya-rao-a
 
 # PRLabel: %Azure.Identity
 /sdk/identity/ @sadasant @witemple-msft @schaabs
@@ -66,7 +66,7 @@
 /sdk/keyvault/ @maorleger @sadasant 
 
 # PRLabel: %Service Bus
-/sdk/servicebus/ @chradek @richardpark-msft @HarshaNalluru
+/sdk/servicebus/ @deyaaeldeen @jeremymeng @HarshaNalluru @ramya-rao-a @richardpark-msft 
 
 # PRLabel: %Storage
 /sdk/storage/ @XiaoningLiu @jeremymeng @vinjiang @jiacfan @ljian3377 @EmmaZhu
@@ -78,7 +78,7 @@
 /sdk/tables/ @joheredi
 
 # PRLabel: %Purview
-/sdk/purview/ @joheredi
+/sdk/purview/ @qiaozha
 
 # PRLabel: %Farmbeats
 /sdk/agrifood/ @joheredi
@@ -124,11 +124,14 @@
 # PRLabel: %Remote Rendering
 /sdk/remoterendering/ @MalcolmTyrrell
 
+# PRLabel: %VideoAnalyzer
+/sdk/videoanalyzer/video-analyzer-edge @hivyas @bterlson
+
 # Smoke Tests
-/common/smoke-test/ @ramya-rao-a @chradek @jonathandturner @sadasant @jeremymeng @southpolesteve
+/common/smoke-test/ @ramya-rao-a @sadasant @jeremymeng
 
 # API review files
-/sdk/**/review/*api.md @bterlson @xirzec @chradek
+/sdk/**/review/*api.md @bterlson @xirzec @ramya-rao-a @jeremymeng
 
 
 # Management Plane
@@ -613,11 +616,17 @@
 /sdk/resources-subscriptions/arm-resources-subscriptions @qiaozha @dw511214992
 
 # PRLabel: %Mgmt
+/sdk/videoanalyzer/arm-videoanalyzer @qiaozha @dw511214992
+
+# PRLabel: %Mgmt
 /sdk/templatespecs/arm-templatespecs @qiaozha @dw511214992
 
+# PRLabel: %Mgmt
+/sdk/quota/arm-quota @qiaozha @dw511214992
+
 # PRLabel: %Monitor
-/sdk/monitor/ @hectorhdzg @applicationinsights-js-owners @richardpark-msft
-/sdk/monitor/monitor-query @KarishmaGhiya @maorleger @richardpark-msft
+/sdk/monitor/ @hectorhdzg @applicationinsights-js-owners
+/sdk/monitor/monitor-query @KarishmaGhiya @maorleger
 
 ###########
 # Tools

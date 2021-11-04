@@ -3,7 +3,7 @@
   "sdk-type": "mgmt",
   "author": "Microsoft Corporation",
   "description": "A generated SDK for ApiManagementClient.",
-  "version": "8.0.0-beta.1",
+  "version": "8.0.0-beta.2",
   "engines": {
     "node": ">=12.0.0"
   },
@@ -38,7 +38,7 @@
     "rollup-plugin-sourcemaps": "^0.4.2",
     "typescript": "~4.2.0",
     "uglify-js": "^3.4.9",
-    "@azure/identity": "2.0.0-beta.6",
+    "@azure/identity": "^2.0.1",
     "@azure-tools/test-recorder": "^1.0.0",
     "mocha": "^7.1.1",
     "cross-env": "^7.0.2"

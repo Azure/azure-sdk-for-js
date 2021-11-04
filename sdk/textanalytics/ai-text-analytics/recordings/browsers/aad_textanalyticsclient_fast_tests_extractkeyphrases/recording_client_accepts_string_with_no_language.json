@@ -11,35 +11,34 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1331",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 03 Aug 2021 22:59:47 GMT",
+    "date": "Sat, 23 Oct 2021 00:56:42 GMT",
     "expires": "-1",
     "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
-    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+san\"}]}",
+    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+wst\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11898.12 - SCUS ProdSlices",
-    "x-ms-request-id": "dde74c90-065e-42fb-ab0e-d8dcb8cd3401"
+    "x-ms-ests-server": "2.1.12171.14 - EUS ProdSlices",
+    "x-ms-request-id": "b456bea7-e43b-4133-9601-fa8f0ebb0300"
    }
   },
   {
    "method": "POST",
-   "url": "https://endpoint/text/analytics/v3.2-preview.1/keyPhrases",
+   "url": "https://endpoint/text/analytics/v3.2-preview.2/keyPhrases",
    "query": {},
    "requestBody": "{\"documents\":[{\"id\":\"0\",\"text\":\"I had a wonderful trip to Seattle last week and even visited the Space Needle 2 times!\",\"language\":\"en\"},{\"id\":\"1\",\"text\":\"Unfortunately, it rained during my entire trip to Seattle. I didn't even get to visit the Space Needle\",\"language\":\"en\"},{\"id\":\"2\",\"text\":\"I went to see a movie on Saturday and it was perfectly average, nothing more or less than I expected.\",\"language\":\"en\"},{\"id\":\"3\",\"text\":\"I didn't like the last book I read at all.\",\"language\":\"en\"}]}",
    "status": 200,
-   "response": "{\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"wonderful trip\",\"Space Needle\",\"Seattle\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"entire trip\",\"Seattle\",\"Space\",\"Needle\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"movie\",\"Saturday\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"last book\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-06-01\"}",
+   "response": "{\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"wonderful trip\",\"Space Needle\",\"Seattle\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"entire trip\",\"Space Needle\",\"Seattle\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"movie\",\"Saturday\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"last book\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-06-01\"}",
    "responseHeaders": {
-    "apim-request-id": "9dc2e00c-e534-48ff-b01a-61192d7fc091",
+    "apim-request-id": "55e35274-ed40-4462-9d1f-59d3add1f8d1",
     "content-type": "application/json; charset=utf-8",
     "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=4,CognitiveServices.TextAnalytics.TextRecords=4",
-    "date": "Tue, 03 Aug 2021 22:59:48 GMT",
+    "date": "Sat, 23 Oct 2021 00:56:43 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "27"
+    "x-envoy-upstream-service-time": "25"
    }
   }
  ],

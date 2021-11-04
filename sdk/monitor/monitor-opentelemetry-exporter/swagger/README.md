@@ -25,6 +25,7 @@ input-file: https://github.com/Azure/azure-rest-api-specs/blob/e47988f3ccaa90681
 add-credentials: false
 use-extension:
   "@autorest/typescript": "latest"
-package-version: 1.0.0-beta.4
+package-version: 1.0.0-beta.6
 typescript: true
+v3: true
 ```

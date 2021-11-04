@@ -1,10 +1,10 @@
-import { PerfStressTest, getEnvVar } from "@azure/test-utils-perfstress";
+import { PerfTest, getEnvVar } from "@azure/test-utils-perf";
 import { AppConfigurationClient } from "@azure/app-configuration";
 // Expects the .env file at the same level
 import * as dotenv from "dotenv";
 dotenv.config();
 
-export abstract class AppConfigTest<TOptions> extends PerfStressTest<TOptions> {
+export abstract class AppConfigTest<TOptions> extends PerfTest<TOptions> {
   client: AppConfigurationClient;
 
   constructor() {

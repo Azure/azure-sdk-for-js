@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PerfStressTest, getEnvVar } from "@azure/test-utils-perfstress";
+import { PerfTest, getEnvVar } from "@azure/test-utils-perf";
 import { ServiceBusClient } from "@azure/service-bus";
 import { ServiceBusAdministrationClient } from "@azure/service-bus-v7";
 
@@ -11,7 +11,7 @@ dotenv.config();
 
 const connectionString = getEnvVar("SERVICEBUS_CONNECTION_STRING");
 
-export abstract class ServiceBusTest<TOptions> extends PerfStressTest<TOptions> {
+export abstract class ServiceBusTest<TOptions> extends PerfTest<TOptions> {
   static sbClient: ServiceBusClient = ServiceBusClient.createFromConnectionString(connectionString);
   static sbAdminClient = new ServiceBusAdministrationClient(connectionString);
   static queueName = `newqueue-${Math.ceil(Math.random() * 1000)}`;

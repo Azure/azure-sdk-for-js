@@ -4,10 +4,7 @@
 import chai, { assert } from "chai";
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
-import {
-  createChallengeCallbacks,
-  parseWWWAuthenticate
-} from "../../src/challengeAuthenticationCallbacks";
+import { createChallengeCallbacks } from "../../src/challengeAuthenticationCallbacks";
 import {
   AuthorizeRequestOptions,
   ChallengeCallbacks,
@@ -15,6 +12,7 @@ import {
   createPipelineRequest,
   PipelineRequest
 } from "@azure/core-rest-pipeline";
+import { parseWWWAuthenticate } from "../../../keyvault-common/src";
 
 describe("Challenge based authentication tests", function() {
   let request: PipelineRequest;
@@ -133,6 +131,30 @@ describe("Challenge based authentication tests", function() {
       assert.sameMembers(getAccessTokenScopes, ["cae_scope"]);
     });
 
+    it("passes the tenantId if provided", async () => {
+      const expectedTenantId = "expectedTenantId";
+
+      let getAccessTokenTenantId: string | undefined = "";
+
+      await challengeCallbacks.authorizeRequestOnChallenge!({
+        getAccessToken: (_scopes, options) => {
+          getAccessTokenTenantId = options.tenantId;
+          return Promise.resolve(null);
+        },
+        request,
+        response: {
+          headers: createHttpHeaders({
+            "WWW-Authenticate": `Bearer scope="cae_scope" authorization="http://login.windows.net/${expectedTenantId}"`
+          }),
+          request,
+          status: 200
+        },
+        scopes: []
+      });
+
+      assert.equal(getAccessTokenTenantId, expectedTenantId);
+    });
+
     it("returns true and sets the authorization header if challenge succeeds", async () => {
       const result = await challengeCallbacks.authorizeRequestOnChallenge!({
         getAccessToken: () => {
@@ -172,28 +194,38 @@ describe("Challenge based authentication tests", function() {
 
   describe("parseWWWAuthenticate tests", () => {
     it("Should work for known shapes of the WWW-Authenticate header", () => {
-      const wwwAuthenticate1 = `Bearer authorization="some_authorization", resource="https://some.url"`;
+      const wwwAuthenticate1 = `Bearer authorization="https://login.windows.net", resource="https://some.url"`;
       const parsed1 = parseWWWAuthenticate(wwwAuthenticate1);
       assert.deepEqual(parsed1, {
-        authorization: "some_authorization",
+        authorization: "https://login.windows.net",
         resource: "https://some.url"
       });
 
-      const wwwAuthenticate2 = `Bearer authorization="some_authorization", scope="https://some.url"`;
+      const wwwAuthenticate2 = `Bearer authorization="https://login.windows.net/", scope="https://some.url"`;
       const parsed2 = parseWWWAuthenticate(wwwAuthenticate2);
       assert.deepEqual(parsed2, {
-        authorization: "some_authorization",
+        authorization: "https://login.windows.net/",
         scope: "https://some.url"
       });
     });
 
     it("Should ignore unknown values in the WWW-Authenticate header", () => {
-      const wwwAuthenticate1 = `Bearer authorization="some_authorization", resource="https://some.url" scope="scope", a="a", b="b"`;
+      const wwwAuthenticate1 = `Bearer authorization="https://login.windows.net", resource="https://some.url" scope="scope", a="a", b="b"`;
       const parsed1 = parseWWWAuthenticate(wwwAuthenticate1);
       assert.deepEqual(parsed1, {
-        authorization: "some_authorization",
+        authorization: "https://login.windows.net",
         resource: "https://some.url",
         scope: "scope"
+      });
+    });
+
+    it("should include the tenantId when present", () => {
+      const wwwAuthenticate1 = `Bearer authorization="https://login.windows.net/9999", resource="https://some.url"`;
+      const parsed1 = parseWWWAuthenticate(wwwAuthenticate1);
+      assert.deepEqual(parsed1, {
+        authorization: "https://login.windows.net/9999",
+        resource: "https://some.url",
+        tenantId: "9999"
       });
     });
   });

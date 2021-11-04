@@ -4,6 +4,10 @@
 
 ### Features Added
 
+- Allowing the service API version to be configurable when using `ServiceBusAdministrationClient` as part of the constructor client options.
+  Supported versions being "2021-05" and "2017-04".
+  [#18254](https://github.com/Azure/azure-sdk-for-js/pull/18254)
+
 ### Breaking Changes
 
 ### Bugs Fixed

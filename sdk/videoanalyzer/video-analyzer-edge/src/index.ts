@@ -2,7 +2,13 @@
 // Licensed under the MIT license.
 
 export * from "./generated/models";
-import { PipelineTopology, LivePipeline } from "./generated/models";
+import {
+  PipelineTopology,
+  LivePipeline,
+  RemoteDeviceAdapter,
+  UnsecuredEndpoint,
+  OnvifDevice
+} from "./generated/models";
 import { MethodRequest } from "./generated/models/mappers";
 
 /**
@@ -42,7 +48,13 @@ export type RequestType =
   | "livePipelineList"
   | "livePipelineDelete"
   | "livePipelineActivate"
-  | "livePipelineDeactivate";
+  | "livePipelineDeactivate"
+  | "onvifDeviceDiscover"
+  | "onvifDeviceGet"
+  | "remoteDeviceAdapterSet"
+  | "remoteDeviceAdapterList"
+  | "remoteDeviceAdapterGet"
+  | "remoteDeviceAdapterDelete";
 
 const apiVersion = MethodRequest.type.modelProperties!.apiVersion.defaultValue;
 
@@ -119,14 +131,73 @@ export function createRequest(
   request: "livePipelineDeactivate",
   payload: string
 ): Request<NameObject>;
-export function createRequest<T extends PipelineTopology | NameObject | LivePipeline>(
+/**
+ * Create a request to list all of the onvif devices on the network
+ * @param request - The string which determines the type of request. In this case a OnvifDeviceDiscoverRequest request.
+ */
+export function createRequest(request: "onvifDeviceDiscover"): Request;
+/**
+ * Create a request to get an onvif device
+ * @param request - The string which determines the type of request. In this case a OnvifDeviceGetRequest request.
+ * @param payload - The data to send in the request. OnvifDeviceGet requests require an onvif device name.
+ */
+export function createRequest(
+  request: "onvifDeviceGet",
+  payload: UnsecuredEndpoint
+): Request<UnsecuredEndpoint>;
+/**
+ * Create a request to set a remote device adapter
+ * @param request - The string which determines the type of request. In this case a RemoteDeviceAdapterSetRequest request.
+ * @param payload - The data to send in the request. RemoteDeviceAdapterSet requests require a remote device adapter.
+ */
+export function createRequest(
+  request: "remoteDeviceAdapterSet",
+  payload: RemoteDeviceAdapter
+): Request<RemoteDeviceAdapter>;
+/**
+ * Create a request to list all remote device adapters on the network
+ * @param request - The string which determines the type of request. In this case a RemoteDeviceAdapterListRequest request.
+ */
+export function createRequest(request: "remoteDeviceAdapterList"): Request;
+/**
+ * Create a request to get a remote device adapter
+ * @param request - The string which determines the type of request. In this case a RemoteDeviceAdapterGetRequest request.
+ * @param payload - The data to send in the request. RemoteDeviceAdapterGet requests require a remote device adapter name.
+ */
+export function createRequest(
+  request: "remoteDeviceAdapterGet",
+  payload: string
+): Request<NameObject>;
+/**
+ * Create a request to delete a remote device adapter
+ * @param request - The string which determines the type of request. In this case a RemoteDeviceAdapterDeleteRequest request.
+ * @param payload - The data to send in the request. RemoteDeviceAdapterDelete requests require a remote device adapter name.
+ */
+export function createRequest(
+  request: "remoteDeviceAdapterDelete",
+  payload: string
+): Request<NameObject>;
+export function createRequest<
+  T extends PipelineTopology | NameObject | LivePipeline | RemoteDeviceAdapter | OnvifDevice
+>(
   request: RequestType,
-  payload?: string | PipelineTopology | LivePipeline
+  payload?: string | PipelineTopology | LivePipeline | UnsecuredEndpoint | RemoteDeviceAdapter
 ): Request<T> | Request {
+  let finalPayload = {};
+  if (typeof payload === "string") {
+    finalPayload = { name: payload };
+  } else if (
+    payload &&
+    (payload as UnsecuredEndpoint)["@type"] === "#Microsoft.VideoAnalyzer.UnsecuredEndpoint"
+  ) {
+    finalPayload = { endpoint: payload };
+  } else {
+    finalPayload = payload ?? {};
+  }
   return {
     methodName: request,
     payload: {
-      ...(typeof payload === "string" ? { name: payload } : payload ?? {}),
+      ...finalPayload,
       "@apiVersion": apiVersion
     }
   };

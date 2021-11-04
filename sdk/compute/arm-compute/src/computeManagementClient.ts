@@ -49,6 +49,9 @@ import {
   SharedGalleriesImpl,
   SharedGalleryImagesImpl,
   SharedGalleryImageVersionsImpl,
+  CommunityGalleriesImpl,
+  CommunityGalleryImagesImpl,
+  CommunityGalleryImageVersionsImpl,
   CloudServiceRoleInstancesImpl,
   CloudServiceRolesImpl,
   CloudServicesImpl,
@@ -97,6 +100,9 @@ import {
   SharedGalleries,
   SharedGalleryImages,
   SharedGalleryImageVersions,
+  CommunityGalleries,
+  CommunityGalleryImages,
+  CommunityGalleryImageVersions,
   CloudServiceRoleInstances,
   CloudServiceRoles,
   CloudServices,
@@ -173,6 +179,11 @@ export class ComputeManagementClient extends ComputeManagementClientContext {
     this.sharedGalleries = new SharedGalleriesImpl(this);
     this.sharedGalleryImages = new SharedGalleryImagesImpl(this);
     this.sharedGalleryImageVersions = new SharedGalleryImageVersionsImpl(this);
+    this.communityGalleries = new CommunityGalleriesImpl(this);
+    this.communityGalleryImages = new CommunityGalleryImagesImpl(this);
+    this.communityGalleryImageVersions = new CommunityGalleryImageVersionsImpl(
+      this
+    );
     this.cloudServiceRoleInstances = new CloudServiceRoleInstancesImpl(this);
     this.cloudServiceRoles = new CloudServiceRolesImpl(this);
     this.cloudServices = new CloudServicesImpl(this);
@@ -223,6 +234,9 @@ export class ComputeManagementClient extends ComputeManagementClientContext {
   sharedGalleries: SharedGalleries;
   sharedGalleryImages: SharedGalleryImages;
   sharedGalleryImageVersions: SharedGalleryImageVersions;
+  communityGalleries: CommunityGalleries;
+  communityGalleryImages: CommunityGalleryImages;
+  communityGalleryImageVersions: CommunityGalleryImageVersions;
   cloudServiceRoleInstances: CloudServiceRoleInstances;
   cloudServiceRoles: CloudServiceRoles;
   cloudServices: CloudServices;

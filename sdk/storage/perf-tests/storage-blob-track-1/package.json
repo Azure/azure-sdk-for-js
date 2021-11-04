@@ -9,7 +9,7 @@
   "license": "ISC",
   "devDependencies": {
     "@azure/storage-blob": "^10.5.0",
-    "@azure/test-utils-perfstress": "file:../../../test-utils/perfstress/azure-test-utils-perfstress-1.0.0.tgz",
+    "@azure/test-utils-perf": "file:../../../test-utils/perf/azure-test-utils-perf-1.0.0.tgz",
     "@types/node": "^12.0.0",
     "@types/uuid": "^8.0.0",
     "dotenv": "^8.2.0",

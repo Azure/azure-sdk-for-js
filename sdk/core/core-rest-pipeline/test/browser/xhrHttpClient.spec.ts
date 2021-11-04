@@ -153,6 +153,21 @@ describe("XhrHttpClient", function() {
     assert.ok(response.blobBody, "Expect streaming body");
   });
 
+  it("should stream response body on any status code", async function() {
+    const client = createDefaultHttpClient();
+    const request = createPipelineRequest({
+      url: "https://example.com",
+      streamResponseStatusCodes: new Set([Number.POSITIVE_INFINITY])
+    });
+    const promise = client.sendRequest(request);
+    assert.equal(requests.length, 1);
+    requests[0].respond(201, {}, "body");
+    const response = await promise;
+    assert.strictEqual(response.status, 201);
+    assert.equal(response.bodyAsText, undefined);
+    assert.ok(response.blobBody, "Expect streaming body");
+  });
+
   it("should not stream response body on non-matching status code", async function() {
     const client = createDefaultHttpClient();
     const request = createPipelineRequest({

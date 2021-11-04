@@ -293,7 +293,7 @@ export interface KeyReleasePolicy {
   contentType?: string;
 
   /** Blob encoding the policy rules under which the key can be released. */
-  data?: Uint8Array;
+  encodedPolicy?: Uint8Array;
 }
 
 /**
@@ -602,14 +602,6 @@ export enum KnownKeyExportEncryptionAlgorithm {
  */
 export type KeyExportEncryptionAlgorithm = string;
 /* eslint-enable tsdoc/syntax */
-
-/**
- * Result of the {@link KeyClient.getRandomBytes} operation.
- */
-export interface RandomBytes {
-  /** The random bytes returned by the service. */
-  bytes: Uint8Array;
-}
 
 /**
  * Options for {@link KeyClient.getCryptographyClient}.

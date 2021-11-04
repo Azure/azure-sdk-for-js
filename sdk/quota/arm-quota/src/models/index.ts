@@ -8,7 +8,7 @@
 
 import * as coreClient from "@azure/core-client";
 
-export type LimitJsonObjectUnion = LimitJsonObject | LimitValue;
+export type LimitJsonObjectUnion = LimitJsonObject | LimitObject;
 
 /** Resource usage. */
 export interface CurrentUsagesBase {
@@ -343,16 +343,6 @@ export interface CreateGenericQuotaRequestParameters {
   value?: CurrentQuotaLimitBase[];
 }
 
-/** The resource quota limit value. */
-export interface LimitObject {
-  /** The quota/limit value */
-  value: number;
-  /** The limit object type. */
-  limitObjectType?: LimitType;
-  /** The quota or usages limit types. */
-  limitType?: QuotaLimitTypes;
-}
-
 /** Quota request response. */
 export interface QuotaRequestOneResourceSubmitResponse {
   /**
@@ -487,12 +477,15 @@ export interface QuotaRequestSubmitResponse202 {
   properties?: Record<string, unknown>;
 }
 
-/** The resource quota limit. */
-export type LimitValue = LimitJsonObject &
-  LimitObject & {
-    /** Polymorphic discriminator, which specifies the different types this object can be */
-    limitObjectType: "LimitValue";
-  };
+/** The resource quota limit value. */
+export type LimitObject = LimitJsonObject & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  limitObjectType: "LimitValue";
+  /** The quota/limit value */
+  value: number;
+  /** The quota or usages limit types. */
+  limitType?: QuotaLimitTypes;
+};
 
 /** Defines headers for Usages_get operation. */
 export interface UsagesGetHeaders {
@@ -711,18 +704,18 @@ export interface QuotaRequestStatusListNextOptionalParams
 export type QuotaRequestStatusListNextResponse = QuotaRequestDetailsList;
 
 /** Optional parameters. */
-export interface OperationListOptionalParams
+export interface QuotaOperationListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type OperationListResponse = OperationList;
+export type QuotaOperationListResponse = OperationList;
 
 /** Optional parameters. */
-export interface OperationListNextOptionalParams
+export interface QuotaOperationListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type OperationListNextResponse = OperationList;
+export type QuotaOperationListNextResponse = OperationList;
 
 /** Optional parameters. */
 export interface AzureQuotaExtensionAPIOptionalParams

@@ -6,7 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { PolicyAssignments } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
@@ -23,16 +22,15 @@ import {
   PolicyAssignmentsListForManagementGroupOptionalParams,
   PolicyAssignmentsListNextOptionalParams,
   PolicyAssignmentsListOptionalParams,
-  PolicyAssignmentsListForResourceGroupNextNextOptionalParams,
-  PolicyAssignmentsListForResourceNextNextOptionalParams,
-  PolicyAssignmentsListForManagementGroupNextNextOptionalParams,
-  PolicyAssignmentsListNextNextOptionalParams,
   PolicyAssignmentsDeleteOptionalParams,
   PolicyAssignmentsDeleteResponse,
   PolicyAssignmentsCreateOptionalParams,
   PolicyAssignmentsCreateResponse,
   PolicyAssignmentsGetOptionalParams,
   PolicyAssignmentsGetResponse,
+  PolicyAssignmentUpdate,
+  PolicyAssignmentsUpdateOptionalParams,
+  PolicyAssignmentsUpdateResponse,
   PolicyAssignmentsListForResourceGroupResponse,
   PolicyAssignmentsListForResourceResponse,
   PolicyAssignmentsListForManagementGroupResponse,
@@ -43,18 +41,16 @@ import {
   PolicyAssignmentsCreateByIdResponse,
   PolicyAssignmentsGetByIdOptionalParams,
   PolicyAssignmentsGetByIdResponse,
+  PolicyAssignmentsUpdateByIdOptionalParams,
+  PolicyAssignmentsUpdateByIdResponse,
   PolicyAssignmentsListForResourceGroupNextResponse,
   PolicyAssignmentsListForResourceNextResponse,
   PolicyAssignmentsListForManagementGroupNextResponse,
-  PolicyAssignmentsListNextResponse,
-  PolicyAssignmentsListForResourceGroupNextNextResponse,
-  PolicyAssignmentsListForResourceNextNextResponse,
-  PolicyAssignmentsListForManagementGroupNextNextResponse,
-  PolicyAssignmentsListNextNextResponse
+  PolicyAssignmentsListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a PolicyAssignments. */
+/** Class containing PolicyAssignments operations. */
 export class PolicyAssignmentsImpl implements PolicyAssignments {
   private readonly client: PolicyClientContext;
 
@@ -369,300 +365,6 @@ export class PolicyAssignmentsImpl implements PolicyAssignments {
   }
 
   /**
-   * ListForResourceGroupNext
-   * @param resourceGroupName The name of the resource group that contains policy assignments.
-   * @param nextLink The nextLink from the previous successful call to the ListForResourceGroup method.
-   * @param options The options parameters.
-   */
-  public listForResourceGroupNext(
-    resourceGroupName: string,
-    nextLink: string,
-    options?: PolicyAssignmentsListForResourceGroupNextOptionalParams
-  ): PagedAsyncIterableIterator<PolicyAssignment> {
-    const iter = this.listForResourceGroupNextPagingAll(
-      resourceGroupName,
-      nextLink,
-      options
-    );
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: () => {
-        return this.listForResourceGroupNextPagingPage(
-          resourceGroupName,
-          nextLink,
-          options
-        );
-      }
-    };
-  }
-
-  private async *listForResourceGroupNextPagingPage(
-    resourceGroupName: string,
-    nextLink: string,
-    options?: PolicyAssignmentsListForResourceGroupNextOptionalParams
-  ): AsyncIterableIterator<PolicyAssignment[]> {
-    let result = await this._listForResourceGroupNext(
-      resourceGroupName,
-      nextLink,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
-    while (continuationToken) {
-      result = await this._listForResourceGroupNextNext(
-        resourceGroupName,
-        continuationToken,
-        options
-      );
-      continuationToken = result.nextLink;
-      yield result.value || [];
-    }
-  }
-
-  private async *listForResourceGroupNextPagingAll(
-    resourceGroupName: string,
-    nextLink: string,
-    options?: PolicyAssignmentsListForResourceGroupNextOptionalParams
-  ): AsyncIterableIterator<PolicyAssignment> {
-    for await (const page of this.listForResourceGroupNextPagingPage(
-      resourceGroupName,
-      nextLink,
-      options
-    )) {
-      yield* page;
-    }
-  }
-
-  /**
-   * ListForResourceNext
-   * @param resourceGroupName The name of the resource group containing the resource.
-   * @param resourceProviderNamespace The namespace of the resource provider. For example, the namespace
-   *                                  of a virtual machine is Microsoft.Compute (from Microsoft.Compute/virtualMachines)
-   * @param parentResourcePath The parent resource path. Use empty string if there is none.
-   * @param resourceType The resource type name. For example the type name of a web app is 'sites' (from
-   *                     Microsoft.Web/sites).
-   * @param resourceName The name of the resource.
-   * @param nextLink The nextLink from the previous successful call to the ListForResource method.
-   * @param options The options parameters.
-   */
-  public listForResourceNext(
-    resourceGroupName: string,
-    resourceProviderNamespace: string,
-    parentResourcePath: string,
-    resourceType: string,
-    resourceName: string,
-    nextLink: string,
-    options?: PolicyAssignmentsListForResourceNextOptionalParams
-  ): PagedAsyncIterableIterator<PolicyAssignment> {
-    const iter = this.listForResourceNextPagingAll(
-      resourceGroupName,
-      resourceProviderNamespace,
-      parentResourcePath,
-      resourceType,
-      resourceName,
-      nextLink,
-      options
-    );
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: () => {
-        return this.listForResourceNextPagingPage(
-          resourceGroupName,
-          resourceProviderNamespace,
-          parentResourcePath,
-          resourceType,
-          resourceName,
-          nextLink,
-          options
-        );
-      }
-    };
-  }
-
-  private async *listForResourceNextPagingPage(
-    resourceGroupName: string,
-    resourceProviderNamespace: string,
-    parentResourcePath: string,
-    resourceType: string,
-    resourceName: string,
-    nextLink: string,
-    options?: PolicyAssignmentsListForResourceNextOptionalParams
-  ): AsyncIterableIterator<PolicyAssignment[]> {
-    let result = await this._listForResourceNext(
-      resourceGroupName,
-      resourceProviderNamespace,
-      parentResourcePath,
-      resourceType,
-      resourceName,
-      nextLink,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
-    while (continuationToken) {
-      result = await this._listForResourceNextNext(
-        resourceGroupName,
-        resourceProviderNamespace,
-        parentResourcePath,
-        resourceType,
-        resourceName,
-        continuationToken,
-        options
-      );
-      continuationToken = result.nextLink;
-      yield result.value || [];
-    }
-  }
-
-  private async *listForResourceNextPagingAll(
-    resourceGroupName: string,
-    resourceProviderNamespace: string,
-    parentResourcePath: string,
-    resourceType: string,
-    resourceName: string,
-    nextLink: string,
-    options?: PolicyAssignmentsListForResourceNextOptionalParams
-  ): AsyncIterableIterator<PolicyAssignment> {
-    for await (const page of this.listForResourceNextPagingPage(
-      resourceGroupName,
-      resourceProviderNamespace,
-      parentResourcePath,
-      resourceType,
-      resourceName,
-      nextLink,
-      options
-    )) {
-      yield* page;
-    }
-  }
-
-  /**
-   * ListForManagementGroupNext
-   * @param managementGroupId The ID of the management group.
-   * @param nextLink The nextLink from the previous successful call to the ListForManagementGroup method.
-   * @param options The options parameters.
-   */
-  public listForManagementGroupNext(
-    managementGroupId: string,
-    nextLink: string,
-    options?: PolicyAssignmentsListForManagementGroupNextOptionalParams
-  ): PagedAsyncIterableIterator<PolicyAssignment> {
-    const iter = this.listForManagementGroupNextPagingAll(
-      managementGroupId,
-      nextLink,
-      options
-    );
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: () => {
-        return this.listForManagementGroupNextPagingPage(
-          managementGroupId,
-          nextLink,
-          options
-        );
-      }
-    };
-  }
-
-  private async *listForManagementGroupNextPagingPage(
-    managementGroupId: string,
-    nextLink: string,
-    options?: PolicyAssignmentsListForManagementGroupNextOptionalParams
-  ): AsyncIterableIterator<PolicyAssignment[]> {
-    let result = await this._listForManagementGroupNext(
-      managementGroupId,
-      nextLink,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
-    while (continuationToken) {
-      result = await this._listForManagementGroupNextNext(
-        managementGroupId,
-        continuationToken,
-        options
-      );
-      continuationToken = result.nextLink;
-      yield result.value || [];
-    }
-  }
-
-  private async *listForManagementGroupNextPagingAll(
-    managementGroupId: string,
-    nextLink: string,
-    options?: PolicyAssignmentsListForManagementGroupNextOptionalParams
-  ): AsyncIterableIterator<PolicyAssignment> {
-    for await (const page of this.listForManagementGroupNextPagingPage(
-      managementGroupId,
-      nextLink,
-      options
-    )) {
-      yield* page;
-    }
-  }
-
-  /**
-   * ListNext
-   * @param nextLink The nextLink from the previous successful call to the List method.
-   * @param options The options parameters.
-   */
-  public listNext(
-    nextLink: string,
-    options?: PolicyAssignmentsListNextOptionalParams
-  ): PagedAsyncIterableIterator<PolicyAssignment> {
-    const iter = this.listNextPagingAll(nextLink, options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: () => {
-        return this.listNextPagingPage(nextLink, options);
-      }
-    };
-  }
-
-  private async *listNextPagingPage(
-    nextLink: string,
-    options?: PolicyAssignmentsListNextOptionalParams
-  ): AsyncIterableIterator<PolicyAssignment[]> {
-    let result = await this._listNext(nextLink, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
-    while (continuationToken) {
-      result = await this._listNextNext(continuationToken, options);
-      continuationToken = result.nextLink;
-      yield result.value || [];
-    }
-  }
-
-  private async *listNextPagingAll(
-    nextLink: string,
-    options?: PolicyAssignmentsListNextOptionalParams
-  ): AsyncIterableIterator<PolicyAssignment> {
-    for await (const page of this.listNextPagingPage(nextLink, options)) {
-      yield* page;
-    }
-  }
-
-  /**
    * This operation deletes a policy assignment, given its name and the scope it was created in. The
    * scope of a policy assignment is the part of its ID preceding
    * '/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}'.
@@ -728,6 +430,31 @@ export class PolicyAssignmentsImpl implements PolicyAssignments {
     return this.client.sendOperationRequest(
       { scope, policyAssignmentName, options },
       getOperationSpec
+    );
+  }
+
+  /**
+   *  This operation updates a policy assignment with the given scope and name. Policy assignments apply
+   * to all resources contained within their scope. For example, when you assign a policy at resource
+   * group scope, that policy applies to all resources in the group.
+   * @param scope The scope of the policy assignment. Valid scopes are: management group (format:
+   *              '/providers/Microsoft.Management/managementGroups/{managementGroup}'), subscription (format:
+   *              '/subscriptions/{subscriptionId}'), resource group (format:
+   *              '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}', or resource (format:
+   *              '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/[{parentResourcePath}/]{resourceType}/{resourceName}'
+   * @param policyAssignmentName The name of the policy assignment.
+   * @param parameters Parameters for policy assignment patch request.
+   * @param options The options parameters.
+   */
+  update(
+    scope: string,
+    policyAssignmentName: string,
+    parameters: PolicyAssignmentUpdate,
+    options?: PolicyAssignmentsUpdateOptionalParams
+  ): Promise<PolicyAssignmentsUpdateResponse> {
+    return this.client.sendOperationRequest(
+      { scope, policyAssignmentName, parameters, options },
+      updateOperationSpec
     );
   }
 
@@ -922,6 +649,32 @@ export class PolicyAssignmentsImpl implements PolicyAssignments {
   }
 
   /**
+   * This operation updates the policy assignment with the given ID. Policy assignments made on a scope
+   * apply to all resources contained in that scope. For example, when you assign a policy to a resource
+   * group that policy applies to all resources in the group. Policy assignment IDs have this format:
+   * '{scope}/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}'. Valid scopes
+   * are: management group (format:
+   * '/providers/Microsoft.Management/managementGroups/{managementGroup}'), subscription (format:
+   * '/subscriptions/{subscriptionId}'), resource group (format:
+   * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}', or resource (format:
+   * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/[{parentResourcePath}/]{resourceType}/{resourceName}'.
+   * @param policyAssignmentId The ID of the policy assignment to update. Use the format
+   *                           '{scope}/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}'.
+   * @param parameters Parameters for policy assignment patch request.
+   * @param options The options parameters.
+   */
+  updateById(
+    policyAssignmentId: string,
+    parameters: PolicyAssignmentUpdate,
+    options?: PolicyAssignmentsUpdateByIdOptionalParams
+  ): Promise<PolicyAssignmentsUpdateByIdResponse> {
+    return this.client.sendOperationRequest(
+      { policyAssignmentId, parameters, options },
+      updateByIdOperationSpec
+    );
+  }
+
+  /**
    * ListForResourceGroupNext
    * @param resourceGroupName The name of the resource group that contains policy assignments.
    * @param nextLink The nextLink from the previous successful call to the ListForResourceGroup method.
@@ -1004,92 +757,6 @@ export class PolicyAssignmentsImpl implements PolicyAssignments {
       listNextOperationSpec
     );
   }
-
-  /**
-   * ListForResourceGroupNextNext
-   * @param resourceGroupName The name of the resource group that contains policy assignments.
-   * @param nextLink The nextLink from the previous successful call to the ListForResourceGroupNext
-   *                 method.
-   * @param options The options parameters.
-   */
-  private _listForResourceGroupNextNext(
-    resourceGroupName: string,
-    nextLink: string,
-    options?: PolicyAssignmentsListForResourceGroupNextNextOptionalParams
-  ): Promise<PolicyAssignmentsListForResourceGroupNextNextResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, nextLink, options },
-      listForResourceGroupNextNextOperationSpec
-    );
-  }
-
-  /**
-   * ListForResourceNextNext
-   * @param resourceGroupName The name of the resource group containing the resource.
-   * @param resourceProviderNamespace The namespace of the resource provider. For example, the namespace
-   *                                  of a virtual machine is Microsoft.Compute (from Microsoft.Compute/virtualMachines)
-   * @param parentResourcePath The parent resource path. Use empty string if there is none.
-   * @param resourceType The resource type name. For example the type name of a web app is 'sites' (from
-   *                     Microsoft.Web/sites).
-   * @param resourceName The name of the resource.
-   * @param nextLink The nextLink from the previous successful call to the ListForResourceNext method.
-   * @param options The options parameters.
-   */
-  private _listForResourceNextNext(
-    resourceGroupName: string,
-    resourceProviderNamespace: string,
-    parentResourcePath: string,
-    resourceType: string,
-    resourceName: string,
-    nextLink: string,
-    options?: PolicyAssignmentsListForResourceNextNextOptionalParams
-  ): Promise<PolicyAssignmentsListForResourceNextNextResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        resourceProviderNamespace,
-        parentResourcePath,
-        resourceType,
-        resourceName,
-        nextLink,
-        options
-      },
-      listForResourceNextNextOperationSpec
-    );
-  }
-
-  /**
-   * ListForManagementGroupNextNext
-   * @param managementGroupId The ID of the management group.
-   * @param nextLink The nextLink from the previous successful call to the ListForManagementGroupNext
-   *                 method.
-   * @param options The options parameters.
-   */
-  private _listForManagementGroupNextNext(
-    managementGroupId: string,
-    nextLink: string,
-    options?: PolicyAssignmentsListForManagementGroupNextNextOptionalParams
-  ): Promise<PolicyAssignmentsListForManagementGroupNextNextResponse> {
-    return this.client.sendOperationRequest(
-      { managementGroupId, nextLink, options },
-      listForManagementGroupNextNextOperationSpec
-    );
-  }
-
-  /**
-   * ListNextNext
-   * @param nextLink The nextLink from the previous successful call to the ListNext method.
-   * @param options The options parameters.
-   */
-  private _listNextNext(
-    nextLink: string,
-    options?: PolicyAssignmentsListNextNextOptionalParams
-  ): Promise<PolicyAssignmentsListNextNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextNextOperationSpec
-    );
-  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
@@ -1107,7 +774,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.scope,
@@ -1129,7 +796,7 @@ const createOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.parameters,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.scope,
@@ -1151,13 +818,36 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.scope,
     Parameters.policyAssignmentName
   ],
   headerParameters: [Parameters.accept],
+  serializer
+};
+const updateOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/{scope}/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PolicyAssignment
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  requestBody: Parameters.parameters1,
+  queryParameters: [Parameters.apiVersion1],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.scope,
+    Parameters.policyAssignmentName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
   serializer
 };
 const listForResourceGroupOperationSpec: coreClient.OperationSpec = {
@@ -1172,7 +862,7 @@ const listForResourceGroupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top],
+  queryParameters: [Parameters.filter, Parameters.apiVersion1, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -1193,7 +883,7 @@ const listForResourceOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top],
+  queryParameters: [Parameters.filter, Parameters.apiVersion1, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -1218,7 +908,7 @@ const listForManagementGroupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top],
+  queryParameters: [Parameters.filter, Parameters.apiVersion1, Parameters.top],
   urlParameters: [Parameters.$host, Parameters.managementGroupId],
   headerParameters: [Parameters.accept],
   serializer
@@ -1235,7 +925,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top],
+  queryParameters: [Parameters.filter, Parameters.apiVersion1, Parameters.top],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer
@@ -1252,7 +942,7 @@ const deleteByIdOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [Parameters.$host, Parameters.policyAssignmentId],
   headerParameters: [Parameters.accept],
   serializer
@@ -1269,7 +959,7 @@ const createByIdOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.parameters,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [Parameters.$host, Parameters.policyAssignmentId],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -1286,9 +976,27 @@ const getByIdOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [Parameters.$host, Parameters.policyAssignmentId],
   headerParameters: [Parameters.accept],
+  serializer
+};
+const updateByIdOperationSpec: coreClient.OperationSpec = {
+  path: "/{policyAssignmentId}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PolicyAssignment
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  requestBody: Parameters.parameters1,
+  queryParameters: [Parameters.apiVersion1],
+  urlParameters: [Parameters.$host, Parameters.policyAssignmentId],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
   serializer
 };
 const listForResourceGroupNextOperationSpec: coreClient.OperationSpec = {
@@ -1302,7 +1010,7 @@ const listForResourceGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top],
+  queryParameters: [Parameters.filter, Parameters.apiVersion1, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
@@ -1323,7 +1031,7 @@ const listForResourceNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top],
+  queryParameters: [Parameters.filter, Parameters.apiVersion1, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
@@ -1348,7 +1056,7 @@ const listForManagementGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top],
+  queryParameters: [Parameters.filter, Parameters.apiVersion1, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
@@ -1368,93 +1076,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.nextLink,
-    Parameters.subscriptionId
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listForResourceGroupNextNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PolicyAssignmentListResult
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.nextLink,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listForResourceNextNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PolicyAssignmentListResult
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.nextLink,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-    Parameters.resourceProviderNamespace,
-    Parameters.parentResourcePath,
-    Parameters.resourceType,
-    Parameters.resourceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listForManagementGroupNextNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PolicyAssignmentListResult
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.nextLink,
-    Parameters.managementGroupId
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listNextNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PolicyAssignmentListResult
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top],
+  queryParameters: [Parameters.filter, Parameters.apiVersion1, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,

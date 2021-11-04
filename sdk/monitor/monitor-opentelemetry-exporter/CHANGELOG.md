@@ -1,5 +1,17 @@
 # Release History
 
+## 1.0.0-beta.6 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+- Fixed issue with SDK version field not being populated correctly.
+
+### Other Changes
+
 ## 1.0.0-beta.5 (2021-10-05)
 
 ### Bugs Fixed

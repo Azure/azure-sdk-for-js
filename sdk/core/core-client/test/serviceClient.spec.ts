@@ -15,13 +15,15 @@ import {
   CompositeMapper,
   OperationSpec,
   serializationPolicy,
-  FullOperationResponse
+  FullOperationResponse,
+  OperationQueryParameter
 } from "../src";
 import {
   createHttpHeaders,
   createEmptyPipeline,
   HttpClient,
-  createPipelineRequest
+  createPipelineRequest,
+  PipelineRequest
 } from "@azure/core-rest-pipeline";
 
 import {
@@ -1361,6 +1363,65 @@ describe("ServiceClient", function() {
     } catch (error) {
       assert.include(error.message, "cannot be null or undefined");
     }
+  });
+
+  it("should not replace existing queries in request URLs", async function() {
+    let request: PipelineRequest;
+    const topQueryParam: OperationQueryParameter = {
+      parameterPath: ["options", "top"],
+      mapper: {
+        defaultValue: 20,
+        constraints: {
+          InclusiveMaximum: 50,
+          InclusiveMinimum: 1
+        },
+        serializedName: "$top",
+        type: {
+          name: "Number"
+        }
+      }
+    };
+    const skipQueryParam: OperationQueryParameter = {
+      parameterPath: ["options", "skip"],
+      mapper: {
+        defaultValue: 0,
+        constraints: {
+          InclusiveMinimum: 0
+        },
+        serializedName: "$skip",
+        type: {
+          name: "Number"
+        }
+      }
+    };
+    const operationSpec: OperationSpec = {
+      path: "https://example.com/path?$skip=10",
+      queryParameters: [topQueryParam, skipQueryParam],
+      httpMethod: "GET",
+      responses: {
+        200: {
+          bodyMapper: { type: { name: "String" } }
+        }
+      },
+      baseUrl: "http://example.com",
+      serializer: createSerializer()
+    };
+
+    const client = new ServiceClient({
+      httpClient: {
+        sendRequest: (req) => {
+          request = req;
+          return Promise.resolve({
+            request: req,
+            status: 200,
+            headers: createHttpHeaders(),
+            bodyAsText: `"dummy string"`
+          });
+        }
+      }
+    });
+    await client.sendOperationRequest<string>({ options: { top: 10 } as any }, operationSpec);
+    assert.equal(request!.url, "https://example.com/path?$skip=10&$top=10");
   });
 });
 

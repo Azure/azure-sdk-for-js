@@ -11,7 +11,7 @@ import * as msRest from "@azure/ms-rest-js";
 import * as msRestAzure from "@azure/ms-rest-azure-js";
 
 const packageName = "@azure/batch";
-const packageVersion = "10.0.1";
+const packageVersion = "10.0.2";
 
 export class BatchServiceClientContext extends msRestAzure.AzureServiceClient {
   credentials: msRest.ServiceClientCredentials;

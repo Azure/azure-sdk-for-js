@@ -29,6 +29,16 @@ export interface TrainingPollOperationState extends PollOperationState<ModelInfo
    * A number between 0 and 100 representing the progress of the operation.
    */
   percentCompleted: number;
+
+  /**
+   * The Date and Time that the operation was created.
+   */
+  createdOn: Date;
+
+  /**
+   * The date & time that the operation state was last modified.
+   */
+  lastUpdatedOn: Date;
 }
 
 /**
@@ -42,6 +52,8 @@ export async function toTrainingPollOperationState(
     operationId: response.operationId,
     status: response.status,
     percentCompleted: response.percentCompleted ?? 0,
+    lastUpdatedOn: response.lastUpdatedDateTime,
+    createdOn: response.createdDateTime,
     result: response.result,
     error: response.error && new FormRecognizerError(response.error),
     isCancelled: response.status === "canceled",
@@ -55,25 +67,6 @@ export async function toTrainingPollOperationState(
  * {@link ModelInfo}.
  */
 export type TrainingPoller = PollerLike<TrainingPollOperationState, ModelInfo>;
-
-const operationLocationRegex = /\/operations\/([^?/]+)/;
-
-/**
- * Extract an operation ID from an operationLocation URL.
- * @internal
- */
-export function parseOperationLocation(url: string | undefined): string {
-  if (url === undefined) {
-    throw new Error("Failed to start training operation: no operation-location in the response.");
-  }
-
-  const parseResult = operationLocationRegex.exec(url);
-  if (!parseResult || !parseResult[1]) {
-    throw new Error(`Unable to parse operationLocation: "${url}"`);
-  }
-
-  return parseResult[1];
-}
 
 /**
  * Defines a training operation.

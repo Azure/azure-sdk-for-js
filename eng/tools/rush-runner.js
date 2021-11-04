@@ -19,7 +19,7 @@ const reducedDependencyTestMatrix = {
     '@azure/storage-blob',
     '@azure/template',
     '@azure/test-utils',
-    '@azure/test-utils-perfstress',
+    '@azure/test-utils-perf',
     '@azure-tools/test-recorder',
     '@azure/synapse-monitoring'
   ],

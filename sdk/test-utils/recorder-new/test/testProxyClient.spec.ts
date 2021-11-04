@@ -81,7 +81,7 @@ describe("TestProxyClient functions", () => {
       clientHttpClient.sendRequest = (): Promise<PipelineResponse> => {
         throw new Error("should not have reached here");
       };
-      await client.start();
+      await client.start({ envSetupForPlayback: {} });
     });
 
     ["record", "playback"].forEach((testMode) => {
@@ -97,7 +97,7 @@ describe("TestProxyClient functions", () => {
               request: initialRequest
             });
           };
-          await client.start();
+          await client.start({ envSetupForPlayback: {} });
           expect(client.recordingId).to.eql(recordingId);
         }
       );
@@ -113,7 +113,7 @@ describe("TestProxyClient functions", () => {
           });
         };
         try {
-          await client.start();
+          await client.start({ envSetupForPlayback: {} });
           throw new Error("should not have reached here, start() call should have failed");
         } catch (error) {
           expect((error as RecorderError).name).to.equal("RecorderError");
@@ -131,7 +131,7 @@ describe("TestProxyClient functions", () => {
           });
         };
         try {
-          await client.start();
+          await client.start({ envSetupForPlayback: {} });
           throw new Error("should not have reached here, start() call should have failed");
         } catch (error) {
           expect((error as RecorderError).name).to.equal("RecorderError");

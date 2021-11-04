@@ -92,9 +92,6 @@
     "requiredResources": {
       "Azure Service Bus": "https://docs.microsoft.com/azure/service-bus-messaging"
     },
-    "dependencyOverrides": {
-      "@azure/identity": "^1.1.0"
-    },
     "skip": [
       "receiveMessagesLoop.js",
       "receiveMessagesStreaming.js",
@@ -130,9 +127,9 @@
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "@azure/identity": "2.0.0-beta.6",
+    "@azure/identity": "^2.0.1",
     "@azure/test-utils": "^1.0.0",
-    "@azure/test-utils-perfstress": "^1.0.0",
+    "@azure/test-utils-perf": "^1.0.0",
     "@microsoft/api-extractor": "^7.18.11",
     "@rollup/plugin-commonjs": "11.0.2",
     "@rollup/plugin-inject": "^4.0.0",
