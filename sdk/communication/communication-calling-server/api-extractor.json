@@ -11,7 +11,7 @@
   "dtsRollup": {
     "enabled": true,
     "untrimmedFilePath": "",
-    "publicTrimmedFilePath": "./types/communication-callingserver.d.ts"
+    "publicTrimmedFilePath": "./types/communication-calling-server.d.ts"
   },
   "messages": {
     "tsdocMessageReporting": {

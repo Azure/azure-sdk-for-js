@@ -3,15 +3,16 @@
 > see [https://aka.ms/autorest](https://aka.ms/autorest)
 
 ### Generation
+
 ```ps
-cd <communication-callingserver-folder>
+cd <communication-calling-server folder>
 rushx build:autorest
 ```
 
 ## Configuration
 
 ```yaml
-package-name: azure-communication-callingserver
+package-name: azure-communication-calling-server
 title: CallingServerApiClient
 description: CallingServer Client
 generate-metadata: false

@@ -3,7 +3,7 @@ trigger: none
 stages:
   - template: /eng/pipelines/templates/stages/archetype-sdk-tests.yml
     parameters:
-      PackageName: "@azure/communication-callingserver"
+      PackageName: "@azure/communication-calling-server"
       ServiceDirectory: communication
       MatrixFilters:
         - DependencyVersion=^$
