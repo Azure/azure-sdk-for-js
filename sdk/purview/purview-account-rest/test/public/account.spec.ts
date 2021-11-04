@@ -23,7 +23,6 @@ describe("Get account info", () => {
   it("should get the account info", async () => {
     const result = await client.path("/").get();
 
-    console.log(result);
     if (result.status !== "200") {
       assert.fail(`GET "/" failed with ${result.status}`);
     }
