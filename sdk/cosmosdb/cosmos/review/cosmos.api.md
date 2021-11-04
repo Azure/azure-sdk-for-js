@@ -555,10 +555,37 @@ export interface CosmosClientOptions {
 }
 
 // @public (undocumented)
+export enum CosmosContainerChildResourceKind {
+    // (undocumented)
+    Item = "ITEM",
+    // (undocumented)
+    StoredProcedure = "STORED_PROCEDURE",
+    // (undocumented)
+    Trigger = "TRIGGER",
+    // (undocumented)
+    UserDefinedFunction = "USER_DEFINED_FUNCTION"
+}
+
+// @public (undocumented)
 export interface CosmosHeaders {
     // (undocumented)
     [key: string]: any;
 }
+
+// @public (undocumented)
+export enum CosmosKeyType {
+    // (undocumented)
+    PrimaryMaster = "PRIMARY_MASTER",
+    // (undocumented)
+    PrimaryReadOnly = "PRIMARY_READONLY",
+    // (undocumented)
+    SecondaryMaster = "SECONDARY_MASTER",
+    // (undocumented)
+    SecondaryReadOnly = "SECONDARY_READONLY"
+}
+
+// @public
+export function createAuthorizationSasToken(masterKey: string, sasTokenProperties: SasTokenProperties): Promise<string>;
 
 // @public (undocumented)
 export type CreateOperation = OperationWithItem & {
@@ -771,6 +798,9 @@ export enum GeospatialType {
     Geography = "Geography",
     Geometry = "Geometry"
 }
+
+// @public (undocumented)
+export function getUserAgent(suffix?: string): string;
 
 // @public
 export class GlobalEndpointManager {
@@ -1190,6 +1220,132 @@ class Permissions_2 {
 }
 export { Permissions_2 as Permissions }
 
+// @public (undocumented)
+export enum PermissionScopeValues {
+    // (undocumented)
+    NoneValue = 0,
+    // (undocumented)
+    ScopeAccountCreateDatabasesValue = 1,
+    // (undocumented)
+    ScopeAccountDeleteDatabasesValue = 2,
+    // (undocumented)
+    ScopeAccountListDatabasesValue = 2,
+    // (undocumented)
+    ScopeAccountReadAllAccessValue = 65535,
+    ScopeAccountReadValue = 1,
+    // (undocumented)
+    ScopeAccountWriteAllAccessValue = 65535,
+    // (undocumented)
+    ScopeContainerCreateItemsValue = 1,
+    // (undocumented)
+    ScopeContainerCreateStoredProceduresValue = 16,
+    // (undocumented)
+    ScopeContainerCreateTriggersValue = 256,
+    // (undocumented)
+    ScopeContainerCreateUserDefinedFunctionsValue = 2048,
+    // (undocumented)
+    ScopeContainerDeleteCONFLICTSValue = 16384,
+    // (undocumented)
+    ScopeContainerDeleteItemsValue = 8,
+    // (undocumented)
+    ScopeContainerDeleteStoredProceduresValue = 64,
+    // (undocumented)
+    ScopeContainerDeleteTriggersValue = 1024,
+    // (undocumented)
+    ScopeContainerDeleteUserDefinedFunctionSValue = 8192,
+    // (undocumented)
+    ScopeContainerDeleteValue = 128,
+    ScopeContainerExecuteQueriesValue = 1,
+    // (undocumented)
+    ScopeContainerExecuteStoredProceduresValue = 128,
+    // (undocumented)
+    ScopeContainerReadAllAccessValue = 4294967295,
+    // (undocumented)
+    ScopeContainerReadConflictsValue = 32,
+    // (undocumented)
+    ScopeContainerReadFeedsValue = 2,
+    // (undocumented)
+    ScopeContainerReadOfferValue = 64,
+    // (undocumented)
+    ScopeContainerReadStoredProceduresValue = 4,
+    // (undocumented)
+    ScopeContainerReadTriggersValue = 16,
+    // (undocumented)
+    ScopeContainerReadUserDefinedFunctionsValue = 8,
+    // (undocumented)
+    ScopeContainerReadValue = 32,
+    // (undocumented)
+    ScopeContainerReplaceItemsValue = 2,
+    // (undocumented)
+    ScopeContainerReplaceOfferValue = 256,
+    // (undocumented)
+    ScopeContainerReplaceStoredProceduresValue = 32,
+    // (undocumented)
+    ScopeContainerReplaceTriggersValue = 512,
+    // (undocumented)
+    ScopeContainerReplaceUserDefinedFunctionsValue = 4096,
+    // (undocumented)
+    ScopeContainerReplaceValue = 64,
+    // (undocumented)
+    ScopeContainersReadAllAccessValue = 96,
+    // (undocumented)
+    ScopeContainersWriteAllAccessValue = 448,
+    // (undocumented)
+    ScopeContainerUpsertItemsValue = 4,
+    // (undocumented)
+    ScopeContainerWriteAllAccessValue = 4294967295,
+    // (undocumented)
+    ScopeDatabaseCreateContainerValue = 16,
+    // (undocumented)
+    ScopeDatabaseDeleteContainerValue = 32,
+    // (undocumented)
+    ScopeDatabaseDeleteValue = 4,
+    // (undocumented)
+    ScopeDatabaseListContainerValue = 16,
+    // (undocumented)
+    ScopeDatabaseReadAllAccessValue = 124,
+    // (undocumented)
+    ScopeDatabaseReadOfferValue = 8,
+    // (undocumented)
+    ScopeDatabaseReadValue = 4,
+    // (undocumented)
+    ScopeDatabaseReplaceOfferValue = 8,
+    // (undocumented)
+    ScopeDatabaseWriteAllAccessValue = 508,
+    // (undocumented)
+    ScopeItemDeleteValue = 262144,
+    // (undocumented)
+    ScopeItemReadAllAccessValue = 65,
+    // (undocumented)
+    ScopeItemReadValue = 64,
+    // (undocumented)
+    ScopeItemReplaceValue = 65536,
+    // (undocumented)
+    ScopeItemUpsertValue = 131072,
+    // (undocumented)
+    ScopeItemWriteAllAccessValue = 458767,
+    // (undocumented)
+    ScopeStoredProcedureDeleteValue = 2097152,
+    // (undocumented)
+    ScopeStoredProcedureExecuteValue = 4194304,
+    // (undocumented)
+    ScopeStoredProcedureReadValue = 128,
+    // (undocumented)
+    ScopeStoredProcedureReplaceValue = 1048576,
+    // (undocumented)
+    ScopeTriggerDeleteValue = 67108864,
+    // (undocumented)
+    ScopeTriggerReadValue = 512,
+    // (undocumented)
+    ScopeTriggerReplaceValue = 33554432,
+    // (undocumented)
+    ScopeUserDefinedFunctionDeleteValue = 16777216,
+    // (undocumented)
+    ScopeUserDefinedFunctionReadValue = 256,
+    // (undocumented)
+    ScopeUserDefinedFunctionReplaceValue = 8388608
+}
+
 // @public
 type Plugin_2<T> = (context: RequestContext, next: Next<T>) => Promise<Response_2<T>>;
 export { Plugin_2 as Plugin }
@@ -1568,6 +1724,126 @@ export class RuntimeExecutionTimes {
     readonly userDefinedFunctionExecutionTime: TimeSpan;
     // (undocumented)
     static readonly zero: RuntimeExecutionTimes;
+}
+
+// @public (undocumented)
+export enum SasTokenPermissionKind {
+    // (undocumented)
+    ContainerCreateItems = 1,
+    // (undocumented)
+    ContainerCreateStoreProcedure = 16,
+    // (undocumented)
+    ContainerCreateTriggers = 256,
+    // (undocumented)
+    ContainerCreateUserDefinedFunctions = 2048,
+    // (undocumented)
+    ContainerDeleteConflicts = 16384,
+    // (undocumented)
+    ContainerDeleteItems = 128,
+    // (undocumented)
+    ContainerDeleteStoreProcedure = 64,
+    // (undocumented)
+    ContainerDeleteTriggers = 1024,
+    // (undocumented)
+    ContainerDeleteUserDefinedFunctions = 8192,
+    // (undocumented)
+    ContainerExecuteQueries = 1,
+    // (undocumented)
+    ContainerExecuteStoredProcedure = 128,
+    // (undocumented)
+    ContainerFullAccess = 4294967295,
+    // (undocumented)
+    ContainerReadAny = 64,
+    // (undocumented)
+    ContainerReadConflicts = 32,
+    // (undocumented)
+    ContainerReadFeeds = 2,
+    // (undocumented)
+    ContainerReadStoreProcedure = 4,
+    // (undocumented)
+    ContainerReadTriggers = 16,
+    // (undocumented)
+    ContainerReadUserDefinedFunctions = 8,
+    // (undocumented)
+    ContainerReplaceItems = 2,
+    // (undocumented)
+    ContainerReplaceStoreProcedure = 32,
+    // (undocumented)
+    ContainerReplaceTriggers = 512,
+    // (undocumented)
+    ContainerReplaceUserDefinedFunctions = 4096,
+    // (undocumented)
+    ContainerUpsertItems = 4,
+    // (undocumented)
+    ItemDelete = 262144,
+    // (undocumented)
+    ItemFullAccess = 65,
+    // (undocumented)
+    ItemRead = 64,
+    // (undocumented)
+    ItemReadAny = 65536,
+    // (undocumented)
+    ItemReplace = 65536,
+    // (undocumented)
+    ItemUpsert = 131072,
+    // (undocumented)
+    StoreProcedureDelete = 2097152,
+    // (undocumented)
+    StoreProcedureExecute = 4194304,
+    // (undocumented)
+    StoreProcedureRead = 128,
+    // (undocumented)
+    StoreProcedureReplace = 1048576,
+    // (undocumented)
+    TriggerDelete = 67108864,
+    // (undocumented)
+    TriggerRead = 512,
+    // (undocumented)
+    TriggerReplace = 33554432,
+    // (undocumented)
+    UserDefinedFuntionDelete = 16777216,
+    // (undocumented)
+    UserDefinedFuntionRead = 256,
+    // (undocumented)
+    UserDefinedFuntionReplace = 8388608
+}
+
+// @public (undocumented)
+export class SasTokenProperties {
+    // (undocumented)
+    containerName: string;
+    // (undocumented)
+    controlPlaneReaderScope: number;
+    // (undocumented)
+    controlPlaneWriterScope: number;
+    // (undocumented)
+    cosmosContainerChildResourceKind: CosmosContainerChildResourceKind;
+    // (undocumented)
+    cosmosKeyType: CosmosKeyType;
+    // (undocumented)
+    databaseName: string;
+    // (undocumented)
+    dataPlaneReaderScope: number;
+    // (undocumented)
+    dataPlaneWriterScope: number;
+    // (undocumented)
+    expiryTime: Date;
+    // (undocumented)
+    keyType: CosmosKeyType | number;
+    // (undocumented)
+    partitionKeyValueRanges: [];
+    // (undocumented)
+    resourceKind: CosmosContainerChildResourceKind;
+    // (undocumented)
+    resourceName: string;
+    // (undocumented)
+    resourcePath: string;
+    // (undocumented)
+    startTime: Date;
+    // (undocumented)
+    user: string;
+    // (undocumented)
+    userTag: string;
 }
 
 // @public (undocumented)
@@ -1954,6 +2230,9 @@ export class Users {
     readAll(options?: FeedOptions): QueryIterator<UserDefinition & Resource>;
     upsert(body: UserDefinition, options?: RequestOptions): Promise<UserResponse>;
 }
+
+// @public (undocumented)
+export function utcsecondsSinceEpoch(date: Date): number;
 
 // (No @packageDocumentation comment for this package)
 

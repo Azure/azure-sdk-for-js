@@ -10,9 +10,7 @@ import * as dotenv from "dotenv";
 dotenv.config({ path: path.resolve(__dirname, "../sample.env") });
 
 import { logSampleHeader, logStep, finish, handleError } from "./Shared/handleError";
-import { CosmosClient, ErrorResponse } from "../dist-esm";
-import { FeedOptions, Item, Resource } from "../dist-esm";
-
+import { CosmosClient, ErrorResponse, FeedOptions, Item, Resource  } from "@azure/cosmos";
 logSampleHeader("Server Side Scripts");
 const {
   COSMOS_DATABASE: databaseId,

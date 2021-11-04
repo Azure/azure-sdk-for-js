@@ -17,7 +17,7 @@ import {
   ContainerDefinition,
   DatabaseDefinition,
   FeedResponse
-} from "../dist-esm";
+} from "@azure/cosmos";
 const {
   COSMOS_DATABASE: databaseId,
   COSMOS_CONTAINER: containerId,

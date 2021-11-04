@@ -73,7 +73,12 @@ export { QueryIterator } from "./queryIterator";
 export * from "./queryMetrics";
 export { CosmosClient } from "./CosmosClient";
 export { CosmosClientOptions, Agent } from "./CosmosClientOptions";
+export * from "./common/constants";
+export * from "./common/platform";
+export * from "./utils/SasToken";
+export * from "./client/SasToken/SasTokenProperties";
 export * from "./client";
+
 export { Scripts } from "./client/Script/Scripts";
 export { Next, Plugin, PluginConfig, PluginOn } from "./plugins/Plugin";
 export { TokenProvider, RequestInfo } from "./auth";

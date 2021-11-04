@@ -9,12 +9,8 @@ import path from "path";
 import * as dotenv from "dotenv";
 dotenv.config({ path: path.resolve(__dirname, "../sample.env") });
 
-import { SasTokenProperties } from "../dist-esm/client/SasToken/SasTokenProperties";
-import { SasTokenPermissionKind } from "../dist-esm/common/constants";
-import { createAuthorizationSasToken } from "../dist-esm/utils/SasToken";
+import { CosmosClient , SasTokenProperties , createAuthorizationSasToken ,SasTokenPermissionKind  } from "@azure/cosmos";
 import { handleError, finish, logStep } from "./Shared/handleError";
-import { CosmosClient } from "../dist-esm/CosmosClient";
-
 const { COSMOS_ENDPOINT: endpoint, COSMOS_KEY: masterKey } = process.env;
 const sasToken = "your-sas-token";
 

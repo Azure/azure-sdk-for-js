@@ -15,9 +15,9 @@
     "azure"
   ],
   "author": "Microsoft Corporation",
-  "main": "./dist/index.js",
-  "module": "./dist-esm/index.js",
-  "react-native": "./dist-esm/index.js",
+  "main": "./dist/src/index.js",
+  "module": "./dist-esm/src/index.js",
+  "react-native": "./dist-esm/src/index.js",
   "browser": {
     "./dist-esm/request/defaultAgent.js": "./dist-esm/request/defaultAgent.browser.js",
     "./dist-esm/utils/atob.js": "./dist-esm/utils/atob.browser.js",
@@ -154,6 +154,12 @@
     ],
     "requiredResources": {
       "Azure Cosmos DB account": "https://docs.microsoft.com/azure/cosmos-db/how-to-manage-database-account#create-an-account"
+    },
+    "extraFiles": {
+      "./assets/Data/Families.json": [
+        "typescript/assets/Data/Families.json",
+        "javascript/assets/Data/Families.json"
+      ]
     }
   }
 }

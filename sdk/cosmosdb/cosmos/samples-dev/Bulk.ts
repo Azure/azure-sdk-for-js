@@ -10,11 +10,9 @@ import * as dotenv from "dotenv";
 dotenv.config({ path: path.resolve(__dirname, "../sample.env") });
 
 import { handleError, finish, logStep } from "./Shared/handleError";
-import { BulkOperationType } from "../src";
+import { BulkOperationType, CosmosClient } from "@azure/cosmos";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-import { CosmosClient } from "../dist";
-
 const endpoint = process.env.COSMOS_ENDPOINT;
 const masterKey = process.env.COSMOS_KEY;
 

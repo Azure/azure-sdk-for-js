@@ -12,7 +12,7 @@ dotenv.config({ path: path.resolve(__dirname, "../sample.env") });
 import { logSampleHeader, handleError, finish, logStep } from "./Shared/handleError";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-import { CosmosClient } from "../dist";
+import { CosmosClient } from "@azure/cosmos";
 import { v4 } from "uuid";
 const uuid = v4;
 
