@@ -133,10 +133,12 @@ describe("CAE", function() {
     );
 
     // Important:
-    // To make this work, the expiration dates of the tokens have to be manually changed in the recordings,
-    // since these expirations could be too similar between tokens,
-    // and considering the recorder strips out the access tokens from the responses on the recordings.
-    assert.notDeepEqual(firstAccessToken, finalAccessToken);
+    // IN PLAYBACK MODE...
+    // Verifying that the first access token and the final one are different will not work consistently in this test.
+    // The recorder strips out the access tokens from the responses on the recordings.
+    if (!isPlaybackMode()) {
+      assert.notDeepEqual(firstAccessToken, finalAccessToken);
+    }
   });
 
   it("UsernamePasswordCredential", async function(this: Context) {
@@ -156,9 +158,9 @@ describe("CAE", function() {
     );
 
     // Important:
-    // To make this work, the expiration dates of the tokens have to be manually changed in the recordings,
-    // since these expirations could be too similar between tokens,
-    // and considering the recorder strips out the access tokens from the responses on the recordings.
+    // IN PLAYBACK MODE...
+    // Verifying that the first access token and the final one are different will not work consistently in this test.
+    // The recorder strips out the access tokens from the responses on the recordings.
     if (!isPlaybackMode()) {
       assert.notDeepEqual(firstAccessToken, finalAccessToken);
     }
