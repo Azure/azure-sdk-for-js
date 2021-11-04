@@ -1,35 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { matrix } from "@azure/test-utils";
 import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { Context } from "mocha";
 import { ShortCodesClient } from "../../src";
-import { createRecordedClient, createRecordedClientWithToken } from "./utils/recordedClient";
+import { createRecordedClient } from "./utils/recordedClient";
 
-matrix([[false]], async function(useAad) {
-  describe(`ShortCodesClient - deletes US Program Brief${useAad ? " [AAD]" : ""}`, function() {
-    let recorder: Recorder;
-    let client: ShortCodesClient;
+describe(`ShortCodesClient - deletes US Program Brief`, function () {
+  let recorder: Recorder;
+  let client: ShortCodesClient;
 
-    beforeEach(function(this: Context) {
-      ({ client, recorder } = useAad
-        ? createRecordedClientWithToken(this)!
-        : createRecordedClient(this));
-    });
-
-    afterEach(async function(this: Context) {
-      if (!this.currentTest?.isPending()) {
-        await recorder.stop();
-      }
-    });
-
-    it("can delete a specified US Program Brief", async function() {
-      let guid = "2f129c97-701d-4ab8-913b-3c2625216ad9";
-      const delRes = await client.deleteUSProgramBrief(guid);
-      //assert.match(programBrief.id, /\+\d{1}\d{3}\d{3}\d{4}/g);
-      assert.isOk(delRes);
-    }).timeout(60000);
+  beforeEach(function (this: Context) {
+    ({ client, recorder } = createRecordedClient(this));
   });
+
+  afterEach(async function (this: Context) {
+    if (!this.currentTest?.isPending()) {
+      await recorder.stop();
+    }
+  });
+
+  it("can delete a specified US Program Brief", async function () {
+    let guid = "2f129c97-701d-4ab8-913b-3c2625216ad9";
+    const delRes = await client.deleteUSProgramBrief(guid);
+    assert.isOk(delRes);
+  }).timeout(60000);
 });
