@@ -48,7 +48,10 @@ export const environmentSetup: RecorderEnvironmentSetup = {
   customizationsOnRecordings: [
     (recording: string): string => recording.replace(/(https:\/\/)([^/'",}]*)/, "$1endpoint"),
     (recording: string): string =>
-      recording.replace(/[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}/gi, "00000000-0000-0000-0000-000000000000")
+      recording.replace(
+        /[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}/gi,
+        "00000000-0000-0000-0000-000000000000"
+      )
   ],
   queryParametersToSkip: []
 };
@@ -119,13 +122,14 @@ function createTestHttpClient(): HttpClient {
   const customHttpClient = new DefaultHttpClient();
 
   const originalSendRequest = customHttpClient.sendRequest;
-  customHttpClient.sendRequest = async function (
+  customHttpClient.sendRequest = async function(
     httpRequest: WebResourceLike
   ): Promise<HttpOperationResponse> {
     const requestResponse = await originalSendRequest.apply(this, [httpRequest]);
 
     console.log(
-      `MS-CV header for request: ${httpRequest.url} (${requestResponse.status
+      `MS-CV header for request: ${httpRequest.url} (${
+        requestResponse.status
       } - ${requestResponse.headers.get("ms-cv")})`
     );
 
