@@ -8,24 +8,26 @@ import { Context } from "mocha";
 import { ShortCodesClient, ShortCodesUpsertUSProgramBriefOptionalParams } from "../../src";
 import { createRecordedClient, createRecordedClientWithToken } from "./utils/recordedClient";
 
-matrix([[false]], async function (useAad) {
-  describe(`ShortCodesClient - updates US Program Brief using upsert${useAad ? " [AAD]" : ""}`, function () {
+matrix([[false]], async function(useAad) {
+  describe(`ShortCodesClient - updates US Program Brief using upsert${
+    useAad ? " [AAD]" : ""
+  }`, function() {
     let recorder: Recorder;
     let client: ShortCodesClient;
 
-    beforeEach(function (this: Context) {
+    beforeEach(function(this: Context) {
       ({ client, recorder } = useAad
         ? createRecordedClientWithToken(this)!
         : createRecordedClient(this));
     });
 
-    afterEach(async function (this: Context) {
+    afterEach(async function(this: Context) {
       if (!this.currentTest?.isPending()) {
         await recorder.stop();
       }
     });
 
-    it("can upsert a US Program Brief", async function () {
+    it("can upsert a US Program Brief", async function() {
       const programBriefId = "2f129c97-701d-4ab8-913b-3c2625216ad9";
       const updatedDate = new Date();
       const programBriefRequest: ShortCodesUpsertUSProgramBriefOptionalParams = {
@@ -93,7 +95,6 @@ matrix([[false]], async function (useAad) {
           }
         }
       };
-
 
       const submitRes = await client.upsertUSProgramBrief(programBriefId, programBriefRequest);
       assert.isOk(submitRes);

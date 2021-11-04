@@ -6,22 +6,22 @@ import { OperationOptions } from "@azure/core-http";
 /**
  * The result of the phone numbers purchase operation.
  */
-export interface PurchasePhoneNumbersResult {}
+export interface PurchasePhoneNumbersResult { }
 
 /**
  * The result of the phone number release operation.
  */
-export interface ReleasePhoneNumberResult {}
+export interface ReleasePhoneNumberResult { }
 
 /**
  * Additional options for the get phone number request.
  */
-export type GetPurchasedPhoneNumberOptions = OperationOptions;
+export interface GetPurchasedPhoneNumberOptions extends OperationOptions { };
 
 /**
  * Additional options that can be passed to the list phone numbers request.
  */
-export interface ListPurchasedPhoneNumbersOptions extends OperationOptions {}
+export interface ListPurchasedPhoneNumbersOptions extends OperationOptions { }
 
 export {
   ShortCode,

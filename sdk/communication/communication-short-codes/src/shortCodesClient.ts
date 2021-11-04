@@ -25,11 +25,12 @@ import {
   ShortCodesUpsertUSProgramBriefOptionalParams,
   USProgramBrief
 } from "./generated/src/models/";
+import { SpanStatusCode } from "@azure/core-tracing";
 
 /**
  * Client options used to configure the ShortCodesClient API requests.
  */
-export interface ShortCodesClientOptions extends PipelineOptions {}
+export interface ShortCodesClientOptions extends PipelineOptions { }
 
 const isShortCodesClientOptions = (options: any): options is ShortCodesClientOptions =>
   options && !isKeyCredential(options) && !isTokenCredential(options);
@@ -85,9 +86,17 @@ export class ShortCodesClient {
     options: ShortCodesGetShortCodesOptionalParams = {}
   ): PagedAsyncIterableIterator<ShortCode> {
     const { span, updatedOptions } = createSpan("ShortCodesClient-listShortCodes", options);
-    const iter = this.client.listShortCodes(updatedOptions);
-    span.end();
-    return iter;
+    try {
+      return this.client.listShortCodes(updatedOptions);
+    } catch (e) {
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   public async upsertUSProgramBrief(
@@ -95,9 +104,17 @@ export class ShortCodesClient {
     options: ShortCodesUpsertUSProgramBriefOptionalParams = {}
   ): Promise<RestResponse> {
     const { span, updatedOptions } = createSpan("ShortCodesClient-upsertUSProgramBrief", options);
-    const promise = await this.client.upsertUSProgramBrief(programBriefId, updatedOptions);
-    span.end();
-    return promise;
+    try {
+      return await this.client.upsertUSProgramBrief(programBriefId, updatedOptions);
+    } catch (e) {
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   public async deleteUSProgramBrief(
@@ -105,9 +122,17 @@ export class ShortCodesClient {
     options?: OperationOptions
   ): Promise<RestResponse> {
     const { span, updatedOptions } = createSpan("ShortCodesClient-deleteUSProgramBrief", options);
-    const promise = await this.client.deleteUSProgramBrief(programBriefId, updatedOptions);
-    span.end();
-    return promise;
+    try {
+      return await this.client.deleteUSProgramBrief(programBriefId, updatedOptions);
+    } catch (e) {
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   public async getUSProgramBrief(
@@ -115,16 +140,32 @@ export class ShortCodesClient {
     options?: OperationOptions
   ): Promise<USProgramBrief> {
     const { span, updatedOptions } = createSpan("ShortCodesClient-getUSProgramBrief", options);
-    const promise = await this.client.getUSProgramBrief(programBriefId, updatedOptions);
-    span.end();
-    return promise;
+    try {
+      return await this.client.getUSProgramBrief(programBriefId, updatedOptions);
+    } catch (e) {
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   public listUSProgramBriefs(): PagedAsyncIterableIterator<USProgramBrief> {
     const { span, updatedOptions } = createSpan("ShortCodesClient-listUSProgramBriefs", undefined);
-    const iter = this.client.listUSProgramBriefs(updatedOptions);
-    span.end();
-    return iter;
+    try {
+      return this.client.listUSProgramBriefs(updatedOptions);
+    } catch (e) {
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   public async submitUSProgramBrief(
@@ -132,8 +173,16 @@ export class ShortCodesClient {
     options?: OperationOptions
   ): Promise<RestResponse> {
     const { span, updatedOptions } = createSpan("ShortCodesClient-submitUSProgramBrief", options);
-    const promise = await this.client.submitUSProgramBrief(programBriefId, updatedOptions);
-    span.end();
-    return promise;
+    try {
+      return await this.client.submitUSProgramBrief(programBriefId, updatedOptions);
+    } catch (e) {
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 }
