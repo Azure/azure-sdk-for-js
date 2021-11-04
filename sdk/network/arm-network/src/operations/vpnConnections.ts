@@ -6,7 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { VpnConnections } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
@@ -648,7 +647,7 @@ const startPacketCaptureOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters68,
+  requestBody: Parameters.parameters72,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -682,7 +681,7 @@ const stopPacketCaptureOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters69,
+  requestBody: Parameters.parameters73,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

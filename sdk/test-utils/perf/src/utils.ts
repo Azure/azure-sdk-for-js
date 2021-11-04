@@ -85,3 +85,16 @@ export async function makeRequest(
 export function isDefined<T>(thing: T | undefined | null): thing is T {
   return typeof thing !== "undefined" && thing !== null;
 }
+
+/**
+ * Formats a duration/time span (e.g. elapsed time) into mm:ss format.
+ *
+ * @param durationMilliseconds Duration in milliseconds
+ */
+export function formatDuration(durationMilliseconds: number): string {
+  const totalSeconds = Math.floor(durationMilliseconds / 1000);
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = Math.floor(totalSeconds % 60);
+
+  return `${minutes < 10 ? "0" : ""}${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+}
