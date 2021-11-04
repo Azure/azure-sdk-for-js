@@ -12,6 +12,10 @@
 - Renamed `SkillNames` property to `ResetSkillsOptions` (with a `SkillNames` property)
 - Renamed `ResetDocs` method to `ResetDocuments` in the SDK client.
 
+### Bugs Fixed
+
+- Fixed the issue with the presence of recursive structure while uploading documents. Please refer [#15656](https://github.com/Azure/azure-sdk-for-js/issues/15656) for further details.
+
 ### Features Added
 
 - Added properties `currentState` & `statusDetail` to the `IndexerExecutionResult` object.
