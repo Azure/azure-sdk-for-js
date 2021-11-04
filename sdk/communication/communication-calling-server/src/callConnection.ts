@@ -7,7 +7,7 @@ import {
   PlayAudioRequest,
   PlayAudioResult,
   AddParticipantRequest,
-  CallConnectionsAddParticipantResponse,
+  AddParticipantResult,
   RemoveParticipantRequest,
   PlayAudioToParticipantRequest,
   CancelParticipantMediaOperationRequest,
@@ -73,7 +73,7 @@ export interface CallConnection {
   addParticipant(
     participant: CommunicationIdentifier,
     options?: AddParticipantOptions
-  ): Promise<CallConnectionsAddParticipantResponse>;
+  ): Promise<AddParticipantResult>;
 
   /**
    * Remove participant from the call.
@@ -215,7 +215,7 @@ export class CallConnectionImpl implements CallConnection {
       callbackUri: restOptions.callbackUri
     };
     try {
-      const { ...result } = await this.callConnectionRestClient.playAudio(
+      const { _response, ...result } = await this.callConnectionRestClient.playAudio(
         this.callConnectionId,
         request,
         operationOptionsToRequestOptionsBase(updatedOptions)
@@ -241,7 +241,7 @@ export class CallConnectionImpl implements CallConnection {
   public async addParticipant(
     participant: CommunicationIdentifier,
     options: AddParticipantOptions = {}
-  ): Promise<CallConnectionsAddParticipantResponse> {
+  ): Promise<AddParticipantResult> {
     const { operationOptions, restOptions } = extractOperationOptions(options);
     const { span, updatedOptions } = createSpan(
       "CallConnectionRestClient-playAudio",
@@ -260,7 +260,7 @@ export class CallConnectionImpl implements CallConnection {
     };
 
     try {
-      const { ...result } = await this.callConnectionRestClient.addParticipant(
+      const { _response, ...result } = await this.callConnectionRestClient.addParticipant(
         this.callConnectionId,
         request,
         operationOptionsToRequestOptionsBase(updatedOptions)
@@ -341,7 +341,7 @@ export class CallConnectionImpl implements CallConnection {
     };
 
     try {
-      const { ...result } = await this.callConnectionRestClient.participantPlayAudio(
+      const { _response, ...result } = await this.callConnectionRestClient.participantPlayAudio(
         this.callConnectionId,
         request,
         operationOptionsToRequestOptionsBase(updatedOptions)

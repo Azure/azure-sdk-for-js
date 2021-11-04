@@ -28,7 +28,7 @@ import {
   PlayAudioWithCallLocatorRequest,
   PlayAudioResult,
   PlayAudioToParticipantWithCallLocatorRequest,
-  ServerCallsAddParticipantResponse,
+  AddParticipantResult,
   AddParticipantWithCallLocatorRequest,
   RemoveParticipantWithCallLocatorRequest,
   CancelMediaOperationWithCallLocatorRequest,
@@ -193,7 +193,7 @@ export class CallingServerClient {
     };
 
     try {
-      const { ...result } = await this.callConnectionRestClient.createCall(
+      const { _response, ...result } = await this.callConnectionRestClient.createCall(
         request,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
@@ -238,7 +238,7 @@ export class CallingServerClient {
     };
 
     try {
-      const { ...result } = await this.serverCallRestClient.joinCall(
+      const { _response, ...result } = await this.serverCallRestClient.joinCall(
         request,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
@@ -276,7 +276,7 @@ export class CallingServerClient {
 
     const request: PlayAudioWithCallLocatorRequest = {
       callLocator: callLocator,
-      audioUrl: audioUrl,
+      audioFileUri: audioUrl,
       loop: restOptions.loop,
       operationContext: restOptions.operationContext,
       audioFileId: restOptions.audioFileId,
@@ -284,7 +284,7 @@ export class CallingServerClient {
     };
 
     try {
-      const { ...result } = await this.serverCallRestClient.playAudio(
+      const { _response, ...result } = await this.serverCallRestClient.playAudio(
         request,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
@@ -328,7 +328,7 @@ export class CallingServerClient {
     };
 
     try {
-      const { ...result } = await this.serverCallRestClient.participantPlayAudio(
+      const { _response, ...result } = await this.serverCallRestClient.participantPlayAudio(
         request,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
@@ -357,7 +357,7 @@ export class CallingServerClient {
     participant: CommunicationIdentifier,
     callbackUri: string,
     options: AddParticipantOptions = {}
-  ): Promise<ServerCallsAddParticipantResponse> {
+  ): Promise<AddParticipantResult> {
     const { operationOptions, restOptions } = extractOperationOptions(options);
     const { span, updatedOptions } = createSpan("ServerCallRestClient-playAudio", operationOptions);
     const alternate_caller_id =
@@ -375,7 +375,7 @@ export class CallingServerClient {
     };
 
     try {
-      const { ...result } = await this.serverCallRestClient.addParticipant(
+      const { _response, ...result } = await this.serverCallRestClient.addParticipant(
         request,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
@@ -538,7 +538,7 @@ export class CallingServerClient {
     };
 
     try {
-      const result = await this.serverCallRestClient.startRecording(
+      const { _response, ...result } = await this.serverCallRestClient.startRecording(
         startCallRecordingWithCallLocatorRequest,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
@@ -563,7 +563,7 @@ export class CallingServerClient {
   public async pauseRecording(
     recordingId: string,
     options: PauseRecordingOptions = {}
-  ): Promise<RestResponse> {
+  ): Promise<void> {
     const { span, updatedOptions } = createSpan("ServerCallRestClient-PauseRecording", options);
 
     if (typeof recordingId === "undefined" || !recordingId || !recordingId.trim()) {
@@ -571,11 +571,10 @@ export class CallingServerClient {
     }
 
     try {
-      const result = await this.serverCallRestClient.pauseRecording(
+      await this.serverCallRestClient.pauseRecording(
         recordingId,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
-      return result;
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -596,7 +595,7 @@ export class CallingServerClient {
   public async resumeRecording(
     recordingId: string,
     options: ResumeRecordingOptions = {}
-  ): Promise<RestResponse> {
+  ): Promise<void> {
     const { span, updatedOptions } = createSpan("ServerCallRestClient-ResumeRecording", options);
 
     if (typeof recordingId === "undefined" || !recordingId || !recordingId.trim()) {
@@ -604,11 +603,10 @@ export class CallingServerClient {
     }
 
     try {
-      const result = await this.serverCallRestClient.resumeRecording(
+      await this.serverCallRestClient.resumeRecording(
         recordingId,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
-      return result;
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -629,18 +627,17 @@ export class CallingServerClient {
   public async stopRecording(
     recordingId: string,
     options: StopRecordingOptions = {}
-  ): Promise<RestResponse> {
+  ): Promise<void> {
     const { span, updatedOptions } = createSpan("ServerCallRestClient-StopRecording", options);
     if (typeof recordingId === "undefined" || !recordingId || !recordingId.trim()) {
       throw new Error("recordingId is invalid.");
     }
 
     try {
-      const result = await this.serverCallRestClient.stopRecording(
+      await this.serverCallRestClient.stopRecording(
         recordingId,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
-      return result;
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -669,7 +666,7 @@ export class CallingServerClient {
     }
 
     try {
-      const result = await this.serverCallRestClient.getRecordingProperties(
+      const { _response, ...result } = await this.serverCallRestClient.getRecordingProperties(
         recordingId,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
