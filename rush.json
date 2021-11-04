@@ -402,6 +402,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/communication-calling-server",
+      "projectFolder": "sdk/communication/communication-calling-server",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/communication-chat",
       "projectFolder": "sdk/communication/communication-chat",
       "versionPolicyName": "client"
