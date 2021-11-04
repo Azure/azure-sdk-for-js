@@ -2,7 +2,7 @@
 
 ## 1.0.2 (Unreleased)
 
-- Fixed double replacements in case the source value and the replacement happened to remain the same after encoding.
+- Fixed double replacements in case the source value and the replacement happened to remain the same after encoding. [#17553](https://github.com/Azure/azure-sdk-for-js/pull/17553)
 
 - Update nock to version 13
 
