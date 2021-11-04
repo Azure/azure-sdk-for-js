@@ -44,8 +44,6 @@ describe("Call Connection Live Test", function() {
       // this.callingServer = createCallingServerClient();
       // this.callingServer = createSmsClient();
       const to_phone_number = env.AZURE_PHONE_NUMBER;
-      console.log("=========================");
-      console.log(to_phone_number);
       const callingServer = new CallingServerClient(connectionString);
       const identityClient = new CommunicationIdentityClient(connectionString);
       const from_user = await identityClient.createUser();
