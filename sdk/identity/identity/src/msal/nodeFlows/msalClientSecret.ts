@@ -4,7 +4,7 @@
 import { AccessToken } from "@azure/core-auth";
 
 import { CredentialFlowGetTokenOptions } from "../credentials";
-import { MsalNodeOptions, MsalNode } from "./nodeCommon";
+import { MsalNodeOptions, MsalNode } from "./msalNodeCommon";
 
 /**
  * Options that can be passed to configure MSAL to handle client secrets.

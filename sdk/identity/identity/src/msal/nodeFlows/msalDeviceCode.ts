@@ -2,12 +2,11 @@
 // Licensed under the MIT license.
 
 import * as msalNode from "@azure/msal-node";
-
 import { AccessToken } from "@azure/core-auth";
 
 import { DeviceCodePromptCallback } from "../../credentials/deviceCodeCredentialOptions";
 import { CredentialFlowGetTokenOptions } from "../credentials";
-import { MsalNodeOptions, MsalNode } from "./nodeCommon";
+import { MsalNodeOptions, MsalNode } from "./msalNodeCommon";
 
 /**
  * Options that can be passed to configure MSAL to handle authentication through device codes.

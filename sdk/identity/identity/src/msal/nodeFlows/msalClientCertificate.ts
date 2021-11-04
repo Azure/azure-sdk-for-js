@@ -6,7 +6,7 @@ import { createHash } from "crypto";
 import { promisify } from "util";
 import { AccessToken } from "@azure/core-auth";
 
-import { MsalNodeOptions, MsalNode } from "./nodeCommon";
+import { MsalNodeOptions, MsalNode } from "./msalNodeCommon";
 import { formatError } from "../../util/logging";
 import { CredentialFlowGetTokenOptions } from "../credentials";
 import { ClientCertificateCredentialPEMConfiguration } from "../../credentials/clientCertificateCredential";

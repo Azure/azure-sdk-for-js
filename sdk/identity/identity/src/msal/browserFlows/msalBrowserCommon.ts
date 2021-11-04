@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import * as msalBrowser from "@azure/msal-browser";
-
 import { AccessToken } from "@azure/core-auth";
 
 import { DefaultTenantId } from "../../constants";

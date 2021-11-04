@@ -3,7 +3,6 @@
 
 import * as msalNode from "@azure/msal-node";
 import * as msalCommon from "@azure/msal-common";
-
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
 import { AbortSignalLike } from "@azure/abort-controller";
 
