@@ -1,0 +1,23 @@
+{
+ "recordings": [
+  {
+   "method": "GET",
+   "url": "https://endpoint/v1/objects/0-wus-d4-ca4017a32f8514aa9f054f0917270000",
+   "query": {},
+   "requestBody": null,
+   "status": 404,
+   "response": "",
+   "responseHeaders": {
+    "content-length": "0",
+    "date": "Tue, 02 Nov 2021 17:47:04 GMT",
+    "server": "Microsoft-HTTPAPI/2.0",
+    "strict-transport-security": "max-age=31536000; includeSubDomains"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "a29d365489ae98459d067c46c720becc"
+}

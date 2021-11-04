@@ -1,0 +1,14 @@
+{
+  "include": ["dist-esm/src/**/*.js"],
+  "exclude": [
+    "**/*.d.ts",
+    "dist-esm/src/generated/*",
+    "dist-esm/src/RepeatableContentDownloadResponse.browser.js"
+  ],
+  "reporter": ["text-summary", "html", "cobertura"],
+  "exclude-after-remap": false,
+  "sourceMap": true,
+  "produce-source-map": true,
+  "instrument": true,
+  "all": true
+}

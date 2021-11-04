@@ -1,0 +1,23 @@
+{
+ "recordings": [
+  {
+   "method": "DELETE",
+   "url": "https://endpoint/v1/objects/0-wus-d6-fdf8ff0fdcd668bca8c52c0b1ee79b05",
+   "query": {},
+   "requestBody": null,
+   "status": 401,
+   "response": "",
+   "responseHeaders": {
+    "content-length": "0",
+    "date": "Tue, 02 Nov 2021 17:47:04 GMT",
+    "server": "Microsoft-HTTPAPI/2.0",
+    "strict-transport-security": "max-age=31536000; includeSubDomains"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "1b018902befb4c128b53cbe8d7af4a82"
+}
