@@ -1,6 +1,6 @@
 # Release History
 
-## 2.2.2 (Unreleased)
+## 2.2.3 (Unreleased)
 
 ### Features Added
 
@@ -8,9 +8,14 @@
 
 ### Bugs Fixed
 
-- Fix the issue of `HttpHeaders.clone()` not preserving raw header names' casing [PR #18348](https://github.com/Azure/azure-sdk-for-js/pull/18348)
-
 ### Other Changes
+
+## 2.2.2 (2021-11-03)
+
+### Bugs Fixed
+
+- Fix the issue of `HttpHeaders.clone()` not preserving raw header names' casing [PR #18348](https://github.com/Azure/azure-sdk-for-js/pull/18348)
+- Fix the issue of network connection not being closed when download stream is closed [PR #14015](https://github.com/Azure/azure-sdk-for-js/pull/14015)
 
 ## 2.2.1 (2021-09-30)
 

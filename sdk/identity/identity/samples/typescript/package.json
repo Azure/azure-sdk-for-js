@@ -29,7 +29,7 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js#readme",
   "sideEffects": false,
   "dependencies": {
-    "@azure/identity": "2.0.0-beta.5",
+    "@azure/identity": "^2.0.1",
     "@azure/keyvault-keys": "4.1.0",
     "@azure/keyvault-secrets": "4.2.0",
     "@azure/keyvault-certificates": "4.2.0",

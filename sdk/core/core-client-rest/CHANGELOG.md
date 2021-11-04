@@ -1,4 +1,15 @@
 # Release History
+## 1.0.0-beta.8 (Unreleased)
+
+### Features Added
+
+- Add options skipUrlEncoding to support skip path parameter encoding.
+
+## 1.0.0-beta.8 (UNRELEASED)
+
+- Adding more robust handling of request and response body. [#18478](https://github.com/Azure/azure-sdk-for-js/pull/18478)
+
+### Other Changes
 
 ## 1.0.0-beta.7 (2021-09-02)
 

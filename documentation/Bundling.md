@@ -443,7 +443,7 @@ Now let's create a very basic [tsconfig.json](https://www.typescriptlang.org/doc
 }
 ```
 
-For more information on using Parcel with TypeScript, check out the TypeScript guide in Parcel's documentation: https://parceljs.org/typeScript.html
+For more information on using Parcel with TypeScript, check out the [TypeScript guide in Parcel's documentation](https://parceljs.org/languages/typescript/)
 
 Similar to our JS example above, let's create an `index.ts` file that imports from `@azure/storage-blob`:
 

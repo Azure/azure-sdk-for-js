@@ -107,6 +107,13 @@ export interface WebPubSubGroup {
   removeConnection(connectionId: string, options?: GroupRemoveConnectionOptions): Promise<void>;
 
   /**
+   * Close all connections to the group
+   *
+   * @param options - Additional options
+   */
+  closeAllConnections(options?: GroupCloseAllConnectionsOptions): Promise<void>;
+
+  /**
    * Add a user to this group
    *
    * @param username - The user name to add
@@ -254,7 +261,7 @@ export class WebPubSubGroupImpl implements WebPubSubGroup {
    */
   public async closeAllConnections(options: GroupCloseAllConnectionsOptions = {}): Promise<void> {
     const { span, updatedOptions } = createSpan(
-      "WebPubSubServiceClient-hub-closeAllConnections",
+      "WebPubSubServiceClient-group-closeAllConnections",
       options
     );
 
