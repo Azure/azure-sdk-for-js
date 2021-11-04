@@ -3,15 +3,12 @@
 
 import { USProgramBrief } from "../../../src";
 
-export function getTestUSProgramBrief(
-  id: string = "2f129c97-701d-4ab8-913b-3c2625216ad9"
-): USProgramBrief {
+export function getTestUSProgramBrief(): USProgramBrief {
   const testUSProgramBrief: USProgramBrief = {
-    id: id,
+    id: "00000000-0000-0000-0000-000000000000",
     programDetails: {
       description:
         "TEST Customers can sign up to receive regular updates on coupons and other perks of our loyalty program.",
-      expectedDateOfService: new Date(2022, 1, 25),
       isPoliticalCampaign: false,
       isVanity: false,
       name: "Contoso Loyalty Program",
@@ -19,7 +16,8 @@ export function getTestUSProgramBrief(
       privacyPolicyUrl: "https://contoso.com/privacy",
       signUpTypes: ["sms", "website"],
       termsOfServiceUrl: "https://contoso.com/terms",
-      url: "https://contoso.com/loyalty-program"
+      url: "https://endpoint/loyalty-program",
+      signUpUrl: "https://contoso.com/sign-up"
     },
     companyInformation: {
       address: "1 Contoso Way Redmond, WA 98052",
@@ -58,7 +56,8 @@ export function getTestUSProgramBrief(
       confirmationMessage:
         "Congrats, you have been successfully subscribed to loyalty program updates.  Welcome!",
       directionality: "twoWay",
-      helpMessage: "Help Message"
+      helpMessage: "Help Message",
+      optOutMessage: "OUT"
     },
     trafficDetails: {
       totalMonthlyVolume: 10000,

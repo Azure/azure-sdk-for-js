@@ -21,7 +21,7 @@ export const createMockHttpClient = <T = Record<string, unknown>>(
   };
 };
 
-const uspb = getTestUSProgramBrief("9fb78ef0-5704-4866-bca2-6a040ec83c0b");
+const uspb = getTestUSProgramBrief();
 
 export const getUSProgramBriefHttpClient: HttpClient = createMockHttpClient<USProgramBrief>(
   200,

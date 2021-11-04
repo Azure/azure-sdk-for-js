@@ -8,29 +8,35 @@ import { ShortCodesClient, ShortCodesUpsertUSProgramBriefOptionalParams } from "
 import { createRecordedClient } from "./utils/recordedClient";
 import { getTestUSProgramBrief } from "./utils/testUSProgramBrief";
 
-describe(`ShortCodesClient - creates US Program Brief using upsert`, function() {
+describe(`ShortCodesClient - updates US Program Brief using upsert`, function () {
   let recorder: Recorder;
   let client: ShortCodesClient;
 
-  beforeEach(function(this: Context) {
+  beforeEach(function (this: Context) {
     ({ client, recorder } = createRecordedClient(this));
   });
 
-  afterEach(async function(this: Context) {
+  afterEach(async function (this: Context) {
     if (!this.currentTest?.isPending()) {
       await recorder.stop();
     }
   });
 
-  it("can upsert a US Program Brief", async function() {
-    const programBriefId = "2f129c97-701d-4ab8-913b-3c2625216ad9";
-    const uspb = getTestUSProgramBrief(programBriefId);
+  it("can create and update a US Program Brief", async function () {
+    const uspb = getTestUSProgramBrief();
     const programBriefRequest: ShortCodesUpsertUSProgramBriefOptionalParams = {
       body: uspb
     };
-
-    const submitRes = await client.upsertUSProgramBrief(programBriefId, programBriefRequest);
-    console.log(submitRes._response.parsedBody["id"]);
+    const submitRes = await client.upsertUSProgramBrief(uspb.id, programBriefRequest);
     assert.isOk(submitRes);
-  }).timeout(60000);
+
+    uspb.programDetails!.description = "TEST UPDATE";
+    programBriefRequest.body = uspb;
+
+
+    const updateRes = await client.upsertUSProgramBrief(uspb.id, programBriefRequest);
+
+    assert.isOk(updateRes);
+    assert.equal(updateRes._response.parsedBody.programDetails.description, uspb.programDetails?.description);
+  }).timeout(15000);
 });
