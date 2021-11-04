@@ -15,6 +15,10 @@
 
 ### Other Changes
 
+## 1.0.0-beta.6 (2021-10-05)
+
+### Other Changes
+
 - Upgrade to [package-artifacts-composite-v1](https://github.com/Azure/azure-rest-api-specs/blob/bee724836ffdeb5458274037dc75f4d43576b5e3/specification/synapse/data-plane/readme.md#tag-package-artifacts-composite-v1)
 
 - Added `SparkConfiguration`, `KqlScripts` and associated support types.

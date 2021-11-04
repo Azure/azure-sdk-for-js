@@ -72,6 +72,24 @@ export function createRequest(request: "remoteDeviceAdapterGet", payload: string
 export function createRequest(request: "remoteDeviceAdapterDelete", payload: string): Request<NameObject>;
 
 // @public
+export function createRequest(request: "onvifDeviceDiscover"): Request;
+
+// @public
+export function createRequest(request: "onvifDeviceGet", payload: UnsecuredEndpoint): Request<UnsecuredEndpoint>;
+
+// @public
+export function createRequest(request: "remoteDeviceAdapterSet", payload: RemoteDeviceAdapter): Request<RemoteDeviceAdapter>;
+
+// @public
+export function createRequest(request: "remoteDeviceAdapterList"): Request;
+
+// @public
+export function createRequest(request: "remoteDeviceAdapterGet", payload: string): Request<NameObject>;
+
+// @public
+export function createRequest(request: "remoteDeviceAdapterDelete", payload: string): Request<NameObject>;
+
+// @public
 export interface CredentialsBase {
     "@type": "#Microsoft.VideoAnalyzer.UsernamePasswordCredentials" | "#Microsoft.VideoAnalyzer.HttpHeaderCredentials" | "#Microsoft.VideoAnalyzer.SymmetricKeyCredentials";
 }

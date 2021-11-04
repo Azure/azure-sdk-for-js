@@ -182,19 +182,3 @@ function getBooleanOptionDetails<TOptions>(options: PerfOptionDictionary<TOption
   }
   return booleanProps;
 }
-
-function getBooleanOptionDetails<TOptions>(options: PerfStressOptionDictionary<TOptions>) {
-  let booleanProps: { boolean: string[]; default: { [key: string]: boolean } } = {
-    boolean: [],
-    default: {}
-  };
-
-  for (const key in options) {
-    const defaultValue = options[key].defaultValue;
-    if (typeof defaultValue === "boolean") {
-      booleanProps.boolean.push(key);
-      booleanProps.default[key] = defaultValue;
-    }
-  }
-  return booleanProps;
-}
