@@ -250,7 +250,7 @@ testWithServiceTypes((serviceVersion) => {
           const dataTypes = [1, 1.5, "hello", { hello: "world" }, buff, [1, 2, 3]];
 
           for (const dataType of dataTypes) {
-            console.log("4444444444444", dataTypes);
+            console.log("4444444444444", dataType);
             const startingPositions = await getStartingPositionsForTests(consumerClient);
             await sendEvents(
               [
@@ -269,7 +269,7 @@ testWithServiceTypes((serviceVersion) => {
               "data",
               `Should be identified as data: ${dataType.toString()}`
             );
-            console.log("55555555555555", dataTypes);
+            console.log("55555555555555", dataType);
             console.log("6666666666666", event.body);
             assert.deepEqual(
               event.body,
