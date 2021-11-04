@@ -6,6 +6,7 @@ import { CommonClientOptions, InternalClientPipelineOptions } from "@azure/core-
 import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { SDK_VERSION } from "./constants";
+import { SearchIndexerStatus } from "./generated/service/models";
 import { SearchServiceClient as GeneratedClient } from "./generated/service/searchServiceClient";
 import { logger } from "./logger";
 import { createSearchApiKeyCredentialPolicy } from "./searchApiKeyCredentialPolicy";
@@ -32,8 +33,7 @@ import {
   GetDataSourceConnectionOptions,
   CreateorUpdateDataSourceConnectionOptions,
   ResetDocumentsOptions,
-  ResetSkillsOptions,
-  SearchIndexerStatus
+  ResetSkillsOptions
 } from "./serviceModels";
 import * as utils from "./serviceUtils";
 import { createSpan } from "./tracing";
@@ -676,7 +676,7 @@ export class SearchIndexerClient {
     const { span, updatedOptions } = createSpan("SearchIndexerClient-getIndexerStatus", options);
     try {
       const result = await this.client.indexers.getStatus(indexerName, updatedOptions);
-      return utils.generatedIndexerStatusToPublicIndexerStatus(result);
+      return result;
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,

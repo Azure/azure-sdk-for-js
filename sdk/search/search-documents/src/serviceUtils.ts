@@ -52,8 +52,7 @@ import {
   CustomAnalyzer,
   PatternTokenizer,
   LexicalNormalizerName,
-  SearchIndexerDataIdentityUnion,
-  SearchIndexerStatus as GeneratedSearchIndexerStatus
+  SearchIndexerDataIdentityUnion
 } from "./generated/service/models";
 import {
   LexicalAnalyzer,
@@ -77,9 +76,7 @@ import {
   SearchResourceEncryptionKey,
   PatternAnalyzer,
   LexicalNormalizer,
-  SearchIndexerDataIdentity,
-  SearchIndexerStatus,
-  IndexerExecutionResult
+  SearchIndexerDataIdentity
 } from "./serviceModels";
 import { SuggestDocumentsResult, SuggestResult, SearchResult } from "./indexModels";
 import {
@@ -522,57 +519,6 @@ export function publicIndexToGeneratedIndex(index: SearchIndex): GeneratedSearch
     tokenizers: convertTokenizersToGenerated(index.tokenizers),
     fields: convertFieldsToGenerated(index.fields),
     similarity: convertSimilarityToGenerated(index.similarity)
-  };
-}
-export function generatedIndexerStatusToPublicIndexerStatus(
-  generatedSearchIndexerStatus: GeneratedSearchIndexerStatus
-): SearchIndexerStatus {
-  let lastResult;
-  if (generatedSearchIndexerStatus.lastResult) {
-    lastResult = {
-      ...generatedSearchIndexerStatus.lastResult,
-      currentState: generatedSearchIndexerStatus.lastResult.currentState
-        ? {
-            ...generatedSearchIndexerStatus.lastResult.currentState,
-            allDocumentsInitialChangeTrackingState:
-              generatedSearchIndexerStatus.lastResult.currentState
-                .allDocsInitialChangeTrackingState,
-            allDocumentsFinalChangeTrackingState:
-              generatedSearchIndexerStatus.lastResult.currentState.allDocsFinalChangeTrackingState,
-            resetDocumentsInitialChangeTrackingState:
-              generatedSearchIndexerStatus.lastResult.currentState
-                .resetDocsInitialChangeTrackingState,
-            resetDocumentsFinalChangeTrackingState:
-              generatedSearchIndexerStatus.lastResult.currentState.resetDocsFinalChangeTrackingState
-          }
-        : undefined
-    };
-  }
-
-  const executionHistory: IndexerExecutionResult[] = [];
-  for (const executionHistoryItem of generatedSearchIndexerStatus.executionHistory) {
-    const item: IndexerExecutionResult = {
-      ...executionHistoryItem,
-      currentState: executionHistoryItem.currentState
-        ? {
-            ...executionHistoryItem.currentState,
-            allDocumentsInitialChangeTrackingState:
-              executionHistoryItem.currentState.allDocsInitialChangeTrackingState,
-            allDocumentsFinalChangeTrackingState:
-              executionHistoryItem.currentState.allDocsFinalChangeTrackingState,
-            resetDocumentsInitialChangeTrackingState:
-              executionHistoryItem.currentState.resetDocsInitialChangeTrackingState,
-            resetDocumentsFinalChangeTrackingState:
-              executionHistoryItem.currentState.resetDocsFinalChangeTrackingState
-          }
-        : undefined
-    };
-    executionHistory.push(item);
-  }
-  return {
-    ...generatedSearchIndexerStatus,
-    lastResult,
-    executionHistory
   };
 }
 
