@@ -83,7 +83,14 @@ import {
   LexicalNormalizerName,
   CustomNormalizer,
   SearchIndexerKnowledgeStore,
-  SearchIndexerCache
+  SearchIndexerCache,
+  IndexingMode,
+  IndexerExecutionStatus,
+  IndexerExecutionStatusDetail,
+  SearchIndexerError,
+  SearchIndexerWarning,
+  IndexerStatus,
+  SearchIndexerLimits
 } from "./generated/service/models";
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
@@ -240,7 +247,7 @@ export interface CreateOrUpdateIndexOptions extends OperationOptions {
 /**
  * Options for reset docs operation.
  */
-export interface ResetDocsOptions extends OperationOptions {
+export interface ResetDocumentsOptions extends OperationOptions {
   /** document keys to be reset */
   documentKeys?: string[];
   /** datasource document identifiers to be reset */
@@ -249,10 +256,144 @@ export interface ResetDocsOptions extends OperationOptions {
   overwrite?: boolean;
 }
 
+/** Represents the current status and execution history of an indexer. */
+export interface SearchIndexerStatus {
+  /**
+   * Overall indexer status.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status: IndexerStatus;
+  /**
+   * The result of the most recent or an in-progress indexer execution.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastResult?: IndexerExecutionResult;
+  /**
+   * History of the recent indexer executions, sorted in reverse chronological order.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly executionHistory: IndexerExecutionResult[];
+  /**
+   * The execution limits for the indexer.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly limits: SearchIndexerLimits;
+}
+
+/**
+ * Represents the result of an individual indexer execution.
+ */
+export interface IndexerExecutionResult {
+  /**
+   * The outcome of this indexer execution.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status: IndexerExecutionStatus;
+  /**
+   * The outcome of this indexer execution.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly statusDetail?: IndexerExecutionStatusDetail;
+  /**
+   * All of the state that defines and dictates the indexer's current execution.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly currentState?: IndexerState;
+  /**
+   * The error message indicating the top-level error, if any.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly errorMessage?: string;
+  /**
+   * The start time of this indexer execution.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly startTime?: Date;
+  /**
+   * The end time of this indexer execution, if the execution has already completed.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly endTime?: Date;
+  /**
+   * The item-level indexing errors.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly errors: SearchIndexerError[];
+  /**
+   * The item-level indexing warnings.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly warnings: SearchIndexerWarning[];
+  /**
+   * The number of items that were processed during this indexer execution. This includes both successfully processed items and items where indexing was attempted but failed.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly itemCount: number;
+  /**
+   * The number of items that failed to be indexed during this indexer execution.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly failedItemCount: number;
+  /**
+   * Change tracking state with which an indexer execution started.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly initialTrackingState?: string;
+  /**
+   * Change tracking state with which an indexer execution finished.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly finalTrackingState?: string;
+}
+
+/**
+ * Represents all of the state that defines and dictates the indexer's current execution.
+ */
+export interface IndexerState {
+  /**
+   * The mode the indexer is running in.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly mode?: IndexingMode;
+  /**
+   * Change tracking state used when indexing starts on all documents in the datasource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly allDocumentsInitialChangeTrackingState?: string;
+  /**
+   * Change tracking state value when indexing finishes on all documents in the datasource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly allDocumentsFinalChangeTrackingState?: string;
+  /**
+   * Change tracking state used when indexing starts on select, reset documents in the datasource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resetDocumentsInitialChangeTrackingState?: string;
+  /**
+   * Change tracking state value when indexing finishes on select, reset documents in the datasource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resetDocumentsFinalChangeTrackingState?: string;
+  /**
+   * The list of document keys that have been reset. The document key is the document's unique identifier for the data in the search index. The indexer will prioritize selectively re-ingesting these keys.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resetDocumentKeys?: string[];
+  /**
+   * The list of datasource document ids that have been reset. The datasource document id is the unique identifier for the data in the datasource. The indexer will prioritize selectively re-ingesting these ids.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resetDatasourceDocumentIds?: string[];
+}
+
 /**
  * Options for reset skills operation.
  */
-export type ResetSkillsOptions = OperationOptions;
+export interface ResetSkillsOptions extends OperationOptions {
+  /** the names of skills to be reset. */
+  skillNames?: string[];
+}
 
 /**
  * Options for create/update skillset operation.

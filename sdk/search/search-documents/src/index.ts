@@ -113,8 +113,11 @@ export {
   SearchIndexer,
   LexicalNormalizer,
   SearchIndexerDataIdentity,
-  ResetDocsOptions,
-  ResetSkillsOptions
+  ResetDocumentsOptions,
+  ResetSkillsOptions,
+  SearchIndexerStatus,
+  IndexerExecutionResult,
+  IndexerState
 } from "./serviceModels";
 export { default as GeographyPoint } from "./geographyPoint";
 export { odata } from "./odata";
@@ -258,8 +261,6 @@ export {
   IndexingParameters,
   IndexingSchedule,
   FieldMappingFunction,
-  SearchIndexerStatus,
-  IndexerExecutionResult,
   SearchIndexerLimits,
   IndexerStatus,
   SearchIndexerError,
@@ -321,7 +322,6 @@ export {
   KnownLineEnding,
   SearchIndexerDataIdentity as BaseSearchIndexerDataIdentity,
   SearchIndexerCache,
-  IndexerCurrentState,
   IndexerExecutionStatusDetail,
   KnownIndexerExecutionStatusDetail,
   IndexingMode,
