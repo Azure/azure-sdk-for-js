@@ -5,8 +5,8 @@ import { delay } from "@azure/core-util";
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
 import {
   createHttpHeaders,
-  PipelineRequestOptions,
   createPipelineRequest,
+  PipelineRequestOptions,
   RestError
 } from "@azure/core-rest-pipeline";
 import { SpanStatusCode } from "@azure/core-tracing";
@@ -15,12 +15,15 @@ import { credentialLogger } from "../../util/logging";
 import { createSpan } from "../../util/tracing";
 import { imdsApiVersion, imdsEndpointPath, imdsHost } from "./constants";
 import { MSI, MSIConfiguration } from "./models";
-import { mapScopesToResource, msiGenericGetToken } from "./utils";
+import { mapScopesToResource } from "./utils";
 import { AuthenticationError } from "../../errors";
 
 const msiName = "ManagedIdentityCredential - IMDS";
 const logger = credentialLogger(msiName);
 
+/**
+ * Formats the expiration date of the received token into the number of milliseconds between that date and midnight, January 1, 1970.
+ */
 function expiresInParser(requestBody: any): number {
   if (requestBody.expires_on) {
     // Use the expires_on timestamp if it's available
@@ -39,6 +42,9 @@ function expiresInParser(requestBody: any): number {
   }
 }
 
+/**
+ * Generates the options used on the request for an access token.
+ */
 function prepareRequestOptions(
   scopes: string | string[],
   clientId?: string,
@@ -96,6 +102,9 @@ export const imdsMsiRetryConfig = {
   intervalIncrement: 2
 };
 
+/**
+ * Defines how to determine whether the Azure IMDS MSI is available, and also how to retrieve a token from the Azure IMDS MSI.
+ */
 export const imdsMsi: MSI = {
   async isAvailable(
     scopes: string | string[],
@@ -188,12 +197,13 @@ export const imdsMsi: MSI = {
     let nextDelayInMs = imdsMsiRetryConfig.startDelayInMs;
     for (let retries = 0; retries < imdsMsiRetryConfig.maxRetries; retries++) {
       try {
-        return await msiGenericGetToken(
-          identityClient,
-          prepareRequestOptions(scopes, clientId),
-          expiresInParser,
-          getTokenOptions
-        );
+        const request = createPipelineRequest({
+          abortSignal: getTokenOptions.abortSignal,
+          ...prepareRequestOptions(scopes, clientId),
+          allowInsecureConnection: true
+        });
+        const tokenResponse = await identityClient.sendTokenRequest(request, expiresInParser);
+        return (tokenResponse && tokenResponse.accessToken) || null;
       } catch (error) {
         if (error.statusCode === 404) {
           await delay(nextDelayInMs);

@@ -1,11 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { createHttpHeaders, PipelineRequestOptions } from "@azure/core-rest-pipeline";
+import {
+  createHttpHeaders,
+  createPipelineRequest,
+  PipelineRequestOptions
+} from "@azure/core-rest-pipeline";
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
 import { MSI, MSIConfiguration } from "./models";
 import { credentialLogger } from "../../util/logging";
-import { mapScopesToResource, msiGenericGetToken } from "./utils";
+import { mapScopesToResource } from "./utils";
 
 const msiName = "ManagedIdentityCredential - CloudShellMSI";
 const logger = credentialLogger(msiName);
@@ -13,6 +17,9 @@ const logger = credentialLogger(msiName);
 // Cloud Shell MSI doesn't have a special expiresIn parser.
 const expiresInParser = undefined;
 
+/**
+ * Generates the options used on the request for an access token.
+ */
 function prepareRequestOptions(
   scopes: string | string[],
   clientId?: string
@@ -47,6 +54,9 @@ function prepareRequestOptions(
   };
 }
 
+/**
+ * Defines how to determine whether the Azure Cloud Shell MSI is available, and also how to retrieve a token from the Azure Cloud Shell MSI.
+ */
 export const cloudShellMsi: MSI = {
   async isAvailable(scopes): Promise<boolean> {
     const resource = mapScopesToResource(scopes);
@@ -70,11 +80,12 @@ export const cloudShellMsi: MSI = {
       `${msiName}: Using the endpoint coming form the environment variable MSI_ENDPOINT = ${process.env.MSI_ENDPOINT}.`
     );
 
-    return msiGenericGetToken(
-      identityClient,
-      prepareRequestOptions(scopes, clientId),
-      expiresInParser,
-      getTokenOptions
-    );
+    const request = createPipelineRequest({
+      abortSignal: getTokenOptions.abortSignal,
+      ...prepareRequestOptions(scopes, clientId),
+      allowInsecureConnection: true
+    });
+    const tokenResponse = await identityClient.sendTokenRequest(request, expiresInParser);
+    return (tokenResponse && tokenResponse.accessToken) || null;
   }
 };

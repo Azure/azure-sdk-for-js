@@ -2,12 +2,15 @@
 // Licensed under the MIT license.
 
 import fs from "fs";
-import { createHttpHeaders, PipelineRequestOptions } from "@azure/core-rest-pipeline";
+import {
+  createHttpHeaders,
+  createPipelineRequest,
+  PipelineRequestOptions
+} from "@azure/core-rest-pipeline";
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
 import { promisify } from "util";
 import { credentialLogger } from "../../util/logging";
 import { MSI, MSIConfiguration } from "./models";
-import { msiGenericGetToken } from "./utils";
 import { DefaultAuthorityHost } from "../../constants";
 
 const msiName = "ManagedIdentityCredential - Token Exchange";
@@ -15,11 +18,17 @@ const logger = credentialLogger(msiName);
 
 const readFileAsync = promisify(fs.readFile);
 
+/**
+ * Formats the expiration date of the received token into the number of milliseconds between that date and midnight, January 1, 1970.
+ */
 function expiresInParser(requestBody: any): number {
   // Parses a string representation of the seconds since epoch into a number value
   return Number(requestBody.expires_on);
 }
 
+/**
+ * Generates the options used on the request for an access token.
+ */
 function prepareRequestOptions(
   scopes: string | string[],
   clientAssertion: string,
@@ -49,6 +58,9 @@ function prepareRequestOptions(
   };
 }
 
+/**
+ * Defines how to determine whether the token exchange MSI is available, and also how to retrieve a token from the token exchange MSI.
+ */
 export function tokenExchangeMsi(): MSI {
   const azureFederatedTokenFilePath = process.env.AZURE_FEDERATED_TOKEN_FILE;
   let azureFederatedTokenFileContent: string | undefined = undefined;
@@ -105,12 +117,13 @@ export function tokenExchangeMsi(): MSI {
         );
       }
 
-      return msiGenericGetToken(
-        identityClient,
-        prepareRequestOptions(scopes, assertion, clientId || process.env.AZURE_CLIENT_ID),
-        expiresInParser,
-        getTokenOptions
-      );
+      const request = createPipelineRequest({
+        abortSignal: getTokenOptions.abortSignal,
+        ...prepareRequestOptions(scopes, assertion, clientId || process.env.AZURE_CLIENT_ID!),
+        allowInsecureConnection: true
+      });
+      const tokenResponse = await identityClient.sendTokenRequest(request, expiresInParser);
+      return (tokenResponse && tokenResponse.accessToken) || null;
     }
   };
 }

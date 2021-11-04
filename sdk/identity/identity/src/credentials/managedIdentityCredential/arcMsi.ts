@@ -11,7 +11,7 @@ import { readFile } from "fs";
 import { MSI, MSIConfiguration } from "./models";
 import { credentialLogger } from "../../util/logging";
 import { IdentityClient } from "../../client/identityClient";
-import { mapScopesToResource, msiGenericGetToken } from "./utils";
+import { mapScopesToResource } from "./utils";
 import { azureArcAPIVersion } from "./constants";
 import { AuthenticationError } from "../../errors";
 
@@ -21,6 +21,9 @@ const logger = credentialLogger(msiName);
 // Azure Arc MSI doesn't have a special expiresIn parser.
 const expiresInParser = undefined;
 
+/**
+ * Generates the options used on the request for an access token.
+ */
 function prepareRequestOptions(scopes: string | string[]): PipelineRequestOptions {
   const resource = mapScopesToResource(scopes);
   if (!resource) {
@@ -49,7 +52,10 @@ function prepareRequestOptions(scopes: string | string[]): PipelineRequestOption
   });
 }
 
-// Since "fs"'s readFileSync locks the thread, and to avoid extra dependencies.
+/**
+ * Retrieves the file contents at the given path using promises.
+ * Useful since `fs`'s readFileSync locks the thread, and to avoid extra dependencies.
+ */
 function readFileAsync(path: string, options: { encoding: string }): Promise<string> {
   return new Promise((resolve, reject) =>
     readFile(path, options, (err, data) => {
@@ -61,6 +67,9 @@ function readFileAsync(path: string, options: { encoding: string }): Promise<str
   );
 }
 
+/**
+ * Does a request to the authentication provider that results in a file path.
+ */
 async function filePathRequest(
   identityClient: IdentityClient,
   requestPrepareOptions: PipelineRequestOptions
@@ -86,6 +95,9 @@ async function filePathRequest(
   }
 }
 
+/**
+ * Defines how to determine whether the Azure Arc MSI is available, and also how to retrieve a token from the Azure Arc MSI.
+ */
 export const arcMsi: MSI = {
   async isAvailable(scopes): Promise<boolean> {
     const resource = mapScopesToResource(scopes);
@@ -132,6 +144,11 @@ export const arcMsi: MSI = {
     const key = await readFileAsync(filePath, { encoding: "utf-8" });
     requestOptions.headers?.set("Authorization", `Basic ${key}`);
 
-    return msiGenericGetToken(identityClient, requestOptions, expiresInParser, getTokenOptions);
+    const request = createPipelineRequest({
+      ...requestOptions,
+      allowInsecureConnection: true
+    });
+    const tokenResponse = await identityClient.sendTokenRequest(request, expiresInParser);
+    return (tokenResponse && tokenResponse.accessToken) || null;
   }
 };
