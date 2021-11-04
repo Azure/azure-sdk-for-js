@@ -13,7 +13,7 @@ import { SchemaRegistryClient, SchemaDescription, SchemaProperties } from "../..
 
 const options = {
   onResponse: (rawResponse: { status: number }) => {
-    assert.equal(rawResponse.status, 200);
+    assert.equal(rawResponse.status, 204);
   }
 };
 
@@ -130,12 +130,23 @@ describe("SchemaRegistryClient", function() {
     const registered = await client.registerSchema(schema, options);
     assertIsValidSchemaId(registered);
 
-    const found = await client.getSchema(registered.id, options);
+    const found = await client.getSchema(registered.id, {
+      onResponse: (rawResponse: { status: number }) => {
+        assert.equal(rawResponse.status, 200);
+      }
+    });
     assertIsValidSchemaId(found);
     assert.equal(found.schemaDefinition, schema.schemaDefinition);
   });
 
-  it("schema with whitespace", async () => {
+  /**
+   * The service currently does not support schemas with whitespaces. It errors as follows:
+   *
+   * ```json
+   * {"Code":400,"Detail":"Schema validation failed: Invalid character after parsing property name. Expected ':' but got: \". Path '', line 1, position 4. TrackingId:b7f13121-9306-4d35-bf6a-63c5898f7156_G7, SystemTracker:sdktesting.servicebus.windows.net:$schemaGroups\/azsdk_js_test_group\/schemas\/azsdk_js_test2, Timestamp:2021-11-04T22:47:24"}
+   * ```
+   */
+  it.skip("schema with whitespace", async () => {
     const schema2: SchemaDescription = {
       name: "azsdk_js_test2",
       groupName: env.SCHEMA_REGISTRY_GROUP,

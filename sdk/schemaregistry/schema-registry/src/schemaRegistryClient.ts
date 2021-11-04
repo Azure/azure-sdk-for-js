@@ -7,7 +7,7 @@ import {
   bearerTokenAuthenticationPolicy,
   InternalPipelineOptions
 } from "@azure/core-rest-pipeline";
-import { convertSchemaIdResponse, convertSchemaResponse } from "./conversions";
+import { convertSchemaIdResponse, convertSchemaResponse, dispatchOnFormat } from "./conversions";
 
 import {
   GetSchemaOptions,
@@ -80,9 +80,12 @@ export class SchemaRegistryClient implements SchemaRegistry {
     schema: SchemaDescription,
     options?: RegisterSchemaOptions
   ): Promise<SchemaProperties> {
-    return this.client.schema
-      .register(schema.groupName, schema.name, schema.format, schema.schemaDefinition, options)
-      .then(convertSchemaIdResponse);
+    return dispatchOnFormat(schema.format, {
+      avro: () =>
+        this.client.schema
+          .register(schema.groupName, schema.name, schema.schemaDefinition, options)
+          .then(convertSchemaIdResponse(schema.format))
+    });
   }
 
   /**
@@ -96,17 +99,14 @@ export class SchemaRegistryClient implements SchemaRegistry {
     schema: SchemaDescription,
     options?: GetSchemaPropertiesOptions
   ): Promise<SchemaProperties | undefined> {
-    return undefinedfyOn404(
-      this.client.schema
-        .queryIdByContent(
-          schema.groupName,
-          schema.name,
-          schema.format,
-          schema.schemaDefinition,
-          options
+    return dispatchOnFormat(schema.format, {
+      avro: () =>
+        undefinedfyOn404(
+          this.client.schema
+            .queryIdByContent(schema.groupName, schema.name, schema.schemaDefinition, options)
+            .then(convertSchemaIdResponse(schema.format))
         )
-        .then(convertSchemaIdResponse)
-    );
+    });
   }
 
   /**
