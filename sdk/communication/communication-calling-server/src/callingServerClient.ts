@@ -509,31 +509,19 @@ export class CallingServerClient {
    * Start recording operation using call locator.
    *
    * @param callLocator - The callLocator contains server call id.
-   * @param recordingStateCallbackUri - The call back uri for recording state.
+   * @param recordingStateCallbackUrl - The call back url for recording state.
    * @param options - Additional request options contains StartRecording api options.
    */
   public async startRecording(
     callLocator: CallLocator,
-    recordingStateCallbackUri: string,
+    recordingStateCallbackUrl: string,
     options: StartRecordingOptions = {}
   ): Promise<StartCallRecordingResult> {
     const { span, updatedOptions } = createSpan("ServerCallRestClient-StartRecording", options);
 
-    if (typeof callLocator === "undefined" || !callLocator) {
-      throw new Error("callLocator is invalid.");
-    }
-
-    if (
-      typeof recordingStateCallbackUri === "undefined" ||
-      !recordingStateCallbackUri ||
-      !CallingServerUtils.isValidUrl(recordingStateCallbackUri)
-    ) {
-      throw new Error("recordingStateCallbackUri is invalid.");
-    }
-
     const startCallRecordingWithCallLocatorRequest: StartCallRecordingWithCallLocatorRequest = {
       callLocator: serializeCallLocator(callLocator),
-      recordingStateCallbackUri: recordingStateCallbackUri,
+      recordingStateCallbackUri: recordingStateCallbackUrl,
       ...updatedOptions
     };
 
@@ -682,12 +670,12 @@ export class CallingServerClient {
   }
 
   /**
-   * Downloads the content pointed to the uri passed as a parameter.
+   * Downloads the content pointed to the url passed as a parameter.
    *
    * * In Node.js, data returns in a Readable stream readableStreamBody
    * * In browsers, data returns in a promise blobBody
    *
-   * @param uri - Endpoint where the content exists.
+   * @param url - Endpoint where the content exists.
    * @param offset - From which position of the blob to download, greater than or equal to 0.
    * @param count - How much data to be downloaded, greater than 0. Will download to the end when undefined
    * @param options - Optional options to Download operation.
@@ -739,7 +727,7 @@ export class CallingServerClient {
    * ```
    */
   public async download(
-    uri: string,
+    url: string,
     offset: number = 0,
     options: DownloadOptions = {}
   ): Promise<ContentDownloadResponse> {
@@ -748,7 +736,7 @@ export class CallingServerClient {
     const contentDownloader = this.initializeContentDownloader();
     try {
       const count = updatedOptions.count;
-      const res = await contentDownloader.downloadContent(uri, {
+      const res = await contentDownloader.downloadContent(url, {
         abortSignal: options.abortSignal,
         requestOptions: {
           onDownloadProgress: isNode ? undefined : options.onProgress // for Node.js, progress is reported by RetriableReadableStream
@@ -781,7 +769,7 @@ export class CallingServerClient {
           // );
 
           return (
-            await contentDownloader.downloadContent(uri, {
+            await contentDownloader.downloadContent(url, {
               abortSignal: options.abortSignal,
               range: rangeToString({
                 count: offset + res.contentLength! - start,
@@ -810,22 +798,22 @@ export class CallingServerClient {
   }
 
   /**
-   * Deletes the content pointed to the uri passed as a parameter.
+   * Deletes the content pointed to the url passed as a parameter.
    *
    * * Returns a RestResponse indicating the result of the delete operation.
    *
-   * @param deleteUri - Endpoint where the content exists.
+   * @param deleteUrl - Endpoint where the content exists.
    *
    * Example usage:
    *
    * ```js
    * // Delete content
-   * const deleteUri = "https://deleteUri.com";
-   * const deleteResponse = await callingServerClient.delete(deleteUri);
+   * const deleteUrl = "https://deleteUrl.com";
+   * const deleteResponse = await callingServerClient.delete(deleteUrl);
    *
    * ```
    */
-  public async delete(deleteUri: string, options: DeleteOptions = {}): Promise<RestResponse> {
+  public async delete(deleteUrl: string, options: DeleteOptions = {}): Promise<RestResponse> {
     const { span, updatedOptions } = createSpan("ServerCallRestClient-delete", options);
 
     const operationArguments: OperationArguments = {
@@ -835,11 +823,11 @@ export class CallingServerClient {
     try {
       const stringToSign = CallingServerUtils.getStringToSign(
         this.storageApiClient.endpoint,
-        deleteUri
+        deleteUrl
       );
       return this.storageApiClient.sendOperationRequest(
         operationArguments,
-        getDeleteOperationSpec(deleteUri, stringToSign)
+        getDeleteOperationSpec(deleteUrl, stringToSign)
       ) as Promise<RestResponse>;
     } catch (e) {
       span.setStatus({
