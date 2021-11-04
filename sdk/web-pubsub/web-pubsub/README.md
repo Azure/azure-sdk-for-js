@@ -213,6 +213,10 @@ export AZURE_LOG_LEVEL=verbose
 
 For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger).
 
+### Live Trace
+
+Use **Live Trace** from the Web PubSub service portal to view the live traffic.
+
 ## Next steps
 
 Please take a look at the
