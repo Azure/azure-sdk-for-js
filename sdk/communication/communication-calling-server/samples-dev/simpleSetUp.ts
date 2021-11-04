@@ -5,7 +5,7 @@
  * @summary Issue a new Relay configuration
  */
 
-import { CallingServerClient } from "@azure/communication-callingserver";
+import { CallingServerClient } from "@azure/communication-calling-server";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";

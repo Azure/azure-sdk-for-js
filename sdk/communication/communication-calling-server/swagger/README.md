@@ -3,22 +3,23 @@
 > see [https://aka.ms/autorest](https://aka.ms/autorest)
 
 ### Generation
+
 ```ps
-cd <communication-callingserver-folder>
+cd <communication-calling-server folder>
 rushx build:autorest
 ```
 
 ## Configuration
 
 ```yaml
-package-name: azure-communication-callingserver
+package-name: azure-communication-calling-server
 title: CallingServerApiClient
 description: CallingServer Client
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
 tag: package-2021-11-15-preview
-require: https://raw.githubusercontent.com/navali-msft/azure-rest-api-specs/8dea6eb48674de3cc017be56326f2a2360bac714/specification/communication/data-plane/CallingServer/readme.md
+require: https://raw.githubusercontent.com/navali-msft/azure-rest-api-specs/773f9b008157ff125fa339b23eab534308e61d3f/specification/communication/data-plane/CallingServer/readme.md
 model-date-time-as-string: false
 optional-response-headers: true
 typescript: true

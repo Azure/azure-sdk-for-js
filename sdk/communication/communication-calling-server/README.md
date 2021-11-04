@@ -3,7 +3,7 @@
 This package contains a JavaScript SDK for Azure Communication Services for CallingServer.
 Read more about Azure Communication Services [here](https://docs.microsoft.com/azure/communication-services/overview)
 
-[Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/communication/communication-callingserver)
+[Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/communication/communication-calling-server)
 
 ## Getting started
 
@@ -16,8 +16,9 @@ Read more about Azure Communication Services [here](https://docs.microsoft.com/a
 - You must have a phone number configured that is associated with an Azure subscription
 
 ### Installing
+
 ```bash
-npm install @azure/communication-callingserver
+npm install @azure/communication-calling-server
 ```
 
 ### Browser support
@@ -55,7 +56,7 @@ The following section provides several code snippets covering some of the most c
 To initialize the CallingServer Client, the connection string can be used to instantiate.
 
 ```typescript
-import { CallingServerClient } from "@azure/communication-callingserver";
+import { CallingServerClient } from "@azure/communication-calling-server";
 
 const connectionString = `endpoint=https://<resource-name>.communication.azure.com/;accessKey=<Base64-Encoded-Key>`;
 const client = new CallingServerClient(connectionString);
@@ -66,14 +67,13 @@ const client = new CallingServerClient(connectionString);
 Once the client is initialized, the `createCallConnection` method can be invoked:
 
 ```typescript
-import { CreateCallOptions } from "@azure/communication-callingserver";
+import { CreateCallOptions } from "@azure/communication-calling-server";
 
 const createCallResponse = callingserver_client.createCallConnection(
-    source="<from-phone-number>",
-    targets="<to-phone-number-1>",
-    createCallOptions=Something
+  (source = "<from-phone-number>"),
+  (targets = "<to-phone-number-1>"),
+  (createCallOptions = Something)
 );
-
 ```
 
 - `from_`: Something.
@@ -86,7 +86,7 @@ Running into issues? This section should contain details as to what to do there.
 
 ## Next steps
 
-More sample code should go [here](https://github.com/Azure/azure-sdk-for-python/tree/main/sdk/communication/azure-communication-callingserver/samples), along with links out to the appropriate example tests.
+More sample code should go [here](https://github.com/Azure/azure-sdk-for-js), along with links out to the appropriate example tests.
 
 ## Provide Feedback
 
@@ -94,7 +94,7 @@ If you encounter any bugs or have suggestions, please file an issue in the [Issu
 
 ## Contributing
 
-This project welcomes contributions and suggestions.  Most contributions require you to agree to a
+This project welcomes contributions and suggestions. Most contributions require you to agree to a
 Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us the rights to use your contribution. For details, visit https://cla.microsoft.com.
 
 When you submit a pull request, a CLA-bot will automatically determine whether you need to provide a CLA and decorate the

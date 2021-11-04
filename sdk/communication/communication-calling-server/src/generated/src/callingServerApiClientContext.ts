@@ -9,7 +9,7 @@
 import * as coreHttp from "@azure/core-http";
 import { CallingServerApiClientOptionalParams } from "./models";
 
-const packageName = "azure-communication-callingserver";
+const packageName = "azure-communication-calling-server";
 const packageVersion = "1.0.0-beta.1";
 
 export class CallingServerApiClientContext extends coreHttp.ServiceClient {

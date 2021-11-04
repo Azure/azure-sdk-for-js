@@ -118,7 +118,7 @@ export class CallingServerClient {
     const options = isCallingServerClientOptions(credentialOrOptions)
       ? credentialOrOptions
       : maybeOptions;
-    const libInfo = `azsdk-js-communication-callingserver/${SDK_VERSION}`;
+    const libInfo = `azsdk-js-communication-calling-server/${SDK_VERSION}`;
 
     if (!options?.userAgentOptions) {
       options.userAgentOptions = {};

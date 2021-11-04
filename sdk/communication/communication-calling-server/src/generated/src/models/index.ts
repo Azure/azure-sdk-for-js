@@ -528,6 +528,7 @@ export interface CallRecordingStateChangeEvent {
   callLocator?: CallLocatorModel;
 }
 
+/** The add participant result event. */
 export interface AddParticipantResultEvent {
   /** The result details. */
   resultInfo?: CallingOperationResultDetails;

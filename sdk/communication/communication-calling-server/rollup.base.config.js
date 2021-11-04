@@ -72,7 +72,7 @@ export function browserConfig(test = false) {
     input: input,
     external: ["crypto"],
     output: {
-      file: "dist-browser/azure-communication-callingserver.js",
+      file: "dist-browser/azure-communication-calling-server.js",
       format: "umd",
       name: "Azure.Communication.CallingServer",
       sourcemap: true,

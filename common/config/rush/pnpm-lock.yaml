@@ -34,7 +34,7 @@ specifiers:
   '@rush-temp/arm-templatespecs': file:./projects/arm-templatespecs.tgz
   '@rush-temp/arm-webpubsub': file:./projects/arm-webpubsub.tgz
   '@rush-temp/attestation': file:./projects/attestation.tgz
-  '@rush-temp/communication-callingserver': file:./projects/communication-callingserver.tgz
+  '@rush-temp/communication-calling-server': file:./projects/communication-calling-server.tgz
   '@rush-temp/communication-chat': file:./projects/communication-chat.tgz
   '@rush-temp/communication-common': file:./projects/communication-common.tgz
   '@rush-temp/communication-identity': file:./projects/communication-identity.tgz
@@ -167,7 +167,7 @@ dependencies:
   '@rush-temp/arm-templatespecs': file:projects/arm-templatespecs.tgz
   '@rush-temp/arm-webpubsub': file:projects/arm-webpubsub.tgz
   '@rush-temp/attestation': file:projects/attestation.tgz
-  '@rush-temp/communication-callingserver': file:projects/communication-callingserver.tgz
+  '@rush-temp/communication-calling-server': file:projects/communication-calling-server.tgz
   '@rush-temp/communication-chat': file:projects/communication-chat.tgz
   '@rush-temp/communication-common': file:projects/communication-common.tgz
   '@rush-temp/communication-identity': file:projects/communication-identity.tgz
@@ -9069,9 +9069,9 @@ packages:
       - utf-8-validate
     dev: false
 
-  file:projects/communication-callingserver.tgz:
-    resolution: {integrity: sha512-EA59ggsSSUHnDOJEEFNQNxnTD+VtHw2psLfTD9AxD54PQxxpmVbMHmf6EJg1slZPkVdn/MmZbl/yNzSaFv6Xig==, tarball: file:projects/communication-callingserver.tgz}
-    name: '@rush-temp/communication-callingserver'
+  file:projects/communication-calling-server.tgz:
+    resolution: {integrity: sha512-EA59ggsSSUHnDOJEEFNQNxnTD+VtHw2psLfTD9AxD54PQxxpmVbMHmf6EJg1slZPkVdn/MmZbl/yNzSaFv6Xig==, tarball: file:projects/communication-calling-server.tgz}
+    name: '@rush-temp/communication-calling-server'
     version: 0.0.0
     dependencies:
       '@azure/communication-identity': 1.0.0

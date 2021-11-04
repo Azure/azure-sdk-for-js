@@ -402,8 +402,8 @@
       "versionPolicyName": "client"
     },
     {
-      "packageName": "@azure/communication-callingserver",
-      "projectFolder": "sdk/communication/communication-callingserver",
+      "packageName": "@azure/communication-calling-server",
+      "projectFolder": "sdk/communication/communication-calling-server",
       "versionPolicyName": "client"
     },
     {

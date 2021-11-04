@@ -4,7 +4,7 @@
     "outDir": "./dist-esm",
     "declarationDir": "./types",
     "paths": {
-      "@azure/communication-callingserver": ["./src/index"]
+      "@azure/communication-calling-server": ["./src/index"]
     },
     "lib": ["dom"]
   },
