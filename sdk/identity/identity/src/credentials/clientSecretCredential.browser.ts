@@ -6,7 +6,8 @@ import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipel
 import { SpanStatusCode } from "@azure/core-tracing";
 import { credentialLogger, formatError, formatSuccess } from "../util/logging";
 import { getIdentityTokenEndpointSuffix } from "../util/identityTokenEndpoint";
-import { TokenCredentialOptions, IdentityClient } from "../client/identityClient";
+import { TokenCredentialOptions } from "../tokenCredentialOptions";
+import { IdentityClient } from "../client/identityClient";
 import { createSpan } from "../util/tracing";
 
 const logger = credentialLogger("ClientSecretCredential");

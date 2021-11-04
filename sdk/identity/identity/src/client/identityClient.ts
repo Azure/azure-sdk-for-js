@@ -2,9 +2,9 @@
 // Licensed under the MIT license.
 
 import { INetworkModule, NetworkRequestOptions, NetworkResponse } from "@azure/msal-common";
-import { CommonClientOptions, ServiceClient } from "@azure/core-client";
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
 import { SpanStatusCode } from "@azure/core-tracing";
+import { ServiceClient } from "@azure/core-client";
 import { isNode } from "@azure/core-util";
 import {
   createHttpHeaders,
@@ -17,6 +17,7 @@ import { getIdentityTokenEndpointSuffix } from "../util/identityTokenEndpoint";
 import { DefaultAuthorityHost } from "../constants";
 import { createSpan } from "../util/tracing";
 import { logger } from "../util/logging";
+import { TokenCredentialOptions } from "../tokenCredentialOptions";
 
 const noCorrelationId = "noCorrelationId";
 
@@ -294,17 +295,4 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
       status: response.status
     };
   }
-}
-
-/**
- * Provides options to configure how the Identity library makes authentication
- * requests to Azure Active Directory.
- */
-export interface TokenCredentialOptions extends CommonClientOptions {
-  /**
-   * The authority host to use for authentication requests.
-   * Possible values are available through {@link AzureAuthorityHosts}.
-   * The default is "https://login.microsoftonline.com".
-   */
-  authorityHost?: string;
 }

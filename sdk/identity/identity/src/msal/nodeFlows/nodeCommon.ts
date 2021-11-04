@@ -7,8 +7,9 @@ import * as msalCommon from "@azure/msal-common";
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
 import { AbortSignalLike } from "@azure/abort-controller";
 
+import { IdentityClient } from "../../client/identityClient";
+import { TokenCredentialOptions } from "../../tokenCredentialOptions";
 import { DeveloperSignOnClientId } from "../../constants";
-import { IdentityClient, TokenCredentialOptions } from "../../client/identityClient";
 import { resolveTenantId } from "../../util/resolveTenantId";
 import { AuthenticationRequiredError } from "../../errors";
 import { CredentialFlowGetTokenOptions } from "../credentials";
