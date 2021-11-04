@@ -10,7 +10,7 @@ jobs:
       DocRepoLocation: $(Pipeline.Workspace)/docs
       DocRepoOwner: MicrosoftDocs
       DocRepoName: azure-docs-sdk-node
-      ImageId: azuresdkimages.azurecr.io/jsrefautocr:latest
+      DocValidationImageId: azuresdkimages.azurecr.io/jsrefautocr:latest
     steps:
       # Sync docs repo (this can be sparse)
       - template: /eng/common/pipelines/templates/steps/sparse-checkout.yml
@@ -28,7 +28,7 @@ jobs:
         parameters:
           ContainerRegistryClientId: $(azuresdkimages-cr-clientid)
           ContainerRegistryClientSecret: $(azuresdkimages-cr-clientsecret)
-          ImageId: '$(ImageId)'
+          ImageId: '$(DocValidationImageId)'
           
 
       # Call update docs ci script to onboard packages
@@ -36,7 +36,7 @@ jobs:
         inputs:
           pwsh: true
           filePath: eng/common/scripts/Update-DocsMsPackages.ps1
-          arguments: -DocRepoLocation $(DocRepoLocation) -ImageId '$(ImageId)'
+          arguments: -DocRepoLocation $(DocRepoLocation) -ImageId '$(DocValidationImageId)'
         displayName: Update Docs Onboarding
         condition: and(succeeded(), or(eq(variables['Build.Reason'], 'Schedule'), eq(variables['Force.MainUpdate'], 'true')))
           
@@ -69,7 +69,7 @@ jobs:
         inputs:
           pwsh: true
           filePath: eng/common/scripts/Update-DocsMsPackages.ps1
-          arguments: -DocRepoLocation $(DocRepoLocation) -ImageId '$(ImageId)'
+          arguments: -DocRepoLocation $(DocRepoLocation) -ImageId '$(DocValidationImageId)'
         displayName: Update Docs Onboarding for Daily branch
 
       - template: /eng/common/pipelines/templates/steps/git-push-changes.yml
