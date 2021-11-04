@@ -15,5 +15,8 @@
     "open": "^8.2.1",
     "qs": "^6.10.1",
     "ts-node": "latest"
+  },
+  "dependencies": {
+    "@azure/identity": "^2.0.1"
   }
 }
