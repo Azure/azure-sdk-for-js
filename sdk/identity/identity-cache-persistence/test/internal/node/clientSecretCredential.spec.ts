@@ -11,18 +11,18 @@ import { ConfidentialClientApplication } from "@azure/msal-node";
 
 import { ClientSecretCredential, TokenCachePersistenceOptions } from "../../../../identity/src";
 import { MsalTestCleanup, msalNodeTestSetup } from "../../../../identity/test/msalTestUtils";
-import { MsalNode } from "../../../../identity/src/msal/nodeFlows/nodeCommon";
+import { MsalNode } from "../../../../identity/src/msal/nodeFlows/msalNodeCommon";
 
 import { createPersistence } from "./setup.spec";
 
 const scope = "https://graph.microsoft.com/.default";
 
-describe("ClientSecretCredential (internal)", function(this: Mocha.Suite) {
+describe("ClientSecretCredential (internal)", function (this: Mocha.Suite) {
   let cleanup: MsalTestCleanup;
   let getTokenSilentSpy: Sinon.SinonSpy;
   let doGetTokenSpy: Sinon.SinonSpy;
 
-  beforeEach(function(this: Mocha.Context) {
+  beforeEach(function (this: Mocha.Context) {
     const setup = msalNodeTestSetup(this);
     cleanup = setup.cleanup;
 
@@ -34,11 +34,11 @@ describe("ClientSecretCredential (internal)", function(this: Mocha.Suite) {
       "acquireTokenByClientCredential"
     );
   });
-  afterEach(async function() {
+  afterEach(async function () {
     await cleanup();
   });
 
-  it("Accepts tokenCachePersistenceOptions", async function(this: Mocha.Context) {
+  it("Accepts tokenCachePersistenceOptions", async function (this: Mocha.Context) {
     // OSX asks for passwords on CI, so we need to skip these tests from our automation
     if (process.platform === "darwin") {
       this.skip();
@@ -67,7 +67,7 @@ describe("ClientSecretCredential (internal)", function(this: Mocha.Suite) {
     assert.ok(parsedResult.AccessToken);
   });
 
-  it("Authenticates silently with tokenCachePersistenceOptions", async function(this: Mocha.Context) {
+  it("Authenticates silently with tokenCachePersistenceOptions", async function (this: Mocha.Context) {
     // OSX asks for passwords on CI, so we need to skip these tests from our automation
     if (process.platform === "darwin") {
       this.skip();
