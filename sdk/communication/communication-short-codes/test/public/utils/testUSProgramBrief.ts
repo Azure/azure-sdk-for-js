@@ -1,8 +1,8 @@
 
 import { USProgramBrief } from "../../../src";
 
-export function getTestUSProgramBrief(id: string) {
-  let testUSProgramBrief: USProgramBrief = {
+export function getTestUSProgramBrief(id: string = "2f129c97-701d-4ab8-913b-3c2625216ad9") {
+  const testUSProgramBrief: USProgramBrief = {
     id: id,
     programDetails: {
       description:
@@ -64,10 +64,6 @@ export function getTestUSProgramBrief(id: string) {
         "Higher traffic expected around major shopping holidays, most notably Black Friday and Memorial Day."
     }
   };
-
-  if (id) {
-    testUSProgramBrief.id = id;
-  }
 
   return testUSProgramBrief;
 }

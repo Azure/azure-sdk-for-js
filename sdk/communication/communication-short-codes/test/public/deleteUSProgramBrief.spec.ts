@@ -22,7 +22,7 @@ describe(`ShortCodesClient - deletes US Program Brief`, function () {
   });
 
   it("can delete a specified US Program Brief", async function () {
-    let guid = "2f129c97-701d-4ab8-913b-3c2625216ad9";
+    const guid = "2f129c97-701d-4ab8-913b-3c2625216ad9";
     const delRes = await client.deleteUSProgramBrief(guid);
     assert.isOk(delRes);
   }).timeout(60000);

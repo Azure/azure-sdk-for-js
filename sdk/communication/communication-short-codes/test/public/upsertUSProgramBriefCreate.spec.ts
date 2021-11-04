@@ -24,7 +24,7 @@ describe(`ShortCodesClient - creates US Program Brief using upsert`, function ()
 
   it("can upsert a US Program Brief", async function () {
     const programBriefId = "2f129c97-701d-4ab8-913b-3c2625216ad9";
-    let uspb = getTestUSProgramBrief(programBriefId);
+    const uspb = getTestUSProgramBrief(programBriefId);
     const programBriefRequest: ShortCodesUpsertUSProgramBriefOptionalParams = {
       body: uspb
     };
