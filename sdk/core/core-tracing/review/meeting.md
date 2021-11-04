@@ -22,7 +22,7 @@ class MyClient {
     });
   }
 
-  // Almost all of the current usecases will be covered by this
+  // Champion: Almost all of the current usecases will be covered by this
   async doTheThings(options): Promise<Things> {
     return this.tracingClient.withTrace(
       "MyClient.doTheThings",
@@ -34,13 +34,37 @@ class MyClient {
     );
   }
 
-  // For EventHubs, ServiceBus, etc.
+  // Niche: For EventHubs, ServiceBus, etc.
   callUserCode(context: TracingContext): void {
     return this.tracingClient.withContext(
       context,
       this._eventHandlers.processEvents,
       /* CallbackThis */ undefined,
       /* CallbackArgs */ events
+    );
+  }
+
+  // Niche: Creating links...
+  processMessages(messages, options) {
+    const links = [];
+    for (const message of messages) {
+      const identifier = fromTraceparentHeader(message["Diagnostic-Id"]);
+      links.push(identifier);
+    }
+    //...
+    links.push({
+      context: identifier,
+      // Not supported yet... how should we support this?
+      attributes: {
+        enqueuedTime: receivedEvent.enqueuedTimeUtc.getTime()
+      }
+    });
+    //...
+    return this.tracingClient.withTrace(
+      "MyClient.processMessages",
+      async (updatedOptions) => {},
+      options,
+      { spanLinks: links, spanKind: "client" }
     );
   }
 }
