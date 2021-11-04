@@ -113,7 +113,7 @@ export {
   SearchIndexer,
   LexicalNormalizer,
   SearchIndexerDataIdentity,
-  ResetDocsOptions,
+  ResetDocumentsOptions,
   ResetSkillsOptions
 } from "./serviceModels";
 export { default as GeographyPoint } from "./geographyPoint";
@@ -321,7 +321,7 @@ export {
   KnownLineEnding,
   SearchIndexerDataIdentity as BaseSearchIndexerDataIdentity,
   SearchIndexerCache,
-  IndexerCurrentState,
+  IndexerState,
   IndexerExecutionStatusDetail,
   KnownIndexerExecutionStatusDetail,
   IndexingMode,

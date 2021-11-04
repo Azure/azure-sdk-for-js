@@ -801,7 +801,7 @@ export const IndexerExecutionResult: coreClient.CompositeMapper = {
         serializedName: "currentState",
         type: {
           name: "Composite",
-          className: "IndexerCurrentState"
+          className: "IndexerState"
         }
       },
       errorMessage: {
@@ -888,10 +888,10 @@ export const IndexerExecutionResult: coreClient.CompositeMapper = {
   }
 };
 
-export const IndexerCurrentState: coreClient.CompositeMapper = {
+export const IndexerState: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "IndexerCurrentState",
+    className: "IndexerState",
     modelProperties: {
       mode: {
         serializedName: "mode",
@@ -900,28 +900,28 @@ export const IndexerCurrentState: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      allDocsInitialChangeTrackingState: {
+      allDocumentsInitialChangeTrackingState: {
         serializedName: "allDocsInitialChangeTrackingState",
         readOnly: true,
         type: {
           name: "String"
         }
       },
-      allDocsFinalChangeTrackingState: {
+      allDocumentsFinalChangeTrackingState: {
         serializedName: "allDocsFinalChangeTrackingState",
         readOnly: true,
         type: {
           name: "String"
         }
       },
-      resetDocsInitialChangeTrackingState: {
+      resetDocumentsInitialChangeTrackingState: {
         serializedName: "resetDocsInitialChangeTrackingState",
         readOnly: true,
         type: {
           name: "String"
         }
       },
-      resetDocsFinalChangeTrackingState: {
+      resetDocumentsFinalChangeTrackingState: {
         serializedName: "resetDocsFinalChangeTrackingState",
         readOnly: true,
         type: {
