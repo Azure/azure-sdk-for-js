@@ -133,5 +133,6 @@ const tracer = new OpenTelemetryTracer();
 useTracer(tracer);
 
 // Start to do the things
-new MyClient().doTheThings().catch(console.error);
+const client = new MyClient();
+client.doTheThings().catch(console.error);
 ```
