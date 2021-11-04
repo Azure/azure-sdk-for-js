@@ -13,7 +13,7 @@ describe("SpecialCharacters", function() {
     if (!isLiveMode()) {
       // Currently the recorder is having issues with the encoding of single qoutes in the
       // query request and generates invalid JS code. Disabling this test on playback mode
-      // while these issues are resolved
+      // while these issues are resolved. #18534
       this.skip();
     }
   });
