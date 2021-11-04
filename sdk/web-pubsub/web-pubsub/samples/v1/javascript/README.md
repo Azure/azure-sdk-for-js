@@ -7,7 +7,7 @@ products:
 urlFragment: web-pubsub-javascript
 ---
 
-# Azure Web PubSub client library samples for JavaScript
+# Azure Web PubSub service client library samples for JavaScript
 
 These sample programs show how to use the JavaScript client libraries for Azure Web PubSub in some common scenarios.
 
@@ -51,6 +51,10 @@ Alternatively, run a single sample with the correct environment variables set (s
 npx cross-env WPS_CONNECTION_STRING="<wps connection string>" node broadcasting.js
 ```
 
+## More samples
+
+Check [more samples here][servicesample].
+
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
@@ -61,3 +65,4 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/web-pubsub
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/web-pubsub/web-pubsub/README.md
+[servicesample]: https://github.com/Azure/azure-webpubsub/tree/main/samples/javascript

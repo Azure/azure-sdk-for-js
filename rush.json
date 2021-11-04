@@ -657,6 +657,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure-rest/synapse-access-control",
+      "projectFolder": "sdk/synapse/synapse-access-control-rest",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/synapse-artifacts",
       "projectFolder": "sdk/synapse/synapse-artifacts",
       "versionPolicyName": "client"

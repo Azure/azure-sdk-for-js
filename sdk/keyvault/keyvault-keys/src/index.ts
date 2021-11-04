@@ -773,6 +773,7 @@ export class KeyClient {
 
   /**
    * Gets the requested number of bytes containing random values from a managed HSM.
+   * This operation requires the managedHsm/rng permission.
    *
    * Example usage:
    * ```ts
@@ -848,11 +849,12 @@ export class KeyClient {
 
   /**
    * Gets the rotation policy of a Key Vault Key.
+   * By default, all keys have a policy that will notify 30 days before expiry.
    *
+   * This operation requires the keys/get permission.
    * Example usage:
    * ```ts
    * let client = new KeyClient(vaultUrl, credentials);
-   * await client.updateKeyRotationPolicy("MyKey", myPolicy);
    * let result = await client.getKeyRotationPolicy("myKey");
    * ```
    *
@@ -871,6 +873,7 @@ export class KeyClient {
 
   /**
    * Updates the rotation policy of a Key Vault Key.
+   * This operation requires the keys/update permission.
    *
    * Example usage:
    * ```ts
