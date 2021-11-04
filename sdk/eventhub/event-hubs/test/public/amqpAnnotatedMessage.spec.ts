@@ -182,6 +182,7 @@ testWithServiceTypes((serviceVersion) => {
         it(`values (useBatch: ${useBatch})`, async () => {
           const valueTypes = [[1, 2, 3], 1, 1.5, "hello", { hello: "world" }];
           for (const valueType of valueTypes) {
+            console.log("1111111111111", valueType);
             const startingPositions = await getStartingPositionsForTests(consumerClient);
             await sendEvents(
               [
@@ -199,6 +200,8 @@ testWithServiceTypes((serviceVersion) => {
               "value",
               `Should be identified as a value: ${valueType.toString()}`
             );
+            console.log("2222222222222", valueType);
+            console.log("3333333333333", event.body);
 
             assert.deepEqual(
               event.body,
@@ -247,6 +250,7 @@ testWithServiceTypes((serviceVersion) => {
           const dataTypes = [1, 1.5, "hello", { hello: "world" }, buff, [1, 2, 3]];
 
           for (const dataType of dataTypes) {
+            console.log("4444444444444", dataTypes);
             const startingPositions = await getStartingPositionsForTests(consumerClient);
             await sendEvents(
               [
@@ -265,6 +269,8 @@ testWithServiceTypes((serviceVersion) => {
               "data",
               `Should be identified as data: ${dataType.toString()}`
             );
+            console.log("55555555555555", dataTypes);
+            console.log("6666666666666", event.body);
             assert.deepEqual(
               event.body,
               dataType,
@@ -279,6 +285,7 @@ testWithServiceTypes((serviceVersion) => {
           ["data", "hello"]
         ] as [BodyTypes, any][]).forEach(([expectedBodyType, expectedBody]) => {
           it(`receive ${expectedBodyType} EventData and resend (useBatch: ${useBatch})`, async () => {
+            console.log("7777777777777777", expectedBodyType);
             let startingPositions = await getStartingPositionsForTests(consumerClient);
             // if we receive an event that was encoded to a non-data section
             // and then re-send it (again, as an EventData) we should
@@ -295,6 +302,8 @@ testWithServiceTypes((serviceVersion) => {
 
             const event = await receiveEvent(startingPositions);
 
+            console.log("8888888888888", expectedBodyType);
+            console.log("99999999999999", event.getRawAmqpMessage().bodyType);
             assert.equal(event.getRawAmqpMessage().bodyType, expectedBodyType);
 
             startingPositions = await getStartingPositionsForTests(consumerClient);
@@ -303,6 +312,8 @@ testWithServiceTypes((serviceVersion) => {
 
             const reencodedEvent = await receiveEvent(startingPositions);
 
+            console.log("12121221212", expectedBodyType);
+            console.log("13131313131313", reencodedEvent.getRawAmqpMessage().bodyType);
             assert.equal(reencodedEvent.getRawAmqpMessage().bodyType, expectedBodyType);
             assert.deepEqual(reencodedEvent.body, expectedBody);
           });
