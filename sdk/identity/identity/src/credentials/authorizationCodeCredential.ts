@@ -101,7 +101,7 @@ export class AuthorizationCodeCredential implements TokenCredential {
       // the clientId+clientSecret constructor
       this.authorizationCode = authorizationCodeOrRedirectUri;
       this.redirectUri = redirectUriOrOptions;
-      // options okay
+      // in this case, options are good as they come
     } else {
       // clientId only
       this.authorizationCode = clientSecretOrAuthorizationCode;

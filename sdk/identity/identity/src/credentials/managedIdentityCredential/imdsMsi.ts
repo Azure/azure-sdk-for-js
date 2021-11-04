@@ -122,7 +122,7 @@ export const imdsMsi: MSI = {
       getTokenOptions
     );
 
-    // if the PodIdenityEndpoint environment variable was set no need to probe the endpoint, it can be assumed to exist
+    // if the PodIdentityEndpoint environment variable was set no need to probe the endpoint, it can be assumed to exist
     if (process.env.AZURE_POD_IDENTITY_AUTHORITY_HOST) {
       return true;
     }

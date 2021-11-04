@@ -67,7 +67,7 @@ export class ClientSecretCredential implements TokenCredential {
     options?: GetTokenOptions
   ): Promise<AccessToken | null> {
     const { span, updatedOptions: newOptions } = createSpan(
-      "ClientSecretCredential.getToken",
+      `${this.constructor.name}.getToken`,
       options
     );
 
