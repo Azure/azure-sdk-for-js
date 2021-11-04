@@ -37,9 +37,9 @@ export interface AddParticipantResultEvent {
 // @public
 export interface CallConnection {
     addParticipant(participant: CommunicationIdentifier, options?: AddParticipantOptions): Promise<CallConnectionsAddParticipantResponse>;
+    readonly callConnectionId: string;
     cancelAllMediaOperations(options?: CancelAllMediaOperationsOptions): Promise<void>;
     cancelParticipantMediaOperation(participant: CommunicationIdentifier, mediaOperationId: string, options?: CancelMediaOperationOptions): Promise<void>;
-    getCallConnectionId(): string;
     hangUp(options?: HangUpOptions): Promise<void>;
     playAudio(audioFileUri: string, options: PlayAudioOptions): Promise<PlayAudioResult>;
     playAudioToParticipant(participant: CommunicationIdentifier, audioFileUri: string, options: PlayAudioOptions): Promise<PlayAudioResult>;

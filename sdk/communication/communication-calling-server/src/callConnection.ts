@@ -36,10 +36,11 @@ import { extractOperationOptions } from "./extractOperationOptions";
  * A CallConnection interface represents call connection based APIs.
  */
 export interface CallConnection {
+
   /**
    * Returns the call connection id.
    */
-  getCallConnectionId(): string;
+  readonly callConnectionId: string;
 
   /**
    * Disconnect the current caller in a group-call or end a p2p-call.
@@ -129,19 +130,12 @@ export interface CallConnection {
  * The client to do call connection operations
  */
 export class CallConnectionImpl implements CallConnection {
-  private readonly callConnectionId: string;
+  public readonly callConnectionId: string;
   private readonly callConnectionRestClient: CallConnections;
 
   constructor(callConnectionId: string, callConnectionRestClient: CallConnections) {
     this.callConnectionId = callConnectionId;
     this.callConnectionRestClient = callConnectionRestClient;
-  }
-
-  /**
-   * Returns the call connection id.
-   */
-  public getCallConnectionId(): string {
-    return this.callConnectionId;
   }
 
   /**
