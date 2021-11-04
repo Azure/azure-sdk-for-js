@@ -119,7 +119,7 @@ export interface CallConnection {
    * @param userToUserInformation - The user to user information.
    * @param options - Additional request options contains transferCall api options.
    */
-  transferCall(
+  transfer(
     targetParticipant: CommunicationIdentifier,
     userToUserInformation: string,
     options?: TransferCallOptions
@@ -404,7 +404,7 @@ export class CallConnectionImpl implements CallConnection {
    * @param userToUserInformation - The user to user information.
    * @param options - Additional request options contains transferCall api options.
    */
-  public async transferCall(
+  public async transfer(
     targetParticipant: CommunicationIdentifier,
     userToUserInformation: string,
     options: TransferCallOptions = {}
