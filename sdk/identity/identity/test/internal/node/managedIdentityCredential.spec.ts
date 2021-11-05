@@ -434,7 +434,7 @@ describe("ManagedIdentityCredential", function() {
         "URL does not start with expected host and path"
       );
 
-      assert.equal(authRequest.headers.Authorization, `Basic ${key}`);
+      assert.equal(authRequest.headers.authorization, `Basic ${key}`);
       if (authDetails.result!.token) {
         // We use Date.now underneath.
         assert.ok(authDetails.result!.expiresOnTimestamp);
