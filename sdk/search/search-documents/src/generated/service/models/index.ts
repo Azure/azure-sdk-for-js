@@ -382,7 +382,7 @@ export interface IndexerExecutionResult {
    * All of the state that defines and dictates the indexer's current execution.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly currentState?: IndexerCurrentState;
+  readonly currentState?: IndexerState;
   /**
    * The error message indicating the top-level error, if any.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -431,7 +431,7 @@ export interface IndexerExecutionResult {
 }
 
 /** Represents all of the state that defines and dictates the indexer's current execution. */
-export interface IndexerCurrentState {
+export interface IndexerState {
   /**
    * The mode the indexer is running in.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -441,22 +441,22 @@ export interface IndexerCurrentState {
    * Change tracking state used when indexing starts on all documents in the datasource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly allDocsInitialChangeTrackingState?: string;
+  readonly allDocumentsInitialChangeTrackingState?: string;
   /**
    * Change tracking state value when indexing finishes on all documents in the datasource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly allDocsFinalChangeTrackingState?: string;
+  readonly allDocumentsFinalChangeTrackingState?: string;
   /**
    * Change tracking state used when indexing starts on select, reset documents in the datasource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly resetDocsInitialChangeTrackingState?: string;
+  readonly resetDocumentsInitialChangeTrackingState?: string;
   /**
    * Change tracking state value when indexing finishes on select, reset documents in the datasource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly resetDocsFinalChangeTrackingState?: string;
+  readonly resetDocumentsFinalChangeTrackingState?: string;
   /**
    * The list of document keys that have been reset. The document key is the document's unique identifier for the data in the search index. The indexer will prioritize selectively re-ingesting these keys.
    * NOTE: This property will not be serialized. It can only be populated by the server.

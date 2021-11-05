@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { RequestParameters } from "./pathClientTypes";
+import { RequestParameters } from "./common";
 import { URL } from "./url";
 
 /**

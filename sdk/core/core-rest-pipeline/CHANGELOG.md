@@ -1,6 +1,6 @@
 # Release History
 
-## 1.3.2 (Unreleased)
+## 1.3.3 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,12 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 1.3.2 (2021-11-04)
+
+### Other Changes
+
+- Allow specifying any status response to get a raw stream as response content. [#18492](https://github.com/Azure/azure-sdk-for-js/pull/18492)
 
 ## 1.3.1 (2021-09-30)
 
