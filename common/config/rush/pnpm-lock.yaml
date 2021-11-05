@@ -1621,6 +1621,7 @@ packages:
   /@opentelemetry/node/0.22.0_@opentelemetry+api@1.0.3:
     resolution: {integrity: sha512-+HhGbDruQ7cwejVOIYyxRa28uosnG8W95NiQZ6qE8PXXPsDSyGeftAPbtYpGit0H2f5hrVcMlwmWHeAo9xkSLA==}
     engines: {node: '>=8.0.0'}
+    deprecated: Package renamed to @opentelemetry/sdk-trace-node
     peerDependencies:
       '@opentelemetry/api': ^1.0.0
     dependencies:
@@ -2146,6 +2147,12 @@ packages:
 
   /@types/ws/7.4.7:
     resolution: {integrity: sha512-JQbbmxZTZehdc2iszGKs5oC3NFnjeay7mtAWrdt7qNtAVK0g19muApzAy4bm9byz79xa2ZnO/BOBC2R8RC5Lww==}
+    dependencies:
+      '@types/node': 12.20.36
+    dev: false
+
+  /@types/ws/8.2.0:
+    resolution: {integrity: sha512-cyeefcUCgJlEk+hk2h3N+MqKKsPViQgF5boi9TTHSK+PoR9KWBb/C5ccPcDyAqgsbAYHTwulch725DV84+pSpg==}
     dependencies:
       '@types/node': 12.20.36
     dev: false
@@ -13825,7 +13832,7 @@ packages:
     dev: false
 
   file:projects/web-pubsub.tgz:
-    resolution: {integrity: sha512-iUyMsaUjaFJlu/R/2Oscn4GieWHEeFhfJCj76W6FI9PswtUUhZOqAUL2oBqTDBlwZPL6vEKQLwS1R/Y+M/Wf1w==, tarball: file:projects/web-pubsub.tgz}
+    resolution: {integrity: sha512-zs8KnTvkedkBN/kPW9lRT5flCa/Rm7POS1cLkva+idEwoTgeZvny0aHY5cMRRXo0I3j9iLmGg+lo+8vl+Erofw==, tarball: file:projects/web-pubsub.tgz}
     name: '@rush-temp/web-pubsub'
     version: 0.0.0
     dependencies:
@@ -13841,6 +13848,7 @@ packages:
       '@types/mocha': 7.0.2
       '@types/node': 12.20.36
       '@types/sinon': 9.0.11
+      '@types/ws': 8.2.0
       chai: 4.3.4
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -13876,6 +13884,7 @@ packages:
       tslib: 2.3.1
       typedoc: 0.15.2
       typescript: 4.2.4
+      ws: 8.2.3
     transitivePeerDependencies:
       - bufferutil
       - debug
