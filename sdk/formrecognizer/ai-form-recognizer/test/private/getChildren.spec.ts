@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { DocumentSpan } from "@azure/ai-form-recognizer";
+import { DocumentSpan } from "../../src";
 import {
   contains,
   fastGetChildren,

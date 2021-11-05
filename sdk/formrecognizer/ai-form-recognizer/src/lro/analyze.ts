@@ -71,7 +71,6 @@ export interface AnalyzedDocument {
  * Transform a REST-level Document response object into the more strongly-typed AnalyzedDocument.
  *
  * @internal
- *
  * @param document - a REST-level document response object
  * @returns an AnalyzedDocument (which has had its fields mapped to stronger DocumentField types)
  */
@@ -188,6 +187,8 @@ export interface DocumentPage {
 
 /**
  * Convert a REST-level DocumentPage into a convenience layer version.
+ *
+ * @internal
  * @param generated - a REST-level DocumentPage.
  * @returns
  */
@@ -230,6 +231,7 @@ export interface DocumentLine {
  * inner span, and that the end position of the outer span is greater than or equal to the end position of the inner
  * span.
  *
+ * @internal
  * @param outer - the outer (potentially containing) span
  * @param inner - the span to test if `outer` contains
  * @returns true if `inner` is contained inside of `outer`.
@@ -240,14 +242,14 @@ export function contains(outer: DocumentSpan, inner: DocumentSpan): boolean {
 
 /**
  * Make an empty generator. This might seem silly, but it's useful for satisfying invariants.
- * @internal
  */
-// eslint-disable-next-line @typescript-eslint/no-empty-function
-function* empty(): Generator<never> {}
+function* empty(): Generator<never> {
+  /* intentionally empty */
+}
 
 /**
  * Produces an iterator of the given items starting from the given index.
- * @internal
+ *
  * @param items - the items to iterate over
  * @param idx - the index of the first item to begin iterating from
  */
@@ -345,7 +347,6 @@ export function* fastGetChildren<Spanned extends { span: DocumentSpan }>(
 /**
  * Transforms a REST-level document line into a convenience layer version.
  *
- * @internal
  * @param generated - a REST-level DocumentLine
  * @param page - the page where the DocumentLine appeared
  * @returns a convenience layer DocumentLine
