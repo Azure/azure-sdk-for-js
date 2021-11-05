@@ -9760,7 +9760,7 @@ packages:
     dev: false
 
   file:projects/communication-short-codes.tgz:
-    resolution: {integrity: sha512-imnt2527n581p0dFDDFF7OPOEw5E2SwUpBU2O7fKnkLO2xf3umZ3kpxXNDlIe59pv9X0HK3oR37PaW06i4j8vw==, tarball: file:projects/communication-short-codes.tgz}
+    resolution: {integrity: sha512-W7c8tFK44EglMtWOPtXRO9IFBNqWuePxkwoeezqHp12J3IbkmKWQBxaTPGLJc7u9vKfmletUyc1fa0ARsAQ31A==, tarball: file:projects/communication-short-codes.tgz}
     name: '@rush-temp/communication-short-codes'
     version: 0.0.0
     dependencies:
@@ -9810,6 +9810,7 @@ packages:
       tslib: 2.3.1
       typedoc: 0.15.2
       typescript: 4.2.4
+      uuid: 8.3.2
     transitivePeerDependencies:
       - bufferutil
       - debug
