@@ -148,6 +148,9 @@ export class CloudEventsDispatcher {
   private readonly _allowAll: boolean = true;
   private readonly _allowedOrigins: Array<string> = [];
   constructor(private hub: string, private eventHandler?: WebPubSubEventHandlerOptions) {
+    if (Array.isArray(eventHandler)) {
+      throw new Error("Unexpected WebPubSubEventHandlerOptions");
+    }
     if (eventHandler?.allowedEndpoints !== undefined) {
       this._allowedOrigins = eventHandler.allowedEndpoints.map((endpoint) =>
         new URL(endpoint).host.toLowerCase()
