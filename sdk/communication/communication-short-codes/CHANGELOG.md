@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0-beta.1 (Unreleased)
+## 1.0.0-beta.1 (2021-11-05)
 
 The first preview of the Azure Communication Short Codes Client has the following features:
 
