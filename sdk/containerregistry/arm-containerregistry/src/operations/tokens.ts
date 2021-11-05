@@ -18,6 +18,7 @@ import {
   Token,
   TokensListNextOptionalParams,
   TokensListOptionalParams,
+  TokensListResponse,
   TokensGetOptionalParams,
   TokensGetResponse,
   TokensCreateOptionalParams,
@@ -26,7 +27,6 @@ import {
   TokenUpdateParameters,
   TokensUpdateOptionalParams,
   TokensUpdateResponse,
-  TokensListResponse,
   TokensListNextResponse
 } from "../models";
 
@@ -100,6 +100,23 @@ export class TokensImpl implements Tokens {
     )) {
       yield* page;
     }
+  }
+
+  /**
+   * Lists all the tokens for the specified container registry.
+   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param registryName The name of the container registry.
+   * @param options The options parameters.
+   */
+  private _list(
+    resourceGroupName: string,
+    registryName: string,
+    options?: TokensListOptionalParams
+  ): Promise<TokensListResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, registryName, options },
+      listOperationSpec
+    );
   }
 
   /**
@@ -403,23 +420,6 @@ export class TokensImpl implements Tokens {
   }
 
   /**
-   * Lists all the tokens for the specified container registry.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
-   * @param options The options parameters.
-   */
-  private _list(
-    resourceGroupName: string,
-    registryName: string,
-    options?: TokensListOptionalParams
-  ): Promise<TokensListResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, registryName, options },
-      listOperationSpec
-    );
-  }
-
-  /**
    * ListNext
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
@@ -441,6 +441,25 @@ export class TokensImpl implements Tokens {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const listOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/tokens",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.TokenListResult
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.registryName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
 const getOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/tokens/{tokenName}",
@@ -536,25 +555,6 @@ const updateOperationSpec: coreClient.OperationSpec = {
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
-};
-const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/tokens",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.TokenListResult
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.registryName
-  ],
-  headerParameters: [Parameters.accept],
   serializer
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
