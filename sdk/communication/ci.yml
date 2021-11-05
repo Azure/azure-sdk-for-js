@@ -38,5 +38,5 @@ extends:
         safeName: azurecommunicationphonenumbers
       - name: azure-communication-network-traversal
         safeName: azurecommunicationnetworktraversal
-      - name: azure-rest-communication-short-codes
-        safeName: azurerestcommunicationshortcodes
+      - name: azure-tools-communication-short-codes
+        safeName: azuretoolscommunicationshortcodes
