@@ -27,7 +27,7 @@ function defer<T>(): {
   };
 }
 
-class WebSocketFrame {
+class SimpleWebSocketFrame {
   public dataAsString: string | undefined;
   constructor(public data: Buffer | ArrayBuffer | Buffer[], public isBinary: boolean) {
     if (!isBinary) {
@@ -46,6 +46,20 @@ class WebSocketFrame {
   }
 }
 
+class PubSubWebSocketFrame {
+  public message: any;
+  public dataAsString: string;
+  constructor(data: Buffer | ArrayBuffer | Buffer[], isBinary: boolean) {
+    assert.isFalse(isBinary);
+    this.dataAsString = data.toString();
+    this.message = JSON.parse(this.dataAsString);
+  }
+
+  isEndSignal(): boolean {
+    return this.message.dataType === "binary" && this.message.data === "BQEB";
+  }
+}
+
 function getEndSignal(): Uint8Array {
   // magic number 511
   const payload = new Uint8Array(3);
@@ -58,45 +72,86 @@ function getEndSignal(): Uint8Array {
 describe("ServiceClient to manage the connected WebSocket connections", function() {
   it("Simple clients can receive expected messages with different content types", async function(this: Context) {
     if (!isLiveMode()) this.skip();
-    let messages: WebSocketFrame[] = [];
+    const hub = "SimpleClientCanReceiveMessage";
+
+    let messages: SimpleWebSocketFrame[] = [];
 
     // Get token
-    let serviceClient = new WebPubSubServiceClient(env.WPS_CONNECTION_STRING, "hub1");
+    let serviceClient = new WebPubSubServiceClient(env.WPS_CONNECTION_STRING, hub);
     let token = await serviceClient.getClientAccessToken();
     let endSignal = defer<void>();
     // Start simple WebSocket connections
-    let simpleClient = new ws.WebSocket(token.url);
-    simpleClient.on("message", (data, isBinary) => {
-      console.log(data);
-      var frame = new WebSocketFrame(data, isBinary);
+    let client = new ws.WebSocket(token.url);
+    client.on("message", (data, isBinary) => {
+      var frame = new SimpleWebSocketFrame(data, isBinary);
       if (frame.isEndSignal()) {
         endSignal.resolve();
-        simpleClient.close();
+        client.close();
       } else {
         messages.push(frame);
       }
     });
+    client.on("open", async () => {
+      // send to all
+      // Send a JSON message
+      await serviceClient.sendToAll({ message: "Hello world!" });
 
-    // send to all
-    // Send a JSON message
-    await serviceClient.sendToAll({ message: "Hello world!" });
+      // Send a plain text message
+      await serviceClient.sendToAll("Hi there!", { contentType: "text/plain" });
 
-    // Send a plain text message
-    await serviceClient.sendToAll("Hi there!", { contentType: "text/plain" });
+      // Send the binary end signal message
+      await serviceClient.sendToAll(getEndSignal());
+    });
+    await endSignal.promise;
 
-    // Send a binary message
-    const payload = new Uint8Array(10);
-    await serviceClient.sendToAll(payload.buffer);
+    assert.equal(messages.length, 2);
+    assert.equal(messages[0].dataAsString, '{"message":"Hello world!"}');
+    assert.equal(messages[1].dataAsString, "Hi there!");
+  });
 
-    // Send the end signal message
-    await serviceClient.sendToAll(getEndSignal());
+  it("Subprotocol clients can receive expected messages with different content types", async function(this: Context) {
+    if (!isLiveMode()) this.skip();
+    const hub = "PubSubClientCanReceiveMessage";
+    let messages: PubSubWebSocketFrame[] = [];
+
+    // Get token
+    let serviceClient = new WebPubSubServiceClient(env.WPS_CONNECTION_STRING, hub);
+    let token = await serviceClient.getClientAccessToken();
+    let endSignal = defer<void>();
+    // Start simple WebSocket connections
+    let client = new ws.WebSocket(token.url, "json.webpubsub.azure.v1");
+    client.on("message", (data, isBinary) => {
+      var frame = new PubSubWebSocketFrame(data, isBinary);
+      if (frame.isEndSignal()) {
+        endSignal.resolve();
+        client.close();
+      } else {
+        messages.push(frame);
+      }
+    });
+    client.on("open", async () => {
+      // send to all
+      // Send a JSON message
+      await serviceClient.sendToAll({ message: "Hello world!" });
+
+      // Send a plain text message
+      await serviceClient.sendToAll("Hi there!", { contentType: "text/plain" });
+
+      // Send the binary end signal message
+      await serviceClient.sendToAll(getEndSignal());
+    });
+
     await endSignal.promise;
 
     assert.equal(messages.length, 3);
-    assert.equal(messages[0].dataAsString, "");
-    assert.equal(messages[1].dataAsString, "");
-    assert.isTrue(
-      messages[2].isBinary && messages[2] instanceof Buffer && messages[2].byteLength == 10
+    assert.equal(messages[0].message.event, "connected");
+    assert.equal(
+      messages[1].dataAsString,
+      '{"type":"message","from":"server","dataType":"json","data":{"message":"Hello world!"}}'
+    );
+    assert.equal(
+      messages[2].dataAsString,
+      '{"type":"message","from":"server","dataType":"text","data":"Hi there!"}'
     );
   });
 });
