@@ -10,7 +10,7 @@ will still be issued to scan that folder but cspell will report 0 files checked.
 
 .PARAMETER ServiceDirectory
 Scopes scanning to a particular service directory (e.g. `storage`). Otherwise
-scan everything under the `sdk/` folder. Default is empty string (scan 
+scan everything under the `sdk/` folder. Default is empty string (scan
 everything).
 
 .EXAMPLE
@@ -24,10 +24,13 @@ Spell check all public API specs for all services and packages under `sdk`
 Spell check all public API specs for packages under `sdk/storage`
 
 #>
+[CmdletBinding()]
 param (
   [Parameter(mandatory = $false)]
   $ServiceDirectory = ''
 )
+
+Set-StrictMode -Version 3.0
 
 ."$PSScriptRoot/../common/scripts/common.ps1"
 
@@ -50,25 +53,15 @@ foreach ($serviceDirectory in $directoresToScan) {
     })
 }
 
-$failed = $false
-$cspellOutput = @()
+$scanGlobs = @()
 foreach ($directory in $packageDirectories) {
-  $scanGlob = "$directory/review/**/*.md"
-  Write-Host "cspell lint --config '$REPO_ROOT/.vscode/cspell.json' --no-must-find-files --root $REPO_ROOT --relative $scanGlob"
-  $cspellOutput += &"$PSScriptRoot/../../eng/common/scripts/Invoke-Cspell.ps1" `
-    lint `
-    --config "$REPO_ROOT/.vscode/cspell.json" `
-    --no-must-find-files `
-    --root $REPO_ROOT `
-    --relative `
-    $scanGlob
-
-  if ($LASTEXITCODE) {
-    $failed = $true
-  }
+  $scanGlobs += "$directory/review/**/*.md"
 }
 
-if ($failed) {
+$cspellOutput = &"$REPO_ROOT/eng/common/scripts/Invoke-Cspell.ps1" `
+  -ScanGlobs $scanGlobs
+
+if ($LASTEXITCODE) {
   foreach ($log in $cspellOutput) {
     LogError $log
   }
