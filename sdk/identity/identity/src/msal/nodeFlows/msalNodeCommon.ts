@@ -121,7 +121,7 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
       authorityHost: authority
     });
 
-    let clientCapabilities: string[] = ["CP1"];
+    let clientCapabilities: string[] = ["cp1"];
     if (process.env.AZURE_IDENTITY_DISABLE_CP1) {
       clientCapabilities = [];
     }
@@ -255,7 +255,8 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
       account: publicToMsal(this.account),
       correlationId: options?.correlationId,
       scopes,
-      authority: options?.authority
+      authority: options?.authority,
+      claims: options?.claims
     };
 
     try {

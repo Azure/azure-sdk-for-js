@@ -210,8 +210,10 @@ export class MsalOpenBrowser extends MsalNode {
 
     const authCodeUrlParameters: msalNode.AuthorizationUrlRequest = {
       scopes: scopeArray,
+      correlationId: options?.correlationId,
       redirectUri: this.redirectUri,
       authority: options?.authority,
+      claims: options?.claims,
       loginHint: this.loginHint,
       codeChallenge: this.pkceCodes.challenge,
       codeChallengeMethod: "S256" // Use SHA256 Algorithm
