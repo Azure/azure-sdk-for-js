@@ -15,9 +15,9 @@ describe("serialization.serialize", () => {
 
   it("circular", () => {
     const circularInput: any = { a: null };
-    circluarInput.a = circluarInput;
-    const result = serialize(circluarInput);
-    assert.deepEqual(circluarInput, result);
+    circularInput.a = circularInput;
+    const result = serialize(circularInput);
+    assert.deepEqual(circularInput, result);
   });
 
   it("recursive 1", () => {
@@ -69,10 +69,10 @@ describe("serialization.deserialize", () => {
   });
 
   it("circular", () => {
-    const circluarInput: any = { a: null };
-    circluarInput.a = circluarInput;
-    const result = deserialize(circluarInput);
-    assert.deepEqual(circluarInput, result);
+    const circularInput: any = { a: null };
+    circularInput.a = circularInput;
+    const result = deserialize(circularInput);
+    assert.deepEqual(circularInput, result);
   });
 
   it("recursive 1", () => {
@@ -86,7 +86,7 @@ describe("serialization.deserialize", () => {
   });
 
   it("recursive 2", () => {
-    const child = { hello: "INF", world: "-INF", universe: "NaN"};
+    const child = { hello: "INF", world: "-INF", universe: "NaN" };
     const documents = [
       { id: "1", children: [child] },
       { id: "2", children: [child] },
