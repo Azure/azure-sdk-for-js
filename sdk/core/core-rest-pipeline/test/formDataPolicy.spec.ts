@@ -11,7 +11,7 @@ import {
   formDataPolicy
 } from "../src";
 
-describe.only("formDataPolicy", function() {
+describe("formDataPolicy", function() {
   afterEach(function() {
     sinon.restore();
   });
