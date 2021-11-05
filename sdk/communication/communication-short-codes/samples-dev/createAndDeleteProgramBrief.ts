@@ -26,7 +26,7 @@ export async function main() {
   const client = new ShortCodesClient(connectionString);
 
   // create a new program brief request
-  const programBriefId = "todo: generate guid";
+  const programBriefId = "1b4411b7-edb0-44e7-9eca-dc7208b8d88c";
   const programBriefRequest: ShortCodesUpsertUSProgramBriefOptionalParams = {
     body: {
       id: programBriefId,
@@ -41,12 +41,13 @@ export async function main() {
         privacyPolicyUrl: "https://contoso.com/privacy",
         signUpTypes: ["sms", "website"],
         termsOfServiceUrl: "https://contoso.com/terms",
-        url: "https://contoso.com/loyalty-program"
+        url: "https://contoso.com/loyalty-program",
+        signUpUrl: "https://contoso.com/sign-up"
       },
       companyInformation: {
         address: "1 Contoso Way Redmond, WA 98052",
         name: "Contoso",
-        url: "contoso.com",
+        url: "https://contoso.com",
         contactInformation: {
           email: "alex@contoso.com",
           name: "Alex",
@@ -104,19 +105,19 @@ export async function main() {
     console.log(`Successfully created a new program brief with Id ${programBriefId}.`);
   }
 
-  // submit program brief
-  var submittedProgramBrief = await client.submitUSProgramBrief(programBriefId);
-  if (submittedProgramBrief._response.status == 200) {
-    console.log(`Successfully submitted program brief with Id ${programBriefId}`);
+  // delete program brief
+  var deleteResponse = await client.deleteUSProgramBrief(programBriefId);
+  if (deleteResponse._response.status == 204) {
+    console.log(`Successfully deleted draft program brief with Id ${programBriefId}`);
   } else {
-    throw new Error(`Failed to submit program brief with Id ${programBriefId}.
-    Status code: ${submittedProgramBrief._response.status}; Error: ${
-      submittedProgramBrief._response.bodyAsText
-    }; CV: ${submittedProgramBrief._response.headers.get("MS-CV")}`);
+    console.log(`Failed to delete draft program brief with Id ${programBriefId}.
+          Status code: ${deleteResponse._response.status}; Error: ${
+      deleteResponse._response.bodyAsText
+    }; CV: ${deleteResponse._response.headers.get("MS-CV")}`);
   }
 }
 
 main().catch((error) => {
-  console.log("The sample encountered an error:", error);
+  console.log("The sample createAndDeleteProgramBrief encountered an error:", error);
   process.exit(1);
 });

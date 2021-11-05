@@ -12,12 +12,12 @@ urlFragment: communication-short-codes-javascript
 
 These sample programs show how to use the JavaScript client libraries for Azure Communication Services - Short Codes in some common scenarios.
 
-| **File Name**                                                   | **Description**                                                  |
-| --------------------------------------------------------------- | ---------------------------------------------------------------- |
-| [createAndSubmitProgramBrief.js][createandsubmitprogrambrief]   | Create and Submit a Program Brief (application for a short code) |
-| [getAllProgramBriefsAndDelete.js][getallprogrambriefsanddelete] | Get all Program Briefs for an ACS Resource and Delete some       |
-| [getAllShortCodes.js][getallshortcodes]                         | Get all Short Codes for a resource                               |
-| [getAndUpdateProgramBrief.js][getandupdateprogrambrief]         | Get and Update a Program Brief (application for a short code)    |
+| **File Name**                                                 | **Description**                                                  |
+| ------------------------------------------------------------- | ---------------------------------------------------------------- |
+| [createAndDeleteProgramBrief.js][createanddeleteprogrambrief] | Create and Submit a Program Brief (application for a short code) |
+| [getAllProgramBriefs.js][getallprogrambriefs]                 | Get all Program Briefs for an ACS Resource and Delete some       |
+| [getAllShortCodes.js][getallshortcodes]                       | Get all Short Codes for a resource                               |
+| [getAndUpdateProgramBrief.js][getandupdateprogrambrief]       | Get and Update a Program Brief (application for a short code)    |
 
 ## Prerequisites
 
@@ -46,19 +46,19 @@ npm install
 3. Run whichever samples you like (note that some samples may require additional setup, see the table above):
 
 ```bash
-node createAndSubmitProgramBrief.js
+node createAndDeleteProgramBrief.js
 ```
 
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env COMMUNICATION_SAMPLES_CONNECTION_STRING="<communication samples connection string>" node createAndSubmitProgramBrief.js
+npx cross-env COMMUNICATION_SAMPLES_CONNECTION_STRING="<communication samples connection string>" node createAndDeleteProgramBrief.js
 ```
 
 ## Next Steps
 
-[createandsubmitprogrambrief]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-short-codes/samples/v1/javascript/createAndSubmitProgramBrief.js
-[getallprogrambriefsanddelete]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-short-codes/samples/v1/javascript/getAllProgramBriefsAndDelete.js
+[createanddeleteprogrambrief]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-short-codes/samples/v1/javascript/createAndDeleteProgramBrief.js
+[getallprogrambriefs]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-short-codes/samples/v1/javascript/getAllProgramBriefs.js
 [getallshortcodes]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-short-codes/samples/v1/javascript/getAllShortCodes.js
 [getandupdateprogrambrief]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-short-codes/samples/v1/javascript/getAndUpdateProgramBrief.js
 [freesub]: https://azure.microsoft.com/free/

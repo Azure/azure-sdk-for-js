@@ -32,6 +32,6 @@ export async function main() {
 }
 
 main().catch((error) => {
-  console.log("The sample encountered an error:", error);
+  console.log("The sample getAllShortCodes encountered an error:", error);
   process.exit(1);
 });

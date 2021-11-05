@@ -12,12 +12,12 @@ urlFragment: communication-short-codes-typescript
 
 These sample programs show how to use the TypeScript client libraries for Azure Communication Services - Short Codes in some common scenarios.
 
-| **File Name**                                                   | **Description**                                                  |
-| --------------------------------------------------------------- | ---------------------------------------------------------------- |
-| [createAndSubmitProgramBrief.ts][createandsubmitprogrambrief]   | Create and Submit a Program Brief (application for a short code) |
-| [getAllProgramBriefsAndDelete.ts][getallprogrambriefsanddelete] | Get all Program Briefs for an ACS Resource and Delete some       |
-| [getAllShortCodes.ts][getallshortcodes]                         | Get all Short Codes for a resource                               |
-| [getAndUpdateProgramBrief.ts][getandupdateprogrambrief]         | Get and Update a Program Brief (application for a short code)    |
+| **File Name**                                                 | **Description**                                                  |
+| ------------------------------------------------------------- | ---------------------------------------------------------------- |
+| [createAndDeleteProgramBrief.ts][createanddeleteprogrambrief] | Create and Submit a Program Brief (application for a short code) |
+| [getAllProgramBriefs.ts][getallprogrambriefs]                 | Get all Program Briefs for an ACS Resource and Delete some       |
+| [getAllShortCodes.ts][getallshortcodes]                       | Get all Short Codes for a resource                               |
+| [getAndUpdateProgramBrief.ts][getandupdateprogrambrief]       | Get and Update a Program Brief (application for a short code)    |
 
 ## Prerequisites
 
@@ -58,19 +58,19 @@ npm run build
 4. Run whichever samples you like (note that some samples may require additional setup, see the table above):
 
 ```bash
-node dist/createAndSubmitProgramBrief.js
+node dist/createAndDeleteProgramBrief.js
 ```
 
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env COMMUNICATION_SAMPLES_CONNECTION_STRING="<communication samples connection string>" node dist/createAndSubmitProgramBrief.js
+npx cross-env COMMUNICATION_SAMPLES_CONNECTION_STRING="<communication samples connection string>" node dist/createAndDeleteProgramBrief.js
 ```
 
 ## Next Steps
 
-[createandsubmitprogrambrief]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-short-codes/samples/v1/typescript/src/createAndSubmitProgramBrief.ts
-[getallprogrambriefsanddelete]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-short-codes/samples/v1/typescript/src/getAllProgramBriefsAndDelete.ts
+[createanddeleteprogrambrief]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-short-codes/samples/v1/typescript/src/createAndDeleteProgramBrief.ts
+[getallprogrambriefs]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-short-codes/samples/v1/typescript/src/getAllProgramBriefs.ts
 [getallshortcodes]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-short-codes/samples/v1/typescript/src/getAllShortCodes.ts
 [getandupdateprogrambrief]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-short-codes/samples/v1/typescript/src/getAndUpdateProgramBrief.ts
 [freesub]: https://azure.microsoft.com/free/

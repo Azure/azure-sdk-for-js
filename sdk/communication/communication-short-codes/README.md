@@ -105,7 +105,7 @@ const connectionString = "endpoint=<endpoint>;accessKey=<accessKey>";
 const client = new ShortCodesClient(connectionString);
 
 async main function() {
-  const programBriefId = "todo: generate guid";
+  const programBriefId = "00000000-0000-0000-0000-000000000000";
   const programBriefRequest: ShortCodesCreateUSProgramBriefParams = {
     body: {
       id: programBriefId,
