@@ -10,8 +10,10 @@ List of glob expressions to be scanned. This list is not constrained by
 npx/cmd's upper limit on command line length as the globs are inserted into the
 cspell config's `files` property.
 
-.PARAMETER CSpellVersion
-Version of cspell to use. Defaults to `5.12.3`
+.PARAMETER Packages
+Array of strings of the form "<package>@<version>" that will be used in the npx
+run. Example: @("cspell@12.5.6", "@cspell/cspell-bundled-dicts@12.5.3"). Default
+is a basic set of packages that work together.
 
 .PARAMETER CSpellConfigPath
 Location of cspell.json file to use when scanning. Defaults to
@@ -49,7 +51,14 @@ param(
   [array]$ScanGlobs = '**',
 
   [Parameter()]
-  [string]$CSpellVersion = '5.12.3',
+  [array]$CSpellPackages = @(
+    "cspell@5.12.3",
+    "cspell-lib@5.12.3",
+    "cspell-glob@5.12.3",
+    "cspell-gitignore@5.12.3",
+    "@cspell/cspell-types@5.12.3",
+    "@cspell/cspell-bundled-dicts@5.12.3"
+  ),
 
   [Parameter()]
   [string] $CSpellConfigPath = (Resolve-Path "$PSScriptRoot/../../../.vscode/cspell.json"),
@@ -75,16 +84,24 @@ if (!(Test-Path $CSpellConfigPath)) {
 
 function Test-VersionReportMatches() {
   # Arrange
-  $expectedCspellVersion = '5.12.1'
+  $expectedPackageVersion = '5.12.3'
+  $packages = @(
+    "cspell@$expectedPackageVersion",
+    "cspell-lib@$expectedPackageVersion",
+    "cspell-glob@$expectedPackageVersion",
+    "cspell-gitignore@$expectedPackageVersion",
+    "@cspell/cspell-types@$expectedPackageVersion",
+    "@cspell/cspell-bundled-dicts@$expectedPackageVersion"
+  )
 
   # Act
   $actual = &"$PSSCriptRoot/Invoke-Cspell.ps1" `
-    -CSpellVersion $expectedCspellVersion `
+    -CSpellPackages $packages `
     -JobType '--version'
 
   # Assert
-  if ($actual -ne $expectedCspellVersion) {
-    throw "Mismatched version. Expected:`n$expectedCspellVersion`n`nActual:`n$actual"
+  if ($actual -ne $expectedPackageVersion) {
+    throw "Mismatched version. Expected:`n$expectedPackageVersion`n`nActual:`n$actual"
   }
 }
 
@@ -128,16 +145,16 @@ Set-Content `
   -Path $CSpellConfigPath `
   -Value (ConvertTo-Json $cspellConfig -Depth 100)
 
-# Use the mutated configuration file when calling cspell
-Write-Host "npx cspell $JobType --config $CSpellConfigPath --no-must-find-files --root $SpellCheckRoot --relative"
+$packageParameters = @()
+foreach ($package in $CSpellPackages) {
+  $packageParameters += "--package $package"
+}
 
-$cspellOutput = npx cspell@$CSpellVersion `
-  $JobType `
-  --config $CSpellConfigPath `
-  --no-must-find-files `
-  --root $SpellCheckRoot `
-  --relative `
-  $ScanGlobs
+# Use the mutated configuration file when calling cspell
+$command = "npx $($packageParameters -join ' ') -- cspell $JobType --config $CSpellConfigPath --no-must-find-files --root $SpellCheckRoot --relative"
+Write-Host $command
+
+$cspellOutput = Invoke-Expression $command
 
 Write-Host "cspell run complete, restoring original configuration and removing temp file."
 Set-Content -Path $CSpellConfigPath -Value $cspellConfigContent -NoNewLine
