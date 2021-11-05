@@ -86,7 +86,7 @@ describe("serialization.deserialize", () => {
   });
 
   it("recursive 2", () => {
-    const child = { hello: Infinity, world: -Infinity, universe: NaN };
+    const child = { hello: "INF", world: "-INF", universe: "NaN"};
     const documents = [
       { id: "1", children: [child] },
       { id: "2", children: [child] },
