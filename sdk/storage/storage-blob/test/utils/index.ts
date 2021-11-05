@@ -43,6 +43,28 @@ export function getGenericCredential(accountType: string): StorageSharedKeyCrede
   return new StorageSharedKeyCredential(accountName, accountKey);
 }
 
+export function getEncryptionScope_1(): string {
+  const encryptionScopeEnvVar = "ENCRYPTION_SCOPE_1";
+  const encryptionScope = process.env[encryptionScopeEnvVar];
+
+  if (!encryptionScope) {
+    throw new Error(`${encryptionScopeEnvVar}  environment variables not specified.`);
+  }
+
+  return encryptionScope;
+}
+
+export function getEncryptionScope_2(): string {
+  const encryptionScopeEnvVar = "ENCRYPTION_SCOPE_2";
+  const encryptionScope = process.env[encryptionScopeEnvVar];
+
+  if (!encryptionScope) {
+    throw new Error(`${encryptionScopeEnvVar}  environment variables not specified.`);
+  }
+
+  return encryptionScope;
+}
+
 export function getGenericBSU(
   accountType: string,
   accountNameSuffix: string = "",

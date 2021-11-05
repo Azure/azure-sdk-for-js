@@ -53,6 +53,9 @@ export class ContainerSASPermissions {
         case "i":
           containerSASPermissions.setImmutabilityPolicy = true;
           break;
+        case "y":
+          containerSASPermissions.permanentDelete = true;
+          break;
         default:
           throw new RangeError(`Invalid permission ${char}`);
       }
@@ -101,6 +104,9 @@ export class ContainerSASPermissions {
     }
     if (permissionLike.setImmutabilityPolicy) {
       containerSASPermissions.setImmutabilityPolicy = true;
+    }
+    if (permissionLike.permanentDelete) {
+      containerSASPermissions.permanentDelete = true;
     }
     return containerSASPermissions;
   }
@@ -161,6 +167,11 @@ export class ContainerSASPermissions {
   public setImmutabilityPolicy: boolean = false;
 
   /**
+   * Specifies that Permanent Delete is permitted.
+   */
+  public permanentDelete: boolean = false;
+
+  /**
    * Converts the given permissions to a string. Using this method will guarantee the permissions are in an
    * order accepted by the service.
    *
@@ -202,6 +213,9 @@ export class ContainerSASPermissions {
     }
     if (this.setImmutabilityPolicy) {
       permissions.push("i");
+    }
+    if (this.permanentDelete) {
+      permissions.push("y");
     }
     return permissions.join("");
   }
@@ -266,4 +280,9 @@ export interface ContainerSASPermissionsLike {
    * Specifies SetImmutabilityPolicy access granted.
    */
   setImmutabilityPolicy?: boolean;
+
+  /**
+   * Specifies that Permanent Delete is permitted.
+   */
+  permanentDelete?: boolean;
 }
