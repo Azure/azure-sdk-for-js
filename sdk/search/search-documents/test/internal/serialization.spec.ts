@@ -14,7 +14,7 @@ describe("serialization.serialize", () => {
   });
 
   it("circular", () => {
-    const circluarInput: any = { a: null };
+    const circularInput: any = { a: null };
     circluarInput.a = circluarInput;
     const result = serialize(circluarInput);
     assert.deepEqual(circluarInput, result);
