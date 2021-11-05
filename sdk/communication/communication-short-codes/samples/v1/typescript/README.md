@@ -69,7 +69,6 @@ npx cross-env COMMUNICATION_SAMPLES_CONNECTION_STRING="<communication samples co
 
 ## Next Steps
 
-
 [createandsubmitprogrambrief]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-short-codes/samples/v1/typescript/src/createAndSubmitProgramBrief.ts
 [getallprogrambriefsanddelete]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-short-codes/samples/v1/typescript/src/getAllProgramBriefsAndDelete.ts
 [getallshortcodes]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-short-codes/samples/v1/typescript/src/getAllShortCodes.ts

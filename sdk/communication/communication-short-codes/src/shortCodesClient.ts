@@ -20,7 +20,6 @@ import { ShortCodesClient as ShortCodesGeneratedClient } from "./generated/src";
 import { ShortCodes as GeneratedClient } from "./generated/src/operations";
 import {
   ShortCode,
-  ShortCodesGetShortCodesOptionalParams,
   ShortCodesUpsertUSProgramBriefOptionalParams,
   USProgramBrief
 } from "./generated/src/models/";
@@ -28,13 +27,15 @@ import { SpanStatusCode } from "@azure/core-tracing";
 import {
   DeleteUSProgramBriefOptions,
   GetUSProgramBriefOptions,
+  ListShortCodesOptions,
+  ListUSProgramBriefsOptions,
   SubmitUSProgramBriefOptions
 } from "./models";
 
 /**
  * Client options used to configure the ShortCodesClient API requests.
  */
-export interface ShortCodesClientOptions extends PipelineOptions {}
+export interface ShortCodesClientOptions extends PipelineOptions { }
 
 const isShortCodesClientOptions = (options: any): options is ShortCodesClientOptions =>
   options && !isKeyCredential(options) && !isTokenCredential(options);
@@ -47,9 +48,17 @@ export class ShortCodesClient {
 
   public constructor(connectionString: string, options?: ShortCodesClientOptions);
 
-  public constructor(url: string, credential: KeyCredential, options?: ShortCodesClientOptions);
+  public constructor(
+    endpoint: string,
+    credential: KeyCredential,
+    options?: ShortCodesClientOptions
+  );
 
-  public constructor(url: string, credential: TokenCredential, options?: ShortCodesClientOptions);
+  public constructor(
+    endpoint: string,
+    credential: TokenCredential,
+    options?: ShortCodesClientOptions
+  );
 
   public constructor(
     connectionStringOrUrl: string,
@@ -87,7 +96,7 @@ export class ShortCodesClient {
   }
 
   public listShortCodes(
-    options: ShortCodesGetShortCodesOptionalParams = {}
+    options: ListShortCodesOptions = {}
   ): PagedAsyncIterableIterator<ShortCode> {
     const { span, updatedOptions } = createSpan("ShortCodesClient-listShortCodes", options);
     try {
@@ -157,8 +166,10 @@ export class ShortCodesClient {
     }
   }
 
-  public listUSProgramBriefs(): PagedAsyncIterableIterator<USProgramBrief> {
-    const { span, updatedOptions } = createSpan("ShortCodesClient-listUSProgramBriefs", undefined);
+  public listUSProgramBriefs(
+    options: ListUSProgramBriefsOptions = {}
+  ): PagedAsyncIterableIterator<USProgramBrief> {
+    const { span, updatedOptions } = createSpan("ShortCodesClient-listUSProgramBriefs", options);
     try {
       return this.client.listUSProgramBriefs(updatedOptions);
     } catch (e) {

@@ -85,6 +85,7 @@ export async function main() {
         totalMonthlyVolume: 10000,
         monthlyAverageMessagesFromUser: 1,
         monthlyAverageMessagesToUser: 3,
+        estimatedRampUpTimeInDays: 50,
         isSpiky: true,
         spikeDetails:
           "Higher traffic expected around major shopping holidays, most notably Black Friday and Memorial Day."

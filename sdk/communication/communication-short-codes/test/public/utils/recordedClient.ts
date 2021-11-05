@@ -34,13 +34,9 @@ export interface RecordedClient<T> {
 
 const replaceableVariables: { [k: string]: string } = {
   COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING: "endpoint=https://endpoint/;accesskey=banana",
-  INCLUDE_PHONENUMBER_LIVE_TESTS: "false",
-  COMMUNICATION_ENDPOINT: "https://endpoint/",
   AZURE_CLIENT_ID: "SomeClientId",
   AZURE_CLIENT_SECRET: "azure_client_secret",
-  AZURE_TENANT_ID: "SomeTenantId",
-  AZURE_PHONE_NUMBER: "+14155550100",
-  COMMUNICATION_SKIP_INT_PHONENUMBERS_TESTS: "false"
+  AZURE_TENANT_ID: "SomeTenantId"
 };
 
 export const environmentSetup: RecorderEnvironmentSetup = {

@@ -46,6 +46,14 @@ export interface GetUSProgramBriefOptions extends OperationOptions {
 }
 
 // @public
+export interface ListShortCodesOptions extends ShortCodesGetShortCodesOptionalParams {
+}
+
+// @public
+export interface ListUSProgramBriefsOptions extends OperationOptions {
+}
+
+// @public
 export type MessageContentCategory = "ringTones" | "smsChat" | "video" | "loyaltyProgramPointsPrizes" | "gifting" | "inApplicationBilling" | "textToScreen" | "games" | "audioChat" | "mmsPictures" | "sweepstakesContestAuction" | "financialBanking" | "premiumWap" | "queryService" | "wallpaperScreensaver" | "voting" | "application" | "mobileGivingDonations" | "coupons" | "loyaltyProgram" | "noPointsPrizes" | "informationalAlerts" | "microBilling" | "trivia" | "entertainmentAlerts" | "accountNotification" | "ageGatedContent" | "conversationalMessaging" | "deliveryNotification" | "education" | "emergencyAlerts" | "fraudAlerts" | "loanArrangement" | "onBehalfOfCarrier" | "political" | "promotionalMarketing" | "publicServiceAnnouncements" | "securityAlerts" | "socialMedia" | "twoFactorAuthentication" | "other";
 
 // @public (undocumented)
@@ -136,16 +144,16 @@ export interface ShortCodeCost {
 // @public (undocumented)
 export class ShortCodesClient {
     constructor(connectionString: string, options?: ShortCodesClientOptions);
-    constructor(url: string, credential: KeyCredential, options?: ShortCodesClientOptions);
-    constructor(url: string, credential: TokenCredential, options?: ShortCodesClientOptions);
+    constructor(endpoint: string, credential: KeyCredential, options?: ShortCodesClientOptions);
+    constructor(endpoint: string, credential: TokenCredential, options?: ShortCodesClientOptions);
     // (undocumented)
     deleteUSProgramBrief(programBriefId: string, options?: DeleteUSProgramBriefOptions): Promise<RestResponse>;
     // (undocumented)
     getUSProgramBrief(programBriefId: string, options?: GetUSProgramBriefOptions): Promise<USProgramBrief>;
     // (undocumented)
-    listShortCodes(options?: ShortCodesGetShortCodesOptionalParams): PagedAsyncIterableIterator<ShortCode>;
+    listShortCodes(options?: ListShortCodesOptions): PagedAsyncIterableIterator<ShortCode>;
     // (undocumented)
-    listUSProgramBriefs(): PagedAsyncIterableIterator<USProgramBrief>;
+    listUSProgramBriefs(options?: ListUSProgramBriefsOptions): PagedAsyncIterableIterator<USProgramBrief>;
     // (undocumented)
     submitUSProgramBrief(programBriefId: string, options?: SubmitUSProgramBriefOptions): Promise<RestResponse>;
     // (undocumented)
