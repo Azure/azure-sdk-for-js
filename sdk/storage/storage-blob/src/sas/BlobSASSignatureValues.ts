@@ -1051,6 +1051,10 @@ function SASSignatureValuesSanityCheckAndAutofill(
     );
   }
 
+  if (blobSASSignatureValues.encryptionScope && version < "2020-12-06") {
+    throw RangeError("'version' must be >= '2020-12-06' when provided 'encryptionScope' in SAS.");
+  }
+
   blobSASSignatureValues.version = version;
   return blobSASSignatureValues;
 }
