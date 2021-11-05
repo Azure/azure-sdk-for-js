@@ -6,6 +6,7 @@ import { PhoneNumberIdentifier } from "@azure/communication-common";
 
 import {
   CallMediaType,
+  CallRejectReason,
   CallingEventSubscriptionType,
   RecordingContentType,
   RecordingChannelType,
@@ -96,6 +97,38 @@ export interface AddParticipantOptions extends OperationOptions {
   alternateCallerId?: string;
   /** The operation context. */
   operationContext?: string;
+}
+
+/**
+ * Options to answer call.
+ */
+export interface AnswerCallOptions extends OperationOptions {
+  /** The callback uri. */
+  callbackUri?: string;
+  /** The requested modalities. */
+  requestedMediaTypes?: CallMediaType[];
+  /** The requested call events to subscribe to. */
+  requestedCallEvents?: CallingEventSubscriptionType[];
+}
+
+/**
+ * Options to reject call.
+ */
+export interface RejectCallOptions extends OperationOptions {
+  /** The rejection reason. */
+  callRejectReason?: CallRejectReason;
+  /** The callback uri. */
+  callbackUri?: string;
+}
+
+/**
+ * Options to redirect call.
+ */
+export interface RedirectCallOptions extends OperationOptions {
+  /** The callback uri. */
+  callbackUri?: string;
+  /** The timeout for the redirect in seconds. */
+  timeoutInSeconds?: number;
 }
 
 /**

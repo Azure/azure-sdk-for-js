@@ -742,24 +742,6 @@ export const enum KnownCallRecordingState {
  */
 export type CallRecordingState = string;
 
-/** Known values of {@link CallRejectReason} that the service accepts. */
-export const enum KnownCallRejectReason {
-  None = "none",
-  Busy = "busy",
-  Forbidden = "forbidden"
-}
-
-/**
- * Defines values for CallRejectReason. \
- * {@link KnownCallRejectReason} can be used interchangeably with CallRejectReason,
- *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
- * **none** \
- * **busy** \
- * **forbidden**
- */
-export type CallRejectReason = string;
-
 /** Known values of {@link ToneValue} that the service accepts. */
 export const enum KnownToneValue {
   Tone0 = "tone0",
@@ -811,6 +793,8 @@ export type CallMediaType = "audio" | "video";
 export type CallingEventSubscriptionType =
   | "participantsUpdated"
   | "toneReceived";
+/** Defines values for CallRejectReason. */
+export type CallRejectReason = "none" | "busy" | "forbidden";
 
 /** Contains response data for the getAudioRoutingGroups operation. */
 export type CallConnectionsGetAudioRoutingGroupsResponse = AudioRoutingGroupResult & {

@@ -50,3 +50,13 @@ directive:
   transform: >
     $["x-ms-enum"].modelAsString = false;
 ```
+
+### Set CallRejectReason Model as string false
+
+```yaml
+directive:
+  from: swagger-document
+  where: "$.definitions.CallRejectReason"
+  transform: >
+    $["x-ms-enum"].modelAsString = false;
+```

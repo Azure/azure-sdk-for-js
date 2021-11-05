@@ -1389,7 +1389,8 @@ export const RejectCallRequest: coreHttp.CompositeMapper = {
       callRejectReason: {
         serializedName: "callRejectReason",
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["none", "busy", "forbidden"]
         }
       },
       callbackUri: {

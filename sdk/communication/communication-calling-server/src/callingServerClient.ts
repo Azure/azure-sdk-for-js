@@ -8,6 +8,9 @@ import {
   CreateCallConnectionOptions,
   DownloadOptions,
   JoinCallOptions,
+  AnswerCallOptions,
+  RejectCallOptions,
+  RedirectCallOptions,
   CallLocator,
   PlayAudioOptions,
   PlayAudioToParticipantOptions,
@@ -25,6 +28,10 @@ import { CallConnections, ServerCalls } from "./generated/src/operations";
 import {
   CreateCallRequest,
   JoinCallRequest,
+  AnswerCallRequest,
+  AnswerCallResult,
+  RejectCallRequest,
+  RedirectCallRequest,
   PlayAudioWithCallLocatorRequest,
   PlayAudioResult,
   PlayAudioToParticipantWithCallLocatorRequest,
@@ -450,6 +457,125 @@ export class CallingServerClient {
 
     try {
       await this.serverCallRestClient.cancelMediaOperation(
+        request,
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+    } catch (e) {
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Answer the call.
+   *
+   * @param incomingCallContext - The context associated with the call.
+   * @param options - Additional request options contains answerCall api options.
+   */
+  public async answerCall(
+    incomingCallContext: string,
+    options: AnswerCallOptions = {}
+  ): Promise<AnswerCallResult> {
+    const { operationOptions, restOptions } = extractOperationOptions(options);
+    const { span, updatedOptions } = createSpan(
+      "ServerCallRestClient-answerCall",
+      operationOptions
+    );
+
+    const request: AnswerCallRequest = {
+      incomingCallContext: incomingCallContext,
+      callbackUri: restOptions.callbackUri,
+      requestedCallEvents: restOptions.requestedCallEvents,
+      requestedMediaTypes: restOptions.requestedMediaTypes
+    };
+
+    try {
+      const { _response, ...result } = await this.serverCallRestClient.answerCall(
+        request,
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+      return result;
+    } catch (e) {
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Reject the call.
+   *
+   * @param incomingCallContext - The context associated with the call.
+   * @param options - Additional request options contains rejectCall api options.
+   */
+  public async rejectCall(
+    incomingCallContext: string,
+    options: RejectCallOptions = {}
+  ): Promise<void> {
+    const { operationOptions, restOptions } = extractOperationOptions(options);
+    const { span, updatedOptions } = createSpan(
+      "ServerCallRestClient-rejectCall",
+      operationOptions
+    );
+
+    const request: RejectCallRequest = {
+      incomingCallContext: incomingCallContext,
+      callRejectReason: restOptions.callRejectReason,
+      callbackUri: restOptions.callbackUri
+    };
+
+    try {
+      await this.serverCallRestClient.rejectCall(
+        request,
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+    } catch (e) {
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Reject the call.
+   *
+   * @param incomingCallContext - The context associated with the call.
+   * @param targets - The target identity to redirect the call to.
+   * @param options - Additional request options contains redirectCall api options.
+   */
+  public async redirectCall(
+    incomingCallContext: string,
+    targets: CommunicationIdentifier[],
+    options: RedirectCallOptions = {}
+  ): Promise<void> {
+    const { operationOptions, restOptions } = extractOperationOptions(options);
+    const { span, updatedOptions } = createSpan(
+      "ServerCallRestClient-redirectCall",
+      operationOptions
+    );
+
+    const request: RedirectCallRequest = {
+      incomingCallContext: incomingCallContext,
+      targets: targets.map((m) => serializeCommunicationIdentifier(m)),
+      callbackUri: restOptions.callbackUri,
+      timeoutInSeconds: restOptions.timeoutInSeconds
+    };
+
+    try {
+      await this.serverCallRestClient.redirectCall(
         request,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
