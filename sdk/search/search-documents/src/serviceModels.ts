@@ -240,7 +240,7 @@ export interface CreateOrUpdateIndexOptions extends OperationOptions {
 /**
  * Options for reset docs operation.
  */
-export interface ResetDocsOptions extends OperationOptions {
+export interface ResetDocumentsOptions extends OperationOptions {
   /** document keys to be reset */
   documentKeys?: string[];
   /** datasource document identifiers to be reset */
@@ -252,7 +252,10 @@ export interface ResetDocsOptions extends OperationOptions {
 /**
  * Options for reset skills operation.
  */
-export type ResetSkillsOptions = OperationOptions;
+export interface ResetSkillsOptions extends OperationOptions {
+  /** the names of skills to be reset. */
+  skillNames?: string[];
+}
 
 /**
  * Options for create/update skillset operation.

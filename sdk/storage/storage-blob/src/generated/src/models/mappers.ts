@@ -5734,6 +5734,13 @@ export const BlobCopyFromURLHeaders: coreHttp.CompositeMapper = {
           name: "ByteArray"
         }
       },
+      encryptionScope: {
+        serializedName: "x-ms-encryption-scope",
+        xmlName: "x-ms-encryption-scope",
+        type: {
+          name: "String"
+        }
+      },
       errorCode: {
         serializedName: "x-ms-error-code",
         xmlName: "x-ms-error-code",
