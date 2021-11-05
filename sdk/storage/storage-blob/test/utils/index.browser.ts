@@ -56,6 +56,28 @@ export function getTokenCredential(): TokenCredential {
   return new SimpleTokenCredential(accountToken);
 }
 
+export function getEncryptionScope_1(): string {
+  const encryptionScopeEnvVar = "ENCRYPTION_SCOPE_1";
+  const encryptionScope = (self as any).__env__[encryptionScopeEnvVar];
+
+  if (!encryptionScope) {
+    throw new Error(`${encryptionScopeEnvVar} environment variables not specified.`);
+  }
+
+  return encryptionScope;
+}
+
+export function getEncryptionScope_2(): string {
+  const encryptionScopeEnvVar = "ENCRYPTION_SCOPE_2";
+  const encryptionScope = (self as any).__env__[encryptionScopeEnvVar];
+
+  if (!encryptionScope) {
+    throw new Error(`${encryptionScopeEnvVar} environment variables not specified.`);
+  }
+
+  return encryptionScope;
+}
+
 export function getTokenBSU(): BlobServiceClient {
   const accountNameEnvVar = `ACCOUNT_NAME`;
 
