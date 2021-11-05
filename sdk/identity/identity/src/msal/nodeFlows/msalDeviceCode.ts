@@ -39,7 +39,8 @@ export class MsalDeviceCode extends MsalNode {
         scopes,
         cancel: false,
         correlationId: options?.correlationId,
-        authority: options?.authority
+        authority: options?.authority,
+        claims: options?.claims
       };
       const promise = this.publicApp!.acquireTokenByDeviceCode(requestOptions);
       // TODO:

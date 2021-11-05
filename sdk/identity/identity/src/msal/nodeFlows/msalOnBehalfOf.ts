@@ -83,6 +83,7 @@ export class MsalOnBehalfOf extends MsalNode {
         scopes,
         correlationId: options.correlationId,
         authority: options.authority,
+        claims: options.claims,
         oboAssertion: this.userAssertionToken
       });
       return this.handleResult(scopes, this.clientId, result || undefined);
