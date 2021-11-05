@@ -1,14 +1,12 @@
 # Release History
 
-## 4.0.0-beta.2 (Unreleased)
+## 4.0.0-beta.2 (2021-11-09)
 
 ### Features Added
 
-### Breaking Changes
+- Added a `words` method to `DocumentLine`. This method produces an `IterableIterator` that will yield all of the `DocumentWord`s that are contained by the line's `spans`. This allows accessing the words that are related to the line from the line itself.
 
 ### Bugs Fixed
-
-### Other Changes
 
 ## 4.0.0-beta.1 (2021-10-07)
 

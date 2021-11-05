@@ -188,7 +188,7 @@ export interface DocumentPage {
 
 export function toDocumentPageFromGenerated(generated: GeneratedDocumentPage): DocumentPage {
   generated.lines = generated.lines.map((line) => toDocumentLineFromGenerated(line, generated));
-  return generated;
+  return generated as DocumentPage;
 }
 
 /**
@@ -211,11 +211,11 @@ export interface DocumentLine {
   spans: DocumentSpan[];
 
   /**
-   * An iterable of words within the line. This property is only defined
+   * Compute the `DocumentWord`s that are related to this line.
    *
-   * This property is not enumerable and will not be included if the `DocumentLine` is serialized.
+   * This function produces a lazy iterator that will yield one word before computing the next.
    */
-  words?: () => IterableIterator<DocumentWord>;
+  words: () => IterableIterator<DocumentWord>;
 }
 
 /**
@@ -223,16 +223,27 @@ export interface DocumentLine {
  * inner span, and that the end position of the outer span is greater than or equal to the end position of the inner
  * span.
  *
- * @param outer the outer (potentially containing) span
- * @param inner the span to test if `outer` contains
+ * @param outer - the outer (potentially containing) span
+ * @param inner - the span to test if `outer` contains
  * @returns true if `inner` is contained inside of `outer`.
  */
 export function contains(outer: DocumentSpan, inner: DocumentSpan): boolean {
   return outer.offset <= inner.offset && outer.offset + outer.length >= inner.offset + inner.length;
 }
 
+/**
+ * Make an empty generator. This might seem silly, but it's useful for satisfying invariants.
+ * @internal
+ */
+// eslint-disable-next-line @typescript-eslint/no-empty-function
 function* empty(): Generator<never> {}
 
+/**
+ * Produces an iterator of the given items starting from the given index.
+ * @internal
+ * @param items - the items to iterate over
+ * @param idx - the index of the first item to begin iterating from
+ */
 function* iterFrom<T>(items: T[], idx: number): Generator<T> {
   let i = idx;
 
@@ -241,21 +252,23 @@ function* iterFrom<T>(items: T[], idx: number): Generator<T> {
   }
 }
 
-function iteratorFromFirstMatchBinarySearch<Spanned extends { span: DocumentSpan }>(
+export function iteratorFromFirstMatchBinarySearch<Spanned extends { span: DocumentSpan }>(
   span: DocumentSpan,
   items: Spanned[]
 ): IterableIterator<Spanned> {
   let idx = Math.floor(items.length / 2);
   let prevIdx = idx;
   let min = 0;
-  let max = items.length - 1;
+  let max = items.length;
 
-  const predicate = (): boolean =>
+  const found = (): boolean =>
+    // The item is found if it starts after the current span and the item before it does not. That means it is the first
+    // item in the array that could be a child if the spans are sorted.
     items[idx].span.offset >= span.offset && (items[idx - 1]?.span?.offset ?? -1) < span.offset;
 
   // Binary search to find the first element that could be a child
   do {
-    if (predicate()) {
+    if (found()) {
       return iterFrom(items, idx);
     } else if (span.offset > items[idx].span.offset) {
       min = prevIdx = idx;
@@ -266,14 +279,8 @@ function iteratorFromFirstMatchBinarySearch<Spanned extends { span: DocumentSpan
     }
   } while (idx !== prevIdx);
 
-  // This might seem weird, but it's a simple way to make an empty iterator;
+  // This might seem weird, but it's a simple way to make the types a little more elegant.
   return empty();
-}
-
-function* intoIter<T>(values: T[]): Generator<T> {
-  for (const value of values) {
-    yield value;
-  }
 }
 
 export function* fastGetChildren<Spanned extends { span: DocumentSpan }>(
@@ -282,7 +289,7 @@ export function* fastGetChildren<Spanned extends { span: DocumentSpan }>(
 ): Generator<Spanned> {
   let curSpan = spans.next();
 
-  // Need to exit early if
+  // Need to exit early if there are no spans.
   if (curSpan.done) {
     return;
   }
@@ -292,28 +299,39 @@ export function* fastGetChildren<Spanned extends { span: DocumentSpan }>(
 
   while (!(curChild.done || curSpan.done)) {
     if (contains(curSpan.value, curChild.value.span)) {
-      //
+      // The span is contained, so yield the current child and advance it.
       yield curChild.value;
       curChild = children.next();
     } else if (curSpan.value.offset + curSpan.value.length < curChild.value.span.offset) {
+      // The current span ends before the next potential child starts, so advance the span
       curSpan = spans.next();
     } else {
+      // The current child was not contained in the current span, so advance to the next child.
       curChild = children.next();
     }
   }
 }
 
+/**
+ * Transforms a REST-level document line into a convenience layer version.
+ *
+ * @internal
+ * @param generated - a REST-level DocumentLine
+ * @param page - the page where the DocumentLine appeared
+ * @returns a convenience layer DocumentLine
+ */
 function toDocumentLineFromGenerated(
   generated: GeneratedDocumentLine,
-  page: DocumentPage
+  page: GeneratedDocumentPage
 ): DocumentLine {
-  const method: DocumentLine["words"] = () =>
-    fastGetChildren(intoIter(generated.spans), page.words);
+  (generated as DocumentLine).words = () =>
+    fastGetChildren(iterFrom(generated.spans, 0), page.words);
 
-  return Object.defineProperty(generated, "words", {
+  Object.defineProperty(generated, "words", {
     enumerable: false,
-    value: method,
   });
+
+  return generated as DocumentLine;
 }
 
 /**
