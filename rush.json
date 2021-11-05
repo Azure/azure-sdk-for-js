@@ -1050,6 +1050,11 @@
       "packageName": "@azure/arm-streamanalytics",
       "projectFolder": "sdk/streamanalytics/arm-streamanalytics",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-servicefabric",
+      "projectFolder": "sdk/servicefabric/arm-servicefabric",
+      "versionPolicyName": "management"
     }
   ]
 }

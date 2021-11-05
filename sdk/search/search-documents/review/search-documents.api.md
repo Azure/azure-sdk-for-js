@@ -630,22 +630,11 @@ export interface IndexDocumentsResult {
 }
 
 // @public
-export interface IndexerCurrentState {
-    readonly allDocsFinalChangeTrackingState?: string;
-    readonly allDocsInitialChangeTrackingState?: string;
-    readonly mode?: IndexingMode;
-    readonly resetDatasourceDocumentIds?: string[];
-    readonly resetDocsFinalChangeTrackingState?: string;
-    readonly resetDocsInitialChangeTrackingState?: string;
-    readonly resetDocumentKeys?: string[];
-}
-
-// @public
 export type IndexerExecutionEnvironment = string;
 
 // @public
 export interface IndexerExecutionResult {
-    readonly currentState?: IndexerCurrentState;
+    readonly currentState?: IndexerState;
     readonly endTime?: Date;
     readonly errorMessage?: string;
     readonly errors: SearchIndexerError[];
@@ -664,6 +653,17 @@ export type IndexerExecutionStatus = "transientFailure" | "success" | "inProgres
 
 // @public
 export type IndexerExecutionStatusDetail = string;
+
+// @public
+export interface IndexerState {
+    readonly allDocumentsFinalChangeTrackingState?: string;
+    readonly allDocumentsInitialChangeTrackingState?: string;
+    readonly mode?: IndexingMode;
+    readonly resetDatasourceDocumentIds?: string[];
+    readonly resetDocumentKeys?: string[];
+    readonly resetDocumentsFinalChangeTrackingState?: string;
+    readonly resetDocumentsInitialChangeTrackingState?: string;
+}
 
 // @public
 export type IndexerStatus = "unknown" | "error" | "running";
@@ -1677,7 +1677,7 @@ export type QueryType = "simple" | "full" | "semantic";
 export type RegexFlags = string;
 
 // @public
-export interface ResetDocsOptions extends OperationOptions {
+export interface ResetDocumentsOptions extends OperationOptions {
     datasourceDocumentIds?: string[];
     documentKeys?: string[];
     overwrite?: boolean;
@@ -1687,7 +1687,9 @@ export interface ResetDocsOptions extends OperationOptions {
 export type ResetIndexerOptions = OperationOptions;
 
 // @public
-export type ResetSkillsOptions = OperationOptions;
+export interface ResetSkillsOptions extends OperationOptions {
+    skillNames?: string[];
+}
 
 // @public
 export interface ResourceCounter {
@@ -1862,9 +1864,9 @@ export class SearchIndexerClient {
     listIndexersNames(options?: ListIndexersOptions): Promise<Array<string>>;
     listSkillsets(options?: ListSkillsetsOptions): Promise<Array<SearchIndexerSkillset>>;
     listSkillsetsNames(options?: ListSkillsetsOptions): Promise<Array<string>>;
-    resetDocs(indexerName: string, options?: ResetDocsOptions): Promise<void>;
+    resetDocuments(indexerName: string, options?: ResetDocumentsOptions): Promise<void>;
     resetIndexer(indexerName: string, options?: ResetIndexerOptions): Promise<void>;
-    resetSkills(skillsetName: string, skillNames: string[], options?: ResetSkillsOptions): Promise<void>;
+    resetSkills(skillsetName: string, options?: ResetSkillsOptions): Promise<void>;
     runIndexer(indexerName: string, options?: RunIndexerOptions): Promise<void>;
 }
 
