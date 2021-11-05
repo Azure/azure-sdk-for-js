@@ -270,7 +270,8 @@ export const CreateCallRequest: coreHttp.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
+              name: "Enum",
+              allowedValues: ["audio", "video"]
             }
           }
         }
@@ -281,7 +282,8 @@ export const CreateCallRequest: coreHttp.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
+              name: "Enum",
+              allowedValues: ["participantsUpdated", "toneReceived"]
             }
           }
         }
@@ -366,7 +368,8 @@ export const CallConnectionProperties: coreHttp.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
+              name: "Enum",
+              allowedValues: ["audio", "video"]
             }
           }
         }
@@ -377,7 +380,8 @@ export const CallConnectionProperties: coreHttp.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
+              name: "Enum",
+              allowedValues: ["participantsUpdated", "toneReceived"]
             }
           }
         }
@@ -1201,7 +1205,8 @@ export const JoinCallRequest: coreHttp.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
+              name: "Enum",
+              allowedValues: ["audio", "video"]
             }
           }
         }
@@ -1212,7 +1217,8 @@ export const JoinCallRequest: coreHttp.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
+              name: "Enum",
+              allowedValues: ["participantsUpdated", "toneReceived"]
             }
           }
         }
@@ -1331,7 +1337,8 @@ export const AnswerCallRequest: coreHttp.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
+              name: "Enum",
+              allowedValues: ["audio", "video"]
             }
           }
         }
@@ -1342,7 +1349,8 @@ export const AnswerCallRequest: coreHttp.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
+              name: "Enum",
+              allowedValues: ["participantsUpdated", "toneReceived"]
             }
           }
         }

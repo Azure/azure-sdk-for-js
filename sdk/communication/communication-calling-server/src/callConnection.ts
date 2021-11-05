@@ -36,7 +36,6 @@ import { extractOperationOptions } from "./extractOperationOptions";
  * A CallConnection interface represents call connection based APIs.
  */
 export interface CallConnection {
-
   /**
    * Returns the call connection id.
    */
@@ -197,10 +196,7 @@ export class CallConnectionImpl implements CallConnection {
    * @param audioUrl - The audio resource url.
    * @param options - Additional request options contains playAudio api options.
    */
-  public async playAudio(
-    audioUrl: string,
-    options: PlayAudioOptions
-  ): Promise<PlayAudioResult> {
+  public async playAudio(audioUrl: string, options: PlayAudioOptions): Promise<PlayAudioResult> {
     const { operationOptions, restOptions } = extractOperationOptions(options);
     const { span, updatedOptions } = createSpan(
       "CallConnectionRestClient-PlayAudio",

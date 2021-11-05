@@ -30,3 +30,23 @@ use-extension:
   "@autorest/typescript": "6.0.0-dev.20210217.1"
 package-version: 1.0.0-beta.1
 ```
+
+### Set CallMediaType Model as string false
+
+```yaml
+directive:
+  from: swagger-document
+  where: "$.definitions.CallMediaType"
+  transform: >
+    $["x-ms-enum"].modelAsString = false;
+```
+
+### Set CallingEventSubscriptionType Model as string false
+
+```yaml
+directive:
+  from: swagger-document
+  where: "$.definitions.CallingEventSubscriptionType"
+  transform: >
+    $["x-ms-enum"].modelAsString = false;
+```
