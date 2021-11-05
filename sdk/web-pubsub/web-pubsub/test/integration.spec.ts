@@ -39,9 +39,9 @@ class SimpleWebSocketFrame {
     return (
       this.isBinary &&
       this.data instanceof Buffer &&
-      this.data[0] == 5 &&
-      this.data[1] == 1 &&
-      this.data[2] == 1
+      this.data[0] === 5 &&
+      this.data[1] === 1 &&
+      this.data[2] === 1
     );
   }
 }
@@ -74,16 +74,16 @@ describe("ServiceClient to manage the connected WebSocket connections", function
     if (!isLiveMode()) this.skip();
     const hub = "SimpleClientCanReceiveMessage";
 
-    let messages: SimpleWebSocketFrame[] = [];
+    const messages: SimpleWebSocketFrame[] = [];
 
     // Get token
-    let serviceClient = new WebPubSubServiceClient(env.WPS_CONNECTION_STRING, hub);
-    let token = await serviceClient.getClientAccessToken();
-    let endSignal = defer<void>();
+    const serviceClient = new WebPubSubServiceClient(env.WPS_CONNECTION_STRING, hub);
+    const token = await serviceClient.getClientAccessToken();
+    const endSignal = defer<void>();
     // Start simple WebSocket connections
-    let client = new ws.WebSocket(token.url);
+    const client = new ws.WebSocket(token.url);
     client.on("message", (data, isBinary) => {
-      var frame = new SimpleWebSocketFrame(data, isBinary);
+      const frame = new SimpleWebSocketFrame(data, isBinary);
       if (frame.isEndSignal()) {
         endSignal.resolve();
         client.close();
@@ -112,16 +112,16 @@ describe("ServiceClient to manage the connected WebSocket connections", function
   it("Subprotocol clients can receive expected messages with different content types", async function(this: Context) {
     if (!isLiveMode()) this.skip();
     const hub = "PubSubClientCanReceiveMessage";
-    let messages: PubSubWebSocketFrame[] = [];
+    const messages: PubSubWebSocketFrame[] = [];
 
     // Get token
-    let serviceClient = new WebPubSubServiceClient(env.WPS_CONNECTION_STRING, hub);
-    let token = await serviceClient.getClientAccessToken();
-    let endSignal = defer<void>();
+    const serviceClient = new WebPubSubServiceClient(env.WPS_CONNECTION_STRING, hub);
+    const token = await serviceClient.getClientAccessToken();
+    const endSignal = defer<void>();
     // Start simple WebSocket connections
-    let client = new ws.WebSocket(token.url, "json.webpubsub.azure.v1");
+    const client = new ws.WebSocket(token.url, "json.webpubsub.azure.v1");
     client.on("message", (data, isBinary) => {
-      var frame = new PubSubWebSocketFrame(data, isBinary);
+      const frame = new PubSubWebSocketFrame(data, isBinary);
       if (frame.isEndSignal()) {
         endSignal.resolve();
         client.close();
