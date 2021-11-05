@@ -17,8 +17,7 @@ import { arcMsi } from "./arcMsi";
 import { tokenExchangeMsi } from "./tokenExchangeMsi";
 import { fabricMsi } from "./fabricMsi";
 
-const credentialName = "ManagedIdentityCredential";
-const logger = credentialLogger(credentialName);
+const logger = credentialLogger("ManagedIdentityCredential");
 
 /**
  * Attempts authentication using a managed identity available at the deployment environment.
@@ -85,7 +84,9 @@ export class ManagedIdentityCredential implements TokenCredential {
       }
     }
 
-    throw new CredentialUnavailableError(`${credentialName} - No MSI credential available`);
+    throw new CredentialUnavailableError(
+      `${ManagedIdentityCredential.name} - No MSI credential available`
+    );
   }
 
   private async authenticateManagedIdentity(
@@ -94,7 +95,7 @@ export class ManagedIdentityCredential implements TokenCredential {
     getTokenOptions?: GetTokenOptions
   ): Promise<AccessToken | null> {
     const { span, updatedOptions } = createSpan(
-      `${credentialName}.authenticateManagedIdentity`,
+      `${ManagedIdentityCredential.name}.authenticateManagedIdentity`,
       getTokenOptions
     );
 
@@ -136,7 +137,10 @@ export class ManagedIdentityCredential implements TokenCredential {
   ): Promise<AccessToken> {
     let result: AccessToken | null = null;
 
-    const { span, updatedOptions } = createSpan(`${credentialName}.getToken`, options);
+    const { span, updatedOptions } = createSpan(
+      `${ManagedIdentityCredential.name}.getToken`,
+      options
+    );
 
     try {
       // isEndpointAvailable can be true, false, or null,
@@ -198,7 +202,7 @@ export class ManagedIdentityCredential implements TokenCredential {
       // we can safely assume the credential is unavailable.
       if (err.code === "ENETUNREACH") {
         const error = new CredentialUnavailableError(
-          `${credentialName}: Unavailable. Network unreachable. Message: ${err.message}`
+          `${ManagedIdentityCredential.name}: Unavailable. Network unreachable. Message: ${err.message}`
         );
 
         logger.getToken.info(formatError(scopes, error));
@@ -209,7 +213,7 @@ export class ManagedIdentityCredential implements TokenCredential {
       // we can safely assume the credential is unavailable.
       if (err.code === "EHOSTUNREACH") {
         const error = new CredentialUnavailableError(
-          `${credentialName}: Unavailable. No managed identity endpoint found. Message: ${err.message}`
+          `${ManagedIdentityCredential.name}: Unavailable. No managed identity endpoint found. Message: ${err.message}`
         );
 
         logger.getToken.info(formatError(scopes, error));
@@ -220,7 +224,7 @@ export class ManagedIdentityCredential implements TokenCredential {
       // and it means that the endpoint is working, but that no identity is available.
       if (err.statusCode === 400) {
         throw new CredentialUnavailableError(
-          `${credentialName}: The managed identity endpoint is indicating there's no available identity. Message: ${err.message}`
+          `${ManagedIdentityCredential.name}: The managed identity endpoint is indicating there's no available identity. Message: ${err.message}`
         );
       }
 
@@ -228,13 +232,13 @@ export class ManagedIdentityCredential implements TokenCredential {
       // This will throw silently during any ChainedTokenCredential.
       if (err.statusCode === undefined) {
         throw new CredentialUnavailableError(
-          `${credentialName}: Authentication failed. Message ${err.message}`
+          `${ManagedIdentityCredential.name}: Authentication failed. Message ${err.message}`
         );
       }
 
       // Any other error should break the chain.
       throw new AuthenticationError(err.statusCode, {
-        error: `${credentialName} authentication failed.`,
+        error: `${ManagedIdentityCredential.name} authentication failed.`,
         error_description: err.message
       });
     } finally {

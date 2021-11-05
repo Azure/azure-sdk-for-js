@@ -8,8 +8,9 @@ import {
   PipelineRequestOptions
 } from "@azure/core-rest-pipeline";
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
-import { MSI, MSIConfiguration } from "./models";
+import { TokenResponseParsedBody } from "../../client/identityClient";
 import { credentialLogger } from "../../util/logging";
+import { MSI, MSIConfiguration } from "./models";
 import { mapScopesToResource } from "./utils";
 import { azureFabricVersion } from "./constants";
 
@@ -30,8 +31,8 @@ const logger = credentialLogger(msiName);
 /**
  * Formats the expiration date of the received token into the number of milliseconds between that date and midnight, January 1, 1970.
  */
-function expiresInParser(requestBody: any): number {
-  // Parses a string representation of the seconds since epoch into a number value
+function expiresOnParser(requestBody: TokenResponseParsedBody): number {
+  // Parses a string representation of the milliseconds since epoch into a number value
   return Number(requestBody.expires_on);
 }
 
@@ -47,7 +48,7 @@ function prepareRequestOptions(
     throw new Error(`${msiName}: Multiple scopes are not supported.`);
   }
 
-  const queryParameters: any = {
+  const queryParameters: Record<string, string> = {
     resource,
     "api-version": azureFabricVersion
   };
@@ -115,8 +116,9 @@ export const fabricMsi: MSI = {
 
     const request = createPipelineRequest({
       abortSignal: getTokenOptions.abortSignal,
-      ...prepareRequestOptions(scopes, clientId),
-      allowInsecureConnection: true
+      ...prepareRequestOptions(scopes, clientId)
+      // The service fabric MSI endpoint will be HTTPS (however, the certificate will be self-signed).
+      // allowInsecureConnection: true
     });
 
     request.agent = new https.Agent({
@@ -125,7 +127,7 @@ export const fabricMsi: MSI = {
       rejectUnauthorized: false
     });
 
-    const tokenResponse = await identityClient.sendTokenRequest(request, expiresInParser);
+    const tokenResponse = await identityClient.sendTokenRequest(request, expiresOnParser);
     return (tokenResponse && tokenResponse.accessToken) || null;
   }
 };

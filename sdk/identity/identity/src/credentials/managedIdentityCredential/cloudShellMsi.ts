@@ -6,16 +6,13 @@ import {
   createPipelineRequest,
   PipelineRequestOptions
 } from "@azure/core-rest-pipeline";
+import { credentialLogger } from "../../util/logging";
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
 import { MSI, MSIConfiguration } from "./models";
-import { credentialLogger } from "../../util/logging";
 import { mapScopesToResource } from "./utils";
 
 const msiName = "ManagedIdentityCredential - CloudShellMSI";
 const logger = credentialLogger(msiName);
-
-// Cloud Shell MSI doesn't have a special expiresIn parser.
-const expiresInParser = undefined;
 
 /**
  * Generates the options used on the request for an access token.
@@ -29,7 +26,7 @@ function prepareRequestOptions(
     throw new Error(`${msiName}: Multiple scopes are not supported.`);
   }
 
-  const body: any = {
+  const body: Record<string, string> = {
     resource
   };
 
@@ -83,9 +80,10 @@ export const cloudShellMsi: MSI = {
     const request = createPipelineRequest({
       abortSignal: getTokenOptions.abortSignal,
       ...prepareRequestOptions(scopes, clientId),
+      // Generally, MSI endpoints use the HTTP protocol, without transport layer security (TLS).
       allowInsecureConnection: true
     });
-    const tokenResponse = await identityClient.sendTokenRequest(request, expiresInParser);
+    const tokenResponse = await identityClient.sendTokenRequest(request);
     return (tokenResponse && tokenResponse.accessToken) || null;
   }
 };

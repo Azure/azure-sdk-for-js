@@ -10,13 +10,13 @@ import {
   RestError
 } from "@azure/core-rest-pipeline";
 import { SpanStatusCode } from "@azure/core-tracing";
-import { IdentityClient } from "../../client/identityClient";
+import { IdentityClient, TokenResponseParsedBody } from "../../client/identityClient";
 import { credentialLogger } from "../../util/logging";
+import { AuthenticationError } from "../../errors";
 import { createSpan } from "../../util/tracing";
 import { imdsApiVersion, imdsEndpointPath, imdsHost } from "./constants";
 import { MSI, MSIConfiguration } from "./models";
 import { mapScopesToResource } from "./utils";
-import { AuthenticationError } from "../../errors";
 
 const msiName = "ManagedIdentityCredential - IMDS";
 const logger = credentialLogger(msiName);
@@ -24,7 +24,7 @@ const logger = credentialLogger(msiName);
 /**
  * Formats the expiration date of the received token into the number of milliseconds between that date and midnight, January 1, 1970.
  */
-function expiresInParser(requestBody: any): number {
+function expiresOnParser(requestBody: TokenResponseParsedBody): number {
   if (requestBody.expires_on) {
     // Use the expires_on timestamp if it's available
     const expires = +requestBody.expires_on * 1000;
@@ -64,7 +64,7 @@ function prepareRequestOptions(
   // Pod Identity will try to process this request even if the Metadata header is missing.
   // We can exclude the request query to ensure no IMDS endpoint tries to process the ping request.
   if (!skipQuery) {
-    const queryParameters: any = {
+    const queryParameters: Record<string, string> = {
       resource,
       "api-version": imdsApiVersion
     };
@@ -202,7 +202,7 @@ export const imdsMsi: MSI = {
           ...prepareRequestOptions(scopes, clientId),
           allowInsecureConnection: true
         });
-        const tokenResponse = await identityClient.sendTokenRequest(request, expiresInParser);
+        const tokenResponse = await identityClient.sendTokenRequest(request, expiresOnParser);
         return (tokenResponse && tokenResponse.accessToken) || null;
       } catch (error) {
         if (error.statusCode === 404) {

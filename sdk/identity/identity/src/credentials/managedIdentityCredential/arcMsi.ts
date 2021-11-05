@@ -8,18 +8,15 @@ import {
 } from "@azure/core-rest-pipeline";
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
 import { readFile } from "fs";
-import { MSI, MSIConfiguration } from "./models";
+import { AuthenticationError } from "../../errors";
 import { credentialLogger } from "../../util/logging";
 import { IdentityClient } from "../../client/identityClient";
 import { mapScopesToResource } from "./utils";
+import { MSI, MSIConfiguration } from "./models";
 import { azureArcAPIVersion } from "./constants";
-import { AuthenticationError } from "../../errors";
 
 const msiName = "ManagedIdentityCredential - Azure Arc MSI";
 const logger = credentialLogger(msiName);
-
-// Azure Arc MSI doesn't have a special expiresIn parser.
-const expiresInParser = undefined;
 
 /**
  * Generates the options used on the request for an access token.
@@ -29,7 +26,7 @@ function prepareRequestOptions(scopes: string | string[]): PipelineRequestOption
   if (!resource) {
     throw new Error(`${msiName}: Multiple scopes are not supported.`);
   }
-  const queryParameters: any = {
+  const queryParameters: Record<string, string> = {
     resource,
     "api-version": azureArcAPIVersion
   };
@@ -146,9 +143,10 @@ export const arcMsi: MSI = {
 
     const request = createPipelineRequest({
       ...requestOptions,
+      // Generally, MSI endpoints use the HTTP protocol, without transport layer security (TLS).
       allowInsecureConnection: true
     });
-    const tokenResponse = await identityClient.sendTokenRequest(request, expiresInParser);
+    const tokenResponse = await identityClient.sendTokenRequest(request);
     return (tokenResponse && tokenResponse.accessToken) || null;
   }
 };

@@ -7,6 +7,7 @@ import {
   PipelineRequestOptions
 } from "@azure/core-rest-pipeline";
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
+import { TokenResponseParsedBody } from "../../client/identityClient";
 import { credentialLogger } from "../../util/logging";
 import { MSI, MSIConfiguration } from "./models";
 import { mapScopesToResource } from "./utils";
@@ -17,8 +18,9 @@ const logger = credentialLogger(msiName);
 /**
  * Formats the expiration date of the received token into the number of milliseconds between that date and midnight, January 1, 1970.
  */
-function expiresInParser(requestBody: any): number {
-  return Date.parse(requestBody.expires_on);
+function expiresOnParser(requestBody: TokenResponseParsedBody): number {
+  // App Service always returns string expires_on values.
+  return Date.parse(requestBody.expires_on! as string);
 }
 
 /**
@@ -33,7 +35,7 @@ function prepareRequestOptions(
     throw new Error(`${msiName}: Multiple scopes are not supported.`);
   }
 
-  const queryParameters: any = {
+  const queryParameters: Record<string, string> = {
     resource,
     "api-version": "2017-09-01"
   };
@@ -94,9 +96,10 @@ export const appServiceMsi2017: MSI = {
     const request = createPipelineRequest({
       abortSignal: getTokenOptions.abortSignal,
       ...prepareRequestOptions(scopes, clientId),
+      // Generally, MSI endpoints use the HTTP protocol, without transport layer security (TLS).
       allowInsecureConnection: true
     });
-    const tokenResponse = await identityClient.sendTokenRequest(request, expiresInParser);
+    const tokenResponse = await identityClient.sendTokenRequest(request, expiresOnParser);
     return (tokenResponse && tokenResponse.accessToken) || null;
   }
 };

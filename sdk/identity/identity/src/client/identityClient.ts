@@ -38,6 +38,19 @@ export interface TokenResponse {
 }
 
 /**
+ * Internal type roughly matching the raw responses of the authentication endpoints.
+ *
+ * @internal
+ */
+export interface TokenResponseParsedBody {
+  token?: string;
+  access_token?: string;
+  refresh_token?: string;
+  expires_in: number;
+  expires_on?: number | string;
+}
+
+/**
  * @internal
  */
 export function getIdentityClientAuthorityHost(options?: TokenCredentialOptions): string {
@@ -90,23 +103,19 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
 
   async sendTokenRequest(
     request: PipelineRequest,
-    expiresOnParser?: (responseBody: any) => number
+    expiresOnParser?: (responseBody: TokenResponseParsedBody) => number
   ): Promise<TokenResponse | null> {
     logger.info(`IdentityClient: sending token request to [${request.url}]`);
     const response = await this.sendRequest(request);
 
     expiresOnParser =
       expiresOnParser ||
-      ((responseBody: any) => {
+      ((responseBody: TokenResponseParsedBody) => {
         return Date.now() + responseBody.expires_in * 1000;
       });
 
     if (response.bodyAsText && (response.status === 200 || response.status === 201)) {
-      const parsedBody: {
-        token?: string;
-        access_token?: string;
-        refresh_token?: string;
-      } = JSON.parse(response.bodyAsText);
+      const parsedBody: TokenResponseParsedBody = JSON.parse(response.bodyAsText);
 
       if (!parsedBody.access_token) {
         return null;

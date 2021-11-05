@@ -9,9 +9,10 @@ import {
 } from "@azure/core-rest-pipeline";
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
 import { promisify } from "util";
+import { TokenResponseParsedBody } from "../../client/identityClient";
+import { DefaultAuthorityHost } from "../../constants";
 import { credentialLogger } from "../../util/logging";
 import { MSI, MSIConfiguration } from "./models";
-import { DefaultAuthorityHost } from "../../constants";
 
 const msiName = "ManagedIdentityCredential - Token Exchange";
 const logger = credentialLogger(msiName);
@@ -21,7 +22,7 @@ const readFileAsync = promisify(fs.readFile);
 /**
  * Formats the expiration date of the received token into the number of milliseconds between that date and midnight, January 1, 1970.
  */
-function expiresInParser(requestBody: any): number {
+function expiresOnParser(requestBody: TokenResponseParsedBody): number {
   // Parses a string representation of the seconds since epoch into a number value
   return Number(requestBody.expires_on);
 }
@@ -32,9 +33,9 @@ function expiresInParser(requestBody: any): number {
 function prepareRequestOptions(
   scopes: string | string[],
   clientAssertion: string,
-  clientId?: string
+  clientId: string
 ): PipelineRequestOptions {
-  const bodyParams: any = {
+  const bodyParams: Record<string, string> = {
     scope: Array.isArray(scopes) ? scopes.join(" ") : scopes,
     client_assertion: clientAssertion,
     client_assertion_type: "urn:ietf:params:oauth:client-assertion-type:jwt-bearer",
@@ -120,9 +121,10 @@ export function tokenExchangeMsi(): MSI {
       const request = createPipelineRequest({
         abortSignal: getTokenOptions.abortSignal,
         ...prepareRequestOptions(scopes, assertion, clientId || process.env.AZURE_CLIENT_ID!),
+        // Generally, MSI endpoints use the HTTP protocol, without transport layer security (TLS).
         allowInsecureConnection: true
       });
-      const tokenResponse = await identityClient.sendTokenRequest(request, expiresInParser);
+      const tokenResponse = await identityClient.sendTokenRequest(request, expiresOnParser);
       return (tokenResponse && tokenResponse.accessToken) || null;
     }
   };
