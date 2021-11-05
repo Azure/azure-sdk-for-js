@@ -212,7 +212,7 @@ export class CallConnectionImpl implements CallConnection {
       loop: restOptions.loop,
       operationContext: restOptions.operationContext,
       audioFileId: restOptions.audioFileId,
-      callbackUri: restOptions.callbackUri
+      callbackUri: restOptions.callbackUrl
     };
     try {
       const { _response, ...result } = await this.callConnectionRestClient.playAudio(
@@ -337,7 +337,7 @@ export class CallConnectionImpl implements CallConnection {
       loop: restOptions.loop,
       operationContext: restOptions.operationContext,
       audioFileId: restOptions.audioFileId,
-      callbackUri: restOptions.callbackUri
+      callbackUri: restOptions.callbackUrl
     };
 
     try {

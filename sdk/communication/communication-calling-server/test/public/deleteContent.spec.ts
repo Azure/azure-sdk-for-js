@@ -28,8 +28,8 @@ const environmentSetup: RecorderEnvironmentSetup = {
 
 describe("Delete Live Tests", function() {
   let recorder: Recorder;
-  const uri = "https://endpoint/v1/objects/0-wus-d6-fdf8ff0fdcd668bca8c52c0b1ee79b05";
-  const invalidUri = "https://endpoint/v1/objects/0-wus-d4-ca4017a32f8514aa9f054f0917270000";
+  const url = "https://endpoint/v1/objects/0-wus-d6-fdf8ff0fdcd668bca8c52c0b1ee79b05";
+  const invalidUrl = "https://endpoint/v1/objects/0-wus-d4-ca4017a32f8514aa9f054f0917270000";
 
   const callingServerServiceClient = new CallingServerClient(
     env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING ||
@@ -52,7 +52,7 @@ describe("Delete Live Tests", function() {
       this.skip();
     }
 
-    const result = await callingServerServiceClient.delete(uri);
+    const result = await callingServerServiceClient.delete(url);
     assert.equal(200, result._response.status);
   });
 
@@ -66,7 +66,7 @@ describe("Delete Live Tests", function() {
       const unauthorizedCallingServerServiceClient = new CallingServerClient(
         "endpoint=https://test.communication.azure.com/;accesskey=1234"
       );
-      await unauthorizedCallingServerServiceClient.delete(uri);
+      await unauthorizedCallingServerServiceClient.delete(url);
     } catch (e) {
       assert.equal((e as RestError).statusCode, 401);
     }
@@ -78,7 +78,7 @@ describe("Delete Live Tests", function() {
       this.skip();
     }
     try {
-      await callingServerServiceClient.download(invalidUri);
+      await callingServerServiceClient.download(invalidUrl);
     } catch (e) {
       assert.equal((e as RestError).statusCode, 404);
     }

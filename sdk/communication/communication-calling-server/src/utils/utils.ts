@@ -17,11 +17,11 @@ export class CallingServerUtils {
 
   public static getStringToSignHeader(stringToSign: string): OperationQueryParameter {
     return {
-      parameterPath: "UriToSignWith",
+      parameterPath: "UrlToSignWith",
       mapper: {
         defaultValue: stringToSign,
         isConstant: true,
-        serializedName: "UriToSignWith",
+        serializedName: "UrlToSignWith",
         type: {
           name: "String"
         }
@@ -45,8 +45,8 @@ export class CallingServerUtils {
     };
   }
 
-  public static getStringToSign(resourceEndpoint: string, requestUri: string): string {
-    const q = URLBuilder.parse(requestUri);
+  public static getStringToSign(resourceEndpoint: string, requestUrl: string): string {
+    const q = URLBuilder.parse(requestUrl);
     const formattedUrl = q.getPath()!.startsWith("/") ? q.getPath()!.substr(1) : q.getPath()!;
     return resourceEndpoint + formattedUrl;
   }

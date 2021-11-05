@@ -47,8 +47,8 @@ export interface CreateCallConnectionOptions extends OperationOptions {
   alternateCallerId?: PhoneNumberIdentifier;
   /** The subject. */
   subject?: string;
-  /** The callback URI. */
-  callbackUri: string;
+  /** The callback URL. */
+  callbackUrl: string;
   /** The requested modalities. */
   requestedMediaTypes: CallMediaType[];
   /** The requested call events to subscribe to. */
@@ -61,8 +61,8 @@ export interface CreateCallConnectionOptions extends OperationOptions {
 export interface JoinCallOptions extends OperationOptions {
   /** The subject. */
   subject?: string;
-  /** The callback URI. */
-  callbackUri: string;
+  /** The callback URL. */
+  callbackUrl: string;
   /** The requested modalities. */
   requestedMediaTypes?: CallMediaType[];
   /** The requested call events to subscribe to. */
@@ -79,8 +79,8 @@ export interface PlayAudioOptions extends OperationOptions {
   operationContext: string;
   /** An id for the media in the AudioUrl, using which we cache the media resource. */
   audioFileId: string;
-  /** The callback Uri to receive PlayAudio status notifications. */
-  callbackUri: string;
+  /** The callback Url to receive PlayAudio status notifications. */
+  callbackUrl: string;
 }
 
 /**

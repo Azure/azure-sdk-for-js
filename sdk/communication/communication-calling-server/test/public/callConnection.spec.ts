@@ -53,7 +53,7 @@ describe("Call Connection Live Test", function() {
       const from_phone_number = "+18445764430";
       // create call option
       const createCallOptions: CreateCallConnectionOptions = {
-        callbackUri: Constants.CALLBACK_URI,
+        callbackUrl: Constants.CALLBACK_URL,
         requestedMediaTypes: ["audio"],
         requestedCallEvents: ["participantsUpdated", "toneReceived"],
         alternateCallerId: { phoneNumber: from_phone_number }
@@ -68,7 +68,7 @@ describe("Call Connection Live Test", function() {
         const playAudioOptions: PlayAudioOptions = {
           loop: true,
           audioFileId: recorder.getUniqueName("audioFileId"),
-          callbackUri: Constants.CALLBACK_URI,
+          callbackUrl: Constants.CALLBACK_URL,
           operationContext: recorder.getUniqueName("operationContext")
         };
         await TestUtils.delayIfLive();

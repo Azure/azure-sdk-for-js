@@ -39,7 +39,7 @@ export class TestUtils {
     toUser: string
   ): Promise<CallConnection[]> {
     const joinCallOptions = {
-      callbackUri: Constants.CALLBACK_URI,
+      callbackUrl: Constants.CALLBACK_URL,
       requestedMediaTypes: ["audio"],
       requestedCallEvents: ["participantsUpdated"]
     };
