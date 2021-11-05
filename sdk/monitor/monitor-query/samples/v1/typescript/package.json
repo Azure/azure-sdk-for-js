@@ -29,7 +29,7 @@
   "dependencies": {
     "@azure/monitor-query": "latest",
     "dotenv": "latest",
-    "@azure/identity": "^2.0.0"
+    "@azure/identity": "^2.0.1"
   },
   "devDependencies": {
     "typescript": "~4.4.0",

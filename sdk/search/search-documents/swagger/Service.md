@@ -289,3 +289,45 @@ directive:
   transform: >
     $["discriminator"] = "@odata.type";
 ```
+
+### Renames
+
+```yaml
+directive:
+  from: swagger-document
+  where: $.definitions.IndexerCurrentState
+  transform: >
+    $["x-ms-client-name"] = "IndexerState";
+```
+
+```yaml
+directive:
+  from: swagger-document
+  where: $.definitions.IndexerCurrentState.properties.allDocsInitialChangeTrackingState
+  transform: >
+    $["x-ms-client-name"] = "allDocumentsInitialChangeTrackingState";
+```
+
+```yaml
+directive:
+  from: swagger-document
+  where: $.definitions.IndexerCurrentState.properties.allDocsFinalChangeTrackingState
+  transform: >
+    $["x-ms-client-name"] = "allDocumentsFinalChangeTrackingState";
+```
+
+```yaml
+directive:
+  from: swagger-document
+  where: $.definitions.IndexerCurrentState.properties.resetDocsInitialChangeTrackingState
+  transform: >
+    $["x-ms-client-name"] = "resetDocumentsInitialChangeTrackingState";
+```
+
+```yaml
+directive:
+  from: swagger-document
+  where: $.definitions.IndexerCurrentState.properties.resetDocsFinalChangeTrackingState
+  transform: >
+    $["x-ms-client-name"] = "ResetDocumentsFinalChangeTrackingState";
+```

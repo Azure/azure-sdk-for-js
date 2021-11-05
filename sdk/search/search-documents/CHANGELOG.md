@@ -1,6 +1,16 @@
 # Release History
 
-## 11.3.0-beta.4 (2021-10-05)
+## 11.3.0-beta.5 (2021-11-09)
+
+### Breaking Changes
+
+- Renamed `IndexerCurrentState` property to `IndexerState` property.
+- Renamed `AllDocsInitialChangeTrackingState` property to `AllDocumentsInitialChangeTrackingState` property.
+- Renamed `AllDocsFinalChangeTrackingState` property to `AllDocumentsFinalChangeTrackingState` property.
+- Renamed `ResetDocsInitialChangeTrackingState` property to `ResetDocumentsInitialChangeTrackingState` property.
+- Renamed `ResetDocsFinalChangeTrackingState` property to `ResetDocumentsFinalChangeTrackingState` property.
+- Renamed `SkillNames` property to `ResetSkillsOptions` (with a `SkillNames` property)
+- Renamed `ResetDocs` method to `ResetDocuments` in the SDK client.
 
 ### Features Added
 

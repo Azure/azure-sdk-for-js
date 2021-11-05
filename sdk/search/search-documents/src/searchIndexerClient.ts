@@ -32,7 +32,7 @@ import {
   DeleteDataSourceConnectionOptions,
   GetDataSourceConnectionOptions,
   CreateorUpdateDataSourceConnectionOptions,
-  ResetDocsOptions,
+  ResetDocumentsOptions,
   ResetSkillsOptions
 } from "./serviceModels";
 import * as utils from "./serviceUtils";
@@ -733,7 +733,10 @@ export class SearchIndexerClient {
    * @param indexerName - The name of the indexer to reset documents for.
    * @param options - Additional optional arguments.
    */
-  public async resetDocs(indexerName: string, options: ResetDocsOptions = {}): Promise<void> {
+  public async resetDocuments(
+    indexerName: string,
+    options: ResetDocumentsOptions = {}
+  ): Promise<void> {
     const { span, updatedOptions } = createSpan("SearchIndexerClient-resetDocs", options);
     try {
       await this.client.indexers.resetDocs(indexerName, {
@@ -760,14 +763,14 @@ export class SearchIndexerClient {
    * @param skillNames - The names of skills to reset.
    * @param options - The options parameters.
    */
-  public async resetSkills(
-    skillsetName: string,
-    skillNames: string[],
-    options: ResetSkillsOptions = {}
-  ): Promise<void> {
+  public async resetSkills(skillsetName: string, options: ResetSkillsOptions = {}): Promise<void> {
     const { span, updatedOptions } = createSpan("SearchIndexerClient-resetSkills", options);
     try {
-      await this.client.skillsets.resetSkills(skillsetName, { skillNames }, updatedOptions);
+      await this.client.skillsets.resetSkills(
+        skillsetName,
+        { skillNames: options.skillNames },
+        updatedOptions
+      );
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,

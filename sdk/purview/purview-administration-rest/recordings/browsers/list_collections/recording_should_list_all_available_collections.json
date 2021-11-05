@@ -11,17 +11,17 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1318",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 29 Sep 2021 19:26:01 GMT",
+    "date": "Thu, 04 Nov 2021 15:45:03 GMT",
     "expires": "-1",
     "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
-    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+dms\"}]}",
+    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+est\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.12071.23 - SCUS ProdSlices",
-    "x-ms-request-id": "06c0c04b-f3c4-4e15-8d74-0639214f0800"
+    "x-ms-ests-server": "2.1.12197.4 - NCUS ProdSlices",
+    "x-ms-request-id": "2f72b34f-7338-4ca0-bee2-216c16601800"
    }
   },
   {
@@ -32,13 +32,13 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[{\"name\":\"newpurviewllc\",\"friendlyName\":\"newpurviewllc\",\"description\":\"The root collection.\",\"systemData\":{\"createdBy\":\"35ac9d32-a8ca-4324-9393-d4000746f07c\",\"createdByType\":\"User\",\"createdAt\":\"2021-09-29T18:35:18.4761382Z\",\"lastModifiedBy\":\"35ac9d32-a8ca-4324-9393-d4000746f07c\",\"lastModifiedByType\":\"User\",\"lastModifiedAt\":\"2021-09-29T18:35:18.4761382Z\"},\"collectionProvisioningState\":\"Succeeded\"},{\"name\":\"la7eio\",\"friendlyName\":\"Foo\",\"description\":\"Test foo\",\"parentCollection\":{\"type\":\"CollectionReference\",\"referenceName\":\"newpurviewllc\"},\"systemData\":{\"createdBy\":\"35ac9d32-a8ca-4324-9393-d4000746f07c\",\"createdByType\":\"User\",\"createdAt\":\"2021-09-29T18:40:02.8364266Z\",\"lastModifiedBy\":\"35ac9d32-a8ca-4324-9393-d4000746f07c\",\"lastModifiedByType\":\"User\",\"lastModifiedAt\":\"2021-09-29T18:40:02.8364266Z\"},\"collectionProvisioningState\":\"Succeeded\"}],\"count\":2}",
+   "response": "{\"value\":[{\"name\":\"joheredipv\",\"friendlyName\":\"joheredipv\",\"description\":\"The root collection.\",\"systemData\":{\"createdBy\":\"35ac9d32-a8ca-4324-9393-d4000746f07c\",\"createdByType\":\"User\",\"createdAt\":\"2021-08-10T17:25:46.5991716Z\",\"lastModifiedByType\":\"User\",\"lastModifiedAt\":\"2021-09-15T23:38:59.768035Z\"},\"collectionProvisioningState\":\"Succeeded\"},{\"name\":\"Collection-lGe\",\"friendlyName\":\"Collection-lGe\",\"parentCollection\":{\"type\":\"CollectionReference\",\"referenceName\":\"joheredipv\"},\"systemData\":{\"createdBy\":\"35ac9d32-a8ca-4324-9393-d4000746f07c\",\"createdByType\":\"Application\",\"createdAt\":\"2021-10-11T20:20:20.1813272Z\",\"lastModifiedByType\":\"Application\",\"lastModifiedAt\":\"2021-10-11T20:20:20.1813273Z\"},\"collectionProvisioningState\":\"Succeeded\"}],\"count\":2}",
    "responseHeaders": {
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 29 Sep 2021 19:26:01 GMT",
+    "date": "Thu, 04 Nov 2021 15:45:04 GMT",
     "server": "Kestrel",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
-    "x-ms-correlation-request-id": "9451f361-5cc7-40eb-82ef-e3e79572e8f6"
+    "x-ms-correlation-request-id": "39046b73-e3c2-445a-9bff-2ae979481e1f"
    }
   }
  ],

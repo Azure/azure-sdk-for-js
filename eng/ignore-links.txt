@@ -16,3 +16,5 @@ https://docs.microsoft.com/javascript/api/@azure/arm-extendedlocation
 https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/quota/arm-extendedlocation
 https://docs.microsoft.com/javascript/api/@azure/arm-videoanalyzer
 https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/videoanalyzer/arm-videoanalyzer
+https://docs.microsoft.com/javascript/api/@azure/arm-servicefabric
+https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/servicefabric/arm-servicefabric
