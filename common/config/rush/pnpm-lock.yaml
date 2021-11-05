@@ -1605,7 +1605,6 @@ packages:
   /@opentelemetry/node/0.22.0_@opentelemetry+api@1.0.3:
     resolution: {integrity: sha512-+HhGbDruQ7cwejVOIYyxRa28uosnG8W95NiQZ6qE8PXXPsDSyGeftAPbtYpGit0H2f5hrVcMlwmWHeAo9xkSLA==}
     engines: {node: '>=8.0.0'}
-    deprecated: Package renamed to @opentelemetry/sdk-trace-node
     peerDependencies:
       '@opentelemetry/api': ^1.0.0
     dependencies:
@@ -10680,7 +10679,7 @@ packages:
     dev: false
 
   file:projects/dev-tool.tgz:
-    resolution: {integrity: sha512-88uEvuABom6N9jceuXkxKLjNwvWdFPpQvEB+D27OFdycBQIift0qrWaav+Ft0ODnHF15ViPR/bJQx3D0Cr3nHA==, tarball: file:projects/dev-tool.tgz}
+    resolution: {integrity: sha512-8nC74WjNfcsF8nHevKfWMonJrFXvcHzJ95e+1WIitqyZJIOX0YUsHVtnVa4M/2jh8ZpDuuVoJmItdVtd3+y5MQ==, tarball: file:projects/dev-tool.tgz}
     name: '@rush-temp/dev-tool'
     version: 0.0.0
     dependencies:
@@ -10704,7 +10703,7 @@ packages:
       fs-extra: 8.1.0
       minimist: 1.2.5
       mocha: 7.2.0
-      prettier: 1.19.1
+      prettier: 2.4.1
       rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
@@ -13383,7 +13382,7 @@ packages:
     dev: false
 
   file:projects/template.tgz:
-    resolution: {integrity: sha512-QWjO78lmkZVtS2R7961QlTRm6ktbQeApBVFhE3hCbjyVZ0RDEhWZAQsCeOWNnig7bjKFBw0DH4G5y/x9cKc4GQ==, tarball: file:projects/template.tgz}
+    resolution: {integrity: sha512-Y9zhgZzhaTy+GSXkygP/GHDTNvVx9BmRqZXjAjOoQJ8Povch45B4YrIJCAFz5cB84rvVfXtFJRmVlauTaqxwNg==, tarball: file:projects/template.tgz}
     name: '@rush-temp/template'
     version: 0.0.0
     dependencies:
@@ -13397,6 +13396,7 @@ packages:
       chai: 4.3.4
       chai-as-promised: 7.1.1_chai@4.3.4
       cross-env: 7.0.3
+      dayjs: 1.10.7
       dotenv: 8.6.0
       downlevel-dts: 0.4.0
       eslint: 7.32.0

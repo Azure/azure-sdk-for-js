@@ -8,6 +8,9 @@
 
 import { SampleConfiguration } from "./sampleConfiguration";
 
+export const DEV_SAMPLES_BASE = "samples-dev";
+export const PUBLIC_SAMPLES_BASE = "samples";
+
 /**
  * Default TypeScript compiler configuration for sample projects.
  *

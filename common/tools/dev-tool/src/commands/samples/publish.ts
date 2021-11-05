@@ -9,13 +9,14 @@
  */
 
 import fs from "fs-extra";
+import { EOL } from "os";
 import path from "path";
-
-import nodeBuiltins from "builtin-modules";
-import ts from "typescript";
-
+import devToolPackageJson from "../../../package.json";
 import { leafCommand, makeCommandInfo } from "../../framework/command";
-import { copy, dir, file, temp, FileTreeFactory } from "../../util/fileTree";
+import instantiateSampleReadme from "../../templates/sampleReadme.md";
+import { processSources } from "../../transpilers/samples";
+import { copy, dir, file, FileTreeFactory, temp } from "../../util/fileTree";
+import { findMatchingFiles } from "../../util/findMatchingFiles";
 import { createPrinter } from "../../util/printer";
 import { ProjectInfo, resolveProject } from "../../util/resolveProject";
 import {
@@ -24,26 +25,15 @@ import {
   SampleConfiguration
 } from "../../util/sampleConfiguration";
 import {
-  AzSdkMetaTags,
   AZSDK_META_TAG_PREFIX,
   DEFAULT_TYPESCRIPT_CONFIG,
-  ModuleInfo,
+  DEV_SAMPLES_BASE,
   OutputKind,
-  SampleGenerationInfo,
-  VALID_AZSDK_META_TAGS
+  PUBLIC_SAMPLES_BASE,
+  SampleGenerationInfo
 } from "../../util/sampleGenerationInfo";
 
-import instantiateSampleReadme from "../../templates/sampleReadme.md";
-import { convert } from "./tsToJs";
-
-import devToolPackageJson from "../../../package.json";
-import { findMatchingFiles } from "../../util/findMatchingFiles";
-import { EOL } from "os";
-
 const log = createPrinter("publish");
-
-const DEV_SAMPLES_BASE = "samples-dev";
-const PUBLIC_SAMPLES_BASE = "samples";
 
 export const commandInfo = makeCommandInfo(
   "publish",
@@ -105,182 +95,6 @@ function createPackageJson(info: SampleGenerationInfo, outputKind: OutputKind): 
 }
 
 /**
- * Determines whether a module specifier is a package dependency.
- *
- * A dependency is a module specifier that does not refer to a node builtin and
- * is not a relative path.
- *
- * Absolute path imports are not supported in samples (because the package base
- * is not fixed relative to the source file).
- *
- * @param moduleSpecifier - the string given to `import` or `require`
- * @returns - true if `moduleSpecifier` should be considered a reference to a
- * node module dependency
- */
-function isDependency(moduleSpecifier: string): boolean {
-  if (nodeBuiltins.includes(moduleSpecifier)) return false;
-
-  // This seems like a reasonable test for "is a relative path" as long as
-  // absolute path imports are forbidden.
-  const isRelativePath = /^\.\.?[\/\\]/.test(moduleSpecifier);
-  return !isRelativePath;
-}
-
-async function processSources(
-  projectInfo: ProjectInfo,
-  sources: string[],
-  fail: (...values: unknown[]) => never
-): Promise<ModuleInfo[]> {
-  const jobs = sources.map(async (source) => {
-    const sourceText = (await fs.readFile(source)).toString("utf8");
-
-    let summary: string | undefined = undefined;
-
-    const importedModules: string[] = [];
-    const usedEnvironmentVariables: string[] = [];
-    const azSdkTags: AzSdkMetaTags = {};
-
-    const relativeSourcePath = path.relative(path.join(projectInfo.path, DEV_SAMPLES_BASE), source);
-
-    const sourceProcessor: ts.TransformerFactory<ts.SourceFile> = (context) => (
-      sourceFile: ts.SourceFile
-    ) => {
-      const visitor: ts.Visitor = (node: ts.Node) => {
-        if (ts.isImportDeclaration(node)) {
-          importedModules.push((node.moduleSpecifier as ts.StringLiteral).text);
-        } else if (ts.isImportEqualsDeclaration(node)) {
-          log.error(
-            `${relativeSourcePath}: unsupported \`import =\` declaration: \`${node.getText(
-              sourceFile
-            )}\`.`
-          );
-          fail(
-            [
-              "`import =` is not supported when targetting ECMAScript modules.",
-              "This dependency will NOT be included in your package's dependencies."
-            ].join(" ")
-          );
-        } else if (ts.isCallExpression(node)) {
-          const {
-            expression,
-            arguments: [firstArgument]
-          } = node;
-          if (
-            (ts.isIdentifier(expression) && expression.text === "require") ||
-            expression.kind === ts.SyntaxKind.ImportKeyword
-          ) {
-            if (ts.isStringLiteralLike(firstArgument)) {
-              importedModules.push(firstArgument.text);
-            } else {
-              log.error(
-                `${relativeSourcePath}: unsupported dynamic import: \`${node.getText(sourceFile)}\``
-              );
-              fail(
-                "Dynamic imports (`import` expressions or `require` calls) cannot be statically analyzed."
-              );
-            }
-          }
-        } else if (
-          ts.isPropertyAccessExpression(node) ||
-          (ts.isElementAccessExpression(node) && ts.isStringLiteral(node.argumentExpression))
-        ) {
-          // Magic that finds out what environment variables you're using in the sources.
-          if (node.expression.getText(sourceFile) === "process.env") {
-            const value: string = ts.isElementAccessExpression(node)
-              ? (node.argumentExpression as ts.StringLiteral).text
-              : node.name.text;
-
-            usedEnvironmentVariables.push(value);
-          }
-        }
-        const tags = ts.getJSDocTags(node);
-
-        // Look for the @summary jsdoc tag block as well
-        if (summary === undefined) {
-          for (const tag of tags) {
-            log.debug(`File ${relativeSourcePath} has tag ${tag.tagName.text}`);
-
-            // New TS introduced comment: NodeArray, so we join the text if it is made of many nodes.
-            const comment = Array.isArray(tag.comment)
-              ? tag.comment.map((node: ts.JSDocText) => node.text ?? " ").join(" ")
-              : (tag.comment as string | undefined);
-
-            if (tag.tagName.text === "summary") {
-              log.debug("Found summary tag on node:", node.getText(sourceFile));
-              // Replace is required due to multi-line splitting messing with table formatting
-              summary = comment?.replace(/\s*\r?\n\s*/g, " ");
-            } else if (tag.tagName.text.startsWith(`${AZSDK_META_TAG_PREFIX}`)) {
-              // We ran into an `azsdk` directive in the metadata
-              const metaTag = tag.tagName.text.replace(
-                new RegExp(`^${AZSDK_META_TAG_PREFIX}`),
-                ""
-              ) as keyof AzSdkMetaTags;
-              log.debug(`File ${relativeSourcePath} has azsdk tag ${tag.tagName.text}`);
-              if (VALID_AZSDK_META_TAGS.includes(metaTag)) {
-                const trimmedComment = comment?.trim();
-                // If there was _no_ comment, then we can assume it is a boolean tag
-                // and so being specified at all is an indication that we should use
-                // `true`
-                azSdkTags[metaTag as keyof AzSdkMetaTags] = trimmedComment
-                  ? JSON.parse(trimmedComment)
-                  : true;
-              } else {
-                log.warn(
-                  `Invalid azsdk tag ${metaTag}. Valid tags include ${VALID_AZSDK_META_TAGS}`
-                );
-              }
-            }
-          }
-        }
-
-        ts.visitEachChild(node, visitor, context);
-        return node;
-      };
-
-      ts.visitNode(sourceFile, visitor);
-      return sourceFile;
-    };
-
-    const jsModuleText = convert(sourceText, {
-      fileName: source,
-      transformers: {
-        before: [sourceProcessor]
-      }
-    });
-
-    if (summary === undefined && azSdkTags.util !== true) {
-      log.debug(azSdkTags.util, summary);
-      fail(
-        `${relativeSourcePath} does not include an @summary tag and is not marked as a util (using @azsdk-util true).`
-      );
-    }
-
-    return {
-      filePath: source,
-      relativeSourcePath,
-      text: sourceText,
-      jsModuleText,
-      summary,
-      importedModules: importedModules.filter(isDependency),
-      usedEnvironmentVariables,
-      azSdkTags
-    };
-  });
-
-  return Promise.all(jobs);
-}
-
-async function collect<T>(i: AsyncIterableIterator<T>): Promise<T[]> {
-  const out = [];
-
-  for await (const v of i) {
-    out.push(v);
-  }
-
-  return out;
-}
-
-/**
  * Processes a segmented module path to return the first segment. This is useful for packages that have nested imports
  * such as "dayjs/plugin/duration".
  *
@@ -293,6 +107,16 @@ function resolveModule(specifier: string): string {
   // The first part could be a namespace, in which case we need to join them
   if (parts.length > 1 && parts[0].startsWith("@")) return parts[0] + "/" + parts[1];
   else return parts[0];
+}
+
+async function collect<T>(i: AsyncIterableIterator<T>): Promise<T[]> {
+  const out = [];
+
+  for await (const v of i) {
+    out.push(v);
+  }
+
+  return out;
 }
 
 /**

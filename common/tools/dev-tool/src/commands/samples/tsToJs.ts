@@ -49,7 +49,10 @@ const REGEX_STACK: Array<[RegExp, string]> = [
   [/import\s+({[^}]+})\s+from\s*("[^"]+");/gs, "const $1 = require($2);"],
   [/import\s+([^\s]+)\s+from\s*("[^"]+");/g, "const $1 = require($2);"],
   [/import\s+\*\s+as\s+([^\s]+)\s+from\s*("[^"]+");/g, "const $1 = require($2);"],
-  [/export async function main/, "async function main"]
+  [/^export async function main/m, "async function main"],
+  // Remove exports
+  [/^export\s/gm, ""],
+  [/([^\n])\nmodule\.exports/g, "$1\n\nmodule.exports"]
 ];
 
 /**
@@ -66,6 +69,8 @@ function postTransform(outText: string): string {
   for (const [match, replacement] of REGEX_STACK) {
     text = text.replace(match, replacement);
   }
+
+  return text;
 
   // Format once more for the final output.
   return prettier.format(text, prettierOptions);
