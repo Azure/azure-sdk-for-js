@@ -4,6 +4,7 @@
 import FormData from "form-data";
 import { PipelineResponse, PipelineRequest, SendRequest, FormDataMap } from "../interfaces";
 import { PipelinePolicy } from "../pipeline";
+import { urlEncode } from "../util/helpers";
 
 /**
  * The programmatic identifier of the formDataPolicy.
@@ -18,7 +19,13 @@ export function formDataPolicy(): PipelinePolicy {
     name: formDataPolicyName,
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
       if (request.formData) {
-        prepareFormData(request.formData, request);
+        const contentType = request.headers.get("Content-Type");
+        if (contentType && contentType.indexOf("application/x-www-form-urlencoded") !== -1) {
+          request.body = urlEncode(request.formData);
+          request.formData = undefined;
+        } else {
+          prepareFormData(request.formData, request);
+        }
       }
       return next(request);
     }
