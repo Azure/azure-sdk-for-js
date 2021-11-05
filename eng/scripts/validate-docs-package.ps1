@@ -82,7 +82,7 @@ function DockerValidation() {
 }
 
 
-if (-not $DocValidationImageId) {
+if (!$DocValidationImageId) {
   FallbackValidation
 } 
 else {
