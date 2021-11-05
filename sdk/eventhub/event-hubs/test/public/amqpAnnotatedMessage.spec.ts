@@ -184,6 +184,7 @@ testWithServiceTypes((serviceVersion) => {
           for (const valueType of valueTypes) {
             console.log("1111111111111", valueType);
             const startingPositions = await getStartingPositionsForTests(consumerClient);
+            console.log("1414141414", startingPositions);
             await sendEvents(
               [
                 {
@@ -219,6 +220,8 @@ testWithServiceTypes((serviceVersion) => {
 
           for (const sequenceType of sequenceTypes) {
             const startingPositions = await getStartingPositionsForTests(consumerClient);
+            console.log("1515151515", startingPositions);
+            console.log("1616161616", sequenceType);
             await sendEvents(
               [
                 {
@@ -235,6 +238,8 @@ testWithServiceTypes((serviceVersion) => {
               "sequence",
               `Should be identified as a value: ${sequenceType.toString()}`
             );
+            console.log("1717171717", event.body);
+            console.log("1818181818", sequenceType);
 
             assert.deepEqual(
               event.body,
@@ -252,6 +257,7 @@ testWithServiceTypes((serviceVersion) => {
           for (const dataType of dataTypes) {
             console.log("4444444444444", dataType);
             const startingPositions = await getStartingPositionsForTests(consumerClient);
+            console.log("191919191919", startingPositions);
             await sendEvents(
               [
                 {
@@ -287,6 +293,7 @@ testWithServiceTypes((serviceVersion) => {
           it(`receive ${expectedBodyType} EventData and resend (useBatch: ${useBatch})`, async () => {
             console.log("7777777777777777", expectedBodyType);
             let startingPositions = await getStartingPositionsForTests(consumerClient);
+            console.log("101010101010", startingPositions);
             // if we receive an event that was encoded to a non-data section
             // and then re-send it (again, as an EventData) we should
             // respect it.
