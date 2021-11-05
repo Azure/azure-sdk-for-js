@@ -12,7 +12,7 @@ export function toLayoutResult(analyzeResult: AnalyzeResult<unknown>): LayoutRes
   const { pages, tables, styles } = analyzeResult;
 
   return {
-    pages: pages.map((page) => toDocumentPageFromGenerated(page)),
+    pages: pages.map(toDocumentPageFromGenerated),
     tables,
     styles,
   };

@@ -186,8 +186,15 @@ export interface DocumentPage {
   lines: DocumentLine[];
 }
 
+/**
+ * Convert a REST-level DocumentPage into a convenience layer version.
+ * @param generated - a REST-level DocumentPage.
+ * @returns
+ */
 export function toDocumentPageFromGenerated(generated: GeneratedDocumentPage): DocumentPage {
+  // We will just overwrite the `lines` property with the transformed one rather than create a new object.
   generated.lines = generated.lines.map((line) => toDocumentLineFromGenerated(line, generated));
+
   return generated as DocumentPage;
 }
 
@@ -252,6 +259,18 @@ function* iterFrom<T>(items: T[], idx: number): Generator<T> {
   }
 }
 
+/**
+ * Binary search through an array of items to find the first item that could possibly be contained by the given span,
+ * then return an iterator beginning from that item.
+ *
+ * This allows a program to quickly find the first relevant item in the array for consideration when testing for span
+ * inclusion.
+ *
+ * @internal
+ * @param span - the span to use when testing each individual item
+ * @param items - an array of items to binary search through
+ * @returns an iterator beginning from the item identified by the search
+ */
 export function iteratorFromFirstMatchBinarySearch<Spanned extends { span: DocumentSpan }>(
   span: DocumentSpan,
   items: Spanned[]
@@ -283,6 +302,17 @@ export function iteratorFromFirstMatchBinarySearch<Spanned extends { span: Docum
   return empty();
 }
 
+/**
+ * This fast algorithm tests the elements of `childArray` for inclusion in any of the given `spans`, assuming that both
+ * the spans and child items are sorted.
+ *
+ * INVARIANT: the items in both the `spans` iterator and `childrenArray` MUST BE SORTED INCREASING by span _offset_.
+ *
+ * @internal
+ * @param spans - the spans that contain the child elements
+ * @param childrenArray - an array of child items (items that have spans) to test for inclusion in the spans
+ * @returns - an IterableIterator of child items that are included in any span in the `spans` iterator
+ */
 export function* fastGetChildren<Spanned extends { span: DocumentSpan }>(
   spans: Iterator<DocumentSpan>,
   childrenArray: Spanned[]
