@@ -145,12 +145,17 @@ function isWebPubSubRequest(req: IncomingMessage): boolean {
  * @internal
  */
 export class CloudEventsDispatcher {
-  private readonly _allowedOrigins = ["*"];
+  private readonly _allowAll: boolean = true;
+  private readonly _allowedOrigins: Array<string> = [];
   constructor(private hub: string, private eventHandler?: WebPubSubEventHandlerOptions) {
+    if (Array.isArray(eventHandler)) {
+      throw new Error("Unexpected WebPubSubEventHandlerOptions");
+    }
     if (eventHandler?.allowedEndpoints !== undefined) {
       this._allowedOrigins = eventHandler.allowedEndpoints.map((endpoint) =>
-        endpoint === "*" ? "*" : new URL(endpoint).host
+        new URL(endpoint).host.toLowerCase()
       );
+      this._allowAll = false;
     }
   }
 
@@ -158,13 +163,20 @@ export class CloudEventsDispatcher {
     if (!isWebPubSubRequest(req)) {
       return false;
     }
-    if (req.headers["webhook-request-origin"]) {
-      res.setHeader("WebHook-Allowed-Origin", this._allowedOrigins);
-      res.end();
-      return true;
+    const origin = utils.getHttpHeader(req, "webhook-request-origin")?.toLowerCase();
+
+    if (origin === undefined) {
+      logger.warning("Expecting webhook-request-origin header.");
+      res.statusCode = 400;
+    } else if (this._allowAll || this._allowedOrigins.indexOf(origin!) > -1) {
+      res.setHeader("WebHook-Allowed-Origin", origin!);
     } else {
-      return false;
+      logger.warning("Origin does not match the allowed origins: " + this._allowedOrigins);
+      res.statusCode = 400;
     }
+
+    res.end();
+    return true;
   }
 
   public async handleRequest(request: IncomingMessage, response: ServerResponse): Promise<boolean> {
