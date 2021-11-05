@@ -359,3 +359,43 @@ rushx pack
 Run the command in azure-sdk-for-js root folder.
 
 --- 
+
+# Create/Update the ci.yaml
+
+Now, if everything looks good to you, you can submit a PR in azure-sdk-for-js repo with all the changes you made above. Before you do that, you need to add/update the ci.yml file. Depends on whether there's already one in your package folder. 
+
+If there's no such file then you can add the following template.
+``` yaml
+# NOTE: Please refer to https://aka.ms/azsdk/engsys/ci-yaml before editing this file.
+trigger:
+  branches:
+    include:
+      - main
+      - release/*
+      - hotfix/*
+  paths:
+    include:
+      - sdk/purview/
+pr:
+  branches:
+    include:
+      - main
+      - feature/*
+      - release/*
+      - hotfix/*
+    exclude:
+      - feature/v4
+  paths:
+    include:
+      - sdk/purview/
+extends:
+  template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
+  parameters:
+    ServiceDirectory: purview
+    Artifacts:
+      - name: azure-rest-purview-account
+        safeName: azurerestpurviewaccount
+```
+Please change the paths.include value as your own project path, and change the Artifacts name and safeName into yours.  
+
+If there's already a ci.yml file in your project path. then the only thing you need to do is to add the Artifacts name and safeName of yours into that ci.yml.  
