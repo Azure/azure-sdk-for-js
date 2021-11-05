@@ -328,20 +328,21 @@ matrix([[true, false]] as const, async (useAad) => {
         const data = await client.getMetricSeriesData(
           testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1,
           [
-            { category: "Shoes Handbags & Sunglasses", region: "Manila" },
-            { category: "Home & Garden", region: "Cairo" }
+            { region: "Delhi", category: "Handmade" },
+            { region: "Cairo", category: "Home & Garden" }
           ],
-          new Date(Date.UTC(2021, 9, 5)),
-          new Date(Date.UTC(2021, 10, 5))
+          new Date(Date.UTC(2021, 7, 5)),
+          new Date(Date.UTC(2021, 11, 5))
         );
+        console.dir(data);
         assert.ok(data && data!.length === 2, "Expecting data for two time series");
         assert.equal(
           data![0].definition.metricId,
           testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1
         );
         assert.deepStrictEqual(data![0].definition.seriesKey, {
-          region: "Manila",
-          category: "Shoes Handbags & Sunglasses"
+          region: "Delhi",
+          category: "Handmade"
         });
 
         assert.ok(
