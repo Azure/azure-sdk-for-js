@@ -5,7 +5,23 @@ import { assert } from "chai";
 import { createHttpHeaders } from "../src/httpHeaders";
 
 describe("HttpHeaders", () => {
-  it("toJSON() should keep the original header names", () => {
+  it("toJSON() should use normalized header names", () => {
+    const rawHeaders = {
+      lowercase: "lower case value",
+      camelCase: "camel case value",
+      ALLUPPERCASE: "all upper case value"
+    };
+    const normalizedHeaders = {
+      lowercase: "lower case value",
+      camelcase: "camel case value",
+      alluppercase: "all upper case value"
+    };
+    const headers = createHttpHeaders(rawHeaders);
+
+    assert.deepStrictEqual(headers.toJSON(), normalizedHeaders);
+  });
+
+  it("toJSON({preserveCase: true}) should keep the original header names", () => {
     const rawHeaders = {
       lowercase: "lower case value",
       camelCase: "camel case value",
@@ -13,10 +29,10 @@ describe("HttpHeaders", () => {
     };
     const headers = createHttpHeaders(rawHeaders);
 
-    assert.deepStrictEqual(headers.toJSON(), rawHeaders);
+    assert.deepStrictEqual(headers.toJSON({ preserveCase: true }), rawHeaders);
   });
 
-  it("iteration should keep the original header names", () => {
+  it("iteration should use original header names", () => {
     const rawHeaders = {
       lowercase: "lower case value",
       camelCase: "camel case value",

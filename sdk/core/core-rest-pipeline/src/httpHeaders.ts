@@ -12,10 +12,8 @@ function normalizeName(name: string): string {
   return name.toLowerCase();
 }
 
-function* headerIterator(
-  iterator: IterableIterator<HeaderEntry>
-): IterableIterator<[string, string]> {
-  for (const entry of iterator) {
+function* headerIterator(map: Map<string, HeaderEntry>): IterableIterator<[string, string]> {
+  for (const entry of map.values()) {
     yield [entry.name, entry.value];
   }
 }
@@ -70,10 +68,14 @@ class HttpHeadersImpl implements HttpHeaders {
   /**
    * Get the JSON object representation of this HTTP header collection.
    */
-  public toJSON(): RawHttpHeaders {
+  public toJSON(options: { preserveCase?: boolean } = {}): RawHttpHeaders {
     const result: RawHttpHeaders = {};
-    for (const entry of this._headersMap.values()) {
-      result[entry.name] = entry.value;
+    for (const [normalizedName, entry] of this._headersMap) {
+      if (options.preserveCase) {
+        result[entry.name] = entry.value;
+      } else {
+        result[normalizedName] = entry.value;
+      }
     }
     return result;
   }
@@ -82,14 +84,14 @@ class HttpHeadersImpl implements HttpHeaders {
    * Get the string representation of this HTTP header collection.
    */
   public toString(): string {
-    return JSON.stringify(this.toJSON());
+    return JSON.stringify(this.toJSON({ preserveCase: true }));
   }
 
   /**
    * Iterate over tuples of header [name, value] pairs.
    */
   [Symbol.iterator](): Iterator<[string, string]> {
-    return headerIterator(this._headersMap.values());
+    return headerIterator(this._headersMap);
   }
 }
 
