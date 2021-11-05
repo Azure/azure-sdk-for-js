@@ -70,13 +70,16 @@ class HttpHeadersImpl implements HttpHeaders {
    */
   public toJSON(options: { preserveCase?: boolean } = {}): RawHttpHeaders {
     const result: RawHttpHeaders = {};
-    for (const [normalizedName, entry] of this._headersMap) {
-      if (options.preserveCase) {
+    if (options.preserveCase) {
+      for (const entry of this._headersMap.values()) {
         result[entry.name] = entry.value;
-      } else {
+      }
+    } else {
+      for (const [normalizedName, entry] of this._headersMap) {
         result[normalizedName] = entry.value;
       }
     }
+
     return result;
   }
 
