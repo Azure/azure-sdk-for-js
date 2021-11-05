@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { DocumentPage, DocumentStyle, DocumentTable } from "../generated";
-import { AnalyzeResult } from "../lro/analyze";
+import { DocumentStyle, DocumentTable } from "../generated";
+import { AnalyzeResult, DocumentPage, toDocumentPageFromGenerated } from "../lro/analyze";
 
 /**
  * Extract from an AnalyzeResult the fields that are produced from layout analysis.
@@ -12,7 +12,7 @@ export function toLayoutResult(analyzeResult: AnalyzeResult<unknown>): LayoutRes
   const { pages, tables, styles } = analyzeResult;
 
   return {
-    pages,
+    pages: pages.map(toDocumentPageFromGenerated),
     tables,
     styles,
   };
