@@ -148,7 +148,7 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
     scopes: string,
     refreshToken: string | undefined,
     clientSecret: string | undefined,
-    expiresOnParser?: (responseBody: any) => number,
+    expiresOnParser?: (responseBody: TokenResponseParsedBody) => number,
     options?: GetTokenOptions
   ): Promise<TokenResponse | null> {
     if (refreshToken === undefined) {
