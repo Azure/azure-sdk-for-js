@@ -16,8 +16,9 @@ export async function getAvroSchemaDefinition<
 }
 
 function streamToString(stream: NodeJS.ReadableStream): Promise<string> {
-  return new Promise((resolve, reject) => {
+  return new Promise<string>((resolve, reject) => {
     const buffer: Buffer[] = [];
+
     stream.on("data", (chunk) => {
       if (Buffer.isBuffer(chunk)) {
         buffer.push(chunk);
@@ -28,12 +29,6 @@ function streamToString(stream: NodeJS.ReadableStream): Promise<string> {
     stream.on("end", () => {
       resolve(Buffer.concat(buffer).toString("utf8"));
     });
-    stream.on("error", (e) => {
-      if (e && (e === null || e === void 0 ? void 0 : e.name) === "AbortError") {
-        reject(e);
-      } else {
-        reject(new Error(`Error reading response as text: ${e.message}`));
-      }
-    });
+    stream.on("error", reject);
   });
 }
