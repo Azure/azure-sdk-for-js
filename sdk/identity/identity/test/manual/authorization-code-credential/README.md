@@ -23,10 +23,10 @@ On the Azure Portal, navigate to your app registration. On the side panel, selec
 - Under "Supported Account Types", select `Accounts in any organizational directory (Any Azure AD directory - Multitenant)` .
 - Under "Platform Configurations", add a platform and select "Web". Then add `http://localhost:8080/authresponse` as the redirect URI. Then click "Configure".
 
-4. Navigate to the `samples/manual` folder
+4. Navigate to the `test/manual/authorization-code-credential` folder
 
 ```bash
-cd <repo-path>/sdk/identity/identity/samples/manual
+cd <repo-path>/sdk/identity/identity/test/manual/authorization-code-credential
 ```
 
 5. Copy the `sample.env` into a file named `.env` in this folder and make sure to fill the values accordingly.

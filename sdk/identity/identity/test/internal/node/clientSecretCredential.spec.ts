@@ -10,7 +10,7 @@ import { env, delay } from "@azure-tools/test-recorder";
 import { ConfidentialClientApplication } from "@azure/msal-node";
 import { ClientSecretCredential } from "../../../src";
 import { MsalTestCleanup, msalNodeTestSetup } from "../../msalTestUtils";
-import { MsalNode } from "../../../src/msal/nodeFlows/nodeCommon";
+import { MsalNode } from "../../../src/msal/nodeFlows/msalNodeCommon";
 import { Context } from "mocha";
 
 describe("ClientSecretCredential (internal)", function() {
