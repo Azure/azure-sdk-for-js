@@ -51,7 +51,7 @@ export const apiVersion: OperationQueryParameter = {
 export const accept1: OperationParameter = {
   parameterPath: "accept",
   mapper: {
-    defaultValue: "application/json; serialization=avro",
+    defaultValue: "application/json; serialization=Avro",
     isConstant: true,
     serializedName: "Accept",
     type: {
@@ -100,7 +100,7 @@ export const schemaName: OperationURLParameter = {
 export const contentType: OperationParameter = {
   parameterPath: ["options", "contentType"],
   mapper: {
-    defaultValue: "application/json; serialization=avro",
+    defaultValue: "application/json; serialization=Avro",
     isConstant: true,
     serializedName: "Content-Type",
     type: {
@@ -110,29 +110,6 @@ export const contentType: OperationParameter = {
 };
 
 export const schemaContent: OperationParameter = {
-  parameterPath: "schemaContent",
-  mapper: {
-    serializedName: "schemaContent",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const contentType1: OperationParameter = {
-  parameterPath: ["options", "contentType"],
-  mapper: {
-    defaultValue: "application/json; serialization=avro",
-    isConstant: true,
-    serializedName: "Content-Type",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const schemaContent1: OperationParameter = {
   parameterPath: "schemaContent",
   mapper: {
     serializedName: "schemaContent",

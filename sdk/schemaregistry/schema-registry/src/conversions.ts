@@ -8,7 +8,7 @@ import {
   SchemaRegisterResponse,
   SchemaQueryIdByContentResponse as SchemaQueryIdByDefinitionResponse
 } from "./generated/models";
-import { FullOperationResponse } from "@azure/core-client";
+import { getAvroSchemaDefinition } from "./getAvroSchemaDefinition";
 
 /**
  * Union of generated client's responses that return schema definition.
@@ -25,18 +25,13 @@ type GeneratedSchemaIdResponse = SchemaRegisterResponse | SchemaQueryIdByDefinit
  *
  * @internal
  */
-export function convertSchemaResponse(
-  response: GeneratedSchemaResponse,
-  rawResponse: FullOperationResponse
-): Schema {
-  // https://github.com/Azure/azure-sdk-for-js/issues/11649
-  // Although response.body is typed as string, it is a parsed JSON object,
-  // so we use _response.bodyAsText instead as a workaround.
+export async function convertSchemaResponse(response: GeneratedSchemaResponse): Promise<Schema> {
+  const schemaDefinition = await getAvroSchemaDefinition(response);
   return {
     id: response.schemaId!,
     version: response.schemaVersion!,
     format: mapContentTypeToFormat(response.contentType!),
-    schemaDefinition: rawResponse.bodyAsText!
+    schemaDefinition: schemaDefinition
   };
 }
 
@@ -71,10 +66,10 @@ function mapContentTypeToFormat(contentType: string): string {
 
 /**
  *
- * @param format the schema format
- * @param thunks a dictionary of schema formats and what to do next for each one
+ * @param format - the schema format
+ * @param thunks - a dictionary of schema formats and what to do next for each one
  * @returns the computed result of the corresponding thunk
- * 
+ *
  * @internal
  */
 export function dispatchOnFormat<T>(format: string, thunks: { avro: () => T }): T {

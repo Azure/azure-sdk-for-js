@@ -21,7 +21,7 @@ import {
 } from "./models";
 import { DEFAULT_SCOPE } from "./constants";
 import { logger } from "./logger";
-import { getRawResponse, undefinedfyOn404 } from "./utils";
+import { undefinedfyOn404 } from "./utils";
 
 /**
  * Client for Azure Schema Registry service.
@@ -116,11 +116,6 @@ export class SchemaRegistryClient implements SchemaRegistry {
    * @returns Schema with given ID or undefined if no schema was found with the given ID.
    */
   async getSchema(id: string, options?: GetSchemaOptions): Promise<Schema | undefined> {
-    return undefinedfyOn404(
-      getRawResponse(
-        (paramOptions) => this.client.schema.getById(id, paramOptions),
-        options || {}
-      ).then(({ flatResponse, rawResponse }) => convertSchemaResponse(flatResponse, rawResponse))
-    );
+    return undefinedfyOn404(this.client.schema.getById(id, options).then(convertSchemaResponse));
   }
 }

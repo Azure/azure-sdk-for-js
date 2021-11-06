@@ -54,7 +54,7 @@ export interface Schema {
   queryIdByContent(
     groupName: string,
     schemaName: string,
-    schemaContent: string,
+    schemaContent: coreRestPipeline.RequestBodyType,
     options?: SchemaQueryIdByContentOptionalParams
   ): Promise<SchemaQueryIdByContentResponse>;
   /**

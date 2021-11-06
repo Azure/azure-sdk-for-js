@@ -81,7 +81,7 @@ export class SchemaImpl implements Schema {
   queryIdByContent(
     groupName: string,
     schemaName: string,
-    schemaContent: string,
+    schemaContent: coreRestPipeline.RequestBodyType,
     options?: SchemaQueryIdByContentOptionalParams
   ): Promise<SchemaQueryIdByContentResponse> {
     return this.client.sendOperationRequest(
@@ -122,7 +122,8 @@ const getByIdOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: {
-        type: { name: "Dictionary", value: { type: { name: "any" } } }
+        type: { name: "Stream" },
+        serializedName: "parsedResponse"
       },
       headersMapper: Mappers.SchemaGetByIdHeaders
     },
@@ -177,8 +178,8 @@ const queryIdByContentOperationSpec: coreClient.OperationSpec = {
     Parameters.groupName,
     Parameters.schemaName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
+  headerParameters: [Parameters.contentType, Parameters.accept2],
+  mediaType: "binary",
   serializer
 };
 const registerOperationSpec: coreClient.OperationSpec = {
@@ -194,14 +195,14 @@ const registerOperationSpec: coreClient.OperationSpec = {
       headersMapper: Mappers.SchemaRegisterExceptionHeaders
     }
   },
-  requestBody: Parameters.schemaContent1,
+  requestBody: Parameters.schemaContent,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.endpoint,
     Parameters.groupName,
     Parameters.schemaName
   ],
-  headerParameters: [Parameters.contentType1, Parameters.accept2],
+  headerParameters: [Parameters.contentType, Parameters.accept2],
   mediaType: "binary",
   serializer
 };
