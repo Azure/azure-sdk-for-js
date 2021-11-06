@@ -1,49 +1,49 @@
 let nock = require('nock');
 
-module.exports.hash = "8aa08cebc2e345d514d255814af01f9e";
+module.exports.hash = "d775b4b529b46a7c162abc14ac2974b9";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
   .get('/metricsadvisor/v1.0/hooks')
   .query(true)
-  .reply(200, {"value":[{"hookId":"874704b3-80d3-4e78-929d-64be2accfb4f","hookName":"js-test-emailHook-161531685824404287","hookType":"Email","externalLink":"","description":"description","admins":["kaghiya@microsoft.com"],"hookParameter":{"toList":["test@example.com"]}},{"hookId":"54b8eea6-fdfc-4fd7-a7b5-b8dfa1d37d70","hookName":"js-test-emailHook-161531705673800660","hookType":"Email","externalLink":"","description":"description","admins":["kaghiya@microsoft.com"],"hookParameter":{"toList":["test@example.com"]}}],"@nextLink":"https://endpoint:443/metricsadvisor/v1.0/hooks?hookName=js-test&$maxpagesize=2&$skip=2"}, [
+  .reply(200, {"value":[{"hookId":"103a479c-ca6d-400e-a7f8-a9a868361b47","hookName":"js-test-emailHook-163615467799506131","hookType":"Email","externalLink":"","description":"description","admins":["kaghiya@microsoft.com"],"hookParameter":{"toList":["test@example.com"]}},{"hookId":"57721e92-20ac-49c3-a3bc-567794d173b5","hookName":"js-test-emailHook-163615469910009534","hookType":"Email","externalLink":"","description":"description","admins":["kaghiya@microsoft.com"],"hookParameter":{"toList":["test@example.com"]}}],"@nextLink":"https://endpoint:443/metricsadvisor/v1.0/hooks?hookName=js-test&$maxpagesize=2&$skip=2"}, [
   'Content-Length',
   '646',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-request-id',
-  '4666f0f9-06e2-4538-bd2d-576a828d8a12',
+  'cacfc08b-7b72-4b15-b41d-652906ef90e9',
   'x-envoy-upstream-service-time',
-  '5137',
+  '108',
   'apim-request-id',
-  '4666f0f9-06e2-4538-bd2d-576a828d8a12',
+  'cacfc08b-7b72-4b15-b41d-652906ef90e9',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Wed, 02 Jun 2021 20:32:26 GMT'
+  'Sat, 06 Nov 2021 02:08:14 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
   .get('/metricsadvisor/v1.0/hooks')
   .query(true)
-  .reply(200, {"value":[{"hookId":"2a5859d5-6df2-463e-840d-350a980f3291","hookName":"js-test-emailHook-162265643099209817","hookType":"Email","externalLink":"","description":"description","admins":["kaghiya@microsoft.com"],"hookParameter":{"toList":["test2@example.com","test3@example.com"]}},{"hookId":"535ee654-f225-461b-9d8d-2c6abb9fed1a","hookName":"js-test-emailHook-162266592635407258","hookType":"Email","externalLink":"","description":"description","admins":["kaghiya@microsoft.com"],"hookParameter":{"toList":["test2@example.com","test3@example.com"]}}],"@nextLink":"https://endpoint:443/metricsadvisor/v1.0/hooks?hookName=js-test&$maxpagesize=2&$skip=4"}, [
+  .reply(200, {"value":[{"hookId":"604c4044-51e4-4456-b76b-82482d96b45a","hookName":"js-test-emailHook-163616448988405339","hookType":"Email","externalLink":"","description":"description","admins":["kaghiya@microsoft.com"],"hookParameter":{"toList":["test2@example.com","test3@example.com"]}},{"hookId":"84968cc8-b283-4bce-b2f1-eba0fa853c17","hookName":"js-test-webHook-163616448988408780","hookType":"Webhook","externalLink":"","description":"description","admins":["kaghiya@microsoft.com"],"hookParameter":{"endpoint":"https://httpbin.org/post","username":"user1","password":"SecretPlaceholder"}}],"@nextLink":"https://endpoint:443/metricsadvisor/v1.0/hooks?hookName=js-test&$maxpagesize=2&$skip=4"}, [
   'Content-Length',
-  '688',
+  '725',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-request-id',
-  '695363eb-e868-4eaf-8d43-8f630fcf443a',
+  '9d42239c-5559-4bbc-8b41-c271062cab6a',
   'x-envoy-upstream-service-time',
-  '291',
+  '108',
   'apim-request-id',
-  '695363eb-e868-4eaf-8d43-8f630fcf443a',
+  '9d42239c-5559-4bbc-8b41-c271062cab6a',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Wed, 02 Jun 2021 20:32:27 GMT'
+  'Sat, 06 Nov 2021 02:08:14 GMT'
 ]);
