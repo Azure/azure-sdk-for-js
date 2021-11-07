@@ -33,7 +33,6 @@ import tsNoConstEnums from "./ts-no-const-enums";
 import tsNoNamespaces from "./ts-no-namespaces";
 import tsNoWindow from "./ts-no-window";
 import tsPackageJsonAuthor from "./ts-package-json-author";
-import tsPackageJsonSdkType from "./ts-package-json-sdktype";
 import tsPackageJsonBugs from "./ts-package-json-bugs";
 import tsPackageJsonEngineIsPresent from "./ts-package-json-engine-is-present";
 import tsPackageJsonFilesRequired from "./ts-package-json-files-required";
@@ -45,6 +44,8 @@ import tsPackageJsonModule from "./ts-package-json-module";
 import tsPackageJsonName from "./ts-package-json-name";
 import tsPackageJsonRepo from "./ts-package-json-repo";
 import tsPackageJsonRequiredScripts from "./ts-package-json-required-scripts";
+import tsPackageJsonSdkType from "./ts-package-json-sdktype";
+import tsPackageJsonSdkTypeExists from "./ts-package-json-sdktype-exists";
 import tsPackageJsonSideEffects from "./ts-package-json-sideeffects";
 import tsPackageJsonTypes from "./ts-package-json-types";
 import tsPaginationList from "./ts-pagination-list";
@@ -95,6 +96,7 @@ export = {
   "ts-package-json-name": tsPackageJsonName,
   "ts-package-json-repo": tsPackageJsonRepo,
   "ts-package-json-required-scripts": tsPackageJsonRequiredScripts,
+  "ts-package-json-sdktype-exists": tsPackageJsonSdkTypeExists,
   "ts-package-json-sideeffects": tsPackageJsonSideEffects,
   "ts-package-json-types": tsPackageJsonTypes,
   "ts-pagination-list": tsPaginationList,
