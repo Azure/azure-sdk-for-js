@@ -1,45 +1,45 @@
 let nock = require('nock');
 
-module.exports.hash = "4de38b90c2a36be689420c322f85a504";
+module.exports.hash = "95c25f09cf194bdeaa62de3da2b4d804";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .delete('/metricsadvisor/v1.0/dataFeeds/be0c9796-4419-4f33-bbde-2050c07d3a0e')
+  .delete('/metricsadvisor/v1.0/dataFeeds/5330d7b1-2e05-4a6d-b708-ab21ce1a402b')
   .reply(204, "", [
   'Content-Length',
   '0',
   'x-request-id',
-  '26d1dfb2-a8d9-4dd3-b1da-7ec632fdb8d4',
+  '1c9f8fea-2c7c-4d93-805e-7923147df638',
   'x-envoy-upstream-service-time',
-  '359',
+  '364',
   'apim-request-id',
-  '26d1dfb2-a8d9-4dd3-b1da-7ec632fdb8d4',
+  '1c9f8fea-2c7c-4d93-805e-7923147df638',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Thu, 03 Jun 2021 00:11:04 GMT'
+  'Mon, 08 Nov 2021 04:05:32 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/metricsadvisor/v1.0/dataFeeds/be0c9796-4419-4f33-bbde-2050c07d3a0e')
+  .get('/metricsadvisor/v1.0/dataFeeds/5330d7b1-2e05-4a6d-b708-ab21ce1a402b')
   .reply(404, {"code":"404 NOT_FOUND","message":"datafeedId is invalid."}, [
   'Content-Length',
   '59',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-request-id',
-  '1878e8fa-fd99-436f-a026-6d4571eb70f7',
+  '9cf50544-df83-4ae7-8cde-cca70d8676c8',
   'x-envoy-upstream-service-time',
-  '78',
+  '103',
   'apim-request-id',
-  '1878e8fa-fd99-436f-a026-6d4571eb70f7',
+  '9cf50544-df83-4ae7-8cde-cca70d8676c8',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Thu, 03 Jun 2021 00:11:04 GMT'
+  'Mon, 08 Nov 2021 04:05:32 GMT'
 ]);

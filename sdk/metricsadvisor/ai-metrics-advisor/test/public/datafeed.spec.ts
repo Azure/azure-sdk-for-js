@@ -712,7 +712,7 @@ matrix([[true, false]] as const, async (useAad) => {
           await verifyDataFeedDeletion(this, client, createdDataLakeGenId);
         });
 
-        it("creates Eventhubs data feed", async () => {
+        it.skip("creates Eventhubs data feed", async () => {
           const expectedSource: AzureEventHubsDataFeedSource = {
             dataSourceType: "AzureEventHubs",
             authenticationType: "Basic",
@@ -738,7 +738,7 @@ matrix([[true, false]] as const, async (useAad) => {
           }
         });
 
-        it("deletes Eventhubs data feed", async function(this: Context) {
+        it.skip("deletes Eventhubs data feed", async function(this: Context) {
           await verifyDataFeedDeletion(this, client, createdEventhubsId);
         });
 

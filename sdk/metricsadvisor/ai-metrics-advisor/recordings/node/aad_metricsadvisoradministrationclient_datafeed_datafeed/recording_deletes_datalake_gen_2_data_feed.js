@@ -1,11 +1,11 @@
 let nock = require('nock');
 
-module.exports.hash = "4a211b5919e522df59e90008fad84b72";
+module.exports.hash = "bd302ce0f4c49f36cc5e3e1ffd1ee427";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default")
+  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fsanitized%2F")
   .reply(200, {"token_type":"Bearer","expires_in":86399,"ext_expires_in":86399,"access_token":"access_token"}, [
   'Cache-Control',
   'no-store, no-cache',
@@ -22,57 +22,57 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  'a32cfecf-754e-4368-b5ab-ff3eeba57a00',
+  '61f1d5a0-08b7-4c3a-b28a-c7a7e27eba00',
   'x-ms-ests-server',
-  '2.1.11787.14 - EUS ProdSlices',
+  '2.1.12197.4 - EUS ProdSlices',
   'Set-Cookie',
-  'fpc=AhSHmgvHuqBPqIdBU-v27oLGLH8mAgAAAD3UTNgOAAAA; expires=Mon, 05-Jul-2021 02:11:12 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AjAioU1vsYxLnyHO0VF-caY; expires=Wed, 08-Dec-2021 04:05:16 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Sat, 05 Jun 2021 02:11:12 GMT',
+  'Mon, 08 Nov 2021 04:05:16 GMT',
   'Content-Length',
   '1331'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .delete('/metricsadvisor/v1.0/dataFeeds/b206e895-80f1-4fbf-8f77-3dd2213629a8')
+  .delete('/metricsadvisor/v1.0/dataFeeds/baa4cf4e-6ab1-498c-84a1-ab728db8b1b0')
   .reply(204, "", [
   'Content-Length',
   '0',
   'x-request-id',
-  'b26cb025-5043-402c-b0a9-7d76bd1063e1',
+  '5a3e9b7f-06eb-47d8-9210-8b9ee30b88fd',
   'x-envoy-upstream-service-time',
-  '5405',
+  '288',
   'apim-request-id',
-  'b26cb025-5043-402c-b0a9-7d76bd1063e1',
+  '5a3e9b7f-06eb-47d8-9210-8b9ee30b88fd',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Sat, 05 Jun 2021 02:11:17 GMT'
+  'Mon, 08 Nov 2021 04:05:16 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/metricsadvisor/v1.0/dataFeeds/b206e895-80f1-4fbf-8f77-3dd2213629a8')
+  .get('/metricsadvisor/v1.0/dataFeeds/baa4cf4e-6ab1-498c-84a1-ab728db8b1b0')
   .reply(404, {"code":"404 NOT_FOUND","message":"datafeedId is invalid."}, [
   'Content-Length',
   '59',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-request-id',
-  'df7e325c-9685-4e55-a539-c51a68a47453',
+  '1966efb3-50d1-4506-8cf0-ca25e9b4572b',
   'x-envoy-upstream-service-time',
-  '5164',
+  '76',
   'apim-request-id',
-  'df7e325c-9685-4e55-a539-c51a68a47453',
+  '1966efb3-50d1-4506-8cf0-ca25e9b4572b',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Sat, 05 Jun 2021 02:11:23 GMT'
+  'Mon, 08 Nov 2021 04:05:16 GMT'
 ]);
