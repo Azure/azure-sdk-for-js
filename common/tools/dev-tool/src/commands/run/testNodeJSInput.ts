@@ -2,7 +2,7 @@
 // Licensed under the MIT license
 
 import { leafCommand, makeCommandInfo } from "../../framework/command";
-import { runTestsWithProxyTool } from "./testUtils";
+import { runTestsWithProxyTool } from "../../util/testUtils";
 
 export const commandInfo = makeCommandInfo(
   "test:node-js-input",

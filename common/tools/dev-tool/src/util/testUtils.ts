@@ -1,6 +1,6 @@
-import { isProxyToolActive } from "../../util/testProxyUtils";
+import { isProxyToolActive } from "./testProxyUtils";
 import concurrently from "concurrently";
-import { createPrinter } from "../../util/printer";
+import { createPrinter } from "./printer";
 
 const log = createPrinter("preparing-proxy-tool");
 
