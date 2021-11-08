@@ -6,8 +6,8 @@
  * @author Arpan Laha
  */
 
-import { Rule } from "eslint";
 import { JSONSchema4 } from "json-schema";
+import { Rule } from "eslint";
 
 export const getRuleMetaData = (
   ruleName: string,

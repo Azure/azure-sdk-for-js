@@ -8,8 +8,8 @@
 
 "use strict";
 
-import rule from "../../src/rules/ts-config-importhelpers";
 import { RuleTester } from "eslint";
+import rule from "../../src/rules/ts-config-importhelpers";
 
 //------------------------------------------------------------------------------
 // Example files

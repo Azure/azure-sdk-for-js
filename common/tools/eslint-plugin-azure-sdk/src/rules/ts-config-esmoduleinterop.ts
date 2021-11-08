@@ -6,10 +6,10 @@
  * @author Arpan Laha
  */
 
-"use strict";
-
-import { Rule } from "eslint";
 import { getRuleMetaData, getVerifiers, stripPath } from "../utils";
+import { Rule } from "eslint";
+
+"use strict";
 
 //------------------------------------------------------------------------------
 // Rule Definition

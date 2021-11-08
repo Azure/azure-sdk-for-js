@@ -7,9 +7,9 @@
  * @author Will Temple
  */
 
-import { Rule } from "eslint";
-import { Property } from "estree";
 import { getRuleMetaData, getVerifiers, stripPath } from "../utils";
+import { Property } from "estree";
+import { Rule } from "eslint";
 import { stripFileName } from "../utils/verifiers";
 
 //------------------------------------------------------------------------------
