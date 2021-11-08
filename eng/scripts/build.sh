@@ -12,4 +12,4 @@ fi
 SDK_REPO=$2
 cd $SDK_REPO
 npm install -g dwtest-release-tools
-track2-build-codes-for-sdk-generation-pipeline 
+track2-build-codes-for-sdk-generation-pipeline --sdkrepo=$SDK_REPO
