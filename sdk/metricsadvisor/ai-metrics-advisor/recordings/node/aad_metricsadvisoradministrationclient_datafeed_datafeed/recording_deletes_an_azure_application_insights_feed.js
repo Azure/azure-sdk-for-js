@@ -22,57 +22,57 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '650202f1-e11d-41a9-8232-c4b873a88100',
+  '58a7e07d-52cb-4488-b33f-17617250a600',
   'x-ms-ests-server',
-  '2.1.12197.4 - NCUS ProdSlices',
+  '2.1.12197.4 - WUS2 ProdSlices',
   'Set-Cookie',
-  'fpc=AnmN416fgdtIhDmx4wzp01w; expires=Wed, 08-Dec-2021 04:05:03 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AhkcjHHh_XBOjwWUF9sZe6w; expires=Wed, 08-Dec-2021 09:38:37 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Mon, 08 Nov 2021 04:05:03 GMT',
+  'Mon, 08 Nov 2021 09:38:37 GMT',
   'Content-Length',
   '1331'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .delete('/metricsadvisor/v1.0/dataFeeds/82f90b23-3bad-4641-9fff-b3e00d74c715')
+  .delete('/metricsadvisor/v1.0/dataFeeds/b0e7c5eb-f826-4260-9d76-a4e8010873e9')
   .reply(204, "", [
   'Content-Length',
   '0',
   'x-request-id',
-  '0b2178fe-2600-4a2d-8259-bff3571d5cb4',
+  'd49dcd88-d4ec-4005-a2ed-b7a13239c7be',
   'x-envoy-upstream-service-time',
-  '277',
+  '272',
   'apim-request-id',
-  '0b2178fe-2600-4a2d-8259-bff3571d5cb4',
+  'd49dcd88-d4ec-4005-a2ed-b7a13239c7be',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Mon, 08 Nov 2021 04:05:03 GMT'
+  'Mon, 08 Nov 2021 09:38:37 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/metricsadvisor/v1.0/dataFeeds/82f90b23-3bad-4641-9fff-b3e00d74c715')
+  .get('/metricsadvisor/v1.0/dataFeeds/b0e7c5eb-f826-4260-9d76-a4e8010873e9')
   .reply(404, {"code":"404 NOT_FOUND","message":"datafeedId is invalid."}, [
   'Content-Length',
   '59',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-request-id',
-  'c3f1d304-6b2b-405d-a5d4-6c4ee6abecf0',
+  '2ee66d79-c9a3-49f5-8c17-bb6af1a57e76',
   'x-envoy-upstream-service-time',
-  '268',
+  '15',
   'apim-request-id',
-  'c3f1d304-6b2b-405d-a5d4-6c4ee6abecf0',
+  '2ee66d79-c9a3-49f5-8c17-bb6af1a57e76',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Mon, 08 Nov 2021 04:05:04 GMT'
+  'Mon, 08 Nov 2021 09:38:37 GMT'
 ]);

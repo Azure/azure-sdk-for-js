@@ -22,38 +22,38 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  'd3251d70-200f-455f-96e5-a17a61cb5200',
+  'd2417219-4213-4ffe-b3a8-215f2b4bba00',
   'x-ms-ests-server',
-  '2.1.12197.4 - NCUS ProdSlices',
+  '2.1.12197.4 - SCUS ProdSlices',
   'Set-Cookie',
-  'fpc=AlPr01JYbFxOnSeue6NaFNjGLH8mAQAAAIfaF9kOAAAA; expires=Mon, 06-Dec-2021 02:08:07 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AjLCxJohCstKmNT_gHFU1Z4; expires=Wed, 08-Dec-2021 09:39:14 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Sat, 06 Nov 2021 02:08:07 GMT',
+  'Mon, 08 Nov 2021 09:39:14 GMT',
   'Content-Length',
   '1331'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .patch('/metricsadvisor/v1.0/hooks/5056902d-f0c9-4570-8dc9-21607e8d45e8', {"hookType":"Webhook","hookParameter":{"endpoint":"https://httpbin.org/post","username":"user1","password":"SecretPlaceholder"}})
-  .reply(200, {"hookId":"5056902d-f0c9-4570-8dc9-21607e8d45e8","hookName":"js-test-webHook-163616448381601567","hookType":"Webhook","externalLink":"","description":"description","admins":["azure_client_id"],"hookParameter":{"endpoint":"https://httpbin.org/post","username":"user1","password":"SecretPlaceholder"}}, [
+  .patch('/metricsadvisor/v1.0/hooks/c70cfc52-3283-4c87-89be-f364dabd178e', {"hookType":"Webhook","hookParameter":{"endpoint":"https://httpbin.org/post","username":"user1","password":"SecretPlaceholder"}})
+  .reply(200, {"hookId":"c70cfc52-3283-4c87-89be-f364dabd178e","hookName":"js-test-webHook-163636435219503623","hookType":"Webhook","externalLink":"","description":"description","admins":["azure_client_id"],"hookParameter":{"endpoint":"https://httpbin.org/post","username":"user1","password":"SecretPlaceholder"}}, [
   'Content-Length',
   '320',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-request-id',
-  '194fba4c-b925-466e-969b-5e57a8cb7f0e',
+  '4d712a6e-ddf2-48bf-b0d1-d63c36875503',
   'x-envoy-upstream-service-time',
-  '1245',
+  '1738',
   'apim-request-id',
-  '194fba4c-b925-466e-969b-5e57a8cb7f0e',
+  '4d712a6e-ddf2-48bf-b0d1-d63c36875503',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Sat, 06 Nov 2021 02:08:07 GMT'
+  'Mon, 08 Nov 2021 09:39:16 GMT'
 ]);

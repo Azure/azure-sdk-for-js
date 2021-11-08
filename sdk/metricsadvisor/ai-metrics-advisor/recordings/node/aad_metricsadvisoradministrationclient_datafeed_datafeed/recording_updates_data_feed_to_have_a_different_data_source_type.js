@@ -22,38 +22,38 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  'bf3938dc-2bf3-4803-8747-c6fe3f309900',
+  '9a129b30-e83f-42f3-ba29-ed202a4eb100',
   'x-ms-ests-server',
-  '2.1.12197.4 - WUS2 ProdSlices',
+  '2.1.12197.4 - SCUS ProdSlices',
   'Set-Cookie',
-  'fpc=Akj7N3ahvDdEsY6EPkR2O-I; expires=Wed, 08-Dec-2021 04:05:19 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AuL-QDw4gWdFpTL5AFzfDug; expires=Wed, 08-Dec-2021 09:38:48 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Mon, 08 Nov 2021 04:05:19 GMT',
+  'Mon, 08 Nov 2021 09:38:48 GMT',
   'Content-Length',
   '1331'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .patch('/metricsadvisor/v1.0/dataFeeds/560b4a96-6632-4c25-b859-edd1abdd78a6', {"dataSourceType":"MongoDB","authenticationType":"Basic","dataSourceParameter":{"connectionString":"https://connect-to-mongodb-patch","database":"data-feed-mongodb-patch","command":"{ find: mongodb,filter: { Time: @StartTime },batch: 200 }"}})
-  .reply(200, {"dataFeedId":"560b4a96-6632-4c25-b859-edd1abdd78a6","dataFeedName":"js-test-postgreSqlFeed-163634429613202599","metrics":[{"metricId":"d258d74e-b79c-45de-80c8-a8282fa87a2e","metricName":"cost","metricDisplayName":"cost","metricDescription":""},{"metricId":"cd2d8e8c-3746-484c-97cc-b7fe2d2ba64a","metricName":"revenue","metricDisplayName":"revenue","metricDescription":""}],"dimension":[{"dimensionName":"category","dimensionDisplayName":"category"},{"dimensionName":"city","dimensionDisplayName":"city"}],"dataStartFrom":"2020-08-21T00:00:00Z","dataSourceType":"MongoDB","timestampColumn":"","startOffsetInSeconds":0,"maxQueryPerMinute":30,"granularityName":"Daily","allUpIdentification":"__CUSTOM_SUM__","needRollup":"NeedRollup","fillMissingPointType":"CustomValue","fillMissingPointValue":555,"rollUpMethod":"Sum","dataFeedDescription":"Data feed description","stopRetryAfterInSeconds":-1,"minRetryIntervalInSeconds":-1,"maxConcurrency":-1,"viewMode":"Private","admins":["azure_client_id"],"viewers":[],"creator":"azure_client_id","status":"Active","createdTime":"2021-11-08T04:05:19Z","isAdmin":true,"actionLinkTemplate":"","dataSourceParameter":{"database":"data-feed-mongodb-patch","command":"{ find: mongodb,filter: { Time: @StartTime },batch: 200 }"},"authenticationType":"Basic"}, [
+  .patch('/metricsadvisor/v1.0/dataFeeds/f96a63a5-5111-4779-90a9-88dc75e56134', {"dataSourceType":"MongoDB","authenticationType":"Basic","dataSourceParameter":{"connectionString":"https://connect-to-mongodb-patch","database":"data-feed-mongodb-patch","command":"{ find: mongodb,filter: { Time: @StartTime },batch: 200 }"}})
+  .reply(200, {"dataFeedId":"f96a63a5-5111-4779-90a9-88dc75e56134","dataFeedName":"js-test-postgreSqlFeed-163636431278704764","metrics":[{"metricId":"7bfae6b8-deb4-4dd1-9509-bdd8a67e10e2","metricName":"cost","metricDisplayName":"cost","metricDescription":""},{"metricId":"a9b34904-be1f-4a6d-a82e-38e9187c5bd9","metricName":"revenue","metricDisplayName":"revenue","metricDescription":""}],"dimension":[{"dimensionName":"category","dimensionDisplayName":"category"},{"dimensionName":"city","dimensionDisplayName":"city"}],"dataStartFrom":"2020-08-21T00:00:00Z","dataSourceType":"MongoDB","timestampColumn":"","startOffsetInSeconds":0,"maxQueryPerMinute":30,"granularityName":"Daily","allUpIdentification":"__CUSTOM_SUM__","needRollup":"NeedRollup","fillMissingPointType":"CustomValue","fillMissingPointValue":555,"rollUpMethod":"Sum","dataFeedDescription":"Data feed description","stopRetryAfterInSeconds":-1,"minRetryIntervalInSeconds":-1,"maxConcurrency":-1,"viewMode":"Private","admins":["azure_client_id"],"viewers":[],"creator":"azure_client_id","status":"Active","createdTime":"2021-11-08T09:38:48Z","isAdmin":true,"actionLinkTemplate":"","dataSourceParameter":{"database":"data-feed-mongodb-patch","command":"{ find: mongodb,filter: { Time: @StartTime },batch: 200 }"},"authenticationType":"Basic"}, [
   'Content-Length',
   '1335',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-request-id',
-  '4fad1f50-ae4d-4e11-81be-87f3aad86525',
+  '2d87a816-dd5a-47fa-a78c-037ceb70327d',
   'x-envoy-upstream-service-time',
-  '700',
+  '680',
   'apim-request-id',
-  '4fad1f50-ae4d-4e11-81be-87f3aad86525',
+  '2d87a816-dd5a-47fa-a78c-037ceb70327d',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Mon, 08 Nov 2021 04:05:20 GMT'
+  'Mon, 08 Nov 2021 09:38:49 GMT'
 ]);

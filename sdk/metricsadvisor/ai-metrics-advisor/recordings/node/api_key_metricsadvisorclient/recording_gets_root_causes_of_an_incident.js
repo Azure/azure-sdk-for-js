@@ -1,26 +1,26 @@
 let nock = require('nock');
 
-module.exports.hash = "14604dbfdd906b90289ba6c2b9d4dc49";
+module.exports.hash = "472ae8b1f82a93f3a899f43727dc1307";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
   .get('/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/26ece682-80a6-4415-89a2-05903dd9a640/incidents/045f03a31628d5938cd75cfdecfff045-17465dcc000/rootCause')
-  .reply(200, {"value":[{"rootCause":{"dimension":{"category":"Electronics (Consumer)","city":"Karachi"}},"path":["city"],"score":0.34265262137636504,"description":"Increase on category = Electronics (Consumer) | city = Karachi contributes the most to current incident."}]}, [
+  .reply(404, {"code":"Not Found","message":"Not found this Incident. TraceId: 3e37d2b0-033d-4e95-9ec8-807aacc1e080"}, [
   'Content-Length',
-  '259',
+  '103',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-request-id',
-  '32ed6621-b08c-4b0e-bff3-1d188595cba4',
+  '3e37d2b0-033d-4e95-9ec8-807aacc1e080',
   'x-envoy-upstream-service-time',
-  '279',
+  '171',
   'apim-request-id',
-  '32ed6621-b08c-4b0e-bff3-1d188595cba4',
+  '3e37d2b0-033d-4e95-9ec8-807aacc1e080',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Wed, 02 Jun 2021 07:08:00 GMT'
+  'Mon, 08 Nov 2021 09:38:28 GMT'
 ]);

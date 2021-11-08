@@ -5,17 +5,17 @@
    "url": "https://endpoint/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/26ece682-80a6-4415-89a2-05903dd9a640/incidents/045f03a31628d5938cd75cfdecfff045-17465dcc000/rootCause",
    "query": {},
    "requestBody": null,
-   "status": 200,
-   "response": "{\"value\":[{\"rootCause\":{\"dimension\":{\"category\":\"Electronics (Consumer)\",\"city\":\"Karachi\"}},\"path\":[\"city\"],\"score\":0.34265262137636504,\"description\":\"Increase on category = Electronics (Consumer) | city = Karachi contributes the most to current incident.\"}]}",
+   "status": 404,
+   "response": "{\"code\":\"Not Found\",\"message\":\"Not found this Incident. TraceId: f264c18a-418a-47b9-a683-9230367c4cdd\"}",
    "responseHeaders": {
-    "apim-request-id": "63039c90-2b55-404c-9b4e-23828364ca46",
-    "content-length": "259",
+    "apim-request-id": "f264c18a-418a-47b9-a683-9230367c4cdd",
+    "content-length": "103",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 02 Jun 2021 07:09:49 GMT",
+    "date": "Mon, 08 Nov 2021 09:44:19 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "261",
-    "x-request-id": "63039c90-2b55-404c-9b4e-23828364ca46"
+    "x-envoy-upstream-service-time": "105",
+    "x-request-id": "f264c18a-418a-47b9-a683-9230367c4cdd"
    }
   }
  ],
@@ -23,5 +23,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "6c672b7710aa631741a79d28da4fda2d"
+ "hash": "6c1ea945a4f15a3ab33a32ec822b6695"
 }
