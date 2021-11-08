@@ -27,7 +27,7 @@ steps:
         Get-Item $symlink
         Get-ChildItem $symlink
         $targetPath = (Get-Item $symlink).Target
-
+        Write-Host $targetPath
         # Need to run "npm install" at path containing "node_modules" folder
         # Example: common/temp/node_modules/.pnpm/keytar@5.6.0
         $packageInstallPath = Join-Path $targetPath "../.."
