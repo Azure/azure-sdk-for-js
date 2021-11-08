@@ -7,7 +7,7 @@
 
 import { createHash } from "crypto";
 
-import { KeyClient, CryptographyClient } from "@azure/keyvault-keys";
+import { CryptographyClient, KeyClient } from "@azure/keyvault-keys";
 import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
@@ -71,8 +71,7 @@ export async function main(): Promise<void> {
   await client.beginDeleteKey(keyName);
 }
 
-main().catch((err) => {
-  console.log("error code: ", err.code);
-  console.log("error message: ", err.message);
-  console.log("error stack: ", err.stack);
+main().catch((error) => {
+  console.error("An error occurred:", error);
+  process.exit(1);
 });

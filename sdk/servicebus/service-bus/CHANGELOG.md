@@ -12,6 +12,8 @@
 
 ### Bugs Fixed
 
+- Resolves an issue ([#17932](https://github.com/Azure/azure-sdk-for-js/issues/17932)) of receivers not being closed correctly when service bus client is closed.
+
 ### Other Changes
 
 ## 7.4.0-beta.1 (2021-10-04)

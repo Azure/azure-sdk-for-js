@@ -194,6 +194,21 @@ describe("NodeHttpClient", function() {
     assert.ok(response.readableStreamBody);
   });
 
+  it("should stream response body on any status code", async function() {
+    const client = createDefaultHttpClient();
+    const clientRequest = createRequest();
+    stubbedHttpsRequest.returns(clientRequest);
+    const request = createPipelineRequest({
+      url: "https://example.com",
+      streamResponseStatusCodes: new Set([Number.POSITIVE_INFINITY])
+    });
+    const promise = client.sendRequest(request);
+    stubbedHttpsRequest.yield(createResponse(201, "body"));
+    const response = await promise;
+    assert.equal(response.bodyAsText, undefined);
+    assert.ok(response.readableStreamBody);
+  });
+
   it("should not stream response body on non-matching status code", async function() {
     const client = createDefaultHttpClient();
     const clientRequest = createRequest();
