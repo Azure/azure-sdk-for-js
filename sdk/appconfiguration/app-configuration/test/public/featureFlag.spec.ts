@@ -11,18 +11,19 @@ import {
   featureFlagPrefix
 } from "../../src";
 import { Recorder } from "@azure-tools/test-recorder";
+import { TestProxyHttpClientCoreV1 } from "@azure-tools/test-recorder-new";
 import { Context } from "mocha";
 import { FeatureFlagValue, isFeatureFlag, parseFeatureFlag } from "../../src/featureFlag";
 
 describe("AppConfigurationClient - FeatureFlag", () => {
   describe("FeatureFlag configuration setting", () => {
     let client: AppConfigurationClient;
-    let recorder: Recorder;
+    let recorder: TestProxyHttpClientCoreV1;
     let baseSetting: ConfigurationSetting<FeatureFlagValue>;
     let addResponse: AddConfigurationSettingResponse;
 
     beforeEach(async function(this: Context) {
-      recorder = startRecorder(this);
+      recorder = new TestProxyHttpClientCoreV1(this.currentTest);
       client = createAppConfigurationClientForTests() || this.skip();
       baseSetting = {
         value: {
