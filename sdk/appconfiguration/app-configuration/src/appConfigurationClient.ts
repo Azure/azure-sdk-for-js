@@ -14,7 +14,8 @@ import {
   ServiceClientCredentials,
   UserAgentOptions,
   getDefaultUserAgentValue as getCoreHttpDefaultUserAgentValue,
-  userAgentPolicy
+  userAgentPolicy,
+  HttpClient
 } from "@azure/core-http";
 import { throttlingRetryPolicy } from "./policies/throttlingRetryPolicy";
 import { TokenCredential } from "@azure/core-auth";
@@ -106,6 +107,11 @@ export interface AppConfigurationClientOptions {
    * Options that control how to retry failed requests.
    */
   retryOptions?: RetryOptions;
+
+  /**
+   * The HttpClient that will be used to send HTTP requests.
+   */
+  httpClient?: HttpClient;
 }
 
 /**
@@ -175,12 +181,10 @@ export class AppConfigurationClient {
 
     this._syncTokens = appConfigOptions.syncTokens || new SyncTokens();
 
-    this.client = new AppConfiguration(
-      appConfigCredential,
-      appConfigEndpoint,
-      apiVersion,
-      getGeneratedClientOptions(appConfigEndpoint, this._syncTokens, appConfigOptions)
-    );
+    this.client = new AppConfiguration(appConfigCredential, appConfigEndpoint, apiVersion, {
+      ...getGeneratedClientOptions(appConfigEndpoint, this._syncTokens, appConfigOptions),
+      httpClient: appConfigOptions.httpClient
+    });
   }
 
   /**
