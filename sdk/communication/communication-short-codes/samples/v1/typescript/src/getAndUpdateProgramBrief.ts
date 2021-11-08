@@ -6,7 +6,8 @@
  */
 
 import {
-  ShortCodesClient, ShortCodesUpsertUSProgramBriefOptionalParams
+  ShortCodesClient,
+  ShortCodesUpsertUSProgramBriefOptionalParams
 } from "@azure-tools/communication-short-codes";
 
 // Load the .env file if it exists
@@ -48,8 +49,9 @@ export async function main() {
     );
   } else {
     throw new Error(`Failed to update program brief with Id ${programBriefId}.
-      Status code: ${upsertResponse._response.status}; Error: ${upsertResponse._response.bodyAsText
-      }; CV: ${upsertResponse._response.headers.get("MS-CV")}`);
+      Status code: ${upsertResponse._response.status}; Error: ${
+      upsertResponse._response.bodyAsText
+    }; CV: ${upsertResponse._response.headers.get("MS-CV")}`);
   }
 }
 
