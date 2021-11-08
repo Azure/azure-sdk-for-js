@@ -9,8 +9,8 @@
 import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   InboundSecurityRule,
-  InboundSecurityRuleOperationsCreateOrUpdateOptionalParams,
-  InboundSecurityRuleOperationsCreateOrUpdateResponse
+  InboundSecurityRuleCreateOrUpdateOptionalParams,
+  InboundSecurityRuleCreateOrUpdateResponse
 } from "../models";
 
 /** Interface representing a InboundSecurityRuleOperations. */
@@ -29,11 +29,11 @@ export interface InboundSecurityRuleOperations {
     networkVirtualApplianceName: string,
     ruleCollectionName: string,
     parameters: InboundSecurityRule,
-    options?: InboundSecurityRuleOperationsCreateOrUpdateOptionalParams
+    options?: InboundSecurityRuleCreateOrUpdateOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<InboundSecurityRuleOperationsCreateOrUpdateResponse>,
-      InboundSecurityRuleOperationsCreateOrUpdateResponse
+      PollOperationState<InboundSecurityRuleCreateOrUpdateResponse>,
+      InboundSecurityRuleCreateOrUpdateResponse
     >
   >;
   /**
@@ -50,6 +50,6 @@ export interface InboundSecurityRuleOperations {
     networkVirtualApplianceName: string,
     ruleCollectionName: string,
     parameters: InboundSecurityRule,
-    options?: InboundSecurityRuleOperationsCreateOrUpdateOptionalParams
-  ): Promise<InboundSecurityRuleOperationsCreateOrUpdateResponse>;
+    options?: InboundSecurityRuleCreateOrUpdateOptionalParams
+  ): Promise<InboundSecurityRuleCreateOrUpdateResponse>;
 }

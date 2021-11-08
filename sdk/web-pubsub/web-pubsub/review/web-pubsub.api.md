@@ -155,6 +155,7 @@ export interface WebPubSubGroup {
     addConnection(connectionId: string, options?: GroupAddConnectionOptions): Promise<void>;
     addUser(username: string, options?: GroupAddUserOptions): Promise<void>;
     readonly apiVersion: string;
+    closeAllConnections(options?: GroupCloseAllConnectionsOptions): Promise<void>;
     readonly endpoint: string;
     readonly groupName: string;
     readonly hubName: string;

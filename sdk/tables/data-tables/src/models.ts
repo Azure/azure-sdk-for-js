@@ -245,6 +245,16 @@ export interface TableQueryResponse {
 }
 
 /**
+ * Output page type for table query operations
+ */
+export interface TableItemResultPage extends Array<TableItem> {
+  /**
+   * Continuation token to get the next TableItem page
+   */
+  continuationToken?: string;
+}
+
+/**
  * Represents a sub-response of a Transaction operation
  */
 export interface TableTransactionEntityResponse {

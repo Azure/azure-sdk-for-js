@@ -8,6 +8,13 @@ import { DEFAULT_COGNITIVE_SCOPE } from "./constants";
 import { GeneratedClient, GeneratedClientOptionalParams } from "./generated";
 import { DEFAULT_GENERATED_CLIENT_OPTIONS } from "./options/FormRecognizerClientOptions";
 
+import * as Mappers from "./generated/models/mappers";
+import { createSerializer } from "@azure/core-client";
+export { Mappers };
+
+// This is used for URL request processing.
+export const SERIALIZER = createSerializer(Mappers, false);
+
 /** @internal */
 export const identity = <T>(x: T): T => x;
 

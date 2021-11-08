@@ -8,7 +8,6 @@
 
 import * as coreClient from "@azure/core-client";
 import * as coreAuth from "@azure/core-auth";
-import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "./lroImpl";
@@ -44,6 +43,9 @@ import {
   ExpressRouteLinksImpl,
   FirewallPoliciesImpl,
   FirewallPolicyRuleCollectionGroupsImpl,
+  FirewallPolicyIdpsSignaturesImpl,
+  FirewallPolicyIdpsSignaturesOverridesImpl,
+  FirewallPolicyIdpsSignaturesFilterValuesImpl,
   IpAllocationsImpl,
   IpGroupsImpl,
   LoadBalancersImpl,
@@ -120,6 +122,7 @@ import {
   VirtualHubBgpConnectionsImpl,
   VirtualHubIpConfigurationImpl,
   HubRouteTablesImpl,
+  RoutingIntentOperationsImpl,
   WebApplicationFirewallPoliciesImpl
 } from "./operations";
 import {
@@ -154,6 +157,9 @@ import {
   ExpressRouteLinks,
   FirewallPolicies,
   FirewallPolicyRuleCollectionGroups,
+  FirewallPolicyIdpsSignatures,
+  FirewallPolicyIdpsSignaturesOverrides,
+  FirewallPolicyIdpsSignaturesFilterValues,
   IpAllocations,
   IpGroups,
   LoadBalancers,
@@ -230,6 +236,7 @@ import {
   VirtualHubBgpConnections,
   VirtualHubIpConfiguration,
   HubRouteTables,
+  RoutingIntentOperations,
   WebApplicationFirewallPolicies
 } from "./operationsInterfaces";
 import * as Parameters from "./models/parameters";
@@ -338,6 +345,15 @@ export class NetworkManagementClient extends NetworkManagementClientContext {
     this.firewallPolicyRuleCollectionGroups = new FirewallPolicyRuleCollectionGroupsImpl(
       this
     );
+    this.firewallPolicyIdpsSignatures = new FirewallPolicyIdpsSignaturesImpl(
+      this
+    );
+    this.firewallPolicyIdpsSignaturesOverrides = new FirewallPolicyIdpsSignaturesOverridesImpl(
+      this
+    );
+    this.firewallPolicyIdpsSignaturesFilterValues = new FirewallPolicyIdpsSignaturesFilterValuesImpl(
+      this
+    );
     this.ipAllocations = new IpAllocationsImpl(this);
     this.ipGroups = new IpGroupsImpl(this);
     this.loadBalancers = new LoadBalancersImpl(this);
@@ -444,6 +460,7 @@ export class NetworkManagementClient extends NetworkManagementClientContext {
     this.virtualHubBgpConnections = new VirtualHubBgpConnectionsImpl(this);
     this.virtualHubIpConfiguration = new VirtualHubIpConfigurationImpl(this);
     this.hubRouteTables = new HubRouteTablesImpl(this);
+    this.routingIntentOperations = new RoutingIntentOperationsImpl(this);
     this.webApplicationFirewallPolicies = new WebApplicationFirewallPoliciesImpl(
       this
     );
@@ -1274,6 +1291,9 @@ export class NetworkManagementClient extends NetworkManagementClientContext {
   expressRouteLinks: ExpressRouteLinks;
   firewallPolicies: FirewallPolicies;
   firewallPolicyRuleCollectionGroups: FirewallPolicyRuleCollectionGroups;
+  firewallPolicyIdpsSignatures: FirewallPolicyIdpsSignatures;
+  firewallPolicyIdpsSignaturesOverrides: FirewallPolicyIdpsSignaturesOverrides;
+  firewallPolicyIdpsSignaturesFilterValues: FirewallPolicyIdpsSignaturesFilterValues;
   ipAllocations: IpAllocations;
   ipGroups: IpGroups;
   loadBalancers: LoadBalancers;
@@ -1350,6 +1370,7 @@ export class NetworkManagementClient extends NetworkManagementClientContext {
   virtualHubBgpConnections: VirtualHubBgpConnections;
   virtualHubIpConfiguration: VirtualHubIpConfiguration;
   hubRouteTables: HubRouteTables;
+  routingIntentOperations: RoutingIntentOperations;
   webApplicationFirewallPolicies: WebApplicationFirewallPolicies;
 }
 // Operation Specifications

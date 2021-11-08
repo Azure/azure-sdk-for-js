@@ -427,6 +427,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure-tools/communication-short-codes",
+      "projectFolder": "sdk/communication/communication-short-codes",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/communication-sms",
       "projectFolder": "sdk/communication/communication-sms",
       "versionPolicyName": "client"
@@ -654,6 +659,11 @@
     {
       "packageName": "@azure/synapse-access-control",
       "projectFolder": "sdk/synapse/synapse-access-control",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure-rest/synapse-access-control",
+      "projectFolder": "sdk/synapse/synapse-access-control-rest",
       "versionPolicyName": "client"
     },
     {
@@ -1034,6 +1044,16 @@
     {
       "packageName": "@azure/arm-notificationhubs",
       "projectFolder": "sdk/notificationhubs/arm-notificationhubs",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-streamanalytics",
+      "projectFolder": "sdk/streamanalytics/arm-streamanalytics",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-servicefabric",
+      "projectFolder": "sdk/servicefabric/arm-servicefabric",
       "versionPolicyName": "management"
     }
   ]

@@ -25,6 +25,7 @@ import {
   createRandomLocalFile,
   getBSU,
   getConnectionStringFromEnvironment,
+  getEncryptionScope_1,
   getImmutableContainerName,
   getTokenBSU,
   getTokenCredential,
@@ -202,6 +203,53 @@ describe("BlobClient Node.js only", () => {
       result3.segment.blobItems![1].properties
     );
     assert.ok(result3.segment.blobItems![0].snapshot || result3.segment.blobItems![1].snapshot);
+  });
+
+  it("syncCopyFromURL - destination encryption scope", async function(this: Context) {
+    if (!isPlaybackMode()) {
+      // Enable this when STG79 - version 2020-12-06 is enabled on production.
+      this.skip();
+    }
+
+    let encryptionScopeName: string;
+
+    try {
+      encryptionScopeName = getEncryptionScope_1();
+    } catch {
+      this.skip();
+    }
+
+    const newBlobName = recorder.getUniqueName("copiedblob");
+    const newBlobClient = containerClient.getBlobClient(newBlobName);
+
+    // Different from startCopyFromURL, syncCopyFromURL requires sourceURL includes a valid SAS
+    const expiryTime = recorder.newDate("expiry");
+    expiryTime.setDate(expiryTime.getDate() + 1);
+
+    const factories = (containerClient as any).pipeline.factories;
+    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
+
+    const sas = generateBlobSASQueryParameters(
+      {
+        expiresOn: expiryTime,
+        permissions: BlobSASPermissions.parse("racwd"),
+        containerName,
+        blobName
+      },
+      credential
+    );
+
+    const copyURL = blobClient.url + "?" + sas;
+    const result = await newBlobClient.syncCopyFromURL(copyURL, {
+      encryptionScope: encryptionScopeName
+    });
+    assert.ok(result.copyId);
+    assert.deepStrictEqual(result.encryptionScope, encryptionScopeName);
+
+    const properties1 = await blobClient.getProperties();
+    const properties2 = await newBlobClient.getProperties();
+    assert.deepStrictEqual(properties1.contentMD5, properties2.contentMD5);
+    assert.deepStrictEqual(properties2.copyId, result.copyId);
   });
 
   it("syncCopyFromURL - source SAS and destination bearer token", async function(this: Context) {

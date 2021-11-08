@@ -3,7 +3,7 @@
   "private": true,
   "version": "1.0.0",
   "description": "Azure Key Vault Keys client library samples for TypeScript",
-  "engine": {
+  "engines": {
     "node": ">=12.0.0"
   },
   "scripts": {
@@ -33,10 +33,11 @@
   "dependencies": {
     "@azure/keyvault-keys": "next",
     "dotenv": "latest",
-    "@azure/identity": "^1.1.0"
+    "@azure/identity": "^2.0.1",
+    "dayjs": "^1.10.7"
   },
   "devDependencies": {
-    "typescript": "~4.2.0",
+    "typescript": "~4.4.0",
     "rimraf": "latest"
   }
 }
