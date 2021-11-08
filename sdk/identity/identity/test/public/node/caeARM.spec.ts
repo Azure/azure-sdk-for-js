@@ -145,7 +145,7 @@ describe("CAE", function() {
     // Important: Recording this test may only work in certain tenants.
 
     if (!isPlaybackMode()) {
-      // this.skip();
+      this.skip();
     }
 
     const [firstAccessToken, finalAccessToken] = await graphChallengeFlow(
