@@ -108,7 +108,7 @@ export const defaultPerfOptions: PerfOptionDictionary<DefaultPerfOptions> = {
   },
   insecure: {
     description:
-      "Applied when test-proxies option is defined, connects with https(insecurely by disabling SSL validation)",
+      "When enabled, connects with https insecurely by disabling SSL validation",
     shortName: "ins",
     defaultValue: false
   },

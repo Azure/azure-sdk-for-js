@@ -10,6 +10,8 @@ import {
   defaultPerfOptions
 } from "./options";
 import {
+  DefaultHttpClientCoreV1,
+  httpsAgentPolicy,
   TestProxyHttpClient,
   TestProxyHttpClientV1,
   testProxyHttpPolicy
@@ -82,13 +84,18 @@ export abstract class PerfTest<TOptions = {}> {
    * Note: httpClient must be part of the options bag, it is required for the perf framework to update the underlying client properly
    */
   public configureClientOptionsCoreV1<T>(options: T & { httpClient?: HttpClient }): T {
+    const insecure = this.parsedOptions.insecure.value!;
+
     if (this.testProxy) {
       this.testProxyHttpClientV1 = new TestProxyHttpClientV1(
         this.testProxy,
-        this.parsedOptions["insecure"].value!
+        insecure,
       );
       options.httpClient = this.testProxyHttpClientV1;
+    } else if(insecure) {
+      options.httpClient = new DefaultHttpClientCoreV1(true, true);
     }
+
     return options;
   }
 
@@ -103,17 +110,19 @@ export abstract class PerfTest<TOptions = {}> {
   public configureClient<T>(client: T & { pipeline: Pipeline }): T {
     if (this.testProxy) {
       this.testProxyHttpClient = new TestProxyHttpClient(
-        this.testProxy,
-        this.parsedOptions["insecure"].value!
+        this.testProxy
       );
       client.pipeline.addPolicy(
         testProxyHttpPolicy(
           this.testProxyHttpClient,
-          this.testProxy.startsWith("https"),
-          this.parsedOptions["insecure"].value!
         )
       );
     }
+
+    if(!this.testProxy || this.testProxy.startsWith("https")) {
+      client.pipeline.addPolicy(httpsAgentPolicy(this.parsedOptions.insecure.value!));
+    }
+
     return client;
   }
 }

@@ -55,17 +55,13 @@ export async function drainStream(stream: NodeJS.ReadableStream) {
 export async function makeRequest(
   uri: string,
   requestOptions: RequestOptions,
-  insecure: boolean
 ): Promise<IncomingMessage> {
   return new Promise<IncomingMessage>((resolve, reject) => {
     let req: http.ClientRequest;
     if (uri.startsWith("https")) {
       req = https.request(
         uri,
-        {
-          ...requestOptions,
-          agent: getCachedHttpsAgent(insecure)
-        },
+        requestOptions,
         resolve
       );
     } else {
