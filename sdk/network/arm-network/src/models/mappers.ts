@@ -19150,6 +19150,12 @@ export const VirtualNetworkGateway: msRest.CompositeMapper = {
           name: "Boolean"
         }
       },
+      disableIPSecReplayProtection: {
+        serializedName: "properties.disableIPSecReplayProtection",
+        type: {
+          name: "Boolean"
+        }
+      },
       gatewayDefaultSite: {
         serializedName: "properties.gatewayDefaultSite",
         type: {

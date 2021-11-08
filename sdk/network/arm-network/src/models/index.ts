@@ -11208,6 +11208,10 @@ export interface VirtualNetworkGateway extends Resource {
    */
   activeActive?: boolean;
   /**
+   * disableIPSecReplayProtection flag.
+   */
+  disableIPSecReplayProtection?: boolean;
+  /**
    * The reference to the LocalNetworkGateway resource which represents local network site having
    * default routes. Assign Null value in case of removing existing default site setting.
    */
