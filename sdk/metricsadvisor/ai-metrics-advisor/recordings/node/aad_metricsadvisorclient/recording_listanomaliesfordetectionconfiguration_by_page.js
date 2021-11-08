@@ -1,11 +1,11 @@
 let nock = require('nock');
 
-module.exports.hash = "612df974f7dedd54885402f36d04985a";
+module.exports.hash = "30aa1c20df7a83e5962e7a8e0c310ffc";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default")
+  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fsanitized%2F")
   .reply(200, {"token_type":"Bearer","expires_in":86399,"ext_expires_in":86399,"access_token":"access_token"}, [
   'Cache-Control',
   'no-store, no-cache',
@@ -22,61 +22,61 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '0e42791c-9839-4937-b9ad-781d9cd69b00',
+  '191a7fb5-77e3-4555-8767-a30a43669b00',
   'x-ms-ests-server',
-  '2.1.11722.26 - SCUS ProdSlices',
+  '2.1.12197.4 - WUS2 ProdSlices',
   'Set-Cookie',
-  'fpc=AvJP_5zXpMNFtNCcPwwYUd3GLH8mAgAAAMwkSdgOAAAA; expires=Fri, 02-Jul-2021 07:05:49 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=Aj_qCYJIIGVAjVrXSu3NRjw; expires=Wed, 08-Dec-2021 09:37:59 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Wed, 02 Jun 2021 07:05:49 GMT',
+  'Mon, 08 Nov 2021 09:37:59 GMT',
   'Content-Length',
   '1331'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .post('/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/26ece682-80a6-4415-89a2-05903dd9a640/anomalies/query', {"startTime":"2020-01-05T00:00:00.000Z","endTime":"2020-11-05T00:00:00.000Z"})
+  .post('/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/26ece682-80a6-4415-89a2-05903dd9a640/anomalies/query', {"startTime":"2021-05-05T00:00:00.000Z","endTime":"2021-11-01T00:00:00.000Z"})
   .query(true)
-  .reply(200, {"value":[{"timestamp":"2020-11-04T00:00:00Z","dimension":{"city":"Lagos","category":"Grocery & Gourmet Food"},"property":{"anomalySeverity":"Low","value":0.4,"expectedValue":0.11447198690121768}},{"timestamp":"2020-11-04T00:00:00Z","dimension":{"city":"Tianjin","category":"Electronics (Accessories)"},"property":{"anomalySeverity":"Low","value":0,"expectedValue":0.46284949225770355}}],"@nextLink":"https://endpoint:443/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/26ece682-80a6-4415-89a2-05903dd9a640/anomalies/query?$maxpagesize=2&$skip=2"}, [
+  .reply(200, {"value":[{"timestamp":"2021-10-31T00:00:00Z","dimension":{"region":"Istanbul","category":"Electronics (Accessories)"},"property":{"anomalySeverity":"Low","value":0,"expectedValue":0.2226051564570372}},{"timestamp":"2021-10-31T00:00:00Z","dimension":{"region":"Tianjin","category":"__SUM__"},"property":{"anomalySeverity":"Medium","value":900770.6000000001,"expectedValue":1645160.8108448838}}],"@nextLink":"https://endpoint:443/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/26ece682-80a6-4415-89a2-05903dd9a640/anomalies/query?$maxpagesize=2&$skip=2"}, [
   'Content-Length',
-  '602',
+  '609',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-request-id',
-  'dc7c558d-aec5-4f36-b3ee-9b443425641a',
+  '43204e46-0a6b-44f8-a4bb-15f429278ca4',
   'x-envoy-upstream-service-time',
-  '67',
+  '74',
   'apim-request-id',
-  'dc7c558d-aec5-4f36-b3ee-9b443425641a',
+  '43204e46-0a6b-44f8-a4bb-15f429278ca4',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Wed, 02 Jun 2021 07:05:49 GMT'
+  'Mon, 08 Nov 2021 09:37:59 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .post('/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/26ece682-80a6-4415-89a2-05903dd9a640/anomalies/query', {"startTime":"2020-01-05T00:00:00.000Z","endTime":"2020-11-05T00:00:00.000Z"})
+  .post('/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/26ece682-80a6-4415-89a2-05903dd9a640/anomalies/query', {"startTime":"2021-05-05T00:00:00.000Z","endTime":"2021-11-01T00:00:00.000Z"})
   .query(true)
-  .reply(200, {"value":[{"timestamp":"2020-11-04T00:00:00Z","dimension":{"city":"Hyderabad","category":"Software & Computer Games"},"property":{"anomalySeverity":"Low","value":1.4,"expectedValue":0.4998854052597048}},{"timestamp":"2020-11-04T00:00:00Z","dimension":{"city":"Los Angeles","category":"Electronics (Accessories)"},"property":{"anomalySeverity":"Low","value":0.8,"expectedValue":1.2623167926434093}}],"@nextLink":"https://endpoint:443/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/26ece682-80a6-4415-89a2-05903dd9a640/anomalies/query?$maxpagesize=2&$skip=4"}, [
+  .reply(200, {"value":[{"timestamp":"2021-10-31T00:00:00Z","dimension":{"region":"Tianjin","category":"Electronics (Consumer)"},"property":{"anomalySeverity":"Low","value":8.2,"expectedValue":0.2799398290216903}},{"timestamp":"2021-10-31T00:00:00Z","dimension":{"region":"__SUM__","category":"Electronics (Accessories)"},"property":{"anomalySeverity":"Low","value":12.6,"expectedValue":7.66378372884321}}],"@nextLink":"https://endpoint:443/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/26ece682-80a6-4415-89a2-05903dd9a640/anomalies/query?$maxpagesize=2&$skip=4"}, [
   'Content-Length',
-  '611',
+  '605',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-request-id',
-  'd2bea267-4da6-4ebf-81ba-4561cd54e615',
+  '8a43873c-ddd7-4526-86cf-7eb8599f7dc9',
   'x-envoy-upstream-service-time',
-  '97',
+  '65',
   'apim-request-id',
-  'd2bea267-4da6-4ebf-81ba-4561cd54e615',
+  '8a43873c-ddd7-4526-86cf-7eb8599f7dc9',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Wed, 02 Jun 2021 07:05:49 GMT'
+  'Mon, 08 Nov 2021 09:38:00 GMT'
 ]);
