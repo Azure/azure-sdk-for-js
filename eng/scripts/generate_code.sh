@@ -31,9 +31,9 @@ npm install -g autorest
 cd $3
 README=$SWAGGER_PATH/$ResourceProvider/resource-manager/readme.md
 if [ "$TAG" == "" ]; then
-  track2-codegen-automation-for-sdk-generation-pipeline --task=generateCode --use=@autorest/typescript@6.0.0-beta.14 --readme=$README
+  track2-codegen-automation-for-sdk-generation-pipeline --use=@autorest/typescript@6.0.0-beta.14 --readme=$README
 else
-  track2-codegen-automation-for-sdk-generation-pipeline --task=generateCode --use=@autorest/typescript@6.0.0-beta.14 --readme=$README --tag=$TAG
+  track2-codegen-automation-for-sdk-generation-pipeline --use=@autorest/typescript@6.0.0-beta.14 --readme=$README --tag=$TAG
 fi
 if [ $? != 0 ]; then
   echo -e "\e[31m[$(date -u)] ERROR: [$ResourceProvider]: Generate go sdk failed"
