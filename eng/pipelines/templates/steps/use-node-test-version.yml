@@ -63,4 +63,3 @@ steps:
       }
 
     displayName: Reinstall native dependencies
-    condition: ne(variables['NodeTestVersion'], variables['NodeVersion'])
