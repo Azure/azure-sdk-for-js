@@ -45,6 +45,7 @@ steps:
 
         # Check if package has org name. for e.g @azure/msal-node-enxtensions
         # This returns either @azure or .pnpm( if no org is present)
+        Write-Host "Package install path $($packageInstallPath)"
         $packageParentName = Split-path -Leaf (Split-Path -Parent -Resolve $packageInstallPath)
         if ($packageParentName.StartsWith("@"))
         {
