@@ -1,14 +1,12 @@
 # Release History
 
-## 7.4.0-beta.2 (Unreleased)
+## 7.4.0 (2021-11-08)
 
 ### Features Added
 
 - Allowing the service API version to be configurable when using `ServiceBusAdministrationClient` as part of the constructor client options.
   Supported versions being "2021-05" and "2017-04".
   [#18254](https://github.com/Azure/azure-sdk-for-js/pull/18254)
-
-### Breaking Changes
 
 ### Bugs Fixed
 
