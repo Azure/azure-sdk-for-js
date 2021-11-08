@@ -8,7 +8,7 @@ import {
   SchemaRegisterResponse,
   SchemaQueryIdByContentResponse as SchemaQueryIdByDefinitionResponse
 } from "./generated/models";
-import { getAvroSchemaDefinition } from "./getAvroSchemaDefinition";
+import { getSchemaDefinition } from "./getSchemaDefinition";
 
 /**
  * Union of generated client's responses that return schema definition.
@@ -26,7 +26,7 @@ type GeneratedSchemaIdResponse = SchemaRegisterResponse | SchemaQueryIdByDefinit
  * @internal
  */
 export async function convertSchemaResponse(response: GeneratedSchemaResponse): Promise<Schema> {
-  const schemaDefinition = await getAvroSchemaDefinition(response);
+  const schemaDefinition = await getSchemaDefinition(response);
   return {
     id: response.schemaId!,
     version: response.schemaVersion!,
@@ -55,12 +55,12 @@ export function convertSchemaIdResponse(
 }
 
 function mapContentTypeToFormat(contentType: string): string {
-  switch (contentType.toLocaleLowerCase().replace(/\s/g, "")) {
-    case "application/json;serialization=avro": {
-      return "Avro";
-    }
-    default:
-      throw new Error(`Unrecognized content-type in the response: ${contentType}`);
+  const parts = /.*serialization=(.*)$/.exec(contentType);
+  const schemaFormat = parts?.[1];
+  if (schemaFormat) {
+    return schemaFormat;
+  } else {
+    throw new Error(`Unrecognized response's content-type: ${contentType}`);
   }
 }
 

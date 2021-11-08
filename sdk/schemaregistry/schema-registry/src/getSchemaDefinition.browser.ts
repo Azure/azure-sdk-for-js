@@ -6,7 +6,7 @@
  * @param response - The service response for a get schema by ID request.
  * @returns a string representing an Avro schema definition
  */
-export async function getAvroSchemaDefinition<
+export async function getSchemaDefinition<
   T extends {
     blobBody?: Promise<Blob>;
     readableStreamBody?: NodeJS.ReadableStream;
