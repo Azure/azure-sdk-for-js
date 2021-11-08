@@ -19,6 +19,9 @@ export interface CreateTracingContextOptions {
 }
 
 // @public
+export function fromTraceparentHeader(traceparentHeader: string): TracingSpanIdentifier | undefined;
+
+// @public
 export interface OperationTracingOptions {
     tracingContext?: TracingContext;
 }
@@ -85,6 +88,7 @@ export interface TracingContext {
 // @public
 export interface TracingSpan {
     end(): void;
+    isRecording(): boolean;
     setAttribute(name: string, value: unknown): void;
     setStatus(status: SpanStatus): void;
     toRequestHeaders(): Record<string, string>;
@@ -103,7 +107,7 @@ export interface TracingSpanOptions {
     spanLinks?: TracingSpanIdentifier[];
 }
 
-// @public (undocumented)
+// @public
 export function useTracer(tracer: Tracer): void;
 
 // (No @packageDocumentation comment for this package)

@@ -68,15 +68,40 @@ export class NoOpSpan implements TracingSpan {
   get tracingSpanId(): TracingSpanIdentifier {
     return {};
   }
+  isRecording(): boolean {
+    return false;
+  }
 }
 
 /** @internal */
+// TODO: we should probably have it on the global object.
 export let tracerImplementation: Tracer = new NoOpTracer();
 
+/**
+ * Extends the Azure SDK with support for a given tracer implementation.
+ *
+ * @param tracer - The tracer implementation to use.
+ *
+ * Example:
+ *
+ * ```ts
+ * import { openTelemetryTracer } from "@azure/core-tracing-opentelemetry";
+ * import { MyClient } from "@azure/package-name"
+ * useTracer(openTelemetryTracer);
+ *
+ * const client = new MyClient(); // uses the OpenTelemetry tracer
+ * ```
+ */
 export function useTracer(tracer: Tracer): void {
   tracerImplementation = tracer;
 }
 
+/**
+ * Parses a traceparent header value into a span identifier.
+ *
+ * @param traceparentHeader - The traceparent header to parse.
+ * @returns An implementation-specific identifier for the span.
+ */
 export function fromTraceparentHeader(
   traceparentHeader: string
 ): TracingSpanIdentifier | undefined {

@@ -133,6 +133,11 @@ const tracer = new OpenTelemetryTracer();
 useTracer(tracer);
 
 // Start to do the things
-const client = new MyClient();
+const client = new MyClient(); // TODO: is supporting passing a tracingClient needed?
 client.doTheThings().catch(console.error);
 ```
+
+### Others
+
+- Eventhubs / SB - will need to work with someone from that FC to see if this will work for them... Can we resource someone to migrate that over as a throwaway exercise?
+- Application Insights - Will need to work with Hector or someone...

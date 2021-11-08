@@ -68,6 +68,7 @@ describe("Tracer", () => {
       assert.isEmpty(span.tracingSpanId);
       span.end();
       assert.isEmpty(span.toRequestHeaders());
+      assert.isFalse(span.isRecording());
     });
   });
 

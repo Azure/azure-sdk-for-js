@@ -214,6 +214,13 @@ export interface TracingSpan {
   /** Serializes a span to a set of request headers. */
   toRequestHeaders(): Record<string, string>;
 
+  /**
+   * Returns true if this {@link TracingSpan} is recording information.
+   *
+   * Depending on the span implementation, this may return false if the span is not being sampled.
+   */
+  isRecording(): boolean;
+
   /** A set of implementation-specific key-value pairs that can uniquely identify a given span. */
   readonly tracingSpanId: TracingSpanIdentifier;
 }
