@@ -17,11 +17,6 @@ export interface GetSchemaPropertiesOptions extends OperationOptions {
 }
 
 // @public
-export const enum KnownSchemaFormat {
-    Avro = "avro"
-}
-
-// @public
 export interface RegisterSchemaOptions extends OperationOptions {
 }
 
