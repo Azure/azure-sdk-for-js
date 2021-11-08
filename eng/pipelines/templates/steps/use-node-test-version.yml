@@ -23,7 +23,7 @@ steps:
         }
         # Map from the symlink path to the target path (npm has issues installing into symlink dirs)
         # Example: common/temp/node_modules/.pnpm/keytar@5.6.0/node_modules/keytar
-        $targetPath = (Get-Item $symlink).Target        
+        $targetPath = (Get-Item $symlink).Target
 
         # Need to run "npm install" at path containing "node_modules" folder
         # Example: common/temp/node_modules/.pnpm/keytar@5.6.0
