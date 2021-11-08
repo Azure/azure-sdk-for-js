@@ -5,17 +5,17 @@
    "url": "https://endpoint/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/26ece682-80a6-4415-89a2-05903dd9a640/incidents/045f03a31628d5938cd75cfdecfff045-17465dcc000/rootCause",
    "query": {},
    "requestBody": null,
-   "status": 404,
-   "response": "{\"code\":\"Not Found\",\"message\":\"Not found this Incident. TraceId: f264c18a-418a-47b9-a683-9230367c4cdd\"}",
+   "status": 200,
+   "response": "{\"value\":[{\"rootCause\":{\"dimension\":{\"region\":\"Beijing\",\"category\":\"Handmade\"}},\"path\":[\"category\"],\"score\":0.05937581364487382,\"description\":\"Increase on region = Beijing | category = Handmade contributes the most to current incident.\"}]}",
    "responseHeaders": {
-    "apim-request-id": "f264c18a-418a-47b9-a683-9230367c4cdd",
-    "content-length": "103",
+    "apim-request-id": "c34585c1-2f2a-4857-a5f1-76cbf322e645",
+    "content-length": "239",
     "content-type": "application/json; charset=utf-8",
-    "date": "Mon, 08 Nov 2021 09:44:19 GMT",
+    "date": "Mon, 08 Nov 2021 09:53:59 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "105",
-    "x-request-id": "f264c18a-418a-47b9-a683-9230367c4cdd"
+    "x-envoy-upstream-service-time": "385",
+    "x-request-id": "c34585c1-2f2a-4857-a5f1-76cbf322e645"
    }
   }
  ],

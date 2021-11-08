@@ -11,7 +11,7 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1331",
     "content-type": "application/json; charset=utf-8",
-    "date": "Mon, 08 Nov 2021 09:44:04 GMT",
+    "date": "Mon, 08 Nov 2021 09:53:58 GMT",
     "expires": "-1",
     "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
@@ -20,8 +20,8 @@
     "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+wst\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.12197.4 - NCUS ProdSlices",
-    "x-ms-request-id": "03b2ffa4-a5be-4725-9d84-fb0488759100"
+    "x-ms-ests-server": "2.1.12197.4 - EUS ProdSlices",
+    "x-ms-request-id": "31a3a242-7061-41dc-9a15-7d63ac27ce00"
    }
   },
   {
@@ -29,17 +29,17 @@
    "url": "https://endpoint/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/26ece682-80a6-4415-89a2-05903dd9a640/incidents/045f03a31628d5938cd75cfdecfff045-17465dcc000/rootCause",
    "query": {},
    "requestBody": null,
-   "status": 404,
-   "response": "{\"code\":\"Not Found\",\"message\":\"Not found this Incident. TraceId: 70724438-0b4a-4ed4-9333-c501b0b9fc0b\"}",
+   "status": 200,
+   "response": "{\"value\":[{\"rootCause\":{\"dimension\":{\"region\":\"Beijing\",\"category\":\"Handmade\"}},\"path\":[\"category\"],\"score\":0.05937581364487382,\"description\":\"Increase on region = Beijing | category = Handmade contributes the most to current incident.\"}]}",
    "responseHeaders": {
-    "apim-request-id": "70724438-0b4a-4ed4-9333-c501b0b9fc0b",
-    "content-length": "103",
+    "apim-request-id": "82694d1e-4822-47c8-b8c8-dfe2e54308d3",
+    "content-length": "239",
     "content-type": "application/json; charset=utf-8",
-    "date": "Mon, 08 Nov 2021 09:44:04 GMT",
+    "date": "Mon, 08 Nov 2021 09:53:59 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "43",
-    "x-request-id": "70724438-0b4a-4ed4-9333-c501b0b9fc0b"
+    "x-envoy-upstream-service-time": "401",
+    "x-request-id": "82694d1e-4822-47c8-b8c8-dfe2e54308d3"
    }
   }
  ],

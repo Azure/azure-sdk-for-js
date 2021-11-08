@@ -22,38 +22,38 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '80e797c2-f799-40b7-a2b5-6525f9cd8c00',
+  '4d39a9f4-bf44-4522-8a3a-7d86860b9d00',
   'x-ms-ests-server',
-  '2.1.12197.4 - NCUS ProdSlices',
+  '2.1.12197.4 - WUS2 ProdSlices',
   'Set-Cookie',
-  'fpc=AuTDQULl725PrFyq0qML1dk; expires=Wed, 08-Dec-2021 09:38:10 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AgRhejYlPb1LinISR2jJ5hbGLH8mAQAAAGbsGtkOAAAA; expires=Wed, 08-Dec-2021 10:01:11 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Mon, 08 Nov 2021 09:38:10 GMT',
+  'Mon, 08 Nov 2021 10:01:10 GMT',
   'Content-Length',
   '1331'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
   .get('/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/26ece682-80a6-4415-89a2-05903dd9a640/incidents/045f03a31628d5938cd75cfdecfff045-17465dcc000/rootCause')
-  .reply(404, {"code":"Not Found","message":"Not found this Incident. TraceId: cd202e27-447d-4b27-b9d5-f5720ff5bfc6"}, [
+  .reply(200, {"value":[{"rootCause":{"dimension":{"region":"Beijing","category":"Handmade"}},"path":["category"],"score":0.05937581364487382,"description":"Increase on region = Beijing | category = Handmade contributes the most to current incident."}]}, [
   'Content-Length',
-  '103',
+  '239',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-request-id',
-  'cd202e27-447d-4b27-b9d5-f5720ff5bfc6',
+  '10c75373-0ce3-451e-856f-ddfdfbdf5f4c',
   'x-envoy-upstream-service-time',
-  '81',
+  '378',
   'apim-request-id',
-  'cd202e27-447d-4b27-b9d5-f5720ff5bfc6',
+  '10c75373-0ce3-451e-856f-ddfdfbdf5f4c',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Mon, 08 Nov 2021 09:38:10 GMT'
+  'Mon, 08 Nov 2021 10:01:12 GMT'
 ]);
