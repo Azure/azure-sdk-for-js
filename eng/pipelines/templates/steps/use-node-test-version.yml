@@ -24,18 +24,6 @@ steps:
         # Map from the symlink path to the target path (npm has issues installing into symlink dirs)
         # Example: common/temp/node_modules/.pnpm/keytar@5.6.0/node_modules/keytar
         $targetPath = (Get-Item $symlink).Target        
-        if ($targetPath.StartsWith(".."))
-        {
-          # symlink returned relative target path
-          Write-Host "Target path is relative. Creating full path to get installation path."
-          $targetPath = Join-Path $symlink $targetPath
-        }
-        Write-Host "Target Path : $($targetPath)"
-        if(-not (Test-Path $targetPath))
-        {
-          Write-Host "Target path $($targetPath) doesn't exist. Skipping reinstall of this dependency."
-          continue
-        }
 
         # Need to run "npm install" at path containing "node_modules" folder
         # Example: common/temp/node_modules/.pnpm/keytar@5.6.0
@@ -57,7 +45,6 @@ steps:
 
         # Check if package has org name. for e.g @azure/msal-node-enxtensions
         # This returns either @azure or .pnpm( if no org is present)
-        Write-Host "Package install path $($packageInstallPath)"
         $packageParentName = Split-path -Leaf (Split-Path -Parent -Resolve $packageInstallPath)
         if ($packageParentName.StartsWith("@"))
         {
@@ -75,3 +62,4 @@ steps:
       }
 
     displayName: Reinstall native dependencies
+    condition: ne(variables['NodeTestVersion'], variables['NodeVersion'])
