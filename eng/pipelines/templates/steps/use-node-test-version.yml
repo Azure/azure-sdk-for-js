@@ -10,6 +10,7 @@ steps:
   - pwsh: |
       $nativeDependencySymlinkPaths = "common/temp/node_modules/.pnpm/node_modules/keytar,common/temp/node_modules/.pnpm/node_modules/@azure/msal-node-extensions"
       $currentLocation = Get-Location
+      write-host $currentLocation
       $dependencySymlinks = $nativeDependencySymlinkPaths.Split(",")
 
       foreach ($symlink in $dependencySymlinks)
