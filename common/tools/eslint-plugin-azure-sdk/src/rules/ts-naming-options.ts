@@ -6,10 +6,10 @@
  * @author Arpan Laha
  */
 
-import { ParserServices, TSESTree } from "@typescript-eslint/experimental-utils";
-import { Rule } from "eslint";
 import { ClassDeclaration, Identifier, MethodDefinition } from "estree";
+import { ParserServices, TSESTree } from "@typescript-eslint/experimental-utils";
 import { getPublicMethods, getRuleMetaData } from "../utils";
+import { Rule } from "eslint";
 
 //------------------------------------------------------------------------------
 // Rule Definition

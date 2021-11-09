@@ -6,9 +6,9 @@
  * @author Arpan Laha
  */
 
+import { Identifier, NewExpression, ThrowStatement } from "estree";
 import { ParserServices, TSESTree } from "@typescript-eslint/experimental-utils";
 import { Rule } from "eslint";
-import { Identifier, NewExpression, ThrowStatement } from "estree";
 import { getRuleMetaData } from "../utils";
 
 //------------------------------------------------------------------------------

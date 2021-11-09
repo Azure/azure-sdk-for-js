@@ -6,8 +6,8 @@
  * @author Arpan Laha
  */
 
-import rule from "../../src/rules/ts-config-declaration";
 import { RuleTester } from "eslint";
+import rule from "../../src/rules/ts-config-declaration";
 
 //------------------------------------------------------------------------------
 // Example files

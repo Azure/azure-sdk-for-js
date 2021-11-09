@@ -6,9 +6,9 @@
  * @author Arpan Laha
  */
 
-import { TSESTree } from "@typescript-eslint/experimental-utils";
-import { Rule } from "eslint";
 import { Identifier, MethodDefinition } from "estree";
+import { Rule } from "eslint";
+import { TSESTree } from "@typescript-eslint/experimental-utils";
 import { getRuleMetaData } from "../utils";
 
 //------------------------------------------------------------------------------

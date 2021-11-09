@@ -6,12 +6,20 @@
  * @author Arpan Laha
  */
 
-import { ParserServices, TSESTree } from "@typescript-eslint/experimental-utils";
 import {
-  ParserWeakMapESTreeToTSNode,
-  ParserWeakMap
-} from "@typescript-eslint/typescript-estree/dist/parser-options";
-import { Rule } from "eslint";
+  Declaration,
+  Modifier,
+  PropertySignature,
+  SymbolFlags,
+  SyntaxKind,
+  Node as TSNode,
+  Symbol as TSSymbol,
+  Type,
+  TypeChecker,
+  TypeReference,
+  TypeReferenceNode,
+  isArrayTypeNode
+} from "typescript";
 import {
   FunctionDeclaration,
   FunctionExpression,
@@ -19,20 +27,12 @@ import {
   MethodDefinition,
   Pattern
 } from "estree";
+import { ParserServices, TSESTree } from "@typescript-eslint/experimental-utils";
 import {
-  Declaration,
-  isArrayTypeNode,
-  Node as TSNode,
-  PropertySignature,
-  Symbol as TSSymbol,
-  SymbolFlags,
-  Type,
-  TypeChecker,
-  TypeReferenceNode,
-  TypeReference,
-  Modifier,
-  SyntaxKind
-} from "typescript";
+  ParserWeakMap,
+  ParserWeakMapESTreeToTSNode
+} from "@typescript-eslint/typescript-estree/dist/parser-options";
+import { Rule } from "eslint";
 import { getRuleMetaData } from "../utils";
 
 //------------------------------------------------------------------------------
