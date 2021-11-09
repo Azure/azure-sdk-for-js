@@ -167,6 +167,12 @@ export class SchemaRegistryAvroSerializer {
       throw new Error(`Schema with ID '${schemaId}' not found.`);
     }
 
+    if (!schemaResponse.properties.format.match(/^avro$/i)) {
+      throw new Error(
+        `Schema with ID '${schemaResponse.properties.id}' has format '${schemaResponse.properties.format}', not 'avro'.`
+      );
+    }
+
     const avroType = this.getAvroTypeForSchema(schemaResponse.definition);
     return this.cache(schemaId, schemaResponse.definition, avroType);
   }
@@ -199,11 +205,20 @@ export class SchemaRegistryAvroSerializer {
     if (this.autoRegisterSchemas) {
       id = (await this.registry.registerSchema(description)).id;
     } else {
-      const response = await this.registry.getSchemaProperties(description);
-      id = response.id;
+      try {
+        id = (await this.registry.getSchemaProperties(description)).id;
+      } catch (e) {
+        if (e.statusCode === 404) {
+          throw new Error(
+            `Schema '${description.name}' not found in registry group '${description.groupName}', or not found to have matching definition.`
+          );
+        } else {
+          throw e;
+        }
+      }
     }
 
-    return this.cache(id, schema, avroType);
+    return this.cache(id!, schema, avroType);
   }
 
   private cache(id: string, schema: string, type: avro.Type): CacheEntry {
