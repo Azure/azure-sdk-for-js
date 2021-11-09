@@ -8,7 +8,6 @@ steps:
 
   # Packages with native dependencies must be reinstalled after changing Node versions
   - pwsh: |
-      Get-ChildItem "common/temp/node_modules/.pnpm" -Name
       $nativeDependencySymlinkPaths = "common/temp/node_modules/.pnpm/node_modules/keytar,common/temp/node_modules/.pnpm/node_modules/@azure/msal-node-extensions"
       $currentLocation = Get-Location
       $dependencySymlinks = $nativeDependencySymlinkPaths.Split(",")
@@ -26,11 +25,16 @@ steps:
         # Example: common/temp/node_modules/.pnpm/keytar@5.6.0/node_modules/keytar
         $targetPath = (Get-Item $symlink).Target
 
+        Write-Host "Target of symlink : $($targetPath)"
+        # pnpm v6 replaces '/' in package names with '+' to reduce nesting directory in virtual store so we need to
+        # change it back
+        $targetPath = $targetPath.Replace("+", "/")
         if ($targetPath.StartsWith(".."))
         {
           $targetPath = Join-Path "common/temp/node_modules/.pnpm/node_modules" $targetPath -Resolve
           Write-Host "Target Path: $($targetPath)"
         }
+
         # Need to run "npm install" at path containing "node_modules" folder
         # Example: common/temp/node_modules/.pnpm/keytar@5.6.0
         $packageInstallPath = Join-Path $targetPath "../.."
@@ -44,10 +48,6 @@ steps:
         }
 
         $packageAtVersion = Split-Path -Leaf $packageInstallPath
-
-        # pnpm v6 replaces '/' in package names with '+' to reduce nesting directory in virtual store so we need to
-        # change it back
-        $packageAtVersion = $packageAtVersion.Replace("+", "/")
 
         # Check if package has org name. for e.g @azure/msal-node-enxtensions
         # This returns either @azure or .pnpm( if no org is present)
