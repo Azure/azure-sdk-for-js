@@ -31,7 +31,7 @@ steps:
         $targetPath = $targetPath.Replace("+", "/")
         if ($targetPath.StartsWith(".."))
         {
-          $targetPath = Join-Path "common/temp/node_modules/.pnpm/node_modules" $targetPath -Resolve
+          $targetPath = Join-Path $symlink ".." $targetPath -Resolve
           Write-Host "Target Path: $($targetPath)"
         }
 
