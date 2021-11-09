@@ -47,7 +47,6 @@ steps:
         # pnpm v6 replaces '/' in package names with '+' to reduce nesting directory in virtual store so we need to
         # change it back
         $packageAtVersion = $packageAtVersion.Replace("+", "/")
-        
         # Check if package has org name. for e.g @azure/msal-node-enxtensions
         # This returns either @azure or .pnpm( if no org is present)
         $packageParentName = Split-path -Leaf (Split-Path -Parent -Resolve $packageInstallPath)
@@ -67,3 +66,4 @@ steps:
       }
 
     displayName: Reinstall native dependencies
+    condition: and(succeeded(),ne(variables['NodeTestVersion'], variables['NodeVersion']))
