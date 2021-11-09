@@ -10,6 +10,8 @@
 
 ### Other Changes
 
+- Depends on @azure/schema-registry@1.0.0.
+
 ## 1.0.0-beta.3 (2021-10-05)
 
 ### Breaking Changes
