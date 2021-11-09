@@ -97,20 +97,40 @@ export function generateAccountSASQueryParameters(
     accountSASSignatureValues.resourceTypes
   ).toString();
 
-  const stringToSign = [
-    sharedKeyCredential.accountName,
-    parsedPermissions,
-    parsedServices,
-    parsedResourceTypes,
-    accountSASSignatureValues.startsOn
-      ? truncatedISO8061Date(accountSASSignatureValues.startsOn, false)
-      : "",
-    truncatedISO8061Date(accountSASSignatureValues.expiresOn, false),
-    accountSASSignatureValues.ipRange ? ipRangeToString(accountSASSignatureValues.ipRange) : "",
-    accountSASSignatureValues.protocol ? accountSASSignatureValues.protocol : "",
-    version,
-    "" // Account SAS requires an additional newline character
-  ].join("\n");
+  let stringToSign: string;
+
+  if (version >= "2020-12-06") {
+    stringToSign = [
+      sharedKeyCredential.accountName,
+      parsedPermissions,
+      parsedServices,
+      parsedResourceTypes,
+      accountSASSignatureValues.startsOn
+        ? truncatedISO8061Date(accountSASSignatureValues.startsOn, false)
+        : "",
+      truncatedISO8061Date(accountSASSignatureValues.expiresOn, false),
+      accountSASSignatureValues.ipRange ? ipRangeToString(accountSASSignatureValues.ipRange) : "",
+      accountSASSignatureValues.protocol ? accountSASSignatureValues.protocol : "",
+      version,
+      "", // Reserved for encryption scope
+      "" // Account SAS requires an additional newline character
+    ].join("\n");
+  } else {
+    stringToSign = [
+      sharedKeyCredential.accountName,
+      parsedPermissions,
+      parsedServices,
+      parsedResourceTypes,
+      accountSASSignatureValues.startsOn
+        ? truncatedISO8061Date(accountSASSignatureValues.startsOn, false)
+        : "",
+      truncatedISO8061Date(accountSASSignatureValues.expiresOn, false),
+      accountSASSignatureValues.ipRange ? ipRangeToString(accountSASSignatureValues.ipRange) : "",
+      accountSASSignatureValues.protocol ? accountSASSignatureValues.protocol : "",
+      version,
+      "" // Account SAS requires an additional newline character
+    ].join("\n");
+  }
 
   const signature: string = sharedKeyCredential.computeHMACSHA256(stringToSign);
 
