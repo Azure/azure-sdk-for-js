@@ -489,7 +489,7 @@ export class CallingServerClient {
 
     const request: AnswerCallRequest = {
       incomingCallContext: incomingCallContext,
-      callbackUri: restOptions.callbackUri,
+      callbackUri: restOptions.callbackUrl,
       requestedCallEvents: restOptions.requestedCallEvents,
       requestedMediaTypes: restOptions.requestedMediaTypes
     };
@@ -530,7 +530,7 @@ export class CallingServerClient {
     const request: RejectCallRequest = {
       incomingCallContext: incomingCallContext,
       callRejectReason: restOptions.callRejectReason,
-      callbackUri: restOptions.callbackUri
+      callbackUri: restOptions.callbackUrl
     };
 
     try {
@@ -570,7 +570,7 @@ export class CallingServerClient {
     const request: RedirectCallRequest = {
       incomingCallContext: incomingCallContext,
       targets: targets.map((m) => serializeCommunicationIdentifier(m)),
-      callbackUri: restOptions.callbackUri,
+      callbackUri: restOptions.callbackUrl,
       timeoutInSeconds: restOptions.timeoutInSeconds
     };
 

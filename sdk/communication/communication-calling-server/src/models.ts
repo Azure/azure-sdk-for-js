@@ -103,8 +103,8 @@ export interface AddParticipantOptions extends OperationOptions {
  * Options to answer call.
  */
 export interface AnswerCallOptions extends OperationOptions {
-  /** The callback uri. */
-  callbackUri?: string;
+  /** The callback url. */
+  callbackUrl?: string;
   /** The requested modalities. */
   requestedMediaTypes?: CallMediaType[];
   /** The requested call events to subscribe to. */
@@ -117,16 +117,16 @@ export interface AnswerCallOptions extends OperationOptions {
 export interface RejectCallOptions extends OperationOptions {
   /** The rejection reason. */
   callRejectReason?: CallRejectReason;
-  /** The callback uri. */
-  callbackUri?: string;
+  /** The callback url. */
+  callbackUrl?: string;
 }
 
 /**
  * Options to redirect call.
  */
 export interface RedirectCallOptions extends OperationOptions {
-  /** The callback uri. */
-  callbackUri?: string;
+  /** The callback url. */
+  callbackUrl?: string;
   /** The timeout for the redirect in seconds. */
   timeoutInSeconds?: number;
 }

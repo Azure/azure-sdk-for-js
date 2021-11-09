@@ -36,7 +36,7 @@ export interface AddParticipantResultEvent {
 
 // @public
 export interface AnswerCallOptions extends OperationOptions {
-    callbackUri?: string;
+    callbackUrl?: string;
     requestedCallEvents?: CallingEventSubscriptionType[];
     requestedMediaTypes?: CallMediaType[];
 }
@@ -294,13 +294,13 @@ export type RecordingFormatType = string;
 
 // @public
 export interface RedirectCallOptions extends OperationOptions {
-    callbackUri?: string;
+    callbackUrl?: string;
     timeoutInSeconds?: number;
 }
 
 // @public
 export interface RejectCallOptions extends OperationOptions {
-    callbackUri?: string;
+    callbackUrl?: string;
     // Warning: (ae-forgotten-export) The symbol "CallRejectReason" needs to be exported by the entry point index.d.ts
     callRejectReason?: CallRejectReason;
 }
