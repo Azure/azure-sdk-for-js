@@ -35,16 +35,23 @@ export interface AddParticipantResultEvent {
 }
 
 // @public
+export interface AnswerCallOptions extends OperationOptions {
+    callbackUrl?: string;
+    requestedCallEvents?: CallingEventSubscriptionType[];
+    requestedMediaTypes?: CallMediaType[];
+}
+
+// @public
 export interface CallConnection {
-    addParticipant(participant: CommunicationIdentifier, options?: AddParticipantOptions): Promise<CallConnectionsAddParticipantResponse>;
+    addParticipant(participant: CommunicationIdentifier, options?: AddParticipantOptions): Promise<AddParticipantResult>;
+    readonly callConnectionId: string;
     cancelAllMediaOperations(options?: CancelAllMediaOperationsOptions): Promise<void>;
     cancelParticipantMediaOperation(participant: CommunicationIdentifier, mediaOperationId: string, options?: CancelMediaOperationOptions): Promise<void>;
-    getCallConnectionId(): string;
     hangUp(options?: HangUpOptions): Promise<void>;
-    playAudio(audioFileUri: string, options: PlayAudioOptions): Promise<PlayAudioResult>;
-    playAudioToParticipant(participant: CommunicationIdentifier, audioFileUri: string, options: PlayAudioOptions): Promise<PlayAudioResult>;
+    playAudio(audioUrl: string, options: PlayAudioOptions): Promise<PlayAudioResult>;
+    playAudioToParticipant(participant: CommunicationIdentifier, audioUrl: string, options: PlayAudioOptions): Promise<PlayAudioResult>;
     removeParticipant(participant: CommunicationIdentifier, options?: RemoveParticipantOptions): Promise<void>;
-    transferCall(targetParticipant: CommunicationIdentifier, userToUserInformation: string, options?: TransferCallOptions): Promise<void>;
+    transfer(targetParticipant: CommunicationIdentifier, userToUserInformation: string, options?: TransferCallOptions): Promise<void>;
 }
 
 // @public
@@ -74,7 +81,7 @@ export interface CallConnectionStateChangedEvent {
 }
 
 // @public
-export type CallingEventSubscriptionType = string;
+export type CallingEventSubscriptionType = "participantsUpdated" | "toneReceived";
 
 // @public
 export interface CallingOperationResultDetails {
@@ -90,23 +97,27 @@ export type CallingOperationStatus = string;
 export class CallingServerClient {
     constructor(connectionString: string, options?: CallingServerClientOptions);
     constructor(endpoint: string, credential: TokenCredential, options?: CallingServerClientOptions);
-    addParticipant(callLocator: CallLocator, participant: CommunicationIdentifier, callbackUri: string, options?: AddParticipantOptions): Promise<ServerCallsAddParticipantResponse>;
+    addParticipant(callLocator: CallLocator, participant: CommunicationIdentifier, callbackUrl: string, options?: AddParticipantOptions): Promise<AddParticipantResult>;
+    // Warning: (ae-forgotten-export) The symbol "AnswerCallResult" needs to be exported by the entry point index.d.ts
+    answerCall(incomingCallContext: string, options?: AnswerCallOptions): Promise<AnswerCallResult>;
     cancelMediaOperation(callLocator: CallLocator, mediaOperationId: string, options?: CancelMediaOperationOptions): Promise<void>;
     cancelParticipantMediaOperation(callLocator: CallLocator, participant: CommunicationIdentifier, mediaOperationId: string, options?: CancelMediaOperationOptions): Promise<void>;
     createCallConnection(source: CommunicationIdentifier, targets: CommunicationIdentifier[], options: CreateCallConnectionOptions): Promise<CallConnection>;
-    delete(deleteUri: string, options?: DeleteOptions): Promise<RestResponse>;
-    download(uri: string, offset?: number, options?: DownloadOptions): Promise<ContentDownloadResponse>;
+    delete(deleteUrl: string, options?: DeleteOptions): Promise<RestResponse>;
+    download(url: string, offset?: number, options?: DownloadOptions): Promise<ContentDownloadResponse>;
     getCallConnection(callConnectionId: string): CallConnection;
     getRecordingProperties(recordingId: string, options?: GetRecordingPropertiesOptions): Promise<CallRecordingProperties>;
     initializeContentDownloader(): ContentDownloader;
     joinCall(callLocator: CallLocator, source: CommunicationIdentifier, options: JoinCallOptions): Promise<CallConnection>;
-    pauseRecording(recordingId: string, options?: PauseRecordingOptions): Promise<RestResponse>;
-    playAudio(callLocator: CallLocator, audioFileUri: string, options: PlayAudioOptions): Promise<PlayAudioResult>;
-    playAudioToParticipant(callLocator: CallLocator, participant: CommunicationIdentifier, audioFileUri: string, options: PlayAudioToParticipantOptions): Promise<PlayAudioResult>;
+    pauseRecording(recordingId: string, options?: PauseRecordingOptions): Promise<void>;
+    playAudio(callLocator: CallLocator, audioUrl: string, options: PlayAudioOptions): Promise<PlayAudioResult>;
+    playAudioToParticipant(callLocator: CallLocator, participant: CommunicationIdentifier, audioUrl: string, options: PlayAudioToParticipantOptions): Promise<PlayAudioResult>;
+    redirectCall(incomingCallContext: string, targets: CommunicationIdentifier[], options?: RedirectCallOptions): Promise<void>;
+    rejectCall(incomingCallContext: string, options?: RejectCallOptions): Promise<void>;
     removeParticipant(callLocator: CallLocator, participant: CommunicationIdentifier, options?: RemoveParticipantOptions): Promise<void>;
-    resumeRecording(recordingId: string, options?: ResumeRecordingOptions): Promise<RestResponse>;
-    startRecording(callLocator: CallLocator, recordingStateCallbackUri: string, options?: StartRecordingOptions): Promise<StartCallRecordingResult>;
-    stopRecording(recordingId: string, options?: StopRecordingOptions): Promise<RestResponse>;
+    resumeRecording(recordingId: string, options?: ResumeRecordingOptions): Promise<void>;
+    startRecording(callLocator: CallLocator, recordingStateCallbackUrl: string, options?: StartRecordingOptions): Promise<StartCallRecordingResult>;
+    stopRecording(recordingId: string, options?: StopRecordingOptions): Promise<void>;
     }
 
 // @public
@@ -143,7 +154,7 @@ export interface CallLocatorModel {
 }
 
 // @public
-export type CallMediaType = string;
+export type CallMediaType = "audio" | "video";
 
 // @public
 export interface CallRecordingProperties {
@@ -161,7 +172,7 @@ export type CancelMediaOperationOptions = OperationOptions;
 
 // @public
 export interface ContentDownloader {
-    downloadContent(contentUri: string, options: DownloadContentOptions): Promise<ContentDownloadResponse>;
+    downloadContent(contentUrl: string, options: DownloadContentOptions): Promise<ContentDownloadResponse>;
 }
 
 // @public
@@ -185,7 +196,7 @@ export type ContentDownloadResponse = ContentDownloadHeaders & {
 // @public
 export interface CreateCallConnectionOptions extends OperationOptions {
     alternateCallerId?: PhoneNumberIdentifier;
-    callbackUri: string;
+    callbackUrl: string;
     requestedCallEvents: CallingEventSubscriptionType[];
     requestedMediaTypes: CallMediaType[];
     subject?: string;
@@ -234,7 +245,7 @@ export const isServerCallLocator: (locator: CallLocator) => locator is ServerCal
 
 // @public
 export interface JoinCallOptions extends OperationOptions {
-    callbackUri: string;
+    callbackUrl: string;
     requestedCallEvents?: CallingEventSubscriptionType[];
     requestedMediaTypes?: CallMediaType[];
     subject?: string;
@@ -246,7 +257,7 @@ export type PauseRecordingOptions = OperationOptions;
 // @public
 export interface PlayAudioOptions extends OperationOptions {
     audioFileId: string;
-    callbackUri: string;
+    callbackUrl: string;
     loop: boolean;
     operationContext: string;
 }
@@ -280,6 +291,19 @@ export type RecordingContentType = string;
 
 // @public
 export type RecordingFormatType = string;
+
+// @public
+export interface RedirectCallOptions extends OperationOptions {
+    callbackUrl?: string;
+    timeoutInSeconds?: number;
+}
+
+// @public
+export interface RejectCallOptions extends OperationOptions {
+    callbackUrl?: string;
+    // Warning: (ae-forgotten-export) The symbol "CallRejectReason" needs to be exported by the entry point index.d.ts
+    callRejectReason?: CallRejectReason;
+}
 
 // @public
 export type RemoveParticipantOptions = OperationOptions;

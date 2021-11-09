@@ -28,7 +28,7 @@ const environmentSetup: RecorderEnvironmentSetup = {
 
 describe("Download Content", function() {
   let recorder: Recorder;
-  const uri =
+  const url =
     "https://endpoint/v1/objects/0-eus-d15-af5689148b0afa252a57a0121b744dcd/content/acsmetadata";
   const callingServerServiceClient = new CallingServerClient(
     "endpoint=https://endpoint/;accesskey=banana"
@@ -51,7 +51,7 @@ describe("Download Content", function() {
       this.skip();
     }
 
-    const downloadResponse = await callingServerServiceClient.download(uri);
+    const downloadResponse = await callingServerServiceClient.download(url);
     const metadata = await bodyToString(downloadResponse, downloadResponse.contentLength!);
     assert.strictEqual(metadata.includes("0-eus-d15-af5689148b0afa252a57a0121b744dcd"), true);
   });
@@ -61,9 +61,9 @@ describe("Download Content", function() {
       // tslint:disable-next-line:no-invalid-this
       this.skip();
     }
-    const redirectedUri =
+    const redirectedUrl =
       "https://endpoint/v1/objects/0-sa-d4-a29f0c0212c0a2a634ab078245184de8/content/acsmetadata";
-    const downloadResponse = await callingServerServiceClient.download(redirectedUri);
+    const downloadResponse = await callingServerServiceClient.download(redirectedUrl);
     const metadataStream = downloadResponse.readableStreamBody;
     assert.notStrictEqual(metadataStream, null);
     const metadata = await bodyToString(downloadResponse, downloadResponse.contentLength!);
@@ -77,7 +77,7 @@ describe("Download Content", function() {
     }
 
     try {
-      await callingServerServiceClient.download(uri);
+      await callingServerServiceClient.download(url);
     } catch (e) {
       assert.equal((e as RestError).statusCode, 401);
     }

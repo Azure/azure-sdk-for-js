@@ -26,11 +26,11 @@ import { CallingServerUtils } from "./utils/utils";
 export interface ContentDownloader {
   /**
    * Download recording's content.
-   * @param contentUri - The content Uri.
+   * @param contentUrl - The content Url.
    * @param options - The options parameters.
    */
   downloadContent(
-    contentUri: string,
+    contentUrl: string,
     options: DownloadContentOptions
   ): Promise<ContentDownloadResponse>;
 }
@@ -47,11 +47,11 @@ export class ContentDownloaderImpl implements ContentDownloader {
 
   /**
    * Download recording's content.
-   * @param contentUri - The content Uri.
+   * @param contentUrl - The content Url.
    * @param options - The options parameters.
    */
   public async downloadContent(
-    contentUri: string,
+    contentUrl: string,
     options: DownloadContentOptions = {}
   ): Promise<ContentDownloadResponse> {
     const { span, updatedOptions } = createSpan(
@@ -61,7 +61,7 @@ export class ContentDownloaderImpl implements ContentDownloader {
 
     try {
       return await this.download_content(
-        contentUri,
+        contentUrl,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
     } catch (e) {
@@ -77,20 +77,20 @@ export class ContentDownloaderImpl implements ContentDownloader {
 
   /**
    * Download recording's content.
-   * @param contentUri - The content Uri.
+   * @param contentUrl - The content Url.
    * @param options - The options parameters.
    */
   download_content(
-    contentUri: string,
+    contentUrl: string,
     options?: OperationOptions
   ): Promise<ContentDownloadResponse> {
     const operationArguments: OperationArguments = {
       options: operationOptionsToRequestOptionsBase(options || {})
     };
-    const stringToSign = CallingServerUtils.getStringToSign(this.client.endpoint, contentUri);
+    const stringToSign = CallingServerUtils.getStringToSign(this.client.endpoint, contentUrl);
     return this.client.sendOperationRequest(
       operationArguments,
-      getDownloadContentOperationSpec(contentUri, stringToSign)
+      getDownloadContentOperationSpec(contentUrl, stringToSign)
     ) as Promise<ContentDownloadResponse>;
   }
 }
