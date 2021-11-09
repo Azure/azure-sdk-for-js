@@ -102,7 +102,6 @@ function getTestServerUrl() {
         recorder.variables["random-2"] = "known-string";
       }
 
-      console.log(recorder.mode, recorder.variables);
       await makeRequestAndVerifyResponse(
         { path: `/sample_response/${recorder.variables["random-1"]}`, method: "GET" },
         { val: "I am the answer!" }
