@@ -3,7 +3,8 @@
 
 /**
  * @file Rule to force package.json's 'sdk-type' value to be valid (and exist)
- * @author Arpan Laha, Ben Zhang
+ * @author Arpan Laha
+ * @author Ben Zhang
  */
 
 import { Rule } from "eslint";
