@@ -226,6 +226,28 @@ authModes.forEach((authMode) => {
         assert.equal(result.testField, testEntity.testField);
       });
 
+      it.only("should createEntity empty partition and row keys", async () => {
+        type TestType = { testField: string };
+        const testEntity: TableEntity<TestType> = {
+          partitionKey: "",
+          rowKey: "",
+          testField: "testEntity"
+        };
+        let createResult: FullOperationResponse | undefined;
+        let deleteResult: FullOperationResponse | undefined;
+        await client.createEntity(testEntity, { onResponse: (res) => (createResult = res) });
+        const result = await client.getEntity<TestType>(testEntity.partitionKey, testEntity.rowKey);
+        await client.deleteEntity(testEntity.partitionKey, testEntity.rowKey, {
+          onResponse: (res) => (deleteResult = res)
+        });
+
+        assert.equal(deleteResult?.status, 204);
+        assert.equal(createResult?.status, 204);
+        assert.equal(result.partitionKey, testEntity.partitionKey);
+        assert.equal(result.rowKey, testEntity.rowKey);
+        assert.equal(result.testField, testEntity.testField);
+      });
+
       it("should select specific properties", async () => {
         const testEntity = {
           partitionKey: `P2_${suffix}`,
