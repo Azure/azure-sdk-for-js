@@ -29,20 +29,20 @@ export class WorkspaceSqlAadAdmins {
   /**
    * Gets a workspace SQL active directory admin
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param [options] The optional parameters
    * @returns Promise<Models.WorkspaceSqlAadAdminsGetResponse>
    */
   get(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase): Promise<Models.WorkspaceSqlAadAdminsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param callback The callback
    */
   get(resourceGroupName: string, workspaceName: string, callback: msRest.ServiceCallback<Models.WorkspaceAadAdminInfo>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -61,7 +61,7 @@ export class WorkspaceSqlAadAdmins {
   /**
    * Creates or updates a workspace SQL active directory admin
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param aadAdminInfo Workspace active directory administrator properties
    * @param [options] The optional parameters
    * @returns Promise<Models.WorkspaceSqlAadAdminsCreateOrUpdateResponse>
@@ -74,7 +74,7 @@ export class WorkspaceSqlAadAdmins {
   /**
    * Deletes a workspace SQL active directory admin
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
@@ -86,7 +86,7 @@ export class WorkspaceSqlAadAdmins {
   /**
    * Creates or updates a workspace SQL active directory admin
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param aadAdminInfo Workspace active directory administrator properties
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
@@ -106,7 +106,7 @@ export class WorkspaceSqlAadAdmins {
   /**
    * Deletes a workspace SQL active directory admin
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */

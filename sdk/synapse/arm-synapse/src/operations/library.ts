@@ -30,7 +30,7 @@ export class Library {
    * @summary Get library by name.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param libraryName Library name
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param [options] The optional parameters
    * @returns Promise<Models.LibraryGetResponse>
    */
@@ -38,14 +38,14 @@ export class Library {
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param libraryName Library name
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param callback The callback
    */
   get(resourceGroupName: string, libraryName: string, workspaceName: string, callback: msRest.ServiceCallback<Models.LibraryResource>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param libraryName Library name
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param options The optional parameters
    * @param callback The callback
    */

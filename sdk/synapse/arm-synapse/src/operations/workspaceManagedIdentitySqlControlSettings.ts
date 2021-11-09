@@ -29,20 +29,20 @@ export class WorkspaceManagedIdentitySqlControlSettings {
   /**
    * @summary Get Managed Identity Sql Control Settings
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param [options] The optional parameters
    * @returns Promise<Models.WorkspaceManagedIdentitySqlControlSettingsGetResponse>
    */
   get(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase): Promise<Models.WorkspaceManagedIdentitySqlControlSettingsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param callback The callback
    */
   get(resourceGroupName: string, workspaceName: string, callback: msRest.ServiceCallback<Models.ManagedIdentitySqlControlSettingsModel>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -61,7 +61,7 @@ export class WorkspaceManagedIdentitySqlControlSettings {
   /**
    * @summary Create or update Managed Identity Sql Control Settings
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param managedIdentitySqlControlSettings Managed Identity Sql Control Settings
    * @param [options] The optional parameters
    * @returns Promise<Models.WorkspaceManagedIdentitySqlControlSettingsCreateOrUpdateResponse>
@@ -74,7 +74,7 @@ export class WorkspaceManagedIdentitySqlControlSettings {
   /**
    * @summary Create or update Managed Identity Sql Control Settings
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param managedIdentitySqlControlSettings Managed Identity Sql Control Settings
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>

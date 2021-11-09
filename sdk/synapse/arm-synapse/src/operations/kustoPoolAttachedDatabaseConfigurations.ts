@@ -28,7 +28,7 @@ export class KustoPoolAttachedDatabaseConfigurations {
 
   /**
    * Returns the list of attached database configurations of the given Kusto Pool.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param kustoPoolName The name of the Kusto pool.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param [options] The optional parameters
@@ -36,14 +36,14 @@ export class KustoPoolAttachedDatabaseConfigurations {
    */
   listByKustoPool(workspaceName: string, kustoPoolName: string, resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.KustoPoolAttachedDatabaseConfigurationsListByKustoPoolResponse>;
   /**
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param kustoPoolName The name of the Kusto pool.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param callback The callback
    */
   listByKustoPool(workspaceName: string, kustoPoolName: string, resourceGroupName: string, callback: msRest.ServiceCallback<Models.AttachedDatabaseConfigurationListResult>): void;
   /**
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param kustoPoolName The name of the Kusto pool.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The optional parameters
@@ -64,7 +64,7 @@ export class KustoPoolAttachedDatabaseConfigurations {
 
   /**
    * Returns an attached database configuration.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param kustoPoolName The name of the Kusto pool.
    * @param attachedDatabaseConfigurationName The name of the attached database configuration.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -73,7 +73,7 @@ export class KustoPoolAttachedDatabaseConfigurations {
    */
   get(workspaceName: string, kustoPoolName: string, attachedDatabaseConfigurationName: string, resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.KustoPoolAttachedDatabaseConfigurationsGetResponse>;
   /**
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param kustoPoolName The name of the Kusto pool.
    * @param attachedDatabaseConfigurationName The name of the attached database configuration.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -81,7 +81,7 @@ export class KustoPoolAttachedDatabaseConfigurations {
    */
   get(workspaceName: string, kustoPoolName: string, attachedDatabaseConfigurationName: string, resourceGroupName: string, callback: msRest.ServiceCallback<Models.AttachedDatabaseConfiguration>): void;
   /**
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param kustoPoolName The name of the Kusto pool.
    * @param attachedDatabaseConfigurationName The name of the attached database configuration.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -104,7 +104,7 @@ export class KustoPoolAttachedDatabaseConfigurations {
 
   /**
    * Creates or updates an attached database configuration.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param kustoPoolName The name of the Kusto pool.
    * @param attachedDatabaseConfigurationName The name of the attached database configuration.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -119,7 +119,7 @@ export class KustoPoolAttachedDatabaseConfigurations {
 
   /**
    * Deletes the attached database configuration with the given name.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param kustoPoolName The name of the Kusto pool.
    * @param attachedDatabaseConfigurationName The name of the attached database configuration.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -133,7 +133,7 @@ export class KustoPoolAttachedDatabaseConfigurations {
 
   /**
    * Creates or updates an attached database configuration.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param kustoPoolName The name of the Kusto pool.
    * @param attachedDatabaseConfigurationName The name of the attached database configuration.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -157,7 +157,7 @@ export class KustoPoolAttachedDatabaseConfigurations {
 
   /**
    * Deletes the attached database configuration with the given name.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param kustoPoolName The name of the Kusto pool.
    * @param attachedDatabaseConfigurationName The name of the attached database configuration.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

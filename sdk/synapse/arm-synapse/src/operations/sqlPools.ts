@@ -30,7 +30,7 @@ export class SqlPools {
    * Get SQL pool properties
    * @summary Get SQL pool
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param [options] The optional parameters
    * @returns Promise<Models.SqlPoolsGetResponse>
@@ -38,14 +38,14 @@ export class SqlPools {
   get(resourceGroupName: string, workspaceName: string, sqlPoolName: string, options?: msRest.RequestOptionsBase): Promise<Models.SqlPoolsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param callback The callback
    */
   get(resourceGroupName: string, workspaceName: string, sqlPoolName: string, callback: msRest.ServiceCallback<Models.SqlPool>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param options The optional parameters
    * @param callback The callback
@@ -67,7 +67,7 @@ export class SqlPools {
    * Apply a partial update to a SQL pool
    * @summary Update SQL pool
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param sqlPoolInfo The updated SQL pool properties
    * @param [options] The optional parameters
@@ -76,7 +76,7 @@ export class SqlPools {
   update(resourceGroupName: string, workspaceName: string, sqlPoolName: string, sqlPoolInfo: Models.SqlPoolPatchInfo, options?: msRest.RequestOptionsBase): Promise<Models.SqlPoolsUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param sqlPoolInfo The updated SQL pool properties
    * @param callback The callback
@@ -84,7 +84,7 @@ export class SqlPools {
   update(resourceGroupName: string, workspaceName: string, sqlPoolName: string, sqlPoolInfo: Models.SqlPoolPatchInfo, callback: msRest.ServiceCallback<Models.SqlPool>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param sqlPoolInfo The updated SQL pool properties
    * @param options The optional parameters
@@ -108,7 +108,7 @@ export class SqlPools {
    * Create a SQL pool
    * @summary Create SQL pool
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param sqlPoolInfo The SQL pool to create
    * @param [options] The optional parameters
@@ -123,7 +123,7 @@ export class SqlPools {
    * Delete a SQL pool
    * @summary Delete SQL pool
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param [options] The optional parameters
    * @returns Promise<Models.SqlPoolsDeleteMethodResponse>
@@ -137,20 +137,20 @@ export class SqlPools {
    * List all SQL pools
    * @summary List SQL pools
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param [options] The optional parameters
    * @returns Promise<Models.SqlPoolsListByWorkspaceResponse>
    */
   listByWorkspace(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase): Promise<Models.SqlPoolsListByWorkspaceResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param callback The callback
    */
   listByWorkspace(resourceGroupName: string, workspaceName: string, callback: msRest.ServiceCallback<Models.SqlPoolInfoListResult>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -170,7 +170,7 @@ export class SqlPools {
    * Pause a SQL pool
    * @summary Pause SQL pool
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param [options] The optional parameters
    * @returns Promise<Models.SqlPoolsPauseResponse>
@@ -184,7 +184,7 @@ export class SqlPools {
    * Resume a SQL pool
    * @summary Resume SQL pool
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param [options] The optional parameters
    * @returns Promise<Models.SqlPoolsResumeResponse>
@@ -198,7 +198,7 @@ export class SqlPools {
    * Rename a SQL pool.
    * @summary Rename a SQL pool
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param parameters The resource move definition for renaming this Sql pool.
    * @param [options] The optional parameters
@@ -207,7 +207,7 @@ export class SqlPools {
   rename(resourceGroupName: string, workspaceName: string, sqlPoolName: string, parameters: Models.ResourceMoveDefinition, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param parameters The resource move definition for renaming this Sql pool.
    * @param callback The callback
@@ -215,7 +215,7 @@ export class SqlPools {
   rename(resourceGroupName: string, workspaceName: string, sqlPoolName: string, parameters: Models.ResourceMoveDefinition, callback: msRest.ServiceCallback<void>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param parameters The resource move definition for renaming this Sql pool.
    * @param options The optional parameters
@@ -239,7 +239,7 @@ export class SqlPools {
    * Create a SQL pool
    * @summary Create SQL pool
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param sqlPoolInfo The SQL pool to create
    * @param [options] The optional parameters
@@ -262,7 +262,7 @@ export class SqlPools {
    * Delete a SQL pool
    * @summary Delete SQL pool
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
@@ -283,7 +283,7 @@ export class SqlPools {
    * Pause a SQL pool
    * @summary Pause SQL pool
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
@@ -304,7 +304,7 @@ export class SqlPools {
    * Resume a SQL pool
    * @summary Resume SQL pool
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>

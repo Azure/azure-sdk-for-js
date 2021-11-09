@@ -29,7 +29,7 @@ export class KustoPoolDatabases {
   /**
    * Returns the list of databases of the given Kusto pool.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param kustoPoolName The name of the Kusto pool.
    * @param [options] The optional parameters
    * @returns Promise<Models.KustoPoolDatabasesListByKustoPoolResponse>
@@ -37,14 +37,14 @@ export class KustoPoolDatabases {
   listByKustoPool(resourceGroupName: string, workspaceName: string, kustoPoolName: string, options?: msRest.RequestOptionsBase): Promise<Models.KustoPoolDatabasesListByKustoPoolResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param kustoPoolName The name of the Kusto pool.
    * @param callback The callback
    */
   listByKustoPool(resourceGroupName: string, workspaceName: string, kustoPoolName: string, callback: msRest.ServiceCallback<Models.DatabaseListResult>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param kustoPoolName The name of the Kusto pool.
    * @param options The optional parameters
    * @param callback The callback
@@ -65,7 +65,7 @@ export class KustoPoolDatabases {
   /**
    * Returns a database.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param kustoPoolName The name of the Kusto pool.
    * @param databaseName The name of the database in the Kusto pool.
    * @param [options] The optional parameters
@@ -74,7 +74,7 @@ export class KustoPoolDatabases {
   get(resourceGroupName: string, workspaceName: string, kustoPoolName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<Models.KustoPoolDatabasesGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param kustoPoolName The name of the Kusto pool.
    * @param databaseName The name of the database in the Kusto pool.
    * @param callback The callback
@@ -82,7 +82,7 @@ export class KustoPoolDatabases {
   get(resourceGroupName: string, workspaceName: string, kustoPoolName: string, databaseName: string, callback: msRest.ServiceCallback<Models.DatabaseUnion>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param kustoPoolName The name of the Kusto pool.
    * @param databaseName The name of the database in the Kusto pool.
    * @param options The optional parameters
@@ -105,7 +105,7 @@ export class KustoPoolDatabases {
   /**
    * Creates or updates a database.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param kustoPoolName The name of the Kusto pool.
    * @param databaseName The name of the database in the Kusto pool.
    * @param parameters The database parameters supplied to the CreateOrUpdate operation.
@@ -120,7 +120,7 @@ export class KustoPoolDatabases {
   /**
    * Updates a database.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param kustoPoolName The name of the Kusto pool.
    * @param databaseName The name of the database in the Kusto pool.
    * @param parameters The database parameters supplied to the Update operation.
@@ -135,7 +135,7 @@ export class KustoPoolDatabases {
   /**
    * Deletes the database with the given name.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param kustoPoolName The name of the Kusto pool.
    * @param databaseName The name of the database in the Kusto pool.
    * @param [options] The optional parameters
@@ -149,7 +149,7 @@ export class KustoPoolDatabases {
   /**
    * Creates or updates a database.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param kustoPoolName The name of the Kusto pool.
    * @param databaseName The name of the database in the Kusto pool.
    * @param parameters The database parameters supplied to the CreateOrUpdate operation.
@@ -173,7 +173,7 @@ export class KustoPoolDatabases {
   /**
    * Updates a database.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param kustoPoolName The name of the Kusto pool.
    * @param databaseName The name of the database in the Kusto pool.
    * @param parameters The database parameters supplied to the Update operation.
@@ -197,7 +197,7 @@ export class KustoPoolDatabases {
   /**
    * Deletes the database with the given name.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param kustoPoolName The name of the Kusto pool.
    * @param databaseName The name of the database in the Kusto pool.
    * @param [options] The optional parameters

@@ -29,7 +29,7 @@ export class SqlPoolConnectionPolicies {
    * Get a Sql pool's connection policy, which is used with table auditing.
    * @summary Get a Sql pool's connection policy, which is used with table auditing
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param [options] The optional parameters
    * @deprecated This operation is deprecated. Please do not use it any longer.
@@ -38,7 +38,7 @@ export class SqlPoolConnectionPolicies {
   get(resourceGroupName: string, workspaceName: string, sqlPoolName: string, options?: msRest.RequestOptionsBase): Promise<Models.SqlPoolConnectionPoliciesGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param callback The callback
    * @deprecated This operation is deprecated. Please do not use it any longer.
@@ -46,7 +46,7 @@ export class SqlPoolConnectionPolicies {
   get(resourceGroupName: string, workspaceName: string, sqlPoolName: string, callback: msRest.ServiceCallback<Models.SqlPoolConnectionPolicy>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param options The optional parameters
    * @param callback The callback
