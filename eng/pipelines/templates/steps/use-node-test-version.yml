@@ -40,6 +40,7 @@ steps:
         }
 
         $packageAtVersion = Split-Path -Leaf $packageInstallPath
+
         # pnpm v6 replaces '/' in package names with '+' to reduce nesting directory in virtual store so we need to
         # change it back
         $packageAtVersion = $packageAtVersion.Replace("+", "/")
@@ -62,4 +63,3 @@ steps:
       }
 
     displayName: Reinstall native dependencies
-    condition: and(succeeded(),ne(variables['NodeTestVersion'], variables['NodeVersion']))
