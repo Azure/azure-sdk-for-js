@@ -218,7 +218,7 @@ export class SchemaRegistryAvroSerializer {
       }
     }
 
-    return this.cache(id!, schema, avroType);
+    return this.cache(id, schema, avroType);
   }
 
   private cache(id: string, schema: string, type: avro.Type): CacheEntry {
