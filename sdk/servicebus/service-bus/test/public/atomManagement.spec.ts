@@ -62,7 +62,7 @@ const serviceApiVersions = ["2021-05", "2017-04"];
 let serviceBusAtomManagementClient: ServiceBusAdministrationClient;
 
 // TEST_MODE must be set to "live" to run both the versions
-versionsToTest(serviceApiVersions, {}, (serviceVersion, {}) => {
+versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
   describe(`ATOM APIs - version ${serviceVersion}`, () => {
     before(() => {
       serviceBusAtomManagementClient = new ServiceBusAdministrationClient(
@@ -2638,12 +2638,17 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion, {}) => {
               "TestError: Topic path AND subscription path must be passed when invoking tests on rules"
             );
           }
+          if (!ruleOptions?.filter || !ruleOptions.action) {
+            throw new Error(
+              "TestError: ruleOptions.filter and ruleOptions.action should have been set"
+            );
+          }
           const ruleResponse = await atomClient.createRule(
             topicPath,
             subscriptionPath,
             entityPath,
-            ruleOptions?.filter!,
-            ruleOptions?.action!
+            ruleOptions?.filter,
+            ruleOptions?.action
           );
           return ruleResponse;
         }
@@ -2985,7 +2990,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion, {}) => {
       const premiumConnectionString = getEnvVarValue("SERVICEBUS_CONNECTION_STRING_PREMIUM");
       let atomClient: ServiceBusAdministrationClient;
       let entityNameWithmaxSize: { entityName: string; maxSize: number };
-      before(function() {
+      before(function(this: Mocha.Context) {
         if (!premiumConnectionString) {
           this.skip();
         }
@@ -2995,7 +3000,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion, {}) => {
       function setEntityNameWithMaxSize(
         type: EntityType.QUEUE | EntityType.TOPIC,
         maxSize?: number
-      ) {
+      ): void {
         entityNameWithmaxSize = {
           entityName: `${type}-${maxSize}`,
           maxSize: !maxSize ? Math.ceil(1024 + Math.random() * (102400 - 1024)) : maxSize // If not provided, we'll give one that follows - "> 1024" & "< 102400"
@@ -3006,7 +3011,9 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion, {}) => {
         return Math.random() > 0.5 ? EntityType.QUEUE : EntityType.TOPIC;
       }
 
-      async function verifyAndDeleteEntity(type: EntityType.QUEUE | EntityType.TOPIC) {
+      async function verifyAndDeleteEntity(
+        type: EntityType.QUEUE | EntityType.TOPIC
+      ): Promise<void> {
         assert.equal(
           (
             await getEntity(
