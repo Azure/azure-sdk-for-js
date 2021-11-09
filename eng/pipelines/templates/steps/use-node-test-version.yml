@@ -26,6 +26,11 @@ steps:
         # Example: common/temp/node_modules/.pnpm/keytar@5.6.0/node_modules/keytar
         $targetPath = (Get-Item $symlink).Target
 
+        if ($targetPath.StartsWith(".."))
+        {
+          $targetPath = Join-Path "common/temp/node_modules/.pnpm/node_modules" $targetPath -Resolve
+          Write-Host "Target Path: $($targetPath)"
+        }
         # Need to run "npm install" at path containing "node_modules" folder
         # Example: common/temp/node_modules/.pnpm/keytar@5.6.0
         $packageInstallPath = Join-Path $targetPath "../.."
