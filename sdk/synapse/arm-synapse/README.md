@@ -21,6 +21,7 @@ Install both packages using the below command:
 ```bash
 npm install --save @azure/arm-synapse @azure/identity
 ```
+
 > **Note**: You may have used either `@azure/ms-rest-nodeauth` or `@azure/ms-rest-browserauth` in the past. These packages are in maintenance mode receiving critical bug fixes, but no new features.
 If you are on a [Node.js that has LTS status](https://nodejs.org/about/releases/), or are writing a client side browser application, we strongly encourage you to upgrade to `@azure/identity` which uses the latest versions of Azure Active Directory and MSAL APIs and provides more authentication options.
 
