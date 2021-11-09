@@ -13,9 +13,8 @@ import { handleError, finish, logStep } from "./Shared/handleError";
 import { BulkOperationType, CosmosClient } from "@azure/cosmos";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-const endpoint = process.env.COSMOS_ENDPOINT;
-const masterKey = process.env.COSMOS_KEY;
-
+const key = process.env.COSMOS_KEY || "<cosmos key>";
+const endpoint = process.env.COSMOS_ENDPOINT || "<cosmos endpoint>";
 function addEntropy(name: string): string {
   return name + getEntropy();
 }
@@ -27,7 +26,7 @@ function getEntropy(): string {
 async function run() {
   const containerId = "bulkContainerV2";
   const client = new CosmosClient({
-    key: masterKey,
+    key: key,
     endpoint: endpoint
   });
   const { database } = await client.databases.create({ id: addEntropy("bulk db") });

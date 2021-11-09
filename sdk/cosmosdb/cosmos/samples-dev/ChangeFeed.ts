@@ -11,12 +11,10 @@ dotenv.config({ path: path.resolve(__dirname, "../sample.env") });
 
 import { finish, handleError, logSampleHeader } from "./Shared/handleError";
 import { CosmosClient } from "@azure/cosmos";
-const {
-  COSMOS_DATABASE: databaseId,
-  COSMOS_CONTAINER: containerId,
-  COSMOS_ENDPOINT: endpoint,
-  COSMOS_KEY: key
-} = process.env;
+const key = process.env.COSMOS_KEY || "<cosmos key>";
+const endpoint = process.env.COSMOS_ENDPOINT || "<cosmos endpoint>";
+const dbId = process.env.COSMOS_DATABASE || "<cosmos database>";
+const containerId = process.env.COSMOS_CONTAINER || "<cosmos container>";
 
 logSampleHeader("Change Feed");
 // Establish a new instance of the CosmosClient to be used throughout this demo
@@ -42,7 +40,7 @@ function logResult(scenario: string, actual: any[], expected: any[]): void {
 }
 
 async function run(): Promise<void> {
-  const { database } = await client.databases.createIfNotExists({ id: databaseId });
+  const { database } = await client.databases.createIfNotExists({ id: dbId });
   const { container } = await database.containers.createIfNotExists({
     id: containerId,
     partitionKey: { paths: ["/pk"] }
@@ -161,7 +159,7 @@ async function run(): Promise<void> {
       [4],
       fromNowResults2.map((v) => parseInt(v.id))
     );
-  } catch (err) {
+  } catch (err :any) {
     handleError(err);
   } finally {
     await finish();

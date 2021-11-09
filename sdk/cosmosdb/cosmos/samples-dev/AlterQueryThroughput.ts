@@ -18,12 +18,10 @@ import {
   DatabaseDefinition,
   FeedResponse
 } from "@azure/cosmos";
-const {
-  COSMOS_DATABASE: databaseId,
-  COSMOS_CONTAINER: containerId,
-  COSMOS_ENDPOINT: endpoint,
-  COSMOS_KEY: key
-} = process.env;
+const key = process.env.COSMOS_KEY || "<cosmos key>";
+const endpoint = process.env.COSMOS_ENDPOINT || "<cosmos endpoint>";
+const dbId = process.env.COSMOS_DATABASE || "<cosmos database>";
+const containerId = process.env.COSMOS_CONTAINER || "<cosmos container>";
 
 logSampleHeader("Alter Query Throughput");
 
@@ -32,7 +30,7 @@ const client = new CosmosClient({ endpoint, key });
 
 // ensuring a database exists for us to work with
 async function run(): Promise<void> {
-  const { database } = await client.databases.createIfNotExists({ id: databaseId });
+  const { database } = await client.databases.createIfNotExists({ id: dbId });
 
   logStep(`Create container with id : ${containerId}`);
   await database.containers.createIfNotExists({ id: containerId });
@@ -42,7 +40,7 @@ async function run(): Promise<void> {
 
   const newRups = 700;
   await asyncForEach(offers, async (offerDefinition: OfferDefinition) => {
-    await updateOfferForCollection(newRups, databaseId, containerId, offerDefinition);
+    await updateOfferForCollection(newRups, dbId, containerId, offerDefinition);
   });
 
   logStep("Read all containers in database");
@@ -54,9 +52,9 @@ async function run(): Promise<void> {
   logStep("Read container definition");
   const container = database.container(containerId);
   const { resource: containerDef } = await container.read();
-  console.log(`Container with url "${container.url}" was found its id is "${containerDef.id}`);
+  console.log(`Container with url "${container.url}" was found its id is "${containerDef?.id}`);
 
-  logStep(`Delete container ${containerDef.id}`);
+  logStep(`Delete container ${containerDef?.id}`);
   await container.delete();
   await finish();
 }
@@ -111,7 +109,7 @@ async function updateOfferForCollection(
   );
 
   if (container) {
-    const offer = client.offer(oldOfferDefinition.id);
+    const offer = client.offer(oldOfferDefinition?.id!);
     logStep("replace old offer with new offer");
     await offer.replace(newOfferDefinition);
   }

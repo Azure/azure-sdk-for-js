@@ -10,13 +10,10 @@ import * as dotenv from "dotenv";
 dotenv.config({ path: path.resolve(__dirname, "../sample.env") });
 
 import { Container, FeedOptions, SqlQuerySpec, CosmosClient } from "@azure/cosmos";
-
-const {
-  COSMOS_DATABASE: dbId,
-  COSMOS_CONTAINER: containerId,
-  COSMOS_ENDPOINT: endpoint,
-  COSMOS_KEY: key
-} = process.env;
+const key = process.env.COSMOS_KEY || "<cosmos key>";
+const endpoint = process.env.COSMOS_ENDPOINT || "<cosmos endpoint>";
+const containerId = process.env.COSMOS_CONTAINER || "<cosmos container>";
+const dbId = process.env.COSMOS_DATABASE || "<cosmos database>";
 
 async function run() {
   const client = new CosmosClient({

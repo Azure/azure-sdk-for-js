@@ -555,33 +555,9 @@ export interface CosmosClientOptions {
 }
 
 // @public (undocumented)
-export enum CosmosContainerChildResourceKind {
-    // (undocumented)
-    Item = "ITEM",
-    // (undocumented)
-    StoredProcedure = "STORED_PROCEDURE",
-    // (undocumented)
-    Trigger = "TRIGGER",
-    // (undocumented)
-    UserDefinedFunction = "USER_DEFINED_FUNCTION"
-}
-
-// @public (undocumented)
 export interface CosmosHeaders {
     // (undocumented)
     [key: string]: any;
-}
-
-// @public (undocumented)
-export enum CosmosKeyType {
-    // (undocumented)
-    PrimaryMaster = "PRIMARY_MASTER",
-    // (undocumented)
-    PrimaryReadOnly = "PRIMARY_READONLY",
-    // (undocumented)
-    SecondaryMaster = "SECONDARY_MASTER",
-    // (undocumented)
-    SecondaryReadOnly = "SECONDARY_READONLY"
 }
 
 // @public
@@ -1220,132 +1196,6 @@ class Permissions_2 {
 }
 export { Permissions_2 as Permissions }
 
-// @public (undocumented)
-export enum PermissionScopeValues {
-    // (undocumented)
-    NoneValue = 0,
-    // (undocumented)
-    ScopeAccountCreateDatabasesValue = 1,
-    // (undocumented)
-    ScopeAccountDeleteDatabasesValue = 2,
-    // (undocumented)
-    ScopeAccountListDatabasesValue = 2,
-    // (undocumented)
-    ScopeAccountReadAllAccessValue = 65535,
-    ScopeAccountReadValue = 1,
-    // (undocumented)
-    ScopeAccountWriteAllAccessValue = 65535,
-    // (undocumented)
-    ScopeContainerCreateItemsValue = 1,
-    // (undocumented)
-    ScopeContainerCreateStoredProceduresValue = 16,
-    // (undocumented)
-    ScopeContainerCreateTriggersValue = 256,
-    // (undocumented)
-    ScopeContainerCreateUserDefinedFunctionsValue = 2048,
-    // (undocumented)
-    ScopeContainerDeleteCONFLICTSValue = 16384,
-    // (undocumented)
-    ScopeContainerDeleteItemsValue = 8,
-    // (undocumented)
-    ScopeContainerDeleteStoredProceduresValue = 64,
-    // (undocumented)
-    ScopeContainerDeleteTriggersValue = 1024,
-    // (undocumented)
-    ScopeContainerDeleteUserDefinedFunctionSValue = 8192,
-    // (undocumented)
-    ScopeContainerDeleteValue = 128,
-    ScopeContainerExecuteQueriesValue = 1,
-    // (undocumented)
-    ScopeContainerExecuteStoredProceduresValue = 128,
-    // (undocumented)
-    ScopeContainerReadAllAccessValue = 4294967295,
-    // (undocumented)
-    ScopeContainerReadConflictsValue = 32,
-    // (undocumented)
-    ScopeContainerReadFeedsValue = 2,
-    // (undocumented)
-    ScopeContainerReadOfferValue = 64,
-    // (undocumented)
-    ScopeContainerReadStoredProceduresValue = 4,
-    // (undocumented)
-    ScopeContainerReadTriggersValue = 16,
-    // (undocumented)
-    ScopeContainerReadUserDefinedFunctionsValue = 8,
-    // (undocumented)
-    ScopeContainerReadValue = 32,
-    // (undocumented)
-    ScopeContainerReplaceItemsValue = 2,
-    // (undocumented)
-    ScopeContainerReplaceOfferValue = 256,
-    // (undocumented)
-    ScopeContainerReplaceStoredProceduresValue = 32,
-    // (undocumented)
-    ScopeContainerReplaceTriggersValue = 512,
-    // (undocumented)
-    ScopeContainerReplaceUserDefinedFunctionsValue = 4096,
-    // (undocumented)
-    ScopeContainerReplaceValue = 64,
-    // (undocumented)
-    ScopeContainersReadAllAccessValue = 96,
-    // (undocumented)
-    ScopeContainersWriteAllAccessValue = 448,
-    // (undocumented)
-    ScopeContainerUpsertItemsValue = 4,
-    // (undocumented)
-    ScopeContainerWriteAllAccessValue = 4294967295,
-    // (undocumented)
-    ScopeDatabaseCreateContainerValue = 16,
-    // (undocumented)
-    ScopeDatabaseDeleteContainerValue = 32,
-    // (undocumented)
-    ScopeDatabaseDeleteValue = 4,
-    // (undocumented)
-    ScopeDatabaseListContainerValue = 16,
-    // (undocumented)
-    ScopeDatabaseReadAllAccessValue = 124,
-    // (undocumented)
-    ScopeDatabaseReadOfferValue = 8,
-    // (undocumented)
-    ScopeDatabaseReadValue = 4,
-    // (undocumented)
-    ScopeDatabaseReplaceOfferValue = 8,
-    // (undocumented)
-    ScopeDatabaseWriteAllAccessValue = 508,
-    // (undocumented)
-    ScopeItemDeleteValue = 262144,
-    // (undocumented)
-    ScopeItemReadAllAccessValue = 65,
-    // (undocumented)
-    ScopeItemReadValue = 64,
-    // (undocumented)
-    ScopeItemReplaceValue = 65536,
-    // (undocumented)
-    ScopeItemUpsertValue = 131072,
-    // (undocumented)
-    ScopeItemWriteAllAccessValue = 458767,
-    // (undocumented)
-    ScopeStoredProcedureDeleteValue = 2097152,
-    // (undocumented)
-    ScopeStoredProcedureExecuteValue = 4194304,
-    // (undocumented)
-    ScopeStoredProcedureReadValue = 128,
-    // (undocumented)
-    ScopeStoredProcedureReplaceValue = 1048576,
-    // (undocumented)
-    ScopeTriggerDeleteValue = 67108864,
-    // (undocumented)
-    ScopeTriggerReadValue = 512,
-    // (undocumented)
-    ScopeTriggerReplaceValue = 33554432,
-    // (undocumented)
-    ScopeUserDefinedFunctionDeleteValue = 16777216,
-    // (undocumented)
-    ScopeUserDefinedFunctionReadValue = 256,
-    // (undocumented)
-    ScopeUserDefinedFunctionReplaceValue = 8388608
-}
-
 // @public
 type Plugin_2<T> = (context: RequestContext, next: Next<T>) => Promise<Response_2<T>>;
 export { Plugin_2 as Plugin }
@@ -1828,10 +1678,14 @@ export class SasTokenProperties {
     dataPlaneWriterScope: number;
     // (undocumented)
     expiryTime: Date;
+    // Warning: (ae-forgotten-export) The symbol "CosmosKeyType" needs to be exported by the entry point index.d.ts
+    //
     // (undocumented)
     keyType: CosmosKeyType | number;
     // (undocumented)
     partitionKeyValueRanges: [];
+    // Warning: (ae-forgotten-export) The symbol "CosmosContainerChildResourceKind" needs to be exported by the entry point index.d.ts
+    //
     // (undocumented)
     resourceKind: CosmosContainerChildResourceKind;
     // (undocumented)
@@ -2230,9 +2084,6 @@ export class Users {
     readAll(options?: FeedOptions): QueryIterator<UserDefinition & Resource>;
     upsert(body: UserDefinition, options?: RequestOptions): Promise<UserResponse>;
 }
-
-// @public (undocumented)
-export function utcsecondsSinceEpoch(date: Date): number;
 
 // (No @packageDocumentation comment for this package)
 

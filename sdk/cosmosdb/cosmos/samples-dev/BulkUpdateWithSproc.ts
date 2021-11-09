@@ -16,12 +16,10 @@ import { CosmosClient } from "@azure/cosmos";
 import { v4 } from "uuid";
 const uuid = v4;
 
-const {
-  COSMOS_DATABASE: databaseId,
-  COSMOS_CONTAINER: containerId,
-  COSMOS_ENDPOINT: endpoint,
-  COSMOS_KEY: key
-} = process.env;
+const key = process.env.COSMOS_KEY || "<cosmos key>";
+const endpoint = process.env.COSMOS_ENDPOINT || "<cosmos endpoint>";
+const dbId = process.env.COSMOS_DATABASE || "<cosmos database>";
+const containerId = process.env.COSMOS_CONTAINER || "<cosmos container>";
 
 logSampleHeader("Bulk Update Using Stored Procedures");
 // Only to make TypeScript happy
@@ -70,8 +68,8 @@ const client = new CosmosClient({ endpoint, key });
 
 async function run(): Promise<void> {
   // ensuring a database & container exists for us to work with
-  logStep("Create database '" + databaseId + "' and container '" + containerId + "'");
-  const { database } = await client.databases.createIfNotExists({ id: databaseId }, {});
+  logStep("Create database '" + dbId + "' and container '" + containerId + "'");
+  const { database } = await client.databases.createIfNotExists({ id: dbId }, {});
   const { container } = await database.containers.createIfNotExists({ id: containerId });
 
   logStep("Insert 20 items");
@@ -88,7 +86,7 @@ async function run(): Promise<void> {
   });
 
   logStep("Execute stored procedure and follow continuation tokens");
-  let continuation: string = undefined;
+  let continuation: string = undefined!;
   let totalUpdatedDocuments = 0;
   for (;;) {
     const response = await storedProcedure.execute(undefined, [continuation]);
