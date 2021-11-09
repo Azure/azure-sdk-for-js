@@ -10,6 +10,7 @@
 ### Bugs Fixed
 
 - Improved the handling of long-running operations (analysis and model creation operations). This fixes a bug ([#18341](https://github.com/Azure/azure-sdk-for-js/issues/18341)) that caused the clients to reject model IDs that contained certain characters with an error: "unable to parse operationLocation". Our improvements to the long-running operation code make this error no longer possible.
+
 ### Breaking Changes
 
 - Replaced the `operationId` field of `DocumentAnalysisPollOperationState` with an `operationLocation` field containing the full operation URL, rather than the operation GUID only.
