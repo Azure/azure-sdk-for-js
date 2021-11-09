@@ -93,13 +93,11 @@ async function updateOfferForCollection(
       })
   );
 
-  const flat = <T>(nestedArrays: T[][]): T[] => [].concat(...nestedArrays);
 
-  const containers: (ContainerDefinition & Resource)[] = flat(
-    containerResponses.map(
+  const containers: (ContainerDefinition & Resource)[] = 
+    containerResponses.flatMap(
       (response: FeedResponse<ContainerDefinition & Resource>) => response.resources
-    )
-  );
+    );
 
   logStep("Finding container to offerDefinition");
   const container = containers.find(

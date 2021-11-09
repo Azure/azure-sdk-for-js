@@ -12,6 +12,7 @@
     "target": "ES2017",
     "newLine": "LF",
     "resolveJsonModule": true,
+    "lib": ["es2019"],
     "moduleResolution": "node",
     "composite": true,
     "stripInternal": true,
