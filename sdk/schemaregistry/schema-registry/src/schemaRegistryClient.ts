@@ -7,7 +7,7 @@ import {
   bearerTokenAuthenticationPolicy,
   InternalPipelineOptions
 } from "@azure/core-rest-pipeline";
-import { convertSchemaIdResponse, convertSchemaResponse, dispatchOnFormat } from "./conversions";
+import { convertSchemaIdResponse, convertSchemaResponse } from "./conversions";
 
 import {
   GetSchemaOptions,
@@ -21,6 +21,8 @@ import {
 } from "./models";
 import { DEFAULT_SCOPE } from "./constants";
 import { logger } from "./logger";
+import { createQueryIdByContentOperationSpec, createRegisterOperationSpec } from "./mappers";
+import { SchemaRegisterResponse } from "./generated";
 
 /**
  * Client for Azure Schema Registry service.
@@ -80,12 +82,18 @@ export class SchemaRegistryClient implements SchemaRegistry {
     schema: SchemaDescription,
     options?: RegisterSchemaOptions
   ): Promise<SchemaProperties> {
-    return dispatchOnFormat(schema.format, {
-      avro: () =>
-        this.client.schema
-          .register(schema.groupName, schema.name, schema.definition, options)
-          .then(convertSchemaIdResponse(schema.format))
-    });
+    const { groupName, name: schemaName, definition: schemaContent } = schema;
+    return this.client
+      .sendOperationRequest<SchemaRegisterResponse>(
+        {
+          groupName,
+          schemaName,
+          schemaContent,
+          options
+        },
+        createRegisterOperationSpec(schema.format)
+      )
+      .then(convertSchemaIdResponse(schema.format));
   }
 
   /**
@@ -99,12 +107,18 @@ export class SchemaRegistryClient implements SchemaRegistry {
     schema: SchemaDescription,
     options?: GetSchemaPropertiesOptions
   ): Promise<SchemaProperties> {
-    return dispatchOnFormat(schema.format, {
-      avro: () =>
-        this.client.schema
-          .queryIdByContent(schema.groupName, schema.name, schema.definition, options)
-          .then(convertSchemaIdResponse(schema.format))
-    });
+    const { groupName, name: schemaName, definition: schemaContent } = schema;
+    return this.client
+      .sendOperationRequest<SchemaRegisterResponse>(
+        {
+          groupName,
+          schemaName,
+          schemaContent,
+          options
+        },
+        createQueryIdByContentOperationSpec(schema.format)
+      )
+      .then(convertSchemaIdResponse(schema.format));
   }
 
   /**
