@@ -2,6 +2,20 @@
 
 ## 1.0.0 (Unreleased)
 
+## 2021-11-08
+
+- Allows storing the dynamically created variables in the record mode. Recorder registers the variables as part of the recording. Using the "variables" in playback mode would give the key-value pairs that are stored in record mode.
+
+  Example:
+
+  ```ts
+  if (!isPlaybackMode()) {
+    recorder.variables["random-1"] = `random-${Math.ceil(Math.random() * 1000 + 1000)}`;
+  }
+  ```
+
+  Use this `recorder.variables["random-1"]` whereever you'd like to use in your test after the if-block. (This would work in all three modes - record/playback/live just by adding the if-block above)
+
 ## 2021-10-15
 
 [#17379](https://github.com/Azure/azure-sdk-for-js/pull/17379)
