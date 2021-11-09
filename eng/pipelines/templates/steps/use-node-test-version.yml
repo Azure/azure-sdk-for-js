@@ -8,7 +8,7 @@ steps:
 
   # Packages with native dependencies must be reinstalled after changing Node versions
   - pwsh: |
-      Get-ChildItem "common/temp/node_modules/.pnpm/node_modules/keytar" -Name
+      Get-ChildItem "common/temp/node_modules/.pnpm" -Name
       $nativeDependencySymlinkPaths = "common/temp/node_modules/.pnpm/node_modules/keytar,common/temp/node_modules/.pnpm/node_modules/@azure/msal-node-extensions"
       $currentLocation = Get-Location
       $dependencySymlinks = $nativeDependencySymlinkPaths.Split(",")
