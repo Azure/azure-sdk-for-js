@@ -19,7 +19,7 @@ export interface CommunicationRelayConfigurationRequest {
   /**
    * The routing methodology to where the ICE server will be located from the client.
    */
-  routeType?: CommunicationRelayConfigurationRequestRouteType;
+  routeType?: RouteType;
 }
 
 /**
@@ -55,7 +55,7 @@ export interface CommunicationIceServer {
   /**
    * The routing methodology to where the ICE server will be located from the client.
    */
-  routeType: CommunicationIceServerRouteType;
+  routeType: RouteType;
 }
 
 /**
@@ -95,13 +95,9 @@ export interface CommunicationError {
 }
 
 /**
- * Defines values for CommunicationRelayConfigurationRequestRouteType.
+ * Defines values for RouteType.
  */
-export type CommunicationRelayConfigurationRequestRouteType = "any" | "nearest";
-/**
- * Defines values for CommunicationIceServerRouteType.
- */
-export type CommunicationIceServerRouteType = "any" | "nearest";
+export type RouteType = "any" | "nearest";
 
 /**
  * Optional parameters.

@@ -32,7 +32,7 @@ matrix([[true, false]], async function(useAad) {
       }
     });
 
-    it("successfully gets a turn credential providing a user identity", async function() {
+    it("successfully gets a turn credential with user identity", async function() {
       const connectionString = env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING;
       const identityClient = new CommunicationIdentityClient(connectionString);
       const user: CommunicationUserIdentifier = await identityClient.createUser();
@@ -59,25 +59,7 @@ matrix([[true, false]], async function(useAad) {
       }
     }).timeout(5000);
 
-    it("successfully gets a turn credential without providing a user identity", async function() {
-      const turnCredentialResponse = await client.getRelayConfiguration();
-      assert.isNotNull(turnCredentialResponse);
-
-      const turnTokenExpiresOn = turnCredentialResponse.expiresOn;
-      assert.isNotNull(turnTokenExpiresOn);
-
-      const turnServers = turnCredentialResponse.iceServers;
-
-      for (const iceServer of turnServers) {
-        for (const url of iceServer.urls) {
-          assert.isNotNull(url);
-        }
-        assert.isNotNull(iceServer.username);
-        assert.isNotNull(iceServer.credential);
-      }
-    }).timeout(5000);
-
-    it("successfully gets a turn credential providing a user identity and any routeType", async function() {
+    it("successfully gets a turn credential with identity and routeType any", async function() {
       const connectionString = env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING;
       const identityClient = new CommunicationIdentityClient(connectionString);
       const user: CommunicationUserIdentifier = await identityClient.createUser();
@@ -102,7 +84,7 @@ matrix([[true, false]], async function(useAad) {
       }
     }).timeout(5000);
 
-    it("successfully gets a turn credential providing a user identity and nearest routeType", async function() {
+    it("successfully gets a turn credential with identity routeType nearest", async function() {
       const connectionString = env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING;
       const identityClient = new CommunicationIdentityClient(connectionString);
       const user: CommunicationUserIdentifier = await identityClient.createUser();

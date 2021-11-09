@@ -11,7 +11,6 @@ import { isTokenCredential, KeyCredential, TokenCredential } from "@azure/core-a
 import {
   InternalPipelineOptions,
   createPipelineFromOptions,
-  OperationOptions,
   operationOptionsToRequestOptionsBase
 } from "@azure/core-http";
 import { SpanStatusCode } from "@azure/core-tracing";
@@ -23,10 +22,10 @@ import {
 import { SDK_VERSION } from "./constants";
 import { logger } from "./common/logger";
 import { createSpan } from "./common/tracing";
-import { CommunicationRelayClientOptions } from "./models";
+import { CommunicationRelayClientOptions, GetRelayConfigurationOptions } from "./models";
 import {
   CommunicationRelayConfiguration,
-  CommunicationRelayConfigurationRequestRouteType,
+  RouteType,
   CommunicationNetworkTraversalIssueRelayConfigurationOptionalParams
 } from "./generated/src/models";
 
@@ -35,7 +34,6 @@ const isCommunicationRelayClientOptions = (
 ): options is CommunicationRelayClientOptions =>
   options && !isTokenCredential(options) && !isKeyCredential(options);
 
-interface GetRelayConfigurationOptions extends OperationOptions{}
 /**
  * Client class for the Azure Communication Services Relay client.
  */
@@ -136,7 +134,7 @@ export class CommunicationRelayClient {
    * @param options - Additional options for the request.
    */
   public async getRelayConfiguration(
-    routeType: CommunicationRelayConfigurationRequestRouteType,
+    routeType: RouteType,
     options?: GetRelayConfigurationOptions
   ): Promise<CommunicationRelayConfiguration>;
 
@@ -149,7 +147,7 @@ export class CommunicationRelayClient {
    */
   public async getRelayConfiguration(
     user: CommunicationUserIdentifier,
-    routeType?: CommunicationRelayConfigurationRequestRouteType,
+    routeType?: RouteType,
     options?: GetRelayConfigurationOptions
   ): Promise<CommunicationRelayConfiguration>;
 
@@ -161,11 +159,8 @@ export class CommunicationRelayClient {
    * @param options - Additional options for the request.
    */
   public async getRelayConfiguration(
-    paramOne?:
-      | CommunicationUserIdentifier
-      | CommunicationRelayConfigurationRequestRouteType
-      | GetRelayConfigurationOptions,
-    paramTwo?: CommunicationRelayConfigurationRequestRouteType | GetRelayConfigurationOptions,
+    paramOne?: CommunicationUserIdentifier | RouteType | GetRelayConfigurationOptions,
+    paramTwo?: RouteType | GetRelayConfigurationOptions,
     options: GetRelayConfigurationOptions = {}
   ): Promise<CommunicationRelayConfiguration> {
     let requestOptions: CommunicationNetworkTraversalIssueRelayConfigurationOptionalParams = options;

@@ -10,7 +10,7 @@ import * as coreHttp from "@azure/core-http";
 import { NetworkRelayRestClientOptionalParams } from "./models";
 
 const packageName = "azure-communication-network-traversal";
-const packageVersion = "package-2021-06-21-preview";
+const packageVersion = "package-2021-10-08-preview";
 
 export class NetworkRelayRestClientContext extends coreHttp.ServiceClient {
   endpoint: string;
