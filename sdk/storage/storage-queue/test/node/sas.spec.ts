@@ -335,6 +335,43 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         protocol: SASProtocol.HttpsAndHttp,
         resourceTypes: AccountSASResourceTypes.parse("sco").toString(),
         services: AccountSASServices.parse("q").toString(),
+        startsOn: now
+      },
+      sharedKeyCredential as StorageSharedKeyCredential
+    ).toString();
+    const sasURL1 = `${queueServiceClient.url}?${sas}`;
+
+    const sasURL = queueServiceClient.generateAccountSasUrl(
+      tmr,
+      AccountSASPermissions.parse("rwdlacup"),
+      undefined,
+      {
+        ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+        protocol: SASProtocol.HttpsAndHttp,
+        startsOn: now
+      }
+    );
+    assert.deepStrictEqual(sasURL, sasURL1);
+
+    const queueServiceClientwithSAS = new QueueServiceClient(sasURL);
+    await queueServiceClientwithSAS.getProperties();
+  });
+
+  it("QueueServiceClient.generateAccountSasUrl with previous version should work", async () => {
+    const now = recorder.newDate("now");
+    now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
+    const tmr = recorder.newDate("tmr");
+    tmr.setDate(tmr.getDate() + 1);
+
+    const sharedKeyCredential = queueServiceClient["credential"];
+    const sas = generateAccountSASQueryParameters(
+      {
+        expiresOn: tmr,
+        ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+        permissions: AccountSASPermissions.parse("rwdlacup"),
+        protocol: SASProtocol.HttpsAndHttp,
+        resourceTypes: AccountSASResourceTypes.parse("sco").toString(),
+        services: AccountSASServices.parse("q").toString(),
         startsOn: now,
         version: "2016-05-31"
       },
