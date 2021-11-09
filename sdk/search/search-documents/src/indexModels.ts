@@ -248,6 +248,11 @@ export interface SearchRequest {
    */
   scoringProfile?: string;
   /**
+   * The name of a semantic configuration that will be used when processing documents for queries of
+   * type semantic.
+   */
+  semanticConfiguration?: string;
+  /**
    * A full-text search query expression; Use "*" or omit this parameter to match all documents.
    */
   searchText?: string;

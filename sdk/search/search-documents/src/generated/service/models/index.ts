@@ -729,6 +729,8 @@ export interface SearchIndex {
   encryptionKey?: SearchResourceEncryptionKey;
   /** The type of similarity algorithm to be used when scoring and ranking the documents matching a search query. The similarity algorithm can only be defined at index creation time and cannot be modified on existing indexes. If null, the ClassicSimilarity algorithm is used. */
   similarity?: SimilarityUnion;
+  /** Defines parameters for a search index that influence semantic capabilities. */
+  semanticSettings?: SemanticSettings;
   /** The ETag of the index. */
   etag?: string;
 }
@@ -902,6 +904,35 @@ export interface Similarity {
   odatatype:
     | "#Microsoft.Azure.Search.ClassicSimilarity"
     | "#Microsoft.Azure.Search.BM25Similarity";
+}
+
+/** Defines parameters for a search index that influence semantic capabilities. */
+export interface SemanticSettings {
+  /** The semantic configurations for the index. */
+  configurations?: SemanticConfiguration[];
+}
+
+/** Defines a specific configuration to be used in the context of semantic capabilities. */
+export interface SemanticConfiguration {
+  /** The name of the semantic configuration. */
+  name: string;
+  /** Describes the title, content, and keyword fields to be used for semantic ranking, captions, highlights, and answers. At least one of the three sub properties (titleField, prioritizedKeywordsFields and prioritizedContentFields) need to be set. */
+  prioritizedFields: PrioritizedFields;
+}
+
+/** Describes the title, content, and keywords fields to be used for semantic ranking, captions, highlights, and answers. */
+export interface PrioritizedFields {
+  /** Defines the title field to be used for semantic ranking, captions, highlights, and answers. If you don't have a title field in your index, leave this blank. */
+  titleField?: SemanticField;
+  /** Defines the content fields to be used for semantic ranking, captions, highlights, and answers. For the best result, the selected fields should contain text in natural language form. The order of the fields in the array represents their priority. Fields with lower priority may get truncated if the content is long. */
+  prioritizedContentFields?: SemanticField[];
+  /** Defines the keyword fields to be used for semantic ranking, captions, highlights, and answers. For the best result, the selected fields should contain a list of keywords. The order of the fields in the array represents their priority. Fields with lower priority may get truncated if the content is long. */
+  prioritizedKeywordsFields?: SemanticField[];
+}
+
+/** A field that is used as part of the semantic configuration. */
+export interface SemanticField {
+  fieldName?: string;
 }
 
 /** Response from a List Indexes request. If successful, it includes the full definitions of all indexes. */
