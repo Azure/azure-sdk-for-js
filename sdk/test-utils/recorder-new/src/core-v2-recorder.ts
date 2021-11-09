@@ -53,6 +53,10 @@ export class TestProxyHttpClient {
    *  ```
    * Use this `recorder.variables["random-1"]` whereever you'd like to use in your test.
    *      (This would work in all three modes - record/playback/live just by adding the if-block above)
+   *
+   * Internals(How does it work?):
+   *  - recorder.stop() call sends the variables to the proxy-tool (in record mode)
+   *  - recorder.start() call loads those variables given by the proxy tool (in playback mode)
    */
   public variables: Record<string, string>;
 
