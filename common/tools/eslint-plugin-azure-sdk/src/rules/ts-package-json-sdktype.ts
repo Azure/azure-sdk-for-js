@@ -49,10 +49,10 @@ export = {
 
           const strValue = stripPath(value.value);
 
-          if (!["client", "mgmt"].includes(strValue)) {
+          if (!["client", "mgmt", "utility"].includes(strValue)) {
             context.report({
               node: node.value,
-              message: "sdk-type is not set to `client` or `mgmt`"
+              message: `unrecognized sdk-type value: ${strValue}. Expected either "client", "mgmt", or "utility."`
             });
             return;
           }

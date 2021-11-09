@@ -355,6 +355,11 @@ ruleTester.run("ts-package-json-sdktype", rule, {
       filename: "package.json"
     },
     {
+      // only the fields we care about
+      code: '{"sdk-type": "utility"}',
+      filename: "package.json"
+    },
+    {
       // a full example package.json (taken from https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/event-hubs/package.json with "scripts" removed for testing purposes)
       code: examplePackageGood,
       filename: "package.json"
@@ -372,7 +377,7 @@ ruleTester.run("ts-package-json-sdktype", rule, {
       filename: "package.json",
       errors: [
         {
-          message: "sdk-type is not set to `client` or `mgmt`"
+          message: 'unrecognized sdk-type value: clien. Expected either "client", "mgmt", or "utility."'
         }
       ]
     },
@@ -382,7 +387,17 @@ ruleTester.run("ts-package-json-sdktype", rule, {
       filename: "package.json",
       errors: [
         {
-          message: "sdk-type is not set to `client` or `mgmt`"
+          message: 'unrecognized sdk-type value: mgm. Expected either "client", "mgmt", or "utility."'
+        }
+      ]
+    },
+    {
+      // sdk-type has incorrect value
+      code: '{"sdk-type": "util"}',
+      filename: "package.json",
+      errors: [
+        {
+          message: 'unrecognized sdk-type value: util. Expected either "client", "mgmt", or "utility."'
         }
       ]
     },
