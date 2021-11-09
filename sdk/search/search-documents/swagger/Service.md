@@ -331,3 +331,11 @@ directive:
   transform: >
     $["x-ms-client-name"] = "ResetDocumentsFinalChangeTrackingState";
 ```
+
+```yaml
+directive:
+  from: swagger-document
+  where: $.definitions.SemanticField.properties.fieldName
+  transform: >
+    $["x-ms-client-name"] = "name";
+```

@@ -2240,7 +2240,7 @@ export interface SemanticConfiguration {
 // @public
 export interface SemanticField {
     // (undocumented)
-    fieldName?: string;
+    name?: string;
 }
 
 // @public

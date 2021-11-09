@@ -932,7 +932,7 @@ export interface PrioritizedFields {
 
 /** A field that is used as part of the semantic configuration. */
 export interface SemanticField {
-  fieldName?: string;
+  name?: string;
 }
 
 /** Response from a List Indexes request. If successful, it includes the full definitions of all indexes. */

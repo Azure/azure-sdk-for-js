@@ -2213,7 +2213,7 @@ export const SemanticField: coreClient.CompositeMapper = {
     name: "Composite",
     className: "SemanticField",
     modelProperties: {
-      fieldName: {
+      name: {
         serializedName: "fieldName",
         type: {
           name: "String"
