@@ -12,6 +12,7 @@
 - `Schema.schemaDefinition` has been renamed to `Schema.definition`.
 - `SchemaDescription.schemaDefinition` has been renamed to `SchemaDescription.definition`.
 - `getSchema` and `getSchemaProperties` no longer return `undefined`. If a schema is not found, an error will be thrown.
+- `SchemaProperties` no longer includes the `version`.
 
 ### Other Changes
 
