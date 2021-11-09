@@ -40,7 +40,7 @@ describe("SchemaRegistryClient", function() {
     schema = {
       name: "azsdk_js_test",
       groupName: env.SCHEMA_REGISTRY_GROUP,
-      format: "avro",
+      format: "Avro",
       definition: JSON.stringify({
         type: "record",
         name: "User",
@@ -96,7 +96,7 @@ describe("SchemaRegistryClient", function() {
   });
 
   it("fails to get schema ID when no matching schema exists", async () => {
-    assert.isUndefined(await client.getSchemaProperties({ ...schema, name: "never-registered" }));
+    await assert.isRejected(client.getSchemaProperties({ ...schema, name: "never-registered" }));
   });
 
   it("gets schema ID", async () => {
@@ -114,7 +114,7 @@ describe("SchemaRegistryClient", function() {
   });
 
   it("fails to get schema when no schema exists with given ID", async () => {
-    assert.isUndefined(await client.getSchema("ffffffffffffffffffffffffffffffff"));
+    await assert.isRejected(client.getSchema("ffffffffffffffffffffffffffffffff"));
   });
 
   it("gets schema by ID", async () => {
