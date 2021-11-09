@@ -41,6 +41,8 @@ From a command prompt window, run:
 ```
 az login
 az group create -n $RESOURCE_GROUP --location $LOCATION --subscription $SUBSCRIPTION_NAME
+az account set --subscription $SUBSCRIPTION_NAME
+
 ```
 
 ### Create a user-assigned managed identity
