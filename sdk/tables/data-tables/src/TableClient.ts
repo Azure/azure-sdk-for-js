@@ -708,10 +708,6 @@ export class TableClient {
     const { span, updatedOptions } = createSpan(`TableClient-updateEntity-${mode}`, options);
 
     try {
-      if (!entity.partitionKey || !entity.rowKey) {
-        throw new Error("partitionKey and rowKey must be defined");
-      }
-
       const partitionKey = escapeQuotes(entity.partitionKey);
       const rowKey = escapeQuotes(entity.rowKey);
 
@@ -784,10 +780,6 @@ export class TableClient {
     const { span, updatedOptions } = createSpan(`TableClient-upsertEntity-${mode}`, options);
 
     try {
-      if (!entity.partitionKey || !entity.rowKey) {
-        throw new Error("partitionKey and rowKey must be defined");
-      }
-
       const partitionKey = escapeQuotes(entity.partitionKey);
       const rowKey = escapeQuotes(entity.rowKey);
 

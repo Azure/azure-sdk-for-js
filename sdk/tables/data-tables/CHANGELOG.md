@@ -17,6 +17,7 @@
 - Issue #17407 - Correctly handle etag in select filter. [#18211](https://github.com/Azure/azure-sdk-for-js/pull/18211)
 - Issue #18079 - Correctly handle creating entities with properties containing empty strings "". Fixes Insert throws "Unknown EDM type object" error with property value { value: "", type: "String" }. [#18211](https://github.com/Azure/azure-sdk-for-js/pull/18211)
 - Issue #18148 - Correctly deserialize Decimal numbers checking for isSafeInteger. Fixes listEntities always returns an Int32 type for a value of "1.23456789012346e+24". [#18211](https://github.com/Azure/azure-sdk-for-js/pull/18211)
+- Issue #18521 - `upsertEntity` doesn't work with "" for partition or row keys. [#18586](https://github.com/Azure/azure-sdk-for-js/pull/18586)
 
 ### Other Changes
 
