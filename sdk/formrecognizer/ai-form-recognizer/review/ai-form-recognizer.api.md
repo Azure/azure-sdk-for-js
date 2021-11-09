@@ -337,6 +337,7 @@ export interface DocumentLine {
     boundingBox?: number[];
     content: string;
     spans: DocumentSpan[];
+    words: () => IterableIterator<DocumentWord>;
 }
 
 // @public

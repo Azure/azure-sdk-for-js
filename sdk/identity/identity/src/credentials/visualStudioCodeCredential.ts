@@ -7,13 +7,14 @@ import fs from "fs";
 import os from "os";
 import path from "path";
 
-import { CredentialUnavailableError } from "../errors";
-import { IdentityClient, TokenCredentialOptions } from "../client/identityClient";
 import { AzureAuthorityHosts } from "../constants";
 import { checkTenantId } from "../util/checkTenantId";
-import { credentialLogger, formatError, formatSuccess } from "../util/logging";
+import { CredentialUnavailableError } from "../errors";
+import { IdentityClient } from "../client/identityClient";
+import { TokenCredentialOptions } from "../tokenCredentialOptions";
 import { processMultiTenantRequest } from "../util/validateMultiTenant";
 import { VSCodeCredentialFinder } from "./visualStudioCodeCredentialPlugin";
+import { credentialLogger, formatError, formatSuccess } from "../util/logging";
 
 const CommonTenantId = "common";
 const AzureAccountClientId = "aebc6443-996d-45c2-90f0-388ff96faa56"; // VSC: 'aebc6443-996d-45c2-90f0-388ff96faa56'

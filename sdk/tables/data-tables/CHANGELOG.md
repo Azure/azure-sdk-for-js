@@ -1,16 +1,21 @@
 # Release History
 
-## 12.2.0 (Unreleased)
+## 13.0.0 (Unreleased)
 
 ### Features Added
-- Take `continuationToken` as a `PageSetting` and expose it in the page when listing entities `byPage`. [#18179](https://github.com/Azure/azure-sdk-for-js/pull/18179)
+
+- TableClient `listEntities` expose and can take as PageSetting `continuationToken` as a `PageSetting` when using `byPage`. [#18179](https://github.com/Azure/azure-sdk-for-js/pull/18179)
+- TableServiceClient `listTables` expose and can take PageSetting `continuationToken` as a `PageSetting` when using `byPage`. [#18277](https://github.com/Azure/azure-sdk-for-js/pull/18277)
 
 ### Breaking Changes
 
+- Encode single quote where the partition/row key is used to format the URL - i.e. upsert, update and delete. For more details see [#3356](https://github.com/Azure/azure-sdk/issues/3356)
+
 ### Bugs Fixed
+
 - Document usage of SDK with Azurite. [#18211](https://github.com/Azure/azure-sdk-for-js/pull/18211)
 - Issue #17407 - Correctly handle etag in select filter. [#18211](https://github.com/Azure/azure-sdk-for-js/pull/18211)
-- Issue #18079  - Correctly handle creating entities with properties containing empty strings "". Fixes Insert throws "Unknown EDM type object" error with property value { value: "", type: "String" }. [#18211](https://github.com/Azure/azure-sdk-for-js/pull/18211)
+- Issue #18079 - Correctly handle creating entities with properties containing empty strings "". Fixes Insert throws "Unknown EDM type object" error with property value { value: "", type: "String" }. [#18211](https://github.com/Azure/azure-sdk-for-js/pull/18211)
 - Issue #18148 - Correctly deserialize Decimal numbers checking for isSafeInteger. Fixes listEntities always returns an Int32 type for a value of "1.23456789012346e+24". [#18211](https://github.com/Azure/azure-sdk-for-js/pull/18211)
 
 ### Other Changes

@@ -1,5 +1,17 @@
 # Release History
 
+## 2.2.3 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+- Fix `HttpHeaders.rawHeaders()` to preserve header name case. As a result HttpClient now sends requests with their original header names. `HttpHeaders.toJson()` now has an option to preserve header key casing.
+
+### Other Changes
+
 ## 2.2.2 (2021-11-03)
 
 ### Bugs Fixed

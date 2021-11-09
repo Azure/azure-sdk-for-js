@@ -3,7 +3,7 @@
 
 import { TokenCredential } from "@azure/core-auth";
 
-import { TokenCredentialOptions } from "../client/identityClient";
+import { TokenCredentialOptions } from "../tokenCredentialOptions";
 
 import { ChainedTokenCredential } from "./chainedTokenCredential";
 

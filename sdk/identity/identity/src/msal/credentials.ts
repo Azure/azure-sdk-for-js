@@ -23,6 +23,10 @@ export interface CredentialFlowGetTokenOptions extends GetTokenOptions {
    * Authority, to overwrite the default one, if necessary.
    */
   authority?: string;
+  /**
+   * Claims received from challenges.
+   */
+  claims?: string;
 }
 
 /**

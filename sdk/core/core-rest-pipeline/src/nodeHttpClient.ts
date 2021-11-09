@@ -151,7 +151,11 @@ class NodeHttpClient implements HttpClient {
         responseStream = downloadReportStream;
       }
 
-      if (request.streamResponseStatusCodes?.has(response.status)) {
+      if (
+        // Value of POSITIVE_INFINITY in streamResponseStatusCodes is considered as any status code
+        request.streamResponseStatusCodes?.has(Number.POSITIVE_INFINITY) ||
+        request.streamResponseStatusCodes?.has(response.status)
+      ) {
         response.readableStreamBody = responseStream;
       } else {
         response.bodyAsText = await streamToText(responseStream);

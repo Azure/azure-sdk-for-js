@@ -117,7 +117,7 @@ export class AzureCliCredential implements TokenCredential {
 
     let responseData = "";
 
-    const { span } = createSpan("AzureCliCredential.getToken", options);
+    const { span } = createSpan(`${this.constructor.name}.getToken`, options);
 
     try {
       const obj = await cliCredentialInternals.getAzureCliAccessToken(resource, tenantId);
