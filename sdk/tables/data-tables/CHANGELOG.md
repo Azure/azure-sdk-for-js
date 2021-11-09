@@ -1,6 +1,6 @@
 # Release History
 
-## 13.0.0 (Unreleased)
+## 13.0.0 (2021-11-09)
 
 ### Features Added
 
@@ -9,7 +9,8 @@
 
 ### Breaking Changes
 
-- Encode single quote where the partition/row key is used to format the URL - i.e. upsert, update and delete. For more details see [#3356](https://github.com/Azure/azure-sdk/issues/3356)
+- Encode single quote where the partition/row key is used to format the URL - i.e. upsert, update and delete. For more details see Issue [#3356](https://github.com/Azure/azure-sdk/issues/3356). Fixed in [#18520](https://github.com/Azure/azure-sdk-for-js/pull/18520)
+- Setting a binary property on an entity without automatic type conversion takes raw string instead of Uint8Array [#18251](https://github.com/Azure/azure-sdk-for-js/pull/18251)
 
 ### Bugs Fixed
 
