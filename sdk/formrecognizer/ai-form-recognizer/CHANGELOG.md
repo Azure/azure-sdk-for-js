@@ -5,10 +5,14 @@
 ### Features Added
 
 - Added a `words` method to `DocumentLine`. This method produces an `IterableIterator` that will yield all of the `DocumentWord`s that are contained by the line's `spans`. This allows accessing the words that are related to the line from the line itself.
+- Added `createdOn` and `lastUpdatedOn` properties to `DocumentAnalysisPollOperationState` and `TrainingPollOperationState` that contain the date and time that the operation was created and last modified, respectively.
 
 ### Bugs Fixed
 
 - Improved the handling of long-running operations (analysis and model creation operations). This fixes a bug ([#18341](https://github.com/Azure/azure-sdk-for-js/issues/18341)) that caused the clients to reject model IDs that contained certain characters with an error: "unable to parse operationLocation". Our improvements to the long-running operation code make this error no longer possible.
+### Breaking Changes
+
+- Replaced the `operationId` field of `DocumentAnalysisPollOperationState` with an `operationLocation` field containing the full operation URL, rather than the operation GUID only.
 
 ## 4.0.0-beta.1 (2021-10-07)
 
