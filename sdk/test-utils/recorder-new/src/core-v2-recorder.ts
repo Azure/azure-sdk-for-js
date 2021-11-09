@@ -41,6 +41,19 @@ export class TestProxyHttpClient {
   public httpClient: HttpClient | undefined = undefined;
   private sessionFile: string | undefined = undefined;
   private sanitizer: Sanitizer | undefined;
+  /**
+   * Add the dynamically created variables here in the record mode, so that the recorder registers them as part of the recording.
+   * Using this "variables" in playback mode would give the key-value pairs that are stored in record mode.
+   *
+   * Example:
+   *  ```ts
+   *       if (!isPlaybackMode()) {
+   *           recorder.variables["random-1"] = `random-${Math.ceil(Math.random() * 1000 + 1000)}`;
+   *       }
+   *  ```
+   * Use this `recorder.variables["random-1"]` whereever you'd like to use in your test.
+   *      (This would work in all three modes - record/playback/live just by adding the if-block above)
+   */
   public variables: Record<string, string>;
 
   constructor(private testContext?: Test | undefined) {

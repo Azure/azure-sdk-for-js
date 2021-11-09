@@ -94,7 +94,7 @@ function getTestServerUrl() {
       );
     });
 
-    it.only("sample_response with random string in path", async () => {
+    it("sample_response with random string in path", async () => {
       await recorder.start({ envSetupForPlayback: {} });
 
       if (!isPlaybackMode()) {
