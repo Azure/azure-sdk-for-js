@@ -226,7 +226,7 @@ authModes.forEach((authMode) => {
         assert.equal(result.testField, testEntity.testField);
       });
 
-      it.only("should createEntity empty partition and row keys", async () => {
+      it("should createEntity empty partition and row keys", async () => {
         type TestType = { testField: string };
         const testEntity: TableEntity<TestType> = {
           partitionKey: "",
