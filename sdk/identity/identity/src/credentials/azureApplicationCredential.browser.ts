@@ -3,7 +3,7 @@
 
 import { AccessToken } from "@azure/core-auth";
 
-import { TokenCredentialOptions } from "../client/identityClient";
+import { TokenCredentialOptions } from "../tokenCredentialOptions";
 import { credentialLogger, formatError } from "../util/logging";
 import { ChainedTokenCredential } from "./chainedTokenCredential";
 

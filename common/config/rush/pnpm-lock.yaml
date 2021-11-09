@@ -27,6 +27,7 @@ specifiers:
   '@rush-temp/arm-logic': file:./projects/arm-logic.tgz
   '@rush-temp/arm-managedapplications': file:./projects/arm-managedapplications.tgz
   '@rush-temp/arm-mediaservices': file:./projects/arm-mediaservices.tgz
+  '@rush-temp/arm-mysql': file:./projects/arm-mysql.tgz
   '@rush-temp/arm-network': file:./projects/arm-network.tgz
   '@rush-temp/arm-notificationhubs': file:./projects/arm-notificationhubs.tgz
   '@rush-temp/arm-operationalinsights': file:./projects/arm-operationalinsights.tgz
@@ -54,6 +55,7 @@ specifiers:
   '@rush-temp/communication-identity': file:./projects/communication-identity.tgz
   '@rush-temp/communication-network-traversal': file:./projects/communication-network-traversal.tgz
   '@rush-temp/communication-phone-numbers': file:./projects/communication-phone-numbers.tgz
+  '@rush-temp/communication-short-codes': file:./projects/communication-short-codes.tgz
   '@rush-temp/communication-sms': file:./projects/communication-sms.tgz
   '@rush-temp/confidential-ledger': file:./projects/confidential-ledger.tgz
   '@rush-temp/container-registry': file:./projects/container-registry.tgz
@@ -175,6 +177,7 @@ dependencies:
   '@rush-temp/arm-logic': file:projects/arm-logic.tgz
   '@rush-temp/arm-managedapplications': file:projects/arm-managedapplications.tgz
   '@rush-temp/arm-mediaservices': file:projects/arm-mediaservices.tgz
+  '@rush-temp/arm-mysql': file:projects/arm-mysql.tgz
   '@rush-temp/arm-network': file:projects/arm-network.tgz
   '@rush-temp/arm-notificationhubs': file:projects/arm-notificationhubs.tgz
   '@rush-temp/arm-operationalinsights': file:projects/arm-operationalinsights.tgz
@@ -202,6 +205,7 @@ dependencies:
   '@rush-temp/communication-identity': file:projects/communication-identity.tgz
   '@rush-temp/communication-network-traversal': file:projects/communication-network-traversal.tgz
   '@rush-temp/communication-phone-numbers': file:projects/communication-phone-numbers.tgz
+  '@rush-temp/communication-short-codes': file:projects/communication-short-codes.tgz
   '@rush-temp/communication-sms': file:projects/communication-sms.tgz
   '@rush-temp/confidential-ledger': file:projects/confidential-ledger.tgz
   '@rush-temp/container-registry': file:projects/container-registry.tgz
@@ -712,6 +716,31 @@ packages:
       tslib: 2.3.1
     dev: false
 
+  /@azure/core-xml/1.0.0:
+    resolution: {integrity: sha512-VSM3wQomzRZk4SnDK5vKaROON/d3hgfl+D/pfLjpGR8gxRGuO0I8R+Rp/qj6Cq3x7HPgUqrii3/s/RRwDWWdvQ==}
+    engines: {node: '>=12.0.0'}
+    dependencies:
+      tslib: 2.3.1
+      xml2js: 0.4.23
+    dev: false
+
+  /@azure/data-tables/12.1.2:
+    resolution: {integrity: sha512-eGldbkw9UjzrAXzy28/raKauQEjspG1FAHxWI/kEInkFm9mvs5uR2KGEGlQNYfz6pzcCOrsxHlh+pmWKuIgPSQ==}
+    engines: {node: '>=12.0.0'}
+    dependencies:
+      '@azure/core-auth': 1.3.2
+      '@azure/core-client': 1.3.2
+      '@azure/core-paging': 1.2.0
+      '@azure/core-rest-pipeline': 1.3.1
+      '@azure/core-tracing': 1.0.0-preview.13
+      '@azure/core-xml': 1.0.0
+      '@azure/logger': 1.0.3
+      tslib: 2.3.1
+      uuid: 8.3.2
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@azure/event-hubs/2.1.4:
     resolution: {integrity: sha512-CxaMaEjwtsmIhWtjHyGimKO7RmES0YxPqGQ9+jKqGygNlhG5NYHktDaiQu6w7k3g+I51VaLXtVSt+BVFd6VWfQ==}
     dependencies:
@@ -1161,6 +1190,18 @@ packages:
       '@azure/core-tracing': 1.0.0-preview.13
       '@azure/logger': 1.0.3
       events: 3.3.0
+      tslib: 2.3.1
+    dev: false
+
+  /@azure/storage-queue/12.7.0:
+    resolution: {integrity: sha512-yS27do9Dn3ohaOHWIwZfyu+I3gG0QJWNCl+qTLmsyWxBz5KO3O+clQ+NYo9tvovPBkBftf3kY2K705AeH0o0SQ==}
+    engines: {node: '>=12.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.0.4
+      '@azure/core-http': 2.2.1
+      '@azure/core-paging': 1.2.0
+      '@azure/core-tracing': 1.0.0-preview.13
+      '@azure/logger': 1.0.3
       tslib: 2.3.1
     dev: false
 
@@ -1621,7 +1662,6 @@ packages:
   /@opentelemetry/node/0.22.0_@opentelemetry+api@1.0.3:
     resolution: {integrity: sha512-+HhGbDruQ7cwejVOIYyxRa28uosnG8W95NiQZ6qE8PXXPsDSyGeftAPbtYpGit0H2f5hrVcMlwmWHeAo9xkSLA==}
     engines: {node: '>=8.0.0'}
-    deprecated: Package renamed to @opentelemetry/sdk-trace-node
     peerDependencies:
       '@opentelemetry/api': ^1.0.0
     dependencies:
@@ -8808,7 +8848,6 @@ packages:
     name: '@rush-temp/arm-databricks'
     version: 0.0.0
     dependencies:
-      '@azure/identity': 2.0.0-beta.6
       '@microsoft/api-extractor': 7.7.11
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
@@ -9012,7 +9051,6 @@ packages:
     name: '@rush-temp/arm-mediaservices'
     version: 0.0.0
     dependencies:
-      '@azure/identity': 2.0.0-beta.6
       '@microsoft/api-extractor': 7.7.11
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
@@ -9026,6 +9064,30 @@ packages:
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.14.2
+    dev: false
+
+  file:projects/arm-mysql.tgz:
+    resolution: {integrity: sha512-/fpHI15jmOE8UhsjAecKWWSJbElYB2ydLFVQhHINJXr0K643e0iUlQ1DK818XNQ1ZLdg6DHeyhn2ARCd4dl2FA==, tarball: file:projects/arm-mysql.tgz}
+    name: '@rush-temp/arm-mysql'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.0.0-beta.6
+      '@microsoft/api-extractor': 7.18.17
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.14.2
+    transitivePeerDependencies:
+      - debug
+      - supports-color
     dev: false
 
   file:projects/arm-network.tgz:
@@ -9054,7 +9116,6 @@ packages:
     name: '@rush-temp/arm-notificationhubs'
     version: 0.0.0
     dependencies:
-      '@azure/identity': 2.0.0-beta.6
       '@microsoft/api-extractor': 7.7.11
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
@@ -9381,7 +9442,6 @@ packages:
     name: '@rush-temp/arm-streamanalytics'
     version: 0.0.0
     dependencies:
-      '@azure/identity': 2.0.0-beta.6
       '@microsoft/api-extractor': 7.18.17
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
@@ -9421,7 +9481,6 @@ packages:
     name: '@rush-temp/arm-videoanalyzer'
     version: 0.0.0
     dependencies:
-      '@azure/identity': 2.0.0-beta.6
       '@microsoft/api-extractor': 7.7.11
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
@@ -9802,6 +9861,65 @@ packages:
       tslib: 2.3.1
       typedoc: 0.15.2
       typescript: 4.2.4
+    transitivePeerDependencies:
+      - bufferutil
+      - debug
+      - supports-color
+      - utf-8-validate
+    dev: false
+
+  file:projects/communication-short-codes.tgz:
+    resolution: {integrity: sha512-imnt2527n581p0dFDDFF7OPOEw5E2SwUpBU2O7fKnkLO2xf3umZ3kpxXNDlIe59pv9X0HK3oR37PaW06i4j8vw==, tarball: file:projects/communication-short-codes.tgz}
+    name: '@rush-temp/communication-short-codes'
+    version: 0.0.0
+    dependencies:
+      '@azure/core-tracing': 1.0.0-preview.13
+      '@azure/identity': 2.0.0-beta.6
+      '@microsoft/api-extractor': 7.7.11
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      '@rollup/plugin-replace': 2.4.2_rollup@1.32.1
+      '@types/chai': 4.2.22
+      '@types/mocha': 7.0.2
+      '@types/node': 12.20.36
+      '@types/sinon': 9.0.11
+      assert: 1.5.0
+      chai: 4.3.4
+      cross-env: 7.0.3
+      dotenv: 8.6.0
+      eslint: 7.32.0
+      events: 3.3.0
+      inherits: 2.0.4
+      karma: 6.3.6
+      karma-chrome-launcher: 3.1.0
+      karma-coverage: 2.0.3
+      karma-edge-launcher: 0.4.2_karma@6.3.6
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 1.3.0
+      karma-ie-launcher: 1.0.0_karma@6.3.6
+      karma-json-preprocessor: 0.3.3_karma@6.3.6
+      karma-json-to-file-reporter: 1.0.1
+      karma-junit-reporter: 2.0.1_karma@6.3.6
+      karma-mocha: 2.0.1
+      karma-mocha-reporter: 2.2.5_karma@6.3.6
+      karma-sourcemap-loader: 0.3.8
+      mocha: 7.2.0
+      mocha-junit-reporter: 1.23.3_mocha@7.2.0
+      nyc: 14.1.1
+      prettier: 1.19.1
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-shim: 1.0.0
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      rollup-plugin-terser: 5.3.1_rollup@1.32.1
+      rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
+      sinon: 9.2.4
+      tslib: 2.3.1
+      typedoc: 0.15.2
+      typescript: 4.2.4
+      uuid: 8.3.2
     transitivePeerDependencies:
       - bufferutil
       - debug
@@ -11126,10 +11244,11 @@ packages:
     dev: false
 
   file:projects/eventhubs-checkpointstore-table.tgz:
-    resolution: {integrity: sha512-xsIGobaWeiDmYlvBXAQmAZ/fmL/mOBPPUBO74Ed7BJv9cYZ1tP6inNyXsJOt0CpUjh5hj88lW057appUKA5xEg==, tarball: file:projects/eventhubs-checkpointstore-table.tgz}
+    resolution: {integrity: sha512-IhmHN33M9hQqwZ716hAQESqAMrKkMV44b/PLCHLKB/HmYodMkI8YHGb9IDcelw6FoAzVarZtyTyfhrvP8sn+MQ==, tarball: file:projects/eventhubs-checkpointstore-table.tgz}
     name: '@rush-temp/eventhubs-checkpointstore-table'
     version: 0.0.0
     dependencies:
+      '@azure/data-tables': 12.1.2
       '@azure/event-hubs': 5.6.0
       '@microsoft/api-extractor': 7.18.17
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
@@ -12015,10 +12134,11 @@ packages:
     dev: false
 
   file:projects/perf-data-tables.tgz:
-    resolution: {integrity: sha512-nnf36UaqbvZtpzM4/bE/A4NrGEuVpNnJ1pUBonlhGJ/ziUJkwztNvQ59vyvoYjz3nWKmVCbfBO6Ic5MHoaaQyA==, tarball: file:projects/perf-data-tables.tgz}
+    resolution: {integrity: sha512-apNC948J1ppaBLAz9gNALEAzb0aMyos+Gnbe9UfU/arGRMnraju1PKslj3867fbC8um2V+Z3W/TWJhsF45dBOw==, tarball: file:projects/perf-data-tables.tgz}
     name: '@rush-temp/perf-data-tables'
     version: 0.0.0
     dependencies:
+      '@azure/data-tables': 12.1.2
       '@types/node': 12.20.36
       '@types/uuid': 8.3.1
       dotenv: 8.6.0
@@ -12227,7 +12347,7 @@ packages:
     dev: false
 
   file:projects/perf-storage-blob.tgz:
-    resolution: {integrity: sha512-EDkYy8D5PFRcRZZt60vsKj+UOlt+30hwAU6fTTN3KyNNS8dcEmxnxoa37aTZmTAkpPpjI0XD5T9DhMMpmv/7Aw==, tarball: file:projects/perf-storage-blob.tgz}
+    resolution: {integrity: sha512-ESkni7JKJO+FHnw9fYjQPqpOCUNwHBfwTHURUK6LJT72fP/Qi6GE17OyHclmA3SazVg/p6csIutTzHFzUxBubA==, tarball: file:projects/perf-storage-blob.tgz}
     name: '@rush-temp/perf-storage-blob'
     version: 0.0.0
     dependencies:
@@ -12272,7 +12392,7 @@ packages:
     dev: false
 
   file:projects/perf-storage-file-share.tgz:
-    resolution: {integrity: sha512-qq+U7/kBjdtkS1PU5ITwqXlKCo8UD7YAy2c9p0OHuom+ZUHMuDUMpSE56Yvjk1lXnWSqaWTg6qXEgL1F05FYDA==, tarball: file:projects/perf-storage-file-share.tgz}
+    resolution: {integrity: sha512-PNnKOA2ikFCo+7GqMnpA57prToxM5+m0mO8EyASiJPjqrr2zQV0lLO6JO+u4hyNNEl2I7P+xfIuFJZ80qZ56lA==, tarball: file:projects/perf-storage-file-share.tgz}
     name: '@rush-temp/perf-storage-file-share'
     version: 0.0.0
     dependencies:
@@ -12541,7 +12661,7 @@ packages:
     dev: false
 
   file:projects/schema-registry-avro.tgz:
-    resolution: {integrity: sha512-0IhlcP/proTB1umjOuS1B5smVrFLTEk6Z8ptaWuuSiAcclQCUmTlllUmfXyHsYFoSF7yUI4yEJ6yFs3GZ16PLQ==, tarball: file:projects/schema-registry-avro.tgz}
+    resolution: {integrity: sha512-iRbvRW1AI8qOZY+dkzisvXFgybYssX9NgChAuqaGV8dltHQaY46PCBwNYepCjB1GbFfVqz4bl4CKtvZ6zhogXQ==, tarball: file:projects/schema-registry-avro.tgz}
     name: '@rush-temp/schema-registry-avro'
     version: 0.0.0
     dependencies:
@@ -12974,7 +13094,7 @@ packages:
     dev: false
 
   file:projects/storage-file-share.tgz:
-    resolution: {integrity: sha512-AMWt1/ZtJpCgZU6rYLFa0R8V5Pf3K8uS3uGxcLdnM10Q7P67PxfaYsUpNVKLiIn7y8dF8ac9ru13m6z7tzJaeA==, tarball: file:projects/storage-file-share.tgz}
+    resolution: {integrity: sha512-p7dhiAVH8TV/4KJQG/VvNUeQCwanCueE7Jfk2zjWOSAQvxEGuwyXnqbfISaj5D1UuL/UgJ9ue31JJycZYYvRRA==, tarball: file:projects/storage-file-share.tgz}
     name: '@rush-temp/storage-file-share'
     version: 0.0.0
     dependencies:
@@ -13667,10 +13787,12 @@ packages:
     dev: false
 
   file:projects/testing-recorder-new.tgz:
-    resolution: {integrity: sha512-aXWcH+zp0ffSDNjWDAAFIQaFBkBRzvWxmFa6D/L8y5EsfIm66bDa6Mu0GcbptpIR8EICXuRI4qsDlcMgHPUWpg==, tarball: file:projects/testing-recorder-new.tgz}
+    resolution: {integrity: sha512-OCBhjzwsaSCN7kbtrP1dr5/vGDD/EOP6PKpBvB6bMr381VLSUfxo7T2WEDmxlOLSIST4o9beuRYn2Bf41ZB3fQ==, tarball: file:projects/testing-recorder-new.tgz}
     name: '@rush-temp/testing-recorder-new'
     version: 0.0.0
     dependencies:
+      '@azure/data-tables': 12.1.2
+      '@azure/storage-queue': 12.7.0
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
       '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1

@@ -427,6 +427,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure-tools/communication-short-codes",
+      "projectFolder": "sdk/communication/communication-short-codes",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/communication-sms",
       "projectFolder": "sdk/communication/communication-sms",
       "versionPolicyName": "client"
@@ -1049,6 +1054,11 @@
     {
       "packageName": "@azure/arm-servicefabric",
       "projectFolder": "sdk/servicefabric/arm-servicefabric",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-mysql",
+      "projectFolder": "sdk/mysql/arm-mysql",
       "versionPolicyName": "management"
     }
   ]
