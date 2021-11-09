@@ -15,7 +15,7 @@ import {
 export const accept: OperationParameter = {
   parameterPath: "accept",
   mapper: {
-    defaultValue: "text/plain; charset=utf-8",
+    defaultValue: "application/json",
     isConstant: true,
     serializedName: "Accept",
     type: {
@@ -36,10 +36,34 @@ export const endpoint: OperationURLParameter = {
   skipEncoding: true
 };
 
-export const schemaId: OperationURLParameter = {
-  parameterPath: "schemaId",
+export const apiVersion: OperationQueryParameter = {
+  parameterPath: "apiVersion",
   mapper: {
-    serializedName: "schema-id",
+    defaultValue: "2021-10",
+    isConstant: true,
+    serializedName: "api-version",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const accept1: OperationParameter = {
+  parameterPath: "accept",
+  mapper: {
+    defaultValue: "application/json; serialization=Avro",
+    isConstant: true,
+    serializedName: "Accept",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const id: OperationURLParameter = {
+  parameterPath: "id",
+  mapper: {
+    serializedName: "id",
     required: true,
     type: {
       name: "String"
@@ -47,12 +71,26 @@ export const schemaId: OperationURLParameter = {
   }
 };
 
-export const apiVersion: OperationQueryParameter = {
-  parameterPath: "apiVersion",
+export const groupName: OperationURLParameter = {
+  parameterPath: "groupName",
   mapper: {
-    defaultValue: "2020-09-01-preview",
-    isConstant: true,
-    serializedName: "api-version",
+    serializedName: "groupName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const schemaName: OperationURLParameter = {
+  parameterPath: "schemaName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[A-Za-z0-9][A-Za-z0-9_-]*$"),
+      MaxLength: 50
+    },
+    serializedName: "schemaName",
+    required: true,
     type: {
       name: "String"
     }
@@ -62,7 +100,7 @@ export const apiVersion: OperationQueryParameter = {
 export const contentType: OperationParameter = {
   parameterPath: ["options", "contentType"],
   mapper: {
-    defaultValue: "text/plain; charset=utf-8",
+    defaultValue: "application/json; serialization=Avro",
     isConstant: true,
     serializedName: "Content-Type",
     type: {
@@ -77,50 +115,17 @@ export const schemaContent: OperationParameter = {
     serializedName: "schemaContent",
     required: true,
     type: {
-      name: "String"
+      name: "Stream"
     }
   }
 };
 
-export const accept1: OperationParameter = {
+export const accept2: OperationParameter = {
   parameterPath: "accept",
   mapper: {
     defaultValue: "application/json",
     isConstant: true,
     serializedName: "Accept",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const groupName: OperationURLParameter = {
-  parameterPath: "groupName",
-  mapper: {
-    serializedName: "group-name",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const schemaName: OperationURLParameter = {
-  parameterPath: "schemaName",
-  mapper: {
-    serializedName: "schema-name",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const serializationType: OperationParameter = {
-  parameterPath: "serializationType",
-  mapper: {
-    serializedName: "Serialization-Type",
-    required: true,
     type: {
       name: "String"
     }

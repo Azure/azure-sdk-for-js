@@ -25,6 +25,37 @@ if (isLiveMode()) {
   authModes.push("SASToken");
 }
 
+describe("special characters", () => {
+  it("should handle partition and row keys with special chars", async function(this: Context) {
+    if (!isLiveMode()) {
+      // Currently the recorder is having issues with the encoding of single qoutes in the
+      // query request and generates invalid JS code. Disabling this test on playback mode
+      // while these issues are resolved. #18534
+      this.skip();
+    }
+    const client = createTableClient(`SpecialChars`);
+    await client.createTable();
+
+    try {
+      const partitionKey = "A'aaa_bbbb2\"";
+      const rowKey = `"A'aaa_bbbb2`;
+      const expectedValue = `"A'aaa_bbbb2`;
+      await client.createEntity({
+        partitionKey,
+        rowKey,
+        test: expectedValue
+      });
+
+      const entity = await client.getEntity(partitionKey, rowKey);
+      assert.equal(entity.partitionKey, partitionKey);
+      assert.equal(entity.rowKey, rowKey);
+      assert.equal(entity.test, expectedValue);
+    } finally {
+      await client.deleteTable();
+    }
+  });
+});
+
 // Run the test against each of the supported auth modes
 authModes.forEach((authMode) => {
   describe(`TableClient ${authMode}`, () => {

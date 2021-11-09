@@ -65,7 +65,7 @@ describe("Can handle connect event", function() {
     assert.isTrue(endSpy.notCalled);
   });
 
-  it("Should response with 401 when option is not specified", async function() {
+  it("Should response with 200 when option is not specified", async function() {
     const endSpy = sinon.spy(res, "end");
     buildRequest(req, "hub", "conn1");
 
@@ -73,10 +73,10 @@ describe("Can handle connect event", function() {
     const result = await dispatcher.handleRequest(req, res);
     assert.isTrue(result, "should handle");
     assert.isTrue(endSpy.calledOnce, "should call once");
-    assert.equal(401, res.statusCode, "should be 401");
+    assert.equal(200, res.statusCode, "should be 200");
   });
 
-  it("Should response with 401 when handler is not specified", async function() {
+  it("Should response with 200 when handler is not specified", async function() {
     const endSpy = sinon.spy(res, "end");
     buildRequest(req, "hub", "conn1");
 
@@ -84,7 +84,7 @@ describe("Can handle connect event", function() {
     const result = await dispatcher.handleRequest(req, res);
     assert.isTrue(result, "should handle");
     assert.isTrue(endSpy.calledOnce, "should call once");
-    assert.equal(401, res.statusCode, "should be 401");
+    assert.equal(200, res.statusCode, "should be 200");
   });
 
   it("Should response with error when handler returns error", async function() {

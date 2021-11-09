@@ -13,7 +13,7 @@ import { SchemaRegistryClient, SchemaDescription, SchemaProperties } from "../..
 
 const options = {
   onResponse: (rawResponse: { status: number }) => {
-    assert.equal(rawResponse.status, 200);
+    assert.equal(rawResponse.status, 204);
   }
 };
 
@@ -129,8 +129,11 @@ describe("SchemaRegistryClient", function() {
   it("gets schema by ID", async () => {
     const registered = await client.registerSchema(schema, options);
     assertIsValidSchemaId(registered);
-
-    const found = await client.getSchema(registered.id, options);
+    const found = await client.getSchema(registered.id, {
+      onResponse: (rawResponse: { status: number }) => {
+        assert.equal(rawResponse.status, 200);
+      }
+    });
     assertIsValidSchemaId(found);
     assert.equal(found.schemaDefinition, schema.schemaDefinition);
   });

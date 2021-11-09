@@ -10,7 +10,7 @@ https://github.com/Azure/azure-rest-api-specs/pull/10220 is merged.
 ```yaml
 v3: true
 package-name: "@azure/schema-registry"
-package-version: 1.0.0-beta.3
+package-version: 1.0.0
 title: GeneratedSchemaRegistryClient
 description: Generated Schema Registry Client
 generate-metadata: false
@@ -18,7 +18,7 @@ add-credentials: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src/generated
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/1e23d91e875e4464e57667639e06408cef99868d/specification/schemaregistry/data-plane/Microsoft.EventHub/preview/2020-09-01-preview/schemaregistry.json
+input-file: https://github.com/Azure/azure-rest-api-specs/blob/main/specification/schemaregistry/data-plane/Microsoft.EventHub/stable/2021-10/schemaregistry.json
 typescript: true
 ```
 

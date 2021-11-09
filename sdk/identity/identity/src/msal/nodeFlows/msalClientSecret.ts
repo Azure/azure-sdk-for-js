@@ -4,7 +4,7 @@
 import { AccessToken } from "@azure/core-auth";
 
 import { CredentialFlowGetTokenOptions } from "../credentials";
-import { MsalNodeOptions, MsalNode } from "./nodeCommon";
+import { MsalNodeOptions, MsalNode } from "./msalNodeCommon";
 
 /**
  * Options that can be passed to configure MSAL to handle client secrets.
@@ -37,7 +37,8 @@ export class MsalClientSecret extends MsalNode {
         scopes,
         correlationId: options.correlationId,
         azureRegion: this.azureRegion,
-        authority: options.authority
+        authority: options.authority,
+        claims: options.claims
       });
       // The Client Credential flow does not return an account,
       // so each time getToken gets called, we will have to acquire a new token through the service.

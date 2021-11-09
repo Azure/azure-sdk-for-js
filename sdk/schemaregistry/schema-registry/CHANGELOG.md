@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0-beta.4 (Unreleased)
+## 1.0.0 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,8 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+- This is the initial general availability release of the schema registry package and the API version defaults to 2021-10.
 
 ## 1.0.0-beta.3 (2021-10-05)
 

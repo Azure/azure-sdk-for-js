@@ -1,0 +1,25 @@
+{
+  "extends": "../../../tsconfig.package",
+  "compilerOptions": {
+    "outDir": "./dist-esm",
+    "declarationDir": "./types",
+    "paths": {
+      "@azure-rest/synapse-access-control": [
+        "./src/index"
+      ]
+    }
+  },
+  "include": [
+    "src/**/*.ts",
+    "test/**/*.ts",
+    "samples-dev/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "types",
+    "temp",
+    "browser",
+    "dist*",
+    "./dom-shims.d.ts"
+  ]
+}

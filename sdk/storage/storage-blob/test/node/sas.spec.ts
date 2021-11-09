@@ -25,12 +25,13 @@ import {
 } from "../../src";
 import {
   getBSU,
+  getEncryptionScope_1,
   getImmutableContainerName,
   getTokenBSUWithDefaultCredential,
   recorderEnvSetup,
   sleep
 } from "../utils";
-import { delay, record, Recorder } from "@azure-tools/test-recorder";
+import { delay, isLiveMode, record, Recorder } from "@azure-tools/test-recorder";
 import { SERVICE_VERSION } from "../../src/utils/constants";
 import { Context } from "mocha";
 
@@ -74,8 +75,46 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const sasClient = `${blobServiceClient.url}?${sas}`;
     const serviceClientWithSAS = new BlobServiceClient(sasClient, newPipeline());
-
     await serviceClientWithSAS.getAccountInfo();
+  });
+
+  it("generateAccountSASQueryParameters should work with permanentDelete permission", async function(this: Context) {
+    if (isLiveMode()) {
+      // Skip this test case util it's supported in production environment. -- STG79
+      this.skip();
+    }
+    const now = recorder.newDate("now");
+    now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
+
+    const tmr = recorder.newDate("tmr");
+    tmr.setDate(tmr.getDate() + 1);
+
+    // By default, credential is always the last element of pipeline factories
+    const factories = (blobServiceClient as any).pipeline.factories;
+    const sharedKeyCredential = factories[factories.length - 1];
+
+    const sas = generateAccountSASQueryParameters(
+      {
+        expiresOn: tmr,
+        ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+        permissions: AccountSASPermissions.parse("rwdlacupy"),
+        protocol: SASProtocol.HttpsAndHttp,
+        resourceTypes: AccountSASResourceTypes.parse("sco").toString(),
+        services: AccountSASServices.parse("btqf").toString(),
+        startsOn: now
+      },
+      sharedKeyCredential as StorageSharedKeyCredential
+    ).toString();
+
+    const sasClient = `${blobServiceClient.url}?${sas}`;
+    const serviceClientWithSAS = new BlobServiceClient(sasClient, newPipeline());
+    const containerName = recorder.getUniqueName("container");
+    const containerClient = serviceClientWithSAS.getContainerClient(containerName);
+    await containerClient.create();
+    const blobName = recorder.getUniqueName("blobname");
+    const appendBlobClient = containerClient.getAppendBlobClient(blobName);
+    await appendBlobClient.create();
+    await appendBlobClient.delete();
   });
 
   it("generateAccountSASQueryParameters should not work with invalid permission", async () => {
@@ -183,6 +222,61 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     assert.ok(error);
   });
 
+  it("generateAccountSASQueryParameters should work with encryption scope", async function(this: Context) {
+    if (isLiveMode()) {
+      // Skip this test case util it's supported in production environment. -- STG79
+      this.skip();
+    }
+
+    let encryptionScopeName: string;
+    try {
+      encryptionScopeName = getEncryptionScope_1();
+    } catch {
+      this.skip();
+    }
+
+    const now = recorder.newDate("now");
+    now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
+
+    const tmr = recorder.newDate("tmr");
+    tmr.setDate(tmr.getDate() + 1);
+
+    // By default, credential is always the last element of pipeline factories
+    const factories = (blobServiceClient as any).pipeline.factories;
+    const sharedKeyCredential = factories[factories.length - 1];
+
+    const sas = generateAccountSASQueryParameters(
+      {
+        expiresOn: tmr,
+        ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+        permissions: AccountSASPermissions.parse("rwdlacup"),
+        protocol: SASProtocol.HttpsAndHttp,
+        resourceTypes: AccountSASResourceTypes.parse("sco").toString(),
+        services: AccountSASServices.parse("btqf").toString(),
+        startsOn: now,
+        encryptionScope: encryptionScopeName
+      },
+      sharedKeyCredential as StorageSharedKeyCredential
+    ).toString();
+
+    const sasClient = `${blobServiceClient.url}?${sas}`;
+    const serviceClientWithSAS = new BlobServiceClient(sasClient, newPipeline());
+
+    const containerName = recorder.getUniqueName("container");
+    const containerClient = blobServiceClient.getContainerClient(containerName);
+    await containerClient.create();
+
+    const appendBlobName = recorder.getUniqueName("appendblob");
+    const appendBlobClient = serviceClientWithSAS
+      .getContainerClient(containerName)
+      .getAppendBlobClient(appendBlobName);
+    await appendBlobClient.create({
+      encryptionScope: encryptionScopeName
+    });
+
+    await containerClient.delete();
+  });
+
   it("generateBlobSASQueryParameters should work for container", async () => {
     const now = recorder.newDate("now");
     now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
@@ -225,6 +319,61 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     ).value;
     assert.ok(result.serviceEndpoint.length > 0);
     assert.deepStrictEqual(result.continuationToken, "");
+    await containerClient.delete();
+  });
+
+  it("generateBlobSASQueryParameters should work with encryption scope for container", async function(this: Context) {
+    if (isLiveMode()) {
+      // Skip this test case util it's supported in production environment. -- STG79
+      this.skip();
+    }
+
+    let encryptionScopeName: string;
+    try {
+      encryptionScopeName = getEncryptionScope_1();
+    } catch {
+      this.skip();
+    }
+
+    const now = recorder.newDate("now");
+    now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
+
+    const tmr = recorder.newDate("tmr");
+    tmr.setDate(tmr.getDate() + 1);
+
+    // By default, credential is always the last element of pipeline factories
+    const factories = (blobServiceClient as any).pipeline.factories;
+    const sharedKeyCredential = factories[factories.length - 1];
+
+    const containerName = recorder.getUniqueName("container");
+    const containerClient = blobServiceClient.getContainerClient(containerName);
+    await containerClient.create();
+
+    const containerSAS = generateBlobSASQueryParameters(
+      {
+        containerName: containerClient.containerName,
+        expiresOn: tmr,
+        ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+        permissions: ContainerSASPermissions.parse("racwdl"),
+        protocol: SASProtocol.HttpsAndHttp,
+        startsOn: now,
+        version: "2020-12-06",
+        encryptionScope: encryptionScopeName
+      },
+      sharedKeyCredential as StorageSharedKeyCredential
+    );
+
+    const sasClient = `${containerClient.url}?${containerSAS}`;
+    const containerClientWithSAS = new ContainerClient(
+      sasClient,
+      newPipeline(new AnonymousCredential())
+    );
+
+    const appendBlobName = recorder.getUniqueName("appendblob");
+    const appendBlobClient = containerClientWithSAS.getAppendBlobClient(appendBlobName);
+    await appendBlobClient.create({
+      encryptionScope: encryptionScopeName
+    });
     await containerClient.delete();
   });
 
@@ -325,6 +474,117 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const sasURL = `${blobClient.url}?${blobSAS}`;
     const blobClientWithSAS = new PageBlobClient(sasURL, newPipeline(new AnonymousCredential()));
+
+    const properties = await blobClientWithSAS.getProperties();
+    assert.equal(properties.cacheControl, "cache-control-override");
+    assert.equal(properties.contentDisposition, "content-disposition-override");
+    assert.equal(properties.contentEncoding, "content-encoding-override");
+    assert.equal(properties.contentLanguage, "content-language-override");
+    assert.equal(properties.contentType, "content-type-override");
+
+    await containerClient.delete();
+  });
+
+  it("generateBlobSASQueryParameters should work for blob with permanentDelete permission", async function(this: Context) {
+    if (isLiveMode()) {
+      // Skip this test case util it's supported in production environment. -- STG79
+      this.skip();
+    }
+
+    const now = recorder.newDate("now");
+    now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
+
+    const tmr = recorder.newDate("tmr");
+    tmr.setDate(tmr.getDate() + 1);
+
+    // By default, credential is always the last element of pipeline factories
+    const factories = (blobServiceClient as any).pipeline.factories;
+    const sharedKeyCredential = factories[factories.length - 1];
+
+    const containerName = recorder.getUniqueName("container");
+    const containerClient = blobServiceClient.getContainerClient(containerName);
+    await containerClient.create();
+
+    const blobName = recorder.getUniqueName("blob");
+    const blobClient = containerClient.getPageBlobClient(blobName);
+    await blobClient.create(1024);
+
+    const blobSAS = generateBlobSASQueryParameters(
+      {
+        blobName: blobClient.name,
+        containerName: blobClient.containerName,
+        expiresOn: tmr,
+        ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+        permissions: BlobSASPermissions.parse("racwdy"),
+        protocol: SASProtocol.HttpsAndHttp,
+        startsOn: now
+      },
+      sharedKeyCredential as StorageSharedKeyCredential
+    );
+
+    const sasURL = `${blobClient.url}?${blobSAS}`;
+    const blobClientWithSAS = new PageBlobClient(sasURL, newPipeline(new AnonymousCredential()));
+    await blobClientWithSAS.delete();
+
+    await containerClient.delete();
+  });
+
+  it("generateBlobSASQueryParameters should work with encryption scope for blob", async function(this: Context) {
+    if (isLiveMode()) {
+      // Skip this test case util it's supported in production environment. -- STG79
+      this.skip();
+    }
+
+    let encryptionScopeName: string;
+    try {
+      encryptionScopeName = getEncryptionScope_1();
+    } catch {
+      this.skip();
+    }
+
+    const now = recorder.newDate("now");
+    now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
+
+    const tmr = recorder.newDate("tmr");
+    tmr.setDate(tmr.getDate() + 1);
+
+    // By default, credential is always the last element of pipeline factories
+    const factories = (blobServiceClient as any).pipeline.factories;
+    const sharedKeyCredential = factories[factories.length - 1];
+
+    const containerName = recorder.getUniqueName("container");
+    const containerClient = blobServiceClient.getContainerClient(containerName);
+    await containerClient.create();
+
+    const blobName = recorder.getUniqueName("blob");
+    const blobClient = containerClient.getPageBlobClient(blobName);
+
+    const blobSAS = generateBlobSASQueryParameters(
+      {
+        blobName: blobClient.name,
+        cacheControl: "cache-control-override",
+        containerName: blobClient.containerName,
+        contentDisposition: "content-disposition-override",
+        contentEncoding: "content-encoding-override",
+        contentLanguage: "content-language-override",
+        contentType: "content-type-override",
+        expiresOn: tmr,
+        ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+        permissions: BlobSASPermissions.parse("racwd"),
+        protocol: SASProtocol.HttpsAndHttp,
+        startsOn: now
+      },
+      sharedKeyCredential as StorageSharedKeyCredential
+    );
+
+    const sasURL = `${blobClient.url}?${blobSAS}`;
+    const blobClientWithSAS = new PageBlobClient(sasURL, newPipeline(new AnonymousCredential()));
+    await blobClientWithSAS.create(1024, {
+      blobHTTPHeaders: {
+        blobContentType: "content-type-original"
+      },
+      encryptionScope: encryptionScopeName
+    });
 
     const properties = await blobClientWithSAS.getProperties();
     assert.equal(properties.cacheControl, "cache-control-override");
@@ -509,6 +769,58 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     assert.equal(properties.contentLanguage, "content-language-override");
     assert.equal(properties.contentType, "content-type-override");
 
+    await containerClient.delete();
+  });
+
+  it("generateBlobSASQueryParameters should work for blob snapshot with permanentDelete permission", async function(this: Context) {
+    if (isLiveMode()) {
+      // Skip this test case util it's supported in production environment. -- STG79
+      this.skip();
+    }
+
+    const now = recorder.newDate("now");
+    now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
+
+    const tmr = recorder.newDate("tmr");
+    tmr.setDate(tmr.getDate() + 1);
+
+    // By default, credential is always the last element of pipeline factories
+    const factories = (blobServiceClient as any).pipeline.factories;
+    const sharedKeyCredential = factories[factories.length - 1];
+
+    const containerName = recorder.getUniqueName("container");
+    const containerClient = blobServiceClient.getContainerClient(containerName);
+    await containerClient.create();
+
+    const blobName = recorder.getUniqueName("blob");
+    const blobClient = containerClient.getPageBlobClient(blobName);
+    await blobClient.create(1024);
+
+    const response = await blobClient.createSnapshot();
+
+    const blobSAS = generateBlobSASQueryParameters(
+      {
+        blobName: blobClient.name,
+        cacheControl: "cache-control-override",
+        containerName: blobClient.containerName,
+        contentDisposition: "content-disposition-override",
+        contentEncoding: "content-encoding-override",
+        contentLanguage: "content-language-override",
+        contentType: "content-type-override",
+        expiresOn: tmr,
+        ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+        permissions: BlobSASPermissions.parse("racwdy"),
+        protocol: SASProtocol.HttpsAndHttp,
+        startsOn: now,
+        snapshotTime: response.snapshot
+      },
+      sharedKeyCredential as StorageSharedKeyCredential
+    );
+
+    const sasURL = `${blobClient.withSnapshot(response.snapshot!).url}&${blobSAS}`;
+    const blobClientWithSAS = new PageBlobClient(sasURL, newPipeline(new AnonymousCredential()));
+
+    await blobClientWithSAS.delete();
     await containerClient.delete();
   });
 
@@ -868,6 +1180,148 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await containerClient.delete();
   });
 
+  it("GenerateUserDelegationSAS should work for blob with permanentDelete permssion", async function(this: Context) {
+    if (isLiveMode()) {
+      // Skip this test case util it's supported in production environment. -- STG79
+      this.skip();
+    }
+    // Try to get blobServiceClient object with DefaultCredential
+    // when AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET environment variables are set
+    let blobServiceClientWithToken: BlobServiceClient | undefined;
+    /* eslint no-empty: ["error", { "allowEmptyCatch": true }] */
+    try {
+      blobServiceClientWithToken = getTokenBSUWithDefaultCredential();
+    } catch {}
+
+    // Requires bearer token for this case which cannot be generated in the runtime
+    // Make sure this case passed in sanity test
+    if (blobServiceClientWithToken === undefined) {
+      this.skip();
+    }
+
+    const now = recorder.newDate("now");
+    now.setHours(now.getHours() - 1);
+    const tmr = recorder.newDate("tmr");
+    tmr.setDate(tmr.getDate() + 1);
+    const userDelegationKey = await blobServiceClientWithToken!.getUserDelegationKey(now, tmr);
+
+    // By default, credential is always the last element of pipeline factories
+    const factories = (blobServiceClient as any).pipeline.factories;
+    const sharedKeyCredential = factories[factories.length - 1] as StorageSharedKeyCredential;
+    const accountName = sharedKeyCredential.accountName;
+
+    const containerName = recorder.getUniqueName("container");
+    const containerClient = blobServiceClient.getContainerClient(containerName);
+    await containerClient.create();
+
+    const blobName = recorder.getUniqueName("blob");
+    const blobClient = containerClient.getPageBlobClient(blobName);
+    await blobClient.create(1024, {
+      blobHTTPHeaders: {
+        blobContentType: "content-type-original"
+      }
+    });
+
+    const blobSAS = generateBlobSASQueryParameters(
+      {
+        blobName: blobClient.name,
+        cacheControl: "cache-control-override",
+        containerName: blobClient.containerName,
+        contentDisposition: "content-disposition-override",
+        contentEncoding: "content-encoding-override",
+        contentLanguage: "content-language-override",
+        contentType: "content-type-override",
+        expiresOn: tmr,
+        ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+        permissions: BlobSASPermissions.parse("racwdy"),
+        protocol: SASProtocol.HttpsAndHttp,
+        startsOn: now
+      },
+      userDelegationKey,
+      accountName
+    );
+
+    const sasClient = `${blobClient.url}?${blobSAS}`;
+    const blobClientWithSAS = new PageBlobClient(sasClient, newPipeline(new AnonymousCredential()));
+
+    await blobClientWithSAS.delete();
+    await containerClient.delete();
+  });
+
+  it("GenerateUserDelegationSAS should work with encryption scope for blob", async function(this: Context) {
+    if (isLiveMode()) {
+      // Skip this test case util it's supported in production environment. -- STG79
+      this.skip();
+    }
+    // Try to get blobServiceClient object with DefaultCredential
+    // when AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET environment variables are set
+    let blobServiceClientWithToken: BlobServiceClient | undefined;
+    /* eslint no-empty: ["error", { "allowEmptyCatch": true }] */
+    try {
+      blobServiceClientWithToken = getTokenBSUWithDefaultCredential();
+    } catch {}
+
+    // Requires bearer token for this case which cannot be generated in the runtime
+    // Make sure this case passed in sanity test
+    if (blobServiceClientWithToken === undefined) {
+      this.skip();
+    }
+
+    let encryptionScopeName: string;
+    try {
+      encryptionScopeName = getEncryptionScope_1();
+    } catch {
+      this.skip();
+    }
+
+    const now = recorder.newDate("now");
+    now.setHours(now.getHours() - 1);
+    const tmr = recorder.newDate("tmr");
+    tmr.setDate(tmr.getDate() + 1);
+    const userDelegationKey = await blobServiceClientWithToken!.getUserDelegationKey(now, tmr);
+
+    // By default, credential is always the last element of pipeline factories
+    const factories = (blobServiceClient as any).pipeline.factories;
+    const sharedKeyCredential = factories[factories.length - 1] as StorageSharedKeyCredential;
+    const accountName = sharedKeyCredential.accountName;
+
+    const containerName = recorder.getUniqueName("container");
+    const containerClient = blobServiceClient.getContainerClient(containerName);
+    await containerClient.create();
+
+    const blobName = recorder.getUniqueName("blob");
+    const blobClient = containerClient.getPageBlobClient(blobName);
+
+    const blobSAS = generateBlobSASQueryParameters(
+      {
+        blobName: blobClient.name,
+        cacheControl: "cache-control-override",
+        containerName: blobClient.containerName,
+        contentDisposition: "content-disposition-override",
+        contentEncoding: "content-encoding-override",
+        contentLanguage: "content-language-override",
+        contentType: "content-type-override",
+        expiresOn: tmr,
+        ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+        permissions: BlobSASPermissions.parse("racwdy"),
+        protocol: SASProtocol.HttpsAndHttp,
+        startsOn: now,
+        encryptionScope: encryptionScopeName
+      },
+      userDelegationKey,
+      accountName
+    );
+
+    const sasClient = `${blobClient.url}?${blobSAS}`;
+    const blobClientWithSAS = new PageBlobClient(sasClient, newPipeline(new AnonymousCredential()));
+    await blobClientWithSAS.create(1024, {
+      encryptionScope: encryptionScopeName
+    });
+
+    await blobClientWithSAS.delete();
+    await containerClient.delete();
+  });
+
   it("GenerateUserDelegationSAS should work for blob snapshot", async function(this: Context) {
     // Try to get blobServiceClient object with DefaultCredential
     // when AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET environment variables are set
@@ -941,6 +1395,73 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await containerClient.delete();
   });
 
+  it("GenerateUserDelegationSAS should work with permanentDelete permission for blob snapshot", async function(this: Context) {
+    if (isLiveMode()) {
+      // Skip this test case util it's supported in production environment. -- STG79
+      this.skip();
+    }
+    // Try to get blobServiceClient object with DefaultCredential
+    // when AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET environment variables are set
+    let blobServiceClientWithToken: BlobServiceClient | undefined;
+    try {
+      blobServiceClientWithToken = getTokenBSUWithDefaultCredential();
+    } catch {
+      this.skip();
+    }
+
+    // Requires bearer token for this case which cannot be generated in the runtime
+    // Make sure this case passed in sanity test
+    if (blobServiceClientWithToken === undefined) {
+      this.skip();
+    }
+
+    const now = recorder.newDate("now");
+    now.setHours(now.getHours() - 1);
+    const tmr = recorder.newDate("tmr");
+    tmr.setDate(tmr.getDate() + 1);
+    const userDelegationKey = await blobServiceClientWithToken!.getUserDelegationKey(now, tmr);
+
+    // By default, credential is always the last element of pipeline factories
+    const factories = (blobServiceClient as any).pipeline.factories;
+    const sharedKeyCredential = factories[factories.length - 1] as StorageSharedKeyCredential;
+    const accountName = sharedKeyCredential.accountName;
+
+    const containerName = recorder.getUniqueName("container");
+    const containerClient = blobServiceClient.getContainerClient(containerName);
+    await containerClient.create();
+
+    const blobName = recorder.getUniqueName("blob");
+    const blobClient = containerClient.getPageBlobClient(blobName);
+    await blobClient.create(1024, {
+      blobHTTPHeaders: {
+        blobContentType: "content-type-original"
+      }
+    });
+
+    const response = await blobClient.createSnapshot();
+
+    const blobSAS = generateBlobSASQueryParameters(
+      {
+        blobName: blobClient.name,
+        containerName: blobClient.containerName,
+        expiresOn: tmr,
+        ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+        permissions: BlobSASPermissions.parse("racwdy"),
+        protocol: SASProtocol.HttpsAndHttp,
+        startsOn: now,
+        snapshotTime: response.snapshot
+      },
+      userDelegationKey,
+      accountName
+    );
+
+    const sasURL = `${blobClient.withSnapshot(response.snapshot!).url}&${blobSAS}`;
+    const blobClientWithSAS = new PageBlobClient(sasURL, newPipeline(new AnonymousCredential()));
+
+    await blobClientWithSAS.delete();
+    await containerClient.delete();
+  });
+
   it("generateAccountSASQueryParameters should work for blob version delete", async function() {
     // create versions
     const containerName = recorder.getUniqueName("container");
@@ -964,6 +1485,53 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         expiresOn: future,
         ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
         permissions: AccountSASPermissions.parse("rwdlacupx"),
+        protocol: SASProtocol.HttpsAndHttp,
+        resourceTypes: AccountSASResourceTypes.parse("sco").toString(),
+        services: AccountSASServices.parse("btqf").toString(),
+        startsOn: now,
+        version: "2019-10-10"
+      },
+      blobServiceClient.credential as StorageSharedKeyCredential
+    ).toString();
+
+    const sasClient = `${blobServiceClient.url}?${sas}`;
+    const serviceClientWithSAS = new BlobServiceClient(
+      sasClient,
+      newPipeline(new AnonymousCredential())
+    );
+    const containerClientwithSAS = serviceClientWithSAS.getContainerClient(containerName);
+    await containerClientwithSAS.deleteBlob(blobName, { versionId: uploadRes.versionId });
+    await containerClientwithSAS.delete();
+  });
+
+  it("generateAccountSASQueryParameters should work for blob version delete with permanentDelete permission", async function(this: Context) {
+    if (isLiveMode()) {
+      // Skip this test case util it's supported in production environment. -- STG79
+      this.skip();
+    }
+
+    // create versions
+    const containerName = recorder.getUniqueName("container");
+    const containerClient = blobServiceClient.getContainerClient(containerName);
+    await containerClient.create();
+    const content = "Hello World";
+    const blobName = recorder.getUniqueName("blob");
+    const blobClient = containerClient.getBlobClient(blobName);
+    const blockBlobClient = blobClient.getBlockBlobClient();
+    const uploadRes = await blockBlobClient.upload(content, content.length);
+    await blockBlobClient.upload("", 0);
+
+    // generate SAS
+    const now = new Date();
+    now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
+    const future = new Date();
+    future.setDate(future.getDate() + 1000);
+
+    const sas = generateAccountSASQueryParameters(
+      {
+        expiresOn: future,
+        ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+        permissions: AccountSASPermissions.parse("rwdlacupxy"),
         protocol: SASProtocol.HttpsAndHttp,
         resourceTypes: AccountSASResourceTypes.parse("sco").toString(),
         services: AccountSASServices.parse("btqf").toString(),
@@ -1027,6 +1595,54 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await containerClient.delete();
   });
 
+  it("generateBlobSASQueryParameters should work for blob version delete with permanentDelete permission", async function(this: Context) {
+    if (isLiveMode()) {
+      // Skip this test case util it's supported in production environment. -- STG79
+      this.skip();
+    }
+    // create versions
+    const containerName = recorder.getUniqueName("container");
+    const containerClient = blobServiceClient.getContainerClient(containerName);
+    await containerClient.create();
+    const content = "Hello World";
+    const blobName = recorder.getUniqueName("blob");
+    const blobClient = containerClient.getBlobClient(blobName);
+    const blockBlobClient = blobClient.getBlockBlobClient();
+    const uploadRes = await blockBlobClient.upload(content, content.length);
+    await blockBlobClient.upload("", 0);
+
+    // generate SAS
+    const now = recorder.newDate("now");
+    now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
+    const tmr = recorder.newDate("tmr");
+    tmr.setDate(tmr.getDate() + 1);
+
+    // By default, credential is always the last element of pipeline factories
+    const factories = (blobServiceClient as any).pipeline.factories;
+    const sharedKeyCredential = factories[factories.length - 1];
+
+    const blobSAS = generateBlobSASQueryParameters(
+      {
+        blobName: blobClient.name,
+        containerName: blobClient.containerName,
+        startsOn: now,
+        expiresOn: tmr,
+        ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+        permissions: BlobSASPermissions.parse("racwdxy"),
+        protocol: SASProtocol.HttpsAndHttp,
+        versionId: uploadRes.versionId
+      },
+      sharedKeyCredential as StorageSharedKeyCredential
+    );
+
+    const sasURL = `${blobClient.withVersion(uploadRes.versionId!).url}&${blobSAS}`;
+    const blobClientWithSAS = new BlobClient(sasURL, newPipeline(new AnonymousCredential()));
+    await blobClientWithSAS.delete();
+    assert.ok(!(await blobClientWithSAS.exists()));
+
+    await containerClient.delete();
+  });
+
   it("GenerateUserDelegationSAS should work for blob version delete", async function(this: Context) {
     // Try to get blobServiceClient object with DefaultCredential
     // when AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET environment variables are set
@@ -1076,6 +1692,68 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         protocol: SASProtocol.HttpsAndHttp,
         versionId: uploadRes.versionId,
         version: "2019-12-12"
+      },
+      userDelegationKey,
+      accountName
+    );
+
+    const sasURL = `${blobClient.withVersion(uploadRes.versionId!).url}&${blobSAS}`;
+    const blobClientWithSAS = new BlobClient(sasURL, newPipeline(new AnonymousCredential()));
+    await blobClientWithSAS.delete();
+    assert.ok(!(await blobClientWithSAS.exists()));
+
+    await containerClient.delete();
+  });
+
+  it("GenerateUserDelegationSAS should work with permanentDelete permission for blob version delete", async function(this: Context) {
+    // Try to get blobServiceClient object with DefaultCredential
+    // when AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET environment variables are set
+    let blobServiceClientWithToken: BlobServiceClient | undefined;
+    try {
+      blobServiceClientWithToken = getTokenBSUWithDefaultCredential();
+    } catch {
+      this.skip();
+    }
+
+    // Requires bearer token for this case which cannot be generated in the runtime
+    // Make sure this case passed in sanity test
+    if (blobServiceClientWithToken === undefined) {
+      this.skip();
+    }
+
+    // create versions
+    const containerName = recorder.getUniqueName("container");
+    const containerClient = blobServiceClient.getContainerClient(containerName);
+    await containerClient.create();
+    const content = "Hello World";
+    const blobName = recorder.getUniqueName("blob");
+    const blobClient = containerClient.getBlobClient(blobName);
+    const blockBlobClient = blobClient.getBlockBlobClient();
+    const uploadRes = await blockBlobClient.upload(content, content.length);
+    await blockBlobClient.upload("", 0);
+
+    // generate SAS
+    const now = recorder.newDate("now");
+    now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
+    const tmr = recorder.newDate("tmr");
+    tmr.setDate(tmr.getDate() + 1);
+
+    // By default, credential is always the last element of pipeline factories
+    const factories = (blobServiceClient as any).pipeline.factories;
+    const sharedKeyCredential = factories[factories.length - 1];
+    const accountName = sharedKeyCredential.accountName;
+    const userDelegationKey = await blobServiceClientWithToken!.getUserDelegationKey(now, tmr);
+
+    const blobSAS = generateBlobSASQueryParameters(
+      {
+        blobName: blobClient.name,
+        containerName: blobClient.containerName,
+        startsOn: now,
+        expiresOn: tmr,
+        ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+        permissions: BlobSASPermissions.parse("racwdxy"),
+        protocol: SASProtocol.HttpsAndHttp,
+        versionId: uploadRes.versionId
       },
       userDelegationKey,
       accountName
@@ -1343,6 +2021,88 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await serviceClientWithDefaultSAS.getProperties();
   });
 
+  it("generateAccountSasUrl with encryption scope", async function(this: Context) {
+    if (isLiveMode()) {
+      // Skip this test case util it's supported in production environment. -- STG79
+      this.skip();
+    }
+
+    let encryptionScopeName: string;
+    try {
+      encryptionScopeName = getEncryptionScope_1();
+    } catch {
+      this.skip();
+    }
+
+    const now = recorder.newDate("now");
+    now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
+
+    const tmr = recorder.newDate("tmr");
+    tmr.setDate(tmr.getDate() + 1);
+    const containerName = recorder.getUniqueName("container");
+    const containerClient = blobServiceClient.getContainerClient(containerName);
+    await containerClient.create();
+
+    const sasURL = blobServiceClient.generateAccountSasUrl(
+      tmr,
+      AccountSASPermissions.parse("rwdlacupx"),
+      AccountSASResourceTypes.parse("sco").toString(),
+      {
+        protocol: SASProtocol.HttpsAndHttp,
+        ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+        startsOn: now,
+        encryptionScope: encryptionScopeName
+      }
+    );
+
+    const serviceClientWithSAS = new BlobServiceClient(sasURL);
+    const blobName = recorder.getUniqueName("appendblob");
+    const blobClientWithSAS = serviceClientWithSAS
+      .getContainerClient(containerName)
+      .getAppendBlobClient(blobName);
+    await blobClientWithSAS.create({
+      encryptionScope: encryptionScopeName
+    });
+
+    await containerClient.delete();
+  });
+
+  it("generateAccountSasUrl with permanentDelete permission", async function(this: Context) {
+    if (isLiveMode()) {
+      // Skip this test case util it's supported in production environment. -- STG79
+      this.skip();
+    }
+    const now = recorder.newDate("now");
+    now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
+
+    const tmr = recorder.newDate("tmr");
+    tmr.setDate(tmr.getDate() + 1);
+    const containerName = recorder.getUniqueName("container");
+    const containerClient = blobServiceClient.getContainerClient(containerName);
+    await containerClient.create();
+
+    const sasURL = blobServiceClient.generateAccountSasUrl(
+      tmr,
+      AccountSASPermissions.parse("rwdlacupxy"),
+      AccountSASResourceTypes.parse("sco").toString(),
+      {
+        protocol: SASProtocol.HttpsAndHttp,
+        ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+        startsOn: now
+      }
+    );
+
+    const serviceClientWithSAS = new BlobServiceClient(sasURL);
+    const blobName = recorder.getUniqueName("appendblob");
+    const blobClientWithSAS = serviceClientWithSAS
+      .getContainerClient(containerName)
+      .getAppendBlobClient(blobName);
+    await blobClientWithSAS.create();
+    await blobClientWithSAS.delete();
+
+    await containerClient.delete();
+  });
+
   it("ContainerClient.generateSasUrl", async () => {
     const now = recorder.newDate("now");
     now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
@@ -1377,6 +2137,48 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     } catch (err) {
       assert.ok(err instanceof RangeError);
     }
+
+    await containerClient.delete();
+  });
+
+  it("ContainerClient.generateSasUrl with encryption scope", async function(this: Context) {
+    if (isLiveMode()) {
+      // Skip this test case util it's supported in production environment. -- STG79
+      this.skip();
+    }
+    let encryptionScopeName: string;
+    try {
+      encryptionScopeName = getEncryptionScope_1();
+    } catch {
+      this.skip();
+    }
+
+    const now = recorder.newDate("now");
+    now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
+
+    const tmr = recorder.newDate("tmr");
+    tmr.setDate(tmr.getDate() + 1);
+
+    const containerName = recorder.getUniqueName("container");
+    const containerClient = blobServiceClient.getContainerClient(containerName);
+    await containerClient.create();
+
+    const sasURL = await containerClient.generateSasUrl({
+      expiresOn: tmr,
+      ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+      permissions: ContainerSASPermissions.parse("racwdl"),
+      protocol: SASProtocol.HttpsAndHttp,
+      startsOn: now,
+      encryptionScope: encryptionScopeName
+    });
+
+    const containerClientWithSAS = new ContainerClient(sasURL);
+
+    const appendBlobName = recorder.getUniqueName("appendblob");
+    const appendBlobClient = containerClientWithSAS.getAppendBlobClient(appendBlobName);
+    await appendBlobClient.create({
+      encryptionScope: encryptionScopeName
+    });
 
     await containerClient.delete();
   });
@@ -1420,6 +2222,80 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     assert.equal(properties.contentEncoding, "content-encoding-override");
     assert.equal(properties.contentLanguage, "content-language-override");
     assert.equal(properties.contentType, "content-type-override");
+
+    await containerClient.delete();
+  });
+
+  it("BlobClient.generateSasUrl should work with encryption scope for blob", async function(this: Context) {
+    if (isLiveMode()) {
+      // Skip this test case util it's supported in production environment. -- STG79
+      this.skip();
+    }
+    let encryptionScopeName: string;
+    try {
+      encryptionScopeName = getEncryptionScope_1();
+    } catch {
+      this.skip();
+    }
+    const now = recorder.newDate("now");
+    now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
+
+    const tmr = recorder.newDate("tmr");
+    tmr.setDate(tmr.getDate() + 1);
+
+    const containerName = recorder.getUniqueName("container");
+    const containerClient = blobServiceClient.getContainerClient(containerName);
+    await containerClient.create();
+
+    const blobName = recorder.getUniqueName("blob");
+    const blobClient = containerClient.getPageBlobClient(blobName);
+
+    const sasURL = await blobClient.generateSasUrl({
+      expiresOn: tmr,
+      ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+      permissions: BlobSASPermissions.parse("racwd"),
+      protocol: SASProtocol.HttpsAndHttp,
+      startsOn: now,
+      encryptionScope: encryptionScopeName
+    });
+    const blobClientWithSAS = new PageBlobClient(sasURL, newPipeline(new AnonymousCredential()));
+
+    await blobClientWithSAS.create(1024, {
+      encryptionScope: encryptionScopeName
+    });
+
+    await containerClient.delete();
+  });
+
+  it("BlobClient.generateSasUrl should work with permanentDelete permission for blob", async function(this: Context) {
+    if (isLiveMode()) {
+      // Skip this test case util it's supported in production environment. -- STG79
+      this.skip();
+    }
+    const now = recorder.newDate("now");
+    now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
+
+    const tmr = recorder.newDate("tmr");
+    tmr.setDate(tmr.getDate() + 1);
+
+    const containerName = recorder.getUniqueName("container");
+    const containerClient = blobServiceClient.getContainerClient(containerName);
+    await containerClient.create();
+
+    const blobName = recorder.getUniqueName("blob");
+    const blobClient = containerClient.getPageBlobClient(blobName);
+
+    const sasURL = await blobClient.generateSasUrl({
+      expiresOn: tmr,
+      ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+      permissions: BlobSASPermissions.parse("racwdy"),
+      protocol: SASProtocol.HttpsAndHttp,
+      startsOn: now
+    });
+    const blobClientWithSAS = new PageBlobClient(sasURL, newPipeline(new AnonymousCredential()));
+
+    await blobClientWithSAS.create(1024);
+    await blobClientWithSAS.delete();
 
     await containerClient.delete();
   });
@@ -1496,6 +2372,95 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const sasURL = await blobClientWithVersion.generateSasUrl({
       expiresOn: tmr,
       permissions: BlobSASPermissions.parse("racwdx")
+    });
+    const blobClientWithVersionIdAndSAS = new PageBlobClient(
+      sasURL,
+      newPipeline(new AnonymousCredential())
+    );
+
+    const properties = await blobClientWithVersionIdAndSAS.getProperties();
+    assert.deepStrictEqual(properties.versionId, uploadRes.versionId);
+
+    // delete version
+    await blobClientWithVersionIdAndSAS.delete();
+    assert.ok(!(await blobClientWithVersionIdAndSAS.exists()));
+    assert.ok(await blockBlobClient.exists());
+    await containerClient.delete();
+  });
+
+  it("BlobClient.generateSasUrl should work for blob snapshot with permanentDelete permission", async function(this: Context) {
+    if (isLiveMode()) {
+      // Skip this test case util it's supported in production environment. -- STG79
+      this.skip();
+    }
+    const now = recorder.newDate("now");
+    now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
+
+    const tmr = recorder.newDate("tmr");
+    tmr.setDate(tmr.getDate() + 1);
+
+    const containerName = recorder.getUniqueName("container");
+    const containerClient = blobServiceClient.getContainerClient(containerName);
+    await containerClient.create();
+    const blobName = recorder.getUniqueName("blob");
+    const blobClient = containerClient.getPageBlobClient(blobName);
+    await blobClient.create(1024, {
+      blobHTTPHeaders: {
+        blobContentType: "content-type-original"
+      }
+    });
+
+    const createSnapshotRes = await blobClient.createSnapshot();
+    const blobClientWithSnapshot = blobClient.withSnapshot(createSnapshotRes.snapshot!);
+
+    await blobClient.setHTTPHeaders({
+      blobContentType: "content-type-original1"
+    });
+
+    const sasURL = await blobClientWithSnapshot.generateSasUrl({
+      cacheControl: "cache-control-override",
+      contentDisposition: "content-disposition-override",
+      contentEncoding: "content-encoding-override",
+      contentLanguage: "content-language-override",
+      contentType: "content-type-override",
+      expiresOn: tmr,
+      ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+      permissions: BlobSASPermissions.parse("racwdy"),
+      protocol: SASProtocol.HttpsAndHttp,
+      startsOn: now
+    });
+
+    const blobClientWithSnapshotAndSAS = new PageBlobClient(
+      sasURL,
+      newPipeline(new AnonymousCredential())
+    );
+
+    await blobClientWithSnapshotAndSAS.delete();
+    await containerClient.delete();
+  });
+
+  it("BlobClient.generateSasUrl should work for blob version with permanentDelete permission", async function(this: Context) {
+    if (isLiveMode()) {
+      // Skip this test case util it's supported in production environment. -- STG79
+      this.skip();
+    }
+    // create versions
+    const containerName = recorder.getUniqueName("container");
+    const containerClient = blobServiceClient.getContainerClient(containerName);
+    await containerClient.create();
+    const content = "Hello World";
+    const blobName = recorder.getUniqueName("blob");
+    const blockBlobClient = containerClient.getBlockBlobClient(blobName);
+    const uploadRes = await blockBlobClient.upload(content, content.length);
+    await blockBlobClient.upload("", 0);
+    const blobClientWithVersion = blockBlobClient.withVersion(uploadRes.versionId!);
+
+    // generate SAS
+    const tmr = recorder.newDate("tmr");
+    tmr.setDate(tmr.getDate() + 1);
+    const sasURL = await blobClientWithVersion.generateSasUrl({
+      expiresOn: tmr,
+      permissions: BlobSASPermissions.parse("racwdxy")
     });
     const blobClientWithVersionIdAndSAS = new PageBlobClient(
       sasURL,

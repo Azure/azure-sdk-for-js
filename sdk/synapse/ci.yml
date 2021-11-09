@@ -28,6 +28,8 @@ extends:
     Artifacts:
       - name: azure-synapse-access-control
         safeName: azuresynapseaccesscontrol
+      - name: azure-rest-synapse-access-control
+        safeName: azurerestsynapseaccesscontrol
       - name: azure-synapse-artifacts
         safeName: azuresynapseartifacts
       - name: azure-synapse-managed-private-endpoints

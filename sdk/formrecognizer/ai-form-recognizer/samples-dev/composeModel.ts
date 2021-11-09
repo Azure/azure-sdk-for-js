@@ -14,7 +14,6 @@
 
 import { DocumentModelAdministrationClient, AzureKeyCredential } from "@azure/ai-form-recognizer";
 
-// Load the .env file if it exists
 import * as dotenv from "dotenv";
 dotenv.config();
 

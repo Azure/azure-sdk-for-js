@@ -1,6 +1,6 @@
 # Release History
 
-## 12.2.0 (Unreleased)
+## 13.0.0 (Unreleased)
 
 ### Features Added
 
@@ -8,6 +8,8 @@
 - TableServiceClient `listTables` expose and can take PageSetting `continuationToken` as a `PageSetting` when using `byPage`. [#18277](https://github.com/Azure/azure-sdk-for-js/pull/18277)
 
 ### Breaking Changes
+
+- Encode single quote where the partition/row key is used to format the URL - i.e. upsert, update and delete. For more details see [#3356](https://github.com/Azure/azure-sdk/issues/3356)
 
 ### Bugs Fixed
 
