@@ -10,8 +10,6 @@
 
 ### Bugs Fixed
 
-### Other Changes
-
 ## 1.3.2 (2021-11-04)
 
 ### Other Changes
