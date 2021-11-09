@@ -27,6 +27,7 @@ specifiers:
   '@rush-temp/arm-logic': file:./projects/arm-logic.tgz
   '@rush-temp/arm-managedapplications': file:./projects/arm-managedapplications.tgz
   '@rush-temp/arm-mediaservices': file:./projects/arm-mediaservices.tgz
+  '@rush-temp/arm-mysql': file:./projects/arm-mysql.tgz
   '@rush-temp/arm-network': file:./projects/arm-network.tgz
   '@rush-temp/arm-notificationhubs': file:./projects/arm-notificationhubs.tgz
   '@rush-temp/arm-operationalinsights': file:./projects/arm-operationalinsights.tgz
@@ -176,6 +177,7 @@ dependencies:
   '@rush-temp/arm-logic': file:projects/arm-logic.tgz
   '@rush-temp/arm-managedapplications': file:projects/arm-managedapplications.tgz
   '@rush-temp/arm-mediaservices': file:projects/arm-mediaservices.tgz
+  '@rush-temp/arm-mysql': file:projects/arm-mysql.tgz
   '@rush-temp/arm-network': file:projects/arm-network.tgz
   '@rush-temp/arm-notificationhubs': file:projects/arm-notificationhubs.tgz
   '@rush-temp/arm-operationalinsights': file:projects/arm-operationalinsights.tgz
@@ -9062,6 +9064,30 @@ packages:
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.14.2
+    dev: false
+
+  file:projects/arm-mysql.tgz:
+    resolution: {integrity: sha512-/fpHI15jmOE8UhsjAecKWWSJbElYB2ydLFVQhHINJXr0K643e0iUlQ1DK818XNQ1ZLdg6DHeyhn2ARCd4dl2FA==, tarball: file:projects/arm-mysql.tgz}
+    name: '@rush-temp/arm-mysql'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.0.0-beta.6
+      '@microsoft/api-extractor': 7.18.17
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.14.2
+    transitivePeerDependencies:
+      - debug
+      - supports-color
     dev: false
 
   file:projects/arm-network.tgz:
