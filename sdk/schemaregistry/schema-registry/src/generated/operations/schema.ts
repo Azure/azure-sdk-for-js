@@ -132,8 +132,7 @@ const getByIdOperationSpec: coreClient.OperationSpec = {
       headersMapper: Mappers.SchemaGetByIdHeaders
     },
     default: {
-      bodyMapper: Mappers.ErrorModel,
-      headersMapper: Mappers.SchemaGetByIdExceptionHeaders
+      bodyMapper: Mappers.ErrorModel
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -149,8 +148,7 @@ const getVersionsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.SchemaVersions
     },
     default: {
-      bodyMapper: Mappers.ErrorModel,
-      headersMapper: Mappers.SchemaGetVersionsExceptionHeaders
+      bodyMapper: Mappers.ErrorModel
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -169,9 +167,12 @@ const queryIdByContentOperationSpec: coreClient.OperationSpec = {
     204: {
       headersMapper: Mappers.SchemaQueryIdByContentHeaders
     },
-    default: {
+    415: {
       bodyMapper: Mappers.ErrorModel,
-      headersMapper: Mappers.SchemaQueryIdByContentExceptionHeaders
+      isError: true
+    },
+    default: {
+      bodyMapper: Mappers.ErrorModel
     }
   },
   requestBody: Parameters.schemaContent,
@@ -192,9 +193,12 @@ const registerOperationSpec: coreClient.OperationSpec = {
     204: {
       headersMapper: Mappers.SchemaRegisterHeaders
     },
-    default: {
+    415: {
       bodyMapper: Mappers.ErrorModel,
-      headersMapper: Mappers.SchemaRegisterExceptionHeaders
+      isError: true
+    },
+    default: {
+      bodyMapper: Mappers.ErrorModel
     }
   },
   requestBody: Parameters.schemaContent,

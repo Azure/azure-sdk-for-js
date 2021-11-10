@@ -24,7 +24,7 @@ typescript: true
 
 ## Swagger workarounds
 
-### Add Content-Type header to GetById operation and mark 415 as error
+### Add Content-Type header to GetById operation
 
 ``` yaml
 directive:
@@ -37,10 +37,9 @@ directive:
       "description": "Content type of the schema.",
       "required": true,
       "type": "string"});
-    delete $.responses["415"];
 ```
 
-### Add Content-Type header to Register operation and mark 415 as error
+### Add Content-Type header to Register operation
 
 ``` yaml
 directive:
@@ -53,6 +52,4 @@ directive:
       "description": "Content type of the schema.",
       "required": true,
       "type": "string"});
-    delete $.responses["415"];
-
 ```
