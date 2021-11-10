@@ -32,6 +32,7 @@ export = {
       "@azure/azure-sdk/ts-config-exclude": "error",
       "@azure/azure-sdk/ts-config-forceconsistentcasinginfilenames": "error",
       "@azure/azure-sdk/ts-config-importhelpers": "error",
+      "@azure/azure-sdk/ts-config-include": "error",
       "@azure/azure-sdk/ts-config-lib": "error",
       "@azure/azure-sdk/ts-config-module": "error",
       "@azure/azure-sdk/ts-config-moduleresolution": "error",
