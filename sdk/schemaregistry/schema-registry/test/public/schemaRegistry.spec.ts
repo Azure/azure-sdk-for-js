@@ -40,19 +40,19 @@ async function isRejected<T>(
   } catch (e) {
     assert.equal(e.statusCode, expectedStatusCode);
     assert.match(e.message, expectedMessage);
+    /**
+     * The SDK does not currently parse the error response body because it
+     * does not have a compliant error codes yet. The SDK will start to parse
+     * them once the codes become compliant text that follows:
+     *
+     * "Unlocalized string which can be used to programmatically identify the
+     * error.The code should be Pascal-cased, and should serve to uniquely
+     * identify a particular class of error, for example "BadArgument"."
+     *
+     * Right now, the service returns the response status code in the Code field.
+     */
     assert.isUndefined(e.code);
     if (expectedStatusCode !== undefined) {
-      /**
-       * The SDK does not currently parse the error response body because it
-       * does not have a compliant error codes yet. The SDK will start to parse
-       * them once the codes become compliant text that follows:
-       *
-       * "Unlocalized string which can be used to programmatically identify the
-       * error.The code should be Pascal-cased, and should serve to uniquely
-       * identify a particular class of error, for example "BadArgument"."
-       *
-       * Right now, the service returns the response status code in the Code field.
-       */
       assert.equal(JSON.parse(e.message).Code, e.statusCode);
     }
   }
