@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- Changed behavior when sending HTTP headers to preserve the original casing of header names. Iterating over `HttpHeaders` now keeps the original name casing. There is also a new `preserveCase` option for `HttpHeaders.toJSON()`. See [PR #18517](https://github.com/Azure/azure-sdk-for-js/pull/18517)
+
 ### Breaking Changes
 
 ### Bugs Fixed

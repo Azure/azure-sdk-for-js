@@ -2,6 +2,12 @@
 
 ## 11.3.0-beta.5 (2021-11-09)
 
+### Features Added
+
+- Added `semanticConfiguration` property to `SearchRequest` object.
+- Several new languages are added to the `KnownQueryLanguage` object.
+- Added `semanticSettings` property to `SearchIndex` object.
+
 ### Breaking Changes
 
 - Renamed `IndexerCurrentState` property to `IndexerState` property.
@@ -15,6 +21,8 @@
 ### Bugs Fixed
 
 - Fixed the issue with the presence of recursive structure while uploading documents. Please refer [#15656](https://github.com/Azure/azure-sdk-for-js/issues/15656) for further details.
+
+## 11.3.0-beta.4 (2021-10-05)
 
 ### Features Added
 

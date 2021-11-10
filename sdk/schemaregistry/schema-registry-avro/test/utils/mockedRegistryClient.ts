@@ -35,18 +35,19 @@ export function createTestRegistry(neverLive = false): SchemaRegistry {
     schema: SchemaDescription,
     _options?: RegisterSchemaOptions
   ): Promise<SchemaProperties> {
-    let result = mapByContent.get(schema.schemaDefinition);
+    let result = mapByContent.get(schema.definition);
     if (!result) {
       result = {
-        id: newId(),
-        schemaDefinition: schema.schemaDefinition,
-        version: 1,
-        format: schema.format
+        definition: schema.definition,
+        properties: {
+          id: newId(),
+          format: schema.format
+        }
       };
-      mapByContent.set(result.schemaDefinition, result);
-      mapById.set(result.id, result);
+      mapByContent.set(result.definition, result);
+      mapById.set(result.properties.id, result);
     }
-    return result;
+    return result!.properties;
 
     function newId(): string {
       if (idCounter === testSchemaIds.length) {
@@ -61,11 +62,19 @@ export function createTestRegistry(neverLive = false): SchemaRegistry {
   async function getSchemaProperties(
     schema: SchemaDescription,
     _options?: GetSchemaPropertiesOptions
-  ): Promise<SchemaProperties | undefined> {
-    return mapByContent.get(schema.schemaDefinition);
+  ): Promise<SchemaProperties> {
+    const storedSchema = mapByContent.get(schema.definition);
+    if (!storedSchema) {
+      throw new Error(`Schema not found: ${JSON.stringify(schema)}`);
+    }
+    return storedSchema.properties;
   }
 
-  async function getSchema(id: string, _options?: GetSchemaOptions): Promise<Schema | undefined> {
-    return mapById.get(id);
+  async function getSchema(id: string, _options?: GetSchemaOptions): Promise<Schema> {
+    const storedSchema = mapById.get(id);
+    if (!storedSchema) {
+      throw new Error(`Schema not found: ${JSON.stringify(id)}`);
+    }
+    return storedSchema;
   }
 }
