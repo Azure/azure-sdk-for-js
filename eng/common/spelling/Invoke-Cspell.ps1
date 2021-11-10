@@ -164,11 +164,10 @@ $cspellOutput = npm exec -- `
   --no-must-find-files `
   --root $SpellCheckRoot `
   --relative
+Set-Location $originalLocation
 
 Write-Host "cspell run complete, restoring original configuration and removing temp file."
 Set-Content -Path $CSpellConfigPath -Value $cspellConfigContent -NoNewLine
-
-Set-Location $originalLocation
 Remove-Item -Path $notExcludedFile
 
 if (!$LeaveWorkingDirectory) {
