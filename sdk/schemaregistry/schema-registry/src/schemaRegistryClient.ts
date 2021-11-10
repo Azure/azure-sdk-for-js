@@ -81,13 +81,13 @@ export class SchemaRegistryClient implements SchemaRegistry {
     options?: RegisterSchemaOptions
   ): Promise<SchemaProperties> {
     const { groupName, name: schemaName, definition: schemaContent, format } = schema;
-    return this.client
-      .schema.register(
+    return this.client.schema
+      .register(
         groupName,
-          schemaName,
-          `application/json; serialization=${format}`,
-          schemaContent,
-          options
+        schemaName,
+        `application/json; serialization=${format}`,
+        schemaContent,
+        options
       )
       .then(convertSchemaIdResponse(format));
   }
@@ -104,13 +104,14 @@ export class SchemaRegistryClient implements SchemaRegistry {
     options?: GetSchemaPropertiesOptions
   ): Promise<SchemaProperties> {
     const { groupName, name: schemaName, definition: schemaContent, format } = schema;
-    return this.client
-      .schema.queryIdByContent(
-          groupName,
-          schemaName,
-          `application/json; serialization=${format}`,
-          schemaContent,
-          options)
+    return this.client.schema
+      .queryIdByContent(
+        groupName,
+        schemaName,
+        `application/json; serialization=${format}`,
+        schemaContent,
+        options
+      )
       .then(convertSchemaIdResponse(format));
   }
 
