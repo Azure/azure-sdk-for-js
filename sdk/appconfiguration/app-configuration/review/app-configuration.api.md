@@ -6,6 +6,7 @@
 
 /// <reference lib="esnext.asynciterable" />
 
+import { HttpClient } from '@azure/core-http';
 import { HttpResponse } from '@azure/core-http';
 import { OperationOptions } from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
@@ -39,6 +40,7 @@ export class AppConfigurationClient {
 
 // @public
 export interface AppConfigurationClientOptions {
+    httpClient?: HttpClient;
     retryOptions?: RetryOptions;
     userAgentOptions?: UserAgentOptions;
 }

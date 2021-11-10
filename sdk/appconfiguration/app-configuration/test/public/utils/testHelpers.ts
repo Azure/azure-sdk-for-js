@@ -8,13 +8,7 @@ import {
   ListConfigurationSettingPage,
   ListRevisionsPage
 } from "../../../src";
-import {
-  env,
-  isPlaybackMode,
-  RecorderEnvironmentSetup,
-  record,
-  Recorder
-} from "@azure-tools/test-recorder";
+import { env, isPlaybackMode } from "@azure-tools/test-recorder";
 import * as assert from "assert";
 
 // allow loading from a .env file as an alternative to defining the variable
@@ -22,6 +16,7 @@ import * as assert from "assert";
 import * as dotenv from "dotenv";
 
 import { DefaultAzureCredential, TokenCredential } from "@azure/identity";
+import { RecorderStartOptions } from "@azure-tools/test-recorder-new/types/src/utils/utils";
 dotenv.config();
 
 let connectionStringNotPresentWarning = false;
@@ -32,22 +27,22 @@ export interface CredsAndEndpoint {
   endpoint: string;
 }
 
-export function startRecorder(that: Mocha.Context): Recorder {
-  const recorderEnvSetup: RecorderEnvironmentSetup = {
-    replaceableVariables: {
-      APPCONFIG_CONNECTION_STRING:
-        "Endpoint=https://myappconfig.azconfig.io;Id=123456;Secret=123456",
-      AZ_CONFIG_ENDPOINT: "https://myappconfig.azconfig.io",
-      AZURE_CLIENT_ID: "azure_client_id",
-      AZURE_CLIENT_SECRET: "azure_client_secret",
-      AZURE_TENANT_ID: "azuretenantid"
-    },
-    customizationsOnRecordings: [],
-    queryParametersToSkip: []
-  };
+const fakeConnString = "Endpoint=https://myappconfig.azconfig.io;Id=123456;Secret=123456";
 
-  return record(that, recorderEnvSetup);
-}
+export const recorderStartOptions: RecorderStartOptions = {
+  envSetupForPlayback: {
+    APPCONFIG_CONNECTION_STRING: fakeConnString,
+    AZ_CONFIG_ENDPOINT: "https://myappconfig.azconfig.io",
+    AZURE_CLIENT_ID: "azure_client_id",
+    AZURE_CLIENT_SECRET: "azure_client_secret",
+    AZURE_TENANT_ID: "azuretenantid"
+  },
+  sanitizerOptions: {
+    connectionStringSanitizers: [
+      { actualConnString: env.APPCONFIG_CONNECTION_STRING, fakeConnString }
+    ]
+  }
+};
 
 export function getTokenAuthenticationCredential(): CredsAndEndpoint | undefined {
   const requiredEnvironmentVariables = [
@@ -186,11 +181,15 @@ export async function assertThrowsAbortError(
     await testFunction();
     assert.fail(`${message}: No error thrown`);
   } catch (e) {
-    if (isPlaybackMode() && (e.name === "FetchError" || e.name === "AbortError")) {
+    if (!isPlaybackMode() && (e.name === "FetchError" || e.name === "AbortError")) {
       return e;
     } else {
       assert.equal(e.name, "AbortError");
       return e;
     }
   }
+}
+
+export function getRandomNumber() {
+  return Math.ceil(Math.random() * 1000 + 1000);
 }

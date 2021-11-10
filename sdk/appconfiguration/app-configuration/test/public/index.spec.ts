@@ -9,19 +9,27 @@ import {
   assertEqualSettings,
   assertThrowsRestError,
   assertThrowsAbortError,
-  startRecorder
+  recorderStartOptions,
+  getRandomNumber
 } from "./utils/testHelpers";
 import { AppConfigurationClient, ConfigurationSetting, ConfigurationSettingParam } from "../../src";
-import { Recorder, delay, isLiveMode } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
+import { TestProxyHttpClientCoreV1 } from "@azure-tools/test-recorder-new";
+import { delay, isLiveMode, isPlaybackMode } from "@azure-tools/test-recorder";
 
 describe("AppConfigurationClient", () => {
   let client: AppConfigurationClient;
-  let recorder: Recorder;
+  let recorder: TestProxyHttpClientCoreV1;
+  let key: string;
 
-  beforeEach(function(this: Context) {
-    recorder = startRecorder(this);
-    client = createAppConfigurationClientForTests() || this.skip();
+  beforeEach(async function(this: Context) {
+    recorder = new TestProxyHttpClientCoreV1(this.currentTest);
+    await recorder.start(recorderStartOptions);
+    client = createAppConfigurationClientForTests({ httpClient: recorder }) || this.skip();
+    if (!isPlaybackMode()) {
+      recorder.variables["key-1"] = `key-1-${getRandomNumber()}`;
+    }
+    key = recorder.variables["key-1"];
   });
 
   afterEach(async function(this: Context) {
@@ -30,8 +38,10 @@ describe("AppConfigurationClient", () => {
 
   describe("simple usages", () => {
     it("Add and query a setting without a label", async () => {
-      const key = recorder.getUniqueName("noLabelTests");
-
+      if (!isPlaybackMode()) {
+        recorder.variables["noLabelTests"] = `noLabelTests-${getRandomNumber()}`;
+      }
+      const key = recorder.variables["noLabelTests"];
       await client.addConfigurationSetting({ key, value: "added" });
 
       await compare({
@@ -78,7 +88,6 @@ describe("AppConfigurationClient", () => {
 
   describe("addConfigurationSetting", () => {
     it("sample works", async () => {
-      const key = recorder.getUniqueName("addConfigSample");
       const result = await client.setConfigurationSetting({
         key,
         value: "MyValue"
@@ -88,7 +97,6 @@ describe("AppConfigurationClient", () => {
     });
 
     it("adds a configuration setting", async () => {
-      const key = recorder.getUniqueName("addConfigTest");
       const label = "MyLabel";
       const value = "MyValue";
       const result = await client.addConfigurationSetting({ key, label, value });
@@ -114,7 +122,6 @@ describe("AppConfigurationClient", () => {
     });
 
     it("throws an error if the configuration setting already exists", async () => {
-      const key = recorder.getUniqueName("addConfigTestTwice");
       const label = "test";
       const value = "foo";
       const result = await client.addConfigurationSetting({ key, label, value });
@@ -143,7 +150,6 @@ describe("AppConfigurationClient", () => {
     });
 
     it("accepts operation options", async () => {
-      const key = recorder.getUniqueName("addConfigTestTwice");
       const label = "test";
       const value = "foo";
       await assertThrowsAbortError(async () => {
@@ -161,7 +167,6 @@ describe("AppConfigurationClient", () => {
 
   describe("deleteConfigurationSetting", () => {
     it("deletes an existing configuration setting", async () => {
-      const key = recorder.getUniqueName("deleteConfigTest");
       const label = "MyLabel";
       const value = "MyValue";
 
@@ -194,7 +199,6 @@ describe("AppConfigurationClient", () => {
     });
 
     it("deletes an existing configuration setting (valid etag)", async () => {
-      const key = recorder.getUniqueName("deleteConfigTestEtag");
       const label = "test";
       const value = "foo";
 
@@ -232,7 +236,6 @@ describe("AppConfigurationClient", () => {
     });
 
     it("does not throw when deleting a non-existent configuration setting", async () => {
-      const key = recorder.getUniqueName("deleteConfigTestNA");
       const label = "test";
 
       // delete configuration
@@ -247,7 +250,6 @@ describe("AppConfigurationClient", () => {
     });
 
     it("throws when deleting a configuration setting (invalid etag)", async () => {
-      const key = recorder.getUniqueName("deleteConfigTestBadEtag");
       const label = "test";
       const value = "foo";
 
@@ -280,7 +282,6 @@ describe("AppConfigurationClient", () => {
     });
 
     it("accepts operation options", async () => {
-      const key = recorder.getUniqueName("deleteConfigTest");
       const label = "MyLabel";
       const value = "MyValue";
 
@@ -298,7 +299,6 @@ describe("AppConfigurationClient", () => {
 
   describe("getConfigurationSetting", () => {
     it("retrieves an existing configuration setting", async () => {
-      const key = recorder.getUniqueName("getConfigTest");
       const label = "test";
       const value = "foo";
       const tags = {
@@ -384,7 +384,6 @@ describe("AppConfigurationClient", () => {
     });
 
     it("throws when retrieving a non-existent configuration setting", async () => {
-      const key = recorder.getUniqueName("getConfigTestNA");
       const label = "test";
 
       // retrieve the value from the service
@@ -397,7 +396,6 @@ describe("AppConfigurationClient", () => {
     });
 
     it("accepts operation options", async () => {
-      const key = recorder.getUniqueName("getConfigTest");
       const label = "test";
       const value = "foo";
       const tags = {
@@ -412,8 +410,6 @@ describe("AppConfigurationClient", () => {
     });
 
     it("by date", async () => {
-      const key = recorder.getUniqueName("getConfigurationSettingByDate");
-
       const initialSetting = await client.setConfigurationSetting({
         key,
         value: "value1"
@@ -437,7 +433,7 @@ describe("AppConfigurationClient", () => {
 
     it("Using `select` via `fields`", async () => {
       const settingToAdd: ConfigurationSettingParam = {
-        key: recorder.getUniqueName("getConfigTest"),
+        key,
         value: "value that will not be retrieved",
         contentType: "a content type",
         label: "a label"
@@ -507,11 +503,22 @@ describe("AppConfigurationClient", () => {
     };
 
     beforeEach(async () => {
-      keys.listConfigSettingA = recorder.getUniqueName(`listConfigSetting${count}A`);
-      keys.listConfigSettingB = recorder.getUniqueName(`listConfigSetting${count}B`);
+      if (!isPlaybackMode()) {
+        recorder.variables[
+          `listConfigSetting${count}A`
+        ] = `listConfigSetting${count}A-${getRandomNumber()}`;
+        recorder.variables[
+          `listConfigSetting${count}B`
+        ] = `listConfigSetting${count}B-${getRandomNumber()}`;
+        recorder.variables[
+          `listConfigSettingsLabel`
+        ] = `listConfigSettingsLabel-${getRandomNumber()}`;
+      }
+      keys.listConfigSettingA = recorder.variables[`listConfigSetting${count}A`];
+      keys.listConfigSettingB = recorder.variables[`listConfigSetting${count}B`];
       count += 1;
 
-      uniqueLabel = recorder.getUniqueName("listConfigSettingsLabel");
+      uniqueLabel = recorder.variables[`listConfigSettingsLabel`];
       productionASettingId.key = keys.listConfigSettingA;
       productionASettingId.label = uniqueLabel;
 
@@ -732,8 +739,6 @@ describe("AppConfigurationClient", () => {
       // eslint-disable-next-line @typescript-eslint/no-invalid-this
       if (isLiveMode()) this.skip();
 
-      const key = recorder.getUniqueName("listMultiplePagesOfResults");
-
       // this number is arbitrarily chosen to match the size of a page + 1
       const expectedNumberOfLabels = 200;
 
@@ -793,10 +798,15 @@ describe("AppConfigurationClient", () => {
     let originalSetting: ConfigurationSetting;
 
     beforeEach(async () => {
-      key = recorder.getUniqueName(`listRevisions`);
-      labelA = recorder.getUniqueName(`list-revisions-A`);
-      labelB = recorder.getUniqueName(`list-revisions-B`);
+      if (!isPlaybackMode()) {
+        recorder.variables[`listRevisions`] = `listRevisions-${getRandomNumber()}`;
+        recorder.variables[`list-revisions-A`] = `list-revisions-A-${getRandomNumber()}`;
+        recorder.variables[`list-revisions-B`] = `list-revisions-B-${getRandomNumber()}`;
+      }
 
+      key = recorder.variables[`listRevisions`];
+      labelA = recorder.variables[`list-revisions-A`];
+      labelB = recorder.variables[`list-revisions-B`];
       // we'll generate two sets of keys and labels for this selection
       originalSetting = await client.addConfigurationSetting({
         key,
@@ -804,10 +814,22 @@ describe("AppConfigurationClient", () => {
         value: "fooA1"
       });
       await delay(1000);
-      await client.setConfigurationSetting({ key, label: labelA, value: "fooA2" });
+      await client.setConfigurationSetting({
+        key,
+        label: labelA,
+        value: "fooA2"
+      });
 
-      await client.addConfigurationSetting({ key, label: labelB, value: "fooB1" });
-      await client.setConfigurationSetting({ key, label: labelB, value: "fooB2" });
+      await client.addConfigurationSetting({
+        key,
+        label: labelB,
+        value: "fooB1"
+      });
+      await client.setConfigurationSetting({
+        key,
+        label: labelB,
+        value: "fooB2"
+      });
     });
 
     it("exact match on label", async () => {
@@ -904,7 +926,6 @@ describe("AppConfigurationClient", () => {
 
   describe("setConfigurationSetting", () => {
     it("replaces a configuration setting", async () => {
-      const key = recorder.getUniqueName(`setConfigTest`);
       const label = "test";
       const contentType = "application/json";
       const tags = {
@@ -995,7 +1016,6 @@ describe("AppConfigurationClient", () => {
     });
 
     it("replaces a configuration setting (valid etag)", async () => {
-      const key = recorder.getUniqueName(`setConfigTestEtag`);
       const label = "test";
       const contentType = "application/json";
       const tags = {
@@ -1094,7 +1114,6 @@ describe("AppConfigurationClient", () => {
     });
 
     it("creates a configuration setting if it doesn't exist", async () => {
-      const key = recorder.getUniqueName(`setConfigTestNA`);
       const label = "test";
       const value = "foo";
 
@@ -1133,7 +1152,6 @@ describe("AppConfigurationClient", () => {
     });
 
     it("accepts operation options", async () => {
-      const key = recorder.getUniqueName(`setConfigTestNA`);
       const label = "test";
       const value = "foo";
       await assertThrowsAbortError(async () => {

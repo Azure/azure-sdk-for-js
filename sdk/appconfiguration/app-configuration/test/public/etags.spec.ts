@@ -3,24 +3,30 @@
 
 import { AppConfigurationClient } from "../../src";
 import {
-  startRecorder,
   createAppConfigurationClientForTests,
   deleteKeyCompletely,
-  assertThrowsRestError
+  assertThrowsRestError,
+  recorderStartOptions,
+  getRandomNumber
 } from "./utils/testHelpers";
 import * as assert from "assert";
-import { Recorder } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
+import { TestProxyHttpClientCoreV1 } from "@azure-tools/test-recorder-new";
+import { isPlaybackMode } from "@azure-tools/test-recorder";
 
 describe("etags", () => {
   let client: AppConfigurationClient;
-  let recorder: Recorder;
+  let recorder: TestProxyHttpClientCoreV1;
   let key: string;
 
   beforeEach(async function(this: Context) {
-    recorder = startRecorder(this);
-    key = recorder.getUniqueName("etags");
-    client = createAppConfigurationClientForTests() || this.skip();
+    recorder = new TestProxyHttpClientCoreV1(this.currentTest);
+    if (!isPlaybackMode()) {
+      recorder.variables["etags"] = `etags-${getRandomNumber()}`;
+    }
+    key = recorder.variables["etags"];
+    client = createAppConfigurationClientForTests({ httpClient: recorder }) || this.skip();
+    await recorder.start(recorderStartOptions);
     await client.addConfigurationSetting({
       key: key,
       value: "some value"

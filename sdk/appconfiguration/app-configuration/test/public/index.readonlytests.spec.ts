@@ -6,16 +6,17 @@ import {
   assertThrowsRestError,
   deleteKeyCompletely,
   assertThrowsAbortError,
-  startRecorder
+  recorderStartOptions
 } from "./utils/testHelpers";
 import { AppConfigurationClient } from "../../src";
 import * as assert from "assert";
-import { Recorder } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
+import { TestProxyHttpClientCoreV1 } from "@azure-tools/test-recorder-new";
+import { isPlaybackMode } from "@azure-tools/test-recorder";
 
 describe("AppConfigurationClient (set|clear)ReadOnly", () => {
   let client: AppConfigurationClient;
-  let recorder: Recorder;
+  let recorder: TestProxyHttpClientCoreV1;
   const testConfigSetting = {
     key: "",
     value: "world",
@@ -23,9 +24,15 @@ describe("AppConfigurationClient (set|clear)ReadOnly", () => {
   };
 
   beforeEach(async function(this: Context) {
-    recorder = startRecorder(this);
-    testConfigSetting.key = recorder.getUniqueName("readOnlyTests");
-    client = createAppConfigurationClientForTests() || this.skip();
+    recorder = new TestProxyHttpClientCoreV1(this.currentTest);
+    await recorder.start(recorderStartOptions);
+    if (!isPlaybackMode()) {
+      recorder.variables["readOnlyTests"] = `readOnlyTests-${Math.ceil(
+        Math.random() * 1000 + 1000
+      )}`;
+    }
+    testConfigSetting.key = recorder.variables["readOnlyTests"];
+    client = createAppConfigurationClientForTests({ httpClient: recorder }) || this.skip();
     // before it's set to read only we can set it all we want
     await client.setConfigurationSetting(testConfigSetting);
   });

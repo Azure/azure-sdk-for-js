@@ -6,11 +6,13 @@ import {
   createAppConfigurationClientForTests,
   deleteKeyCompletely,
   assertThrowsRestError,
-  startRecorder
+  recorderStartOptions,
+  getRandomNumber
 } from "./utils/testHelpers";
 import * as assert from "assert";
-import { Recorder } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
+import { TestProxyHttpClientCoreV1 } from "@azure-tools/test-recorder-new";
+import { isPlaybackMode } from "@azure-tools/test-recorder";
 
 // There's been discussion on other teams about what errors are thrown when. This
 // is the file where I've documented the throws/notThrows cases to make coordination
@@ -18,12 +20,16 @@ import { Context } from "mocha";
 // that's okay)
 describe("Various error cases", () => {
   let client: AppConfigurationClient;
-  let recorder: Recorder;
+  let recorder: TestProxyHttpClientCoreV1;
   const nonMatchingETag = "never-match-etag";
 
-  beforeEach(function(this: Context) {
-    recorder = startRecorder(this);
-    client = createAppConfigurationClientForTests() || this.skip();
+  beforeEach(async function(this: Context) {
+    recorder = new TestProxyHttpClientCoreV1(this.currentTest);
+    await recorder.start(recorderStartOptions);
+    client = createAppConfigurationClientForTests({ httpClient: recorder }) || this.skip();
+    if (!isPlaybackMode()) {
+      recorder.variables["etags"] = `etags-${getRandomNumber()}`;
+    }
   });
 
   afterEach(async function() {
@@ -36,7 +42,7 @@ describe("Various error cases", () => {
 
     beforeEach(async () => {
       addedSetting = await client.addConfigurationSetting({
-        key: recorder.getUniqueName(`etags`),
+        key: recorder.variables["etags"],
         value: "world"
       });
 
@@ -97,7 +103,7 @@ describe("Various error cases", () => {
 
       // the 'no label' value for 'hello'
       addedSetting = await client.addConfigurationSetting({
-        key: recorder.getUniqueName(`etags`),
+        key: recorder.variables["etags"],
         value: "world"
       });
 

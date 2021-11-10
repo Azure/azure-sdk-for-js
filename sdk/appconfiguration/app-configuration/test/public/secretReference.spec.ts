@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import { createAppConfigurationClientForTests, startRecorder } from "./utils/testHelpers";
+import { createAppConfigurationClientForTests, getRandomNumber, recorderStartOptions } from "./utils/testHelpers";
 import {
   AddConfigurationSettingResponse,
   AppConfigurationClient,
@@ -12,16 +12,28 @@ import {
   secretReferenceContentType,
   SecretReferenceValue
 } from "../../src";
-import { Recorder } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
+import { TestProxyHttpClientCoreV1 } from "@azure-tools/test-recorder-new";
+import { isPlaybackMode } from "@azure-tools/test-recorder";
 
 describe("AppConfigurationClient - SecretReference", () => {
   let client: AppConfigurationClient;
-  let recorder: Recorder;
+  let recorder: TestProxyHttpClientCoreV1;
+  let key: string;
+  let randomString: string;
 
-  beforeEach(function(this: Context) {
-    recorder = startRecorder(this);
-    client = createAppConfigurationClientForTests() || this.skip();
+  beforeEach(async function(this: Context) {
+    recorder = new TestProxyHttpClientCoreV1(this.currentTest);
+    await recorder.start(recorderStartOptions);
+    client = createAppConfigurationClientForTests({ httpClient: recorder }) || this.skip();
+    if (!isPlaybackMode()) {
+      recorder.variables["key-1"] = `key-1-${getRandomNumber()}`;
+      recorder.variables["random-string-1"] = `random-string-1-${Math.ceil(
+        Math.random() * 1000 + 1000
+      )}`;
+    }
+    key = recorder.variables["key-1"];
+    randomString = recorder.variables["random-string-1"];
   });
 
   afterEach(async function(this: Context) {
@@ -32,10 +44,10 @@ describe("AppConfigurationClient - SecretReference", () => {
     const getBaseSetting = (): ConfigurationSetting<SecretReferenceValue> => {
       return {
         value: {
-          secretId: `https://vault_name.vault.azure.net/secrets/${recorder.getUniqueName("name-2")}`
+          secretId: `https://vault_name.vault.azure.net/secrets/${randomString}`
         }, // TODO: It's a URL in .NET, should we leave it as a string input?
         isReadOnly: false,
-        key: recorder.getUniqueName("name-3"),
+        key,
         label: "label-s",
         contentType: secretReferenceContentType
       };
@@ -87,9 +99,7 @@ describe("AppConfigurationClient - SecretReference", () => {
         key: baseSetting.key,
         label: baseSetting.label
       });
-      const newSecretId = `https://vault_name.vault.azure.net/secrets/${recorder.getUniqueName(
-        "name-4"
-      )}`;
+      const newSecretId = `https://vault_name.vault.azure.net/secrets/${randomString}`;
 
       assertSecretReferenceProps(getResponse, baseSetting);
       const secretReference = parseSecretReference(getResponse);
@@ -116,9 +126,7 @@ describe("AppConfigurationClient - SecretReference", () => {
         ...baseSetting,
         key: `${baseSetting.key}-2`
       };
-      const newSecretId = `https://vault_name.vault.azure.net/secrets/${recorder.getUniqueName(
-        "name-5"
-      )}`;
+      const newSecretId = `https://vault_name.vault.azure.net/secrets/${randomString}`;
       await client.addConfigurationSetting(secondSetting);
 
       let numberOFSecretReferencesReceived = 0;
@@ -169,7 +177,7 @@ describe("AppConfigurationClient - SecretReference", () => {
       it(`Unexpected value ${value} as secret reference value`, async () => {
         const setting: ConfigurationSetting<SecretReferenceValue> = {
           contentType: secretReferenceContentType,
-          key: recorder.getUniqueName("name-1"),
+          key,
           isReadOnly: false,
           value: { secretId: "id" }
         };

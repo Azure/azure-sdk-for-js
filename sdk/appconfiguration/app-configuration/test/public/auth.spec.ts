@@ -3,21 +3,24 @@
 
 import { AppConfigurationClient } from "../../src";
 import {
-  startRecorder,
   getTokenAuthenticationCredential,
-  CredsAndEndpoint
+  CredsAndEndpoint,
+  recorderStartOptions,
+  getRandomNumber
 } from "./utils/testHelpers";
 import * as assert from "assert";
-import { Recorder } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
+import { TestProxyHttpClientCoreV1 } from "@azure-tools/test-recorder-new";
+import { isPlaybackMode } from "@azure-tools/test-recorder";
 
 describe("Authentication", () => {
   let credsAndEndpoint: CredsAndEndpoint;
-  let recorder: Recorder;
+  let recorder: TestProxyHttpClientCoreV1;
 
-  beforeEach(function(this: Context) {
-    recorder = startRecorder(this);
+  beforeEach(async function(this: Context) {
+    recorder = new TestProxyHttpClientCoreV1(this.currentTest);
     credsAndEndpoint = getTokenAuthenticationCredential() || this.skip();
+    await recorder.start(recorderStartOptions);
   });
 
   afterEach(async function() {
@@ -26,13 +29,17 @@ describe("Authentication", () => {
   it("token authentication works", async function() {
     const client = new AppConfigurationClient(
       credsAndEndpoint.endpoint,
-      credsAndEndpoint.credential
+      credsAndEndpoint.credential,
+      { httpClient: recorder }
     );
 
+    if (!isPlaybackMode()) {
+      recorder.variables["label-1"] = `${getRandomNumber()}`;
+    }
     // it doesn't matter if any data comes in so long as we were
     // able to connect and call the service
     await client.addConfigurationSetting({
-      key: `token-authentication-test-${recorder.newDate("label-1").valueOf()}`,
+      key: `token-authentication-test-${recorder.variables["label-1"]}`,
       value: "hello"
     });
   });
