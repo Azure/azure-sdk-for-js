@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { OperationType } from "../common";
-import { isReadRequest } from "../common/helper";
-import { GlobalEndpointManager } from "../globalEndpointManager";
 import { ErrorResponse } from "../request";
+import { GlobalEndpointManager } from "../globalEndpointManager";
+import { OperationType } from "../common";
 import { RetryContext } from "./RetryContext";
 import { RetryPolicy } from "./RetryPolicy";
+import { isReadRequest } from "../common/helper";
 
 /**
  * This class implements the retry policy for endpoint discovery.

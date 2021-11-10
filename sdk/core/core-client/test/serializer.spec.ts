@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
 import {
-  createSerializer,
-  Mapper,
-  EnumMapper,
-  SequenceMapper,
+  CompositeMapper,
   DictionaryMapper,
-  CompositeMapper
+  EnumMapper,
+  Mapper,
+  SequenceMapper,
+  createSerializer,
 } from "../src";
 import { Mappers } from "./testMappers";
+import { assert } from "chai";
 
 const Serializer = createSerializer(Mappers);
 const valid_uuid = "ceaafd1e-f936-429f-bbfc-82ee75dddc33";

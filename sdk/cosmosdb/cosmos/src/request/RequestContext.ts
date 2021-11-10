@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { ClientContext } from "../ClientContext";
+import { ConnectionPolicy, PartitionKey } from "../documents";
 import { HTTPMethod, OperationType, ResourceType } from "../common";
 import { Agent } from "../CosmosClientOptions";
-import { ConnectionPolicy, PartitionKey } from "../documents";
-import { GlobalEndpointManager } from "../globalEndpointManager";
-import { PluginConfig } from "../plugins/Plugin";
+import { ClientContext } from "../ClientContext";
 import { CosmosHeaders } from "../queryExecutionContext/CosmosHeaders";
 import { FeedOptions } from "./FeedOptions";
-import { RequestOptions } from "./RequestOptions";
+import { GlobalEndpointManager } from "../globalEndpointManager";
+import { PluginConfig } from "../plugins/Plugin";
 import { Pipeline } from "@azure/core-rest-pipeline";
+import { RequestOptions } from "./RequestOptions";
 
 /**
  * @hidden

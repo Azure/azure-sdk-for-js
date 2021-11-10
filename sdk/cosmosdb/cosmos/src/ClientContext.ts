@@ -2,17 +2,17 @@
 // Licensed under the MIT license.
 
 import { ConnectionPolicy, ConsistencyLevel, DatabaseAccount, PartitionKey } from "./documents";
-import { FeedOptions, RequestOptions, Response } from "./request";
 import { Constants, HTTPMethod, OperationType, ResourceType } from "./common/constants";
-import { getIdFromLink, getPathFromLink, parseLink } from "./common/helper";
+import { FeedOptions, RequestOptions, Response } from "./request";
 import { FetchFunctionCallback, SqlQuerySpec } from "./queryExecutionContext";
 import { StatusCodes, SubStatusCodes } from "./common/statusCodes";
+import { PluginOn, executePlugins } from "./plugins/Plugin";
 import {
   Pipeline,
   bearerTokenAuthenticationPolicy,
   createEmptyPipeline
 } from "@azure/core-rest-pipeline";
-import { PluginOn, executePlugins } from "./plugins/Plugin";
+import { getIdFromLink, getPathFromLink, parseLink } from "./common/helper";
 import { BulkOptions } from "./utils/batch";
 import { CosmosClientOptions } from "./CosmosClientOptions";
 import { CosmosHeaders } from "./queryExecutionContext/CosmosHeaders";

@@ -1,20 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+import { FeedOptions, Response } from "../request";
+import { getInitialHeader, mergeHeaders } from "./headerUtils";
 import { ClientContext } from "../ClientContext";
-import { Response, FeedOptions } from "../request";
-import { PartitionedQueryExecutionInfo } from "../request/ErrorResponse";
 import { CosmosHeaders } from "./CosmosHeaders";
+import { ExecutionContext } from "./ExecutionContext";
+import { GroupByEndpointComponent } from "./EndpointComponent/GroupByEndpointComponent";
+import { GroupByValueEndpointComponent } from "./EndpointComponent/GroupByValueEndpointComponent";
 import { OffsetLimitEndpointComponent } from "./EndpointComponent/OffsetLimitEndpointComponent";
 import { OrderByEndpointComponent } from "./EndpointComponent/OrderByEndpointComponent";
-import { OrderedDistinctEndpointComponent } from "./EndpointComponent/OrderedDistinctEndpointComponent";
-import { UnorderedDistinctEndpointComponent } from "./EndpointComponent/UnorderedDistinctEndpointComponent";
-import { GroupByEndpointComponent } from "./EndpointComponent/GroupByEndpointComponent";
-import { ExecutionContext } from "./ExecutionContext";
-import { getInitialHeader, mergeHeaders } from "./headerUtils";
 import { OrderByQueryExecutionContext } from "./orderByQueryExecutionContext";
+import { OrderedDistinctEndpointComponent } from "./EndpointComponent/OrderedDistinctEndpointComponent";
 import { ParallelQueryExecutionContext } from "./parallelQueryExecutionContext";
-import { GroupByValueEndpointComponent } from "./EndpointComponent/GroupByValueEndpointComponent";
+import { PartitionedQueryExecutionInfo } from "../request/ErrorResponse";
 import { SqlQuerySpec } from "./SqlQuerySpec";
+import { UnorderedDistinctEndpointComponent } from "./EndpointComponent/UnorderedDistinctEndpointComponent";
 
 /** @hidden */
 export class PipelinedQueryExecutionContext implements ExecutionContext {

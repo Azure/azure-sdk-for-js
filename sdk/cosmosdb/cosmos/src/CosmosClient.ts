@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { Database, Databases } from "./client/Database";
-import { Offer, Offers } from "./client/Offer";
-import { ClientContext } from "./ClientContext";
-import { parseConnectionString } from "./common";
-import { Constants } from "./common/constants";
-import { getUserAgent } from "./common/platform";
-import { CosmosClientOptions } from "./CosmosClientOptions";
 import { DatabaseAccount, defaultConnectionPolicy } from "./documents";
-import { GlobalEndpointManager } from "./globalEndpointManager";
+import { Offer, Offers } from "./client/Offer";
 import { RequestOptions, ResourceResponse } from "./request";
+import { ClientContext } from "./ClientContext";
+import { Constants } from "./common/constants";
+import { CosmosClientOptions } from "./CosmosClientOptions";
+import { GlobalEndpointManager } from "./globalEndpointManager";
 import { checkURL } from "./utils/checkURL";
+import { parseConnectionString } from "./common";
+import { getUserAgent } from "./common/platform";
 
 /**
  * Provides a client-side logical representation of the Azure Cosmos DB database account.

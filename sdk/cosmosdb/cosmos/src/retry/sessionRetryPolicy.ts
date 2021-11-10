@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { isReadRequest, OperationType, ResourceType } from "../common";
+import { OperationType, ResourceType, isReadRequest } from "../common";
 import { ConnectionPolicy } from "../documents";
 import { GlobalEndpointManager } from "../globalEndpointManager";
 import { ErrorResponse } from "../request";

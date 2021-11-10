@@ -2,22 +2,22 @@
 // Licensed under the MIT license.
 
 import {
-  PipelineResponse,
+  FullOperationResponse,
+  OperationRequest,
+  OperationResponseMap,
+  OperationSpec,
+  RequiredSerializerOptions,
+  SerializerOptions,
+  XmlOptions,
+  XML_CHARKEY
+} from "./interfaces";
+import {
   PipelineRequest,
+  PipelineResponse,
   SendRequest,
   PipelinePolicy,
   RestError
 } from "@azure/core-rest-pipeline";
-import {
-  OperationRequest,
-  OperationResponseMap,
-  FullOperationResponse,
-  OperationSpec,
-  SerializerOptions,
-  XmlOptions,
-  XML_CHARKEY,
-  RequiredSerializerOptions
-} from "./interfaces";
 import { MapperTypeNames } from "./serializer";
 import { getOperationRequestInfo } from "./operationHelpers";
 

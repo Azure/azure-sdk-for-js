@@ -1,19 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import PriorityQueue from "priorityqueuejs";
-import semaphore from "semaphore";
-import { ClientContext } from "../ClientContext";
-import { logger } from "../common/logger";
+
+import { getInitialHeader, mergeHeaders } from "./headerUtils";
 import { StatusCodes, SubStatusCodes } from "../common/statusCodes";
 import { FeedOptions, Response } from "../request";
-import { PartitionedQueryExecutionInfo } from "../request/ErrorResponse";
-import { QueryRange } from "../routing/QueryRange";
-import { SmartRoutingMapProvider } from "../routing/smartRoutingMapProvider";
+import semaphore from "semaphore";
+import { ClientContext } from "../ClientContext";
 import { CosmosHeaders } from "./CosmosHeaders";
 import { DocumentProducer } from "./documentProducer";
 import { ExecutionContext } from "./ExecutionContext";
-import { getInitialHeader, mergeHeaders } from "./headerUtils";
+import { PartitionedQueryExecutionInfo } from "../request/ErrorResponse";
+import PriorityQueue from "priorityqueuejs";
+import { QueryRange } from "../routing/QueryRange";
+import { SmartRoutingMapProvider } from "../routing/smartRoutingMapProvider";
 import { SqlQuerySpec } from "./SqlQuerySpec";
+import { logger } from "../common/logger";
 
 /** @hidden */
 const log = logger("parallelQueryExecutionContextBase");

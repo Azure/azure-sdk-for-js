@@ -35,6 +35,7 @@
     "preinstall": "node common/scripts/rush-welcome.js"
   },
   "devDependencies": {
+    "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@octokit/rest": "^16.26.0",
     "@ts-common/azure-js-dev-tools": "^0.7.0",
     "@types/glob": "^7.1.1",
@@ -45,6 +46,7 @@
     "@types/nodegit": "^0.22.5",
     "@types/yargs": "^11.0.0",
     "colors": "^1.3.2",
+    "eslint": "^7.15.0",
     "fs": "^0.0.1-security",
     "gulp": "^4.0.2",
     "js-yaml": "^3.12.0",

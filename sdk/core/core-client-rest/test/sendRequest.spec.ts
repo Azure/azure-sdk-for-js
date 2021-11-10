@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { sendRequest } from "../src/sendRequest";
-import { assert } from "chai";
 import {
-  createEmptyPipeline,
-  createHttpHeaders,
   Pipeline,
   PipelineResponse,
   RestError,
+  createEmptyPipeline,
+  createHttpHeaders
 } from "@azure/core-rest-pipeline";
+import { assert } from "chai";
+import { sendRequest } from "../src/sendRequest";
 describe("sendRequest", () => {
   const mockBaseUrl = "https://example.org";
 

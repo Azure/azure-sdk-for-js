@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { Constants } from "../common";
-import { logger } from "../common/logger";
 import { ClientSideMetrics, QueryMetrics } from "../queryMetrics";
 import { FeedOptions, Response } from "../request";
-import { getInitialHeader } from "./headerUtils";
+import { Constants } from "../common";
 import { ExecutionContext } from "./index";
+import { logger } from "../common/logger";
+import { getInitialHeader } from "./headerUtils";
 
 /** @hidden */
 const log = logger("defaultQueryExecutionContext");

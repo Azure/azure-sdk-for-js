@@ -2,8 +2,6 @@
 // Licensed under the MIT license.
 
 import {
-  createHttpHeaders,
-  createPipelineRequest,
   FormDataMap,
   HttpMethods,
   Pipeline,
@@ -12,9 +10,11 @@ import {
   RawHttpHeaders,
   RequestBodyType,
   RestError,
+  createHttpHeaders,
+  createPipelineRequest,
 } from "@azure/core-rest-pipeline";
-import { getCachedDefaultHttpsClient } from "./clientHelpers";
 import { HttpResponse, RequestParameters } from "./common";
+import { getCachedDefaultHttpsClient } from "./clientHelpers";
 
 /**
  * Helper function to send request used by the client

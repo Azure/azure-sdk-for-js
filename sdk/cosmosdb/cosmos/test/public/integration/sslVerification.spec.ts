@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 import { CosmosClient } from "../../../src";
 import assert from "assert";
-import https from "https";
 import { getTestDatabase } from "../common/TestHelpers";
+import https from "https";
 
 const endpoint = "https://localhost:8081";
 const masterKey =

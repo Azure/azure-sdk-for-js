@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+import { StatusCode, SubStatusCode } from "./StatusCodes";
 import { Constants } from "../common";
 import { CosmosHeaders } from "../queryExecutionContext/CosmosHeaders";
-import { StatusCode, SubStatusCode } from "./StatusCodes";
 
 export class ResourceResponse<TResource> {
   constructor(

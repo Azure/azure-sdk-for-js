@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { Constants } from "../common/constants";
-import { sleep } from "../common/helper";
 import { StatusCodes, SubStatusCodes } from "../common/statusCodes";
-import { Response } from "../request";
-import { RequestContext } from "../request/RequestContext";
-import { DefaultRetryPolicy } from "./defaultRetryPolicy";
 import { EndpointDiscoveryRetryPolicy } from "./endpointDiscoveryRetryPolicy";
+import { Constants } from "../common/constants";
+import { DefaultRetryPolicy } from "./defaultRetryPolicy";
+import { RequestContext } from "../request/RequestContext";
+import { Response } from "../request";
 import { ResourceThrottleRetryPolicy } from "./resourceThrottleRetryPolicy";
 import { RetryContext } from "./RetryContext";
 import { RetryPolicy } from "./RetryPolicy";
 import { SessionRetryPolicy } from "./sessionRetryPolicy";
+import { sleep } from "../common/helper";
 
 /**
  * @hidden

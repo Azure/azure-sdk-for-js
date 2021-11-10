@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { setAuthorizationHeader } from "../auth";
-import { Constants, HTTPMethod, jsonStringifyAndEscapeNonASCII, ResourceType } from "../common";
-import { CosmosClientOptions } from "../CosmosClientOptions";
-import { PartitionKey } from "../documents";
-import { CosmosHeaders } from "../queryExecutionContext";
+import { Constants, HTTPMethod, ResourceType, jsonStringifyAndEscapeNonASCII } from "../common";
 import { FeedOptions, RequestOptions } from "./index";
+import { CosmosClientOptions } from "../CosmosClientOptions";
+import { CosmosHeaders } from "../queryExecutionContext";
+import { PartitionKey } from "../documents";
+import { setAuthorizationHeader } from "../auth";
 
 // ----------------------------------------------------------------------------
 // Utility methods

@@ -1,19 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { isTokenCredential, KeyCredential, TokenCredential } from "@azure/core-auth";
-import { isCertificateCredential } from "./certificateCredential";
-import { HttpMethods, Pipeline, PipelineOptions } from "@azure/core-rest-pipeline";
-import { createDefaultPipeline } from "./clientHelpers";
 import { Client, ClientOptions, HttpResponse, RequestParameters } from "./common";
-import { sendRequest } from "./sendRequest";
+import { HttpMethods, Pipeline, PipelineOptions } from "@azure/core-rest-pipeline";
+import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
 import { buildRequestUrl } from "./urlHelpers";
+import { createDefaultPipeline } from "./clientHelpers";
+import { isCertificateCredential } from "./certificateCredential";
+import { sendRequest } from "./sendRequest";
 
 /**
  * Creates a client with a default pipeline
  * @param baseUrl - Base endpoint for the client
- * @param options - Client options
- */
+  */
 export function getClient(baseUrl: string, options?: ClientOptions): Client;
 /**
  * Creates a client with a default pipeline

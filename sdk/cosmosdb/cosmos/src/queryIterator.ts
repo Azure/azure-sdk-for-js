@@ -3,20 +3,20 @@
 
 /// <reference lib="esnext.asynciterable" />
 
-import { ClientContext } from "./ClientContext";
-import { getPathFromLink, ResourceType, StatusCodes } from "./common";
 import {
   CosmosHeaders,
   DefaultQueryExecutionContext,
   ExecutionContext,
   FetchFunctionCallback,
-  getInitialHeader,
-  mergeHeaders,
   PipelinedQueryExecutionContext,
-  SqlQuerySpec
+  SqlQuerySpec,
+  getInitialHeader,
+  mergeHeaders
 } from "./queryExecutionContext";
-import { Response } from "./request";
 import { ErrorResponse, PartitionedQueryExecutionInfo } from "./request/ErrorResponse";
+import { getPathFromLink, ResourceType, StatusCodes } from "./common";
+import { ClientContext } from "./ClientContext";
+import { Response } from "./request";
 import { FeedOptions } from "./request/FeedOptions";
 import { FeedResponse } from "./request/FeedResponse";
 
