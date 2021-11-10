@@ -1164,8 +1164,78 @@ export enum KnownQueryCaptionType {
 
 // @public
 export enum KnownQueryLanguage {
+    ArEg = "ar-eg",
+    ArJo = "ar-jo",
+    ArKw = "ar-kw",
+    ArMa = "ar-ma",
+    ArSa = "ar-sa",
+    BgBg = "bg-bg",
+    BnIn = "bn-in",
+    CaEs = "ca-es",
+    CsCz = "cs-cz",
+    DaDk = "da-dk",
+    DeDe = "de-de",
+    ElGr = "el-gr",
+    EnAu = "en-au",
+    EnCa = "en-ca",
+    EnGb = "en-gb",
+    EnIn = "en-in",
     EnUs = "en-us",
-    None = "none"
+    EsEs = "es-es",
+    EsMx = "es-mx",
+    EtEe = "et-ee",
+    EuEs = "eu-es",
+    FaAe = "fa-ae",
+    FiFi = "fi-fi",
+    FrCa = "fr-ca",
+    FrFr = "fr-fr",
+    GaIe = "ga-ie",
+    GlEs = "gl-es",
+    GuIn = "gu-in",
+    HeIl = "he-il",
+    HiIn = "hi-in",
+    HrBa = "hr-ba",
+    HrHr = "hr-hr",
+    HuHu = "hu-hu",
+    HyAm = "hy-am",
+    IdId = "id-id",
+    IsIs = "is-is",
+    ItIt = "it-it",
+    JaJp = "ja-jp",
+    KnIn = "kn-in",
+    KoKr = "ko-kr",
+    LtLt = "lt-lt",
+    LvLv = "lv-lv",
+    MlIn = "ml-in",
+    MrIn = "mr-in",
+    MsBn = "ms-bn",
+    MsMy = "ms-my",
+    NbNo = "nb-no",
+    NlBe = "nl-be",
+    NlNl = "nl-nl",
+    None = "none",
+    NoNo = "no-no",
+    PaIn = "pa-in",
+    PlPl = "pl-pl",
+    PtBr = "pt-br",
+    PtPt = "pt-pt",
+    RoRo = "ro-ro",
+    RuRu = "ru-ru",
+    SkSk = "sk-sk",
+    SlSl = "sl-sl",
+    SrBa = "sr-ba",
+    SrMe = "sr-me",
+    SrRs = "sr-rs",
+    SvSe = "sv-se",
+    TaIn = "ta-in",
+    TeIn = "te-in",
+    ThTh = "th-th",
+    TrTr = "tr-tr",
+    UkUa = "uk-ua",
+    UrPk = "ur-pk",
+    ViVn = "vi-vn",
+    ZhCn = "zh-cn",
+    ZhTw = "zh-tw"
 }
 
 // @public
@@ -1659,6 +1729,13 @@ export type PIIDetectionSkill = BaseSearchIndexerSkill & {
 export type PIIDetectionSkillMaskingMode = string;
 
 // @public
+export interface PrioritizedFields {
+    prioritizedContentFields?: SemanticField[];
+    prioritizedKeywordsFields?: SemanticField[];
+    titleField?: SemanticField;
+}
+
+// @public
 export type QueryAnswerType = string;
 
 // @public
@@ -1783,6 +1860,7 @@ export interface SearchIndex {
     name: string;
     normalizers?: LexicalNormalizer[];
     scoringProfiles?: ScoringProfile[];
+    semanticSettings?: SemanticSettings;
     similarity?: SimilarityAlgorithm;
     suggesters?: SearchSuggester[];
     tokenFilters?: TokenFilter[];
@@ -2084,6 +2162,7 @@ export interface SearchRequest {
     searchMode?: SearchMode;
     searchText?: string;
     select?: string;
+    semanticConfiguration?: string;
     semanticFields?: string;
     sessionId?: string;
     skip?: number;
@@ -2150,6 +2229,23 @@ export interface SearchSuggester {
     name: string;
     searchMode: "analyzingInfixMatching";
     sourceFields: string[];
+}
+
+// @public
+export interface SemanticConfiguration {
+    name: string;
+    prioritizedFields: PrioritizedFields;
+}
+
+// @public
+export interface SemanticField {
+    // (undocumented)
+    name?: string;
+}
+
+// @public
+export interface SemanticSettings {
+    configurations?: SemanticConfiguration[];
 }
 
 // @public

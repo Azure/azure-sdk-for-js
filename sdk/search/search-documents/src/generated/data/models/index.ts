@@ -131,6 +131,8 @@ export interface SearchRequest {
   scoringParameters?: string[];
   /** The name of a scoring profile to evaluate match scores for matching documents in order to sort the results. */
   scoringProfile?: string;
+  /** The name of a semantic configuration that will be used when processing documents for queries of type semantic. */
+  semanticConfiguration?: string;
   /** A full-text search query expression; Use "*" or omit this parameter to match all documents. */
   searchText?: string;
   /** The comma-separated list of field names to which to scope the full-text search. When using fielded search (fieldName:searchExpression) in a full Lucene query, the field names of each fielded search expression take precedence over any field names listed in this parameter. */
@@ -377,6 +379,8 @@ export interface SearchOptions {
   scoringParameters?: string[];
   /** The name of a scoring profile to evaluate match scores for matching documents in order to sort the results. */
   scoringProfile?: string;
+  /** The name of the semantic configuration that lists which fields should be used for semantic ranking, captions, highlights, and answers */
+  semanticConfiguration?: string;
   /** The list of field names to which to scope the full-text search. When using fielded search (fieldName:searchExpression) in a full Lucene query, the field names of each fielded search expression take precedence over any field names listed in this parameter. */
   searchFields?: string[];
   /** The language of the query. */
@@ -464,8 +468,148 @@ export type ApiVersion20210430Preview = string;
 export enum KnownQueryLanguage {
   /** Query language not specified. */
   None = "none",
-  /** English */
-  EnUs = "en-us"
+  /** Query language value for English (United States). */
+  EnUs = "en-us",
+  /** Query language value for English (Great Britain). */
+  EnGb = "en-gb",
+  /** Query language value for English (India). */
+  EnIn = "en-in",
+  /** Query language value for English (Canada). */
+  EnCa = "en-ca",
+  /** Query language value for English (Australia). */
+  EnAu = "en-au",
+  /** Query language value for French (France). */
+  FrFr = "fr-fr",
+  /** Query language value for French (Canada). */
+  FrCa = "fr-ca",
+  /** Query language value for German (Germany). */
+  DeDe = "de-de",
+  /** Query language value for Spanish (Spain). */
+  EsEs = "es-es",
+  /** Query language value for Spanish (Mexico). */
+  EsMx = "es-mx",
+  /** Query language value for Chinese (China). */
+  ZhCn = "zh-cn",
+  /** Query language value for Chinese (Taiwan). */
+  ZhTw = "zh-tw",
+  /** Query language value for Portuguese (Brazil). */
+  PtBr = "pt-br",
+  /** Query language value for Portuguese (Portugal). */
+  PtPt = "pt-pt",
+  /** Query language value for Italian (Italy). */
+  ItIt = "it-it",
+  /** Query language value for Japanese (Japan). */
+  JaJp = "ja-jp",
+  /** Query language value for Korean (Korea). */
+  KoKr = "ko-kr",
+  /** Query language value for Russian (Russia). */
+  RuRu = "ru-ru",
+  /** Query language value for Czech (Czech Republic). */
+  CsCz = "cs-cz",
+  /** Query language value for Dutch (Belgium). */
+  NlBe = "nl-be",
+  /** Query language value for Dutch (Netherlands). */
+  NlNl = "nl-nl",
+  /** Query language value for Hungarian (Hungary). */
+  HuHu = "hu-hu",
+  /** Query language value for Polish (Poland). */
+  PlPl = "pl-pl",
+  /** Query language value for Swedish (Sweden). */
+  SvSe = "sv-se",
+  /** Query language value for Turkish (Turkey). */
+  TrTr = "tr-tr",
+  /** Query language value for Hindi (India). */
+  HiIn = "hi-in",
+  /** Query language value for Arabic (Saudi Arabia). */
+  ArSa = "ar-sa",
+  /** Query language value for Arabic (Egypt). */
+  ArEg = "ar-eg",
+  /** Query language value for Arabic (Morocco). */
+  ArMa = "ar-ma",
+  /** Query language value for Arabic (Kuwait). */
+  ArKw = "ar-kw",
+  /** Query language value for Arabic (Jordan). */
+  ArJo = "ar-jo",
+  /** Query language value for Danish (Denmark). */
+  DaDk = "da-dk",
+  /** Query language value for Norwegian (Normway). */
+  NoNo = "no-no",
+  /** Query language value for Bulgarian (Bulgary). */
+  BgBg = "bg-bg",
+  /** Query language value for Croatian (Croatia). */
+  HrHr = "hr-hr",
+  /** Query language value for Croatian (Bosnia and Herzegovina). */
+  HrBa = "hr-ba",
+  /** Query language value for Malay (Malaysia). */
+  MsMy = "ms-my",
+  /** Query language value for Malay (Brunei Darussalam). */
+  MsBn = "ms-bn",
+  /** Query language value for Slovenian (Slovenia). */
+  SlSl = "sl-sl",
+  /** Query language value for Tamil (India). */
+  TaIn = "ta-in",
+  /** Query language value for Vietnamese (Viet Nam). */
+  ViVn = "vi-vn",
+  /** Query language value for Greek (Greece). */
+  ElGr = "el-gr",
+  /** Query language value for Romanian (Romania). */
+  RoRo = "ro-ro",
+  /** Query language value for Icelandic (Iceland). */
+  IsIs = "is-is",
+  /** Query language value for Indonesian (Indonesia). */
+  IdId = "id-id",
+  /** Query language value for Thai (Thailand). */
+  ThTh = "th-th",
+  /** Query language value for Lithuanian (Lithuania). */
+  LtLt = "lt-lt",
+  /** Query language value for Ukrainian (Ukraine). */
+  UkUa = "uk-ua",
+  /** Query language value for Latvian (Latvia). */
+  LvLv = "lv-lv",
+  /** Query language value for Estonian (Estonia). */
+  EtEe = "et-ee",
+  /** Query language value for Catalan (Spain). */
+  CaEs = "ca-es",
+  /** Query language value for Finnish (Finland). */
+  FiFi = "fi-fi",
+  /** Query language value for Serbian (Bosnia and Herzegovina). */
+  SrBa = "sr-ba",
+  /** Query language value for Serbian (Montenegro). */
+  SrMe = "sr-me",
+  /** Query language value for Serbian (Serbia). */
+  SrRs = "sr-rs",
+  /** Query language value for Slovak (Slovakia). */
+  SkSk = "sk-sk",
+  /** Query language value for Norwegian (Norway). */
+  NbNo = "nb-no",
+  /** Query language value for Armenian (Armenia). */
+  HyAm = "hy-am",
+  /** Query language value for Bengali (India). */
+  BnIn = "bn-in",
+  /** Query language value for Basque (Spain). */
+  EuEs = "eu-es",
+  /** Query language value for Galician (Spain). */
+  GlEs = "gl-es",
+  /** Query language value for Gujarati (India). */
+  GuIn = "gu-in",
+  /** Query language value for Hebrew (Israel). */
+  HeIl = "he-il",
+  /** Query language value for Irish (Ireland). */
+  GaIe = "ga-ie",
+  /** Query language value for Kannada (India). */
+  KnIn = "kn-in",
+  /** Query language value for Malayalam (India). */
+  MlIn = "ml-in",
+  /** Query language value for Marathi (India). */
+  MrIn = "mr-in",
+  /** Query language value for Persian (U.A.E.). */
+  FaAe = "fa-ae",
+  /** Query language value for Punjabi (India). */
+  PaIn = "pa-in",
+  /** Query language value for Telugu (India). */
+  TeIn = "te-in",
+  /** Query language value for Urdu (Pakistan). */
+  UrPk = "ur-pk"
 }
 
 /**
@@ -474,7 +618,77 @@ export enum KnownQueryLanguage {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **none**: Query language not specified. \
- * **en-us**: English
+ * **en-us**: Query language value for English (United States). \
+ * **en-gb**: Query language value for English (Great Britain). \
+ * **en-in**: Query language value for English (India). \
+ * **en-ca**: Query language value for English (Canada). \
+ * **en-au**: Query language value for English (Australia). \
+ * **fr-fr**: Query language value for French (France). \
+ * **fr-ca**: Query language value for French (Canada). \
+ * **de-de**: Query language value for German (Germany). \
+ * **es-es**: Query language value for Spanish (Spain). \
+ * **es-mx**: Query language value for Spanish (Mexico). \
+ * **zh-cn**: Query language value for Chinese (China). \
+ * **zh-tw**: Query language value for Chinese (Taiwan). \
+ * **pt-br**: Query language value for Portuguese (Brazil). \
+ * **pt-pt**: Query language value for Portuguese (Portugal). \
+ * **it-it**: Query language value for Italian (Italy). \
+ * **ja-jp**: Query language value for Japanese (Japan). \
+ * **ko-kr**: Query language value for Korean (Korea). \
+ * **ru-ru**: Query language value for Russian (Russia). \
+ * **cs-cz**: Query language value for Czech (Czech Republic). \
+ * **nl-be**: Query language value for Dutch (Belgium). \
+ * **nl-nl**: Query language value for Dutch (Netherlands). \
+ * **hu-hu**: Query language value for Hungarian (Hungary). \
+ * **pl-pl**: Query language value for Polish (Poland). \
+ * **sv-se**: Query language value for Swedish (Sweden). \
+ * **tr-tr**: Query language value for Turkish (Turkey). \
+ * **hi-in**: Query language value for Hindi (India). \
+ * **ar-sa**: Query language value for Arabic (Saudi Arabia). \
+ * **ar-eg**: Query language value for Arabic (Egypt). \
+ * **ar-ma**: Query language value for Arabic (Morocco). \
+ * **ar-kw**: Query language value for Arabic (Kuwait). \
+ * **ar-jo**: Query language value for Arabic (Jordan). \
+ * **da-dk**: Query language value for Danish (Denmark). \
+ * **no-no**: Query language value for Norwegian (Normway). \
+ * **bg-bg**: Query language value for Bulgarian (Bulgary). \
+ * **hr-hr**: Query language value for Croatian (Croatia). \
+ * **hr-ba**: Query language value for Croatian (Bosnia and Herzegovina). \
+ * **ms-my**: Query language value for Malay (Malaysia). \
+ * **ms-bn**: Query language value for Malay (Brunei Darussalam). \
+ * **sl-sl**: Query language value for Slovenian (Slovenia). \
+ * **ta-in**: Query language value for Tamil (India). \
+ * **vi-vn**: Query language value for Vietnamese (Viet Nam). \
+ * **el-gr**: Query language value for Greek (Greece). \
+ * **ro-ro**: Query language value for Romanian (Romania). \
+ * **is-is**: Query language value for Icelandic (Iceland). \
+ * **id-id**: Query language value for Indonesian (Indonesia). \
+ * **th-th**: Query language value for Thai (Thailand). \
+ * **lt-lt**: Query language value for Lithuanian (Lithuania). \
+ * **uk-ua**: Query language value for Ukrainian (Ukraine). \
+ * **lv-lv**: Query language value for Latvian (Latvia). \
+ * **et-ee**: Query language value for Estonian (Estonia). \
+ * **ca-es**: Query language value for Catalan (Spain). \
+ * **fi-fi**: Query language value for Finnish (Finland). \
+ * **sr-ba**: Query language value for Serbian (Bosnia and Herzegovina). \
+ * **sr-me**: Query language value for Serbian (Montenegro). \
+ * **sr-rs**: Query language value for Serbian (Serbia). \
+ * **sk-sk**: Query language value for Slovak (Slovakia). \
+ * **nb-no**: Query language value for Norwegian (Norway). \
+ * **hy-am**: Query language value for Armenian (Armenia). \
+ * **bn-in**: Query language value for Bengali (India). \
+ * **eu-es**: Query language value for Basque (Spain). \
+ * **gl-es**: Query language value for Galician (Spain). \
+ * **gu-in**: Query language value for Gujarati (India). \
+ * **he-il**: Query language value for Hebrew (Israel). \
+ * **ga-ie**: Query language value for Irish (Ireland). \
+ * **kn-in**: Query language value for Kannada (India). \
+ * **ml-in**: Query language value for Malayalam (India). \
+ * **mr-in**: Query language value for Marathi (India). \
+ * **fa-ae**: Query language value for Persian (U.A.E.). \
+ * **pa-in**: Query language value for Punjabi (India). \
+ * **te-in**: Query language value for Telugu (India). \
+ * **ur-pk**: Query language value for Urdu (Pakistan).
  */
 export type QueryLanguage = string;
 

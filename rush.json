@@ -1060,6 +1060,11 @@
       "packageName": "@azure/arm-mysql",
       "projectFolder": "sdk/mysql/arm-mysql",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-desktopvirtualization",
+      "projectFolder": "sdk/desktopvirtualization/arm-desktopvirtualization",
+      "versionPolicyName": "management"
     }
   ]
 }

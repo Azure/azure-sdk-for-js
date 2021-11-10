@@ -28,10 +28,11 @@ type GeneratedSchemaIdResponse = SchemaRegisterResponse | SchemaQueryIdByDefinit
 export async function convertSchemaResponse(response: GeneratedSchemaResponse): Promise<Schema> {
   const schemaDefinition = await getSchemaDefinition(response);
   return {
-    id: response.schemaId!,
-    version: response.schemaVersion!,
-    format: mapContentTypeToFormat(response.contentType!),
-    schemaDefinition: schemaDefinition
+    definition: schemaDefinition,
+    properties: {
+      id: response.schemaId!,
+      format: mapContentTypeToFormat(response.contentType!)
+    }
   };
 }
 
@@ -48,7 +49,6 @@ export function convertSchemaIdResponse(
       // `!`s here because server is required to return these on success, but that
       // is not modeled by the generated client.
       id: response.schemaId!,
-      version: response.schemaVersion!,
       format: schemaFormat
     };
   };
@@ -61,23 +61,5 @@ function mapContentTypeToFormat(contentType: string): string {
     return schemaFormat;
   } else {
     throw new Error(`Unrecognized response's content-type: ${contentType}`);
-  }
-}
-
-/**
- *
- * @param format - the schema format
- * @param thunks - a dictionary of schema formats and what to do next for each one
- * @returns the computed result of the corresponding thunk
- *
- * @internal
- */
-export function dispatchOnFormat<T>(format: string, thunks: { avro: () => T }): T {
-  switch (format.toLocaleLowerCase()) {
-    case "avro": {
-      return thunks.avro();
-    }
-    default:
-      throw new Error(`Unrecognized schema format: ${format}`);
   }
 }
