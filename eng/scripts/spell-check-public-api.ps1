@@ -43,7 +43,7 @@ if (!$ServiceDirectory) {
 
 $packageDirectories = @()
 foreach ($serviceDirectory in $directoresToScan) {
-  # Only include directories which have a `reivew` folder as that is the folder
+  # Only include directories which have a `review` folder as that is the folder
   # that will be scanned.
   $packageDirectories += Get-ChildItem -Path "$serviceDirectory/*/review" -Directory
 }
