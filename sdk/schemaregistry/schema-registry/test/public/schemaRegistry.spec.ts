@@ -119,7 +119,7 @@ describe("SchemaRegistryClient", function() {
   });
 
   it("fails to get schema by ID when given invalid ID", async () => {
-    await assert.isRejected(client.getSchema(null!), /null/);
+    await isRejected(client.getSchema(null!), undefined, /null/);
   });
 
   it("fails to get schema when no schema exists with given ID", async () => {
