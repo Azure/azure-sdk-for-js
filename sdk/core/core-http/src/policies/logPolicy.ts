@@ -1,8 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { HttpOperationResponse } from "../httpOperationResponse";
-import { WebResourceLike } from "../webResource";
 import {
   BaseRequestPolicy,
   RequestPolicy,
@@ -10,8 +8,10 @@ import {
   RequestPolicyOptions
 } from "./requestPolicy";
 import { Debugger } from "@azure/logger";
-import { logger as coreLogger } from "../log";
+import { HttpOperationResponse } from "../httpOperationResponse";
 import { Sanitizer } from "../util/sanitizer";
+import { WebResourceLike } from "../webResource";
+import { logger as coreLogger } from "../log";
 
 export interface LogPolicyOptions {
   /**

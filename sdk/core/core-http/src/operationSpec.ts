@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { MapperType, Serializer } from "./serializer";
 import {
   OperationParameter,
   OperationQueryParameter,
   OperationURLParameter
 } from "./operationParameter";
-import { OperationResponse } from "./operationResponse";
-import { MapperType, Serializer } from "./serializer";
 import { HttpMethods } from "./webResource";
+import { OperationResponse } from "./operationResponse";
 
 /**
  * A specification that defines an operation.

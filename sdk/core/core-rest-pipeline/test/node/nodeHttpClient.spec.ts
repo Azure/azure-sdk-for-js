@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
-import * as sinon from "sinon";
-import { PassThrough } from "stream";
-import { IncomingMessage, ClientRequest, IncomingHttpHeaders } from "http";
-import * as https from "https";
 import * as http from "http";
-import { AbortController } from "@azure/abort-controller";
+import * as https from "https";
+import * as sinon from "sinon";
+import { ClientRequest, IncomingHttpHeaders, IncomingMessage } from "http";
 import { createDefaultHttpClient, createPipelineRequest } from "../../src";
+import { AbortController } from "@azure/abort-controller";
+import { PassThrough } from "stream";
+import { assert } from "chai";
 
 class FakeResponse extends PassThrough {
   public statusCode?: number;

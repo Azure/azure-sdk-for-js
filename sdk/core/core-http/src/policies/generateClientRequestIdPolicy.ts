@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { HttpOperationResponse } from "../httpOperationResponse";
-import { WebResourceLike } from "../webResource";
 import {
   BaseRequestPolicy,
   RequestPolicy,
   RequestPolicyFactory,
   RequestPolicyOptions
 } from "./requestPolicy";
+import { HttpOperationResponse } from "../httpOperationResponse";
+import { WebResourceLike } from "../webResource";
 
 export function generateClientRequestIdPolicy(
   requestIdHeaderName = "x-ms-client-request-id"

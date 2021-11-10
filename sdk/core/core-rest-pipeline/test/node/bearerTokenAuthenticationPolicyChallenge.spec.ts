@@ -1,19 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
 import * as sinon from "sinon";
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import {
-  bearerTokenAuthenticationPolicy,
   AuthorizeRequestOnChallengeOptions,
+  HttpClient,
+  PipelineResponse,
+  bearerTokenAuthenticationPolicy,
   createEmptyPipeline,
   createHttpHeaders,
-  createPipelineRequest,
-  HttpClient,
-  PipelineResponse
+  createPipelineRequest
 } from "../../src";
 import { TextDecoder } from "util";
+import { assert } from "chai";
 
 export interface TestChallenge {
   scope: string;

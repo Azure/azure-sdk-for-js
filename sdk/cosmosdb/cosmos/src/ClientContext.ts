@@ -1,35 +1,37 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { v4 } from "uuid";
-const uuid = v4;
-import {
-  bearerTokenAuthenticationPolicy,
-  createEmptyPipeline,
-  Pipeline
-} from "@azure/core-rest-pipeline";
-import { PartitionKeyRange } from "./client/Container/PartitionKeyRange";
-import { Resource } from "./client/Resource";
+
+import { ConnectionPolicy, ConsistencyLevel, DatabaseAccount, PartitionKey } from "./documents";
+import { FeedOptions, RequestOptions, Response } from "./request";
 import { Constants, HTTPMethod, OperationType, ResourceType } from "./common/constants";
 import { getIdFromLink, getPathFromLink, parseLink } from "./common/helper";
-import { logger } from "./common/logger";
-import { StatusCodes, SubStatusCodes } from "./common/statusCodes";
-import { CosmosClientOptions } from "./CosmosClientOptions";
-import { ConnectionPolicy, ConsistencyLevel, DatabaseAccount, PartitionKey } from "./documents";
-import { GlobalEndpointManager } from "./globalEndpointManager";
-import { executePlugins, PluginOn } from "./plugins/Plugin";
 import { FetchFunctionCallback, SqlQuerySpec } from "./queryExecutionContext";
+import { StatusCodes, SubStatusCodes } from "./common/statusCodes";
+import {
+  Pipeline,
+  bearerTokenAuthenticationPolicy,
+  createEmptyPipeline
+} from "@azure/core-rest-pipeline";
+import { PluginOn, executePlugins } from "./plugins/Plugin";
+import { BulkOptions } from "./utils/batch";
+import { CosmosClientOptions } from "./CosmosClientOptions";
 import { CosmosHeaders } from "./queryExecutionContext/CosmosHeaders";
-import { QueryIterator } from "./queryIterator";
 import { ErrorResponse } from "./request";
-import { FeedOptions, RequestOptions, Response } from "./request";
+import { GlobalEndpointManager } from "./globalEndpointManager";
+import { PartitionKeyRange } from "./client/Container/PartitionKeyRange";
 import { PartitionedQueryExecutionInfo } from "./request/ErrorResponse";
-import { getHeaders } from "./request/request";
+import { QueryIterator } from "./queryIterator";
+import { Resource } from "./client/Resource";
 import { RequestContext } from "./request/RequestContext";
-import { request as executeRequest } from "./request/RequestHandler";
 import { SessionContainer } from "./session/sessionContainer";
 import { SessionContext } from "./session/SessionContext";
-import { BulkOptions } from "./utils/batch";
+import { request as executeRequest } from "./request/RequestHandler";
+import { getHeaders } from "./request/request";
+import { logger } from "./common/logger";
 import { sanitizeEndpoint } from "./utils/checkURL";
+import { v4 } from "uuid";
+
+const uuid = v4;
 
 /** @hidden */
 const log = logger("ClientContext");

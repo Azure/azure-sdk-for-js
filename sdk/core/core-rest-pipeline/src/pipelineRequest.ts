@@ -2,18 +2,18 @@
 // Licensed under the MIT license.
 
 import {
-  PipelineRequest,
-  TransferProgressEvent,
-  RequestBodyType,
-  HttpMethods,
-  HttpHeaders,
   FormDataMap,
-  ProxySettings
+  HttpHeaders,
+  HttpMethods,
+  PipelineRequest,
+  ProxySettings,
+  RequestBodyType,
+  TransferProgressEvent
 } from "./interfaces";
-import { createHttpHeaders } from "./httpHeaders";
 import { AbortSignalLike } from "@azure/abort-controller";
-import { generateUuid } from "./util/uuid";
 import { OperationTracingOptions } from "@azure/core-tracing";
+import { createHttpHeaders } from "./httpHeaders";
+import { generateUuid } from "./util/uuid";
 
 /**
  * Settings to initialize a request.

@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-auth";
-import { PipelineResponse, PipelineRequest, SendRequest } from "../interfaces";
+import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
+import { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces";
 import { PipelinePolicy } from "../pipeline";
 import { createTokenCycler } from "../util/tokenCycler";
 

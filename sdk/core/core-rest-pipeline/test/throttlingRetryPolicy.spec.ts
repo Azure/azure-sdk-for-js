@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
-import { Context } from "mocha";
 import * as sinon from "sinon";
 import {
-  createPipelineRequest,
-  SendRequest,
   PipelineResponse,
+  SendRequest,
   createHttpHeaders,
+  createPipelineRequest,
   throttlingRetryPolicy
 } from "../src";
+import { Context } from "mocha";
+import { assert } from "chai";
 
 describe("throttlingRetryPolicy", function() {
   afterEach(function() {

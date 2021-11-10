@@ -3,14 +3,14 @@
 
 /// <reference lib="dom" />
 
-import { AbortError } from "@azure/abort-controller";
 import {
   HttpClient,
+  HttpHeaders,
   PipelineRequest,
   PipelineResponse,
-  TransferProgressEvent,
-  HttpHeaders
+  TransferProgressEvent
 } from "./interfaces";
+import { AbortError } from "@azure/abort-controller";
 import { RestError } from "./restError";
 import { createHttpHeaders } from "./httpHeaders";
 

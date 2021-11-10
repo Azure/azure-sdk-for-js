@@ -2,16 +2,16 @@
 // Licensed under the MIT license.
 
 import {
+  Context,
   OperationTracingOptions,
   Span,
+  SpanKind,
   SpanOptions,
-  setSpan,
-  context as otContext,
   getTracer,
-  Context,
-  SpanKind
+  context as otContext,
+  setSpan
 } from "./interfaces";
-import { trace, INVALID_SPAN_CONTEXT } from "@opentelemetry/api";
+import { INVALID_SPAN_CONTEXT, trace } from "@opentelemetry/api";
 
 /**
  * Arguments for `createSpanFunction` that allow you to specify the

@@ -4,7 +4,7 @@
 
 import * as base64 from "./util/base64";
 import * as utils from "./util/utils";
-import { XML_ATTRKEY, XML_CHARKEY, SerializerOptions } from "./util/serializer.common";
+import { SerializerOptions, XML_ATTRKEY, XML_CHARKEY } from "./util/serializer.common";
 
 export class Serializer {
   constructor(

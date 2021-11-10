@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AbortError } from "@azure/abort-controller";
-import { HttpClient } from "./httpClient";
 import { HttpHeaders, HttpHeadersLike } from "./httpHeaders";
 import { WebResourceLike, TransferProgressEvent } from "./webResource";
+import { AbortError } from "@azure/abort-controller";
+import { HttpClient } from "./httpClient";
 import { HttpOperationResponse } from "./httpOperationResponse";
 import { RestError } from "./restError";
 

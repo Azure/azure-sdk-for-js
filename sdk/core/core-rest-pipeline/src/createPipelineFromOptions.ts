@@ -1,23 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ProxySettings } from ".";
-import { Pipeline, createEmptyPipeline } from "./pipeline";
-import { decompressResponsePolicy } from "./policies/decompressResponsePolicy";
 import {
-  exponentialRetryPolicy,
-  ExponentialRetryPolicyOptions
+  ExponentialRetryPolicyOptions,
+  exponentialRetryPolicy
 } from "./policies/exponentialRetryPolicy";
+import { LogPolicyOptions, logPolicy } from "./policies/logPolicy";
+import { Pipeline, createEmptyPipeline } from "./pipeline";
+import { RedirectPolicyOptions, redirectPolicy } from "./policies/redirectPolicy";
+import { UserAgentPolicyOptions, userAgentPolicy } from "./policies/userAgentPolicy";
+import { ProxySettings } from ".";
+import { decompressResponsePolicy } from "./policies/decompressResponsePolicy";
 import { formDataPolicy } from "./policies/formDataPolicy";
-import { logPolicy, LogPolicyOptions } from "./policies/logPolicy";
+import { isNode } from "./util/helpers";
 import { proxyPolicy } from "./policies/proxyPolicy";
-import { redirectPolicy, RedirectPolicyOptions } from "./policies/redirectPolicy";
 import { setClientRequestIdPolicy } from "./policies/setClientRequestIdPolicy";
 import { systemErrorRetryPolicy } from "./policies/systemErrorRetryPolicy";
 import { throttlingRetryPolicy } from "./policies/throttlingRetryPolicy";
 import { tracingPolicy } from "./policies/tracingPolicy";
-import { userAgentPolicy, UserAgentPolicyOptions } from "./policies/userAgentPolicy";
-import { isNode } from "./util/helpers";
 
 /**
  * Defines options that are used to configure the HTTP pipeline for

@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
 import * as sinon from "sinon";
 import {
-  createPipelineRequest,
-  SendRequest,
   PipelineResponse,
+  RestError,
+  SendRequest,
   createHttpHeaders,
-  systemErrorRetryPolicy,
-  RestError
+  createPipelineRequest,
+  systemErrorRetryPolicy
 } from "../src";
+import { assert } from "chai";
 
 describe("systemErrorRetryPolicy", function() {
   afterEach(function() {

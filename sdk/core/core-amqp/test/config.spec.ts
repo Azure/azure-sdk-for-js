@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ConnectionConfig } from "../src";
 import * as chai from "chai";
+import { ConnectionConfig } from "../src";
 import { isSharedAccessSignature } from "../src/connectionConfig/connectionConfig";
 const should = chai.should();
 

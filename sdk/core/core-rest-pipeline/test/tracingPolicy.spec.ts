@@ -1,29 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
 import * as sinon from "sinon";
 import {
-  tracingPolicy,
-  createPipelineRequest,
-  SendRequest,
   PipelineResponse,
+  RestError,
+  SendRequest,
   createHttpHeaders,
-  RestError
+  createPipelineRequest,
+  tracingPolicy
 } from "../src";
+import { Span, Tracer, TracerProvider, trace } from "@opentelemetry/api";
 import {
+  SpanAttributeValue,
+  SpanAttributes,
   SpanContext,
+  SpanOptions,
+  SpanStatus,
+  SpanStatusCode,
   TraceFlags,
   TraceState,
   context,
-  setSpan,
-  SpanStatus,
-  SpanStatusCode,
-  SpanAttributes,
-  SpanAttributeValue,
-  SpanOptions
+  setSpan
 } from "@azure/core-tracing";
-import { TracerProvider, Tracer, Span, trace } from "@opentelemetry/api";
+import { assert } from "chai";
 
 class MockSpan implements Span {
   private _endCalled = false;

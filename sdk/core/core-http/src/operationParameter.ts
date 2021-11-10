@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { QueryCollectionFormat } from "./queryCollectionFormat";
 import { Mapper } from "./serializer";
+import { QueryCollectionFormat } from "./queryCollectionFormat";
 
 export type ParameterPath = string | string[] | { [propertyName: string]: ParameterPath };
 

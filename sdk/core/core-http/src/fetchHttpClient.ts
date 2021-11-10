@@ -2,14 +2,13 @@
 // Licensed under the MIT license.
 
 import { AbortController, AbortError } from "@azure/abort-controller";
-import FormData from "form-data";
-
-import { HttpClient } from "./httpClient";
-import { TransferProgressEvent, WebResourceLike } from "./webResource";
-import { HttpOperationResponse } from "./httpOperationResponse";
 import { HttpHeaders, HttpHeadersLike } from "./httpHeaders";
-import { RestError } from "./restError";
 import { Readable, Transform } from "stream";
+import { TransferProgressEvent, WebResourceLike } from "./webResource";
+import FormData from "form-data";
+import { HttpClient } from "./httpClient";
+import { HttpOperationResponse } from "./httpOperationResponse";
+import { RestError } from "./restError";
 import { logger } from "./log";
 
 interface FetchError extends Error {

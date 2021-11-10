@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { HttpHeaders } from "../httpHeaders";
-import { HttpOperationResponse } from "../httpOperationResponse";
-import { Constants } from "../util/constants";
-import { WebResourceLike } from "../webResource";
-import { getDefaultUserAgentKey, getPlatformSpecificData } from "./msRestUserAgentPolicy";
 import {
   BaseRequestPolicy,
   RequestPolicy,
   RequestPolicyFactory,
   RequestPolicyOptions
 } from "./requestPolicy";
+import { getDefaultUserAgentKey, getPlatformSpecificData } from "./msRestUserAgentPolicy";
+import { Constants } from "../util/constants";
+import { HttpHeaders } from "../httpHeaders";
+import { HttpOperationResponse } from "../httpOperationResponse";
+import { WebResourceLike } from "../webResource";
 
 export type TelemetryInfo = { key?: string; value?: string };
 

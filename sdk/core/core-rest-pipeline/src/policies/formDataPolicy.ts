@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { FormDataMap, PipelineRequest, PipelineResponse,  SendRequest } from "../interfaces";
 import FormData from "form-data";
-import { PipelineResponse, PipelineRequest, SendRequest, FormDataMap } from "../interfaces";
 import { PipelinePolicy } from "../pipeline";
 
 /**

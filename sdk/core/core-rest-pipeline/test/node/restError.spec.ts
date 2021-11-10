@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
 import { PipelineResponse, RestError, createHttpHeaders, createPipelineRequest } from "../../src";
+import { assert } from "chai";
 import { inspect } from "util";
 
 describe("RestError", function() {

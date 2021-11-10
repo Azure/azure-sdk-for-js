@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PipelineResponse, PipelineRequest, SendRequest } from "../interfaces";
+import { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces";
+import { getUserAgentHeaderName, getUserAgentValue } from "../util/userAgent";
 import { PipelinePolicy } from "../pipeline";
-import { getUserAgentValue, getUserAgentHeaderName } from "../util/userAgent";
 
 const UserAgentHeaderName = getUserAgentHeaderName();
 

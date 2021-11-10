@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
 import * as sinon from "sinon";
 import {
-  createPipelineRequest,
-  SendRequest,
   PipelineResponse,
+  SendRequest,
   createHttpHeaders,
+  createPipelineRequest,
   ndJsonPolicy
 } from "../src";
+import { assert } from "chai";
 
 describe("NdJsonPolicy", function() {
   afterEach(function() {

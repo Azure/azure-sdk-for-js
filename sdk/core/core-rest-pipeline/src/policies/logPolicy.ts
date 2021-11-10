@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces";
 import { Debugger } from "@azure/logger";
-import { PipelineResponse, PipelineRequest, SendRequest } from "../interfaces";
 import { PipelinePolicy } from "../pipeline";
-import { logger as coreLogger } from "../log";
 import { Sanitizer } from "../util/sanitizer";
+import { logger as coreLogger } from "../log";
 
 /**
  * The programmatic identifier of the logPolicy.

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { isObject, UnknownObject } from "./helpers";
+import { UnknownObject, isObject } from "./helpers";
 import { URL } from "./url";
 
 /**

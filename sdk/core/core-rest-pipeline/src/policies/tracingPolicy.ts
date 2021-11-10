@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces";
 import {
-  getTraceParentHeader,
-  createSpanFunction,
-  SpanStatusCode,
-  isSpanContextValid,
   Span,
-  SpanOptions
+  SpanOptions,
+  SpanStatusCode,
+  createSpanFunction,
+  getTraceParentHeader,
+  isSpanContextValid
 } from "@azure/core-tracing";
-import { SpanKind } from "@azure/core-tracing";
-import { PipelineResponse, PipelineRequest, SendRequest } from "../interfaces";
 import { PipelinePolicy } from "../pipeline";
+import { SpanKind } from "@azure/core-tracing";
 import { URL } from "../util/url";
 import { getUserAgentValue } from "../util/userAgent";
 import { logger } from "../log";

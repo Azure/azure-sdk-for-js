@@ -8,8 +8,8 @@ import {
   isNamedKeyCredential,
   isSASCredential
 } from "@azure/core-auth";
-import jssha from "jssha";
 import { isObjectWithProperties } from "../util/typeGuards";
+import jssha from "jssha";
 
 /**
  * A SasTokenProvider provides an alternative to TokenCredential for providing an `AccessToken`.

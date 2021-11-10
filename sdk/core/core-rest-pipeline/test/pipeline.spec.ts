@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
 import {
-  createEmptyPipeline,
-  PipelinePolicy,
   HttpClient,
-  createPipelineRequest,
+  PipelinePolicy,
+  createEmptyPipeline,
   createHttpHeaders,
-  createPipelineFromOptions
+  createPipelineFromOptions,
+  createPipelineRequest
 } from "../src";
+import { assert } from "chai";
 
 describe("HttpsPipeline", function() {
   it("Newly created pipeline has no policies", function() {

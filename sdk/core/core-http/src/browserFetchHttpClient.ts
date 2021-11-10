@@ -2,10 +2,10 @@
 // Licensed under the MIT license.
 
 import {
-  FetchHttpClient,
   CommonRequestInfo,
+  CommonRequestInit,
   CommonResponse,
-  CommonRequestInit
+  FetchHttpClient
 } from "./fetchHttpClient";
 import { HttpOperationResponse } from "./httpOperationResponse";
 import { WebResourceLike } from "./webResource";

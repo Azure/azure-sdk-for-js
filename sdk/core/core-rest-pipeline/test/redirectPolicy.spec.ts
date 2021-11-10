@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import * as sinon from "sinon";
+import { PipelineResponse, SendRequest, createHttpHeaders, createPipelineRequest } from "../src";
 import { assert } from "chai";
 import { redirectPolicy } from "../src/policies/redirectPolicy";
-import * as sinon from "sinon";
-import { createHttpHeaders, createPipelineRequest, PipelineResponse, SendRequest } from "../src";
 
 describe("RedirectPolicy", () => {
   it("should not follow redirect if no location header", async () => {

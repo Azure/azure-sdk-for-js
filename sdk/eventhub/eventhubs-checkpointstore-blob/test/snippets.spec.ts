@@ -1,14 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { env } from "process";
 import * as dotenv from "dotenv";
 
 // if you modify these imports update the imports in the snippet below as well
 // (JS compatible there)
-import { EventHubConsumerClient } from "@azure/event-hubs";
-import { ContainerClient } from "@azure/storage-blob";
 import { BlobCheckpointStore } from "../src";
+import { ContainerClient } from "@azure/storage-blob";
+import { EventHubConsumerClient } from "@azure/event-hubs";
+
+import { env } from "process";
 
 describe.skip("Snippets", () => {
   // used in the eventhubs and eventhubs-checkpointstore-blob readme.

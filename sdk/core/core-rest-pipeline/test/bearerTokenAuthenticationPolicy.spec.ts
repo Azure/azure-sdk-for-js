@@ -1,18 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
 import * as sinon from "sinon";
-import { TokenCredential, AccessToken } from "@azure/core-auth";
+import { AccessToken, TokenCredential } from "@azure/core-auth";
 import {
   PipelinePolicy,
-  createPipelineRequest,
-  createHttpHeaders,
   PipelineResponse,
+  SendRequest,
   bearerTokenAuthenticationPolicy,
-  SendRequest
+  createHttpHeaders,
+  createPipelineRequest
 } from "../src";
 import { DEFAULT_CYCLER_OPTIONS } from "../src/util/tokenCycler";
+import { assert } from "chai";
 
 const { refreshWindowInMs: defaultRefreshWindow } = DEFAULT_CYCLER_OPTIONS;
 

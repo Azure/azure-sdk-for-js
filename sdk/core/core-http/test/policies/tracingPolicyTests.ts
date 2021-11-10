@@ -10,15 +10,15 @@ import {
   RequestPolicyOptions
 } from "../../src/coreHttp";
 import {
+  SpanAttributeValue,
+  SpanAttributes,
   SpanContext,
+  SpanStatus,
+  SpanStatusCode,
   TraceFlags,
   TraceState,
-  setSpan,
   context,
-  SpanStatusCode,
-  SpanStatus,
-  SpanAttributes,
-  SpanAttributeValue
+  setSpan
 } from "@azure/core-tracing";
 import { tracingPolicy } from "../../src/policies/tracingPolicy";
 import { TracerProvider, Tracer, Span, SpanOptions, trace } from "@opentelemetry/api";

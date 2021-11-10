@@ -56,6 +56,7 @@ export default {
     "no-var": "error",
     "one-var-declaration-per-line": "error",
     "prefer-const": "error",
+    "sort-imports": "error",
     "spaced-comment": ["error", "always", { markers: ["/"] }],
     "space-infix-ops": ["error", { int32Hint: false }],
     "use-isnan": "error",

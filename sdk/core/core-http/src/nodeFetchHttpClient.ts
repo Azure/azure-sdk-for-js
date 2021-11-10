@@ -1,20 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as tough from "tough-cookie";
 import * as http from "http";
 import * as https from "https";
-import node_fetch from "node-fetch";
-
+import * as tough from "tough-cookie";
 import {
-  FetchHttpClient,
   CommonRequestInfo,
   CommonRequestInit,
-  CommonResponse
+  CommonResponse,
+  FetchHttpClient
 } from "./fetchHttpClient";
+import { ProxyAgent, createProxyAgent, isUrlHttps } from "./proxyAgent";
 import { HttpOperationResponse } from "./httpOperationResponse";
 import { WebResourceLike } from "./webResource";
-import { createProxyAgent, ProxyAgent, isUrlHttps } from "./proxyAgent";
+import node_fetch from "node-fetch";
 
 interface AgentCache {
   httpAgent?: http.Agent;

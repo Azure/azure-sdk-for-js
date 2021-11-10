@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PipelineResponse, PipelineRequest, SendRequest } from "../interfaces";
-import { PipelinePolicy } from "../pipeline";
-import { logger } from "../log";
-import { RestError } from "../restError";
+import { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces";
 import { delay, getRandomIntegerInclusive } from "../util/helpers";
+import { PipelinePolicy } from "../pipeline";
+import { RestError } from "../restError";
+import { logger } from "../log";
 
 const DEFAULT_CLIENT_RETRY_COUNT = 10;
 // intervals are in ms

@@ -2,22 +2,22 @@
 // Licensed under the MIT license.
 
 import {
-  getTraceParentHeader,
-  createSpanFunction,
+  BaseRequestPolicy,
+  RequestPolicy,
+  RequestPolicyFactory,
+  RequestPolicyOptions
+} from "./requestPolicy";
+import {
+  Span,
   SpanKind,
   SpanStatusCode,
-  isSpanContextValid,
-  Span
+  createSpanFunction,
+  getTraceParentHeader,
+  isSpanContextValid
 } from "@azure/core-tracing";
-import {
-  RequestPolicyFactory,
-  RequestPolicy,
-  RequestPolicyOptions,
-  BaseRequestPolicy
-} from "./requestPolicy";
-import { WebResourceLike } from "../webResource";
 import { HttpOperationResponse } from "../httpOperationResponse";
 import { URLBuilder } from "../url";
+import { WebResourceLike } from "../webResource";
 import { logger } from "../log";
 
 const createSpan = createSpanFunction({

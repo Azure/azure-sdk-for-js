@@ -3,15 +3,15 @@
 
 import * as http from "http";
 import * as https from "https";
-import { HttpsProxyAgent, HttpsProxyAgentOptions } from "https-proxy-agent";
-import { HttpProxyAgent, HttpProxyAgentOptions } from "http-proxy-agent";
 import {
-  PipelineResponse,
+  HttpHeaders,
   PipelineRequest,
-  SendRequest,
+  PipelineResponse,
   ProxySettings,
-  HttpHeaders
+  SendRequest
 } from "../interfaces";
+import { HttpProxyAgent, HttpProxyAgentOptions } from "http-proxy-agent";
+import { HttpsProxyAgent, HttpsProxyAgentOptions } from "https-proxy-agent";
 import { PipelinePolicy } from "../pipeline";
 import { URL } from "../util/url";
 

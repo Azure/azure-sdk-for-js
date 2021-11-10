@@ -5,11 +5,11 @@
 
 import {
   Client,
-  createRestError,
   HttpResponse,
   PathUncheckedResponse,
+  createRestError
 } from "@azure-rest/core-client";
-import { getPagedAsyncIterator, PagedAsyncIterableIterator, PagedResult } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PagedResult, getPagedAsyncIterator } from "@azure/core-paging";
 
 const Http2xxStatusCodes = ["200", "201", "202", "203", "204", "205", "206", "207", "208", "226"];
 

@@ -1,21 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
 import * as sinon from "sinon";
 import {
-  proxyPolicy,
-  createPipelineRequest,
-  SendRequest,
   ProxySettings,
+  SendRequest,
+  createHttpHeaders,
+  createPipelineRequest,
   getDefaultProxySettings,
-  createHttpHeaders
+  proxyPolicy
 } from "../../src";
 import {
+  getProxyAgentOptions,
   globalNoProxyList,
-  loadNoProxy,
-  getProxyAgentOptions
+  loadNoProxy
 } from "../../src/policies/proxyPolicy";
+import { assert } from "chai";
 
 describe("proxyPolicy (node)", function() {
   it("Sets proxy settings on the request", function() {

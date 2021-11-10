@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
-import { Client, getClient, PathUncheckedResponse } from "@azure-rest/core-client";
-import { paginateResponse } from "../src/paginate";
+import { Client, PathUncheckedResponse, getClient } from "@azure-rest/core-client";
 import { PipelineResponse, createHttpHeaders } from "@azure/core-rest-pipeline";
-import { URL } from "../src/url";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { URL } from "../src/url";
+import { assert } from "chai";
+import { paginateResponse } from "../src/paginate";
 
 /**
  * This is a sample of how code generator can generate code around the Swagger spec for pagination to improve UX

@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { HttpOperationResponse } from "../httpOperationResponse";
-import { URLBuilder } from "../url";
-import { WebResourceLike } from "../webResource";
 import {
   BaseRequestPolicy,
   RequestPolicy,
   RequestPolicyFactory,
   RequestPolicyOptions
 } from "./requestPolicy";
+import { HttpOperationResponse } from "../httpOperationResponse";
+import { URLBuilder } from "../url";
+import { WebResourceLike } from "../webResource";
 
 /**
  * Methods that are allowed to follow redirects 301 and 302
