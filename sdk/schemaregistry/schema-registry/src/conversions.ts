@@ -28,10 +28,11 @@ type GeneratedSchemaIdResponse = SchemaRegisterResponse | SchemaQueryIdByDefinit
 export async function convertSchemaResponse(response: GeneratedSchemaResponse): Promise<Schema> {
   const schemaDefinition = await getSchemaDefinition(response);
   return {
-    id: response.schemaId!,
-    version: response.schemaVersion!,
-    format: mapContentTypeToFormat(response.contentType!),
-    schemaDefinition: schemaDefinition
+    definition: schemaDefinition,
+    properties: {
+      id: response.schemaId!,
+      format: mapContentTypeToFormat(response.contentType!)
+    }
   };
 }
 
@@ -48,7 +49,6 @@ export function convertSchemaIdResponse(
       // `!`s here because server is required to return these on success, but that
       // is not modeled by the generated client.
       id: response.schemaId!,
-      version: response.schemaVersion!,
       format: schemaFormat
     };
   };

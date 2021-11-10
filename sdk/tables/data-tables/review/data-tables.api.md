@@ -82,7 +82,7 @@ export type DeleteTableEntityResponse = TableDeleteEntityHeaders;
 // @public
 export interface Edm<T extends EdmTypes> {
     type: T;
-    value: T extends "Binary" ? Uint8Array : T extends "Boolean" ? boolean : T extends "Double" ? number : T extends "Int32" ? number : string;
+    value: T extends "Binary" ? string : T extends "Boolean" ? boolean : T extends "Double" ? number : T extends "Int32" ? number : string;
 }
 
 // @public

@@ -68,13 +68,11 @@ function serializeObject(obj: { value: any; type: EdmTypes }): serializedType {
     obj.type === "Guid" ||
     obj.type === "Int32" ||
     obj.type === "Int64" ||
-    obj.type === "String"
+    obj.type === "String" ||
+    obj.type === "Binary"
   ) {
     serializedValue.value = obj.value;
     serializedValue.type = Edm[obj.type];
-  } else if (obj.type === "Binary") {
-    serializedValue.value = base64Encode(obj.value);
-    serializedValue.type = Edm.Binary;
   } else {
     throw new Error(`Unknown EDM type ${typeof obj.value}`);
   }
