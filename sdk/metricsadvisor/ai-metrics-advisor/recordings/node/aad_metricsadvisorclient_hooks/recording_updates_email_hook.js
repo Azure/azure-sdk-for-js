@@ -22,38 +22,38 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  'de7b15e0-a6be-48aa-a5b6-1e53d351ab00',
+  'ab631a75-955f-480c-bf26-59c5e53b2d00',
   'x-ms-ests-server',
-  '2.1.12197.4 - EUS ProdSlices',
+  '2.1.12231.7 - EUS ProdSlices',
   'Set-Cookie',
-  'fpc=Aij_0zvREHxIpz5XadnZWcY; expires=Wed, 08-Dec-2021 09:39:14 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AlLsax2cJXBCtQVN2SAhkHw; expires=Fri, 10-Dec-2021 02:25:22 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Mon, 08 Nov 2021 09:39:13 GMT',
+  'Wed, 10 Nov 2021 02:25:21 GMT',
   'Content-Length',
   '1331'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .patch('/metricsadvisor/v1.0/hooks/110dde60-9005-4b5d-bc73-f84073a40277', {"hookType":"Email","hookParameter":{"toList":["test2@example.com","test3@example.com"]}})
-  .reply(200, {"hookId":"110dde60-9005-4b5d-bc73-f84073a40277","hookName":"js-test-emailHook-163636435219507513","hookType":"Email","externalLink":"","description":"description","admins":["azure_client_id"],"hookParameter":{"toList":["test2@example.com","test3@example.com"]}}, [
+  .patch('/metricsadvisor/v1.0/hooks/a6b4691c-b2ad-4577-8320-daae252464ef', {"hookType":"Email","hookParameter":{"toList":["test2@example.com","test3@example.com"]}})
+  .reply(200, {"hookId":"a6b4691c-b2ad-4577-8320-daae252464ef","hookName":"js-test-emailHook-163651111985608773","hookType":"Email","externalLink":"","description":"description","admins":["azure_client_id"],"hookParameter":{"toList":["test2@example.com","test3@example.com"]}}, [
   'Content-Length',
   '283',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-request-id',
-  'a7e9b630-f9c9-4805-9522-98c865858752',
+  '4ebb3c53-1e21-48f3-8855-36e32a3f1b0b',
   'x-envoy-upstream-service-time',
-  '474',
+  '616',
   'apim-request-id',
-  'a7e9b630-f9c9-4805-9522-98c865858752',
+  '4ebb3c53-1e21-48f3-8855-36e32a3f1b0b',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Mon, 08 Nov 2021 09:39:13 GMT'
+  'Wed, 10 Nov 2021 02:25:22 GMT'
 ]);

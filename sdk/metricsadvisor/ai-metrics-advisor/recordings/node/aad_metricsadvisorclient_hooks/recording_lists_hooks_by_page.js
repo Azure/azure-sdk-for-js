@@ -22,17 +22,17 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  'c211e01d-cf15-4f96-b833-5ee485428c00',
+  '474594d7-6b07-4f5b-b407-1b77f11e2a00',
   'x-ms-ests-server',
-  '2.1.12197.4 - WUS2 ProdSlices',
+  '2.1.12231.7 - NCUS ProdSlices',
   'Set-Cookie',
-  'fpc=AjMsmSA5zbZBsJJy6c3wnFg; expires=Wed, 08-Dec-2021 09:39:16 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AmOhoFqQBDNJvss0OK35tco; expires=Fri, 10-Dec-2021 02:25:25 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Mon, 08 Nov 2021 09:39:16 GMT',
+  'Wed, 10 Nov 2021 02:25:24 GMT',
   'Content-Length',
   '1331'
 ]);
@@ -46,37 +46,37 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Content-Type',
   'application/json; charset=utf-8',
   'x-request-id',
-  'f3acf1ab-e83d-4ba9-9e33-11407d326dbe',
+  '02a39850-7f2b-4b5b-8c09-cefff2ee9c82',
   'x-envoy-upstream-service-time',
-  '66',
+  '54',
   'apim-request-id',
-  'f3acf1ab-e83d-4ba9-9e33-11407d326dbe',
+  '02a39850-7f2b-4b5b-8c09-cefff2ee9c82',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Mon, 08 Nov 2021 09:39:16 GMT'
+  'Wed, 10 Nov 2021 02:25:25 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
   .get('/metricsadvisor/v1.0/hooks')
   .query(true)
-  .reply(200, {"value":[{"hookId":"919c4d20-ca07-4e36-a693-977a20aceb5c","hookName":"js-test-emailHook-163615469774902335","hookType":"Email","externalLink":"","description":"description","admins":["azure_client_id"],"hookParameter":{"toList":["test@example.com"]}},{"hookId":"110dde60-9005-4b5d-bc73-f84073a40277","hookName":"js-test-emailHook-163636435219507513","hookType":"Email","externalLink":"","description":"description","admins":["azure_client_id"],"hookParameter":{"toList":["test2@example.com","test3@example.com"]}}],"@nextLink":"https://endpoint:443/metricsadvisor/v1.0/hooks?hookName=js-test&$maxpagesize=2&$skip=4"}, [
+  .reply(200, {"value":[{"hookId":"919c4d20-ca07-4e36-a693-977a20aceb5c","hookName":"js-test-emailHook-163615469774902335","hookType":"Email","externalLink":"","description":"description","admins":["azure_client_id"],"hookParameter":{"toList":["test@example.com"]}},{"hookId":"a6b4691c-b2ad-4577-8320-daae252464ef","hookName":"js-test-emailHook-163651111985608773","hookType":"Email","externalLink":"","description":"description","admins":["azure_client_id"],"hookParameter":{"toList":["test2@example.com","test3@example.com"]}}],"@nextLink":"https://endpoint:443/metricsadvisor/v1.0/hooks?hookName=js-test&$maxpagesize=2&$skip=4"}, [
   'Content-Length',
   '697',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-request-id',
-  '8245eb62-37d7-449b-a941-217aadeaf9f1',
+  '6e9bd38f-1d83-4745-9e4a-dd30e556ee13',
   'x-envoy-upstream-service-time',
-  '57',
+  '55',
   'apim-request-id',
-  '8245eb62-37d7-449b-a941-217aadeaf9f1',
+  '6e9bd38f-1d83-4745-9e4a-dd30e556ee13',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Mon, 08 Nov 2021 09:39:16 GMT'
+  'Wed, 10 Nov 2021 02:25:25 GMT'
 ]);

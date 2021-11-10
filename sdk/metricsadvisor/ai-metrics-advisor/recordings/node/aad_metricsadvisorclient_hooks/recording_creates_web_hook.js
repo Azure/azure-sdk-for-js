@@ -22,59 +22,59 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  'c211e01d-cf15-4f96-b833-5ee429428c00',
+  'd0c5d9f2-8498-4f01-af01-f3964e7f2b00',
   'x-ms-ests-server',
-  '2.1.12197.4 - WUS2 ProdSlices',
+  '2.1.12231.7 - WUS2 ProdSlices',
   'Set-Cookie',
-  'fpc=Ak1u-cbOs5JNs5iY_sNZ_a4; expires=Wed, 08-Dec-2021 09:39:12 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=An-Qu3Jp0fNKiqecD76V44fGLH8mAQAAAJAkHdkOAAAA; expires=Fri, 10-Dec-2021 02:25:21 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Mon, 08 Nov 2021 09:39:12 GMT',
+  'Wed, 10 Nov 2021 02:25:20 GMT',
   'Content-Length',
   '1331'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .post('/metricsadvisor/v1.0/hooks', {"hookType":"Webhook","hookName":"js-test-webHook-163636435219503623","description":"description","hookParameter":{"endpoint":"https://httpbin.org/post","username":"user","password":"pass"}})
+  .post('/metricsadvisor/v1.0/hooks', {"hookType":"Webhook","hookName":"js-test-webHook-163651111985604402","description":"description","hookParameter":{"endpoint":"https://httpbin.org/post","username":"user","password":"pass"}})
   .reply(201, "", [
   'Content-Length',
   '0',
   'Location',
-  'https://endpoint/metricsadvisor/v1.0/hooks/c70cfc52-3283-4c87-89be-f364dabd178e',
+  'https://endpoint/metricsadvisor/v1.0/hooks/3baac815-bd23-4fc8-917e-3c337c4de5a9',
   'x-request-id',
-  'abc498a5-d898-419b-bae6-1ae2b59c43bb',
+  'c50ac25b-b634-42e6-add9-e3671cd911bd',
   'x-envoy-upstream-service-time',
-  '853',
+  '958',
   'apim-request-id',
-  'abc498a5-d898-419b-bae6-1ae2b59c43bb',
+  'c50ac25b-b634-42e6-add9-e3671cd911bd',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Mon, 08 Nov 2021 09:39:12 GMT'
+  'Wed, 10 Nov 2021 02:25:21 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/metricsadvisor/v1.0/hooks/c70cfc52-3283-4c87-89be-f364dabd178e')
-  .reply(200, {"hookId":"c70cfc52-3283-4c87-89be-f364dabd178e","hookName":"js-test-webHook-163636435219503623","hookType":"Webhook","externalLink":"","description":"description","admins":["azure_client_id"],"hookParameter":{"endpoint":"https://httpbin.org/post","username":"user","password":"pass"}}, [
+  .get('/metricsadvisor/v1.0/hooks/3baac815-bd23-4fc8-917e-3c337c4de5a9')
+  .reply(200, {"hookId":"3baac815-bd23-4fc8-917e-3c337c4de5a9","hookName":"js-test-webHook-163651111985604402","hookType":"Webhook","externalLink":"","description":"description","admins":["azure_client_id"],"hookParameter":{"endpoint":"https://httpbin.org/post","username":"user","password":"pass"}}, [
   'Content-Length',
   '306',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-request-id',
-  '8ba16875-3d66-4c7b-9660-3cb06ca579db',
+  '861d1d6e-fa3c-4315-8d20-ef763ca24542',
   'x-envoy-upstream-service-time',
-  '115',
+  '107',
   'apim-request-id',
-  '8ba16875-3d66-4c7b-9660-3cb06ca579db',
+  '861d1d6e-fa3c-4315-8d20-ef763ca24542',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Mon, 08 Nov 2021 09:39:13 GMT'
+  'Wed, 10 Nov 2021 02:25:21 GMT'
 ]);
