@@ -239,7 +239,7 @@ export function buildInternalRuleResource(rule: CreateRuleOptions): InternalRule
  * RuleResourceSerializer for serializing / deserializing Rule entities
  */
 export class RuleResourceSerializer implements AtomXmlSerializer {
-  serialize(rule: RuleProperties): object {
+  serialize(rule: RuleProperties): Record<string, unknown> {
     return serializeToAtomXmlRequest("RuleDescription", buildInternalRuleResource(rule));
   }
 
