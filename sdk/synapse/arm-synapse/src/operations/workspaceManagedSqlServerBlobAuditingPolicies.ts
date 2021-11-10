@@ -30,20 +30,20 @@ export class WorkspaceManagedSqlServerBlobAuditingPolicies {
    * Get a workspace managed sql server's blob auditing policy.
    * @summary Get server's blob auditing policy.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param [options] The optional parameters
    * @returns Promise<Models.WorkspaceManagedSqlServerBlobAuditingPoliciesGetResponse>
    */
   get(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase): Promise<Models.WorkspaceManagedSqlServerBlobAuditingPoliciesGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param callback The callback
    */
   get(resourceGroupName: string, workspaceName: string, callback: msRest.ServiceCallback<Models.ServerBlobAuditingPolicy>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -63,7 +63,7 @@ export class WorkspaceManagedSqlServerBlobAuditingPolicies {
    * Create or Update a workspace managed sql server's blob auditing policy.
    * @summary Create or Update server's blob auditing policy.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param parameters Properties of extended blob auditing policy.
    * @param [options] The optional parameters
    * @returns Promise<Models.WorkspaceManagedSqlServerBlobAuditingPoliciesCreateOrUpdateResponse>
@@ -77,20 +77,20 @@ export class WorkspaceManagedSqlServerBlobAuditingPolicies {
    * List workspace managed sql server's blob auditing policies.
    * @summary List workspace server's blob auditing policies.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param [options] The optional parameters
    * @returns Promise<Models.WorkspaceManagedSqlServerBlobAuditingPoliciesListByWorkspaceResponse>
    */
   listByWorkspace(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase): Promise<Models.WorkspaceManagedSqlServerBlobAuditingPoliciesListByWorkspaceResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param callback The callback
    */
   listByWorkspace(resourceGroupName: string, workspaceName: string, callback: msRest.ServiceCallback<Models.ServerBlobAuditingPolicyListResult>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -110,7 +110,7 @@ export class WorkspaceManagedSqlServerBlobAuditingPolicies {
    * Create or Update a workspace managed sql server's blob auditing policy.
    * @summary Create or Update server's blob auditing policy.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param parameters Properties of extended blob auditing policy.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>

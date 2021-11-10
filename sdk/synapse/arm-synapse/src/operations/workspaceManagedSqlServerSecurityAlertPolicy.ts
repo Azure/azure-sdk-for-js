@@ -30,20 +30,20 @@ export class WorkspaceManagedSqlServerSecurityAlertPolicy {
    * Get a workspace managed sql server's security alert policy.
    * @summary Get server's security alert policy.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param [options] The optional parameters
    * @returns Promise<Models.WorkspaceManagedSqlServerSecurityAlertPolicyGetResponse>
    */
   get(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase): Promise<Models.WorkspaceManagedSqlServerSecurityAlertPolicyGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param callback The callback
    */
   get(resourceGroupName: string, workspaceName: string, callback: msRest.ServiceCallback<Models.ServerSecurityAlertPolicy>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -63,7 +63,7 @@ export class WorkspaceManagedSqlServerSecurityAlertPolicy {
    * Create or Update a workspace managed sql server's threat detection policy.
    * @summary Create or Update server's threat detection policy.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param parameters The workspace managed sql server security alert policy.
    * @param [options] The optional parameters
    * @returns Promise<Models.WorkspaceManagedSqlServerSecurityAlertPolicyCreateOrUpdateResponse>
@@ -77,20 +77,20 @@ export class WorkspaceManagedSqlServerSecurityAlertPolicy {
    * Get workspace managed sql server's threat detection policies.
    * @summary Get server's threat detection policies.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param [options] The optional parameters
    * @returns Promise<Models.WorkspaceManagedSqlServerSecurityAlertPolicyListResponse>
    */
   list(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase): Promise<Models.WorkspaceManagedSqlServerSecurityAlertPolicyListResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param callback The callback
    */
   list(resourceGroupName: string, workspaceName: string, callback: msRest.ServiceCallback<Models.ServerSecurityAlertPolicyListResult>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -110,7 +110,7 @@ export class WorkspaceManagedSqlServerSecurityAlertPolicy {
    * Create or Update a workspace managed sql server's threat detection policy.
    * @summary Create or Update server's threat detection policy.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param parameters The workspace managed sql server security alert policy.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>

@@ -82,7 +82,6 @@ class SynapseManagementClient extends SynapseManagementClientContext {
   sparkConfiguration: operations.SparkConfiguration;
   sparkConfigurations: operations.SparkConfigurations;
   kustoOperations: operations.KustoOperations;
-  kustoPool: operations.KustoPoolOperations;
   kustoPools: operations.KustoPools;
   kustoPoolChildResource: operations.KustoPoolChildResource;
   kustoPoolAttachedDatabaseConfigurations: operations.KustoPoolAttachedDatabaseConfigurations;
@@ -169,7 +168,6 @@ class SynapseManagementClient extends SynapseManagementClientContext {
     this.sparkConfiguration = new operations.SparkConfiguration(this);
     this.sparkConfigurations = new operations.SparkConfigurations(this);
     this.kustoOperations = new operations.KustoOperations(this);
-    this.kustoPool = new operations.KustoPoolOperations(this);
     this.kustoPools = new operations.KustoPools(this);
     this.kustoPoolChildResource = new operations.KustoPoolChildResource(this);
     this.kustoPoolAttachedDatabaseConfigurations = new operations.KustoPoolAttachedDatabaseConfigurations(this);

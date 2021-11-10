@@ -7771,6 +7771,12 @@ export const EventHubDataConnection: msRest.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      managedIdentityResourceId: {
+        serializedName: "properties.managedIdentityResourceId",
+        type: {
+          name: "String"
+        }
       }
     }
   }

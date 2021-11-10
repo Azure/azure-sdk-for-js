@@ -72,7 +72,6 @@ export * from "./integrationRuntimeStatusOperations";
 export * from "./sparkConfiguration";
 export * from "./sparkConfigurations";
 export * from "./kustoOperations";
-export * from "./kustoPoolOperations";
 export * from "./kustoPools";
 export * from "./kustoPoolChildResource";
 export * from "./kustoPoolAttachedDatabaseConfigurations";

@@ -29,7 +29,7 @@ export class SqlPoolMaintenanceWindows {
    * Get a SQL pool's Maintenance Windows.
    * @summary Get a SQL pool's Maintenance Windows.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param maintenanceWindowName Maintenance window name.
    * @param [options] The optional parameters
@@ -38,7 +38,7 @@ export class SqlPoolMaintenanceWindows {
   get(resourceGroupName: string, workspaceName: string, sqlPoolName: string, maintenanceWindowName: string, options?: msRest.RequestOptionsBase): Promise<Models.SqlPoolMaintenanceWindowsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param maintenanceWindowName Maintenance window name.
    * @param callback The callback
@@ -46,7 +46,7 @@ export class SqlPoolMaintenanceWindows {
   get(resourceGroupName: string, workspaceName: string, sqlPoolName: string, maintenanceWindowName: string, callback: msRest.ServiceCallback<Models.MaintenanceWindows>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param maintenanceWindowName Maintenance window name.
    * @param options The optional parameters
@@ -70,7 +70,7 @@ export class SqlPoolMaintenanceWindows {
    * Creates or updates a Sql pool's maintenance windows settings.
    * @summary Creates or updates a Sql pool's maintenance windows settings.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param maintenanceWindowName Maintenance window name.
    * @param parameters The required parameters for creating or updating Maintenance Windows settings
@@ -80,7 +80,7 @@ export class SqlPoolMaintenanceWindows {
   createOrUpdate(resourceGroupName: string, workspaceName: string, sqlPoolName: string, maintenanceWindowName: string, parameters: Models.MaintenanceWindows, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param maintenanceWindowName Maintenance window name.
    * @param parameters The required parameters for creating or updating Maintenance Windows settings
@@ -89,7 +89,7 @@ export class SqlPoolMaintenanceWindows {
   createOrUpdate(resourceGroupName: string, workspaceName: string, sqlPoolName: string, maintenanceWindowName: string, parameters: Models.MaintenanceWindows, callback: msRest.ServiceCallback<void>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param maintenanceWindowName Maintenance window name.
    * @param parameters The required parameters for creating or updating Maintenance Windows settings

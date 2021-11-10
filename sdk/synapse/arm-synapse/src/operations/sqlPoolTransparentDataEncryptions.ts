@@ -29,7 +29,7 @@ export class SqlPoolTransparentDataEncryptions {
    * Get a SQL pool's transparent data encryption configuration.
    * @summary Get a SQL pool's transparent data encryption configuration
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param [options] The optional parameters
    * @returns Promise<Models.SqlPoolTransparentDataEncryptionsGetResponse>
@@ -37,14 +37,14 @@ export class SqlPoolTransparentDataEncryptions {
   get(resourceGroupName: string, workspaceName: string, sqlPoolName: string, options?: msRest.RequestOptionsBase): Promise<Models.SqlPoolTransparentDataEncryptionsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param callback The callback
    */
   get(resourceGroupName: string, workspaceName: string, sqlPoolName: string, callback: msRest.ServiceCallback<Models.TransparentDataEncryption>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param options The optional parameters
    * @param callback The callback
@@ -66,7 +66,7 @@ export class SqlPoolTransparentDataEncryptions {
    * Creates or updates a Sql pool's transparent data encryption configuration.
    * @summary Creates or updates a Sql pool's transparent data encryption configuration
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param parameters The required parameters for creating or updating transparent data encryption.
    * @param [options] The optional parameters
@@ -75,7 +75,7 @@ export class SqlPoolTransparentDataEncryptions {
   createOrUpdate(resourceGroupName: string, workspaceName: string, sqlPoolName: string, parameters: Models.TransparentDataEncryption, options?: msRest.RequestOptionsBase): Promise<Models.SqlPoolTransparentDataEncryptionsCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param parameters The required parameters for creating or updating transparent data encryption.
    * @param callback The callback
@@ -83,7 +83,7 @@ export class SqlPoolTransparentDataEncryptions {
   createOrUpdate(resourceGroupName: string, workspaceName: string, sqlPoolName: string, parameters: Models.TransparentDataEncryption, callback: msRest.ServiceCallback<Models.TransparentDataEncryption>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param parameters The required parameters for creating or updating transparent data encryption.
    * @param options The optional parameters
@@ -107,7 +107,7 @@ export class SqlPoolTransparentDataEncryptions {
    * Get list of SQL pool's transparent data encryption configurations.
    * @summary SQL pool's transparent data encryption configurations
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param [options] The optional parameters
    * @returns Promise<Models.SqlPoolTransparentDataEncryptionsListResponse>
@@ -115,14 +115,14 @@ export class SqlPoolTransparentDataEncryptions {
   list(resourceGroupName: string, workspaceName: string, sqlPoolName: string, options?: msRest.RequestOptionsBase): Promise<Models.SqlPoolTransparentDataEncryptionsListResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param callback The callback
    */
   list(resourceGroupName: string, workspaceName: string, sqlPoolName: string, callback: msRest.ServiceCallback<Models.TransparentDataEncryptionListResult>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param options The optional parameters
    * @param callback The callback

@@ -28,7 +28,7 @@ export class KustoPoolPrincipalAssignments {
 
   /**
    * Checks that the principal assignment name is valid and is not already in use.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param kustoPoolName The name of the Kusto pool.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param principalAssignmentName The name of the principal assignment.
@@ -37,7 +37,7 @@ export class KustoPoolPrincipalAssignments {
    */
   checkNameAvailability(workspaceName: string, kustoPoolName: string, resourceGroupName: string, principalAssignmentName: Models.ClusterPrincipalAssignmentCheckNameRequest, options?: msRest.RequestOptionsBase): Promise<Models.KustoPoolPrincipalAssignmentsCheckNameAvailabilityResponse>;
   /**
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param kustoPoolName The name of the Kusto pool.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param principalAssignmentName The name of the principal assignment.
@@ -45,7 +45,7 @@ export class KustoPoolPrincipalAssignments {
    */
   checkNameAvailability(workspaceName: string, kustoPoolName: string, resourceGroupName: string, principalAssignmentName: Models.ClusterPrincipalAssignmentCheckNameRequest, callback: msRest.ServiceCallback<Models.CheckNameResult>): void;
   /**
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param kustoPoolName The name of the Kusto pool.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param principalAssignmentName The name of the principal assignment.
@@ -68,7 +68,7 @@ export class KustoPoolPrincipalAssignments {
 
   /**
    * Lists all Kusto pool principalAssignments.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param kustoPoolName The name of the Kusto pool.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param [options] The optional parameters
@@ -76,14 +76,14 @@ export class KustoPoolPrincipalAssignments {
    */
   list(workspaceName: string, kustoPoolName: string, resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.KustoPoolPrincipalAssignmentsListResponse>;
   /**
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param kustoPoolName The name of the Kusto pool.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param callback The callback
    */
   list(workspaceName: string, kustoPoolName: string, resourceGroupName: string, callback: msRest.ServiceCallback<Models.ClusterPrincipalAssignmentListResult>): void;
   /**
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param kustoPoolName The name of the Kusto pool.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The optional parameters
@@ -104,7 +104,7 @@ export class KustoPoolPrincipalAssignments {
 
   /**
    * Gets a Kusto pool principalAssignment.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param kustoPoolName The name of the Kusto pool.
    * @param principalAssignmentName The name of the Kusto principalAssignment.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -113,7 +113,7 @@ export class KustoPoolPrincipalAssignments {
    */
   get(workspaceName: string, kustoPoolName: string, principalAssignmentName: string, resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.KustoPoolPrincipalAssignmentsGetResponse>;
   /**
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param kustoPoolName The name of the Kusto pool.
    * @param principalAssignmentName The name of the Kusto principalAssignment.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -121,7 +121,7 @@ export class KustoPoolPrincipalAssignments {
    */
   get(workspaceName: string, kustoPoolName: string, principalAssignmentName: string, resourceGroupName: string, callback: msRest.ServiceCallback<Models.ClusterPrincipalAssignment>): void;
   /**
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param kustoPoolName The name of the Kusto pool.
    * @param principalAssignmentName The name of the Kusto principalAssignment.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -144,7 +144,7 @@ export class KustoPoolPrincipalAssignments {
 
   /**
    * Create a Kusto pool principalAssignment.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param kustoPoolName The name of the Kusto pool.
    * @param principalAssignmentName The name of the Kusto principalAssignment.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -159,7 +159,7 @@ export class KustoPoolPrincipalAssignments {
 
   /**
    * Deletes a Kusto pool principalAssignment.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param kustoPoolName The name of the Kusto pool.
    * @param principalAssignmentName The name of the Kusto principalAssignment.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -173,7 +173,7 @@ export class KustoPoolPrincipalAssignments {
 
   /**
    * Create a Kusto pool principalAssignment.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param kustoPoolName The name of the Kusto pool.
    * @param principalAssignmentName The name of the Kusto principalAssignment.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -197,7 +197,7 @@ export class KustoPoolPrincipalAssignments {
 
   /**
    * Deletes a Kusto pool principalAssignment.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param kustoPoolName The name of the Kusto pool.
    * @param principalAssignmentName The name of the Kusto principalAssignment.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

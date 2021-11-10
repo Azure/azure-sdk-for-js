@@ -29,7 +29,7 @@ export class SqlPoolTableColumns {
    * Gets columns in a given table in a SQL pool.
    * @summary Gets columns in a given table in a SQL pool
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param schemaName The name of the schema.
    * @param tableName The name of the table.
@@ -39,7 +39,7 @@ export class SqlPoolTableColumns {
   listByTableName(resourceGroupName: string, workspaceName: string, sqlPoolName: string, schemaName: string, tableName: string, options?: Models.SqlPoolTableColumnsListByTableNameOptionalParams): Promise<Models.SqlPoolTableColumnsListByTableNameResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param schemaName The name of the schema.
    * @param tableName The name of the table.
@@ -48,7 +48,7 @@ export class SqlPoolTableColumns {
   listByTableName(resourceGroupName: string, workspaceName: string, sqlPoolName: string, schemaName: string, tableName: string, callback: msRest.ServiceCallback<Models.SqlPoolColumnListResult>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param schemaName The name of the schema.
    * @param tableName The name of the table.

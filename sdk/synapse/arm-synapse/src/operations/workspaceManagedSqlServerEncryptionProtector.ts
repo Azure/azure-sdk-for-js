@@ -30,20 +30,20 @@ export class WorkspaceManagedSqlServerEncryptionProtector {
    * Get workspace managed sql server's encryption protector.
    * @summary Get workspace server's encryption protector.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param [options] The optional parameters
    * @returns Promise<Models.WorkspaceManagedSqlServerEncryptionProtectorGetResponse>
    */
   get(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase): Promise<Models.WorkspaceManagedSqlServerEncryptionProtectorGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param callback The callback
    */
   get(resourceGroupName: string, workspaceName: string, callback: msRest.ServiceCallback<Models.EncryptionProtector>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -63,7 +63,7 @@ export class WorkspaceManagedSqlServerEncryptionProtector {
    * Updates workspace managed sql server's encryption protector.
    * @summary Updates workspace server's encryption protector.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param parameters The requested encryption protector resource state.
    * @param [options] The optional parameters
    * @returns Promise<Models.WorkspaceManagedSqlServerEncryptionProtectorCreateOrUpdateResponse>
@@ -77,20 +77,20 @@ export class WorkspaceManagedSqlServerEncryptionProtector {
    * Get list of encryption protectors for workspace managed sql server.
    * @summary Get list of encryption protectors for the server.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param [options] The optional parameters
    * @returns Promise<Models.WorkspaceManagedSqlServerEncryptionProtectorListResponse>
    */
   list(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase): Promise<Models.WorkspaceManagedSqlServerEncryptionProtectorListResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param callback The callback
    */
   list(resourceGroupName: string, workspaceName: string, callback: msRest.ServiceCallback<Models.EncryptionProtectorListResult>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -110,7 +110,7 @@ export class WorkspaceManagedSqlServerEncryptionProtector {
    * Revalidates workspace managed sql server's existing encryption protector.
    * @summary Revalidates server's existing encryption protector.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
@@ -123,7 +123,7 @@ export class WorkspaceManagedSqlServerEncryptionProtector {
    * Updates workspace managed sql server's encryption protector.
    * @summary Updates workspace server's encryption protector.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param parameters The requested encryption protector resource state.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
@@ -144,7 +144,7 @@ export class WorkspaceManagedSqlServerEncryptionProtector {
    * Revalidates workspace managed sql server's existing encryption protector.
    * @summary Revalidates server's existing encryption protector.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */

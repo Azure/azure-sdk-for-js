@@ -29,20 +29,20 @@ export class IpFirewallRules {
   /**
    * Returns a list of firewall rules
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param [options] The optional parameters
    * @returns Promise<Models.IpFirewallRulesListByWorkspaceResponse>
    */
   listByWorkspace(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase): Promise<Models.IpFirewallRulesListByWorkspaceResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param callback The callback
    */
   listByWorkspace(resourceGroupName: string, workspaceName: string, callback: msRest.ServiceCallback<Models.IpFirewallRuleInfoListResult>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -61,7 +61,7 @@ export class IpFirewallRules {
   /**
    * Creates or updates a firewall rule
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param ruleName The IP firewall rule name
    * @param ipFirewallRuleInfo IP firewall rule properties
    * @param [options] The optional parameters
@@ -75,7 +75,7 @@ export class IpFirewallRules {
   /**
    * Deletes a firewall rule
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param ruleName The IP firewall rule name
    * @param [options] The optional parameters
    * @returns Promise<Models.IpFirewallRulesDeleteMethodResponse>
@@ -88,7 +88,7 @@ export class IpFirewallRules {
   /**
    * Get a firewall rule
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param ruleName The IP firewall rule name
    * @param [options] The optional parameters
    * @returns Promise<Models.IpFirewallRulesGetResponse>
@@ -96,14 +96,14 @@ export class IpFirewallRules {
   get(resourceGroupName: string, workspaceName: string, ruleName: string, options?: msRest.RequestOptionsBase): Promise<Models.IpFirewallRulesGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param ruleName The IP firewall rule name
    * @param callback The callback
    */
   get(resourceGroupName: string, workspaceName: string, ruleName: string, callback: msRest.ServiceCallback<Models.IpFirewallRuleInfo>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param ruleName The IP firewall rule name
    * @param options The optional parameters
    * @param callback The callback
@@ -124,7 +124,7 @@ export class IpFirewallRules {
   /**
    * Replaces firewall rules
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param request Replace all IP firewall rules request
    * @param [options] The optional parameters
    * @returns Promise<Models.IpFirewallRulesReplaceAllResponse>
@@ -137,7 +137,7 @@ export class IpFirewallRules {
   /**
    * Creates or updates a firewall rule
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param ruleName The IP firewall rule name
    * @param ipFirewallRuleInfo IP firewall rule properties
    * @param [options] The optional parameters
@@ -159,7 +159,7 @@ export class IpFirewallRules {
   /**
    * Deletes a firewall rule
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param ruleName The IP firewall rule name
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
@@ -179,7 +179,7 @@ export class IpFirewallRules {
   /**
    * Replaces firewall rules
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param request Replace all IP firewall rules request
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>

@@ -30,20 +30,20 @@ export class AzureADOnlyAuthentications {
    * Gets a Azure Active Directory only authentication property
    * @summary Get Azure Active Directory only authentication property
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param [options] The optional parameters
    * @returns Promise<Models.AzureADOnlyAuthenticationsGetResponse>
    */
   get(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase): Promise<Models.AzureADOnlyAuthenticationsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param callback The callback
    */
   get(resourceGroupName: string, workspaceName: string, callback: msRest.ServiceCallback<Models.AzureADOnlyAuthentication>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -63,7 +63,7 @@ export class AzureADOnlyAuthentications {
    * Create or Update a Azure Active Directory only authentication property for the workspaces
    * @summary Create or Update Azure Active Directory only authentication property
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param azureADOnlyAuthenticationInfo Azure Active Directory Property
    * @param [options] The optional parameters
    * @returns Promise<Models.AzureADOnlyAuthenticationsCreateResponse>
@@ -77,20 +77,20 @@ export class AzureADOnlyAuthentications {
    * Gets a list of Azure Active Directory only authentication property for a workspace
    * @summary Gets a list of Azure Active Directory only authentication property
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param [options] The optional parameters
    * @returns Promise<Models.AzureADOnlyAuthenticationsListResponse>
    */
   list(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase): Promise<Models.AzureADOnlyAuthenticationsListResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param callback The callback
    */
   list(resourceGroupName: string, workspaceName: string, callback: msRest.ServiceCallback<Models.AzureADOnlyAuthenticationListResult>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -110,7 +110,7 @@ export class AzureADOnlyAuthentications {
    * Create or Update a Azure Active Directory only authentication property for the workspaces
    * @summary Create or Update Azure Active Directory only authentication property
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param azureADOnlyAuthenticationInfo Azure Active Directory Property
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>

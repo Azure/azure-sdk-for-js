@@ -83,7 +83,7 @@ export class Operations {
    * Get the result of an operation
    * @summary Get operation result
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param operationId Operation ID
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
@@ -91,14 +91,14 @@ export class Operations {
   getLocationHeaderResult(resourceGroupName: string, workspaceName: string, operationId: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param operationId Operation ID
    * @param callback The callback
    */
   getLocationHeaderResult(resourceGroupName: string, workspaceName: string, operationId: string, callback: msRest.ServiceCallback<void>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param operationId Operation ID
    * @param options The optional parameters
    * @param callback The callback
@@ -120,7 +120,7 @@ export class Operations {
    * Get the status of an operation
    * @summary Get operation status
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param operationId Operation ID
    * @param [options] The optional parameters
    * @returns Promise<Models.OperationsGetAzureAsyncHeaderResultResponse>
@@ -128,14 +128,14 @@ export class Operations {
   getAzureAsyncHeaderResult(resourceGroupName: string, workspaceName: string, operationId: string, options?: msRest.RequestOptionsBase): Promise<Models.OperationsGetAzureAsyncHeaderResultResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param operationId Operation ID
    * @param callback The callback
    */
   getAzureAsyncHeaderResult(resourceGroupName: string, workspaceName: string, operationId: string, callback: msRest.ServiceCallback<Models.OperationResource>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param operationId Operation ID
    * @param options The optional parameters
    * @param callback The callback

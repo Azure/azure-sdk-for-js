@@ -30,7 +30,7 @@ export class SqlPoolWorkloadGroup {
    * Get a Sql pool's workload group.
    * @summary Sql pool's workload group
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param workloadGroupName The name of the workload group.
    * @param [options] The optional parameters
@@ -39,7 +39,7 @@ export class SqlPoolWorkloadGroup {
   get(resourceGroupName: string, workspaceName: string, sqlPoolName: string, workloadGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.SqlPoolWorkloadGroupGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param workloadGroupName The name of the workload group.
    * @param callback The callback
@@ -47,7 +47,7 @@ export class SqlPoolWorkloadGroup {
   get(resourceGroupName: string, workspaceName: string, sqlPoolName: string, workloadGroupName: string, callback: msRest.ServiceCallback<Models.WorkloadGroup>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param workloadGroupName The name of the workload group.
    * @param options The optional parameters
@@ -71,7 +71,7 @@ export class SqlPoolWorkloadGroup {
    * Create Or Update a Sql pool's workload group.
    * @summary Create Or Update workload group
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param workloadGroupName The name of the workload group.
    * @param parameters The requested workload group state.
@@ -87,7 +87,7 @@ export class SqlPoolWorkloadGroup {
    * Remove Sql pool's workload group.
    * @summary Remove workload group
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param workloadGroupName The name of the workload group.
    * @param [options] The optional parameters
@@ -102,7 +102,7 @@ export class SqlPoolWorkloadGroup {
    * Get list of  Sql pool's workload groups.
    * @summary Sql pool's workload groups
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param [options] The optional parameters
    * @returns Promise<Models.SqlPoolWorkloadGroupListResponse>
@@ -110,14 +110,14 @@ export class SqlPoolWorkloadGroup {
   list(resourceGroupName: string, workspaceName: string, sqlPoolName: string, options?: msRest.RequestOptionsBase): Promise<Models.SqlPoolWorkloadGroupListResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param callback The callback
    */
   list(resourceGroupName: string, workspaceName: string, sqlPoolName: string, callback: msRest.ServiceCallback<Models.WorkloadGroupListResult>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param options The optional parameters
    * @param callback The callback
@@ -139,7 +139,7 @@ export class SqlPoolWorkloadGroup {
    * Create Or Update a Sql pool's workload group.
    * @summary Create Or Update workload group
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param workloadGroupName The name of the workload group.
    * @param parameters The requested workload group state.
@@ -164,7 +164,7 @@ export class SqlPoolWorkloadGroup {
    * Remove Sql pool's workload group.
    * @summary Remove workload group
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param workloadGroupName The name of the workload group.
    * @param [options] The optional parameters

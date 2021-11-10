@@ -28,7 +28,7 @@ export class SqlPoolColumns {
   /**
    * Get Sql pool column
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param schemaName The name of the schema.
    * @param tableName The name of the table.
@@ -39,7 +39,7 @@ export class SqlPoolColumns {
   get(resourceGroupName: string, workspaceName: string, sqlPoolName: string, schemaName: string, tableName: string, columnName: string, options?: msRest.RequestOptionsBase): Promise<Models.SqlPoolColumnsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param schemaName The name of the schema.
    * @param tableName The name of the table.
@@ -49,7 +49,7 @@ export class SqlPoolColumns {
   get(resourceGroupName: string, workspaceName: string, sqlPoolName: string, schemaName: string, tableName: string, columnName: string, callback: msRest.ServiceCallback<Models.SqlPoolColumn>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param schemaName The name of the schema.
    * @param tableName The name of the table.

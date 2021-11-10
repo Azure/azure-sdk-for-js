@@ -57,20 +57,20 @@ export class Workspaces {
   /**
    * Gets a workspace
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param [options] The optional parameters
    * @returns Promise<Models.WorkspacesGetResponse>
    */
   get(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase): Promise<Models.WorkspacesGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param callback The callback
    */
   get(resourceGroupName: string, workspaceName: string, callback: msRest.ServiceCallback<Models.Workspace>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -89,7 +89,7 @@ export class Workspaces {
   /**
    * Updates a workspace
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param workspacePatchInfo Workspace patch request properties
    * @param [options] The optional parameters
    * @returns Promise<Models.WorkspacesUpdateResponse>
@@ -102,7 +102,7 @@ export class Workspaces {
   /**
    * Creates or updates a workspace
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param workspaceInfo Workspace create or update request properties
    * @param [options] The optional parameters
    * @returns Promise<Models.WorkspacesCreateOrUpdateResponse>
@@ -115,7 +115,7 @@ export class Workspaces {
   /**
    * Deletes a workspace
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param [options] The optional parameters
    * @returns Promise<Models.WorkspacesDeleteMethodResponse>
    */
@@ -151,7 +151,7 @@ export class Workspaces {
   /**
    * Updates a workspace
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param workspacePatchInfo Workspace patch request properties
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
@@ -171,7 +171,7 @@ export class Workspaces {
   /**
    * Creates or updates a workspace
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param workspaceInfo Workspace create or update request properties
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
@@ -191,7 +191,7 @@ export class Workspaces {
   /**
    * Deletes a workspace
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */

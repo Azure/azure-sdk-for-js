@@ -29,7 +29,7 @@ export class SqlPoolReplicationLinks {
    * Lists a Sql pool's replication links.
    * @summary Get SQL pool replication links
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param [options] The optional parameters
    * @returns Promise<Models.SqlPoolReplicationLinksListResponse>
@@ -37,14 +37,14 @@ export class SqlPoolReplicationLinks {
   list(resourceGroupName: string, workspaceName: string, sqlPoolName: string, options?: msRest.RequestOptionsBase): Promise<Models.SqlPoolReplicationLinksListResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param callback The callback
    */
   list(resourceGroupName: string, workspaceName: string, sqlPoolName: string, callback: msRest.ServiceCallback<Models.ReplicationLinkListResult>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param options The optional parameters
    * @param callback The callback
@@ -66,7 +66,7 @@ export class SqlPoolReplicationLinks {
    * Get SQL pool replication link by name.
    * @summary Get SQL pool replication link by name
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param linkId The ID of the replication link.
    * @param [options] The optional parameters
@@ -75,7 +75,7 @@ export class SqlPoolReplicationLinks {
   getByName(resourceGroupName: string, workspaceName: string, sqlPoolName: string, linkId: string, options?: msRest.RequestOptionsBase): Promise<Models.SqlPoolReplicationLinksGetByNameResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param linkId The ID of the replication link.
    * @param callback The callback
@@ -83,7 +83,7 @@ export class SqlPoolReplicationLinks {
   getByName(resourceGroupName: string, workspaceName: string, sqlPoolName: string, linkId: string, callback: msRest.ServiceCallback<Models.ReplicationLink>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param linkId The ID of the replication link.
    * @param options The optional parameters
