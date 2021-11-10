@@ -20,7 +20,7 @@ const dbId = process.env.COSMOS_DATABASE || "<cosmos database>";
 logSampleHeader("Item Management");
 
 const itemDefs = JSON.parse(
-  readFileSync(path.resolve(__dirname, "./assets/Data/Families.json"), "utf8")
+  readFileSync(path.resolve(__dirname, "../assets/Data/Families.json"), "utf8")
 ).Families;
 
 // Establish a new instance of the CosmosClient to be used throughout this demo
