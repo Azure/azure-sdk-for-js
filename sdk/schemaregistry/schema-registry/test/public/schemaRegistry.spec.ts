@@ -40,6 +40,7 @@ async function isRejected<T>(
   } catch (e) {
     assert.equal(e.statusCode, expectedStatusCode);
     assert.match(e.message, expectedMessage);
+    assert.isUndefined(e.code);
     if (expectedStatusCode !== undefined) {
       /**
        * The SDK does not currently parse the error response body because it
