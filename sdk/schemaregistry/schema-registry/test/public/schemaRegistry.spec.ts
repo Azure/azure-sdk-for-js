@@ -52,6 +52,7 @@ async function isRejected<T>(
      * Right now, the service returns the response status code in the Code field.
      */
     assert.isUndefined(e.code);
+    assert.isUndefined(e.Code);
     if (expectedStatusCode !== undefined) {
       assert.equal(JSON.parse(e.message).Code, e.statusCode);
     }
