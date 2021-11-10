@@ -95,7 +95,7 @@ export function tracingPolicy(options) {
           span.setAttribute("http.url", request.url);
           span.setAttribute("requestId", request.requestId);
 
-          const headers = span.serialize();
+          const headers = span.toRequestHeaders();
           for (const header in headers) {
             request.headers.set(header, headers[header]);
           }

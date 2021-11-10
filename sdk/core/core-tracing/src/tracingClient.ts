@@ -35,24 +35,27 @@ export class TracingClientImpl implements TracingClient {
     tracingContext: TracingContext;
     updatedOptions: Options;
   } {
-    const { span, tracingContext } = this._tracer.startSpan(name, {
+    let { span, tracingContext } = this._tracer.startSpan(name, {
       ...spanOptions,
       tracingContext: operationOptions?.tracingOptions?.tracingContext,
       packageInformation: this._packageInformation
     });
-    const newContext = tracingContext.setValue(knownContextKeys.Namespace, this._namespace);
-    span.setAttribute("az.namespace", this._namespace);
+    if (!tracingContext.getValue(knownContextKeys.Namespace)) {
+      // Don't stomp on existing namespace...TODO: add test
+      tracingContext = tracingContext.setValue(knownContextKeys.Namespace, this._namespace);
+      span.setAttribute("az.namespace", this._namespace);
+    }
     const updatedOptions = {
       ...operationOptions,
       tracingOptions: {
-        tracingContext: newContext
+        tracingContext: tracingContext
       }
     } as Options;
     // TODO: it's nice to return the context so we don't have to do null assertions later
     // but it's also duplicating data - is it the same context? can they drift? Which one do I use?
     return {
       span,
-      tracingContext: newContext,
+      tracingContext: tracingContext,
       updatedOptions
     };
   }

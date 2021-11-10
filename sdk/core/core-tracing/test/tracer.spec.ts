@@ -274,6 +274,20 @@ describe("Tracer", () => {
         );
       });
 
+      it("does not override existing namespace on context", () => {
+        const context = createTracingContext().setValue(
+          knownContextKeys.Namespace,
+          "Existing.Namespace"
+        );
+        const { updatedOptions } = client.startSpan("test", {
+          tracingOptions: { tracingContext: context }
+        });
+        assert.equal(
+          updatedOptions.tracingOptions?.tracingContext?.getValue(knownContextKeys.Namespace),
+          "Existing.Namespace"
+        );
+      });
+
       it("returns the same context in options", () => {
         const { updatedOptions, tracingContext } = client.startSpan("test");
         assert.strictEqual(updatedOptions.tracingOptions!.tracingContext, tracingContext);
