@@ -7,7 +7,7 @@ import {
   bearerTokenAuthenticationPolicy,
   InternalPipelineOptions
 } from "@azure/core-rest-pipeline";
-import { convertSchemaIdResponse, convertSchemaResponse, dispatchOnFormat } from "./conversions";
+import { convertSchemaIdResponse, convertSchemaResponse } from "./conversions";
 
 import {
   GetSchemaOptions,
@@ -80,12 +80,16 @@ export class SchemaRegistryClient implements SchemaRegistry {
     schema: SchemaDescription,
     options?: RegisterSchemaOptions
   ): Promise<SchemaProperties> {
-    return dispatchOnFormat(schema.format, {
-      avro: () =>
-        this.client.schema
-          .register(schema.groupName, schema.name, schema.definition, options)
-          .then(convertSchemaIdResponse(schema.format))
-    });
+    const { groupName, name: schemaName, definition: schemaContent, format } = schema;
+    return this.client.schema
+      .register(
+        groupName,
+        schemaName,
+        `application/json; serialization=${format}`,
+        schemaContent,
+        options
+      )
+      .then(convertSchemaIdResponse(format));
   }
 
   /**
@@ -99,12 +103,16 @@ export class SchemaRegistryClient implements SchemaRegistry {
     schema: SchemaDescription,
     options?: GetSchemaPropertiesOptions
   ): Promise<SchemaProperties> {
-    return dispatchOnFormat(schema.format, {
-      avro: () =>
-        this.client.schema
-          .queryIdByContent(schema.groupName, schema.name, schema.definition, options)
-          .then(convertSchemaIdResponse(schema.format))
-    });
+    const { groupName, name: schemaName, definition: schemaContent, format } = schema;
+    return this.client.schema
+      .queryIdByContent(
+        groupName,
+        schemaName,
+        `application/json; serialization=${format}`,
+        schemaContent,
+        options
+      )
+      .then(convertSchemaIdResponse(format));
   }
 
   /**
