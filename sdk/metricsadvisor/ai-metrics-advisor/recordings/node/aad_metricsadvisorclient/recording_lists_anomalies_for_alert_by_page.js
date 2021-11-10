@@ -22,17 +22,17 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '95a33dd3-1bf0-4407-b4b5-0590ec69ba00',
+  '31380a37-35c3-4f74-af57-a3e93a8b2f00',
   'x-ms-ests-server',
-  '2.1.12197.4 - SCUS ProdSlices',
+  '2.1.12231.7 - SCUS ProdSlices',
   'Set-Cookie',
-  'fpc=ApGffAYLGMdBtvSZDoptCxE; expires=Wed, 08-Dec-2021 09:38:04 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AuSy33oQDmJLvb5BMsg9X0E; expires=Fri, 10-Dec-2021 02:07:08 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Mon, 08 Nov 2021 09:38:04 GMT',
+  'Wed, 10 Nov 2021 02:07:07 GMT',
   'Content-Length',
   '1331'
 ]);
@@ -46,17 +46,17 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Content-Type',
   'application/json; charset=utf-8',
   'x-request-id',
-  '94b3ddb6-2dba-4b41-9bd1-dd2b23a5582b',
+  'fe10e9e2-12dd-4332-9f98-bc973e778ada',
   'x-envoy-upstream-service-time',
-  '47',
+  '103',
   'apim-request-id',
-  '94b3ddb6-2dba-4b41-9bd1-dd2b23a5582b',
+  'fe10e9e2-12dd-4332-9f98-bc973e778ada',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Mon, 08 Nov 2021 09:38:04 GMT'
+  'Wed, 10 Nov 2021 02:07:08 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
@@ -68,15 +68,15 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Content-Type',
   'application/json; charset=utf-8',
   'x-request-id',
-  '5d8a9f8f-17fe-4fc0-82e6-8388cb7a9edb',
+  '4e2f0e9e-9e95-4a4b-ad0d-18017207bb49',
   'x-envoy-upstream-service-time',
-  '37',
+  '82',
   'apim-request-id',
-  '5d8a9f8f-17fe-4fc0-82e6-8388cb7a9edb',
+  '4e2f0e9e-9e95-4a4b-ad0d-18017207bb49',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Mon, 08 Nov 2021 09:38:04 GMT'
+  'Wed, 10 Nov 2021 02:07:08 GMT'
 ]);

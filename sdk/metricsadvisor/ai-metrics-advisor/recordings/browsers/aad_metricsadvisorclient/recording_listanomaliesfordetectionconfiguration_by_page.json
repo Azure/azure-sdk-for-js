@@ -1,74 +1,74 @@
 {
-  "recordings": [
-    {
-      "method": "POST",
-      "url": "https://login.microsoftonline.com/72698866-8641-4147-9144-24744011447/oauth2/v2.0/token",
-      "query": {},
-      "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fsanitized%2F",
-      "status": 200,
-      "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
-      "responseHeaders": {
-        "cache-control": "no-store, no-cache",
-        "content-length": "1331",
-        "content-type": "application/json; charset=utf-8",
-        "date": "Mon, 08 Nov 2021 09:43:53 GMT",
-        "expires": "-1",
-        "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
-        "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
-        "pragma": "no-cache",
-        "referrer-policy": "strict-origin-when-cross-origin",
-        "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+wst\"}]}",
-        "strict-transport-security": "max-age=31536000; includeSubDomains",
-        "x-content-type-options": "nosniff",
-        "x-ms-ests-server": "2.1.12197.4 - WUS2 ProdSlices",
-        "x-ms-request-id": "4d39a9f4-bf44-4522-8a3a-7d8666b99c00"
-      }
-    },
-    {
-      "method": "POST",
-      "url": "https://endpoint/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/26ece682-80a6-4415-89a2-05903dd9a640/anomalies/query",
-      "query": {
-        "$maxpagesize": "2"
-      },
-      "requestBody": "{\"startTime\":\"2021-05-05T00:00:00.000Z\",\"endTime\":\"2021-11-01T00:00:00.000Z\"}",
-      "status": 200,
-      "response": "{\"value\":[{\"timestamp\":\"2021-10-31T00:00:00Z\",\"dimension\":{\"region\":\"Istanbul\",\"category\":\"Electronics (Accessories)\"},\"property\":{\"anomalySeverity\":\"Low\",\"value\":0.0,\"expectedValue\":0.2226051564570372}},{\"timestamp\":\"2021-10-31T00:00:00Z\",\"dimension\":{\"region\":\"Tianjin\",\"category\":\"__SUM__\"},\"property\":{\"anomalySeverity\":\"Medium\",\"value\":900770.6000000001,\"expectedValue\":1645160.8108448838}}],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/26ece682-80a6-4415-89a2-05903dd9a640/anomalies/query?$maxpagesize=2&$skip=2\"}",
-      "responseHeaders": {
-        "apim-request-id": "774b0ed8-ac15-4025-82d6-8003b1db8d1f",
-        "content-length": "609",
-        "content-type": "application/json; charset=utf-8",
-        "date": "Mon, 08 Nov 2021 09:43:53 GMT",
-        "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-        "x-content-type-options": "nosniff",
-        "x-envoy-upstream-service-time": "74",
-        "x-request-id": "774b0ed8-ac15-4025-82d6-8003b1db8d1f"
-      }
-    },
-    {
-      "method": "POST",
-      "url": "https://endpoint:443/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/26ece682-80a6-4415-89a2-05903dd9a640/anomalies/query",
-      "query": {
-        "$maxpagesize": "2",
-        "$skip": "2"
-      },
-      "requestBody": "{\"startTime\":\"2021-05-05T00:00:00.000Z\",\"endTime\":\"2021-11-01T00:00:00.000Z\"}",
-      "status": 200,
-      "response": "{\"value\":[{\"timestamp\":\"2021-10-31T00:00:00Z\",\"dimension\":{\"region\":\"Tianjin\",\"category\":\"Electronics (Consumer)\"},\"property\":{\"anomalySeverity\":\"Low\",\"value\":8.2,\"expectedValue\":0.2799398290216903}},{\"timestamp\":\"2021-10-31T00:00:00Z\",\"dimension\":{\"region\":\"__SUM__\",\"category\":\"Electronics (Accessories)\"},\"property\":{\"anomalySeverity\":\"Low\",\"value\":12.6,\"expectedValue\":7.66378372884321}}],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/26ece682-80a6-4415-89a2-05903dd9a640/anomalies/query?$maxpagesize=2&$skip=4\"}",
-      "responseHeaders": {
-        "apim-request-id": "30f148ee-b543-441c-b785-7ed6a57e71e1",
-        "content-length": "605",
-        "content-type": "application/json; charset=utf-8",
-        "date": "Mon, 08 Nov 2021 09:43:53 GMT",
-        "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-        "x-content-type-options": "nosniff",
-        "x-envoy-upstream-service-time": "66",
-        "x-request-id": "30f148ee-b543-441c-b785-7ed6a57e71e1"
-      }
-    }
-  ],
-  "uniqueTestInfo": {
-    "uniqueName": {},
-    "newDate": {}
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/72698866-8641-4147-9144-24744011447/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fsanitized%2F",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "cache-control": "no-store, no-cache",
+    "content-length": "1331",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 10 Nov 2021 02:20:25 GMT",
+    "expires": "-1",
+    "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "pragma": "no-cache",
+    "referrer-policy": "strict-origin-when-cross-origin",
+    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+est\"}]}",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-ests-server": "2.1.12231.7 - WUS2 ProdSlices",
+    "x-ms-request-id": "64a68c0f-c77e-414c-b745-f8dfd7302500"
+   }
   },
-  "hash": "a08da83f2fd9da25224d303f6a30b465"
+  {
+   "method": "POST",
+   "url": "https://endpoint/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/26ece682-80a6-4415-89a2-05903dd9a640/anomalies/query",
+   "query": {
+    "$maxpagesize": "2"
+   },
+   "requestBody": "{\"startTime\":\"2021-05-05T00:00:00.000Z\",\"endTime\":\"2021-11-01T00:00:00.000Z\"}",
+   "status": 200,
+   "response": "{\"value\":[{\"timestamp\":\"2021-10-31T00:00:00Z\",\"dimension\":{\"region\":\"Tianjin\",\"category\":\"Electronics (Consumer)\"},\"property\":{\"anomalySeverity\":\"Low\",\"value\":8.2,\"expectedValue\":0.11962657062232168}},{\"timestamp\":\"2021-10-31T00:00:00Z\",\"dimension\":{\"region\":\"Karachi\",\"category\":\"Electronics (Consumer)\"},\"property\":{\"anomalySeverity\":\"Medium\",\"value\":3799.2,\"expectedValue\":299.10696511456587}}],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/26ece682-80a6-4415-89a2-05903dd9a640/anomalies/query?$maxpagesize=2&$skip=2\"}",
+   "responseHeaders": {
+    "apim-request-id": "38d3abda-7cb5-4f3b-b14e-557de79c2f02",
+    "content-length": "610",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 10 Nov 2021 02:20:25 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "192",
+    "x-request-id": "38d3abda-7cb5-4f3b-b14e-557de79c2f02"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://endpoint:443/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/26ece682-80a6-4415-89a2-05903dd9a640/anomalies/query",
+   "query": {
+    "$maxpagesize": "2",
+    "$skip": "2"
+   },
+   "requestBody": "{\"startTime\":\"2021-05-05T00:00:00.000Z\",\"endTime\":\"2021-11-01T00:00:00.000Z\"}",
+   "status": 200,
+   "response": "{\"value\":[{\"timestamp\":\"2021-10-31T00:00:00Z\",\"dimension\":{\"region\":\"New York\",\"category\":\"Electronics (Consumer)\"},\"property\":{\"anomalySeverity\":\"Low\",\"value\":84.4,\"expectedValue\":6.073527005246529}},{\"timestamp\":\"2021-10-31T00:00:00Z\",\"dimension\":{\"region\":\"Tianjin\",\"category\":\"Shoes Handbags & Sunglasses\"},\"property\":{\"anomalySeverity\":\"Medium\",\"value\":756713.8,\"expectedValue\":821548.9344276552}}],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/26ece682-80a6-4415-89a2-05903dd9a640/anomalies/query?$maxpagesize=2&$skip=4\"}",
+   "responseHeaders": {
+    "apim-request-id": "c024ce40-067b-453d-b12c-4dfc7917f805",
+    "content-length": "616",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 10 Nov 2021 02:20:25 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "235",
+    "x-request-id": "c024ce40-067b-453d-b12c-4dfc7917f805"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "a08da83f2fd9da25224d303f6a30b465"
 }

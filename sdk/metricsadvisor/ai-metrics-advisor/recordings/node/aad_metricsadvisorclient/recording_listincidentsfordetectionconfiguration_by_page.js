@@ -22,17 +22,17 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '9a129b30-e83f-42f3-ba29-ed20fe48b100',
+  '2b50f717-e5f1-4ffd-82c1-59b9db942600',
   'x-ms-ests-server',
-  '2.1.12197.4 - SCUS ProdSlices',
+  '2.1.12231.7 - NCUS ProdSlices',
   'Set-Cookie',
-  'fpc=AmaPItG6DBZLhHBL9Nd38Qw; expires=Wed, 08-Dec-2021 09:38:01 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AvLx07Fyq3lKpJJggDhU_wI; expires=Fri, 10-Dec-2021 02:07:02 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Mon, 08 Nov 2021 09:38:00 GMT',
+  'Wed, 10 Nov 2021 02:07:01 GMT',
   'Content-Length',
   '1331'
 ]);
@@ -40,43 +40,43 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
 nock('https://endpoint:443', {"encodedQueryParams":true})
   .post('/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/26ece682-80a6-4415-89a2-05903dd9a640/incidents/query', {"startTime":"2021-05-05T00:00:00.000Z","endTime":"2021-11-01T00:00:00.000Z","filter":{}})
   .query(true)
-  .reply(200, {"value":[{"incidentId":"4870d7d23fff4463f1e55f48cbcedc37-17cd3a55400","startTime":"2021-10-31T00:00:00Z","lastTime":"2021-10-31T00:00:00Z","rootNode":{"dimension":{"region":"Tianjin","category":"__SUM__"}},"property":{"maxSeverity":"Medium","incidentStatus":"Active","valueOfRootNode":900770.6000000001,"expectedValueOfRootNode":1645160.8108448838}},{"incidentId":"55e8821f21cb799db557b0e7c9eb7dd9-17cd3a55400","startTime":"2021-10-30T00:00:00Z","lastTime":"2021-10-31T00:00:00Z","rootNode":{"dimension":{"region":"__SUM__","category":"Electronics (Accessories)"}},"property":{"maxSeverity":"Low","incidentStatus":"Active","valueOfRootNode":12.6,"expectedValueOfRootNode":7.66378372884321}}],"@nextLink":"https://endpoint:443/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/26ece682-80a6-4415-89a2-05903dd9a640/incidents/query?$maxpagesize=2&$token=eyJtZXRyaWNJZCI6IjM5MGQxMTM5LTk4ZmItNDVhZi1iODMxLThkNWFkNjFiMTUwYSIsImRldGVjdENvbmZpZ0lkIjoiZWZhZWUzMDUtZjA0OS00M2VjLTlmOWItNzYwMjZkNTVjMTRhIiwic3RhcnRUaW1lIjoiMjAyMS0wNS0wNVQwMDowMDowMFoiLCJlbmRUaW1lIjoiMjAyMS0xMS0wMVQwMDowMDowMFoiLCJuZXh0IjoiTWpBeU1TMHhNUzB3TVZRd01Eb3dNRG93TUZvakl5TTFOV1U0T0RJeFpqSXhZMkkzT1Rsa1lqVTFOMkl3WlRkak9XVmlOMlJrT1E9PSIsImxpbWl0IjoyLCJmaWx0ZXIiOnt9fQ=="}, [
+  .reply(200, {"value":[{"incidentId":"9eacfa65b7c794522d388fcf5bf0a463-17cd3a55400","startTime":"2021-10-29T00:00:00Z","lastTime":"2021-10-31T00:00:00Z","rootNode":{"dimension":{"region":"__SUM__","category":"Electronics (Consumer)"}},"property":{"maxSeverity":"Medium","incidentStatus":"Active","valueOfRootNode":4329.599999999999,"expectedValueOfRootNode":466.6497159787059}},{"incidentId":"67fc98695447cda7a0cb9369c0ad9dc7-17cd3a55400","startTime":"2021-10-31T00:00:00Z","lastTime":"2021-10-31T00:00:00Z","rootNode":{"dimension":{"region":"Tianjin","category":"Shoes Handbags & Sunglasses"}},"property":{"maxSeverity":"Medium","incidentStatus":"Active","valueOfRootNode":756713.8,"expectedValueOfRootNode":821548.9344276552}}],"@nextLink":"https://endpoint:443/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/26ece682-80a6-4415-89a2-05903dd9a640/incidents/query?$maxpagesize=2&$token=eyJtZXRyaWNJZCI6IjM5MGQxMTM5LTk4ZmItNDVhZi1iODMxLThkNWFkNjFiMTUwYSIsImRldGVjdENvbmZpZ0lkIjoiZWZhZWUzMDUtZjA0OS00M2VjLTlmOWItNzYwMjZkNTVjMTRhIiwic3RhcnRUaW1lIjoiMjAyMS0wNS0wNVQwMDowMDowMFoiLCJlbmRUaW1lIjoiMjAyMS0xMS0wMVQwMDowMDowMFoiLCJuZXh0IjoiTWpBeU1TMHhNUzB3TVZRd01Eb3dNRG93TUZvakl5TTVaV0ZqWm1FMk5XSTNZemM1TkRVeU1tUXpPRGhtWTJZMVltWXdZVFEyTXc9PSIsImxpbWl0IjoyLCJmaWx0ZXIiOnt9fQ=="}, [
   'Content-Length',
-  '1285',
+  '1309',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-request-id',
-  '8c163a18-f8f9-4e17-a42a-4dd0b518a04c',
+  'b0e9cd58-9c1f-42e6-8165-6bc9fd2ef3f3',
   'x-envoy-upstream-service-time',
-  '203',
+  '340',
   'apim-request-id',
-  '8c163a18-f8f9-4e17-a42a-4dd0b518a04c',
+  'b0e9cd58-9c1f-42e6-8165-6bc9fd2ef3f3',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Mon, 08 Nov 2021 09:38:01 GMT'
+  'Wed, 10 Nov 2021 02:07:02 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
   .get('/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/26ece682-80a6-4415-89a2-05903dd9a640/incidents/query')
   .query(true)
-  .reply(200, {"value":[{"incidentId":"9eacfa65b7c794522d388fcf5bf0a463-17cd3a55400","startTime":"2021-10-29T00:00:00Z","lastTime":"2021-10-31T00:00:00Z","rootNode":{"dimension":{"region":"__SUM__","category":"Electronics (Consumer)"}},"property":{"maxSeverity":"Medium","incidentStatus":"Active","valueOfRootNode":4329.599999999999,"expectedValueOfRootNode":134.62624814792417}},{"incidentId":"18044bf3e7152862074c3d177f9114fe-17cc9589c00","startTime":"2021-10-29T00:00:00Z","lastTime":"2021-10-29T00:00:00Z","rootNode":{"dimension":{"region":"Miami","category":"Office Products"}},"property":{"maxSeverity":"Medium","incidentStatus":"Active","valueOfRootNode":69544.4,"expectedValueOfRootNode":34437.434069116425}}],"@nextLink":"https://endpoint:443/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/26ece682-80a6-4415-89a2-05903dd9a640/incidents/query?$maxpagesize=2&$token=eyJtZXRyaWNJZCI6IjM5MGQxMTM5LTk4ZmItNDVhZi1iODMxLThkNWFkNjFiMTUwYSIsImRldGVjdENvbmZpZ0lkIjoiZWZhZWUzMDUtZjA0OS00M2VjLTlmOWItNzYwMjZkNTVjMTRhIiwic3RhcnRUaW1lIjoiMjAyMS0wNS0wNVQwMDowMDowMFoiLCJlbmRUaW1lIjoiMjAyMS0xMS0wMVQwMDowMDowMFoiLCJuZXh0IjoiTWpBeU1TMHhNQzB6TUZRd01Eb3dNRG93TUZvakl5TXhPREEwTkdKbU0yVTNNVFV5T0RZeU1EYzBZek5rTVRjM1pqa3hNVFJtWlE9PSIsImxpbWl0IjoyLCJmaWx0ZXIiOnt9fQ=="}, [
+  .reply(200, {"value":[{"incidentId":"0701219234e0357d270798d1d573d305-17cce7ef800","startTime":"2021-10-30T00:00:00Z","lastTime":"2021-10-30T00:00:00Z","rootNode":{"dimension":{"region":"Miami","category":"__SUM__"}},"property":{"maxSeverity":"Medium","incidentStatus":"Active","valueOfRootNode":916393.5999999999,"expectedValueOfRootNode":1705232.3043721747}},{"incidentId":"6a665967352784e62673118aaf807b77-17cce7ef800","startTime":"2021-10-30T00:00:00Z","lastTime":"2021-10-30T00:00:00Z","rootNode":{"dimension":{"region":"Delhi","category":"Home & Garden"}},"property":{"maxSeverity":"Medium","incidentStatus":"Active","valueOfRootNode":60493.4,"expectedValueOfRootNode":112094.16029507673}}],"@nextLink":"https://endpoint:443/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/26ece682-80a6-4415-89a2-05903dd9a640/incidents/query?$maxpagesize=2&$token=eyJtZXRyaWNJZCI6IjM5MGQxMTM5LTk4ZmItNDVhZi1iODMxLThkNWFkNjFiMTUwYSIsImRldGVjdENvbmZpZ0lkIjoiZWZhZWUzMDUtZjA0OS00M2VjLTlmOWItNzYwMjZkNTVjMTRhIiwic3RhcnRUaW1lIjoiMjAyMS0wNS0wNVQwMDowMDowMFoiLCJlbmRUaW1lIjoiMjAyMS0xMS0wMVQwMDowMDowMFoiLCJuZXh0IjoiTWpBeU1TMHhNQzB6TVZRd01Eb3dNRG93TUZvakl5TTJZVFkyTlRrMk56TTFNamM0TkdVMk1qWTNNekV4T0dGaFpqZ3dOMkkzTnc9PSIsImxpbWl0IjoyLCJmaWx0ZXIiOnt9fQ=="}, [
   'Content-Length',
-  '1296',
+  '1277',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-request-id',
-  'e24bcf11-5360-4b24-922f-19ad1adfe527',
+  '29be57da-a781-4cb9-9e97-e03865732f71',
   'x-envoy-upstream-service-time',
-  '230',
+  '382',
   'apim-request-id',
-  'e24bcf11-5360-4b24-922f-19ad1adfe527',
+  '29be57da-a781-4cb9-9e97-e03865732f71',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Mon, 08 Nov 2021 09:38:01 GMT'
+  'Wed, 10 Nov 2021 02:07:02 GMT'
 ]);

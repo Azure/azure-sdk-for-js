@@ -8,14 +8,14 @@
    "status": 200,
    "response": "{\"value\":[\"__SUM__\",\"Shoes Handbags & Sunglasses\",\"Handmade\",\"Office Products\",\"Home & Garden\",\"Electronics (Consumer)\",\"Electronics (Accessories)\",\"Grocery & Gourmet Food\"]}",
    "responseHeaders": {
-    "apim-request-id": "f5e69b6d-38d9-4f04-b0c8-dd9ab5df6325",
+    "apim-request-id": "32151aa1-ff65-4c81-b4a8-d7874a6f2ed0",
     "content-length": "174",
     "content-type": "application/json; charset=utf-8",
-    "date": "Mon, 08 Nov 2021 09:44:12 GMT",
+    "date": "Wed, 10 Nov 2021 02:20:54 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "231",
-    "x-request-id": "f5e69b6d-38d9-4f04-b0c8-dd9ab5df6325"
+    "x-envoy-upstream-service-time": "218",
+    "x-request-id": "32151aa1-ff65-4c81-b4a8-d7874a6f2ed0"
    }
   }
  ],
