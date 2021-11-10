@@ -37,7 +37,7 @@ directive:
       "description": "Content type of the schema.",
       "required": true,
       "type": "string"});
-     $.responses["415"]["x-ms-error-response"] = true
+    delete $.responses["415"];
 ```
 
 ### Add Content-Type header to Register operation and mark 415 as error
@@ -53,5 +53,6 @@ directive:
       "description": "Content type of the schema.",
       "required": true,
       "type": "string"});
-    $.responses["415"]["x-ms-error-response"] = true
+    delete $.responses["415"];
+
 ```

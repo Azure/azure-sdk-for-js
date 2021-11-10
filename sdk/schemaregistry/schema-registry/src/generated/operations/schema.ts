@@ -169,9 +169,6 @@ const queryIdByContentOperationSpec: coreClient.OperationSpec = {
     204: {
       headersMapper: Mappers.SchemaQueryIdByContentHeaders
     },
-    415: {
-      isError: true
-    },
     default: {
       bodyMapper: Mappers.ErrorModel,
       headersMapper: Mappers.SchemaQueryIdByContentExceptionHeaders
@@ -194,9 +191,6 @@ const registerOperationSpec: coreClient.OperationSpec = {
   responses: {
     204: {
       headersMapper: Mappers.SchemaRegisterHeaders
-    },
-    415: {
-      isError: true
     },
     default: {
       bodyMapper: Mappers.ErrorModel,
