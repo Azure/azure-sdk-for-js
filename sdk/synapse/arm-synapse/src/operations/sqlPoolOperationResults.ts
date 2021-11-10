@@ -29,7 +29,7 @@ export class SqlPoolOperationResults {
    * Get the status of a SQL pool operation
    * @summary Get SQL pool operation status
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param operationId Operation ID
    * @param [options] The optional parameters
@@ -38,7 +38,7 @@ export class SqlPoolOperationResults {
   getLocationHeaderResult(resourceGroupName: string, workspaceName: string, sqlPoolName: string, operationId: string, options?: msRest.RequestOptionsBase): Promise<Models.SqlPoolOperationResultsGetLocationHeaderResultResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param operationId Operation ID
    * @param callback The callback
@@ -46,7 +46,7 @@ export class SqlPoolOperationResults {
   getLocationHeaderResult(resourceGroupName: string, workspaceName: string, sqlPoolName: string, operationId: string, callback: msRest.ServiceCallback<any>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param operationId Operation ID
    * @param options The optional parameters

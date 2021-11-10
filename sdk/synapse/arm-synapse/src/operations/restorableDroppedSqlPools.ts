@@ -28,7 +28,7 @@ export class RestorableDroppedSqlPools {
   /**
    * Gets a deleted sql pool that can be restored
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param restorableDroppedSqlPoolId The id of the deleted Sql Pool in the form of
    * sqlPoolName,deletionTimeInFileTimeFormat
    * @param [options] The optional parameters
@@ -37,7 +37,7 @@ export class RestorableDroppedSqlPools {
   get(resourceGroupName: string, workspaceName: string, restorableDroppedSqlPoolId: string, options?: msRest.RequestOptionsBase): Promise<Models.RestorableDroppedSqlPoolsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param restorableDroppedSqlPoolId The id of the deleted Sql Pool in the form of
    * sqlPoolName,deletionTimeInFileTimeFormat
    * @param callback The callback
@@ -45,7 +45,7 @@ export class RestorableDroppedSqlPools {
   get(resourceGroupName: string, workspaceName: string, restorableDroppedSqlPoolId: string, callback: msRest.ServiceCallback<Models.RestorableDroppedSqlPool>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param restorableDroppedSqlPoolId The id of the deleted Sql Pool in the form of
    * sqlPoolName,deletionTimeInFileTimeFormat
    * @param options The optional parameters
@@ -67,20 +67,20 @@ export class RestorableDroppedSqlPools {
   /**
    * Gets a list of deleted Sql pools that can be restored
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param [options] The optional parameters
    * @returns Promise<Models.RestorableDroppedSqlPoolsListByWorkspaceResponse>
    */
   listByWorkspace(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase): Promise<Models.RestorableDroppedSqlPoolsListByWorkspaceResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param callback The callback
    */
   listByWorkspace(resourceGroupName: string, workspaceName: string, callback: msRest.ServiceCallback<Models.RestorableDroppedSqlPoolListResult>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param options The optional parameters
    * @param callback The callback
    */

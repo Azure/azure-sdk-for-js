@@ -29,7 +29,7 @@ export class SqlPoolMaintenanceWindowOptions {
    * Get list of SQL pool's available maintenance windows.
    * @summary SQL pool's available maintenance windows.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param maintenanceWindowOptionsName Maintenance window options name.
    * @param [options] The optional parameters
@@ -38,7 +38,7 @@ export class SqlPoolMaintenanceWindowOptions {
   get(resourceGroupName: string, workspaceName: string, sqlPoolName: string, maintenanceWindowOptionsName: string, options?: msRest.RequestOptionsBase): Promise<Models.SqlPoolMaintenanceWindowOptionsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param maintenanceWindowOptionsName Maintenance window options name.
    * @param callback The callback
@@ -46,7 +46,7 @@ export class SqlPoolMaintenanceWindowOptions {
   get(resourceGroupName: string, workspaceName: string, sqlPoolName: string, maintenanceWindowOptionsName: string, callback: msRest.ServiceCallback<Models.MaintenanceWindowOptions>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param maintenanceWindowOptionsName Maintenance window options name.
    * @param options The optional parameters

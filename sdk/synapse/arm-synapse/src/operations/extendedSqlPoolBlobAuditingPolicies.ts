@@ -28,7 +28,7 @@ export class ExtendedSqlPoolBlobAuditingPolicies {
   /**
    * Gets an extended Sql pool's blob auditing policy.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param [options] The optional parameters
    * @returns Promise<Models.ExtendedSqlPoolBlobAuditingPoliciesGetResponse>
@@ -36,14 +36,14 @@ export class ExtendedSqlPoolBlobAuditingPolicies {
   get(resourceGroupName: string, workspaceName: string, sqlPoolName: string, options?: msRest.RequestOptionsBase): Promise<Models.ExtendedSqlPoolBlobAuditingPoliciesGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param callback The callback
    */
   get(resourceGroupName: string, workspaceName: string, sqlPoolName: string, callback: msRest.ServiceCallback<Models.ExtendedSqlPoolBlobAuditingPolicy>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param options The optional parameters
    * @param callback The callback
@@ -64,7 +64,7 @@ export class ExtendedSqlPoolBlobAuditingPolicies {
   /**
    * Creates or updates an extended Sql pool's blob auditing policy.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param parameters The extended Sql pool blob auditing policy.
    * @param [options] The optional parameters
@@ -73,7 +73,7 @@ export class ExtendedSqlPoolBlobAuditingPolicies {
   createOrUpdate(resourceGroupName: string, workspaceName: string, sqlPoolName: string, parameters: Models.ExtendedSqlPoolBlobAuditingPolicy, options?: msRest.RequestOptionsBase): Promise<Models.ExtendedSqlPoolBlobAuditingPoliciesCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param parameters The extended Sql pool blob auditing policy.
    * @param callback The callback
@@ -81,7 +81,7 @@ export class ExtendedSqlPoolBlobAuditingPolicies {
   createOrUpdate(resourceGroupName: string, workspaceName: string, sqlPoolName: string, parameters: Models.ExtendedSqlPoolBlobAuditingPolicy, callback: msRest.ServiceCallback<Models.ExtendedSqlPoolBlobAuditingPolicy>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param parameters The extended Sql pool blob auditing policy.
    * @param options The optional parameters
@@ -104,7 +104,7 @@ export class ExtendedSqlPoolBlobAuditingPolicies {
   /**
    * Lists extended auditing settings of a Sql pool.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param [options] The optional parameters
    * @returns Promise<Models.ExtendedSqlPoolBlobAuditingPoliciesListBySqlPoolResponse>
@@ -112,14 +112,14 @@ export class ExtendedSqlPoolBlobAuditingPolicies {
   listBySqlPool(resourceGroupName: string, workspaceName: string, sqlPoolName: string, options?: msRest.RequestOptionsBase): Promise<Models.ExtendedSqlPoolBlobAuditingPoliciesListBySqlPoolResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param callback The callback
    */
   listBySqlPool(resourceGroupName: string, workspaceName: string, sqlPoolName: string, callback: msRest.ServiceCallback<Models.ExtendedSqlPoolBlobAuditingPolicyListResult>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param options The optional parameters
    * @param callback The callback

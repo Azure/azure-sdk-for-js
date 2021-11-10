@@ -27,7 +27,7 @@ export class KustoPoolChildResource {
 
   /**
    * Checks that the Kusto Pool child resource name is valid and is not already in use.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param kustoPoolName The name of the Kusto pool.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Kusto Pool child resource.
@@ -36,7 +36,7 @@ export class KustoPoolChildResource {
    */
   checkNameAvailability(workspaceName: string, kustoPoolName: string, resourceGroupName: string, resourceName: Models.DatabaseCheckNameRequest, options?: msRest.RequestOptionsBase): Promise<Models.KustoPoolChildResourceCheckNameAvailabilityResponse>;
   /**
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param kustoPoolName The name of the Kusto pool.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Kusto Pool child resource.
@@ -44,7 +44,7 @@ export class KustoPoolChildResource {
    */
   checkNameAvailability(workspaceName: string, kustoPoolName: string, resourceGroupName: string, resourceName: Models.DatabaseCheckNameRequest, callback: msRest.ServiceCallback<Models.CheckNameResult>): void;
   /**
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param kustoPoolName The name of the Kusto pool.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Kusto Pool child resource.

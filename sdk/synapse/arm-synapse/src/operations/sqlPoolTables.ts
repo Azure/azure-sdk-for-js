@@ -29,7 +29,7 @@ export class SqlPoolTables {
    * Gets tables of a given schema in a SQL pool.
    * @summary Gets tables of a given schema in a SQL pool
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param schemaName The name of the schema.
    * @param [options] The optional parameters
@@ -38,7 +38,7 @@ export class SqlPoolTables {
   listBySchema(resourceGroupName: string, workspaceName: string, sqlPoolName: string, schemaName: string, options?: Models.SqlPoolTablesListBySchemaOptionalParams): Promise<Models.SqlPoolTablesListBySchemaResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param schemaName The name of the schema.
    * @param callback The callback
@@ -46,7 +46,7 @@ export class SqlPoolTables {
   listBySchema(resourceGroupName: string, workspaceName: string, sqlPoolName: string, schemaName: string, callback: msRest.ServiceCallback<Models.SqlPoolTableListResult>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param schemaName The name of the schema.
    * @param options The optional parameters
@@ -69,7 +69,7 @@ export class SqlPoolTables {
   /**
    * Get Sql pool table
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param schemaName The name of the schema.
    * @param tableName The name of the table.
@@ -79,7 +79,7 @@ export class SqlPoolTables {
   get(resourceGroupName: string, workspaceName: string, sqlPoolName: string, schemaName: string, tableName: string, options?: msRest.RequestOptionsBase): Promise<Models.SqlPoolTablesGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param schemaName The name of the schema.
    * @param tableName The name of the table.
@@ -88,7 +88,7 @@ export class SqlPoolTables {
   get(resourceGroupName: string, workspaceName: string, sqlPoolName: string, schemaName: string, tableName: string, callback: msRest.ServiceCallback<Models.SqlPoolTable>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param schemaName The name of the schema.
    * @param tableName The name of the table.

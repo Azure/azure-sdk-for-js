@@ -28,20 +28,20 @@ export class Keys {
   /**
    * Returns a list of keys in a workspace
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param [options] The optional parameters
    * @returns Promise<Models.KeysListByWorkspaceResponse>
    */
   listByWorkspace(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase): Promise<Models.KeysListByWorkspaceResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param callback The callback
    */
   listByWorkspace(resourceGroupName: string, workspaceName: string, callback: msRest.ServiceCallback<Models.KeyInfoListResult>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -60,7 +60,7 @@ export class Keys {
   /**
    * Gets a workspace key
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param keyName The name of the workspace key
    * @param [options] The optional parameters
    * @returns Promise<Models.KeysGetResponse>
@@ -68,14 +68,14 @@ export class Keys {
   get(resourceGroupName: string, workspaceName: string, keyName: string, options?: msRest.RequestOptionsBase): Promise<Models.KeysGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param keyName The name of the workspace key
    * @param callback The callback
    */
   get(resourceGroupName: string, workspaceName: string, keyName: string, callback: msRest.ServiceCallback<Models.Key>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param keyName The name of the workspace key
    * @param options The optional parameters
    * @param callback The callback
@@ -96,7 +96,7 @@ export class Keys {
   /**
    * Creates or updates a workspace key
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param keyName The name of the workspace key
    * @param keyProperties Key put request properties
    * @param [options] The optional parameters
@@ -105,7 +105,7 @@ export class Keys {
   createOrUpdate(resourceGroupName: string, workspaceName: string, keyName: string, keyProperties: Models.Key, options?: msRest.RequestOptionsBase): Promise<Models.KeysCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param keyName The name of the workspace key
    * @param keyProperties Key put request properties
    * @param callback The callback
@@ -113,7 +113,7 @@ export class Keys {
   createOrUpdate(resourceGroupName: string, workspaceName: string, keyName: string, keyProperties: Models.Key, callback: msRest.ServiceCallback<Models.Key>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param keyName The name of the workspace key
    * @param keyProperties Key put request properties
    * @param options The optional parameters
@@ -136,7 +136,7 @@ export class Keys {
   /**
    * Deletes a workspace key
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param keyName The name of the workspace key
    * @param [options] The optional parameters
    * @returns Promise<Models.KeysDeleteMethodResponse>
@@ -144,14 +144,14 @@ export class Keys {
   deleteMethod(resourceGroupName: string, workspaceName: string, keyName: string, options?: msRest.RequestOptionsBase): Promise<Models.KeysDeleteMethodResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param keyName The name of the workspace key
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, workspaceName: string, keyName: string, callback: msRest.ServiceCallback<Models.Key>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param keyName The name of the workspace key
    * @param options The optional parameters
    * @param callback The callback

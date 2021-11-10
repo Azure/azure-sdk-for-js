@@ -30,7 +30,7 @@ export class SqlPoolRestorePoints {
    * Get SQL pool backup information
    * @summary Get SQL pool backup
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param [options] The optional parameters
    * @returns Promise<Models.SqlPoolRestorePointsListResponse>
@@ -38,14 +38,14 @@ export class SqlPoolRestorePoints {
   list(resourceGroupName: string, workspaceName: string, sqlPoolName: string, options?: msRest.RequestOptionsBase): Promise<Models.SqlPoolRestorePointsListResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param callback The callback
    */
   list(resourceGroupName: string, workspaceName: string, sqlPoolName: string, callback: msRest.ServiceCallback<Models.RestorePointListResult>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param options The optional parameters
    * @param callback The callback
@@ -66,7 +66,7 @@ export class SqlPoolRestorePoints {
   /**
    * Creates a restore point for a data warehouse.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param parameters The definition for creating the restore point of this Sql pool.
    * @param [options] The optional parameters
@@ -80,7 +80,7 @@ export class SqlPoolRestorePoints {
   /**
    * Gets a restore point.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param restorePointName The name of the restore point.
    * @param [options] The optional parameters
@@ -89,7 +89,7 @@ export class SqlPoolRestorePoints {
   get(resourceGroupName: string, workspaceName: string, sqlPoolName: string, restorePointName: string, options?: msRest.RequestOptionsBase): Promise<Models.SqlPoolRestorePointsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param restorePointName The name of the restore point.
    * @param callback The callback
@@ -97,7 +97,7 @@ export class SqlPoolRestorePoints {
   get(resourceGroupName: string, workspaceName: string, sqlPoolName: string, restorePointName: string, callback: msRest.ServiceCallback<Models.RestorePoint>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param restorePointName The name of the restore point.
    * @param options The optional parameters
@@ -120,7 +120,7 @@ export class SqlPoolRestorePoints {
   /**
    * Deletes a restore point.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param restorePointName The name of the restore point.
    * @param [options] The optional parameters
@@ -129,7 +129,7 @@ export class SqlPoolRestorePoints {
   deleteMethod(resourceGroupName: string, workspaceName: string, sqlPoolName: string, restorePointName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param restorePointName The name of the restore point.
    * @param callback The callback
@@ -137,7 +137,7 @@ export class SqlPoolRestorePoints {
   deleteMethod(resourceGroupName: string, workspaceName: string, sqlPoolName: string, restorePointName: string, callback: msRest.ServiceCallback<void>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param restorePointName The name of the restore point.
    * @param options The optional parameters
@@ -160,7 +160,7 @@ export class SqlPoolRestorePoints {
   /**
    * Creates a restore point for a data warehouse.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param parameters The definition for creating the restore point of this Sql pool.
    * @param [options] The optional parameters

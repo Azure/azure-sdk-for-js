@@ -30,7 +30,7 @@ export class SparkConfiguration {
    * @summary Get SparkConfiguration by name.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param sparkConfigurationName SparkConfiguration name
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param [options] The optional parameters
    * @returns Promise<Models.SparkConfigurationGetResponse>
    */
@@ -38,14 +38,14 @@ export class SparkConfiguration {
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param sparkConfigurationName SparkConfiguration name
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param callback The callback
    */
   get(resourceGroupName: string, sparkConfigurationName: string, workspaceName: string, callback: msRest.ServiceCallback<Models.SparkConfigurationResource>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param sparkConfigurationName SparkConfiguration name
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param options The optional parameters
    * @param callback The callback
    */

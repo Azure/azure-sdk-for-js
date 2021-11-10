@@ -27,6 +27,30 @@ export class KustoPools {
   }
 
   /**
+   * Lists eligible SKUs for Kusto Pool resource.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.KustoPoolsListSkusResponse>
+   */
+  listSkus(options?: msRest.RequestOptionsBase): Promise<Models.KustoPoolsListSkusResponse>;
+  /**
+   * @param callback The callback
+   */
+  listSkus(callback: msRest.ServiceCallback<Models.SkuDescriptionList>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listSkus(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SkuDescriptionList>): void;
+  listSkus(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SkuDescriptionList>, callback?: msRest.ServiceCallback<Models.SkuDescriptionList>): Promise<Models.KustoPoolsListSkusResponse> {
+    return this.client.sendOperationRequest(
+      {
+        options
+      },
+      listSkusOperationSpec,
+      callback) as Promise<Models.KustoPoolsListSkusResponse>;
+  }
+
+  /**
    * Checks that the kusto pool name is valid and is not already in use.
    * @param location The name of Azure region.
    * @param kustoPoolName The name of the cluster.
@@ -62,20 +86,20 @@ export class KustoPools {
    * List all Kusto pools
    * @summary List Kusto pools
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param [options] The optional parameters
    * @returns Promise<Models.KustoPoolsListByWorkspaceResponse>
    */
   listByWorkspace(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase): Promise<Models.KustoPoolsListByWorkspaceResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param callback The callback
    */
   listByWorkspace(resourceGroupName: string, workspaceName: string, callback: msRest.ServiceCallback<Models.KustoPoolListResult>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -93,7 +117,7 @@ export class KustoPools {
 
   /**
    * Gets a Kusto pool.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param kustoPoolName The name of the Kusto pool.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param [options] The optional parameters
@@ -101,14 +125,14 @@ export class KustoPools {
    */
   get(workspaceName: string, kustoPoolName: string, resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.KustoPoolsGetResponse>;
   /**
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param kustoPoolName The name of the Kusto pool.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param callback The callback
    */
   get(workspaceName: string, kustoPoolName: string, resourceGroupName: string, callback: msRest.ServiceCallback<Models.KustoPool>): void;
   /**
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param kustoPoolName The name of the Kusto pool.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The optional parameters
@@ -129,7 +153,7 @@ export class KustoPools {
 
   /**
    * Create or update a Kusto pool.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param kustoPoolName The name of the Kusto pool.
    * @param parameters The Kusto pool parameters supplied to the CreateOrUpdate operation.
@@ -143,7 +167,7 @@ export class KustoPools {
 
   /**
    * Update a Kusto Kusto Pool.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param kustoPoolName The name of the Kusto pool.
    * @param parameters The Kusto pool parameters supplied to the Update operation.
@@ -157,7 +181,7 @@ export class KustoPools {
 
   /**
    * Deletes a Kusto pool.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param kustoPoolName The name of the Kusto pool.
    * @param [options] The optional parameters
@@ -170,7 +194,7 @@ export class KustoPools {
 
   /**
    * Stops a Kusto pool.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param kustoPoolName The name of the Kusto pool.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param [options] The optional parameters
@@ -183,7 +207,7 @@ export class KustoPools {
 
   /**
    * Starts a Kusto pool.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param kustoPoolName The name of the Kusto pool.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param [options] The optional parameters
@@ -196,7 +220,7 @@ export class KustoPools {
 
   /**
    * Returns the SKUs available for the provided resource.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param kustoPoolName The name of the Kusto pool.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param [options] The optional parameters
@@ -204,14 +228,14 @@ export class KustoPools {
    */
   listSkusByResource(workspaceName: string, kustoPoolName: string, resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.KustoPoolsListSkusByResourceResponse>;
   /**
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param kustoPoolName The name of the Kusto pool.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param callback The callback
    */
   listSkusByResource(workspaceName: string, kustoPoolName: string, resourceGroupName: string, callback: msRest.ServiceCallback<Models.ListResourceSkusResult>): void;
   /**
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param kustoPoolName The name of the Kusto pool.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The optional parameters
@@ -232,7 +256,7 @@ export class KustoPools {
 
   /**
    * Returns a list of language extensions that can run within KQL queries.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param kustoPoolName The name of the Kusto pool.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param [options] The optional parameters
@@ -240,14 +264,14 @@ export class KustoPools {
    */
   listLanguageExtensions(workspaceName: string, kustoPoolName: string, resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.KustoPoolsListLanguageExtensionsResponse>;
   /**
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param kustoPoolName The name of the Kusto pool.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param callback The callback
    */
   listLanguageExtensions(workspaceName: string, kustoPoolName: string, resourceGroupName: string, callback: msRest.ServiceCallback<Models.LanguageExtensionsList>): void;
   /**
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param kustoPoolName The name of the Kusto pool.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The optional parameters
@@ -268,7 +292,7 @@ export class KustoPools {
 
   /**
    * Add a list of language extensions that can run within KQL queries.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param kustoPoolName The name of the Kusto pool.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param languageExtensionsToAdd The language extensions to add.
@@ -282,7 +306,7 @@ export class KustoPools {
 
   /**
    * Remove a list of language extensions that can run within KQL queries.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param kustoPoolName The name of the Kusto pool.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param languageExtensionsToRemove The language extensions to remove.
@@ -297,7 +321,7 @@ export class KustoPools {
   /**
    * Returns a list of databases that are owned by this Kusto Pool and were followed by another Kusto
    * Pool.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param kustoPoolName The name of the Kusto pool.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param [options] The optional parameters
@@ -305,14 +329,14 @@ export class KustoPools {
    */
   listFollowerDatabases(workspaceName: string, kustoPoolName: string, resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.KustoPoolsListFollowerDatabasesResponse>;
   /**
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param kustoPoolName The name of the Kusto pool.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param callback The callback
    */
   listFollowerDatabases(workspaceName: string, kustoPoolName: string, resourceGroupName: string, callback: msRest.ServiceCallback<Models.FollowerDatabaseListResult>): void;
   /**
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param kustoPoolName The name of the Kusto pool.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The optional parameters
@@ -333,7 +357,7 @@ export class KustoPools {
 
   /**
    * Detaches all followers of a database owned by this Kusto Pool.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param kustoPoolName The name of the Kusto pool.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param followerDatabaseToRemove The follower databases properties to remove.
@@ -347,7 +371,7 @@ export class KustoPools {
 
   /**
    * Create or update a Kusto pool.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param kustoPoolName The name of the Kusto pool.
    * @param parameters The Kusto pool parameters supplied to the CreateOrUpdate operation.
@@ -369,7 +393,7 @@ export class KustoPools {
 
   /**
    * Update a Kusto Kusto Pool.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param kustoPoolName The name of the Kusto pool.
    * @param parameters The Kusto pool parameters supplied to the Update operation.
@@ -391,7 +415,7 @@ export class KustoPools {
 
   /**
    * Deletes a Kusto pool.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param kustoPoolName The name of the Kusto pool.
    * @param [options] The optional parameters
@@ -411,7 +435,7 @@ export class KustoPools {
 
   /**
    * Stops a Kusto pool.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param kustoPoolName The name of the Kusto pool.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param [options] The optional parameters
@@ -431,7 +455,7 @@ export class KustoPools {
 
   /**
    * Starts a Kusto pool.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param kustoPoolName The name of the Kusto pool.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param [options] The optional parameters
@@ -451,7 +475,7 @@ export class KustoPools {
 
   /**
    * Add a list of language extensions that can run within KQL queries.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param kustoPoolName The name of the Kusto pool.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param languageExtensionsToAdd The language extensions to add.
@@ -473,7 +497,7 @@ export class KustoPools {
 
   /**
    * Remove a list of language extensions that can run within KQL queries.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param kustoPoolName The name of the Kusto pool.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param languageExtensionsToRemove The language extensions to remove.
@@ -495,7 +519,7 @@ export class KustoPools {
 
   /**
    * Detaches all followers of a database owned by this Kusto Pool.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param kustoPoolName The name of the Kusto pool.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param followerDatabaseToRemove The follower databases properties to remove.
@@ -518,6 +542,29 @@ export class KustoPools {
 
 // Operation Specifications
 const serializer = new msRest.Serializer(Mappers);
+const listSkusOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/providers/Microsoft.Synapse/skus",
+  urlParameters: [
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion1
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.SkuDescriptionList
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
 const checkNameAvailabilityOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Synapse/locations/{location}/kustoPoolCheckNameAvailability",

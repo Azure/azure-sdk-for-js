@@ -5321,6 +5321,11 @@ export interface EventHubDataConnection {
    * 'Deleting', 'Succeeded', 'Failed', 'Moving', 'Canceled'
    */
   provisioningState?: ResourceProvisioningState;
+  /**
+   * The resource ID of a managed identity (system or user assigned) to be used to authenticate
+   * with event hub.
+   */
+  managedIdentityResourceId?: string;
 }
 
 /**
@@ -11544,7 +11549,7 @@ export type KustoOperationsListNextResponse = OperationListResult & {
 /**
  * Contains response data for the listSkus operation.
  */
-export type KustoPoolListSkusResponse = SkuDescriptionList & {
+export type KustoPoolsListSkusResponse = SkuDescriptionList & {
   /**
    * The underlying HTTP response.
    */

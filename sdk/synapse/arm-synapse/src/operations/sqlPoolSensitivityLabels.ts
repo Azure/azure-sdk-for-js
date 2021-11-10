@@ -29,7 +29,7 @@ export class SqlPoolSensitivityLabels {
    * Gets SQL pool sensitivity labels.
    * @summary Gets SQL pool sensitivity labels
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param [options] The optional parameters
    * @returns Promise<Models.SqlPoolSensitivityLabelsListCurrentResponse>
@@ -37,14 +37,14 @@ export class SqlPoolSensitivityLabels {
   listCurrent(resourceGroupName: string, workspaceName: string, sqlPoolName: string, options?: Models.SqlPoolSensitivityLabelsListCurrentOptionalParams): Promise<Models.SqlPoolSensitivityLabelsListCurrentResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param callback The callback
    */
   listCurrent(resourceGroupName: string, workspaceName: string, sqlPoolName: string, callback: msRest.ServiceCallback<Models.SensitivityLabelListResult>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param options The optional parameters
    * @param callback The callback
@@ -65,7 +65,7 @@ export class SqlPoolSensitivityLabels {
   /**
    * Update sensitivity labels of a given SQL Pool using an operations batch.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param parameters
    * @param [options] The optional parameters
@@ -74,7 +74,7 @@ export class SqlPoolSensitivityLabels {
   update(resourceGroupName: string, workspaceName: string, sqlPoolName: string, parameters: Models.SensitivityLabelUpdateList, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param parameters
    * @param callback The callback
@@ -82,7 +82,7 @@ export class SqlPoolSensitivityLabels {
   update(resourceGroupName: string, workspaceName: string, sqlPoolName: string, parameters: Models.SensitivityLabelUpdateList, callback: msRest.ServiceCallback<void>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param parameters
    * @param options The optional parameters
@@ -106,7 +106,7 @@ export class SqlPoolSensitivityLabels {
    * Gets sensitivity labels of a given SQL pool.
    * @summary Gets sensitivity labels of a given SQL pool
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param [options] The optional parameters
    * @returns Promise<Models.SqlPoolSensitivityLabelsListRecommendedResponse>
@@ -114,14 +114,14 @@ export class SqlPoolSensitivityLabels {
   listRecommended(resourceGroupName: string, workspaceName: string, sqlPoolName: string, options?: Models.SqlPoolSensitivityLabelsListRecommendedOptionalParams): Promise<Models.SqlPoolSensitivityLabelsListRecommendedResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param callback The callback
    */
   listRecommended(resourceGroupName: string, workspaceName: string, sqlPoolName: string, callback: msRest.ServiceCallback<Models.SensitivityLabelListResult>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param options The optional parameters
    * @param callback The callback
@@ -142,7 +142,7 @@ export class SqlPoolSensitivityLabels {
   /**
    * Creates or updates the sensitivity label of a given column in a Sql pool
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param schemaName The name of the schema.
    * @param tableName The name of the table.
@@ -154,7 +154,7 @@ export class SqlPoolSensitivityLabels {
   createOrUpdate(resourceGroupName: string, workspaceName: string, sqlPoolName: string, schemaName: string, tableName: string, columnName: string, parameters: Models.SensitivityLabel, options?: msRest.RequestOptionsBase): Promise<Models.SqlPoolSensitivityLabelsCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param schemaName The name of the schema.
    * @param tableName The name of the table.
@@ -165,7 +165,7 @@ export class SqlPoolSensitivityLabels {
   createOrUpdate(resourceGroupName: string, workspaceName: string, sqlPoolName: string, schemaName: string, tableName: string, columnName: string, parameters: Models.SensitivityLabel, callback: msRest.ServiceCallback<Models.SensitivityLabel>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param schemaName The name of the schema.
    * @param tableName The name of the table.
@@ -194,7 +194,7 @@ export class SqlPoolSensitivityLabels {
   /**
    * Deletes the sensitivity label of a given column in a Sql pool
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param schemaName The name of the schema.
    * @param tableName The name of the table.
@@ -205,7 +205,7 @@ export class SqlPoolSensitivityLabels {
   deleteMethod(resourceGroupName: string, workspaceName: string, sqlPoolName: string, schemaName: string, tableName: string, columnName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param schemaName The name of the schema.
    * @param tableName The name of the table.
@@ -215,7 +215,7 @@ export class SqlPoolSensitivityLabels {
   deleteMethod(resourceGroupName: string, workspaceName: string, sqlPoolName: string, schemaName: string, tableName: string, columnName: string, callback: msRest.ServiceCallback<void>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param schemaName The name of the schema.
    * @param tableName The name of the table.
@@ -242,7 +242,7 @@ export class SqlPoolSensitivityLabels {
   /**
    * Gets the sensitivity label of a given column
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param schemaName The name of the schema.
    * @param tableName The name of the table.
@@ -255,7 +255,7 @@ export class SqlPoolSensitivityLabels {
   get(resourceGroupName: string, workspaceName: string, sqlPoolName: string, schemaName: string, tableName: string, columnName: string, sensitivityLabelSource: Models.SensitivityLabelSource, options?: msRest.RequestOptionsBase): Promise<Models.SqlPoolSensitivityLabelsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param schemaName The name of the schema.
    * @param tableName The name of the table.
@@ -267,7 +267,7 @@ export class SqlPoolSensitivityLabels {
   get(resourceGroupName: string, workspaceName: string, sqlPoolName: string, schemaName: string, tableName: string, columnName: string, sensitivityLabelSource: Models.SensitivityLabelSource, callback: msRest.ServiceCallback<Models.SensitivityLabel>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param schemaName The name of the schema.
    * @param tableName The name of the table.
@@ -298,7 +298,7 @@ export class SqlPoolSensitivityLabels {
    * Enables sensitivity recommendations on a given column (recommendations are enabled by default on
    * all columns)
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param schemaName The name of the schema.
    * @param tableName The name of the table.
@@ -309,7 +309,7 @@ export class SqlPoolSensitivityLabels {
   enableRecommendation(resourceGroupName: string, workspaceName: string, sqlPoolName: string, schemaName: string, tableName: string, columnName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param schemaName The name of the schema.
    * @param tableName The name of the table.
@@ -319,7 +319,7 @@ export class SqlPoolSensitivityLabels {
   enableRecommendation(resourceGroupName: string, workspaceName: string, sqlPoolName: string, schemaName: string, tableName: string, columnName: string, callback: msRest.ServiceCallback<void>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param schemaName The name of the schema.
    * @param tableName The name of the table.
@@ -346,7 +346,7 @@ export class SqlPoolSensitivityLabels {
   /**
    * Disables sensitivity recommendations on a given column
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param schemaName The name of the schema.
    * @param tableName The name of the table.
@@ -357,7 +357,7 @@ export class SqlPoolSensitivityLabels {
   disableRecommendation(resourceGroupName: string, workspaceName: string, sqlPoolName: string, schemaName: string, tableName: string, columnName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param schemaName The name of the schema.
    * @param tableName The name of the table.
@@ -367,7 +367,7 @@ export class SqlPoolSensitivityLabels {
   disableRecommendation(resourceGroupName: string, workspaceName: string, sqlPoolName: string, schemaName: string, tableName: string, columnName: string, callback: msRest.ServiceCallback<void>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param schemaName The name of the schema.
    * @param tableName The name of the table.

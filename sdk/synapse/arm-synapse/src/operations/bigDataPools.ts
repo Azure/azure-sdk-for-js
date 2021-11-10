@@ -30,7 +30,7 @@ export class BigDataPools {
    * Get a Big Data pool.
    * @summary Get Big Data pool
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param bigDataPoolName Big Data pool name
    * @param [options] The optional parameters
    * @returns Promise<Models.BigDataPoolsGetResponse>
@@ -38,14 +38,14 @@ export class BigDataPools {
   get(resourceGroupName: string, workspaceName: string, bigDataPoolName: string, options?: msRest.RequestOptionsBase): Promise<Models.BigDataPoolsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param bigDataPoolName Big Data pool name
    * @param callback The callback
    */
   get(resourceGroupName: string, workspaceName: string, bigDataPoolName: string, callback: msRest.ServiceCallback<Models.BigDataPoolResourceInfo>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param bigDataPoolName Big Data pool name
    * @param options The optional parameters
    * @param callback The callback
@@ -67,7 +67,7 @@ export class BigDataPools {
    * Patch a Big Data pool.
    * @summary Update a Big Data pool.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param bigDataPoolName Big Data pool name
    * @param bigDataPoolPatchInfo The updated Big Data pool properties
    * @param [options] The optional parameters
@@ -76,7 +76,7 @@ export class BigDataPools {
   update(resourceGroupName: string, workspaceName: string, bigDataPoolName: string, bigDataPoolPatchInfo: Models.BigDataPoolPatchInfo, options?: msRest.RequestOptionsBase): Promise<Models.BigDataPoolsUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param bigDataPoolName Big Data pool name
    * @param bigDataPoolPatchInfo The updated Big Data pool properties
    * @param callback The callback
@@ -84,7 +84,7 @@ export class BigDataPools {
   update(resourceGroupName: string, workspaceName: string, bigDataPoolName: string, bigDataPoolPatchInfo: Models.BigDataPoolPatchInfo, callback: msRest.ServiceCallback<Models.BigDataPoolResourceInfo>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param bigDataPoolName Big Data pool name
    * @param bigDataPoolPatchInfo The updated Big Data pool properties
    * @param options The optional parameters
@@ -108,7 +108,7 @@ export class BigDataPools {
    * Create a new Big Data pool.
    * @summary Create a Big Data pool.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param bigDataPoolName Big Data pool name
    * @param bigDataPoolInfo The Big Data pool to create.
    * @param [options] The optional parameters
@@ -123,7 +123,7 @@ export class BigDataPools {
    * Delete a Big Data pool from the workspace.
    * @summary Delete a Big Data pool.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param bigDataPoolName Big Data pool name
    * @param [options] The optional parameters
    * @returns Promise<Models.BigDataPoolsDeleteMethodResponse>
@@ -137,20 +137,20 @@ export class BigDataPools {
    * List Big Data pools in a workspace.
    * @summary List the Big Data pools in a workspace.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param [options] The optional parameters
    * @returns Promise<Models.BigDataPoolsListByWorkspaceResponse>
    */
   listByWorkspace(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase): Promise<Models.BigDataPoolsListByWorkspaceResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param callback The callback
    */
   listByWorkspace(resourceGroupName: string, workspaceName: string, callback: msRest.ServiceCallback<Models.BigDataPoolResourceInfoListResult>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -170,7 +170,7 @@ export class BigDataPools {
    * Create a new Big Data pool.
    * @summary Create a Big Data pool.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param bigDataPoolName Big Data pool name
    * @param bigDataPoolInfo The Big Data pool to create.
    * @param [options] The optional parameters
@@ -193,7 +193,7 @@ export class BigDataPools {
    * Delete a Big Data pool from the workspace.
    * @summary Delete a Big Data pool.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param bigDataPoolName Big Data pool name
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>

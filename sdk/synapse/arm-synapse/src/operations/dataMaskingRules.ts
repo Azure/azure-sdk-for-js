@@ -28,7 +28,7 @@ export class DataMaskingRules {
   /**
    * Creates or updates a Sql pool data masking rule.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param dataMaskingRuleName The name of the data masking rule.
    * @param parameters The required parameters for creating or updating a data masking rule.
@@ -38,7 +38,7 @@ export class DataMaskingRules {
   createOrUpdate(resourceGroupName: string, workspaceName: string, sqlPoolName: string, dataMaskingRuleName: string, parameters: Models.DataMaskingRule, options?: msRest.RequestOptionsBase): Promise<Models.DataMaskingRulesCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param dataMaskingRuleName The name of the data masking rule.
    * @param parameters The required parameters for creating or updating a data masking rule.
@@ -47,7 +47,7 @@ export class DataMaskingRules {
   createOrUpdate(resourceGroupName: string, workspaceName: string, sqlPoolName: string, dataMaskingRuleName: string, parameters: Models.DataMaskingRule, callback: msRest.ServiceCallback<Models.DataMaskingRule>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param dataMaskingRuleName The name of the data masking rule.
    * @param parameters The required parameters for creating or updating a data masking rule.
@@ -72,7 +72,7 @@ export class DataMaskingRules {
   /**
    * Gets the specific Sql pool data masking rule.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param dataMaskingRuleName The name of the data masking rule.
    * @param [options] The optional parameters
@@ -81,7 +81,7 @@ export class DataMaskingRules {
   get(resourceGroupName: string, workspaceName: string, sqlPoolName: string, dataMaskingRuleName: string, options?: msRest.RequestOptionsBase): Promise<Models.DataMaskingRulesGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param dataMaskingRuleName The name of the data masking rule.
    * @param callback The callback
@@ -89,7 +89,7 @@ export class DataMaskingRules {
   get(resourceGroupName: string, workspaceName: string, sqlPoolName: string, dataMaskingRuleName: string, callback: msRest.ServiceCallback<Models.DataMaskingRule>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param dataMaskingRuleName The name of the data masking rule.
    * @param options The optional parameters
@@ -112,7 +112,7 @@ export class DataMaskingRules {
   /**
    * Gets a list of Sql pool data masking rules.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param [options] The optional parameters
    * @returns Promise<Models.DataMaskingRulesListBySqlPoolResponse>
@@ -120,14 +120,14 @@ export class DataMaskingRules {
   listBySqlPool(resourceGroupName: string, workspaceName: string, sqlPoolName: string, options?: msRest.RequestOptionsBase): Promise<Models.DataMaskingRulesListBySqlPoolResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param callback The callback
    */
   listBySqlPool(resourceGroupName: string, workspaceName: string, sqlPoolName: string, callback: msRest.ServiceCallback<Models.DataMaskingRuleListResult>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param options The optional parameters
    * @param callback The callback

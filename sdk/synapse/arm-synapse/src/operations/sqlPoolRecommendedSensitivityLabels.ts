@@ -28,7 +28,7 @@ export class SqlPoolRecommendedSensitivityLabels {
   /**
    * Update recommended sensitivity labels states of a given SQL Pool using an operations batch.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param parameters
    * @param [options] The optional parameters
@@ -37,7 +37,7 @@ export class SqlPoolRecommendedSensitivityLabels {
   update(resourceGroupName: string, workspaceName: string, sqlPoolName: string, parameters: Models.RecommendedSensitivityLabelUpdateList, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param parameters
    * @param callback The callback
@@ -45,7 +45,7 @@ export class SqlPoolRecommendedSensitivityLabels {
   update(resourceGroupName: string, workspaceName: string, sqlPoolName: string, parameters: Models.RecommendedSensitivityLabelUpdateList, callback: msRest.ServiceCallback<void>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param parameters
    * @param options The optional parameters

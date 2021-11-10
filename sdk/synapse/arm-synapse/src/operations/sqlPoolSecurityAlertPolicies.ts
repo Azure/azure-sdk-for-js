@@ -29,7 +29,7 @@ export class SqlPoolSecurityAlertPolicies {
    * Get a list of Sql pool's security alert policies.
    * @summary List Sql pool's security alert policies
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param [options] The optional parameters
    * @returns Promise<Models.SqlPoolSecurityAlertPoliciesListResponse>
@@ -37,14 +37,14 @@ export class SqlPoolSecurityAlertPolicies {
   list(resourceGroupName: string, workspaceName: string, sqlPoolName: string, options?: msRest.RequestOptionsBase): Promise<Models.SqlPoolSecurityAlertPoliciesListResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param callback The callback
    */
   list(resourceGroupName: string, workspaceName: string, sqlPoolName: string, callback: msRest.ServiceCallback<Models.ListSqlPoolSecurityAlertPolicies>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param options The optional parameters
    * @param callback The callback
@@ -66,7 +66,7 @@ export class SqlPoolSecurityAlertPolicies {
    * Get a Sql pool's security alert policy.
    * @summary Get a Sql pool's security alert policy
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param [options] The optional parameters
    * @returns Promise<Models.SqlPoolSecurityAlertPoliciesGetResponse>
@@ -74,14 +74,14 @@ export class SqlPoolSecurityAlertPolicies {
   get(resourceGroupName: string, workspaceName: string, sqlPoolName: string, options?: msRest.RequestOptionsBase): Promise<Models.SqlPoolSecurityAlertPoliciesGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param callback The callback
    */
   get(resourceGroupName: string, workspaceName: string, sqlPoolName: string, callback: msRest.ServiceCallback<Models.SqlPoolSecurityAlertPolicy>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param options The optional parameters
    * @param callback The callback
@@ -103,7 +103,7 @@ export class SqlPoolSecurityAlertPolicies {
    * Create or update a Sql pool's security alert policy.
    * @summary Create or update a Sql pool's security alert policy
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param parameters The Sql pool security alert policy.
    * @param [options] The optional parameters
@@ -112,7 +112,7 @@ export class SqlPoolSecurityAlertPolicies {
   createOrUpdate(resourceGroupName: string, workspaceName: string, sqlPoolName: string, parameters: Models.SqlPoolSecurityAlertPolicy, options?: msRest.RequestOptionsBase): Promise<Models.SqlPoolSecurityAlertPoliciesCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param parameters The Sql pool security alert policy.
    * @param callback The callback
@@ -120,7 +120,7 @@ export class SqlPoolSecurityAlertPolicies {
   createOrUpdate(resourceGroupName: string, workspaceName: string, sqlPoolName: string, parameters: Models.SqlPoolSecurityAlertPolicy, callback: msRest.ServiceCallback<Models.SqlPoolSecurityAlertPolicy>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param parameters The Sql pool security alert policy.
    * @param options The optional parameters

@@ -29,7 +29,7 @@ export class SqlPoolSchemas {
    * Gets schemas of a given SQL pool.
    * @summary Gets schemas of a given SQL pool
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param [options] The optional parameters
    * @returns Promise<Models.SqlPoolSchemasListResponse>
@@ -37,14 +37,14 @@ export class SqlPoolSchemas {
   list(resourceGroupName: string, workspaceName: string, sqlPoolName: string, options?: Models.SqlPoolSchemasListOptionalParams): Promise<Models.SqlPoolSchemasListResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param callback The callback
    */
   list(resourceGroupName: string, workspaceName: string, sqlPoolName: string, callback: msRest.ServiceCallback<Models.SqlPoolSchemaListResult>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param options The optional parameters
    * @param callback The callback
@@ -65,7 +65,7 @@ export class SqlPoolSchemas {
   /**
    * Get Sql Pool schema
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param schemaName The name of the schema.
    * @param [options] The optional parameters
@@ -74,7 +74,7 @@ export class SqlPoolSchemas {
   get(resourceGroupName: string, workspaceName: string, sqlPoolName: string, schemaName: string, options?: msRest.RequestOptionsBase): Promise<Models.SqlPoolSchemasGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param schemaName The name of the schema.
    * @param callback The callback
@@ -82,7 +82,7 @@ export class SqlPoolSchemas {
   get(resourceGroupName: string, workspaceName: string, sqlPoolName: string, schemaName: string, callback: msRest.ServiceCallback<Models.SqlPoolSchema>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param schemaName The name of the schema.
    * @param options The optional parameters

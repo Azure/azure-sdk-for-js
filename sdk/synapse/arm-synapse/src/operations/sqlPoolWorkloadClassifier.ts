@@ -30,7 +30,7 @@ export class SqlPoolWorkloadClassifier {
    * Get a workload classifier of Sql pool's workload group.
    * @summary Get workload classifier
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param workloadGroupName The name of the workload group.
    * @param workloadClassifierName The name of the workload classifier.
@@ -40,7 +40,7 @@ export class SqlPoolWorkloadClassifier {
   get(resourceGroupName: string, workspaceName: string, sqlPoolName: string, workloadGroupName: string, workloadClassifierName: string, options?: msRest.RequestOptionsBase): Promise<Models.SqlPoolWorkloadClassifierGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param workloadGroupName The name of the workload group.
    * @param workloadClassifierName The name of the workload classifier.
@@ -49,7 +49,7 @@ export class SqlPoolWorkloadClassifier {
   get(resourceGroupName: string, workspaceName: string, sqlPoolName: string, workloadGroupName: string, workloadClassifierName: string, callback: msRest.ServiceCallback<Models.WorkloadClassifier>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param workloadGroupName The name of the workload group.
    * @param workloadClassifierName The name of the workload classifier.
@@ -75,7 +75,7 @@ export class SqlPoolWorkloadClassifier {
    * Create Or Update workload classifier for a Sql pool's workload group.
    * @summary Create Or Update workload classifier
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param workloadGroupName The name of the workload group.
    * @param workloadClassifierName The name of the workload classifier.
@@ -92,7 +92,7 @@ export class SqlPoolWorkloadClassifier {
    * Remove workload classifier of a Sql pool's workload group.
    * @summary Remove workload classifier
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param workloadGroupName The name of the workload group.
    * @param workloadClassifierName The name of the workload classifier.
@@ -108,7 +108,7 @@ export class SqlPoolWorkloadClassifier {
    * Get list of  Sql pool's workload classifier for workload groups.
    * @summary Sql pool's workload classifier
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param workloadGroupName The name of the workload group.
    * @param [options] The optional parameters
@@ -117,7 +117,7 @@ export class SqlPoolWorkloadClassifier {
   list(resourceGroupName: string, workspaceName: string, sqlPoolName: string, workloadGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.SqlPoolWorkloadClassifierListResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param workloadGroupName The name of the workload group.
    * @param callback The callback
@@ -125,7 +125,7 @@ export class SqlPoolWorkloadClassifier {
   list(resourceGroupName: string, workspaceName: string, sqlPoolName: string, workloadGroupName: string, callback: msRest.ServiceCallback<Models.WorkloadClassifierListResult>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param workloadGroupName The name of the workload group.
    * @param options The optional parameters
@@ -149,7 +149,7 @@ export class SqlPoolWorkloadClassifier {
    * Create Or Update workload classifier for a Sql pool's workload group.
    * @summary Create Or Update workload classifier
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param workloadGroupName The name of the workload group.
    * @param workloadClassifierName The name of the workload classifier.
@@ -176,7 +176,7 @@ export class SqlPoolWorkloadClassifier {
    * Remove workload classifier of a Sql pool's workload group.
    * @summary Remove workload classifier
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param workloadGroupName The name of the workload group.
    * @param workloadClassifierName The name of the workload classifier.

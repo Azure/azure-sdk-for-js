@@ -29,7 +29,7 @@ export class KustoPoolDataConnections {
   /**
    * Checks that the data connection name is valid and is not already in use.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param kustoPoolName The name of the Kusto pool.
    * @param databaseName The name of the database in the Kusto pool.
    * @param dataConnectionName The name of the data connection.
@@ -39,7 +39,7 @@ export class KustoPoolDataConnections {
   checkNameAvailability(resourceGroupName: string, workspaceName: string, kustoPoolName: string, databaseName: string, dataConnectionName: Models.DataConnectionCheckNameRequest, options?: msRest.RequestOptionsBase): Promise<Models.KustoPoolDataConnectionsCheckNameAvailabilityResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param kustoPoolName The name of the Kusto pool.
    * @param databaseName The name of the database in the Kusto pool.
    * @param dataConnectionName The name of the data connection.
@@ -48,7 +48,7 @@ export class KustoPoolDataConnections {
   checkNameAvailability(resourceGroupName: string, workspaceName: string, kustoPoolName: string, databaseName: string, dataConnectionName: Models.DataConnectionCheckNameRequest, callback: msRest.ServiceCallback<Models.CheckNameResult>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param kustoPoolName The name of the Kusto pool.
    * @param databaseName The name of the database in the Kusto pool.
    * @param dataConnectionName The name of the data connection.
@@ -73,7 +73,7 @@ export class KustoPoolDataConnections {
   /**
    * Checks that the data connection parameters are valid.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param kustoPoolName The name of the Kusto pool.
    * @param databaseName The name of the database in the Kusto pool.
    * @param parameters The data connection parameters supplied to the CreateOrUpdate operation.
@@ -88,7 +88,7 @@ export class KustoPoolDataConnections {
   /**
    * Returns the list of data connections of the given Kusto pool database.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param kustoPoolName The name of the Kusto pool.
    * @param databaseName The name of the database in the Kusto pool.
    * @param [options] The optional parameters
@@ -97,7 +97,7 @@ export class KustoPoolDataConnections {
   listByDatabase(resourceGroupName: string, workspaceName: string, kustoPoolName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<Models.KustoPoolDataConnectionsListByDatabaseResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param kustoPoolName The name of the Kusto pool.
    * @param databaseName The name of the database in the Kusto pool.
    * @param callback The callback
@@ -105,7 +105,7 @@ export class KustoPoolDataConnections {
   listByDatabase(resourceGroupName: string, workspaceName: string, kustoPoolName: string, databaseName: string, callback: msRest.ServiceCallback<Models.DataConnectionListResult>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param kustoPoolName The name of the Kusto pool.
    * @param databaseName The name of the database in the Kusto pool.
    * @param options The optional parameters
@@ -128,7 +128,7 @@ export class KustoPoolDataConnections {
   /**
    * Returns a data connection.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param kustoPoolName The name of the Kusto pool.
    * @param databaseName The name of the database in the Kusto pool.
    * @param dataConnectionName The name of the data connection.
@@ -138,7 +138,7 @@ export class KustoPoolDataConnections {
   get(resourceGroupName: string, workspaceName: string, kustoPoolName: string, databaseName: string, dataConnectionName: string, options?: msRest.RequestOptionsBase): Promise<Models.KustoPoolDataConnectionsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param kustoPoolName The name of the Kusto pool.
    * @param databaseName The name of the database in the Kusto pool.
    * @param dataConnectionName The name of the data connection.
@@ -147,7 +147,7 @@ export class KustoPoolDataConnections {
   get(resourceGroupName: string, workspaceName: string, kustoPoolName: string, databaseName: string, dataConnectionName: string, callback: msRest.ServiceCallback<Models.DataConnectionUnion>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param kustoPoolName The name of the Kusto pool.
    * @param databaseName The name of the database in the Kusto pool.
    * @param dataConnectionName The name of the data connection.
@@ -172,7 +172,7 @@ export class KustoPoolDataConnections {
   /**
    * Creates or updates a data connection.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param kustoPoolName The name of the Kusto pool.
    * @param databaseName The name of the database in the Kusto pool.
    * @param dataConnectionName The name of the data connection.
@@ -188,7 +188,7 @@ export class KustoPoolDataConnections {
   /**
    * Updates a data connection.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param kustoPoolName The name of the Kusto pool.
    * @param databaseName The name of the database in the Kusto pool.
    * @param dataConnectionName The name of the data connection.
@@ -204,7 +204,7 @@ export class KustoPoolDataConnections {
   /**
    * Deletes the data connection with the given name.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param kustoPoolName The name of the Kusto pool.
    * @param databaseName The name of the database in the Kusto pool.
    * @param dataConnectionName The name of the data connection.
@@ -219,7 +219,7 @@ export class KustoPoolDataConnections {
   /**
    * Checks that the data connection parameters are valid.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param kustoPoolName The name of the Kusto pool.
    * @param databaseName The name of the database in the Kusto pool.
    * @param parameters The data connection parameters supplied to the CreateOrUpdate operation.
@@ -243,7 +243,7 @@ export class KustoPoolDataConnections {
   /**
    * Creates or updates a data connection.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param kustoPoolName The name of the Kusto pool.
    * @param databaseName The name of the database in the Kusto pool.
    * @param dataConnectionName The name of the data connection.
@@ -269,7 +269,7 @@ export class KustoPoolDataConnections {
   /**
    * Updates a data connection.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param kustoPoolName The name of the Kusto pool.
    * @param databaseName The name of the database in the Kusto pool.
    * @param dataConnectionName The name of the data connection.
@@ -295,7 +295,7 @@ export class KustoPoolDataConnections {
   /**
    * Deletes the data connection with the given name.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param kustoPoolName The name of the Kusto pool.
    * @param databaseName The name of the database in the Kusto pool.
    * @param dataConnectionName The name of the data connection.

@@ -29,20 +29,20 @@ export class WorkspaceManagedSqlServerRecoverableSqlPools {
    * Get list of recoverable sql pools for workspace managed sql server.
    * @summary Get list of recoverable sql pools for the server.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param [options] The optional parameters
    * @returns Promise<Models.WorkspaceManagedSqlServerRecoverableSqlPoolsListResponse>
    */
   list(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase): Promise<Models.WorkspaceManagedSqlServerRecoverableSqlPoolsListResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param callback The callback
    */
   list(resourceGroupName: string, workspaceName: string, callback: msRest.ServiceCallback<Models.RecoverableSqlPoolListResult>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -62,7 +62,7 @@ export class WorkspaceManagedSqlServerRecoverableSqlPools {
    * Get recoverable sql pools for workspace managed sql server.
    * @summary Get recoverable sql pools for the server.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName The name of the sql pool
    * @param [options] The optional parameters
    * @returns Promise<Models.WorkspaceManagedSqlServerRecoverableSqlPoolsGetResponse>
@@ -70,14 +70,14 @@ export class WorkspaceManagedSqlServerRecoverableSqlPools {
   get(resourceGroupName: string, workspaceName: string, sqlPoolName: string, options?: msRest.RequestOptionsBase): Promise<Models.WorkspaceManagedSqlServerRecoverableSqlPoolsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName The name of the sql pool
    * @param callback The callback
    */
   get(resourceGroupName: string, workspaceName: string, sqlPoolName: string, callback: msRest.ServiceCallback<Models.RecoverableSqlPool>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName The name of the sql pool
    * @param options The optional parameters
    * @param callback The callback

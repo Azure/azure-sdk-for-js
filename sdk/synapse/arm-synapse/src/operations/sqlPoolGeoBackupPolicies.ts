@@ -29,7 +29,7 @@ export class SqlPoolGeoBackupPolicies {
    * Get list of SQL pool geo backup policies
    * @summary List SQL pool geo backup policies
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param [options] The optional parameters
    * @returns Promise<Models.SqlPoolGeoBackupPoliciesListResponse>
@@ -37,14 +37,14 @@ export class SqlPoolGeoBackupPolicies {
   list(resourceGroupName: string, workspaceName: string, sqlPoolName: string, options?: msRest.RequestOptionsBase): Promise<Models.SqlPoolGeoBackupPoliciesListResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param callback The callback
    */
   list(resourceGroupName: string, workspaceName: string, sqlPoolName: string, callback: msRest.ServiceCallback<Models.GeoBackupPolicyListResult>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param options The optional parameters
    * @param callback The callback
@@ -65,7 +65,7 @@ export class SqlPoolGeoBackupPolicies {
   /**
    * Updates a SQL Pool geo backup policy.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param parameters The required parameters for creating or updating the geo backup policy.
    * @param [options] The optional parameters
@@ -74,7 +74,7 @@ export class SqlPoolGeoBackupPolicies {
   createOrUpdate(resourceGroupName: string, workspaceName: string, sqlPoolName: string, parameters: Models.GeoBackupPolicy, options?: msRest.RequestOptionsBase): Promise<Models.SqlPoolGeoBackupPoliciesCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param parameters The required parameters for creating or updating the geo backup policy.
    * @param callback The callback
@@ -82,7 +82,7 @@ export class SqlPoolGeoBackupPolicies {
   createOrUpdate(resourceGroupName: string, workspaceName: string, sqlPoolName: string, parameters: Models.GeoBackupPolicy, callback: msRest.ServiceCallback<Models.GeoBackupPolicy>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param parameters The required parameters for creating or updating the geo backup policy.
    * @param options The optional parameters
@@ -106,7 +106,7 @@ export class SqlPoolGeoBackupPolicies {
    * Get the specified SQL pool geo backup policy
    * @summary Get a SQL pool geo backup policy
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param [options] The optional parameters
    * @returns Promise<Models.SqlPoolGeoBackupPoliciesGetResponse>
@@ -114,14 +114,14 @@ export class SqlPoolGeoBackupPolicies {
   get(resourceGroupName: string, workspaceName: string, sqlPoolName: string, options?: msRest.RequestOptionsBase): Promise<Models.SqlPoolGeoBackupPoliciesGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param callback The callback
    */
   get(resourceGroupName: string, workspaceName: string, sqlPoolName: string, callback: msRest.ServiceCallback<Models.GeoBackupPolicy>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param sqlPoolName SQL pool name
    * @param options The optional parameters
    * @param callback The callback
