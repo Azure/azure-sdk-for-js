@@ -289,9 +289,11 @@ export function appendQueryParams(
     if (typeof value === "string") {
       searchPieces.push(`${name}=${value}`);
     } else {
-      // QUIRK: If we get an array of values, include multiple key/value pairs
-      for (const subValue of value) {
-        searchPieces.push(`${name}=${subValue}`);
+      if (value != undefined) {
+        // QUIRK: If we get an array of values, include multiple key/value pairs
+        for (const subValue of value) {
+          searchPieces.push(`${name}=${subValue}`);
+        }
       }
     }
   }
