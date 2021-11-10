@@ -22,7 +22,7 @@ import {
 import { DEFAULT_SCOPE } from "./constants";
 import { logger } from "./logger";
 import { createQueryIdByContentOperationSpec, createRegisterOperationSpec } from "./mappers";
-import { SchemaRegisterResponse } from "./generated";
+import { SchemaQueryIdByContentResponse, SchemaRegisterResponse } from "./generated";
 
 /**
  * Client for Azure Schema Registry service.
@@ -109,7 +109,7 @@ export class SchemaRegistryClient implements SchemaRegistry {
   ): Promise<SchemaProperties> {
     const { groupName, name: schemaName, definition: schemaContent } = schema;
     return this.client
-      .sendOperationRequest<SchemaRegisterResponse>(
+      .sendOperationRequest<SchemaQueryIdByContentResponse>(
         {
           groupName,
           schemaName,
