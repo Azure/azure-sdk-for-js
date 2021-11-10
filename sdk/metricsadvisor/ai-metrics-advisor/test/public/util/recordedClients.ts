@@ -33,7 +33,7 @@ const blobTemplate = "blob_template";
 const replaceableVariables: { [k: string]: string } = {
   AZURE_CLIENT_ID: "azure_client_id",
   AZURE_CLIENT_SECRET: "azure_client_secret",
-  AZURE_TENANT_ID: "azure_tenant_id",
+  AZURE_TENANT_ID: "72698866-8641-4147-9144-24744011447",
   METRICS_ADVISOR_SUBSCRIPTION_KEY: "sub_key",
   METRICS_ADVISOR_API_KEY: "api_key",
   METRICS_ADVISOR_ENDPOINT: "https://endpoint/",
