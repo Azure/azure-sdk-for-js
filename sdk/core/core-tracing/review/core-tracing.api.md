@@ -22,6 +22,25 @@ export interface CreateTracingContextOptions {
 export function fromTraceparentHeader(traceparentHeader: string): TracingSpanIdentifier | undefined;
 
 // @public
+export interface Instrumenter {
+    parseTraceparentHeader(traceparentHeader: string): TracingSpanIdentifier | undefined;
+    startSpan(name: string, spanOptions?: InstrumenterStartSpanOptions): {
+        span: TracingSpan;
+        tracingContext: TracingContext;
+    };
+    withContext<CallbackArgs extends unknown[], Callback extends (...args: CallbackArgs) => ReturnType<Callback>>(context: TracingContext, callback: Callback, callbackThis?: ThisParameterType<Callback>, ...callbackArgs: CallbackArgs): ReturnType<Callback>;
+}
+
+// @public
+export interface InstrumenterStartSpanOptions extends TracingSpanOptions {
+    packageInformation?: {
+        name: string;
+        version?: string;
+    };
+    tracingContext?: TracingContext;
+}
+
+// @public
 export interface OperationTracingOptions {
     tracingContext?: TracingContext;
 }
@@ -35,25 +54,6 @@ export type SpanStatus = {
 };
 
 // @public
-export interface Tracer {
-    parseTraceparentHeader(traceparentHeader: string): TracingSpanIdentifier | undefined;
-    startSpan(name: string, spanOptions?: TracerStartSpanOptions): {
-        span: TracingSpan;
-        tracingContext: TracingContext;
-    };
-    withContext<CallbackArgs extends unknown[], Callback extends (...args: CallbackArgs) => ReturnType<Callback>>(context: TracingContext, callback: Callback, callbackThis?: ThisParameterType<Callback>, ...callbackArgs: CallbackArgs): ReturnType<Callback>;
-}
-
-// @public
-export interface TracerStartSpanOptions extends TracingSpanOptions {
-    packageInformation?: {
-        name: string;
-        version?: string;
-    };
-    tracingContext?: TracingContext;
-}
-
-// @public
 export interface TracingClient {
     startSpan<Options extends {
         tracingOptions?: OperationTracingOptions;
@@ -63,19 +63,19 @@ export interface TracingClient {
         updatedOptions: Options;
     };
     withContext<CallbackArgs extends unknown[], Callback extends (...args: CallbackArgs) => ReturnType<Callback>>(context: TracingContext, callback: Callback, callbackThis?: ThisParameterType<Callback>, ...callbackArgs: CallbackArgs): ReturnType<Callback>;
-    withTrace<Options extends {
+    withSpan<Options extends {
         tracingOptions?: OperationTracingOptions;
     }, Callback extends (updatedOptions: Options, span: Omit<TracingSpan, "end">) => ReturnType<Callback>>(name: string, callback: Callback, operationOptions?: Options, spanOptions?: TracingSpanOptions, callbackThis?: ThisParameterType<Callback>): Promise<ReturnType<Callback>>;
 }
 
 // @public
 export interface TracingClientOptions {
+    instrumenter?: Instrumenter;
     namespace: string;
     packageInformation?: {
         name: string;
         version?: string;
     };
-    tracer?: Tracer;
 }
 
 // @public
@@ -103,12 +103,15 @@ export type TracingSpanKind = "client" | "server" | "producer" | "consumer";
 
 // @public
 export interface TracingSpanOptions {
+    spanAttributes?: {
+        [key: string]: unknown;
+    };
     spanKind?: TracingSpanKind;
     spanLinks?: TracingSpanIdentifier[];
 }
 
 // @public
-export function useTracer(tracer: Tracer): void;
+export function useInstrumenter(instrumenter: Instrumenter): void;
 
 // (No @packageDocumentation comment for this package)
 

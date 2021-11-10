@@ -3,25 +3,25 @@
 
 import {
   TracingClient,
-  Tracer,
+  Instrumenter,
   TracingClientOptions,
   OperationTracingOptions,
   TracingSpan,
   TracingContext,
   TracingSpanOptions
 } from "./interfaces";
-import { tracerImplementation } from "./tracer";
+import { instrumenterImplementation } from "./instrumenter";
 import { knownContextKeys } from "./tracingContext";
 
 /** @internal */
 export class TracingClientImpl implements TracingClient {
   private _namespace: string;
-  private _tracer: Tracer;
+  private _instrumenter: Instrumenter;
   private _packageInformation: { name: string; version?: string | undefined };
 
   constructor(options?: TracingClientOptions) {
     this._namespace = options?.namespace || "";
-    this._tracer = options?.tracer || tracerImplementation;
+    this._instrumenter = options?.instrumenter || instrumenterImplementation;
     this._packageInformation = options?.packageInformation || {
       name: "@azure/core-tracing"
     };
@@ -35,7 +35,7 @@ export class TracingClientImpl implements TracingClient {
     tracingContext: TracingContext;
     updatedOptions: Options;
   } {
-    let { span, tracingContext } = this._tracer.startSpan(name, {
+    let { span, tracingContext } = this._instrumenter.startSpan(name, {
       ...spanOptions,
       tracingContext: operationOptions?.tracingOptions?.tracingContext,
       packageInformation: this._packageInformation
@@ -59,7 +59,7 @@ export class TracingClientImpl implements TracingClient {
       updatedOptions
     };
   }
-  async withTrace<
+  async withSpan<
     Options extends { tracingOptions?: { tracingContext?: TracingContext } },
     Callback extends (
       updatedOptions: Options,
@@ -101,7 +101,7 @@ export class TracingClientImpl implements TracingClient {
     callbackThis?: ThisParameterType<Callback>,
     ...callbackArgs: CallbackArgs
   ): ReturnType<Callback> {
-    return this._tracer.withContext(context, callback, callbackThis, ...callbackArgs);
+    return this._instrumenter.withContext(context, callback, callbackThis, ...callbackArgs);
   }
 }
 

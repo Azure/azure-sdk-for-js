@@ -2,6 +2,6 @@
 // Licensed under the MIT license.
 
 export * from "./interfaces";
-export { useTracer, fromTraceparentHeader } from "./tracer";
+export { useInstrumenter, fromTraceparentHeader } from "./instrumenter";
 export { createTracingClient } from "./tracingClient";
 export { createTracingContext } from "./tracingContext";

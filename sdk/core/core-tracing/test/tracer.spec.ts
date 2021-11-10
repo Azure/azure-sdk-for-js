@@ -4,28 +4,33 @@
 import { assert } from "chai";
 import { Context } from "mocha";
 import sinon from "sinon";
-import { Tracer, TracingSpan, TracingContext, TracingClient } from "../src/interfaces";
-import { NoOpTracer, NoOpSpan, tracerImplementation, useTracer } from "../src/tracer";
+import { Instrumenter, TracingSpan, TracingContext, TracingClient } from "../src/interfaces";
+import {
+  NoOpInstrumenter,
+  NoOpSpan,
+  instrumenterImplementation,
+  useInstrumenter
+} from "../src/instrumenter";
 import { createTracingClient, TracingClientImpl } from "../src/tracingClient";
 import { TracingContextImpl, knownContextKeys, createTracingContext } from "../src/tracingContext";
 
-describe("Tracer", () => {
-  describe("NoOpTracer", () => {
-    let tracer: Tracer;
+describe("Instrumenter", () => {
+  describe("NoOpInstrumenter", () => {
+    let instrumenter: Instrumenter;
     const name = "test-operation";
 
     beforeEach(() => {
-      tracer = new NoOpTracer();
+      instrumenter = new NoOpInstrumenter();
     });
 
     describe("#startSpan", () => {
       it("return no-op span", () => {
-        const { span } = tracer.startSpan(name, {});
+        const { span } = instrumenter.startSpan(name, {});
         assert.instanceOf(span, NoOpSpan);
       });
 
       it("returns a new context", () => {
-        const { tracingContext } = tracer.startSpan(name, {});
+        const { tracingContext } = instrumenter.startSpan(name, {});
         assert.exists(tracingContext);
       });
 
@@ -33,7 +38,7 @@ describe("Tracer", () => {
         const [key, value] = [Symbol.for("key"), "value"];
         const context = createTracingContext().setValue(key, value);
 
-        const { tracingContext } = tracer.startSpan(name, { tracingContext: context });
+        const { tracingContext } = instrumenter.startSpan(name, { tracingContext: context });
         assert.strictEqual(tracingContext.getValue(key), value);
       });
     });
@@ -41,7 +46,7 @@ describe("Tracer", () => {
     describe("#withContext", () => {
       it("applies the callback", () => {
         const expectedText = "expected";
-        const result = tracer.withContext(createTracingContext(), () => expectedText);
+        const result = instrumenter.withContext(createTracingContext(), () => expectedText);
         assert.equal(result, expectedText);
       });
 
@@ -49,7 +54,7 @@ describe("Tracer", () => {
         // eslint-disable-next-line @typescript-eslint/no-this-alias
         const that = this;
 
-        tracer.withContext(
+        instrumenter.withContext(
           createTracingContext(),
           function(this: Context) {
             assert.strictEqual(this, that);
@@ -187,31 +192,31 @@ describe("Tracer", () => {
     });
   });
 
-  describe("defaultTracer", () => {
-    it("allows setting the default tracer", () => {
-      const tracer = new NoOpTracer();
+  describe("defaultInstrumenter", () => {
+    it("allows setting the default instrumenter", () => {
+      const instrumenter = new NoOpInstrumenter();
 
-      useTracer(tracer);
-      assert.strictEqual(tracerImplementation, tracer);
+      useInstrumenter(instrumenter);
+      assert.strictEqual(instrumenterImplementation, instrumenter);
 
-      useTracer(new NoOpTracer());
-      assert.notStrictEqual(tracerImplementation, tracer);
+      useInstrumenter(new NoOpInstrumenter());
+      assert.notStrictEqual(instrumenterImplementation, instrumenter);
     });
   });
 
   describe("tracingClient", () => {
-    let tracer: Tracer;
+    let instrumenter: Instrumenter;
     let span: TracingSpan;
     let context: TracingContext;
     let client: TracingClient;
     const expectedNamespace = "Microsoft.Test";
 
     beforeEach(() => {
-      tracer = new NoOpTracer();
+      instrumenter = new NoOpInstrumenter();
       span = new NoOpSpan();
       context = createTracingContext();
 
-      useTracer(tracer);
+      useInstrumenter(instrumenter);
       client = createTracingClient({
         namespace: expectedNamespace,
         packageInformation: {
@@ -227,9 +232,9 @@ describe("Tracer", () => {
 
     describe("#startSpan", () => {
       it("sets namespace on span", () => {
-        // Set our tracer to always return the same span and context so we
+        // Set our instrumenter to always return the same span and context so we
         // can inspect them.
-        tracer.startSpan = () => {
+        instrumenter.startSpan = () => {
           return {
             span,
             tracingContext: context
@@ -243,11 +248,11 @@ describe("Tracer", () => {
         );
       });
 
-      it("passes package information to tracer", () => {
-        const tracerStartSpanSpy = sinon.spy(tracer, "startSpan");
+      it("passes package information to instrumenter", () => {
+        const instrumenterStartSpanSpy = sinon.spy(instrumenter, "startSpan");
         client.startSpan("test", {});
-        assert.isTrue(tracerStartSpanSpy.called);
-        const args = tracerStartSpanSpy.getCall(0).args;
+        assert.isTrue(instrumenterStartSpanSpy.called);
+        const args = instrumenterStartSpanSpy.getCall(0).args;
 
         assert.equal(args[0], "test");
         assert.equal(args[1]?.packageInformation?.name, "test-package");
@@ -255,11 +260,11 @@ describe("Tracer", () => {
       });
 
       it("passes defaults when package information is omitted", () => {
-        const tracerStartSpanSpy = sinon.spy(tracer, "startSpan");
+        const instrumenterStartSpanSpy = sinon.spy(instrumenter, "startSpan");
         client = createTracingClient();
         client.startSpan("test", {});
-        assert.isTrue(tracerStartSpanSpy.called);
-        const args = tracerStartSpanSpy.getCall(0).args;
+        assert.isTrue(instrumenterStartSpanSpy.called);
+        const args = instrumenterStartSpanSpy.getCall(0).args;
 
         assert.equal(args[0], "test");
         assert.equal(args[1]?.packageInformation?.name, "@azure/core-tracing");
@@ -294,20 +299,20 @@ describe("Tracer", () => {
       });
     });
 
-    describe("#withTrace", () => {
+    describe("#withSpan", () => {
       const spanName = "test-span";
 
       it("sets namespace on span", async () => {
-        // Set our tracer to always return the same span and context so we
+        // Set our instrumenter to always return the same span and context so we
         // can inspect them.
-        tracer.startSpan = () => {
+        instrumenter.startSpan = () => {
           return {
             span,
             tracingContext: context
           };
         };
         const setAttributeSpy = sinon.spy(span, "setAttribute");
-        await client.withTrace(
+        await client.withSpan(
           spanName,
           async () => {
             // no op
@@ -321,7 +326,7 @@ describe("Tracer", () => {
       });
 
       it("passes options and span to callback", async () => {
-        await client.withTrace(
+        await client.withSpan(
           spanName,
           (options, currentSpan) => {
             assert.instanceOf(currentSpan, NoOpSpan);
@@ -335,14 +340,14 @@ describe("Tracer", () => {
       });
 
       it("promisifies synchronous functions", async () => {
-        const result = await (client as TracingClientImpl).withTrace(spanName, () => {
+        const result = await (client as TracingClientImpl).withSpan(spanName, () => {
           return 5;
         });
         assert.equal(result, 5);
       });
 
       it("supports asynchronous functions", async () => {
-        const result = await client.withTrace(
+        const result = await client.withSpan(
           spanName,
           () => {
             return Promise.resolve(5);
@@ -355,7 +360,7 @@ describe("Tracer", () => {
       it("returns context with all existing properties", async () => {
         const [key, value] = [Symbol.for("key"), "value"];
         const parentContext = createTracingContext().setValue(key, value);
-        await client.withTrace(
+        await client.withSpan(
           spanName,
           (updatedOptions) => {
             assert.strictEqual(updatedOptions.tracingOptions?.tracingContext.getValue(key), value);
@@ -372,7 +377,7 @@ describe("Tracer", () => {
         // eslint-disable-next-line @typescript-eslint/no-this-alias
         const that = this;
 
-        await client.withTrace(
+        await client.withSpan(
           spanName,
           () => {
             assert.strictEqual(this, that);
@@ -387,7 +392,7 @@ describe("Tracer", () => {
 
   // describe("#withContext", () => {
   //   it("delegates to the provider's withContext", async () => {
-  //     const providerSpy = sinon.spy(tracer, "withContext");
+  //     const providerSpy = sinon.spy(instrumenter, "withContext");
   //     await client.withContext(() => {}, { context });
   //     assert.isTrue(providerSpy.calledWith(sinon.match.any, { context }));
   //   });

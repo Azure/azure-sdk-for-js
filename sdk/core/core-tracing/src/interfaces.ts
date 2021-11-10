@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 /**
- * Represents a client that can integrate with the currently configured {@link Tracer}.
+ * Represents a client that can integrate with the currently configured {@link Instrumenter}.
  *
  * Create an instance using {@link createTracingClient}.
  */
@@ -15,14 +15,14 @@ export interface TracingClient {
    * Example:
    *
    * ```ts
-   * const myOperationResult = await withTrace("myClassName.myOperationName", (updatedOptions) => myOperation(updatedOptions), options);
+   * const myOperationResult = await withSpan("myClassName.myOperationName", (updatedOptions) => myOperation(updatedOptions), options);
    * ```
    * @param name - The name of the span. By convention this should be `${className}.${methodName}`.
    * @param callback - The callback to be invoked with the updated options and newly created {@link TracingSpan}.
    * @param operationOptions - The original options passed to the method. The callback will receive these options with the newly created {@link TracingContext}.
    * @param callbackThis - An optional `this` parameter to bind the callback to.
    */
-  withTrace<
+  withSpan<
     Options extends { tracingOptions?: OperationTracingOptions },
     Callback extends (
       updatedOptions: Options,
@@ -40,7 +40,7 @@ export interface TracingClient {
    *
    * You must end the span using {@link TracingSpan.end}.
    *
-   * Most of the time you will want to use {@link withTrace} instead.
+   * Most of the time you will want to use {@link withSpan} instead.
    *
    * @param name - The name of the span. By convention this should be `${className}.${methodName}`.
    * @param operationOptions - The original operation options.
@@ -57,7 +57,7 @@ export interface TracingClient {
    * Wraps a callback with an active context and calls the callback.
    * Depending on the implementation, this may set the globally available active context.
    *
-   * Useful when you want to leave the boundaries of the SDK (make a request or callback to user code) and are unable to use the {@link withTrace} interface.
+   * Useful when you want to leave the boundaries of the SDK (make a request or callback to user code) and are unable to use the {@link withSpan} interface.
    *
    * @param context - The {@link TracingContext} to use as the active context in the scope of the callback.
    * @param callback - The callback to be invoked with the given context set as the globally active context.
@@ -81,8 +81,8 @@ export interface TracingClient {
 export interface TracingClientOptions {
   /** The value of the az.namespace tracing attribute on any given spans */
   namespace: string;
-  /** An optional {@link Tracer}. If omitted, the globally set tracer will be used */
-  tracer?: Tracer;
+  /** An optional {@link Instrumenter}. If omitted, the globally set instrumenter will be used */
+  instrumenter?: Instrumenter;
   /** Information about the package invoking this trace. Defaults to \@azure/core-tracing if omitted */
   packageInformation?: {
     /** The name of the package. */
@@ -115,14 +115,16 @@ export interface TracingSpanOptions {
   spanKind?: TracingSpanKind;
   /** A collection of span identifiers to link to this span. */
   spanLinks?: TracingSpanIdentifier[];
+  /** Initial attributes to set on a span */
+  spanAttributes?: { [key: string]: unknown };
 }
 
 export type TracingSpanIdentifier = unknown;
 
 /**
- * Represents an implementation agnostic tracer.
+ * Represents an implementation agnostic instrumenter.
  */
-export interface Tracer {
+export interface Instrumenter {
   /**
    * Creates a new {@link TracingSpan} with the given name and options and sets it on a new context.
    * @param name - The name of the span. By convention this should be `${className}.${methodName}`.
@@ -132,7 +134,7 @@ export interface Tracer {
    */
   startSpan(
     name: string,
-    spanOptions?: TracerStartSpanOptions
+    spanOptions?: InstrumenterStartSpanOptions
   ): { span: TracingSpan; tracingContext: TracingContext };
   /**
    * Wraps a callback with an active context and calls the callback.
@@ -161,9 +163,9 @@ export interface Tracer {
 }
 
 /**
- * Options passed to {@link Tracer.startSpan} as a superset of {@link TracingSpanOptions}.
+ * Options passed to {@link Instrumenter.startSpan} as a superset of {@link TracingSpanOptions}.
  */
-export interface TracerStartSpanOptions extends TracingSpanOptions {
+export interface InstrumenterStartSpanOptions extends TracingSpanOptions {
   /** The current tracing context. Defaults to an implementation-specific "active" context. */
   tracingContext?: TracingContext;
   /** Information about the package invoking this trace. Defaults to \@azure/core-tracing if omitted */

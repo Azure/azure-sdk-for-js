@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import {
-  Tracer,
+  Instrumenter,
   TracingSpanOptions,
   TracingSpan,
   TracingContext,
@@ -11,7 +11,7 @@ import {
 import { createTracingContext } from "./tracingContext";
 
 /** @internal */
-export class NoOpTracer implements Tracer {
+export class NoOpInstrumenter implements Instrumenter {
   startSpan(
     _name?: string,
     spanOptions?: TracingSpanOptions & { tracingContext?: TracingContext }
@@ -21,7 +21,7 @@ export class NoOpTracer implements Tracer {
       tracingContext: createTracingContext({ parentContext: spanOptions?.tracingContext })
     };
   }
-  withTrace<
+  withSpan<
     Callback extends (
       context: TracingContext,
       span: Omit<TracingSpan, "end">
@@ -75,25 +75,25 @@ export class NoOpSpan implements TracingSpan {
 
 /** @internal */
 // TODO: we should probably have it on the global object.
-export let tracerImplementation: Tracer = new NoOpTracer();
+export let instrumenterImplementation: Instrumenter = new NoOpInstrumenter();
 
 /**
- * Extends the Azure SDK with support for a given tracer implementation.
+ * Extends the Azure SDK with support for a given instrumenter implementation.
  *
- * @param tracer - The tracer implementation to use.
+ * @param instrumenter - The instrumenter implementation to use.
  *
  * Example:
  *
  * ```ts
- * import { openTelemetryTracer } from "@azure/core-tracing-opentelemetry";
+ * import { openTelemetryInstrumenter } from "@azure/core-tracing-opentelemetry";
  * import { MyClient } from "@azure/package-name"
- * useTracer(openTelemetryTracer);
+ * useInstrumenter(openTelemetryInstrumenter);
  *
- * const client = new MyClient(); // uses the OpenTelemetry tracer
+ * const client = new MyClient(); // uses the OpenTelemetry instrumenter
  * ```
  */
-export function useTracer(tracer: Tracer): void {
-  tracerImplementation = tracer;
+export function useInstrumenter(instrumenter: Instrumenter): void {
+  instrumenterImplementation = instrumenter;
 }
 
 /**
@@ -105,5 +105,5 @@ export function useTracer(tracer: Tracer): void {
 export function fromTraceparentHeader(
   traceparentHeader: string
 ): TracingSpanIdentifier | undefined {
-  return tracerImplementation.parseTraceparentHeader(traceparentHeader);
+  return instrumenterImplementation.parseTraceparentHeader(traceparentHeader);
 }
