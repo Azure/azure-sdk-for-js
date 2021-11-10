@@ -11,7 +11,7 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1321",
     "content-type": "application/json; charset=utf-8",
-    "date": "Sat, 06 Nov 2021 00:40:34 GMT",
+    "date": "Wed, 10 Nov 2021 00:02:12 GMT",
     "expires": "-1",
     "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
@@ -20,8 +20,8 @@
     "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+est\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.12197.4 - EUS ProdSlices",
-    "x-ms-request-id": "f95dd94d-54be-41d4-9817-ef8a516a6000"
+    "x-ms-ests-server": "2.1.12197.4 - SCUS ProdSlices",
+    "x-ms-request-id": "96f0b72c-5703-4e72-9141-bce0dde61a01"
    }
   },
   {
@@ -32,10 +32,10 @@
    },
    "requestBody": null,
    "status": 404,
-   "response": "{\"Code\":404,\"Detail\":\"Schema id ffffffffffffffffffffffffffffffff does not exist. TrackingId:abededbc-916c-41af-94f5-78d60194815d_G28, SystemTracker:endpoint:$schemaGroups\\/$schemas\\/ffffffffffffffffffffffffffffffff, Timestamp:2021-11-06T00:40:35\"}",
+   "response": "{\"Code\":404,\"Detail\":\"Schema id ffffffffffffffffffffffffffffffff does not exist. TrackingId:e4cf0c88-729a-49c1-8e85-7194355c9626_G19, SystemTracker:endpoint:$schemaGroups\\/$schemas\\/ffffffffffffffffffffffffffffffff, Timestamp:2021-11-10T00:02:13\"}",
    "responseHeaders": {
     "content-type": "application/json",
-    "date": "Sat, 06 Nov 2021 00:40:35 GMT",
+    "date": "Wed, 10 Nov 2021 00:02:12 GMT",
     "server": "Microsoft-HTTPAPI/2.0",
     "strict-transport-security": "max-age=31536000",
     "transfer-encoding": "chunked"
@@ -46,5 +46,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "bf694df0d39cd72c021ebf0e28f9d880"
+ "hash": "9af3d75a3765ed81e4d792fadab21064"
 }

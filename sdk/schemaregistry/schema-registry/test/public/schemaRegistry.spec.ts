@@ -76,6 +76,7 @@ describe("SchemaRegistryClient", function() {
     await assert.isRejected(client.registerSchema({ ...schema, groupName: null! }), /null/);
     await assert.isRejected(client.registerSchema({ ...schema, definition: null! }), /null/);
     await assert.isRejected(client.registerSchema({ ...schema, format: null! }), /null/);
+    await assert.isRejected(client.registerSchema({ ...schema, format: "not-valid" }), /not-valid/);
   });
 
   it("registers schema", async () => {
@@ -88,6 +89,10 @@ describe("SchemaRegistryClient", function() {
     await assert.isRejected(client.getSchemaProperties({ ...schema, groupName: null! }), /null/);
     await assert.isRejected(client.getSchemaProperties({ ...schema, definition: null! }), /null/);
     await assert.isRejected(client.getSchemaProperties({ ...schema, format: null! }), /null/);
+    await assert.isRejected(
+      client.getSchemaProperties({ ...schema, format: "not-valid" }),
+      /not-valid/
+    );
   });
 
   it("fails to get schema ID when no matching schema exists", async () => {

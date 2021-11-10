@@ -16,7 +16,6 @@ export function createRegisterOperationSpec(schemaFormat: string): OperationSpec
         204: {
           headersMapper: Mappers.SchemaRegisterHeaders
         },
-        415: {},
         default: {
           bodyMapper: Mappers.ErrorModel,
           headersMapper: Mappers.SchemaRegisterExceptionHeaders
@@ -44,16 +43,16 @@ export function createQueryIdByContentOperationSpec(schemaFormat: string): Opera
         204: {
           headersMapper: Mappers.SchemaQueryIdByContentHeaders
         },
-        415: {},
         default: {
           bodyMapper: Mappers.ErrorModel,
           headersMapper: Mappers.SchemaQueryIdByContentExceptionHeaders
         }
       },
+      contentType: `application/json; serialization=${schemaFormat}`,
       requestBody: Parameters.schemaContent,
       queryParameters: [Parameters.apiVersion],
       urlParameters: [Parameters.endpoint, Parameters.groupName, Parameters.schemaName],
-      headerParameters: [Parameters.contentType, Parameters.accept2],
+      headerParameters: [Parameters.accept2],
       mediaType: "binary",
       serializer
     };
