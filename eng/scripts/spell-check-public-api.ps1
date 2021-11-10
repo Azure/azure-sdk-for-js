@@ -45,17 +45,12 @@ $packageDirectories = @()
 foreach ($serviceDirectory in $directoresToScan) {
   # Only include directories which have a `reivew` folder as that is the folder
   # that will be scanned.
-  $packageDirectories += `
-  (Get-ChildItem -Path $serviceDirectory -Directory).Where({
-    (Get-ChildItem -Path $_ -Directory).Where({
-          $_.Name -eq 'review'
-        })
-    })
+  $packageDirectories += Get-ChildItem -Path "$serviceDirectory/*/review" -Directory
 }
 
 $scanGlobs = @()
 foreach ($directory in $packageDirectories) {
-  $scanGlobs += "$directory/review/**/*.md"
+  $scanGlobs += "$directory/**/*.md"
 }
 
 $cspellOutput = &"$REPO_ROOT/eng/common/spelling/Invoke-Cspell.ps1" `
