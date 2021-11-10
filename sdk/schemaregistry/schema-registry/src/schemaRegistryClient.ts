@@ -21,8 +21,6 @@ import {
 } from "./models";
 import { DEFAULT_SCOPE } from "./constants";
 import { logger } from "./logger";
-import { createQueryIdByContentOperationSpec, createRegisterOperationSpec } from "./mappers";
-import { SchemaQueryIdByContentResponse, SchemaRegisterResponse } from "./generated";
 
 /**
  * Client for Azure Schema Registry service.
@@ -82,18 +80,16 @@ export class SchemaRegistryClient implements SchemaRegistry {
     schema: SchemaDescription,
     options?: RegisterSchemaOptions
   ): Promise<SchemaProperties> {
-    const { groupName, name: schemaName, definition: schemaContent } = schema;
+    const { groupName, name: schemaName, definition: schemaContent, format } = schema;
     return this.client
-      .sendOperationRequest<SchemaRegisterResponse>(
-        {
-          groupName,
+      .schema.register(
+        groupName,
           schemaName,
+          `application/json; serialization=${format}`,
           schemaContent,
           options
-        },
-        createRegisterOperationSpec(schema.format)
       )
-      .then(convertSchemaIdResponse(schema.format));
+      .then(convertSchemaIdResponse(format));
   }
 
   /**
@@ -107,18 +103,15 @@ export class SchemaRegistryClient implements SchemaRegistry {
     schema: SchemaDescription,
     options?: GetSchemaPropertiesOptions
   ): Promise<SchemaProperties> {
-    const { groupName, name: schemaName, definition: schemaContent } = schema;
+    const { groupName, name: schemaName, definition: schemaContent, format } = schema;
     return this.client
-      .sendOperationRequest<SchemaQueryIdByContentResponse>(
-        {
+      .schema.queryIdByContent(
           groupName,
           schemaName,
+          `application/json; serialization=${format}`,
           schemaContent,
-          options
-        },
-        createQueryIdByContentOperationSpec(schema.format)
-      )
-      .then(convertSchemaIdResponse(schema.format));
+          options)
+      .then(convertSchemaIdResponse(format));
   }
 
   /**

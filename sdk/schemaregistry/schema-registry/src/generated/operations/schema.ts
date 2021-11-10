@@ -75,17 +75,19 @@ export class SchemaImpl implements Schema {
    * @param groupName Schema group under which schema is registered.  Group's serialization type should
    *                  match the serialization type specified in the request.
    * @param schemaName Name of requested schema.
+   * @param contentType Content type of the schema.
    * @param schemaContent String representation (UTF-8) of the registered schema.
    * @param options The options parameters.
    */
   queryIdByContent(
     groupName: string,
     schemaName: string,
+    contentType: string,
     schemaContent: coreRestPipeline.RequestBodyType,
     options?: SchemaQueryIdByContentOptionalParams
   ): Promise<SchemaQueryIdByContentResponse> {
     return this.client.sendOperationRequest(
-      { groupName, schemaName, schemaContent, options },
+      { groupName, schemaName, contentType, schemaContent, options },
       queryIdByContentOperationSpec
     );
   }
@@ -98,17 +100,19 @@ export class SchemaImpl implements Schema {
    * @param groupName Schema group under which schema should be registered.  Group's serialization type
    *                  should match the serialization type specified in the request.
    * @param schemaName Name of schema being registered.
+   * @param contentType Content type of the schema.
    * @param schemaContent String representation (UTF-8) of the schema being registered.
    * @param options The options parameters.
    */
   register(
     groupName: string,
     schemaName: string,
+    contentType: string,
     schemaContent: coreRestPipeline.RequestBodyType,
     options?: SchemaRegisterOptionalParams
   ): Promise<SchemaRegisterResponse> {
     return this.client.sendOperationRequest(
-      { groupName, schemaName, schemaContent, options },
+      { groupName, schemaName, contentType, schemaContent, options },
       registerOperationSpec
     );
   }
@@ -165,7 +169,9 @@ const queryIdByContentOperationSpec: coreClient.OperationSpec = {
     204: {
       headersMapper: Mappers.SchemaQueryIdByContentHeaders
     },
-    415: {},
+    415: {
+      isError: true
+    },
     default: {
       bodyMapper: Mappers.ErrorModel,
       headersMapper: Mappers.SchemaQueryIdByContentExceptionHeaders
@@ -178,7 +184,7 @@ const queryIdByContentOperationSpec: coreClient.OperationSpec = {
     Parameters.groupName,
     Parameters.schemaName
   ],
-  headerParameters: [Parameters.contentType, Parameters.accept2],
+  headerParameters: [Parameters.accept2, Parameters.contentType],
   mediaType: "binary",
   serializer
 };
@@ -189,7 +195,9 @@ const registerOperationSpec: coreClient.OperationSpec = {
     204: {
       headersMapper: Mappers.SchemaRegisterHeaders
     },
-    415: {},
+    415: {
+      isError: true
+    },
     default: {
       bodyMapper: Mappers.ErrorModel,
       headersMapper: Mappers.SchemaRegisterExceptionHeaders
@@ -202,7 +210,7 @@ const registerOperationSpec: coreClient.OperationSpec = {
     Parameters.groupName,
     Parameters.schemaName
   ],
-  headerParameters: [Parameters.contentType, Parameters.accept2],
+  headerParameters: [Parameters.accept2, Parameters.contentType],
   mediaType: "binary",
   serializer
 };
