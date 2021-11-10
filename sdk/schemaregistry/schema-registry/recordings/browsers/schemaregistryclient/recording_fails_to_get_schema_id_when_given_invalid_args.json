@@ -11,7 +11,7 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1321",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 10 Nov 2021 00:02:09 GMT",
+    "date": "Wed, 10 Nov 2021 07:53:31 GMT",
     "expires": "-1",
     "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
@@ -20,8 +20,8 @@
     "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+est\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.12197.4 - SCUS ProdSlices",
-    "x-ms-request-id": "4bddcceb-ee66-4b8b-a54e-7e9f39d11901"
+    "x-ms-ests-server": "2.1.12231.7 - WUS2 ProdSlices",
+    "x-ms-request-id": "19fae638-b9c4-4c2b-807b-77e139ad0d00"
    }
   },
   {
@@ -32,10 +32,27 @@
    },
    "requestBody": "{\"type\":\"record\",\"name\":\"User\",\"namespace\":\"com.azure.schemaregistry.samples\",\"fields\":[{\"name\":\"name\",\"type\":\"string\"},{\"name\":\"favoriteNumber\",\"type\":\"int\"}]}",
    "status": 415,
-   "response": "{\"Code\":415,\"Detail\":\"Invalid schema type for POST request. 'not-valid' is not supported. TrackingId:9e097acb-7811-4175-afa3-2aaac764a9a0_G19, SystemTracker:endpoint:$schemaGroups\\/group-1\\/schemas\\/azsdk_js_test:get-id, Timestamp:2021-11-10T00:02:10\"}",
+   "response": "{\"Code\":415,\"Detail\":\"Invalid schema type for POST request. 'null' is not supported. TrackingId:7fe9dcfb-0fca-4ab2-9beb-473aa5fe6406_G23, SystemTracker:endpoint:$schemaGroups\\/group-1\\/schemas\\/azsdk_js_test:get-id, Timestamp:2021-11-10T07:53:32\"}",
    "responseHeaders": {
     "content-type": "application/json",
-    "date": "Wed, 10 Nov 2021 00:02:10 GMT",
+    "date": "Wed, 10 Nov 2021 07:53:31 GMT",
+    "server": "Microsoft-HTTPAPI/2.0",
+    "strict-transport-security": "max-age=31536000",
+    "transfer-encoding": "chunked"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://endpoint/$schemaGroups/group-1/schemas/azsdk_js_test:get-id",
+   "query": {
+    "api-version": "2021-10"
+   },
+   "requestBody": "{\"type\":\"record\",\"name\":\"User\",\"namespace\":\"com.azure.schemaregistry.samples\",\"fields\":[{\"name\":\"name\",\"type\":\"string\"},{\"name\":\"favoriteNumber\",\"type\":\"int\"}]}",
+   "status": 415,
+   "response": "{\"Code\":415,\"Detail\":\"Invalid schema type for POST request. 'not-valid' is not supported. TrackingId:1111c7fa-5159-4fcd-9530-a48bc1602146_G23, SystemTracker:endpoint:$schemaGroups\\/group-1\\/schemas\\/azsdk_js_test:get-id, Timestamp:2021-11-10T07:53:32\"}",
+   "responseHeaders": {
+    "content-type": "application/json",
+    "date": "Wed, 10 Nov 2021 07:53:32 GMT",
     "server": "Microsoft-HTTPAPI/2.0",
     "strict-transport-security": "max-age=31536000",
     "transfer-encoding": "chunked"
