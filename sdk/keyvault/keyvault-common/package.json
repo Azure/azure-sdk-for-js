@@ -1,6 +1,7 @@
 {
   "name": "@azure/keyvault-common",
   "sideEffects": false,
+  "sdk-type": "client",
   "private": true,
   "author": "Microsoft Corporation",
   "version": "1.0.0",

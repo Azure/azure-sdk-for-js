@@ -1,14 +1,11 @@
 # Release History
 
-## 1.0.0-beta.7 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
+## 1.0.0-beta.7 (2021-11-09)
 
 ### Other Changes
+
+- Added data flow flowlet
+- `KqlScriptContentCurrentConnection` now has poolName and databaseName properties
 
 ## 1.0.0-beta.6 (2021-10-05)
 
