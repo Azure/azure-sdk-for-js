@@ -249,8 +249,8 @@ const ruleTester = new RuleTester({
   parser: require.resolve("@typescript-eslint/parser"),
   parserOptions: {
     createDefaultProgram: true,
-    project: "./tsconfig.json",
-  },
+    project: "./tsconfig.json"
+  }
 });
 
 ruleTester.run("ts-package-json-engine-is-present", rule, {
@@ -258,17 +258,17 @@ ruleTester.run("ts-package-json-engine-is-present", rule, {
     {
       // only the fields we care about
       code: '{"engines": { "node": ">=12.0.0" }}',
-      filename: "package.json",
+      filename: "package.json"
     },
     {
       // a full example package.json (taken from https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/event-hubs/package.json)
       code: examplePackageGood,
-      filename: "package.json",
+      filename: "package.json"
     },
     {
       // incorrect format but in a file we don't care about
       code: '{"engines": { "node": ">=8.0.0" }}',
-      filename: "not_package.json",
+      filename: "not_package.json"
     },
     {
       // different than the default but with an override
@@ -276,10 +276,10 @@ ruleTester.run("ts-package-json-engine-is-present", rule, {
       filename: "package.json",
       options: [
         {
-          nodeVersionOverride: ">=14.0.0",
-        },
-      ],
-    },
+          nodeVersionOverride: ">=14.0.0"
+        }
+      ]
+    }
   ],
   invalid: [
     {
@@ -287,9 +287,9 @@ ruleTester.run("ts-package-json-engine-is-present", rule, {
       filename: "package.json",
       errors: [
         {
-          message: "engines does not exist at the outermost level",
-        },
-      ],
+          message: "engines does not exist at the outermost level"
+        }
+      ]
     },
     {
       // engines is in a nested object
@@ -297,9 +297,9 @@ ruleTester.run("ts-package-json-engine-is-present", rule, {
       filename: "package.json",
       errors: [
         {
-          message: "engines does not exist at the outermost level",
-        },
-      ],
+          message: "engines does not exist at the outermost level"
+        }
+      ]
     },
     {
       // engines does not contain node
@@ -307,9 +307,9 @@ ruleTester.run("ts-package-json-engine-is-present", rule, {
       filename: "package.json",
       errors: [
         {
-          message: "node is not a member of engines",
-        },
-      ],
+          message: "node is not a member of engines"
+        }
+      ]
     },
     {
       // only the fields we care about
@@ -317,11 +317,10 @@ ruleTester.run("ts-package-json-engine-is-present", rule, {
       filename: "package.json",
       errors: [
         {
-          message:
-            "engines.node is set to >=8.0.0 when it should be set to >=12.0.0",
-        },
+          message: "engines.node is set to >=8.0.0 when it should be set to >=12.0.0"
+        }
       ],
-      output: '{"engines": { "node": ">=12.0.0" }}',
+      output: '{"engines": { "node": ">=12.0.0" }}'
     },
     {
       // example file with engines.node set to >=8.0.0
@@ -329,11 +328,10 @@ ruleTester.run("ts-package-json-engine-is-present", rule, {
       filename: "package.json",
       errors: [
         {
-          message:
-            "engines.node is set to >=8.0.0 when it should be set to >=12.0.0",
-        },
+          message: "engines.node is set to >=8.0.0 when it should be set to >=12.0.0"
+        }
       ],
-      output: examplePackageGood,
+      output: examplePackageGood
     },
     {
       // override was provided but the version does not match
@@ -341,16 +339,15 @@ ruleTester.run("ts-package-json-engine-is-present", rule, {
       filename: "package.json",
       errors: [
         {
-          message:
-            "engines.node is set to >=15.0.0 when it should be set to >=14.0.0",
-        },
+          message: "engines.node is set to >=15.0.0 when it should be set to >=14.0.0"
+        }
       ],
       options: [
         {
-          nodeVersionOverride: ">=14.0.0",
-        },
+          nodeVersionOverride: ">=14.0.0"
+        }
       ],
-      output: '{"engines": { "node": ">=14.0.0" }}',
-    },
-  ],
+      output: '{"engines": { "node": ">=14.0.0" }}'
+    }
+  ]
 });
