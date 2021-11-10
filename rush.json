@@ -1065,6 +1065,11 @@
       "packageName": "@azure/arm-desktopvirtualization",
       "projectFolder": "sdk/desktopvirtualization/arm-desktopvirtualization",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-datafactory",
+      "projectFolder": "sdk/datafactory/arm-datafactory",
+      "versionPolicyName": "management"
     }
   ]
 }
