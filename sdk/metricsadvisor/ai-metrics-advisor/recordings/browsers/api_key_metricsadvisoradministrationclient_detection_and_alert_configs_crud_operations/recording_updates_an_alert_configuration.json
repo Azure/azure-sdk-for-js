@@ -2,20 +2,20 @@
  "recordings": [
   {
    "method": "PATCH",
-   "url": "https://endpoint/metricsadvisor/v1.0/alert/anomaly/configurations/71f3ef45-421e-4870-8e8e-c1499200d8ac",
+   "url": "https://endpoint/metricsadvisor/v1.0/alert/anomaly/configurations/75f3b529-da87-4854-a4f5-db0c392f21e2",
    "query": {},
-   "requestBody": "{\"name\":\"new alert config name\",\"description\":\"new alert config description\",\"crossMetricsOperator\":\"OR\",\"metricAlertingConfigurations\":[{\"anomalyDetectionConfigurationId\":\"0a4bec8d-2cb9-4ce8-8178-62f0b3f9f37f\",\"anomalyScopeType\":\"TopN\",\"topNAnomalyScope\":{\"top\":3,\"period\":4,\"minTopCount\":2}},{\"anomalyDetectionConfigurationId\":\"0a4bec8d-2cb9-4ce8-8178-62f0b3f9f37f\",\"anomalyScopeType\":\"TopN\",\"topNAnomalyScope\":{\"top\":3,\"period\":4,\"minTopCount\":2}}]}",
+   "requestBody": "{\"name\":\"new alert config name\",\"description\":\"new alert config description\",\"crossMetricsOperator\":\"OR\",\"metricAlertingConfigurations\":[{\"anomalyDetectionConfigurationId\":\"04449cab-de0b-4db9-a1c6-766aaa6d9f0b\",\"anomalyScopeType\":\"TopN\",\"topNAnomalyScope\":{\"top\":3,\"period\":4,\"minTopCount\":2}},{\"anomalyDetectionConfigurationId\":\"04449cab-de0b-4db9-a1c6-766aaa6d9f0b\",\"anomalyScopeType\":\"TopN\",\"topNAnomalyScope\":{\"top\":3,\"period\":4,\"minTopCount\":2}}]}",
    "status": 200,
-   "response": "{\"anomalyAlertingConfigurationId\":\"71f3ef45-421e-4870-8e8e-c1499200d8ac\",\"name\":\"new alert config name\",\"description\":\"new alert config description\",\"crossMetricsOperator\":\"OR\",\"splitAlertByDimensions\":[],\"hookIds\":[],\"metricAlertingConfigurations\":[{\"anomalyDetectionConfigurationId\":\"0a4bec8d-2cb9-4ce8-8178-62f0b3f9f37f\",\"anomalyScopeType\":\"TopN\",\"negationOperation\":false,\"topNAnomalyScope\":{\"top\":3,\"period\":4,\"minTopCount\":2}},{\"anomalyDetectionConfigurationId\":\"0a4bec8d-2cb9-4ce8-8178-62f0b3f9f37f\",\"anomalyScopeType\":\"TopN\",\"negationOperation\":false,\"topNAnomalyScope\":{\"top\":3,\"period\":4,\"minTopCount\":2}}]}",
+   "response": "{\"anomalyAlertingConfigurationId\":\"75f3b529-da87-4854-a4f5-db0c392f21e2\",\"name\":\"new alert config name\",\"description\":\"new alert config description\",\"crossMetricsOperator\":\"OR\",\"splitAlertByDimensions\":[],\"hookIds\":[],\"metricAlertingConfigurations\":[{\"anomalyDetectionConfigurationId\":\"04449cab-de0b-4db9-a1c6-766aaa6d9f0b\",\"anomalyScopeType\":\"TopN\",\"negationOperation\":false,\"topNAnomalyScope\":{\"top\":3,\"period\":4,\"minTopCount\":2}},{\"anomalyDetectionConfigurationId\":\"04449cab-de0b-4db9-a1c6-766aaa6d9f0b\",\"anomalyScopeType\":\"TopN\",\"negationOperation\":false,\"topNAnomalyScope\":{\"top\":3,\"period\":4,\"minTopCount\":2}}]}",
    "responseHeaders": {
-    "apim-request-id": "3aa52cf8-e191-4a83-a182-19327d748ba1",
+    "apim-request-id": "1e1906a6-1c2f-4d56-be2d-dd7aac05f37b",
     "content-length": "617",
     "content-type": "application/json; charset=utf-8",
-    "date": "Mon, 08 Nov 2021 09:43:51 GMT",
+    "date": "Wed, 10 Nov 2021 01:55:51 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "180",
-    "x-request-id": "3aa52cf8-e191-4a83-a182-19327d748ba1"
+    "x-envoy-upstream-service-time": "175",
+    "x-request-id": "1e1906a6-1c2f-4d56-be2d-dd7aac05f37b"
    }
   }
  ],

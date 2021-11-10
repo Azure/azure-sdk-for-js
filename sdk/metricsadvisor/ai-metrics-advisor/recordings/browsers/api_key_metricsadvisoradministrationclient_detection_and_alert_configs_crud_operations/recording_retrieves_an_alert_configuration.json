@@ -2,20 +2,20 @@
  "recordings": [
   {
    "method": "GET",
-   "url": "https://endpoint/metricsadvisor/v1.0/alert/anomaly/configurations/71f3ef45-421e-4870-8e8e-c1499200d8ac",
+   "url": "https://endpoint/metricsadvisor/v1.0/alert/anomaly/configurations/75f3b529-da87-4854-a4f5-db0c392f21e2",
    "query": {},
    "requestBody": null,
    "status": 200,
-   "response": "{\"anomalyAlertingConfigurationId\":\"71f3ef45-421e-4870-8e8e-c1499200d8ac\",\"name\":\"js-alert-config-163636463061706640\",\"description\":\"alerting config description\",\"crossMetricsOperator\":\"AND\",\"splitAlertByDimensions\":[],\"hookIds\":[],\"metricAlertingConfigurations\":[{\"anomalyDetectionConfigurationId\":\"0a4bec8d-2cb9-4ce8-8178-62f0b3f9f37f\",\"anomalyScopeType\":\"All\",\"negationOperation\":false},{\"anomalyDetectionConfigurationId\":\"0a4bec8d-2cb9-4ce8-8178-62f0b3f9f37f\",\"anomalyScopeType\":\"All\",\"negationOperation\":false}]}",
+   "response": "{\"anomalyAlertingConfigurationId\":\"75f3b529-da87-4854-a4f5-db0c392f21e2\",\"name\":\"js-alert-config-163650935174508765\",\"description\":\"alerting config description\",\"crossMetricsOperator\":\"AND\",\"splitAlertByDimensions\":[],\"hookIds\":[],\"metricAlertingConfigurations\":[{\"anomalyDetectionConfigurationId\":\"04449cab-de0b-4db9-a1c6-766aaa6d9f0b\",\"anomalyScopeType\":\"All\",\"negationOperation\":false},{\"anomalyDetectionConfigurationId\":\"04449cab-de0b-4db9-a1c6-766aaa6d9f0b\",\"anomalyScopeType\":\"All\",\"negationOperation\":false}]}",
    "responseHeaders": {
-    "apim-request-id": "df89be6d-5dc9-4770-ab66-8504a9ce5a50",
+    "apim-request-id": "c56527f9-0b95-47c7-970c-af806019e8be",
     "content-length": "516",
     "content-type": "application/json; charset=utf-8",
-    "date": "Mon, 08 Nov 2021 09:43:51 GMT",
+    "date": "Wed, 10 Nov 2021 01:55:51 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "97",
-    "x-request-id": "df89be6d-5dc9-4770-ab66-8504a9ce5a50"
+    "x-envoy-upstream-service-time": "110",
+    "x-request-id": "c56527f9-0b95-47c7-970c-af806019e8be"
    }
   }
  ],

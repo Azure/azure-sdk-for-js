@@ -22,57 +22,57 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '9a129b30-e83f-42f3-ba29-ed202648b100',
+  '9b38cc01-a652-43eb-bb4b-efe499430000',
   'x-ms-ests-server',
-  '2.1.12197.4 - SCUS ProdSlices',
+  '2.1.12231.7 - NCUS ProdSlices',
   'Set-Cookie',
-  'fpc=ApZ57DPCi5dJkcltCy429RI; expires=Wed, 08-Dec-2021 09:37:54 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AocmH2Nh1HJCgT33jmlsXtw; expires=Fri, 10-Dec-2021 01:51:29 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Mon, 08 Nov 2021 09:37:53 GMT',
+  'Wed, 10 Nov 2021 01:51:29 GMT',
   'Content-Length',
   '1331'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .delete('/metricsadvisor/v1.0/alert/anomaly/configurations/00489294-c724-49eb-a727-e94f39ffe5bd')
+  .delete('/metricsadvisor/v1.0/alert/anomaly/configurations/9d469026-8520-471a-9dcc-688540a39082')
   .reply(204, "", [
   'Content-Length',
   '0',
   'x-request-id',
-  '8455c74f-b756-4178-8dd6-a1a16c1a1004',
+  '9022d649-9d00-4aca-96fe-b6d72f29c86d',
   'x-envoy-upstream-service-time',
-  '79',
+  '144',
   'apim-request-id',
-  '8455c74f-b756-4178-8dd6-a1a16c1a1004',
+  '9022d649-9d00-4aca-96fe-b6d72f29c86d',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Mon, 08 Nov 2021 09:37:54 GMT'
+  'Wed, 10 Nov 2021 01:51:28 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/metricsadvisor/v1.0/alert/anomaly/configurations/00489294-c724-49eb-a727-e94f39ffe5bd')
-  .reply(404, {"code":"Not Found","message":"Not found this AnomalyAlertingConfiguration. TraceId: 5464b865-70ae-47d7-9096-f7b85f3b6416"}, [
+  .get('/metricsadvisor/v1.0/alert/anomaly/configurations/9d469026-8520-471a-9dcc-688540a39082')
+  .reply(404, {"code":"Not Found","message":"Not found this AnomalyAlertingConfiguration. TraceId: 45c2b448-5289-49ce-bd16-dc4aaba89d9f"}, [
   'Content-Length',
   '123',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-request-id',
-  '5464b865-70ae-47d7-9096-f7b85f3b6416',
+  '45c2b448-5289-49ce-bd16-dc4aaba89d9f',
   'x-envoy-upstream-service-time',
-  '21',
+  '94',
   'apim-request-id',
-  '5464b865-70ae-47d7-9096-f7b85f3b6416',
+  '45c2b448-5289-49ce-bd16-dc4aaba89d9f',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Mon, 08 Nov 2021 09:37:54 GMT'
+  'Wed, 10 Nov 2021 01:51:29 GMT'
 ]);

@@ -22,17 +22,17 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  'd2417219-4213-4ffe-b3a8-215fa741ba00',
+  '9b14d4aa-6a4f-4138-9ff1-3590fdff0500',
   'x-ms-ests-server',
-  '2.1.12197.4 - SCUS ProdSlices',
+  '2.1.12231.7 - WUS2 ProdSlices',
   'Set-Cookie',
-  'fpc=Ag7NCBmgpfZArwbnFcFYCq0; expires=Wed, 08-Dec-2021 09:37:49 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AhqeKoXfYgxJtsUIGdjb5KzGLH8mAQAAAHscHdkOAAAA; expires=Fri, 10-Dec-2021 01:50:52 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Mon, 08 Nov 2021 09:37:49 GMT',
+  'Wed, 10 Nov 2021 01:50:52 GMT',
   'Content-Length',
   '1331'
 ]);
@@ -45,17 +45,17 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Content-Type',
   'application/json; charset=utf-8',
   'x-request-id',
-  'c1137e99-418d-41ab-8627-873a4a65f805',
+  '561ef3f4-d48d-4ee5-bd2a-9c076ca476d5',
   'x-envoy-upstream-service-time',
-  '188',
+  '332',
   'apim-request-id',
-  'c1137e99-418d-41ab-8627-873a4a65f805',
+  '561ef3f4-d48d-4ee5-bd2a-9c076ca476d5',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Mon, 08 Nov 2021 09:37:49 GMT'
+  'Wed, 10 Nov 2021 01:50:52 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
@@ -64,17 +64,17 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Content-Length',
   '0',
   'x-request-id',
-  'abcc0466-219f-44ca-b73d-6d072fe3763a',
+  '3fc97aa9-3077-4860-89b0-e2dd12182519',
   'x-envoy-upstream-service-time',
-  '185',
+  '300',
   'apim-request-id',
-  'abcc0466-219f-44ca-b73d-6d072fe3763a',
+  '3fc97aa9-3077-4860-89b0-e2dd12182519',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Mon, 08 Nov 2021 09:37:49 GMT'
+  'Wed, 10 Nov 2021 01:51:22 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
@@ -85,15 +85,15 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Content-Type',
   'application/json; charset=utf-8',
   'x-request-id',
-  'bcd469d2-0e71-4057-aa29-6c6675f63ee0',
+  '2c9cc143-6d86-4318-a6fb-d1c15fbed94c',
   'x-envoy-upstream-service-time',
-  '172',
+  '368',
   'apim-request-id',
-  'bcd469d2-0e71-4057-aa29-6c6675f63ee0',
+  '2c9cc143-6d86-4318-a6fb-d1c15fbed94c',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Mon, 08 Nov 2021 09:37:49 GMT'
+  'Wed, 10 Nov 2021 01:51:22 GMT'
 ]);

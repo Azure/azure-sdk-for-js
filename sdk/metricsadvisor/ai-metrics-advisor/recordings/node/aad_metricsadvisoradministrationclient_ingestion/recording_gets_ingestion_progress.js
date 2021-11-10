@@ -22,38 +22,38 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  'd2417219-4213-4ffe-b3a8-215f9241ba00',
+  '77ebc06b-1fc9-408b-b493-da68f42b0100',
   'x-ms-ests-server',
-  '2.1.12197.4 - SCUS ProdSlices',
+  '2.1.12231.7 - NCUS ProdSlices',
   'Set-Cookie',
-  'fpc=ApEYxSY4uNBHjnHdO7BRdfc; expires=Wed, 08-Dec-2021 09:37:49 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=Akvy-HSI6gJNviXBVIpFxijGLH8mAQAAAHocHdkOAAAA; expires=Fri, 10-Dec-2021 01:50:51 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Mon, 08 Nov 2021 09:37:48 GMT',
+  'Wed, 10 Nov 2021 01:50:51 GMT',
   'Content-Length',
   '1331'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
   .get('/metricsadvisor/v1.0/dataFeeds/52b0c20c-cb7c-43f0-9507-2a33170342db/ingestionProgress')
-  .reply(200, {"latestSuccessTimestamp":"2021-11-07T00:00:00Z","latestActiveTimestamp":"2021-11-07T00:00:00Z"}, [
+  .reply(200, {"latestSuccessTimestamp":"2021-11-09T00:00:00Z","latestActiveTimestamp":"2021-11-09T00:00:00Z"}, [
   'Content-Length',
   '96',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-request-id',
-  '6a526834-72bd-4226-b9e2-9bccb556e055',
+  '50da1384-5adf-4da5-b6de-15a60bfd2884',
   'x-envoy-upstream-service-time',
-  '162',
+  '329',
   'apim-request-id',
-  '6a526834-72bd-4226-b9e2-9bccb556e055',
+  '50da1384-5adf-4da5-b6de-15a60bfd2884',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Mon, 08 Nov 2021 09:37:48 GMT'
+  'Wed, 10 Nov 2021 01:50:51 GMT'
 ]);

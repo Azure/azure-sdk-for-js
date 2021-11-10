@@ -22,17 +22,17 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '57c5a3dd-23ee-48ed-803f-2c55b031b700',
+  '28195d01-024d-4c1f-a336-acac03160600',
   'x-ms-ests-server',
-  '2.1.12197.4 - EUS ProdSlices',
+  '2.1.12231.7 - WUS2 ProdSlices',
   'Set-Cookie',
-  'fpc=AqK3l5tpJM9KrZoXRPi7qv0; expires=Wed, 08-Dec-2021 09:37:48 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AltZ9s0WZ3FOnz00DxbE-WLGLH8mAQAAAHocHdkOAAAA; expires=Fri, 10-Dec-2021 01:50:50 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Mon, 08 Nov 2021 09:37:48 GMT',
+  'Wed, 10 Nov 2021 01:50:50 GMT',
   'Content-Length',
   '1331'
 ]);
@@ -46,17 +46,17 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Content-Type',
   'application/json; charset=utf-8',
   'x-request-id',
-  'cb3f151b-552c-4c05-983e-f49c0e932ff7',
+  '4fd661e3-b972-4023-9e1d-40aa1c6c4c94',
   'x-envoy-upstream-service-time',
-  '186',
+  '226',
   'apim-request-id',
-  'cb3f151b-552c-4c05-983e-f49c0e932ff7',
+  '4fd661e3-b972-4023-9e1d-40aa1c6c4c94',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Mon, 08 Nov 2021 09:37:48 GMT'
+  'Wed, 10 Nov 2021 01:50:50 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
@@ -68,15 +68,15 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Content-Type',
   'application/json; charset=utf-8',
   'x-request-id',
-  '710cc862-2050-4299-ab72-a1b2464342bb',
+  '96e1ee30-ada9-4a11-ac4e-a3853cf69b8d',
   'x-envoy-upstream-service-time',
-  '170',
+  '250',
   'apim-request-id',
-  '710cc862-2050-4299-ab72-a1b2464342bb',
+  '96e1ee30-ada9-4a11-ac4e-a3853cf69b8d',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Mon, 08 Nov 2021 09:37:48 GMT'
+  'Wed, 10 Nov 2021 01:50:50 GMT'
 ]);

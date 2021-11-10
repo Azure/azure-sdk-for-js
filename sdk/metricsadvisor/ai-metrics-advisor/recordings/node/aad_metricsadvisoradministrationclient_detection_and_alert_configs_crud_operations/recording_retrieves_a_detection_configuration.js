@@ -22,38 +22,38 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '4f7c4a5c-d9ce-441c-9224-68b728d0ad00',
+  '49ae6a10-49d0-47de-9833-095feaeb0d01',
   'x-ms-ests-server',
-  '2.1.12197.4 - SCUS ProdSlices',
+  '2.1.12197.4 - EUS ProdSlices',
   'Set-Cookie',
-  'fpc=AvIXOYKFY9JOm8wxGqIXqp_GLH8mAQAAAO7mGtkOAAAA; expires=Wed, 08-Dec-2021 09:37:51 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=An4kOlPnUjZGu2Xkopyy-4zGLH8mAQAAAJwcHdkOAAAA; expires=Fri, 10-Dec-2021 01:51:25 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Mon, 08 Nov 2021 09:37:50 GMT',
+  'Wed, 10 Nov 2021 01:51:25 GMT',
   'Content-Length',
   '1331'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/110910a1-a23d-4b80-b8f5-094a75eee9c0')
-  .reply(200, {"anomalyDetectionConfigurationId":"110910a1-a23d-4b80-b8f5-094a75eee9c0","name":"new Name","description":"new description","metricId":"189ff959-d9f4-45c7-a1e0-f87c9c7ca80f","wholeMetricConfiguration":{"conditionOperator":"OR","hardThresholdCondition":{"upperBound":500,"anomalyDetectorDirection":"Up","suppressCondition":{"minNumber":5,"minRatio":5}},"changeThresholdCondition":{"changePercentage":44,"shiftPoint":2,"anomalyDetectorDirection":"Both","withinRange":true,"suppressCondition":{"minNumber":4,"minRatio":4}}},"dimensionGroupOverrideConfigurations":[{"group":{"dimension":{"region":"Mumbai"}},"hardThresholdCondition":{"upperBound":400,"anomalyDetectorDirection":"Up","suppressCondition":{"minNumber":2,"minRatio":2}}}],"seriesOverrideConfigurations":[{"series":{"dimension":{"region":"Kolkata","category":"Handmade"}},"changeThresholdCondition":{"changePercentage":33,"shiftPoint":1,"anomalyDetectorDirection":"Both","withinRange":true,"suppressCondition":{"minNumber":2,"minRatio":2}}}]}, [
+  .get('/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/e7c92eb3-ca1b-42c9-8a97-1e3c071a8c24')
+  .reply(200, {"anomalyDetectionConfigurationId":"e7c92eb3-ca1b-42c9-8a97-1e3c071a8c24","name":"new Name","description":"new description","metricId":"189ff959-d9f4-45c7-a1e0-f87c9c7ca80f","wholeMetricConfiguration":{"conditionOperator":"OR","hardThresholdCondition":{"upperBound":500,"anomalyDetectorDirection":"Up","suppressCondition":{"minNumber":5,"minRatio":5}},"changeThresholdCondition":{"changePercentage":44,"shiftPoint":2,"anomalyDetectorDirection":"Both","withinRange":true,"suppressCondition":{"minNumber":4,"minRatio":4}}},"dimensionGroupOverrideConfigurations":[{"group":{"dimension":{"region":"Mumbai"}},"hardThresholdCondition":{"upperBound":400,"anomalyDetectorDirection":"Up","suppressCondition":{"minNumber":2,"minRatio":2}}}],"seriesOverrideConfigurations":[{"series":{"dimension":{"region":"Kolkata","category":"Handmade"}},"changeThresholdCondition":{"changePercentage":33,"shiftPoint":1,"anomalyDetectorDirection":"Both","withinRange":true,"suppressCondition":{"minNumber":2,"minRatio":2}}}]}, [
   'Content-Length',
   '1016',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-request-id',
-  'd94b8a92-807e-4a4b-b33d-50b5875be2c6',
+  'a736dd43-05c7-4e31-bf8f-769e1307827c',
   'x-envoy-upstream-service-time',
-  '58',
+  '106',
   'apim-request-id',
-  'd94b8a92-807e-4a4b-b33d-50b5875be2c6',
+  'a736dd43-05c7-4e31-bf8f-769e1307827c',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Mon, 08 Nov 2021 09:37:50 GMT'
+  'Wed, 10 Nov 2021 01:51:24 GMT'
 ]);
