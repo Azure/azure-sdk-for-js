@@ -58,7 +58,7 @@ foreach ($directory in $packageDirectories) {
   $scanGlobs += "$directory/review/**/*.md"
 }
 
-$cspellOutput = &"$REPO_ROOT/eng/common/scripts/Invoke-Cspell.ps1" `
+$cspellOutput = &"$REPO_ROOT/eng/common/spelling/Invoke-Cspell.ps1" `
   -ScanGlobs $scanGlobs
 
 if ($LASTEXITCODE) {
