@@ -66,7 +66,22 @@
     "sdk/synapse/synapse-monitoring/review/*.md",
     "sdk/synapse/synapse-spark/review/*.md",
     "sdk/templatespecs/arm-templatespecs/review/*.md",
-    "sdk/web-pubsub/arm-webpubsub/review/*.md"
+    "sdk/web-pubsub/arm-webpubsub/review/*.md",
+    "sdk/attestation/attestation/review/**/*.md",
+    "sdk/communication/communication-common/review/**/*.md",
+    "sdk/containerregistry/container-registry/review/**/*.md",
+    "sdk/core/core-amqp/review/**/*.md",
+    "sdk/cosmosdb/cosmos/review/**/*.md",
+    "sdk/digitaltwins/digital-twins-core/review/**/*.md",
+    "sdk/formrecognizer/ai-form-recognizer/review/**/*.md",
+    "sdk/identity/identity/review/**/*.md",
+    "sdk/iot/iot-modelsrepository/review/**/*.md",
+    "sdk/keyvault/keyvault-certificates/review/**/*.md",
+    "sdk/keyvault/keyvault-keys/review/**/*.md",
+    "sdk/monitor/monitor-query/review/**/*.md",
+    "sdk/search/search-documents/review/**/*.md",
+    "sdk/storage/storage-blob/review/**/*.md",
+    "sdk/videoanalyzer/video-analyzer-edge/review/**/*.md"
   ],
   "words": [
     "adfs",
