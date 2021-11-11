@@ -107,7 +107,7 @@ export interface CreateTracingContextOptions {
 }
 
 /** The kind of span. */
-export type TracingSpanKind = "client" | "server" | "producer" | "consumer";
+export type TracingSpanKind = "client" | "server" | "producer" | "consumer" | "internal";
 
 /** Options used to configure the newly created span. */
 export interface TracingSpanOptions {
@@ -115,11 +115,27 @@ export interface TracingSpanOptions {
   spanKind?: TracingSpanKind;
   /** A collection of span identifiers to link to this span. */
   spanLinks?: TracingSpanIdentifier[];
-  /** Initial attributes to set on a span */
+  /** Initial attributes to set on a span. */
   spanAttributes?: { [key: string]: unknown };
 }
 
-export type TracingSpanIdentifier = unknown;
+/**
+ * A unique, serializable identifier for a span.
+ */
+export interface TracingSpanIdentifier {
+  /** The span UUID within the trace. */
+  spanId: string;
+  /** The trace UUID. */
+  traceId: string;
+  /**
+   * https://www.w3.org/TR/trace-context/#trace-flags
+   */
+  traceFlags: number;
+  /**
+   * An implementation-specific value representing system-specific trace info to serialize.
+   */
+  traceState?: unknown;
+}
 
 /**
  * Represents an implementation agnostic instrumenter.
@@ -218,8 +234,6 @@ export interface TracingSpan {
    * Ends the span.
    */
   end(): void;
-  /** Serializes a span to a set of request headers. */
-  toRequestHeaders(): Record<string, string>;
 
   /**
    * Returns true if this {@link TracingSpan} is recording information.

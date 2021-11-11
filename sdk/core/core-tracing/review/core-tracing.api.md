@@ -95,15 +95,19 @@ export interface TracingSpan {
     isRecording(): boolean;
     setAttribute(name: string, value: unknown): void;
     setStatus(status: SpanStatus): void;
-    toRequestHeaders(): Record<string, string>;
     readonly tracingSpanId: TracingSpanIdentifier;
 }
 
-// @public (undocumented)
-export type TracingSpanIdentifier = unknown;
+// @public
+export interface TracingSpanIdentifier {
+    spanId: string;
+    traceFlags: number;
+    traceId: string;
+    traceState?: unknown;
+}
 
 // @public
-export type TracingSpanKind = "client" | "server" | "producer" | "consumer";
+export type TracingSpanKind = "client" | "server" | "producer" | "consumer" | "internal";
 
 // @public
 export interface TracingSpanOptions {

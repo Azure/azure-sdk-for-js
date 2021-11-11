@@ -3,7 +3,7 @@
 
 import { assert } from "chai";
 import { Context } from "mocha";
-import { Instrumenter, TracingSpan } from "../src/interfaces";
+import { Instrumenter, TracingSpan, TracingSpanIdentifier } from "../src/interfaces";
 import {
   NoOpInstrumenter,
   NoOpSpan,
@@ -61,6 +61,23 @@ describe("Instrumenter", () => {
         );
       });
     });
+
+    describe("#parseTraceparentHeader", () => {
+      it("returns undefined", () => {
+        assert.isUndefined(instrumenter.parseTraceparentHeader(""));
+      });
+    });
+
+    describe("#createRequestHeaders", () => {
+      it("returns an empty object", () => {
+        const span: TracingSpanIdentifier = {
+          spanId: "",
+          traceId: "",
+          traceFlags: 0
+        };
+        assert.isEmpty(instrumenter.createRequestHeaders(span));
+      });
+    });
   });
 
   describe("NoOpSpan", () => {
@@ -68,9 +85,12 @@ describe("Instrumenter", () => {
       const span: TracingSpan = new NoOpSpan();
       span.setStatus({ status: "success" });
       span.setAttribute("foo", "bar");
-      assert.isEmpty(span.tracingSpanId);
+      assert.deepEqual(span.tracingSpanId, {
+        spanId: "00000000-0000-0000-0000-000000000000",
+        traceId: "00000000-0000-0000-0000-000000000000",
+        traceFlags: 0x0
+      });
       span.end();
-      assert.isEmpty(span.toRequestHeaders());
       assert.isFalse(span.isRecording());
     });
   });
