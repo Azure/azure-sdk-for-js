@@ -2,6 +2,12 @@
 
 ## 13.0.0 (2021-11-11)
 
+### Acknowledgments
+
+Thank you to our developer community members who helped to make the Azure Tables client library better with their contributions to this release:
+
+- Daniel Hensby _([GitHub](https://github.com/dhensby))_
+
 ### Features Added
 
 - TableClient `listEntities` expose and can take as PageSetting `continuationToken` as a `PageSetting` when using `byPage`. [#18179](https://github.com/Azure/azure-sdk-for-js/pull/18179)
@@ -21,7 +27,7 @@
 - Issue #18521 - `upsertEntity` doesn't work with "" for partition or row keys. [#18586](https://github.com/Azure/azure-sdk-for-js/pull/18586)
 
 ### Other Changes
-
+- Export RestError [#18635](https://github.com/Azure/azure-sdk-for-js/pull/18635). (A community contribution, courtesy of _[dhensby](https://github.com/dhensby))_
 ## 12.1.2 (2021-09-07)
 
 ### Bugs Fixed
