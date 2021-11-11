@@ -645,18 +645,6 @@ export class CallingServerClient {
   ): Promise<StartCallRecordingResult> {
     const { span, updatedOptions } = createSpan("ServerCallRestClient-StartRecording", options);
 
-    if (typeof callLocator === "undefined" || !callLocator) {
-      throw new Error("callLocator is invalid.");
-    }
-
-    if (
-      typeof recordingStateCallbackUrl === "undefined" ||
-      !recordingStateCallbackUrl ||
-      !CallingServerUtils.isValidUrl(recordingStateCallbackUrl)
-    ) {
-      throw new Error("recordingStateCallbackUrl is invalid.");
-    }
-
     const startCallRecordingWithCallLocatorRequest: StartCallRecordingWithCallLocatorRequest = {
       callLocator: serializeCallLocator(callLocator),
       recordingStateCallbackUri: recordingStateCallbackUrl,
@@ -692,10 +680,6 @@ export class CallingServerClient {
   ): Promise<void> {
     const { span, updatedOptions } = createSpan("ServerCallRestClient-PauseRecording", options);
 
-    if (typeof recordingId === "undefined" || !recordingId || !recordingId.trim()) {
-      throw new Error("recordingId is invalid.");
-    }
-
     try {
       await this.serverCallRestClient.pauseRecording(
         recordingId,
@@ -724,10 +708,6 @@ export class CallingServerClient {
   ): Promise<void> {
     const { span, updatedOptions } = createSpan("ServerCallRestClient-ResumeRecording", options);
 
-    if (typeof recordingId === "undefined" || !recordingId || !recordingId.trim()) {
-      throw new Error("recordingId is invalid.");
-    }
-
     try {
       await this.serverCallRestClient.resumeRecording(
         recordingId,
@@ -755,9 +735,6 @@ export class CallingServerClient {
     options: StopRecordingOptions = {}
   ): Promise<void> {
     const { span, updatedOptions } = createSpan("ServerCallRestClient-StopRecording", options);
-    if (typeof recordingId === "undefined" || !recordingId || !recordingId.trim()) {
-      throw new Error("recordingId is invalid.");
-    }
 
     try {
       await this.serverCallRestClient.stopRecording(
@@ -786,10 +763,6 @@ export class CallingServerClient {
     options: GetRecordingPropertiesOptions = {}
   ): Promise<CallRecordingProperties> {
     const { span, updatedOptions } = createSpan("ServerCallRestClient-Recording", options);
-
-    if (typeof recordingId === "undefined" || !recordingId || !recordingId.trim()) {
-      throw new Error("recordingId is invalid.");
-    }
 
     try {
       const { _response, ...result } = await this.serverCallRestClient.getRecordingProperties(
