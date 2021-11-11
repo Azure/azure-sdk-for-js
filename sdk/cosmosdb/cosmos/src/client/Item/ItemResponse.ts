@@ -1,10 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+
 import { CosmosHeaders } from "../../queryExecutionContext";
-import { ResourceResponse } from "../../request/ResourceResponse";
-import { Resource } from "../Resource";
 import { Item } from "./Item";
 import { ItemDefinition } from "./ItemDefinition";
+import { Resource } from "../Resource";
+import { ResourceResponse } from "../../request/ResourceResponse";
 
 export class ItemResponse<T extends ItemDefinition> extends ResourceResponse<T & Resource> {
   constructor(

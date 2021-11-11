@@ -9,25 +9,22 @@ import {
   MapperTypeNames,
   OperationArguments,
   OperationQueryParameter,
-  OperationSpec,
   OperationRequest,
+  OperationSpec,
   ParameterPath,
   QueryCollectionFormat,
   ServiceClient,
   createSerializer,
-  serializationPolicy,
+  serializationPolicy
 } from "../src";
 import {
   HttpClient,
   PipelineRequest,
-  createHttpHeaders,
   createEmptyPipeline,
+  createHttpHeaders,
   createPipelineRequest
 } from "@azure/core-rest-pipeline";
-import {
-  getOperationArgumentValueFromParameter,
-  getOperationRequestInfo
-} from "../src/operationHelpers";
+import { getOperationArgumentValueFromParameter, getOperationRequestInfo } from "../src/operationHelpers";
 import { TokenCredential } from "@azure/core-auth";
 import { assert } from "chai";
 import { assertServiceClientResponse } from "./utils/serviceClient";

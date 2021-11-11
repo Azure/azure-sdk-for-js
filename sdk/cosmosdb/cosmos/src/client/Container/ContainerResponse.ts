@@ -1,10 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { CosmosHeaders } from "../../queryExecutionContext";
-import { ResourceResponse } from "../../request/ResourceResponse";
-import { Resource } from "../Resource";
-import { ContainerDefinition } from "./ContainerDefinition";
+
 import { Container } from "./index";
+import { ContainerDefinition } from "./ContainerDefinition";
+import { CosmosHeaders } from "../../queryExecutionContext";
+import { Resource } from "../Resource";
+import { ResourceResponse } from "../../request/ResourceResponse";
 
 /** Response object for Container operations */
 export class ContainerResponse extends ResourceResponse<ContainerDefinition & Resource> {

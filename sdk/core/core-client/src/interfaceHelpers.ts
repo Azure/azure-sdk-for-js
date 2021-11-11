@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { OperationSpec, OperationParameter } from "./interfaces";
+import { OperationParameter, OperationSpec } from "./interfaces";
 import { MapperTypeNames } from "./serializer";
 
 /**

@@ -1,10 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { getInitialHeader, mergeHeaders } from "./headerUtils";
-import { StatusCodes, SubStatusCodes } from "../common/statusCodes";
 import { FeedOptions, Response } from "../request";
-import semaphore from "semaphore";
+import { StatusCodes, SubStatusCodes } from "../common/statusCodes";
+import { getInitialHeader, mergeHeaders } from "./headerUtils";
 import { ClientContext } from "../ClientContext";
 import { CosmosHeaders } from "./CosmosHeaders";
 import { DocumentProducer } from "./documentProducer";
@@ -15,6 +14,7 @@ import { QueryRange } from "../routing/QueryRange";
 import { SmartRoutingMapProvider } from "../routing/smartRoutingMapProvider";
 import { SqlQuerySpec } from "./SqlQuerySpec";
 import { logger } from "../common/logger";
+import semaphore from "semaphore";
 
 /** @hidden */
 const log = logger("parallelQueryExecutionContextBase");

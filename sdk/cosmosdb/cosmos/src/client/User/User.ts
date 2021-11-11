@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { ClientContext } from "../../ClientContext";
+import { Permission, Permissions } from "../Permission";
 import {
   ResourceType,
   createUserUri,
@@ -8,9 +8,9 @@ import {
   getPathFromLink,
   isResourceValid
 } from "../../common";
-import { RequestOptions } from "../../request";
+import { ClientContext } from "../../ClientContext";
 import { Database } from "../Database";
-import { Permission, Permissions } from "../Permission";
+import { RequestOptions } from "../../request";
 import { UserDefinition } from "./UserDefinition";
 import { UserResponse } from "./UserResponse";
 

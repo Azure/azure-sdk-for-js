@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { ClientContext } from "../../ClientContext";
+
 import {
   ResourceType,
   createUserDefinedFunctionUri,
@@ -8,8 +8,9 @@ import {
   getPathFromLink,
   isResourceValid
 } from "../../common";
-import { RequestOptions } from "../../request";
+import { ClientContext } from "../../ClientContext";
 import { Container } from "../Container";
+import { RequestOptions } from "../../request";
 import { UserDefinedFunctionDefinition } from "./UserDefinedFunctionDefinition";
 import { UserDefinedFunctionResponse } from "./UserDefinedFunctionResponse";
 

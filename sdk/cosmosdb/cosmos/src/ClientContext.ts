@@ -5,12 +5,8 @@ import { ConnectionPolicy, ConsistencyLevel, DatabaseAccount, PartitionKey } fro
 import { Constants, HTTPMethod, OperationType, ResourceType } from "./common/constants";
 import { FeedOptions, RequestOptions, Response } from "./request";
 import { FetchFunctionCallback, SqlQuerySpec } from "./queryExecutionContext";
+import { Pipeline, bearerTokenAuthenticationPolicy, createEmptyPipeline } from "@azure/core-rest-pipeline";
 import { PluginOn, executePlugins } from "./plugins/Plugin";
-import {
-  Pipeline,
-  bearerTokenAuthenticationPolicy,
-  createEmptyPipeline
-} from "@azure/core-rest-pipeline";
 import { StatusCodes, SubStatusCodes } from "./common/statusCodes";
 import { getIdFromLink, getPathFromLink, parseLink } from "./common/helper";
 import { BulkOptions } from "./utils/batch";

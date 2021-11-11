@@ -1,10 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+
 import { CosmosHeaders } from "../../queryExecutionContext";
-import { ResourceResponse } from "../../request";
-import { Resource } from "../Resource";
 import { Offer } from "./Offer";
 import { OfferDefinition } from "./OfferDefinition";
+import { Resource } from "../Resource";
+import { ResourceResponse } from "../../request";
 
 export class OfferResponse extends ResourceResponse<OfferDefinition & Resource> {
   constructor(

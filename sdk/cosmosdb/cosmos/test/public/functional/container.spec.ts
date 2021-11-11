@@ -11,9 +11,9 @@ import {
   removeAllDatabases
 } from "../common/TestHelpers";
 import { ContainerRequest } from "../../../src";
-import { Suite } from "mocha";
-import { SpatialType } from "../../../src";
 import { GeospatialType } from "../../../src";
+import { SpatialType } from "../../../src";
+import { Suite } from "mocha";
 import assert from "assert";
 
 describe("Containers", function(this: Suite) {

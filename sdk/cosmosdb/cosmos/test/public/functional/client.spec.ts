@@ -1,11 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import assert from "assert";
-import { Suite } from "mocha";
-import { Agent } from "http";
-import { CosmosClient } from "../../../src";
-import { endpoint } from "../common/_testConfig";
-import { masterKey } from "../common/_fakeTestSecrets";
 import {
   bulkInsertItems,
   generateDocuments,
@@ -13,8 +7,14 @@ import {
   getTestDatabase
 } from "../common/TestHelpers";
 import AbortController from "node-abort-controller";
+import { Agent } from "http";
+import { CosmosClient } from "../../../src";
+import { Suite } from "mocha";
 import { UsernamePasswordCredential } from "@azure/identity";
+import assert from "assert";
 import { defaultConnectionPolicy } from "../../../src/documents";
+import { endpoint } from "../common/_testConfig";
+import { masterKey } from "../common/_fakeTestSecrets";
 
 describe("Client Tests", function(this: Suite) {
   this.timeout(process.env.MOCHA_TIMEOUT || 20000);

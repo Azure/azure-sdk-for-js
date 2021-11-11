@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { Response } from "../../request";
+
 import { ExecutionContext } from "../ExecutionContext";
+import { Response } from "../../request";
 import { hashObject } from "../../utils/hashObject";
 
 /** @hidden */

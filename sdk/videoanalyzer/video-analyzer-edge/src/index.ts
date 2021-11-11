@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export * from "./generated/models";
 import {
-  PipelineTopology,
   LivePipeline,
+  OnvifDevice,
+  PipelineTopology,
   RemoteDeviceAdapter,
-  UnsecuredEndpoint,
-  OnvifDevice
+  UnsecuredEndpoint
 } from "./generated/models";
 import { MethodRequest } from "./generated/models/mappers";
+
+export * from "./generated/models";
 
 /**
  * Method name and payload to send with a pipeline request. Method name determinds request type.

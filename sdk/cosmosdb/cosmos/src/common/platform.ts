@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { getUserAgent as userAgent } from "universal-user-agent";
+
 import { Constants } from "./constants";
+import { getUserAgent as userAgent } from "universal-user-agent";
 
 /**
  * @hidden

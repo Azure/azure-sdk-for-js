@@ -1,14 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  InternalPipelineOptions,
-  Pipeline,
-  createPipelineFromOptions,
-  bearerTokenAuthenticationPolicy
-} from "@azure/core-rest-pipeline";
-import { SerializationPolicyOptions, serializationPolicy } from "./serializationPolicy";
 import { DeserializationPolicyOptions, deserializationPolicy } from "./deserializationPolicy";
+import { InternalPipelineOptions, Pipeline, bearerTokenAuthenticationPolicy, createPipelineFromOptions } from "@azure/core-rest-pipeline";
+import { SerializationPolicyOptions, serializationPolicy } from "./serializationPolicy";
 import { TokenCredential } from "@azure/core-auth";
 
 /**

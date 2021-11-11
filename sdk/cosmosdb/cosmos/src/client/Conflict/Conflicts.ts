@@ -1,13 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { ClientContext } from "../../ClientContext";
+
 import { ResourceType, getIdFromLink, getPathFromLink } from "../../common";
-import { SqlQuerySpec } from "../../queryExecutionContext";
-import { QueryIterator } from "../../queryIterator";
-import { FeedOptions } from "../../request";
-import { Container } from "../Container";
-import { Resource } from "../Resource";
+import { ClientContext } from "../../ClientContext";
 import { ConflictDefinition } from "./ConflictDefinition";
+import { Container } from "../Container";
+import { FeedOptions } from "../../request";
+import { QueryIterator } from "../../queryIterator";
+import { Resource } from "../Resource";
+import { SqlQuerySpec } from "../../queryExecutionContext";
 
 /**
  * Use to query or read all conflicts.

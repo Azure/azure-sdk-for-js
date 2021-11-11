@@ -1,14 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
 import {
-  RequestPolicy,
-  WebResource,
-  HttpOperationResponse,
   HttpHeaders,
-  RequestPolicyOptions
+  HttpOperationResponse,
+  RequestPolicy,
+  RequestPolicyOptions,
+  WebResource
 } from "../../src/coreHttp";
+import {
+  Span,
+  SpanOptions,
+  Tracer,
+  TracerProvider,
+  trace
+} from "@opentelemetry/api";
 import {
   SpanAttributeValue,
   SpanAttributes,
@@ -20,9 +26,9 @@ import {
   context,
   setSpan
 } from "@azure/core-tracing";
-import { tracingPolicy } from "../../src/policies/tracingPolicy";
-import { TracerProvider, Tracer, Span, SpanOptions, trace } from "@opentelemetry/api";
+import { assert } from "chai";
 import sinon from "sinon";
+import { tracingPolicy } from "../../src/policies/tracingPolicy";
 
 class MockSpan implements Span {
   private _endCalled = false;

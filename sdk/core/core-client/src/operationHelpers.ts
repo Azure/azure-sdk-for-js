@@ -6,9 +6,9 @@ import {
   Mapper,
   OperationArguments,
   OperationParameter,
-  ParameterPath,
   OperationRequest,
-  OperationRequestInfo
+  OperationRequestInfo,
+  ParameterPath
 } from "./interfaces";
 
 /**

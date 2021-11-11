@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
 import {
+  NodeInput,
   PipelineTopology,
   RtspSource,
   UnsecuredEndpoint,
-  NodeInput,
   VideoSink,
   createRequest
 } from "../src";
+import { assert } from "chai";
 
 describe("test", () => {
   it("creates a pipeline topology and calls createRequest to ensure apiVersion is added", () => {

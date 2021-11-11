@@ -1,12 +1,13 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+
+import { AggregateType } from "../../request/ErrorResponse";
 import { AverageAggregator } from "./AverageAggregator";
 import { CountAggregator } from "./CountAggregator";
 import { MaxAggregator } from "./MaxAggregator";
 import { MinAggregator } from "./MinAggregator";
-import { SumAggregator } from "./SumAggregator";
 import { StaticValueAggregator } from "./StaticValueAggregator";
-import { AggregateType } from "../../request/ErrorResponse";
+import { SumAggregator } from "./SumAggregator";
 
 export function createAggregator(
   aggregateType: AggregateType

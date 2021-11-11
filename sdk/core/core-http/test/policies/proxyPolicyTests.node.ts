@@ -1,20 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import "chai/register-should";
-import { should } from "chai";
-import { ProxySettings } from "../../src/serviceClient";
-import { RequestPolicyOptions } from "../../src/policies/requestPolicy";
-import { WebResource } from "../../src/webResource";
-import { HttpHeaders } from "../../src/httpHeaders";
 import {
-  proxyPolicy,
   ProxyPolicy,
   getDefaultProxySettings,
   globalNoProxyList,
-  loadNoProxy
+  loadNoProxy,
+  proxyPolicy
 } from "../../src/policies/proxyPolicy";
 import { Constants } from "../../src/coreHttp";
+import { HttpHeaders } from "../../src/httpHeaders";
+import { ProxySettings } from "../../src/serviceClient";
+import { RequestPolicyOptions } from "../../src/policies/requestPolicy";
+import { WebResource } from "../../src/webResource";
+import { should } from "chai";
 
 describe("ProxyPolicy (node)", function() {
   const proxySettings: ProxySettings = {

@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { Context, SpanOptions } from "@azure/core-tracing";
 import { HttpHeaders, HttpHeadersLike, isHttpHeadersLike } from "./httpHeaders";
 import { Mapper, Serializer } from "./serializer";
-import { SpanOptions, Context } from "@azure/core-tracing";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { HttpOperationResponse } from "./httpOperationResponse";
 import { OperationResponse } from "./operationResponse";

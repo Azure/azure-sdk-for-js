@@ -15,8 +15,8 @@ import {
   PipelinePolicy,
   PipelineRequest,
   PipelineResponse,
-  SendRequest,
-  RestError
+  RestError,
+  SendRequest
 } from "@azure/core-rest-pipeline";
 import { MapperTypeNames } from "./serializer";
 import { getOperationRequestInfo } from "./operationHelpers";

@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { ErrorResponse } from "../request";
+import { OperationType } from "../common";
 import { RetryPolicy } from "./RetryPolicy";
 import { TimeoutErrorCode } from "../request/TimeoutError";
-import { OperationType } from "../common";
 
 /**
  * @hidden

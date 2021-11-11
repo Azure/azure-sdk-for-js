@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { ClientContext } from "../../ClientContext";
+
 import { Constants, ResourceType, StatusCodes, isResourceValid } from "../../common";
-import { CosmosClient } from "../../CosmosClient";
-import { FetchFunctionCallback, SqlQuerySpec, mergeHeaders } from "../../queryExecutionContext";
-import { QueryIterator } from "../../queryIterator";
 import { FeedOptions, RequestOptions } from "../../request";
-import { Resource } from "../Resource";
+import { FetchFunctionCallback, SqlQuerySpec, mergeHeaders } from "../../queryExecutionContext";
+import { ClientContext } from "../../ClientContext";
+import { CosmosClient } from "../../CosmosClient";
 import { Database } from "./Database";
 import { DatabaseDefinition } from "./DatabaseDefinition";
 import { DatabaseRequest } from "./DatabaseRequest";
 import { DatabaseResponse } from "./DatabaseResponse";
+import { QueryIterator } from "../../queryIterator";
+import { Resource } from "../Resource";
 import { validateOffer } from "../../utils/offers";
 
 /**

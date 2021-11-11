@@ -4,9 +4,9 @@
 import {
   HttpClient,
   HttpMethods,
+  PipelineOptions,
   PipelineRequest,
   PipelineResponse,
-  PipelineOptions,
   TransferProgressEvent
 } from "@azure/core-rest-pipeline";
 import { AbortSignalLike } from "@azure/abort-controller";

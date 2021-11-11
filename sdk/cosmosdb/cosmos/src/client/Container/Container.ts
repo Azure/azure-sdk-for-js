@@ -1,6 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { ClientContext } from "../../ClientContext";
+
+import { Conflict, Conflicts } from "../Conflict";
+import { FeedOptions, RequestOptions, ResourceResponse, Response } from "../../request";
+import { Item, Items } from "../Item";
+import { Offer, OfferDefinition } from "../Offer";
+import { PartitionKey, PartitionKeyDefinition } from "../../documents";
 import {
   ResourceType,
   createDocumentCollectionUri,
@@ -8,21 +13,17 @@ import {
   getPathFromLink,
   isResourceValid
 } from "../../common";
-import { PartitionKey, PartitionKeyDefinition } from "../../documents";
-import { SqlQuerySpec } from "../../queryExecutionContext";
-import { QueryIterator } from "../../queryIterator";
-import { FeedOptions, RequestOptions, ResourceResponse, Response } from "../../request";
-import { PartitionedQueryExecutionInfo } from "../../request/ErrorResponse";
-import { Conflict, Conflicts } from "../Conflict";
-import { Database } from "../Database";
-import { Item, Items } from "../Item";
-import { Scripts } from "../Script/Scripts";
+import { ClientContext } from "../../ClientContext";
 import { ContainerDefinition } from "./ContainerDefinition";
 import { ContainerResponse } from "./ContainerResponse";
-import { PartitionKeyRange } from "./PartitionKeyRange";
-import { Offer, OfferDefinition } from "../Offer";
+import { Database } from "../Database";
 import { OfferResponse } from "../Offer/OfferResponse";
+import { PartitionKeyRange } from "./PartitionKeyRange";
+import { PartitionedQueryExecutionInfo } from "../../request/ErrorResponse";
+import { QueryIterator } from "../../queryIterator";
 import { Resource } from "../Resource";
+import { Scripts } from "../Script/Scripts";
+import { SqlQuerySpec } from "../../queryExecutionContext";
 
 /**
  * Operations for reading, replacing, or deleting a specific, existing container by id.

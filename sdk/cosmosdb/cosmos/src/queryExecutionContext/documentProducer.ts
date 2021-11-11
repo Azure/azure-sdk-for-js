@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { PartitionKeyRange, Resource } from "../client";
-import { ClientContext } from "../ClientContext";
+
 import {
   Constants,
   ResourceType,
@@ -10,11 +9,13 @@ import {
   getIdFromLink,
   getPathFromLink
 } from "../common";
+import { CosmosHeaders, getInitialHeader, mergeHeaders } from "./headerUtils";
+import { FetchResult, FetchResultType } from "./FetchResult";
+import { PartitionKeyRange, Resource } from "../client";
+import { ClientContext } from "../ClientContext";
+import { DefaultQueryExecutionContext } from "./defaultQueryExecutionContext";
 import { FeedOptions } from "../request";
 import { Response } from "../request";
-import { DefaultQueryExecutionContext } from "./defaultQueryExecutionContext";
-import { FetchResult, FetchResultType } from "./FetchResult";
-import { CosmosHeaders, getInitialHeader, mergeHeaders } from "./headerUtils";
 import { SqlQuerySpec } from "./index";
 
 /** @hidden */

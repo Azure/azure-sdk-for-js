@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { ClientContext } from "../../ClientContext";
+
 import {
   ResourceType,
   createPermissionUri,
@@ -8,11 +8,12 @@ import {
   getPathFromLink,
   isResourceValid
 } from "../../common";
-import { RequestOptions } from "../../request/RequestOptions";
-import { User } from "../User";
+import { ClientContext } from "../../ClientContext";
 import { PermissionBody } from "./PermissionBody";
 import { PermissionDefinition } from "./PermissionDefinition";
 import { PermissionResponse } from "./PermissionResponse";
+import { RequestOptions } from "../../request/RequestOptions";
+import { User } from "../User";
 
 /**
  * Use to read, replace, or delete a given {@link Permission} by id.

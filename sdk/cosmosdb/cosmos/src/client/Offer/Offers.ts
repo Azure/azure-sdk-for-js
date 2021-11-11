@@ -6,9 +6,9 @@ import { CosmosClient } from "../../CosmosClient";
 import { FeedOptions } from "../../request";
 import { OfferDefinition } from "./OfferDefinition";
 import { QueryIterator } from "../../queryIterator";
+import { Resource } from "../Resource";
 import { ResourceType } from "../../common";
 import { SqlQuerySpec } from "../../queryExecutionContext";
-import { Resource } from "../Resource";
 
 /**
  * Use to query or read all Offers.

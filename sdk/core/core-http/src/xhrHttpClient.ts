@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { HttpHeaders, HttpHeadersLike } from "./httpHeaders";
-import { WebResourceLike, TransferProgressEvent } from "./webResource";
+import { TransferProgressEvent, WebResourceLike } from "./webResource";
 import { AbortError } from "@azure/abort-controller";
 import { HttpClient } from "./httpClient";
 import { HttpOperationResponse } from "./httpOperationResponse";

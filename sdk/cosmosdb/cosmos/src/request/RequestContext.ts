@@ -7,8 +7,8 @@ import { ClientContext } from "../ClientContext";
 import { CosmosHeaders } from "../queryExecutionContext/CosmosHeaders";
 import { FeedOptions } from "./FeedOptions";
 import { GlobalEndpointManager } from "../globalEndpointManager";
-import { PluginConfig } from "../plugins/Plugin";
 import { Pipeline } from "@azure/core-rest-pipeline";
+import { PluginConfig } from "../plugins/Plugin";
 import { RequestOptions } from "./RequestOptions";
 
 /**

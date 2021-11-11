@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { ClientContext } from "../../ClientContext";
+
+import { RequestOptions, Response } from "../../request";
 import {
   ResourceType,
   StatusCodes,
@@ -9,14 +10,14 @@ import {
   getPathFromLink,
   isResourceValid
 } from "../../common";
-import { PartitionKey } from "../../documents";
 import { extractPartitionKey, undefinedPartitionKey } from "../../extractPartitionKey";
-import { RequestOptions, Response } from "../../request";
-import { PatchRequestBody } from "../../utils/patch";
+import { ClientContext } from "../../ClientContext";
 import { Container } from "../Container";
-import { Resource } from "../Resource";
 import { ItemDefinition } from "./ItemDefinition";
 import { ItemResponse } from "./ItemResponse";
+import { PartitionKey } from "../../documents";
+import { PatchRequestBody } from "../../utils/patch";
+import { Resource } from "../Resource";
 
 /**
  * Used to perform operations on a specific item.
