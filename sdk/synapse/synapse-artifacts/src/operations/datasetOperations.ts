@@ -7,7 +7,6 @@
  */
 
 import { createSpan } from "../tracing";
-import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { DatasetOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
@@ -19,21 +18,21 @@ import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
   DatasetResource,
-  DatasetOperationsGetDatasetsByWorkspaceNextOptionalParams,
-  DatasetOperationsGetDatasetsByWorkspaceOptionalParams,
-  DatasetOperationsGetDatasetsByWorkspaceResponse,
-  DatasetOperationsCreateOrUpdateDatasetOptionalParams,
-  DatasetOperationsCreateOrUpdateDatasetResponse,
-  DatasetOperationsGetDatasetOptionalParams,
-  DatasetOperationsGetDatasetResponse,
-  DatasetOperationsDeleteDatasetOptionalParams,
+  DatasetGetDatasetsByWorkspaceNextOptionalParams,
+  DatasetGetDatasetsByWorkspaceOptionalParams,
+  DatasetGetDatasetsByWorkspaceResponse,
+  DatasetCreateOrUpdateDatasetOptionalParams,
+  DatasetCreateOrUpdateDatasetResponse,
+  DatasetGetDatasetOptionalParams,
+  DatasetGetDatasetResponse,
+  DatasetDeleteDatasetOptionalParams,
   ArtifactRenameRequest,
-  DatasetOperationsRenameDatasetOptionalParams,
-  DatasetOperationsGetDatasetsByWorkspaceNextResponse
+  DatasetRenameDatasetOptionalParams,
+  DatasetGetDatasetsByWorkspaceNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a DatasetOperations. */
+/** Class containing DatasetOperations operations. */
 export class DatasetOperationsImpl implements DatasetOperations {
   private readonly client: ArtifactsClientContext;
 
@@ -50,7 +49,7 @@ export class DatasetOperationsImpl implements DatasetOperations {
    * @param options The options parameters.
    */
   public listDatasetsByWorkspace(
-    options?: DatasetOperationsGetDatasetsByWorkspaceOptionalParams
+    options?: DatasetGetDatasetsByWorkspaceOptionalParams
   ): PagedAsyncIterableIterator<DatasetResource> {
     const iter = this.getDatasetsByWorkspacePagingAll(options);
     return {
@@ -67,7 +66,7 @@ export class DatasetOperationsImpl implements DatasetOperations {
   }
 
   private async *getDatasetsByWorkspacePagingPage(
-    options?: DatasetOperationsGetDatasetsByWorkspaceOptionalParams
+    options?: DatasetGetDatasetsByWorkspaceOptionalParams
   ): AsyncIterableIterator<DatasetResource[]> {
     let result = await this._getDatasetsByWorkspace(options);
     yield result.value || [];
@@ -83,7 +82,7 @@ export class DatasetOperationsImpl implements DatasetOperations {
   }
 
   private async *getDatasetsByWorkspacePagingAll(
-    options?: DatasetOperationsGetDatasetsByWorkspaceOptionalParams
+    options?: DatasetGetDatasetsByWorkspaceOptionalParams
   ): AsyncIterableIterator<DatasetResource> {
     for await (const page of this.getDatasetsByWorkspacePagingPage(options)) {
       yield* page;
@@ -95,8 +94,8 @@ export class DatasetOperationsImpl implements DatasetOperations {
    * @param options The options parameters.
    */
   private async _getDatasetsByWorkspace(
-    options?: DatasetOperationsGetDatasetsByWorkspaceOptionalParams
-  ): Promise<DatasetOperationsGetDatasetsByWorkspaceResponse> {
+    options?: DatasetGetDatasetsByWorkspaceOptionalParams
+  ): Promise<DatasetGetDatasetsByWorkspaceResponse> {
     const { span } = createSpan(
       "ArtifactsClient-_getDatasetsByWorkspace",
       options || {}
@@ -106,7 +105,7 @@ export class DatasetOperationsImpl implements DatasetOperations {
         { options },
         getDatasetsByWorkspaceOperationSpec
       );
-      return result as DatasetOperationsGetDatasetsByWorkspaceResponse;
+      return result as DatasetGetDatasetsByWorkspaceResponse;
     } catch (error) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
@@ -127,11 +126,11 @@ export class DatasetOperationsImpl implements DatasetOperations {
   async beginCreateOrUpdateDataset(
     datasetName: string,
     dataset: DatasetResource,
-    options?: DatasetOperationsCreateOrUpdateDatasetOptionalParams
+    options?: DatasetCreateOrUpdateDatasetOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<DatasetOperationsCreateOrUpdateDatasetResponse>,
-      DatasetOperationsCreateOrUpdateDatasetResponse
+      PollOperationState<DatasetCreateOrUpdateDatasetResponse>,
+      DatasetCreateOrUpdateDatasetResponse
     >
   > {
     const { span } = createSpan(
@@ -141,10 +140,10 @@ export class DatasetOperationsImpl implements DatasetOperations {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<DatasetOperationsCreateOrUpdateDatasetResponse> => {
+    ): Promise<DatasetCreateOrUpdateDatasetResponse> => {
       try {
         const result = await this.client.sendOperationRequest(args, spec);
-        return result as DatasetOperationsCreateOrUpdateDatasetResponse;
+        return result as DatasetCreateOrUpdateDatasetResponse;
       } catch (error) {
         span.setStatus({
           code: coreTracing.SpanStatusCode.UNSET,
@@ -208,8 +207,8 @@ export class DatasetOperationsImpl implements DatasetOperations {
   async beginCreateOrUpdateDatasetAndWait(
     datasetName: string,
     dataset: DatasetResource,
-    options?: DatasetOperationsCreateOrUpdateDatasetOptionalParams
-  ): Promise<DatasetOperationsCreateOrUpdateDatasetResponse> {
+    options?: DatasetCreateOrUpdateDatasetOptionalParams
+  ): Promise<DatasetCreateOrUpdateDatasetResponse> {
     const poller = await this.beginCreateOrUpdateDataset(
       datasetName,
       dataset,
@@ -225,15 +224,15 @@ export class DatasetOperationsImpl implements DatasetOperations {
    */
   async getDataset(
     datasetName: string,
-    options?: DatasetOperationsGetDatasetOptionalParams
-  ): Promise<DatasetOperationsGetDatasetResponse> {
+    options?: DatasetGetDatasetOptionalParams
+  ): Promise<DatasetGetDatasetResponse> {
     const { span } = createSpan("ArtifactsClient-getDataset", options || {});
     try {
       const result = await this.client.sendOperationRequest(
         { datasetName, options },
         getDatasetOperationSpec
       );
-      return result as DatasetOperationsGetDatasetResponse;
+      return result as DatasetGetDatasetResponse;
     } catch (error) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
@@ -252,7 +251,7 @@ export class DatasetOperationsImpl implements DatasetOperations {
    */
   async beginDeleteDataset(
     datasetName: string,
-    options?: DatasetOperationsDeleteDatasetOptionalParams
+    options?: DatasetDeleteDatasetOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
     const { span } = createSpan(
       "ArtifactsClient-beginDeleteDataset",
@@ -326,7 +325,7 @@ export class DatasetOperationsImpl implements DatasetOperations {
    */
   async beginDeleteDatasetAndWait(
     datasetName: string,
-    options?: DatasetOperationsDeleteDatasetOptionalParams
+    options?: DatasetDeleteDatasetOptionalParams
   ): Promise<void> {
     const poller = await this.beginDeleteDataset(datasetName, options);
     return poller.pollUntilDone();
@@ -341,7 +340,7 @@ export class DatasetOperationsImpl implements DatasetOperations {
   async beginRenameDataset(
     datasetName: string,
     request: ArtifactRenameRequest,
-    options?: DatasetOperationsRenameDatasetOptionalParams
+    options?: DatasetRenameDatasetOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
     const { span } = createSpan(
       "ArtifactsClient-beginRenameDataset",
@@ -417,7 +416,7 @@ export class DatasetOperationsImpl implements DatasetOperations {
   async beginRenameDatasetAndWait(
     datasetName: string,
     request: ArtifactRenameRequest,
-    options?: DatasetOperationsRenameDatasetOptionalParams
+    options?: DatasetRenameDatasetOptionalParams
   ): Promise<void> {
     const poller = await this.beginRenameDataset(datasetName, request, options);
     return poller.pollUntilDone();
@@ -430,8 +429,8 @@ export class DatasetOperationsImpl implements DatasetOperations {
    */
   private async _getDatasetsByWorkspaceNext(
     nextLink: string,
-    options?: DatasetOperationsGetDatasetsByWorkspaceNextOptionalParams
-  ): Promise<DatasetOperationsGetDatasetsByWorkspaceNextResponse> {
+    options?: DatasetGetDatasetsByWorkspaceNextOptionalParams
+  ): Promise<DatasetGetDatasetsByWorkspaceNextResponse> {
     const { span } = createSpan(
       "ArtifactsClient-_getDatasetsByWorkspaceNext",
       options || {}
@@ -441,7 +440,7 @@ export class DatasetOperationsImpl implements DatasetOperations {
         { nextLink, options },
         getDatasetsByWorkspaceNextOperationSpec
       );
-      return result as DatasetOperationsGetDatasetsByWorkspaceNextResponse;
+      return result as DatasetGetDatasetsByWorkspaceNextResponse;
     } catch (error) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
@@ -464,10 +463,10 @@ const getDatasetsByWorkspaceOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DatasetListResponse
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.CloudErrorAutoGenerated
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.accept],
   serializer
@@ -489,11 +488,11 @@ const createOrUpdateDatasetOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DatasetResource
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.CloudErrorAutoGenerated
     }
   },
   requestBody: Parameters.dataset,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [Parameters.endpoint, Parameters.datasetName],
   headerParameters: [
     Parameters.accept,
@@ -512,10 +511,10 @@ const getDatasetOperationSpec: coreClient.OperationSpec = {
     },
     304: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.CloudErrorAutoGenerated
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [Parameters.endpoint, Parameters.datasetName],
   headerParameters: [Parameters.accept, Parameters.ifNoneMatch],
   serializer
@@ -529,10 +528,10 @@ const deleteDatasetOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.CloudErrorAutoGenerated
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [Parameters.endpoint, Parameters.datasetName],
   headerParameters: [Parameters.accept],
   serializer
@@ -546,11 +545,11 @@ const renameDatasetOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.CloudErrorAutoGenerated
     }
   },
   requestBody: Parameters.request,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [Parameters.endpoint, Parameters.datasetName],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -564,10 +563,10 @@ const getDatasetsByWorkspaceNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DatasetListResponse
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.CloudErrorAutoGenerated
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [Parameters.endpoint, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer

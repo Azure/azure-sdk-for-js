@@ -4,6 +4,8 @@
 
 ```ts
 
+/// <reference types="node" />
+
 import { AbortSignalLike } from '@azure/abort-controller';
 import { AccessToken } from '@azure/core-auth';
 import { Debugger } from '@azure/logger';
@@ -124,7 +126,9 @@ export interface HttpHeaders extends Iterable<[string, string]> {
     get(name: string): string | undefined;
     has(name: string): boolean;
     set(name: string, value: string | number | boolean): void;
-    toJSON(): RawHttpHeaders;
+    toJSON(options?: {
+        preserveCase?: boolean;
+    }): RawHttpHeaders;
 }
 
 // @public
@@ -346,7 +350,6 @@ export const userAgentPolicyName = "userAgentPolicy";
 export interface UserAgentPolicyOptions {
     userAgentPrefix?: string;
 }
-
 
 // (No @packageDocumentation comment for this package)
 

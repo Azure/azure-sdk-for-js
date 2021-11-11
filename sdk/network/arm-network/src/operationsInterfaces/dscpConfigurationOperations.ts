@@ -6,18 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   DscpConfiguration,
-  DscpConfigurationOperationsListOptionalParams,
-  DscpConfigurationOperationsListAllOptionalParams,
-  DscpConfigurationOperationsCreateOrUpdateOptionalParams,
-  DscpConfigurationOperationsCreateOrUpdateResponse,
-  DscpConfigurationOperationsDeleteOptionalParams,
-  DscpConfigurationOperationsGetOptionalParams,
-  DscpConfigurationOperationsGetResponse
+  DscpConfigurationListOptionalParams,
+  DscpConfigurationListAllOptionalParams,
+  DscpConfigurationCreateOrUpdateOptionalParams,
+  DscpConfigurationCreateOrUpdateResponse,
+  DscpConfigurationDeleteOptionalParams,
+  DscpConfigurationGetOptionalParams,
+  DscpConfigurationGetResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,14 +29,14 @@ export interface DscpConfigurationOperations {
    */
   list(
     resourceGroupName: string,
-    options?: DscpConfigurationOperationsListOptionalParams
+    options?: DscpConfigurationListOptionalParams
   ): PagedAsyncIterableIterator<DscpConfiguration>;
   /**
    * Gets all dscp configurations in a subscription.
    * @param options The options parameters.
    */
   listAll(
-    options?: DscpConfigurationOperationsListAllOptionalParams
+    options?: DscpConfigurationListAllOptionalParams
   ): PagedAsyncIterableIterator<DscpConfiguration>;
   /**
    * Creates or updates a DSCP Configuration.
@@ -50,11 +49,11 @@ export interface DscpConfigurationOperations {
     resourceGroupName: string,
     dscpConfigurationName: string,
     parameters: DscpConfiguration,
-    options?: DscpConfigurationOperationsCreateOrUpdateOptionalParams
+    options?: DscpConfigurationCreateOrUpdateOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<DscpConfigurationOperationsCreateOrUpdateResponse>,
-      DscpConfigurationOperationsCreateOrUpdateResponse
+      PollOperationState<DscpConfigurationCreateOrUpdateResponse>,
+      DscpConfigurationCreateOrUpdateResponse
     >
   >;
   /**
@@ -68,8 +67,8 @@ export interface DscpConfigurationOperations {
     resourceGroupName: string,
     dscpConfigurationName: string,
     parameters: DscpConfiguration,
-    options?: DscpConfigurationOperationsCreateOrUpdateOptionalParams
-  ): Promise<DscpConfigurationOperationsCreateOrUpdateResponse>;
+    options?: DscpConfigurationCreateOrUpdateOptionalParams
+  ): Promise<DscpConfigurationCreateOrUpdateResponse>;
   /**
    * Deletes a DSCP Configuration.
    * @param resourceGroupName The name of the resource group.
@@ -79,7 +78,7 @@ export interface DscpConfigurationOperations {
   beginDelete(
     resourceGroupName: string,
     dscpConfigurationName: string,
-    options?: DscpConfigurationOperationsDeleteOptionalParams
+    options?: DscpConfigurationDeleteOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
    * Deletes a DSCP Configuration.
@@ -90,7 +89,7 @@ export interface DscpConfigurationOperations {
   beginDeleteAndWait(
     resourceGroupName: string,
     dscpConfigurationName: string,
-    options?: DscpConfigurationOperationsDeleteOptionalParams
+    options?: DscpConfigurationDeleteOptionalParams
   ): Promise<void>;
   /**
    * Gets a DSCP Configuration.
@@ -101,6 +100,6 @@ export interface DscpConfigurationOperations {
   get(
     resourceGroupName: string,
     dscpConfigurationName: string,
-    options?: DscpConfigurationOperationsGetOptionalParams
-  ): Promise<DscpConfigurationOperationsGetResponse>;
+    options?: DscpConfigurationGetOptionalParams
+  ): Promise<DscpConfigurationGetResponse>;
 }

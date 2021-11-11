@@ -2,7 +2,7 @@
  "recordings": [
   {
    "method": "POST",
-   "url": "https://endpoint/text/analytics/v3.2-preview.1/entities/health/jobs",
+   "url": "https://endpoint/text/analytics/v3.2-preview.2/entities/health/jobs",
    "query": {
     "model-version": "latest",
     "stringIndexType": "Utf16CodeUnit"
@@ -11,93 +11,192 @@
    "status": 202,
    "response": "",
    "responseHeaders": {
-    "apim-request-id": "a874052f-a038-419e-9b87-cc83d474054f",
-    "date": "Tue, 03 Aug 2021 22:58:58 GMT",
-    "operation-location": "https://endpoint/text/analytics/v3.2-preview.1/entities/health/jobs/732ad577-d94b-4aeb-88ca-d12379c8578b",
+    "apim-request-id": "2881922a-8990-4927-802a-347b4aaedbe0",
+    "date": "Sat, 23 Oct 2021 00:55:44 GMT",
+    "operation-location": "https://endpoint/text/analytics/v3.2-preview.1/entities/health/jobs/cb606cc7-17be-47dc-bc00-4e00c0277286",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "197"
+    "x-envoy-upstream-service-time": "240"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.2-preview.1/entities/health/jobs/732ad577-d94b-4aeb-88ca-d12379c8578b",
+   "url": "https://endpoint/text/analytics/v3.2-preview.1/entities/health/jobs/cb606cc7-17be-47dc-bc00-4e00c0277286",
    "query": {
     "showStats": "true",
-    "$top": "20"
+    "$top": "20",
+    "$skip": "0"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"732ad577-d94b-4aeb-88ca-d12379c8578b\",\"lastUpdateDateTime\":\"2021-08-03T22:58:59Z\",\"createdDateTime\":\"2021-08-03T22:58:59Z\",\"expirationDateTime\":\"2021-08-04T22:58:59Z\",\"status\":\"notStarted\",\"errors\":[]}",
+   "response": "{\"jobId\":\"cb606cc7-17be-47dc-bc00-4e00c0277286\",\"lastUpdateDateTime\":\"2021-10-23T00:55:44Z\",\"createdDateTime\":\"2021-10-23T00:55:44Z\",\"expirationDateTime\":\"2021-10-24T00:55:44Z\",\"status\":\"notStarted\",\"errors\":[]}",
    "responseHeaders": {
-    "apim-request-id": "f11f54e8-c571-44f3-8bc4-0e6cea7c6465",
+    "apim-request-id": "3e38a273-8d37-4470-9bc7-899c80c5fa20",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 03 Aug 2021 22:58:58 GMT",
+    "date": "Sat, 23 Oct 2021 00:55:44 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
     "x-envoy-upstream-service-time": "8"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.2-preview.1/entities/health/jobs/732ad577-d94b-4aeb-88ca-d12379c8578b",
+   "url": "https://endpoint/text/analytics/v3.2-preview.1/entities/health/jobs/cb606cc7-17be-47dc-bc00-4e00c0277286",
    "query": {
     "showStats": "true",
-    "$top": "20"
+    "$top": "20",
+    "$skip": "0"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"732ad577-d94b-4aeb-88ca-d12379c8578b\",\"lastUpdateDateTime\":\"2021-08-03T22:58:59Z\",\"createdDateTime\":\"2021-08-03T22:58:59Z\",\"expirationDateTime\":\"2021-08-04T22:58:59Z\",\"status\":\"notStarted\",\"errors\":[]}",
+   "response": "{\"jobId\":\"cb606cc7-17be-47dc-bc00-4e00c0277286\",\"lastUpdateDateTime\":\"2021-10-23T00:55:44Z\",\"createdDateTime\":\"2021-10-23T00:55:44Z\",\"expirationDateTime\":\"2021-10-24T00:55:44Z\",\"status\":\"notStarted\",\"errors\":[]}",
    "responseHeaders": {
-    "apim-request-id": "4533c854-9211-41a9-ae06-2e0c1fddf0f3",
+    "apim-request-id": "1e2e2940-c9ba-4ce0-b1d5-239bee24bdfc",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 03 Aug 2021 22:58:58 GMT",
+    "date": "Sat, 23 Oct 2021 00:55:44 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "6"
+    "x-envoy-upstream-service-time": "9"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.2-preview.1/entities/health/jobs/732ad577-d94b-4aeb-88ca-d12379c8578b",
+   "url": "https://endpoint/text/analytics/v3.2-preview.1/entities/health/jobs/cb606cc7-17be-47dc-bc00-4e00c0277286",
    "query": {
     "showStats": "true",
-    "$top": "20"
+    "$top": "20",
+    "$skip": "0"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"732ad577-d94b-4aeb-88ca-d12379c8578b\",\"lastUpdateDateTime\":\"2021-08-03T22:58:59Z\",\"createdDateTime\":\"2021-08-03T22:58:59Z\",\"expirationDateTime\":\"2021-08-04T22:58:59Z\",\"status\":\"notStarted\",\"errors\":[]}",
+   "response": "{\"jobId\":\"cb606cc7-17be-47dc-bc00-4e00c0277286\",\"lastUpdateDateTime\":\"2021-10-23T00:55:44Z\",\"createdDateTime\":\"2021-10-23T00:55:44Z\",\"expirationDateTime\":\"2021-10-24T00:55:44Z\",\"status\":\"notStarted\",\"errors\":[]}",
    "responseHeaders": {
-    "apim-request-id": "af6d0887-1fcd-4f01-9fb1-eeaf0abcd91e",
+    "apim-request-id": "66b7d33a-a51d-424d-9933-00f4f12732cf",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 03 Aug 2021 22:59:00 GMT",
+    "date": "Sat, 23 Oct 2021 00:55:46 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "6"
+    "x-envoy-upstream-service-time": "8"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.2-preview.1/entities/health/jobs/732ad577-d94b-4aeb-88ca-d12379c8578b",
+   "url": "https://endpoint/text/analytics/v3.2-preview.1/entities/health/jobs/cb606cc7-17be-47dc-bc00-4e00c0277286",
    "query": {
     "showStats": "true",
-    "$top": "20"
+    "$top": "20",
+    "$skip": "0"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"732ad577-d94b-4aeb-88ca-d12379c8578b\",\"lastUpdateDateTime\":\"2021-08-03T22:59:01Z\",\"createdDateTime\":\"2021-08-03T22:58:59Z\",\"expirationDateTime\":\"2021-08-04T22:58:59Z\",\"status\":\"succeeded\",\"errors\":[],\"results\":{\"statistics\":{\"documentsCount\":5,\"validDocumentsCount\":4,\"erroneousDocumentsCount\":1,\"transactionsCount\":4},\"documents\":[{\"id\":\"56\",\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"entities\":[],\"relations\":[],\"warnings\":[]},{\"id\":\"0\",\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"entities\":[],\"relations\":[],\"warnings\":[]},{\"id\":\"19\",\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"entities\":[],\"relations\":[],\"warnings\":[]},{\"id\":\"1\",\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"entities\":[],\"relations\":[],\"warnings\":[]}],\"errors\":[{\"id\":\"22\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid document in request.\",\"innererror\":{\"code\":\"InvalidDocument\",\"message\":\"Document text is empty.\"}}}],\"modelVersion\":\"2021-05-15\"}}",
+   "response": "{\"jobId\":\"cb606cc7-17be-47dc-bc00-4e00c0277286\",\"lastUpdateDateTime\":\"2021-10-23T00:55:44Z\",\"createdDateTime\":\"2021-10-23T00:55:44Z\",\"expirationDateTime\":\"2021-10-24T00:55:44Z\",\"status\":\"notStarted\",\"errors\":[]}",
    "responseHeaders": {
-    "apim-request-id": "cc767514-0bd7-4b62-bd47-43b57fee88ad",
+    "apim-request-id": "d58a4d42-ff9f-4b89-9702-04d027bb19f8",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 03 Aug 2021 22:59:02 GMT",
+    "date": "Sat, 23 Oct 2021 00:55:47 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "76"
+    "x-envoy-upstream-service-time": "9"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.2-preview.1/entities/health/jobs/cb606cc7-17be-47dc-bc00-4e00c0277286",
+   "query": {
+    "showStats": "true",
+    "$top": "20",
+    "$skip": "0"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"cb606cc7-17be-47dc-bc00-4e00c0277286\",\"lastUpdateDateTime\":\"2021-10-23T00:55:49Z\",\"createdDateTime\":\"2021-10-23T00:55:44Z\",\"expirationDateTime\":\"2021-10-24T00:55:44Z\",\"status\":\"running\",\"errors\":[]}",
+   "responseHeaders": {
+    "apim-request-id": "10bb1d46-cfc8-4412-9fd6-5a060576110c",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Sat, 23 Oct 2021 00:55:50 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "8"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.2-preview.1/entities/health/jobs/cb606cc7-17be-47dc-bc00-4e00c0277286",
+   "query": {
+    "showStats": "true",
+    "$top": "20",
+    "$skip": "0"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"cb606cc7-17be-47dc-bc00-4e00c0277286\",\"lastUpdateDateTime\":\"2021-10-23T00:55:49Z\",\"createdDateTime\":\"2021-10-23T00:55:44Z\",\"expirationDateTime\":\"2021-10-24T00:55:44Z\",\"status\":\"running\",\"errors\":[]}",
+   "responseHeaders": {
+    "apim-request-id": "905ed616-8c97-488f-8a6a-b6e24f00a0a1",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Sat, 23 Oct 2021 00:55:52 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "10"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.2-preview.1/entities/health/jobs/cb606cc7-17be-47dc-bc00-4e00c0277286",
+   "query": {
+    "showStats": "true",
+    "$top": "20",
+    "$skip": "0"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"cb606cc7-17be-47dc-bc00-4e00c0277286\",\"lastUpdateDateTime\":\"2021-10-23T00:55:49Z\",\"createdDateTime\":\"2021-10-23T00:55:44Z\",\"expirationDateTime\":\"2021-10-24T00:55:44Z\",\"status\":\"running\",\"errors\":[]}",
+   "responseHeaders": {
+    "apim-request-id": "c03bd29e-3c16-4e30-bd13-e9894e48a087",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Sat, 23 Oct 2021 00:55:54 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "19"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.2-preview.1/entities/health/jobs/cb606cc7-17be-47dc-bc00-4e00c0277286",
+   "query": {
+    "showStats": "true",
+    "$top": "20",
+    "$skip": "0"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"cb606cc7-17be-47dc-bc00-4e00c0277286\",\"lastUpdateDateTime\":\"2021-10-23T00:55:49Z\",\"createdDateTime\":\"2021-10-23T00:55:44Z\",\"expirationDateTime\":\"2021-10-24T00:55:44Z\",\"status\":\"running\",\"errors\":[]}",
+   "responseHeaders": {
+    "apim-request-id": "6d2cf548-deab-4d0d-87ad-f322d3f26a0d",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Sat, 23 Oct 2021 00:55:57 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "7"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.2-preview.1/entities/health/jobs/cb606cc7-17be-47dc-bc00-4e00c0277286",
+   "query": {
+    "showStats": "true",
+    "$top": "20",
+    "$skip": "0"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"cb606cc7-17be-47dc-bc00-4e00c0277286\",\"lastUpdateDateTime\":\"2021-10-23T00:55:58Z\",\"createdDateTime\":\"2021-10-23T00:55:44Z\",\"expirationDateTime\":\"2021-10-24T00:55:44Z\",\"status\":\"succeeded\",\"errors\":[],\"results\":{\"statistics\":{\"documentsCount\":5,\"validDocumentsCount\":4,\"erroneousDocumentsCount\":1,\"transactionsCount\":4},\"documents\":[{\"id\":\"56\",\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"entities\":[],\"relations\":[],\"warnings\":[]},{\"id\":\"0\",\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"entities\":[],\"relations\":[],\"warnings\":[]},{\"id\":\"19\",\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"entities\":[],\"relations\":[],\"warnings\":[]},{\"id\":\"1\",\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"entities\":[],\"relations\":[],\"warnings\":[]}],\"errors\":[{\"id\":\"22\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid document in request.\",\"innererror\":{\"code\":\"InvalidDocument\",\"message\":\"Document text is empty.\"}}}],\"modelVersion\":\"2021-05-15\"}}",
+   "responseHeaders": {
+    "apim-request-id": "f7b48717-0f2c-4b16-bd71-8e6a91089ab7",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Sat, 23 Oct 2021 00:55:59 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "215"
    }
   }
  ],

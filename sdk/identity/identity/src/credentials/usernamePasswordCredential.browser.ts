@@ -4,7 +4,8 @@
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-auth";
 import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
 import { SpanStatusCode } from "@azure/core-tracing";
-import { TokenCredentialOptions, IdentityClient } from "../client/identityClient";
+import { IdentityClient } from "../client/identityClient";
+import { TokenCredentialOptions } from "../tokenCredentialOptions";
 import { credentialLogger, formatSuccess, formatError } from "../util/logging";
 import { getIdentityTokenEndpointSuffix } from "../util/identityTokenEndpoint";
 import { createSpan } from "../util/tracing";
@@ -67,7 +68,7 @@ export class UsernamePasswordCredential implements TokenCredential {
     options?: GetTokenOptions
   ): Promise<AccessToken | null> {
     const { span, updatedOptions: newOptions } = createSpan(
-      "UsernamePasswordCredential-getToken",
+      "UsernamePasswordCredential.getToken",
       options
     );
     try {

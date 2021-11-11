@@ -1,0 +1,30 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "http://fake_endpoint:8080/api/sample_request_body",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Content-Length": "0",
+        "User-Agent": "core-rest-pipeline/1.3.2 Node/v14.17.6 OS/(x64-Linux-5.4.0-1059-azure)",
+        "x-ms-client-request-id": "192ec77e-0091-479f-8de6-3ca88f631626"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Connection": "keep-alive",
+        "Content-Length": "19",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 13 Oct 2021 20:11:56 GMT",
+        "ETag": "W/\u002213-sxHu040b\u002BIj97Tf6r3dYkixDoKU\u0022",
+        "Keep-Alive": "timeout=5",
+        "X-Powered-By": "Express"
+      },
+      "ResponseBody": {
+        "bodyProvided": {}
+      }
+    }
+  ],
+  "Variables": {}
+}

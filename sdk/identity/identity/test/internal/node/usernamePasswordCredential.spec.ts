@@ -10,7 +10,7 @@ import { env, isLiveMode } from "@azure-tools/test-recorder";
 import { PublicClientApplication } from "@azure/msal-node";
 import { UsernamePasswordCredential } from "../../../src";
 import { MsalTestCleanup, msalNodeTestSetup } from "../../msalTestUtils";
-import { MsalNode } from "../../../src/msal/nodeFlows/nodeCommon";
+import { MsalNode } from "../../../src/msal/nodeFlows/msalNodeCommon";
 
 describe("UsernamePasswordCredential (internal)", function() {
   let cleanup: MsalTestCleanup;
@@ -93,7 +93,7 @@ describe("UsernamePasswordCredential (internal)", function() {
     errors.forEach((e) => {
       assert.equal(
         e.message,
-        "UsernamePasswordCredential: tenantId, clientId, username and password are required parameters."
+        "UsernamePasswordCredential: tenantId, clientId, username and password are required parameters. To troubleshoot, visit https://aka.ms/azsdk/js/identity/usernamepasswordcredential/troubleshoot."
       );
     });
   });

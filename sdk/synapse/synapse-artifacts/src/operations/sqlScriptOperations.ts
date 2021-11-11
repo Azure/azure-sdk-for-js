@@ -7,7 +7,6 @@
  */
 
 import { createSpan } from "../tracing";
-import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SqlScriptOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
@@ -19,21 +18,21 @@ import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
   SqlScriptResource,
-  SqlScriptOperationsGetSqlScriptsByWorkspaceNextOptionalParams,
-  SqlScriptOperationsGetSqlScriptsByWorkspaceOptionalParams,
-  SqlScriptOperationsGetSqlScriptsByWorkspaceResponse,
-  SqlScriptOperationsCreateOrUpdateSqlScriptOptionalParams,
-  SqlScriptOperationsCreateOrUpdateSqlScriptResponse,
-  SqlScriptOperationsGetSqlScriptOptionalParams,
-  SqlScriptOperationsGetSqlScriptResponse,
-  SqlScriptOperationsDeleteSqlScriptOptionalParams,
+  SqlScriptGetSqlScriptsByWorkspaceNextOptionalParams,
+  SqlScriptGetSqlScriptsByWorkspaceOptionalParams,
+  SqlScriptGetSqlScriptsByWorkspaceResponse,
+  SqlScriptCreateOrUpdateSqlScriptOptionalParams,
+  SqlScriptCreateOrUpdateSqlScriptResponse,
+  SqlScriptGetSqlScriptOptionalParams,
+  SqlScriptGetSqlScriptResponse,
+  SqlScriptDeleteSqlScriptOptionalParams,
   ArtifactRenameRequest,
-  SqlScriptOperationsRenameSqlScriptOptionalParams,
-  SqlScriptOperationsGetSqlScriptsByWorkspaceNextResponse
+  SqlScriptRenameSqlScriptOptionalParams,
+  SqlScriptGetSqlScriptsByWorkspaceNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a SqlScriptOperations. */
+/** Class containing SqlScriptOperations operations. */
 export class SqlScriptOperationsImpl implements SqlScriptOperations {
   private readonly client: ArtifactsClientContext;
 
@@ -50,7 +49,7 @@ export class SqlScriptOperationsImpl implements SqlScriptOperations {
    * @param options The options parameters.
    */
   public listSqlScriptsByWorkspace(
-    options?: SqlScriptOperationsGetSqlScriptsByWorkspaceOptionalParams
+    options?: SqlScriptGetSqlScriptsByWorkspaceOptionalParams
   ): PagedAsyncIterableIterator<SqlScriptResource> {
     const iter = this.getSqlScriptsByWorkspacePagingAll(options);
     return {
@@ -67,7 +66,7 @@ export class SqlScriptOperationsImpl implements SqlScriptOperations {
   }
 
   private async *getSqlScriptsByWorkspacePagingPage(
-    options?: SqlScriptOperationsGetSqlScriptsByWorkspaceOptionalParams
+    options?: SqlScriptGetSqlScriptsByWorkspaceOptionalParams
   ): AsyncIterableIterator<SqlScriptResource[]> {
     let result = await this._getSqlScriptsByWorkspace(options);
     yield result.value || [];
@@ -83,7 +82,7 @@ export class SqlScriptOperationsImpl implements SqlScriptOperations {
   }
 
   private async *getSqlScriptsByWorkspacePagingAll(
-    options?: SqlScriptOperationsGetSqlScriptsByWorkspaceOptionalParams
+    options?: SqlScriptGetSqlScriptsByWorkspaceOptionalParams
   ): AsyncIterableIterator<SqlScriptResource> {
     for await (const page of this.getSqlScriptsByWorkspacePagingPage(options)) {
       yield* page;
@@ -95,8 +94,8 @@ export class SqlScriptOperationsImpl implements SqlScriptOperations {
    * @param options The options parameters.
    */
   private async _getSqlScriptsByWorkspace(
-    options?: SqlScriptOperationsGetSqlScriptsByWorkspaceOptionalParams
-  ): Promise<SqlScriptOperationsGetSqlScriptsByWorkspaceResponse> {
+    options?: SqlScriptGetSqlScriptsByWorkspaceOptionalParams
+  ): Promise<SqlScriptGetSqlScriptsByWorkspaceResponse> {
     const { span } = createSpan(
       "ArtifactsClient-_getSqlScriptsByWorkspace",
       options || {}
@@ -106,7 +105,7 @@ export class SqlScriptOperationsImpl implements SqlScriptOperations {
         { options },
         getSqlScriptsByWorkspaceOperationSpec
       );
-      return result as SqlScriptOperationsGetSqlScriptsByWorkspaceResponse;
+      return result as SqlScriptGetSqlScriptsByWorkspaceResponse;
     } catch (error) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
@@ -127,11 +126,11 @@ export class SqlScriptOperationsImpl implements SqlScriptOperations {
   async beginCreateOrUpdateSqlScript(
     sqlScriptName: string,
     sqlScript: SqlScriptResource,
-    options?: SqlScriptOperationsCreateOrUpdateSqlScriptOptionalParams
+    options?: SqlScriptCreateOrUpdateSqlScriptOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<SqlScriptOperationsCreateOrUpdateSqlScriptResponse>,
-      SqlScriptOperationsCreateOrUpdateSqlScriptResponse
+      PollOperationState<SqlScriptCreateOrUpdateSqlScriptResponse>,
+      SqlScriptCreateOrUpdateSqlScriptResponse
     >
   > {
     const { span } = createSpan(
@@ -141,10 +140,10 @@ export class SqlScriptOperationsImpl implements SqlScriptOperations {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<SqlScriptOperationsCreateOrUpdateSqlScriptResponse> => {
+    ): Promise<SqlScriptCreateOrUpdateSqlScriptResponse> => {
       try {
         const result = await this.client.sendOperationRequest(args, spec);
-        return result as SqlScriptOperationsCreateOrUpdateSqlScriptResponse;
+        return result as SqlScriptCreateOrUpdateSqlScriptResponse;
       } catch (error) {
         span.setStatus({
           code: coreTracing.SpanStatusCode.UNSET,
@@ -208,8 +207,8 @@ export class SqlScriptOperationsImpl implements SqlScriptOperations {
   async beginCreateOrUpdateSqlScriptAndWait(
     sqlScriptName: string,
     sqlScript: SqlScriptResource,
-    options?: SqlScriptOperationsCreateOrUpdateSqlScriptOptionalParams
-  ): Promise<SqlScriptOperationsCreateOrUpdateSqlScriptResponse> {
+    options?: SqlScriptCreateOrUpdateSqlScriptOptionalParams
+  ): Promise<SqlScriptCreateOrUpdateSqlScriptResponse> {
     const poller = await this.beginCreateOrUpdateSqlScript(
       sqlScriptName,
       sqlScript,
@@ -225,15 +224,15 @@ export class SqlScriptOperationsImpl implements SqlScriptOperations {
    */
   async getSqlScript(
     sqlScriptName: string,
-    options?: SqlScriptOperationsGetSqlScriptOptionalParams
-  ): Promise<SqlScriptOperationsGetSqlScriptResponse> {
+    options?: SqlScriptGetSqlScriptOptionalParams
+  ): Promise<SqlScriptGetSqlScriptResponse> {
     const { span } = createSpan("ArtifactsClient-getSqlScript", options || {});
     try {
       const result = await this.client.sendOperationRequest(
         { sqlScriptName, options },
         getSqlScriptOperationSpec
       );
-      return result as SqlScriptOperationsGetSqlScriptResponse;
+      return result as SqlScriptGetSqlScriptResponse;
     } catch (error) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
@@ -252,7 +251,7 @@ export class SqlScriptOperationsImpl implements SqlScriptOperations {
    */
   async beginDeleteSqlScript(
     sqlScriptName: string,
-    options?: SqlScriptOperationsDeleteSqlScriptOptionalParams
+    options?: SqlScriptDeleteSqlScriptOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
     const { span } = createSpan(
       "ArtifactsClient-beginDeleteSqlScript",
@@ -326,7 +325,7 @@ export class SqlScriptOperationsImpl implements SqlScriptOperations {
    */
   async beginDeleteSqlScriptAndWait(
     sqlScriptName: string,
-    options?: SqlScriptOperationsDeleteSqlScriptOptionalParams
+    options?: SqlScriptDeleteSqlScriptOptionalParams
   ): Promise<void> {
     const poller = await this.beginDeleteSqlScript(sqlScriptName, options);
     return poller.pollUntilDone();
@@ -341,7 +340,7 @@ export class SqlScriptOperationsImpl implements SqlScriptOperations {
   async beginRenameSqlScript(
     sqlScriptName: string,
     request: ArtifactRenameRequest,
-    options?: SqlScriptOperationsRenameSqlScriptOptionalParams
+    options?: SqlScriptRenameSqlScriptOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
     const { span } = createSpan(
       "ArtifactsClient-beginRenameSqlScript",
@@ -417,7 +416,7 @@ export class SqlScriptOperationsImpl implements SqlScriptOperations {
   async beginRenameSqlScriptAndWait(
     sqlScriptName: string,
     request: ArtifactRenameRequest,
-    options?: SqlScriptOperationsRenameSqlScriptOptionalParams
+    options?: SqlScriptRenameSqlScriptOptionalParams
   ): Promise<void> {
     const poller = await this.beginRenameSqlScript(
       sqlScriptName,
@@ -435,8 +434,8 @@ export class SqlScriptOperationsImpl implements SqlScriptOperations {
    */
   private async _getSqlScriptsByWorkspaceNext(
     nextLink: string,
-    options?: SqlScriptOperationsGetSqlScriptsByWorkspaceNextOptionalParams
-  ): Promise<SqlScriptOperationsGetSqlScriptsByWorkspaceNextResponse> {
+    options?: SqlScriptGetSqlScriptsByWorkspaceNextOptionalParams
+  ): Promise<SqlScriptGetSqlScriptsByWorkspaceNextResponse> {
     const { span } = createSpan(
       "ArtifactsClient-_getSqlScriptsByWorkspaceNext",
       options || {}
@@ -446,7 +445,7 @@ export class SqlScriptOperationsImpl implements SqlScriptOperations {
         { nextLink, options },
         getSqlScriptsByWorkspaceNextOperationSpec
       );
-      return result as SqlScriptOperationsGetSqlScriptsByWorkspaceNextResponse;
+      return result as SqlScriptGetSqlScriptsByWorkspaceNextResponse;
     } catch (error) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
@@ -469,10 +468,10 @@ const getSqlScriptsByWorkspaceOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.SqlScriptsListResponse
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.CloudErrorAutoGenerated
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.accept],
   serializer
@@ -494,11 +493,11 @@ const createOrUpdateSqlScriptOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.SqlScriptResource
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.CloudErrorAutoGenerated
     }
   },
   requestBody: Parameters.sqlScript,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [Parameters.endpoint, Parameters.sqlScriptName],
   headerParameters: [
     Parameters.accept,
@@ -517,10 +516,10 @@ const getSqlScriptOperationSpec: coreClient.OperationSpec = {
     },
     304: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.CloudErrorAutoGenerated
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [Parameters.endpoint, Parameters.sqlScriptName],
   headerParameters: [Parameters.accept, Parameters.ifNoneMatch],
   serializer
@@ -534,10 +533,10 @@ const deleteSqlScriptOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.CloudErrorAutoGenerated
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [Parameters.endpoint, Parameters.sqlScriptName],
   headerParameters: [Parameters.accept],
   serializer
@@ -551,11 +550,11 @@ const renameSqlScriptOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.CloudErrorAutoGenerated
     }
   },
   requestBody: Parameters.request,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [Parameters.endpoint, Parameters.sqlScriptName],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -569,10 +568,10 @@ const getSqlScriptsByWorkspaceNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.SqlScriptsListResponse
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.CloudErrorAutoGenerated
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [Parameters.endpoint, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer

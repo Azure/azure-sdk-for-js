@@ -1,8 +1,10 @@
 # Release History
 
-## 1.3.1 (Unreleased)
+## 1.3.3 (Unreleased)
 
 ### Features Added
+
+- Changed behavior when sending HTTP headers to preserve the original casing of header names. Iterating over `HttpHeaders` now keeps the original name casing. There is also a new `preserveCase` option for `HttpHeaders.toJSON()`. See [PR #18517](https://github.com/Azure/azure-sdk-for-js/pull/18517)
 
 ### Breaking Changes
 
@@ -10,7 +12,21 @@
 
 ### Other Changes
 
-- Added support for the `PipelineRequest` and `PipelineOptions` property `allowInsecureConnection` in the `bearerTokenAuthenticationPolicy`. If the `bearerTokenAuthenticationPolicy` encounters requests with the `allowInsecureConnection` property set to true, this policy will be allowed to authenticate against insecure authority hosts using the `http` endpoint. [PR #17517](https://github.com/Azure/azure-sdk-for-js/pull/17517)
+## 1.3.2 (2021-11-04)
+
+### Other Changes
+
+- Allow specifying any status response to get a raw stream as response content. [#18492](https://github.com/Azure/azure-sdk-for-js/pull/18492)
+
+## 1.3.1 (2021-09-30)
+
+### Bugs Fixed
+
+- Addressed an issue on Node where aborting a request while its response body was still be processed would cause the HttpClient to emit a `RestError` rather than the appropriate `AbortError`. [PR #17956](https://github.com/Azure/azure-sdk-for-js/pull/17956)
+
+### Other Changes
+
+- Updates package to work with the react native bundler. Browser APIs such as `URL` will still need to be pollyfilled for this package to run in react native. [PR #17783](https://github.com/Azure/azure-sdk-for-js/pull/17783)
 
 ## 1.3.0 (2021-09-02)
 

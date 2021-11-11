@@ -7,7 +7,6 @@
  */
 
 import { createSpan } from "../tracing";
-import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { DataFlowOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
@@ -19,21 +18,21 @@ import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
   DataFlowResource,
-  DataFlowOperationsGetDataFlowsByWorkspaceNextOptionalParams,
-  DataFlowOperationsGetDataFlowsByWorkspaceOptionalParams,
-  DataFlowOperationsCreateOrUpdateDataFlowOptionalParams,
-  DataFlowOperationsCreateOrUpdateDataFlowResponse,
-  DataFlowOperationsGetDataFlowOptionalParams,
-  DataFlowOperationsGetDataFlowResponse,
-  DataFlowOperationsDeleteDataFlowOptionalParams,
+  DataFlowGetDataFlowsByWorkspaceNextOptionalParams,
+  DataFlowGetDataFlowsByWorkspaceOptionalParams,
+  DataFlowCreateOrUpdateDataFlowOptionalParams,
+  DataFlowCreateOrUpdateDataFlowResponse,
+  DataFlowGetDataFlowOptionalParams,
+  DataFlowGetDataFlowResponse,
+  DataFlowDeleteDataFlowOptionalParams,
   ArtifactRenameRequest,
-  DataFlowOperationsRenameDataFlowOptionalParams,
-  DataFlowOperationsGetDataFlowsByWorkspaceResponse,
-  DataFlowOperationsGetDataFlowsByWorkspaceNextResponse
+  DataFlowRenameDataFlowOptionalParams,
+  DataFlowGetDataFlowsByWorkspaceResponse,
+  DataFlowGetDataFlowsByWorkspaceNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a DataFlowOperations. */
+/** Class containing DataFlowOperations operations. */
 export class DataFlowOperationsImpl implements DataFlowOperations {
   private readonly client: ArtifactsClientContext;
 
@@ -50,7 +49,7 @@ export class DataFlowOperationsImpl implements DataFlowOperations {
    * @param options The options parameters.
    */
   public listDataFlowsByWorkspace(
-    options?: DataFlowOperationsGetDataFlowsByWorkspaceOptionalParams
+    options?: DataFlowGetDataFlowsByWorkspaceOptionalParams
   ): PagedAsyncIterableIterator<DataFlowResource> {
     const iter = this.getDataFlowsByWorkspacePagingAll(options);
     return {
@@ -67,7 +66,7 @@ export class DataFlowOperationsImpl implements DataFlowOperations {
   }
 
   private async *getDataFlowsByWorkspacePagingPage(
-    options?: DataFlowOperationsGetDataFlowsByWorkspaceOptionalParams
+    options?: DataFlowGetDataFlowsByWorkspaceOptionalParams
   ): AsyncIterableIterator<DataFlowResource[]> {
     let result = await this._getDataFlowsByWorkspace(options);
     yield result.value || [];
@@ -83,7 +82,7 @@ export class DataFlowOperationsImpl implements DataFlowOperations {
   }
 
   private async *getDataFlowsByWorkspacePagingAll(
-    options?: DataFlowOperationsGetDataFlowsByWorkspaceOptionalParams
+    options?: DataFlowGetDataFlowsByWorkspaceOptionalParams
   ): AsyncIterableIterator<DataFlowResource> {
     for await (const page of this.getDataFlowsByWorkspacePagingPage(options)) {
       yield* page;
@@ -99,11 +98,11 @@ export class DataFlowOperationsImpl implements DataFlowOperations {
   async beginCreateOrUpdateDataFlow(
     dataFlowName: string,
     dataFlow: DataFlowResource,
-    options?: DataFlowOperationsCreateOrUpdateDataFlowOptionalParams
+    options?: DataFlowCreateOrUpdateDataFlowOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<DataFlowOperationsCreateOrUpdateDataFlowResponse>,
-      DataFlowOperationsCreateOrUpdateDataFlowResponse
+      PollOperationState<DataFlowCreateOrUpdateDataFlowResponse>,
+      DataFlowCreateOrUpdateDataFlowResponse
     >
   > {
     const { span } = createSpan(
@@ -113,10 +112,10 @@ export class DataFlowOperationsImpl implements DataFlowOperations {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<DataFlowOperationsCreateOrUpdateDataFlowResponse> => {
+    ): Promise<DataFlowCreateOrUpdateDataFlowResponse> => {
       try {
         const result = await this.client.sendOperationRequest(args, spec);
-        return result as DataFlowOperationsCreateOrUpdateDataFlowResponse;
+        return result as DataFlowCreateOrUpdateDataFlowResponse;
       } catch (error) {
         span.setStatus({
           code: coreTracing.SpanStatusCode.UNSET,
@@ -180,8 +179,8 @@ export class DataFlowOperationsImpl implements DataFlowOperations {
   async beginCreateOrUpdateDataFlowAndWait(
     dataFlowName: string,
     dataFlow: DataFlowResource,
-    options?: DataFlowOperationsCreateOrUpdateDataFlowOptionalParams
-  ): Promise<DataFlowOperationsCreateOrUpdateDataFlowResponse> {
+    options?: DataFlowCreateOrUpdateDataFlowOptionalParams
+  ): Promise<DataFlowCreateOrUpdateDataFlowResponse> {
     const poller = await this.beginCreateOrUpdateDataFlow(
       dataFlowName,
       dataFlow,
@@ -197,15 +196,15 @@ export class DataFlowOperationsImpl implements DataFlowOperations {
    */
   async getDataFlow(
     dataFlowName: string,
-    options?: DataFlowOperationsGetDataFlowOptionalParams
-  ): Promise<DataFlowOperationsGetDataFlowResponse> {
+    options?: DataFlowGetDataFlowOptionalParams
+  ): Promise<DataFlowGetDataFlowResponse> {
     const { span } = createSpan("ArtifactsClient-getDataFlow", options || {});
     try {
       const result = await this.client.sendOperationRequest(
         { dataFlowName, options },
         getDataFlowOperationSpec
       );
-      return result as DataFlowOperationsGetDataFlowResponse;
+      return result as DataFlowGetDataFlowResponse;
     } catch (error) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
@@ -224,7 +223,7 @@ export class DataFlowOperationsImpl implements DataFlowOperations {
    */
   async beginDeleteDataFlow(
     dataFlowName: string,
-    options?: DataFlowOperationsDeleteDataFlowOptionalParams
+    options?: DataFlowDeleteDataFlowOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
     const { span } = createSpan(
       "ArtifactsClient-beginDeleteDataFlow",
@@ -298,7 +297,7 @@ export class DataFlowOperationsImpl implements DataFlowOperations {
    */
   async beginDeleteDataFlowAndWait(
     dataFlowName: string,
-    options?: DataFlowOperationsDeleteDataFlowOptionalParams
+    options?: DataFlowDeleteDataFlowOptionalParams
   ): Promise<void> {
     const poller = await this.beginDeleteDataFlow(dataFlowName, options);
     return poller.pollUntilDone();
@@ -313,7 +312,7 @@ export class DataFlowOperationsImpl implements DataFlowOperations {
   async beginRenameDataFlow(
     dataFlowName: string,
     request: ArtifactRenameRequest,
-    options?: DataFlowOperationsRenameDataFlowOptionalParams
+    options?: DataFlowRenameDataFlowOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
     const { span } = createSpan(
       "ArtifactsClient-beginRenameDataFlow",
@@ -389,7 +388,7 @@ export class DataFlowOperationsImpl implements DataFlowOperations {
   async beginRenameDataFlowAndWait(
     dataFlowName: string,
     request: ArtifactRenameRequest,
-    options?: DataFlowOperationsRenameDataFlowOptionalParams
+    options?: DataFlowRenameDataFlowOptionalParams
   ): Promise<void> {
     const poller = await this.beginRenameDataFlow(
       dataFlowName,
@@ -404,8 +403,8 @@ export class DataFlowOperationsImpl implements DataFlowOperations {
    * @param options The options parameters.
    */
   private async _getDataFlowsByWorkspace(
-    options?: DataFlowOperationsGetDataFlowsByWorkspaceOptionalParams
-  ): Promise<DataFlowOperationsGetDataFlowsByWorkspaceResponse> {
+    options?: DataFlowGetDataFlowsByWorkspaceOptionalParams
+  ): Promise<DataFlowGetDataFlowsByWorkspaceResponse> {
     const { span } = createSpan(
       "ArtifactsClient-_getDataFlowsByWorkspace",
       options || {}
@@ -415,7 +414,7 @@ export class DataFlowOperationsImpl implements DataFlowOperations {
         { options },
         getDataFlowsByWorkspaceOperationSpec
       );
-      return result as DataFlowOperationsGetDataFlowsByWorkspaceResponse;
+      return result as DataFlowGetDataFlowsByWorkspaceResponse;
     } catch (error) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
@@ -435,8 +434,8 @@ export class DataFlowOperationsImpl implements DataFlowOperations {
    */
   private async _getDataFlowsByWorkspaceNext(
     nextLink: string,
-    options?: DataFlowOperationsGetDataFlowsByWorkspaceNextOptionalParams
-  ): Promise<DataFlowOperationsGetDataFlowsByWorkspaceNextResponse> {
+    options?: DataFlowGetDataFlowsByWorkspaceNextOptionalParams
+  ): Promise<DataFlowGetDataFlowsByWorkspaceNextResponse> {
     const { span } = createSpan(
       "ArtifactsClient-_getDataFlowsByWorkspaceNext",
       options || {}
@@ -446,7 +445,7 @@ export class DataFlowOperationsImpl implements DataFlowOperations {
         { nextLink, options },
         getDataFlowsByWorkspaceNextOperationSpec
       );
-      return result as DataFlowOperationsGetDataFlowsByWorkspaceNextResponse;
+      return result as DataFlowGetDataFlowsByWorkspaceNextResponse;
     } catch (error) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
@@ -478,11 +477,11 @@ const createOrUpdateDataFlowOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DataFlowResource
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.CloudErrorAutoGenerated
     }
   },
   requestBody: Parameters.dataFlow,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [Parameters.endpoint, Parameters.dataFlowName],
   headerParameters: [
     Parameters.accept,
@@ -500,10 +499,10 @@ const getDataFlowOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DataFlowResource
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.CloudErrorAutoGenerated
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [Parameters.endpoint, Parameters.dataFlowName],
   headerParameters: [Parameters.accept, Parameters.ifNoneMatch],
   serializer
@@ -517,10 +516,10 @@ const deleteDataFlowOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.CloudErrorAutoGenerated
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [Parameters.endpoint, Parameters.dataFlowName],
   headerParameters: [Parameters.accept],
   serializer
@@ -534,11 +533,11 @@ const renameDataFlowOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.CloudErrorAutoGenerated
     }
   },
   requestBody: Parameters.request,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [Parameters.endpoint, Parameters.dataFlowName],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -552,10 +551,10 @@ const getDataFlowsByWorkspaceOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DataFlowListResponse
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.CloudErrorAutoGenerated
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.accept],
   serializer
@@ -568,10 +567,10 @@ const getDataFlowsByWorkspaceNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DataFlowListResponse
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.CloudErrorAutoGenerated
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [Parameters.endpoint, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer

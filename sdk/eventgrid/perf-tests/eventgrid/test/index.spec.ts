@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PerfStressProgram, selectPerfStressTest } from "@azure/test-utils-perfstress";
+import { PerfProgram, selectPerfTest } from "@azure/test-utils-perf";
 import { SendCloudEventsTest } from "./sendCloudEvents.spec";
 
 import dotenv from "dotenv";
 dotenv.config();
 
-console.log("=== Starting the perfStress test ===");
+console.log("=== Starting the perf test ===");
 
-const perfStressProgram = new PerfStressProgram(selectPerfStressTest([SendCloudEventsTest]));
+const perfProgram = new PerfProgram(selectPerfTest([SendCloudEventsTest]));
 
-perfStressProgram.run();
+perfProgram.run();

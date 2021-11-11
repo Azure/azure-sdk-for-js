@@ -7,7 +7,6 @@
  */
 
 import { createSpan } from "../tracing";
-import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { NotebookOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
@@ -19,25 +18,25 @@ import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
   NotebookResource,
-  NotebookOperationsGetNotebooksByWorkspaceNextOptionalParams,
-  NotebookOperationsGetNotebooksByWorkspaceOptionalParams,
-  NotebookOperationsGetNotebookSummaryByWorkSpaceNextOptionalParams,
-  NotebookOperationsGetNotebookSummaryByWorkSpaceOptionalParams,
-  NotebookOperationsGetNotebooksByWorkspaceResponse,
-  NotebookOperationsGetNotebookSummaryByWorkSpaceResponse,
-  NotebookOperationsCreateOrUpdateNotebookOptionalParams,
-  NotebookOperationsCreateOrUpdateNotebookResponse,
-  NotebookOperationsGetNotebookOptionalParams,
-  NotebookOperationsGetNotebookResponse,
-  NotebookOperationsDeleteNotebookOptionalParams,
+  NotebookGetNotebooksByWorkspaceNextOptionalParams,
+  NotebookGetNotebooksByWorkspaceOptionalParams,
+  NotebookGetNotebookSummaryByWorkSpaceNextOptionalParams,
+  NotebookGetNotebookSummaryByWorkSpaceOptionalParams,
+  NotebookGetNotebooksByWorkspaceResponse,
+  NotebookGetNotebookSummaryByWorkSpaceResponse,
+  NotebookCreateOrUpdateNotebookOptionalParams,
+  NotebookCreateOrUpdateNotebookResponse,
+  NotebookGetNotebookOptionalParams,
+  NotebookGetNotebookResponse,
+  NotebookDeleteNotebookOptionalParams,
   ArtifactRenameRequest,
-  NotebookOperationsRenameNotebookOptionalParams,
-  NotebookOperationsGetNotebooksByWorkspaceNextResponse,
-  NotebookOperationsGetNotebookSummaryByWorkSpaceNextResponse
+  NotebookRenameNotebookOptionalParams,
+  NotebookGetNotebooksByWorkspaceNextResponse,
+  NotebookGetNotebookSummaryByWorkSpaceNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a NotebookOperations. */
+/** Class containing NotebookOperations operations. */
 export class NotebookOperationsImpl implements NotebookOperations {
   private readonly client: ArtifactsClientContext;
 
@@ -54,7 +53,7 @@ export class NotebookOperationsImpl implements NotebookOperations {
    * @param options The options parameters.
    */
   public listNotebooksByWorkspace(
-    options?: NotebookOperationsGetNotebooksByWorkspaceOptionalParams
+    options?: NotebookGetNotebooksByWorkspaceOptionalParams
   ): PagedAsyncIterableIterator<NotebookResource> {
     const iter = this.getNotebooksByWorkspacePagingAll(options);
     return {
@@ -71,7 +70,7 @@ export class NotebookOperationsImpl implements NotebookOperations {
   }
 
   private async *getNotebooksByWorkspacePagingPage(
-    options?: NotebookOperationsGetNotebooksByWorkspaceOptionalParams
+    options?: NotebookGetNotebooksByWorkspaceOptionalParams
   ): AsyncIterableIterator<NotebookResource[]> {
     let result = await this._getNotebooksByWorkspace(options);
     yield result.value || [];
@@ -87,7 +86,7 @@ export class NotebookOperationsImpl implements NotebookOperations {
   }
 
   private async *getNotebooksByWorkspacePagingAll(
-    options?: NotebookOperationsGetNotebooksByWorkspaceOptionalParams
+    options?: NotebookGetNotebooksByWorkspaceOptionalParams
   ): AsyncIterableIterator<NotebookResource> {
     for await (const page of this.getNotebooksByWorkspacePagingPage(options)) {
       yield* page;
@@ -99,7 +98,7 @@ export class NotebookOperationsImpl implements NotebookOperations {
    * @param options The options parameters.
    */
   public listNotebookSummaryByWorkSpace(
-    options?: NotebookOperationsGetNotebookSummaryByWorkSpaceOptionalParams
+    options?: NotebookGetNotebookSummaryByWorkSpaceOptionalParams
   ): PagedAsyncIterableIterator<NotebookResource> {
     const iter = this.getNotebookSummaryByWorkSpacePagingAll(options);
     return {
@@ -116,7 +115,7 @@ export class NotebookOperationsImpl implements NotebookOperations {
   }
 
   private async *getNotebookSummaryByWorkSpacePagingPage(
-    options?: NotebookOperationsGetNotebookSummaryByWorkSpaceOptionalParams
+    options?: NotebookGetNotebookSummaryByWorkSpaceOptionalParams
   ): AsyncIterableIterator<NotebookResource[]> {
     let result = await this._getNotebookSummaryByWorkSpace(options);
     yield result.value || [];
@@ -132,7 +131,7 @@ export class NotebookOperationsImpl implements NotebookOperations {
   }
 
   private async *getNotebookSummaryByWorkSpacePagingAll(
-    options?: NotebookOperationsGetNotebookSummaryByWorkSpaceOptionalParams
+    options?: NotebookGetNotebookSummaryByWorkSpaceOptionalParams
   ): AsyncIterableIterator<NotebookResource> {
     for await (const page of this.getNotebookSummaryByWorkSpacePagingPage(
       options
@@ -146,8 +145,8 @@ export class NotebookOperationsImpl implements NotebookOperations {
    * @param options The options parameters.
    */
   private async _getNotebooksByWorkspace(
-    options?: NotebookOperationsGetNotebooksByWorkspaceOptionalParams
-  ): Promise<NotebookOperationsGetNotebooksByWorkspaceResponse> {
+    options?: NotebookGetNotebooksByWorkspaceOptionalParams
+  ): Promise<NotebookGetNotebooksByWorkspaceResponse> {
     const { span } = createSpan(
       "ArtifactsClient-_getNotebooksByWorkspace",
       options || {}
@@ -157,7 +156,7 @@ export class NotebookOperationsImpl implements NotebookOperations {
         { options },
         getNotebooksByWorkspaceOperationSpec
       );
-      return result as NotebookOperationsGetNotebooksByWorkspaceResponse;
+      return result as NotebookGetNotebooksByWorkspaceResponse;
     } catch (error) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
@@ -174,8 +173,8 @@ export class NotebookOperationsImpl implements NotebookOperations {
    * @param options The options parameters.
    */
   private async _getNotebookSummaryByWorkSpace(
-    options?: NotebookOperationsGetNotebookSummaryByWorkSpaceOptionalParams
-  ): Promise<NotebookOperationsGetNotebookSummaryByWorkSpaceResponse> {
+    options?: NotebookGetNotebookSummaryByWorkSpaceOptionalParams
+  ): Promise<NotebookGetNotebookSummaryByWorkSpaceResponse> {
     const { span } = createSpan(
       "ArtifactsClient-_getNotebookSummaryByWorkSpace",
       options || {}
@@ -185,7 +184,7 @@ export class NotebookOperationsImpl implements NotebookOperations {
         { options },
         getNotebookSummaryByWorkSpaceOperationSpec
       );
-      return result as NotebookOperationsGetNotebookSummaryByWorkSpaceResponse;
+      return result as NotebookGetNotebookSummaryByWorkSpaceResponse;
     } catch (error) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
@@ -206,11 +205,11 @@ export class NotebookOperationsImpl implements NotebookOperations {
   async beginCreateOrUpdateNotebook(
     notebookName: string,
     notebook: NotebookResource,
-    options?: NotebookOperationsCreateOrUpdateNotebookOptionalParams
+    options?: NotebookCreateOrUpdateNotebookOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<NotebookOperationsCreateOrUpdateNotebookResponse>,
-      NotebookOperationsCreateOrUpdateNotebookResponse
+      PollOperationState<NotebookCreateOrUpdateNotebookResponse>,
+      NotebookCreateOrUpdateNotebookResponse
     >
   > {
     const { span } = createSpan(
@@ -220,10 +219,10 @@ export class NotebookOperationsImpl implements NotebookOperations {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<NotebookOperationsCreateOrUpdateNotebookResponse> => {
+    ): Promise<NotebookCreateOrUpdateNotebookResponse> => {
       try {
         const result = await this.client.sendOperationRequest(args, spec);
-        return result as NotebookOperationsCreateOrUpdateNotebookResponse;
+        return result as NotebookCreateOrUpdateNotebookResponse;
       } catch (error) {
         span.setStatus({
           code: coreTracing.SpanStatusCode.UNSET,
@@ -287,8 +286,8 @@ export class NotebookOperationsImpl implements NotebookOperations {
   async beginCreateOrUpdateNotebookAndWait(
     notebookName: string,
     notebook: NotebookResource,
-    options?: NotebookOperationsCreateOrUpdateNotebookOptionalParams
-  ): Promise<NotebookOperationsCreateOrUpdateNotebookResponse> {
+    options?: NotebookCreateOrUpdateNotebookOptionalParams
+  ): Promise<NotebookCreateOrUpdateNotebookResponse> {
     const poller = await this.beginCreateOrUpdateNotebook(
       notebookName,
       notebook,
@@ -304,15 +303,15 @@ export class NotebookOperationsImpl implements NotebookOperations {
    */
   async getNotebook(
     notebookName: string,
-    options?: NotebookOperationsGetNotebookOptionalParams
-  ): Promise<NotebookOperationsGetNotebookResponse> {
+    options?: NotebookGetNotebookOptionalParams
+  ): Promise<NotebookGetNotebookResponse> {
     const { span } = createSpan("ArtifactsClient-getNotebook", options || {});
     try {
       const result = await this.client.sendOperationRequest(
         { notebookName, options },
         getNotebookOperationSpec
       );
-      return result as NotebookOperationsGetNotebookResponse;
+      return result as NotebookGetNotebookResponse;
     } catch (error) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
@@ -331,7 +330,7 @@ export class NotebookOperationsImpl implements NotebookOperations {
    */
   async beginDeleteNotebook(
     notebookName: string,
-    options?: NotebookOperationsDeleteNotebookOptionalParams
+    options?: NotebookDeleteNotebookOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
     const { span } = createSpan(
       "ArtifactsClient-beginDeleteNotebook",
@@ -405,7 +404,7 @@ export class NotebookOperationsImpl implements NotebookOperations {
    */
   async beginDeleteNotebookAndWait(
     notebookName: string,
-    options?: NotebookOperationsDeleteNotebookOptionalParams
+    options?: NotebookDeleteNotebookOptionalParams
   ): Promise<void> {
     const poller = await this.beginDeleteNotebook(notebookName, options);
     return poller.pollUntilDone();
@@ -420,7 +419,7 @@ export class NotebookOperationsImpl implements NotebookOperations {
   async beginRenameNotebook(
     notebookName: string,
     request: ArtifactRenameRequest,
-    options?: NotebookOperationsRenameNotebookOptionalParams
+    options?: NotebookRenameNotebookOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
     const { span } = createSpan(
       "ArtifactsClient-beginRenameNotebook",
@@ -496,7 +495,7 @@ export class NotebookOperationsImpl implements NotebookOperations {
   async beginRenameNotebookAndWait(
     notebookName: string,
     request: ArtifactRenameRequest,
-    options?: NotebookOperationsRenameNotebookOptionalParams
+    options?: NotebookRenameNotebookOptionalParams
   ): Promise<void> {
     const poller = await this.beginRenameNotebook(
       notebookName,
@@ -514,8 +513,8 @@ export class NotebookOperationsImpl implements NotebookOperations {
    */
   private async _getNotebooksByWorkspaceNext(
     nextLink: string,
-    options?: NotebookOperationsGetNotebooksByWorkspaceNextOptionalParams
-  ): Promise<NotebookOperationsGetNotebooksByWorkspaceNextResponse> {
+    options?: NotebookGetNotebooksByWorkspaceNextOptionalParams
+  ): Promise<NotebookGetNotebooksByWorkspaceNextResponse> {
     const { span } = createSpan(
       "ArtifactsClient-_getNotebooksByWorkspaceNext",
       options || {}
@@ -525,7 +524,7 @@ export class NotebookOperationsImpl implements NotebookOperations {
         { nextLink, options },
         getNotebooksByWorkspaceNextOperationSpec
       );
-      return result as NotebookOperationsGetNotebooksByWorkspaceNextResponse;
+      return result as NotebookGetNotebooksByWorkspaceNextResponse;
     } catch (error) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
@@ -545,8 +544,8 @@ export class NotebookOperationsImpl implements NotebookOperations {
    */
   private async _getNotebookSummaryByWorkSpaceNext(
     nextLink: string,
-    options?: NotebookOperationsGetNotebookSummaryByWorkSpaceNextOptionalParams
-  ): Promise<NotebookOperationsGetNotebookSummaryByWorkSpaceNextResponse> {
+    options?: NotebookGetNotebookSummaryByWorkSpaceNextOptionalParams
+  ): Promise<NotebookGetNotebookSummaryByWorkSpaceNextResponse> {
     const { span } = createSpan(
       "ArtifactsClient-_getNotebookSummaryByWorkSpaceNext",
       options || {}
@@ -556,7 +555,7 @@ export class NotebookOperationsImpl implements NotebookOperations {
         { nextLink, options },
         getNotebookSummaryByWorkSpaceNextOperationSpec
       );
-      return result as NotebookOperationsGetNotebookSummaryByWorkSpaceNextResponse;
+      return result as NotebookGetNotebookSummaryByWorkSpaceNextResponse;
     } catch (error) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
@@ -579,26 +578,26 @@ const getNotebooksByWorkspaceOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.NotebookListResponse
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.CloudErrorAutoGenerated
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.accept],
   serializer
 };
 const getNotebookSummaryByWorkSpaceOperationSpec: coreClient.OperationSpec = {
-  path: "/notebooks/summary",
+  path: "/notebooksSummary",
   httpMethod: "GET",
   responses: {
     200: {
       bodyMapper: Mappers.NotebookListResponse
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.CloudErrorAutoGenerated
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.accept],
   serializer
@@ -620,11 +619,11 @@ const createOrUpdateNotebookOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.NotebookResource
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.CloudErrorAutoGenerated
     }
   },
   requestBody: Parameters.notebook,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [Parameters.endpoint, Parameters.notebookName],
   headerParameters: [
     Parameters.accept,
@@ -643,10 +642,10 @@ const getNotebookOperationSpec: coreClient.OperationSpec = {
     },
     304: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.CloudErrorAutoGenerated
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [Parameters.endpoint, Parameters.notebookName],
   headerParameters: [Parameters.accept, Parameters.ifNoneMatch],
   serializer
@@ -660,10 +659,10 @@ const deleteNotebookOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.CloudErrorAutoGenerated
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [Parameters.endpoint, Parameters.notebookName],
   headerParameters: [Parameters.accept],
   serializer
@@ -677,11 +676,11 @@ const renameNotebookOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.CloudErrorAutoGenerated
     }
   },
   requestBody: Parameters.request,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [Parameters.endpoint, Parameters.notebookName],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -695,10 +694,10 @@ const getNotebooksByWorkspaceNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.NotebookListResponse
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.CloudErrorAutoGenerated
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [Parameters.endpoint, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer
@@ -711,10 +710,10 @@ const getNotebookSummaryByWorkSpaceNextOperationSpec: coreClient.OperationSpec =
       bodyMapper: Mappers.NotebookListResponse
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.CloudErrorAutoGenerated
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [Parameters.endpoint, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer

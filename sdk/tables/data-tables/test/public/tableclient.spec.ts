@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TableClient, TableEntity, Edm, odata } from "../../src";
+import { TableClient, TableEntity, Edm, odata, TableEntityResult } from "../../src";
 import { Context } from "mocha";
 import { assert } from "chai";
 import { record, Recorder, isPlaybackMode, isLiveMode } from "@azure-tools/test-recorder";
@@ -24,6 +24,37 @@ if (isLiveMode()) {
   }
   authModes.push("SASToken");
 }
+
+describe("special characters", () => {
+  it("should handle partition and row keys with special chars", async function(this: Context) {
+    if (!isLiveMode()) {
+      // Currently the recorder is having issues with the encoding of single qoutes in the
+      // query request and generates invalid JS code. Disabling this test on playback mode
+      // while these issues are resolved. #18534
+      this.skip();
+    }
+    const client = createTableClient(`SpecialChars`);
+    await client.createTable();
+
+    try {
+      const partitionKey = "A'aaa_bbbb2\"";
+      const rowKey = `"A'aaa_bbbb2`;
+      const expectedValue = `"A'aaa_bbbb2`;
+      await client.createEntity({
+        partitionKey,
+        rowKey,
+        test: expectedValue
+      });
+
+      const entity = await client.getEntity(partitionKey, rowKey);
+      assert.equal(entity.partitionKey, partitionKey);
+      assert.equal(entity.rowKey, rowKey);
+      assert.equal(entity.test, expectedValue);
+    } finally {
+      await client.deleteTable();
+    }
+  });
+});
 
 // Run the test against each of the supported auth modes
 authModes.forEach((authMode) => {
@@ -193,6 +224,123 @@ authModes.forEach((authMode) => {
         assert.equal(result.partitionKey, testEntity.partitionKey);
         assert.equal(result.rowKey, testEntity.rowKey);
         assert.equal(result.testField, testEntity.testField);
+      });
+
+      it("should createEntity empty partition and row keys", async () => {
+        type TestType = { testField: string };
+        const testEntity: TableEntity<TestType> = {
+          partitionKey: "",
+          rowKey: "",
+          testField: "testEntity"
+        };
+        let createResult: FullOperationResponse | undefined;
+        let deleteResult: FullOperationResponse | undefined;
+        await client.createEntity(testEntity, { onResponse: (res) => (createResult = res) });
+        const result = await client.getEntity<TestType>(testEntity.partitionKey, testEntity.rowKey);
+        await client.deleteEntity(testEntity.partitionKey, testEntity.rowKey, {
+          onResponse: (res) => (deleteResult = res)
+        });
+
+        assert.equal(deleteResult?.status, 204);
+        assert.equal(createResult?.status, 204);
+        assert.equal(result.partitionKey, testEntity.partitionKey);
+        assert.equal(result.rowKey, testEntity.rowKey);
+        assert.equal(result.testField, testEntity.testField);
+      });
+
+      it("should create binary entities as primitive and metadata", async () => {
+        const primitive = new Uint8Array([66, 97, 114]);
+        interface TestEntity extends TableEntity {
+          binary: Uint8Array;
+          binaryMetadata: Edm<"Binary">;
+        }
+
+        interface TestResult extends TableEntityResult<Record<string, unknown>> {
+          binary: Uint8Array;
+          binaryMetadata: Uint8Array;
+        }
+
+        const expected: TestEntity = {
+          partitionKey: `CreateBinary_${authMode}${suffix}`,
+          rowKey: `first_${authMode}${suffix}`,
+          binary: primitive,
+          binaryMetadata: {
+            type: "Binary",
+            value: "QmFy"
+          }
+        };
+
+        await client.createEntity(expected);
+
+        const result = await client.getEntity<TestResult>(expected.partitionKey, expected.rowKey);
+
+        if (isNode) {
+          assert.deepEqual(result.binary, Buffer.from("Bar"));
+          assert.deepEqual(result.binaryMetadata, Buffer.from("Bar"));
+        }
+
+        if (!isNode) {
+          assert.deepEqual(String.fromCharCode(...result.binary), "Bar");
+          assert.deepEqual(String.fromCharCode(...result.binaryMetadata), "Bar");
+        }
+      });
+
+      it("should create binary entities without automatic type conversion", async () => {
+        const primitive = new Uint8Array([66, 97, 114]);
+        const base64Value = "QmFy";
+        interface TestEntity extends TableEntity {
+          binary: Uint8Array;
+          binaryMetadata: Edm<"Binary">;
+        }
+
+        interface TestResult extends TableEntityResult<Record<string, unknown>> {
+          binary: Edm<"Binary">;
+          binaryMetadata: Edm<"Binary">;
+        }
+
+        const expected: TestEntity = {
+          partitionKey: `CreateBinary_${authMode}${suffix}`,
+          rowKey: `second_${authMode}${suffix}`,
+          binary: primitive,
+          binaryMetadata: {
+            type: "Binary",
+            value: base64Value
+          }
+        };
+
+        await client.createEntity(expected);
+
+        const result = await client.getEntity<TestResult>(expected.partitionKey, expected.rowKey, {
+          disableTypeConversion: true
+        });
+
+        assert.deepEqual(result.binary.value, base64Value);
+        assert.deepEqual(result.binaryMetadata.value, base64Value);
+      });
+
+      it("should select specific properties", async () => {
+        const testEntity = {
+          partitionKey: `P2_${suffix}`,
+          rowKey: "R1",
+          foo: "testEntity",
+          bar: 123,
+          baz: true
+        };
+
+        await client.createEntity(testEntity);
+
+        const result = await client.getEntity(testEntity.partitionKey, testEntity.rowKey, {
+          queryOptions: { select: ["baz", "partitionKey", "rowKey", "etag"] }
+        });
+
+        assert.isDefined(result.etag);
+        assert.equal(result.baz, testEntity.baz);
+        assert.equal(result.partitionKey, testEntity.partitionKey);
+        assert.equal(result.rowKey, testEntity.rowKey);
+
+        // properties not included in select should be undefined in the result
+        assert.isUndefined(result.bar);
+        assert.isUndefined(result.foo);
       });
 
       it("should createEntity with Date", async () => {
@@ -407,6 +555,38 @@ authModes.forEach((authMode) => {
         assert.equal(result.rowKey, testEntity.rowKey);
         assert.equal(result.integerNumber, 3);
         assert.equal(result.floatingPointNumber, 3.14);
+      });
+
+      it("should createEntity with double number in scientific notation", async () => {
+        const inputEntity = {
+          partitionKey: "doubleSci",
+          rowKey: "0",
+          Value: { value: "1.23456789012346e+24", type: "Double" }
+        };
+
+        await client.createEntity(inputEntity);
+
+        const result = await client.getEntity(inputEntity.partitionKey, inputEntity.rowKey, {
+          disableTypeConversion: true
+        });
+
+        assert.deepEqual(result.Value, inputEntity.Value);
+      });
+
+      it("should createEntity with empty string", async () => {
+        const inputEntity = {
+          partitionKey: "emptyString",
+          rowKey: "0",
+          value: { value: "", type: "String" }
+        };
+
+        await client.createEntity(inputEntity);
+
+        const result = await client.getEntity(inputEntity.partitionKey, inputEntity.rowKey, {
+          disableTypeConversion: true
+        });
+
+        assert.deepEqual(result.value, inputEntity.value);
       });
 
       it("should createEntity with primitive int and float without automatic type conversion", async () => {

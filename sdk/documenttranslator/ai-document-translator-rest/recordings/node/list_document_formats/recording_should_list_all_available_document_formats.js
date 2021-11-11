@@ -1,12 +1,12 @@
 let nock = require('nock');
 
-module.exports.hash = "0ca3e29b892f5298b8efa775881d1dbb";
+module.exports.hash = "4e55c47a99196e4e3af52b6933d5c709";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://endpoint', {"encodedQueryParams":true})
   .get('/translator/text/batch/v1.0-preview.1/documents/formats')
-  .reply(200, ["1f8b0800000000000400ad55514fc23010fe2f7d1586f8c8ab42349148842889e1a1ae3768ecd6a62d6386f0dfbd6e0c31ac5b35be6cd9eeeefbbededdbeed494ec516c8e86d4f12a9536ac988cc04e5d9020a4b7a24e102c68585cc709919cc2391c5c0aa476299e16bbbf85450beb7583050aed44573d075c5ead03b037f52902d53f12a356b8667322e9af0a95282c7d462e220cf582411a84845056cfa3249780c58bc4db12ada21bed232066378b64e45544742c4cd34184c2db99a452a65ff41a43ae34189e78f2132e7584099d90078265508f30f2acd370d8aace85ad56dad90f2634ab99862fbe91a9ad5a5661d222e454115622beb3d8a9b204933d706a3187177efee96396d1433a92d7d177077eccca40a342f084bba0e774cf1d22d1f1f2613df603bd10bc193e4aab838121946d7083a8c86e5f586fc245dcc5f3c5fbdc95d03b101de0662ac6f40514d2db07e692ca6f584b73eb218c97c2cc79817f499c71b675e6dd3d1b6b37fc7142f8d33b07a11bc46d645921ae7531d4bb703ad24cf6c902b057e51ea84da4a3e2e6208b299405a70789dd656b7d5ff0b922ce8a0921a6e4a773b99995ba16001dd1d974cfd51c8afccbe16d4390ac98246d1a0e7cce52fe4ac0e5fdc22565b28080000"], [
+  .reply(200, ["1f8b0800000000000400edbd07601c499625262f6dca7b7f4af54ad7e074a10880601324d8904010ecc188cde692ec1d69472329ab2a81ca6556655d661640cced9dbcf7de7befbdf7de7befbdf7ba3b9d4e27f7dfff3f5c6664016cf6ce4adac99e2180aac81f3f7e7c1f3f227ef1479759b9ce3f7af4bd5ffcd179552fb2f6a3471fbd2cb362f9267fd77e34fae8bc28f3d3776dbe6c8a6ad950bb8fc62d7df1fdd147d36a491fb76fae57397fded20b77577815df5ee6b579e3fbbf64e401ff72952f7fef45f9ddaa9ec5c1cfaae93b40e8c2cf56abb298662d35bc7bb99c8d2b02f46e510ae066bb3a3f2fa639bdbc5ed05be32b82bfaaab69de34c5f26251022c7f03d03721f7b2ce1b6aca7dc5915cadda6f00c995d70fa1e8ff09e037a1f99a5ec866cd3ccf0766ea5dd97c035836ae1b42927f02e83076ebb6acaab75f6445f905913fbbc8e3d82d9a0bc0b909b905212410d17ab0d76f1372cfa893785f73fa96bec14f40e9f6c9bc4bdf95f872b08b9755dd6693327faa9479265f443b5ccdce01abdb913f386d32d8ddeffdfcecd9b338f47725bfba09fabbb2383fff8466150dbd3e3eda1def10d0ddf12effbbf751d8e99bd73f499f47ba6c9b4bfa624c0400c06ecf4c40fa6ebbc957599db5f96c9b154b83c65eef616727439d4da9337a31da8b7e3708f455319d43796d9a9dbabd917eda64b01b2830c308f14e4880006153278b067a0aad06fb79595de5f5aa2a96edadb412606dea51256a65a1e285c1ce4fdf4df35ba91940b945b739e0a1ed608f506d86ac98c5788fd58cf1bea9c72a6b8a86b51bcd05831c8385f0eaad10b899e2d56c05685f031122aa834d206e85d08d5351cd6e3515117c3c2d0f0883e87c91d56f67d5d5003d16eedbf1c2fef276263f61f1f117ff98e99733f813f20be6867eaba921a1d01d04bebebb701df0dfefb6bb9fdcec827cc19a3e8ebf7e855f00a38bc3420cdaddfa7c7ab0b7470d7dca122ec522cfeae9bcb8841d5aaccbb62075d8deadf3123a111003acbeff4bfe1fcbaf37dc81090000"], [
   'Cache-Control',
   'public,max-age=1',
   'Transfer-Encoding',
@@ -16,25 +16,25 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'Content-Encoding',
   'gzip',
   'ETag',
-  '"44A88B37BE223B6C068718250B179D652514ABB810E8DD9DCD271B2759493859"',
+  '"CB8FBF9A3D8400AA4D3EB0110E3326A55B1FAB2687669E272DA4FF14FA88FE59"',
   'Retry-After',
   '1',
   'Vary',
   'Accept-Encoding',
   'X-RequestId',
-  'dcee9cb2-e45a-47f0-bd44-0c38c03ed251',
+  '759ee7ae-e3ba-4d30-9960-6b86e6bc6541',
   'Set-Cookie',
-  'ARRAffinity=5dd610bbbfcdcce1e8b7e036dad4b7c92b91df5adc2f4b536e67d2a5eff0940e;Path=/;HttpOnly;Secure;Domain=doctrans.westus.microsofttranslator.com',
+  'ARRAffinity=53f4a96b1c4fe0ee3118f9ad5503cc06fc63377ccfde033e0776e5f7ac42f04d;Path=/;HttpOnly;Secure;Domain=doctrans.westus.microsofttranslator.com',
   'Set-Cookie',
-  'ARRAffinitySameSite=5dd610bbbfcdcce1e8b7e036dad4b7c92b91df5adc2f4b536e67d2a5eff0940e;Path=/;HttpOnly;SameSite=None;Secure;Domain=doctrans.westus.microsofttranslator.com',
+  'ARRAffinitySameSite=53f4a96b1c4fe0ee3118f9ad5503cc06fc63377ccfde033e0776e5f7ac42f04d;Path=/;HttpOnly;SameSite=None;Secure;Domain=doctrans.westus.microsofttranslator.com',
   'X-Powered-By',
   'ASP.NET',
   'apim-request-id',
-  'dcee9cb2-e45a-47f0-bd44-0c38c03ed251',
+  '759ee7ae-e3ba-4d30-9960-6b86e6bc6541',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Tue, 13 Apr 2021 00:01:09 GMT'
+  'Thu, 04 Nov 2021 17:24:46 GMT'
 ]);

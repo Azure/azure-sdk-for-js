@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { generateUuid } from "@azure/core-http";
-import { PerfStressOptionDictionary } from "@azure/test-utils-perfstress";
+import { PerfOptionDictionary } from "@azure/test-utils-perf";
 import { StorageBlobTest } from "./storageTest.spec";
 
 interface StorageBlobUploadTestOptions {
@@ -12,7 +12,7 @@ interface StorageBlobUploadTestOptions {
 export class StorageBlobUploadTest extends StorageBlobTest<StorageBlobUploadTestOptions> {
   blobName: string;
   buffer: Buffer;
-  public options: PerfStressOptionDictionary<StorageBlobUploadTestOptions> = {
+  public options: PerfOptionDictionary<StorageBlobUploadTestOptions> = {
     size: {
       required: true,
       description: "Size in bytes",
@@ -28,7 +28,7 @@ export class StorageBlobUploadTest extends StorageBlobTest<StorageBlobUploadTest
     this.buffer = Buffer.alloc(this.parsedOptions.size.value!);
   }
 
-  async runAsync(): Promise<void> {
+  async run(): Promise<void> {
     await this.containerClient.uploadBlockBlob(
       this.blobName,
       this.buffer,

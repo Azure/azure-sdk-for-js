@@ -90,7 +90,7 @@ function Set-EnvironmentVariables {
 
 function New-DeployManifest {
   Write-Verbose "Detecting samples..."
-  $packageDir = Get-ChildItem -Directory -Path "$repoRoot/sdk/$ServiceDirectory/*"
+  $packageDir = Get-ChildItem -Directory -Path "$repoRoot/sdk/$ServiceDirectory/*" | Where-Object { Test-Path "$_/samples/*/javascript/package.json" }
 
   $javascriptSamples = @()
   $packageDir.ForEach{
@@ -234,8 +234,8 @@ function Deploy-TestResources {
     }
 
     if (-not $DryRun) {
-      Write-Verbose "Waiting for all deploy jobs to finish (will timeout after 15 minutes)..."
-      $entryDeployJobs | Wait-Job -TimeoutSec (15*60)
+      Write-Verbose "Waiting for all deploy jobs to finish (will timeout after 30 minutes)..."
+      $entryDeployJobs | Wait-Job -TimeoutSec (30*60)
       if ($entryDeployJobs | Where-Object {$_.State -eq "Running"}) {
         $entryDeployJobs
         throw "Timed out waiting for deploy jobs to finish:"

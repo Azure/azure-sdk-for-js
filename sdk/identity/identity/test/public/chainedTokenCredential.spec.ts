@@ -24,11 +24,10 @@ describe("ChainedTokenCredential", function() {
       mockCredential(Promise.reject(new CredentialUnavailableError("unavailable."))),
       mockCredential(
         Promise.reject(
-          new AuthenticationRequiredError(
-            ["https://vault.azure.net/.default"],
-            {},
-            "authentication-required."
-          )
+          new AuthenticationRequiredError({
+            scopes: ["https://vault.azure.net/.default"],
+            message: "authentication-required."
+          })
         )
       ),
       mockCredential(Promise.resolve({ token: "firstToken", expiresOnTimestamp: 0 })),

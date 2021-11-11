@@ -5,20 +5,6 @@
 import { logger } from "./models/logger";
 import { EventEmitter } from "events";
 import { CommunicationTokenCredential } from "@azure/communication-common";
-import {
-  SignalingClient,
-  ChatEventId,
-  ChatMessageReceivedEvent,
-  ChatMessageEditedEvent,
-  ChatMessageDeletedEvent,
-  ReadReceiptReceivedEvent,
-  TypingIndicatorReceivedEvent,
-  ChatThreadCreatedEvent,
-  ChatThreadDeletedEvent,
-  ChatThreadPropertiesUpdatedEvent,
-  ParticipantsAddedEvent,
-  ParticipantsRemovedEvent
-} from "@azure/communication-signaling";
 import { getSignalingClient } from "./signaling/signalingClient";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SpanStatusCode } from "@azure/core-tracing";
@@ -41,6 +27,20 @@ import { ChatApiClient } from "./generated/src";
 import { CreateChatThreadRequest } from "./models/requests";
 import { createCommunicationTokenCredentialPolicy } from "./credential/communicationTokenCredentialPolicy";
 import { generateUuid } from "./models/uuid";
+import { SignalingClient } from "@azure/communication-signaling";
+import {
+  ChatEventId,
+  ChatMessageReceivedEvent,
+  ChatMessageEditedEvent,
+  ChatMessageDeletedEvent,
+  ReadReceiptReceivedEvent,
+  TypingIndicatorReceivedEvent,
+  ChatThreadCreatedEvent,
+  ChatThreadDeletedEvent,
+  ChatThreadPropertiesUpdatedEvent,
+  ParticipantsAddedEvent,
+  ParticipantsRemovedEvent
+} from "./models/events";
 
 /**
  * The client to do chat operations
@@ -85,7 +85,11 @@ export class ChatClient {
     const authPolicy = createCommunicationTokenCredentialPolicy(this.tokenCredential);
     this.client.pipeline.addPolicy(authPolicy);
 
-    this.signalingClient = getSignalingClient(credential, logger);
+    this.signalingClient = getSignalingClient(
+      credential,
+      logger,
+      (options as any).signalingClientOptions
+    );
   }
 
   /**
@@ -238,7 +242,7 @@ export class ChatClient {
     }
 
     this.isRealtimeNotificationsStarted = true;
-    this.signalingClient.start();
+    await this.signalingClient.start();
     this.subscribeToSignalingEvents();
   }
 
@@ -252,7 +256,7 @@ export class ChatClient {
     }
 
     this.isRealtimeNotificationsStarted = false;
-    this.signalingClient.stop();
+    await this.signalingClient.stop();
     this.emitter.removeAllListeners();
   }
 

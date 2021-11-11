@@ -6,11 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   DataPolicyManifest,
-  DataPolicyManifestsListNextOptionalParams,
   DataPolicyManifestsListOptionalParams,
   DataPolicyManifestsGetByPolicyModeOptionalParams,
   DataPolicyManifestsGetByPolicyModeResponse
@@ -29,15 +27,6 @@ export interface DataPolicyManifests {
    */
   list(
     options?: DataPolicyManifestsListOptionalParams
-  ): PagedAsyncIterableIterator<DataPolicyManifest>;
-  /**
-   * ListNext
-   * @param nextLink The nextLink from the previous successful call to the List method.
-   * @param options The options parameters.
-   */
-  listNext(
-    nextLink: string,
-    options?: DataPolicyManifestsListNextOptionalParams
   ): PagedAsyncIterableIterator<DataPolicyManifest>;
   /**
    * This operation retrieves the data policy manifest with the given policy mode.

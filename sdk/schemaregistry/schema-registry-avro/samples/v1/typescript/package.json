@@ -29,11 +29,11 @@
   "dependencies": {
     "@azure/schema-registry-avro": "next",
     "dotenv": "latest",
-    "@azure/identity": "2.0.0-beta.5",
-    "@azure/schema-registry": "1.0.0-beta.2"
+    "@azure/identity": "^2.0.1",
+    "@azure/schema-registry": "1.0.0-beta.3"
   },
   "devDependencies": {
-    "typescript": "~4.2.0",
+    "typescript": "~4.4.0",
     "rimraf": "latest"
   }
 }

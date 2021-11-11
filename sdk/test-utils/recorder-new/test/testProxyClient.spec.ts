@@ -1,13 +1,27 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { createHttpHeaders, PipelineRequest, PipelineResponse } from "@azure/core-rest-pipeline";
+import {
+  createHttpHeaders,
+  HttpClient,
+  PipelineRequest,
+  PipelineResponse
+} from "@azure/core-rest-pipeline";
 import { env } from "@azure-tools/test-recorder";
 import { expect } from "chai";
 import { TestProxyHttpClient } from "../src";
-import { RecorderError, RecordingStateManager } from "../src/utils";
+import { RecorderError, RecordingStateManager } from "../src/utils/utils";
 
 describe("TestProxyClient functions", () => {
+  let client: TestProxyHttpClient;
+  let clientHttpClient: HttpClient;
+  let testContext: Mocha.Test;
+  beforeEach(function() {
+    client = new TestProxyHttpClient(this.currentTest);
+    clientHttpClient = client.httpClient as HttpClient;
+    testContext = this.currentTest!;
+  });
+
   afterEach(() => {
     env.TEST_MODE = undefined;
   });
@@ -25,7 +39,6 @@ describe("TestProxyClient functions", () => {
   describe("redirectRequest method", () => {
     it("request unchanged if not playback or record modes", function() {
       env.TEST_MODE = "live";
-      const client = new TestProxyHttpClient("dummy_file_name");
       expect(client.redirectRequest(initialRequest)).to.deep.equal(initialRequest);
     });
 
@@ -36,39 +49,40 @@ describe("TestProxyClient functions", () => {
           ...initialRequest,
           headers: createHttpHeaders({ "x-recording-id": "dummy-recording-id" })
         };
-        const client = new TestProxyHttpClient("dummy_file_name");
         expect(client.redirectRequest(request)).to.deep.equal(request);
       });
 
-      it("url and headers get updated if no `x-recording-id` in headers", function() {
-        env.TEST_MODE = testMode;
-        const request: PipelineRequest = {
-          ...initialRequest,
-          headers: createHttpHeaders({})
-        };
-        const client = new TestProxyHttpClient("dummy_file_name");
-        client.recordingId = "dummy-recording-id";
-        expect(client.redirectRequest(request)).to.deep.equal({
-          ...request,
-          url: "http://localhost:5000/dummy_path?sas=sas",
-          headers: createHttpHeaders({
-            "x-recording-upstream-base-uri": initialRequest.url,
-            "x-recording-id": client.recordingId,
-            "x-recording-mode": env.TEST_MODE
-          })
-        });
-      });
+      it(
+        `${testMode} mode: ` + "url and headers get updated if no `x-recording-id` in headers",
+        function() {
+          env.TEST_MODE = testMode;
+          client = new TestProxyHttpClient(testContext);
+          const request: PipelineRequest = {
+            ...initialRequest,
+            headers: createHttpHeaders({})
+          };
+          client.recordingId = "dummy-recording-id";
+          expect(client.redirectRequest(request)).to.deep.equal({
+            ...request,
+            url: "http://localhost:5000/dummy_path?sas=sas",
+            headers: createHttpHeaders({
+              "x-recording-upstream-base-uri": initialRequest.url,
+              "x-recording-id": client.recordingId,
+              "x-recording-mode": env.TEST_MODE
+            })
+          });
+        }
+      );
     });
   });
 
   describe("start method", () => {
     it("nothing happens if not playback or record modes", async function() {
       env.TEST_MODE = "live";
-      const client = new TestProxyHttpClient("dummy_file_name");
-      client.httpClient.sendRequest = (): Promise<PipelineResponse> => {
+      clientHttpClient.sendRequest = (): Promise<PipelineResponse> => {
         throw new Error("should not have reached here");
       };
-      await client.start();
+      await client.start({ envSetupForPlayback: {} });
     });
 
     ["record", "playback"].forEach((testMode) => {
@@ -76,25 +90,23 @@ describe("TestProxyClient functions", () => {
         `${testMode} mode: ` + "succeeds in playback or record modes and gets a recordingId",
         async function() {
           env.TEST_MODE = testMode;
-          const client = new TestProxyHttpClient("dummy_file_name");
           const recordingId = "dummy-recording-id";
-          client.httpClient.sendRequest = (): Promise<PipelineResponse> => {
+          clientHttpClient.sendRequest = (): Promise<PipelineResponse> => {
             return Promise.resolve({
               status: 200,
               headers: createHttpHeaders({ "x-recording-id": recordingId }),
               request: initialRequest
             });
           };
-          await client.start();
+          await client.start({ envSetupForPlayback: {} });
           expect(client.recordingId).to.eql(recordingId);
         }
       );
 
       it("throws if not received a 200 status code", async function() {
         env.TEST_MODE = testMode;
-        const client = new TestProxyHttpClient("dummy_file_name");
         const recordingId = "dummy-recording-id";
-        client.httpClient.sendRequest = (): Promise<PipelineResponse> => {
+        clientHttpClient.sendRequest = (): Promise<PipelineResponse> => {
           return Promise.resolve({
             status: 404,
             headers: createHttpHeaders({ "x-recording-id": recordingId }),
@@ -102,7 +114,7 @@ describe("TestProxyClient functions", () => {
           });
         };
         try {
-          await client.start();
+          await client.start({ envSetupForPlayback: {} });
           throw new Error("should not have reached here, start() call should have failed");
         } catch (error) {
           expect((error as RecorderError).name).to.equal("RecorderError");
@@ -112,8 +124,7 @@ describe("TestProxyClient functions", () => {
 
       it("throws if not received a recording id upon 200 status code", async function() {
         env.TEST_MODE = testMode;
-        const client = new TestProxyHttpClient("dummy_file_name");
-        client.httpClient.sendRequest = (): Promise<PipelineResponse> => {
+        clientHttpClient.sendRequest = (): Promise<PipelineResponse> => {
           return Promise.resolve({
             status: 200,
             headers: createHttpHeaders({}),
@@ -121,7 +132,7 @@ describe("TestProxyClient functions", () => {
           });
         };
         try {
-          await client.start();
+          await client.start({ envSetupForPlayback: {} });
           throw new Error("should not have reached here, start() call should have failed");
         } catch (error) {
           expect((error as RecorderError).name).to.equal("RecorderError");
@@ -136,8 +147,7 @@ describe("TestProxyClient functions", () => {
   describe("stop method", () => {
     it("nothing happens if not playback or record modes", async function() {
       env.TEST_MODE = "live";
-      const client = new TestProxyHttpClient("dummy_file_name");
-      client.httpClient.sendRequest = (): Promise<PipelineResponse> => {
+      clientHttpClient.sendRequest = (): Promise<PipelineResponse> => {
         throw new Error("should not have reached here");
       };
       await client.stop();
@@ -148,8 +158,7 @@ describe("TestProxyClient functions", () => {
         `${testMode} mode: ` + "fails in playback or record modes if no recordingId",
         async function() {
           env.TEST_MODE = testMode;
-          const client = new TestProxyHttpClient("dummy_file_name");
-          client.httpClient.sendRequest = (): Promise<PipelineResponse> => {
+          clientHttpClient.sendRequest = (): Promise<PipelineResponse> => {
             return Promise.resolve({
               status: 200,
               headers: createHttpHeaders(),
@@ -171,8 +180,7 @@ describe("TestProxyClient functions", () => {
 
       it("throws if status code is not 200", async function() {
         env.TEST_MODE = testMode;
-        const client = new TestProxyHttpClient("dummy_file_name");
-        client.httpClient.sendRequest = (): Promise<PipelineResponse> => {
+        clientHttpClient.sendRequest = (): Promise<PipelineResponse> => {
           return Promise.resolve({
             status: 401,
             headers: createHttpHeaders(),
@@ -192,8 +200,7 @@ describe("TestProxyClient functions", () => {
 
       it("succeeds in playback or record modes", async function() {
         env.TEST_MODE = testMode;
-        const client = new TestProxyHttpClient("dummy_file_name");
-        client.httpClient.sendRequest = (): Promise<PipelineResponse> => {
+        clientHttpClient.sendRequest = (): Promise<PipelineResponse> => {
           return Promise.resolve({
             status: 200,
             headers: createHttpHeaders(),
@@ -210,7 +217,6 @@ describe("TestProxyClient functions", () => {
   describe("modifyRequest method", () => {
     it("request unchanged if not playback or record modes", async function() {
       env.TEST_MODE = "live";
-      const client = new TestProxyHttpClient("dummy_file_name");
       expect(await client.modifyRequest(initialRequest)).to.deep.equal(initialRequest);
     });
 
@@ -223,41 +229,41 @@ describe("TestProxyClient functions", () => {
             ...initialRequest,
             headers: createHttpHeaders({ "x-recording-id": "dummy-recording-id" })
           };
-          const client = new TestProxyHttpClient("dummy_file_name");
           expect(await client.modifyRequest(request)).to.deep.equal(request);
         }
       );
 
-      it("url and headers get updated if no `x-recording-id` in headers", async function() {
-        env.TEST_MODE = testMode;
-        const request: PipelineRequest = {
-          ...initialRequest,
-          headers: createHttpHeaders({})
-        };
-        const client = new TestProxyHttpClient("dummy_file_name");
-        client.recordingId = "dummy-recording-id";
-        expect(await client.modifyRequest(request)).to.deep.equal({
-          ...request,
-          url: "http://localhost:5000/dummy_path?sas=sas",
-          headers: createHttpHeaders({
-            "x-recording-upstream-base-uri": initialRequest.url,
-            "x-recording-id": client.recordingId,
-            "x-recording-mode": env.TEST_MODE
-          })
-        });
-      });
+      it(
+        `${testMode} mode: ` + "url and headers get updated if no `x-recording-id` in headers",
+        async function() {
+          env.TEST_MODE = testMode;
+          client = new TestProxyHttpClient(testContext);
+          const request: PipelineRequest = {
+            ...initialRequest,
+            headers: createHttpHeaders({})
+          };
+          client.recordingId = "dummy-recording-id";
+          expect(await client.modifyRequest(request)).to.deep.equal({
+            ...request,
+            url: "http://localhost:5000/dummy_path?sas=sas",
+            headers: createHttpHeaders({
+              "x-recording-upstream-base-uri": initialRequest.url,
+              "x-recording-id": client.recordingId,
+              "x-recording-mode": env.TEST_MODE
+            })
+          });
+        }
+      );
     });
   });
 
   describe("_createRecordingRequest", () => {
     it("_createRecordingRequest adds the recording-file and recording-id headers", () => {
-      const dummyFileName = "dummy_file_name";
-      const client = new TestProxyHttpClient(dummyFileName);
       client.recordingId = "dummy-recording-id";
       const returnedRequest = client["_createRecordingRequest"](initialRequest.url);
       expect(returnedRequest.url).to.equal(initialRequest.url);
       expect(returnedRequest.method).to.equal("POST");
-      expect(returnedRequest.headers.get("x-recording-file")).to.equal(dummyFileName);
+      expect(returnedRequest.headers.get("x-recording-file")).not.to.be.undefined;
       expect(returnedRequest.headers.get("x-recording-id")).to.equal(client.recordingId);
       expect(returnedRequest.url).to.equal(initialRequest.url);
     });

@@ -4,6 +4,9 @@
 
 ```ts
 
+/// <reference types="node" />
+/// <reference lib="esnext.asynciterable" />
+
 import { OperationOptions } from '@azure/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PipelineOptions } from '@azure/core-rest-pipeline';
@@ -62,6 +65,7 @@ export class ContainerRegistryClient {
 // @public
 export interface ContainerRegistryClientOptions extends PipelineOptions {
     audience?: string;
+    serviceVersion?: "2021-07-01";
 }
 
 // @public
@@ -87,7 +91,6 @@ export interface ContainerRepositoryProperties {
     readonly name: string;
     readonly registryLoginServer: string;
     readonly tagCount: number;
-    teleportEnabled?: boolean;
 }
 
 // @public
@@ -220,7 +223,6 @@ export interface UpdateRepositoryPropertiesOptions extends OperationOptions {
     canList?: boolean;
     canRead?: boolean;
     canWrite?: boolean;
-    teleportEnabled?: boolean;
 }
 
 // @public
@@ -230,7 +232,6 @@ export interface UpdateTagPropertiesOptions extends OperationOptions {
     canRead?: boolean;
     canWrite?: boolean;
 }
-
 
 // (No @packageDocumentation comment for this package)
 

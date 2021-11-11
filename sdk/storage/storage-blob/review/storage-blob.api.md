@@ -4,7 +4,10 @@
 
 ```ts
 
+/// <reference types="node" />
+
 import { AbortSignalLike } from '@azure/abort-controller';
+import { AzureLogger } from '@azure/logger';
 import { BaseRequestPolicy } from '@azure/core-http';
 import * as coreHttp from '@azure/core-http';
 import { deserializationPolicy } from '@azure/core-http';
@@ -53,6 +56,7 @@ export class AccountSASPermissions {
     static from(permissionLike: AccountSASPermissionsLike): AccountSASPermissions;
     list: boolean;
     static parse(permissions: string): AccountSASPermissions;
+    permanentDelete: boolean;
     process: boolean;
     read: boolean;
     setImmutabilityPolicy: boolean;
@@ -70,6 +74,7 @@ export interface AccountSASPermissionsLike {
     deleteVersion?: boolean;
     filter?: boolean;
     list?: boolean;
+    permanentDelete?: boolean;
     process?: boolean;
     read?: boolean;
     setImmutabilityPolicy?: boolean;
@@ -99,6 +104,7 @@ export class AccountSASServices {
 
 // @public
 export interface AccountSASSignatureValues {
+    encryptionScope?: string;
     expiresOn: Date;
     ipRange?: SasIPRange;
     permissions: AccountSASPermissions;
@@ -110,7 +116,7 @@ export interface AccountSASSignatureValues {
 }
 
 // @public
-export class AnonymousCredential extends Credential {
+export class AnonymousCredential extends Credential_2 {
     create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): AnonymousCredentialPolicy;
 }
 
@@ -440,6 +446,7 @@ export interface BlobCopyFromURLHeaders {
     copyId?: string;
     copyStatus?: SyncCopyStatusType;
     date?: Date;
+    encryptionScope?: string;
     errorCode?: string;
     etag?: string;
     lastModified?: Date;
@@ -863,7 +870,7 @@ export class BlobLeaseClient {
     releaseLease(options?: LeaseOperationOptions): Promise<LeaseOperationResponse>;
     renewLease(options?: LeaseOperationOptions): Promise<Lease>;
     get url(): string;
-    }
+}
 
 // @public (undocumented)
 export interface BlobPrefix {
@@ -1071,6 +1078,7 @@ export class BlobSASPermissions {
     static from(permissionLike: BlobSASPermissionsLike): BlobSASPermissions;
     move: boolean;
     static parse(permissions: string): BlobSASPermissions;
+    permanentDelete: boolean;
     read: boolean;
     setImmutabilityPolicy: boolean;
     tag: boolean;
@@ -1086,6 +1094,7 @@ export interface BlobSASPermissionsLike {
     deleteVersion?: boolean;
     execute?: boolean;
     move?: boolean;
+    permanentDelete?: boolean;
     read?: boolean;
     setImmutabilityPolicy?: boolean;
     tag?: boolean;
@@ -1102,6 +1111,7 @@ export interface BlobSASSignatureValues {
     contentLanguage?: string;
     contentType?: string;
     correlationId?: string;
+    encryptionScope?: string;
     expiresOn?: Date;
     identifier?: string;
     ipRange?: SasIPRange;
@@ -1340,6 +1350,7 @@ export type BlobStartCopyFromURLResponse = BlobStartCopyFromURLHeaders & {
 export interface BlobSyncCopyFromURLOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     conditions?: BlobRequestConditions;
+    encryptionScope?: string;
     immutabilityPolicy?: BlobImmutabilityPolicy;
     legalHold?: boolean;
     metadata?: Metadata;
@@ -1556,7 +1567,7 @@ export interface BlockBlobStageBlockFromURLOptions extends CommonOptions {
     conditions?: LeaseAccessConditions;
     customerProvidedKey?: CpkInfo;
     encryptionScope?: string;
-    range?: Range;
+    range?: Range_2;
     sourceAuthorization?: HttpAuthorization;
     sourceContentCrc64?: Uint8Array;
     sourceContentMD5?: Uint8Array;
@@ -1695,6 +1706,7 @@ export interface CommonGenerateSasUrlOptions {
     contentEncoding?: string;
     contentLanguage?: string;
     contentType?: string;
+    encryptionScope?: string;
     expiresOn?: Date;
     identifier?: string;
     ipRange?: SasIPRange;
@@ -2054,6 +2066,7 @@ export class ContainerSASPermissions {
     list: boolean;
     move: boolean;
     static parse(permissions: string): ContainerSASPermissions;
+    permanentDelete: boolean;
     read: boolean;
     setImmutabilityPolicy: boolean;
     tag: boolean;
@@ -2070,6 +2083,7 @@ export interface ContainerSASPermissionsLike {
     execute?: boolean;
     list?: boolean;
     move?: boolean;
+    permanentDelete?: boolean;
     read?: boolean;
     setImmutabilityPolicy?: boolean;
     tag?: boolean;
@@ -2165,9 +2179,10 @@ export interface CpkInfo {
 }
 
 // @public
-export abstract class Credential implements RequestPolicyFactory {
+abstract class Credential_2 implements RequestPolicyFactory {
     create(_nextPolicy: RequestPolicy, _options: RequestPolicyOptions): RequestPolicy;
 }
+export { Credential_2 as Credential }
 
 // @public
 export abstract class CredentialPolicy extends BaseRequestPolicy {
@@ -2401,7 +2416,7 @@ export interface ListContainersSegmentResponse {
 }
 
 // @public
-export const logger: import("@azure/logger").AzureLogger;
+export const logger: AzureLogger;
 
 // @public
 export interface Logging {
@@ -2780,8 +2795,8 @@ export type PageBlobUploadPagesResponse = PageBlobUploadPagesHeaders & {
 
 // @public
 export interface PageList {
-    clearRange?: Range[];
-    pageRange?: Range[];
+    clearRange?: Range_2[];
+    pageRange?: Range_2[];
 }
 
 // @public
@@ -2834,10 +2849,11 @@ export enum PremiumPageBlobTier {
 export type PublicAccessType = "container" | "blob";
 
 // @public
-export interface Range {
+interface Range_2 {
     count?: number;
     offset: number;
 }
+export { Range_2 as Range }
 
 // @public
 export type RehydratePriority = "High" | "Standard";
@@ -2870,7 +2886,7 @@ export enum SASProtocol {
 
 // @public
 export class SASQueryParameters {
-    constructor(version: string, signature: string, permissions?: string, services?: string, resourceTypes?: string, protocol?: SASProtocol, startsOn?: Date, expiresOn?: Date, ipRange?: SasIPRange, identifier?: string, resource?: string, cacheControl?: string, contentDisposition?: string, contentEncoding?: string, contentLanguage?: string, contentType?: string, userDelegationKey?: UserDelegationKey, preauthorizedAgentObjectId?: string, correlationId?: string);
+    constructor(version: string, signature: string, permissions?: string, services?: string, resourceTypes?: string, protocol?: SASProtocol, startsOn?: Date, expiresOn?: Date, ipRange?: SasIPRange, identifier?: string, resource?: string, cacheControl?: string, contentDisposition?: string, contentEncoding?: string, contentLanguage?: string, contentType?: string, userDelegationKey?: UserDelegationKey, preauthorizedAgentObjectId?: string, correlationId?: string, encryptionScope?: string);
     constructor(version: string, signature: string, options?: SASQueryParametersOptions);
     readonly cacheControl?: string;
     readonly contentDisposition?: string;
@@ -2878,6 +2894,7 @@ export class SASQueryParameters {
     readonly contentLanguage?: string;
     readonly contentType?: string;
     readonly correlationId?: string;
+    readonly encryptionScope?: string;
     readonly expiresOn?: Date;
     readonly identifier?: string;
     get ipRange(): SasIPRange | undefined;
@@ -2901,6 +2918,7 @@ export interface SASQueryParametersOptions {
     contentLanguage?: string;
     contentType?: string;
     correlationId?: string;
+    encryptionScope?: string;
     expiresOn?: Date;
     identifier?: string;
     ipRange?: SasIPRange;
@@ -2949,6 +2967,7 @@ export type ServiceFindBlobsByTagsSegmentResponse = FilterBlobSegment & ServiceF
 
 // @public
 export interface ServiceGenerateAccountSasUrlOptions {
+    encryptionScope?: string;
     ipRange?: SasIPRange;
     protocol?: SASProtocol;
     startsOn?: Date;
@@ -3201,7 +3220,7 @@ export class StorageRetryPolicy extends BaseRequestPolicy {
 export class StorageRetryPolicyFactory implements RequestPolicyFactory {
     constructor(retryOptions?: StorageRetryOptions);
     create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): StorageRetryPolicy;
-    }
+}
 
 // @public
 export enum StorageRetryPolicyType {
@@ -3210,7 +3229,7 @@ export enum StorageRetryPolicyType {
 }
 
 // @public
-export class StorageSharedKeyCredential extends Credential {
+export class StorageSharedKeyCredential extends Credential_2 {
     constructor(accountName: string, accountKey: string);
     readonly accountName: string;
     computeHMACSHA256(stringToSign: string): string;
@@ -3257,7 +3276,6 @@ export interface UserDelegationKeyModel {
 }
 
 export { WebResource }
-
 
 // (No @packageDocumentation comment for this package)
 

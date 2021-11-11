@@ -8,6 +8,108 @@
 
 import * as coreClient from "@azure/core-client";
 
+export type DataFlowUnion = DataFlow | MappingDataFlow | Flowlet;
+export type IntegrationRuntimeUnion =
+  | IntegrationRuntime
+  | ManagedIntegrationRuntime
+  | SelfHostedIntegrationRuntime;
+export type DatasetUnion =
+  | Dataset
+  | AmazonS3Dataset
+  | AvroDataset
+  | ExcelDataset
+  | ParquetDataset
+  | DelimitedTextDataset
+  | JsonDataset
+  | XmlDataset
+  | OrcDataset
+  | BinaryDataset
+  | AzureBlobDataset
+  | AzureTableDataset
+  | AzureSqlTableDataset
+  | AzureSqlMITableDataset
+  | AzureSqlDWTableDataset
+  | CassandraTableDataset
+  | CustomDataset
+  | CosmosDbSqlApiCollectionDataset
+  | DocumentDbCollectionDataset
+  | DynamicsEntityDataset
+  | DynamicsCrmEntityDataset
+  | CommonDataServiceForAppsEntityDataset
+  | AzureDataLakeStoreDataset
+  | AzureBlobFSDataset
+  | Office365Dataset
+  | FileShareDataset
+  | MongoDbCollectionDataset
+  | MongoDbAtlasCollectionDataset
+  | MongoDbV2CollectionDataset
+  | CosmosDbMongoDbApiCollectionDataset
+  | ODataResourceDataset
+  | OracleTableDataset
+  | AmazonRdsForOracleTableDataset
+  | TeradataTableDataset
+  | AzureMySqlTableDataset
+  | AmazonRedshiftTableDataset
+  | Db2TableDataset
+  | RelationalTableDataset
+  | InformixTableDataset
+  | OdbcTableDataset
+  | MySqlTableDataset
+  | PostgreSqlTableDataset
+  | MicrosoftAccessTableDataset
+  | SalesforceObjectDataset
+  | SalesforceServiceCloudObjectDataset
+  | SybaseTableDataset
+  | SapBwCubeDataset
+  | SapCloudForCustomerResourceDataset
+  | SapEccResourceDataset
+  | SapHanaTableDataset
+  | SapOpenHubTableDataset
+  | SqlServerTableDataset
+  | AmazonRdsForSqlServerTableDataset
+  | RestResourceDataset
+  | SapTableResourceDataset
+  | WebTableDataset
+  | AzureSearchIndexDataset
+  | HttpDataset
+  | AmazonMWSObjectDataset
+  | AzurePostgreSqlTableDataset
+  | ConcurObjectDataset
+  | CouchbaseTableDataset
+  | DrillTableDataset
+  | EloquaObjectDataset
+  | GoogleBigQueryObjectDataset
+  | GreenplumTableDataset
+  | HBaseObjectDataset
+  | HiveObjectDataset
+  | HubspotObjectDataset
+  | ImpalaObjectDataset
+  | JiraObjectDataset
+  | MagentoObjectDataset
+  | MariaDBTableDataset
+  | AzureMariaDBTableDataset
+  | MarketoObjectDataset
+  | PaypalObjectDataset
+  | PhoenixObjectDataset
+  | PrestoObjectDataset
+  | QuickBooksObjectDataset
+  | ServiceNowObjectDataset
+  | ShopifyObjectDataset
+  | SparkObjectDataset
+  | SquareObjectDataset
+  | XeroObjectDataset
+  | ZohoObjectDataset
+  | NetezzaTableDataset
+  | VerticaTableDataset
+  | SalesforceMarketingCloudObjectDataset
+  | ResponsysObjectDataset
+  | DynamicsAXResourceDataset
+  | OracleServiceCloudObjectDataset
+  | AzureDataExplorerTableDataset
+  | GoogleAdWordsObjectDataset
+  | SnowflakeDataset
+  | SharePointOnlineListResourceDataset
+  | AzureDatabricksDeltaLakeDataset;
 export type LinkedServiceUnion =
   | LinkedService
   | AzureStorageLinkedService
@@ -15,6 +117,7 @@ export type LinkedServiceUnion =
   | AzureTableStorageLinkedService
   | AzureSqlDWLinkedService
   | SqlServerLinkedService
+  | AmazonRdsForSqlServerLinkedService
   | AzureSqlDatabaseLinkedService
   | AzureSqlMILinkedService
   | AzureBatchLinkedService
@@ -28,6 +131,7 @@ export type LinkedServiceUnion =
   | AzureFileStorageLinkedService
   | GoogleCloudStorageLinkedService
   | OracleLinkedService
+  | AmazonRdsForOracleLinkedService
   | AzureMySqlLinkedService
   | MySqlLinkedService
   | PostgreSqlLinkedService
@@ -108,101 +212,6 @@ export type LinkedServiceUnion =
   | AzureFunctionLinkedService
   | SnowflakeLinkedService
   | SharePointOnlineListLinkedService;
-export type DatasetUnion =
-  | Dataset
-  | AmazonS3Dataset
-  | AvroDataset
-  | ExcelDataset
-  | ParquetDataset
-  | DelimitedTextDataset
-  | JsonDataset
-  | XmlDataset
-  | OrcDataset
-  | BinaryDataset
-  | AzureBlobDataset
-  | AzureTableDataset
-  | AzureSqlTableDataset
-  | AzureSqlMITableDataset
-  | AzureSqlDWTableDataset
-  | CassandraTableDataset
-  | CustomDataset
-  | CosmosDbSqlApiCollectionDataset
-  | DocumentDbCollectionDataset
-  | DynamicsEntityDataset
-  | DynamicsCrmEntityDataset
-  | CommonDataServiceForAppsEntityDataset
-  | AzureDataLakeStoreDataset
-  | AzureBlobFSDataset
-  | Office365Dataset
-  | FileShareDataset
-  | MongoDbCollectionDataset
-  | MongoDbAtlasCollectionDataset
-  | MongoDbV2CollectionDataset
-  | CosmosDbMongoDbApiCollectionDataset
-  | ODataResourceDataset
-  | OracleTableDataset
-  | TeradataTableDataset
-  | AzureMySqlTableDataset
-  | AmazonRedshiftTableDataset
-  | Db2TableDataset
-  | RelationalTableDataset
-  | InformixTableDataset
-  | OdbcTableDataset
-  | MySqlTableDataset
-  | PostgreSqlTableDataset
-  | MicrosoftAccessTableDataset
-  | SalesforceObjectDataset
-  | SalesforceServiceCloudObjectDataset
-  | SybaseTableDataset
-  | SapBwCubeDataset
-  | SapCloudForCustomerResourceDataset
-  | SapEccResourceDataset
-  | SapHanaTableDataset
-  | SapOpenHubTableDataset
-  | SqlServerTableDataset
-  | RestResourceDataset
-  | SapTableResourceDataset
-  | WebTableDataset
-  | AzureSearchIndexDataset
-  | HttpDataset
-  | AmazonMWSObjectDataset
-  | AzurePostgreSqlTableDataset
-  | ConcurObjectDataset
-  | CouchbaseTableDataset
-  | DrillTableDataset
-  | EloquaObjectDataset
-  | GoogleBigQueryObjectDataset
-  | GreenplumTableDataset
-  | HBaseObjectDataset
-  | HiveObjectDataset
-  | HubspotObjectDataset
-  | ImpalaObjectDataset
-  | JiraObjectDataset
-  | MagentoObjectDataset
-  | MariaDBTableDataset
-  | AzureMariaDBTableDataset
-  | MarketoObjectDataset
-  | PaypalObjectDataset
-  | PhoenixObjectDataset
-  | PrestoObjectDataset
-  | QuickBooksObjectDataset
-  | ServiceNowObjectDataset
-  | ShopifyObjectDataset
-  | SparkObjectDataset
-  | SquareObjectDataset
-  | XeroObjectDataset
-  | ZohoObjectDataset
-  | NetezzaTableDataset
-  | VerticaTableDataset
-  | SalesforceMarketingCloudObjectDataset
-  | ResponsysObjectDataset
-  | DynamicsAXResourceDataset
-  | OracleServiceCloudObjectDataset
-  | AzureDataExplorerTableDataset
-  | GoogleAdWordsObjectDataset
-  | SnowflakeDataset
-  | SharePointOnlineListResourceDataset
-  | AzureDatabricksDeltaLakeDataset;
 export type ActivityUnion =
   | Activity
   | ControlActivityUnion
@@ -214,11 +223,6 @@ export type TriggerUnion =
   | MultiplePipelineTriggerUnion
   | TumblingWindowTrigger
   | ChainingTrigger;
-export type DataFlowUnion = DataFlow | MappingDataFlow;
-export type IntegrationRuntimeUnion =
-  | IntegrationRuntime
-  | ManagedIntegrationRuntime
-  | SelfHostedIntegrationRuntime;
 export type SecretBaseUnion =
   | SecretBase
   | SecureString
@@ -243,14 +247,6 @@ export type DatasetStorageFormatUnion =
   | AvroFormat
   | OrcFormat
   | ParquetFormat;
-export type DatasetCompressionUnion =
-  | DatasetCompression
-  | DatasetBZip2Compression
-  | DatasetGZipCompression
-  | DatasetDeflateCompression
-  | DatasetZipDeflateCompression
-  | DatasetTarCompression
-  | DatasetTarGZipCompression;
 export type WebLinkedServiceTypePropertiesUnion =
   | WebLinkedServiceTypeProperties
   | WebAnonymousAuthentication
@@ -321,6 +317,7 @@ export type CopySourceUnion =
   | HdfsSource
   | AzureDataExplorerSource
   | OracleSource
+  | AmazonRdsForOracleSource
   | WebSource
   | MongoDbSource
   | MongoDbAtlasSource
@@ -453,6 +450,7 @@ export type TabularSourceUnion =
   | SapTableSource
   | SqlSource
   | SqlServerSource
+  | AmazonRdsForSqlServerSource
   | AzureSqlSource
   | SqlMISource
   | SqlDWSource
@@ -498,10 +496,99 @@ export type TriggerDependencyReferenceUnion =
   | TriggerDependencyReference
   | TumblingWindowTriggerDependencyReference;
 
-/** A list of linked service resources. */
-export interface LinkedServiceListResponse {
-  /** List of linked services. */
-  value: LinkedServiceResource[];
+export interface KqlScriptsResourceCollectionResponse {
+  value?: KqlScriptResource[];
+  nextLink?: string;
+}
+
+export interface KqlScriptResource {
+  id?: string;
+  name?: string;
+  type?: string;
+  /** Properties of sql script. */
+  properties?: KqlScript;
+}
+
+export interface KqlScript {
+  content?: KqlScriptContent;
+}
+
+export interface KqlScriptContent {
+  query?: string;
+  metadata?: KqlScriptContentMetadata;
+  currentConnection?: KqlScriptContentCurrentConnection;
+}
+
+export interface KqlScriptContentMetadata {
+  language?: string;
+}
+
+export interface KqlScriptContentCurrentConnection {
+  name?: string;
+  poolName?: string;
+  databaseName?: string;
+  type?: string;
+}
+
+/** Contains details when the response code indicates an error. */
+export interface ErrorContract {
+  /** The error details. */
+  error?: ErrorResponse;
+}
+
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.) */
+export interface ErrorResponse {
+  /**
+   * The error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * The error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * The error target.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
+  /**
+   * The error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly details?: ErrorResponse[];
+  /**
+   * The error additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /**
+   * The additional info type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly info?: any;
+}
+
+/** Request body structure for rename artifact. */
+export interface ArtifactRenameRequest {
+  /** New name of the artifact. */
+  newName?: string;
+}
+
+/** A list of sparkconfiguration resources. */
+export interface SparkConfigurationListResponse {
+  /** List of sparkconfigurations. */
+  value: SparkConfigurationResource[];
   /** The link to the next page of results, if any remaining results exist. */
   nextLink?: string;
 }
@@ -525,6 +612,370 @@ export interface Resource {
   readonly type?: string;
 }
 
+/** SparkConfiguration Artifact information */
+export interface SparkConfiguration {
+  /** Description about the SparkConfiguration. */
+  description?: string;
+  /** SparkConfiguration configs. */
+  configs: { [propertyName: string]: string };
+  /** Annotations for SparkConfiguration. */
+  annotations?: string[];
+  /** additional Notes. */
+  notes?: string;
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The timestamp of resource creation. */
+  created?: Date;
+  /** SparkConfiguration configMergeRule. */
+  configMergeRule?: { [propertyName: string]: string };
+}
+
+/** The object that defines the structure of an Azure Synapse error response. */
+export interface CloudError {
+  /** Error code. */
+  code: string;
+  /** Error message. */
+  message: string;
+  /** Property name/path in request associated with error. */
+  target?: string;
+  /** Array with additional error details. */
+  details?: CloudError[];
+}
+
+/** Collection of Big Data pool information */
+export interface BigDataPoolResourceInfoListResult {
+  /** Link to the next page of results */
+  nextLink?: string;
+  /** List of Big Data pools */
+  value?: BigDataPoolResourceInfo[];
+}
+
+/** Auto-scaling properties of a Big Data pool powered by Apache Spark */
+export interface AutoScaleProperties {
+  /** The minimum number of nodes the Big Data pool can support. */
+  minNodeCount?: number;
+  /** Whether automatic scaling is enabled for the Big Data pool. */
+  enabled?: boolean;
+  /** The maximum number of nodes the Big Data pool can support. */
+  maxNodeCount?: number;
+}
+
+/** Auto-pausing properties of a Big Data pool powered by Apache Spark */
+export interface AutoPauseProperties {
+  /** Number of minutes of idle time before the Big Data pool is automatically paused. */
+  delayInMinutes?: number;
+  /** Whether auto-pausing is enabled for the Big Data pool. */
+  enabled?: boolean;
+}
+
+/** Dynamic Executor Allocation Properties */
+export interface DynamicExecutorAllocation {
+  /** Indicates whether Dynamic Executor Allocation is enabled or not. */
+  enabled?: boolean;
+}
+
+/** Library requirements for a Big Data pool powered by Apache Spark */
+export interface LibraryRequirements {
+  /**
+   * The last update time of the library requirements file.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly time?: Date;
+  /** The library requirements. */
+  content?: string;
+  /** The filename of the library requirements file. */
+  filename?: string;
+}
+
+/** Library/package information of a Big Data pool powered by Apache Spark */
+export interface LibraryInfo {
+  /** Name of the library. */
+  name?: string;
+  /** Storage blob path of library. */
+  path?: string;
+  /** Storage blob container name. */
+  containerName?: string;
+  /** The last update time of the library. */
+  uploadedTimestamp?: Date;
+  /** Type of the library. */
+  type?: string;
+  /**
+   * Provisioning status of the library/package.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningStatus?: string;
+  /**
+   * Creator Id of the library/package.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly creatorId?: string;
+}
+
+/** Azure Synapse nested object which contains a flow with data movements and transformations. */
+export interface DataFlow {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "MappingDataFlow" | "Flowlet";
+  /** The description of the data flow. */
+  description?: string;
+  /** List of tags that can be used for describing the data flow. */
+  annotations?: any[];
+  /** The folder that this data flow is in. If not specified, Data flow will appear at the root level. */
+  folder?: DataFlowFolder;
+}
+
+/** The folder that this data flow is in. If not specified, Data flow will appear at the root level. */
+export interface DataFlowFolder {
+  /** The name of the folder that this data flow is in. */
+  name?: string;
+}
+
+/** The object that defines the structure of an Azure Synapse error response. */
+export interface CloudErrorAutoGenerated {
+  /** Error code. */
+  code: string;
+  /** Error message. */
+  message: string;
+  /** Property name/path in request associated with error. */
+  target?: string;
+  /** Array with additional error details. */
+  details?: CloudErrorAutoGenerated[];
+}
+
+/** A list of data flow resources. */
+export interface DataFlowListResponse {
+  /** List of data flows. */
+  value: DataFlowResource[];
+  /** The link to the next page of results, if any remaining results exist. */
+  nextLink?: string;
+}
+
+/** Request body structure for creating data flow debug session. */
+export interface CreateDataFlowDebugSessionRequest {
+  /** Compute type of the cluster. The value will be overwritten by the same setting in integration runtime if provided. */
+  computeType?: string;
+  /** Core count of the cluster. The value will be overwritten by the same setting in integration runtime if provided. */
+  coreCount?: number;
+  /** Time to live setting of the cluster in minutes. */
+  timeToLive?: number;
+  /** Set to use integration runtime setting for data flow debug session. */
+  integrationRuntime?: IntegrationRuntimeDebugResource;
+}
+
+/** Azure Synapse nested debug resource. */
+export interface SubResourceDebugResource {
+  /** The resource name. */
+  name?: string;
+}
+
+/** Azure Synapse nested object which serves as a compute resource for activities. */
+export interface IntegrationRuntime {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "Managed" | "SelfHosted";
+  /** Describes unknown properties. The value of an unknown property can be of "any" type. */
+  [property: string]: any;
+  /** Integration runtime description. */
+  description?: string;
+}
+
+/** Response body structure for creating data flow debug session. */
+export interface CreateDataFlowDebugSessionResponse {
+  /** The ID of data flow debug session. */
+  sessionId?: string;
+}
+
+/** A list of active debug sessions. */
+export interface QueryDataFlowDebugSessionsResponse {
+  /** Array with all active debug sessions. */
+  value?: DataFlowDebugSessionInfo[];
+  /** The link to the next page of results, if any remaining results exist. */
+  nextLink?: string;
+}
+
+/** Data flow debug session info. */
+export interface DataFlowDebugSessionInfo {
+  /** Describes unknown properties. The value of an unknown property can be of "any" type. */
+  [property: string]: any;
+  /** The name of the data flow. */
+  dataFlowName?: string;
+  /** Compute type of the cluster. */
+  computeType?: string;
+  /** Core count of the cluster. */
+  coreCount?: number;
+  /** Node count of the cluster. (deprecated property) */
+  nodeCount?: number;
+  /** Attached integration runtime name of data flow debug session. */
+  integrationRuntimeName?: string;
+  /** The ID of data flow debug session. */
+  sessionId?: string;
+  /** Start time of data flow debug session. */
+  startTime?: string;
+  /** Compute type of the cluster. */
+  timeToLiveInMinutes?: number;
+  /** Last activity time of data flow debug session. */
+  lastActivityTime?: string;
+}
+
+/** Request body structure for starting data flow debug session. */
+export interface DataFlowDebugPackage {
+  /** Describes unknown properties. The value of an unknown property can be of "any" type. */
+  [property: string]: any;
+  /** The ID of data flow debug session. */
+  sessionId?: string;
+  /** Data flow instance. */
+  dataFlow?: DataFlowDebugResource;
+  /** List of Data flows */
+  dataFlows?: DataFlowDebugResource[];
+  /** List of datasets. */
+  datasets?: DatasetDebugResource[];
+  /** List of linked services. */
+  linkedServices?: LinkedServiceDebugResource[];
+  /** Staging info for debug session. */
+  staging?: DataFlowStagingInfo;
+  /** Data flow debug settings. */
+  debugSettings?: DataFlowDebugPackageDebugSettings;
+}
+
+/** The Azure Data Factory nested object which identifies data within different data stores, such as tables, files, folders, and documents. */
+export interface Dataset {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type:
+    | "AmazonS3Object"
+    | "Avro"
+    | "Excel"
+    | "Parquet"
+    | "DelimitedText"
+    | "Json"
+    | "Xml"
+    | "Orc"
+    | "Binary"
+    | "AzureBlob"
+    | "AzureTable"
+    | "AzureSqlTable"
+    | "AzureSqlMITable"
+    | "AzureSqlDWTable"
+    | "CassandraTable"
+    | "CustomDataset"
+    | "CosmosDbSqlApiCollection"
+    | "DocumentDbCollection"
+    | "DynamicsEntity"
+    | "DynamicsCrmEntity"
+    | "CommonDataServiceForAppsEntity"
+    | "AzureDataLakeStoreFile"
+    | "AzureBlobFSFile"
+    | "Office365Table"
+    | "FileShare"
+    | "MongoDbCollection"
+    | "MongoDbAtlasCollection"
+    | "MongoDbV2Collection"
+    | "CosmosDbMongoDbApiCollection"
+    | "ODataResource"
+    | "OracleTable"
+    | "AmazonRdsForOracleTable"
+    | "TeradataTable"
+    | "AzureMySqlTable"
+    | "AmazonRedshiftTable"
+    | "Db2Table"
+    | "RelationalTable"
+    | "InformixTable"
+    | "OdbcTable"
+    | "MySqlTable"
+    | "PostgreSqlTable"
+    | "MicrosoftAccessTable"
+    | "SalesforceObject"
+    | "SalesforceServiceCloudObject"
+    | "SybaseTable"
+    | "SapBwCube"
+    | "SapCloudForCustomerResource"
+    | "SapEccResource"
+    | "SapHanaTable"
+    | "SapOpenHubTable"
+    | "SqlServerTable"
+    | "AmazonRdsForSqlServerTable"
+    | "RestResource"
+    | "SapTableResource"
+    | "WebTable"
+    | "AzureSearchIndex"
+    | "HttpFile"
+    | "AmazonMWSObject"
+    | "AzurePostgreSqlTable"
+    | "ConcurObject"
+    | "CouchbaseTable"
+    | "DrillTable"
+    | "EloquaObject"
+    | "GoogleBigQueryObject"
+    | "GreenplumTable"
+    | "HBaseObject"
+    | "HiveObject"
+    | "HubspotObject"
+    | "ImpalaObject"
+    | "JiraObject"
+    | "MagentoObject"
+    | "MariaDBTable"
+    | "AzureMariaDBTable"
+    | "MarketoObject"
+    | "PaypalObject"
+    | "PhoenixObject"
+    | "PrestoObject"
+    | "QuickBooksObject"
+    | "ServiceNowObject"
+    | "ShopifyObject"
+    | "SparkObject"
+    | "SquareObject"
+    | "XeroObject"
+    | "ZohoObject"
+    | "NetezzaTable"
+    | "VerticaTable"
+    | "SalesforceMarketingCloudObject"
+    | "ResponsysObject"
+    | "DynamicsAXResource"
+    | "OracleServiceCloudObject"
+    | "AzureDataExplorerTable"
+    | "GoogleAdWordsObject"
+    | "SnowflakeTable"
+    | "SharePointOnlineListResource"
+    | "AzureDatabricksDeltaLakeDataset";
+  /** Describes unknown properties. The value of an unknown property can be of "any" type. */
+  [property: string]: any;
+  /** Dataset description. */
+  description?: string;
+  /** Columns that define the structure of the dataset. Type: array (or Expression with resultType array), itemType: DatasetDataElement. */
+  structure?: any;
+  /** Columns that define the physical type schema of the dataset. Type: array (or Expression with resultType array), itemType: DatasetSchemaDataElement. */
+  schema?: any;
+  /** Linked service reference. */
+  linkedServiceName: LinkedServiceReference;
+  /** Parameters for dataset. */
+  parameters?: { [propertyName: string]: ParameterSpecification };
+  /** List of tags that can be used for describing the Dataset. */
+  annotations?: any[];
+  /** The folder that this Dataset is in. If not specified, Dataset will appear at the root level. */
+  folder?: DatasetFolder;
+}
+
+/** Linked service reference type. */
+export interface LinkedServiceReference {
+  /** Linked service reference type. */
+  type: Type;
+  /** Reference LinkedService name. */
+  referenceName: string;
+  /** Arguments for LinkedService. */
+  parameters?: { [propertyName: string]: any };
+}
+
+/** Definition of a single parameter for an entity. */
+export interface ParameterSpecification {
+  /** Parameter type. */
+  type: ParameterType;
+  /** Default value of parameter. */
+  defaultValue?: any;
+}
+
+/** The folder that this Dataset is in. If not specified, Dataset will appear at the root level. */
+export interface DatasetFolder {
+  /** The name of the folder that this Dataset is in. */
+  name?: string;
+}
+
 /** The Azure Synapse nested object which contains the information and credential which can be used to connect with related store or compute resource. */
 export interface LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -534,6 +985,7 @@ export interface LinkedService {
     | "AzureTableStorage"
     | "AzureSqlDW"
     | "SqlServer"
+    | "AmazonRdsForSqlServer"
     | "AzureSqlDatabase"
     | "AzureSqlMI"
     | "AzureBatch"
@@ -547,6 +999,7 @@ export interface LinkedService {
     | "AzureFileStorage"
     | "GoogleCloudStorage"
     | "Oracle"
+    | "AmazonRdsForOracle"
     | "AzureMySql"
     | "MySql"
     | "PostgreSql"
@@ -649,30 +1102,76 @@ export interface IntegrationRuntimeReference {
   parameters?: { [propertyName: string]: any };
 }
 
-/** Definition of a single parameter for an entity. */
-export interface ParameterSpecification {
-  /** Parameter type. */
-  type: ParameterType;
-  /** Default value of parameter. */
-  defaultValue?: any;
+/** Staging info for execute data flow activity. */
+export interface DataFlowStagingInfo {
+  /** Staging linked service reference. */
+  linkedService?: LinkedServiceReference;
+  /** Folder path for staging blob. */
+  folderPath?: string;
 }
 
-/** The object that defines the structure of an Azure Synapse error response. */
-export interface CloudError {
-  /** Error code. */
-  code: string;
-  /** Error message. */
-  message: string;
-  /** Property name/path in request associated with error. */
-  target?: string;
-  /** Array with additional error details. */
-  details?: CloudError[];
+/** Data flow debug settings. */
+export interface DataFlowDebugPackageDebugSettings {
+  /** Source setting for data flow debug. */
+  sourceSettings?: DataFlowSourceSetting[];
+  /** Data flow parameters. */
+  parameters?: { [propertyName: string]: any };
+  /** Parameters for dataset. */
+  datasetParameters?: any;
 }
 
-/** Request body structure for rename artifact. */
-export interface ArtifactRenameRequest {
-  /** New name of the artifact. */
-  newName?: string;
+/** Definition of data flow source setting for debug. */
+export interface DataFlowSourceSetting {
+  /** Describes unknown properties. The value of an unknown property can be of "any" type. */
+  [property: string]: any;
+  /** The data flow source name. */
+  sourceName?: string;
+  /** Defines the row limit of data flow source in debug. */
+  rowLimit?: number;
+}
+
+/** Response body structure for starting data flow debug session. */
+export interface AddDataFlowToDebugSessionResponse {
+  /** The ID of data flow debug job version. */
+  jobVersion?: string;
+}
+
+/** Request body structure for deleting data flow debug session. */
+export interface DeleteDataFlowDebugSessionRequest {
+  /** The ID of data flow debug session. */
+  sessionId?: string;
+  /** The data flow which contains the debug session. */
+  dataFlowName?: string;
+}
+
+/** Request body structure for data flow expression preview. */
+export interface DataFlowDebugCommandRequest {
+  /** The ID of data flow debug session. */
+  sessionId?: string;
+  /** The command type. */
+  command?: DataFlowDebugCommandType;
+  /** The command payload object. */
+  commandPayload?: DataFlowDebugCommandPayload;
+}
+
+/** Structure of command payload. */
+export interface DataFlowDebugCommandPayload {
+  /** The stream name which is used for preview. */
+  streamName: string;
+  /** Row limits for preview response. */
+  rowLimits?: number;
+  /** Array of column names. */
+  columns?: string[];
+  /** The expression which is used for preview. */
+  expression?: string;
+}
+
+/** Response body structure of data flow result for data preview, statistics or expression preview. */
+export interface DataFlowDebugCommandResponse {
+  /** The run status of data preview, statistics or expression preview. */
+  status?: string;
+  /** The result data of data preview, statistics or expression preview. */
+  data?: string;
 }
 
 /** A list of dataset resources. */
@@ -683,134 +1182,288 @@ export interface DatasetListResponse {
   nextLink?: string;
 }
 
-/** The Azure Data Factory nested object which identifies data within different data stores, such as tables, files, folders, and documents. */
-export interface Dataset {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type:
-    | "AmazonS3Object"
-    | "Avro"
-    | "Excel"
-    | "Parquet"
-    | "DelimitedText"
-    | "Json"
-    | "Xml"
-    | "Orc"
-    | "Binary"
-    | "AzureBlob"
-    | "AzureTable"
-    | "AzureSqlTable"
-    | "AzureSqlMITable"
-    | "AzureSqlDWTable"
-    | "CassandraTable"
-    | "CustomDataset"
-    | "CosmosDbSqlApiCollection"
-    | "DocumentDbCollection"
-    | "DynamicsEntity"
-    | "DynamicsCrmEntity"
-    | "CommonDataServiceForAppsEntity"
-    | "AzureDataLakeStoreFile"
-    | "AzureBlobFSFile"
-    | "Office365Table"
-    | "FileShare"
-    | "MongoDbCollection"
-    | "MongoDbAtlasCollection"
-    | "MongoDbV2Collection"
-    | "CosmosDbMongoDbApiCollection"
-    | "ODataResource"
-    | "OracleTable"
-    | "TeradataTable"
-    | "AzureMySqlTable"
-    | "AmazonRedshiftTable"
-    | "Db2Table"
-    | "RelationalTable"
-    | "InformixTable"
-    | "OdbcTable"
-    | "MySqlTable"
-    | "PostgreSqlTable"
-    | "MicrosoftAccessTable"
-    | "SalesforceObject"
-    | "SalesforceServiceCloudObject"
-    | "SybaseTable"
-    | "SapBwCube"
-    | "SapCloudForCustomerResource"
-    | "SapEccResource"
-    | "SapHanaTable"
-    | "SapOpenHubTable"
-    | "SqlServerTable"
-    | "RestResource"
-    | "SapTableResource"
-    | "WebTable"
-    | "AzureSearchIndex"
-    | "HttpFile"
-    | "AmazonMWSObject"
-    | "AzurePostgreSqlTable"
-    | "ConcurObject"
-    | "CouchbaseTable"
-    | "DrillTable"
-    | "EloquaObject"
-    | "GoogleBigQueryObject"
-    | "GreenplumTable"
-    | "HBaseObject"
-    | "HiveObject"
-    | "HubspotObject"
-    | "ImpalaObject"
-    | "JiraObject"
-    | "MagentoObject"
-    | "MariaDBTable"
-    | "AzureMariaDBTable"
-    | "MarketoObject"
-    | "PaypalObject"
-    | "PhoenixObject"
-    | "PrestoObject"
-    | "QuickBooksObject"
-    | "ServiceNowObject"
-    | "ShopifyObject"
-    | "SparkObject"
-    | "SquareObject"
-    | "XeroObject"
-    | "ZohoObject"
-    | "NetezzaTable"
-    | "VerticaTable"
-    | "SalesforceMarketingCloudObject"
-    | "ResponsysObject"
-    | "DynamicsAXResource"
-    | "OracleServiceCloudObject"
-    | "AzureDataExplorerTable"
-    | "GoogleAdWordsObject"
-    | "SnowflakeTable"
-    | "SharePointOnlineListResource"
-    | "AzureDatabricksDeltaLakeDataset";
+export interface GitHubAccessTokenRequest {
+  /** The GitHub Client Id. */
+  gitHubClientId: string;
+  /** The GitHub Access code. */
+  gitHubAccessCode: string;
+  /** The GitHub access token base URL. */
+  gitHubAccessTokenBaseUrl: string;
+}
+
+export interface GitHubAccessTokenResponse {
+  gitHubAccessToken?: string;
+}
+
+/** A list of integration runtime resources. */
+export interface IntegrationRuntimeListResponse {
+  /** List of integration runtimes. */
+  value: IntegrationRuntimeResource[];
+  /** The link to the next page of results, if any remaining results exist. */
+  nextLink?: string;
+}
+
+/** A list of Library resources. */
+export interface LibraryListResponse {
+  /** List of Library. */
+  value: LibraryResource[];
+  /** The link to the next page of results, if any remaining results exist. */
+  nextLink?: string;
+}
+
+/** Library/package properties */
+export interface LibraryResourceProperties {
+  /**
+   * Name of the library/package.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Location of library/package in storage account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly path?: string;
+  /**
+   * Container name of the library/package.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly containerName?: string;
+  /**
+   * The last update time of the library/package.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly uploadedTimestamp?: string;
+  /**
+   * Type of the library/package.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * Provisioning status of the library/package.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningStatus?: string;
+  /**
+   * Creator Id of the library/package.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly creatorId?: string;
+}
+
+/** Library resource info */
+export interface LibraryResourceInfo {
+  /**
+   * Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * record Id of the library/package.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly recordId?: number;
+  /**
+   * Provisioning status of the library/package.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly state?: string;
+  /**
+   * The creation time of the library/package.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly created?: string;
+  /**
+   * The last updated time of the library/package.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly changed?: string;
+  /**
+   * The type of the resource. E.g. LibraryArtifact
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * Name of the library/package.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Operation Id of the operation performed on library/package.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly operationId?: string;
+  /**
+   * artifact Id of the library/package.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly artifactId?: string;
+}
+
+/** Operation status for the operation */
+export interface OperationResult {
+  /**
+   * Operation status
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: string;
+  /** Error code. */
+  code?: string;
+  /** Error message. */
+  message?: string;
+  /** Property name/path in request associated with error. */
+  target?: string;
+  /** Array with additional error details. */
+  details?: CloudErrorAutoGenerated[];
+}
+
+/** A list of linked service resources. */
+export interface LinkedServiceListResponse {
+  /** List of linked services. */
+  value: LinkedServiceResource[];
+  /** The link to the next page of results, if any remaining results exist. */
+  nextLink?: string;
+}
+
+/** A list of Notebook resources. */
+export interface NotebookListResponse {
+  /** List of Notebooks. */
+  value: NotebookResource[];
+  /** The link to the next page of results, if any remaining results exist. */
+  nextLink?: string;
+}
+
+/** Notebook resource type. */
+export interface NotebookResource {
+  /**
+   * Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /** The name of the resource */
+  name: string;
+  /**
+   * The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * Resource Etag.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly etag?: string;
+  /** Properties of Notebook. */
+  properties: Notebook;
+}
+
+/** Notebook. */
+export interface Notebook {
   /** Describes unknown properties. The value of an unknown property can be of "any" type. */
   [property: string]: any;
-  /** Dataset description. */
+  /** The description of the notebook. */
   description?: string;
-  /** Columns that define the structure of the dataset. Type: array (or Expression with resultType array), itemType: DatasetDataElement. */
-  structure?: any;
-  /** Columns that define the physical type schema of the dataset. Type: array (or Expression with resultType array), itemType: DatasetSchemaDataElement. */
-  schema?: any;
-  /** Linked service reference. */
-  linkedServiceName: LinkedServiceReference;
-  /** Parameters for dataset. */
-  parameters?: { [propertyName: string]: ParameterSpecification };
-  /** List of tags that can be used for describing the Dataset. */
-  annotations?: any[];
-  /** The folder that this Dataset is in. If not specified, Dataset will appear at the root level. */
-  folder?: DatasetFolder;
+  /** Big data pool reference. */
+  bigDataPool?: BigDataPoolReference;
+  /** Session properties. */
+  sessionProperties?: NotebookSessionProperties;
+  /** Notebook root-level metadata. */
+  metadata: NotebookMetadata;
+  /** Notebook format (major number). Incremented between backwards incompatible changes to the notebook format. */
+  nbformat: number;
+  /** Notebook format (minor number). Incremented for backward compatible changes to the notebook format. */
+  nbformatMinor: number;
+  /** Array of cells of the current notebook. */
+  cells: NotebookCell[];
+  /** The folder that this notebook is in. If not specified, this notebook will appear at the root level. */
+  folder?: NotebookFolder;
 }
 
-/** Linked service reference type. */
-export interface LinkedServiceReference {
-  /** Linked service reference type. */
-  type: Type;
-  /** Reference LinkedService name. */
+/** Big data pool reference. */
+export interface BigDataPoolReference {
+  /** Big data pool reference type. */
+  type: BigDataPoolReferenceType;
+  /** Reference big data pool name. */
   referenceName: string;
-  /** Arguments for LinkedService. */
-  parameters?: { [propertyName: string]: any };
 }
 
-/** The folder that this Dataset is in. If not specified, Dataset will appear at the root level. */
-export interface DatasetFolder {
-  /** The name of the folder that this Dataset is in. */
+/** Session properties. */
+export interface NotebookSessionProperties {
+  /** Amount of memory to use for the driver process. */
+  driverMemory: string;
+  /** Number of cores to use for the driver. */
+  driverCores: number;
+  /** Amount of memory to use per executor process. */
+  executorMemory: string;
+  /** Number of cores to use for each executor. */
+  executorCores: number;
+  /** Number of executors to launch for this session. */
+  numExecutors: number;
+}
+
+/** Notebook root-level metadata. */
+export interface NotebookMetadata {
+  /** Describes unknown properties. The value of an unknown property can be of "any" type. */
+  [property: string]: any;
+  /** Kernel information. */
+  kernelspec?: NotebookKernelSpec;
+  /** Language info. */
+  languageInfo?: NotebookLanguageInfo;
+}
+
+/** Kernel information. */
+export interface NotebookKernelSpec {
+  /** Describes unknown properties. The value of an unknown property can be of "any" type. */
+  [property: string]: any;
+  /** Name of the kernel specification. */
+  name: string;
+  /** Name to display in UI. */
+  displayName: string;
+}
+
+/** Language info. */
+export interface NotebookLanguageInfo {
+  /** Describes unknown properties. The value of an unknown property can be of "any" type. */
+  [property: string]: any;
+  /** The programming language which this kernel runs. */
+  name: string;
+  /** The codemirror mode to use for code in this language. */
+  codemirrorMode?: string;
+}
+
+/** Notebook cell. */
+export interface NotebookCell {
+  /** Describes unknown properties. The value of an unknown property can be of "any" type. */
+  [property: string]: any;
+  /** String identifying the type of cell. */
+  cellType: string;
+  /** Cell-level metadata. */
+  metadata: any;
+  /** Contents of the cell, represented as an array of lines. */
+  source: string[];
+  /** Attachments associated with the cell. */
+  attachments?: any;
+  /** Cell-level output items. */
+  outputs?: NotebookCellOutputItem[];
+}
+
+/** An item of the notebook cell execution output. */
+export interface NotebookCellOutputItem {
+  /** For output_type=stream, determines the name of stream (stdout / stderr). */
+  name?: string;
+  /** Execution sequence number. */
+  executionCount?: number;
+  /** Execution, display, or stream outputs. */
+  outputType: CellOutputType;
+  /** For output_type=stream, the stream's text output, represented as a string or an array of strings. */
+  text?: any;
+  /** Output data. Use MIME type as key, and content as value. */
+  data?: any;
+  /** Metadata for the output item. */
+  metadata?: any;
+}
+
+/** The folder that this notebook is in. If not specified, this notebook will appear at the root level. */
+export interface NotebookFolder {
+  /** The name of the folder that this notebook is in. */
   name?: string;
 }
 
@@ -1119,6 +1772,274 @@ export interface ActivityRun {
   readonly error?: any;
 }
 
+/** A list of spark job definitions resources. */
+export interface SparkJobDefinitionsListResponse {
+  /** List of spark job definitions. */
+  value: SparkJobDefinitionResource[];
+  /** The link to the next page of results, if any remaining results exist. */
+  nextLink?: string;
+}
+
+/** Spark job definition. */
+export interface SparkJobDefinition {
+  /** Describes unknown properties. The value of an unknown property can be of "any" type. */
+  [property: string]: any;
+  /** The description of the Spark job definition. */
+  description?: string;
+  /** Big data pool reference. */
+  targetBigDataPool: BigDataPoolReference;
+  /** The required Spark version of the application. */
+  requiredSparkVersion?: string;
+  /** The language of the Spark application. */
+  language?: string;
+  /** The properties of the Spark job. */
+  jobProperties: SparkJobProperties;
+  /** The folder that this Spark job definition is in. If not specified, this Spark job definition will appear at the root level. */
+  folder?: SparkJobDefinitionFolder;
+}
+
+/** The properties of the Spark job. */
+export interface SparkJobProperties {
+  /** Describes unknown properties. The value of an unknown property can be of "any" type. */
+  [property: string]: any;
+  /** The name of the job. */
+  name?: string;
+  /** File containing the application to execute. */
+  file: string;
+  /** Main class for Java/Scala application. */
+  className?: string;
+  /** Spark configuration properties. */
+  conf?: any;
+  /** Command line arguments for the application. */
+  args?: string[];
+  /** Jars to be used in this job. */
+  jars?: string[];
+  /** files to be used in this job. */
+  files?: string[];
+  /** Archives to be used in this job. */
+  archives?: string[];
+  /** Amount of memory to use for the driver process. */
+  driverMemory: string;
+  /** Number of cores to use for the driver. */
+  driverCores: number;
+  /** Amount of memory to use per executor process. */
+  executorMemory: string;
+  /** Number of cores to use for each executor. */
+  executorCores: number;
+  /** Number of executors to launch for this job. */
+  numExecutors: number;
+}
+
+/** The folder that this Spark job definition is in. If not specified, this Spark job definition will appear at the root level. */
+export interface SparkJobDefinitionFolder {
+  /** The name of the folder that this Spark job definition is in. */
+  name?: string;
+}
+
+export interface SparkBatchJob {
+  livyInfo?: SparkBatchJobState;
+  /** The batch name. */
+  name?: string;
+  /** The workspace name. */
+  workspaceName?: string;
+  /** The Spark pool name. */
+  sparkPoolName?: string;
+  /** The submitter name. */
+  submitterName?: string;
+  /** The submitter identifier. */
+  submitterId?: string;
+  /** The artifact identifier. */
+  artifactId?: string;
+  /** The job type. */
+  jobType?: SparkJobType;
+  /** The Spark batch job result. */
+  result?: SparkBatchJobResultType;
+  /** The scheduler information. */
+  scheduler?: SparkScheduler;
+  /** The plugin information. */
+  plugin?: SparkServicePlugin;
+  /** The error information. */
+  errors?: SparkServiceError[];
+  /** The tags. */
+  tags?: { [propertyName: string]: string };
+  /** The session Id. */
+  id: number;
+  /** The application id of this session */
+  appId?: string;
+  /** The detailed application info. */
+  appInfo?: { [propertyName: string]: string };
+  /** The batch state */
+  state?: LivyStates;
+  /** The log lines. */
+  logLines?: string[];
+}
+
+export interface SparkBatchJobState {
+  /** the time that at which "not_started" livy state was first seen. */
+  notStartedAt?: Date;
+  /** the time that at which "starting" livy state was first seen. */
+  startingAt?: Date;
+  /** the time that at which "running" livy state was first seen. */
+  runningAt?: Date;
+  /** time that at which "dead" livy state was first seen. */
+  deadAt?: Date;
+  /** the time that at which "success" livy state was first seen. */
+  successAt?: Date;
+  /** the time that at which "killed" livy state was first seen. */
+  terminatedAt?: Date;
+  /** the time that at which "recovering" livy state was first seen. */
+  recoveringAt?: Date;
+  /** the Spark job state. */
+  currentState?: string;
+  jobCreationRequest?: SparkRequest;
+}
+
+export interface SparkRequest {
+  name?: string;
+  file?: string;
+  className?: string;
+  arguments?: string[];
+  jars?: string[];
+  pythonFiles?: string[];
+  files?: string[];
+  archives?: string[];
+  /** Dictionary of <string> */
+  configuration?: { [propertyName: string]: string };
+  driverMemory?: string;
+  driverCores?: number;
+  executorMemory?: string;
+  executorCores?: number;
+  executorCount?: number;
+}
+
+export interface SparkScheduler {
+  submittedAt?: Date;
+  scheduledAt?: Date;
+  endedAt?: Date;
+  cancellationRequestedAt?: Date;
+  currentState?: SchedulerCurrentState;
+}
+
+export interface SparkServicePlugin {
+  preparationStartedAt?: Date;
+  resourceAcquisitionStartedAt?: Date;
+  submissionStartedAt?: Date;
+  monitoringStartedAt?: Date;
+  cleanupStartedAt?: Date;
+  currentState?: PluginCurrentState;
+}
+
+export interface SparkServiceError {
+  message?: string;
+  errorCode?: string;
+  source?: SparkErrorSource;
+}
+
+/** List of SQL pools */
+export interface SqlPoolInfoListResult {
+  /** Link to the next page of results */
+  nextLink?: string;
+  /** List of SQL pools */
+  value?: SqlPool[];
+}
+
+/** SQL pool SKU */
+export interface Sku {
+  /** The service tier */
+  tier?: string;
+  /** The SKU name */
+  name?: string;
+  /** If the SKU supports scale out/in then the capacity integer should be included. If scale out/in is not possible for the resource this may be omitted. */
+  capacity?: number;
+}
+
+/** A list of sql scripts resources. */
+export interface SqlScriptsListResponse {
+  /** List of sql scripts. */
+  value: SqlScriptResource[];
+  /** The link to the next page of results, if any remaining results exist. */
+  nextLink?: string;
+}
+
+/** Sql Script resource type. */
+export interface SqlScriptResource {
+  /**
+   * Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /** The name of the resource */
+  name: string;
+  /**
+   * The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * Resource Etag.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly etag?: string;
+  /** Properties of sql script. */
+  properties: SqlScript;
+}
+
+/** SQL script. */
+export interface SqlScript {
+  /** Describes unknown properties. The value of an unknown property can be of "any" type. */
+  [property: string]: any;
+  /** The description of the SQL script. */
+  description?: string;
+  /** The type of the SQL script. */
+  type?: SqlScriptType;
+  /** The content of the SQL script. */
+  content: SqlScriptContent;
+  /** The folder that this SQL script is in. If not specified, this SQL script will appear at the root level. */
+  folder?: SqlScriptFolder;
+}
+
+/** The content of the SQL script. */
+export interface SqlScriptContent {
+  /** Describes unknown properties. The value of an unknown property can be of "any" type. */
+  [property: string]: any;
+  /** SQL query to execute. */
+  query: string;
+  /** The connection used to execute the SQL script. */
+  currentConnection?: SqlConnection;
+  /** Limit of results, '-1' for no limit. */
+  resultLimit?: number;
+  /** The metadata of the SQL script. */
+  metadata?: SqlScriptMetadata;
+}
+
+/** The connection used to execute the SQL script. */
+export interface SqlConnection {
+  /** Describes unknown properties. The value of an unknown property can be of "any" type. */
+  [property: string]: any;
+  /** The type of the connection. */
+  type?: SqlConnectionType;
+  /** The identifier of the connection. */
+  name?: string;
+  /** The associated SQL pool name (supported by SQL pool v3) */
+  poolName?: string;
+  /** The associated database name (supported by SQL pool v3) */
+  databaseName?: string;
+}
+
+/** The metadata of the SQL script. */
+export interface SqlScriptMetadata {
+  /** Describes unknown properties. The value of an unknown property can be of "any" type. */
+  [property: string]: any;
+  /** The language of the SQL script. */
+  language?: string;
+}
+
+/** The folder that this SQL script is in. If not specified, this SQL script will appear at the root level. */
+export interface SqlScriptFolder {
+  /** The name of the folder that this SQL script is in. */
+  name?: string;
+}
+
 /** A list of trigger resources. */
 export interface TriggerListResponse {
   /** List of triggers. */
@@ -1218,535 +2139,6 @@ export interface TriggerRun {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly triggeredPipelines?: { [propertyName: string]: string };
-}
-
-/** Azure Synapse nested object which contains a flow with data movements and transformations. */
-export interface DataFlow {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "MappingDataFlow";
-  /** The description of the data flow. */
-  description?: string;
-  /** List of tags that can be used for describing the data flow. */
-  annotations?: any[];
-  /** The folder that this data flow is in. If not specified, Data flow will appear at the root level. */
-  folder?: DataFlowFolder;
-}
-
-/** The folder that this data flow is in. If not specified, Data flow will appear at the root level. */
-export interface DataFlowFolder {
-  /** The name of the folder that this data flow is in. */
-  name?: string;
-}
-
-/** A list of data flow resources. */
-export interface DataFlowListResponse {
-  /** List of data flows. */
-  value: DataFlowResource[];
-  /** The link to the next page of results, if any remaining results exist. */
-  nextLink?: string;
-}
-
-/** Request body structure for creating data flow debug session. */
-export interface CreateDataFlowDebugSessionRequest {
-  /** The name of the data flow. */
-  dataFlowName?: string;
-  /** The ID of existing Databricks cluster. */
-  existingClusterId?: string;
-  /** Timeout setting for Databricks cluster. */
-  clusterTimeout?: number;
-  /** The name of new Databricks cluster. */
-  newClusterName?: string;
-  /** The type of new Databricks cluster. */
-  newClusterNodeType?: string;
-  /** Data bricks linked service. */
-  dataBricksLinkedService?: LinkedServiceResource;
-}
-
-/** Response body structure for creating data flow debug session. */
-export interface CreateDataFlowDebugSessionResponse {
-  /** The ID of data flow debug session. */
-  sessionId?: string;
-}
-
-/** A list of active debug sessions. */
-export interface QueryDataFlowDebugSessionsResponse {
-  /** Array with all active debug sessions. */
-  value?: DataFlowDebugSessionInfo[];
-  /** The link to the next page of results, if any remaining results exist. */
-  nextLink?: string;
-}
-
-/** Data flow debug session info. */
-export interface DataFlowDebugSessionInfo {
-  /** Describes unknown properties. The value of an unknown property can be of "any" type. */
-  [property: string]: any;
-  /** The name of the data flow. */
-  dataFlowName?: string;
-  /** Compute type of the cluster. */
-  computeType?: string;
-  /** Core count of the cluster. */
-  coreCount?: number;
-  /** Node count of the cluster. (deprecated property) */
-  nodeCount?: number;
-  /** Attached integration runtime name of data flow debug session. */
-  integrationRuntimeName?: string;
-  /** The ID of data flow debug session. */
-  sessionId?: string;
-  /** Start time of data flow debug session. */
-  startTime?: string;
-  /** Compute type of the cluster. */
-  timeToLiveInMinutes?: number;
-  /** Last activity time of data flow debug session. */
-  lastActivityTime?: string;
-}
-
-/** Request body structure for starting data flow debug session. */
-export interface DataFlowDebugPackage {
-  /** Describes unknown properties. The value of an unknown property can be of "any" type. */
-  [property: string]: any;
-  /** The ID of data flow debug session. */
-  sessionId?: string;
-  /** Data flow instance. */
-  dataFlow?: DataFlowDebugResource;
-  /** List of datasets. */
-  datasets?: DatasetDebugResource[];
-  /** List of linked services. */
-  linkedServices?: LinkedServiceDebugResource[];
-  /** Staging info for debug session. */
-  staging?: DataFlowStagingInfo;
-  /** Data flow debug settings. */
-  debugSettings?: DataFlowDebugPackageDebugSettings;
-}
-
-/** Azure Synapse nested debug resource. */
-export interface SubResourceDebugResource {
-  /** The resource name. */
-  name?: string;
-}
-
-/** Staging info for execute data flow activity. */
-export interface DataFlowStagingInfo {
-  /** Staging linked service reference. */
-  linkedService?: LinkedServiceReference;
-  /** Folder path for staging blob. */
-  folderPath?: string;
-}
-
-/** Data flow debug settings. */
-export interface DataFlowDebugPackageDebugSettings {
-  /** Source setting for data flow debug. */
-  sourceSettings?: DataFlowSourceSetting[];
-  /** Data flow parameters. */
-  parameters?: { [propertyName: string]: any };
-  /** Parameters for dataset. */
-  datasetParameters?: any;
-}
-
-/** Definition of data flow source setting for debug. */
-export interface DataFlowSourceSetting {
-  /** Describes unknown properties. The value of an unknown property can be of "any" type. */
-  [property: string]: any;
-  /** The data flow source name. */
-  sourceName?: string;
-  /** Defines the row limit of data flow source in debug. */
-  rowLimit?: number;
-}
-
-/** Response body structure for starting data flow debug session. */
-export interface AddDataFlowToDebugSessionResponse {
-  /** The ID of data flow debug job version. */
-  jobVersion?: string;
-}
-
-/** Request body structure for deleting data flow debug session. */
-export interface DeleteDataFlowDebugSessionRequest {
-  /** The ID of data flow debug session. */
-  sessionId?: string;
-  /** The data flow which contains the debug session. */
-  dataFlowName?: string;
-}
-
-/** Request body structure for data flow expression preview. */
-export interface DataFlowDebugCommandRequest {
-  /** The ID of data flow debug session. */
-  sessionId: string;
-  /** The data flow which contains the debug session. */
-  dataFlowName?: string;
-  /** The command name. */
-  commandName?: string;
-  /** The command payload object. */
-  commandPayload: any;
-}
-
-/** Response body structure of data flow result for data preview, statistics or expression preview. */
-export interface DataFlowDebugCommandResponse {
-  /** The run status of data preview, statistics or expression preview. */
-  status?: string;
-  /** The result data of data preview, statistics or expression preview. */
-  data?: string;
-}
-
-/** A list of sql scripts resources. */
-export interface SqlScriptsListResponse {
-  /** List of sql scripts. */
-  value: SqlScriptResource[];
-  /** The link to the next page of results, if any remaining results exist. */
-  nextLink?: string;
-}
-
-/** Sql Script resource type. */
-export interface SqlScriptResource {
-  /**
-   * Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /** The name of the resource */
-  name: string;
-  /**
-   * The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /**
-   * Resource Etag.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly etag?: string;
-  /** Properties of sql script. */
-  properties: SqlScript;
-}
-
-/** SQL script. */
-export interface SqlScript {
-  /** Describes unknown properties. The value of an unknown property can be of "any" type. */
-  [property: string]: any;
-  /** The description of the SQL script. */
-  description?: string;
-  /** The type of the SQL script. */
-  type?: SqlScriptType;
-  /** The content of the SQL script. */
-  content: SqlScriptContent;
-}
-
-/** The content of the SQL script. */
-export interface SqlScriptContent {
-  /** Describes unknown properties. The value of an unknown property can be of "any" type. */
-  [property: string]: any;
-  /** SQL query to execute. */
-  query: string;
-  /** The connection used to execute the SQL script. */
-  currentConnection: SqlConnection;
-  /** The metadata of the SQL script. */
-  metadata?: SqlScriptMetadata;
-}
-
-/** The connection used to execute the SQL script. */
-export interface SqlConnection {
-  /** Describes unknown properties. The value of an unknown property can be of "any" type. */
-  [property: string]: any;
-  /** The type of the connection. */
-  type: SqlConnectionType;
-  /** The identifier of the connection. */
-  name: string;
-}
-
-/** The metadata of the SQL script. */
-export interface SqlScriptMetadata {
-  /** Describes unknown properties. The value of an unknown property can be of "any" type. */
-  [property: string]: any;
-  /** The language of the SQL script. */
-  language?: string;
-}
-
-/** A list of spark job definitions resources. */
-export interface SparkJobDefinitionsListResponse {
-  /** List of spark job definitions. */
-  value: SparkJobDefinitionResource[];
-  /** The link to the next page of results, if any remaining results exist. */
-  nextLink?: string;
-}
-
-/** Spark job definition. */
-export interface SparkJobDefinition {
-  /** Describes unknown properties. The value of an unknown property can be of "any" type. */
-  [property: string]: any;
-  /** The description of the Spark job definition. */
-  description?: string;
-  /** Big data pool reference. */
-  targetBigDataPool: BigDataPoolReference;
-  /** The required Spark version of the application. */
-  requiredSparkVersion?: string;
-  /** The language of the Spark application. */
-  language?: string;
-  /** The properties of the Spark job. */
-  jobProperties: SparkJobProperties;
-}
-
-/** Big data pool reference. */
-export interface BigDataPoolReference {
-  /** Big data pool reference type. */
-  type: BigDataPoolReferenceType;
-  /** Reference big data pool name. */
-  referenceName: string;
-}
-
-/** The properties of the Spark job. */
-export interface SparkJobProperties {
-  /** Describes unknown properties. The value of an unknown property can be of "any" type. */
-  [property: string]: any;
-  /** The name of the job. */
-  name?: string;
-  /** File containing the application to execute. */
-  file: string;
-  /** Main class for Java/Scala application. */
-  className?: string;
-  /** Spark configuration properties. */
-  conf?: any;
-  /** Command line arguments for the application. */
-  args?: string[];
-  /** Jars to be used in this job. */
-  jars?: string[];
-  /** files to be used in this job. */
-  files?: string[];
-  /** Archives to be used in this job. */
-  archives?: string[];
-  /** Amount of memory to use for the driver process. */
-  driverMemory: string;
-  /** Number of cores to use for the driver. */
-  driverCores: number;
-  /** Amount of memory to use per executor process. */
-  executorMemory: string;
-  /** Number of cores to use for each executor. */
-  executorCores: number;
-  /** Number of executors to launch for this job. */
-  numExecutors: number;
-}
-
-export interface SparkBatchJob {
-  livyInfo?: SparkBatchJobState;
-  /** The batch name. */
-  name?: string;
-  /** The workspace name. */
-  workspaceName?: string;
-  /** The Spark pool name. */
-  sparkPoolName?: string;
-  /** The submitter name. */
-  submitterName?: string;
-  /** The submitter identifier. */
-  submitterId?: string;
-  /** The artifact identifier. */
-  artifactId?: string;
-  /** The job type. */
-  jobType?: SparkJobType;
-  /** The Spark batch job result. */
-  result?: SparkBatchJobResultType;
-  /** The scheduler information. */
-  scheduler?: SparkScheduler;
-  /** The plugin information. */
-  plugin?: SparkServicePlugin;
-  /** The error information. */
-  errors?: SparkServiceError[];
-  /** The tags. */
-  tags?: { [propertyName: string]: string };
-  /** The session Id. */
-  id: number;
-  /** The application id of this session */
-  appId?: string;
-  /** The detailed application info. */
-  appInfo?: { [propertyName: string]: string };
-  /** The batch state */
-  state?: string;
-  /** The log lines. */
-  logLines?: string[];
-}
-
-export interface SparkBatchJobState {
-  /** the time that at which "not_started" livy state was first seen. */
-  notStartedAt?: Date;
-  /** the time that at which "starting" livy state was first seen. */
-  startingAt?: Date;
-  /** the time that at which "running" livy state was first seen. */
-  runningAt?: Date;
-  /** time that at which "dead" livy state was first seen. */
-  deadAt?: Date;
-  /** the time that at which "success" livy state was first seen. */
-  successAt?: Date;
-  /** the time that at which "killed" livy state was first seen. */
-  terminatedAt?: Date;
-  /** the time that at which "recovering" livy state was first seen. */
-  recoveringAt?: Date;
-  /** the Spark job state. */
-  currentState?: string;
-  jobCreationRequest?: SparkRequest;
-}
-
-export interface SparkRequest {
-  name?: string;
-  file?: string;
-  className?: string;
-  arguments?: string[];
-  jars?: string[];
-  pythonFiles?: string[];
-  files?: string[];
-  archives?: string[];
-  /** Dictionary of <string> */
-  configuration?: { [propertyName: string]: string };
-  driverMemory?: string;
-  driverCores?: number;
-  executorMemory?: string;
-  executorCores?: number;
-  executorCount?: number;
-}
-
-export interface SparkScheduler {
-  submittedAt?: Date;
-  scheduledAt?: Date;
-  endedAt?: Date;
-  cancellationRequestedAt?: Date;
-  currentState?: SchedulerCurrentState;
-}
-
-export interface SparkServicePlugin {
-  preparationStartedAt?: Date;
-  resourceAcquisitionStartedAt?: Date;
-  submissionStartedAt?: Date;
-  monitoringStartedAt?: Date;
-  cleanupStartedAt?: Date;
-  currentState?: PluginCurrentState;
-}
-
-export interface SparkServiceError {
-  message?: string;
-  errorCode?: string;
-  source?: SparkErrorSource;
-}
-
-/** A list of Notebook resources. */
-export interface NotebookListResponse {
-  /** List of Notebooks. */
-  value: NotebookResource[];
-  /** The link to the next page of results, if any remaining results exist. */
-  nextLink?: string;
-}
-
-/** Notebook resource type. */
-export interface NotebookResource {
-  /**
-   * Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /** The name of the resource */
-  name: string;
-  /**
-   * The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /**
-   * Resource Etag.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly etag?: string;
-  /** Properties of Notebook. */
-  properties: Notebook;
-}
-
-/** Notebook. */
-export interface Notebook {
-  /** Describes unknown properties. The value of an unknown property can be of "any" type. */
-  [property: string]: any;
-  /** The description of the notebook. */
-  description?: string;
-  /** Big data pool reference. */
-  bigDataPool?: BigDataPoolReference;
-  /** Session properties. */
-  sessionProperties?: NotebookSessionProperties;
-  /** Notebook root-level metadata. */
-  metadata: NotebookMetadata;
-  /** Notebook format (major number). Incremented between backwards incompatible changes to the notebook format. */
-  nbformat: number;
-  /** Notebook format (minor number). Incremented for backward compatible changes to the notebook format. */
-  nbformatMinor: number;
-  /** Array of cells of the current notebook. */
-  cells: NotebookCell[];
-}
-
-/** Session properties. */
-export interface NotebookSessionProperties {
-  /** Amount of memory to use for the driver process. */
-  driverMemory: string;
-  /** Number of cores to use for the driver. */
-  driverCores: number;
-  /** Amount of memory to use per executor process. */
-  executorMemory: string;
-  /** Number of cores to use for each executor. */
-  executorCores: number;
-  /** Number of executors to launch for this session. */
-  numExecutors: number;
-}
-
-/** Notebook root-level metadata. */
-export interface NotebookMetadata {
-  /** Describes unknown properties. The value of an unknown property can be of "any" type. */
-  [property: string]: any;
-  /** Kernel information. */
-  kernelspec?: NotebookKernelSpec;
-  /** Language info. */
-  languageInfo?: NotebookLanguageInfo;
-}
-
-/** Kernel information. */
-export interface NotebookKernelSpec {
-  /** Describes unknown properties. The value of an unknown property can be of "any" type. */
-  [property: string]: any;
-  /** Name of the kernel specification. */
-  name: string;
-  /** Name to display in UI. */
-  displayName: string;
-}
-
-/** Language info. */
-export interface NotebookLanguageInfo {
-  /** Describes unknown properties. The value of an unknown property can be of "any" type. */
-  [property: string]: any;
-  /** The programming language which this kernel runs. */
-  name: string;
-  /** The codemirror mode to use for code in this language. */
-  codemirrorMode?: string;
-}
-
-/** Notebook cell. */
-export interface NotebookCell {
-  /** Describes unknown properties. The value of an unknown property can be of "any" type. */
-  [property: string]: any;
-  /** String identifying the type of cell. */
-  cellType: string;
-  /** Cell-level metadata. */
-  metadata: any;
-  /** Contents of the cell, represented as an array of lines. */
-  source: string[];
-  /** Attachments associated with the cell. */
-  attachments?: any;
-  /** Cell-level output items. */
-  outputs?: NotebookCellOutputItem[];
-}
-
-/** An item of the notebook cell execution output. */
-export interface NotebookCellOutputItem {
-  /** For output_type=stream, determines the name of stream (stdout / stderr). */
-  name?: string;
-  /** Execution sequence number. */
-  executionCount?: number;
-  /** Execution, display, or stream outputs. */
-  outputType: CellOutputType;
-  /** For output_type=stream, the stream's text output, represented as a string or an array of strings. */
-  text?: any;
-  /** Output data. Use MIME type as key, and content as value. */
-  data?: any;
-  /** Metadata for the output item. */
-  metadata?: any;
 }
 
 /** Details of the data lake storage account associated with the workspace */
@@ -1881,291 +2273,6 @@ export interface ManagedIdentity {
   type?: ResourceIdentityType;
 }
 
-/** Contains details when the response code indicates an error. */
-export interface ErrorContract {
-  /** The error details. */
-  error?: ErrorResponse;
-}
-
-/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.) */
-export interface ErrorResponse {
-  /**
-   * The error code.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly code?: string;
-  /**
-   * The error message.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly message?: string;
-  /**
-   * The error target.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly target?: string;
-  /**
-   * The error details.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly details?: ErrorResponse[];
-  /**
-   * The error additional info.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly additionalInfo?: ErrorAdditionalInfo[];
-}
-
-/** The resource management error additional info. */
-export interface ErrorAdditionalInfo {
-  /**
-   * The additional info type.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /**
-   * The additional info.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly info?: any;
-}
-
-/** List of SQL pools */
-export interface SqlPoolInfoListResult {
-  /** Link to the next page of results */
-  nextLink?: string;
-  /** List of SQL pools */
-  value?: SqlPool[];
-}
-
-/** SQL pool SKU */
-export interface Sku {
-  /** The service tier */
-  tier?: string;
-  /** The SKU name */
-  name?: string;
-  /** If the SKU supports scale out/in then the capacity integer should be included. If scale out/in is not possible for the resource this may be omitted. */
-  capacity?: number;
-}
-
-/** Collection of Big Data pool information */
-export interface BigDataPoolResourceInfoListResult {
-  /** Link to the next page of results */
-  nextLink?: string;
-  /** List of Big Data pools */
-  value?: BigDataPoolResourceInfo[];
-}
-
-/** Auto-scaling properties of a Big Data pool powered by Apache Spark */
-export interface AutoScaleProperties {
-  /** The minimum number of nodes the Big Data pool can support. */
-  minNodeCount?: number;
-  /** Whether automatic scaling is enabled for the Big Data pool. */
-  enabled?: boolean;
-  /** The maximum number of nodes the Big Data pool can support. */
-  maxNodeCount?: number;
-}
-
-/** Auto-pausing properties of a Big Data pool powered by Apache Spark */
-export interface AutoPauseProperties {
-  /** Number of minutes of idle time before the Big Data pool is automatically paused. */
-  delayInMinutes?: number;
-  /** Whether auto-pausing is enabled for the Big Data pool. */
-  enabled?: boolean;
-}
-
-/** Dynamic Executor Allocation Properties */
-export interface DynamicExecutorAllocation {
-  /** Indicates whether Dynamic Executor Allocation is enabled or not. */
-  enabled?: boolean;
-}
-
-/** Library requirements for a Big Data pool powered by Apache Spark */
-export interface LibraryRequirements {
-  /**
-   * The last update time of the library requirements file.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly time?: Date;
-  /** The library requirements. */
-  content?: string;
-  /** The filename of the library requirements file. */
-  filename?: string;
-}
-
-/** Library/package information of a Big Data pool powered by Apache Spark */
-export interface LibraryInfo {
-  /** Name of the library. */
-  name?: string;
-  /** Storage blob path of library. */
-  path?: string;
-  /** Storage blob container name. */
-  containerName?: string;
-  /**
-   * The last update time of the library.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly uploadedTimestamp?: Date;
-  /** Type of the library. */
-  type?: string;
-  /**
-   * Provisioning status of the library/package.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningStatus?: string;
-  /**
-   * Creator Id of the library/package.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly creatorId?: string;
-}
-
-/** A list of integration runtime resources. */
-export interface IntegrationRuntimeListResponse {
-  /** List of integration runtimes. */
-  value: IntegrationRuntimeResource[];
-  /** The link to the next page of results, if any remaining results exist. */
-  nextLink?: string;
-}
-
-/** Azure Synapse nested object which serves as a compute resource for activities. */
-export interface IntegrationRuntime {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "Managed" | "SelfHosted";
-  /** Describes unknown properties. The value of an unknown property can be of "any" type. */
-  [property: string]: any;
-  /** Integration runtime description. */
-  description?: string;
-}
-
-/** A list of Library resources. */
-export interface LibraryListResponse {
-  /** List of Library. */
-  value: LibraryResource[];
-  /** The link to the next page of results, if any remaining results exist. */
-  nextLink?: string;
-}
-
-/** Library/package properties */
-export interface LibraryResourceProperties {
-  /**
-   * Name of the library/package.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * Location of library/package in storage account.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly path?: string;
-  /**
-   * Container name of the library/package.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly containerName?: string;
-  /**
-   * The last update time of the library/package.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly uploadedTimestamp?: string;
-  /**
-   * Type of the library/package.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /**
-   * Provisioning status of the library/package.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningStatus?: string;
-  /**
-   * Creator Id of the library/package.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly creatorId?: string;
-}
-
-/** Library resource info */
-export interface LibraryResourceInfo {
-  /**
-   * Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * record Id of the library/package.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly recordId?: number;
-  /**
-   * Provisioning status of the library/package.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly state?: string;
-  /**
-   * The creation time of the library/package.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly created?: string;
-  /**
-   * The last updated time of the library/package.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly changed?: string;
-  /**
-   * The type of the resource. E.g. LibraryArtifact
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /**
-   * Name of the library/package.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * Operation Id of the operation performed on library/package.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly operationId?: string;
-  /**
-   * artifact Id of the library/package.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly artifactId?: string;
-}
-
-/** Operation status for the operation */
-export interface OperationResult {
-  /**
-   * Operation status
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly status?: string;
-  /** Error code. */
-  code?: string;
-  /** Error message. */
-  message?: string;
-  /** Property name/path in request associated with error. */
-  target?: string;
-  /** Array with additional error details. */
-  details?: CloudError[];
-}
-
-export interface GitHubAccessTokenRequest {
-  /** The GitHub Client Id. */
-  gitHubClientId: string;
-  /** GitHub bring your own app client secret information. */
-  gitHubClientSecret?: GitHubClientSecret;
-  /** The GitHub Access code. */
-  gitHubAccessCode: string;
-  /** The GitHub access token base URL. */
-  gitHubAccessTokenBaseUrl: string;
-}
-
-export interface GitHubAccessTokenResponse {
-  gitHubAccessToken?: string;
-}
-
 /** Azure Synapse expression definition. */
 export interface Expression {
   /** Expression type. */
@@ -2178,82 +2285,6 @@ export interface Expression {
 export interface SecretBase {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SecureString" | "AzureKeyVaultSecret";
-}
-
-/** Request body structure for starting data flow debug session. */
-export interface StartDataFlowDebugSessionRequest {
-  /** The ID of data flow debug session. */
-  sessionId?: string;
-  /** Data flow instance. */
-  dataFlow?: DataFlowResource;
-  /** List of datasets. */
-  datasets?: DatasetResource[];
-  /** List of linked services. */
-  linkedServices?: LinkedServiceResource[];
-  /** Staging info for debug session. */
-  staging?: any;
-  /** Data flow debug settings. */
-  debugSettings?: any;
-  /** The type of new Databricks cluster. */
-  incrementalDebug?: boolean;
-}
-
-/** Response body structure for starting data flow debug session. */
-export interface StartDataFlowDebugSessionResponse {
-  /** The ID of data flow debug job version. */
-  jobVersion?: string;
-}
-
-/** Request body structure for data flow preview data. */
-export interface DataFlowDebugPreviewDataRequest {
-  /** The ID of data flow debug session. */
-  sessionId?: string;
-  /** The data flow which contains the debug session. */
-  dataFlowName?: string;
-  /** The output stream name. */
-  streamName?: string;
-  /** The row limit for preview request. */
-  rowLimits?: number;
-}
-
-/** Request body structure for data flow statistics. */
-export interface DataFlowDebugStatisticsRequest {
-  /** The ID of data flow debug session. */
-  sessionId?: string;
-  /** The data flow which contains the debug session. */
-  dataFlowName?: string;
-  /** The output stream name. */
-  streamName?: string;
-  /** List of column names. */
-  columns?: string[];
-}
-
-/** Request body structure for data flow expression preview. */
-export interface EvaluateDataFlowExpressionRequest {
-  /** The ID of data flow debug session. */
-  sessionId?: string;
-  /** The data flow which contains the debug session. */
-  dataFlowName?: string;
-  /** The output stream name. */
-  streamName?: string;
-  /** The row limit for preview request. */
-  rowLimits?: number;
-  /** The expression for preview. */
-  expression?: string;
-}
-
-/** Response body structure of data flow query for data preview, statistics or expression preview. */
-export interface DataFlowDebugQueryResponse {
-  /** The run ID of data flow debug session. */
-  runId?: string;
-}
-
-/** Response body structure of data flow result for data preview, statistics or expression preview. */
-export interface DataFlowDebugResultResponse {
-  /** The run status of data preview, statistics or expression preview. */
-  status?: string;
-  /** The result data of data preview, statistics or expression preview. */
-  data?: string;
 }
 
 /** Defines the response of a provision trigger dependency operation. */
@@ -2326,6 +2357,8 @@ export interface DataFlowReference {
   referenceName: string;
   /** Reference data flow parameters from dataset. */
   datasetParameters?: any;
+  /** Data flow parameters */
+  parameters?: { [propertyName: string]: any };
 }
 
 /** Rerun tumbling window trigger Parameters. */
@@ -2413,12 +2446,96 @@ export interface SqlPoolReference {
   referenceName: string;
 }
 
+/** Request body structure for starting data flow debug session. */
+export interface StartDataFlowDebugSessionRequest {
+  /** The ID of data flow debug session. */
+  sessionId?: string;
+  /** Data flow instance. */
+  dataFlow?: DataFlowResource;
+  /** List of Data flows */
+  dataFlows?: DataFlowResource[];
+  /** List of datasets. */
+  datasets?: DatasetResource[];
+  /** List of linked services. */
+  linkedServices?: LinkedServiceResource[];
+  /** Staging info for debug session. */
+  staging?: any;
+  /** Data flow debug settings. */
+  debugSettings?: any;
+  /** The type of new Databricks cluster. */
+  incrementalDebug?: boolean;
+}
+
+/** Response body structure for starting data flow debug session. */
+export interface StartDataFlowDebugSessionResponse {
+  /** The ID of data flow debug job version. */
+  jobVersion?: string;
+}
+
+/** Request body structure for data flow preview data. */
+export interface DataFlowDebugPreviewDataRequest {
+  /** The ID of data flow debug session. */
+  sessionId?: string;
+  /** The data flow which contains the debug session. */
+  dataFlowName?: string;
+  /** The output stream name. */
+  streamName?: string;
+  /** The row limit for preview request. */
+  rowLimits?: number;
+}
+
+/** Request body structure for data flow statistics. */
+export interface DataFlowDebugStatisticsRequest {
+  /** The ID of data flow debug session. */
+  sessionId?: string;
+  /** The data flow which contains the debug session. */
+  dataFlowName?: string;
+  /** The output stream name. */
+  streamName?: string;
+  /** List of column names. */
+  columns?: string[];
+}
+
+/** Request body structure for data flow expression preview. */
+export interface EvaluateDataFlowExpressionRequest {
+  /** The ID of data flow debug session. */
+  sessionId?: string;
+  /** The data flow which contains the debug session. */
+  dataFlowName?: string;
+  /** The output stream name. */
+  streamName?: string;
+  /** The row limit for preview request. */
+  rowLimits?: number;
+  /** The expression for preview. */
+  expression?: string;
+}
+
+/** Response body structure of data flow query for data preview, statistics or expression preview. */
+export interface DataFlowDebugQueryResponse {
+  /** The run ID of data flow debug session. */
+  runId?: string;
+}
+
+/** Response body structure of data flow result for data preview, statistics or expression preview. */
+export interface DataFlowDebugResultResponse {
+  /** The run status of data preview, statistics or expression preview. */
+  status?: string;
+  /** The result data of data preview, statistics or expression preview. */
+  data?: string;
+}
+
 /** A data flow transformation. */
 export interface Transformation {
   /** Transformation name. */
   name: string;
   /** Transformation description. */
   description?: string;
+  /** Dataset reference. */
+  dataset?: DatasetReference;
+  /** Linked service reference. */
+  linkedService?: LinkedServiceReference;
+  /** Flowlet Reference */
+  flowlet?: DataFlowReference;
 }
 
 /** Dataset location. */
@@ -2481,10 +2598,12 @@ export interface DatasetStorageFormat {
 
 /** The compression method used on a dataset. */
 export interface DatasetCompression {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "BZip2" | "GZip" | "Deflate" | "ZipDeflate" | "Tar" | "TarGZip";
   /** Describes unknown properties. The value of an unknown property can be of "any" type. */
   [property: string]: any;
+  /** Type of dataset compression. Type: string (or Expression with resultType string). */
+  type: any;
+  /** The dataset compression level. Type: string (or Expression with resultType string). */
+  level?: any;
 }
 
 /** Base definition of WebLinkedServiceTypeProperties, this typeProperties is polymorphic based on authenticationType, so not flattened in SDK models. */
@@ -2502,7 +2621,7 @@ export interface ScriptAction {
   /** The URI for the script action. */
   uri: string;
   /** The node types on which the script action should be executed. */
-  roles: HdiNodeTypes;
+  roles: any;
   /** The parameters for the script action. */
   parameters?: string;
 }
@@ -2645,6 +2764,7 @@ export interface CopySource {
     | "RestSource"
     | "SqlSource"
     | "SqlServerSource"
+    | "AmazonRdsForSqlServerSource"
     | "AzureSqlSource"
     | "SqlMISource"
     | "SqlDWSource"
@@ -2653,6 +2773,7 @@ export interface CopySource {
     | "AzureMySqlSource"
     | "AzureDataExplorerSource"
     | "OracleSource"
+    | "AmazonRdsForOracleSource"
     | "TeradataSource"
     | "WebSource"
     | "CassandraSource"
@@ -2710,14 +2831,6 @@ export interface CopySource {
   sourceRetryWait?: any;
   /** The maximum concurrent connection count for the source data store. Type: integer (or Expression with resultType integer). */
   maxConcurrentConnections?: any;
-}
-
-/** Specify the column name and value of additional columns. */
-export interface AdditionalColumns {
-  /** Additional column name. Type: string (or Expression with resultType string). */
-  name?: any;
-  /** Additional column value. Type: string (or Expression with resultType string). */
-  value?: any;
 }
 
 /** A copy activity sink. */
@@ -2893,6 +3006,18 @@ export interface OraclePartitionSettings {
   partitionLowerBound?: any;
 }
 
+/** The settings that will be leveraged for AmazonRdsForOracle source partitioning. */
+export interface AmazonRdsForOraclePartitionSettings {
+  /** Names of the physical partitions of AmazonRdsForOracle table. */
+  partitionNames?: any;
+  /** The name of the column in integer type that will be used for proceeding range partitioning. Type: string (or Expression with resultType string). */
+  partitionColumnName?: any;
+  /** The maximum value of column specified in partitionColumnName that will be used for proceeding range partitioning. Type: string (or Expression with resultType string). */
+  partitionUpperBound?: any;
+  /** The minimum value of column specified in partitionColumnName that will be used for proceeding range partitioning. Type: string (or Expression with resultType string). */
+  partitionLowerBound?: any;
+}
+
 /** The settings that will be leveraged for teradata source partitioning. */
 export interface TeradataPartitionSettings {
   /** The name of the column that will be used for proceeding range or hash partitioning. Type: string (or Expression with resultType string). */
@@ -2979,6 +3104,14 @@ export interface DWCopyCommandDefaultValue {
   columnName?: any;
   /** The default value of the column. Type: object (or Expression with resultType string). */
   defaultValue?: any;
+}
+
+/** Specify the column name and value of additional columns. */
+export interface AdditionalColumns {
+  /** Additional column name. Type: string (or Expression with resultType string). */
+  name?: any;
+  /** Additional column value. Type: string (or Expression with resultType string). */
+  value?: any;
 }
 
 /** A copy activity translator. */
@@ -3230,6 +3363,8 @@ export interface IntegrationRuntimeDataFlowProperties {
   coreCount?: number;
   /** Time to live (in minutes) setting of the cluster which will execute data flow job. */
   timeToLive?: number;
+  /** Cluster will not be recycled and it will be used in next data flow activity run until TTL (time to live) is reached if this is set as false. Default is true. */
+  cleanup?: boolean;
 }
 
 /** VNet properties for managed integration runtime. */
@@ -3342,6 +3477,1064 @@ export type TrackedResource = Resource & {
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export type ProxyResource = Resource & {};
 
+/** Mapping data flow. */
+export type MappingDataFlow = DataFlow & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "MappingDataFlow";
+  /** List of sources in data flow. */
+  sources?: DataFlowSource[];
+  /** List of sinks in data flow. */
+  sinks?: DataFlowSink[];
+  /** List of transformations in data flow. */
+  transformations?: Transformation[];
+  /** DataFlow script. */
+  script?: string;
+  /** Data flow script lines. */
+  scriptLines?: string[];
+};
+
+/** Data flow flowlet */
+export type Flowlet = DataFlow & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "Flowlet";
+  /** List of sources in Flowlet. */
+  sources?: DataFlowSource[];
+  /** List of sinks in Flowlet. */
+  sinks?: DataFlowSink[];
+  /** List of transformations in Flowlet. */
+  transformations?: Transformation[];
+  /** Flowlet script. */
+  script?: string;
+  /** Flowlet script lines. */
+  scriptLines?: string[];
+};
+
+/** Integration runtime debug resource. */
+export type IntegrationRuntimeDebugResource = SubResourceDebugResource & {
+  /** Integration runtime properties. */
+  properties: IntegrationRuntimeUnion;
+};
+
+/** Data flow debug resource. */
+export type DataFlowDebugResource = SubResourceDebugResource & {
+  /** Data flow properties. */
+  properties: DataFlowUnion;
+};
+
+/** Dataset debug resource. */
+export type DatasetDebugResource = SubResourceDebugResource & {
+  /** Dataset properties. */
+  properties: DatasetUnion;
+};
+
+/** Linked service debug resource. */
+export type LinkedServiceDebugResource = SubResourceDebugResource & {
+  /** Properties of linked service. */
+  properties: LinkedServiceUnion;
+};
+
+/** Managed integration runtime, including managed elastic and managed dedicated integration runtimes. */
+export type ManagedIntegrationRuntime = IntegrationRuntime & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "Managed";
+  /**
+   * Integration runtime state, only valid for managed dedicated integration runtime.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly state?: IntegrationRuntimeState;
+  /** Managed Virtual Network reference. */
+  managedVirtualNetwork?: ManagedVirtualNetworkReference;
+  /** The compute resource for managed integration runtime. */
+  computeProperties?: IntegrationRuntimeComputeProperties;
+  /** SSIS properties for managed integration runtime. */
+  ssisProperties?: IntegrationRuntimeSsisProperties;
+};
+
+/** Self-hosted integration runtime. */
+export type SelfHostedIntegrationRuntime = IntegrationRuntime & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "SelfHosted";
+  /** Linked integration runtime type from data factory */
+  linkedInfo?: LinkedIntegrationRuntimeTypeUnion;
+};
+
+/** A single Amazon Simple Storage Service (S3) object or a set of S3 objects. */
+export type AmazonS3Dataset = Dataset & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "AmazonS3Object";
+  /** The name of the Amazon S3 bucket. Type: string (or Expression with resultType string). */
+  bucketName: any;
+  /** The key of the Amazon S3 object. Type: string (or Expression with resultType string). */
+  key?: any;
+  /** The prefix filter for the S3 object name. Type: string (or Expression with resultType string). */
+  prefix?: any;
+  /** The version for the S3 object. Type: string (or Expression with resultType string). */
+  version?: any;
+  /** The start of S3 object's modified datetime. Type: string (or Expression with resultType string). */
+  modifiedDatetimeStart?: any;
+  /** The end of S3 object's modified datetime. Type: string (or Expression with resultType string). */
+  modifiedDatetimeEnd?: any;
+  /** The format of files. */
+  format?: DatasetStorageFormatUnion;
+  /** The data compression method used for the Amazon S3 object. */
+  compression?: DatasetCompression;
+};
+
+/** Avro dataset. */
+export type AvroDataset = Dataset & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "Avro";
+  /** The location of the avro storage. */
+  location?: DatasetLocationUnion;
+  /** A string from AvroCompressionCodecEnum or an expression */
+  avroCompressionCodec?: any;
+  avroCompressionLevel?: number;
+};
+
+/** Excel dataset. */
+export type ExcelDataset = Dataset & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "Excel";
+  /** The location of the excel storage. */
+  location?: DatasetLocationUnion;
+  /** The sheet of excel file. Type: string (or Expression with resultType string). */
+  sheetName?: any;
+  /** The partial data of one sheet. Type: string (or Expression with resultType string). */
+  range?: any;
+  /** When used as input, treat the first row of data as headers. When used as output,write the headers into the output as the first row of data. The default value is false. Type: boolean (or Expression with resultType boolean). */
+  firstRowAsHeader?: any;
+  /** The data compression method used for the json dataset. */
+  compression?: DatasetCompression;
+  /** The null value string. Type: string (or Expression with resultType string). */
+  nullValue?: any;
+};
+
+/** Parquet dataset. */
+export type ParquetDataset = Dataset & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "Parquet";
+  /** The location of the parquet storage. */
+  location?: DatasetLocationUnion;
+  /** A string from ParquetCompressionCodecEnum or an expression */
+  compressionCodec?: any;
+};
+
+/** Delimited text dataset. */
+export type DelimitedTextDataset = Dataset & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "DelimitedText";
+  /** The location of the delimited text storage. */
+  location?: DatasetLocationUnion;
+  /** The column delimiter. Type: string (or Expression with resultType string). */
+  columnDelimiter?: any;
+  /** The row delimiter. Type: string (or Expression with resultType string). */
+  rowDelimiter?: any;
+  /** The code page name of the preferred encoding. If miss, the default value is UTF-8, unless BOM denotes another Unicode encoding. Refer to the name column of the table in the following link to set supported values: https://msdn.microsoft.com/library/system.text.encoding.aspx. Type: string (or Expression with resultType string). */
+  encodingName?: any;
+  /** The data compressionCodec. Type: string (or Expression with resultType string). */
+  compressionCodec?: any;
+  /** The data compression method used for DelimitedText. */
+  compressionLevel?: any;
+  /** The quote character. Type: string (or Expression with resultType string). */
+  quoteChar?: any;
+  /** The escape character. Type: string (or Expression with resultType string). */
+  escapeChar?: any;
+  /** When used as input, treat the first row of data as headers. When used as output,write the headers into the output as the first row of data. The default value is false. Type: boolean (or Expression with resultType boolean). */
+  firstRowAsHeader?: any;
+  /** The null value string. Type: string (or Expression with resultType string). */
+  nullValue?: any;
+};
+
+/** Json dataset. */
+export type JsonDataset = Dataset & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "Json";
+  /** The location of the json data storage. */
+  location?: DatasetLocationUnion;
+  /** The code page name of the preferred encoding. If not specified, the default value is UTF-8, unless BOM denotes another Unicode encoding. Refer to the name column of the table in the following link to set supported values: https://msdn.microsoft.com/library/system.text.encoding.aspx. Type: string (or Expression with resultType string). */
+  encodingName?: any;
+  /** The data compression method used for the json dataset. */
+  compression?: DatasetCompression;
+};
+
+/** Xml dataset. */
+export type XmlDataset = Dataset & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "Xml";
+  /** The location of the json data storage. */
+  location?: DatasetLocationUnion;
+  /** The code page name of the preferred encoding. If not specified, the default value is UTF-8, unless BOM denotes another Unicode encoding. Refer to the name column of the table in the following link to set supported values: https://msdn.microsoft.com/library/system.text.encoding.aspx. Type: string (or Expression with resultType string). */
+  encodingName?: any;
+  /** The null value string. Type: string (or Expression with resultType string). */
+  nullValue?: any;
+  /** The data compression method used for the json dataset. */
+  compression?: DatasetCompression;
+};
+
+/** ORC dataset. */
+export type OrcDataset = Dataset & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "Orc";
+  /** The location of the ORC data storage. */
+  location?: DatasetLocationUnion;
+  /** The data orcCompressionCodec. Type: string (or Expression with resultType string). */
+  orcCompressionCodec?: any;
+};
+
+/** Binary dataset. */
+export type BinaryDataset = Dataset & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "Binary";
+  /** The location of the Binary storage. */
+  location?: DatasetLocationUnion;
+  /** The data compression method used for the binary dataset. */
+  compression?: DatasetCompression;
+};
+
+/** The Azure Blob storage. */
+export type AzureBlobDataset = Dataset & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "AzureBlob";
+  /** The path of the Azure Blob storage. Type: string (or Expression with resultType string). */
+  folderPath?: any;
+  /** The root of blob path. Type: string (or Expression with resultType string). */
+  tableRootLocation?: any;
+  /** The name of the Azure Blob. Type: string (or Expression with resultType string). */
+  fileName?: any;
+  /** The start of Azure Blob's modified datetime. Type: string (or Expression with resultType string). */
+  modifiedDatetimeStart?: any;
+  /** The end of Azure Blob's modified datetime. Type: string (or Expression with resultType string). */
+  modifiedDatetimeEnd?: any;
+  /** The format of the Azure Blob storage. */
+  format?: DatasetStorageFormatUnion;
+  /** The data compression method used for the blob storage. */
+  compression?: DatasetCompression;
+};
+
+/** The Azure Table storage dataset. */
+export type AzureTableDataset = Dataset & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "AzureTable";
+  /** The table name of the Azure Table storage. Type: string (or Expression with resultType string). */
+  tableName: any;
+};
+
+/** The Azure SQL Server database dataset. */
+export type AzureSqlTableDataset = Dataset & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "AzureSqlTable";
+  /** This property will be retired. Please consider using schema + table properties instead. */
+  tableName?: any;
+  /** The schema name of the Azure SQL database. Type: string (or Expression with resultType string). */
+  schemaTypePropertiesSchema?: any;
+  /** The table name of the Azure SQL database. Type: string (or Expression with resultType string). */
+  table?: any;
+};
+
+/** The Azure SQL Managed Instance dataset. */
+export type AzureSqlMITableDataset = Dataset & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "AzureSqlMITable";
+  /** This property will be retired. Please consider using schema + table properties instead. */
+  tableName?: any;
+  /** The schema name of the Azure SQL Managed Instance. Type: string (or Expression with resultType string). */
+  schemaTypePropertiesSchema?: any;
+  /** The table name of the Azure SQL Managed Instance dataset. Type: string (or Expression with resultType string). */
+  table?: any;
+};
+
+/** The Azure SQL Data Warehouse dataset. */
+export type AzureSqlDWTableDataset = Dataset & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "AzureSqlDWTable";
+  /** This property will be retired. Please consider using schema + table properties instead. */
+  tableName?: any;
+  /** The schema name of the Azure SQL Data Warehouse. Type: string (or Expression with resultType string). */
+  schemaTypePropertiesSchema?: any;
+  /** The table name of the Azure SQL Data Warehouse. Type: string (or Expression with resultType string). */
+  table?: any;
+};
+
+/** The Cassandra database dataset. */
+export type CassandraTableDataset = Dataset & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "CassandraTable";
+  /** The table name of the Cassandra database. Type: string (or Expression with resultType string). */
+  tableName?: any;
+  /** The keyspace of the Cassandra database. Type: string (or Expression with resultType string). */
+  keyspace?: any;
+};
+
+/** The custom dataset. */
+export type CustomDataset = Dataset & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "CustomDataset";
+  /** Custom dataset properties. */
+  typeProperties?: any;
+};
+
+/** Microsoft Azure CosmosDB (SQL API) Collection dataset. */
+export type CosmosDbSqlApiCollectionDataset = Dataset & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "CosmosDbSqlApiCollection";
+  /** CosmosDB (SQL API) collection name. Type: string (or Expression with resultType string). */
+  collectionName: any;
+};
+
+/** Microsoft Azure Document Database Collection dataset. */
+export type DocumentDbCollectionDataset = Dataset & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "DocumentDbCollection";
+  /** Document Database collection name. Type: string (or Expression with resultType string). */
+  collectionName: any;
+};
+
+/** The Dynamics entity dataset. */
+export type DynamicsEntityDataset = Dataset & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "DynamicsEntity";
+  /** The logical name of the entity. Type: string (or Expression with resultType string). */
+  entityName?: any;
+};
+
+/** The Dynamics CRM entity dataset. */
+export type DynamicsCrmEntityDataset = Dataset & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "DynamicsCrmEntity";
+  /** The logical name of the entity. Type: string (or Expression with resultType string). */
+  entityName?: any;
+};
+
+/** The Common Data Service for Apps entity dataset. */
+export type CommonDataServiceForAppsEntityDataset = Dataset & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "CommonDataServiceForAppsEntity";
+  /** The logical name of the entity. Type: string (or Expression with resultType string). */
+  entityName?: any;
+};
+
+/** Azure Data Lake Store dataset. */
+export type AzureDataLakeStoreDataset = Dataset & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "AzureDataLakeStoreFile";
+  /** Path to the folder in the Azure Data Lake Store. Type: string (or Expression with resultType string). */
+  folderPath?: any;
+  /** The name of the file in the Azure Data Lake Store. Type: string (or Expression with resultType string). */
+  fileName?: any;
+  /** The format of the Data Lake Store. */
+  format?: DatasetStorageFormatUnion;
+  /** The data compression method used for the item(s) in the Azure Data Lake Store. */
+  compression?: DatasetCompression;
+};
+
+/** The Azure Data Lake Storage Gen2 storage. */
+export type AzureBlobFSDataset = Dataset & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "AzureBlobFSFile";
+  /** The path of the Azure Data Lake Storage Gen2 storage. Type: string (or Expression with resultType string). */
+  folderPath?: any;
+  /** The name of the Azure Data Lake Storage Gen2. Type: string (or Expression with resultType string). */
+  fileName?: any;
+  /** The format of the Azure Data Lake Storage Gen2 storage. */
+  format?: DatasetStorageFormatUnion;
+  /** The data compression method used for the blob storage. */
+  compression?: DatasetCompression;
+};
+
+/** The Office365 account. */
+export type Office365Dataset = Dataset & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "Office365Table";
+  /** Name of the dataset to extract from Office 365. Type: string (or Expression with resultType string). */
+  tableName: any;
+  /** A predicate expression that can be used to filter the specific rows to extract from Office 365. Type: string (or Expression with resultType string). */
+  predicate?: any;
+};
+
+/** An on-premises file system dataset. */
+export type FileShareDataset = Dataset & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "FileShare";
+  /** The path of the on-premises file system. Type: string (or Expression with resultType string). */
+  folderPath?: any;
+  /** The name of the on-premises file system. Type: string (or Expression with resultType string). */
+  fileName?: any;
+  /** The start of file's modified datetime. Type: string (or Expression with resultType string). */
+  modifiedDatetimeStart?: any;
+  /** The end of file's modified datetime. Type: string (or Expression with resultType string). */
+  modifiedDatetimeEnd?: any;
+  /** The format of the files. */
+  format?: DatasetStorageFormatUnion;
+  /** Specify a filter to be used to select a subset of files in the folderPath rather than all files. Type: string (or Expression with resultType string). */
+  fileFilter?: any;
+  /** The data compression method used for the file system. */
+  compression?: DatasetCompression;
+};
+
+/** The MongoDB database dataset. */
+export type MongoDbCollectionDataset = Dataset & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "MongoDbCollection";
+  /** The table name of the MongoDB database. Type: string (or Expression with resultType string). */
+  collectionName: any;
+};
+
+/** The MongoDB Atlas database dataset. */
+export type MongoDbAtlasCollectionDataset = Dataset & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "MongoDbAtlasCollection";
+  /** The collection name of the MongoDB Atlas database. Type: string (or Expression with resultType string). */
+  collection: any;
+};
+
+/** The MongoDB database dataset. */
+export type MongoDbV2CollectionDataset = Dataset & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "MongoDbV2Collection";
+  /** The collection name of the MongoDB database. Type: string (or Expression with resultType string). */
+  collection: any;
+};
+
+/** The CosmosDB (MongoDB API) database dataset. */
+export type CosmosDbMongoDbApiCollectionDataset = Dataset & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "CosmosDbMongoDbApiCollection";
+  /** The collection name of the CosmosDB (MongoDB API) database. Type: string (or Expression with resultType string). */
+  collection: any;
+};
+
+/** The Open Data Protocol (OData) resource dataset. */
+export type ODataResourceDataset = Dataset & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "ODataResource";
+  /** The OData resource path. Type: string (or Expression with resultType string). */
+  path?: any;
+};
+
+/** The on-premises Oracle database dataset. */
+export type OracleTableDataset = Dataset & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "OracleTable";
+  /** This property will be retired. Please consider using schema + table properties instead. */
+  tableName?: any;
+  /** The schema name of the on-premises Oracle database. Type: string (or Expression with resultType string). */
+  schemaTypePropertiesSchema?: any;
+  /** The table name of the on-premises Oracle database. Type: string (or Expression with resultType string). */
+  table?: any;
+};
+
+/** The AmazonRdsForOracle database dataset. */
+export type AmazonRdsForOracleTableDataset = Dataset & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "AmazonRdsForOracleTable";
+  /** The schema name of the AmazonRdsForOracle database. Type: string (or Expression with resultType string). */
+  schemaTypePropertiesSchema?: any;
+  /** The table name of the AmazonRdsForOracle database. Type: string (or Expression with resultType string). */
+  table?: any;
+};
+
+/** The Teradata database dataset. */
+export type TeradataTableDataset = Dataset & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "TeradataTable";
+  /** The database name of Teradata. Type: string (or Expression with resultType string). */
+  database?: any;
+  /** The table name of Teradata. Type: string (or Expression with resultType string). */
+  table?: any;
+};
+
+/** The Azure MySQL database dataset. */
+export type AzureMySqlTableDataset = Dataset & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "AzureMySqlTable";
+  /** The Azure MySQL database table name. Type: string (or Expression with resultType string). */
+  tableName?: any;
+  /** The name of Azure MySQL database table. Type: string (or Expression with resultType string). */
+  table?: any;
+};
+
+/** The Amazon Redshift table dataset. */
+export type AmazonRedshiftTableDataset = Dataset & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "AmazonRedshiftTable";
+  /** This property will be retired. Please consider using schema + table properties instead. */
+  tableName?: any;
+  /** The Amazon Redshift table name. Type: string (or Expression with resultType string). */
+  table?: any;
+  /** The Amazon Redshift schema name. Type: string (or Expression with resultType string). */
+  schemaTypePropertiesSchema?: any;
+};
+
+/** The Db2 table dataset. */
+export type Db2TableDataset = Dataset & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "Db2Table";
+  /** This property will be retired. Please consider using schema + table properties instead. */
+  tableName?: any;
+  /** The Db2 schema name. Type: string (or Expression with resultType string). */
+  schemaTypePropertiesSchema?: any;
+  /** The Db2 table name. Type: string (or Expression with resultType string). */
+  table?: any;
+};
+
+/** The relational table dataset. */
+export type RelationalTableDataset = Dataset & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "RelationalTable";
+  /** The relational table name. Type: string (or Expression with resultType string). */
+  tableName?: any;
+};
+
+/** The Informix table dataset. */
+export type InformixTableDataset = Dataset & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "InformixTable";
+  /** The Informix table name. Type: string (or Expression with resultType string). */
+  tableName?: any;
+};
+
+/** The ODBC table dataset. */
+export type OdbcTableDataset = Dataset & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "OdbcTable";
+  /** The ODBC table name. Type: string (or Expression with resultType string). */
+  tableName?: any;
+};
+
+/** The MySQL table dataset. */
+export type MySqlTableDataset = Dataset & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "MySqlTable";
+  /** The MySQL table name. Type: string (or Expression with resultType string). */
+  tableName?: any;
+};
+
+/** The PostgreSQL table dataset. */
+export type PostgreSqlTableDataset = Dataset & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "PostgreSqlTable";
+  /** This property will be retired. Please consider using schema + table properties instead. */
+  tableName?: any;
+  /** The PostgreSQL table name. Type: string (or Expression with resultType string). */
+  table?: any;
+  /** The PostgreSQL schema name. Type: string (or Expression with resultType string). */
+  schemaTypePropertiesSchema?: any;
+};
+
+/** The Microsoft Access table dataset. */
+export type MicrosoftAccessTableDataset = Dataset & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "MicrosoftAccessTable";
+  /** The Microsoft Access table name. Type: string (or Expression with resultType string). */
+  tableName?: any;
+};
+
+/** The Salesforce object dataset. */
+export type SalesforceObjectDataset = Dataset & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "SalesforceObject";
+  /** The Salesforce object API name. Type: string (or Expression with resultType string). */
+  objectApiName?: any;
+};
+
+/** The Salesforce Service Cloud object dataset. */
+export type SalesforceServiceCloudObjectDataset = Dataset & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "SalesforceServiceCloudObject";
+  /** The Salesforce Service Cloud object API name. Type: string (or Expression with resultType string). */
+  objectApiName?: any;
+};
+
+/** The Sybase table dataset. */
+export type SybaseTableDataset = Dataset & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "SybaseTable";
+  /** The Sybase table name. Type: string (or Expression with resultType string). */
+  tableName?: any;
+};
+
+/** The SAP BW cube dataset. */
+export type SapBwCubeDataset = Dataset & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "SapBwCube";
+};
+
+/** The path of the SAP Cloud for Customer OData entity. */
+export type SapCloudForCustomerResourceDataset = Dataset & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "SapCloudForCustomerResource";
+  /** The path of the SAP Cloud for Customer OData entity. Type: string (or Expression with resultType string). */
+  path: any;
+};
+
+/** The path of the SAP ECC OData entity. */
+export type SapEccResourceDataset = Dataset & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "SapEccResource";
+  /** The path of the SAP ECC OData entity. Type: string (or Expression with resultType string). */
+  path: any;
+};
+
+/** SAP HANA Table properties. */
+export type SapHanaTableDataset = Dataset & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "SapHanaTable";
+  /** The schema name of SAP HANA. Type: string (or Expression with resultType string). */
+  schemaTypePropertiesSchema?: any;
+  /** The table name of SAP HANA. Type: string (or Expression with resultType string). */
+  table?: any;
+};
+
+/** Sap Business Warehouse Open Hub Destination Table properties. */
+export type SapOpenHubTableDataset = Dataset & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "SapOpenHubTable";
+  /** The name of the Open Hub Destination with destination type as Database Table. Type: string (or Expression with resultType string). */
+  openHubDestinationName: any;
+  /** Whether to exclude the records of the last request. The default value is true. Type: boolean (or Expression with resultType boolean). */
+  excludeLastRequest?: any;
+  /** The ID of request for delta loading. Once it is set, only data with requestId larger than the value of this property will be retrieved. The default value is 0. Type: integer (or Expression with resultType integer ). */
+  baseRequestId?: any;
+};
+
+/** The on-premises SQL Server dataset. */
+export type SqlServerTableDataset = Dataset & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "SqlServerTable";
+  /** This property will be retired. Please consider using schema + table properties instead. */
+  tableName?: any;
+  /** The schema name of the SQL Server dataset. Type: string (or Expression with resultType string). */
+  schemaTypePropertiesSchema?: any;
+  /** The table name of the SQL Server dataset. Type: string (or Expression with resultType string). */
+  table?: any;
+};
+
+/** The Amazon RDS for SQL Server dataset. */
+export type AmazonRdsForSqlServerTableDataset = Dataset & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "AmazonRdsForSqlServerTable";
+  /** The schema name of the SQL Server dataset. Type: string (or Expression with resultType string). */
+  schemaTypePropertiesSchema?: any;
+  /** The table name of the SQL Server dataset. Type: string (or Expression with resultType string). */
+  table?: any;
+};
+
+/** A Rest service dataset. */
+export type RestResourceDataset = Dataset & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "RestResource";
+  /** The relative URL to the resource that the RESTful API provides. Type: string (or Expression with resultType string). */
+  relativeUrl?: any;
+  /** The HTTP method used to call the RESTful API. The default is GET. Type: string (or Expression with resultType string). */
+  requestMethod?: any;
+  /** The HTTP request body to the RESTful API if requestMethod is POST. Type: string (or Expression with resultType string). */
+  requestBody?: any;
+  /** The additional HTTP headers in the request to the RESTful API. Type: string (or Expression with resultType string). */
+  additionalHeaders?: any;
+  /** The pagination rules to compose next page requests. Type: string (or Expression with resultType string). */
+  paginationRules?: any;
+};
+
+/** SAP Table Resource properties. */
+export type SapTableResourceDataset = Dataset & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "SapTableResource";
+  /** The name of the SAP Table. Type: string (or Expression with resultType string). */
+  tableName: any;
+};
+
+/** The dataset points to a HTML table in the web page. */
+export type WebTableDataset = Dataset & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "WebTable";
+  /** The zero-based index of the table in the web page. Type: integer (or Expression with resultType integer), minimum: 0. */
+  index: any;
+  /** The relative URL to the web page from the linked service URL. Type: string (or Expression with resultType string). */
+  path?: any;
+};
+
+/** The Azure Search Index. */
+export type AzureSearchIndexDataset = Dataset & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "AzureSearchIndex";
+  /** The name of the Azure Search Index. Type: string (or Expression with resultType string). */
+  indexName: any;
+};
+
+/** A file in an HTTP web server. */
+export type HttpDataset = Dataset & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "HttpFile";
+  /** The relative URL based on the URL in the HttpLinkedService refers to an HTTP file Type: string (or Expression with resultType string). */
+  relativeUrl?: any;
+  /** The HTTP method for the HTTP request. Type: string (or Expression with resultType string). */
+  requestMethod?: any;
+  /** The body for the HTTP request. Type: string (or Expression with resultType string). */
+  requestBody?: any;
+  /**
+   * The headers for the HTTP Request. e.g. request-header-name-1:request-header-value-1
+   * ...
+   * request-header-name-n:request-header-value-n Type: string (or Expression with resultType string).
+   */
+  additionalHeaders?: any;
+  /** The format of files. */
+  format?: DatasetStorageFormatUnion;
+  /** The data compression method used on files. */
+  compression?: DatasetCompression;
+};
+
+/** Amazon Marketplace Web Service dataset. */
+export type AmazonMWSObjectDataset = Dataset & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "AmazonMWSObject";
+  /** The table name. Type: string (or Expression with resultType string). */
+  tableName?: any;
+};
+
+/** Azure PostgreSQL dataset. */
+export type AzurePostgreSqlTableDataset = Dataset & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "AzurePostgreSqlTable";
+  /** The table name of the Azure PostgreSQL database which includes both schema and table. Type: string (or Expression with resultType string). */
+  tableName?: any;
+  /** The table name of the Azure PostgreSQL database. Type: string (or Expression with resultType string). */
+  table?: any;
+  /** The schema name of the Azure PostgreSQL database. Type: string (or Expression with resultType string). */
+  schemaTypePropertiesSchema?: any;
+};
+
+/** Concur Service dataset. */
+export type ConcurObjectDataset = Dataset & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "ConcurObject";
+  /** The table name. Type: string (or Expression with resultType string). */
+  tableName?: any;
+};
+
+/** Couchbase server dataset. */
+export type CouchbaseTableDataset = Dataset & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "CouchbaseTable";
+  /** The table name. Type: string (or Expression with resultType string). */
+  tableName?: any;
+};
+
+/** Drill server dataset. */
+export type DrillTableDataset = Dataset & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "DrillTable";
+  /** This property will be retired. Please consider using schema + table properties instead. */
+  tableName?: any;
+  /** The table name of the Drill. Type: string (or Expression with resultType string). */
+  table?: any;
+  /** The schema name of the Drill. Type: string (or Expression with resultType string). */
+  schemaTypePropertiesSchema?: any;
+};
+
+/** Eloqua server dataset. */
+export type EloquaObjectDataset = Dataset & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "EloquaObject";
+  /** The table name. Type: string (or Expression with resultType string). */
+  tableName?: any;
+};
+
+/** Google BigQuery service dataset. */
+export type GoogleBigQueryObjectDataset = Dataset & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "GoogleBigQueryObject";
+  /** This property will be retired. Please consider using database + table properties instead. */
+  tableName?: any;
+  /** The table name of the Google BigQuery. Type: string (or Expression with resultType string). */
+  table?: any;
+  /** The database name of the Google BigQuery. Type: string (or Expression with resultType string). */
+  dataset?: any;
+};
+
+/** Greenplum Database dataset. */
+export type GreenplumTableDataset = Dataset & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "GreenplumTable";
+  /** This property will be retired. Please consider using schema + table properties instead. */
+  tableName?: any;
+  /** The table name of Greenplum. Type: string (or Expression with resultType string). */
+  table?: any;
+  /** The schema name of Greenplum. Type: string (or Expression with resultType string). */
+  schemaTypePropertiesSchema?: any;
+};
+
+/** HBase server dataset. */
+export type HBaseObjectDataset = Dataset & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "HBaseObject";
+  /** The table name. Type: string (or Expression with resultType string). */
+  tableName?: any;
+};
+
+/** Hive Server dataset. */
+export type HiveObjectDataset = Dataset & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "HiveObject";
+  /** This property will be retired. Please consider using schema + table properties instead. */
+  tableName?: any;
+  /** The table name of the Hive. Type: string (or Expression with resultType string). */
+  table?: any;
+  /** The schema name of the Hive. Type: string (or Expression with resultType string). */
+  schemaTypePropertiesSchema?: any;
+};
+
+/** Hubspot Service dataset. */
+export type HubspotObjectDataset = Dataset & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "HubspotObject";
+  /** The table name. Type: string (or Expression with resultType string). */
+  tableName?: any;
+};
+
+/** Impala server dataset. */
+export type ImpalaObjectDataset = Dataset & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "ImpalaObject";
+  /** This property will be retired. Please consider using schema + table properties instead. */
+  tableName?: any;
+  /** The table name of the Impala. Type: string (or Expression with resultType string). */
+  table?: any;
+  /** The schema name of the Impala. Type: string (or Expression with resultType string). */
+  schemaTypePropertiesSchema?: any;
+};
+
+/** Jira Service dataset. */
+export type JiraObjectDataset = Dataset & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "JiraObject";
+  /** The table name. Type: string (or Expression with resultType string). */
+  tableName?: any;
+};
+
+/** Magento server dataset. */
+export type MagentoObjectDataset = Dataset & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "MagentoObject";
+  /** The table name. Type: string (or Expression with resultType string). */
+  tableName?: any;
+};
+
+/** MariaDB server dataset. */
+export type MariaDBTableDataset = Dataset & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "MariaDBTable";
+  /** The table name. Type: string (or Expression with resultType string). */
+  tableName?: any;
+};
+
+/** Azure Database for MariaDB dataset. */
+export type AzureMariaDBTableDataset = Dataset & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "AzureMariaDBTable";
+  /** The table name. Type: string (or Expression with resultType string). */
+  tableName?: any;
+};
+
+/** Marketo server dataset. */
+export type MarketoObjectDataset = Dataset & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "MarketoObject";
+  /** The table name. Type: string (or Expression with resultType string). */
+  tableName?: any;
+};
+
+/** Paypal Service dataset. */
+export type PaypalObjectDataset = Dataset & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "PaypalObject";
+  /** The table name. Type: string (or Expression with resultType string). */
+  tableName?: any;
+};
+
+/** Phoenix server dataset. */
+export type PhoenixObjectDataset = Dataset & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "PhoenixObject";
+  /** This property will be retired. Please consider using schema + table properties instead. */
+  tableName?: any;
+  /** The table name of the Phoenix. Type: string (or Expression with resultType string). */
+  table?: any;
+  /** The schema name of the Phoenix. Type: string (or Expression with resultType string). */
+  schemaTypePropertiesSchema?: any;
+};
+
+/** Presto server dataset. */
+export type PrestoObjectDataset = Dataset & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "PrestoObject";
+  /** This property will be retired. Please consider using schema + table properties instead. */
+  tableName?: any;
+  /** The table name of the Presto. Type: string (or Expression with resultType string). */
+  table?: any;
+  /** The schema name of the Presto. Type: string (or Expression with resultType string). */
+  schemaTypePropertiesSchema?: any;
+};
+
+/** QuickBooks server dataset. */
+export type QuickBooksObjectDataset = Dataset & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "QuickBooksObject";
+  /** The table name. Type: string (or Expression with resultType string). */
+  tableName?: any;
+};
+
+/** ServiceNow server dataset. */
+export type ServiceNowObjectDataset = Dataset & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "ServiceNowObject";
+  /** The table name. Type: string (or Expression with resultType string). */
+  tableName?: any;
+};
+
+/** Shopify Service dataset. */
+export type ShopifyObjectDataset = Dataset & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "ShopifyObject";
+  /** The table name. Type: string (or Expression with resultType string). */
+  tableName?: any;
+};
+
+/** Spark Server dataset. */
+export type SparkObjectDataset = Dataset & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "SparkObject";
+  /** This property will be retired. Please consider using schema + table properties instead. */
+  tableName?: any;
+  /** The table name of the Spark. Type: string (or Expression with resultType string). */
+  table?: any;
+  /** The schema name of the Spark. Type: string (or Expression with resultType string). */
+  schemaTypePropertiesSchema?: any;
+};
+
+/** Square Service dataset. */
+export type SquareObjectDataset = Dataset & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "SquareObject";
+  /** The table name. Type: string (or Expression with resultType string). */
+  tableName?: any;
+};
+
+/** Xero Service dataset. */
+export type XeroObjectDataset = Dataset & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "XeroObject";
+  /** The table name. Type: string (or Expression with resultType string). */
+  tableName?: any;
+};
+
+/** Zoho server dataset. */
+export type ZohoObjectDataset = Dataset & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "ZohoObject";
+  /** The table name. Type: string (or Expression with resultType string). */
+  tableName?: any;
+};
+
+/** Netezza dataset. */
+export type NetezzaTableDataset = Dataset & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "NetezzaTable";
+  /** This property will be retired. Please consider using schema + table properties instead. */
+  tableName?: any;
+  /** The table name of the Netezza. Type: string (or Expression with resultType string). */
+  table?: any;
+  /** The schema name of the Netezza. Type: string (or Expression with resultType string). */
+  schemaTypePropertiesSchema?: any;
+};
+
+/** Vertica dataset. */
+export type VerticaTableDataset = Dataset & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "VerticaTable";
+  /** This property will be retired. Please consider using schema + table properties instead. */
+  tableName?: any;
+  /** The table name of the Vertica. Type: string (or Expression with resultType string). */
+  table?: any;
+  /** The schema name of the Vertica. Type: string (or Expression with resultType string). */
+  schemaTypePropertiesSchema?: any;
+};
+
+/** Salesforce Marketing Cloud dataset. */
+export type SalesforceMarketingCloudObjectDataset = Dataset & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "SalesforceMarketingCloudObject";
+  /** The table name. Type: string (or Expression with resultType string). */
+  tableName?: any;
+};
+
+/** Responsys dataset. */
+export type ResponsysObjectDataset = Dataset & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "ResponsysObject";
+  /** The table name. Type: string (or Expression with resultType string). */
+  tableName?: any;
+};
+
+/** The path of the Dynamics AX OData entity. */
+export type DynamicsAXResourceDataset = Dataset & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "DynamicsAXResource";
+  /** The path of the Dynamics AX OData entity. Type: string (or Expression with resultType string). */
+  path: any;
+};
+
+/** Oracle Service Cloud dataset. */
+export type OracleServiceCloudObjectDataset = Dataset & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "OracleServiceCloudObject";
+  /** The table name. Type: string (or Expression with resultType string). */
+  tableName?: any;
+};
+
+/** The Azure Data Explorer (Kusto) dataset. */
+export type AzureDataExplorerTableDataset = Dataset & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "AzureDataExplorerTable";
+  /** The table name of the Azure Data Explorer database. Type: string (or Expression with resultType string). */
+  table?: any;
+};
+
+/** Google AdWords service dataset. */
+export type GoogleAdWordsObjectDataset = Dataset & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "GoogleAdWordsObject";
+  /** The table name. Type: string (or Expression with resultType string). */
+  tableName?: any;
+};
+
+/** The snowflake dataset. */
+export type SnowflakeDataset = Dataset & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "SnowflakeTable";
+  /** The schema name of the Snowflake database. Type: string (or Expression with resultType string). */
+  schemaTypePropertiesSchema?: any;
+  /** The table name of the Snowflake database. Type: string (or Expression with resultType string). */
+  table?: any;
+};
+
+/** The sharepoint online list resource dataset. */
+export type SharePointOnlineListResourceDataset = Dataset & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "SharePointOnlineListResource";
+  /** The name of the SharePoint Online list. Type: string (or Expression with resultType string). */
+  listName?: any;
+};
+
+/** Azure Databricks Delta Lake dataset. */
+export type AzureDatabricksDeltaLakeDataset = Dataset & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "AzureDatabricksDeltaLakeDataset";
+  /** The name of delta table. Type: string (or Expression with resultType string). */
+  table?: any;
+  /** The database name of delta table. Type: string (or Expression with resultType string). */
+  database?: any;
+};
+
 /** The storage account linked service. */
 export type AzureStorageLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -3380,6 +4573,8 @@ export type AzureBlobStorageLinkedService = LinkedService & {
   tenant?: any;
   /** Indicates the azure cloud type of the service principle auth. Allowed values are AzurePublic, AzureChina, AzureUsGovernment, AzureGermany. Default value is the data factory regions’ cloud type. Type: string (or Expression with resultType string). */
   azureCloudType?: any;
+  /** Specify the kind of your storage account. Allowed values are: Storage (general purpose v1), StorageV2 (general purpose v2), BlobStorage, or BlockBlobStorage. Type: string (or Expression with resultType string). */
+  accountKind?: string;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
   encryptedCredential?: string;
 };
@@ -3424,6 +4619,20 @@ export type AzureSqlDWLinkedService = LinkedService & {
 export type SqlServerLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SqlServer";
+  /** The connection string. Type: string, SecureString or AzureKeyVaultSecretReference. */
+  connectionString: any;
+  /** The on-premises Windows authentication user name. Type: string (or Expression with resultType string). */
+  userName?: any;
+  /** The on-premises Windows authentication password. */
+  password?: SecretBaseUnion;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
+  encryptedCredential?: any;
+};
+
+/** Amazon RDS for SQL Server linked service. */
+export type AmazonRdsForSqlServerLinkedService = LinkedService & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "AmazonRdsForSqlServer";
   /** The connection string. Type: string, SecureString or AzureKeyVaultSecretReference. */
   connectionString: any;
   /** The on-premises Windows authentication user name. Type: string (or Expression with resultType string). */
@@ -3521,7 +4730,7 @@ export type DynamicsLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Dynamics";
   /** The deployment type of the Dynamics instance. 'Online' for Dynamics Online and 'OnPremisesWithIfd' for Dynamics on-premises with Ifd. Type: string (or Expression with resultType string). */
-  deploymentType: DynamicsDeploymentType;
+  deploymentType: any;
   /** The host name of the on-premises Dynamics server. The property is required for on-prem and not allowed for online. Type: string (or Expression with resultType string). */
   hostName?: any;
   /** The port of on-premises Dynamics server. The property is required for on-prem and not allowed for online. Default is 443. Type: integer (or Expression with resultType integer), minimum: 0. */
@@ -3531,7 +4740,7 @@ export type DynamicsLinkedService = LinkedService & {
   /** The organization name of the Dynamics instance. The property is required for on-prem and required for online when there are more than one Dynamics instances associated with the user. Type: string (or Expression with resultType string). */
   organizationName?: any;
   /** The authentication type to connect to Dynamics server. 'Office365' for online scenario, 'Ifd' for on-premises with Ifd scenario, 'AADServicePrincipal' for Server-To-Server authentication in online scenario. Type: string (or Expression with resultType string). */
-  authenticationType: DynamicsAuthenticationType;
+  authenticationType: any;
   /** User name to access the Dynamics instance. Type: string (or Expression with resultType string). */
   username?: any;
   /** Password to access the Dynamics instance. */
@@ -3539,7 +4748,7 @@ export type DynamicsLinkedService = LinkedService & {
   /** The client ID of the application in Azure Active Directory used for Server-To-Server authentication. Type: string (or Expression with resultType string). */
   servicePrincipalId?: any;
   /** The service principal credential type to use in Server-To-Server authentication. 'ServicePrincipalKey' for key/secret, 'ServicePrincipalCert' for certificate. Type: string (or Expression with resultType string). */
-  servicePrincipalCredentialType?: DynamicsServicePrincipalCredentialType;
+  servicePrincipalCredentialType?: any;
   /** The credential of the service principal object in Azure Active Directory. If servicePrincipalCredentialType is 'ServicePrincipalKey', servicePrincipalCredential can be SecureString or AzureKeyVaultSecretReference. If servicePrincipalCredentialType is 'ServicePrincipalCert', servicePrincipalCredential can only be AzureKeyVaultSecretReference. */
   servicePrincipalCredential?: SecretBaseUnion;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
@@ -3551,7 +4760,7 @@ export type DynamicsCrmLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "DynamicsCrm";
   /** The deployment type of the Dynamics CRM instance. 'Online' for Dynamics CRM Online and 'OnPremisesWithIfd' for Dynamics CRM on-premises with Ifd. Type: string (or Expression with resultType string). */
-  deploymentType: DynamicsDeploymentType;
+  deploymentType: any;
   /** The host name of the on-premises Dynamics CRM server. The property is required for on-prem and not allowed for online. Type: string (or Expression with resultType string). */
   hostName?: any;
   /** The port of on-premises Dynamics CRM server. The property is required for on-prem and not allowed for online. Default is 443. Type: integer (or Expression with resultType integer), minimum: 0. */
@@ -3561,7 +4770,7 @@ export type DynamicsCrmLinkedService = LinkedService & {
   /** The organization name of the Dynamics CRM instance. The property is required for on-prem and required for online when there are more than one Dynamics CRM instances associated with the user. Type: string (or Expression with resultType string). */
   organizationName?: any;
   /** The authentication type to connect to Dynamics CRM server. 'Office365' for online scenario, 'Ifd' for on-premises with Ifd scenario, 'AADServicePrincipal' for Server-To-Server authentication in online scenario. Type: string (or Expression with resultType string). */
-  authenticationType: DynamicsAuthenticationType;
+  authenticationType: any;
   /** User name to access the Dynamics CRM instance. Type: string (or Expression with resultType string). */
   username?: any;
   /** Password to access the Dynamics CRM instance. */
@@ -3581,7 +4790,7 @@ export type CommonDataServiceForAppsLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "CommonDataServiceForApps";
   /** The deployment type of the Common Data Service for Apps instance. 'Online' for Common Data Service for Apps Online and 'OnPremisesWithIfd' for Common Data Service for Apps on-premises with Ifd. Type: string (or Expression with resultType string). */
-  deploymentType: DynamicsDeploymentType;
+  deploymentType: any;
   /** The host name of the on-premises Common Data Service for Apps server. The property is required for on-prem and not allowed for online. Type: string (or Expression with resultType string). */
   hostName?: any;
   /** The port of on-premises Common Data Service for Apps server. The property is required for on-prem and not allowed for online. Default is 443. Type: integer (or Expression with resultType integer), minimum: 0. */
@@ -3591,7 +4800,7 @@ export type CommonDataServiceForAppsLinkedService = LinkedService & {
   /** The organization name of the Common Data Service for Apps instance. The property is required for on-prem and required for online when there are more than one Common Data Service for Apps instances associated with the user. Type: string (or Expression with resultType string). */
   organizationName?: any;
   /** The authentication type to connect to Common Data Service for Apps server. 'Office365' for online scenario, 'Ifd' for on-premises with Ifd scenario. 'AADServicePrincipal' for Server-To-Server authentication in online scenario. Type: string (or Expression with resultType string). */
-  authenticationType: DynamicsAuthenticationType;
+  authenticationType: any;
   /** User name to access the Common Data Service for Apps instance. Type: string (or Expression with resultType string). */
   username?: any;
   /** Password to access the Common Data Service for Apps instance. */
@@ -3690,6 +4899,18 @@ export type OracleLinkedService = LinkedService & {
   connectionString: any;
   /** The Azure key vault secret reference of password in connection string. */
   password?: AzureKeyVaultSecretReference;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
+  encryptedCredential?: any;
+};
+
+/** AmazonRdsForOracle database. */
+export type AmazonRdsForOracleLinkedService = LinkedService & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "AmazonRdsForOracle";
+  /** The connection string. Type: string, SecureString or AzureKeyVaultSecretReference. */
+  connectionString: any;
+  /** The Azure key vault secret reference of password in connection string. */
+  password?: SecretBaseUnion;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
   encryptedCredential?: any;
 };
@@ -5290,13 +6511,13 @@ export type AzureDataExplorerLinkedService = LinkedService & {
   /** The endpoint of Azure Data Explorer (the engine's endpoint). URL will be in the format https://<clusterName>.<regionName>.kusto.windows.net. Type: string (or Expression with resultType string) */
   endpoint: any;
   /** The ID of the service principal used to authenticate against Azure Data Explorer. Type: string (or Expression with resultType string). */
-  servicePrincipalId: any;
+  servicePrincipalId?: any;
   /** The key of the service principal used to authenticate against Kusto. */
-  servicePrincipalKey: SecretBaseUnion;
+  servicePrincipalKey?: SecretBaseUnion;
   /** Database name for connection. Type: string (or Expression with resultType string). */
   database: any;
   /** The name or ID of the tenant to which the service principal belongs. Type: string (or Expression with resultType string). */
-  tenant: any;
+  tenant?: any;
 };
 
 /** Azure Function linked service. */
@@ -5337,961 +6558,6 @@ export type SharePointOnlineListLinkedService = LinkedService & {
   servicePrincipalKey: SecretBaseUnion;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
   encryptedCredential?: any;
-};
-
-/** A single Amazon Simple Storage Service (S3) object or a set of S3 objects. */
-export type AmazonS3Dataset = Dataset & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "AmazonS3Object";
-  /** The name of the Amazon S3 bucket. Type: string (or Expression with resultType string). */
-  bucketName: any;
-  /** The key of the Amazon S3 object. Type: string (or Expression with resultType string). */
-  key?: any;
-  /** The prefix filter for the S3 object name. Type: string (or Expression with resultType string). */
-  prefix?: any;
-  /** The version for the S3 object. Type: string (or Expression with resultType string). */
-  version?: any;
-  /** The start of S3 object's modified datetime. Type: string (or Expression with resultType string). */
-  modifiedDatetimeStart?: any;
-  /** The end of S3 object's modified datetime. Type: string (or Expression with resultType string). */
-  modifiedDatetimeEnd?: any;
-  /** The format of files. */
-  format?: DatasetStorageFormatUnion;
-  /** The data compression method used for the Amazon S3 object. */
-  compression?: DatasetCompressionUnion;
-};
-
-/** Avro dataset. */
-export type AvroDataset = Dataset & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "Avro";
-  /** The location of the avro storage. */
-  location?: DatasetLocationUnion;
-  /** A string from AvroCompressionCodecEnum or an expression */
-  avroCompressionCodec?: any;
-  avroCompressionLevel?: number;
-};
-
-/** Excel dataset. */
-export type ExcelDataset = Dataset & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "Excel";
-  /** The location of the excel storage. */
-  location?: DatasetLocationUnion;
-  /** The sheet of excel file. Type: string (or Expression with resultType string). */
-  sheetName?: any;
-  /** The partial data of one sheet. Type: string (or Expression with resultType string). */
-  range?: any;
-  /** When used as input, treat the first row of data as headers. When used as output,write the headers into the output as the first row of data. The default value is false. Type: boolean (or Expression with resultType boolean). */
-  firstRowAsHeader?: any;
-  /** The data compression method used for the json dataset. */
-  compression?: DatasetCompressionUnion;
-  /** The null value string. Type: string (or Expression with resultType string). */
-  nullValue?: any;
-};
-
-/** Parquet dataset. */
-export type ParquetDataset = Dataset & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "Parquet";
-  /** The location of the parquet storage. */
-  location?: DatasetLocationUnion;
-  /** A string from ParquetCompressionCodecEnum or an expression */
-  compressionCodec?: any;
-};
-
-/** Delimited text dataset. */
-export type DelimitedTextDataset = Dataset & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "DelimitedText";
-  /** The location of the delimited text storage. */
-  location?: DatasetLocationUnion;
-  /** The column delimiter. Type: string (or Expression with resultType string). */
-  columnDelimiter?: any;
-  /** The row delimiter. Type: string (or Expression with resultType string). */
-  rowDelimiter?: any;
-  /** The code page name of the preferred encoding. If miss, the default value is UTF-8, unless BOM denotes another Unicode encoding. Refer to the name column of the table in the following link to set supported values: https://msdn.microsoft.com/library/system.text.encoding.aspx. Type: string (or Expression with resultType string). */
-  encodingName?: any;
-  compressionCodec?: CompressionCodec;
-  /** The data compression method used for DelimitedText. */
-  compressionLevel?: any;
-  /** The quote character. Type: string (or Expression with resultType string). */
-  quoteChar?: any;
-  /** The escape character. Type: string (or Expression with resultType string). */
-  escapeChar?: any;
-  /** When used as input, treat the first row of data as headers. When used as output,write the headers into the output as the first row of data. The default value is false. Type: boolean (or Expression with resultType boolean). */
-  firstRowAsHeader?: any;
-  /** The null value string. Type: string (or Expression with resultType string). */
-  nullValue?: any;
-};
-
-/** Json dataset. */
-export type JsonDataset = Dataset & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "Json";
-  /** The location of the json data storage. */
-  location?: DatasetLocationUnion;
-  /** The code page name of the preferred encoding. If not specified, the default value is UTF-8, unless BOM denotes another Unicode encoding. Refer to the name column of the table in the following link to set supported values: https://msdn.microsoft.com/library/system.text.encoding.aspx. Type: string (or Expression with resultType string). */
-  encodingName?: any;
-  /** The data compression method used for the json dataset. */
-  compression?: DatasetCompressionUnion;
-};
-
-/** Xml dataset. */
-export type XmlDataset = Dataset & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "Xml";
-  /** The location of the json data storage. */
-  location?: DatasetLocationUnion;
-  /** The code page name of the preferred encoding. If not specified, the default value is UTF-8, unless BOM denotes another Unicode encoding. Refer to the name column of the table in the following link to set supported values: https://msdn.microsoft.com/library/system.text.encoding.aspx. Type: string (or Expression with resultType string). */
-  encodingName?: any;
-  /** The null value string. Type: string (or Expression with resultType string). */
-  nullValue?: any;
-  /** The data compression method used for the json dataset. */
-  compression?: DatasetCompressionUnion;
-};
-
-/** ORC dataset. */
-export type OrcDataset = Dataset & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "Orc";
-  /** The location of the ORC data storage. */
-  location?: DatasetLocationUnion;
-  orcCompressionCodec?: OrcCompressionCodec;
-};
-
-/** Binary dataset. */
-export type BinaryDataset = Dataset & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "Binary";
-  /** The location of the Binary storage. */
-  location?: DatasetLocationUnion;
-  /** The data compression method used for the binary dataset. */
-  compression?: DatasetCompressionUnion;
-};
-
-/** The Azure Blob storage. */
-export type AzureBlobDataset = Dataset & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "AzureBlob";
-  /** The path of the Azure Blob storage. Type: string (or Expression with resultType string). */
-  folderPath?: any;
-  /** The root of blob path. Type: string (or Expression with resultType string). */
-  tableRootLocation?: any;
-  /** The name of the Azure Blob. Type: string (or Expression with resultType string). */
-  fileName?: any;
-  /** The start of Azure Blob's modified datetime. Type: string (or Expression with resultType string). */
-  modifiedDatetimeStart?: any;
-  /** The end of Azure Blob's modified datetime. Type: string (or Expression with resultType string). */
-  modifiedDatetimeEnd?: any;
-  /** The format of the Azure Blob storage. */
-  format?: DatasetStorageFormatUnion;
-  /** The data compression method used for the blob storage. */
-  compression?: DatasetCompressionUnion;
-};
-
-/** The Azure Table storage dataset. */
-export type AzureTableDataset = Dataset & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "AzureTable";
-  /** The table name of the Azure Table storage. Type: string (or Expression with resultType string). */
-  tableName: any;
-};
-
-/** The Azure SQL Server database dataset. */
-export type AzureSqlTableDataset = Dataset & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "AzureSqlTable";
-  /** This property will be retired. Please consider using schema + table properties instead. */
-  tableName?: any;
-  /** The schema name of the Azure SQL database. Type: string (or Expression with resultType string). */
-  schemaTypePropertiesSchema?: any;
-  /** The table name of the Azure SQL database. Type: string (or Expression with resultType string). */
-  table?: any;
-};
-
-/** The Azure SQL Managed Instance dataset. */
-export type AzureSqlMITableDataset = Dataset & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "AzureSqlMITable";
-  /** This property will be retired. Please consider using schema + table properties instead. */
-  tableName?: any;
-  /** The schema name of the Azure SQL Managed Instance. Type: string (or Expression with resultType string). */
-  schemaTypePropertiesSchema?: any;
-  /** The table name of the Azure SQL Managed Instance dataset. Type: string (or Expression with resultType string). */
-  table?: any;
-};
-
-/** The Azure SQL Data Warehouse dataset. */
-export type AzureSqlDWTableDataset = Dataset & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "AzureSqlDWTable";
-  /** This property will be retired. Please consider using schema + table properties instead. */
-  tableName?: any;
-  /** The schema name of the Azure SQL Data Warehouse. Type: string (or Expression with resultType string). */
-  schemaTypePropertiesSchema?: any;
-  /** The table name of the Azure SQL Data Warehouse. Type: string (or Expression with resultType string). */
-  table?: any;
-};
-
-/** The Cassandra database dataset. */
-export type CassandraTableDataset = Dataset & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "CassandraTable";
-  /** The table name of the Cassandra database. Type: string (or Expression with resultType string). */
-  tableName?: any;
-  /** The keyspace of the Cassandra database. Type: string (or Expression with resultType string). */
-  keyspace?: any;
-};
-
-/** The custom dataset. */
-export type CustomDataset = Dataset & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "CustomDataset";
-  /** Custom dataset properties. */
-  typeProperties?: any;
-};
-
-/** Microsoft Azure CosmosDB (SQL API) Collection dataset. */
-export type CosmosDbSqlApiCollectionDataset = Dataset & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "CosmosDbSqlApiCollection";
-  /** CosmosDB (SQL API) collection name. Type: string (or Expression with resultType string). */
-  collectionName: any;
-};
-
-/** Microsoft Azure Document Database Collection dataset. */
-export type DocumentDbCollectionDataset = Dataset & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "DocumentDbCollection";
-  /** Document Database collection name. Type: string (or Expression with resultType string). */
-  collectionName: any;
-};
-
-/** The Dynamics entity dataset. */
-export type DynamicsEntityDataset = Dataset & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "DynamicsEntity";
-  /** The logical name of the entity. Type: string (or Expression with resultType string). */
-  entityName?: any;
-};
-
-/** The Dynamics CRM entity dataset. */
-export type DynamicsCrmEntityDataset = Dataset & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "DynamicsCrmEntity";
-  /** The logical name of the entity. Type: string (or Expression with resultType string). */
-  entityName?: any;
-};
-
-/** The Common Data Service for Apps entity dataset. */
-export type CommonDataServiceForAppsEntityDataset = Dataset & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "CommonDataServiceForAppsEntity";
-  /** The logical name of the entity. Type: string (or Expression with resultType string). */
-  entityName?: any;
-};
-
-/** Azure Data Lake Store dataset. */
-export type AzureDataLakeStoreDataset = Dataset & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "AzureDataLakeStoreFile";
-  /** Path to the folder in the Azure Data Lake Store. Type: string (or Expression with resultType string). */
-  folderPath?: any;
-  /** The name of the file in the Azure Data Lake Store. Type: string (or Expression with resultType string). */
-  fileName?: any;
-  /** The format of the Data Lake Store. */
-  format?: DatasetStorageFormatUnion;
-  /** The data compression method used for the item(s) in the Azure Data Lake Store. */
-  compression?: DatasetCompressionUnion;
-};
-
-/** The Azure Data Lake Storage Gen2 storage. */
-export type AzureBlobFSDataset = Dataset & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "AzureBlobFSFile";
-  /** The path of the Azure Data Lake Storage Gen2 storage. Type: string (or Expression with resultType string). */
-  folderPath?: any;
-  /** The name of the Azure Data Lake Storage Gen2. Type: string (or Expression with resultType string). */
-  fileName?: any;
-  /** The format of the Azure Data Lake Storage Gen2 storage. */
-  format?: DatasetStorageFormatUnion;
-  /** The data compression method used for the blob storage. */
-  compression?: DatasetCompressionUnion;
-};
-
-/** The Office365 account. */
-export type Office365Dataset = Dataset & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "Office365Table";
-  /** Name of the dataset to extract from Office 365. Type: string (or Expression with resultType string). */
-  tableName: any;
-  /** A predicate expression that can be used to filter the specific rows to extract from Office 365. Type: string (or Expression with resultType string). */
-  predicate?: any;
-};
-
-/** An on-premises file system dataset. */
-export type FileShareDataset = Dataset & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "FileShare";
-  /** The path of the on-premises file system. Type: string (or Expression with resultType string). */
-  folderPath?: any;
-  /** The name of the on-premises file system. Type: string (or Expression with resultType string). */
-  fileName?: any;
-  /** The start of file's modified datetime. Type: string (or Expression with resultType string). */
-  modifiedDatetimeStart?: any;
-  /** The end of file's modified datetime. Type: string (or Expression with resultType string). */
-  modifiedDatetimeEnd?: any;
-  /** The format of the files. */
-  format?: DatasetStorageFormatUnion;
-  /** Specify a filter to be used to select a subset of files in the folderPath rather than all files. Type: string (or Expression with resultType string). */
-  fileFilter?: any;
-  /** The data compression method used for the file system. */
-  compression?: DatasetCompressionUnion;
-};
-
-/** The MongoDB database dataset. */
-export type MongoDbCollectionDataset = Dataset & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "MongoDbCollection";
-  /** The table name of the MongoDB database. Type: string (or Expression with resultType string). */
-  collectionName: any;
-};
-
-/** The MongoDB Atlas database dataset. */
-export type MongoDbAtlasCollectionDataset = Dataset & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "MongoDbAtlasCollection";
-  /** The collection name of the MongoDB Atlas database. Type: string (or Expression with resultType string). */
-  collection: any;
-};
-
-/** The MongoDB database dataset. */
-export type MongoDbV2CollectionDataset = Dataset & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "MongoDbV2Collection";
-  /** The collection name of the MongoDB database. Type: string (or Expression with resultType string). */
-  collection: any;
-};
-
-/** The CosmosDB (MongoDB API) database dataset. */
-export type CosmosDbMongoDbApiCollectionDataset = Dataset & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "CosmosDbMongoDbApiCollection";
-  /** The collection name of the CosmosDB (MongoDB API) database. Type: string (or Expression with resultType string). */
-  collection: any;
-};
-
-/** The Open Data Protocol (OData) resource dataset. */
-export type ODataResourceDataset = Dataset & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "ODataResource";
-  /** The OData resource path. Type: string (or Expression with resultType string). */
-  path?: any;
-};
-
-/** The on-premises Oracle database dataset. */
-export type OracleTableDataset = Dataset & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "OracleTable";
-  /** This property will be retired. Please consider using schema + table properties instead. */
-  tableName?: any;
-  /** The schema name of the on-premises Oracle database. Type: string (or Expression with resultType string). */
-  schemaTypePropertiesSchema?: any;
-  /** The table name of the on-premises Oracle database. Type: string (or Expression with resultType string). */
-  table?: any;
-};
-
-/** The Teradata database dataset. */
-export type TeradataTableDataset = Dataset & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "TeradataTable";
-  /** The database name of Teradata. Type: string (or Expression with resultType string). */
-  database?: any;
-  /** The table name of Teradata. Type: string (or Expression with resultType string). */
-  table?: any;
-};
-
-/** The Azure MySQL database dataset. */
-export type AzureMySqlTableDataset = Dataset & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "AzureMySqlTable";
-  /** The Azure MySQL database table name. Type: string (or Expression with resultType string). */
-  tableName?: any;
-  /** The name of Azure MySQL database table. Type: string (or Expression with resultType string). */
-  table?: any;
-};
-
-/** The Amazon Redshift table dataset. */
-export type AmazonRedshiftTableDataset = Dataset & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "AmazonRedshiftTable";
-  /** This property will be retired. Please consider using schema + table properties instead. */
-  tableName?: any;
-  /** The Amazon Redshift table name. Type: string (or Expression with resultType string). */
-  table?: any;
-  /** The Amazon Redshift schema name. Type: string (or Expression with resultType string). */
-  schemaTypePropertiesSchema?: any;
-};
-
-/** The Db2 table dataset. */
-export type Db2TableDataset = Dataset & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "Db2Table";
-  /** This property will be retired. Please consider using schema + table properties instead. */
-  tableName?: any;
-  /** The Db2 schema name. Type: string (or Expression with resultType string). */
-  schemaTypePropertiesSchema?: any;
-  /** The Db2 table name. Type: string (or Expression with resultType string). */
-  table?: any;
-};
-
-/** The relational table dataset. */
-export type RelationalTableDataset = Dataset & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "RelationalTable";
-  /** The relational table name. Type: string (or Expression with resultType string). */
-  tableName?: any;
-};
-
-/** The Informix table dataset. */
-export type InformixTableDataset = Dataset & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "InformixTable";
-  /** The Informix table name. Type: string (or Expression with resultType string). */
-  tableName?: any;
-};
-
-/** The ODBC table dataset. */
-export type OdbcTableDataset = Dataset & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "OdbcTable";
-  /** The ODBC table name. Type: string (or Expression with resultType string). */
-  tableName?: any;
-};
-
-/** The MySQL table dataset. */
-export type MySqlTableDataset = Dataset & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "MySqlTable";
-  /** The MySQL table name. Type: string (or Expression with resultType string). */
-  tableName?: any;
-};
-
-/** The PostgreSQL table dataset. */
-export type PostgreSqlTableDataset = Dataset & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "PostgreSqlTable";
-  /** This property will be retired. Please consider using schema + table properties instead. */
-  tableName?: any;
-  /** The PostgreSQL table name. Type: string (or Expression with resultType string). */
-  table?: any;
-  /** The PostgreSQL schema name. Type: string (or Expression with resultType string). */
-  schemaTypePropertiesSchema?: any;
-};
-
-/** The Microsoft Access table dataset. */
-export type MicrosoftAccessTableDataset = Dataset & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "MicrosoftAccessTable";
-  /** The Microsoft Access table name. Type: string (or Expression with resultType string). */
-  tableName?: any;
-};
-
-/** The Salesforce object dataset. */
-export type SalesforceObjectDataset = Dataset & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "SalesforceObject";
-  /** The Salesforce object API name. Type: string (or Expression with resultType string). */
-  objectApiName?: any;
-};
-
-/** The Salesforce Service Cloud object dataset. */
-export type SalesforceServiceCloudObjectDataset = Dataset & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "SalesforceServiceCloudObject";
-  /** The Salesforce Service Cloud object API name. Type: string (or Expression with resultType string). */
-  objectApiName?: any;
-};
-
-/** The Sybase table dataset. */
-export type SybaseTableDataset = Dataset & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "SybaseTable";
-  /** The Sybase table name. Type: string (or Expression with resultType string). */
-  tableName?: any;
-};
-
-/** The SAP BW cube dataset. */
-export type SapBwCubeDataset = Dataset & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "SapBwCube";
-};
-
-/** The path of the SAP Cloud for Customer OData entity. */
-export type SapCloudForCustomerResourceDataset = Dataset & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "SapCloudForCustomerResource";
-  /** The path of the SAP Cloud for Customer OData entity. Type: string (or Expression with resultType string). */
-  path: any;
-};
-
-/** The path of the SAP ECC OData entity. */
-export type SapEccResourceDataset = Dataset & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "SapEccResource";
-  /** The path of the SAP ECC OData entity. Type: string (or Expression with resultType string). */
-  path: any;
-};
-
-/** SAP HANA Table properties. */
-export type SapHanaTableDataset = Dataset & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "SapHanaTable";
-  /** The schema name of SAP HANA. Type: string (or Expression with resultType string). */
-  schemaTypePropertiesSchema?: any;
-  /** The table name of SAP HANA. Type: string (or Expression with resultType string). */
-  table?: any;
-};
-
-/** Sap Business Warehouse Open Hub Destination Table properties. */
-export type SapOpenHubTableDataset = Dataset & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "SapOpenHubTable";
-  /** The name of the Open Hub Destination with destination type as Database Table. Type: string (or Expression with resultType string). */
-  openHubDestinationName: any;
-  /** Whether to exclude the records of the last request. The default value is true. Type: boolean (or Expression with resultType boolean). */
-  excludeLastRequest?: any;
-  /** The ID of request for delta loading. Once it is set, only data with requestId larger than the value of this property will be retrieved. The default value is 0. Type: integer (or Expression with resultType integer ). */
-  baseRequestId?: any;
-};
-
-/** The on-premises SQL Server dataset. */
-export type SqlServerTableDataset = Dataset & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "SqlServerTable";
-  /** This property will be retired. Please consider using schema + table properties instead. */
-  tableName?: any;
-  /** The schema name of the SQL Server dataset. Type: string (or Expression with resultType string). */
-  schemaTypePropertiesSchema?: any;
-  /** The table name of the SQL Server dataset. Type: string (or Expression with resultType string). */
-  table?: any;
-};
-
-/** A Rest service dataset. */
-export type RestResourceDataset = Dataset & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "RestResource";
-  /** The relative URL to the resource that the RESTful API provides. Type: string (or Expression with resultType string). */
-  relativeUrl?: any;
-  /** The HTTP method used to call the RESTful API. The default is GET. Type: string (or Expression with resultType string). */
-  requestMethod?: any;
-  /** The HTTP request body to the RESTful API if requestMethod is POST. Type: string (or Expression with resultType string). */
-  requestBody?: any;
-  /** The additional HTTP headers in the request to the RESTful API. Type: string (or Expression with resultType string). */
-  additionalHeaders?: any;
-  /** The pagination rules to compose next page requests. Type: string (or Expression with resultType string). */
-  paginationRules?: any;
-};
-
-/** SAP Table Resource properties. */
-export type SapTableResourceDataset = Dataset & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "SapTableResource";
-  /** The name of the SAP Table. Type: string (or Expression with resultType string). */
-  tableName: any;
-};
-
-/** The dataset points to a HTML table in the web page. */
-export type WebTableDataset = Dataset & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "WebTable";
-  /** The zero-based index of the table in the web page. Type: integer (or Expression with resultType integer), minimum: 0. */
-  index: any;
-  /** The relative URL to the web page from the linked service URL. Type: string (or Expression with resultType string). */
-  path?: any;
-};
-
-/** The Azure Search Index. */
-export type AzureSearchIndexDataset = Dataset & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "AzureSearchIndex";
-  /** The name of the Azure Search Index. Type: string (or Expression with resultType string). */
-  indexName: any;
-};
-
-/** A file in an HTTP web server. */
-export type HttpDataset = Dataset & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "HttpFile";
-  /** The relative URL based on the URL in the HttpLinkedService refers to an HTTP file Type: string (or Expression with resultType string). */
-  relativeUrl?: any;
-  /** The HTTP method for the HTTP request. Type: string (or Expression with resultType string). */
-  requestMethod?: any;
-  /** The body for the HTTP request. Type: string (or Expression with resultType string). */
-  requestBody?: any;
-  /**
-   * The headers for the HTTP Request. e.g. request-header-name-1:request-header-value-1
-   * ...
-   * request-header-name-n:request-header-value-n Type: string (or Expression with resultType string).
-   */
-  additionalHeaders?: any;
-  /** The format of files. */
-  format?: DatasetStorageFormatUnion;
-  /** The data compression method used on files. */
-  compression?: DatasetCompressionUnion;
-};
-
-/** Amazon Marketplace Web Service dataset. */
-export type AmazonMWSObjectDataset = Dataset & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "AmazonMWSObject";
-  /** The table name. Type: string (or Expression with resultType string). */
-  tableName?: any;
-};
-
-/** Azure PostgreSQL dataset. */
-export type AzurePostgreSqlTableDataset = Dataset & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "AzurePostgreSqlTable";
-  /** The table name of the Azure PostgreSQL database which includes both schema and table. Type: string (or Expression with resultType string). */
-  tableName?: any;
-  /** The table name of the Azure PostgreSQL database. Type: string (or Expression with resultType string). */
-  table?: any;
-  /** The schema name of the Azure PostgreSQL database. Type: string (or Expression with resultType string). */
-  schemaTypePropertiesSchema?: any;
-};
-
-/** Concur Service dataset. */
-export type ConcurObjectDataset = Dataset & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "ConcurObject";
-  /** The table name. Type: string (or Expression with resultType string). */
-  tableName?: any;
-};
-
-/** Couchbase server dataset. */
-export type CouchbaseTableDataset = Dataset & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "CouchbaseTable";
-  /** The table name. Type: string (or Expression with resultType string). */
-  tableName?: any;
-};
-
-/** Drill server dataset. */
-export type DrillTableDataset = Dataset & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "DrillTable";
-  /** This property will be retired. Please consider using schema + table properties instead. */
-  tableName?: any;
-  /** The table name of the Drill. Type: string (or Expression with resultType string). */
-  table?: any;
-  /** The schema name of the Drill. Type: string (or Expression with resultType string). */
-  schemaTypePropertiesSchema?: any;
-};
-
-/** Eloqua server dataset. */
-export type EloquaObjectDataset = Dataset & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "EloquaObject";
-  /** The table name. Type: string (or Expression with resultType string). */
-  tableName?: any;
-};
-
-/** Google BigQuery service dataset. */
-export type GoogleBigQueryObjectDataset = Dataset & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "GoogleBigQueryObject";
-  /** This property will be retired. Please consider using database + table properties instead. */
-  tableName?: any;
-  /** The table name of the Google BigQuery. Type: string (or Expression with resultType string). */
-  table?: any;
-  /** The database name of the Google BigQuery. Type: string (or Expression with resultType string). */
-  dataset?: any;
-};
-
-/** Greenplum Database dataset. */
-export type GreenplumTableDataset = Dataset & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "GreenplumTable";
-  /** This property will be retired. Please consider using schema + table properties instead. */
-  tableName?: any;
-  /** The table name of Greenplum. Type: string (or Expression with resultType string). */
-  table?: any;
-  /** The schema name of Greenplum. Type: string (or Expression with resultType string). */
-  schemaTypePropertiesSchema?: any;
-};
-
-/** HBase server dataset. */
-export type HBaseObjectDataset = Dataset & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "HBaseObject";
-  /** The table name. Type: string (or Expression with resultType string). */
-  tableName?: any;
-};
-
-/** Hive Server dataset. */
-export type HiveObjectDataset = Dataset & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "HiveObject";
-  /** This property will be retired. Please consider using schema + table properties instead. */
-  tableName?: any;
-  /** The table name of the Hive. Type: string (or Expression with resultType string). */
-  table?: any;
-  /** The schema name of the Hive. Type: string (or Expression with resultType string). */
-  schemaTypePropertiesSchema?: any;
-};
-
-/** Hubspot Service dataset. */
-export type HubspotObjectDataset = Dataset & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "HubspotObject";
-  /** The table name. Type: string (or Expression with resultType string). */
-  tableName?: any;
-};
-
-/** Impala server dataset. */
-export type ImpalaObjectDataset = Dataset & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "ImpalaObject";
-  /** This property will be retired. Please consider using schema + table properties instead. */
-  tableName?: any;
-  /** The table name of the Impala. Type: string (or Expression with resultType string). */
-  table?: any;
-  /** The schema name of the Impala. Type: string (or Expression with resultType string). */
-  schemaTypePropertiesSchema?: any;
-};
-
-/** Jira Service dataset. */
-export type JiraObjectDataset = Dataset & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "JiraObject";
-  /** The table name. Type: string (or Expression with resultType string). */
-  tableName?: any;
-};
-
-/** Magento server dataset. */
-export type MagentoObjectDataset = Dataset & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "MagentoObject";
-  /** The table name. Type: string (or Expression with resultType string). */
-  tableName?: any;
-};
-
-/** MariaDB server dataset. */
-export type MariaDBTableDataset = Dataset & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "MariaDBTable";
-  /** The table name. Type: string (or Expression with resultType string). */
-  tableName?: any;
-};
-
-/** Azure Database for MariaDB dataset. */
-export type AzureMariaDBTableDataset = Dataset & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "AzureMariaDBTable";
-  /** The table name. Type: string (or Expression with resultType string). */
-  tableName?: any;
-};
-
-/** Marketo server dataset. */
-export type MarketoObjectDataset = Dataset & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "MarketoObject";
-  /** The table name. Type: string (or Expression with resultType string). */
-  tableName?: any;
-};
-
-/** Paypal Service dataset. */
-export type PaypalObjectDataset = Dataset & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "PaypalObject";
-  /** The table name. Type: string (or Expression with resultType string). */
-  tableName?: any;
-};
-
-/** Phoenix server dataset. */
-export type PhoenixObjectDataset = Dataset & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "PhoenixObject";
-  /** This property will be retired. Please consider using schema + table properties instead. */
-  tableName?: any;
-  /** The table name of the Phoenix. Type: string (or Expression with resultType string). */
-  table?: any;
-  /** The schema name of the Phoenix. Type: string (or Expression with resultType string). */
-  schemaTypePropertiesSchema?: any;
-};
-
-/** Presto server dataset. */
-export type PrestoObjectDataset = Dataset & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "PrestoObject";
-  /** This property will be retired. Please consider using schema + table properties instead. */
-  tableName?: any;
-  /** The table name of the Presto. Type: string (or Expression with resultType string). */
-  table?: any;
-  /** The schema name of the Presto. Type: string (or Expression with resultType string). */
-  schemaTypePropertiesSchema?: any;
-};
-
-/** QuickBooks server dataset. */
-export type QuickBooksObjectDataset = Dataset & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "QuickBooksObject";
-  /** The table name. Type: string (or Expression with resultType string). */
-  tableName?: any;
-};
-
-/** ServiceNow server dataset. */
-export type ServiceNowObjectDataset = Dataset & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "ServiceNowObject";
-  /** The table name. Type: string (or Expression with resultType string). */
-  tableName?: any;
-};
-
-/** Shopify Service dataset. */
-export type ShopifyObjectDataset = Dataset & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "ShopifyObject";
-  /** The table name. Type: string (or Expression with resultType string). */
-  tableName?: any;
-};
-
-/** Spark Server dataset. */
-export type SparkObjectDataset = Dataset & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "SparkObject";
-  /** This property will be retired. Please consider using schema + table properties instead. */
-  tableName?: any;
-  /** The table name of the Spark. Type: string (or Expression with resultType string). */
-  table?: any;
-  /** The schema name of the Spark. Type: string (or Expression with resultType string). */
-  schemaTypePropertiesSchema?: any;
-};
-
-/** Square Service dataset. */
-export type SquareObjectDataset = Dataset & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "SquareObject";
-  /** The table name. Type: string (or Expression with resultType string). */
-  tableName?: any;
-};
-
-/** Xero Service dataset. */
-export type XeroObjectDataset = Dataset & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "XeroObject";
-  /** The table name. Type: string (or Expression with resultType string). */
-  tableName?: any;
-};
-
-/** Zoho server dataset. */
-export type ZohoObjectDataset = Dataset & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "ZohoObject";
-  /** The table name. Type: string (or Expression with resultType string). */
-  tableName?: any;
-};
-
-/** Netezza dataset. */
-export type NetezzaTableDataset = Dataset & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "NetezzaTable";
-  /** This property will be retired. Please consider using schema + table properties instead. */
-  tableName?: any;
-  /** The table name of the Netezza. Type: string (or Expression with resultType string). */
-  table?: any;
-  /** The schema name of the Netezza. Type: string (or Expression with resultType string). */
-  schemaTypePropertiesSchema?: any;
-};
-
-/** Vertica dataset. */
-export type VerticaTableDataset = Dataset & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "VerticaTable";
-  /** This property will be retired. Please consider using schema + table properties instead. */
-  tableName?: any;
-  /** The table name of the Vertica. Type: string (or Expression with resultType string). */
-  table?: any;
-  /** The schema name of the Vertica. Type: string (or Expression with resultType string). */
-  schemaTypePropertiesSchema?: any;
-};
-
-/** Salesforce Marketing Cloud dataset. */
-export type SalesforceMarketingCloudObjectDataset = Dataset & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "SalesforceMarketingCloudObject";
-  /** The table name. Type: string (or Expression with resultType string). */
-  tableName?: any;
-};
-
-/** Responsys dataset. */
-export type ResponsysObjectDataset = Dataset & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "ResponsysObject";
-  /** The table name. Type: string (or Expression with resultType string). */
-  tableName?: any;
-};
-
-/** The path of the Dynamics AX OData entity. */
-export type DynamicsAXResourceDataset = Dataset & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "DynamicsAXResource";
-  /** The path of the Dynamics AX OData entity. Type: string (or Expression with resultType string). */
-  path: any;
-};
-
-/** Oracle Service Cloud dataset. */
-export type OracleServiceCloudObjectDataset = Dataset & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "OracleServiceCloudObject";
-  /** The table name. Type: string (or Expression with resultType string). */
-  tableName?: any;
-};
-
-/** The Azure Data Explorer (Kusto) dataset. */
-export type AzureDataExplorerTableDataset = Dataset & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "AzureDataExplorerTable";
-  /** The table name of the Azure Data Explorer database. Type: string (or Expression with resultType string). */
-  table?: any;
-};
-
-/** Google AdWords service dataset. */
-export type GoogleAdWordsObjectDataset = Dataset & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "GoogleAdWordsObject";
-  /** The table name. Type: string (or Expression with resultType string). */
-  tableName?: any;
-};
-
-/** The snowflake dataset. */
-export type SnowflakeDataset = Dataset & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "SnowflakeTable";
-  /** The schema name of the Snowflake database. Type: string (or Expression with resultType string). */
-  schemaTypePropertiesSchema?: any;
-  /** The table name of the Snowflake database. Type: string (or Expression with resultType string). */
-  table?: any;
-};
-
-/** The sharepoint online list resource dataset. */
-export type SharePointOnlineListResourceDataset = Dataset & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "SharePointOnlineListResource";
-  /** The name of the SharePoint Online list. Type: string (or Expression with resultType string). */
-  listName?: any;
-};
-
-/** Azure Databricks Delta Lake dataset. */
-export type AzureDatabricksDeltaLakeDataset = Dataset & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "AzureDatabricksDeltaLakeDataset";
-  /** The name of delta table. Type: string (or Expression with resultType string). */
-  table?: any;
-  /** The database name of delta table. Type: string (or Expression with resultType string). */
-  database?: any;
 };
 
 /** Base class for all control activities like IfCondition, ForEach , Until. */
@@ -6425,63 +6691,6 @@ export type ChainingTrigger = Trigger & {
   runDimension: string;
 };
 
-/** Mapping data flow. */
-export type MappingDataFlow = DataFlow & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "MappingDataFlow";
-  /** List of sources in data flow. */
-  sources?: DataFlowSource[];
-  /** List of sinks in data flow. */
-  sinks?: DataFlowSink[];
-  /** List of transformations in data flow. */
-  transformations?: Transformation[];
-  /** DataFlow script. */
-  script?: string;
-};
-
-/** Data flow debug resource. */
-export type DataFlowDebugResource = SubResourceDebugResource & {
-  /** Data flow properties. */
-  properties: DataFlowUnion;
-};
-
-/** Dataset debug resource. */
-export type DatasetDebugResource = SubResourceDebugResource & {
-  /** Dataset properties. */
-  properties: DatasetUnion;
-};
-
-/** Linked service debug resource. */
-export type LinkedServiceDebugResource = SubResourceDebugResource & {
-  /** Properties of linked service. */
-  properties: LinkedServiceUnion;
-};
-
-/** Managed integration runtime, including managed elastic and managed dedicated integration runtimes. */
-export type ManagedIntegrationRuntime = IntegrationRuntime & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "Managed";
-  /**
-   * Integration runtime state, only valid for managed dedicated integration runtime.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly state?: IntegrationRuntimeState;
-  /** Managed Virtual Network reference. */
-  managedVirtualNetwork?: ManagedVirtualNetworkReference;
-  /** The compute resource for managed integration runtime. */
-  computeProperties?: IntegrationRuntimeComputeProperties;
-  /** SSIS properties for managed integration runtime. */
-  ssisProperties?: IntegrationRuntimeSsisProperties;
-};
-
-/** Self-hosted integration runtime. */
-export type SelfHostedIntegrationRuntime = IntegrationRuntime & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "SelfHosted";
-  /** Linked integration runtime type from data factory */
-  linkedInfo?: LinkedIntegrationRuntimeTypeUnion;
-};
-
 /** Azure Synapse secure string definition. The string value will be masked with asterisks '*' during Get or List API calls. */
 export type SecureString = SecretBase & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -6504,20 +6713,12 @@ export type AzureKeyVaultSecretReference = SecretBase & {
 
 /** Transformation for data flow source. */
 export type DataFlowSource = Transformation & {
-  /** Dataset reference. */
-  dataset?: DatasetReference;
-  /** Linked service reference. */
-  linkedService?: LinkedServiceReference;
   /** Schema linked service reference. */
   schemaLinkedService?: LinkedServiceReference;
 };
 
 /** Transformation for data flow sink. */
 export type DataFlowSink = Transformation & {
-  /** Dataset reference. */
-  dataset?: DatasetReference;
-  /** Linked service reference. */
-  linkedService?: LinkedServiceReference;
   /** Schema linked service reference. */
   schemaLinkedService?: LinkedServiceReference;
 };
@@ -6631,7 +6832,7 @@ export type JsonFormat = DatasetStorageFormat & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "JsonFormat";
   /** File pattern of JSON. To be more specific, the way of separating a collection of JSON objects. The default value is 'setOfObjects'. It is case-sensitive. */
-  filePattern?: JsonFormatFilePattern;
+  filePattern?: any;
   /** The character used to separate nesting levels. Default value is '.' (dot). Type: string (or Expression with resultType string). */
   nestingSeparator?: any;
   /** The code page name of the preferred encoding. If not provided, the default value is 'utf-8', unless the byte order mark (BOM) denotes another Unicode encoding. The full list of supported values can be found in the 'Name' column of the table of encodings in the following reference: https://go.microsoft.com/fwlink/?linkid=861078. Type: string (or Expression with resultType string). */
@@ -6658,50 +6859,6 @@ export type OrcFormat = DatasetStorageFormat & {
 export type ParquetFormat = DatasetStorageFormat & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "ParquetFormat";
-};
-
-/** The BZip2 compression method used on a dataset. */
-export type DatasetBZip2Compression = DatasetCompression & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "BZip2";
-};
-
-/** The GZip compression method used on a dataset. */
-export type DatasetGZipCompression = DatasetCompression & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "GZip";
-  /** The GZip compression level. */
-  level?: any;
-};
-
-/** The Deflate compression method used on a dataset. */
-export type DatasetDeflateCompression = DatasetCompression & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "Deflate";
-  /** The Deflate compression level. */
-  level?: any;
-};
-
-/** The ZipDeflate compression method used on a dataset. */
-export type DatasetZipDeflateCompression = DatasetCompression & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "ZipDeflate";
-  /** The ZipDeflate compression level. */
-  level?: any;
-};
-
-/** The Tar archive method used on a dataset. */
-export type DatasetTarCompression = DatasetCompression & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "Tar";
-};
-
-/** The TarGZip compression method used on a dataset. */
-export type DatasetTarGZipCompression = DatasetCompression & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "TarGZip";
-  /** The TarGZip compression level. */
-  level?: any;
 };
 
 /** A WebLinkedService that uses anonymous authentication to communicate with an HTTP endpoint. */
@@ -7167,7 +7324,7 @@ export type JsonWriteSettings = FormatWriteSettings & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "JsonWriteSettings";
   /** File pattern of JSON. This setting controls the way a collection of JSON objects will be treated. The default value is 'setOfObjects'. It is case-sensitive. */
-  filePattern?: JsonWriteFilePattern;
+  filePattern?: any;
 };
 
 /** A copy activity Avro source. */
@@ -7176,8 +7333,8 @@ export type AvroSource = CopySource & {
   type: "AvroSource";
   /** Avro store settings. */
   storeSettings?: StoreReadSettingsUnion;
-  /** Specifies the additional columns to be added to source data. Type: array of objects (or Expression with resultType array of objects). */
-  additionalColumns?: AdditionalColumns[];
+  /** Specifies the additional columns to be added to source data. Type: array of objects(AdditionalColumns) (or Expression with resultType array of objects). */
+  additionalColumns?: any;
 };
 
 /** A copy activity excel source. */
@@ -7186,8 +7343,8 @@ export type ExcelSource = CopySource & {
   type: "ExcelSource";
   /** Excel store settings. */
   storeSettings?: StoreReadSettingsUnion;
-  /** Specifies the additional columns to be added to source data. Type: array of objects (or Expression with resultType array of objects). */
-  additionalColumns?: AdditionalColumns[];
+  /** Specifies the additional columns to be added to source data. Type: array of objects(AdditionalColumns) (or Expression with resultType array of objects). */
+  additionalColumns?: any;
 };
 
 /** A copy activity Parquet source. */
@@ -7196,8 +7353,8 @@ export type ParquetSource = CopySource & {
   type: "ParquetSource";
   /** Parquet store settings. */
   storeSettings?: StoreReadSettingsUnion;
-  /** Specifies the additional columns to be added to source data. Type: array of objects (or Expression with resultType array of objects). */
-  additionalColumns?: AdditionalColumns[];
+  /** Specifies the additional columns to be added to source data. Type: array of objects(AdditionalColumns) (or Expression with resultType array of objects). */
+  additionalColumns?: any;
 };
 
 /** A copy activity DelimitedText source. */
@@ -7208,8 +7365,8 @@ export type DelimitedTextSource = CopySource & {
   storeSettings?: StoreReadSettingsUnion;
   /** DelimitedText format settings. */
   formatSettings?: DelimitedTextReadSettings;
-  /** Specifies the additional columns to be added to source data. Type: array of objects (or Expression with resultType array of objects). */
-  additionalColumns?: AdditionalColumns[];
+  /** Specifies the additional columns to be added to source data. Type: array of objects(AdditionalColumns) (or Expression with resultType array of objects). */
+  additionalColumns?: any;
 };
 
 /** A copy activity Json source. */
@@ -7220,8 +7377,8 @@ export type JsonSource = CopySource & {
   storeSettings?: StoreReadSettingsUnion;
   /** Json format settings. */
   formatSettings?: JsonReadSettings;
-  /** Specifies the additional columns to be added to source data. Type: array of objects (or Expression with resultType array of objects). */
-  additionalColumns?: AdditionalColumns[];
+  /** Specifies the additional columns to be added to source data. Type: array of objects(AdditionalColumns) (or Expression with resultType array of objects). */
+  additionalColumns?: any;
 };
 
 /** A copy activity Xml source. */
@@ -7232,8 +7389,8 @@ export type XmlSource = CopySource & {
   storeSettings?: StoreReadSettingsUnion;
   /** Xml format settings. */
   formatSettings?: XmlReadSettings;
-  /** Specifies the additional columns to be added to source data. Type: array of objects (or Expression with resultType array of objects). */
-  additionalColumns?: AdditionalColumns[];
+  /** Specifies the additional columns to be added to source data. Type: array of objects(AdditionalColumns) (or Expression with resultType array of objects). */
+  additionalColumns?: any;
 };
 
 /** A copy activity ORC source. */
@@ -7242,8 +7399,8 @@ export type OrcSource = CopySource & {
   type: "OrcSource";
   /** ORC store settings. */
   storeSettings?: StoreReadSettingsUnion;
-  /** Specifies the additional columns to be added to source data. Type: array of objects (or Expression with resultType array of objects). */
-  additionalColumns?: AdditionalColumns[];
+  /** Specifies the additional columns to be added to source data. Type: array of objects(AdditionalColumns) (or Expression with resultType array of objects). */
+  additionalColumns?: any;
 };
 
 /** A copy activity Binary source. */
@@ -7277,6 +7434,7 @@ export type TabularSource = CopySource & {
     | "SapTableSource"
     | "SqlSource"
     | "SqlServerSource"
+    | "AmazonRdsForSqlServerSource"
     | "AzureSqlSource"
     | "SqlMISource"
     | "SqlDWSource"
@@ -7320,8 +7478,8 @@ export type TabularSource = CopySource & {
     | "AmazonRedshiftSource";
   /** Query timeout. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])). */
   queryTimeout?: any;
-  /** Specifies the additional columns to be added to source data. Type: array of objects (or Expression with resultType array of objects). */
-  additionalColumns?: AdditionalColumns[];
+  /** Specifies the additional columns to be added to source data. Type: array of objects(AdditionalColumns) (or Expression with resultType array of objects). */
+  additionalColumns?: any;
 };
 
 /** A copy activity Azure Blob source. */
@@ -7346,8 +7504,8 @@ export type DocumentDbCollectionSource = CopySource & {
   nestingSeparator?: any;
   /** Query timeout. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])). */
   queryTimeout?: any;
-  /** Specifies the additional columns to be added to source data. Type: array of objects (or Expression with resultType array of objects). */
-  additionalColumns?: AdditionalColumns[];
+  /** Specifies the additional columns to be added to source data. Type: array of objects(AdditionalColumns) (or Expression with resultType array of objects). */
+  additionalColumns?: any;
 };
 
 /** A copy activity Azure CosmosDB (SQL API) Collection source. */
@@ -7362,8 +7520,8 @@ export type CosmosDbSqlApiSource = CopySource & {
   preferredRegions?: any;
   /** Whether detect primitive values as datetime values. Type: boolean (or Expression with resultType boolean). */
   detectDatetime?: any;
-  /** Specifies the additional columns to be added to source data. Type: array of objects (or Expression with resultType array of objects). */
-  additionalColumns?: AdditionalColumns[];
+  /** Specifies the additional columns to be added to source data. Type: array of objects(AdditionalColumns) (or Expression with resultType array of objects). */
+  additionalColumns?: any;
 };
 
 /** A copy activity Dynamics source. */
@@ -7372,8 +7530,8 @@ export type DynamicsSource = CopySource & {
   type: "DynamicsSource";
   /** FetchXML is a proprietary query language that is used in Microsoft Dynamics (online & on-premises). Type: string (or Expression with resultType string). */
   query?: any;
-  /** Specifies the additional columns to be added to source data. Type: array of objects (or Expression with resultType array of objects). */
-  additionalColumns?: AdditionalColumns[];
+  /** Specifies the additional columns to be added to source data. Type: array of objects(AdditionalColumns) (or Expression with resultType array of objects). */
+  additionalColumns?: any;
 };
 
 /** A copy activity Dynamics CRM source. */
@@ -7382,8 +7540,8 @@ export type DynamicsCrmSource = CopySource & {
   type: "DynamicsCrmSource";
   /** FetchXML is a proprietary query language that is used in Microsoft Dynamics CRM (online & on-premises). Type: string (or Expression with resultType string). */
   query?: any;
-  /** Specifies the additional columns to be added to source data. Type: array of objects (or Expression with resultType array of objects). */
-  additionalColumns?: AdditionalColumns[];
+  /** Specifies the additional columns to be added to source data. Type: array of objects(AdditionalColumns) (or Expression with resultType array of objects). */
+  additionalColumns?: any;
 };
 
 /** A copy activity Common Data Service for Apps source. */
@@ -7392,8 +7550,8 @@ export type CommonDataServiceForAppsSource = CopySource & {
   type: "CommonDataServiceForAppsSource";
   /** FetchXML is a proprietary query language that is used in Microsoft Common Data Service for Apps (online & on-premises). Type: string (or Expression with resultType string). */
   query?: any;
-  /** Specifies the additional columns to be added to source data. Type: array of objects (or Expression with resultType array of objects). */
-  additionalColumns?: AdditionalColumns[];
+  /** Specifies the additional columns to be added to source data. Type: array of objects(AdditionalColumns) (or Expression with resultType array of objects). */
+  additionalColumns?: any;
 };
 
 /** A copy activity source for various relational databases. */
@@ -7402,8 +7560,8 @@ export type RelationalSource = CopySource & {
   type: "RelationalSource";
   /** Database query. Type: string (or Expression with resultType string). */
   query?: any;
-  /** Specifies the additional columns to be added to source data. Type: array of objects (or Expression with resultType array of objects). */
-  additionalColumns?: AdditionalColumns[];
+  /** Specifies the additional columns to be added to source data. Type: array of objects(AdditionalColumns) (or Expression with resultType array of objects). */
+  additionalColumns?: any;
 };
 
 /** A copy activity source for Microsoft Access. */
@@ -7412,8 +7570,8 @@ export type MicrosoftAccessSource = CopySource & {
   type: "MicrosoftAccessSource";
   /** Database query. Type: string (or Expression with resultType string). */
   query?: any;
-  /** Specifies the additional columns to be added to source data. Type: array of objects (or Expression with resultType array of objects). */
-  additionalColumns?: AdditionalColumns[];
+  /** Specifies the additional columns to be added to source data. Type: array of objects(AdditionalColumns) (or Expression with resultType array of objects). */
+  additionalColumns?: any;
 };
 
 /** A copy activity source for OData source. */
@@ -7424,8 +7582,8 @@ export type ODataSource = CopySource & {
   query?: any;
   /** The timeout (TimeSpan) to get an HTTP response. It is the timeout to get a response, not the timeout to read response data. Default value: 00:05:00. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])). */
   httpRequestTimeout?: any;
-  /** Specifies the additional columns to be added to source data. Type: array of objects (or Expression with resultType array of objects). */
-  additionalColumns?: AdditionalColumns[];
+  /** Specifies the additional columns to be added to source data. Type: array of objects(AdditionalColumns) (or Expression with resultType array of objects). */
+  additionalColumns?: any;
 };
 
 /** A copy activity Salesforce Service Cloud source. */
@@ -7436,8 +7594,8 @@ export type SalesforceServiceCloudSource = CopySource & {
   query?: any;
   /** The read behavior for the operation. Default is Query. */
   readBehavior?: SalesforceSourceReadBehavior;
-  /** Specifies the additional columns to be added to source data. Type: array of objects (or Expression with resultType array of objects). */
-  additionalColumns?: AdditionalColumns[];
+  /** Specifies the additional columns to be added to source data. Type: array of objects(AdditionalColumns) (or Expression with resultType array of objects). */
+  additionalColumns?: any;
 };
 
 /** A copy activity Rest service source. */
@@ -7456,8 +7614,8 @@ export type RestSource = CopySource & {
   httpRequestTimeout?: any;
   /** The time to await before sending next page request. */
   requestInterval?: any;
-  /** Specifies the additional columns to be added to source data. Type: array of objects (or Expression with resultType array of objects). */
-  additionalColumns?: AdditionalColumns[];
+  /** Specifies the additional columns to be added to source data. Type: array of objects(AdditionalColumns) (or Expression with resultType array of objects). */
+  additionalColumns?: any;
 };
 
 /** A copy activity file system source. */
@@ -7466,8 +7624,8 @@ export type FileSystemSource = CopySource & {
   type: "FileSystemSource";
   /** If true, files under the folder path will be read recursively. Default is true. Type: boolean (or Expression with resultType boolean). */
   recursive?: any;
-  /** Specifies the additional columns to be added to source data. Type: array of objects (or Expression with resultType array of objects). */
-  additionalColumns?: AdditionalColumns[];
+  /** Specifies the additional columns to be added to source data. Type: array of objects(AdditionalColumns) (or Expression with resultType array of objects). */
+  additionalColumns?: any;
 };
 
 /** A copy activity HDFS source. */
@@ -7490,8 +7648,8 @@ export type AzureDataExplorerSource = CopySource & {
   noTruncation?: any;
   /** Query timeout. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).. */
   queryTimeout?: any;
-  /** Specifies the additional columns to be added to source data. Type: array of objects (or Expression with resultType array of objects). */
-  additionalColumns?: AdditionalColumns[];
+  /** Specifies the additional columns to be added to source data. Type: array of objects(AdditionalColumns) (or Expression with resultType array of objects). */
+  additionalColumns?: any;
 };
 
 /** A copy activity Oracle source. */
@@ -7506,16 +7664,32 @@ export type OracleSource = CopySource & {
   partitionOption?: OraclePartitionOption;
   /** The settings that will be leveraged for Oracle source partitioning. */
   partitionSettings?: OraclePartitionSettings;
-  /** Specifies the additional columns to be added to source data. Type: array of objects (or Expression with resultType array of objects). */
-  additionalColumns?: AdditionalColumns[];
+  /** Specifies the additional columns to be added to source data. Type: array of objects(AdditionalColumns) (or Expression with resultType array of objects). */
+  additionalColumns?: any;
+};
+
+/** A copy activity AmazonRdsForOracle source. */
+export type AmazonRdsForOracleSource = CopySource & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "AmazonRdsForOracleSource";
+  /** AmazonRdsForOracle reader query. Type: string (or Expression with resultType string). */
+  oracleReaderQuery?: any;
+  /** Query timeout. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])). */
+  queryTimeout?: any;
+  /** The partition mechanism that will be used for AmazonRdsForOracle read in parallel. Type: string (or Expression with resultType string). */
+  partitionOption?: any;
+  /** The settings that will be leveraged for AmazonRdsForOracle source partitioning. */
+  partitionSettings?: AmazonRdsForOraclePartitionSettings;
+  /** Specifies the additional columns to be added to source data. Type: array of objects(AdditionalColumns) (or Expression with resultType array of objects). */
+  additionalColumns?: any;
 };
 
 /** A copy activity source for web page table. */
 export type WebSource = CopySource & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "WebSource";
-  /** Specifies the additional columns to be added to source data. Type: array of objects (or Expression with resultType array of objects). */
-  additionalColumns?: AdditionalColumns[];
+  /** Specifies the additional columns to be added to source data. Type: array of objects(AdditionalColumns) (or Expression with resultType array of objects). */
+  additionalColumns?: any;
 };
 
 /** A copy activity source for a MongoDB database. */
@@ -7524,8 +7698,8 @@ export type MongoDbSource = CopySource & {
   type: "MongoDbSource";
   /** Database query. Should be a SQL-92 query expression. Type: string (or Expression with resultType string). */
   query?: any;
-  /** Specifies the additional columns to be added to source data. Type: array of objects (or Expression with resultType array of objects). */
-  additionalColumns?: AdditionalColumns[];
+  /** Specifies the additional columns to be added to source data. Type: array of objects(AdditionalColumns) (or Expression with resultType array of objects). */
+  additionalColumns?: any;
 };
 
 /** A copy activity source for a MongoDB Atlas database. */
@@ -7540,8 +7714,8 @@ export type MongoDbAtlasSource = CopySource & {
   batchSize?: any;
   /** Query timeout. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])). */
   queryTimeout?: any;
-  /** Specifies the additional columns to be added to source data. Type: array of objects (or Expression with resultType array of objects). */
-  additionalColumns?: AdditionalColumns[];
+  /** Specifies the additional columns to be added to source data. Type: array of objects(AdditionalColumns) (or Expression with resultType array of objects). */
+  additionalColumns?: any;
 };
 
 /** A copy activity source for a MongoDB database. */
@@ -7556,8 +7730,8 @@ export type MongoDbV2Source = CopySource & {
   batchSize?: any;
   /** Query timeout. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])). */
   queryTimeout?: any;
-  /** Specifies the additional columns to be added to source data. Type: array of objects (or Expression with resultType array of objects). */
-  additionalColumns?: AdditionalColumns[];
+  /** Specifies the additional columns to be added to source data. Type: array of objects(AdditionalColumns) (or Expression with resultType array of objects). */
+  additionalColumns?: any;
 };
 
 /** A copy activity source for a CosmosDB (MongoDB API) database. */
@@ -7572,8 +7746,8 @@ export type CosmosDbMongoDbApiSource = CopySource & {
   batchSize?: any;
   /** Query timeout. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])). */
   queryTimeout?: any;
-  /** Specifies the additional columns to be added to source data. Type: array of objects (or Expression with resultType array of objects). */
-  additionalColumns?: AdditionalColumns[];
+  /** Specifies the additional columns to be added to source data. Type: array of objects(AdditionalColumns) (or Expression with resultType array of objects). */
+  additionalColumns?: any;
 };
 
 /** A copy activity source for an Office 365 service. */
@@ -8167,6 +8341,83 @@ export type LinkedIntegrationRuntimeRbacAuthorization = LinkedIntegrationRuntime
 /** Azure Synapse nested resource, which belongs to a workspace. */
 export type SubResource = AzureEntityResource & {};
 
+/** A Big Data pool */
+export type BigDataPoolResourceInfo = TrackedResource & {
+  /** The state of the Big Data pool. */
+  provisioningState?: string;
+  /** Auto-scaling properties */
+  autoScale?: AutoScaleProperties;
+  /** The time when the Big Data pool was created. */
+  creationDate?: Date;
+  /** Auto-pausing properties */
+  autoPause?: AutoPauseProperties;
+  /** Whether compute isolation is required or not. */
+  isComputeIsolationEnabled?: boolean;
+  /** Whether session level packages enabled. */
+  sessionLevelPackagesEnabled?: boolean;
+  /** The cache size */
+  cacheSize?: number;
+  /** Dynamic Executor Allocation */
+  dynamicExecutorAllocation?: DynamicExecutorAllocation;
+  /** The Spark events folder */
+  sparkEventsFolder?: string;
+  /** The number of nodes in the Big Data pool. */
+  nodeCount?: number;
+  /** Library version requirements */
+  libraryRequirements?: LibraryRequirements;
+  /** List of custom libraries/packages associated with the spark pool. */
+  customLibraries?: LibraryInfo[];
+  /** Spark configuration file to specify additional properties */
+  sparkConfigProperties?: LibraryRequirements;
+  /** The Apache Spark version. */
+  sparkVersion?: string;
+  /** The default folder where Spark logs will be written. */
+  defaultSparkLogFolder?: string;
+  /** The level of compute power that each node in the Big Data pool has. */
+  nodeSize?: NodeSize;
+  /** The kind of nodes that the Big Data pool provides. */
+  nodeSizeFamily?: NodeSizeFamily;
+  /**
+   * The time when the Big Data pool was updated successfully.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastSucceededTimestamp?: Date;
+};
+
+/** A SQL Analytics pool */
+export type SqlPool = TrackedResource & {
+  /** SQL pool SKU */
+  sku?: Sku;
+  /** Maximum size in bytes */
+  maxSizeBytes?: number;
+  /** Collation mode */
+  collation?: string;
+  /** Source database to create from */
+  sourceDatabaseId?: string;
+  /** Backup database to restore from */
+  recoverableDatabaseId?: string;
+  /** Resource state */
+  provisioningState?: string;
+  /** Resource status */
+  status?: string;
+  /** Snapshot time to restore */
+  restorePointInTime?: string;
+  /**
+   * Specifies the mode of sql pool creation.
+   *
+   * Default: regular sql pool creation.
+   *
+   * PointInTimeRestore: Creates a sql pool by restoring a point in time backup of an existing sql pool. sourceDatabaseId must be specified as the resource ID of the existing sql pool, and restorePointInTime must be specified.
+   *
+   * Recovery: Creates a sql pool by a geo-replicated backup. sourceDatabaseId  must be specified as the recoverableDatabaseId to restore.
+   *
+   * Restore: Creates a sql pool by restoring a backup of a deleted sql  pool. SourceDatabaseId should be the sql pool's original resource ID. SourceDatabaseId and sourceDatabaseDeletionDate must be specified.
+   */
+  createMode?: CreateMode;
+  /** Date the SQL pool was created */
+  creationDate?: Date;
+};
+
 /** A workspace */
 export type Workspace = TrackedResource & {
   /** Identity of the workspace */
@@ -8215,73 +8466,6 @@ export type Workspace = TrackedResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly adlaResourceId?: string;
-};
-
-/** A SQL Analytics pool */
-export type SqlPool = TrackedResource & {
-  /** SQL pool SKU */
-  sku?: Sku;
-  /** Maximum size in bytes */
-  maxSizeBytes?: number;
-  /** Collation mode */
-  collation?: string;
-  /** Source database to create from */
-  sourceDatabaseId?: string;
-  /** Backup database to restore from */
-  recoverableDatabaseId?: string;
-  /** Resource state */
-  provisioningState?: string;
-  /** Resource status */
-  status?: string;
-  /** Snapshot time to restore */
-  restorePointInTime?: string;
-  /** What is this? */
-  createMode?: string;
-  /** Date the SQL pool was created */
-  creationDate?: Date;
-};
-
-/** A Big Data pool */
-export type BigDataPoolResourceInfo = TrackedResource & {
-  /** The state of the Big Data pool. */
-  provisioningState?: string;
-  /** Auto-scaling properties */
-  autoScale?: AutoScaleProperties;
-  /** The time when the Big Data pool was created. */
-  creationDate?: Date;
-  /** Auto-pausing properties */
-  autoPause?: AutoPauseProperties;
-  /** Whether compute isolation is required or not. */
-  isComputeIsolationEnabled?: boolean;
-  /** Whether session level packages enabled. */
-  sessionLevelPackagesEnabled?: boolean;
-  /** The cache size */
-  cacheSize?: number;
-  /** Dynamic Executor Allocation */
-  dynamicExecutorAllocation?: DynamicExecutorAllocation;
-  /** The Spark events folder */
-  sparkEventsFolder?: string;
-  /** The number of nodes in the Big Data pool. */
-  nodeCount?: number;
-  /** Library version requirements */
-  libraryRequirements?: LibraryRequirements;
-  /** List of custom libraries/packages associated with the spark pool. */
-  customLibraries?: LibraryInfo[];
-  /** Spark configuration file to specify additional properties */
-  sparkConfigProperties?: LibraryRequirements;
-  /** The Apache Spark version. */
-  sparkVersion?: string;
-  /** The default folder where Spark logs will be written. */
-  defaultSparkLogFolder?: string;
-  /** The level of compute power that each node in the Big Data pool has. */
-  nodeSize?: NodeSize;
-  /** The kind of nodes that the Big Data pool provides. */
-  nodeSizeFamily?: NodeSizeFamily;
-  /**
-   * The time when the Big Data pool was updated successfully.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly lastSucceededTimestamp?: Date;
 };
 
 /** A private endpoint connection */
@@ -9117,6 +9301,26 @@ export type SqlServerSource = TabularSource & {
   partitionSettings?: SqlPartitionSettings;
 };
 
+/** A copy activity Amazon RDS for SQL Server source. */
+export type AmazonRdsForSqlServerSource = TabularSource & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "AmazonRdsForSqlServerSource";
+  /** SQL reader query. Type: string (or Expression with resultType string). */
+  sqlReaderQuery?: any;
+  /** Name of the stored procedure for a SQL Database source. This cannot be used at the same time as SqlReaderQuery. Type: string (or Expression with resultType string). */
+  sqlReaderStoredProcedureName?: any;
+  /** Value and type setting for stored procedure parameters. Example: "{Parameter1: {value: "1", type: "int"}}". */
+  storedProcedureParameters?: {
+    [propertyName: string]: StoredProcedureParameter;
+  };
+  /** Which additional types to produce. */
+  produceAdditionalTypes?: any;
+  /** The partition mechanism that will be used for Sql read in parallel. Possible values include: "None", "PhysicalPartitionsOfTable", "DynamicRange". */
+  partitionOption?: any;
+  /** The settings that will be leveraged for Sql source partitioning. */
+  partitionSettings?: SqlPartitionSettings;
+};
+
 /** A copy activity Azure SQL source. */
 export type AzureSqlSource = TabularSource & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -9501,16 +9705,40 @@ export type TumblingWindowTriggerDependencyReference = TriggerDependencyReferenc
   size?: string;
 };
 
-/** Linked service resource type. */
-export type LinkedServiceResource = SubResource & {
-  /** Properties of linked service. */
-  properties: LinkedServiceUnion;
+/** Spark Configuration resource type. */
+export type SparkConfigurationResource = SubResource & {
+  /** Properties of Spark Configuration. */
+  properties: SparkConfiguration;
+};
+
+/** Data flow resource type. */
+export type DataFlowResource = SubResource & {
+  /** Data flow properties. */
+  properties: DataFlowUnion;
 };
 
 /** Dataset resource type. */
 export type DatasetResource = SubResource & {
   /** Dataset properties. */
   properties: DatasetUnion;
+};
+
+/** Integration runtime resource type. */
+export type IntegrationRuntimeResource = SubResource & {
+  /** Integration runtime properties. */
+  properties: IntegrationRuntimeUnion;
+};
+
+/** Library response details */
+export type LibraryResource = SubResource & {
+  /** Library/package properties. */
+  properties: LibraryResourceProperties;
+};
+
+/** Linked service resource type. */
+export type LinkedServiceResource = SubResource & {
+  /** Properties of linked service. */
+  properties: LinkedServiceUnion;
 };
 
 /** Pipeline resource type. */
@@ -9535,34 +9763,16 @@ export type PipelineResource = SubResource & {
   folder?: PipelineFolder;
 };
 
-/** Trigger resource type. */
-export type TriggerResource = SubResource & {
-  /** Properties of the trigger. */
-  properties: TriggerUnion;
-};
-
-/** Data flow resource type. */
-export type DataFlowResource = SubResource & {
-  /** Data flow properties. */
-  properties: DataFlowUnion;
-};
-
 /** Spark job definition resource type. */
 export type SparkJobDefinitionResource = SubResource & {
   /** Properties of spark job definition. */
   properties: SparkJobDefinition;
 };
 
-/** Integration runtime resource type. */
-export type IntegrationRuntimeResource = SubResource & {
-  /** Integration runtime properties. */
-  properties: IntegrationRuntimeUnion;
-};
-
-/** Library response details */
-export type LibraryResource = SubResource & {
-  /** Library/package properties. */
-  properties: LibraryResourceProperties;
+/** Trigger resource type. */
+export type TriggerResource = SubResource & {
+  /** Properties of the trigger. */
+  properties: TriggerUnion;
 };
 
 /** RerunTrigger resource type. */
@@ -9583,19 +9793,77 @@ export interface DataFlowDebugSessionExecuteCommandHeaders {
   location?: string;
 }
 
-/** Known values of {@link IntegrationRuntimeReferenceType} that the service accepts. */
-export enum KnownIntegrationRuntimeReferenceType {
-  IntegrationRuntimeReference = "IntegrationRuntimeReference"
+/** Known values of {@link NodeSize} that the service accepts. */
+export enum KnownNodeSize {
+  None = "None",
+  Small = "Small",
+  Medium = "Medium",
+  Large = "Large",
+  XLarge = "XLarge",
+  XXLarge = "XXLarge",
+  XXXLarge = "XXXLarge"
 }
 
 /**
- * Defines values for IntegrationRuntimeReferenceType. \
- * {@link KnownIntegrationRuntimeReferenceType} can be used interchangeably with IntegrationRuntimeReferenceType,
+ * Defines values for NodeSize. \
+ * {@link KnownNodeSize} can be used interchangeably with NodeSize,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **IntegrationRuntimeReference**
+ * **None** \
+ * **Small** \
+ * **Medium** \
+ * **Large** \
+ * **XLarge** \
+ * **XXLarge** \
+ * **XXXLarge**
  */
-export type IntegrationRuntimeReferenceType = string;
+export type NodeSize = string;
+
+/** Known values of {@link NodeSizeFamily} that the service accepts. */
+export enum KnownNodeSizeFamily {
+  None = "None",
+  MemoryOptimized = "MemoryOptimized"
+}
+
+/**
+ * Defines values for NodeSizeFamily. \
+ * {@link KnownNodeSizeFamily} can be used interchangeably with NodeSizeFamily,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **MemoryOptimized**
+ */
+export type NodeSizeFamily = string;
+
+/** Known values of {@link IntegrationRuntimeType} that the service accepts. */
+export enum KnownIntegrationRuntimeType {
+  Managed = "Managed",
+  SelfHosted = "SelfHosted"
+}
+
+/**
+ * Defines values for IntegrationRuntimeType. \
+ * {@link KnownIntegrationRuntimeType} can be used interchangeably with IntegrationRuntimeType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Managed** \
+ * **SelfHosted**
+ */
+export type IntegrationRuntimeType = string;
+
+/** Known values of {@link Type} that the service accepts. */
+export enum KnownType {
+  LinkedServiceReference = "LinkedServiceReference"
+}
+
+/**
+ * Defines values for Type. \
+ * {@link KnownType} can be used interchangeably with Type,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **LinkedServiceReference**
+ */
+export type Type = string;
 
 /** Known values of {@link ParameterType} that the service accepts. */
 export enum KnownParameterType {
@@ -9623,19 +9891,71 @@ export enum KnownParameterType {
  */
 export type ParameterType = string;
 
-/** Known values of {@link Type} that the service accepts. */
-export enum KnownType {
-  LinkedServiceReference = "LinkedServiceReference"
+/** Known values of {@link IntegrationRuntimeReferenceType} that the service accepts. */
+export enum KnownIntegrationRuntimeReferenceType {
+  IntegrationRuntimeReference = "IntegrationRuntimeReference"
 }
 
 /**
- * Defines values for Type. \
- * {@link KnownType} can be used interchangeably with Type,
+ * Defines values for IntegrationRuntimeReferenceType. \
+ * {@link KnownIntegrationRuntimeReferenceType} can be used interchangeably with IntegrationRuntimeReferenceType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **LinkedServiceReference**
+ * **IntegrationRuntimeReference**
  */
-export type Type = string;
+export type IntegrationRuntimeReferenceType = string;
+
+/** Known values of {@link DataFlowDebugCommandType} that the service accepts. */
+export enum KnownDataFlowDebugCommandType {
+  ExecutePreviewQuery = "executePreviewQuery",
+  ExecuteStatisticsQuery = "executeStatisticsQuery",
+  ExecuteExpressionQuery = "executeExpressionQuery"
+}
+
+/**
+ * Defines values for DataFlowDebugCommandType. \
+ * {@link KnownDataFlowDebugCommandType} can be used interchangeably with DataFlowDebugCommandType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **executePreviewQuery** \
+ * **executeStatisticsQuery** \
+ * **executeExpressionQuery**
+ */
+export type DataFlowDebugCommandType = string;
+
+/** Known values of {@link BigDataPoolReferenceType} that the service accepts. */
+export enum KnownBigDataPoolReferenceType {
+  BigDataPoolReference = "BigDataPoolReference"
+}
+
+/**
+ * Defines values for BigDataPoolReferenceType. \
+ * {@link KnownBigDataPoolReferenceType} can be used interchangeably with BigDataPoolReferenceType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **BigDataPoolReference**
+ */
+export type BigDataPoolReferenceType = string;
+
+/** Known values of {@link CellOutputType} that the service accepts. */
+export enum KnownCellOutputType {
+  ExecuteResult = "execute_result",
+  DisplayData = "display_data",
+  Stream = "stream",
+  Error = "error"
+}
+
+/**
+ * Defines values for CellOutputType. \
+ * {@link KnownCellOutputType} can be used interchangeably with CellOutputType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **execute_result** \
+ * **display_data** \
+ * **stream** \
+ * **error**
+ */
+export type CellOutputType = string;
 
 /** Known values of {@link DependencyCondition} that the service accepts. */
 export enum KnownDependencyCondition {
@@ -9779,108 +10099,6 @@ export enum KnownRunQueryOrder {
  */
 export type RunQueryOrder = string;
 
-/** Known values of {@link TriggerRuntimeState} that the service accepts. */
-export enum KnownTriggerRuntimeState {
-  Started = "Started",
-  Stopped = "Stopped",
-  Disabled = "Disabled"
-}
-
-/**
- * Defines values for TriggerRuntimeState. \
- * {@link KnownTriggerRuntimeState} can be used interchangeably with TriggerRuntimeState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Started** \
- * **Stopped** \
- * **Disabled**
- */
-export type TriggerRuntimeState = string;
-
-/** Known values of {@link EventSubscriptionStatus} that the service accepts. */
-export enum KnownEventSubscriptionStatus {
-  Enabled = "Enabled",
-  Provisioning = "Provisioning",
-  Deprovisioning = "Deprovisioning",
-  Disabled = "Disabled",
-  Unknown = "Unknown"
-}
-
-/**
- * Defines values for EventSubscriptionStatus. \
- * {@link KnownEventSubscriptionStatus} can be used interchangeably with EventSubscriptionStatus,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Enabled** \
- * **Provisioning** \
- * **Deprovisioning** \
- * **Disabled** \
- * **Unknown**
- */
-export type EventSubscriptionStatus = string;
-
-/** Known values of {@link TriggerRunStatus} that the service accepts. */
-export enum KnownTriggerRunStatus {
-  Succeeded = "Succeeded",
-  Failed = "Failed",
-  Inprogress = "Inprogress"
-}
-
-/**
- * Defines values for TriggerRunStatus. \
- * {@link KnownTriggerRunStatus} can be used interchangeably with TriggerRunStatus,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Succeeded** \
- * **Failed** \
- * **Inprogress**
- */
-export type TriggerRunStatus = string;
-
-/** Known values of {@link SqlScriptType} that the service accepts. */
-export enum KnownSqlScriptType {
-  SqlQuery = "SqlQuery"
-}
-
-/**
- * Defines values for SqlScriptType. \
- * {@link KnownSqlScriptType} can be used interchangeably with SqlScriptType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **SqlQuery**
- */
-export type SqlScriptType = string;
-
-/** Known values of {@link SqlConnectionType} that the service accepts. */
-export enum KnownSqlConnectionType {
-  SqlOnDemand = "SqlOnDemand",
-  SqlPool = "SqlPool"
-}
-
-/**
- * Defines values for SqlConnectionType. \
- * {@link KnownSqlConnectionType} can be used interchangeably with SqlConnectionType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **SqlOnDemand** \
- * **SqlPool**
- */
-export type SqlConnectionType = string;
-
-/** Known values of {@link BigDataPoolReferenceType} that the service accepts. */
-export enum KnownBigDataPoolReferenceType {
-  BigDataPoolReference = "BigDataPoolReference"
-}
-
-/**
- * Defines values for BigDataPoolReferenceType. \
- * {@link KnownBigDataPoolReferenceType} can be used interchangeably with BigDataPoolReferenceType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **BigDataPoolReference**
- */
-export type BigDataPoolReferenceType = string;
-
 /** Known values of {@link SparkJobType} that the service accepts. */
 export enum KnownSparkJobType {
   SparkBatch = "SparkBatch",
@@ -9981,83 +10199,147 @@ export enum KnownSparkErrorSource {
  */
 export type SparkErrorSource = string;
 
-/** Known values of {@link CellOutputType} that the service accepts. */
-export enum KnownCellOutputType {
-  ExecuteResult = "execute_result",
-  DisplayData = "display_data",
-  Stream = "stream",
-  Error = "error"
+/** Known values of {@link LivyStates} that the service accepts. */
+export enum KnownLivyStates {
+  NotStarted = "not_started",
+  Starting = "starting",
+  Idle = "idle",
+  Busy = "busy",
+  ShuttingDown = "shutting_down",
+  Error = "error",
+  Dead = "dead",
+  Killed = "killed",
+  Success = "success",
+  Running = "running",
+  Recovering = "recovering"
 }
 
 /**
- * Defines values for CellOutputType. \
- * {@link KnownCellOutputType} can be used interchangeably with CellOutputType,
+ * Defines values for LivyStates. \
+ * {@link KnownLivyStates} can be used interchangeably with LivyStates,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **execute_result** \
- * **display_data** \
- * **stream** \
- * **error**
+ * **not_started** \
+ * **starting** \
+ * **idle** \
+ * **busy** \
+ * **shutting_down** \
+ * **error** \
+ * **dead** \
+ * **killed** \
+ * **success** \
+ * **running** \
+ * **recovering**
  */
-export type CellOutputType = string;
+export type LivyStates = string;
 
-/** Known values of {@link NodeSize} that the service accepts. */
-export enum KnownNodeSize {
-  None = "None",
-  Small = "Small",
-  Medium = "Medium",
-  Large = "Large",
-  XLarge = "XLarge",
-  XXLarge = "XXLarge",
-  XXXLarge = "XXXLarge"
+/** Known values of {@link CreateMode} that the service accepts. */
+export enum KnownCreateMode {
+  Default = "Default",
+  PointInTimeRestore = "PointInTimeRestore",
+  Recovery = "Recovery",
+  Restore = "Restore"
 }
 
 /**
- * Defines values for NodeSize. \
- * {@link KnownNodeSize} can be used interchangeably with NodeSize,
+ * Defines values for CreateMode. \
+ * {@link KnownCreateMode} can be used interchangeably with CreateMode,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **None** \
- * **Small** \
- * **Medium** \
- * **Large** \
- * **XLarge** \
- * **XXLarge** \
- * **XXXLarge**
+ * **Default** \
+ * **PointInTimeRestore** \
+ * **Recovery** \
+ * **Restore**
  */
-export type NodeSize = string;
+export type CreateMode = string;
 
-/** Known values of {@link NodeSizeFamily} that the service accepts. */
-export enum KnownNodeSizeFamily {
-  None = "None",
-  MemoryOptimized = "MemoryOptimized"
+/** Known values of {@link SqlScriptType} that the service accepts. */
+export enum KnownSqlScriptType {
+  SqlQuery = "SqlQuery"
 }
 
 /**
- * Defines values for NodeSizeFamily. \
- * {@link KnownNodeSizeFamily} can be used interchangeably with NodeSizeFamily,
+ * Defines values for SqlScriptType. \
+ * {@link KnownSqlScriptType} can be used interchangeably with SqlScriptType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **None** \
- * **MemoryOptimized**
+ * **SqlQuery**
  */
-export type NodeSizeFamily = string;
+export type SqlScriptType = string;
 
-/** Known values of {@link IntegrationRuntimeType} that the service accepts. */
-export enum KnownIntegrationRuntimeType {
-  Managed = "Managed",
-  SelfHosted = "SelfHosted"
+/** Known values of {@link SqlConnectionType} that the service accepts. */
+export enum KnownSqlConnectionType {
+  SqlOnDemand = "SqlOnDemand",
+  SqlPool = "SqlPool"
 }
 
 /**
- * Defines values for IntegrationRuntimeType. \
- * {@link KnownIntegrationRuntimeType} can be used interchangeably with IntegrationRuntimeType,
+ * Defines values for SqlConnectionType. \
+ * {@link KnownSqlConnectionType} can be used interchangeably with SqlConnectionType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Managed** \
- * **SelfHosted**
+ * **SqlOnDemand** \
+ * **SqlPool**
  */
-export type IntegrationRuntimeType = string;
+export type SqlConnectionType = string;
+
+/** Known values of {@link TriggerRuntimeState} that the service accepts. */
+export enum KnownTriggerRuntimeState {
+  Started = "Started",
+  Stopped = "Stopped",
+  Disabled = "Disabled"
+}
+
+/**
+ * Defines values for TriggerRuntimeState. \
+ * {@link KnownTriggerRuntimeState} can be used interchangeably with TriggerRuntimeState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Started** \
+ * **Stopped** \
+ * **Disabled**
+ */
+export type TriggerRuntimeState = string;
+
+/** Known values of {@link EventSubscriptionStatus} that the service accepts. */
+export enum KnownEventSubscriptionStatus {
+  Enabled = "Enabled",
+  Provisioning = "Provisioning",
+  Deprovisioning = "Deprovisioning",
+  Disabled = "Disabled",
+  Unknown = "Unknown"
+}
+
+/**
+ * Defines values for EventSubscriptionStatus. \
+ * {@link KnownEventSubscriptionStatus} can be used interchangeably with EventSubscriptionStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled** \
+ * **Provisioning** \
+ * **Deprovisioning** \
+ * **Disabled** \
+ * **Unknown**
+ */
+export type EventSubscriptionStatus = string;
+
+/** Known values of {@link TriggerRunStatus} that the service accepts. */
+export enum KnownTriggerRunStatus {
+  Succeeded = "Succeeded",
+  Failed = "Failed",
+  Inprogress = "Inprogress"
+}
+
+/**
+ * Defines values for TriggerRunStatus. \
+ * {@link KnownTriggerRunStatus} can be used interchangeably with TriggerRunStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Failed** \
+ * **Inprogress**
+ */
+export type TriggerRunStatus = string;
 
 /** Known values of {@link ExpressionType} that the service accepts. */
 export enum KnownExpressionType {
@@ -10156,120 +10438,6 @@ export enum KnownSqlPoolReferenceType {
  * **SqlPoolReference**
  */
 export type SqlPoolReferenceType = string;
-
-/** Known values of {@link JsonFormatFilePattern} that the service accepts. */
-export enum KnownJsonFormatFilePattern {
-  SetOfObjects = "setOfObjects",
-  ArrayOfObjects = "arrayOfObjects"
-}
-
-/**
- * Defines values for JsonFormatFilePattern. \
- * {@link KnownJsonFormatFilePattern} can be used interchangeably with JsonFormatFilePattern,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **setOfObjects** \
- * **arrayOfObjects**
- */
-export type JsonFormatFilePattern = string;
-
-/** Known values of {@link CompressionCodec} that the service accepts. */
-export enum KnownCompressionCodec {
-  Bzip2 = "bzip2",
-  Gzip = "gzip",
-  Deflate = "deflate",
-  ZipDeflate = "zipDeflate",
-  Snappy = "snappy",
-  Lz4 = "lz4",
-  Tar = "tar",
-  TarGZip = "tarGZip"
-}
-
-/**
- * Defines values for CompressionCodec. \
- * {@link KnownCompressionCodec} can be used interchangeably with CompressionCodec,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **bzip2** \
- * **gzip** \
- * **deflate** \
- * **zipDeflate** \
- * **snappy** \
- * **lz4** \
- * **tar** \
- * **tarGZip**
- */
-export type CompressionCodec = string;
-
-/** Known values of {@link OrcCompressionCodec} that the service accepts. */
-export enum KnownOrcCompressionCodec {
-  None = "none",
-  Zlib = "zlib",
-  Snappy = "snappy",
-  Lzo = "lzo"
-}
-
-/**
- * Defines values for OrcCompressionCodec. \
- * {@link KnownOrcCompressionCodec} can be used interchangeably with OrcCompressionCodec,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **none** \
- * **zlib** \
- * **snappy** \
- * **lzo**
- */
-export type OrcCompressionCodec = string;
-
-/** Known values of {@link DynamicsDeploymentType} that the service accepts. */
-export enum KnownDynamicsDeploymentType {
-  Online = "Online",
-  OnPremisesWithIfd = "OnPremisesWithIfd"
-}
-
-/**
- * Defines values for DynamicsDeploymentType. \
- * {@link KnownDynamicsDeploymentType} can be used interchangeably with DynamicsDeploymentType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Online** \
- * **OnPremisesWithIfd**
- */
-export type DynamicsDeploymentType = string;
-
-/** Known values of {@link DynamicsAuthenticationType} that the service accepts. */
-export enum KnownDynamicsAuthenticationType {
-  Office365 = "Office365",
-  Ifd = "Ifd",
-  AADServicePrincipal = "AADServicePrincipal"
-}
-
-/**
- * Defines values for DynamicsAuthenticationType. \
- * {@link KnownDynamicsAuthenticationType} can be used interchangeably with DynamicsAuthenticationType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Office365** \
- * **Ifd** \
- * **AADServicePrincipal**
- */
-export type DynamicsAuthenticationType = string;
-
-/** Known values of {@link DynamicsServicePrincipalCredentialType} that the service accepts. */
-export enum KnownDynamicsServicePrincipalCredentialType {
-  ServicePrincipalKey = "ServicePrincipalKey",
-  ServicePrincipalCert = "ServicePrincipalCert"
-}
-
-/**
- * Defines values for DynamicsServicePrincipalCredentialType. \
- * {@link KnownDynamicsServicePrincipalCredentialType} can be used interchangeably with DynamicsServicePrincipalCredentialType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **ServicePrincipalKey** \
- * **ServicePrincipalCert**
- */
-export type DynamicsServicePrincipalCredentialType = string;
 
 /** Known values of {@link SybaseAuthenticationType} that the service accepts. */
 export enum KnownSybaseAuthenticationType {
@@ -10691,24 +10859,6 @@ export enum KnownSparkAuthenticationType {
  */
 export type SparkAuthenticationType = string;
 
-/** Known values of {@link HdiNodeTypes} that the service accepts. */
-export enum KnownHdiNodeTypes {
-  Headnode = "Headnode",
-  Workernode = "Workernode",
-  Zookeeper = "Zookeeper"
-}
-
-/**
- * Defines values for HdiNodeTypes. \
- * {@link KnownHdiNodeTypes} can be used interchangeably with HdiNodeTypes,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Headnode** \
- * **Workernode** \
- * **Zookeeper**
- */
-export type HdiNodeTypes = string;
-
 /** Known values of {@link GoogleAdWordsAuthenticationType} that the service accepts. */
 export enum KnownGoogleAdWordsAuthenticationType {
   ServiceAuthentication = "ServiceAuthentication",
@@ -10724,22 +10874,6 @@ export enum KnownGoogleAdWordsAuthenticationType {
  * **UserAuthentication**
  */
 export type GoogleAdWordsAuthenticationType = string;
-
-/** Known values of {@link JsonWriteFilePattern} that the service accepts. */
-export enum KnownJsonWriteFilePattern {
-  SetOfObjects = "setOfObjects",
-  ArrayOfObjects = "arrayOfObjects"
-}
-
-/**
- * Defines values for JsonWriteFilePattern. \
- * {@link KnownJsonWriteFilePattern} can be used interchangeably with JsonWriteFilePattern,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **setOfObjects** \
- * **arrayOfObjects**
- */
-export type JsonWriteFilePattern = string;
 
 /** Known values of {@link SalesforceSourceReadBehavior} that the service accepts. */
 export enum KnownSalesforceSourceReadBehavior {
@@ -11293,6 +11427,22 @@ export enum KnownIntegrationRuntimeEdition {
  */
 export type IntegrationRuntimeEdition = string;
 
+/** Known values of {@link JsonFormatFilePattern} that the service accepts. */
+export enum KnownJsonFormatFilePattern {
+  SetOfObjects = "setOfObjects",
+  ArrayOfObjects = "arrayOfObjects"
+}
+
+/**
+ * Defines values for JsonFormatFilePattern. \
+ * {@link KnownJsonFormatFilePattern} can be used interchangeably with JsonFormatFilePattern,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **setOfObjects** \
+ * **arrayOfObjects**
+ */
+export type JsonFormatFilePattern = string;
+
 /** Known values of {@link DatasetCompressionLevel} that the service accepts. */
 export enum KnownDatasetCompressionLevel {
   Optimal = "Optimal",
@@ -11351,6 +11501,160 @@ export enum KnownParquetCompressionCodecEnum {
  */
 export type ParquetCompressionCodecEnum = string;
 
+/** Known values of {@link CompressionCodec} that the service accepts. */
+export enum KnownCompressionCodec {
+  None = "none",
+  Lzo = "lzo",
+  Bzip2 = "bzip2",
+  Gzip = "gzip",
+  Deflate = "deflate",
+  ZipDeflate = "zipDeflate",
+  Snappy = "snappy",
+  Lz4 = "lz4",
+  Tar = "tar",
+  TarGZip = "tarGZip"
+}
+
+/**
+ * Defines values for CompressionCodec. \
+ * {@link KnownCompressionCodec} can be used interchangeably with CompressionCodec,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **none** \
+ * **lzo** \
+ * **bzip2** \
+ * **gzip** \
+ * **deflate** \
+ * **zipDeflate** \
+ * **snappy** \
+ * **lz4** \
+ * **tar** \
+ * **tarGZip**
+ */
+export type CompressionCodec = string;
+
+/** Known values of {@link OrcCompressionCodec} that the service accepts. */
+export enum KnownOrcCompressionCodec {
+  None = "none",
+  Zlib = "zlib",
+  Snappy = "snappy",
+  Lzo = "lzo"
+}
+
+/**
+ * Defines values for OrcCompressionCodec. \
+ * {@link KnownOrcCompressionCodec} can be used interchangeably with OrcCompressionCodec,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **none** \
+ * **zlib** \
+ * **snappy** \
+ * **lzo**
+ */
+export type OrcCompressionCodec = string;
+
+/** Known values of {@link DynamicsDeploymentType} that the service accepts. */
+export enum KnownDynamicsDeploymentType {
+  Online = "Online",
+  OnPremisesWithIfd = "OnPremisesWithIfd"
+}
+
+/**
+ * Defines values for DynamicsDeploymentType. \
+ * {@link KnownDynamicsDeploymentType} can be used interchangeably with DynamicsDeploymentType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Online** \
+ * **OnPremisesWithIfd**
+ */
+export type DynamicsDeploymentType = string;
+
+/** Known values of {@link DynamicsAuthenticationType} that the service accepts. */
+export enum KnownDynamicsAuthenticationType {
+  Office365 = "Office365",
+  Ifd = "Ifd",
+  AADServicePrincipal = "AADServicePrincipal"
+}
+
+/**
+ * Defines values for DynamicsAuthenticationType. \
+ * {@link KnownDynamicsAuthenticationType} can be used interchangeably with DynamicsAuthenticationType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Office365** \
+ * **Ifd** \
+ * **AADServicePrincipal**
+ */
+export type DynamicsAuthenticationType = string;
+
+/** Known values of {@link DynamicsServicePrincipalCredentialType} that the service accepts. */
+export enum KnownDynamicsServicePrincipalCredentialType {
+  ServicePrincipalKey = "ServicePrincipalKey",
+  ServicePrincipalCert = "ServicePrincipalCert"
+}
+
+/**
+ * Defines values for DynamicsServicePrincipalCredentialType. \
+ * {@link KnownDynamicsServicePrincipalCredentialType} can be used interchangeably with DynamicsServicePrincipalCredentialType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ServicePrincipalKey** \
+ * **ServicePrincipalCert**
+ */
+export type DynamicsServicePrincipalCredentialType = string;
+
+/** Known values of {@link HdiNodeTypes} that the service accepts. */
+export enum KnownHdiNodeTypes {
+  Headnode = "Headnode",
+  Workernode = "Workernode",
+  Zookeeper = "Zookeeper"
+}
+
+/**
+ * Defines values for HdiNodeTypes. \
+ * {@link KnownHdiNodeTypes} can be used interchangeably with HdiNodeTypes,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Headnode** \
+ * **Workernode** \
+ * **Zookeeper**
+ */
+export type HdiNodeTypes = string;
+
+/** Known values of {@link JsonWriteFilePattern} that the service accepts. */
+export enum KnownJsonWriteFilePattern {
+  SetOfObjects = "setOfObjects",
+  ArrayOfObjects = "arrayOfObjects"
+}
+
+/**
+ * Defines values for JsonWriteFilePattern. \
+ * {@link KnownJsonWriteFilePattern} can be used interchangeably with JsonWriteFilePattern,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **setOfObjects** \
+ * **arrayOfObjects**
+ */
+export type JsonWriteFilePattern = string;
+
+/** Known values of {@link AmazonRdsForOraclePartitionOption} that the service accepts. */
+export enum KnownAmazonRdsForOraclePartitionOption {
+  None = "None",
+  PhysicalPartitionsOfTable = "PhysicalPartitionsOfTable",
+  DynamicRange = "DynamicRange"
+}
+
+/**
+ * Defines values for AmazonRdsForOraclePartitionOption. \
+ * {@link KnownAmazonRdsForOraclePartitionOption} can be used interchangeably with AmazonRdsForOraclePartitionOption,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **PhysicalPartitionsOfTable** \
+ * **DynamicRange**
+ */
+export type AmazonRdsForOraclePartitionOption = string;
+
 /** Known values of {@link CopyBehaviorType} that the service accepts. */
 export enum KnownCopyBehaviorType {
   PreserveHierarchy = "PreserveHierarchy",
@@ -11399,16 +11703,67 @@ export type DayOfWeek =
   | "Saturday";
 
 /** Optional parameters. */
-export interface LinkedServiceOperationsGetLinkedServicesByWorkspaceOptionalParams
+export interface KqlScriptsGetAllOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the getLinkedServicesByWorkspace operation. */
-export type LinkedServiceOperationsGetLinkedServicesByWorkspaceResponse = LinkedServiceListResponse;
+/** Contains response data for the getAll operation. */
+export type KqlScriptsGetAllResponse = KqlScriptsResourceCollectionResponse;
 
 /** Optional parameters. */
-export interface LinkedServiceOperationsCreateOrUpdateLinkedServiceOptionalParams
+export interface KqlScriptsGetAllNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getAllNext operation. */
+export type KqlScriptsGetAllNextResponse = KqlScriptsResourceCollectionResponse;
+
+/** Optional parameters. */
+export interface KqlScriptCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {
-  /** ETag of the linkedService entity.  Should only be specified for update, for which it should match existing entity or can be * for unconditional update. */
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type KqlScriptCreateOrUpdateResponse = KqlScriptResource;
+
+/** Optional parameters. */
+export interface KqlScriptGetByNameOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getByName operation. */
+export type KqlScriptGetByNameResponse = KqlScriptResource;
+
+/** Optional parameters. */
+export interface KqlScriptDeleteByNameOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface KqlScriptRenameOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface SparkConfigurationGetSparkConfigurationsByWorkspaceOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getSparkConfigurationsByWorkspace operation. */
+export type SparkConfigurationGetSparkConfigurationsByWorkspaceResponse = SparkConfigurationListResponse;
+
+/** Optional parameters. */
+export interface SparkConfigurationCreateOrUpdateSparkConfigurationOptionalParams
+  extends coreClient.OperationOptions {
+  /** ETag of the sparkConfiguration entity.  Should only be specified for update, for which it should match existing entity or can be * for unconditional update. */
   ifMatch?: string;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
@@ -11416,21 +11771,21 @@ export interface LinkedServiceOperationsCreateOrUpdateLinkedServiceOptionalParam
   resumeFrom?: string;
 }
 
-/** Contains response data for the createOrUpdateLinkedService operation. */
-export type LinkedServiceOperationsCreateOrUpdateLinkedServiceResponse = LinkedServiceResource;
+/** Contains response data for the createOrUpdateSparkConfiguration operation. */
+export type SparkConfigurationCreateOrUpdateSparkConfigurationResponse = SparkConfigurationResource;
 
 /** Optional parameters. */
-export interface LinkedServiceOperationsGetLinkedServiceOptionalParams
+export interface SparkConfigurationGetSparkConfigurationOptionalParams
   extends coreClient.OperationOptions {
-  /** ETag of the linked service entity. Should only be specified for get. If the ETag matches the existing entity tag, or if * was provided, then no content will be returned. */
+  /** ETag of the sparkConfiguration entity. Should only be specified for get. If the ETag matches the existing entity tag, or if * was provided, then no content will be returned. */
   ifNoneMatch?: string;
 }
 
-/** Contains response data for the getLinkedService operation. */
-export type LinkedServiceOperationsGetLinkedServiceResponse = LinkedServiceResource;
+/** Contains response data for the getSparkConfiguration operation. */
+export type SparkConfigurationGetSparkConfigurationResponse = SparkConfigurationResource;
 
 /** Optional parameters. */
-export interface LinkedServiceOperationsDeleteLinkedServiceOptionalParams
+export interface SparkConfigurationDeleteSparkConfigurationOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
@@ -11439,7 +11794,7 @@ export interface LinkedServiceOperationsDeleteLinkedServiceOptionalParams
 }
 
 /** Optional parameters. */
-export interface LinkedServiceOperationsRenameLinkedServiceOptionalParams
+export interface SparkConfigurationRenameSparkConfigurationOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
@@ -11448,281 +11803,28 @@ export interface LinkedServiceOperationsRenameLinkedServiceOptionalParams
 }
 
 /** Optional parameters. */
-export interface LinkedServiceOperationsGetLinkedServicesByWorkspaceNextOptionalParams
+export interface SparkConfigurationGetSparkConfigurationsByWorkspaceNextOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the getLinkedServicesByWorkspaceNext operation. */
-export type LinkedServiceOperationsGetLinkedServicesByWorkspaceNextResponse = LinkedServiceListResponse;
+/** Contains response data for the getSparkConfigurationsByWorkspaceNext operation. */
+export type SparkConfigurationGetSparkConfigurationsByWorkspaceNextResponse = SparkConfigurationListResponse;
 
 /** Optional parameters. */
-export interface DatasetOperationsGetDatasetsByWorkspaceOptionalParams
+export interface BigDataPoolsListOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the getDatasetsByWorkspace operation. */
-export type DatasetOperationsGetDatasetsByWorkspaceResponse = DatasetListResponse;
+/** Contains response data for the list operation. */
+export type BigDataPoolsListResponse = BigDataPoolResourceInfoListResult;
 
 /** Optional parameters. */
-export interface DatasetOperationsCreateOrUpdateDatasetOptionalParams
-  extends coreClient.OperationOptions {
-  /** ETag of the dataset entity.  Should only be specified for update, for which it should match existing entity or can be * for unconditional update. */
-  ifMatch?: string;
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the createOrUpdateDataset operation. */
-export type DatasetOperationsCreateOrUpdateDatasetResponse = DatasetResource;
-
-/** Optional parameters. */
-export interface DatasetOperationsGetDatasetOptionalParams
-  extends coreClient.OperationOptions {
-  /** ETag of the dataset entity. Should only be specified for get. If the ETag matches the existing entity tag, or if * was provided, then no content will be returned. */
-  ifNoneMatch?: string;
-}
-
-/** Contains response data for the getDataset operation. */
-export type DatasetOperationsGetDatasetResponse = DatasetResource;
-
-/** Optional parameters. */
-export interface DatasetOperationsDeleteDatasetOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface DatasetOperationsRenameDatasetOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface DatasetOperationsGetDatasetsByWorkspaceNextOptionalParams
+export interface BigDataPoolsGetOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the getDatasetsByWorkspaceNext operation. */
-export type DatasetOperationsGetDatasetsByWorkspaceNextResponse = DatasetListResponse;
+/** Contains response data for the get operation. */
+export type BigDataPoolsGetResponse = BigDataPoolResourceInfo;
 
 /** Optional parameters. */
-export interface PipelineOperationsGetPipelinesByWorkspaceOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the getPipelinesByWorkspace operation. */
-export type PipelineOperationsGetPipelinesByWorkspaceResponse = PipelineListResponse;
-
-/** Optional parameters. */
-export interface PipelineOperationsCreateOrUpdatePipelineOptionalParams
-  extends coreClient.OperationOptions {
-  /** ETag of the pipeline entity.  Should only be specified for update, for which it should match existing entity or can be * for unconditional update. */
-  ifMatch?: string;
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the createOrUpdatePipeline operation. */
-export type PipelineOperationsCreateOrUpdatePipelineResponse = PipelineResource;
-
-/** Optional parameters. */
-export interface PipelineOperationsGetPipelineOptionalParams
-  extends coreClient.OperationOptions {
-  /** ETag of the pipeline entity. Should only be specified for get. If the ETag matches the existing entity tag, or if * was provided, then no content will be returned. */
-  ifNoneMatch?: string;
-}
-
-/** Contains response data for the getPipeline operation. */
-export type PipelineOperationsGetPipelineResponse = PipelineResource;
-
-/** Optional parameters. */
-export interface PipelineOperationsDeletePipelineOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface PipelineOperationsRenamePipelineOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface PipelineOperationsCreatePipelineRunOptionalParams
-  extends coreClient.OperationOptions {
-  /** Parameters of the pipeline run. These parameters will be used only if the runId is not specified. */
-  parameters?: { [propertyName: string]: any };
-  /** The pipeline run identifier. If run ID is specified the parameters of the specified run will be used to create a new run. */
-  referencePipelineRunId?: string;
-  /** Recovery mode flag. If recovery mode is set to true, the specified referenced pipeline run and the new run will be grouped under the same groupId. */
-  isRecovery?: boolean;
-  /** In recovery mode, the rerun will start from this activity. If not specified, all activities will run. */
-  startActivityName?: string;
-}
-
-/** Contains response data for the createPipelineRun operation. */
-export type PipelineOperationsCreatePipelineRunResponse = CreateRunResponse;
-
-/** Optional parameters. */
-export interface PipelineOperationsGetPipelinesByWorkspaceNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the getPipelinesByWorkspaceNext operation. */
-export type PipelineOperationsGetPipelinesByWorkspaceNextResponse = PipelineListResponse;
-
-/** Optional parameters. */
-export interface PipelineRunOperationsQueryPipelineRunsByWorkspaceOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the queryPipelineRunsByWorkspace operation. */
-export type PipelineRunOperationsQueryPipelineRunsByWorkspaceResponse = PipelineRunsQueryResponse;
-
-/** Optional parameters. */
-export interface PipelineRunOperationsGetPipelineRunOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the getPipelineRun operation. */
-export type PipelineRunOperationsGetPipelineRunResponse = PipelineRun;
-
-/** Optional parameters. */
-export interface PipelineRunOperationsQueryActivityRunsOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the queryActivityRuns operation. */
-export type PipelineRunOperationsQueryActivityRunsResponse = ActivityRunsQueryResponse;
-
-/** Optional parameters. */
-export interface PipelineRunOperationsCancelPipelineRunOptionalParams
-  extends coreClient.OperationOptions {
-  /** If true, cancel all the Child pipelines that are triggered by the current pipeline. */
-  isRecursive?: boolean;
-}
-
-/** Optional parameters. */
-export interface TriggerOperationsGetTriggersByWorkspaceOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the getTriggersByWorkspace operation. */
-export type TriggerOperationsGetTriggersByWorkspaceResponse = TriggerListResponse;
-
-/** Optional parameters. */
-export interface TriggerOperationsCreateOrUpdateTriggerOptionalParams
-  extends coreClient.OperationOptions {
-  /** ETag of the trigger entity.  Should only be specified for update, for which it should match existing entity or can be * for unconditional update. */
-  ifMatch?: string;
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the createOrUpdateTrigger operation. */
-export type TriggerOperationsCreateOrUpdateTriggerResponse = TriggerResource;
-
-/** Optional parameters. */
-export interface TriggerOperationsGetTriggerOptionalParams
-  extends coreClient.OperationOptions {
-  /** ETag of the trigger entity. Should only be specified for get. If the ETag matches the existing entity tag, or if * was provided, then no content will be returned. */
-  ifNoneMatch?: string;
-}
-
-/** Contains response data for the getTrigger operation. */
-export type TriggerOperationsGetTriggerResponse = TriggerResource;
-
-/** Optional parameters. */
-export interface TriggerOperationsDeleteTriggerOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface TriggerOperationsSubscribeTriggerToEventsOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the subscribeTriggerToEvents operation. */
-export type TriggerOperationsSubscribeTriggerToEventsResponse = TriggerSubscriptionOperationStatus;
-
-/** Optional parameters. */
-export interface TriggerOperationsGetEventSubscriptionStatusOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the getEventSubscriptionStatus operation. */
-export type TriggerOperationsGetEventSubscriptionStatusResponse = TriggerSubscriptionOperationStatus;
-
-/** Optional parameters. */
-export interface TriggerOperationsUnsubscribeTriggerFromEventsOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the unsubscribeTriggerFromEvents operation. */
-export type TriggerOperationsUnsubscribeTriggerFromEventsResponse = TriggerSubscriptionOperationStatus;
-
-/** Optional parameters. */
-export interface TriggerOperationsStartTriggerOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface TriggerOperationsStopTriggerOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface TriggerOperationsGetTriggersByWorkspaceNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the getTriggersByWorkspaceNext operation. */
-export type TriggerOperationsGetTriggersByWorkspaceNextResponse = TriggerListResponse;
-
-/** Optional parameters. */
-export interface TriggerRunOperationsRerunTriggerInstanceOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface TriggerRunOperationsCancelTriggerInstanceOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface TriggerRunOperationsQueryTriggerRunsByWorkspaceOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the queryTriggerRunsByWorkspace operation. */
-export type TriggerRunOperationsQueryTriggerRunsByWorkspaceResponse = TriggerRunsQueryResponse;
-
-/** Optional parameters. */
-export interface DataFlowOperationsCreateOrUpdateDataFlowOptionalParams
+export interface DataFlowCreateOrUpdateDataFlowOptionalParams
   extends coreClient.OperationOptions {
   /** ETag of the data flow entity. Should only be specified for update, for which it should match existing entity or can be * for unconditional update. */
   ifMatch?: string;
@@ -11733,20 +11835,20 @@ export interface DataFlowOperationsCreateOrUpdateDataFlowOptionalParams
 }
 
 /** Contains response data for the createOrUpdateDataFlow operation. */
-export type DataFlowOperationsCreateOrUpdateDataFlowResponse = DataFlowResource;
+export type DataFlowCreateOrUpdateDataFlowResponse = DataFlowResource;
 
 /** Optional parameters. */
-export interface DataFlowOperationsGetDataFlowOptionalParams
+export interface DataFlowGetDataFlowOptionalParams
   extends coreClient.OperationOptions {
   /** ETag of the data flow entity. Should only be specified for get. If the ETag matches the existing entity tag, or if * was provided, then no content will be returned. */
   ifNoneMatch?: string;
 }
 
 /** Contains response data for the getDataFlow operation. */
-export type DataFlowOperationsGetDataFlowResponse = DataFlowResource;
+export type DataFlowGetDataFlowResponse = DataFlowResource;
 
 /** Optional parameters. */
-export interface DataFlowOperationsDeleteDataFlowOptionalParams
+export interface DataFlowDeleteDataFlowOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
@@ -11755,7 +11857,7 @@ export interface DataFlowOperationsDeleteDataFlowOptionalParams
 }
 
 /** Optional parameters. */
-export interface DataFlowOperationsRenameDataFlowOptionalParams
+export interface DataFlowRenameDataFlowOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
@@ -11764,18 +11866,18 @@ export interface DataFlowOperationsRenameDataFlowOptionalParams
 }
 
 /** Optional parameters. */
-export interface DataFlowOperationsGetDataFlowsByWorkspaceOptionalParams
+export interface DataFlowGetDataFlowsByWorkspaceOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getDataFlowsByWorkspace operation. */
-export type DataFlowOperationsGetDataFlowsByWorkspaceResponse = DataFlowListResponse;
+export type DataFlowGetDataFlowsByWorkspaceResponse = DataFlowListResponse;
 
 /** Optional parameters. */
-export interface DataFlowOperationsGetDataFlowsByWorkspaceNextOptionalParams
+export interface DataFlowGetDataFlowsByWorkspaceNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getDataFlowsByWorkspaceNext operation. */
-export type DataFlowOperationsGetDataFlowsByWorkspaceNextResponse = DataFlowListResponse;
+export type DataFlowGetDataFlowsByWorkspaceNextResponse = DataFlowListResponse;
 
 /** Optional parameters. */
 export interface DataFlowDebugSessionCreateDataFlowDebugSessionOptionalParams
@@ -11827,16 +11929,16 @@ export interface DataFlowDebugSessionQueryDataFlowDebugSessionsByWorkspaceNextOp
 export type DataFlowDebugSessionQueryDataFlowDebugSessionsByWorkspaceNextResponse = QueryDataFlowDebugSessionsResponse;
 
 /** Optional parameters. */
-export interface SqlScriptOperationsGetSqlScriptsByWorkspaceOptionalParams
+export interface DatasetGetDatasetsByWorkspaceOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the getSqlScriptsByWorkspace operation. */
-export type SqlScriptOperationsGetSqlScriptsByWorkspaceResponse = SqlScriptsListResponse;
+/** Contains response data for the getDatasetsByWorkspace operation. */
+export type DatasetGetDatasetsByWorkspaceResponse = DatasetListResponse;
 
 /** Optional parameters. */
-export interface SqlScriptOperationsCreateOrUpdateSqlScriptOptionalParams
+export interface DatasetCreateOrUpdateDatasetOptionalParams
   extends coreClient.OperationOptions {
-  /** ETag of the SQL script entity.  Should only be specified for update, for which it should match existing entity or can be * for unconditional update. */
+  /** ETag of the dataset entity.  Should only be specified for update, for which it should match existing entity or can be * for unconditional update. */
   ifMatch?: string;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
@@ -11844,21 +11946,21 @@ export interface SqlScriptOperationsCreateOrUpdateSqlScriptOptionalParams
   resumeFrom?: string;
 }
 
-/** Contains response data for the createOrUpdateSqlScript operation. */
-export type SqlScriptOperationsCreateOrUpdateSqlScriptResponse = SqlScriptResource;
+/** Contains response data for the createOrUpdateDataset operation. */
+export type DatasetCreateOrUpdateDatasetResponse = DatasetResource;
 
 /** Optional parameters. */
-export interface SqlScriptOperationsGetSqlScriptOptionalParams
+export interface DatasetGetDatasetOptionalParams
   extends coreClient.OperationOptions {
-  /** ETag of the sql compute entity. Should only be specified for get. If the ETag matches the existing entity tag, or if * was provided, then no content will be returned. */
+  /** ETag of the dataset entity. Should only be specified for get. If the ETag matches the existing entity tag, or if * was provided, then no content will be returned. */
   ifNoneMatch?: string;
 }
 
-/** Contains response data for the getSqlScript operation. */
-export type SqlScriptOperationsGetSqlScriptResponse = SqlScriptResource;
+/** Contains response data for the getDataset operation. */
+export type DatasetGetDatasetResponse = DatasetResource;
 
 /** Optional parameters. */
-export interface SqlScriptOperationsDeleteSqlScriptOptionalParams
+export interface DatasetDeleteDatasetOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
@@ -11867,7 +11969,7 @@ export interface SqlScriptOperationsDeleteSqlScriptOptionalParams
 }
 
 /** Optional parameters. */
-export interface SqlScriptOperationsRenameSqlScriptOptionalParams
+export interface DatasetRenameDatasetOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
@@ -11876,196 +11978,21 @@ export interface SqlScriptOperationsRenameSqlScriptOptionalParams
 }
 
 /** Optional parameters. */
-export interface SqlScriptOperationsGetSqlScriptsByWorkspaceNextOptionalParams
+export interface DatasetGetDatasetsByWorkspaceNextOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the getSqlScriptsByWorkspaceNext operation. */
-export type SqlScriptOperationsGetSqlScriptsByWorkspaceNextResponse = SqlScriptsListResponse;
+/** Contains response data for the getDatasetsByWorkspaceNext operation. */
+export type DatasetGetDatasetsByWorkspaceNextResponse = DatasetListResponse;
 
 /** Optional parameters. */
-export interface SparkJobDefinitionOperationsGetSparkJobDefinitionsByWorkspaceOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the getSparkJobDefinitionsByWorkspace operation. */
-export type SparkJobDefinitionOperationsGetSparkJobDefinitionsByWorkspaceResponse = SparkJobDefinitionsListResponse;
-
-/** Optional parameters. */
-export interface SparkJobDefinitionOperationsCreateOrUpdateSparkJobDefinitionOptionalParams
+export interface WorkspaceGitRepoManagementGetGitHubAccessTokenOptionalParams
   extends coreClient.OperationOptions {
-  /** ETag of the Spark Job Definition entity.  Should only be specified for update, for which it should match existing entity or can be * for unconditional update. */
-  ifMatch?: string;
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
+  /** Can provide a guid, which is helpful for debugging and to provide better customer support */
+  clientRequestId?: string;
 }
 
-/** Contains response data for the createOrUpdateSparkJobDefinition operation. */
-export type SparkJobDefinitionOperationsCreateOrUpdateSparkJobDefinitionResponse = SparkJobDefinitionResource;
-
-/** Optional parameters. */
-export interface SparkJobDefinitionOperationsGetSparkJobDefinitionOptionalParams
-  extends coreClient.OperationOptions {
-  /** ETag of the Spark Job Definition entity. Should only be specified for get. If the ETag matches the existing entity tag, or if * was provided, then no content will be returned. */
-  ifNoneMatch?: string;
-}
-
-/** Contains response data for the getSparkJobDefinition operation. */
-export type SparkJobDefinitionOperationsGetSparkJobDefinitionResponse = SparkJobDefinitionResource;
-
-/** Optional parameters. */
-export interface SparkJobDefinitionOperationsDeleteSparkJobDefinitionOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface SparkJobDefinitionOperationsExecuteSparkJobDefinitionOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the executeSparkJobDefinition operation. */
-export type SparkJobDefinitionOperationsExecuteSparkJobDefinitionResponse = SparkBatchJob;
-
-/** Optional parameters. */
-export interface SparkJobDefinitionOperationsRenameSparkJobDefinitionOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface SparkJobDefinitionOperationsDebugSparkJobDefinitionOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the debugSparkJobDefinition operation. */
-export type SparkJobDefinitionOperationsDebugSparkJobDefinitionResponse = SparkBatchJob;
-
-/** Optional parameters. */
-export interface SparkJobDefinitionOperationsGetSparkJobDefinitionsByWorkspaceNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the getSparkJobDefinitionsByWorkspaceNext operation. */
-export type SparkJobDefinitionOperationsGetSparkJobDefinitionsByWorkspaceNextResponse = SparkJobDefinitionsListResponse;
-
-/** Optional parameters. */
-export interface NotebookOperationsGetNotebooksByWorkspaceOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the getNotebooksByWorkspace operation. */
-export type NotebookOperationsGetNotebooksByWorkspaceResponse = NotebookListResponse;
-
-/** Optional parameters. */
-export interface NotebookOperationsGetNotebookSummaryByWorkSpaceOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the getNotebookSummaryByWorkSpace operation. */
-export type NotebookOperationsGetNotebookSummaryByWorkSpaceResponse = NotebookListResponse;
-
-/** Optional parameters. */
-export interface NotebookOperationsCreateOrUpdateNotebookOptionalParams
-  extends coreClient.OperationOptions {
-  /** ETag of the Note book entity.  Should only be specified for update, for which it should match existing entity or can be * for unconditional update. */
-  ifMatch?: string;
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the createOrUpdateNotebook operation. */
-export type NotebookOperationsCreateOrUpdateNotebookResponse = NotebookResource;
-
-/** Optional parameters. */
-export interface NotebookOperationsGetNotebookOptionalParams
-  extends coreClient.OperationOptions {
-  /** ETag of the Notebook entity. Should only be specified for get. If the ETag matches the existing entity tag, or if * was provided, then no content will be returned. */
-  ifNoneMatch?: string;
-}
-
-/** Contains response data for the getNotebook operation. */
-export type NotebookOperationsGetNotebookResponse = NotebookResource;
-
-/** Optional parameters. */
-export interface NotebookOperationsDeleteNotebookOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface NotebookOperationsRenameNotebookOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface NotebookOperationsGetNotebooksByWorkspaceNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the getNotebooksByWorkspaceNext operation. */
-export type NotebookOperationsGetNotebooksByWorkspaceNextResponse = NotebookListResponse;
-
-/** Optional parameters. */
-export interface NotebookOperationsGetNotebookSummaryByWorkSpaceNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the getNotebookSummaryByWorkSpaceNext operation. */
-export type NotebookOperationsGetNotebookSummaryByWorkSpaceNextResponse = NotebookListResponse;
-
-/** Optional parameters. */
-export interface WorkspaceOperationsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type WorkspaceOperationsGetResponse = Workspace;
-
-/** Optional parameters. */
-export interface SqlPoolsListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type SqlPoolsListResponse = SqlPoolInfoListResult;
-
-/** Optional parameters. */
-export interface SqlPoolsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type SqlPoolsGetResponse = SqlPool;
-
-/** Optional parameters. */
-export interface BigDataPoolsListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type BigDataPoolsListResponse = BigDataPoolResourceInfoListResult;
-
-/** Optional parameters. */
-export interface BigDataPoolsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type BigDataPoolsGetResponse = BigDataPoolResourceInfo;
+/** Contains response data for the getGitHubAccessToken operation. */
+export type WorkspaceGitRepoManagementGetGitHubAccessTokenResponse = GitHubAccessTokenResponse;
 
 /** Optional parameters. */
 export interface IntegrationRuntimesListOptionalParams
@@ -12143,20 +12070,506 @@ export interface LibraryListNextOptionalParams
 export type LibraryListNextResponse = LibraryListResponse;
 
 /** Optional parameters. */
-export interface WorkspaceGitRepoManagementGetGitHubAccessTokenOptionalParams
+export interface LinkedServiceGetLinkedServicesByWorkspaceOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getLinkedServicesByWorkspace operation. */
+export type LinkedServiceGetLinkedServicesByWorkspaceResponse = LinkedServiceListResponse;
+
+/** Optional parameters. */
+export interface LinkedServiceCreateOrUpdateLinkedServiceOptionalParams
   extends coreClient.OperationOptions {
-  /** Can provide a guid, which is helpful for debugging and to provide better customer support */
-  clientRequestId?: string;
+  /** ETag of the linkedService entity.  Should only be specified for update, for which it should match existing entity or can be * for unconditional update. */
+  ifMatch?: string;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
 }
 
-/** Contains response data for the getGitHubAccessToken operation. */
-export type WorkspaceGitRepoManagementGetGitHubAccessTokenResponse = GitHubAccessTokenResponse;
+/** Contains response data for the createOrUpdateLinkedService operation. */
+export type LinkedServiceCreateOrUpdateLinkedServiceResponse = LinkedServiceResource;
+
+/** Optional parameters. */
+export interface LinkedServiceGetLinkedServiceOptionalParams
+  extends coreClient.OperationOptions {
+  /** ETag of the linked service entity. Should only be specified for get. If the ETag matches the existing entity tag, or if * was provided, then no content will be returned. */
+  ifNoneMatch?: string;
+}
+
+/** Contains response data for the getLinkedService operation. */
+export type LinkedServiceGetLinkedServiceResponse = LinkedServiceResource;
+
+/** Optional parameters. */
+export interface LinkedServiceDeleteLinkedServiceOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface LinkedServiceRenameLinkedServiceOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface LinkedServiceGetLinkedServicesByWorkspaceNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getLinkedServicesByWorkspaceNext operation. */
+export type LinkedServiceGetLinkedServicesByWorkspaceNextResponse = LinkedServiceListResponse;
+
+/** Optional parameters. */
+export interface NotebookGetNotebooksByWorkspaceOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getNotebooksByWorkspace operation. */
+export type NotebookGetNotebooksByWorkspaceResponse = NotebookListResponse;
+
+/** Optional parameters. */
+export interface NotebookGetNotebookSummaryByWorkSpaceOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getNotebookSummaryByWorkSpace operation. */
+export type NotebookGetNotebookSummaryByWorkSpaceResponse = NotebookListResponse;
+
+/** Optional parameters. */
+export interface NotebookCreateOrUpdateNotebookOptionalParams
+  extends coreClient.OperationOptions {
+  /** ETag of the Note book entity.  Should only be specified for update, for which it should match existing entity or can be * for unconditional update. */
+  ifMatch?: string;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdateNotebook operation. */
+export type NotebookCreateOrUpdateNotebookResponse = NotebookResource;
+
+/** Optional parameters. */
+export interface NotebookGetNotebookOptionalParams
+  extends coreClient.OperationOptions {
+  /** ETag of the Notebook entity. Should only be specified for get. If the ETag matches the existing entity tag, or if * was provided, then no content will be returned. */
+  ifNoneMatch?: string;
+}
+
+/** Contains response data for the getNotebook operation. */
+export type NotebookGetNotebookResponse = NotebookResource;
+
+/** Optional parameters. */
+export interface NotebookDeleteNotebookOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface NotebookRenameNotebookOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface NotebookGetNotebooksByWorkspaceNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getNotebooksByWorkspaceNext operation. */
+export type NotebookGetNotebooksByWorkspaceNextResponse = NotebookListResponse;
+
+/** Optional parameters. */
+export interface NotebookGetNotebookSummaryByWorkSpaceNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getNotebookSummaryByWorkSpaceNext operation. */
+export type NotebookGetNotebookSummaryByWorkSpaceNextResponse = NotebookListResponse;
+
+/** Optional parameters. */
+export interface NotebookOperationResultGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface PipelineGetPipelinesByWorkspaceOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getPipelinesByWorkspace operation. */
+export type PipelineGetPipelinesByWorkspaceResponse = PipelineListResponse;
+
+/** Optional parameters. */
+export interface PipelineCreateOrUpdatePipelineOptionalParams
+  extends coreClient.OperationOptions {
+  /** ETag of the pipeline entity.  Should only be specified for update, for which it should match existing entity or can be * for unconditional update. */
+  ifMatch?: string;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdatePipeline operation. */
+export type PipelineCreateOrUpdatePipelineResponse = PipelineResource;
+
+/** Optional parameters. */
+export interface PipelineGetPipelineOptionalParams
+  extends coreClient.OperationOptions {
+  /** ETag of the pipeline entity. Should only be specified for get. If the ETag matches the existing entity tag, or if * was provided, then no content will be returned. */
+  ifNoneMatch?: string;
+}
+
+/** Contains response data for the getPipeline operation. */
+export type PipelineGetPipelineResponse = PipelineResource;
+
+/** Optional parameters. */
+export interface PipelineDeletePipelineOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface PipelineRenamePipelineOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface PipelineCreatePipelineRunOptionalParams
+  extends coreClient.OperationOptions {
+  /** Parameters of the pipeline run. These parameters will be used only if the runId is not specified. */
+  parameters?: { [propertyName: string]: any };
+  /** The pipeline run identifier. If run ID is specified the parameters of the specified run will be used to create a new run. */
+  referencePipelineRunId?: string;
+  /** Recovery mode flag. If recovery mode is set to true, the specified referenced pipeline run and the new run will be grouped under the same groupId. */
+  isRecovery?: boolean;
+  /** In recovery mode, the rerun will start from this activity. If not specified, all activities will run. */
+  startActivityName?: string;
+}
+
+/** Contains response data for the createPipelineRun operation. */
+export type PipelineCreatePipelineRunResponse = CreateRunResponse;
+
+/** Optional parameters. */
+export interface PipelineGetPipelinesByWorkspaceNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getPipelinesByWorkspaceNext operation. */
+export type PipelineGetPipelinesByWorkspaceNextResponse = PipelineListResponse;
+
+/** Optional parameters. */
+export interface PipelineRunQueryPipelineRunsByWorkspaceOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the queryPipelineRunsByWorkspace operation. */
+export type PipelineRunQueryPipelineRunsByWorkspaceResponse = PipelineRunsQueryResponse;
+
+/** Optional parameters. */
+export interface PipelineRunGetPipelineRunOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getPipelineRun operation. */
+export type PipelineRunGetPipelineRunResponse = PipelineRun;
+
+/** Optional parameters. */
+export interface PipelineRunQueryActivityRunsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the queryActivityRuns operation. */
+export type PipelineRunQueryActivityRunsResponse = ActivityRunsQueryResponse;
+
+/** Optional parameters. */
+export interface PipelineRunCancelPipelineRunOptionalParams
+  extends coreClient.OperationOptions {
+  /** If true, cancel all the Child pipelines that are triggered by the current pipeline. */
+  isRecursive?: boolean;
+}
+
+/** Optional parameters. */
+export interface SparkJobDefinitionGetSparkJobDefinitionsByWorkspaceOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getSparkJobDefinitionsByWorkspace operation. */
+export type SparkJobDefinitionGetSparkJobDefinitionsByWorkspaceResponse = SparkJobDefinitionsListResponse;
+
+/** Optional parameters. */
+export interface SparkJobDefinitionCreateOrUpdateSparkJobDefinitionOptionalParams
+  extends coreClient.OperationOptions {
+  /** ETag of the Spark Job Definition entity.  Should only be specified for update, for which it should match existing entity or can be * for unconditional update. */
+  ifMatch?: string;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdateSparkJobDefinition operation. */
+export type SparkJobDefinitionCreateOrUpdateSparkJobDefinitionResponse = SparkJobDefinitionResource;
+
+/** Optional parameters. */
+export interface SparkJobDefinitionGetSparkJobDefinitionOptionalParams
+  extends coreClient.OperationOptions {
+  /** ETag of the Spark Job Definition entity. Should only be specified for get. If the ETag matches the existing entity tag, or if * was provided, then no content will be returned. */
+  ifNoneMatch?: string;
+}
+
+/** Contains response data for the getSparkJobDefinition operation. */
+export type SparkJobDefinitionGetSparkJobDefinitionResponse = SparkJobDefinitionResource;
+
+/** Optional parameters. */
+export interface SparkJobDefinitionDeleteSparkJobDefinitionOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface SparkJobDefinitionExecuteSparkJobDefinitionOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the executeSparkJobDefinition operation. */
+export type SparkJobDefinitionExecuteSparkJobDefinitionResponse = SparkBatchJob;
+
+/** Optional parameters. */
+export interface SparkJobDefinitionRenameSparkJobDefinitionOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface SparkJobDefinitionDebugSparkJobDefinitionOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the debugSparkJobDefinition operation. */
+export type SparkJobDefinitionDebugSparkJobDefinitionResponse = SparkBatchJob;
+
+/** Optional parameters. */
+export interface SparkJobDefinitionGetSparkJobDefinitionsByWorkspaceNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getSparkJobDefinitionsByWorkspaceNext operation. */
+export type SparkJobDefinitionGetSparkJobDefinitionsByWorkspaceNextResponse = SparkJobDefinitionsListResponse;
+
+/** Optional parameters. */
+export interface SqlPoolsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type SqlPoolsListResponse = SqlPoolInfoListResult;
+
+/** Optional parameters. */
+export interface SqlPoolsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type SqlPoolsGetResponse = SqlPool;
+
+/** Optional parameters. */
+export interface SqlScriptGetSqlScriptsByWorkspaceOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getSqlScriptsByWorkspace operation. */
+export type SqlScriptGetSqlScriptsByWorkspaceResponse = SqlScriptsListResponse;
+
+/** Optional parameters. */
+export interface SqlScriptCreateOrUpdateSqlScriptOptionalParams
+  extends coreClient.OperationOptions {
+  /** ETag of the SQL script entity.  Should only be specified for update, for which it should match existing entity or can be * for unconditional update. */
+  ifMatch?: string;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdateSqlScript operation. */
+export type SqlScriptCreateOrUpdateSqlScriptResponse = SqlScriptResource;
+
+/** Optional parameters. */
+export interface SqlScriptGetSqlScriptOptionalParams
+  extends coreClient.OperationOptions {
+  /** ETag of the sql compute entity. Should only be specified for get. If the ETag matches the existing entity tag, or if * was provided, then no content will be returned. */
+  ifNoneMatch?: string;
+}
+
+/** Contains response data for the getSqlScript operation. */
+export type SqlScriptGetSqlScriptResponse = SqlScriptResource;
+
+/** Optional parameters. */
+export interface SqlScriptDeleteSqlScriptOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface SqlScriptRenameSqlScriptOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface SqlScriptGetSqlScriptsByWorkspaceNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getSqlScriptsByWorkspaceNext operation. */
+export type SqlScriptGetSqlScriptsByWorkspaceNextResponse = SqlScriptsListResponse;
+
+/** Optional parameters. */
+export interface TriggerGetTriggersByWorkspaceOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getTriggersByWorkspace operation. */
+export type TriggerGetTriggersByWorkspaceResponse = TriggerListResponse;
+
+/** Optional parameters. */
+export interface TriggerCreateOrUpdateTriggerOptionalParams
+  extends coreClient.OperationOptions {
+  /** ETag of the trigger entity.  Should only be specified for update, for which it should match existing entity or can be * for unconditional update. */
+  ifMatch?: string;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdateTrigger operation. */
+export type TriggerCreateOrUpdateTriggerResponse = TriggerResource;
+
+/** Optional parameters. */
+export interface TriggerGetTriggerOptionalParams
+  extends coreClient.OperationOptions {
+  /** ETag of the trigger entity. Should only be specified for get. If the ETag matches the existing entity tag, or if * was provided, then no content will be returned. */
+  ifNoneMatch?: string;
+}
+
+/** Contains response data for the getTrigger operation. */
+export type TriggerGetTriggerResponse = TriggerResource;
+
+/** Optional parameters. */
+export interface TriggerDeleteTriggerOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface TriggerSubscribeTriggerToEventsOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the subscribeTriggerToEvents operation. */
+export type TriggerSubscribeTriggerToEventsResponse = TriggerSubscriptionOperationStatus;
+
+/** Optional parameters. */
+export interface TriggerGetEventSubscriptionStatusOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getEventSubscriptionStatus operation. */
+export type TriggerGetEventSubscriptionStatusResponse = TriggerSubscriptionOperationStatus;
+
+/** Optional parameters. */
+export interface TriggerUnsubscribeTriggerFromEventsOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the unsubscribeTriggerFromEvents operation. */
+export type TriggerUnsubscribeTriggerFromEventsResponse = TriggerSubscriptionOperationStatus;
+
+/** Optional parameters. */
+export interface TriggerStartTriggerOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface TriggerStopTriggerOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface TriggerGetTriggersByWorkspaceNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getTriggersByWorkspaceNext operation. */
+export type TriggerGetTriggersByWorkspaceNextResponse = TriggerListResponse;
+
+/** Optional parameters. */
+export interface TriggerRunRerunTriggerInstanceOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface TriggerRunCancelTriggerInstanceOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface TriggerRunQueryTriggerRunsByWorkspaceOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the queryTriggerRunsByWorkspace operation. */
+export type TriggerRunQueryTriggerRunsByWorkspaceResponse = TriggerRunsQueryResponse;
+
+/** Optional parameters. */
+export interface WorkspaceGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type WorkspaceGetResponse = Workspace;
 
 /** Optional parameters. */
 export interface ArtifactsClientOptionalParams
   extends coreClient.ServiceClientOptions {
-  /** Api Version */
-  apiVersion?: string;
   /** Overrides client endpoint. */
   endpoint?: string;
 }

@@ -162,9 +162,7 @@ export class AppConfigurationClient {
       appConfigEndpoint = connectionStringOrEndpoint;
     } else {
       appConfigOptions = (tokenCredentialOrOptions as InternalAppConfigurationClientOptions) || {};
-
-      const regexMatch = connectionStringOrEndpoint.match(ConnectionStringRegex);
-
+      const regexMatch = connectionStringOrEndpoint?.match(ConnectionStringRegex);
       if (regexMatch) {
         appConfigCredential = new AppConfigCredential(regexMatch[2], regexMatch[3]);
         appConfigEndpoint = regexMatch[1];

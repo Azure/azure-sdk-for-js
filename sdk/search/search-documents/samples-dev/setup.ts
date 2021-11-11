@@ -14,6 +14,15 @@ export const documentKeyRetriever: (document: Hotel) => string = (document: Hote
   return document.hotelId;
 };
 
+/**
+ * A wrapper for setTimeout that resolves a promise after timeInMs milliseconds.
+ * @param timeInMs - The number of milliseconds to be delayed.
+ * @returns Promise that is resolved after timeInMs
+ */
+export function delay(timeInMs: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(() => resolve(), timeInMs));
+}
+
 // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
 export async function createIndex(client: SearchIndexClient, name: string): Promise<void> {
   const hotelIndex: SearchIndex = {

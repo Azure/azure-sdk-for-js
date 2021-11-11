@@ -46,7 +46,8 @@ module.exports = function(config) {
       "AZURE_CLIENT_SECRET",
       "AZURE_TENANT_ID",
       "KEYVAULT_URI",
-      "TEST_MODE"
+      "TEST_MODE",
+      "AZURE_AUTHORITY_HOST"
     ],
 
     reporters: ["mocha", "coverage", "junit", "json-to-file"],

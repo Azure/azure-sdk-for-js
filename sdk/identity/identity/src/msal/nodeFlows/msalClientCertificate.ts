@@ -6,9 +6,10 @@ import { createHash } from "crypto";
 import { promisify } from "util";
 import { AccessToken } from "@azure/core-auth";
 
-import { MsalNodeOptions, MsalNode } from "./nodeCommon";
+import { MsalNodeOptions, MsalNode } from "./msalNodeCommon";
 import { formatError } from "../../util/logging";
 import { CredentialFlowGetTokenOptions } from "../credentials";
+import { ClientCertificateCredentialPEMConfiguration } from "../../credentials/clientCertificateCredential";
 
 const readFileAsync = promisify(readFile);
 
@@ -20,7 +21,7 @@ export interface MSALClientCertificateOptions extends MsalNodeOptions {
   /**
    * Location of the PEM certificate.
    */
-  certificatePath: string;
+  configuration: ClientCertificateCredentialPEMConfiguration;
   /**
    * Option to include x5c header for SubjectName and Issuer name authorization.
    * Set this option to send base64 encoded public certificate in the client assertion header as an x5c claim
@@ -50,18 +51,19 @@ interface CertificateParts {
 /**
  * Tries to asynchronously load a certificate from the given path.
  *
- * @param certificatePath - Path to the certificate.
+ * @param configuration - Either the PEM value or the path to the certificate.
  * @param sendCertificateChain - Option to include x5c header for SubjectName and Issuer name authorization.
  * @returns - The certificate parts, or `undefined` if the certificate could not be loaded.
  * @internal
  */
 export async function parseCertificate(
-  certificatePath: string,
+  configuration: ClientCertificateCredentialPEMConfiguration,
   sendCertificateChain?: boolean
 ): Promise<CertificateParts> {
   const certificateParts: Partial<CertificateParts> = {};
 
-  certificateParts.certificateContents = await readFileAsync(certificatePath, "utf8");
+  certificateParts.certificateContents =
+    configuration.certificate || (await readFileAsync(configuration.certificatePath!, "utf8"));
   if (sendCertificateChain) {
     certificateParts.x5c = certificateParts.certificateContents;
   }
@@ -95,20 +97,20 @@ export async function parseCertificate(
  * @internal
  */
 export class MsalClientCertificate extends MsalNode {
-  private certificatePath: string;
+  private configuration: ClientCertificateCredentialPEMConfiguration;
   private sendCertificateChain?: boolean;
 
   constructor(options: MSALClientCertificateOptions) {
     super(options);
     this.requiresConfidential = true;
-    this.certificatePath = options.certificatePath;
+    this.configuration = options.configuration;
     this.sendCertificateChain = options.sendCertificateChain;
   }
 
   // Changing the MSAL configuration asynchronously
   async init(options?: CredentialFlowGetTokenOptions): Promise<void> {
     try {
-      const parts = await parseCertificate(this.certificatePath, this.sendCertificateChain);
+      const parts = await parseCertificate(this.configuration, this.sendCertificateChain);
       this.msalConfig.auth.clientCertificate = {
         thumbprint: parts.thumbprint,
         privateKey: parts.certificateContents,
@@ -130,7 +132,8 @@ export class MsalClientCertificate extends MsalNode {
         scopes,
         correlationId: options.correlationId,
         azureRegion: this.azureRegion,
-        authority: options.authority
+        authority: options.authority,
+        claims: options.claims
       });
       // Even though we're providing the same default in memory persistence cache that we use for DeviceCodeCredential,
       // The Client Credential flow does not return the account information from the authentication service,

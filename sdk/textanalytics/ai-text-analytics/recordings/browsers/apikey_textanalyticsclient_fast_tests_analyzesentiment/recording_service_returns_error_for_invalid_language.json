@@ -2,7 +2,7 @@
  "recordings": [
   {
    "method": "POST",
-   "url": "https://endpoint/text/analytics/v3.2-preview.1/sentiment",
+   "url": "https://endpoint/text/analytics/v3.2-preview.2/sentiment",
    "query": {
     "stringIndexType": "Utf16CodeUnit"
    },
@@ -10,13 +10,12 @@
    "status": 200,
    "response": "{\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid Language Code.\",\"innererror\":{\"code\":\"UnsupportedLanguageCode\",\"message\":\"Invalid language code. Supported languages: de,en,es,fr,hi,it,ja,ko,nl,no,pt-BR,pt-PT,tr,zh-Hans,zh-Hant. For additional details see https://aka.ms/text-analytics/language-support?tabs=sentiment-analysis\"}}}],\"modelVersion\":\"2020-04-01\"}",
    "responseHeaders": {
-    "apim-request-id": "8550d5f7-aae8-4706-ad47-4da1b9eb9a24",
+    "apim-request-id": "1fbedb5c-4f1f-489d-874a-71d7094cf9da",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 03 Aug 2021 22:52:50 GMT",
+    "date": "Sat, 23 Oct 2021 00:50:07 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "3"
+    "x-envoy-upstream-service-time": "2"
    }
   }
  ],

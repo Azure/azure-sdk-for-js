@@ -1,12 +1,10 @@
 # Release History
 
-## 4.2.0-beta.2 (Unreleased)
+## 4.2.0-beta.2 (2021-11-09)
 
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
+- Support multi-tenant authentication against Key Vault and Managed HSM when using @azure/identity 2.0.0 or newer.
 
 ### Other Changes
 

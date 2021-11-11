@@ -51,7 +51,7 @@ export interface KeyReleasePolicy {
   /** Content type and version of key release policy */
   contentType?: string;
   /** Blob encoding the policy rules under which the key can be released. */
-  data?: Uint8Array;
+  encodedPolicy?: Uint8Array;
 }
 
 /** A KeyBundle consisting of a WebKey plus its attributes. */
@@ -678,7 +678,7 @@ export enum KnownKeyEncryptionAlgorithm {
  */
 export type KeyEncryptionAlgorithm = string;
 /** Defines values for ActionType. */
-export type ActionType = "rotate" | "notify";
+export type ActionType = "Rotate" | "Notify";
 
 /** Optional parameters. */
 export interface KeyVaultClientCreateKeyOptionalParams

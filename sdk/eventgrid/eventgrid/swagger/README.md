@@ -5,9 +5,9 @@
 ## Configuration
 
 ```yaml
-require: "https://github.com/Azure/azure-rest-api-specs/blob/7026463801584950d4ccbaa6b05b15d29555dd3a/specification/eventgrid/data-plane/readme.md"
+require: "https://github.com/Azure/azure-rest-api-specs/blob/b6f4a619bd310870334edd79eaec2d4bfeabdbbe/specification/eventgrid/data-plane/readme.md"
 package-name: "@azure/eventgrid"
-package-version: "4.5.0"
+package-version: "4.5.1"
 title: GeneratedClient
 description: EventGrid Client
 generate-metadata: false
@@ -20,6 +20,7 @@ typescript: true
 hide-clients: true
 use-extension:
   "@autorest/typescript": "6.0.0-beta.4"
+v3: true
 ```
 
 ## Customizations

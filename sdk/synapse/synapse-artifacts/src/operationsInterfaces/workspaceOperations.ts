@@ -6,10 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
-  WorkspaceOperationsGetOptionalParams,
-  WorkspaceOperationsGetResponse
-} from "../models";
+import { WorkspaceGetOptionalParams, WorkspaceGetResponse } from "../models";
 
 /** Interface representing a WorkspaceOperations. */
 export interface WorkspaceOperations {
@@ -17,7 +14,5 @@ export interface WorkspaceOperations {
    * Get Workspace
    * @param options The options parameters.
    */
-  get(
-    options?: WorkspaceOperationsGetOptionalParams
-  ): Promise<WorkspaceOperationsGetResponse>;
+  get(options?: WorkspaceGetOptionalParams): Promise<WorkspaceGetResponse>;
 }

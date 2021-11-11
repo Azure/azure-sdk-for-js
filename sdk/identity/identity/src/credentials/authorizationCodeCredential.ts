@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-auth";
-import { TokenCredentialOptions } from "../client/identityClient";
+import { TokenCredentialOptions } from "../tokenCredentialOptions";
 import { credentialLogger } from "../util/logging";
 import { checkTenantId } from "../util/checkTenantId";
 import { MsalAuthorizationCode } from "../msal/nodeFlows/msalAuthorizationCode";
@@ -101,7 +101,7 @@ export class AuthorizationCodeCredential implements TokenCredential {
       // the clientId+clientSecret constructor
       this.authorizationCode = authorizationCodeOrRedirectUri;
       this.redirectUri = redirectUriOrOptions;
-      // options okay
+      // in this case, options are good as they come
     } else {
       // clientId only
       this.authorizationCode = clientSecretOrAuthorizationCode;

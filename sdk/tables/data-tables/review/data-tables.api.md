@@ -82,7 +82,7 @@ export type DeleteTableEntityResponse = TableDeleteEntityHeaders;
 // @public
 export interface Edm<T extends EdmTypes> {
     type: T;
-    value: T extends "Binary" ? Uint8Array : T extends "Boolean" ? boolean : T extends "Double" ? number : T extends "Int32" ? number : string;
+    value: T extends "Binary" ? string : T extends "Boolean" ? boolean : T extends "Double" ? number : T extends "Int32" ? number : string;
 }
 
 // @public
@@ -238,7 +238,7 @@ export class TableClient {
     static fromConnectionString(connectionString: string, tableName: string, options?: TableServiceClientOptions): TableClient;
     getAccessPolicy(options?: OperationOptions): Promise<GetAccessPolicyResponse>;
     getEntity<T extends object = Record<string, unknown>>(partitionKey: string, rowKey: string, options?: GetTableEntityOptions): Promise<GetTableEntityResponse<TableEntityResult<T>>>;
-    listEntities<T extends object = Record<string, unknown>>(options?: ListTableEntitiesOptions): PagedAsyncIterableIterator<TableEntityResult<T>, TableEntityResult<T>[]>;
+    listEntities<T extends object = Record<string, unknown>>(options?: ListTableEntitiesOptions): PagedAsyncIterableIterator<TableEntityResult<T>, TableEntityResultPage<T>>;
     pipeline: Pipeline;
     setAccessPolicy(tableAcl: SignedIdentifier[], options?: OperationOptions): Promise<SetAccessPolicyResponse>;
     submitTransaction(actions: TransactionAction[]): Promise<TableTransactionResponse>;
@@ -294,6 +294,11 @@ export type TableEntityResult<T> = T & {
 };
 
 // @public
+export type TableEntityResultPage<T> = Array<TableEntityResult<T>> & {
+    continuationToken?: string;
+};
+
+// @public
 export interface TableGetAccessPolicyHeaders {
     clientRequestId?: string;
     date?: Date;
@@ -315,6 +320,11 @@ export interface TableInsertEntityHeaders {
 // @public
 export interface TableItem {
     name?: string;
+}
+
+// @public
+export interface TableItemResultPage extends Array<TableItem> {
+    continuationToken?: string;
 }
 
 // @public
@@ -370,7 +380,7 @@ export class TableServiceClient {
     static fromConnectionString(connectionString: string, options?: TableServiceClientOptions): TableServiceClient;
     getProperties(options?: OperationOptions): Promise<GetPropertiesResponse>;
     getStatistics(options?: OperationOptions): Promise<GetStatisticsResponse>;
-    listTables(options?: ListTableItemsOptions): PagedAsyncIterableIterator<TableItem, TableItem[]>;
+    listTables(options?: ListTableItemsOptions): PagedAsyncIterableIterator<TableItem, TableItemResultPage>;
     pipeline: Pipeline;
     setProperties(properties: ServiceProperties, options?: SetPropertiesOptions): Promise<SetPropertiesResponse>;
     url: string;
@@ -447,7 +457,6 @@ export type UpdateTableEntityOptions = OperationOptions & {
 
 // @public
 export type UpsertEntityResponse = TableMergeEntityHeaders;
-
 
 // (No @packageDocumentation comment for this package)
 

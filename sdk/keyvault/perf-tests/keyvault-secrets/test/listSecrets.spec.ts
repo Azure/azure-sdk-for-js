@@ -1,4 +1,4 @@
-import { PerfStressOptionDictionary } from "@azure/test-utils-perfstress";
+import { PerfOptionDictionary } from "@azure/test-utils-perf";
 import { SecretTest } from "./secretTest";
 import { v4 as uuid } from "uuid";
 
@@ -8,7 +8,7 @@ interface ListSecretPerfTestOptions {
 
 export class ListSecretsTest extends SecretTest<ListSecretPerfTestOptions> {
   static secretsToDelete: string[] = [];
-  options: PerfStressOptionDictionary<ListSecretPerfTestOptions> = {
+  options: PerfOptionDictionary<ListSecretPerfTestOptions> = {
     count: {
       required: false,
       description: "The number of secrets to create",
@@ -19,7 +19,18 @@ export class ListSecretsTest extends SecretTest<ListSecretPerfTestOptions> {
   };
 
   async globalSetup() {
-    await super.globalSetup();
+    // Validate that vault contains 0 secrets (including soft-deleted secrets), since additional secrets
+    // (including soft-deleted) impact performance.
+    if (
+      !(await this.secretClient.listPropertiesOfSecrets().next()).done ||
+      !(await this.secretClient.listDeletedSecrets().next()).done
+    ) {
+      throw new Error(
+        `KeyVault ${this.secretClient.vaultUrl} must contain 0 ` +
+          "secrets (including soft-deleted) before starting perf test"
+      );
+    }
+
     const secretToCreate = Array.from({ length: this.parsedOptions.count.value! }, (_x, i) => {
       const name = `s${i}-${uuid()}`;
       ListSecretsTest.secretsToDelete.push(name);
@@ -29,18 +40,13 @@ export class ListSecretsTest extends SecretTest<ListSecretPerfTestOptions> {
     await Promise.all(secretToCreate);
   }
 
-  async globalCleanup() {
-    await super.globalCleanup();
-
-    const startDeletePromises = ListSecretsTest.secretsToDelete.map((name) =>
-      this.secretClient.beginDeleteSecret(name)
-    );
-    await Promise.all(startDeletePromises);
-  }
-
-  async runAsync(): Promise<void> {
+  async run(): Promise<void> {
     // eslint-disable-next-line no-empty
     for await (const _secret of this.secretClient.listPropertiesOfSecrets()) {
     }
+  }
+
+  async globalCleanup() {
+    await this.deleteAndPurgeSecrets(...ListSecretsTest.secretsToDelete);
   }
 }

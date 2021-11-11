@@ -1,8 +1,24 @@
 # Release History
 
-## 1.0.0-beta.3 (Unreleased)
+## 1.0.0 (2021-11-10)
 
 ### Features Added
+
+- an option to customize the API version has been added to `SchemaRegistryClientOptions`. 
+
+### Breaking Changes
+
+- The type `Schema` no longer extends `SchemaProperties`, instead, it now has two properties, one for the schema definition and one for its properties.
+- `Schema.schemaDefinition` has been renamed to `Schema.definition`.
+- `SchemaDescription.schemaDefinition` has been renamed to `SchemaDescription.definition`.
+- `getSchema` and `getSchemaProperties` no longer return `undefined`. If a schema is not found, an error will be thrown.
+- `SchemaProperties` no longer includes the `version`.
+
+### Other Changes
+
+- This is the initial general availability release of the schema registry package and the API version defaults to 2021-10.
+
+## 1.0.0-beta.3 (2021-10-05)
 
 ### Breaking Changes
 
@@ -10,11 +26,11 @@
 - renames `SchemaId` to `SchemaProperties`
 - renames `getSchemaById` to `getSchema`
 - renames `GetSchemaByIdOptions` to `GetSchemaOptions`
-- `getSchema` and `getSchemaProperties` no longer return `undefined` if the schema was not registered
-
-### Bugs Fixed
+- renames `content` to `schemaDefinition`, `serializationType` to `format`, and `KnownSerializationType` to `KnownSchemaFormat`
 
 ### Other Changes
+
+- remove caching from the client. The customer can rely on the one in the serializer package such as `@azure/schema-registry-avro` or write their own that makes most sense in their application.
 
 ## 1.0.0-beta.2 (2021-08-17)
 

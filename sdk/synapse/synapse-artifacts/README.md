@@ -29,7 +29,7 @@ export async function main(): Promise<void> {
   const credential = new DefaultAzureCredential();
 
   let client = new ArtifactsClient(credential, "https://mysynapse.dev.azuresynapse.net");
-  let list = await client.pipeline.listPipelinesByWorkspace();
+  let list = await client.pipelineOperations.listPipelinesByWorkspace();
   for await (let item of list) {
     console.log("item:", item);
   }

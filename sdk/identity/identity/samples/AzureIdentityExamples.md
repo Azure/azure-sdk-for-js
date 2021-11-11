@@ -15,10 +15,10 @@
   - [Authenticating with a pre-fetched access token](#authenticating-with-a-pre-fetched-access-token).
   - [Authenticating with MSAL directly](#authenticating-with-msal-directly).
     - [Authenticating with the @azure/msal-node Confidential Client](#authenticating-with-the-@azure/msal-node-confidential-client).
-    - [Authenticating with the @azure/msal-node On Behalf Flow](#authenticating-with-the-@azure/msal-node-on-behalf-of-flow).
     - [Authenticating with the @azure/msal-browser Public Client](#authenticating-with-the-@azure/msal-browser-public-client).
   - [Authenticating with Key Vault Certificates](#authenticating-with-key-vault-certificates)
   - [Rolling Certificates](#rolling-certificates)
+  - [Authenticate on behalf of](#authenticate-on-behalf-of)
   - [Control user interaction](#control-user-interaction)
   - [Persist user authentication data](#persist-user-authentication-data)
     - [Persist the token cache](#persist-the-token-cache)
@@ -666,64 +666,6 @@ async function main() {
 }
 ```
 
-#### Authenticating with the @azure/msal-node On Behalf Of Flow
-
-Currently, the `@azure/identity` library doesn't provide a credential type for clients which need to authenticate via the [On Behalf of Flow](https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/master/lib/msal-common/docs/request.md#on-behalf-of-flow). While we may add support for this feature in the future, users currently requiring this will have to implement their own `TokenCredential` class.
-
-In this example, the `OnBehalfOfCredential` accepts a client ID, client secret, and a user's access token. It then creates an instance of `ConfidentialClientApplication` from MSAL to obtain an OBO token that can authenticate client requests.
-
-**Prerequisites**
-
-Install the [@azure/msal-node][msal_node_npm] and [@azure/core-auth][core_auth].
-
-> For more information about MSAL for Node.js, see [the README of the `@azure/msal-node` package][msal_node_readme].
-> For more information about working with the Confidential Client of MSAL, see [Initialization of MSAL (Node.js)](https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/master/lib/msal-node/docs/initialize-confidential-client-application.md).
-> For more information about working with the On Behalf Flow with MSAL, see [On Behalf of Flow](https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/master/lib/msal-common/docs/request.md#on-behalf-of-flow).
-
-```ts
-import { TokenCredential, AccessToken } from "@azure/core-auth";
-import * as msalNode from "@azure/msal-node";
-
-class OnBehalfOfCredential implements TokenCredential {
-  private confidentialApp: msalNode.ConfidentialClientApplication;
-
-  constructor(
-    private clientId: string,
-    private clientSecret: string,
-    private userAccessToken: string
-  ) {
-    this.confidentialApp = new msalNode.ConfidentialClientApplication({
-      auth: {
-        clientId,
-        clientSecret
-      }
-    });
-  }
-  async getToken(scopes: string | string[]): Promise<AccessToken> {
-    const result = await this.confidentialApp.acquireTokenOnBehalfOf({
-      scopes: Array.isArray(scopes) ? scopes : [scopes],
-      oboAssertion: this.userAccessToken
-    });
-    return {
-      token: result.accessToken,
-      expiresOnTimestamp: result.expiresOn.getTime()
-    };
-  }
-}
-```
-
-The following example shows an how the `OnBehalfOfCredential` could be used to authenticate a `SecretClient`:
-
-```ts
-import { SecretClient } from "@azure/keyvault-secrets";
-
-async function main() {
-  const oboCredential = new OnBehalfOfCredential(clientId, clientSecret, userAccessToken);
-
-  const client = new SecretClient("https://myvault.vault.azure.net/", oboCredential);
-}
-```
-
 #### Authenticating with the @azure/msal-browser Public Client
 
 While `@azure/identity` provides some browser support, for users that need the complete feature set offered by `@azure/msal-browser`, it's possible to implement a `TokenCredential` on top of MSAL's public API for the browsers.
@@ -948,6 +890,74 @@ class RotatingCertificateCredential implements TokenCredential {
 ```
 
 In this example, the custom credential type `RotatingCertificateCredential` again uses a `ClientCertificateCredential` instance to retrieve tokens. However, in this case, it will attempt to refresh the certificate before obtaining the token. The method `RefreshCertificate` will query to see if the certificate has changed. If so, it will replace `this.credential` with a new instance of the certificate credential using the same certificate path.
+
+### Authenticate on behalf of
+
+Many multi-user apps use the [On-Behalf-Of (OBO) flow](https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-on-behalf-of-flow) to make authenticated requests between two services that would otherwise be unreachable. The Identity SDK provides an `OnBehalfOfCredential` that supports this form of authentication.
+
+Two accounts participate in the OBO flow:
+
+- A user, which aims to obtain a special access level. Typically, the `AuthorizationCodeCredential` would be used. We'll call this identity the **User Account**.
+- An app registration, which will act as the provider of the special access level. We'll call this identity the **Target App Registration**.
+
+Both accounts must belong to the same Azure AD tenant.
+
+While other credentials authenticate requesting access to a set of resources, the OBO flow requires the user token to have access specifically to the scope of the Azure AD app that will delegate its access to the users. For this authentication flow to work, the **Target App Registration** must be configured with a custom scope. To create a scope through the Azure portal:
+
+1. Select **Active Directory** > **App registrations**.
+2. Go to the app you want to authenticate against.
+3. On the left menu, select **Expose an API** > **Add a scope**.
+
+The **Target App Registration** must also have admin consent, which can be granted as follows:
+
+1. Select **Active Directory** > **App registrations**.
+2. Go to the app you want to authenticate against.
+3. On the left menu, select **API permissions** > **Grant admin consent**.
+
+Once the **Target App Registration** is fully configured, no further configurations are needed on the **User Account** side for the credentials that allow skipping the client ID. In case a specific client ID wants to be specified for the **User Account**, like in the case of the `AuthorizationCodeCredential`, the App Registration used to authenticate in that step must be allowed to authenticate using the scope of the **Target App Registration**. This permission is granted as follows:
+
+1. Select **Active Directory** > **App registrations**.
+2. Go to the app you want to authenticate against.
+3. On the left menu, select **API permissions** > **Add a permission** > **My APIs**.
+4. Select the permission related to the scope that we created for our **Target App Registration**.
+5. Select the **user_impersonation** permission checkbox. Then select **Add permissions**.
+
+After everything is set, the code below will work. It will:
+
+1. Authenticate a **User Account** with a credential (in this case, the `InteractiveBrowserCredential`), using the **Target App Registration**'s scope (in this example, `api://AAD_APP_CLIENT_ID/Read`).
+  - If a specific app registration is the desired approach, make sure to use the **User Account** app registration that we mentioned above.
+2. Once the token is retrieved, pass it in the `userAssertionToken` property of the `OnBehalfOfCredentialOptions`, along with `tenantId`, `clientId`, and `clientSecret` of the **Target App Registration**.
+3. Once initialized, this credential will have granted the **User Account** access to the resources available to the **Target App Registration**.
+
+```ts
+import { InteractiveBrowserCredential, OnBehalfOfCredential } from "@azure/identity";
+
+async function main(): Promise<void> {
+  // Most On-Behalf-Of scenarios would likely use the AuthorizationCodeCredential.
+  const credential = new InteractiveBrowserCredential();
+
+  const token = await credential.getToken("api://AAD_APP_CLIENT_ID/Read");
+
+  const oboCred = new OnBehalfOfCredential({
+    tenantId: "TENANT",
+    clientId: "AAD_APP_CLIENT_ID",
+    clientSecret: "AAD_APP_CLIENT_SECRET",
+    userAssertionToken: token.token
+  });
+
+  // Now, the originally authenticated user will be granted access by the app registration
+  // to previously inaccessible resources.
+  const token2 = await oboCred.getToken("https://storage.azure.com/.default");
+  console.log({ token, token2 });
+}
+
+main().catch((err) => {
+  console.log("error code: ", err.code);
+  console.log("error message: ", err.message);
+  console.log("error stack: ", err.stack);
+  process.exit(1);
+});
+```
 
 ### Control user interaction
 

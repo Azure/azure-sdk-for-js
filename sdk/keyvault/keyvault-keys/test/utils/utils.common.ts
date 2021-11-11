@@ -6,11 +6,6 @@ import { env } from "@azure-tools/test-recorder";
 import * as assert from "assert";
 import { LATEST_API_VERSION } from "../../src/keysModels";
 
-// Async iterator's polyfill for Node 8
-if (!Symbol || !(Symbol as any).asyncIterator) {
-  (Symbol as any).asyncIterator = Symbol.for("Symbol.asyncIterator");
-}
-
 export function getKeyvaultName(): string {
   const keyVaultEnvVarName = "KEYVAULT_NAME";
   const keyVaultName: string | undefined = env[keyVaultEnvVarName];
@@ -63,4 +58,13 @@ export function onVersions(
   serviceVersion?: string
 ): TestFunctionWrapper {
   return supports(serviceVersion || getServiceVersion(), supportedVersions, serviceVersions);
+}
+
+/**
+ * Acts as a proxy to check with we're running on public or sovereign cloud.
+ *
+ * @returns - true if running on public cloud, false otherwise.
+ */
+export function isPublicCloud(): boolean {
+  return (env.AZURE_AUTHORITY_HOST ?? "").includes(".microsoftonline.com");
 }

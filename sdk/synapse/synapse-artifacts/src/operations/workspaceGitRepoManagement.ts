@@ -19,7 +19,7 @@ import {
   WorkspaceGitRepoManagementGetGitHubAccessTokenResponse
 } from "../models";
 
-/** Class representing a WorkspaceGitRepoManagement. */
+/** Class containing WorkspaceGitRepoManagement operations. */
 export class WorkspaceGitRepoManagementImpl
   implements WorkspaceGitRepoManagement {
   private readonly client: ArtifactsClientContext;
@@ -74,7 +74,7 @@ const getGitHubAccessTokenOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.gitHubAccessTokenRequest,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [Parameters.endpoint],
   headerParameters: [
     Parameters.accept,

@@ -1,6 +1,6 @@
 # Release History
 
-## 30.0.0-beta.3 (Unreleased)
+## 5.0.0-beta.3 (Unreleased)
 
 ### Features Added
 
@@ -10,13 +10,42 @@
 
 ### Other Changes
 
-## 30.0.0-beta.2 (2021-09-06)
+## 5.0.0-beta.2 (2021-10-18)
+    
+**Features**
 
-**Bug Fixes**
+  - Added operation PolicyAssignments.update
+  - Added operation PolicyAssignments.updateById
+  - Added Interface PolicyAssignmentsUpdateByIdOptionalParams
+  - Added Interface PolicyAssignmentsUpdateOptionalParams
+  - Added Interface PolicyAssignmentUpdate
+  - Added Interface UserAssignedIdentitiesValue
+  - Added Type Alias PolicyAssignmentsUpdateByIdResponse
+  - Added Type Alias PolicyAssignmentsUpdateResponse
+  - Interface Identity has a new optional parameter userAssignedIdentities
+  - Interface PolicyAssignment has a new optional parameter systemData
+  - Interface PolicyDefinition has a new optional parameter systemData
+  - Interface PolicySetDefinition has a new optional parameter systemData
 
-	- fix homepage issues
+**Breaking Changes**
 
-## 30.0.0-beta.1 (2021-07-15)
+  - Removed operation DataPolicyManifests.listNext
+  - Removed operation PolicyAssignments.listForManagementGroupNext
+  - Removed operation PolicyAssignments.listForResourceGroupNext
+  - Removed operation PolicyAssignments.listForResourceNext
+  - Removed operation PolicyAssignments.listNext
+  - Removed operation PolicyDefinitions.listBuiltInNext
+  - Removed operation PolicyDefinitions.listByManagementGroupNext
+  - Removed operation PolicyDefinitions.listNext
+  - Removed operation PolicyExemptions.listForManagementGroupNext
+  - Removed operation PolicyExemptions.listForResourceGroupNext
+  - Removed operation PolicyExemptions.listForResourceNext
+  - Removed operation PolicyExemptions.listNext
+  - Removed operation PolicySetDefinitions.listBuiltInNext
+  - Removed operation PolicySetDefinitions.listByManagementGroupNext
+  - Removed operation PolicySetDefinitions.listNext
+
+## 5.0.0-beta.1 (2021-10-09)
 
 This is the first preview for the new version of the `@azure/arm-policy` package that follows the new [guidelines for TypeScript SDKs](https://azure.github.io/azure-sdk/typescript_introduction.html) for Azure services.
 

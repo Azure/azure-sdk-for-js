@@ -1,11 +1,11 @@
 import { SearchDocumentsBase, SearchDocumentsTestOptions } from "./core/searchDocumentsBase.spec";
-import { PerfStressOptionDictionary } from "@azure/test-utils-perfstress";
+import { PerfOptionDictionary } from "@azure/test-utils-perf";
 import { generateHotels } from "./core/documentsGenerator";
 import { Hotel } from "./core/hotel";
 import { IndexDocumentsBatch } from "@azure/search-documents";
 
 export class IndexDocumentsTest extends SearchDocumentsBase<SearchDocumentsTestOptions> {
-  public options: PerfStressOptionDictionary<SearchDocumentsTestOptions> = {
+  public options: PerfOptionDictionary<SearchDocumentsTestOptions> = {
     documentsCount: {
       required: true,
       description: "Number of Documents to be created",
@@ -21,7 +21,7 @@ export class IndexDocumentsTest extends SearchDocumentsBase<SearchDocumentsTestO
     this.hotels = generateHotels(this.parsedOptions.documentsCount.value!);
   }
 
-  async runAsync(): Promise<void> {
+  async run(): Promise<void> {
     for (let i = 0; i < this.hotels.length; i++) {
       this.hotels[i].hotelId = Math.floor(
         Math.random() * (this.hotels.length * 2 - this.hotels.length + 1) + this.hotels.length

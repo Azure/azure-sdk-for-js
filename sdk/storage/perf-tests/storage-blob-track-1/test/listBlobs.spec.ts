@@ -3,14 +3,14 @@
 
 import { v4 as generateUuid } from "uuid";
 import { Aborter, BlockBlobURL } from "@azure/storage-blob";
-import { executeParallel, PerfStressOptionDictionary } from "@azure/test-utils-perfstress";
+import { executeParallel, PerfOptionDictionary } from "@azure/test-utils-perf";
 import { StorageBlobTest } from "./storageTest.spec";
 interface StorageBlobListTestOptions {
   count: number;
 }
 
 export class StorageBlobListTest extends StorageBlobTest<StorageBlobListTestOptions> {
-  public options: PerfStressOptionDictionary<StorageBlobListTestOptions> = {
+  public options: PerfOptionDictionary<StorageBlobListTestOptions> = {
     count: {
       required: true,
       description: "Number of blobs to be listed",
@@ -31,7 +31,7 @@ export class StorageBlobListTest extends StorageBlobTest<StorageBlobListTestOpti
     );
   }
 
-  async runAsync(): Promise<void> {
+  async run(): Promise<void> {
     // List blobs
     let marker = undefined;
     do {

@@ -1,6 +1,6 @@
 let nock = require('nock');
 
-module.exports.hash = "590d8b8e9e17f48ff08c6808bb01e9b9";
+module.exports.hash = "e6c726bef917a02ff50524896e0464f2";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
@@ -23,19 +23,19 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  'f2dbdde5-db5a-4996-bc26-6619bda96302',
+  'cc22bc16-d464-4cab-a9a4-89b873851c01',
   'x-ms-ests-server',
-  '2.1.11898.12 - SCUS ProdSlices',
+  '2.1.12197.4 - EUS ProdSlices',
   'Set-Cookie',
-  'fpc=ArqRweA9seFErsvWrKI3q4k; expires=Fri, 03-Sep-2021 20:29:18 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=Am7qpohHIiFFkNY2q4Y7Bxw; expires=Fri, 10-Dec-2021 07:51:57 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrB39Hpn2A5cIQkGUHfSepYJHOBhvl3p6KmbflGZD6u0pjSPxQdV4kZGo6nFah8iHd-4k-84MigLo3GJinog6Xra9FhWceFc74WVKzAth_txfufIAzb9jY7vrwsEp5yt3MUYClJIxFR0IeNBFKEDK8ujhuBWwNjXePAV3U4LYVZl4gAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
+  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrGiFJhU45Ao_DBUFMcjE6IMeA0A9YKwnPyBMa1ntjW7V-W4x0FnBZOyyEoKDa3ao0lIWNeCRpE9wvVNm2c0Ygn2sdW4woT_pKtYTyyAwnPhn1w7d9WcbXcut9tICsd-fXPT3_2h6Ih2ZWaeC2qBjtb9k2u__jALA8wYyvGYb2uHUgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Wed, 04 Aug 2021 20:29:18 GMT',
+  'Wed, 10 Nov 2021 07:51:57 GMT',
   'Content-Length',
   '980'
 ]);
@@ -58,25 +58,25 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '288acde2-7e5e-495a-b5d8-0a1eb3414301',
+  '4b0e3cde-8173-43e4-9f77-827279320e00',
   'x-ms-ests-server',
-  '2.1.11898.12 - NCUS ProdSlices',
+  '2.1.12231.7 - WUS2 ProdSlices',
   'Set-Cookie',
-  'fpc=ArqRweA9seFErsvWrKI3q4k; expires=Fri, 03-Sep-2021 20:29:18 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AtxC5f0r2IVDi7XU5L6swdo; expires=Fri, 10-Dec-2021 07:51:57 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevriBywxOST0AVd0hJaHrDK7wzFeSP88z5rferb3501SkvY9kA2tjUIsJ_IEzEq6qdbIo5dxdwMBW9TeGJ8pk-6bmFgGXz1s-d3vTHiW4LxQ9c6MXgSdsbXSgGcv7s5ttd_9IGyJhL4C1K3UqWab_TqwdRymEoOVjIKJWrIPY3B-IsgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
+  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrJpprmTh8n6r-PntHZjfSV9ls9l_xg_BWTkr8SqgxBts_kyz4UZXiKxYRDYoQQtpH5Eb8qfQCXDdGwCqsSDa09p_LU7ker36so1Zi84AU6tygGqUeDLvmWyF-FgcTPDmfBWDXtRUKIPn8cZpjvTXs0f6q0uTp3mSjms7c4VrbecIgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Wed, 04 Aug 2021 20:29:18 GMT',
+  'Wed, 10 Nov 2021 07:51:57 GMT',
   'Content-Length',
   '1753'
 ]);
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azuretenantid/oauth2/v2.0/token', "client_id=azure_client_id&scope=https%3A%2F%2Fsanitized%2F&grant_type=client_credentials&x-client-SKU=msal.js.node&x-client-VER=1.2.0&x-client-OS=linux&x-client-CPU=x64&x-ms-lib-capability=retry-after, h429&x-client-current-telemetry=2|771,0|,&x-client-last-telemetry=2|0|||0,0&client-request-id=6ab86dfd-93c2-4d0e-8120-1badd766e446&client_secret=azure_client_secret")
+  .post('/azuretenantid/oauth2/v2.0/token', "client_id=azure_client_id&scope=https%3A%2F%2Fsanitized%2F&grant_type=client_credentials&x-client-SKU=msal.js.node&x-client-VER=1.3.2&x-client-OS=linux&x-client-CPU=x64&x-ms-lib-capability=retry-after, h429&x-client-current-telemetry=5|771,2,,,|,&x-client-last-telemetry=5|0|||0,0&client-request-id=bd32d172-0710-4e97-9b2a-0701d29625ad&client_secret=azure_client_secret&claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22cp1%22%5D%7D%7D%7D")
   .reply(200, {"token_type":"Bearer","expires_in":86399,"ext_expires_in":86399,"access_token":"access_token"}, [
   'Cache-Control',
   'no-store, no-cache',
@@ -93,27 +93,27 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '8089a432-0de7-4720-afe5-62162b610000',
+  'ce253185-064b-41c8-9805-9ffd67160400',
   'x-ms-ests-server',
-  '2.1.11935.12 - SCUS ProdSlices',
+  '2.1.12231.7 - NCUS ProdSlices',
   'x-ms-clitelem',
   '1,0,0,,',
   'Set-Cookie',
-  'fpc=ArqRweA9seFErsvWrKI3q4nmLYaiAQAAAJ7vnNgOAAAA; expires=Fri, 03-Sep-2021 20:29:18 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AmrVIJU9P0tLiKBJZAfqOfjmLYaiAQAAABxxHdkOAAAA; expires=Fri, 10-Dec-2021 07:51:57 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Wed, 04 Aug 2021 20:29:18 GMT',
+  'Wed, 10 Nov 2021 07:51:57 GMT',
   'Content-Length',
   '1321'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .put('/$schemagroups/group-1/schemas/azsdk_js_test', {"type":"record","name":"User","namespace":"com.azure.schemaregistry.samples","fields":[{"name":"name","type":"string"},{"name":"favoriteNumber","type":"int"}]})
+  .put('/$schemaGroups/group-1/schemas/azsdk_js_test', {"type":"record","name":"User","namespace":"com.azure.schemaregistry.samples","fields":[{"name":"name","type":"string"},{"name":"favoriteNumber","type":"int"}]})
   .query(true)
-  .reply(400, {"Code":400,"Detail":"Invalid schema type for PUT request. 'not-valid' is not supported. TrackingId:126dc8df-b692-4f1f-957b-0f85b28c19ed_G6, SystemTracker:endpoint:$schemagroups/group-1/schemas/azsdk_js_test, Timestamp:2021-08-04T20:29:19"}, [
+  .reply(415, {"Code":415,"Detail":"Invalid schema type for PUT request. 'null' is not supported. TrackingId:63a754e8-f1a1-4293-804e-2646510b6181_G2, SystemTracker:endpoint:$schemaGroups/group-1/schemas/azsdk_js_test, Timestamp:2021-11-10T07:51:58"}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
@@ -123,5 +123,21 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'Strict-Transport-Security',
   'max-age=31536000',
   'Date',
-  'Wed, 04 Aug 2021 20:29:19 GMT'
+  'Wed, 10 Nov 2021 07:51:58 GMT'
+]);
+
+nock('https://endpoint', {"encodedQueryParams":true})
+  .put('/$schemaGroups/group-1/schemas/azsdk_js_test', {"type":"record","name":"User","namespace":"com.azure.schemaregistry.samples","fields":[{"name":"name","type":"string"},{"name":"favoriteNumber","type":"int"}]})
+  .query(true)
+  .reply(415, {"Code":415,"Detail":"Invalid schema type for PUT request. 'not-valid' is not supported. TrackingId:73d51339-a511-439b-95ad-e31b66248463_G2, SystemTracker:endpoint:$schemaGroups/group-1/schemas/azsdk_js_test, Timestamp:2021-11-10T07:51:59"}, [
+  'Transfer-Encoding',
+  'chunked',
+  'Content-Type',
+  'application/json',
+  'Server',
+  'Microsoft-HTTPAPI/2.0',
+  'Strict-Transport-Security',
+  'max-age=31536000',
+  'Date',
+  'Wed, 10 Nov 2021 07:51:58 GMT'
 ]);

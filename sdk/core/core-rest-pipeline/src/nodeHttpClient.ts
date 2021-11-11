@@ -151,7 +151,11 @@ class NodeHttpClient implements HttpClient {
         responseStream = downloadReportStream;
       }
 
-      if (request.streamResponseStatusCodes?.has(response.status)) {
+      if (
+        // Value of POSITIVE_INFINITY in streamResponseStatusCodes is considered as any status code
+        request.streamResponseStatusCodes?.has(Number.POSITIVE_INFINITY) ||
+        request.streamResponseStatusCodes?.has(response.status)
+      ) {
         response.readableStreamBody = responseStream;
       } else {
         response.bodyAsText = await streamToText(responseStream);
@@ -204,7 +208,7 @@ class NodeHttpClient implements HttpClient {
       path: `${url.pathname}${url.search}`,
       port: url.port,
       method: request.method,
-      headers: request.headers.toJSON()
+      headers: request.headers.toJSON({ preserveCase: true })
     };
 
     return new Promise<http.IncomingMessage>((resolve, reject) => {
@@ -217,8 +221,9 @@ class NodeHttpClient implements HttpClient {
       });
 
       abortController.signal.addEventListener("abort", () => {
-        req.abort();
-        reject(new AbortError("The operation was aborted."));
+        const abortError = new AbortError("The operation was aborted.");
+        req.destroy(abortError);
+        reject(abortError);
       });
       if (body && isReadableStream(body)) {
         body.pipe(req);
@@ -229,7 +234,7 @@ class NodeHttpClient implements HttpClient {
           req.end(ArrayBuffer.isView(body) ? Buffer.from(body.buffer) : Buffer.from(body));
         } else {
           logger.error("Unrecognized body type", body);
-          throw new RestError("Unrecognized body type");
+          reject(new RestError("Unrecognized body type"));
         }
       } else {
         // streams don't like "undefined" being passed as data
@@ -313,11 +318,15 @@ function streamToText(stream: NodeJS.ReadableStream): Promise<string> {
       resolve(Buffer.concat(buffer).toString("utf8"));
     });
     stream.on("error", (e) => {
-      reject(
-        new RestError(`Error reading response as text: ${e.message}`, {
-          code: RestError.PARSE_ERROR
-        })
-      );
+      if (e && e?.name === "AbortError") {
+        reject(e);
+      } else {
+        reject(
+          new RestError(`Error reading response as text: ${e.message}`, {
+            code: RestError.PARSE_ERROR
+          })
+        );
+      }
     });
   });
 }

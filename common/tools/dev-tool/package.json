@@ -2,6 +2,7 @@
   "name": "@azure/dev-tool",
   "version": "1.0.0",
   "description": "A helpful command for azure-sdk-for-js developers",
+  "sdk-type": "utility",
   "bin": {
     "dev-tool": "launch.js"
   },
@@ -47,7 +48,7 @@
     "prettier": "^1.16.4",
     "ts-node": "^10.0.0",
     "tslib": "^2.2.0",
-    "typescript": "~4.2.0",
+    "typescript": "~4.4.0",
     "yaml": "~1.10.0"
   },
   "devDependencies": {
@@ -71,7 +72,6 @@
     "rollup": "^1.16.3",
     "rollup-plugin-sourcemaps": "^0.4.2",
     "rollup-plugin-visualizer": "^4.0.4",
-    "typedoc": "0.15.2",
-    "typescript": "~4.2.0"
+    "typedoc": "0.15.2"
   }
 }

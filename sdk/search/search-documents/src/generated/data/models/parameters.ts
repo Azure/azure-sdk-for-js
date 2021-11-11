@@ -9,9 +9,8 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter,
-  QueryCollectionFormat
-} from "@azure/core-http";
+  OperationQueryParameter
+} from "@azure/core-client";
 import {
   SearchRequest as SearchRequestMapper,
   SuggestRequest as SuggestRequestMapper,
@@ -108,7 +107,7 @@ export const facets: OperationQueryParameter = {
       }
     }
   },
-  collectionFormat: QueryCollectionFormat.Multi
+  collectionFormat: "Multi"
 };
 
 export const filter: OperationQueryParameter = {
@@ -134,7 +133,7 @@ export const highlightFields: OperationQueryParameter = {
       }
     }
   },
-  collectionFormat: QueryCollectionFormat.Csv
+  collectionFormat: "CSV"
 };
 
 export const highlightPostTag: OperationQueryParameter = {
@@ -180,7 +179,7 @@ export const orderBy: OperationQueryParameter = {
       }
     }
   },
-  collectionFormat: QueryCollectionFormat.Csv
+  collectionFormat: "CSV"
 };
 
 export const queryType: OperationQueryParameter = {
@@ -207,13 +206,23 @@ export const scoringParameters: OperationQueryParameter = {
       }
     }
   },
-  collectionFormat: QueryCollectionFormat.Multi
+  collectionFormat: "Multi"
 };
 
 export const scoringProfile: OperationQueryParameter = {
   parameterPath: ["options", "searchOptions", "scoringProfile"],
   mapper: {
     serializedName: "scoringProfile",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const semanticConfiguration: OperationQueryParameter = {
+  parameterPath: ["options", "searchOptions", "semanticConfiguration"],
+  mapper: {
+    serializedName: "semanticConfiguration",
     type: {
       name: "String"
     }
@@ -233,7 +242,7 @@ export const searchFields: OperationQueryParameter = {
       }
     }
   },
-  collectionFormat: QueryCollectionFormat.Csv
+  collectionFormat: "CSV"
 };
 
 export const queryLanguage: OperationQueryParameter = {
@@ -311,7 +320,7 @@ export const select: OperationQueryParameter = {
       }
     }
   },
-  collectionFormat: QueryCollectionFormat.Csv
+  collectionFormat: "CSV"
 };
 
 export const skip: OperationQueryParameter = {
@@ -357,7 +366,7 @@ export const semanticFields: OperationQueryParameter = {
       }
     }
   },
-  collectionFormat: QueryCollectionFormat.Csv
+  collectionFormat: "CSV"
 };
 
 export const contentType: OperationParameter = {
@@ -401,7 +410,7 @@ export const selectedFields: OperationQueryParameter = {
       }
     }
   },
-  collectionFormat: QueryCollectionFormat.Csv
+  collectionFormat: "CSV"
 };
 
 export const searchText1: OperationQueryParameter = {
@@ -489,7 +498,7 @@ export const orderBy1: OperationQueryParameter = {
       }
     }
   },
-  collectionFormat: QueryCollectionFormat.Csv
+  collectionFormat: "CSV"
 };
 
 export const searchFields1: OperationQueryParameter = {
@@ -505,7 +514,7 @@ export const searchFields1: OperationQueryParameter = {
       }
     }
   },
-  collectionFormat: QueryCollectionFormat.Csv
+  collectionFormat: "CSV"
 };
 
 export const select1: OperationQueryParameter = {
@@ -521,7 +530,7 @@ export const select1: OperationQueryParameter = {
       }
     }
   },
-  collectionFormat: QueryCollectionFormat.Csv
+  collectionFormat: "CSV"
 };
 
 export const top1: OperationQueryParameter = {
@@ -618,7 +627,7 @@ export const searchFields2: OperationQueryParameter = {
       }
     }
   },
-  collectionFormat: QueryCollectionFormat.Csv
+  collectionFormat: "CSV"
 };
 
 export const top2: OperationQueryParameter = {

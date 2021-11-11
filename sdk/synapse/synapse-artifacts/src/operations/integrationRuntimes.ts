@@ -20,7 +20,7 @@ import {
   IntegrationRuntimesGetResponse
 } from "../models";
 
-/** Class representing a IntegrationRuntimes. */
+/** Class containing IntegrationRuntimes operations. */
 export class IntegrationRuntimesImpl implements IntegrationRuntimes {
   private readonly client: ArtifactsClientContext;
 
@@ -98,7 +98,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorContract
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.accept],
   serializer
@@ -114,7 +114,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorContract
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [Parameters.endpoint, Parameters.integrationRuntimeName],
   headerParameters: [Parameters.accept],
   serializer

@@ -7,13 +7,14 @@ import fs from "fs";
 import os from "os";
 import path from "path";
 
-import { CredentialUnavailableError } from "../client/errors";
-import { IdentityClient, TokenCredentialOptions } from "../client/identityClient";
 import { AzureAuthorityHosts } from "../constants";
 import { checkTenantId } from "../util/checkTenantId";
-import { credentialLogger, formatError, formatSuccess } from "../util/logging";
+import { CredentialUnavailableError } from "../errors";
+import { IdentityClient } from "../client/identityClient";
+import { TokenCredentialOptions } from "../tokenCredentialOptions";
 import { processMultiTenantRequest } from "../util/validateMultiTenant";
 import { VSCodeCredentialFinder } from "./visualStudioCodeCredentialPlugin";
+import { credentialLogger, formatError, formatSuccess } from "../util/logging";
 
 const CommonTenantId = "common";
 const AzureAccountClientId = "aebc6443-996d-45c2-90f0-388ff96faa56"; // VSC: 'aebc6443-996d-45c2-90f0-388ff96faa56'
@@ -95,7 +96,7 @@ export interface VisualStudioCodeCredentialOptions extends TokenCredentialOption
 }
 
 /**
- * Connect to Azure using the credential provided by the VSCode extension 'Azure Account'.
+ * Connects to Azure using the credential provided by the VSCode extension 'Azure Account'.
  * Once the user has logged in via the extension, this credential can share the same refresh token
  * that is cached by the extension.
  */
@@ -103,7 +104,6 @@ export class VisualStudioCodeCredential implements TokenCredential {
   private identityClient: IdentityClient;
   private tenantId: string;
   private cloudName: VSCodeCloudNames;
-  private allowMultiTenantAuthentication?: boolean;
 
   /**
    * Creates an instance of VisualStudioCodeCredential to use for automatically authenticating via VSCode.
@@ -134,7 +134,6 @@ export class VisualStudioCodeCredential implements TokenCredential {
     } else {
       this.tenantId = CommonTenantId;
     }
-    this.allowMultiTenantAuthentication = options?.allowMultiTenantAuthentication;
 
     checkUnsupportedTenant(this.tenantId);
   }
@@ -180,9 +179,7 @@ export class VisualStudioCodeCredential implements TokenCredential {
   ): Promise<AccessToken> {
     await this.prepareOnce();
 
-    const tenantId =
-      processMultiTenantRequest(this.tenantId, this.allowMultiTenantAuthentication, options) ||
-      this.tenantId;
+    const tenantId = processMultiTenantRequest(this.tenantId, options) || this.tenantId;
 
     if (findCredentials === undefined) {
       throw new CredentialUnavailableError(
@@ -236,14 +233,14 @@ export class VisualStudioCodeCredential implements TokenCredential {
         return tokenResponse.accessToken;
       } else {
         const error = new CredentialUnavailableError(
-          "Could not retrieve the token associated with Visual Studio Code. Have you connected using the 'Azure Account' extension recently?"
+          "Could not retrieve the token associated with Visual Studio Code. Have you connected using the 'Azure Account' extension recently? To troubleshoot, visit https://aka.ms/azsdk/js/identity/visualstudiocodecredential/troubleshoot."
         );
         logger.getToken.info(formatError(scopes, error));
         throw error;
       }
     } else {
       const error = new CredentialUnavailableError(
-        "Could not retrieve the token associated with Visual Studio Code. Did you connect using the 'Azure Account' extension?"
+        "Could not retrieve the token associated with Visual Studio Code. Did you connect using the 'Azure Account' extension? To troubleshoot, visit https://aka.ms/azsdk/js/identity/visualstudiocodecredential/troubleshoot."
       );
       logger.getToken.info(formatError(scopes, error));
       throw error;

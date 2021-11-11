@@ -122,7 +122,7 @@ function isDependency(moduleSpecifier: string): boolean {
 
   // This seems like a reasonable test for "is a relative path" as long as
   // absolute path imports are forbidden.
-  const isRelativePath = /^\.\.?\//.test(moduleSpecifier);
+  const isRelativePath = /^\.\.?[\/\\]/.test(moduleSpecifier);
   return !isRelativePath;
 }
 
@@ -199,10 +199,16 @@ async function processSources(
         if (summary === undefined) {
           for (const tag of tags) {
             log.debug(`File ${relativeSourcePath} has tag ${tag.tagName.text}`);
+
+            // New TS introduced comment: NodeArray, so we join the text if it is made of many nodes.
+            const comment = Array.isArray(tag.comment)
+              ? tag.comment.map((node: ts.JSDocText) => node.text ?? " ").join(" ")
+              : (tag.comment as string | undefined);
+
             if (tag.tagName.text === "summary") {
               log.debug("Found summary tag on node:", node.getText(sourceFile));
               // Replace is required due to multi-line splitting messing with table formatting
-              summary = tag.comment?.replace(/\s*\r?\n\s*/g, " ");
+              summary = comment?.replace(/\s*\r?\n\s*/g, " ");
             } else if (tag.tagName.text.startsWith(`${AZSDK_META_TAG_PREFIX}`)) {
               // We ran into an `azsdk` directive in the metadata
               const metaTag = tag.tagName.text.replace(
@@ -211,11 +217,13 @@ async function processSources(
               ) as keyof AzSdkMetaTags;
               log.debug(`File ${relativeSourcePath} has azsdk tag ${tag.tagName.text}`);
               if (VALID_AZSDK_META_TAGS.includes(metaTag)) {
-                const comment = tag.comment?.trim();
+                const trimmedComment = comment?.trim();
                 // If there was _no_ comment, then we can assume it is a boolean tag
                 // and so being specified at all is an indication that we should use
                 // `true`
-                azSdkTags[metaTag as keyof AzSdkMetaTags] = comment ? JSON.parse(comment) : true;
+                azSdkTags[metaTag as keyof AzSdkMetaTags] = trimmedComment
+                  ? JSON.parse(trimmedComment)
+                  : true;
               } else {
                 log.warn(
                   `Invalid azsdk tag ${metaTag}. Valid tags include ${VALID_AZSDK_META_TAGS}`
@@ -270,6 +278,21 @@ async function collect<T>(i: AsyncIterableIterator<T>): Promise<T[]> {
   }
 
   return out;
+}
+
+/**
+ * Processes a segmented module path to return the first segment. This is useful for packages that have nested imports
+ * such as "dayjs/plugin/duration".
+ *
+ * @param specifier - the module specifier to resolve to a package name
+ * @returns a package name
+ */
+function resolveModule(specifier: string): string {
+  const parts = specifier.split("/", 2);
+
+  // The first part could be a namespace, in which case we need to join them
+  if (parts.length > 1 && parts[0].startsWith("@")) return parts[0] + "/" + parts[1];
+  else return parts[0];
 }
 
 /**
@@ -338,7 +361,7 @@ async function makeSampleGenerationInfo(
         .slice(-1)[0]
         .replace("\\", "/"),
     // This'll be good enough most of the time, but products like Azure Form Recognizer will have
-    // too adjust using the sample configuration.
+    // to adjust using the sample configuration.
     productName:
       sampleConfiguration.productName ??
       fail(`The sample configuration does not specify a "productName".`),
@@ -369,7 +392,7 @@ async function makeSampleGenerationInfo(
       return {
         dependencies: moduleInfos.reduce((prev, source) => {
           const current: Record<string, string> = {};
-          for (const dependency of source.importedModules) {
+          for (const dependency of source.importedModules.map(resolveModule)) {
             if (prev[dependency] === undefined) {
               const dependencyVersion =
                 sampleConfiguration.dependencyOverrides?.[dependency] ??
@@ -578,7 +601,7 @@ export default leafCommand(commandInfo, async (options) => {
       return factory(basePath);
     });
   } catch (ex) {
-    log.error(ex.message);
+    log.error((ex as Error).message);
     return false;
   }
 

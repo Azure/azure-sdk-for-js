@@ -7,7 +7,6 @@
  */
 
 import { createSpan } from "../tracing";
-import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { LinkedServiceOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
@@ -19,21 +18,21 @@ import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
   LinkedServiceResource,
-  LinkedServiceOperationsGetLinkedServicesByWorkspaceNextOptionalParams,
-  LinkedServiceOperationsGetLinkedServicesByWorkspaceOptionalParams,
-  LinkedServiceOperationsGetLinkedServicesByWorkspaceResponse,
-  LinkedServiceOperationsCreateOrUpdateLinkedServiceOptionalParams,
-  LinkedServiceOperationsCreateOrUpdateLinkedServiceResponse,
-  LinkedServiceOperationsGetLinkedServiceOptionalParams,
-  LinkedServiceOperationsGetLinkedServiceResponse,
-  LinkedServiceOperationsDeleteLinkedServiceOptionalParams,
+  LinkedServiceGetLinkedServicesByWorkspaceNextOptionalParams,
+  LinkedServiceGetLinkedServicesByWorkspaceOptionalParams,
+  LinkedServiceGetLinkedServicesByWorkspaceResponse,
+  LinkedServiceCreateOrUpdateLinkedServiceOptionalParams,
+  LinkedServiceCreateOrUpdateLinkedServiceResponse,
+  LinkedServiceGetLinkedServiceOptionalParams,
+  LinkedServiceGetLinkedServiceResponse,
+  LinkedServiceDeleteLinkedServiceOptionalParams,
   ArtifactRenameRequest,
-  LinkedServiceOperationsRenameLinkedServiceOptionalParams,
-  LinkedServiceOperationsGetLinkedServicesByWorkspaceNextResponse
+  LinkedServiceRenameLinkedServiceOptionalParams,
+  LinkedServiceGetLinkedServicesByWorkspaceNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a LinkedServiceOperations. */
+/** Class containing LinkedServiceOperations operations. */
 export class LinkedServiceOperationsImpl implements LinkedServiceOperations {
   private readonly client: ArtifactsClientContext;
 
@@ -50,7 +49,7 @@ export class LinkedServiceOperationsImpl implements LinkedServiceOperations {
    * @param options The options parameters.
    */
   public listLinkedServicesByWorkspace(
-    options?: LinkedServiceOperationsGetLinkedServicesByWorkspaceOptionalParams
+    options?: LinkedServiceGetLinkedServicesByWorkspaceOptionalParams
   ): PagedAsyncIterableIterator<LinkedServiceResource> {
     const iter = this.getLinkedServicesByWorkspacePagingAll(options);
     return {
@@ -67,7 +66,7 @@ export class LinkedServiceOperationsImpl implements LinkedServiceOperations {
   }
 
   private async *getLinkedServicesByWorkspacePagingPage(
-    options?: LinkedServiceOperationsGetLinkedServicesByWorkspaceOptionalParams
+    options?: LinkedServiceGetLinkedServicesByWorkspaceOptionalParams
   ): AsyncIterableIterator<LinkedServiceResource[]> {
     let result = await this._getLinkedServicesByWorkspace(options);
     yield result.value || [];
@@ -83,7 +82,7 @@ export class LinkedServiceOperationsImpl implements LinkedServiceOperations {
   }
 
   private async *getLinkedServicesByWorkspacePagingAll(
-    options?: LinkedServiceOperationsGetLinkedServicesByWorkspaceOptionalParams
+    options?: LinkedServiceGetLinkedServicesByWorkspaceOptionalParams
   ): AsyncIterableIterator<LinkedServiceResource> {
     for await (const page of this.getLinkedServicesByWorkspacePagingPage(
       options
@@ -97,8 +96,8 @@ export class LinkedServiceOperationsImpl implements LinkedServiceOperations {
    * @param options The options parameters.
    */
   private async _getLinkedServicesByWorkspace(
-    options?: LinkedServiceOperationsGetLinkedServicesByWorkspaceOptionalParams
-  ): Promise<LinkedServiceOperationsGetLinkedServicesByWorkspaceResponse> {
+    options?: LinkedServiceGetLinkedServicesByWorkspaceOptionalParams
+  ): Promise<LinkedServiceGetLinkedServicesByWorkspaceResponse> {
     const { span } = createSpan(
       "ArtifactsClient-_getLinkedServicesByWorkspace",
       options || {}
@@ -108,7 +107,7 @@ export class LinkedServiceOperationsImpl implements LinkedServiceOperations {
         { options },
         getLinkedServicesByWorkspaceOperationSpec
       );
-      return result as LinkedServiceOperationsGetLinkedServicesByWorkspaceResponse;
+      return result as LinkedServiceGetLinkedServicesByWorkspaceResponse;
     } catch (error) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
@@ -129,13 +128,11 @@ export class LinkedServiceOperationsImpl implements LinkedServiceOperations {
   async beginCreateOrUpdateLinkedService(
     linkedServiceName: string,
     linkedService: LinkedServiceResource,
-    options?: LinkedServiceOperationsCreateOrUpdateLinkedServiceOptionalParams
+    options?: LinkedServiceCreateOrUpdateLinkedServiceOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<
-        LinkedServiceOperationsCreateOrUpdateLinkedServiceResponse
-      >,
-      LinkedServiceOperationsCreateOrUpdateLinkedServiceResponse
+      PollOperationState<LinkedServiceCreateOrUpdateLinkedServiceResponse>,
+      LinkedServiceCreateOrUpdateLinkedServiceResponse
     >
   > {
     const { span } = createSpan(
@@ -145,10 +142,10 @@ export class LinkedServiceOperationsImpl implements LinkedServiceOperations {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<LinkedServiceOperationsCreateOrUpdateLinkedServiceResponse> => {
+    ): Promise<LinkedServiceCreateOrUpdateLinkedServiceResponse> => {
       try {
         const result = await this.client.sendOperationRequest(args, spec);
-        return result as LinkedServiceOperationsCreateOrUpdateLinkedServiceResponse;
+        return result as LinkedServiceCreateOrUpdateLinkedServiceResponse;
       } catch (error) {
         span.setStatus({
           code: coreTracing.SpanStatusCode.UNSET,
@@ -212,8 +209,8 @@ export class LinkedServiceOperationsImpl implements LinkedServiceOperations {
   async beginCreateOrUpdateLinkedServiceAndWait(
     linkedServiceName: string,
     linkedService: LinkedServiceResource,
-    options?: LinkedServiceOperationsCreateOrUpdateLinkedServiceOptionalParams
-  ): Promise<LinkedServiceOperationsCreateOrUpdateLinkedServiceResponse> {
+    options?: LinkedServiceCreateOrUpdateLinkedServiceOptionalParams
+  ): Promise<LinkedServiceCreateOrUpdateLinkedServiceResponse> {
     const poller = await this.beginCreateOrUpdateLinkedService(
       linkedServiceName,
       linkedService,
@@ -229,8 +226,8 @@ export class LinkedServiceOperationsImpl implements LinkedServiceOperations {
    */
   async getLinkedService(
     linkedServiceName: string,
-    options?: LinkedServiceOperationsGetLinkedServiceOptionalParams
-  ): Promise<LinkedServiceOperationsGetLinkedServiceResponse> {
+    options?: LinkedServiceGetLinkedServiceOptionalParams
+  ): Promise<LinkedServiceGetLinkedServiceResponse> {
     const { span } = createSpan(
       "ArtifactsClient-getLinkedService",
       options || {}
@@ -240,7 +237,7 @@ export class LinkedServiceOperationsImpl implements LinkedServiceOperations {
         { linkedServiceName, options },
         getLinkedServiceOperationSpec
       );
-      return result as LinkedServiceOperationsGetLinkedServiceResponse;
+      return result as LinkedServiceGetLinkedServiceResponse;
     } catch (error) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
@@ -259,7 +256,7 @@ export class LinkedServiceOperationsImpl implements LinkedServiceOperations {
    */
   async beginDeleteLinkedService(
     linkedServiceName: string,
-    options?: LinkedServiceOperationsDeleteLinkedServiceOptionalParams
+    options?: LinkedServiceDeleteLinkedServiceOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
     const { span } = createSpan(
       "ArtifactsClient-beginDeleteLinkedService",
@@ -333,7 +330,7 @@ export class LinkedServiceOperationsImpl implements LinkedServiceOperations {
    */
   async beginDeleteLinkedServiceAndWait(
     linkedServiceName: string,
-    options?: LinkedServiceOperationsDeleteLinkedServiceOptionalParams
+    options?: LinkedServiceDeleteLinkedServiceOptionalParams
   ): Promise<void> {
     const poller = await this.beginDeleteLinkedService(
       linkedServiceName,
@@ -351,7 +348,7 @@ export class LinkedServiceOperationsImpl implements LinkedServiceOperations {
   async beginRenameLinkedService(
     linkedServiceName: string,
     request: ArtifactRenameRequest,
-    options?: LinkedServiceOperationsRenameLinkedServiceOptionalParams
+    options?: LinkedServiceRenameLinkedServiceOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
     const { span } = createSpan(
       "ArtifactsClient-beginRenameLinkedService",
@@ -427,7 +424,7 @@ export class LinkedServiceOperationsImpl implements LinkedServiceOperations {
   async beginRenameLinkedServiceAndWait(
     linkedServiceName: string,
     request: ArtifactRenameRequest,
-    options?: LinkedServiceOperationsRenameLinkedServiceOptionalParams
+    options?: LinkedServiceRenameLinkedServiceOptionalParams
   ): Promise<void> {
     const poller = await this.beginRenameLinkedService(
       linkedServiceName,
@@ -445,8 +442,8 @@ export class LinkedServiceOperationsImpl implements LinkedServiceOperations {
    */
   private async _getLinkedServicesByWorkspaceNext(
     nextLink: string,
-    options?: LinkedServiceOperationsGetLinkedServicesByWorkspaceNextOptionalParams
-  ): Promise<LinkedServiceOperationsGetLinkedServicesByWorkspaceNextResponse> {
+    options?: LinkedServiceGetLinkedServicesByWorkspaceNextOptionalParams
+  ): Promise<LinkedServiceGetLinkedServicesByWorkspaceNextResponse> {
     const { span } = createSpan(
       "ArtifactsClient-_getLinkedServicesByWorkspaceNext",
       options || {}
@@ -456,7 +453,7 @@ export class LinkedServiceOperationsImpl implements LinkedServiceOperations {
         { nextLink, options },
         getLinkedServicesByWorkspaceNextOperationSpec
       );
-      return result as LinkedServiceOperationsGetLinkedServicesByWorkspaceNextResponse;
+      return result as LinkedServiceGetLinkedServicesByWorkspaceNextResponse;
     } catch (error) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
@@ -479,10 +476,10 @@ const getLinkedServicesByWorkspaceOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.LinkedServiceListResponse
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.CloudErrorAutoGenerated
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.accept],
   serializer
@@ -504,11 +501,11 @@ const createOrUpdateLinkedServiceOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.LinkedServiceResource
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.CloudErrorAutoGenerated
     }
   },
   requestBody: Parameters.linkedService,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [Parameters.endpoint, Parameters.linkedServiceName],
   headerParameters: [
     Parameters.accept,
@@ -527,10 +524,10 @@ const getLinkedServiceOperationSpec: coreClient.OperationSpec = {
     },
     304: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.CloudErrorAutoGenerated
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [Parameters.endpoint, Parameters.linkedServiceName],
   headerParameters: [Parameters.accept, Parameters.ifNoneMatch],
   serializer
@@ -544,10 +541,10 @@ const deleteLinkedServiceOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.CloudErrorAutoGenerated
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [Parameters.endpoint, Parameters.linkedServiceName],
   headerParameters: [Parameters.accept],
   serializer
@@ -561,11 +558,11 @@ const renameLinkedServiceOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.CloudErrorAutoGenerated
     }
   },
   requestBody: Parameters.request,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [Parameters.endpoint, Parameters.linkedServiceName],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -579,10 +576,10 @@ const getLinkedServicesByWorkspaceNextOperationSpec: coreClient.OperationSpec = 
       bodyMapper: Mappers.LinkedServiceListResponse
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.CloudErrorAutoGenerated
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [Parameters.endpoint, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer

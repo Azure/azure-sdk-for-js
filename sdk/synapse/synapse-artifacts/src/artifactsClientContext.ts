@@ -12,7 +12,6 @@ import { ArtifactsClientOptionalParams } from "./models";
 
 export class ArtifactsClientContext extends coreClient.ServiceClient {
   endpoint: string;
-  apiVersion: string;
 
   /**
    * Initializes a new instance of the ArtifactsClientContext class.
@@ -42,7 +41,7 @@ export class ArtifactsClientContext extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-synapse-artifacts/1.0.0-beta.6`;
+    const packageDetails = `azsdk-js-synapse-artifacts/1.0.0-beta.7`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -62,8 +61,5 @@ export class ArtifactsClientContext extends coreClient.ServiceClient {
     super(optionsWithDefaults);
     // Parameter assignments
     this.endpoint = endpoint;
-
-    // Assigning values to Constant parameters
-    this.apiVersion = options.apiVersion || "2019-06-01-preview";
   }
 }
