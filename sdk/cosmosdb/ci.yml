@@ -8,7 +8,8 @@ trigger:
       - hotfix/*
   paths:
     include:
-      - sdk/cosmosdb/
+      - sdk/cosmosdb/cosmos/
+      - sdk/cosmosdb/ci.yml
 
 pr:
   branches:
@@ -19,7 +20,8 @@ pr:
       - hotfix/*
   paths:
     include:
-      - sdk/cosmosdb/
+      - sdk/cosmosdb/cosmos/
+      - sdk/cosmosdb/ci.yml
 
 extends:
   template: ../../eng/pipelines/templates/stages/cosmos-sdk-client.yml #NOTE: Non-standard template.
