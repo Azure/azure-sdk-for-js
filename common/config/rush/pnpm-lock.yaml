@@ -1260,6 +1260,14 @@ packages:
       '@rushstack/node-core-library': 3.36.0
     dev: false
 
+  /@microsoft/api-extractor-model/7.13.16:
+    resolution: {integrity: sha512-ttdxVXsTWL5dd26W1YNLe3LgDsE0EE273aZlcLe58W0opymBybCYU1Mn+OHQM8BuErrdvdN8LdpWAAbkiOEN/Q==}
+    dependencies:
+      '@microsoft/tsdoc': 0.13.2
+      '@microsoft/tsdoc-config': 0.15.2
+      '@rushstack/node-core-library': 3.43.2
+    dev: false
+
   /@microsoft/api-extractor-model/7.13.5:
     resolution: {integrity: sha512-il6AebNltYo5hEtqXZw4DMvrwBPn6+F58TxwqmsLY+U+sSJNxaYn2jYksArrjErXVPR3gUgRMqD6zsdIkg+WEQ==}
     dependencies:
@@ -1290,6 +1298,24 @@ packages:
       semver: 7.3.5
       source-map: 0.6.1
       typescript: 4.1.6
+    dev: false
+
+  /@microsoft/api-extractor/7.18.19:
+    resolution: {integrity: sha512-aY+/XR7PtQXtnqNPFRs3/+iVRlQJpo6uLTjO2g7PqmnMywl3GBU3bCgAlV/khZtAQbIs6Le57XxmSE6rOqbcfg==}
+    hasBin: true
+    dependencies:
+      '@microsoft/api-extractor-model': 7.13.16
+      '@microsoft/tsdoc': 0.13.2
+      '@microsoft/tsdoc-config': 0.15.2
+      '@rushstack/node-core-library': 3.43.2
+      '@rushstack/rig-package': 0.3.5
+      '@rushstack/ts-command-line': 4.10.4
+      colors: 1.2.5
+      lodash: 4.17.21
+      resolve: 1.17.0
+      semver: 7.3.5
+      source-map: 0.6.1
+      typescript: 4.4.4
     dev: false
 
   /@microsoft/api-extractor/7.18.7:
@@ -1511,6 +1537,7 @@ packages:
   /@opentelemetry/tracing/0.22.0_@opentelemetry+api@1.0.3:
     resolution: {integrity: sha512-EFrKTFndiEdh/KnzwDgo/EcphG/5z/NyLck8oiUUY+YMP7hskXNYHjTWSAv9UxtYe1MzgLbjmAateTuMmFIVNw==}
     engines: {node: '>=8.0.0'}
+    deprecated: Package renamed to @opentelemetry/sdk-trace-base
     peerDependencies:
       '@opentelemetry/api': ^1.0.0
     dependencies:
@@ -1642,6 +1669,20 @@ packages:
       z-schema: 3.18.4
     dev: false
 
+  /@rushstack/node-core-library/3.43.2:
+    resolution: {integrity: sha512-b7AEhSf6CvZgvuDcWMFDeKx2mQSn9AVnMQVyxNxFeHCtLz3gJicqCOlw2GOXM8HKh6PInLdil/NVCDcstwSrIw==}
+    dependencies:
+      '@types/node': 12.20.24
+      colors: 1.2.5
+      fs-extra: 7.0.1
+      import-lazy: 4.0.0
+      jju: 1.4.0
+      resolve: 1.17.0
+      semver: 7.3.5
+      timsort: 0.3.0
+      z-schema: 3.18.4
+    dev: false
+
   /@rushstack/rig-package/0.2.10:
     resolution: {integrity: sha512-WXYerEJEPf8bS3ruqfM57NnwXtA7ehn8VJjLjrjls6eSduE5CRydcob/oBTzlHKsQ7N196XKlqQl9P6qIyYG2A==}
     dependencies:
@@ -1654,6 +1695,22 @@ packages:
     dependencies:
       resolve: 1.17.0
       strip-json-comments: 3.1.1
+    dev: false
+
+  /@rushstack/rig-package/0.3.5:
+    resolution: {integrity: sha512-CvqWw+E81U5lRBN/lUj7Ngr/XQa/PPb2jAS5QcLP7WL+IMUl+3+Cc2qYrsDoB4zke81kz+usWGmBQpBzGMLmAA==}
+    dependencies:
+      resolve: 1.17.0
+      strip-json-comments: 3.1.1
+    dev: false
+
+  /@rushstack/ts-command-line/4.10.4:
+    resolution: {integrity: sha512-4T5ao4UgDb6LmiRj4GumvG3VT/p6RSMgl7TN7S58ifaAGN2GeTNBajFCDdJs9QQP0d/4tA5p0SFzT7Ps5Byirg==}
+    dependencies:
+      '@types/argparse': 1.0.38
+      argparse: 1.0.10
+      colors: 1.2.5
+      string-argv: 0.3.1
     dev: false
 
   /@rushstack/ts-command-line/4.3.13:
@@ -7546,6 +7603,12 @@ packages:
     hasBin: true
     dev: false
 
+  /typescript/4.4.4:
+    resolution: {integrity: sha512-DqGhF5IKoBl8WNf8C1gu8q0xZSInh9j1kJJMqT3a94w1JzVaBU4EXOSMrz9yDqMT0xt3selp83fuFMQ0uzv6qA==}
+    engines: {node: '>=4.2.0'}
+    hasBin: true
+    dev: false
+
   /ua-parser-js/0.7.28:
     resolution: {integrity: sha512-6Gurc1n//gjp9eQNXjD9O3M/sMwVtN5S8Lv9bvOYBfKfDNiIIhqiyi01vMBO45u4zkDE420w/e0se7Vs+sIg+g==}
     dev: false
@@ -8431,12 +8494,12 @@ packages:
     dev: false
 
   file:projects/arm-cosmosdb.tgz:
-    resolution: {integrity: sha512-nVm5hbmqceMerSf4IExsdhq8K/4860Xa2tKvebwzdlVN4GGAkxZhScDtxwiBTpfvA7uVQZDzCSVrZ594FEX2RQ==, tarball: file:projects/arm-cosmosdb.tgz}
+    resolution: {integrity: sha512-HPynCKEu+ElGnSnYzbAuoEJLolPx9IVYcwDNT+N5K5dIj3ESEPoEqbrWuntWpMX+B4MydkkE5vfZVylFO+9XPQ==, tarball: file:projects/arm-cosmosdb.tgz}
     name: '@rush-temp/arm-cosmosdb'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.0.0-beta.6
-      '@microsoft/api-extractor': 7.7.11
+      '@microsoft/api-extractor': 7.18.19
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -10164,7 +10227,7 @@ packages:
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.13
       '@azure/identity': 2.0.0-beta.6_debug@4.3.2
-      '@microsoft/api-extractor': 7.18.7
+      '@microsoft/api-extractor': 7.18.19
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-inject': 4.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
@@ -11753,7 +11816,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.0.0-beta.6
-      '@microsoft/api-extractor': 7.18.7
+      '@microsoft/api-extractor': 7.18.19
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-inject': 4.0.2_rollup@1.32.1
       '@rollup/plugin-replace': 2.4.2_rollup@1.32.1
@@ -11807,7 +11870,7 @@ packages:
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.13
       '@azure/identity': 2.0.0-beta.6
-      '@microsoft/api-extractor': 7.18.7
+      '@microsoft/api-extractor': 7.18.19
       '@types/chai': 4.2.21
       '@types/chai-as-promised': 7.1.4
       '@types/mocha': 7.0.2

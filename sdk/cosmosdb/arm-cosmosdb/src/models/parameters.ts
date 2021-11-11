@@ -17,7 +17,6 @@ import {
   FailoverPolicies as FailoverPoliciesMapper,
   RegionForOnlineOffline as RegionForOnlineOfflineMapper,
   DatabaseAccountRegenerateKeyParameters as DatabaseAccountRegenerateKeyParametersMapper,
-  GraphResourceCreateUpdateParameters as GraphResourceCreateUpdateParametersMapper,
   SqlDatabaseCreateUpdateParameters as SqlDatabaseCreateUpdateParametersMapper,
   ThroughputSettingsUpdateParameters as ThroughputSettingsUpdateParametersMapper,
   SqlContainerCreateUpdateParameters as SqlContainerCreateUpdateParametersMapper,
@@ -32,15 +31,13 @@ import {
   TableCreateUpdateParameters as TableCreateUpdateParametersMapper,
   CassandraKeyspaceCreateUpdateParameters as CassandraKeyspaceCreateUpdateParametersMapper,
   CassandraTableCreateUpdateParameters as CassandraTableCreateUpdateParametersMapper,
-  CassandraViewCreateUpdateParameters as CassandraViewCreateUpdateParametersMapper,
   GremlinDatabaseCreateUpdateParameters as GremlinDatabaseCreateUpdateParametersMapper,
   GremlinGraphCreateUpdateParameters as GremlinGraphCreateUpdateParametersMapper,
   NotebookWorkspaceCreateUpdateParameters as NotebookWorkspaceCreateUpdateParametersMapper,
   PrivateEndpointConnection as PrivateEndpointConnectionMapper,
   ClusterResource as ClusterResourceMapper,
-  RepairPostBody as RepairPostBodyMapper,
-  DataCenterResource as DataCenterResourceMapper,
-  ServiceResourceCreateUpdateParameters as ServiceResourceCreateUpdateParametersMapper
+  CommandPostBody as CommandPostBodyMapper,
+  DataCenterResource as DataCenterResourceMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -115,7 +112,7 @@ export const accountName: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-07-01-preview",
+    defaultValue: "2021-10-15",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -263,22 +260,6 @@ export const partitionKeyRangeId: OperationURLParameter = {
       name: "String"
     }
   }
-};
-
-export const graphName: OperationURLParameter = {
-  parameterPath: "graphName",
-  mapper: {
-    serializedName: "graphName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const createUpdateGraphParameters: OperationParameter = {
-  parameterPath: "createUpdateGraphParameters",
-  mapper: GraphResourceCreateUpdateParametersMapper
 };
 
 export const databaseName: OperationURLParameter = {
@@ -461,25 +442,20 @@ export const createUpdateCassandraTableParameters: OperationParameter = {
   mapper: CassandraTableCreateUpdateParametersMapper
 };
 
-export const viewName: OperationURLParameter = {
-  parameterPath: "viewName",
+export const createUpdateGremlinDatabaseParameters: OperationParameter = {
+  parameterPath: "createUpdateGremlinDatabaseParameters",
+  mapper: GremlinDatabaseCreateUpdateParametersMapper
+};
+
+export const graphName: OperationURLParameter = {
+  parameterPath: "graphName",
   mapper: {
-    serializedName: "viewName",
+    serializedName: "graphName",
     required: true,
     type: {
       name: "String"
     }
   }
-};
-
-export const createUpdateCassandraViewParameters: OperationParameter = {
-  parameterPath: "createUpdateCassandraViewParameters",
-  mapper: CassandraViewCreateUpdateParametersMapper
-};
-
-export const createUpdateGremlinDatabaseParameters: OperationParameter = {
-  parameterPath: "createUpdateGremlinDatabaseParameters",
-  mapper: GremlinDatabaseCreateUpdateParametersMapper
 };
 
 export const createUpdateGremlinGraphParameters: OperationParameter = {
@@ -635,23 +611,7 @@ export const body: OperationParameter = {
 
 export const body1: OperationParameter = {
   parameterPath: "body",
-  mapper: RepairPostBodyMapper
-};
-
-export const backupId: OperationURLParameter = {
-  parameterPath: "backupId",
-  mapper: {
-    constraints: {
-      Pattern: new RegExp("^[0-9]+$"),
-      MaxLength: 15,
-      MinLength: 1
-    },
-    serializedName: "backupId",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
+  mapper: CommandPostBodyMapper
 };
 
 export const dataCenterName: OperationURLParameter = {
@@ -673,24 +633,4 @@ export const dataCenterName: OperationURLParameter = {
 export const body2: OperationParameter = {
   parameterPath: "body",
   mapper: DataCenterResourceMapper
-};
-
-export const createUpdateParameters1: OperationParameter = {
-  parameterPath: "createUpdateParameters",
-  mapper: ServiceResourceCreateUpdateParametersMapper
-};
-
-export const serviceName: OperationURLParameter = {
-  parameterPath: "serviceName",
-  mapper: {
-    constraints: {
-      MaxLength: 50,
-      MinLength: 3
-    },
-    serializedName: "serviceName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
 };

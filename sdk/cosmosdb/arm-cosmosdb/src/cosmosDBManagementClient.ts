@@ -6,9 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreClient from "@azure/core-client";
 import * as coreAuth from "@azure/core-auth";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   DatabaseAccountsImpl,
   OperationsImpl,
@@ -23,12 +21,12 @@ import {
   CollectionPartitionImpl,
   PartitionKeyRangeIdImpl,
   PartitionKeyRangeIdRegionImpl,
-  GraphResourcesImpl,
   SqlResourcesImpl,
   MongoDBResourcesImpl,
   TableResourcesImpl,
   CassandraResourcesImpl,
   GremlinResourcesImpl,
+  LocationsImpl,
   NotebookWorkspacesImpl,
   PrivateEndpointConnectionsImpl,
   PrivateLinkResourcesImpl,
@@ -40,8 +38,7 @@ import {
   RestorableMongodbCollectionsImpl,
   RestorableMongodbResourcesImpl,
   CassandraClustersImpl,
-  CassandraDataCentersImpl,
-  ServiceImpl
+  CassandraDataCentersImpl
 } from "./operations";
 import {
   DatabaseAccounts,
@@ -57,12 +54,12 @@ import {
   CollectionPartition,
   PartitionKeyRangeId,
   PartitionKeyRangeIdRegion,
-  GraphResources,
   SqlResources,
   MongoDBResources,
   TableResources,
   CassandraResources,
   GremlinResources,
+  Locations,
   NotebookWorkspaces,
   PrivateEndpointConnections,
   PrivateLinkResources,
@@ -74,22 +71,11 @@ import {
   RestorableMongodbCollections,
   RestorableMongodbResources,
   CassandraClusters,
-  CassandraDataCenters,
-  Service
+  CassandraDataCenters
 } from "./operationsInterfaces";
-import * as Parameters from "./models/parameters";
-import * as Mappers from "./models/mappers";
 import { CosmosDBManagementClientContext } from "./cosmosDBManagementClientContext";
-import {
-  CosmosDBManagementClientOptionalParams,
-  LocationGetResult,
-  CosmosDBManagementClientLocationListOptionalParams,
-  CosmosDBManagementClientLocationListResponse,
-  CosmosDBManagementClientLocationGetOptionalParams,
-  CosmosDBManagementClientLocationGetResponse
-} from "./models";
+import { CosmosDBManagementClientOptionalParams } from "./models";
 
-/// <reference lib="esnext.asynciterable" />
 export class CosmosDBManagementClient extends CosmosDBManagementClientContext {
   /**
    * Initializes a new instance of the CosmosDBManagementClient class.
@@ -116,12 +102,12 @@ export class CosmosDBManagementClient extends CosmosDBManagementClientContext {
     this.collectionPartition = new CollectionPartitionImpl(this);
     this.partitionKeyRangeId = new PartitionKeyRangeIdImpl(this);
     this.partitionKeyRangeIdRegion = new PartitionKeyRangeIdRegionImpl(this);
-    this.graphResources = new GraphResourcesImpl(this);
     this.sqlResources = new SqlResourcesImpl(this);
     this.mongoDBResources = new MongoDBResourcesImpl(this);
     this.tableResources = new TableResourcesImpl(this);
     this.cassandraResources = new CassandraResourcesImpl(this);
     this.gremlinResources = new GremlinResourcesImpl(this);
+    this.locations = new LocationsImpl(this);
     this.notebookWorkspaces = new NotebookWorkspacesImpl(this);
     this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
     this.privateLinkResources = new PrivateLinkResourcesImpl(this);
@@ -136,68 +122,6 @@ export class CosmosDBManagementClient extends CosmosDBManagementClientContext {
     this.restorableMongodbResources = new RestorableMongodbResourcesImpl(this);
     this.cassandraClusters = new CassandraClustersImpl(this);
     this.cassandraDataCenters = new CassandraDataCentersImpl(this);
-    this.service = new ServiceImpl(this);
-  }
-
-  /**
-   * List Cosmos DB locations and their properties
-   * @param options The options parameters.
-   */
-  public listLocationList(
-    options?: CosmosDBManagementClientLocationListOptionalParams
-  ): PagedAsyncIterableIterator<LocationGetResult> {
-    const iter = this.locationListPagingAll(options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: () => {
-        return this.locationListPagingPage(options);
-      }
-    };
-  }
-
-  private async *locationListPagingPage(
-    options?: CosmosDBManagementClientLocationListOptionalParams
-  ): AsyncIterableIterator<LocationGetResult[]> {
-    let result = await this._locationList(options);
-    yield result.value || [];
-  }
-
-  private async *locationListPagingAll(
-    options?: CosmosDBManagementClientLocationListOptionalParams
-  ): AsyncIterableIterator<LocationGetResult> {
-    for await (const page of this.locationListPagingPage(options)) {
-      yield* page;
-    }
-  }
-
-  /**
-   * List Cosmos DB locations and their properties
-   * @param options The options parameters.
-   */
-  private _locationList(
-    options?: CosmosDBManagementClientLocationListOptionalParams
-  ): Promise<CosmosDBManagementClientLocationListResponse> {
-    return this.sendOperationRequest({ options }, locationListOperationSpec);
-  }
-
-  /**
-   * Get the properties of an existing Cosmos DB location
-   * @param location Cosmos DB region, with spaces between words and each word capitalized.
-   * @param options The options parameters.
-   */
-  locationGet(
-    location: string,
-    options?: CosmosDBManagementClientLocationGetOptionalParams
-  ): Promise<CosmosDBManagementClientLocationGetResponse> {
-    return this.sendOperationRequest(
-      { location, options },
-      locationGetOperationSpec
-    );
   }
 
   databaseAccounts: DatabaseAccounts;
@@ -213,12 +137,12 @@ export class CosmosDBManagementClient extends CosmosDBManagementClientContext {
   collectionPartition: CollectionPartition;
   partitionKeyRangeId: PartitionKeyRangeId;
   partitionKeyRangeIdRegion: PartitionKeyRangeIdRegion;
-  graphResources: GraphResources;
   sqlResources: SqlResources;
   mongoDBResources: MongoDBResources;
   tableResources: TableResources;
   cassandraResources: CassandraResources;
   gremlinResources: GremlinResources;
+  locations: Locations;
   notebookWorkspaces: NotebookWorkspaces;
   privateEndpointConnections: PrivateEndpointConnections;
   privateLinkResources: PrivateLinkResources;
@@ -231,46 +155,4 @@ export class CosmosDBManagementClient extends CosmosDBManagementClientContext {
   restorableMongodbResources: RestorableMongodbResources;
   cassandraClusters: CassandraClusters;
   cassandraDataCenters: CassandraDataCenters;
-  service: Service;
 }
-// Operation Specifications
-const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
-
-const locationListOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/locations",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.LocationListResult
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.subscriptionId],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const locationGetOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/locations/{location}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.LocationGetResult
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.location1
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};

@@ -41,7 +41,10 @@ import {
   MongoDBResourcesMigrateMongoDBCollectionToAutoscaleOptionalParams,
   MongoDBResourcesMigrateMongoDBCollectionToAutoscaleResponse,
   MongoDBResourcesMigrateMongoDBCollectionToManualThroughputOptionalParams,
-  MongoDBResourcesMigrateMongoDBCollectionToManualThroughputResponse
+  MongoDBResourcesMigrateMongoDBCollectionToManualThroughputResponse,
+  ContinuousBackupRestoreLocation,
+  MongoDBResourcesRetrieveContinuousBackupInformationOptionalParams,
+  MongoDBResourcesRetrieveContinuousBackupInformationResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -488,4 +491,45 @@ export interface MongoDBResources {
   ): Promise<
     MongoDBResourcesMigrateMongoDBCollectionToManualThroughputResponse
   >;
+  /**
+   * Retrieves continuous backup information for a Mongodb collection.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param collectionName Cosmos DB collection name.
+   * @param location The name of the continuous backup restore location.
+   * @param options The options parameters.
+   */
+  beginRetrieveContinuousBackupInformation(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    collectionName: string,
+    location: ContinuousBackupRestoreLocation,
+    options?: MongoDBResourcesRetrieveContinuousBackupInformationOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<
+        MongoDBResourcesRetrieveContinuousBackupInformationResponse
+      >,
+      MongoDBResourcesRetrieveContinuousBackupInformationResponse
+    >
+  >;
+  /**
+   * Retrieves continuous backup information for a Mongodb collection.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param collectionName Cosmos DB collection name.
+   * @param location The name of the continuous backup restore location.
+   * @param options The options parameters.
+   */
+  beginRetrieveContinuousBackupInformationAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    collectionName: string,
+    location: ContinuousBackupRestoreLocation,
+    options?: MongoDBResourcesRetrieveContinuousBackupInformationOptionalParams
+  ): Promise<MongoDBResourcesRetrieveContinuousBackupInformationResponse>;
 }

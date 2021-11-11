@@ -1,4 +1,4 @@
-## 30.0.0-beta.1 (2021-09-17)
+## 15.0.0-beta.1 (2021-11-11)
 
 This is the first preview for the new version of the `@azure/arm-cosmosdb` package that follows the new [guidelines for TypeScript SDKs](https://azure.github.io/azure-sdk/typescript_introduction.html) for Azure services.
 
