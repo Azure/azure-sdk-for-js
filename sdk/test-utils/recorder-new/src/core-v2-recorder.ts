@@ -172,7 +172,7 @@ export class TestProxyHttpClient {
           }
           this.recordingId = id;
           if (isPlaybackMode()) {
-            this.variables = JSON.parse(rsp.bodyAsText ?? "{}");
+            this.variables = rsp.bodyAsText ? JSON.parse(rsp.bodyAsText) : {};
           }
           if (ensureExistence(this.sanitizer, "TestProxyHttpClient.sanitizer", this.mode)) {
             // Setting the recordingId in the sanitizer,
