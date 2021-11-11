@@ -29,10 +29,9 @@ export class PrivateLinkResources {
    * Get properties of a private link resource.
    * @summary Get a private link resource.
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param parentType The type of the parent resource. This can be either \'topics\', \'domains\',
-   * or \'partnerNamespaces\'.
-   * @param parentName The name of the parent resource (namely, either, the topic name, domain name,
-   * or partner namespace name).
+   * @param parentType The type of the parent resource. This can be either \'topics\' or \'domains\'.
+   * @param parentName The name of the parent resource (namely, either, the topic name or domain
+   * name).
    * @param privateLinkResourceName The name of private link resource.
    * @param [options] The optional parameters
    * @returns Promise<Models.PrivateLinkResourcesGetResponse>
@@ -40,20 +39,18 @@ export class PrivateLinkResources {
   get(resourceGroupName: string, parentType: string, parentName: string, privateLinkResourceName: string, options?: msRest.RequestOptionsBase): Promise<Models.PrivateLinkResourcesGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param parentType The type of the parent resource. This can be either \'topics\', \'domains\',
-   * or \'partnerNamespaces\'.
-   * @param parentName The name of the parent resource (namely, either, the topic name, domain name,
-   * or partner namespace name).
+   * @param parentType The type of the parent resource. This can be either \'topics\' or \'domains\'.
+   * @param parentName The name of the parent resource (namely, either, the topic name or domain
+   * name).
    * @param privateLinkResourceName The name of private link resource.
    * @param callback The callback
    */
   get(resourceGroupName: string, parentType: string, parentName: string, privateLinkResourceName: string, callback: msRest.ServiceCallback<Models.PrivateLinkResource>): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param parentType The type of the parent resource. This can be either \'topics\', \'domains\',
-   * or \'partnerNamespaces\'.
-   * @param parentName The name of the parent resource (namely, either, the topic name, domain name,
-   * or partner namespace name).
+   * @param parentType The type of the parent resource. This can be either \'topics\' or \'domains\'.
+   * @param parentName The name of the parent resource (namely, either, the topic name or domain
+   * name).
    * @param privateLinkResourceName The name of private link resource.
    * @param options The optional parameters
    * @param callback The callback
@@ -73,32 +70,29 @@ export class PrivateLinkResources {
   }
 
   /**
-   * List all the private link resources under a topic, domain, or partner namespace.
-   * @summary List private link resources under specific topic, domain, or partner namespace.
+   * List all the private link resources under a topic or domain.
+   * @summary List private link resources under specific topic or domain.
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param parentType The type of the parent resource. This can be either \'topics\', \'domains\',
-   * or \'partnerNamespaces\'.
-   * @param parentName The name of the parent resource (namely, either, the topic name, domain name,
-   * or partner namespace name).
+   * @param parentType The type of the parent resource. This can be either \'topics\' or \'domains\'.
+   * @param parentName The name of the parent resource (namely, either, the topic name or domain
+   * name).
    * @param [options] The optional parameters
    * @returns Promise<Models.PrivateLinkResourcesListByResourceResponse>
    */
   listByResource(resourceGroupName: string, parentType: string, parentName: string, options?: Models.PrivateLinkResourcesListByResourceOptionalParams): Promise<Models.PrivateLinkResourcesListByResourceResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param parentType The type of the parent resource. This can be either \'topics\', \'domains\',
-   * or \'partnerNamespaces\'.
-   * @param parentName The name of the parent resource (namely, either, the topic name, domain name,
-   * or partner namespace name).
+   * @param parentType The type of the parent resource. This can be either \'topics\' or \'domains\'.
+   * @param parentName The name of the parent resource (namely, either, the topic name or domain
+   * name).
    * @param callback The callback
    */
   listByResource(resourceGroupName: string, parentType: string, parentName: string, callback: msRest.ServiceCallback<Models.PrivateLinkResourcesListResult>): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param parentType The type of the parent resource. This can be either \'topics\', \'domains\',
-   * or \'partnerNamespaces\'.
-   * @param parentName The name of the parent resource (namely, either, the topic name, domain name,
-   * or partner namespace name).
+   * @param parentType The type of the parent resource. This can be either \'topics\' or \'domains\'.
+   * @param parentName The name of the parent resource (namely, either, the topic name or domain
+   * name).
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -116,8 +110,8 @@ export class PrivateLinkResources {
   }
 
   /**
-   * List all the private link resources under a topic, domain, or partner namespace.
-   * @summary List private link resources under specific topic, domain, or partner namespace.
+   * List all the private link resources under a topic or domain.
+   * @summary List private link resources under specific topic or domain.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.PrivateLinkResourcesListByResourceNextResponse>

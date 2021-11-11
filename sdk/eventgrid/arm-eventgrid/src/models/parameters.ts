@@ -49,16 +49,6 @@ export const domainTopicName: msRest.OperationURLParameter = {
     }
   }
 };
-export const eventChannelName: msRest.OperationURLParameter = {
-  parameterPath: "eventChannelName",
-  mapper: {
-    required: true,
-    serializedName: "eventChannelName",
-    type: {
-      name: "String"
-    }
-  }
-};
 export const eventSubscriptionName: msRest.OperationURLParameter = {
   parameterPath: "eventSubscriptionName",
   mapper: {
@@ -117,36 +107,6 @@ export const parentType: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "parentType",
-    type: {
-      name: "String"
-    }
-  }
-};
-export const partnerNamespaceName: msRest.OperationURLParameter = {
-  parameterPath: "partnerNamespaceName",
-  mapper: {
-    required: true,
-    serializedName: "partnerNamespaceName",
-    type: {
-      name: "String"
-    }
-  }
-};
-export const partnerRegistrationName: msRest.OperationURLParameter = {
-  parameterPath: "partnerRegistrationName",
-  mapper: {
-    required: true,
-    serializedName: "partnerRegistrationName",
-    type: {
-      name: "String"
-    }
-  }
-};
-export const partnerTopicName: msRest.OperationURLParameter = {
-  parameterPath: "partnerTopicName",
-  mapper: {
-    required: true,
-    serializedName: "partnerTopicName",
     type: {
       name: "String"
     }
