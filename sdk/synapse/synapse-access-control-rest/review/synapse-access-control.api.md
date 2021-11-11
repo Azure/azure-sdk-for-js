@@ -20,6 +20,18 @@ export default AccessControl;
 // @public (undocumented)
 export type AccessControlRestClient = Client & {
     path: Routes;
+    roleAssignments: {
+        listRoleAssignments: (options?: RoleAssignmentsListRoleAssignmentsParameters) => Promise<RoleAssignmentsListRoleAssignments200Response | RoleAssignmentsListRoleAssignmentsdefaultResponse>;
+        createRoleAssignment: (roleAssignmentId: string, options: RoleAssignmentsCreateRoleAssignmentParameters) => Promise<RoleAssignmentsCreateRoleAssignment200Response | RoleAssignmentsCreateRoleAssignmentdefaultResponse>;
+        getRoleAssignmentById: (roleAssignmentId: string, options?: RoleAssignmentsGetRoleAssignmentByIdParameters) => Promise<RoleAssignmentsGetRoleAssignmentById200Response | RoleAssignmentsGetRoleAssignmentByIddefaultResponse>;
+        deleteRoleAssignmentById: (roleAssignmentId: string, options?: RoleAssignmentsDeleteRoleAssignmentByIdParameters) => Promise<RoleAssignmentsDeleteRoleAssignmentById200Response | RoleAssignmentsDeleteRoleAssignmentById204Response | RoleAssignmentsDeleteRoleAssignmentByIddefaultResponse>;
+        checkPrincipalAccess: (options: RoleAssignmentsCheckPrincipalAccessParameters) => Promise<RoleAssignmentsCheckPrincipalAccess200Response | RoleAssignmentsCheckPrincipalAccessdefaultResponse>;
+    };
+    roleDefinitions: {
+        listRoleDefinitions: (options?: RoleDefinitionsListRoleDefinitionsParameters) => Promise<RoleDefinitionsListRoleDefinitions200Response | RoleDefinitionsListRoleDefinitionsdefaultResponse>;
+        getRoleDefinitionById: (roleDefinitionId: string, options?: RoleDefinitionsGetRoleDefinitionByIdParameters) => Promise<RoleDefinitionsGetRoleDefinitionById200Response | RoleDefinitionsGetRoleDefinitionByIddefaultResponse>;
+        listScopes: (options?: RoleDefinitionsListScopesParameters) => Promise<RoleDefinitionsListScopes200Response | RoleDefinitionsListScopesdefaultResponse>;
+    };
 };
 
 // @public (undocumented)

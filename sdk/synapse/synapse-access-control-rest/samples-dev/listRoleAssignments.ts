@@ -18,7 +18,7 @@ const endpoint = process.env["ENDPOINT"] || "";
 
 async function main() {
   const client = AccessControl(endpoint, new DefaultAzureCredential());
-  const initialResponse = await client.path("/roleAssignments").get();
+  const initialResponse = await client.roleAssignments.listRoleAssignments();
 
   if (initialResponse.status !== "200") {
     throw initialResponse.body.error;

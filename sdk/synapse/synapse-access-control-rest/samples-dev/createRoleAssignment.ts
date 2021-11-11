@@ -27,9 +27,9 @@ async function main() {
   // Workspace scope
   const scope = "workspaces/<worskpaceName>";
 
-  const result = await client
-    .path("/roleAssignments/{roleAssignmentId}", roleAssignmentId)
-    .put({ body: { principalId, roleId, scope } });
+  const result = await client.roleAssignments.createRoleAssignment(roleAssignmentId, {
+    body: { principalId, roleId, scope }
+  });
 
   if (result.status !== "200") {
     throw result.body.error;

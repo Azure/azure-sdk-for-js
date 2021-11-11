@@ -102,10 +102,7 @@ export interface RoleDefinitionsListScopes {
   /** List rbac scopes. */
   get(
     options?: RoleDefinitionsListScopesParameters
-  ): Promise<
-    | RoleDefinitionsListScopes200Response
-    | RoleDefinitionsListScopesdefaultResponse
-  >;
+  ): Promise<RoleDefinitionsListScopes200Response | RoleDefinitionsListScopesdefaultResponse>;
 }
 
 export interface Routes {
@@ -131,6 +128,60 @@ export interface Routes {
 
 export type AccessControlRestClient = Client & {
   path: Routes;
+  roleAssignments: {
+    listRoleAssignments: (
+      options?: RoleAssignmentsListRoleAssignmentsParameters
+    ) => Promise<
+      | RoleAssignmentsListRoleAssignments200Response
+      | RoleAssignmentsListRoleAssignmentsdefaultResponse
+    >;
+    createRoleAssignment: (
+      roleAssignmentId: string,
+      options: RoleAssignmentsCreateRoleAssignmentParameters
+    ) => Promise<
+      | RoleAssignmentsCreateRoleAssignment200Response
+      | RoleAssignmentsCreateRoleAssignmentdefaultResponse
+    >;
+    getRoleAssignmentById: (
+      roleAssignmentId: string,
+      options?: RoleAssignmentsGetRoleAssignmentByIdParameters
+    ) => Promise<
+      | RoleAssignmentsGetRoleAssignmentById200Response
+      | RoleAssignmentsGetRoleAssignmentByIddefaultResponse
+    >;
+    deleteRoleAssignmentById: (
+      roleAssignmentId: string,
+      options?: RoleAssignmentsDeleteRoleAssignmentByIdParameters
+    ) => Promise<
+      | RoleAssignmentsDeleteRoleAssignmentById200Response
+      | RoleAssignmentsDeleteRoleAssignmentById204Response
+      | RoleAssignmentsDeleteRoleAssignmentByIddefaultResponse
+    >;
+    checkPrincipalAccess: (
+      options: RoleAssignmentsCheckPrincipalAccessParameters
+    ) => Promise<
+      | RoleAssignmentsCheckPrincipalAccess200Response
+      | RoleAssignmentsCheckPrincipalAccessdefaultResponse
+    >;
+  };
+  roleDefinitions: {
+    listRoleDefinitions: (
+      options?: RoleDefinitionsListRoleDefinitionsParameters
+    ) => Promise<
+      | RoleDefinitionsListRoleDefinitions200Response
+      | RoleDefinitionsListRoleDefinitionsdefaultResponse
+    >;
+    getRoleDefinitionById: (
+      roleDefinitionId: string,
+      options?: RoleDefinitionsGetRoleDefinitionByIdParameters
+    ) => Promise<
+      | RoleDefinitionsGetRoleDefinitionById200Response
+      | RoleDefinitionsGetRoleDefinitionByIddefaultResponse
+    >;
+    listScopes: (
+      options?: RoleDefinitionsListScopesParameters
+    ) => Promise<RoleDefinitionsListScopes200Response | RoleDefinitionsListScopesdefaultResponse>;
+  };
 };
 
 export default function AccessControl(
@@ -147,5 +198,37 @@ export default function AccessControl(
     }
   };
 
-  return getClient(baseUrl, credentials, options) as AccessControlRestClient;
+  const client = getClient(baseUrl, credentials, options) as AccessControlRestClient;
+
+  return {
+    ...client,
+    roleAssignments: {
+      listRoleAssignments: (options?: RoleAssignmentsListRoleAssignmentsParameters) =>
+        client.path("/roleAssignments").get(options),
+      createRoleAssignment: (
+        roleAssignmentId: string,
+        options: RoleAssignmentsCreateRoleAssignmentParameters
+      ) => client.path("/roleAssignments/{roleAssignmentId}", roleAssignmentId).put(options),
+      deleteRoleAssignmentById: (
+        roleAssignmentId: string,
+        options?: RoleAssignmentsDeleteRoleAssignmentByIdParameters
+      ) => client.path("/roleAssignments/{roleAssignmentId}", roleAssignmentId).delete(options),
+      getRoleAssignmentById: (
+        roleAssignmentId: string,
+        options?: RoleAssignmentsGetRoleAssignmentByIdParameters
+      ) => client.path("/roleAssignments/{roleAssignmentId}", roleAssignmentId).get(options),
+      checkPrincipalAccess: (options: RoleAssignmentsCheckPrincipalAccessParameters) =>
+        client.path("/checkAccessSynapseRbac").post(options)
+    },
+    roleDefinitions: {
+      listRoleDefinitions: (options?: RoleDefinitionsListRoleDefinitionsParameters) =>
+        client.path("/roleDefinitions").get(options),
+      getRoleDefinitionById: (
+        roleDefinitionId: string,
+        options?: RoleDefinitionsGetRoleDefinitionByIdParameters
+      ) => client.path("/roleDefinitions/{roleDefinitionId}", roleDefinitionId).get(options),
+      listScopes: (options?: RoleDefinitionsListScopesParameters) =>
+        client.path("/rbacScopes").get(options)
+    }
+  };
 }

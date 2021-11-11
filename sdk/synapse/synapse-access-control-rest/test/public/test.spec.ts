@@ -38,7 +38,7 @@ describe("Access Control smoke", () => {
   });
 
   it("should list roles", async () => {
-    const result = await client.path("/roleDefinitions").get();
+    const result = await client.roleDefinitions.listRoleDefinitions();
 
     if (result.status !== "200") {
       assert.fail(`Unexpected status ${result.status}`);
@@ -48,7 +48,7 @@ describe("Access Control smoke", () => {
   });
 
   it("should list RBAC scopes", async () => {
-    const result = await client.path("/rbacScopes").get();
+    const result = await client.roleDefinitions.listScopes();
 
     if (result.status !== "200") {
       assert.fail(`Unexpected status ${result.status}`);
@@ -59,9 +59,9 @@ describe("Access Control smoke", () => {
 
   describe("Role Assignments", () => {
     it("should create a role assignment", async () => {
-      const result = await client
-        .path("/roleAssignments/{roleAssignmentId}", roleAssignmentId)
-        .put({ body: { principalId, roleId, scope } });
+      const result = await client.roleAssignments.createRoleAssignment(roleAssignmentId, {
+        body: { principalId, roleId, scope }
+      });
 
       if (result.status !== "200") {
         assert.fail(`Unexpected status ${result.status}\n ${JSON.stringify(result.body)}`);
@@ -71,9 +71,7 @@ describe("Access Control smoke", () => {
     });
 
     it("should get role assignment", async () => {
-      const result = await client
-        .path("/roleAssignments/{roleAssignmentId}", roleAssignmentId)
-        .get();
+      const result = await client.roleAssignments.getRoleAssignmentById(roleAssignmentId);
 
       if (result.status !== "200") {
         assert.fail(`Unexpected status ${result.status}`);
@@ -83,7 +81,7 @@ describe("Access Control smoke", () => {
     });
 
     it("should list Role Assignments", async () => {
-      const initialResponse = await client.path("/roleAssignments").get();
+      const initialResponse = await client.roleAssignments.listRoleAssignments();
 
       if (initialResponse.status !== "200") {
         assert.fail(`Unexpected status ${initialResponse.status}`);
@@ -103,9 +101,7 @@ describe("Access Control smoke", () => {
     });
 
     it("should delete role assignment", async () => {
-      const result = await client
-        .path("/roleAssignments/{roleAssignmentId}", roleAssignmentId)
-        .delete();
+      const result = await client.roleAssignments.deleteRoleAssignmentById(roleAssignmentId);
 
       assert.include(["204", "200"], result.status);
     });
