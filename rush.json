@@ -1070,6 +1070,11 @@
       "packageName": "@azure/arm-datafactory",
       "projectFolder": "sdk/datafactory/arm-datafactory",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-cdn",
+      "projectFolder": "sdk/cdn/arm-cdn",
+      "versionPolicyName": "management"
     }
   ]
 }
