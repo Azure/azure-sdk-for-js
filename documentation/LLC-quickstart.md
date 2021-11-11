@@ -3,9 +3,16 @@ Getting Started - Generate the RLC rest-level client libraries.
 # Prerequisites
 You may refer to this [link](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md#prerequisites) for the environment set up prerequisites in azure-sdk-for-js repository. 
 
+# Project folder and name convention 
+Before we start, we probably should get to know the project folder and name convention for RLC libraries. 
+1. Project Folder structure.  
+   normally, the folder structure would be something like `sdk/{servicename}/{servicename}-{modulename}-rest`. For example, we have `sdk/purview/purview-account-rest` folder for purview account modules. That folder will be your **project root folder**.  
+1. Package Name Convention.  
+   The package name for RLC is something like `@azure-rest/{servicename}-{modulename}`. For example, the package name for Purview Account module is `@azure-rest/purview-account`.
+
 # How to generate RLC
 We are working on to automatically generate everything right now, but currently we still need some manual work to get a releasable package. Here're the steps of how to get the package.
-1. **Create a swagger/README.md file.**  
+1. **Create a swagger/README.md file.under project root folder**  
     We are using autorest to generate the code, but there's a lot of command options and in order to make the regenerate process easier in the cases of refresh the rest api input or change the code generator version, you need to document the generate command parameters.  
     Here's an example of the swagger/README.md
     ~~~
@@ -19,7 +26,7 @@ We are working on to automatically generate everything right now, but currently 
     package-name: "@azure-rest/purview-account"
     title: PurviewAccount
     description: Purview Account Client
-    generate-metadata: false
+    generate-metadata: true
     license-header: MICROSOFT_MIT_NO_VERSION
     output-folder: ../
     source-code-folder-path: ./src
@@ -39,12 +46,12 @@ We are working on to automatically generate everything right now, but currently 
     
     It's always recommended to replace the version of code generator @autorest/typescript with the latest version you can find in [npmjs.com](https://www.npmjs.com/package/@autorest/typescript) in latest tag.  
     
-    **For the first time, you will need to change the generate-metadata value as true, so that it can generate the basic package.json, tsconfig.json file for you. After the first generation, you can set it back as false as we have some manual changes in this file and don't want them get overwrite by generated ones.**   
+    **After the first generation, you need to switch `generate-metadata: false`  as we have some manual changes in this file and don't want them get overwrite by generated ones.**   
     
     ---  
   
 1. **edit rush.json**  
-    As the libraries in this azure-sdk-for-js repository are managed by rush, you need to add an entry in rush.json under projects section to make sure it works. For example:
+    As the libraries in this azure-sdk-for-js repository are managed by rush, you need to add an entry in rush.json under projects section for the first time to make sure it works. For example:
     ```
         {
           "packageName": "@azure-rest/purview-account",
@@ -101,9 +108,10 @@ In order to release it, we need to add some tests for it to make sure we are del
         "test": "npm run clean && npm run build:test && npm run unit-test",
         "test:node": "npm run clean && npm run build:test && npm run unit-test:node",
         "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser",
+        "build:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c 2>&1", "build:node": "tsc -p . && cross-env ONLY_NODE=true rollup -c 2>&1", "build:test": "tsc -p . && rollup -c 2>&1",
         "unit-test": "npm run unit-test:node && npm run unit-test:browser",
-        "unit-test:node": "cross-env TEST_MODE=playback mocha -r esm --require ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 1200000 --full-trace \"test/{,!(browser)/**/}*.spec.ts\"",
-        "unit-test:browser": "cross-env TEST_MODE=playback karma start --single-run",
+        "unit-test:node": "mocha -r esm --require ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 1200000 --full-trace \"test/{,!(browser)/**/}*.spec.ts\"",
+        "unit-test:browser": "karma start --single-run",
         "integration-test:browser": "karma start --single-run",
         "integration-test:node": "nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 5000000 --full-trace \"dist-esm/test/{,!(browser)/**/}*.spec.js\"",
         "integration-test": "npm run integration-test:node && npm run integration-test:browser",
@@ -111,10 +119,18 @@ In order to release it, we need to add some tests for it to make sure we are del
     
     Then add the following test dependencies into the `devDependencies` section. 
     ~~~
-        "@azure/identity": "2.0.1",
+        "@azure/dev-tool": "^1.0.0",
+        "@azure/eslint-plugin-azure-sdk": "^3.0.0",
+        "@azure/identity": "^2.0.1",
         "@azure-tools/test-recorder": "^1.0.0",
-        "mocha": "^7.1.1",
+        "@microsoft/api-extractor": "^7.18.11",
+        "@types/chai": "^4.1.6",
+        "@types/mocha": "^7.0.2",
+        "@types/node": "^12.0.0",
+        "chai": "^4.2.0",
         "cross-env": "^7.0.2",
+        "dotenv": "^8.2.0",
+        "eslint": "^7.15.0",
         "karma-chrome-launcher": "^3.0.0",
         "karma-coverage": "^2.0.0",
         "karma-edge-launcher": "^0.4.2",
@@ -129,8 +145,16 @@ In order to release it, we need to add some tests for it to make sure we are del
         "karma-source-map-support": "~1.4.0",
         "karma-sourcemap-loader": "^0.3.8",
         "karma": "^6.2.0",
+        "mkdirp": "^1.0.4",
         "mocha-junit-reporter": "^1.18.0",
-        "nyc": "^14.0.0"
+        "mocha": "^7.1.1",
+        "nyc": "^14.0.0",
+        "prettier": "2.2.1",
+        "rimraf": "^3.0.0",
+        "rollup": "^1.16.3",
+        "source-map-support": "^0.5.9",
+        "typedoc": "0.15.2",
+        "typescript": "~4.2.0"
     ~~~
     
     --- 
@@ -151,7 +175,7 @@ In order to release it, we need to add some tests for it to make sure we are del
     ```
 1. **Update the api-extractor.json file.**  
     change the `mainEntryPointFilePath` into `"./dist-esm/src/index.d.ts"`.  
-1. **Add a karma.conf.js file for web browser tests.**  
+1. **Add a karma.conf.js file for web browser tests.under project root folder**  
     File content is like this
     ```javascript
     // Copyright (c) Microsoft Corporation.
