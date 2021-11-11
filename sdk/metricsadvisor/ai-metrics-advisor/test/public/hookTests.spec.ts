@@ -61,7 +61,7 @@ matrix([[true, false]] as const, async (useAad) => {
           name: webHookName,
           description: "description",
           hookParameter: {
-            endpoint: "https://mawebhook.azurewebsites.net/api/HttpTrigger",
+            endpoint: "https://httpbin.org/post",
             username: "user",
             password: "pass"
           }
@@ -91,7 +91,7 @@ matrix([[true, false]] as const, async (useAad) => {
         const webPatch: WebNotificationHookPatch = {
           hookType: "Webhook",
           hookParameter: {
-            endpoint: "https://mawebhook.azurewebsites.net/api/HttpTrigger",
+            endpoint: "https://httpbin.org/post",
             username: "user1",
             password: "SecretPlaceholder"
           }
@@ -100,10 +100,7 @@ matrix([[true, false]] as const, async (useAad) => {
         assert.equal(updated.hookType, webPatch.hookType);
         const webHook = updated as WebNotificationHook;
         assert.equal(webHook.hookParameter?.username, "user1");
-        assert.equal(
-          webHook.hookParameter?.endpoint,
-          "https://mawebhook.azurewebsites.net/api/HttpTrigger"
-        );
+        assert.equal(webHook.hookParameter?.endpoint, "https://httpbin.org/post");
         assert.equal(webHook.hookParameter?.password, "SecretPlaceholder");
       });
 
