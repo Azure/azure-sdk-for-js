@@ -105,6 +105,7 @@ export class CallingServerClient {
     createCallConnection(source: CommunicationIdentifier, targets: CommunicationIdentifier[], options: CreateCallConnectionOptions): Promise<CallConnection>;
     delete(deleteUrl: string, options?: DeleteOptions): Promise<RestResponse>;
     download(url: string, offset?: number, options?: DownloadOptions): Promise<ContentDownloadResponse>;
+    downloadToFile(filePath: string, contentUrl: string, offset?: number, options?: DownloadOptions): Promise<ContentDownloadResponse>;
     getCallConnection(callConnectionId: string): CallConnection;
     getRecordingProperties(recordingId: string, options?: GetRecordingPropertiesOptions): Promise<CallRecordingProperties>;
     initializeContentDownloader(): ContentDownloader;
