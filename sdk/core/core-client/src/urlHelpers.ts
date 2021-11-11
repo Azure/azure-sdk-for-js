@@ -215,8 +215,11 @@ function calculateQueryParameters(
   };
 }
 
-function simpleParseQueryParams(queryString: string): Map<string, string | string[]> {
-  const result: Map<string, string | string[]> = new Map<string, string | string[]>();
+function simpleParseQueryParams(queryString: string): Map<string, string | string[] | undefined> {
+  const result: Map<string, string | string[] | undefined> = new Map<
+    string,
+    string | string[] | undefined
+  >();
   if (!queryString || queryString[0] !== "?") {
     return result;
   }
@@ -294,6 +297,8 @@ export function appendQueryParams(
         for (const subValue of value) {
           searchPieces.push(`${name}=${subValue}`);
         }
+      } else {
+        searchPieces.push(`${name}=${value}`);
       }
     }
   }
