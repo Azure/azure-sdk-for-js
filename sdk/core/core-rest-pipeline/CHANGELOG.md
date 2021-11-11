@@ -10,6 +10,8 @@
 
 ### Bugs Fixed
 
+- Form data of `application/x-www-form-urlencoded` are now sent properly.
+
 ### Other Changes
 
 ## 1.3.2 (2021-11-04)

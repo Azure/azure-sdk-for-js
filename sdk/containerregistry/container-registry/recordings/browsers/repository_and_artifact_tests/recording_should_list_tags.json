@@ -14,13 +14,13 @@
     "connection": "keep-alive",
     "content-length": "222",
     "content-type": "application/json; charset=utf-8",
-    "date": "Mon, 20 Sep 2021 18:55:34 GMT",
+    "date": "Mon, 08 Nov 2021 20:12:35 GMT",
     "docker-distribution-api-version": "registry/2.0",
     "server": "openresty",
     "strict-transport-security": "max-age=31536000; includeSubDomains, max-age=31536000; includeSubDomains",
     "www-authenticate": "Bearer realm=\"https://myregistry.azurecr.io/oauth2/token\",service=\"myregistry.azurecr.io\",scope=\"repository:library/hello-world:metadata_read\"",
     "x-content-type-options": "nosniff",
-    "x-ms-correlation-request-id": "2d9783a6-81a8-44a6-8f23-df1b22eb547e"
+    "x-ms-correlation-request-id": "a77af777-138c-4c9e-b53b-40808444aa5d"
    }
   },
   {
@@ -34,53 +34,57 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1351",
     "content-type": "application/json; charset=utf-8",
-    "date": "Mon, 20 Sep 2021 18:55:34 GMT",
+    "date": "Mon, 08 Nov 2021 20:12:35 GMT",
     "expires": "-1",
     "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
-    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+bno\"}]}",
+    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+wst\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.12071.7 - WUS2 ProdSlices",
-    "x-ms-request-id": "b102480f-11dc-49c5-9950-a4469df58f00"
+    "x-ms-ests-server": "2.1.12197.4 - WUS2 ProdSlices",
+    "x-ms-request-id": "ef4acac9-1f78-47a5-8d3f-ce4c59cda300"
    }
   },
   {
    "method": "POST",
    "url": "https://myregistry.azurecr.io/oauth2/exchange",
-   "query": {},
+   "query": {
+    "api-version": "2021-07-01"
+   },
    "requestBody": "grant_type=access_token&service=myregistry.azurecr.io&access_token=access_token",
    "status": 200,
    "response": "{\"refresh_token\":\"sanitized.eyJleHAiOjg2NDAwMDAwMDAwMDB9.sanitized\"}",
    "responseHeaders": {
     "connection": "keep-alive",
     "content-type": "application/json; charset=utf-8",
-    "date": "Mon, 20 Sep 2021 18:55:35 GMT",
+    "date": "Mon, 08 Nov 2021 20:12:35 GMT",
     "server": "openresty",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "transfer-encoding": "chunked",
-    "x-ms-correlation-request-id": "ace88359-6ef1-4570-8089-8ac408f17649",
-    "x-ms-ratelimit-remaining-calls-per-second": "166.3"
+    "x-ms-correlation-request-id": "9d03d526-d6d2-41f2-aee4-b46357b6ff30",
+    "x-ms-ratelimit-remaining-calls-per-second": "166.366667"
    }
   },
   {
    "method": "POST",
    "url": "https://myregistry.azurecr.io/oauth2/token",
-   "query": {},
-   "requestBody": "grant_type=refresh_token&service=myregistry.azurecr.io&refresh_token=sanitized.eyJleHAiOjg2NDAwMDAwMDAwMDB9.sanitized&scope=repository%3Alibrary%2Fhello-world%3Ametadata_read",
+   "query": {
+    "api-version": "2021-07-01"
+   },
+   "requestBody": "service=myregistry.azurecr.io&scope=repository%3Alibrary%2Fhello-world%3Ametadata_read&refresh_token=sanitized.eyJleHAiOjg2NDAwMDAwMDAwMDB9.sanitized&grant_type=refresh_token",
    "status": 200,
    "response": "{\"access_token\":\"access_token\"}",
    "responseHeaders": {
     "connection": "keep-alive",
     "content-type": "application/json; charset=utf-8",
-    "date": "Mon, 20 Sep 2021 18:55:35 GMT",
+    "date": "Mon, 08 Nov 2021 20:12:35 GMT",
     "server": "openresty",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "transfer-encoding": "chunked",
-    "x-ms-correlation-request-id": "ed547d2a-e9f6-4a28-bb5d-606383493f5b",
-    "x-ms-ratelimit-remaining-calls-per-second": "166.283333"
+    "x-ms-correlation-request-id": "a4a42259-aadd-41ba-8b9c-e164a8ca2b1c",
+    "x-ms-ratelimit-remaining-calls-per-second": "166.35"
    }
   },
   {
@@ -91,18 +95,18 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"registry\":\"myregistry.azurecr.io\",\"imageName\":\"library/hello-world\",\"tags\":[{\"name\":\"latest\",\"digest\":\"sha256:5122f6204b6a3596e048758cabba3c46b1c937a46b5be6225b835d091b90e46c\",\"createdTime\":\"2021-06-01T17:44:40.8107647Z\",\"lastUpdateTime\":\"2021-06-01T17:44:40.8107647Z\",\"signed\":false,\"quarantineState\":\"Passed\",\"changeableAttributes\":{\"deleteEnabled\":true,\"writeEnabled\":true,\"readEnabled\":true,\"listEnabled\":true}},{\"name\":\"test-delete\",\"digest\":\"sha256:61bd3cb6014296e214ff4c6407a5a7e7092dfa8eefdbbec539e133e97f63e09f\",\"createdTime\":\"2021-09-20T18:54:55.6044202Z\",\"lastUpdateTime\":\"2021-09-20T18:54:55.6044202Z\",\"signed\":false,\"changeableAttributes\":{\"deleteEnabled\":true,\"writeEnabled\":true,\"readEnabled\":true,\"listEnabled\":true}},{\"name\":\"test1\",\"digest\":\"sha256:61bd3cb6014296e214ff4c6407a5a7e7092dfa8eefdbbec539e133e97f63e09f\",\"createdTime\":\"2021-06-11T19:11:38.7001063Z\",\"lastUpdateTime\":\"2021-09-20T18:50:54.0904821Z\",\"signed\":false,\"changeableAttributes\":{\"deleteEnabled\":true,\"writeEnabled\":true,\"readEnabled\":true,\"listEnabled\":true}}]}\n",
+   "response": "{\"registry\":\"myregistry.azurecr.io\",\"imageName\":\"library/hello-world\",\"tags\":[{\"name\":\"latest\",\"digest\":\"sha256:5122f6204b6a3596e048758cabba3c46b1c937a46b5be6225b835d091b90e46c\",\"createdTime\":\"2021-06-01T17:44:40.8107647Z\",\"lastUpdateTime\":\"2021-06-01T17:44:40.8107647Z\",\"signed\":false,\"changeableAttributes\":{\"deleteEnabled\":true,\"writeEnabled\":true,\"readEnabled\":true,\"listEnabled\":true}},{\"name\":\"test-delete\",\"digest\":\"sha256:37a0b92b08d4919615c3ee023f7ddb068d12b8387475d64c622ac30f45c29c51\",\"createdTime\":\"2021-11-08T20:11:57.5087151Z\",\"lastUpdateTime\":\"2021-11-08T20:11:57.5087151Z\",\"signed\":false,\"changeableAttributes\":{\"deleteEnabled\":true,\"writeEnabled\":true,\"readEnabled\":true,\"listEnabled\":true}},{\"name\":\"test1\",\"digest\":\"sha256:37a0b92b08d4919615c3ee023f7ddb068d12b8387475d64c622ac30f45c29c51\",\"createdTime\":\"2021-06-11T19:11:38.7001063Z\",\"lastUpdateTime\":\"2021-11-08T19:55:53.3335808Z\",\"signed\":false,\"changeableAttributes\":{\"deleteEnabled\":true,\"writeEnabled\":true,\"readEnabled\":true,\"listEnabled\":true}}]}\n",
    "responseHeaders": {
     "access-control-expose-headers": "Docker-Content-Digest, WWW-Authenticate, Link, X-Ms-Correlation-Request-Id",
     "connection": "keep-alive",
-    "content-length": "1049",
+    "content-length": "1022",
     "content-type": "application/json; charset=utf-8",
-    "date": "Mon, 20 Sep 2021 18:55:35 GMT",
+    "date": "Mon, 08 Nov 2021 20:12:35 GMT",
     "docker-distribution-api-version": "registry/2.0",
     "server": "openresty",
     "strict-transport-security": "max-age=31536000; includeSubDomains, max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-correlation-request-id": "d0d209a5-64c8-4394-9ffa-59712d6ad289"
+    "x-ms-correlation-request-id": "212ed344-b6d9-4856-9527-47fcfac899ba"
    }
   }
  ],
@@ -110,5 +114,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "bf6dd3e03f10e54287cb8ef760a04a1c"
+ "hash": "76dd37467bbf1e0c99121b2a85871dfa"
 }
