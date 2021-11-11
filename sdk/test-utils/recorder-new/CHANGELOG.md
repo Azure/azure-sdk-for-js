@@ -14,7 +14,7 @@
   }
   ```
 
-  Use this `recorder.variables["random-1"]` whereever you'd like to use in your test after the if-block. (This would work in all three modes - record/playback/live just by adding the if-block above)
+  Use `recorder.variables["random-1"]` to access the value of the variable after setting it. The variable can be accessed in all three modes -- record, playback, and live -- as long as it is set in record mode before it is accessed.
 
 ## 2021-10-15
 
