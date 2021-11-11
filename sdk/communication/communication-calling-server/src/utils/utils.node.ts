@@ -8,7 +8,7 @@ export function readStreamToLocalFile(
 ): Promise<void> {
   return new Promise<void>((resolve, reject) => {
     const ws = createWriteStream(filePath);
-    
+
     stream.on("error", (err: Error) => {
       reject(err);
     });
@@ -20,5 +20,5 @@ export function readStreamToLocalFile(
     ws.on("close", resolve);
 
     stream.pipe(ws);
-  })
+  });
 }

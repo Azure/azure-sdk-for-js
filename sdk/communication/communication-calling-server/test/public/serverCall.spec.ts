@@ -26,9 +26,9 @@ describe("Server Call Live Test", function() {
   describe("Recording Operations", function() {
     let recorder: Recorder;
     let connectionString: string;
-    let callingServerClient : CallingServerClient;
-    let fromUser : string;
-    let toUser : string;
+    let callingServerClient: CallingServerClient;
+    let fromUser: string;
+    let toUser: string;
 
     beforeEach(async function(this: Context) {
       recorder = record(this, environmentSetup);
@@ -97,8 +97,8 @@ describe("Server Call Live Test", function() {
 
     it("Start recording with relative url fails", async function(this: Context) {
       const groupCallId = TestUtils.getGroupId("Start recording with relative url fails");
-      let connections : CallConnection[] = [];
-      let recordingId : string | undefined;
+      let connections: CallConnection[] = [];
+      let recordingId: string | undefined;
 
       try {
         connections = await TestUtils.createCallConnections(
@@ -109,7 +109,8 @@ describe("Server Call Live Test", function() {
         );
         const callLocator: GroupCallLocator = { groupCallId: groupCallId };
 
-        recordingId = (await callingServerClient.startRecording(callLocator, "/not/absolute/url")).recordingId;
+        recordingId = (await callingServerClient.startRecording(callLocator, "/not/absolute/url"))
+          .recordingId;
       } catch (e) {
         assert.strictEqual((e as RestError).statusCode, 400);
       } finally {

@@ -763,7 +763,10 @@ export class CallingServerClient {
     recordingId: string,
     options: GetRecordingPropertiesOptions = {}
   ): Promise<CallRecordingProperties> {
-    const { span, updatedOptions } = createSpan("ServerCallRestClient-getRecordingProperties", options);
+    const { span, updatedOptions } = createSpan(
+      "ServerCallRestClient-getRecordingProperties",
+      options
+    );
 
     try {
       const { _response, ...result } = await this.serverCallRestClient.getRecordingProperties(
@@ -927,7 +930,7 @@ export class CallingServerClient {
    *                                                 at the specified path.
    */
 
-  public async downloadToFile (
+  public async downloadToFile(
     filePath: string,
     contentUrl: string,
     offset: number = 0,
@@ -945,7 +948,6 @@ export class CallingServerClient {
 
       (response as any).blobDownloadStream = undefined;
       return response;
-
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,

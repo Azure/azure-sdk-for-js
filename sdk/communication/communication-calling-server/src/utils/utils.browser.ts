@@ -2,5 +2,5 @@
 // Licensed under the MIT license.
 
 export function readStreamToLocalFile(): void {
-    /* empty */
-  }
+  /* empty */
+}
