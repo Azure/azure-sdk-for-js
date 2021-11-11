@@ -291,7 +291,7 @@ export function appendQueryParams(
   for (const [name, value] of combinedParams) {
     if (typeof value === "string") {
       searchPieces.push(`${name}=${value}`);
-    } else {
+    } else if(Array.isArray(value)) {
       if (value) {
         // QUIRK: If we get an array of values, include multiple key/value pairs
         for (const subValue of value) {
