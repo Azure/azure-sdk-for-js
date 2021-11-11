@@ -7,7 +7,7 @@ import {
   PlayAudioRequest,
   PlayAudioResult,
   AddParticipantRequest,
-  CallConnectionsAddParticipantResponse,
+  AddParticipantResult,
   RemoveParticipantRequest,
   PlayAudioToParticipantRequest,
   CancelParticipantMediaOperationRequest,
@@ -39,7 +39,7 @@ export interface CallConnection {
   /**
    * Returns the call connection id.
    */
-  getCallConnectionId(): string;
+  readonly callConnectionId: string;
 
   /**
    * Disconnect the current caller in a group-call or end a p2p-call.
@@ -58,10 +58,10 @@ export interface CallConnection {
   /**
    * Play audio.
    *
-   * @param audioFileUri - The id for the media in the AudioFileUri, using which we cache the media resource.
+   * @param audioUrl - The audio resource url.
    * @param options - Additional request options contains playAudio api options.
    */
-  playAudio(audioFileUri: string, options: PlayAudioOptions): Promise<PlayAudioResult>;
+  playAudio(audioUrl: string, options: PlayAudioOptions): Promise<PlayAudioResult>;
 
   /**
    * Add participant to the call.
@@ -72,7 +72,7 @@ export interface CallConnection {
   addParticipant(
     participant: CommunicationIdentifier,
     options?: AddParticipantOptions
-  ): Promise<CallConnectionsAddParticipantResponse>;
+  ): Promise<AddParticipantResult>;
 
   /**
    * Remove participant from the call.
@@ -89,12 +89,12 @@ export interface CallConnection {
    * Play audio to a participant.
    *
    * @param participant - The identifier of the participant.
-   * @param audioFileUri - The id for the media in the AudioFileUri, using which we cache the media resource.
+   * @param audioUrl - The audio resource url.
    * @param options - Additional request options contains playAudioToParticipant api options.
    */
   playAudioToParticipant(
     participant: CommunicationIdentifier,
-    audioFileUri: string,
+    audioUrl: string,
     options: PlayAudioOptions
   ): Promise<PlayAudioResult>;
 
@@ -118,7 +118,7 @@ export interface CallConnection {
    * @param userToUserInformation - The user to user information.
    * @param options - Additional request options contains transferCall api options.
    */
-  transferCall(
+  transfer(
     targetParticipant: CommunicationIdentifier,
     userToUserInformation: string,
     options?: TransferCallOptions
@@ -129,19 +129,12 @@ export interface CallConnection {
  * The client to do call connection operations
  */
 export class CallConnectionImpl implements CallConnection {
-  private readonly callConnectionId: string;
+  public readonly callConnectionId: string;
   private readonly callConnectionRestClient: CallConnections;
 
   constructor(callConnectionId: string, callConnectionRestClient: CallConnections) {
     this.callConnectionId = callConnectionId;
     this.callConnectionRestClient = callConnectionRestClient;
-  }
-
-  /**
-   * Returns the call connection id.
-   */
-  public getCallConnectionId(): string {
-    return this.callConnectionId;
   }
 
   /**
@@ -200,13 +193,10 @@ export class CallConnectionImpl implements CallConnection {
   /**
    * Play audio.
    *
-   * @param audioFileUri - The id for the media in the AudioFileUri, using which we cache the media resource.
+   * @param audioUrl - The audio resource url.
    * @param options - Additional request options contains playAudio api options.
    */
-  public async playAudio(
-    audioFileUri: string,
-    options: PlayAudioOptions
-  ): Promise<PlayAudioResult> {
+  public async playAudio(audioUrl: string, options: PlayAudioOptions): Promise<PlayAudioResult> {
     const { operationOptions, restOptions } = extractOperationOptions(options);
     const { span, updatedOptions } = createSpan(
       "CallConnectionRestClient-PlayAudio",
@@ -214,14 +204,14 @@ export class CallConnectionImpl implements CallConnection {
     );
 
     const request: PlayAudioRequest = {
-      audioFileUri: audioFileUri,
+      audioFileUri: audioUrl,
       loop: restOptions.loop,
       operationContext: restOptions.operationContext,
       audioFileId: restOptions.audioFileId,
-      callbackUri: restOptions.callbackUri
+      callbackUri: restOptions.callbackUrl
     };
     try {
-      const { ...result } = await this.callConnectionRestClient.playAudio(
+      const { _response, ...result } = await this.callConnectionRestClient.playAudio(
         this.callConnectionId,
         request,
         operationOptionsToRequestOptionsBase(updatedOptions)
@@ -247,7 +237,7 @@ export class CallConnectionImpl implements CallConnection {
   public async addParticipant(
     participant: CommunicationIdentifier,
     options: AddParticipantOptions = {}
-  ): Promise<CallConnectionsAddParticipantResponse> {
+  ): Promise<AddParticipantResult> {
     const { operationOptions, restOptions } = extractOperationOptions(options);
     const { span, updatedOptions } = createSpan(
       "CallConnectionRestClient-playAudio",
@@ -266,7 +256,7 @@ export class CallConnectionImpl implements CallConnection {
     };
 
     try {
-      const { ...result } = await this.callConnectionRestClient.addParticipant(
+      const { _response, ...result } = await this.callConnectionRestClient.addParticipant(
         this.callConnectionId,
         request,
         operationOptionsToRequestOptionsBase(updatedOptions)
@@ -323,12 +313,12 @@ export class CallConnectionImpl implements CallConnection {
    * Play audio to a participant.
    *
    * @param participant - The identifier of the participant.
-   * @param audioFileUri - The id for the media in the AudioFileUri, using which we cache the media resource.
+   * @param audioUrl - The audio resource url.
    * @param options - Additional request options contains playAudioToParticipant api options.
    */
   public async playAudioToParticipant(
     participant: CommunicationIdentifier,
-    audioFileUri: string,
+    audioUrl: string,
     options: PlayAudioOptions
   ): Promise<PlayAudioResult> {
     const { operationOptions, restOptions } = extractOperationOptions(options);
@@ -339,15 +329,15 @@ export class CallConnectionImpl implements CallConnection {
 
     const request: PlayAudioToParticipantRequest = {
       identifier: serializeCommunicationIdentifier(participant),
-      audioFileUri: audioFileUri,
+      audioFileUri: audioUrl,
       loop: restOptions.loop,
       operationContext: restOptions.operationContext,
       audioFileId: restOptions.audioFileId,
-      callbackUri: restOptions.callbackUri
+      callbackUri: restOptions.callbackUrl
     };
 
     try {
-      const { ...result } = await this.callConnectionRestClient.participantPlayAudio(
+      const { _response, ...result } = await this.callConnectionRestClient.participantPlayAudio(
         this.callConnectionId,
         request,
         operationOptionsToRequestOptionsBase(updatedOptions)
@@ -410,7 +400,7 @@ export class CallConnectionImpl implements CallConnection {
    * @param userToUserInformation - The user to user information.
    * @param options - Additional request options contains transferCall api options.
    */
-  public async transferCall(
+  public async transfer(
     targetParticipant: CommunicationIdentifier,
     userToUserInformation: string,
     options: TransferCallOptions = {}

@@ -3,7 +3,7 @@
 
 import { env, record, Recorder, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
 import { CallingServerClient, GroupCallLocator, CallConnection } from "../../src";
-import { CALLBACK_URI } from "./utils/constants";
+import { CALLBACK_URL } from "./utils/constants";
 import { TestUtils } from "./utils/testUtils";
 import assert from "assert";
 import { Context } from "mocha";
@@ -66,7 +66,7 @@ describe("Server Call Live Test", function() {
 
         const startCallRecordingResult = await callingServerClient.startRecording(
           callLocator,
-          CALLBACK_URI
+          CALLBACK_URL
         );
         recordingId = startCallRecordingResult.recordingId!;
         await TestUtils.delayIfLive();

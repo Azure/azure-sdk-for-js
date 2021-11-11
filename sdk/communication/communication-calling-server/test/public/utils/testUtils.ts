@@ -3,7 +3,12 @@
 
 import { env, isLiveMode, isRecordMode } from "@azure-tools/test-recorder";
 import { v4 as uuidv4, v5 as uuidv5 } from "uuid";
-import { CallingServerClient, CallConnection, GroupCallLocator } from "../../../src";
+import {
+  CallingServerClient,
+  CallConnection,
+  GroupCallLocator,
+  JoinCallOptions
+} from "../../../src";
 import { CommunicationIdentityClient } from "@azure/communication-identity";
 import * as Constants from "../utils/constants";
 
@@ -38,8 +43,8 @@ export class TestUtils {
     fromUser: string,
     toUser: string
   ): Promise<CallConnection[]> {
-    const joinCallOptions = {
-      callbackUri: Constants.CALLBACK_URI,
+    const joinCallOptions: JoinCallOptions = {
+      callbackUrl: Constants.CALLBACK_URL,
       requestedMediaTypes: ["audio"],
       requestedCallEvents: ["participantsUpdated"]
     };

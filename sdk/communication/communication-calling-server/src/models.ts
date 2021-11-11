@@ -6,6 +6,7 @@ import { PhoneNumberIdentifier } from "@azure/communication-common";
 
 import {
   CallMediaType,
+  CallRejectReason,
   CallingEventSubscriptionType,
   RecordingContentType,
   RecordingChannelType,
@@ -47,8 +48,8 @@ export interface CreateCallConnectionOptions extends OperationOptions {
   alternateCallerId?: PhoneNumberIdentifier;
   /** The subject. */
   subject?: string;
-  /** The callback URI. */
-  callbackUri: string;
+  /** The callback URL. */
+  callbackUrl: string;
   /** The requested modalities. */
   requestedMediaTypes: CallMediaType[];
   /** The requested call events to subscribe to. */
@@ -61,8 +62,8 @@ export interface CreateCallConnectionOptions extends OperationOptions {
 export interface JoinCallOptions extends OperationOptions {
   /** The subject. */
   subject?: string;
-  /** The callback URI. */
-  callbackUri: string;
+  /** The callback URL. */
+  callbackUrl: string;
   /** The requested modalities. */
   requestedMediaTypes?: CallMediaType[];
   /** The requested call events to subscribe to. */
@@ -77,10 +78,10 @@ export interface PlayAudioOptions extends OperationOptions {
   loop: boolean;
   /** The value to identify context of the operation. */
   operationContext: string;
-  /** An id for the media in the AudioFileUri, using which we cache the media resource. */
+  /** An id for the media in the AudioUrl, using which we cache the media resource. */
   audioFileId: string;
-  /** The callback Uri to receive PlayAudio status notifications. */
-  callbackUri: string;
+  /** The callback Url to receive PlayAudio status notifications. */
+  callbackUrl: string;
 }
 
 /**
@@ -96,6 +97,38 @@ export interface AddParticipantOptions extends OperationOptions {
   alternateCallerId?: string;
   /** The operation context. */
   operationContext?: string;
+}
+
+/**
+ * Options to answer call.
+ */
+export interface AnswerCallOptions extends OperationOptions {
+  /** The callback url. */
+  callbackUrl?: string;
+  /** The requested modalities. */
+  requestedMediaTypes?: CallMediaType[];
+  /** The requested call events to subscribe to. */
+  requestedCallEvents?: CallingEventSubscriptionType[];
+}
+
+/**
+ * Options to reject call.
+ */
+export interface RejectCallOptions extends OperationOptions {
+  /** The rejection reason. */
+  callRejectReason?: CallRejectReason;
+  /** The callback url. */
+  callbackUrl?: string;
+}
+
+/**
+ * Options to redirect call.
+ */
+export interface RedirectCallOptions extends OperationOptions {
+  /** The callback url. */
+  callbackUrl?: string;
+  /** The timeout for the redirect in seconds. */
+  timeoutInSeconds?: number;
 }
 
 /**

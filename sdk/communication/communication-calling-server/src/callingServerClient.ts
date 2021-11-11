@@ -8,6 +8,9 @@ import {
   CreateCallConnectionOptions,
   DownloadOptions,
   JoinCallOptions,
+  AnswerCallOptions,
+  RejectCallOptions,
+  RedirectCallOptions,
   CallLocator,
   PlayAudioOptions,
   PlayAudioToParticipantOptions,
@@ -25,10 +28,14 @@ import { CallConnections, ServerCalls } from "./generated/src/operations";
 import {
   CreateCallRequest,
   JoinCallRequest,
+  AnswerCallRequest,
+  AnswerCallResult,
+  RejectCallRequest,
+  RedirectCallRequest,
   PlayAudioWithCallLocatorRequest,
   PlayAudioResult,
   PlayAudioToParticipantWithCallLocatorRequest,
-  ServerCallsAddParticipantResponse,
+  AddParticipantResult,
   AddParticipantWithCallLocatorRequest,
   RemoveParticipantWithCallLocatorRequest,
   CancelMediaOperationWithCallLocatorRequest,
@@ -182,7 +189,7 @@ export class CallingServerClient {
     const request: CreateCallRequest = {
       source: serializeCommunicationIdentifier(source),
       targets: targets.map((m) => serializeCommunicationIdentifier(m)),
-      callbackUri: restOptions.callbackUri,
+      callbackUri: restOptions.callbackUrl,
       requestedMediaTypes: restOptions.requestedMediaTypes,
       requestedCallEvents: restOptions.requestedCallEvents,
       alternateCallerId:
@@ -193,7 +200,7 @@ export class CallingServerClient {
     };
 
     try {
-      const { ...result } = await this.callConnectionRestClient.createCall(
+      const { _response, ...result } = await this.callConnectionRestClient.createCall(
         request,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
@@ -231,14 +238,14 @@ export class CallingServerClient {
     const request: JoinCallRequest = {
       callLocator: serializeCallLocator(callLocator),
       source: serializeCommunicationIdentifier(source),
-      callbackUri: restOptions.callbackUri,
+      callbackUri: restOptions.callbackUrl,
       requestedMediaTypes: restOptions.requestedMediaTypes,
       requestedCallEvents: restOptions.requestedCallEvents,
       subject: undefined
     };
 
     try {
-      const { ...result } = await this.serverCallRestClient.joinCall(
+      const { _response, ...result } = await this.serverCallRestClient.joinCall(
         request,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
@@ -263,12 +270,12 @@ export class CallingServerClient {
    * Play audio using callLocator.
    *
    * @param callLocator - The callLocator contains call id.
-   * @param audioFileUri - The id for the media in the AudioFileUri, using which we cache the media resource.
+   * @param audioUrl - The audio resource url.
    * @param options - Additional request options contains playAudio api options.
    */
   public async playAudio(
     callLocator: CallLocator,
-    audioFileUri: string,
+    audioUrl: string,
     options: PlayAudioOptions
   ): Promise<PlayAudioResult> {
     const { operationOptions, restOptions } = extractOperationOptions(options);
@@ -276,15 +283,15 @@ export class CallingServerClient {
 
     const request: PlayAudioWithCallLocatorRequest = {
       callLocator: callLocator,
-      audioFileUri: audioFileUri,
+      audioFileUri: audioUrl,
       loop: restOptions.loop,
       operationContext: restOptions.operationContext,
       audioFileId: restOptions.audioFileId,
-      callbackUri: restOptions.callbackUri
+      callbackUri: restOptions.callbackUrl
     };
 
     try {
-      const { ...result } = await this.serverCallRestClient.playAudio(
+      const { _response, ...result } = await this.serverCallRestClient.playAudio(
         request,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
@@ -305,13 +312,13 @@ export class CallingServerClient {
    *
    * @param callLocator - The callLocator contains call id.
    * @param participant - The identifier of the participant.
-   * @param audioFileUri - The id for the media in the AudioFileUri, using which we cache the media resource.
+   * @param audioUrl - The audio resource url.
    * @param options - Additional request options contains playAudioToParticipant api options.
    */
   public async playAudioToParticipant(
     callLocator: CallLocator,
     participant: CommunicationIdentifier,
-    audioFileUri: string,
+    audioUrl: string,
     options: PlayAudioToParticipantOptions
   ): Promise<PlayAudioResult> {
     const { operationOptions, restOptions } = extractOperationOptions(options);
@@ -320,15 +327,15 @@ export class CallingServerClient {
     const request: PlayAudioToParticipantWithCallLocatorRequest = {
       callLocator: callLocator,
       identifier: serializeCommunicationIdentifier(participant),
-      audioFileUri: audioFileUri,
+      audioFileUri: audioUrl,
       loop: restOptions.loop,
       operationContext: restOptions.operationContext,
       audioFileId: restOptions.audioFileId,
-      callbackUri: restOptions.callbackUri
+      callbackUri: restOptions.callbackUrl
     };
 
     try {
-      const { ...result } = await this.serverCallRestClient.participantPlayAudio(
+      const { _response, ...result } = await this.serverCallRestClient.participantPlayAudio(
         request,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
@@ -349,15 +356,15 @@ export class CallingServerClient {
    *
    * @param callLocator - The callLocator contains call id.
    * @param participant - The identifier of the participant.
-   * @param callbackUri - The callback uri to receive the notification.
+   * @param callbackUrl - The callback url to receive the notification.
    * @param options - Additional request options contains addParticipant api options.
    */
   public async addParticipant(
     callLocator: CallLocator,
     participant: CommunicationIdentifier,
-    callbackUri: string,
+    callbackUrl: string,
     options: AddParticipantOptions = {}
-  ): Promise<ServerCallsAddParticipantResponse> {
+  ): Promise<AddParticipantResult> {
     const { operationOptions, restOptions } = extractOperationOptions(options);
     const { span, updatedOptions } = createSpan("ServerCallRestClient-playAudio", operationOptions);
     const alternate_caller_id =
@@ -371,11 +378,11 @@ export class CallingServerClient {
       participant: serializeCommunicationIdentifier(participant),
       alternateCallerId: alternate_caller_id,
       operationContext: restOptions?.operationContext,
-      callbackUri: callbackUri
+      callbackUri: callbackUrl
     };
 
     try {
-      const { ...result } = await this.serverCallRestClient.addParticipant(
+      const { _response, ...result } = await this.serverCallRestClient.addParticipant(
         request,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
@@ -465,6 +472,125 @@ export class CallingServerClient {
   }
 
   /**
+   * Answer the call.
+   *
+   * @param incomingCallContext - The context associated with the call.
+   * @param options - Additional request options contains answerCall api options.
+   */
+  public async answerCall(
+    incomingCallContext: string,
+    options: AnswerCallOptions = {}
+  ): Promise<AnswerCallResult> {
+    const { operationOptions, restOptions } = extractOperationOptions(options);
+    const { span, updatedOptions } = createSpan(
+      "ServerCallRestClient-answerCall",
+      operationOptions
+    );
+
+    const request: AnswerCallRequest = {
+      incomingCallContext: incomingCallContext,
+      callbackUri: restOptions.callbackUrl,
+      requestedCallEvents: restOptions.requestedCallEvents,
+      requestedMediaTypes: restOptions.requestedMediaTypes
+    };
+
+    try {
+      const { _response, ...result } = await this.serverCallRestClient.answerCall(
+        request,
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+      return result;
+    } catch (e) {
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Reject the call.
+   *
+   * @param incomingCallContext - The context associated with the call.
+   * @param options - Additional request options contains rejectCall api options.
+   */
+  public async rejectCall(
+    incomingCallContext: string,
+    options: RejectCallOptions = {}
+  ): Promise<void> {
+    const { operationOptions, restOptions } = extractOperationOptions(options);
+    const { span, updatedOptions } = createSpan(
+      "ServerCallRestClient-rejectCall",
+      operationOptions
+    );
+
+    const request: RejectCallRequest = {
+      incomingCallContext: incomingCallContext,
+      callRejectReason: restOptions.callRejectReason,
+      callbackUri: restOptions.callbackUrl
+    };
+
+    try {
+      await this.serverCallRestClient.rejectCall(
+        request,
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+    } catch (e) {
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Reject the call.
+   *
+   * @param incomingCallContext - The context associated with the call.
+   * @param targets - The target identity to redirect the call to.
+   * @param options - Additional request options contains redirectCall api options.
+   */
+  public async redirectCall(
+    incomingCallContext: string,
+    targets: CommunicationIdentifier[],
+    options: RedirectCallOptions = {}
+  ): Promise<void> {
+    const { operationOptions, restOptions } = extractOperationOptions(options);
+    const { span, updatedOptions } = createSpan(
+      "ServerCallRestClient-redirectCall",
+      operationOptions
+    );
+
+    const request: RedirectCallRequest = {
+      incomingCallContext: incomingCallContext,
+      targets: targets.map((m) => serializeCommunicationIdentifier(m)),
+      callbackUri: restOptions.callbackUrl,
+      timeoutInSeconds: restOptions.timeoutInSeconds
+    };
+
+    try {
+      await this.serverCallRestClient.redirectCall(
+        request,
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+    } catch (e) {
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
    * Cancel media operation of a participant using call_locator.
    *
    * @param callLocator - The callLocator contains call id.
@@ -519,6 +645,18 @@ export class CallingServerClient {
   ): Promise<StartCallRecordingResult> {
     const { span, updatedOptions } = createSpan("ServerCallRestClient-StartRecording", options);
 
+    if (typeof callLocator === "undefined" || !callLocator) {
+      throw new Error("callLocator is invalid.");
+    }
+
+    if (
+      typeof recordingStateCallbackUrl === "undefined" ||
+      !recordingStateCallbackUrl ||
+      !CallingServerUtils.isValidUrl(recordingStateCallbackUrl)
+    ) {
+      throw new Error("recordingStateCallbackUrl is invalid.");
+    }
+
     const startCallRecordingWithCallLocatorRequest: StartCallRecordingWithCallLocatorRequest = {
       callLocator: serializeCallLocator(callLocator),
       recordingStateCallbackUri: recordingStateCallbackUrl,
@@ -526,10 +664,11 @@ export class CallingServerClient {
     };
 
     try {
-      return await this.serverCallRestClient.startRecording(
+      const { _response, ...result } = await this.serverCallRestClient.startRecording(
         startCallRecordingWithCallLocatorRequest,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
+      return result;
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -653,7 +792,7 @@ export class CallingServerClient {
     }
 
     try {
-      const result = await this.serverCallRestClient.getRecordingProperties(
+      const { _response, ...result } = await this.serverCallRestClient.getRecordingProperties(
         recordingId,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
