@@ -1,8 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { FormDataMap } from "../interfaces";
-
 /**
  * A constant that indicates whether the environment the code is running is Node.JS.
  * @internal
@@ -58,26 +56,4 @@ export function isObject(input: unknown): input is UnknownObject {
     !(input instanceof RegExp) &&
     !(input instanceof Date)
   );
-}
-
-/**
- * @internal
- * @returns result of form data encoded for application/x-www-form-urlencoded content type.
- *          See https://www.w3.org/TR/html401/interact/forms.html#h-17.13.4 for more details.
- */
-export function urlEncode(formData: FormDataMap) {
-  const result: string[] = [];
-  for (const formKey of Object.keys(formData)) {
-    const formValue = formData[formKey];
-    let value = "";
-    if (Array.isArray(formValue)) {
-      for (const subValue of formValue) {
-        value += `${encodeURIComponent(formKey)}=${encodeURIComponent(String(subValue))}`;
-      }
-    } else {
-      value += `${encodeURIComponent(formKey)}=${encodeURIComponent(String(formValue))}`;
-    }
-    result.push(value);
-  }
-  return result.join("&");
 }

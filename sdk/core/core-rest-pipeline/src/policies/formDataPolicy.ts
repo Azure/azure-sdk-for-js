@@ -4,7 +4,6 @@
 import FormData from "form-data";
 import { PipelineResponse, PipelineRequest, SendRequest, FormDataMap } from "../interfaces";
 import { PipelinePolicy } from "../pipeline";
-import { urlEncode } from "../util/helpers";
 
 /**
  * The programmatic identifier of the formDataPolicy.
@@ -21,7 +20,7 @@ export function formDataPolicy(): PipelinePolicy {
       if (request.formData) {
         const contentType = request.headers.get("Content-Type");
         if (contentType && contentType.indexOf("application/x-www-form-urlencoded") !== -1) {
-          request.body = urlEncode(request.formData);
+          request.body = wwwFormUrlEncode(request.formData);
           request.formData = undefined;
         } else {
           prepareFormData(request.formData, request);
@@ -30,6 +29,20 @@ export function formDataPolicy(): PipelinePolicy {
       return next(request);
     }
   };
+}
+
+function wwwFormUrlEncode(formData: FormDataMap): string {
+  const urlSearchParams = new URLSearchParams();
+  for (const [key, value] of Object.entries(formData)) {
+    if (Array.isArray(value)) {
+      for (const subValue of value) {
+        urlSearchParams.append(key, subValue.toString());
+      }
+    } else {
+      urlSearchParams.append(key, value.toString());
+    }
+  }
+  return urlSearchParams.toString();
 }
 
 async function prepareFormData(formData: FormDataMap, request: PipelineRequest): Promise<void> {
