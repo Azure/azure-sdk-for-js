@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { FileInfo } from "./findMatchingFiles";
+import { FileInfo } from "../findMatchingFiles";
 
 /**
  * The oldest Node version that we guarantee sample programs will support.

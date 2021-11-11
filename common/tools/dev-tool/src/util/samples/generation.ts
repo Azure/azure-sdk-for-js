@@ -6,7 +6,7 @@
  * about generating samples.
  */
 
-import { SampleConfiguration } from "./sampleConfiguration";
+import { SampleConfiguration } from "./configuration";
 
 export const DEV_SAMPLES_BASE = "samples-dev";
 export const PUBLIC_SAMPLES_BASE = "samples";

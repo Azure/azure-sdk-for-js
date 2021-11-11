@@ -14,7 +14,7 @@ import path from "path";
 import devToolPackageJson from "../../../package.json";
 import { leafCommand, makeCommandInfo } from "../../framework/command";
 import instantiateSampleReadme from "../../templates/sampleReadme.md";
-import { processSources } from "../../transpilers/samples";
+import { processSources } from "../../util/samples/processor";
 import { copy, dir, file, FileTreeFactory, temp } from "../../util/fileTree";
 import { findMatchingFiles } from "../../util/findMatchingFiles";
 import { createPrinter } from "../../util/printer";
@@ -23,7 +23,7 @@ import {
   getSampleConfiguration,
   MIN_SUPPORTED_NODE_VERSION,
   SampleConfiguration
-} from "../../util/sampleConfiguration";
+} from "../../util/samples/configuration";
 import {
   AZSDK_META_TAG_PREFIX,
   DEFAULT_TYPESCRIPT_CONFIG,
@@ -31,7 +31,7 @@ import {
   OutputKind,
   PUBLIC_SAMPLES_BASE,
   SampleGenerationInfo
-} from "../../util/sampleGenerationInfo";
+} from "../../util/samples/generation";
 
 const log = createPrinter("publish");
 

@@ -4,7 +4,7 @@
 import { assert } from "chai";
 
 import { FileInfo } from "../../src/util/findMatchingFiles";
-import { shouldSkip } from "../../src/util/sampleConfiguration";
+import { shouldSkip } from "../../src/util/samples/configuration";
 
 import path from "path";
 

@@ -4,7 +4,7 @@
 import fs from "fs-extra";
 import path from "path";
 import { createPrinter } from "./printer";
-import { shouldSkip } from "./sampleConfiguration";
+import { shouldSkip } from "./samples/configuration";
 
 const { debug, info: logInfo } = createPrinter("find-matching-files");
 

@@ -6,7 +6,7 @@ import YAML from "yaml";
 
 import prettier from "prettier";
 
-import { SampleReadmeConfiguration } from "../util/sampleGenerationInfo";
+import { SampleReadmeConfiguration } from "../util/samples/generation";
 
 /**
  * Renders the frontmatter of the sample README.
