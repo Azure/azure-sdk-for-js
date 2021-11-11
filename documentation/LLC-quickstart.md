@@ -347,7 +347,7 @@ In order to release it, we need to add some tests for it to make sure we are del
      */
     
     import { Recorder } from "@azure-tools/test-recorder";
-    import * as assert from "assert";
+    import { assert } from "chai";
     import { createRecorder } from "./utils/recordedClient";
     
     describe("My test", () => {
@@ -362,7 +362,8 @@ In order to release it, we need to add some tests for it to make sure we are del
       });
     
       it("sample test", async function() {
-        console.log("Hi, I'm a test!");
+        // Use assert to test your assumptions
+        assert.equal(1,1)
       });
     });
     ```
@@ -376,13 +377,9 @@ Now we can use the exact same steps to build an releasable artifact.
 rush update
 rush build -t <your-package-name>
 cd <your-sdk-folder>
+export TEST_MODE=record && rushx test
 rushx pack
 ``` 
---- 
-**NOTE** 
-Run the command in azure-sdk-for-js root folder.
-
---- 
 
 # Create/Update the ci.yaml
 
