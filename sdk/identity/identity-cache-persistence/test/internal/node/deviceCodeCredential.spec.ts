@@ -11,7 +11,7 @@ import { isLiveMode } from "@azure-tools/test-recorder";
 
 import { DeviceCodeCredential, TokenCachePersistenceOptions } from "../../../../identity/src";
 import { MsalTestCleanup, msalNodeTestSetup } from "../../../../identity/test/msalTestUtils";
-import { MsalNode } from "../../../../identity/src/msal/nodeFlows/nodeCommon";
+import { MsalNode } from "../../../../identity/src/msal/nodeFlows/msalNodeCommon";
 
 import { createPersistence } from "./setup.spec";
 

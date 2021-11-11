@@ -8,6 +8,97 @@
 
 import * as coreClient from "@azure/core-client";
 
+export const SchemaGroups: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SchemaGroups",
+    modelProperties: {
+      schemaGroups: {
+        serializedName: "schemaGroups",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ErrorModel: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ErrorModel",
+    modelProperties: {
+      error: {
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "ErrorDetail"
+        }
+      }
+    }
+  }
+};
+
+export const ErrorDetail: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ErrorDetail",
+    modelProperties: {
+      code: {
+        serializedName: "code",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        serializedName: "message",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      details: {
+        serializedName: "details",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ErrorDetail"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const SchemaVersions: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SchemaVersions",
+    modelProperties: {
+      schemaVersions: {
+        serializedName: "schemaVersions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Number"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const SchemaId: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -34,8 +125,8 @@ export const SchemaGetByIdHeaders: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      serializationType: {
-        serializedName: "serialization-type",
+      contentType: {
+        serializedName: "content-type",
         type: {
           name: "String"
         }
@@ -48,6 +139,18 @@ export const SchemaGetByIdHeaders: coreClient.CompositeMapper = {
       },
       schemaIdLocation: {
         serializedName: "schema-id-location",
+        type: {
+          name: "String"
+        }
+      },
+      schemaGroupName: {
+        serializedName: "schema-group-name",
+        type: {
+          name: "String"
+        }
+      },
+      schemaName: {
+        serializedName: "schema-name",
         type: {
           name: "String"
         }
@@ -73,12 +176,6 @@ export const SchemaQueryIdByContentHeaders: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      serializationType: {
-        serializedName: "serialization-type",
-        type: {
-          name: "String"
-        }
-      },
       schemaId: {
         serializedName: "schema-id",
         type: {
@@ -87,6 +184,18 @@ export const SchemaQueryIdByContentHeaders: coreClient.CompositeMapper = {
       },
       schemaIdLocation: {
         serializedName: "schema-id-location",
+        type: {
+          name: "String"
+        }
+      },
+      schemaGroupName: {
+        serializedName: "schema-group-name",
+        type: {
+          name: "String"
+        }
+      },
+      schemaName: {
+        serializedName: "schema-name",
         type: {
           name: "String"
         }
@@ -112,12 +221,6 @@ export const SchemaRegisterHeaders: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      serializationType: {
-        serializedName: "serialization-type",
-        type: {
-          name: "String"
-        }
-      },
       schemaId: {
         serializedName: "schema-id",
         type: {
@@ -126,6 +229,18 @@ export const SchemaRegisterHeaders: coreClient.CompositeMapper = {
       },
       schemaIdLocation: {
         serializedName: "schema-id-location",
+        type: {
+          name: "String"
+        }
+      },
+      schemaGroupName: {
+        serializedName: "schema-group-name",
+        type: {
+          name: "String"
+        }
+      },
+      schemaName: {
+        serializedName: "schema-name",
         type: {
           name: "String"
         }

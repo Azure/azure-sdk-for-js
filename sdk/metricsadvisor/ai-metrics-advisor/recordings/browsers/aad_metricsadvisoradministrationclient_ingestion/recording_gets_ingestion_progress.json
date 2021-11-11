@@ -4,14 +4,14 @@
    "method": "POST",
    "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
    "query": {},
-   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default",
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fsanitized%2F",
    "status": 200,
    "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
    "responseHeaders": {
     "cache-control": "no-store, no-cache",
     "content-length": "1331",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 02 Jun 2021 17:32:03 GMT",
+    "date": "Mon, 08 Nov 2021 09:43:36 GMT",
     "expires": "-1",
     "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
@@ -20,8 +20,8 @@
     "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+wst\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11722.26 - EUS ProdSlices",
-    "x-ms-request-id": "95f181c7-5430-41d4-8124-d114372cd400"
+    "x-ms-ests-server": "2.1.12197.4 - SCUS ProdSlices",
+    "x-ms-request-id": "78b77afd-3b6c-4f96-bdac-c3aaa8efc200"
    }
   },
   {
@@ -30,16 +30,16 @@
    "query": {},
    "requestBody": null,
    "status": 200,
-   "response": "{\"latestSuccessTimestamp\":\"2021-03-10T00:00:00Z\",\"latestActiveTimestamp\":\"2021-06-01T00:00:00Z\"}",
+   "response": "{\"latestSuccessTimestamp\":\"2021-11-07T00:00:00Z\",\"latestActiveTimestamp\":\"2021-11-07T00:00:00Z\"}",
    "responseHeaders": {
-    "apim-request-id": "4b3377da-bb9d-47c0-8e10-d645b297be71",
+    "apim-request-id": "20012325-06dc-4fdc-8c8e-062ba0c56217",
     "content-length": "96",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 02 Jun 2021 17:32:04 GMT",
+    "date": "Mon, 08 Nov 2021 09:43:37 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "121",
-    "x-request-id": "4b3377da-bb9d-47c0-8e10-d645b297be71"
+    "x-envoy-upstream-service-time": "312",
+    "x-request-id": "20012325-06dc-4fdc-8c8e-062ba0c56217"
    }
   }
  ],
@@ -47,5 +47,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "2f94d9e0666aee195b8887019df8adb5"
+ "hash": "6bdb7b0680a77cf43ab8086407b7e7d8"
 }

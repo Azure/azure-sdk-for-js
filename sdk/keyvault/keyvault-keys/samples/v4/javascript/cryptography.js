@@ -7,7 +7,7 @@
 
 const { createHash } = require("crypto");
 
-const { KeyClient, CryptographyClient } = require("@azure/keyvault-keys");
+const { CryptographyClient, KeyClient } = require("@azure/keyvault-keys");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 // Load the .env file if it exists
@@ -71,8 +71,7 @@ async function main() {
   await client.beginDeleteKey(keyName);
 }
 
-main().catch((err) => {
-  console.log("error code: ", err.code);
-  console.log("error message: ", err.message);
-  console.log("error stack: ", err.stack);
+main().catch((error) => {
+  console.error("An error occurred:", error);
+  process.exit(1);
 });

@@ -76,8 +76,8 @@
     "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser",
     "test:node": "npm run clean && npm run build:test && npm run unit-test:node",
     "test": "npm run clean && npm run build:test && npm run unit-test",
-    "unit-test:browser": "cross-env TEST_MODE=playback karma start --single-run",
-    "unit-test:node": "cross-env TEST_MODE=playback mocha -r esm --require ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 1200000 --full-trace \"test/{,!(browser)/**/}*.spec.ts\"",
+    "unit-test:browser": "cross-env karma start --single-run",
+    "unit-test:node": "cross-env mocha -r esm --require ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 1200000 --full-trace \"test/{,!(browser)/**/}*.spec.ts\"",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "docs": "typedoc --excludePrivate --excludeExternals  --out ./dist/docs ./src"
   },
@@ -94,7 +94,7 @@
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "@azure/identity": "^1.1.0",
+    "@azure/identity": "^2.0.1",
     "@azure-tools/test-recorder": "^1.0.0",
     "@microsoft/api-extractor": "^7.18.11",
     "@types/chai": "^4.1.6",

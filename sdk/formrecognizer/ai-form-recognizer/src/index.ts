@@ -22,8 +22,6 @@ export {
   DocumentFieldType,
   DocumentKeyValueElement,
   DocumentKeyValuePair,
-  DocumentLine,
-  DocumentPage,
   DocumentSelectionMark,
   DocumentSignatureType,
   DocumentSpan,
@@ -49,6 +47,8 @@ export {
 export {
   AnalysisPoller,
   AnalyzeResult,
+  DocumentPage,
+  DocumentLine,
   DocumentAnalysisPollOperationState,
   AnalyzedDocument,
   FormRecognizerRequestBody,

@@ -380,6 +380,10 @@ export interface ServiceGenerateAccountSasUrlOptions {
    * Optional. IP range allowed.
    */
   ipRange?: SasIPRange;
+  /**
+   * Optional. Encryption scope to use when sending requests authorized with this SAS URI.
+   */
+  encryptionScope?: string;
 }
 
 /**

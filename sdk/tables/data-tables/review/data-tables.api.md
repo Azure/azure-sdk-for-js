@@ -82,7 +82,7 @@ export type DeleteTableEntityResponse = TableDeleteEntityHeaders;
 // @public
 export interface Edm<T extends EdmTypes> {
     type: T;
-    value: T extends "Binary" ? Uint8Array : T extends "Boolean" ? boolean : T extends "Double" ? number : T extends "Int32" ? number : string;
+    value: T extends "Binary" ? string : T extends "Boolean" ? boolean : T extends "Double" ? number : T extends "Int32" ? number : string;
 }
 
 // @public
@@ -323,6 +323,11 @@ export interface TableItem {
 }
 
 // @public
+export interface TableItemResultPage extends Array<TableItem> {
+    continuationToken?: string;
+}
+
+// @public
 export interface TableMergeEntityHeaders {
     clientRequestId?: string;
     date?: Date;
@@ -375,7 +380,7 @@ export class TableServiceClient {
     static fromConnectionString(connectionString: string, options?: TableServiceClientOptions): TableServiceClient;
     getProperties(options?: OperationOptions): Promise<GetPropertiesResponse>;
     getStatistics(options?: OperationOptions): Promise<GetStatisticsResponse>;
-    listTables(options?: ListTableItemsOptions): PagedAsyncIterableIterator<TableItem, TableItem[]>;
+    listTables(options?: ListTableItemsOptions): PagedAsyncIterableIterator<TableItem, TableItemResultPage>;
     pipeline: Pipeline;
     setProperties(properties: ServiceProperties, options?: SetPropertiesOptions): Promise<SetPropertiesResponse>;
     url: string;

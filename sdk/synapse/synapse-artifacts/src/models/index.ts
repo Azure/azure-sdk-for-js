@@ -8,7 +8,7 @@
 
 import * as coreClient from "@azure/core-client";
 
-export type DataFlowUnion = DataFlow | MappingDataFlow;
+export type DataFlowUnion = DataFlow | MappingDataFlow | Flowlet;
 export type IntegrationRuntimeUnion =
   | IntegrationRuntime
   | ManagedIntegrationRuntime
@@ -247,14 +247,6 @@ export type DatasetStorageFormatUnion =
   | AvroFormat
   | OrcFormat
   | ParquetFormat;
-export type DatasetCompressionUnion =
-  | DatasetCompression
-  | DatasetBZip2Compression
-  | DatasetGZipCompression
-  | DatasetDeflateCompression
-  | DatasetZipDeflateCompression
-  | DatasetTarCompression
-  | DatasetTarGZipCompression;
 export type WebLinkedServiceTypePropertiesUnion =
   | WebLinkedServiceTypeProperties
   | WebAnonymousAuthentication
@@ -533,6 +525,8 @@ export interface KqlScriptContentMetadata {
 
 export interface KqlScriptContentCurrentConnection {
   name?: string;
+  poolName?: string;
+  databaseName?: string;
   type?: string;
 }
 
@@ -720,7 +714,7 @@ export interface LibraryInfo {
 /** Azure Synapse nested object which contains a flow with data movements and transformations. */
 export interface DataFlow {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "MappingDataFlow";
+  type: "MappingDataFlow" | "Flowlet";
   /** The description of the data flow. */
   description?: string;
   /** List of tags that can be used for describing the data flow. */
@@ -829,6 +823,8 @@ export interface DataFlowDebugPackage {
   sessionId?: string;
   /** Data flow instance. */
   dataFlow?: DataFlowDebugResource;
+  /** List of Data flows */
+  dataFlows?: DataFlowDebugResource[];
   /** List of datasets. */
   datasets?: DatasetDebugResource[];
   /** List of linked services. */
@@ -2361,6 +2357,8 @@ export interface DataFlowReference {
   referenceName: string;
   /** Reference data flow parameters from dataset. */
   datasetParameters?: any;
+  /** Data flow parameters */
+  parameters?: { [propertyName: string]: any };
 }
 
 /** Rerun tumbling window trigger Parameters. */
@@ -2454,6 +2452,8 @@ export interface StartDataFlowDebugSessionRequest {
   sessionId?: string;
   /** Data flow instance. */
   dataFlow?: DataFlowResource;
+  /** List of Data flows */
+  dataFlows?: DataFlowResource[];
   /** List of datasets. */
   datasets?: DatasetResource[];
   /** List of linked services. */
@@ -2530,6 +2530,12 @@ export interface Transformation {
   name: string;
   /** Transformation description. */
   description?: string;
+  /** Dataset reference. */
+  dataset?: DatasetReference;
+  /** Linked service reference. */
+  linkedService?: LinkedServiceReference;
+  /** Flowlet Reference */
+  flowlet?: DataFlowReference;
 }
 
 /** Dataset location. */
@@ -2592,10 +2598,12 @@ export interface DatasetStorageFormat {
 
 /** The compression method used on a dataset. */
 export interface DatasetCompression {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "BZip2" | "GZip" | "Deflate" | "ZipDeflate" | "Tar" | "TarGZip";
   /** Describes unknown properties. The value of an unknown property can be of "any" type. */
   [property: string]: any;
+  /** Type of dataset compression. Type: string (or Expression with resultType string). */
+  type: any;
+  /** The dataset compression level. Type: string (or Expression with resultType string). */
+  level?: any;
 }
 
 /** Base definition of WebLinkedServiceTypeProperties, this typeProperties is polymorphic based on authenticationType, so not flattened in SDK models. */
@@ -3481,6 +3489,24 @@ export type MappingDataFlow = DataFlow & {
   transformations?: Transformation[];
   /** DataFlow script. */
   script?: string;
+  /** Data flow script lines. */
+  scriptLines?: string[];
+};
+
+/** Data flow flowlet */
+export type Flowlet = DataFlow & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "Flowlet";
+  /** List of sources in Flowlet. */
+  sources?: DataFlowSource[];
+  /** List of sinks in Flowlet. */
+  sinks?: DataFlowSink[];
+  /** List of transformations in Flowlet. */
+  transformations?: Transformation[];
+  /** Flowlet script. */
+  script?: string;
+  /** Flowlet script lines. */
+  scriptLines?: string[];
 };
 
 /** Integration runtime debug resource. */
@@ -3551,7 +3577,7 @@ export type AmazonS3Dataset = Dataset & {
   /** The format of files. */
   format?: DatasetStorageFormatUnion;
   /** The data compression method used for the Amazon S3 object. */
-  compression?: DatasetCompressionUnion;
+  compression?: DatasetCompression;
 };
 
 /** Avro dataset. */
@@ -3578,7 +3604,7 @@ export type ExcelDataset = Dataset & {
   /** When used as input, treat the first row of data as headers. When used as output,write the headers into the output as the first row of data. The default value is false. Type: boolean (or Expression with resultType boolean). */
   firstRowAsHeader?: any;
   /** The data compression method used for the json dataset. */
-  compression?: DatasetCompressionUnion;
+  compression?: DatasetCompression;
   /** The null value string. Type: string (or Expression with resultType string). */
   nullValue?: any;
 };
@@ -3628,7 +3654,7 @@ export type JsonDataset = Dataset & {
   /** The code page name of the preferred encoding. If not specified, the default value is UTF-8, unless BOM denotes another Unicode encoding. Refer to the name column of the table in the following link to set supported values: https://msdn.microsoft.com/library/system.text.encoding.aspx. Type: string (or Expression with resultType string). */
   encodingName?: any;
   /** The data compression method used for the json dataset. */
-  compression?: DatasetCompressionUnion;
+  compression?: DatasetCompression;
 };
 
 /** Xml dataset. */
@@ -3642,7 +3668,7 @@ export type XmlDataset = Dataset & {
   /** The null value string. Type: string (or Expression with resultType string). */
   nullValue?: any;
   /** The data compression method used for the json dataset. */
-  compression?: DatasetCompressionUnion;
+  compression?: DatasetCompression;
 };
 
 /** ORC dataset. */
@@ -3662,7 +3688,7 @@ export type BinaryDataset = Dataset & {
   /** The location of the Binary storage. */
   location?: DatasetLocationUnion;
   /** The data compression method used for the binary dataset. */
-  compression?: DatasetCompressionUnion;
+  compression?: DatasetCompression;
 };
 
 /** The Azure Blob storage. */
@@ -3682,7 +3708,7 @@ export type AzureBlobDataset = Dataset & {
   /** The format of the Azure Blob storage. */
   format?: DatasetStorageFormatUnion;
   /** The data compression method used for the blob storage. */
-  compression?: DatasetCompressionUnion;
+  compression?: DatasetCompression;
 };
 
 /** The Azure Table storage dataset. */
@@ -3798,7 +3824,7 @@ export type AzureDataLakeStoreDataset = Dataset & {
   /** The format of the Data Lake Store. */
   format?: DatasetStorageFormatUnion;
   /** The data compression method used for the item(s) in the Azure Data Lake Store. */
-  compression?: DatasetCompressionUnion;
+  compression?: DatasetCompression;
 };
 
 /** The Azure Data Lake Storage Gen2 storage. */
@@ -3812,7 +3838,7 @@ export type AzureBlobFSDataset = Dataset & {
   /** The format of the Azure Data Lake Storage Gen2 storage. */
   format?: DatasetStorageFormatUnion;
   /** The data compression method used for the blob storage. */
-  compression?: DatasetCompressionUnion;
+  compression?: DatasetCompression;
 };
 
 /** The Office365 account. */
@@ -3842,7 +3868,7 @@ export type FileShareDataset = Dataset & {
   /** Specify a filter to be used to select a subset of files in the folderPath rather than all files. Type: string (or Expression with resultType string). */
   fileFilter?: any;
   /** The data compression method used for the file system. */
-  compression?: DatasetCompressionUnion;
+  compression?: DatasetCompression;
 };
 
 /** The MongoDB database dataset. */
@@ -4154,7 +4180,7 @@ export type HttpDataset = Dataset & {
   /** The format of files. */
   format?: DatasetStorageFormatUnion;
   /** The data compression method used on files. */
-  compression?: DatasetCompressionUnion;
+  compression?: DatasetCompression;
 };
 
 /** Amazon Marketplace Web Service dataset. */
@@ -6687,20 +6713,12 @@ export type AzureKeyVaultSecretReference = SecretBase & {
 
 /** Transformation for data flow source. */
 export type DataFlowSource = Transformation & {
-  /** Dataset reference. */
-  dataset?: DatasetReference;
-  /** Linked service reference. */
-  linkedService?: LinkedServiceReference;
   /** Schema linked service reference. */
   schemaLinkedService?: LinkedServiceReference;
 };
 
 /** Transformation for data flow sink. */
 export type DataFlowSink = Transformation & {
-  /** Dataset reference. */
-  dataset?: DatasetReference;
-  /** Linked service reference. */
-  linkedService?: LinkedServiceReference;
   /** Schema linked service reference. */
   schemaLinkedService?: LinkedServiceReference;
 };
@@ -6841,50 +6859,6 @@ export type OrcFormat = DatasetStorageFormat & {
 export type ParquetFormat = DatasetStorageFormat & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "ParquetFormat";
-};
-
-/** The BZip2 compression method used on a dataset. */
-export type DatasetBZip2Compression = DatasetCompression & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "BZip2";
-};
-
-/** The GZip compression method used on a dataset. */
-export type DatasetGZipCompression = DatasetCompression & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "GZip";
-  /** The GZip compression level. Type: string (or Expression with resultType string). */
-  level?: any;
-};
-
-/** The Deflate compression method used on a dataset. */
-export type DatasetDeflateCompression = DatasetCompression & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "Deflate";
-  /** The Deflate compression level. Type: string (or Expression with resultType string). */
-  level?: any;
-};
-
-/** The ZipDeflate compression method used on a dataset. */
-export type DatasetZipDeflateCompression = DatasetCompression & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "ZipDeflate";
-  /** The ZipDeflate compression level. Type: string (or Expression with resultType string). */
-  level?: any;
-};
-
-/** The Tar archive method used on a dataset. */
-export type DatasetTarCompression = DatasetCompression & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "Tar";
-};
-
-/** The TarGZip compression method used on a dataset. */
-export type DatasetTarGZipCompression = DatasetCompression & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "TarGZip";
-  /** The TarGZip compression level. Type: string (or Expression with resultType string). */
-  level?: any;
 };
 
 /** A WebLinkedService that uses anonymous authentication to communicate with an HTTP endpoint. */
@@ -8428,8 +8402,18 @@ export type SqlPool = TrackedResource & {
   status?: string;
   /** Snapshot time to restore */
   restorePointInTime?: string;
-  /** What is this? */
-  createMode?: string;
+  /**
+   * Specifies the mode of sql pool creation.
+   *
+   * Default: regular sql pool creation.
+   *
+   * PointInTimeRestore: Creates a sql pool by restoring a point in time backup of an existing sql pool. sourceDatabaseId must be specified as the resource ID of the existing sql pool, and restorePointInTime must be specified.
+   *
+   * Recovery: Creates a sql pool by a geo-replicated backup. sourceDatabaseId  must be specified as the recoverableDatabaseId to restore.
+   *
+   * Restore: Creates a sql pool by restoring a backup of a deleted sql  pool. SourceDatabaseId should be the sql pool's original resource ID. SourceDatabaseId and sourceDatabaseDeletionDate must be specified.
+   */
+  createMode?: CreateMode;
   /** Date the SQL pool was created */
   creationDate?: Date;
 };
@@ -10249,6 +10233,26 @@ export enum KnownLivyStates {
  */
 export type LivyStates = string;
 
+/** Known values of {@link CreateMode} that the service accepts. */
+export enum KnownCreateMode {
+  Default = "Default",
+  PointInTimeRestore = "PointInTimeRestore",
+  Recovery = "Recovery",
+  Restore = "Restore"
+}
+
+/**
+ * Defines values for CreateMode. \
+ * {@link KnownCreateMode} can be used interchangeably with CreateMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Default** \
+ * **PointInTimeRestore** \
+ * **Recovery** \
+ * **Restore**
+ */
+export type CreateMode = string;
+
 /** Known values of {@link SqlScriptType} that the service accepts. */
 export enum KnownSqlScriptType {
   SqlQuery = "SqlQuery"
@@ -11582,6 +11586,22 @@ export enum KnownDynamicsAuthenticationType {
  * **AADServicePrincipal**
  */
 export type DynamicsAuthenticationType = string;
+
+/** Known values of {@link DynamicsServicePrincipalCredentialType} that the service accepts. */
+export enum KnownDynamicsServicePrincipalCredentialType {
+  ServicePrincipalKey = "ServicePrincipalKey",
+  ServicePrincipalCert = "ServicePrincipalCert"
+}
+
+/**
+ * Defines values for DynamicsServicePrincipalCredentialType. \
+ * {@link KnownDynamicsServicePrincipalCredentialType} can be used interchangeably with DynamicsServicePrincipalCredentialType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ServicePrincipalKey** \
+ * **ServicePrincipalCert**
+ */
+export type DynamicsServicePrincipalCredentialType = string;
 
 /** Known values of {@link HdiNodeTypes} that the service accepts. */
 export enum KnownHdiNodeTypes {
