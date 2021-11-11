@@ -171,7 +171,7 @@ export class TestProxyHttpClient {
           }
           this.recordingId = id;
           if (isPlaybackMode()) {
-            this.variables = !rsp.bodyAsText ? {} : JSON.parse(rsp.bodyAsText);
+            this.variables = JSON.parse(rsp.bodyAsText ?? "{}");
           }
           if (ensureExistence(this.sanitizer, "TestProxyHttpClient.sanitizer", this.mode)) {
             // Setting the recordingId in the sanitizer,
@@ -193,7 +193,7 @@ export class TestProxyHttpClient {
   /**
    * Call this method to ping the proxy-tool with a stop request, this helps saving the recording in record mode.
    */
-  async stop(variables?: Record<string, string>): Promise<void> {
+  async stop(): Promise<void> {
     if (isPlaybackMode() || isRecordMode()) {
       this.stateManager.state = "stopped";
       if (this.recordingId !== undefined) {
@@ -205,7 +205,7 @@ export class TestProxyHttpClient {
 
         if (isRecordMode()) {
           req.headers.set("Content-Type", "application/json");
-          req.body = JSON.stringify(variables ?? this.variables);
+          req.body = JSON.stringify(this.variables);
         }
         if (ensureExistence(this.httpClient, "TestProxyHttpClient.httpClient", this.mode)) {
           const rsp = await this.httpClient.sendRequest({
