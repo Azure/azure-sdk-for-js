@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 /// <reference lib="esnext.asynciterable" />
 
-import { createWriteStream } from "fs";
 import { CallConnection, ContentDownloadResponse } from ".";
 import { CallConnectionImpl } from "./callConnection";
 import {
@@ -76,8 +75,9 @@ import { ContentDownloader, ContentDownloaderImpl } from "./ContentDownloader";
 import { rangeToString } from "./Range";
 import { RepeatableContentDownloadResponse } from "./RepeatableContentDownloadResponse";
 import { extractOperationOptions } from "./extractOperationOptions";
-import { CallingServerUtils } from "./utils/utils";
+import { CallingServerUtils } from "./utils/utils.common";
 import { serializeCallLocator } from "./callLocatorModelSerializer";
+import { readStreamToLocalFile } from "./utils/utils.node";
 
 /**
  * Client options used to configure CallingServer Client API requests.
@@ -940,10 +940,10 @@ export class CallingServerClient {
         ...convertTracingToRequestOptionsBase(updatedOptions)
       });
       if (response.readableStreamBody) {
-        await this.readStreamToLocalFile(response.readableStreamBody, filePath);
+        await readStreamToLocalFile(response.readableStreamBody, filePath);
       }
 
-      (response as any).readableStreamBody = undefined;
+      (response as any).blobDownloadStream = undefined;
       return response;
 
     } catch (e) {
@@ -955,27 +955,6 @@ export class CallingServerClient {
     } finally {
       span.end();
     }
-  }
-
-  private async readStreamToLocalFile(
-    stream: NodeJS.ReadableStream,
-    filePath: string
-  ): Promise<void> {
-    return new Promise<void>((resolve, reject) => {
-      const ws = createWriteStream(filePath);
-      
-      stream.on("error", (err: Error) => {
-        reject(err);
-      });
-
-      ws.on("error", (err: Error) => {
-        reject(err);
-      });
-
-      ws.on("close", resolve);
-
-      stream.pipe(ws);
-    })
   }
 
   /**

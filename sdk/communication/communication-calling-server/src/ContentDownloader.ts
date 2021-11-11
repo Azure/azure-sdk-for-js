@@ -18,7 +18,7 @@ import {
   OperationSpec
 } from "@azure/core-http";
 import { ContentDownloadResponse } from ".";
-import { CallingServerUtils } from "./utils/utils";
+import { CallingServerUtils } from "./utils/utils.common";
 
 /**
  * The ContentDownloader interface represents related APIs.
