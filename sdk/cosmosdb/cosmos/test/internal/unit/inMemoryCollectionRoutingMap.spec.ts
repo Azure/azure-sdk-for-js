@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import assert from "assert";
 import { QueryRange } from "../../../src/routing";
+import assert from "assert";
 import { createCompleteRoutingMap } from "../../../src/routing/CollectionRoutingMapFactory";
 
 describe("InMemoryCollectionRoutingMap Tests", function() {

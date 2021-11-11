@@ -2,11 +2,11 @@
 // Licensed under the MIT license.
 import { ClientContext } from "../../ClientContext";
 import {
+  ResourceType,
   createTriggerUri,
   getIdFromLink,
   getPathFromLink,
-  isResourceValid,
-  ResourceType
+  isResourceValid
 } from "../../common";
 import { RequestOptions } from "../../request";
 import { Container } from "../Container";

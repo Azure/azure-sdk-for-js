@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { ClientContext } from "../../ClientContext";
-import { createDatabaseUri, getIdFromLink, getPathFromLink, ResourceType } from "../../common";
+import { ResourceType, createDatabaseUri, getIdFromLink, getPathFromLink } from "../../common";
 import { CosmosClient } from "../../CosmosClient";
 import { RequestOptions } from "../../request";
 import { Container, Containers } from "../Container";
 import { User, Users } from "../User";
 import { DatabaseDefinition } from "./DatabaseDefinition";
 import { DatabaseResponse } from "./DatabaseResponse";
-import { OfferResponse, OfferDefinition, Offer } from "../Offer";
+import { Offer, OfferDefinition, OfferResponse } from "../Offer";
 import { Resource } from "../Resource";
 
 /**

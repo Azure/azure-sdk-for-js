@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { ClientContext } from "../../ClientContext";
-import { Constants, isResourceValid, ResourceType, StatusCodes } from "../../common";
+import { Constants, ResourceType, StatusCodes, isResourceValid } from "../../common";
 import { CosmosClient } from "../../CosmosClient";
-import { FetchFunctionCallback, mergeHeaders, SqlQuerySpec } from "../../queryExecutionContext";
+import { FetchFunctionCallback, SqlQuerySpec, mergeHeaders } from "../../queryExecutionContext";
 import { QueryIterator } from "../../queryIterator";
 import { FeedOptions, RequestOptions } from "../../request";
 import { Resource } from "../Resource";

@@ -4,11 +4,11 @@ import { PartitionKeyRange, Resource } from "../client";
 import { ClientContext } from "../ClientContext";
 import {
   Constants,
-  getIdFromLink,
-  getPathFromLink,
   ResourceType,
   StatusCodes,
-  SubStatusCodes
+  SubStatusCodes,
+  getIdFromLink,
+  getPathFromLink
 } from "../common";
 import { FeedOptions } from "../request";
 import { Response } from "../request";

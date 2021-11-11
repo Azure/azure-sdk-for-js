@@ -4,8 +4,8 @@ import { ClientSideMetrics, QueryMetrics } from "../queryMetrics";
 import { FeedOptions, Response } from "../request";
 import { Constants } from "../common";
 import { ExecutionContext } from "./index";
-import { logger } from "../common/logger";
 import { getInitialHeader } from "./headerUtils";
+import { logger } from "../common/logger";
 
 /** @hidden */
 const log = logger("defaultQueryExecutionContext");

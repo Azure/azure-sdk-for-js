@@ -5,7 +5,7 @@ const uuid = v4;
 import { ChangeFeedIterator } from "../../ChangeFeedIterator";
 import { ChangeFeedOptions } from "../../ChangeFeedOptions";
 import { ClientContext } from "../../ClientContext";
-import { getIdFromLink, getPathFromLink, isResourceValid, ResourceType } from "../../common";
+import { ResourceType, getIdFromLink, getPathFromLink, isResourceValid } from "../../common";
 import { extractPartitionKey } from "../../extractPartitionKey";
 import { FetchFunctionCallback, SqlQuerySpec } from "../../queryExecutionContext";
 import { QueryIterator } from "../../queryIterator";
@@ -16,14 +16,14 @@ import { ItemDefinition } from "./ItemDefinition";
 import { ItemResponse } from "./ItemResponse";
 import {
   Batch,
-  isKeyInRange,
-  Operation,
-  getPartitionKeyToHash,
-  decorateOperation,
-  OperationResponse,
-  OperationInput,
   BulkOptions,
-  decorateBatchOperation
+  Operation,
+  OperationInput,
+  OperationResponse,
+  decorateBatchOperation,
+  decorateOperation,
+  getPartitionKeyToHash,
+  isKeyInRange
 } from "../../utils/batch";
 import { hashV1PartitionKey } from "../../utils/hashing/v1";
 import { hashV2PartitionKey } from "../../utils/hashing/v2";

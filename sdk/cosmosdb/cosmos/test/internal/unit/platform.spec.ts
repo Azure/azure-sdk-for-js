@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import assert from "assert";
 import { Constants } from "../../../dist-esm/index";
+import assert from "assert";
 import { getUserAgent } from "../../../dist-esm/common";
 
 // eslint-disable-next-line @typescript-eslint/no-require-imports

@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 import { OperationType, ResourceType, isReadRequest } from "../common";
 import { ConnectionPolicy } from "../documents";
-import { GlobalEndpointManager } from "../globalEndpointManager";
 import { ErrorResponse } from "../request";
+import { GlobalEndpointManager } from "../globalEndpointManager";
 import { RetryContext } from "./RetryContext";
 import { RetryPolicy } from "./RetryPolicy";
 

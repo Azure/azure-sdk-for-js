@@ -3,14 +3,14 @@
 import { ClientContext } from "../../ClientContext";
 import {
   Constants,
+  ResourceType,
+  StatusCodes,
   getIdFromLink,
   getPathFromLink,
-  isResourceValid,
-  ResourceType,
-  StatusCodes
+  isResourceValid
 } from "../../common";
 import { DEFAULT_PARTITION_KEY_PATH } from "../../common/partitionKeys";
-import { mergeHeaders, SqlQuerySpec } from "../../queryExecutionContext";
+import { SqlQuerySpec, mergeHeaders } from "../../queryExecutionContext";
 import { QueryIterator } from "../../queryIterator";
 import { FeedOptions, RequestOptions } from "../../request";
 import { Database } from "../Database";

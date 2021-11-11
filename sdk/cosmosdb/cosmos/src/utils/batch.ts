@@ -2,10 +2,10 @@
 // Licensed under the MIT license.
 
 import { JSONObject } from "../queryExecutionContext";
-import { extractPartitionKey } from "../extractPartitionKey";
 import { PartitionKeyDefinition } from "../documents";
-import { RequestOptions } from "..";
 import { PatchRequestBody } from "./patch";
+import { RequestOptions } from "..";
+import { extractPartitionKey } from "../extractPartitionKey";
 import { v4 } from "uuid";
 const uuid = v4;
 

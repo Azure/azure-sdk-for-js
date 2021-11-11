@@ -2,12 +2,12 @@
 // Licensed under the MIT license.
 import { ClientContext } from "../../ClientContext";
 import {
+  ResourceType,
+  StatusCodes,
   createDocumentUri,
   getIdFromLink,
   getPathFromLink,
-  isResourceValid,
-  ResourceType,
-  StatusCodes
+  isResourceValid
 } from "../../common";
 import { PartitionKey } from "../../documents";
 import { extractPartitionKey, undefinedPartitionKey } from "../../extractPartitionKey";

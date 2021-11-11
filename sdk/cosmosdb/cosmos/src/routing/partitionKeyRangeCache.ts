@@ -1,11 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { PartitionKeyRange } from "../client/Container/PartitionKeyRange";
+
 import { ClientContext } from "../ClientContext";
-import { getIdFromLink } from "../common/helper";
-import { createCompleteRoutingMap } from "./CollectionRoutingMapFactory";
 import { InMemoryCollectionRoutingMap } from "./inMemoryCollectionRoutingMap";
+import { PartitionKeyRange } from "../client/Container/PartitionKeyRange";
 import { QueryRange } from "./QueryRange";
+import { createCompleteRoutingMap } from "./CollectionRoutingMapFactory";
+import { getIdFromLink } from "../common/helper";
 
 /** @hidden */
 export class PartitionKeyRangeCache {

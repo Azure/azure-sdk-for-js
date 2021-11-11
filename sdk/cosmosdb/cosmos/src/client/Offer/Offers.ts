@@ -1,13 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+
 import { ClientContext } from "../../ClientContext";
-import { ResourceType } from "../../common";
 import { CosmosClient } from "../../CosmosClient";
-import { SqlQuerySpec } from "../../queryExecutionContext";
-import { QueryIterator } from "../../queryIterator";
 import { FeedOptions } from "../../request";
-import { Resource } from "../Resource";
 import { OfferDefinition } from "./OfferDefinition";
+import { QueryIterator } from "../../queryIterator";
+import { ResourceType } from "../../common";
+import { SqlQuerySpec } from "../../queryExecutionContext";
+import { Resource } from "../Resource";
 
 /**
  * Use to query or read all Offers.

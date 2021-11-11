@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import assert from "assert";
 import {
-  CosmosClient,
   Constants,
   Container,
-  PluginConfig,
-  CosmosClientOptions
+  CosmosClient,
+  CosmosClientOptions,
+  PluginConfig
 } from "../../../src";
-import { removeAllDatabases, getTestContainer } from "../common/TestHelpers";
+import { HTTPMethod, ResourceType, StatusCodes } from "../../../src";
+import { getTestContainer, removeAllDatabases } from "../common/TestHelpers";
+import assert from "assert";
 import { endpoint } from "../common/_testConfig";
 import { masterKey } from "../common/_fakeTestSecrets";
-import { ResourceType, HTTPMethod, StatusCodes } from "../../../src";
 
 const plugins: PluginConfig[] = [
   {

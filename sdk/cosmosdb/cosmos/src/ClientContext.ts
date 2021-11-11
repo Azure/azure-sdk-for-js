@@ -5,13 +5,13 @@ import { ConnectionPolicy, ConsistencyLevel, DatabaseAccount, PartitionKey } fro
 import { Constants, HTTPMethod, OperationType, ResourceType } from "./common/constants";
 import { FeedOptions, RequestOptions, Response } from "./request";
 import { FetchFunctionCallback, SqlQuerySpec } from "./queryExecutionContext";
-import { StatusCodes, SubStatusCodes } from "./common/statusCodes";
 import { PluginOn, executePlugins } from "./plugins/Plugin";
 import {
   Pipeline,
   bearerTokenAuthenticationPolicy,
   createEmptyPipeline
 } from "@azure/core-rest-pipeline";
+import { StatusCodes, SubStatusCodes } from "./common/statusCodes";
 import { getIdFromLink, getPathFromLink, parseLink } from "./common/helper";
 import { BulkOptions } from "./utils/batch";
 import { CosmosClientOptions } from "./CosmosClientOptions";
@@ -21,8 +21,8 @@ import { GlobalEndpointManager } from "./globalEndpointManager";
 import { PartitionKeyRange } from "./client/Container/PartitionKeyRange";
 import { PartitionedQueryExecutionInfo } from "./request/ErrorResponse";
 import { QueryIterator } from "./queryIterator";
-import { Resource } from "./client/Resource";
 import { RequestContext } from "./request/RequestContext";
+import { Resource } from "./client/Resource";
 import { SessionContainer } from "./session/sessionContainer";
 import { SessionContext } from "./session/SessionContext";
 import { request as executeRequest } from "./request/RequestHandler";

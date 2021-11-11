@@ -1,23 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import assert from "assert";
-import { Suite } from "mocha";
+
+import { BulkOperationType, OperationInput } from "../../../src";
 import { Container, CosmosClient, PatchOperation, PatchOperationType } from "../../../src";
-import { ItemDefinition } from "../../../src";
 import {
+  addEntropy,
   bulkDeleteItems,
   bulkInsertItems,
   bulkQueryItemsWithPartitionKey,
   bulkReadItems,
   bulkReplaceItems,
   createOrUpsertItem,
+  getTestContainer,
   getTestDatabase,
   removeAllDatabases,
-  replaceOrUpsertItem,
-  addEntropy,
-  getTestContainer
+  replaceOrUpsertItem
 } from "../common/TestHelpers";
-import { BulkOperationType, OperationInput } from "../../../src";
+import { ItemDefinition } from "../../../src";
+import { Suite } from "mocha";
+import assert from "assert";
 import { endpoint } from "../common/_testConfig";
 import { masterKey } from "../common/_fakeTestSecrets";
 

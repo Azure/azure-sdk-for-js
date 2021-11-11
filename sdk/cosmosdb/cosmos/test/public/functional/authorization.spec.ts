@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import assert from "assert";
-import { Suite } from "mocha";
 import { CosmosClient, PermissionMode } from "../../../src";
-import { PermissionDefinition } from "../../../src/";
-import { endpoint } from "../common/_testConfig";
-import { masterKey } from "../common/_fakeTestSecrets";
 import {
   createOrUpsertPermission,
   getTestContainer,
   getTestDatabase,
   removeAllDatabases
 } from "../common/TestHelpers";
+import { PermissionDefinition } from "../../../src/";
+import { Suite } from "mocha";
+import assert from "assert";
+import { endpoint } from "../common/_testConfig";
+import { masterKey } from "../common/_fakeTestSecrets";
 
 describe("NodeJS CRUD Tests", function(this: Suite) {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);

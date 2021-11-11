@@ -2,11 +2,11 @@
 // Licensed under the MIT license.
 import { ClientContext } from "../../ClientContext";
 import {
+  ResourceType,
   createDocumentCollectionUri,
   getIdFromLink,
   getPathFromLink,
-  isResourceValid,
-  ResourceType
+  isResourceValid
 } from "../../common";
 import { PartitionKey, PartitionKeyDefinition } from "../../documents";
 import { SqlQuerySpec } from "../../queryExecutionContext";

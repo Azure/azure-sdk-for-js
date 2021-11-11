@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { DatabaseAccount, ResourceResponse } from "../../../src";
-import { masterKey } from "../common/_fakeTestSecrets";
-import { GlobalEndpointManager } from "../../../src";
-import { OperationType, ResourceType } from "../../../src";
 
+import { DatabaseAccount, ResourceResponse } from "../../../src";
+import { OperationType, ResourceType } from "../../../src";
+import { GlobalEndpointManager } from "../../../src";
 import assert from "assert";
+import { masterKey } from "../common/_fakeTestSecrets";
 
 const headers = {
   "access-control-allow-credentials": "true",

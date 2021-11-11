@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { PartitionKeyRange } from "../client";
 import { Constants } from "../common";
+import { PartitionKeyRange } from "../client";
 import { QueryRange } from "./QueryRange";
 
 /** @hidden */

@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import assert from "assert";
-import { Suite } from "mocha";
 import { Container, ContainerDefinition, Database } from "../../../src";
 import { getTestDatabase, removeAllDatabases } from "../common/TestHelpers";
 import { StatusCodes } from "../../../src";
+import { Suite } from "mocha";
+import assert from "assert";
 
 async function sleep(time: number): Promise<unknown> {
   return new Promise((resolve) => {

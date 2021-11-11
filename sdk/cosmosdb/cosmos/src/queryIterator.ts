@@ -14,11 +14,11 @@ import {
   mergeHeaders
 } from "./queryExecutionContext";
 import { ErrorResponse, PartitionedQueryExecutionInfo } from "./request/ErrorResponse";
-import { getPathFromLink, ResourceType, StatusCodes } from "./common";
+import { ResourceType, StatusCodes, getPathFromLink } from "./common";
 import { ClientContext } from "./ClientContext";
-import { Response } from "./request";
 import { FeedOptions } from "./request/FeedOptions";
 import { FeedResponse } from "./request/FeedResponse";
+import { Response } from "./request";
 
 /**
  * Represents a QueryIterator Object, an implementation of feed or query response that enables

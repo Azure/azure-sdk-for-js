@@ -8,14 +8,14 @@ import {
   OperationSpec,
   RequiredSerializerOptions,
   SerializerOptions,
-  XmlOptions,
-  XML_CHARKEY
+  XML_CHARKEY,
+  XmlOptions
 } from "./interfaces";
 import {
+  PipelinePolicy,
   PipelineRequest,
   PipelineResponse,
   SendRequest,
-  PipelinePolicy,
   RestError
 } from "@azure/core-rest-pipeline";
 import { MapperTypeNames } from "./serializer";

@@ -6,7 +6,7 @@ import {
   createHttpHeaders,
   createPipelineRequest
 } from "@azure/core-rest-pipeline";
-import { executePlugins, PluginOn } from "../plugins/Plugin";
+import { PluginOn, executePlugins } from "../plugins/Plugin";
 import { defaultHttpAgent, defaultHttpsAgent } from "./defaultAgent";
 import AbortController from "node-abort-controller";
 import { Constants } from "../common/constants";

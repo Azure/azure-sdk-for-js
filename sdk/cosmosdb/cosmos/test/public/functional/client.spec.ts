@@ -7,10 +7,10 @@ import { CosmosClient } from "../../../src";
 import { endpoint } from "../common/_testConfig";
 import { masterKey } from "../common/_fakeTestSecrets";
 import {
-  getTestDatabase,
-  getTestContainer,
+  bulkInsertItems,
   generateDocuments,
-  bulkInsertItems
+  getTestContainer,
+  getTestDatabase
 } from "../common/TestHelpers";
 import AbortController from "node-abort-controller";
 import { UsernamePasswordCredential } from "@azure/identity";

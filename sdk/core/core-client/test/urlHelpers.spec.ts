@@ -7,7 +7,7 @@ import {
   OperationURLParameter,
   createSerializer
 } from "../src";
-import { getRequestUrl, appendQueryParams } from "../src/urlHelpers";
+import { appendQueryParams, getRequestUrl } from "../src/urlHelpers";
 import { assert } from "chai";
 
 describe("getRequestUrl", function() {

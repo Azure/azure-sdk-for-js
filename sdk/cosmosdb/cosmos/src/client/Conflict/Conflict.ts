@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { ClientContext } from "../../ClientContext";
-import { Constants, getIdFromLink, getPathFromLink, ResourceType } from "../../common";
+import { Constants, ResourceType, getIdFromLink, getPathFromLink } from "../../common";
 import { RequestOptions } from "../../request";
 import { Container } from "../Container";
 import { ConflictDefinition } from "./ConflictDefinition";

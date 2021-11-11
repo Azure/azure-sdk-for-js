@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { CosmosClient, CosmosClientOptions } from "../../../src";
-import { RequestContext } from "../../../src";
-import { Plugin, Next, PluginConfig } from "../../../src";
 
 import * as assert from "assert";
+import { CosmosClient, CosmosClientOptions } from "../../../src";
+import { Next, Plugin, PluginConfig } from "../../../src";
+import { RequestContext } from "../../../src";
 
 describe("Plugin", function() {
   it("should handle all requests", async function() {

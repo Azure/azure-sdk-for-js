@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import assert from "assert";
-import { Suite } from "mocha";
-import { CosmosClient, DatabaseDefinition, Database } from "../../../src";
-import { endpoint } from "../common/_testConfig";
-import { masterKey } from "../common/_fakeTestSecrets";
+import { CosmosClient, Database, DatabaseDefinition } from "../../../src";
 import {
   addEntropy,
-  removeAllDatabases,
+  assertThrowsAsync,
   getTestDatabase,
-  assertThrowsAsync
+  removeAllDatabases
 } from "../common/TestHelpers";
 import { DatabaseRequest } from "../../../src";
+import { Suite } from "mocha";
+import assert from "assert";
+import { endpoint } from "../common/_testConfig";
+import { masterKey } from "../common/_fakeTestSecrets";
 
 const client = new CosmosClient({
   endpoint,

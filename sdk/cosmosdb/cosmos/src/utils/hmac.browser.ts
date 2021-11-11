@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { encodeUTF8, encodeBase64 } from "./encode";
+import { encodeBase64, encodeUTF8 } from "./encode";
 import atob from "./atob";
 import { globalCrypto } from "./globalCrypto";
 

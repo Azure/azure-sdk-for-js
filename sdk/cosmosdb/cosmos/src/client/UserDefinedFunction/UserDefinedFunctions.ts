@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { ClientContext } from "../../ClientContext";
-import { getIdFromLink, getPathFromLink, isResourceValid, ResourceType } from "../../common";
+import { ResourceType, getIdFromLink, getPathFromLink, isResourceValid } from "../../common";
 import { SqlQuerySpec } from "../../queryExecutionContext";
 import { QueryIterator } from "../../queryIterator";
 import { FeedOptions, RequestOptions } from "../../request";

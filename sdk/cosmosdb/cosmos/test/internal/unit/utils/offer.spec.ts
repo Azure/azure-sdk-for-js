@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+
+import { ContainerRequest } from "../../../../src";
 import assert from "assert";
 import { validateOffer } from "../../../../src/utils/offers";
-import { ContainerRequest } from "../../../../src";
 
 describe("Offer utils", function() {
   describe("validateOffer", function() {

@@ -2,11 +2,11 @@
 // Licensed under the MIT license.
 import { ClientContext } from "../../ClientContext";
 import {
+  ResourceType,
   createStoredProcedureUri,
   getIdFromLink,
   getPathFromLink,
-  isResourceValid,
-  ResourceType
+  isResourceValid
 } from "../../common";
 import { PartitionKey } from "../../documents/PartitionKey";
 import { undefinedPartitionKey } from "../../extractPartitionKey";

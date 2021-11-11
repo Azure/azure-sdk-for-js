@@ -1,19 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import assert from "assert";
-import { Suite } from "mocha";
 import * as util from "util";
 import { Container, ContainerDefinition } from "../../../src";
 import { DataType, IndexKind } from "../../../src";
-import { SqlQuerySpec } from "../../../src";
-import { QueryIterator } from "../../../src";
+import { FeedOptions, FeedResponse } from "../../../src";
 import {
   bulkInsertItems,
+  generateDocuments,
   getTestContainer,
-  removeAllDatabases,
-  generateDocuments
+  removeAllDatabases
 } from "../common/TestHelpers";
-import { FeedResponse, FeedOptions } from "../../../src";
+import { QueryIterator } from "../../../src";
+import { SqlQuerySpec } from "../../../src";
+import { Suite } from "mocha";
+import assert from "assert";
 
 function compare(key: string) {
   return function(a: any, b: any): number {

@@ -9,8 +9,8 @@ import { Constants } from "./common/constants";
 import { CosmosClientOptions } from "./CosmosClientOptions";
 import { GlobalEndpointManager } from "./globalEndpointManager";
 import { checkURL } from "./utils/checkURL";
-import { parseConnectionString } from "./common";
 import { getUserAgent } from "./common/platform";
+import { parseConnectionString } from "./common";
 
 /**
  * Provides a client-side logical representation of the Azure Cosmos DB database account.

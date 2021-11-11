@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import assert from "assert";
-import { Suite } from "mocha";
-import { PermissionMode } from "../../../src";
-import { PermissionDefinition } from "../../../src";
 import {
   createOrUpsertPermission,
   getTestContainer,
   removeAllDatabases,
   replaceOrUpsertPermission
 } from "../common/TestHelpers";
+import { PermissionDefinition } from "../../../src";
+import { PermissionMode } from "../../../src";
+import { Suite } from "mocha";
+import assert from "assert";
 
 describe("NodeJS CRUD Tests", function(this: Suite) {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
