@@ -4,7 +4,7 @@
 
 ## 2021-11-08
 
-- Allows storing the dynamically created variables in the record mode. Recorder registers the variables as part of the recording. Using the "variables" in playback mode would give the key-value pairs that are stored in record mode.
+- Allows storing dynamically created variables in record mode. The recorder registers the variables as part of the recording and stores their values in the recording file. Using the `variables` in playback mode produces the key-value pairs that were stored in the recording file.
 
   Example:
 
