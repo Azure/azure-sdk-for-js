@@ -149,7 +149,7 @@ export class RenderingSessionPoller extends Poller<
     );
     if (options.intervalInMs) {
       this.intervalInMs = options.intervalInMs;
-    } else if ( renderingSession.size == KnownRenderingServerSize.Standard) {
+    } else if (renderingSession.size === KnownRenderingServerSize.Standard) {
       this.intervalInMs = 2000;
     } else {
       this.intervalInMs = 10000;
