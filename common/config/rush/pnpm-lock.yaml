@@ -13,6 +13,7 @@ specifiers:
   '@rush-temp/arm-appplatform': file:./projects/arm-appplatform.tgz
   '@rush-temp/arm-appservice': file:./projects/arm-appservice.tgz
   '@rush-temp/arm-authorization': file:./projects/arm-authorization.tgz
+  '@rush-temp/arm-cdn': file:./projects/arm-cdn.tgz
   '@rush-temp/arm-compute': file:./projects/arm-compute.tgz
   '@rush-temp/arm-containerregistry': file:./projects/arm-containerregistry.tgz
   '@rush-temp/arm-containerservice': file:./projects/arm-containerservice.tgz
@@ -164,6 +165,7 @@ dependencies:
   '@rush-temp/arm-appplatform': file:projects/arm-appplatform.tgz
   '@rush-temp/arm-appservice': file:projects/arm-appservice.tgz
   '@rush-temp/arm-authorization': file:projects/arm-authorization.tgz
+  '@rush-temp/arm-cdn': file:projects/arm-cdn.tgz
   '@rush-temp/arm-compute': file:projects/arm-compute.tgz
   '@rush-temp/arm-containerregistry': file:projects/arm-containerregistry.tgz
   '@rush-temp/arm-containerservice': file:projects/arm-containerservice.tgz
@@ -8776,6 +8778,30 @@ packages:
       uglify-js: 3.14.2
     dev: false
 
+  file:projects/arm-cdn.tgz:
+    resolution: {integrity: sha512-pNo8azyDJG2GaqI4wIQDGaXwpwnblu+pzXXuM+udpZSSefY9KcTa49ppKazwG38heKaisDoZyGb+q5MVRgzUMg==, tarball: file:projects/arm-cdn.tgz}
+    name: '@rush-temp/arm-cdn'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.0.0-beta.6
+      '@microsoft/api-extractor': 7.18.17
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.14.2
+    transitivePeerDependencies:
+      - debug
+      - supports-color
+    dev: false
+
   file:projects/arm-compute.tgz:
     resolution: {integrity: sha512-S1XrLCLkKlv9rF9JwaiXFfaYHJfui5KxYt14LkOGUZlG4Cpy51S6Cq6FLiycSXbEhuupEfA/zNH6gQ+QdRKwvQ==, tarball: file:projects/arm-compute.tgz}
     name: '@rush-temp/arm-compute'
@@ -8867,7 +8893,7 @@ packages:
     dev: false
 
   file:projects/arm-desktopvirtualization.tgz:
-    resolution: {integrity: sha512-z1ZpQDQ9WTgpWBQfKTGm9Wd3I/8iDHqaSJPBiEnswAYrp8iVwfC4bsI8g0yLstDwFE8wdm4kP+HdpzrSZMzNEg==, tarball: file:projects/arm-desktopvirtualization.tgz}
+    resolution: {integrity: sha512-9tYJwIUDFQDpXDZtTbVerkmrnUcASq7GxOdJx/27I87kpWEHNyHR5MymGEbvWs2Y3wd/9Kz49aR/aVAr7s4LJg==, tarball: file:projects/arm-desktopvirtualization.tgz}
     name: '@rush-temp/arm-desktopvirtualization'
     version: 0.0.0
     dependencies:
@@ -8885,9 +8911,6 @@ packages:
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.14.2
-    transitivePeerDependencies:
-      - debug
-      - supports-color
     dev: false
 
   file:projects/arm-eventgrid.tgz:
@@ -11145,7 +11168,7 @@ packages:
     dev: false
 
   file:projects/eventgrid.tgz:
-    resolution: {integrity: sha512-a7ok5XWs7nBhPSjqBoOpEyIADVTx3DCVxF6IBvx8nI9bQNJAgvMSEFQwQ0vkyqW2Xp9DXhXWBhBOrnx09hldqA==, tarball: file:projects/eventgrid.tgz}
+    resolution: {integrity: sha512-8gU5FFbkNjNAarqfpkhmSf/agfq7aOZLTVsKRv81V7Gan+oKBq76y+uFqN1JXIqJgBo7dFkxqdqL/uDG27rtFQ==, tarball: file:projects/eventgrid.tgz}
     name: '@rush-temp/eventgrid'
     version: 0.0.0
     dependencies:
@@ -12355,7 +12378,7 @@ packages:
     dev: false
 
   file:projects/perf-service-bus.tgz:
-    resolution: {integrity: sha512-b6AGPVr1lihogGBiieVyO3ohpQBiZG6Ch909QgYl7Ysed0tvD+FaPqnIzmn+Tla579Ia7Z+j9Qz1mv/tUFrknw==, tarball: file:projects/perf-service-bus.tgz}
+    resolution: {integrity: sha512-spRBrMEsacl7wJqZkvLB+qmrs8n5JOqGjO3UNWLBce5R74kW0qyigBcxNXzSNukOMmshoTKvjvQGkmk2EgfJzw==, tarball: file:projects/perf-service-bus.tgz}
     name: '@rush-temp/perf-service-bus'
     version: 0.0.0
     dependencies:
