@@ -1,13 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { CommonClientOptions, OperationOptions } from "@azure/core-client";
+
 import {
-  ChatThreadListChatMessagesOptionalParams as RestListMessagesOptions,
+  ChatMessageType,
   ChatListChatThreadsOptionalParams as RestListChatThreadsOptions,
-  ChatThreadListChatReadReceiptsOptionalParams as RestListReadReceiptsOptions,
+  ChatThreadListChatMessagesOptionalParams as RestListMessagesOptions,
   ChatThreadListChatParticipantsOptionalParams as RestListParticipantsOptions,
-  ChatMessageType
+  ChatThreadListChatReadReceiptsOptionalParams as RestListReadReceiptsOptions
 } from "../generated/src/models";
+import { CommonClientOptions, OperationOptions } from "@azure/core-client";
 import { ChatParticipant } from "./models";
 
 export {

@@ -12,12 +12,7 @@ import {
   PeriodFeedback as ServicePeriodFeedback,
   WholeMetricConfiguration as ServiceWholeMetricConfiguration
 } from "../../src/generated/models";
-import {
-  fromServiceAnomalyDetectionConfiguration,
-  fromServiceDataFeedDetailUnion,
-  fromServiceMetricFeedbackUnion,
-  toServiceGranularity
-} from "../../src/transforms";
+import { fromServiceAnomalyDetectionConfiguration, fromServiceDataFeedDetailUnion, fromServiceMetricFeedbackUnion, toServiceGranularity } from "../../src/transforms";
 import { assert } from "chai";
 
 describe("Transforms", () => {

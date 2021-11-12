@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { ChatError, ChatMessageType } from "../generated/src";
 import { CommunicationIdentifier, CommunicationIdentifierKind } from "@azure/communication-common";
-import { ChatMessageType, ChatError } from "../generated/src";
 
 export {
   AddChatParticipantsResult,

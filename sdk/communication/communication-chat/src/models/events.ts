@@ -3,16 +3,16 @@
 
 import {
   ChatEventId,
-  ChatMessageReceivedEvent,
-  ChatMessageEditedEvent,
   ChatMessageDeletedEvent,
-  ReadReceiptReceivedEvent,
-  TypingIndicatorReceivedEvent,
+  ChatMessageEditedEvent,
+  ChatMessageReceivedEvent,
   ChatThreadCreatedEvent,
   ChatThreadDeletedEvent,
   ChatThreadPropertiesUpdatedEvent,
   ParticipantsAddedEvent,
-  ParticipantsRemovedEvent
+  ParticipantsRemovedEvent,
+  ReadReceiptReceivedEvent,
+  TypingIndicatorReceivedEvent
 } from "@azure/communication-signaling";
 
 export {

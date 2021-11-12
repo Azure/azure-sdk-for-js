@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 import { CommunicationSignalingClient, SignalingClient } from "@azure/communication-signaling";
-import { CommunicationTokenCredential } from "@azure/communication-common";
 import { AzureLogger } from "@azure/logger";
+import { CommunicationTokenCredential } from "@azure/communication-common";
 import { SignalingClientOptions } from "./signalingClient";
 
 export const getSignalingClient = (

@@ -1,31 +1,28 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import sinon from "sinon";
-import { assert } from "chai";
-import {
-  AzureCommunicationTokenCredential,
-  CommunicationUserIdentifier
-} from "@azure/communication-common";
-import {
-  ChatThreadClient,
-  SendMessageRequest,
-  SendMessageOptions,
-  UpdateMessageOptions,
-  AddParticipantsRequest
-} from "../../src";
 import * as RestModel from "../../src/generated/src/models";
-import { apiVersion } from "../../src/generated/src/models/parameters";
+import {
+  AddParticipantsRequest,
+  ChatThreadClient,
+  SendMessageOptions,
+  SendMessageRequest,
+  UpdateMessageOptions
+} from "../../src";
+import { AzureCommunicationTokenCredential, CommunicationUserIdentifier } from "@azure/communication-common";
 import { baseUri, generateToken } from "../public/utils/connectionUtils";
 import {
-  generateHttpClient,
   createChatThreadClient,
+  generateHttpClient,
+  mockChatMessageReadReceipt,
   mockMessage,
   mockParticipant,
   mockSdkModelParticipant,
-  mockChatMessageReadReceipt,
   mockThread
 } from "./utils/mockClient";
+import { apiVersion } from "../../src/generated/src/models/parameters";
+import { assert } from "chai";
+import sinon from "sinon";
 
 const API_VERSION = apiVersion.mapper.defaultValue;
 

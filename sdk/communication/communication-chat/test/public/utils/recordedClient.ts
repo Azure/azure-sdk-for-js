@@ -1,19 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Context } from "mocha";
 import * as dotenv from "dotenv";
-
-import { env, Recorder, record, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
-import { isNode } from "@azure/core-util";
-import { ChatClient } from "../../../src";
-import {
-  CommunicationUserIdentifier,
-  AzureCommunicationTokenCredential,
-  parseClientArguments
-} from "@azure/communication-common";
+import { AzureCommunicationTokenCredential, CommunicationUserIdentifier, parseClientArguments } from "@azure/communication-common";
 import { CommunicationIdentityClient, CommunicationUserToken } from "@azure/communication-identity";
+import { Recorder, RecorderEnvironmentSetup, env, record } from "@azure-tools/test-recorder";
+import { ChatClient } from "../../../src";
+import { Context } from "mocha";
 import { generateToken } from "./connectionUtils";
+import { isNode } from "@azure/core-util";
 
 if (isNode) {
   dotenv.config();

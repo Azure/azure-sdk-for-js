@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { ChatClient, ChatThreadClient } from "../../src";
+import { CommunicationIdentifier, getIdentifierKind } from "@azure/communication-common";
+import { createChatClient, createRecorder, createTestUser } from "./utils/recordedClient";
+import { Context } from "mocha";
 import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
-import { ChatClient, ChatThreadClient } from "../../src";
-import { createTestUser, createRecorder, createChatClient } from "./utils/recordedClient";
-import { CommunicationIdentifier, getIdentifierKind } from "@azure/communication-common";
-import { Context } from "mocha";
 
 describe("ChatThreadClient", function() {
   let messageId: string;

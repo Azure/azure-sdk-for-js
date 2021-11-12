@@ -1,30 +1,33 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { logger } from "./models/logger";
-import {
-  CommunicationIdentifier,
-  CommunicationTokenCredential,
-  serializeCommunicationIdentifier
-} from "@azure/communication-common";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { SpanStatusCode } from "@azure/core-tracing";
-import { createSpan } from "./tracing";
-import {
-  SendReadReceiptRequest,
-  AddParticipantsRequest,
-  SendMessageRequest
-} from "./models/requests";
-
 import {
   AddChatParticipantsResult,
   ChatMessage,
   ChatMessageReadReceipt,
   ChatParticipant,
   ChatThreadProperties,
-  SendChatMessageResult,
-  ListPageSettings
+  ListPageSettings,
+  SendChatMessageResult
 } from "./models/models";
+import {
+  AddParticipantsOptions,
+  ChatThreadClientOptions,
+  DeleteMessageOptions,
+  GetMessageOptions,
+  GetPropertiesOptions,
+  ListMessagesOptions,
+  ListParticipantsOptions,
+  ListReadReceiptsOptions,
+  RemoveParticipantOptions,
+  SendMessageOptions,
+  SendReadReceiptOptions,
+  SendTypingNotificationOptions,
+  UpdateMessageOptions,
+  UpdateTopicOptions
+} from "./models/options";
+import { AddParticipantsRequest, SendMessageRequest, SendReadReceiptRequest } from "./models/requests";
+import { CommunicationIdentifier, CommunicationTokenCredential, serializeCommunicationIdentifier } from "@azure/communication-common";
 import {
   mapToAddChatParticipantsRequestRestModel,
   mapToChatMessageSdkModel,
@@ -32,25 +35,14 @@ import {
   mapToChatThreadPropertiesSdkModel,
   mapToReadReceiptSdkModel
 } from "./models/mappers";
-import {
-  ChatThreadClientOptions,
-  SendMessageOptions,
-  GetMessageOptions,
-  DeleteMessageOptions,
-  ListMessagesOptions,
-  UpdateMessageOptions,
-  UpdateTopicOptions,
-  AddParticipantsOptions,
-  ListParticipantsOptions,
-  RemoveParticipantOptions,
-  SendTypingNotificationOptions,
-  SendReadReceiptOptions,
-  ListReadReceiptsOptions,
-  GetPropertiesOptions
-} from "./models/options";
 import { ChatApiClient } from "./generated/src";
-import { createCommunicationTokenCredentialPolicy } from "./credential/communicationTokenCredentialPolicy";
 import { InternalPipelineOptions } from "@azure/core-rest-pipeline";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { SpanStatusCode } from "@azure/core-tracing";
+import { createCommunicationTokenCredentialPolicy } from "./credential/communicationTokenCredentialPolicy";
+import { createSpan } from "./tracing";
+import { logger } from "./models/logger";
+
 const minimumTypingIntervalInMilliSeconds: number = 8000;
 
 /**

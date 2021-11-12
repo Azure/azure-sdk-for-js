@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
-import { assert } from "chai";
 import { ChatClient, ChatThreadClient } from "../../src";
-import { createTestUser, createRecorder, createChatClient } from "./utils/recordedClient";
-import { isNode } from "@azure/core-util";
-import sinon from "sinon";
+import { Recorder, isLiveMode } from "@azure-tools/test-recorder";
+import { createChatClient, createRecorder, createTestUser } from "./utils/recordedClient";
 import { CommunicationIdentifier } from "@azure/communication-common";
 import { Context } from "mocha";
+import { assert } from "chai";
+import { isNode } from "@azure/core-util";
+import sinon from "sinon";
 
 describe("ChatClient", function() {
   let threadId: string | undefined;
