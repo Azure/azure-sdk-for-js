@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { ShortCodes } from "./operations";
+import { ShortCodesOperationsImpl } from "./operations";
+import { ShortCodesOperations } from "./operationsInterfaces";
 import { ShortCodesClientContext } from "./shortCodesClientContext";
 import { ShortCodesClientOptionalParams } from "./models";
 
@@ -18,8 +19,8 @@ export class ShortCodesClient extends ShortCodesClientContext {
    */
   constructor(endpoint: string, options?: ShortCodesClientOptionalParams) {
     super(endpoint, options);
-    this.shortCodes = new ShortCodes(this);
+    this.shortCodesOperations = new ShortCodesOperationsImpl(this);
   }
 
-  shortCodes: ShortCodes;
+  shortCodesOperations: ShortCodesOperations;
 }

@@ -11,17 +11,17 @@ import {
   RecorderEnvironmentSetup,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
-import {
-  DefaultHttpClient,
-  HttpClient,
-  HttpOperationResponse,
-  isNode,
-  TokenCredential,
-  WebResourceLike,
-} from "@azure/core-http";
+import { ServiceClient } from "@azure/core-client"
+import { PipelineResponse, PipelineRequest, HttpClient } from "@azure/core-rest-pipeline"
 import { ShortCodesClient, ShortCodesClientOptions } from "../../../src";
 import { parseConnectionString } from "@azure/communication-common";
 import { ClientSecretCredential, DefaultAzureCredential } from "@azure/identity";
+
+const isNode =
+  typeof process !== "undefined" &&
+  !!process.version &&
+  !!process.versions &&
+  !!process.versions.node;
 
 if (isNode) {
   dotenv.config();
@@ -64,9 +64,9 @@ export function createRecordedClient(context: Context): RecordedClient<ShortCode
   };
 }
 
-export function createMockToken(): TokenCredential {
+export function createMockToken() {
   return {
-    getToken: async (_scopes) => {
+    getToken: async (_scopes: string) => {
       return { token: "testToken", expiresOnTimestamp: 11111 };
     },
   };
@@ -76,10 +76,9 @@ export function createRecordedClientWithToken(
   context: Context
 ): RecordedClient<ShortCodesClient> | undefined {
   const recorder = record(context, environmentSetup);
-  let credential: TokenCredential;
-  const endpoint = parseConnectionString(
-    env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING
-  ).endpoint;
+  let credential;
+  const endpoint = parseConnectionString(env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING)
+    .endpoint;
   if (isPlaybackMode()) {
     credential = createMockToken();
 
@@ -116,17 +115,16 @@ export const testPollerOptions = {
 };
 
 function createTestHttpClient(): HttpClient {
-  const customHttpClient = new DefaultHttpClient();
+  const customHttpClient = new ServiceClient();
 
   const originalSendRequest = customHttpClient.sendRequest;
   customHttpClient.sendRequest = async function (
-    httpRequest: WebResourceLike
-  ): Promise<HttpOperationResponse> {
+    httpRequest: PipelineRequest
+  ): Promise<PipelineResponse> {
     const requestResponse = await originalSendRequest.apply(this, [httpRequest]);
 
     console.log(
-      `MS-CV header for request: ${httpRequest.url} (${
-        requestResponse.status
+      `MS-CV header for request: ${httpRequest.url} (${requestResponse.status
       } - ${requestResponse.headers.get("ms-cv")})`
     );
 

@@ -43,16 +43,9 @@ export async function main() {
     },
   };
   var upsertResponse = await client.upsertUSProgramBrief(programBriefId, updateRequest);
-  if (upsertResponse._response.status == 200) {
-    console.log(
-      `Successfully updated terms of service and privacy policy for program brief ${programBriefId}`
-    );
-  } else {
-    throw new Error(`Failed to update program brief with Id ${programBriefId}.
-      Status code: ${upsertResponse._response.status}; Error: ${
-      upsertResponse._response.bodyAsText
-    }; CV: ${upsertResponse._response.headers.get("MS-CV")}`);
-  }
+  console.log(
+    `Successfully updated terms of service and privacy policy for program brief ${upsertResponse.id}`
+  );
 }
 
 main().catch((error) => {

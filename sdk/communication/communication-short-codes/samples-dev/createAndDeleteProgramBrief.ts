@@ -96,25 +96,13 @@ export async function main() {
 
   // create program brief
   var createResponse = await client.upsertUSProgramBrief(programBriefId, programBriefRequest);
-  if (createResponse._response.status != 201) {
-    throw new Error(`Program brief creation failed.
-    Status code: ${createResponse._response.status}; Error: ${
-      createResponse._response.bodyAsText
-    }; CV: ${createResponse._response.headers.get("MS-CV")}`);
-  } else {
-    console.log(`Successfully created a new program brief with Id ${programBriefId}.`);
-  }
+  console.log(`Successfully created a new program brief with Id ${createResponse.id}`);
 
   // delete program brief
   var deleteResponse = await client.deleteUSProgramBrief(programBriefId);
-  if (deleteResponse._response.status == 204) {
-    console.log(`Successfully deleted draft program brief with Id ${programBriefId}`);
-  } else {
-    console.log(`Failed to delete draft program brief with Id ${programBriefId}.
-          Status code: ${deleteResponse._response.status}; Error: ${
-      deleteResponse._response.bodyAsText
-    }; CV: ${deleteResponse._response.headers.get("MS-CV")}`);
-  }
+  console.log(
+    `Successfully deleted draft program brief with Id ${programBriefId} ${deleteResponse}`
+  );
 }
 
 main().catch((error) => {
