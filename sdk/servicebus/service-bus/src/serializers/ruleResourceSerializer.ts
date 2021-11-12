@@ -384,8 +384,9 @@ export function buildInternalRawKeyValuePairs(
     );
   }
   const rawParameters: RawKeyValuePair[] = [];
-  for (let [key, value] of Object.entries(parameters)) {
+  for (const key of Object.keys(parameters)) {
     let type: string | number | boolean;
+    let value = parameters[key];
     if (typeof value === "number") {
       type = TypeMapForRequestSerialization.double;
     } else if (typeof value === "string") {
