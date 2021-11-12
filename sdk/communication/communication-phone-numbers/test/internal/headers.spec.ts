@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { WebResourceLike, isNode } from "@azure/core-http";
 import { AzureKeyCredential } from "@azure/core-auth";
-import { isNode, WebResourceLike } from "@azure/core-http";
+import { Context } from "mocha";
+import { PhoneNumbersClient } from "../../src/phoneNumbersClient";
+import { SDK_VERSION } from "../../src/utils/constants";
 import { TokenCredential } from "@azure/identity";
 import { assert } from "chai";
-import sinon from "sinon";
-import { PhoneNumbersClient } from "../../src/phoneNumbersClient";
-import { getPhoneNumberHttpClient } from "../public/utils/mockHttpClients";
-import { SDK_VERSION } from "../../src/utils/constants";
-import { Context } from "mocha";
 import { createMockToken } from "../public/utils/recordedClient";
+import { getPhoneNumberHttpClient } from "../public/utils/mockHttpClients";
+import sinon from "sinon";
 
 describe("PhoneNumbersClient - headers", function() {
   const endpoint = "https://contoso.spool.azure.local";

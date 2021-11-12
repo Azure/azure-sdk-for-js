@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { matrix } from "@azure/test-utils";
-import { Recorder } from "@azure-tools/test-recorder";
-import { assert } from "chai";
+import { createRecordedClient, createRecordedClientWithToken } from "./utils/recordedClient";
 import { Context } from "mocha";
 import { PhoneNumbersClient } from "../../src";
-import { createRecordedClient, createRecordedClientWithToken } from "./utils/recordedClient";
+import { Recorder } from "@azure-tools/test-recorder";
+import { assert } from "chai";
+import { matrix } from "@azure/test-utils";
 
 matrix([[true, false]], async function(useAad) {
   describe(`PhoneNumbersClient - lists${useAad ? " [AAD]" : ""}`, function() {

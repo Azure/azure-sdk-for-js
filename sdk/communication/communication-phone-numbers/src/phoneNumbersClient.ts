@@ -2,41 +2,24 @@
 // Licensed under the MIT license.
 /// <reference lib="esnext.asynciterable" />
 
-import {
-  parseClientArguments,
-  isKeyCredential,
-  createCommunicationAuthPolicy
-} from "@azure/communication-common";
-import { isTokenCredential, KeyCredential, TokenCredential } from "@azure/core-auth";
-import {
-  PipelineOptions,
-  InternalPipelineOptions,
-  createPipelineFromOptions
-} from "@azure/core-http";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { SpanStatusCode } from "@azure/core-tracing";
-import { logger, createSpan, SDK_VERSION } from "./utils";
-import { PhoneNumbersClient as PhoneNumbersGeneratedClient } from "./generated/src";
-import { PhoneNumbers as GeneratedClient } from "./generated/src/operations";
-import {
-  PurchasedPhoneNumber,
-  PhoneNumberCapabilitiesRequest,
-  PhoneNumberSearchResult
-} from "./generated/src/models/";
+import { BeginPurchasePhoneNumbersOptions, BeginReleasePhoneNumberOptions, BeginSearchAvailablePhoneNumbersOptions, BeginUpdatePhoneNumberCapabilitiesOptions } from "./lroModels";
 import {
   GetPurchasedPhoneNumberOptions,
   ListPurchasedPhoneNumbersOptions,
-  SearchAvailablePhoneNumbersRequest,
   PurchasePhoneNumbersResult,
-  ReleasePhoneNumberResult
+  ReleasePhoneNumberResult,
+  SearchAvailablePhoneNumbersRequest
 } from "./models";
-import {
-  BeginPurchasePhoneNumbersOptions,
-  BeginReleasePhoneNumberOptions,
-  BeginSearchAvailablePhoneNumbersOptions,
-  BeginUpdatePhoneNumberCapabilitiesOptions
-} from "./lroModels";
+import { InternalPipelineOptions, PipelineOptions, createPipelineFromOptions } from "@azure/core-http";
+import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
+import { PhoneNumberCapabilitiesRequest, PhoneNumberSearchResult, PurchasedPhoneNumber } from "./generated/src/models/";
+import { PollOperationState, PollerLike } from "@azure/core-lro";
+import { SDK_VERSION, createSpan, logger } from "./utils";
+import { createCommunicationAuthPolicy, isKeyCredential, parseClientArguments } from "@azure/communication-common";
+import { PhoneNumbers as GeneratedClient } from "./generated/src/operations";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PhoneNumbersClient as PhoneNumbersGeneratedClient } from "./generated/src";
+import { SpanStatusCode } from "@azure/core-tracing";
 
 /**
  * Client options used to configure the PhoneNumbersClient API requests.
