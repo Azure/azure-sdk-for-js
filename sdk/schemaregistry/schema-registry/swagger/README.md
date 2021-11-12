@@ -53,3 +53,15 @@ directive:
       "required": true,
       "type": "string"});
 ```
+
+### Delete all validation patterns from parameters
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["parameters"][*]
+    transform: >
+      if ($.pattern) {
+        delete $.pattern;
+      }
+```

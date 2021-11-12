@@ -42,6 +42,12 @@ export interface SchemaId {
   id?: string;
 }
 
+/** Defines headers for SchemaGroups_list operation. */
+export interface SchemaGroupsListExceptionHeaders {
+  /** Error code for specific error that occurred. */
+  xMsErrorCode?: string;
+}
+
 /** Defines headers for Schema_getById operation. */
 export interface SchemaGetByIdHeaders {
   /** URL location of schema, identified by schema group, schema name, and version. */
@@ -60,6 +66,18 @@ export interface SchemaGetByIdHeaders {
   schemaVersion?: number;
 }
 
+/** Defines headers for Schema_getById operation. */
+export interface SchemaGetByIdExceptionHeaders {
+  /** Error code for specific error that occurred. */
+  xMsErrorCode?: string;
+}
+
+/** Defines headers for Schema_getVersions operation. */
+export interface SchemaGetVersionsExceptionHeaders {
+  /** Error code for specific error that occurred. */
+  xMsErrorCode?: string;
+}
+
 /** Defines headers for Schema_queryIdByContent operation. */
 export interface SchemaQueryIdByContentHeaders {
   /** URL location of schema, identified by schema group, schema name, and version. */
@@ -76,6 +94,12 @@ export interface SchemaQueryIdByContentHeaders {
   schemaVersion?: number;
 }
 
+/** Defines headers for Schema_queryIdByContent operation. */
+export interface SchemaQueryIdByContentExceptionHeaders {
+  /** Error code for specific error that occurred. */
+  xMsErrorCode?: string;
+}
+
 /** Defines headers for Schema_register operation. */
 export interface SchemaRegisterHeaders {
   /** URL location of schema, identified by schema group, schema name, and version. */
@@ -90,6 +114,12 @@ export interface SchemaRegisterHeaders {
   schemaName?: string;
   /** Version of the returned schema. */
   schemaVersion?: number;
+}
+
+/** Defines headers for Schema_register operation. */
+export interface SchemaRegisterExceptionHeaders {
+  /** Error code for specific error that occurred. */
+  xMsErrorCode?: string;
 }
 
 /** Optional parameters. */
