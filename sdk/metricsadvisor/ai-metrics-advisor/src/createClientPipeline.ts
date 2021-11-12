@@ -2,27 +2,21 @@
 // Licensed under the MIT license.
 
 import {
-  createPipelineFromOptions,
+  DEFAULT_COGNITIVE_SCOPE,
+  LIB_INFO,
+  MetricsAdvisorLoggingAllowedHeaderNames,
+  MetricsAdvisorLoggingAllowedQueryParameters } from "./constants";
+import {
   InternalPipelineOptions,
   ServiceClientOptions,
   bearerTokenAuthenticationPolicy,
+  createPipelineFromOptions,
   isTokenCredential
 } from "@azure/core-http";
-
-import { TokenCredential } from "@azure/core-auth";
-
-import {
-  LIB_INFO,
-  DEFAULT_COGNITIVE_SCOPE,
-  MetricsAdvisorLoggingAllowedHeaderNames,
-  MetricsAdvisorLoggingAllowedQueryParameters
-} from "./constants";
-import { logger } from "./logger";
+import { MetricsAdvisorKeyCredential, createMetricsAdvisorKeyCredentialPolicy } from "./metricsAdvisorKeyCredentialPolicy";
 import { MetricsAdvisorClientOptions } from "./metricsAdvisorClient";
-import {
-  createMetricsAdvisorKeyCredentialPolicy,
-  MetricsAdvisorKeyCredential
-} from "./metricsAdvisorKeyCredentialPolicy";
+import { TokenCredential } from "@azure/core-auth";
+import { logger } from "./logger";
 
 export function createClientPipeline(
   credential: TokenCredential | MetricsAdvisorKeyCredential,

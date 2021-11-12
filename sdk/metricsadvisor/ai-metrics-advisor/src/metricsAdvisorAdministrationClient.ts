@@ -3,66 +3,65 @@
 
 /// <reference lib="esnext.asynciterable" />
 
-import {
-  PipelineOptions,
-  operationOptionsToRequestOptionsBase,
-  ServiceClientOptions,
-  OperationOptions,
-  RestResponse
-} from "@azure/core-http";
-import { TokenCredential } from "@azure/core-auth";
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import "@azure/core-paging";
-
-import { logger } from "./logger";
-import { createSpan } from "./tracing";
-import { MetricsAdvisorKeyCredential } from "./metricsAdvisorKeyCredentialPolicy";
-import { createClientPipeline } from "./createClientPipeline";
-import { SpanStatusCode } from "@azure/core-tracing";
-import { GeneratedClient } from "./generated/generatedClient";
 import {
-  IngestionStatus,
-  DataFeedGranularity,
-  MetricsAdvisorDataFeed,
-  DataFeedPatch,
-  WebNotificationHook,
-  EmailNotificationHook,
-  WebNotificationHookPatch,
-  EmailNotificationHookPatch,
+  AlertConfigurationsPageResponse,
+  AnomalyAlertConfiguration,
   AnomalyDetectionConfiguration,
   AnomalyDetectionConfigurationPatch,
-  NotificationHookUnion,
+  CredentialsPageResponse,
   DataFeedAutoRollupMethod,
-  DataFeedsPageResponse,
-  IngestionStatusPageResponse,
-  AlertConfigurationsPageResponse,
-  DetectionConfigurationsPageResponse,
-  HooksPageResponse,
+  DataFeedGranularity,
+  DataFeedPatch,
   DataFeedStatus,
-  GetIngestionProgressResponse,
-  AnomalyAlertConfiguration,
+  DataFeedsPageResponse,
   DataSourceCredentialEntityUnion,
   DataSourceCredentialPatch,
-  CredentialsPageResponse
+  DetectionConfigurationsPageResponse,
+  EmailNotificationHook,
+  EmailNotificationHookPatch,
+  GetIngestionProgressResponse,
+  HooksPageResponse,
+  IngestionStatus,
+  IngestionStatusPageResponse,
+  MetricsAdvisorDataFeed,
+  NotificationHookUnion,
+  WebNotificationHook,
+  WebNotificationHookPatch
 } from "./models";
 import { DataSourceType, HookInfoUnion, NeedRollupEnum } from "./generated/models";
 import {
+  OperationOptions,
+  PipelineOptions,
+  RestResponse,
+  ServiceClientOptions,
+  operationOptionsToRequestOptionsBase
+} from "@azure/core-http";
+import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
+import {
+  fromServiceAlertConfiguration,
   fromServiceAnomalyDetectionConfiguration,
+  fromServiceCredential,
   fromServiceDataFeedDetailUnion,
   fromServiceHookInfoUnion,
-  fromServiceAlertConfiguration,
-  toServiceRollupSettings,
-  toServiceAnomalyDetectionConfiguration,
-  toServiceAnomalyDetectionConfigurationPatch,
   toServiceAlertConfiguration,
   toServiceAlertConfigurationPatch,
-  toServiceGranularity,
-  toServiceCredentialPatch,
+  toServiceAnomalyDetectionConfiguration,
+  toServiceAnomalyDetectionConfigurationPatch,
   toServiceCredential,
-  fromServiceCredential,
+  toServiceCredentialPatch,
   toServiceDataFeedSource,
-  toServiceDataFeedSourcePatch
+  toServiceDataFeedSourcePatch,
+  toServiceGranularity,
+  toServiceRollupSettings
 } from "./transforms";
+import { GeneratedClient } from "./generated/generatedClient";
+import { MetricsAdvisorKeyCredential } from "./metricsAdvisorKeyCredentialPolicy";
+import { SpanStatusCode } from "@azure/core-tracing";
+import { TokenCredential } from "@azure/core-auth";
+import { createClientPipeline } from "./createClientPipeline";
+import { createSpan } from "./tracing";
+import { logger } from "./logger";
 
 /**
  * Client options used to configure API requests.

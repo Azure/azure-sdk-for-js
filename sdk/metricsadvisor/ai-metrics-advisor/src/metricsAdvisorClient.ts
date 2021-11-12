@@ -3,42 +3,37 @@
 
 /// <reference lib="esnext.asynciterable" />
 
-import {
-  PipelineOptions,
-  operationOptionsToRequestOptionsBase,
-  ServiceClientOptions,
-  OperationOptions
-} from "@azure/core-http";
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import "@azure/core-paging";
-import { TokenCredential } from "@azure/core-auth";
-import { GeneratedClient } from "./generated/generatedClient";
-import { createSpan } from "./tracing";
-import { MetricsAdvisorKeyCredential } from "./metricsAdvisorKeyCredentialPolicy";
-import { SpanStatusCode } from "@azure/core-tracing";
 import {
-  MetricFeedbackUnion,
+  AlertQueryTimeMode,
+  AlertsPageResponse,
+  AnomaliesPageResponse,
+  AnomalyAlert,
   AnomalyIncident,
   DataPointAnomaly,
-  AnomalyAlert,
-  GetMetricEnrichedSeriesDataResponse,
-  GetIncidentRootCauseResponse,
-  AlertsPageResponse,
-  IncidentsPageResponse,
-  AnomaliesPageResponse,
-  DimensionValuesPageResponse,
-  MetricSeriesPageResponse,
-  MetricEnrichmentStatusPageResponse,
-  MetricSeriesDefinition,
   DimensionKey,
+  DimensionValuesPageResponse,
   EnrichmentStatus,
+  GetIncidentRootCauseResponse,
+  GetMetricEnrichedSeriesDataResponse,
   GetMetricSeriesDataResponse,
+  IncidentsPageResponse,
+  MetricEnrichmentStatusPageResponse,
   MetricFeedbackPageResponse,
-  AlertQueryTimeMode
+  MetricFeedbackUnion,
+  MetricSeriesDefinition,
+  MetricSeriesPageResponse
 } from "./models";
-import { SeverityFilterCondition, FeedbackType, FeedbackQueryTimeMode } from "./generated/models";
-import { toServiceMetricFeedbackUnion, fromServiceMetricFeedbackUnion } from "./transforms";
+import { FeedbackQueryTimeMode, FeedbackType, SeverityFilterCondition } from "./generated/models";
+import { OperationOptions, PipelineOptions, ServiceClientOptions, operationOptionsToRequestOptionsBase } from "@azure/core-http";
+import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
+import { fromServiceMetricFeedbackUnion, toServiceMetricFeedbackUnion } from "./transforms";
+import { GeneratedClient } from "./generated/generatedClient";
+import { MetricsAdvisorKeyCredential } from "./metricsAdvisorKeyCredentialPolicy";
+import { SpanStatusCode } from "@azure/core-tracing";
+import { TokenCredential } from "@azure/core-auth";
 import { createClientPipeline } from "./createClientPipeline";
+import { createSpan } from "./tracing";
 
 /**
  * Client options used to configure Metrics Advisor API requests.
