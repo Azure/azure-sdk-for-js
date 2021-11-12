@@ -2,14 +2,14 @@
 // Licensed under the MIT license.
 
 import {
+  CustomMultiClassificationResult,
   TextDocumentBatchStatistics,
-  TextDocumentInput,
-  CustomMultiClassificationResult
+  TextDocumentInput
 } from "./generated/models";
 import {
   MultiCategoryClassifyResult,
-  makeMultiCategoryClassifyResult,
-  makeMultiCategoryClassifyErrorResult
+  makeMultiCategoryClassifyErrorResult,
+  makeMultiCategoryClassifyResult
 } from "./multiCategoryClassifyResult";
 import { combineSuccessfulAndErroneousDocumentsWithStatisticsAndCustomProjectInfo } from "./textAnalyticsResult";
 

@@ -2,14 +2,14 @@
 // Licensed under the MIT license.
 
 import {
+  EntityLinkingResult,
   TextDocumentBatchStatistics,
-  TextDocumentInput,
-  EntityLinkingResult
+  TextDocumentInput
 } from "./generated/models";
 import {
   RecognizeLinkedEntitiesResult,
-  makeRecognizeLinkedEntitiesResult,
-  makeRecognizeLinkedEntitiesErrorResult
+  makeRecognizeLinkedEntitiesErrorResult,
+  makeRecognizeLinkedEntitiesResult
 } from "./recognizeLinkedEntitiesResult";
 import { combineSuccessfulAndErroneousDocumentsWithStatisticsAndModelVersion } from "./textAnalyticsResult";
 

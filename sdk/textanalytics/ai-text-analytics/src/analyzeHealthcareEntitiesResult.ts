@@ -1,25 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   DocumentHealthcareEntities,
   Entity,
-  HealthcareRelation,
-  TextDocumentBatchStatistics,
   HealthcareEntity as GeneratedHealthcareEntity,
-  TextAnalyticsError,
   HealthcareAssertion,
-  RelationType,
+  HealthcareEntityCategory,
+  HealthcareRelation,
   HealthcareRelationEntity,
-  HealthcareEntityCategory
+  RelationType,
+  TextAnalyticsError,
+  TextDocumentBatchStatistics
 } from "./generated/models";
-import {
-  makeTextAnalyticsErrorResult,
-  makeTextAnalyticsSuccessResult,
-  TextAnalyticsErrorResult,
-  TextAnalyticsSuccessResult
-} from "./textAnalyticsResult";
+import { TextAnalyticsErrorResult, TextAnalyticsSuccessResult, makeTextAnalyticsErrorResult, makeTextAnalyticsSuccessResult } from "./textAnalyticsResult";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { parseHealthcareEntityIndex } from "./util";
 
 /**

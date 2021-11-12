@@ -1,16 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  TextDocumentBatchStatistics,
-  TextDocumentInput,
-  SentimentResponse
-} from "./generated/models";
-import {
-  AnalyzeSentimentResult,
-  makeAnalyzeSentimentErrorResult,
-  makeAnalyzeSentimentResult
-} from "./analyzeSentimentResult";
+import { AnalyzeSentimentResult, makeAnalyzeSentimentErrorResult, makeAnalyzeSentimentResult } from "./analyzeSentimentResult";
+import { SentimentResponse, TextDocumentBatchStatistics, TextDocumentInput } from "./generated/models";
 import { combineSuccessfulAndErroneousDocumentsWithStatisticsAndModelVersion } from "./textAnalyticsResult";
 
 /**

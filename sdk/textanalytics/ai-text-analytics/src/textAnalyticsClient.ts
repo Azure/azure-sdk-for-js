@@ -1,79 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { CommonClientOptions } from "@azure/core-client";
-import {
-  InternalPipelineOptions,
-  bearerTokenAuthenticationPolicy
-} from "@azure/core-rest-pipeline";
-import { TokenCredential, KeyCredential, isTokenCredential } from "@azure/core-auth";
-import { GeneratedClient } from "./generated/generatedClient";
-import { logger } from "./logger";
-import {
-  JobManifestTasks as GeneratedActions,
-  DetectLanguageInput,
-  GeneratedClientEntitiesRecognitionPiiOptionalParams as GeneratedRecognizePiiEntitiesOptions,
-  GeneratedClientSentimentOptionalParams as GeneratedAnalyzeSentimentOptions,
-  GeneratedClientEntitiesRecognitionGeneralOptionalParams as GeneratedRecognizeCategorizedEntitiesOptions,
-  GeneratedClientEntitiesLinkingOptionalParams as GeneratedRecognizeLinkedEntitiesOptions,
-  GeneratedClientKeyPhrasesOptionalParams as GeneratedExtractKeyPhrasesOptions,
-  GeneratedClientLanguagesOptionalParams as GeneratedDetectLanguageOptions,
-  TextDocumentInput,
-  PiiCategory
-} from "./generated/models";
-import {
-  DetectLanguageResultArray,
-  makeDetectLanguageResultArray
-} from "./detectLanguageResultArray";
-import {
-  RecognizeCategorizedEntitiesResultArray,
-  makeRecognizeCategorizedEntitiesResultArray
-} from "./recognizeCategorizedEntitiesResultArray";
-import {
-  AnalyzeSentimentResultArray,
-  makeAnalyzeSentimentResultArray
-} from "./analyzeSentimentResultArray";
-import {
-  makeExtractKeyPhrasesResultArray,
-  ExtractKeyPhrasesResultArray
-} from "./extractKeyPhrasesResultArray";
-import {
-  RecognizePiiEntitiesResultArray,
-  makeRecognizePiiEntitiesResultArray
-} from "./recognizePiiEntitiesResultArray";
-import {
-  RecognizeLinkedEntitiesResultArray,
-  makeRecognizeLinkedEntitiesResultArray
-} from "./recognizeLinkedEntitiesResultArray";
-import { createSpan } from "./tracing";
-import { SpanStatusCode } from "@azure/core-tracing";
-import { textAnalyticsAzureKeyCredentialPolicy } from "./azureKeyCredentialPolicy";
-import {
-  addParamsToTask,
-  compose,
-  compileError,
-  setCategoriesFilter,
-  setOpinionMining,
-  setOrderBy,
-  setSentenceCount,
-  setStrEncodingParam,
-  setStrEncodingParamValue,
-  StringIndexType
-} from "./util";
-import { TextAnalyticsOperationOptions } from "./textAnalyticsOperationOptions";
 import { AnalysisPollOperationState, OperationMetadata } from "./pollerModels";
-import { CustomTextAnalyticsAction, TextAnalyticsAction } from "./textAnalyticsAction";
-import {
-  AnalyzeHealthcareEntitiesPollerLike,
-  AnalyzeHealthcareOperationState,
-  BeginAnalyzeHealthcareEntitiesOptions,
-  HealthLro,
-  isHealthDone,
-  processHealthResult,
-  updateHealthState
-} from "./healthLro";
-import { LroEngine } from "@azure/core-lro";
-import { PagedAnalyzeHealthcareEntitiesResult } from "./analyzeHealthcareEntitiesResult";
 import {
   AnalyzeActionsOperationMetadata,
   AnalyzeActionsOperationState,
@@ -84,7 +12,58 @@ import {
   processAnalyzeResult,
   updateAnalyzeState
 } from "./analyzeLro";
+import {
+  AnalyzeHealthcareEntitiesPollerLike,
+  AnalyzeHealthcareOperationState,
+  BeginAnalyzeHealthcareEntitiesOptions,
+  HealthLro,
+  isHealthDone,
+  processHealthResult,
+  updateHealthState
+} from "./healthLro";
+import { AnalyzeSentimentResultArray, makeAnalyzeSentimentResultArray } from "./analyzeSentimentResultArray";
+import { CustomTextAnalyticsAction, TextAnalyticsAction } from "./textAnalyticsAction";
+import {
+  DetectLanguageInput,
+  JobManifestTasks as GeneratedActions,
+  GeneratedClientSentimentOptionalParams as GeneratedAnalyzeSentimentOptions,
+  GeneratedClientLanguagesOptionalParams as GeneratedDetectLanguageOptions,
+  GeneratedClientKeyPhrasesOptionalParams as GeneratedExtractKeyPhrasesOptions,
+  GeneratedClientEntitiesRecognitionGeneralOptionalParams as GeneratedRecognizeCategorizedEntitiesOptions,
+  GeneratedClientEntitiesLinkingOptionalParams as GeneratedRecognizeLinkedEntitiesOptions,
+  GeneratedClientEntitiesRecognitionPiiOptionalParams as GeneratedRecognizePiiEntitiesOptions,
+  PiiCategory,
+  TextDocumentInput
+} from "./generated/models";
+import { DetectLanguageResultArray, makeDetectLanguageResultArray } from "./detectLanguageResultArray";
+import { ExtractKeyPhrasesResultArray, makeExtractKeyPhrasesResultArray } from "./extractKeyPhrasesResultArray";
+import { InternalPipelineOptions, bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
+import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
+import { RecognizeCategorizedEntitiesResultArray, makeRecognizeCategorizedEntitiesResultArray } from "./recognizeCategorizedEntitiesResultArray";
+import { RecognizeLinkedEntitiesResultArray, makeRecognizeLinkedEntitiesResultArray } from "./recognizeLinkedEntitiesResultArray";
+import { RecognizePiiEntitiesResultArray, makeRecognizePiiEntitiesResultArray } from "./recognizePiiEntitiesResultArray";
+import {
+  StringIndexType,
+  addParamsToTask,
+  compileError,
+  compose,
+  setCategoriesFilter,
+  setOpinionMining,
+  setOrderBy,
+  setSentenceCount,
+  setStrEncodingParam,
+  setStrEncodingParamValue
+} from "./util";
+import { CommonClientOptions } from "@azure/core-client";
+import { GeneratedClient } from "./generated/generatedClient";
+import { LroEngine } from "@azure/core-lro";
 import { PagedAnalyzeActionsResult } from "./analyzeActionsResult";
+import { PagedAnalyzeHealthcareEntitiesResult } from "./analyzeHealthcareEntitiesResult";
+import { SpanStatusCode } from "@azure/core-tracing";
+import { TextAnalyticsOperationOptions } from "./textAnalyticsOperationOptions";
+import { createSpan } from "./tracing";
+import { logger } from "./logger";
+import { textAnalyticsAzureKeyCredentialPolicy } from "./azureKeyCredentialPolicy";
 
 export {
   BeginAnalyzeActionsOptions,
@@ -583,7 +562,7 @@ export class TextAnalyticsClient {
   /**
    * Runs a predictive model to identify a collection of named entities
    * in the passed-in input strings, and categorize those entities into types
-   * such as person, location, or organization.  For more information on 
+   * such as person, location, or organization.  For more information on
    * available categories, @see
    * {@link https://docs.microsoft.com/azure/cognitive-services/Text-Analytics/named-entity-types}.
    * For a list of languages supported by this operation, @see
@@ -591,7 +570,7 @@ export class TextAnalyticsClient {
    * @param documents - The input strings to analyze.
    * @param language - The language that all the input strings are
         written in. If unspecified, this value will be set to the default
-        language in `TextAnalyticsClientOptions`.  
+        language in `TextAnalyticsClientOptions`.
         If set to an empty string, the service will apply a model
         where the language is explicitly set to "None".
    * @param options - Optional parameters for the operation.
@@ -684,7 +663,7 @@ export class TextAnalyticsClient {
    * @param documents - The input strings to analyze.
    * @param language - The language that all the input strings are
         written in. If unspecified, this value will be set to the default
-        language in `TextAnalyticsClientOptions`.  
+        language in `TextAnalyticsClientOptions`.
         If set to an empty string, the service will apply a model
         where the lanuage is explicitly set to "None".
    * @param options - Optional parameters that includes enabling opinion mining.
@@ -762,7 +741,7 @@ export class TextAnalyticsClient {
    * @param documents - The input strings to analyze.
    * @param language - The language that all the input strings are
         written in. If unspecified, this value will be set to the default
-        language in `TextAnalyticsClientOptions`.  
+        language in `TextAnalyticsClientOptions`.
         If set to an empty string, the service will apply a model
         where the language is explicitly set to "None".
    * @param options - Options for the operation.
@@ -840,7 +819,7 @@ export class TextAnalyticsClient {
    * @param inputs - The input strings to analyze.
    * @param language - The language that all the input strings are
         written in. If unspecified, this value will be set to the default
-        language in `TextAnalyticsClientOptions`.  
+        language in `TextAnalyticsClientOptions`.
         If set to an empty string, the service will apply a model
         where the language is explicitly set to "None".
    * @param options - Options for the operation.
@@ -915,7 +894,7 @@ export class TextAnalyticsClient {
    * @param documents - The input strings to analyze.
    * @param language - The language that all the input strings are
         written in. If unspecified, this value will be set to the default
-        language in `TextAnalyticsClientOptions`.  
+        language in `TextAnalyticsClientOptions`.
         If set to an empty string, the service will apply a model
         where the language is explicitly set to "None".
    * @param options - Options for the operation.

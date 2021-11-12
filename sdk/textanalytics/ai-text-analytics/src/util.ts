@@ -1,20 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { RestError } from "@azure/core-rest-pipeline";
-import { FullOperationResponse, OperationOptions, OperationSpec } from "@azure/core-client";
-import { SpanStatusCode } from "@azure/core-tracing";
-import { logger } from "./logger";
 import {
   ErrorResponse,
   GeneratedClient,
-  InnerError,
   StringIndexType as GeneratedStringIndexType,
+  InnerError,
   TextAnalyticsError
 } from "./generated";
+import { FullOperationResponse, OperationOptions, OperationSpec } from "@azure/core-client";
+import { LroResponse } from "@azure/core-lro";
+import { RestError } from "@azure/core-rest-pipeline";
+import { SpanStatusCode } from "@azure/core-tracing";
 import { TextAnalyticsAction } from "./textAnalyticsAction";
 import { createSpan } from "./tracing";
-import { LroResponse } from "@azure/core-lro";
+import { logger } from "./logger";
 
 /**
  * @internal

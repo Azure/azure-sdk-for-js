@@ -1,17 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  makeTextAnalyticsSuccessResult,
-  TextAnalyticsSuccessResult,
-  TextAnalyticsErrorResult,
-  makeTextAnalyticsErrorResult
-} from "./textAnalyticsResult";
-import {
-  TextAnalyticsError,
-  ClassificationResult,
-  SingleClassificationDocument
-} from "./generated/models";
+import { ClassificationResult, SingleClassificationDocument, TextAnalyticsError } from "./generated/models";
+import { TextAnalyticsErrorResult, TextAnalyticsSuccessResult, makeTextAnalyticsErrorResult, makeTextAnalyticsSuccessResult } from "./textAnalyticsResult";
 
 /**
  * The result of the custom classify document single category operation on a single document.

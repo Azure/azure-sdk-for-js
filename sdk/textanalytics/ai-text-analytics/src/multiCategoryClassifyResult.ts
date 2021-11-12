@@ -1,13 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  makeTextAnalyticsSuccessResult,
-  TextAnalyticsSuccessResult,
-  TextAnalyticsErrorResult,
-  makeTextAnalyticsErrorResult
-} from "./textAnalyticsResult";
-import { TextAnalyticsError, MultiClassificationDocument } from "./generated/models";
+import { MultiClassificationDocument, TextAnalyticsError } from "./generated/models";
+import { TextAnalyticsErrorResult, TextAnalyticsSuccessResult, makeTextAnalyticsErrorResult, makeTextAnalyticsSuccessResult } from "./textAnalyticsResult";
 import { ClassificationCategory } from "./singleCategoryClassifyResult";
 
 /**

@@ -1,16 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  TextDocumentBatchStatistics,
-  TextDocumentInput,
-  KeyPhraseResult
-} from "./generated/models";
-import {
-  ExtractKeyPhrasesResult,
-  makeExtractKeyPhrasesResult,
-  makeExtractKeyPhrasesErrorResult
-} from "./extractKeyPhrasesResult";
+import { ExtractKeyPhrasesResult, makeExtractKeyPhrasesErrorResult, makeExtractKeyPhrasesResult } from "./extractKeyPhrasesResult";
+import { KeyPhraseResult, TextDocumentBatchStatistics, TextDocumentInput } from "./generated/models";
 import { combineSuccessfulAndErroneousDocumentsWithStatisticsAndModelVersion } from "./textAnalyticsResult";
 
 /**

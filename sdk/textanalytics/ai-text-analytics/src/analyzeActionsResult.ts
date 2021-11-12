@@ -1,45 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import {
-  AnalyzeSentimentResultArray,
-  makeAnalyzeSentimentResultArray
-} from "./analyzeSentimentResultArray";
-import {
-  MultiCategoryClassifyResultArray,
-  makeMultiCategoryClassifyResultArray
-} from "./multiCategoryClassifyResultArray";
-import {
-  SingleCategoryClassifyResultArray,
-  makeSingleCategoryClassifyResultArray
-} from "./singleCategoryClassifyResultArray";
-import {
-  ExtractKeyPhrasesResultArray,
-  makeExtractKeyPhrasesResultArray
-} from "./extractKeyPhrasesResultArray";
-import {
-  ExtractSummaryResultArray,
-  makeExtractSummaryResultArray
-} from "./extractSummaryResultArray";
+import { AnalyzeSentimentResultArray, makeAnalyzeSentimentResultArray } from "./analyzeSentimentResultArray";
+import { ErrorCode, TextAnalyticsError, intoTextAnalyticsError } from "./textAnalyticsResult";
+import { ExtractKeyPhrasesResultArray, makeExtractKeyPhrasesResultArray } from "./extractKeyPhrasesResultArray";
+import { ExtractSummaryResultArray, makeExtractSummaryResultArray } from "./extractSummaryResultArray";
 import { AnalyzeJobState as GeneratedResponse, TextDocumentInput } from "./generated/models";
-import {
-  makeRecognizeCategorizedEntitiesResultArray,
-  RecognizeCategorizedEntitiesResultArray
-} from "./recognizeCategorizedEntitiesResultArray";
-import {
-  makeRecognizeCustomEntitiesResultArray,
-  RecognizeCustomEntitiesResultArray
-} from "./recognizeCustomEntitiesResultArray";
-import {
-  makeRecognizeLinkedEntitiesResultArray,
-  RecognizeLinkedEntitiesResultArray
-} from "./recognizeLinkedEntitiesResultArray";
-import {
-  makeRecognizePiiEntitiesResultArray,
-  RecognizePiiEntitiesResultArray
-} from "./recognizePiiEntitiesResultArray";
-import { ErrorCode, intoTextAnalyticsError, TextAnalyticsError } from "./textAnalyticsResult";
+import { MultiCategoryClassifyResultArray, makeMultiCategoryClassifyResultArray } from "./multiCategoryClassifyResultArray";
+import { RecognizeCategorizedEntitiesResultArray, makeRecognizeCategorizedEntitiesResultArray } from "./recognizeCategorizedEntitiesResultArray";
+import { RecognizeCustomEntitiesResultArray, makeRecognizeCustomEntitiesResultArray } from "./recognizeCustomEntitiesResultArray";
+import { RecognizeLinkedEntitiesResultArray, makeRecognizeLinkedEntitiesResultArray } from "./recognizeLinkedEntitiesResultArray";
+import { RecognizePiiEntitiesResultArray, makeRecognizePiiEntitiesResultArray } from "./recognizePiiEntitiesResultArray";
+import { SingleCategoryClassifyResultArray, makeSingleCategoryClassifyResultArray } from "./singleCategoryClassifyResultArray";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 
 /**
  * The results of an analyze Actions operation.

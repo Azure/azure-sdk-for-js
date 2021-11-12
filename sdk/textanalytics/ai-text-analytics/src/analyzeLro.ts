@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { LongRunningOperation, LroResponse, PollerLike, RawResponse } from "@azure/core-lro";
-import { SpanStatusCode } from "@azure/core-tracing";
-import { createSerializer, OperationOptions, OperationSpec } from "@azure/core-client";
+import * as Mappers from "./generated/models/mappers";
+import { AnalysisPollOperationState, OperationMetadata } from "./pollerModels";
+import { AnalyzeActionsResult, PagedAnalyzeActionsResult, createAnalyzeActionsResult } from "./analyzeActionsResult";
 import {
   GeneratedClient,
   GeneratedClientAnalyzeStatusOptionalParams,
@@ -11,9 +11,9 @@ import {
   JobManifestTasks,
   TextDocumentInput
 } from "./generated";
-import { createSpan } from "./tracing";
-import { compileError, getRawResponse, sendGetRequest } from "./util";
-import * as Mappers from "./generated/models/mappers";
+import { LongRunningOperation, LroResponse, PollerLike, RawResponse } from "@azure/core-lro";
+import { OperationOptions, OperationSpec, createSerializer } from "@azure/core-client";
+import { PagedResult, getPagedAsyncIterator } from "@azure/core-paging";
 import {
   accept,
   apiVersion,
@@ -22,13 +22,9 @@ import {
   skip,
   top
 } from "./generated/models/parameters";
-import { getPagedAsyncIterator, PagedResult } from "@azure/core-paging";
-import { AnalysisPollOperationState, OperationMetadata } from "./pollerModels";
-import {
-  AnalyzeActionsResult,
-  createAnalyzeActionsResult,
-  PagedAnalyzeActionsResult
-} from "./analyzeActionsResult";
+import { compileError, getRawResponse, sendGetRequest } from "./util";
+import { SpanStatusCode } from "@azure/core-tracing";
+import { createSpan } from "./tracing";
 
 /**
  * Options for the begin analyze actions operation.

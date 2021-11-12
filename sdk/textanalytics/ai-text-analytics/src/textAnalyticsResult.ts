@@ -2,15 +2,15 @@
 // Licensed under the MIT license.
 
 import {
-  TextDocumentStatistics,
+  DocumentError,
+  ErrorCodeValue,
   TextAnalyticsError as GeneratedTextAnalyticsErrorModel,
   InnerError,
-  ErrorCodeValue,
   InnerErrorCodeValue,
   TextAnalyticsWarning,
-  DocumentError,
   TextDocumentBatchStatistics,
-  TextDocumentInput
+  TextDocumentInput,
+  TextDocumentStatistics
 } from "./generated/models";
 import { sortResponseIdObjects } from "./util";
 

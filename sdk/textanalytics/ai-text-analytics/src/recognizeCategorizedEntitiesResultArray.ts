@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TextDocumentBatchStatistics, TextDocumentInput, EntitiesResult } from "./generated/models";
+import { EntitiesResult, TextDocumentBatchStatistics, TextDocumentInput } from "./generated/models";
 import {
   RecognizeCategorizedEntitiesResult,
-  makeRecognizeCategorizedEntitiesResult,
-  makeRecognizeCategorizedEntitiesErrorResult
+  makeRecognizeCategorizedEntitiesErrorResult,
+  makeRecognizeCategorizedEntitiesResult
 } from "./recognizeCategorizedEntitiesResult";
 import { combineSuccessfulAndErroneousDocumentsWithStatisticsAndModelVersion } from "./textAnalyticsResult";
 

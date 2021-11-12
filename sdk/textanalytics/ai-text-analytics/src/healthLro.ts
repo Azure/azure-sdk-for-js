@@ -1,31 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { LongRunningOperation, LroResponse, PollerLike, RawResponse } from "@azure/core-lro";
-import { SpanStatusCode } from "@azure/core-tracing";
-import { createSerializer, OperationOptions, OperationSpec } from "@azure/core-client";
+import * as Mappers from "./generated/models/mappers";
 import {
   AnalyzeHealthcareEntitiesResult,
   AnalyzeHealthcareEntitiesResultArray,
+  PagedAnalyzeHealthcareEntitiesResult,
   makeHealthcareEntitiesErrorResult,
-  makeHealthcareEntitiesResult,
-  PagedAnalyzeHealthcareEntitiesResult
+  makeHealthcareEntitiesResult
 } from "./analyzeHealthcareEntitiesResult";
+import { GeneratedClient, GeneratedClientHealthStatusOptionalParams, GeneratedClientHealthStatusResponse, TextDocumentInput } from "./generated";
+import { LongRunningOperation, LroResponse, PollerLike, RawResponse } from "@azure/core-lro";
+import { OperationOptions, OperationSpec, createSerializer } from "@azure/core-client";
+import { PagedResult, getPagedAsyncIterator } from "@azure/core-paging";
 import {
-  GeneratedClient,
-  GeneratedClientHealthStatusOptionalParams,
-  GeneratedClientHealthStatusResponse,
-  TextDocumentInput
-} from "./generated";
-import { createSpan } from "./tracing";
-import {
+  StringIndexType,
   addStrEncodingParam,
-  getRawResponse,
   compileError,
-  sendGetRequest,
-  StringIndexType
+  getRawResponse,
+  sendGetRequest
 } from "./util";
-import * as Mappers from "./generated/models/mappers";
 import {
   accept,
   apiVersion,
@@ -34,10 +28,11 @@ import {
   skip,
   top
 } from "./generated/models/parameters";
-import { processAndCombineSuccessfulAndErroneousDocuments } from "./textAnalyticsResult";
-import { getPagedAsyncIterator, PagedResult } from "@azure/core-paging";
 import { AnalysisPollOperationState } from "./pollerModels";
+import { SpanStatusCode } from "@azure/core-tracing";
 import { TextAnalyticsOperationOptions } from "./textAnalyticsOperationOptions";
+import { createSpan } from "./tracing";
+import { processAndCombineSuccessfulAndErroneousDocuments } from "./textAnalyticsResult";
 
 /**
  * Options for the begin analyze healthcare entities operation.

@@ -2,14 +2,14 @@
 // Licensed under the MIT license.
 
 import {
+  CustomSingleClassificationResult,
   TextDocumentBatchStatistics,
-  TextDocumentInput,
-  CustomSingleClassificationResult
+  TextDocumentInput
 } from "./generated/models";
 import {
   SingleCategoryClassifyResult,
-  makeSingleCategoryClassifyResult,
-  makeSingleCategoryClassifyErrorResult
+  makeSingleCategoryClassifyErrorResult,
+  makeSingleCategoryClassifyResult
 } from "./singleCategoryClassifyResult";
 import { combineSuccessfulAndErroneousDocumentsWithStatisticsAndCustomProjectInfo } from "./textAnalyticsResult";
 

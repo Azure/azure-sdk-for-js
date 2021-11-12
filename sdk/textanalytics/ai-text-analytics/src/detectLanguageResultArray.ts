@@ -1,12 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TextDocumentBatchStatistics, LanguageResult, TextDocumentInput } from "./generated/models";
-import {
-  DetectLanguageResult,
-  makeDetectLanguageResult,
-  makeDetectLanguageErrorResult
-} from "./detectLanguageResult";
+import { DetectLanguageResult, makeDetectLanguageErrorResult, makeDetectLanguageResult } from "./detectLanguageResult";
+import { LanguageResult, TextDocumentBatchStatistics, TextDocumentInput } from "./generated/models";
 import { combineSuccessfulAndErroneousDocumentsWithStatisticsAndModelVersion } from "./textAnalyticsResult";
 
 /**

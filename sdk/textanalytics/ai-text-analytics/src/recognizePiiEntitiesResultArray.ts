@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TextDocumentBatchStatistics, TextDocumentInput, PiiResult } from "./generated/models";
+import { PiiResult, TextDocumentBatchStatistics, TextDocumentInput } from "./generated/models";
 import {
   RecognizePiiEntitiesResult,
-  makeRecognizePiiEntitiesResult,
-  makeRecognizePiiEntitiesErrorResult
+  makeRecognizePiiEntitiesErrorResult,
+  makeRecognizePiiEntitiesResult
 } from "./recognizePiiEntitiesResult";
 import { combineSuccessfulAndErroneousDocumentsWithStatisticsAndModelVersion } from "./textAnalyticsResult";
 

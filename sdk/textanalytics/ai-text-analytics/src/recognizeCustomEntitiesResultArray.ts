@@ -2,14 +2,14 @@
 // Licensed under the MIT license.
 
 import {
+  CustomEntitiesResult,
   TextDocumentBatchStatistics,
-  TextDocumentInput,
-  CustomEntitiesResult
+  TextDocumentInput
 } from "./generated/models";
 import {
   RecognizeCustomEntitiesResult,
-  makeRecognizeCustomEntitiesResult,
-  makeRecognizeCustomEntitiesErrorResult
+  makeRecognizeCustomEntitiesErrorResult,
+  makeRecognizeCustomEntitiesResult
 } from "./recognizeCustomEntitiesResult";
 import { combineSuccessfulAndErroneousDocumentsWithStatisticsAndCustomProjectInfo } from "./textAnalyticsResult";
 

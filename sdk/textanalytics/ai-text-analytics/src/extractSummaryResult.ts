@@ -1,17 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  makeTextAnalyticsSuccessResult,
-  TextAnalyticsSuccessResult,
-  TextAnalyticsErrorResult,
-  makeTextAnalyticsErrorResult
-} from "./textAnalyticsResult";
-import {
-  TextAnalyticsError,
-  ExtractedDocumentSummary,
-  ExtractedSummarySentence as GeneratedSummarySentences
-} from "./generated/models";
+import { ExtractedDocumentSummary, ExtractedSummarySentence as GeneratedSummarySentences, TextAnalyticsError } from "./generated/models";
+import { TextAnalyticsErrorResult, TextAnalyticsSuccessResult, makeTextAnalyticsErrorResult, makeTextAnalyticsSuccessResult } from "./textAnalyticsResult";
 
 /**
  * The result of the extract summary operation on a single document.
