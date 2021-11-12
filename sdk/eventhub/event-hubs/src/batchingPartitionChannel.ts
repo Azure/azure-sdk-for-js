@@ -90,7 +90,13 @@ export class BatchingPartitionChannel {
     if (!this._isRunning) {
       this._isRunning = true;
       this._startPublishLoop().catch((e) => {
-        logger.error(`The following error occured during batch creation or sending: ${JSON.stringify(e, undefined, "  ")}`);
+        logger.error(
+          `The following error occured during batch creation or sending: ${JSON.stringify(
+            e,
+            undefined,
+            "  "
+          )}`
+        );
       });
     }
   }
@@ -272,7 +278,13 @@ export class BatchingPartitionChannel {
       events: this._batchedEvents,
       partitionId: this._partitionId
     }).catch((e) => {
-      logger.error(`The following error occured in the onSendEventsSuccessHandler: ${JSON.stringify(e, undefined, "  ")}`);
+      logger.error(
+        `The following error occured in the onSendEventsSuccessHandler: ${JSON.stringify(
+          e,
+          undefined,
+          "  "
+        )}`
+      );
     });
   }
 
@@ -288,7 +300,13 @@ export class BatchingPartitionChannel {
       events: event ? [event] : this._batchedEvents,
       partitionId: this._partitionId
     }).catch((e) => {
-      logger.error(`The following error occured in the onSendEventsErrorHandler: ${JSON.stringify(e, undefined, "  ")}`);
+      logger.error(
+        `The following error occured in the onSendEventsErrorHandler: ${JSON.stringify(
+          e,
+          undefined,
+          "  "
+        )}`
+      );
     });
   }
 
