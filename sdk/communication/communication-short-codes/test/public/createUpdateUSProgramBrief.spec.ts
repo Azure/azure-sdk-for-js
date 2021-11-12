@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { ShortCodesClient, ShortCodesUpsertUSProgramBriefOptionalParams } from "../../src";
+import { Context } from "mocha";
 import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
-import { Context } from "mocha";
-import { ShortCodesClient, ShortCodesUpsertUSProgramBriefOptionalParams } from "../../src";
 import { createRecordedClient } from "./utils/recordedClient";
 import { getTestUSProgramBrief } from "./utils/testUSProgramBrief";
 

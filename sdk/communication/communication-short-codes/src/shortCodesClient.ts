@@ -3,34 +3,21 @@
 /// <reference lib="esnext.asynciterable" />
 
 import {
-  parseClientArguments,
-  isKeyCredential,
-  createCommunicationAuthPolicy
-} from "@azure/communication-common";
-import { isTokenCredential, KeyCredential, TokenCredential } from "@azure/core-auth";
-import {
-  PipelineOptions,
-  InternalPipelineOptions,
-  createPipelineFromOptions,
-  RestResponse
-} from "@azure/core-http";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { logger, createSpan, SDK_VERSION } from "./utils";
-import { ShortCodesClient as ShortCodesGeneratedClient } from "./generated/src";
-import { ShortCodes as GeneratedClient } from "./generated/src/operations";
-import {
-  ShortCode,
-  ShortCodesUpsertUSProgramBriefOptionalParams,
-  USProgramBrief
-} from "./generated/src/models/";
-import { SpanStatusCode } from "@azure/core-tracing";
-import {
   DeleteUSProgramBriefOptions,
   GetUSProgramBriefOptions,
   ListShortCodesOptions,
   ListUSProgramBriefsOptions,
   SubmitUSProgramBriefOptions
 } from "./models";
+import { InternalPipelineOptions, PipelineOptions, RestResponse, createPipelineFromOptions } from "@azure/core-http";
+import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
+import { SDK_VERSION, createSpan, logger } from "./utils";
+import { ShortCode, ShortCodesUpsertUSProgramBriefOptionalParams, USProgramBrief } from "./generated/src/models/";
+import { createCommunicationAuthPolicy, isKeyCredential, parseClientArguments } from "@azure/communication-common";
+import { ShortCodes as GeneratedClient } from "./generated/src/operations";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { ShortCodesClient as ShortCodesGeneratedClient } from "./generated/src";
+import { SpanStatusCode } from "@azure/core-tracing";
 
 /**
  * Client options used to configure the ShortCodesClient API requests.

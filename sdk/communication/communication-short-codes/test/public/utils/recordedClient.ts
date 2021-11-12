@@ -1,27 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Context } from "mocha";
 import * as dotenv from "dotenv";
-
-import {
-  env,
-  Recorder,
-  record,
-  RecorderEnvironmentSetup,
-  isPlaybackMode
-} from "@azure-tools/test-recorder";
+import { ClientSecretCredential, DefaultAzureCredential } from "@azure/identity";
 import {
   DefaultHttpClient,
   HttpClient,
   HttpOperationResponse,
-  isNode,
   TokenCredential,
-  WebResourceLike
+  WebResourceLike,
+  isNode
 } from "@azure/core-http";
+import {
+  Recorder,
+  RecorderEnvironmentSetup,
+  env,
+  isPlaybackMode,
+  record
+} from "@azure-tools/test-recorder";
 import { ShortCodesClient, ShortCodesClientOptions } from "../../../src";
+import { Context } from "mocha";
 import { parseConnectionString } from "@azure/communication-common";
-import { ClientSecretCredential, DefaultAzureCredential } from "@azure/identity";
 
 if (isNode) {
   dotenv.config();
