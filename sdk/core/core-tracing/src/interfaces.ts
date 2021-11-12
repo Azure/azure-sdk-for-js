@@ -73,6 +73,22 @@ export interface TracingClient {
     callbackThis?: ThisParameterType<Callback>,
     ...callbackArgs: CallbackArgs
   ): ReturnType<Callback>;
+
+  /**
+   * Parses a traceparent header value into a span identifier.
+   *
+   * @param traceparentHeader - The traceparent header to parse.
+   * @returns An implementation-specific identifier for the span.
+   */
+  parseTraceparentHeader(traceparentHeader: string): TracingSpanIdentifier | undefined;
+
+  /**
+   * Creates a set of request headers to propagate tracing information to a backend.
+   *
+   * @param spanId - The span identifier to serialize.
+   * @returns The set of headers to add to a request.
+   */
+  createRequestHeaders(spanId: TracingSpanIdentifier): Record<string, string>;
 }
 
 /**
@@ -81,8 +97,6 @@ export interface TracingClient {
 export interface TracingClientOptions {
   /** The value of the az.namespace tracing attribute on any given spans */
   namespace: string;
-  /** An optional {@link Instrumenter}. If omitted, the globally set instrumenter will be used */
-  instrumenter?: Instrumenter;
   /** Information about the package invoking this trace. Defaults to \@azure/core-tracing if omitted */
   packageInformation?: {
     /** The name of the package. */

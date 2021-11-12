@@ -99,25 +99,3 @@ export let instrumenterImplementation: Instrumenter = new NoOpInstrumenter();
 export function useInstrumenter(instrumenter: Instrumenter): void {
   instrumenterImplementation = instrumenter;
 }
-
-/**
- * Parses a traceparent header value into a span identifier.
- *
- * @param traceparentHeader - The traceparent header to parse.
- * @returns An implementation-specific identifier for the span.
- */
-export function parseTraceparentHeader(
-  traceparentHeader: string
-): TracingSpanIdentifier | undefined {
-  return instrumenterImplementation.parseTraceparentHeader(traceparentHeader);
-}
-
-/**
- * Creates a set of request headers to propagate tracing information to a backend.
- *
- * @param spanId - The span identifier to serialize.
- * @returns The set of headers to add to a request.
- */
-export function createRequestHeaders(spanId: TracingSpanIdentifier): Record<string, string> {
-  return instrumenterImplementation.createRequestHeaders(spanId);
-}

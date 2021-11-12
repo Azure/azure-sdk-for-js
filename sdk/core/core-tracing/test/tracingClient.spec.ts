@@ -189,5 +189,45 @@ describe("TracingClient", () => {
         this
       );
     });
+
+    describe("with a successful callback", () => {
+      it("sets status on the span", async () => {
+        // Set our instrumenter to always return the same span and context so we
+        // can inspect them.
+        instrumenter.startSpan = () => {
+          return {
+            span,
+            tracingContext: context
+          };
+        };
+        const setStatusSpy = sinon.spy(span, "setStatus");
+        await client.withSpan(spanName, () => Promise.resolve(42), {});
+
+        assert.isTrue(setStatusSpy.calledWith(sinon.match({ status: "success" })));
+      });
+    });
+
+    describe("with an error", () => {
+      it("sets status on the span", async () => {
+        // Set our instrumenter to always return the same span and context so we
+        // can inspect them.
+        instrumenter.startSpan = () => {
+          return {
+            span,
+            tracingContext: context
+          };
+        };
+        const setStatusSpy = sinon.spy(span, "setStatus");
+        let errorThrown = false;
+        try {
+          await client.withSpan(spanName, () => Promise.reject(new Error("test")), {});
+        } catch (err) {
+          errorThrown = true;
+          assert.isTrue(setStatusSpy.calledWith(sinon.match({ status: "error", error: err })));
+        }
+
+        assert.isTrue(errorThrown);
+      });
+    });
   });
 });

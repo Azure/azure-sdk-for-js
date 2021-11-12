@@ -5,9 +5,6 @@
 ```ts
 
 // @public
-export function createRequestHeaders(spanId: TracingSpanIdentifier): Record<string, string>;
-
-// @public
 export function createTracingClient(options?: TracingClientOptions): TracingClient;
 
 // @public
@@ -47,9 +44,6 @@ export interface OperationTracingOptions {
 }
 
 // @public
-export function parseTraceparentHeader(traceparentHeader: string): TracingSpanIdentifier | undefined;
-
-// @public
 export type SpanStatus = {
     status: "success";
 } | {
@@ -59,6 +53,8 @@ export type SpanStatus = {
 
 // @public
 export interface TracingClient {
+    createRequestHeaders(spanId: TracingSpanIdentifier): Record<string, string>;
+    parseTraceparentHeader(traceparentHeader: string): TracingSpanIdentifier | undefined;
     startSpan<Options extends {
         tracingOptions?: OperationTracingOptions;
     }>(name: string, operationOptions?: Options, spanOptions?: TracingSpanOptions): {
@@ -74,7 +70,6 @@ export interface TracingClient {
 
 // @public
 export interface TracingClientOptions {
-    instrumenter?: Instrumenter;
     namespace: string;
     packageInformation?: {
         name: string;

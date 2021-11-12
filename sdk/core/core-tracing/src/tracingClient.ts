@@ -8,7 +8,8 @@ import {
   OperationTracingOptions,
   TracingSpan,
   TracingContext,
-  TracingSpanOptions
+  TracingSpanOptions,
+  TracingSpanIdentifier
 } from "./interfaces";
 import { instrumenterImplementation } from "./instrumenter";
 import { knownContextKeys } from "./tracingContext";
@@ -21,7 +22,7 @@ export class TracingClientImpl implements TracingClient {
 
   constructor(options?: TracingClientOptions) {
     this._namespace = options?.namespace || "";
-    this._instrumenter = options?.instrumenter || instrumenterImplementation;
+    this._instrumenter = instrumenterImplementation;
     this._packageInformation = options?.packageInformation || {
       name: "@azure/core-tracing"
     };
@@ -43,7 +44,6 @@ export class TracingClientImpl implements TracingClient {
     let tracingContext = startSpanResult.tracingContext;
     const span = startSpanResult.span;
     if (!tracingContext.getValue(knownContextKeys.Namespace)) {
-      // Don't stomp on existing namespace...TODO: add test
       tracingContext = tracingContext.setValue(knownContextKeys.Namespace, this._namespace);
       span.setAttribute("az.namespace", this._namespace);
     }
@@ -102,6 +102,25 @@ export class TracingClientImpl implements TracingClient {
     ...callbackArgs: CallbackArgs
   ): ReturnType<Callback> {
     return this._instrumenter.withContext(context, callback, callbackThis, ...callbackArgs);
+  }
+  /**
+   * Parses a traceparent header value into a span identifier.
+   *
+   * @param traceparentHeader - The traceparent header to parse.
+   * @returns An implementation-specific identifier for the span.
+   */
+  parseTraceparentHeader(traceparentHeader: string): TracingSpanIdentifier | undefined {
+    return this._instrumenter.parseTraceparentHeader(traceparentHeader);
+  }
+
+  /**
+   * Creates a set of request headers to propagate tracing information to a backend.
+   *
+   * @param spanId - The span identifier to serialize.
+   * @returns The set of headers to add to a request.
+   */
+  createRequestHeaders(spanId: TracingSpanIdentifier): Record<string, string> {
+    return this._instrumenter.createRequestHeaders(spanId);
   }
 }
 
