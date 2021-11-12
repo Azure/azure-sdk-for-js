@@ -1,26 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
-import {
-  DeletedKeyBundle,
-  DeletedKeyItem,
-  KeyBundle,
-  KeyRotationPolicy as GeneratedKeyRotationPolicy
-} from "../../src/generated";
 import {
   DeletedKey,
   KeyProperties,
-  KeyVaultKey,
   KeyRotationPolicy,
-  KeyRotationPolicyProperties
+  KeyRotationPolicyProperties,
+  KeyVaultKey
 } from "../../src/keysModels";
-import {
-  getDeletedKeyFromDeletedKeyItem,
-  getKeyFromKeyBundle,
-  getKeyPropertiesFromKeyItem,
-  keyRotationTransformations
-} from "../../src/transformations";
+import { DeletedKeyBundle, DeletedKeyItem, KeyRotationPolicy as GeneratedKeyRotationPolicy, KeyBundle } from "../../src/generated";
+import { getDeletedKeyFromDeletedKeyItem, getKeyFromKeyBundle, getKeyPropertiesFromKeyItem, keyRotationTransformations } from "../../src/transformations";
+import { assert } from "chai";
 import { stringToUint8Array } from "../utils/crypto";
 
 describe("Transformations", () => {

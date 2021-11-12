@@ -1,14 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { isNode, TokenCredential, OperationOptions } from "@azure/core-http";
-import { Context } from "mocha";
-import chai, { assert } from "chai";
-import chaiAsPromised from "chai-as-promised";
-chai.use(chaiAsPromised);
-import chaiExclude from "chai-exclude";
-chai.use(chaiExclude);
-import sinon from "sinon";
 import {
   CryptographyClient,
   DecryptParameters,
@@ -16,11 +8,20 @@ import {
   KeyClient,
   KeyVaultKey
 } from "../../src";
-import { RsaCryptographyProvider } from "../../src/cryptography/rsaCryptographyProvider";
-import { JsonWebKey } from "../../src";
-import { stringToUint8Array } from "../utils/crypto";
+import { OperationOptions, TokenCredential, isNode } from "@azure/core-http";
+import chai, { assert } from "chai";
+import { Context } from "mocha";
 import { CryptographyProvider } from "../../src/cryptography/models";
+import { JsonWebKey } from "../../src";
 import { RemoteCryptographyProvider } from "../../src/cryptography/remoteCryptographyProvider";
+import { RsaCryptographyProvider } from "../../src/cryptography/rsaCryptographyProvider";
+import chaiAsPromised from "chai-as-promised";
+import chaiExclude from "chai-exclude";
+import sinon from "sinon";
+import { stringToUint8Array } from "../utils/crypto";
+
+chai.use(chaiAsPromised);
+chai.use(chaiExclude);
 
 describe("internal crypto tests", () => {
   const tokenCredential: TokenCredential = {

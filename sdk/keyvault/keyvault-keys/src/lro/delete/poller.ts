@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 import { DeleteKeyPollOperation, DeleteKeyPollOperationState } from "./operation";
-import { DeletedKey } from "../../keysModels";
 import { KeyVaultKeyPoller, KeyVaultKeyPollerOptions } from "../keyVaultKeyPoller";
+import { DeletedKey } from "../../keysModels";
 
 /**
  * Class that creates a poller that waits until a key finishes being deleted.

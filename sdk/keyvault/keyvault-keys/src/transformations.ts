@@ -2,22 +2,22 @@
 // Licensed under the MIT license.
 
 import {
+  DeletedKey,
+  KeyProperties,
+  KeyRotationPolicy,
+  KeyRotationPolicyProperties,
+  KeyVaultKey
+} from "./keysModels";
+import {
   DeletedKeyBundle,
   DeletedKeyItem,
+  KeyRotationPolicy as GeneratedPolicy,
   KeyAttributes,
   KeyBundle,
   KeyItem,
-  KeyRotationPolicy as GeneratedPolicy,
   LifetimeActions
 } from "./generated/models";
 import { parseKeyVaultKeyIdentifier } from "./identifier";
-import {
-  DeletedKey,
-  KeyVaultKey,
-  KeyProperties,
-  KeyRotationPolicy,
-  KeyRotationPolicyProperties
-} from "./keysModels";
 
 /**
  * @internal

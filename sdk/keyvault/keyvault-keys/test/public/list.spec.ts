@@ -2,14 +2,13 @@
 // Licensed under the MIT license.
 
 import * as assert from "assert";
-import { Context } from "mocha";
-import { env, Recorder, isRecordMode } from "@azure-tools/test-recorder";
-
-import { KeyClient } from "../../src";
+import { Recorder, env, isRecordMode } from "@azure-tools/test-recorder";
 import { assertThrowsAbortError, getServiceVersion } from "../utils/utils.common";
-import { testPollerProperties } from "../utils/recorderUtils";
-import { authenticate } from "../utils/testAuthentication";
+import { Context } from "mocha";
+import { KeyClient } from "../../src";
 import TestClient from "../utils/testClient";
+import { authenticate } from "../utils/testAuthentication";
+import { testPollerProperties } from "../utils/recorderUtils";
 
 describe("Keys client - list keys in various ways", () => {
   const keyPrefix = `list${env.KEY_NAME || "KeyName"}`;

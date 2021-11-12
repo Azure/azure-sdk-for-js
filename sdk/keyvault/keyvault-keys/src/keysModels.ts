@@ -4,9 +4,9 @@
 import * as coreHttp from "@azure/core-http";
 import {
   DeletionRecoveryLevel,
+  JsonWebKeyOperation as KeyOperation,
   JsonWebKeyType as KeyType,
-  KnownJsonWebKeyType as KnownKeyTypes,
-  JsonWebKeyOperation as KeyOperation
+  KnownJsonWebKeyType as KnownKeyTypes
 } from "./generated/models";
 import { KeyCurveName } from "./cryptographyClientModels";
 

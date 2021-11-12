@@ -2,14 +2,14 @@
 // Licensed under the MIT license.
 
 import * as assert from "assert";
-import { createSandbox, SinonSandbox, SinonSpy } from "sinon";
+import { HttpClient, HttpHeaders, HttpOperationResponse, WebResourceLike } from "@azure/core-http";
+import { SinonSandbox, SinonSpy, createSandbox } from "sinon";
+import { ClientSecretCredential } from "@azure/identity";
 import { KeyClient } from "../../src";
 import { LATEST_API_VERSION } from "../../src/keysModels";
-import { HttpClient, HttpOperationResponse, WebResourceLike, HttpHeaders } from "@azure/core-http";
-import { ClientSecretCredential } from "@azure/identity";
 import { env } from "@azure-tools/test-recorder";
-import { versionsToTest } from "@azure/test-utils";
 import { serviceVersions } from "../utils/utils.common";
+import { versionsToTest } from "@azure/test-utils";
 
 describe("The Keys client should set the serviceVersion", () => {
   const keyVaultUrl = `https://keyVaultName.vault.azure.net`;

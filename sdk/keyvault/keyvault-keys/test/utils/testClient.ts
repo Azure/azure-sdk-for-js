@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { testPollerProperties } from "./recorderUtils";
 import { KeyClient, KeyVaultKey } from "../../src";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
-import { operationOptionsToRequestOptionsBase } from "@azure/core-http";
-import { RestoreKeyBackupPoller } from "./lro/restore/poller";
+import { PollOperationState, PollerLike } from "@azure/core-lro";
 import { BeginRestoreKeyBackupOptions } from "./lro/restore/operation";
+import { RestoreKeyBackupPoller } from "./lro/restore/poller";
+import { operationOptionsToRequestOptionsBase } from "@azure/core-http";
+import { testPollerProperties } from "./recorderUtils";
 
 export default class TestClient {
   public readonly client: KeyClient;

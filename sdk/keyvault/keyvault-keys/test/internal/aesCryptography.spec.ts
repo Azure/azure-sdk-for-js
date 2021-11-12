@@ -1,8 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
-import { Context } from "mocha";
 import {
   AesCbcEncryptionAlgorithm,
   CryptographyClient,
@@ -10,15 +8,17 @@ import {
   KeyClient,
   KeyVaultKey
 } from "../../src";
+import { Recorder, env } from "@azure-tools/test-recorder";
 import { getKey, stringToUint8Array, uint8ArrayToString } from "../utils/crypto";
-import { isNode } from "@azure/core-http";
 import { AesCryptographyProvider } from "../../src/cryptography/aesCryptographyProvider";
-import TestClient from "../utils/testClient";
-import { authenticate } from "../utils/testAuthentication";
-import { env, Recorder } from "@azure-tools/test-recorder";
-import { RemoteCryptographyProvider } from "../../src/cryptography/remoteCryptographyProvider";
 import { ClientSecretCredential } from "@azure/identity";
+import { Context } from "mocha";
+import { RemoteCryptographyProvider } from "../../src/cryptography/remoteCryptographyProvider";
+import TestClient from "../utils/testClient";
+import { assert } from "chai";
+import { authenticate } from "../utils/testAuthentication";
 import { getServiceVersion } from "../utils/utils.common";
+import { isNode } from "@azure/core-http";
 
 describe("AesCryptographyProvider browser tests", function() {
   it("uses the browser replacement when running in the browser", async function(this: Context) {

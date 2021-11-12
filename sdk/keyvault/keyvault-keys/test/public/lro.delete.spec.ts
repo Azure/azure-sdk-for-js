@@ -2,15 +2,14 @@
 // Licensed under the MIT license.
 
 import * as assert from "assert";
+import { DeletedKey, KeyClient } from "../../src";
+import { Recorder, env } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
-import { env, Recorder } from "@azure-tools/test-recorder";
 import { PollerStoppedError } from "@azure/core-lro";
-
-import { KeyClient, DeletedKey } from "../../src";
-import { testPollerProperties } from "../utils/recorderUtils";
-import { authenticate } from "../utils/testAuthentication";
 import TestClient from "../utils/testClient";
+import { authenticate } from "../utils/testAuthentication";
 import { getServiceVersion } from "../utils/utils.common";
+import { testPollerProperties } from "../utils/recorderUtils";
 
 describe("Keys client - Long Running Operations - delete", () => {
   const keyPrefix = `lroDelete${env.CERTIFICATE_NAME || "KeyName"}`;
