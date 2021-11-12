@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PipelineOptions } from "@azure/core-http";
 import { CommunicationUserIdentifier } from "@azure/communication-common";
+import { PipelineOptions } from "@azure/core-http";
 
 /**
  * Represents the scope of the token.

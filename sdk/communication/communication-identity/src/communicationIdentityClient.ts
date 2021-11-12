@@ -1,30 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  createCommunicationAuthPolicy,
-  parseClientArguments,
-  isKeyCredential,
-  CommunicationUserIdentifier
-} from "@azure/communication-common";
-import { isTokenCredential, KeyCredential, TokenCredential } from "@azure/core-auth";
-import {
-  InternalPipelineOptions,
-  createPipelineFromOptions,
-  OperationOptions,
-  operationOptionsToRequestOptionsBase
-} from "@azure/core-http";
-import { SpanStatusCode } from "@azure/core-tracing";
+import { CommunicationAccessToken, CommunicationIdentityClientOptions, CommunicationUserToken, TokenScope } from "./models";
 import { CommunicationIdentity, IdentityRestClient } from "./generated/src/identityRestClient";
+import { CommunicationUserIdentifier, createCommunicationAuthPolicy, isKeyCredential, parseClientArguments } from "@azure/communication-common";
+import { InternalPipelineOptions, OperationOptions, createPipelineFromOptions, operationOptionsToRequestOptionsBase } from "@azure/core-http";
+import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
 import { SDK_VERSION } from "./constants";
-import { logger } from "./common/logger";
+import { SpanStatusCode } from "@azure/core-tracing";
 import { createSpan } from "./common/tracing";
-import {
-  CommunicationIdentityClientOptions,
-  TokenScope,
-  CommunicationUserToken,
-  CommunicationAccessToken
-} from "./models";
+import { logger } from "./common/logger";
 
 const isCommunicationIdentityClientOptions = (
   options: any

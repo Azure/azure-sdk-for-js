@@ -1,16 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { isNode } from "@azure/core-http";
-import {
-  CommunicationUserIdentifier,
-  isCommunicationUserIdentifier
-} from "@azure/communication-common";
-import { assert } from "chai";
-import sinon from "sinon";
+import { CommunicationUserIdentifier, isCommunicationUserIdentifier } from "@azure/communication-common";
+import { getTokenForTeamsUserHttpClient, getTokenHttpClient } from "./utils/mockHttpClients";
 import { CommunicationIdentityClient } from "../../src";
 import { TestCommunicationIdentityClient } from "./utils/testCommunicationIdentityClient";
-import { getTokenForTeamsUserHttpClient, getTokenHttpClient } from "./utils/mockHttpClients";
+import { assert } from "chai";
+import { isNode } from "@azure/core-http";
+import sinon from "sinon";
 
 describe("CommunicationIdentityClient [Mocked]", () => {
   const dateHeader = "x-ms-date";
