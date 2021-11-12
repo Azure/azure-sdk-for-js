@@ -13,6 +13,7 @@ import { AwaitableQueue } from "./impl/awaitableQueue";
 import { isDefined, isObjectWithProperties } from "./util/typeGuards";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { getPromiseParts } from "./util/getPromiseParts";
+import { logger } from "./log";
 
 export interface BatchingPartitionChannelProps {
   loopAbortSignal: AbortSignalLike;
@@ -88,8 +89,8 @@ export class BatchingPartitionChannel {
 
     if (!this._isRunning) {
       this._isRunning = true;
-      this._startPublishLoop().catch(() => {
-        /* TODO: Log error */
+      this._startPublishLoop().catch((e) => {
+        logger.error(`The following error occured during batch creation or sending: ${JSON.stringify(e, undefined, "  ")}`);
       });
     }
   }
@@ -270,8 +271,8 @@ export class BatchingPartitionChannel {
     this._onSendEventsSuccessHandler?.({
       events: this._batchedEvents,
       partitionId: this._partitionId
-    }).catch(() => {
-      /* TODO: Log error */
+    }).catch((e) => {
+      logger.error(`The following error occured in the onSendEventsSuccessHandler: ${JSON.stringify(e, undefined, "  ")}`);
     });
   }
 
@@ -286,8 +287,8 @@ export class BatchingPartitionChannel {
       error: err,
       events: event ? [event] : this._batchedEvents,
       partitionId: this._partitionId
-    }).catch(() => {
-      /* TODO: Log error */
+    }).catch((e) => {
+      logger.error(`The following error occured in the onSendEventsErrorHandler: ${JSON.stringify(e, undefined, "  ")}`);
     });
   }
 

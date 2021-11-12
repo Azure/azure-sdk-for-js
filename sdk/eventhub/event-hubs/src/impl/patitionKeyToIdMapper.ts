@@ -19,7 +19,14 @@ function castToInt16(n: number): number {
   return new Int16Array([n])[0];
 }
 
-function computeHash(data: Buffer, seed1: number = 0, seed2: number = 0): any {
+function computeHash(
+  data: Buffer,
+  seed1: number = 0,
+  seed2: number = 0
+): {
+  b: number;
+  c: number;
+} {
   let a: number, b: number, c: number;
 
   a = b = c = 0xdeadbeef + data.length + seed1;

@@ -64,7 +64,7 @@ export interface EventHubBufferedProducerClientOptions extends EventHubClientOpt
   /**
    * The amount of time to wait for a new event to be enqueued in the buffer before publishing a partially full batch.
    *
-   * Default: 250 milliseconds.
+   * Default: 1 second.
    */
   maxWaitTimeInMs?: number;
   /**
@@ -105,6 +105,22 @@ export interface EnqueueEventOptions extends SendBatchOptions {}
  * Depending on the options specified when events are enqueued, they may be
  * automatically assigned to a partition, grouped according to the specified partition key,
  * or assigned a specifically requested partition.
+ *
+ * This model is intended to shift the burden of batch management from callers, at the cost of
+ * non-deterministic timing, for when events will be published. There are additional trade-offs
+ * to consider, as well:
+ * - If the application crashes, events in the buffer will not have been published. To prevent
+ *   data loss, callers are encouraged to track publishing progress using the
+ *   `onSendEventsSuccessHandler` and `onSendEventsErrorHandler` handlers.
+ * - Events specifying a partition key may be assigned a different partition than those using
+ *   the same key with other producers.
+ * - In the unlikely event that a partition becomes temporarily unavailable, the
+ *   `EventHubBufferedProducerClient` may take longer to recover than other producers.
+ *
+ * In scenarios where it is important to have events published immediately with a deterministic
+ * outcome, ensure that partition keys are assigned to a partition consistent with other
+ * publishers, or where maximizing availability is a requirement, using the
+ * `EventHubProducerClient` is recommended.
  */
 export class EventHubBufferedProducerClient {
   /**
@@ -127,6 +143,7 @@ export class EventHubBufferedProducerClient {
    * The known partitionIds that will be used when assigning events to partitions.
    */
   private _partitionIds: string[] = [];
+
   /**
    * The EventHubProducerClient to use when creating and sending batches to the Event Hub.
    */
@@ -410,7 +427,7 @@ export class EventHubBufferedProducerClient {
       new BatchingPartitionChannel({
         loopAbortSignal: this._abortController.signal,
         maxBufferSize: this._clientOptions.maxEventBufferLengthPerPartition || 1500,
-        maxWaitTimeInMs: this._clientOptions.maxWaitTimeInMs || 250,
+        maxWaitTimeInMs: this._clientOptions.maxWaitTimeInMs || 1000,
         onSendEventsErrorHandler: this._clientOptions.onSendEventsErrorHandler,
         onSendEventsSuccessHandler: this._clientOptions.onSendEventsSuccessHandler,
         partitionId,

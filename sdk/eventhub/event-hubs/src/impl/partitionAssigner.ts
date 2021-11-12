@@ -48,7 +48,7 @@ export class PartitionAssigner {
       throw new Error(`Unable to determine partitionIds, can't assign partitionId.`);
     }
 
-    if (isDefined(partitionId)) {
+    if (isDefined(partitionId) && this._partitions.includes(partitionId)) {
       return partitionId;
     }
 
