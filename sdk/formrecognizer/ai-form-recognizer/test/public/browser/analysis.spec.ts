@@ -1,12 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
-import { Context } from "mocha";
-
-import { AzureKeyCredential, PrebuiltModels, DocumentAnalysisClient } from "../../../src";
-import { env, Recorder } from "@azure-tools/test-recorder";
+import { AzureKeyCredential, DocumentAnalysisClient, PrebuiltModels } from "../../../src";
+import { Recorder, env } from "@azure-tools/test-recorder";
 import { createRecordedClient, testEnv, testPollingOptions } from "../../utils/recordedClients";
+import { Context } from "mocha";
+import { assert } from "chai";
 
 describe("FormRecognizerClient browser only", () => {
   let client: DocumentAnalysisClient;

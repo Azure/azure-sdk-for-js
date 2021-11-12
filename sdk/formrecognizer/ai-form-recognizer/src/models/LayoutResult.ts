@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { DocumentStyle, DocumentTable } from "../generated";
 import { AnalyzeResult, DocumentPage, toDocumentPageFromGenerated } from "../lro/analyze";
+import { DocumentStyle, DocumentTable } from "../generated";
 
 /**
  * Extract from an AnalyzeResult the fields that are produced from layout analysis.

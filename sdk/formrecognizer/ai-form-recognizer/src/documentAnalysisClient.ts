@@ -1,31 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { KeyCredential, TokenCredential } from "@azure/core-auth";
-import {
-  AnalyzeDocumentRequest,
-  ContentType,
-  GeneratedClient,
-  GeneratedClientGetAnalyzeDocumentResultResponse,
-} from "./generated";
-import { accept1 } from "./generated/models/parameters";
 import {
   AnalysisOperationDefinition,
   AnalysisPoller,
   AnalyzeResult,
   DocumentAnalysisPollOperationState,
   FormRecognizerRequestBody,
-  toAnalyzedDocumentFromGenerated,
   toAnalyzeResultFromGenerated,
-  toDocumentAnalysisPollOperationState,
+  toAnalyzedDocumentFromGenerated,
+  toDocumentAnalysisPollOperationState
 } from "./lro/analyze";
-import { lro } from "./lro/util/poller";
+import { AnalyzeDocumentRequest, ContentType, GeneratedClient, GeneratedClientGetAnalyzeDocumentResultResponse } from "./generated";
+import { DocumentModel, getMapper } from "./prebuilt/models";
 import { GenericDocumentResult, toGenericDocumentResult } from "./models/GenericDocumentResult";
+import { KeyCredential, TokenCredential } from "@azure/core-auth";
 import { LayoutResult, toLayoutResult } from "./models/LayoutResult";
+import { Mappers, SERIALIZER, identity, makeServiceClient } from "./util";
 import { AnalyzeDocumentsOptions } from "./options/AnalyzeDocumentsOptions";
 import { DocumentAnalysisClientOptions } from "./options/FormRecognizerClientOptions";
-import { DocumentModel, getMapper } from "./prebuilt/models";
-import { identity, makeServiceClient, Mappers, SERIALIZER } from "./util";
+import { accept1 } from "./generated/models/parameters";
+import { lro } from "./lro/util/poller";
 
 /**
  * A client for interacting with the Form Recognizer service's analysis features.

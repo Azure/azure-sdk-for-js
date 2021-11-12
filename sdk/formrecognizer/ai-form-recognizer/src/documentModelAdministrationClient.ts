@@ -1,25 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { KeyCredential, TokenCredential } from "@azure/core-auth";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import {
-  CopyAuthorization,
-  GeneratedClient,
-  GetInfoResponse,
-  GetOperationResponse,
-  ModelInfo,
-  ModelSummary,
-  OperationInfo,
-} from "./generated";
-import { accept1 } from "./generated/models/parameters";
-import {
-  toTrainingPollOperationState,
-  TrainingOperationDefinition,
-  TrainingPoller,
-  TrainingPollOperationState,
-} from "./lro/training";
-import { lro } from "./lro/util/poller";
 import {
   BuildModelOptions,
   CopyModelOptions,
@@ -30,9 +11,23 @@ import {
   GetModelOptions,
   GetOperationOptions,
   ListModelsOptions,
-  ListOperationsOptions,
+  ListOperationsOptions
 } from "./options";
-import { makeServiceClient, Mappers, SERIALIZER } from "./util";
+import {
+  CopyAuthorization,
+  GeneratedClient,
+  GetInfoResponse,
+  GetOperationResponse,
+  ModelInfo,
+  ModelSummary,
+  OperationInfo
+} from "./generated";
+import { KeyCredential, TokenCredential } from "@azure/core-auth";
+import { Mappers, SERIALIZER, makeServiceClient } from "./util";
+import { TrainingOperationDefinition, TrainingPollOperationState, TrainingPoller, toTrainingPollOperationState } from "./lro/training";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { accept1 } from "./generated/models/parameters";
+import { lro } from "./lro/util/poller";
 
 /**
  * A client for interacting with the Form Recognizer service's model management features, such as creating, reading,

@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { isTokenCredential, KeyCredential, TokenCredential } from "@azure/core-auth";
+import * as Mappers from "./generated/models/mappers";
+import { GeneratedClient, GeneratedClientOptionalParams } from "./generated";
+import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
+import { DEFAULT_COGNITIVE_SCOPE } from "./constants";
+import { DEFAULT_GENERATED_CLIENT_OPTIONS } from "./options/FormRecognizerClientOptions";
 import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
 import { createFormRecognizerAzureKeyCredentialPolicy } from "./azureKeyCredentialPolicy";
-import { DEFAULT_COGNITIVE_SCOPE } from "./constants";
-import { GeneratedClient, GeneratedClientOptionalParams } from "./generated";
-import { DEFAULT_GENERATED_CLIENT_OPTIONS } from "./options/FormRecognizerClientOptions";
-
-import * as Mappers from "./generated/models/mappers";
 import { createSerializer } from "@azure/core-client";
+
 export { Mappers };
 
 // This is used for URL request processing.

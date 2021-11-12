@@ -1,16 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
-import { Context } from "mocha";
-
-import { matrix } from "@azure/test-utils";
-
-import { env, Recorder } from "@azure-tools/test-recorder";
-
-import { testPollingOptions, createRecorder, makeCredential } from "../utils/recordedClients";
-
 import { DocumentAnalysisClient, DocumentModelAdministrationClient, ModelInfo } from "../../src";
+import { Recorder, env } from "@azure-tools/test-recorder";
+import { createRecorder, makeCredential, testPollingOptions } from "../utils/recordedClients";
+import { Context } from "mocha";
+import { assert } from "chai";
+import { matrix } from "@azure/test-utils";
 
 const endpoint = (): string => env.FORM_RECOGNIZER_ENDPOINT;
 const containerSasUrl = (): string => env.FORM_RECOGNIZER_TRAINING_CONTAINER_SAS_URL;

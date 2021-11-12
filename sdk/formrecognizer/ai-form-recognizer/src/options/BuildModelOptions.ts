@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 import { OperationOptions } from "@azure/core-client";
-import { TrainingPollOperationState } from "../lro/training";
 import { PollerOptions } from "./PollerOptions";
+import { TrainingPollOperationState } from "../lro/training";
 
 /**
  * Options for the model build operation.

@@ -1,21 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { env, Recorder } from "@azure-tools/test-recorder";
-import { matrix } from "@azure/test-utils";
-import { assert } from "chai";
-import fs from "fs";
-import { Context } from "mocha";
-import path from "path";
 import {
   DocumentAnalysisClient,
   DocumentModelAdministrationClient,
   IdentityDocument,
   ModelInfo,
-  PrebuiltModels,
+  PrebuiltModels
 } from "../../../src";
 import { DocumentDateField, DocumentSelectionMarkField } from "../../../src/models/fields";
+import { Recorder, env } from "@azure-tools/test-recorder";
 import { createRecorder, makeCredential, testPollingOptions } from "../../utils/recordedClients";
+import { Context } from "mocha";
+import { assert } from "chai";
+import fs from "fs";
+import { matrix } from "@azure/test-utils";
+import path from "path";
 
 const endpoint = (): string => env.FORM_RECOGNIZER_ENDPOINT;
 

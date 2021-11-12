@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PipelineOptions } from "@azure/core-rest-pipeline";
 import { GeneratedClientOptionalParams } from "../generated";
+import { PipelineOptions } from "@azure/core-rest-pipeline";
 
 /**
  * Valid values of the Form Recognizer service REST API version.

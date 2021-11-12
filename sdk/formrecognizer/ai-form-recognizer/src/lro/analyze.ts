@@ -1,28 +1,28 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PollerLike, PollOperationState } from "@azure/core-lro";
-import { FormRecognizerError } from "../error";
 import {
-  AnalyzeResult as GeneratedAnalyzeResult,
-  AnalyzeResultOperation,
   AnalyzeResultOperationStatus as AnalyzeOperationStatus,
+  AnalyzeResultOperation,
   BoundingRegion,
-  Document as GeneratedDocument,
   DocumentEntity,
   DocumentKeyValuePair,
-  DocumentPage as GeneratedDocumentPage,
-  DocumentLine as GeneratedDocumentLine,
   DocumentSelectionMark,
   DocumentSpan,
   DocumentStyle,
   DocumentTable,
   DocumentWord,
-  LengthUnit,
+  AnalyzeResult as GeneratedAnalyzeResult,
+  Document as GeneratedDocument,
+  DocumentLine as GeneratedDocumentLine,
+  DocumentPage as GeneratedDocumentPage,
+  LengthUnit
 } from "../generated";
 import { DocumentField, toAnalyzedDocumentFieldsFromGenerated } from "../models/fields";
 import { FormRecognizerApiVersion, PollerOptions } from "../options";
+import { PollOperationState, PollerLike } from "@azure/core-lro";
 import { AnalyzeDocumentsOptions } from "../options/AnalyzeDocumentsOptions";
+import { FormRecognizerError } from "../error";
 
 /**
  * A request input that can be uploaded to the Form Recognizer service.

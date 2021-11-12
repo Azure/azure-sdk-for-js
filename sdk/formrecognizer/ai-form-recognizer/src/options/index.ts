@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import {
+  DocumentAnalysisClientOptions,
+  DocumentModelAdministrationClientOptions,
+  FormRecognizerApiVersion,
+  FormRecognizerCommonClientOptions,
+  StringIndexType
+} from "./FormRecognizerClientOptions";
 import { AnalyzeDocumentsOptions } from "./AnalyzeDocumentsOptions";
 import { BuildModelOptions } from "./BuildModelOptions";
 import { CopyModelOptions } from "./CopyModelOptions";
 import { DeleteModelOptions } from "./DeleteModelOptions";
-import {
-  FormRecognizerApiVersion,
-  FormRecognizerCommonClientOptions,
-  StringIndexType,
-  DocumentAnalysisClientOptions,
-  DocumentModelAdministrationClientOptions,
-} from "./FormRecognizerClientOptions";
 import { GetCopyAuthorizationOptions } from "./GetCopyAuthorizationOptions";
 import { GetInfoOptions } from "./GetInfoOptions";
 import { GetModelOptions } from "./GetModelOptions";

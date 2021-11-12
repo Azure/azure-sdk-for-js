@@ -1,13 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { contains, fastGetChildren, iteratorFromFirstMatchBinarySearch } from "../../src/lro/analyze";
 import { DocumentSpan } from "../../src";
-import {
-  contains,
-  fastGetChildren,
-  iteratorFromFirstMatchBinarySearch,
-} from "../../src/lro/analyze";
-
 import { assert } from "chai";
 
 interface TestData {

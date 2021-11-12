@@ -1,19 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Context } from "mocha";
-
+import { KeyCredential, TokenCredential } from "@azure/core-auth";
 import {
-  env,
   Recorder,
-  record,
   RecorderEnvironmentSetup,
+  env,
   isPlaybackMode,
+  record
 } from "@azure-tools/test-recorder";
-
 import { AzureKeyCredential } from "../../src";
 import { ClientSecretCredential } from "@azure/identity";
-import { KeyCredential, TokenCredential } from "@azure/core-auth";
+import { Context } from "mocha";
 
 export interface RecordedClient<T> {
   client: T;

@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 import { DocumentEntity, DocumentKeyValuePair } from "../generated";
-import { AnalyzeResult } from "../lro/analyze";
 import { LayoutResult, toLayoutResult } from "./LayoutResult";
+import { AnalyzeResult } from "../lro/analyze";
 
 /**
  * Extract from an AnalyzeResult the fields that are produced from Generic Document extraction.

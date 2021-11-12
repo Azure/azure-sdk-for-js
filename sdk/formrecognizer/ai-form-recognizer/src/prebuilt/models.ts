@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ObjectFieldSchema } from ".";
-import { Document } from "../generated";
-import { DocumentField, toDocumentField } from "../models/fields";
-import { uncapitalize } from "../util";
+import { ArrayFieldSchema, FieldSchema, ModelSchema, ReifyPrebuiltSchema } from "./schema";
 import { BusinessCard, BusinessCardSchema } from "./modelSchemas/businessCard";
+import { DocumentField, toDocumentField } from "../models/fields";
 import { IdentityDocument, IdentityDocumentSchema } from "./modelSchemas/idDocument";
 import { Invoice, InvoiceSchema } from "./modelSchemas/invoice";
 import { Receipt, ReceiptSchema } from "./modelSchemas/receipt";
-import { ArrayFieldSchema, FieldSchema, ModelSchema, ReifyPrebuiltSchema } from "./schema";
+import { Document } from "../generated";
+import { ObjectFieldSchema } from ".";
+import { uncapitalize } from "../util";
 
 // This symbol is used to index the transformation function. We might replace this with a normal string property key
 // later, but for now this symbol allows us to hide it.
