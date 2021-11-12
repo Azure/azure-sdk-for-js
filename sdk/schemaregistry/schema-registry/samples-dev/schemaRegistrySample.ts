@@ -36,7 +36,7 @@ const schemaObject = {
 
 // Description of the schema for registration
 const schemaDescription: SchemaDescription = {
-  name: name: `${schemaObject.namespace}-${schemaObject.name}`,
+  name: `${schemaObject.namespace}-${schemaObject.name}`,
   groupName: group,
   format: "Avro",
   definition: JSON.stringify(schemaObject)
