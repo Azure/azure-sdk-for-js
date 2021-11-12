@@ -87,7 +87,7 @@ We are working on to automatically generate everything right now, but currently 
     ```
 
     After this finishes, you will see the generated code in `${PROJECT_ROOT}/src` folder .
-1. **add a rollup.config.js file under `${PROJECT_ROOT}` folder**
+1. **add a rollup.config.js file under `${PROJECT_ROOT}` folder**  
    You need to add a rollup.config.js file and put the following content into it.  
     ```javascript
     import { makeConfig } from "@azure/dev-tool/shared-config/rollup";
@@ -210,7 +210,7 @@ In order to release it, we need to add some tests for it to make sure we are del
 
 1. **Update the api-extractor.json file.**  
     change the `mainEntryPointFilePath` into `"./dist-esm/src/index.d.ts"`.  
-1. **Add a karma.conf.js file for web browser tests.under project root folder**  
+1. **Add a karma.conf.js file for web browser tests.under ${PROJECT_ROOT} folder**  
     File content is like this
 
     ```javascript
@@ -368,7 +368,7 @@ In order to release it, we need to add some tests for it to make sure we are del
       });
     };
     ```
-1. **add sample.env under ${PROJECT_ROOT} folder**
+1. **add sample.env under ${PROJECT_ROOT} folder**  
     create a sample.env and put the following content into this file.
     ``` 
      # Purview Scanning resource endpoint
@@ -381,15 +381,16 @@ In order to release it, we need to add some tests for it to make sure we are del
     ```
 1. **add test utils.**  
 
-    create a test/public folder and then copy the content [here](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/purview/purview-account-rest/test/public/utils) into public folder
+    create a `${PROJECT_ROOT}/test/public` folder and then copy the content [here](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/purview/purview-account-rest/test/public/utils) into public folder
 
     there are some manual changes in the copied recordedClient.ts that need to be done. 
-    
-    `import PurviewAccount, { PurviewAccountRestClient } from "../../../src";`  
+    ```typescript
+    import PurviewAccount, { PurviewAccountRestClient } from "../../../src";
+    ```
     Needs to change to the value that was used in the swagger/readme.md in title. For example if title is "Foo"
-    
-    `import Foo, { FooRestClient } from "../../../src";`  
-
+    ```typescript
+    import Foo, { FooRestClient } from "../../../src";
+    ```
     and
     ```typescript
     export function createClient(options?: ClientOptions): PurviewAccountRestClient {
@@ -446,7 +447,7 @@ In order to release it, we need to add some tests for it to make sure we are del
     ```
 
     You may change the sample test into real tests to test against your libraries.
-1. **run the test**
+1. **run the test**  
     Now, you can run the test like this.
     ```shell  
     rush build -t ${PACKAGE_NAME}
@@ -457,7 +458,6 @@ In order to release it, we need to add some tests for it to make sure we are del
     rush build -t ${PACKAGE_NAME}
     rushx test 
     ```
-    This will 
 # How to write samples
 
 There're samples for TypeScript and JavaScript and for dev, You may copy the [samples folder](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/purview/purview-account-rest/samples) and [samples-dev folder](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/purview/purview-account-rest/samples-dev) and then change everything into your own services, including package-name, sample code, readme description etc.
@@ -473,7 +473,7 @@ cd <your-sdk-folder>
 export TEST_MODE=record && rushx test
 rushx pack
 ```
-
+You may send this artifact to your customer if your services are still in private preview and some customers want to try it out.
 # Create/Update the ci.yaml
 
 Now, if everything looks good to you, you can submit a PR in azure-sdk-for-js repo with all the changes you made above. Before you do that, you need to add/update the ci.yml file. Depends on whether there's already one in your package folder.
