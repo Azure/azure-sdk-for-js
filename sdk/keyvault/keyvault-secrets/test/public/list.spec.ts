@@ -2,15 +2,14 @@
 // Licensed under the MIT license.
 
 import * as assert from "assert";
+import { Recorder, env, isRecordMode } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
-import chai from "chai";
-import { env, Recorder, isRecordMode } from "@azure-tools/test-recorder";
-
 import { SecretClient } from "../../src";
-import { assertThrowsAbortError } from "../utils/utils.common";
-import { testPollerProperties } from "../utils/recorderUtils";
-import { authenticate } from "../utils/testAuthentication";
 import TestClient from "../utils/testClient";
+import { assertThrowsAbortError } from "../utils/utils.common";
+import { authenticate } from "../utils/testAuthentication";
+import chai from "chai";
+import { testPollerProperties } from "../utils/recorderUtils";
 
 const { expect } = chai;
 

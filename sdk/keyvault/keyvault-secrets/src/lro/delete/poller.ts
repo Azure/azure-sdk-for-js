@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 import { DeleteSecretPollOperation, DeleteSecretPollOperationState } from "./operation";
-import { DeletedSecret } from "../../secretsModels";
 import { KeyVaultSecretPoller, KeyVaultSecretPollerOptions } from "../keyVaultSecretPoller";
+import { DeletedSecret } from "../../secretsModels";
 
 /**
  * Class that creates a poller that waits until a secret finishes being deleted.

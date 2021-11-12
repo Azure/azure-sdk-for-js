@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { DeletedSecret, KeyVaultSecret } from "./secretsModels";
 import { DeletedSecretBundle, SecretBundle } from "./generated/models";
 import { parseKeyVaultSecretIdentifier } from "./identifier";
-import { DeletedSecret, KeyVaultSecret } from "./secretsModels";
 
 /**
  * @internal

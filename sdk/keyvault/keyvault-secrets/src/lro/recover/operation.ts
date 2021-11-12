@@ -1,22 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { DeletedSecret, GetSecretOptions, KeyVaultSecret, SecretProperties } from "../../secretsModels";
+import { KeyVaultSecretPollOperation, KeyVaultSecretPollOperationState } from "../keyVaultSecretPoller";
 import { AbortSignalLike } from "@azure/abort-controller";
-import {
-  DeletedSecret,
-  GetSecretOptions,
-  KeyVaultSecret,
-  SecretProperties
-} from "../../secretsModels";
-import {
-  KeyVaultSecretPollOperation,
-  KeyVaultSecretPollOperationState
-} from "../keyVaultSecretPoller";
 import { KeyVaultClient } from "../../generated/keyVaultClient";
-import { getSecretFromSecretBundle } from "../../transformations";
 import { OperationOptions } from "@azure/core-http";
-
 import { createTraceFunction } from "../../../../keyvault-common/src";
+import { getSecretFromSecretBundle } from "../../transformations";
 
 /**
  * @internal

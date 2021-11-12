@@ -1,17 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Context } from "mocha";
-import { assert } from "chai";
-import { supportsTracing } from "../../../keyvault-common/test/utils/supportsTracing";
-import { env, Recorder } from "@azure-tools/test-recorder";
+import { Recorder, env } from "@azure-tools/test-recorder";
 import { AbortController } from "@azure/abort-controller";
-
+import { Context } from "mocha";
 import { SecretClient } from "../../src";
-import { assertThrowsAbortError } from "../utils/utils.common";
-import { testPollerProperties } from "../utils/recorderUtils";
-import { authenticate } from "../utils/testAuthentication";
 import TestClient from "../utils/testClient";
+import { assert } from "chai";
+import { assertThrowsAbortError } from "../utils/utils.common";
+import { authenticate } from "../utils/testAuthentication";
+import { supportsTracing } from "../../../keyvault-common/test/utils/supportsTracing";
+import { testPollerProperties } from "../utils/recorderUtils";
 
 describe("Secret client - create, read, update and delete operations", () => {
   const secretValue = "SECRET_VALUE";

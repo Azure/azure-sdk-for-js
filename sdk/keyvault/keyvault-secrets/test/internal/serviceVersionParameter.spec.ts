@@ -2,11 +2,11 @@
 // Licensed under the MIT license.
 
 import * as assert from "assert";
-import { createSandbox, SinonSandbox, SinonSpy } from "sinon";
-import { SecretClient } from "../../src";
-import { LATEST_API_VERSION } from "../../src/secretsModels";
-import { HttpClient, WebResourceLike, HttpOperationResponse, HttpHeaders } from "@azure/core-http";
+import { HttpClient, HttpHeaders, HttpOperationResponse, WebResourceLike } from "@azure/core-http";
+import { SinonSandbox, SinonSpy, createSandbox } from "sinon";
 import { ClientSecretCredential } from "@azure/identity";
+import { LATEST_API_VERSION } from "../../src/secretsModels";
+import { SecretClient } from "../../src";
 import { env } from "@azure-tools/test-recorder";
 
 describe("The Secrets client should set the serviceVersion", () => {
