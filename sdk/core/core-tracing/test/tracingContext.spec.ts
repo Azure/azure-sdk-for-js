@@ -98,26 +98,26 @@ describe("TracingContext", () => {
     it("can add known attributes", () => {
       const client = createTracingClient();
       const span = new NoOpSpan();
-      const providerContext = createTracingContext();
+      const parentContext = createTracingContext();
       const namespace = "test-namespace";
       const newContext = createTracingContext({
         client,
         span,
-        parentContext: providerContext,
+        parentContext: parentContext,
         namespace
       });
       assert.strictEqual(newContext.getValue(knownContextKeys.Client), client);
       assert.strictEqual(newContext.getValue(knownContextKeys.Namespace), namespace);
-      assert.strictEqual(newContext.getValue(knownContextKeys.ParentContext), providerContext);
+      assert.strictEqual(newContext.getValue(knownContextKeys.ParentContext), parentContext);
       assert.strictEqual(newContext.getValue(knownContextKeys.Span), span);
     });
 
     it("can be initialized from an existing context", () => {
-      const providerContext = createTracingContext().setValue(
+      const parentContext = createTracingContext().setValue(
         knownContextKeys.Namespace,
         "test-namespace"
       );
-      const newContext = createTracingContext({ parentContext: providerContext });
+      const newContext = createTracingContext({ parentContext: parentContext });
       assert.equal(newContext.getValue(knownContextKeys.Namespace), "test-namespace");
     });
   });
