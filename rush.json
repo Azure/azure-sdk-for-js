@@ -1075,6 +1075,11 @@
       "packageName": "@azure/arm-cdn",
       "projectFolder": "sdk/cdn/arm-cdn",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-cosmosdb",
+      "projectFolder": "sdk/cosmosdb/arm-cosmosdb",
+      "versionPolicyName": "management"
     }
   ]
 }
