@@ -15,12 +15,12 @@ import { CosmosClient } from "@azure/cosmos";
 const key = process.env.COSMOS_KEY || "<cosmos key>";
 const endpoint = process.env.COSMOS_ENDPOINT || "<cosmos endpoint>";
 const containerId = process.env.COSMOS_CONTAINER || "<cosmos container>";
-const dbId = process.env.COSMOS_DATABASE || "<cosmos database>";
+const databaseId = process.env.COSMOS_DATABASE || "<cosmos database>";
 
 logSampleHeader("Item Management");
 
 const itemDefs = JSON.parse(
-  readFileSync(path.resolve(__dirname, "../assets/Data/Families.json"), "utf8")
+  readFileSync("../assets/Data/Families.json", "utf8")
 ).Families;
 
 // Establish a new instance of the CosmosClient to be used throughout this demo
@@ -28,10 +28,10 @@ const client = new CosmosClient({ endpoint, key });
 
 async function run(): Promise<void> {
   // ensuring a database & container exists for us to work with
-  const { database } = await client.databases.createIfNotExists({ id: dbId });
+  const { database } = await client.databases.createIfNotExists({ id: databaseId });
   const { container } = await database.containers.createIfNotExists({ id: containerId });
 
-  logStep("Insert items in to database '" + dbId + "' and container '" + containerId + "'");
+  logStep("Insert items in to database '" + databaseId + "' and container '" + containerId + "'");
 
   await Promise.all(itemDefs.map((itemDef: any) => container.items.create(itemDef)));
   console.log(itemDefs.length + " items created");
@@ -43,7 +43,7 @@ async function run(): Promise<void> {
     console.log(itemDef.id);
   }
 
-  const item = container.item(itemDefList[0]?.id!, undefined);
+  const item = container.item(itemDefList[0]!.id, undefined);
   logStep("Read item '" + item.id + "'");
   const { resource: readDoc } = await item.read();
   console.log("item with id '" + item.id + "' found");
@@ -110,9 +110,9 @@ async function run(): Promise<void> {
   logStep("Replace item with id '" + item.id + "'");
   const { resource: updatedPerson } = await container.items.upsert(person);
 
-  console.log("The '" + person.id + "' family has lastName '" + updatedPerson?.lastName + "'");
+  console.log("The '" + person.id + "' family has lastName '" + updatedPerson && updatedPerson.lastName + "'");
   console.log(
-    "The '" + person.id + "' family has " + updatedPerson?.children.length + " children '"
+    "The '" + person.id + "' family has " + updatedPerson && updatedPerson.children.length + " children '"
   );
 
   logStep("Trying to replace item when item has changed in the database");
@@ -130,7 +130,7 @@ async function run(): Promise<void> {
   try {
     await item.replace(person, { accessCondition: { type: "IfMatch", condition: person._etag } });
     throw new Error("This should have failed!");
-  } catch (err : any) {
+  } catch (err: any) {
     if (err.code === 412) {
       console.log("As expected, the replace item failed with a pre-condition failure");
     } else {
@@ -139,19 +139,19 @@ async function run(): Promise<void> {
   }
 
   const upsertSource = itemDefList[1];
-  logStep(`Upserting person ${upsertSource.id} with id ${upsertSource.id}...`);
+  logStep(`Upserting person ${upsertSource && upsertSource.id} with id ${upsertSource && upsertSource.id}...`);
 
   // a non-identity change will cause an update on upsert
   upsertSource.foo = "baz";
   const { resource: upsertedPerson1 } = await container.items.upsert(upsertSource);
-  console.log(`Upserted ${upsertedPerson1?.id} to id ${upsertedPerson1?.id}.`);
+  console.log(`Upserted ${upsertedPerson1 && upsertedPerson1.id} to id ${upsertedPerson1 && upsertedPerson1.id}.`);
 
   // an identity change will cause an insert on upsert
   upsertSource.id = "HazzardFamily";
   const { resource: upsertedPerson2 } = await container.items.upsert(upsertSource);
-  console.log(`Upserted ${upsertedPerson2?.id} to id ${upsertedPerson2?.id}.`);
+  console.log(`Upserted ${upsertedPerson2 && upsertedPerson2.id} to id ${upsertedPerson2 && upsertedPerson2.id}.`);
 
-  if (upsertedPerson1?.id === upsertedPerson2?.id) {
+  if(upsertedPerson1.id === upsertedPerson2.id) {
     throw new Error("These two upserted records should have different resource IDs.");
   }
 

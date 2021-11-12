@@ -13,7 +13,7 @@ import { finish, handleError, logSampleHeader } from "./Shared/handleError";
 import { CosmosClient } from "@azure/cosmos";
 const key = process.env.COSMOS_KEY || "<cosmos key>";
 const endpoint = process.env.COSMOS_ENDPOINT || "<cosmos endpoint>";
-const dbId = process.env.COSMOS_DATABASE || "<cosmos database>";
+const databaseId = process.env.COSMOS_DATABASE || "<cosmos database>";
 const containerId = process.env.COSMOS_CONTAINER || "<cosmos container>";
 
 logSampleHeader("Change Feed");
@@ -40,7 +40,7 @@ function logResult(scenario: string, actual: any[], expected: any[]): void {
 }
 
 async function run(): Promise<void> {
-  const { database } = await client.databases.createIfNotExists({ id: dbId });
+  const { database } = await client.databases.createIfNotExists({ id: databaseId });
   const { container } = await database.containers.createIfNotExists({
     id: containerId,
     partitionKey: { paths: ["/pk"] }

@@ -24,7 +24,6 @@ function getEntropy() {
 
 async function run() {
   const containerId = "bulkContainerV2";
-  let operations;
   const client = new CosmosClient({
     key: key,
     endpoint: endpoint
@@ -62,7 +61,7 @@ async function run() {
     class: "2012"
   });
 
-  operations = [
+  const operations = [
     {
       operationType: BulkOperationType.Create,
       partitionKey: "A",

@@ -15,7 +15,7 @@
     "azure"
   ],
   "author": "Microsoft Corporation",
-  "main": "./dist/src/index.js",
+  "main": "./dist/index.js",
   "module": "./dist-esm/src/index.js",
   "react-native": "./dist-esm/src/index.js",
   "browser": {

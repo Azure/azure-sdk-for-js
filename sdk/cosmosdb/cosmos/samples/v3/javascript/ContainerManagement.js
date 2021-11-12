@@ -12,7 +12,7 @@ const { finish, handleError, logStep, logSampleHeader } = require("./Shared/hand
 const { CosmosClient } = require("@azure/cosmos");
 const key = process.env.COSMOS_KEY || "<cosmos key>";
 const endpoint = process.env.COSMOS_ENDPOINT || "<cosmos endpoint>";
-const dbId = process.env.COSMOS_DATABASE || "<cosmos database>";
+const databaseId = process.env.COSMOS_DATABASE || "<cosmos database>";
 const containerId = process.env.COSMOS_CONTAINER || "<cosmos container>";
 logSampleHeader("Container Management");
 
@@ -21,7 +21,7 @@ const client = new CosmosClient({ endpoint, key });
 
 // ensuring a database exists for us to work with
 async function run() {
-  const { database } = await client.databases.createIfNotExists({ id: dbId });
+  const { database } = await client.databases.createIfNotExists({ id: databaseId });
 
   logStep(`Create container with id : ${containerId}`);
   await database.containers.createIfNotExists({ id: containerId });
@@ -35,9 +35,11 @@ async function run() {
   logStep("Read container definition");
   const container = database.container(containerId);
   const { resource: containerDef } = await container.read();
-  console.log(`Container with url "${container.url}" was found its id is "${containerDef?.id}`);
+  console.log(
+    `Container with url "${container.url}" was found its id is "${containerDef && containerDef.id}`
+  );
 
-  logStep(`Delete container ${containerDef?.id}`);
+  logStep(`Delete container ${containerDef && containerDef.id}`);
   await container.delete();
   await finish();
 }

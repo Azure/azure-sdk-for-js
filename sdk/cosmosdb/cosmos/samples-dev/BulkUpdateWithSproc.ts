@@ -18,7 +18,7 @@ const uuid = v4;
 
 const key = process.env.COSMOS_KEY || "<cosmos key>";
 const endpoint = process.env.COSMOS_ENDPOINT || "<cosmos endpoint>";
-const dbId = process.env.COSMOS_DATABASE || "<cosmos database>";
+const databaseId = process.env.COSMOS_DATABASE || "<cosmos database>";
 const containerId = process.env.COSMOS_CONTAINER || "<cosmos container>";
 
 logSampleHeader("Bulk Update Using Stored Procedures");
@@ -68,8 +68,8 @@ const client = new CosmosClient({ endpoint, key });
 
 async function run(): Promise<void> {
   // ensuring a database & container exists for us to work with
-  logStep("Create database '" + dbId + "' and container '" + containerId + "'");
-  const { database } = await client.databases.createIfNotExists({ id: dbId }, {});
+  logStep("Create database '" + databaseId + "' and container '" + containerId + "'");
+  const { database } = await client.databases.createIfNotExists({ id: databaseId }, {});
   const { container } = await database.containers.createIfNotExists({ id: containerId });
 
   logStep("Insert 20 items");
@@ -86,7 +86,7 @@ async function run(): Promise<void> {
   });
 
   logStep("Execute stored procedure and follow continuation tokens");
-  let continuation: string = undefined!;
+  let continuation: string | undefined = undefined;
   let totalUpdatedDocuments = 0;
   for (;;) {
     const response = await storedProcedure.execute(undefined, [continuation]);

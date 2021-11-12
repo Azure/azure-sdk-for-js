@@ -93,7 +93,7 @@ describe("Partition Splits", () => {
         on: PluginOn.request,
         plugin: async (context, next) => {
           // This plugin throws a single 410 for partition key range ID 0 on every single request
-          const partitionKeyRangeId = context.headers[Constants.HttpHeaders.PartitionKeyRangeID];
+          const partitionKeyRangeId = context?.headers[Constants.HttpHeaders.PartitionKeyRangeID];
           if (partitionKeyRangeId === "0") {
             const error = new Error("Fake Partition Split") as any;
             error.code = 410;

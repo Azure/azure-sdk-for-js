@@ -13,7 +13,7 @@ import { Container, FeedOptions, SqlQuerySpec, CosmosClient } from "@azure/cosmo
 const key = process.env.COSMOS_KEY || "<cosmos key>";
 const endpoint = process.env.COSMOS_ENDPOINT || "<cosmos endpoint>";
 const containerId = process.env.COSMOS_CONTAINER || "<cosmos container>";
-const dbId = process.env.COSMOS_DATABASE || "<cosmos database>";
+const databaseId = process.env.COSMOS_DATABASE || "<cosmos database>";
 
 async function run() {
   const client = new CosmosClient({
@@ -25,7 +25,7 @@ async function run() {
   const query2 = "Select * from c";
   const query3 = "Select value count(c.id) from c";
 
-  const container = client.database(dbId).container(containerId);
+  const container = client.database(databaseId).container(containerId);
   const options = {
     maxItemCount: 10000,
     maxDegreeOfParallelism: 1000,

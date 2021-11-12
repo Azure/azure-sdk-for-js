@@ -1,10 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import assert from "assert";
-import { CosmosClient } from "@azure/cosmos";
+import { CosmosClient } from "../../../src";
 import { endpoint } from "../../public/common/_testConfig";
 import { masterKey, userSasTokenKey } from "../../public/common/_fakeTestSecrets";
-import { SasTokenProperties,SasTokenPermissionKind,createAuthorizationSasToken } from "@azure/cosmos";
+import { SasTokenPermissionKind } from "../../../src/common";
+import { createAuthorizationSasToken } from "../../../src/utils/SasToken";
+import { SasTokenProperties } from "../../../src/client/SasToken/SasTokenProperties";
 
 describe.skip("SAS Token Authorization", function() {
   const sasTokenProperties = <SasTokenProperties>{

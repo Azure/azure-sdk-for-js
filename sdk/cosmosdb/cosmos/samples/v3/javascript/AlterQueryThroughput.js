@@ -12,7 +12,7 @@ const { finish, handleError, logStep, logSampleHeader } = require("./Shared/hand
 const { CosmosClient } = require("@azure/cosmos");
 const key = process.env.COSMOS_KEY || "<cosmos key>";
 const endpoint = process.env.COSMOS_ENDPOINT || "<cosmos endpoint>";
-const dbId = process.env.COSMOS_DATABASE || "<cosmos database>";
+const databaseId = process.env.COSMOS_DATABASE || "<cosmos database>";
 const containerId = process.env.COSMOS_CONTAINER || "<cosmos container>";
 
 logSampleHeader("Alter Query Throughput");
@@ -22,7 +22,7 @@ const client = new CosmosClient({ endpoint, key });
 
 // ensuring a database exists for us to work with
 async function run() {
-  const { database } = await client.databases.createIfNotExists({ id: dbId });
+  const { database } = await client.databases.createIfNotExists({ id: databaseId });
 
   logStep(`Create container with id : ${containerId}`);
   await database.containers.createIfNotExists({ id: containerId });
@@ -32,7 +32,7 @@ async function run() {
 
   const newRups = 700;
   await asyncForEach(offers, async (offerDefinition) => {
-    await updateOfferForCollection(newRups, dbId, containerId, offerDefinition);
+    await updateOfferForCollection(newRups, databaseId, containerId, offerDefinition);
   });
 
   logStep("Read all containers in database");
@@ -90,7 +90,7 @@ async function updateOfferForCollection(newRups, dbName, collectionName, oldOffe
   );
 
   if (container) {
-    const offer = client.offer(oldOfferDefinition?.id);
+    const offer = client.offer(oldOfferDefinition.id);
     logStep("replace old offer with new offer");
     await offer.replace(newOfferDefinition);
   }

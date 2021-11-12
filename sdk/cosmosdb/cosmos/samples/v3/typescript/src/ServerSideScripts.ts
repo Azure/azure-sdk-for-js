@@ -15,7 +15,7 @@ logSampleHeader("Server Side Scripts");
 const key = process.env.COSMOS_KEY || "<cosmos key>";
 const endpoint = process.env.COSMOS_ENDPOINT || "<cosmos endpoint>";
 const containerId = process.env.COSMOS_CONTAINER || "<cosmos container>";
-const dbId = process.env.COSMOS_DATABASE || "<cosmos database>";
+const databaseId = process.env.COSMOS_DATABASE || "<cosmos database>";
 
 // Establish a new instance of the DocumentDBClient to be used throughout this demo
 const client = new CosmosClient({ endpoint, key });
@@ -61,14 +61,14 @@ const sprocDefinition = {
 
     // To replace the document, first issue a query to find it and then call replace.
     function tryReplace(doc: Item, cback: any) {
-      retrieveDoc(doc, '', function(retrievedDocs: Resource[]) {
+      retrieveDoc(doc, function(retrievedDocs: Resource[]) {
         const isAccepted = collection.replaceDocument(retrievedDocs[0]._self, doc, cback);
         if (!isAccepted) throw new Error("Unable to schedule replace document");
         response.setBody({ op: "replaced" });
       });
     }
 
-    function retrieveDoc(doc: Item, continuation: string, cback: any) {
+    function retrieveDoc(doc: Item,  cback: any , continuation?: string,) {
       const query = {
         query: "select * from root r where r.id = @id",
         parameters: [{ name: "@id", value: doc.id }]
@@ -109,7 +109,7 @@ const sprocDefinition = {
 };
 
 async function run(): Promise<void> {
-  const { database } = await client.databases.create({ id: dbId });
+  const { database } = await client.databases.create({ id: databaseId });
   const { container } = await database.containers.create({ id: containerId });
 
   logStep("Creating the sproc: '" + sprocDefinition.id + "'");
