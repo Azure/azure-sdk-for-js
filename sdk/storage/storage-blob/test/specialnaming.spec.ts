@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { BlockBlobClient, BlobServiceClient } from "../src";
+import { BlobServiceClient, BlockBlobClient } from "../src";
 import { getBSU, recorderEnvSetup } from "./utils/index";
 import * as assert from "assert";
 import { appendToURLPath } from "../src/utils/utils.common";
-import { record, Recorder } from "@azure-tools/test-recorder";
+import { Recorder, record } from "@azure-tools/test-recorder";
 import * as dotenv from "dotenv";
 import { ContainerClient } from "../src";
 import { Context } from "mocha";

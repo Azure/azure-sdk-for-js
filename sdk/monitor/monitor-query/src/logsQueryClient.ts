@@ -1,31 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AzureLogAnalytics } from "./generated/logquery/src/azureLogAnalytics";
-import { TokenCredential } from "@azure/core-auth";
-
+import { CommonClientOptions, FullOperationResponse, OperationOptions } from "@azure/core-client";
 import {
-  QueryBatch,
   LogsQueryBatchOptions,
   LogsQueryBatchResult,
   LogsQueryOptions,
+  LogsQueryPartialResult,
   LogsQueryResult,
   LogsQueryResultStatus,
   LogsQuerySuccessfulResult,
-  LogsQueryPartialResult
+  QueryBatch
 } from "./models/publicLogsModels";
-
-import {
-  convertGeneratedTable,
-  convertRequestForQueryBatch,
-  convertResponseForQueryBatch,
-  mapError
-} from "./internal/modelConverters";
-import { formatPreferHeader } from "./internal/util";
-import { CommonClientOptions, FullOperationResponse, OperationOptions } from "@azure/core-client";
+import { convertGeneratedTable, convertRequestForQueryBatch, convertResponseForQueryBatch, mapError } from "./internal/modelConverters";
+import { AzureLogAnalytics } from "./generated/logquery/src/azureLogAnalytics";
 import { QueryTimeInterval } from "./models/timeInterval";
-import { convertTimespanToInterval } from "./timespanConversion";
 import { SDK_VERSION } from "./constants";
+import { TokenCredential } from "@azure/core-auth";
+import { convertTimespanToInterval } from "./timespanConversion";
+import { formatPreferHeader } from "./internal/util";
 
 const defaultMonitorScope = "https://api.loganalytics.io/.default";
 

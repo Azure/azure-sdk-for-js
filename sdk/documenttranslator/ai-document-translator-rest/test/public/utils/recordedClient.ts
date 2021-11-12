@@ -3,13 +3,11 @@
 
 /// <reference lib="esnext.asynciterable" />
 
-import { Context } from "mocha";
-
-import { env, Recorder, record, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
-import DocumentTranslator, { DocumentTranslatorClient } from "../../../src";
-
 import "./env";
+import DocumentTranslator, { DocumentTranslatorClient } from "../../../src";
+import { Recorder, RecorderEnvironmentSetup, env, record } from "@azure-tools/test-recorder";
 import { ClientOptions } from "@azure-rest/core-client";
+import { Context } from "mocha";
 
 const replaceableVariables: { [k: string]: string } = {
   DOCUMENT_TRANSLATOR_API_KEY: "api_key",

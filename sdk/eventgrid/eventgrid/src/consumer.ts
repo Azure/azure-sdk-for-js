@@ -1,14 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { createSerializer } from "@azure/core-client";
-import { CloudEvent as WireCloudEvent } from "./generated/models";
 import { CloudEvent, EventGridEvent, cloudEventReservedPropertyNames } from "./models";
-import {
-  EventGridEvent as EventGridEventMapper,
-  CloudEvent as CloudEventMapper
-} from "./generated/models/mappers";
-import { parseAndWrap, validateEventGridEvent, validateCloudEventEvent } from "./util";
+import { CloudEvent as CloudEventMapper, EventGridEvent as EventGridEventMapper } from "./generated/models/mappers";
+import { parseAndWrap, validateCloudEventEvent, validateEventGridEvent } from "./util";
+import { CloudEvent as WireCloudEvent } from "./generated/models";
+import { createSerializer } from "@azure/core-client";
 
 const serializer = createSerializer();
 

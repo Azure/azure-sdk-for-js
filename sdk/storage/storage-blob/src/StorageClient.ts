@@ -3,10 +3,10 @@
 
 import { StorageClientContext } from "./generated/src/storageClientContext";
 import { PipelineLike } from "./Pipeline";
-import { escapeURLPath, getURLScheme, iEqual, getAccountNameFromUrl } from "./utils/utils.common";
+import { escapeURLPath, getAccountNameFromUrl, getURLScheme, iEqual } from "./utils/utils.common";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
-import { TokenCredential, isTokenCredential, isNode } from "@azure/core-http";
+import { TokenCredential, isNode, isTokenCredential } from "@azure/core-http";
 import { OperationTracingOptions } from "@azure/core-tracing";
 
 /**

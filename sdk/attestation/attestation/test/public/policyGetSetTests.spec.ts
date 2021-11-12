@@ -3,26 +3,19 @@
 
 // eslint-disable-next-line @typescript-eslint/triple-slash-reference
 /// <reference path="../../src/jsrsasign.d.ts"/>
-import * as jsrsasign from "jsrsasign";
 
-import { assert, expect, use as chaiUse } from "chai";
+import * as jsrsasign from "jsrsasign";
+import { AttestationType, KnownAttestationType, createAttestationPolicyToken } from "../../src";
+import { EndpointType, createRecordedAdminClient, createRecorder, getIsolatedSigningKey } from "../utils/recordedClient";
+import { assert, use as chaiUse, expect } from "chai";
+import { createRSAKey, createX509Certificate, generateSha256Hash } from "../utils/cryptoUtils";
 import { Context } from "mocha";
+import { KnownPolicyModification } from "../../src/generated";
+import { Recorder } from "@azure-tools/test-recorder";
 import chaiAsPromised from "chai-as-promised";
+import { verifyAttestationSigningKey } from "../../src/utils/helpers";
 
 chaiUse(chaiAsPromised);
-
-import { Recorder } from "@azure-tools/test-recorder";
-
-import {
-  createRecordedAdminClient,
-  createRecorder,
-  EndpointType,
-  getIsolatedSigningKey
-} from "../utils/recordedClient";
-import { KnownAttestationType, AttestationType, createAttestationPolicyToken } from "../../src";
-import { generateSha256Hash, createRSAKey, createX509Certificate } from "../utils/cryptoUtils";
-import { KnownPolicyModification } from "../../src/generated";
-import { verifyAttestationSigningKey } from "../../src/utils/helpers";
 
 describe("PolicyGetSetTests ", function() {
   let recorder: Recorder;

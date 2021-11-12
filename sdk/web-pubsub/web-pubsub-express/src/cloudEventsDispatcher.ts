@@ -2,22 +2,21 @@
 // Licensed under the MIT license.
 
 import * as utils from "./utils";
-import { HTTP, CloudEvent } from "cloudevents";
-import { IncomingMessage, ServerResponse } from "http";
-import { URL } from "url";
-import { logger } from "./logger";
-
+import { CloudEvent, HTTP } from "cloudevents";
 import {
   ConnectRequest,
   ConnectResponse,
-  UserEventRequest,
-  DisconnectedRequest,
+  ConnectResponseHandler,
   ConnectedRequest,
   ConnectionContext,
-  ConnectResponseHandler,
+  DisconnectedRequest,
+  UserEventRequest,
   UserEventResponseHandler,
   WebPubSubEventHandlerOptions
 } from "./cloudEventsProtocols";
+import { IncomingMessage, ServerResponse } from "http";
+import { URL } from "url";
+import { logger } from "./logger";
 
 enum EventType {
   Connect,

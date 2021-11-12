@@ -2,13 +2,13 @@
 // Licensed under the MIT license.
 
 import {
-  TranslationErrorResponse,
-  TranslationsStatus,
   DocumentStatus,
-  TranslationStatus,
   DocumentsStatus,
   SupportedFileFormats,
   SupportedStorageSources,
+  TranslationErrorResponse,
+  TranslationStatus,
+  TranslationsStatus,
 } from "./models";
 import { HttpResponse } from "@azure-rest/core-client";
 import { RawHttpHeaders } from "@azure/core-rest-pipeline";

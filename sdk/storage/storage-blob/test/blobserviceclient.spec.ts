@@ -14,7 +14,7 @@ import {
   recorderEnvSetup,
   sleep
 } from "./utils";
-import { record, delay, Recorder, isLiveMode } from "@azure-tools/test-recorder";
+import { Recorder, delay, isLiveMode, record } from "@azure-tools/test-recorder";
 import { Tags } from "../src/models";
 import { Context } from "mocha";
 dotenv.config();

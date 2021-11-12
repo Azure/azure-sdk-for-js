@@ -2,16 +2,13 @@
 // Licensed under the MIT license.
 
 import {
-  ClientOptions,
   CertificateCredential,
-  isCertificateCredential,
+  ClientOptions,
+  isCertificateCredential
 } from "@azure-rest/core-client";
+import GeneratedConfidentialLedger, { ConfidentialLedgerRestClient, } from "./generated/src/confidentialLedger";
 import { TokenCredential } from "@azure/core-auth";
-
 import { certificatePolicy } from "./certificatePolicy";
-import GeneratedConfidentialLedger, {
-  ConfidentialLedgerRestClient,
-} from "./generated/src/confidentialLedger";
 
 export default function ConfidentialLedger(
   ledgerBaseUrl: string,

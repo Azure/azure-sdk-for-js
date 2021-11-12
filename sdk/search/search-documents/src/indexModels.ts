@@ -1,24 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { OperationOptions } from "@azure/core-client";
 import {
-  QueryType,
-  SearchMode,
-  FacetResult,
-  AutocompleteMode,
-  IndexActionType,
-  ScoringStatistics,
-  QueryLanguage,
-  Speller,
-  Answers,
-  CaptionResult,
   AnswerResult,
+  Answers,
+  AutocompleteMode,
+  CaptionResult,
   Captions,
-  QuerySpellerType,
+  FacetResult,
+  IndexActionType,
   QueryAnswerType,
-  QueryCaptionType
+  QueryCaptionType,
+  QueryLanguage,
+  QuerySpellerType,
+  QueryType,
+  ScoringStatistics,
+  SearchMode,
+  Speller
 } from "./generated/data/models";
+import { OperationOptions } from "@azure/core-client";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 
 /**

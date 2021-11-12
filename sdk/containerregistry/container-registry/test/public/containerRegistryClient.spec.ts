@@ -1,16 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
-import { Context } from "mocha";
 import * as dotenv from "dotenv";
-
-import { ContainerRegistryClient } from "../../src";
-
-import { versionsToTest } from "@azure/test-utils";
-import { env, record, Recorder } from "@azure-tools/test-recorder";
-import { isNode } from "../utils/isNode";
+import { Recorder, env, record } from "@azure-tools/test-recorder";
 import { createRegistryClient, recorderEnvSetup, serviceVersions } from "../utils/utils";
+import { ContainerRegistryClient } from "../../src";
+import { Context } from "mocha";
+import { assert } from "chai";
+import { isNode } from "../utils/isNode";
+import { versionsToTest } from "@azure/test-utils";
 
 if (isNode) {
   dotenv.config();

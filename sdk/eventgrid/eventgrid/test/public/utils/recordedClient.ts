@@ -1,14 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Context } from "mocha";
 import * as dotenv from "dotenv";
-
-import { env, Recorder, record, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
-import { isNode } from "./testUtils";
-
 import { EventGridPublisherClient, InputSchema } from "../../../src";
+import { Recorder, RecorderEnvironmentSetup, env, record } from "@azure-tools/test-recorder";
+import { Context } from "mocha";
 import { KeyCredential } from "@azure/core-auth";
+import { isNode } from "./testUtils";
 
 if (isNode) {
   dotenv.config();

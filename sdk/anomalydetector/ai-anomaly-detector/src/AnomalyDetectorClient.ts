@@ -1,21 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AnomalyDetector } from "./generated";
-import { KeyCredential, TokenCredential } from "@azure/core-auth";
+import { AnomalyDetectorLoggingAllowedHeaderNames, AnomalyDetectorLoggingAllowedQueryParameters, DEFAULT_COGNITIVE_SCOPE, SDK_VERSION } from "./constants";
 import {
-  SDK_VERSION,
-  DEFAULT_COGNITIVE_SCOPE,
-  AnomalyDetectorLoggingAllowedHeaderNames,
-  AnomalyDetectorLoggingAllowedQueryParameters
-} from "./constants";
-import {
-  isTokenCredential,
-  bearerTokenAuthenticationPolicy,
   InternalPipelineOptions,
+  PipelineOptions,
+  bearerTokenAuthenticationPolicy,
   createPipelineFromOptions,
-  PipelineOptions
+  isTokenCredential
 } from "@azure/core-http";
+import { KeyCredential, TokenCredential } from "@azure/core-auth";
+import { AnomalyDetector } from "./generated";
 import { createAnomalyDetectorAzureKeyCredentialPolicy } from "./azureKeyCredentialPolicy";
 import { logger } from "./logger";
 

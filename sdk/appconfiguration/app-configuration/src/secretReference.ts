@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { errorMessageForUnexpectedSetting } from "./internal/helpers";
-import { JsonSecretReferenceValue } from "./internal/jsonModels";
 import { ConfigurationSetting, ConfigurationSettingParam } from "./models";
+import { JsonSecretReferenceValue } from "./internal/jsonModels";
+import { errorMessageForUnexpectedSetting } from "./internal/helpers";
 
 /**
  * content-type for the secret reference.

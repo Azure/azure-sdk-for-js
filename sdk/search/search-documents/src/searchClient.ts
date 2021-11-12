@@ -3,50 +3,41 @@
 
 /// <reference lib="esnext.asynciterable" />
 
+import * as utils from "./serviceUtils";
 import {
-  CommonClientOptions,
-  InternalClientPipelineOptions,
-  OperationOptions
-} from "@azure/core-client";
-import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
-import { SearchClient as GeneratedClient } from "./generated/data/searchClient";
-import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
-import { createSearchApiKeyCredentialPolicy } from "./searchApiKeyCredentialPolicy";
-import { SDK_VERSION } from "./constants";
-import { logger } from "./logger";
-import {
-  AutocompleteResult,
-  AutocompleteRequest,
-  SuggestRequest,
-  IndexDocumentsResult
-} from "./generated/data/models";
-import { createSpan } from "./tracing";
-import { SpanStatusCode } from "@azure/core-tracing";
-import { deserialize, serialize } from "./serialization";
-import {
-  CountDocumentsOptions,
   AutocompleteOptions,
-  SearchOptions,
-  SearchDocumentsResult,
-  SearchIterator,
-  ListSearchResultsPageSettings,
-  SearchResult,
-  SuggestOptions,
-  SuggestDocumentsResult,
+  CountDocumentsOptions,
+  DeleteDocumentsOptions,
   GetDocumentOptions,
   IndexDocumentsOptions,
-  UploadDocumentsOptions,
+  ListSearchResultsPageSettings,
   MergeDocumentsOptions,
-  DeleteDocumentsOptions,
-  SearchDocumentsPageResult,
   MergeOrUploadDocumentsOptions,
-  SearchRequest
+  SearchDocumentsPageResult,
+  SearchDocumentsResult,
+  SearchIterator,
+  SearchOptions,
+  SearchRequest,
+  SearchResult,
+  SuggestDocumentsResult,
+  SuggestOptions,
+  UploadDocumentsOptions
 } from "./indexModels";
-import { createOdataMetadataPolicy } from "./odataMetadataPolicy";
+import { AutocompleteRequest, AutocompleteResult, IndexDocumentsResult, SuggestRequest } from "./generated/data/models";
+import { CommonClientOptions, InternalClientPipelineOptions, OperationOptions } from "@azure/core-client";
+import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
+import { decode, encode } from "./base64";
+import { deserialize, serialize } from "./serialization";
+import { SearchClient as GeneratedClient } from "./generated/data/searchClient";
 import { IndexDocumentsBatch } from "./indexDocumentsBatch";
-import { encode, decode } from "./base64";
-import * as utils from "./serviceUtils";
 import { IndexDocumentsClient } from "./searchIndexingBufferedSender";
+import { SDK_VERSION } from "./constants";
+import { SpanStatusCode } from "@azure/core-tracing";
+import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
+import { createOdataMetadataPolicy } from "./odataMetadataPolicy";
+import { createSearchApiKeyCredentialPolicy } from "./searchApiKeyCredentialPolicy";
+import { createSpan } from "./tracing";
+import { logger } from "./logger";
 
 /**
  * Client options used to configure Cognitive Search API requests.

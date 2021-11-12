@@ -1,25 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { featureFlagContentType, ListConfigurationSettingsOptions } from "..";
-import { URLBuilder } from "@azure/core-http";
+import { AppConfigurationGetKeyValuesOptionalParams, KeyValue } from "../generated/src/models";
 import {
-  ListRevisionsOptions,
-  ConfigurationSettingId,
   ConfigurationSetting,
-  HttpResponseField,
-  HttpResponseFields,
+  ConfigurationSettingId,
+  ConfigurationSettingParam,
   HttpOnlyIfChangedField,
   HttpOnlyIfUnchangedField,
-  ConfigurationSettingParam
+  HttpResponseField,
+  HttpResponseFields,
+  ListRevisionsOptions
 } from "../models";
-import { AppConfigurationGetKeyValuesOptionalParams, KeyValue } from "../generated/src/models";
 import { FeatureFlagHelper, FeatureFlagValue } from "../featureFlag";
-import {
-  secretReferenceContentType,
-  SecretReferenceHelper,
-  SecretReferenceValue
-} from "../secretReference";
+import { ListConfigurationSettingsOptions, featureFlagContentType } from "..";
+import { SecretReferenceHelper, SecretReferenceValue, secretReferenceContentType } from "../secretReference";
+import { URLBuilder } from "@azure/core-http";
 import { isDefined } from "./typeguards";
 
 /**

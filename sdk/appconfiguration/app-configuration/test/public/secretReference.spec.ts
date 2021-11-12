@@ -1,19 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
-import { createAppConfigurationClientForTests, startRecorder } from "./utils/testHelpers";
 import {
   AddConfigurationSettingResponse,
   AppConfigurationClient,
   ConfigurationSetting,
+  SecretReferenceValue,
   isSecretReference,
   parseSecretReference,
-  secretReferenceContentType,
-  SecretReferenceValue
+  secretReferenceContentType
 } from "../../src";
-import { Recorder } from "@azure-tools/test-recorder";
+import { createAppConfigurationClientForTests, startRecorder } from "./utils/testHelpers";
 import { Context } from "mocha";
+import { Recorder } from "@azure-tools/test-recorder";
+import { assert } from "chai";
 
 describe("AppConfigurationClient - SecretReference", () => {
   let client: AppConfigurationClient;

@@ -1,33 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { GeneratedClient } from "./generated/generatedClient";
-
-import { AttestationSigner, AttestationTokenValidationOptions, AttestationResult } from "./models";
-
-import {
-  GeneratedAttestationResult,
-  InitTimeData,
-  KnownDataType,
-  RuntimeData
-} from "./generated/models";
-
-import { logger } from "./logger";
-import { createSpan } from "./tracing";
-import { GeneratedClientOptionalParams } from "./generated/models";
 import * as Mappers from "./generated/models/mappers";
-
-import { SpanStatusCode } from "@azure/core-tracing";
 import { AttestationResponse, createAttestationResponse } from "./models/attestationResponse";
-
-import { TypeDeserializer } from "./utils/typeDeserializer";
-import { isTokenCredential, TokenCredential } from "@azure/core-auth";
+import { AttestationResult, AttestationSigner, AttestationTokenValidationOptions } from "./models";
 import { CommonClientOptions, OperationOptions } from "@azure/core-client";
+import { GeneratedAttestationResult, InitTimeData, KnownDataType, RuntimeData } from "./generated/models";
+import { TokenCredential, isTokenCredential } from "@azure/core-auth";
 import { bytesToString, stringToBytes } from "./utils/utf8";
+import { AttestationTokenImpl } from "./models/attestationToken";
+import { GeneratedClient } from "./generated/generatedClient";
+import { GeneratedClientOptionalParams } from "./generated/models";
+import { SpanStatusCode } from "@azure/core-tracing";
+import { TypeDeserializer } from "./utils/typeDeserializer";
+import { Uint8ArrayFromInput } from "./utils/buffer";
 import { _attestationResultFromGenerated } from "./models/attestationResult";
 import { _attestationSignerFromGenerated } from "./models/attestationSigner";
-import { AttestationTokenImpl } from "./models/attestationToken";
-import { Uint8ArrayFromInput } from "./utils/buffer";
+import { createSpan } from "./tracing";
+import { logger } from "./logger";
+
 /**
  * Attestation Client Construction Options.
  */
@@ -385,28 +376,28 @@ export class AttestationClient {
   /** Attest a TPM based enclave.
 
    * See the  {@link https://docs.microsoft.com/en-us/azure/attestation/virtualization-based-security-protocol | TPM Attestation Protocol Reference} for more information.
-   * 
+   *
    * @param request - Incoming request to send to the TPM attestation service, Utf8 encoded.
    * @param options - Pipeline options for TPM attestation request.
    * @returns A structure containing the response from the TPM attestation, Utf8 encoded.
-   * 
+   *
    * @remarks
-   * 
+   *
    * The incoming requests to the TPM attestation API are stringified JSON objects.
-   * 
+   *
    * @example
    * For example, the initial call for a TPM attestation operation is:
-   * 
+   *
    * ```js
    * const encodedPayload = JSON.stringify({ payload: { type: "aikcert" } });
    * const result = await client.attestTpm(encodedPayload);
    * ```
-   * 
+   *
    * where stringToBytes converts the string to UTF8.
-   * 
+   *
    * Note that the attestTpm requires an attestation client which is configured with
    * authentication credentials.
-   * 
+   *
    */
   public async attestTpm(request: string, options: AttestTpmOptions = {}): Promise<string> {
     const { span, updatedOptions } = createSpan("AttestationClient-attestSgxEnclave", options);

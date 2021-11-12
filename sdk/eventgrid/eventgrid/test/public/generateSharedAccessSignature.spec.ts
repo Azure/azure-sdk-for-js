@@ -3,8 +3,8 @@
 
 /// <reference lib="dom"/>
 
-import { assert } from "chai";
 import { AzureKeyCredential, generateSharedAccessSignature } from "../../src";
+import { assert } from "chai";
 import { isNode } from "@azure/test-utils";
 
 describe("generateSharedAccessSignature", function() {

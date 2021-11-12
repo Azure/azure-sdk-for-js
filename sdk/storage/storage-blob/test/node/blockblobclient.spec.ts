@@ -15,18 +15,18 @@ import {
   recorderEnvSetup
 } from "../utils";
 import {
-  BlockBlobClient,
-  newPipeline,
-  StorageSharedKeyCredential,
   BlobClient,
-  ContainerClient,
+  BlobSASPermissions,
   BlobServiceClient,
+  BlockBlobClient,
+  ContainerClient,
+  StorageSharedKeyCredential,
   generateBlobSASQueryParameters,
-  BlobSASPermissions
+  newPipeline
 } from "../../src";
 import { TokenCredential } from "@azure/core-http";
 import { assertClientUsesTokenCredential } from "../utils/assert";
-import { isPlaybackMode, record, Recorder } from "@azure-tools/test-recorder";
+import { Recorder, isPlaybackMode, record } from "@azure-tools/test-recorder";
 import { streamToBuffer3 } from "../../src/utils/utils.node";
 import * as crypto from "crypto";
 import { BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES } from "../../src/utils/constants";

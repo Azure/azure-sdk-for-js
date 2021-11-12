@@ -1,23 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Context } from "mocha";
-
-import { ClientSecretCredential } from "@azure/identity";
-import {
-  env,
-  Recorder,
-  record,
-  RecorderEnvironmentSetup,
-  isPlaybackMode
-} from "@azure-tools/test-recorder";
-
-import {
-  AttestationClient,
-  AttestationClientOptions,
-  AttestationAdministrationClient
-} from "../../src/";
 import "./env";
+import { AttestationAdministrationClient, AttestationClient, AttestationClientOptions } from "../../src/";
+import {
+  Recorder,
+  RecorderEnvironmentSetup,
+  env,
+  isPlaybackMode,
+  record
+} from "@azure-tools/test-recorder";
+import { ClientSecretCredential } from "@azure/identity";
+import { Context } from "mocha";
 import { pemFromBase64 } from "../utils/helpers";
 
 const replaceableVariables: { [k: string]: string } = {

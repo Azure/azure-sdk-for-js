@@ -1,46 +1,35 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { SpanStatusCode } from "@azure/core-tracing";
-
-import { GeneratedClient } from "./generated/generatedClient";
-
-import { logger } from "./logger";
-import { createSpan } from "./tracing";
-
-import {
-  AttestationCertificateManagementBody,
-  GeneratedClientOptionalParams,
-  JsonWebKey,
-  PolicyCertificatesResult
-} from "./generated/models";
-
-import { bytesToString } from "./utils/utf8";
-
+import * as Mappers from "./generated/models/mappers";
+import * as jsrsasign from "jsrsasign";
+import { AttestationCertificateManagementBody, GeneratedClientOptionalParams, JsonWebKey, PolicyCertificatesResult } from "./generated/models";
 import {
   AttestationResponse,
+  AttestationSigner,
   AttestationTokenValidationOptions,
   AttestationType,
-  PolicyResult,
-  AttestationSigner,
-  PolicyCertificatesModificationResult
+  PolicyCertificatesModificationResult,
+  PolicyResult
 } from "./models";
-import { StoredAttestationPolicy } from "./models/storedAttestationPolicy";
-
 import { CommonClientOptions, OperationOptions } from "@azure/core-client";
+import { AttestationTokenImpl } from "./models/attestationToken";
+import { GeneratedClient } from "./generated/generatedClient";
+import { SpanStatusCode } from "@azure/core-tracing";
+import { StoredAttestationPolicy } from "./models/storedAttestationPolicy";
 import { TokenCredential } from "@azure/core-auth";
 import { TypeDeserializer } from "./utils/typeDeserializer";
-import * as Mappers from "./generated/models/mappers";
+import { _attestationSignerFromGenerated } from "./models/attestationSigner";
+import { _policyResultFromGenerated } from "./models/policyResult";
+import { bytesToString } from "./utils/utf8";
+import { createAttestationResponse } from "./models/attestationResponse";
+import { createSpan } from "./tracing";
+import { hexToBase64 } from "./utils/helpers";
+import { logger } from "./logger";
+import { verifyAttestationSigningKey } from "./utils/helpers";
 
 // eslint-disable-next-line @typescript-eslint/triple-slash-reference
 /// <reference path="../jsrsasign.d.ts"/>
-import * as jsrsasign from "jsrsasign";
-import { hexToBase64 } from "./utils/helpers";
-import { _policyResultFromGenerated } from "./models/policyResult";
-import { _attestationSignerFromGenerated } from "./models/attestationSigner";
-import { verifyAttestationSigningKey } from "./utils/helpers";
-import { createAttestationResponse } from "./models/attestationResponse";
-import { AttestationTokenImpl } from "./models/attestationToken";
 
 /**
  * Attestation Client Construction Options.

@@ -3,10 +3,10 @@
 
 import { KeyCredential, SASCredential } from "@azure/core-auth";
 import {
-  PipelineResponse,
+  PipelinePolicy,
   PipelineRequest,
-  SendRequest,
-  PipelinePolicy
+  PipelineResponse,
+  SendRequest
 } from "@azure/core-rest-pipeline";
 
 import { isKeyCredentialLike } from "./util";

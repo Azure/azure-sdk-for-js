@@ -2,52 +2,25 @@
 // Licensed under the MIT license.
 
 import {
-  BatchRequest as GeneratedBatchRequest,
   BatchQueryRequest as GeneratedBatchQueryRequest,
-  QueryBatchResponse as GeneratedQueryBatchResponse,
   BatchQueryResponse as GeneratedBatchQueryResponse,
-  QueryBody,
-  Table as GeneratedTable,
   BatchQueryResults as GeneratedBatchQueryResults,
-  ErrorInfo as GeneratedErrorInfo
+  BatchRequest as GeneratedBatchRequest,
+  ErrorInfo as GeneratedErrorInfo,
+  QueryBatchResponse as GeneratedQueryBatchResponse,
+  Table as GeneratedTable,
+  QueryBody
 } from "../generated/logquery/src";
-
+import { Metric as GeneratedMetric, MetricsListOptionalParams as GeneratedMetricsListOptionalParams, MetricsListResponse as GeneratedMetricsListResponse, TimeSeriesElement as GeneratedTimeSeriesElement } from "../generated/metrics/src";
+import { MetricDefinition as GeneratedMetricDefinition, MetricDefinitionsListOptionalParams as GeneratedMetricDefinitionsListOptionalParams } from "../generated/metricsdefinitions/src";
 import {
-  Metric as GeneratedMetric,
-  MetricsListOptionalParams as GeneratedMetricsListOptionalParams,
-  MetricsListResponse as GeneratedMetricsListResponse,
-  TimeSeriesElement as GeneratedTimeSeriesElement
-} from "../generated/metrics/src";
-
-import {
-  MetricDefinitionsListOptionalParams as GeneratedMetricDefinitionsListOptionalParams,
-  MetricDefinition as GeneratedMetricDefinition
-} from "../generated/metricsdefinitions/src";
-
-import { MetricNamespace as GeneratedMetricNamespace } from "../generated/metricsnamespaces/src";
-import { formatPreferHeader } from "./util";
-
-import {
-  QueryBatch,
   ListMetricDefinitionsOptions,
-  LogsTable,
   LogsQueryBatchResult,
+  LogsTable,
   MetricsQueryOptions,
-  MetricsQueryResult
+  MetricsQueryResult,
+  QueryBatch
 } from "../../src";
-import {
-  MetricNamespace,
-  Metric,
-  MetricDefinition,
-  TimeSeriesElement,
-  createMetricsQueryResult,
-  MetricAvailability
-} from "../models/publicMetricsModels";
-import { FullOperationResponse } from "@azure/core-client";
-import {
-  convertIntervalToTimeIntervalObject,
-  convertTimespanToInterval
-} from "../timespanConversion";
 import {
   LogsErrorInfo,
   LogsQueryError,
@@ -55,6 +28,18 @@ import {
   LogsQueryResultStatus,
   LogsQuerySuccessfulResult
 } from "../models/publicLogsModels";
+import {
+  Metric,
+  MetricAvailability,
+  MetricDefinition,
+  MetricNamespace,
+  TimeSeriesElement,
+  createMetricsQueryResult
+} from "../models/publicMetricsModels";
+import { convertIntervalToTimeIntervalObject, convertTimespanToInterval } from "../timespanConversion";
+import { FullOperationResponse } from "@azure/core-client";
+import { MetricNamespace as GeneratedMetricNamespace } from "../generated/metricsnamespaces/src";
+import { formatPreferHeader } from "./util";
 
 /**
  * @internal

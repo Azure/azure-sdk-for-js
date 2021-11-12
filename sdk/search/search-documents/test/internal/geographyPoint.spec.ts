@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
 import * as sinon from "sinon";
 import GeographyPoint from "../../src/geographyPoint";
+import { assert } from "chai";
 
 describe("geographyPoint", () => {
   it("JSON.stringify", () => {

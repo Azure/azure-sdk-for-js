@@ -2,12 +2,12 @@
 // Licensed under the MIT license.
 
 import {
-  RequestPolicy,
-  RequestPolicyOptions,
   BaseRequestPolicy,
-  WebResource,
   HttpOperationResponse,
-  RequestPolicyFactory
+  RequestPolicy,
+  RequestPolicyFactory,
+  RequestPolicyOptions,
+  WebResource
 } from "@azure/core-http";
 
 /**

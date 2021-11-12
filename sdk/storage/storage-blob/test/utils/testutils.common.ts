@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-http";
+import { RecorderEnvironmentSetup, env, isPlaybackMode } from "@azure-tools/test-recorder";
 import { padStart } from "../../src/utils/utils.common";
-import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
-import { isPlaybackMode, env, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
 
 export const testPollerProperties = {
   intervalInMs: isPlaybackMode() ? 0 : undefined

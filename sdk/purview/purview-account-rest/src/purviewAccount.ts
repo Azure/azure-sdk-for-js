@@ -2,53 +2,53 @@
 // Licensed under the MIT license.
 
 import {
-  AccountsGetAccountPropertiesParameters,
-  AccountsUpdateAccountPropertiesParameters,
-  AccountsGetAccessKeysParameters,
-  AccountsRegenerateAccessKeyParameters,
-  CollectionsGetCollectionParameters,
-  CollectionsCreateOrUpdateCollectionParameters,
-  CollectionsDeleteCollectionParameters,
-  CollectionsListCollectionsParameters,
-  CollectionsListChildCollectionNamesParameters,
-  CollectionsGetCollectionPathParameters,
-  ResourceSetRulesGetResourceSetRuleParameters,
-  ResourceSetRulesCreateOrUpdateResourceSetRuleParameters,
-  ResourceSetRulesDeleteResourceSetRuleParameters,
-  ResourceSetRulesListResourceSetRulesParameters,
-} from "./parameters";
-import {
-  AccountsGetAccountProperties200Response,
-  AccountsGetAccountPropertiesdefaultResponse,
-  AccountsUpdateAccountProperties200Response,
-  AccountsUpdateAccountPropertiesdefaultResponse,
   AccountsGetAccessKeys200Response,
   AccountsGetAccessKeysdefaultResponse,
+  AccountsGetAccountProperties200Response,
+  AccountsGetAccountPropertiesdefaultResponse,
   AccountsRegenerateAccessKey200Response,
   AccountsRegenerateAccessKeydefaultResponse,
-  CollectionsGetCollection200Response,
-  CollectionsGetCollectiondefaultResponse,
+  AccountsUpdateAccountProperties200Response,
+  AccountsUpdateAccountPropertiesdefaultResponse,
   CollectionsCreateOrUpdateCollection200Response,
   CollectionsCreateOrUpdateCollectiondefaultResponse,
   CollectionsDeleteCollection204Response,
   CollectionsDeleteCollectiondefaultResponse,
-  CollectionsListCollections200Response,
-  CollectionsListCollectionsdefaultResponse,
-  CollectionsListChildCollectionNames200Response,
-  CollectionsListChildCollectionNamesdefaultResponse,
+  CollectionsGetCollection200Response,
   CollectionsGetCollectionPath200Response,
   CollectionsGetCollectionPathdefaultResponse,
-  ResourceSetRulesGetResourceSetRule200Response,
-  ResourceSetRulesGetResourceSetRuledefaultResponse,
+  CollectionsGetCollectiondefaultResponse,
+  CollectionsListChildCollectionNames200Response,
+  CollectionsListChildCollectionNamesdefaultResponse,
+  CollectionsListCollections200Response,
+  CollectionsListCollectionsdefaultResponse,
   ResourceSetRulesCreateOrUpdateResourceSetRule200Response,
   ResourceSetRulesCreateOrUpdateResourceSetRuledefaultResponse,
   ResourceSetRulesDeleteResourceSetRule200Response,
   ResourceSetRulesDeleteResourceSetRule204Response,
   ResourceSetRulesDeleteResourceSetRuledefaultResponse,
+  ResourceSetRulesGetResourceSetRule200Response,
+  ResourceSetRulesGetResourceSetRuledefaultResponse,
   ResourceSetRulesListResourceSetRules200Response,
-  ResourceSetRulesListResourceSetRulesdefaultResponse,
+  ResourceSetRulesListResourceSetRulesdefaultResponse
 } from "./responses";
-import { getClient, ClientOptions, Client } from "@azure-rest/core-client";
+import {
+  AccountsGetAccessKeysParameters,
+  AccountsGetAccountPropertiesParameters,
+  AccountsRegenerateAccessKeyParameters,
+  AccountsUpdateAccountPropertiesParameters,
+  CollectionsCreateOrUpdateCollectionParameters,
+  CollectionsDeleteCollectionParameters,
+  CollectionsGetCollectionParameters,
+  CollectionsGetCollectionPathParameters,
+  CollectionsListChildCollectionNamesParameters,
+  CollectionsListCollectionsParameters,
+  ResourceSetRulesCreateOrUpdateResourceSetRuleParameters,
+  ResourceSetRulesDeleteResourceSetRuleParameters,
+  ResourceSetRulesGetResourceSetRuleParameters,
+  ResourceSetRulesListResourceSetRulesParameters
+} from "./parameters";
+import { Client, ClientOptions, getClient } from "@azure-rest/core-client";
 import { TokenCredential } from "@azure/core-auth";
 
 export interface AccountsGetAccountProperties {

@@ -1,19 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
-import { Context } from "mocha";
-import { Recorder } from "@azure-tools/test-recorder";
+import { DetectChangePointResponse, DetectLastPointResponse } from "../src";
+import { changeExpectedResult, expectedEntireResult, testPointSeries1, testTrendPointseries } from "./testData";
+import { createRecordedAnomalyDetectorClient, testEnv } from "./utils/recordedClients";
 import { AnomalyDetectorClient } from "../src/AnomalyDetectorClient";
 import { AzureKeyCredential } from "@azure/core-auth";
-import { createRecordedAnomalyDetectorClient, testEnv } from "./utils/recordedClients";
-import {
-  testPointSeries1,
-  expectedEntireResult,
-  testTrendPointseries,
-  changeExpectedResult
-} from "./testData";
-import { DetectLastPointResponse, DetectChangePointResponse } from "../src";
+import { Context } from "mocha";
+import { Recorder } from "@azure-tools/test-recorder";
+import { assert } from "chai";
 
 describe("AnomalyDetectorClient", () => {
   let client: AnomalyDetectorClient;

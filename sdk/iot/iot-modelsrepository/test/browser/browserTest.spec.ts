@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { expect } from "chai";
 import { ModelsRepositoryClient } from "../../src";
+import { expect } from "chai";
 
 describe("resolver -  browser", () => {
   describe("single resolution (no pseudo-parsing)", () => {

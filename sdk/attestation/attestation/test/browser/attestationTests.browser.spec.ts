@@ -1,22 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert, expect, use as chaiUse } from "chai";
-import { Context } from "mocha";
-import chaiPromises from "chai-as-promised";
-chaiUse(chaiPromises);
-
-import { Recorder } from "@azure-tools/test-recorder";
-
+import * as base64url from "../utils/base64url";
 import {
+  EndpointType,
   createRecordedAdminClient,
   createRecordedClient,
-  createRecorder,
-  EndpointType
+  createRecorder
 } from "../utils/recordedClient";
-import * as base64url from "../utils/base64url";
-
+import { assert, use as chaiUse, expect } from "chai";
+import { Context } from "mocha";
 import { KnownAttestationType } from "../../src";
+import { Recorder } from "@azure-tools/test-recorder";
+import chaiPromises from "chai-as-promised";
+
+chaiUse(chaiPromises);
 
 describe("AttestationClient in Browser", function() {
   let recorder: Recorder;

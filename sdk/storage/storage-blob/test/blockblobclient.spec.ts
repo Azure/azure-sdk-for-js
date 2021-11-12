@@ -3,7 +3,7 @@
 
 import * as assert from "assert";
 
-import { record, Recorder } from "@azure-tools/test-recorder";
+import { Recorder, record } from "@azure-tools/test-recorder";
 import * as dotenv from "dotenv";
 import {
   base64encode,
@@ -12,7 +12,7 @@ import {
   getSASConnectionStringFromEnvironment,
   recorderEnvSetup
 } from "./utils";
-import { ContainerClient, BlobClient, BlockBlobClient } from "../src";
+import { BlobClient, BlockBlobClient, ContainerClient } from "../src";
 import { Test_CPK_INFO } from "./utils/fakeTestSecrets";
 import { BlockBlobTier } from "../src";
 import { Context } from "mocha";

@@ -3,8 +3,8 @@
 
 import {
   ServiceClientCredentials,
-  WebResource,
   URLBuilder,
+  WebResource,
   WebResourceLike
 } from "@azure/core-http";
 import { sha256Digest, sha256Hmac } from "./internal/cryptoHelpers";

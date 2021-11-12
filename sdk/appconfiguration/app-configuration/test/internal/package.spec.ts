@@ -2,12 +2,11 @@
 // Licensed under the MIT license.
 
 import * as assert from "assert";
-import { isNode } from "@azure/core-http";
-
-import { packageVersion } from "../../src/appConfigurationClient";
 import { Context } from "mocha";
-import path from "path";
 import fs from "fs";
+import { isNode } from "@azure/core-http";
+import { packageVersion } from "../../src/appConfigurationClient";
+import path from "path";
 
 describe("packagejson related tests", () => {
   // if this test is failing you need to update the contant `packageVersion` referenced above

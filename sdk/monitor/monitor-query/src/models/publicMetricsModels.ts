@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { OperationOptions } from "@azure/core-client";
 import {
-  MetricValue,
-  ResultType,
-  MetricUnit,
-  MetricClass,
   AggregationType,
-  NamespaceClassification
+  MetricClass,
+  MetricUnit,
+  MetricValue,
+  NamespaceClassification,
+  ResultType
 } from "..";
+import { OperationOptions } from "@azure/core-client";
 import { QueryTimeInterval } from "./timeInterval";
 
 /**

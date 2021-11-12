@@ -5,23 +5,23 @@ import * as assert from "assert";
 import * as dotenv from "dotenv";
 import * as fs from "fs";
 import { AbortController } from "@azure/abort-controller";
-import { isNode, URLBuilder, URLQuery } from "@azure/core-http";
+import { URLBuilder, URLQuery, isNode } from "@azure/core-http";
 import { SpanGraph, setTracer } from "@azure/test-utils";
 import {
   bodyToString,
   getBSU,
-  getSASConnectionStringFromEnvironment,
-  recorderEnvSetup,
   getGenericBSU,
-  getImmutableContainerName
+  getImmutableContainerName,
+  getSASConnectionStringFromEnvironment,
+  recorderEnvSetup
 } from "./utils";
-import { record, delay, isLiveMode, Recorder } from "@azure-tools/test-recorder";
+import { Recorder, delay, isLiveMode, record } from "@azure-tools/test-recorder";
 import {
   BlobClient,
-  BlockBlobClient,
-  ContainerClient,
-  BlockBlobTier,
   BlobServiceClient,
+  BlockBlobClient,
+  BlockBlobTier,
+  ContainerClient,
   RehydratePriority
 } from "../src";
 import { Test_CPK_INFO } from "./utils/fakeTestSecrets";

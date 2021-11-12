@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { RequestParameters } from "@azure-rest/core-client";
 import {
   AzureKeyVault,
   ClassificationRule,
@@ -9,8 +8,9 @@ import {
   Filter,
   Scan,
   ScanRuleset,
-  Trigger,
+  Trigger
 } from "./models";
+import { RequestParameters } from "@azure-rest/core-client";
 
 export type KeyVaultConnectionsGetParameters = RequestParameters;
 

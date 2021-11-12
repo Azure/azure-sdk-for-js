@@ -9,15 +9,15 @@ import { PassThrough, Readable } from "stream";
 
 import { AbortController } from "@azure/abort-controller";
 import {
-  createRandomLocalFile,
-  recorderEnvSetup,
   bodyToString,
+  createRandomLocalFile,
+  createRandomLocalFileWithTotalSize,
   getBSU,
-  createRandomLocalFileWithTotalSize
+  recorderEnvSetup
 } from "../utils";
 import { RetriableReadableStreamOptions } from "../../src/utils/RetriableReadableStream";
-import { record, Recorder } from "@azure-tools/test-recorder";
-import { ContainerClient, BlobClient, BlockBlobClient, BlobServiceClient } from "../../src";
+import { Recorder, record } from "@azure-tools/test-recorder";
+import { BlobClient, BlobServiceClient, BlockBlobClient, ContainerClient } from "../../src";
 import { readStreamToLocalFileWithLogs } from "../utils/testutils.node";
 import { BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES } from "../../src/utils/constants";
 import { Test_CPK_INFO } from "../utils/fakeTestSecrets";

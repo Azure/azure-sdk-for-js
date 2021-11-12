@@ -11,13 +11,13 @@ import {
   recorderEnvSetup
 } from "./utils";
 import {
-  ContainerClient,
   BlobClient,
+  BlobServiceClient,
+  ContainerClient,
   PageBlobClient,
-  PremiumPageBlobTier,
-  BlobServiceClient
+  PremiumPageBlobTier
 } from "../src";
-import { record, Recorder } from "@azure-tools/test-recorder";
+import { Recorder, record } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
 dotenv.config();
 

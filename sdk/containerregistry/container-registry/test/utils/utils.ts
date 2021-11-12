@@ -2,12 +2,12 @@
 // Licensed under the MIT license.
 
 import { AzureAuthorityHosts, ClientSecretCredential } from "@azure/identity";
+import { ContainerRegistryClient, KnownContainerRegistryAudience } from "../../src";
 import {
-  env,
   RecorderEnvironmentSetup,
+  env,
   pluginForClientSecretCredentialTests
 } from "@azure-tools/test-recorder";
-import { ContainerRegistryClient, KnownContainerRegistryAudience } from "../../src";
 
 // When the recorder observes the values of these environment variables in any
 // recorded HTTP request or response, it will replace them with the values they

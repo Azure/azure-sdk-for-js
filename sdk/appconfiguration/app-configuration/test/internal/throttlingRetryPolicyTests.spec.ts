@@ -1,18 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import chai from "chai";
-import sinon from "sinon";
 import {
-  HttpOperationResponse,
-  WebResource,
   HttpHeaders,
-  RequestPolicyOptions,
+  HttpOperationResponse,
   RequestPolicy,
-  RestError
+  RequestPolicyOptions,
+  RestError,
+  WebResource
 } from "@azure/core-http";
 import { ThrottlingRetryPolicy, getDelayInMs } from "../../src/policies/throttlingRetryPolicy";
 import { assertThrowsRestError } from "../public/utils/testHelpers";
+import chai from "chai";
+import sinon from "sinon";
 
 describe("ThrottlingRetryPolicy", () => {
   class PassThroughPolicy {

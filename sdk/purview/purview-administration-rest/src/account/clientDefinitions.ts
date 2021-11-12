@@ -1,23 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Client } from "@azure-rest/core-client";
-import {
-  AccountsGetAccessKeysParameters,
-  AccountsGetAccountPropertiesParameters,
-  AccountsRegenerateAccessKeyParameters,
-  AccountsUpdateAccountPropertiesParameters,
-  CollectionsCreateOrUpdateCollectionParameters,
-  CollectionsDeleteCollectionParameters,
-  CollectionsGetCollectionParameters,
-  CollectionsGetCollectionPathParameters,
-  CollectionsListChildCollectionNamesParameters,
-  CollectionsListCollectionsParameters,
-  ResourceSetRulesCreateOrUpdateResourceSetRuleParameters,
-  ResourceSetRulesDeleteResourceSetRuleParameters,
-  ResourceSetRulesGetResourceSetRuleParameters,
-  ResourceSetRulesListResourceSetRulesParameters,
-} from "./parameters";
 import {
   AccountsGetAccessKeys200Response,
   AccountsGetAccessKeysdefaultResponse,
@@ -32,9 +15,9 @@ import {
   CollectionsDeleteCollection204Response,
   CollectionsDeleteCollectiondefaultResponse,
   CollectionsGetCollection200Response,
-  CollectionsGetCollectiondefaultResponse,
   CollectionsGetCollectionPath200Response,
   CollectionsGetCollectionPathdefaultResponse,
+  CollectionsGetCollectiondefaultResponse,
   CollectionsListChildCollectionNames200Response,
   CollectionsListChildCollectionNamesdefaultResponse,
   CollectionsListCollections200Response,
@@ -47,8 +30,25 @@ import {
   ResourceSetRulesGetResourceSetRule200Response,
   ResourceSetRulesGetResourceSetRuledefaultResponse,
   ResourceSetRulesListResourceSetRules200Response,
-  ResourceSetRulesListResourceSetRulesdefaultResponse,
+  ResourceSetRulesListResourceSetRulesdefaultResponse
 } from "./responses";
+import {
+  AccountsGetAccessKeysParameters,
+  AccountsGetAccountPropertiesParameters,
+  AccountsRegenerateAccessKeyParameters,
+  AccountsUpdateAccountPropertiesParameters,
+  CollectionsCreateOrUpdateCollectionParameters,
+  CollectionsDeleteCollectionParameters,
+  CollectionsGetCollectionParameters,
+  CollectionsGetCollectionPathParameters,
+  CollectionsListChildCollectionNamesParameters,
+  CollectionsListCollectionsParameters,
+  ResourceSetRulesCreateOrUpdateResourceSetRuleParameters,
+  ResourceSetRulesDeleteResourceSetRuleParameters,
+  ResourceSetRulesGetResourceSetRuleParameters,
+  ResourceSetRulesListResourceSetRulesParameters
+} from "./parameters";
+import { Client } from "@azure-rest/core-client";
 
 export interface AccountsGetAccountProperties {
   /** Get an account */

@@ -1,43 +1,38 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { GeneratedClient } from "./generated/generatedClient";
-import { Service, Table } from "./generated";
+import "@azure/core-paging";
 import {
-  ListTableItemsOptions,
-  TableServiceClientOptions,
-  TableQueryOptions,
-  TableItem
-} from "./models";
-import {
-  GetStatisticsResponse,
   GetPropertiesResponse,
-  SetPropertiesOptions,
+  GetStatisticsResponse,
   ServiceProperties,
+  SetPropertiesOptions,
   SetPropertiesResponse
 } from "./generatedModels";
-import { getClientParamsFromConnectionString } from "./utils/connectionString";
+import { InternalClientPipelineOptions, OperationOptions } from "@azure/core-client";
+import { ListTableItemsOptions, TableItem, TableQueryOptions, TableServiceClientOptions } from "./models";
 import {
-  isNamedKeyCredential,
   NamedKeyCredential,
   SASCredential,
-  isSASCredential,
   TokenCredential,
+  isNamedKeyCredential,
+  isSASCredential,
   isTokenCredential
 } from "@azure/core-auth";
-import "@azure/core-paging";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { STORAGE_SCOPE, TablesLoggingAllowedHeaderNames } from "./utils/constants";
-import { logger } from "./logger";
-import { InternalClientPipelineOptions, OperationOptions } from "@azure/core-client";
-import { SpanStatusCode } from "@azure/core-tracing";
-import { createSpan } from "./utils/tracing";
-import { tablesNamedKeyCredentialPolicy } from "./tablesNamedCredentialPolicy";
+import { Service, Table } from "./generated";
 import { parseXML, stringifyXML } from "@azure/core-xml";
+import { GeneratedClient } from "./generated/generatedClient";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { Pipeline } from "@azure/core-rest-pipeline";
-import { isCredential } from "./utils/isCredential";
-import { tablesSASTokenPolicy } from "./tablesSASTokenPolicy";
+import { SpanStatusCode } from "@azure/core-tracing";
 import { TableItemResultPage } from "./models";
+import { createSpan } from "./utils/tracing";
+import { getClientParamsFromConnectionString } from "./utils/connectionString";
+import { isCredential } from "./utils/isCredential";
+import { logger } from "./logger";
+import { tablesNamedKeyCredentialPolicy } from "./tablesNamedCredentialPolicy";
+import { tablesSASTokenPolicy } from "./tablesSASTokenPolicy";
 
 /**
  * A TableServiceClient represents a Client to the Azure Tables service allowing you

@@ -1,11 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+
 /* eslint-disable no-invalid-this */
-import { CloudEventsDispatcher } from "../src/cloudEventsDispatcher";
-import { assert } from "chai";
-import { IncomingMessage, ServerResponse } from "http";
-import { Socket } from "net";
+
 import * as sinon from "sinon";
+import { IncomingMessage, ServerResponse } from "http";
+import { CloudEventsDispatcher } from "../src/cloudEventsDispatcher";
+import { Socket } from "net";
+import { assert } from "chai";
 
 function buildRequest(
   req: IncomingMessage,

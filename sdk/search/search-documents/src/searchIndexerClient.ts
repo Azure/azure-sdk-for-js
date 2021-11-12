@@ -1,43 +1,43 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
+import * as utils from "./serviceUtils";
 import { CommonClientOptions, InternalClientPipelineOptions } from "@azure/core-client";
-import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
-import { SpanStatusCode } from "@azure/core-tracing";
-import { SDK_VERSION } from "./constants";
-import { SearchIndexerStatus } from "./generated/service/models";
-import { SearchServiceClient as GeneratedClient } from "./generated/service/searchServiceClient";
-import { logger } from "./logger";
-import { createSearchApiKeyCredentialPolicy } from "./searchApiKeyCredentialPolicy";
 import {
+  CreateDataSourceConnectionOptions,
+  CreateIndexerOptions,
   CreateOrUpdateSkillsetOptions,
   CreateSkillsetOptions,
-  DeleteSkillsetOptions,
-  GetSkillSetOptions,
-  ListSkillsetsOptions,
-  SearchIndexerSkillset,
-  ListIndexersOptions,
-  CreateIndexerOptions,
-  GetIndexerOptions,
+  CreateorUpdateDataSourceConnectionOptions,
   CreateorUpdateIndexerOptions,
+  DeleteDataSourceConnectionOptions,
   DeleteIndexerOptions,
+  DeleteSkillsetOptions,
+  GetDataSourceConnectionOptions,
+  GetIndexerOptions,
   GetIndexerStatusOptions,
-  ResetIndexerOptions,
-  RunIndexerOptions,
+  GetSkillSetOptions,
   ListDataSourceConnectionsOptions,
+  ListIndexersOptions,
+  ListSkillsetsOptions,
+  ResetDocumentsOptions,
+  ResetIndexerOptions,
+  ResetSkillsOptions,
+  RunIndexerOptions,
   SearchIndexer,
   SearchIndexerDataSourceConnection,
-  CreateDataSourceConnectionOptions,
-  DeleteDataSourceConnectionOptions,
-  GetDataSourceConnectionOptions,
-  CreateorUpdateDataSourceConnectionOptions,
-  ResetDocumentsOptions,
-  ResetSkillsOptions
+  SearchIndexerSkillset
 } from "./serviceModels";
-import * as utils from "./serviceUtils";
-import { createSpan } from "./tracing";
+import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
+import { SearchServiceClient as GeneratedClient } from "./generated/service/searchServiceClient";
+import { SDK_VERSION } from "./constants";
+import { SearchIndexerStatus } from "./generated/service/models";
+import { SpanStatusCode } from "@azure/core-tracing";
+import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
 import { createOdataMetadataPolicy } from "./odataMetadataPolicy";
+import { createSearchApiKeyCredentialPolicy } from "./searchApiKeyCredentialPolicy";
+import { createSpan } from "./tracing";
+import { logger } from "./logger";
 
 /**
  * Client options used to configure Cognitive Search API requests.

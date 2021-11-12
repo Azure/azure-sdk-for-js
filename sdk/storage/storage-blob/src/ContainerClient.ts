@@ -2,15 +2,15 @@
 // Licensed under the MIT license.
 import { AbortSignalLike } from "@azure/abort-controller";
 import {
-  getDefaultProxySettings,
   HttpRequestBody,
   HttpResponse,
-  isNode,
-  isTokenCredential,
   TokenCredential,
-  URLBuilder
+  URLBuilder,
+  getDefaultProxySettings,
+  isNode,
+  isTokenCredential
 } from "@azure/core-http";
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
@@ -37,13 +37,13 @@ import {
   SignedIdentifierModel
 } from "./generatedModels";
 import {
-  Metadata,
-  ObjectReplicationPolicy,
-  Tags,
   ContainerRequestConditions,
-  ModifiedAccessConditions
+  Metadata,
+  ModifiedAccessConditions,
+  ObjectReplicationPolicy,
+  Tags
 } from "./models";
-import { newPipeline, PipelineLike, isPipelineLike, StoragePipelineOptions } from "./Pipeline";
+import { PipelineLike, StoragePipelineOptions, isPipelineLike, newPipeline } from "./Pipeline";
 import { CommonOptions, StorageClient } from "./StorageClient";
 import { convertTracingToRequestOptionsBase, createSpan } from "./utils/tracing";
 import {

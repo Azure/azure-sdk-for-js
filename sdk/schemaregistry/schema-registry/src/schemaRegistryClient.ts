@@ -1,25 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { GeneratedSchemaRegistryClient } from "./generated/generatedSchemaRegistryClient";
-import { TokenCredential } from "@azure/core-auth";
-import {
-  bearerTokenAuthenticationPolicy,
-  InternalPipelineOptions
-} from "@azure/core-rest-pipeline";
-import { convertSchemaIdResponse, convertSchemaResponse } from "./conversions";
-
 import {
   GetSchemaOptions,
   GetSchemaPropertiesOptions,
-  SchemaDescription,
-  SchemaRegistryClientOptions,
-  SchemaRegistry,
   RegisterSchemaOptions,
+  Schema,
+  SchemaDescription,
   SchemaProperties,
-  Schema
+  SchemaRegistry,
+  SchemaRegistryClientOptions
 } from "./models";
+import { InternalPipelineOptions, bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
+import { convertSchemaIdResponse, convertSchemaResponse } from "./conversions";
 import { DEFAULT_SCOPE } from "./constants";
+import { GeneratedSchemaRegistryClient } from "./generated/generatedSchemaRegistryClient";
+import { TokenCredential } from "@azure/core-auth";
 import { logger } from "./logger";
 
 /**
@@ -118,7 +114,7 @@ export class SchemaRegistryClient implements SchemaRegistry {
   /**
    * Gets an existing schema by ID. If the schema was not found, a RestError with
    * status code 404 will be thrown, which could be caught as follows:
-   * 
+   *
    * ```js
    * ...
    * } catch (e) {

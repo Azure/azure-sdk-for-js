@@ -3,22 +3,16 @@
 
 /// <reference lib="esnext.asynciterable" />
 
-import { OperationOptions } from "@azure/core-client";
-import { SpanStatusCode } from "@azure/core-tracing";
 import "@azure/core-paging";
+import { ArtifactManifestProperties, ArtifactTagProperties, TagOrderBy, TagPageResponse } from "./models";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
-
-import {
-  ArtifactTagProperties,
-  ArtifactManifestProperties,
-  TagOrderBy,
-  TagPageResponse
-} from "./models";
-import { URL } from "./utils/url";
-import { createSpan } from "./tracing";
-import { GeneratedClient } from "./generated";
 import { extractNextLink, isDigest } from "./utils/helpers";
 import { toArtifactManifestProperties, toServiceTagOrderBy } from "./transformations";
+import { GeneratedClient } from "./generated";
+import { OperationOptions } from "@azure/core-client";
+import { SpanStatusCode } from "@azure/core-tracing";
+import { URL } from "./utils/url";
+import { createSpan } from "./tracing";
 
 /**
  * Options for the `delete` method of `RegistryArtifact`.

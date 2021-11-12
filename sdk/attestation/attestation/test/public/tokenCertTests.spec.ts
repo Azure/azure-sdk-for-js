@@ -3,17 +3,17 @@
 
 // eslint-disable-next-line @typescript-eslint/triple-slash-reference
 /// <reference path="../../src/jsrsasign.d.ts"/>
+
 import * as jsrsasign from "jsrsasign";
-
 import { assert, use as chaiUse } from "chai";
-import { Context } from "mocha";
-import chaiPromises from "chai-as-promised";
-chaiUse(chaiPromises);
-
-import { Recorder } from "@azure-tools/test-recorder";
-
 import { createRecordedClient, createRecorder, getAttestationUri } from "../utils/recordedClient";
 import { AttestationClient } from "../../src";
+import { Context } from "mocha";
+import { Recorder } from "@azure-tools/test-recorder";
+import chaiPromises from "chai-as-promised";
+
+chaiUse(chaiPromises);
+
 describe("TokenCertTests", function() {
   let recorder: Recorder;
 

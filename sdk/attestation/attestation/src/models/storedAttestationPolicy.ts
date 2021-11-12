@@ -7,10 +7,9 @@
  *
  */
 
-import { stringToBytes } from "../utils/utf8";
-import { TypeDeserializer } from "../utils/typeDeserializer";
-
 import * as Mappers from "../generated/models/mappers";
+import { TypeDeserializer } from "../utils/typeDeserializer";
+import { stringToBytes } from "../utils/utf8";
 
 /**
  * Represents a stored attestation policy sent to the attestation service.

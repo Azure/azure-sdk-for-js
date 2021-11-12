@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import * as assert from "assert";
 import { AppConfigurationClient, ConfigurationSetting } from "../../src";
 import {
+  assertThrowsRestError,
   createAppConfigurationClientForTests,
   deleteKeyCompletely,
-  assertThrowsRestError,
   startRecorder
 } from "./utils/testHelpers";
-import * as assert from "assert";
-import { Recorder } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
+import { Recorder } from "@azure-tools/test-recorder";
 
 // There's been discussion on other teams about what errors are thrown when. This
 // is the file where I've documented the throws/notThrows cases to make coordination

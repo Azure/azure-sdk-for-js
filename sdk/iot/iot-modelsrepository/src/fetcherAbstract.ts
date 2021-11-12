@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { OperationOptions } from "@azure/core-client";
 import { DTDL } from "./psuedoDtdl";
+import { OperationOptions } from "@azure/core-client";
 
 /**
  * Base Interface for Fetchers, which fetch models from endpoints.

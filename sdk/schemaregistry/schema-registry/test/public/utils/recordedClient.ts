@@ -1,11 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Context } from "mocha";
-
-import { env, Recorder, record, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
+import { Recorder, RecorderEnvironmentSetup, env, record } from "@azure-tools/test-recorder";
 import { ClientSecretCredential } from "@azure/identity";
-
+import { Context } from "mocha";
 import { SchemaRegistryClient } from "../../../src";
 
 export interface RecordedClient {

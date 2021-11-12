@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { KeyCredential } from "@azure/core-auth";
 import { DEFAULT_API_VERSION } from "./constants";
-import { sha256Hmac } from "./cryptoHelpers";
+import { KeyCredential } from "@azure/core-auth";
 import { dateToServiceTimeString } from "./util";
+import { sha256Hmac } from "./cryptoHelpers";
 
 export interface GenerateSharedAccessSignatureOptions {
   /**

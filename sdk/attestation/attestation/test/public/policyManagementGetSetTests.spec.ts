@@ -1,25 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert, expect, use as chaiUse } from "chai";
-import { Context } from "mocha";
-import chaiAsPromised from "chai-as-promised";
-chaiUse(chaiAsPromised);
-
-import { Recorder } from "@azure-tools/test-recorder";
-
-import {
-  createRecordedAdminClient,
-  createRecorder,
-  getIsolatedSigningKey
-} from "../utils/recordedClient";
+import * as jsrsasign from "jsrsasign";
+import { assert, use as chaiUse, expect } from "chai";
 import { createRSAKey, createX509Certificate, generateSha1Hash } from "../utils/cryptoUtils";
+import { createRecordedAdminClient, createRecorder, getIsolatedSigningKey } from "../utils/recordedClient";
+import { Context } from "mocha";
 import { KnownCertificateModification } from "../../src/generated";
+import { Recorder } from "@azure-tools/test-recorder";
+import { byteArrayToHex } from "../../src/utils/base64";
+import chaiAsPromised from "chai-as-promised";
 
 // eslint-disable-next-line @typescript-eslint/triple-slash-reference
 /// <reference path="../jsrsasign.d.ts"/>
-import * as jsrsasign from "jsrsasign";
-import { byteArrayToHex } from "../../src/utils/base64";
+
+chaiUse(chaiAsPromised);
 
 describe("PolicyManagementTests ", function() {
   let recorder: Recorder;

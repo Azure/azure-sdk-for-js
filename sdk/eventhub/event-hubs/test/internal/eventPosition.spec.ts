@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import chai from "chai";
-chai.should();
-
 import { earliestEventPosition, latestEventPosition } from "../../src";
 import { getEventPositionFilter, validateEventPositions } from "../../src/eventPosition";
+import chai from "chai";
 import { testWithServiceTypes } from "../public/utils/testWithServiceTypes";
+
+chai.should();
 
 testWithServiceTypes(() => {
   describe("EventPosition", function(): void {

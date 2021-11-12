@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { AbortSignalLike } from "@azure/abort-controller";
-import { HttpHeaders, isNode, URLBuilder, TokenCredential } from "@azure/core-http";
+import { HttpHeaders, TokenCredential, URLBuilder, isNode } from "@azure/core-http";
 
 import {
   BlobQueryArrowConfiguration,
@@ -10,14 +10,14 @@ import {
   BlobQueryJsonTextConfiguration,
   BlobQueryParquetConfiguration
 } from "../Clients";
-import { QuerySerialization, BlobTags } from "../generated/src/models";
+import { BlobTags, QuerySerialization } from "../generated/src/models";
 import { DevelopmentConnectionString, HeaderConstants, URLConstants } from "./constants";
 import {
-  Tags,
+  HttpAuthorization,
   ObjectReplicationPolicy,
   ObjectReplicationRule,
   ObjectReplicationStatus,
-  HttpAuthorization
+  Tags
 } from "../models";
 
 /**

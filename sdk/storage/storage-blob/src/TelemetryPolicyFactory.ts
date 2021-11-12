@@ -2,11 +2,11 @@
 // Licensed under the MIT license.
 
 import {
-  isNode,
   RequestPolicy,
   RequestPolicyFactory,
   RequestPolicyOptions,
-  UserAgentOptions
+  UserAgentOptions,
+  isNode
 } from "@azure/core-http";
 import * as os from "os";
 

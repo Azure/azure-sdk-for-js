@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { paginateResponse, PagedAsyncIterableIterator } from "@azure-rest/core-client-paging";
 import { Client, PathUncheckedResponse } from "@azure-rest/core-client";
+import { PagedAsyncIterableIterator, paginateResponse } from "@azure-rest/core-client-paging";
 
 /**
  * Helper type to extract the type of an array

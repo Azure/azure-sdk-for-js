@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
-import { Context } from "mocha";
-import { env } from "process";
-import { createRecorderAndLogsClient, RecorderAndLogsClient } from "./shared/testShared";
-import { Recorder } from "@azure-tools/test-recorder";
 import { Durations, LogsQueryClient, LogsQueryResultStatus, QueryBatch } from "../../src";
-// import { runWithTelemetry } from "../setupOpenTelemetry";
-
+import { RecorderAndLogsClient, createRecorderAndLogsClient } from "./shared/testShared";
 import { assertQueryTable, getMonitorWorkspaceId, loggerForTest } from "./shared/testShared";
+import { Context } from "mocha";
 import { ErrorInfo } from "../../src/generated/logquery/src";
+import { Recorder } from "@azure-tools/test-recorder";
 import { RestError } from "@azure/core-rest-pipeline";
+import { assert } from "chai";
+import { env } from "process";
+
+// import { runWithTelemetry } from "../setupOpenTelemetry";
 
 describe("LogsQueryClient live tests", function() {
   let monitorWorkspaceId: string;
@@ -122,8 +122,8 @@ describe("LogsQueryClient live tests", function() {
 
   it("query with types", async () => {
     const constantsQuery = `print "hello", true, make_datetime("2000-01-02 03:04:05Z"), toint(100), long(101), 102.1, dynamic({ "hello": "world" })
-      | project 
-          stringcolumn=print_0, 
+      | project
+          stringcolumn=print_0,
           boolcolumn=print_1,
           datecolumn=print_2,
           intcolumn=print_3,
@@ -205,8 +205,8 @@ describe("LogsQueryClient live tests", function() {
 
   it("queryLogsBatch with types", async () => {
     const constantsQuery = `print "hello", true, make_datetime("2000-01-02 03:04:05Z"), toint(100), long(101), 102.1, dynamic({ "hello": "world" })
-      | project 
-          stringcolumn=print_0, 
+      | project
+          stringcolumn=print_0,
           boolcolumn=print_1,
           datecolumn=print_2,
           intcolumn=print_3,

@@ -5,15 +5,15 @@ import * as assert from "assert";
 import * as dotenv from "dotenv";
 
 import { getBSU } from "./utils";
-import { record, Recorder, isRecordMode, isPlaybackMode } from "@azure-tools/test-recorder";
+import { Recorder, isPlaybackMode, isRecordMode, record } from "@azure-tools/test-recorder";
 import { recorderEnvSetup, testPollerProperties } from "./utils/testutils.common";
 import {
+  BlobBeginCopyFromURLResponse,
   BlobClient,
   BlockBlobClient,
   ContainerClient,
-  BlobBeginCopyFromURLResponse,
-  PollerLike,
-  PollOperationState
+  PollOperationState,
+  PollerLike
 } from "../src";
 import { URLBuilder, URLQuery } from "@azure/core-http";
 import { Context } from "mocha";

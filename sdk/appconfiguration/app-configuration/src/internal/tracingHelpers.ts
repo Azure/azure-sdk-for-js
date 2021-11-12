@@ -1,11 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { OperationOptions, RestError } from "@azure/core-http";
 import { Span, SpanStatusCode } from "@azure/core-tracing";
-
-import { RestError, OperationOptions } from "@azure/core-http";
-import { createSpanFunction } from "@azure/core-tracing";
 import { AppConfigurationClient } from "../appConfigurationClient";
+import { createSpanFunction } from "@azure/core-tracing";
 
 /** @internal */
 export const createSpan = createSpanFunction({

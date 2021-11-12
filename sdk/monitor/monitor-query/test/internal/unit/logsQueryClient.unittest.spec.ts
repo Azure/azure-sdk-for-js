@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Durations, LogsQueryClient } from "../../../src";
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
+import { Durations, LogsQueryClient } from "../../../src";
 import { assert } from "chai";
 
 describe("LogsQueryClient unit tests", () => {

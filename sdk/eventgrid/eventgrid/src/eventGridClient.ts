@@ -1,27 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { isTokenCredential, KeyCredential, SASCredential } from "@azure/core-auth";
-import { OperationOptions, CommonClientOptions } from "@azure/core-client";
-
-import { eventGridCredentialPolicy } from "./eventGridAuthenticationPolicy";
+import { CloudEvent as CloudEventWireModel, EventGridEvent as EventGridEventWireModel } from "./generated/models";
+import { CommonClientOptions, OperationOptions } from "@azure/core-client";
+import { KeyCredential, SASCredential, isTokenCredential } from "@azure/core-auth";
+import { SendCloudEventInput, SendEventGridEventInput, cloudEventReservedPropertyNames } from "./models";
 import { DEFAULT_EVENTGRID_SCOPE } from "./constants";
-import {
-  SendCloudEventInput,
-  SendEventGridEventInput,
-  cloudEventReservedPropertyNames
-} from "./models";
 import { GeneratedClient } from "./generated/generatedClient";
-import {
-  CloudEvent as CloudEventWireModel,
-  EventGridEvent as EventGridEventWireModel
-} from "./generated/models";
-import { cloudEventDistributedTracingEnricherPolicy } from "./cloudEventDistrubtedTracingEnricherPolicy";
-import { createSpan } from "./tracing";
 import { SpanStatusCode } from "@azure/core-tracing";
-import { v4 as uuidv4 } from "uuid";
 import { TokenCredential } from "@azure/core-auth";
 import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
+import { cloudEventDistributedTracingEnricherPolicy } from "./cloudEventDistrubtedTracingEnricherPolicy";
+import { createSpan } from "./tracing";
+import { eventGridCredentialPolicy } from "./eventGridAuthenticationPolicy";
+import { v4 as uuidv4 } from "uuid";
 
 /**
  * Options for the Event Grid Client.

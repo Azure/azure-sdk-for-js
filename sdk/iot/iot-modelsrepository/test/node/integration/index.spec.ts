@@ -2,14 +2,12 @@
 // Licensed under the MIT license.
 /* eslint-disable no-undef */
 
-import { ModelsRepositoryClient, ModelsRepositoryClientOptions } from "../../../src";
-
-import { assert, expect } from "chai";
 import * as sinon from "sinon";
-
-import { dependencyResolutionType } from "../../../src/dependencyResolutionType";
-import { ServiceClient } from "@azure/core-client";
+import { ModelsRepositoryClient, ModelsRepositoryClientOptions } from "../../../src";
+import { assert, expect } from "chai";
 import { PipelineRequest } from "@azure/core-rest-pipeline";
+import { ServiceClient } from "@azure/core-client";
+import { dependencyResolutionType } from "../../../src/dependencyResolutionType";
 
 interface RemoteResolutionScenario {
   name: string;

@@ -3,7 +3,7 @@
 
 import { delay } from "@azure/core-http";
 import { PollOperation, PollOperationState, Poller } from "@azure/core-lro";
-import { BlobClient, BlobStartCopyFromURLOptions, BlobBeginCopyFromURLResponse } from "../Clients";
+import { BlobBeginCopyFromURLResponse, BlobClient, BlobStartCopyFromURLOptions } from "../Clients";
 
 /**
  * Defines the operations from a {@link BlobClient} that are needed for the poller

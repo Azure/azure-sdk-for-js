@@ -3,16 +3,15 @@
 
 // eslint-disable-next-line @typescript-eslint/triple-slash-reference
 /// <reference path="../jsrsasign.d.ts"/>
-import * as jsrsasign from "jsrsasign";
-
-import { JsonWebKey } from "../generated/models";
-import { base64UrlDecodeString } from "../utils/base64";
-import { bytesToString } from "../utils/utf8";
-import { AttestationSigner, _attestationSignerFromGenerated } from "./attestationSigner";
 
 import * as Mappers from "../generated/models/mappers";
+import * as jsrsasign from "jsrsasign";
+import { AttestationSigner, _attestationSignerFromGenerated } from "./attestationSigner";
+import { hexToBase64, verifyAttestationSigningKey } from "../utils/helpers";
+import { JsonWebKey } from "../generated/models";
 import { TypeDeserializer } from "../utils/typeDeserializer";
-import { verifyAttestationSigningKey, hexToBase64 } from "../utils/helpers";
+import { base64UrlDecodeString } from "../utils/base64";
+import { bytesToString } from "../utils/utf8";
 
 /**
  * Options used to validate attestation tokens.

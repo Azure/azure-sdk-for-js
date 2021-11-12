@@ -3,14 +3,12 @@
 
 /// <reference lib="esnext.asynciterable" />
 
-import { Context } from "mocha";
-
-import { env, Recorder, record, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
-import PurviewScanning, { PurviewScanningRestClient } from "../../../src";
-import { ClientSecretCredential } from "@azure/identity";
-
 import "./env";
+import PurviewScanning, { PurviewScanningRestClient } from "../../../src";
+import { Recorder, RecorderEnvironmentSetup, env, record } from "@azure-tools/test-recorder";
 import { ClientOptions } from "@azure-rest/core-client";
+import { ClientSecretCredential } from "@azure/identity";
+import { Context } from "mocha";
 
 const replaceableVariables: { [k: string]: string } = {
   ENDPOINT: "https://endpoint",

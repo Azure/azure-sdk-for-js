@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
 import * as sinon from "sinon";
-import { serialize, deserialize } from "../../src/serialization";
+import { deserialize, serialize } from "../../src/serialization";
 import GeographyPoint from "../../src/geographyPoint";
+import { assert } from "chai";
 
 describe("serialization.serialize", () => {
   it("nested", () => {

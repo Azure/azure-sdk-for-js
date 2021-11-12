@@ -5,12 +5,12 @@ import * as assert from "assert";
 import * as dotenv from "dotenv";
 import {
   BlobClient,
-  ContainerClient,
   BlobServiceClient,
   BlockBlobClient,
+  ContainerClient,
   PageBlobClient
 } from "../../src";
-import { getBSU, getConnectionStringFromEnvironment, bodyToString, getUniqueName } from "../utils";
+import { bodyToString, getBSU, getConnectionStringFromEnvironment, getUniqueName } from "../utils";
 import { env } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
 dotenv.config();

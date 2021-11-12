@@ -1,19 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
-import {
-  createAppConfigurationClientForTests,
-  deleteKeyCompletely,
-  toSortedArray,
-  assertEqualSettings,
-  assertThrowsRestError,
-  assertThrowsAbortError,
-  startRecorder
-} from "./utils/testHelpers";
 import { AppConfigurationClient, ConfigurationSetting, ConfigurationSettingParam } from "../../src";
 import { Recorder, delay, isLiveMode } from "@azure-tools/test-recorder";
+import {
+  assertEqualSettings,
+  assertThrowsAbortError,
+  assertThrowsRestError,
+  createAppConfigurationClientForTests,
+  deleteKeyCompletely,
+  startRecorder,
+  toSortedArray
+} from "./utils/testHelpers";
 import { Context } from "mocha";
+import { assert } from "chai";
 
 describe("AppConfigurationClient", () => {
   let client: AppConfigurationClient;

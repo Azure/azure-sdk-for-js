@@ -1,13 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
-import { Context } from "mocha";
-
-import { ConfigurationClient } from "../../src";
-
+import { Recorder, env, record } from "@azure-tools/test-recorder";
 import { ClientSecretCredential } from "@azure/identity";
-import { env, record, Recorder } from "@azure-tools/test-recorder";
+import { ConfigurationClient } from "../../src";
+import { Context } from "mocha";
+import { assert } from "chai";
 
 // When the recorder observes the values of these environment variables in any
 // recorded HTTP request or response, it will replace them with the values they

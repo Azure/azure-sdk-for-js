@@ -4,23 +4,7 @@
 // https://azure.github.io/azure-sdk/typescript_design.html#ts-config-lib
 /// <reference lib="esnext.asynciterable" />
 
-import { AppConfigCredential } from "./appConfigCredential";
-import { AppConfiguration } from "./generated/src/appConfiguration";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import {
-  isTokenCredential,
-  exponentialRetryPolicy,
-  systemErrorRetryPolicy,
-  ServiceClientCredentials,
-  UserAgentOptions,
-  getDefaultUserAgentValue as getCoreHttpDefaultUserAgentValue,
-  userAgentPolicy
-} from "@azure/core-http";
-import { throttlingRetryPolicy } from "./policies/throttlingRetryPolicy";
-import { TokenCredential } from "@azure/core-auth";
-
 import "@azure/core-asynciterator-polyfill";
-
 import {
   AddConfigurationSettingOptions,
   AddConfigurationSettingParam,
@@ -43,27 +27,38 @@ import {
   SetReadOnlyOptions,
   SetReadOnlyResponse
 } from "./models";
+import { AppConfigurationGetKeyValuesResponse, AppConfigurationOptionalParams as GeneratedAppConfigurationClientOptions } from "./generated/src/models";
+import {
+  ServiceClientCredentials,
+  UserAgentOptions,
+  exponentialRetryPolicy,
+  getDefaultUserAgentValue as getCoreHttpDefaultUserAgentValue,
+  isTokenCredential,
+  systemErrorRetryPolicy,
+  userAgentPolicy
+} from "@azure/core-http";
+import { SyncTokens, syncTokenPolicy } from "./internal/synctokenpolicy";
 import {
   checkAndFormatIfAndIfNoneMatch,
   extractAfterTokenFromNextLink,
-  formatFiltersAndSelect,
-  makeConfigurationSettingEmpty,
-  transformKeyValueResponse,
-  transformKeyValueResponseWithStatusCode,
-  transformKeyValue,
   formatAcceptDateTime,
   formatFieldsForSelect,
-  serializeAsConfigurationSettingParam
+  formatFiltersAndSelect,
+  makeConfigurationSettingEmpty,
+  serializeAsConfigurationSettingParam,
+  transformKeyValue,
+  transformKeyValueResponse,
+  transformKeyValueResponseWithStatusCode
 } from "./internal/helpers";
-import { tracingPolicy } from "@azure/core-http";
-import { trace as traceFromTracingHelpers } from "./internal/tracingHelpers";
-import {
-  AppConfigurationGetKeyValuesResponse,
-  AppConfigurationOptionalParams as GeneratedAppConfigurationClientOptions
-} from "./generated/src/models";
-import { syncTokenPolicy, SyncTokens } from "./internal/synctokenpolicy";
+import { AppConfigCredential } from "./appConfigCredential";
+import { AppConfiguration } from "./generated/src/appConfiguration";
 import { FeatureFlagValue } from "./featureFlag";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SecretReferenceValue } from "./secretReference";
+import { TokenCredential } from "@azure/core-auth";
+import { throttlingRetryPolicy } from "./policies/throttlingRetryPolicy";
+import { trace as traceFromTracingHelpers } from "./internal/tracingHelpers";
+import { tracingPolicy } from "@azure/core-http";
 
 const packageName = "azsdk-js-app-configuration";
 

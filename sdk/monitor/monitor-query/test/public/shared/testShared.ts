@@ -1,12 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { ClientSecretCredential } from "@azure/identity";
-import { env, record, Recorder, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
+
 import * as assert from "assert";
+import { LogsQueryClient, LogsTable, MetricsQueryClient } from "../../../src";
+import { Recorder, RecorderEnvironmentSetup, env, record } from "@azure-tools/test-recorder";
+import { ClientSecretCredential } from "@azure/identity";
 import { Context } from "mocha";
-import { createClientLogger } from "@azure/logger";
-import { LogsTable, LogsQueryClient, MetricsQueryClient } from "../../../src";
 import { ExponentialRetryPolicyOptions } from "@azure/core-rest-pipeline";
+import { createClientLogger } from "@azure/logger";
+
 export const loggerForTest = createClientLogger("test");
 
 const replaceableVariables: Record<string, string> = {

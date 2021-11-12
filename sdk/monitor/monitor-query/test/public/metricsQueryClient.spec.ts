@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
-import { Context } from "mocha";
 import { Durations, MetricsQueryClient } from "../../src";
-
 import {
+  RecorderAndMetricsClient,
   createRecorderAndMetricsClient,
   getMetricsArmResourceId,
-  loggerForTest,
-  RecorderAndMetricsClient
+  loggerForTest
 } from "./shared/testShared";
+import { Context } from "mocha";
 import { Recorder } from "@azure-tools/test-recorder";
+import { assert } from "chai";
+
 describe("MetricsClient live tests", function() {
   let resourceId: string;
   let metricsQueryClient: MetricsQueryClient;

@@ -2,16 +2,16 @@
 // Licensed under the MIT license.
 
 import {
-  SearchClient,
-  SearchIndexClient,
-  SearchIndexerClient,
   GeographyPoint,
+  KnownAnalyzerNames,
+  SearchClient,
   SearchIndex,
-  KnownAnalyzerNames
+  SearchIndexClient,
+  SearchIndexerClient
 } from "../../../src";
 import { Hotel } from "./interfaces";
-import { delay } from "../../../src/serviceUtils";
 import { assert } from "chai";
+import { delay } from "../../../src/serviceUtils";
 
 export const WAIT_TIME = 4000;
 

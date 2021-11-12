@@ -6,11 +6,11 @@ import * as assert from "assert";
 import * as dotenv from "dotenv";
 
 import { AbortController } from "@azure/abort-controller";
-import { ContainerClient, RestError, BlobServiceClient } from "../src";
-import { newPipeline, Pipeline } from "../src";
+import { BlobServiceClient, ContainerClient, RestError } from "../src";
+import { Pipeline, newPipeline } from "../src";
 import { getBSU, recorderEnvSetup } from "./utils";
 import { InjectorPolicyFactory } from "./utils/InjectorPolicyFactory";
-import { record, Recorder } from "@azure-tools/test-recorder";
+import { Recorder, record } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
 
 dotenv.config();

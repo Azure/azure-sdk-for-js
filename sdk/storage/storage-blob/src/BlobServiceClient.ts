@@ -1,35 +1,35 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import {
-  TokenCredential,
-  isTokenCredential,
-  isNode,
   HttpResponse,
-  getDefaultProxySettings
+  TokenCredential,
+  getDefaultProxySettings,
+  isNode,
+  isTokenCredential
 } from "@azure/core-http";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { AbortSignalLike } from "@azure/abort-controller";
 import {
-  ServiceGetUserDelegationKeyHeaders,
+  BlobServiceProperties,
   ContainerCreateResponse,
   ContainerDeleteResponse,
-  ServiceGetPropertiesResponse,
-  BlobServiceProperties,
-  ServiceSetPropertiesResponse,
-  ServiceGetStatisticsResponse,
-  ServiceGetAccountInfoResponse,
-  ServiceListContainersSegmentResponse,
   ContainerItem,
-  ListContainersIncludeType,
-  UserDelegationKeyModel,
+  ContainerRenameResponse,
   ContainerUndeleteResponse,
   FilterBlobSegmentModel,
+  LeaseAccessConditions,
+  ListContainersIncludeType,
   ServiceFilterBlobsHeaders,
-  ContainerRenameResponse,
-  LeaseAccessConditions
+  ServiceGetAccountInfoResponse,
+  ServiceGetPropertiesResponse,
+  ServiceGetStatisticsResponse,
+  ServiceGetUserDelegationKeyHeaders,
+  ServiceListContainersSegmentResponse,
+  ServiceSetPropertiesResponse,
+  UserDelegationKeyModel
 } from "./generatedModels";
 import { Container, Service } from "./generated/src/operations";
-import { newPipeline, StoragePipelineOptions, PipelineLike, isPipelineLike } from "./Pipeline";
+import { PipelineLike, StoragePipelineOptions, isPipelineLike, newPipeline } from "./Pipeline";
 import {
   ContainerClient,
   ContainerCreateOptions,

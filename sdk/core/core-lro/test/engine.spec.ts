@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
-import { RawResponse } from "../src/lroEngine/models";
 import { mockedPoller, runMockedLro } from "./utils/router";
+import { RawResponse } from "../src/lroEngine/models";
+import { assert } from "chai";
 
 describe("Lro Engine", function() {
   it("put201Succeeded", async function() {

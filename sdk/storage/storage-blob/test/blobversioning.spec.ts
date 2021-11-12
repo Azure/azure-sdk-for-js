@@ -4,16 +4,16 @@
 import * as assert from "assert";
 import * as dotenv from "dotenv";
 import * as fs from "fs";
-import { isNode, delay } from "@azure/core-http";
-import { getBSU, recorderEnvSetup, bodyToString, getGenericCredential } from "./utils";
-import { record, Recorder } from "@azure-tools/test-recorder";
+import { delay, isNode } from "@azure/core-http";
+import { bodyToString, getBSU, getGenericCredential, recorderEnvSetup } from "./utils";
+import { Recorder, record } from "@azure-tools/test-recorder";
 import {
-  ContainerClient,
-  BlobServiceClient,
+  BlobBatch,
   BlobClient,
+  BlobServiceClient,
   BlockBlobClient,
   BlockBlobUploadResponse,
-  BlobBatch
+  ContainerClient
 } from "../src";
 import { setURLParameter } from "../src/utils/utils.common";
 import { Context } from "mocha";

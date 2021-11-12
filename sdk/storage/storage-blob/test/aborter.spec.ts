@@ -6,7 +6,7 @@ import * as assert from "assert";
 import { AbortController, AbortSignal } from "@azure/abort-controller";
 import { ContainerClient } from "../src";
 import { getBSU, recorderEnvSetup } from "./utils";
-import { record, Recorder } from "@azure-tools/test-recorder";
+import { Recorder, record } from "@azure-tools/test-recorder";
 import * as dotenv from "dotenv";
 import { Context } from "mocha";
 dotenv.config();

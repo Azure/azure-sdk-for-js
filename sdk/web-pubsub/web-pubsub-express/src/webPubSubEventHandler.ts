@@ -1,10 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import express from "express-serve-static-core";
-
 import { CloudEventsDispatcher } from "./cloudEventsDispatcher";
 import { WebPubSubEventHandlerOptions } from "./cloudEventsProtocols";
+import express from "express-serve-static-core";
 
 /**
  * The handler to handle incoming CloudEvents messages

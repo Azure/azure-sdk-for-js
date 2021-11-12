@@ -1,18 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { HttpResponse } from "@azure-rest/core-client";
 import {
-  Account,
-  ErrorResponseModel,
   AccessKeys,
+  Account,
   Collection,
   CollectionList,
   CollectionNameResponseList,
   CollectionPathResponse,
+  ErrorResponseModel,
   ResourceSetRuleConfig,
   ResourceSetRuleConfigList,
 } from "./models";
+import { HttpResponse } from "@azure-rest/core-client";
 
 /** Get an account */
 export interface AccountsGetAccountProperties200Response extends HttpResponse {

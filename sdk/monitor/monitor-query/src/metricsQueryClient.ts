@@ -1,30 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { TokenCredential } from "@azure/core-auth";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { CommonClientOptions } from "@azure/core-client";
 
+import { MonitorManagementClient as GeneratedMetricsClient, KnownApiVersion201801 as MetricsApiVersion } from "./generated/metrics/src";
+import { MonitorManagementClient as GeneratedMetricsDefinitionsClient, KnownApiVersion201801 as MetricDefinitionsApiVersion } from "./generated/metricsdefinitions/src";
+import { MonitorManagementClient as GeneratedMetricsNamespacesClient, KnownApiVersion20171201Preview as MetricNamespacesApiVersion } from "./generated/metricsnamespaces/src";
 import {
   ListMetricDefinitionsOptions,
   ListMetricNamespacesOptions,
-  MetricsQueryOptions,
-  MetricsQueryResult,
   MetricDefinition,
-  MetricNamespace
+  MetricNamespace,
+  MetricsQueryOptions,
+  MetricsQueryResult
 } from "./models/publicMetricsModels";
-
-import {
-  KnownApiVersion201801 as MetricsApiVersion,
-  MonitorManagementClient as GeneratedMetricsClient
-} from "./generated/metrics/src";
-import {
-  KnownApiVersion201801 as MetricDefinitionsApiVersion,
-  MonitorManagementClient as GeneratedMetricsDefinitionsClient
-} from "./generated/metricsdefinitions/src";
-import {
-  KnownApiVersion20171201Preview as MetricNamespacesApiVersion,
-  MonitorManagementClient as GeneratedMetricsNamespacesClient
-} from "./generated/metricsnamespaces/src";
 import {
   convertRequestForMetrics,
   convertRequestOptionsForMetricsDefinitions,
@@ -32,7 +19,11 @@ import {
   convertResponseForMetrics,
   convertResponseForMetricsDefinitions
 } from "./internal/modelConverters";
+import { CommonClientOptions } from "@azure/core-client";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SDK_VERSION } from "./constants";
+import { TokenCredential } from "@azure/core-auth";
+
 const defaultMetricsScope = "https://management.azure.com/.default";
 
 /**

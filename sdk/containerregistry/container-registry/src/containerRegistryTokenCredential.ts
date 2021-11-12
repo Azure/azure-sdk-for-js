@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { createSerializer, OperationOptions, OperationSpec } from "@azure/core-client";
-import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
-import { AcrAccessToken, AcrRefreshToken, GeneratedClient } from "./generated";
 import * as Mappers from "./generated/models/mappers";
 import * as Parameters from "./generated/models/parameters";
+import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
+import { AcrAccessToken, AcrRefreshToken, GeneratedClient } from "./generated";
+import { OperationOptions, OperationSpec, createSerializer } from "@azure/core-client";
 import { base64decode } from "./utils/base64";
 
 export interface ContainerRegistryGetTokenOptions extends GetTokenOptions {

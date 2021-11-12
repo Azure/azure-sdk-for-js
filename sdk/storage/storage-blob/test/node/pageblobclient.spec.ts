@@ -4,26 +4,26 @@
 import * as assert from "assert";
 
 import {
+  bodyToString,
   getBSU,
   getConnectionStringFromEnvironment,
-  bodyToString,
-  recorderEnvSetup,
   getTokenBSU,
-  getTokenCredential
+  getTokenCredential,
+  recorderEnvSetup
 } from "../utils";
 import {
-  newPipeline,
+  BlobClient,
+  BlobSASPermissions,
+  BlobServiceClient,
+  ContainerClient,
   PageBlobClient,
   StorageSharedKeyCredential,
-  ContainerClient,
-  BlobClient,
   generateBlobSASQueryParameters,
-  BlobSASPermissions,
-  BlobServiceClient
+  newPipeline
 } from "../../src";
 import { TokenCredential } from "@azure/core-http";
 import { assertClientUsesTokenCredential } from "../utils/assert";
-import { record, delay, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
+import { Recorder, delay, isPlaybackMode, record } from "@azure-tools/test-recorder";
 import { Test_CPK_INFO } from "../utils/fakeTestSecrets";
 import { Context } from "mocha";
 

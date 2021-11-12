@@ -1,20 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Context } from "mocha";
 import {
-  SendRequest,
   PipelineRequest,
   PipelineResponse,
+  SendRequest,
   createHttpHeaders,
   createPipelineRequest
 } from "@azure/core-rest-pipeline";
-import { isNode } from "@azure/test-utils";
-import { assert } from "chai";
-
-import { tablesNamedKeyCredentialPolicy } from "../../src/tablesNamedCredentialPolicy";
 import { AzureNamedKeyCredential } from "@azure/core-auth";
+import { Context } from "mocha";
+import { assert } from "chai";
 import { expectedSharedKeyLiteHeader } from "./fakeTestSecrets";
+import { isNode } from "@azure/test-utils";
+import { tablesNamedKeyCredentialPolicy } from "../../src/tablesNamedCredentialPolicy";
 
 describe("TablesSharedKeyCredential", () => {
   let originalToUTCString: () => string;

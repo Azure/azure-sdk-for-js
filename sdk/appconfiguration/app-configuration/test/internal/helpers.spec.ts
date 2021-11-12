@@ -1,28 +1,28 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  checkAndFormatIfAndIfNoneMatch,
-  formatFiltersAndSelect,
-  extractAfterTokenFromNextLink,
-  quoteETag,
-  makeConfigurationSettingEmpty,
-  transformKeyValue,
-  transformKeyValueResponseWithStatusCode,
-  transformKeyValueResponse,
-  formatFieldsForSelect,
-  serializeAsConfigurationSettingParam
-} from "../../src/internal/helpers";
 import * as assert from "assert";
 import {
   ConfigurationSetting,
-  featureFlagContentType,
   HttpResponseField,
   HttpResponseFields,
+  featureFlagContentType,
   secretReferenceContentType
 } from "../../src";
-import { HttpHeaders } from "@azure/core-http";
+import {
+  checkAndFormatIfAndIfNoneMatch,
+  extractAfterTokenFromNextLink,
+  formatFieldsForSelect,
+  formatFiltersAndSelect,
+  makeConfigurationSettingEmpty,
+  quoteETag,
+  serializeAsConfigurationSettingParam,
+  transformKeyValue,
+  transformKeyValueResponse,
+  transformKeyValueResponseWithStatusCode
+} from "../../src/internal/helpers";
 import { FeatureFlagValue } from "../../src/featureFlag";
+import { HttpHeaders } from "@azure/core-http";
 import { SecretReferenceValue } from "../../src/secretReference";
 
 describe("helper methods", () => {

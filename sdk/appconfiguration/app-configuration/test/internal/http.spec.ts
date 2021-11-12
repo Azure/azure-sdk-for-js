@@ -4,24 +4,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { parseSyncToken, SyncTokens } from "../../src/internal/synctokenpolicy";
 import * as assert from "assert";
-import { AppConfigurationClient } from "../../src";
-import nock from "nock";
+import * as chai from "chai";
 import {
-  getUserAgentPrefix,
   InternalAppConfigurationClientOptions,
+  getUserAgentPrefix,
   packageVersion
 } from "../../src/appConfigurationClient";
 import {
-  createAppConfigurationClientForTests,
+  SyncTokens,
+  parseSyncToken
+} from "../../src/internal/synctokenpolicy";
+import {
   assertThrowsRestError,
+  createAppConfigurationClientForTests,
   startRecorder
 } from "../public/utils/testHelpers";
-
-import * as chai from "chai";
-import { Recorder } from "@azure-tools/test-recorder";
+import { AppConfigurationClient } from "../../src";
 import { Context } from "mocha";
+import { Recorder } from "@azure-tools/test-recorder";
+import nock from "nock";
 
 describe("http request related tests", function() {
   describe("unit tests", () => {

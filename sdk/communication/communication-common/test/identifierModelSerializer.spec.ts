@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
 import {
-  serializeCommunicationIdentifier,
-  deserializeCommunicationIdentifier,
   CommunicationIdentifier,
+  CommunicationIdentifierKind,
   SerializedCommunicationIdentifier,
-  CommunicationIdentifierKind
+  deserializeCommunicationIdentifier,
+  serializeCommunicationIdentifier
 } from "../src";
+import { assert } from "chai";
 
 const assertSerialize = (
   identifier: CommunicationIdentifier,

@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { createRecordedClient } from "./utils/recordedClient";
-import { Context } from "mocha";
 import { Recorder, env } from "@azure-tools/test-recorder";
+import { Schema, SchemaDescription, SchemaProperties, SchemaRegistryClient } from "../../src";
 import { assert, use as chaiUse } from "chai";
-import chaiPromises from "chai-as-promised";
-chaiUse(chaiPromises);
 import { ClientSecretCredential } from "@azure/identity";
+import { Context } from "mocha";
+import chaiPromises from "chai-as-promised";
+import { createRecordedClient } from "./utils/recordedClient";
 
-import { SchemaRegistryClient, SchemaDescription, SchemaProperties, Schema } from "../../src";
+chaiUse(chaiPromises);
 
 const options = {
   onResponse: (rawResponse: { status: number }) => {

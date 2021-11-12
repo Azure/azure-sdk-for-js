@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 import { AbortSignalLike, AccessToken } from "@azure/core-http";
+import { CommunicationGetTokenOptions, TokenCredential } from "./communicationTokenCredential";
 import { parseToken } from "./tokenParser";
-import { TokenCredential, CommunicationGetTokenOptions } from "./communicationTokenCredential";
 
 /**
  * Options for auto-refreshing a Communication Token credential.

@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AppConfigurationClient } from "../../src";
+import * as assert from "assert";
 import {
-  startRecorder,
+  assertThrowsRestError,
   createAppConfigurationClientForTests,
   deleteKeyCompletely,
-  assertThrowsRestError
+  startRecorder
 } from "./utils/testHelpers";
-import * as assert from "assert";
-import { Recorder } from "@azure-tools/test-recorder";
+import { AppConfigurationClient } from "../../src";
 import { Context } from "mocha";
+import { Recorder } from "@azure-tools/test-recorder";
 
 describe("etags", () => {
   let client: AppConfigurationClient;

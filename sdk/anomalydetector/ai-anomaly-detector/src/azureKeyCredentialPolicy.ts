@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { KeyCredential } from "@azure/core-auth";
 import {
-  RequestPolicyFactory,
-  RequestPolicy,
-  RequestPolicyOptions,
   BaseRequestPolicy,
   HttpOperationResponse,
+  RequestPolicy,
+  RequestPolicyFactory,
+  RequestPolicyOptions,
   RequestPolicyOptionsLike,
   WebResourceLike
 } from "@azure/core-http";
+import { KeyCredential } from "@azure/core-auth";
 
 const API_KEY_HEADER_NAME = "Ocp-Apim-Subscription-Key";
 

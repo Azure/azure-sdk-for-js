@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
 import * as sinon from "sinon";
+import { assert } from "chai";
 import { odata } from "../../src";
 
 describe("odata", () => {

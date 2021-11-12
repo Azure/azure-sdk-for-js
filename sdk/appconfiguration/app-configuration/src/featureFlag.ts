@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { errorMessageForUnexpectedSetting } from "./internal/helpers";
-import { JsonFeatureFlagValue } from "./internal/jsonModels";
 import { ConfigurationSetting, ConfigurationSettingParam } from "./models";
+import { JsonFeatureFlagValue } from "./internal/jsonModels";
+import { errorMessageForUnexpectedSetting } from "./internal/helpers";
 
 /**
  * The prefix for feature flags.

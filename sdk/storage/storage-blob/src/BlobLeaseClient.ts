@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { generateUuid, HttpResponse } from "@azure/core-http";
+import { HttpResponse, generateUuid } from "@azure/core-http";
 import { StorageClientContext } from "./generated/src/index";
 import { ContainerBreakLeaseOptionalParams } from "./generatedModels";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { SpanStatusCode } from "@azure/core-tracing";
-import { Blob as StorageBlob, Container } from "./generated/src/operations";
+import { Container, Blob as StorageBlob } from "./generated/src/operations";
 import { ModifiedAccessConditions } from "./models";
 import { CommonOptions } from "./StorageClient";
 import { ETagNone } from "./utils/constants";

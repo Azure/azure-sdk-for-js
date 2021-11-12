@@ -1,20 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { isPlaybackMode, record, Recorder, isLiveMode } from "@azure-tools/test-recorder";
-import { Context } from "mocha";
-import { Suite } from "mocha";
-import { assert } from "chai";
-import { SearchIndexClient, SynonymMap, SearchIndex } from "../../../src";
-import { Hotel } from "../utils/interfaces";
-import { createClients, environmentSetup } from "../utils/recordedClient";
+import { Recorder, isLiveMode, isPlaybackMode, record } from "@azure-tools/test-recorder";
+import { SearchIndex, SearchIndexClient, SynonymMap } from "../../../src";
 import {
+  WAIT_TIME,
+  createRandomIndexName,
   createSimpleIndex,
   createSynonymMaps,
-  deleteSynonymMaps,
-  WAIT_TIME,
-  createRandomIndexName
+  deleteSynonymMaps
 } from "../utils/setup";
+import { createClients, environmentSetup } from "../utils/recordedClient";
+import { Context } from "mocha";
+import { Hotel } from "../utils/interfaces";
+import { Suite } from "mocha";
+import { assert } from "chai";
 import { delay } from "../../../src/serviceUtils";
 
 const TEST_INDEX_NAME = isLiveMode() ? createRandomIndexName() : "hotel-live-test3";

@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { ConfidentialLedgerRestClient } from "../../src";
-import { Recorder } from "@azure-tools/test-recorder";
 
-import { assert } from "chai";
 import { createClient, createRecorder } from "./utils/recordedClient";
+import { ConfidentialLedgerRestClient } from "../../src";
 import { Context } from "mocha";
+import { Recorder } from "@azure-tools/test-recorder";
+import { assert } from "chai";
 
 describe("List Document Formats", () => {
   let recorder: Recorder;

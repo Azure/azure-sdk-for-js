@@ -1,25 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { IndexDocumentsBatch } from "./indexDocumentsBatch";
 import {
   IndexDocumentsAction,
-  SearchIndexingBufferedSenderOptions,
-  SearchIndexingBufferedSenderUploadDocumentsOptions,
-  SearchIndexingBufferedSenderMergeDocumentsOptions,
-  SearchIndexingBufferedSenderMergeOrUploadDocumentsOptions,
+  IndexDocumentsOptions,
   SearchIndexingBufferedSenderDeleteDocumentsOptions,
   SearchIndexingBufferedSenderFlushDocumentsOptions,
-  IndexDocumentsOptions
+  SearchIndexingBufferedSenderMergeDocumentsOptions,
+  SearchIndexingBufferedSenderMergeOrUploadDocumentsOptions,
+  SearchIndexingBufferedSenderOptions,
+  SearchIndexingBufferedSenderUploadDocumentsOptions
 } from "./indexModels";
+import EventEmitter from "events";
+import { IndexDocumentsBatch } from "./indexDocumentsBatch";
 import { IndexDocumentsResult } from "./generated/data/models";
 import { OperationOptions } from "@azure/core-client";
-import EventEmitter from "events";
-import { createSpan } from "./tracing";
+import { RestError } from "@azure/core-rest-pipeline";
 import { SpanStatusCode } from "@azure/core-tracing";
+import { createSpan } from "./tracing";
 import { delay } from "./serviceUtils";
 import { getRandomIntegerInclusive } from "./serviceUtils";
-import { RestError } from "@azure/core-rest-pipeline";
 
 /**
  * Index Documents Client

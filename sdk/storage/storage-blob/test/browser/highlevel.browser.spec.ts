@@ -9,12 +9,12 @@ import {
   blobToArrayBuffer,
   blobToString,
   bodyToString,
-  getBrowserFile,
   getBSU,
+  getBrowserFile,
   recorderEnvSetup
 } from "../utils/index.browser";
-import { record, Recorder } from "@azure-tools/test-recorder";
-import { ContainerClient, BlobClient, BlockBlobClient, BlobServiceClient } from "../../src";
+import { Recorder, record } from "@azure-tools/test-recorder";
+import { BlobClient, BlobServiceClient, BlockBlobClient, ContainerClient } from "../../src";
 import { Context } from "mocha";
 
 describe("Highlevel", () => {

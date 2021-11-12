@@ -4,7 +4,7 @@
   "version": "12.9.0-beta.2",
   "description": "Microsoft Azure Storage SDK for JavaScript - Blob",
   "main": "./dist/index.js",
-  "module": "./dist-esm/storage-blob/src/index.js",
+  "module": "dist-esm/src/index.js",
   "browser": {
     "./dist-esm/storage-blob/src/index.js": "./dist-esm/storage-blob/src/index.browser.js",
     "./dist-esm/storage-blob/src/credentials/StorageSharedKeyCredential.js": "./dist-esm/storage-blob/src/credentials/StorageSharedKeyCredential.browser.js",

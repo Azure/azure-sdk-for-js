@@ -3,29 +3,29 @@
 
 import {
   BaseRequestPolicy,
-  deserializationPolicy,
-  disableResponseDecompressionPolicy,
-  HttpClient as IHttpClient,
   HttpHeaders,
   HttpOperationResponse,
   HttpRequestBody,
+  HttpClient as IHttpClient,
+  KeepAliveOptions,
+  ProxyOptions,
   RequestPolicy,
   RequestPolicyFactory,
   RequestPolicyOptions,
   ServiceClientOptions,
-  WebResource,
-  proxyPolicy,
-  isNode,
   TokenCredential,
-  isTokenCredential,
+  UserAgentOptions,
+  WebResource,
   bearerTokenAuthenticationPolicy,
-  tracingPolicy,
-  logPolicy,
-  ProxyOptions,
-  keepAlivePolicy,
-  KeepAliveOptions,
+  deserializationPolicy,
+  disableResponseDecompressionPolicy,
   generateClientRequestIdPolicy,
-  UserAgentOptions
+  isNode,
+  isTokenCredential,
+  keepAlivePolicy,
+  logPolicy,
+  proxyPolicy,
+  tracingPolicy
 } from "@azure/core-http";
 
 import { logger } from "./log";
@@ -34,9 +34,9 @@ import { StorageRetryOptions, StorageRetryPolicyFactory } from "./StorageRetryPo
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import {
-  StorageOAuthScopes,
   StorageBlobLoggingAllowedHeaderNames,
-  StorageBlobLoggingAllowedQueryParameters
+  StorageBlobLoggingAllowedQueryParameters,
+  StorageOAuthScopes
 } from "./utils/constants";
 import { TelemetryPolicyFactory } from "./TelemetryPolicyFactory";
 import { getCachedDefaultHttpClient } from "./utils/cache";

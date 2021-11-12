@@ -5,10 +5,10 @@ import { HttpHeaders } from "@azure/core-http";
 
 import { ServiceSubmitBatchResponseModel } from "./generatedModels";
 import {
-  HTTP_VERSION_1_1,
+  HTTPURLConnection,
   HTTP_LINE_ENDING,
-  HeaderConstants,
-  HTTPURLConnection
+  HTTP_VERSION_1_1,
+  HeaderConstants
 } from "./utils/constants";
 import { getBodyAsText } from "./BatchUtils";
 import { BatchSubRequest } from "./BlobBatch";

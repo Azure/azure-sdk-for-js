@@ -1,26 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { HttpResponse } from "@azure-rest/core-client";
 import {
   AzureKeyVault,
-  ErrorResponseModel,
   AzureKeyVaultList,
   ClassificationRule,
   ClassificationRuleList,
-  OperationResponse,
   DataSource,
   DataSourceList,
+  ErrorResponseModel,
   Filter,
+  OperationResponse,
   Scan,
-  ScanList,
   ScanHistoryList,
+  ScanList,
   ScanRuleset,
   ScanRulesetList,
-  SystemScanRulesetList,
   SystemScanRuleset,
-  Trigger,
+  SystemScanRulesetList,
+  Trigger
 } from "./models";
+import { HttpResponse } from "@azure-rest/core-client";
 
 /** Gets key vault information */
 export interface KeyVaultConnectionsGet200Response extends HttpResponse {

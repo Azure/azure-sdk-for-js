@@ -2,15 +2,12 @@
 // Licensed under the MIT license.
 
 import * as dotenv from "dotenv";
-
-import { env, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
-
 import {
   AzureKeyCredential,
   SearchClient,
-  SearchIndexerClient,
-  SearchIndexClient
-} from "../../../src";
+  SearchIndexClient,
+  SearchIndexerClient } from "../../../src";
+import { RecorderEnvironmentSetup, env } from "@azure-tools/test-recorder";
 
 const isNode =
   typeof process !== "undefined" &&

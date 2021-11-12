@@ -1,20 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
-import { Suite, Context } from "mocha";
-
-import { Recorder } from "@azure-tools/test-recorder";
-
-import { createRecordedClient, testEnv } from "./utils/recordedClient";
-
-import { resetTracer, setTracer } from "@azure/test-utils";
-
 import { AzureKeyCredential, EventGridPublisherClient } from "../../src";
-
+import { Context, Suite } from "mocha";
+import { context, setSpan } from "@azure/core-tracing";
+import { createRecordedClient, testEnv } from "./utils/recordedClient";
+import { resetTracer, setTracer } from "@azure/test-utils";
 import { FullOperationResponse } from "@azure/core-client";
+import { Recorder } from "@azure-tools/test-recorder";
 import { RestError } from "@azure/core-rest-pipeline";
-import { setSpan, context } from "@azure/core-tracing";
+import { assert } from "chai";
 
 describe("EventGridPublisherClient", function(this: Suite) {
   let recorder: Recorder;

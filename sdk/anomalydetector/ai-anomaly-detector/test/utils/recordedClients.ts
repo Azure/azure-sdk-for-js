@@ -1,14 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Context } from "mocha";
-
 import * as dotenv from "dotenv";
-import { env, Recorder, record, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
-
-import { ClientSecretCredential } from "@azure/identity";
+import { Recorder, RecorderEnvironmentSetup, env, record } from "@azure-tools/test-recorder";
 import { AnomalyDetectorClient } from "../../src/AnomalyDetectorClient";
 import { AzureKeyCredential } from "@azure/core-auth";
+import { ClientSecretCredential } from "@azure/identity";
+import { Context } from "mocha";
 
 dotenv.config();
 

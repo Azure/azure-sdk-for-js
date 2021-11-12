@@ -2,10 +2,10 @@
 // Licensed under the MIT license.
 
 import {
-  PipelineResponse,
+  PipelinePolicy,
   PipelineRequest,
-  SendRequest,
-  PipelinePolicy
+  PipelineResponse,
+  SendRequest
 } from "@azure/core-rest-pipeline";
 
 export const CloudEventBatchContentType = "application/cloudevents-batch+json; charset=utf-8";

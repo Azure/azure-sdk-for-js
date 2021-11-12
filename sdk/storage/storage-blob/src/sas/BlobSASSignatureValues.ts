@@ -5,7 +5,7 @@ import { UserDelegationKey } from "../BlobServiceClient";
 import { ContainerSASPermissions } from "./ContainerSASPermissions";
 import { StorageSharedKeyCredential } from "../credentials/StorageSharedKeyCredential";
 import { UserDelegationKeyCredential } from "../credentials/UserDelegationKeyCredential";
-import { ipRangeToString, SasIPRange } from "./SasIPRange";
+import { SasIPRange, ipRangeToString } from "./SasIPRange";
 import { SASProtocol, SASQueryParameters } from "./SASQueryParameters";
 import { SERVICE_VERSION } from "../utils/constants";
 import { truncatedISO8061Date } from "../utils/utils.common";

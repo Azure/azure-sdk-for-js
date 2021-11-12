@@ -2,11 +2,11 @@
 // Licensed under the MIT license.
 
 import {
-  DetectEntireResponse,
-  TimeGranularity,
   DetectChangePointRequest,
+  DetectEntireResponse,
   DetectRequest,
-  KnownTimeGranularity
+  KnownTimeGranularity,
+  TimeGranularity
 } from "../src";
 
 const granularity: TimeGranularity = KnownTimeGranularity.monthly;

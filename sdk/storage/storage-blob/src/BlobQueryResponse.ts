@@ -4,14 +4,14 @@
 import { HttpResponse, isNode } from "@azure/core-http";
 
 import {
+  BlobDownloadHeaders,
   BlobDownloadResponseModel,
+  BlobQueryResponseModel,
   BlobType,
   CopyStatusType,
   LeaseDurationType,
   LeaseStateType,
-  LeaseStatusType,
-  BlobDownloadHeaders,
-  BlobQueryResponseModel
+  LeaseStatusType
 } from "./generatedModels";
 import { Metadata } from "./models";
 import { BlobQuickQueryStream, BlobQuickQueryStreamOptions } from "./utils/BlobQuickQueryStream";

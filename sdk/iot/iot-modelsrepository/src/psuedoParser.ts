@@ -2,9 +2,9 @@
 // Licensed under the MIT license.
 
 import { DTDL } from "./psuedoDtdl";
-import { logger } from "./logger";
 import { DtmiResolver } from "./dtmiResolver";
 import { RestError } from "@azure/core-rest-pipeline";
+import { logger } from "./logger";
 
 /**
  * The PsuedoParser is an interesting implementation. Essentially, this

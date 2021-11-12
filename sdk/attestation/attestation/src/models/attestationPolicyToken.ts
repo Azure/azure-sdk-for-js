@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { AttestationToken, AttestationTokenImpl } from "./attestationToken";
 import { StoredAttestationPolicy } from "./storedAttestationPolicy";
 // import { AttestationSigningKey } from "./attestationSigningKey";
-import { AttestationToken, AttestationTokenImpl } from "./attestationToken";
 
 /**
  *

@@ -2,17 +2,17 @@
 // Licensed under the MIT license.
 import { AbortSignalLike } from "@azure/abort-controller";
 import {
-  generateUuid,
-  getDefaultProxySettings,
   HttpRequestBody,
   HttpResponse,
-  isNode,
-  isTokenCredential,
   TokenCredential,
   TransferProgressEvent,
-  URLBuilder
+  URLBuilder,
+  generateUuid,
+  getDefaultProxySettings,
+  isNode,
+  isTokenCredential
 } from "@azure/core-http";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { PollOperationState, PollerLike } from "@azure/core-lro";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { Readable } from "stream";
 
@@ -20,7 +20,7 @@ import { BlobDownloadResponse } from "./BlobDownloadResponse";
 import { BlobQueryResponse } from "./BlobQueryResponse";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
-import { AppendBlob, Blob as StorageBlob, BlockBlob, PageBlob } from "./generated/src/operations";
+import { AppendBlob, BlockBlob, PageBlob, Blob as StorageBlob } from "./generated/src/operations";
 import {
   AppendBlobAppendBlockFromUrlResponse,
   AppendBlobAppendBlockResponse,
@@ -33,6 +33,7 @@ import {
   BlobDownloadResponseModel,
   BlobGetPropertiesResponseModel,
   BlobGetTagsHeaders,
+  BlobHTTPHeaders,
   BlobSetHTTPHeadersResponse,
   BlobSetMetadataResponse,
   BlobSetTagsResponse,
@@ -42,6 +43,7 @@ import {
   BlobUndeleteResponse,
   BlockBlobCommitBlockListResponse,
   BlockBlobGetBlockListResponse,
+  BlockBlobPutBlobFromUrlResponse,
   BlockBlobStageBlockFromURLResponse,
   BlockBlobStageBlockResponse,
   BlockBlobUploadHeaders,
@@ -58,39 +60,37 @@ import {
   PageBlobUploadPagesFromURLResponse,
   PageBlobUploadPagesResponse,
   RehydratePriority,
-  SequenceNumberActionType,
-  BlockBlobPutBlobFromUrlResponse,
-  BlobHTTPHeaders
+  SequenceNumberActionType
 } from "./generatedModels";
 import {
   AppendBlobRequestConditions,
   BlobDownloadResponseParsed,
+  BlobImmutabilityPolicy,
+  BlobQueryArrowField,
   BlobRequestConditions,
   BlockBlobTier,
-  ensureCpkIfSpecified,
+  HttpAuthorization,
+  MatchConditions,
   Metadata,
+  ModificationConditions,
+  ModifiedAccessConditions,
   ObjectReplicationPolicy,
   PageBlobRequestConditions,
   PremiumPageBlobTier,
-  Tags,
-  toAccessTier,
   TagConditions,
-  MatchConditions,
-  ModificationConditions,
-  ModifiedAccessConditions,
-  BlobQueryArrowField,
-  BlobImmutabilityPolicy,
-  HttpAuthorization
+  Tags,
+  ensureCpkIfSpecified,
+  toAccessTier
 } from "./models";
 import {
   PageBlobGetPageRangesDiffResponse,
   PageBlobGetPageRangesResponse,
   rangeResponseFromModel
 } from "./PageBlobRangeResponse";
-import { newPipeline, PipelineLike, isPipelineLike, StoragePipelineOptions } from "./Pipeline";
+import { PipelineLike, StoragePipelineOptions, isPipelineLike, newPipeline } from "./Pipeline";
 import {
-  BlobBeginCopyFromUrlPoller,
   BlobBeginCopyFromUrlPollState,
+  BlobBeginCopyFromUrlPoller,
   CopyPollerBlobClient
 } from "./pollers/BlobStartCopyFromUrlPoller";
 import { Range, rangeToString } from "./Range";
@@ -107,7 +107,7 @@ import {
   ETagAny,
   URLConstants
 } from "./utils/constants";
-import { createSpan, convertTracingToRequestOptionsBase } from "./utils/tracing";
+import { convertTracingToRequestOptionsBase, createSpan } from "./utils/tracing";
 import {
   appendToURLPath,
   appendToURLQuery,

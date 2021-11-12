@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { encodeUTF8, encodeBase64, encodeUTF8fromBase64 } from "./encodeUtils.browser";
+import { encodeBase64, encodeUTF8, encodeUTF8fromBase64 } from "./encodeUtils.browser";
 
 const globalRef: any = globalThis;
 

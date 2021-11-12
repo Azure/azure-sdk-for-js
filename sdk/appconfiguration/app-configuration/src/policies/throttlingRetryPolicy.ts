@@ -1,19 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AbortError } from "@azure/abort-controller";
 import {
   BaseRequestPolicy,
-  RequestPolicy,
-  RequestPolicyOptions,
-  RequestPolicyFactory,
-  WebResource,
-  HttpOperationResponse,
   Constants,
-  RestError
+  HttpOperationResponse,
+  RequestPolicy,
+  RequestPolicyFactory,
+  RequestPolicyOptions,
+  RestError,
+  WebResource
 } from "@azure/core-http";
-import { delay } from "@azure/core-http";
+import { AbortError } from "@azure/abort-controller";
 import { RetryOptions } from "../models";
+import { delay } from "@azure/core-http";
 
 /**
  * @internal

@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { RequestParameters } from "@azure-rest/core-client";
 import {
-  DataPlaneAccountUpdateParameters,
   AccessKeyOptions,
   Collection,
+  DataPlaneAccountUpdateParameters,
   ResourceSetRuleConfig,
 } from "./models";
+import { RequestParameters } from "@azure-rest/core-client";
 
 export type AccountsGetAccountPropertiesParameters = RequestParameters;
 

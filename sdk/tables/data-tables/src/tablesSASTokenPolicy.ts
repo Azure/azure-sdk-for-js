@@ -2,13 +2,13 @@
 // Licensed under the MIT license.
 
 import {
-  PipelineResponse,
+  PipelinePolicy,
   PipelineRequest,
-  SendRequest,
-  PipelinePolicy
+  PipelineResponse,
+  SendRequest
 } from "@azure/core-rest-pipeline";
-import { SASCredential } from "@azure/core-auth";
 import { URL, URLSearchParams } from "./utils/url";
+import { SASCredential } from "@azure/core-auth";
 
 /**
  * The programmatic identifier of the tablesSASTokenPolicy.

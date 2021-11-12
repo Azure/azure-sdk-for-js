@@ -12,11 +12,11 @@ import { BlobServiceClient } from "../../src";
 import { getUniqueName } from "./testutils.common";
 import { newPipeline } from "../../src";
 import {
-  generateAccountSASQueryParameters,
   AccountSASPermissions,
-  SASProtocol,
   AccountSASResourceTypes,
-  AccountSASServices
+  AccountSASServices,
+  SASProtocol,
+  generateAccountSASQueryParameters
 } from "../../src";
 import { extractConnectionStringParts } from "../../src/utils/utils.common";
 import { TokenCredential } from "@azure/core-http";

@@ -7,7 +7,7 @@ import * as dotenv from "dotenv";
 import * as fs from "fs";
 import * as path from "path";
 import { delay, extractConnectionStringParts } from "../../src/utils/utils.common";
-import { Readable, ReadableOptions, PassThrough } from "stream";
+import { PassThrough, Readable, ReadableOptions } from "stream";
 import {
   readStreamToLocalFile,
   streamToBuffer2,

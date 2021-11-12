@@ -3,15 +3,7 @@
 
 /// <reference lib="esnext.asynciterable" />
 
-import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
-import { CommonClientOptions, InternalClientPipelineOptions } from "@azure/core-client";
-import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
-import { SpanStatusCode } from "@azure/core-tracing";
-import { SDK_VERSION } from "./constants";
-import { AnalyzeResult } from "./generated/service/models";
-import { SearchServiceClient as GeneratedClient } from "./generated/service/searchServiceClient";
-import { logger } from "./logger";
-import { createSearchApiKeyCredentialPolicy } from "./searchApiKeyCredentialPolicy";
+import * as utils from "./serviceUtils";
 import {
   AnalyzeTextOptions,
   CreateIndexOptions,
@@ -22,21 +14,29 @@ import {
   DeleteSynonymMapOptions,
   GetIndexOptions,
   GetIndexStatisticsOptions,
-  GetSynonymMapsOptions,
-  SearchIndex,
-  ListIndexesOptions,
-  ListSynonymMapsOptions,
-  SynonymMap,
   GetServiceStatisticsOptions,
+  GetSynonymMapsOptions,
   IndexIterator,
   IndexNameIterator,
+  ListIndexesOptions,
+  ListSynonymMapsOptions,
+  SearchIndex,
   SearchIndexStatistics,
-  SearchServiceStatistics
+  SearchServiceStatistics,
+  SynonymMap
 } from "./serviceModels";
-import * as utils from "./serviceUtils";
-import { createSpan } from "./tracing";
+import { CommonClientOptions, InternalClientPipelineOptions } from "@azure/core-client";
+import { SearchClientOptions as GetSearchClientOptions, SearchClient } from "./searchClient";
+import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
+import { AnalyzeResult } from "./generated/service/models";
+import { SearchServiceClient as GeneratedClient } from "./generated/service/searchServiceClient";
+import { SDK_VERSION } from "./constants";
+import { SpanStatusCode } from "@azure/core-tracing";
+import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
 import { createOdataMetadataPolicy } from "./odataMetadataPolicy";
-import { SearchClient, SearchClientOptions as GetSearchClientOptions } from "./searchClient";
+import { createSearchApiKeyCredentialPolicy } from "./searchApiKeyCredentialPolicy";
+import { createSpan } from "./tracing";
+import { logger } from "./logger";
 
 /**
  * Client options used to configure Cognitive Search API requests.

@@ -3,31 +3,21 @@
 
 /// <reference lib="esnext.asynciterable" />
 
-import { isTokenCredential, TokenCredential } from "@azure/core-auth";
-import {
-  InternalPipelineOptions,
-  bearerTokenAuthenticationPolicy,
-  PipelineOptions
-} from "@azure/core-rest-pipeline";
-import { OperationOptions } from "@azure/core-client";
-
-import { SpanStatusCode } from "@azure/core-tracing";
 import "@azure/core-paging";
+import { ContainerRepository, ContainerRepositoryImpl, DeleteRepositoryOptions } from "./containerRepository";
+import { InternalPipelineOptions, PipelineOptions, bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
-
-import { logger } from "./logger";
-import { GeneratedClient } from "./generated";
-import { createSpan } from "./tracing";
-import { RepositoryPageResponse } from "./models";
-import { extractNextLink } from "./utils/helpers";
+import { TokenCredential, isTokenCredential } from "@azure/core-auth";
 import { ChallengeHandler } from "./containerRegistryChallengeHandler";
-import {
-  ContainerRepository,
-  ContainerRepositoryImpl,
-  DeleteRepositoryOptions
-} from "./containerRepository";
-import { RegistryArtifact } from "./registryArtifact";
 import { ContainerRegistryRefreshTokenCredential } from "./containerRegistryTokenCredential";
+import { GeneratedClient } from "./generated";
+import { OperationOptions } from "@azure/core-client";
+import { RegistryArtifact } from "./registryArtifact";
+import { RepositoryPageResponse } from "./models";
+import { SpanStatusCode } from "@azure/core-tracing";
+import { createSpan } from "./tracing";
+import { extractNextLink } from "./utils/helpers";
+import { logger } from "./logger";
 
 const LATEST_API_VERSION = "2021-07-01";
 

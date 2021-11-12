@@ -1,36 +1,30 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
 import {
-  BatchRequest as GeneratedBatchRequest,
-  BatchQueryRequest
+  BatchQueryRequest,
+  BatchRequest as GeneratedBatchRequest
 } from "../../../src/generated/logquery/src";
+import {
+  Durations,
+  ListMetricDefinitionsOptions,
+  MetricsQueryOptions, MetricsQueryResult } from "../../../src";
 import {
   MetricsListOptionalParams as GeneratedMetricsListOptionalParams,
   MetricsListResponse as GeneratedMetricsListResponse
 } from "../../../src/generated/metrics/src";
-import { MetricDefinitionsListOptionalParams as GeneratedMetricDefinitionsListOptionalParams } from "../../../src/generated/metricsdefinitions/src";
+import { OperationRequestOptions, RawResponseCallback, SerializerOptions } from "@azure/core-client";
 import {
+  convertRequestForMetrics,
   convertRequestForQueryBatch,
   convertRequestOptionsForMetricsDefinitions,
-  convertRequestForMetrics,
   convertResponseForMetrics,
   convertResponseForMetricsDefinitions
 } from "../../../src/internal/modelConverters";
-import {
-  OperationRequestOptions,
-  RawResponseCallback,
-  SerializerOptions
-} from "@azure/core-client";
-import { OperationTracingOptions } from "@azure/core-tracing";
-import {
-  Durations,
-  ListMetricDefinitionsOptions,
-  MetricsQueryOptions,
-  MetricsQueryResult
-} from "../../../src";
 import { AbortSignalLike } from "@azure/abort-controller";
+import { MetricDefinitionsListOptionalParams as GeneratedMetricDefinitionsListOptionalParams } from "../../../src/generated/metricsdefinitions/src";
+import { OperationTracingOptions } from "@azure/core-tracing";
+import { assert } from "chai";
 
 describe("Model unit tests", () => {
   describe("LogsClient", () => {

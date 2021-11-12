@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { ArtifactManifestProperties, ManifestOrderBy, TagOrderBy } from "./models";
 import {
-  ArtifactTagOrderBy as ServiceTagOrderBy,
+  ArtifactManifestProperties as ServiceArtifactManifestProperties,
   ArtifactManifestOrderBy as ServiceManifestOrderBy,
   ManifestWriteableProperties as ServiceManifestWritableProperties,
-  ArtifactManifestProperties as ServiceArtifactManifestProperties
+  ArtifactTagOrderBy as ServiceTagOrderBy
 } from "./generated/models";
-import { ArtifactManifestProperties, TagOrderBy, ManifestOrderBy } from "./models";
 
 /** Changeable attributes. Filter out `quarantineState` and `quarantineDetails` returned by service */
 interface ManifestWriteableProperties {

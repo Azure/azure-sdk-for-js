@@ -14,12 +14,12 @@ import { BlobBatch } from "./BlobBatch";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { convertTracingToRequestOptionsBase, createSpan } from "./utils/tracing";
 import { HttpResponse, TokenCredential } from "@azure/core-http";
-import { Service, Container } from "./generated/src/operations";
+import { Container, Service } from "./generated/src/operations";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
-import { BlobDeleteOptions, BlobClient, BlobSetTierOptions } from "./Clients";
+import { BlobClient, BlobDeleteOptions, BlobSetTierOptions } from "./Clients";
 import { StorageClientContext } from "./generated/src/storageClientContext";
-import { PipelineLike, StoragePipelineOptions, newPipeline, isPipelineLike } from "./Pipeline";
+import { PipelineLike, StoragePipelineOptions, isPipelineLike, newPipeline } from "./Pipeline";
 import { getURLPath } from "./utils/utils.common";
 
 /**

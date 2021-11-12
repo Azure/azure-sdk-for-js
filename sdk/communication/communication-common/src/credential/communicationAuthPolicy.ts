@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { isTokenCredential, KeyCredential, TokenCredential } from "@azure/core-auth";
-import { bearerTokenAuthenticationPolicy, RequestPolicyFactory } from "@azure/core-http";
+import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
+import { RequestPolicyFactory, bearerTokenAuthenticationPolicy } from "@azure/core-http";
 import { createCommunicationAccessKeyCredentialPolicy } from "./communicationAccessKeyCredentialPolicy";
 /**
  * Creates a pipeline policy to authenticate request based

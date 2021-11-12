@@ -7,13 +7,11 @@
  *
  */
 
-import { PolicyModification } from "./index";
 import * as Mappers from "../generated/models/mappers";
-
-import { PolicyResult as GeneratedPolicyResult } from "../generated/models";
-
-import { TypeDeserializer } from "../utils/typeDeserializer";
 import { AttestationSigner, _attestationSignerFromGenerated } from "./attestationSigner";
+import { PolicyResult as GeneratedPolicyResult } from "../generated/models";
+import { PolicyModification } from "./index";
+import { TypeDeserializer } from "../utils/typeDeserializer";
 
 /**
  * The result of a policy certificate modification

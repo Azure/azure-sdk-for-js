@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 import { CertificateCredential } from "@azure-rest/core-client";
-import { TokenCredential } from "@azure/core-auth";
 import { PipelinePolicy } from "@azure/core-rest-pipeline";
+import { TokenCredential } from "@azure/core-auth";
 
 /**
  * Dummy policy for client certificate authentication.

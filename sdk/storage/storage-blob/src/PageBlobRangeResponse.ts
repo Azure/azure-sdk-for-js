@@ -3,10 +3,10 @@
 
 import { HttpResponse } from "@azure/core-http";
 import {
-  PageBlobGetPageRangesHeaders,
   PageBlobGetPageRangesDiffHeaders,
-  PageBlobGetPageRangesResponse as PageBlobGetPageRangesResponseModel,
-  PageBlobGetPageRangesDiffResponse as PageBlobGetPageRangesDiffResponseModel
+  PageBlobGetPageRangesDiffResponse as PageBlobGetPageRangesDiffResponseModel,
+  PageBlobGetPageRangesHeaders,
+  PageBlobGetPageRangesResponse as PageBlobGetPageRangesResponseModel
 } from "./generatedModels";
 import { Range } from "./Range";
 

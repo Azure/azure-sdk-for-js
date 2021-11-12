@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { createHttpHeaders, PipelineRequest, PipelineResponse } from "@azure/core-rest-pipeline";
+import { PipelineRequest, PipelineResponse, createHttpHeaders } from "@azure/core-rest-pipeline";
 
 import { buildResponse, getPascalCase, parseUri } from "./utils";
 

@@ -1,11 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { env, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
-
-import { ClientSecretCredential } from "@azure/identity";
-import { TableClient, TableServiceClient } from "../../../src";
 import { AzureNamedKeyCredential, AzureSASCredential } from "@azure/core-auth";
+import { RecorderEnvironmentSetup, env } from "@azure-tools/test-recorder";
+import { TableClient, TableServiceClient } from "../../../src";
+import { ClientSecretCredential } from "@azure/identity";
 
 import "./env";
 
