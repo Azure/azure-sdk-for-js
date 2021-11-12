@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Fix validation for schema names to allow more schema names.
+
 ### Other Changes
 
 ## 1.0.0 (2021-11-10)
