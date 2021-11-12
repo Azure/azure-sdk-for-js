@@ -1,21 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
-import { Context } from "mocha";
 import {
   DataSourceDataLakeGen2SharedKey,
   DataSourceDataLakeGen2SharedKeyPatch,
-  MetricsAdvisorAdministrationClient,
   DataSourceServicePrincipal,
-  DataSourceServicePrincipalPatch,
   DataSourceServicePrincipalInKeyVault,
   DataSourceServicePrincipalInKeyVaultPatch,
+  DataSourceServicePrincipalPatch,
   DataSourceSqlConnectionString,
-  DataSourceSqlServerConnectionStringPatch
+  DataSourceSqlServerConnectionStringPatch,
+  MetricsAdvisorAdministrationClient
 } from "../../src";
 import { createRecordedAdminClient, makeCredential } from "./util/recordedClients";
+import { Context } from "mocha";
 import { Recorder } from "@azure-tools/test-recorder";
+import { assert } from "chai";
 
 describe("DataSourceCredential", () => {
   let client: MetricsAdvisorAdministrationClient;

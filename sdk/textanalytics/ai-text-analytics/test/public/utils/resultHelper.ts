@@ -1,9 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
-
 import { TextAnalyticsErrorResult, TextAnalyticsSuccessResult } from "../../../src/";
+import { assert } from "chai";
 
 export function assertAllSuccess<TSuccess extends TextAnalyticsSuccessResult>(
   results: (TextAnalyticsErrorResult | TSuccess)[]

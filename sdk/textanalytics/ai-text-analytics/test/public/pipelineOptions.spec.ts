@@ -1,12 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
-
 import { DetectLanguageResultArray, DetectLanguageSuccessResult } from "../../src";
-import { createClient } from "./utils/recordedClient";
-
 import { PipelineRequest, PipelineResponse, createHttpHeaders } from "@azure/core-rest-pipeline";
+import { assert } from "chai";
+import { createClient } from "./utils/recordedClient";
 
 describe("TextAnalyticsClient Custom PipelineOptions", function() {
   it("use custom HTTPClient", async () => {

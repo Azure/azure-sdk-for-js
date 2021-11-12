@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
 import { Entity, StringIndexType, TextAnalyticsClient } from "../../../src";
+import { assert } from "chai";
 
 /**
  * calls the recognizePiiEntities on the input document and checks wether the

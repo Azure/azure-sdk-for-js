@@ -3,13 +3,11 @@
 
 /// <reference lib="esnext.asynciterable" />
 
-import { Context } from "mocha";
-
-import { env, Recorder, record, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
-import { TokenCredential, ClientSecretCredential } from "@azure/identity";
-
-import { AzureKeyCredential, TextAnalyticsClient, TextAnalyticsClientOptions } from "../../../src/";
 import "./env";
+import { AzureKeyCredential, TextAnalyticsClient, TextAnalyticsClientOptions } from "../../../src/";
+import { ClientSecretCredential, TokenCredential } from "@azure/identity";
+import { Recorder, RecorderEnvironmentSetup, env, record } from "@azure-tools/test-recorder";
+import { Context } from "mocha";
 
 const replaceableVariables: { [k: string]: string } = {
   AZURE_CLIENT_ID: "azure_client_id",

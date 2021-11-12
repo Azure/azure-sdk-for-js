@@ -1,17 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Context } from "mocha";
-
-import { env, Recorder, record, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
-import { ClientSecretCredential } from "@azure/identity";
-import { TokenCredential } from "@azure/core-auth";
-import {
-  MetricsAdvisorKeyCredential,
-  MetricsAdvisorClient,
-  MetricsAdvisorAdministrationClient
-} from "../../../src";
 import * as dotenv from "dotenv";
+import { MetricsAdvisorAdministrationClient, MetricsAdvisorClient, MetricsAdvisorKeyCredential } from "../../../src";
+import { Recorder, RecorderEnvironmentSetup, env, record } from "@azure-tools/test-recorder";
+import { ClientSecretCredential } from "@azure/identity";
+import { Context } from "mocha";
+import { TokenCredential } from "@azure/core-auth";
 import { isNode } from "@azure/core-http";
 
 if (isNode) {

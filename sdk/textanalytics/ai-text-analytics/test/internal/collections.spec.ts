@@ -1,14 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { DetectLanguageInput, TextDocumentInput } from "../../src";
 import { assert } from "chai";
-
 import { makeAnalyzeSentimentResultArray } from "../../src/analyzeSentimentResultArray";
 import { makeDetectLanguageResultArray } from "../../src/detectLanguageResultArray";
 import { makeExtractKeyPhrasesResultArray } from "../../src/extractKeyPhrasesResultArray";
-import { makeRecognizeLinkedEntitiesResultArray } from "../../src/recognizeLinkedEntitiesResultArray";
 import { makeRecognizeCategorizedEntitiesResultArray } from "../../src/recognizeCategorizedEntitiesResultArray";
-import { DetectLanguageInput, TextDocumentInput } from "../../src";
+import { makeRecognizeLinkedEntitiesResultArray } from "../../src/recognizeLinkedEntitiesResultArray";
 import { makeRecognizePiiEntitiesResultArray } from "../../src/recognizePiiEntitiesResultArray";
 
 describe("SentimentResultArray", () => {

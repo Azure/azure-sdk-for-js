@@ -3,29 +3,28 @@
 
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
-import { assert, use as chaiUse } from "chai";
-import { Suite, Context } from "mocha";
-import chaiPromises from "chai-as-promised";
-chaiUse(chaiPromises);
-
-import { matrix } from "@azure/test-utils";
-import { env, isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
-
-import { AuthMethod, createClient, createRecorder } from "./utils/recordedClient";
 import {
-  TextAnalyticsClient,
-  TextDocumentInput,
-  DetectLanguageInput,
-  DetectLanguageSuccessResult,
   AnalyzeSentimentResultArray,
   AnalyzeSentimentSuccessResult,
-  SentenceSentiment,
-  Opinion,
   AssessmentSentiment,
-  PiiEntityDomain
+  DetectLanguageInput,
+  DetectLanguageSuccessResult,
+  Opinion,
+  PiiEntityDomain,
+  SentenceSentiment,
+  TextAnalyticsClient,
+  TextDocumentInput
 } from "../../src";
+import { AuthMethod, createClient, createRecorder } from "./utils/recordedClient";
+import { Context, Suite } from "mocha";
+import { Recorder, env, isPlaybackMode } from "@azure-tools/test-recorder";
+import { assert, use as chaiUse } from "chai";
 import { assertAllSuccess, isSuccess } from "./utils/resultHelper";
 import { checkEntityTextOffset, checkOffsetAndLength } from "./utils/stringIndexTypeHelpers";
+import chaiPromises from "chai-as-promised";
+import { matrix } from "@azure/test-utils";
+
+chaiUse(chaiPromises);
 
 const testDataEn = [
   "I had a wonderful trip to Seattle last week and even visited the Space Needle 2 times!",
@@ -1089,49 +1088,49 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           // Source: https://news.microsoft.com/innovation-stories/cloud-pc-windows-365/
           const windows365ArticlePart1 = `
           No roads or rails connect the 39,000 people dispersed across Nunavut, a territory in northeastern Canada that spans three time zones and features fjord-cut isles that stretch into the Arctic Circle off the west coast of Greenland. About 80% of the population is of Inuit descent with cultural ties to the land that date back more than 4,000 years.
-          
+
           Today, low-bandwidth satellite internet service links the people of Nunavut to each other and with the rest of the world.
-                  
+
           The Government of Nunavut relies on this internet link to provide healthcare, education, housing and family, and financial and other services to 25 communities. The smallest, Grise Fiord, has a population of 130; the largest, the capital, Iqaluit, has 8,500 people. About 3,100 people work full-time for the government, which has an office in each community. Another 3,000 people work for the government as relief workers, casual, term or contractors.
-                  
+
           Managing information technology for this dispersed and elastic workforce is a constant challenge for Martin Joy, director of information communication and technology for the Government of Nunavut.
-                  
+
           “Traditionally, in IT, you would have to send a device or mail a device to that end user. In Nunavut, there is no road, there is no logistical framework that allows us to move stuff cost-effectively, so everything has to be flown,” he explained. “Based on weather, based on the types of cargo flows, that could take a considerable amount of time. It could take two to three weeks for us to get a user a device to get them onboarded securely into our environment.”
-                  
+
           “Now, with Windows 365, we can do that within less than an hour of the account being created,” he said.
-                  
+
           Windows 365 puts Microsoft’s flagship operating system in the cloud. Users select Windows 10 or Windows 11, once it is generally available later this calendar year, along with a configuration of processing power, storage and memory that suits their needs. They then access their Cloud PC through a native application or web browser on any device, from anywhere with an internet connection.
-                  
+
           The creation of the Cloud PC follows other products and services to the cloud, from Windows Server on Azure to the suite of Microsoft Office productivity applications in Microsoft 365. Windows is already accessible in the cloud via Azure Virtual Desktop, which offers customers flexibility to create and run their own virtualization service. Windows 365 is a new virtualization technology for Windows that is easy to set up and deploy for today’s login-from-anywhere, mobile and elastic workforces.
-                  
+
           “Windows 365 is really going to make a huge difference for organizations that wanted to try virtualization for various reasons but could not – maybe it was too costly, too complex or they didn’t have the expertise in house to do it,” said Wangui McKelvey, general manager of Microsoft 365, who works from a home office in Atlanta, Georgia.
-                  
+
           With Windows 365, she added, IT admins can manage and deploy Cloud PCs using the same tools they use today to manage physical PCs.
-                  
+
           The remote and hybrid workforces of today and tomorrow were top of mind for Scott Manchester when he set out to develop Windows 365. The director of program management for Windows 365 in Redmond, Washington, wanted to deliver an experience with the look, feel and security of a traditional Windows PC, only accessed through a native app or web browser on a device of the user’s choosing from anywhere with an internet connection.
-          
+
           “You want them to be able to get access to their corporate resources, applications, databases and HR tools, and do all the things they do in a typical workday sitting in the office – you want them to have that same experience,” he said. “And you want them to have that experience in such a way that it feels familiar to them. It’s not this jolting thing that takes away all the things they love about Windows.”
-          
+
           Virtualization, he noted, can be challenging to set up and maintain, especially for organizations without dedicated IT resources. IT consulting firms do brisk business working with companies to set up virtualization solutions and staffing help desks to field calls from employees when they run into complications. Manchester knows this because he worked on Microsoft’s Windows virtualization technologies for nearly two decades prior to leading the development of Windows 365.
-          
+
           The inspiration for Windows 365 came earlier, when he was assigned to an internal team at Microsoft working on a project, code named Arcadia, a consumer-facing service that would stream video games from the cloud. The target audience – gamers – lacks an IT department to lean on when things glitch. “That started me thinking, ‘How do we build something that doesn’t require IT intervention, something that could truly scale to the consumer market?’” Manchester said.
-          
+
           The consumer experience was Manchester’s benchmark when he started work on virtualization.
-          
+
           “I took note of every time there was something that didn’t quite deliver on that,” he said. “And, as I started meeting with customers and partners and learning about how they fill in these gaps either by setting expectations of their workforce or having an IT department that picks up the phone and deals with those situations, I realized we had some ground to cover.”
-          
+
           Covering that ground led to improvements in Microsoft’s business offering now known as Azure Virtual Desktop. This offering continues to experience accelerated growth among customers who need full customization and control over their operating environment and have the resources for dedicated IT staff to support the system, Manchester noted. Windows 365 is for the approximate 80% of the marketplace that lacks the need for full customization or the resources for dedicated IT.
-          
+
           To lead the development of Windows 365, Manchester leaned into his Arcadia mindset.
-          
+
           “When we built this team, we brought in a couple of leaders who had experience with virtualization, but for the most part we brought in people who had experience with Windows and experience with consumer experiences because that was the bar we wanted to set,” he said.
-          
+
           Soon after this bar was set, and the first batch of hires made – a handful of experts in virtualization and user experience – COVID-19 hit and changed the world.
-          
+
           “We hired everybody else during the pandemic,” Manchester said. “They were remote. They were living all over the U.S., Australia, Europe and China. Many of them have never set foot in the office. And as soon as we got far enough along with the development, we moved those people to use the service. People who never used virtualization before, had no expectations – their bar was the experience they had on their laptop – and we basically used Windows 365 to build Windows 365.”
-          
+
           As the team used the service and encountered bugs in the system, they worked through and solved them on their way to creating a unique category of virtualization, the Cloud PC.
-          
+
           “We’re giving you Windows from the cloud,” Manchester said.
                   `;
           const windows365ArticlePart2 = `

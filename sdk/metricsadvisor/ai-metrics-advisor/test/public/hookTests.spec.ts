@@ -1,18 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
-import { Context } from "mocha";
-
 import {
-  MetricsAdvisorAdministrationClient,
-  WebNotificationHook,
   EmailNotificationHook,
   EmailNotificationHookPatch,
+  MetricsAdvisorAdministrationClient,
+  WebNotificationHook,
   WebNotificationHookPatch
 } from "../../src";
 import { createRecordedAdminClient, makeCredential } from "./util/recordedClients";
+import { Context } from "mocha";
 import { Recorder } from "@azure-tools/test-recorder";
+import { assert } from "chai";
 import { matrix } from "./util/matrix";
 
 matrix([[true, false]] as const, async (useAad) => {

@@ -1,29 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
-import { Context } from "mocha";
 import {
-  DataFeedGranularity,
-  DataFeedIngestionSettings,
-  DataFeedPatch,
-  DataFeedSchema,
-  DataFeedSource,
-  DataFeedDimension,
-  DataFeedMetric,
-  MetricsAdvisorAdministrationClient,
-  UnknownDataFeedSource,
-  DataFeedDescriptor,
-  DataFeedRollupSettings,
   AzureBlobDataFeedSource,
-  DataFeedAccessMode,
-  MongoDbDataFeedSource,
   AzureDataLakeStorageGen2DataFeedSource,
   AzureEventHubsDataFeedSource,
-  AzureLogAnalyticsDataFeedSource
+  AzureLogAnalyticsDataFeedSource,
+  DataFeedAccessMode,
+  DataFeedDescriptor,
+  DataFeedDimension,
+  DataFeedGranularity,
+  DataFeedIngestionSettings,
+  DataFeedMetric,
+  DataFeedPatch,
+  DataFeedRollupSettings,
+  DataFeedSchema,
+  DataFeedSource,
+  MetricsAdvisorAdministrationClient,
+  MongoDbDataFeedSource,
+  UnknownDataFeedSource
 } from "../../src";
-import { createRecordedAdminClient, testEnv, makeCredential } from "./util/recordedClients";
+import { createRecordedAdminClient, makeCredential, testEnv } from "./util/recordedClients";
+import { Context } from "mocha";
 import { Recorder } from "@azure-tools/test-recorder";
+import { assert } from "chai";
 import { matrix } from "./util/matrix";
 
 matrix([[true, false]] as const, async (useAad) => {

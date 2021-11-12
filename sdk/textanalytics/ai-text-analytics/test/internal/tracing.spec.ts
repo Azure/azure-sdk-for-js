@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
 import * as sinon from "sinon";
-import { createSpan } from "../../src/tracing";
-import { TestSpan, setTracer } from "@azure/test-utils";
 import { SpanKind, TraceFlags } from "@azure/core-tracing";
+import { TestSpan, setTracer } from "@azure/test-utils";
+import { assert } from "chai";
+import { createSpan } from "../../src/tracing";
 
 describe("tracing.createSpan", () => {
   it("returns a created span with the right metadata", () => {
