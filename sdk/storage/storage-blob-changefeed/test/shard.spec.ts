@@ -3,11 +3,11 @@
 
 import * as assert from "assert";
 import * as sinon from "sinon";
-import { ShardFactory } from "../src/ShardFactory";
-import { ContainerClient } from "@azure/storage-blob";
-import { ChunkFactory } from "../src/ChunkFactory";
-import { ShardCursor } from "../src/models/ChangeFeedCursor";
 import { Chunk } from "../src/Chunk";
+import { ChunkFactory } from "../src/ChunkFactory";
+import { ContainerClient } from "@azure/storage-blob";
+import { ShardCursor } from "../src/models/ChangeFeedCursor";
+import { ShardFactory } from "../src/ShardFactory";
 
 describe("Shard", async () => {
   let chunkFactoryStub: any;

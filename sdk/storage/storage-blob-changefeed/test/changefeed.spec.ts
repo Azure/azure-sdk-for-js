@@ -5,10 +5,10 @@ import * as assert from "assert";
 import * as fs from "fs";
 import * as path from "path";
 import * as sinon from "sinon";
-import { BlobServiceClient, ContainerClient, BlobClient } from "@azure/storage-blob";
-import { SegmentFactory } from "../src/SegmentFactory";
-import { Segment } from "../src/Segment";
+import { BlobClient, BlobServiceClient, ContainerClient } from "@azure/storage-blob";
 import { ChangeFeedFactory } from "../src/ChangeFeedFactory";
+import { Segment } from "../src/Segment";
+import { SegmentFactory } from "../src/SegmentFactory";
 import { getHost } from "../src/utils/utils.common";
 
 describe("Change Feed", async () => {

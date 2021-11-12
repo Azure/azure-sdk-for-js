@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { LazyLoadingBlobStream, LazyLoadingBlobStreamOptions } from "./LazyLoadingBlobStream";
 import { BlobClient } from "@azure/storage-blob";
-import { LazyLoadingBlobStreamOptions, LazyLoadingBlobStream } from "./LazyLoadingBlobStream";
 
 export class LazyLoadingBlobStreamFactory {
   public create(

@@ -4,7 +4,7 @@
   "version": "12.0.0-preview.3",
   "description": "Microsoft Azure Storage SDK for JavaScript - Blob Change Feed",
   "main": "./dist/index.js",
-  "module": "./dist-esm/storage-blob-changefeed/src/index.js",
+  "module": "dist-esm/src/index.js",
   "browser": {
     "./dist-esm/storage-blob-changefeed/src/utils/utils.node.js": "./dist-esm/storage-blob-changefeed/src/utils/utils.browser.js",
     "./dist-esm/storage-blob-changefeed/test/utils/index.js": "./dist-esm/storage-blob-changefeed/test/utils/index.browser.js",

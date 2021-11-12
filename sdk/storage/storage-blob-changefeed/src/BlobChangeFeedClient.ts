@@ -2,18 +2,18 @@
 // Licensed under the MIT license.
 
 import {
-  BlobServiceClient,
-  StoragePipelineOptions,
-  StorageSharedKeyCredential,
   AnonymousCredential,
-  Pipeline
+  BlobServiceClient,
+  Pipeline,
+  StoragePipelineOptions,
+  StorageSharedKeyCredential
 } from "@azure/storage-blob";
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { BlobChangeFeedEvent } from "./models/BlobChangeFeedEvent";
-import { ChangeFeedFactory } from "./ChangeFeedFactory";
-import { ChangeFeed } from "./ChangeFeed";
 import { CHANGE_FEED_MAX_PAGE_SIZE, SDK_VERSION } from "./utils/constants";
+import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
+import { BlobChangeFeedEvent } from "./models/BlobChangeFeedEvent";
 import { BlobChangeFeedListChangesOptions } from "./models/models";
+import { ChangeFeed } from "./ChangeFeed";
+import { ChangeFeedFactory } from "./ChangeFeedFactory";
 import { TokenCredential } from "@azure/core-http";
 
 /**

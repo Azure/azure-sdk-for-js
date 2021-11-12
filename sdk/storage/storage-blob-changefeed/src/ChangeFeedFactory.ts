@@ -2,28 +2,28 @@
 // Licensed under the MIT license.
 
 import { BlobServiceClient, ContainerClient } from "@azure/storage-blob";
-import { ChangeFeed } from "./ChangeFeed";
-import { ChangeFeedCursor } from "./models/ChangeFeedCursor";
 import { CHANGE_FEED_CONTAINER_NAME, CHANGE_FEED_META_SEGMENT_PATH } from "./utils/constants";
 import {
   ceilToNearestHour,
   floorToNearestHour,
-  getYearsPaths,
-  getSegmentsInYear,
-  minDate,
   getHost,
+  getSegmentsInYear,
+  getYearsPaths,
+  minDate,
   parseDateFromSegmentPath
 } from "./utils/utils.common";
-import { bodyToString } from "./utils/utils.node";
+import { AvroReaderFactory } from "./AvroReaderFactory";
+import { BlobChangeFeedListChangesOptions } from "./models/models";
+import { ChangeFeed } from "./ChangeFeed";
+import { ChangeFeedCursor } from "./models/ChangeFeedCursor";
+import { ChunkFactory } from "./ChunkFactory";
+import { LazyLoadingBlobStreamFactory } from "./LazyLoadingBlobStreamFactory";
+import { Segment } from "./Segment";
 import { SegmentFactory } from "./SegmentFactory";
 import { ShardFactory } from "./ShardFactory";
-import { ChunkFactory } from "./ChunkFactory";
-import { AvroReaderFactory } from "./AvroReaderFactory";
-import { Segment } from "./Segment";
-import { BlobChangeFeedListChangesOptions } from "./models/models";
-import { createSpan } from "./utils/tracing";
 import { SpanStatusCode } from "@azure/core-tracing";
-import { LazyLoadingBlobStreamFactory } from "./LazyLoadingBlobStreamFactory";
+import { bodyToString } from "./utils/utils.node";
+import { createSpan } from "./utils/tracing";
 
 interface MetaSegments {
   version?: number;

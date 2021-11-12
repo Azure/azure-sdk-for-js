@@ -2,9 +2,9 @@
 // Licensed under the MIT license.
 
 import * as dotenv from "dotenv";
-import { SimpleTokenCredential } from "./testutils.common";
-import { StorageSharedKeyCredential, BlobServiceClient } from "@azure/storage-blob";
+import { BlobServiceClient, StorageSharedKeyCredential } from "@azure/storage-blob";
 import { BlobChangeFeedClient } from "../../src";
+import { SimpleTokenCredential } from "./testutils.common";
 import { TokenCredential } from "@azure/core-http";
 import { env } from "@azure-tools/test-recorder";
 

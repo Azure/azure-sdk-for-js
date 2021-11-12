@@ -5,9 +5,9 @@ import * as assert from "assert";
 import * as fs from "fs";
 import * as path from "path";
 import * as sinon from "sinon";
-import { ContainerClient, BlobClient } from "@azure/storage-blob";
-import { Shard } from "../src/Shard";
+import { BlobClient, ContainerClient } from "@azure/storage-blob";
 import { SegmentFactory } from "../src/SegmentFactory";
+import { Shard } from "../src/Shard";
 import { ShardFactory } from "../src/ShardFactory";
 
 describe("Segment", async () => {

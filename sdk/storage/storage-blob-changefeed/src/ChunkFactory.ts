@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AvroReaderFactory } from "./AvroReaderFactory";
-import { ContainerClient, CommonOptions } from "@azure/storage-blob";
-import { Chunk } from "./Chunk";
-import { AvroReader } from "../../storage-internal-avro/src";
-import { streamToAvroReadable } from "./utils/utils.node";
+import { CommonOptions, ContainerClient } from "@azure/storage-blob";
 import { AbortSignalLike } from "@azure/core-http";
-import { LazyLoadingBlobStreamFactory } from "./LazyLoadingBlobStreamFactory";
+import { AvroReader } from "../../storage-internal-avro/src";
+import { AvroReaderFactory } from "./AvroReaderFactory";
 import { CHANGE_FEED_CHUNK_BLOCK_DOWNLOAD_SIZE } from "./utils/constants";
+import { Chunk } from "./Chunk";
+import { LazyLoadingBlobStreamFactory } from "./LazyLoadingBlobStreamFactory";
+import { streamToAvroReadable } from "./utils/utils.node";
 
 /**
  * Options to configure {@link ChunkFactory.create} operation.

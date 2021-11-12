@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ContainerClient, CommonOptions } from "@azure/storage-blob";
-import { ChunkFactory } from "./ChunkFactory";
-import { Chunk } from "./Chunk";
-import { BlobChangeFeedEvent } from "./models/BlobChangeFeedEvent";
-import { ShardCursor } from "./models/ChangeFeedCursor";
+import { CommonOptions, ContainerClient } from "@azure/storage-blob";
 import { AbortSignalLike } from "@azure/core-http";
-import { createSpan } from "./utils/tracing";
+import { BlobChangeFeedEvent } from "./models/BlobChangeFeedEvent";
+import { Chunk } from "./Chunk";
+import { ChunkFactory } from "./ChunkFactory";
+import { ShardCursor } from "./models/ChangeFeedCursor";
 import { SpanStatusCode } from "@azure/core-tracing";
+import { createSpan } from "./utils/tracing";
 
 /**
  * Options to configure {@link Shard.getChange} operation.

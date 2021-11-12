@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Readable, ReadableOptions } from "stream";
 import { BlobClient, CommonOptions } from "@azure/storage-blob";
+import { Readable, ReadableOptions } from "stream";
 import { AbortSignalLike } from "@azure/core-http";
-import { createSpan } from "./utils/tracing";
 import { SpanStatusCode } from "@azure/core-tracing";
+import { createSpan } from "./utils/tracing";
 
 /**
  * Options to configure the LazyLoadingBlobStream.

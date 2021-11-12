@@ -2,9 +2,9 @@
 // Licensed under the MIT license.
 
 import * as assert from "assert";
-import { Chunk } from "../src/Chunk";
 import * as sinon from "sinon";
 import { AvroReader } from "../../storage-internal-avro/src";
+import { Chunk } from "../src/Chunk";
 
 class FakeAvroReader {
   constructor(

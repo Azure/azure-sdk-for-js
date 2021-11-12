@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { URLBuilder, AbortSignalLike } from "@azure/core-http";
-import { ContainerClient, CommonOptions } from "@azure/storage-blob";
-import { CHANGE_FEED_SEGMENT_PREFIX, CHANGE_FEED_INITIALIZATION_SEGMENT } from "./constants";
-import { createSpan } from "./tracing";
+import { AbortSignalLike, URLBuilder } from "@azure/core-http";
+import { CHANGE_FEED_INITIALIZATION_SEGMENT, CHANGE_FEED_SEGMENT_PREFIX } from "./constants";
+import { CommonOptions, ContainerClient } from "@azure/storage-blob";
 import { SpanStatusCode } from "@azure/core-tracing";
+import { createSpan } from "./tracing";
 
 const millisecondsInAnHour = 60 * 60 * 1000;
 export function ceilToNearestHour(date: Date | undefined): Date | undefined {

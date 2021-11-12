@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { AbortSignalLike } from "@azure/core-http";
+import { AvroParseOptions } from "../../storage-internal-avro/src/AvroReader";
 import { AvroReader } from "../../storage-internal-avro/src";
 import { BlobChangeFeedEvent } from "./models/BlobChangeFeedEvent";
 import { CommonOptions } from "@azure/storage-blob";
-import { AbortSignalLike } from "@azure/core-http";
-import { AvroParseOptions } from "../../storage-internal-avro/src/AvroReader";
 
 /**
  * Options to configure {@link Chunk.getChange} operation.
