@@ -5,12 +5,11 @@ import {
   BaseRequestPolicy,
   HttpHeaders,
   HttpOperationResponse,
-  isNode,
   RequestPolicy,
   RequestPolicyOptions,
-  WebResource
+  WebResource,
+  isNode
 } from "@azure/core-http";
-
 import { HeaderConstants } from "../utils/constants";
 
 /**

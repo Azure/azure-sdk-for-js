@@ -3,15 +3,15 @@
 
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
+import { MsalTestCleanup, msalNodeTestSetup } from "../../msalTestUtils";
+import { delay, env } from "@azure-tools/test-recorder";
+import { AbortController } from "@azure/abort-controller";
+import { ClientSecretCredential } from "../../../src";
+import { ConfidentialClientApplication } from "@azure/msal-node";
+import { Context } from "mocha";
+import { MsalNode } from "../../../src/msal/nodeFlows/msalNodeCommon";
 import Sinon from "sinon";
 import { assert } from "chai";
-import { AbortController } from "@azure/abort-controller";
-import { env, delay } from "@azure-tools/test-recorder";
-import { ConfidentialClientApplication } from "@azure/msal-node";
-import { ClientSecretCredential } from "../../../src";
-import { MsalTestCleanup, msalNodeTestSetup } from "../../msalTestUtils";
-import { MsalNode } from "../../../src/msal/nodeFlows/msalNodeCommon";
-import { Context } from "mocha";
 
 describe("ClientSecretCredential (internal)", function() {
   let cleanup: MsalTestCleanup;

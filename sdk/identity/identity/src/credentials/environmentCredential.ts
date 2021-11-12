@@ -1,16 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AccessToken, TokenCredential, GetTokenOptions } from "@azure/core-auth";
-
-import { credentialLogger, processEnvVars, formatSuccess, formatError } from "../util/logging";
-import { TokenCredentialOptions } from "../tokenCredentialOptions";
-import { ClientSecretCredential } from "./clientSecretCredential";
+import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import { AuthenticationError, CredentialUnavailableError } from "../errors";
+import { credentialLogger, formatError, formatSuccess, processEnvVars } from "../util/logging";
+import { ClientCertificateCredential } from "./clientCertificateCredential";
+import { ClientSecretCredential } from "./clientSecretCredential";
+import { TokenCredentialOptions } from "../tokenCredentialOptions";
+import { UsernamePasswordCredential } from "./usernamePasswordCredential";
 import { checkTenantId } from "../util/checkTenantId";
 import { trace } from "../util/tracing";
-import { ClientCertificateCredential } from "./clientCertificateCredential";
-import { UsernamePasswordCredential } from "./usernamePasswordCredential";
 
 /**
  * Contains the list of all supported environment variable names so that an

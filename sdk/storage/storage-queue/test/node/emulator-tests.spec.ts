@@ -2,10 +2,10 @@
 // Licensed under the MIT license.
 
 import * as assert from "assert";
-import { Context } from "mocha";
 import { QueueClient, QueueServiceClient } from "../../src";
 import { getConnectionStringFromEnvironment, getQSU } from "../utils";
-import { isBrowser, getUniqueName } from "../utils/testutils.common";
+import { getUniqueName, isBrowser } from "../utils/testutils.common";
+import { Context } from "mocha";
 
 // Expected environment variables to run this test-suite
 // STORAGE_CONNECTION_STRING=UseDevelopmentStorage=true

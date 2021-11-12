@@ -2,15 +2,15 @@
 // Licensed under the MIT license.
 
 import * as assert from "assert";
-import { getQSU, getConnectionStringFromEnvironment } from "../utils";
-import { record, Recorder } from "@azure-tools/test-recorder";
+import { Recorder, record } from "@azure-tools/test-recorder";
+import { getConnectionStringFromEnvironment, getQSU } from "../utils";
+import { Context } from "mocha";
 import { QueueServiceClient } from "../../src/QueueServiceClient";
 import { StorageSharedKeyCredential } from "../../src/credentials/StorageSharedKeyCredential";
-import { newPipeline } from "../../src";
 import { TokenCredential } from "@azure/core-http";
 import { assertClientUsesTokenCredential } from "../utils/assert";
+import { newPipeline } from "../../src";
 import { recorderEnvSetup } from "../utils/testutils.common";
-import { Context } from "mocha";
 
 describe("QueueServiceClient Node.js only", () => {
   let recorder: Recorder;

@@ -2,12 +2,11 @@
 // Licensed under the MIT license.
 
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
-
-import { credentialLogger } from "../util/logging";
-import { MsalUsernamePassword } from "../msal/nodeFlows/msalUsernamePassword";
 import { MsalFlow } from "../msal/flows";
-import { trace } from "../util/tracing";
+import { MsalUsernamePassword } from "../msal/nodeFlows/msalUsernamePassword";
 import { UsernamePasswordCredentialOptions } from "./usernamePasswordCredentialOptions";
+import { credentialLogger } from "../util/logging";
+import { trace } from "../util/tracing";
 
 const logger = credentialLogger("UsernamePasswordCredential");
 

@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TokenCredentialOptions } from "../tokenCredentialOptions";
 import { AuthenticationRecord } from "../msal/types";
+import { TokenCredentialOptions } from "../tokenCredentialOptions";
 
 /**
  * Common constructor options for the Identity credentials that requires user interaction.

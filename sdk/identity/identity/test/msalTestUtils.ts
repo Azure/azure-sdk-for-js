@@ -1,20 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import * as dotenv from "dotenv";
+import { OperationTracingOptions, context as otContext, setSpan } from "@azure/core-tracing";
 import {
-  record,
   Recorder,
   RecorderEnvironmentSetup,
   TestContextInterface,
-  pluginForIdentitySDK
+  pluginForIdentitySDK,
+  record
 } from "@azure-tools/test-recorder";
 import Sinon, { createSandbox } from "sinon";
-import { assert } from "chai";
-import { OperationTracingOptions, setSpan, context as otContext } from "@azure/core-tracing";
 import { SpanGraph, setTracer } from "@azure/test-utils";
 import { MsalBaseUtilities } from "../src/msal/utils";
+import { assert } from "chai";
 import { isNode } from "@azure/core-util";
-import * as dotenv from "dotenv";
 
 // Browser tests fail if dotenv.config is called in that environment.
 if (isNode) {

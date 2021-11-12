@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
 import {
   multiTenantADFSErrorMessage,
   processMultiTenantRequest
 } from "../../src/util/validateMultiTenant";
+import { assert } from "chai";
 
 describe("Identity utilities", function() {
   describe("validateMultiTenantRequest", function() {

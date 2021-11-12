@@ -3,17 +3,12 @@
 
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
-import { assert } from "chai";
-import Sinon from "sinon";
+import { formatCommand, powerShellErrors, powerShellPublicErrorMessages } from "../../../src/credentials/azurePowerShellCredential";
 import { AzurePowerShellCredential } from "../../../src";
-import {
-  formatCommand,
-  powerShellErrors,
-  powerShellPublicErrorMessages
-} from "../../../src/credentials/azurePowerShellCredential";
-import { processUtils } from "../../../src/util/processUtils";
-
+import Sinon from "sinon";
+import { assert } from "chai";
 import { commandStack } from "../../../src/credentials/azurePowerShellCredential";
+import { processUtils } from "../../../src/util/processUtils";
 
 function resetCommandStack(): void {
   commandStack[0] = formatCommand("pwsh");

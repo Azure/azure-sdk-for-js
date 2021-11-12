@@ -2,13 +2,14 @@
 // Licensed under the MIT license.
 
 import * as assert from "assert";
-import { getQSU, getSASConnectionStringFromEnvironment } from "./utils";
-import { QueueClient } from "../src/QueueClient";
-import { record, Recorder } from "@azure-tools/test-recorder";
 import * as dotenv from "dotenv";
+import { Recorder, record } from "@azure-tools/test-recorder";
+import { getQSU, getSASConnectionStringFromEnvironment } from "./utils";
+import { Context } from "mocha";
+import { QueueClient } from "../src/QueueClient";
 import { extractConnectionStringParts } from "../src/utils/utils.common";
 import { recorderEnvSetup } from "./utils/testutils.common";
-import { Context } from "mocha";
+
 dotenv.config();
 
 describe("QueueClient message methods", () => {

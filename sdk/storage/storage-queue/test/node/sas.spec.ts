@@ -2,25 +2,24 @@
 // Licensed under the MIT license.
 
 import * as assert from "assert";
-
 import {
   AccountSASPermissions,
   AccountSASResourceTypes,
   AccountSASServices,
   AnonymousCredential,
-  QueueSASPermissions,
   QueueClient,
-  generateAccountSASQueryParameters,
-  generateQueueSASQueryParameters,
+  QueueSASPermissions,
   QueueServiceClient,
   StorageSharedKeyCredential,
+  generateAccountSASQueryParameters,
+  generateQueueSASQueryParameters,
   newPipeline
 } from "../../src";
+import { Recorder, delay, record } from "@azure-tools/test-recorder";
+import { Context } from "mocha";
 import { SASProtocol } from "../../src/SASQueryParameters";
 import { getQSU } from "../utils/index";
-import { record, delay, Recorder } from "@azure-tools/test-recorder";
 import { recorderEnvSetup } from "../utils/index.browser";
-import { Context } from "mocha";
 
 describe("Shared Access Signature (SAS) generation Node.js only", () => {
   let queueServiceClient: QueueServiceClient;

@@ -2,17 +2,13 @@
 // Licensed under the MIT license.
 
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
-
+import { InteractiveBrowserCredentialInBrowserOptions, InteractiveBrowserCredentialNodeOptions } from "./interactiveBrowserCredentialOptions";
 import { credentialLogger, formatError } from "../util/logging";
-import { trace } from "../util/tracing";
-import { MsalFlow } from "../msal/flows";
 import { AuthenticationRecord } from "../msal/types";
 import { MSALAuthCode } from "../msal/browserFlows/msalAuthCode";
 import { MsalBrowserFlowOptions } from "../msal/browserFlows/msalBrowserCommon";
-import {
-  InteractiveBrowserCredentialInBrowserOptions,
-  InteractiveBrowserCredentialNodeOptions
-} from "./interactiveBrowserCredentialOptions";
+import { MsalFlow } from "../msal/flows";
+import { trace } from "../util/tracing";
 
 const logger = credentialLogger("InteractiveBrowserCredential");
 

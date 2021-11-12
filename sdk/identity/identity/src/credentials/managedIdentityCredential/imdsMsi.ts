@@ -1,21 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { delay } from "@azure/core-util";
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
-import {
-  createHttpHeaders,
-  createPipelineRequest,
-  PipelineRequestOptions,
-  RestError
-} from "@azure/core-rest-pipeline";
-import { SpanStatusCode } from "@azure/core-tracing";
 import { IdentityClient, TokenResponseParsedBody } from "../../client/identityClient";
-import { credentialLogger } from "../../util/logging";
-import { AuthenticationError } from "../../errors";
-import { createSpan } from "../../util/tracing";
-import { imdsApiVersion, imdsEndpointPath, imdsHost } from "./constants";
 import { MSI, MSIConfiguration } from "./models";
+import { PipelineRequestOptions, RestError, createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
+import { imdsApiVersion, imdsEndpointPath, imdsHost } from "./constants";
+import { AuthenticationError } from "../../errors";
+import { SpanStatusCode } from "@azure/core-tracing";
+import { createSpan } from "../../util/tracing";
+import { credentialLogger } from "../../util/logging";
+import { delay } from "@azure/core-util";
 import { mapScopesToResource } from "./utils";
 
 const msiName = "ManagedIdentityCredential - IMDS";

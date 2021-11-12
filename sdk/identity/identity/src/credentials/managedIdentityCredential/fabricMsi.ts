@@ -1,18 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import https from "https";
-import {
-  createHttpHeaders,
-  createPipelineRequest,
-  PipelineRequestOptions
-} from "@azure/core-rest-pipeline";
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
-import { TokenResponseParsedBody } from "../../client/identityClient";
-import { credentialLogger } from "../../util/logging";
 import { MSI, MSIConfiguration } from "./models";
-import { mapScopesToResource } from "./utils";
+import { PipelineRequestOptions, createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
+import { TokenResponseParsedBody } from "../../client/identityClient";
 import { azureFabricVersion } from "./constants";
+import { credentialLogger } from "../../util/logging";
+import https from "https";
+import { mapScopesToResource } from "./utils";
 
 // This MSI can be easily tested by deploying a container to Azure Service Fabric with the Dockerfile:
 //

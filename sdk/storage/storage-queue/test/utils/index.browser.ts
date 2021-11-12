@@ -2,10 +2,10 @@
 // Licensed under the MIT license.
 
 import { AnonymousCredential } from "../../src/credentials/AnonymousCredential";
-import { newPipeline } from "../../src/Pipeline";
 import { QueueServiceClient } from "../../src/QueueServiceClient";
-export * from "./testutils.common";
+import { newPipeline } from "../../src/Pipeline";
 
+export * from "./testutils.common";
 export function getGenericQSU(
   accountType: string,
   accountNameSuffix: string = ""

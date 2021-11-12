@@ -1,17 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-auth";
-
-import { createSpan } from "../util/tracing";
-import { CredentialUnavailableError } from "../errors";
-import { SpanStatusCode } from "@azure/core-tracing";
-import { credentialLogger, formatSuccess, formatError } from "../util/logging";
-import child_process from "child_process";
+import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
+import { credentialLogger, formatError, formatSuccess } from "../util/logging";
 import { ensureValidScope, getScopeResource } from "../util/scopeUtils";
 import { AzureCliCredentialOptions } from "./azureCliCredentialOptions";
-import { processMultiTenantRequest } from "../util/validateMultiTenant";
+import { CredentialUnavailableError } from "../errors";
+import { SpanStatusCode } from "@azure/core-tracing";
 import { checkTenantId } from "../util/checkTenantId";
+import child_process from "child_process";
+import { createSpan } from "../util/tracing";
+import { processMultiTenantRequest } from "../util/validateMultiTenant";
 
 /**
  * Mockable reference to the CLI credential cliCredentialFunctions

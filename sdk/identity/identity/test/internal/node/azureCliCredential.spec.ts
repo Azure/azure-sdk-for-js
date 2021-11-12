@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import child_process from "child_process";
-import { assert } from "chai";
 import Sinon, { createSandbox } from "sinon";
 import { AzureCliCredential } from "../../../src/credentials/azureCliCredential";
+import { assert } from "chai";
+import child_process from "child_process";
 
 describe("AzureCliCredential (internal)", function() {
   let sandbox: Sinon.SinonSandbox | undefined;

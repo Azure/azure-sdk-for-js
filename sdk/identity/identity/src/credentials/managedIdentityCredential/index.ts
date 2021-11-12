@@ -1,21 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { SpanStatusCode } from "@azure/core-tracing";
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
-
-import { IdentityClient } from "../../client/identityClient";
-import { TokenCredentialOptions } from "../../tokenCredentialOptions";
 import { AuthenticationError, CredentialUnavailableError } from "../../errors";
-import { credentialLogger, formatSuccess, formatError } from "../../util/logging";
-import { appServiceMsi2017 } from "./appServiceMsi2017";
-import { createSpan } from "../../util/tracing";
-import { cloudShellMsi } from "./cloudShellMsi";
-import { imdsMsi } from "./imdsMsi";
+import { credentialLogger, formatError, formatSuccess } from "../../util/logging";
+import { IdentityClient } from "../../client/identityClient";
 import { MSI } from "./models";
+import { SpanStatusCode } from "@azure/core-tracing";
+import { TokenCredentialOptions } from "../../tokenCredentialOptions";
+import { appServiceMsi2017 } from "./appServiceMsi2017";
 import { arcMsi } from "./arcMsi";
-import { tokenExchangeMsi } from "./tokenExchangeMsi";
+import { cloudShellMsi } from "./cloudShellMsi";
+import { createSpan } from "../../util/tracing";
 import { fabricMsi } from "./fabricMsi";
+import { imdsMsi } from "./imdsMsi";
+import { tokenExchangeMsi } from "./tokenExchangeMsi";
 
 const logger = credentialLogger("ManagedIdentityCredential");
 

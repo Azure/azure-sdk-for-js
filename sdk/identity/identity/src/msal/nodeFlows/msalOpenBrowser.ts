@@ -2,19 +2,16 @@
 // Licensed under the MIT license.
 
 import * as msalNode from "@azure/msal-node";
-
+import { MsalNode, MsalNodeOptions } from "./msalNodeCommon";
+import { credentialLogger, formatError, formatSuccess } from "../../util/logging";
 import { AccessToken } from "@azure/core-auth";
-
+import { CredentialFlowGetTokenOptions } from "../credentials";
+import { CredentialUnavailableError } from "../../errors";
 import { Socket } from "net";
 import http from "http";
+import { msalToPublic } from "../utils";
 import open from "open";
 import stoppable from "stoppable";
-
-import { credentialLogger, formatError, formatSuccess } from "../../util/logging";
-import { CredentialUnavailableError } from "../../errors";
-import { MsalNodeOptions, MsalNode } from "./msalNodeCommon";
-import { CredentialFlowGetTokenOptions } from "../credentials";
-import { msalToPublic } from "../utils";
 
 /**
  * Options that can be passed to configure MSAL to handle authentication through opening a browser window.

@@ -1,28 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { AzureAuthorityHosts, DefaultAuthorityHost, DefaultTenantId } from "../../../src/constants";
+import { IdentityTestContext, SendCredentialRequests, createResponse } from "../../httpRequestsCommon";
+import { imdsApiVersion, imdsEndpointPath, imdsHost } from "../../../src/credentials/managedIdentityCredential/constants";
+import { imdsMsi, imdsMsiRetryConfig } from "../../../src/credentials/managedIdentityCredential/imdsMsi";
+import { mkdtempSync, rmdirSync, unlinkSync, writeFileSync } from "fs";
+import { ManagedIdentityCredential } from "../../../src";
+import { RestError } from "@azure/core-rest-pipeline";
 import { assert } from "chai";
 import { join } from "path";
-import { tmpdir } from "os";
-import { mkdtempSync, rmdirSync, unlinkSync, writeFileSync } from "fs";
-import { RestError } from "@azure/core-rest-pipeline";
-import { ManagedIdentityCredential } from "../../../src";
-import {
-  imdsHost,
-  imdsApiVersion,
-  imdsEndpointPath
-} from "../../../src/credentials/managedIdentityCredential/constants";
-import {
-  imdsMsi,
-  imdsMsiRetryConfig
-} from "../../../src/credentials/managedIdentityCredential/imdsMsi";
-import {
-  createResponse,
-  IdentityTestContext,
-  SendCredentialRequests
-} from "../../httpRequestsCommon";
 import { prepareIdentityTests } from "../../httpRequests";
-import { AzureAuthorityHosts, DefaultAuthorityHost, DefaultTenantId } from "../../../src/constants";
+import { tmpdir } from "os";
 
 describe("ManagedIdentityCredential", function() {
   let testContext: IdentityTestContext;

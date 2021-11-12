@@ -1,14 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { IdentityTestContext, SendCredentialRequests, createResponse } from "../../httpRequestsCommon";
+import { UsernamePasswordCredential } from "../../../src";
 import { assert } from "chai";
 import { assertClientCredentials } from "../../authTestUtils";
-import { UsernamePasswordCredential } from "../../../src";
-import {
-  createResponse,
-  IdentityTestContext,
-  SendCredentialRequests
-} from "../../httpRequestsCommon";
 import { prepareIdentityTests } from "../../httpRequests";
 
 describe("UsernamePasswordCredential", function() {

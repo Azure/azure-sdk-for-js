@@ -1,13 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+
 /* eslint-disable no-invalid-this */
-import { env, Recorder, record } from "@azure-tools/test-recorder";
-import { WebPubSubServiceClient, WebPubSubGroup } from "../src";
-import { assert } from "chai";
-import environmentSetup from "./testEnv";
+/* eslint-disable @typescript-eslint/no-invalid-this */
+
+import { Recorder, env, record } from "@azure-tools/test-recorder";
+import { WebPubSubGroup, WebPubSubServiceClient } from "../src";
 import { FullOperationResponse } from "@azure/core-client";
 import { RestError } from "@azure/core-rest-pipeline";
-/* eslint-disable @typescript-eslint/no-invalid-this */
+import { assert } from "chai";
+import environmentSetup from "./testEnv";
 
 describe("Group client working with a group", function() {
   let recorder: Recorder;

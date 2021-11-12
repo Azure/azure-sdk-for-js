@@ -1,15 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  createHttpHeaders,
-  createPipelineRequest,
-  PipelineRequestOptions
-} from "@azure/core-rest-pipeline";
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
+import { MSI, MSIConfiguration } from "./models";
+import { PipelineRequestOptions, createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
 import { TokenResponseParsedBody } from "../../client/identityClient";
 import { credentialLogger } from "../../util/logging";
-import { MSI, MSIConfiguration } from "./models";
 import { mapScopesToResource } from "./utils";
 
 const msiName = "ManagedIdentityCredential - AppServiceMSI 2017";

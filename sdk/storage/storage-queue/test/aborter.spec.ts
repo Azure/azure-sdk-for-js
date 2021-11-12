@@ -2,14 +2,14 @@
 // Licensed under the MIT license.
 
 import * as assert from "assert";
+import * as dotenv from "dotenv";
+import { Recorder, record } from "@azure-tools/test-recorder";
 import { AbortController } from "@azure/abort-controller";
-
+import { Context } from "mocha";
 import { QueueClient } from "../src/QueueClient";
 import { getQSU } from "./utils";
-import * as dotenv from "dotenv";
 import { recorderEnvSetup } from "./utils/testutils.common";
-import { Recorder, record } from "@azure-tools/test-recorder";
-import { Context } from "mocha";
+
 dotenv.config();
 
 describe("Aborter", () => {

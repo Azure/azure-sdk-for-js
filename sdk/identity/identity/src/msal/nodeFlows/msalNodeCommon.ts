@@ -1,30 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as msalNode from "@azure/msal-node";
 import * as msalCommon from "@azure/msal-common";
+import * as msalNode from "@azure/msal-node";
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
-import { AbortSignalLike } from "@azure/abort-controller";
-
-import { IdentityClient } from "../../client/identityClient";
-import { TokenCredentialOptions } from "../../tokenCredentialOptions";
-import { DeveloperSignOnClientId } from "../../constants";
-import { resolveTenantId } from "../../util/resolveTenantId";
-import { AuthenticationRequiredError } from "../../errors";
-import { CredentialFlowGetTokenOptions } from "../credentials";
-import { MsalFlow, MsalFlowOptions } from "../flows";
-import { AuthenticationRecord } from "../types";
 import {
+  MsalBaseUtilities,
   defaultLoggerCallback,
   getAuthority,
   getKnownAuthorities,
-  MsalBaseUtilities,
   msalToPublic,
   publicToMsal
 } from "../utils";
-import { TokenCachePersistenceOptions } from "./tokenCachePersistenceOptions";
-import { processMultiTenantRequest } from "../../util/validateMultiTenant";
+import { MsalFlow, MsalFlowOptions } from "../flows";
+import { AbortSignalLike } from "@azure/abort-controller";
+import { AuthenticationRecord } from "../types";
+import { AuthenticationRequiredError } from "../../errors";
+import { CredentialFlowGetTokenOptions } from "../credentials";
+import { DeveloperSignOnClientId } from "../../constants";
+import { IdentityClient } from "../../client/identityClient";
 import { RegionalAuthority } from "../../regionalAuthority";
+import { TokenCachePersistenceOptions } from "./tokenCachePersistenceOptions";
+import { TokenCredentialOptions } from "../../tokenCredentialOptions";
+import { processMultiTenantRequest } from "../../util/validateMultiTenant";
+import { resolveTenantId } from "../../util/resolveTenantId";
 
 /**
  * Union of the constructor parameters that all MSAL flow types for Node.

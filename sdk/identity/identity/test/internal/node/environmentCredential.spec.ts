@@ -3,13 +3,13 @@
 
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
+import { MsalTestCleanup, msalNodeTestSetup } from "../../msalTestUtils";
+import { ConfidentialClientApplication } from "@azure/msal-node";
+import { Context } from "mocha";
+import { EnvironmentCredential } from "../../../src";
+import { MsalNode } from "../../../src/msal/nodeFlows/msalNodeCommon";
 import Sinon from "sinon";
 import { assert } from "chai";
-import { ConfidentialClientApplication } from "@azure/msal-node";
-import { EnvironmentCredential } from "../../../src";
-import { MsalTestCleanup, msalNodeTestSetup } from "../../msalTestUtils";
-import { MsalNode } from "../../../src/msal/nodeFlows/msalNodeCommon";
-import { Context } from "mocha";
 
 describe("EnvironmentCredential (internal)", function() {
   let cleanup: MsalTestCleanup;

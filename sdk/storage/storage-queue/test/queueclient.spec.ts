@@ -2,15 +2,16 @@
 // Licensed under the MIT license.
 
 import * as assert from "assert";
-import { getQSU, getSASConnectionStringFromEnvironment } from "./utils";
 import * as dotenv from "dotenv";
 import { QueueClient, QueueServiceClient } from "../src";
-import { setSpan, context } from "@azure/core-tracing";
-import { SpanGraph, setTracer } from "@azure/test-utils";
-import { URLBuilder, RestError } from "@azure/core-http";
 import { Recorder, record } from "@azure-tools/test-recorder";
-import { recorderEnvSetup } from "./utils/testutils.common";
+import { RestError, URLBuilder } from "@azure/core-http";
+import { SpanGraph, setTracer } from "@azure/test-utils";
+import { context, setSpan } from "@azure/core-tracing";
+import { getQSU, getSASConnectionStringFromEnvironment } from "./utils";
 import { Context } from "mocha";
+import { recorderEnvSetup } from "./utils/testutils.common";
+
 dotenv.config();
 
 describe("QueueClient", () => {

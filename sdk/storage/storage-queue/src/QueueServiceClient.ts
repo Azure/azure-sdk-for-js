@@ -1,13 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  TokenCredential,
-  isTokenCredential,
-  isNode,
-  getDefaultProxySettings
-} from "@azure/core-http";
-import { SpanStatusCode } from "@azure/core-tracing";
+import "@azure/core-paging";
+import { CommonOptions, StorageClient } from "./StorageClient";
+import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
+import { Pipeline, StoragePipelineOptions, newPipeline } from "./Pipeline";
+import { QueueClient, QueueCreateOptions, QueueDeleteOptions } from "./QueueClient";
 import {
   QueueCreateResponse,
   QueueDeleteResponse,
@@ -18,26 +16,19 @@ import {
   ServiceListQueuesSegmentResponse,
   ServiceSetPropertiesResponse
 } from "./generatedModels";
+import { TokenCredential, getDefaultProxySettings, isNode, isTokenCredential } from "@azure/core-http";
+import { appendToURLPath, appendToURLQuery, extractConnectionStringParts } from "./utils/utils.common";
 import { AbortSignalLike } from "@azure/abort-controller";
-import { Service } from "./generated/src/operations";
-import { newPipeline, StoragePipelineOptions, Pipeline } from "./Pipeline";
-import { StorageClient, CommonOptions } from "./StorageClient";
-import "@azure/core-paging";
-import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
-import {
-  appendToURLPath,
-  appendToURLQuery,
-  extractConnectionStringParts
-} from "./utils/utils.common";
-import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
-import { AnonymousCredential } from "./credentials/AnonymousCredential";
-import { createSpan } from "./utils/tracing";
-import { QueueClient, QueueCreateOptions, QueueDeleteOptions } from "./QueueClient";
 import { AccountSASPermissions } from "./AccountSASPermissions";
-import { generateAccountSASQueryParameters } from "./AccountSASSignatureValues";
 import { AccountSASServices } from "./AccountSASServices";
+import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { SASProtocol } from "./SASQueryParameters";
 import { SasIPRange } from "./SasIPRange";
+import { Service } from "./generated/src/operations";
+import { SpanStatusCode } from "@azure/core-tracing";
+import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
+import { createSpan } from "./utils/tracing";
+import { generateAccountSASQueryParameters } from "./AccountSASSignatureValues";
 
 /**
  * Options to configure {@link QueueServiceClient.getProperties} operation

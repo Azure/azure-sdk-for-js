@@ -3,12 +3,12 @@
 
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
-import { assert } from "chai";
-import { env, isLiveMode, delay, isPlaybackMode } from "@azure-tools/test-recorder";
 import { AbortController, AbortError } from "@azure/abort-controller";
 import { DeviceCodeCredential, DeviceCodePromptCallback } from "../../../src";
-import { msalNodeTestSetup, MsalTestCleanup, testTracing } from "../../msalTestUtils";
+import { MsalTestCleanup, msalNodeTestSetup, testTracing } from "../../msalTestUtils";
+import { delay, env, isLiveMode, isPlaybackMode } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
+import { assert } from "chai";
 
 describe("DeviceCodeCredential", function() {
   let cleanup: MsalTestCleanup;

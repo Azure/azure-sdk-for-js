@@ -3,17 +3,13 @@
 
 import * as assert from "assert";
 import * as dotenv from "dotenv";
-import { HttpHeaders } from "../src";
-import {
-  sanitizeHeaders,
-  sanitizeURL,
-  extractConnectionStringParts,
-  isIpEndpointStyle
-} from "../src/utils/utils.common";
-import { record, Recorder } from "@azure-tools/test-recorder";
-import { recorderEnvSetup } from "./utils/testutils.common";
-import { URLBuilder } from "@azure/core-http";
+import { Recorder, record } from "@azure-tools/test-recorder";
+import { extractConnectionStringParts, isIpEndpointStyle, sanitizeHeaders, sanitizeURL } from "../src/utils/utils.common";
 import { Context } from "mocha";
+import { HttpHeaders } from "../src";
+import { URLBuilder } from "@azure/core-http";
+import { recorderEnvSetup } from "./utils/testutils.common";
+
 dotenv.config();
 
 describe("Utility Helpers", () => {

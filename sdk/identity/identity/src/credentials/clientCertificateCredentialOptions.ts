@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TokenCredentialOptions } from "../tokenCredentialOptions";
 import { CredentialPersistenceOptions } from "./credentialPersistenceOptions";
+import { TokenCredentialOptions } from "../tokenCredentialOptions";
 
 /**
  * Optional parameters for the {@link ClientCertificateCredential} class.

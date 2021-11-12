@@ -3,25 +3,15 @@
 
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
-import { assert } from "chai";
-import { delay, env, isPlaybackMode } from "@azure-tools/test-recorder";
+import { AccessToken, DeviceCodeCredential, TokenCredential, UsernamePasswordCredential } from "../../../src";
 import { MsalTestCleanup, msalNodeTestSetup } from "../../msalTestUtils";
-import {
-  AccessToken,
-  DeviceCodeCredential,
-  TokenCredential,
-  UsernamePasswordCredential
-} from "../../../src";
+import { bearerTokenAuthenticationPolicy, createDefaultHttpClient, createEmptyPipeline, createPipelineRequest } from "@azure/core-rest-pipeline";
+import { delay, env, isPlaybackMode } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
-import { IdentityClient } from "../../../src/client/identityClient";
-import {
-  bearerTokenAuthenticationPolicy,
-  createDefaultHttpClient,
-  createEmptyPipeline,
-  createPipelineRequest
-} from "@azure/core-rest-pipeline";
-import { authorizeRequestOnClaimChallenge } from "@azure/core-client";
 import { DeveloperSignOnClientId } from "../../../src/constants";
+import { IdentityClient } from "../../../src/client/identityClient";
+import { assert } from "chai";
+import { authorizeRequestOnClaimChallenge } from "@azure/core-client";
 
 /**
  * Sequence of events needed to test the CAE challenges on the Graph endpoint.

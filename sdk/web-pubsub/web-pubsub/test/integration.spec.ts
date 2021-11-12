@@ -1,9 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 /* eslint-disable no-invalid-this */
-import { WebPubSubServiceClient } from "../src/index";
+
 import { env, isLiveMode } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
+import { WebPubSubServiceClient } from "../src/index";
 import { assert } from "chai";
 import ws from "ws";
 

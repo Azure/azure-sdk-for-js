@@ -1,12 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { MsalNode, MsalNodeOptions } from "./msalNodeCommon";
 import { AccessToken } from "@azure/core-auth";
-
-import { formatError } from "../../util/logging";
 import { CredentialFlowGetTokenOptions } from "../credentials";
+import { formatError } from "../../util/logging";
 import { parseCertificate } from "./msalClientCertificate";
-import { MsalNodeOptions, MsalNode } from "./msalNodeCommon";
 
 /**
  * Options that can be passed to configure MSAL to handle On-Behalf-Of authentication requests.

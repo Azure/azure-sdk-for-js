@@ -1,18 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import fs from "fs";
-import {
-  createHttpHeaders,
-  createPipelineRequest,
-  PipelineRequestOptions
-} from "@azure/core-rest-pipeline";
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
-import { promisify } from "util";
-import { TokenResponseParsedBody } from "../../client/identityClient";
-import { DefaultAuthorityHost } from "../../constants";
-import { credentialLogger } from "../../util/logging";
 import { MSI, MSIConfiguration } from "./models";
+import { PipelineRequestOptions, createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
+import { DefaultAuthorityHost } from "../../constants";
+import { TokenResponseParsedBody } from "../../client/identityClient";
+import { credentialLogger } from "../../util/logging";
+import fs from "fs";
+import { promisify } from "util";
 
 const msiName = "ManagedIdentityCredential - Token Exchange";
 const logger = credentialLogger(msiName);

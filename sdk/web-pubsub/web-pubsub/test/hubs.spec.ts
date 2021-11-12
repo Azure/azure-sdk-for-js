@@ -1,13 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+
 /* eslint-disable no-invalid-this */
-import { env, Recorder, record, isLiveMode } from "@azure-tools/test-recorder";
-import { WebPubSubServiceClient, AzureKeyCredential } from "../src";
+/* eslint-disable @typescript-eslint/no-invalid-this */
+
+import { AzureKeyCredential, WebPubSubServiceClient } from "../src";
+import { Recorder, env, isLiveMode, record } from "@azure-tools/test-recorder";
+import { DefaultAzureCredential } from "@azure/identity";
+import { FullOperationResponse } from "@azure/core-client";
 import { assert } from "chai";
 import environmentSetup from "./testEnv";
-import { FullOperationResponse } from "@azure/core-client";
-import { DefaultAzureCredential } from "@azure/identity";
-/* eslint-disable @typescript-eslint/no-invalid-this */
 
 describe("HubClient", function() {
   let recorder: Recorder;

@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-auth";
+import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
-import { SpanStatusCode } from "@azure/core-tracing";
 import { credentialLogger, formatError, formatSuccess } from "../util/logging";
-import { getIdentityTokenEndpointSuffix } from "../util/identityTokenEndpoint";
-import { TokenCredentialOptions } from "../tokenCredentialOptions";
 import { IdentityClient } from "../client/identityClient";
+import { SpanStatusCode } from "@azure/core-tracing";
+import { TokenCredentialOptions } from "../tokenCredentialOptions";
 import { createSpan } from "../util/tracing";
+import { getIdentityTokenEndpointSuffix } from "../util/identityTokenEndpoint";
 
 const logger = credentialLogger("ClientSecretCredential");
 

@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
 import { AuthenticationError } from "../src";
 import { DefaultAuthorityHost } from "../src/constants";
+import { assert } from "chai";
 
 /**
  * Waits for the given promise to resolve, then returns the resulted error.

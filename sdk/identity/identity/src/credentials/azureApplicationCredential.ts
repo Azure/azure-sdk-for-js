@@ -4,12 +4,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TokenCredential } from "@azure/core-auth";
-import { TokenCredentialOptions } from "../tokenCredentialOptions";
 import { ChainedTokenCredential } from "./chainedTokenCredential";
-import { EnvironmentCredential } from "./environmentCredential";
 import { CredentialPersistenceOptions } from "./credentialPersistenceOptions";
 import { DefaultManagedIdentityCredential } from "./defaultAzureCredential";
+import { EnvironmentCredential } from "./environmentCredential";
+import { TokenCredential } from "@azure/core-auth";
+import { TokenCredentialOptions } from "../tokenCredentialOptions";
 
 /**
  * Provides options to configure the {@link AzureApplicationCredential} class.

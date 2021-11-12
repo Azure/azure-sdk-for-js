@@ -1,12 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  PipelineResponse,
-  PipelineRequest,
-  SendRequest,
-  PipelinePolicy
-} from "@azure/core-rest-pipeline";
+import { PipelinePolicy, PipelineRequest, PipelineResponse, SendRequest } from "@azure/core-rest-pipeline";
 
 export const webPubSubReverseProxyPolicyName = "webPubSubReverseProxyPolicy";
 

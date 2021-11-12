@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
 import {
   multiTenantDisabledErrorMessage,
   processMultiTenantRequest
 } from "../../../src/util/validateMultiTenant";
+import { assert } from "chai";
 
 describe("Identity utilities (Node.js only)", function() {
   describe("validateMultiTenantRequest (Node.js only)", function() {

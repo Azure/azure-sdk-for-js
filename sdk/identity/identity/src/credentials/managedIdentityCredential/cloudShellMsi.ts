@@ -1,14 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  createHttpHeaders,
-  createPipelineRequest,
-  PipelineRequestOptions
-} from "@azure/core-rest-pipeline";
-import { credentialLogger } from "../../util/logging";
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
 import { MSI, MSIConfiguration } from "./models";
+import { PipelineRequestOptions, createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
+import { credentialLogger } from "../../util/logging";
 import { mapScopesToResource } from "./utils";
 
 const msiName = "ManagedIdentityCredential - CloudShellMSI";

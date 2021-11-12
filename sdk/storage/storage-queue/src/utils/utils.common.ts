@@ -1,10 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { AbortSignalLike } from "@azure/abort-controller";
+
+import { DevelopmentConnectionString, HeaderConstants, URLConstants } from "./constants";
 import { HttpHeaders, URLBuilder } from "@azure/core-http";
-import { HeaderConstants, URLConstants, DevelopmentConnectionString } from "./constants";
-import { StorageClientContext } from "../generated/src/storageClientContext";
+import { AbortSignalLike } from "@azure/abort-controller";
 import { Pipeline } from "../Pipeline";
+import { StorageClientContext } from "../generated/src/storageClientContext";
 
 /**
  * Append a string to URL path. Will remove duplicated "/" in front of the string

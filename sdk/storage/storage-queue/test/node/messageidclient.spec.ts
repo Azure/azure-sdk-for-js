@@ -2,13 +2,13 @@
 // Licensed under the MIT license.
 
 import * as assert from "assert";
-import { newPipeline } from "../../src";
-import { getQSU, getConnectionStringFromEnvironment } from "../utils";
-import { record, Recorder } from "@azure-tools/test-recorder";
+import { Recorder, record } from "@azure-tools/test-recorder";
+import { getConnectionStringFromEnvironment, getQSU } from "../utils";
+import { Context } from "mocha";
 import { QueueClient } from "../../src/QueueClient";
 import { StorageSharedKeyCredential } from "../../src/credentials/StorageSharedKeyCredential";
+import { newPipeline } from "../../src";
 import { recorderEnvSetup } from "../utils/index.browser";
-import { Context } from "mocha";
 
 describe("QueueClient messageId methods, Node.js only", () => {
   let queueName: string;

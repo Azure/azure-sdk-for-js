@@ -2,11 +2,11 @@
 // Licensed under the MIT license.
 
 import { CommonClientOptions, FullOperationResponse, OperationOptions } from "@azure/core-client";
-import { RestError, RequestBodyType } from "@azure/core-rest-pipeline";
+import { RequestBodyType, RestError } from "@azure/core-rest-pipeline";
 import { GeneratedClient } from "./generated/generatedClient";
+import { JSONTypes } from "./hubClient";
 import { createSpan } from "./tracing";
 import { getPayloadForMessage } from "./utils";
-import { JSONTypes } from "./hubClient";
 
 /**
  * Options for constructing a GroupAdmin client.

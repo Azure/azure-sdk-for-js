@@ -1,25 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { CommonOptions, StorageClient } from "./StorageClient";
 import {
-  HttpResponse,
-  TokenCredential,
-  isTokenCredential,
-  isNode,
-  getDefaultProxySettings,
-  URLBuilder,
-  RequestOptionsBase
-} from "@azure/core-http";
-import { SpanStatusCode } from "@azure/core-tracing";
-import {
-  EnqueuedMessage,
   DequeuedMessageItem,
+  EnqueuedMessage,
+  MessageIdDeleteResponse,
+  MessageIdUpdateResponse,
+  MessagesClearResponse,
   MessagesDequeueHeaders,
   MessagesEnqueueHeaders,
   MessagesPeekHeaders,
-  MessageIdUpdateResponse,
-  MessageIdDeleteResponse,
-  MessagesClearResponse,
   PeekedMessageItem,
   QueueCreateResponse,
   QueueDeleteResponse,
@@ -29,26 +20,35 @@ import {
   QueueSetMetadataResponse,
   SignedIdentifierModel
 } from "./generatedModels";
-import { AbortSignalLike } from "@azure/abort-controller";
-import { Messages, MessageId, Queue } from "./generated/src/operations";
-import { newPipeline, StoragePipelineOptions, Pipeline } from "./Pipeline";
-import { StorageClient, CommonOptions } from "./StorageClient";
+import {
+  HttpResponse,
+  RequestOptionsBase,
+  TokenCredential,
+  URLBuilder,
+  getDefaultProxySettings,
+  isNode,
+  isTokenCredential
+} from "@azure/core-http";
+import { MessageId, Messages, Queue } from "./generated/src/operations";
+import { Pipeline, StoragePipelineOptions, newPipeline } from "./Pipeline";
 import {
   appendToURLPath,
+  appendToURLQuery,
   extractConnectionStringParts,
-  isIpEndpointStyle,
-  truncatedISO8061Date,
   getStorageClientContext,
-  appendToURLQuery
+  isIpEndpointStyle,
+  truncatedISO8061Date
 } from "./utils/utils.common";
-import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
+import { AbortSignalLike } from "@azure/abort-controller";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
-import { createSpan } from "./utils/tracing";
 import { Metadata } from "./models";
-import { generateQueueSASQueryParameters } from "./QueueSASSignatureValues";
-import { SasIPRange } from "./SasIPRange";
 import { QueueSASPermissions } from "./QueueSASPermissions";
 import { SASProtocol } from "./SASQueryParameters";
+import { SasIPRange } from "./SasIPRange";
+import { SpanStatusCode } from "@azure/core-tracing";
+import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
+import { createSpan } from "./utils/tracing";
+import { generateQueueSASQueryParameters } from "./QueueSASSignatureValues";
 
 /**
  * Options to configure {@link QueueClient.create} operation

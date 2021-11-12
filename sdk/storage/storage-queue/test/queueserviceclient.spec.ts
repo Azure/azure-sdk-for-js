@@ -3,11 +3,12 @@
 
 import * as assert from "assert";
 import * as dotenv from "dotenv";
-import { QueueServiceClient } from "../src/QueueServiceClient";
+import { Recorder, delay, record } from "@azure-tools/test-recorder";
 import { getAlternateQSU, getQSU, getSASConnectionStringFromEnvironment } from "./utils";
-import { record, delay, Recorder } from "@azure-tools/test-recorder";
-import { recorderEnvSetup } from "./utils/index.browser";
 import { Context } from "mocha";
+import { QueueServiceClient } from "../src/QueueServiceClient";
+import { recorderEnvSetup } from "./utils/index.browser";
+
 dotenv.config();
 
 describe("QueueServiceClient", () => {

@@ -3,42 +3,37 @@
 
 import {
   BaseRequestPolicy,
-  deserializationPolicy,
-  HttpClient as IHttpClient,
   HttpHeaders,
   HttpOperationResponse,
   HttpRequestBody,
+  HttpClient as IHttpClient,
+  KeepAliveOptions,
+  ProxyOptions,
   RequestPolicy,
   RequestPolicyFactory,
   RequestPolicyOptions,
   ServiceClientOptions,
-  WebResource,
-  proxyPolicy,
-  isNode,
   TokenCredential,
-  isTokenCredential,
-  bearerTokenAuthenticationPolicy,
-  tracingPolicy,
-  logPolicy,
-  ProxyOptions,
-  KeepAliveOptions,
   UserAgentOptions,
+  WebResource,
+  bearerTokenAuthenticationPolicy,
+  deserializationPolicy,
   generateClientRequestIdPolicy,
-  keepAlivePolicy
+  isNode,
+  isTokenCredential,
+  keepAlivePolicy,
+  logPolicy,
+  proxyPolicy,
+  tracingPolicy
 } from "@azure/core-http";
-
-import { logger } from "./log";
-import { StorageBrowserPolicyFactory } from "./StorageBrowserPolicyFactory";
+import { StorageOAuthScopes, StorageQueueLoggingAllowedHeaderNames, StorageQueueLoggingAllowedQueryParameters } from "./utils/constants";
 import { StorageRetryOptions, StorageRetryPolicyFactory } from "./StorageRetryPolicyFactory";
-import { TelemetryPolicyFactory } from "./TelemetryPolicyFactory";
-import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
-import {
-  StorageOAuthScopes,
-  StorageQueueLoggingAllowedHeaderNames,
-  StorageQueueLoggingAllowedQueryParameters
-} from "./utils/constants";
+import { StorageBrowserPolicyFactory } from "./StorageBrowserPolicyFactory";
+import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
+import { TelemetryPolicyFactory } from "./TelemetryPolicyFactory";
 import { getCachedDefaultHttpClient } from "./utils/cache";
+import { logger } from "./log";
 
 // Export following interfaces and types for customers who want to implement their
 // own RequestPolicy or HTTPClient

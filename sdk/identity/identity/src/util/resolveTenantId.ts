@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { CredentialLogger } from "./logging";
 import { DeveloperSignOnClientId } from "../constants";
 import { checkTenantId } from "./checkTenantId";
-import { CredentialLogger } from "./logging";
 
 export function resolveTenantId(
   logger: CredentialLogger,

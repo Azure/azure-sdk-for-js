@@ -3,12 +3,12 @@
 
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
-import { assert } from "chai";
-import { env, delay, isRecordMode } from "@azure-tools/test-recorder";
-import { AbortController } from "@azure/abort-controller";
 import { MsalTestCleanup, msalNodeTestSetup, testTracing } from "../../msalTestUtils";
+import { delay, env, isRecordMode } from "@azure-tools/test-recorder";
+import { AbortController } from "@azure/abort-controller";
 import { ClientSecretCredential } from "../../../src";
 import { Context } from "mocha";
+import { assert } from "chai";
 
 describe("ClientSecretCredential", function() {
   let cleanup: MsalTestCleanup;

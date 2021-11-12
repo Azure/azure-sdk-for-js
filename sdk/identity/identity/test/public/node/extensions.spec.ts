@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert, AssertionError } from "chai";
+import { AssertionError, assert } from "chai";
 import { DeviceCodeCredential } from "../../../src";
 import { VisualStudioCodeCredential } from "../../../src";
 

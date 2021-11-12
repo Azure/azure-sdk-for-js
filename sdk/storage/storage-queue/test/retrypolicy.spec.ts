@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { URLBuilder } from "@azure/core-http";
 import * as assert from "assert";
-import { QueueClient, RestError, newPipeline, QueueServiceClient } from "../src";
 import * as dotenv from "dotenv";
+import { QueueClient, QueueServiceClient, RestError, newPipeline } from "../src";
+import { Recorder, record } from "@azure-tools/test-recorder";
 import { AbortController } from "@azure/abort-controller";
-import { Pipeline } from "../src/Pipeline";
-import { getQSU } from "./utils";
-import { InjectorPolicyFactory } from "./utils/InjectorPolicyFactory";
-import { record, Recorder } from "@azure-tools/test-recorder";
-import { recorderEnvSetup } from "./utils/index.browser";
 import { Context } from "mocha";
+import { InjectorPolicyFactory } from "./utils/InjectorPolicyFactory";
+import { Pipeline } from "../src/Pipeline";
+import { URLBuilder } from "@azure/core-http";
+import { getQSU } from "./utils";
+import { recorderEnvSetup } from "./utils/index.browser";
 
 dotenv.config();
 

@@ -4,12 +4,12 @@
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 /* eslint-disable @azure/azure-sdk/ts-no-namespaces */
 
+import { MsalTestCleanup, msalNodeTestSetup } from "../../msalTestUtils";
+import { Context } from "mocha";
+import { InteractiveBrowserCredential } from "../../../src";
 import Sinon from "sinon";
 import { assert } from "chai";
-import { Context } from "mocha";
 import { env } from "@azure-tools/test-recorder";
-import { InteractiveBrowserCredential } from "../../../src";
-import { MsalTestCleanup, msalNodeTestSetup } from "../../msalTestUtils";
 import { interactiveBrowserMockable } from "../../../src/msal/nodeFlows/msalOpenBrowser";
 
 declare global {

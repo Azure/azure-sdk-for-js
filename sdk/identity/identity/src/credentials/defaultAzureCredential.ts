@@ -1,16 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TokenCredential } from "@azure/core-auth";
-
-import { TokenCredentialOptions } from "../tokenCredentialOptions";
-
-import { ChainedTokenCredential } from "./chainedTokenCredential";
-
 import { AzureCliCredential } from "./azureCliCredential";
 import { AzurePowerShellCredential } from "./azurePowerShellCredential";
+import { ChainedTokenCredential } from "./chainedTokenCredential";
 import { EnvironmentCredential } from "./environmentCredential";
 import { ManagedIdentityCredential } from "./managedIdentityCredential";
+import { TokenCredential } from "@azure/core-auth";
+import { TokenCredentialOptions } from "../tokenCredentialOptions";
 import { VisualStudioCodeCredential } from "./visualStudioCodeCredential";
 
 /**

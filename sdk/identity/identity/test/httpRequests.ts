@@ -1,22 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as sinon from "sinon";
-import * as https from "https";
 import * as http from "http";
+import * as https from "https";
+import * as sinon from "sinon";
+import { AzureLogLevel, AzureLogger, getLogLevel, setLogLevel } from "@azure/logger";
 import { ClientRequest, IncomingHttpHeaders, IncomingMessage } from "http";
-import { PassThrough } from "stream";
-import { RestError } from "@azure/core-rest-pipeline";
-import { setLogLevel, AzureLogger, getLogLevel, AzureLogLevel } from "@azure/logger";
-import { getError } from "./authTestUtils";
 import {
-  createResponse,
   IdentityTestContext,
   RawTestResponse,
   SendCredentialRequests,
-  TestResponse
+  TestResponse,
+  createResponse
 } from "./httpRequestsCommon";
 import { AccessToken } from "../src";
+import { PassThrough } from "stream";
+import { RestError } from "@azure/core-rest-pipeline";
+import { getError } from "./authTestUtils";
 import { openIdConfigurationResponse } from "./msalTestUtils";
 
 /**

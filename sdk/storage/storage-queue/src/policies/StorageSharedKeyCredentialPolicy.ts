@@ -2,10 +2,10 @@
 // Licensed under the MIT license.
 
 import { RequestPolicy, RequestPolicyOptions, WebResource } from "@azure/core-http";
-import { StorageSharedKeyCredential } from "../credentials/StorageSharedKeyCredential";
-import { HeaderConstants } from "../utils/constants";
 import { getURLPath, getURLQueries } from "../utils/utils.common";
 import { CredentialPolicy } from "./CredentialPolicy";
+import { HeaderConstants } from "../utils/constants";
+import { StorageSharedKeyCredential } from "../credentials/StorageSharedKeyCredential";
 
 /**
  * StorageSharedKeyCredentialPolicy is a policy used to sign HTTP request with a shared key.

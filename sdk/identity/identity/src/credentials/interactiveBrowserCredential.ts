@@ -4,16 +4,12 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
-
+import { InteractiveBrowserCredentialInBrowserOptions, InteractiveBrowserCredentialNodeOptions } from "./interactiveBrowserCredentialOptions";
+import { AuthenticationRecord } from "../msal/types";
+import { MsalFlow } from "../msal/flows";
+import { MsalOpenBrowser } from "../msal/nodeFlows/msalOpenBrowser";
 import { credentialLogger } from "../util/logging";
 import { trace } from "../util/tracing";
-import { AuthenticationRecord } from "../msal/types";
-import { MsalOpenBrowser } from "../msal/nodeFlows/msalOpenBrowser";
-import { MsalFlow } from "../msal/flows";
-import {
-  InteractiveBrowserCredentialInBrowserOptions,
-  InteractiveBrowserCredentialNodeOptions
-} from "./interactiveBrowserCredentialOptions";
 
 const logger = credentialLogger("InteractiveBrowserCredential");
 

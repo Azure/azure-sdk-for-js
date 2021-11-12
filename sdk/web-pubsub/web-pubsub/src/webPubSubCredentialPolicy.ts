@@ -1,14 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { PipelinePolicy, PipelineRequest, PipelineResponse, SendRequest } from "@azure/core-rest-pipeline";
 import { KeyCredential } from "@azure/core-auth";
-import {
-  PipelineResponse,
-  PipelineRequest,
-  SendRequest,
-  PipelinePolicy
-} from "@azure/core-rest-pipeline";
-
 import jwt from "jsonwebtoken";
 
 /**

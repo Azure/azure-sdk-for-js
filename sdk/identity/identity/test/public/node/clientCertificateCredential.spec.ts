@@ -4,12 +4,12 @@
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
 import * as path from "path";
-import { assert } from "chai";
-import { AbortController } from "@azure/abort-controller";
-import { env, isPlaybackMode, delay, isLiveMode } from "@azure-tools/test-recorder";
 import { MsalTestCleanup, msalNodeTestSetup, testTracing } from "../../msalTestUtils";
+import { delay, env, isLiveMode, isPlaybackMode } from "@azure-tools/test-recorder";
+import { AbortController } from "@azure/abort-controller";
 import { ClientCertificateCredential } from "../../../src";
 import { Context } from "mocha";
+import { assert } from "chai";
 import { readFileSync } from "fs";
 
 const ASSET_PATH = "assets";

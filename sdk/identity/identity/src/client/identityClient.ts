@@ -1,23 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { INetworkModule, NetworkRequestOptions, NetworkResponse } from "@azure/msal-common";
-import { AccessToken, GetTokenOptions } from "@azure/core-auth";
-import { SpanStatusCode } from "@azure/core-tracing";
-import { ServiceClient } from "@azure/core-client";
-import { isNode } from "@azure/core-util";
-import {
-  createHttpHeaders,
-  createPipelineRequest,
-  PipelineRequest
-} from "@azure/core-rest-pipeline";
 import { AbortController, AbortSignalLike } from "@azure/abort-controller";
+import { AccessToken, GetTokenOptions } from "@azure/core-auth";
 import { AuthenticationError, AuthenticationErrorName } from "../errors";
-import { getIdentityTokenEndpointSuffix } from "../util/identityTokenEndpoint";
+import { INetworkModule, NetworkRequestOptions, NetworkResponse } from "@azure/msal-common";
+import { PipelineRequest, createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
 import { DefaultAuthorityHost } from "../constants";
-import { createSpan } from "../util/tracing";
-import { logger } from "../util/logging";
+import { ServiceClient } from "@azure/core-client";
+import { SpanStatusCode } from "@azure/core-tracing";
 import { TokenCredentialOptions } from "../tokenCredentialOptions";
+import { createSpan } from "../util/tracing";
+import { getIdentityTokenEndpointSuffix } from "../util/identityTokenEndpoint";
+import { isNode } from "@azure/core-util";
+import { logger } from "../util/logging";
 
 const noCorrelationId = "noCorrelationId";
 

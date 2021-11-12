@@ -3,10 +3,11 @@
 
 import * as assert from "assert";
 import * as dotenv from "dotenv";
-import { extractConnectionStringParts } from "../../src/utils/utils.common";
-import { record, Recorder } from "@azure-tools/test-recorder";
-import { recorderEnvSetup } from "../utils/index.browser";
+import { Recorder, record } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
+import { extractConnectionStringParts } from "../../src/utils/utils.common";
+import { recorderEnvSetup } from "../utils/index.browser";
+
 dotenv.config();
 
 describe("Utility Helpers Node.js only", () => {

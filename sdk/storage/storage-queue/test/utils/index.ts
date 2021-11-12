@@ -1,18 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { StorageSharedKeyCredential } from "../../src/credentials/StorageSharedKeyCredential";
-import { newPipeline } from "../../src/Pipeline";
-import { QueueServiceClient } from "../../src/QueueServiceClient";
 import {
-  generateAccountSASQueryParameters,
   AccountSASPermissions,
-  SASProtocol,
   AccountSASResourceTypes,
-  AccountSASServices
+  AccountSASServices,
+  SASProtocol,
+  generateAccountSASQueryParameters
 } from "../../src";
-import { extractConnectionStringParts } from "../../src/utils/utils.common";
+import { QueueServiceClient } from "../../src/QueueServiceClient";
+import { StorageSharedKeyCredential } from "../../src/credentials/StorageSharedKeyCredential";
 import { env } from "@azure-tools/test-recorder";
+import { extractConnectionStringParts } from "../../src/utils/utils.common";
+import { newPipeline } from "../../src/Pipeline";
 
 // Uncomment if need to enable logger when debugging
 // import {HttpPipelineLogLevel} from "../../src"

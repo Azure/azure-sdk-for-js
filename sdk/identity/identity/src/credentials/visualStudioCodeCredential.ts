@@ -1,20 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TokenCredential, AccessToken, GetTokenOptions } from "@azure/core-auth";
-
-import fs from "fs";
-import os from "os";
-import path from "path";
-
+import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
+import { credentialLogger, formatError, formatSuccess } from "../util/logging";
 import { AzureAuthorityHosts } from "../constants";
-import { checkTenantId } from "../util/checkTenantId";
 import { CredentialUnavailableError } from "../errors";
 import { IdentityClient } from "../client/identityClient";
 import { TokenCredentialOptions } from "../tokenCredentialOptions";
-import { processMultiTenantRequest } from "../util/validateMultiTenant";
 import { VSCodeCredentialFinder } from "./visualStudioCodeCredentialPlugin";
-import { credentialLogger, formatError, formatSuccess } from "../util/logging";
+import { checkTenantId } from "../util/checkTenantId";
+import fs from "fs";
+import os from "os";
+import path from "path";
+import { processMultiTenantRequest } from "../util/validateMultiTenant";
 
 const CommonTenantId = "common";
 const AzureAccountClientId = "aebc6443-996d-45c2-90f0-388ff96faa56"; // VSC: 'aebc6443-996d-45c2-90f0-388ff96faa56'

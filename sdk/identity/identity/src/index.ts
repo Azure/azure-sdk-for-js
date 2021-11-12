@@ -1,13 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export * from "./plugins/consumer";
-
-export { IdentityPlugin } from "./plugins/provider";
-
-import { TokenCredential } from "@azure/core-auth";
 import { DefaultAzureCredential } from "./credentials/defaultAzureCredential";
+import { TokenCredential } from "@azure/core-auth";
 
+export * from "./plugins/consumer";
+export { IdentityPlugin } from "./plugins/provider";
 export {
   AuthenticationError,
   ErrorResponse,
