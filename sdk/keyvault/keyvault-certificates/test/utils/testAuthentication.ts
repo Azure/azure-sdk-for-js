@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ClientSecretCredential } from "@azure/identity";
+import { RecorderEnvironmentSetup, env, record } from "@azure-tools/test-recorder";
 import { CertificateClient } from "../../src";
-import { uniqueString } from "./recorderUtils";
-import { env, record, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
-import TestClient from "./testClient";
+import { ClientSecretCredential } from "@azure/identity";
 import { Context } from "mocha";
+import TestClient from "./testClient";
+import { uniqueString } from "./recorderUtils";
 
 export async function authenticate(that: Context): Promise<any> {
   const suffix = uniqueString();

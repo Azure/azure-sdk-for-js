@@ -1,19 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import fs from "fs";
-import { Context } from "mocha";
-import childProcess from "child_process";
-import { isNode } from "@azure/core-http";
-import { env, Recorder } from "@azure-tools/test-recorder";
-import { SecretClient } from "@azure/keyvault-secrets";
-import { ClientSecretCredential } from "@azure/identity";
-
-import { CertificateClient } from "../../src";
+import { Recorder, env } from "@azure-tools/test-recorder";
 import { base64ToUint8Array, stringToUint8Array } from "../../src/utils";
-import { testPollerProperties } from "../utils/recorderUtils";
-import { authenticate } from "../utils/testAuthentication";
+import { CertificateClient } from "../../src";
+import { ClientSecretCredential } from "@azure/identity";
+import { Context } from "mocha";
+import { SecretClient } from "@azure/keyvault-secrets";
 import TestClient from "../utils/testClient";
+import { authenticate } from "../utils/testAuthentication";
+import childProcess from "child_process";
+import fs from "fs";
+import { isNode } from "@azure/core-http";
+import { testPollerProperties } from "../utils/recorderUtils";
 
 describe("Certificates client - merge and import certificates", () => {
   const prefix = `merge${env.CERTIFICATE_NAME || "CertificateName"}`;

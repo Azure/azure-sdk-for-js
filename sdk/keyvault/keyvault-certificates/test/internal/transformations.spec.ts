@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
 import { CertificateOperation as CoreCertificateOperation } from "../../src/generated/models";
+import { assert } from "chai";
 import { getCertificateOperationFromCoreOperation } from "../../src/transformations";
 
 describe("transformations", function() {

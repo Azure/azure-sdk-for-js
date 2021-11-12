@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { env } from "@azure-tools/test-recorder";
 import * as assert from "assert";
+import { env } from "@azure-tools/test-recorder";
 
 export function getKeyvaultName(): string {
   const keyVaultEnvVarName = "KEYVAULT_NAME";

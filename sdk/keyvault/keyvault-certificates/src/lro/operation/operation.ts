@@ -1,8 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AbortSignalLike, AbortSignal } from "@azure/abort-controller";
-import { OperationOptions } from "@azure/core-http";
+import { AbortSignal, AbortSignalLike } from "@azure/abort-controller";
 import {
   CancelCertificateOperationOptions,
   CertificateOperation,
@@ -10,16 +9,10 @@ import {
   GetPlainCertificateOperationOptions,
   KeyVaultCertificateWithPolicy
 } from "../../certificatesModels";
-import {
-  cleanState,
-  KeyVaultCertificatePollOperation,
-  KeyVaultCertificatePollOperationState
-} from "../keyVaultCertificatePoller";
+import { KeyVaultCertificatePollOperation, KeyVaultCertificatePollOperationState, cleanState } from "../keyVaultCertificatePoller";
+import { getCertificateOperationFromCoreOperation, getCertificateWithPolicyFromCertificateBundle } from "../../transformations";
 import { KeyVaultClient } from "../../generated/keyVaultClient";
-import {
-  getCertificateOperationFromCoreOperation,
-  getCertificateWithPolicyFromCertificateBundle
-} from "../../transformations";
+import { OperationOptions } from "@azure/core-http";
 import { createTraceFunction } from "../../../../keyvault-common/src";
 
 /**

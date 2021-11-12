@@ -9,117 +9,102 @@
 
 /// <reference lib="esnext.asynciterable" />
 
+import "@azure/core-paging";
 import {
-  TokenCredential,
-  isTokenCredential,
-  signingPolicy,
-  PipelineOptions,
-  createPipelineFromOptions,
-  InternalPipelineOptions
-} from "@azure/core-http";
-
-import { logger } from "./log";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
-
+  ActionType,
+  BackupCertificateResult,
+  JsonWebKeyCurveName as CertificateKeyCurveName,
+  JsonWebKeyType as CertificateKeyType,
+  SubjectAlternativeNames as CoreSubjectAlternativeNames,
+  DeletionRecoveryLevel,
+  IssuerAttributes,
+  IssuerCredentials,
+  IssuerParameters,
+  KeyUsageType,
+  KeyVaultClientGetCertificateIssuersOptionalParams,
+  KeyVaultClientGetCertificateVersionsOptionalParams,
+  KeyVaultClientGetCertificatesOptionalParams,
+  KeyVaultClientGetDeletedCertificatesOptionalParams,
+  KeyVaultClientSetCertificateIssuerOptionalParams,
+  KnownDeletionRecoveryLevel as KnownDeletionRecoveryLevels,
+  X509CertificateProperties
+} from "./generated/models";
 import {
-  KeyVaultCertificate,
-  KeyVaultCertificateWithPolicy,
   AdministratorContact,
+  ArrayOneOrMore,
   BackupCertificateOptions,
   BeginCreateCertificateOptions,
   BeginDeleteCertificateOptions,
   BeginRecoverDeletedCertificateOptions,
-  CertificateIssuer,
+  CancelCertificateOperationOptions,
+  CertificateClientOptions,
   CertificateContact,
+  CertificateContactAll,
   CertificateContentType,
+  CertificateIssuer,
+  CertificateOperation,
+  CertificateOperationError,
   CertificatePolicy,
+  CertificatePolicyAction,
+  CertificatePolicyProperties,
+  CertificatePollerOptions,
   CertificateProperties,
+  CertificateTags,
   CreateCertificateOptions,
+  CreateIssuerOptions,
+  DefaultCertificatePolicy,
   DeleteCertificateOperationOptions,
   DeleteContactsOptions,
   DeleteIssuerOptions,
   DeletedCertificate,
-  GetContactsOptions,
-  GetIssuerOptions,
+  ErrorModel,
   GetCertificateOperationOptions,
-  GetPlainCertificateOperationOptions,
   GetCertificateOptions,
   GetCertificatePolicyOptions,
   GetCertificateVersionOptions,
+  GetContactsOptions,
   GetDeletedCertificateOptions,
-  CertificateTags,
+  GetIssuerOptions,
+  GetPlainCertificateOperationOptions,
   ImportCertificateOptions,
-  ListPropertiesOfCertificatesOptions,
-  ErrorModel,
-  ListPropertiesOfCertificateVersionsOptions,
-  ListPropertiesOfIssuersOptions,
-  ListDeletedCertificatesOptions,
-  MergeCertificateOptions,
-  PurgeDeletedCertificateOptions,
-  RestoreCertificateBackupOptions,
-  SetContactsOptions,
-  CreateIssuerOptions,
-  CertificateOperation,
-  CertificateOperationError,
-  SubjectAlternativeNames,
-  UpdateIssuerOptions,
-  UpdateCertificatePropertiesOptions,
-  UpdateCertificatePolicyOptions,
-  WellKnownIssuerNames,
-  CertificatePollerOptions,
-  IssuerProperties,
-  CertificateContactAll,
-  CertificatePolicyAction,
-  LifetimeAction,
-  RequireAtLeastOne,
-  ArrayOneOrMore,
-  SubjectAlternativeNamesAll,
-  CertificatePolicyProperties,
-  PolicySubjectProperties,
-  DefaultCertificatePolicy,
-  CertificateClientOptions,
-  LATEST_API_VERSION,
-  CancelCertificateOperationOptions,
   ImportCertificatePolicy,
+  IssuerProperties,
+  KeyVaultCertificate,
+  KeyVaultCertificateWithPolicy,
   KnownCertificateKeyCurveNames,
   KnownCertificateKeyTypes,
-  KnownKeyUsageTypes
+  KnownKeyUsageTypes,
+  LATEST_API_VERSION,
+  LifetimeAction,
+  ListDeletedCertificatesOptions,
+  ListPropertiesOfCertificateVersionsOptions,
+  ListPropertiesOfCertificatesOptions,
+  ListPropertiesOfIssuersOptions,
+  MergeCertificateOptions,
+  PolicySubjectProperties,
+  PurgeDeletedCertificateOptions,
+  RequireAtLeastOne,
+  RestoreCertificateBackupOptions,
+  SetContactsOptions,
+  SubjectAlternativeNames,
+  SubjectAlternativeNamesAll,
+  UpdateCertificatePolicyOptions,
+  UpdateCertificatePropertiesOptions,
+  UpdateIssuerOptions,
+  WellKnownIssuerNames
 } from "./certificatesModels";
-
 import {
-  KeyVaultClientGetCertificatesOptionalParams,
-  KeyVaultClientGetCertificateIssuersOptionalParams,
-  KeyVaultClientGetCertificateVersionsOptionalParams,
-  KeyVaultClientSetCertificateIssuerOptionalParams,
-  BackupCertificateResult,
-  KeyVaultClientGetDeletedCertificatesOptionalParams,
-  IssuerParameters,
-  IssuerCredentials,
-  IssuerAttributes,
-  X509CertificateProperties,
-  SubjectAlternativeNames as CoreSubjectAlternativeNames,
-  ActionType,
-  DeletionRecoveryLevel,
-  JsonWebKeyType as CertificateKeyType,
-  JsonWebKeyCurveName as CertificateKeyCurveName,
-  KnownDeletionRecoveryLevel as KnownDeletionRecoveryLevels,
-  KeyUsageType
-} from "./generated/models";
-import { KeyVaultClient } from "./generated/keyVaultClient";
-import { SDK_VERSION } from "./constants";
-import "@azure/core-paging";
-import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
-import { challengeBasedAuthenticationPolicy, createTraceFunction } from "../../keyvault-common/src";
-import { CreateCertificatePoller } from "./lro/create/poller";
-import { CertificateOperationPoller } from "./lro/operation/poller";
-import { DeleteCertificatePoller } from "./lro/delete/poller";
-import { RecoverDeletedCertificatePoller } from "./lro/recover/poller";
-import { CertificateOperationState } from "./lro/operation/operation";
-import { DeleteCertificateState } from "./lro/delete/operation";
-import { CreateCertificateState } from "./lro/create/operation";
-import { RecoverDeletedCertificateState } from "./lro/recover/operation";
-import { parseCertificateBytes } from "./utils";
+  InternalPipelineOptions,
+  PipelineOptions,
+  TokenCredential,
+  createPipelineFromOptions,
+  isTokenCredential,
+  signingPolicy
+} from "@azure/core-http";
 import { KeyVaultCertificateIdentifier, parseKeyVaultCertificateIdentifier } from "./identifier";
+import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PollOperationState, PollerLike } from "@azure/core-lro";
+import { challengeBasedAuthenticationPolicy, createTraceFunction } from "../../keyvault-common/src";
 import {
   coreContactsToCertificateContacts,
   getCertificateFromCertificateBundle,
@@ -133,7 +118,19 @@ import {
   toPublicIssuer,
   toPublicPolicy
 } from "./transformations";
+import { CertificateOperationPoller } from "./lro/operation/poller";
+import { CertificateOperationState } from "./lro/operation/operation";
+import { CreateCertificatePoller } from "./lro/create/poller";
+import { CreateCertificateState } from "./lro/create/operation";
+import { DeleteCertificatePoller } from "./lro/delete/poller";
+import { DeleteCertificateState } from "./lro/delete/operation";
 import { KeyVaultCertificatePollOperationState } from "./lro/keyVaultCertificatePoller";
+import { KeyVaultClient } from "./generated/keyVaultClient";
+import { RecoverDeletedCertificatePoller } from "./lro/recover/poller";
+import { RecoverDeletedCertificateState } from "./lro/recover/operation";
+import { SDK_VERSION } from "./constants";
+import { logger } from "./log";
+import { parseCertificateBytes } from "./utils";
 
 export {
   CertificateClientOptions,

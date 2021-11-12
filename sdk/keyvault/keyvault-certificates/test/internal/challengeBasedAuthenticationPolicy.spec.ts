@@ -1,23 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
-import { Context } from "mocha";
-import { createSandbox } from "sinon";
-import { env, Recorder } from "@azure-tools/test-recorder";
-
-import {
-  AuthenticationChallengeCache,
-  AuthenticationChallenge,
-  parseWWWAuthenticate,
-  challengeBasedAuthenticationPolicy
-} from "../../../keyvault-common/src";
+import { AuthenticationChallenge, AuthenticationChallengeCache, challengeBasedAuthenticationPolicy, parseWWWAuthenticate } from "../../../keyvault-common/src";
+import { Recorder, env } from "@azure-tools/test-recorder";
 import { CertificateClient } from "../../src";
-import { testPollerProperties } from "../utils/recorderUtils";
-import { authenticate } from "../utils/testAuthentication";
+import { ClientSecretCredential } from "@azure/identity";
+import { Context } from "mocha";
 import TestClient from "../utils/testClient";
 import { WebResource } from "@azure/core-http";
-import { ClientSecretCredential } from "@azure/identity";
+import { assert } from "chai";
+import { authenticate } from "../utils/testAuthentication";
+import { createSandbox } from "sinon";
+import { testPollerProperties } from "../utils/recorderUtils";
 
 // Following the philosophy of not testing the insides if we can test the outsides...
 // I present you with this "Get Out of Jail Free" card (in reference to Monopoly).

@@ -3,32 +3,32 @@
 
 import {
   ArrayOneOrMore,
+  CertificateContact,
   CertificateContentType,
-  CertificateOperation,
   CertificateIssuer,
+  CertificateOperation,
+  CertificateOperationError,
   CertificatePolicy,
   CertificateProperties,
   DeletedCertificate,
   KeyVaultCertificate,
   KeyVaultCertificateWithPolicy,
-  SubjectAlternativeNames,
-  CertificateContact,
-  CertificateOperationError
+  SubjectAlternativeNames
 } from "./certificatesModels";
 import {
   CertificateAttributes,
   CertificateBundle,
+  JsonWebKeyType as CertificateKeyType,
+  CertificateOperation as CoreCertificateOperation,
   CertificatePolicy as CoreCertificatePolicy,
+  Contacts as CoreContacts,
+  SubjectAlternativeNames as CoreSubjectAlternativeNames,
   DeletedCertificateBundle,
   DeletedCertificateItem,
+  ErrorModel,
   IssuerAttributes,
   IssuerBundle,
-  SubjectAlternativeNames as CoreSubjectAlternativeNames,
-  X509CertificateProperties,
-  CertificateOperation as CoreCertificateOperation,
-  Contacts as CoreContacts,
-  JsonWebKeyType as CertificateKeyType,
-  ErrorModel
+  X509CertificateProperties
 } from "./generated/models";
 import { parseKeyVaultCertificateIdentifier } from "./identifier";
 

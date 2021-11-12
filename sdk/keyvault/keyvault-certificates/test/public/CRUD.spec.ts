@@ -1,24 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import os from "os";
-import { Context } from "mocha";
-import fs from "fs";
-import childProcess from "child_process";
-import { assert } from "chai";
-import { supportsTracing } from "../../../keyvault-common/test/utils/supportsTracing";
-
-import { env, Recorder } from "@azure-tools/test-recorder";
+import { Recorder, env } from "@azure-tools/test-recorder";
 import { AbortController } from "@azure/abort-controller";
-import { SecretClient } from "@azure/keyvault-secrets";
-import { ClientSecretCredential } from "@azure/identity";
-import { isNode } from "@azure/core-http";
-
 import { CertificateClient } from "../../src";
-import { assertThrowsAbortError } from "../utils/utils.common";
-import { testPollerProperties } from "../utils/recorderUtils";
-import { authenticate } from "../utils/testAuthentication";
+import { ClientSecretCredential } from "@azure/identity";
+import { Context } from "mocha";
+import { SecretClient } from "@azure/keyvault-secrets";
 import TestClient from "../utils/testClient";
+import { assert } from "chai";
+import { assertThrowsAbortError } from "../utils/utils.common";
+import { authenticate } from "../utils/testAuthentication";
+import childProcess from "child_process";
+import fs from "fs";
+import { isNode } from "@azure/core-http";
+import os from "os";
+import { supportsTracing } from "../../../keyvault-common/test/utils/supportsTracing";
+import { testPollerProperties } from "../utils/recorderUtils";
 
 describe("Certificates client - create, read, update and delete", () => {
   const prefix = `CRUD${env.CERTIFICATE_NAME || "CertificateName"}`;
