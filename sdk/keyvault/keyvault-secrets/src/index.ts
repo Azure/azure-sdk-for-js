@@ -3,56 +3,52 @@
 /* eslint @typescript-eslint/member-ordering: 0 */
 /// <reference lib="esnext.asynciterable" />
 
-import {
-  TokenCredential,
-  isTokenCredential,
-  signingPolicy,
-  PipelineOptions,
-  createPipelineFromOptions
-} from "@azure/core-http";
-
-import { logger } from "./log";
-
 import "@azure/core-paging";
-import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
-  DeletionRecoveryLevel,
-  KnownDeletionRecoveryLevel,
-  KeyVaultClientGetSecretsOptionalParams,
-  SecretBundle,
-  DeletedSecretBundle
-} from "./generated/models";
-import { KeyVaultClient } from "./generated/keyVaultClient";
-import { SDK_VERSION } from "./constants";
-import { challengeBasedAuthenticationPolicy } from "../../keyvault-common/src";
-
-import { DeleteSecretPoller } from "./lro/delete/poller";
-import { RecoverDeletedSecretPoller } from "./lro/recover/poller";
-
-import {
-  KeyVaultSecret,
-  DeletedSecret,
-  SecretPollerOptions,
+  BackupSecretOptions,
   BeginDeleteSecretOptions,
   BeginRecoverDeletedSecretOptions,
-  SetSecretOptions,
-  UpdateSecretPropertiesOptions,
-  GetSecretOptions,
+  DeletedSecret,
   GetDeletedSecretOptions,
-  PurgeDeletedSecretOptions,
-  BackupSecretOptions,
-  RestoreSecretBackupOptions,
+  GetSecretOptions,
+  KeyVaultSecret,
+  LATEST_API_VERSION,
+  ListDeletedSecretsOptions,
   ListPropertiesOfSecretVersionsOptions,
   ListPropertiesOfSecretsOptions,
-  ListDeletedSecretsOptions,
-  SecretProperties,
+  PurgeDeletedSecretOptions,
+  RestoreSecretBackupOptions,
   SecretClientOptions,
-  LATEST_API_VERSION
+  SecretPollerOptions,
+  SecretProperties,
+  SetSecretOptions,
+  UpdateSecretPropertiesOptions
 } from "./secretsModels";
+import {
+  DeletedSecretBundle,
+  DeletionRecoveryLevel,
+  KeyVaultClientGetSecretsOptionalParams,
+  KnownDeletionRecoveryLevel,
+  SecretBundle
+} from "./generated/models";
 import { KeyVaultSecretIdentifier, parseKeyVaultSecretIdentifier } from "./identifier";
-import { getSecretFromSecretBundle } from "./transformations";
+import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
+import {
+  PipelineOptions,
+  TokenCredential,
+  createPipelineFromOptions,
+  isTokenCredential,
+  signingPolicy
+} from "@azure/core-http";
+import { PollOperationState, PollerLike } from "@azure/core-lro";
+import { DeleteSecretPoller } from "./lro/delete/poller";
+import { KeyVaultClient } from "./generated/keyVaultClient";
+import { RecoverDeletedSecretPoller } from "./lro/recover/poller";
+import { SDK_VERSION } from "./constants";
+import { challengeBasedAuthenticationPolicy } from "../../keyvault-common/src";
 import { createTraceFunction } from "../../keyvault-common/src";
+import { getSecretFromSecretBundle } from "./transformations";
+import { logger } from "./log";
 
 export {
   SecretClientOptions,

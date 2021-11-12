@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { parseKeyVaultSecretIdentifier } from "../../src/identifier";
 import * as assert from "assert";
+import { parseKeyVaultSecretIdentifier } from "../../src/identifier";
 
 describe("Key Vault Secrets Identifier", () => {
   it("It should work with a URI of a secret before it gets a version", async function() {
