@@ -1371,7 +1371,7 @@ describe("Batching Receiver", () => {
 });
 
 /**
- * Sets `batchingReceiver` so it's next drain call will result in the connection recycling prior to the
+ * Sets `batchingReceiver` so its next drain call will result in the connection recycling prior to the
  * drain completing. The primary use is just to make sure that when we terminate a receiveMessages() call
  * early due to a disconnect (and interrupt the drain) that the link is restored and can be used
  * again afterwards.
@@ -1406,7 +1406,10 @@ function causeDisconnectDuringDrain(
     // don't send the drain request, we'll just detach.
     batchingReceiver
       .onDetached(new Error("Test: fake connection failure"))
-      .then(() => resolveOnDetachedCallPromise());
+      .then(() => resolveOnDetachedCallPromise())
+      .catch((e) => {
+        throw e;
+      });
   };
 
   return {
