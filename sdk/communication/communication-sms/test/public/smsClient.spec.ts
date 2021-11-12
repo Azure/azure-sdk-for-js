@@ -6,16 +6,12 @@
  *  They are duplicated in an internal test which contains workaround logic to record/playback the tests
  */
 
-import { matrix } from "@azure/test-utils";
-import { record, Recorder, env } from "@azure-tools/test-recorder";
-import { isNode } from "@azure/core-http";
 import * as dotenv from "dotenv";
-import {
-  createSmsClient,
-  createSmsClientWithToken,
-  recorderConfiguration
-} from "./utils/recordedClient";
+import { Recorder, env, record } from "@azure-tools/test-recorder";
+import { createSmsClient, createSmsClientWithToken, recorderConfiguration } from "./utils/recordedClient";
 import { Context } from "mocha";
+import { isNode } from "@azure/core-http";
+import { matrix } from "@azure/test-utils";
 import sendSmsSuites from "./suites/smsClient.send";
 
 if (isNode) {

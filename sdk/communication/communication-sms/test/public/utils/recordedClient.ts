@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { parseConnectionString } from "@azure/communication-common";
+import { ClientSecretCredential, DefaultAzureCredential, TokenCredential } from "@azure/identity";
 import {
   DefaultHttpClient,
   HttpClient,
   HttpOperationResponse,
-  isNode,
-  WebResourceLike
+  WebResourceLike,
+  isNode
 } from "@azure/core-http";
-import { ClientSecretCredential, DefaultAzureCredential, TokenCredential } from "@azure/identity";
-import { env, isPlaybackMode, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
+import { RecorderEnvironmentSetup, env, isPlaybackMode } from "@azure-tools/test-recorder";
 import { SmsClient, SmsClientOptions } from "../../../src";
+import { parseConnectionString } from "@azure/communication-common";
 
 export const recorderConfiguration: RecorderEnvironmentSetup = {
   replaceableVariables: {

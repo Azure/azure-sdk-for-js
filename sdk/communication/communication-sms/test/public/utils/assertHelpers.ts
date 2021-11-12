@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
 import { SmsSendResult } from "../../../src";
+import { assert } from "chai";
 
 export const assertIsSuccessResult = (
   actualSmsResult: SmsSendResult,

@@ -2,13 +2,12 @@
 // Licensed under the MIT license.
 
 import { HttpClient, isNode } from "@azure/core-http";
-
-import { AzureKeyCredential } from "@azure/core-auth";
-import { assert } from "chai";
-import sinon from "sinon";
 import { SmsClient, SmsClientOptions, SmsSendRequest } from "../../src";
+import { AzureKeyCredential } from "@azure/core-auth";
 import { MockHttpClient } from "./utils/mockHttpClient";
 import { TokenCredential } from "@azure/identity";
+import { assert } from "chai";
+import sinon from "sinon";
 
 const TEST_NUMBER = "+14255550123";
 

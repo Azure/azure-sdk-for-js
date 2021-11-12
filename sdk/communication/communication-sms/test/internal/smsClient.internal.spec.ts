@@ -8,18 +8,14 @@
  *  These tests will be skipped in Live Mode since the public tests run in live mode only.
  */
 
-import { matrix } from "@azure/test-utils";
-import { isLiveMode, isPlaybackMode, record, Recorder } from "@azure-tools/test-recorder";
-import { isNode } from "@azure/core-http";
 import * as dotenv from "dotenv";
 import * as sinon from "sinon";
-import { Uuid } from "../../src/utils/uuid";
-import {
-  createSmsClient,
-  createSmsClientWithToken,
-  recorderConfiguration
-} from "../public/utils/recordedClient";
+import { Recorder, isLiveMode, isPlaybackMode, record } from "@azure-tools/test-recorder";
+import { createSmsClient, createSmsClientWithToken, recorderConfiguration } from "../public/utils/recordedClient";
 import { Context } from "mocha";
+import { Uuid } from "../../src/utils/uuid";
+import { isNode } from "@azure/core-http";
+import { matrix } from "@azure/test-utils";
 import sendSmsSuites from "../public/suites/smsClient.send";
 
 if (isNode) {

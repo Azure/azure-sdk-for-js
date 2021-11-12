@@ -3,25 +3,21 @@
 /// <reference lib="esnext.asynciterable" />
 
 import {
-  parseClientArguments,
-  isKeyCredential,
-  createCommunicationAuthPolicy
-} from "@azure/communication-common";
-import { KeyCredential, TokenCredential } from "@azure/core-auth";
-import {
-  PipelineOptions,
   InternalPipelineOptions,
-  createPipelineFromOptions,
   OperationOptions,
+  PipelineOptions,
+  createPipelineFromOptions,
   operationOptionsToRequestOptionsBase
 } from "@azure/core-http";
-import { SpanStatusCode } from "@azure/core-tracing";
-import { SmsApiClient } from "./generated/src/smsApiClient";
+import { KeyCredential, TokenCredential } from "@azure/core-auth";
+import { createCommunicationAuthPolicy, isKeyCredential, parseClientArguments } from "@azure/communication-common";
 import { SDK_VERSION } from "./constants";
+import { SmsApiClient } from "./generated/src/smsApiClient";
+import { SpanStatusCode } from "@azure/core-tracing";
 import { createSpan } from "./tracing";
-import { logger } from "./logger";
 import { extractOperationOptions } from "./extractOperationOptions";
 import { generateSendMessageRequest } from "./utils/smsUtils";
+import { logger } from "./logger";
 
 /**
  * Client options used to configure SMS Client API requests.

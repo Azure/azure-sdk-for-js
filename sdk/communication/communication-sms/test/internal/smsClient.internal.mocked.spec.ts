@@ -1,16 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { HttpClient } from "@azure/core-http";
-
-import { Uuid } from "../../src/utils/uuid";
-import { generateSendMessageRequest } from "../../src/utils/smsUtils";
-
-import { assert } from "chai";
-import sinon from "sinon";
-import { apiVersion } from "../../src/generated/src/models/parameters";
 import { SmsClient, SmsSendRequest } from "../../src/smsClient";
+import { HttpClient } from "@azure/core-http";
 import { MockHttpClient } from "../public/utils/mockHttpClient";
+import { Uuid } from "../../src/utils/uuid";
+import { apiVersion } from "../../src/generated/src/models/parameters";
+import { assert } from "chai";
+import { generateSendMessageRequest } from "../../src/utils/smsUtils";
+import sinon from "sinon";
 
 const API_VERSION = apiVersion.mapper.defaultValue;
 const TEST_NUMBER = "+14255550123";
