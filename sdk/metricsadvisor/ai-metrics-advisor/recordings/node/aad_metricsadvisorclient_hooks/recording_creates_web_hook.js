@@ -1,11 +1,11 @@
 let nock = require('nock');
 
-module.exports.hash = "fef9512daf1968a4c750b0e161a6cc2b";
+module.exports.hash = "6f0858a8a1c852a2b58efd48a1c63d3e";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default")
+  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fsanitized%2F")
   .reply(200, {"token_type":"Bearer","expires_in":86399,"ext_expires_in":86399,"access_token":"access_token"}, [
   'Cache-Control',
   'no-store, no-cache',
@@ -22,59 +22,59 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  'ed3de083-f3f7-42df-81a8-5ec4004c0100',
+  'c211e01d-cf15-4f96-b833-5ee429428c00',
   'x-ms-ests-server',
-  '2.1.11787.14 - NCUS ProdSlices',
+  '2.1.12197.4 - WUS2 ProdSlices',
   'Set-Cookie',
-  'fpc=AvAsiKRfhp5Eh637Nh0cx6LGLH8mAgAAAJ_hSdgOAAAA; expires=Fri, 02-Jul-2021 20:31:29 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=Ak1u-cbOs5JNs5iY_sNZ_a4; expires=Wed, 08-Dec-2021 09:39:12 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Wed, 02 Jun 2021 20:31:29 GMT',
+  'Mon, 08 Nov 2021 09:39:12 GMT',
   'Content-Length',
   '1331'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .post('/metricsadvisor/v1.0/hooks', {"hookType":"Webhook","hookName":"js-test-webHook-162266588772100390","description":"description","hookParameter":{"endpoint":"https://mawebhook.azurewebsites.net/api/HttpTrigger","username":"user","password":"pass"}})
+  .post('/metricsadvisor/v1.0/hooks', {"hookType":"Webhook","hookName":"js-test-webHook-163636435219503623","description":"description","hookParameter":{"endpoint":"https://httpbin.org/post","username":"user","password":"pass"}})
   .reply(201, "", [
   'Content-Length',
   '0',
   'Location',
-  'https://endpoint/metricsadvisor/v1.0/hooks/7911e86d-8d5b-4c08-8a8f-480f15b2d2b5',
+  'https://endpoint/metricsadvisor/v1.0/hooks/c70cfc52-3283-4c87-89be-f364dabd178e',
   'x-request-id',
-  '1801c597-7060-4e3f-b1a2-6be5e899b046',
+  'abc498a5-d898-419b-bae6-1ae2b59c43bb',
   'x-envoy-upstream-service-time',
-  '1229',
+  '853',
   'apim-request-id',
-  '1801c597-7060-4e3f-b1a2-6be5e899b046',
+  'abc498a5-d898-419b-bae6-1ae2b59c43bb',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Wed, 02 Jun 2021 20:31:31 GMT'
+  'Mon, 08 Nov 2021 09:39:12 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/metricsadvisor/v1.0/hooks/7911e86d-8d5b-4c08-8a8f-480f15b2d2b5')
-  .reply(200, {"hookId":"7911e86d-8d5b-4c08-8a8f-480f15b2d2b5","hookName":"js-test-webHook-162266588772100390","hookType":"Webhook","externalLink":"","description":"description","admins":["azure_client_id"],"hookParameter":{"endpoint":"https://mawebhook.azurewebsites.net/api/HttpTrigger","username":"user","password":"pass","headers":{},"certificateKey":"","certificatePassword":""}}, [
+  .get('/metricsadvisor/v1.0/hooks/c70cfc52-3283-4c87-89be-f364dabd178e')
+  .reply(200, {"hookId":"c70cfc52-3283-4c87-89be-f364dabd178e","hookName":"js-test-webHook-163636435219503623","hookType":"Webhook","externalLink":"","description":"description","admins":["azure_client_id"],"hookParameter":{"endpoint":"https://httpbin.org/post","username":"user","password":"pass"}}, [
   'Content-Length',
-  '391',
+  '306',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-request-id',
-  'b744d0f0-8e03-4eb4-8cb4-6efe8c72672a',
+  '8ba16875-3d66-4c7b-9660-3cb06ca579db',
   'x-envoy-upstream-service-time',
-  '5166',
+  '115',
   'apim-request-id',
-  'b744d0f0-8e03-4eb4-8cb4-6efe8c72672a',
+  '8ba16875-3d66-4c7b-9660-3cb06ca579db',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Wed, 02 Jun 2021 20:31:36 GMT'
+  'Mon, 08 Nov 2021 09:39:13 GMT'
 ]);

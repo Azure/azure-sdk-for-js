@@ -44,7 +44,7 @@ export interface HttpHeaders extends Iterable<[string, string]> {
    * Accesses a raw JS object that acts as a simple map
    * of header names to values.
    */
-  toJSON(): RawHttpHeaders;
+  toJSON(options?: { preserveCase?: boolean }): RawHttpHeaders;
 }
 
 /**
