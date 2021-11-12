@@ -86,7 +86,6 @@ export const schemaName: OperationURLParameter = {
   parameterPath: "schemaName",
   mapper: {
     constraints: {
-      Pattern: new RegExp("^[A-Za-z0-9][^\\\\/$:]*$"),
       MaxLength: 50
     },
     serializedName: "schemaName",

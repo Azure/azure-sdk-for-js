@@ -8,7 +8,7 @@
 
 ### Bugs Fixed
 
-- Fix validation for schema names to allow more schema names.
+- Disable client-side validation of schema names and leave that to the service.
 
 ### Other Changes
 
