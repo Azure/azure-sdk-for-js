@@ -1,20 +1,27 @@
-Getting Started - Generate the RLC rest-level client libraries.
+Getting Started - Generate the RLC rest-level client libraries
 ================================================================
-# Prerequisites
-You may refer to this [link](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md#prerequisites) for the environment set up prerequisites in azure-sdk-for-js repository. 
 
-# Project folder and name convention 
-Before we start, we probably should get to know the project folder and name convention for RLC libraries. 
+# Prerequisites
+
+You may refer to this [link](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md#prerequisites) for the environment set up prerequisites in azure-sdk-for-js repository.
+
+# Project folder and name convention
+
+Before we start, we probably should get to know the project folder and name convention for RLC libraries.
+
 1. Project Folder structure.  
    normally, the folder structure would be something like `sdk/{servicename}/{servicename}-{modulename}-rest`. For example, we have `sdk/purview/purview-account-rest` folder for purview account modules. That folder will be your **project root folder**.  
 1. Package Name Convention.  
    The package name for RLC is something like `@azure-rest/{servicename}-{modulename}`. For example, the package name for Purview Account module is `@azure-rest/purview-account`.
 
 # How to generate RLC
+
 We are working on to automatically generate everything right now, but currently we still need some manual work to get a releasable package. Here're the steps of how to get the package.
+
 1. **Create a swagger/README.md file.under project root folder**  
     We are using autorest to generate the code, but there's a lot of command options and in order to make the regenerate process easier in the cases of refresh the rest api input or change the code generator version, you need to document the generate command parameters.  
     Here's an example of the swagger/README.md
+
     ~~~
     
     # Azure Purview Catalog TypeScript Protocol Layer
@@ -38,20 +45,22 @@ We are working on to automatically generate everything right now, but currently 
     use-extension:
       "@autorest/typescript": "6.0.0-beta.14"
     ```
-    ~~~ 
-    Here, we need to replace the value in `package-name`, `title`, `description`, `input-file`, `package-version`, `credential-scopes` into **your own service's** `package-name`, `title`, `description` etc.   
-    
+    ~~~
+
+    Here, we need to replace the value in `package-name`, `title`, `description`, `input-file`, `package-version`, `credential-scopes` into **your own service's** `package-name`, `title`, `description` etc.
+
     ---
     **NOTE**
-    
+
     It's always recommended to replace the version of code generator @autorest/typescript with the latest version you can find in [npmjs.com](https://www.npmjs.com/package/@autorest/typescript) in latest tag.  
-    
-    **After the first generation, you need to switch `generate-metadata: false`  as we have some manual changes in this file and don't want them get overwrite by generated ones.**   
-    
+
+    **After the first generation, you need to switch `generate-metadata: false`  as we have some manual changes in this file and don't want them get overwrite by generated ones.**
+
     ---  
   
 1. **edit rush.json**  
     As the libraries in this azure-sdk-for-js repository are managed by rush, you need to add an entry in rush.json under projects section for the first time to make sure it works. For example:
+
     ```
         {
           "packageName": "@azure-rest/purview-account",
@@ -59,42 +68,58 @@ We are working on to automatically generate everything right now, but currently 
           "versionPolicyName": "client"
         },
     ```
+
     Here you also need to replace the `packageName`, `projectFolder` into your own services'.
-    
+
     ---  
-    **NOTE** 
-    
+    **NOTE**
+
     About the `versionPolicyName`, if the library you are working on is for data-plane, then it should be `client`, if the library you are working on is for control plane, then it should be `mgmt`.  
-    
+
     ---  
 
 1. **run autorest to generate the SDK**  
 
-    Now you can run this command in swagger folder you just created. 
+    Now you can run this command in swagger folder you just created.
+
     ```shell
     autorest --typescript ./README.md
     ```
-    After this finishes, you will see the generated code in src folder which are in the same level with the swagger folder.   
-    
-    
+
+    After this finishes, you will see the generated code in `${PROJECT_ROOT_FOLDER}/src` folder .
+1. **add a rollup.config.js file under `${PROJECT_ROOT_FOLDER}` folder**
+   You need to add a rollup.config.js file and put the following content into it.  
+    ```javascript
+    import { makeConfig } from "@azure/dev-tool/shared-config/rollup";
+
+    export default makeConfig(require("./package.json"));
+    ```
     After that, you can get a workable package, and run the following commands to get a artifact if you like.
-    
+
     ```shell
     rush update
     rush build -t <your-package-name>
     cd <your-sdk-folder>
     rushx pack
-    ``` 
-    But we still need to add some tests for it. 
+    ```
+
+    But we still need to add some tests for it.
+
 # How to write test for RLC
-In order to release it, we need to add some tests for it to make sure we are delivering high quality packages. but before we add the test, we need to manual change a few things to make the test framework works. 
+
+In order to release it, we need to add some tests for it to make sure we are delivering high quality packages. but before we add the test, we need to manual change a few things to make the test framework works.
+
 1. **update package.json file**  
-    Currently the generated will skip the actual test step. you should change it to make sure it works. 
-    First, change the `scripts` section from 
+    Currently the generated will skip the actual test step. you should change it to make sure it works.
+    First, change the `scripts` section from
+
     ~~~
         "test": "echo \"Error: no test specified\" && exit 1",
         "test:node": "echo skipped",
         "test:browser": "echo skipped",
+        "build:node": "echo skipped",
+        "build:browser": "echo skipped",
+        "build:test": "echo skipped",
         "unit-test": "echo skipped",
         "unit-test:node": "echo skipped",
         "unit-test:browser": "echo skipped",
@@ -102,22 +127,29 @@ In order to release it, we need to add some tests for it to make sure we are del
         "integration-test:node": "echo skipped",
         "integration-test": "echo skipped",
     ~~~
-    into 
-    
+
+    into
+
     ~~~
         "test": "npm run clean && npm run build:test && npm run unit-test",
         "test:node": "npm run clean && npm run build:test && npm run unit-test:node",
         "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser",
-        "build:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c 2>&1", "build:node": "tsc -p . && cross-env ONLY_NODE=true rollup -c 2>&1", "build:test": "tsc -p . && rollup -c 2>&1",
+        "build:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c 2>&1", 
+        "build:node": "tsc -p . && cross-env ONLY_NODE=true rollup -c 2>&1", 
+        "build:test": "tsc -p . && rollup -c 2>&1",
         "unit-test": "npm run unit-test:node && npm run unit-test:browser",
         "unit-test:node": "mocha -r esm --require ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 1200000 --full-trace \"test/{,!(browser)/**/}*.spec.ts\"",
         "unit-test:browser": "karma start --single-run",
         "integration-test:browser": "karma start --single-run",
         "integration-test:node": "nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 5000000 --full-trace \"dist-esm/test/{,!(browser)/**/}*.spec.js\"",
         "integration-test": "npm run integration-test:node && npm run integration-test:browser",
+        "browser": {
+          "./dist-esm/test/public/utils/env.js": "./dist-esm/test/public/utils/env.browser.js"
+        },
     ~~~
-    
-    Then add the following test dependencies into the `devDependencies` section. 
+
+    Then add the following test dependencies into the `devDependencies` section.
+
     ~~~
         "@azure/dev-tool": "^1.0.0",
         "@azure/eslint-plugin-azure-sdk": "^3.0.0",
@@ -156,27 +188,31 @@ In order to release it, we need to add some tests for it to make sure we are del
         "typedoc": "0.15.2",
         "typescript": "~4.2.0"
     ~~~
-    
-    --- 
-    **NOTE** 
-    We need to make sure those dependencies versions are align with other package.json files. You can double check it in [here](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/agrifood/agrifood-farming-rest/package.json)
-    
+
     ---
-    
+    **NOTE**
+    We need to make sure those dependencies versions are align with other package.json files. You can double check it in [here](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/agrifood/agrifood-farming-rest/package.json)
+
+    ---
+
     Finally, add this line into the package.json as well.
-    ``` 
+
+    ```
       "module": "./dist-esm/src/index.js"
     ```  
 
 1. **Update tsconfig.json file.**  
-    remove the `exclude` section and add an `include` section like this. 
+    remove the `exclude` section and add an `include` section like this.
+
     ```
       "include": ["src/**/*.ts", "./test/**/*.ts"]
     ```
+
 1. **Update the api-extractor.json file.**  
     change the `mainEntryPointFilePath` into `"./dist-esm/src/index.d.ts"`.  
 1. **Add a karma.conf.js file for web browser tests.under project root folder**  
     File content is like this
+
     ```javascript
     // Copyright (c) Microsoft Corporation.
     // Licensed under the MIT license.
@@ -332,11 +368,52 @@ In order to release it, we need to add some tests for it to make sure we are del
       });
     };
     ```
+1. **add sample.env under ${PROJECT_ROOT_FOLDER} folder**
+    create a sample.env and put the following content into this file.
+    ``` 
+     # Purview Scanning resource endpoint
+    ENDPOINT=
+    
+    # App registration secret for AAD authentication
+    AZURE_CLIENT_SECRET=
+    AZURE_CLIENT_ID=
+    AZURE_TENANT_ID= 
+    ```
 1. **add test utils.**  
 
     create a test/public folder and then copy the content [here](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/purview/purview-account-rest/test/public/utils) into public folder
+
+    there are some manual changes in the copied recordedClient.ts that need to be done. 
     
-    Now, you can add some sample tests like 
+    `import PurviewAccount, { PurviewAccountRestClient } from "../../../src";`  
+    Needs to change to the value that was used in the swagger/readme.md in title. For example if title is "Foo"
+    
+    `import Foo, { FooRestClient } from "../../../src";`  
+
+    and
+    ```typescript
+    export function createClient(options?: ClientOptions): PurviewAccountRestClient {
+      const credential = new ClientSecretCredential(
+        env.AZURE_TENANT_ID,
+        env.AZURE_CLIENT_ID,
+        env.AZURE_CLIENT_SECRET
+      );
+      return PurviewAccount(env.ENDPOINT, credential, options);
+    }
+    ``` 
+    Needs to change to
+    ```typescript
+    export function createClient(options?: ClientOptions): FooRestClient {
+      const credential = new ClientSecretCredential(
+        env.AZURE_TENANT_ID,
+        env.AZURE_CLIENT_ID,
+        env.AZURE_CLIENT_SECRET
+      );
+      return Foo(env.ENDPOINT, credential, options);
+    }
+    ```
+    Now, you can add some sample tests with the filename in the format of `sampleTest.spec.ts` like
+
     ```typescript
     /*
      * Copyright (c) Microsoft Corporation.
@@ -367,25 +444,42 @@ In order to release it, we need to add some tests for it to make sure we are del
       });
     });
     ```
-    You may change the sample test into real tests to test against your libraries. 
+
+    You may change the sample test into real tests to test against your libraries.
+1. **run the test**
+    Now, you can run the test like this.
+    ```shell  
+    rush build -t ${PACKAGE_NAME}
+    export TEST_MODE=record && rushx test # this will run live test and generate a recordings folder, you will need to submit it in the PR. 
+    ```
+    You can also run the playback mode test if api breaking changes and you already done the recording before.  
+    ```shell 
+    rush build -t ${PACKAGE_NAME}
+    rushx test 
+    ```
+    This will 
 # How to write samples
+
 There're samples for TypeScript and JavaScript and for dev, You may copy the [samples folder](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/purview/purview-account-rest/samples) and [samples-dev folder](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/purview/purview-account-rest/samples-dev) and then change everything into your own services, including package-name, sample code, readme description etc.
 
 # How to create package
-Now we can use the exact same steps to build an releasable artifact. 
+
+Now we can use the exact same steps to build an releasable artifact.
+
 ```shell
 rush update
 rush build -t <your-package-name>
 cd <your-sdk-folder>
 export TEST_MODE=record && rushx test
 rushx pack
-``` 
+```
 
 # Create/Update the ci.yaml
 
-Now, if everything looks good to you, you can submit a PR in azure-sdk-for-js repo with all the changes you made above. Before you do that, you need to add/update the ci.yml file. Depends on whether there's already one in your package folder. 
+Now, if everything looks good to you, you can submit a PR in azure-sdk-for-js repo with all the changes you made above. Before you do that, you need to add/update the ci.yml file. Depends on whether there's already one in your package folder.
 
 If there's no such file then you can add the following template.
+
 ``` yaml
 # NOTE: Please refer to https://aka.ms/azsdk/engsys/ci-yaml before editing this file.
 trigger:
@@ -417,6 +511,7 @@ extends:
       - name: azure-rest-purview-account
         safeName: azurerestpurviewaccount
 ```
+
 Please change the paths.include value as your own project path, and change the Artifacts name and safeName into yours.  
 
 If there's already a ci.yml file in your project path. then the only thing you need to do is to add the Artifacts name and safeName of yours into that ci.yml.  
