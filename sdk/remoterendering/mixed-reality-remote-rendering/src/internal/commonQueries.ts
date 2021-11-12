@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { OperationOptions } from "@azure/core-client";
-import { RemoteRendering } from "../generated/operationsInterfaces";
-import { createSpan } from "../tracing";
-import { SpanStatusCode } from "@azure/core-tracing";
 import { AssetConversion, assetConversionFromConversion } from "./assetConversion";
 import { RenderingSession, renderingSessionFromSessionProperties } from "./renderingSession";
+import { OperationOptions } from "@azure/core-client";
+import { RemoteRendering } from "../generated/operationsInterfaces";
+import { SpanStatusCode } from "@azure/core-tracing";
+import { createSpan } from "../tracing";
 
 /**
  * Call getConversion on the service, wrapped in a tracing span with a provided name.

@@ -1,31 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
+import { AccessToken, AzureKeyCredential, GetTokenOptions, TokenCredential } from "@azure/core-auth";
+import {
+  AssetConversion,
+  AssetConversionInputSettings,
+  AssetConversionOutputSettings,
+  AssetConversionPollerLike,
+  AssetConversionSettings,
+  KnownAssetConversionStatus,
+  RemoteRenderingClient,
+  RenderingSession,
+  RenderingSessionPollerLike,
+  RenderingSessionSettings
+} from "../../src";
+import { createClient, createRecorder, getEnv } from "../utils/recordedClient";
 import { Context } from "mocha";
 import { Recorder } from "@azure-tools/test-recorder";
 import { RestError } from "@azure/core-rest-pipeline";
-
-import {
-  RemoteRenderingClient,
-  AssetConversionInputSettings,
-  AssetConversionOutputSettings,
-  AssetConversionSettings,
-  AssetConversionPollerLike,
-  AssetConversion,
-  KnownAssetConversionStatus,
-  RenderingSessionPollerLike,
-  RenderingSessionSettings,
-  RenderingSession
-} from "../../src";
-import {
-  AccessToken,
-  AzureKeyCredential,
-  TokenCredential,
-  GetTokenOptions
-} from "@azure/core-auth";
-import { createClient, createRecorder, getEnv } from "../utils/recordedClient";
-
+import { assert } from "chai";
 import { isPlaybackMode } from "@azure-tools/test-recorder";
 
 /// No need to wait when polling in playback mode.

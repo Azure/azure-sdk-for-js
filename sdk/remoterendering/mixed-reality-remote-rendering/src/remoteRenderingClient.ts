@@ -1,81 +1,66 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { InternalPipelineOptions } from "@azure/core-rest-pipeline";
-import { OperationOptions } from "@azure/core-client";
-import { SpanStatusCode } from "@azure/core-tracing";
-
-import {
-  AccessToken,
-  AzureKeyCredential,
-  isTokenCredential,
-  TokenCredential
-} from "@azure/core-auth";
-
-import { RemoteRenderingRestClient } from "./generated";
-import {
-  AssetConversionSettings,
-  RemoteRenderingRestClientOptionalParams,
-  RemoteRenderingCreateConversionResponse,
-  RenderingSessionSettings,
-  RemoteRenderingCreateSessionResponse,
-  UpdateSessionSettings
-} from "./generated/models/index";
-
-import { RemoteRenderingClientOptions } from "./options";
-
-import { constructAuthenticationEndpointFromDomain } from "./authentication/authenticationEndpoint";
-import { MixedRealityTokenCredential } from "./authentication/mixedRealityTokenCredential";
-import { StaticAccessTokenCredential } from "./authentication/staticAccessTokenCredential";
-import { MixedRealityAccountKeyCredential } from "./authentication/mixedRealityAccountKeyCredential";
-
-import { SDK_VERSION } from "./constants";
-import { logger } from "./logger";
-import { createSpan } from "./tracing";
-
-import { PollerLike } from "@azure/core-lro";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-
-import { RemoteRenderingImpl } from "./generated/operations";
-import {
-  AssetConversionPoller,
-  AssetConversionOperationState,
-  AssetConversionPollerOptions
-} from "./lro/assetConversionPoller";
-import {
-  RenderingSessionPoller,
-  RenderingSessionOperationState,
-  RenderingSessionPollerOptions
-} from "./lro/renderingSessionPoller";
-
-import {
-  endSessionInternal,
-  getConversionInternal,
-  getSessionInternal
-} from "./internal/commonQueries";
-
+import { AccessToken, AzureKeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
 import {
   AssetConversion,
   AssetConversionBase,
+  CancelledAssetConversion,
+  FailedAssetConversion,
   NonStartedAssetConversion,
   RunningAssetConversion,
   SucceededAssetConversion,
-  FailedAssetConversion,
-  CancelledAssetConversion,
   assetConversionFromConversion
 } from "./internal/assetConversion";
 import {
+  AssetConversionInputSettings,
+  AssetConversionOutput,
+  AssetConversionOutputSettings,
+  AssetConversionStatus,
+  KnownAssetConversionStatus,
+  KnownRenderingServerSize,
+  KnownRenderingSessionStatus,
+  RenderingServerSize
+} from "./generated/models/index";
+import { AssetConversionOperationState, AssetConversionPoller, AssetConversionPollerOptions } from "./lro/assetConversionPoller";
+import {
+  AssetConversionSettings,
+  RemoteRenderingCreateConversionResponse,
+  RemoteRenderingCreateSessionResponse,
+  RemoteRenderingRestClientOptionalParams,
+  RenderingSessionSettings,
+  UpdateSessionSettings
+} from "./generated/models/index";
+import {
+  ErrorRenderingSession,
+  ExpiredRenderingSession,
+  PartialRenderingSessionProperties,
+  ReadyRenderingSession,
   RenderingSession,
   RenderingSessionBase,
   RenderingSessionProperties,
-  PartialRenderingSessionProperties,
-  ReadyRenderingSession,
-  ErrorRenderingSession,
   StartingRenderingSession,
-  ExpiredRenderingSession,
   StoppedRenderingSession,
   renderingSessionFromSessionProperties
 } from "./internal/renderingSession";
+import { RenderingSessionOperationState, RenderingSessionPoller, RenderingSessionPollerOptions } from "./lro/renderingSessionPoller";
+import { endSessionInternal, getConversionInternal, getSessionInternal } from "./internal/commonQueries";
+import { InternalPipelineOptions } from "@azure/core-rest-pipeline";
+import { MixedRealityAccountKeyCredential } from "./authentication/mixedRealityAccountKeyCredential";
+import { MixedRealityTokenCredential } from "./authentication/mixedRealityTokenCredential";
+import { OperationOptions } from "@azure/core-client";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PollerLike } from "@azure/core-lro";
+import { RemoteRenderingClientOptions } from "./options";
+import { RemoteRenderingImpl } from "./generated/operations";
+import { RemoteRenderingRestClient } from "./generated";
+import { RemoteRenderingServiceError } from "./remoteRenderingServiceError";
+import { SDK_VERSION } from "./constants";
+import { SpanStatusCode } from "@azure/core-tracing";
+import { StaticAccessTokenCredential } from "./authentication/staticAccessTokenCredential";
+import { constructAuthenticationEndpointFromDomain } from "./authentication/authenticationEndpoint";
+import { createSpan } from "./tracing";
+import { logger } from "./logger";
 
 export {
   AssetConversion,
@@ -103,19 +88,6 @@ export {
   AssetConversionPollerOptions,
   RenderingSessionPollerOptions
 };
-
-import {
-  AssetConversionInputSettings,
-  AssetConversionOutputSettings,
-  AssetConversionOutput,
-  AssetConversionStatus,
-  KnownAssetConversionStatus,
-  KnownRenderingSessionStatus,
-  RenderingServerSize,
-  KnownRenderingServerSize
-} from "./generated/models/index";
-
-import { RemoteRenderingServiceError } from "./remoteRenderingServiceError";
 
 export {
   AssetConversionInputSettings,

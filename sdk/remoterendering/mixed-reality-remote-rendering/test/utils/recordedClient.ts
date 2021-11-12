@@ -1,19 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Context } from "mocha";
-
+import "./env";
 import { AccessToken, AzureKeyCredential } from "@azure/core-auth";
 import {
-  env,
-  record,
   Recorder,
   RecorderEnvironmentSetup,
-  isPlaybackMode
+  env,
+  isPlaybackMode,
+  record
 } from "@azure-tools/test-recorder";
-
+import { Context } from "mocha";
 import { RemoteRenderingClient } from "../../src";
-import "./env";
 
 // When the recorder observes the values of these environment variables
 // in any recorded HTTP request or response, it will replace them with

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { KeyCredential, AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
+import { AccessToken, GetTokenOptions, KeyCredential, TokenCredential } from "@azure/core-auth";
 
 const maxTimestampMs = 8640000000000000;
 
