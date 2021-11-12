@@ -2,9 +2,9 @@
 // Licensed under the MIT license.
 
 import * as assert from "assert";
-
-import { Recorder, record } from "@azure-tools/test-recorder";
 import * as dotenv from "dotenv";
+import { BlobClient, BlockBlobClient, ContainerClient } from "../src";
+import { Recorder, record } from "@azure-tools/test-recorder";
 import {
   base64encode,
   bodyToString,
@@ -12,11 +12,11 @@ import {
   getSASConnectionStringFromEnvironment,
   recorderEnvSetup
 } from "./utils";
-import { BlobClient, BlockBlobClient, ContainerClient } from "../src";
-import { Test_CPK_INFO } from "./utils/fakeTestSecrets";
 import { BlockBlobTier } from "../src";
 import { Context } from "mocha";
+import { Test_CPK_INFO } from "./utils/fakeTestSecrets";
 import { isNode } from "@azure/core-http";
+
 dotenv.config();
 
 describe("BlockBlobClient", () => {

@@ -2,18 +2,8 @@
 // Licensed under the MIT license.
 
 import * as assert from "assert";
+import * as crypto from "crypto";
 import * as zlib from "zlib";
-
-import {
-  base64encode,
-  bodyToString,
-  genearteRandomUint8Array,
-  getBSU,
-  getConnectionStringFromEnvironment,
-  getTokenBSU,
-  getTokenCredential,
-  recorderEnvSetup
-} from "../utils";
 import {
   BlobClient,
   BlobSASPermissions,
@@ -24,13 +14,22 @@ import {
   generateBlobSASQueryParameters,
   newPipeline
 } from "../../src";
-import { TokenCredential } from "@azure/core-http";
-import { assertClientUsesTokenCredential } from "../utils/assert";
 import { Recorder, isPlaybackMode, record } from "@azure-tools/test-recorder";
-import { streamToBuffer3 } from "../../src/utils/utils.node";
-import * as crypto from "crypto";
+import {
+  base64encode,
+  bodyToString,
+  genearteRandomUint8Array,
+  getBSU,
+  getConnectionStringFromEnvironment,
+  getTokenBSU,
+  getTokenCredential,
+  recorderEnvSetup
+} from "../utils";
 import { BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES } from "../../src/utils/constants";
 import { Context } from "mocha";
+import { TokenCredential } from "@azure/core-http";
+import { assertClientUsesTokenCredential } from "../utils/assert";
+import { streamToBuffer3 } from "../../src/utils/utils.node";
 
 describe("BlockBlobClient Node.js only", () => {
   let containerName: string;

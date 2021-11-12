@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { BlobImmutabilityPolicyMode } from "./generatedModels";
 import {
   AccessTier,
   AppendPositionAccessConditions,
@@ -10,6 +9,7 @@ import {
   LeaseAccessConditions,
   SequenceNumberAccessConditions
 } from "./generatedModels";
+import { BlobImmutabilityPolicyMode } from "./generatedModels";
 import { EncryptionAlgorithmAES25 } from "./utils/constants";
 
 /**

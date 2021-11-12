@@ -2,9 +2,8 @@
 // Licensed under the MIT license.
 
 import * as assert from "assert";
-
 import * as dotenv from "dotenv";
-import { BlobServiceClient } from "../src";
+import { Recorder, delay, isLiveMode, record } from "@azure-tools/test-recorder";
 import {
   getAlternateBSU,
   getBSU,
@@ -14,9 +13,10 @@ import {
   recorderEnvSetup,
   sleep
 } from "./utils";
-import { Recorder, delay, isLiveMode, record } from "@azure-tools/test-recorder";
-import { Tags } from "../src/models";
+import { BlobServiceClient } from "../src";
 import { Context } from "mocha";
+import { Tags } from "../src/models";
+
 dotenv.config();
 
 describe("BlobServiceClient", () => {

@@ -1,14 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { BlobServiceClient, BlockBlobClient } from "../src";
-import { getBSU, recorderEnvSetup } from "./utils/index";
 import * as assert from "assert";
-import { appendToURLPath } from "../src/utils/utils.common";
-import { Recorder, record } from "@azure-tools/test-recorder";
 import * as dotenv from "dotenv";
+import { BlobServiceClient, BlockBlobClient } from "../src";
+import { Recorder, record } from "@azure-tools/test-recorder";
+import { getBSU, recorderEnvSetup } from "./utils/index";
 import { ContainerClient } from "../src";
 import { Context } from "mocha";
+import { appendToURLPath } from "../src/utils/utils.common";
+
 dotenv.config();
 
 describe("Special Naming Tests", () => {

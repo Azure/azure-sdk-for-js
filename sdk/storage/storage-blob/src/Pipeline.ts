@@ -27,20 +27,19 @@ import {
   proxyPolicy,
   tracingPolicy
 } from "@azure/core-http";
-
-import { logger } from "./log";
-import { StorageBrowserPolicyFactory } from "./StorageBrowserPolicyFactory";
-import { StorageRetryOptions, StorageRetryPolicyFactory } from "./StorageRetryPolicyFactory";
-import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
-import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import {
   StorageBlobLoggingAllowedHeaderNames,
   StorageBlobLoggingAllowedQueryParameters,
   StorageOAuthScopes
 } from "./utils/constants";
+import { StorageRetryOptions, StorageRetryPolicyFactory } from "./StorageRetryPolicyFactory";
+import { AnonymousCredential } from "./credentials/AnonymousCredential";
+import { StorageBrowserPolicyFactory } from "./StorageBrowserPolicyFactory";
+import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 import { TelemetryPolicyFactory } from "./TelemetryPolicyFactory";
-import { getCachedDefaultHttpClient } from "./utils/cache";
 import { attachCredential } from "./utils/utils.common";
+import { getCachedDefaultHttpClient } from "./utils/cache";
+import { logger } from "./log";
 
 // Export following interfaces and types for customers who want to implement their
 // own RequestPolicy or HTTPClient

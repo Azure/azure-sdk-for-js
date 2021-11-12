@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import * as assert from "assert";
-
 import {
   AccountSASPermissions,
   AccountSASResourceTypes,
@@ -23,6 +22,7 @@ import {
   generateBlobSASQueryParameters,
   newPipeline
 } from "../../src";
+import { Recorder, delay, isLiveMode, record } from "@azure-tools/test-recorder";
 import {
   getBSU,
   getEncryptionScope_1,
@@ -31,9 +31,8 @@ import {
   recorderEnvSetup,
   sleep
 } from "../utils";
-import { Recorder, delay, isLiveMode, record } from "@azure-tools/test-recorder";
-import { SERVICE_VERSION } from "../../src/utils/constants";
 import { Context } from "mocha";
+import { SERVICE_VERSION } from "../../src/utils/constants";
 
 describe("Shared Access Signature (SAS) generation Node.js only", () => {
   let recorder: Recorder;

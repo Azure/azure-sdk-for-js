@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { createHmac } from "crypto";
 import { UserDelegationKey } from "../BlobServiceClient";
+import { createHmac } from "crypto";
 
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.

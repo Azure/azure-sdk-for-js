@@ -4,9 +4,6 @@
 import * as assert from "assert";
 import * as dotenv from "dotenv";
 import * as fs from "fs";
-import { delay, isNode } from "@azure/core-http";
-import { bodyToString, getBSU, getGenericCredential, recorderEnvSetup } from "./utils";
-import { Recorder, record } from "@azure-tools/test-recorder";
 import {
   BlobBatch,
   BlobClient,
@@ -15,8 +12,12 @@ import {
   BlockBlobUploadResponse,
   ContainerClient
 } from "../src";
-import { setURLParameter } from "../src/utils/utils.common";
+import { Recorder, record } from "@azure-tools/test-recorder";
+import { bodyToString, getBSU, getGenericCredential, recorderEnvSetup } from "./utils";
+import { delay, isNode } from "@azure/core-http";
 import { Context } from "mocha";
+import { setURLParameter } from "../src/utils/utils.common";
+
 dotenv.config({ path: "../.env" });
 
 describe("Blob versioning", () => {

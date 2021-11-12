@@ -2,21 +2,18 @@
 // Licensed under the MIT license.
 
 import * as assert from "assert";
-import { randomBytes } from "crypto";
 import * as dotenv from "dotenv";
 import * as fs from "fs";
 import * as path from "path";
-import { delay, extractConnectionStringParts } from "../../src/utils/utils.common";
 import { PassThrough, Readable, ReadableOptions } from "stream";
-import {
-  readStreamToLocalFile,
-  streamToBuffer2,
-  streamToBuffer3
-} from "../../src/utils/utils.node";
 import {
   ReadableStreamGetter,
   RetriableReadableStream
 } from "../../src/utils/RetriableReadableStream";
+import { delay, extractConnectionStringParts } from "../../src/utils/utils.common";
+import { readStreamToLocalFile, streamToBuffer2, streamToBuffer3 } from "../../src/utils/utils.node";
+import { randomBytes } from "crypto";
+
 dotenv.config();
 
 describe("Utility Helpers Node.js only", () => {

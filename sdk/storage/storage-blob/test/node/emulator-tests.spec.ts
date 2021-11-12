@@ -11,8 +11,9 @@ import {
   PageBlobClient
 } from "../../src";
 import { bodyToString, getBSU, getConnectionStringFromEnvironment, getUniqueName } from "../utils";
-import { env } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
+import { env } from "@azure-tools/test-recorder";
+
 dotenv.config();
 
 // Expected environment variable to run this test-suite

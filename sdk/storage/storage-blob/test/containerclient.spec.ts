@@ -3,6 +3,8 @@
 
 import * as assert from "assert";
 import * as dotenv from "dotenv";
+import { BlobServiceClient, BlockBlobTier, ContainerClient, ContainerListBlobHierarchySegmentResponse } from "../src";
+import { Recorder, record } from "@azure-tools/test-recorder";
 import { SpanGraph, TestTracer, setTracer } from "@azure/test-utils";
 import {
   bodyToString,
@@ -11,17 +13,11 @@ import {
   isSuperSet,
   recorderEnvSetup
 } from "./utils";
-import { Recorder, record } from "@azure-tools/test-recorder";
-import { URLBuilder } from "@azure/core-http";
-import {
-  BlobServiceClient,
-  BlockBlobTier,
-  ContainerClient,
-  ContainerListBlobHierarchySegmentResponse
-} from "../src";
-import { Test_CPK_INFO } from "./utils/fakeTestSecrets";
 import { context, setSpan } from "@azure/core-tracing";
 import { Context } from "mocha";
+import { Test_CPK_INFO } from "./utils/fakeTestSecrets";
+import { URLBuilder } from "@azure/core-http";
+
 dotenv.config();
 
 describe("ContainerClient", () => {

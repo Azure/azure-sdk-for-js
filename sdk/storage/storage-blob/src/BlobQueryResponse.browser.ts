@@ -1,8 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { HttpResponse } from "@azure/core-http";
-
 import {
   BlobDownloadHeaders,
   BlobDownloadResponseModel,
@@ -13,8 +11,9 @@ import {
   LeaseStateType,
   LeaseStatusType
 } from "./generatedModels";
-import { Metadata } from "./models";
 import { BlobQuickQueryStreamOptions } from "./utils/BlobQuickQueryStream";
+import { HttpResponse } from "@azure/core-http";
+import { Metadata } from "./models";
 
 /**
  * ONLY AVAILABLE IN BROWSER RUNTIME.

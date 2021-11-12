@@ -1,11 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { createHmac } from "crypto";
 import { RequestPolicy, RequestPolicyOptions } from "@azure/core-http";
-
-import { StorageSharedKeyCredentialPolicy } from "../policies/StorageSharedKeyCredentialPolicy";
 import { Credential } from "./Credential";
+import { StorageSharedKeyCredentialPolicy } from "../policies/StorageSharedKeyCredentialPolicy";
+import { createHmac } from "crypto";
 
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.

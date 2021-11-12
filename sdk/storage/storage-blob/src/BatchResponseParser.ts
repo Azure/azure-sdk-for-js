@@ -1,18 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { HttpHeaders } from "@azure/core-http";
-
-import { ServiceSubmitBatchResponseModel } from "./generatedModels";
+import { BatchSubResponse, ParsedBatchResponse } from "./BatchResponse";
 import {
   HTTPURLConnection,
   HTTP_LINE_ENDING,
   HTTP_VERSION_1_1,
   HeaderConstants
 } from "./utils/constants";
-import { getBodyAsText } from "./BatchUtils";
 import { BatchSubRequest } from "./BlobBatch";
-import { BatchSubResponse, ParsedBatchResponse } from "./BatchResponse";
+import { HttpHeaders } from "@azure/core-http";
+import { ServiceSubmitBatchResponseModel } from "./generatedModels";
+import { getBodyAsText } from "./BatchUtils";
 import { logger } from "./log";
 
 const HTTP_HEADER_DELIMITER = ": ";

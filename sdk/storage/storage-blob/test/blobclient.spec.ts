@@ -4,18 +4,6 @@
 import * as assert from "assert";
 import * as dotenv from "dotenv";
 import * as fs from "fs";
-import { AbortController } from "@azure/abort-controller";
-import { URLBuilder, URLQuery, isNode } from "@azure/core-http";
-import { SpanGraph, setTracer } from "@azure/test-utils";
-import {
-  bodyToString,
-  getBSU,
-  getGenericBSU,
-  getImmutableContainerName,
-  getSASConnectionStringFromEnvironment,
-  recorderEnvSetup
-} from "./utils";
-import { Recorder, delay, isLiveMode, record } from "@azure-tools/test-recorder";
 import {
   BlobClient,
   BlobServiceClient,
@@ -24,10 +12,23 @@ import {
   ContainerClient,
   RehydratePriority
 } from "../src";
+import { Recorder, delay, isLiveMode, record } from "@azure-tools/test-recorder";
+import { SpanGraph, setTracer } from "@azure/test-utils";
+import { URLBuilder, URLQuery, isNode } from "@azure/core-http";
+import {
+  bodyToString,
+  getBSU,
+  getGenericBSU,
+  getImmutableContainerName,
+  getSASConnectionStringFromEnvironment,
+  recorderEnvSetup
+} from "./utils";
+import { context, setSpan } from "@azure/core-tracing";
+import { AbortController } from "@azure/abort-controller";
+import { Context } from "mocha";
 import { Test_CPK_INFO } from "./utils/fakeTestSecrets";
 import { base64encode } from "../src/utils/utils.common";
-import { context, setSpan } from "@azure/core-tracing";
-import { Context } from "mocha";
+
 dotenv.config();
 
 describe("BlobClient", () => {

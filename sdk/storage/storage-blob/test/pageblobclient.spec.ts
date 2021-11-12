@@ -4,13 +4,6 @@
 import * as assert from "assert";
 import * as dotenv from "dotenv";
 import {
-  bodyToString,
-  getBSU,
-  getGenericBSU,
-  getSASConnectionStringFromEnvironment,
-  recorderEnvSetup
-} from "./utils";
-import {
   BlobClient,
   BlobServiceClient,
   ContainerClient,
@@ -18,7 +11,15 @@ import {
   PremiumPageBlobTier
 } from "../src";
 import { Recorder, record } from "@azure-tools/test-recorder";
+import {
+  bodyToString,
+  getBSU,
+  getGenericBSU,
+  getSASConnectionStringFromEnvironment,
+  recorderEnvSetup
+} from "./utils";
 import { Context } from "mocha";
+
 dotenv.config();
 
 describe("PageBlobClient", () => {
