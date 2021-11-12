@@ -453,7 +453,7 @@ In order to release it, we need to add some tests for it to make sure we are del
     rush build -t ${PACKAGE_NAME}
     export TEST_MODE=record && rushx test # this will run live test and generate a recordings folder, you will need to submit it in the PR. 
     ```
-    You can also run the playback mode test if api breaking changes and you already done the recording before.  
+    You can also run the playback mode test if your apis don't have breaking changes and you already done the recording before.  
     ```shell 
     rush build -t ${PACKAGE_NAME}
     rushx test 
