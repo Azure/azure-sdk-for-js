@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { testGroup, testSchema, testSchemaObject } from "./dummies";
 import { SchemaRegistry } from "@azure/schema-registry";
 import { SchemaRegistryAvroSerializer } from "../../src/schemaRegistryAvroSerializer";
-import { testGroup, testSchema, testSchemaObject } from "./dummies";
 import { createTestRegistry } from "./mockedRegistryClient";
 
 export async function createTestSerializer(

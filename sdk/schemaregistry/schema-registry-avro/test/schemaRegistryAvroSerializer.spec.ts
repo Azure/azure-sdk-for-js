@@ -2,10 +2,16 @@
 // Licensed under the MIT license.
 
 import { assert, use as chaiUse } from "chai";
-import chaiPromises from "chai-as-promised";
-import { testAvroType, testGroup, testSchema, testSchemaIds, testValue } from "./utils/dummies";
-import { createTestRegistry } from "./utils/mockedRegistryClient";
 import { createTestSerializer, registerTestSchema } from "./utils/mockedSerializer";
+import {
+  testAvroType,
+  testGroup,
+  testSchema,
+  testSchemaIds,
+  testValue
+} from "./utils/dummies";
+import chaiPromises from "chai-as-promised";
+import { createTestRegistry } from "./utils/mockedRegistryClient";
 
 chaiUse(chaiPromises);
 

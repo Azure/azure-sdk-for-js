@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { SchemaDescription, SchemaRegistry } from "@azure/schema-registry";
 import * as avro from "avsc";
+import { SchemaDescription, SchemaRegistry } from "@azure/schema-registry";
 import { toUint8Array } from "./utils/buffer";
 
 // REVIEW: This should go in to a shared doc somewhere that all of the different
