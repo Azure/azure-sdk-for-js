@@ -10,7 +10,7 @@ You may refer to this [link](https://github.com/Azure/azure-sdk-for-js/blob/main
 Before we start, we probably should get to know the project folder and name convention for RLC libraries.
 
 1. Project Folder structure.  
-   normally, the folder structure would be something like `sdk/{servicename}/{servicename}-{modulename}-rest`. For example, we have `sdk/purview/purview-account-rest` folder for purview account modules. That folder will be your **project root folder**.  
+   normally, the folder structure would be something like `sdk/{servicename}/{servicename}-{modulename}-rest`. For example, we have `sdk/purview/purview-account-rest` folder for purview account modules. That folder will be your **${PROJECT_ROOT} folder**.  
 1. Package Name Convention.  
    The package name for RLC is something like `@azure-rest/{servicename}-{modulename}`. For example, the package name for Purview Account module is `@azure-rest/purview-account`.
 
@@ -18,7 +18,7 @@ Before we start, we probably should get to know the project folder and name conv
 
 We are working on to automatically generate everything right now, but currently we still need some manual work to get a releasable package. Here're the steps of how to get the package.
 
-1. **Create a swagger/README.md file.under project root folder**  
+1. **Create a swagger/README.md file.under ${PROJECT_ROOT} folder**  
     We are using autorest to generate the code, but there's a lot of command options and in order to make the regenerate process easier in the cases of refresh the rest api input or change the code generator version, you need to document the generate command parameters.  
     Here's an example of the swagger/README.md
 
@@ -86,8 +86,8 @@ We are working on to automatically generate everything right now, but currently 
     autorest --typescript ./README.md
     ```
 
-    After this finishes, you will see the generated code in `${PROJECT_ROOT_FOLDER}/src` folder .
-1. **add a rollup.config.js file under `${PROJECT_ROOT_FOLDER}` folder**
+    After this finishes, you will see the generated code in `${PROJECT_ROOT}/src` folder .
+1. **add a rollup.config.js file under `${PROJECT_ROOT}` folder**
    You need to add a rollup.config.js file and put the following content into it.  
     ```javascript
     import { makeConfig } from "@azure/dev-tool/shared-config/rollup";
@@ -368,7 +368,7 @@ In order to release it, we need to add some tests for it to make sure we are del
       });
     };
     ```
-1. **add sample.env under ${PROJECT_ROOT_FOLDER} folder**
+1. **add sample.env under ${PROJECT_ROOT} folder**
     create a sample.env and put the following content into this file.
     ``` 
      # Purview Scanning resource endpoint
