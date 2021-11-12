@@ -1,33 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  createCommunicationAuthPolicy,
-  parseClientArguments,
-  isKeyCredential,
-  CommunicationUserIdentifier
-} from "@azure/communication-common";
-import { isTokenCredential, KeyCredential, TokenCredential } from "@azure/core-auth";
-import {
-  InternalPipelineOptions,
-  createPipelineFromOptions,
-  OperationOptions,
-  operationOptionsToRequestOptionsBase
-} from "@azure/core-http";
-import { SpanStatusCode } from "@azure/core-tracing";
-import {
-  CommunicationNetworkTraversal,
-  NetworkRelayRestClient
-} from "./generated/src/networkRelayRestClient";
-
-import { SDK_VERSION } from "./constants";
-import { logger } from "./common/logger";
-import { createSpan } from "./common/tracing";
+import { CommunicationNetworkTraversal, NetworkRelayRestClient } from "./generated/src/networkRelayRestClient";
+import { CommunicationNetworkTraversalIssueRelayConfigurationOptionalParams, CommunicationRelayConfiguration } from "./generated/src/models";
+import { CommunicationUserIdentifier, createCommunicationAuthPolicy, isKeyCredential, parseClientArguments } from "@azure/communication-common";
+import { InternalPipelineOptions, OperationOptions, createPipelineFromOptions, operationOptionsToRequestOptionsBase } from "@azure/core-http";
+import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
 import { CommunicationRelayClientOptions } from "./models";
-import {
-  CommunicationRelayConfiguration,
-  CommunicationNetworkTraversalIssueRelayConfigurationOptionalParams
-} from "./generated/src/models";
+import { SDK_VERSION } from "./constants";
+import { SpanStatusCode } from "@azure/core-tracing";
+import { createSpan } from "./common/tracing";
+import { logger } from "./common/logger";
 
 const isCommunicationRelayClientOptions = (
   options: any

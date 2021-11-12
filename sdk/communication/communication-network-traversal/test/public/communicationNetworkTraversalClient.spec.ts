@@ -1,16 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { CommunicationUserIdentifier } from "@azure/communication-common";
-import { assert } from "chai";
 import { Recorder, env } from "@azure-tools/test-recorder";
-import { CommunicationRelayClient } from "../../src";
+import { createRecordedCommunicationRelayClient, createRecordedCommunicationRelayClientWithToken } from "./utils/recordedClient";
 import { CommunicationIdentityClient } from "@azure/communication-identity";
-import {
-  createRecordedCommunicationRelayClient,
-  createRecordedCommunicationRelayClientWithToken
-} from "./utils/recordedClient";
+import { CommunicationRelayClient } from "../../src";
+import { CommunicationUserIdentifier } from "@azure/communication-common";
 import { Context } from "mocha";
+import { assert } from "chai";
 import { matrix } from "@azure/test-utils";
 
 matrix([[true, false]], async function(useAad) {
