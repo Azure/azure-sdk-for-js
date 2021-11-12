@@ -4,9 +4,17 @@
 import * as assert from "assert";
 import * as dotenv from "dotenv";
 import * as fs from "fs";
-import { AbortController } from "@azure/abort-controller";
-import { isNode, URLBuilder, URLQuery } from "@azure/core-http";
+import {
+  BlobClient,
+  BlobServiceClient,
+  BlockBlobClient,
+  BlockBlobTier,
+  ContainerClient,
+  RehydratePriority
+} from "../src";
+import { Recorder, delay, isLiveMode, record } from "@azure-tools/test-recorder";
 import { SpanGraph, setTracer } from "@azure/test-utils";
+import { URLBuilder, URLQuery, isNode } from "@azure/core-http";
 import {
   bodyToString,
   getBSU,
@@ -15,19 +23,12 @@ import {
   getGenericBSU,
   getImmutableContainerName
 } from "./utils";
-import { record, delay, isLiveMode, Recorder } from "@azure-tools/test-recorder";
-import {
-  BlobClient,
-  BlockBlobClient,
-  ContainerClient,
-  BlockBlobTier,
-  BlobServiceClient,
-  RehydratePriority
-} from "../src";
+import { context, setSpan } from "@azure/core-tracing";
+import { AbortController } from "@azure/abort-controller";
+import { Context } from "mocha";
 import { Test_CPK_INFO } from "./utils/fakeTestSecrets";
 import { base64encode } from "../src/utils/utils.common";
-import { context, setSpan } from "@azure/core-tracing";
-import { Context } from "mocha";
+
 dotenv.config();
 
 describe("BlobClient", () => {

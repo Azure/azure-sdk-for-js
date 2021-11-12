@@ -1,9 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AbortSignalLike } from "@azure/abort-controller";
-import { HttpHeaders, isNode, URLBuilder, TokenCredential } from "@azure/core-http";
-
 import {
   BlobQueryArrowConfiguration,
   BlobQueryCsvTextConfiguration,
@@ -37,12 +34,8 @@ import {
   ObjectReplicationStatus,
   HttpAuthorization
 } from "../models";
-import {
-  ListBlobsFlatSegmentResponseModel,
-  BlobItemInternal as BlobItemInternalModel,
-  ListBlobsHierarchySegmentResponseModel,
-  BlobPrefix as BlobPrefixModel
-} from "../generatedModels";
+import { HttpHeaders, TokenCredential, URLBuilder, isNode } from "@azure/core-http";
+import { AbortSignalLike } from "@azure/abort-controller";
 
 /**
  * Reserved URL characters must be properly escaped for Storage services like Blob or File.

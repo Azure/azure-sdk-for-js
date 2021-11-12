@@ -2,12 +2,12 @@
 // Licensed under the MIT license.
 
 import * as assert from "assert";
-
 import * as dotenv from "dotenv";
+import { BlobClient, BlobServiceClient, BlockBlobClient, ContainerClient } from "../src";
+import { Recorder, delay, record } from "@azure-tools/test-recorder";
 import { getBSU, recorderEnvSetup } from "./utils";
-import { record, delay, Recorder } from "@azure-tools/test-recorder";
-import { ContainerClient, BlobClient, BlockBlobClient, BlobServiceClient } from "../src";
 import { Context } from "mocha";
+
 dotenv.config();
 
 describe("LeaseClient from Container", () => {

@@ -7,20 +7,20 @@ import {
   ServiceSubmitBatchOptionalParamsModel,
   ServiceSubmitBatchResponseModel
 } from "./generatedModels";
-import { ParsedBatchResponse } from "./BatchResponse";
-import { BatchResponseParser } from "./BatchResponseParser";
-import { utf8ByteLength } from "./BatchUtils";
-import { BlobBatch } from "./BlobBatch";
-import { SpanStatusCode } from "@azure/core-tracing";
-import { convertTracingToRequestOptionsBase, createSpan } from "./utils/tracing";
+import { BlobClient, BlobDeleteOptions, BlobSetTierOptions } from "./Clients";
+import { Container, Service } from "./generated/src/operations";
 import { HttpResponse, TokenCredential } from "@azure/core-http";
-import { Service, Container } from "./generated/src/operations";
-import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
+import { PipelineLike, StoragePipelineOptions, isPipelineLike, newPipeline } from "./Pipeline";
+import { convertTracingToRequestOptionsBase, createSpan } from "./utils/tracing";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
-import { BlobDeleteOptions, BlobClient, BlobSetTierOptions } from "./Clients";
+import { BatchResponseParser } from "./BatchResponseParser";
+import { BlobBatch } from "./BlobBatch";
+import { ParsedBatchResponse } from "./BatchResponse";
+import { SpanStatusCode } from "@azure/core-tracing";
 import { StorageClientContext } from "./generated/src/storageClientContext";
-import { PipelineLike, StoragePipelineOptions, newPipeline, isPipelineLike } from "./Pipeline";
+import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 import { getURLPath } from "./utils/utils.common";
+import { utf8ByteLength } from "./BatchUtils";
 
 /**
  * Options to configure the Service - Submit Batch Optional Params.

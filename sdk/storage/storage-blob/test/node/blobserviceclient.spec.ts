@@ -2,12 +2,12 @@
 // Licensed under the MIT license.
 
 import * as assert from "assert";
-
 import * as dotenv from "dotenv";
-import { BlobServiceClient, newPipeline, StorageSharedKeyCredential } from "../../src";
+import { BlobServiceClient, StorageSharedKeyCredential, newPipeline } from "../../src";
+import { Recorder, record } from "@azure-tools/test-recorder";
 import { getBSU, getConnectionStringFromEnvironment, recorderEnvSetup } from "../utils";
-import { record, Recorder } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
+
 dotenv.config();
 
 describe("BlobServiceClient Node.js only", () => {

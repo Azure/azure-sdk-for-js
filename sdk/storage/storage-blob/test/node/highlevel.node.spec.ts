@@ -5,9 +5,9 @@ import * as assert from "assert";
 import * as buffer from "buffer";
 import * as fs from "fs";
 import * as path from "path";
+import { BlobClient, BlobServiceClient, BlockBlobClient, ContainerClient } from "../../src";
 import { PassThrough, Readable } from "stream";
-
-import { AbortController } from "@azure/abort-controller";
+import { Recorder, record } from "@azure-tools/test-recorder";
 import {
   createRandomLocalFile,
   recorderEnvSetup,
@@ -15,15 +15,14 @@ import {
   getBSU,
   createRandomLocalFileWithTotalSize
 } from "../utils";
-import { RetriableReadableStreamOptions } from "../../src/utils/RetriableReadableStream";
-import { record, Recorder } from "@azure-tools/test-recorder";
-import { ContainerClient, BlobClient, BlockBlobClient, BlobServiceClient } from "../../src";
-import { readStreamToLocalFileWithLogs } from "../utils/testutils.node";
+import { AbortController } from "@azure/abort-controller";
 import { BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES } from "../../src/utils/constants";
-import { Test_CPK_INFO } from "../utils/fakeTestSecrets";
-import { streamToBuffer2 } from "../../src/utils/utils.node";
-import { delay } from "../../src/utils/utils.common";
 import { Context } from "mocha";
+import { RetriableReadableStreamOptions } from "../../src/utils/RetriableReadableStream";
+import { Test_CPK_INFO } from "../utils/fakeTestSecrets";
+import { delay } from "../../src/utils/utils.common";
+import { readStreamToLocalFileWithLogs } from "../utils/testutils.node";
+import { streamToBuffer2 } from "../../src/utils/utils.node";
 
 describe("Highlevel", () => {
   let containerName: string;

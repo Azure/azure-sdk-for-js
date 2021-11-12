@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { HttpResponse } from "@azure/core-http";
 import {
   PageBlobGetPageRangesHeaders,
   PageBlobGetPageRangesDiffHeaders,
   PageBlobGetPageRangesResponse as PageBlobGetPageRangesResponseModel,
   PageBlobGetPageRangesDiffResponse as PageBlobGetPageRangesDiffResponseModel
 } from "./generatedModels";
+import { HttpResponse } from "@azure/core-http";
 import { Range } from "./Range";
 
 /**

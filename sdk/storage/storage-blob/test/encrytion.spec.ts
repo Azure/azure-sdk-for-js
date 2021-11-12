@@ -3,11 +3,12 @@
 
 import * as assert from "assert";
 import * as dotenv from "dotenv";
+import { BlobClient, BlobServiceClient, BlockBlobClient, ContainerClient } from "../src";
+import { Recorder, record } from "@azure-tools/test-recorder";
 import { getBSU, getEncryptionScope_1, getEncryptionScope_2, recorderEnvSetup } from "./utils";
-import { record, Recorder } from "@azure-tools/test-recorder";
-import { BlobServiceClient, BlobClient, BlockBlobClient, ContainerClient } from "../src";
-import { Test_CPK_INFO } from "./utils/fakeTestSecrets";
 import { Context } from "mocha";
+import { Test_CPK_INFO } from "./utils/fakeTestSecrets";
+
 dotenv.config();
 
 describe("Encryption Scope", function() {

@@ -10,9 +10,10 @@ import {
   BlockBlobClient,
   PageBlobClient
 } from "../../src";
-import { getBSU, getConnectionStringFromEnvironment, bodyToString, getUniqueName } from "../utils";
-import { env } from "@azure-tools/test-recorder";
+import { bodyToString, getBSU, getConnectionStringFromEnvironment, getUniqueName } from "../utils";
 import { Context } from "mocha";
+import { env } from "@azure-tools/test-recorder";
+
 dotenv.config();
 
 // Expected environment variable to run this test-suite

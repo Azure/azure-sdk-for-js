@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 import * as assert from "assert";
-
-import { AbortController } from "@azure/abort-controller";
+import { BlobClient, BlobServiceClient, BlockBlobClient, ContainerClient } from "../../src";
+import { Recorder, record } from "@azure-tools/test-recorder";
 import {
   arrayBufferEqual,
   blobToArrayBuffer,
@@ -13,8 +13,7 @@ import {
   getBSU,
   recorderEnvSetup
 } from "../utils/index.browser";
-import { record, Recorder } from "@azure-tools/test-recorder";
-import { ContainerClient, BlobClient, BlockBlobClient, BlobServiceClient } from "../../src";
+import { AbortController } from "@azure/abort-controller";
 import { Context } from "mocha";
 
 describe("Highlevel", () => {

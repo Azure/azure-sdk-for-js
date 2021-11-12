@@ -3,9 +3,9 @@
 
 import { AnonymousCredential } from "../../src";
 import { BlobServiceClient } from "../../src";
-import { newPipeline } from "../../src";
 import { SimpleTokenCredential } from "./testutils.common";
 import { TokenCredential } from "@azure/core-http";
+import { newPipeline } from "../../src";
 
 export * from "./testutils.common";
 
