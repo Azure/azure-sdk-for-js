@@ -1,25 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { RequestParameters } from "@azure-rest/core-client";
 import {
-  AtlasEntityWithExtInfo,
-  AtlasEntitiesWithExtInfo,
-  ClassificationAssociateRequest,
   AtlasClassification,
+  AtlasEntitiesWithExtInfo,
   AtlasEntityHeaders,
+  AtlasEntityWithExtInfo,
   AtlasGlossary,
   AtlasGlossaryCategory,
   AtlasGlossaryTerm,
   AtlasRelatedObjectId,
-  SearchRequest,
-  SuggestRequest,
-  BrowseRequest,
-  AutoCompleteRequest,
   AtlasRelationship,
   AtlasTypesDef,
+  AutoCompleteRequest,
+  BrowseRequest,
+  ClassificationAssociateRequest,
   MoveEntitiesRequest,
+  SearchRequest,
+  SuggestRequest
 } from "./models";
+import { RequestParameters } from "@azure-rest/core-client";
 
 export interface EntityCreateOrUpdateBodyParam {
   /** Atlas entity with extended information. */
