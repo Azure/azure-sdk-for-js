@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
 import { Client, getClient } from "@azure-rest/core-client";
-import { getLongRunningPoller } from "../src/getLongRunningHelper";
 import {
-  PipelineResponse,
-  createHttpHeaders,
   HttpHeaders,
   HttpMethods,
+  PipelineResponse,
+  createHttpHeaders
 } from "@azure/core-rest-pipeline";
 import { URL } from "./utils/url";
+import { assert } from "chai";
+import { getLongRunningPoller } from "../src/getLongRunningHelper";
 
 describe("LRO helper", () => {
   let client: Client;
