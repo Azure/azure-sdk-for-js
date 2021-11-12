@@ -244,6 +244,7 @@ function getNumberOfReceivers(
 /**
  * @internal
  */
+// eslint-disable-next-line @azure/azure-sdk/ts-no-namespaces
 export namespace ConnectionContext {
   export function create(
     config: ConnectionConfig,
