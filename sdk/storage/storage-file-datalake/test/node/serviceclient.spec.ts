@@ -1,13 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { record, Recorder } from "@azure-tools/test-recorder";
 import * as assert from "assert";
 import * as dotenv from "dotenv";
+import { Recorder, record } from "@azure-tools/test-recorder";
+import { getConnectionStringFromEnvironment, recorderEnvSetup } from "../utils";
 import { Context } from "mocha";
-
 import { DataLakeServiceClient } from "../../src";
-import { recorderEnvSetup, getConnectionStringFromEnvironment } from "../utils";
 
 dotenv.config();
 

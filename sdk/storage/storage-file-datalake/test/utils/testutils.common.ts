@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-http";
-import { env, isPlaybackMode, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
+import { RecorderEnvironmentSetup, env, isPlaybackMode } from "@azure-tools/test-recorder";
 
 export const testPollerProperties = {
   intervalInMs: isPlaybackMode() ? 0 : undefined

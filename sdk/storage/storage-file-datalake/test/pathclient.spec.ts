@@ -1,18 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AbortController } from "@azure/abort-controller";
-import { isNode, URLBuilder, delay } from "@azure/core-http";
-import { SpanGraph, setTracer } from "@azure/test-utils";
-import { record, Recorder } from "@azure-tools/test-recorder";
-import { setSpan, context } from "@azure/core-tracing";
 import * as assert from "assert";
 import * as dotenv from "dotenv";
-
 import { DataLakeFileClient, DataLakeFileSystemClient } from "../src";
-import { toPermissionsString } from "../src/transforms";
+import { Recorder, record } from "@azure-tools/test-recorder";
+import { SpanGraph, setTracer } from "@azure/test-utils";
+import { URLBuilder, delay, isNode } from "@azure/core-http";
 import { bodyToString, getDataLakeServiceClient, recorderEnvSetup } from "./utils";
+import { context, setSpan } from "@azure/core-tracing";
+import { AbortController } from "@azure/abort-controller";
 import { Context } from "mocha";
+import { toPermissionsString } from "../src/transforms";
 
 dotenv.config();
 

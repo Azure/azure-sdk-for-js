@@ -1,24 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { delay, isLiveMode, record, Recorder } from "@azure-tools/test-recorder";
 import * as assert from "assert";
 import * as dotenv from "dotenv";
-import { Context } from "mocha";
-
-import {
-  DataLakeServiceClient,
-  DataLakeServiceProperties,
-  ServiceListFileSystemsSegmentResponse
-} from "../src";
+import { DataLakeServiceClient, DataLakeServiceProperties, ServiceListFileSystemsSegmentResponse } from "../src";
+import { Recorder, delay, isLiveMode, record } from "@azure-tools/test-recorder";
 import {
   getDataLakeServiceClient,
+  getGenericDataLakeServiceClient,
   getSASConnectionStringFromEnvironment,
   getTokenDataLakeServiceClient,
-  recorderEnvSetup,
-  getGenericDataLakeServiceClient,
-  isBrowser
+  isBrowser,
+  recorderEnvSetup
 } from "./utils";
+import { Context } from "mocha";
 
 dotenv.config();
 

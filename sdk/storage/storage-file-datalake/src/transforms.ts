@@ -1,10 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { URLBuilder } from "@azure/core-http";
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { ContainerItem, PublicAccessType as ContainerPublicAccessType } from "@azure/storage-blob";
 
-import { AclFailedEntry, PathGetPropertiesResponse } from "./generated/src/models";
 import {
   AccessControlChangeError,
   FileSystemItem,
@@ -18,7 +14,11 @@ import {
   ServiceListContainersSegmentResponse,
   ServiceListFileSystemsSegmentResponse
 } from "./models";
+import { AclFailedEntry, PathGetPropertiesResponse } from "./generated/src/models";
+import { ContainerItem, PublicAccessType as ContainerPublicAccessType } from "@azure/storage-blob";
+import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import { ToBlobEndpointHostMappings, ToDfsEndpointHostMappings } from "./utils/constants";
+import { URLBuilder } from "@azure/core-http";
 import { base64encode } from "./utils/utils.common";
 
 /**

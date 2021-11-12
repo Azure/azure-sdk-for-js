@@ -1,19 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TokenCredential } from "@azure/core-http";
-import { record, Recorder } from "@azure-tools/test-recorder";
 import * as assert from "assert";
-import { Context } from "mocha";
-
-import {
-  DataLakeFileSystemClient,
-  FileSystemSASPermissions,
-  newPipeline,
-  StorageSharedKeyCredential
-} from "../../src";
-import { PublicAccessType } from "../../src/models";
+import { DataLakeFileSystemClient, FileSystemSASPermissions, StorageSharedKeyCredential, newPipeline } from "../../src";
+import { Recorder, record } from "@azure-tools/test-recorder";
 import { getDataLakeServiceClient, recorderEnvSetup } from "../utils";
+import { Context } from "mocha";
+import { PublicAccessType } from "../../src/models";
+import { TokenCredential } from "@azure/core-http";
 import { assertClientUsesTokenCredential } from "../utils/assert";
 
 describe("DataLakeFileSystemClient Node.js only", () => {

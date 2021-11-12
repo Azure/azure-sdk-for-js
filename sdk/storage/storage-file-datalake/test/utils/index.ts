@@ -1,18 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TokenCredential } from "@azure/core-http";
-import { env } from "@azure-tools/test-recorder";
-import { randomBytes } from "crypto";
 import * as dotenv from "dotenv";
 import * as fs from "fs";
 import * as path from "path";
-import { DefaultAzureCredential } from "@azure/identity";
-
-import { StorageSharedKeyCredential } from "../../src/credentials/StorageSharedKeyCredential";
-import { DataLakeServiceClient } from "../../src/DataLakeServiceClient";
-import { newPipeline, StoragePipelineOptions } from "../../src/Pipeline";
-import { getUniqueName, SimpleTokenCredential } from "./testutils.common";
 import {
   AccountSASPermissions,
   AccountSASResourceTypes,
@@ -22,7 +13,15 @@ import {
   generateAccountSASQueryParameters,
   generateDataLakeSASQueryParameters
 } from "../../src";
+import { SimpleTokenCredential, getUniqueName } from "./testutils.common";
+import { StoragePipelineOptions, newPipeline } from "../../src/Pipeline";
+import { DataLakeServiceClient } from "../../src/DataLakeServiceClient";
+import { DefaultAzureCredential } from "@azure/identity";
+import { StorageSharedKeyCredential } from "../../src/credentials/StorageSharedKeyCredential";
+import { TokenCredential } from "@azure/core-http";
+import { env } from "@azure-tools/test-recorder";
 import { extractConnectionStringParts } from "../../src/utils/utils.common";
+import { randomBytes } from "crypto";
 
 dotenv.config();
 

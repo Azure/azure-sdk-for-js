@@ -3,43 +3,38 @@
 
 import {
   BaseRequestPolicy,
-  bearerTokenAuthenticationPolicy,
-  deserializationPolicy,
-  disableResponseDecompressionPolicy,
-  generateClientRequestIdPolicy,
-  HttpClient as IHttpClient,
   HttpHeaders,
   HttpOperationResponse,
   HttpRequestBody,
-  isNode,
-  isTokenCredential,
+  HttpClient as IHttpClient,
   KeepAliveOptions,
-  keepAlivePolicy,
-  logPolicy,
   ProxyOptions,
-  proxyPolicy,
   RequestPolicy,
   RequestPolicyFactory,
   RequestPolicyOptions,
   ServiceClientOptions,
   TokenCredential,
-  tracingPolicy,
   UserAgentOptions,
-  WebResource
+  WebResource,
+  bearerTokenAuthenticationPolicy,
+  deserializationPolicy,
+  disableResponseDecompressionPolicy,
+  generateClientRequestIdPolicy,
+  isNode,
+  isTokenCredential,
+  keepAlivePolicy,
+  logPolicy,
+  proxyPolicy,
+  tracingPolicy
 } from "@azure/core-http";
-
-import { AnonymousCredential } from "./credentials/AnonymousCredential";
-import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
-import { logger } from "./log";
-import { StorageBrowserPolicyFactory } from "./StorageBrowserPolicyFactory";
+import { StorageDataLakeLoggingAllowedHeaderNames, StorageDataLakeLoggingAllowedQueryParameters, StorageOAuthScopes } from "./utils/constants";
 import { StorageRetryOptions, StorageRetryPolicyFactory } from "./StorageRetryPolicyFactory";
+import { AnonymousCredential } from "./credentials/AnonymousCredential";
+import { StorageBrowserPolicyFactory } from "./StorageBrowserPolicyFactory";
+import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 import { TelemetryPolicyFactory } from "./TelemetryPolicyFactory";
-import {
-  StorageDataLakeLoggingAllowedHeaderNames,
-  StorageDataLakeLoggingAllowedQueryParameters,
-  StorageOAuthScopes
-} from "./utils/constants";
 import { getCachedDefaultHttpClient } from "./utils/cache";
+import { logger } from "./log";
 
 // Export following interfaces and types for customers who want to implement their
 // own RequestPolicy or HTTPClient

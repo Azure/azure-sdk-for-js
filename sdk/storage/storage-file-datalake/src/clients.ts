@@ -1,15 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { HttpRequestBody, isNode, TokenCredential } from "@azure/core-http";
-import { BlobClient, BlockBlobClient } from "@azure/storage-blob";
-import { SpanStatusCode } from "@azure/core-tracing";
-import { Readable } from "stream";
 
-import { BufferScheduler } from "../../storage-common/src";
-import { AnonymousCredential } from "./credentials/AnonymousCredential";
-import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
-import { DataLakeLeaseClient } from "./DataLakeLeaseClient";
-import { Path } from "./generated/src/operations";
 import {
   AccessControlChanges,
   DirectoryCreateIfNotExistsOptions,
@@ -66,18 +57,6 @@ import {
   PathSetPermissionsResponse,
   RemovePathAccessControlItem
 } from "./models";
-import { PathSetAccessControlRecursiveMode } from "./models.internal";
-import { newPipeline, Pipeline, StoragePipelineOptions } from "./Pipeline";
-import { generateDataLakeSASQueryParameters } from "./sas/DataLakeSASSignatureValues";
-import { StorageClient } from "./StorageClient";
-import {
-  toAccessControlChangeFailureArray,
-  toAclString,
-  toPathGetAccessControlResponse,
-  toPermissionsString,
-  toProperties
-} from "./transforms";
-import { Batch } from "./utils/Batch";
 import {
   BLOCK_BLOB_MAX_BLOCKS,
   DEFAULT_HIGH_LEVEL_CONCURRENCY,
@@ -87,8 +66,9 @@ import {
   FILE_UPLOAD_DEFAULT_CHUNK_SIZE,
   FILE_UPLOAD_MAX_CHUNK_SIZE
 } from "./utils/constants";
-import { DataLakeAclChangeFailedError } from "./utils/DataLakeAclChangeFailedError";
-import { convertTracingToRequestOptionsBase, createSpan } from "./utils/tracing";
+import { BlobClient, BlockBlobClient } from "@azure/storage-blob";
+import { HttpRequestBody, TokenCredential, isNode } from "@azure/core-http";
+import { Pipeline, StoragePipelineOptions, newPipeline } from "./Pipeline";
 import {
   appendToURLPath,
   appendToURLQuery,
@@ -96,7 +76,27 @@ import {
   setURLPath,
   setURLQueries
 } from "./utils/utils.common";
+import { convertTracingToRequestOptionsBase, createSpan } from "./utils/tracing";
 import { fsCreateReadStream, fsStat } from "./utils/utils.node";
+import {
+  toAccessControlChangeFailureArray,
+  toAclString,
+  toPathGetAccessControlResponse,
+  toPermissionsString,
+  toProperties
+} from "./transforms";
+import { AnonymousCredential } from "./credentials/AnonymousCredential";
+import { Batch } from "./utils/Batch";
+import { BufferScheduler } from "../../storage-common/src";
+import { DataLakeAclChangeFailedError } from "./utils/DataLakeAclChangeFailedError";
+import { DataLakeLeaseClient } from "./DataLakeLeaseClient";
+import { Path } from "./generated/src/operations";
+import { PathSetAccessControlRecursiveMode } from "./models.internal";
+import { Readable } from "stream";
+import { SpanStatusCode } from "@azure/core-tracing";
+import { StorageClient } from "./StorageClient";
+import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
+import { generateDataLakeSASQueryParameters } from "./sas/DataLakeSASSignatureValues";
 
 /**
  * A DataLakePathClient represents a URL to the Azure Storage path (directory or file).

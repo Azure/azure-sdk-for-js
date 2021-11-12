@@ -1,17 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { URLBuilder } from "@azure/core-http";
 import * as assert from "assert";
 import * as dotenv from "dotenv";
-
-import { AbortController } from "@azure/abort-controller";
-import { DataLakeFileSystemClient, RestError, DataLakeServiceClient } from "../src";
-import { newPipeline, Pipeline } from "../src/Pipeline";
+import { DataLakeFileSystemClient, DataLakeServiceClient, RestError } from "../src";
+import { Pipeline, newPipeline } from "../src/Pipeline";
+import { Recorder, record } from "@azure-tools/test-recorder";
 import { getDataLakeServiceClient, recorderEnvSetup } from "./utils";
-import { InjectorPolicyFactory } from "./utils/InjectorPolicyFactory";
-import { record, Recorder } from "@azure-tools/test-recorder";
+import { AbortController } from "@azure/abort-controller";
 import { Context } from "mocha";
+import { InjectorPolicyFactory } from "./utils/InjectorPolicyFactory";
+import { URLBuilder } from "@azure/core-http";
 
 dotenv.config();
 

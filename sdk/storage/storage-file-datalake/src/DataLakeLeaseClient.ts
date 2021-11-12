@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { BlobLeaseClient } from "@azure/storage-blob";
-import { SpanStatusCode } from "@azure/core-tracing";
 
 import { Lease, LeaseOperationOptions, LeaseOperationResponse } from "./models";
+import { BlobLeaseClient } from "@azure/storage-blob";
+import { SpanStatusCode } from "@azure/core-tracing";
 import { createSpan } from "./utils/tracing";
 
 export class DataLakeLeaseClient {

@@ -1,30 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { record, Recorder } from "@azure-tools/test-recorder";
 import * as assert from "assert";
+import * as buffer from "buffer";
 import * as dotenv from "dotenv";
 import * as fs from "fs";
 import * as path from "path";
-import * as buffer from "buffer";
+import { BLOCK_BLOB_MAX_BLOCKS, FILE_MAX_SINGLE_UPLOAD_THRESHOLD, FILE_UPLOAD_MAX_CHUNK_SIZE, MB } from "../../src/utils/constants";
 import { DataLakeFileClient, DataLakeFileSystemClient } from "../../src";
-import {
-  bodyToString,
-  createRandomLocalFile,
-  getDataLakeServiceClient,
-  recorderEnvSetup
-} from "../utils";
-import {
-  MB,
-  FILE_MAX_SINGLE_UPLOAD_THRESHOLD,
-  BLOCK_BLOB_MAX_BLOCKS,
-  FILE_UPLOAD_MAX_CHUNK_SIZE
-} from "../../src/utils/constants";
-import { readStreamToLocalFileWithLogs } from "../../test/utils/testutils.node";
+import { PassThrough, Readable } from "stream";
+import { Recorder, record } from "@azure-tools/test-recorder";
+import { bodyToString, createRandomLocalFile, getDataLakeServiceClient, recorderEnvSetup } from "../utils";
 import { AbortController } from "@azure/abort-controller";
-import { Readable, PassThrough } from "stream";
-import { streamToBuffer2 } from "../../src/utils/utils.node";
 import { Context } from "mocha";
+import { readStreamToLocalFileWithLogs } from "../../test/utils/testutils.node";
+import { streamToBuffer2 } from "../../src/utils/utils.node";
+
 dotenv.config();
 
 describe("Highlevel Node.js only", () => {

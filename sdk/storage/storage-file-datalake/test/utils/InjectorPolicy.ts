@@ -6,8 +6,8 @@ import {
   HttpOperationResponse,
   RequestPolicy,
   RequestPolicyOptions,
-  WebResource,
-  RestError
+  RestError,
+  WebResource
 } from "../../src";
 
 export interface NextInjectErrorHolder {

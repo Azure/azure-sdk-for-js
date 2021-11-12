@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { AbortError } from "@azure/abort-controller";
+
 import {
   AbortSignalLike,
   BaseRequestPolicy,
@@ -11,10 +11,10 @@ import {
   RestError,
   WebResource
 } from "@azure/core-http";
-
+import { delay, setURLHost, setURLParameter } from "../utils/utils.common";
+import { AbortError } from "@azure/abort-controller";
 import { StorageRetryOptions } from "../StorageRetryPolicyFactory";
 import { UrlConstants } from "../utils/constants";
-import { delay, setURLHost, setURLParameter } from "../utils/utils.common";
 import { logger } from "../log";
 
 /**

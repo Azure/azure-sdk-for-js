@@ -1,27 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { SpanGraph, setTracer } from "@azure/test-utils";
-import { isLiveMode, record, Recorder } from "@azure-tools/test-recorder";
-import { setSpan, context } from "@azure/core-tracing";
 import * as assert from "assert";
 import * as dotenv from "dotenv";
-
 import {
+  DataLakeDirectoryClient,
+  DataLakeFileClient,
   DataLakeFileSystemClient,
-  FileSystemListPathsResponse,
   DataLakeServiceClient,
   FileSystemListDeletedPathsResponse,
-  DataLakeFileClient,
-  DataLakeDirectoryClient
+  FileSystemListPathsResponse
 } from "../src";
-import {
-  getDataLakeServiceClient,
-  getGenericDataLakeServiceClient,
-  recorderEnvSetup
-} from "./utils";
-import { URLBuilder } from "@azure/core-http";
+import { Recorder, isLiveMode, record } from "@azure-tools/test-recorder";
+import { SpanGraph, setTracer } from "@azure/test-utils";
+import { context, setSpan } from "@azure/core-tracing";
+import { getDataLakeServiceClient, getGenericDataLakeServiceClient, recorderEnvSetup } from "./utils";
 import { Context } from "mocha";
+import { URLBuilder } from "@azure/core-http";
 
 dotenv.config();
 

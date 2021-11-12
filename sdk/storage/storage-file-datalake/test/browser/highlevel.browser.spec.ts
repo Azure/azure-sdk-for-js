@@ -1,21 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { record, Recorder } from "@azure-tools/test-recorder";
 import * as assert from "assert";
 import * as dotenv from "dotenv";
 import { DataLakeFileClient, DataLakeFileSystemClient } from "../../src";
-import { getDataLakeServiceClient, recorderEnvSetup } from "../utils";
+import { Recorder, record } from "@azure-tools/test-recorder";
 import {
+  arrayBufferEqual,
+  blobToArrayBuffer,
   blobToString,
   bodyToString,
-  getBrowserFile,
-  blobToArrayBuffer,
-  arrayBufferEqual
+  getBrowserFile
 } from "../utils/index.browser";
-import { MB } from "../../src/utils/constants";
+import { getDataLakeServiceClient, recorderEnvSetup } from "../utils";
 import { AbortController } from "@azure/abort-controller";
 import { Context } from "mocha";
+import { MB } from "../../src/utils/constants";
 
 dotenv.config();
 

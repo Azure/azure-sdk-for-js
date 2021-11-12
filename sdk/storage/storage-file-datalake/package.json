@@ -4,7 +4,7 @@
   "description": "Microsoft Azure Storage SDK for JavaScript - DataLake",
   "sdk-type": "client",
   "main": "./dist/index.js",
-  "module": "./dist-esm/storage-file-datalake/src/index.js",
+  "module": "dist-esm/src/index.js",
   "types": "./typings/latest/storage-file-datalake.d.ts",
   "typesVersions": {
     "<3.6": {

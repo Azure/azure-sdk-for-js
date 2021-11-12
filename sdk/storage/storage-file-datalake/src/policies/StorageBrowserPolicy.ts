@@ -3,10 +3,10 @@
 import {
   BaseRequestPolicy,
   HttpOperationResponse,
-  isNode,
   RequestPolicy,
   RequestPolicyOptions,
-  WebResource
+  WebResource,
+  isNode
 } from "@azure/core-http";
 
 import { HeaderConstants, UrlConstants } from "../utils/constants";

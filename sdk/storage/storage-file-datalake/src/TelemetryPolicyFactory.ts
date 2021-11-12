@@ -1,17 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import * as os from "os";
 import {
-  isNode,
   RequestPolicy,
   RequestPolicyFactory,
   RequestPolicyOptions,
-  UserAgentOptions
+  UserAgentOptions,
+  isNode
 } from "@azure/core-http";
-import * as os from "os";
-
-import { TelemetryPolicy } from "./policies/TelemetryPolicy";
 import { SDK_VERSION } from "./utils/constants";
+import { TelemetryPolicy } from "./policies/TelemetryPolicy";
 
 /**
  * TelemetryPolicyFactory is a factory class helping generating {@link TelemetryPolicy} objects.

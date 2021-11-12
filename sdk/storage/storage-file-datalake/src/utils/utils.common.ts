@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { AbortSignalLike } from "@azure/abort-controller";
-import { HttpHeaders, isNode, URLBuilder } from "@azure/core-http";
 
 import { DevelopmentConnectionString, HeaderConstants, UrlConstants } from "./constants";
+import { HttpHeaders, URLBuilder, isNode } from "@azure/core-http";
+import { AbortSignalLike } from "@azure/abort-controller";
 
 /**
  * Reserved URL characters must be properly escaped for Storage services like Blob or File.

@@ -1,55 +1,55 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { TokenCredential } from "@azure/core-http";
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { ContainerClient } from "@azure/storage-blob";
-import { SpanStatusCode } from "@azure/core-tracing";
 
-import { AnonymousCredential } from "./credentials/AnonymousCredential";
-import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
-import { DataLakeLeaseClient } from "./DataLakeLeaseClient";
-import { FileSystem } from "./generated/src/operations";
 import {
   AccessPolicy,
+  DeletedPath,
+  FileSystemCreateIfNotExistsResponse,
   FileSystemCreateOptions,
   FileSystemCreateResponse,
+  FileSystemDeleteIfExistsResponse,
   FileSystemDeleteOptions,
   FileSystemDeleteResponse,
   FileSystemExistsOptions,
+  FileSystemGenerateSasUrlOptions,
   FileSystemGetAccessPolicyOptions,
   FileSystemGetAccessPolicyResponse,
   FileSystemGetPropertiesOptions,
   FileSystemGetPropertiesResponse,
+  FileSystemListDeletedPathsResponse,
+  FileSystemListPathsResponse,
   FileSystemSetAccessPolicyOptions,
   FileSystemSetAccessPolicyResponse,
   FileSystemSetMetadataOptions,
   FileSystemSetMetadataResponse,
+  FileSystemUndeletePathOption,
+  FileSystemUndeletePathResponse,
+  ListDeletedPathsOptions,
+  ListDeletedPathsSegmentOptions,
   ListPathsOptions,
   ListPathsSegmentOptions,
   Metadata,
   Path,
   PublicAccessType,
-  SignedIdentifier,
-  FileSystemListPathsResponse,
-  FileSystemCreateIfNotExistsResponse,
-  FileSystemDeleteIfExistsResponse,
-  FileSystemGenerateSasUrlOptions,
-  FileSystemListDeletedPathsResponse,
-  ListDeletedPathsOptions,
-  DeletedPath,
-  FileSystemUndeletePathResponse,
-  FileSystemUndeletePathOption,
-  ListDeletedPathsSegmentOptions
+  SignedIdentifier
 } from "./models";
-import { newPipeline, Pipeline, StoragePipelineOptions } from "./Pipeline";
-import { StorageClient } from "./StorageClient";
-import { toContainerPublicAccessType, toPublicAccessType, toPermissions } from "./transforms";
-import { convertTracingToRequestOptionsBase, createSpan } from "./utils/tracing";
-import { appendToURLPath, appendToURLQuery } from "./utils/utils.common";
-import { DataLakeFileClient, DataLakeDirectoryClient } from "./clients";
-import { generateDataLakeSASQueryParameters } from "./sas/DataLakeSASSignatureValues";
+import { DataLakeDirectoryClient, DataLakeFileClient } from "./clients";
 import { DeletionIdKey, PathResultTypeConstants } from "./utils/constants";
+import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
+import { Pipeline, StoragePipelineOptions, newPipeline } from "./Pipeline";
+import { appendToURLPath, appendToURLQuery } from "./utils/utils.common";
+import { convertTracingToRequestOptionsBase, createSpan } from "./utils/tracing";
+import { toContainerPublicAccessType, toPermissions, toPublicAccessType } from "./transforms";
+import { AnonymousCredential } from "./credentials/AnonymousCredential";
+import { ContainerClient } from "@azure/storage-blob";
+import { DataLakeLeaseClient } from "./DataLakeLeaseClient";
+import { FileSystem } from "./generated/src/operations";
 import { PathClientInternal } from "./utils/PathClientInternal";
+import { SpanStatusCode } from "@azure/core-tracing";
+import { StorageClient } from "./StorageClient";
+import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
+import { TokenCredential } from "@azure/core-http";
+import { generateDataLakeSASQueryParameters } from "./sas/DataLakeSASSignatureValues";
 
 /**
  * A DataLakeFileSystemClient represents a URL to the Azure Storage file system

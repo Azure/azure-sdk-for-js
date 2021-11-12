@@ -1,12 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TokenCredential } from "@azure/core-http";
-
-import { DataLakeServiceClient } from "../../src";
 import { AnonymousCredential } from "../../src/credentials/AnonymousCredential";
-import { newPipeline } from "../../src/Pipeline";
+import { DataLakeServiceClient } from "../../src";
 import { SimpleTokenCredential } from "./testutils.common";
+import { TokenCredential } from "@azure/core-http";
+import { newPipeline } from "../../src/Pipeline";
 
 export * from "./testutils.common";
 

@@ -2,44 +2,33 @@
 // Licensed under the MIT license.
 
 import "@azure/core-paging";
-
-import { getDefaultProxySettings, isNode, TokenCredential } from "@azure/core-http";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import {
-  BlobServiceClient,
-  ServiceGetPropertiesOptions,
-  ServiceSetPropertiesOptions,
-  ServiceSetPropertiesResponse
-} from "@azure/storage-blob";
-
-import { AnonymousCredential } from "./credentials/AnonymousCredential";
-import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
-import { DataLakeFileSystemClient } from "./DataLakeFileSystemClient";
+import { BlobServiceClient, ServiceGetPropertiesOptions, ServiceSetPropertiesOptions, ServiceSetPropertiesResponse } from "@azure/storage-blob";
+import { DataLakeServiceGetPropertiesResponse, DataLakeServiceProperties } from "./index";
 import {
   FileSystemItem,
   FileSystemRenameResponse,
+  FileSystemUndeleteResponse,
   ServiceGenerateAccountSasUrlOptions,
   ServiceListFileSystemsOptions,
   ServiceListFileSystemsSegmentResponse,
   ServiceRenameFileSystemOptions,
-  ServiceUndeleteFileSystemOptions,
-  FileSystemUndeleteResponse
+  ServiceUndeleteFileSystemOptions
 } from "./models";
 import { Pipeline, StoragePipelineOptions, newPipeline } from "./Pipeline";
-import { StorageClient } from "./StorageClient";
-import {
-  appendToURLPath,
-  appendToURLQuery,
-  extractConnectionStringParts
-} from "./utils/utils.common";
-import { createSpan } from "./utils/tracing";
-import { toDfsEndpointUrl, toFileSystemPagedAsyncIterableIterator } from "./transforms";
 import { ServiceGetUserDelegationKeyOptions, ServiceGetUserDelegationKeyResponse } from "./models";
-import { SpanStatusCode } from "@azure/core-tracing";
+import { TokenCredential, getDefaultProxySettings, isNode } from "@azure/core-http";
+import { appendToURLPath, appendToURLQuery, extractConnectionStringParts } from "./utils/utils.common";
+import { toDfsEndpointUrl, toFileSystemPagedAsyncIterableIterator } from "./transforms";
 import { AccountSASPermissions } from "./sas/AccountSASPermissions";
-import { generateAccountSASQueryParameters } from "./sas/AccountSASSignatureValues";
 import { AccountSASServices } from "./sas/AccountSASServices";
-import { DataLakeServiceGetPropertiesResponse, DataLakeServiceProperties } from "./index";
+import { AnonymousCredential } from "./credentials/AnonymousCredential";
+import { DataLakeFileSystemClient } from "./DataLakeFileSystemClient";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { SpanStatusCode } from "@azure/core-tracing";
+import { StorageClient } from "./StorageClient";
+import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
+import { createSpan } from "./utils/tracing";
+import { generateAccountSASQueryParameters } from "./sas/AccountSASSignatureValues";
 
 /**
  * DataLakeServiceClient allows you to manipulate Azure

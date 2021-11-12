@@ -1,11 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { UserDelegationKey } from "@azure/storage-blob";
-import { record, Recorder } from "@azure-tools/test-recorder";
 import * as assert from "assert";
-import { Context } from "mocha";
-
 import {
   AccountSASPermissions,
   AccountSASResourceTypes,
@@ -16,23 +12,22 @@ import {
   DataLakeSASPermissions,
   DataLakeServiceClient,
   FileSystemSASPermissions,
-  generateAccountSASQueryParameters,
-  generateDataLakeSASQueryParameters,
-  newPipeline,
   PathAccessControlItem,
   PathPermissions,
+  SASQueryParameters,
   StorageSharedKeyCredential,
-  SASQueryParameters
+  generateAccountSASQueryParameters,
+  generateDataLakeSASQueryParameters,
+  newPipeline
 } from "../../src";
+import { Recorder, record } from "@azure-tools/test-recorder";
+import { getDataLakeServiceClient, getDataLakeServiceClientWithDefaultCredential, recorderEnvSetup } from "../utils";
+import { Context } from "mocha";
 import { DataLakeFileClient } from "../../src/";
 import { DirectorySASPermissions } from "../../src/sas/DirectorySASPermissions";
 import { SASProtocol } from "../../src/sas/SASQueryParameters";
+import { UserDelegationKey } from "@azure/storage-blob";
 import { delay } from "../../src/utils/utils.common";
-import {
-  getDataLakeServiceClient,
-  getDataLakeServiceClientWithDefaultCredential,
-  recorderEnvSetup
-} from "../utils";
 
 describe("Shared Access Signature (SAS) generation Node.js only", () => {
   let recorder: Recorder;

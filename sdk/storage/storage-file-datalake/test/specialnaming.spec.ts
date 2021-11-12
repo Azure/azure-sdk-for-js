@@ -2,14 +2,13 @@
 // Licensed under the MIT license.
 
 // import { DataLakeFileClient } from "../src";
-import { record, Recorder } from "@azure-tools/test-recorder";
 import * as assert from "assert";
 import * as dotenv from "dotenv";
-import { Context } from "mocha";
-
 import { DataLakeFileClient, DataLakeFileSystemClient } from "../src";
-import { appendToURLPath } from "../src/utils/utils.common";
+import { Recorder, record } from "@azure-tools/test-recorder";
 import { getDataLakeServiceClient, recorderEnvSetup } from "./utils";
+import { Context } from "mocha";
+import { appendToURLPath } from "../src/utils/utils.common";
 
 // import { appendToURLPath } from "../src/utils/utils.common";
 dotenv.config();
