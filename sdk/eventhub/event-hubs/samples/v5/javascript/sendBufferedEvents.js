@@ -11,7 +11,6 @@ const { EventHubBufferedProducerClient } = require("@azure/event-hubs");
 const dotenv = require("dotenv");
 dotenv.config();
 
-// Define connection string and related Event Hubs entity name here
 const connectionString = process.env["EVENTHUB_CONNECTION_STRING"] || "";
 
 async function handleError(ctx) {

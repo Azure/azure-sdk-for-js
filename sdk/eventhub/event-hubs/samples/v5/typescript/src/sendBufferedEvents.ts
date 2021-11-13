@@ -11,7 +11,6 @@ import { EventHubBufferedProducerClient, OnSendEventsErrorContext } from "@azure
 import * as dotenv from "dotenv";
 dotenv.config();
 
-// Define connection string and related Event Hubs entity name here
 const connectionString = process.env["EVENTHUB_CONNECTION_STRING"] || "";
 
 async function handleError(ctx: OnSendEventsErrorContext): Promise<void> {
