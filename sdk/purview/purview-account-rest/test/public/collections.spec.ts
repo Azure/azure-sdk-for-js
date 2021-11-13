@@ -23,7 +23,6 @@ describe("List collections", () => {
   it("should list all available collections", async () => {
     const result = await client.path("/collections").get();
 
-    console.log(result);
     if (result.status !== "200") {
       assert.fail(`GET "/collections" failed with ${result.status}`);
     }

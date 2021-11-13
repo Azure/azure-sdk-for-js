@@ -70,20 +70,6 @@ const parseArgs = () => {
   return [baseDir, action, services, flags];
 };
 
-const getAllPackageJsonPaths = (baseDir) => {
-  // Find and return path to all packages in repo
-  const packagePaths = [];
-  const serviceDirs = fs
-    .readdirSync(path.resolve(path.join(baseDir, "sdk")))
-    .filter((f) => !f.startsWith("."))
-    .map((f) => path.resolve(path.join(baseDir, "sdk", f)));
-
-  for (const serviceDir of serviceDirs) {
-    for (const pkgPath of getPackageJsons(serviceDir)) packagePaths.push(pkgPath);
-  }
-  return packagePaths;
-};
-
 const getPackageJsons = (searchDir) => {
   // This gets all the directories with package.json at the `sdk/<service>/<service-sdk>` level excluding "arm-" packages
   const sdkDirectories = fs
@@ -104,14 +90,15 @@ const getPackageJsons = (searchDir) => {
 };
 
 const getServicePackages = (baseDir, serviceDirs) => {
-  const packageNames = [],
-    packageDirs = [];
+  const packageNames = [];
+  const packageDirs = [];
+  const validSdkTypes =  ["client", "mgmt", "perf-test", "utility"]; // valid "sdk-type"s that we are looking for, to be able to apply rush-runner jobs on
   for (const serviceDir of serviceDirs) {
     const searchDir = path.resolve(path.join(baseDir, "sdk", serviceDir));
     const packageJsons = getPackageJsons(searchDir);
     for (const filePath of packageJsons) {
       const contents = JSON.parse(fs.readFileSync(filePath, "utf8"));
-      if (contents["sdk-type"] === "client" || contents["sdk-type"] === "mgmt" || contents["sdk-type"] === "perf-test") {
+      if (validSdkTypes.includes(contents["sdk-type"])) {
         packageNames.push(contents.name);
         packageDirs.push(path.dirname(filePath));
       }

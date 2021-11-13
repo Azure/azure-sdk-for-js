@@ -63,16 +63,24 @@ class CommunicationAccessKeyCredentialPolicy extends BaseRequestPolicy {
 
     const url = URLBuilder.parse(webResource.url);
     const query = url.getQuery();
-    const urlPathAndQuery = query ? `${url.getPath()}?${query}` : url.getPath();
+    let urlPathAndQuery = query ? `${url.getPath()}?${query}` : url.getPath();
     const port = url.getPort();
-    const hostAndPort = port ? `${url.getHost()}:${port}` : url.getHost();
+    let hostAndPort = port ? `${url.getHost()}:${port}` : url.getHost();
+
+    if (isNode && !webResource.headers.get("UriToSignWith")) {
+      webResource.headers.set("Host", hostAndPort || "");
+    }
+
+    if (webResource.headers.get("UriToSignWith")) {
+      const uri_to_sign_with = webResource.headers.get("UriToSignWith");
+      const q = URLBuilder.parse(uri_to_sign_with!);
+      hostAndPort = q.getHost()! + (q.getPort() !== undefined ? q.getPort() : "");
+      webResource.headers.set("x-ms-host", String(hostAndPort));
+      urlPathAndQuery = q.getPath()! + (q.getQuery() !== undefined ? q.getQuery() : "");
+    }
 
     const stringToSign = `${verb}\n${urlPathAndQuery}\n${utcNow};${hostAndPort};${contentHash}`;
     const signature = await shaHMAC(this.accessKey.key, stringToSign);
-
-    if (isNode) {
-      webResource.headers.set("Host", hostAndPort || "");
-    }
 
     webResource.headers.set(dateHeader, utcNow);
     webResource.headers.set("x-ms-content-sha256", contentHash);

@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Challenge claims now are properly being passed through to the outgoing token requests.
+
 ### Other Changes
 
 ## 2.0.1 (2021-10-28)

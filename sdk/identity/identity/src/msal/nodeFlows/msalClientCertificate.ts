@@ -6,7 +6,7 @@ import { createHash } from "crypto";
 import { promisify } from "util";
 import { AccessToken } from "@azure/core-auth";
 
-import { MsalNodeOptions, MsalNode } from "./nodeCommon";
+import { MsalNodeOptions, MsalNode } from "./msalNodeCommon";
 import { formatError } from "../../util/logging";
 import { CredentialFlowGetTokenOptions } from "../credentials";
 import { ClientCertificateCredentialPEMConfiguration } from "../../credentials/clientCertificateCredential";
@@ -132,7 +132,8 @@ export class MsalClientCertificate extends MsalNode {
         scopes,
         correlationId: options.correlationId,
         azureRegion: this.azureRegion,
-        authority: options.authority
+        authority: options.authority,
+        claims: options.claims
       });
       // Even though we're providing the same default in memory persistence cache that we use for DeviceCodeCredential,
       // The Client Credential flow does not return the account information from the authentication service,

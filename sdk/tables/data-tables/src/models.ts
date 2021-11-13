@@ -199,7 +199,7 @@ export interface Edm<T extends EdmTypes> {
    * The value of the entity property
    */
   value: T extends "Binary"
-    ? Uint8Array
+    ? string
     : T extends "Boolean"
     ? boolean
     : T extends "Double"
