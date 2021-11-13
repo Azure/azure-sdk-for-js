@@ -1,0 +1,51 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT Licence.
+
+/**
+ * @summary Demonstrates how to send events to an Event Hub from a buffered producer.
+ */
+
+const { EventHubBufferedProducerClient } = require("@azure/event-hubs");
+
+// Load the .env file if it exists
+const dotenv = require("dotenv");
+dotenv.config();
+
+// Define connection string and related Event Hubs entity name here
+const connectionString = process.env["EVENTHUB_CONNECTION_STRING"] || "";
+
+async function handleError(ctx) {
+  console.log(JSON.stringify(ctx.error), undefined, "  ");
+}
+
+async function main() {
+  console.log(`Running sendEvents sample`);
+
+  const producer = new EventHubBufferedProducerClient(connectionString, {
+    onSendEventsErrorHandler: handleError
+  });
+
+  console.log("Creating and sending a batch of events...");
+
+  const eventsToSend = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
+
+  try {
+    // add events to our batch
+    let i = 0;
+
+    while (i < eventsToSend.length) {
+      await producer.enqueueEvent({ body: eventsToSend[i] });
+      console.log(`Added eventsToSend[${i}] to the batch`);
+      ++i;
+    }
+  } catch (err) {
+    console.log("Error when creating & sending a batch of events: ", err);
+  }
+
+  await producer.close();
+  console.log(`Exiting sendEvents sample`);
+}
+
+main().catch((error) => {
+  console.error("Error running sample:", error);
+});
