@@ -24,6 +24,7 @@ export {
   EventHubBufferedProducerClient,
   EventHubBufferedProducerClientOptions,
   EnqueueEventOptions,
+  BufferedFlushOptions,
   OnSendEventsErrorContext,
   OnSendEventsSuccessContext
 } from "./eventHubBufferedProducerClient";

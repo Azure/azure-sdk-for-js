@@ -78,6 +78,11 @@ export interface EventHubBufferedProducerClientOptions extends EventHubClientOpt
 }
 
 /**
+ * Options to configure the `flush` method on the `EventHubBufferedProducerClient`.
+ */
+export interface BufferedFlushOptions extends OperationOptions {}
+
+/**
  * Options to configure the `close` method on the `EventHubBufferedProducerClient`.
  */
 export interface BufferedCloseOptions extends OperationOptions {
@@ -372,7 +377,7 @@ export class EventHubBufferedProducerClient {
    *
    * @param options - The set of options to apply to the operation call.
    */
-  async flush(options: OperationOptions = {}): Promise<void> {
+  async flush(options: BufferedFlushOptions = {}): Promise<void> {
     await Promise.all(
       Array.from(this._partitionChannels.values()).map((channel) => channel.flush(options))
     );

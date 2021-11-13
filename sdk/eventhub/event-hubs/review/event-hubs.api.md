@@ -27,6 +27,10 @@ export interface BufferedCloseOptions extends OperationOptions {
 }
 
 // @public
+export interface BufferedFlushOptions extends OperationOptions {
+}
+
+// @public
 export interface Checkpoint {
     consumerGroup: string;
     eventHubName: string;
@@ -100,7 +104,7 @@ export class EventHubBufferedProducerClient {
     enqueueEvent(event: EventData | AmqpAnnotatedMessage, options?: EnqueueEventOptions): Promise<number>;
     enqueueEvents(events: EventData[] | AmqpAnnotatedMessage[], options?: EnqueueEventOptions): Promise<number>;
     get eventHubName(): string;
-    flush(options?: OperationOptions): Promise<void>;
+    flush(options?: BufferedFlushOptions): Promise<void>;
     get fullyQualifiedNamespace(): string;
     getEventHubProperties(options?: GetEventHubPropertiesOptions): Promise<EventHubProperties>;
     getPartitionIds(options?: GetPartitionIdsOptions): Promise<Array<string>>;
