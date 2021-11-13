@@ -116,6 +116,8 @@ export class MockEventHub implements IMockEventHub {
   private _connectionInactivityTimeoutInMs: number;
 
   private _connections: Set<Connection> = new Set();
+
+  private _clearableTimeouts = new Set<ReturnType<typeof setTimeout>>();
   /**
    * This provides a way to find all the partition senders for a combination
    * of `consumerGroup` and `partitionId`.
@@ -188,10 +190,13 @@ export class MockEventHub implements IMockEventHub {
     };
 
     let tid = setTimeout(forceCloseConnection, this._connectionInactivityTimeoutInMs);
+    this._clearableTimeouts.add(tid);
 
     const bounceTimeout = () => {
       clearTimeout(tid);
+      this._clearableTimeouts.delete(tid);
       tid = setTimeout(forceCloseConnection, this._connectionInactivityTimeoutInMs);
+      this._clearableTimeouts.add(tid);
     };
 
     connection.addListener(ConnectionEvents.settled, bounceTimeout);
@@ -710,6 +715,10 @@ export class MockEventHub implements IMockEventHub {
    * Stops the service.
    */
   stop() {
+    for (const tid of this._clearableTimeouts.values()) {
+      clearTimeout(tid);
+    }
+    this._clearableTimeouts.clear();
     return this._mockServer.stop();
   }
 
