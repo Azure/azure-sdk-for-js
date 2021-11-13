@@ -576,7 +576,7 @@ matrix([[true, false]] as const, async (useAad) => {
           }
         });
 
-        it("creates Comment feedback", async function() {
+        it.skip("creates Comment feedback", async function() {
           const expectedCommentFeedback: MetricCommentFeedback = {
             metricId: testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1,
             feedbackType: "Comment",
@@ -594,7 +594,7 @@ matrix([[true, false]] as const, async (useAad) => {
           }
         });
 
-        it("retrieves Comment feedback", async function() {
+        it.skip("retrieves Comment feedback", async function() {
           const actual = await client.getFeedback(createdFeedbackId);
 
           assert.ok(actual.id, "Expecting valid feedback");
