@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { FarmBeatsRestClient, Farmer, paginate } from "../../src";
-import { Recorder } from "@azure-tools/test-recorder";
 
-import { assert } from "chai";
+import { FarmBeatsRestClient, Farmer, paginate } from "../../src";
 import { createClient, createRecorder } from "./utils/recordedClient";
 import { Context } from "mocha";
+import { Recorder } from "@azure-tools/test-recorder";
+import { assert } from "chai";
 
 const farmerId = "test-farmer";
 const boundaryId = "test-boundary";

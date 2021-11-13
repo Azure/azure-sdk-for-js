@@ -1,29 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { RequestParameters } from "@azure-rest/core-client";
 import {
   ApplicationData,
-  SearchBoundaryQuery,
   Boundary,
   Crop,
   CropVariety,
-  Farmer,
-  FarmOperationDataIngestionJob,
   Farm,
+  FarmOperationDataIngestionJob,
+  Farmer,
   Field,
   HarvestData,
   ImageProcessingRasterizeJob,
-  OAuthProvider,
   OAuthConnectRequest,
+  OAuthProvider,
   PlantingData,
   SatelliteDataIngestionJob,
-  SeasonalField,
+  SearchBoundaryQuery,
   Season,
+  SeasonalField,
   TillageData,
-  WeatherDataIngestionJob,
   WeatherDataDeleteJob,
+  WeatherDataIngestionJob
 } from "./models";
+import { RequestParameters } from "@azure-rest/core-client";
 
 export interface ApplicationDataListByFarmerIdQueryParamProperties {
   /** Minimum average amount of material applied during the application (inclusive). */
