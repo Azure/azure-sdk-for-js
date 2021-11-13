@@ -2,11 +2,12 @@
 // Licensed under the MIT license.
 
 import * as assert from "assert";
-import { getBSU, recorderEnvSetup, bodyToString } from "./utils";
-import { record, Recorder } from "@azure-tools/test-recorder";
-import { ShareClient, ShareDirectoryClient, ShareFileClient } from "../src";
 import * as dotenv from "dotenv";
+import { Recorder, record } from "@azure-tools/test-recorder";
+import { ShareClient, ShareDirectoryClient, ShareFileClient } from "../src";
+import { bodyToString, getBSU, recorderEnvSetup } from "./utils";
 import { Context } from "mocha";
+
 dotenv.config();
 
 // for file

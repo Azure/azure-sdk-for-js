@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { env, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-http";
+import { RecorderEnvironmentSetup, env } from "@azure-tools/test-recorder";
 
 export function isBrowser(): boolean {
   return typeof self !== "undefined";

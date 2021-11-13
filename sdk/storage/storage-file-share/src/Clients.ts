@@ -1,21 +1,36 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { HttpRequestBody, HttpResponse, isNode, TransferProgressEvent } from "@azure/core-http";
-import { SpanStatusCode } from "@azure/core-tracing";
-import { AbortSignalLike } from "@azure/abort-controller";
+import "@azure/core-paging";
+import {
+  CloseHandlesInfo,
+  FileAndDirectoryCreateCommonOptions,
+  FileAndDirectorySetPropertiesCommonOptions,
+  FileHttpHeaders,
+  HttpAuthorization,
+  Metadata,
+  ShareProtocols,
+  fileAttributesToString,
+  fileCreationTimeToString,
+  fileLastWriteTimeToString,
+  toShareProtocols,
+  toShareProtocolsString,
+  validateAndSetDefaultsForFileAndDirectoryCreateCommonOptions,
+  validateAndSetDefaultsForFileAndDirectorySetPropertiesCommonOptions
+} from "./models";
+import { CommonOptions, StorageClient } from "./StorageClient";
 import {
   CopyFileSmbInfo,
   DeleteSnapshotsOptionType,
   DirectoryCreateResponse,
   DirectoryDeleteResponse,
+  DirectoryForceCloseHandlesHeaders,
   DirectoryGetPropertiesResponse,
   DirectoryItem,
   DirectoryListFilesAndDirectoriesSegmentResponse,
   DirectoryListHandlesResponse,
   DirectorySetMetadataResponse,
   DirectorySetPropertiesResponse,
-  DirectoryForceCloseHandlesHeaders,
   FileAbortCopyResponse,
   FileCreateResponse,
   FileDeleteResponse,
@@ -23,8 +38,8 @@ import {
   FileDownloadResponseModel,
   FileForceCloseHandlesHeaders,
   FileGetPropertiesResponse,
-  FileGetRangeListHeaders,
   FileGetRangeListDiffResponse,
+  FileGetRangeListHeaders,
   FileItem,
   FileListHandlesResponse,
   FileSetHTTPHeadersResponse,
@@ -35,6 +50,7 @@ import {
   HandleItem,
   LeaseAccessConditions,
   RangeModel,
+  ShareAccessTier,
   ShareCreatePermissionResponse,
   ShareCreateResponse,
   ShareCreateSnapshotResponse,
@@ -43,77 +59,56 @@ import {
   ShareGetPermissionResponse,
   ShareGetPropertiesResponseModel,
   ShareGetStatisticsResponseModel,
+  ShareRootSquash,
   ShareSetAccessPolicyResponse,
   ShareSetMetadataResponse,
+  ShareSetPropertiesResponse,
   ShareSetQuotaResponse,
   SignedIdentifierModel,
-  SourceModifiedAccessConditions,
-  ShareAccessTier,
-  ShareSetPropertiesResponse,
-  ShareRootSquash
+  SourceModifiedAccessConditions
 } from "./generatedModels";
-import { Share, Directory, File } from "./generated/src/operations";
-import { newPipeline, StoragePipelineOptions, Pipeline } from "./Pipeline";
 import {
-  DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS,
   DEFAULT_HIGH_LEVEL_CONCURRENCY,
+  DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS,
   FILE_MAX_SIZE_BYTES,
   FILE_RANGE_MAX_SIZE_BYTES,
   URLConstants
 } from "./utils/constants";
-import {
-  appendToURLPath,
-  setURLParameter,
-  truncatedISO8061Date,
-  extractConnectionStringParts,
-  getShareNameAndPathFromUrl,
-  appendToURLQuery,
-  httpAuthorizationToString
-} from "./utils/utils.common";
-import { Credential } from "./credentials/Credential";
-import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
-import { AnonymousCredential } from "./credentials/AnonymousCredential";
-import { convertTracingToRequestOptionsBase, createSpan } from "./utils/tracing";
-import { StorageClient, CommonOptions } from "./StorageClient";
-import "@azure/core-paging";
+import { Directory, File, Share } from "./generated/src/operations";
+import { HttpRequestBody, HttpResponse, TransferProgressEvent, isNode } from "@azure/core-http";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
-import { FileSystemAttributes } from "./FileSystemAttributes";
-import { FileDownloadResponse } from "./FileDownloadResponse";
+import { Pipeline, StoragePipelineOptions, newPipeline } from "./Pipeline";
 import { Range, rangeToString } from "./Range";
 import {
-  CloseHandlesInfo,
-  FileAndDirectoryCreateCommonOptions,
-  FileAndDirectorySetPropertiesCommonOptions,
-  fileAttributesToString,
-  fileCreationTimeToString,
-  FileHttpHeaders,
-  fileLastWriteTimeToString,
-  Metadata,
-  validateAndSetDefaultsForFileAndDirectoryCreateCommonOptions,
-  validateAndSetDefaultsForFileAndDirectorySetPropertiesCommonOptions,
-  ShareProtocols,
-  toShareProtocolsString,
-  toShareProtocols,
-  HttpAuthorization
-} from "./models";
+  appendToURLPath,
+  appendToURLQuery,
+  extractConnectionStringParts,
+  getShareNameAndPathFromUrl,
+  httpAuthorizationToString,
+  setURLParameter,
+  truncatedISO8061Date
+} from "./utils/utils.common";
+import { convertTracingToRequestOptionsBase, createSpan } from "./utils/tracing";
+import { fsCreateReadStream, fsStat, readStreamToLocalFile, streamToBuffer } from "./utils/utils.node";
+import { AbortSignalLike } from "@azure/abort-controller";
+import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { Batch } from "./utils/Batch";
 import { BufferScheduler } from "./utils/BufferScheduler";
-import { Readable } from "stream";
-import {
-  fsStat,
-  fsCreateReadStream,
-  readStreamToLocalFile,
-  streamToBuffer
-} from "./utils/utils.node";
-import { StorageClientContext } from "./generated/src/storageClientContext";
-import { SERVICE_VERSION } from "./utils/constants";
-import { generateUuid } from "@azure/core-http";
-import { generateFileSASQueryParameters } from "./FileSASSignatureValues";
-import { ShareSASPermissions } from "./ShareSASPermissions";
-import { SASProtocol } from "./SASQueryParameters";
-import { SasIPRange } from "./SasIPRange";
+import { Credential } from "./credentials/Credential";
+import { FileDownloadResponse } from "./FileDownloadResponse";
 import { FileSASPermissions } from "./FileSASPermissions";
+import { FileSystemAttributes } from "./FileSystemAttributes";
 import { ListFilesIncludeType } from "./generated/src";
+import { Readable } from "stream";
+import { SASProtocol } from "./SASQueryParameters";
+import { SERVICE_VERSION } from "./utils/constants";
+import { SasIPRange } from "./SasIPRange";
+import { ShareSASPermissions } from "./ShareSASPermissions";
+import { SpanStatusCode } from "@azure/core-tracing";
+import { StorageClientContext } from "./generated/src/storageClientContext";
+import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
+import { generateFileSASQueryParameters } from "./FileSASSignatureValues";
+import { generateUuid } from "@azure/core-http";
 
 /**
  * Options to configure the {@link ShareClient.create} operation.

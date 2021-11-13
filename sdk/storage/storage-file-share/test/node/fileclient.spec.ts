@@ -2,33 +2,31 @@
 // Licensed under the MIT license.
 
 import * as assert from "assert";
-import { Buffer } from "buffer";
 import * as fs from "fs";
 import * as path from "path";
 import * as zlib from "zlib";
-import { Duplex } from "stream";
-
-import { isPlaybackMode, record, Recorder } from "@azure-tools/test-recorder";
-
 import {
   FileSASPermissions,
-  generateFileSASQueryParameters,
-  newPipeline,
   ShareClient,
   ShareDirectoryClient,
   ShareFileClient,
-  StorageSharedKeyCredential
+  StorageSharedKeyCredential,
+  generateFileSASQueryParameters,
+  newPipeline
 } from "../../src";
-import { readStreamToLocalFileWithLogs } from "../../test/utils/testutils.node";
+import { Recorder, isPlaybackMode, record } from "@azure-tools/test-recorder";
 import {
   bodyToString,
   createRandomLocalFile,
-  getBlobServceClient,
   getBSU,
+  getBlobServceClient,
   getTokenCredential,
   recorderEnvSetup
 } from "../utils";
+import { Buffer } from "buffer";
 import { Context } from "mocha";
+import { Duplex } from "stream";
+import { readStreamToLocalFileWithLogs } from "../../test/utils/testutils.node";
 
 describe("FileClient Node.js only", () => {
   let shareName: string;

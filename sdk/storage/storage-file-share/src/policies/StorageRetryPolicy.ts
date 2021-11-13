@@ -11,12 +11,10 @@ import {
   RestError,
   WebResource
 } from "@azure/core-http";
-
+import { delay, setURLParameter } from "../utils/utils.common";
 import { AbortError } from "@azure/abort-controller";
-
 import { StorageRetryOptions } from "../StorageRetryPolicyFactory";
 import { URLConstants } from "../utils/constants";
-import { delay, setURLParameter } from "../utils/utils.common";
 import { logger } from "../log";
 
 /**

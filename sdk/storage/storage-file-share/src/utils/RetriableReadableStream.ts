@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AbortError } from "@azure/abort-controller";
-import { TransferProgressEvent } from "@azure/core-http";
-import { Readable } from "stream";
 import { AbortSignal, AbortSignalLike } from "@azure/abort-controller";
+import { AbortError } from "@azure/abort-controller";
+import { Readable } from "stream";
+import { TransferProgressEvent } from "@azure/core-http";
 
 export type ReadableStreamGetter = (offset: number) => Promise<NodeJS.ReadableStream>;
 

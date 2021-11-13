@@ -2,18 +2,18 @@
 // Licensed under the MIT license.
 
 import * as assert from "assert";
-
+import * as dotenv from "dotenv";
+import { Recorder, delay, isLiveMode, record } from "@azure-tools/test-recorder";
+import { ShareItem, ShareRootSquash, ShareServiceClient } from "../src";
 import {
   getBSU,
+  getGenericBSU,
   getSASConnectionStringFromEnvironment,
-  recorderEnvSetup,
   getSoftDeleteBSU,
-  getGenericBSU
+  recorderEnvSetup
 } from "./utils";
-import { record, delay, Recorder, isLiveMode } from "@azure-tools/test-recorder";
-import * as dotenv from "dotenv";
-import { ShareServiceClient, ShareItem, ShareRootSquash } from "../src";
 import { Context } from "mocha";
+
 dotenv.config();
 
 describe("FileServiceClient", () => {

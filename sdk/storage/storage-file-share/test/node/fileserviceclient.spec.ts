@@ -2,11 +2,12 @@
 // Licensed under the MIT license.
 
 import * as assert from "assert";
-import { getBSU, getConnectionStringFromEnvironment, recorderEnvSetup } from "../utils";
 import * as dotenv from "dotenv";
-import { ShareServiceClient, newPipeline, StorageSharedKeyCredential } from "../../src";
-import { record, Recorder } from "@azure-tools/test-recorder";
+import { Recorder, record } from "@azure-tools/test-recorder";
+import { ShareServiceClient, StorageSharedKeyCredential, newPipeline } from "../../src";
+import { getBSU, getConnectionStringFromEnvironment, recorderEnvSetup } from "../utils";
 import { Context } from "mocha";
+
 dotenv.config();
 
 describe("FileServiceClient Node.js only", () => {

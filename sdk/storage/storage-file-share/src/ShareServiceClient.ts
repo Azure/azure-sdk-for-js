@@ -1,39 +1,39 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AbortSignalLike } from "@azure/abort-controller";
+import "@azure/core-paging";
+import { CommonOptions, StorageClient } from "./StorageClient";
 import {
   FileServiceProperties,
   ListSharesIncludeType,
+  ListSharesResponseModel,
+  ServiceGetPropertiesResponse,
+  ServiceListSharesSegmentHeaders,
+  ServiceSetPropertiesResponse,
   ShareCreateResponse,
   ShareDeleteResponse,
-  ServiceGetPropertiesResponse,
-  ServiceSetPropertiesResponse,
-  ServiceListSharesSegmentHeaders,
-  ListSharesResponseModel,
   SharePropertiesInternal
 } from "./generatedModels";
-import { Service } from "./generated/src/operations";
-import { newPipeline, StoragePipelineOptions, Pipeline } from "./Pipeline";
-import { StorageClient, CommonOptions } from "./StorageClient";
-import { ShareClientInternal } from "./ShareClientInternal";
+import { HttpResponse, isNode } from "@azure/core-http";
+import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
+import { Pipeline, StoragePipelineOptions, newPipeline } from "./Pipeline";
 import { ShareClient, ShareCreateOptions, ShareDeleteMethodOptions } from "./Clients";
-import { appendToURLPath, extractConnectionStringParts } from "./utils/utils.common";
-import { Credential } from "./credentials/Credential";
-import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
-import { AnonymousCredential } from "./credentials/AnonymousCredential";
-import "@azure/core-paging";
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { isNode, HttpResponse } from "@azure/core-http";
-import { SpanStatusCode } from "@azure/core-tracing";
-import { convertTracingToRequestOptionsBase, createSpan } from "./utils/tracing";
 import { ShareProtocols, toShareProtocols } from "./models";
+import { appendToURLPath, extractConnectionStringParts } from "./utils/utils.common";
+import { convertTracingToRequestOptionsBase, createSpan } from "./utils/tracing";
+import { AbortSignalLike } from "@azure/abort-controller";
 import { AccountSASPermissions } from "./AccountSASPermissions";
-import { generateAccountSASQueryParameters } from "./AccountSASSignatureValues";
 import { AccountSASServices } from "./AccountSASServices";
+import { AnonymousCredential } from "./credentials/AnonymousCredential";
+import { Credential } from "./credentials/Credential";
 import { SASProtocol } from "./SASQueryParameters";
 import { SasIPRange } from "./SasIPRange";
+import { Service } from "./generated/src/operations";
+import { ShareClientInternal } from "./ShareClientInternal";
+import { SpanStatusCode } from "@azure/core-tracing";
+import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 import { appendToURLQuery } from "./utils/utils.common";
+import { generateAccountSASQueryParameters } from "./AccountSASSignatureValues";
 
 /**
  * Options to configure Share - List Shares Segment operations.

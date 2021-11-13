@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+
 import { FileSystemAttributes } from "./FileSystemAttributes";
-import { truncatedISO8061Date } from "./utils/utils.common";
 import { logger } from "./log";
+import { truncatedISO8061Date } from "./utils/utils.common";
 
 export interface Metadata {
   [propertyName: string]: string;

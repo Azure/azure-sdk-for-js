@@ -3,22 +3,20 @@
 
 import * as assert from "assert";
 import * as dotenv from "dotenv";
-
-import { AbortController } from "@azure/abort-controller";
-import { isNode, URLBuilder, URLQuery } from "@azure/core-http";
-import { SpanGraph, setTracer } from "@azure/test-utils";
-import { delay, isLiveMode, record, Recorder } from "@azure-tools/test-recorder";
-
 import { FileStartCopyOptions, ShareClient, ShareDirectoryClient, ShareFileClient } from "../src";
-import { FileSystemAttributes } from "../src/FileSystemAttributes";
+import { Recorder, delay, isLiveMode, record } from "@azure-tools/test-recorder";
+import { SpanGraph, setTracer } from "@azure/test-utils";
+import { URLBuilder, URLQuery, isNode } from "@azure/core-http";
+import { bodyToString, compareBodyWithUint8Array, getBSU, recorderEnvSetup } from "./utils";
+import { context, setSpan } from "@azure/core-tracing";
+import { AbortController } from "@azure/abort-controller";
+import { Context } from "mocha";
 import { DirectoryCreateResponse } from "../src/generated/src/models";
+import { FILE_MAX_SIZE_BYTES } from "../src/utils/constants";
+import { FileSystemAttributes } from "../src/FileSystemAttributes";
+import { MockPolicyFactory } from "./utils/MockPolicyFactory";
 import { Pipeline } from "../src/Pipeline";
 import { truncatedISO8061Date } from "../src/utils/utils.common";
-import { bodyToString, compareBodyWithUint8Array, getBSU, recorderEnvSetup } from "./utils";
-import { MockPolicyFactory } from "./utils/MockPolicyFactory";
-import { FILE_MAX_SIZE_BYTES } from "../src/utils/constants";
-import { setSpan, context } from "@azure/core-tracing";
-import { Context } from "mocha";
 
 dotenv.config();
 

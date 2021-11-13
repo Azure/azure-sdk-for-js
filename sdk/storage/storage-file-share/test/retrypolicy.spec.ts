@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as dotenv from "dotenv";
 import * as assert from "assert";
-import { AbortController } from "@azure/abort-controller";
+import * as dotenv from "dotenv";
+import { Pipeline, newPipeline } from "../src/Pipeline";
+import { Recorder, record } from "@azure-tools/test-recorder";
 import { RestError, ShareClient } from "../src";
-import { newPipeline, Pipeline } from "../src/Pipeline";
 import { getBSU, recorderEnvSetup } from "./utils";
-import { InjectorPolicyFactory } from "./utils/InjectorPolicyFactory";
-import { record, Recorder } from "@azure-tools/test-recorder";
+import { AbortController } from "@azure/abort-controller";
 import { Context } from "mocha";
+import { InjectorPolicyFactory } from "./utils/InjectorPolicyFactory";
 
 dotenv.config();
 

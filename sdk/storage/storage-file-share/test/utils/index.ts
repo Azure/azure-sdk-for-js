@@ -1,24 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TokenCredential } from "@azure/core-http";
-import { randomBytes } from "crypto";
 import * as fs from "fs";
 import * as path from "path";
-
 import {
   AccountSASPermissions,
   AccountSASResourceTypes,
   AccountSASServices,
-  generateAccountSASQueryParameters,
-  SASProtocol
+  SASProtocol,
+  generateAccountSASQueryParameters
 } from "../../src";
-import { StorageSharedKeyCredential } from "../../src/credentials/StorageSharedKeyCredential";
-import { newPipeline } from "../../src/Pipeline";
-import { ShareServiceClient } from "../../src/ShareServiceClient";
-import { extractConnectionStringParts } from "../../src/utils/utils.common";
-import { getUniqueName, SimpleTokenCredential } from "./testutils.common";
+import { SimpleTokenCredential, getUniqueName } from "./testutils.common";
 import { BlobServiceClient } from "@azure/storage-blob";
+import { ShareServiceClient } from "../../src/ShareServiceClient";
+import { StorageSharedKeyCredential } from "../../src/credentials/StorageSharedKeyCredential";
+import { TokenCredential } from "@azure/core-http";
+import { extractConnectionStringParts } from "../../src/utils/utils.common";
+import { newPipeline } from "../../src/Pipeline";
+import { randomBytes } from "crypto";
 
 export * from "./testutils.common";
 

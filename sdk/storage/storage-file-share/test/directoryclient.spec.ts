@@ -2,18 +2,19 @@
 // Licensed under the MIT license.
 
 import * as assert from "assert";
-import { getBSU, recorderEnvSetup } from "./utils";
 import * as dotenv from "dotenv";
-import { ShareClient, ShareDirectoryClient, FileSystemAttributes } from "../src";
-import { record, Recorder } from "@azure-tools/test-recorder";
-import { DirectoryCreateResponse } from "../src/generated/src/models";
-import { truncatedISO8061Date } from "../src/utils/utils.common";
+import { FileSystemAttributes, ShareClient, ShareDirectoryClient } from "../src";
+import { Recorder, record } from "@azure-tools/test-recorder";
 import { SpanGraph, setTracer } from "@azure/test-utils";
-import { URLBuilder } from "@azure/core-http";
+import { context, setSpan } from "@azure/core-tracing";
+import { getBSU, recorderEnvSetup } from "./utils";
+import { Context } from "mocha";
+import { DirectoryCreateResponse } from "../src/generated/src/models";
 import { MockPolicyFactory } from "./utils/MockPolicyFactory";
 import { Pipeline } from "../src/Pipeline";
-import { setSpan, context } from "@azure/core-tracing";
-import { Context } from "mocha";
+import { URLBuilder } from "@azure/core-http";
+import { truncatedISO8061Date } from "../src/utils/utils.common";
+
 dotenv.config();
 
 describe("DirectoryClient", () => {

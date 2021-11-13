@@ -3,10 +3,11 @@
 
 import * as assert from "assert";
 import * as dotenv from "dotenv";
-import { getBSU, getSASConnectionStringFromEnvironment, recorderEnvSetup } from "./utils";
+import { Recorder, record } from "@azure-tools/test-recorder";
 import { ShareClient, ShareServiceClient } from "../src";
-import { record, Recorder } from "@azure-tools/test-recorder";
+import { getBSU, getSASConnectionStringFromEnvironment, recorderEnvSetup } from "./utils";
 import { Context } from "mocha";
+
 dotenv.config();
 
 describe("ShareClient", () => {

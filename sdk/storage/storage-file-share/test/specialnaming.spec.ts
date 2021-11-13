@@ -1,13 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ShareClient, ShareFileClient, ShareDirectoryClient } from "../src";
-import { getBSU, recorderEnvSetup } from "./utils/index";
 import * as assert from "assert";
-import { appendToURLPath } from "../src/utils/utils.common";
-import { record, Recorder } from "@azure-tools/test-recorder";
 import * as dotenv from "dotenv";
+import { Recorder, record } from "@azure-tools/test-recorder";
+import { ShareClient, ShareDirectoryClient, ShareFileClient } from "../src";
+import { getBSU, recorderEnvSetup } from "./utils/index";
 import { Context } from "mocha";
+import { appendToURLPath } from "../src/utils/utils.common";
+
 dotenv.config();
 
 describe("Special Naming Tests", () => {

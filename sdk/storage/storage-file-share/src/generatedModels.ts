@@ -111,7 +111,7 @@ export {
   ShareRootSquash
 } from "./generated/src/models";
 
-import { ShareSetPropertiesResponse, ShareSetPropertiesHeaders } from "./generated/src/models";
+import { ShareSetPropertiesHeaders, ShareSetPropertiesResponse } from "./generated/src/models";
 
 /**
  * Contains response data for the setQuota operation.
