@@ -7,10 +7,6 @@
 - Added `EventHubBufferedProducerClient` with functionality to manage batching, concurrency, and sending of events implicitly. This abstracts the complexity away from applications regarding publishing events in an optimal fashion. See issue [#17699](https://github.com/Azure/azure-sdk-for-js/issues/17699) for more details.
 - Added `skipParsingBodyAsJson` optional parameter to `EventHubConsumerClient.subscribe` method. When set to `true` it will disable the client from running `JSON.parse()` on the message body when receiving the message. Not applicable if the message was sent with AMQP body type `value` or `sequence`.
 
-### Breaking Changes
-
-### Bugs Fixed
-
 ### Other Changes
 
 - Prevent empty spans from being created when tracing is disabled. Fixes issue [#14063](https://github.com/Azure/azure-sdk-for-js/issues/14063)
