@@ -280,7 +280,7 @@ export interface RetryForeverArgs<T> {
 }
 
 /**
- * Retry infinitely until success, reporting in between retry\<\> attempts.
+ * Retry infinitely until success, reporting in between retry attempts.
  *
  * This function will only stop retrying if:
  * - args.retryConfig.operation resolves successfully
