@@ -30,7 +30,6 @@ import tsNamingDropNoun from "./ts-naming-drop-noun";
 import tsNamingOptions from "./ts-naming-options";
 import tsNamingSubclients from "./ts-naming-subclients";
 import tsNoConstEnums from "./ts-no-const-enums";
-import tsNoNamespaces from "./ts-no-namespaces";
 import tsNoWindow from "./ts-no-window";
 import tsPackageJsonAuthor from "./ts-package-json-author";
 import tsPackageJsonSdkType from "./ts-package-json-sdktype";
@@ -80,7 +79,6 @@ export = {
   "ts-naming-options": tsNamingOptions,
   "ts-naming-subclients": tsNamingSubclients,
   "ts-no-const-enums": tsNoConstEnums,
-  "ts-no-namespaces": tsNoNamespaces,
   "ts-no-window": tsNoWindow,
   "ts-package-json-author": tsPackageJsonAuthor,
   "ts-package-json-sdktype": tsPackageJsonSdkType,

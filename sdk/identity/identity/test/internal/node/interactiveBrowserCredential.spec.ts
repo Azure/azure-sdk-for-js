@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
-/* eslint-disable @azure/azure-sdk/ts-no-namespaces */
+/* eslint-disable @typescript-eslint/no-namespace */
 
 import Sinon from "sinon";
 import { assert } from "chai";
