@@ -10,7 +10,7 @@ https://github.com/Azure/azure-rest-api-specs/pull/10220 is merged.
 ```yaml
 v3: true
 package-name: "@azure/schema-registry"
-package-version: 1.0.0
+package-version: 1.0.1
 title: GeneratedSchemaRegistryClient
 description: Generated Schema Registry Client
 generate-metadata: false
@@ -22,10 +22,46 @@ input-file: https://github.com/Azure/azure-rest-api-specs/blob/main/specificatio
 typescript: true
 ```
 
-```yaml
+## Swagger workarounds
+
+### Add Content-Type header to GetById operation
+
+``` yaml
 directive:
   from: swagger-document
-  where: $.paths..["Serialization-Type"]
-  transform: $.enum = undefined; $["x-ms-enum"] = undefined; return $;
-  reason: https://github.com/Azure/autorest.typescript/issues/736
+  where: $.paths["/$schemaGroups/{groupName}/schemas/{schemaName}:get-id"].post
+  transform: >
+    $.parameters.push({
+      "name": "Content-Type",
+      "in": "header",
+      "description": "Content type of the schema.",
+      "required": true,
+      "type": "string"});
+```
+
+### Add Content-Type header to Register operation
+
+``` yaml
+directive:
+  from: swagger-document
+  where: $.paths["/$schemaGroups/{groupName}/schemas/{schemaName}"].put
+  transform: >
+    $.parameters.push({
+      "name": "Content-Type",
+      "in": "header",
+      "description": "Content type of the schema.",
+      "required": true,
+      "type": "string"});
+```
+
+### Delete all validation patterns from parameters
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["parameters"][*]
+    transform: >
+      if ($.pattern) {
+        delete $.pattern;
+      }
 ```

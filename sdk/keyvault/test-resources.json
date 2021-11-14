@@ -37,10 +37,9 @@
     },
     "hsmLocation": {
       "type": "string",
-      "defaultValue": "eastus",
-      "allowedValues": ["eastus", "eastus2", "southcentralus", "northeurope", "westeurope"],
+      "defaultValue": "[resourceGroup().location]",
       "metadata": {
-        "description": "The location of the Managed HSM. By default, this is 'eastus'."
+        "description": "The location of the Managed HSM. By default, this is the same as the resource group."
       }
     },
     "enableHsm": {

@@ -1,0 +1,56 @@
+{
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/azuretenantid/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fsanitized%2F",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "cache-control": "no-store, no-cache",
+    "content-length": "1321",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 12 Nov 2021 00:40:58 GMT",
+    "expires": "-1",
+    "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "pragma": "no-cache",
+    "referrer-policy": "strict-origin-when-cross-origin",
+    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+wst\"}]}",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-ests-server": "2.1.12231.7 - WUS2 ProdSlices",
+    "x-ms-request-id": "00d0ae3f-60d5-4d6d-9c54-823ce0d84000"
+   }
+  },
+  {
+   "method": "PUT",
+   "url": "https://endpoint/$schemaGroups/group-1/schemas/com.azure.schemaregistry.samples.User",
+   "query": {
+    "api-version": "2021-10"
+   },
+   "requestBody": "{\"type\":\"record\",\"name\":\"User\",\"namespace\":\"com.azure.schemaregistry.samples\",\"fields\":[{\"name\":\"name\",\"type\":\"string\"},{\"name\":\"favoriteNumber\",\"type\":\"int\"}]}",
+   "status": 204,
+   "response": "",
+   "responseHeaders": {
+    "content-length": "0",
+    "date": "Fri, 12 Nov 2021 00:40:58 GMT",
+    "location": "https://endpoint/$schemagroups/group-1/schemas/com.azure.schemaregistry.samples.User/versions/2?api-version=2021-10",
+    "schema-group-name": "group-1",
+    "schema-id": "c4556229b1dc4a358548e65e05299c57",
+    "schema-id-location": "https://endpoint/$schemagroups/$schemas/c4556229b1dc4a358548e65e05299c57?api-version=2021-10",
+    "schema-name": "com.azure.schemaregistry.samples.User",
+    "schema-version": "2",
+    "schema-versions-location": "https://endpoint/$schemagroups/group-1/schemas/com.azure.schemaregistry.samples.User/versions?api-version=2021-10",
+    "server": "Microsoft-HTTPAPI/2.0",
+    "strict-transport-security": "max-age=31536000"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "bdc2df5b891ca4327fbc710b8421f210"
+}

@@ -54,6 +54,7 @@ const ruleList = [
   "ts-package-json-name",
   "ts-package-json-repo",
   "ts-package-json-required-scripts",
+  "ts-package-json-sdktype",
   "ts-package-json-sideeffects",
   "ts-package-json-types",
   "ts-pagination-list",
