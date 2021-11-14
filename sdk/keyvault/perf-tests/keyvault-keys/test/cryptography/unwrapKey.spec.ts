@@ -14,7 +14,7 @@ export class UnwrapKeyTest extends CryptographyTest {
     this.encryptedKey = wrapResult.result;
   }
 
-  async runAsync(): Promise<void> {
+  async run(): Promise<void> {
     await CryptographyTest.cryptoClient!.unwrapKey(this.wrapAlgorithm, this.encryptedKey!);
   }
 }

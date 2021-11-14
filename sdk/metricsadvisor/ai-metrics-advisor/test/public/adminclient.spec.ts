@@ -34,8 +34,8 @@ matrix([[true, false]] as const, async (useAad) => {
         it("lists ingestion status", async function() {
           const iterator = client.listDataFeedIngestionStatus(
             testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DATAFEED_ID,
-            new Date(Date.UTC(2020, 7, 1)),
-            new Date(Date.UTC(2020, 8, 1))
+            new Date(Date.UTC(2020, 9, 30)),
+            new Date(Date.UTC(2021, 10, 1))
           );
           let result = await iterator.next();
           assert.ok(result.value.status, "Expecting first status");
@@ -46,8 +46,8 @@ matrix([[true, false]] as const, async (useAad) => {
         it("lists ingestion status with datetime strings", async function() {
           const iterator = client.listDataFeedIngestionStatus(
             testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DATAFEED_ID,
-            "2020-08-01T00:00:00.000Z",
-            "2020-09-01T00:00:00.000Z"
+            "2020-08-30T00:00:00.000Z",
+            "2021-11-01T00:00:00.000Z"
           );
           let result = await iterator.next();
           assert.ok(result.value.status, "Expecting first status");
@@ -59,8 +59,8 @@ matrix([[true, false]] as const, async (useAad) => {
           const iterator = client
             .listDataFeedIngestionStatus(
               testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DATAFEED_ID,
-              new Date(Date.UTC(2020, 7, 1)),
-              new Date(Date.UTC(2020, 8, 1))
+              new Date(Date.UTC(2020, 9, 30)),
+              new Date(Date.UTC(2021, 10, 1))
             )
             .byPage({ maxPageSize: 2 });
           let result = await iterator.next();
@@ -81,22 +81,22 @@ matrix([[true, false]] as const, async (useAad) => {
         it("refreshes ingesetion status", async function(this: Context) {
           const iterator = client.listDataFeedIngestionStatus(
             testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DATAFEED_ID,
-            new Date(Date.UTC(2020, 7, 22)),
-            new Date(Date.UTC(2020, 7, 23))
+            new Date(Date.UTC(2020, 9, 30)),
+            new Date(Date.UTC(2020, 10, 1))
           );
           const result = await iterator.next();
 
           if (result.value.status === "Succeeded") {
             await client.refreshDataFeedIngestion(
               testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DATAFEED_ID,
-              new Date(Date.UTC(2020, 7, 22)),
-              new Date(Date.UTC(2020, 7, 23))
+              new Date(Date.UTC(2020, 9, 30)),
+              new Date(Date.UTC(2020, 10, 1))
             );
 
             const iterator2 = client.listDataFeedIngestionStatus(
               testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DATAFEED_ID,
-              new Date(Date.UTC(2020, 7, 22)),
-              new Date(Date.UTC(2020, 7, 23))
+              new Date(Date.UTC(2020, 9, 30)),
+              new Date(Date.UTC(2020, 10, 1))
             );
             const result2 = await iterator2.next();
             assert.notEqual(result2.value.status, "Succeeded");
@@ -179,7 +179,7 @@ matrix([[true, false]] as const, async (useAad) => {
             },
             seriesGroupDetectionConditions: [
               {
-                groupKey: { city: "Mumbai" },
+                groupKey: { region: "Mumbai" },
                 hardThresholdCondition: {
                   anomalyDetectorDirection: "Up",
                   upperBound: 400,
@@ -189,7 +189,7 @@ matrix([[true, false]] as const, async (useAad) => {
             ],
             seriesDetectionConditions: [
               {
-                seriesKey: { city: "Kolkata", category: "Handmade" },
+                seriesKey: { region: "Kolkata", category: "Handmade" },
                 changeThresholdCondition: {
                   anomalyDetectorDirection: "Both",
                   shiftPoint: 1,

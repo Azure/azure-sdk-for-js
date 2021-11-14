@@ -14,7 +14,7 @@ export class DecryptTest extends CryptographyTest {
     this.cipherText = encryptResult.result!;
   }
 
-  async runAsync(): Promise<void> {
+  async run(): Promise<void> {
     await CryptographyTest.cryptoClient!.decrypt({
       algorithm: this.algorithm,
       ciphertext: this.cipherText!

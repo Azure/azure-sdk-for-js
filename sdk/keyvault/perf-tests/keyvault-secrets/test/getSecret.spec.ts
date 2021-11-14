@@ -10,7 +10,7 @@ export class GetSecretTest extends SecretTest {
     await this.secretClient.setSecret(GetSecretTest.secretName, "value");
   }
 
-  async runAsync(): Promise<void> {
+  async run(): Promise<void> {
     await this.secretClient.getSecret(GetSecretTest.secretName);
   }
 

@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0-beta.6 (Unreleased)
+## 1.0.0-beta.7 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,12 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 1.0.0-beta.6 (2021-11-09)
+
+### Features Added
+
+- Support passing service version via client options [PR #18067](https://github.com/Azure/azure-sdk-for-js/pull/18067).
 
 ## 1.0.0-beta.5 (2021-09-08)
 

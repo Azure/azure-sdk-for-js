@@ -15,11 +15,11 @@ import { GeneratedClientOptionalParams } from "./models";
 export class GeneratedClient extends GeneratedClientContext {
   /**
    * Initializes a new instance of the GeneratedClient class.
-   * @param $host server parameter
+   * @param endpoint HTTP or HTTPS endpoint for the Web PubSub service instance.
    * @param options The parameter options
    */
-  constructor($host: string, options?: GeneratedClientOptionalParams) {
-    super($host, options);
+  constructor(endpoint: string, options?: GeneratedClientOptionalParams) {
+    super(endpoint, options);
     this.healthApi = new HealthApiImpl(this);
     this.webPubSub = new WebPubSubImpl(this);
   }

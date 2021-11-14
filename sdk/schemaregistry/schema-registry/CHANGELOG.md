@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0-beta.4 (Unreleased)
+## 1.0.1 (Unreleased)
 
 ### Features Added
 
@@ -8,7 +8,27 @@
 
 ### Bugs Fixed
 
+- Disable client-side validation of schema names and leave that to the service.
+
 ### Other Changes
+
+## 1.0.0 (2021-11-10)
+
+### Features Added
+
+- an option to customize the API version has been added to `SchemaRegistryClientOptions`. 
+
+### Breaking Changes
+
+- The type `Schema` no longer extends `SchemaProperties`, instead, it now has two properties, one for the schema definition and one for its properties.
+- `Schema.schemaDefinition` has been renamed to `Schema.definition`.
+- `SchemaDescription.schemaDefinition` has been renamed to `SchemaDescription.definition`.
+- `getSchema` and `getSchemaProperties` no longer return `undefined`. If a schema is not found, an error will be thrown.
+- `SchemaProperties` no longer includes the `version`.
+
+### Other Changes
+
+- This is the initial general availability release of the schema registry package and the API version defaults to 2021-10.
 
 ## 1.0.0-beta.3 (2021-10-05)
 

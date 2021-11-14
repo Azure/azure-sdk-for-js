@@ -60,7 +60,7 @@ describe("proxyAgent", () => {
 
       const agent = proxyAgent.agent as HttpsAgent;
       should().exist(agent.proxyOptions.headers);
-      agent.proxyOptions.headers!.should.contain({ "user-agent": "Node.js" });
+      agent.proxyOptions.headers!.should.contain({ "User-Agent": "Node.js" });
       done();
     });
 

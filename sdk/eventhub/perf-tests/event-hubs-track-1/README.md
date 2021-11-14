@@ -20,7 +20,7 @@ Create an event-hubs namespace and populate the `.env` file with the following v
 
   > npm run perf-test:node -- SendTest --warmup 2 --duration 7 --parallel 2
 
-  _Note: For more default options, refer [Perf-Framework-Default-Options](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/perfstress/README.md#keyconcepts)._
+  _Note: For more default options, refer [Perf-Framework-Default-Options](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/perf/README.md#keyconcepts)._
 
 - To test receiving messages (this test does not use the framework, is a standalone test)
 

@@ -31,7 +31,7 @@ export class StorageBlobUploadFileTest extends StorageBlobUploadTest {
     await super.globalCleanup();
   }
 
-  async runAsync(): Promise<void> {
+  async run(): Promise<void> {
     await this.blockBlobClient.uploadFile(fileName);
   }
 }

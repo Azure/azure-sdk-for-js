@@ -59,8 +59,7 @@ describe("Transformations", () => {
         kid:
           "https://azure_managedhsm.managedhsm.azure.net/keys/transformations/f03e8b3d76554e8b9749994bcf72fc61",
         kty: "oct-HSM",
-        keyOps: ["encrypt", "decrypt"],
-        key_ops: ["encrypt", "decrypt"]
+        keyOps: ["encrypt", "decrypt"]
       },
       name: "transformations",
       id:
@@ -127,8 +126,7 @@ describe("Transformations", () => {
         kid:
           "https://azure_managedhsm.managedhsm.azure.net/keys/transformations/f03e8b3d76554e8b9749994bcf72fc61",
         kty: "oct-HSM",
-        keyOps: ["encrypt", "decrypt"],
-        key_ops: ["encrypt", "decrypt"]
+        keyOps: ["encrypt", "decrypt"]
       },
       name: "transformations",
       id:

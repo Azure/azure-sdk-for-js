@@ -12,8 +12,8 @@ package-version: 1.1.0-beta.1
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-tag: package-2021-03-31-preview1
-require: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/specification/communication/data-plane/Identity/readme.md
+tag: package-preview-2021-10
+require: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/6f40b65610a4fad7a03f3fe8c57e8c0a9c3b77d0/specification/communication/data-plane/Identity/readme.md
 model-date-time-as-string: false
 optional-response-headers: true
 payload-flattening-threshold: 10
@@ -21,4 +21,5 @@ use-extension:
   "@autorest/typescript": "6.0.0-dev.20200623.2"
 add-credentials: false
 azure-arm: false
+v3: true
 ```

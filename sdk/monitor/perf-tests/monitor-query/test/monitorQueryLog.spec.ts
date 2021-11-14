@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PerfStressTest } from "@azure/test-utils-perfstress";
+import { PerfTest } from "@azure/test-utils-perf";
 import { LogsQueryClient } from "@azure/monitor-query";
 import { DefaultAzureCredential } from "@azure/identity";
 
@@ -9,7 +9,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 dotenv.config();
 
-export abstract class MonitorQueryLog<TOptions> extends PerfStressTest<TOptions> {
+export abstract class MonitorQueryLog<TOptions> extends PerfTest<TOptions> {
   client: LogsQueryClient;
 
   constructor() {

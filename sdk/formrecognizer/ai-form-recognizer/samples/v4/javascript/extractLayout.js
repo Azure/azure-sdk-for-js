@@ -37,6 +37,20 @@ async function main() {
       console.log("- Page", page.pageNumber, `(unit: ${page.unit})`);
       console.log(`  ${page.width}x${page.height}, angle: ${page.angle}`);
       console.log(`  ${page.lines.length} lines, ${page.words.length} words`);
+
+      if (page.lines.length > 0) {
+        console.log("  Lines:");
+
+        for (const line of page.lines) {
+          console.log(`  - "${line.content}"`);
+
+          // The words of the line can also be iterated independently. The words are computed based on their
+          // corresponding spans.
+          for (const word of line.words()) {
+            console.log(`    - "${word.content}"`);
+          }
+        }
+      }
     }
   }
 

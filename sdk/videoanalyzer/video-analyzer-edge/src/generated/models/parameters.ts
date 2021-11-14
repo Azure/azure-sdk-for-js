@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { OperationURLParameter } from "@azure/core-http";
+import { OperationURLParameter } from "@azure/core-client";
 
 export const $host: OperationURLParameter = {
   parameterPath: "$host",

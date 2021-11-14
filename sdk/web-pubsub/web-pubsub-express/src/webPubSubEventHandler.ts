@@ -25,7 +25,7 @@ export class WebPubSubEventHandler {
    * import express from "express";
    * import { WebPubSubEventHandler } from "@azure/web-pubsub-express";
    * const endpoint = "https://xxxx.webpubsubdev.azure.com"
-   * const handler = new WebPubSubEventHandler('chat', [ endpoint ] {
+   * const handler = new WebPubSubEventHandler('chat', {
    *   handleConnect: (req, res) => {
    *     console.log(JSON.stringify(req));
    *     return {};
@@ -37,22 +37,18 @@ export class WebPubSubEventHandler {
    *     console.log(JSON.stringify(req));
    *     res.success("Hey " + req.data, req.dataType);
    *    };
+   *   allowedEndpoints: [ endpoint ]
    *  },
    * });
    * ```
    *
    * @param hub - The name of the hub to listen to
-   * @param allowedEndpoints - The allowed endpoints for the incoming CloudEvents request
    * @param options - Options to configure the event handler
    */
-  constructor(
-    private hub: string,
-    allowedEndpoints: string[],
-    options?: WebPubSubEventHandlerOptions
-  ) {
+  constructor(private hub: string, options?: WebPubSubEventHandlerOptions) {
     const path = (options?.path ?? `/api/webpubsub/hubs/${hub}/`).toLowerCase();
     this.path = path.endsWith("/") ? path : path + "/";
-    this._cloudEventsHandler = new CloudEventsDispatcher(this.hub, allowedEndpoints, options);
+    this._cloudEventsHandler = new CloudEventsDispatcher(this.hub, options);
   }
 
   /**
@@ -71,12 +67,12 @@ export class WebPubSubEventHandler {
       requestUrl = requestUrl.endsWith("/") ? requestUrl : requestUrl + "/";
       if (requestUrl.startsWith(this.path)) {
         if (req.method === "OPTIONS") {
-          if (this._cloudEventsHandler.processValidateRequest(req, res)) {
+          if (this._cloudEventsHandler.handlePreflight(req, res)) {
             return;
           }
         } else if (req.method === "POST") {
           try {
-            if (await this._cloudEventsHandler.processRequest(req, res)) {
+            if (await this._cloudEventsHandler.handleRequest(req, res)) {
               return;
             }
           } catch (err) {

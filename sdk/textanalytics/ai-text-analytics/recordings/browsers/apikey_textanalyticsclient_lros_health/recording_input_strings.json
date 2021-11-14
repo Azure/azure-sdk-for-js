@@ -2,7 +2,7 @@
  "recordings": [
   {
    "method": "POST",
-   "url": "https://endpoint/text/analytics/v3.2-preview.1/entities/health/jobs",
+   "url": "https://endpoint/text/analytics/v3.2-preview.2/entities/health/jobs",
    "query": {
     "stringIndexType": "Utf16CodeUnit"
    },
@@ -10,89 +10,259 @@
    "status": 202,
    "response": "",
    "responseHeaders": {
-    "apim-request-id": "3672858a-1dfc-4f16-967c-d8c7d9cd0731",
-    "date": "Tue, 03 Aug 2021 22:57:44 GMT",
-    "operation-location": "https://endpoint/text/analytics/v3.2-preview.1/entities/health/jobs/88672a2b-5565-412f-a669-7572f327fe1f",
+    "apim-request-id": "3f0d1213-e091-426b-9fd3-1a249fb0c0d3",
+    "date": "Sat, 23 Oct 2021 00:54:50 GMT",
+    "operation-location": "https://endpoint/text/analytics/v3.2-preview.1/entities/health/jobs/19e59d8c-5a16-48a0-bf77-b455cee01fb4",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "157"
+    "x-envoy-upstream-service-time": "216"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.2-preview.1/entities/health/jobs/88672a2b-5565-412f-a669-7572f327fe1f",
+   "url": "https://endpoint/text/analytics/v3.2-preview.1/entities/health/jobs/19e59d8c-5a16-48a0-bf77-b455cee01fb4",
    "query": {
-    "$top": "20"
+    "$top": "20",
+    "$skip": "0"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"88672a2b-5565-412f-a669-7572f327fe1f\",\"lastUpdateDateTime\":\"2021-08-03T22:57:45Z\",\"createdDateTime\":\"2021-08-03T22:57:45Z\",\"expirationDateTime\":\"2021-08-04T22:57:45Z\",\"status\":\"notStarted\",\"errors\":[]}",
+   "response": "{\"jobId\":\"19e59d8c-5a16-48a0-bf77-b455cee01fb4\",\"lastUpdateDateTime\":\"2021-10-23T00:54:50Z\",\"createdDateTime\":\"2021-10-23T00:54:50Z\",\"expirationDateTime\":\"2021-10-24T00:54:50Z\",\"status\":\"notStarted\",\"errors\":[]}",
    "responseHeaders": {
-    "apim-request-id": "9333eec1-f708-4d2b-ad07-fde256cd6d87",
+    "apim-request-id": "0caf2695-b289-41ed-9fb7-fbfc1d35f1de",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 03 Aug 2021 22:57:44 GMT",
+    "date": "Sat, 23 Oct 2021 00:54:50 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "9"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.2-preview.1/entities/health/jobs/19e59d8c-5a16-48a0-bf77-b455cee01fb4",
+   "query": {
+    "$top": "20",
+    "$skip": "0"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"19e59d8c-5a16-48a0-bf77-b455cee01fb4\",\"lastUpdateDateTime\":\"2021-10-23T00:54:50Z\",\"createdDateTime\":\"2021-10-23T00:54:50Z\",\"expirationDateTime\":\"2021-10-24T00:54:50Z\",\"status\":\"notStarted\",\"errors\":[]}",
+   "responseHeaders": {
+    "apim-request-id": "de7dd79b-78ee-4b45-915b-aabdd70271d3",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Sat, 23 Oct 2021 00:54:50 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "10"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.2-preview.1/entities/health/jobs/19e59d8c-5a16-48a0-bf77-b455cee01fb4",
+   "query": {
+    "$top": "20",
+    "$skip": "0"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"19e59d8c-5a16-48a0-bf77-b455cee01fb4\",\"lastUpdateDateTime\":\"2021-10-23T00:54:50Z\",\"createdDateTime\":\"2021-10-23T00:54:50Z\",\"expirationDateTime\":\"2021-10-24T00:54:50Z\",\"status\":\"notStarted\",\"errors\":[]}",
+   "responseHeaders": {
+    "apim-request-id": "664318f0-16de-4669-961a-257fcfbf90e0",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Sat, 23 Oct 2021 00:54:52 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "8"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.2-preview.1/entities/health/jobs/19e59d8c-5a16-48a0-bf77-b455cee01fb4",
+   "query": {
+    "$top": "20",
+    "$skip": "0"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"19e59d8c-5a16-48a0-bf77-b455cee01fb4\",\"lastUpdateDateTime\":\"2021-10-23T00:54:50Z\",\"createdDateTime\":\"2021-10-23T00:54:50Z\",\"expirationDateTime\":\"2021-10-24T00:54:50Z\",\"status\":\"notStarted\",\"errors\":[]}",
+   "responseHeaders": {
+    "apim-request-id": "86162f0a-69ef-42d6-a462-19849e893bf7",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Sat, 23 Oct 2021 00:54:54 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "10"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.2-preview.1/entities/health/jobs/19e59d8c-5a16-48a0-bf77-b455cee01fb4",
+   "query": {
+    "$top": "20",
+    "$skip": "0"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"19e59d8c-5a16-48a0-bf77-b455cee01fb4\",\"lastUpdateDateTime\":\"2021-10-23T00:54:50Z\",\"createdDateTime\":\"2021-10-23T00:54:50Z\",\"expirationDateTime\":\"2021-10-24T00:54:50Z\",\"status\":\"notStarted\",\"errors\":[]}",
+   "responseHeaders": {
+    "apim-request-id": "0533ea2d-b499-4cc2-a52f-1fefa007de14",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Sat, 23 Oct 2021 00:54:56 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
     "x-envoy-upstream-service-time": "7"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.2-preview.1/entities/health/jobs/88672a2b-5565-412f-a669-7572f327fe1f",
+   "url": "https://endpoint/text/analytics/v3.2-preview.1/entities/health/jobs/19e59d8c-5a16-48a0-bf77-b455cee01fb4",
    "query": {
-    "$top": "20"
+    "$top": "20",
+    "$skip": "0"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"88672a2b-5565-412f-a669-7572f327fe1f\",\"lastUpdateDateTime\":\"2021-08-03T22:57:45Z\",\"createdDateTime\":\"2021-08-03T22:57:45Z\",\"expirationDateTime\":\"2021-08-04T22:57:45Z\",\"status\":\"notStarted\",\"errors\":[]}",
+   "response": "{\"jobId\":\"19e59d8c-5a16-48a0-bf77-b455cee01fb4\",\"lastUpdateDateTime\":\"2021-10-23T00:54:50Z\",\"createdDateTime\":\"2021-10-23T00:54:50Z\",\"expirationDateTime\":\"2021-10-24T00:54:50Z\",\"status\":\"notStarted\",\"errors\":[]}",
    "responseHeaders": {
-    "apim-request-id": "8b41aaf2-e33d-4049-814b-815e54be7fa3",
+    "apim-request-id": "b98e513a-0b9e-40df-8b41-3afa60d3eb44",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 03 Aug 2021 22:57:44 GMT",
+    "date": "Sat, 23 Oct 2021 00:54:59 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "6"
+    "x-envoy-upstream-service-time": "10"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.2-preview.1/entities/health/jobs/88672a2b-5565-412f-a669-7572f327fe1f",
+   "url": "https://endpoint/text/analytics/v3.2-preview.1/entities/health/jobs/19e59d8c-5a16-48a0-bf77-b455cee01fb4",
    "query": {
-    "$top": "20"
+    "$top": "20",
+    "$skip": "0"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"88672a2b-5565-412f-a669-7572f327fe1f\",\"lastUpdateDateTime\":\"2021-08-03T22:57:46Z\",\"createdDateTime\":\"2021-08-03T22:57:45Z\",\"expirationDateTime\":\"2021-08-04T22:57:45Z\",\"status\":\"succeeded\",\"errors\":[],\"results\":{\"documents\":[{\"id\":\"0\",\"entities\":[{\"offset\":29,\"length\":19,\"text\":\"high blood pressure\",\"category\":\"SymptomOrSign\",\"confidenceScore\":1.0,\"assertion\":{\"certainty\":\"negative\"},\"name\":\"Hypertensive disease\",\"links\":[{\"dataSource\":\"UMLS\",\"id\":\"C0020538\"},{\"dataSource\":\"AOD\",\"id\":\"0000023317\"},{\"dataSource\":\"BI\",\"id\":\"BI00001\"},{\"dataSource\":\"CCPSS\",\"id\":\"1017493\"},{\"dataSource\":\"CCS\",\"id\":\"7.1\"},{\"dataSource\":\"CHV\",\"id\":\"0000015800\"},{\"dataSource\":\"COSTAR\",\"id\":\"397\"},{\"dataSource\":\"CSP\",\"id\":\"0571-5243\"},{\"dataSource\":\"CST\",\"id\":\"HYPERTENS\"},{\"dataSource\":\"DXP\",\"id\":\"U002034\"},{\"dataSource\":\"HPO\",\"id\":\"HP:0000822\"},{\"dataSource\":\"ICD10\",\"id\":\"I10-I15.9\"},{\"dataSource\":\"ICD10AM\",\"id\":\"I10-I15.9\"},{\"dataSource\":\"ICD10CM\",\"id\":\"I10\"},{\"dataSource\":\"ICD9CM\",\"id\":\"997.91\"},{\"dataSource\":\"ICPC2ICD10ENG\",\"id\":\"MTHU035456\"},{\"dataSource\":\"ICPC2P\",\"id\":\"K85004\"},{\"dataSource\":\"LCH\",\"id\":\"U002317\"},{\"dataSource\":\"LCH_NW\",\"id\":\"sh85063723\"},{\"dataSource\":\"LNC\",\"id\":\"LA14293-7\"},{\"dataSource\":\"MDR\",\"id\":\"10020772\"},{\"dataSource\":\"MEDCIN\",\"id\":\"33288\"},{\"dataSource\":\"MEDLINEPLUS\",\"id\":\"34\"},{\"dataSource\":\"MSH\",\"id\":\"D006973\"},{\"dataSource\":\"MTH\",\"id\":\"005\"},{\"dataSource\":\"MTHICD9\",\"id\":\"997.91\"},{\"dataSource\":\"NANDA-I\",\"id\":\"00905\"},{\"dataSource\":\"NCI\",\"id\":\"C3117\"},{\"dataSource\":\"NCI_CPTAC\",\"id\":\"C3117\"},{\"dataSource\":\"NCI_CTCAE\",\"id\":\"E13785\"},{\"dataSource\":\"NCI_CTRP\",\"id\":\"C3117\"},{\"dataSource\":\"NCI_FDA\",\"id\":\"1908\"},{\"dataSource\":\"NCI_GDC\",\"id\":\"C3117\"},{\"dataSource\":\"NCI_NCI-GLOSS\",\"id\":\"CDR0000458091\"},{\"dataSource\":\"NCI_NICHD\",\"id\":\"C3117\"},{\"dataSource\":\"NOC\",\"id\":\"060808\"},{\"dataSource\":\"OMIM\",\"id\":\"MTHU002068\"},{\"dataSource\":\"PCDS\",\"id\":\"PRB_11000.06\"},{\"dataSource\":\"PDQ\",\"id\":\"CDR0000686951\"},{\"dataSource\":\"PSY\",\"id\":\"23830\"},{\"dataSource\":\"RCD\",\"id\":\"XE0Ub\"},{\"dataSource\":\"SNM\",\"id\":\"F-70700\"},{\"dataSource\":\"SNMI\",\"id\":\"D3-02000\"},{\"dataSource\":\"SNOMEDCT_US\",\"id\":\"38341003\"},{\"dataSource\":\"WHO\",\"id\":\"0210\"}]}],\"relations\":[],\"warnings\":[]},{\"id\":\"1\",\"entities\":[{\"offset\":11,\"length\":5,\"text\":\"100mg\",\"category\":\"Dosage\",\"confidenceScore\":1.0},{\"offset\":17,\"length\":9,\"text\":\"ibuprofen\",\"category\":\"MedicationName\",\"confidenceScore\":1.0,\"name\":\"ibuprofen\",\"links\":[{\"dataSource\":\"UMLS\",\"id\":\"C0020740\"},{\"dataSource\":\"AOD\",\"id\":\"0000019879\"},{\"dataSource\":\"ATC\",\"id\":\"M01AE01\"},{\"dataSource\":\"CCPSS\",\"id\":\"0046165\"},{\"dataSource\":\"CHV\",\"id\":\"0000006519\"},{\"dataSource\":\"CSP\",\"id\":\"2270-2077\"},{\"dataSource\":\"DRUGBANK\",\"id\":\"DB01050\"},{\"dataSource\":\"GS\",\"id\":\"1611\"},{\"dataSource\":\"LCH_NW\",\"id\":\"sh97005926\"},{\"dataSource\":\"LNC\",\"id\":\"LP16165-0\"},{\"dataSource\":\"MEDCIN\",\"id\":\"40458\"},{\"dataSource\":\"MMSL\",\"id\":\"d00015\"},{\"dataSource\":\"MSH\",\"id\":\"D007052\"},{\"dataSource\":\"MTHSPL\",\"id\":\"WK2XYI10QM\"},{\"dataSource\":\"NCI\",\"id\":\"C561\"},{\"dataSource\":\"NCI_CTRP\",\"id\":\"C561\"},{\"dataSource\":\"NCI_DCP\",\"id\":\"00803\"},{\"dataSource\":\"NCI_DTP\",\"id\":\"NSC0256857\"},{\"dataSource\":\"NCI_FDA\",\"id\":\"WK2XYI10QM\"},{\"dataSource\":\"NCI_NCI-GLOSS\",\"id\":\"CDR0000613511\"},{\"dataSource\":\"NDDF\",\"id\":\"002377\"},{\"dataSource\":\"PDQ\",\"id\":\"CDR0000040475\"},{\"dataSource\":\"RCD\",\"id\":\"x02MO\"},{\"dataSource\":\"RXNORM\",\"id\":\"5640\"},{\"dataSource\":\"SNM\",\"id\":\"E-7772\"},{\"dataSource\":\"SNMI\",\"id\":\"C-603C0\"},{\"dataSource\":\"SNOMEDCT_US\",\"id\":\"387207008\"},{\"dataSource\":\"USP\",\"id\":\"m39860\"},{\"dataSource\":\"USPMG\",\"id\":\"MTHU000060\"},{\"dataSource\":\"VANDF\",\"id\":\"4017840\"}]},{\"offset\":34,\"length\":11,\"text\":\"twice daily\",\"category\":\"Frequency\",\"confidenceScore\":1.0}],\"relations\":[{\"relationType\":\"DosageOfMedication\",\"entities\":[{\"ref\":\"#/results/documents/1/entities/0\",\"role\":\"Dosage\"},{\"ref\":\"#/results/documents/1/entities/1\",\"role\":\"Medication\"}]},{\"relationType\":\"FrequencyOfMedication\",\"entities\":[{\"ref\":\"#/results/documents/1/entities/1\",\"role\":\"Medication\"},{\"ref\":\"#/results/documents/1/entities/2\",\"role\":\"Frequency\"}]}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-05-15\"}}",
+   "response": "{\"jobId\":\"19e59d8c-5a16-48a0-bf77-b455cee01fb4\",\"lastUpdateDateTime\":\"2021-10-23T00:55:01Z\",\"createdDateTime\":\"2021-10-23T00:54:50Z\",\"expirationDateTime\":\"2021-10-24T00:54:50Z\",\"status\":\"running\",\"errors\":[]}",
    "responseHeaders": {
-    "apim-request-id": "094cc1ff-526c-46f2-ab19-e415dd944134",
+    "apim-request-id": "f7d21273-910b-4269-8946-abd47544f384",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 03 Aug 2021 22:57:47 GMT",
+    "date": "Sat, 23 Oct 2021 00:55:01 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "54"
+    "x-envoy-upstream-service-time": "8"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.2-preview.1/entities/health/jobs/88672a2b-5565-412f-a669-7572f327fe1f",
+   "url": "https://endpoint/text/analytics/v3.2-preview.1/entities/health/jobs/19e59d8c-5a16-48a0-bf77-b455cee01fb4",
    "query": {
-    "$top": "20"
+    "$top": "20",
+    "$skip": "0"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"88672a2b-5565-412f-a669-7572f327fe1f\",\"lastUpdateDateTime\":\"2021-08-03T22:57:46Z\",\"createdDateTime\":\"2021-08-03T22:57:45Z\",\"expirationDateTime\":\"2021-08-04T22:57:45Z\",\"status\":\"succeeded\",\"errors\":[],\"results\":{\"documents\":[{\"id\":\"0\",\"entities\":[{\"offset\":29,\"length\":19,\"text\":\"high blood pressure\",\"category\":\"SymptomOrSign\",\"confidenceScore\":1.0,\"assertion\":{\"certainty\":\"negative\"},\"name\":\"Hypertensive disease\",\"links\":[{\"dataSource\":\"UMLS\",\"id\":\"C0020538\"},{\"dataSource\":\"AOD\",\"id\":\"0000023317\"},{\"dataSource\":\"BI\",\"id\":\"BI00001\"},{\"dataSource\":\"CCPSS\",\"id\":\"1017493\"},{\"dataSource\":\"CCS\",\"id\":\"7.1\"},{\"dataSource\":\"CHV\",\"id\":\"0000015800\"},{\"dataSource\":\"COSTAR\",\"id\":\"397\"},{\"dataSource\":\"CSP\",\"id\":\"0571-5243\"},{\"dataSource\":\"CST\",\"id\":\"HYPERTENS\"},{\"dataSource\":\"DXP\",\"id\":\"U002034\"},{\"dataSource\":\"HPO\",\"id\":\"HP:0000822\"},{\"dataSource\":\"ICD10\",\"id\":\"I10-I15.9\"},{\"dataSource\":\"ICD10AM\",\"id\":\"I10-I15.9\"},{\"dataSource\":\"ICD10CM\",\"id\":\"I10\"},{\"dataSource\":\"ICD9CM\",\"id\":\"997.91\"},{\"dataSource\":\"ICPC2ICD10ENG\",\"id\":\"MTHU035456\"},{\"dataSource\":\"ICPC2P\",\"id\":\"K85004\"},{\"dataSource\":\"LCH\",\"id\":\"U002317\"},{\"dataSource\":\"LCH_NW\",\"id\":\"sh85063723\"},{\"dataSource\":\"LNC\",\"id\":\"LA14293-7\"},{\"dataSource\":\"MDR\",\"id\":\"10020772\"},{\"dataSource\":\"MEDCIN\",\"id\":\"33288\"},{\"dataSource\":\"MEDLINEPLUS\",\"id\":\"34\"},{\"dataSource\":\"MSH\",\"id\":\"D006973\"},{\"dataSource\":\"MTH\",\"id\":\"005\"},{\"dataSource\":\"MTHICD9\",\"id\":\"997.91\"},{\"dataSource\":\"NANDA-I\",\"id\":\"00905\"},{\"dataSource\":\"NCI\",\"id\":\"C3117\"},{\"dataSource\":\"NCI_CPTAC\",\"id\":\"C3117\"},{\"dataSource\":\"NCI_CTCAE\",\"id\":\"E13785\"},{\"dataSource\":\"NCI_CTRP\",\"id\":\"C3117\"},{\"dataSource\":\"NCI_FDA\",\"id\":\"1908\"},{\"dataSource\":\"NCI_GDC\",\"id\":\"C3117\"},{\"dataSource\":\"NCI_NCI-GLOSS\",\"id\":\"CDR0000458091\"},{\"dataSource\":\"NCI_NICHD\",\"id\":\"C3117\"},{\"dataSource\":\"NOC\",\"id\":\"060808\"},{\"dataSource\":\"OMIM\",\"id\":\"MTHU002068\"},{\"dataSource\":\"PCDS\",\"id\":\"PRB_11000.06\"},{\"dataSource\":\"PDQ\",\"id\":\"CDR0000686951\"},{\"dataSource\":\"PSY\",\"id\":\"23830\"},{\"dataSource\":\"RCD\",\"id\":\"XE0Ub\"},{\"dataSource\":\"SNM\",\"id\":\"F-70700\"},{\"dataSource\":\"SNMI\",\"id\":\"D3-02000\"},{\"dataSource\":\"SNOMEDCT_US\",\"id\":\"38341003\"},{\"dataSource\":\"WHO\",\"id\":\"0210\"}]}],\"relations\":[],\"warnings\":[]},{\"id\":\"1\",\"entities\":[{\"offset\":11,\"length\":5,\"text\":\"100mg\",\"category\":\"Dosage\",\"confidenceScore\":1.0},{\"offset\":17,\"length\":9,\"text\":\"ibuprofen\",\"category\":\"MedicationName\",\"confidenceScore\":1.0,\"name\":\"ibuprofen\",\"links\":[{\"dataSource\":\"UMLS\",\"id\":\"C0020740\"},{\"dataSource\":\"AOD\",\"id\":\"0000019879\"},{\"dataSource\":\"ATC\",\"id\":\"M01AE01\"},{\"dataSource\":\"CCPSS\",\"id\":\"0046165\"},{\"dataSource\":\"CHV\",\"id\":\"0000006519\"},{\"dataSource\":\"CSP\",\"id\":\"2270-2077\"},{\"dataSource\":\"DRUGBANK\",\"id\":\"DB01050\"},{\"dataSource\":\"GS\",\"id\":\"1611\"},{\"dataSource\":\"LCH_NW\",\"id\":\"sh97005926\"},{\"dataSource\":\"LNC\",\"id\":\"LP16165-0\"},{\"dataSource\":\"MEDCIN\",\"id\":\"40458\"},{\"dataSource\":\"MMSL\",\"id\":\"d00015\"},{\"dataSource\":\"MSH\",\"id\":\"D007052\"},{\"dataSource\":\"MTHSPL\",\"id\":\"WK2XYI10QM\"},{\"dataSource\":\"NCI\",\"id\":\"C561\"},{\"dataSource\":\"NCI_CTRP\",\"id\":\"C561\"},{\"dataSource\":\"NCI_DCP\",\"id\":\"00803\"},{\"dataSource\":\"NCI_DTP\",\"id\":\"NSC0256857\"},{\"dataSource\":\"NCI_FDA\",\"id\":\"WK2XYI10QM\"},{\"dataSource\":\"NCI_NCI-GLOSS\",\"id\":\"CDR0000613511\"},{\"dataSource\":\"NDDF\",\"id\":\"002377\"},{\"dataSource\":\"PDQ\",\"id\":\"CDR0000040475\"},{\"dataSource\":\"RCD\",\"id\":\"x02MO\"},{\"dataSource\":\"RXNORM\",\"id\":\"5640\"},{\"dataSource\":\"SNM\",\"id\":\"E-7772\"},{\"dataSource\":\"SNMI\",\"id\":\"C-603C0\"},{\"dataSource\":\"SNOMEDCT_US\",\"id\":\"387207008\"},{\"dataSource\":\"USP\",\"id\":\"m39860\"},{\"dataSource\":\"USPMG\",\"id\":\"MTHU000060\"},{\"dataSource\":\"VANDF\",\"id\":\"4017840\"}]},{\"offset\":34,\"length\":11,\"text\":\"twice daily\",\"category\":\"Frequency\",\"confidenceScore\":1.0}],\"relations\":[{\"relationType\":\"DosageOfMedication\",\"entities\":[{\"ref\":\"#/results/documents/1/entities/0\",\"role\":\"Dosage\"},{\"ref\":\"#/results/documents/1/entities/1\",\"role\":\"Medication\"}]},{\"relationType\":\"FrequencyOfMedication\",\"entities\":[{\"ref\":\"#/results/documents/1/entities/1\",\"role\":\"Medication\"},{\"ref\":\"#/results/documents/1/entities/2\",\"role\":\"Frequency\"}]}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-05-15\"}}",
+   "response": "{\"jobId\":\"19e59d8c-5a16-48a0-bf77-b455cee01fb4\",\"lastUpdateDateTime\":\"2021-10-23T00:55:01Z\",\"createdDateTime\":\"2021-10-23T00:54:50Z\",\"expirationDateTime\":\"2021-10-24T00:54:50Z\",\"status\":\"running\",\"errors\":[]}",
    "responseHeaders": {
-    "apim-request-id": "fed2ce5d-ba0a-4df4-9f0a-edaac82d8551",
+    "apim-request-id": "a609a697-3a23-476e-b549-9398c7f3aa57",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 03 Aug 2021 22:57:47 GMT",
+    "date": "Sat, 23 Oct 2021 00:55:03 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "57"
+    "x-envoy-upstream-service-time": "87"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.2-preview.1/entities/health/jobs/19e59d8c-5a16-48a0-bf77-b455cee01fb4",
+   "query": {
+    "$top": "20",
+    "$skip": "0"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"19e59d8c-5a16-48a0-bf77-b455cee01fb4\",\"lastUpdateDateTime\":\"2021-10-23T00:55:01Z\",\"createdDateTime\":\"2021-10-23T00:54:50Z\",\"expirationDateTime\":\"2021-10-24T00:54:50Z\",\"status\":\"running\",\"errors\":[]}",
+   "responseHeaders": {
+    "apim-request-id": "1e9a6c22-cdab-47ae-b8ef-3b52bbeeddec",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Sat, 23 Oct 2021 00:55:05 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "15"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.2-preview.1/entities/health/jobs/19e59d8c-5a16-48a0-bf77-b455cee01fb4",
+   "query": {
+    "$top": "20",
+    "$skip": "0"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"19e59d8c-5a16-48a0-bf77-b455cee01fb4\",\"lastUpdateDateTime\":\"2021-10-23T00:55:01Z\",\"createdDateTime\":\"2021-10-23T00:54:50Z\",\"expirationDateTime\":\"2021-10-24T00:54:50Z\",\"status\":\"running\",\"errors\":[]}",
+   "responseHeaders": {
+    "apim-request-id": "3acd4192-746f-4459-9e74-62f7da0def81",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Sat, 23 Oct 2021 00:55:07 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "9"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.2-preview.1/entities/health/jobs/19e59d8c-5a16-48a0-bf77-b455cee01fb4",
+   "query": {
+    "$top": "20",
+    "$skip": "0"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"19e59d8c-5a16-48a0-bf77-b455cee01fb4\",\"lastUpdateDateTime\":\"2021-10-23T00:55:01Z\",\"createdDateTime\":\"2021-10-23T00:54:50Z\",\"expirationDateTime\":\"2021-10-24T00:54:50Z\",\"status\":\"running\",\"errors\":[]}",
+   "responseHeaders": {
+    "apim-request-id": "3930bd4c-22ed-4708-968f-6df5a56c5fd1",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Sat, 23 Oct 2021 00:55:09 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "27"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.2-preview.1/entities/health/jobs/19e59d8c-5a16-48a0-bf77-b455cee01fb4",
+   "query": {
+    "$top": "20",
+    "$skip": "0"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"19e59d8c-5a16-48a0-bf77-b455cee01fb4\",\"lastUpdateDateTime\":\"2021-10-23T00:55:09Z\",\"createdDateTime\":\"2021-10-23T00:54:50Z\",\"expirationDateTime\":\"2021-10-24T00:54:50Z\",\"status\":\"succeeded\",\"errors\":[],\"results\":{\"documents\":[{\"id\":\"0\",\"entities\":[{\"offset\":29,\"length\":19,\"text\":\"high blood pressure\",\"category\":\"SymptomOrSign\",\"confidenceScore\":1.0,\"assertion\":{\"certainty\":\"negative\"},\"name\":\"Hypertensive disease\",\"links\":[{\"dataSource\":\"UMLS\",\"id\":\"C0020538\"},{\"dataSource\":\"AOD\",\"id\":\"0000023317\"},{\"dataSource\":\"BI\",\"id\":\"BI00001\"},{\"dataSource\":\"CCPSS\",\"id\":\"1017493\"},{\"dataSource\":\"CCS\",\"id\":\"7.1\"},{\"dataSource\":\"CHV\",\"id\":\"0000015800\"},{\"dataSource\":\"COSTAR\",\"id\":\"397\"},{\"dataSource\":\"CSP\",\"id\":\"0571-5243\"},{\"dataSource\":\"CST\",\"id\":\"HYPERTENS\"},{\"dataSource\":\"DXP\",\"id\":\"U002034\"},{\"dataSource\":\"HPO\",\"id\":\"HP:0000822\"},{\"dataSource\":\"ICD10\",\"id\":\"I10-I15.9\"},{\"dataSource\":\"ICD10AM\",\"id\":\"I10-I15.9\"},{\"dataSource\":\"ICD10CM\",\"id\":\"I10\"},{\"dataSource\":\"ICD9CM\",\"id\":\"997.91\"},{\"dataSource\":\"ICPC2ICD10ENG\",\"id\":\"MTHU035456\"},{\"dataSource\":\"ICPC2P\",\"id\":\"K85004\"},{\"dataSource\":\"LCH\",\"id\":\"U002317\"},{\"dataSource\":\"LCH_NW\",\"id\":\"sh85063723\"},{\"dataSource\":\"LNC\",\"id\":\"LA14293-7\"},{\"dataSource\":\"MDR\",\"id\":\"10020772\"},{\"dataSource\":\"MEDCIN\",\"id\":\"33288\"},{\"dataSource\":\"MEDLINEPLUS\",\"id\":\"34\"},{\"dataSource\":\"MSH\",\"id\":\"D006973\"},{\"dataSource\":\"MTH\",\"id\":\"005\"},{\"dataSource\":\"MTHICD9\",\"id\":\"997.91\"},{\"dataSource\":\"NANDA-I\",\"id\":\"00905\"},{\"dataSource\":\"NCI\",\"id\":\"C3117\"},{\"dataSource\":\"NCI_CPTAC\",\"id\":\"C3117\"},{\"dataSource\":\"NCI_CTCAE\",\"id\":\"E13785\"},{\"dataSource\":\"NCI_CTRP\",\"id\":\"C3117\"},{\"dataSource\":\"NCI_FDA\",\"id\":\"1908\"},{\"dataSource\":\"NCI_GDC\",\"id\":\"C3117\"},{\"dataSource\":\"NCI_NCI-GLOSS\",\"id\":\"CDR0000458091\"},{\"dataSource\":\"NCI_NICHD\",\"id\":\"C3117\"},{\"dataSource\":\"NOC\",\"id\":\"060808\"},{\"dataSource\":\"OMIM\",\"id\":\"MTHU002068\"},{\"dataSource\":\"PCDS\",\"id\":\"PRB_11000.06\"},{\"dataSource\":\"PDQ\",\"id\":\"CDR0000686951\"},{\"dataSource\":\"PSY\",\"id\":\"23830\"},{\"dataSource\":\"RCD\",\"id\":\"XE0Ub\"},{\"dataSource\":\"SNM\",\"id\":\"F-70700\"},{\"dataSource\":\"SNMI\",\"id\":\"D3-02000\"},{\"dataSource\":\"SNOMEDCT_US\",\"id\":\"38341003\"},{\"dataSource\":\"WHO\",\"id\":\"0210\"}]}],\"relations\":[],\"warnings\":[]},{\"id\":\"1\",\"entities\":[{\"offset\":11,\"length\":5,\"text\":\"100mg\",\"category\":\"Dosage\",\"confidenceScore\":1.0},{\"offset\":17,\"length\":9,\"text\":\"ibuprofen\",\"category\":\"MedicationName\",\"confidenceScore\":1.0,\"name\":\"ibuprofen\",\"links\":[{\"dataSource\":\"UMLS\",\"id\":\"C0020740\"},{\"dataSource\":\"AOD\",\"id\":\"0000019879\"},{\"dataSource\":\"ATC\",\"id\":\"M01AE01\"},{\"dataSource\":\"CCPSS\",\"id\":\"0046165\"},{\"dataSource\":\"CHV\",\"id\":\"0000006519\"},{\"dataSource\":\"CSP\",\"id\":\"2270-2077\"},{\"dataSource\":\"DRUGBANK\",\"id\":\"DB01050\"},{\"dataSource\":\"GS\",\"id\":\"1611\"},{\"dataSource\":\"LCH_NW\",\"id\":\"sh97005926\"},{\"dataSource\":\"LNC\",\"id\":\"LP16165-0\"},{\"dataSource\":\"MEDCIN\",\"id\":\"40458\"},{\"dataSource\":\"MMSL\",\"id\":\"d00015\"},{\"dataSource\":\"MSH\",\"id\":\"D007052\"},{\"dataSource\":\"MTHSPL\",\"id\":\"WK2XYI10QM\"},{\"dataSource\":\"NCI\",\"id\":\"C561\"},{\"dataSource\":\"NCI_CTRP\",\"id\":\"C561\"},{\"dataSource\":\"NCI_DCP\",\"id\":\"00803\"},{\"dataSource\":\"NCI_DTP\",\"id\":\"NSC0256857\"},{\"dataSource\":\"NCI_FDA\",\"id\":\"WK2XYI10QM\"},{\"dataSource\":\"NCI_NCI-GLOSS\",\"id\":\"CDR0000613511\"},{\"dataSource\":\"NDDF\",\"id\":\"002377\"},{\"dataSource\":\"PDQ\",\"id\":\"CDR0000040475\"},{\"dataSource\":\"RCD\",\"id\":\"x02MO\"},{\"dataSource\":\"RXNORM\",\"id\":\"5640\"},{\"dataSource\":\"SNM\",\"id\":\"E-7772\"},{\"dataSource\":\"SNMI\",\"id\":\"C-603C0\"},{\"dataSource\":\"SNOMEDCT_US\",\"id\":\"387207008\"},{\"dataSource\":\"USP\",\"id\":\"m39860\"},{\"dataSource\":\"USPMG\",\"id\":\"MTHU000060\"},{\"dataSource\":\"VANDF\",\"id\":\"4017840\"}]},{\"offset\":34,\"length\":11,\"text\":\"twice daily\",\"category\":\"Frequency\",\"confidenceScore\":1.0}],\"relations\":[{\"relationType\":\"DosageOfMedication\",\"entities\":[{\"ref\":\"#/results/documents/1/entities/0\",\"role\":\"Dosage\"},{\"ref\":\"#/results/documents/1/entities/1\",\"role\":\"Medication\"}]},{\"relationType\":\"FrequencyOfMedication\",\"entities\":[{\"ref\":\"#/results/documents/1/entities/1\",\"role\":\"Medication\"},{\"ref\":\"#/results/documents/1/entities/2\",\"role\":\"Frequency\"}]}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-05-15\"}}",
+   "responseHeaders": {
+    "apim-request-id": "b13c8e6e-ddc2-47d5-bb3b-4ce1abd324e1",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Sat, 23 Oct 2021 00:55:11 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "118"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.2-preview.1/entities/health/jobs/19e59d8c-5a16-48a0-bf77-b455cee01fb4",
+   "query": {
+    "$top": "20",
+    "$skip": "0"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"19e59d8c-5a16-48a0-bf77-b455cee01fb4\",\"lastUpdateDateTime\":\"2021-10-23T00:55:09Z\",\"createdDateTime\":\"2021-10-23T00:54:50Z\",\"expirationDateTime\":\"2021-10-24T00:54:50Z\",\"status\":\"succeeded\",\"errors\":[],\"results\":{\"documents\":[{\"id\":\"0\",\"entities\":[{\"offset\":29,\"length\":19,\"text\":\"high blood pressure\",\"category\":\"SymptomOrSign\",\"confidenceScore\":1.0,\"assertion\":{\"certainty\":\"negative\"},\"name\":\"Hypertensive disease\",\"links\":[{\"dataSource\":\"UMLS\",\"id\":\"C0020538\"},{\"dataSource\":\"AOD\",\"id\":\"0000023317\"},{\"dataSource\":\"BI\",\"id\":\"BI00001\"},{\"dataSource\":\"CCPSS\",\"id\":\"1017493\"},{\"dataSource\":\"CCS\",\"id\":\"7.1\"},{\"dataSource\":\"CHV\",\"id\":\"0000015800\"},{\"dataSource\":\"COSTAR\",\"id\":\"397\"},{\"dataSource\":\"CSP\",\"id\":\"0571-5243\"},{\"dataSource\":\"CST\",\"id\":\"HYPERTENS\"},{\"dataSource\":\"DXP\",\"id\":\"U002034\"},{\"dataSource\":\"HPO\",\"id\":\"HP:0000822\"},{\"dataSource\":\"ICD10\",\"id\":\"I10-I15.9\"},{\"dataSource\":\"ICD10AM\",\"id\":\"I10-I15.9\"},{\"dataSource\":\"ICD10CM\",\"id\":\"I10\"},{\"dataSource\":\"ICD9CM\",\"id\":\"997.91\"},{\"dataSource\":\"ICPC2ICD10ENG\",\"id\":\"MTHU035456\"},{\"dataSource\":\"ICPC2P\",\"id\":\"K85004\"},{\"dataSource\":\"LCH\",\"id\":\"U002317\"},{\"dataSource\":\"LCH_NW\",\"id\":\"sh85063723\"},{\"dataSource\":\"LNC\",\"id\":\"LA14293-7\"},{\"dataSource\":\"MDR\",\"id\":\"10020772\"},{\"dataSource\":\"MEDCIN\",\"id\":\"33288\"},{\"dataSource\":\"MEDLINEPLUS\",\"id\":\"34\"},{\"dataSource\":\"MSH\",\"id\":\"D006973\"},{\"dataSource\":\"MTH\",\"id\":\"005\"},{\"dataSource\":\"MTHICD9\",\"id\":\"997.91\"},{\"dataSource\":\"NANDA-I\",\"id\":\"00905\"},{\"dataSource\":\"NCI\",\"id\":\"C3117\"},{\"dataSource\":\"NCI_CPTAC\",\"id\":\"C3117\"},{\"dataSource\":\"NCI_CTCAE\",\"id\":\"E13785\"},{\"dataSource\":\"NCI_CTRP\",\"id\":\"C3117\"},{\"dataSource\":\"NCI_FDA\",\"id\":\"1908\"},{\"dataSource\":\"NCI_GDC\",\"id\":\"C3117\"},{\"dataSource\":\"NCI_NCI-GLOSS\",\"id\":\"CDR0000458091\"},{\"dataSource\":\"NCI_NICHD\",\"id\":\"C3117\"},{\"dataSource\":\"NOC\",\"id\":\"060808\"},{\"dataSource\":\"OMIM\",\"id\":\"MTHU002068\"},{\"dataSource\":\"PCDS\",\"id\":\"PRB_11000.06\"},{\"dataSource\":\"PDQ\",\"id\":\"CDR0000686951\"},{\"dataSource\":\"PSY\",\"id\":\"23830\"},{\"dataSource\":\"RCD\",\"id\":\"XE0Ub\"},{\"dataSource\":\"SNM\",\"id\":\"F-70700\"},{\"dataSource\":\"SNMI\",\"id\":\"D3-02000\"},{\"dataSource\":\"SNOMEDCT_US\",\"id\":\"38341003\"},{\"dataSource\":\"WHO\",\"id\":\"0210\"}]}],\"relations\":[],\"warnings\":[]},{\"id\":\"1\",\"entities\":[{\"offset\":11,\"length\":5,\"text\":\"100mg\",\"category\":\"Dosage\",\"confidenceScore\":1.0},{\"offset\":17,\"length\":9,\"text\":\"ibuprofen\",\"category\":\"MedicationName\",\"confidenceScore\":1.0,\"name\":\"ibuprofen\",\"links\":[{\"dataSource\":\"UMLS\",\"id\":\"C0020740\"},{\"dataSource\":\"AOD\",\"id\":\"0000019879\"},{\"dataSource\":\"ATC\",\"id\":\"M01AE01\"},{\"dataSource\":\"CCPSS\",\"id\":\"0046165\"},{\"dataSource\":\"CHV\",\"id\":\"0000006519\"},{\"dataSource\":\"CSP\",\"id\":\"2270-2077\"},{\"dataSource\":\"DRUGBANK\",\"id\":\"DB01050\"},{\"dataSource\":\"GS\",\"id\":\"1611\"},{\"dataSource\":\"LCH_NW\",\"id\":\"sh97005926\"},{\"dataSource\":\"LNC\",\"id\":\"LP16165-0\"},{\"dataSource\":\"MEDCIN\",\"id\":\"40458\"},{\"dataSource\":\"MMSL\",\"id\":\"d00015\"},{\"dataSource\":\"MSH\",\"id\":\"D007052\"},{\"dataSource\":\"MTHSPL\",\"id\":\"WK2XYI10QM\"},{\"dataSource\":\"NCI\",\"id\":\"C561\"},{\"dataSource\":\"NCI_CTRP\",\"id\":\"C561\"},{\"dataSource\":\"NCI_DCP\",\"id\":\"00803\"},{\"dataSource\":\"NCI_DTP\",\"id\":\"NSC0256857\"},{\"dataSource\":\"NCI_FDA\",\"id\":\"WK2XYI10QM\"},{\"dataSource\":\"NCI_NCI-GLOSS\",\"id\":\"CDR0000613511\"},{\"dataSource\":\"NDDF\",\"id\":\"002377\"},{\"dataSource\":\"PDQ\",\"id\":\"CDR0000040475\"},{\"dataSource\":\"RCD\",\"id\":\"x02MO\"},{\"dataSource\":\"RXNORM\",\"id\":\"5640\"},{\"dataSource\":\"SNM\",\"id\":\"E-7772\"},{\"dataSource\":\"SNMI\",\"id\":\"C-603C0\"},{\"dataSource\":\"SNOMEDCT_US\",\"id\":\"387207008\"},{\"dataSource\":\"USP\",\"id\":\"m39860\"},{\"dataSource\":\"USPMG\",\"id\":\"MTHU000060\"},{\"dataSource\":\"VANDF\",\"id\":\"4017840\"}]},{\"offset\":34,\"length\":11,\"text\":\"twice daily\",\"category\":\"Frequency\",\"confidenceScore\":1.0}],\"relations\":[{\"relationType\":\"DosageOfMedication\",\"entities\":[{\"ref\":\"#/results/documents/1/entities/0\",\"role\":\"Dosage\"},{\"ref\":\"#/results/documents/1/entities/1\",\"role\":\"Medication\"}]},{\"relationType\":\"FrequencyOfMedication\",\"entities\":[{\"ref\":\"#/results/documents/1/entities/1\",\"role\":\"Medication\"},{\"ref\":\"#/results/documents/1/entities/2\",\"role\":\"Frequency\"}]}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-05-15\"}}",
+   "responseHeaders": {
+    "apim-request-id": "0af84ccc-ac2a-4bd5-84d3-cd7991332c2d",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Sat, 23 Oct 2021 00:55:11 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "74"
    }
   }
  ],

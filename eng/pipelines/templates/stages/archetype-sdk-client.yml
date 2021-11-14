@@ -8,6 +8,9 @@ parameters:
   - name: ServiceDirectory
     type: string
     default: not-specified
+  - name: TestProxy
+    type: boolean
+    default: false
   - name: IncludeRelease
     type: boolean
     default: true
@@ -42,7 +45,8 @@ stages:
     jobs:
       - template: /eng/pipelines/templates/jobs/ci.yml
         parameters:
-          ServiceDirectory: ${{ parameters.ServiceDirectory }}
+          ServiceDirectory: ${{ parameters.ServiceDirectory }}          
+          TestProxy: ${{ parameters.TestProxy }}
           Artifacts: ${{ parameters.Artifacts }}
           ${{ if eq(parameters.ServiceDirectory, 'template') }}:
             TestPipeline: true
@@ -66,6 +70,7 @@ stages:
       parameters:
         DependsOn: Build
         ServiceDirectory: ${{ parameters.ServiceDirectory }}
+        TestProxy: ${{ parameters.TestProxy }}
         Artifacts: ${{ parameters.Artifacts }}
         ${{ if eq(parameters.ServiceDirectory, 'template') }}:
           TestPipeline: true

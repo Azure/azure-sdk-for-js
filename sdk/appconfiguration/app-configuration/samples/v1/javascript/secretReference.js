@@ -89,20 +89,6 @@ async function cleanupSampleValues(keys, client) {
   }
 }
 
-/**
- * Returns the environment variable, throws an error if not defined.
- *
- * @export
- * @param {string} name
- */
-export function getEnvVar(name) {
-  const val = process.env[name];
-  if (!val) {
-    throw `Environment variable ${name} is not defined.`;
-  }
-  return val;
-}
-
 main().catch((err) => {
   console.error("Failed to run sample:", err);
   process.exit(1);

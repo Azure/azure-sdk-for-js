@@ -8,10 +8,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@azure/test-utils-perfstress": "^1.0.0",
+    "@azure/test-utils-perf": "^1.0.0",
     "@azure/keyvault-keys": "^4.2.1",
     "dotenv": "^8.2.0",
-    "@azure/identity": "2.0.0-beta.6",
+    "@azure/identity": "^2.0.1",
     "uuid": "^8.3.0"
   },
   "devDependencies": {

@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { generateUuid } from "@azure/core-http";
-import { PerfStressOptionDictionary, executeParallel } from "@azure/test-utils-perfstress";
+import { PerfOptionDictionary, executeParallel } from "@azure/test-utils-perf";
 import { AppConfigTest } from "./appConfigBase.spec";
 
 interface ListTestOptions {
@@ -14,7 +14,7 @@ interface ListTestOptions {
 
 export class ListSettingsTest extends AppConfigTest<ListTestOptions> {
   static prefix = generateUuid();
-  public options: PerfStressOptionDictionary<ListTestOptions> = {
+  public options: PerfOptionDictionary<ListTestOptions> = {
     count: {
       required: true,
       description: "Number of settings to be listed",
@@ -39,7 +39,7 @@ export class ListSettingsTest extends AppConfigTest<ListTestOptions> {
     );
   }
 
-  async runAsync(): Promise<void> {
+  async run(): Promise<void> {
     for await (const response of this.client
       .listConfigurationSettings({ keyFilter: ListSettingsTest.prefix + "*" })
       .byPage()) {

@@ -79,7 +79,7 @@ export interface HttpHeadersLike {
    * Get the JSON object representation of this HTTP header collection.
    * The result is the same as `rawHeaders()`.
    */
-  toJson(): RawHttpHeaders;
+  toJson(options?: { preserveCase?: boolean }): RawHttpHeaders;
 }
 
 export function isHttpHeadersLike(object?: unknown): object is HttpHeadersLike {
@@ -175,12 +175,7 @@ export class HttpHeaders implements HttpHeadersLike {
    * Get the headers that are contained this collection as an object.
    */
   public rawHeaders(): RawHttpHeaders {
-    const result: RawHttpHeaders = {};
-    for (const headerKey in this._headersMap) {
-      const header: HttpHeader = this._headersMap[headerKey];
-      result[header.name.toLowerCase()] = header.value;
-    }
-    return result;
+    return this.toJson({ preserveCase: true });
   }
 
   /**
@@ -221,21 +216,38 @@ export class HttpHeaders implements HttpHeadersLike {
   /**
    * Get the JSON object representation of this HTTP header collection.
    */
-  public toJson(): RawHttpHeaders {
-    return this.rawHeaders();
+  public toJson(options: { preserveCase?: boolean } = {}): RawHttpHeaders {
+    const result: RawHttpHeaders = {};
+    if (options.preserveCase) {
+      for (const headerKey in this._headersMap) {
+        const header: HttpHeader = this._headersMap[headerKey];
+        result[header.name] = header.value;
+      }
+    } else {
+      for (const headerKey in this._headersMap) {
+        const header: HttpHeader = this._headersMap[headerKey];
+        result[getHeaderKey(header.name)] = header.value;
+      }
+    }
+    return result;
   }
 
   /**
    * Get the string representation of this HTTP header collection.
    */
   public toString(): string {
-    return JSON.stringify(this.toJson());
+    return JSON.stringify(this.toJson({ preserveCase: true }));
   }
 
   /**
    * Create a deep clone/copy of this HttpHeaders collection.
    */
   public clone(): HttpHeaders {
-    return new HttpHeaders(this.rawHeaders());
+    const resultPreservingCasing: RawHttpHeaders = {};
+    for (const headerKey in this._headersMap) {
+      const header: HttpHeader = this._headersMap[headerKey];
+      resultPreservingCasing[header.name] = header.value;
+    }
+    return new HttpHeaders(resultPreservingCasing);
   }
 }

@@ -33,7 +33,7 @@ const tryParseConnectionString = (s: string): EndpointCredential | undefined => 
  * @hidden
  *
  * @param connectionString - The connection string to parse
- * @returns Object to access the endpoint and the credenials
+ * @returns Object to access the endpoint and the credentials
  */
 export const parseConnectionString = (connectionString: string): EndpointCredential => {
   const parsedConnectionString = tryParseConnectionString(connectionString);

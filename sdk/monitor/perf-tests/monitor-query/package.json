@@ -9,9 +9,9 @@
   "license": "ISC",
   "dependencies": {
     "@azure/monitor-query": "^1.0.0",
-    "@azure/test-utils-perfstress": "^1.0.0",
+    "@azure/test-utils-perf": "^1.0.0",
     "dotenv": "^8.2.0",
-    "@azure/identity": "^2.0.0"
+    "@azure/identity": "^2.0.1"
   },
   "devDependencies": {
     "@types/node": "^12.0.0",
