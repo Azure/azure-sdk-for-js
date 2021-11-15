@@ -30,11 +30,12 @@ export interface CommunicationTokenRefreshOptions {
    * For example, setting it to a value equal to 5 minutes means that 5 minutes before the cached token expires, the proactive refresh will request a new token.
    * By default, the value is equal to 10 minutes.
    */
-  refreshTimeBeforeTokenExpiryInMs?: number;
+  refreshTimeBeforeTokenExpiryInSeconds?: number;
 }
 
 const expiredToken = { token: "", expiresOnTimestamp: -10 };
-const minutesToMs = (minutes: number): number => minutes * 1000 * 60;
+const secondsToMs = (seconds: number): number => seconds * 1000;
+const minutesToMs = (minutes: number): number => secondsToMs(minutes * 60);
 const defaultRefreshingInterval = minutesToMs(10);
 
 export class AutoRefreshTokenCredential implements TokenCredential {
@@ -53,13 +54,16 @@ export class AutoRefreshTokenCredential implements TokenCredential {
       tokenRefresher,
       token,
       refreshProactively,
-      refreshTimeBeforeTokenExpiryInMs
+      refreshTimeBeforeTokenExpiryInSeconds
     } = refreshArgs;
 
     this.refresh = tokenRefresher;
     this.currentToken = token ? parseToken(token) : expiredToken;
     this.refreshProactively = refreshProactively ?? false;
-    this.refreshingIntervalInMs = refreshTimeBeforeTokenExpiryInMs ?? defaultRefreshingInterval;
+    this.refreshingIntervalInMs =
+      refreshTimeBeforeTokenExpiryInSeconds !== undefined
+        ? secondsToMs(refreshTimeBeforeTokenExpiryInSeconds)
+        : defaultRefreshingInterval;
 
     if (this.refreshProactively) {
       this.scheduleRefresh();
