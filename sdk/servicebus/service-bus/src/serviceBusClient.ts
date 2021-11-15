@@ -321,7 +321,8 @@ export class ServiceBusClient {
         maxAutoLockRenewalDurationInMs: options?.maxAutoLockRenewalDurationInMs,
         receiveMode,
         abortSignal: options?.abortSignal,
-        retryOptions: this._clientOptions.retryOptions
+        retryOptions: this._clientOptions.retryOptions,
+        skipParsingBodyAsJson: options?.skipParsingBodyAsJson ?? false
       }
     );
 
@@ -406,7 +407,8 @@ export class ServiceBusClient {
         maxAutoLockRenewalDurationInMs: options?.maxAutoLockRenewalDurationInMs,
         receiveMode,
         abortSignal: options?.abortSignal,
-        retryOptions: this._clientOptions.retryOptions
+        retryOptions: this._clientOptions.retryOptions,
+        skipParsingBodyAsJson: options?.skipParsingBodyAsJson ?? false
       }
     );
 

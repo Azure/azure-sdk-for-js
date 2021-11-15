@@ -526,7 +526,8 @@ describe("BatchingReceiver unit tests", () => {
         async () => {
           return fakeRheaReceiver;
         },
-        "peekLock"
+        "peekLock",
+        false
       );
 
       assert.isFalse(batchingReceiver.isReceivingMessages);
@@ -541,7 +542,7 @@ describe("BatchingReceiver unit tests", () => {
       assert.isTrue(batchingReceiver.isReceivingMessages);
 
       await receiveIsReady;
-      await clock.tick(10 + 1);
+      clock.tick(10 + 1);
 
       await prm;
       assert.isFalse(batchingReceiver.isReceivingMessages);
@@ -556,7 +557,8 @@ describe("BatchingReceiver unit tests", () => {
         async () => {
           return fakeRheaReceiver;
         },
-        "peekLock"
+        "peekLock",
+        false
       );
 
       assert.notExists(batchingReceiver["_closeHandler"]);
@@ -572,7 +574,7 @@ describe("BatchingReceiver unit tests", () => {
       await receiveIsReady;
       assert.exists(batchingReceiver["_closeHandler"]);
 
-      await batchingReceiver.terminate(new Error("actual error"));
+      batchingReceiver.terminate(new Error("actual error"));
 
       try {
         await receiveMessagesPromise;
@@ -591,7 +593,8 @@ describe("BatchingReceiver unit tests", () => {
         async () => {
           return fakeRheaReceiver;
         },
-        "peekLock"
+        "peekLock",
+        false
       );
 
       assert.notExists(batchingReceiver["_closeHandler"]);
@@ -644,7 +647,8 @@ describe("BatchingReceiver unit tests", () => {
         async () => {
           return fakeRheaReceiver;
         },
-        "peekLock"
+        "peekLock",
+        false
       );
 
       batchingReceiverLite["_receiveMessagesImpl"](
@@ -701,7 +705,8 @@ describe("BatchingReceiver unit tests", () => {
       async () => {
         return fakeRheaReceiver;
       },
-      "peekLock"
+      "peekLock",
+      false
     );
 
     const receiveIsReady = getReceiveIsReadyPromise(batchingReceiverLite);

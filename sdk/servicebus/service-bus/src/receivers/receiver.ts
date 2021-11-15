@@ -357,7 +357,8 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
         const receiveOptions: ReceiveOptions = {
           maxConcurrentCalls: 0,
           receiveMode: this.receiveMode,
-          lockRenewer: this._lockRenewer
+          lockRenewer: this._lockRenewer,
+          skipParsingBodyAsJson: options?.skipParsingBodyAsJson
         };
         this._batchingReceiver = this._createBatchingReceiver(
           this._context,

@@ -237,7 +237,8 @@ describe("Receiver unit tests", () => {
         "entity path",
         undefined,
         {
-          retryOptions: undefined
+          retryOptions: undefined,
+          skipParsingBodyAsJson: false
         }
       );
 

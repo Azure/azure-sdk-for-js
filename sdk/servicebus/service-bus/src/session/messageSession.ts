@@ -62,6 +62,7 @@ export type MessageSessionOptions = Pick<
 > & {
   receiveMode?: ReceiveMode;
   retryOptions: RetryOptions | undefined;
+  skipParsingBodyAsJson: boolean;
 };
 
 /**
@@ -389,7 +390,8 @@ export class MessageSession extends LinkEntity<Receiver> {
       async (_abortSignal?: AbortSignalLike): Promise<MinimalReceiver> => {
         return this.link!;
       },
-      this.receiveMode
+      this.receiveMode,
+      options.skipParsingBodyAsJson
     );
 
     // setting all the handlers
@@ -628,7 +630,8 @@ export class MessageSession extends LinkEntity<Receiver> {
           context.message!,
           context.delivery!,
           true,
-          this.receiveMode
+          this.receiveMode,
+          options?.skipParsingBodyAsJson ?? false
         );
 
         try {

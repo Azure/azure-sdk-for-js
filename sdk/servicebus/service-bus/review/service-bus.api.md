@@ -228,6 +228,7 @@ export interface QueueRuntimeProperties {
 // @public
 export interface ReceiveMessagesOptions extends OperationOptionsBase {
     maxWaitTimeInMs?: number;
+    skipParsingBodyAsJson?: boolean;
 }
 
 export { RetryMode }
@@ -488,6 +489,7 @@ export interface ServiceBusSessionReceiver extends ServiceBusReceiver {
 export interface ServiceBusSessionReceiverOptions extends OperationOptionsBase {
     maxAutoLockRenewalDurationInMs?: number;
     receiveMode?: "peekLock" | "receiveAndDelete";
+    skipParsingBodyAsJson?: boolean;
 }
 
 // @public
@@ -510,6 +512,7 @@ export interface SqlRuleFilter {
 export interface SubscribeOptions extends OperationOptionsBase {
     autoCompleteMessages?: boolean;
     maxConcurrentCalls?: number;
+    skipParsingBodyAsJson?: boolean;
 }
 
 // @public
