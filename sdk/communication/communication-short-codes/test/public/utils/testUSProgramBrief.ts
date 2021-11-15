@@ -76,7 +76,7 @@ export function getTestUSProgramBrief(): USProgramBrief {
   return testUSProgramBrief;
 }
 
-export function assertEditableFieldsAreEqual(expected: USProgramBrief, actual: USProgramBrief, messageContext: string) {
+export function assertEditableFieldsAreEqual(expected: USProgramBrief, actual: USProgramBrief, messageContext: string) : void {
   assert.equal(expected.id, actual.id, `Program brief Id is incorrect - ${messageContext}`);
   assert.deepEqual(expected.programDetails, actual.programDetails, `Program Details do not match - ${messageContext}`);
   assert.deepEqual(expected.companyInformation, actual.companyInformation, `Company Information does not match - ${messageContext}`);
@@ -86,15 +86,15 @@ export function assertEditableFieldsAreEqual(expected: USProgramBrief, actual: U
 
 export async function doesProgramBriefExist(client: ShortCodesClient, id: string) : Promise<boolean> {
   try {
-    var programBrief = await client.getUSProgramBrief(id);
-    if (programBrief.id == id) {
+    const programBrief = await client.getUSProgramBrief(id);
+    if (programBrief.id === id) {
       return true;
     } else {
       return false;
     }
   } catch (e) {
-    var error = e as RestError;
-    if (error.statusCode == 404) {
+    const error = e as RestError;
+    if (error.statusCode === 404) {
       return false;
     }
     throw e;

@@ -53,7 +53,7 @@ describe(`ShortCodesClient - creates, gets, updates, lists, and deletes US Progr
     assert.equal(uspb.id, submitResult._response.parsedBody["id"], "Program brief creation returned the wrong Id");
 
     // get program brief, verify it was created correctly
-    var getRes = await client.getUSProgramBrief(uspb.id);
+    let getRes = await client.getUSProgramBrief(uspb.id);
     assertEditableFieldsAreEqual(uspb, getRes, "get after initial create");
 
     // update program brief by calling upsert
@@ -68,13 +68,13 @@ describe(`ShortCodesClient - creates, gets, updates, lists, and deletes US Progr
     assert.equal(uspb.id, updateResult._response.parsedBody["id"], "Update program brief returned the wrong Id");
 
     // get program brief, verify it was updated correctly
-    var getRes = await client.getUSProgramBrief(uspb.id);
+    getRes = await client.getUSProgramBrief(uspb.id);
     assertEditableFieldsAreEqual(uspb, getRes, 'get after update');
 
     // list program briefs, validate test program brief is in the list
-    var foundTestProgramBrief = false;
+    let foundTestProgramBrief = false;
     for await (const pb of client.listUSProgramBriefs()) {
-      if (pb.id == uspb.id) {
+      if (pb.id === uspb.id) {
         foundTestProgramBrief = true;
         assertEditableFieldsAreEqual(uspb, pb, 'list all program briefs');
       }
