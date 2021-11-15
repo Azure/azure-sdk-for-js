@@ -31,7 +31,7 @@ export interface Instrumenter {
 
 // @public
 export interface InstrumenterSpanOptions extends TracingSpanOptions {
-    packageInformation?: {
+    packageInformation: {
         name: string;
         version?: string;
     };
@@ -71,7 +71,7 @@ export interface TracingClient {
 // @public
 export interface TracingClientOptions {
     namespace: string;
-    packageInformation?: {
+    packageInformation: {
         name: string;
         version?: string;
     };

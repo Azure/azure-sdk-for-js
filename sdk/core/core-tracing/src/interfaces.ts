@@ -97,8 +97,8 @@ export interface TracingClient {
 export interface TracingClientOptions {
   /** The value of the az.namespace tracing attribute on any given spans */
   namespace: string;
-  /** Information about the package invoking this trace. Defaults to \@azure/core-tracing if omitted */
-  packageInformation?: {
+  /** Information about the package invoking this trace. */
+  packageInformation: {
     /** The name of the package. */
     name: string;
     /** An optional package version. */
@@ -203,8 +203,8 @@ export interface Instrumenter {
 export interface InstrumenterSpanOptions extends TracingSpanOptions {
   /** The current tracing context. Defaults to an implementation-specific "active" context. */
   tracingContext?: TracingContext;
-  /** Information about the package invoking this trace. Defaults to \@azure/core-tracing if omitted */
-  packageInformation?: {
+  /** Information about the package invoking this trace. */
+  packageInformation: {
     /** The name of the package. */
     name: string;
     /** An optional package version. */
@@ -214,9 +214,6 @@ export interface InstrumenterSpanOptions extends TracingSpanOptions {
 
 /**
  * Represents the statuses that can be passed to {@link TracingSpan.setStatus}.
- *
- * Discriminated by the status field - note that only "success" and "error" are valid statuses.
- * The "otel" status is here for backwards compatibility only.
  */
 export type SpanStatus =
   | {
