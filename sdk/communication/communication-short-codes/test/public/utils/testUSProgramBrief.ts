@@ -1,11 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { RestError } from "@azure/core-http";
+import { assert } from "chai";
 import { USProgramBrief } from "../../../src";
+import { ShortCodesClient } from "../../../src";
 
 export function getTestUSProgramBrief(): USProgramBrief {
   const testUSProgramBrief: USProgramBrief = {
-    id: "00000000-0000-0000-0000-000000000000",
+    id: "f1ceb9d5-eb6d-4064-a9b2-ea51b49e484f",
     programDetails: {
       description:
         "TEST Customers can sign up to receive regular updates on coupons and other perks of our loyalty program.",
@@ -56,10 +59,11 @@ export function getTestUSProgramBrief(): USProgramBrief {
       confirmationMessage:
         "Congrats, you have been successfully subscribed to loyalty program updates.  Welcome!",
       directionality: "twoWay",
-      helpMessage: "Help Message",
-      optOutMessage: "OUT"
+      helpMessage: "Send 'Stop' to unsubscribe, send 'Start' to resubscribe.",
+      optOutMessage: "You've been unsubscribed from these messages.  Send 'Start' if you want to resubscribe."
     },
     trafficDetails: {
+      estimatedRampUpTimeInDays: 0,
       totalMonthlyVolume: 10000,
       monthlyAverageMessagesFromUser: 1,
       monthlyAverageMessagesToUser: 3,
@@ -70,4 +74,29 @@ export function getTestUSProgramBrief(): USProgramBrief {
   };
 
   return testUSProgramBrief;
+}
+
+export function assertEditableFieldsAreEqual(expected: USProgramBrief, actual: USProgramBrief, messageContext: string) {
+  assert.equal(expected.id, actual.id, `Program brief Id is incorrect - ${messageContext}`);
+  assert.deepEqual(expected.programDetails, actual.programDetails, `Program Details do not match - ${messageContext}`);
+  assert.deepEqual(expected.companyInformation, actual.companyInformation, `Company Information does not match - ${messageContext}`);
+  assert.deepEqual(expected.messageDetails, actual.messageDetails, `Message Details do not match - ${messageContext}`);
+  assert.deepEqual(expected.trafficDetails, actual.trafficDetails, `Traffic Details do not match - ${messageContext}`);
+}
+
+export async function doesProgramBriefExist(client: ShortCodesClient, id: string) : Promise<boolean> {
+  try {
+    var programBrief = await client.getUSProgramBrief(id);
+    if (programBrief.id == id) {
+      return true;
+    } else {
+      return false;
+    }
+  } catch (e) {
+    var error = e as RestError;
+    if (error.statusCode == 404) {
+      return false;
+    }
+    throw e;
+  }
 }
