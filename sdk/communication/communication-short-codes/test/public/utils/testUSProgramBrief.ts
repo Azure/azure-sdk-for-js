@@ -60,7 +60,8 @@ export function getTestUSProgramBrief(): USProgramBrief {
         "Congrats, you have been successfully subscribed to loyalty program updates.  Welcome!",
       directionality: "twoWay",
       helpMessage: "Send 'Stop' to unsubscribe, send 'Start' to resubscribe.",
-      optOutMessage: "You've been unsubscribed from these messages.  Send 'Start' if you want to resubscribe."
+      optOutMessage:
+        "You've been unsubscribed from these messages.  Send 'Start' if you want to resubscribe."
     },
     trafficDetails: {
       estimatedRampUpTimeInDays: 0,
@@ -76,15 +77,38 @@ export function getTestUSProgramBrief(): USProgramBrief {
   return testUSProgramBrief;
 }
 
-export function assertEditableFieldsAreEqual(expected: USProgramBrief, actual: USProgramBrief, messageContext: string) : void {
+export function assertEditableFieldsAreEqual(
+  expected: USProgramBrief,
+  actual: USProgramBrief,
+  messageContext: string
+): void {
   assert.equal(expected.id, actual.id, `Program brief Id is incorrect - ${messageContext}`);
-  assert.deepEqual(expected.programDetails, actual.programDetails, `Program Details do not match - ${messageContext}`);
-  assert.deepEqual(expected.companyInformation, actual.companyInformation, `Company Information does not match - ${messageContext}`);
-  assert.deepEqual(expected.messageDetails, actual.messageDetails, `Message Details do not match - ${messageContext}`);
-  assert.deepEqual(expected.trafficDetails, actual.trafficDetails, `Traffic Details do not match - ${messageContext}`);
+  assert.deepEqual(
+    expected.programDetails,
+    actual.programDetails,
+    `Program Details do not match - ${messageContext}`
+  );
+  assert.deepEqual(
+    expected.companyInformation,
+    actual.companyInformation,
+    `Company Information does not match - ${messageContext}`
+  );
+  assert.deepEqual(
+    expected.messageDetails,
+    actual.messageDetails,
+    `Message Details do not match - ${messageContext}`
+  );
+  assert.deepEqual(
+    expected.trafficDetails,
+    actual.trafficDetails,
+    `Traffic Details do not match - ${messageContext}`
+  );
 }
 
-export async function doesProgramBriefExist(client: ShortCodesClient, id: string) : Promise<boolean> {
+export async function doesProgramBriefExist(
+  client: ShortCodesClient,
+  id: string
+): Promise<boolean> {
   try {
     const programBrief = await client.getUSProgramBrief(id);
     if (programBrief.id === id) {
