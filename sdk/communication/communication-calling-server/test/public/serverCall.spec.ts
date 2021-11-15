@@ -2,12 +2,13 @@
 // Licensed under the MIT license.
 
 import { env, record, Recorder, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
-import { CallingServerClient, GroupCallLocator, PlayAudioOptions } from "../../src";
+import { CallingServerClient, GroupCallLocator, PlayAudioOptions, CallConnection } from "../../src";
 import * as Constants from "./utils/constants";
 import { TestUtils } from "./utils/testUtils";
 import assert from "assert";
 import { Context } from "mocha";
 import { CommunicationUserIdentifier } from "@azure/communication-common";
+import { RestError } from "@azure/core-http";
 
 const replaceableVariables: { [k: string]: string } = {
   COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING: "endpoint=https://endpoint/;accesskey=banana"
@@ -26,13 +27,21 @@ describe("Server Call Live Test", function() {
   describe("Recording Operations", function() {
     let recorder: Recorder;
     let connectionString: string;
+    let callingServerClient: CallingServerClient;
+    let fromUser: string;
+    let toUser: string;
 
     beforeEach(async function(this: Context) {
       recorder = record(this, environmentSetup);
-      /* Place your code here*/
+
       connectionString =
         env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING ||
         "endpoint=https://endpoint/;accesskey=banana";
+
+      callingServerClient = new CallingServerClient(connectionString);
+
+      fromUser = await TestUtils.getUserId("fromUser", connectionString);
+      toUser = await TestUtils.getUserId("toUser", connectionString);
     });
 
     afterEach(async function(this: Context) {
@@ -44,44 +53,40 @@ describe("Server Call Live Test", function() {
     it("Run all client recording operations", async function(this: Context) {
       this.timeout(0);
       const groupId = TestUtils.getGroupId("Run all client recording operations");
-      const fromUser = await TestUtils.getUserId("fromUser", connectionString);
-      const toUser = await TestUtils.getUserId("toUser", connectionString);
       let connections = [];
       let recordingId = "";
 
-      const callingServer = new CallingServerClient(connectionString);
-
       try {
         connections = await TestUtils.createCallConnections(
-          callingServer,
+          callingServerClient,
           groupId,
           fromUser,
           toUser
         );
         const callLocator: GroupCallLocator = { groupCallId: groupId };
 
-        const startCallRecordingResult = await callingServer.startRecording(
+        const startCallRecordingResult = await callingServerClient.startRecording(
           callLocator,
           Constants.CALLBACK_URL
         );
         recordingId = startCallRecordingResult.recordingId!;
         await TestUtils.delayIfLive();
-        let recordingState = await callingServer.getRecordingProperties(recordingId!);
+        let recordingState = await callingServerClient.getRecordingProperties(recordingId!);
         assert.strictEqual(recordingState.recordingState, "active");
 
-        await callingServer.pauseRecording(recordingId!);
+        await callingServerClient.pauseRecording(recordingId!);
         await TestUtils.delayIfLive();
-        recordingState = await callingServer.getRecordingProperties(recordingId!);
+        recordingState = await callingServerClient.getRecordingProperties(recordingId!);
         assert.strictEqual(recordingState.recordingState, "inactive");
 
-        await callingServer.resumeRecording(recordingId!);
+        await callingServerClient.resumeRecording(recordingId!);
         await TestUtils.delayIfLive();
-        recordingState = await callingServer.getRecordingProperties(recordingId!);
+        recordingState = await callingServerClient.getRecordingProperties(recordingId!);
         assert.strictEqual(recordingState.recordingState, "active");
       } finally {
         if (recordingId !== "") {
           try {
-            await callingServer.stopRecording(recordingId);
+            await callingServerClient.stopRecording(recordingId);
           } catch (e) {
             console.error("Error stopping recording (" + recordingId + "): " + e);
           }
@@ -90,6 +95,37 @@ describe("Server Call Live Test", function() {
 
       await TestUtils.cleanCallConnections(connections);
     });
+
+    it("Start recording with relative url fails", async function(this: Context) {
+      const groupCallId = TestUtils.getGroupId("Start recording with relative url fails");
+      let connections: CallConnection[] = [];
+      let recordingId: string | undefined;
+
+      try {
+        connections = await TestUtils.createCallConnections(
+          callingServerClient,
+          groupCallId,
+          fromUser,
+          toUser
+        );
+        const callLocator: GroupCallLocator = { groupCallId: groupCallId };
+
+        recordingId = (await callingServerClient.startRecording(callLocator, "/not/absolute/url"))
+          .recordingId;
+      } catch (e) {
+        assert.strictEqual((e as RestError).statusCode, 400);
+      } finally {
+        if (recordingId !== undefined) {
+          try {
+            await callingServerClient.stopRecording(recordingId);
+          } catch (e) {
+            console.error("Error stopping recording (" + recordingId + "): " + e);
+          }
+        }
+      }
+
+      await TestUtils.cleanCallConnections(connections);
+    }).timeout(0);
   });
 
   describe("Call Automation Operations", function() {
@@ -119,12 +155,7 @@ describe("Server Call Live Test", function() {
 
       const callingServer = new CallingServerClient(connectionString);
       // create GroupCalls
-      connections = await TestUtils.createCallConnections(
-        callingServer,
-        groupId,
-        fromUser,
-        toUser
-      );
+      connections = await TestUtils.createCallConnections(callingServer, groupId, fromUser, toUser);
       try {
         const callLocator: GroupCallLocator = { groupCallId: groupId };
 
@@ -142,8 +173,7 @@ describe("Server Call Live Test", function() {
 
         // Cancel Prompt Audio
         await TestUtils.delayIfLive();
-        await TestUtils.cancelAllMediaOperationsForGroupCall(connections)
-
+        await TestUtils.cancelAllMediaOperationsForGroupCall(connections);
       } finally {
         // Hangup call
         await TestUtils.delayIfLive();
@@ -160,18 +190,15 @@ describe("Server Call Live Test", function() {
 
       const callingServer = new CallingServerClient(connectionString);
       // create GroupCalls
-      connections = await TestUtils.createCallConnections(
-        callingServer,
-        groupId,
-        fromUser,
-        toUser
-      );
+      connections = await TestUtils.createCallConnections(callingServer, groupId, fromUser, toUser);
       try {
         const callLocator: GroupCallLocator = { groupCallId: groupId };
-        const added_participant_id = TestUtils.getFixedUserId("0000000d-bd96-2256-02c3-593a0d00b537");
+        const added_participant_id = TestUtils.getFixedUserId(
+          "0000000d-bd96-2256-02c3-593a0d00b537"
+        );
         const participant: CommunicationUserIdentifier = {
           communicationUserId: added_participant_id
-        }
+        };
         // Add Participant
         await TestUtils.delayIfLive();
         await callingServer.addParticipant(callLocator, participant, Constants.CALLBACK_URL);
@@ -185,5 +212,5 @@ describe("Server Call Live Test", function() {
         await TestUtils.cleanCallConnections(connections);
       }
     });
-  })
+  });
 });
