@@ -8,23 +8,20 @@ import {
   NamedKeyCredential,
   isNamedKeyCredential
 } from "@azure/core-auth";
+import { ServiceClient, OperationOptions } from "@azure/core-client";
 import {
-  bearerTokenAuthenticationPolicy,
   createPipelineFromOptions,
   HttpOperationResponse,
-  OperationOptions,
   RequestPolicyFactory,
-  RestError,
-  ServiceClient,
   signingPolicy,
   stripRequest,
   stripResponse,
   URLBuilder,
   WebResource,
-  PipelineOptions,
   HttpResponse
 } from "@azure/core-http";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { bearerTokenAuthenticationPolicy, RestError, PipelineOptions, PipelineResponse, createPipelineFromOptions } from "@azure/core-rest-pipeline";
 import { CorrelationRuleFilter } from "./core/managementClient";
 import { administrationLogger as logger } from "./log";
 import {
