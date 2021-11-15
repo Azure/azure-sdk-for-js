@@ -14,7 +14,7 @@ export class SetupCleanupTest extends PerfTest {
     globalSetup: 0,
     globalCleanup: 0,
     setup: 0,
-    cleanup: 0
+    cleanup: 0,
   };
 
   public globalSetup(): void {
@@ -47,7 +47,7 @@ export class SetupCleanupTest extends PerfTest {
     }
   }
 
-  async run(): void {
+  async run(): Promise<void> {
     // do nothing
   }
 }
