@@ -31,9 +31,9 @@ describe(`ShortCodesClient - creates, gets, updates, lists, and deletes US Progr
       body: {
         id: uspb.id,
         programDetails: {
-          signUpUrl: "https://contoso.com/updated-sign-up",
-          privacyPolicyUrl: "https://contoso.com/updated-privacy",
-          termsOfServiceUrl: "https://contoso.com/updated-terms",
+          signUpUrl: "https://endpoint/updated-sign-up",
+          privacyPolicyUrl: "https://endpoint/updated-privacy",
+          termsOfServiceUrl: "https://endpoint/updated-terms",
         }
       }
     }

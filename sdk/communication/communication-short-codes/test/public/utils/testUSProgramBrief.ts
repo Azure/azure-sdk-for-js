@@ -8,7 +8,7 @@ import { ShortCodesClient } from "../../../src";
 
 export function getTestUSProgramBrief(): USProgramBrief {
   const testUSProgramBrief: USProgramBrief = {
-    id: "f1ceb9d5-eb6d-4064-a9b2-ea51b49e484f",
+    id: "00000000-0000-0000-0000-000000000000",
     programDetails: {
       description:
         "TEST Customers can sign up to receive regular updates on coupons and other perks of our loyalty program.",
