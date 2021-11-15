@@ -155,12 +155,7 @@ describe("Server Call Live Test", function() {
 
       const callingServer = new CallingServerClient(connectionString);
       // create GroupCalls
-      connections = await TestUtils.createCallConnections(
-        callingServer,
-        groupId,
-        fromUser,
-        toUser
-      );
+      connections = await TestUtils.createCallConnections(callingServer, groupId, fromUser, toUser);
       try {
         const callLocator: GroupCallLocator = { groupCallId: groupId };
 
@@ -178,8 +173,7 @@ describe("Server Call Live Test", function() {
 
         // Cancel Prompt Audio
         await TestUtils.delayIfLive();
-        await TestUtils.cancelAllMediaOperationsForGroupCall(connections)
-
+        await TestUtils.cancelAllMediaOperationsForGroupCall(connections);
       } finally {
         // Hangup call
         await TestUtils.delayIfLive();
@@ -196,18 +190,15 @@ describe("Server Call Live Test", function() {
 
       const callingServer = new CallingServerClient(connectionString);
       // create GroupCalls
-      connections = await TestUtils.createCallConnections(
-        callingServer,
-        groupId,
-        fromUser,
-        toUser
-      );
+      connections = await TestUtils.createCallConnections(callingServer, groupId, fromUser, toUser);
       try {
         const callLocator: GroupCallLocator = { groupCallId: groupId };
-        const added_participant_id = TestUtils.getFixedUserId("0000000d-bd96-2256-02c3-593a0d00b537");
+        const added_participant_id = TestUtils.getFixedUserId(
+          "0000000d-bd96-2256-02c3-593a0d00b537"
+        );
         const participant: CommunicationUserIdentifier = {
           communicationUserId: added_participant_id
-        }
+        };
         // Add Participant
         await TestUtils.delayIfLive();
         await callingServer.addParticipant(callLocator, participant, Constants.CALLBACK_URL);
@@ -221,5 +212,5 @@ describe("Server Call Live Test", function() {
         await TestUtils.cleanCallConnections(connections);
       }
     });
-  })
+  });
 });

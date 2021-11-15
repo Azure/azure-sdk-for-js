@@ -31,7 +31,7 @@ export class TestUtils {
   }
 
   public static getFixedUserId(userGuid: string): string {
-    return "8:acs:" + env.COMMUNICATION_LIVETEST_STATIC_RESOURCE_IDENTIFIER + "_" + userGuid
+    return "8:acs:" + env.COMMUNICATION_LIVETEST_STATIC_RESOURCE_IDENTIFIER + "_" + userGuid;
   }
 
   public static getGroupId(testName: string): string {

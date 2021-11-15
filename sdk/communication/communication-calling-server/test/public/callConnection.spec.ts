@@ -109,10 +109,12 @@ describe("Call Connection Live Test", function() {
         createCallOptions
       );
       try {
-        const added_participant_id = TestUtils.getFixedUserId("0000000d-b2e1-af9d-02c3-593a0d00388b");
+        const added_participant_id = TestUtils.getFixedUserId(
+          "0000000d-b2e1-af9d-02c3-593a0d00388b"
+        );
         const participant: CommunicationUserIdentifier = {
           communicationUserId: added_participant_id
-        }
+        };
         // Add Participant
         await TestUtils.delayIfLive();
         await callConnection.addParticipant(participant);
