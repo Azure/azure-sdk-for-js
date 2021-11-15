@@ -10,3 +10,4 @@ export { TableTransaction } from "./TableTransaction";
 export { TableClient } from "./TableClient";
 export { odata } from "./odata";
 export { AzureNamedKeyCredential, AzureSASCredential } from "@azure/core-auth";
+export { RestError } from "@azure/core-rest-pipeline";

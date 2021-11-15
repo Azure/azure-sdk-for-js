@@ -8,13 +8,5 @@ https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-blob-cha
 https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-blob-changefeed/samples/typescript
 https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-blob-changefeed/test/
 https://github.com/Azure/azure-digital-twins/blob/private-preview/Documentation/how-to-manage-routes.md
-https://docs.microsoft.com/javascript/api/@azure/arm-purview
-https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/purview/arm-purview
-https://docs.microsoft.com/javascript/api/@azure/arm-quota
-https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/quota/arm-quota
-https://docs.microsoft.com/javascript/api/@azure/arm-extendedlocation
-https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/quota/arm-extendedlocation
-https://docs.microsoft.com/javascript/api/@azure/arm-videoanalyzer
-https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/videoanalyzer/arm-videoanalyzer
-https://docs.microsoft.com/javascript/api/@azure/arm-servicefabric
-https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/servicefabric/arm-servicefabric
+https://docs.microsoft.com/javascript/api/@azure/arm-desktopvirtualization
+https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/desktopvirtualization/arm-desktopvirtualization

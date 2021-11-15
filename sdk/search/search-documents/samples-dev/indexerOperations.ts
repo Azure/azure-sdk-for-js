@@ -11,6 +11,7 @@ import {
   SearchIndexer,
   SearchIndexerStatus
 } from "@azure/search-documents";
+
 import * as dotenv from "dotenv";
 dotenv.config();
 
@@ -61,21 +62,22 @@ async function listIndexers(client: SearchIndexerClient) {
 
   console.log(`\tList of Indexers`);
   console.log(`\t****************`);
-  for (let indexer of listOfIndexers) {
+  for (const indexer of listOfIndexers) {
+    const { schedule, parameters } = indexer;
     console.log(`Name: ${indexer.name}`);
     console.log(`Description: ${indexer.description}`);
     console.log(`Data Source Name: ${indexer.dataSourceName}`);
     console.log(`Skillset Name: ${indexer.skillsetName}`);
     console.log(`Target Index Name: ${indexer.targetIndexName}`);
     console.log(`Indexing Schedule`);
-    console.log(`\tInterval: ${indexer.schedule?.interval}`);
-    console.log(`\tStart Time: ${indexer.schedule?.startTime}`);
+    console.log(`\tInterval: ${schedule && schedule.interval}`);
+    console.log(`\tStart Time: ${schedule && schedule.startTime}`);
     console.log(`Is Disabled: ${indexer.isDisabled}`);
     console.log(`ETag: ${indexer.etag}`);
     console.log(`Parameters`);
-    console.log(`\tBatch Size: ${indexer.parameters?.batchSize}`);
-    console.log(`\tMax Failed Items: ${indexer.parameters?.maxFailedItems}`);
-    console.log(`\tMax Failed Items Per Batch: ${indexer.parameters?.maxFailedItemsPerBatch}`);
+    console.log(`\tBatch Size: ${parameters && parameters.batchSize}`);
+    console.log(`\tMax Failed Items: ${parameters && parameters.maxFailedItems}`);
+    console.log(`\tMax Failed Items Per Batch: ${parameters && parameters.maxFailedItemsPerBatch}`);
     console.log();
   }
 }

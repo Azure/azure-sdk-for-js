@@ -63,21 +63,3 @@ function mapContentTypeToFormat(contentType: string): string {
     throw new Error(`Unrecognized response's content-type: ${contentType}`);
   }
 }
-
-/**
- *
- * @param format - the schema format
- * @param thunks - a dictionary of schema formats and what to do next for each one
- * @returns the computed result of the corresponding thunk
- *
- * @internal
- */
-export function dispatchOnFormat<T>(format: string, thunks: { avro: () => T }): T {
-  switch (format.toLocaleLowerCase()) {
-    case "avro": {
-      return thunks.avro();
-    }
-    default:
-      throw new Error(`Unrecognized schema format: ${format}`);
-  }
-}
