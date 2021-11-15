@@ -129,6 +129,6 @@ export class TracingClientImpl implements TracingClient {
  * @param options - The options to pass to the tracing client.
  * @returns - An instance of {@link TracingClient}.
  */
-export function createTracingClient(options?: TracingClientOptions): TracingClient {
+export function createTracingClient(options: TracingClientOptions): TracingClient {
   return new TracingClientImpl(options);
 }

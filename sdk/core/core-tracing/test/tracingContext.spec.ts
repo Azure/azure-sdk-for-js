@@ -96,7 +96,10 @@ describe("TracingContext", () => {
     });
 
     it("can add known attributes", () => {
-      const client = createTracingClient();
+      const client = createTracingClient({
+        namespace: "test",
+        packageInformation: { name: "test" }
+      });
       const span = new NoOpSpan();
       const parentContext = createTracingContext();
       const namespace = "test-namespace";

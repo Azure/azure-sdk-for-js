@@ -64,18 +64,6 @@ describe("TracingClient", () => {
       assert.equal(args[1]?.packageInformation?.version, "1.0.0");
     });
 
-    it("passes defaults when package information is omitted", () => {
-      const instrumenterStartSpanSpy = sinon.spy(instrumenter, "startSpan");
-      client = createTracingClient();
-      client.startSpan("test", {});
-      assert.isTrue(instrumenterStartSpanSpy.called);
-      const args = instrumenterStartSpanSpy.getCall(0).args;
-
-      assert.equal(args[0], "test");
-      assert.equal(args[1]?.packageInformation?.name, "@azure/core-tracing");
-      assert.isUndefined(args[1]?.packageInformation?.version);
-    });
-
     it("sets namespace on context", () => {
       const { updatedOptions } = client.startSpan("test");
       assert.equal(
