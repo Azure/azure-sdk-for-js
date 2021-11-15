@@ -120,6 +120,35 @@ export interface CommunicationUserIdentifierModel {
   id?: string;
 }
 
+/** The Communication Services error. */
+export interface CommunicationErrorResponse {
+  /** The Communication Services error. */
+  error: CommunicationError;
+}
+
+/** The Communication Services error. */
+export interface CommunicationError {
+  /** The error code. */
+  code: string;
+  /** The error message. */
+  message: string;
+  /**
+   * The error target.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
+  /**
+   * Further details about specific errors that led to this error.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly details?: CommunicationError[];
+  /**
+   * The inner error if any.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly innerError?: CommunicationError;
+}
+
 /** Known values of {@link LayoutType} that the service accepts. */
 export enum KnownLayoutType {
   Grid = "grid",

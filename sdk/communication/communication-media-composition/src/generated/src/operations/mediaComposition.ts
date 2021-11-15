@@ -131,7 +131,29 @@ const getOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.MediaCompositionBody
     },
-    400: {}
+    400: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    401: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    403: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    429: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    503: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse
+    }
   },
   urlParameters: [Parameters.$host, Parameters.mediaCompositionId],
   headerParameters: [Parameters.accept],
@@ -144,7 +166,29 @@ const createOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.MediaCompositionBody
     },
-    400: {}
+    400: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    401: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    403: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    429: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    503: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse
+    }
   },
   requestBody: Parameters.body,
   urlParameters: [Parameters.$host, Parameters.mediaCompositionId],
@@ -159,7 +203,29 @@ const updateOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.MediaCompositionBody
     },
-    400: {}
+    400: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    401: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    403: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    429: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    503: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse
+    }
   },
   requestBody: Parameters.body,
   urlParameters: [Parameters.$host, Parameters.mediaCompositionId],
@@ -170,8 +236,34 @@ const updateOperationSpec: coreClient.OperationSpec = {
 const deleteOperationSpec: coreClient.OperationSpec = {
   path: "/mediaCompositions/{mediaCompositionId}",
   httpMethod: "DELETE",
-  responses: { 204: {} },
+  responses: {
+    204: {},
+    400: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    401: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    403: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    429: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    503: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse
+    }
+  },
   urlParameters: [Parameters.$host, Parameters.mediaCompositionId],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const startOperationSpec: coreClient.OperationSpec = {
@@ -181,10 +273,32 @@ const startOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: { type: { name: "String" } }
     },
-    400: {}
+    400: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    401: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    403: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    429: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    503: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse
+    }
   },
   urlParameters: [Parameters.$host, Parameters.mediaCompositionId],
-  headerParameters: [Parameters.accept1],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const stopOperationSpec: coreClient.OperationSpec = {
@@ -194,9 +308,31 @@ const stopOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: { type: { name: "String" } }
     },
-    400: {}
+    400: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    401: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    403: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    429: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    503: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse
+    }
   },
   urlParameters: [Parameters.$host, Parameters.mediaCompositionId],
-  headerParameters: [Parameters.accept1],
+  headerParameters: [Parameters.accept],
   serializer
 };

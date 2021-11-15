@@ -12,7 +12,7 @@ generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
 tag: package-preview-2021-11
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/85fd44e61de4bb5d4d18933ecf72ae2bcc657f45/specification/communication/data-plane/MediaComposition/preview/2021-12-31-preview/CommunicationMediaComposition.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/e00ba9e22c4d70d005625f6798807a3ecc5b59a9/specification/communication/data-plane/MediaComposition/preview/2021-12-31-preview/CommunicationMediaComposition.json
 model-date-time-as-string: false
 optional-response-headers: true
 typescript: true

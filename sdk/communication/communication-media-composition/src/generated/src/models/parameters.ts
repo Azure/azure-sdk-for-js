@@ -60,15 +60,3 @@ export const body: OperationParameter = {
   parameterPath: ["options", "body"],
   mapper: MediaCompositionBodyMapper
 };
-
-export const accept1: OperationParameter = {
-  parameterPath: "accept",
-  mapper: {
-    defaultValue: "text/plain, application/json, text/json",
-    isConstant: true,
-    serializedName: "Accept",
-    type: {
-      name: "String"
-    }
-  }
-};
