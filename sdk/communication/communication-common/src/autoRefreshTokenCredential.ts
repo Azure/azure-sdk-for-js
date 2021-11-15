@@ -24,6 +24,13 @@ export interface CommunicationTokenRefreshOptions {
    * By default false.
    */
   refreshProactively?: boolean;
+
+  /**
+   * The time span before token expiry that causes the 'tokenRefresher' to be called if 'refreshProactively' is true.
+   * For example, setting it to a value equal to 5 minutes means that 5 minutes before the cached token expires, the proactive refresh will request a new token.
+   * By default, the value is equal to 10 minutes.
+   */
+  refreshTimeBeforeTokenExpiryInMs?: number;
 }
 
 const expiredToken = { token: "", expiresOnTimestamp: -10 };
@@ -33,7 +40,7 @@ const defaultRefreshingInterval = minutesToMs(10);
 export class AutoRefreshTokenCredential implements TokenCredential {
   private readonly refresh: (abortSignal?: AbortSignalLike) => Promise<string>;
   private readonly refreshProactively: boolean;
-  private readonly refreshingIntervalInMs: number = defaultRefreshingInterval;
+  private readonly refreshingIntervalInMs: number;
 
   private currentToken: AccessToken;
   private activeTimeout: ReturnType<typeof setTimeout> | undefined;
@@ -42,11 +49,17 @@ export class AutoRefreshTokenCredential implements TokenCredential {
   private disposed = false;
 
   constructor(refreshArgs: CommunicationTokenRefreshOptions) {
-    const { tokenRefresher, token, refreshProactively } = refreshArgs;
+    const {
+      tokenRefresher,
+      token,
+      refreshProactively,
+      refreshTimeBeforeTokenExpiryInMs
+    } = refreshArgs;
 
     this.refresh = tokenRefresher;
     this.currentToken = token ? parseToken(token) : expiredToken;
     this.refreshProactively = refreshProactively ?? false;
+    this.refreshingIntervalInMs = refreshTimeBeforeTokenExpiryInMs ?? defaultRefreshingInterval;
 
     if (this.refreshProactively) {
       this.scheduleRefresh();

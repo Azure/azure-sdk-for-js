@@ -111,6 +111,34 @@ describe("CommunicationTokenCredential", () => {
     sinon.assert.calledOnce(tokenRefresher);
   });
 
+  it("doesn't proactively refresh a valid token before a custom specified time interval", async () => {
+    const refreshMinutes = 30;
+    const tokenValidityMinutes = 60;
+    const tokenRefresher = sinon.stub().resolves(generateToken(tokenValidityMinutes));
+    new AzureCommunicationTokenCredential({
+      tokenRefresher,
+      token: generateToken(tokenValidityMinutes),
+      refreshProactively: true,
+      refreshTimeBeforeTokenExpiryInMs: refreshMinutes * 60 * 1000
+    });
+    clock.tick((refreshMinutes - 5) * 60 * 1000);
+    sinon.assert.notCalled(tokenRefresher);
+  });
+
+  it("proactively refreshes a valid token after a custom specified time interval", async () => {
+    const refreshMinutes = 30;
+    const tokenValidityMinutes = 60;
+    const tokenRefresher = sinon.stub().resolves(generateToken(tokenValidityMinutes));
+    new AzureCommunicationTokenCredential({
+      tokenRefresher,
+      token: generateToken(tokenValidityMinutes),
+      refreshProactively: true,
+      refreshTimeBeforeTokenExpiryInMs: refreshMinutes * 60 * 1000
+    });
+    clock.tick((refreshMinutes + 5) * 60 * 1000);
+    sinon.assert.calledOnce(tokenRefresher);
+  });
+
   it("returns expired token when not using a lambda", async () => {
     const token = generateToken(-1);
     const tokenCredential = new AzureCommunicationTokenCredential(token);
