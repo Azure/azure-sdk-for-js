@@ -30,6 +30,10 @@ export class TestUtils {
     return (await communicationIdentityClient.createUser()).communicationUserId;
   }
 
+  public static getFixedUserId(userGuid: string): string {
+    return "8:acs:" + env.COMMUNICATION_LIVETEST_STATIC_RESOURCE_IDENTIFIER + "_" + userGuid
+  }
+
   public static getGroupId(testName: string): string {
     if (isLiveMode()) {
       return uuidv4();
@@ -67,9 +71,17 @@ export class TestUtils {
     return callConnections;
   }
 
+  public static async cancelAllMediaOperationsForGroupCall(
+    callConnections: Array<CallConnection>
+  ): Promise<void> {
+    for (const callConnection of callConnections) {
+      await callConnection.cancelAllMediaOperations();
+    }
+  }
+
   public static async delayIfLive(): Promise<void> {
     if (isLiveMode() || isRecordMode()) {
-      await this.delay(10000);
+      await this.delay(15000);
     }
   }
 
