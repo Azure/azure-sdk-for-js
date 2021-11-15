@@ -5,7 +5,7 @@
 ```ts
 
 // @public
-export function createTracingClient(options?: TracingClientOptions): TracingClient;
+export function createTracingClient(options: TracingClientOptions): TracingClient;
 
 // @public
 export function createTracingContext(options?: CreateTracingContextOptions): TracingContext;
