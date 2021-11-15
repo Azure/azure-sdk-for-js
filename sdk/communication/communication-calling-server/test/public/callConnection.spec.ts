@@ -10,7 +10,9 @@ import { CommunicationIdentityClient } from "@azure/communication-identity";
 import { CommunicationUserIdentifier, PhoneNumberIdentifier } from "@azure/communication-common";
 const replaceableVariables: { [k: string]: string } = {
   COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING: "endpoint=https://endpoint/;accesskey=banana",
-  AZURE_PHONE_NUMBER: "+15551234567"
+  COMMUNICATION_LIVETEST_STATIC_RESOURCE_IDENTIFIER: "016a7064-0581-40b9-be73-6dde64d69d72",
+  AZURE_PHONE_NUMBER: "+15551234567",
+  ALTERNATE_CALLERID: "+18445764430"
 };
 
 const environmentSetup: RecorderEnvironmentSetup = {
