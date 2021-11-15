@@ -392,7 +392,7 @@ export interface OrganizationResourceListResult extends Array<OrganizationResour
  * @readonly
  * @enum {string}
  */
-export type CreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
+export type CreatedByType = 'User' | 'Application' | 'ManagedIdentity' | 'Key';
 
 /**
  * Defines values for ProvisionState.
@@ -401,16 +401,7 @@ export type CreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
  * @readonly
  * @enum {string}
  */
-export type ProvisionState =
-  | "Accepted"
-  | "Creating"
-  | "Updating"
-  | "Deleting"
-  | "Succeeded"
-  | "Failed"
-  | "Canceled"
-  | "Deleted"
-  | "NotSpecified";
+export type ProvisionState = 'Accepted' | 'Creating' | 'Updating' | 'Deleting' | 'Succeeded' | 'Failed' | 'Canceled' | 'Deleted' | 'NotSpecified';
 
 /**
  * Defines values for SaaSOfferStatus.
@@ -419,17 +410,7 @@ export type ProvisionState =
  * @readonly
  * @enum {string}
  */
-export type SaaSOfferStatus =
-  | "Started"
-  | "PendingFulfillmentStart"
-  | "InProgress"
-  | "Subscribed"
-  | "Suspended"
-  | "Reinstated"
-  | "Succeeded"
-  | "Failed"
-  | "Unsubscribed"
-  | "Updating";
+export type SaaSOfferStatus = 'Started' | 'PendingFulfillmentStart' | 'InProgress' | 'Subscribed' | 'Suspended' | 'Reinstated' | 'Succeeded' | 'Failed' | 'Unsubscribed' | 'Updating';
 
 /**
  * Contains response data for the list operation.
@@ -439,16 +420,16 @@ export type MarketplaceAgreementsListResponse = ConfluentAgreementResourceListRe
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ConfluentAgreementResourceListResponse;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ConfluentAgreementResourceListResponse;
+    };
 };
 
 /**
@@ -459,16 +440,16 @@ export type MarketplaceAgreementsCreateResponse = ConfluentAgreementResource & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ConfluentAgreementResource;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ConfluentAgreementResource;
+    };
 };
 
 /**
@@ -479,16 +460,16 @@ export type MarketplaceAgreementsListNextResponse = ConfluentAgreementResourceLi
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ConfluentAgreementResourceListResponse;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ConfluentAgreementResourceListResponse;
+    };
 };
 
 /**
@@ -499,16 +480,16 @@ export type OrganizationOperationsListResponse = OperationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: OperationListResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: OperationListResult;
+    };
 };
 
 /**
@@ -519,16 +500,16 @@ export type OrganizationOperationsListNextResponse = OperationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: OperationListResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: OperationListResult;
+    };
 };
 
 /**
@@ -539,16 +520,16 @@ export type OrganizationListBySubscriptionResponse = OrganizationResourceListRes
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: OrganizationResourceListResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: OrganizationResourceListResult;
+    };
 };
 
 /**
@@ -559,16 +540,16 @@ export type OrganizationListByResourceGroupResponse = OrganizationResourceListRe
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: OrganizationResourceListResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: OrganizationResourceListResult;
+    };
 };
 
 /**
@@ -579,16 +560,16 @@ export type OrganizationGetResponse = OrganizationResource & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: OrganizationResource;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: OrganizationResource;
+    };
 };
 
 /**
@@ -599,16 +580,16 @@ export type OrganizationCreateResponse = OrganizationResource & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: OrganizationResource;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: OrganizationResource;
+    };
 };
 
 /**
@@ -619,16 +600,16 @@ export type OrganizationUpdateResponse = OrganizationResource & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: OrganizationResource;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: OrganizationResource;
+    };
 };
 
 /**
@@ -639,16 +620,16 @@ export type OrganizationBeginCreateResponse = OrganizationResource & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: OrganizationResource;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: OrganizationResource;
+    };
 };
 
 /**
@@ -659,16 +640,16 @@ export type OrganizationListBySubscriptionNextResponse = OrganizationResourceLis
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: OrganizationResourceListResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: OrganizationResourceListResult;
+    };
 };
 
 /**
@@ -679,16 +660,16 @@ export type OrganizationListByResourceGroupNextResponse = OrganizationResourceLi
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: OrganizationResourceListResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: OrganizationResourceListResult;
+    };
 };
 
 /**
@@ -699,14 +680,14 @@ export type ValidationsValidateOrganizationResponse = OrganizationResource & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: OrganizationResource;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: OrganizationResource;
+    };
 };
