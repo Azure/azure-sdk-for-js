@@ -35,7 +35,8 @@ const reducedDependencyTestMatrix = {
     '@azure/storage-file-share',
     '@azure/template'
   ],
-  'identity': ['@azure-rest/core-client',
+  'identity': [
+    '@azure-rest/core-client',
     '@azure-rest/core-client-lro',
     '@azure-rest/core-client-paging',
     '@azure-rest/purview-account',
