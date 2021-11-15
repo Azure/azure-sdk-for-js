@@ -20,7 +20,9 @@ import { Pipeline } from "@azure/core-rest-pipeline";
 /**
  * Defines the behavior of the PerfTest constructor, to use the class as a value.
  */
-export interface PerfTestConstructor<TOptions extends {} = {}> {
+export interface PerfTestConstructor<
+  TOptions extends Record<string, unknown> = Record<string, unknown>
+> {
   new (): PerfTest<TOptions>;
 }
 
@@ -33,13 +35,13 @@ export interface PerfTestConstructor<TOptions extends {} = {}> {
  * and at a local level, which happens once for each initialization of the test class
  * (initializations are as many as the "parallel" command line parameter specifies).
  */
-export abstract class PerfTest<TOptions = {}> {
+export abstract class PerfTest<TOptions = Record<string, unknown>> {
   private readonly testProxy!: string;
   public testProxyHttpClient!: TestProxyHttpClient;
   public testProxyHttpClientV1!: TestProxyHttpClientV1;
   public abstract options: PerfOptionDictionary<TOptions>;
 
-  private static globalParallelIndex: number = 0;
+  private static globalParallelIndex = 0;
   protected readonly parallelIndex: number;
 
   public constructor() {
@@ -85,7 +87,7 @@ export abstract class PerfTest<TOptions = {}> {
     if (this.testProxy) {
       this.testProxyHttpClientV1 = new TestProxyHttpClientV1(
         this.testProxy,
-        this.parsedOptions["insecure"].value!
+        this.parsedOptions["insecure"].value ?? false
       );
       options.httpClient = this.testProxyHttpClientV1;
     }
@@ -104,13 +106,13 @@ export abstract class PerfTest<TOptions = {}> {
     if (this.testProxy) {
       this.testProxyHttpClient = new TestProxyHttpClient(
         this.testProxy,
-        this.parsedOptions["insecure"].value!
+        this.parsedOptions["insecure"].value ?? false
       );
       client.pipeline.addPolicy(
         testProxyHttpPolicy(
           this.testProxyHttpClient,
           this.testProxy.startsWith("https"),
-          this.parsedOptions["insecure"].value!
+          this.parsedOptions["insecure"].value ?? false
         )
       );
     }

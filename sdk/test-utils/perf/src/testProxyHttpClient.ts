@@ -45,7 +45,7 @@ export class RecordingStateManager {
       | "stopping-recording"
       | "starting-playback"
       | "stopping-playback"
-  ) {
+  ): void {
     if (currentFlow === "starting-recording") {
       if (this.state === "started-recording") {
         throw new Error("Already started recording, should not have called again.");
@@ -76,7 +76,7 @@ export class RecordingStateManager {
    */
   public setState(
     state: "started-recording" | "stopped-recording" | "started-playback" | "stopped-playback"
-  ) {
+  ): void {
     this.state = state;
   }
 }
@@ -95,7 +95,7 @@ export class TestProxyHttpClient {
   redirectRequest(request: WebResourceLike, recordingId: string): WebResourceLike;
   // For core-v2
   redirectRequest(request: PipelineRequest, recordingId: string): PipelineRequest;
-  redirectRequest(request: WebResourceLike | PipelineRequest, recordingId: string) {
+  redirectRequest<T extends WebResourceLike | PipelineRequest>(request: T, recordingId: string): T {
     request.headers.set("x-recording-id", recordingId);
     request.headers.set("x-recording-mode", this._mode);
     request.headers.set("x-recording-remove", "false");
@@ -251,7 +251,7 @@ class DefaultHttpClientCoreV1 extends DefaultHttpClient {
 
   async prepareRequest(httpRequest: WebResourceLike): Promise<Partial<RequestInit>> {
     const req: Partial<RequestInit & {
-      agent?: any;
+      agent?: any; // eslint-disable-line @typescript-eslint/no-explicit-any
       compress?: boolean;
     }> = await super.prepareRequest(httpRequest);
     if (this.isHttps) {

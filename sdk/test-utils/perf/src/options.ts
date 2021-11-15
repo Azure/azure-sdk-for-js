@@ -49,7 +49,7 @@ export interface OptionDetails<TType> {
  * `keyof TOptions` provides the names of the options. This is necessary to allow TypeScript to suggest the appropriate names
  * for the options and parsedOptions.
  */
-export type PerfOptionDictionary<TOptions = {}> = {
+export type PerfOptionDictionary<TOptions = Record<string, unknown>> = {
   [longName in keyof TOptions]: OptionDetails<TOptions[longName]>;
 };
 
@@ -168,7 +168,7 @@ export function parsePerfOption<TOptions>(
 }
 
 function getBooleanOptionDetails<TOptions>(options: PerfOptionDictionary<TOptions>) {
-  let booleanProps: { boolean: string[]; default: { [key: string]: boolean } } = {
+  const booleanProps: { boolean: string[]; default: { [key: string]: boolean } } = {
     boolean: [],
     default: {}
   };
