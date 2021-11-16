@@ -520,7 +520,7 @@ matrix([[true, false]] as const, async (useAad) => {
 
       describe("Feedback", async function() {
         let createdFeedbackId: string;
-        it("creates Anomaly feedback", async function() {
+        it.skip("creates Anomaly feedback", async function() {
           const anomalyFeedback: MetricAnomalyFeedback = {
             metricId: testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1,
             feedbackType: "Anomaly",
