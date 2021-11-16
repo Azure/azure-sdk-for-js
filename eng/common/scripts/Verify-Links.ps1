@@ -423,9 +423,6 @@ foreach ($url in $urls) {
   $pageUrisToCheck.Enqueue($uri);
 }
 
-if ($devOpsLogging) {
-  Write-Host "##[group]Link checking details"
-}
 while ($pageUrisToCheck.Count -ne 0)
 {
   $pageUri = $pageUrisToCheck.Dequeue();
@@ -452,9 +449,6 @@ while ($pageUrisToCheck.Count -ne 0)
   if ($badLinksPerPage.Count -gt 0) {
     $badLinks[$pageUri] = $badLinksPerPage
   }
-}
-if ($devOpsLogging) {
-  Write-Host "##[endgroup]"
 }
 
 if ($badLinks.Count -gt 0) {
