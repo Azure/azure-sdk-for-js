@@ -10,7 +10,9 @@ import {
   env,
   record,
   RecorderEnvironmentSetup,
-  Recorder
+  Recorder,
+  delay,
+  isPlaybackMode
 } from "@azure-tools/test-recorder";
 import * as assert from "assert";
 import { CosmosDBManagementClient } from "../src/cosmosDBManagementClient";
@@ -32,6 +34,10 @@ const recorderEnvSetup: RecorderEnvironmentSetup = {
       )
   ],
   queryParametersToSkip: []
+};
+
+export const testPollingOptions = {
+  updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
 describe("Cosmosdb test", () => {
@@ -82,7 +88,7 @@ describe("Cosmosdb test", () => {
       ],
       apiProperties: {},
       createMode: "Default"
-  });
+  }, testPollingOptions);
     assert.equal(res.name, accountName);
   });
 
@@ -95,7 +101,7 @@ describe("Cosmosdb test", () => {
         options: {
             throughput: 2000
         }
-    });
+    }, testPollingOptions);
     assert.equal(res.type, "Microsoft.DocumentDB/databaseAccounts/cassandraKeyspaces");
   });
 
@@ -105,7 +111,7 @@ describe("Cosmosdb test", () => {
         resource: {
             throughput: 400
         }
-    });
+    }, testPollingOptions);
     assert.equal(res.resource?.throughput,400);
   });
 
@@ -123,12 +129,12 @@ describe("Cosmosdb test", () => {
   });
 
   it("cassandraResources MigrateCassandra test", async function() {
-    const res = await client.cassandraResources.beginMigrateCassandraKeyspaceToAutoscaleAndWait(resourceGroupName,accountName,keyspaceName);
+    const res = await client.cassandraResources.beginMigrateCassandraKeyspaceToAutoscaleAndWait(resourceGroupName,accountName,keyspaceName, testPollingOptions);
     assert.equal(res.type,"Microsoft.DocumentDB/databaseAccounts/cassandraKeyspaces/throughputSettings/migrateToAutoscale")
   });
 
   it("cassandraResources delete test", async function() {
-    await client.cassandraResources.beginDeleteCassandraKeyspaceAndWait(resourceGroupName,accountName,keyspaceName);
+    await client.cassandraResources.beginDeleteCassandraKeyspaceAndWait(resourceGroupName,accountName,keyspaceName, testPollingOptions);
     const resArray = new Array();
     for await (let item of client.cassandraResources.listCassandraKeyspaces(resourceGroupName,accountName)){
         resArray.push(item);
@@ -137,7 +143,7 @@ describe("Cosmosdb test", () => {
   });
 
   it("databaseAccounts delete for cassandraResources test", async function() {
-    await client.databaseAccounts.beginDeleteAndWait(resourceGroupName,accountName);
+    await client.databaseAccounts.beginDeleteAndWait(resourceGroupName,accountName, testPollingOptions);
     const resArray = new Array();
     for await (let item of client.databaseAccounts.listByResourceGroup(resourceGroupName)){
         resArray.push(item);

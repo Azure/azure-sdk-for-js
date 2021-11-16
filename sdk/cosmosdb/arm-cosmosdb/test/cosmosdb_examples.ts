@@ -10,7 +10,9 @@ import {
   env,
   record,
   RecorderEnvironmentSetup,
-  Recorder
+  Recorder,
+  delay,
+  isPlaybackMode
 } from "@azure-tools/test-recorder";
 import * as assert from "assert";
 import { CosmosDBManagementClient } from "../src/cosmosDBManagementClient";
@@ -32,6 +34,10 @@ const recorderEnvSetup: RecorderEnvironmentSetup = {
       )
   ],
   queryParametersToSkip: []
+};
+
+export const testPollingOptions = {
+  updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
 describe("Cosmosdb test", () => {
@@ -81,7 +87,7 @@ describe("Cosmosdb test", () => {
         ],
         location: location,
         createMode: "Default"
-    });
+    }, testPollingOptions);
     assert.equal(res.name, accountName);
   });
 
@@ -104,7 +110,7 @@ describe("Cosmosdb test", () => {
   });
 
   it("databaseAccounts delete test", async function() {
-    await client.databaseAccounts.beginDeleteAndWait(resourceGroupName,accountName);
+    await client.databaseAccounts.beginDeleteAndWait(resourceGroupName,accountName, testPollingOptions);
     const resArray = new Array();
     for await (let item of client.databaseAccounts.listByResourceGroup(resourceGroupName)){
         resArray.push(item);

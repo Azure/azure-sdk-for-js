@@ -10,7 +10,9 @@ import {
   env,
   record,
   RecorderEnvironmentSetup,
-  Recorder
+  Recorder,
+  delay,
+  isPlaybackMode
 } from "@azure-tools/test-recorder";
 import * as assert from "assert";
 import { CosmosDBManagementClient } from "../src/cosmosDBManagementClient";
@@ -32,6 +34,10 @@ const recorderEnvSetup: RecorderEnvironmentSetup = {
       )
   ],
   queryParametersToSkip: []
+};
+
+export const testPollingOptions = {
+  updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
 describe("Cosmosdb test", () => {
@@ -77,7 +83,7 @@ describe("Cosmosdb test", () => {
         location: location,
         apiProperties: {},
         createMode: "Default"
-    });
+    }, testPollingOptions);
     assert.equal(res.name, accountName);
   });
 
@@ -90,7 +96,7 @@ describe("Cosmosdb test", () => {
         options: {
             throughput: 2000
         }
-    });
+    }, testPollingOptions);
     assert.equal(res.type, "Microsoft.DocumentDB/databaseAccounts/mongodbDatabases")
   });
 
@@ -100,7 +106,7 @@ describe("Cosmosdb test", () => {
         resource: {
             throughput: 400
         }
-    });
+    }, testPollingOptions);
     assert.equal(res.resource?.throughput, 400);
   });
 
@@ -116,12 +122,12 @@ describe("Cosmosdb test", () => {
   });
 
   it("mongoDBResources migrate test", async function() {
-    const res = await client.mongoDBResources.beginMigrateMongoDBDatabaseToAutoscaleAndWait(resourceGroupName,accountName,databaseName);
+    const res = await client.mongoDBResources.beginMigrateMongoDBDatabaseToAutoscaleAndWait(resourceGroupName,accountName,databaseName, testPollingOptions);
     assert.equal(res.type, "Microsoft.DocumentDB/databaseAccounts/mongodbDatabases/throughputSettings/migrateToAutoscale");
   });
 
   it("mongoDBResources delete test", async function() {
-    await client.mongoDBResources.beginDeleteMongoDBDatabaseAndWait(resourceGroupName,accountName,databaseName);
+    await client.mongoDBResources.beginDeleteMongoDBDatabaseAndWait(resourceGroupName,accountName,databaseName, testPollingOptions);
     const resArray = new Array();
     for await (let item of client.mongoDBResources.listMongoDBDatabases(resourceGroupName,accountName)){
         resArray.push(item);
@@ -130,7 +136,7 @@ describe("Cosmosdb test", () => {
   });
 
   it("databaseAccounts delete for mongoDBResources test", async function() {
-    await client.databaseAccounts.beginDeleteAndWait(resourceGroupName,accountName);
+    await client.databaseAccounts.beginDeleteAndWait(resourceGroupName,accountName, testPollingOptions);
     const resArray = new Array();
     for await (let item of client.databaseAccounts.listByResourceGroup(resourceGroupName)){
         resArray.push(item);
