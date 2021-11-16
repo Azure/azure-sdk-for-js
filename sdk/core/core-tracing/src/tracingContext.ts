@@ -30,16 +30,6 @@ export function createTracingContext(options: CreateTracingContextOptions = {}):
   return context;
 }
 
-/**
- * const newSpan = createTracingSpan({ context })
- * const newContext = createTracingContext({ parentContext: context, span: newSpan });
- *
- *
- * const newContext = createTracingContext({ parentContext: context});
- * newContext = newContext.setValue(knownContextKeys.Span, newSpan);
- *
- */
-
 /** @internal */
 export class TracingContextImpl implements TracingContext {
   private _contextMap: Map<symbol, unknown>;
