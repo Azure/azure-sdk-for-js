@@ -6,8 +6,6 @@
 
 import { AbortSignalLike } from '@azure/abort-controller';
 import { CommunicationIdentifier } from '@azure/communication-common';
-import * as coreHttp from '@azure/core-http';
-import { HttpResponse } from '@azure/core-http';
 import { OperationOptions } from '@azure/core-http';
 import { OperationParameter } from '@azure/core-http';
 import { PhoneNumberIdentifier } from '@azure/communication-common';
@@ -55,22 +53,6 @@ export interface CallConnection {
 }
 
 // @public
-export type CallConnectionsAddParticipantResponse = AddParticipantResult & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: AddParticipantResult;
-    };
-};
-
-// @public
-export type CallConnectionsPlayAudioResponse = PlayAudioResult & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: PlayAudioResult;
-    };
-};
-
-// @public
 export type CallConnectionState = string;
 
 // @public
@@ -104,8 +86,8 @@ export class CallingServerClient {
     cancelParticipantMediaOperation(callLocator: CallLocator, participant: CommunicationIdentifier, mediaOperationId: string, options?: CancelMediaOperationOptions): Promise<void>;
     createCallConnection(source: CommunicationIdentifier, targets: CommunicationIdentifier[], options: CreateCallConnectionOptions): Promise<CallConnection>;
     delete(deleteUrl: string, options?: DeleteOptions): Promise<RestResponse>;
-    download(url: string, offset?: number, options?: DownloadOptions): Promise<ContentDownloadResponse>;
-    downloadToFile(filePath: string, contentUrl: string, offset?: number, options?: DownloadOptions): Promise<ContentDownloadResponse>;
+    download(url: string, offset?: number, options?: DownloadOptions): Promise<ContentDownloadResult>;
+    downloadToFile(filePath: string, contentUrl: string, offset?: number, options?: DownloadOptions): Promise<ContentDownloadResult>;
     getCallConnection(callConnectionId: string): CallConnection;
     getRecordingProperties(recordingId: string, options?: GetRecordingPropertiesOptions): Promise<CallRecordingProperties>;
     initializeContentDownloader(): ContentDownloader;
@@ -173,7 +155,7 @@ export type CancelMediaOperationOptions = OperationOptions;
 
 // @public
 export interface ContentDownloader {
-    downloadContent(contentUrl: string, options: DownloadContentOptions): Promise<ContentDownloadResponse>;
+    downloadContent(contentUrl: string, options: DownloadContentOptions): Promise<ContentDownloadResult>;
 }
 
 // @public
@@ -186,12 +168,9 @@ export interface ContentDownloadHeaders {
 }
 
 // @public
-export type ContentDownloadResponse = ContentDownloadHeaders & {
+export type ContentDownloadResult = ContentDownloadHeaders & {
     blobBody?: Promise<Blob>;
     readableStreamBody?: NodeJS.ReadableStream;
-    _response: HttpResponse & {
-        parsedHeaders: ContentDownloadHeaders;
-    };
 };
 
 // @public
@@ -321,14 +300,6 @@ export interface ServerCallLocator {
 export interface ServerCallLocatorKind extends ServerCallLocator {
     kind: "serverCall";
 }
-
-// @public
-export type ServerCallsAddParticipantResponse = AddParticipantResult & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: AddParticipantResult;
-    };
-};
 
 // @public
 export interface StartCallRecordingResult {

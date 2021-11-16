@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 /// <reference lib="esnext.asynciterable" />
 
-import { CallConnection, ContentDownloadResponse } from ".";
+import { CallConnection, ContentDownloadResult } from ".";
 import { CallConnectionImpl } from "./callConnection";
 import {
   CreateCallConnectionOptions,
@@ -73,7 +73,7 @@ import { convertTracingToRequestOptionsBase, createSpan } from "./tracing";
 import { logger } from "./logger";
 import { ContentDownloader, ContentDownloaderImpl } from "./ContentDownloader";
 import { rangeToString } from "./Range";
-import { RepeatableContentDownloadResponse } from "./RepeatableContentDownloadResponse";
+import { RepeatableContentDownloadResult } from "./RepeatableContentDownloadResult";
 import { extractOperationOptions } from "./extractOperationOptions";
 import { CallingServerUtils } from "./utils/utils.common";
 import { serializeCallLocator } from "./callLocatorModelSerializer";
@@ -846,7 +846,7 @@ export class CallingServerClient {
     url: string,
     offset: number = 0,
     options: DownloadOptions = {}
-  ): Promise<ContentDownloadResponse> {
+  ): Promise<ContentDownloadResult> {
     const { span, updatedOptions } = createSpan("ServerCallRestClient-download", options);
     const DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS = 3;
     const contentDownloader = this.initializeContentDownloader();
@@ -874,7 +874,7 @@ export class CallingServerClient {
       if (res.contentLength === undefined) {
         throw new RangeError(`File download response doesn't contain valid content length header`);
       }
-      return new RepeatableContentDownloadResponse(
+      return new RepeatableContentDownloadResult(
         res,
         async (start: number): Promise<NodeJS.ReadableStream> => {
           // Debug purpose only
@@ -935,7 +935,7 @@ export class CallingServerClient {
     contentUrl: string,
     offset: number = 0,
     options: DownloadOptions = {}
-  ): Promise<ContentDownloadResponse> {
+  ): Promise<ContentDownloadResult> {
     const { span, updatedOptions } = createSpan("ServerCallRestClient-DownloadToFile", options);
     try {
       const response = await this.download(contentUrl, offset, {

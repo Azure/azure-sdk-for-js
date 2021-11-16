@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { HttpResponse, isNode } from "@azure/core-http";
-import { ContentDownloadHeaders, ContentDownloadResponse } from ".";
+import { isNode } from "@azure/core-http";
+import { ContentDownloadResult } from ".";
 import {
   ReadableStreamGetter,
   RetriableReadableStream,
@@ -18,7 +18,7 @@ import {
  * The {@link readableStreamBody} stream will retry underlayer, you can just use it as a normal Node.js
  * Readable stream.
  */
-export class RepeatableContentDownloadResponse implements ContentDownloadResponse {
+export class RepeatableContentDownloadResult implements ContentDownloadResult {
   /**
    * The number of bytes present in the
    * response body.
@@ -91,16 +91,7 @@ export class RepeatableContentDownloadResponse implements ContentDownloadRespons
     return isNode ? this.blobDownloadStream : undefined;
   }
 
-  /**
-   * The HTTP response.
-   */
-  public get _response(): HttpResponse & {
-    parsedHeaders: ContentDownloadHeaders;
-  } {
-    return this.originalResponse._response;
-  }
-
-  private originalResponse: ContentDownloadResponse;
+  private originalResponse: ContentDownloadResult;
   private blobDownloadStream?: RetriableReadableStream;
 
   /**
@@ -113,7 +104,7 @@ export class RepeatableContentDownloadResponse implements ContentDownloadRespons
    * @param options -
    */
   public constructor(
-    originalResponse: ContentDownloadResponse,
+    originalResponse: ContentDownloadResult,
     getter: ReadableStreamGetter,
     offset: number,
     count: number,
