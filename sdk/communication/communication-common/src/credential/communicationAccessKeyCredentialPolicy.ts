@@ -67,12 +67,12 @@ class CommunicationAccessKeyCredentialPolicy extends BaseRequestPolicy {
     const port = url.getPort();
     let hostAndPort = port ? `${url.getHost()}:${port}` : url.getHost();
 
-    if (isNode && !webResource.headers.get("UriToSignWith")) {
+    if (isNode && !webResource.headers.get("UrlToSignWith")) {
       webResource.headers.set("Host", hostAndPort || "");
     }
 
-    if (webResource.headers.get("UriToSignWith")) {
-      const uri_to_sign_with = webResource.headers.get("UriToSignWith");
+    if (webResource.headers.get("UrlToSignWith")) {
+      const uri_to_sign_with = webResource.headers.get("UrlToSignWith");
       const q = URLBuilder.parse(uri_to_sign_with!);
       hostAndPort = q.getHost()! + (q.getPort() !== undefined ? q.getPort() : "");
       webResource.headers.set("x-ms-host", String(hostAndPort));

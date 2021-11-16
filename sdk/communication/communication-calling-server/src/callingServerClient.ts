@@ -75,8 +75,9 @@ import { ContentDownloader, ContentDownloaderImpl } from "./ContentDownloader";
 import { rangeToString } from "./Range";
 import { RepeatableContentDownloadResponse } from "./RepeatableContentDownloadResponse";
 import { extractOperationOptions } from "./extractOperationOptions";
-import { CallingServerUtils } from "./utils/utils";
+import { CallingServerUtils } from "./utils/utils.common";
 import { serializeCallLocator } from "./callLocatorModelSerializer";
+import { readStreamToLocalFile } from "./utils/utils.node";
 
 /**
  * Client options used to configure CallingServer Client API requests.
@@ -643,19 +644,7 @@ export class CallingServerClient {
     recordingStateCallbackUrl: string,
     options: StartRecordingOptions = {}
   ): Promise<StartCallRecordingResult> {
-    const { span, updatedOptions } = createSpan("ServerCallRestClient-StartRecording", options);
-
-    if (typeof callLocator === "undefined" || !callLocator) {
-      throw new Error("callLocator is invalid.");
-    }
-
-    if (
-      typeof recordingStateCallbackUrl === "undefined" ||
-      !recordingStateCallbackUrl ||
-      !CallingServerUtils.isValidUrl(recordingStateCallbackUrl)
-    ) {
-      throw new Error("recordingStateCallbackUrl is invalid.");
-    }
+    const { span, updatedOptions } = createSpan("ServerCallRestClient-startRecording", options);
 
     const startCallRecordingWithCallLocatorRequest: StartCallRecordingWithCallLocatorRequest = {
       callLocator: serializeCallLocator(callLocator),
@@ -690,11 +679,7 @@ export class CallingServerClient {
     recordingId: string,
     options: PauseRecordingOptions = {}
   ): Promise<void> {
-    const { span, updatedOptions } = createSpan("ServerCallRestClient-PauseRecording", options);
-
-    if (typeof recordingId === "undefined" || !recordingId || !recordingId.trim()) {
-      throw new Error("recordingId is invalid.");
-    }
+    const { span, updatedOptions } = createSpan("ServerCallRestClient-pauseRecording", options);
 
     try {
       await this.serverCallRestClient.pauseRecording(
@@ -722,11 +707,7 @@ export class CallingServerClient {
     recordingId: string,
     options: ResumeRecordingOptions = {}
   ): Promise<void> {
-    const { span, updatedOptions } = createSpan("ServerCallRestClient-ResumeRecording", options);
-
-    if (typeof recordingId === "undefined" || !recordingId || !recordingId.trim()) {
-      throw new Error("recordingId is invalid.");
-    }
+    const { span, updatedOptions } = createSpan("ServerCallRestClient-resumeRecording", options);
 
     try {
       await this.serverCallRestClient.resumeRecording(
@@ -754,10 +735,7 @@ export class CallingServerClient {
     recordingId: string,
     options: StopRecordingOptions = {}
   ): Promise<void> {
-    const { span, updatedOptions } = createSpan("ServerCallRestClient-StopRecording", options);
-    if (typeof recordingId === "undefined" || !recordingId || !recordingId.trim()) {
-      throw new Error("recordingId is invalid.");
-    }
+    const { span, updatedOptions } = createSpan("ServerCallRestClient-stopRecording", options);
 
     try {
       await this.serverCallRestClient.stopRecording(
@@ -785,11 +763,10 @@ export class CallingServerClient {
     recordingId: string,
     options: GetRecordingPropertiesOptions = {}
   ): Promise<CallRecordingProperties> {
-    const { span, updatedOptions } = createSpan("ServerCallRestClient-Recording", options);
-
-    if (typeof recordingId === "undefined" || !recordingId || !recordingId.trim()) {
-      throw new Error("recordingId is invalid.");
-    }
+    const { span, updatedOptions } = createSpan(
+      "ServerCallRestClient-getRecordingProperties",
+      options
+    );
 
     try {
       const { _response, ...result } = await this.serverCallRestClient.getRecordingProperties(
@@ -925,6 +902,52 @@ export class CallingServerClient {
           onProgress: options.onProgress
         }
       );
+    } catch (e) {
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * ONLY AVAILABLE IN NODE.JS RUNTIME.
+   *
+   * Downloads a recording content to a local file.
+   * Fails if the the given file path already exits.
+   * Offset and count are optional, pass 0 and undefined respectively to download the entire blob.
+   *
+   * @param filePath -
+   * @param contentUrl - Endpoint where the content exists.
+   * @param offset - From which position of the block blob to download.
+   * @param options - Options to content download.
+   * @returns The response data for content download operation,
+   *                                                 but with readableStreamBody set to undefined since its
+   *                                                 content is already read and written into a local file
+   *                                                 at the specified path.
+   */
+
+  public async downloadToFile(
+    filePath: string,
+    contentUrl: string,
+    offset: number = 0,
+    options: DownloadOptions = {}
+  ): Promise<ContentDownloadResponse> {
+    const { span, updatedOptions } = createSpan("ServerCallRestClient-DownloadToFile", options);
+    try {
+      const response = await this.download(contentUrl, offset, {
+        ...options,
+        ...convertTracingToRequestOptionsBase(updatedOptions)
+      });
+      if (response.readableStreamBody) {
+        await readStreamToLocalFile(response.readableStreamBody, filePath);
+      }
+
+      (response as any).blobDownloadStream = undefined;
+      return response;
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,

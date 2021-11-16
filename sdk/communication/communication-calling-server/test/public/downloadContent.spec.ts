@@ -11,7 +11,8 @@ import { assert } from "chai";
 import { CallingServerClient } from "../../src";
 import { Context } from "mocha";
 import { bodyToString } from "./utils";
-import { RestError } from "@azure/core-http";
+import { isNode, RestError } from "@azure/core-http";
+import * as fs from "fs";
 
 const replaceableVariables: { [k: string]: string } = {
   COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING: "endpoint=https://endpoint/;accesskey=banana"
@@ -54,6 +55,20 @@ describe("Download Content", function() {
     const downloadResponse = await callingServerServiceClient.download(url);
     const metadata = await bodyToString(downloadResponse, downloadResponse.contentLength!);
     assert.strictEqual(metadata.includes("0-eus-d15-af5689148b0afa252a57a0121b744dcd"), true);
+  });
+
+  it("downloadToFile", async function(this: Context) {
+    if (!isPlaybackMode() || !isNode) {
+      // tslint:disable-next-line:no-invalid-this
+      this.skip();
+    }
+    const fileName = "downloadToFileTest";
+    const downloadResponse = await callingServerServiceClient.downloadToFile(fileName, url);
+    assert.strictEqual(downloadResponse.readableStreamBody, undefined);
+    assert.isTrue(fs.existsSync(fileName));
+    assert.isTrue(fs.readFileSync(fileName).includes("0-eus-d15-af5689148b0afa252a57a0121b744dcd"));
+    fs.unlinkSync(fileName);
+    assert.isFalse(fs.existsSync(fileName));
   });
 
   it("download with redirection", async function(this: Context) {
