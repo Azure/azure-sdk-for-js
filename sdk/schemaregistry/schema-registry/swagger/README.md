@@ -10,7 +10,7 @@ https://github.com/Azure/azure-rest-api-specs/pull/10220 is merged.
 ```yaml
 v3: true
 package-name: "@azure/schema-registry"
-package-version: 1.0.0
+package-version: 1.0.1
 title: GeneratedSchemaRegistryClient
 description: Generated Schema Registry Client
 generate-metadata: false
@@ -24,7 +24,7 @@ typescript: true
 
 ## Swagger workarounds
 
-### Add Content-Type header to GetById operation and mark 415 as error
+### Add Content-Type header to GetById operation
 
 ``` yaml
 directive:
@@ -37,10 +37,9 @@ directive:
       "description": "Content type of the schema.",
       "required": true,
       "type": "string"});
-    delete $.responses["415"];
 ```
 
-### Add Content-Type header to Register operation and mark 415 as error
+### Add Content-Type header to Register operation
 
 ``` yaml
 directive:
@@ -53,6 +52,16 @@ directive:
       "description": "Content type of the schema.",
       "required": true,
       "type": "string"});
-    delete $.responses["415"];
+```
 
+### Delete all validation patterns from parameters
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["parameters"][*]
+    transform: >
+      if ($.pattern) {
+        delete $.pattern;
+      }
 ```

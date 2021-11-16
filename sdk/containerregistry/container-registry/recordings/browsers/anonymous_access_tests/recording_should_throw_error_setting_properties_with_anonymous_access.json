@@ -14,30 +14,32 @@
     "connection": "keep-alive",
     "content-length": "223",
     "content-type": "application/json; charset=utf-8",
-    "date": "Mon, 20 Sep 2021 18:55:28 GMT",
+    "date": "Mon, 08 Nov 2021 20:12:23 GMT",
     "docker-distribution-api-version": "registry/2.0",
     "server": "openresty",
     "strict-transport-security": "max-age=31536000; includeSubDomains, max-age=31536000; includeSubDomains",
     "www-authenticate": "Bearer realm=\"https://myregistry.azurecr.io/oauth2/token\",service=\"myregistry.azurecr.io\",scope=\"repository:library/hello-world:metadata_write\"",
     "x-content-type-options": "nosniff",
-    "x-ms-correlation-request-id": "4970a64f-e6ea-469f-9457-784291d9be69"
+    "x-ms-correlation-request-id": "ae664832-c34e-45c1-8ce4-70fe01f2ca72"
    }
   },
   {
    "method": "POST",
    "url": "https://myregistry.azurecr.io/oauth2/token",
-   "query": {},
-   "requestBody": "grant_type=password&service=myregistry.azurecr.io&refresh_token=&scope=repository%3Alibrary%2Fhello-world%3Ametadata_write",
+   "query": {
+    "api-version": "2021-07-01"
+   },
+   "requestBody": "service=myregistry.azurecr.io&scope=repository%3Alibrary%2Fhello-world%3Ametadata_write&refresh_token=&grant_type=password",
    "status": 200,
    "response": "{\"access_token\":\"access_token\"}",
    "responseHeaders": {
     "connection": "keep-alive",
     "content-type": "application/json; charset=utf-8",
-    "date": "Mon, 20 Sep 2021 18:55:28 GMT",
+    "date": "Mon, 08 Nov 2021 20:12:23 GMT",
     "server": "openresty",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "transfer-encoding": "chunked",
-    "x-ms-correlation-request-id": "6649916e-3736-4df6-b19e-dadcd02ca629",
+    "x-ms-correlation-request-id": "4fcfb3cc-04d7-4d9e-8890-3597b1ac84c2",
     "x-ms-ratelimit-remaining-calls-per-second": "166.633333"
    }
   },
@@ -55,13 +57,13 @@
     "connection": "keep-alive",
     "content-length": "223",
     "content-type": "application/json; charset=utf-8",
-    "date": "Mon, 20 Sep 2021 18:55:28 GMT",
+    "date": "Mon, 08 Nov 2021 20:12:23 GMT",
     "docker-distribution-api-version": "registry/2.0",
     "server": "openresty",
     "strict-transport-security": "max-age=31536000; includeSubDomains, max-age=31536000; includeSubDomains",
     "www-authenticate": "Bearer realm=\"https://myregistry.azurecr.io/oauth2/token\",service=\"myregistry.azurecr.io\",scope=\"repository:library/hello-world:metadata_write\",error=\"insufficient_scope\"",
     "x-content-type-options": "nosniff",
-    "x-ms-correlation-request-id": "5b719c23-b186-4d68-82b7-a2602d57582f"
+    "x-ms-correlation-request-id": "4fc1dd94-5b56-4f99-8538-c84d73a2c7e8"
    }
   }
  ],
@@ -69,5 +71,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "e44e177d78e4bcdd2775021346a85bea"
+ "hash": "fb7e8a0dad4e54cf9a74e89f2a79739d"
 }

@@ -20,6 +20,15 @@ export {
 export { EventHubConsumerClient } from "./eventHubConsumerClient";
 export { EventHubProducerClient } from "./eventHubProducerClient";
 export {
+  BufferedCloseOptions,
+  EventHubBufferedProducerClient,
+  EventHubBufferedProducerClientOptions,
+  EnqueueEventOptions,
+  BufferedFlushOptions,
+  OnSendEventsErrorContext,
+  OnSendEventsSuccessContext
+} from "./eventHubBufferedProducerClient";
+export {
   SubscribeOptions,
   Subscription,
   SubscriptionEventHandlers,

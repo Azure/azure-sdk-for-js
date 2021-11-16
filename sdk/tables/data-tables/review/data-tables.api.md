@@ -12,6 +12,7 @@ import { NamedKeyCredential } from '@azure/core-auth';
 import { OperationOptions } from '@azure/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { Pipeline } from '@azure/core-rest-pipeline';
+import { RestError } from '@azure/core-rest-pipeline';
 import { SASCredential } from '@azure/core-auth';
 import { TokenCredential } from '@azure/core-auth';
 
@@ -161,6 +162,8 @@ export interface Metrics {
 
 // @public
 export function odata(strings: TemplateStringsArray, ...values: unknown[]): string;
+
+export { RestError }
 
 // @public
 export interface RetentionPolicy {
