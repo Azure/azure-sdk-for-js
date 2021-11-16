@@ -1,43 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-// Tracers and wrappers
-export { createSpanFunction, CreateSpanFunctionArgs } from "./createSpan";
-
-// Shared interfaces
 export {
-  context,
-  Context,
-  ContextAPI,
-  Exception,
-  ExceptionWithCode,
-  ExceptionWithMessage,
-  ExceptionWithName,
-  getSpan,
-  getSpanContext,
-  getTracer,
-  HrTime,
-  isSpanContextValid,
-  Link,
+  Instrumenter,
+  InstrumenterSpanOptions,
   OperationTracingOptions,
-  setSpan,
-  setSpanContext,
-  Span,
-  SpanAttributes,
-  SpanAttributeValue,
-  SpanContext,
-  SpanKind,
-  SpanOptions,
   SpanStatus,
-  SpanStatusCode,
-  TimeInput,
-  TraceFlags,
-  Tracer,
-  TraceState,
+  TracingClient,
+  TracingClientOptions,
+  TracingContext,
+  TracingSpan,
+  TracingSpanKind,
+  TracingSpanLink,
+  TracingSpanOptions,
 } from "./interfaces";
-
-// Utilities
-export {
-  extractSpanContextFromTraceParentHeader,
-  getTraceParentHeader,
-} from "./utils/traceParentHeader";
+export { useInstrumenter } from "./instrumenter";
+export { createTracingClient } from "./tracingClient";

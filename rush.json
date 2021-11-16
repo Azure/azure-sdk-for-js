@@ -607,6 +607,11 @@
       "versionPolicyName": "core"
     },
     {
+      "packageName": "@azure/opentelemetry-instrumentation-azure-sdk",
+      "projectFolder": "sdk/instrumentation/opentelemetry-instrumentation-azure-sdk",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/schema-registry",
       "projectFolder": "sdk/schemaregistry/schema-registry",
       "versionPolicyName": "client"
