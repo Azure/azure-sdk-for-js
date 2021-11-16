@@ -32,9 +32,6 @@ export {
   CallConnectionStateChangedEvent,
   ToneValue,
   ToneInfo,
-  ServerCallsAddParticipantResponse,
-  CallConnectionsAddParticipantResponse,
-  CallConnectionsPlayAudioResponse,
   RecordingContentType,
   RecordingChannelType,
   RecordingFormatType
