@@ -17,7 +17,6 @@ const endpoint = process.env.COSMOS_ENDPOINT || "<cosmos endpoint>";
 const containerId = process.env.COSMOS_CONTAINER || "<cosmos container>";
 const databaseId = process.env.COSMOS_DATABASE || "<cosmos database>";
 
-
 logSampleHeader("Index Management");
 
 // Establish a new instance of the CosmosClient to be used throughout this demo
@@ -44,7 +43,7 @@ async function run(): Promise<void> {
     { id: "item1", foo: "bar" },
     { indexingDirective: "exclude" }
   );
-  console.log("Item with id '" + itemDef?.id + "' created");
+  console.log("Item with id '" + itemDef && itemDef.id + "' created");
 
   const querySpec = {
     query: "SELECT * FROM root r WHERE r.foo=@foo",
@@ -109,7 +108,7 @@ async function run(): Promise<void> {
   console.log("update container with range index on string paths");
   await container.replace({
     id: containerId,
-    partitionKey: containerDef?.partitionKey,
+    partitionKey: containerDef && containerDef.partitionKey,
     indexingPolicy: {
       includedPaths: [
         {
@@ -214,7 +213,7 @@ async function run(): Promise<void> {
       .fetchAll();
     console.log(result.resources);
     throw new Error("Should've produced an error");
-  } catch (err : any) {
+  } catch (err) {
     if (err.code !== undefined) {
       console.log("Threw, as expected");
     } else {

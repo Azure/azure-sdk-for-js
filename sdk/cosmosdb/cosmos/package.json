@@ -156,9 +156,9 @@
       "Azure Cosmos DB account": "https://docs.microsoft.com/azure/cosmos-db/how-to-manage-database-account#create-an-account"
     },
     "extraFiles": {
-      "./assets/Data/Families.json": [
-        "typescript/assets/Data/Families.json",
-        "javascript/assets/Data/Families.json"
+      "./samples-dev/Data/Families.json": [
+        "typescript/src/Data/Families.json",
+        "javascript/Data/Families.json"
       ]
     }
   }

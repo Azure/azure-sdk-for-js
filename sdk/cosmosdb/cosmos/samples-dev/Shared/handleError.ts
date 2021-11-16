@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 /**
- * @azsdk-util true
+ * @azsdk-util
  */
 
 import path from "path";

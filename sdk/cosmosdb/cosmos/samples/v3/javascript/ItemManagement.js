@@ -6,19 +6,20 @@
  */
 
 const path = require("path");
+
 require("dotenv").config();
 
 const { logSampleHeader, handleError, finish, logStep } = require("./Shared/handleError");
-const { readFileSync } = require("fs");
 const { CosmosClient } = require("@azure/cosmos");
+
+const { Families } = require("./Data/Families.json");
+
 const key = process.env.COSMOS_KEY || "<cosmos key>";
 const endpoint = process.env.COSMOS_ENDPOINT || "<cosmos endpoint>";
 const containerId = process.env.COSMOS_CONTAINER || "<cosmos container>";
 const databaseId = process.env.COSMOS_DATABASE || "<cosmos database>";
 
 logSampleHeader("Item Management");
-
-const itemDefs = JSON.parse(readFileSync("../assets/Data/Families.json", "utf8")).Families;
 
 // Establish a new instance of the CosmosClient to be used throughout this demo
 const client = new CosmosClient({ endpoint, key });
@@ -30,8 +31,8 @@ async function run() {
 
   logStep("Insert items in to database '" + databaseId + "' and container '" + containerId + "'");
 
-  await Promise.all(itemDefs.map((itemDef) => container.items.create(itemDef)));
-  console.log(itemDefs.length + " items created");
+  await Promise.all(Families.map((itemDef) => container.items.create(itemDef)));
+  console.log(Families.length + " items created");
 
   logStep("List items in container '" + container.id + "'");
   const { resources: itemDefList } = await container.items.readAll().fetchAll();
@@ -47,7 +48,7 @@ async function run() {
 
   logStep("Read item with AccessCondition and no change to _etag");
   const { resource: item2, headers } = await item.read({
-    accessCondition: { type: "IfNoneMatch", condition: readDoc._etag }
+    accessCondition: { type: "IfNoneMatch", condition: readDoc._etag },
   });
   if (!item2 && headers["content-length"] === 0) {
     console.log(
@@ -60,7 +61,7 @@ async function run() {
   readDoc.foo = "bar";
   await item.replace(readDoc);
   const { resource: item3, headers: headers3 } = await item.read({
-    accessCondition: { type: "IfNoneMatch", condition: readDoc._etag }
+    accessCondition: { type: "IfNoneMatch", condition: readDoc._etag },
   });
   if (!item3 && headers3["content-length"] === 0) {
     throw "Expected item this time. Something is wrong!";
@@ -75,9 +76,9 @@ async function run() {
     parameters: [
       {
         name: "@lastName",
-        value: "Andersen"
-      }
-    ]
+        value: "Andersen",
+      },
+    ],
   };
 
   logStep("Query items in container '" + container.id + "'");
@@ -98,7 +99,7 @@ async function run() {
     firstName: "Newborn",
     gender: "unknown",
     fingers: 10,
-    toes: 10
+    toes: 10,
   };
 
   person.children.push(childDef);
@@ -140,24 +141,27 @@ async function run() {
 
   const upsertSource = itemDefList[1];
   logStep(
-    `Upserting person ${upsertSource && upsertSource.id} with id ${upsertSource &&
-      upsertSource.id}...`
+    `Upserting person ${upsertSource && upsertSource.id} with id ${
+      upsertSource && upsertSource.id
+    }...`
   );
 
   // a non-identity change will cause an update on upsert
   upsertSource.foo = "baz";
   const { resource: upsertedPerson1 } = await container.items.upsert(upsertSource);
   console.log(
-    `Upserted ${upsertedPerson1 && upsertedPerson1.id} to id ${upsertedPerson1 &&
-      upsertedPerson1.id}.`
+    `Upserted ${upsertedPerson1 && upsertedPerson1.id} to id ${
+      upsertedPerson1 && upsertedPerson1.id
+    }.`
   );
 
   // an identity change will cause an insert on upsert
   upsertSource.id = "HazzardFamily";
   const { resource: upsertedPerson2 } = await container.items.upsert(upsertSource);
   console.log(
-    `Upserted ${upsertedPerson2 && upsertedPerson2.id} to id ${upsertedPerson2 &&
-      upsertedPerson2.id}.`
+    `Upserted ${upsertedPerson2 && upsertedPerson2.id} to id ${
+      upsertedPerson2 && upsertedPerson2.id
+    }.`
   );
 
   if (upsertedPerson1.id === upsertedPerson2.id) {

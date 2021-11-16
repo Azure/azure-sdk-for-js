@@ -10,7 +10,7 @@ import * as dotenv from "dotenv";
 dotenv.config({ path: path.resolve(__dirname, "../sample.env") });
 
 import { logSampleHeader, logStep, finish, handleError } from "./Shared/handleError";
-import { CosmosClient, ErrorResponse, FeedOptions, Item, Resource  } from "@azure/cosmos";
+import { CosmosClient, ErrorResponse, FeedOptions, Item, Resource } from "@azure/cosmos";
 logSampleHeader("Server Side Scripts");
 const key = process.env.COSMOS_KEY || "<cosmos key>";
 const endpoint = process.env.COSMOS_ENDPOINT || "<cosmos endpoint>";
@@ -68,7 +68,7 @@ const sprocDefinition = {
       });
     }
 
-    function retrieveDoc(doc: Item,  cback: any , continuation?: string,) {
+    function retrieveDoc(doc: Item, cback: any, continuation?: string) {
       const query = {
         query: "select * from root r where r.id = @id",
         parameters: [{ name: "@id", value: doc.id }]

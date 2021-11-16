@@ -6,20 +6,21 @@
  */
 
 import path from "path";
+
 import * as dotenv from "dotenv";
 dotenv.config({ path: path.resolve(__dirname, "../sample.env") });
 
 import { logSampleHeader, handleError, finish, logStep } from "./Shared/handleError";
-import { readFileSync } from "fs";
 import { CosmosClient } from "@azure/cosmos";
+
+import { Families } from "./Data/Families.json";
+
 const key = process.env.COSMOS_KEY || "<cosmos key>";
 const endpoint = process.env.COSMOS_ENDPOINT || "<cosmos endpoint>";
 const containerId = process.env.COSMOS_CONTAINER || "<cosmos container>";
 const databaseId = process.env.COSMOS_DATABASE || "<cosmos database>";
 
 logSampleHeader("Item Management");
-
-const itemDefs = JSON.parse(readFileSync("../assets/Data/Families.json", "utf8")).Families;
 
 // Establish a new instance of the CosmosClient to be used throughout this demo
 const client = new CosmosClient({ endpoint, key });
@@ -31,8 +32,8 @@ async function run(): Promise<void> {
 
   logStep("Insert items in to database '" + databaseId + "' and container '" + containerId + "'");
 
-  await Promise.all(itemDefs.map((itemDef: any) => container.items.create(itemDef)));
-  console.log(itemDefs.length + " items created");
+  await Promise.all(Families.map((itemDef: any) => container.items.create(itemDef)));
+  console.log(Families.length + " items created");
 
   logStep("List items in container '" + container.id + "'");
   const { resources: itemDefList } = await container.items.readAll().fetchAll();

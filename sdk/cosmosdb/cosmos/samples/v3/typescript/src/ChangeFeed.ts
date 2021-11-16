@@ -159,7 +159,7 @@ async function run(): Promise<void> {
       [4],
       fromNowResults2.map((v) => parseInt(v.id))
     );
-  } catch (err :any) {
+  } catch (err) {
     handleError(err);
   } finally {
     await finish();

@@ -43,7 +43,7 @@ async function run(): Promise<void> {
     { id: "item1", foo: "bar" },
     { indexingDirective: "exclude" }
   );
-  console.log("Item with id '" + itemDef?.id + "' created");
+  console.log("Item with id '" + itemDef && itemDef.id + "' created");
 
   const querySpec = {
     query: "SELECT * FROM root r WHERE r.foo=@foo",
@@ -108,7 +108,7 @@ async function run(): Promise<void> {
   console.log("update container with range index on string paths");
   await container.replace({
     id: containerId,
-    partitionKey: containerDef?.partitionKey,
+    partitionKey: containerDef && containerDef.partitionKey,
     indexingPolicy: {
       includedPaths: [
         {

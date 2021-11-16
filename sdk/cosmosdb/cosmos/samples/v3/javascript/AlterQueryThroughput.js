@@ -44,9 +44,12 @@ async function run() {
   logStep("Read container definition");
   const container = database.container(containerId);
   const { resource: containerDef } = await container.read();
-  console.log(`Container with url "${container.url}" was found its id is "${containerDef?.id}`);
 
-  logStep(`Delete container ${containerDef?.id}`);
+  const resultId = containerDef && containerDef.id;
+
+  console.log(`Container with url "${container.url}" was found its id is "${resultId}`);
+
+  logStep(`Delete container ${resultId}`);
   await container.delete();
   await finish();
 }
@@ -60,9 +63,9 @@ async function updateOfferForCollection(newRups, dbName, collectionName, oldOffe
     content: {
       offerThroughput: newRups,
       offerIsRUPerMinuteThroughputEnabled:
-        oldOfferDefinition.content.offerIsRUPerMinuteThroughputEnabled
+        oldOfferDefinition.content.offerIsRUPerMinuteThroughputEnabled,
     },
-    offerVersion: "V2"
+    offerVersion: "V2",
   };
 
   logStep("Read all databases");
@@ -73,10 +76,7 @@ async function updateOfferForCollection(newRups, dbName, collectionName, oldOffe
     databases
       .filter((database) => database.id === dbName)
       .map((database) => {
-        return client
-          .database(database.id)
-          .containers.readAll()
-          .fetchAll();
+        return client.database(database.id).containers.readAll().fetchAll();
       })
   );
 

@@ -52,9 +52,12 @@ async function run(): Promise<void> {
   logStep("Read container definition");
   const container = database.container(containerId);
   const { resource: containerDef } = await container.read();
-  console.log(`Container with url "${container.url}" was found its id is "${containerDef?.id}`);
 
-  logStep(`Delete container ${containerDef?.id}`);
+  const resultId = containerDef && containerDef.id;
+
+  console.log(`Container with url "${container.url}" was found its id is "${resultId}`);
+
+  logStep(`Delete container ${resultId}`);
   await container.delete();
   await finish();
 }
@@ -93,11 +96,9 @@ async function updateOfferForCollection(
       })
   );
 
-
-  const containers: (ContainerDefinition & Resource)[] = 
-    containerResponses.flatMap(
-      (response: FeedResponse<ContainerDefinition & Resource>) => response.resources
-    );
+  const containers: (ContainerDefinition & Resource)[] = containerResponses.flatMap(
+    (response: FeedResponse<ContainerDefinition & Resource>) => response.resources
+  );
 
   logStep("Finding container to offerDefinition");
   const container = containers.find(
