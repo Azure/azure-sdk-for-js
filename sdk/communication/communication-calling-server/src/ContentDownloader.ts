@@ -80,10 +80,7 @@ export class ContentDownloaderImpl implements ContentDownloader {
    * @param contentUrl - The content Url.
    * @param options - The options parameters.
    */
-  download_content(
-    contentUrl: string,
-    options?: OperationOptions
-  ): Promise<ContentDownloadResult> {
+  download_content(contentUrl: string, options?: OperationOptions): Promise<ContentDownloadResult> {
     const operationArguments: OperationArguments = {
       options: operationOptionsToRequestOptionsBase(options || {})
     };

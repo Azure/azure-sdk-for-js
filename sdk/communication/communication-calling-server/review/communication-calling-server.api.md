@@ -6,7 +6,6 @@
 
 import { AbortSignalLike } from '@azure/abort-controller';
 import { CommunicationIdentifier } from '@azure/communication-common';
-import * as coreHttp from '@azure/core-http';
 import { OperationOptions } from '@azure/core-http';
 import { OperationParameter } from '@azure/core-http';
 import { PhoneNumberIdentifier } from '@azure/communication-common';
@@ -52,22 +51,6 @@ export interface CallConnection {
     removeParticipant(participant: CommunicationIdentifier, options?: RemoveParticipantOptions): Promise<void>;
     transfer(targetParticipant: CommunicationIdentifier, userToUserInformation: string, options?: TransferCallOptions): Promise<void>;
 }
-
-// @public
-export type CallConnectionsAddParticipantResponse = AddParticipantResult & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: AddParticipantResult;
-    };
-};
-
-// @public
-export type CallConnectionsPlayAudioResponse = PlayAudioResult & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: PlayAudioResult;
-    };
-};
 
 // @public
 export type CallConnectionState = string;
@@ -317,14 +300,6 @@ export interface ServerCallLocator {
 export interface ServerCallLocatorKind extends ServerCallLocator {
     kind: "serverCall";
 }
-
-// @public
-export type ServerCallsAddParticipantResponse = AddParticipantResult & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: AddParticipantResult;
-    };
-};
 
 // @public
 export interface StartCallRecordingResult {
