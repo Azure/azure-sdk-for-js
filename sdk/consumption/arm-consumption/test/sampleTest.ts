@@ -15,7 +15,7 @@ import {
 import * as assert from "assert";
 import { ClientSecretCredential } from "@azure/identity";
 import { ConsumptionManagementClient } from "../src/consumptionManagementClient";
-import { ComputeManagementClient,VirtualMachine } from "@azure/arm-compute";
+// import { ComputeManagementClient,VirtualMachine } from "@azure/arm-compute";
 import { NetworkManagementClient,NetworkInterface,VirtualNetwork } from "@azure/arm-network";
 
 const recorderEnvSetup: RecorderEnvironmentSetup = {
@@ -39,7 +39,7 @@ describe("My test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: ConsumptionManagementClient;
-  let compute_client: ComputeManagementClient;
+  // let compute_client: ComputeManagementClient;
   let network_client: NetworkManagementClient;
   let location: string;
   let resourceGroup: string;
@@ -60,7 +60,7 @@ describe("My test", () => {
       env.AZURE_CLIENT_SECRET
     );
     client = new ConsumptionManagementClient(credential, subscriptionId);
-    compute_client = new ComputeManagementClient(credential,subscriptionId);
+    // compute_client = new ComputeManagementClient(credential,subscriptionId);
     network_client = new NetworkManagementClient(credential,subscriptionId);
     location = "eastus";
     resourceGroup = "myjstest";
@@ -77,95 +77,95 @@ describe("My test", () => {
     await recorder.stop();
   });
 
-  //network_client.virtualNetworks.createOrUpdate
-  async function createVirtualNetwork() {
-      const parameter: VirtualNetwork = {
-        location: location,
-        addressSpace: {
-          addressPrefixes: ["10.0.0.0/16"],
-        },
-      };
-      const virtualNetworks_create_info = await network_client.virtualNetworks.beginCreateOrUpdateAndWait(resourceGroup,network_name,parameter);
-      console.log(virtualNetworks_create_info);
+  // //network_client.virtualNetworks.createOrUpdate
+  // async function createVirtualNetwork() {
+  //     const parameter: VirtualNetwork = {
+  //       location: location,
+  //       addressSpace: {
+  //         addressPrefixes: ["10.0.0.0/16"],
+  //       },
+  //     };
+  //     const virtualNetworks_create_info = await network_client.virtualNetworks.beginCreateOrUpdateAndWait(resourceGroup,network_name,parameter);
+  //     console.log(virtualNetworks_create_info);
     
-      //
-      const subnet__create_info = await network_client.subnets.beginCreateOrUpdateAndWait(resourceGroup,network_name,subnet_name,{addressPrefix: "10.0.0.0/24"});
-  }
+  //     //
+  //     const subnet__create_info = await network_client.subnets.beginCreateOrUpdateAndWait(resourceGroup,network_name,subnet_name,{addressPrefix: "10.0.0.0/24"});
+  // }
   
-  //network_client.networkInterfaces.createOrUpdate
-  async function createNetworkInterface(group_name: any,location: any,nic_name: any) {
-      const parameter: NetworkInterface = {
-          location: location,
-          ipConfigurations: [
-              {
-                  name: "MyIpConfig",
-                  subnet: {
-                  id: "/subscriptions/" +subscriptionId +"/resourceGroups/" +resourceGroup +"/providers/Microsoft.Network/virtualNetworks/" +network_name +"/subnets/" +subnet_name,
-                  }
-              }
-          ]
-      }
-      const nic_info = await network_client.networkInterfaces.beginCreateOrUpdateAndWait(group_name,nic_name,parameter);
-  }
+  // //network_client.networkInterfaces.createOrUpdate
+  // async function createNetworkInterface(group_name: any,location: any,nic_name: any) {
+  //     const parameter: NetworkInterface = {
+  //         location: location,
+  //         ipConfigurations: [
+  //             {
+  //                 name: "MyIpConfig",
+  //                 subnet: {
+  //                 id: "/subscriptions/" +subscriptionId +"/resourceGroups/" +resourceGroup +"/providers/Microsoft.Network/virtualNetworks/" +network_name +"/subnets/" +subnet_name,
+  //                 }
+  //             }
+  //         ]
+  //     }
+  //     const nic_info = await network_client.networkInterfaces.beginCreateOrUpdateAndWait(group_name,nic_name,parameter);
+  // }
 
-  //virtualMachines.createOrUpdate
-  async function virtualMachines_createOrUpdate() {
-      await createVirtualNetwork();
-      await createNetworkInterface(resourceGroup, location, interface_name);
-      const parameter: VirtualMachine = {
-          location: location,
-          hardwareProfile: {
-          vmSize: "Standard_D2_v2",
-          },
-          storageProfile: {
-          imageReference: {
-              sku: "2016-Datacenter",
-              publisher: "MicrosoftWindowsServer",
-              version: "latest",
-              offer: "WindowsServer",
-          },
-          osDisk: {
-              caching: "ReadWrite",
-              managedDisk: {
-              storageAccountType: "Standard_LRS",
-              },
-              name: "myVMosdisk",
-              createOption: "FromImage",
-          },
-          dataDisks: [
-              {
-              diskSizeGB: 1023,
-              createOption: "Empty",
-              lun: 0,
-              },
-              {
-              diskSizeGB: 1023,
-              createOption: "Empty",
-              lun: 1,
-              },
-          ],
-          },
-          osProfile: {
-          adminUsername: "testuser",
-          computerName: "myVM",
-          adminPassword: "Aa!1()-xyz",
-          windowsConfiguration: {
-              enableAutomaticUpdates: true, // need automatic update for reimage
-          },
-          },
-          networkProfile: {
-          networkInterfaces: [
-              {
-              id:
-                  "/subscriptions/" +subscriptionId +"/resourceGroups/" +resourceGroup +"/providers/Microsoft.Network/networkInterfaces/" +interface_name,
-                  primary: true,
-              },
-          ],
-          },
-      };
-      const res = await compute_client.virtualMachines.beginCreateOrUpdateAndWait(resourceGroup,vmName,parameter);
-      console.log(res);
-  }
+  // //virtualMachines.createOrUpdate
+  // async function virtualMachines_createOrUpdate() {
+  //     await createVirtualNetwork();
+  //     await createNetworkInterface(resourceGroup, location, interface_name);
+  //     const parameter: VirtualMachine = {
+  //         location: location,
+  //         hardwareProfile: {
+  //         vmSize: "Standard_D2_v2",
+  //         },
+  //         storageProfile: {
+  //         imageReference: {
+  //             sku: "2016-Datacenter",
+  //             publisher: "MicrosoftWindowsServer",
+  //             version: "latest",
+  //             offer: "WindowsServer",
+  //         },
+  //         osDisk: {
+  //             caching: "ReadWrite",
+  //             managedDisk: {
+  //             storageAccountType: "Standard_LRS",
+  //             },
+  //             name: "myVMosdisk",
+  //             createOption: "FromImage",
+  //         },
+  //         dataDisks: [
+  //             {
+  //             diskSizeGB: 1023,
+  //             createOption: "Empty",
+  //             lun: 0,
+  //             },
+  //             {
+  //             diskSizeGB: 1023,
+  //             createOption: "Empty",
+  //             lun: 1,
+  //             },
+  //         ],
+  //         },
+  //         osProfile: {
+  //         adminUsername: "testuser",
+  //         computerName: "myVM",
+  //         adminPassword: "Aa!1()-xyz",
+  //         windowsConfiguration: {
+  //             enableAutomaticUpdates: true, // need automatic update for reimage
+  //         },
+  //         },
+  //         networkProfile: {
+  //         networkInterfaces: [
+  //             {
+  //             id:
+  //                 "/subscriptions/" +subscriptionId +"/resourceGroups/" +resourceGroup +"/providers/Microsoft.Network/networkInterfaces/" +interface_name,
+  //                 primary: true,
+  //             },
+  //         ],
+  //         },
+  //     };
+  //     const res = await compute_client.virtualMachines.beginCreateOrUpdateAndWait(resourceGroup,vmName,parameter);
+  //     console.log(res);
+  // }
 
   it("budgets create test", async function() {
     const res = await client.budgets.createOrUpdate(scope,budgetName,{
