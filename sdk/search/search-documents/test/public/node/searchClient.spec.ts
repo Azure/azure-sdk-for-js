@@ -284,7 +284,7 @@ describe("SearchClient", function(this: Suite) {
   });
 });
 
-describe.only("SearchClient-local", () => {
+describe("SearchClient-local", () => {
   const credential = new AzureKeyCredential("key");
 
   describe("Passing serviceVersion", () => {
