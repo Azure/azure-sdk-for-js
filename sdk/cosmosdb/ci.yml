@@ -3,7 +3,9 @@
 trigger:
   branches:
     include:
-	@@ -9,25 +7,25 @@ trigger:
+      - main
+      - release/*
+      - hotfix/*
   paths:
     include:
       - sdk/cosmosdb/cosmos/
