@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { CreateTracingContextOptions, TracingContext } from "./interfaces";
+import { TracingClient, TracingContext, TracingSpan } from "./interfaces";
 
 /** @internal */
 export const knownContextKeys = {
@@ -30,6 +30,16 @@ export function createTracingContext(options: CreateTracingContextOptions = {}):
   return context;
 }
 
+/**
+ * const newSpan = createTracingSpan({ context })
+ * const newContext = createTracingContext({ parentContext: context, span: newSpan });
+ *
+ *
+ * const newContext = createTracingContext({ parentContext: context});
+ * newContext = newContext.setValue(knownContextKeys.Span, newSpan);
+ *
+ */
+
 /** @internal */
 export class TracingContextImpl implements TracingContext {
   private _contextMap: Map<symbol, unknown>;
@@ -55,4 +65,18 @@ export class TracingContextImpl implements TracingContext {
     newContext._contextMap.delete(key);
     return newContext;
   }
+}
+
+/**
+ * Represents a set of items that can be set when creating a new {@link TracingContext}.
+ */
+export interface CreateTracingContextOptions {
+  /** The {@link parentContext} - the newly created context will contain all the values of the parent context unless overriden. */
+  parentContext?: TracingContext;
+  /** The span to set on the context. */
+  span?: TracingSpan;
+  /** The tracing client used to create this context. */
+  client?: TracingClient;
+  /** The namespace to set on any child spans. */
+  namespace?: string;
 }

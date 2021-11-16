@@ -8,17 +8,6 @@
 export function createTracingClient(options: TracingClientOptions): TracingClient;
 
 // @public
-export function createTracingContext(options?: CreateTracingContextOptions): TracingContext;
-
-// @public
-export interface CreateTracingContextOptions {
-    client?: TracingClient;
-    namespace?: string;
-    parentContext?: TracingContext;
-    span?: TracingSpan;
-}
-
-// @public
 export interface Instrumenter {
     createRequestHeaders(spanContext: TracingSpanContext): Record<string, string>;
     parseTraceparentHeader(traceparentHeader: string): TracingSpanContext | undefined;
@@ -95,7 +84,7 @@ export interface TracingSpan {
 
 // @public
 export interface TracingSpanContext {
-    spanContext: string;
+    spanId: string;
     traceFlags: number;
     traceId: string;
     traceState?: unknown;

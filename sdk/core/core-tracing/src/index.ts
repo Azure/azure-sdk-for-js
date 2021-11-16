@@ -4,4 +4,3 @@
 export * from "./interfaces";
 export { useInstrumenter } from "./instrumenter";
 export { createTracingClient } from "./tracingClient";
-export { createTracingContext } from "./tracingContext";

@@ -106,20 +106,6 @@ export interface TracingClientOptions {
   };
 }
 
-/**
- * Represents a set of items that can be set when creating a new {@link TracingContext}.
- */
-export interface CreateTracingContextOptions {
-  /** The {@link parentContext} - the newly created context will contain all the values of the parent context unless overriden. */
-  parentContext?: TracingContext;
-  /** The span to set on the context. */
-  span?: TracingSpan;
-  /** The tracing client used to create this context. */
-  client?: TracingClient;
-  /** The namespace to set on any child spans. */
-  namespace?: string;
-}
-
 /** The kind of span. */
 export type TracingSpanKind = "client" | "server" | "producer" | "consumer" | "internal";
 
