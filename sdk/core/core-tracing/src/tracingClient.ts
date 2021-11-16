@@ -45,8 +45,8 @@ export class TracingClientImpl implements TracingClient {
     const span = startSpanResult.span;
     if (!tracingContext.getValue(knownContextKeys.Namespace)) {
       tracingContext = tracingContext.setValue(knownContextKeys.Namespace, this._namespace);
-      span.setAttribute("az.namespace", this._namespace);
     }
+    span.setAttribute("az.namespace", tracingContext.getValue(knownContextKeys.Namespace));
     const updatedOptions = {
       ...operationOptions,
       tracingOptions: {
