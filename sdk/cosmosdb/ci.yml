@@ -1,12 +1,13 @@
+# NOTE: Please refer to https://aka.ms/azsdk/engsys/ci-yaml before editing this file.
+
 trigger:
   branches:
     include:
-      - main
-      - release/*
-      - hotfix/*
+	@@ -9,25 +7,25 @@ trigger:
   paths:
     include:
       - sdk/cosmosdb/
+
 pr:
   branches:
     include:
@@ -14,18 +15,17 @@ pr:
       - feature/*
       - release/*
       - hotfix/*
-    exclude:
-      - feature/v4
   paths:
     include:
       - sdk/cosmosdb/
+
 extends:
-  template: ../../eng/pipelines/templates/stages/cosmos-sdk-client.yml
+  template: ../../eng/pipelines/templates/stages/cosmos-sdk-client.yml #NOTE: Non-standard template.
   parameters:
     ServiceDirectory: cosmosdb
+    # Disable unit tests because they are no-op. Integration tests from the
+    # cosmos-specific template handle this testing.
     RunUnitTests: false
     Artifacts:
       - name: azure-cosmos
         safeName: azurecosmos
-      - name: azure-arm-cosmosdb
-        safeName: azurearmcosmosdb
