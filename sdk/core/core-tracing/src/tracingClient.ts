@@ -78,12 +78,12 @@ export class TracingClientImpl implements TracingClient {
       spanOptions
     );
     try {
-      span.setStatus({ status: "success" });
       const result = await this.withContext(
         tracingContext,
         () => Promise.resolve(callback.call(callbackThis, updatedOptions, span)),
         callbackThis
       );
+      span.setStatus({ status: "success" });
       return result;
     } catch (err) {
       span.setStatus({ status: "error", error: err });
