@@ -15,10 +15,10 @@ describe("TracingContext", () => {
     });
 
     it("can be created from an existing context map", () => {
-      const context = createTracingContext()
+      const existingContext = createTracingContext()
         .setValue(Symbol.for("key1"), "value1")
         .setValue(Symbol.for("key2"), "value2");
-      const newContext = new TracingContextImpl(context);
+      const newContext = new TracingContextImpl(existingContext);
       assert.equal(newContext.getValue(Symbol.for("key1")), "value1");
       assert.equal(newContext.getValue(Symbol.for("key2")), "value2");
     });
