@@ -1080,6 +1080,11 @@
       "packageName": "@azure/arm-cosmosdb",
       "projectFolder": "sdk/cosmosdb/arm-cosmosdb",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-consumption",
+      "projectFolder": "sdk/consumption/arm-consumption",
+      "versionPolicyName": "management"
     }
   ]
 }
