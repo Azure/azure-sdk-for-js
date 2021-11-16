@@ -1085,6 +1085,11 @@
       "packageName": "@azure/arm-consumption",
       "projectFolder": "sdk/consumption/arm-consumption",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/instrumentation-opentelemetry",
+      "projectFolder": "sdk/instrumentation/instrumentation-opentelemetry",
+      "versionPolicyName": "client"
     }
   ]
 }
