@@ -6,25 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { Charges } from "../operationsInterfaces";
-import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ConsumptionManagementClientContext } from "../consumptionManagementClientContext";
 import { ChargesListOptionalParams, ChargesListResponse } from "../models";
 
-/** Class containing Charges operations. */
-export class ChargesImpl implements Charges {
-  private readonly client: ConsumptionManagementClientContext;
-
-  /**
-   * Initialize a new instance of the class Charges class.
-   * @param client Reference to the service client
-   */
-  constructor(client: ConsumptionManagementClientContext) {
-    this.client = client;
-  }
-
+/** Interface representing a Charges. */
+export interface Charges {
   /**
    * Lists the charges based for the defined scope.
    * @param scope The scope associated with charges operations. This includes
@@ -48,35 +33,5 @@ export class ChargesImpl implements Charges {
   list(
     scope: string,
     options?: ChargesListOptionalParams
-  ): Promise<ChargesListResponse> {
-    return this.client.sendOperationRequest(
-      { scope, options },
-      listOperationSpec
-    );
-  }
+  ): Promise<ChargesListResponse>;
 }
-// Operation Specifications
-const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
-
-const listOperationSpec: coreClient.OperationSpec = {
-  path: "/{scope}/providers/Microsoft.Consumption/charges",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ChargesListResult
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [
-    Parameters.filter,
-    Parameters.apiVersion,
-    Parameters.startDate,
-    Parameters.endDate,
-    Parameters.apply
-  ],
-  urlParameters: [Parameters.$host, Parameters.scope],
-  headerParameters: [Parameters.accept],
-  serializer
-};
