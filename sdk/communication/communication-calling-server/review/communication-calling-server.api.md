@@ -7,7 +7,6 @@
 import { AbortSignalLike } from '@azure/abort-controller';
 import { CommunicationIdentifier } from '@azure/communication-common';
 import * as coreHttp from '@azure/core-http';
-import { HttpResponse } from '@azure/core-http';
 import { OperationOptions } from '@azure/core-http';
 import { OperationParameter } from '@azure/core-http';
 import { PhoneNumberIdentifier } from '@azure/communication-common';
@@ -189,9 +188,6 @@ export interface ContentDownloadHeaders {
 export type ContentDownloadResponse = ContentDownloadHeaders & {
     blobBody?: Promise<Blob>;
     readableStreamBody?: NodeJS.ReadableStream;
-    _response: HttpResponse & {
-        parsedHeaders: ContentDownloadHeaders;
-    };
 };
 
 // @public

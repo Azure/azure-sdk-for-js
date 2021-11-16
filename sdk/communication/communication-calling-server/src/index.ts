@@ -1,6 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { HttpResponse } from "@azure/core-http";
 
 export * from "./models";
 export * from "./parameters";
@@ -39,10 +38,4 @@ export type ContentDownloadResponse = ContentDownloadHeaders & {
    * Always `undefined` in the browser.
    */
   readableStreamBody?: NodeJS.ReadableStream;
-
-  /** The underlying HTTP response. */
-  _response: HttpResponse & {
-    /** The parsed HTTP response headers. */
-    parsedHeaders: ContentDownloadHeaders;
-  };
 };

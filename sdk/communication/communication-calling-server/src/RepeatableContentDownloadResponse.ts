@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { HttpResponse, isNode } from "@azure/core-http";
-import { ContentDownloadHeaders, ContentDownloadResponse } from ".";
+import { isNode } from "@azure/core-http";
+import { ContentDownloadResponse } from ".";
 import {
   ReadableStreamGetter,
   RetriableReadableStream,
@@ -89,15 +89,6 @@ export class RepeatableContentDownloadResponse implements ContentDownloadRespons
    */
   public get readableStreamBody(): NodeJS.ReadableStream | undefined {
     return isNode ? this.blobDownloadStream : undefined;
-  }
-
-  /**
-   * The HTTP response.
-   */
-  public get _response(): HttpResponse & {
-    parsedHeaders: ContentDownloadHeaders;
-  } {
-    return this.originalResponse._response;
   }
 
   private originalResponse: ContentDownloadResponse;
