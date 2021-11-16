@@ -48,7 +48,7 @@ export type SpanStatus = {
     status: "success";
 } | {
     status: "error";
-    error: Error | string;
+    error?: Error | string;
 };
 
 // @public
@@ -105,12 +105,20 @@ export interface TracingSpanContext {
 export type TracingSpanKind = "client" | "server" | "producer" | "consumer" | "internal";
 
 // @public
+export interface TracingSpanLink {
+    attributes?: {
+        [key: string]: unknown;
+    };
+    spanContext: TracingSpanContext;
+}
+
+// @public
 export interface TracingSpanOptions {
     spanAttributes?: {
         [key: string]: unknown;
     };
     spanKind?: TracingSpanKind;
-    spanLinks?: TracingSpanContext[];
+    spanLinks?: TracingSpanLink[];
 }
 
 // @public

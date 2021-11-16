@@ -128,9 +128,17 @@ export interface TracingSpanOptions {
   /** The kind of span. Implementations should default this to "client". */
   spanKind?: TracingSpanKind;
   /** A collection of span identifiers to link to this span. */
-  spanLinks?: TracingSpanContext[];
+  spanLinks?: TracingSpanLink[];
   /** Initial attributes to set on a span. */
   spanAttributes?: { [key: string]: unknown };
+}
+
+/** A pointer from the current {@link TracingSpan} to another span in the same or a different trace. */
+export interface TracingSpanLink {
+  /** The {@link TracingSpanContext} to link to */
+  spanContext: TracingSpanContext;
+  /** A set of attributes on the link */
+  attributes?: { [key: string]: unknown };
 }
 
 /**
@@ -214,6 +222,8 @@ export interface InstrumenterSpanOptions extends TracingSpanOptions {
 
 /**
  * Represents the statuses that can be passed to {@link TracingSpan.setStatus}.
+ *
+ * By default, all spans will be created with status "unset".
  */
 export type SpanStatus =
   | {
@@ -221,7 +231,7 @@ export type SpanStatus =
     }
   | {
       status: "error";
-      error: Error | string;
+      error?: Error | string;
     };
 
 /**
