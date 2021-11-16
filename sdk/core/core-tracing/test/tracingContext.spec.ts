@@ -11,14 +11,14 @@ describe("TracingContext", () => {
     let context: TracingContextImpl;
 
     beforeEach(() => {
-      context = new TracingContextImpl(new Map<symbol, unknown>());
+      context = new TracingContextImpl();
     });
 
     it("can be created from an existing context map", () => {
-      const initialData = new Map<symbol, unknown>();
-      initialData.set(Symbol.for("key1"), "value1");
-      initialData.set(Symbol.for("key2"), "value2");
-      const newContext = new TracingContextImpl(initialData);
+      const context = createTracingContext()
+        .setValue(Symbol.for("key1"), "value1")
+        .setValue(Symbol.for("key2"), "value2");
+      const newContext = new TracingContextImpl(context);
       assert.equal(newContext.getValue(Symbol.for("key1")), "value1");
       assert.equal(newContext.getValue(Symbol.for("key2")), "value2");
     });
@@ -101,17 +101,14 @@ describe("TracingContext", () => {
         packageInformation: { name: "test" }
       });
       const span = new NoOpSpan();
-      const parentContext = createTracingContext();
       const namespace = "test-namespace";
       const newContext = createTracingContext({
         client,
         span,
-        parentContext: parentContext,
         namespace
       });
       assert.strictEqual(newContext.getValue(knownContextKeys.Client), client);
       assert.strictEqual(newContext.getValue(knownContextKeys.Namespace), namespace);
-      assert.strictEqual(newContext.getValue(knownContextKeys.ParentContext), parentContext);
       assert.strictEqual(newContext.getValue(knownContextKeys.Span), span);
     });
 
