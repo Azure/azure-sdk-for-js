@@ -80,7 +80,7 @@ describe("Instrumenter", () => {
     describe("#createRequestHeaders", () => {
       it("returns an empty object", () => {
         const span: TracingSpanContext = {
-          spanContext: "",
+          spanId: "",
           traceId: "",
           traceFlags: 0
         };
@@ -95,7 +95,7 @@ describe("Instrumenter", () => {
       span.setStatus({ status: "success" });
       span.setAttribute("foo", "bar");
       assert.deepEqual(span.spanContext, {
-        spanContext: "00000000-0000-0000-0000-000000000000",
+        spanId: "00000000-0000-0000-0000-000000000000",
         traceId: "00000000-0000-0000-0000-000000000000",
         traceFlags: 0x0
       });

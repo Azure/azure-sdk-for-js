@@ -68,7 +68,7 @@ export class NoOpSpan implements TracingSpan {
   }
   get spanContext(): TracingSpanContext {
     return {
-      spanContext: "00000000-0000-0000-0000-000000000000",
+      spanId: "00000000-0000-0000-0000-000000000000",
       traceId: "00000000-0000-0000-0000-000000000000",
       traceFlags: 0x0
     };

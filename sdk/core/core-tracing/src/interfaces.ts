@@ -146,7 +146,7 @@ export interface TracingSpanLink {
  */
 export interface TracingSpanContext {
   /** The span UUID within the trace. */
-  spanContext: string;
+  spanId: string;
   /** The trace UUID. */
   traceId: string;
   /**
