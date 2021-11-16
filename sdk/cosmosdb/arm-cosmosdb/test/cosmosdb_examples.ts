@@ -104,11 +104,6 @@ describe("Cosmosdb test", () => {
     assert.equal(resArray.length,1);
   });
 
-  it("databaseAccounts checkNameExists test", async function() {
-    const res = await client.databaseAccounts.checkNameExists(accountName);
-    assert.equal(res.body,true);
-  });
-
   it("databaseAccounts delete test", async function() {
     await client.databaseAccounts.beginDeleteAndWait(resourceGroupName,accountName, testPollingOptions);
     const resArray = new Array();
