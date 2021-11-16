@@ -9,7 +9,12 @@ import path from "path";
 import * as dotenv from "dotenv";
 dotenv.config({ path: path.resolve(__dirname, "../sample.env") });
 
-import { CosmosClient , SasTokenProperties , createAuthorizationSasToken ,SasTokenPermissionKind  } from "@azure/cosmos";
+import {
+  CosmosClient,
+  SasTokenProperties,
+  createAuthorizationSasToken,
+  SasTokenPermissionKind
+} from "@azure/cosmos";
 import { handleError, finish, logStep } from "./Shared/handleError";
 const masterKey = process.env.COSMOS_KEY || "<cosmos key>";
 const endpoint = process.env.COSMOS_ENDPOINT || "<cosmos endpoint>";

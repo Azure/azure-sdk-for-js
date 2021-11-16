@@ -17,7 +17,6 @@ const endpoint = process.env.COSMOS_ENDPOINT || "<cosmos endpoint>";
 const containerId = process.env.COSMOS_CONTAINER || "<cosmos container>";
 const databaseId = process.env.COSMOS_DATABASE || "<cosmos database>";
 
-
 logSampleHeader("Index Management");
 
 // Establish a new instance of the CosmosClient to be used throughout this demo
@@ -214,7 +213,7 @@ async function run(): Promise<void> {
       .fetchAll();
     console.log(result.resources);
     throw new Error("Should've produced an error");
-  } catch (err : any) {
+  } catch (err) {
     if (err.code !== undefined) {
       console.log("Threw, as expected");
     } else {

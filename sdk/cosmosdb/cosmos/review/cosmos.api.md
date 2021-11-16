@@ -775,9 +775,6 @@ export enum GeospatialType {
     Geometry = "Geometry"
 }
 
-// @public (undocumented)
-export function getUserAgent(suffix?: string): string;
-
 // @public
 export class GlobalEndpointManager {
     constructor(options: CosmosClientOptions, readDatabaseAccount: (opts: RequestOptions) => Promise<ResourceResponse<DatabaseAccount>>);

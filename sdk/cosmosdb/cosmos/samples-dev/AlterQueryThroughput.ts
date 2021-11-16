@@ -93,11 +93,9 @@ async function updateOfferForCollection(
       })
   );
 
-
-  const containers: (ContainerDefinition & Resource)[] = 
-    containerResponses.flatMap(
-      (response: FeedResponse<ContainerDefinition & Resource>) => response.resources
-    );
+  const containers: (ContainerDefinition & Resource)[] = containerResponses.flatMap(
+    (response: FeedResponse<ContainerDefinition & Resource>) => response.resources
+  );
 
   logStep("Finding container to offerDefinition");
   const container = containers.find(
