@@ -73,7 +73,7 @@ import { convertTracingToRequestOptionsBase, createSpan } from "./tracing";
 import { logger } from "./logger";
 import { ContentDownloader, ContentDownloaderImpl } from "./ContentDownloader";
 import { rangeToString } from "./Range";
-import { RepeatableContentDownloadResponse } from "./RepeatableContentDownloadResponse";
+import { RepeatableContentDownloadResult } from "./RepeatableContentDownloadResult";
 import { extractOperationOptions } from "./extractOperationOptions";
 import { CallingServerUtils } from "./utils/utils.common";
 import { serializeCallLocator } from "./callLocatorModelSerializer";
@@ -874,7 +874,7 @@ export class CallingServerClient {
       if (res.contentLength === undefined) {
         throw new RangeError(`File download response doesn't contain valid content length header`);
       }
-      return new RepeatableContentDownloadResponse(
+      return new RepeatableContentDownloadResult(
         res,
         async (start: number): Promise<NodeJS.ReadableStream> => {
           // Debug purpose only

@@ -8,7 +8,7 @@
   "browser": {
     "stream": "./node_modules/stream-browserify/index.js",
     "./dist-esm/src/credentials/cryptoUtils.js": "./dist-esm/src/credentials/cryptoUtils.browser.js",
-    "./dist-esm/src/RepeatableContentDownloadResponse.js": "./dist-esm/src/RepeatableContentDownloadResponse.browser.js",
+    "./dist-esm/src/RepeatableContentDownloadResult.js": "./dist-esm/src/RepeatableContentDownloadResult.browser.js",
     "./dist-esm/src/utils/utils.node.js": "./dist-esm/src/utils/utils.browser.js",
     "./dist-esm/test/public/utils/index.js": "./dist-esm/test/public/utils/index.browser.js"
   },

@@ -18,7 +18,7 @@ import {
  * The {@link readableStreamBody} stream will retry underlayer, you can just use it as a normal Node.js
  * Readable stream.
  */
-export class RepeatableContentDownloadResponse implements ContentDownloadResponse {
+export class RepeatableContentDownloadResult implements ContentDownloadResponse {
   /**
    * The number of bytes present in the
    * response body.
