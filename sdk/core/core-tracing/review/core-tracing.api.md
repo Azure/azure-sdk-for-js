@@ -77,6 +77,7 @@ export interface TracingContext {
 export interface TracingSpan {
     end(): void;
     isRecording(): boolean;
+    recordException(exception: Error | string): void;
     setAttribute(name: string, value: unknown): void;
     setStatus(status: SpanStatus): void;
     readonly spanContext: TracingSpanContext;

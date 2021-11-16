@@ -225,11 +225,12 @@ export type SpanStatus =
  */
 export interface TracingSpan {
   /**
-   * Sets the status of the span.
+   * Sets the status of the span. When an error is provided, it will be recorded on the span as well.
    *
    * @param status - The status to set on the span.
    */
   setStatus(status: SpanStatus): void;
+
   /**
    * Sets a given attribute on a span.
    *
@@ -237,10 +238,21 @@ export interface TracingSpan {
    * @param value - The attribute's value to set. May be any non-nullish value.
    */
   setAttribute(name: string, value: unknown): void;
+
   /**
    * Ends the span.
    */
   end(): void;
+
+  /**
+   * Records an exception on a {@link TracingSpan} without modifying its status.
+   *
+   * When recording an unhandled exception that should fail the span, please use {@link TracingSpan.setStatus} instead.
+   *
+   * @param exception - The exception to record on the span.
+   *
+   */
+  recordException(exception: Error | string): void;
 
   /**
    * Returns true if this {@link TracingSpan} is recording information.

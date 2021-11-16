@@ -76,6 +76,9 @@ export class NoOpSpan implements TracingSpan {
   isRecording(): boolean {
     return false;
   }
+  recordException(): void {
+    // noop
+  }
 }
 
 /** @internal */
