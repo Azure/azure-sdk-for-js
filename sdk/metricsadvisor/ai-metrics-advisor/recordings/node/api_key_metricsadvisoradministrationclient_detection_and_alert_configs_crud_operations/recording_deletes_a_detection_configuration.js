@@ -5,41 +5,41 @@ module.exports.hash = "245355127474a82348bfd6e169bccfd4";
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .delete('/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/5aee4c62-9733-48e9-a548-8a3b37d2e152')
+  .delete('/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/52eba2dd-87a2-44d7-b4f2-3510e7df5647')
   .reply(204, "", [
   'Content-Length',
   '0',
   'x-request-id',
-  'f1b5b69e-dbbc-4e85-9325-474ed4e075c7',
+  'bbcce9ae-b749-417d-a67b-603a048fd5d3',
   'x-envoy-upstream-service-time',
-  '94',
+  '126',
   'apim-request-id',
-  'f1b5b69e-dbbc-4e85-9325-474ed4e075c7',
+  'bbcce9ae-b749-417d-a67b-603a048fd5d3',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Mon, 08 Nov 2021 09:37:59 GMT'
+  'Tue, 16 Nov 2021 00:32:15 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/5aee4c62-9733-48e9-a548-8a3b37d2e152')
-  .reply(404, {"code":"Not Found","message":"Not found this AnomalyDetectionConfiguration. TraceId: 00097642-f9d0-43c2-9ff9-8d8f89b6a75a"}, [
+  .get('/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/52eba2dd-87a2-44d7-b4f2-3510e7df5647')
+  .reply(404, {"code":"Not Found","message":"Not found this AnomalyDetectionConfiguration. TraceId: 1033bcf2-0615-45b2-a4f3-3d60844e0d6a"}, [
   'Content-Length',
   '124',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-request-id',
-  '00097642-f9d0-43c2-9ff9-8d8f89b6a75a',
+  '1033bcf2-0615-45b2-a4f3-3d60844e0d6a',
   'x-envoy-upstream-service-time',
-  '89',
+  '88',
   'apim-request-id',
-  '00097642-f9d0-43c2-9ff9-8d8f89b6a75a',
+  '1033bcf2-0615-45b2-a4f3-3d60844e0d6a',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Mon, 08 Nov 2021 09:37:59 GMT'
+  'Tue, 16 Nov 2021 00:32:15 GMT'
 ]);
