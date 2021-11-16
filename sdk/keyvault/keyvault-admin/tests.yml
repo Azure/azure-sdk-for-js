@@ -12,8 +12,12 @@ stages:
           Location: 'eastus2'
         UsGov:
           SubscriptionConfiguration: $(sub-config-gov-test-resources)
+          MatrixFilters:
+            - ArmTemplateParameters=^(?!.*enableHsm.*true)
         China:
           SubscriptionConfiguration: $(sub-config-cn-test-resources)
+          MatrixFilters:
+            - ArmTemplateParameters=^(?!.*enableHsm.*true)
       # KV HSM limitation prevents us from running live tests
       # against multiple platforms in parallel (we're limited to a single
       # instance per region per subscription) so we're only running
