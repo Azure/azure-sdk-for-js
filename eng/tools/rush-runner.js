@@ -34,7 +34,22 @@ const reducedDependencyTestMatrix = {
     '@azure/identity-vscode',
     '@azure/storage-file-share',
     '@azure/template'
-  ]
+  ],
+  'identity': [
+    '@azure-rest/core-client',
+    '@azure-rest/core-client-lro',
+    '@azure-rest/core-client-paging',
+    '@azure-rest/purview-account',
+    '@azure-tests/perf-storage-blob',
+    '@azure/ai-text-analytics',
+    '@azure/arm-compute',
+    '@azure/identity-cache-persistence',
+    '@azure/identity-vscode',
+    '@azure/service-bus',
+    '@azure/storage-blob',
+    '@azure/template',
+    '@azure/synapse-monitoring'
+  ],
 };
 
 const parseArgs = () => {

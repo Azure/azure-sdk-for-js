@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { env } from "@azure-tools/test-recorder";
+import { env, isPlaybackMode } from "@azure-tools/test-recorder";
 import { TableEntity, TableClient } from "@azure/data-tables";
 import { TestProxyHttpClient, recorderHttpPolicy } from "@azure-tools/test-recorder-new";
 import { config } from "dotenv";
@@ -40,7 +40,13 @@ describe("Core V2 tests", () => {
   });
 
   it("data-tables create entity", async function() {
-    const client = TableClient.fromConnectionString(env.TABLES_SAS_CONNECTION_STRING, "newtable");
+    if (!isPlaybackMode()) {
+      recorder.variables["table-name"] = `table${Math.ceil(Math.random() * 1000 + 1000)}`;
+    }
+    const client = TableClient.fromConnectionString(
+      env.TABLES_SAS_CONNECTION_STRING,
+      recorder.variables["table-name"]
+    );
     client.pipeline.addPolicy(recorderHttpPolicy(recorder));
     await client.createTable();
     const simpleEntity: TableEntity = createSimpleEntity();
