@@ -20,8 +20,8 @@ export interface CreateTracingContextOptions {
 
 // @public
 export interface Instrumenter {
-    createRequestHeaders(spanId: TracingSpanIdentifier): Record<string, string>;
-    parseTraceparentHeader(traceparentHeader: string): TracingSpanIdentifier | undefined;
+    createRequestHeaders(spanContext: TracingSpanContext): Record<string, string>;
+    parseTraceparentHeader(traceparentHeader: string): TracingSpanContext | undefined;
     startSpan(name: string, spanOptions?: InstrumenterSpanOptions): {
         span: TracingSpan;
         tracingContext: TracingContext;
@@ -53,8 +53,8 @@ export type SpanStatus = {
 
 // @public
 export interface TracingClient {
-    createRequestHeaders(spanId: TracingSpanIdentifier): Record<string, string>;
-    parseTraceparentHeader(traceparentHeader: string): TracingSpanIdentifier | undefined;
+    createRequestHeaders(spanContext: TracingSpanContext): Record<string, string>;
+    parseTraceparentHeader(traceparentHeader: string): TracingSpanContext | undefined;
     startSpan<Options extends {
         tracingOptions?: OperationTracingOptions;
     }>(name: string, operationOptions?: Options, spanOptions?: TracingSpanOptions): {
@@ -90,12 +90,12 @@ export interface TracingSpan {
     isRecording(): boolean;
     setAttribute(name: string, value: unknown): void;
     setStatus(status: SpanStatus): void;
-    readonly tracingSpanId: TracingSpanIdentifier;
+    readonly spanContext: TracingSpanContext;
 }
 
 // @public
-export interface TracingSpanIdentifier {
-    spanId: string;
+export interface TracingSpanContext {
+    spanContext: string;
     traceFlags: number;
     traceId: string;
     traceState?: unknown;
@@ -110,7 +110,7 @@ export interface TracingSpanOptions {
         [key: string]: unknown;
     };
     spanKind?: TracingSpanKind;
-    spanLinks?: TracingSpanIdentifier[];
+    spanLinks?: TracingSpanContext[];
 }
 
 // @public

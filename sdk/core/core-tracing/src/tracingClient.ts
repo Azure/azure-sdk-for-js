@@ -9,7 +9,7 @@ import {
   TracingSpan,
   TracingContext,
   TracingSpanOptions,
-  TracingSpanIdentifier
+  TracingSpanContext
 } from "./interfaces";
 import { instrumenterImplementation } from "./instrumenter";
 import { knownContextKeys } from "./tracingContext";
@@ -109,18 +109,18 @@ export class TracingClientImpl implements TracingClient {
    * @param traceparentHeader - The traceparent header to parse.
    * @returns An implementation-specific identifier for the span.
    */
-  parseTraceparentHeader(traceparentHeader: string): TracingSpanIdentifier | undefined {
+  parseTraceparentHeader(traceparentHeader: string): TracingSpanContext | undefined {
     return this._instrumenter.parseTraceparentHeader(traceparentHeader);
   }
 
   /**
    * Creates a set of request headers to propagate tracing information to a backend.
    *
-   * @param spanId - The span identifier to serialize.
+   * @param spanContext - The span identifier to serialize.
    * @returns The set of headers to add to a request.
    */
-  createRequestHeaders(spanId: TracingSpanIdentifier): Record<string, string> {
-    return this._instrumenter.createRequestHeaders(spanId);
+  createRequestHeaders(spanContext: TracingSpanContext): Record<string, string> {
+    return this._instrumenter.createRequestHeaders(spanContext);
   }
 }
 

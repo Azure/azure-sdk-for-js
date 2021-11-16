@@ -6,7 +6,7 @@ import {
   TracingSpanOptions,
   TracingSpan,
   TracingContext,
-  TracingSpanIdentifier,
+  TracingSpanContext,
   InstrumenterSpanOptions
 } from "./interfaces";
 import { createTracingContext } from "./tracingContext";
@@ -47,10 +47,10 @@ export class NoOpInstrumenter implements Instrumenter {
   ): ReturnType<Callback> {
     return callback.apply(callbackThis, callbackArgs);
   }
-  parseTraceparentHeader(_traceparentHeader: string): TracingSpanIdentifier | undefined {
+  parseTraceparentHeader(_traceparentHeader: string): TracingSpanContext | undefined {
     return undefined;
   }
-  createRequestHeaders(_spanId: TracingSpanIdentifier): Record<string, string> {
+  createRequestHeaders(_spanContext: TracingSpanContext): Record<string, string> {
     return {};
   }
 }
@@ -66,9 +66,9 @@ export class NoOpSpan implements TracingSpan {
   end(): void {
     // noop
   }
-  get tracingSpanId(): TracingSpanIdentifier {
+  get spanContext(): TracingSpanContext {
     return {
-      spanId: "00000000-0000-0000-0000-000000000000",
+      spanContext: "00000000-0000-0000-0000-000000000000",
       traceId: "00000000-0000-0000-0000-000000000000",
       traceFlags: 0x0
     };

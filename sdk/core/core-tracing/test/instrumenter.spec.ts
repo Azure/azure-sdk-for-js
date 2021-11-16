@@ -3,7 +3,7 @@
 
 import { assert } from "chai";
 import { Context } from "mocha";
-import { Instrumenter, TracingSpan, TracingSpanIdentifier } from "../src/interfaces";
+import { Instrumenter, TracingSpan, TracingSpanContext } from "../src/interfaces";
 import {
   NoOpInstrumenter,
   NoOpSpan,
@@ -27,6 +27,7 @@ describe("Instrumenter", () => {
           name: "test-package"
         }
       };
+
       it("return no-op span", () => {
         const { span } = instrumenter.startSpan(name, startSpanOptions);
         assert.instanceOf(span, NoOpSpan);
@@ -78,8 +79,8 @@ describe("Instrumenter", () => {
 
     describe("#createRequestHeaders", () => {
       it("returns an empty object", () => {
-        const span: TracingSpanIdentifier = {
-          spanId: "",
+        const span: TracingSpanContext = {
+          spanContext: "",
           traceId: "",
           traceFlags: 0
         };
@@ -93,8 +94,8 @@ describe("Instrumenter", () => {
       const span: TracingSpan = new NoOpSpan();
       span.setStatus({ status: "success" });
       span.setAttribute("foo", "bar");
-      assert.deepEqual(span.tracingSpanId, {
-        spanId: "00000000-0000-0000-0000-000000000000",
+      assert.deepEqual(span.spanContext, {
+        spanContext: "00000000-0000-0000-0000-000000000000",
         traceId: "00000000-0000-0000-0000-000000000000",
         traceFlags: 0x0
       });

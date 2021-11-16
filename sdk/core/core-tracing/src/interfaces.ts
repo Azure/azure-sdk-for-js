@@ -80,15 +80,15 @@ export interface TracingClient {
    * @param traceparentHeader - The traceparent header to parse.
    * @returns An implementation-specific identifier for the span.
    */
-  parseTraceparentHeader(traceparentHeader: string): TracingSpanIdentifier | undefined;
+  parseTraceparentHeader(traceparentHeader: string): TracingSpanContext | undefined;
 
   /**
    * Creates a set of request headers to propagate tracing information to a backend.
    *
-   * @param spanId - The span identifier to serialize.
+   * @param spanContext - The span identifier to serialize.
    * @returns The set of headers to add to a request.
    */
-  createRequestHeaders(spanId: TracingSpanIdentifier): Record<string, string>;
+  createRequestHeaders(spanContext: TracingSpanContext): Record<string, string>;
 }
 
 /**
@@ -128,7 +128,7 @@ export interface TracingSpanOptions {
   /** The kind of span. Implementations should default this to "client". */
   spanKind?: TracingSpanKind;
   /** A collection of span identifiers to link to this span. */
-  spanLinks?: TracingSpanIdentifier[];
+  spanLinks?: TracingSpanContext[];
   /** Initial attributes to set on a span. */
   spanAttributes?: { [key: string]: unknown };
 }
@@ -136,9 +136,9 @@ export interface TracingSpanOptions {
 /**
  * A unique, serializable identifier for a span.
  */
-export interface TracingSpanIdentifier {
+export interface TracingSpanContext {
   /** The span UUID within the trace. */
-  spanId: string;
+  spanContext: string;
   /** The trace UUID. */
   traceId: string;
   /**
@@ -187,14 +187,14 @@ export interface Instrumenter {
 
   /**
    * Provides an implementation-specific method to parse a {@link https://www.w3.org/TR/trace-context/#traceparent-header}
-   * into a {@link TracingSpanIdentifier} which can be used to link non-parented spans together.
+   * into a {@link TracingSpanContext} which can be used to link non-parented spans together.
    */
-  parseTraceparentHeader(traceparentHeader: string): TracingSpanIdentifier | undefined;
+  parseTraceparentHeader(traceparentHeader: string): TracingSpanContext | undefined;
   /**
    * Provides an implementation-specific method to serialize a {@link TracingSpan} to a set of headers.
    * @param span - The span to serialize.
    */
-  createRequestHeaders(spanId: TracingSpanIdentifier): Record<string, string>;
+  createRequestHeaders(spanContext: TracingSpanContext): Record<string, string>;
 }
 
 /**
@@ -254,7 +254,7 @@ export interface TracingSpan {
   isRecording(): boolean;
 
   /** A set of implementation-specific key-value pairs that can uniquely identify a given span. */
-  readonly tracingSpanId: TracingSpanIdentifier;
+  readonly spanContext: TracingSpanContext;
 }
 
 /** An immutable context bag of tracing values for the current operation. */
