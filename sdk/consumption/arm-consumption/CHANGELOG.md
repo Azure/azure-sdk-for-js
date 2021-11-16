@@ -1,4 +1,16 @@
-## 9.0.0-beta.1 (2021-11-16)
+## Release History
+
+### 9.0.0-beta.2 (Unreleased)
+
+#### Features Added
+
+#### Breaking Changes
+
+#### Bugs Fixed
+
+#### Other Changes
+
+### 9.0.0-beta.1 (2021-11-16)
 
 This is the first preview for the new version of the `@azure/arm-consumption` package that follows the new [guidelines for TypeScript SDKs](https://azure.github.io/azure-sdk/typescript_introduction.html) for Azure services.
 
