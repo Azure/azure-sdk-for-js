@@ -244,10 +244,10 @@ function CheckLink ([System.Uri]$linkUri, $allowRetry=$true)
 
       if ($statusCode -in $errorStatusCodes) {
         if ($originalLinkUri -ne $linkUri) {
-          LogWarning "[$statusCode] broken link $originalLinkUri (resolved to $linkUri)"
+          LogError "[$statusCode] broken link $originalLinkUri (resolved to $linkUri)"
         }
         else {
-          LogWarning "[$statusCode] broken link $linkUri"
+          LogError "[$statusCode] broken link $linkUri"
         }
 
         $linkValid = $false
