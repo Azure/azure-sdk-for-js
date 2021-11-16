@@ -103,8 +103,8 @@ export class CallingServerClient {
     cancelParticipantMediaOperation(callLocator: CallLocator, participant: CommunicationIdentifier, mediaOperationId: string, options?: CancelMediaOperationOptions): Promise<void>;
     createCallConnection(source: CommunicationIdentifier, targets: CommunicationIdentifier[], options: CreateCallConnectionOptions): Promise<CallConnection>;
     delete(deleteUrl: string, options?: DeleteOptions): Promise<RestResponse>;
-    download(url: string, offset?: number, options?: DownloadOptions): Promise<ContentDownloadResponse>;
-    downloadToFile(filePath: string, contentUrl: string, offset?: number, options?: DownloadOptions): Promise<ContentDownloadResponse>;
+    download(url: string, offset?: number, options?: DownloadOptions): Promise<ContentDownloadResult>;
+    downloadToFile(filePath: string, contentUrl: string, offset?: number, options?: DownloadOptions): Promise<ContentDownloadResult>;
     getCallConnection(callConnectionId: string): CallConnection;
     getRecordingProperties(recordingId: string, options?: GetRecordingPropertiesOptions): Promise<CallRecordingProperties>;
     initializeContentDownloader(): ContentDownloader;
@@ -172,7 +172,7 @@ export type CancelMediaOperationOptions = OperationOptions;
 
 // @public
 export interface ContentDownloader {
-    downloadContent(contentUrl: string, options: DownloadContentOptions): Promise<ContentDownloadResponse>;
+    downloadContent(contentUrl: string, options: DownloadContentOptions): Promise<ContentDownloadResult>;
 }
 
 // @public
@@ -185,7 +185,7 @@ export interface ContentDownloadHeaders {
 }
 
 // @public
-export type ContentDownloadResponse = ContentDownloadHeaders & {
+export type ContentDownloadResult = ContentDownloadHeaders & {
     blobBody?: Promise<Blob>;
     readableStreamBody?: NodeJS.ReadableStream;
 };

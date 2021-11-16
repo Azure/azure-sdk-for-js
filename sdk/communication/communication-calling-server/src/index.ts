@@ -23,7 +23,7 @@ export interface ContentDownloadHeaders {
 }
 
 /** Contains response data for the download operation. */
-export type ContentDownloadResponse = ContentDownloadHeaders & {
+export type ContentDownloadResult = ContentDownloadHeaders & {
   /**
    * BROWSER ONLY
    *

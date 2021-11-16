@@ -17,7 +17,7 @@ import {
   Serializer,
   OperationSpec
 } from "@azure/core-http";
-import { ContentDownloadResponse } from ".";
+import { ContentDownloadResult } from ".";
 import { CallingServerUtils } from "./utils/utils.common";
 
 /**
@@ -32,7 +32,7 @@ export interface ContentDownloader {
   downloadContent(
     contentUrl: string,
     options: DownloadContentOptions
-  ): Promise<ContentDownloadResponse>;
+  ): Promise<ContentDownloadResult>;
 }
 
 /**
@@ -53,7 +53,7 @@ export class ContentDownloaderImpl implements ContentDownloader {
   public async downloadContent(
     contentUrl: string,
     options: DownloadContentOptions = {}
-  ): Promise<ContentDownloadResponse> {
+  ): Promise<ContentDownloadResult> {
     const { span, updatedOptions } = createSpan(
       "ContentDownloaderRestClient-downloadContent",
       options
@@ -83,7 +83,7 @@ export class ContentDownloaderImpl implements ContentDownloader {
   download_content(
     contentUrl: string,
     options?: OperationOptions
-  ): Promise<ContentDownloadResponse> {
+  ): Promise<ContentDownloadResult> {
     const operationArguments: OperationArguments = {
       options: operationOptionsToRequestOptionsBase(options || {})
     };
@@ -91,7 +91,7 @@ export class ContentDownloaderImpl implements ContentDownloader {
     return this.client.sendOperationRequest(
       operationArguments,
       getDownloadContentOperationSpec(contentUrl, stringToSign)
-    ) as Promise<ContentDownloadResponse>;
+    ) as Promise<ContentDownloadResult>;
   }
 }
 

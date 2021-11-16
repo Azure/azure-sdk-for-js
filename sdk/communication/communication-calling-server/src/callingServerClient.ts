@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 /// <reference lib="esnext.asynciterable" />
 
-import { CallConnection, ContentDownloadResponse } from ".";
+import { CallConnection, ContentDownloadResult } from ".";
 import { CallConnectionImpl } from "./callConnection";
 import {
   CreateCallConnectionOptions,
@@ -846,7 +846,7 @@ export class CallingServerClient {
     url: string,
     offset: number = 0,
     options: DownloadOptions = {}
-  ): Promise<ContentDownloadResponse> {
+  ): Promise<ContentDownloadResult> {
     const { span, updatedOptions } = createSpan("ServerCallRestClient-download", options);
     const DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS = 3;
     const contentDownloader = this.initializeContentDownloader();
@@ -935,7 +935,7 @@ export class CallingServerClient {
     contentUrl: string,
     offset: number = 0,
     options: DownloadOptions = {}
-  ): Promise<ContentDownloadResponse> {
+  ): Promise<ContentDownloadResult> {
     const { span, updatedOptions } = createSpan("ServerCallRestClient-DownloadToFile", options);
     try {
       const response = await this.download(contentUrl, offset, {
