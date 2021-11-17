@@ -33,7 +33,7 @@
     "unit-test:browser": "npm run integration-test:browser",
     "unit-test:node": "npm run integration-test:node",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
-    "test:browser": "npm run clean && npm run build && npm run temp-integration-test:browser",
+    "test:browser": "npm run clean && npm run build && npm run integration-test:browser",
     "test:node": "npm run clean && npm run build:test && npm run integration-test:node",
     "test": "npm run clean && npm run build:test && npm run unit-test",
     "docs": "echo Skipped."
