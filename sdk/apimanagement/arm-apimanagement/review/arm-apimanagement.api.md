@@ -674,8 +674,8 @@ export class ApiManagementClient extends ApiManagementClientContext {
     authorizationServer: AuthorizationServer;
     // (undocumented)
     backend: Backend;
-    beginPerformConnectivityCheckAsync(resourceGroupName: string, serviceName: string, connectivityCheckRequestParams: ConnectivityCheckRequest, options?: ApiManagementClientPerformConnectivityCheckAsyncOptionalParams): Promise<PollerLike<PollOperationState<ApiManagementClientPerformConnectivityCheckAsyncResponse>, ApiManagementClientPerformConnectivityCheckAsyncResponse>>;
-    beginPerformConnectivityCheckAsyncAndWait(resourceGroupName: string, serviceName: string, connectivityCheckRequestParams: ConnectivityCheckRequest, options?: ApiManagementClientPerformConnectivityCheckAsyncOptionalParams): Promise<ApiManagementClientPerformConnectivityCheckAsyncResponse>;
+    beginPerformConnectivityCheckAsync(resourceGroupName: string, serviceName: string, connectivityCheckRequestParams: ConnectivityCheckRequest, options?: PerformConnectivityCheckAsyncOptionalParams): Promise<PollerLike<PollOperationState<PerformConnectivityCheckAsyncResponse>, PerformConnectivityCheckAsyncResponse>>;
+    beginPerformConnectivityCheckAsyncAndWait(resourceGroupName: string, serviceName: string, connectivityCheckRequestParams: ConnectivityCheckRequest, options?: PerformConnectivityCheckAsyncOptionalParams): Promise<PerformConnectivityCheckAsyncResponse>;
     // (undocumented)
     cache: Cache_2;
     // (undocumented)
@@ -801,15 +801,6 @@ export interface ApiManagementClientOptionalParams extends coreClient.ServiceCli
     apiVersion?: string;
     endpoint?: string;
 }
-
-// @public
-export interface ApiManagementClientPerformConnectivityCheckAsyncOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type ApiManagementClientPerformConnectivityCheckAsyncResponse = ConnectivityCheckResponse;
 
 // @public
 export interface ApiManagementOperations {
@@ -5457,6 +5448,15 @@ export interface ParameterExampleContract {
     summary?: string;
     value?: any;
 }
+
+// @public
+export interface PerformConnectivityCheckAsyncOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type PerformConnectivityCheckAsyncResponse = ConnectivityCheckResponse;
 
 // @public
 export interface PipelineDiagnosticSettings {
