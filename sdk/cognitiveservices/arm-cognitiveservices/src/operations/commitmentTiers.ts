@@ -9,16 +9,16 @@
 
 import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
-import * as Mappers from "../models/operationsMappers";
+import * as Mappers from "../models/commitmentTiersMappers";
 import * as Parameters from "../models/parameters";
 import { CognitiveServicesManagementClientContext } from "../cognitiveServicesManagementClientContext";
 
-/** Class representing a Operations. */
-export class Operations {
+/** Class representing a CommitmentTiers. */
+export class CommitmentTiers {
   private readonly client: CognitiveServicesManagementClientContext;
 
   /**
-   * Create a Operations.
+   * Create a CommitmentTiers.
    * @param {CognitiveServicesManagementClientContext} client Reference to the service client.
    */
   constructor(client: CognitiveServicesManagementClientContext) {
@@ -26,55 +26,59 @@ export class Operations {
   }
 
   /**
-   * Lists all the available Cognitive Services account operations.
+   * List Commitment Tiers.
+   * @param location Resource location.
    * @param [options] The optional parameters
-   * @returns Promise<Models.OperationsListResponse>
+   * @returns Promise<Models.CommitmentTiersListResponse>
    */
-  list(options?: msRest.RequestOptionsBase): Promise<Models.OperationsListResponse>;
+  list(location: string, options?: msRest.RequestOptionsBase): Promise<Models.CommitmentTiersListResponse>;
   /**
+   * @param location Resource location.
    * @param callback The callback
    */
-  list(callback: msRest.ServiceCallback<Models.OperationListResult>): void;
+  list(location: string, callback: msRest.ServiceCallback<Models.CommitmentTierListResult>): void;
   /**
+   * @param location Resource location.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationListResult>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationListResult>, callback?: msRest.ServiceCallback<Models.OperationListResult>): Promise<Models.OperationsListResponse> {
+  list(location: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CommitmentTierListResult>): void;
+  list(location: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CommitmentTierListResult>, callback?: msRest.ServiceCallback<Models.CommitmentTierListResult>): Promise<Models.CommitmentTiersListResponse> {
     return this.client.sendOperationRequest(
       {
+        location,
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.OperationsListResponse>;
+      callback) as Promise<Models.CommitmentTiersListResponse>;
   }
 
   /**
-   * Lists all the available Cognitive Services account operations.
+   * List Commitment Tiers.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
-   * @returns Promise<Models.OperationsListNextResponse>
+   * @returns Promise<Models.CommitmentTiersListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.OperationsListNextResponse>;
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.CommitmentTiersListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.OperationListResult>): void;
+  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.CommitmentTierListResult>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationListResult>, callback?: msRest.ServiceCallback<Models.OperationListResult>): Promise<Models.OperationsListNextResponse> {
+  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CommitmentTierListResult>): void;
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CommitmentTierListResult>, callback?: msRest.ServiceCallback<Models.CommitmentTierListResult>): Promise<Models.CommitmentTiersListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.OperationsListNextResponse>;
+      callback) as Promise<Models.CommitmentTiersListNextResponse>;
   }
 }
 
@@ -82,7 +86,11 @@ export class Operations {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "providers/Microsoft.CognitiveServices/operations",
+  path: "subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/locations/{location}/commitmentTiers",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.location
+  ],
   queryParameters: [
     Parameters.apiVersion
   ],
@@ -91,7 +99,7 @@ const listOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.OperationListResult
+      bodyMapper: Mappers.CommitmentTierListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -115,7 +123,7 @@ const listNextOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.OperationListResult
+      bodyMapper: Mappers.CommitmentTierListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
