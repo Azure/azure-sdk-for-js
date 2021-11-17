@@ -3,7 +3,7 @@
 
 import { env, isPlaybackMode } from "@azure-tools/test-recorder";
 import { TableEntity, TableClient } from "@azure/data-tables";
-import { TestProxyHttpClient, recorderHttpPolicy } from "@azure-tools/test-recorder-new";
+import { TestProxyHttpClient, recorderHttpPolicy, RecorderStartOptions } from "@azure-tools/test-recorder-new";
 import { config } from "dotenv";
 import { createSimpleEntity } from "./utils/utils";
 import { SanitizerOptions } from "@azure-tools/test-recorder-new";
@@ -22,17 +22,19 @@ const sanitizerOptions: SanitizerOptions = {
   generalRegexSanitizers: [{ regex: "abc", value: "fake_abc" }]
 };
 
+const recorderOptions: RecorderStartOptions = {
+  envSetupForPlayback: {
+    TABLES_SAS_CONNECTION_STRING: fakeConnString
+  },
+  sanitizerOptions
+};
+
 describe("Core V2 tests", () => {
   let recorder: TestProxyHttpClient;
 
   beforeEach(async function() {
     recorder = new TestProxyHttpClient(this.currentTest);
-    await recorder.start({
-      envSetupForPlayback: {
-        TABLES_SAS_CONNECTION_STRING: fakeConnString
-      }
-    });
-    await recorder.addSanitizers(sanitizerOptions);
+    await recorder.start(recorderOptions);
   });
 
   afterEach(async () => {
