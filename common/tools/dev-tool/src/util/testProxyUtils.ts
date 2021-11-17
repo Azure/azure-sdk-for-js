@@ -50,26 +50,12 @@ async function getDockerRunCommand() {
 
 export async function isProxyToolActive() {
   try {
-    await makeRequestToProxyTool();
-    // No need to run a new one if it is already active
-    // Especially, CI uses this path
-    log.info(
-      `Proxy tool seems to be active at http://localhost:5000\n`
-    );
+    await makeRequest("http://localhost:5000/info/available", {});
+    log.info(`Proxy tool seems to be active at http://localhost:5000\n`);
     return true;
   } catch (error) {
-    if ((error as { code: string }).code === "ECONNREFUSED") {
-      // Proxy tool is not active, attempt to start the proxy tool now
-      return false;
-    } else {
-      throw error;
-    }
+    return false;
   }
-}
-
-export async function makeRequestToProxyTool() {
-  await makeRequest("http://localhost:5000/info/available", {});
-  log.info(`Proxy tool seems to be active at http://localhost:5000\n`);
 }
 
 async function makeRequest(uri: string, requestOptions: RequestOptions): Promise<IncomingMessage> {
