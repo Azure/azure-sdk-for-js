@@ -8,7 +8,7 @@ trigger:
       - hotfix/*
   paths:
     include:
-      - sdk/template/
+      - sdk/instrumentation/
 
 pr:
   branches:
@@ -19,12 +19,12 @@ pr:
       - hotfix/*
   paths:
     include:
-      - sdk/template/
+      - sdk/instrumentation/
 
 extends:
   template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
-    ServiceDirectory: template
+    ServiceDirectory: instrumentation
     Artifacts:
-      - name: azure-template
-        safeName: azuretemplate
+      - name: azure-instrumentation-opentelemetry
+        safeName: azureinstrumentationopentelemetry
