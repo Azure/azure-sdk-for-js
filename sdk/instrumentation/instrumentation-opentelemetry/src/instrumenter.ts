@@ -55,7 +55,7 @@ export class OpenTelemetryInstrumenter implements Instrumenter {
     return context.with(tracingContext, callback, callbackThis, ...callbackArgs);
   }
 
-  parseTraceparentHeader(traceparentHeader: string) {
+  parseTraceparentHeader(traceparentHeader: string): TracingSpanContext | undefined {
     return fromTraceparentHeader(traceparentHeader);
   }
 
@@ -110,7 +110,7 @@ export class OpenTelemetrySpanWrapper implements TracingSpan {
     return this._span.isRecording();
   }
 
-  get spanContext() {
+  get spanContext(): TracingSpanContext {
     return this._span.spanContext();
   }
 

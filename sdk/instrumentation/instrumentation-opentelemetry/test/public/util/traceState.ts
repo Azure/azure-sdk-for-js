@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { TraceState as otTraceState } from "@opentelemetry/api";
 export class TraceState implements otTraceState {
   private _values = new Map();

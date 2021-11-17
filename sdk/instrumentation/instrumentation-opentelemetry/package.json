@@ -1,17 +1,13 @@
 {
   "name": "@azure/instrumentation-opentelemetry",
   "version": "1.0.0-beta.1",
-  "description": "Example project for learning how to build a client library",
+  "description": "Instrumentation client for the Azure SDK.",
   "sdk-type": "client",
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
   "browser": {},
   "//metadata": {
     "constantPaths": [
-      {
-        "path": "src/generated/generatedClientContext.ts",
-        "prefix": "packageVersion"
-      },
       {
         "path": "src/constants.ts",
         "prefix": "SDK_VERSION"
@@ -129,13 +125,11 @@
     "util": "^0.12.1"
   },
   "//sampleConfiguration": {
-    "skipFolder": false,
+    "skipFolder": true,
     "disableDocsMs": true,
-    "productName": "Azure Template",
+    "productName": "Azure OpenTelemetry Instrumentation",
     "productSlugs": [],
     "apiRefLink": "https://docs.microsoft.com/javascript/api/",
-    "requiredResources": {
-      "Azure App Configuration": "https://docs.microsoft.com/azure/azure-app-configuration/"
-    }
+    "requiredResources": {}
   }
 }

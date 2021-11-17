@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { assert } from "chai";
 import { OpenTelemetryInstrumenter, OpenTelemetrySpanWrapper } from "../../src/instrumenter";
 import {
@@ -23,8 +26,8 @@ describe("OpenTelemetryInstrumenter", () => {
     describe("with a valid Traceparent header", () => {
       const traceId = "11111111111111111111111111111111";
       const spanId = "2222222222222222";
-      const flags = "01";
-      const traceParentHeader = `00-${traceId}-${spanId}-${flags}`;
+      let flags = "01";
+      let traceParentHeader = `00-${traceId}-${spanId}-${flags}`;
 
       it("should extract a TracingSpanIdentifier from a properly formatted header", () => {
         const tracingSpanIdentifier = instrumenter.parseTraceparentHeader(traceParentHeader);
@@ -37,10 +40,8 @@ describe("OpenTelemetryInstrumenter", () => {
 
       describe("with an invalid Traceparent header", () => {
         it("returns undefined when version is unknown", () => {
-          const traceId = "11111111111111111111111111111111";
-          const spanId = "2222222222222222";
-          const flags = "00";
-          const traceParentHeader = `99-${traceId}-${spanId}-${flags}`;
+          flags = "00";
+          traceParentHeader = `99-${traceId}-${spanId}-${flags}`;
 
           const spanContext = instrumenter.parseTraceparentHeader(traceParentHeader);
 
@@ -52,7 +53,7 @@ describe("OpenTelemetryInstrumenter", () => {
         });
 
         it("returns undefined when traceparent is malformed", () => {
-          const traceParentHeader = `123abc`;
+          traceParentHeader = `123abc`;
 
           const spanContext = instrumenter.parseTraceparentHeader(traceParentHeader);
 
@@ -268,7 +269,7 @@ describe("OpenTelemetryInstrumenter", () => {
 
       describe("spanKind", () => {
         it("maps spanKind correctly", () => {
-          let { span } = instrumenter.startSpan("test", {
+          const { span } = instrumenter.startSpan("test", {
             packageInformation,
             spanKind: "client"
           });
@@ -276,7 +277,7 @@ describe("OpenTelemetryInstrumenter", () => {
         });
 
         it("defaults spanKind to INTERNAL if omitted", () => {
-          let { span } = instrumenter.startSpan("test", {
+          const { span } = instrumenter.startSpan("test", {
             packageInformation
           });
           assert.equal(unwrap(span).kind, SpanKind.INTERNAL);
@@ -325,12 +326,12 @@ describe("OpenTelemetryInstrumenter", () => {
   describe("#withContext", () => {
     it("passes the correct arguments to OpenTelemetry", function(this: Context) {
       const contextSpy = sinon.spy(context, "with");
+      // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
       const callback = (arg1: number) => arg1 + 42;
-      const callbackThis = this;
       const callbackArg = 37;
-      instrumenter.withContext(context.active(), callback, callbackThis, callbackArg);
+      instrumenter.withContext(context.active(), callback, this, callbackArg);
 
-      assert.isTrue(contextSpy.calledWith(context.active(), callback, callbackThis, callbackArg));
+      assert.isTrue(contextSpy.calledWith(context.active(), callback, this, callbackArg));
     });
 
     it("Returns the value of the callback", () => {

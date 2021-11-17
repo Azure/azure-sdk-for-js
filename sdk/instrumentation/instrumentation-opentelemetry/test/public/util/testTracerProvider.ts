@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { TracerProvider, trace } from "@opentelemetry/api";
 import { TestTracer } from "./testTracer";
 
@@ -8,15 +11,15 @@ export class TestTracerProvider implements TracerProvider {
     return this.tracer;
   }
 
-  register() {
-    trace.setGlobalTracerProvider(this);
+  register(): boolean {
+    return trace.setGlobalTracerProvider(this);
   }
 
-  disable() {
+  disable(): void {
     trace.disable();
   }
 
-  setTracer(tracer: TestTracer) {
+  setTracer(tracer: TestTracer): void {
     this.tracer = tracer;
   }
 }
