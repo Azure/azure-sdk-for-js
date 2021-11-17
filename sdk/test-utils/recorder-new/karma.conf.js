@@ -114,10 +114,6 @@ module.exports = function(config) {
     browserNoActivityTimeout: 600000,
     browserDisconnectTimeout: 10000,
     browserDisconnectTolerance: 3,
-    browserConsoleLogOptions: {
-      // We would usually hide the logs from the tests, but we don't need to do this inside of the recorder package because we are not recording the tests.
-      // // terminal: process.env.TEST_MODE !== "record"
-    },
 
     client: {
       mocha: {
