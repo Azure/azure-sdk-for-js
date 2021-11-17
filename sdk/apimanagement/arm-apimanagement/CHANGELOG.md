@@ -1,11 +1,11 @@
+# Release History
+
 ## 8.0.0-beta.2 (2021-11-17)
     
 **Features**
 
   - Added Interface PerformConnectivityCheckAsyncOptionalParams
   - Added Type Alias PerformConnectivityCheckAsyncResponse
-    
-# Release History
 
 ## 8.0.0-beta.1 (2021-10-09)
 
