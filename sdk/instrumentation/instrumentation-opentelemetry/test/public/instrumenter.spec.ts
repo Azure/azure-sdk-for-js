@@ -1,8 +1,9 @@
 import { assert } from "chai";
-import { OpenTelemetryInstrumenter } from "../../src/instrumenter";
-import { TraceFlags, SpanContext } from "@opentelemetry/api";
+import { OpenTelemetryInstrumenter, OpenTelemetrySpanWrapper } from "../../src/instrumenter";
+import { TraceFlags, SpanContext, SpanStatusCode } from "@opentelemetry/api";
 import { TracingSpanContext } from "@azure/core-tracing";
 import { TraceState } from "./util/traceState";
+import { TestSpan } from "./util/testSpan";
 
 describe("OpenTelemetryInstrumenter", () => {
   const instrumenter = new OpenTelemetryInstrumenter();
@@ -162,6 +163,123 @@ describe("OpenTelemetryInstrumenter", () => {
 
           assert.isEmpty(headers);
         });
+      });
+    });
+  });
+
+  describe("#startSpan", () => {
+    it("returns a newly created TracingSpan", () => {
+      const { span } = instrumenter.startSpan("test");
+      console.log(span);
+    });
+
+    describe("with an existing context", () => {
+      it("will return a context that contains all existing fields");
+      it("will set span on the context");
+    });
+
+    describe("when a context is not provided", () => {
+      it("will use the active context");
+      it("will set span on the context");
+    });
+
+    describe("with spanOptions", () => {});
+  });
+  describe("#withContext", () => {
+    it("will set the given context as active");
+  });
+
+  describe("OpenTelemetrySpanWrapper", () => {
+    let otSpan: TestSpan;
+    let span: OpenTelemetrySpanWrapper;
+
+    beforeEach(() => {
+      otSpan = new TestSpan("test", {
+        spanId: "1234567890",
+        traceId: "1234567890",
+        traceFlags: TraceFlags.NONE
+      });
+      span = new OpenTelemetrySpanWrapper(otSpan);
+    });
+
+    describe("#setStatus", () => {
+      describe("with a successful status", () => {
+        it("sets the status on the span", () => {
+          span.setStatus({ status: "success" });
+
+          assert.deepEqual(otSpan.status, { code: SpanStatusCode.OK });
+        });
+      });
+
+      describe("with an error", () => {
+        it("sets the failed status on the span", () => {
+          span.setStatus({ status: "error" });
+
+          assert.deepEqual(otSpan.status, { code: SpanStatusCode.ERROR });
+        });
+
+        it("records the exception if provided", () => {
+          const error = new Error("test");
+          span.setStatus({ status: "error", error });
+
+          assert.deepEqual(otSpan.exception, error);
+        });
+      });
+    });
+
+    describe("#setAttribute", () => {
+      it("records the attribute on the span", () => {
+        span.setAttribute("test", "value");
+        span.setAttribute("array", ["value"]);
+
+        assert.deepEqual(otSpan.attributes, { test: "value", array: ["value"] });
+      });
+
+      it("ignores null", () => {
+        span.setAttribute("test", null);
+
+        assert.isEmpty(otSpan.attributes);
+      });
+
+      it("ignores undefined", () => {
+        span.setAttribute("test", undefined);
+
+        assert.isEmpty(otSpan.attributes);
+      });
+    });
+
+    describe("#end", () => {
+      it("ends the wrapped span", () => {
+        span.end();
+
+        assert.isTrue(otSpan.endCalled);
+      });
+    });
+
+    describe("#recordException", () => {
+      it("sets the error on the wrapped span", () => {
+        const error = new Error("test");
+        span.recordException(error);
+
+        assert.deepEqual(otSpan.exception, error);
+      });
+      it("does not change the status", () => {
+        const error = "test";
+        span.recordException(error);
+
+        assert.deepEqual(otSpan.status, { code: SpanStatusCode.UNSET });
+      });
+    });
+
+    describe("#isRecording", () => {
+      it("returns the value of the wrapped span", () => {
+        assert.equal(span.isRecording(), otSpan.isRecording());
+      });
+    });
+
+    describe("#spanContext", () => {
+      it("returns the wrapped span context", () => {
+        assert.deepEqual(span.spanContext, otSpan.spanContext());
       });
     });
   });

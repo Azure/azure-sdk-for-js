@@ -4,19 +4,37 @@
 import {
   Instrumenter,
   InstrumenterSpanOptions,
+  SpanStatus,
   TracingContext,
   TracingSpan,
   TracingSpanContext
 } from "@azure/core-tracing";
 
-import { SpanContext, TraceFlags, TraceState } from "@opentelemetry/api";
+import {
+  SpanContext,
+  TraceFlags,
+  TraceState,
+  trace,
+  context,
+  Span,
+  SpanStatusCode,
+  SpanAttributeValue
+} from "@opentelemetry/api";
+
 const VERSION = "00";
+
 export class OpenTelemetryInstrumenter implements Instrumenter {
   startSpan(
-    _name: string,
+    name: string,
     _spanOptions?: InstrumenterSpanOptions
   ): { span: TracingSpan; tracingContext: TracingContext } {
-    throw new Error("Method not implemented.");
+    const span = trace.getTracer("foo").startSpan(name);
+    const ctx = context.active();
+
+    return {
+      span: new OpenTelemetrySpanWrapper(span),
+      tracingContext: trace.setSpan(ctx, span)
+    };
   }
   withContext<
     CallbackArgs extends unknown[],
@@ -112,4 +130,42 @@ function createTracestateHeader(spanContext: TracingSpanContext): string | undef
   // https://www.w3.org/TR/trace-context/#tracestate-header-field-values
   // Return undefined instead of an empty string to indicate that the tracestate header should not be set.
   return serializedTraceState || undefined;
+}
+
+export class OpenTelemetrySpanWrapper implements TracingSpan {
+  private _span: Span;
+
+  constructor(span: Span) {
+    this._span = span;
+  }
+
+  setStatus(status: SpanStatus): void {
+    if (status.status === "error") {
+      if (status.error) {
+        this._span.setStatus({ code: SpanStatusCode.ERROR, message: status.error.toString() });
+        this.recordException(status.error);
+      } else {
+        this._span.setStatus({ code: SpanStatusCode.ERROR });
+      }
+    } else if (status.status === "success") {
+      this._span.setStatus({ code: SpanStatusCode.OK });
+    }
+  }
+  setAttribute(name: string, value: unknown): void {
+    if (value !== null && value !== undefined) {
+      this._span.setAttribute(name, value as SpanAttributeValue);
+    }
+  }
+  end(): void {
+    this._span.end();
+  }
+  recordException(exception: string | Error): void {
+    this._span.recordException(exception);
+  }
+  isRecording(): boolean {
+    return this._span.isRecording();
+  }
+  get spanContext() {
+    return this._span.spanContext();
+  }
 }

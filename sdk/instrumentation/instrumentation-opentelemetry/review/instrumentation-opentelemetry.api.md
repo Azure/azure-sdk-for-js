@@ -5,11 +5,32 @@
 ```ts
 
 import { AzureLogger } from '@azure/logger';
+import { Instrumenter } from '@azure/core-tracing';
+import { InstrumenterSpanOptions } from '@azure/core-tracing';
+import { SpanContext } from '@opentelemetry/api';
+import { TracingContext } from '@azure/core-tracing';
+import { TracingSpan } from '@azure/core-tracing';
+import { TracingSpanContext } from '@azure/core-tracing';
 
 // Warning: (ae-internal-missing-underscore) The name "logger" should be prefixed with an underscore because the declaration is marked as @internal
 //
 // @internal
 export const logger: AzureLogger;
+
+// @public (undocumented)
+export class OpenTelemetryInstrumenter implements Instrumenter {
+    // (undocumented)
+    createRequestHeaders(spanContext: TracingSpanContext): Record<string, string>;
+    // (undocumented)
+    parseTraceparentHeader(traceparentHeader: string): SpanContext | undefined;
+    // (undocumented)
+    startSpan(_name: string, _spanOptions?: InstrumenterSpanOptions): {
+        span: TracingSpan;
+        tracingContext: TracingContext;
+    };
+    // (undocumented)
+    withContext<CallbackArgs extends unknown[], Callback extends (...args: CallbackArgs) => ReturnType<Callback>>(_context: TracingContext, _callback: Callback, _callbackThis?: ThisParameterType<Callback>, ..._callbackArgs: CallbackArgs): ReturnType<Callback>;
+}
 
 // (No @packageDocumentation comment for this package)
 

@@ -18,11 +18,11 @@
       }
     ]
   },
-  "types": "types/latest/template.d.ts",
+  "types": "types/latest/instrumentation-opentelemetry.d.ts",
   "typesVersions": {
     "<3.6": {
       "*": [
-        "types/3.1/template.d.ts"
+        "types/3.1/instrumentation-opentelemetry.d.ts"
       ]
     }
   },
