@@ -3,6 +3,7 @@
 
 import {
   TimeInput,
+  Tracer,
   SpanKind,
   SpanStatus,
   SpanContext,
@@ -10,8 +11,7 @@ import {
   SpanStatusCode,
   SpanAttributeValue,
   Span,
-  SpanOptions,
-  Exception
+  Link
 } from "@opentelemetry/api";
 
 /**
@@ -44,34 +44,66 @@ export class TestSpan implements Span {
   readonly startTime: TimeInput;
 
   /**
+   * The id of the parent Span, if any.
+   */
+  readonly parentSpanId?: string;
+
+  /**
    * Known attributes, if any.
    */
   readonly attributes: SpanAttributes;
 
   private _context: SpanContext;
+  private readonly _tracer: Tracer;
 
   /**
-   * The exception that was recorded, if any.
+   * The recorded exception, if any.
    */
-  private _exception?: Exception;
+  exception?: Error;
+
+  /**
+   * Any links provided when creating this span.
+   */
+  links: Link[];
 
   /**
    * Starts a new Span.
+   * @param parentTracer-  The tracer that created this Span
    * @param name - The name of the span.
    * @param context - The SpanContext this span belongs to
    * @param kind - The SpanKind of this Span
+   * @param parentSpanId - The identifier of the parent Span
    * @param startTime - The startTime of the event (defaults to now)
    */
-  constructor(name: string, context: SpanContext, options?: SpanOptions) {
+  constructor(
+    parentTracer: Tracer,
+    name: string,
+    context: SpanContext,
+    kind: SpanKind,
+    parentSpanId?: string,
+    startTime: TimeInput = Date.now(),
+    attributes: SpanAttributes = {},
+    links: Link[] = []
+  ) {
+    this._tracer = parentTracer;
     this.name = name;
-    this.kind = options?.kind || SpanKind.INTERNAL;
-    this.startTime = options?.startTime || Date.now();
-    this.attributes = options?.attributes || {};
+    this.kind = kind;
+    this.startTime = startTime;
+    this.parentSpanId = parentSpanId;
     this.status = {
       code: SpanStatusCode.UNSET
     };
     this.endCalled = false;
     this._context = context;
+    this.attributes = attributes;
+    this.links = links;
+  }
+
+  /**
+   * Returns the Tracer that created this Span
+   */
+  tracer(): Tracer {
+    return this._tracer;
   }
 
   /**
@@ -130,14 +162,10 @@ export class TestSpan implements Span {
   addEvent(): this {
     throw new Error("Method not implemented.");
   }
-  recordException(exception: Exception): void {
-    this._exception = exception;
+  recordException(exception: Error): void {
+    this.exception = exception;
   }
   updateName(): this {
     throw new Error("Method not implemented.");
-  }
-
-  public get exception(): Exception | undefined {
-    return this._exception;
   }
 }

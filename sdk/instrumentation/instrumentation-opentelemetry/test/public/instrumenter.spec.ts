@@ -1,9 +1,19 @@
 import { assert } from "chai";
 import { OpenTelemetryInstrumenter, OpenTelemetrySpanWrapper } from "../../src/instrumenter";
-import { TraceFlags, SpanContext, SpanStatusCode } from "@opentelemetry/api";
-import { TracingSpanContext } from "@azure/core-tracing";
+import {
+  TraceFlags,
+  SpanContext,
+  SpanStatusCode,
+  trace,
+  context,
+  SpanKind
+} from "@opentelemetry/api";
+import { TracingSpan, TracingSpanContext, TracingSpanKind } from "@azure/core-tracing";
 import { TraceState } from "./util/traceState";
 import { TestSpan } from "./util/testSpan";
+import { TestTracer } from "./util/testTracer";
+import { resetTracer, setTracer } from "./util/testTracerProvider";
+import sinon from "sinon";
 
 describe("OpenTelemetryInstrumenter", () => {
   const instrumenter = new OpenTelemetryInstrumenter();
@@ -136,6 +146,7 @@ describe("OpenTelemetryInstrumenter", () => {
 
         assert.isEmpty(headers);
       });
+
       it("returns an empty collection when spanId is missing", () => {
         const spanContext: SpanContext = {
           spanId: "",
@@ -167,26 +178,151 @@ describe("OpenTelemetryInstrumenter", () => {
     });
   });
 
-  describe("#startSpan", () => {
-    it("returns a newly created TracingSpan", () => {
+  // TODO: the following still uses existing test support for OTel.
+  // Once the new APIs are available we should move away from those.
+  describe.only("#startSpan", () => {
+    function unwrap(span: TracingSpan): TestSpan {
+      return (span as OpenTelemetrySpanWrapper).unwrap() as TestSpan;
+    }
+    let tracer: TestTracer;
+    const packageInformation = {
+      name: "test-package",
+      version: "test-version"
+    };
+    beforeEach(() => {
+      tracer = setTracer(tracer);
+    });
+
+    afterEach(() => {
+      resetTracer();
+    });
+
+    it("returns a newly started TracingSpan", () => {
       const { span } = instrumenter.startSpan("test");
-      console.log(span);
+      const otSpan = unwrap(span);
+      assert.equal(otSpan, tracer.getActiveSpans()[0]);
+      assert.equal(otSpan.kind, SpanKind.INTERNAL);
+    });
+
+    it("passes package information to the tracer", () => {
+      const getTracerSpy = sinon.spy(trace, "getTracer");
+      instrumenter.startSpan("test", { packageInformation });
+
+      assert.isTrue(getTracerSpy.calledWith(packageInformation.name, packageInformation.version));
     });
 
     describe("with an existing context", () => {
-      it("will return a context that contains all existing fields");
-      it("will set span on the context");
+      it("returns a context that contains all existing fields", () => {
+        const currentContext = context.active().setValue(Symbol.for("foo"), "bar");
+
+        const { tracingContext } = instrumenter.startSpan("test", {
+          tracingContext: currentContext,
+          packageInformation
+        });
+
+        assert.equal(tracingContext.getValue(Symbol.for("foo")), "bar");
+      });
+
+      it("sets span on the context", () => {
+        const currentContext = context.active().setValue(Symbol.for("foo"), "bar");
+
+        const { span, tracingContext } = instrumenter.startSpan("test", {
+          tracingContext: currentContext,
+          packageInformation
+        });
+
+        assert.equal(trace.getSpan(tracingContext), unwrap(span));
+      });
     });
 
     describe("when a context is not provided", () => {
-      it("will use the active context");
-      it("will set span on the context");
+      it("uses the active context", () => {
+        const contextSpy = sinon.spy(context, "active");
+
+        instrumenter.startSpan("test");
+
+        assert.isTrue(contextSpy.called);
+      });
+
+      it("sets span on the context", () => {
+        const { span, tracingContext } = instrumenter.startSpan("test");
+
+        assert.equal(trace.getSpan(tracingContext), unwrap(span));
+      });
     });
 
-    describe("with spanOptions", () => {});
+    describe.only("spanOptions", () => {
+      it("passes attributes to started span", () => {
+        const spanAttributes = {
+          attr1: "val1",
+          attr2: "val2"
+        };
+        const { span } = instrumenter.startSpan("test", {
+          spanAttributes,
+          packageInformation
+        });
+
+        assert.deepEqual(unwrap(span).attributes, spanAttributes);
+      });
+
+      describe("spanKind", () => {
+        it("maps spanKind correctly", () => {
+          let { span } = instrumenter.startSpan("test", {
+            packageInformation,
+            spanKind: "client"
+          });
+          assert.equal(unwrap(span).kind, SpanKind.CLIENT);
+        });
+
+        it("defaults spanKind to INTERNAL if omitted", () => {
+          let { span } = instrumenter.startSpan("test", {
+            packageInformation
+          });
+          assert.equal(unwrap(span).kind, SpanKind.INTERNAL);
+        });
+
+        // TODO: what's the right behavior? throw? log and continue?
+        it("defaults spanKind to INTERNAL if an invalid spanKind is provided", () => {
+          const { span } = instrumenter.startSpan("test", {
+            packageInformation,
+            spanKind: "foo" as TracingSpanKind
+          });
+          assert.equal(unwrap(span).kind, SpanKind.INTERNAL);
+        });
+      });
+
+      it("supports spanLinks", () => {
+        const { span: linkedSpan } = instrumenter.startSpan("linked");
+        const { span } = instrumenter.startSpan("test", {
+          packageInformation,
+          spanLinks: [
+            {
+              spanContext: linkedSpan.spanContext,
+              attributes: {
+                attr1: "value1"
+              }
+            }
+          ]
+        });
+
+        const links = unwrap(span).links;
+        assert.equal(links.length, 1);
+
+        assert.deepEqual(links[0], {
+          attributes: {
+            attr1: "value1"
+          },
+          context: {
+            ...linkedSpan.spanContext,
+            traceState: undefined
+          }
+        });
+      });
+    });
   });
+
   describe("#withContext", () => {
-    it("will set the given context as active");
+    it("sets the given context as active");
   });
 
   describe("OpenTelemetrySpanWrapper", () => {
@@ -194,11 +330,7 @@ describe("OpenTelemetryInstrumenter", () => {
     let span: OpenTelemetrySpanWrapper;
 
     beforeEach(() => {
-      otSpan = new TestSpan("test", {
-        spanId: "1234567890",
-        traceId: "1234567890",
-        traceFlags: TraceFlags.NONE
-      });
+      otSpan = new TestTracer().startSpan("test");
       span = new OpenTelemetrySpanWrapper(otSpan);
     });
 

@@ -7,7 +7,9 @@
 import { AzureLogger } from '@azure/logger';
 import { Instrumenter } from '@azure/core-tracing';
 import { InstrumenterSpanOptions } from '@azure/core-tracing';
+import { Span } from '@opentelemetry/api';
 import { SpanContext } from '@opentelemetry/api';
+import { SpanStatus } from '@azure/core-tracing';
 import { TracingContext } from '@azure/core-tracing';
 import { TracingSpan } from '@azure/core-tracing';
 import { TracingSpanContext } from '@azure/core-tracing';
@@ -24,12 +26,29 @@ export class OpenTelemetryInstrumenter implements Instrumenter {
     // (undocumented)
     parseTraceparentHeader(traceparentHeader: string): SpanContext | undefined;
     // (undocumented)
-    startSpan(_name: string, _spanOptions?: InstrumenterSpanOptions): {
+    startSpan(name: string, _spanOptions?: InstrumenterSpanOptions): {
         span: TracingSpan;
         tracingContext: TracingContext;
     };
     // (undocumented)
     withContext<CallbackArgs extends unknown[], Callback extends (...args: CallbackArgs) => ReturnType<Callback>>(_context: TracingContext, _callback: Callback, _callbackThis?: ThisParameterType<Callback>, ..._callbackArgs: CallbackArgs): ReturnType<Callback>;
+}
+
+// @public (undocumented)
+export class OpenTelemetrySpanWrapper implements TracingSpan {
+    constructor(span: Span);
+    // (undocumented)
+    end(): void;
+    // (undocumented)
+    isRecording(): boolean;
+    // (undocumented)
+    recordException(exception: string | Error): void;
+    // (undocumented)
+    setAttribute(name: string, value: unknown): void;
+    // (undocumented)
+    setStatus(status: SpanStatus): void;
+    // (undocumented)
+    get spanContext(): SpanContext;
 }
 
 // (No @packageDocumentation comment for this package)

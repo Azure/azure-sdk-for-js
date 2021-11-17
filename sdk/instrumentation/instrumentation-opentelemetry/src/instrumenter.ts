@@ -7,7 +7,9 @@ import {
   SpanStatus,
   TracingContext,
   TracingSpan,
-  TracingSpanContext
+  TracingSpanContext,
+  TracingSpanKind,
+  TracingSpanLink
 } from "@azure/core-tracing";
 
 import {
@@ -18,7 +20,11 @@ import {
   context,
   Span,
   SpanStatusCode,
-  SpanAttributeValue
+  SpanAttributeValue,
+  SpanAttributes,
+  SpanOptions,
+  SpanKind,
+  Link
 } from "@opentelemetry/api";
 
 const VERSION = "00";
@@ -26,10 +32,21 @@ const VERSION = "00";
 export class OpenTelemetryInstrumenter implements Instrumenter {
   startSpan(
     name: string,
-    _spanOptions?: InstrumenterSpanOptions
+    spanOptions?: InstrumenterSpanOptions
   ): { span: TracingSpan; tracingContext: TracingContext } {
-    const span = trace.getTracer("foo").startSpan(name);
-    const ctx = context.active();
+    if (!spanOptions) {
+      spanOptions = {
+        packageInformation: {
+          name: "@azure/instrumentation-opentelemetry"
+        }
+      };
+    }
+
+    const span = trace
+      .getTracer(spanOptions.packageInformation.name, spanOptions.packageInformation.version)
+      .startSpan(name, this.toSpanOptions(spanOptions));
+
+    const ctx = spanOptions?.tracingContext || context.active();
 
     return {
       span: new OpenTelemetrySpanWrapper(span),
@@ -86,6 +103,20 @@ export class OpenTelemetryInstrumenter implements Instrumenter {
     }
 
     return headers;
+  }
+
+  private toSpanOptions(spanOptions: InstrumenterSpanOptions): SpanOptions {
+    const { spanAttributes, spanLinks, spanKind } = spanOptions;
+
+    const attributes: SpanAttributes = toOpenTelemetrySpanAttributes(spanAttributes);
+    const kind = toOpenTelemetrySpanKind(spanKind);
+    const links = toOpenTelemetryLinks(spanLinks);
+
+    return {
+      attributes,
+      kind,
+      links
+    };
   }
 }
 
@@ -168,4 +199,60 @@ export class OpenTelemetrySpanWrapper implements TracingSpan {
   get spanContext() {
     return this._span.spanContext();
   }
+
+  /**
+   * Allows getting the wrapped span as needed.
+   *
+   * @returns The underlying span
+   */
+  unwrap(): unknown {
+    return this._span;
+  }
+}
+
+/**
+ * Converts our TracingSpanKind to the corresponding OpenTelemetry SpanKind.
+ *
+ * By default it will return {@link SpanKind.INTERNAL}
+ * @param tracingSpanKind - The core tracing {@link TracingSpanKind}
+ * @returns - The OpenTelemetry {@link SpanKind}
+ */
+function toOpenTelemetrySpanKind<K extends TracingSpanKind>(
+  tracingSpanKind?: K
+): SpanKindMapping[K] {
+  const key = (tracingSpanKind || "internal").toUpperCase() as keyof typeof SpanKind;
+  return SpanKind[key] as SpanKindMapping[K];
+}
+
+type SpanKindMapping = {
+  client: SpanKind.CLIENT;
+  server: SpanKind.SERVER;
+  producer: SpanKind.PRODUCER;
+  consumer: SpanKind.CONSUMER;
+  internal: SpanKind.INTERNAL;
+};
+
+function toOpenTelemetryLinks(spanLinks: TracingSpanLink[] = []): Link[] {
+  return spanLinks.map((tracingSpanLink) => {
+    return {
+      context: {
+        ...tracingSpanLink.spanContext,
+        traceState: tracingSpanLink.spanContext.traceState as TraceState
+      },
+      attributes: toOpenTelemetrySpanAttributes(tracingSpanLink.attributes)
+    };
+  });
+}
+
+function toOpenTelemetrySpanAttributes(
+  spanAttributes: { [key: string]: unknown } | undefined
+): SpanAttributes {
+  const attributes: ReturnType<typeof toOpenTelemetrySpanAttributes> = {};
+  for (const key in spanAttributes) {
+    // Any non-nullish value is allowed.
+    if (spanAttributes[key] !== null && spanAttributes[key] !== undefined) {
+      attributes[key] = spanAttributes[key] as SpanAttributeValue;
+    }
+  }
+  return attributes;
 }
