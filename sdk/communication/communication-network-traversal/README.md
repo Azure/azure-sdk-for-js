@@ -86,12 +86,24 @@ Use the `createUser` method to create a new user.
 const user = await client.createUser();
 ```
 
-### Getting the configurationRelay 
+### Getting the configurationRelay
 
-Use the `getConfigurationRelay` method to get new TURN credentials
+Use the `getConfigurationRelay` method to get new TURN credentials provinding a user
 
 ```typescript
 const config = relayClient.getRelayConfiguration(user);
+```
+
+Also you can sse the `getConfigurationRelay` method without providing a user
+
+```typescript
+const config = relayClient.getRelayConfiguration(user);
+```
+
+You can specify a RouteType when calling `getConfigurationRelay` 
+
+```typescript
+const config = relayClient.getRelayConfiguration(user, "nearest");
 ```
 
 ## Troubleshooting
