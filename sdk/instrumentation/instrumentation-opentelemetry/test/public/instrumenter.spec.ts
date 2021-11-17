@@ -181,7 +181,7 @@ describe("OpenTelemetryInstrumenter", () => {
 
   // TODO: the following still uses existing test support for OTel.
   // Once the new APIs are available we should move away from those.
-  describe.only("#startSpan", () => {
+  describe("#startSpan", () => {
     function unwrap(span: TracingSpan): TestSpan {
       return (span as OpenTelemetrySpanWrapper).unwrap() as TestSpan;
     }
@@ -252,7 +252,7 @@ describe("OpenTelemetryInstrumenter", () => {
       });
     });
 
-    describe.only("spanOptions", () => {
+    describe("spanOptions", () => {
       it("passes attributes to started span", () => {
         const spanAttributes = {
           attr1: "val1",

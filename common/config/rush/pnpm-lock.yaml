@@ -1511,6 +1511,11 @@ packages:
       '@opentelemetry/api': 1.0.3
     dev: false
 
+  /@opentelemetry/api-metrics/0.27.0:
+    resolution: {integrity: sha512-tB79288bwjkdhPNpw4UdOEy3bacVwtol6Que7cAu8KEJ9ULjRfSiwpYEwJY/oER3xZ7zNFz0uiJ7N1jSiotpVA==}
+    engines: {node: '>=8.0.0'}
+    dev: false
+
   /@opentelemetry/api/0.10.2:
     resolution: {integrity: sha512-GtpMGd6vkzDMYcpu2t9LlhEgMy/SzBwRnz48EejlRArYqZzqSzAsKmegUK7zHgl+EOIaK9mKHhnRaQu3qw20cA==}
     engines: {node: '>=8.0.0'}
@@ -1575,6 +1580,20 @@ packages:
     dependencies:
       '@opentelemetry/api': 1.0.3
       '@opentelemetry/api-metrics': 0.22.0_@opentelemetry+api@1.0.3
+      require-in-the-middle: 5.1.0
+      semver: 7.3.5
+      shimmer: 1.2.1
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  /@opentelemetry/instrumentation/0.27.0_@opentelemetry+api@1.0.3:
+    resolution: {integrity: sha512-dUwY/VoDptdK8AYigwS3IKblG+unV5xIdV4VQKy+nX5aT3f7vd5PMYs4arCQSYLbLRe0s7GxK6S9dtjai/TsHQ==}
+    peerDependencies:
+      '@opentelemetry/api': ^1.0.0
+    dependencies:
+      '@opentelemetry/api': 1.0.3
+      '@opentelemetry/api-metrics': 0.27.0
       require-in-the-middle: 5.1.0
       semver: 7.3.5
       shimmer: 1.2.1
@@ -11472,12 +11491,13 @@ packages:
     dev: false
 
   file:projects/instrumentation-opentelemetry.tgz:
-    resolution: {integrity: sha512-O5VLLQ18TAEDZFO+nG1ukinEK7ohMpSIb/H8WNMPgHzr9ATJz/qwbfTGduxnjY8j6jiiYQO+0gi+4QDCs2uWdw==, tarball: file:projects/instrumentation-opentelemetry.tgz}
+    resolution: {integrity: sha512-synMY0CDYnbx5RzSjB7ORMWiqWn3Gl3z+OwQ/x1z2DqFkwCS1vMZb4y7hpcQyZCev3/EqeTPaMADr9A8FB+slA==, tarball: file:projects/instrumentation-opentelemetry.tgz}
     name: '@rush-temp/instrumentation-opentelemetry'
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.18.19
       '@opentelemetry/api': 1.0.3
+      '@opentelemetry/instrumentation': 0.27.0_@opentelemetry+api@1.0.3
       '@types/chai': 4.2.22
       '@types/chai-as-promised': 7.1.4
       '@types/mocha': 7.0.2

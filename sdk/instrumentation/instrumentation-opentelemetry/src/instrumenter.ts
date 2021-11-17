@@ -7,27 +7,17 @@ import {
   SpanStatus,
   TracingContext,
   TracingSpan,
-  TracingSpanContext,
-  TracingSpanKind,
-  TracingSpanLink
+  TracingSpanContext
 } from "@azure/core-tracing";
 
-import {
-  SpanContext,
-  TraceFlags,
-  TraceState,
-  trace,
-  context,
-  Span,
-  SpanStatusCode,
-  SpanAttributeValue,
-  SpanAttributes,
-  SpanOptions,
-  SpanKind,
-  Link
-} from "@opentelemetry/api";
+import { trace, context, Span, SpanStatusCode, SpanAttributeValue } from "@opentelemetry/api";
 
-const VERSION = "00";
+import {
+  toTracestateHeader,
+  toTraceparentHeader,
+  toSpanOptions,
+  fromTraceparentHeader
+} from "./transformations";
 
 export class OpenTelemetryInstrumenter implements Instrumenter {
   startSpan(
@@ -44,7 +34,7 @@ export class OpenTelemetryInstrumenter implements Instrumenter {
 
     const span = trace
       .getTracer(spanOptions.packageInformation.name, spanOptions.packageInformation.version)
-      .startSpan(name, this.toSpanOptions(spanOptions));
+      .startSpan(name, toSpanOptions(spanOptions));
 
     const ctx = spanOptions?.tracingContext || context.active();
 
@@ -66,37 +56,17 @@ export class OpenTelemetryInstrumenter implements Instrumenter {
   }
 
   parseTraceparentHeader(traceparentHeader: string) {
-    const parts = traceparentHeader.split("-");
-
-    if (parts.length !== 4) {
-      return;
-    }
-
-    const [version, traceId, spanId, traceOptions] = parts;
-
-    if (version !== VERSION) {
-      return;
-    }
-
-    const traceFlags = parseInt(traceOptions, 16);
-
-    const spanContext: SpanContext = {
-      spanId,
-      traceId,
-      traceFlags
-    };
-
-    return spanContext;
+    return fromTraceparentHeader(traceparentHeader);
   }
 
   createRequestHeaders(spanContext: TracingSpanContext): Record<string, string> {
     const headers: Record<string, string> = {};
-    const traceparentHeader = createTraceparentHeader(spanContext);
+    const traceparentHeader = toTraceparentHeader(spanContext);
     if (traceparentHeader) {
       headers["traceparent"] = traceparentHeader;
 
       // if tracestate is set, traceparent MUST be set, so only set tracestate after traceparent
-      const tracestateHeader = createTracestateHeader(spanContext);
+      const tracestateHeader = toTracestateHeader(spanContext);
       if (tracestateHeader) {
         headers["tracestate"] = tracestateHeader;
       }
@@ -104,63 +74,6 @@ export class OpenTelemetryInstrumenter implements Instrumenter {
 
     return headers;
   }
-
-  private toSpanOptions(spanOptions: InstrumenterSpanOptions): SpanOptions {
-    const { spanAttributes, spanLinks, spanKind } = spanOptions;
-
-    const attributes: SpanAttributes = toOpenTelemetrySpanAttributes(spanAttributes);
-    const kind = toOpenTelemetrySpanKind(spanKind);
-    const links = toOpenTelemetryLinks(spanLinks);
-
-    return {
-      attributes,
-      kind,
-      links
-    };
-  }
-}
-
-function createTraceparentHeader(spanContext: TracingSpanContext): string | undefined {
-  const missingFields: string[] = [];
-  if (!spanContext.traceId) {
-    missingFields.push("traceId");
-  }
-  if (!spanContext.spanId) {
-    missingFields.push("spanId");
-  }
-
-  if (missingFields.length) {
-    return;
-  }
-
-  const flags = spanContext.traceFlags || TraceFlags.NONE;
-  const hexFlags = flags.toString(16);
-  const traceFlags = hexFlags.length === 1 ? `0${hexFlags}` : hexFlags;
-
-  // https://www.w3.org/TR/trace-context/#traceparent-header-field-values
-  return `${VERSION}-${spanContext.traceId}-${spanContext.spanId}-${traceFlags}`;
-}
-
-function createTracestateHeader(spanContext: TracingSpanContext): string | undefined {
-  const traceState = spanContext.traceState;
-
-  if (traceState === undefined || traceState === null) {
-    return;
-  }
-
-  if (typeof traceState !== "object") {
-    return;
-  }
-
-  if (typeof (traceState as TraceState).serialize !== "function") {
-    return;
-  }
-
-  const serializedTraceState = (traceState as TraceState).serialize();
-
-  // https://www.w3.org/TR/trace-context/#tracestate-header-field-values
-  // Return undefined instead of an empty string to indicate that the tracestate header should not be set.
-  return serializedTraceState || undefined;
 }
 
 export class OpenTelemetrySpanWrapper implements TracingSpan {
@@ -196,63 +109,18 @@ export class OpenTelemetrySpanWrapper implements TracingSpan {
   isRecording(): boolean {
     return this._span.isRecording();
   }
+
   get spanContext() {
     return this._span.spanContext();
   }
 
   /**
    * Allows getting the wrapped span as needed.
+   * @internal
    *
    * @returns The underlying span
    */
   unwrap(): unknown {
     return this._span;
   }
-}
-
-/**
- * Converts our TracingSpanKind to the corresponding OpenTelemetry SpanKind.
- *
- * By default it will return {@link SpanKind.INTERNAL}
- * @param tracingSpanKind - The core tracing {@link TracingSpanKind}
- * @returns - The OpenTelemetry {@link SpanKind}
- */
-function toOpenTelemetrySpanKind<K extends TracingSpanKind>(
-  tracingSpanKind?: K
-): SpanKindMapping[K] {
-  const key = (tracingSpanKind || "internal").toUpperCase() as keyof typeof SpanKind;
-  return SpanKind[key] as SpanKindMapping[K];
-}
-
-type SpanKindMapping = {
-  client: SpanKind.CLIENT;
-  server: SpanKind.SERVER;
-  producer: SpanKind.PRODUCER;
-  consumer: SpanKind.CONSUMER;
-  internal: SpanKind.INTERNAL;
-};
-
-function toOpenTelemetryLinks(spanLinks: TracingSpanLink[] = []): Link[] {
-  return spanLinks.map((tracingSpanLink) => {
-    return {
-      context: {
-        ...tracingSpanLink.spanContext,
-        traceState: tracingSpanLink.spanContext.traceState as TraceState
-      },
-      attributes: toOpenTelemetrySpanAttributes(tracingSpanLink.attributes)
-    };
-  });
-}
-
-function toOpenTelemetrySpanAttributes(
-  spanAttributes: { [key: string]: unknown } | undefined
-): SpanAttributes {
-  const attributes: ReturnType<typeof toOpenTelemetrySpanAttributes> = {};
-  for (const key in spanAttributes) {
-    // Any non-nullish value is allowed.
-    if (spanAttributes[key] !== null && spanAttributes[key] !== undefined) {
-      attributes[key] = spanAttributes[key] as SpanAttributeValue;
-    }
-  }
-  return attributes;
 }

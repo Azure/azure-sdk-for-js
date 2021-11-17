@@ -5,6 +5,10 @@
 ```ts
 
 import { AzureLogger } from '@azure/logger';
+import type * as coreTracing from '@azure/core-tracing';
+import { InstrumentationBase } from '@opentelemetry/instrumentation';
+import { InstrumentationConfig } from '@opentelemetry/instrumentation';
+import { InstrumentationModuleDefinition } from '@opentelemetry/instrumentation';
 import { Instrumenter } from '@azure/core-tracing';
 import { InstrumenterSpanOptions } from '@azure/core-tracing';
 import { Span } from '@opentelemetry/api';
@@ -14,9 +18,18 @@ import { TracingContext } from '@azure/core-tracing';
 import { TracingSpan } from '@azure/core-tracing';
 import { TracingSpanContext } from '@azure/core-tracing';
 
-// Warning: (ae-internal-missing-underscore) The name "logger" should be prefixed with an underscore because the declaration is marked as @internal
-//
-// @internal
+// @public
+export class AzureSDKInstrumentation extends InstrumentationBase {
+    constructor(options?: AzureSDKInstrumentationOptions);
+    // @internal
+    protected init(): void | InstrumentationModuleDefinition<typeof coreTracing> | InstrumentationModuleDefinition<typeof coreTracing>[];
+}
+
+// @public
+export interface AzureSDKInstrumentationOptions extends InstrumentationConfig {
+}
+
+// @public
 export const logger: AzureLogger;
 
 // @public (undocumented)
@@ -26,12 +39,12 @@ export class OpenTelemetryInstrumenter implements Instrumenter {
     // (undocumented)
     parseTraceparentHeader(traceparentHeader: string): SpanContext | undefined;
     // (undocumented)
-    startSpan(name: string, _spanOptions?: InstrumenterSpanOptions): {
+    startSpan(name: string, spanOptions?: InstrumenterSpanOptions): {
         span: TracingSpan;
         tracingContext: TracingContext;
     };
     // (undocumented)
-    withContext<CallbackArgs extends unknown[], Callback extends (...args: CallbackArgs) => ReturnType<Callback>>(_context: TracingContext, _callback: Callback, _callbackThis?: ThisParameterType<Callback>, ..._callbackArgs: CallbackArgs): ReturnType<Callback>;
+    withContext<CallbackArgs extends unknown[], Callback extends (...args: CallbackArgs) => ReturnType<Callback>>(tracingContext: TracingContext, callback: Callback, callbackThis?: ThisParameterType<Callback>, ...callbackArgs: CallbackArgs): ReturnType<Callback>;
 }
 
 // @public (undocumented)
@@ -49,6 +62,8 @@ export class OpenTelemetrySpanWrapper implements TracingSpan {
     setStatus(status: SpanStatus): void;
     // (undocumented)
     get spanContext(): SpanContext;
+    // @internal
+    unwrap(): unknown;
 }
 
 // (No @packageDocumentation comment for this package)
