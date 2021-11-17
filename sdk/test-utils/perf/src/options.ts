@@ -167,6 +167,34 @@ export function parsePerfOption<TOptions>(
   return result as Required<PerfOptionDictionary<TOptions>>;
 }
 
+/**
+ * Validate that the provided command-line options are all recognized, throwing an error if an unrecognized
+ * option is provided.
+ *
+ * @param options A dictionary of options which should be passed.
+ */
+export function validateOptions<TOptions>(options: PerfOptionDictionary<TOptions>): void {
+  const minimistResult: MinimistParsedArgs = minimist(
+    process.argv,
+    getBooleanOptionDetails(options)
+  );
+
+  const longNames = Object.entries<OptionDetails<unknown>>(options).map(
+    ([optionName, { longName }]) => longName ?? optionName
+  );
+  const shortNames = Object.values<OptionDetails<unknown>>(options)
+    .map(({ shortName }) => shortName)
+    .filter(Boolean);
+
+  // include _ and -- as these may be present in the MinimistParsedArgs object
+  const acceptedOptions = ["_", "--", ...longNames, ...shortNames];
+  const unknownOptions = Object.keys(minimistResult).filter((x) => !acceptedOptions.includes(x));
+
+  if (unknownOptions.length !== 0) {
+    throw new Error(`Encountered invalid options: ${unknownOptions.join(", ")}`);
+  }
+}
+
 function getBooleanOptionDetails<TOptions>(options: PerfOptionDictionary<TOptions>) {
   let booleanProps: { boolean: string[]; default: { [key: string]: boolean } } = {
     boolean: [],
