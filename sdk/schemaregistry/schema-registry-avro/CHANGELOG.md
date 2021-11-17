@@ -1,14 +1,10 @@
 # Release History
 
-## 1.0.0-beta.5 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
+## 1.0.0-beta.5 (2021-11-17)
 
 ### Other Changes
+
+- Depends on @azure/schema-registry@1.0.1.
 
 ## 1.0.0-beta.4 (2021-11-11)
 
