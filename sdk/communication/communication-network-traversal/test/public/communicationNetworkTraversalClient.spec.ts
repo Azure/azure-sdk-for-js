@@ -59,6 +59,25 @@ matrix([[true, false]], async function(useAad) {
       }
     }).timeout(5000);
 
+    it("successfully gets a turn credential without providing a user identity", async function() {
+      const turnCredentialResponse = await client.getRelayConfiguration();
+      assert.isNotNull(turnCredentialResponse);
+
+      const turnTokenExpiresOn = turnCredentialResponse.expiresOn;
+      assert.isNotNull(turnTokenExpiresOn);
+
+      const turnServers = turnCredentialResponse.iceServers;
+
+      for (const iceServer of turnServers) {
+        for (const url of iceServer.urls) {
+          assert.isNotNull(url);
+        }
+        assert.isNotNull(iceServer.username);
+        assert.isNotNull(iceServer.credential);
+        assert.isNotNull(iceServer.routeType);
+      }
+    }).timeout(5000);
+
     it("successfully gets a turn credential with identity and routeType any", async function() {
       const connectionString = env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING;
       const identityClient = new CommunicationIdentityClient(connectionString);
