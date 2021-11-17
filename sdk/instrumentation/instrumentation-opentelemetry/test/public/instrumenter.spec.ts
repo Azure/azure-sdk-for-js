@@ -14,6 +14,7 @@ import { TestSpan } from "./util/testSpan";
 import { TestTracer } from "./util/testTracer";
 import { resetTracer, setTracer } from "./util/testTracerProvider";
 import sinon from "sinon";
+import { Context } from "mocha";
 
 describe("OpenTelemetryInstrumenter", () => {
   const instrumenter = new OpenTelemetryInstrumenter();
@@ -322,7 +323,20 @@ describe("OpenTelemetryInstrumenter", () => {
   });
 
   describe("#withContext", () => {
-    it("sets the given context as active");
+    it("passes the correct arguments to OpenTelemetry", function(this: Context) {
+      const contextSpy = sinon.spy(context, "with");
+      const callback = (arg1: number) => arg1 + 42;
+      const callbackThis = this;
+      const callbackArg = 37;
+      instrumenter.withContext(context.active(), callback, callbackThis, callbackArg);
+
+      assert.isTrue(contextSpy.calledWith(context.active(), callback, callbackThis, callbackArg));
+    });
+
+    it("Returns the value of the callback", () => {
+      const result = instrumenter.withContext(context.active(), () => 42);
+      assert.equal(result, 42);
+    });
   });
 
   describe("OpenTelemetrySpanWrapper", () => {

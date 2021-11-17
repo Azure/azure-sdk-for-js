@@ -57,12 +57,12 @@ export class OpenTelemetryInstrumenter implements Instrumenter {
     CallbackArgs extends unknown[],
     Callback extends (...args: CallbackArgs) => ReturnType<Callback>
   >(
-    _context: TracingContext,
-    _callback: Callback,
-    _callbackThis?: ThisParameterType<Callback>,
-    ..._callbackArgs: CallbackArgs
+    tracingContext: TracingContext,
+    callback: Callback,
+    callbackThis?: ThisParameterType<Callback>,
+    ...callbackArgs: CallbackArgs
   ): ReturnType<Callback> {
-    throw new Error("Method not implemented.");
+    return context.with(tracingContext, callback, callbackThis, ...callbackArgs);
   }
 
   parseTraceparentHeader(traceparentHeader: string) {
