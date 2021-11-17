@@ -10,7 +10,9 @@ import {
   env,
   record,
   RecorderEnvironmentSetup,
-  Recorder
+  Recorder,
+  delay,
+  isPlaybackMode
 } from "@azure-tools/test-recorder";
 import * as assert from "assert";
 import { ClientSecretCredential } from "@azure/identity";
@@ -31,6 +33,10 @@ const recorderEnvSetup: RecorderEnvironmentSetup = {
       )
   ],
   queryParametersToSkip: []
+};
+
+export const testPollingOptions = {
+  updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
 describe("ContainerService test", () => {
@@ -86,7 +92,7 @@ describe("ContainerService test", () => {
             secret: secret
         },
         location: location
-    });
+    },testPollingOptions);
     assert.equal(res.name,resourceName);
   });
 
@@ -109,12 +115,12 @@ describe("ContainerService test", () => {
   });
 
   it("managedClusters update test", async function() {
-    const res = await client.managedClusters.beginUpdateTagsAndWait(resourceGroupName,resourceName,{tags: {tier: "testing",archv3: ""}});
+    const res = await client.managedClusters.beginUpdateTagsAndWait(resourceGroupName,resourceName,{tags: {tier: "testing",archv3: ""}},testPollingOptions);
     assert.equal(res.type,"Microsoft.ContainerService/ManagedClusters");
   });
 
   it("managedClusters delete test", async function() {
-    const res = await client.managedClusters.beginDeleteAndWait(resourceGroupName,resourceName);
+    const res = await client.managedClusters.beginDeleteAndWait(resourceGroupName,resourceName,testPollingOptions);
     const resArray = new Array();
     for await (let item of client.managedClusters.list()){
         resArray.push(item);
