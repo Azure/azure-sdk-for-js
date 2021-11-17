@@ -14,8 +14,11 @@ const fakeSASUrl =
 const recorderOptions: RecorderStartOptions = {
   envSetupForPlayback: {
     STORAGE_SAS_URL: fakeSASUrl
-  },
-  sanitizerOptions: {
+  }
+};
+
+const getSanitizerOptions = () => {
+  return {
     generalRegexSanitizers: [
       {
         regex: env.STORAGE_SAS_URL.split("/")[2],
@@ -26,7 +29,7 @@ const recorderOptions: RecorderStartOptions = {
         value: fakeSASUrl.split("/")[3].split("?")[1]
       }
     ]
-  }
+  };
 };
 
 describe("Core V1 tests", () => {
@@ -36,6 +39,7 @@ describe("Core V1 tests", () => {
     recorder = new TestProxyHttpClientCoreV1(this.currentTest);
 
     await recorder.start(recorderOptions);
+    await recorder.addSanitizers(getSanitizerOptions());
   });
 
   afterEach(async () => {

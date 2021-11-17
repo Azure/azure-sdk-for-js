@@ -181,14 +181,14 @@ export class TestProxyHttpClient {
             this.sanitizer.setRecordingId(this.recordingId);
             await handleEnvSetup(options.envSetupForPlayback, this.sanitizer);
           }
+          // Sanitizers to be added only in record mode
+          if (isRecordMode() && options.sanitizerOptions) {
+            // Makes a call to the proxy-tool to add the sanitizers for the current recording id
+            // Recordings of the current test will be influenced by the sanitizers that are being added here
+            await this.addSanitizers(options.sanitizerOptions);
+          }
         }
       }
-    }
-
-    if (options.sanitizerOptions) {
-      // Makes a call to the proxy-tool to add the sanitizers for the current recording id
-      // Recordings of the current test will be influenced by the sanitizers that are being added here
-      await this.addSanitizers(options.sanitizerOptions);
     }
   }
 

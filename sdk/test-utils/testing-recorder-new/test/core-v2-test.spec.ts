@@ -3,7 +3,11 @@
 
 import { env, isPlaybackMode } from "@azure-tools/test-recorder";
 import { TableEntity, TableClient } from "@azure/data-tables";
-import { TestProxyHttpClient, recorderHttpPolicy, RecorderStartOptions } from "@azure-tools/test-recorder-new";
+import {
+  TestProxyHttpClient,
+  recorderHttpPolicy,
+  RecorderStartOptions
+} from "@azure-tools/test-recorder-new";
 import { config } from "dotenv";
 import { createSimpleEntity } from "./utils/utils";
 import { SanitizerOptions } from "@azure-tools/test-recorder-new";
