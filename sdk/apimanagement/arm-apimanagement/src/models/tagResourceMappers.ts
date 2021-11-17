@@ -7,8 +7,10 @@
  */
 
 export {
+  ApiContactInformation,
   ApiContractProperties,
   ApiEntityBaseContract,
+  ApiLicenseInformation,
   ApiTagResourceContractProperties,
   ApiVersionSetContractDetails,
   AuthenticationSettingsContract,

@@ -9,8 +9,10 @@
 
 import * as msRest from "@azure/ms-rest-js";
 import { TokenCredential } from "@azure/core-auth";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "./models";
 import * as Mappers from "./models/mappers";
+import * as Parameters from "./models/parameters";
 import * as operations from "./operations";
 import { ApiManagementClientContext } from "./apiManagementClientContext";
 
@@ -60,6 +62,7 @@ class ApiManagementClient extends ApiManagementClientContext {
   notificationRecipientUser: operations.NotificationRecipientUser;
   notificationRecipientEmail: operations.NotificationRecipientEmail;
   openIdConnectProvider: operations.OpenIdConnectProvider;
+  outboundNetworkDependenciesEndpoints: operations.OutboundNetworkDependenciesEndpoints;
   policy: operations.Policy;
   policyDescription: operations.PolicyDescription;
   portalRevision: operations.PortalRevision;
@@ -67,6 +70,7 @@ class ApiManagementClient extends ApiManagementClientContext {
   signInSettings: operations.SignInSettings;
   signUpSettings: operations.SignUpSettings;
   delegationSettings: operations.DelegationSettings;
+  privateEndpointConnection: operations.PrivateEndpointConnectionOperations;
   product: operations.Product;
   productApi: operations.ProductApi;
   productGroup: operations.ProductGroup;
@@ -147,6 +151,7 @@ class ApiManagementClient extends ApiManagementClientContext {
     this.notificationRecipientUser = new operations.NotificationRecipientUser(this);
     this.notificationRecipientEmail = new operations.NotificationRecipientEmail(this);
     this.openIdConnectProvider = new operations.OpenIdConnectProvider(this);
+    this.outboundNetworkDependenciesEndpoints = new operations.OutboundNetworkDependenciesEndpoints(this);
     this.policy = new operations.Policy(this);
     this.policyDescription = new operations.PolicyDescription(this);
     this.portalRevision = new operations.PortalRevision(this);
@@ -154,6 +159,7 @@ class ApiManagementClient extends ApiManagementClientContext {
     this.signInSettings = new operations.SignInSettings(this);
     this.signUpSettings = new operations.SignUpSettings(this);
     this.delegationSettings = new operations.DelegationSettings(this);
+    this.privateEndpointConnection = new operations.PrivateEndpointConnectionOperations(this);
     this.product = new operations.Product(this);
     this.productApi = new operations.ProductApi(this);
     this.productGroup = new operations.ProductGroup(this);
@@ -177,9 +183,77 @@ class ApiManagementClient extends ApiManagementClientContext {
     this.userConfirmationPassword = new operations.UserConfirmationPassword(this);
     this.apiExport = new operations.ApiExport(this);
   }
+
+  /**
+   * Performs a connectivity check between the API Management service and a given destination, and
+   * returns metrics for the connection, as well as errors encountered while trying to establish it.
+   * @param resourceGroupName The name of the resource group.
+   * @param serviceName The name of the API Management service.
+   * @param connectivityCheckRequestParams Connectivity Check request parameters.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.PerformConnectivityCheckAsyncResponse>
+   */
+  performConnectivityCheckAsync(resourceGroupName: string, serviceName: string, connectivityCheckRequestParams: Models.ConnectivityCheckRequest, options?: msRest.RequestOptionsBase): Promise<Models.PerformConnectivityCheckAsyncResponse> {
+    return this.beginPerformConnectivityCheckAsync(resourceGroupName,serviceName,connectivityCheckRequestParams,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.PerformConnectivityCheckAsyncResponse>;
+  }
+
+  /**
+   * Performs a connectivity check between the API Management service and a given destination, and
+   * returns metrics for the connection, as well as errors encountered while trying to establish it.
+   * @param resourceGroupName The name of the resource group.
+   * @param serviceName The name of the API Management service.
+   * @param connectivityCheckRequestParams Connectivity Check request parameters.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginPerformConnectivityCheckAsync(resourceGroupName: string, serviceName: string, connectivityCheckRequestParams: Models.ConnectivityCheckRequest, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.sendLRORequest(
+      {
+        resourceGroupName,
+        serviceName,
+        connectivityCheckRequestParams,
+        options
+      },
+      beginPerformConnectivityCheckAsyncOperationSpec,
+      options);
+  }
 }
 
 // Operation Specifications
+const serializer = new msRest.Serializer(Mappers);
+const beginPerformConnectivityCheckAsyncOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/connectivityCheck",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.serviceName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "connectivityCheckRequestParams",
+    mapper: {
+      ...Mappers.ConnectivityCheckRequest,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.ConnectivityCheckResponse
+    },
+    202: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
 
 export {
   ApiManagementClient,
