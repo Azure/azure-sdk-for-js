@@ -10,7 +10,7 @@ https://github.com/Azure/azure-rest-api-specs/pull/10220 is merged.
 ```yaml
 v3: true
 package-name: "@azure/schema-registry"
-package-version: 1.0.0
+package-version: 1.0.1
 title: GeneratedSchemaRegistryClient
 description: Generated Schema Registry Client
 generate-metadata: false
@@ -52,4 +52,16 @@ directive:
       "description": "Content type of the schema.",
       "required": true,
       "type": "string"});
+```
+
+### Delete all validation patterns from parameters
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["parameters"][*]
+    transform: >
+      if ($.pattern) {
+        delete $.pattern;
+      }
 ```

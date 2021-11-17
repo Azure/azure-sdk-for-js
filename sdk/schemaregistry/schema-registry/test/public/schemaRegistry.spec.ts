@@ -201,4 +201,12 @@ describe("SchemaRegistryClient", function() {
     });
     assertIsValidSchemaProperties(foundId);
   });
+
+  it("Allows schema names with dots in them", async () => {
+    const schemaProperties = await client.registerSchema({
+      ...schema,
+      name: "com.azure.schemaregistry.samples.User"
+    });
+    assertIsValidSchemaProperties(schemaProperties);
+  });
 });

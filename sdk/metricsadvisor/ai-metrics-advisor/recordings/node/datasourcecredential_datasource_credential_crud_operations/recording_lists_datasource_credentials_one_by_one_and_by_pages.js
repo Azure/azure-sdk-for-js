@@ -6,65 +6,65 @@ module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
   .get('/metricsadvisor/v1.0/credentials')
-  .reply(200, {"value":[{"dataSourceCredentialId":"aaf125c8-707d-41b9-81b2-9b90a129de07","dataSourceCredentialName":"js-test-servicePrincipalInKVCred-163636434695308176","dataSourceCredentialDescription":"updated description","dataSourceCredentialType":"ServicePrincipalInKV","parameters":{"servicePrincipalSecretNameInKV":"updated-service-principal-secret-name-in-kv","servicePrincipalIdNameInKV":"updated-service-principal-in-kv","tenantId":"updated-tenant","keyVaultClientId":"updated-keyvault-client-id","keyVaultEndpoint":"updated-keyvault-endpoint"}},{"dataSourceCredentialId":"fb5f6aa0-4915-43d5-a006-bc9c6a4c3a5c","dataSourceCredentialName":"js-test-servicePrincipalCred-163636434695309101","dataSourceCredentialDescription":"updated description","dataSourceCredentialType":"ServicePrincipal","parameters":{"clientId":"updated-client","tenantId":"updated-tenant"}},{"dataSourceCredentialId":"d404535c-1efb-4feb-b535-83e246f31c0c","dataSourceCredentialName":"js-test-datalakeCred-163636434695302037","dataSourceCredentialDescription":"updated description","dataSourceCredentialType":"DataLakeGen2SharedKey","parameters":{}},{"dataSourceCredentialId":"0da7e320-dfa8-4288-9550-4da9509f072a","dataSourceCredentialName":"js-test-sqlServerCred-163636434695301676","dataSourceCredentialDescription":"updated description","dataSourceCredentialType":"AzureSQLConnectionString","parameters":{}}]}, [
+  .reply(200, {"value":[{"dataSourceCredentialId":"f08830ff-ef02-481d-a697-8cc1b8610ee2","dataSourceCredentialName":"js-test-servicePrincipalInKVCred-163702281643108508","dataSourceCredentialDescription":"updated description","dataSourceCredentialType":"ServicePrincipalInKV","parameters":{"servicePrincipalSecretNameInKV":"updated-service-principal-secret-name-in-kv","servicePrincipalIdNameInKV":"updated-service-principal-in-kv","tenantId":"updated-tenant","keyVaultClientId":"updated-keyvault-client-id","keyVaultEndpoint":"updated-keyvault-endpoint"}},{"dataSourceCredentialId":"d92566c8-6a08-4ddc-917f-120139250878","dataSourceCredentialName":"js-test-servicePrincipalCred-163702281643106518","dataSourceCredentialDescription":"updated description","dataSourceCredentialType":"ServicePrincipal","parameters":{"clientId":"updated-client","tenantId":"updated-tenant"}},{"dataSourceCredentialId":"54cb9964-58fa-496f-b408-479ef69a8965","dataSourceCredentialName":"js-test-datalakeCred-163702281643103059","dataSourceCredentialDescription":"updated description","dataSourceCredentialType":"DataLakeGen2SharedKey","parameters":{}},{"dataSourceCredentialId":"44d64215-151e-441d-a446-44477a71f5c6","dataSourceCredentialName":"js-test-sqlServerCred-163702281643106715","dataSourceCredentialDescription":"updated description","dataSourceCredentialType":"AzureSQLConnectionString","parameters":{}}]}, [
   'Content-Length',
   '1380',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-request-id',
-  '25474b74-a02b-4661-b65d-b98e699a94db',
+  '3bf2ac96-2894-41ad-96fd-9e1019abcbca',
   'x-envoy-upstream-service-time',
-  '85',
+  '77',
   'apim-request-id',
-  '25474b74-a02b-4661-b65d-b98e699a94db',
+  '3bf2ac96-2894-41ad-96fd-9e1019abcbca',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Mon, 08 Nov 2021 09:39:10 GMT'
+  'Tue, 16 Nov 2021 00:33:39 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
   .get('/metricsadvisor/v1.0/credentials')
   .query(true)
-  .reply(200, {"value":[{"dataSourceCredentialId":"aaf125c8-707d-41b9-81b2-9b90a129de07","dataSourceCredentialName":"js-test-servicePrincipalInKVCred-163636434695308176","dataSourceCredentialDescription":"updated description","dataSourceCredentialType":"ServicePrincipalInKV","parameters":{"servicePrincipalSecretNameInKV":"updated-service-principal-secret-name-in-kv","servicePrincipalIdNameInKV":"updated-service-principal-in-kv","tenantId":"updated-tenant","keyVaultClientId":"updated-keyvault-client-id","keyVaultEndpoint":"updated-keyvault-endpoint"}},{"dataSourceCredentialId":"fb5f6aa0-4915-43d5-a006-bc9c6a4c3a5c","dataSourceCredentialName":"js-test-servicePrincipalCred-163636434695309101","dataSourceCredentialDescription":"updated description","dataSourceCredentialType":"ServicePrincipal","parameters":{"clientId":"updated-client","tenantId":"updated-tenant"}}],"@nextLink":"https://endpoint:443/metricsadvisor/v1.0/credentials?$maxpagesize=2&$skip=2"}, [
+  .reply(200, {"value":[{"dataSourceCredentialId":"f08830ff-ef02-481d-a697-8cc1b8610ee2","dataSourceCredentialName":"js-test-servicePrincipalInKVCred-163702281643108508","dataSourceCredentialDescription":"updated description","dataSourceCredentialType":"ServicePrincipalInKV","parameters":{"servicePrincipalSecretNameInKV":"updated-service-principal-secret-name-in-kv","servicePrincipalIdNameInKV":"updated-service-principal-in-kv","tenantId":"updated-tenant","keyVaultClientId":"updated-keyvault-client-id","keyVaultEndpoint":"updated-keyvault-endpoint"}},{"dataSourceCredentialId":"d92566c8-6a08-4ddc-917f-120139250878","dataSourceCredentialName":"js-test-servicePrincipalCred-163702281643106518","dataSourceCredentialDescription":"updated description","dataSourceCredentialType":"ServicePrincipal","parameters":{"clientId":"updated-client","tenantId":"updated-tenant"}}],"@nextLink":"https://endpoint:443/metricsadvisor/v1.0/credentials?$maxpagesize=2&$skip=2"}, [
   'Content-Length',
   '988',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-request-id',
-  '2413b590-1d69-4fcd-a9a6-c811cbf7917b',
+  'cb069f8c-ece9-481c-8924-dce1ab851697',
   'x-envoy-upstream-service-time',
-  '80',
+  '73',
   'apim-request-id',
-  '2413b590-1d69-4fcd-a9a6-c811cbf7917b',
+  'cb069f8c-ece9-481c-8924-dce1ab851697',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Mon, 08 Nov 2021 09:39:10 GMT'
+  'Tue, 16 Nov 2021 00:33:39 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
   .get('/metricsadvisor/v1.0/credentials')
   .query(true)
-  .reply(200, {"value":[{"dataSourceCredentialId":"d404535c-1efb-4feb-b535-83e246f31c0c","dataSourceCredentialName":"js-test-datalakeCred-163636434695302037","dataSourceCredentialDescription":"updated description","dataSourceCredentialType":"DataLakeGen2SharedKey","parameters":{}},{"dataSourceCredentialId":"0da7e320-dfa8-4288-9550-4da9509f072a","dataSourceCredentialName":"js-test-sqlServerCred-163636434695301676","dataSourceCredentialDescription":"updated description","dataSourceCredentialType":"AzureSQLConnectionString","parameters":{}}],"@nextLink":"https://endpoint:443/metricsadvisor/v1.0/credentials?$maxpagesize=2&$skip=4"}, [
+  .reply(200, {"value":[{"dataSourceCredentialId":"54cb9964-58fa-496f-b408-479ef69a8965","dataSourceCredentialName":"js-test-datalakeCred-163702281643103059","dataSourceCredentialDescription":"updated description","dataSourceCredentialType":"DataLakeGen2SharedKey","parameters":{}},{"dataSourceCredentialId":"44d64215-151e-441d-a446-44477a71f5c6","dataSourceCredentialName":"js-test-sqlServerCred-163702281643106715","dataSourceCredentialDescription":"updated description","dataSourceCredentialType":"AzureSQLConnectionString","parameters":{}}],"@nextLink":"https://endpoint:443/metricsadvisor/v1.0/credentials?$maxpagesize=2&$skip=4"}, [
   'Content-Length',
   '659',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-request-id',
-  '7c5af514-7f6c-4681-85ad-3350341b88ea',
+  '7499d2c5-d56b-4386-bdd4-2cc23b80f159',
   'x-envoy-upstream-service-time',
-  '88',
+  '77',
   'apim-request-id',
-  '7c5af514-7f6c-4681-85ad-3350341b88ea',
+  '7499d2c5-d56b-4386-bdd4-2cc23b80f159',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Mon, 08 Nov 2021 09:39:10 GMT'
+  'Tue, 16 Nov 2021 00:33:40 GMT'
 ]);

@@ -49,7 +49,8 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.SchemaGroups
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.ErrorModel,
+      headersMapper: Mappers.SchemaGroupsListExceptionHeaders
     }
   },
   queryParameters: [Parameters.apiVersion],

@@ -34,7 +34,7 @@ export interface Schema {
    * Gets the list of all versions of one schema.
    * @param groupName Schema group under which schema is registered.  Group's serialization type should
    *                  match the serialization type specified in the request.
-   * @param schemaName Name of schema being registered.
+   * @param schemaName Name of schema.
    * @param options The options parameters.
    */
   getVersions(
@@ -47,7 +47,7 @@ export interface Schema {
    * content comparison.
    * @param groupName Schema group under which schema is registered.  Group's serialization type should
    *                  match the serialization type specified in the request.
-   * @param schemaName Name of requested schema.
+   * @param schemaName Name of schema.
    * @param contentType Content type of the schema.
    * @param schemaContent String representation (UTF-8) of the registered schema.
    * @param options The options parameters.
@@ -66,7 +66,7 @@ export interface Schema {
    *
    * @param groupName Schema group under which schema should be registered.  Group's serialization type
    *                  should match the serialization type specified in the request.
-   * @param schemaName Name of schema being registered.
+   * @param schemaName Name of schema.
    * @param contentType Content type of the schema.
    * @param schemaContent String representation (UTF-8) of the schema being registered.
    * @param options The options parameters.

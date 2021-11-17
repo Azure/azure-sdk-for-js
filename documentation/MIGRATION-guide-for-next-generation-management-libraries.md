@@ -159,7 +159,7 @@ Many operations may take a long time before receiving the desired response. The 
   <tr>
     <td colspan="2">
       <p>
-        Operations that returns a poller.
+        Operations that return a poller.
       </p>
     </td>
   </tr>

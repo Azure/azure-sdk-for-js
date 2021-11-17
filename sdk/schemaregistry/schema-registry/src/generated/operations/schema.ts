@@ -55,7 +55,7 @@ export class SchemaImpl implements Schema {
    * Gets the list of all versions of one schema.
    * @param groupName Schema group under which schema is registered.  Group's serialization type should
    *                  match the serialization type specified in the request.
-   * @param schemaName Name of schema being registered.
+   * @param schemaName Name of schema.
    * @param options The options parameters.
    */
   getVersions(
@@ -74,7 +74,7 @@ export class SchemaImpl implements Schema {
    * content comparison.
    * @param groupName Schema group under which schema is registered.  Group's serialization type should
    *                  match the serialization type specified in the request.
-   * @param schemaName Name of requested schema.
+   * @param schemaName Name of schema.
    * @param contentType Content type of the schema.
    * @param schemaContent String representation (UTF-8) of the registered schema.
    * @param options The options parameters.
@@ -99,7 +99,7 @@ export class SchemaImpl implements Schema {
    *
    * @param groupName Schema group under which schema should be registered.  Group's serialization type
    *                  should match the serialization type specified in the request.
-   * @param schemaName Name of schema being registered.
+   * @param schemaName Name of schema.
    * @param contentType Content type of the schema.
    * @param schemaContent String representation (UTF-8) of the schema being registered.
    * @param options The options parameters.
@@ -132,7 +132,8 @@ const getByIdOperationSpec: coreClient.OperationSpec = {
       headersMapper: Mappers.SchemaGetByIdHeaders
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.ErrorModel,
+      headersMapper: Mappers.SchemaGetByIdExceptionHeaders
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -148,7 +149,8 @@ const getVersionsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.SchemaVersions
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.ErrorModel,
+      headersMapper: Mappers.SchemaGetVersionsExceptionHeaders
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -169,10 +171,12 @@ const queryIdByContentOperationSpec: coreClient.OperationSpec = {
     },
     415: {
       bodyMapper: Mappers.ErrorModel,
+      headersMapper: Mappers.SchemaQueryIdByContentExceptionHeaders,
       isError: true
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.ErrorModel,
+      headersMapper: Mappers.SchemaQueryIdByContentExceptionHeaders
     }
   },
   requestBody: Parameters.schemaContent,
@@ -195,10 +199,12 @@ const registerOperationSpec: coreClient.OperationSpec = {
     },
     415: {
       bodyMapper: Mappers.ErrorModel,
+      headersMapper: Mappers.SchemaRegisterExceptionHeaders,
       isError: true
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
+      bodyMapper: Mappers.ErrorModel,
+      headersMapper: Mappers.SchemaRegisterExceptionHeaders
     }
   },
   requestBody: Parameters.schemaContent,
