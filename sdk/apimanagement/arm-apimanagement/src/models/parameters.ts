@@ -661,6 +661,26 @@ export const portalRevisionId: msRest.OperationURLParameter = {
     }
   }
 };
+export const privateEndpointConnectionName: msRest.OperationURLParameter = {
+  parameterPath: "privateEndpointConnectionName",
+  mapper: {
+    required: true,
+    serializedName: "privateEndpointConnectionName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const privateLinkSubResourceName: msRest.OperationURLParameter = {
+  parameterPath: "privateLinkSubResourceName",
+  mapper: {
+    required: true,
+    serializedName: "privateLinkSubResourceName",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const productId: msRest.OperationURLParameter = {
   parameterPath: "productId",
   mapper: {
