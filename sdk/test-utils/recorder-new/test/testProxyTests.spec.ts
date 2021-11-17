@@ -83,13 +83,14 @@ function getTestServerUrl() {
       });
       const response = await client.sendRequest(req);
       if (expectedResponse) {
+        console.log(JSON.parse(response.bodyAsText!));
         expect(JSON.parse(response.bodyAsText!)).to.deep.equal(expectedResponse);
       }
       // Add code to also check expected headers
       return response;
     }
 
-    it("sample_response", async () => {
+    it.only("sample_response", async () => {
       await recorder.start({ envSetupForPlayback: {} });
       await makeRequestAndVerifyResponse(
         { path: `/sample_response`, method: "GET" },
