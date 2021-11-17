@@ -1,16 +1,10 @@
 # Release History
 
-## 1.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 1.0.1 (2021-11-17)
 
 ### Bugs Fixed
 
 - Disable client-side validation of schema names and leave that to the service.
-
-### Other Changes
 
 ## 1.0.0 (2021-11-10)
 
