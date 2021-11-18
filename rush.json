@@ -1085,6 +1085,11 @@
       "packageName": "@azure/arm-consumption",
       "projectFolder": "sdk/consumption/arm-consumption",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-datalake-analytics",
+      "projectFolder": "sdk/datalake-analytics/arm-datalake-analytics",
+      "versionPolicyName": "management"
     }
   ]
 }
