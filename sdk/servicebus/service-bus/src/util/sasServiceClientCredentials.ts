@@ -5,14 +5,14 @@
 // Licensed under the MIT License.
 
 import { AccessToken, NamedKeyCredential } from "@azure/core-auth";
-import { HttpHeaders, ServiceClientCredentials, WebResource } from "@azure/core-http";
+import { createHttpHeaders, PipelineRequest } from "@azure/core-rest-pipeline";
 import { generateKey } from "./crypto";
 import { createSasTokenProvider, SasTokenProvider } from "@azure/core-amqp";
 
 /**
  * @internal
  */
-export class SasServiceClientCredentials implements ServiceClientCredentials {
+export class SasServiceClientCredentials {
   /**
    * The NamedKeyCredential containing the key name and secret key value.
    */
@@ -44,8 +44,8 @@ export class SasServiceClientCredentials implements ServiceClientCredentials {
    * @param webResource - The WebResource to be signed.
    * @returns The signed request object.
    */
-  async signRequest(webResource: WebResource): Promise<WebResource> {
-    if (!webResource.headers) webResource.headers = new HttpHeaders();
+  async signRequest(webResource: PipelineRequest): Promise<PipelineRequest> {
+    if (!webResource.headers) webResource.headers = createHttpHeaders();
 
     const targetUri = encodeURIComponent(webResource.url.toLowerCase()).toLowerCase();
 

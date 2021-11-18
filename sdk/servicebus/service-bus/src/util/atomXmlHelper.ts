@@ -1,18 +1,32 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+// import {
+//   HttpOperationResponse,
+//   RestError,
+//   ServiceClient,
+//   WebResource,
+//   parseXML,
+//   stringifyXML,
+//   stripRequest,
+//   stripResponse,
+//   RequestPrepareOptions,
+//   OperationOptions
+// } from "@azure/core-http";
 import {
-  HttpOperationResponse,
+  PipelineResponse,
   RestError,
+  PipelineRequest,
+} from "@azure/core-rest-pipeline";
+import {
   ServiceClient,
-  WebResource,
+  OperationOptions,
+  FullOperationResponse
+} from "@azure/core-client";
+import {
   parseXML,
-  stringifyXML,
-  stripRequest,
-  stripResponse,
-  RequestPrepareOptions,
-  OperationOptions
-} from "@azure/core-http";
+  stringifyXML
+} from "@azure/core-xml";
 
 import * as Constants from "./constants";
 import { administrationLogger as logger } from "../log";
@@ -29,7 +43,7 @@ import { isDefined } from "./typeGuards";
 export interface AtomXmlSerializer {
   serialize(requestBodyInJson: object): object;
 
-  deserialize(response: HttpOperationResponse): Promise<HttpOperationResponse>;
+  deserialize(response: FullOperationResponse): Promise<FullOperationResponse>;
 }
 
 /**
@@ -38,10 +52,10 @@ export interface AtomXmlSerializer {
  */
 export async function executeAtomXmlOperation(
   serviceBusAtomManagementClient: ServiceClient,
-  webResource: WebResource,
+  webResource: PipelineRequest,
   serializer: AtomXmlSerializer,
   operationOptions: OperationOptions
-): Promise<HttpOperationResponse> {
+): Promise<FullOperationResponse> {
   if (webResource.body) {
     const content = serializer.serialize(webResource.body);
     webResource.body = stringifyXML(content, { rootName: "entry" });
@@ -66,7 +80,7 @@ export async function executeAtomXmlOperation(
   };
   webResource = webResource.prepare(reqPrepareOptions);
   webResource.timeout = operationOptions.requestOptions?.timeout || 0;
-  const response: HttpOperationResponse = await serviceBusAtomManagementClient.sendRequest(
+  const response: PipelineResponse = await serviceBusAtomManagementClient.sendRequest(
     webResource
   );
 
@@ -74,15 +88,17 @@ export async function executeAtomXmlOperation(
 
   try {
     if (response.bodyAsText) {
-      response.parsedBody = await parseXML(response.bodyAsText, { includeRoot: true });
+      (response as FullOperationResponse).parsedBody = await parseXML(response.bodyAsText, { includeRoot: true });
     }
   } catch (err) {
     const error = new RestError(
       `Error occurred while parsing the response body - expected the service to return valid xml content.`,
-      RestError.PARSE_ERROR,
-      response.status,
-      stripRequest(response.request),
-      stripResponse(response)
+      {
+        code: RestError.PARSE_ERROR,
+        statusCode: response.status,
+        request: response.request,
+        response
+      }
     );
     logger.logError(err, "Error parsing response body from Service");
     throw error;
@@ -149,8 +165,8 @@ export function serializeToAtomXmlRequest(resourceName: string, resource: unknow
  */
 export async function deserializeAtomXmlResponse(
   nameProperties: string[],
-  response: HttpOperationResponse
-): Promise<HttpOperationResponse> {
+  response: FullOperationResponse
+): Promise<FullOperationResponse> {
   // If received data is a non-valid HTTP response, the body is expected to contain error information
   if (response.status < 200 || response.status >= 300) {
     throw buildError(response);
@@ -169,7 +185,7 @@ export async function deserializeAtomXmlResponse(
  * @param nameProperties - The set of 'name' properties to be constructed on the
  * resultant object e.g., QueueName, TopicName, etc.
  * */
-function parseAtomResult(response: HttpOperationResponse, nameProperties: string[]): void {
+function parseAtomResult(response: FullOperationResponse, nameProperties: string[]): void {
   const atomResponseInJson = response.parsedBody;
 
   let result: any;
@@ -202,11 +218,12 @@ function parseAtomResult(response: HttpOperationResponse, nameProperties: string
   );
   throw new RestError(
     "Error occurred while parsing the response body - expected the service to return atom xml content with either feed or entry elements.",
-    RestError.PARSE_ERROR,
-    response.status,
-    stripRequest(response.request),
-    stripResponse(response)
-  );
+    {
+      code: RestError.PARSE_ERROR,
+      statusCode: response.status,
+      request: response.request,
+      response
+    });
 }
 
 /**
@@ -371,15 +388,16 @@ function setName(entry: any, nameProperties: any): any {
  * Utility to help construct the normalized `RestError` object based on given error
  * information and other data present in the received `response` object.
  */
-export function buildError(response: HttpOperationResponse): RestError {
+export function buildError(response: FullOperationResponse): RestError {
   if (!isKnownResponseCode(response.status)) {
     throw new RestError(
       `Service returned an error response with an unrecognized HTTP status code - ${response.status}`,
-      "ServiceError",
-      response.status,
-      stripRequest(response.request),
-      stripResponse(response)
-    );
+      {
+        code: "ServiceError",
+        statusCode: response.status,
+        request: response.request,
+        response
+      });
   }
 
   const errorBody = response.parsedBody;
@@ -403,11 +421,12 @@ export function buildError(response: HttpOperationResponse): RestError {
 
   const error: RestError = new RestError(
     errorMessage,
-    errorCode,
-    response.status,
-    stripRequest(response.request),
-    stripResponse(response)
-  );
+    {
+      code:errorCode,
+      statusCode: response.status,
+      request: response.request,
+      response
+    });
   return error;
 }
 
@@ -416,7 +435,7 @@ export function buildError(response: HttpOperationResponse): RestError {
  * Helper utility to construct user friendly error codes based on based on given error
  * information and other data present in the received `response` object.
  */
-function getErrorCode(response: HttpOperationResponse, errorMessage: string): string {
+function getErrorCode(response: PipelineResponse, errorMessage: string): string {
   if (response.status === 401) {
     return "UnauthorizedRequestError";
   }

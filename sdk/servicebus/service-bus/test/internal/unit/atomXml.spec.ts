@@ -15,12 +15,13 @@ import {
 import * as Constants from "../../../src/util/constants";
 import { ServiceBusAdministrationClient } from "../../../src/serviceBusAtomManagementClient";
 import { QueueResourceSerializer } from "../../../src/serializers/queueResourceSerializer";
-import { HttpHeaders, HttpOperationResponse, WebResource } from "@azure/core-http";
+import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
 import { TopicResourceSerializer } from "../../../src/serializers/topicResourceSerializer";
 import { SubscriptionResourceSerializer } from "../../../src/serializers/subscriptionResourceSerializer";
 import { RuleResourceSerializer } from "../../../src/serializers/ruleResourceSerializer";
 import { getXMLNSPrefix, isJSONLikeObject } from "../../../src/util/utils";
 import { TestConstants } from "../../public/fakeTestSecrets";
+import { FullOperationResponse } from "@azure/core-client";
 
 const queueProperties = [
   Constants.LOCK_DURATION,
@@ -78,12 +79,14 @@ const mockServiceBusAtomManagementClient: ServiceBusAdministrationClient = new S
 describe("ATOM Serializers", () => {
   describe("atomSerializationPolicy", function() {
     it("should throw an error if receiving a non-XML response body", async function() {
-      const request = new WebResource();
+      const request = createPipelineRequest({
+        url: "https://someurl"
+      });
       mockServiceBusAtomManagementClient.sendRequest = async () => {
         return {
           request: request,
           status: 200,
-          headers: new HttpHeaders({}),
+          headers: createHttpHeaders({}),
           bodyAsText: `{ hello: "this is a JSON response body" }`
         };
       };
@@ -109,13 +112,15 @@ describe("ATOM Serializers", () => {
     });
 
     it("should properly serialize when using valid inputs and serializer", async function() {
-      const request = new WebResource();
+      const request = createPipelineRequest({
+        url: "https://someurl"
+      });
       request.body = { lockDuration: "PT3M", maxSizeInMegabytes: "2048" };
       mockServiceBusAtomManagementClient.sendRequest = async () => {
         return {
           request: request,
           status: 200,
-          headers: new HttpHeaders({})
+          headers: createHttpHeaders({})
         };
       };
       await executeAtomXmlOperation(
@@ -145,11 +150,13 @@ describe("ATOM Serializers", () => {
 
   describe("deserializeAtomXmlResponse", function() {
     it("should throw an error if receiving a valid XML but invalid Atom XML", async function() {
-      const request: WebResource = new WebResource();
+      const request = createPipelineRequest({
+        url: "https://someurl"
+      });
       const _response = {
         request,
         status: 200,
-        headers: new HttpHeaders({}),
+        headers: createHttpHeaders({}),
         bodyAsText: null,
         parsedBody: { notAnEntry: "" }
       };
@@ -168,11 +175,13 @@ describe("ATOM Serializers", () => {
     });
 
     it("should throw appropriate error if unrecognized HTTP code is returned by service", async function() {
-      const request: WebResource = new WebResource();
+      const request = createPipelineRequest({
+        url: "https://someurl"
+      });
       const _response = {
         request,
         status: 666,
-        headers: new HttpHeaders({}),
+        headers: createHttpHeaders({}),
         bodyAsText: null,
         parsedBody: undefined
       };
@@ -227,14 +236,16 @@ describe("ATOM Serializers", () => {
         enablePartitioning: true
       };
 
-      const request: WebResource = new WebResource();
+      const request = createPipelineRequest({
+        url: "https://someurl"
+      });
       request.body = queueOptions;
 
       mockServiceBusAtomManagementClient.sendRequest = async () => {
         return {
           request: request,
           status: 200,
-          headers: new HttpHeaders({})
+          headers: createHttpHeaders({})
         };
       };
 
@@ -283,14 +294,16 @@ describe("ATOM Serializers", () => {
         ]
       };
 
-      const request: WebResource = new WebResource();
+      const request = createPipelineRequest({
+        url: "https://someurl"
+      });
       request.body = topicOptions;
 
       mockServiceBusAtomManagementClient.sendRequest = async () => {
         return {
           request: request,
           status: 200,
-          headers: new HttpHeaders({})
+          headers: createHttpHeaders({})
         };
       };
 
@@ -316,14 +329,16 @@ describe("ATOM Serializers", () => {
         maxDeliveryCount: 20
       };
 
-      const request: WebResource = new WebResource();
+      const request = createPipelineRequest({
+        url: "https://someurl"
+      });
       request.body = subscriptionOptions;
 
       mockServiceBusAtomManagementClient.sendRequest = async () => {
         return {
           request: request,
           status: 200,
-          headers: new HttpHeaders({})
+          headers: createHttpHeaders({})
         };
       };
 
@@ -346,14 +361,16 @@ describe("ATOM Serializers", () => {
         action: { sqlExpression: "SET a='b'" }
       };
 
-      const request: WebResource = new WebResource();
+      const request = createPipelineRequest({
+        url: "https://someurl"
+      });
       request.body = ruleOptions;
 
       mockServiceBusAtomManagementClient.sendRequest = async () => {
         return {
           request: request,
           status: 200,
-          headers: new HttpHeaders({})
+          headers: createHttpHeaders({})
         };
       };
 
@@ -423,7 +440,7 @@ describe("ATOM Serializers", () => {
       };
     }
 
-    async deserialize(response: HttpOperationResponse): Promise<HttpOperationResponse> {
+    async deserialize(response: FullOperationResponse): Promise<FullOperationResponse> {
       return response;
     }
   }
@@ -523,14 +540,16 @@ describe("ATOM Serializers", () => {
     describe(`Type validation errors on SQL parameter inputs`, function(): void {
       it(`${testCase.testCaseTitle}`, async () => {
         try {
-          const request = new WebResource();
+          const request = createPipelineRequest({
+        url: "https://someurl"
+      });
           request.body = testCase.input;
 
           mockServiceBusAtomManagementClient.sendRequest = async () => {
             return {
               request: request,
               status: 200,
-              headers: new HttpHeaders({})
+              headers: createHttpHeaders({})
             };
           };
           await executeAtomXmlOperation(
@@ -666,14 +685,16 @@ describe("ATOM Serializers", () => {
     describe(`Type validation errors on Correlation user property inputs`, function(): void {
       it(`${testCase.testCaseTitle}`, async () => {
         try {
-          const request = new WebResource();
+          const request = createPipelineRequest({
+        url: "https://someurl"
+      });
           request.body = testCase.input;
 
           mockServiceBusAtomManagementClient.sendRequest = async () => {
             return {
               request: request,
               status: 200,
-              headers: new HttpHeaders({})
+              headers: createHttpHeaders({})
             };
           };
           await executeAtomXmlOperation(
@@ -727,9 +748,11 @@ describe("ATOM Serializers", () => {
       it(`${testCase.testCaseTitle}`, async () => {
         mockServiceBusAtomManagementClient.sendRequest = async () => {
           return {
-            request: new WebResource(),
+            request: createPipelineRequest({
+        url: "https://someurl"
+      }),
             status: 200,
-            headers: new HttpHeaders({})
+            headers: createHttpHeaders({})
           };
         };
         try {
@@ -876,9 +899,9 @@ describe("ATOM Serializers", () => {
       it(`${testCase.testCaseTitle}`, async () => {
         mockServiceBusAtomManagementClient.sendRequest = async () => {
           const response = {
-            request: new WebResource("", testCase.input.requestMethod as "DELETE" | "GET" | "PUT"),
+            request: createPipelineRequest({ url: "https://someurl", method: testCase.input.requestMethod as "DELETE" | "GET" | "PUT" }),
             status: testCase.input.responseStatus,
-            headers: new HttpHeaders(),
+            headers: createHttpHeaders(),
             parsedBody: testCase.input.body
           };
 
@@ -1025,9 +1048,11 @@ describe("ATOM Serializers", () => {
       it(`Verify mapping for response status code "${testCase.responseStatus}" to result in "${testCase.errorCode}" error code.`, async () => {
         mockServiceBusAtomManagementClient.sendRequest = async () => {
           return {
-            request: new WebResource(),
+            request: createPipelineRequest({
+        url: "https://someurl"
+      }),
             status: testCase.responseStatus,
-            headers: new HttpHeaders()
+            headers: createHttpHeaders()
           };
         };
 
@@ -1048,10 +1073,12 @@ describe("ATOM Serializers", () => {
     function assertEmptyArray(result: any): void {
       mockServiceBusAtomManagementClient.sendRequest = async () => {
         return {
-          request: new WebResource(),
+          request: createPipelineRequest({
+        url: "https://someurl"
+      }),
           bodyAsText: '<feed xmlns="http://www.w3.org/2005/Atom"></feed>',
           status: 200,
-          headers: new HttpHeaders({})
+          headers: createHttpHeaders({})
         };
       };
       assert.equal(Array.isArray(result), true, "Result must be an array");
@@ -1061,10 +1088,12 @@ describe("ATOM Serializers", () => {
     beforeEach(async () => {
       mockServiceBusAtomManagementClient.sendRequest = async () => {
         return {
-          request: new WebResource(),
+          request: createPipelineRequest({
+        url: "https://someurl"
+      }),
           bodyAsText: '<feed xmlns="http://www.w3.org/2005/Atom"></feed>',
           status: 200,
-          headers: new HttpHeaders({})
+          headers: createHttpHeaders({})
         };
       };
     });
@@ -1072,10 +1101,12 @@ describe("ATOM Serializers", () => {
     it(`List on empty list of queues gives an empty array`, async () => {
       mockServiceBusAtomManagementClient.sendRequest = async () => {
         return {
-          request: new WebResource(),
+          request: createPipelineRequest({
+        url: "https://someurl"
+      }),
           bodyAsText: '<feed xmlns="http://www.w3.org/2005/Atom"></feed>',
           status: 200,
-          headers: new HttpHeaders({})
+          headers: createHttpHeaders({})
         };
       };
       const result = await mockServiceBusAtomManagementClient["getQueues"]();
@@ -1085,10 +1116,12 @@ describe("ATOM Serializers", () => {
     it(`List on empty list of topics gives an empty array`, async () => {
       mockServiceBusAtomManagementClient.sendRequest = async () => {
         return {
-          request: new WebResource(),
+          request: createPipelineRequest({
+        url: "https://someurl"
+      }),
           bodyAsText: '<feed xmlns="http://www.w3.org/2005/Atom"></feed>',
           status: 200,
-          headers: new HttpHeaders({})
+          headers: createHttpHeaders({})
         };
       };
       const result = await mockServiceBusAtomManagementClient["getTopics"]();
@@ -1098,10 +1131,12 @@ describe("ATOM Serializers", () => {
     it(`List on empty list of subscriptions gives an empty array`, async () => {
       mockServiceBusAtomManagementClient.sendRequest = async () => {
         return {
-          request: new WebResource(),
+          request: createPipelineRequest({
+        url: "https://someurl"
+      }),
           bodyAsText: '<feed xmlns="http://www.w3.org/2005/Atom"></feed>',
           status: 200,
-          headers: new HttpHeaders({})
+          headers: createHttpHeaders({})
         };
       };
       const result = await mockServiceBusAtomManagementClient["getSubscriptions"]("testTopic");
@@ -1111,10 +1146,12 @@ describe("ATOM Serializers", () => {
     it(`List on empty list of rules gives an empty array`, async () => {
       mockServiceBusAtomManagementClient.sendRequest = async () => {
         return {
-          request: new WebResource(),
+          request: createPipelineRequest({
+        url: "https://someurl"
+      }),
           bodyAsText: '<feed xmlns="http://www.w3.org/2005/Atom"></feed>',
           status: 200,
-          headers: new HttpHeaders({})
+          headers: createHttpHeaders({})
         };
       };
       const result = await mockServiceBusAtomManagementClient["getRules"](

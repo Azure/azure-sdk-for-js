@@ -13,7 +13,7 @@ export {
   WebSocketOptions
 } from "@azure/core-amqp";
 export { TokenCredential } from "@azure/core-auth";
-export { OperationOptions } from "@azure/core-http";
+export { OperationOptions } from "@azure/core-client";
 export { Delivery, WebSocketImpl } from "rhea-promise";
 export { ServiceBusClientOptions } from "./constructorHelpers";
 export { CorrelationRuleFilter } from "./core/managementClient";

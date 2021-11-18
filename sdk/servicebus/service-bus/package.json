@@ -114,6 +114,7 @@
     "@azure/core-rest-pipeline": "^1.1.0",
     "@azure/core-tracing": "1.0.0-preview.13",
     "@azure/core-paging": "^1.1.1",
+    "@azure/core-xml": "^1.0.0",
     "@azure/logger": "^1.0.0",
     "@types/is-buffer": "^2.0.0",
     "@types/long": "^4.0.0",

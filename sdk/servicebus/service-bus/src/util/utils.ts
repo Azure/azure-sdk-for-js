@@ -8,7 +8,7 @@ import isBuffer from "is-buffer";
 import { Buffer } from "buffer";
 import * as Constants from "../util/constants";
 import { AbortError, AbortSignalLike } from "@azure/abort-controller";
-import { HttpOperationResponse, HttpResponse } from "@azure/core-http";
+import { PipelineResponse } from "@azure/core-rest-pipeline";
 import { isDefined } from "./typeGuards";
 import { StandardAbortMessage } from "@azure/core-amqp";
 
@@ -637,7 +637,7 @@ export const getHttpResponseOnly = ({
   request,
   status,
   headers
-}: HttpOperationResponse): HttpResponse => ({
+}: PipelineResponse): PipelineResponse => ({
   request,
   status,
   headers
