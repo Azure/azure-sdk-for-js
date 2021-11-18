@@ -7,12 +7,6 @@
 - Making user identity an optional argument when calling GetRelayConfiguration and GetRelayConfigurationAsync
 - Adding optional parameter to GetRelayConfiguration to choose a RouteType
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
 ## 1.0.0-beta.2 (2021-07-22)
 
 ### Features Added
