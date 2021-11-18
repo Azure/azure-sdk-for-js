@@ -72,6 +72,7 @@ import { CommunicationRelayClient } from "@azure/communication-network-traversal
 
 const client = new CommunicationRelayClient(CONNECTION_STRING);
 ```
+
 ### Creating an instance of CommunicationIdentityClient to create a user
 
 ```typescript
@@ -88,19 +89,19 @@ const user = await client.createUser();
 
 ### Getting the configurationRelay
 
-Use the `getConfigurationRelay` method to get new TURN credentials provinding a user
+Use the `getConfigurationRelay` method to get new TURN credentials providing a user
 
 ```typescript
 const config = relayClient.getRelayConfiguration(user);
 ```
 
-Also you can sse the `getConfigurationRelay` method without providing a user
+Also you can call the `getConfigurationRelay` method without providing a user
 
 ```typescript
-const config = relayClient.getRelayConfiguration(user);
+const config = relayClient.getRelayConfiguration();
 ```
 
-You can specify a RouteType when calling `getConfigurationRelay` 
+You can specify a RouteType when calling `getConfigurationRelay`
 
 ```typescript
 const config = relayClient.getRelayConfiguration(user, "nearest");
