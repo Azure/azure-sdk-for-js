@@ -26,73 +26,58 @@ export = {
     });
     return stripPath(context.getFilename()) === "tsconfig.json"
       ? ({
-          // callback functions
+        // callback functions
 
-          // check to see if include exists at the outermost level
-          "ExpressionStatement > ObjectExpression": verifiers.existsInFile,
+        // check to see if include exists at the outermost level
+        "ExpressionStatement > ObjectExpression": verifiers.existsInFile,
 
-          // check the node corresponding to include to see if its value contains "src/**/*.ts", "test/**/*.ts", and "samples-dev/**/*.ts"
-          "ExpressionStatement > ObjectExpression > Property[key.value='include']": (
-            node: Property
-          ): void => {
-            // check if the value is an array of literals
-            if (node.value.type !== "ArrayExpression") {
-              context.report({
-                node: node.value,
-                message: `include is not set to an array`
-              });
-            }
-
-            const nodeValue = node.value as ArrayExpression;
-
-            const nonLiteral = nodeValue.elements.find(
-              (element: any): boolean => element.type !== "Literal"
-            );
-
-            if (nonLiteral !== undefined && nonLiteral !== null) {
-              context.report({
-                node: nonLiteral,
-                message: `include contains non-literal (string | boolean | null | number | RegExp) elements`
-              });
-            }
-
-            const expected = ["src/**/*.ts", "test/**/*.ts", "samples-dev/**/*.ts"];
-            const candidateArray = nodeValue.elements as Literal[];
-            const candidateValues = candidateArray.map(
-              (candidate: Literal): unknown => candidate.value
-            );
-            let err = false;
-
-            // Check if the expected values is included in the array
-            if (expected instanceof Array) {
-              expected.forEach((value: unknown): void => {
-                if (!candidateValues.includes(value)) {
-                  candidateValues.push(value);
-                  err = true;
-                }
-              });
-              if (err) {
-                context.report({
-                  node: nodeValue,
-                  message: `include does not contain ${arrayToString(candidateValues)}`,
-                  fix: (fixer: Rule.RuleFixer): Rule.Fix =>
-                    fixer.replaceText(nodeValue, arrayToString(candidateValues))
-                });
-              }
-            } else {
-              if (!candidateValues.includes(expected)) {
-                context.report({
-                  node: nodeValue,
-                  message: `include does not contain ${expected}`,
-                  fix: (fixer: Rule.RuleFixer): Rule.Fix => {
-                    candidateValues.push(expected);
-                    return fixer.replaceText(nodeValue, arrayToString(candidateValues));
-                  }
-                });
-              }
-            }
+        // check the node corresponding to include to see if its value contains "src/**/*.ts", "test/**/*.ts", and "samples-dev/**/*.ts"
+        "ExpressionStatement > ObjectExpression > Property[key.value='include']": (
+          node: Property
+        ): void => {
+          // check if the value is an array of literals
+          if (node.value.type !== "ArrayExpression") {
+            context.report({
+              node: node.value,
+              message: `include is not set to an array`
+            });
           }
-        } as Rule.RuleListener)
+
+          const nodeValue = node.value as ArrayExpression;
+
+          const nonLiteral = nodeValue.elements.find(
+            (element: any): boolean => element.type !== "Literal"
+          );
+
+          if (nonLiteral !== undefined && nonLiteral !== null) {
+            context.report({
+              node: nonLiteral,
+              message: `include contains non-literal elements, literal strings are expected instead`
+            });
+          }
+
+          const expected = ["src/**/*.ts", "test/**/*.ts", "samples-dev/**/*.ts"];
+          const candidateArray = nodeValue.elements as Literal[];
+          const candidateValues = candidateArray.map(
+            (candidate: Literal): unknown => candidate.value
+          );
+
+          // Check if the expected values is included in the array
+          expected.forEach((value: unknown): void => {
+            if (!candidateValues.includes(value)) {
+              candidateValues.push(value);
+            }
+          });
+          if (candidateValues.length > candidateArray.length) {
+            context.report({
+              node: nodeValue,
+              message: `include does not contain ${arrayToString(candidateValues)}`,
+              fix: (fixer: Rule.RuleFixer): Rule.Fix =>
+                fixer.replaceText(nodeValue, arrayToString(candidateValues))
+            });
+          }
+        }
+      } as Rule.RuleListener)
       : {};
   }
 };
