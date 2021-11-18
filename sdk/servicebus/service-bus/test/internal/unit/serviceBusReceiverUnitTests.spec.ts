@@ -17,7 +17,8 @@ describe("ServiceBusReceiver unit tests", () => {
       createConnectionContextForTests(),
       "entityPath",
       "peekLock",
-      0
+      0,
+      false
     );
   });
 

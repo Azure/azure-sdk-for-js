@@ -211,6 +211,7 @@ export class ServiceBusClient {
       entityPathWithSubQueue,
       receiveMode,
       maxLockAutoRenewDurationInMs,
+      options?.skipParsingBodyAsJson ?? false,
       this._clientOptions.retryOptions
     );
   }

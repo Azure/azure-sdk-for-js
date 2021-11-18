@@ -236,7 +236,13 @@ describe("Tracing tests", () => {
    * to validate tracing.
    */
   [
-    new ServiceBusReceiverImpl(createConnectionContextForTests(), "entity path", "peekLock", 1),
+    new ServiceBusReceiverImpl(
+      createConnectionContextForTests(),
+      "entity path",
+      "peekLock",
+      1,
+      false
+    ),
     new ServiceBusSessionReceiverImpl(
       {} as MessageSession,
       createConnectionContextForTests(),

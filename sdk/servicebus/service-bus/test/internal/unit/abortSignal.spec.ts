@@ -29,7 +29,8 @@ import { ReceiveMode } from "../../../src/models";
 describe("AbortSignal", () => {
   const defaultOptions = {
     lockRenewer: undefined,
-    receiveMode: <ReceiveMode>"peekLock"
+    receiveMode: <ReceiveMode>"peekLock",
+    skipParsingBodyAsJson: false
   };
 
   const testMessageThatDoesntMatter = {
@@ -398,7 +399,8 @@ describe("AbortSignal", () => {
         createConnectionContextForTests(),
         "entityPath",
         "peekLock",
-        1
+        1,
+        false
       );
 
       try {

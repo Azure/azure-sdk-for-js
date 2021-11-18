@@ -296,6 +296,7 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
     public entityPath: string,
     public receiveMode: "peekLock" | "receiveAndDelete",
     maxAutoRenewLockDurationInMs: number,
+    private skipParsingBodyAsJson: boolean,
     retryOptions: RetryOptions = {}
   ) {
     throwErrorIfConnectionClosed(_context);
@@ -358,7 +359,7 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
           maxConcurrentCalls: 0,
           receiveMode: this.receiveMode,
           lockRenewer: this._lockRenewer,
-          skipParsingBodyAsJson: options?.skipParsingBodyAsJson
+          skipParsingBodyAsJson: this.skipParsingBodyAsJson
         };
         this._batchingReceiver = this._createBatchingReceiver(
           this._context,
@@ -508,7 +509,8 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
         ...options,
         receiveMode: this.receiveMode,
         retryOptions: this._retryOptions,
-        lockRenewer: this._lockRenewer
+        lockRenewer: this._lockRenewer,
+        skipParsingBodyAsJson: this.skipParsingBodyAsJson
       });
 
     // this ensures that if the outer service bus client is closed that  this receiver is cleaned up.

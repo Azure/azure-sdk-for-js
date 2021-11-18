@@ -51,6 +51,7 @@ export interface ReceiveOptions extends SubscribeOptions {
    * maxAutoRenewLockDurationInMs value when they created their receiver.
    */
   lockRenewer: LockRenewer | undefined;
+  skipParsingBodyAsJson: boolean;
 }
 
 /**

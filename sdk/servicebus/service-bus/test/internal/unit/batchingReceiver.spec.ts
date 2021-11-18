@@ -53,7 +53,8 @@ describe("BatchingReceiver unit tests", () => {
         createConnectionContextForTests(),
         "fakeEntityPath",
         "peekLock",
-        1
+        1,
+        false
       );
       let wasCalled = false;
 
@@ -86,7 +87,8 @@ describe("BatchingReceiver unit tests", () => {
 
       const receiver = new BatchingReceiver(createConnectionContextForTests(), "fakeEntityPath", {
         receiveMode: "peekLock",
-        lockRenewer: undefined
+        lockRenewer: undefined,
+        skipParsingBodyAsJson: false
       });
 
       try {
@@ -105,7 +107,8 @@ describe("BatchingReceiver unit tests", () => {
 
       const receiver = new BatchingReceiver(createConnectionContextForTests(), "fakeEntityPath", {
         receiveMode: "peekLock",
-        lockRenewer: undefined
+        lockRenewer: undefined,
+        skipParsingBodyAsJson: false
       });
       closeables.push(receiver);
 
@@ -193,7 +196,8 @@ describe("BatchingReceiver unit tests", () => {
           "dummyEntityPath",
           {
             receiveMode: lockMode,
-            lockRenewer: undefined
+            lockRenewer: undefined,
+            skipParsingBodyAsJson: false
           }
         );
         closeables.push(batchingReceiver);
@@ -225,7 +229,8 @@ describe("BatchingReceiver unit tests", () => {
           "dummyEntityPath",
           {
             receiveMode: lockMode,
-            lockRenewer: undefined
+            lockRenewer: undefined,
+            skipParsingBodyAsJson: false
           }
         );
         closeables.push(receiver);
@@ -257,7 +262,8 @@ describe("BatchingReceiver unit tests", () => {
             "dummyEntityPath",
             {
               receiveMode: lockMode,
-              lockRenewer: undefined
+              lockRenewer: undefined,
+              skipParsingBodyAsJson: false
             }
           );
           closeables.push(batchingReceiver);
@@ -305,7 +311,8 @@ describe("BatchingReceiver unit tests", () => {
           "dummyEntityPath",
           {
             receiveMode: lockMode,
-            lockRenewer: undefined
+            lockRenewer: undefined,
+            skipParsingBodyAsJson: false
           }
         );
         closeables.push(batchingReceiver);
@@ -359,7 +366,8 @@ describe("BatchingReceiver unit tests", () => {
             "dummyEntityPath",
             {
               receiveMode: lockMode,
-              lockRenewer: undefined
+              lockRenewer: undefined,
+              skipParsingBodyAsJson: false
             }
           );
           closeables.push(batchingReceiver);

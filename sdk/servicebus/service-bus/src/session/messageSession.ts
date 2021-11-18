@@ -181,6 +181,8 @@ export class MessageSession extends LinkEntity<Receiver> {
 
   private _totalAutoLockRenewDuration: number;
 
+  private skipParsingBodyAsJson: boolean;
+
   public get receiverHelper(): ReceiverHelper {
     return this._receiverHelper;
   }
@@ -376,6 +378,7 @@ export class MessageSession extends LinkEntity<Receiver> {
     this.autoComplete = false;
     if (isDefined(this._providedSessionId)) this.sessionId = this._providedSessionId;
     this.receiveMode = options.receiveMode || "peekLock";
+    this.skipParsingBodyAsJson = options.skipParsingBodyAsJson;
     this.maxAutoRenewDurationInMs =
       options.maxAutoLockRenewalDurationInMs != null
         ? options.maxAutoLockRenewalDurationInMs
@@ -391,7 +394,7 @@ export class MessageSession extends LinkEntity<Receiver> {
         return this.link!;
       },
       this.receiveMode,
-      options.skipParsingBodyAsJson
+      this.skipParsingBodyAsJson
     );
 
     // setting all the handlers
@@ -631,7 +634,7 @@ export class MessageSession extends LinkEntity<Receiver> {
           context.delivery!,
           true,
           this.receiveMode,
-          options?.skipParsingBodyAsJson ?? false
+          this.skipParsingBodyAsJson
         );
 
         try {
