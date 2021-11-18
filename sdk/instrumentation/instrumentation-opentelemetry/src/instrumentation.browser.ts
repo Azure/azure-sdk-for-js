@@ -23,18 +23,18 @@ class AzureSDKInstrumentation extends InstrumentationBase {
     super("@azure/instrumentation-opentelemetry", SDK_VERSION, Object.assign({}, options));
   }
   /** In the browser we rely on overriding the `enable` function instead as there are no modules to patch. */
-  protected init() {
+  protected init(): void {
     // no-op
   }
 
   /**
    * Entrypoint for the module registration. Ensures the global instrumenter is set to use OpenTelemetry.
    */
-  enable() {
+  enable(): void {
     useInstrumenter(new OpenTelemetryInstrumenter());
   }
 
-  disable() {
+  disable(): void {
     // no-op
   }
 }
