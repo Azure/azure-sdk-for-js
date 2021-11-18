@@ -731,6 +731,7 @@ testWithServiceTypes((serviceVersion) => {
     });
 
     it("should not throw if stop is called without start", async function(): Promise<void> {
+      console.log("111111111111111");
       let didPartitionProcessorStart = false;
 
       const processor = new EventProcessor(
@@ -761,6 +762,7 @@ testWithServiceTypes((serviceVersion) => {
     });
 
     it("should support start after stopping", async function(): Promise<void> {
+      console.log("222222222222222");
       const partitionIds = await producerClient.getPartitionIds();
 
       // ensure we have at least 2 partitions
