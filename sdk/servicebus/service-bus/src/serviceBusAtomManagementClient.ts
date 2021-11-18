@@ -9,18 +9,8 @@ import {
   isNamedKeyCredential
 } from "@azure/core-auth";
 import { ServiceClient, OperationOptions, CommonClientOptions, FullOperationResponse } from "@azure/core-client";
-// import {
-//   HttpOperationResponse,
-//   RequestPolicyFactory,
-//   signingPolicy,
-//   stripRequest,
-//   stripResponse,
-//   URLBuilder,
-//   WebResource,
-//   HttpResponse
-// } from "@azure/core-http";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { bearerTokenAuthenticationPolicy, RestError, PipelineResponse, createPipelineFromOptions, PipelineRequest, createPipelineRequest, PipelinePolicy } from "@azure/core-rest-pipeline";
+import { bearerTokenAuthenticationPolicy, RestError, PipelineResponse, createPipelineFromOptions, PipelineRequest, createPipelineRequest, PipelinePolicy, SendRequest } from "@azure/core-rest-pipeline";
 import { CorrelationRuleFilter } from "./core/managementClient";
 import { administrationLogger as logger } from "./log";
 import {
@@ -126,6 +116,21 @@ export interface ServiceBusAdministrationClientOptions extends CommonClientOptio
  */
 export type EntitiesResponse<T extends object> = WithResponse<Array<T>> &
   Pick<PageSettings, "continuationToken">;
+
+/**
+ * @internal
+ */
+function signingPolicy(credentials: {
+  signRequest(webResource: PipelineRequest): Promise<PipelineRequest>;
+}): PipelinePolicy {
+  return {
+    name: "signingPolicy",
+    async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
+      const signed = await credentials.signRequest(request);
+      return next(signed);
+    }
+  }
+}
 
 /**
  * All operations return promises that resolve to an object that has the relevant output.
@@ -237,7 +242,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       }
     );
     serviceClientOptions.addPolicy(authPolicy);  /* TODO: figure out order */
-    super(credentials, serviceClientOptions);
+    super({ pipeline: serviceClientOptions });
     this.endpoint = fullyQualifiedNamespace;
     this.endpointWithProtocol = fullyQualifiedNamespace.endsWith("/")
       ? "sb://" + fullyQualifiedNamespace

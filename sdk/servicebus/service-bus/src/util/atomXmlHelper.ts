@@ -1,18 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-// import {
-//   HttpOperationResponse,
-//   RestError,
-//   ServiceClient,
-//   WebResource,
-//   parseXML,
-//   stringifyXML,
-//   stripRequest,
-//   stripResponse,
-//   RequestPrepareOptions,
-//   OperationOptions
-// } from "@azure/core-http";
 import {
   PipelineResponse,
   RestError,
