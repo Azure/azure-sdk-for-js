@@ -38,7 +38,7 @@ export interface CommunicationRelayConfiguration {
     iceServers: CommunicationIceServer[];
 }
 
-// @public (undocumented)
+// @public
 export interface GetRelayConfigurationOptions extends OperationOptions {
 }
 
