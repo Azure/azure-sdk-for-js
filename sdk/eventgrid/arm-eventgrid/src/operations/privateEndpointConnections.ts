@@ -16,16 +16,16 @@ import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
   PrivateEndpointConnection,
-  Enum28,
+  Enum21,
   PrivateEndpointConnectionsListByResourceNextOptionalParams,
   PrivateEndpointConnectionsListByResourceOptionalParams,
-  Enum25,
+  Enum18,
   PrivateEndpointConnectionsGetOptionalParams,
   PrivateEndpointConnectionsGetResponse,
-  Enum26,
+  Enum19,
   PrivateEndpointConnectionsUpdateOptionalParams,
   PrivateEndpointConnectionsUpdateResponse,
-  Enum27,
+  Enum20,
   PrivateEndpointConnectionsDeleteOptionalParams,
   PrivateEndpointConnectionsListByResourceResponse,
   PrivateEndpointConnectionsListByResourceNextResponse
@@ -46,17 +46,15 @@ export class PrivateEndpointConnectionsImpl
   }
 
   /**
-   * Get all private endpoint connections under a topic, domain, or partner namespace.
+   * Get all private endpoint connections under a topic or domain.
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param parentType The type of the parent resource. This can be either \'topics\', \'domains\', or
-   *                   \'partnerNamespaces\'.
-   * @param parentName The name of the parent resource (namely, either, the topic name, domain name, or
-   *                   partner namespace name).
+   * @param parentType The type of the parent resource. This can be either \'topics\' or \'domains\'.
+   * @param parentName The name of the parent resource (namely, either, the topic name or domain name).
    * @param options The options parameters.
    */
   public listByResource(
     resourceGroupName: string,
-    parentType: Enum28,
+    parentType: Enum21,
     parentName: string,
     options?: PrivateEndpointConnectionsListByResourceOptionalParams
   ): PagedAsyncIterableIterator<PrivateEndpointConnection> {
@@ -86,7 +84,7 @@ export class PrivateEndpointConnectionsImpl
 
   private async *listByResourcePagingPage(
     resourceGroupName: string,
-    parentType: Enum28,
+    parentType: Enum21,
     parentName: string,
     options?: PrivateEndpointConnectionsListByResourceOptionalParams
   ): AsyncIterableIterator<PrivateEndpointConnection[]> {
@@ -113,7 +111,7 @@ export class PrivateEndpointConnectionsImpl
 
   private async *listByResourcePagingAll(
     resourceGroupName: string,
-    parentType: Enum28,
+    parentType: Enum21,
     parentName: string,
     options?: PrivateEndpointConnectionsListByResourceOptionalParams
   ): AsyncIterableIterator<PrivateEndpointConnection> {
@@ -128,18 +126,16 @@ export class PrivateEndpointConnectionsImpl
   }
 
   /**
-   * Get a specific private endpoint connection under a topic, domain, or partner namespace.
+   * Get a specific private endpoint connection under a topic or domain.
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param parentType The type of the parent resource. This can be either \'topics\', \'domains\', or
-   *                   \'partnerNamespaces\'.
-   * @param parentName The name of the parent resource (namely, either, the topic name, domain name, or
-   *                   partner namespace name).
+   * @param parentType The type of the parent resource. This can be either \'topics\' or \'domains\'.
+   * @param parentName The name of the parent resource (namely, either, the topic name or domain name).
    * @param privateEndpointConnectionName The name of the private endpoint connection connection.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
-    parentType: Enum25,
+    parentType: Enum18,
     parentName: string,
     privateEndpointConnectionName: string,
     options?: PrivateEndpointConnectionsGetOptionalParams
@@ -157,19 +153,17 @@ export class PrivateEndpointConnectionsImpl
   }
 
   /**
-   * Update a specific private endpoint connection under a topic, domain or partner namespace.
+   * Update a specific private endpoint connection under a topic or domain.
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param parentType The type of the parent resource. This can be either \'topics\', \'domains\', or
-   *                   \'partnerNamespaces\'.
-   * @param parentName The name of the parent resource (namely, either, the topic name, domain name, or
-   *                   partner namespace name).
+   * @param parentType The type of the parent resource. This can be either \'topics\' or \'domains\'.
+   * @param parentName The name of the parent resource (namely, either, the topic name or domain name).
    * @param privateEndpointConnectionName The name of the private endpoint connection connection.
    * @param privateEndpointConnection The private endpoint connection object to update.
    * @param options The options parameters.
    */
   async beginUpdate(
     resourceGroupName: string,
-    parentType: Enum26,
+    parentType: Enum19,
     parentName: string,
     privateEndpointConnectionName: string,
     privateEndpointConnection: PrivateEndpointConnection,
@@ -238,19 +232,17 @@ export class PrivateEndpointConnectionsImpl
   }
 
   /**
-   * Update a specific private endpoint connection under a topic, domain or partner namespace.
+   * Update a specific private endpoint connection under a topic or domain.
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param parentType The type of the parent resource. This can be either \'topics\', \'domains\', or
-   *                   \'partnerNamespaces\'.
-   * @param parentName The name of the parent resource (namely, either, the topic name, domain name, or
-   *                   partner namespace name).
+   * @param parentType The type of the parent resource. This can be either \'topics\' or \'domains\'.
+   * @param parentName The name of the parent resource (namely, either, the topic name or domain name).
    * @param privateEndpointConnectionName The name of the private endpoint connection connection.
    * @param privateEndpointConnection The private endpoint connection object to update.
    * @param options The options parameters.
    */
   async beginUpdateAndWait(
     resourceGroupName: string,
-    parentType: Enum26,
+    parentType: Enum19,
     parentName: string,
     privateEndpointConnectionName: string,
     privateEndpointConnection: PrivateEndpointConnection,
@@ -268,18 +260,16 @@ export class PrivateEndpointConnectionsImpl
   }
 
   /**
-   * Delete a specific private endpoint connection under a topic, domain, or partner namespace.
+   * Delete a specific private endpoint connection under a topic or domain.
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param parentType The type of the parent resource. This can be either \'topics\', \'domains\', or
-   *                   \'partnerNamespaces\'.
-   * @param parentName The name of the parent resource (namely, either, the topic name, domain name, or
-   *                   partner namespace name).
+   * @param parentType The type of the parent resource. This can be either \'topics\' or \'domains\'.
+   * @param parentName The name of the parent resource (namely, either, the topic name or domain name).
    * @param privateEndpointConnectionName The name of the private endpoint connection connection.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
-    parentType: Enum27,
+    parentType: Enum20,
     parentName: string,
     privateEndpointConnectionName: string,
     options?: PrivateEndpointConnectionsDeleteOptionalParams
@@ -341,18 +331,16 @@ export class PrivateEndpointConnectionsImpl
   }
 
   /**
-   * Delete a specific private endpoint connection under a topic, domain, or partner namespace.
+   * Delete a specific private endpoint connection under a topic or domain.
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param parentType The type of the parent resource. This can be either \'topics\', \'domains\', or
-   *                   \'partnerNamespaces\'.
-   * @param parentName The name of the parent resource (namely, either, the topic name, domain name, or
-   *                   partner namespace name).
+   * @param parentType The type of the parent resource. This can be either \'topics\' or \'domains\'.
+   * @param parentName The name of the parent resource (namely, either, the topic name or domain name).
    * @param privateEndpointConnectionName The name of the private endpoint connection connection.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
-    parentType: Enum27,
+    parentType: Enum20,
     parentName: string,
     privateEndpointConnectionName: string,
     options?: PrivateEndpointConnectionsDeleteOptionalParams
@@ -368,17 +356,15 @@ export class PrivateEndpointConnectionsImpl
   }
 
   /**
-   * Get all private endpoint connections under a topic, domain, or partner namespace.
+   * Get all private endpoint connections under a topic or domain.
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param parentType The type of the parent resource. This can be either \'topics\', \'domains\', or
-   *                   \'partnerNamespaces\'.
-   * @param parentName The name of the parent resource (namely, either, the topic name, domain name, or
-   *                   partner namespace name).
+   * @param parentType The type of the parent resource. This can be either \'topics\' or \'domains\'.
+   * @param parentName The name of the parent resource (namely, either, the topic name or domain name).
    * @param options The options parameters.
    */
   private _listByResource(
     resourceGroupName: string,
-    parentType: Enum28,
+    parentType: Enum21,
     parentName: string,
     options?: PrivateEndpointConnectionsListByResourceOptionalParams
   ): Promise<PrivateEndpointConnectionsListByResourceResponse> {
@@ -391,16 +377,14 @@ export class PrivateEndpointConnectionsImpl
   /**
    * ListByResourceNext
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param parentType The type of the parent resource. This can be either \'topics\', \'domains\', or
-   *                   \'partnerNamespaces\'.
-   * @param parentName The name of the parent resource (namely, either, the topic name, domain name, or
-   *                   partner namespace name).
+   * @param parentType The type of the parent resource. This can be either \'topics\' or \'domains\'.
+   * @param parentName The name of the parent resource (namely, either, the topic name or domain name).
    * @param nextLink The nextLink from the previous successful call to the ListByResource method.
    * @param options The options parameters.
    */
   private _listByResourceNext(
     resourceGroupName: string,
-    parentType: Enum28,
+    parentType: Enum21,
     parentName: string,
     nextLink: string,
     options?: PrivateEndpointConnectionsListByResourceNextOptionalParams

@@ -1,6 +1,6 @@
 {
   "name": "@azure/schema-registry",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Schema Registry Library with typescript type definitions for node.js and browser.",
   "sdk-type": "client",
   "main": "dist/index.js",

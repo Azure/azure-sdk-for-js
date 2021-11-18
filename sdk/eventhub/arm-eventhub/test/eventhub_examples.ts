@@ -10,7 +10,9 @@ import {
   env,
   record,
   RecorderEnvironmentSetup,
-  Recorder
+  Recorder,
+  delay,
+  isPlaybackMode
 } from "@azure-tools/test-recorder";
 import * as assert from "assert";
 import { ClientSecretCredential } from "@azure/identity";
@@ -33,6 +35,10 @@ const recorderEnvSetup: RecorderEnvironmentSetup = {
       )
   ],
   queryParametersToSkip: []
+};
+
+export const testPollingOptions = {
+  updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
 describe("Eventhub test", () => {
@@ -83,8 +89,8 @@ describe("Eventhub test", () => {
         addressPrefixes: ["10.0.0.0/16"],
       },
     };
-    const network_create = await network_client.virtualNetworks.beginCreateOrUpdateAndWait(resourceGroupName,virtualNetworkName,parameter);
-    const subnet_info = await network_client.subnets.beginCreateOrUpdateAndWait(resourceGroupName,virtualNetworkName,subnetName,{ addressPrefix: "10.0.0.0/24" });
+    const network_create = await network_client.virtualNetworks.beginCreateOrUpdateAndWait(resourceGroupName,virtualNetworkName,parameter,testPollingOptions);
+    const subnet_info = await network_client.subnets.beginCreateOrUpdateAndWait(resourceGroupName,virtualNetworkName,subnetName,{ addressPrefix: "10.0.0.0/24" },testPollingOptions);
   }
 
   //storageAccounts.beginCreateAndWait
@@ -99,7 +105,8 @@ describe("Eventhub test", () => {
     const storageaccount = await storage_client.storageAccounts.beginCreateAndWait(
       resourceGroupName,
       storageAccountName,
-      parameter
+      parameter,
+      testPollingOptions
     );
     console.log(storageaccount);
   }
@@ -117,7 +124,7 @@ describe("Eventhub test", () => {
         tag1: "value1",
         tag2: "value2",
       }
-    });
+    },testPollingOptions);
     assert.equal(res.name,"mynamespacexxx");
   });
 
@@ -172,7 +179,7 @@ describe("Eventhub test", () => {
   });
 
   it("namespaces delete test", async function() {
-    const res = await client.namespaces.beginDeleteAndWait(resourceGroupName,namespaceName);
+    const res = await client.namespaces.beginDeleteAndWait(resourceGroupName,namespaceName,testPollingOptions);
     const resArray = new Array();
     for await (const item of client.namespaces.listByResourceGroup(resourceGroupName)){
       resArray.push(item);
