@@ -7,13 +7,16 @@
  */
 
 export {
-  AvailabilityStatus,
-  AvailabilityStatusListResult,
-  AvailabilityStatusProperties,
-  AvailabilityStatusPropertiesRecentlyResolvedState,
+  AzureEntityResource,
+  BaseResource,
+  EmergingIssueImpact,
+  EmergingIssueListResult,
+  EmergingIssuesGetResult,
   ErrorResponse,
-  RecommendedAction,
-  ServiceImpactingEvent,
-  ServiceImpactingEventIncidentProperties,
-  ServiceImpactingEventStatus
+  ImpactedRegion,
+  ProxyResource,
+  Resource,
+  StatusActiveEvent,
+  StatusBanner,
+  TrackedResource
 } from "../models/mappers";
