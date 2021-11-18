@@ -2,56 +2,54 @@
 // Licensed under the MIT license.
 
 import {
-  createPipelineFromOptions,
   InternalPipelineOptions,
-  ServiceClientOptions,
   bearerTokenAuthenticationPolicy,
-  isTokenCredential,
-} from "@azure/core-http";
+  PipelineOptions,
+  createPipelineFromOptions
+} from "@azure/core-rest-pipeline";
 
-import { TokenCredential } from "@azure/core-auth";
-
+import { TokenCredential, isTokenCredential } from "@azure/core-auth";
+import { ServiceClientOptions, createClientPipeline } from "@azure/core-client";
 import {
   LIB_INFO,
   DEFAULT_COGNITIVE_SCOPE,
   MetricsAdvisorLoggingAllowedHeaderNames,
-  MetricsAdvisorLoggingAllowedQueryParameters,
+  MetricsAdvisorLoggingAllowedQueryParameters
 } from "./constants";
 import { logger } from "./logger";
 import { MetricsAdvisorClientOptions } from "./metricsAdvisorClient";
 import {
   createMetricsAdvisorKeyCredentialPolicy,
-  MetricsAdvisorKeyCredential,
+  MetricsAdvisorKeyCredential
 } from "./metricsAdvisorKeyCredentialPolicy";
 
 export function createClientPipeline(
   credential: TokenCredential | MetricsAdvisorKeyCredential,
   options: MetricsAdvisorClientOptions = {}
 ): ServiceClientOptions {
-  const { ...pipelineOptions } = options;
-
-  if (!pipelineOptions.userAgentOptions) {
-    pipelineOptions.userAgentOptions = {};
-  }
-  if (pipelineOptions.userAgentOptions.userAgentPrefix) {
-    pipelineOptions.userAgentOptions.userAgentPrefix = `${pipelineOptions.userAgentOptions.userAgentPrefix} ${LIB_INFO}`;
+  if (options.userAgentOptions) {
+    if (options.userAgentOptions.userAgentPrefix) {
+      options.userAgentOptions.userAgentPrefix = `${options.userAgentOptions.userAgentPrefix} ${LIB_INFO}`;
+    } else {
+      options.userAgentOptions.userAgentPrefix = LIB_INFO;
+    }
   } else {
-    pipelineOptions.userAgentOptions.userAgentPrefix = LIB_INFO;
+    options.userAgentOptions = {};
   }
 
   const authPolicy = isTokenCredential(credential)
-    ? bearerTokenAuthenticationPolicy(credential, DEFAULT_COGNITIVE_SCOPE)
+    ? bearerTokenAuthenticationPolicy({ credential, scopes: DEFAULT_COGNITIVE_SCOPE })
     : createMetricsAdvisorKeyCredentialPolicy(credential);
 
   const internalPipelineOptions: InternalPipelineOptions = {
-    ...pipelineOptions,
+    ...options,
     ...{
       loggingOptions: {
         logger: logger.info,
-        allowedHeaderNames: MetricsAdvisorLoggingAllowedHeaderNames,
-        allowedQueryParameters: MetricsAdvisorLoggingAllowedQueryParameters,
-      },
-    },
+        additionalAllowedHeaderNames: MetricsAdvisorLoggingAllowedHeaderNames,
+        additionalAllowedQueryParameters: MetricsAdvisorLoggingAllowedQueryParameters
+      }
+    }
   };
   return createPipelineFromOptions(internalPipelineOptions, authPolicy);
 }
