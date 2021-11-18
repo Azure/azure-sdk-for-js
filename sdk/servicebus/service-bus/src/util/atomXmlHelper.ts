@@ -1,20 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  PipelineResponse,
-  RestError,
-  PipelineRequest,
-} from "@azure/core-rest-pipeline";
-import {
-  ServiceClient,
-  OperationOptions,
-  FullOperationResponse
-} from "@azure/core-client";
-import {
-  parseXML,
-  stringifyXML
-} from "@azure/core-xml";
+import { PipelineResponse, RestError, PipelineRequest } from "@azure/core-rest-pipeline";
+import { ServiceClient, OperationOptions, FullOperationResponse } from "@azure/core-client";
+import { parseXML, stringifyXML } from "@azure/core-xml";
 
 import * as Constants from "./constants";
 import { administrationLogger as logger } from "../log";
@@ -68,15 +57,15 @@ export async function executeAtomXmlOperation(
   };
   webResource = webResource.prepare(reqPrepareOptions);
   webResource.timeout = operationOptions.requestOptions?.timeout || 0;
-  const response: PipelineResponse = await serviceBusAtomManagementClient.sendRequest(
-    webResource
-  );
+  const response: PipelineResponse = await serviceBusAtomManagementClient.sendRequest(webResource);
 
   logger.verbose(`Received ATOM based HTTP response: ${response.bodyAsText}`);
 
   try {
     if (response.bodyAsText) {
-      (response as FullOperationResponse).parsedBody = await parseXML(response.bodyAsText, { includeRoot: true });
+      (response as FullOperationResponse).parsedBody = await parseXML(response.bodyAsText, {
+        includeRoot: true
+      });
     }
   } catch (err) {
     const error = new RestError(
@@ -211,7 +200,8 @@ function parseAtomResult(response: FullOperationResponse, nameProperties: string
       statusCode: response.status,
       request: response.request,
       response
-    });
+    }
+  );
 }
 
 /**
@@ -385,7 +375,8 @@ export function buildError(response: FullOperationResponse): RestError {
         statusCode: response.status,
         request: response.request,
         response
-      });
+      }
+    );
   }
 
   const errorBody = response.parsedBody;
@@ -407,14 +398,12 @@ export function buildError(response: FullOperationResponse): RestError {
 
   const errorCode = getErrorCode(response, errorMessage);
 
-  const error: RestError = new RestError(
-    errorMessage,
-    {
-      code:errorCode,
-      statusCode: response.status,
-      request: response.request,
-      response
-    });
+  const error: RestError = new RestError(errorMessage, {
+    code: errorCode,
+    statusCode: response.status,
+    request: response.request,
+    response
+  });
   return error;
 }
 

@@ -8,9 +8,23 @@ import {
   NamedKeyCredential,
   isNamedKeyCredential
 } from "@azure/core-auth";
-import { ServiceClient, OperationOptions, CommonClientOptions, FullOperationResponse } from "@azure/core-client";
+import {
+  ServiceClient,
+  OperationOptions,
+  CommonClientOptions,
+  FullOperationResponse
+} from "@azure/core-client";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { bearerTokenAuthenticationPolicy, RestError, PipelineResponse, createPipelineFromOptions, PipelineRequest, createPipelineRequest, PipelinePolicy, SendRequest } from "@azure/core-rest-pipeline";
+import {
+  bearerTokenAuthenticationPolicy,
+  RestError,
+  PipelineResponse,
+  createPipelineFromOptions,
+  PipelineRequest,
+  createPipelineRequest,
+  PipelinePolicy,
+  SendRequest
+} from "@azure/core-rest-pipeline";
 import { CorrelationRuleFilter } from "./core/managementClient";
 import { administrationLogger as logger } from "./log";
 import {
@@ -129,7 +143,7 @@ function signingPolicy(credentials: {
       const signed = await credentials.signRequest(request);
       return next(signed);
     }
-  }
+  };
 }
 
 /**
@@ -207,7 +221,10 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       fullyQualifiedNamespace = fullyQualifiedNamespaceOrConnectionString1;
       options = options3 || {};
       credentials = credentialOrOptions2;
-      authPolicy = bearerTokenAuthenticationPolicy({ credential: credentials, scopes: AMQPConstants.aadServiceBusScope });
+      authPolicy = bearerTokenAuthenticationPolicy({
+        credential: credentials,
+        scopes: AMQPConstants.aadServiceBusScope
+      });
     } else if (isNamedKeyCredential(credentialOrOptions2)) {
       fullyQualifiedNamespace = fullyQualifiedNamespaceOrConnectionString1;
       credentials = new SasServiceClientCredentials(credentialOrOptions2);
@@ -233,15 +250,13 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     }
 
     const userAgentPrefix = formatUserAgentPrefix(options.userAgentOptions?.userAgentPrefix);
-    const serviceClientOptions = createPipelineFromOptions(
-      {
-        ...options,
-        userAgentOptions: {
-          userAgentPrefix
-        }
+    const serviceClientOptions = createPipelineFromOptions({
+      ...options,
+      userAgentOptions: {
+        userAgentPrefix
       }
-    );
-    serviceClientOptions.addPolicy(authPolicy);  /* TODO: figure out order */
+    });
+    serviceClientOptions.addPolicy(authPolicy); /* TODO: figure out order */
     super({ pipeline: serviceClientOptions });
     this.endpoint = fullyQualifiedNamespace;
     this.endpointWithProtocol = fullyQualifiedNamespace.endsWith("/")
@@ -271,7 +286,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       operationOptions
     );
     try {
-      const response =await this.getResource(
+      const response = await this.getResource(
         "$namespaceinfo",
         this.namespaceResourceSerializer,
         updatedOptions
@@ -317,7 +332,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         `Performing management operation - createQueue() for "${queueName}" with options: %j`,
         options
       );
-      const response =await this.putResource(
+      const response = await this.putResource(
         queueName,
         buildQueueOptions(options || {}),
         this.queueResourceSerializer,
@@ -362,7 +377,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     );
     try {
       logger.verbose(`Performing management operation - getQueue() for "${queueName}"`);
-      const response =await this.getResource(
+      const response = await this.getResource(
         queueName,
         this.queueResourceSerializer,
         updatedOptions
@@ -406,7 +421,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       logger.verbose(
         `Performing management operation - getQueueRuntimeProperties() for "${queueName}"`
       );
-      const response =await this.getResource(
+      const response = await this.getResource(
         queueName,
         this.queueResourceSerializer,
         updatedOptions
@@ -446,7 +461,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     );
     try {
       logger.verbose(`Performing management operation - getQueues() with options: %j`, options);
-      const response =await this.listResources(
+      const response = await this.listResources(
         "$Resources/Queues",
         updatedOptions,
         this.queueResourceSerializer
@@ -549,7 +564,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         `Performing management operation - getQueuesRuntimeProperties() with options: %j`,
         options
       );
-      const response =await this.listResources(
+      const response = await this.listResources(
         "$Resources/Queues",
         updatedOptions,
         this.queueResourceSerializer
@@ -677,7 +692,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         throw new TypeError(`"name" attribute of the parameter "queue" cannot be undefined.`);
       }
 
-      const response =await this.putResource(
+      const response = await this.putResource(
         queue.name,
         buildQueueOptions(queue),
         this.queueResourceSerializer,
@@ -721,7 +736,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     );
     try {
       logger.verbose(`Performing management operation - deleteQueue() for "${queueName}"`);
-      const response =await this.deleteResource(
+      const response = await this.deleteResource(
         queueName,
         this.queueResourceSerializer,
         updatedOptions
@@ -800,7 +815,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         `Performing management operation - createTopic() for "${topicName}" with options: %j`,
         options
       );
-      const response =await this.putResource(
+      const response = await this.putResource(
         topicName,
         buildTopicOptions(options || {}),
         this.topicResourceSerializer,
@@ -845,7 +860,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     );
     try {
       logger.verbose(`Performing management operation - getTopic() for "${topicName}"`);
-      const response =await this.getResource(
+      const response = await this.getResource(
         topicName,
         this.topicResourceSerializer,
         updatedOptions
@@ -889,7 +904,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       logger.verbose(
         `Performing management operation - getTopicRuntimeProperties() for "${topicName}"`
       );
-      const response =await this.getResource(
+      const response = await this.getResource(
         topicName,
         this.topicResourceSerializer,
         updatedOptions
@@ -929,7 +944,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     );
     try {
       logger.verbose(`Performing management operation - getTopics() with options: %j`, options);
-      const response =await this.listResources(
+      const response = await this.listResources(
         "$Resources/Topics",
         updatedOptions,
         this.topicResourceSerializer
@@ -1033,7 +1048,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         `Performing management operation - getTopicsRuntimeProperties() with options: %j`,
         options
       );
-      const response =await this.listResources(
+      const response = await this.listResources(
         "$Resources/Topics",
         updatedOptions,
         this.topicResourceSerializer
@@ -1164,7 +1179,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         throw new TypeError(`"name" attribute of the parameter "topic" cannot be undefined.`);
       }
 
-      const response =await this.putResource(
+      const response = await this.putResource(
         topic.name,
         buildTopicOptions(topic),
         this.topicResourceSerializer,
@@ -1208,7 +1223,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     );
     try {
       logger.verbose(`Performing management operation - deleteTopic() for "${topicName}"`);
-      const response =await this.deleteResource(
+      const response = await this.deleteResource(
         topicName,
         this.topicResourceSerializer,
         updatedOptions
@@ -1289,7 +1304,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         options
       );
       const fullPath = this.getSubscriptionPath(topicName, subscriptionName);
-      const response =await this.putResource(
+      const response = await this.putResource(
         fullPath,
         buildSubscriptionOptions(options || {}),
         this.subscriptionResourceSerializer,
@@ -1338,7 +1353,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         `Performing management operation - getSubscription() for "${subscriptionName}"`
       );
       const fullPath = this.getSubscriptionPath(topicName, subscriptionName);
-      const response =await this.getResource(
+      const response = await this.getResource(
         fullPath,
         this.subscriptionResourceSerializer,
         updatedOptions
@@ -1384,7 +1399,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         `Performing management operation - getSubscriptionRuntimeProperties() for "${subscriptionName}"`
       );
       const fullPath = this.getSubscriptionPath(topicName, subscriptionName);
-      const response =await this.getResource(
+      const response = await this.getResource(
         fullPath,
         this.subscriptionResourceSerializer,
         updatedOptions
@@ -1428,7 +1443,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         `Performing management operation - getSubscriptions() with options: %j`,
         options
       );
-      const response =await this.listResources(
+      const response = await this.listResources(
         topicName + "/Subscriptions/",
         updatedOptions,
         this.subscriptionResourceSerializer
@@ -1540,7 +1555,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         `Performing management operation - getSubscriptionsRuntimeProperties() with options: %j`,
         options
       );
-      const response =await this.listResources(
+      const response = await this.listResources(
         topicName + "/Subscriptions/",
         updatedOptions,
         this.subscriptionResourceSerializer
@@ -1683,7 +1698,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         subscription.subscriptionName
       );
 
-      const response =await this.putResource(
+      const response = await this.putResource(
         fullPath,
         buildSubscriptionOptions(subscription),
         this.subscriptionResourceSerializer,
@@ -1731,7 +1746,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         `Performing management operation - deleteSubscription() for "${subscriptionName}"`
       );
       const fullPath = this.getSubscriptionPath(topicName, subscriptionName);
-      const response =await this.deleteResource(
+      const response = await this.deleteResource(
         fullPath,
         this.subscriptionResourceSerializer,
         updatedOptions
@@ -1867,7 +1882,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         ruleFilter
       );
       const fullPath = this.getRulePath(topicName, subscriptionName, ruleName);
-      const response =await this.putResource(
+      const response = await this.putResource(
         fullPath,
         { name: ruleName, filter: ruleFilter, action: ruleAction },
         this.ruleResourceSerializer,
@@ -1913,7 +1928,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     try {
       logger.verbose(`Performing management operation - getRule() for "${ruleName}"`);
       const fullPath = this.getRulePath(topicName, subscriptionName, ruleName);
-      const response =await this.getResource(
+      const response = await this.getResource(
         fullPath,
         this.ruleResourceSerializer,
         updatedOptions
@@ -1952,7 +1967,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     try {
       logger.verbose(`Performing management operation - getRules() with options: %j`, options);
       const fullPath = this.getSubscriptionPath(topicName, subscriptionName) + "/Rules/";
-      const response =await this.listResources(
+      const response = await this.listResources(
         fullPath,
         updatedOptions,
         this.ruleResourceSerializer
@@ -2084,7 +2099,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       }
 
       const fullPath = this.getRulePath(topicName, subscriptionName, rule.name);
-      const response =await this.putResource(
+      const response = await this.putResource(
         fullPath,
         rule,
         this.ruleResourceSerializer,
@@ -2131,7 +2146,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     try {
       logger.verbose(`Performing management operation - deleteRule() for "${ruleName}"`);
       const fullPath = this.getRulePath(topicName, subscriptionName, ruleName);
-      const response =await this.deleteResource(
+      const response = await this.deleteResource(
         fullPath,
         this.ruleResourceSerializer,
         updatedOptions
@@ -2288,7 +2303,8 @@ export class ServiceBusAdministrationClient extends ServiceClient {
             statusCode: response.status,
             request,
             response
-          }        );
+          }
+        );
         throw err;
       }
       return response;
@@ -2429,7 +2445,8 @@ export class ServiceBusAdministrationClient extends ServiceClient {
           statusCode: response.status,
           request: response.request,
           response
-        });
+        }
+      );
     }
   }
 
@@ -2467,7 +2484,8 @@ export class ServiceBusAdministrationClient extends ServiceClient {
           statusCode: response.status,
           request: response.request,
           response
-        });
+        }
+      );
     }
   }
 
@@ -2505,7 +2523,8 @@ export class ServiceBusAdministrationClient extends ServiceClient {
           statusCode: response.status,
           request: response.request,
           response
-        });
+        }
+      );
     }
   }
 
@@ -2529,7 +2548,8 @@ export class ServiceBusAdministrationClient extends ServiceClient {
           statusCode: response.status,
           request: response.request,
           response
-        });
+        }
+      );
     }
   }
 
@@ -2555,7 +2575,8 @@ export class ServiceBusAdministrationClient extends ServiceClient {
           statusCode: response.status,
           request: response.request,
           response
-        });
+        }
+      );
     }
   }
 
@@ -2593,7 +2614,8 @@ export class ServiceBusAdministrationClient extends ServiceClient {
           statusCode: response.status,
           request: response.request,
           response
-        });
+        }
+      );
     }
   }
 
@@ -2631,7 +2653,8 @@ export class ServiceBusAdministrationClient extends ServiceClient {
           statusCode: response.status,
           request: response.request,
           response
-        });
+        }
+      );
     }
   }
   private buildTopicResponse(response: FullOperationResponse): WithResponse<TopicProperties> {
@@ -2654,7 +2677,8 @@ export class ServiceBusAdministrationClient extends ServiceClient {
           statusCode: response.status,
           request: response.request,
           response
-        });
+        }
+      );
     }
   }
 
@@ -2680,7 +2704,8 @@ export class ServiceBusAdministrationClient extends ServiceClient {
           statusCode: response.status,
           request: response.request,
           response
-        });
+        }
+      );
     }
   }
 
@@ -2718,7 +2743,8 @@ export class ServiceBusAdministrationClient extends ServiceClient {
           statusCode: response.status,
           request: response.request,
           response
-        });
+        }
+      );
     }
   }
 
@@ -2756,7 +2782,8 @@ export class ServiceBusAdministrationClient extends ServiceClient {
           statusCode: response.status,
           request: response.request,
           response
-        });
+        }
+      );
     }
   }
 
@@ -2782,7 +2809,8 @@ export class ServiceBusAdministrationClient extends ServiceClient {
           statusCode: response.status,
           request: response.request,
           response
-        });
+        }
+      );
     }
   }
 
@@ -2808,7 +2836,8 @@ export class ServiceBusAdministrationClient extends ServiceClient {
           statusCode: response.status,
           request: response.request,
           response
-        });
+        }
+      );
     }
   }
 
@@ -2846,7 +2875,8 @@ export class ServiceBusAdministrationClient extends ServiceClient {
           statusCode: response.status,
           request: response.request,
           response
-        });
+        }
+      );
     }
   }
 
@@ -2870,7 +2900,8 @@ export class ServiceBusAdministrationClient extends ServiceClient {
           statusCode: response.status,
           request: response.request,
           response
-        });
+        }
+      );
     }
   }
 
