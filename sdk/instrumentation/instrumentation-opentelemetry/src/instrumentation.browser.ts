@@ -16,24 +16,27 @@ import { OpenTelemetryInstrumenter } from "./instrumenter";
 export interface AzureSDKInstrumentationOptions extends InstrumentationConfig {}
 
 /**
- * The instrumentation module for the Azure SDK. Implement's OpenTelemetry's {@link Instrumentation}.
+ * The instrumentation module for the Azure SDK. Implements OpenTelemetry's {@link Instrumentation}.
  */
 class AzureSDKInstrumentation extends InstrumentationBase {
   constructor(options: AzureSDKInstrumentationOptions = {}) {
     super("@azure/instrumentation-opentelemetry", SDK_VERSION, Object.assign({}, options));
   }
-  /**
-   * Entrypoint for the module registration.
-   *
-   * @returns The patched \@azure/core-tracing module after setting its instrumenter.
-   */
-  protected init() {}
+  /** In the browser we rely on overriding the `enable` function instead as there are no modules to patch. */
+  protected init() {
+    // no-op
+  }
 
+  /**
+   * Entrypoint for the module registration. Ensures the global instrumenter is set to use OpenTelemetry.
+   */
   enable() {
     useInstrumenter(new OpenTelemetryInstrumenter());
   }
 
-  disable() {}
+  disable() {
+    // no-op
+  }
 }
 
 /**
@@ -49,11 +52,6 @@ class AzureSDKInstrumentation extends InstrumentationBase {
  *   instrumentations: [createAzureInstrumentation()],
  * })
  * ```
- *
- * @remarks
- *
- * As OpenTelemetry instrumentations rely on patching required modules, you should register
- * this instrumentation as early as possible and before loading any Azure Client Libraries.
  */
 export function createAzureInstrumentation(
   options: AzureSDKInstrumentationOptions = {}
