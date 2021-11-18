@@ -10,7 +10,7 @@ import {
   SendRequest
 } from "@azure/core-rest-pipeline";
 import { RequestOptions } from "http";
-import * as https from "https";
+import { Agent as HttpsAgent } from "https";
 import { getCachedHttpsAgent, makeRequest } from "./utils";
 
 const paths = {
@@ -252,7 +252,7 @@ class DefaultHttpClientCoreV1 extends DefaultHttpClient {
 
   async prepareRequest(httpRequest: WebResourceLike): Promise<Partial<RequestInit>> {
     const req: Partial<RequestInit & {
-      agent?: https.Agent;
+      agent?: HttpsAgent;
       compress?: boolean;
     }> = await super.prepareRequest(httpRequest);
     if (this.isHttps) {
