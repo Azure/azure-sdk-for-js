@@ -5,9 +5,11 @@ import path from "path";
 import * as dotenv from "dotenv";
 dotenv.config({ path: path.resolve(__dirname, "../../sample.env") });
 
-import { CosmosClient } from "../../dist-esm";
+import { CosmosClient } from "@azure/cosmos";
+const key = process.env.COSMOS_KEY || "<cosmos key>";
+const endpoint = process.env.COSMOS_ENDPOINT || "<cosmos endpoint>";
+const dbId = process.env.COSMOS_DATABASE || "<cosmos database>";
 
-const { COSMOS_DATABASE: database, COSMOS_KEY: key, COSMOS_ENDPOINT: endpoint } = process.env;
 const client = new CosmosClient({ endpoint, key });
 
 export async function handleError(error: { code: string }): Promise<void> {
@@ -19,11 +21,11 @@ export async function handleError(error: { code: string }): Promise<void> {
 
 export async function finish(): Promise<void> {
   try {
-    await client.database(database).delete();
+    await client.database(dbId).delete();
     console.log("\nEnd of demo.");
   } catch (err) {
     console.log(
-      `Database: "${database}" might not have deleted properly. You might need to delete it manually.`
+      `Database: "${dbId}" might not have deleted properly. You might need to delete it manually.`
     );
     process.exitCode = 1;
   }

@@ -168,8 +168,8 @@ import { ApiManagementClientContext } from "./apiManagementClientContext";
 import {
   ApiManagementClientOptionalParams,
   ConnectivityCheckRequest,
-  ApiManagementClientPerformConnectivityCheckAsyncOptionalParams,
-  ApiManagementClientPerformConnectivityCheckAsyncResponse
+  PerformConnectivityCheckAsyncOptionalParams,
+  PerformConnectivityCheckAsyncResponse
 } from "./models";
 
 export class ApiManagementClient extends ApiManagementClientContext {
@@ -282,19 +282,17 @@ export class ApiManagementClient extends ApiManagementClientContext {
     resourceGroupName: string,
     serviceName: string,
     connectivityCheckRequestParams: ConnectivityCheckRequest,
-    options?: ApiManagementClientPerformConnectivityCheckAsyncOptionalParams
+    options?: PerformConnectivityCheckAsyncOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<
-        ApiManagementClientPerformConnectivityCheckAsyncResponse
-      >,
-      ApiManagementClientPerformConnectivityCheckAsyncResponse
+      PollOperationState<PerformConnectivityCheckAsyncResponse>,
+      PerformConnectivityCheckAsyncResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<ApiManagementClientPerformConnectivityCheckAsyncResponse> => {
+    ): Promise<PerformConnectivityCheckAsyncResponse> => {
       return this.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -359,8 +357,8 @@ export class ApiManagementClient extends ApiManagementClientContext {
     resourceGroupName: string,
     serviceName: string,
     connectivityCheckRequestParams: ConnectivityCheckRequest,
-    options?: ApiManagementClientPerformConnectivityCheckAsyncOptionalParams
-  ): Promise<ApiManagementClientPerformConnectivityCheckAsyncResponse> {
+    options?: PerformConnectivityCheckAsyncOptionalParams
+  ): Promise<PerformConnectivityCheckAsyncResponse> {
     const poller = await this.beginPerformConnectivityCheckAsync(
       resourceGroupName,
       serviceName,

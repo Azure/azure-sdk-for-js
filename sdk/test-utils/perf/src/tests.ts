@@ -7,7 +7,8 @@ import {
   PerfOptionDictionary,
   parsePerfOption,
   DefaultPerfOptions,
-  defaultPerfOptions
+  defaultPerfOptions,
+  validateOptions
 } from "./options";
 import {
   TestProxyHttpClient,
@@ -56,6 +57,12 @@ export abstract class PerfTest<TOptions = Record<string, unknown>> {
   }
 
   public get parsedOptions(): PerfOptionDictionary<TOptions & DefaultPerfOptions> {
+    // Only validate the options if they are defined: if (when) parsedOptions is called
+    // in the constructor, options will be undefined.
+    if (this.options) {
+      validateOptions({ ...this.options, ...defaultPerfOptions });
+    }
+
     // This cast is needed because TS thinks
     //   PerfOptionDictionary<TOptions & DefaultPerfOptions>
     //   is different from
