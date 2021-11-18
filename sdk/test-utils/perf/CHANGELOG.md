@@ -2,6 +2,11 @@
 
 ## 1.0.0 (Unreleased)
 
+### 2021-11-15
+
+- Throw an error when an unrecognized command-line argument is encountered
+  [#18708](https://github.com/Azure/azure-sdk-for-js/pull/18708)
+
 ### 2021-10-29
 
 - Add an elapsed time column to the snapshot log output.
