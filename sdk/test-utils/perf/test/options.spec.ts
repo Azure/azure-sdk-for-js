@@ -85,4 +85,6 @@ export class OptionsTest extends PerfTest<OptionsTestOptions> {
       this.compare(key as keyof OptionsTestOptions);
     }
   }
+
+  async runAsync(): Promise<void> {}
 }

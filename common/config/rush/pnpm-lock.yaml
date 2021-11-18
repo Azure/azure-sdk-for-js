@@ -7631,6 +7631,21 @@ packages:
       yn: 3.1.1
     dev: false
 
+  /ts-node/8.10.2_typescript@4.2.4:
+    resolution: {integrity: sha512-ISJJGgkIpDdBhWVu3jufsWpK3Rzo7bdiIXJjQc0ynKxVOVcg2oIrf2H2cejminGrptVc6q6/uynAHNCuWGbpVA==}
+    engines: {node: '>=6.0.0'}
+    hasBin: true
+    peerDependencies:
+      typescript: '>=2.7'
+    dependencies:
+      arg: 4.1.3
+      diff: 4.0.2
+      make-error: 1.3.6
+      source-map-support: 0.5.20
+      typescript: 4.2.4
+      yn: 3.1.1
+    dev: false
+
   /ts-node/9.1.1_typescript@4.2.4:
     resolution: {integrity: sha512-hPlt7ZACERQGf03M253ytLY3dHbGNGrAq9qIHWUY9XHYl1z7wYngSr3OQ5xmui8o2AaxsONxIzjafLUiWBo1Fg==}
     engines: {node: '>=10.0.0'}
@@ -8699,7 +8714,7 @@ packages:
     dev: false
 
   file:projects/arm-batch.tgz:
-    resolution: {integrity: sha512-yZunhswkrAsneBi3vyqkvAw/N0g2/5gSVNN34qKC35jIFM2TQ+Bo2aD2DN0a+DUviPrkBKGAAC1S9Zbcce8PyQ==, tarball: file:projects/arm-batch.tgz}
+    resolution: {integrity: sha512-QDWMjs1TGNDU/wHWTMlAvGsBnDgX25veyFnRoHZCFlbWTTMY/yrt9teLhcXL8Jcrbn1fyEApNNtrcw0iFarr+A==, tarball: file:projects/arm-batch.tgz}
     name: '@rush-temp/arm-batch'
     version: 0.0.0
     dependencies:
@@ -12445,7 +12460,7 @@ packages:
     dev: false
 
   file:projects/perf-template.tgz:
-    resolution: {integrity: sha512-RIu7ZVVEApPgrz/t2xXWEGR3xhGhkeUemTxft3FyA9HVTW+jS6mfljJQV9SXL9cnXH/XGief8RXqe3oYLaMMpA==, tarball: file:projects/perf-template.tgz}
+    resolution: {integrity: sha512-jQXz+VLJkyVe3JOkTY4b7nBZiWukaei0w20dRJO3RkxX2HPwfWCxVT/J8nK9zZ5fWtERRQtmwuitoeD4XdY0eQ==, tarball: file:projects/perf-template.tgz}
     name: '@rush-temp/perf-template'
     version: 0.0.0
     dependencies:
@@ -13763,7 +13778,7 @@ packages:
     dev: false
 
   file:projects/test-utils-perf.tgz:
-    resolution: {integrity: sha512-E9KYwKJArEuue129/vMX8zxp5YuqC6lVkqJMO4iBOmjb9W+JHV4+kzuD7UpFjDpX2+5idKHGRALPWUnAiqOTWA==, tarball: file:projects/test-utils-perf.tgz}
+    resolution: {integrity: sha512-LOwl++qbf54ApKHuW/fcoKzgrh/cY8jU2MAZgJ1+P1lHpW3+ooFv8kxqUm2dqcit3JzVALtEdycBtaXGER/bXw==, tarball: file:projects/test-utils-perf.tgz}
     name: '@rush-temp/test-utils-perf'
     version: 0.0.0
     dependencies:
@@ -13779,6 +13794,7 @@ packages:
       node-fetch: 2.6.6
       prettier: 1.19.1
       rimraf: 3.0.2
+      ts-node: 8.10.2_typescript@4.2.4
       tslib: 2.3.1
       typescript: 4.2.4
     transitivePeerDependencies:
