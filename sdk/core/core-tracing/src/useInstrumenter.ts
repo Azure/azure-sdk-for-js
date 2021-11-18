@@ -5,7 +5,7 @@ import { NoOpInstrumenter } from "./instrumenter";
 import { Instrumenter } from "./interfaces";
 
 /** @internal */
-export let instrumenterImplementation: Instrumenter = new NoOpInstrumenter();
+let instrumenterImplementation: Instrumenter = new NoOpInstrumenter();
 
 /**
  * Extends the Azure SDK with support for a given instrumenter implementation.
@@ -14,4 +14,8 @@ export let instrumenterImplementation: Instrumenter = new NoOpInstrumenter();
  */
 export function useInstrumenter(instrumenter: Instrumenter): void {
   instrumenterImplementation = instrumenter;
+}
+
+export function getInstrumenter(): Instrumenter {
+  return instrumenterImplementation;
 }

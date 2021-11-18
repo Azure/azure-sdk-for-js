@@ -11,7 +11,7 @@ import {
   TracingSpanOptions,
   TracingSpanContext
 } from "./interfaces";
-import { instrumenterImplementation } from "./useInstrumenter";
+import { getInstrumenter } from "./useInstrumenter";
 import { knownContextKeys } from "./tracingContext";
 
 /** @internal */
@@ -22,7 +22,7 @@ export class TracingClientImpl implements TracingClient {
 
   constructor(options?: TracingClientOptions) {
     this._namespace = options?.namespace || "";
-    this._instrumenter = instrumenterImplementation;
+    this._instrumenter = getInstrumenter();
     this._packageInformation = options?.packageInformation || {
       name: "@azure/core-tracing"
     };

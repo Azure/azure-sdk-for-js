@@ -6,7 +6,7 @@
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
   "browser": {
-    "./dist-esm/src/utils/global.js": "./dist-esm/src/utils/global.browser.js"
+    "./dist-esm/src/useInstrumenter.js": "./dist-esm/src/useInstrumenter.browser.js"
   },
   "react-native": {
     "./dist/index.js": "./dist-esm/src/index.js"
