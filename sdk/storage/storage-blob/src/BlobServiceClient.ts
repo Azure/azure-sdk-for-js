@@ -167,6 +167,10 @@ export interface ServiceListContainersOptions extends CommonOptions {
    * Specifies whether soft deleted containers should be included in the response.
    */
   includeDeleted?: boolean;
+  /**
+   * Specifies whether system containers should be included in the response.
+   */
+  includeSystem?: boolean;
 }
 
 /**
@@ -1188,6 +1192,9 @@ export class BlobServiceClient extends StorageClient {
     }
     if (options.includeMetadata) {
       include.push("metadata");
+    }
+    if (options.includeSystem) {
+      include.push("system");
     }
 
     // AsyncIterableIterator to iterate over containers

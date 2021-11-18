@@ -144,6 +144,26 @@ describe("ContainerClient", () => {
     }
   });
 
+  it("listBlobsFlat with special chars", async () => {
+    const blobName = "dir1/dir2/file\uFFFF.blob";
+    const blockBlobClient = containerClient.getBlockBlobClient(blobName);
+    await blockBlobClient.upload("", 0);
+
+    const result = (
+      await containerClient
+        .listBlobsFlat()
+        .byPage()
+        .next()
+    ).value;
+    assert.ok(result.serviceEndpoint.length > 0);
+    assert.ok(containerClient.url.indexOf(result.containerName));
+    assert.deepStrictEqual(result.continuationToken, "");
+    assert.deepStrictEqual(result.segment.blobItems!.length, 1);
+    assert.ok(blockBlobClient.url.indexOf(result.segment.blobItems![0].name));
+
+    await blockBlobClient.delete();
+  });
+
   it("listBlobsFlat with default parameters - null prefix shouldn't throw error", async () => {
     const blobClients = [];
     for (let i = 0; i < 3; i++) {
@@ -501,6 +521,37 @@ describe("ContainerClient", () => {
     }
   });
 
+  it("listBlobsByHierarchy with special chars", async () => {
+    const blobName = "dir\uFFFF1/dir2/file\uFFFF.blob";
+    const blockBlobClient = containerClient.getBlockBlobClient(blobName);
+    await blockBlobClient.upload("", 0);
+
+    const blockBlobClientWithNormalName = containerClient.getBlockBlobClient("NormalBlob");
+    await blockBlobClientWithNormalName.upload("", 0);
+
+    const blobName1 = "file\uFFFF.blob";
+    const blockBlobClient1 = containerClient.getBlockBlobClient(blobName1);
+    await blockBlobClient1.upload("", 0);
+
+    const blockBlobClientUnderNormalDir = containerClient.getBlockBlobClient("dir/NormalBlob");
+    await blockBlobClientUnderNormalDir.upload("", 0);
+
+    const delimiter = "/";
+    const result = (
+      await containerClient
+        .listBlobsByHierarchy(delimiter)
+        .byPage()
+        .next()
+    ).value;
+    assert.ok(result.serviceEndpoint.length > 0);
+    assert.ok(containerClient.url.indexOf(result.containerName));
+    assert.deepStrictEqual(result.continuationToken, "");
+    assert.deepStrictEqual(result.delimiter, delimiter);
+    assert.deepStrictEqual(result.segment.blobPrefixes!.length, 2);
+
+    await blockBlobClient.delete();
+  });
+
   it("listBlobsByHierarchy with default parameters - null prefix shouldn't throw error", async () => {
     const blobClients = [];
     for (let i = 0; i < 3; i++) {
@@ -543,6 +594,10 @@ describe("ContainerClient", () => {
       keya: "a",
       keyb: "c"
     };
+    // const tags = {
+    //   tagKaya: "taga",
+    //   tagKayb: "tagb"
+    // };
     const delimiter = "/";
     for (let i = 0; i < 2; i++) {
       const blobClient = containerClient.getBlobClient(
@@ -550,7 +605,8 @@ describe("ContainerClient", () => {
       );
       const blockBlobClient = blobClient.getBlockBlobClient();
       await blockBlobClient.upload("", 0, {
-        metadata
+        metadata: metadata
+        //tags: tags
       });
       blobClients.push(blobClient);
     }
@@ -612,6 +668,7 @@ describe("ContainerClient", () => {
     assert.deepStrictEqual(result3.delimiter, delimiter);
     assert.deepStrictEqual(result3.segment.blobItems!.length, 1);
     assert.ok(isSuperSet(result3.segment.blobItems![0].metadata, metadata));
+    //assert.ok(isSuperSet(result3.segment.blobItems![0].tags, tags));
     assert.ok(blobClients[0].url.indexOf(result3.segment.blobItems![0].name));
 
     for (const blob of blobClients) {
