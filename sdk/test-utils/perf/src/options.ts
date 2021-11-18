@@ -140,9 +140,14 @@ export function parsePerfOption<TOptions>(
   );
   const result: Partial<PerfOptionDictionary<TOptions>> = {};
 
-  for (const longName of Object.keys(options)) {
+  for (const optionName of Object.keys(options)) {
     // This cast is needed since we're picking up options from process.argv
-    const option = options[longName as keyof TOptions];
+    const option = options[optionName as keyof TOptions];
+
+    // Options don't need to define longName, it can be derived from the properties PerfOptionDictionary.
+    // That said if longName is defined, it should should override object's key.
+    const longName = option.longName ?? optionName;
+
     const { shortName, defaultValue, required } = option;
     let value: unknown;
     if (isDefined(minimistResult[longName])) {
@@ -156,8 +161,8 @@ export function parsePerfOption<TOptions>(
     if (required && !isDefined(value)) {
       throw new Error(`Option ${longName} is required`);
     }
-    // Options don't need to define longName, it can be derived from the properties PerfOptionDictionary.
-    result[longName as keyof TOptions] = {
+
+    result[optionName as keyof TOptions] = {
       ...option,
       longName,
       value
