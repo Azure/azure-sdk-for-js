@@ -76,7 +76,7 @@ For more detailed instructions on how to enable logs, you can look at the [@azur
 
 ## Next steps
 
-Please take a look at the [samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/instrumentation/instrumentation-opentelemetry/samples) directory for detailed examples that demonstrate how to use the client libraries.
+- TODO: no samples yet, so the link verification fails. Add link to samples...
 
 ## Contributing
 
