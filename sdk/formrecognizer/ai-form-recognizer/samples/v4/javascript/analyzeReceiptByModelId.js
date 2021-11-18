@@ -30,7 +30,7 @@ async function main() {
     // The form recognizer service will access the following URL to a receipt image and extract data from it
     "https://raw.githubusercontent.com/Azure/azure-sdk-for-js/main/sdk/formrecognizer/ai-form-recognizer/assets/receipt/contoso-receipt.png"
   );
-  poller.onProgress((state) => console.log(state.operationId, state.status));
+  poller.onProgress((state) => console.log("Operation:", state.modelId, state.status));
 
   const {
     documents: [result]

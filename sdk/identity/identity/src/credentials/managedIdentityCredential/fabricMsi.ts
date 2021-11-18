@@ -72,7 +72,7 @@ function prepareRequestOptions(
     method: "GET",
     headers: createHttpHeaders({
       Accept: "application/json",
-      Secret: process.env.IDENTITY_HEADER
+      secret: process.env.IDENTITY_HEADER
     })
   };
 }

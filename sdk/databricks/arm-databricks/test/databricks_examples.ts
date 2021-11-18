@@ -10,7 +10,9 @@ import {
   env,
   record,
   RecorderEnvironmentSetup,
-  Recorder
+  Recorder,
+  delay,
+  isPlaybackMode
 } from "@azure-tools/test-recorder";
 import * as assert from "assert";
 import { ClientSecretCredential } from "@azure/identity";
@@ -31,6 +33,10 @@ const recorderEnvSetup: RecorderEnvironmentSetup = {
       )
   ],
   queryParametersToSkip: []
+};
+
+export const testPollingOptions = {
+  updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
 describe("Databricks test", () => {
@@ -69,7 +75,7 @@ describe("Databricks test", () => {
         sku: {
             name: "Standard"
         }
-    });
+    },testPollingOptions);
     assert.equal(res.name,workSpaceName);
   });
 
@@ -86,11 +92,11 @@ describe("Databricks test", () => {
   });
 
   it("workspaces update test", async function() {
-    const res = await client.workspaces.beginUpdateAndWait(resourceGroup,workSpaceName,{tags: {mytag1: "value1"}});
+    const res = await client.workspaces.beginUpdateAndWait(resourceGroup,workSpaceName,{tags: {mytag1: "value1"}},testPollingOptions);
     assert.equal(res.type,"Microsoft.Databricks/workspaces");
   });
 
   it("workspaces delete test", async function() {
-    const res = await client.workspaces.beginDeleteAndWait(resourceGroup,workSpaceName);
+    const res = await client.workspaces.beginDeleteAndWait(resourceGroup,workSpaceName,testPollingOptions);
   });
 });

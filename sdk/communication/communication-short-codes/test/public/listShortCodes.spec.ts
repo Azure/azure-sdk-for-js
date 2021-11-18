@@ -22,8 +22,7 @@ describe(`ShortCodesClient - lists Short Codes`, function() {
   });
 
   it("can list all acquired short codes", async function() {
-    for await (const shortCode of client.listUSProgramBriefs()) {
-      assert.isString(shortCode.id);
+    for await (const shortCode of client.listShortCodes()) {
       assert.isNotNull(shortCode.number);
     }
   }).timeout(10000);

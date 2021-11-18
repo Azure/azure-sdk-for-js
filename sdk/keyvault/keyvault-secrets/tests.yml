@@ -6,7 +6,9 @@ stages:
       PackageName: "@azure/keyvault-secrets"
       ServiceDirectory: keyvault
       TimeoutInMinutes: 59
+      SupportedClouds: 'Public,UsGov,China'
       EnvVars:
-        AZURE_CLIENT_ID: $(aad-azure-sdk-test-client-id)
-        AZURE_TENANT_ID: $(aad-azure-sdk-test-tenant-id)
-        AZURE_CLIENT_SECRET: $(aad-azure-sdk-test-client-secret)
+        AZURE_CLIENT_ID: $(KEYVAULT_CLIENT_ID)
+        AZURE_TENANT_ID: $(KEYVAULT_TENANT_ID)
+        AZURE_CLIENT_SECRET: $(KEYVAULT_CLIENT_SECRET)
+        AZURE_SUBSCRIPTION_ID: $(KEYVAULT_SUBSCRIPTION_ID)
