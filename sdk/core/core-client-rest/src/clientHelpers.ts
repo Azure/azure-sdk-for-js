@@ -17,10 +17,12 @@ import {
   exponentialRetryPolicy,
   redirectPolicy,
   logPolicy,
+  PipelinePolicy,
 } from "@azure/core-rest-pipeline";
 import { isNode } from "@azure/core-util";
 import { TokenCredential, KeyCredential, isTokenCredential } from "@azure/core-auth";
 import { ClientOptions } from "./common";
+import { URL } from "./url";
 import { keyCredentialAuthenticationPolicy } from "./keyCredentialAuthenticationPolicy";
 
 let cachedHttpClient: HttpClient | undefined;
@@ -48,6 +50,21 @@ export function createDefaultPipeline(
   pipeline.addPolicy(exponentialRetryPolicy(options.retryOptions), { phase: "Retry" });
   pipeline.addPolicy(redirectPolicy(options.redirectOptions), { afterPhase: "Retry" });
   pipeline.addPolicy(logPolicy(), { afterPhase: "Retry" });
+
+  const apiVersionPolicy: PipelinePolicy = {
+    name: "ApiVersionPolicy",
+    sendRequest: (req, next) => {
+      if (options.apiVersion !== undefined) {
+        const url = new URL(req.url);
+        url.searchParams.append("api-version", options.apiVersion);
+        req.url = url.toString();
+      }
+
+      return next(req);
+    },
+  };
+
+  pipeline.addPolicy(apiVersionPolicy);
 
   if (credential) {
     if (isTokenCredential(credential)) {

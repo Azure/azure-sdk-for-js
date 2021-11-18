@@ -12591,10 +12591,12 @@ packages:
       '@types/chai': 4.2.22
       '@types/mocha': 7.0.2
       '@types/node': 12.20.37
+      '@types/sinon': 9.0.11
       chai: 4.3.4
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 7.32.0
+      form-data: 4.0.0
       karma: 6.3.8
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
@@ -12616,6 +12618,7 @@ packages:
       prettier: 2.2.1
       rimraf: 3.0.2
       rollup: 1.32.1
+      sinon: 9.2.4
       source-map-support: 0.5.20
       tslib: 2.3.1
       typedoc: 0.15.2
@@ -12674,7 +12677,7 @@ packages:
     dev: false
 
   file:projects/purview-catalog.tgz:
-    resolution: {integrity: sha512-yBlTPEAMxM+fG+UK1m/K8XNuHlygdMBXJjSQb0allbvIR7uO4aCSACwGAMRGHQ3y4iL87+WPsOlzmo6WY45vyA==, tarball: file:projects/purview-catalog.tgz}
+    resolution: {integrity: sha512-eGv8606VzUia3seFZXWGclCmAtCslDuDvvvIpmdGx8krFd5JFbAZbY2tvsJMU1UWWRuFQ6vPy/Wjfy2ozqHGLg==, tarball: file:projects/purview-catalog.tgz}
     name: '@rush-temp/purview-catalog'
     version: 0.0.0
     dependencies:
