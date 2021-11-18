@@ -17,6 +17,9 @@ import { SDK_VERSION } from "./constants";
  */
 export interface AzureSDKInstrumentationOptions extends InstrumentationConfig {}
 
+/**
+ * The instrumentation module for the Azure SDK. Implement's OpenTelemetry's {@link Instrumentation}.
+ */
 class AzureSDKInstrumentation extends InstrumentationBase {
   constructor(options: AzureSDKInstrumentationOptions = {}) {
     super("@azure/instrumentation-opentelemetry", SDK_VERSION, Object.assign({}, options));
