@@ -3,7 +3,7 @@
 
 /// <reference lib="esnext.asynciterable" />
 
-// operationOptionsToRequestOptionsBase
+// operationOptionsTofinalOptionsBase
 import { PipelineOptions } from "@azure/core-rest-pipeline";
 import { ServiceClientOptions, OperationOptions } from "@azure/core-client";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
@@ -1402,11 +1402,10 @@ export class MetricsAdvisorClient {
     );
 
     try {
-      const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
       const result = await this.client.getRootCauseOfIncidentByAnomalyDetectionConfiguration(
         detectionConfigId,
         incidentId,
-        requestOptions
+        finalOptions
       );
       const transformed = result.value?.map((r) => {
         return {
@@ -1422,7 +1421,7 @@ export class MetricsAdvisorClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: (e as any).message
       });
       throw e;
     } finally {
@@ -1447,9 +1446,8 @@ export class MetricsAdvisorClient {
     );
 
     try {
-      const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
       const serviceFeedback = toServiceMetricFeedbackUnion(feedback);
-      const result = await this.client.createMetricFeedback(serviceFeedback, requestOptions);
+      const result = await this.client.createMetricFeedback(serviceFeedback, finalOptions);
       if (!result.location) {
         throw new Error("Expected a valid location to retrieve the created configuration");
       }
@@ -1459,7 +1457,7 @@ export class MetricsAdvisorClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: (e as any).message
       });
       throw e;
     } finally {
@@ -1482,13 +1480,12 @@ export class MetricsAdvisorClient {
     );
 
     try {
-      const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
-      const result = await this.client.getMetricFeedback(id, requestOptions);
+      const result = await this.client.getMetricFeedback(id, finalOptions);
       return fromServiceMetricFeedbackUnion(result);
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: (e as any).message
       });
       throw e;
     } finally {
@@ -2106,7 +2103,7 @@ export class MetricsAdvisorClient {
    * let iter = client.listMetricEnrichmentStatus(metricId, startTime, endTime);
    * let result = await iter.next();
    * while (!result.done) {
-   *   console.log(` enrichment status - ${result.value.status} ${result.value.message}`);
+   *   console.log(` enrichment status - ${result.value.status} ${result.valu(e as any).message}`);
    *   console.dir(result.value);
    *   result = await iter.next();
    * }

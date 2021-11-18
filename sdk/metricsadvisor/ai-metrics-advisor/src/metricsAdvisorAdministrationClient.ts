@@ -237,7 +237,6 @@ export class MetricsAdvisorAdministrationClient {
         ? missingDataPointFillSettings.customFillValue
         : undefined;
     try {
-      const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
       const body = {
         dataFeedName: name,
         ...toServiceGranularity(granularity),
@@ -262,7 +261,7 @@ export class MetricsAdvisorAdministrationClient {
         dataFeedDescription: description,
         ...finalOptions
       };
-      const result = await this.client.createDataFeed(body, requestOptions);
+      const result = await this.client.createDataFeed(body, finalOptions);
       if (!result.location) {
         throw new Error("Expected a valid location to retrieve the created configuration");
       }
@@ -272,7 +271,7 @@ export class MetricsAdvisorAdministrationClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: (e as any).message
       });
       throw e;
     } finally {
@@ -295,14 +294,13 @@ export class MetricsAdvisorAdministrationClient {
     );
 
     try {
-      const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
-      const result = await this.client.getDataFeedById(id, requestOptions);
+      const result = await this.client.getDataFeedById(id, finalOptions);
       const resultDataFeed: MetricsAdvisorDataFeed = fromServiceDataFeedDetailUnion(result);
       return resultDataFeed;
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: (e as any).message
       });
       throw e;
     } finally {
@@ -465,7 +463,6 @@ export class MetricsAdvisorAdministrationClient {
       throw new Error("Cannot update a data feed to have the Unknown source type.");
     }
     try {
-      const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
       const patchBody = {
         // source
         ...toServiceDataFeedSourcePatch(patch.source),
@@ -495,13 +492,13 @@ export class MetricsAdvisorAdministrationClient {
         status: patch.status,
         actionLinkTemplate: patch.actionLinkTemplate
       };
-      const result = await this.client.updateDataFeed(dataFeedId, patchBody, requestOptions);
+      const result = await this.client.updateDataFeed(dataFeedId, patchBody, finalOptions);
       const resultDataFeed: MetricsAdvisorDataFeed = fromServiceDataFeedDetailUnion(result);
       return resultDataFeed;
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: (e as any).message
       });
       throw e;
     } finally {
@@ -522,12 +519,11 @@ export class MetricsAdvisorAdministrationClient {
     );
 
     try {
-      const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
-      return await this.client.deleteDataFeed(id, requestOptions);
+      return await this.client.deleteDataFeed(id, finalOptions);
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: (e as any).message
       });
       throw e;
     } finally {
@@ -551,10 +547,9 @@ export class MetricsAdvisorAdministrationClient {
     );
     try {
       const transformed = toServiceAnomalyDetectionConfiguration(config);
-      const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
       const result = await this.client.createAnomalyDetectionConfiguration(
         transformed,
-        requestOptions
+        finalOptions
       );
       if (!result.location) {
         throw new Error("Expected a valid location to retrieve the created configuration");
@@ -565,7 +560,7 @@ export class MetricsAdvisorAdministrationClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: (e as any).message
       });
       throw e;
     } finally {
@@ -589,13 +584,12 @@ export class MetricsAdvisorAdministrationClient {
     );
 
     try {
-      const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
-      const result = await this.client.getAnomalyDetectionConfiguration(id, requestOptions);
+      const result = await this.client.getAnomalyDetectionConfiguration(id, finalOptions);
       return fromServiceAnomalyDetectionConfiguration(result);
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: (e as any).message
       });
       throw e;
     } finally {
@@ -621,18 +615,17 @@ export class MetricsAdvisorAdministrationClient {
     );
 
     try {
-      const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
       const transformed = toServiceAnomalyDetectionConfigurationPatch(patch);
       const result = await this.client.updateAnomalyDetectionConfiguration(
         id,
         transformed,
-        requestOptions
+        finalOptions
       );
       return fromServiceAnomalyDetectionConfiguration(result);
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: (e as any).message
       });
       throw e;
     } finally {
@@ -653,12 +646,11 @@ export class MetricsAdvisorAdministrationClient {
     );
 
     try {
-      const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
-      return await this.client.deleteAnomalyDetectionConfiguration(id, requestOptions);
+      return await this.client.deleteAnomalyDetectionConfiguration(id, finalOptions);
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: (e as any).message
       });
       throw e;
     } finally {
@@ -680,11 +672,10 @@ export class MetricsAdvisorAdministrationClient {
       options
     );
     try {
-      const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
       const transformed = toServiceAlertConfiguration(config);
       const result = await this.client.createAnomalyAlertingConfiguration(
         transformed,
-        requestOptions
+        finalOptions
       );
       if (!result.location) {
         throw new Error("Expected a valid location to retrieve the created configuration");
@@ -695,7 +686,7 @@ export class MetricsAdvisorAdministrationClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: (e as any).message
       });
       throw e;
     } finally {
@@ -720,18 +711,17 @@ export class MetricsAdvisorAdministrationClient {
     );
 
     try {
-      const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
       const transformed = toServiceAlertConfigurationPatch(patch);
       const result = await this.client.updateAnomalyAlertingConfiguration(
         id,
         transformed,
-        requestOptions
+        finalOptions
       );
       return fromServiceAlertConfiguration(result);
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: (e as any).message
       });
       throw e;
     } finally {
@@ -755,13 +745,12 @@ export class MetricsAdvisorAdministrationClient {
     );
 
     try {
-      const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
-      const result = await this.client.getAnomalyAlertingConfiguration(id, requestOptions);
+      const result = await this.client.getAnomalyAlertingConfiguration(id, finalOptions);
       return fromServiceAlertConfiguration(result);
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: (e as any).message
       });
       throw e;
     } finally {
@@ -782,12 +771,11 @@ export class MetricsAdvisorAdministrationClient {
     );
 
     try {
-      const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
-      return await this.client.deleteAnomalyAlertingConfiguration(id, requestOptions);
+      return await this.client.deleteAnomalyAlertingConfiguration(id, finalOptions);
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: (e as any).message
       });
       throw e;
     } finally {
@@ -924,7 +912,6 @@ export class MetricsAdvisorAdministrationClient {
     );
 
     try {
-      const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
       const { hookType, name, description, externalLink, admins, hookParameter } = hookInfo;
       const result = await this.client.createHook(
         {
@@ -935,7 +922,7 @@ export class MetricsAdvisorAdministrationClient {
           admins,
           hookParameter
         } as HookInfoUnion,
-        requestOptions
+        finalOptions
       );
       if (!result.location) {
         throw new Error("Expected a valid location to retrieve the created configuration");
@@ -946,7 +933,7 @@ export class MetricsAdvisorAdministrationClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: (e as any).message
       });
       throw e;
     } finally {
@@ -966,8 +953,7 @@ export class MetricsAdvisorAdministrationClient {
       options
     );
     try {
-      const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
-      const result = await this.client.getHook(id, requestOptions);
+      const result = await this.client.getHook(id, finalOptions);
       const resultHookResponse: NotificationHookUnion = fromServiceHookInfoUnion(
         result._response.parsedBody
       );
@@ -975,7 +961,7 @@ export class MetricsAdvisorAdministrationClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: (e as any).message
       });
       throw e;
     } finally {
@@ -1117,8 +1103,7 @@ export class MetricsAdvisorAdministrationClient {
       options
     );
     try {
-      const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
-      const result = await this.client.updateHook(id, patch, requestOptions);
+      const result = await this.client.updateHook(id, patch, finalOptions);
       const resultHookResponse: NotificationHookUnion = fromServiceHookInfoUnion(
         result._response.parsedBody
       );
@@ -1126,7 +1111,7 @@ export class MetricsAdvisorAdministrationClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: (e as any).message
       });
       throw e;
     } finally {
@@ -1146,12 +1131,11 @@ export class MetricsAdvisorAdministrationClient {
     );
 
     try {
-      const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
-      return await this.client.deleteHook(id, requestOptions);
+      return await this.client.deleteHook(id, finalOptions);
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: (e as any).message
       });
       throw e;
     } finally {
@@ -1286,8 +1270,7 @@ export class MetricsAdvisorAdministrationClient {
     );
 
     try {
-      const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
-      const response = await this.client.getIngestionProgress(dataFeedId, requestOptions);
+      const response = await this.client.getIngestionProgress(dataFeedId, finalOptions);
       return {
         latestActiveTimestamp: response.latestActiveTimestamp?.getTime(),
         latestSuccessTimestamp: response.latestSuccessTimestamp?.getTime()
@@ -1295,7 +1278,7 @@ export class MetricsAdvisorAdministrationClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: (e as any).message
       });
       throw e;
     } finally {
@@ -1509,21 +1492,21 @@ export class MetricsAdvisorAdministrationClient {
     );
 
     try {
-      const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
+      const finalOptions = operationOptionsTofinalOptionsBase(finalOptions);
       const result = await this.client.resetDataFeedIngestionStatus(
         dataFeedId,
         {
           startTime: typeof startTime === "string" ? new Date(startTime) : startTime,
           endTime: typeof endTime === "string" ? new Date(endTime) : endTime
         },
-        requestOptions
+        finalOptions
       );
       logger.info(result);
       return result;
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: (e as any).message
       });
       throw e;
     } finally {
@@ -1545,10 +1528,9 @@ export class MetricsAdvisorAdministrationClient {
       options
     );
     try {
-      const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
       // transformation
       const transformedCred = toServiceCredential(dataSourceCredential);
-      const result = await this.client.createCredential(transformedCred, requestOptions);
+      const result = await this.client.createCredential(transformedCred, finalOptions);
       if (!result.location) {
         throw new Error("Expected a valid location to retrieve the created credential entity");
       }
@@ -1558,7 +1540,7 @@ export class MetricsAdvisorAdministrationClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: (e as any).message
       });
       throw e;
     } finally {
@@ -1581,14 +1563,13 @@ export class MetricsAdvisorAdministrationClient {
       options
     );
     try {
-      const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
-      const result = await this.client.getCredential(id, requestOptions);
+      const result = await this.client.getCredential(id, finalOptions);
       const resultCred = fromServiceCredential(result);
       return resultCred;
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: (e as any).message
       });
       throw e;
     } finally {
@@ -1739,18 +1720,17 @@ export class MetricsAdvisorAdministrationClient {
       options
     );
     try {
-      const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
       const result = await this.client.updateCredential(
         id,
         toServiceCredentialPatch(patch),
-        requestOptions
+        finalOptions
       );
       const resultCred = fromServiceCredential(result);
       return resultCred;
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: (e as any).message
       });
       throw e;
     } finally {
@@ -1773,12 +1753,11 @@ export class MetricsAdvisorAdministrationClient {
     );
 
     try {
-      const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
-      return await this.client.deleteCredential(id, requestOptions);
+      return await this.client.deleteCredential(id, finalOptions);
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: (e as any).message
       });
       throw e;
     } finally {

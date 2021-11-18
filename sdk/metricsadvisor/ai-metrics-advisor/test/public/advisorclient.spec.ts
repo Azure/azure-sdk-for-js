@@ -79,7 +79,7 @@ matrix([[true, false]] as const, async (useAad) => {
           await iterator.next();
           assert.fail("Error should have been thrown for invalid date strings");
         } catch (err) {
-          assert.equal(err.message, "Invalid time value");
+          assert.equal((err as any).message, "Invalid time value");
         }
       });
 
@@ -131,7 +131,7 @@ matrix([[true, false]] as const, async (useAad) => {
           await iterator.next();
           assert.fail("Error should have been thrown for invalid date strings");
         } catch (err) {
-          assert.ok(err.message, "Invalid time value");
+          assert.ok((err as any).message, "Invalid time value");
         }
       });
 
