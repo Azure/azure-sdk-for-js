@@ -5,66 +5,18 @@
 ```ts
 
 import { AzureLogger } from '@azure/logger';
-import type * as coreTracing from '@azure/core-tracing';
-import { InstrumentationBase } from '@opentelemetry/instrumentation';
+import { Instrumentation } from '@opentelemetry/instrumentation';
 import { InstrumentationConfig } from '@opentelemetry/instrumentation';
-import { InstrumentationModuleDefinition } from '@opentelemetry/instrumentation';
-import { Instrumenter } from '@azure/core-tracing';
-import { InstrumenterSpanOptions } from '@azure/core-tracing';
-import { Span } from '@opentelemetry/api';
-import { SpanContext } from '@opentelemetry/api';
-import { SpanStatus } from '@azure/core-tracing';
-import { TracingContext } from '@azure/core-tracing';
-import { TracingSpan } from '@azure/core-tracing';
-import { TracingSpanContext } from '@azure/core-tracing';
-
-// @public
-export class AzureSDKInstrumentation extends InstrumentationBase {
-    constructor(options?: AzureSDKInstrumentationOptions);
-    // @internal
-    protected init(): void | InstrumentationModuleDefinition<typeof coreTracing> | InstrumentationModuleDefinition<typeof coreTracing>[];
-}
 
 // @public
 export interface AzureSDKInstrumentationOptions extends InstrumentationConfig {
 }
 
 // @public
+export function createAzureInstrumentation(options?: AzureSDKInstrumentationOptions): Instrumentation;
+
+// @public
 export const logger: AzureLogger;
-
-// @public (undocumented)
-export class OpenTelemetryInstrumenter implements Instrumenter {
-    // (undocumented)
-    createRequestHeaders(spanContext: TracingSpanContext): Record<string, string>;
-    // (undocumented)
-    parseTraceparentHeader(traceparentHeader: string): SpanContext | undefined;
-    // (undocumented)
-    startSpan(name: string, spanOptions?: InstrumenterSpanOptions): {
-        span: TracingSpan;
-        tracingContext: TracingContext;
-    };
-    // (undocumented)
-    withContext<CallbackArgs extends unknown[], Callback extends (...args: CallbackArgs) => ReturnType<Callback>>(tracingContext: TracingContext, callback: Callback, callbackThis?: ThisParameterType<Callback>, ...callbackArgs: CallbackArgs): ReturnType<Callback>;
-}
-
-// @public (undocumented)
-export class OpenTelemetrySpanWrapper implements TracingSpan {
-    constructor(span: Span);
-    // (undocumented)
-    end(): void;
-    // (undocumented)
-    isRecording(): boolean;
-    // (undocumented)
-    recordException(exception: string | Error): void;
-    // (undocumented)
-    setAttribute(name: string, value: unknown): void;
-    // (undocumented)
-    setStatus(status: SpanStatus): void;
-    // (undocumented)
-    get spanContext(): SpanContext;
-    // @internal
-    unwrap(): unknown;
-}
 
 // (No @packageDocumentation comment for this package)
 
