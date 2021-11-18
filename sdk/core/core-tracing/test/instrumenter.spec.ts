@@ -4,12 +4,8 @@
 import { assert } from "chai";
 import { Context } from "mocha";
 import { Instrumenter, TracingSpan, TracingSpanContext } from "../src/interfaces";
-import {
-  NoOpInstrumenter,
-  NoOpSpan,
-  instrumenterImplementation,
-  useInstrumenter
-} from "../src/instrumenter";
+import { NoOpInstrumenter, NoOpSpan } from "../src/instrumenter";
+import { useInstrumenter, instrumenterImplementation } from "../src/useInstrumenter";
 import { createTracingContext } from "../src/tracingContext";
 
 describe("Instrumenter", () => {

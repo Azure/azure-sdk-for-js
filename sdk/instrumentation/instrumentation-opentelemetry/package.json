@@ -5,7 +5,9 @@
   "sdk-type": "client",
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
-  "browser": {},
+  "browser": {
+    "./dist-esm/src/instrumentation.js": "./dist-esm/src/instrumentation.browser.js"
+  },
   "//metadata": {
     "constantPaths": [
       {
