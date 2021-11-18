@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { assert } from "chai";
 import { NoOpInstrumenter } from "../../src/instrumenter";
 import { getInstrumenter, useInstrumenter } from "../../src/useInstrumenter";
