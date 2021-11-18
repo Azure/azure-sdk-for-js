@@ -51,7 +51,7 @@ import { textAnalyticsAzureKeyCredentialPolicy } from "./azureKeyCredentialPolic
 import {
   addParamsToTask,
   compose,
-  handleInvalidDocumentBatch,
+  compileError,
   setCategoriesFilter,
   setOpinionMining,
   setOrderBy,
@@ -62,7 +62,7 @@ import {
 } from "./util";
 import { TextAnalyticsOperationOptions } from "./textAnalyticsOperationOptions";
 import { AnalysisPollOperationState, OperationMetadata } from "./pollerModels";
-import { TextAnalyticsAction } from "./textAnalyticsAction";
+import { CustomTextAnalyticsAction, TextAnalyticsAction } from "./textAnalyticsAction";
 import {
   AnalyzeHealthcareEntitiesPollerLike,
   AnalyzeHealthcareOperationState,
@@ -332,39 +332,99 @@ export interface ExtractSummaryAction extends TextAnalyticsAction {
    */
   maxSentenceCount?: number;
   /**
-   * Specifies how to sort the returned sentences. Please refer to {@link KnownSummarySentencesSortBy} for possible values.
+   * Specifies how to sort the returned sentences. Please refer to {@link KnownSummarySentencesOrderBy} for possible values.
    */
   orderBy?: string;
 }
 
 /**
- * Description of collection of actions for the analyze API to perform on input documents. However, currently, the service can accept up to one action only per action type.
+ * Options for a custom recognize entities action. For more information, please refer
+ * to the service documentation: {@link https://aka.ms/azsdk/textanalytics/customentityrecognition}
+ */
+export interface RecognizeCustomEntitiesAction extends CustomTextAnalyticsAction {
+  /**
+   * Specifies the measurement unit used to calculate the offset and length properties.
+   * Possible units are "TextElements_v8", "UnicodeCodePoint", and "Utf16CodeUnit".
+   * The default is the JavaScript's default which is "Utf16CodeUnit".
+   */
+  stringIndexType?: StringIndexType;
+  /**
+   * If set to true, you opt-out of having your text input logged for troubleshooting. By default, Text Analytics
+   * logs your input text for 48 hours, solely to allow for troubleshooting issues. Setting this parameter to true,
+   * disables input logging and may limit our ability to remediate issues that occur.
+   */
+  disableServiceLogs?: boolean;
+}
+
+/**
+ * Options for an custom classify document single category action. For more information, please refer
+ * to the service documentation: {@link https://aka.ms/azsdk/textanalytics/customfunctionalities}
+ */
+export interface SingleCategoryClassifyAction extends CustomTextAnalyticsAction {
+  /**
+   * If set to true, you opt-out of having your text input logged for troubleshooting. By default, Text Analytics
+   * logs your input text for 48 hours, solely to allow for troubleshooting issues. Setting this parameter to true,
+   * disables input logging and may limit our ability to remediate issues that occur.
+   */
+  disableServiceLogs?: boolean;
+}
+
+/**
+ * Options for a custom classify document multi categories action. For more information, please refer
+ * to the service documentation: {@link https://aka.ms/azsdk/textanalytics/customfunctionalities}
+ */
+export interface MultiCategoryClassifyAction extends CustomTextAnalyticsAction {
+  /**
+   * If set to true, you opt-out of having your text input logged for troubleshooting. By default, Text Analytics
+   * logs your input text for 48 hours, solely to allow for troubleshooting issues. Setting this parameter to true,
+   * disables input logging and may limit our ability to remediate issues that occur.
+   */
+  disableServiceLogs?: boolean;
+}
+
+/**
+ * Description of collection of actions for the analyze API to perform on input documents.
  */
 export interface TextAnalyticsActions {
   /**
-   * A collection of descriptions of entities recognition actions. However, currently, the service can accept up to one action only for `recognizeEntities`.
+   * A collection of descriptions of entities recognition actions.
    */
   recognizeEntitiesActions?: RecognizeCategorizedEntitiesAction[];
   /**
-   * A collection of descriptions of Pii entities recognition actions. However, currently, the service can accept up to one action only for `recognizePiiEntities`.
+   * A collection of descriptions of Pii entities recognition actions.
    */
   recognizePiiEntitiesActions?: RecognizePiiEntitiesAction[];
   /**
-   * A collection of descriptions of key phrases recognition actions. However, currently, the service can accept up to one action only for `extractKeyPhrases`.
+   * A collection of descriptions of key phrases recognition actions.
    */
   extractKeyPhrasesActions?: ExtractKeyPhrasesAction[];
   /**
-   * A collection of descriptions of entities linking actions. However, currently, the service can accept up to one action only for `recognizeLinkedEntities`.
+   * A collection of descriptions of entities linking actions.
    */
   recognizeLinkedEntitiesActions?: RecognizeLinkedEntitiesAction[];
   /**
-   * A collection of descriptions of sentiment analysis actions. However, currently, the service can accept up to one action only for `analyzeSentiment`.
+   * A collection of descriptions of sentiment analysis actions.
    */
   analyzeSentimentActions?: AnalyzeSentimentAction[];
   /**
-   * A collection of descriptions of summarization extraction actions. However, currently, the service can accept up to one action only for `extractSummary`.
+   * A collection of descriptions of summarization extraction actions.
    */
   extractSummaryActions?: ExtractSummaryAction[];
+  /**
+   * A collection of descriptions of custom entity recognition actions. For more information, please refer
+   * to the service documentation: {@link https://aka.ms/azsdk/textanalytics/customentityrecognition}
+   */
+  recognizeCustomEntitiesActions?: RecognizeCustomEntitiesAction[];
+  /**
+   * A collection of descriptions of custom single classification actions. For more information, please refer
+   * to the service documentation: {@link https://aka.ms/azsdk/textanalytics/customfunctionalities}
+   */
+  singleCategoryClassifyActions?: SingleCategoryClassifyAction[];
+  /**
+   * A collection of descriptions of custom multi classification actions. For more information, please refer
+   * to the service documentation: {@link https://aka.ms/azsdk/textanalytics/customfunctionalities}
+   */
+  multiCategoryClassifyActions?: MultiCategoryClassifyAction[];
 }
 /**
  * Client class for interacting with Azure Text Analytics.
@@ -603,7 +663,7 @@ export class TextAnalyticsClient {
        * earlier versions were throwing an exception that included the inner
        * code only.
        */
-      const backwardCompatibleException = handleInvalidDocumentBatch(e);
+      const backwardCompatibleException = compileError(e);
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: backwardCompatibleException.message
@@ -1065,7 +1125,6 @@ export class TextAnalyticsClient {
       realInputs = documents;
       realOptions = (languageOrOptions as BeginAnalyzeActionsOptions) || {};
     }
-    validateActions(actions);
     const compiledActions = compileAnalyzeInput(actions);
     const {
       updateIntervalInMs,
@@ -1113,22 +1172,6 @@ export class TextAnalyticsClient {
   }
 }
 
-function validateActions(actions: TextAnalyticsActions): void {
-  function validateActionType(actionList: unknown[] | undefined, actionType: string): void {
-    if ((actionList?.length ?? 0) > 1) {
-      throw new Error(
-        `beginAnalyzeActions: Currently, the service can accept up to one action only for ${actionType} actions.`
-      );
-    }
-  }
-  validateActionType(actions.analyzeSentimentActions, `analyzeSentiment`);
-  validateActionType(actions.extractKeyPhrasesActions, `extractKeyPhrases`);
-  validateActionType(actions.recognizeEntitiesActions, `recognizeEntities`);
-  validateActionType(actions.recognizeLinkedEntitiesActions, `recognizeLinkedEntities`);
-  validateActionType(actions.recognizePiiEntitiesActions, `recognizePiiEntities`);
-  validateActionType(actions.extractSummaryActions, `extractSummary`);
-}
-
 /**
  * @internal
  */
@@ -1149,7 +1192,12 @@ function compileAnalyzeInput(actions: TextAnalyticsActions): GeneratedActions {
     ),
     extractiveSummarizationTasks: actions.extractSummaryActions?.map(
       compose(setStrEncodingParam, compose(setSentenceCount, compose(setOrderBy, addParamsToTask)))
-    )
+    ),
+    customEntityRecognitionTasks: actions.recognizeCustomEntitiesActions?.map(
+      compose(setStrEncodingParam, addParamsToTask)
+    ),
+    customSingleClassificationTasks: actions.singleCategoryClassifyActions?.map(addParamsToTask),
+    customMultiClassificationTasks: actions.multiCategoryClassifyActions?.map(addParamsToTask)
   };
 }
 

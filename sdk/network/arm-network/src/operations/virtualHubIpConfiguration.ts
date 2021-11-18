@@ -6,7 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { VirtualHubIpConfiguration } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
@@ -387,7 +386,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters72,
+  requestBody: Parameters.parameters76,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

@@ -2,247 +2,189 @@
  "recordings": [
   {
    "method": "POST",
-   "url": "https://endpoint/text/analytics/v3.2-preview.1/analyze",
+   "url": "https://endpoint/text/analytics/v3.2-preview.2/analyze",
    "query": {},
    "requestBody": "{\"analysisInput\":{\"documents\":[{\"id\":\"0\",\"text\":\"\\n          No roads or rails connect the 39,000 people dispersed across Nunavut, a territory in northeastern Canada that spans three time zones and features fjord-cut isles that stretch into the Arctic Circle off the west coast of Greenland. About 80% of the population is of Inuit descent with cultural ties to the land that date back more than 4,000 years.\\n          \\n          Today, low-bandwidth satellite internet service links the people of Nunavut to each other and with the rest of the world.\\n                  \\n          The Government of Nunavut relies on this internet link to provide healthcare, education, housing and family, and financial and other services to 25 communities. The smallest, Grise Fiord, has a population of 130; the largest, the capital, Iqaluit, has 8,500 people. About 3,100 people work full-time for the government, which has an office in each community. Another 3,000 people work for the government as relief workers, casual, term or contractors.\\n                  \\n          Managing information technology for this dispersed and elastic workforce is a constant challenge for Martin Joy, director of information communication and technology for the Government of Nunavut.\\n                  \\n          “Traditionally, in IT, you would have to send a device or mail a device to that end user. In Nunavut, there is no road, there is no logistical framework that allows us to move stuff cost-effectively, so everything has to be flown,” he explained. “Based on weather, based on the types of cargo flows, that could take a considerable amount of time. It could take two to three weeks for us to get a user a device to get them onboarded securely into our environment.”\\n                  \\n          “Now, with Windows 365, we can do that within less than an hour of the account being created,” he said.\\n                  \\n          Windows 365 puts Microsoft’s flagship operating system in the cloud. Users select Windows 10 or Windows 11, once it is generally available later this calendar year, along with a configuration of processing power, storage and memory that suits their needs. They then access their Cloud PC through a native application or web browser on any device, from anywhere with an internet connection.\\n                  \\n          The creation of the Cloud PC follows other products and services to the cloud, from Windows Server on Azure to the suite of Microsoft Office productivity applications in Microsoft 365. Windows is already accessible in the cloud via Azure Virtual Desktop, which offers customers flexibility to create and run their own virtualization service. Windows 365 is a new virtualization technology for Windows that is easy to set up and deploy for today’s login-from-anywhere, mobile and elastic workforces.\\n                  \\n          “Windows 365 is really going to make a huge difference for organizations that wanted to try virtualization for various reasons but could not – maybe it was too costly, too complex or they didn’t have the expertise in house to do it,” said Wangui McKelvey, general manager of Microsoft 365, who works from a home office in Atlanta, Georgia.\\n                  \\n          With Windows 365, she added, IT admins can manage and deploy Cloud PCs using the same tools they use today to manage physical PCs.\\n                  \\n          The remote and hybrid workforces of today and tomorrow were top of mind for Scott Manchester when he set out to develop Windows 365. The director of program management for Windows 365 in Redmond, Washington, wanted to deliver an experience with the look, feel and security of a traditional Windows PC, only accessed through a native app or web browser on a device of the user’s choosing from anywhere with an internet connection.\\n          \\n          “You want them to be able to get access to their corporate resources, applications, databases and HR tools, and do all the things they do in a typical workday sitting in the office – you want them to have that same experience,” he said. “And you want them to have that experience in such a way that it feels familiar to them. It’s not this jolting thing that takes away all the things they love about Windows.”\\n          \\n          Virtualization, he noted, can be challenging to set up and maintain, especially for organizations without dedicated IT resources. IT consulting firms do brisk business working with companies to set up virtualization solutions and staffing help desks to field calls from employees when they run into complications. Manchester knows this because he worked on Microsoft’s Windows virtualization technologies for nearly two decades prior to leading the development of Windows 365.\\n          \\n          The inspiration for Windows 365 came earlier, when he was assigned to an internal team at Microsoft working on a project, code named Arcadia, a consumer-facing service that would stream video games from the cloud. The target audience – gamers – lacks an IT department to lean on when things glitch. “That started me thinking, ‘How do we build something that doesn’t require IT intervention, something that could truly scale to the consumer market?’” Manchester said.\\n          \\n          The consumer experience was Manchester’s benchmark when he started work on virtualization.\\n          \\n          “I took note of every time there was something that didn’t quite deliver on that,” he said. “And, as I started meeting with customers and partners and learning about how they fill in these gaps either by setting expectations of their workforce or having an IT department that picks up the phone and deals with those situations, I realized we had some ground to cover.”\\n          \\n          Covering that ground led to improvements in Microsoft’s business offering now known as Azure Virtual Desktop. This offering continues to experience accelerated growth among customers who need full customization and control over their operating environment and have the resources for dedicated IT staff to support the system, Manchester noted. Windows 365 is for the approximate 80% of the marketplace that lacks the need for full customization or the resources for dedicated IT.\\n          \\n          To lead the development of Windows 365, Manchester leaned into his Arcadia mindset.\\n          \\n          “When we built this team, we brought in a couple of leaders who had experience with virtualization, but for the most part we brought in people who had experience with Windows and experience with consumer experiences because that was the bar we wanted to set,” he said.\\n          \\n          Soon after this bar was set, and the first batch of hires made – a handful of experts in virtualization and user experience – COVID-19 hit and changed the world.\\n          \\n          “We hired everybody else during the pandemic,” Manchester said. “They were remote. They were living all over the U.S., Australia, Europe and China. Many of them have never set foot in the office. And as soon as we got far enough along with the development, we moved those people to use the service. People who never used virtualization before, had no expectations – their bar was the experience they had on their laptop – and we basically used Windows 365 to build Windows 365.”\\n          \\n          As the team used the service and encountered bugs in the system, they worked through and solved them on their way to creating a unique category of virtualization, the Cloud PC.\\n          \\n          “We’re giving you Windows from the cloud,” Manchester said.\\n                  \",\"language\":\"en\"},{\"id\":\"1\",\"text\":\"\\n          Windows 365 was in the works before COVID-19 sent companies around the world on a scramble to secure solutions to support employees suddenly forced to work from home, but “what really put the firecracker behind it was the pandemic, it accelerated everything,” McKelvey said. She explained that customers were asking, “’How do we create an experience for people that makes them still feel connected to the company without the physical presence of being there?”\\n\\n          In this new world of Windows 365, remote workers flip the lid on their laptop, bootup the family workstation or clip a keyboard onto a tablet, launch a native app or modern web browser and login to their Windows 365 account. From there, their Cloud PC appears with their background, apps, settings and content just as they left it when they last were last there – in the office, at home or a coffee shop.\\n\\n          “And then, when you’re done, you’re done. You won’t have any issues around security because you’re not saving anything on your device,” McKelvey said, noting that all the data is stored in the cloud.\\n\\n          The ability to login to a Cloud PC from anywhere on any device is part of Microsoft’s larger strategy around tailoring products such as Microsoft Teams and Microsoft 365 for the post-pandemic hybrid workforce of the future, she added. It enables employees accustomed to working from home to continue working from home; it enables companies to hire interns from halfway around the world; it allows startups to scale without requiring IT expertise.\\n\\n          “I think this will be interesting for those organizations who, for whatever reason, have shied away from virtualization. This is giving them an opportunity to try it in a way that their regular, everyday endpoint admin could manage,” McKelvey said.\\n\\n          The simplicity of Windows 365 won over Dean Wells, the corporate chief information officer for the Government of Nunavut. His team previously attempted to deploy a traditional virtual desktop infrastructure and found it inefficient and unsustainable given the limitations of low-bandwidth satellite internet and the constant need for IT staff to manage the network and infrastructure.\\n\\n          We didn’t run it for very long,” he said. “It didn’t turn out the way we had hoped. So, we actually had terminated the project and rolled back out to just regular PCs.”\\n\\n          He re-evaluated this decision after the Government of Nunavut was hit by a ransomware attack in November 2019 that took down everything from the phone system to the government’s servers. Microsoft helped rebuild the system, moving the government to Teams, SharePoint, OneDrive and Microsoft 365. Manchester’s team recruited the Government of Nunavut to pilot Windows 365. Wells was intrigued, especially by the ability to manage the elastic workforce securely and seamlessly.\\n\\n          “The impact that I believe we are finding, and the impact that we’re going to find going forward, is being able to access specialists from outside the territory and organizations outside the territory to come in and help us with our projects, being able to get people on staff with us to help us deliver the day-to-day expertise that we need to run the government,” he said.\\n\\n          “Being able to improve healthcare, being able to improve education, economic development is going to improve the quality of life in the communities.”\\n          \",\"language\":\"en\"}]},\"tasks\":{\"extractiveSummarizationTasks\":[{\"parameters\":{\"model-version\":\"latest\",\"stringIndexType\":\"Utf16CodeUnit\",\"sentenceCount\":5,\"sortBy\":\"Offset\"}}]}}",
    "status": 202,
    "response": "",
    "responseHeaders": {
-    "apim-request-id": "2e0e7f96-ac62-426d-8cd8-92a2a0a248f4",
-    "date": "Tue, 03 Aug 2021 22:52:58 GMT",
-    "operation-location": "https://endpoint/text/analytics/v3.2-preview.1/analyze/jobs/ff34d75e-b955-4840-8f9b-74fc74751ceb",
+    "apim-request-id": "b65229f5-47bf-4785-b9e3-4a89016547ef",
+    "date": "Sat, 23 Oct 2021 00:50:26 GMT",
+    "operation-location": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/643a396e-baed-4af4-bf67-e2cb0d5de69a",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "146"
+    "x-envoy-upstream-service-time": "240"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.2-preview.1/analyze/jobs/ff34d75e-b955-4840-8f9b-74fc74751ceb",
+   "url": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/643a396e-baed-4af4-bf67-e2cb0d5de69a",
    "query": {
-    "$top": "20"
+    "$top": "20",
+    "$skip": "0"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"ff34d75e-b955-4840-8f9b-74fc74751ceb\",\"lastUpdateDateTime\":\"2021-08-03T22:52:59Z\",\"createdDateTime\":\"2021-08-03T22:52:59Z\",\"expirationDateTime\":\"2021-08-04T22:52:59Z\",\"status\":\"notStarted\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
+   "response": "{\"jobId\":\"643a396e-baed-4af4-bf67-e2cb0d5de69a\",\"lastUpdateDateTime\":\"2021-10-23T00:50:26Z\",\"createdDateTime\":\"2021-10-23T00:50:26Z\",\"expirationDateTime\":\"2021-10-24T00:50:26Z\",\"status\":\"notStarted\",\"errors\":[],\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
    "responseHeaders": {
-    "apim-request-id": "c86c2af9-83f0-48b0-9d7f-c63bb96155d4",
+    "apim-request-id": "ecf05bca-882e-4d2b-99fd-1d2b8673e4a7",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 03 Aug 2021 22:52:59 GMT",
+    "date": "Sat, 23 Oct 2021 00:50:26 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "9"
+    "x-envoy-upstream-service-time": "15"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.2-preview.1/analyze/jobs/ff34d75e-b955-4840-8f9b-74fc74751ceb",
+   "url": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/643a396e-baed-4af4-bf67-e2cb0d5de69a",
    "query": {
-    "$top": "20"
+    "$top": "20",
+    "$skip": "0"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"ff34d75e-b955-4840-8f9b-74fc74751ceb\",\"lastUpdateDateTime\":\"2021-08-03T22:52:59Z\",\"createdDateTime\":\"2021-08-03T22:52:59Z\",\"expirationDateTime\":\"2021-08-04T22:52:59Z\",\"status\":\"notStarted\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
+   "response": "{\"jobId\":\"643a396e-baed-4af4-bf67-e2cb0d5de69a\",\"lastUpdateDateTime\":\"2021-10-23T00:50:26Z\",\"createdDateTime\":\"2021-10-23T00:50:26Z\",\"expirationDateTime\":\"2021-10-24T00:50:26Z\",\"status\":\"notStarted\",\"errors\":[],\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
    "responseHeaders": {
-    "apim-request-id": "49da6d38-2452-42a6-86be-1ec15d740c90",
+    "apim-request-id": "fb79e9a6-fb42-4817-be5f-9657c90ad9c3",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 03 Aug 2021 22:52:59 GMT",
+    "date": "Sat, 23 Oct 2021 00:50:26 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "10"
+    "x-envoy-upstream-service-time": "12"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.2-preview.1/analyze/jobs/ff34d75e-b955-4840-8f9b-74fc74751ceb",
+   "url": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/643a396e-baed-4af4-bf67-e2cb0d5de69a",
    "query": {
-    "$top": "20"
+    "$top": "20",
+    "$skip": "0"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"ff34d75e-b955-4840-8f9b-74fc74751ceb\",\"lastUpdateDateTime\":\"2021-08-03T22:53:01Z\",\"createdDateTime\":\"2021-08-03T22:52:59Z\",\"expirationDateTime\":\"2021-08-04T22:52:59Z\",\"status\":\"running\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
+   "response": "{\"jobId\":\"643a396e-baed-4af4-bf67-e2cb0d5de69a\",\"lastUpdateDateTime\":\"2021-10-23T00:50:27Z\",\"createdDateTime\":\"2021-10-23T00:50:26Z\",\"expirationDateTime\":\"2021-10-24T00:50:26Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
    "responseHeaders": {
-    "apim-request-id": "961cf403-9b58-422f-89eb-db93c78744a4",
+    "apim-request-id": "abe58fbb-0c13-44c1-a3b9-f955e9cbb5b3",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 03 Aug 2021 22:53:01 GMT",
+    "date": "Sat, 23 Oct 2021 00:50:28 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "8"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.2-preview.1/analyze/jobs/ff34d75e-b955-4840-8f9b-74fc74751ceb",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"ff34d75e-b955-4840-8f9b-74fc74751ceb\",\"lastUpdateDateTime\":\"2021-08-03T22:53:01Z\",\"createdDateTime\":\"2021-08-03T22:52:59Z\",\"expirationDateTime\":\"2021-08-04T22:52:59Z\",\"status\":\"running\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
-   "responseHeaders": {
-    "apim-request-id": "17eae918-29e3-4fcd-ad88-bc074fb166c7",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 03 Aug 2021 22:53:03 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
     "x-envoy-upstream-service-time": "7"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.2-preview.1/analyze/jobs/ff34d75e-b955-4840-8f9b-74fc74751ceb",
+   "url": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/643a396e-baed-4af4-bf67-e2cb0d5de69a",
    "query": {
-    "$top": "20"
+    "$top": "20",
+    "$skip": "0"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"ff34d75e-b955-4840-8f9b-74fc74751ceb\",\"lastUpdateDateTime\":\"2021-08-03T22:53:01Z\",\"createdDateTime\":\"2021-08-03T22:52:59Z\",\"expirationDateTime\":\"2021-08-04T22:52:59Z\",\"status\":\"running\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
+   "response": "{\"jobId\":\"643a396e-baed-4af4-bf67-e2cb0d5de69a\",\"lastUpdateDateTime\":\"2021-10-23T00:50:27Z\",\"createdDateTime\":\"2021-10-23T00:50:26Z\",\"expirationDateTime\":\"2021-10-24T00:50:26Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
    "responseHeaders": {
-    "apim-request-id": "0edd1211-085c-4430-8a2f-7ba95ab5c694",
+    "apim-request-id": "ea17d96f-bfa1-43ed-bc70-f2a083aedb0e",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 03 Aug 2021 22:53:05 GMT",
+    "date": "Sat, 23 Oct 2021 00:50:30 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "10"
+    "x-envoy-upstream-service-time": "8"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.2-preview.1/analyze/jobs/ff34d75e-b955-4840-8f9b-74fc74751ceb",
+   "url": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/643a396e-baed-4af4-bf67-e2cb0d5de69a",
    "query": {
-    "$top": "20"
+    "$top": "20",
+    "$skip": "0"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"ff34d75e-b955-4840-8f9b-74fc74751ceb\",\"lastUpdateDateTime\":\"2021-08-03T22:53:01Z\",\"createdDateTime\":\"2021-08-03T22:52:59Z\",\"expirationDateTime\":\"2021-08-04T22:52:59Z\",\"status\":\"running\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
+   "response": "{\"jobId\":\"643a396e-baed-4af4-bf67-e2cb0d5de69a\",\"lastUpdateDateTime\":\"2021-10-23T00:50:27Z\",\"createdDateTime\":\"2021-10-23T00:50:26Z\",\"expirationDateTime\":\"2021-10-24T00:50:26Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
    "responseHeaders": {
-    "apim-request-id": "12cdb6b1-4091-49e6-9266-0639f3caeff7",
+    "apim-request-id": "c3d24610-b6ce-4500-b901-d3c025e2f557",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 03 Aug 2021 22:53:07 GMT",
+    "date": "Sat, 23 Oct 2021 00:50:33 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
     "x-envoy-upstream-service-time": "6"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.2-preview.1/analyze/jobs/ff34d75e-b955-4840-8f9b-74fc74751ceb",
+   "url": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/643a396e-baed-4af4-bf67-e2cb0d5de69a",
    "query": {
-    "$top": "20"
+    "$top": "20",
+    "$skip": "0"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"ff34d75e-b955-4840-8f9b-74fc74751ceb\",\"lastUpdateDateTime\":\"2021-08-03T22:53:01Z\",\"createdDateTime\":\"2021-08-03T22:52:59Z\",\"expirationDateTime\":\"2021-08-04T22:52:59Z\",\"status\":\"running\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
+   "response": "{\"jobId\":\"643a396e-baed-4af4-bf67-e2cb0d5de69a\",\"lastUpdateDateTime\":\"2021-10-23T00:50:27Z\",\"createdDateTime\":\"2021-10-23T00:50:26Z\",\"expirationDateTime\":\"2021-10-24T00:50:26Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
    "responseHeaders": {
-    "apim-request-id": "9e5af618-3288-4e64-b2a9-f4932575bd51",
+    "apim-request-id": "475a31c0-6104-4ef5-bbb0-8c00a8bf6357",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 03 Aug 2021 22:53:09 GMT",
+    "date": "Sat, 23 Oct 2021 00:50:35 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "6"
+    "x-envoy-upstream-service-time": "7"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.2-preview.1/analyze/jobs/ff34d75e-b955-4840-8f9b-74fc74751ceb",
+   "url": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/643a396e-baed-4af4-bf67-e2cb0d5de69a",
    "query": {
-    "$top": "20"
+    "$top": "20",
+    "$skip": "0"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"ff34d75e-b955-4840-8f9b-74fc74751ceb\",\"lastUpdateDateTime\":\"2021-08-03T22:53:01Z\",\"createdDateTime\":\"2021-08-03T22:52:59Z\",\"expirationDateTime\":\"2021-08-04T22:52:59Z\",\"status\":\"running\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
+   "response": "{\"jobId\":\"643a396e-baed-4af4-bf67-e2cb0d5de69a\",\"lastUpdateDateTime\":\"2021-10-23T00:50:27Z\",\"createdDateTime\":\"2021-10-23T00:50:26Z\",\"expirationDateTime\":\"2021-10-24T00:50:26Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
    "responseHeaders": {
-    "apim-request-id": "34f21da6-9f44-43db-b6c4-91ba753096f0",
+    "apim-request-id": "5d31107d-66f9-4231-a2dc-98605df94af5",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 03 Aug 2021 22:53:11 GMT",
+    "date": "Sat, 23 Oct 2021 00:50:37 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "6"
+    "x-envoy-upstream-service-time": "7"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.2-preview.1/analyze/jobs/ff34d75e-b955-4840-8f9b-74fc74751ceb",
+   "url": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/643a396e-baed-4af4-bf67-e2cb0d5de69a",
    "query": {
-    "$top": "20"
+    "$top": "20",
+    "$skip": "0"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"ff34d75e-b955-4840-8f9b-74fc74751ceb\",\"lastUpdateDateTime\":\"2021-08-03T22:53:01Z\",\"createdDateTime\":\"2021-08-03T22:52:59Z\",\"expirationDateTime\":\"2021-08-04T22:52:59Z\",\"status\":\"running\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
+   "response": "{\"jobId\":\"643a396e-baed-4af4-bf67-e2cb0d5de69a\",\"lastUpdateDateTime\":\"2021-10-23T00:50:38Z\",\"createdDateTime\":\"2021-10-23T00:50:26Z\",\"expirationDateTime\":\"2021-10-24T00:50:26Z\",\"status\":\"succeeded\",\"errors\":[],\"tasks\":{\"completed\":1,\"failed\":0,\"inProgress\":0,\"total\":1,\"extractiveSummarizationTasks\":[{\"lastUpdateDateTime\":\"2021-10-23T00:50:38.6775625Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"0\",\"sentences\":[{\"text\":\"The Government of Nunavut relies on this internet link to provide healthcare, education, housing and family, and financial and other services to 25 communities.\",\"rankScore\":0.24,\"offset\":531,\"length\":160},{\"text\":\"Windows 365 puts Microsoft’s flagship operating system in the cloud.\",\"rankScore\":0.26,\"offset\":1864,\"length\":68},{\"text\":\"The creation of the Cloud PC follows other products and services to the cloud, from Windows Server on Azure to the suite of Microsoft Office productivity applications in Microsoft 365.\",\"rankScore\":0.26,\"offset\":2283,\"length\":184},{\"text\":\"Windows is already accessible in the cloud via Azure Virtual Desktop, which offers customers flexibility to create and run their own virtualization service.\",\"rankScore\":0.49,\"offset\":2468,\"length\":156},{\"text\":\"Windows 365 is a new virtualization technology for Windows that is easy to set up and deploy for today’s login-from-anywhere, mobile and elastic workforces.\",\"rankScore\":1.0,\"offset\":2625,\"length\":156}],\"warnings\":[]},{\"id\":\"1\",\"sentences\":[{\"text\":\"Windows 365 was in the works before COVID-19 sent companies around the world on a scramble to secure solutions to support employees suddenly forced to work from home, but “what really put the firecracker behind it was the pandemic, it accelerated everything,” McKelvey said.\",\"rankScore\":0.63,\"offset\":11,\"length\":274},{\"text\":\"The ability to login to a Cloud PC from anywhere on any device is part of Microsoft’s larger strategy around tailoring products such as Microsoft Teams and Microsoft 365 for the post-pandemic hybrid workforce of the future, she added.\",\"rankScore\":0.79,\"offset\":1109,\"length\":234},{\"text\":\"It enables employees accustomed to working from home to continue working from home;\",\"rankScore\":1.0,\"offset\":1344,\"length\":83},{\"text\":\"it enables companies to hire interns from halfway around the world;\",\"rankScore\":0.86,\"offset\":1428,\"length\":67},{\"text\":\"it allows startups to scale without requiring IT expertise.\",\"rankScore\":0.66,\"offset\":1496,\"length\":59}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-08-01\"}}]}}",
    "responseHeaders": {
-    "apim-request-id": "c660fdee-a0b0-4d86-a2d8-f0f98e991991",
+    "apim-request-id": "a00b3cae-8755-4d07-a915-3801cbf7db58",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 03 Aug 2021 22:53:14 GMT",
+    "date": "Sat, 23 Oct 2021 00:50:39 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "6"
+    "x-envoy-upstream-service-time": "217"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.2-preview.1/analyze/jobs/ff34d75e-b955-4840-8f9b-74fc74751ceb",
+   "url": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/643a396e-baed-4af4-bf67-e2cb0d5de69a",
    "query": {
-    "$top": "20"
+    "$top": "20",
+    "$skip": "0"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"jobId\":\"ff34d75e-b955-4840-8f9b-74fc74751ceb\",\"lastUpdateDateTime\":\"2021-08-03T22:53:01Z\",\"createdDateTime\":\"2021-08-03T22:52:59Z\",\"expirationDateTime\":\"2021-08-04T22:52:59Z\",\"status\":\"running\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
+   "response": "{\"jobId\":\"643a396e-baed-4af4-bf67-e2cb0d5de69a\",\"lastUpdateDateTime\":\"2021-10-23T00:50:38Z\",\"createdDateTime\":\"2021-10-23T00:50:26Z\",\"expirationDateTime\":\"2021-10-24T00:50:26Z\",\"status\":\"succeeded\",\"errors\":[],\"tasks\":{\"completed\":1,\"failed\":0,\"inProgress\":0,\"total\":1,\"extractiveSummarizationTasks\":[{\"lastUpdateDateTime\":\"2021-10-23T00:50:38.6775625Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"0\",\"sentences\":[{\"text\":\"The Government of Nunavut relies on this internet link to provide healthcare, education, housing and family, and financial and other services to 25 communities.\",\"rankScore\":0.24,\"offset\":531,\"length\":160},{\"text\":\"Windows 365 puts Microsoft’s flagship operating system in the cloud.\",\"rankScore\":0.26,\"offset\":1864,\"length\":68},{\"text\":\"The creation of the Cloud PC follows other products and services to the cloud, from Windows Server on Azure to the suite of Microsoft Office productivity applications in Microsoft 365.\",\"rankScore\":0.26,\"offset\":2283,\"length\":184},{\"text\":\"Windows is already accessible in the cloud via Azure Virtual Desktop, which offers customers flexibility to create and run their own virtualization service.\",\"rankScore\":0.49,\"offset\":2468,\"length\":156},{\"text\":\"Windows 365 is a new virtualization technology for Windows that is easy to set up and deploy for today’s login-from-anywhere, mobile and elastic workforces.\",\"rankScore\":1.0,\"offset\":2625,\"length\":156}],\"warnings\":[]},{\"id\":\"1\",\"sentences\":[{\"text\":\"Windows 365 was in the works before COVID-19 sent companies around the world on a scramble to secure solutions to support employees suddenly forced to work from home, but “what really put the firecracker behind it was the pandemic, it accelerated everything,” McKelvey said.\",\"rankScore\":0.63,\"offset\":11,\"length\":274},{\"text\":\"The ability to login to a Cloud PC from anywhere on any device is part of Microsoft’s larger strategy around tailoring products such as Microsoft Teams and Microsoft 365 for the post-pandemic hybrid workforce of the future, she added.\",\"rankScore\":0.79,\"offset\":1109,\"length\":234},{\"text\":\"It enables employees accustomed to working from home to continue working from home;\",\"rankScore\":1.0,\"offset\":1344,\"length\":83},{\"text\":\"it enables companies to hire interns from halfway around the world;\",\"rankScore\":0.86,\"offset\":1428,\"length\":67},{\"text\":\"it allows startups to scale without requiring IT expertise.\",\"rankScore\":0.66,\"offset\":1496,\"length\":59}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-08-01\"}}]}}",
    "responseHeaders": {
-    "apim-request-id": "1dd97954-ed18-44bb-949c-0211a85c764e",
+    "apim-request-id": "0a72c96d-c908-4050-b250-dcbb332a02d8",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 03 Aug 2021 22:53:16 GMT",
+    "date": "Sat, 23 Oct 2021 00:50:39 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "6"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.2-preview.1/analyze/jobs/ff34d75e-b955-4840-8f9b-74fc74751ceb",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"ff34d75e-b955-4840-8f9b-74fc74751ceb\",\"lastUpdateDateTime\":\"2021-08-03T22:53:18Z\",\"createdDateTime\":\"2021-08-03T22:52:59Z\",\"expirationDateTime\":\"2021-08-04T22:52:59Z\",\"status\":\"succeeded\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":1,\"failed\":0,\"inProgress\":0,\"total\":1,\"extractiveSummarizationTasks\":[{\"lastUpdateDateTime\":\"2021-08-03T22:53:18.4233344Z\",\"taskName\":\"ExtractiveSummarization_latest\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"0\",\"sentences\":[{\"text\":\"No roads or rails connect the 39,000 people dispersed across Nunavut, a territory in northeastern Canada that spans three time zones and features fjord-cut isles that stretch into the Arctic Circle off the west coast of Greenland.\",\"rankScore\":0.9424625379379141,\"offset\":11,\"length\":230},{\"text\":\"About 80% of the population is of Inuit descent with cultural ties to the land that date back more than 4,000 years.\",\"rankScore\":0.8696578658347244,\"offset\":242,\"length\":116},{\"text\":\"Today, low-bandwidth satellite internet service links the people of Nunavut to each other and with the rest of the world.\",\"rankScore\":0.79887955940961,\"offset\":380,\"length\":121},{\"text\":\"The Government of Nunavut relies on this internet link to provide healthcare, education, housing and family, and financial and other services to 25 communities.\",\"rankScore\":0.7014254027202066,\"offset\":531,\"length\":160},{\"text\":\"Managing information technology for this dispersed and elastic workforce is a constant challenge for Martin Joy, director of information communication and technology for the Government of Nunavut.\",\"rankScore\":0.6628612394522352,\"offset\":1012,\"length\":196}],\"warnings\":[]},{\"id\":\"1\",\"sentences\":[{\"text\":\"Windows 365 was in the works before COVID-19 sent companies around the world on a scramble to secure solutions to support employees suddenly forced to work from home, but “what really put the firecracker behind it was the pandemic, it accelerated everything,” McKelvey said.\",\"rankScore\":0.9862194204316037,\"offset\":11,\"length\":274},{\"text\":\"She explained that customers were asking, “’How do we create an experience for people that makes them still feel connected to the company without the physical presence of being there?”\",\"rankScore\":0.9978084744623865,\"offset\":286,\"length\":184},{\"text\":\"In this new world of Windows 365, remote workers flip the lid on their laptop, bootup the family workstation or clip a keyboard onto a tablet, launch a native app or modern web browser and login to their Windows 365 account.\",\"rankScore\":0.860018698051389,\"offset\":482,\"length\":224},{\"text\":\"From there, their Cloud PC appears with their background, apps, settings and content just as they left it when they last were last there – in the office, at home or a coffee shop.\",\"rankScore\":0.6112745423048975,\"offset\":707,\"length\":179},{\"text\":\"His team previously attempted to deploy a traditional virtual desktop infrastructure and found it inefficient and unsustainable given the limitations of low-bandwidth satellite internet and the constant need for IT staff to manage the network and infrastructure.\",\"rankScore\":0.27658209232173997,\"offset\":1949,\"length\":262}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-08-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "1fa764ae-f8e0-4c8b-abf3-c4c1c16fcc0f",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 03 Aug 2021 22:53:18 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "65"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/text/analytics/v3.2-preview.1/analyze/jobs/ff34d75e-b955-4840-8f9b-74fc74751ceb",
-   "query": {
-    "$top": "20"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"jobId\":\"ff34d75e-b955-4840-8f9b-74fc74751ceb\",\"lastUpdateDateTime\":\"2021-08-03T22:53:18Z\",\"createdDateTime\":\"2021-08-03T22:52:59Z\",\"expirationDateTime\":\"2021-08-04T22:52:59Z\",\"status\":\"succeeded\",\"errors\":[],\"displayName\":\"NA\",\"tasks\":{\"completed\":1,\"failed\":0,\"inProgress\":0,\"total\":1,\"extractiveSummarizationTasks\":[{\"lastUpdateDateTime\":\"2021-08-03T22:53:18.4233344Z\",\"taskName\":\"ExtractiveSummarization_latest\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"0\",\"sentences\":[{\"text\":\"No roads or rails connect the 39,000 people dispersed across Nunavut, a territory in northeastern Canada that spans three time zones and features fjord-cut isles that stretch into the Arctic Circle off the west coast of Greenland.\",\"rankScore\":0.9424625379379141,\"offset\":11,\"length\":230},{\"text\":\"About 80% of the population is of Inuit descent with cultural ties to the land that date back more than 4,000 years.\",\"rankScore\":0.8696578658347244,\"offset\":242,\"length\":116},{\"text\":\"Today, low-bandwidth satellite internet service links the people of Nunavut to each other and with the rest of the world.\",\"rankScore\":0.79887955940961,\"offset\":380,\"length\":121},{\"text\":\"The Government of Nunavut relies on this internet link to provide healthcare, education, housing and family, and financial and other services to 25 communities.\",\"rankScore\":0.7014254027202066,\"offset\":531,\"length\":160},{\"text\":\"Managing information technology for this dispersed and elastic workforce is a constant challenge for Martin Joy, director of information communication and technology for the Government of Nunavut.\",\"rankScore\":0.6628612394522352,\"offset\":1012,\"length\":196}],\"warnings\":[]},{\"id\":\"1\",\"sentences\":[{\"text\":\"Windows 365 was in the works before COVID-19 sent companies around the world on a scramble to secure solutions to support employees suddenly forced to work from home, but “what really put the firecracker behind it was the pandemic, it accelerated everything,” McKelvey said.\",\"rankScore\":0.9862194204316037,\"offset\":11,\"length\":274},{\"text\":\"She explained that customers were asking, “’How do we create an experience for people that makes them still feel connected to the company without the physical presence of being there?”\",\"rankScore\":0.9978084744623865,\"offset\":286,\"length\":184},{\"text\":\"In this new world of Windows 365, remote workers flip the lid on their laptop, bootup the family workstation or clip a keyboard onto a tablet, launch a native app or modern web browser and login to their Windows 365 account.\",\"rankScore\":0.860018698051389,\"offset\":482,\"length\":224},{\"text\":\"From there, their Cloud PC appears with their background, apps, settings and content just as they left it when they last were last there – in the office, at home or a coffee shop.\",\"rankScore\":0.6112745423048975,\"offset\":707,\"length\":179},{\"text\":\"His team previously attempted to deploy a traditional virtual desktop infrastructure and found it inefficient and unsustainable given the limitations of low-bandwidth satellite internet and the constant need for IT staff to manage the network and infrastructure.\",\"rankScore\":0.27658209232173997,\"offset\":1949,\"length\":262}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-08-01\"}}]}}",
-   "responseHeaders": {
-    "apim-request-id": "67dee719-bef9-441e-85d3-c4bd4591de1f",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 03 Aug 2021 22:53:18 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "69"
+    "x-envoy-upstream-service-time": "71"
    }
   }
  ],
@@ -250,5 +192,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "1092c70029a4209f247c7eb0e4016fb2"
+ "hash": "fa3d6e17faf35a4cfced17d12fcad595"
 }

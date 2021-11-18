@@ -155,6 +155,7 @@ export interface WebPubSubGroup {
     addConnection(connectionId: string, options?: GroupAddConnectionOptions): Promise<void>;
     addUser(username: string, options?: GroupAddUserOptions): Promise<void>;
     readonly apiVersion: string;
+    closeAllConnections(options?: GroupCloseAllConnectionsOptions): Promise<void>;
     readonly endpoint: string;
     readonly groupName: string;
     readonly hubName: string;
@@ -173,14 +174,13 @@ export class WebPubSubServiceClient {
     closeAllConnections(options?: HubCloseAllConnectionsOptions): Promise<void>;
     closeConnection(connectionId: string, options?: HubCloseConnectionOptions): Promise<void>;
     closeUserConnections(userId: string, options?: HubCloseUserConnectionsOptions): Promise<void>;
+    connectionExists(connectionId: string, options?: HasConnectionOptions): Promise<boolean>;
     endpoint: string;
-    generateClientToken(options?: GenerateClientTokenOptions): Promise<ClientTokenResponse>;
+    getClientAccessToken(options?: GenerateClientTokenOptions): Promise<ClientTokenResponse>;
     grantPermission(connectionId: string, permission: Permission, options?: HubGrantPermissionOptions): Promise<void>;
     group(groupName: string): WebPubSubGroup;
-    hasConnection(connectionId: string, options?: HasConnectionOptions): Promise<boolean>;
-    hasGroup(groupName: string, options?: HubHasGroupOptions): Promise<boolean>;
+    groupExists(groupName: string, options?: HubHasGroupOptions): Promise<boolean>;
     hasPermission(connectionId: string, permission: Permission, options?: HubHasPermissionOptions): Promise<boolean>;
-    hasUser(username: string, options?: HubHasUserOptions): Promise<boolean>;
     readonly hubName: string;
     removeUserFromAllGroups(userId: string, options?: HubCloseConnectionOptions): Promise<void>;
     revokePermission(connectionId: string, permission: Permission, options?: HubRevokePermissionOptions): Promise<void>;
@@ -193,6 +193,7 @@ export class WebPubSubServiceClient {
     sendToUser(username: string, message: string, options: HubSendTextToUserOptions): Promise<void>;
     sendToUser(username: string, message: JSONTypes, options?: HubSendToUserOptions): Promise<void>;
     sendToUser(username: string, message: RequestBodyType, options?: HubSendToUserOptions | HubSendTextToUserOptions): Promise<void>;
+    userExists(username: string, options?: HubHasUserOptions): Promise<boolean>;
 }
 
 // @public

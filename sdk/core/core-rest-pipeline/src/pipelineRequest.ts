@@ -109,6 +109,7 @@ class PipelineRequestImpl implements PipelineRequest {
   public body?: RequestBodyType;
   public formData?: FormDataMap;
   public streamResponseStatusCodes?: Set<number>;
+
   public proxySettings?: ProxySettings;
   public disableKeepAlive: boolean;
   public abortSignal?: AbortSignalLike;

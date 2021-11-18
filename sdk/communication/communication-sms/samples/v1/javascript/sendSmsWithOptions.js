@@ -11,7 +11,7 @@ const { SmsClient } = require("@azure/communication-sms");
 const dotenv = require("dotenv");
 dotenv.config();
 
-export const main = async () => {
+async function main() {
   console.log("== Send SMS Message With Options ==");
 
   // You will need to set this environment variable or edit the following values
@@ -54,7 +54,7 @@ export const main = async () => {
   }
 
   console.log("== Done: Send SMS Message With Options ==");
-};
+}
 
 main().catch((error) => {
   console.error("Encountered an error while sending SMS: ", error);

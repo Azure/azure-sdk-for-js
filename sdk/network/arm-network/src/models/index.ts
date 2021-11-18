@@ -291,6 +291,21 @@ export interface LoadBalancerBackendAddress {
   readonly networkInterfaceIPConfiguration?: SubResource;
   /** Reference to the frontend ip address configuration defined in regional loadbalancer. */
   loadBalancerFrontendIPConfiguration?: SubResource;
+  /**
+   * Collection of inbound NAT rule port mappings.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly inboundNatRulesPortMapping?: NatRulePortMapping[];
+}
+
+/** Individual port mappings for inbound NAT rule created for backend pool. */
+export interface NatRulePortMapping {
+  /** Name of inbound NAT rule. */
+  inboundNatRuleName?: string;
+  /** Frontend port. */
+  frontendPort?: number;
+  /** Backend port. */
+  backendPort?: number;
 }
 
 /** PrivateLinkConnection properties for the network interface. */
@@ -1649,6 +1664,105 @@ export interface FirewallPolicyRuleCollectionGroupListResult {
   nextLink?: string;
 }
 
+/** Will describe the query to run against the IDPS signatures DB */
+export interface IdpsQueryObject {
+  /** Contain all filters names and values */
+  filters?: FilterItems[];
+  /** Search term in all columns */
+  search?: string;
+  /** Column to sort response by */
+  orderBy?: OrderBy;
+  /** The number of the results to return in each page */
+  resultsPerPage?: number;
+  /** The number of records matching the filter to skip */
+  skip?: number;
+}
+
+/** Will contain the filter name and values to operate on */
+export interface FilterItems {
+  /** The name of the field we would like to filter */
+  field?: string;
+  /** List of values to filter the current field by */
+  values?: string[];
+}
+
+/** Describes a column to sort */
+export interface OrderBy {
+  /** Describes the actual column name to sort by */
+  field?: string;
+  /** Describes if results should be in ascending/descending order */
+  order?: OrderByOrder;
+}
+
+/** Query result */
+export interface QueryResults {
+  /** Number of total records matching the query. */
+  matchingRecordsCount?: number;
+  /** Array containing the results of the query */
+  signatures?: SingleQueryResult[];
+}
+
+export interface SingleQueryResult {
+  /** The ID of the signature */
+  signatureId?: number;
+  /** The current mode enforced, 0 - Disabled, 1 - Alert, 2 -Deny */
+  mode?: Enum69;
+  /** Describes the severity of signature: 1 - Low, 2 - Medium, 3 - High */
+  severity?: Enum70;
+  /** Describes in which direction signature is being enforced: 0 - Inbound, 1 - OutBound, 2 - Bidirectional */
+  direction?: Enum71;
+  /** Describes the groups the signature belongs to */
+  group?: string;
+  /** Describes what is the signature enforces */
+  description?: string;
+  /** Describes the protocol the signatures is being enforced in */
+  protocol?: string;
+  /** Describes the list of source ports related to this signature */
+  sourcePorts?: string[];
+  /** Describes the list of destination ports related to this signature */
+  destinationPorts?: string[];
+  /** Describes the last updated time of the signature (provided from 3rd party vendor) */
+  lastUpdated?: string;
+  /** Describes if this override is inherited from base policy or not */
+  inheritedFromParentPolicy?: boolean;
+}
+
+/** Contains all specific policy signatures overrides for the IDPS */
+export interface SignaturesOverrides {
+  /** Contains the name of the resource (default) */
+  name?: string;
+  /** Will contain the resource id of the signature override resource */
+  id?: string;
+  /** Will contain the type of the resource: Microsoft.Network/firewallPolicies/intrusionDetectionSignaturesOverrides */
+  type?: string;
+  /** Will contain the properties of the resource (the actual signature overrides) */
+  properties?: SignaturesOverridesProperties;
+}
+
+/** Will contain the properties of the resource (the actual signature overrides) */
+export interface SignaturesOverridesProperties {
+  /** Dictionary of <string> */
+  signatures?: { [propertyName: string]: string };
+}
+
+/** Describes the filter values possibles for a given column */
+export interface SignatureOverridesFilterValuesQuery {
+  /** Describes the name of the column which values will be returned */
+  filterName?: string;
+}
+
+/** Describes the list of all possible values for a specific filter value */
+export interface SignatureOverridesFilterValuesResponse {
+  /** Describes the possible values */
+  filterValues?: string[];
+}
+
+/** Describes an object containing an array with a single item */
+export interface SignaturesOverridesList {
+  /** Describes a list consisting exactly one item describing the policy's signature override status */
+  value?: SignaturesOverrides[];
+}
+
 /** Response for the ListIpAllocations API service call. */
 export interface IpAllocationListResult {
   /** A list of IpAllocation resources. */
@@ -1708,7 +1822,7 @@ export interface LoadBalancerFrontendIPConfigurationListResult {
 
 /** Response for ListInboundNatRule API service call. */
 export interface InboundNatRuleListResult {
-  /** A list of inbound nat rules in a load balancer. */
+  /** A list of inbound NAT rules in a load balancer. */
   value?: InboundNatRule[];
   /**
    * The URL to get the next set of results.
@@ -1762,6 +1876,44 @@ export interface LoadBalancerVipSwapRequestFrontendIPConfiguration {
   id?: string;
   /** A reference to public IP address resource. */
   publicIPAddress?: SubResource;
+}
+
+/** The request for a QueryInboundNatRulePortMapping API. Either IpConfiguration or IpAddress should be set */
+export interface QueryInboundNatRulePortMappingRequest {
+  /** NetworkInterfaceIPConfiguration set in load balancer backend address. */
+  ipConfiguration?: SubResource;
+  /** IP address set in load balancer backend address. */
+  ipAddress?: string;
+}
+
+/** The response for a QueryInboundNatRulePortMapping API. */
+export interface BackendAddressInboundNatRulePortMappings {
+  /** Collection of inbound NAT rule port mappings. */
+  inboundNatRulePortMappings?: InboundNatRulePortMapping[];
+}
+
+/** Individual port mappings for inbound NAT rule created for backend pool. */
+export interface InboundNatRulePortMapping {
+  /**
+   * Name of inbound NAT rule.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly inboundNatRuleName?: string;
+  /**
+   * The reference to the transport protocol used by the inbound NAT rule.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly protocol?: TransportProtocol;
+  /**
+   * Frontend port.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly frontendPort?: number;
+  /**
+   * Backend port.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly backendPort?: number;
 }
 
 /** Response for ListNatGateways API service call. */
@@ -3615,6 +3767,14 @@ export interface VirtualNetworkBgpCommunities {
   readonly regionalCommunity?: string;
 }
 
+/** Indicates if encryption is enabled on virtual network and if VM without encryption is allowed in encrypted VNet. */
+export interface VirtualNetworkEncryption {
+  /** Indicates if encryption is enabled on the virtual network. */
+  enabled: boolean;
+  /** If the encrypted VNet allows VM that does not support encryption */
+  enforcement?: VirtualNetworkEncryptionEnforcement;
+}
+
 /** Response for the ListVirtualNetworks API service call. */
 export interface VirtualNetworkListResult {
   /** A list of VirtualNetwork resources in a resource group. */
@@ -3852,6 +4012,8 @@ export interface IPConfigurationBgpPeeringAddress {
 export interface VpnNatRuleMapping {
   /** Address space for Vpn NatRule mapping. */
   addressSpace?: string;
+  /** Port range for Vpn NatRule mapping. */
+  portRange?: string;
 }
 
 /** Response for the ListVirtualNetworkGateways API service call. */
@@ -4701,6 +4863,24 @@ export interface EffectiveRoutesParameters {
   virtualWanResourceType?: string;
 }
 
+/** The routing policy object used in a RoutingIntent resource. */
+export interface RoutingPolicy {
+  /** The unique name for the routing policy. */
+  name: string;
+  /** List of all destinations which this routing policy is applicable to (for example: Internet, PrivateTraffic). */
+  destinations: string[];
+  /** The next hop resource id on which this routing policy is applicable to. */
+  nextHop: string;
+}
+
+/** List of the routing intent result and a URL nextLink to get the next set of results. */
+export interface ListRoutingIntentResult {
+  /** List of RoutingIntent resource. */
+  value?: RoutingIntent[];
+  /** URL to get the next set of operation list results if there are any. */
+  nextLink?: string;
+}
+
 /** Result of the request to list WebApplicationFirewallPolicies. It contains a list of WebApplicationFirewallPolicy objects and a URL link to get the next set of results. */
 export interface WebApplicationFirewallPolicyListResult {
   /**
@@ -4786,6 +4966,32 @@ export interface OwaspCrsExclusionEntry {
   selectorMatchOperator: OwaspCrsExclusionEntrySelectorMatchOperator;
   /** When matchVariable is a collection, operator used to specify which elements in the collection this exclusion applies to. */
   selector: string;
+  /** The managed rule sets that are associated with the exclusion. */
+  exclusionManagedRuleSets?: ExclusionManagedRuleSet[];
+}
+
+/** Defines a managed rule set for Exclusions. */
+export interface ExclusionManagedRuleSet {
+  /** Defines the rule set type to use. */
+  ruleSetType: string;
+  /** Defines the version of the rule set to use. */
+  ruleSetVersion: string;
+  /** Defines the rule groups to apply to the rule set. */
+  ruleGroups?: ExclusionManagedRuleGroup[];
+}
+
+/** Defines a managed rule group to use for exclusion. */
+export interface ExclusionManagedRuleGroup {
+  /** The managed rule group for exclusion. */
+  ruleGroupName: string;
+  /** List of rules that will be excluded. If none specified, all rules in the group will be excluded. */
+  rules?: ExclusionManagedRule[];
+}
+
+/** Defines a managed rule to use for exclusion. */
+export interface ExclusionManagedRule {
+  /** Identifier for the managed rule. */
+  ruleId: string;
 }
 
 /** Defines a managed rule set. */
@@ -5018,6 +5224,11 @@ export type NetworkInterface = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly primary?: boolean;
+  /**
+   * Whether the virtual machine this nic is attached to supports encryption.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly vnetEncryptionSupported?: boolean;
   /** If the network interface is accelerated networking enabled. */
   enableAcceleratedNetworking?: boolean;
   /** Indicates whether IP forwarding is enabled on this network interface. */
@@ -5538,12 +5749,12 @@ export type CustomIpPrefix = Resource & {
   /** Authorization message for WAN validation. */
   authorizationMessage?: string;
   /** The Parent CustomIpPrefix for IPv6 /64 CustomIpPrefix. */
-  customIpPrefixParent?: CustomIpPrefix;
+  customIpPrefixParent?: SubResource;
   /**
    * The list of all Children for IPv6 /48 CustomIpPrefix.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly childCustomIpPrefixes?: CustomIpPrefix[];
+  readonly childCustomIpPrefixes?: SubResource[];
   /** The commissioned state of the Custom IP Prefix. */
   commissionedState?: CommissionedState;
   /**
@@ -5948,7 +6159,7 @@ export type LoadBalancer = Resource & {
   probes?: Probe[];
   /** Collection of inbound NAT Rules used by a load balancer. Defining inbound NAT rules on your load balancer is mutually exclusive with defining an inbound NAT pool. Inbound NAT pools are referenced from virtual machine scale sets. NICs that are associated with individual virtual machines cannot reference an Inbound NAT pool. They have to reference individual inbound NAT rules. */
   inboundNatRules?: InboundNatRule[];
-  /** Defines an external port range for inbound NAT to a single backend port on NICs associated with a load balancer. Inbound NAT rules are created automatically for each NIC associated with the Load Balancer using an external port from this range. Defining an Inbound NAT pool on your Load Balancer is mutually exclusive with defining inbound Nat rules. Inbound NAT pools are referenced from virtual machine scale sets. NICs that are associated with individual virtual machines cannot reference an inbound NAT pool. They have to reference individual inbound NAT rules. */
+  /** Defines an external port range for inbound NAT to a single backend port on NICs associated with a load balancer. Inbound NAT rules are created automatically for each NIC associated with the Load Balancer using an external port from this range. Defining an Inbound NAT pool on your Load Balancer is mutually exclusive with defining inbound NAT rules. Inbound NAT pools are referenced from virtual machine scale sets. NICs that are associated with individual virtual machines cannot reference an inbound NAT pool. They have to reference individual inbound NAT rules. */
   inboundNatPools?: InboundNatPool[];
   /** The outbound rules. */
   outboundRules?: OutboundRule[];
@@ -6219,6 +6430,8 @@ export type VirtualNetwork = Resource & {
   ddosProtectionPlan?: SubResource;
   /** Bgp Communities sent over ExpressRoute with each route corresponding to a prefix in this VNET. */
   bgpCommunities?: VirtualNetworkBgpCommunities;
+  /** Indicates if encryption is enabled on virtual network and if VM without encryption is allowed in encrypted VNet. */
+  encryption?: VirtualNetworkEncryption;
   /** Array of IpAllocation which reference this VNET. */
   ipAllocations?: SubResource[];
 };
@@ -6255,6 +6468,8 @@ export type VirtualNetworkGateway = Resource & {
   enablePrivateIpAddress?: boolean;
   /** ActiveActive flag. */
   active?: boolean;
+  /** disableIPSecReplayProtection flag. */
+  disableIPSecReplayProtection?: boolean;
   /** The reference to the LocalNetworkGateway resource which represents local network site having default routes. Assign Null value in case of removing existing default site setting. */
   gatewayDefaultSite?: SubResource;
   /** The reference to the VirtualNetworkGatewaySku resource which represents the SKU selected for Virtual network gateway. */
@@ -7538,6 +7753,11 @@ export type BackendAddressPool = SubResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly outboundRules?: SubResource[];
+  /**
+   * An array of references to inbound NAT rules that use this backend address pool.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly inboundNatRules?: SubResource[];
   /**
    * The provisioning state of the backend address pool resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -8860,6 +9080,11 @@ export type VirtualNetworkPeering = SubResource & {
   remoteVirtualNetworkAddressSpace?: AddressSpace;
   /** The reference to the remote virtual network's Bgp Communities. */
   remoteBgpCommunities?: VirtualNetworkBgpCommunities;
+  /**
+   * The reference to the remote virtual network's encryption
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly remoteVirtualNetworkEncryption?: VirtualNetworkEncryption;
   /** The status of the virtual network peering. */
   peeringState?: VirtualNetworkPeeringState;
   /** The peering sync status of the virtual network peering. */
@@ -9378,6 +9603,29 @@ export type HubRouteTable = SubResource & {
   readonly propagatingConnections?: string[];
   /**
    * The provisioning state of the RouteTable resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+};
+
+/** The routing intent child resource of a Virtual hub. */
+export type RoutingIntent = SubResource & {
+  /** The name of the resource that is unique within a resource group. This name can be used to access the resource. */
+  name?: string;
+  /**
+   * A unique read-only string that changes whenever the resource is updated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly etag?: string;
+  /**
+   * Resource type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /** List of routing policies. */
+  routingPolicies?: RoutingPolicy[];
+  /**
+   * The provisioning state of the RoutingIntent resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
@@ -10386,7 +10634,8 @@ export type AzureFirewallSkuName = string;
 /** Known values of {@link AzureFirewallSkuTier} that the service accepts. */
 export enum KnownAzureFirewallSkuTier {
   Standard = "Standard",
-  Premium = "Premium"
+  Premium = "Premium",
+  Basic = "Basic"
 }
 
 /**
@@ -10395,7 +10644,8 @@ export enum KnownAzureFirewallSkuTier {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Standard** \
- * **Premium**
+ * **Premium** \
+ * **Basic**
  */
 export type AzureFirewallSkuTier = string;
 
@@ -10808,7 +11058,8 @@ export type FirewallPolicyIntrusionDetectionProtocol = string;
 /** Known values of {@link FirewallPolicySkuTier} that the service accepts. */
 export enum KnownFirewallPolicySkuTier {
   Standard = "Standard",
-  Premium = "Premium"
+  Premium = "Premium",
+  Basic = "Basic"
 }
 
 /**
@@ -10817,7 +11068,8 @@ export enum KnownFirewallPolicySkuTier {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Standard** \
- * **Premium**
+ * **Premium** \
+ * **Basic**
  */
 export type FirewallPolicySkuTier = string;
 
@@ -10836,6 +11088,76 @@ export enum KnownFirewallPolicyRuleCollectionType {
  * **FirewallPolicyFilterRuleCollection**
  */
 export type FirewallPolicyRuleCollectionType = string;
+
+/** Known values of {@link OrderByOrder} that the service accepts. */
+export enum KnownOrderByOrder {
+  Ascending = "Ascending",
+  Descending = "Descending"
+}
+
+/**
+ * Defines values for OrderByOrder. \
+ * {@link KnownOrderByOrder} can be used interchangeably with OrderByOrder,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Ascending** \
+ * **Descending**
+ */
+export type OrderByOrder = string;
+
+/** Known values of {@link Enum69} that the service accepts. */
+export enum KnownEnum69 {
+  Zero = 0,
+  One = 1,
+  Two = 2
+}
+
+/**
+ * Defines values for Enum69. \
+ * {@link KnownEnum69} can be used interchangeably with Enum69,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **0** \
+ * **1** \
+ * **2**
+ */
+export type Enum69 = number;
+
+/** Known values of {@link Enum70} that the service accepts. */
+export enum KnownEnum70 {
+  One = 1,
+  Two = 2,
+  Three = 3
+}
+
+/**
+ * Defines values for Enum70. \
+ * {@link KnownEnum70} can be used interchangeably with Enum70,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **1** \
+ * **2** \
+ * **3**
+ */
+export type Enum70 = number;
+
+/** Known values of {@link Enum71} that the service accepts. */
+export enum KnownEnum71 {
+  Zero = 0,
+  One = 1,
+  Two = 2
+}
+
+/**
+ * Defines values for Enum71. \
+ * {@link KnownEnum71} can be used interchangeably with Enum71,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **0** \
+ * **1** \
+ * **2**
+ */
+export type Enum71 = number;
 
 /** Known values of {@link IpAllocationType} that the service accepts. */
 export enum KnownIpAllocationType {
@@ -11618,6 +11940,22 @@ export enum KnownUsageUnit {
  * **Count**
  */
 export type UsageUnit = string;
+
+/** Known values of {@link VirtualNetworkEncryptionEnforcement} that the service accepts. */
+export enum KnownVirtualNetworkEncryptionEnforcement {
+  DropUnencrypted = "DropUnencrypted",
+  AllowUnencrypted = "AllowUnencrypted"
+}
+
+/**
+ * Defines values for VirtualNetworkEncryptionEnforcement. \
+ * {@link KnownVirtualNetworkEncryptionEnforcement} can be used interchangeably with VirtualNetworkEncryptionEnforcement,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **DropUnencrypted** \
+ * **AllowUnencrypted**
+ */
+export type VirtualNetworkEncryptionEnforcement = string;
 
 /** Known values of {@link VirtualNetworkPeeringState} that the service accepts. */
 export enum KnownVirtualNetworkPeeringState {
@@ -12501,7 +12839,13 @@ export type WebApplicationFirewallPolicyResourceState = string;
 export enum KnownOwaspCrsExclusionEntryMatchVariable {
   RequestHeaderNames = "RequestHeaderNames",
   RequestCookieNames = "RequestCookieNames",
-  RequestArgNames = "RequestArgNames"
+  RequestArgNames = "RequestArgNames",
+  RequestHeaderKeys = "RequestHeaderKeys",
+  RequestHeaderValues = "RequestHeaderValues",
+  RequestCookieKeys = "RequestCookieKeys",
+  RequestCookieValues = "RequestCookieValues",
+  RequestArgKeys = "RequestArgKeys",
+  RequestArgValues = "RequestArgValues"
 }
 
 /**
@@ -12511,7 +12855,13 @@ export enum KnownOwaspCrsExclusionEntryMatchVariable {
  * ### Known values supported by the service
  * **RequestHeaderNames** \
  * **RequestCookieNames** \
- * **RequestArgNames**
+ * **RequestArgNames** \
+ * **RequestHeaderKeys** \
+ * **RequestHeaderValues** \
+ * **RequestCookieKeys** \
+ * **RequestCookieValues** \
+ * **RequestArgKeys** \
+ * **RequestArgValues**
  */
 export type OwaspCrsExclusionEntryMatchVariable = string;
 
@@ -13826,7 +14176,7 @@ export interface DdosProtectionPlansListByResourceGroupNextOptionalParams
 export type DdosProtectionPlansListByResourceGroupNextResponse = DdosProtectionPlanListResult;
 
 /** Optional parameters. */
-export interface DscpConfigurationOperationsCreateOrUpdateOptionalParams
+export interface DscpConfigurationCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
@@ -13835,10 +14185,10 @@ export interface DscpConfigurationOperationsCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type DscpConfigurationOperationsCreateOrUpdateResponse = DscpConfiguration;
+export type DscpConfigurationCreateOrUpdateResponse = DscpConfiguration;
 
 /** Optional parameters. */
-export interface DscpConfigurationOperationsDeleteOptionalParams
+export interface DscpConfigurationDeleteOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
@@ -13847,39 +14197,39 @@ export interface DscpConfigurationOperationsDeleteOptionalParams
 }
 
 /** Optional parameters. */
-export interface DscpConfigurationOperationsGetOptionalParams
+export interface DscpConfigurationGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type DscpConfigurationOperationsGetResponse = DscpConfiguration;
+export type DscpConfigurationGetResponse = DscpConfiguration;
 
 /** Optional parameters. */
-export interface DscpConfigurationOperationsListOptionalParams
+export interface DscpConfigurationListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type DscpConfigurationOperationsListResponse = DscpConfigurationListResult;
+export type DscpConfigurationListResponse = DscpConfigurationListResult;
 
 /** Optional parameters. */
-export interface DscpConfigurationOperationsListAllOptionalParams
+export interface DscpConfigurationListAllOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAll operation. */
-export type DscpConfigurationOperationsListAllResponse = DscpConfigurationListResult;
+export type DscpConfigurationListAllResponse = DscpConfigurationListResult;
 
 /** Optional parameters. */
-export interface DscpConfigurationOperationsListNextOptionalParams
+export interface DscpConfigurationListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type DscpConfigurationOperationsListNextResponse = DscpConfigurationListResult;
+export type DscpConfigurationListNextResponse = DscpConfigurationListResult;
 
 /** Optional parameters. */
-export interface DscpConfigurationOperationsListAllNextOptionalParams
+export interface DscpConfigurationListAllNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAllNext operation. */
-export type DscpConfigurationOperationsListAllNextResponse = DscpConfigurationListResult;
+export type DscpConfigurationListAllNextResponse = DscpConfigurationListResult;
 
 /** Optional parameters. */
 export interface AvailableEndpointServicesListOptionalParams
@@ -14515,6 +14865,48 @@ export interface FirewallPolicyRuleCollectionGroupsListNextOptionalParams
 export type FirewallPolicyRuleCollectionGroupsListNextResponse = FirewallPolicyRuleCollectionGroupListResult;
 
 /** Optional parameters. */
+export interface FirewallPolicyIdpsSignaturesListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type FirewallPolicyIdpsSignaturesListResponse = QueryResults;
+
+/** Optional parameters. */
+export interface FirewallPolicyIdpsSignaturesOverridesPatchOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the patch operation. */
+export type FirewallPolicyIdpsSignaturesOverridesPatchResponse = SignaturesOverrides;
+
+/** Optional parameters. */
+export interface FirewallPolicyIdpsSignaturesOverridesPutOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the put operation. */
+export type FirewallPolicyIdpsSignaturesOverridesPutResponse = SignaturesOverrides;
+
+/** Optional parameters. */
+export interface FirewallPolicyIdpsSignaturesOverridesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type FirewallPolicyIdpsSignaturesOverridesGetResponse = SignaturesOverrides;
+
+/** Optional parameters. */
+export interface FirewallPolicyIdpsSignaturesOverridesListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type FirewallPolicyIdpsSignaturesOverridesListResponse = SignaturesOverridesList;
+
+/** Optional parameters. */
+export interface FirewallPolicyIdpsSignaturesFilterValuesListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type FirewallPolicyIdpsSignaturesFilterValuesListResponse = SignatureOverridesFilterValuesResponse;
+
+/** Optional parameters. */
 export interface IpAllocationsDeleteOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
@@ -14705,6 +15097,18 @@ export interface LoadBalancersSwapPublicIpAddressesOptionalParams
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
   resumeFrom?: string;
 }
+
+/** Optional parameters. */
+export interface LoadBalancersListInboundNatRulePortMappingsOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the listInboundNatRulePortMappings operation. */
+export type LoadBalancersListInboundNatRulePortMappingsResponse = BackendAddressInboundNatRulePortMappings;
 
 /** Optional parameters. */
 export interface LoadBalancersListAllNextOptionalParams
@@ -15368,7 +15772,7 @@ export interface VirtualApplianceSkusListNextOptionalParams
 export type VirtualApplianceSkusListNextResponse = NetworkVirtualApplianceSkuListResult;
 
 /** Optional parameters. */
-export interface InboundSecurityRuleOperationsCreateOrUpdateOptionalParams
+export interface InboundSecurityRuleCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
@@ -15377,7 +15781,7 @@ export interface InboundSecurityRuleOperationsCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type InboundSecurityRuleOperationsCreateOrUpdateResponse = InboundSecurityRule;
+export type InboundSecurityRuleCreateOrUpdateResponse = InboundSecurityRule;
 
 /** Optional parameters. */
 export interface NetworkWatchersCreateOrUpdateOptionalParams
@@ -16508,7 +16912,7 @@ export interface ServiceTagsListOptionalParams
 export type ServiceTagsListResponse = ServiceTagsListResult;
 
 /** Optional parameters. */
-export interface ServiceTagInformationOperationsListOptionalParams
+export interface ServiceTagInformationListOptionalParams
   extends coreClient.OperationOptions {
   /** Do not return address prefixes for the tag(s). */
   noAddressPrefixes?: boolean;
@@ -16517,10 +16921,10 @@ export interface ServiceTagInformationOperationsListOptionalParams
 }
 
 /** Contains response data for the list operation. */
-export type ServiceTagInformationOperationsListResponse = ServiceTagInformationListResult;
+export type ServiceTagInformationListResponse = ServiceTagInformationListResult;
 
 /** Optional parameters. */
-export interface ServiceTagInformationOperationsListNextOptionalParams
+export interface ServiceTagInformationListNextOptionalParams
   extends coreClient.OperationOptions {
   /** Do not return address prefixes for the tag(s). */
   noAddressPrefixes?: boolean;
@@ -16529,7 +16933,7 @@ export interface ServiceTagInformationOperationsListNextOptionalParams
 }
 
 /** Contains response data for the listNext operation. */
-export type ServiceTagInformationOperationsListNextResponse = ServiceTagInformationListResult;
+export type ServiceTagInformationListNextResponse = ServiceTagInformationListResult;
 
 /** Optional parameters. */
 export interface UsagesListOptionalParams extends coreClient.OperationOptions {}
@@ -18447,6 +18851,48 @@ export interface HubRouteTablesListNextOptionalParams
 
 /** Contains response data for the listNext operation. */
 export type HubRouteTablesListNextResponse = ListHubRouteTablesResult;
+
+/** Optional parameters. */
+export interface RoutingIntentCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type RoutingIntentCreateOrUpdateResponse = RoutingIntent;
+
+/** Optional parameters. */
+export interface RoutingIntentGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type RoutingIntentGetResponse = RoutingIntent;
+
+/** Optional parameters. */
+export interface RoutingIntentDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface RoutingIntentListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type RoutingIntentListResponse = ListRoutingIntentResult;
+
+/** Optional parameters. */
+export interface RoutingIntentListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type RoutingIntentListNextResponse = ListRoutingIntentResult;
 
 /** Optional parameters. */
 export interface WebApplicationFirewallPoliciesListOptionalParams

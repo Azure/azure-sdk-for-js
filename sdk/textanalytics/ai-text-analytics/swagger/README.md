@@ -12,9 +12,9 @@ generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src/generated
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/d758c4205d331c552cafbb755ed02673b9fa5e22/specification/cognitiveservices/data-plane/TextAnalytics/preview/v3.2-preview.1/TextAnalytics.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/main/specification/cognitiveservices/data-plane/TextAnalytics/preview/v3.2-preview.2/TextAnalytics.json
 add-credentials: false
-package-version: 5.2.0-beta.2
+package-version: 5.2.0-beta.3
 v3: true
 hide-clients: true
 typescript: true
@@ -193,16 +193,6 @@ directive:
     where: $.definitions.TextAnalyticsWarning.properties
     transform: >
       delete $["targetRef"];
-```
-
-### Remove taskName
-
-```yaml
-directive:
-  - from: swagger-document
-    where: $.definitions..properties
-    transform: >
-      delete $["taskName"];
 ```
 
 ### Rename text input objects to avoid "export as"

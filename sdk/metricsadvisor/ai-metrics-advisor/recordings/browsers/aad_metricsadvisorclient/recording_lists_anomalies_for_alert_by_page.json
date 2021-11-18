@@ -2,26 +2,26 @@
  "recordings": [
   {
    "method": "POST",
-   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "url": "https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token",
    "query": {},
-   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default",
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fsanitized%2F",
    "status": 200,
    "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
    "responseHeaders": {
     "cache-control": "no-store, no-cache",
     "content-length": "1331",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 02 Jun 2021 07:08:18 GMT",
+    "date": "Tue, 16 Nov 2021 02:01:09 GMT",
     "expires": "-1",
     "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
-    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+wst\"}]}",
+    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+est\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11722.26 - WUS2 ProdSlices",
-    "x-ms-request-id": "af3fd0cd-39d3-4047-9560-fb249526b200"
+    "x-ms-ests-server": "2.1.12231.7 - SCUS ProdSlices",
+    "x-ms-request-id": "807ea866-a70c-4f1f-86a7-d6b696fa1601"
    }
   },
   {
@@ -32,16 +32,16 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[{\"dataFeedId\":\"52b0c20c-cb7c-43f0-9507-2a33170342db\",\"metricId\":\"189ff959-d9f4-45c7-a1e0-f87c9c7ca80f\",\"anomalyDetectionConfigurationId\":\"26ece682-80a6-4415-89a2-05903dd9a640\",\"timestamp\":\"2020-10-20T00:00:00Z\",\"createdTime\":\"2020-10-21T15:54:37.73Z\",\"modifiedTime\":\"2020-10-21T15:54:37.73Z\",\"dimension\":{\"city\":\"Delhi\",\"category\":\"Shoes Handbags & Sunglasses\"},\"property\":{\"anomalySeverity\":\"Medium\",\"anomalyStatus\":\"Active\",\"value\":5079001.4,\"expectedValue\":5142673.035323909}}],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/alert/anomaly/configurations/7edf304f-6487-4e3d-a137-cc4f679bcbc0/alerts/17470297800/anomalies?$maxpagesize=1&$skip=1\"}",
+   "response": "{\"value\":[{\"dataFeedId\":\"52b0c20c-cb7c-43f0-9507-2a33170342db\",\"metricId\":\"189ff959-d9f4-45c7-a1e0-f87c9c7ca80f\",\"anomalyDetectionConfigurationId\":\"26ece682-80a6-4415-89a2-05903dd9a640\",\"timestamp\":\"2021-09-07T00:00:00Z\",\"createdTime\":\"2021-09-08T00:09:22.716Z\",\"modifiedTime\":\"2021-09-08T00:09:22.716Z\",\"dimension\":{\"region\":\"__SUM__\",\"category\":\"Shoes Handbags & Sunglasses\"},\"property\":{\"anomalySeverity\":\"High\",\"anomalyStatus\":\"Active\",\"value\":55791561.8,\"expectedValue\":52146711.57082515}}],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/alert/anomaly/configurations/7edf304f-6487-4e3d-a137-cc4f679bcbc0/alerts/17470297800/anomalies?$maxpagesize=1&$skip=1\"}",
    "responseHeaders": {
-    "apim-request-id": "c3e69d11-6597-4a67-b3d8-e09775f6a740",
-    "content-length": "702",
+    "apim-request-id": "8d41af57-2dee-4e2c-96de-48b15ec3d5dd",
+    "content-length": "707",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 02 Jun 2021 07:08:18 GMT",
+    "date": "Tue, 16 Nov 2021 02:01:10 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "50",
-    "x-request-id": "c3e69d11-6597-4a67-b3d8-e09775f6a740"
+    "x-envoy-upstream-service-time": "38",
+    "x-request-id": "8d41af57-2dee-4e2c-96de-48b15ec3d5dd"
    }
   },
   {
@@ -53,16 +53,16 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[{\"dataFeedId\":\"52b0c20c-cb7c-43f0-9507-2a33170342db\",\"metricId\":\"189ff959-d9f4-45c7-a1e0-f87c9c7ca80f\",\"anomalyDetectionConfigurationId\":\"26ece682-80a6-4415-89a2-05903dd9a640\",\"timestamp\":\"2020-10-20T00:00:00Z\",\"createdTime\":\"2020-10-21T15:54:37.73Z\",\"modifiedTime\":\"2020-10-21T15:54:37.73Z\",\"dimension\":{\"city\":\"Karachi\",\"category\":\"Handmade\"},\"property\":{\"anomalySeverity\":\"Medium\",\"anomalyStatus\":\"Active\",\"value\":3724747.4,\"expectedValue\":3579278.2792707016}}],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/alert/anomaly/configurations/7edf304f-6487-4e3d-a137-cc4f679bcbc0/alerts/17470297800/anomalies?$maxpagesize=1&$skip=2\"}",
+   "response": "{\"value\":[{\"dataFeedId\":\"52b0c20c-cb7c-43f0-9507-2a33170342db\",\"metricId\":\"189ff959-d9f4-45c7-a1e0-f87c9c7ca80f\",\"anomalyDetectionConfigurationId\":\"26ece682-80a6-4415-89a2-05903dd9a640\",\"timestamp\":\"2021-09-07T00:00:00Z\",\"createdTime\":\"2021-09-08T00:09:22.716Z\",\"modifiedTime\":\"2021-09-08T00:09:22.716Z\",\"dimension\":{\"region\":\"Seoul\",\"category\":\"Office Products\"},\"property\":{\"anomalySeverity\":\"Medium\",\"anomalyStatus\":\"Active\",\"value\":17763.6,\"expectedValue\":14939.115446142221}}],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/alert/anomaly/configurations/7edf304f-6487-4e3d-a137-cc4f679bcbc0/alerts/17470297800/anomalies?$maxpagesize=1&$skip=2\"}",
    "responseHeaders": {
-    "apim-request-id": "4978aa15-97c2-4a29-af4c-69b093ad0613",
-    "content-length": "686",
+    "apim-request-id": "0ff8f9e0-c1ae-4395-8fce-550fb676ab6d",
+    "content-length": "693",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 02 Jun 2021 07:08:18 GMT",
+    "date": "Tue, 16 Nov 2021 02:01:10 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "57",
-    "x-request-id": "4978aa15-97c2-4a29-af4c-69b093ad0613"
+    "x-envoy-upstream-service-time": "28",
+    "x-request-id": "0ff8f9e0-c1ae-4395-8fce-550fb676ab6d"
    }
   }
  ],
@@ -70,5 +70,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "36bc12523e68a5aa5c098dcb63c5333d"
+ "hash": "f16ad423e5556ff9cda4b80b355970c3"
 }

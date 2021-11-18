@@ -14,7 +14,7 @@
    * path segment in the "$schema" field for all your Rush config files.  This will ensure
    * correct error-underlining and tab-completion for editors such as VS Code.
    */
-  "rushVersion": "5.54.0",
+  "rushVersion": "5.55.1",
   /**
    * The next field selects which package manager should be installed and determines its version.
    * Rush installs its own local copy of the package manager to ensure that your build process
@@ -23,7 +23,7 @@
    * Specify one of: "pnpmVersion", "npmVersion", or "yarnVersion".  See the Rush documentation
    * for details about these alternatives.
    */
-  "pnpmVersion": "6.14.2",
+  "pnpmVersion": "6.19.1",
   // "npmVersion": "4.5.0",
   // "yarnVersion": "1.9.4",
   /**
@@ -427,6 +427,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure-tools/communication-short-codes",
+      "projectFolder": "sdk/communication/communication-short-codes",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/communication-sms",
       "projectFolder": "sdk/communication/communication-sms",
       "versionPolicyName": "client"
@@ -654,6 +659,11 @@
     {
       "packageName": "@azure/synapse-access-control",
       "projectFolder": "sdk/synapse/synapse-access-control",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure-rest/synapse-access-control",
+      "projectFolder": "sdk/synapse/synapse-access-control-rest",
       "versionPolicyName": "client"
     },
     {
@@ -999,6 +1009,91 @@
     {
       "packageName": "@azure/arm-logic",
       "projectFolder": "sdk/logic/arm-logic",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-recoveryservices",
+      "projectFolder": "sdk/recoveryservices/arm-recoveryservices",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-appplatform",
+      "projectFolder": "sdk/appplatform/arm-appplatform",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-containerservice",
+      "projectFolder": "sdk/containerservice/arm-containerservice",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-operations",
+      "projectFolder": "sdk/operationsmanagement/arm-operations",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-mediaservices",
+      "projectFolder": "sdk/mediaservices/arm-mediaservices",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-databricks",
+      "projectFolder": "sdk/databricks/arm-databricks",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-videoanalyzer",
+      "projectFolder": "sdk/videoanalyzer/arm-videoanalyzer",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-notificationhubs",
+      "projectFolder": "sdk/notificationhubs/arm-notificationhubs",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-streamanalytics",
+      "projectFolder": "sdk/streamanalytics/arm-streamanalytics",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-servicefabric",
+      "projectFolder": "sdk/servicefabric/arm-servicefabric",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-mysql",
+      "projectFolder": "sdk/mysql/arm-mysql",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-desktopvirtualization",
+      "projectFolder": "sdk/desktopvirtualization/arm-desktopvirtualization",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-datafactory",
+      "projectFolder": "sdk/datafactory/arm-datafactory",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-cdn",
+      "projectFolder": "sdk/cdn/arm-cdn",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-cosmosdb",
+      "projectFolder": "sdk/cosmosdb/arm-cosmosdb",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-consumption",
+      "projectFolder": "sdk/consumption/arm-consumption",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-datalake-analytics",
+      "projectFolder": "sdk/datalake-analytics/arm-datalake-analytics",
       "versionPolicyName": "management"
     }
   ]

@@ -122,7 +122,7 @@ function isDependency(moduleSpecifier: string): boolean {
 
   // This seems like a reasonable test for "is a relative path" as long as
   // absolute path imports are forbidden.
-  const isRelativePath = /^\.\.?\//.test(moduleSpecifier);
+  const isRelativePath = /^\.\.?[\/\\]/.test(moduleSpecifier);
   return !isRelativePath;
 }
 
@@ -281,6 +281,21 @@ async function collect<T>(i: AsyncIterableIterator<T>): Promise<T[]> {
 }
 
 /**
+ * Processes a segmented module path to return the first segment. This is useful for packages that have nested imports
+ * such as "dayjs/plugin/duration".
+ *
+ * @param specifier - the module specifier to resolve to a package name
+ * @returns a package name
+ */
+function resolveModule(specifier: string): string {
+  const parts = specifier.split("/", 2);
+
+  // The first part could be a namespace, in which case we need to join them
+  if (parts.length > 1 && parts[0].startsWith("@")) return parts[0] + "/" + parts[1];
+  else return parts[0];
+}
+
+/**
  * Extracts the sample generation metainformation from the sample sources and
  * configuration in package.json.
  *
@@ -346,7 +361,7 @@ async function makeSampleGenerationInfo(
         .slice(-1)[0]
         .replace("\\", "/"),
     // This'll be good enough most of the time, but products like Azure Form Recognizer will have
-    // too adjust using the sample configuration.
+    // to adjust using the sample configuration.
     productName:
       sampleConfiguration.productName ??
       fail(`The sample configuration does not specify a "productName".`),
@@ -377,7 +392,7 @@ async function makeSampleGenerationInfo(
       return {
         dependencies: moduleInfos.reduce((prev, source) => {
           const current: Record<string, string> = {};
-          for (const dependency of source.importedModules) {
+          for (const dependency of source.importedModules.map(resolveModule)) {
             if (prev[dependency] === undefined) {
               const dependencyVersion =
                 sampleConfiguration.dependencyOverrides?.[dependency] ??

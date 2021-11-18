@@ -4,8 +4,16 @@ stages:
   - template: /eng/pipelines/templates/stages/archetype-sdk-tests.yml
     parameters:
       PackageName: "@azure/ai-text-analytics"
-      ServiceDirectory: textanalytics
       EnvVars:
+        ENDPOINT: $(js-textanalytics-test-service-endpoint)
+        TEXT_ANALYTICS_API_KEY: $(js-textanalytics-api-key-new)
+        TEXT_ANALYTICS_API_KEY_ALT: $(js-textanalytics-api-key-alt)
         AZURE_CLIENT_ID: $(aad-azure-sdk-test-client-id)
         AZURE_TENANT_ID: $(aad-azure-sdk-test-tenant-id)
         AZURE_CLIENT_SECRET: $(aad-azure-sdk-test-client-secret)
+        TEXT_ANALYTICS_RECOGNIZE_CUSTOM_ENTITIES_PROJECT_NAME: $(js-recognize-custom-entities-project-name)
+        TEXT_ANALYTICS_RECOGNIZE_CUSTOM_ENTITIES_DEPLOYMENT_NAME: $(js-recognize-custom-entities-deployment-name)
+        TEXT_ANALYTICS_SINGLE_CATEGORY_CLASSIFY_PROJECT_NAME: $(js-single-category-classify-project-name)
+        TEXT_ANALYTICS_SINGLE_CATEGORY_CLASSIFY_DEPLOYMENT_NAME: $(js-single-category-classify-deployment-name)
+        TEXT_ANALYTICS_MULTI_CATEGORY_CLASSIFY_PROJECT_NAME: $(js-multi-category-classify-project-name)
+        TEXT_ANALYTICS_MULTI_CATEGORY_CLASSIFY_DEPLOYMENT_NAME: $(js-multi-category-classify-deployment-name)

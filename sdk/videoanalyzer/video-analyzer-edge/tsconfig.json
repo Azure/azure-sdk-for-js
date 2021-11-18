@@ -3,16 +3,10 @@
   "compilerOptions": {
     "outDir": "./dist-esm",
     "declarationDir": "./types",
-    "preserveConstEnums": true
+    "preserveConstEnums": true,
+    "paths": {
+      "@azure/video-analyzer-edge": ["./src/index"]
+    }
   },
-  "exclude": [
-    "node_modules",
-    "types",
-    "temp",
-    "browser",
-    "dist",
-    "dist-samples",
-    "dist-esm",
-    "./samples/**/*.ts"
-  ]
+  "include": ["src/**/*.ts", "test/**/*.ts", "samples-dev/**/*.ts"]
 }

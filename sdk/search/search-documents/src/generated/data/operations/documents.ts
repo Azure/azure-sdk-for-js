@@ -224,6 +224,7 @@ const searchGetOperationSpec: coreClient.OperationSpec = {
     Parameters.queryType,
     Parameters.scoringParameters,
     Parameters.scoringProfile,
+    Parameters.semanticConfiguration,
     Parameters.searchFields,
     Parameters.queryLanguage,
     Parameters.speller,

@@ -244,7 +244,7 @@ function ValidatePackagesForDocs($packages) {
     # Get value for variables outside of the Foreach-Object scope
     $scriptRoot = "$using:scriptRoot"
     $workingDirectory = "$using:tempDirectory"
-    return ."$scriptRoot\validate-docs-package.ps1" -Package $_ -WorkingDirectory $workingDirectory
+    return ."$scriptRoot\validate-docs-package.ps1" -Package $_ -DocValidationImageId "$using:ImageId" -WorkingDirectory $workingDirectory 
   }
 
   # Clean up temp folder
@@ -435,7 +435,7 @@ function Find-javascript-Artifacts-For-Apireview($artifactDir, $packageName)
   return $packages
 }
 
-function SetPackageVersion ($PackageName, $Version, $ReleaseDate)
+function SetPackageVersion ($PackageName, $Version, $ReleaseDate, $ReplaceLatestEntryTitle = $true)
 {
   if ($null -eq $ReleaseDate)
   {
@@ -445,7 +445,8 @@ function SetPackageVersion ($PackageName, $Version, $ReleaseDate)
   Confirm-NodeInstallation
   npm install
   $artifactName = $PackageName.Replace("@", "").Replace("/", "-")
-  node ./set-version.js --artifact-name $artifactName --new-version $Version --release-date $ReleaseDate --repo-root $RepoRoot
+  node ./set-version.js --artifact-name $artifactName --new-version $Version --release-date $ReleaseDate `
+  --replace-latest-entry-title $ReplaceLatestEntryTitle --repo-root $RepoRoot
   Pop-Location
 }
 
@@ -460,7 +461,10 @@ function GetExistingPackageVersions ($PackageName, $GroupId = $null)
   }
   catch
   {
-    LogError "Failed to retrieve package versions. `n$_"
+    if ($_.Exception.Response.StatusCode -ne 404) 
+    {
+      LogError "Failed to retrieve package versions for ${PackageName}. $($_.Exception.Message)"
+    }
     return $null
   }
 }

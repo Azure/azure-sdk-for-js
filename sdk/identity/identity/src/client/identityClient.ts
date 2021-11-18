@@ -2,9 +2,9 @@
 // Licensed under the MIT license.
 
 import { INetworkModule, NetworkRequestOptions, NetworkResponse } from "@azure/msal-common";
-import { CommonClientOptions, ServiceClient } from "@azure/core-client";
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
 import { SpanStatusCode } from "@azure/core-tracing";
+import { ServiceClient } from "@azure/core-client";
 import { isNode } from "@azure/core-util";
 import {
   createHttpHeaders,
@@ -17,6 +17,7 @@ import { getIdentityTokenEndpointSuffix } from "../util/identityTokenEndpoint";
 import { DefaultAuthorityHost } from "../constants";
 import { createSpan } from "../util/tracing";
 import { logger } from "../util/logging";
+import { TokenCredentialOptions } from "../tokenCredentialOptions";
 
 const noCorrelationId = "noCorrelationId";
 
@@ -34,6 +35,19 @@ export interface TokenResponse {
    * The refresh token if the 'offline_access' scope was used.
    */
   refreshToken?: string;
+}
+
+/**
+ * Internal type roughly matching the raw responses of the authentication endpoints.
+ *
+ * @internal
+ */
+export interface TokenResponseParsedBody {
+  token?: string;
+  access_token?: string;
+  refresh_token?: string;
+  expires_in: number;
+  expires_on?: number | string;
 }
 
 /**
@@ -64,7 +78,7 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
   private abortControllers: Map<string, AbortController[] | undefined>;
 
   constructor(options?: TokenCredentialOptions) {
-    const packageDetails = `azsdk-js-identity/2.0.1`;
+    const packageDetails = `azsdk-js-identity/2.0.2`;
     const userAgentPrefix = options?.userAgentOptions?.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
       : `${packageDetails}`;
@@ -89,23 +103,19 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
 
   async sendTokenRequest(
     request: PipelineRequest,
-    expiresOnParser?: (responseBody: any) => number
+    expiresOnParser?: (responseBody: TokenResponseParsedBody) => number
   ): Promise<TokenResponse | null> {
     logger.info(`IdentityClient: sending token request to [${request.url}]`);
     const response = await this.sendRequest(request);
 
     expiresOnParser =
       expiresOnParser ||
-      ((responseBody: any) => {
+      ((responseBody: TokenResponseParsedBody) => {
         return Date.now() + responseBody.expires_in * 1000;
       });
 
     if (response.bodyAsText && (response.status === 200 || response.status === 201)) {
-      const parsedBody: {
-        token?: string;
-        access_token?: string;
-        refresh_token?: string;
-      } = JSON.parse(response.bodyAsText);
+      const parsedBody: TokenResponseParsedBody = JSON.parse(response.bodyAsText);
 
       if (!parsedBody.access_token) {
         return null;
@@ -138,7 +148,7 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
     scopes: string,
     refreshToken: string | undefined,
     clientSecret: string | undefined,
-    expiresOnParser?: (responseBody: any) => number,
+    expiresOnParser?: (responseBody: TokenResponseParsedBody) => number,
     options?: GetTokenOptions
   ): Promise<TokenResponse | null> {
     if (refreshToken === undefined) {
@@ -294,17 +304,4 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
       status: response.status
     };
   }
-}
-
-/**
- * Provides options to configure how the Identity library makes authentication
- * requests to Azure Active Directory.
- */
-export interface TokenCredentialOptions extends CommonClientOptions {
-  /**
-   * The authority host to use for authentication requests.
-   * Possible values are available through {@link AzureAuthorityHosts}.
-   * The default is "https://login.microsoftonline.com".
-   */
-  authorityHost?: string;
 }

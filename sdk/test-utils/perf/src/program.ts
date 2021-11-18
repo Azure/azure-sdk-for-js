@@ -11,6 +11,8 @@ import {
 } from "./options";
 import { PerfParallel } from "./parallel";
 import { TestProxyHttpClientV1, TestProxyHttpClient } from "./testProxyHttpClient";
+import { exec } from "child_process";
+import { formatDuration } from "./utils";
 
 export type TestType = "";
 
@@ -188,15 +190,22 @@ export class PerfProgram {
       `\n=== ${title} mode, iteration ${iterationIndex + 1}. Logs every ${millisecondsToLog /
         1000}s ===`
     );
-    console.log(`Current\t\tTotal\t\tAverage`);
+    console.log(`ElapsedTime\tCurrent\t\tTotal\t\tAverage`);
     let lastCompleted = 0;
+    const startMillis = new Date().getTime();
+
     const logInterval = setInterval(() => {
       const totalCompleted = this.getCompletedOperations(parallels);
       const currentCompleted = totalCompleted - lastCompleted;
       const averageCompleted = this.getOperationsPerSecond(parallels);
+      const elapsedTime = formatDuration(new Date().getTime() - startMillis);
 
       lastCompleted = totalCompleted;
-      console.log(`${currentCompleted}\t\t${totalCompleted}\t\t${averageCompleted.toFixed(2)}`);
+      console.log(
+        `${elapsedTime}\t\t${currentCompleted}\t\t${totalCompleted}\t\t${averageCompleted.toFixed(
+          2
+        )}`
+      );
     }, millisecondsToLog);
 
     const runLoop = this.runLoopAsync;
@@ -239,6 +248,18 @@ export class PerfProgram {
     this.logResults(parallels);
   }
 
+  private async logPackageVersions(listTransitiveDeps: boolean): Promise<void> {
+    return new Promise((resolve) => {
+      console.log("=== Versions ===");
+      exec(`npm list --prod ${listTransitiveDeps ? "" : "--depth=0"}`, (_error, stdout) => {
+        for (const dependency of stdout.split("\n").filter((line) => line.includes("@azure"))) {
+          console.log(dependency);
+        }
+        resolve();
+      });
+    });
+  }
+
   /**
    * The run() public method lets developers specify when to begin running the selected test
    * under the conditions provided by the command line options.
@@ -266,6 +287,10 @@ export class PerfProgram {
       console.table(this.tests[0].parsedOptions);
       return;
     }
+
+    await this.logPackageVersions(
+      this.parsedDefaultOptions["list-transitive-dependencies"].value ?? false
+    );
 
     const options = this.tests[0].parsedOptions;
     console.log("=== Parsed options ===");

@@ -6,1146 +6,928 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import * as coreClient from "@azure/core-client";
 
-export { BaseResource, CloudError };
+export type CustomPersistentDiskPropertiesUnion =
+  | CustomPersistentDiskProperties
+  | AzureFileVolume;
+export type StoragePropertiesUnion = StorageProperties | StorageAccount;
+export type CertificatePropertiesUnion =
+  | CertificateProperties
+  | KeyVaultCertificateProperties
+  | ContentCertificateProperties;
 
-/**
- * Desired outbound IP resources for Azure Spring Cloud instance.
- */
-export interface NetworkProfileOutboundIPs {
-  /**
-   * A list of public IP addresses.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly publicIPs?: string[];
-}
-
-/**
- * Required inbound or outbound traffic for Azure Spring Cloud instance.
- */
-export interface RequiredTraffic {
-  /**
-   * The protocol of required traffic
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly protocol?: string;
-  /**
-   * The port of required traffic
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly port?: number;
-  /**
-   * The ip list of required traffic
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly ips?: string[];
-  /**
-   * The FQDN list of required traffic
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly fqdns?: string[];
-  /**
-   * The direction of required traffic. Possible values include: 'Inbound', 'Outbound'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly direction?: TrafficDirection;
-}
-
-/**
- * Service network profile payload
- */
-export interface NetworkProfile {
-  /**
-   * Fully qualified resource Id of the subnet to host Azure Spring Cloud Service Runtime
-   */
-  serviceRuntimeSubnetId?: string;
-  /**
-   * Fully qualified resource Id of the subnet to host Azure Spring Cloud Apps
-   */
-  appSubnetId?: string;
-  /**
-   * Azure Spring Cloud service reserved CIDR
-   */
-  serviceCidr?: string;
-  /**
-   * Name of the resource group containing network resources of Azure Spring Cloud Service Runtime
-   */
-  serviceRuntimeNetworkResourceGroup?: string;
-  /**
-   * Name of the resource group containing network resources of Azure Spring Cloud Apps
-   */
-  appNetworkResourceGroup?: string;
-  /**
-   * Desired outbound IP resources for Azure Spring Cloud instance.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly outboundIPs?: NetworkProfileOutboundIPs;
-  /**
-   * Required inbound or outbound traffics for Azure Spring Cloud instance.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly requiredTraffics?: RequiredTraffic[];
-}
-
-/**
- * Service properties payload
- */
-export interface ClusterResourceProperties {
-  /**
-   * Provisioning state of the Service. Possible values include: 'Creating', 'Updating',
-   * 'Deleting', 'Deleted', 'Succeeded', 'Failed', 'Moving', 'Moved', 'MoveFailed'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly provisioningState?: ProvisioningState;
-  /**
-   * Network profile of the Service
-   */
-  networkProfile?: NetworkProfile;
-  /**
-   * Version of the Service
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly version?: number;
-  /**
-   * ServiceInstanceEntity GUID which uniquely identifies a created resource
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly serviceId?: string;
-}
-
-/**
- * Sku of Azure Spring Cloud
- */
-export interface Sku {
-  /**
-   * Name of the Sku
-   */
-  name?: string;
-  /**
-   * Tier of the Sku
-   */
-  tier?: string;
-  /**
-   * Current capacity of the target resource
-   */
-  capacity?: number;
-}
-
-/**
- * The core properties of ARM resources.
- */
-export interface Resource extends BaseResource {
+/** The core properties of ARM resources. */
+export interface Resource {
   /**
    * Fully qualified resource Id for the resource.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly id?: string;
   /**
    * The name of the resource.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly name?: string;
   /**
    * The type of the resource.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly type?: string;
 }
 
-/**
- * The resource model definition for a ARM tracked top level resource.
- */
-export interface TrackedResource extends Resource {
+/** Service properties payload */
+export interface ClusterResourceProperties {
   /**
-   * The GEO location of the resource.
+   * Provisioning state of the Service
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  location?: string;
+  readonly provisioningState?: ProvisioningState;
+  /** Network profile of the Service */
+  networkProfile?: NetworkProfile;
   /**
-   * Tags of the service which is a list of key value pairs that describe the resource.
+   * Version of the Service
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  tags?: { [propertyName: string]: string };
+  readonly version?: number;
+  /**
+   * ServiceInstanceEntity GUID which uniquely identifies a created resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly serviceId?: string;
+  /**
+   * Power state of the Service
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly powerState?: PowerState;
 }
 
-/**
- * Service resource
- */
-export interface ServiceResource extends TrackedResource {
+/** Service network profile payload */
+export interface NetworkProfile {
+  /** Fully qualified resource Id of the subnet to host Azure Spring Cloud Service Runtime */
+  serviceRuntimeSubnetId?: string;
+  /** Fully qualified resource Id of the subnet to host Azure Spring Cloud Apps */
+  appSubnetId?: string;
+  /** Azure Spring Cloud service reserved CIDR */
+  serviceCidr?: string;
+  /** Name of the resource group containing network resources of Azure Spring Cloud Service Runtime */
+  serviceRuntimeNetworkResourceGroup?: string;
+  /** Name of the resource group containing network resources of Azure Spring Cloud Apps */
+  appNetworkResourceGroup?: string;
   /**
-   * Properties of the Service resource
+   * Desired outbound IP resources for Azure Spring Cloud instance.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  properties?: ClusterResourceProperties;
+  readonly outboundIPs?: NetworkProfileOutboundIPs;
   /**
-   * Sku of the Service resource
+   * Required inbound or outbound traffics for Azure Spring Cloud instance.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  sku?: Sku;
+  readonly requiredTraffics?: RequiredTraffic[];
 }
 
-/**
- * Managed identity properties retrieved from ARM request headers.
- */
-export interface ManagedIdentityProperties {
+/** Desired outbound IP resources for Azure Spring Cloud instance. */
+export interface NetworkProfileOutboundIPs {
   /**
-   * Type of the managed identity. Possible values include: 'None', 'SystemAssigned',
-   * 'UserAssigned', 'SystemAssigned,UserAssigned'
+   * A list of public IP addresses.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  type?: ManagedIdentityType;
-  /**
-   * Principal Id
-   */
-  principalId?: string;
-  /**
-   * Tenant Id
-   */
-  tenantId?: string;
+  readonly publicIPs?: string[];
 }
 
-/**
- * Error record of the config server settings
- */
-export interface ConfigServerSettingsErrorRecord {
+/** Required inbound or outbound traffic for Azure Spring Cloud instance. */
+export interface RequiredTraffic {
   /**
-   * The name of the config server settings error record
+   * The protocol of required traffic
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
+  readonly protocol?: string;
+  /**
+   * The port of required traffic
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly port?: number;
+  /**
+   * The ip list of required traffic
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly ips?: string[];
+  /**
+   * The FQDN list of required traffic
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly fqdns?: string[];
+  /**
+   * The direction of required traffic
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly direction?: TrafficDirection;
+}
+
+/** Sku of Azure Spring Cloud */
+export interface Sku {
+  /** Name of the Sku */
   name?: string;
-  /**
-   * The uri of the config server settings error record
-   */
-  uri?: string;
-  /**
-   * The detail error messages of the record
-   */
-  messages?: string[];
+  /** Tier of the Sku */
+  tier?: string;
+  /** Current capacity of the target resource */
+  capacity?: number;
 }
 
-/**
- * Validation result for config server settings
- */
-export interface ConfigServerSettingsValidateResult {
-  /**
-   * Indicate if the config server settings are valid
-   */
-  isValid?: boolean;
-  /**
-   * The detail validation results
-   */
-  details?: ConfigServerSettingsErrorRecord[];
+/** An error response from the service. */
+export interface CloudError {
+  /** An error response from the service. */
+  error?: CloudErrorBody;
 }
 
-/**
- * The error code compose of code and message.
- */
-export interface ErrorModel {
-  /**
-   * The code of error.
-   */
+/** An error response from the service. */
+export interface CloudErrorBody {
+  /** An identifier for the error. Codes are invariant and are intended to be consumed programmatically. */
   code?: string;
-  /**
-   * The message of error.
-   */
+  /** A message describing the error, intended to be suitable for display in a user interface. */
   message?: string;
+  /** The target of the particular error. For example, the name of the property in error. */
+  target?: string;
+  /** A list of additional details about the error. */
+  details?: CloudErrorBody[];
 }
 
-/**
- * Git repository property payload
- */
-export interface GitPatternRepository {
-  /**
-   * Name of the repository
-   */
-  name: string;
-  /**
-   * Collection of pattern of the repository
-   */
-  pattern?: string[];
-  /**
-   * URI of the repository
-   */
-  uri: string;
-  /**
-   * Label of the repository
-   */
-  label?: string;
-  /**
-   * Searching path of the repository
-   */
-  searchPaths?: string[];
-  /**
-   * Username of git repository basic auth.
-   */
-  username?: string;
-  /**
-   * Password of git repository basic auth.
-   */
-  password?: string;
-  /**
-   * Public sshKey of git repository.
-   */
-  hostKey?: string;
-  /**
-   * SshKey algorithm of git repository.
-   */
-  hostKeyAlgorithm?: string;
-  /**
-   * Private sshKey algorithm of git repository.
-   */
-  privateKey?: string;
-  /**
-   * Strict host key checking or not.
-   */
-  strictHostKeyChecking?: boolean;
+/** Test keys payload */
+export interface TestKeys {
+  /** Primary key */
+  primaryKey?: string;
+  /** Secondary key */
+  secondaryKey?: string;
+  /** Primary test endpoint */
+  primaryTestEndpoint?: string;
+  /** Secondary test endpoint */
+  secondaryTestEndpoint?: string;
+  /** Indicates whether the test endpoint feature enabled or not */
+  enabled?: boolean;
 }
 
-/**
- * Property of git.
- */
-export interface ConfigServerGitProperty {
-  /**
-   * Repositories of git.
-   */
-  repositories?: GitPatternRepository[];
-  /**
-   * URI of the repository
-   */
-  uri: string;
-  /**
-   * Label of the repository
-   */
-  label?: string;
-  /**
-   * Searching path of the repository
-   */
-  searchPaths?: string[];
-  /**
-   * Username of git repository basic auth.
-   */
-  username?: string;
-  /**
-   * Password of git repository basic auth.
-   */
-  password?: string;
-  /**
-   * Public sshKey of git repository.
-   */
-  hostKey?: string;
-  /**
-   * SshKey algorithm of git repository.
-   */
-  hostKeyAlgorithm?: string;
-  /**
-   * Private sshKey algorithm of git repository.
-   */
-  privateKey?: string;
-  /**
-   * Strict host key checking or not.
-   */
-  strictHostKeyChecking?: boolean;
+/** Regenerate test key request payload */
+export interface RegenerateTestKeyRequestPayload {
+  /** Type of the test key */
+  keyType: TestKeyType;
 }
 
-/**
- * The settings of config server.
- */
-export interface ConfigServerSettings {
-  /**
-   * Property of git environment.
-   */
-  gitProperty?: ConfigServerGitProperty;
-}
-
-/**
- * Config server git properties payload
- */
+/** Config server git properties payload */
 export interface ConfigServerProperties {
   /**
-   * State of the config server. Possible values include: 'NotAvailable', 'Deleted', 'Failed',
-   * 'Succeeded', 'Updating'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * State of the config server.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ConfigServerState;
-  /**
-   * Error when apply config server settings.
-   */
+  /** Error when apply config server settings. */
   error?: ErrorModel;
-  /**
-   * Settings of config server.
-   */
+  /** Settings of config server. */
   configServer?: ConfigServerSettings;
 }
 
-/**
- * The resource model definition for a ARM proxy resource. It will have everything other than
- * required location and tags.
- */
-export interface ProxyResource extends Resource {
+/** The error code compose of code and message. */
+export interface ErrorModel {
+  /** The code of error. */
+  code?: string;
+  /** The message of error. */
+  message?: string;
 }
 
-/**
- * Config Server resource
- */
-export interface ConfigServerResource extends ProxyResource {
+/** The settings of config server. */
+export interface ConfigServerSettings {
+  /** Property of git environment. */
+  gitProperty?: ConfigServerGitProperty;
+}
+
+/** Property of git. */
+export interface ConfigServerGitProperty {
+  /** Repositories of git. */
+  repositories?: GitPatternRepository[];
+  /** URI of the repository */
+  uri: string;
+  /** Label of the repository */
+  label?: string;
+  /** Searching path of the repository */
+  searchPaths?: string[];
+  /** Username of git repository basic auth. */
+  username?: string;
+  /** Password of git repository basic auth. */
+  password?: string;
+  /** Public sshKey of git repository. */
+  hostKey?: string;
+  /** SshKey algorithm of git repository. */
+  hostKeyAlgorithm?: string;
+  /** Private sshKey algorithm of git repository. */
+  privateKey?: string;
+  /** Strict host key checking or not. */
+  strictHostKeyChecking?: boolean;
+}
+
+/** Git repository property payload */
+export interface GitPatternRepository {
+  /** Name of the repository */
+  name: string;
+  /** Collection of pattern of the repository */
+  pattern?: string[];
+  /** URI of the repository */
+  uri: string;
+  /** Label of the repository */
+  label?: string;
+  /** Searching path of the repository */
+  searchPaths?: string[];
+  /** Username of git repository basic auth. */
+  username?: string;
+  /** Password of git repository basic auth. */
+  password?: string;
+  /** Public sshKey of git repository. */
+  hostKey?: string;
+  /** SshKey algorithm of git repository. */
+  hostKeyAlgorithm?: string;
+  /** Private sshKey algorithm of git repository. */
+  privateKey?: string;
+  /** Strict host key checking or not. */
+  strictHostKeyChecking?: boolean;
+}
+
+/** Validation result for config server settings */
+export interface ConfigServerSettingsValidateResult {
+  /** Indicate if the config server settings are valid */
+  isValid?: boolean;
+  /** The detail validation results */
+  details?: ConfigServerSettingsErrorRecord[];
+}
+
+/** Error record of the config server settings */
+export interface ConfigServerSettingsErrorRecord {
+  /** The name of the config server settings error record */
+  name?: string;
+  /** The uri of the config server settings error record */
+  uri?: string;
+  /** The detail error messages of the record */
+  messages?: string[];
+}
+
+/** Monitoring Setting properties payload */
+export interface MonitoringSettingProperties {
   /**
-   * Properties of the Config Server resource
+   * State of the Monitoring Setting.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  properties?: ConfigServerProperties;
+  readonly provisioningState?: MonitoringSettingState;
+  /** Error when apply Monitoring Setting changes. */
+  error?: ErrorModel;
+  /** Indicates whether enable the trace functionality, which will be deprecated since api version 2020-11-01-preview. Please leverage appInsightsInstrumentationKey to indicate if monitoringSettings enabled or not */
+  traceEnabled?: boolean;
+  /** Target application insight instrumentation key, null or whitespace include empty will disable monitoringSettings */
+  appInsightsInstrumentationKey?: string;
+  /** Indicates the sampling rate of application insight agent, should be in range [0.0, 100.0] */
+  appInsightsSamplingRate?: number;
+  /** Indicates the versions of application insight agent */
+  appInsightsAgentVersions?: ApplicationInsightsAgentVersions;
 }
 
-/**
- * Application Insights agent versions properties payload
- */
+/** Application Insights agent versions properties payload */
 export interface ApplicationInsightsAgentVersions {
   /**
    * Indicates the version of application insight java agent
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly java?: string;
 }
 
-/**
- * Monitoring Setting properties payload
- */
-export interface MonitoringSettingProperties {
-  /**
-   * State of the Monitoring Setting. Possible values include: 'NotAvailable', 'Failed',
-   * 'Succeeded', 'Updating'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly provisioningState?: MonitoringSettingState;
-  /**
-   * Error when apply Monitoring Setting changes.
-   */
-  error?: ErrorModel;
-  /**
-   * Indicates whether enable the trace functionality, which will be deprecated since api version
-   * 2020-11-01-preview. Please leverage appInsightsInstrumentationKey to indicate if
-   * monitoringSettings enabled or not
-   */
-  traceEnabled?: boolean;
-  /**
-   * Target application insight instrumentation key, null or whitespace include empty will disable
-   * monitoringSettings
-   */
-  appInsightsInstrumentationKey?: string;
-  /**
-   * Indicates the sampling rate of application insight agent, should be in range [0.0, 100.0]
-   */
-  appInsightsSamplingRate?: number;
-  /**
-   * Indicates the versions of application insight agent
-   */
-  appInsightsAgentVersions?: ApplicationInsightsAgentVersions;
-}
-
-/**
- * Monitoring Setting resource
- */
-export interface MonitoringSettingResource extends ProxyResource {
-  /**
-   * Properties of the Monitoring Setting resource
-   */
-  properties?: MonitoringSettingProperties;
-}
-
-/**
- * Test keys payload
- */
-export interface TestKeys {
-  /**
-   * Primary key
-   */
-  primaryKey?: string;
-  /**
-   * Secondary key
-   */
-  secondaryKey?: string;
-  /**
-   * Primary test endpoint
-   */
-  primaryTestEndpoint?: string;
-  /**
-   * Secondary test endpoint
-   */
-  secondaryTestEndpoint?: string;
-  /**
-   * Indicates whether the test endpoint feature enabled or not
-   */
-  enabled?: boolean;
-}
-
-/**
- * Regenerate test key request payload
- */
-export interface RegenerateTestKeyRequestPayload {
-  /**
-   * Type of the test key. Possible values include: 'Primary', 'Secondary'
-   */
-  keyType: TestKeyType;
-}
-
-/**
- * Temporary disk payload
- */
-export interface TemporaryDisk {
-  /**
-   * Size of the temporary disk in GB
-   */
-  sizeInGB?: number;
-  /**
-   * Mount path of the temporary disk
-   */
-  mountPath?: string;
-}
-
-/**
- * Persistent disk payload
- */
-export interface PersistentDisk {
-  /**
-   * Size of the persistent disk in GB
-   */
-  sizeInGB?: number;
-  /**
-   * Size of the used persistent disk in GB
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly usedInGB?: number;
-  /**
-   * Mount path of the persistent disk
-   */
-  mountPath?: string;
-}
-
-/**
- * App resource properties payload
- */
+/** App resource properties payload */
 export interface AppResourceProperties {
-  /**
-   * Indicates whether the App exposes public endpoint
-   */
-  publicProperty?: boolean;
+  /** Indicates whether the App exposes public endpoint */
+  public?: boolean;
   /**
    * URL of the App
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly url?: string;
   /**
-   * Provisioning state of the App. Possible values include: 'Succeeded', 'Failed', 'Creating',
-   * 'Updating'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * Provisioning state of the App
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: AppResourceProvisioningState;
-  /**
-   * Name of the active deployment of the App
-   */
+  /** Name of the active deployment of the App */
   activeDeploymentName?: string;
-  /**
-   * Fully qualified dns Name.
-   */
+  /** Fully qualified dns Name. */
   fqdn?: string;
-  /**
-   * Indicate if only https is allowed.
-   */
+  /** Indicate if only https is allowed. */
   httpsOnly?: boolean;
   /**
-   * Indicate if end to end TLS is enabled.
-   */
-  enableEndToEndTLS?: boolean;
-  /**
    * Date time when the resource is created
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly createdTime?: Date;
-  /**
-   * Temporary disk settings
-   */
+  /** Temporary disk settings */
   temporaryDisk?: TemporaryDisk;
-  /**
-   * Persistent disk settings
-   */
+  /** Persistent disk settings */
   persistentDisk?: PersistentDisk;
+  /** List of custom persistent disks */
+  customPersistentDisks?: CustomPersistentDiskResource[];
+  /** Indicate if end to end TLS is enabled. */
+  enableEndToEndTLS?: boolean;
+  /** Collection of loaded certificates */
+  loadedCertificates?: LoadedCertificate[];
 }
 
-/**
- * App resource payload
- */
-export interface AppResource extends ProxyResource {
-  /**
-   * Properties of the App resource
-   */
-  properties?: AppResourceProperties;
-  /**
-   * The Managed Identity type of the app resource
-   */
-  identity?: ManagedIdentityProperties;
-  /**
-   * The GEO location of the application, always the same with its parent resource
-   */
-  location?: string;
+/** Temporary disk payload */
+export interface TemporaryDisk {
+  /** Size of the temporary disk in GB */
+  sizeInGB?: number;
+  /** Mount path of the temporary disk */
+  mountPath?: string;
 }
 
-/**
- * Resource upload definition payload
- */
+/** Persistent disk payload */
+export interface PersistentDisk {
+  /** Size of the persistent disk in GB */
+  sizeInGB?: number;
+  /**
+   * Size of the used persistent disk in GB
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly usedInGB?: number;
+  /** Mount path of the persistent disk */
+  mountPath?: string;
+}
+
+/** Custom persistent disk resource payload. */
+export interface CustomPersistentDiskResource {
+  /** Properties of the custom persistent disk resource payload. */
+  customPersistentDiskProperties?: CustomPersistentDiskPropertiesUnion;
+  /** The resource id of Azure Spring Cloud Storage resource. */
+  storageId: string;
+}
+
+/** Custom persistent disk resource payload. */
+export interface CustomPersistentDiskProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "AzureFileVolume";
+  /** The mount path of the persistent disk. */
+  mountPath: string;
+  /** Indicates whether the persistent disk is a readonly one. */
+  readonly?: boolean;
+  /** These are the mount options for a persistent disk. */
+  mountOptions?: string[];
+}
+
+/** Loaded certificate payload */
+export interface LoadedCertificate {
+  /** Resource Id of loaded certificate */
+  resourceId: string;
+  /** Indicate whether the certificate will be loaded into default trust store, only work for Java runtime. */
+  loadTrustStore?: boolean;
+}
+
+/** Managed identity properties retrieved from ARM request headers. */
+export interface ManagedIdentityProperties {
+  /** Type of the managed identity */
+  type?: ManagedIdentityType;
+  /** Principal Id */
+  principalId?: string;
+  /** Tenant Id */
+  tenantId?: string;
+}
+
+/** Object that includes an array of App resources and a possible link for next set */
+export interface AppResourceCollection {
+  /** Collection of App resources */
+  value?: AppResource[];
+  /**
+   * URL client should use to fetch the next page (per server side paging).
+   * It's null for now, added for future use.
+   */
+  nextLink?: string;
+}
+
+/** Resource upload definition payload */
 export interface ResourceUploadDefinition {
-  /**
-   * Source relative path
-   */
+  /** Source relative path */
   relativePath?: string;
-  /**
-   * Upload URL
-   */
+  /** Upload URL */
   uploadUrl?: string;
 }
 
-/**
- * Binding resource properties payload
- */
+/** Binding resource properties payload */
 export interface BindingResourceProperties {
   /**
    * The name of the bound resource
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly resourceName?: string;
   /**
    * The standard Azure resource type of the bound resource
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly resourceType?: string;
-  /**
-   * The Azure resource id of the bound resource
-   */
+  /** The Azure resource id of the bound resource */
   resourceId?: string;
-  /**
-   * The key of the bound resource
-   */
+  /** The key of the bound resource */
   key?: string;
-  /**
-   * Binding parameters of the Binding resource
-   */
-  bindingParameters?: { [propertyName: string]: any };
+  /** Binding parameters of the Binding resource */
+  bindingParameters?: { [propertyName: string]: Record<string, unknown> };
   /**
    * The generated Spring Boot property file for this binding. The secret will be deducted.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly generatedProperties?: string;
   /**
    * Creation time of the Binding resource
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly createdAt?: string;
   /**
    * Update time of the Binding resource
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly updatedAt?: string;
 }
 
-/**
- * Binding resource payload
- */
-export interface BindingResource extends ProxyResource {
+/** Object that includes an array of Binding resources and a possible link for next set */
+export interface BindingResourceCollection {
+  /** Collection of Binding resources */
+  value?: BindingResource[];
   /**
-   * Properties of the Binding resource
+   * URL client should use to fetch the next page (per server side paging).
+   * It's null for now, added for future use.
    */
-  properties?: BindingResourceProperties;
+  nextLink?: string;
 }
 
-/**
- * Certificate resource payload.
- */
+/** Storage resource payload. */
+export interface StorageProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  storageType: "StorageAccount";
+}
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
+}
+
+/** Collection compose of storage resources list and a possible link for next page. */
+export interface StorageResourceCollection {
+  /** The storage resources list. */
+  value?: StorageResource[];
+  /** The link to next page of storage list. */
+  nextLink?: string;
+}
+
+/** Certificate resource payload. */
 export interface CertificateProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "KeyVaultCertificate" | "ContentCertificate";
   /**
    * The thumbprint of certificate.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly thumbprint?: string;
   /**
-   * The vault uri of user key vault.
-   */
-  vaultUri: string;
-  /**
-   * The certificate name of key vault.
-   */
-  keyVaultCertName: string;
-  /**
-   * The certificate version of key vault.
-   */
-  certVersion?: string;
-  /**
    * The issuer of certificate.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly issuer?: string;
   /**
    * The issue date of certificate.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly issuedDate?: string;
   /**
    * The expiration date of certificate.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly expirationDate?: string;
   /**
    * The activate date of certificate.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly activateDate?: string;
   /**
    * The subject name of certificate.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly subjectName?: string;
   /**
    * The domain list of certificate.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly dnsNames?: string[];
 }
 
-/**
- * Certificate resource payload.
- */
-export interface CertificateResource extends ProxyResource {
-  /**
-   * Properties of the certificate resource payload.
-   */
-  properties?: CertificateProperties;
+/** Collection compose of certificate resources list and a possible link for next page. */
+export interface CertificateResourceCollection {
+  /** The certificate resources list. */
+  value?: CertificateResource[];
+  /** The link to next page of certificate list. */
+  nextLink?: string;
 }
 
-/**
- * Name availability parameters payload
- */
+/** Name availability parameters payload */
 export interface NameAvailabilityParameters {
-  /**
-   * Type of the resource to check name availability
-   */
+  /** Type of the resource to check name availability */
   type: string;
-  /**
-   * Name to be checked
-   */
+  /** Name to be checked */
   name: string;
 }
 
-/**
- * Name availability result payload
- */
+/** Name availability result payload */
 export interface NameAvailability {
-  /**
-   * Indicates whether the name is available
-   */
+  /** Indicates whether the name is available */
   nameAvailable?: boolean;
-  /**
-   * Reason why the name is not available
-   */
+  /** Reason why the name is not available */
   reason?: string;
-  /**
-   * Message why the name is not available
-   */
+  /** Message why the name is not available */
   message?: string;
 }
 
-/**
- * Custom domain of app resource payload.
- */
+/** Custom domain of app resource payload. */
 export interface CustomDomainProperties {
-  /**
-   * The thumbprint of bound certificate.
-   */
+  /** The thumbprint of bound certificate. */
   thumbprint?: string;
   /**
    * The app name of domain.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly appName?: string;
-  /**
-   * The bound certificate name of domain.
-   */
+  /** The bound certificate name of domain. */
   certName?: string;
 }
 
-/**
- * Custom domain resource payload.
- */
-export interface CustomDomainResource extends ProxyResource {
-  /**
-   * Properties of the custom domain resource.
-   */
-  properties?: CustomDomainProperties;
+/** Collection compose of a custom domain resources list and a possible link for next page. */
+export interface CustomDomainResourceCollection {
+  /** The custom domain resources list. */
+  value?: CustomDomainResource[];
+  /** The link to next page of custom domain list. */
+  nextLink?: string;
 }
 
-/**
- * Custom domain validate payload.
- */
+/** Custom domain validate payload. */
 export interface CustomDomainValidatePayload {
-  /**
-   * Name to be validated
-   */
+  /** Name to be validated */
   name: string;
 }
 
-/**
- * Validation result for custom domain.
- */
+/** Validation result for custom domain. */
 export interface CustomDomainValidateResult {
-  /**
-   * Indicates if domain name is valid.
-   */
+  /** Indicates if domain name is valid. */
   isValid?: boolean;
-  /**
-   * Message of why domain name is invalid.
-   */
+  /** Message of why domain name is invalid. */
   message?: string;
 }
 
-/**
- * Source information for a deployment
- */
-export interface UserSourceInfo {
-  /**
-   * Type of the source uploaded. Possible values include: 'Jar', 'NetCoreZip', 'Source'
-   */
-  type?: UserSourceType;
-  /**
-   * Relative path of the storage which stores the source
-   */
-  relativePath?: string;
-  /**
-   * Version of the source
-   */
-  version?: string;
-  /**
-   * Selector for the artifact to be used for the deployment for multi-module projects. This should
-   * be
-   * the relative path to the target module/project.
-   */
-  artifactSelector?: string;
-}
-
-/**
- * Deployment settings payload
- */
-export interface DeploymentSettings {
-  /**
-   * Required CPU, basic tier should be 1, standard tier should be in range (1, 4). Default value:
-   * 1.
-   */
-  cpu?: number;
-  /**
-   * Required Memory size in GB, basic tier should be in range (1, 2), standard tier should be in
-   * range (1, 8). Default value: 1.
-   */
-  memoryInGB?: number;
-  /**
-   * JVM parameter
-   */
-  jvmOptions?: string;
-  /**
-   * The path to the .NET executable relative to zip root
-   */
-  netCoreMainEntryPath?: string;
-  /**
-   * Collection of environment variables
-   */
-  environmentVariables?: { [propertyName: string]: string };
-  /**
-   * Runtime version. Possible values include: 'Java_8', 'Java_11', 'NetCore_31'
-   */
-  runtimeVersion?: RuntimeVersion;
-}
-
-/**
- * Deployment instance payload
- */
-export interface DeploymentInstance {
-  /**
-   * Name of the deployment instance
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name?: string;
-  /**
-   * Status of the deployment instance
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly status?: string;
-  /**
-   * Failed reason of the deployment instance
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly reason?: string;
-  /**
-   * Discovery status of the deployment instance
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly discoveryStatus?: string;
-  /**
-   * Start time of the deployment instance
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly startTime?: string;
-}
-
-/**
- * Deployment resource properties payload
- */
+/** Deployment resource properties payload */
 export interface DeploymentResourceProperties {
-  /**
-   * Uploaded source information of the deployment.
-   */
+  /** Uploaded source information of the deployment. */
   source?: UserSourceInfo;
   /**
    * App name of the deployment
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly appName?: string;
-  /**
-   * Deployment settings of the Deployment
-   */
+  /** Deployment settings of the Deployment */
   deploymentSettings?: DeploymentSettings;
   /**
-   * Provisioning state of the Deployment. Possible values include: 'Creating', 'Updating',
-   * 'Succeeded', 'Failed'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * Provisioning state of the Deployment
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: DeploymentResourceProvisioningState;
   /**
-   * Status of the Deployment. Possible values include: 'Unknown', 'Stopped', 'Running', 'Failed',
-   * 'Allocating', 'Upgrading', 'Compiling'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * Status of the Deployment
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly status?: DeploymentResourceStatus;
   /**
    * Indicates whether the Deployment is active
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly active?: boolean;
   /**
    * Date time when the resource is created
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly createdTime?: Date;
   /**
    * Collection of instances belong to the Deployment
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly instances?: DeploymentInstance[];
 }
 
-/**
- * Deployment resource payload
- */
-export interface DeploymentResource extends ProxyResource {
+/** Source information for a deployment */
+export interface UserSourceInfo {
+  /** Type of the source uploaded */
+  type?: UserSourceType;
+  /** Relative path of the storage which stores the source */
+  relativePath?: string;
+  /** Version of the source */
+  version?: string;
   /**
-   * Properties of the Deployment resource
+   * Selector for the artifact to be used for the deployment for multi-module projects. This should be
+   * the relative path to the target module/project.
    */
-  properties?: DeploymentResourceProperties;
-  /**
-   * Sku of the Deployment resource
-   */
-  sku?: Sku;
+  artifactSelector?: string;
+  /** Custom container payload */
+  customContainer?: CustomContainer;
 }
 
-/**
- * Log file URL payload
- */
-export interface LogFileUrlResponse {
+/** Custom container payload */
+export interface CustomContainer {
+  /** The name of the registry that contains the container image */
+  server?: string;
+  /** Container image of the custom container. This should be in the form of <repository>:<tag> without the server name of the registry */
+  containerImage?: string;
+  /** Entrypoint array. Not executed within a shell. The docker image's ENTRYPOINT is used if this is not provided. */
+  command?: string[];
+  /** Arguments to the entrypoint. The docker image's CMD is used if this is not provided. */
+  args?: string[];
+  /** Credential of the image registry */
+  imageRegistryCredential?: ImageRegistryCredential;
+}
+
+/** Credential of the image registry */
+export interface ImageRegistryCredential {
+  /** The username of the image registry credential */
+  username?: string;
+  /** The password of the image registry credential */
+  password?: string;
+}
+
+/** Deployment settings payload */
+export interface DeploymentSettings {
+  /** Required CPU. This should be 1 for Basic tier, and in range [1, 4] for Standard tier. This is deprecated starting from API version 2021-09-01-preview. Please use the resourceRequests field to set the CPU size. */
+  cpu?: number;
+  /** Required Memory size in GB. This should be in range [1, 2] for Basic tier, and in range [1, 8] for Standard tier. This is deprecated starting from API version 2021-09-01-preview. Please use the resourceRequests field to set the the memory size. */
+  memoryInGB?: number;
+  /** The requested resource quantity for required CPU and Memory. It is recommended that using this field to represent the required CPU and Memory, the old field cpu and memoryInGB will be deprecated later. */
+  resourceRequests?: ResourceRequests;
+  /** JVM parameter */
+  jvmOptions?: string;
+  /** The path to the .NET executable relative to zip root */
+  netCoreMainEntryPath?: string;
+  /** Collection of environment variables */
+  environmentVariables?: { [propertyName: string]: string };
+  /** Runtime version */
+  runtimeVersion?: RuntimeVersion;
+}
+
+/** Deployment resource request payload */
+export interface ResourceRequests {
+  /** Required CPU. 1 core can be represented by 1 or 1000m. This should be 500m or 1 for Basic tier, and {500m, 1, 2, 3, 4} for Standard tier. */
+  cpu?: string;
+  /** Required memory. 1 GB can be represented by 1Gi or 1024Mi. This should be {512Mi, 1Gi, 2Gi} for Basic tier, and {512Mi, 1Gi, 2Gi, ..., 8Gi} for Standard tier. */
+  memory?: string;
+}
+
+/** Deployment instance payload */
+export interface DeploymentInstance {
   /**
-   * URL of the log file
+   * Name of the deployment instance
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
+  readonly name?: string;
+  /**
+   * Status of the deployment instance
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: string;
+  /**
+   * Failed reason of the deployment instance
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly reason?: string;
+  /**
+   * Discovery status of the deployment instance
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly discoveryStatus?: string;
+  /**
+   * Start time of the deployment instance
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly startTime?: string;
+}
+
+/** Object that includes an array of App resources and a possible link for next set */
+export interface DeploymentResourceCollection {
+  /** Collection of Deployment resources */
+  value?: DeploymentResource[];
+  /**
+   * URL client should use to fetch the next page (per server side paging).
+   * It's null for now, added for future use.
+   */
+  nextLink?: string;
+}
+
+/** Log file URL payload */
+export interface LogFileUrlResponse {
+  /** URL of the log file */
   url: string;
 }
 
-/**
- * Operation display payload
- */
-export interface OperationDisplay {
-  /**
-   * Resource provider of the operation
-   */
-  provider?: string;
-  /**
-   * Resource of the operation
-   */
-  resource?: string;
-  /**
-   * Localized friendly name for the operation
-   */
-  operation?: string;
-  /**
-   * Localized friendly description for the operation
-   */
-  description?: string;
+/** Diagnostic parameters of diagnostic operations */
+export interface DiagnosticParameters {
+  /** App instance name */
+  appInstance?: string;
+  /** Your target file path in your own BYOS */
+  filePath?: string;
+  /** Duration of your JFR. 1 min can be represented by 1m or 60s. */
+  duration?: string;
 }
 
-/**
- * Specifications of the Log for Azure Monitoring
- */
-export interface LogSpecification {
+/** Object that includes an array of Service resources and a possible link for next set */
+export interface ServiceResourceList {
+  /** Collection of Service resources */
+  value?: ServiceResource[];
   /**
-   * Name of the log
+   * URL client should use to fetch the next page (per server side paging).
+   * It's null for now, added for future use.
    */
-  name?: string;
-  /**
-   * Localized friendly display name of the log
-   */
-  displayName?: string;
-  /**
-   * Blob duration of the log
-   */
-  blobDuration?: string;
+  nextLink?: string;
 }
 
-/**
- * Specifications of the Dimension of metrics
- */
-export interface MetricDimension {
+/** Available operations of the service */
+export interface AvailableOperations {
+  /** Collection of available operation details */
+  value?: OperationDetail[];
   /**
-   * Name of the dimension
+   * URL client should use to fetch the next page (per server side paging).
+   * It's null for now, added for future use.
    */
-  name?: string;
-  /**
-   * Localized friendly display name of the dimension
-   */
-  displayName?: string;
+  nextLink?: string;
 }
 
-/**
- * Specifications of the Metrics for Azure Monitoring
- */
-export interface MetricSpecification {
-  /**
-   * Name of the metric
-   */
-  name?: string;
-  /**
-   * Localized friendly display name of the metric
-   */
-  displayName?: string;
-  /**
-   * Localized friendly description of the metric
-   */
-  displayDescription?: string;
-  /**
-   * Unit that makes sense for the metric
-   */
-  unit?: string;
-  /**
-   * Name of the metric category that the metric belongs to. A metric can only belong to a single
-   * category.
-   */
-  category?: string;
-  /**
-   * Only provide one value for this field. Valid values: Average, Minimum, Maximum, Total, Count.
-   */
-  aggregationType?: string;
-  /**
-   * Supported aggregation types
-   */
-  supportedAggregationTypes?: string[];
-  /**
-   * Supported time grain types
-   */
-  supportedTimeGrainTypes?: string[];
-  /**
-   * Optional. If set to true, then zero will be returned for time duration where no metric is
-   * emitted/published.
-   */
-  fillGapWithZero?: boolean;
-  /**
-   * Dimensions of the metric
-   */
-  dimensions?: MetricDimension[];
-}
-
-/**
- * Service specification payload
- */
-export interface ServiceSpecification {
-  /**
-   * Specifications of the Log for Azure Monitoring
-   */
-  logSpecifications?: LogSpecification[];
-  /**
-   * Specifications of the Metrics for Azure Monitoring
-   */
-  metricSpecifications?: MetricSpecification[];
-}
-
-/**
- * Extra Operation properties
- */
-export interface OperationProperties {
-  /**
-   * Service specifications of the operation
-   */
-  serviceSpecification?: ServiceSpecification;
-}
-
-/**
- * Operation detail payload
- */
+/** Operation detail payload */
 export interface OperationDetail {
-  /**
-   * Name of the operation
-   */
+  /** Name of the operation */
   name?: string;
-  /**
-   * Indicates whether the operation is a data action
-   */
+  /** Indicates whether the operation is a data action */
   isDataAction?: boolean;
-  /**
-   * Display of the operation
-   */
+  /** Display of the operation */
   display?: OperationDisplay;
-  /**
-   * Origin of the operation
-   */
+  /** Origin of the operation */
   origin?: string;
-  /**
-   * Properties of the operation
-   */
+  /** Properties of the operation */
   properties?: OperationProperties;
 }
 
-/**
- * The SKU capacity
- */
+/** Operation display payload */
+export interface OperationDisplay {
+  /** Resource provider of the operation */
+  provider?: string;
+  /** Resource of the operation */
+  resource?: string;
+  /** Localized friendly name for the operation */
+  operation?: string;
+  /** Localized friendly description for the operation */
+  description?: string;
+}
+
+/** Extra Operation properties */
+export interface OperationProperties {
+  /** Service specifications of the operation */
+  serviceSpecification?: ServiceSpecification;
+}
+
+/** Service specification payload */
+export interface ServiceSpecification {
+  /** Specifications of the Log for Azure Monitoring */
+  logSpecifications?: LogSpecification[];
+  /** Specifications of the Metrics for Azure Monitoring */
+  metricSpecifications?: MetricSpecification[];
+}
+
+/** Specifications of the Log for Azure Monitoring */
+export interface LogSpecification {
+  /** Name of the log */
+  name?: string;
+  /** Localized friendly display name of the log */
+  displayName?: string;
+  /** Blob duration of the log */
+  blobDuration?: string;
+}
+
+/** Specifications of the Metrics for Azure Monitoring */
+export interface MetricSpecification {
+  /** Name of the metric */
+  name?: string;
+  /** Localized friendly display name of the metric */
+  displayName?: string;
+  /** Localized friendly description of the metric */
+  displayDescription?: string;
+  /** Unit that makes sense for the metric */
+  unit?: string;
+  /** Name of the metric category that the metric belongs to. A metric can only belong to a single category. */
+  category?: string;
+  /** Only provide one value for this field. Valid values: Average, Minimum, Maximum, Total, Count. */
+  aggregationType?: string;
+  /** Supported aggregation types */
+  supportedAggregationTypes?: string[];
+  /** Supported time grain types */
+  supportedTimeGrainTypes?: string[];
+  /** Optional. If set to true, then zero will be returned for time duration where no metric is emitted/published. */
+  fillGapWithZero?: boolean;
+  /** Dimensions of the metric */
+  dimensions?: MetricDimension[];
+  /** Name of the MDM namespace. Optional. */
+  sourceMdmNamespace?: string;
+}
+
+/** Specifications of the Dimension of metrics */
+export interface MetricDimension {
+  /** Name of the dimension */
+  name?: string;
+  /** Localized friendly display name of the dimension */
+  displayName?: string;
+  /** Whether this dimension should be included for the Shoebox export scenario */
+  toBeExportedForShoebox?: boolean;
+}
+
+export interface AvailableRuntimeVersions {
+  /**
+   * A list of all supported runtime versions.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: SupportedRuntimeVersion[];
+}
+
+/** Supported deployment runtime version descriptor. */
+export interface SupportedRuntimeVersion {
+  /** The raw value which could be passed to deployment CRUD operations. */
+  value?: SupportedRuntimeValue;
+  /** The platform of this runtime version (possible values: "Java" or ".NET"). */
+  platform?: SupportedRuntimePlatform;
+  /** The detailed version (major.minor) of the platform. */
+  version?: string;
+}
+
+/** Object that includes an array of Azure Spring Cloud SKU and a possible link for next set */
+export interface ResourceSkuCollection {
+  /** Collection of resource SKU */
+  value?: ResourceSku[];
+  /**
+   * URL client should use to fetch the next page (per server side paging).
+   * It's null for now, added for future use.
+   */
+  nextLink?: string;
+}
+
+/** Describes an available Azure Spring Cloud SKU. */
+export interface ResourceSku {
+  /** Gets the type of resource the SKU applies to. */
+  resourceType?: string;
+  /** Gets the name of SKU. */
+  name?: string;
+  /** Gets the tier of SKU. */
+  tier?: string;
+  /** Gets the capacity of SKU. */
+  capacity?: SkuCapacity;
+  /** Gets the set of locations that the SKU is available. */
+  locations?: string[];
+  /** Gets a list of locations and availability zones in those locations where the SKU is available. */
+  locationInfo?: ResourceSkuLocationInfo[];
+  /**
+   * Gets the restrictions because of which SKU cannot be used. This is
+   * empty if there are no restrictions.
+   */
+  restrictions?: ResourceSkuRestrictions[];
+}
+
+/** The SKU capacity */
 export interface SkuCapacity {
-  /**
-   * Gets or sets the minimum.
-   */
+  /** Gets or sets the minimum. */
   minimum: number;
-  /**
-   * Gets or sets the maximum.
-   */
+  /** Gets or sets the maximum. */
   maximum?: number;
-  /**
-   * Gets or sets the default.
-   */
+  /** Gets or sets the default. */
   default?: number;
-  /**
-   * Gets or sets the type of the scale. Possible values include: 'None', 'Manual', 'Automatic'
-   */
+  /** Gets or sets the type of the scale. */
   scaleType?: SkuScaleType;
 }
 
-/**
- * An interface representing ResourceSkuCapabilities.
- */
-export interface ResourceSkuCapabilities {
-  /**
-   * Gets an invariant to describe the feature.
-   */
-  name?: string;
-  /**
-   * Gets an invariant if the feature is measured by quantity.
-   */
-  value?: string;
+/** Locations and availability zones where the SKU is available */
+export interface ResourceSkuLocationInfo {
+  /** Gets location of the SKU */
+  location?: string;
+  /** Gets list of availability zones where the SKU is supported. */
+  zones?: string[];
+  /** Gets details of capabilities available to a SKU in specific zones. */
+  zoneDetails?: ResourceSkuZoneDetails[];
 }
 
-/**
- * Details of capabilities available to a SKU in specific zones
- */
+/** Details of capabilities available to a SKU in specific zones */
 export interface ResourceSkuZoneDetails {
   /**
    * Gets the set of zones that the SKU is available in with the
@@ -1159,1773 +941,1135 @@ export interface ResourceSkuZoneDetails {
   capabilities?: ResourceSkuCapabilities[];
 }
 
-/**
- * Locations and availability zones where the SKU is available
- */
-export interface ResourceSkuLocationInfo {
-  /**
-   * Gets location of the SKU
-   */
-  location?: string;
-  /**
-   * Gets list of availability zones where the SKU is supported.
-   */
-  zones?: string[];
-  /**
-   * Gets details of capabilities available to a SKU in specific zones.
-   */
-  zoneDetails?: ResourceSkuZoneDetails[];
+export interface ResourceSkuCapabilities {
+  /** Gets an invariant to describe the feature. */
+  name?: string;
+  /** Gets an invariant if the feature is measured by quantity. */
+  value?: string;
 }
 
-/**
- * Information about the restriction where the SKU cannot be used
- */
-export interface ResourceSkuRestrictionInfo {
-  /**
-   * Gets locations where the SKU is restricted
-   */
-  locations?: string[];
-  /**
-   * Gets list of availability zones where the SKU is restricted.
-   */
-  zones?: string[];
-}
-
-/**
- * Restrictions where the SKU cannot be used
- */
+/** Restrictions where the SKU cannot be used */
 export interface ResourceSkuRestrictions {
-  /**
-   * Gets the type of restrictions. Possible values include: 'Location', 'Zone'
-   */
+  /** Gets the type of restrictions. Possible values include: 'Location', 'Zone' */
   type?: ResourceSkuRestrictionsType;
   /**
    * Gets the value of restrictions. If the restriction type is set to
    * location. This would be different locations where the SKU is restricted.
    */
   values?: string[];
-  /**
-   * Gets the information about the restriction where the SKU cannot be used.
-   */
+  /** Gets the information about the restriction where the SKU cannot be used. */
   restrictionInfo?: ResourceSkuRestrictionInfo;
-  /**
-   * Gets the reason for restriction. Possible values include: 'QuotaId',
-   * 'NotAvailableForSubscription'
-   */
+  /** Gets the reason for restriction. Possible values include: 'QuotaId', 'NotAvailableForSubscription' */
   reasonCode?: ResourceSkuRestrictionsReasonCode;
 }
 
-/**
- * Describes an available Azure Spring Cloud SKU.
- */
-export interface ResourceSku {
-  /**
-   * Gets the type of resource the SKU applies to.
-   */
-  resourceType?: string;
-  /**
-   * Gets the name of SKU.
-   */
-  name?: string;
-  /**
-   * Gets the tier of SKU.
-   */
-  tier?: string;
-  /**
-   * Gets the capacity of SKU.
-   */
-  capacity?: SkuCapacity;
-  /**
-   * Gets the set of locations that the SKU is available.
-   */
+/** Information about the restriction where the SKU cannot be used */
+export interface ResourceSkuRestrictionInfo {
+  /** Gets locations where the SKU is restricted */
   locations?: string[];
+  /** Gets list of availability zones where the SKU is restricted. */
+  zones?: string[];
+}
+
+/** The resource model definition for a ARM tracked top level resource. */
+export type TrackedResource = Resource & {
+  /** The GEO location of the resource. */
+  location?: string;
+  /** Tags of the service which is a list of key value pairs that describe the resource. */
+  tags?: { [propertyName: string]: string };
+};
+
+/** The resource model definition for a ARM proxy resource. It will have everything other than required location and tags. */
+export type ProxyResource = Resource & {};
+
+/** The properties of the Azure File volume. Azure File shares are mounted as volumes. */
+export type AzureFileVolume = CustomPersistentDiskProperties & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "AzureFileVolume";
+  /** The share name of the Azure File share. */
+  shareName: string;
+};
+
+/** storage resource of type Azure Storage Account. */
+export type StorageAccount = StorageProperties & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  storageType: "StorageAccount";
+  /** The account name of the Azure Storage Account. */
+  accountName: string;
+  /** The account key of the Azure Storage Account. */
+  accountKey: string;
+};
+
+/** Properties of certificate imported from key vault. */
+export type KeyVaultCertificateProperties = CertificateProperties & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "KeyVaultCertificate";
+  /** The vault uri of user key vault. */
+  vaultUri: string;
+  /** The certificate name of key vault. */
+  keyVaultCertName: string;
+  /** The certificate version of key vault. */
+  certVersion?: string;
+  /** Optional. If set to true, it will not import private key from key vault. */
+  excludePrivateKey?: boolean;
+};
+
+/** Properties of certificate imported from key vault. */
+export type ContentCertificateProperties = CertificateProperties & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "ContentCertificate";
+  /** The content of uploaded certificate. */
+  content: string;
+};
+
+/** Service resource */
+export type ServiceResource = TrackedResource & {
+  /** Properties of the Service resource */
+  properties?: ClusterResourceProperties;
+  /** Sku of the Service resource */
+  sku?: Sku;
+};
+
+/** Config Server resource */
+export type ConfigServerResource = ProxyResource & {
+  /** Properties of the Config Server resource */
+  properties?: ConfigServerProperties;
+};
+
+/** Monitoring Setting resource */
+export type MonitoringSettingResource = ProxyResource & {
+  /** Properties of the Monitoring Setting resource */
+  properties?: MonitoringSettingProperties;
+};
+
+/** App resource payload */
+export type AppResource = ProxyResource & {
+  /** Properties of the App resource */
+  properties?: AppResourceProperties;
+  /** The Managed Identity type of the app resource */
+  identity?: ManagedIdentityProperties;
+  /** The GEO location of the application, always the same with its parent resource */
+  location?: string;
+};
+
+/** Binding resource payload */
+export type BindingResource = ProxyResource & {
+  /** Properties of the Binding resource */
+  properties?: BindingResourceProperties;
+};
+
+/** Storage resource payload. */
+export type StorageResource = ProxyResource & {
+  /** Properties of the storage resource payload. */
+  properties?: StoragePropertiesUnion;
   /**
-   * Gets a list of locations and availability zones in those locations where the SKU is available.
+   * Metadata pertaining to creation and last modification of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  locationInfo?: ResourceSkuLocationInfo[];
-  /**
-   * Gets the restrictions because of which SKU cannot be used. This is
-   * empty if there are no restrictions.
-   */
-  restrictions?: ResourceSkuRestrictions[];
+  readonly systemData?: SystemData;
+};
+
+/** Certificate resource payload. */
+export type CertificateResource = ProxyResource & {
+  /** Properties of the certificate resource payload. */
+  properties?: CertificatePropertiesUnion;
+};
+
+/** Custom domain resource payload. */
+export type CustomDomainResource = ProxyResource & {
+  /** Properties of the custom domain resource. */
+  properties?: CustomDomainProperties;
+};
+
+/** Deployment resource payload */
+export type DeploymentResource = ProxyResource & {
+  /** Properties of the Deployment resource */
+  properties?: DeploymentResourceProperties;
+  /** Sku of the Deployment resource */
+  sku?: Sku;
+};
+
+/** Known values of {@link ProvisioningState} that the service accepts. */
+export enum KnownProvisioningState {
+  Creating = "Creating",
+  Updating = "Updating",
+  Deleting = "Deleting",
+  Deleted = "Deleted",
+  Succeeded = "Succeeded",
+  Failed = "Failed",
+  Moving = "Moving",
+  Moved = "Moved",
+  MoveFailed = "MoveFailed"
 }
 
 /**
- * Supported deployment runtime version descriptor.
+ * Defines values for ProvisioningState. \
+ * {@link KnownProvisioningState} can be used interchangeably with ProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Creating** \
+ * **Updating** \
+ * **Deleting** \
+ * **Deleted** \
+ * **Succeeded** \
+ * **Failed** \
+ * **Moving** \
+ * **Moved** \
+ * **MoveFailed**
  */
-export interface SupportedRuntimeVersion {
-  /**
-   * The raw value which could be passed to deployment CRUD operations. Possible values include:
-   * 'Java_8', 'Java_11', 'NetCore_31'
-   */
-  value?: SupportedRuntimeValue;
-  /**
-   * The platform of this runtime version (possible values: "Java" or ".NET"). Possible values
-   * include: 'Java', '.NET Core'
-   */
-  platform?: SupportedRuntimePlatform;
-  /**
-   * The detailed version (major.minor) of the platform.
-   */
-  version?: string;
+export type ProvisioningState = string;
+
+/** Known values of {@link TrafficDirection} that the service accepts. */
+export enum KnownTrafficDirection {
+  Inbound = "Inbound",
+  Outbound = "Outbound"
 }
 
 /**
- * An interface representing AvailableRuntimeVersions.
+ * Defines values for TrafficDirection. \
+ * {@link KnownTrafficDirection} can be used interchangeably with TrafficDirection,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Inbound** \
+ * **Outbound**
  */
-export interface AvailableRuntimeVersions {
-  /**
-   * A list of all supported runtime versions.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly value?: SupportedRuntimeVersion[];
+export type TrafficDirection = string;
+
+/** Known values of {@link PowerState} that the service accepts. */
+export enum KnownPowerState {
+  Running = "Running",
+  Stopped = "Stopped"
 }
 
 /**
- * Optional Parameters.
+ * Defines values for PowerState. \
+ * {@link KnownPowerState} can be used interchangeably with PowerState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Running** \
+ * **Stopped**
  */
-export interface AppsGetOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Indicates whether sync status
-   */
+export type PowerState = string;
+
+/** Known values of {@link TestKeyType} that the service accepts. */
+export enum KnownTestKeyType {
+  Primary = "Primary",
+  Secondary = "Secondary"
+}
+
+/**
+ * Defines values for TestKeyType. \
+ * {@link KnownTestKeyType} can be used interchangeably with TestKeyType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Primary** \
+ * **Secondary**
+ */
+export type TestKeyType = string;
+
+/** Known values of {@link ConfigServerState} that the service accepts. */
+export enum KnownConfigServerState {
+  NotAvailable = "NotAvailable",
+  Deleted = "Deleted",
+  Failed = "Failed",
+  Succeeded = "Succeeded",
+  Updating = "Updating"
+}
+
+/**
+ * Defines values for ConfigServerState. \
+ * {@link KnownConfigServerState} can be used interchangeably with ConfigServerState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NotAvailable** \
+ * **Deleted** \
+ * **Failed** \
+ * **Succeeded** \
+ * **Updating**
+ */
+export type ConfigServerState = string;
+
+/** Known values of {@link MonitoringSettingState} that the service accepts. */
+export enum KnownMonitoringSettingState {
+  NotAvailable = "NotAvailable",
+  Failed = "Failed",
+  Succeeded = "Succeeded",
+  Updating = "Updating"
+}
+
+/**
+ * Defines values for MonitoringSettingState. \
+ * {@link KnownMonitoringSettingState} can be used interchangeably with MonitoringSettingState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NotAvailable** \
+ * **Failed** \
+ * **Succeeded** \
+ * **Updating**
+ */
+export type MonitoringSettingState = string;
+
+/** Known values of {@link AppResourceProvisioningState} that the service accepts. */
+export enum KnownAppResourceProvisioningState {
+  Succeeded = "Succeeded",
+  Failed = "Failed",
+  Creating = "Creating",
+  Updating = "Updating"
+}
+
+/**
+ * Defines values for AppResourceProvisioningState. \
+ * {@link KnownAppResourceProvisioningState} can be used interchangeably with AppResourceProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Failed** \
+ * **Creating** \
+ * **Updating**
+ */
+export type AppResourceProvisioningState = string;
+
+/** Known values of {@link ManagedIdentityType} that the service accepts. */
+export enum KnownManagedIdentityType {
+  None = "None",
+  SystemAssigned = "SystemAssigned",
+  UserAssigned = "UserAssigned",
+  SystemAssignedUserAssigned = "SystemAssigned,UserAssigned"
+}
+
+/**
+ * Defines values for ManagedIdentityType. \
+ * {@link KnownManagedIdentityType} can be used interchangeably with ManagedIdentityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **SystemAssigned** \
+ * **UserAssigned** \
+ * **SystemAssigned,UserAssigned**
+ */
+export type ManagedIdentityType = string;
+
+/** Known values of {@link CreatedByType} that the service accepts. */
+export enum KnownCreatedByType {
+  User = "User",
+  Application = "Application",
+  ManagedIdentity = "ManagedIdentity",
+  Key = "Key"
+}
+
+/**
+ * Defines values for CreatedByType. \
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **User** \
+ * **Application** \
+ * **ManagedIdentity** \
+ * **Key**
+ */
+export type CreatedByType = string;
+
+/** Known values of {@link UserSourceType} that the service accepts. */
+export enum KnownUserSourceType {
+  Jar = "Jar",
+  NetCoreZip = "NetCoreZip",
+  Source = "Source",
+  Container = "Container"
+}
+
+/**
+ * Defines values for UserSourceType. \
+ * {@link KnownUserSourceType} can be used interchangeably with UserSourceType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Jar** \
+ * **NetCoreZip** \
+ * **Source** \
+ * **Container**
+ */
+export type UserSourceType = string;
+
+/** Known values of {@link RuntimeVersion} that the service accepts. */
+export enum KnownRuntimeVersion {
+  Java8 = "Java_8",
+  Java11 = "Java_11",
+  NetCore31 = "NetCore_31"
+}
+
+/**
+ * Defines values for RuntimeVersion. \
+ * {@link KnownRuntimeVersion} can be used interchangeably with RuntimeVersion,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Java_8** \
+ * **Java_11** \
+ * **NetCore_31**
+ */
+export type RuntimeVersion = string;
+
+/** Known values of {@link DeploymentResourceProvisioningState} that the service accepts. */
+export enum KnownDeploymentResourceProvisioningState {
+  Creating = "Creating",
+  Updating = "Updating",
+  Succeeded = "Succeeded",
+  Failed = "Failed"
+}
+
+/**
+ * Defines values for DeploymentResourceProvisioningState. \
+ * {@link KnownDeploymentResourceProvisioningState} can be used interchangeably with DeploymentResourceProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Creating** \
+ * **Updating** \
+ * **Succeeded** \
+ * **Failed**
+ */
+export type DeploymentResourceProvisioningState = string;
+
+/** Known values of {@link DeploymentResourceStatus} that the service accepts. */
+export enum KnownDeploymentResourceStatus {
+  Unknown = "Unknown",
+  Stopped = "Stopped",
+  Running = "Running",
+  Failed = "Failed",
+  Allocating = "Allocating",
+  Upgrading = "Upgrading",
+  Compiling = "Compiling"
+}
+
+/**
+ * Defines values for DeploymentResourceStatus. \
+ * {@link KnownDeploymentResourceStatus} can be used interchangeably with DeploymentResourceStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Unknown** \
+ * **Stopped** \
+ * **Running** \
+ * **Failed** \
+ * **Allocating** \
+ * **Upgrading** \
+ * **Compiling**
+ */
+export type DeploymentResourceStatus = string;
+
+/** Known values of {@link SupportedRuntimeValue} that the service accepts. */
+export enum KnownSupportedRuntimeValue {
+  Java8 = "Java_8",
+  Java11 = "Java_11",
+  NetCore31 = "NetCore_31"
+}
+
+/**
+ * Defines values for SupportedRuntimeValue. \
+ * {@link KnownSupportedRuntimeValue} can be used interchangeably with SupportedRuntimeValue,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Java_8** \
+ * **Java_11** \
+ * **NetCore_31**
+ */
+export type SupportedRuntimeValue = string;
+
+/** Known values of {@link SupportedRuntimePlatform} that the service accepts. */
+export enum KnownSupportedRuntimePlatform {
+  Java = "Java",
+  NETCore = ".NET Core"
+}
+
+/**
+ * Defines values for SupportedRuntimePlatform. \
+ * {@link KnownSupportedRuntimePlatform} can be used interchangeably with SupportedRuntimePlatform,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Java** \
+ * **.NET Core**
+ */
+export type SupportedRuntimePlatform = string;
+
+/** Known values of {@link SkuScaleType} that the service accepts. */
+export enum KnownSkuScaleType {
+  None = "None",
+  Manual = "Manual",
+  Automatic = "Automatic"
+}
+
+/**
+ * Defines values for SkuScaleType. \
+ * {@link KnownSkuScaleType} can be used interchangeably with SkuScaleType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **Manual** \
+ * **Automatic**
+ */
+export type SkuScaleType = string;
+
+/** Known values of {@link ResourceSkuRestrictionsType} that the service accepts. */
+export enum KnownResourceSkuRestrictionsType {
+  Location = "Location",
+  Zone = "Zone"
+}
+
+/**
+ * Defines values for ResourceSkuRestrictionsType. \
+ * {@link KnownResourceSkuRestrictionsType} can be used interchangeably with ResourceSkuRestrictionsType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Location** \
+ * **Zone**
+ */
+export type ResourceSkuRestrictionsType = string;
+
+/** Known values of {@link ResourceSkuRestrictionsReasonCode} that the service accepts. */
+export enum KnownResourceSkuRestrictionsReasonCode {
+  QuotaId = "QuotaId",
+  NotAvailableForSubscription = "NotAvailableForSubscription"
+}
+
+/**
+ * Defines values for ResourceSkuRestrictionsReasonCode. \
+ * {@link KnownResourceSkuRestrictionsReasonCode} can be used interchangeably with ResourceSkuRestrictionsReasonCode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **QuotaId** \
+ * **NotAvailableForSubscription**
+ */
+export type ResourceSkuRestrictionsReasonCode = string;
+
+/** Optional parameters. */
+export interface ServicesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ServicesGetResponse = ServiceResource;
+
+/** Optional parameters. */
+export interface ServicesCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type ServicesCreateOrUpdateResponse = ServiceResource;
+
+/** Optional parameters. */
+export interface ServicesDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface ServicesUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type ServicesUpdateResponse = ServiceResource;
+
+/** Optional parameters. */
+export interface ServicesListTestKeysOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listTestKeys operation. */
+export type ServicesListTestKeysResponse = TestKeys;
+
+/** Optional parameters. */
+export interface ServicesRegenerateTestKeyOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the regenerateTestKey operation. */
+export type ServicesRegenerateTestKeyResponse = TestKeys;
+
+/** Optional parameters. */
+export interface ServicesDisableTestEndpointOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface ServicesEnableTestEndpointOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the enableTestEndpoint operation. */
+export type ServicesEnableTestEndpointResponse = TestKeys;
+
+/** Optional parameters. */
+export interface ServicesStopOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface ServicesStartOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface ServicesCheckNameAvailabilityOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the checkNameAvailability operation. */
+export type ServicesCheckNameAvailabilityResponse = NameAvailability;
+
+/** Optional parameters. */
+export interface ServicesListBySubscriptionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscription operation. */
+export type ServicesListBySubscriptionResponse = ServiceResourceList;
+
+/** Optional parameters. */
+export interface ServicesListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type ServicesListResponse = ServiceResourceList;
+
+/** Optional parameters. */
+export interface ServicesListBySubscriptionNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscriptionNext operation. */
+export type ServicesListBySubscriptionNextResponse = ServiceResourceList;
+
+/** Optional parameters. */
+export interface ServicesListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type ServicesListNextResponse = ServiceResourceList;
+
+/** Optional parameters. */
+export interface ConfigServersGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ConfigServersGetResponse = ConfigServerResource;
+
+/** Optional parameters. */
+export interface ConfigServersUpdatePutOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the updatePut operation. */
+export type ConfigServersUpdatePutResponse = ConfigServerResource;
+
+/** Optional parameters. */
+export interface ConfigServersUpdatePatchOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the updatePatch operation. */
+export type ConfigServersUpdatePatchResponse = ConfigServerResource;
+
+/** Optional parameters. */
+export interface ConfigServersValidateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the validate operation. */
+export type ConfigServersValidateResponse = ConfigServerSettingsValidateResult;
+
+/** Optional parameters. */
+export interface MonitoringSettingsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type MonitoringSettingsGetResponse = MonitoringSettingResource;
+
+/** Optional parameters. */
+export interface MonitoringSettingsUpdatePutOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the updatePut operation. */
+export type MonitoringSettingsUpdatePutResponse = MonitoringSettingResource;
+
+/** Optional parameters. */
+export interface MonitoringSettingsUpdatePatchOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the updatePatch operation. */
+export type MonitoringSettingsUpdatePatchResponse = MonitoringSettingResource;
+
+/** Optional parameters. */
+export interface AppsGetOptionalParams extends coreClient.OperationOptions {
+  /** Indicates whether sync status */
   syncStatus?: string;
 }
 
-/**
- * Optional Parameters.
- */
-export interface DeploymentsListOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Version of the deployments to be listed
-   */
+/** Contains response data for the get operation. */
+export type AppsGetResponse = AppResource;
+
+/** Optional parameters. */
+export interface AppsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type AppsCreateOrUpdateResponse = AppResource;
+
+/** Optional parameters. */
+export interface AppsDeleteOptionalParams extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface AppsUpdateOptionalParams extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type AppsUpdateResponse = AppResource;
+
+/** Optional parameters. */
+export interface AppsListOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type AppsListResponse = AppResourceCollection;
+
+/** Optional parameters. */
+export interface AppsGetResourceUploadUrlOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getResourceUploadUrl operation. */
+export type AppsGetResourceUploadUrlResponse = ResourceUploadDefinition;
+
+/** Optional parameters. */
+export interface AppsValidateDomainOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the validateDomain operation. */
+export type AppsValidateDomainResponse = CustomDomainValidateResult;
+
+/** Optional parameters. */
+export interface AppsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type AppsListNextResponse = AppResourceCollection;
+
+/** Optional parameters. */
+export interface BindingsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type BindingsGetResponse = BindingResource;
+
+/** Optional parameters. */
+export interface BindingsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type BindingsCreateOrUpdateResponse = BindingResource;
+
+/** Optional parameters. */
+export interface BindingsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface BindingsUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type BindingsUpdateResponse = BindingResource;
+
+/** Optional parameters. */
+export interface BindingsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type BindingsListResponse = BindingResourceCollection;
+
+/** Optional parameters. */
+export interface BindingsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type BindingsListNextResponse = BindingResourceCollection;
+
+/** Optional parameters. */
+export interface StoragesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type StoragesGetResponse = StorageResource;
+
+/** Optional parameters. */
+export interface StoragesCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type StoragesCreateOrUpdateResponse = StorageResource;
+
+/** Optional parameters. */
+export interface StoragesDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface StoragesListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type StoragesListResponse = StorageResourceCollection;
+
+/** Optional parameters. */
+export interface StoragesListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type StoragesListNextResponse = StorageResourceCollection;
+
+/** Optional parameters. */
+export interface CertificatesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type CertificatesGetResponse = CertificateResource;
+
+/** Optional parameters. */
+export interface CertificatesCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type CertificatesCreateOrUpdateResponse = CertificateResource;
+
+/** Optional parameters. */
+export interface CertificatesDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface CertificatesListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type CertificatesListResponse = CertificateResourceCollection;
+
+/** Optional parameters. */
+export interface CertificatesListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type CertificatesListNextResponse = CertificateResourceCollection;
+
+/** Optional parameters. */
+export interface CustomDomainsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type CustomDomainsGetResponse = CustomDomainResource;
+
+/** Optional parameters. */
+export interface CustomDomainsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type CustomDomainsCreateOrUpdateResponse = CustomDomainResource;
+
+/** Optional parameters. */
+export interface CustomDomainsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface CustomDomainsUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type CustomDomainsUpdateResponse = CustomDomainResource;
+
+/** Optional parameters. */
+export interface CustomDomainsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type CustomDomainsListResponse = CustomDomainResourceCollection;
+
+/** Optional parameters. */
+export interface CustomDomainsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type CustomDomainsListNextResponse = CustomDomainResourceCollection;
+
+/** Optional parameters. */
+export interface DeploymentsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type DeploymentsGetResponse = DeploymentResource;
+
+/** Optional parameters. */
+export interface DeploymentsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type DeploymentsCreateOrUpdateResponse = DeploymentResource;
+
+/** Optional parameters. */
+export interface DeploymentsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface DeploymentsUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type DeploymentsUpdateResponse = DeploymentResource;
+
+/** Optional parameters. */
+export interface DeploymentsListOptionalParams
+  extends coreClient.OperationOptions {
+  /** Version of the deployments to be listed */
   version?: string[];
 }
 
-/**
- * Optional Parameters.
- */
-export interface DeploymentsListForClusterOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Version of the deployments to be listed
-   */
+/** Contains response data for the list operation. */
+export type DeploymentsListResponse = DeploymentResourceCollection;
+
+/** Optional parameters. */
+export interface DeploymentsListForClusterOptionalParams
+  extends coreClient.OperationOptions {
+  /** Version of the deployments to be listed */
   version?: string[];
 }
 
-/**
- * Optional Parameters.
- */
-export interface DeploymentsListNextOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Version of the deployments to be listed
-   */
+/** Contains response data for the listForCluster operation. */
+export type DeploymentsListForClusterResponse = DeploymentResourceCollection;
+
+/** Optional parameters. */
+export interface DeploymentsStartOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface DeploymentsStopOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface DeploymentsRestartOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface DeploymentsGetLogFileUrlOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getLogFileUrl operation. */
+export type DeploymentsGetLogFileUrlResponse = LogFileUrlResponse;
+
+/** Optional parameters. */
+export interface DeploymentsGenerateHeapDumpOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface DeploymentsGenerateThreadDumpOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface DeploymentsStartJFROptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface DeploymentsListNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** Version of the deployments to be listed */
   version?: string[];
 }
 
-/**
- * Optional Parameters.
- */
-export interface DeploymentsListForClusterNextOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Version of the deployments to be listed
-   */
+/** Contains response data for the listNext operation. */
+export type DeploymentsListNextResponse = DeploymentResourceCollection;
+
+/** Optional parameters. */
+export interface DeploymentsListForClusterNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** Version of the deployments to be listed */
   version?: string[];
 }
 
-/**
- * An interface representing AppPlatformManagementClientOptions.
- */
-export interface AppPlatformManagementClientOptions extends AzureServiceClientOptions {
-  baseUri?: string;
+/** Contains response data for the listForClusterNext operation. */
+export type DeploymentsListForClusterNextResponse = DeploymentResourceCollection;
+
+/** Optional parameters. */
+export interface OperationsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type OperationsListResponse = AvailableOperations;
+
+/** Optional parameters. */
+export interface OperationsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type OperationsListNextResponse = AvailableOperations;
+
+/** Optional parameters. */
+export interface RuntimeVersionsListRuntimeVersionsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listRuntimeVersions operation. */
+export type RuntimeVersionsListRuntimeVersionsResponse = AvailableRuntimeVersions;
+
+/** Optional parameters. */
+export interface SkusListOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type SkusListResponse = ResourceSkuCollection;
+
+/** Optional parameters. */
+export interface SkusListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type SkusListNextResponse = ResourceSkuCollection;
+
+/** Optional parameters. */
+export interface AppPlatformManagementClientOptionalParams
+  extends coreClient.ServiceClientOptions {
+  /** server parameter */
+  $host?: string;
+  /** Api Version */
+  apiVersion?: string;
+  /** Overrides client endpoint. */
+  endpoint?: string;
 }
-
-/**
- * @interface
- * Object that includes an array of Service resources and a possible link for next set
- * @extends Array<ServiceResource>
- */
-export interface ServiceResourceList extends Array<ServiceResource> {
-  /**
-   * URL client should use to fetch the next page (per server side paging).
-   * It's null for now, added for future use.
-   */
-  nextLink?: string;
-}
-
-/**
- * @interface
- * Object that includes an array of App resources and a possible link for next set
- * @extends Array<AppResource>
- */
-export interface AppResourceCollection extends Array<AppResource> {
-  /**
-   * URL client should use to fetch the next page (per server side paging).
-   * It's null for now, added for future use.
-   */
-  nextLink?: string;
-}
-
-/**
- * @interface
- * Object that includes an array of Binding resources and a possible link for next set
- * @extends Array<BindingResource>
- */
-export interface BindingResourceCollection extends Array<BindingResource> {
-  /**
-   * URL client should use to fetch the next page (per server side paging).
-   * It's null for now, added for future use.
-   */
-  nextLink?: string;
-}
-
-/**
- * @interface
- * Collection compose of certificate resources list and a possible link for next page.
- * @extends Array<CertificateResource>
- */
-export interface CertificateResourceCollection extends Array<CertificateResource> {
-  /**
-   * The link to next page of certificate list.
-   */
-  nextLink?: string;
-}
-
-/**
- * @interface
- * Collection compose of a custom domain resources list and a possible link for next page.
- * @extends Array<CustomDomainResource>
- */
-export interface CustomDomainResourceCollection extends Array<CustomDomainResource> {
-  /**
-   * The link to next page of custom domain list.
-   */
-  nextLink?: string;
-}
-
-/**
- * @interface
- * Object that includes an array of App resources and a possible link for next set
- * @extends Array<DeploymentResource>
- */
-export interface DeploymentResourceCollection extends Array<DeploymentResource> {
-  /**
-   * URL client should use to fetch the next page (per server side paging).
-   * It's null for now, added for future use.
-   */
-  nextLink?: string;
-}
-
-/**
- * @interface
- * Available operations of the service
- * @extends Array<OperationDetail>
- */
-export interface AvailableOperations extends Array<OperationDetail> {
-  /**
-   * URL client should use to fetch the next page (per server side paging).
-   * It's null for now, added for future use.
-   */
-  nextLink?: string;
-}
-
-/**
- * @interface
- * Object that includes an array of Azure Spring Cloud SKU and a possible link for next set
- * @extends Array<ResourceSku>
- */
-export interface ResourceSkuCollection extends Array<ResourceSku> {
-  /**
-   * URL client should use to fetch the next page (per server side paging).
-   * It's null for now, added for future use.
-   */
-  nextLink?: string;
-}
-
-/**
- * Defines values for ProvisioningState.
- * Possible values include: 'Creating', 'Updating', 'Deleting', 'Deleted', 'Succeeded', 'Failed',
- * 'Moving', 'Moved', 'MoveFailed'
- * @readonly
- * @enum {string}
- */
-export type ProvisioningState = 'Creating' | 'Updating' | 'Deleting' | 'Deleted' | 'Succeeded' | 'Failed' | 'Moving' | 'Moved' | 'MoveFailed';
-
-/**
- * Defines values for TrafficDirection.
- * Possible values include: 'Inbound', 'Outbound'
- * @readonly
- * @enum {string}
- */
-export type TrafficDirection = 'Inbound' | 'Outbound';
-
-/**
- * Defines values for ManagedIdentityType.
- * Possible values include: 'None', 'SystemAssigned', 'UserAssigned', 'SystemAssigned,UserAssigned'
- * @readonly
- * @enum {string}
- */
-export type ManagedIdentityType = 'None' | 'SystemAssigned' | 'UserAssigned' | 'SystemAssigned,UserAssigned';
-
-/**
- * Defines values for ConfigServerState.
- * Possible values include: 'NotAvailable', 'Deleted', 'Failed', 'Succeeded', 'Updating'
- * @readonly
- * @enum {string}
- */
-export type ConfigServerState = 'NotAvailable' | 'Deleted' | 'Failed' | 'Succeeded' | 'Updating';
-
-/**
- * Defines values for MonitoringSettingState.
- * Possible values include: 'NotAvailable', 'Failed', 'Succeeded', 'Updating'
- * @readonly
- * @enum {string}
- */
-export type MonitoringSettingState = 'NotAvailable' | 'Failed' | 'Succeeded' | 'Updating';
-
-/**
- * Defines values for TestKeyType.
- * Possible values include: 'Primary', 'Secondary'
- * @readonly
- * @enum {string}
- */
-export type TestKeyType = 'Primary' | 'Secondary';
-
-/**
- * Defines values for AppResourceProvisioningState.
- * Possible values include: 'Succeeded', 'Failed', 'Creating', 'Updating'
- * @readonly
- * @enum {string}
- */
-export type AppResourceProvisioningState = 'Succeeded' | 'Failed' | 'Creating' | 'Updating';
-
-/**
- * Defines values for UserSourceType.
- * Possible values include: 'Jar', 'NetCoreZip', 'Source'
- * @readonly
- * @enum {string}
- */
-export type UserSourceType = 'Jar' | 'NetCoreZip' | 'Source';
-
-/**
- * Defines values for RuntimeVersion.
- * Possible values include: 'Java_8', 'Java_11', 'NetCore_31'
- * @readonly
- * @enum {string}
- */
-export type RuntimeVersion = 'Java_8' | 'Java_11' | 'NetCore_31';
-
-/**
- * Defines values for DeploymentResourceProvisioningState.
- * Possible values include: 'Creating', 'Updating', 'Succeeded', 'Failed'
- * @readonly
- * @enum {string}
- */
-export type DeploymentResourceProvisioningState = 'Creating' | 'Updating' | 'Succeeded' | 'Failed';
-
-/**
- * Defines values for DeploymentResourceStatus.
- * Possible values include: 'Unknown', 'Stopped', 'Running', 'Failed', 'Allocating', 'Upgrading',
- * 'Compiling'
- * @readonly
- * @enum {string}
- */
-export type DeploymentResourceStatus = 'Unknown' | 'Stopped' | 'Running' | 'Failed' | 'Allocating' | 'Upgrading' | 'Compiling';
-
-/**
- * Defines values for SkuScaleType.
- * Possible values include: 'None', 'Manual', 'Automatic'
- * @readonly
- * @enum {string}
- */
-export type SkuScaleType = 'None' | 'Manual' | 'Automatic';
-
-/**
- * Defines values for ResourceSkuRestrictionsType.
- * Possible values include: 'Location', 'Zone'
- * @readonly
- * @enum {string}
- */
-export type ResourceSkuRestrictionsType = 'Location' | 'Zone';
-
-/**
- * Defines values for ResourceSkuRestrictionsReasonCode.
- * Possible values include: 'QuotaId', 'NotAvailableForSubscription'
- * @readonly
- * @enum {string}
- */
-export type ResourceSkuRestrictionsReasonCode = 'QuotaId' | 'NotAvailableForSubscription';
-
-/**
- * Defines values for SupportedRuntimeValue.
- * Possible values include: 'Java_8', 'Java_11', 'NetCore_31'
- * @readonly
- * @enum {string}
- */
-export type SupportedRuntimeValue = 'Java_8' | 'Java_11' | 'NetCore_31';
-
-/**
- * Defines values for SupportedRuntimePlatform.
- * Possible values include: 'Java', '.NET Core'
- * @readonly
- * @enum {string}
- */
-export type SupportedRuntimePlatform = 'Java' | '.NET Core';
-
-/**
- * Contains response data for the get operation.
- */
-export type ServicesGetResponse = ServiceResource & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServiceResource;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type ServicesCreateOrUpdateResponse = ServiceResource & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServiceResource;
-    };
-};
-
-/**
- * Contains response data for the update operation.
- */
-export type ServicesUpdateResponse = ServiceResource & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServiceResource;
-    };
-};
-
-/**
- * Contains response data for the listTestKeys operation.
- */
-export type ServicesListTestKeysResponse = TestKeys & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TestKeys;
-    };
-};
-
-/**
- * Contains response data for the regenerateTestKey operation.
- */
-export type ServicesRegenerateTestKeyResponse = TestKeys & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TestKeys;
-    };
-};
-
-/**
- * Contains response data for the enableTestEndpoint operation.
- */
-export type ServicesEnableTestEndpointResponse = TestKeys & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TestKeys;
-    };
-};
-
-/**
- * Contains response data for the checkNameAvailability operation.
- */
-export type ServicesCheckNameAvailabilityResponse = NameAvailability & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NameAvailability;
-    };
-};
-
-/**
- * Contains response data for the listBySubscription operation.
- */
-export type ServicesListBySubscriptionResponse = ServiceResourceList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServiceResourceList;
-    };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type ServicesListResponse = ServiceResourceList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServiceResourceList;
-    };
-};
-
-/**
- * Contains response data for the beginCreateOrUpdate operation.
- */
-export type ServicesBeginCreateOrUpdateResponse = ServiceResource & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServiceResource;
-    };
-};
-
-/**
- * Contains response data for the beginUpdate operation.
- */
-export type ServicesBeginUpdateResponse = ServiceResource & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServiceResource;
-    };
-};
-
-/**
- * Contains response data for the listBySubscriptionNext operation.
- */
-export type ServicesListBySubscriptionNextResponse = ServiceResourceList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServiceResourceList;
-    };
-};
-
-/**
- * Contains response data for the listNext operation.
- */
-export type ServicesListNextResponse = ServiceResourceList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServiceResourceList;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type ConfigServersGetResponse = ConfigServerResource & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ConfigServerResource;
-    };
-};
-
-/**
- * Contains response data for the updatePut operation.
- */
-export type ConfigServersUpdatePutResponse = ConfigServerResource & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ConfigServerResource;
-    };
-};
-
-/**
- * Contains response data for the updatePatch operation.
- */
-export type ConfigServersUpdatePatchResponse = ConfigServerResource & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ConfigServerResource;
-    };
-};
-
-/**
- * Contains response data for the validate operation.
- */
-export type ConfigServersValidateResponse = ConfigServerSettingsValidateResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ConfigServerSettingsValidateResult;
-    };
-};
-
-/**
- * Contains response data for the beginUpdatePut operation.
- */
-export type ConfigServersBeginUpdatePutResponse = ConfigServerResource & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ConfigServerResource;
-    };
-};
-
-/**
- * Contains response data for the beginUpdatePatch operation.
- */
-export type ConfigServersBeginUpdatePatchResponse = ConfigServerResource & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ConfigServerResource;
-    };
-};
-
-/**
- * Contains response data for the beginValidate operation.
- */
-export type ConfigServersBeginValidateResponse = ConfigServerSettingsValidateResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ConfigServerSettingsValidateResult;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type MonitoringSettingsGetResponse = MonitoringSettingResource & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MonitoringSettingResource;
-    };
-};
-
-/**
- * Contains response data for the updatePut operation.
- */
-export type MonitoringSettingsUpdatePutResponse = MonitoringSettingResource & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MonitoringSettingResource;
-    };
-};
-
-/**
- * Contains response data for the updatePatch operation.
- */
-export type MonitoringSettingsUpdatePatchResponse = MonitoringSettingResource & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MonitoringSettingResource;
-    };
-};
-
-/**
- * Contains response data for the beginUpdatePut operation.
- */
-export type MonitoringSettingsBeginUpdatePutResponse = MonitoringSettingResource & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MonitoringSettingResource;
-    };
-};
-
-/**
- * Contains response data for the beginUpdatePatch operation.
- */
-export type MonitoringSettingsBeginUpdatePatchResponse = MonitoringSettingResource & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MonitoringSettingResource;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type AppsGetResponse = AppResource & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AppResource;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type AppsCreateOrUpdateResponse = AppResource & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AppResource;
-    };
-};
-
-/**
- * Contains response data for the update operation.
- */
-export type AppsUpdateResponse = AppResource & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AppResource;
-    };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type AppsListResponse = AppResourceCollection & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AppResourceCollection;
-    };
-};
-
-/**
- * Contains response data for the getResourceUploadUrl operation.
- */
-export type AppsGetResourceUploadUrlResponse = ResourceUploadDefinition & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ResourceUploadDefinition;
-    };
-};
-
-/**
- * Contains response data for the validateDomain operation.
- */
-export type AppsValidateDomainResponse = CustomDomainValidateResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CustomDomainValidateResult;
-    };
-};
-
-/**
- * Contains response data for the beginCreateOrUpdate operation.
- */
-export type AppsBeginCreateOrUpdateResponse = AppResource & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AppResource;
-    };
-};
-
-/**
- * Contains response data for the beginUpdate operation.
- */
-export type AppsBeginUpdateResponse = AppResource & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AppResource;
-    };
-};
-
-/**
- * Contains response data for the listNext operation.
- */
-export type AppsListNextResponse = AppResourceCollection & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AppResourceCollection;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type BindingsGetResponse = BindingResource & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: BindingResource;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type BindingsCreateOrUpdateResponse = BindingResource & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: BindingResource;
-    };
-};
-
-/**
- * Contains response data for the update operation.
- */
-export type BindingsUpdateResponse = BindingResource & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: BindingResource;
-    };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type BindingsListResponse = BindingResourceCollection & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: BindingResourceCollection;
-    };
-};
-
-/**
- * Contains response data for the beginCreateOrUpdate operation.
- */
-export type BindingsBeginCreateOrUpdateResponse = BindingResource & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: BindingResource;
-    };
-};
-
-/**
- * Contains response data for the beginUpdate operation.
- */
-export type BindingsBeginUpdateResponse = BindingResource & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: BindingResource;
-    };
-};
-
-/**
- * Contains response data for the listNext operation.
- */
-export type BindingsListNextResponse = BindingResourceCollection & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: BindingResourceCollection;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type CertificatesGetResponse = CertificateResource & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CertificateResource;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type CertificatesCreateOrUpdateResponse = CertificateResource & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CertificateResource;
-    };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type CertificatesListResponse = CertificateResourceCollection & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CertificateResourceCollection;
-    };
-};
-
-/**
- * Contains response data for the beginCreateOrUpdate operation.
- */
-export type CertificatesBeginCreateOrUpdateResponse = CertificateResource & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CertificateResource;
-    };
-};
-
-/**
- * Contains response data for the listNext operation.
- */
-export type CertificatesListNextResponse = CertificateResourceCollection & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CertificateResourceCollection;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type CustomDomainsGetResponse = CustomDomainResource & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CustomDomainResource;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type CustomDomainsCreateOrUpdateResponse = CustomDomainResource & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CustomDomainResource;
-    };
-};
-
-/**
- * Contains response data for the update operation.
- */
-export type CustomDomainsUpdateResponse = CustomDomainResource & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CustomDomainResource;
-    };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type CustomDomainsListResponse = CustomDomainResourceCollection & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CustomDomainResourceCollection;
-    };
-};
-
-/**
- * Contains response data for the beginCreateOrUpdate operation.
- */
-export type CustomDomainsBeginCreateOrUpdateResponse = CustomDomainResource & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CustomDomainResource;
-    };
-};
-
-/**
- * Contains response data for the beginUpdate operation.
- */
-export type CustomDomainsBeginUpdateResponse = CustomDomainResource & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CustomDomainResource;
-    };
-};
-
-/**
- * Contains response data for the listNext operation.
- */
-export type CustomDomainsListNextResponse = CustomDomainResourceCollection & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CustomDomainResourceCollection;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type DeploymentsGetResponse = DeploymentResource & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DeploymentResource;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type DeploymentsCreateOrUpdateResponse = DeploymentResource & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DeploymentResource;
-    };
-};
-
-/**
- * Contains response data for the update operation.
- */
-export type DeploymentsUpdateResponse = DeploymentResource & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DeploymentResource;
-    };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type DeploymentsListResponse = DeploymentResourceCollection & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DeploymentResourceCollection;
-    };
-};
-
-/**
- * Contains response data for the listForCluster operation.
- */
-export type DeploymentsListForClusterResponse = DeploymentResourceCollection & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DeploymentResourceCollection;
-    };
-};
-
-/**
- * Contains response data for the getLogFileUrl operation.
- */
-export type DeploymentsGetLogFileUrlResponse = LogFileUrlResponse & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: LogFileUrlResponse;
-    };
-};
-
-/**
- * Contains response data for the beginCreateOrUpdate operation.
- */
-export type DeploymentsBeginCreateOrUpdateResponse = DeploymentResource & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DeploymentResource;
-    };
-};
-
-/**
- * Contains response data for the beginUpdate operation.
- */
-export type DeploymentsBeginUpdateResponse = DeploymentResource & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DeploymentResource;
-    };
-};
-
-/**
- * Contains response data for the listNext operation.
- */
-export type DeploymentsListNextResponse = DeploymentResourceCollection & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DeploymentResourceCollection;
-    };
-};
-
-/**
- * Contains response data for the listForClusterNext operation.
- */
-export type DeploymentsListForClusterNextResponse = DeploymentResourceCollection & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DeploymentResourceCollection;
-    };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type OperationsListResponse = AvailableOperations & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AvailableOperations;
-    };
-};
-
-/**
- * Contains response data for the listNext operation.
- */
-export type OperationsListNextResponse = AvailableOperations & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AvailableOperations;
-    };
-};
-
-/**
- * Contains response data for the listRuntimeVersions operation.
- */
-export type RuntimeVersionsListRuntimeVersionsResponse = AvailableRuntimeVersions & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AvailableRuntimeVersions;
-    };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type SkusListResponse = ResourceSkuCollection & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ResourceSkuCollection;
-    };
-};
-
-/**
- * Contains response data for the listNext operation.
- */
-export type SkusListNextResponse = ResourceSkuCollection & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ResourceSkuCollection;
-    };
-};

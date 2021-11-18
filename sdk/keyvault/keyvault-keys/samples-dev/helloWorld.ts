@@ -22,10 +22,10 @@ export async function main(): Promise<void> {
   const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
   const client = new KeyClient(url, credential);
 
-  const uniqueString = new Date().getTime();
-  const keyName = `KeyName${uniqueString}`;
-  const ecKeyName = `ECKeyName${uniqueString}`;
-  const rsaKeyName = `RSAKeyName${uniqueString}`;
+  const uniqueString = Date.now();
+  const keyName = `sample-key-${uniqueString}`;
+  const ecKeyName = `sample-ec-key-${uniqueString}`;
+  const rsaKeyName = `sample-rsa-key-${uniqueString}`;
 
   // You can create keys using the general method
   const result = await client.createKey(keyName, "EC");
@@ -53,13 +53,21 @@ export async function main(): Promise<void> {
   });
   console.log("updated key: ", updatedKey);
 
-  await client.beginDeleteKey(keyName);
-  await client.beginDeleteKey(ecKeyName);
-  await client.beginDeleteKey(rsaKeyName);
+  // Delete the key - the key is soft-deleted but not yet purged
+  const deletePoller = await client.beginDeleteKey(keyName);
+  await deletePoller.pollUntilDone();
+
+  const deletedKey = await client.getDeletedKey(keyName);
+  console.log("deleted key: ", deletedKey);
+
+  // Purge the key - the key is permanently deleted
+  // This operation could take some time to complete
+  console.time("purge a single key");
+  await client.purgeDeletedKey(keyName);
+  console.timeEnd("purge a single key");
 }
 
-main().catch((err) => {
-  console.log("error code: ", err.code);
-  console.log("error message: ", err.message);
-  console.log("error stack: ", err.stack);
+main().catch((error) => {
+  console.error("An error occurred:", error);
+  process.exit(1);
 });

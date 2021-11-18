@@ -9,4 +9,4 @@
 export * from "./usages";
 export * from "./quota";
 export * from "./quotaRequestStatus";
-export * from "./operation";
+export * from "./quotaOperation";

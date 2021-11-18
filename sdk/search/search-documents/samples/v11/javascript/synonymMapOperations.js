@@ -6,6 +6,7 @@
  */
 
 const { SearchIndexClient, AzureKeyCredential } = require("@azure/search-documents");
+
 const dotenv = require("dotenv");
 dotenv.config();
 
@@ -17,7 +18,7 @@ async function createSynonymMap(synonymMapName, client) {
   console.log(`Creating SynonymMap Operation`);
   const sm = {
     name: synonymMapName,
-    synonyms: ["United States, United States of America => USA", "Washington, Wash. => WA"]
+    synonyms: ["United States, United States of America => USA", "Washington, Wash. => WA"],
   };
   await client.createSynonymMap(sm);
 }
