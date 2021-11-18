@@ -1,8 +1,4 @@
-# Azure Template client library for JavaScript
-
-<!-- NOTE: This README file is a template. Read through it and replace the instructions (keeping an eye out for package names like "@azure/template") with the ones that pertain to your package. For a complete example based on the real Azure App Configuration SDK, see README-TEMPLATE.md in this directory. -->
-
-This project is used as a template package for the Azure SDK for JavaScript. It is intended to help Azure SDK developers bootstrap new packages, and it provides an example of how to organize the code and documentation of a client library for an Azure service.
+# Azure OpenTelemetry Instrumentation library for JavaScript
 
 ## Getting started
 
@@ -16,15 +12,16 @@ See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUP
 ### Prerequisites
 
 - An [Azure subscription][azure_sub].
+- The [@opentelemetry/instrumentation][otel_instrumentation] package.
 
-Usually you'd put a shell command for provisioning the necessary Azure services here.
+You'll need to configure the OpenTelemetry SDK in order to produce Telemetry data. While configuring OpenTelemetry is outside the scope of this README, we encourage you to review the [OpenTelemetry documentation][otel_documentation] in order to get started using OpenTelemetry.
 
-### Install the `@azure/template` package
+### Install the `@azure/instrumentation-opentelemetry` package
 
-Install the Template client library for JavaScript with `npm`:
+Install the Azure OpenTelemetry Instrumentation client library with `npm`:
 
 ```bash
-npm install @azure/template
+npm install @azure/instrumentation-opentelemetry
 ```
 
 ### Browser support
@@ -33,47 +30,35 @@ npm install @azure/template
 
 To use this client library in the browser, first you need to use a bundler. For details on how to do this, please refer to our [bundling documentation](https://aka.ms/AzureSDKBundling).
 
-#### CORS
-
-<!--
-
-NOTE: if your service supports CORS natively please provide instructions for enabling CORS at the service level (similar to the sample below), otherwise replace this section with guidance such as:
-
-Due to Azure template service CORS limitation this library cannot be used to make direct calls to the template service from a browser. Please refer to [this document](https://github.com/Azure/azure-sdk-for-js/blob/main/samples/cors/ts/README.md) for guidance.
-
--->
-
-You need to set up [Cross-Origin Resource Sharing (CORS)](https://docs.microsoft.com/rest/api/storageservices/cross-origin-resource-sharing--cors--support-for-the-azure-storage-services) rules for your storage account if you need to develop for browsers. Go to Azure portal and Azure Storage Explorer, find your storage account, create new CORS rules for blob/queue/file/table service(s).
-
-For example, you can create the following CORS settings for debugging. But please customize the settings carefully according to your requirements in a production environment.
-
-- Allowed origins: \*
-- Allowed verbs: DELETE,GET,HEAD,MERGE,POST,OPTIONS,PUT
-- Allowed headers: \*
-- Exposed headers: \*
-- Maximum age (seconds): 86400
-
-### Further examples
-
-Top-level examples usually include things like creating and authenticating the main Client. If your service supports multiple means of authenticating (e.g. key-based and Azure Active Directory) you can give a separate example of each.
-
 ## Key concepts
 
-### ConfigurationClient
+- The **createAzureInstrumentation** function is the main hook exported by this library which provides a way to create an Azure SDK Instrumentation object which can be registered with OpenTelemetry.
 
-Describe your primary client here. Talk about what operations it can do and when a developer would want to use it.
+### Compatibility with existing Client Libraries
 
-### Additional Examples
-
-Create a section for each top-level service concept you want to explain.
+- TODO, we should describe what versions of core-tracing are compatible here...
 
 ## Examples
 
-### First Example
+### Enable OpenTelemetry instrumentation
 
-<!-- Examples should showcase the primary, or "champion" scenarios of the client SDK. -->
+```javascript
+const { registerInstrumentations } = require("@opentelemetry/instrumentation");
+const { createAzureInstrumentation } = require("@azure/instrumentation-opentelemetry");
 
-Create several code examples for how someone would use your library to accomplish a common task with the service.
+// Configure exporters, tracer providers, etc.
+// Please refer to the OpenTelemetry documentation for more information.
+
+registerInstrumentations({
+  instrumentations: [createAzureInstrumentation()]
+});
+
+// Continue to import any Azure SDK client libraries after registering the instrumentation.
+
+const { keyClient } = require("@azure/keyvault-keys");
+
+// Do something cool with the keyClient...
+```
 
 ## Troubleshooting
 
@@ -91,7 +76,7 @@ For more detailed instructions on how to enable logs, you can look at the [@azur
 
 ## Next steps
 
-Please take a look at the [samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/template/template/samples) directory for detailed examples that demonstrate how to use the client libraries.
+Please take a look at the [samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/instrumentation/instrumentation-opentelemetry/samples) directory for detailed examples that demonstrate how to use the client libraries.
 
 ## Contributing
 
@@ -105,3 +90,5 @@ If you'd like to contribute to this library, please read the [contributing guide
 
 [azure_cli]: https://docs.microsoft.com/cli/azure
 [azure_sub]: https://azure.microsoft.com/free/
+[otel_instrumentation]: https://www.npmjs.com/package/@opentelemetry/instrumentation
+[otel_documentation]: https://opentelemetry.io/docs/js/
