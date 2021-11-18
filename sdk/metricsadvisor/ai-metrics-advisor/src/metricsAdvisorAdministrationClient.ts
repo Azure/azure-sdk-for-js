@@ -954,9 +954,7 @@ export class MetricsAdvisorAdministrationClient {
     );
     try {
       const result = await this.client.getHook(id, finalOptions);
-      const resultHookResponse: NotificationHookUnion = fromServiceHookInfoUnion(
-        result._response.parsedBody
-      );
+      const resultHookResponse: NotificationHookUnion = fromServiceHookInfoUnion(result);
       return resultHookResponse;
     } catch (e) {
       span.setStatus({
@@ -1104,9 +1102,7 @@ export class MetricsAdvisorAdministrationClient {
     );
     try {
       const result = await this.client.updateHook(id, patch, finalOptions);
-      const resultHookResponse: NotificationHookUnion = fromServiceHookInfoUnion(
-        result._response.parsedBody
-      );
+      const resultHookResponse: NotificationHookUnion = fromServiceHookInfoUnion(result);
       return resultHookResponse;
     } catch (e) {
       span.setStatus({
@@ -1492,7 +1488,6 @@ export class MetricsAdvisorAdministrationClient {
     );
 
     try {
-      const finalOptions = operationOptionsTofinalOptionsBase(finalOptions);
       const result = await this.client.resetDataFeedIngestionStatus(
         dataFeedId,
         {
