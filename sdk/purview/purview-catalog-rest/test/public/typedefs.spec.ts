@@ -13,7 +13,7 @@ import FormData from "form-data";
 describe("purview catalog test", () => {
   let recorder: Recorder;
   let client: PurviewCatalogRestClient;
-  const glosaryName = `jssdkGlossary12${isNode ? "Node" : "Browser"}`;
+  const glosaryName = `jssdkGlossary997${isNode ? "Node" : "Browser"}`;
 
   beforeEach(function (this: Context) {
     recorder = createRecorder(this);
@@ -49,7 +49,7 @@ describe("purview catalog test", () => {
     assert.strictEqual(glossary.status, "200");
   });
 
-  it("should work with LRO helper", async () => {
+  it.only("should work with LRO helper", async () => {
     if (isNode) {
       // Stubbing to always get the same boundary header and match recordings
       sinon
@@ -78,6 +78,9 @@ describe("purview catalog test", () => {
       assert.fail(error);
     }
 
-    assert.isDefined(result.body.properties?.importedTerms);
+    console.log(result.status);
+    console.log(result.body);
+
+    assert.equal(result.body.properties?.importedTerms, "1");
   }).timeout(20000);
 });
