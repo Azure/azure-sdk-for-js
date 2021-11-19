@@ -1,9 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export interface AtlasEntityWithExtInfoOutput extends AtlasEntityExtInfoOutput {
-  /** An instance of an entity - like hive_table, hive_database. */
-  entity?: AtlasEntityOutput;
+export interface AtlasEntityExtInfoOutput {
+  /** The referred entities. */
+  referredEntities?: Record<string, AtlasEntityOutput>;
+}
+
+export interface AtlasStructOutput {
+  /** The attributes of the struct. */
+  attributes?: Record<string, Record<string, unknown>>;
+  /** The name of the type. */
+  typeName?: string;
+  /** ETag for concurrency control. */
+  lastModifiedTS?: string;
 }
 
 export interface AtlasEntityOutput extends AtlasStructOutput {
@@ -65,15 +74,6 @@ export interface TimeBoundaryOutput {
   timeZone?: string;
 }
 
-export interface AtlasStructOutput {
-  /** The attributes of the struct. */
-  attributes?: Record<string, Record<string, unknown>>;
-  /** The name of the type. */
-  typeName?: string;
-  /** ETag for concurrency control. */
-  lastModifiedTS?: string;
-}
-
 export interface AtlasTermAssignmentHeaderOutput {
   /** The confidence of the term assignment. */
   confidence?: number;
@@ -111,9 +111,9 @@ export interface ContactBasicOutput {
   info?: string;
 }
 
-export interface AtlasEntityExtInfoOutput {
-  /** The referred entities. */
-  referredEntities?: Record<string, AtlasEntityOutput>;
+export interface AtlasEntityWithExtInfoOutput extends AtlasEntityExtInfoOutput {
+  /** An instance of an entity - like hive_table, hive_database. */
+  entity?: AtlasEntityOutput;
 }
 
 export interface EntityMutationResponseOutput {
@@ -156,8 +156,6 @@ export interface AtlasEntitiesWithExtInfoOutput extends AtlasEntityExtInfoOutput
   entities?: Array<AtlasEntityOutput>;
 }
 
-export interface AtlasClassificationsOutput extends PListOutput {}
-
 export interface PListOutput {
   /** An array of objects. */
   list?: Array<Record<string, unknown>>;
@@ -171,6 +169,28 @@ export interface PListOutput {
   startIndex?: number;
   /** The total count of items. */
   totalCount?: number;
+}
+
+export interface AtlasClassificationsOutput extends PListOutput {}
+
+export interface AtlasBaseModelObjectOutput {
+  /** The GUID of the object. */
+  guid?: string;
+}
+
+export interface AtlasGlossaryBaseObjectOutput extends AtlasBaseModelObjectOutput {
+  /** An array of classifications. */
+  classifications?: Array<AtlasClassificationOutput>;
+  /** The long version description. */
+  longDescription?: string;
+  /** The name of the glossary object. */
+  name?: string;
+  /** The qualified name of the glossary object. */
+  qualifiedName?: string;
+  /** The short version of description. */
+  shortDescription?: string;
+  /** ETag for concurrency control. */
+  lastModifiedTS?: string;
 }
 
 export interface AtlasGlossaryOutput extends AtlasGlossaryBaseObjectOutput {
@@ -214,26 +234,6 @@ export interface AtlasRelatedTermHeaderOutput {
   steward?: string;
   /** The GUID of the term. */
   termGuid?: string;
-}
-
-export interface AtlasGlossaryBaseObjectOutput extends AtlasBaseModelObjectOutput {
-  /** An array of classifications. */
-  classifications?: Array<AtlasClassificationOutput>;
-  /** The long version description. */
-  longDescription?: string;
-  /** The name of the glossary object. */
-  name?: string;
-  /** The qualified name of the glossary object. */
-  qualifiedName?: string;
-  /** The short version of description. */
-  shortDescription?: string;
-  /** ETag for concurrency control. */
-  lastModifiedTS?: string;
-}
-
-export interface AtlasBaseModelObjectOutput {
-  /** The GUID of the object. */
-  guid?: string;
 }
 
 export interface AtlasGlossaryCategoryOutput extends AtlasGlossaryBaseObjectOutput {
@@ -324,6 +324,15 @@ export interface ResourceLinkOutput {
   url?: string;
 }
 
+export interface AtlasObjectIdOutput {
+  /** The GUID of the object. */
+  guid?: string;
+  /** The name of the type. */
+  typeName?: string;
+  /** The unique attributes of the object. */
+  uniqueAttributes?: Record<string, Record<string, unknown>>;
+}
+
 export interface AtlasRelatedObjectIdOutput extends AtlasObjectIdOutput {
   /** The display text. */
   displayText?: string;
@@ -336,15 +345,6 @@ export interface AtlasRelatedObjectIdOutput extends AtlasObjectIdOutput {
   relationshipGuid?: string;
   /** The enum of relationship status. */
   relationshipStatus?: "ACTIVE" | "DELETED";
-}
-
-export interface AtlasObjectIdOutput {
-  /** The GUID of the object. */
-  guid?: string;
-  /** The name of the type. */
-  typeName?: string;
-  /** The unique attributes of the object. */
-  uniqueAttributes?: Record<string, Record<string, unknown>>;
 }
 
 export interface AtlasTermCategorizationHeaderOutput {
@@ -629,67 +629,6 @@ export interface AtlasRelationshipWithExtInfoOutput {
   relationship?: AtlasRelationshipOutput;
 }
 
-export interface AtlasClassificationDefOutput extends AtlasStructDefOutput {
-  /**
-   * Specifying a list of entityType names in the classificationDef, ensures that classifications can
-   * only be applied to those entityTypes.
-   * <ul>
-   * <li>Any subtypes of the entity types inherit the restriction</li>
-   * <li>Any classificationDef subtypes inherit the parents entityTypes restrictions</li>
-   * <li>Any classificationDef subtypes can further restrict the parents entityTypes restrictions by specifying a subset of the entityTypes</li>
-   * <li>An empty entityTypes list when there are no parent restrictions means there are no restrictions</li>
-   * <li>An empty entityTypes list when there are parent restrictions means that the subtype picks up the parents restrictions</li>
-   * <li>If a list of entityTypes are supplied, where one inherits from another, this will be rejected. This should encourage cleaner classificationsDefs</li>
-   * </ul>
-   */
-  entityTypes?: Array<string>;
-  /** An array of sub types. */
-  subTypes?: Array<string>;
-  /** An array of super types. */
-  superTypes?: Array<string>;
-}
-
-export interface AtlasStructDefOutput extends AtlasBaseTypeDefOutput {
-  /** An array of attribute definitions. */
-  attributeDefs?: Array<AtlasAttributeDefOutput>;
-}
-
-export interface AtlasAttributeDefOutput {
-  /** single-valued attribute or multi-valued attribute. */
-  cardinality?: "SINGLE" | "LIST" | "SET";
-  /** An array of constraints. */
-  constraints?: Array<AtlasConstraintDefOutput>;
-  /** The default value of the attribute. */
-  defaultValue?: string;
-  /** The description of the attribute. */
-  description?: string;
-  /** Determines if it is included in notification. */
-  includeInNotification?: boolean;
-  /** Determines if it is indexable. */
-  isIndexable?: boolean;
-  /** Determines if it is optional. */
-  isOptional?: boolean;
-  /** Determines if it unique. */
-  isUnique?: boolean;
-  /** The name of the attribute. */
-  name?: string;
-  /** The options for the attribute. */
-  options?: Record<string, string>;
-  /** The name of the type. */
-  typeName?: string;
-  /** The maximum count of the values. */
-  valuesMaxCount?: number;
-  /** The minimum count of the values. */
-  valuesMinCount?: number;
-}
-
-export interface AtlasConstraintDefOutput {
-  /** The parameters of the constraint definition. */
-  params?: Record<string, Record<string, unknown>>;
-  /** The type of the constraint. */
-  type?: string;
-}
-
 export interface AtlasBaseTypeDefOutput {
   /** The enum of type category. */
   category?:
@@ -805,6 +744,67 @@ export interface TimeZoneOutput {
   rawOffset?: number;
 }
 
+export interface AtlasStructDefOutput extends AtlasBaseTypeDefOutput {
+  /** An array of attribute definitions. */
+  attributeDefs?: Array<AtlasAttributeDefOutput>;
+}
+
+export interface AtlasAttributeDefOutput {
+  /** single-valued attribute or multi-valued attribute. */
+  cardinality?: "SINGLE" | "LIST" | "SET";
+  /** An array of constraints. */
+  constraints?: Array<AtlasConstraintDefOutput>;
+  /** The default value of the attribute. */
+  defaultValue?: string;
+  /** The description of the attribute. */
+  description?: string;
+  /** Determines if it is included in notification. */
+  includeInNotification?: boolean;
+  /** Determines if it is indexable. */
+  isIndexable?: boolean;
+  /** Determines if it is optional. */
+  isOptional?: boolean;
+  /** Determines if it unique. */
+  isUnique?: boolean;
+  /** The name of the attribute. */
+  name?: string;
+  /** The options for the attribute. */
+  options?: Record<string, string>;
+  /** The name of the type. */
+  typeName?: string;
+  /** The maximum count of the values. */
+  valuesMaxCount?: number;
+  /** The minimum count of the values. */
+  valuesMinCount?: number;
+}
+
+export interface AtlasConstraintDefOutput {
+  /** The parameters of the constraint definition. */
+  params?: Record<string, Record<string, unknown>>;
+  /** The type of the constraint. */
+  type?: string;
+}
+
+export interface AtlasClassificationDefOutput extends AtlasStructDefOutput {
+  /**
+   * Specifying a list of entityType names in the classificationDef, ensures that classifications can
+   * only be applied to those entityTypes.
+   * <ul>
+   * <li>Any subtypes of the entity types inherit the restriction</li>
+   * <li>Any classificationDef subtypes inherit the parents entityTypes restrictions</li>
+   * <li>Any classificationDef subtypes can further restrict the parents entityTypes restrictions by specifying a subset of the entityTypes</li>
+   * <li>An empty entityTypes list when there are no parent restrictions means there are no restrictions</li>
+   * <li>An empty entityTypes list when there are parent restrictions means that the subtype picks up the parents restrictions</li>
+   * <li>If a list of entityTypes are supplied, where one inherits from another, this will be rejected. This should encourage cleaner classificationsDefs</li>
+   * </ul>
+   */
+  entityTypes?: Array<string>;
+  /** An array of sub types. */
+  subTypes?: Array<string>;
+  /** An array of super types. */
+  superTypes?: Array<string>;
+}
+
 export interface AtlasEntityDefOutput extends AtlasStructDefOutput {
   /** An array of sub types. */
   subTypes?: Array<string>;
@@ -879,8 +879,6 @@ export interface AtlasRelationshipEndDefOutput {
   type?: string;
 }
 
-export interface AtlasTypeDefOutput extends AtlasBaseTypeDefOutput, AtlasExtraTypeDefOutput {}
-
 export interface AtlasExtraTypeDefOutput {
   /**
    * Specifying a list of entityType names in the classificationDef, ensures that classifications can
@@ -932,6 +930,8 @@ export interface AtlasExtraTypeDefOutput {
   /** An array of attribute definitions. */
   attributeDefs?: Array<AtlasAttributeDefOutput>;
 }
+
+export interface AtlasTypeDefOutput extends AtlasBaseTypeDefOutput, AtlasExtraTypeDefOutput {}
 
 export interface AtlasTypesDefOutput {
   /** An array of classification definitions. */

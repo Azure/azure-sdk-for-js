@@ -841,12 +841,7 @@ export interface CollectionCreateOrUpdateBulkdefaultResponse extends HttpRespons
 }
 
 // @public (undocumented)
-export interface CollectionCreateOrUpdateBulkMediaTypesParam {
-    contentType?: "application/json";
-}
-
-// @public (undocumented)
-export type CollectionCreateOrUpdateBulkParameters = CollectionCreateOrUpdateBulkMediaTypesParam & CollectionCreateOrUpdateBulkBodyParam & RequestParameters;
+export type CollectionCreateOrUpdateBulkParameters = CollectionCreateOrUpdateBulkBodyParam & RequestParameters;
 
 // @public
 export interface CollectionCreateOrUpdatedefaultResponse extends HttpResponse {
@@ -857,12 +852,7 @@ export interface CollectionCreateOrUpdatedefaultResponse extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface CollectionCreateOrUpdateMediaTypesParam {
-    contentType?: "application/json";
-}
-
-// @public (undocumented)
-export type CollectionCreateOrUpdateParameters = CollectionCreateOrUpdateMediaTypesParam & CollectionCreateOrUpdateBodyParam & RequestParameters;
+export type CollectionCreateOrUpdateParameters = CollectionCreateOrUpdateBodyParam & RequestParameters;
 
 // @public (undocumented)
 export interface CollectionMoveEntitiesToCollection {
@@ -891,12 +881,7 @@ export interface CollectionMoveEntitiesToCollectiondefaultResponse extends HttpR
 }
 
 // @public (undocumented)
-export interface CollectionMoveEntitiesToCollectionMediaTypesParam {
-    contentType?: "application/json";
-}
-
-// @public (undocumented)
-export type CollectionMoveEntitiesToCollectionParameters = CollectionMoveEntitiesToCollectionMediaTypesParam & CollectionMoveEntitiesToCollectionBodyParam & RequestParameters;
+export type CollectionMoveEntitiesToCollectionParameters = CollectionMoveEntitiesToCollectionBodyParam & RequestParameters;
 
 // @public (undocumented)
 export interface ContactBasic {
@@ -972,12 +957,7 @@ export interface DiscoveryAutoCompletedefaultResponse extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface DiscoveryAutoCompleteMediaTypesParam {
-    contentType?: "application/json";
-}
-
-// @public (undocumented)
-export type DiscoveryAutoCompleteParameters = DiscoveryAutoCompleteMediaTypesParam & DiscoveryAutoCompleteBodyParam & RequestParameters;
+export type DiscoveryAutoCompleteParameters = DiscoveryAutoCompleteBodyParam & RequestParameters;
 
 // @public (undocumented)
 export interface DiscoveryBrowse {
@@ -1006,12 +986,7 @@ export interface DiscoveryBrowsedefaultResponse extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface DiscoveryBrowseMediaTypesParam {
-    contentType?: "application/json";
-}
-
-// @public (undocumented)
-export type DiscoveryBrowseParameters = DiscoveryBrowseMediaTypesParam & DiscoveryBrowseBodyParam & RequestParameters;
+export type DiscoveryBrowseParameters = DiscoveryBrowseBodyParam & RequestParameters;
 
 // @public (undocumented)
 export interface DiscoveryQuery {
@@ -1040,12 +1015,7 @@ export interface DiscoveryQuerydefaultResponse extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface DiscoveryQueryMediaTypesParam {
-    contentType?: "application/json";
-}
-
-// @public (undocumented)
-export type DiscoveryQueryParameters = DiscoveryQueryMediaTypesParam & DiscoveryQueryBodyParam & RequestParameters;
+export type DiscoveryQueryParameters = DiscoveryQueryBodyParam & RequestParameters;
 
 // @public (undocumented)
 export interface DiscoverySuggest {
@@ -1074,12 +1044,7 @@ export interface DiscoverySuggestdefaultResponse extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface DiscoverySuggestMediaTypesParam {
-    contentType?: "application/json";
-}
-
-// @public (undocumented)
-export type DiscoverySuggestParameters = DiscoverySuggestMediaTypesParam & DiscoverySuggestBodyParam & RequestParameters;
+export type DiscoverySuggestParameters = DiscoverySuggestBodyParam & RequestParameters;
 
 // @public (undocumented)
 export interface EntityAddClassification {
@@ -1108,12 +1073,7 @@ export interface EntityAddClassificationdefaultResponse extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface EntityAddClassificationMediaTypesParam {
-    contentType?: "application/json";
-}
-
-// @public (undocumented)
-export type EntityAddClassificationParameters = EntityAddClassificationMediaTypesParam & EntityAddClassificationBodyParam & RequestParameters;
+export type EntityAddClassificationParameters = EntityAddClassificationBodyParam & RequestParameters;
 
 // @public
 export interface EntityAddClassifications204Response extends HttpResponse {
@@ -1156,12 +1116,7 @@ export interface EntityAddClassificationsByUniqueAttributedefaultResponse extend
 }
 
 // @public (undocumented)
-export interface EntityAddClassificationsByUniqueAttributeMediaTypesParam {
-    contentType?: "application/json";
-}
-
-// @public (undocumented)
-export type EntityAddClassificationsByUniqueAttributeParameters = EntityAddClassificationsByUniqueAttributeQueryParam & EntityAddClassificationsByUniqueAttributeMediaTypesParam & EntityAddClassificationsByUniqueAttributeBodyParam & RequestParameters;
+export type EntityAddClassificationsByUniqueAttributeParameters = EntityAddClassificationsByUniqueAttributeQueryParam & EntityAddClassificationsByUniqueAttributeBodyParam & RequestParameters;
 
 // @public (undocumented)
 export interface EntityAddClassificationsByUniqueAttributeQueryParam {
@@ -1183,12 +1138,7 @@ export interface EntityAddClassificationsdefaultResponse extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface EntityAddClassificationsMediaTypesParam {
-    contentType?: "application/json";
-}
-
-// @public (undocumented)
-export type EntityAddClassificationsParameters = EntityAddClassificationsMediaTypesParam & EntityAddClassificationsBodyParam & RequestParameters;
+export type EntityAddClassificationsParameters = EntityAddClassificationsBodyParam & RequestParameters;
 
 // @public (undocumented)
 export interface EntityCreateOrUpdate {
@@ -1238,20 +1188,10 @@ export interface EntityCreateOrUpdateEntitiesdefaultResponse extends HttpRespons
 }
 
 // @public (undocumented)
-export interface EntityCreateOrUpdateEntitiesMediaTypesParam {
-    contentType?: "application/json";
-}
+export type EntityCreateOrUpdateEntitiesParameters = EntityCreateOrUpdateEntitiesBodyParam & RequestParameters;
 
 // @public (undocumented)
-export type EntityCreateOrUpdateEntitiesParameters = EntityCreateOrUpdateEntitiesMediaTypesParam & EntityCreateOrUpdateEntitiesBodyParam & RequestParameters;
-
-// @public (undocumented)
-export interface EntityCreateOrUpdateMediaTypesParam {
-    contentType?: "application/json";
-}
-
-// @public (undocumented)
-export type EntityCreateOrUpdateParameters = EntityCreateOrUpdateMediaTypesParam & EntityCreateOrUpdateBodyParam & RequestParameters;
+export type EntityCreateOrUpdateParameters = EntityCreateOrUpdateBodyParam & RequestParameters;
 
 // @public
 export interface EntityDeleteByGuid200Response extends HttpResponse {
@@ -1644,12 +1584,7 @@ export interface EntityPartialUpdateEntityAttributeByGuiddefaultResponse extends
 }
 
 // @public (undocumented)
-export interface EntityPartialUpdateEntityAttributeByGuidMediaTypesParam {
-    contentType?: "application/json";
-}
-
-// @public (undocumented)
-export type EntityPartialUpdateEntityAttributeByGuidParameters = EntityPartialUpdateEntityAttributeByGuidQueryParam & EntityPartialUpdateEntityAttributeByGuidMediaTypesParam & EntityPartialUpdateEntityAttributeByGuidBodyParam & RequestParameters;
+export type EntityPartialUpdateEntityAttributeByGuidParameters = EntityPartialUpdateEntityAttributeByGuidQueryParam & EntityPartialUpdateEntityAttributeByGuidBodyParam & RequestParameters;
 
 // @public (undocumented)
 export interface EntityPartialUpdateEntityAttributeByGuidQueryParam {
@@ -1684,12 +1619,7 @@ export interface EntityPartialUpdateEntityByUniqueAttributesdefaultResponse exte
 }
 
 // @public (undocumented)
-export interface EntityPartialUpdateEntityByUniqueAttributesMediaTypesParam {
-    contentType?: "application/json";
-}
-
-// @public (undocumented)
-export type EntityPartialUpdateEntityByUniqueAttributesParameters = EntityPartialUpdateEntityByUniqueAttributesQueryParam & EntityPartialUpdateEntityByUniqueAttributesMediaTypesParam & EntityPartialUpdateEntityByUniqueAttributesBodyParam & RequestParameters;
+export type EntityPartialUpdateEntityByUniqueAttributesParameters = EntityPartialUpdateEntityByUniqueAttributesQueryParam & EntityPartialUpdateEntityByUniqueAttributesBodyParam & RequestParameters;
 
 // @public (undocumented)
 export interface EntityPartialUpdateEntityByUniqueAttributesQueryParam {
@@ -1729,12 +1659,7 @@ export interface EntitySetClassificationsdefaultResponse extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface EntitySetClassificationsMediaTypesParam {
-    contentType?: "application/json";
-}
-
-// @public (undocumented)
-export type EntitySetClassificationsParameters = EntitySetClassificationsMediaTypesParam & EntitySetClassificationsBodyParam & RequestParameters;
+export type EntitySetClassificationsParameters = EntitySetClassificationsBodyParam & RequestParameters;
 
 // @public
 export interface EntityUpdateClassifications204Response extends HttpResponse {
@@ -1771,12 +1696,7 @@ export interface EntityUpdateClassificationsByUniqueAttributedefaultResponse ext
 }
 
 // @public (undocumented)
-export interface EntityUpdateClassificationsByUniqueAttributeMediaTypesParam {
-    contentType?: "application/json";
-}
-
-// @public (undocumented)
-export type EntityUpdateClassificationsByUniqueAttributeParameters = EntityUpdateClassificationsByUniqueAttributeQueryParam & EntityUpdateClassificationsByUniqueAttributeMediaTypesParam & EntityUpdateClassificationsByUniqueAttributeBodyParam & RequestParameters;
+export type EntityUpdateClassificationsByUniqueAttributeParameters = EntityUpdateClassificationsByUniqueAttributeQueryParam & EntityUpdateClassificationsByUniqueAttributeBodyParam & RequestParameters;
 
 // @public (undocumented)
 export interface EntityUpdateClassificationsByUniqueAttributeQueryParam {
@@ -1798,12 +1718,7 @@ export interface EntityUpdateClassificationsdefaultResponse extends HttpResponse
 }
 
 // @public (undocumented)
-export interface EntityUpdateClassificationsMediaTypesParam {
-    contentType?: "application/json";
-}
-
-// @public (undocumented)
-export type EntityUpdateClassificationsParameters = EntityUpdateClassificationsMediaTypesParam & EntityUpdateClassificationsBodyParam & RequestParameters;
+export type EntityUpdateClassificationsParameters = EntityUpdateClassificationsBodyParam & RequestParameters;
 
 // @public (undocumented)
 export interface ErrorResponseOutput {
@@ -1837,12 +1752,7 @@ export interface GlossaryAssignTermToEntitiesdefaultResponse extends HttpRespons
 }
 
 // @public (undocumented)
-export interface GlossaryAssignTermToEntitiesMediaTypesParam {
-    contentType?: "application/json";
-}
-
-// @public (undocumented)
-export type GlossaryAssignTermToEntitiesParameters = GlossaryAssignTermToEntitiesMediaTypesParam & GlossaryAssignTermToEntitiesBodyParam & RequestParameters;
+export type GlossaryAssignTermToEntitiesParameters = GlossaryAssignTermToEntitiesBodyParam & RequestParameters;
 
 // @public
 export interface GlossaryCreateGlossary200Response extends HttpResponse {
@@ -1884,12 +1794,7 @@ export interface GlossaryCreateGlossaryCategoriesdefaultResponse extends HttpRes
 }
 
 // @public (undocumented)
-export interface GlossaryCreateGlossaryCategoriesMediaTypesParam {
-    contentType?: "application/json";
-}
-
-// @public (undocumented)
-export type GlossaryCreateGlossaryCategoriesParameters = GlossaryCreateGlossaryCategoriesMediaTypesParam & GlossaryCreateGlossaryCategoriesBodyParam & RequestParameters;
+export type GlossaryCreateGlossaryCategoriesParameters = GlossaryCreateGlossaryCategoriesBodyParam & RequestParameters;
 
 // @public (undocumented)
 export interface GlossaryCreateGlossaryCategory {
@@ -1918,12 +1823,7 @@ export interface GlossaryCreateGlossaryCategorydefaultResponse extends HttpRespo
 }
 
 // @public (undocumented)
-export interface GlossaryCreateGlossaryCategoryMediaTypesParam {
-    contentType?: "application/json";
-}
-
-// @public (undocumented)
-export type GlossaryCreateGlossaryCategoryParameters = GlossaryCreateGlossaryCategoryMediaTypesParam & GlossaryCreateGlossaryCategoryBodyParam & RequestParameters;
+export type GlossaryCreateGlossaryCategoryParameters = GlossaryCreateGlossaryCategoryBodyParam & RequestParameters;
 
 // @public
 export interface GlossaryCreateGlossarydefaultResponse extends HttpResponse {
@@ -1934,12 +1834,7 @@ export interface GlossaryCreateGlossarydefaultResponse extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface GlossaryCreateGlossaryMediaTypesParam {
-    contentType?: "application/json";
-}
-
-// @public (undocumented)
-export type GlossaryCreateGlossaryParameters = GlossaryCreateGlossaryMediaTypesParam & GlossaryCreateGlossaryBodyParam & RequestParameters;
+export type GlossaryCreateGlossaryParameters = GlossaryCreateGlossaryBodyParam & RequestParameters;
 
 // @public (undocumented)
 export interface GlossaryCreateGlossaryTerm {
@@ -1968,12 +1863,7 @@ export interface GlossaryCreateGlossaryTermdefaultResponse extends HttpResponse 
 }
 
 // @public (undocumented)
-export interface GlossaryCreateGlossaryTermMediaTypesParam {
-    contentType?: "application/json";
-}
-
-// @public (undocumented)
-export type GlossaryCreateGlossaryTermParameters = GlossaryCreateGlossaryTermQueryParam & GlossaryCreateGlossaryTermMediaTypesParam & GlossaryCreateGlossaryTermBodyParam & RequestParameters;
+export type GlossaryCreateGlossaryTermParameters = GlossaryCreateGlossaryTermQueryParam & GlossaryCreateGlossaryTermBodyParam & RequestParameters;
 
 // @public (undocumented)
 export interface GlossaryCreateGlossaryTermQueryParam {
@@ -2013,12 +1903,7 @@ export interface GlossaryCreateGlossaryTermsdefaultResponse extends HttpResponse
 }
 
 // @public (undocumented)
-export interface GlossaryCreateGlossaryTermsMediaTypesParam {
-    contentType?: "application/json";
-}
-
-// @public (undocumented)
-export type GlossaryCreateGlossaryTermsParameters = GlossaryCreateGlossaryTermsQueryParam & GlossaryCreateGlossaryTermsMediaTypesParam & GlossaryCreateGlossaryTermsBodyParam & RequestParameters;
+export type GlossaryCreateGlossaryTermsParameters = GlossaryCreateGlossaryTermsQueryParam & GlossaryCreateGlossaryTermsBodyParam & RequestParameters;
 
 // @public (undocumented)
 export interface GlossaryCreateGlossaryTermsQueryParam {
@@ -2110,12 +1995,7 @@ export interface GlossaryDeleteTermAssignmentFromEntitiesdefaultResponse extends
 }
 
 // @public (undocumented)
-export interface GlossaryDeleteTermAssignmentFromEntitiesMediaTypesParam {
-    contentType?: "application/json";
-}
-
-// @public (undocumented)
-export type GlossaryDeleteTermAssignmentFromEntitiesParameters = GlossaryDeleteTermAssignmentFromEntitiesMediaTypesParam & GlossaryDeleteTermAssignmentFromEntitiesBodyParam & RequestParameters;
+export type GlossaryDeleteTermAssignmentFromEntitiesParameters = GlossaryDeleteTermAssignmentFromEntitiesBodyParam & RequestParameters;
 
 // @public (undocumented)
 export interface GlossaryExportGlossaryTermsAsCsv {
@@ -2143,12 +2023,7 @@ export interface GlossaryExportGlossaryTermsAsCsvdefaultResponse extends HttpRes
 }
 
 // @public (undocumented)
-export interface GlossaryExportGlossaryTermsAsCsvMediaTypesParam {
-    contentType?: "application/json";
-}
-
-// @public (undocumented)
-export type GlossaryExportGlossaryTermsAsCsvParameters = GlossaryExportGlossaryTermsAsCsvQueryParam & GlossaryExportGlossaryTermsAsCsvMediaTypesParam & GlossaryExportGlossaryTermsAsCsvBodyParam & RequestParameters;
+export type GlossaryExportGlossaryTermsAsCsvParameters = GlossaryExportGlossaryTermsAsCsvQueryParam & GlossaryExportGlossaryTermsAsCsvBodyParam & RequestParameters;
 
 // @public (undocumented)
 export interface GlossaryExportGlossaryTermsAsCsvQueryParam {
@@ -2364,8 +2239,7 @@ export interface GlossaryImportGlossaryTermsViaCsv202Response extends HttpRespon
 
 // @public (undocumented)
 export interface GlossaryImportGlossaryTermsViaCsvBodyParam {
-    // (undocumented)
-    body: GlossaryImportGlossaryTermsViaCsvFormBody;
+    body: string;
 }
 
 // @public (undocumented)
@@ -2383,8 +2257,7 @@ export interface GlossaryImportGlossaryTermsViaCsvByGlossaryName202Response exte
 
 // @public (undocumented)
 export interface GlossaryImportGlossaryTermsViaCsvByGlossaryNameBodyParam {
-    // (undocumented)
-    body: GlossaryImportGlossaryTermsViaCsvByGlossaryNameFormBody;
+    body: string;
 }
 
 // @public
@@ -2396,17 +2269,7 @@ export interface GlossaryImportGlossaryTermsViaCsvByGlossaryNamedefaultResponse 
 }
 
 // @public (undocumented)
-export interface GlossaryImportGlossaryTermsViaCsvByGlossaryNameFormBody {
-    file: string;
-}
-
-// @public (undocumented)
-export interface GlossaryImportGlossaryTermsViaCsvByGlossaryNameMediaTypesParam {
-    contentType?: "multipart/form-data";
-}
-
-// @public (undocumented)
-export type GlossaryImportGlossaryTermsViaCsvByGlossaryNameParameters = GlossaryImportGlossaryTermsViaCsvByGlossaryNameQueryParam & GlossaryImportGlossaryTermsViaCsvByGlossaryNameMediaTypesParam & GlossaryImportGlossaryTermsViaCsvByGlossaryNameBodyParam & RequestParameters;
+export type GlossaryImportGlossaryTermsViaCsvByGlossaryNameParameters = GlossaryImportGlossaryTermsViaCsvByGlossaryNameQueryParam & GlossaryImportGlossaryTermsViaCsvByGlossaryNameBodyParam & RequestParameters;
 
 // @public (undocumented)
 export interface GlossaryImportGlossaryTermsViaCsvByGlossaryNameQueryParam {
@@ -2428,17 +2291,7 @@ export interface GlossaryImportGlossaryTermsViaCsvdefaultResponse extends HttpRe
 }
 
 // @public (undocumented)
-export interface GlossaryImportGlossaryTermsViaCsvFormBody {
-    file: string;
-}
-
-// @public (undocumented)
-export interface GlossaryImportGlossaryTermsViaCsvMediaTypesParam {
-    contentType?: "multipart/form-data";
-}
-
-// @public (undocumented)
-export type GlossaryImportGlossaryTermsViaCsvParameters = GlossaryImportGlossaryTermsViaCsvQueryParam & GlossaryImportGlossaryTermsViaCsvMediaTypesParam & GlossaryImportGlossaryTermsViaCsvBodyParam & RequestParameters;
+export type GlossaryImportGlossaryTermsViaCsvParameters = GlossaryImportGlossaryTermsViaCsvQueryParam & GlossaryImportGlossaryTermsViaCsvBodyParam & RequestParameters;
 
 // @public (undocumented)
 export interface GlossaryImportGlossaryTermsViaCsvQueryParam {
@@ -2832,12 +2685,7 @@ export interface GlossaryPartialUpdateGlossaryCategorydefaultResponse extends Ht
 }
 
 // @public (undocumented)
-export interface GlossaryPartialUpdateGlossaryCategoryMediaTypesParam {
-    contentType?: "application/json";
-}
-
-// @public (undocumented)
-export type GlossaryPartialUpdateGlossaryCategoryParameters = GlossaryPartialUpdateGlossaryCategoryMediaTypesParam & GlossaryPartialUpdateGlossaryCategoryBodyParam & RequestParameters;
+export type GlossaryPartialUpdateGlossaryCategoryParameters = GlossaryPartialUpdateGlossaryCategoryBodyParam & RequestParameters;
 
 // @public
 export interface GlossaryPartialUpdateGlossarydefaultResponse extends HttpResponse {
@@ -2848,12 +2696,7 @@ export interface GlossaryPartialUpdateGlossarydefaultResponse extends HttpRespon
 }
 
 // @public (undocumented)
-export interface GlossaryPartialUpdateGlossaryMediaTypesParam {
-    contentType?: "application/json";
-}
-
-// @public (undocumented)
-export type GlossaryPartialUpdateGlossaryParameters = GlossaryPartialUpdateGlossaryQueryParam & GlossaryPartialUpdateGlossaryMediaTypesParam & GlossaryPartialUpdateGlossaryBodyParam & RequestParameters;
+export type GlossaryPartialUpdateGlossaryParameters = GlossaryPartialUpdateGlossaryQueryParam & GlossaryPartialUpdateGlossaryBodyParam & RequestParameters;
 
 // @public (undocumented)
 export interface GlossaryPartialUpdateGlossaryQueryParam {
@@ -2893,12 +2736,7 @@ export interface GlossaryPartialUpdateGlossaryTermdefaultResponse extends HttpRe
 }
 
 // @public (undocumented)
-export interface GlossaryPartialUpdateGlossaryTermMediaTypesParam {
-    contentType?: "application/json";
-}
-
-// @public (undocumented)
-export type GlossaryPartialUpdateGlossaryTermParameters = GlossaryPartialUpdateGlossaryTermQueryParam & GlossaryPartialUpdateGlossaryTermMediaTypesParam & GlossaryPartialUpdateGlossaryTermBodyParam & RequestParameters;
+export type GlossaryPartialUpdateGlossaryTermParameters = GlossaryPartialUpdateGlossaryTermQueryParam & GlossaryPartialUpdateGlossaryTermBodyParam & RequestParameters;
 
 // @public (undocumented)
 export interface GlossaryPartialUpdateGlossaryTermQueryParam {
@@ -2933,12 +2771,7 @@ export interface GlossaryRemoveTermAssignmentFromEntitiesdefaultResponse extends
 }
 
 // @public (undocumented)
-export interface GlossaryRemoveTermAssignmentFromEntitiesMediaTypesParam {
-    contentType?: "application/json";
-}
-
-// @public (undocumented)
-export type GlossaryRemoveTermAssignmentFromEntitiesParameters = GlossaryRemoveTermAssignmentFromEntitiesMediaTypesParam & GlossaryRemoveTermAssignmentFromEntitiesBodyParam & RequestParameters;
+export type GlossaryRemoveTermAssignmentFromEntitiesParameters = GlossaryRemoveTermAssignmentFromEntitiesBodyParam & RequestParameters;
 
 // @public
 export interface GlossaryUpdateGlossary200Response extends HttpResponse {
@@ -2975,12 +2808,7 @@ export interface GlossaryUpdateGlossaryCategorydefaultResponse extends HttpRespo
 }
 
 // @public (undocumented)
-export interface GlossaryUpdateGlossaryCategoryMediaTypesParam {
-    contentType?: "application/json";
-}
-
-// @public (undocumented)
-export type GlossaryUpdateGlossaryCategoryParameters = GlossaryUpdateGlossaryCategoryMediaTypesParam & GlossaryUpdateGlossaryCategoryBodyParam & RequestParameters;
+export type GlossaryUpdateGlossaryCategoryParameters = GlossaryUpdateGlossaryCategoryBodyParam & RequestParameters;
 
 // @public
 export interface GlossaryUpdateGlossarydefaultResponse extends HttpResponse {
@@ -2991,12 +2819,7 @@ export interface GlossaryUpdateGlossarydefaultResponse extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface GlossaryUpdateGlossaryMediaTypesParam {
-    contentType?: "application/json";
-}
-
-// @public (undocumented)
-export type GlossaryUpdateGlossaryParameters = GlossaryUpdateGlossaryMediaTypesParam & GlossaryUpdateGlossaryBodyParam & RequestParameters;
+export type GlossaryUpdateGlossaryParameters = GlossaryUpdateGlossaryBodyParam & RequestParameters;
 
 // @public
 export interface GlossaryUpdateGlossaryTerm200Response extends HttpResponse {
@@ -3020,12 +2843,7 @@ export interface GlossaryUpdateGlossaryTermdefaultResponse extends HttpResponse 
 }
 
 // @public (undocumented)
-export interface GlossaryUpdateGlossaryTermMediaTypesParam {
-    contentType?: "application/json";
-}
-
-// @public (undocumented)
-export type GlossaryUpdateGlossaryTermParameters = GlossaryUpdateGlossaryTermMediaTypesParam & GlossaryUpdateGlossaryTermBodyParam & RequestParameters;
+export type GlossaryUpdateGlossaryTermParameters = GlossaryUpdateGlossaryTermBodyParam & RequestParameters;
 
 // @public (undocumented)
 export interface ImportCSVOperationErrorOutput {
@@ -3195,6 +3013,7 @@ export interface PListOutput {
 
 // @public (undocumented)
 function PurviewCatalog(Endpoint: string, credentials: TokenCredential, options?: ClientOptions): PurviewCatalogRestClient;
+
 export default PurviewCatalog;
 
 // @public (undocumented)
@@ -3230,12 +3049,7 @@ export interface RelationshipCreatedefaultResponse extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface RelationshipCreateMediaTypesParam {
-    contentType?: "application/json";
-}
-
-// @public (undocumented)
-export type RelationshipCreateParameters = RelationshipCreateMediaTypesParam & RelationshipCreateBodyParam & RequestParameters;
+export type RelationshipCreateParameters = RelationshipCreateBodyParam & RequestParameters;
 
 // @public
 export interface RelationshipDelete204Response extends HttpResponse {
@@ -3314,12 +3128,7 @@ export interface RelationshipUpdatedefaultResponse extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface RelationshipUpdateMediaTypesParam {
-    contentType?: "application/json";
-}
-
-// @public (undocumented)
-export type RelationshipUpdateParameters = RelationshipUpdateMediaTypesParam & RelationshipUpdateBodyParam & RequestParameters;
+export type RelationshipUpdateParameters = RelationshipUpdateBodyParam & RequestParameters;
 
 // @public (undocumented)
 export interface ResourceLink {
@@ -3592,12 +3401,7 @@ export interface TypesCreateTypeDefinitionsdefaultResponse extends HttpResponse 
 }
 
 // @public (undocumented)
-export interface TypesCreateTypeDefinitionsMediaTypesParam {
-    contentType?: "application/json";
-}
-
-// @public (undocumented)
-export type TypesCreateTypeDefinitionsParameters = TypesCreateTypeDefinitionsMediaTypesParam & TypesCreateTypeDefinitionsBodyParam & RequestParameters;
+export type TypesCreateTypeDefinitionsParameters = TypesCreateTypeDefinitionsBodyParam & RequestParameters;
 
 // @public
 export interface TypesDeleteTypeByName204Response extends HttpResponse {
@@ -3640,12 +3444,7 @@ export interface TypesDeleteTypeDefinitionsdefaultResponse extends HttpResponse 
 }
 
 // @public (undocumented)
-export interface TypesDeleteTypeDefinitionsMediaTypesParam {
-    contentType?: "application/json";
-}
-
-// @public (undocumented)
-export type TypesDeleteTypeDefinitionsParameters = TypesDeleteTypeDefinitionsMediaTypesParam & TypesDeleteTypeDefinitionsBodyParam & RequestParameters;
+export type TypesDeleteTypeDefinitionsParameters = TypesDeleteTypeDefinitionsBodyParam & RequestParameters;
 
 // @public (undocumented)
 export interface TypesGetAllTypeDefinitions {
@@ -4081,12 +3880,8 @@ export interface TypesUpdateAtlasTypeDefinitionsdefaultResponse extends HttpResp
 }
 
 // @public (undocumented)
-export interface TypesUpdateAtlasTypeDefinitionsMediaTypesParam {
-    contentType?: "application/json";
-}
+export type TypesUpdateAtlasTypeDefinitionsParameters = TypesUpdateAtlasTypeDefinitionsBodyParam & RequestParameters;
 
-// @public (undocumented)
-export type TypesUpdateAtlasTypeDefinitionsParameters = TypesUpdateAtlasTypeDefinitionsMediaTypesParam & TypesUpdateAtlasTypeDefinitionsBodyParam & RequestParameters;
 
 // (No @packageDocumentation comment for this package)
 

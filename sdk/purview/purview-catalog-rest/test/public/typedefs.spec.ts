@@ -1,28 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { getLongRunningPoller, PurviewCatalogRestClient } from "../../src";
-import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
-import { isNode } from "@azure/core-util";
-import { file } from "./termFile";
+import {
+  // getLongRunningPoller,
+  PurviewCatalogRestClient,
+} from "../../src";
+import { Recorder } from "@azure-tools/test-recorder";
+
 import { assert } from "chai";
 import { createClient, createRecorder } from "./utils/recordedClient";
 import { Context } from "mocha";
-import * as sinon from "sinon";
-import FormData from "form-data";
 
 describe("purview catalog test", () => {
   let recorder: Recorder;
   let client: PurviewCatalogRestClient;
-  const glosaryName = `jssdkGlossary997${isNode ? "Node" : "Browser"}`;
 
   beforeEach(function (this: Context) {
     recorder = createRecorder(this);
-    client = createClient({ retryOptions: { maxRetries: 1 } });
+    client = createClient();
   });
 
   afterEach(async function () {
     await recorder.stop();
-    sinon.reset();
   });
 
   it("should list all available typedefs sources", async () => {
@@ -35,52 +33,46 @@ describe("purview catalog test", () => {
     assert.isDefined(result.body.entityDefs?.length);
   });
 
-  it("Should create a glossary", async () => {
-    const glossary = await client.path("/atlas/v2/glossary").post({
-      body: {
-        name: glosaryName,
-        shortDescription: "Example Short Description",
-        longDescription: "Example Long Description",
-        language: "en",
-        usage: "Example Glossary",
-      },
-    });
+  // it("Should create a glossary", async () => {
+  //   const glossary = await client.path("/atlas/v2/glossary").post({
+  //     body: {
+  //       name: "jssdkGlossary",
+  //       shortDescription: "Example Short Description",
+  //       longDescription: "Example Long Description",
+  //       language: "en",
+  //       usage: "Example Glossary",
+  //     },
+  //   });
 
-    assert.strictEqual(glossary.status, "200");
-  });
+  //   console.log(glossary);
+  //   assert.strictEqual(glossary.status, "200");
+  // });
 
-  it.only("should work with LRO helper", async () => {
-    if (isNode) {
-      // Stubbing to always get the same boundary header and match recordings
-      sinon
-        .stub(FormData.prototype, "getBoundary")
-        .returns("--------------------------704900034345454045250553");
-    }
+  // it("should work with LRO helper", async () => {
 
-    const initialResponse = await client
-      .path("/glossary/name/{glossaryName}/terms/import", glosaryName)
-      .post({
-        headers: {
-          contentType: "multipart/form-data",
-        },
-        body: { file },
-        contentType: "multipart/form-data",
-        queryParameters: { includeTermHierarchy: true },
-      });
+  //   const initialResponse = await client
+  //     .path("/glossary/name/{glossaryName}/terms/import", "jssdkGlossary")
+  //     .post({
+  //       headers: {
+  //         contentType: "multipart/form-data",
+  //       },
+  //       body: "random content",
+  //       contentType: "multipart/form-data",
+  //     });
 
-    const poller = getLongRunningPoller(client, initialResponse, {
-      intervalInMs: isLiveMode() ? 5000 : 0,
-    });
+  //   console.log(initialResponse);
+  //   const poller = getLongRunningPoller(client, initialResponse, {
+  //     intervalInMs: 0
+  //   })
 
-    const result = await poller.pollUntilDone();
-    if (result.status === "500") {
-      const error = `Unexpected status code ${result.status}`;
-      assert.fail(error);
-    }
+  //   const result = await poller.pollUntilDone();
+  //   console.log(result);
+  //   if (result.status === "500") {
+  //     const error = `Unexpected status code ${result.status}`;
+  //     assert.fail(error);
+  //   }
 
-    console.log(result.status);
-    console.log(result.body);
-
-    assert.equal(result.body.properties?.importedTerms, "1");
-  }).timeout(20000);
-});
+  //   console.log(result);
+  //   // assert.equal(result.body.properties?.provisioningState, "Succeeded");
+  // });
+}).timeout(60000000000);
