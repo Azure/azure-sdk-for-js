@@ -92,7 +92,7 @@ export function createMetricsAdvisorKeyCredentialPolicy(
   credential: MetricsAdvisorKeyCredential
 ): PipelinePolicy {
   return {
-    name: "MetricsAdvisorKeyCredentialPolicy",
+    name: "metricsAdvisorKeyCredentialPolicy",
     sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
       if (!request) {
         throw new Error("webResource cannot be null or undefined");
