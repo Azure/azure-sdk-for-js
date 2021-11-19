@@ -13,6 +13,7 @@ specifiers:
   '@rush-temp/arm-appplatform': file:./projects/arm-appplatform.tgz
   '@rush-temp/arm-appservice': file:./projects/arm-appservice.tgz
   '@rush-temp/arm-authorization': file:./projects/arm-authorization.tgz
+  '@rush-temp/arm-batch': file:./projects/arm-batch.tgz
   '@rush-temp/arm-cdn': file:./projects/arm-cdn.tgz
   '@rush-temp/arm-compute': file:./projects/arm-compute.tgz
   '@rush-temp/arm-consumption': file:./projects/arm-consumption.tgz
@@ -169,6 +170,7 @@ dependencies:
   '@rush-temp/arm-appplatform': file:projects/arm-appplatform.tgz
   '@rush-temp/arm-appservice': file:projects/arm-appservice.tgz
   '@rush-temp/arm-authorization': file:projects/arm-authorization.tgz
+  '@rush-temp/arm-batch': file:projects/arm-batch.tgz
   '@rush-temp/arm-cdn': file:projects/arm-cdn.tgz
   '@rush-temp/arm-compute': file:projects/arm-compute.tgz
   '@rush-temp/arm-consumption': file:projects/arm-consumption.tgz
@@ -8685,6 +8687,27 @@ packages:
       uglify-js: 3.14.3
     dev: false
 
+  file:projects/arm-batch.tgz:
+    resolution: {integrity: sha512-yZunhswkrAsneBi3vyqkvAw/N0g2/5gSVNN34qKC35jIFM2TQ+Bo2aD2DN0a+DUviPrkBKGAAC1S9Zbcce8PyQ==, tarball: file:projects/arm-batch.tgz}
+    name: '@rush-temp/arm-batch'
+    version: 0.0.0
+    dependencies:
+      '@microsoft/api-extractor': 7.18.19
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.14.3
+    dev: false
+
   file:projects/arm-cdn.tgz:
     resolution: {integrity: sha512-0pz1nmXlUjshQA07w1Bhn37C7MSyxuReagHuf2RDmgI2Ntjsw7cw6fYdlGx8Fhio7WcT2Eixe6lH1v76Gi2M1A==, tarball: file:projects/arm-cdn.tgz}
     name: '@rush-temp/arm-cdn'
@@ -12653,7 +12676,7 @@ packages:
     dev: false
 
   file:projects/schema-registry-avro.tgz:
-    resolution: {integrity: sha512-es1wTz4ESP2fxE8Wky3jiVQdorQHXzokj57HKP5pNkP4WnDy+0p20f6dQZAgH1abgNsYYha8yK+vK/i2txJ+AQ==, tarball: file:projects/schema-registry-avro.tgz}
+    resolution: {integrity: sha512-35agTFs5ffVjxETd28kTXTFaPA1IKu6rGeGKxb0mBeIN44hPM96P2uLG/+MPGjhvYAtJmVHjB/1sHn2HLE/Kew==, tarball: file:projects/schema-registry-avro.tgz}
     name: '@rush-temp/schema-registry-avro'
     version: 0.0.0
     dependencies:
@@ -13583,7 +13606,7 @@ packages:
     dev: false
 
   file:projects/test-recorder-new.tgz:
-    resolution: {integrity: sha512-w/Zii/SpFvK01jA/kmC4Fwy29GlhBeBe9R9WP6d7p0yT2ENP0sCYc8an2dmyhOuwA+QFIoMZI1f59Awmx4hggA==, tarball: file:projects/test-recorder-new.tgz}
+    resolution: {integrity: sha512-2ZpucefoPAPvOYedg2rkAYe5kKIpSgxPd+7vTYfkm4oz6bLtxES+fvECqktN+J2Zk8gGmZohSvTSSfV+RBc4zg==, tarball: file:projects/test-recorder-new.tgz}
     name: '@rush-temp/test-recorder-new'
     version: 0.0.0
     dependencies:
@@ -13646,7 +13669,7 @@ packages:
     dev: false
 
   file:projects/test-recorder.tgz:
-    resolution: {integrity: sha512-uZ1ALIuLgV6XWWo4MBQ+nLfbw4txKZYJfJ8/GYWQfNyCQi6nEg4Bo0kfOUk0cvSqZRwUNM/+mND9qqmHps2RBg==, tarball: file:projects/test-recorder.tgz}
+    resolution: {integrity: sha512-bm6Rx6QWOzW0aNv8lVTKvBX1QlWE0nuVdIdZWb1wFhtEbDAZksRkWq5xFgnaNDgxpILM/IhZmS5Su68XytwNWg==, tarball: file:projects/test-recorder.tgz}
     name: '@rush-temp/test-recorder'
     version: 0.0.0
     dependencies:
@@ -13766,7 +13789,7 @@ packages:
     dev: false
 
   file:projects/testing-recorder-new.tgz:
-    resolution: {integrity: sha512-H8ns2GLWDfXpV5dtOh7Kxhg0YMVje5oFFzcD+4aGF4erEIjQsmkBE09mmjNnTaJdELb4LQcVhq5HOQ8wxRbPRQ==, tarball: file:projects/testing-recorder-new.tgz}
+    resolution: {integrity: sha512-LQ9WLbbCZ1vVpj7fzrWF+ql1zI6qElwBWHHRSBQc3YQHrkQ7TOFBL5ke4iBcbxaJFsrRT55jzIohJJHuo2sGXg==, tarball: file:projects/testing-recorder-new.tgz}
     name: '@rush-temp/testing-recorder-new'
     version: 0.0.0
     dependencies:
