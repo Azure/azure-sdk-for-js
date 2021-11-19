@@ -3,12 +3,15 @@
 
 /// <reference lib="esnext.asynciterable" />
 
-import { bearerTokenAuthenticationPolicy, PipelineOptions } from "@azure/core-rest-pipeline";
-import { ServiceClientOptions, OperationOptions } from "@azure/core-client";
+import {
+  bearerTokenAuthenticationPolicy,
+  InternalPipelineOptions,
+  PipelineOptions
+} from "@azure/core-rest-pipeline";
+import { OperationOptions } from "@azure/core-client";
 import { isTokenCredential, TokenCredential } from "@azure/core-auth";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import "@azure/core-paging";
-import { createMAClientPipeline } from "./createClientPipeline";
 import { logger } from "./logger";
 import { createSpan } from "./tracing";
 import {
@@ -60,7 +63,11 @@ import {
   toServiceDataFeedSource,
   toServiceDataFeedSourcePatch
 } from "./transforms";
-import { DEFAULT_COGNITIVE_SCOPE } from "./constants";
+import {
+  DEFAULT_COGNITIVE_SCOPE,
+  MetricsAdvisorLoggingAllowedHeaderNames,
+  MetricsAdvisorLoggingAllowedQueryParameters
+} from "./constants";
 
 /**
  * Client options used to configure API requests.
@@ -149,11 +156,6 @@ export class MetricsAdvisorAdministrationClient {
   public readonly endpointUrl: string;
 
   /**
-   * A reference to service client options.
-   */
-  private readonly pipeline: ServiceClientOptions;
-
-  /**
    * A reference to the auto-generated MetricsAdvisor HTTP client.
    */
   private readonly client: GeneratedClient;
@@ -180,16 +182,15 @@ export class MetricsAdvisorAdministrationClient {
     options: MetricsAdvisorAdministrationClientOptions = {}
   ) {
     this.endpointUrl = endpointUrl;
-    // const internalPipelineOptions: InternalPipelineOptions = {
-    //   ...options,
-    //   loggingOptions: {
-    //     logger: logger.info,
-    //     additionalAllowedHeaderNames: MetricsAdvisorLoggingAllowedHeaderNames,
-    //     additionalAllowedQueryParameters: MetricsAdvisorLoggingAllowedQueryParameters
-    //   }
-    // };
-    this.pipeline = createMAClientPipeline(options);
-    this.client = new GeneratedClient(this.endpointUrl, this.pipeline);
+    const internalPipelineOptions: InternalPipelineOptions = {
+      ...options,
+      loggingOptions: {
+        logger: logger.info,
+        additionalAllowedHeaderNames: MetricsAdvisorLoggingAllowedHeaderNames,
+        additionalAllowedQueryParameters: MetricsAdvisorLoggingAllowedQueryParameters
+      }
+    };
+    this.client = new GeneratedClient(this.endpointUrl, internalPipelineOptions);
     const authPolicy = isTokenCredential(credential)
       ? bearerTokenAuthenticationPolicy({ credential, scopes: DEFAULT_COGNITIVE_SCOPE })
       : createMetricsAdvisorKeyCredentialPolicy(credential);

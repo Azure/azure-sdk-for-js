@@ -4,8 +4,12 @@
 /// <reference lib="esnext.asynciterable" />
 
 // operationOptionsTofinalOptionsBase
-import { bearerTokenAuthenticationPolicy, PipelineOptions } from "@azure/core-rest-pipeline";
-import { ServiceClientOptions, OperationOptions } from "@azure/core-client";
+import {
+  bearerTokenAuthenticationPolicy,
+  InternalPipelineOptions,
+  PipelineOptions
+} from "@azure/core-rest-pipeline";
+import { OperationOptions } from "@azure/core-client";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { isTokenCredential, TokenCredential } from "@azure/core-auth";
 import { GeneratedClient } from "./generated/generatedClient";
@@ -37,8 +41,12 @@ import {
 } from "./models";
 import { SeverityFilterCondition, FeedbackType, FeedbackQueryTimeMode } from "./generated/models";
 import { toServiceMetricFeedbackUnion, fromServiceMetricFeedbackUnion } from "./transforms";
-import { createMAClientPipeline } from "./createClientPipeline";
-import { DEFAULT_COGNITIVE_SCOPE } from "./constants";
+import {
+  DEFAULT_COGNITIVE_SCOPE,
+  MetricsAdvisorLoggingAllowedHeaderNames,
+  MetricsAdvisorLoggingAllowedQueryParameters
+} from "./constants";
+import { logger } from "./logger";
 
 /**
  * Client options used to configure Metrics Advisor API requests.
@@ -181,11 +189,6 @@ export class MetricsAdvisorClient {
   public readonly endpointUrl: string;
 
   /**
-   * A reference to service client options.
-   */
-  private readonly pipeline: ServiceClientOptions;
-
-  /**
    * A reference to the auto-generated MetricsAdvisor HTTP client.
    */
   private readonly client: GeneratedClient;
@@ -212,8 +215,15 @@ export class MetricsAdvisorClient {
     options: MetricsAdvisorClientOptions = {}
   ) {
     this.endpointUrl = endpointUrl;
-    this.pipeline = createMAClientPipeline(options);
-    this.client = new GeneratedClient(this.endpointUrl, this.pipeline);
+    const internalPipelineOptions: InternalPipelineOptions = {
+      ...options,
+      loggingOptions: {
+        logger: logger.info,
+        additionalAllowedHeaderNames: MetricsAdvisorLoggingAllowedHeaderNames,
+        additionalAllowedQueryParameters: MetricsAdvisorLoggingAllowedQueryParameters
+      }
+    };
+    this.client = new GeneratedClient(this.endpointUrl, internalPipelineOptions);
     const authPolicy = isTokenCredential(credential)
       ? bearerTokenAuthenticationPolicy({ credential, scopes: DEFAULT_COGNITIVE_SCOPE })
       : createMetricsAdvisorKeyCredentialPolicy(credential);
