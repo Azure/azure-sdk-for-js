@@ -9,5 +9,6 @@ export const commandInfo = makeCommandInfo(
 );
 
 export default subCommand(commandInfo, {
-  start: () => import("./start")
+  start: () => import("./start"),
+  "wait-for-proxy-endpoint": () => import("./waitForProxyEndpoint")
 });

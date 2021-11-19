@@ -3,16 +3,17 @@
 
 import { leafCommand, makeCommandInfo } from "../../framework/command";
 import { config } from "dotenv";
-import { startProxyTool } from "../../util/testProxyUtils";
+import { isProxyToolActive } from "../../util/testProxyUtils";
+import { checkWithTimeout } from "../../util/checkWithTimeout";
 config();
 
 export const commandInfo = makeCommandInfo(
   "test-proxy",
-  "runs the proxy-tool with the `docker run ...` command",
+  "waits for the proxy tool to be active or fails in 2 minutes",
   {}
 );
 
 export default leafCommand(commandInfo, async (_options) => {
-  await startProxyTool();
-  return true;
+  const result = await checkWithTimeout(isProxyToolActive, 1000, 120000);
+  return result;
 });

@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { env, isPlaybackMode } from "@azure-tools/test-recorder";
+
 /**
  * A custom error type for failed pipeline requests.
  */
@@ -262,4 +264,16 @@ export function ensureExistence<T>(thing: T | undefined, label: string, mode: st
     );
   }
   return true; // Since we would throw error if undefined
+}
+
+/**
+ * Returns the test mode.
+ *
+ * If TEST_MODE is not defined, defaults to playback.
+ */
+export function getTestMode(): string {
+  if (isPlaybackMode()) {
+    return "playback";
+  }
+  return env.TEST_MODE;
 }

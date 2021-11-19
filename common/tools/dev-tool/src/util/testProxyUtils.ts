@@ -8,8 +8,7 @@ import fs from "fs-extra";
 import { createPrinter } from "./printer";
 
 const log = createPrinter("test-proxy");
-export async function startProxyTool(mode: string | undefined) {
-  log.info(`===TEST_MODE="${mode}"===`);
+export async function startProxyTool() {
   log.info(
     `Attempting to start test proxy at http://localhost:5000 & https://localhost:5001.\n`
   );
@@ -17,12 +16,12 @@ export async function startProxyTool(mode: string | undefined) {
   const subprocess = spawn(await getDockerRunCommand(), [], {
     shell: true
   });
-  
+
   const outFileName = "test-proxy-output.log";
-  const out = fs.createWriteStream(`./${outFileName}`,{flags:'a'});
+  const out = fs.createWriteStream(`./${outFileName}`, { flags: 'a' });
   subprocess.stdout.pipe(out);
   subprocess.stderr.pipe(out);
-  
+
   log.info(`Check the output file "${outFileName}" for test-proxy logs.`);
 }
 
@@ -49,8 +48,13 @@ async function getDockerRunCommand() {
 }
 
 export async function isProxyToolActive() {
-  await makeRequest("http://localhost:5000/info/available", {});
-  log.info(`Proxy tool seems to be active at http://localhost:5000\n`);
+  try {
+    await makeRequest("http://localhost:5000/info/available", {});
+    log.info(`Proxy tool seems to be active at http://localhost:5000\n`);
+    return true;
+  } catch (error) {
+    return false;
+  }
 }
 
 async function makeRequest(uri: string, requestOptions: RequestOptions): Promise<IncomingMessage> {
