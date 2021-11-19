@@ -6,11 +6,18 @@ import * as base64 from "./util/base64";
 import * as utils from "./util/utils";
 import { XML_ATTRKEY, XML_CHARKEY, SerializerOptions } from "./util/serializer.common";
 
+/**
+ * This file contains an XML serializer based on prior knowledge from Microsoft patterns.
+ */
+
+/**
+ * An object that serializes a string into its underlying values based on a mapper.
+ */
 export class Serializer {
   constructor(
     public readonly modelMappers: { [key: string]: any } = {},
     public readonly isXML?: boolean
-  ) {}
+  ) { }
 
   validateConstraints(mapper: Mapper, value: unknown, objectName: string): void {
     const failValidation = (
@@ -502,7 +509,7 @@ function serializeDateTypes(typeName: string, value: any, objectName: string): a
       ) {
         throw new Error(
           `${objectName} must be an instanceof Date or a string in RFC-1123/ISO8601 format ` +
-            `for it to be serialized in UnixTime/Epoch format.`
+          `for it to be serialized in UnixTime/Epoch format.`
         );
       }
       value = dateToUnixTime(value);
@@ -532,7 +539,7 @@ function serializeSequenceType(
   if (!elementType || typeof elementType !== "object") {
     throw new Error(
       `element" metadata for an Array must be defined in the ` +
-        `mapper and it must of type "object" in ${objectName}.`
+      `mapper and it must of type "object" in ${objectName}.`
     );
   }
   const tempArray = [];
@@ -573,7 +580,7 @@ function serializeDictionaryType(
   if (!valueType || typeof valueType !== "object") {
     throw new Error(
       `"value" metadata for a Dictionary must be defined in the ` +
-        `mapper and it must of type "object" in ${objectName}.`
+      `mapper and it must of type "object" in ${objectName}.`
     );
   }
   const tempDictionary: { [key: string]: any } = {};
@@ -661,9 +668,8 @@ function resolveModelProperties(
     if (!modelProps) {
       throw new Error(
         `modelProperties cannot be null or undefined in the ` +
-          `mapper "${JSON.stringify(modelMapper)}" of type "${
-            mapper.type.className
-          }" for object "${objectName}".`
+        `mapper "${JSON.stringify(modelMapper)}" of type "${mapper.type.className
+        }" for object "${objectName}".`
       );
     }
   }
@@ -1010,7 +1016,7 @@ function deserializeDictionaryType(
   if (!value || typeof value !== "object") {
     throw new Error(
       `"value" metadata for a Dictionary must be defined in the ` +
-        `mapper and it must of type "object" in ${objectName}`
+      `mapper and it must of type "object" in ${objectName}`
     );
   }
   if (responseBody) {
@@ -1034,7 +1040,7 @@ function deserializeSequenceType(
   if (!element || typeof element !== "object") {
     throw new Error(
       `element" metadata for an Array must be defined in the ` +
-        `mapper and it must of type "object" in ${objectName}`
+      `mapper and it must of type "object" in ${objectName}`
     );
   }
   if (responseBody) {
@@ -1126,34 +1132,56 @@ export type MapperType =
 
 export interface SimpleMapperType {
   name:
-    | "Base64Url"
-    | "Boolean"
-    | "ByteArray"
-    | "Date"
-    | "DateTime"
-    | "DateTimeRfc1123"
-    | "Object"
-    | "Stream"
-    | "String"
-    | "TimeSpan"
-    | "UnixTime"
-    | "Uuid"
-    | "Number"
-    | "any";
+  | "Base64Url"
+  | "Boolean"
+  | "ByteArray"
+  | "Date"
+  | "DateTime"
+  | "DateTimeRfc1123"
+  | "Object"
+  | "Stream"
+  | "String"
+  | "TimeSpan"
+  | "UnixTime"
+  | "Uuid"
+  | "Number"
+  | "any";
 }
 
+/**
+ * Helps build a mapper that describes how to map a set of properties of an object based on other mappers.
+ * 
+ * Only one of the following properties should be present: `className`, `modelProperties` and `additionalProperties`.
+ */
 export interface CompositeMapperType {
+  /**
+   * Name of the composite mapper type.
+   */
   name: "Composite";
 
-  // Only one of the two below properties should be present.
-  // Use className to reference another type definition,
-  // and use modelProperties/additionalProperties when the reference to the other type has been resolved.
+  /**
+   * Use className to reference another type definition.
+   */
   className?: string;
 
+  /**
+   * Use `modelProperties` when the reference to the other type has been resolved.
+   */
   modelProperties?: { [propertyName: string]: Mapper };
+
+  /**
+   * Use `additionalProperties` when the reference to the other type has been resolved.
+   */
   additionalProperties?: Mapper;
 
+  /**
+   * Name of the uber parent.
+   */
   uberParent?: string;
+
+  /**
+   * A polymorphic discriminator.
+   */
   polymorphicDiscriminator?: PolymorphicDiscriminator;
 }
 
@@ -1172,6 +1200,9 @@ export interface EnumMapperType {
   allowedValues: any[];
 }
 
+/**
+ * The base definition that determines how to map from XML to a JavaScript plain object.
+ */
 export interface BaseMapper {
   /**
    * Name for the xml element
@@ -1231,8 +1262,14 @@ export interface BaseMapper {
   constraints?: MapperConstraints;
 }
 
+/**
+ * Any of the exposed mappers.
+ */
 export type Mapper = BaseMapper | CompositeMapper | SequenceMapper | DictionaryMapper | EnumMapper;
 
+/**
+ * Helps identify how to transform from one set of properties in the source object, to a set of properties in the target object.
+ */
 export interface PolymorphicDiscriminator {
   serializedName: string;
   clientName: string;

@@ -56,7 +56,7 @@ export function applyMixins(targetCtorParam: unknown, sourceCtors: any[]): void;
 // @public (undocumented)
 export type Authenticator = (challenge: unknown) => Promise<string>;
 
-// @public (undocumented)
+// @public
 export interface BaseMapper {
     constraints?: MapperConstraints;
     defaultValue?: any;
@@ -74,15 +74,14 @@ export interface BaseMapper {
     xmlNamespacePrefix?: string;
 }
 
-// @public (undocumented)
+// @public
 export abstract class BaseRequestPolicy implements RequestPolicy {
-    protected constructor(_nextPolicy: RequestPolicy, _options: RequestPolicyOptionsLike);
+    protected constructor(
+    _nextPolicy: RequestPolicy,
+    _options: RequestPolicyOptionsLike);
     log(logLevel: HttpPipelineLogLevel, message: string): void;
-    // (undocumented)
     readonly _nextPolicy: RequestPolicy;
-    // (undocumented)
     readonly _options: RequestPolicyOptionsLike;
-    // (undocumented)
     abstract sendRequest(webResource: WebResourceLike): Promise<HttpOperationResponse>;
     shouldLog(logLevel: HttpPipelineLogLevel): boolean;
 }
@@ -394,7 +393,7 @@ export interface LogPolicyOptions {
     logger?: Debugger;
 }
 
-// @public (undocumented)
+// @public
 export type Mapper = BaseMapper | CompositeMapper | SequenceMapper | DictionaryMapper | EnumMapper;
 
 // @public (undocumented)
@@ -545,7 +544,7 @@ export interface PipelineOptions {
     userAgentOptions?: UserAgentOptions;
 }
 
-// @public (undocumented)
+// @public
 export interface PolymorphicDiscriminator {
     // (undocumented)
     [key: string]: string;
@@ -623,9 +622,8 @@ export interface RequestOptionsBase {
     tracingContext?: Context;
 }
 
-// @public (undocumented)
+// @public
 export interface RequestPolicy {
-    // (undocumented)
     sendRequest(httpRequest: WebResourceLike): Promise<HttpOperationResponse>;
 }
 
@@ -742,7 +740,7 @@ export interface SequenceMapperType {
 // @public (undocumented)
 export function serializeObject(toSerialize: unknown): any;
 
-// @public (undocumented)
+// @public
 export class Serializer {
     constructor(modelMappers?: {
         [key: string]: any;
@@ -958,7 +956,7 @@ export class WebResource implements WebResourceLike {
     withCredentials: boolean;
 }
 
-// @public (undocumented)
+// @public
 export interface WebResourceLike {
     abortSignal?: AbortSignalLike;
     body?: any;
