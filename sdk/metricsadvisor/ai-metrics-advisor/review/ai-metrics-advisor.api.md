@@ -6,10 +6,9 @@
 
 /// <reference lib="esnext.asynciterable" />
 
-import { OperationOptions } from '@azure/core-http';
+import { OperationOptions } from '@azure/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PipelineOptions } from '@azure/core-http';
-import { RestResponse } from '@azure/core-http';
+import { PipelineOptions } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -858,11 +857,11 @@ export class MetricsAdvisorAdministrationClient {
     createDataSourceCredential(dataSourceCredential: DataSourceCredentialEntityUnion, options?: OperationOptions): Promise<DataSourceCredentialEntityUnion>;
     createDetectionConfig(config: Omit<AnomalyDetectionConfiguration, "id">, options?: OperationOptions): Promise<AnomalyDetectionConfiguration>;
     createHook(hookInfo: EmailNotificationHook | WebNotificationHook, options?: OperationOptions): Promise<NotificationHookUnion>;
-    deleteAlertConfig(id: string, options?: OperationOptions): Promise<RestResponse>;
-    deleteDataFeed(id: string, options?: OperationOptions): Promise<RestResponse>;
-    deleteDataSourceCredential(id: string, options?: OperationOptions): Promise<RestResponse>;
-    deleteDetectionConfig(id: string, options?: OperationOptions): Promise<RestResponse>;
-    deleteHook(id: string, options?: OperationOptions): Promise<RestResponse>;
+    deleteAlertConfig(id: string, options?: OperationOptions): Promise<void>;
+    deleteDataFeed(id: string, options?: OperationOptions): Promise<void>;
+    deleteDataSourceCredential(id: string, options?: OperationOptions): Promise<void>;
+    deleteDetectionConfig(id: string, options?: OperationOptions): Promise<void>;
+    deleteHook(id: string, options?: OperationOptions): Promise<void>;
     readonly endpointUrl: string;
     getAlertConfig(id: string, options?: OperationOptions): Promise<AnomalyAlertConfiguration>;
     getDataFeed(id: string, options?: OperationOptions): Promise<MetricsAdvisorDataFeed>;
@@ -876,7 +875,7 @@ export class MetricsAdvisorAdministrationClient {
     listDataSourceCredential(options?: ListDataSourceCredentialsOptions): PagedAsyncIterableIterator<DataSourceCredentialEntityUnion, CredentialsPageResponse>;
     listDetectionConfigs(metricId: string, options?: OperationOptions): PagedAsyncIterableIterator<AnomalyDetectionConfiguration, DetectionConfigurationsPageResponse, undefined>;
     listHooks(options?: ListHooksOptions): PagedAsyncIterableIterator<NotificationHookUnion, HooksPageResponse>;
-    refreshDataFeedIngestion(dataFeedId: string, startTime: Date | string, endTime: Date | string, options?: OperationOptions): Promise<RestResponse>;
+    refreshDataFeedIngestion(dataFeedId: string, startTime: Date | string, endTime: Date | string, options?: OperationOptions): Promise<void>;
     updateAlertConfig(id: string, patch: Partial<Omit<AnomalyAlertConfiguration, "id">>, options?: OperationOptions): Promise<AnomalyAlertConfiguration>;
     updateDataFeed(dataFeedId: string, patch: DataFeedPatch, options?: OperationOptions): Promise<MetricsAdvisorDataFeed>;
     updateDataSourceCredential(id: string, patch: DataSourceCredentialPatch, options?: OperationOptions): Promise<DataSourceCredentialEntityUnion>;
