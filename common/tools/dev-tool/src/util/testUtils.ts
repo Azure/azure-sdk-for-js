@@ -6,6 +6,7 @@ const log = createPrinter("preparing-proxy-tool");
 
 async function shouldRunProxyTool(): Promise<boolean> {
   const mode = process.env.TEST_MODE;
+  createPrinter("test-info").info(`===TEST_MODE="${mode}"===`);
   if (mode === "live") {
     return false; // No need to start the proxy tool in the live mode
   } else {

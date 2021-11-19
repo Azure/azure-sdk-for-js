@@ -8,8 +8,7 @@ import fs from "fs-extra";
 import { createPrinter } from "./printer";
 
 const log = createPrinter("test-proxy");
-export async function startProxyTool(mode: string | undefined) {
-  log.info(`===TEST_MODE="${mode}"===`);
+export async function startProxyTool() {
   log.info(
     `Attempting to start test proxy at http://localhost:5000 & https://localhost:5001.\n`
   );
