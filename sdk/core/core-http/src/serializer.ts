@@ -1175,7 +1175,7 @@ export interface CompositeMapperType {
   additionalProperties?: Mapper;
 
   /**
-   * Name of the uber parent.
+   * The name of the top-most parent scheme, the one that has no parents.
    */
   uberParent?: string;
 
@@ -1263,7 +1263,8 @@ export interface BaseMapper {
 }
 
 /**
- * Any of the exposed mappers.
+ * Mappers are definitions of the Data models used in the library.
+ * These data models are part of the Operation or Client definitions in the responses or parameters.
  */
 export type Mapper = BaseMapper | CompositeMapper | SequenceMapper | DictionaryMapper | EnumMapper;
 
@@ -1271,34 +1272,76 @@ export type Mapper = BaseMapper | CompositeMapper | SequenceMapper | DictionaryM
  * Helps identify how to transform from one set of properties in the source object, to a set of properties in the target object.
  */
 export interface PolymorphicDiscriminator {
+  /**
+   * Name used during serialization.
+   */
   serializedName: string;
   clientName: string;
   [key: string]: string;
 }
 
+/**
+ * A mapper composed of other mappers.
+ */
 export interface CompositeMapper extends BaseMapper {
+  /**
+   * The type descriptor of the `CompositeMapper`. 
+   */
   type: CompositeMapperType;
 }
 
+/**
+ * A mapper describing a sequence.
+ */
 export interface SequenceMapper extends BaseMapper {
+  /**
+   * The type descriptor of the `SequenceMapper`.
+   */
   type: SequenceMapperType;
 }
 
+/**
+ * A mapper describing a dictionary.
+ */
 export interface DictionaryMapper extends BaseMapper {
+  /**
+   * The type descriptor of the `DictionaryMapper`.
+   */
   type: DictionaryMapperType;
+  /**
+   * Optionally, a prefix to add to the header collection.
+   */
   headerCollectionPrefix?: string;
 }
 
+/**
+ * A mapper describing an enum value.
+ */
 export interface EnumMapper extends BaseMapper {
+  /**
+   * The type descriptor of the `EnumMapper`.
+   */
   type: EnumMapperType;
 }
 
+/**
+ * An interface representing an URL parameter value.
+ */
 export interface UrlParameterValue {
+  /**
+   * The URL value.
+   */
   value: string;
+  /**
+   * Whether to keep or skip URL encoding.
+   */
   skipUrlEncoding: boolean;
 }
 
 // TODO: why is this here?
+/**
+ * Utility function that serializes an object that might contain binary information into a plain object, array or a string.
+ */
 export function serializeObject(toSerialize: unknown): any {
   const castToSerialize = toSerialize as Record<string, unknown>;
   if (toSerialize == undefined) return undefined;

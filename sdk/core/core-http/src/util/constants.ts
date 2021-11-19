@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-
+/**
+ * A set of constants assigned to properties with recognizable names.
+ */
 export const Constants = {
   /**
    * The core-http version

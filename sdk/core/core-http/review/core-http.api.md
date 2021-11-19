@@ -107,21 +107,15 @@ export interface CompositeMapper extends BaseMapper {
     type: CompositeMapperType;
 }
 
-// @public (undocumented)
+// @public
 export interface CompositeMapperType {
-    // (undocumented)
     additionalProperties?: Mapper;
-    // (undocumented)
     className?: string;
-    // (undocumented)
     modelProperties?: {
         [propertyName: string]: Mapper;
     };
-    // (undocumented)
     name: "Composite";
-    // (undocumented)
     polymorphicDiscriminator?: PolymorphicDiscriminator;
-    // (undocumented)
     uberParent?: string;
 }
 
@@ -550,7 +544,6 @@ export interface PolymorphicDiscriminator {
     [key: string]: string;
     // (undocumented)
     clientName: string;
-    // (undocumented)
     serializedName: string;
 }
 

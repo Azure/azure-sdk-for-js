@@ -100,8 +100,8 @@ export interface ServiceClientOptions {
    * the requestPolicyFactories that will be used.
    */
   requestPolicyFactories?:
-    | RequestPolicyFactory[]
-    | ((defaultRequestPolicyFactories: RequestPolicyFactory[]) => void | RequestPolicyFactory[]);
+  | RequestPolicyFactory[]
+  | ((defaultRequestPolicyFactories: RequestPolicyFactory[]) => void | RequestPolicyFactory[]);
   /**
    * The HttpClient that will be used to send HTTP requests.
    */
@@ -459,7 +459,7 @@ export class ServiceClient {
             } else {
               httpRequest.headers.set(
                 headerParameter.mapper.serializedName ||
-                  getPathStringFromParameter(headerParameter),
+                getPathStringFromParameter(headerParameter),
                 headerValue
               );
             }
@@ -525,7 +525,7 @@ export class ServiceClient {
           sendRequestError.details = flattenResponse(
             sendRequestError.response,
             operationSpec.responses[sendRequestError.statusCode] ||
-              operationSpec.responses["default"]
+            operationSpec.responses["default"]
           );
         }
         result = Promise.reject(sendRequestError);
@@ -750,6 +750,12 @@ function createDefaultRequestPolicyFactories(
   return factories;
 }
 
+/**
+ * Creates an HTTP pipeline based on the given options.
+ * @param pipelineOptions - Defines options that are used to configure internal options of the HTTP pipeline for an SDK client.
+ * @param authPolicyFactory - Optionally, a factory that creates a new RequestPolicy per-request.
+ * @returns A set of options that can be passed to create a new {@link ServiceClient}.
+ */
 export function createPipelineFromOptions(
   pipelineOptions: InternalPipelineOptions,
   authPolicyFactory?: RequestPolicyFactory
