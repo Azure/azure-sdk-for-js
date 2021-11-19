@@ -6,7 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { RouteTables } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
@@ -474,7 +473,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters50,
+  requestBody: Parameters.parameters54,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

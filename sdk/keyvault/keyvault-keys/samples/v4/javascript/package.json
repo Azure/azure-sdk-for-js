@@ -3,7 +3,7 @@
   "private": true,
   "version": "1.0.0",
   "description": "Azure Key Vault Keys client library samples for JavaScript",
-  "engine": {
+  "engines": {
     "node": ">=12.0.0"
   },
   "repository": {
@@ -29,6 +29,6 @@
   "dependencies": {
     "@azure/keyvault-keys": "next",
     "dotenv": "latest",
-    "@azure/identity": "^1.1.0"
+    "@azure/identity": "^2.0.1"
   }
 }

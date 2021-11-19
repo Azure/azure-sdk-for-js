@@ -49,7 +49,7 @@
     "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "tsc -p . && api-extractor run --local",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
-    "generate:client": "autorest --typescript --v3 swagger",
+    "generate:client": "autorest --typescript ./swagger/README.md",
     "integration-test:browser": "karma start --single-run",
     "integration-test:node": "nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 5000000 --full-trace \"dist-esm/test/{,!(browser)/**/}/*.spec.js\"",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
@@ -103,7 +103,7 @@
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "@azure/identity": "2.0.0-beta.6",
+    "@azure/identity": "^2.0.1",
     "@azure-tools/test-recorder": "^1.0.0",
     "@microsoft/api-extractor": "^7.18.11",
     "@types/chai": "^4.1.6",

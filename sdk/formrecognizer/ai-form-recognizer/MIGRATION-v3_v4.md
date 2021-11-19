@@ -1,6 +1,6 @@
 # Migrating to `@azure/ai-form-recognizer` Version 4
 
-**Note ⚠️**: `@azure/ai-form-recognizer@4.0.0-beta.1` is a beta package. Certain aspects of the package's API surface and implementation may change during the course of its development, and this document is a work-in-progress and may change to reflect updates to the package. We value your feedback, and it is especially useful during the beta development cycle. Please [create an issue](https://github.com/Azure/azure-sdk-for-js/issues/new/choose) to suggest any improvements or report any problems with this guide or with the package itself.
+**Note ⚠️**: `@azure/ai-form-recognizer` version 4 is currently a beta package. Certain aspects of the package's API surface and implementation may change during the course of its development, and this document is a work-in-progress and may change to reflect updates to the package. We value your feedback, and it is especially useful during the beta development cycle. Please [create an issue](https://github.com/Azure/azure-sdk-for-js/issues/new/choose) to suggest any improvements or report any problems with this guide or with the package itself.
 
 In major version 4, this package introduces a full redesign of the Azure Form Recognizer client library. To leverage features of the newest Form Recognizer service API (version "2021-09-30-preview" and newer), the new SDK is required, and application code must be changed to use the new clients. Similarly, the new major version 4 of the client library cannot be used to communicate with version 2.1 of the service API. To summarize:
 
@@ -19,7 +19,7 @@ To avoid migrating an application all at once, major version 3 may be installed 
     "dependencies": {
         ...,
         "@azure/ai-form-recognizer": "^3.2.0",
-        "@azure/ai-form-recognizer-beta": "npm:@azure/ai-form-recognizer@4.0.0-beta.1"
+        "@azure/ai-form-recognizer-beta": "npm:@azure/ai-form-recognizer@4.0.0-beta.2"
     }
 }
 ```
@@ -31,7 +31,7 @@ With this configuration, imports from `"@azure/ai-form-recognizer"` will import 
     ...,
     "dependencies": {
         ...,
-        "@azure/ai-form-recognizer": "4.0.0-beta.1",
+        "@azure/ai-form-recognizer": "4.0.0-beta.2",
         "@azure/ai-form-recognizer-v3": "npm:@azure/ai-form-recognizer@^3.2.0"
     }
 }
@@ -164,7 +164,7 @@ Compare the following samples:
   const forms: RecognizedForm[] = await poller.pollUntilDone();
   ```
 
-  Current (4.0.0-beta.1):
+  Current (4.0.0-beta.2):
 
   ```typescript
   const client = new DocumentAnalysisClient(...);
@@ -199,7 +199,7 @@ Compare the following samples:
   }
   ```
 
-  Current (4.0.0-beta.1):
+  Current (4.0.0-beta.2):
 
   ```typescript
   const client = new DocumentAnalysisClient(...);
@@ -233,7 +233,7 @@ if (table.boundingBox) {
 }
 ```
 
-Current (4.0.0-beta.1):
+Current (4.0.0-beta.2):
 
 ```typescript
 // Now, tables were accessed through `AnalyzeResult`.
@@ -283,7 +283,7 @@ const url = "https://raw.githubusercontent.com/Azure/azure-sdk-for-js/main/sdk/f
 const poller = await client.beginRecognizeCustomFormsFromUrl("<model ID>", url);
 ```
 
-Current (4.0.0-beta.1):
+Current (4.0.0-beta.2):
 
 ```typescript
 const client = new DocumentAnalysisClient(...);
@@ -321,7 +321,7 @@ const [receipt] = await poller.pollUntilDone();
 const receiptType: string = (receipt.fields["ReceiptType"] as FormStringField)?.value ?? "<unknown>";
 ```
 
-Current (4.0.0-beta.1), using the `DocumentModel`:
+Current (4.0.0-beta.2), using the `DocumentModel`:
 
 ```typescript
 // We need to import `PrebuiltModels`, which holds the prebuilt `DocumentModel` data structures
@@ -343,7 +343,7 @@ const { documents: [receipt] } = await poller.pollUntilDone();
 const receiptType: string = receipt.fields.receiptType?.value ?? "<unknown>";
 ```
 
-Current (4.0.0-beta.1), using the model ID:
+Current (4.0.0-beta.2), using the model ID:
 
 ```typescript
 import { DocumentAnalysisClient, DocumentStringField } from "@azure/ai-form-recognizer";
@@ -436,7 +436,7 @@ if (model.trainingDocuments) {
 }
 ```
 
-Current (4.0.0-beta.1):
+Current (4.0.0-beta.2):
 
 ```typescript
 const client = new DocumentModelAdministrationClient(...);

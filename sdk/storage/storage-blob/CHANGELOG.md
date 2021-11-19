@@ -1,6 +1,6 @@
 # Release History
 
-## 12.8.1 (Unreleased)
+## 12.9.0-beta.2 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,15 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 12.9.0-beta.1 (2021-11-09)
+
+### Features Added
+
+- Added support for service version 2020-12-06.
+- Added support for Encryption Scope SAS.
+- Added support for Encryption Scopes with BlobBaseClient.SyncCopyFromUriAsync().
+- Added support for generating SAS URLs with the Permanent Delete ('y') SAS permission.
 
 ## 12.8.0 (2021-09-10)
 

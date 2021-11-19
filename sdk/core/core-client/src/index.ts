@@ -52,4 +52,5 @@ export {
   serializationPolicyName,
   SerializationPolicyOptions
 } from "./serializationPolicy";
+export { authorizeRequestOnClaimChallenge } from "./authorizeRequestOnClaimChallenge";
 import "@azure/core-asynciterator-polyfill";

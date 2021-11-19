@@ -151,7 +151,11 @@ class NodeHttpClient implements HttpClient {
         responseStream = downloadReportStream;
       }
 
-      if (request.streamResponseStatusCodes?.has(response.status)) {
+      if (
+        // Value of POSITIVE_INFINITY in streamResponseStatusCodes is considered as any status code
+        request.streamResponseStatusCodes?.has(Number.POSITIVE_INFINITY) ||
+        request.streamResponseStatusCodes?.has(response.status)
+      ) {
         response.readableStreamBody = responseStream;
       } else {
         response.bodyAsText = await streamToText(responseStream);
@@ -204,7 +208,7 @@ class NodeHttpClient implements HttpClient {
       path: `${url.pathname}${url.search}`,
       port: url.port,
       method: request.method,
-      headers: request.headers.toJSON()
+      headers: request.headers.toJSON({ preserveCase: true })
     };
 
     return new Promise<http.IncomingMessage>((resolve, reject) => {

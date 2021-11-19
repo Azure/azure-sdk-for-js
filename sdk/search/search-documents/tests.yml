@@ -5,4 +5,6 @@ stages:
     parameters:
       PackageName: "@azure/search-documents"
       ServiceDirectory: search
-      SupportedClouds: 'Public,UsGov,China'
+      # TODO: change 'Preview' cloud back to public after search RP fixes deletion metadata issue
+      Clouds: 'Preview'
+      SupportedClouds: 'Preview,UsGov,China'

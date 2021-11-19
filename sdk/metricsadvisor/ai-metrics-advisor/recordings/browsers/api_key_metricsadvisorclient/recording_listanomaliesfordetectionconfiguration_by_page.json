@@ -6,18 +6,18 @@
    "query": {
     "$maxpagesize": "2"
    },
-   "requestBody": "{\"startTime\":\"2020-01-05T00:00:00.000Z\",\"endTime\":\"2020-11-05T00:00:00.000Z\"}",
+   "requestBody": "{\"startTime\":\"2021-05-05T00:00:00.000Z\",\"endTime\":\"2021-11-01T00:00:00.000Z\"}",
    "status": 200,
-   "response": "{\"value\":[{\"timestamp\":\"2020-11-04T00:00:00Z\",\"dimension\":{\"city\":\"Lagos\",\"category\":\"Grocery & Gourmet Food\"},\"property\":{\"anomalySeverity\":\"Low\",\"value\":0.4,\"expectedValue\":0.11447198690121768}},{\"timestamp\":\"2020-11-04T00:00:00Z\",\"dimension\":{\"city\":\"Tianjin\",\"category\":\"Electronics (Accessories)\"},\"property\":{\"anomalySeverity\":\"Low\",\"value\":0.0,\"expectedValue\":0.46284949225770355}}],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/26ece682-80a6-4415-89a2-05903dd9a640/anomalies/query?$maxpagesize=2&$skip=2\"}",
+   "response": "{\"value\":[{\"timestamp\":\"2021-10-31T00:00:00Z\",\"dimension\":{\"region\":\"Tianjin\",\"category\":\"Electronics (Consumer)\"},\"property\":{\"anomalySeverity\":\"Low\",\"value\":8.2,\"expectedValue\":0.08059720961202357}},{\"timestamp\":\"2021-10-31T00:00:00Z\",\"dimension\":{\"region\":\"__SUM__\",\"category\":\"Electronics (Accessories)\"},\"property\":{\"anomalySeverity\":\"Low\",\"value\":12.6,\"expectedValue\":114.17942348386997}}],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/26ece682-80a6-4415-89a2-05903dd9a640/anomalies/query?$maxpagesize=2&$skip=2\"}",
    "responseHeaders": {
-    "apim-request-id": "06ffe5d7-d387-4e28-8273-a58e722c368a",
-    "content-length": "602",
+    "apim-request-id": "2d0deb32-6181-4693-bbbf-e936ee6f2ac6",
+    "content-length": "608",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 02 Jun 2021 07:09:24 GMT",
+    "date": "Tue, 16 Nov 2021 02:01:21 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "170",
-    "x-request-id": "06ffe5d7-d387-4e28-8273-a58e722c368a"
+    "x-envoy-upstream-service-time": "157",
+    "x-request-id": "2d0deb32-6181-4693-bbbf-e936ee6f2ac6"
    }
   },
   {
@@ -27,18 +27,18 @@
     "$maxpagesize": "2",
     "$skip": "2"
    },
-   "requestBody": "{\"startTime\":\"2020-01-05T00:00:00.000Z\",\"endTime\":\"2020-11-05T00:00:00.000Z\"}",
+   "requestBody": "{\"startTime\":\"2021-05-05T00:00:00.000Z\",\"endTime\":\"2021-11-01T00:00:00.000Z\"}",
    "status": 200,
-   "response": "{\"value\":[{\"timestamp\":\"2020-11-04T00:00:00Z\",\"dimension\":{\"city\":\"Hyderabad\",\"category\":\"Software & Computer Games\"},\"property\":{\"anomalySeverity\":\"Low\",\"value\":1.4,\"expectedValue\":0.4998854052597048}},{\"timestamp\":\"2020-11-04T00:00:00Z\",\"dimension\":{\"city\":\"Los Angeles\",\"category\":\"Electronics (Accessories)\"},\"property\":{\"anomalySeverity\":\"Low\",\"value\":0.8,\"expectedValue\":1.2623167926434093}}],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/26ece682-80a6-4415-89a2-05903dd9a640/anomalies/query?$maxpagesize=2&$skip=4\"}",
+   "response": "{\"value\":[{\"timestamp\":\"2021-10-31T00:00:00Z\",\"dimension\":{\"region\":\"Karachi\",\"category\":\"Electronics (Consumer)\"},\"property\":{\"anomalySeverity\":\"Medium\",\"value\":3799.2,\"expectedValue\":292.12803420060055}},{\"timestamp\":\"2021-10-31T00:00:00Z\",\"dimension\":{\"region\":\"Cairo\",\"category\":\"Electronics (Consumer)\"},\"property\":{\"anomalySeverity\":\"Low\",\"value\":133.6,\"expectedValue\":0.00039042653963033904}}],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/26ece682-80a6-4415-89a2-05903dd9a640/anomalies/query?$maxpagesize=2&$skip=4\"}",
    "responseHeaders": {
-    "apim-request-id": "5884d0d3-71c3-4815-b4bf-36a9d993506a",
-    "content-length": "611",
+    "apim-request-id": "2f9d668c-d55f-431e-8ffc-15ea37a21751",
+    "content-length": "613",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 02 Jun 2021 07:09:29 GMT",
+    "date": "Tue, 16 Nov 2021 02:01:21 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "5214",
-    "x-request-id": "5884d0d3-71c3-4815-b4bf-36a9d993506a"
+    "x-envoy-upstream-service-time": "160",
+    "x-request-id": "2f9d668c-d55f-431e-8ffc-15ea37a21751"
    }
   }
  ],
@@ -46,5 +46,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "ec0bc11a5be769402c74884b49af261a"
+ "hash": "a08da83f2fd9da25224d303f6a30b465"
 }

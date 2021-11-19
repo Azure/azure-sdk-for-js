@@ -6,7 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { PrivateLinkServices } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
@@ -1110,7 +1109,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorModel
     }
   },
-  requestBody: Parameters.parameters46,
+  requestBody: Parameters.parameters50,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1195,7 +1194,7 @@ const updatePrivateEndpointConnectionOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorModel
     }
   },
-  requestBody: Parameters.parameters47,
+  requestBody: Parameters.parameters51,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1275,7 +1274,7 @@ const checkPrivateLinkServiceVisibilityOperationSpec: coreClient.OperationSpec =
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters48,
+  requestBody: Parameters.parameters52,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1307,7 +1306,7 @@ const checkPrivateLinkServiceVisibilityByResourceGroupOperationSpec: coreClient.
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters48,
+  requestBody: Parameters.parameters52,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

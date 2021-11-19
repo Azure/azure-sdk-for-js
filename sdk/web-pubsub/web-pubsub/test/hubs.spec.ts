@@ -138,7 +138,7 @@ describe("HubClient", function() {
     // `removeUserFromAllGroups` always times out.
     it.skip("can manage users", async () => {
       this.timeout(Infinity);
-      const res = await client.hasUser("foo");
+      const res = await client.userExists("foo");
       assert.ok(!res);
       await client.removeUserFromAllGroups("brian", { onResponse });
       assert.equal(lastResponse?.status, 200);
@@ -147,7 +147,7 @@ describe("HubClient", function() {
     it("can check if a connection exists", async function() {
       // likely bug in recorder for this test - recording not generating properly
       if (!isLiveMode()) this.skip();
-      const res = await client.hasConnection("xxx");
+      const res = await client.connectionExists("xxx");
       assert.ok(!res);
     });
 
@@ -177,7 +177,7 @@ describe("HubClient", function() {
 
     // service API doesn't work yet.
     it.skip("can generate client tokens", async () => {
-      await client.generateClientToken({
+      await client.getClientAccessToken({
         userId: "brian"
       });
     });

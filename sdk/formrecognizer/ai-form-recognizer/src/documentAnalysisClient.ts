@@ -2,14 +2,19 @@
 // Licensed under the MIT license.
 
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
-import { AnalyzeDocumentRequest, ContentType, GeneratedClient } from "./generated";
+import {
+  AnalyzeDocumentRequest,
+  ContentType,
+  GeneratedClient,
+  GeneratedClientGetAnalyzeDocumentResultResponse,
+} from "./generated";
+import { accept1 } from "./generated/models/parameters";
 import {
   AnalysisOperationDefinition,
   AnalysisPoller,
   AnalyzeResult,
   DocumentAnalysisPollOperationState,
   FormRecognizerRequestBody,
-  parseOperationLocation,
   toAnalyzedDocumentFromGenerated,
   toAnalyzeResultFromGenerated,
   toDocumentAnalysisPollOperationState,
@@ -20,7 +25,7 @@ import { LayoutResult, toLayoutResult } from "./models/LayoutResult";
 import { AnalyzeDocumentsOptions } from "./options/AnalyzeDocumentsOptions";
 import { DocumentAnalysisClientOptions } from "./options/FormRecognizerClientOptions";
 import { DocumentModel, getMapper } from "./prebuilt/models";
-import { identity, makeServiceClient } from "./util";
+import { identity, makeServiceClient, Mappers, SERIALIZER } from "./util";
 
 /**
  * A client for interacting with the Form Recognizer service's analysis features.
@@ -498,22 +503,47 @@ export class DocumentAnalysisClient {
     // TODO: what should we do if resumeFrom.modelId is different from initialModelId?
     // And what do we do with the redundant input??
 
+    const getAnalyzeResult = (
+      operationLocation: string
+    ): Promise<GeneratedClientGetAnalyzeDocumentResultResponse> =>
+      this._restClient.sendOperationRequest(
+        {
+          options: definition.options,
+        },
+        {
+          path: operationLocation,
+          httpMethod: "GET",
+          responses: {
+            200: {
+              bodyMapper: Mappers.AnalyzeResultOperation,
+            },
+            default: {
+              bodyMapper: Mappers.ErrorResponse,
+            },
+          },
+          // URL is fully-formed, so we don't need any
+          headerParameters: [accept1],
+          serializer: SERIALIZER,
+        }
+      );
+
     const toInit =
       // If the user gave us a stored token, we'll poll it again
       resumeFrom !== undefined
         ? async () => {
-            const { operationId, modelId } = JSON.parse(resumeFrom) as {
-              operationId: string;
+            const { operationLocation, modelId } = JSON.parse(resumeFrom) as {
+              operationLocation: string;
               modelId: string;
             };
 
-            const res = await this._restClient.getAnalyzeDocumentResult(
-              modelId,
-              operationId,
-              definition.options
-            );
+            const result = await getAnalyzeResult(operationLocation);
 
-            return toDocumentAnalysisPollOperationState(definition, modelId, operationId, res);
+            return toDocumentAnalysisPollOperationState(
+              definition,
+              modelId,
+              operationLocation,
+              result
+            );
           }
         : // Otherwise, we'll start a new operation from the initialModelId
           async () => {
@@ -528,18 +558,18 @@ export class DocumentAnalysisClient {
               }
             );
 
-            const [extractedModelId, operationId] = parseOperationLocation(operationLocation);
+            if (operationLocation === undefined) {
+              throw new Error(
+                "Unable to start analysis operation: no Operation-Location received."
+              );
+            }
 
-            const result = await this._restClient.getAnalyzeDocumentResult(
-              extractedModelId,
-              operationId,
-              definition.options
-            );
+            const result = await getAnalyzeResult(operationLocation);
 
             return toDocumentAnalysisPollOperationState(
               definition,
-              extractedModelId,
-              operationId,
+              definition.initialModelId,
+              operationLocation,
               result
             );
           };
@@ -547,16 +577,18 @@ export class DocumentAnalysisClient {
     const poller = await lro<Result, DocumentAnalysisPollOperationState<Result>>(
       {
         init: toInit,
-        poll: async ({ operationId, modelId }) => {
-          const res = await this._restClient.getAnalyzeDocumentResult(
-            modelId,
-            operationId,
-            definition.options
-          );
+        poll: async ({ operationLocation, modelId }) => {
+          const result = await getAnalyzeResult(operationLocation);
 
-          return toDocumentAnalysisPollOperationState(definition, modelId, operationId, res);
+          return toDocumentAnalysisPollOperationState(
+            definition,
+            modelId,
+            operationLocation,
+            result
+          );
         },
-        serialize: ({ operationId, modelId }) => JSON.stringify({ modelId, operationId }),
+        serialize: ({ operationLocation, modelId }) =>
+          JSON.stringify({ modelId, operationLocation }),
       },
       definition.options.updateIntervalInMs
     );

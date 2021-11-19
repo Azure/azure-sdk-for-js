@@ -447,7 +447,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             assert.equal(e.code, "InvalidDocumentBatch");
             assert.equal(
               e.message,
-              "Batch request contains too many records. Max 5 records are permitted."
+              "Invalid document in request. Batch request contains too many records. Max 5 records are permitted."
             );
           }
         });
@@ -723,7 +723,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             assert.equal(e.code, "InvalidDocumentBatch");
             assert.equal(
               e.message,
-              "Batch request contains too many records. Max 5 records are permitted."
+              "Invalid document in request. Batch request contains too many records. Max 5 records are permitted."
             );
           }
         });
@@ -2222,29 +2222,54 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           }
         });
 
-        it("multiple actions per type are disallowed", async function() {
+        it("duplicate actions of the same type are disallowed", async function() {
           const docs = [{ id: "1", text: "I will go to the park." }];
 
           try {
-            await client.beginAnalyzeActions(
+            const response = await client.beginAnalyzeActions(
               docs,
               {
                 recognizePiiEntitiesActions: [
                   { modelVersion: "latest" },
-                  { modelVersion: "latest", stringIndexType: "TextElement_v8" }
+                  { modelVersion: "latest" }
                 ]
               },
               {
                 updateIntervalInMs: pollingInterval
               }
             );
-            throw new Error("Expected an error to occur");
-          } catch (e) {
-            assert.equal(
-              e.message,
-              "beginAnalyzeActions: Currently, the service can accept up to one action only for recognizePiiEntities actions."
+            assert.fail(
+              `expected a failure but received the following intead: ${JSON.stringify(
+                response,
+                null,
+                2
+              )}`
             );
+          } catch (e) {
+            assert.equal(e.code, "InvalidRequest");
+            assert.include(e.message, "Duplicate task name");
           }
+        });
+
+        it("unique multiple actions per type are allowed", async function() {
+          const docs = [{ id: "1", text: "I will go to the park." }];
+
+          const poller = await client.beginAnalyzeActions(
+            docs,
+            {
+              recognizePiiEntitiesActions: [
+                { modelVersion: "latest", actionName: "action1" },
+                { modelVersion: "latest", actionName: "action2" }
+              ]
+            },
+            {
+              updateIntervalInMs: pollingInterval
+            }
+          );
+          const pollerResult = await poller.pollUntilDone();
+          const firstResult = (await pollerResult.next()).value;
+          assert.equal(firstResult.recognizePiiEntitiesResults[0].actionName, "action1");
+          assert.equal(firstResult.recognizePiiEntitiesResults[1].actionName, "action2");
         });
       });
 
@@ -2458,7 +2483,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             assert.equal(e.code, "InvalidDocumentBatch");
             assert.equal(
               e.message,
-              "Batch request contains too many records. Max 10 records are permitted."
+              "Invalid document in request. Batch request contains too many records. Max 10 records are permitted."
             );
           }
         });
@@ -2489,7 +2514,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             assert.equal(e.code, "InvalidDocumentBatch");
             assert.equal(
               e.message,
-              "Request Payload sent is too large to be processed. Limit request size to: 524288"
+              "Invalid document in request. Request Payload sent is too large to be processed. Limit request size to: 524288"
             );
           }
         });

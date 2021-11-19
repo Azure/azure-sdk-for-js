@@ -1,11 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { env } from "@azure-tools/test-recorder";
+import { env, isPlaybackMode } from "@azure-tools/test-recorder";
 import { QueueServiceClient, StoragePipelineOptions } from "@azure/storage-queue";
 import { TestProxyHttpClientCoreV1 } from "@azure-tools/test-recorder-new";
 import { config } from "dotenv";
-import { isNode } from "@azure/core-util";
 config();
 
 const fakeSASUrl =
@@ -44,6 +43,9 @@ describe("Core V1 tests", () => {
     const options: StoragePipelineOptions = {};
     options.httpClient = recorder;
     const client = new QueueServiceClient(env.STORAGE_SAS_URL, undefined, options);
-    await client.createQueue((isNode ? "node-" : "browser-") + "1320");
+    if (!isPlaybackMode()) {
+      recorder.variables["queue-name"] = `queue-${Math.ceil(Math.random() * 1000 + 1000)}`;
+    }
+    await client.createQueue(recorder.variables["queue-name"]);
   });
 });

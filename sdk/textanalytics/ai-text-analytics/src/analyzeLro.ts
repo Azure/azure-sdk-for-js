@@ -12,7 +12,7 @@ import {
   TextDocumentInput
 } from "./generated";
 import { createSpan } from "./tracing";
-import { getRawResponse, handleInvalidDocumentBatch, sendGetRequest } from "./util";
+import { compileError, getRawResponse, sendGetRequest } from "./util";
 import * as Mappers from "./generated/models/mappers";
 import {
   accept,
@@ -150,7 +150,7 @@ export class AnalyzeLro implements LongRunningOperation<PagedAnalyzeActionsResul
         rawResponse
       };
     } catch (e) {
-      const exception = handleInvalidDocumentBatch(e);
+      const exception = compileError(e);
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: exception.message

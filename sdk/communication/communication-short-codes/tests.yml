@@ -1,0 +1,20 @@
+trigger: none
+
+stages:
+  - template: /eng/pipelines/templates/stages/archetype-sdk-tests.yml
+    parameters:
+      PackageName: "@azure-tools/communication-short-codes"
+      ServiceDirectory: communication
+      CloudConfig:
+        Public:
+          SubscriptionConfigurations:
+            - $(sub-config-azure-cloud-test-resources)
+            - $(sub-config-communication-services-cloud-test-resources-common)
+            - $(sub-config-communication-services-cloud-test-resources-js)
+        Int:
+          SubscriptionConfigurations:
+            - $(sub-config-communication-int-test-resources-common)
+            - $(sub-config-communication-int-test-resources-js)
+          MatrixFilters:
+            - TestType=^(?!(browser|sample)).*
+      Clouds: Public,Int

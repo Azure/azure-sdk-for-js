@@ -250,8 +250,10 @@ export interface DocumentAnalysisClientOptions extends FormRecognizerCommonClien
 
 // @public
 export interface DocumentAnalysisPollOperationState<Result = AnalyzeResult<AnalyzedDocument>> extends PollOperationState<Result> {
+    createdOn: Date;
+    lastUpdatedOn: Date;
     modelId: string;
-    operationId: string;
+    operationLocation: string;
     status: AnalyzeResultOperationStatus;
 }
 
@@ -335,6 +337,7 @@ export interface DocumentLine {
     boundingBox?: number[];
     content: string;
     spans: DocumentSpan[];
+    words: () => IterableIterator<DocumentWord>;
 }
 
 // @public
@@ -1279,6 +1282,8 @@ export type TrainingPoller = PollerLike<TrainingPollOperationState, ModelInfo>;
 
 // @public
 export interface TrainingPollOperationState extends PollOperationState<ModelInfo> {
+    createdOn: Date;
+    lastUpdatedOn: Date;
     operationId: string;
     percentCompleted: number;
     status: OperationStatus;

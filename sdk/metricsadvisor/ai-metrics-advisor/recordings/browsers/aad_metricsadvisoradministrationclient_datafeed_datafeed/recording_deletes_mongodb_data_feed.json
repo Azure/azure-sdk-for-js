@@ -2,61 +2,61 @@
  "recordings": [
   {
    "method": "POST",
-   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "url": "https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token",
    "query": {},
-   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default",
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fsanitized%2F",
    "status": 200,
    "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
    "responseHeaders": {
     "cache-control": "no-store, no-cache",
     "content-length": "1331",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 03 Jun 2021 00:12:08 GMT",
+    "date": "Tue, 16 Nov 2021 02:01:47 GMT",
     "expires": "-1",
     "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
-    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+wst\"}]}",
+    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+est\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11787.14 - EUS ProdSlices",
-    "x-ms-request-id": "79081846-cd03-4cb7-867d-5dcc014d0800"
+    "x-ms-ests-server": "2.1.12231.7 - WUS2 ProdSlices",
+    "x-ms-request-id": "78e69c76-5133-4b6e-8664-94f76ba5df00"
    }
   },
   {
    "method": "DELETE",
-   "url": "https://endpoint/metricsadvisor/v1.0/dataFeeds/e03239b7-c9e6-4973-ab03-2f12dd8ad610",
+   "url": "https://endpoint/metricsadvisor/v1.0/dataFeeds/d4154eba-f496-4cb4-b3c9-3e178bfc4d16",
    "query": {},
    "requestBody": null,
    "status": 204,
    "response": "",
    "responseHeaders": {
-    "apim-request-id": "2dd4b52f-583f-449f-9574-d6ef1d4e96e1",
+    "apim-request-id": "ac32f922-c2dd-4a45-bbb3-5cf32b3581f5",
     "content-length": "0",
-    "date": "Thu, 03 Jun 2021 00:12:14 GMT",
+    "date": "Tue, 16 Nov 2021 02:01:48 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "5488",
-    "x-request-id": "2dd4b52f-583f-449f-9574-d6ef1d4e96e1"
+    "x-envoy-upstream-service-time": "262",
+    "x-request-id": "ac32f922-c2dd-4a45-bbb3-5cf32b3581f5"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/metricsadvisor/v1.0/dataFeeds/e03239b7-c9e6-4973-ab03-2f12dd8ad610",
+   "url": "https://endpoint/metricsadvisor/v1.0/dataFeeds/d4154eba-f496-4cb4-b3c9-3e178bfc4d16",
    "query": {},
    "requestBody": null,
    "status": 404,
    "response": "{\"code\":\"404 NOT_FOUND\",\"message\":\"datafeedId is invalid.\"}",
    "responseHeaders": {
-    "apim-request-id": "5e4b87c9-3972-4b48-969b-8cb58600633a",
+    "apim-request-id": "d7ea1bc6-bc18-48d7-a642-b5eced51b3b5",
     "content-length": "59",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 03 Jun 2021 00:12:14 GMT",
+    "date": "Tue, 16 Nov 2021 02:01:48 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "103",
-    "x-request-id": "5e4b87c9-3972-4b48-969b-8cb58600633a"
+    "x-envoy-upstream-service-time": "26",
+    "x-request-id": "d7ea1bc6-bc18-48d7-a642-b5eced51b3b5"
    }
   }
  ],
@@ -64,5 +64,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "e25bf7a367cde36e426339d38693f867"
+ "hash": "785cfa93aeaa829c66b71706d18301cd"
 }

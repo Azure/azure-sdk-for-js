@@ -2,62 +2,44 @@
  "recordings": [
   {
    "method": "POST",
-   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "url": "https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token",
    "query": {},
-   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default",
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fsanitized%2F",
    "status": 200,
    "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
    "responseHeaders": {
     "cache-control": "no-store, no-cache",
     "content-length": "1331",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 02 Jun 2021 20:32:44 GMT",
+    "date": "Tue, 16 Nov 2021 02:02:20 GMT",
     "expires": "-1",
     "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
-    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+san\"}]}",
+    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+est\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11787.14 - NCUS ProdSlices",
-    "x-ms-request-id": "4a1efb11-f89c-444c-b366-acea4a190200"
+    "x-ms-ests-server": "2.1.12231.7 - SCUS ProdSlices",
+    "x-ms-request-id": "8f32a965-b607-45d9-8168-e137fc1f5d00"
    }
   },
   {
    "method": "PATCH",
-   "url": "https://endpoint/metricsadvisor/v1.0/hooks/13a6da6e-1d06-4ff6-981c-a817f47f167c",
+   "url": "https://endpoint/metricsadvisor/v1.0/hooks/eb9f72fa-490b-4ddd-b03c-be003bcc28e0",
    "query": {},
    "requestBody": "{\"hookType\":\"Email\",\"hookParameter\":{\"toList\":[\"test2@example.com\",\"test3@example.com\"]}}",
    "status": 200,
-   "response": "{\"hookId\":\"13a6da6e-1d06-4ff6-981c-a817f47f167c\",\"hookName\":\"js-test-emailHook-162266596146607008\",\"hookType\":\"Email\",\"externalLink\":\"\",\"description\":\"description\",\"admins\":[\"azure_client_id\"],\"hookParameter\":{\"toList\":[\"test2@example.com\",\"test3@example.com\"]}}",
+   "response": "{\"hookId\":\"eb9f72fa-490b-4ddd-b03c-be003bcc28e0\",\"hookName\":\"js-test-emailHook-163702813807205652\",\"hookType\":\"Email\",\"externalLink\":\"\",\"description\":\"description\",\"admins\":[\"azure_client_id\"],\"hookParameter\":{\"toList\":[\"test2@example.com\",\"test3@example.com\"]}}",
    "responseHeaders": {
-    "apim-request-id": "bc926ce6-7569-41df-873a-fdfd2cd28bf8",
+    "apim-request-id": "a01c3d97-9a78-4865-bc2a-68f6b27c742b",
     "content-length": "283",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 02 Jun 2021 20:32:44 GMT",
+    "date": "Tue, 16 Nov 2021 02:02:21 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "561",
-    "x-request-id": "bc926ce6-7569-41df-873a-fdfd2cd28bf8"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/metricsadvisor/v1.0/hooks/13a6da6e-1d06-4ff6-981c-a817f47f167c",
-   "query": {},
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"hookId\":\"13a6da6e-1d06-4ff6-981c-a817f47f167c\",\"hookName\":\"js-test-emailHook-162266596146607008\",\"hookType\":\"Email\",\"externalLink\":\"\",\"description\":\"description\",\"admins\":[\"azure_client_id\"],\"hookParameter\":{\"toList\":[\"test2@example.com\",\"test3@example.com\"]}}",
-   "responseHeaders": {
-    "apim-request-id": "293a5b50-025a-4373-952b-989afd3e2cff",
-    "content-length": "283",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 02 Jun 2021 20:32:49 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "5135",
-    "x-request-id": "293a5b50-025a-4373-952b-989afd3e2cff"
+    "x-envoy-upstream-service-time": "468",
+    "x-request-id": "a01c3d97-9a78-4865-bc2a-68f6b27c742b"
    }
   }
  ],
@@ -65,5 +47,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "6fd3a13182a77fad514c46eb16960f83"
+ "hash": "c93b89937f28444f13594cd397cff72c"
 }

@@ -801,7 +801,7 @@ export const IndexerExecutionResult: coreClient.CompositeMapper = {
         serializedName: "currentState",
         type: {
           name: "Composite",
-          className: "IndexerCurrentState"
+          className: "IndexerState"
         }
       },
       errorMessage: {
@@ -888,10 +888,10 @@ export const IndexerExecutionResult: coreClient.CompositeMapper = {
   }
 };
 
-export const IndexerCurrentState: coreClient.CompositeMapper = {
+export const IndexerState: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "IndexerCurrentState",
+    className: "IndexerState",
     modelProperties: {
       mode: {
         serializedName: "mode",
@@ -900,28 +900,28 @@ export const IndexerCurrentState: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      allDocsInitialChangeTrackingState: {
+      allDocumentsInitialChangeTrackingState: {
         serializedName: "allDocsInitialChangeTrackingState",
         readOnly: true,
         type: {
           name: "String"
         }
       },
-      allDocsFinalChangeTrackingState: {
+      allDocumentsFinalChangeTrackingState: {
         serializedName: "allDocsFinalChangeTrackingState",
         readOnly: true,
         type: {
           name: "String"
         }
       },
-      resetDocsInitialChangeTrackingState: {
+      resetDocumentsInitialChangeTrackingState: {
         serializedName: "resetDocsInitialChangeTrackingState",
         readOnly: true,
         type: {
           name: "String"
         }
       },
-      resetDocsFinalChangeTrackingState: {
+      resetDocumentsFinalChangeTrackingState: {
         serializedName: "resetDocsFinalChangeTrackingState",
         readOnly: true,
         type: {
@@ -1665,6 +1665,13 @@ export const SearchIndex: coreClient.CompositeMapper = {
           className: "Similarity"
         }
       },
+      semanticSettings: {
+        serializedName: "semantic",
+        type: {
+          name: "Composite",
+          className: "SemanticSettings"
+        }
+      },
       etag: {
         serializedName: "@odata\\.etag",
         type: {
@@ -2109,6 +2116,105 @@ export const Similarity: coreClient.CompositeMapper = {
       odatatype: {
         serializedName: "@odata\\.type",
         required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SemanticSettings: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SemanticSettings",
+    modelProperties: {
+      configurations: {
+        serializedName: "configurations",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SemanticConfiguration"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const SemanticConfiguration: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SemanticConfiguration",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      prioritizedFields: {
+        serializedName: "prioritizedFields",
+        type: {
+          name: "Composite",
+          className: "PrioritizedFields"
+        }
+      }
+    }
+  }
+};
+
+export const PrioritizedFields: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PrioritizedFields",
+    modelProperties: {
+      titleField: {
+        serializedName: "titleField",
+        type: {
+          name: "Composite",
+          className: "SemanticField"
+        }
+      },
+      prioritizedContentFields: {
+        serializedName: "prioritizedContentFields",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SemanticField"
+            }
+          }
+        }
+      },
+      prioritizedKeywordsFields: {
+        serializedName: "prioritizedKeywordsFields",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SemanticField"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const SemanticField: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SemanticField",
+    modelProperties: {
+      name: {
+        serializedName: "fieldName",
         type: {
           name: "String"
         }

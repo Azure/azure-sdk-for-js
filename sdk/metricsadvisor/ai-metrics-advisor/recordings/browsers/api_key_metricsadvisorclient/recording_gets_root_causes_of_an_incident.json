@@ -6,16 +6,16 @@
    "query": {},
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[{\"rootCause\":{\"dimension\":{\"category\":\"Electronics (Consumer)\",\"city\":\"Karachi\"}},\"path\":[\"city\"],\"score\":0.34265262137636504,\"description\":\"Increase on category = Electronics (Consumer) | city = Karachi contributes the most to current incident.\"}]}",
+   "response": "{\"value\":[{\"rootCause\":{\"dimension\":{\"region\":\"Beijing\",\"category\":\"Handmade\"}},\"path\":[\"category\"],\"score\":0.05937581364487382,\"description\":\"Increase on region = Beijing | category = Handmade contributes the most to current incident.\"}]}",
    "responseHeaders": {
-    "apim-request-id": "63039c90-2b55-404c-9b4e-23828364ca46",
-    "content-length": "259",
+    "apim-request-id": "391e0dbf-d64a-4c72-b958-1b996694fe66",
+    "content-length": "239",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 02 Jun 2021 07:09:49 GMT",
+    "date": "Tue, 16 Nov 2021 02:01:29 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "261",
-    "x-request-id": "63039c90-2b55-404c-9b4e-23828364ca46"
+    "x-envoy-upstream-service-time": "277",
+    "x-request-id": "391e0dbf-d64a-4c72-b958-1b996694fe66"
    }
   }
  ],
@@ -23,5 +23,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "6c672b7710aa631741a79d28da4fda2d"
+ "hash": "6c1ea945a4f15a3ab33a32ec822b6695"
 }

@@ -10,7 +10,7 @@ generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src/generated/service
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/4e3ae66b8b25c53be84bb0c35c3d6d43291f7a40/specification/search/data-plane/Azure.Search/preview/2021-04-30-Preview/searchservice.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/7a003b0aa0def1a454ff0844fa4c6a276bc1ee53/specification/search/data-plane/Azure.Search/preview/2021-04-30-Preview/searchservice.json
 add-credentials: false
 use-extension:
   "@autorest/typescript": "6.0.0-beta.13"
@@ -288,4 +288,54 @@ directive:
   where: $.definitions.LexicalNormalizer
   transform: >
     $["discriminator"] = "@odata.type";
+```
+
+### Renames
+
+```yaml
+directive:
+  from: swagger-document
+  where: $.definitions.IndexerCurrentState
+  transform: >
+    $["x-ms-client-name"] = "IndexerState";
+```
+
+```yaml
+directive:
+  from: swagger-document
+  where: $.definitions.IndexerCurrentState.properties.allDocsInitialChangeTrackingState
+  transform: >
+    $["x-ms-client-name"] = "allDocumentsInitialChangeTrackingState";
+```
+
+```yaml
+directive:
+  from: swagger-document
+  where: $.definitions.IndexerCurrentState.properties.allDocsFinalChangeTrackingState
+  transform: >
+    $["x-ms-client-name"] = "allDocumentsFinalChangeTrackingState";
+```
+
+```yaml
+directive:
+  from: swagger-document
+  where: $.definitions.IndexerCurrentState.properties.resetDocsInitialChangeTrackingState
+  transform: >
+    $["x-ms-client-name"] = "resetDocumentsInitialChangeTrackingState";
+```
+
+```yaml
+directive:
+  from: swagger-document
+  where: $.definitions.IndexerCurrentState.properties.resetDocsFinalChangeTrackingState
+  transform: >
+    $["x-ms-client-name"] = "ResetDocumentsFinalChangeTrackingState";
+```
+
+```yaml
+directive:
+  from: swagger-document
+  where: $.definitions.SemanticField.properties.fieldName
+  transform: >
+    $["x-ms-client-name"] = "name";
 ```
