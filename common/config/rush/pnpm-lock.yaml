@@ -12413,7 +12413,7 @@ packages:
     dev: false
 
   file:projects/perf-template.tgz:
-    resolution: {integrity: sha512-Ia4c6jKDBtzh9Ak5XnyQmghirwfzYqz71rbXlVVDMwLQZW+y+7jXhIasj4Ea2xFB328rLPecaVxL6nkTAon5dw==, tarball: file:projects/perf-template.tgz}
+    resolution: {integrity: sha512-RIu7ZVVEApPgrz/t2xXWEGR3xhGhkeUemTxft3FyA9HVTW+jS6mfljJQV9SXL9cnXH/XGief8RXqe3oYLaMMpA==, tarball: file:projects/perf-template.tgz}
     name: '@rush-temp/perf-template'
     version: 0.0.0
     dependencies:
