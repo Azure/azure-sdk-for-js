@@ -53,7 +53,7 @@ export class ApiKeyCredentials implements ServiceClientCredentials {
 // @public
 export function applyMixins(targetCtorParam: unknown, sourceCtors: any[]): void;
 
-// @public (undocumented)
+// @public
 export type Authenticator = (challenge: unknown) => Promise<string>;
 
 // @public
@@ -86,15 +86,12 @@ export abstract class BaseRequestPolicy implements RequestPolicy {
     shouldLog(logLevel: HttpPipelineLogLevel): boolean;
 }
 
-// @public (undocumented)
+// @public
 export class BasicAuthenticationCredentials implements ServiceClientCredentials {
     constructor(userName: string, password: string, authorizationScheme?: string);
-    // (undocumented)
     authorizationScheme: string;
-    // (undocumented)
     password: string;
     signRequest(webResource: WebResourceLike): Promise<WebResourceLike>;
-    // (undocumented)
     userName: string;
 }
 
@@ -102,8 +99,24 @@ export class BasicAuthenticationCredentials implements ServiceClientCredentials 
 export function bearerTokenAuthenticationPolicy(credential: TokenCredential, scopes: string | string[]): RequestPolicyFactory;
 
 // @public (undocumented)
+export type CommonRequestInfo = string;
+
+// @public (undocumented)
+export type CommonRequestInit = Omit<RequestInit, "body" | "headers" | "signal"> & {
+    body?: any;
+    headers?: any;
+    signal?: any;
+};
+
+// @public (undocumented)
+export type CommonResponse = Omit<Response, "body" | "trailer" | "formData"> & {
+    body: any;
+    trailer: any;
+    formData: any;
+};
+
+// @public
 export interface CompositeMapper extends BaseMapper {
-    // (undocumented)
     type: CompositeMapperType;
 }
 
@@ -119,7 +132,7 @@ export interface CompositeMapperType {
     uberParent?: string;
 }
 
-// @public (undocumented)
+// @public
 export const Constants: {
     coreHttpVersion: string;
     HTTP: string;
@@ -151,7 +164,7 @@ export const Constants: {
     };
 };
 
-// @public (undocumented)
+// @public
 export function createPipelineFromOptions(pipelineOptions: InternalPipelineOptions, authPolicyFactory?: RequestPolicyFactory): ServiceClientOptions;
 
 // @public @deprecated
@@ -160,17 +173,9 @@ export function createSpanFunction(args: SpanConfig): <T extends OperationOption
     updatedOptions: T;
 };
 
-// Warning: (ae-forgotten-export) The symbol "FetchHttpClient" needs to be exported by the entry point coreHttp.d.ts
-//
 // @public (undocumented)
 export class DefaultHttpClient extends FetchHttpClient {
-    // Warning: (ae-forgotten-export) The symbol "CommonRequestInfo" needs to be exported by the entry point coreHttp.d.ts
-    // Warning: (ae-forgotten-export) The symbol "CommonRequestInit" needs to be exported by the entry point coreHttp.d.ts
-    // Warning: (ae-forgotten-export) The symbol "CommonResponse" needs to be exported by the entry point coreHttp.d.ts
-    //
-    // (undocumented)
     fetch(input: CommonRequestInfo, init?: CommonRequestInit): Promise<CommonResponse>;
-    // (undocumented)
     prepareRequest(httpRequest: WebResourceLike): Promise<Partial<RequestInit>>;
     // (undocumented)
     processRequest(operationResponse: HttpOperationResponse): Promise<void>;
@@ -199,11 +204,9 @@ export function deserializationPolicy(deserializationContentTypes?: Deserializat
 // @public (undocumented)
 export function deserializeResponseBody(jsonContentTypes: string[], xmlContentTypes: string[], response: HttpOperationResponse, options?: SerializerOptions): Promise<HttpOperationResponse>;
 
-// @public (undocumented)
+// @public
 export interface DictionaryMapper extends BaseMapper {
-    // (undocumented)
     headerCollectionPrefix?: string;
-    // (undocumented)
     type: DictionaryMapperType;
 }
 
@@ -221,9 +224,8 @@ export function disableResponseDecompressionPolicy(): RequestPolicyFactory;
 // @public
 export function encodeUri(uri: string): string;
 
-// @public (undocumented)
+// @public
 export interface EnumMapper extends BaseMapper {
-    // (undocumented)
     type: EnumMapperType;
 }
 
@@ -249,6 +251,18 @@ export class ExpiringAccessTokenCache implements AccessTokenCache {
 
 // @public (undocumented)
 export function exponentialRetryPolicy(retryCount?: number, retryInterval?: number, maxRetryInterval?: number): RequestPolicyFactory;
+
+// @public (undocumented)
+export abstract class FetchHttpClient implements HttpClient {
+    // (undocumented)
+    abstract fetch(input: CommonRequestInfo, init?: CommonRequestInit): Promise<CommonResponse>;
+    // (undocumented)
+    abstract prepareRequest(httpRequest: WebResourceLike): Promise<Partial<RequestInit>>;
+    // (undocumented)
+    abstract processRequest(operationResponse: HttpOperationResponse): Promise<void>;
+    // (undocumented)
+    sendRequest(httpRequest: WebResourceLike): Promise<HttpOperationResponse>;
+}
 
 // @public (undocumented)
 export function flattenResponse(_response: HttpOperationResponse, responseSpec: OperationResponse | undefined): RestResponse;
@@ -716,9 +730,8 @@ export interface RetryOptions {
     retryDelayInMs?: number;
 }
 
-// @public (undocumented)
+// @public
 export interface SequenceMapper extends BaseMapper {
-    // (undocumented)
     type: SequenceMapperType;
 }
 
@@ -730,7 +743,7 @@ export interface SequenceMapperType {
     name: "Sequence";
 }
 
-// @public (undocumented)
+// @public
 export function serializeObject(toSerialize: unknown): any;
 
 // @public
@@ -872,11 +885,9 @@ export class URLBuilder {
     toString(): string;
 }
 
-// @public (undocumented)
+// @public
 export interface UrlParameterValue {
-    // (undocumented)
     skipUrlEncoding: boolean;
-    // (undocumented)
     value: string;
 }
 

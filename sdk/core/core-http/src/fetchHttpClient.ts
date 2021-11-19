@@ -18,14 +18,23 @@ interface FetchError extends Error {
   type?: string;
 }
 
+/**
+ * String URLs.
+ */
 export type CommonRequestInfo = string; // We only ever call fetch() on string urls.
 
+/**
+ * An object containing information about the outgoing HTTP request.
+ */
 export type CommonRequestInit = Omit<RequestInit, "body" | "headers" | "signal"> & {
   body?: any;
   headers?: any;
   signal?: any;
 };
 
+/**
+ * An object containing information about the incoming HTTP response.
+ */
 export type CommonResponse = Omit<Response, "body" | "trailer" | "formData"> & {
   body: any;
   trailer: any;

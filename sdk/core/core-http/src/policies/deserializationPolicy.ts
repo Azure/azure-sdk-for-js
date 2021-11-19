@@ -118,9 +118,9 @@ function getOperationResponse(
     const operationResponseGetter:
       | undefined
       | ((
-          operationSpec: OperationSpec,
-          response: HttpOperationResponse
-        ) => undefined | OperationResponse) = request.operationResponseGetter;
+        operationSpec: OperationSpec,
+        response: HttpOperationResponse
+      ) => undefined | OperationResponse) = request.operationResponseGetter;
     if (!operationResponseGetter) {
       result = operationSpec.responses[parsedResponse.status];
     } else {
@@ -144,6 +144,14 @@ function shouldDeserializeResponse(parsedResponse: HttpOperationResponse): boole
   return result;
 }
 
+/**
+ * Receives a list of the expected content types (for JSON and HTML), then the HTML response and any options to the serializer, then serializes the response into a normalized response object.
+ * @param jsonContentTypes - JSON content types.
+ * @param xmlContentTypes  - XML content types.
+ * @param response - HTTP Response.
+ * @param options  - Options to the serializer.
+ * @returns A serialized HTTP operation response.
+ */
 export function deserializeResponseBody(
   jsonContentTypes: string[],
   xmlContentTypes: string[],

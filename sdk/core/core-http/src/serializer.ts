@@ -1185,18 +1185,45 @@ export interface CompositeMapperType {
   polymorphicDiscriminator?: PolymorphicDiscriminator;
 }
 
+/**
+ * Helps build a mapper that describes how to parse a sequence of mapped values.
+ */
 export interface SequenceMapperType {
+  /**
+   * Name of the sequence type mapper.
+   */
   name: "Sequence";
+  /**
+   * The mapper to use to map each one of the properties of the sequence.
+   */
   element: Mapper;
 }
 
+/**
+ * Helps build a mapper that describes how to parse a dictionary of mapped values.
+ */
 export interface DictionaryMapperType {
+  /**
+   * Name of the sequence type mapper.
+   */
   name: "Dictionary";
+  /**
+   * The mapper to use to map the value of each property in the dictionary.
+   */
   value: Mapper;
 }
 
+/**
+ * Helps build a mapper that describes how to parse an enum value.
+ */
 export interface EnumMapperType {
+  /**
+   * Name of the enum type mapper.
+   */
   name: "Enum";
+  /**
+   * Values allowed by this mapper.
+   */
   allowedValues: any[];
 }
 

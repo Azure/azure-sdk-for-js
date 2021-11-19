@@ -88,11 +88,17 @@ export class NodeFetchHttpClient extends FetchHttpClient {
     }
   }
 
+  /**
+   * Calls to `node-fetch` with the given parameters.
+   */
   // eslint-disable-next-line @azure/azure-sdk/ts-apisurface-standardized-verbs
   async fetch(input: CommonRequestInfo, init?: CommonRequestInit): Promise<CommonResponse> {
     return (node_fetch(input, init) as unknown) as Promise<CommonResponse>;
   }
 
+  /**
+   * Prepares a request based on the provided web resource.
+   */
   async prepareRequest(httpRequest: WebResourceLike): Promise<Partial<RequestInit>> {
     const requestInit: Partial<RequestInit & { agent?: any; compress?: boolean }> = {};
 
