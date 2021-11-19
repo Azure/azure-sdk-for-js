@@ -98,17 +98,17 @@ export class BasicAuthenticationCredentials implements ServiceClientCredentials 
 // @public
 export function bearerTokenAuthenticationPolicy(credential: TokenCredential, scopes: string | string[]): RequestPolicyFactory;
 
-// @public (undocumented)
+// @public
 export type CommonRequestInfo = string;
 
-// @public (undocumented)
+// @public
 export type CommonRequestInit = Omit<RequestInit, "body" | "headers" | "signal"> & {
     body?: any;
     headers?: any;
     signal?: any;
 };
 
-// @public (undocumented)
+// @public
 export type CommonResponse = Omit<Response, "body" | "trailer" | "formData"> & {
     body: any;
     trailer: any;
@@ -173,11 +173,10 @@ export function createSpanFunction(args: SpanConfig): <T extends OperationOption
     updatedOptions: T;
 };
 
-// @public (undocumented)
+// @public
 export class DefaultHttpClient extends FetchHttpClient {
     fetch(input: CommonRequestInfo, init?: CommonRequestInit): Promise<CommonResponse>;
     prepareRequest(httpRequest: WebResourceLike): Promise<Partial<RequestInit>>;
-    // (undocumented)
     processRequest(operationResponse: HttpOperationResponse): Promise<void>;
 }
 
@@ -201,7 +200,7 @@ export interface DeserializationOptions {
 // @public
 export function deserializationPolicy(deserializationContentTypes?: DeserializationContentTypes, parsingOptions?: SerializerOptions): RequestPolicyFactory;
 
-// @public (undocumented)
+// @public
 export function deserializeResponseBody(jsonContentTypes: string[], xmlContentTypes: string[], response: HttpOperationResponse, options?: SerializerOptions): Promise<HttpOperationResponse>;
 
 // @public
@@ -210,11 +209,9 @@ export interface DictionaryMapper extends BaseMapper {
     type: DictionaryMapperType;
 }
 
-// @public (undocumented)
+// @public
 export interface DictionaryMapperType {
-    // (undocumented)
     name: "Dictionary";
-    // (undocumented)
     value: Mapper;
 }
 
@@ -229,11 +226,9 @@ export interface EnumMapper extends BaseMapper {
     type: EnumMapperType;
 }
 
-// @public (undocumented)
+// @public
 export interface EnumMapperType {
-    // (undocumented)
     allowedValues: any[];
-    // (undocumented)
     name: "Enum";
 }
 
@@ -243,40 +238,34 @@ export function executePromisesSequentially(promiseFactories: Array<any>, kickst
 // @public @deprecated
 export class ExpiringAccessTokenCache implements AccessTokenCache {
     constructor(tokenRefreshBufferMs?: number);
-    // (undocumented)
     getCachedToken(): AccessToken | undefined;
-    // (undocumented)
     setCachedToken(accessToken: AccessToken | undefined): void;
 }
 
-// @public (undocumented)
+// @public
 export function exponentialRetryPolicy(retryCount?: number, retryInterval?: number, maxRetryInterval?: number): RequestPolicyFactory;
 
-// @public (undocumented)
+// @public
 export abstract class FetchHttpClient implements HttpClient {
-    // (undocumented)
     abstract fetch(input: CommonRequestInfo, init?: CommonRequestInit): Promise<CommonResponse>;
-    // (undocumented)
     abstract prepareRequest(httpRequest: WebResourceLike): Promise<Partial<RequestInit>>;
-    // (undocumented)
     abstract processRequest(operationResponse: HttpOperationResponse): Promise<void>;
-    // (undocumented)
     sendRequest(httpRequest: WebResourceLike): Promise<HttpOperationResponse>;
 }
 
-// @public (undocumented)
+// @public
 export function flattenResponse(_response: HttpOperationResponse, responseSpec: OperationResponse | undefined): RestResponse;
 
-// @public (undocumented)
+// @public
 export function generateClientRequestIdPolicy(requestIdHeaderName?: string): RequestPolicyFactory;
 
 // @public
 export function generateUuid(): string;
 
-// @public (undocumented)
+// @public
 export function getDefaultProxySettings(proxyUrl?: string): ProxySettings | undefined;
 
-// @public (undocumented)
+// @public
 export function getDefaultUserAgentValue(): string;
 
 export { GetTokenOptions }
@@ -325,7 +314,7 @@ export interface HttpHeadersLike {
     }): RawHttpHeaders;
 }
 
-// @public (undocumented)
+// @public
 export type HttpMethods = "GET" | "PUT" | "POST" | "DELETE" | "PATCH" | "HEAD" | "OPTIONS" | "TRACE";
 
 // @public
@@ -353,7 +342,7 @@ export enum HttpPipelineLogLevel {
     WARNING = 2
 }
 
-// @public (undocumented)
+// @public
 export type HttpRequestBody = Blob | string | ArrayBuffer | ArrayBufferView | (() => NodeJS.ReadableStream);
 
 // @public
@@ -388,13 +377,13 @@ export interface KeepAliveOptions {
     enable: boolean;
 }
 
-// @public (undocumented)
+// @public
 export function keepAlivePolicy(keepAliveOptions?: KeepAliveOptions): RequestPolicyFactory;
 
-// @public (undocumented)
+// @public
 export function logPolicy(loggingOptions?: LogPolicyOptions): RequestPolicyFactory;
 
-// @public (undocumented)
+// @public
 export interface LogPolicyOptions {
     allowedHeaderNames?: string[];
     allowedQueryParameters?: string[];
@@ -404,33 +393,22 @@ export interface LogPolicyOptions {
 // @public
 export type Mapper = BaseMapper | CompositeMapper | SequenceMapper | DictionaryMapper | EnumMapper;
 
-// @public (undocumented)
+// @public
 export interface MapperConstraints {
-    // (undocumented)
     ExclusiveMaximum?: number;
-    // (undocumented)
     ExclusiveMinimum?: number;
-    // (undocumented)
     InclusiveMaximum?: number;
-    // (undocumented)
     InclusiveMinimum?: number;
-    // (undocumented)
     MaxItems?: number;
-    // (undocumented)
     MaxLength?: number;
-    // (undocumented)
     MinItems?: number;
-    // (undocumented)
     MinLength?: number;
-    // (undocumented)
     MultipleOf?: number;
-    // (undocumented)
     Pattern?: RegExp;
-    // (undocumented)
     UniqueItems?: true;
 }
 
-// @public (undocumented)
+// @public
 export type MapperType = SimpleMapperType | CompositeMapperType | SequenceMapperType | DictionaryMapperType | EnumMapperType;
 
 // @public (undocumented)
@@ -735,11 +713,9 @@ export interface SequenceMapper extends BaseMapper {
     type: SequenceMapperType;
 }
 
-// @public (undocumented)
+// @public
 export interface SequenceMapperType {
-    // (undocumented)
     element: Mapper;
-    // (undocumented)
     name: "Sequence";
 }
 
@@ -809,7 +785,7 @@ export interface ServiceClientOptions {
 // @public (undocumented)
 export function signingPolicy(authenticationProvider: ServiceClientCredentials): RequestPolicyFactory;
 
-// @public (undocumented)
+// @public
 export interface SimpleMapperType {
     // (undocumented)
     name: "Base64Url" | "Boolean" | "ByteArray" | "Date" | "DateTime" | "DateTimeRfc1123" | "Object" | "Stream" | "String" | "TimeSpan" | "UnixTime" | "Uuid" | "Number" | "any";

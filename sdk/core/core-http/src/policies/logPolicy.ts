@@ -13,6 +13,9 @@ import { Debugger } from "@azure/logger";
 import { logger as coreLogger } from "../log";
 import { Sanitizer } from "../util/sanitizer";
 
+/**
+ * Allows configuring what header values should be logged, what query parameters should be logged, and also passing a custom logger.
+ */
 export interface LogPolicyOptions {
   /**
    * Header names whose values will be logged when logging is enabled. Defaults to
@@ -34,6 +37,11 @@ export interface LogPolicyOptions {
   logger?: Debugger;
 }
 
+/**
+ * Creates a policy that logs information about the outgoing request and the incoming responses.
+ * @param loggingOptions - Logging options.
+ * @returns An instance of the {@link LogPolicy}
+ */
 export function logPolicy(loggingOptions: LogPolicyOptions = {}): RequestPolicyFactory {
   return {
     create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {
@@ -42,6 +50,9 @@ export function logPolicy(loggingOptions: LogPolicyOptions = {}): RequestPolicyF
   };
 }
 
+/**
+ * A policy that logs information about the outgoing request and the incoming responses.
+ */
 export class LogPolicy extends BaseRequestPolicy {
   logger: Debugger;
   sanitizer: Sanitizer;

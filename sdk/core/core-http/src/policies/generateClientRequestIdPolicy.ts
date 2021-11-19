@@ -10,6 +10,13 @@ import {
   RequestPolicyOptions
 } from "./requestPolicy";
 
+/**
+ * Generates a policy that assigns the client request Id header to outgoing requests.
+ * The name of the header is specified through the first parameter sent to `generateClientRequestIdPolicy`,
+ * and the value of the header is obtained from the outgoing request's `requestId` property.
+ * @param requestIdHeaderName - Name of the client request Id header.
+ * @returns A request policy that sets the request Id on the HTTP headers.
+ */
 export function generateClientRequestIdPolicy(
   requestIdHeaderName = "x-ms-client-request-id"
 ): RequestPolicyFactory {

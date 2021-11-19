@@ -50,6 +50,10 @@ function getUserAgentString(
 
 export const getDefaultUserAgentHeaderName = getDefaultUserAgentKey;
 
+/**
+ * The default approach to generate user agents.
+ * Uses static information from this package, plus system information available based on the operative system running Node.js
+ */
 export function getDefaultUserAgentValue(): string {
   const runtimeInfo = getRuntimeInfo();
   const platformSpecificData = getPlatformSpecificData();

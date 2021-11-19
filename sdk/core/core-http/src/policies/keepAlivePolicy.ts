@@ -22,10 +22,18 @@ export interface KeepAliveOptions {
   enable: boolean;
 }
 
+/**
+ * By default, HTTP connections are be maintained for future requests.
+ */
 export const DefaultKeepAliveOptions: KeepAliveOptions = {
   enable: true
 };
 
+/**
+ * Creates a policy that controls whether HTTP connections are maintained on future requests.
+ * @param keepAliveOptions - Keep alive options. By default, HTTP connections are be maintained for future requests.
+ * @returns An instance of the {@link KeepAlivePolicy}
+ */
 export function keepAlivePolicy(keepAliveOptions?: KeepAliveOptions): RequestPolicyFactory {
   return {
     create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {

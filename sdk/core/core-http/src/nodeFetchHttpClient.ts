@@ -28,6 +28,9 @@ function getCachedAgent(
   return isHttps ? agentCache.httpsAgent : agentCache.httpAgent;
 }
 
+/**
+ * An HTTP client that uses node-fetch.
+ */
 export class NodeFetchHttpClient extends FetchHttpClient {
   // a mapping of proxy settings string `${host}:${port}:${username}:${password}` to agent
   private proxyAgentMap: Map<string, AgentCache> = new Map();
@@ -124,6 +127,9 @@ export class NodeFetchHttpClient extends FetchHttpClient {
     return requestInit;
   }
 
+  /**
+   * Process an HTTP response. Sets a cookie in the cookieJar if the response has a "Set-Cookie" header.
+   */
   async processRequest(operationResponse: HttpOperationResponse): Promise<void> {
     if (this.cookieJar) {
       const setCookieHeader = operationResponse.headers.get("Set-Cookie");

@@ -24,6 +24,13 @@ import { logger } from "../log";
 import { Constants } from "../util/constants";
 import { delay } from "../util/delay";
 
+/**
+ * Policy that retries the next policy as many times as configured for as long as the retry time interval specified, each retry waiting longer to begin than the last time.
+ * @param retryCount - Maximum number of retries.
+ * @param retryInterval - Base time between retries.
+ * @param maxRetryInterval - Maximum amount of time to allow retries to take in aggregate.
+ * @returns 
+ */
 export function exponentialRetryPolicy(
   retryCount?: number,
   retryInterval?: number,

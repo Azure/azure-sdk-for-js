@@ -91,6 +91,11 @@ export function loadNoProxy(): string[] {
   return [];
 }
 
+/**
+ * Returns the default proxy settings
+ * @param proxyUrl - URL of the proxy
+ * @returns The default proxy settings, or undefined.
+ */
 export function getDefaultProxySettings(proxyUrl?: string): ProxySettings | undefined {
   if (!proxyUrl) {
     proxyUrl = loadEnvironmentProxyValue();

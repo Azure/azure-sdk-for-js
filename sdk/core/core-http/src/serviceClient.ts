@@ -981,6 +981,12 @@ function getPropertyFromParameterPath(
   return result;
 }
 
+/**
+ * Parses an {@link HttpOperationResponse} into a normalized HTTP response object ({@link RestResponse}).
+ * @param _response - Wrapper object for http response.
+ * @param responseSpec - Mappers for how to parse the response properties.
+ * @returns - A normalized response object.
+ */
 export function flattenResponse(
   _response: HttpOperationResponse,
   responseSpec: OperationResponse | undefined

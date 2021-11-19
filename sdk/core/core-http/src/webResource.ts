@@ -12,6 +12,9 @@ import { AbortSignalLike } from "@azure/abort-controller";
 import { SpanOptions, Context } from "@azure/core-tracing";
 import { SerializerOptions } from "./util/serializer.common";
 
+/**
+ * List of HTTP methods.
+ */
 export type HttpMethods =
   | "GET"
   | "PUT"
@@ -21,6 +24,10 @@ export type HttpMethods =
   | "HEAD"
   | "OPTIONS"
   | "TRACE";
+
+/**
+ * Possible HTTP request body types
+ */
 export type HttpRequestBody =
   | Blob
   | string

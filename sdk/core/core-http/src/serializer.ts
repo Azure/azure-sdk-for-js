@@ -1109,20 +1109,59 @@ function getPolymorphicDiscriminatorSafely(serializer: Serializer, typeName?: st
   );
 }
 
+/**
+ * Constraints that determine whether a Mapper applies or not.
+ */
 export interface MapperConstraints {
+  /**
+   * The value should be lesser or equal than the InclusiveMaximum value.
+   */
   InclusiveMaximum?: number;
+  /**
+   * The value should be lesser than the ExclusiveMaximum value.
+   */
   ExclusiveMaximum?: number;
+  /**
+   * The value should be greater or equal than the InclusiveMinimum value.
+   */
   InclusiveMinimum?: number;
+  /**
+   * The value should be greater than the InclusiveMinimum value.
+   */
   ExclusiveMinimum?: number;
+  /**
+   * The length should be smaller than the MaxLength.
+   */
   MaxLength?: number;
+  /**
+   * The length should be bigger than the MinLength.
+   */
   MinLength?: number;
+  /**
+   * The value must match the pattern.
+   */
   Pattern?: RegExp;
+  /**
+   * The value must contain fewer items than the MaxItems value.
+   */
   MaxItems?: number;
+  /**
+   * The value must contain more items than the MinItems value.
+   */
   MinItems?: number;
+  /**
+   * The value must contain only unique items.
+   */
   UniqueItems?: true;
+  /**
+   * The value should be exactly divisible by the MultipleOf value.
+   */
   MultipleOf?: number;
 }
 
+/**
+ * Type of the mapper. Includes known mappers.
+ */
 export type MapperType =
   | SimpleMapperType
   | CompositeMapperType
@@ -1130,6 +1169,9 @@ export type MapperType =
   | DictionaryMapperType
   | EnumMapperType;
 
+/**
+ * The type of a simple mapper.
+ */
 export interface SimpleMapperType {
   name:
   | "Base64Url"
@@ -1405,6 +1447,9 @@ function strEnum<T extends string>(o: Array<T>): { [K in T]: K } {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
+/**
+ * String enum containing the string types of property mappers.
+ */
 export const MapperType = strEnum([
   "Base64Url",
   "Boolean",

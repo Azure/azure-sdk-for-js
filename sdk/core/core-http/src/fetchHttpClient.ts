@@ -55,7 +55,16 @@ export class ReportTransform extends Transform {
   }
 }
 
+/**
+ * An abstract HTTP client that allows custom methods to prepare and send HTTP requests, as well as a custom method to parse the HTTP response.
+ * It implements a simple `sendRequest` method that provides minimum viable error handling, and the logic that executes the abstract methods.
+ */
 export abstract class FetchHttpClient implements HttpClient {
+  /**
+   * Provides minimum viable error handling, and the logic that executes the abstract methods.
+   * @param httpRequest 
+   * @returns 
+   */
   async sendRequest(httpRequest: WebResourceLike): Promise<HttpOperationResponse> {
     if (!httpRequest && typeof httpRequest !== "object") {
       throw new Error(
@@ -240,8 +249,21 @@ export abstract class FetchHttpClient implements HttpClient {
     }
   }
 
+  /**
+   * Abstract method that allows preparing an outgoing HTTP request.
+   * @param httpRequest - Object representing the outgoing HTTP request.
+   */
   abstract prepareRequest(httpRequest: WebResourceLike): Promise<Partial<RequestInit>>;
+  /**
+   * Abstract method that allows processing an incoming HTTP response.
+   * @param operationResponse - HTTP response.
+   */
   abstract processRequest(operationResponse: HttpOperationResponse): Promise<void>;
+  /**
+   * Abstract method that defines how to send an HTTP request.
+   * @param input - String URL of the target HTTP server.
+   * @param init - Object describing the structure of the outgoing HTTP request.
+   */
   abstract fetch(input: CommonRequestInfo, init?: CommonRequestInit): Promise<CommonResponse>;
 }
 
@@ -260,6 +282,9 @@ function isStreamComplete(stream: Readable, aborter?: AbortController): Promise<
   });
 }
 
+/**
+ * Transforms a set of headers into the key/value pair defined by {@link HttpHeadersLike}
+ */
 export function parseHeaders(headers: Headers): HttpHeadersLike {
   const httpHeaders = new HttpHeaders();
 
