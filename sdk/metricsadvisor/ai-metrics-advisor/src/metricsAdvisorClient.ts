@@ -4,13 +4,16 @@
 /// <reference lib="esnext.asynciterable" />
 
 // operationOptionsTofinalOptionsBase
-import { PipelineOptions } from "@azure/core-rest-pipeline";
+import { bearerTokenAuthenticationPolicy, PipelineOptions } from "@azure/core-rest-pipeline";
 import { ServiceClientOptions, OperationOptions } from "@azure/core-client";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { TokenCredential } from "@azure/core-auth";
+import { isTokenCredential, TokenCredential } from "@azure/core-auth";
 import { GeneratedClient } from "./generated/generatedClient";
 import { createSpan } from "./tracing";
-import { MetricsAdvisorKeyCredential } from "./metricsAdvisorKeyCredentialPolicy";
+import {
+  createMetricsAdvisorKeyCredentialPolicy,
+  MetricsAdvisorKeyCredential
+} from "./metricsAdvisorKeyCredentialPolicy";
 import { SpanStatusCode } from "@azure/core-tracing";
 import {
   MetricFeedbackUnion,
@@ -34,7 +37,8 @@ import {
 } from "./models";
 import { SeverityFilterCondition, FeedbackType, FeedbackQueryTimeMode } from "./generated/models";
 import { toServiceMetricFeedbackUnion, fromServiceMetricFeedbackUnion } from "./transforms";
-import { createClientPipeline } from "./createClientPipeline";
+import { createMAClientPipeline } from "./createClientPipeline";
+import { DEFAULT_COGNITIVE_SCOPE } from "./constants";
 
 /**
  * Client options used to configure Metrics Advisor API requests.
@@ -208,8 +212,12 @@ export class MetricsAdvisorClient {
     options: MetricsAdvisorClientOptions = {}
   ) {
     this.endpointUrl = endpointUrl;
-    this.pipeline = createClientPipeline(credential, options);
+    this.pipeline = createMAClientPipeline(options);
     this.client = new GeneratedClient(this.endpointUrl, this.pipeline);
+    const authPolicy = isTokenCredential(credential)
+      ? bearerTokenAuthenticationPolicy({ credential, scopes: DEFAULT_COGNITIVE_SCOPE })
+      : createMetricsAdvisorKeyCredentialPolicy(credential);
+    this.client.pipeline.addPolicy(authPolicy);
   }
 
   /**

@@ -3,16 +3,18 @@
 
 /// <reference lib="esnext.asynciterable" />
 
-import { PipelineOptions } from "@azure/core-rest-pipeline";
+import { bearerTokenAuthenticationPolicy, PipelineOptions } from "@azure/core-rest-pipeline";
 import { ServiceClientOptions, OperationOptions } from "@azure/core-client";
-import { TokenCredential } from "@azure/core-auth";
+import { isTokenCredential, TokenCredential } from "@azure/core-auth";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import "@azure/core-paging";
-
+import { createMAClientPipeline } from "./createClientPipeline";
 import { logger } from "./logger";
 import { createSpan } from "./tracing";
-import { MetricsAdvisorKeyCredential } from "./metricsAdvisorKeyCredentialPolicy";
-import { createClientPipeline } from "./createClientPipeline";
+import {
+  createMetricsAdvisorKeyCredentialPolicy,
+  MetricsAdvisorKeyCredential
+} from "./metricsAdvisorKeyCredentialPolicy";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { GeneratedClient } from "./generated/generatedClient";
 import {
@@ -58,6 +60,7 @@ import {
   toServiceDataFeedSource,
   toServiceDataFeedSourcePatch
 } from "./transforms";
+import { DEFAULT_COGNITIVE_SCOPE } from "./constants";
 
 /**
  * Client options used to configure API requests.
@@ -177,8 +180,20 @@ export class MetricsAdvisorAdministrationClient {
     options: MetricsAdvisorAdministrationClientOptions = {}
   ) {
     this.endpointUrl = endpointUrl;
-    this.pipeline = createClientPipeline(credential, options);
+    // const internalPipelineOptions: InternalPipelineOptions = {
+    //   ...options,
+    //   loggingOptions: {
+    //     logger: logger.info,
+    //     additionalAllowedHeaderNames: MetricsAdvisorLoggingAllowedHeaderNames,
+    //     additionalAllowedQueryParameters: MetricsAdvisorLoggingAllowedQueryParameters
+    //   }
+    // };
+    this.pipeline = createMAClientPipeline(options);
     this.client = new GeneratedClient(this.endpointUrl, this.pipeline);
+    const authPolicy = isTokenCredential(credential)
+      ? bearerTokenAuthenticationPolicy({ credential, scopes: DEFAULT_COGNITIVE_SCOPE })
+      : createMetricsAdvisorKeyCredentialPolicy(credential);
+    this.client.pipeline.addPolicy(authPolicy);
   }
 
   /**
