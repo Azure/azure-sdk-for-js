@@ -14,13 +14,13 @@
     "connection": "keep-alive",
     "content-length": "222",
     "content-type": "application/json; charset=utf-8",
-    "date": "Mon, 20 Sep 2021 18:55:38 GMT",
+    "date": "Mon, 08 Nov 2021 20:12:39 GMT",
     "docker-distribution-api-version": "registry/2.0",
     "server": "openresty",
     "strict-transport-security": "max-age=31536000; includeSubDomains, max-age=31536000; includeSubDomains",
     "www-authenticate": "Bearer realm=\"https://myregistry.azurecr.io/oauth2/token\",service=\"myregistry.azurecr.io\",scope=\"repository:library/hello-world:metadata_read\"",
     "x-content-type-options": "nosniff",
-    "x-ms-correlation-request-id": "6c572c4b-7f58-4cd6-a18f-064fd9ea9148"
+    "x-ms-correlation-request-id": "5ff2dde2-ee8b-47e5-8ffb-3d5b371dc8e6"
    }
   },
   {
@@ -34,53 +34,57 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1351",
     "content-type": "application/json; charset=utf-8",
-    "date": "Mon, 20 Sep 2021 18:55:37 GMT",
+    "date": "Mon, 08 Nov 2021 20:12:39 GMT",
     "expires": "-1",
     "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
-    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+bno\"}]}",
+    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+wst\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.12071.7 - WUS2 ProdSlices",
-    "x-ms-request-id": "5d2d65aa-7596-4507-aee1-ca310c3b9700"
+    "x-ms-ests-server": "2.1.12197.4 - WUS2 ProdSlices",
+    "x-ms-request-id": "ef4acac9-1f78-47a5-8d3f-ce4c11cea300"
    }
   },
   {
    "method": "POST",
    "url": "https://myregistry.azurecr.io/oauth2/exchange",
-   "query": {},
+   "query": {
+    "api-version": "2021-07-01"
+   },
    "requestBody": "grant_type=access_token&service=myregistry.azurecr.io&access_token=access_token",
    "status": 200,
    "response": "{\"refresh_token\":\"sanitized.eyJleHAiOjg2NDAwMDAwMDAwMDB9.sanitized\"}",
    "responseHeaders": {
     "connection": "keep-alive",
     "content-type": "application/json; charset=utf-8",
-    "date": "Mon, 20 Sep 2021 18:55:38 GMT",
+    "date": "Mon, 08 Nov 2021 20:12:40 GMT",
     "server": "openresty",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "transfer-encoding": "chunked",
-    "x-ms-correlation-request-id": "9b8ef432-19f2-4646-a197-a155de17c967",
-    "x-ms-ratelimit-remaining-calls-per-second": "166.05"
+    "x-ms-correlation-request-id": "cc3d7100-dfef-46d8-b2f2-3dcb59619ef7",
+    "x-ms-ratelimit-remaining-calls-per-second": "166.116667"
    }
   },
   {
    "method": "POST",
    "url": "https://myregistry.azurecr.io/oauth2/token",
-   "query": {},
-   "requestBody": "grant_type=refresh_token&service=myregistry.azurecr.io&refresh_token=sanitized.eyJleHAiOjg2NDAwMDAwMDAwMDB9.sanitized&scope=repository%3Alibrary%2Fhello-world%3Ametadata_read",
+   "query": {
+    "api-version": "2021-07-01"
+   },
+   "requestBody": "service=myregistry.azurecr.io&scope=repository%3Alibrary%2Fhello-world%3Ametadata_read&refresh_token=sanitized.eyJleHAiOjg2NDAwMDAwMDAwMDB9.sanitized&grant_type=refresh_token",
    "status": 200,
    "response": "{\"access_token\":\"access_token\"}",
    "responseHeaders": {
     "connection": "keep-alive",
     "content-type": "application/json; charset=utf-8",
-    "date": "Mon, 20 Sep 2021 18:55:38 GMT",
+    "date": "Mon, 08 Nov 2021 20:12:40 GMT",
     "server": "openresty",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "transfer-encoding": "chunked",
-    "x-ms-correlation-request-id": "3a44e5a0-4ddb-43f6-ad80-e3a5883bbeef",
-    "x-ms-ratelimit-remaining-calls-per-second": "166.033333"
+    "x-ms-correlation-request-id": "1279eeb0-2a49-4383-9cc1-694fbd4dd6d9",
+    "x-ms-ratelimit-remaining-calls-per-second": "166.1"
    }
   },
   {
@@ -91,18 +95,18 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"registry\":\"myregistry.azurecr.io\",\"imageName\":\"library/hello-world\",\"tag\":{\"name\":\"test1\",\"digest\":\"sha256:61bd3cb6014296e214ff4c6407a5a7e7092dfa8eefdbbec539e133e97f63e09f\",\"createdTime\":\"2021-06-11T19:11:38.7001063Z\",\"lastUpdateTime\":\"2021-09-20T18:50:54.0904821Z\",\"signed\":false,\"changeableAttributes\":{\"deleteEnabled\":true,\"writeEnabled\":true,\"readEnabled\":true,\"listEnabled\":true}}}\n",
+   "response": "{\"registry\":\"myregistry.azurecr.io\",\"imageName\":\"library/hello-world\",\"tag\":{\"name\":\"test1\",\"digest\":\"sha256:37a0b92b08d4919615c3ee023f7ddb068d12b8387475d64c622ac30f45c29c51\",\"createdTime\":\"2021-06-11T19:11:38.7001063Z\",\"lastUpdateTime\":\"2021-11-08T19:55:53.3335808Z\",\"signed\":false,\"changeableAttributes\":{\"deleteEnabled\":true,\"writeEnabled\":true,\"readEnabled\":true,\"listEnabled\":true}}}\n",
    "responseHeaders": {
     "access-control-expose-headers": "Docker-Content-Digest, WWW-Authenticate, Link, X-Ms-Correlation-Request-Id",
     "connection": "keep-alive",
     "content-length": "388",
     "content-type": "application/json; charset=utf-8",
-    "date": "Mon, 20 Sep 2021 18:55:38 GMT",
+    "date": "Mon, 08 Nov 2021 20:12:40 GMT",
     "docker-distribution-api-version": "registry/2.0",
     "server": "openresty",
     "strict-transport-security": "max-age=31536000; includeSubDomains, max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-correlation-request-id": "d0265b70-5ad4-4bfd-b5e7-56fd53124e4c"
+    "x-ms-correlation-request-id": "bec63c62-4913-40dd-90a2-e92e3012c69c"
    }
   }
  ],
@@ -110,5 +114,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "7f2f4399079c95ce16922a097580f751"
+ "hash": "9ad36bbb1839140335a17ae22a8951f2"
 }

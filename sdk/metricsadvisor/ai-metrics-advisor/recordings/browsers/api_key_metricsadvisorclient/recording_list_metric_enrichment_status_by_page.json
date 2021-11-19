@@ -10,14 +10,14 @@
    "status": 200,
    "response": "{\"value\":[{\"timestamp\":\"2021-08-11T00:00:00Z\",\"status\":\"Succeeded\",\"message\":\"{\\\"CreateTime\\\":\\\"2021-09-07T23:45:37.533Z\\\",\\\"UpdateTime\\\":\\\"2021-09-07T23:45:37.533Z\\\"}\"},{\"timestamp\":\"2021-08-12T00:00:00Z\",\"status\":\"Succeeded\",\"message\":\"{\\\"CreateTime\\\":\\\"2021-09-07T23:45:37.533Z\\\",\\\"UpdateTime\\\":\\\"2021-09-07T23:45:37.533Z\\\"}\"}],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/metrics/189ff959-d9f4-45c7-a1e0-f87c9c7ca80f/status/enrichment/anomalyDetection/query?$maxpagesize=2&$skip=2\"}",
    "responseHeaders": {
-    "apim-request-id": "cfbe1fa6-4a79-477c-99a5-8d86d1e841a7",
+    "apim-request-id": "0f30e838-ce80-4144-b898-3df5b69376eb",
     "content-length": "533",
     "content-type": "application/json; charset=utf-8",
-    "date": "Mon, 08 Nov 2021 09:44:17 GMT",
+    "date": "Tue, 16 Nov 2021 02:01:28 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "256",
-    "x-request-id": "cfbe1fa6-4a79-477c-99a5-8d86d1e841a7"
+    "x-envoy-upstream-service-time": "224",
+    "x-request-id": "0f30e838-ce80-4144-b898-3df5b69376eb"
    }
   },
   {
@@ -31,14 +31,14 @@
    "status": 200,
    "response": "{\"value\":[{\"timestamp\":\"2021-08-13T00:00:00Z\",\"status\":\"Succeeded\",\"message\":\"{\\\"CreateTime\\\":\\\"2021-09-07T23:45:37.533Z\\\",\\\"UpdateTime\\\":\\\"2021-09-07T23:45:37.533Z\\\"}\"},{\"timestamp\":\"2021-08-14T00:00:00Z\",\"status\":\"Succeeded\",\"message\":\"{\\\"CreateTime\\\":\\\"2021-09-07T23:45:37.533Z\\\",\\\"UpdateTime\\\":\\\"2021-09-07T23:45:37.533Z\\\"}\"}],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/metrics/189ff959-d9f4-45c7-a1e0-f87c9c7ca80f/status/enrichment/anomalyDetection/query?$maxpagesize=2&$skip=4\"}",
    "responseHeaders": {
-    "apim-request-id": "e441856e-dab6-478c-b40c-ae06c73f5c51",
+    "apim-request-id": "1e771af7-ebb7-4123-9017-8b790bfa8bcd",
     "content-length": "533",
     "content-type": "application/json; charset=utf-8",
-    "date": "Mon, 08 Nov 2021 09:44:17 GMT",
+    "date": "Tue, 16 Nov 2021 02:01:29 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "235",
-    "x-request-id": "e441856e-dab6-478c-b40c-ae06c73f5c51"
+    "x-envoy-upstream-service-time": "210",
+    "x-request-id": "1e771af7-ebb7-4123-9017-8b790bfa8bcd"
    }
   }
  ],

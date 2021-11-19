@@ -60,6 +60,25 @@ export class TestProxyHttpClient {
    */
   public variables: Record<string, string>;
 
+  /**
+   * Add the dynamically created variables here in the record mode, so that the recorder registers them as part of the recording.
+   * Using this "variables" in playback mode would give the key-value pairs that are stored in record mode.
+   *
+   * Example:
+   *  ```ts
+   *       if (!isPlaybackMode()) {
+   *           recorder.variables["random-1"] = `random-${Math.ceil(Math.random() * 1000 + 1000)}`;
+   *       }
+   *  ```
+   * Use this `recorder.variables["random-1"]` whereever you'd like to use in your test.
+   *      (This would work in all three modes - record/playback/live just by adding the if-block above)
+   *
+   * Internals(How does it work?):
+   *  - recorder.stop() call sends the variables to the proxy-tool (in record mode)
+   *  - recorder.start() call loads those variables given by the proxy tool (in playback mode)
+   */
+  public variables: Record<string, string>;
+
   constructor(private testContext?: Test | undefined) {
     this.mode = env.TEST_MODE;
     if (isRecordMode() || isPlaybackMode()) {
@@ -193,7 +212,7 @@ export class TestProxyHttpClient {
   /**
    * Call this method to ping the proxy-tool with a stop request, this helps saving the recording in record mode.
    */
-  async stop(variables?: Record<string, string>): Promise<void> {
+  async stop(): Promise<void> {
     if (isPlaybackMode() || isRecordMode()) {
       this.stateManager.state = "stopped";
       if (this.recordingId !== undefined) {
@@ -205,7 +224,7 @@ export class TestProxyHttpClient {
 
         if (isRecordMode()) {
           req.headers.set("Content-Type", "application/json");
-          req.body = JSON.stringify(variables ?? this.variables);
+          req.body = JSON.stringify(this.variables);
         }
         if (ensureExistence(this.httpClient, "TestProxyHttpClient.httpClient", this.mode)) {
           const rsp = await this.httpClient.sendRequest({

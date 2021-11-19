@@ -12,16 +12,14 @@ dotenv.config({ path: path.resolve(__dirname, "../sample.env") });
 import { logSampleHeader, handleError, finish, logStep } from "./Shared/handleError";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-import { CosmosClient } from "../dist";
+import { CosmosClient } from "@azure/cosmos";
 import { v4 } from "uuid";
 const uuid = v4;
 
-const {
-  COSMOS_DATABASE: databaseId,
-  COSMOS_CONTAINER: containerId,
-  COSMOS_ENDPOINT: endpoint,
-  COSMOS_KEY: key
-} = process.env;
+const key = process.env.COSMOS_KEY || "<cosmos key>";
+const endpoint = process.env.COSMOS_ENDPOINT || "<cosmos endpoint>";
+const databaseId = process.env.COSMOS_DATABASE || "<cosmos database>";
+const containerId = process.env.COSMOS_CONTAINER || "<cosmos container>";
 
 logSampleHeader("Bulk Update Using Stored Procedures");
 // Only to make TypeScript happy
@@ -88,7 +86,7 @@ async function run(): Promise<void> {
   });
 
   logStep("Execute stored procedure and follow continuation tokens");
-  let continuation: string = undefined;
+  let continuation: string | undefined = undefined;
   let totalUpdatedDocuments = 0;
   for (;;) {
     const response = await storedProcedure.execute(undefined, [continuation]);
