@@ -99,14 +99,22 @@ interface RequestBody {
 /**
  * Prepares the body before sending the request
  */
-function getRequestBody(body?: unknown, contentType: string = "application/json"): RequestBody {
+function getRequestBody(body?: unknown, contentType: string = ""): RequestBody {
   if (body === undefined) {
     return { body: undefined };
   }
 
+  if (!contentType && typeof body === "string") {
+    return { body };
+  }
+
   const firstType = contentType.split(";")[0];
 
-  if (isBinaryContentType(firstType) || ArrayBuffer.isView(body)) {
+  if (firstType === "application/json") {
+    return { body: JSON.stringify(body) };
+  }
+
+  if (ArrayBuffer.isView(body)) {
     return { body: decodeBinaryContent(body) };
   }
 
@@ -127,14 +135,15 @@ function isFormData(body: unknown): body is FormDataMap {
 }
 
 /**
- * decodes any Binary parts of a form data content
+ * Checks if binary data is in Uint8Array format, if so decode it to a binary string
+ * to send over the wire
  */
 function processFormData(formData?: FormDataMap) {
   if (!formData) {
     return formData;
   }
 
-  let processedFormData: FormDataMap = {};
+  const processedFormData: FormDataMap = {};
 
   for (const element in formData) {
     const item = formData[element];
@@ -164,7 +173,11 @@ function getResponseBody(
     return String(bodyToParse);
   }
 
-  if (requestOptions.binaryContent || isBinaryContentType(firstType)) {
+  /**
+   * If we know from options or from the content type that we are receiving binary content,
+   * encode it into a UInt8Array
+   */
+  if (requestOptions.binaryResponse || isBinaryContentType(firstType)) {
     return encodeBinaryContent(bodyToParse);
   }
 

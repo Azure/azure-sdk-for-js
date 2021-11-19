@@ -45,7 +45,7 @@ export type RequestParameters = {
    * With this property set to true, the response body will be returned
    * as a binary array UInt8Array
    */
-  binaryContent?: boolean;
+  binaryResponse?: boolean;
 };
 
 /**

@@ -10393,9 +10393,11 @@ packages:
       '@types/chai': 4.2.22
       '@types/mocha': 7.0.2
       '@types/node': 12.20.37
+      '@types/sinon': 9.0.11
       chai: 4.3.4
       cross-env: 7.0.3
       eslint: 7.32.0
+      form-data: 4.0.0
       inherits: 2.0.4
       karma: 6.3.8
       karma-chrome-launcher: 3.1.0
@@ -10468,7 +10470,7 @@ packages:
     dev: false
 
   file:projects/core-client.tgz:
-    resolution: {integrity: sha512-b55vwGtHq3Db8JgYLspyAdlZJUp1X3ZzFkHELYLsbSIFglv8eYG4WY1SvO/UtZAGIRCZhlZK8NdoxZpjBdQlLQ==, tarball: file:projects/core-client.tgz}
+    resolution: {integrity: sha512-e+E0BPtRM4lU13NuFuYJeEKpCbjopP+PVJ5QbzTwN+eCHB1NRe0XQnnckGRjR5tygqVStRoPNgOkOVDP6j5x2g==, tarball: file:projects/core-client.tgz}
     name: '@rush-temp/core-client'
     version: 0.0.0
     dependencies:
