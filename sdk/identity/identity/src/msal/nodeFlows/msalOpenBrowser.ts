@@ -175,6 +175,22 @@ export class MsalOpenBrowser extends MsalNode {
 
       app.on("connection", (socket) => socketToDestroy.push(socket));
 
+      app.on("error", (err) => {
+        if ((err as any).code === "EACCES") {
+          reject(
+            new Error(
+              [
+                `Access denied to port ${this.port}.`,
+                `Try sending a redirect URI with a different port, as follows:`,
+                '`new InteractiveBrowserCredential({ redirectUri: "http://localhost:1337" })`'
+              ].join(" ")
+            )
+          );
+        }
+        cleanup();
+        reject(err);
+      });
+
       app.on("listening", () => {
         const openPromise = this.openAuthCodeUrl(scopes, options);
 

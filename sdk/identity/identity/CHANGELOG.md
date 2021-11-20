@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- Improved the error message when `InteractiveBrowserCredential` is used with an unavailable port, such as when no `redirectUri` is provided, and the port `80` is busy.
+
 ### Breaking Changes
 
 ### Bugs Fixed
