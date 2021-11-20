@@ -29,7 +29,7 @@ import { delay } from "../util/delay";
  * @param retryCount - Maximum number of retries.
  * @param retryInterval - Base time between retries.
  * @param maxRetryInterval - Maximum amount of time to allow retries to take in aggregate.
- * @returns 
+ * @returns
  */
 export function exponentialRetryPolicy(
   retryCount?: number,
@@ -53,6 +53,10 @@ export function exponentialRetryPolicy(
  * Describes the Retry Mode type. Currently supporting only Exponential.
  */
 export enum RetryMode {
+  /**
+   * Currently supported retry mode.
+   * Each time a retry happens, it will take more time than the last time, exponentially.
+   */
   Exponential
 }
 

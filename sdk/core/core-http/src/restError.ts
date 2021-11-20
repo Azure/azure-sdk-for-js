@@ -8,14 +8,38 @@ import { Sanitizer } from "./util/sanitizer";
 
 const errorSanitizer = new Sanitizer();
 
+/**
+ * An error resulting from an HTTP request to a REST provider.
+ */
 export class RestError extends Error {
+  /**
+   * A constant string to identify errors that may arise when sending out HTTP requests.
+   */
   static readonly REQUEST_SEND_ERROR: string = "REQUEST_SEND_ERROR";
+  /**
+   * A constant string to identify errors that may arise from parsing an incoming HTTP response.
+   */
   static readonly PARSE_ERROR: string = "PARSE_ERROR";
 
+  /**
+   * String copy of the HTTP status code.
+   */
   code?: string;
+  /**
+   * Numeric copy of the HTTP status code.
+   */
   statusCode?: number;
+  /**
+   * Outgoing request.
+   */
   request?: WebResourceLike;
+  /**
+   * Incoming response.
+   */
   response?: HttpOperationResponse;
+  /**
+   * May contain the flattened response.
+   */
   details?: unknown;
   constructor(
     message: string,

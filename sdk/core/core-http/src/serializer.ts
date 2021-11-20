@@ -15,10 +15,22 @@ import { XML_ATTRKEY, XML_CHARKEY, SerializerOptions } from "./util/serializer.c
  */
 export class Serializer {
   constructor(
+    /**
+     * The provided model mapper.
+     */
     public readonly modelMappers: { [key: string]: any } = {},
+    /**
+     * Whether the contents are XML or not.
+     */
     public readonly isXML?: boolean
-  ) { }
+  ) {}
 
+  /**
+   * If a mapper has defined constraints, this function will throw if the provided value does not match those constraints.
+   * @param mapper - The definition of data models.
+   * @param value - The value.
+   * @param objectName - Name of the object. Used in the error messages.
+   */
   validateConstraints(mapper: Mapper, value: unknown, objectName: string): void {
     const failValidation = (
       constraintName: keyof MapperConstraints,
@@ -509,7 +521,7 @@ function serializeDateTypes(typeName: string, value: any, objectName: string): a
       ) {
         throw new Error(
           `${objectName} must be an instanceof Date or a string in RFC-1123/ISO8601 format ` +
-          `for it to be serialized in UnixTime/Epoch format.`
+            `for it to be serialized in UnixTime/Epoch format.`
         );
       }
       value = dateToUnixTime(value);
@@ -539,7 +551,7 @@ function serializeSequenceType(
   if (!elementType || typeof elementType !== "object") {
     throw new Error(
       `element" metadata for an Array must be defined in the ` +
-      `mapper and it must of type "object" in ${objectName}.`
+        `mapper and it must of type "object" in ${objectName}.`
     );
   }
   const tempArray = [];
@@ -580,7 +592,7 @@ function serializeDictionaryType(
   if (!valueType || typeof valueType !== "object") {
     throw new Error(
       `"value" metadata for a Dictionary must be defined in the ` +
-      `mapper and it must of type "object" in ${objectName}.`
+        `mapper and it must of type "object" in ${objectName}.`
     );
   }
   const tempDictionary: { [key: string]: any } = {};
@@ -668,8 +680,9 @@ function resolveModelProperties(
     if (!modelProps) {
       throw new Error(
         `modelProperties cannot be null or undefined in the ` +
-        `mapper "${JSON.stringify(modelMapper)}" of type "${mapper.type.className
-        }" for object "${objectName}".`
+          `mapper "${JSON.stringify(modelMapper)}" of type "${
+            mapper.type.className
+          }" for object "${objectName}".`
       );
     }
   }
@@ -1016,7 +1029,7 @@ function deserializeDictionaryType(
   if (!value || typeof value !== "object") {
     throw new Error(
       `"value" metadata for a Dictionary must be defined in the ` +
-      `mapper and it must of type "object" in ${objectName}`
+        `mapper and it must of type "object" in ${objectName}`
     );
   }
   if (responseBody) {
@@ -1040,7 +1053,7 @@ function deserializeSequenceType(
   if (!element || typeof element !== "object") {
     throw new Error(
       `element" metadata for an Array must be defined in the ` +
-      `mapper and it must of type "object" in ${objectName}`
+        `mapper and it must of type "object" in ${objectName}`
     );
   }
   if (responseBody) {
@@ -1173,26 +1186,29 @@ export type MapperType =
  * The type of a simple mapper.
  */
 export interface SimpleMapperType {
+  /**
+   * Name of the type of the property.
+   */
   name:
-  | "Base64Url"
-  | "Boolean"
-  | "ByteArray"
-  | "Date"
-  | "DateTime"
-  | "DateTimeRfc1123"
-  | "Object"
-  | "Stream"
-  | "String"
-  | "TimeSpan"
-  | "UnixTime"
-  | "Uuid"
-  | "Number"
-  | "any";
+    | "Base64Url"
+    | "Boolean"
+    | "ByteArray"
+    | "Date"
+    | "DateTime"
+    | "DateTimeRfc1123"
+    | "Object"
+    | "Stream"
+    | "String"
+    | "TimeSpan"
+    | "UnixTime"
+    | "Uuid"
+    | "Number"
+    | "any";
 }
 
 /**
  * Helps build a mapper that describes how to map a set of properties of an object based on other mappers.
- * 
+ *
  * Only one of the following properties should be present: `className`, `modelProperties` and `additionalProperties`.
  */
 export interface CompositeMapperType {
@@ -1345,7 +1361,13 @@ export interface PolymorphicDiscriminator {
    * Name used during serialization.
    */
   serializedName: string;
+  /**
+   * Name of the client.
+   */
   clientName: string;
+  /**
+   * It may contain any other property.
+   */
   [key: string]: string;
 }
 
@@ -1354,7 +1376,7 @@ export interface PolymorphicDiscriminator {
  */
 export interface CompositeMapper extends BaseMapper {
   /**
-   * The type descriptor of the `CompositeMapper`. 
+   * The type descriptor of the `CompositeMapper`.
    */
   type: CompositeMapperType;
 }
@@ -1446,10 +1468,10 @@ function strEnum<T extends string>(o: Array<T>): { [K in T]: K } {
   return result;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 /**
  * String enum containing the string types of property mappers.
  */
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const MapperType = strEnum([
   "Base64Url",
   "Boolean",

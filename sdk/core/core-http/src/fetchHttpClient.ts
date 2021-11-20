@@ -62,8 +62,8 @@ export class ReportTransform extends Transform {
 export abstract class FetchHttpClient implements HttpClient {
   /**
    * Provides minimum viable error handling, and the logic that executes the abstract methods.
-   * @param httpRequest 
-   * @returns 
+   * @param httpRequest - Object representing the outgoing HTTP request.
+   * @returns
    */
   async sendRequest(httpRequest: WebResourceLike): Promise<HttpOperationResponse> {
     if (!httpRequest && typeof httpRequest !== "object") {

@@ -3,6 +3,9 @@
 
 import { ApiKeyCredentials, ApiKeyCredentialOptions } from "./apiKeyCredentials";
 
+/**
+ * An EventGrid TopicCredentials object
+ */
 export class TopicCredentials extends ApiKeyCredentials {
   /**
    * Creates a new EventGrid TopicCredentials object.

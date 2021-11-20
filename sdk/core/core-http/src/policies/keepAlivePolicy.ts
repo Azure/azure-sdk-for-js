@@ -15,7 +15,7 @@ import { HttpOperationResponse } from "../httpOperationResponse";
  * requests.
  */
 export interface KeepAliveOptions {
-  /*
+  /**
    * When true, connections will be kept alive for multiple requests.
    * Defaults to true.
    */

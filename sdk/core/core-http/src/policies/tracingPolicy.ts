@@ -25,10 +25,21 @@ const createSpan = createSpanFunction({
   namespace: ""
 });
 
+/**
+ * Options to customize the tracing policy.
+ */
 export interface TracingPolicyOptions {
+  /**
+   * User agent used to better identify the outgoing requests traced by the tracing policy.
+   */
   userAgent?: string;
 }
 
+/**
+ * Creates a policy that wraps outgoing requests with a tracing span.
+ * @param tracingOptions - Tracing options.
+ * @returns An instance of the {@link TracingPolicy} class.
+ */
 export function tracingPolicy(tracingOptions: TracingPolicyOptions = {}): RequestPolicyFactory {
   return {
     create(nextPolicy: RequestPolicy, options: RequestPolicyOptions) {
@@ -37,6 +48,9 @@ export function tracingPolicy(tracingOptions: TracingPolicyOptions = {}): Reques
   };
 }
 
+/**
+ * A policy that wraps outgoing requests with a tracing span.
+ */
 export class TracingPolicy extends BaseRequestPolicy {
   private userAgent?: string;
 

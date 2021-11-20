@@ -23,6 +23,9 @@ export interface OperationOptions {
   tracingOptions?: OperationTracingOptions;
 }
 
+/**
+ * Options that allow configuring the processing of outgoing HTTP requests.
+ */
 export interface OperationRequestOptions {
   /**
    * User defined custom request headers that will be applied before the request is sent.

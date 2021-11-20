@@ -118,9 +118,9 @@ function getOperationResponse(
     const operationResponseGetter:
       | undefined
       | ((
-        operationSpec: OperationSpec,
-        response: HttpOperationResponse
-      ) => undefined | OperationResponse) = request.operationResponseGetter;
+          operationSpec: OperationSpec,
+          response: HttpOperationResponse
+        ) => undefined | OperationResponse) = request.operationResponseGetter;
     if (!operationResponseGetter) {
       result = operationSpec.responses[parsedResponse.status];
     } else {

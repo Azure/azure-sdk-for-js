@@ -19,7 +19,7 @@ export type RequestPolicyFactory = {
 export interface RequestPolicy {
   /**
    * In principle, a request policy is only a structure with a method that sends an HTTP request.
-   * @param httpRequest
+   * @param httpRequest - Object representing the outgoing HTTP request.
    */
   sendRequest(httpRequest: WebResourceLike): Promise<HttpOperationResponse>;
 }
@@ -40,7 +40,7 @@ export abstract class BaseRequestPolicy implements RequestPolicy {
      * The options that can be passed to a given request policy.At a minimum should contain logging properties.
      */
     readonly _options: RequestPolicyOptionsLike
-  ) { }
+  ) {}
 
   /**
    * Sends a network request based on the given web resource.
@@ -92,7 +92,7 @@ export interface RequestPolicyOptionsLike {
  * Optional properties that can be used when creating a RequestPolicy.
  */
 export class RequestPolicyOptions {
-  constructor(private _logger?: HttpPipelineLogger) { }
+  constructor(private _logger?: HttpPipelineLogger) {}
 
   /**
    * Get whether or not a log with the provided log level should be logged.

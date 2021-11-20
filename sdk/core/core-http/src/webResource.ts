@@ -66,8 +66,8 @@ export interface WebResourceLike {
    */
   headers: HttpHeadersLike;
   /**
-   * @deprecated Use streamResponseStatusCodes property instead.
    * Whether or not the body of the HttpOperationResponse should be treated as a stream.
+   * @deprecated Use streamResponseStatusCodes property instead.
    */
   streamResponseBody?: boolean;
   /**
@@ -88,6 +88,9 @@ export interface WebResourceLike {
     operationSpec: OperationSpec,
     response: HttpOperationResponse
   ) => undefined | OperationResponse;
+  /**
+   * Form data, used to build the request body.
+   */
   formData?: any;
   /**
    * A query string represented as an object.
@@ -190,13 +193,25 @@ export function isWebResourceLike(object: unknown): object is WebResourceLike {
  * properties to initiate a request.
  */
 export class WebResource implements WebResourceLike {
+  /**
+   * URL of the outgoing request.
+   */
   url: string;
+  /**
+   * HTTP method to use.
+   */
   method: HttpMethods;
+  /**
+   * Request body.
+   */
   body?: any;
+  /**
+   * HTTP headers.
+   */
   headers: HttpHeadersLike;
   /**
-   * @deprecated Use streamResponseStatusCodes property instead.
    * Whether or not the body of the HttpOperationResponse should be treated as a stream.
+   * @deprecated Use streamResponseStatusCodes property instead.
    */
   streamResponseBody?: boolean;
   /**
@@ -217,25 +232,56 @@ export class WebResource implements WebResourceLike {
     operationSpec: OperationSpec,
     response: HttpOperationResponse
   ) => undefined | OperationResponse;
+  /**
+   * Form data, used to build the request body.
+   */
   formData?: any;
+  /**
+   * Query added to the URL.
+   */
   query?: { [key: string]: any };
+  /**
+   * Specification of the HTTP request.
+   */
   operationSpec?: OperationSpec;
+  /**
+   * Whether to use a credential to sign the outgoing request.
+   */
   withCredentials: boolean;
+  /**
+   * How much to wait before aborting the request, in case it remains unresponsive.
+   */
   timeout: number;
+  /**
+   * What proxy to use, if necessary.
+   */
   proxySettings?: ProxySettings;
+  /**
+   * Whether to keep the HTTP connections alive throughout requests.
+   */
   keepAlive?: boolean;
   /**
    * Whether or not to decompress response according to Accept-Encoding header (node-fetch only)
    */
   decompressResponse?: boolean;
+  /**
+   * Unique identifier of the outgoing request.
+   */
   requestId: string;
 
+  /**
+   * Signal of an abort controller. Can be used to stop outgoing requests.
+   */
   abortSignal?: AbortSignalLike;
 
-  /** Callback which fires upon upload progress. */
+  /**
+   * Callback which fires upon upload progress.
+   */
   onUploadProgress?: (progress: TransferProgressEvent) => void;
 
-  /** Callback which fires upon download progress. */
+  /**
+   * Callback which fires upon download progress.
+   */
   onDownloadProgress?: (progress: TransferProgressEvent) => void;
 
   /**
@@ -347,9 +393,9 @@ export class WebResource implements WebResourceLike {
       if (validMethods.indexOf(options.method.toUpperCase()) === -1) {
         throw new Error(
           'The provided method "' +
-          options.method +
-          '" is invalid. Supported HTTP methods are: ' +
-          JSON.stringify(validMethods)
+            options.method +
+            '" is invalid. Supported HTTP methods are: ' +
+            JSON.stringify(validMethods)
         );
       }
     }
@@ -376,7 +422,7 @@ export class WebResource implements WebResourceLike {
             `pathTemplate: ${pathTemplate} has been provided. Hence, options.pathParameters must also be provided.`
           );
         }
-        segments.forEach(function (item) {
+        segments.forEach(function(item) {
           const pathParamName = item.slice(1, -1);
           const pathParam = (pathParameters as { [key: string]: any })[pathParamName];
           if (
@@ -387,9 +433,9 @@ export class WebResource implements WebResourceLike {
             const stringifiedPathParameters = JSON.stringify(pathParameters, undefined, 2);
             throw new Error(
               `pathTemplate: ${pathTemplate} contains the path parameter ${pathParamName}` +
-              ` however, it is not present in parameters: ${stringifiedPathParameters}.` +
-              `The value of the path parameter can either be a "string" of the form { ${pathParamName}: "some sample value" } or ` +
-              `it can be an "object" of the form { "${pathParamName}": { value: "some sample value", skipUrlEncoding: true } }.`
+                ` however, it is not present in parameters: ${stringifiedPathParameters}.` +
+                `The value of the path parameter can either be a "string" of the form { ${pathParamName}: "some sample value" } or ` +
+                `it can be an "object" of the form { "${pathParamName}": { value: "some sample value", skipUrlEncoding: true } }.`
             );
           }
 
@@ -420,8 +466,8 @@ export class WebResource implements WebResourceLike {
       if (typeof queryParameters !== "object") {
         throw new Error(
           `options.queryParameters must be of type object. It should be a JSON object ` +
-          `of "query-parameter-name" as the key and the "query-parameter-value" as the value. ` +
-          `The "query-parameter-value" may be fo type "string" or an "object" of the form { value: "query-parameter-value", skipUrlEncoding: true }.`
+            `of "query-parameter-name" as the key and the "query-parameter-value" as the value. ` +
+            `The "query-parameter-value" may be fo type "string" or an "object" of the form { value: "query-parameter-value", skipUrlEncoding: true }.`
         );
       }
       // append question mark if it is not present in the url
@@ -562,6 +608,9 @@ export class WebResource implements WebResourceLike {
   }
 }
 
+/**
+ * Options to prepare an outgoing HTTP request.
+ */
 export interface RequestPrepareOptions {
   /**
    * The HTTP request method. Valid values are "GET", "PUT", "HEAD", "DELETE", "OPTIONS", "POST",
@@ -608,6 +657,9 @@ export interface RequestPrepareOptions {
    *    - path-parameter-value in "string" format: `{ "path-parameter-name": "path-parameter-value" }`.
    */
   pathParameters?: { [key: string]: any | ParameterValue };
+  /**
+   * Form data, used to build the request body.
+   */
   formData?: { [key: string]: any };
   /**
    * A dictionary of request headers that need to be applied to the request.
@@ -647,8 +699,17 @@ export interface RequestPrepareOptions {
    * Indicates whether the request body is a stream (useful for file upload scenarios).
    */
   bodyIsStream?: boolean;
+  /**
+   * Signal of an abort controller. Can be used to abort both sending a network request and waiting for a response.
+   */
   abortSignal?: AbortSignalLike;
+  /**
+   * Allows keeping track of the progress of uploading the outgoing request.
+   */
   onUploadProgress?: (progress: TransferProgressEvent) => void;
+  /**
+   * Allows keeping track of the progress of downloading the incoming response.
+   */
   onDownloadProgress?: (progress: TransferProgressEvent) => void;
   /**
    * Tracing: Options used to create a span when tracing is enabled.
@@ -664,8 +725,17 @@ export interface RequestPrepareOptions {
  * The Parameter value provided for path or query parameters in RequestPrepareOptions
  */
 export interface ParameterValue {
+  /**
+   * Value of the parameter.
+   */
   value: any;
+  /**
+   * Disables URL encoding if set to true.
+   */
   skipUrlEncoding: boolean;
+  /**
+   * Parameter values may contain any other property.
+   */
   [key: string]: any;
 }
 
@@ -710,6 +780,9 @@ export interface RequestOptionsBase {
    */
   tracingContext?: Context;
 
+  /**
+   * May contain other properties.
+   */
   [key: string]: any;
 
   /**

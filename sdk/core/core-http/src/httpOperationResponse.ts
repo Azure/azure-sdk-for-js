@@ -81,5 +81,8 @@ export interface RestResponse {
    */
   _response: HttpOperationResponse;
 
+  /**
+   * May contain other properties.
+   */
   [key: string]: any;
 }

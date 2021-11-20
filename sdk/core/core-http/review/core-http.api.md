@@ -373,7 +373,6 @@ export function isValidUuid(uuid: string): boolean;
 
 // @public
 export interface KeepAliveOptions {
-    // (undocumented)
     enable: boolean;
 }
 
@@ -411,7 +410,7 @@ export interface MapperConstraints {
 // @public
 export type MapperType = SimpleMapperType | CompositeMapperType | SequenceMapperType | DictionaryMapperType | EnumMapperType;
 
-// @public (undocumented)
+// @public
 export const MapperType: {
     Date: "Date";
     Base64Url: "Base64Url";
@@ -459,7 +458,7 @@ export interface OperationQueryParameter extends OperationParameter {
     skipEncoding?: boolean;
 }
 
-// @public (undocumented)
+// @public
 export interface OperationRequestOptions {
     customHeaders?: {
         [key: string]: string;
@@ -501,18 +500,15 @@ export interface OperationURLParameter extends OperationParameter {
     skipEncoding?: boolean;
 }
 
-// @public (undocumented)
+// @public
 export type ParameterPath = string | string[] | {
     [propertyName: string]: ParameterPath;
 };
 
 // @public
 export interface ParameterValue {
-    // (undocumented)
     [key: string]: any;
-    // (undocumented)
     skipUrlEncoding: boolean;
-    // (undocumented)
     value: any;
 }
 
@@ -522,7 +518,6 @@ export function parseXML(str: string, opts?: SerializerOptions): Promise<any>;
 // @public
 export interface PipelineOptions {
     httpClient?: HttpClient;
-    // (undocumented)
     keepAliveOptions?: KeepAliveOptions;
     proxyOptions?: ProxyOptions;
     redirectOptions?: RedirectOptions;
@@ -532,9 +527,7 @@ export interface PipelineOptions {
 
 // @public
 export interface PolymorphicDiscriminator {
-    // (undocumented)
     [key: string]: string;
-    // (undocumented)
     clientName: string;
     serializedName: string;
 }
@@ -545,7 +538,7 @@ export function promiseToCallback(promise: Promise<any>): (cb: Function) => void
 // @public
 export function promiseToServiceCallback<T>(promise: Promise<HttpOperationResponse>): (cb: ServiceCallback<T>) => void;
 
-// @public (undocumented)
+// @public
 export type ProxyOptions = ProxySettings;
 
 // @public
@@ -563,15 +556,10 @@ export interface ProxySettings {
 
 // @public
 export enum QueryCollectionFormat {
-    // (undocumented)
     Csv = ",",
-    // (undocumented)
     Multi = "Multi",
-    // (undocumented)
     Pipes = "|",
-    // (undocumented)
     Ssv = " ",
-    // (undocumented)
     Tsv = "\t"
 }
 
@@ -582,18 +570,15 @@ export type RawHttpHeaders = {
 
 // @public
 export interface RedirectOptions {
-    // (undocumented)
     handleRedirects: boolean;
-    // (undocumented)
     maxRetries?: number;
 }
 
-// @public (undocumented)
+// @public
 export function redirectPolicy(maximumRetries?: number): RequestPolicyFactory;
 
 // @public
 export interface RequestOptionsBase {
-    // (undocumented)
     [key: string]: any;
     abortSignal?: AbortSignalLike;
     customHeaders?: {
@@ -630,9 +615,8 @@ export interface RequestPolicyOptionsLike {
     shouldLog(logLevel: HttpPipelineLogLevel): boolean;
 }
 
-// @public (undocumented)
+// @public
 export interface RequestPrepareOptions {
-    // (undocumented)
     abortSignal?: AbortSignalLike;
     baseUrl?: string;
     body?: any;
@@ -640,7 +624,6 @@ export interface RequestPrepareOptions {
     deserializationMapper?: Record<string, unknown>;
     disableClientRequestId?: boolean;
     disableJsonStringifyOnBody?: boolean;
-    // (undocumented)
     formData?: {
         [key: string]: any;
     };
@@ -651,9 +634,7 @@ export interface RequestPrepareOptions {
         [x: string]: any;
     };
     method: HttpMethods;
-    // (undocumented)
     onDownloadProgress?: (progress: TransferProgressEvent) => void;
-    // (undocumented)
     onUploadProgress?: (progress: TransferProgressEvent) => void;
     pathParameters?: {
         [key: string]: any | ParameterValue;
@@ -668,35 +649,26 @@ export interface RequestPrepareOptions {
     url?: string;
 }
 
-// @public (undocumented)
+// @public
 export class RestError extends Error {
     constructor(message: string, code?: string, statusCode?: number, request?: WebResourceLike, response?: HttpOperationResponse);
-    // (undocumented)
     code?: string;
-    // (undocumented)
     details?: unknown;
-    // (undocumented)
     static readonly PARSE_ERROR: string;
-    // (undocumented)
     request?: WebResourceLike;
-    // (undocumented)
     static readonly REQUEST_SEND_ERROR: string;
-    // (undocumented)
     response?: HttpOperationResponse;
-    // (undocumented)
     statusCode?: number;
 }
 
 // @public
 export interface RestResponse {
-    // (undocumented)
     [key: string]: any;
     _response: HttpOperationResponse;
 }
 
 // @public
 export enum RetryMode {
-    // (undocumented)
     Exponential = 0
 }
 
@@ -724,18 +696,17 @@ export function serializeObject(toSerialize: unknown): any;
 
 // @public
 export class Serializer {
-    constructor(modelMappers?: {
+    constructor(
+    modelMappers?: {
         [key: string]: any;
-    }, isXML?: boolean | undefined);
+    },
+    isXML?: boolean | undefined);
     deserialize(mapper: Mapper, responseBody: unknown, objectName: string, options?: SerializerOptions): any;
-    // (undocumented)
     readonly isXML?: boolean | undefined;
-    // (undocumented)
     readonly modelMappers: {
         [key: string]: any;
     };
     serialize(mapper: Mapper, object: unknown, objectName?: string, options?: SerializerOptions): any;
-    // (undocumented)
     validateConstraints(mapper: Mapper, value: unknown, objectName: string): void;
 }
 
@@ -760,7 +731,7 @@ export class ServiceClient {
     sendRequest(options: RequestPrepareOptions | WebResourceLike): Promise<HttpOperationResponse>;
 }
 
-// @public (undocumented)
+// @public
 export interface ServiceClientCredentials {
     signRequest(webResource: WebResourceLike): Promise<WebResourceLike>;
 }
@@ -782,12 +753,11 @@ export interface ServiceClientOptions {
     withCredentials?: boolean;
 }
 
-// @public (undocumented)
+// @public
 export function signingPolicy(authenticationProvider: ServiceClientCredentials): RequestPolicyFactory;
 
 // @public
 export interface SimpleMapperType {
-    // (undocumented)
     name: "Base64Url" | "Boolean" | "ByteArray" | "Date" | "DateTime" | "DateTimeRfc1123" | "Object" | "Stream" | "String" | "TimeSpan" | "UnixTime" | "Uuid" | "Number" | "any";
 }
 
@@ -806,31 +776,30 @@ export function stripRequest(request: WebResourceLike): WebResourceLike;
 // @public
 export function stripResponse(response: HttpOperationResponse): any;
 
-// @public (undocumented)
+// @public
 export function systemErrorRetryPolicy(retryCount?: number, retryInterval?: number, minRetryInterval?: number, maxRetryInterval?: number): RequestPolicyFactory;
 
-// @public (undocumented)
+// @public
 export type TelemetryInfo = {
     key?: string;
     value?: string;
 };
 
-// @public (undocumented)
+// @public
 export function throttlingRetryPolicy(): RequestPolicyFactory;
 
 export { TokenCredential }
 
-// @public (undocumented)
+// @public
 export class TopicCredentials extends ApiKeyCredentials {
     constructor(topicKey: string);
 }
 
-// @public (undocumented)
+// @public
 export function tracingPolicy(tracingOptions?: TracingPolicyOptions): RequestPolicyFactory;
 
-// @public (undocumented)
+// @public
 export interface TracingPolicyOptions {
-    // (undocumented)
     userAgent?: string;
 }
 
@@ -848,7 +817,6 @@ export class URLBuilder {
     getQuery(): string | undefined;
     getQueryParameterValue(queryParameterName: string): string | string[] | undefined;
     getScheme(): string | undefined;
-    // (undocumented)
     static parse(text: string): URLBuilder;
     replaceAll(searchValue: string, replaceValue: string): void;
     setHost(host: string | undefined): void;
@@ -857,7 +825,6 @@ export class URLBuilder {
     setQuery(query: string | undefined): void;
     setQueryParameter(queryParameterName: string, queryParameterValue: unknown): void;
     setScheme(scheme: string | undefined): void;
-    // (undocumented)
     toString(): string;
 }
 
@@ -879,11 +846,10 @@ export class URLQuery {
 
 // @public
 export interface UserAgentOptions {
-    // (undocumented)
     userAgentPrefix?: string;
 }
 
-// @public (undocumented)
+// @public
 export function userAgentPolicy(userAgentData?: TelemetryInfo): RequestPolicyFactory;
 
 // @public
@@ -893,46 +859,33 @@ export class WebResource implements WebResourceLike {
     }, headers?: {
         [key: string]: any;
     } | HttpHeadersLike, streamResponseBody?: boolean, withCredentials?: boolean, abortSignal?: AbortSignalLike, timeout?: number, onUploadProgress?: (progress: TransferProgressEvent) => void, onDownloadProgress?: (progress: TransferProgressEvent) => void, proxySettings?: ProxySettings, keepAlive?: boolean, decompressResponse?: boolean, streamResponseStatusCodes?: Set<number>);
-    // (undocumented)
     abortSignal?: AbortSignalLike;
-    // (undocumented)
     body?: any;
     clone(): WebResource;
     decompressResponse?: boolean;
-    // (undocumented)
     formData?: any;
-    // (undocumented)
     headers: HttpHeadersLike;
-    // (undocumented)
     keepAlive?: boolean;
-    // (undocumented)
     method: HttpMethods;
     onDownloadProgress?: (progress: TransferProgressEvent) => void;
     onUploadProgress?: (progress: TransferProgressEvent) => void;
     operationResponseGetter?: (operationSpec: OperationSpec, response: HttpOperationResponse) => undefined | OperationResponse;
-    // (undocumented)
     operationSpec?: OperationSpec;
     prepare(options: RequestPrepareOptions): WebResource;
-    // (undocumented)
     proxySettings?: ProxySettings;
-    // (undocumented)
     query?: {
         [key: string]: any;
     };
-    // (undocumented)
     requestId: string;
     shouldDeserialize?: boolean | ((response: HttpOperationResponse) => boolean);
     spanOptions?: SpanOptions;
-    // @deprecated (undocumented)
+    // @deprecated
     streamResponseBody?: boolean;
     streamResponseStatusCodes?: Set<number>;
-    // (undocumented)
     timeout: number;
     tracingContext?: Context;
-    // (undocumented)
     url: string;
     validateRequestProperties(): void;
-    // (undocumented)
     withCredentials: boolean;
 }
 
@@ -942,7 +895,6 @@ export interface WebResourceLike {
     body?: any;
     clone(): WebResourceLike;
     decompressResponse?: boolean;
-    // (undocumented)
     formData?: any;
     headers: HttpHeadersLike;
     keepAlive?: boolean;
@@ -958,7 +910,7 @@ export interface WebResourceLike {
     };
     requestId: string;
     shouldDeserialize?: boolean | ((response: HttpOperationResponse) => boolean);
-    // @deprecated (undocumented)
+    // @deprecated
     streamResponseBody?: boolean;
     streamResponseStatusCodes?: Set<number>;
     timeout: number;

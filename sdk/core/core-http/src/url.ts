@@ -339,6 +339,10 @@ export class URLBuilder {
     }
   }
 
+  /**
+   * Generates a string URL.
+   * @returns String URL
+   */
   public toString(): string {
     let result = "";
 
@@ -382,6 +386,9 @@ export class URLBuilder {
     }
   }
 
+  /**
+   * Parses a given string URL into a nw {@link URLBuilder}.
+   */
   public static parse(text: string): URLBuilder {
     const result = new URLBuilder();
     result.set(text, "SCHEME_OR_HOST");

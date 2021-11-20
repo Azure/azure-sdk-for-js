@@ -4,6 +4,9 @@
 import { QueryCollectionFormat } from "./queryCollectionFormat";
 import { Mapper } from "./serializer";
 
+/**
+ * A path composed by one string segment or multiple string segments in an array.
+ */
 export type ParameterPath = string | string[] | { [propertyName: string]: ParameterPath };
 
 /**
