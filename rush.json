@@ -857,6 +857,11 @@
       "versionPolicyName": "test"
     },
     {
+      "packageName": "@azure-tests/perf-template",
+      "projectFolder": "sdk/template/perf-tests/template",
+      "versionPolicyName": "test"
+    },
+    {
       "packageName": "@azure/mixed-reality-remote-rendering",
       "projectFolder": "sdk/remoterendering/mixed-reality-remote-rendering",
       "versionPolicyName": "client"
@@ -1084,6 +1089,11 @@
     {
       "packageName": "@azure/arm-consumption",
       "projectFolder": "sdk/consumption/arm-consumption",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-datalake-analytics",
+      "projectFolder": "sdk/datalake-analytics/arm-datalake-analytics",
       "versionPolicyName": "management"
     }
   ]

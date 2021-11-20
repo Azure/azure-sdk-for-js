@@ -49,7 +49,7 @@ export interface OptionDetails<TType> {
  * `keyof TOptions` provides the names of the options. This is necessary to allow TypeScript to suggest the appropriate names
  * for the options and parsedOptions.
  */
-export type PerfOptionDictionary<TOptions = {}> = {
+export type PerfOptionDictionary<TOptions = Record<string, unknown>> = {
   [longName in keyof TOptions]: OptionDetails<TOptions[longName]>;
 };
 
@@ -140,9 +140,14 @@ export function parsePerfOption<TOptions>(
   );
   const result: Partial<PerfOptionDictionary<TOptions>> = {};
 
-  for (const longName of Object.keys(options)) {
+  for (const optionName of Object.keys(options)) {
     // This cast is needed since we're picking up options from process.argv
-    const option = options[longName as keyof TOptions];
+    const option = options[optionName as keyof TOptions];
+
+    // Options don't need to define longName, it can be derived from the properties PerfOptionDictionary.
+    // That said if longName is defined, it should should override object's key.
+    const longName = option.longName ?? optionName;
+
     const { shortName, defaultValue, required } = option;
     let value: unknown;
     if (isDefined(minimistResult[longName])) {
@@ -156,8 +161,8 @@ export function parsePerfOption<TOptions>(
     if (required && !isDefined(value)) {
       throw new Error(`Option ${longName} is required`);
     }
-    // Options don't need to define longName, it can be derived from the properties PerfOptionDictionary.
-    result[longName as keyof TOptions] = {
+
+    result[optionName as keyof TOptions] = {
       ...option,
       longName,
       value
@@ -167,8 +172,36 @@ export function parsePerfOption<TOptions>(
   return result as Required<PerfOptionDictionary<TOptions>>;
 }
 
+/**
+ * Validate that the provided command-line options are all recognized, throwing an error if an unrecognized
+ * option is provided.
+ *
+ * @param options A dictionary of options which should be passed.
+ */
+export function validateOptions<TOptions>(options: PerfOptionDictionary<TOptions>): void {
+  const minimistResult: MinimistParsedArgs = minimist(
+    process.argv,
+    getBooleanOptionDetails(options)
+  );
+
+  const longNames = Object.entries<OptionDetails<unknown>>(options).map(
+    ([optionName, { longName }]) => longName ?? optionName
+  );
+  const shortNames = Object.values<OptionDetails<unknown>>(options)
+    .map(({ shortName }) => shortName)
+    .filter(Boolean);
+
+  // include _ and -- as these may be present in the MinimistParsedArgs object
+  const acceptedOptions = ["_", "--", ...longNames, ...shortNames];
+  const unknownOptions = Object.keys(minimistResult).filter((x) => !acceptedOptions.includes(x));
+
+  if (unknownOptions.length !== 0) {
+    throw new Error(`Encountered invalid options: ${unknownOptions.join(", ")}`);
+  }
+}
+
 function getBooleanOptionDetails<TOptions>(options: PerfOptionDictionary<TOptions>) {
-  let booleanProps: { boolean: string[]; default: { [key: string]: boolean } } = {
+  const booleanProps: { boolean: string[]; default: { [key: string]: boolean } } = {
     boolean: [],
     default: {}
   };

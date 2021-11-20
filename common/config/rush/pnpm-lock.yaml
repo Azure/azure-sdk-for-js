@@ -21,6 +21,7 @@ specifiers:
   '@rush-temp/arm-cosmosdb': file:./projects/arm-cosmosdb.tgz
   '@rush-temp/arm-databricks': file:./projects/arm-databricks.tgz
   '@rush-temp/arm-datafactory': file:./projects/arm-datafactory.tgz
+  '@rush-temp/arm-datalake-analytics': file:./projects/arm-datalake-analytics.tgz
   '@rush-temp/arm-desktopvirtualization': file:./projects/arm-desktopvirtualization.tgz
   '@rush-temp/arm-eventgrid': file:./projects/arm-eventgrid.tgz
   '@rush-temp/arm-eventhub': file:./projects/arm-eventhub.tgz
@@ -124,6 +125,7 @@ specifiers:
   '@rush-temp/perf-storage-blob': file:./projects/perf-storage-blob.tgz
   '@rush-temp/perf-storage-file-datalake': file:./projects/perf-storage-file-datalake.tgz
   '@rush-temp/perf-storage-file-share': file:./projects/perf-storage-file-share.tgz
+  '@rush-temp/perf-template': file:./projects/perf-template.tgz
   '@rush-temp/purview-account': file:./projects/purview-account.tgz
   '@rush-temp/purview-administration': file:./projects/purview-administration.tgz
   '@rush-temp/purview-catalog': file:./projects/purview-catalog.tgz
@@ -176,6 +178,7 @@ dependencies:
   '@rush-temp/arm-cosmosdb': file:projects/arm-cosmosdb.tgz
   '@rush-temp/arm-databricks': file:projects/arm-databricks.tgz
   '@rush-temp/arm-datafactory': file:projects/arm-datafactory.tgz
+  '@rush-temp/arm-datalake-analytics': file:projects/arm-datalake-analytics.tgz
   '@rush-temp/arm-desktopvirtualization': file:projects/arm-desktopvirtualization.tgz
   '@rush-temp/arm-eventgrid': file:projects/arm-eventgrid.tgz
   '@rush-temp/arm-eventhub': file:projects/arm-eventhub.tgz
@@ -279,6 +282,7 @@ dependencies:
   '@rush-temp/perf-storage-blob': file:projects/perf-storage-blob.tgz
   '@rush-temp/perf-storage-file-datalake': file:projects/perf-storage-file-datalake.tgz
   '@rush-temp/perf-storage-file-share': file:projects/perf-storage-file-share.tgz
+  '@rush-temp/perf-template': file:projects/perf-template.tgz
   '@rush-temp/purview-account': file:projects/purview-account.tgz
   '@rush-temp/purview-administration': file:projects/purview-administration.tgz
   '@rush-temp/purview-catalog': file:projects/purview-catalog.tgz
@@ -1583,6 +1587,7 @@ packages:
   /@opentelemetry/node/0.22.0_@opentelemetry+api@1.0.3:
     resolution: {integrity: sha512-+HhGbDruQ7cwejVOIYyxRa28uosnG8W95NiQZ6qE8PXXPsDSyGeftAPbtYpGit0H2f5hrVcMlwmWHeAo9xkSLA==}
     engines: {node: '>=8.0.0'}
+    deprecated: Package renamed to @opentelemetry/sdk-trace-node
     peerDependencies:
       '@opentelemetry/api': ^1.0.0
     dependencies:
@@ -8851,6 +8856,27 @@ packages:
       uglify-js: 3.14.3
     dev: false
 
+  file:projects/arm-datalake-analytics.tgz:
+    resolution: {integrity: sha512-cO1sYGfaeaLrSrVvasTylGzuQT87Qsn6qe32w9vjYHIZzmTz4Rtgpwc6qjBO+fcytNUp/nDco8/wBWUPRR7b2Q==, tarball: file:projects/arm-datalake-analytics.tgz}
+    name: '@rush-temp/arm-datalake-analytics'
+    version: 0.0.0
+    dependencies:
+      '@microsoft/api-extractor': 7.18.19
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.14.3
+    dev: false
+
   file:projects/arm-desktopvirtualization.tgz:
     resolution: {integrity: sha512-9tYJwIUDFQDpXDZtTbVerkmrnUcASq7GxOdJx/27I87kpWEHNyHR5MymGEbvWs2Y3wd/9Kz49aR/aVAr7s4LJg==, tarball: file:projects/arm-desktopvirtualization.tgz}
     name: '@rush-temp/arm-desktopvirtualization'
@@ -12386,6 +12412,27 @@ packages:
       - supports-color
     dev: false
 
+  file:projects/perf-template.tgz:
+    resolution: {integrity: sha512-RIu7ZVVEApPgrz/t2xXWEGR3xhGhkeUemTxft3FyA9HVTW+jS6mfljJQV9SXL9cnXH/XGief8RXqe3oYLaMMpA==, tarball: file:projects/perf-template.tgz}
+    name: '@rush-temp/perf-template'
+    version: 0.0.0
+    dependencies:
+      '@types/node': 12.20.37
+      '@types/uuid': 8.3.1
+      dotenv: 8.6.0
+      eslint: 7.32.0
+      prettier: 1.19.1
+      rimraf: 3.0.2
+      ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uuid: 8.3.2
+    transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
+      - supports-color
+    dev: false
+
   file:projects/purview-account.tgz:
     resolution: {integrity: sha512-DsmtGHPP2m/VHDzPBKhP4x8cV2IqHX4rt+NpuXsGho6xAZvMgXOm/f9H0NaBlmD4JwalZg4ov9nCTOYQsa126w==, tarball: file:projects/purview-account.tgz}
     name: '@rush-temp/purview-account'
@@ -12630,7 +12677,7 @@ packages:
     dev: false
 
   file:projects/schema-registry-avro.tgz:
-    resolution: {integrity: sha512-es1wTz4ESP2fxE8Wky3jiVQdorQHXzokj57HKP5pNkP4WnDy+0p20f6dQZAgH1abgNsYYha8yK+vK/i2txJ+AQ==, tarball: file:projects/schema-registry-avro.tgz}
+    resolution: {integrity: sha512-35agTFs5ffVjxETd28kTXTFaPA1IKu6rGeGKxb0mBeIN44hPM96P2uLG/+MPGjhvYAtJmVHjB/1sHn2HLE/Kew==, tarball: file:projects/schema-registry-avro.tgz}
     name: '@rush-temp/schema-registry-avro'
     version: 0.0.0
     dependencies:
@@ -13560,7 +13607,7 @@ packages:
     dev: false
 
   file:projects/test-recorder-new.tgz:
-    resolution: {integrity: sha512-w/Zii/SpFvK01jA/kmC4Fwy29GlhBeBe9R9WP6d7p0yT2ENP0sCYc8an2dmyhOuwA+QFIoMZI1f59Awmx4hggA==, tarball: file:projects/test-recorder-new.tgz}
+    resolution: {integrity: sha512-2ZpucefoPAPvOYedg2rkAYe5kKIpSgxPd+7vTYfkm4oz6bLtxES+fvECqktN+J2Zk8gGmZohSvTSSfV+RBc4zg==, tarball: file:projects/test-recorder-new.tgz}
     name: '@rush-temp/test-recorder-new'
     version: 0.0.0
     dependencies:
@@ -13623,7 +13670,7 @@ packages:
     dev: false
 
   file:projects/test-recorder.tgz:
-    resolution: {integrity: sha512-uZ1ALIuLgV6XWWo4MBQ+nLfbw4txKZYJfJ8/GYWQfNyCQi6nEg4Bo0kfOUk0cvSqZRwUNM/+mND9qqmHps2RBg==, tarball: file:projects/test-recorder.tgz}
+    resolution: {integrity: sha512-bm6Rx6QWOzW0aNv8lVTKvBX1QlWE0nuVdIdZWb1wFhtEbDAZksRkWq5xFgnaNDgxpILM/IhZmS5Su68XytwNWg==, tarball: file:projects/test-recorder.tgz}
     name: '@rush-temp/test-recorder'
     version: 0.0.0
     dependencies:
@@ -13743,7 +13790,7 @@ packages:
     dev: false
 
   file:projects/testing-recorder-new.tgz:
-    resolution: {integrity: sha512-H8ns2GLWDfXpV5dtOh7Kxhg0YMVje5oFFzcD+4aGF4erEIjQsmkBE09mmjNnTaJdELb4LQcVhq5HOQ8wxRbPRQ==, tarball: file:projects/testing-recorder-new.tgz}
+    resolution: {integrity: sha512-LQ9WLbbCZ1vVpj7fzrWF+ql1zI6qElwBWHHRSBQc3YQHrkQ7TOFBL5ke4iBcbxaJFsrRT55jzIohJJHuo2sGXg==, tarball: file:projects/testing-recorder-new.tgz}
     name: '@rush-temp/testing-recorder-new'
     version: 0.0.0
     dependencies:

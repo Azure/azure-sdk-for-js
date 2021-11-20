@@ -14,7 +14,8 @@ import {
   AutocompleteResult,
   IndexDocumentsBatch,
   KnownSpeller,
-  KnownQueryLanguage
+  KnownQueryLanguage,
+  AzureKeyCredential
 } from "../../../src";
 import { Hotel } from "../utils/interfaces";
 import { createIndex, populateIndex, WAIT_TIME, createRandomIndexName } from "../utils/setup";
@@ -280,5 +281,59 @@ describe("SearchClient", function(this: Suite) {
       queryType: "semantic"
     });
     assert.equal(searchResults.count, 1);
+  });
+});
+
+describe("SearchClient-local", () => {
+  const credential = new AzureKeyCredential("key");
+
+  describe("Passing serviceVersion", () => {
+    it("supports passing serviceVersion", () => {
+      const client = new SearchClient<Hotel>("", "", credential, {
+        serviceVersion: "2020-06-30"
+      });
+      assert.equal("2020-06-30", client.serviceVersion);
+      assert.equal("2020-06-30", client.apiVersion);
+    });
+
+    it("passing invalid apiVersion type and valid serviceVersion", () => {
+      let errorThrown = false;
+      try {
+        new SearchClient<Hotel>("", "", credential, {
+          serviceVersion: "2020-06-30",
+          apiVersion: "foo"
+        });
+      } catch (ex) {
+        errorThrown = true;
+      }
+      assert.isTrue(errorThrown, "Invalid apiVersion");
+    });
+
+    it("passing invalid serviceVersion type and valid apiVersion", () => {
+      let errorThrown = false;
+      try {
+        new SearchClient<Hotel>("", "", credential, {
+          apiVersion: "2020-06-30",
+          serviceVersion: "foo"
+        });
+      } catch (ex) {
+        errorThrown = true;
+      }
+      assert.isTrue(errorThrown, "Invalid serviceVersion");
+    });
+
+    it("supports passing the deprecated apiVersion", () => {
+      const client = new SearchClient<Hotel>("", "", credential, {
+        apiVersion: "2020-06-30"
+      });
+      assert.equal("2020-06-30", client.serviceVersion);
+      assert.equal("2020-06-30", client.apiVersion);
+    });
+
+    it("defaults to the current apiVersion", () => {
+      const client = new SearchClient<Hotel>("", "", credential);
+      assert.equal("2020-06-30-Preview", client.serviceVersion);
+      assert.equal("2020-06-30-Preview", client.apiVersion);
+    });
   });
 });

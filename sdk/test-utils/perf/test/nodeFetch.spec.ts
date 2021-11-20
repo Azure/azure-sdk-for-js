@@ -15,7 +15,7 @@ export class NodeFetchTest extends PerfTest<NodeFetchOptions> {
     agent: new http.Agent({ keepAlive: true })
   };
 
-  private url: string = "";
+  private url = "";
 
   public options: PerfOptionDictionary<NodeFetchOptions> = {
     url: {
@@ -28,7 +28,7 @@ export class NodeFetchTest extends PerfTest<NodeFetchOptions> {
     }
   };
 
-  public setup() {
+  public setup(): void {
     this.url = this.options.url.value as string;
   }
 
