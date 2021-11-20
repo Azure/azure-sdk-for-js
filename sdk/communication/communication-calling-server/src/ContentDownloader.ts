@@ -97,6 +97,7 @@ const serializer = new Serializer(Mappers, /* isXml */ false);
 
 function getDownloadContentOperationSpec(url: string, stringToSign: string): OperationSpec {
   const stringToSignHeader = CallingServerUtils.getStringToSignHeader(stringToSign);
+  const hostHeader = CallingServerUtils.getMsHostHeaders(stringToSign);
 
   const downloadContentOperationSpec: OperationSpec = {
     path: "",
@@ -117,7 +118,7 @@ function getDownloadContentOperationSpec(url: string, stringToSign: string): Ope
     requestBody: undefined,
     queryParameters: [],
     urlParameters: [],
-    headerParameters: [stringToSignHeader, Parameters.range],
+    headerParameters: [stringToSignHeader, Parameters.range, hostHeader],
     serializer
   };
 
