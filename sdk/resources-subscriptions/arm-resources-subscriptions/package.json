@@ -3,8 +3,10 @@
   "sdk-type": "mgmt",
   "author": "Microsoft Corporation",
   "description": "A generated SDK for SubscriptionClient.",
-  "version": "1.0.0-beta.1",
-  "engines": { "node": ">=12.0.0" },
+  "version": "2.0.0-beta.2",
+  "engines": {
+    "node": ">=12.0.0"
+  },
   "dependencies": {
     "@azure/core-paging": "^1.1.1",
     "@azure/core-client": "^1.0.0",
@@ -12,7 +14,13 @@
     "@azure/core-rest-pipeline": "^1.1.0",
     "tslib": "^2.2.0"
   },
-  "keywords": ["node", "azure", "typescript", "browser", "isomorphic"],
+  "keywords": [
+    "node",
+    "azure",
+    "typescript",
+    "browser",
+    "isomorphic"
+  ],
   "license": "MIT",
   "main": "./dist/index.js",
   "module": "./dist-esm/index.js",
@@ -35,7 +43,9 @@
     "type": "git",
     "url": "https://github.com/Azure/azure-sdk-for-js.git"
   },
-  "bugs": { "url": "https://github.com/Azure/azure-sdk-for-js/issues" },
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
   "files": [
     "dist/**/*.js",
     "dist/**/*.js.map",

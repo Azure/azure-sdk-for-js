@@ -9,7 +9,7 @@
   "license": "ISC",
   "dependencies": {
     "@azure/eventgrid": "^4.0.0",
-    "@azure/test-utils-perfstress": "^1.0.0",
+    "@azure/test-utils-perf": "^1.0.0",
     "dotenv": "^8.2.0"
   },
   "devDependencies": {

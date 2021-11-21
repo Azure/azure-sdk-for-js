@@ -2,6 +2,7 @@
   "name": "@azure/eslint-plugin-azure-sdk",
   "version": "3.0.0",
   "description": "An ESLint plugin enforcing design guidelines for the JavaScript/TypeScript Azure SDK",
+  "sdk-type": "utility",
   "private": true,
   "keywords": [
     "eslint",

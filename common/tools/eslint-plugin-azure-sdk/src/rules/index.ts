@@ -16,6 +16,7 @@ import tsConfigEsModuleInterop from "./ts-config-esmoduleinterop";
 import tsConfigExclude from "./ts-config-exclude";
 import tsConfigForceConsistentCasingInFileNames from "./ts-config-forceconsistentcasinginfilenames";
 import tsConfigImportHelpers from "./ts-config-importhelpers";
+import tsConfigInclude from "./ts-config-include";
 import tsConfigLib from "./ts-config-lib";
 import tsConfigModule from "./ts-config-module";
 import tsConfigModuleResolution from "./ts-config-moduleresolution";
@@ -34,7 +35,6 @@ import tsNoConstEnums from "./ts-no-const-enums";
 import tsNoNamespaces from "./ts-no-namespaces";
 import tsNoWindow from "./ts-no-window";
 import tsPackageJsonAuthor from "./ts-package-json-author";
-import tsPackageJsonSdkType from "./ts-package-json-sdktype";
 import tsPackageJsonBugs from "./ts-package-json-bugs";
 import tsPackageJsonEngineIsPresent from "./ts-package-json-engine-is-present";
 import tsPackageJsonFilesRequired from "./ts-package-json-files-required";
@@ -46,6 +46,7 @@ import tsPackageJsonModule from "./ts-package-json-module";
 import tsPackageJsonName from "./ts-package-json-name";
 import tsPackageJsonRepo from "./ts-package-json-repo";
 import tsPackageJsonRequiredScripts from "./ts-package-json-required-scripts";
+import tsPackageJsonSdkType from "./ts-package-json-sdktype";
 import tsPackageJsonSideEffects from "./ts-package-json-sideeffects";
 import tsPackageJsonTypes from "./ts-package-json-types";
 import tsPaginationList from "./ts-pagination-list";
@@ -67,6 +68,7 @@ export = {
   "ts-config-exclude": tsConfigExclude,
   "ts-config-forceconsistentcasinginfilenames": tsConfigForceConsistentCasingInFileNames,
   "ts-config-importhelpers": tsConfigImportHelpers,
+  "ts-config-include": tsConfigInclude,
   "ts-config-lib": tsConfigLib,
   "ts-config-module": tsConfigModule,
   "ts-config-moduleresolution": tsConfigModuleResolution,

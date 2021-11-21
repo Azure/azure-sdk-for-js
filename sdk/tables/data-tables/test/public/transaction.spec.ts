@@ -225,5 +225,26 @@ authModes.forEach((authMode) => {
 
       assert.equal(entityCount, 6);
     });
+
+    it("should support empty partition and row keys", async () => {
+      const actions1: TransactionAction[] = [
+        ["create", { partitionKey: "", rowKey: "", value: "" }]
+      ];
+
+      await client.submitTransaction(actions1);
+      await client.submitTransaction([
+        ["update", { partitionKey: "", rowKey: "", value: "updated" }]
+      ]);
+
+      let entity = await client.getEntity("", "");
+      assert.equal(entity.value, "updated");
+
+      await client.submitTransaction([
+        ["upsert", { partitionKey: "", rowKey: "", value: "upserted" }]
+      ]);
+
+      entity = await client.getEntity("", "");
+      assert.equal(entity.value, "upserted");
+    });
   });
 });

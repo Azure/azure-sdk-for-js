@@ -319,11 +319,11 @@ matrix([[true, false]] as const, async (useAad) => {
             authenticationType: "ManagedIdentity"
           };
           const expectedIngestionSettings = {
-            ingestionStartTime: new Date(Date.UTC(2020, 7, 1)),
+            ingestionStartTime: new Date(Date.UTC(2020, 9, 30)),
             ingestionStartOffsetInSeconds: 2,
             dataSourceRequestConcurrency: 3,
-            ingestionRetryDelayInSeconds: 4,
-            stopRetryAfterInSeconds: 5
+            ingestionRetryDelayInSeconds: 64,
+            stopRetryAfterInSeconds: 65
           };
           const patch: DataFeedPatch = {
             source: {
@@ -712,7 +712,7 @@ matrix([[true, false]] as const, async (useAad) => {
           await verifyDataFeedDeletion(this, client, createdDataLakeGenId);
         });
 
-        it("creates Eventhubs data feed", async () => {
+        it.skip("creates Eventhubs data feed", async () => {
           const expectedSource: AzureEventHubsDataFeedSource = {
             dataSourceType: "AzureEventHubs",
             authenticationType: "Basic",
@@ -738,7 +738,7 @@ matrix([[true, false]] as const, async (useAad) => {
           }
         });
 
-        it("deletes Eventhubs data feed", async function(this: Context) {
+        it.skip("deletes Eventhubs data feed", async function(this: Context) {
           await verifyDataFeedDeletion(this, client, createdEventhubsId);
         });
 

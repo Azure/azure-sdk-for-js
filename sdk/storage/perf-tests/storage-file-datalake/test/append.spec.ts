@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PerfStressOptionDictionary } from "@azure/test-utils-perfstress";
+import { PerfOptionDictionary } from "@azure/test-utils-perf";
 import { StorageDFSTest } from "./storageTest.spec";
 import { DataLakeFileClient } from "@azure/storage-file-datalake";
 import { v4 as generateUuid } from "uuid";
@@ -11,7 +11,7 @@ interface StorageDFSAppendTestOptions {
 
 export class StorageDFSAppendTest extends StorageDFSTest<StorageDFSAppendTestOptions> {
   buffer: Buffer;
-  public options: PerfStressOptionDictionary<StorageDFSAppendTestOptions> = {
+  public options: PerfOptionDictionary<StorageDFSAppendTestOptions> = {
     size: {
       required: true,
       description: "Size to append in bytes",
@@ -32,7 +32,7 @@ export class StorageDFSAppendTest extends StorageDFSTest<StorageDFSAppendTestOpt
     await this.fileClient.create();
   }
 
-  async runAsync(): Promise<void> {
+  async run(): Promise<void> {
     await this.fileClient.append(this.buffer, 0, this.parsedOptions.size.value!);
   }
 }

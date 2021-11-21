@@ -24,8 +24,8 @@ export class CommunicationIdentityClient {
     createUser(options?: OperationOptions): Promise<CommunicationUserIdentifier>;
     createUserAndToken(scopes: TokenScope[], options?: OperationOptions): Promise<CommunicationUserToken>;
     deleteUser(user: CommunicationUserIdentifier, options?: OperationOptions): Promise<void>;
-    exchangeTeamsToken(teamsToken: string, options?: OperationOptions): Promise<CommunicationAccessToken>;
     getToken(user: CommunicationUserIdentifier, scopes: TokenScope[], options?: OperationOptions): Promise<CommunicationAccessToken>;
+    getTokenForTeamsUser(teamsUserAadToken: string, options?: OperationOptions): Promise<CommunicationAccessToken>;
     revokeTokens(user: CommunicationUserIdentifier, options?: OperationOptions): Promise<void>;
 }
 
@@ -40,7 +40,6 @@ export interface CommunicationUserToken extends CommunicationAccessToken {
 
 // @public
 export type TokenScope = "chat" | "voip";
-
 
 // (No @packageDocumentation comment for this package)
 

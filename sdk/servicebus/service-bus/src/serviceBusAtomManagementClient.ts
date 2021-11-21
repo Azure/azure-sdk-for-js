@@ -81,7 +81,8 @@ import {
   formatUserAgentPrefix,
   getHttpResponseOnly,
   isAbsoluteUrl,
-  isJSONLikeObject
+  isJSONLikeObject,
+  ServiceBusAtomAPIVersion
 } from "./util/utils";
 import { SpanStatusCode } from "@azure/core-tracing";
 
@@ -111,6 +112,20 @@ export type WithResponse<T extends object> = T & {
 };
 
 /**
+ * Represents the client options of the `ServiceBusAdministrationClient`.
+ */
+export interface ServiceBusAdministrationClientOptions extends PipelineOptions {
+  /**
+   * Service version of the ATOM API.
+   *
+   * Currently supported = "2021-05" | "2017-04"
+   *
+   * Defaults to "2021-05".
+   */
+  serviceVersion?: "2021-05" | "2017-04";
+}
+
+/**
  * Represents the result of list operation on entities which also contains the `continuationToken` to start iterating over from.
  */
 export type EntitiesResponse<T extends object> = WithResponse<Array<T>> &
@@ -132,6 +147,8 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    */
   private endpointWithProtocol: string;
 
+  private serviceVersion: ServiceBusAtomAPIVersion;
+
   /**
    * Singleton instances of serializers used across the various operations.
    */
@@ -152,7 +169,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    * @param options - PipelineOptions
    */
   // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-  constructor(connectionString: string, options?: PipelineOptions);
+  constructor(connectionString: string, options?: ServiceBusAdministrationClientOptions);
   /**
    *
    * @param fullyQualifiedNamespace - The fully qualified namespace of your Service Bus instance which is
@@ -170,15 +187,18 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     fullyQualifiedNamespace: string,
     credential: TokenCredential | NamedKeyCredential,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    options?: PipelineOptions
+    options?: ServiceBusAdministrationClientOptions
   );
   constructor(
     fullyQualifiedNamespaceOrConnectionString1: string,
-    credentialOrOptions2?: TokenCredential | NamedKeyCredential | PipelineOptions,
+    credentialOrOptions2?:
+      | TokenCredential
+      | NamedKeyCredential
+      | ServiceBusAdministrationClientOptions,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    options3?: PipelineOptions
+    options3?: ServiceBusAdministrationClientOptions
   ) {
-    let options: PipelineOptions;
+    let options: ServiceBusAdministrationClientOptions;
     let fullyQualifiedNamespace: string;
     let credentials: SasServiceClientCredentials | TokenCredential;
     let authPolicy: RequestPolicyFactory;
@@ -226,6 +246,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     this.endpointWithProtocol = fullyQualifiedNamespace.endsWith("/")
       ? "sb://" + fullyQualifiedNamespace
       : "sb://" + fullyQualifiedNamespace + "/";
+    this.serviceVersion = options.serviceVersion ?? Constants.CURRENT_API_VERSION;
     this.credentials = credentials;
     this.namespaceResourceSerializer = new NamespaceResourceSerializer();
     this.queueResourceSerializer = new QueueResourceSerializer();
@@ -2343,7 +2364,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     const baseUri = `https://${this.endpoint}/${path}`;
 
     const requestUrl: URLBuilder = URLBuilder.parse(baseUri);
-    requestUrl.setQueryParameter(Constants.API_VERSION_QUERY_KEY, Constants.CURRENT_API_VERSION);
+    requestUrl.setQueryParameter(Constants.API_VERSION_QUERY_KEY, this.serviceVersion);
 
     if (queryParams) {
       for (const key of Object.keys(queryParams)) {

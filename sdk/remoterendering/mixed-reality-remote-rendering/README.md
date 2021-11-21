@@ -97,12 +97,15 @@ const client = new RemoteRenderingClient(serviceEndpoint, accountId, accountDoma
 Use the `DeviceCodeCredential` object to perform device code authentication.
 
 ```typescript Snippet:CreateAClientWithDeviceCode
-let deviceCodeCallback = (deviceCodeInfo: DeviceCodeInfo) => {
+const userPromptCallback = (deviceCodeInfo: DeviceCodeInfo) => {
   console.debug(deviceCodeInfo.message);
   console.log(deviceCodeInfo.message);
 };
 
-let credential = new DeviceCodeCredential(tenantId, clientId, deviceCodeCallback, {
+const credential = new DeviceCodeCredential({
+  tenantId: tenantId,
+  clientId: clientId,
+  userPromptCallback: userPromptCallback,
   authorityHost: "https://login.microsoftonline.com/" + tenantId
 });
 

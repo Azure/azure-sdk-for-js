@@ -8,11 +8,12 @@
 
 import { HealthApi } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
+import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { GeneratedClientContext } from "../generatedClientContext";
 import { HealthApiGetServiceStatusOptionalParams } from "../models";
 
-/** Class representing a HealthApi. */
+/** Class containing HealthApi operations. */
 export class HealthApiImpl implements HealthApi {
   private readonly client: GeneratedClientContext;
 
@@ -38,13 +39,13 @@ export class HealthApiImpl implements HealthApi {
   }
 }
 // Operation Specifications
-const serializer = coreClient.createSerializer({}, /* isXml */ false);
+const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getServiceStatusOperationSpec: coreClient.OperationSpec = {
   path: "/api/health",
   httpMethod: "HEAD",
   responses: { 200: {}, default: {} },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host],
+  urlParameters: [Parameters.endpoint],
   serializer
 };

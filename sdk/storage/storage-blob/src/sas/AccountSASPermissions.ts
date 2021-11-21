@@ -57,6 +57,9 @@ export class AccountSASPermissions {
         case "i":
           accountSASPermissions.setImmutabilityPolicy = true;
           break;
+        case "y":
+          accountSASPermissions.permanentDelete = true;
+          break;
         default:
           throw new RangeError(`Invalid permission character: ${c}`);
       }
@@ -108,6 +111,9 @@ export class AccountSASPermissions {
     }
     if (permissionLike.setImmutabilityPolicy) {
       accountSASPermissions.setImmutabilityPolicy = true;
+    }
+    if (permissionLike.permanentDelete) {
+      accountSASPermissions.permanentDelete = true;
     }
     return accountSASPermissions;
   }
@@ -173,6 +179,11 @@ export class AccountSASPermissions {
   public setImmutabilityPolicy: boolean = false;
 
   /**
+   * Specifies that Permanent Delete is permitted.
+   */
+  public permanentDelete: boolean = false;
+
+  /**
    * Produces the SAS permissions string for an Azure Storage account.
    * Call this method to set AccountSASSignatureValues Permissions field.
    *
@@ -222,6 +233,9 @@ export class AccountSASPermissions {
     }
     if (this.setImmutabilityPolicy) {
       permissions.push("i");
+    }
+    if (this.permanentDelete) {
+      permissions.push("y");
     }
     return permissions.join("");
   }
@@ -291,4 +305,9 @@ export interface AccountSASPermissionsLike {
    * Permission to set immutability policy.
    */
   setImmutabilityPolicy?: boolean;
+
+  /**
+   * Specifies that Permanent Delete is permitted.
+   */
+  permanentDelete?: boolean;
 }

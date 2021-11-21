@@ -2,12 +2,12 @@
 // Licensed under the MIT license.
 
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
-import { IdentityClient } from "../../client/identityClient";
+import { IdentityClient, TokenResponseParsedBody } from "../../client/identityClient";
 
 /**
  * @internal
  */
-export type MSIExpiresInParser = (requestBody: any) => number;
+export type MSIExpiresInParser = (requestBody: TokenResponseParsedBody) => number;
 
 /**
  * @internal

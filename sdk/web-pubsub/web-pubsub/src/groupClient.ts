@@ -5,7 +5,6 @@ import { CommonClientOptions, FullOperationResponse, OperationOptions } from "@a
 import { RestError, RequestBodyType } from "@azure/core-rest-pipeline";
 import { GeneratedClient } from "./generated/generatedClient";
 import { createSpan } from "./tracing";
-import normalizeSendToAllOptions from "./normalizeOptions";
 import { getPayloadForMessage } from "./utils";
 import { JSONTypes } from "./hubClient";
 
@@ -60,6 +59,16 @@ export interface GroupSendTextToAllOptions extends OperationOptions {
   contentType: "text/plain";
 }
 
+/**
+ * Options for closing all connections to a group.
+ */
+export interface GroupCloseAllConnectionsOptions extends OperationOptions {
+  /**
+   * Reason the connection is being closed.
+   */
+  reason?: string;
+}
+
 export interface WebPubSubGroup {
   /**
    * The name of this group
@@ -96,6 +105,13 @@ export interface WebPubSubGroup {
    * @param options - Additional options
    */
   removeConnection(connectionId: string, options?: GroupRemoveConnectionOptions): Promise<void>;
+
+  /**
+   * Close all connections to the group
+   *
+   * @param options - Additional options
+   */
+  closeAllConnections(options?: GroupCloseAllConnectionsOptions): Promise<void>;
 
   /**
    * Add a user to this group
@@ -163,7 +179,6 @@ export class WebPubSubGroupImpl implements WebPubSubGroup {
   public endpoint!: string;
 
   /**
-   * @private
    * @internal
    */
   constructor(client: GeneratedClient, hubName: string, groupName: string) {
@@ -186,20 +201,21 @@ export class WebPubSubGroupImpl implements WebPubSubGroup {
       options
     );
 
-    try {
-      let response: FullOperationResponse | undefined;
-      function onResponse(rawResponse: FullOperationResponse, flatResponse: unknown): void {
-        response = rawResponse;
-        if (updatedOptions.onResponse) {
-          updatedOptions.onResponse(rawResponse, flatResponse);
-        }
+    let response: FullOperationResponse | undefined;
+    function onResponse(rawResponse: FullOperationResponse, flatResponse: unknown): void {
+      response = rawResponse;
+      if (updatedOptions.onResponse) {
+        updatedOptions.onResponse(rawResponse, flatResponse);
       }
+    }
+
+    try {
       await this.client.webPubSub.addConnectionToGroup(this.hubName, this.groupName, connectionId, {
         ...updatedOptions,
         onResponse
       });
 
-      if (response?.status === 404) {
+      if (response!.status === 404) {
         throw new RestError(`Connection id '${connectionId}' doesn't exist`, {
           statusCode: response?.status,
           request: response?.request,
@@ -238,6 +254,27 @@ export class WebPubSubGroupImpl implements WebPubSubGroup {
     }
   }
 
+  /**
+   * Close all connections to this group
+   *
+   * @param options - Additional options
+   */
+  public async closeAllConnections(options: GroupCloseAllConnectionsOptions = {}): Promise<void> {
+    const { span, updatedOptions } = createSpan(
+      "WebPubSubServiceClient-group-closeAllConnections",
+      options
+    );
+
+    try {
+      return await this.client.webPubSub.closeGroupConnections(
+        this.hubName,
+        this.groupName,
+        updatedOptions
+      );
+    } finally {
+      span.end();
+    }
+  }
   /**
    * Add a user to this group
    *
@@ -306,11 +343,7 @@ export class WebPubSubGroupImpl implements WebPubSubGroup {
     message: JSONTypes | RequestBodyType,
     options: GroupSendToAllOptions | GroupSendTextToAllOptions = {}
   ): Promise<void> {
-    const normalizedOptions = normalizeSendToAllOptions(options);
-    const { span, updatedOptions } = createSpan(
-      "WebPubSubServiceClient-group-sendToAll",
-      normalizedOptions
-    );
+    const { span, updatedOptions } = createSpan("WebPubSubServiceClient-group-sendToAll", options);
 
     const { contentType, payload } = getPayloadForMessage(message, updatedOptions);
 

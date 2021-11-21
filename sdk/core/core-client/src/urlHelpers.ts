@@ -24,6 +24,8 @@ export function getRequestUrl(
     fallbackObject
   );
 
+  let isAbsolutePath = false;
+
   let requestUrl = replaceAll(baseUri, urlReplacements);
   if (operationSpec.path) {
     const path = replaceAll(operationSpec.path, urlReplacements);
@@ -32,6 +34,7 @@ export function getRequestUrl(
     // ignore the baseUri.
     if (isAbsoluteUrl(path)) {
       requestUrl = path;
+      isAbsolutePath = true;
     } else {
       requestUrl = appendPath(requestUrl, path);
     }
@@ -42,7 +45,13 @@ export function getRequestUrl(
     operationArguments,
     fallbackObject
   );
-  requestUrl = appendQueryParams(requestUrl, queryParams, sequenceParams);
+  /**
+   * Notice that this call sets the `noOverwrite` parameter to true if the `requestUrl`
+   * is an absolute path. This ensures that existing query parameter values in `requestUrl`
+   * do not get overwritten. On the other hand when `requestUrl` is not absolute path, it
+   * is still being built so there is nothing to overwrite.
+   */
+  requestUrl = appendQueryParams(requestUrl, queryParams, sequenceParams, isAbsolutePath);
 
   return requestUrl;
 }
@@ -206,8 +215,11 @@ function calculateQueryParameters(
   };
 }
 
-function simpleParseQueryParams(queryString: string): Map<string, string | string[]> {
-  const result: Map<string, string | string[]> = new Map<string, string | string[]>();
+function simpleParseQueryParams(queryString: string): Map<string, string | string[] | undefined> {
+  const result: Map<string, string | string[] | undefined> = new Map<
+    string,
+    string | string[] | undefined
+  >();
   if (!queryString || queryString[0] !== "?") {
     return result;
   }
@@ -237,7 +249,8 @@ function simpleParseQueryParams(queryString: string): Map<string, string | strin
 export function appendQueryParams(
   url: string,
   queryParams: Map<string, string | string[]>,
-  sequenceParams: Set<string>
+  sequenceParams: Set<string>,
+  noOverwrite: boolean = false
 ): string {
   if (queryParams.size === 0) {
     return url;
@@ -261,13 +274,14 @@ export function appendQueryParams(
         existingValue.push(value);
       }
     } else if (existingValue) {
-      let newValue = value;
       if (Array.isArray(value)) {
         value.unshift(existingValue);
       } else if (sequenceParams.has(name)) {
-        newValue = [existingValue, value];
+        combinedParams.set(name, [existingValue, value]);
       }
-      combinedParams.set(name, newValue);
+      if (!noOverwrite) {
+        combinedParams.set(name, value);
+      }
     } else {
       combinedParams.set(name, value);
     }
@@ -277,11 +291,13 @@ export function appendQueryParams(
   for (const [name, value] of combinedParams) {
     if (typeof value === "string") {
       searchPieces.push(`${name}=${value}`);
-    } else {
+    } else if (Array.isArray(value)) {
       // QUIRK: If we get an array of values, include multiple key/value pairs
       for (const subValue of value) {
         searchPieces.push(`${name}=${subValue}`);
       }
+    } else {
+      searchPieces.push(`${name}=${value}`);
     }
   }
 

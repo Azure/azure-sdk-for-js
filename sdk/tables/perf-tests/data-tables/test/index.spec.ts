@@ -1,4 +1,4 @@
-import { PerfStressProgram, selectPerfStressTest } from "@azure/test-utils-perfstress";
+import { PerfProgram, selectPerfTest } from "@azure/test-utils-perf";
 import { CreateSimpleEntityTest } from "./createSimpleEntity.spec";
 import { CreateSimpleEntityBatchTest } from "./createSimpleEntityBatchTest.spec";
 import { CreateComplexEntityTest } from "./createComplexEntity.spec";
@@ -11,10 +11,10 @@ import * as dotenv from "dotenv";
 
 dotenv.config();
 
-console.log("=== Starting the perfStress test ===");
+console.log("=== Starting the perf test ===");
 
-const perfStressProgram = new PerfStressProgram(
-  selectPerfStressTest([
+const perfProgram = new PerfProgram(
+  selectPerfTest([
     CreateSimpleEntityTest,
     CreateSimpleEntityBatchTest,
     CreateComplexEntityTest,
@@ -24,4 +24,4 @@ const perfStressProgram = new PerfStressProgram(
   ])
 );
 
-perfStressProgram.run();
+perfProgram.run();

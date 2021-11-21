@@ -12,7 +12,7 @@
     "../storage-internal-avro/node_modules",
     "../storage-common/node_modules",
     "./samples/**",
-    "test/perfstress/track-1/"
+    "test/perf/track-1/"
   ],
   "include": [
     "./src/**/*.ts",

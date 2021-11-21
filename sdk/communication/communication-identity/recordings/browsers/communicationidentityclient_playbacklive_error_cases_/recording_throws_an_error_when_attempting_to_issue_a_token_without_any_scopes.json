@@ -4,46 +4,45 @@
    "method": "POST",
    "url": "https://endpoint/identities",
    "query": {
-    "api-version": "2021-03-31-preview1"
+    "api-version": "2021-10-31-preview"
    },
    "requestBody": null,
    "status": 201,
    "response": "{\"identity\":{\"id\":\"sanitized\"}}",
    "responseHeaders": {
-    "api-supported-versions": "2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-03-31-preview1",
+    "api-supported-versions": "2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-03-31-preview1, 2021-10-31-preview",
+    "content-length": "101",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 01 Jun 2021 22:01:08 GMT",
-    "ms-cv": "pu3uIQqjbEmRV0ysNr96Fw.0",
+    "date": "Tue, 19 Oct 2021 15:50:03 GMT",
+    "ms-cv": "AKQlfyJ0UECLjwi/8QfAnQ.0",
     "request-context": "appId=",
-    "status": "201",
     "strict-transport-security": "max-age=2592000",
-    "x-azure-ref": "0JK62YAAAAAA894/RZb+sTp9mW+unwdTXWVZSMzBFREdFMDMxMwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+    "x-azure-ref": "0LOluYQAAAACoBBYD307/T6T26IvWgxLAUFJHMDFFREdFMDcxNABmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
     "x-cache": "CONFIG_NOCACHE",
-    "x-ms-client-request-id": "sanitized",
-    "x-processing-time": "25ms"
+    "x-ms-client-request-id": "00000000-0000-0000-0000-000000000000",
+    "x-processing-time": "97ms"
    }
   },
   {
    "method": "POST",
    "url": "https://endpoint/identities/sanitized/:issueAccessToken",
    "query": {
-    "api-version": "2021-03-31-preview1"
+    "api-version": "2021-10-31-preview"
    },
    "requestBody": "{\"scopes\":[]}",
    "status": 400,
    "response": "{\"error\":{\"code\":\"ValidationError\",\"message\":\"Invalid scopes - Scopes field is required.\",\"target\":\"scopes\"}}",
    "responseHeaders": {
-    "api-supported-versions": "2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-03-31-preview1",
+    "api-supported-versions": "2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-03-31-preview1, 2021-10-31-preview",
     "content-type": "application/json",
-    "date": "Tue, 01 Jun 2021 22:01:08 GMT",
-    "ms-cv": "IeuN31qsXUCOYipQCFQj3A.0",
+    "date": "Tue, 19 Oct 2021 15:50:04 GMT",
+    "ms-cv": "9NFf33nFnUOhvsobWCoLZw.0",
     "request-context": "appId=",
-    "status": "400",
     "strict-transport-security": "max-age=2592000",
-    "x-azure-ref": "0JK62YAAAAADNpoZGHofLSY5fObiOCAEtWVZSMzBFREdFMDMxMwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+    "x-azure-ref": "0LOluYQAAAAAh6Eju1bBRS7sAygz9D9A/UFJHMDFFREdFMDcxNABmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
     "x-cache": "CONFIG_NOCACHE",
-    "x-ms-client-request-id": "sanitized",
-    "x-processing-time": "18ms"
+    "x-ms-client-request-id": "00000000-0000-0000-0000-000000000000",
+    "x-processing-time": "27ms"
    }
   }
  ],
@@ -51,5 +50,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "1568599d5c51069b59fd26ecd793b10f"
+ "hash": "232c6a275a8bb301c5fb204cd5ea835a"
 }

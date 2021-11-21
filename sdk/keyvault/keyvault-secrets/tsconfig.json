@@ -3,6 +3,7 @@
   "compilerOptions": {
     "declarationDir": "./types",
     "outDir": "./dist-esm",
+    "lib": ["dom"],
     "resolveJsonModule": true,
     "paths": {
       "@azure/keyvault-secrets": ["./src/index"]

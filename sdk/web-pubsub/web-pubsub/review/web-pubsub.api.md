@@ -8,26 +8,22 @@ import { AzureKeyCredential } from '@azure/core-auth';
 import { CommonClientOptions } from '@azure/core-client';
 import { OperationOptions } from '@azure/core-client';
 import { RequestBodyType } from '@azure/core-rest-pipeline';
+import { TokenCredential } from '@azure/core-auth';
 
 export { AzureKeyCredential }
 
 // @public
-export interface CloseConnectionOptions extends OperationOptions {
-    reason?: string;
-}
-
-// @public
-export interface GetAuthenticationTokenOptions {
-    roles?: string[];
-    ttl?: number;
-    userId?: string;
-}
-
-// @public
-export interface GetAuthenticationTokenResponse {
+export interface ClientTokenResponse {
     baseUrl: string;
     token: string;
     url: string;
+}
+
+// @public
+export interface GenerateClientTokenOptions extends OperationOptions {
+    expirationTimeInMinutes?: number;
+    roles?: string[];
+    userId?: string;
 }
 
 // @public
@@ -40,6 +36,11 @@ export interface GroupAddUserOptions extends OperationOptions {
 
 // @public
 export interface GroupAdminClientOptions extends CommonClientOptions {
+}
+
+// @public
+export interface GroupCloseAllConnectionsOptions extends OperationOptions {
+    reason?: string;
 }
 
 // @public
@@ -71,7 +72,18 @@ export interface HasConnectionOptions extends OperationOptions {
 }
 
 // @public
-export interface HubAdminClientOptions extends CommonClientOptions {
+export interface HubCloseAllConnectionsOptions extends OperationOptions {
+    reason?: string;
+}
+
+// @public
+export interface HubCloseConnectionOptions extends OperationOptions {
+    reason?: string;
+}
+
+// @public
+export interface HubCloseUserConnectionsOptions extends OperationOptions {
+    reason?: string;
 }
 
 // @public
@@ -93,7 +105,7 @@ export interface HubHasUserOptions extends OperationOptions {
 }
 
 // @public
-export interface HubRemoveUserFromAllGroupsOptions extends CloseConnectionOptions {
+export interface HubRemoveUserFromAllGroupsOptions extends HubCloseConnectionOptions {
 }
 
 // @public
@@ -143,6 +155,7 @@ export interface WebPubSubGroup {
     addConnection(connectionId: string, options?: GroupAddConnectionOptions): Promise<void>;
     addUser(username: string, options?: GroupAddUserOptions): Promise<void>;
     readonly apiVersion: string;
+    closeAllConnections(options?: GroupCloseAllConnectionsOptions): Promise<void>;
     readonly endpoint: string;
     readonly groupName: string;
     readonly hubName: string;
@@ -155,20 +168,21 @@ export interface WebPubSubGroup {
 
 // @public
 export class WebPubSubServiceClient {
-    constructor(connectionString: string, hubName: string, options?: HubAdminClientOptions);
-    constructor(endpoint: string, credential: AzureKeyCredential, hubName: string, options?: HubAdminClientOptions);
+    constructor(connectionString: string, hubName: string, options?: WebPubSubServiceClientOptions);
+    constructor(endpoint: string, credential: AzureKeyCredential | TokenCredential, hubName: string, options?: WebPubSubServiceClientOptions);
     readonly apiVersion: string;
-    closeConnection(connectionId: string, options?: CloseConnectionOptions): Promise<void>;
+    closeAllConnections(options?: HubCloseAllConnectionsOptions): Promise<void>;
+    closeConnection(connectionId: string, options?: HubCloseConnectionOptions): Promise<void>;
+    closeUserConnections(userId: string, options?: HubCloseUserConnectionsOptions): Promise<void>;
+    connectionExists(connectionId: string, options?: HasConnectionOptions): Promise<boolean>;
     endpoint: string;
-    getAuthenticationToken(options?: GetAuthenticationTokenOptions): Promise<GetAuthenticationTokenResponse>;
+    getClientAccessToken(options?: GenerateClientTokenOptions): Promise<ClientTokenResponse>;
     grantPermission(connectionId: string, permission: Permission, options?: HubGrantPermissionOptions): Promise<void>;
     group(groupName: string): WebPubSubGroup;
-    hasConnection(connectionId: string, options?: HasConnectionOptions): Promise<boolean>;
-    hasGroup(groupName: string, options?: HubHasGroupOptions): Promise<boolean>;
+    groupExists(groupName: string, options?: HubHasGroupOptions): Promise<boolean>;
     hasPermission(connectionId: string, permission: Permission, options?: HubHasPermissionOptions): Promise<boolean>;
-    hasUser(username: string, options?: HubHasUserOptions): Promise<boolean>;
     readonly hubName: string;
-    removeUserFromAllGroups(userId: string, options?: CloseConnectionOptions): Promise<void>;
+    removeUserFromAllGroups(userId: string, options?: HubCloseConnectionOptions): Promise<void>;
     revokePermission(connectionId: string, permission: Permission, options?: HubRevokePermissionOptions): Promise<void>;
     sendToAll(message: string, options: HubSendTextToAllOptions): Promise<void>;
     sendToAll(message: JSONTypes, options?: HubSendToAllOptions): Promise<void>;
@@ -179,8 +193,13 @@ export class WebPubSubServiceClient {
     sendToUser(username: string, message: string, options: HubSendTextToUserOptions): Promise<void>;
     sendToUser(username: string, message: JSONTypes, options?: HubSendToUserOptions): Promise<void>;
     sendToUser(username: string, message: RequestBodyType, options?: HubSendToUserOptions | HubSendTextToUserOptions): Promise<void>;
+    userExists(username: string, options?: HubHasUserOptions): Promise<boolean>;
 }
 
+// @public
+export interface WebPubSubServiceClientOptions extends CommonClientOptions {
+    reverseProxyEndpoint?: string;
+}
 
 // (No @packageDocumentation comment for this package)
 

@@ -8,9 +8,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@azure/identity": "2.0.0-beta.5",
-    "@azure/search-documents": "11.3.0-beta.4",
-    "@azure/test-utils-perfstress": "^1.0.0",
+    "@azure/identity": "^2.0.1",
+    "@azure/search-documents": "11.3.0-beta.5",
+    "@azure/test-utils-perf": "^1.0.0",
     "dotenv": "^8.2.0"
   },
   "devDependencies": {

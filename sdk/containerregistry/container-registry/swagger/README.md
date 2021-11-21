@@ -14,12 +14,13 @@ license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src/generated
 #input-file: ./containerregistry.json
-input-file: https://github.com/Azure/azure-rest-api-specs/blob/9b489ff217acd3bd6d62b2932e42d3c08ed4d08c/specification/containerregistry/data-plane/Azure.ContainerRegistry/stable/2021-07-01/containerregistry.json
+input-file: https://github.com/Azure/azure-rest-api-specs/blob/c8d9a26a2857828e095903efa72512cf3a76c15d/specification/containerregistry/data-plane/Azure.ContainerRegistry/stable/2021-07-01/containerregistry.json
 add-credentials: false
 override-client-name: GeneratedClient
 disable-async-iterators: true
 hide-clients: true
-package-version: 1.0.0-beta.6
+api-version-parameter: choice
+package-version: 1.0.0-beta.7
 ```
 
 ## Customizations for Track 2 Generator
@@ -73,4 +74,16 @@ directive:
     where: $.definitions.ManifestAttributesBase
     transform: >
       delete $.properties.configMediaType
+```
+
+### Change "parameters.ApiVersionParameter.required" to true
+
+so that the generated client/clientcontext constructors take apiVersion as a parameter.
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.parameters.ApiVersionParameter
+    transform: >
+      $.required = true
 ```

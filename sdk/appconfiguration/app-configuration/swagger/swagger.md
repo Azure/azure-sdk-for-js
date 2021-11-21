@@ -21,6 +21,7 @@ disable-async-iterators: true
 api-version-parameter: choice
 v3: true
 hide-clients: true
+--use-core-v2: false
 ```
 
 ### Patch endpoints for exception handling

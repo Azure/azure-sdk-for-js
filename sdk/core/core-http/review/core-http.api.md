@@ -296,7 +296,9 @@ export class HttpHeaders implements HttpHeadersLike {
     rawHeaders(): RawHttpHeaders;
     remove(headerName: string): boolean;
     set(headerName: string, headerValue: string | number): void;
-    toJson(): RawHttpHeaders;
+    toJson(options?: {
+        preserveCase?: boolean;
+    }): RawHttpHeaders;
     toString(): string;
 }
 
@@ -311,7 +313,9 @@ export interface HttpHeadersLike {
     rawHeaders(): RawHttpHeaders;
     remove(headerName: string): boolean;
     set(headerName: string, headerValue: string | number): void;
-    toJson(): RawHttpHeaders;
+    toJson(options?: {
+        preserveCase?: boolean;
+    }): RawHttpHeaders;
 }
 
 // @public (undocumented)

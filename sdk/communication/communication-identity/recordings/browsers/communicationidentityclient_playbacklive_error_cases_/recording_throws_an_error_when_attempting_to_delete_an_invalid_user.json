@@ -4,23 +4,22 @@
    "method": "DELETE",
    "url": "https://endpoint/identities/sanitized",
    "query": {
-    "api-version": "2021-03-31-preview1"
+    "api-version": "2021-10-31-preview"
    },
    "requestBody": null,
    "status": 401,
    "response": "{\"error\":{\"code\":\"IdentityNotOwned\",\"message\":\"Provided identity doesn't belong to the resource.\"}}",
    "responseHeaders": {
-    "api-supported-versions": "2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-03-31-preview1",
+    "api-supported-versions": "2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-03-31-preview1, 2021-10-31-preview",
     "content-type": "application/json",
-    "date": "Tue, 01 Jun 2021 22:01:08 GMT",
-    "ms-cv": "CSgDApAfWkeO4SrvgHnsZQ.0",
+    "date": "Tue, 19 Oct 2021 15:50:04 GMT",
+    "ms-cv": "VQy68d3IM0KJGtN0szw/pA.0",
     "request-context": "appId=",
-    "status": "401",
     "strict-transport-security": "max-age=2592000",
-    "x-azure-ref": "0JK62YAAAAAATy1/IhJhXTJUYd/vyi/CuWVZSMzBFREdFMDMxMwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+    "x-azure-ref": "0LeluYQAAAADMfv1CfMGDQriZALZGJHsKUFJHMDFFREdFMDcxNABmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
     "x-cache": "CONFIG_NOCACHE",
-    "x-ms-client-request-id": "sanitized",
-    "x-processing-time": "16ms"
+    "x-ms-client-request-id": "00000000-0000-0000-0000-000000000000",
+    "x-processing-time": "18ms"
    }
   }
  ],
@@ -28,5 +27,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "ed72e5bf86d4aa2d2a265f33f1e6bc2a"
+ "hash": "d4c36d330cf943ffc89cfd00cc968d56"
 }

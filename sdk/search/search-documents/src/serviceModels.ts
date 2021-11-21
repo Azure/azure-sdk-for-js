@@ -83,7 +83,8 @@ import {
   LexicalNormalizerName,
   CustomNormalizer,
   SearchIndexerKnowledgeStore,
-  SearchIndexerCache
+  SearchIndexerCache,
+  SemanticSettings
 } from "./generated/service/models";
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
@@ -240,7 +241,7 @@ export interface CreateOrUpdateIndexOptions extends OperationOptions {
 /**
  * Options for reset docs operation.
  */
-export interface ResetDocsOptions extends OperationOptions {
+export interface ResetDocumentsOptions extends OperationOptions {
   /** document keys to be reset */
   documentKeys?: string[];
   /** datasource document identifiers to be reset */
@@ -252,7 +253,10 @@ export interface ResetDocsOptions extends OperationOptions {
 /**
  * Options for reset skills operation.
  */
-export type ResetSkillsOptions = OperationOptions;
+export interface ResetSkillsOptions extends OperationOptions {
+  /** the names of skills to be reset. */
+  skillNames?: string[];
+}
 
 /**
  * Options for create/update skillset operation.
@@ -1005,6 +1009,10 @@ export interface SearchIndex {
    * be modified on existing indexes. If null, the ClassicSimilarity algorithm is used.
    */
   similarity?: SimilarityAlgorithm;
+  /**
+   * Defines parameters for a search index that influence semantic capabilities.
+   */
+  semanticSettings?: SemanticSettings;
   /**
    * The ETag of the index.
    */
