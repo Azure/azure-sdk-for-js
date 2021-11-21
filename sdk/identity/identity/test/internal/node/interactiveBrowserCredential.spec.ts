@@ -65,9 +65,9 @@ describe("InteractiveBrowserCredential (internal)", function() {
     );
   });
 
-  it("Throws an expected error if port 80 is not available", async function(this: Context) {
+  it("Throws an expected error if port 1337 is not available", async function(this: Context) {
     const app = http.createServer((): void => undefined);
-    const port = "8081";
+    const port = "1337";
 
     listen = app.listen(port, () => console.info(`Test server listening on port ${port}!`));
 
