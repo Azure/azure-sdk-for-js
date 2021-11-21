@@ -32,6 +32,7 @@ const ruleList = [
   "ts-config-strict",
   "ts-config-target",
   "ts-doc-internal",
+  "ts-doc-internal-private-member",
   "ts-error-handling",
   "ts-modules-only-named",
   "ts-naming-drop-noun",

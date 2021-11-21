@@ -24,6 +24,7 @@ import tsConfigSourceMap from "./ts-config-sourcemap";
 import tsConfigStrict from "./ts-config-strict";
 import tsConfigTarget from "./ts-config-target";
 import tsDocInternal from "./ts-doc-internal";
+import tsDocInternalPrivateMember from "./ts-doc-internal-private-member";
 import tsErrorHandling from "./ts-error-handling";
 import tsModulesOnlyNamed from "./ts-modules-only-named";
 import tsNamingDropNoun from "./ts-naming-drop-noun";
@@ -74,6 +75,7 @@ export = {
   "ts-config-strict": tsConfigStrict,
   "ts-config-target": tsConfigTarget,
   "ts-doc-internal": tsDocInternal,
+  "ts-doc-internal-private-member": tsDocInternalPrivateMember,
   "ts-error-handling": tsErrorHandling,
   "ts-modules-only-named": tsModulesOnlyNamed,
   "ts-naming-drop-noun": tsNamingDropNoun,
