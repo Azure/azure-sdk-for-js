@@ -1,6 +1,15 @@
 # Release History
 
-## 3.14.2 (Unreleased)
+## 3.15.0 (Unreleased|2021-11-22)
+
+### Features Added
+- Exported variables SasTokenPermissionKind and SasTokenProperties ,function createAuthorizationSasToken to demonstrate scoped access to Cosmos Resources with SasToken
+
+### Other Changes
+- Made several changes to the sample programs to improve code quality and compatibility with Node 12, and upgraded the sample programs' dependencies
+
+
+## 3.14.2 
 
 ### Features Added
 

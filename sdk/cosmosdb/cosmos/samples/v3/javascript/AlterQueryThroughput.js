@@ -63,9 +63,9 @@ async function updateOfferForCollection(newRups, dbName, collectionName, oldOffe
     content: {
       offerThroughput: newRups,
       offerIsRUPerMinuteThroughputEnabled:
-        oldOfferDefinition.content.offerIsRUPerMinuteThroughputEnabled,
+        oldOfferDefinition.content.offerIsRUPerMinuteThroughputEnabled
     },
-    offerVersion: "V2",
+    offerVersion: "V2"
   };
 
   logStep("Read all databases");
@@ -76,7 +76,10 @@ async function updateOfferForCollection(newRups, dbName, collectionName, oldOffe
     databases
       .filter((database) => database.id === dbName)
       .map((database) => {
-        return client.database(database.id).containers.readAll().fetchAll();
+        return client
+          .database(database.id)
+          .containers.readAll()
+          .fetchAll();
       })
   );
 
@@ -90,7 +93,11 @@ async function updateOfferForCollection(newRups, dbName, collectionName, oldOffe
   );
 
   if (container) {
-    const offer = client.offer(oldOfferDefinition.id);
+    const id = oldOfferDefinition.id;
+    if (typeof id === "undefined") {
+      throw new Error("ID for old offer is undefined");
+    }
+    const offer = client.offer(id);
     logStep("replace old offer with new offer");
     await offer.replace(newOfferDefinition);
   }

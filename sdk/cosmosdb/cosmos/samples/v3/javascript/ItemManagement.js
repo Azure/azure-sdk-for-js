@@ -40,15 +40,18 @@ async function run() {
   for (const itemDef of itemDefList) {
     console.log(itemDef.id);
   }
-
-  const item = container.item(itemDefList[0].id, undefined);
+  const id = itemDefList[0].id;
+  if (typeof id === "undefined") {
+    throw new Error("Id is undefined");
+  }
+  const item = container.item(id, undefined);
   logStep("Read item '" + item.id + "'");
   const { resource: readDoc } = await item.read();
   console.log("item with id '" + item.id + "' found");
 
   logStep("Read item with AccessCondition and no change to _etag");
   const { resource: item2, headers } = await item.read({
-    accessCondition: { type: "IfNoneMatch", condition: readDoc._etag },
+    accessCondition: { type: "IfNoneMatch", condition: readDoc._etag }
   });
   if (!item2 && headers["content-length"] === 0) {
     console.log(
@@ -61,7 +64,7 @@ async function run() {
   readDoc.foo = "bar";
   await item.replace(readDoc);
   const { resource: item3, headers: headers3 } = await item.read({
-    accessCondition: { type: "IfNoneMatch", condition: readDoc._etag },
+    accessCondition: { type: "IfNoneMatch", condition: readDoc._etag }
   });
   if (!item3 && headers3["content-length"] === 0) {
     throw "Expected item this time. Something is wrong!";
@@ -76,9 +79,9 @@ async function run() {
     parameters: [
       {
         name: "@lastName",
-        value: "Andersen",
-      },
-    ],
+        value: "Andersen"
+      }
+    ]
   };
 
   logStep("Query items in container '" + container.id + "'");
@@ -99,7 +102,7 @@ async function run() {
     firstName: "Newborn",
     gender: "unknown",
     fingers: 10,
-    toes: 10,
+    toes: 10
   };
 
   person.children.push(childDef);
@@ -108,13 +111,12 @@ async function run() {
   logStep("Replace item with id '" + item.id + "'");
   const { resource: updatedPerson } = await container.items.upsert(person);
 
-  console.log(
-    "The '" + person.id + "' family has lastName '" + updatedPerson && updatedPerson.lastName + "'"
-  );
-  console.log(
-    "The '" + person.id + "' family has " + updatedPerson &&
-      updatedPerson.children.length + " children '"
-  );
+  if (person && updatedPerson) {
+    console.log("The '" + person.id + "' family has lastName '" + updatedPerson.lastName + "'");
+    console.log(
+      "The '" + person.id + "' family has " + updatedPerson.children.length + " children '"
+    );
+  }
 
   logStep("Trying to replace item when item has changed in the database");
   // The replace item above will work even if there's a new version of item on the server from what you originally read
@@ -132,7 +134,7 @@ async function run() {
     await item.replace(person, { accessCondition: { type: "IfMatch", condition: person._etag } });
     throw new Error("This should have failed!");
   } catch (err) {
-    if (err.code === 412) {
+    if (err && err.code === 412) {
       console.log("As expected, the replace item failed with a pre-condition failure");
     } else {
       throw err;
@@ -141,31 +143,27 @@ async function run() {
 
   const upsertSource = itemDefList[1];
   logStep(
-    `Upserting person ${upsertSource && upsertSource.id} with id ${
-      upsertSource && upsertSource.id
-    }...`
+    `Upserting person ${upsertSource && upsertSource.id} with id ${upsertSource &&
+      upsertSource.id}...`
   );
 
   // a non-identity change will cause an update on upsert
   upsertSource.foo = "baz";
   const { resource: upsertedPerson1 } = await container.items.upsert(upsertSource);
-  console.log(
-    `Upserted ${upsertedPerson1 && upsertedPerson1.id} to id ${
-      upsertedPerson1 && upsertedPerson1.id
-    }.`
-  );
-
+  if (upsertedPerson1) {
+    console.log(`Upserted ${upsertedPerson1.id} to id ${upsertedPerson1.id}.`);
+  }
   // an identity change will cause an insert on upsert
   upsertSource.id = "HazzardFamily";
   const { resource: upsertedPerson2 } = await container.items.upsert(upsertSource);
-  console.log(
-    `Upserted ${upsertedPerson2 && upsertedPerson2.id} to id ${
-      upsertedPerson2 && upsertedPerson2.id
-    }.`
-  );
+  if (upsertedPerson2) {
+    console.log(`Upserted ${upsertedPerson2.id} to id ${upsertedPerson2.id}.`);
+  }
 
-  if (upsertedPerson1.id === upsertedPerson2.id) {
-    throw new Error("These two upserted records should have different resource IDs.");
+  if (upsertedPerson1 && upsertedPerson2) {
+    if (upsertedPerson1.id === upsertedPerson2.id) {
+      throw new Error("These two upserted records should have different resource IDs.");
+    }
   }
 
   logStep("Delete item '" + item.id + "'");

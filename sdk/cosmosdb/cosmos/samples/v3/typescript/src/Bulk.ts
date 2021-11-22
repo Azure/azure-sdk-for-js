@@ -10,7 +10,7 @@ import * as dotenv from "dotenv";
 dotenv.config({ path: path.resolve(__dirname, "../sample.env") });
 
 import { handleError, finish, logStep } from "./Shared/handleError";
-import { BulkOperationType, CosmosClient } from "@azure/cosmos";
+import { BulkOperationType, CosmosClient , OperationInput } from "@azure/cosmos";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 const key = process.env.COSMOS_KEY || "<cosmos key>";
@@ -62,7 +62,7 @@ async function run() {
     class: "2012"
   });
 
-  const operations = [
+  const operations : OperationInput[] = [
     {
       operationType: BulkOperationType.Create,
       partitionKey: "A",

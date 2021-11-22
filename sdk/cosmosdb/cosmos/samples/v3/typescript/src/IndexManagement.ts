@@ -43,7 +43,10 @@ async function run(): Promise<void> {
     { id: "item1", foo: "bar" },
     { indexingDirective: "exclude" }
   );
-  console.log("Item with id '" + itemDef && itemDef.id + "' created");
+
+  if (itemDef) {
+    console.log(`Item with id  ${itemDef.id} 'created`)
+  }
 
   const querySpec = {
     query: "SELECT * FROM root r WHERE r.foo=@foo",
@@ -90,7 +93,9 @@ async function run(): Promise<void> {
     { id: "item2", foo: "bar" },
     { indexingDirective: "include" }
   );
-  console.log("Item with id '" + itemDef && itemDef2.id + "' created");
+  if (itemDef) {
+    console.log(`Item with id  ${itemDef.id} 'created`)
+  }
 
   console.log("Querying all items for a given item should find a result as it was indexed");
   const { resources: results2 } = await container.items.query(querySpec).fetchAll();
@@ -128,7 +133,9 @@ async function run(): Promise<void> {
     }
   });
 
-  console.log("Container '" + containerDef && containerDef.id + "' updated with new index policy");
+  if (containerDef) {
+    console.log(`Container  ${containerDef.id} 'updated with new index policy`)
+  }
 
   // create an item
   console.log("Creating item");
@@ -183,7 +190,10 @@ async function run(): Promise<void> {
     }
   });
 
-  console.log("Container '" + containerDef && containerDef.id + "' updated with excludedPaths");
+  if (containerDef) {
+    console.log(`Container  ${containerDef.id} 'updated with excludedPaths`)
+  }
+
   // create an item
   console.log("Creating item");
   const { item: item4 } = await container.items.create({
@@ -214,10 +224,12 @@ async function run(): Promise<void> {
     console.log(result.resources);
     throw new Error("Should've produced an error");
   } catch (err) {
-    if (err.code !== undefined) {
-      console.log("Threw, as expected");
-    } else {
-      throw err;
+    if (err instanceof Error) {
+      if (err && err.message !== undefined) {
+        console.log("Threw, as expected");
+      } else {
+        throw err;
+      }
     }
   }
 
