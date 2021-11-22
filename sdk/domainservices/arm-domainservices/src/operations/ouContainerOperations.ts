@@ -9,16 +9,16 @@
 
 import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
-import * as Mappers from "../models/domainServiceOperationsMappers";
+import * as Mappers from "../models/ouContainerOperationsMappers";
 import * as Parameters from "../models/parameters";
 import { DomainservicesManagementClientContext } from "../domainservicesManagementClientContext";
 
-/** Class representing a DomainServiceOperations. */
-export class DomainServiceOperations {
+/** Class representing a OuContainerOperations. */
+export class OuContainerOperations {
   private readonly client: DomainservicesManagementClientContext;
 
   /**
-   * Create a DomainServiceOperations.
+   * Create a OuContainerOperations.
    * @param {DomainservicesManagementClientContext} client Reference to the service client.
    */
   constructor(client: DomainservicesManagementClientContext) {
@@ -26,11 +26,11 @@ export class DomainServiceOperations {
   }
 
   /**
-   * Lists all the available Domain Services operations.
+   * Lists all the available OuContainer operations.
    * @param [options] The optional parameters
-   * @returns Promise<Models.DomainServiceOperationsListResponse>
+   * @returns Promise<Models.OuContainerOperationsListResponse>
    */
-  list(options?: msRest.RequestOptionsBase): Promise<Models.DomainServiceOperationsListResponse>;
+  list(options?: msRest.RequestOptionsBase): Promise<Models.OuContainerOperationsListResponse>;
   /**
    * @param callback The callback
    */
@@ -40,22 +40,22 @@ export class DomainServiceOperations {
    * @param callback The callback
    */
   list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationEntityListResult>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationEntityListResult>, callback?: msRest.ServiceCallback<Models.OperationEntityListResult>): Promise<Models.DomainServiceOperationsListResponse> {
+  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationEntityListResult>, callback?: msRest.ServiceCallback<Models.OperationEntityListResult>): Promise<Models.OuContainerOperationsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.DomainServiceOperationsListResponse>;
+      callback) as Promise<Models.OuContainerOperationsListResponse>;
   }
 
   /**
-   * Lists all the available Domain Services operations.
+   * Lists all the available OuContainer operations.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
-   * @returns Promise<Models.DomainServiceOperationsListNextResponse>
+   * @returns Promise<Models.OuContainerOperationsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.DomainServiceOperationsListNextResponse>;
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.OuContainerOperationsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
@@ -67,14 +67,14 @@ export class DomainServiceOperations {
    * @param callback The callback
    */
   listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationEntityListResult>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationEntityListResult>, callback?: msRest.ServiceCallback<Models.OperationEntityListResult>): Promise<Models.DomainServiceOperationsListNextResponse> {
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationEntityListResult>, callback?: msRest.ServiceCallback<Models.OperationEntityListResult>): Promise<Models.OuContainerOperationsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.DomainServiceOperationsListNextResponse>;
+      callback) as Promise<Models.OuContainerOperationsListNextResponse>;
   }
 }
 
@@ -82,7 +82,7 @@ export class DomainServiceOperations {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "providers/Microsoft.AAD/operations",
+  path: "providers/Microsoft.Aad/operations",
   queryParameters: [
     Parameters.apiVersion
   ],
