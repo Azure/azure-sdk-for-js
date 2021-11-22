@@ -67,9 +67,20 @@ describe("InteractiveBrowserCredential (internal)", function() {
 
   it("Throws an expected error if port 1337 is not available", async function(this: Context) {
     const app = http.createServer((): void => undefined);
-    const port = "1337";
 
-    listen = app.listen(port, () => console.info(`Test server listening on port ${port}!`));
+    const asyncListen = (port: string): Promise<http.Server> =>
+      new Promise((resolve, reject) => {
+        const server = (app as any).listen(port, "localhost", () => resolve(server));
+        server.on("error", reject);
+      });
+
+    let port = "1337";
+    try {
+      listen = await asyncListen(port);
+    } catch (e) {
+      port = "1338";
+      listen = await asyncListen(port);
+    }
 
     const credential = new InteractiveBrowserCredential({
       redirectUri: `http://localhost:${port}`,
