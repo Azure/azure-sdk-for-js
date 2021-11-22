@@ -62,6 +62,19 @@ const tokenCredential = new AzureCommunicationTokenCredential({
 });
 ```
 
+### Create a credential with proactive refreshing and custom refresh time
+
+Optionally, you can adjust the time span before token expiry that will trigger the proactive refreshing of the token. For example, if the proactive refreshing is enabled (`refreshProactively` is true), setting the time span (`refreshTimeBeforeTokenExpiryInSeconds`) to 5 minutes means that 5 minutes before the cached token expires, the proactive refresh will request a new token by calling the `tokenRefresher` callback.
+The default value is 10 minutes.
+
+```typescript
+const tokenCredential = new AzureCommunicationTokenCredential({
+  tokenRefresher: async () => fetchTokenFromMyServerForUser("bob@contoso.com"),
+  refreshProactively: true,
+  refreshTimeBeforeTokenExpiryInSeconds: 5 * 60 // 5 minutes
+});
+```
+
 ### Create a credential with proactive refreshing and an initial token
 
 Passing `initialToken` is an optional optimization to skip the first call to `tokenRefresher`. You can use this to separate the boot from your application from subsequent token refresh cycles.
