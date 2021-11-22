@@ -45,7 +45,7 @@ async function run(): Promise<void> {
   );
 
   if (itemDef) {
-    console.log(`Item with id  ${itemDef.id} 'created`)
+    console.log(`Item with id  ${itemDef.id} 'created`);
   }
 
   const querySpec = {
@@ -94,7 +94,7 @@ async function run(): Promise<void> {
     { indexingDirective: "include" }
   );
   if (itemDef) {
-    console.log(`Item with id  ${itemDef.id} 'created`)
+    console.log(`Item with id  ${itemDef.id} 'created`);
   }
 
   console.log("Querying all items for a given item should find a result as it was indexed");
@@ -134,7 +134,7 @@ async function run(): Promise<void> {
   });
 
   if (containerDef) {
-    console.log(`Container  ${containerDef.id} 'updated with new index policy`)
+    console.log(`Container  ${containerDef.id} 'updated with new index policy`);
   }
 
   // create an item
@@ -191,7 +191,7 @@ async function run(): Promise<void> {
   });
 
   if (containerDef) {
-    console.log(`Container  ${containerDef.id} 'updated with excludedPaths`)
+    console.log(`Container  ${containerDef.id} 'updated with excludedPaths`);
   }
 
   // create an item

@@ -17,7 +17,7 @@ const databaseId = process.env.COSMOS_DATABASE || "<cosmos database>";
 async function run() {
   const client = new CosmosClient({
     endpoint,
-    key
+    key,
   });
 
   const query1 = "Select * from c order by c._ts";
@@ -28,7 +28,7 @@ async function run() {
   const options = {
     maxItemCount: 10000,
     maxDegreeOfParallelism: 1000,
-    bufferItems: true
+    bufferItems: true,
   };
 
   const scenarios = [];

@@ -165,7 +165,6 @@ async function run(): Promise<void> {
     } else {
       throw err;
     }
-
   } finally {
     await finish();
   }

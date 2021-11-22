@@ -63,9 +63,9 @@ async function updateOfferForCollection(newRups, dbName, collectionName, oldOffe
     content: {
       offerThroughput: newRups,
       offerIsRUPerMinuteThroughputEnabled:
-        oldOfferDefinition.content.offerIsRUPerMinuteThroughputEnabled
+        oldOfferDefinition.content.offerIsRUPerMinuteThroughputEnabled,
     },
-    offerVersion: "V2"
+    offerVersion: "V2",
   };
 
   logStep("Read all databases");
@@ -76,10 +76,7 @@ async function updateOfferForCollection(newRups, dbName, collectionName, oldOffe
     databases
       .filter((database) => database.id === dbName)
       .map((database) => {
-        return client
-          .database(database.id)
-          .containers.readAll()
-          .fetchAll();
+        return client.database(database.id).containers.readAll().fetchAll();
       })
   );
 

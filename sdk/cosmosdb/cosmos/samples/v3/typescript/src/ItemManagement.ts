@@ -114,7 +114,9 @@ async function run(): Promise<void> {
 
   if (person && updatedPerson) {
     console.log("The '" + person.id + "' family has lastName '" + updatedPerson.lastName + "'");
-    console.log("The '" + person.id + "' family has " + updatedPerson.children.length + " children '");
+    console.log(
+      "The '" + person.id + "' family has " + updatedPerson.children.length + " children '"
+    );
   }
 
   logStep("Trying to replace item when item has changed in the database");
@@ -132,7 +134,7 @@ async function run(): Promise<void> {
   try {
     await item.replace(person, { accessCondition: { type: "IfMatch", condition: person._etag } });
     throw new Error("This should have failed!");
-  } catch (err :any) {
+  } catch (err: any) {
     if (err && err.code === 412) {
       console.log("As expected, the replace item failed with a pre-condition failure");
     } else {
@@ -143,31 +145,27 @@ async function run(): Promise<void> {
   const upsertSource = itemDefList[1];
   logStep(
     `Upserting person ${upsertSource && upsertSource.id} with id ${upsertSource &&
-    upsertSource.id}...`
+      upsertSource.id}...`
   );
 
   // a non-identity change will cause an update on upsert
   upsertSource.foo = "baz";
   const { resource: upsertedPerson1 } = await container.items.upsert(upsertSource);
   if (upsertedPerson1) {
-    console.log(
-      `Upserted ${upsertedPerson1.id} to id ${upsertedPerson1.id}.`
-    );
+    console.log(`Upserted ${upsertedPerson1.id} to id ${upsertedPerson1.id}.`);
   }
   // an identity change will cause an insert on upsert
   upsertSource.id = "HazzardFamily";
   const { resource: upsertedPerson2 } = await container.items.upsert(upsertSource);
   if (upsertedPerson2) {
-  console.log(
-    `Upserted ${upsertedPerson2.id} to id ${upsertedPerson2.id}.`
-  );
+    console.log(`Upserted ${upsertedPerson2.id} to id ${upsertedPerson2.id}.`);
   }
-  
-  if(upsertedPerson1 && upsertedPerson2){
-  if (upsertedPerson1.id === upsertedPerson2.id) {
-    throw new Error("These two upserted records should have different resource IDs.");
+
+  if (upsertedPerson1 && upsertedPerson2) {
+    if (upsertedPerson1.id === upsertedPerson2.id) {
+      throw new Error("These two upserted records should have different resource IDs.");
+    }
   }
-}
 
   logStep("Delete item '" + item.id + "'");
   await item.delete();
