@@ -3,7 +3,7 @@
 
 import { HttpClient, HttpOperationResponse } from "@azure/core-http";
 import { DefaultHttpClient, WebResourceLike } from "@azure/core-http";
-import { isPlaybackMode, isRecordMode } from "@azure-tools/test-recorder";
+import { isLiveMode } from "@azure-tools/test-recorder";
 import { TestProxyHttpClient } from "./core-v2-recorder";
 import { Test } from "mocha";
 
@@ -22,10 +22,8 @@ export class TestProxyHttpClientCoreV1 extends TestProxyHttpClient {
   }
 
   async sendRequest(request: WebResourceLike): Promise<HttpOperationResponse> {
-    if (isPlaybackMode() || isRecordMode()) {
-      if (this.recordingId) {
-        request = this.redirectRequest(request);
-      }
+    if (!isLiveMode() && this.recordingId) {
+      request = this.redirectRequest(request);
     }
     return this.httpClientCoreV1.sendRequest(request);
   }

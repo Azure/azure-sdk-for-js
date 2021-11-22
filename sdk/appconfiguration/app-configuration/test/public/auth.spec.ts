@@ -19,13 +19,16 @@ describe("Authentication", () => {
 
   beforeEach(async function(this: Context) {
     recorder = new TestProxyHttpClientCoreV1(this.currentTest);
-    credsAndEndpoint = getTokenAuthenticationCredential() || this.skip();
     await recorder.start(recorderStartOptions);
+    credsAndEndpoint =
+      getTokenAuthenticationCredential({ httpClient: recorder.getRecorderHttpClient() }) ||
+      this.skip();
   });
 
   afterEach(async function() {
     await recorder.stop();
   });
+
   it("token authentication works", async function() {
     const client = new AppConfigurationClient(
       credsAndEndpoint.endpoint,

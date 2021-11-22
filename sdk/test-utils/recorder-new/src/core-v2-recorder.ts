@@ -12,7 +12,7 @@ import {
   PipelineResponse,
   SendRequest
 } from "@azure/core-rest-pipeline";
-import { isPlaybackMode, isRecordMode } from "@azure-tools/test-recorder";
+import { isLiveMode, isPlaybackMode, isRecordMode } from "@azure-tools/test-recorder";
 import {
   ensureExistence,
   getTestMode,
@@ -63,7 +63,8 @@ export class TestProxyHttpClient {
 
   constructor(private testContext?: Test | undefined) {
     this.mode = getTestMode();
-    if (isRecordMode() || isPlaybackMode()) {
+    this.variables = {};
+    if (!isLiveMode()) {
       if (this.testContext) {
         this.sessionFile = sessionFilePath(this.testContext);
         this.httpClient = createDefaultHttpClient();
@@ -74,7 +75,6 @@ export class TestProxyHttpClient {
       }
       this.sanitizer = new Sanitizer(this.mode, this.url, this.httpClient);
     }
-    this.variables = {};
   }
 
   /**
@@ -92,7 +92,7 @@ export class TestProxyHttpClient {
    * Works for both core-v1 and core-v2
    */
   redirectRequest(request: WebResourceLike | PipelineRequest) {
-    if (isPlaybackMode() || isRecordMode()) {
+    if (!isLiveMode()) {
       if (!request.headers.get("x-recording-id")) {
         request.headers.set("x-recording-id", this.recordingId!);
         request.headers.set("x-recording-mode", this.mode);
@@ -127,12 +127,10 @@ export class TestProxyHttpClient {
   /**
    * recorderHttpPolicy calls this method on the request to modify and hit the proxy-tool with appropriate headers.
    */
-  async modifyRequest(request: PipelineRequest): Promise<PipelineRequest> {
-    if (isPlaybackMode() || isRecordMode()) {
-      if (this.recordingId) {
-        request = this.redirectRequest(request);
-        request.allowInsecureConnection = true;
-      }
+  modifyRequest(request: PipelineRequest): PipelineRequest {
+    if (!isLiveMode() && this.recordingId) {
+      request = this.redirectRequest(request);
+      request.allowInsecureConnection = true;
     }
     return request;
   }
@@ -150,7 +148,7 @@ export class TestProxyHttpClient {
    * @param {RecorderStartOptions} options
    */
   async start(options: RecorderStartOptions): Promise<void> {
-    if (isPlaybackMode() || isRecordMode()) {
+    if (!isLiveMode()) {
       this.stateManager.state = "started";
       if (this.recordingId === undefined) {
         const startUri = `${this.url}${isPlaybackMode() ? paths.playback : paths.record}${
@@ -195,7 +193,7 @@ export class TestProxyHttpClient {
    * Call this method to ping the proxy-tool with a stop request, this helps saving the recording in record mode.
    */
   async stop(): Promise<void> {
-    if (isPlaybackMode() || isRecordMode()) {
+    if (!isLiveMode()) {
       this.stateManager.state = "stopped";
       if (this.recordingId !== undefined) {
         const stopUri = `${this.url}${isPlaybackMode() ? paths.playback : paths.record}${
@@ -240,6 +238,10 @@ export class TestProxyHttpClient {
     }
     return req;
   }
+
+  public getRecorderHttpClient(): HttpClient {
+    return new RecorderHttpClient(this);
+  }
 }
 
 /**
@@ -252,8 +254,21 @@ export function recorderHttpPolicy(testProxyHttpClient: TestProxyHttpClient): Pi
   return {
     name: "recording policy",
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
-      await testProxyHttpClient.modifyRequest(request);
-      return next(request);
+      return next(testProxyHttpClient.modifyRequest(request));
     }
   };
+}
+
+class RecorderHttpClient {
+  private _httpClient: HttpClient;
+  constructor(private testProxyHttpClient: TestProxyHttpClient) {
+    this._httpClient = this.testProxyHttpClient.httpClient ?? createDefaultHttpClient();
+  }
+
+  async sendRequest(request: PipelineRequest): Promise<PipelineResponse> {
+    if (!isLiveMode() && this.testProxyHttpClient.recordingId) {
+      request = this.testProxyHttpClient.modifyRequest(request);
+    }
+    return this._httpClient.sendRequest(request);
+  }
 }

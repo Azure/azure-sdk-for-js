@@ -15,7 +15,11 @@ import * as assert from "assert";
 // in the environment
 import * as dotenv from "dotenv";
 
-import { DefaultAzureCredential, TokenCredential } from "@azure/identity";
+import {
+  DefaultAzureCredential,
+  DefaultAzureCredentialOptions,
+  TokenCredential
+} from "@azure/identity";
 import { RecorderStartOptions } from "@azure-tools/test-recorder-new/types/src/utils/utils";
 dotenv.config();
 
@@ -40,11 +44,19 @@ export const recorderStartOptions: RecorderStartOptions = {
   sanitizerOptions: {
     connectionStringSanitizers: [
       { actualConnString: env.APPCONFIG_CONNECTION_STRING, fakeConnString }
+    ],
+    bodyRegexSanitizers: [
+      {
+        regex: encodeURIComponent(env.AZ_CONFIG_ENDPOINT),
+        value: encodeURIComponent("https://myappconfig.azconfig.io")
+      }
     ]
   }
 };
 
-export function getTokenAuthenticationCredential(): CredsAndEndpoint | undefined {
+export function getTokenAuthenticationCredential(
+  options?: DefaultAzureCredentialOptions | undefined
+): CredsAndEndpoint | undefined {
   const requiredEnvironmentVariables = [
     "AZ_CONFIG_ENDPOINT",
     "AZURE_CLIENT_ID",
@@ -66,7 +78,7 @@ export function getTokenAuthenticationCredential(): CredsAndEndpoint | undefined
   }
 
   return {
-    credential: new DefaultAzureCredential(),
+    credential: new DefaultAzureCredential(options),
     endpoint: env["AZ_CONFIG_ENDPOINT"]!
   };
 }

@@ -183,7 +183,19 @@ export interface SanitizerOptions {
    */
   bodyRegexSanitizers?: RegexSanitizer[];
 
+  /**
+   * This sanitizer offers regex update of a specific JTokenPath.
+   *
+   * EG: "TableName" within a json response body having its value replaced by whatever substitution is offered.
+   * This simply means that if you are attempting to replace a specific key wholesale, this sanitizer will be simpler
+   * than configuring a BodyRegexSanitizer that has to match against the full "KeyName": "Value" that is part of the json structure.
+   *
+   * Further reading is available [here](https://www.newtonsoft.com/json/help/html/SelectToken.htm#SelectTokenJSONPath).
+   *
+   * If the body is NOT a JSON object, this sanitizer will NOT be applied.
+   */
   bodyKeySanitizers?: BodyKeySanitizer[];
+
   /**
    * TODO
    * Has a bug, not implemented fully.
