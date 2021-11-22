@@ -67,23 +67,22 @@ async function setup(key) {
     return;
   }
 
-  let uri = process.env["KEYVAULT_URI"] || "<keyvault-uri>";
-  uri = !uri.endsWith("/") ? `${uri}/` : uri;
-  const secretId = `${uri}secrets/secret-key${Math.ceil(100 + Math.random() * 900)}`;
-
   // DefaultAzureCredential expects the following three environment variables:
   // - AZURE_TENANT_ID: The tenant ID in Azure Active Directory
   // - AZURE_CLIENT_ID: The application (client) ID registered in the AAD tenant
   // - AZURE_CLIENT_SECRET: The client secret for the registered application
-  const secretClient = new SecretClient(uri, new DefaultAzureCredential());
-
-  const secretName = parseKeyVaultSecretIdentifier(secretId).name;
+  const secretClient = new SecretClient(process.env["KEYVAULT_URI"], new DefaultAzureCredential());
+  const secretName = `secret-${Date.now()}`;
   // Create a secret
-  console.log(`Create a keyvault secret with key: ${secretName} and value: "MySecretValue"`);
-  await secretClient.setSecret(secretName, "MySecretValue");
+  console.log(`Create a keyvault secret with key: ${secretName}  and value: "MySecretValue"`);
+  const secret = await secretClient.setSecret(secretName, "MySecretValue");
+
+  if (!secret.properties.id) {
+    throw new Error("Something went wrong - secret id is undefined");
+  }
 
   // creates the secret reference config setting
-  await createConfigSetting(key, secretId);
+  await createConfigSetting(key, secret.properties.id);
 }
 
 async function createConfigSetting(key, secretId) {
