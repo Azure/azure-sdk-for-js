@@ -86,23 +86,10 @@ export const schemaName: OperationURLParameter = {
   parameterPath: "schemaName",
   mapper: {
     constraints: {
-      Pattern: new RegExp("^[A-Za-z0-9][A-Za-z0-9_-]*$"),
       MaxLength: 50
     },
     serializedName: "schemaName",
     required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const contentType: OperationParameter = {
-  parameterPath: ["options", "contentType"],
-  mapper: {
-    defaultValue: "application/json; serialization=Avro",
-    isConstant: true,
-    serializedName: "Content-Type",
     type: {
       name: "String"
     }
@@ -126,6 +113,17 @@ export const accept2: OperationParameter = {
     defaultValue: "application/json",
     isConstant: true,
     serializedName: "Accept",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const contentType: OperationParameter = {
+  parameterPath: "contentType",
+  mapper: {
+    serializedName: "Content-Type",
+    required: true,
     type: {
       name: "String"
     }

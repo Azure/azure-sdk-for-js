@@ -1,51 +1,51 @@
 {
- "recordings": [
-  {
-   "method": "POST",
-   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
-   "query": {},
-   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default",
-   "status": 200,
-   "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
-   "responseHeaders": {
-    "cache-control": "no-store, no-cache",
-    "content-length": "1331",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 02 Jun 2021 07:08:37 GMT",
-    "expires": "-1",
-    "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
-    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
-    "pragma": "no-cache",
-    "referrer-policy": "strict-origin-when-cross-origin",
-    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+wst\"}]}",
-    "strict-transport-security": "max-age=31536000; includeSubDomains",
-    "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11722.26 - SCUS ProdSlices",
-    "x-ms-request-id": "03309eaf-7bbf-433f-a795-f3996d03a400"
-   }
+  "recordings": [
+    {
+      "method": "POST",
+      "url": "https://login.microsoftonline.com/72698866-8641-4147-9144-24744011447/oauth2/v2.0/token",
+      "query": {},
+      "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default",
+      "status": 200,
+      "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
+      "responseHeaders": {
+        "cache-control": "no-store, no-cache",
+        "content-length": "1331",
+        "content-type": "application/json; charset=utf-8",
+        "date": "Wed, 02 Jun 2021 07:08:37 GMT",
+        "expires": "-1",
+        "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
+        "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+        "pragma": "no-cache",
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+wst\"}]}",
+        "strict-transport-security": "max-age=31536000; includeSubDomains",
+        "x-content-type-options": "nosniff",
+        "x-ms-ests-server": "2.1.11722.26 - SCUS ProdSlices",
+        "x-ms-request-id": "03309eaf-7bbf-433f-a795-f3996d03a400"
+      }
+    },
+    {
+      "method": "POST",
+      "url": "https://endpoint/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/26ece682-80a6-4415-89a2-05903dd9a640/series/query",
+      "query": {},
+      "requestBody": "{\"startTime\":\"2020-08-01T00:00:00.000Z\",\"endTime\":\"2020-08-27T00:00:00.000Z\",\"series\":[{\"dimension\":{\"city\":\"Manila\",\"category\":\"Shoes Handbags & Sunglasses\"}},{\"dimension\":{\"city\":\"Cairo\",\"category\":\"Home & Garden\"}}]}",
+      "status": 200,
+      "response": "{\"value\":[{\"series\":{\"dimension\":{\"city\":\"Manila\",\"category\":\"Shoes Handbags & Sunglasses\"}},\"timestampList\":[\"2020-08-01T00:00:00Z\",\"2020-08-02T00:00:00Z\",\"2020-08-03T00:00:00Z\",\"2020-08-04T00:00:00Z\",\"2020-08-05T00:00:00Z\",\"2020-08-06T00:00:00Z\",\"2020-08-07T00:00:00Z\",\"2020-08-08T00:00:00Z\",\"2020-08-09T00:00:00Z\",\"2020-08-10T00:00:00Z\",\"2020-08-11T00:00:00Z\",\"2020-08-12T00:00:00Z\",\"2020-08-13T00:00:00Z\",\"2020-08-14T00:00:00Z\",\"2020-08-15T00:00:00Z\",\"2020-08-16T00:00:00Z\",\"2020-08-17T00:00:00Z\",\"2020-08-18T00:00:00Z\",\"2020-08-19T00:00:00Z\",\"2020-08-20T00:00:00Z\",\"2020-08-21T00:00:00Z\",\"2020-08-22T00:00:00Z\",\"2020-08-23T00:00:00Z\",\"2020-08-24T00:00:00Z\",\"2020-08-25T00:00:00Z\",\"2020-08-26T00:00:00Z\"],\"valueList\":[3546568.0,5713162.0,6450863.0,6377158.2,6264455.0,6143905.2,4201741.2,3425373.8000000003,3656562.0,5064309.4,5237066.800000001,4631166.600000001,4382529.2,3578532.8000000003,3285258.6,5501434.0,6234598.2,6182013.0,6142358.600000001,6086747.800000001,4135463.4000000004,3398402.8000000003,5624620.0,6302798.2,6235636.0,6227662.0],\"isAnomalyList\":[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],\"periodList\":[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],\"expectedValueList\":[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],\"lowerBoundaryList\":[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],\"upperBoundaryList\":[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null]},{\"series\":{\"dimension\":{\"city\":\"Cairo\",\"category\":\"Home & Garden\"}},\"timestampList\":[\"2020-08-01T00:00:00Z\",\"2020-08-02T00:00:00Z\",\"2020-08-03T00:00:00Z\",\"2020-08-04T00:00:00Z\",\"2020-08-05T00:00:00Z\",\"2020-08-06T00:00:00Z\",\"2020-08-07T00:00:00Z\",\"2020-08-08T00:00:00Z\",\"2020-08-09T00:00:00Z\",\"2020-08-10T00:00:00Z\",\"2020-08-11T00:00:00Z\",\"2020-08-12T00:00:00Z\",\"2020-08-13T00:00:00Z\",\"2020-08-14T00:00:00Z\",\"2020-08-15T00:00:00Z\",\"2020-08-16T00:00:00Z\",\"2020-08-17T00:00:00Z\",\"2020-08-18T00:00:00Z\",\"2020-08-19T00:00:00Z\",\"2020-08-20T00:00:00Z\",\"2020-08-21T00:00:00Z\",\"2020-08-22T00:00:00Z\",\"2020-08-23T00:00:00Z\",\"2020-08-24T00:00:00Z\",\"2020-08-25T00:00:00Z\",\"2020-08-26T00:00:00Z\"],\"valueList\":[2155.8,2969.8,4654.6,4707.6,4694.2,4741.400000000001,4060.2000000000003,2324.0,2783.8,4648.0,4862.6,4685.2,4578.6,3682.0,2327.8,2983.0,4783.2,4997.6,5108.0,4773.2,3915.6000000000004,2638.4,3182.0,5056.0,5200.200000000001,5022.400000000001],\"isAnomalyList\":[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],\"periodList\":[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],\"expectedValueList\":[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],\"lowerBoundaryList\":[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],\"upperBoundaryList\":[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null]}]}",
+      "responseHeaders": {
+        "apim-request-id": "053239e4-0711-42c4-898b-4b9eb1806cbf",
+        "content-length": "3489",
+        "content-type": "application/json; charset=utf-8",
+        "date": "Wed, 02 Jun 2021 07:08:43 GMT",
+        "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+        "x-content-type-options": "nosniff",
+        "x-envoy-upstream-service-time": "5206",
+        "x-request-id": "053239e4-0711-42c4-898b-4b9eb1806cbf"
+      }
+    }
+  ],
+  "uniqueTestInfo": {
+    "uniqueName": {},
+    "newDate": {}
   },
-  {
-   "method": "POST",
-   "url": "https://endpoint/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/26ece682-80a6-4415-89a2-05903dd9a640/series/query",
-   "query": {},
-   "requestBody": "{\"startTime\":\"2020-08-01T00:00:00.000Z\",\"endTime\":\"2020-08-27T00:00:00.000Z\",\"series\":[{\"dimension\":{\"city\":\"Manila\",\"category\":\"Shoes Handbags & Sunglasses\"}},{\"dimension\":{\"city\":\"Cairo\",\"category\":\"Home & Garden\"}}]}",
-   "status": 200,
-   "response": "{\"value\":[{\"series\":{\"dimension\":{\"city\":\"Manila\",\"category\":\"Shoes Handbags & Sunglasses\"}},\"timestampList\":[\"2020-08-01T00:00:00Z\",\"2020-08-02T00:00:00Z\",\"2020-08-03T00:00:00Z\",\"2020-08-04T00:00:00Z\",\"2020-08-05T00:00:00Z\",\"2020-08-06T00:00:00Z\",\"2020-08-07T00:00:00Z\",\"2020-08-08T00:00:00Z\",\"2020-08-09T00:00:00Z\",\"2020-08-10T00:00:00Z\",\"2020-08-11T00:00:00Z\",\"2020-08-12T00:00:00Z\",\"2020-08-13T00:00:00Z\",\"2020-08-14T00:00:00Z\",\"2020-08-15T00:00:00Z\",\"2020-08-16T00:00:00Z\",\"2020-08-17T00:00:00Z\",\"2020-08-18T00:00:00Z\",\"2020-08-19T00:00:00Z\",\"2020-08-20T00:00:00Z\",\"2020-08-21T00:00:00Z\",\"2020-08-22T00:00:00Z\",\"2020-08-23T00:00:00Z\",\"2020-08-24T00:00:00Z\",\"2020-08-25T00:00:00Z\",\"2020-08-26T00:00:00Z\"],\"valueList\":[3546568.0,5713162.0,6450863.0,6377158.2,6264455.0,6143905.2,4201741.2,3425373.8000000003,3656562.0,5064309.4,5237066.800000001,4631166.600000001,4382529.2,3578532.8000000003,3285258.6,5501434.0,6234598.2,6182013.0,6142358.600000001,6086747.800000001,4135463.4000000004,3398402.8000000003,5624620.0,6302798.2,6235636.0,6227662.0],\"isAnomalyList\":[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],\"periodList\":[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],\"expectedValueList\":[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],\"lowerBoundaryList\":[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],\"upperBoundaryList\":[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null]},{\"series\":{\"dimension\":{\"city\":\"Cairo\",\"category\":\"Home & Garden\"}},\"timestampList\":[\"2020-08-01T00:00:00Z\",\"2020-08-02T00:00:00Z\",\"2020-08-03T00:00:00Z\",\"2020-08-04T00:00:00Z\",\"2020-08-05T00:00:00Z\",\"2020-08-06T00:00:00Z\",\"2020-08-07T00:00:00Z\",\"2020-08-08T00:00:00Z\",\"2020-08-09T00:00:00Z\",\"2020-08-10T00:00:00Z\",\"2020-08-11T00:00:00Z\",\"2020-08-12T00:00:00Z\",\"2020-08-13T00:00:00Z\",\"2020-08-14T00:00:00Z\",\"2020-08-15T00:00:00Z\",\"2020-08-16T00:00:00Z\",\"2020-08-17T00:00:00Z\",\"2020-08-18T00:00:00Z\",\"2020-08-19T00:00:00Z\",\"2020-08-20T00:00:00Z\",\"2020-08-21T00:00:00Z\",\"2020-08-22T00:00:00Z\",\"2020-08-23T00:00:00Z\",\"2020-08-24T00:00:00Z\",\"2020-08-25T00:00:00Z\",\"2020-08-26T00:00:00Z\"],\"valueList\":[2155.8,2969.8,4654.6,4707.6,4694.2,4741.400000000001,4060.2000000000003,2324.0,2783.8,4648.0,4862.6,4685.2,4578.6,3682.0,2327.8,2983.0,4783.2,4997.6,5108.0,4773.2,3915.6000000000004,2638.4,3182.0,5056.0,5200.200000000001,5022.400000000001],\"isAnomalyList\":[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],\"periodList\":[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],\"expectedValueList\":[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],\"lowerBoundaryList\":[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],\"upperBoundaryList\":[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null]}]}",
-   "responseHeaders": {
-    "apim-request-id": "053239e4-0711-42c4-898b-4b9eb1806cbf",
-    "content-length": "3489",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 02 Jun 2021 07:08:43 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "5206",
-    "x-request-id": "053239e4-0711-42c4-898b-4b9eb1806cbf"
-   }
-  }
- ],
- "uniqueTestInfo": {
-  "uniqueName": {},
-  "newDate": {}
- },
- "hash": "a2ddf0a7e22c8553f9e190b5ebfe1233"
+  "hash": "a2ddf0a7e22c8553f9e190b5ebfe1233"
 }

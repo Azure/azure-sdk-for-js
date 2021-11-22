@@ -130,7 +130,9 @@ export interface HttpHeaders extends Iterable<[string, string]> {
     get(name: string): string | undefined;
     has(name: string): boolean;
     set(name: string, value: string | number | boolean): void;
-    toJSON(): RawHttpHeaders;
+    toJSON(options?: {
+        preserveCase?: boolean;
+    }): RawHttpHeaders;
 }
 
 // @public

@@ -11,16 +11,14 @@ require("dotenv").config();
 const { logSampleHeader, handleError, finish, logStep } = require("./Shared/handleError");
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-const { CosmosClient } = require("../dist");
+const { CosmosClient } = require("@azure/cosmos");
 const { v4 } = require("uuid");
 const uuid = v4;
 
-const {
-  COSMOS_DATABASE: databaseId,
-  COSMOS_CONTAINER: containerId,
-  COSMOS_ENDPOINT: endpoint,
-  COSMOS_KEY: key
-} = process.env;
+const key = process.env.COSMOS_KEY || "<cosmos key>";
+const endpoint = process.env.COSMOS_ENDPOINT || "<cosmos endpoint>";
+const databaseId = process.env.COSMOS_DATABASE || "<cosmos database>";
+const containerId = process.env.COSMOS_CONTAINER || "<cosmos container>";
 
 logSampleHeader("Bulk Update Using Stored Procedures");
 // Only to make TypeScript happy
@@ -36,7 +34,7 @@ function body(continuation) {
     collection.getSelfLink(),
     "SELECT * FROM root r",
     { pageSize: 2, continuation }, // Setting this low to show how continuation tokens work
-    function(err, feed, options) {
+    function (err, feed, options) {
       if (err) throw err;
       // Set continuation token on response if we get one
       responseBody.continuation = options.continuation;
@@ -53,7 +51,7 @@ function body(continuation) {
       // Grab the next document to update
       const document = documents.pop();
       document.state = "open";
-      collection.replaceDocument(document._self, document, {}, function(err) {
+      collection.replaceDocument(document._self, document, {}, function (err) {
         if (err) throw err;
         // If we have successfully updated the document, include it in the returned document ids
         responseBodyParam.updatedDocumentIds.push(document.id);
@@ -83,7 +81,7 @@ async function run() {
   logStep("Created stored procedure");
   const { storedProcedure } = await container.scripts.storedProcedures.create({
     id: "queryAndBulkUpdate",
-    body
+    body,
   });
 
   logStep("Execute stored procedure and follow continuation tokens");

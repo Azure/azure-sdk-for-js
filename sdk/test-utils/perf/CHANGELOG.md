@@ -2,6 +2,16 @@
 
 ## 1.0.0 (Unreleased)
 
+### 2021-11-18
+
+- Respect the `longName` option when provided in the options object
+  [#18693](https://github.com/Azure/azure-sdk-for-js/pull/18693)
+
+### 2021-11-15
+
+- Throw an error when an unrecognized command-line argument is encountered
+  [#18708](https://github.com/Azure/azure-sdk-for-js/pull/18708)
+
 ### 2021-10-29
 
 - Add an elapsed time column to the snapshot log output.
@@ -11,6 +21,7 @@
 
 - Log dependencies (`@azure` packages only) on perf test start. Extended output of transitive dependencies can be enabled using the new `--list-transitive-dependencies` flag.
   [#18366](https://github.com/Azure/azure-sdk-for-js/pull/18366)
+
 ### 2021-10-20
 
 - Clean up some naming: `PerfStress` to `Perf` everywhere; also rename the `runAsync` method to `run`.

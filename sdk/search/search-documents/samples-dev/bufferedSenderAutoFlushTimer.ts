@@ -15,6 +15,7 @@ import {
 } from "@azure/search-documents";
 import { createIndex, documentKeyRetriever, WAIT_TIME, delay } from "./setup";
 import { Hotel } from "./interfaces";
+
 import * as dotenv from "dotenv";
 dotenv.config();
 

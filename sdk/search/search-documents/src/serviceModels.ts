@@ -83,7 +83,8 @@ import {
   LexicalNormalizerName,
   CustomNormalizer,
   SearchIndexerKnowledgeStore,
-  SearchIndexerCache
+  SearchIndexerCache,
+  SemanticSettings
 } from "./generated/service/models";
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
@@ -1008,6 +1009,10 @@ export interface SearchIndex {
    * be modified on existing indexes. If null, the ClassicSimilarity algorithm is used.
    */
   similarity?: SimilarityAlgorithm;
+  /**
+   * Defines parameters for a search index that influence semantic capabilities.
+   */
+  semanticSettings?: SemanticSettings;
   /**
    * The ETag of the index.
    */
