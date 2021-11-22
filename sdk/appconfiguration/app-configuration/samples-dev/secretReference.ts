@@ -47,10 +47,20 @@ export async function main() {
   );
 
   const secretClient = new SecretClient(vaultUrl, new DefaultAzureCredential());
-
-  // Read the secret we created
-  const secret = await secretClient.getSecret(secretName);
-  console.log(`Get the secret from keyvault key: ${secretName}, value: ${secret.value}`);
+  try {
+    // Read the secret we created
+    const secret = await secretClient.getSecret(secretName);
+    console.log(`Get the secret from keyvault key: ${secretName}, value: ${secret.value}`);
+  } catch (err) {
+    const error = err as { code: string; statusCode: number };
+    if (error.code === "SecretNotFound" && error.statusCode === 404) {
+      throw new Error(
+        `\n Secret is not found, make sure the secret ${parsedSecretReference.value.secretId} is present in your keyvault account;\n Original error - ${error}`
+      );
+    } else {
+      throw err;
+    }
+  }
 
   console.log(`Deleting the secret from keyvault`);
   await secretClient.beginDeleteSecret(secretName);
