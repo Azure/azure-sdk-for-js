@@ -1095,6 +1095,11 @@
       "packageName": "@azure/arm-datalake-analytics",
       "projectFolder": "sdk/datalake-analytics/arm-datalake-analytics",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-batch",
+      "projectFolder": "sdk/batch/arm-batch",
+      "versionPolicyName": "management"
     }
   ]
 }
