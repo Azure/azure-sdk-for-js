@@ -1320,6 +1320,17 @@ export const ManagedClusterLoadBalancerProfileManagedOutboundIPs: msRest.Composi
         type: {
           name: "Number"
         }
+      },
+      countIPv6: {
+        serializedName: "countIPv6",
+        defaultValue: 0,
+        constraints: {
+          InclusiveMaximum: 100,
+          InclusiveMinimum: 0
+        },
+        type: {
+          name: "Number"
+        }
       }
     }
   }
@@ -1607,6 +1618,39 @@ export const ContainerServiceNetworkProfile: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ManagedClusterNATGatewayProfile"
+        }
+      },
+      podCidrs: {
+        serializedName: "podCidrs",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      serviceCidrs: {
+        serializedName: "serviceCidrs",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      ipFamilies: {
+        serializedName: "ipFamilies",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       }
     }
@@ -3595,6 +3639,22 @@ export const Snapshot: msRest.CompositeMapper = {
         serializedName: "properties.enableFIPS",
         type: {
           name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const AgentPoolsUpgradeNodeImageVersionHeaders: msRest.CompositeMapper = {
+  serializedName: "agentpools-upgradenodeimageversion-headers",
+  type: {
+    name: "Composite",
+    className: "AgentPoolsUpgradeNodeImageVersionHeaders",
+    modelProperties: {
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String"
         }
       }
     }

@@ -965,11 +965,17 @@ export interface ContainerServiceLinuxProfile {
  */
 export interface ManagedClusterLoadBalancerProfileManagedOutboundIPs {
   /**
-   * The desired number of outbound IPs created/managed by Azure for the cluster load balancer.
-   * Allowed values must be in the range of 1 to 100 (inclusive). The default value is 1. Default
-   * value: 1.
+   * The desired number of IPv4 outbound IPs created/managed by Azure for the cluster load
+   * balancer. Allowed values must be in the range of 1 to 100 (inclusive). The default value is 1.
+   * Default value: 1.
    */
   count?: number;
+  /**
+   * The desired number of IPv6 outbound IPs created/managed by Azure for the cluster load
+   * balancer. Allowed values must be in the range of 1 to 100 (inclusive). The default value is 0
+   * for single-stack and 1 for dual-stack. Default value: 0.
+   */
+  countIPv6?: number;
 }
 
 /**
@@ -1130,6 +1136,24 @@ export interface ContainerServiceNetworkProfile {
    * Profile of the cluster NAT gateway.
    */
   natGatewayProfile?: ManagedClusterNATGatewayProfile;
+  /**
+   * The CIDR notation IP ranges from which to assign pod IPs. One IPv4 CIDR is expected for
+   * single-stack networking. Two CIDRs, one for each IP family (IPv4/IPv6), is expected for
+   * dual-stack networking.
+   */
+  podCidrs?: string[];
+  /**
+   * The CIDR notation IP ranges from which to assign service cluster IPs. One IPv4 CIDR is
+   * expected for single-stack networking. Two CIDRs, one for each IP family (IPv4/IPv6), is
+   * expected for dual-stack networking. They must not overlap with any Subnet IP ranges.
+   */
+  serviceCidrs?: string[];
+  /**
+   * The IP families used to specify IP versions available to the cluster. IP families are used to
+   * determine single-stack or dual-stack clusters. For single-stack, the expected value is IPv4.
+   * For dual-stack, the expected values are IPv4 and IPv6.
+   */
+  ipFamilies?: IpFamily[];
 }
 
 /**
@@ -1971,9 +1995,8 @@ export interface ManagedCluster extends Resource {
    */
   securityProfile?: ManagedClusterSecurityProfile;
   /**
-   * Whether the cluster can be accessed through public network or not. Default value is 'Enabled'
-   * (case insensitive). Could be set to 'Disabled' to enable private cluster. Possible values
-   * include: 'Enabled', 'Disabled'
+   * PublicNetworkAccess of the managedCluster. Allow or deny public network access for AKS.
+   * Possible values include: 'Enabled', 'Disabled'
    */
   publicNetworkAccess?: PublicNetworkAccess;
 }
@@ -2443,6 +2466,16 @@ export interface ContainerServiceClientOptions extends AzureServiceClientOptions
 }
 
 /**
+ * Defines headers for UpgradeNodeImageVersion operation.
+ */
+export interface AgentPoolsUpgradeNodeImageVersionHeaders {
+  /**
+   * URL to query for status of the operation.
+   */
+  azureAsyncOperation: string;
+}
+
+/**
  * @interface
  * The List Operation response.
  * @extends Array<OperationValue>
@@ -2712,6 +2745,14 @@ export type OutboundType = 'loadBalancer' | 'userDefinedRouting' | 'managedNATGa
  * @enum {string}
  */
 export type LoadBalancerSku = 'standard' | 'basic';
+
+/**
+ * Defines values for IpFamily.
+ * Possible values include: 'IPv4', 'IPv6'
+ * @readonly
+ * @enum {string}
+ */
+export type IpFamily = 'IPv4' | 'IPv6';
 
 /**
  * Defines values for CreatedByType.
@@ -3421,11 +3462,16 @@ export type AgentPoolsGetAvailableAgentPoolVersionsResponse = AgentPoolAvailable
 /**
  * Contains response data for the upgradeNodeImageVersion operation.
  */
-export type AgentPoolsUpgradeNodeImageVersionResponse = AgentPool & {
+export type AgentPoolsUpgradeNodeImageVersionResponse = AgentPool & AgentPoolsUpgradeNodeImageVersionHeaders & {
   /**
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: AgentPoolsUpgradeNodeImageVersionHeaders;
+
       /**
        * The response body as text (string format)
        */
@@ -3442,26 +3488,6 @@ export type AgentPoolsUpgradeNodeImageVersionResponse = AgentPool & {
  * Contains response data for the beginCreateOrUpdate operation.
  */
 export type AgentPoolsBeginCreateOrUpdateResponse = AgentPool & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AgentPool;
-    };
-};
-
-/**
- * Contains response data for the beginUpgradeNodeImageVersion operation.
- */
-export type AgentPoolsBeginUpgradeNodeImageVersionResponse = AgentPool & {
   /**
    * The underlying HTTP response.
    */
