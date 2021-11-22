@@ -2595,16 +2595,14 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
 
       switch (testEntityType) {
         case EntityType.QUEUE: {
-          const queueResponse = await atomClient.createQueue(entityPath, {
+          return atomClient.createQueue(entityPath, {
             ...queueOptions
           });
-          return queueResponse;
         }
         case EntityType.TOPIC: {
-          const topicResponse = await atomClient.createTopic(entityPath, {
+          return atomClient.createTopic(entityPath, {
             ...topicOptions
           });
-          return topicResponse;
         }
         case EntityType.SUBSCRIPTION: {
           if (!topicPath) {
@@ -2626,14 +2624,22 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
           if (!ruleOptions?.filter) {
             throw new Error("TestError: ruleOptions.filter should have been set");
           }
-          const ruleResponse = await atomClient.createRule(
-            topicPath,
-            subscriptionPath,
-            entityPath,
-            ruleOptions?.filter,
-            ruleOptions?.action
-          );
-          return ruleResponse;
+          if (ruleOptions?.action) {
+            return atomClient.createRule(
+              topicPath,
+              subscriptionPath,
+              entityPath,
+              ruleOptions?.filter,
+              ruleOptions?.action
+            );
+          } else {
+            return atomClient.createRule(
+              topicPath,
+              subscriptionPath,
+              entityPath,
+              ruleOptions?.filter
+            );
+          }
         }
       }
       throw new Error("TestError: Unrecognized EntityType");
