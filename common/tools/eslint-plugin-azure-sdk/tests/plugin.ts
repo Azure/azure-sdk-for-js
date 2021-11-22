@@ -42,7 +42,6 @@ const ruleList = [
   "ts-no-namespaces",
   "ts-no-window",
   "ts-package-json-author",
-  "ts-package-json-sdktype",
   "ts-package-json-bugs",
   "ts-package-json-engine-is-present",
   "ts-package-json-files-required",
