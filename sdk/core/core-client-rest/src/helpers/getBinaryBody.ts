@@ -5,7 +5,12 @@
  * Converts a string representing binary content into a Uint8Array
  */
 export function stringToBinaryArray(content: string): Uint8Array {
-  return Buffer.from(content);
+  const arr = new Uint8Array(content.length);
+  for (let i = 0; i < content.length; i++) {
+    arr[i] = content.charCodeAt(i);
+  }
+
+  return arr;
 }
 
 /**
@@ -13,11 +18,16 @@ export function stringToBinaryArray(content: string): Uint8Array {
  */
 export function binaryArrayToString(content: unknown): string {
   if (typeof content === "string") {
-    return String(content);
+    return content;
   }
 
-  if (ArrayBuffer.isView(content)) {
-    return Buffer.from(content).toString();
+  if (content instanceof Uint8Array) {
+    let decodedBody = "";
+    for (const element of content) {
+      decodedBody += String.fromCharCode(element);
+    }
+
+    return decodedBody;
   }
 
   return JSON.stringify(content);
