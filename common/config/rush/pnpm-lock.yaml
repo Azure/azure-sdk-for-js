@@ -5088,8 +5088,8 @@ packages:
     resolution: {integrity: sha1-tIDIkuWaLwWVTOcnvT8qTogvnhM=}
     dev: false
 
-  /json-schema/0.3.0:
-    resolution: {integrity: sha512-TYfxx36xfl52Rf1LU9HyWSLGPdYLL+SQ8/E/0yVyKG8wCCDaSrhPap0vEdlsZWRaS6tnKKLPGiEJGiREVC8kxQ==}
+  /json-schema/0.4.0:
+    resolution: {integrity: sha512-es94M3nTIfsEPisRafak+HDLfHXnKBhV3vU5eqPcS3flIWqcxJWgXHXiey3YrpaNsanY5ei1VoYEbOzijuq9BA==}
     dev: false
 
   /json-stable-stringify-without-jsonify/1.0.1:
@@ -8699,7 +8699,7 @@ packages:
     dev: false
 
   file:projects/arm-batch.tgz:
-    resolution: {integrity: sha512-yZunhswkrAsneBi3vyqkvAw/N0g2/5gSVNN34qKC35jIFM2TQ+Bo2aD2DN0a+DUviPrkBKGAAC1S9Zbcce8PyQ==, tarball: file:projects/arm-batch.tgz}
+    resolution: {integrity: sha512-QDWMjs1TGNDU/wHWTMlAvGsBnDgX25veyFnRoHZCFlbWTTMY/yrt9teLhcXL8Jcrbn1fyEApNNtrcw0iFarr+A==, tarball: file:projects/arm-batch.tgz}
     name: '@rush-temp/arm-batch'
     version: 0.0.0
     dependencies:
@@ -10987,7 +10987,7 @@ packages:
     dev: false
 
   file:projects/eslint-plugin-azure-sdk.tgz:
-    resolution: {integrity: sha512-J35xOLMjkbGTj6mKWiUneuknJsBuksy6zGWJGZk9Y4Osvu/qLeMKWELZ7UEr2WIpJBSeTqvJihgvgrIJ0VUkUQ==, tarball: file:projects/eslint-plugin-azure-sdk.tgz}
+    resolution: {integrity: sha512-9QeRV6tJaY41UTA9Bf7mXhuazf83pKvMngFDH/rawytjqFGjwSjPt5yTTWyLw6Le3bslteTJ52TlPlq0HSAZNQ==, tarball: file:projects/eslint-plugin-azure-sdk.tgz}
     name: '@rush-temp/eslint-plugin-azure-sdk'
     version: 0.0.0
     dependencies:
@@ -11010,7 +11010,7 @@ packages:
       eslint-plugin-promise: 4.3.1
       eslint-plugin-tsdoc: 0.2.14
       glob: 7.2.0
-      json-schema: 0.3.0
+      json-schema: 0.4.0
       mocha: 7.2.0
       mocha-junit-reporter: 1.23.3_mocha@7.2.0
       prettier: 1.19.1
@@ -12445,7 +12445,7 @@ packages:
     dev: false
 
   file:projects/perf-template.tgz:
-    resolution: {integrity: sha512-RIu7ZVVEApPgrz/t2xXWEGR3xhGhkeUemTxft3FyA9HVTW+jS6mfljJQV9SXL9cnXH/XGief8RXqe3oYLaMMpA==, tarball: file:projects/perf-template.tgz}
+    resolution: {integrity: sha512-jQXz+VLJkyVe3JOkTY4b7nBZiWukaei0w20dRJO3RkxX2HPwfWCxVT/J8nK9zZ5fWtERRQtmwuitoeD4XdY0eQ==, tarball: file:projects/perf-template.tgz}
     name: '@rush-temp/perf-template'
     version: 0.0.0
     dependencies:
