@@ -23,10 +23,9 @@ export async function main() {
 
   const key = `secret${new Date().getTime()}`;
 
-  // setup
-  // - creates a secret using `@azure/keyvault-secrets`
-  // and
-  // - a corresponding secret reference config setting with `@azure/app-configuration`
+  // setup method creates 
+  // - a secret using `@azure/keyvault-secrets`
+  // - and a corresponding secret reference config setting with `@azure/app-configuration`
   await setup(key);
 
   console.log(`Get the added secretReference from App Config with key: ${key}`);
