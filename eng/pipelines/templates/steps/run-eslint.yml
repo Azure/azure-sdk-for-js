@@ -8,5 +8,6 @@ steps:
 
   - pwsh: |
       node common/scripts/install-run-rush.js build -t @azure/eslint-plugin-azure-sdk
+      node common/scripts/install-run-rush.js test -t @azure/eslint-plugin-azure-sdk
       node eng/tools/rush-runner.js lint "${{parameters.ServiceDirectory}}"
     displayName: "Build ESLint Plugin and Lint Libraries"
