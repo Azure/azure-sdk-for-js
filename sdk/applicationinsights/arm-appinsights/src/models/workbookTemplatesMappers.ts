@@ -30,14 +30,15 @@ export {
   WebTestPropertiesConfiguration,
   WebtestsResource,
   Workbook,
-  WorkbookError,
-  WorkbookErrorDefinition,
   WorkbookResource,
   WorkbookResourceIdentity,
-  WorkbooksListResult,
   WorkbookTemplate,
+  WorkbookTemplateError,
+  WorkbookTemplateErrorBody,
+  WorkbookTemplateErrorFieldContract,
   WorkbookTemplateGallery,
   WorkbookTemplateLocalizedGallery,
   WorkbookTemplateResource,
-  WorkbookUpdateParameters
+  WorkbookTemplatesListResult,
+  WorkbookTemplateUpdateParameters
 } from "../models/mappers";
