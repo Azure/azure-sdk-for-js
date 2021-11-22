@@ -15,7 +15,7 @@ import {
 } from "@azure/core-rest-pipeline";
 import { getCachedDefaultHttpsClient } from "./clientHelpers";
 import { HttpResponse, RequestParameters } from "./common";
-import { decodeBinaryContent, encodeBinaryContent } from "./helpers/getBinaryBody";
+import { binaryArrayToString, stringToBinaryArray } from "./helpers/getBinaryBody";
 
 /**
  * Helper function to send request used by the client
@@ -115,7 +115,7 @@ function getRequestBody(body?: unknown, contentType: string = ""): RequestBody {
   }
 
   if (ArrayBuffer.isView(body)) {
-    return { body: decodeBinaryContent(body) };
+    return { body: binaryArrayToString(body) };
   }
 
   switch (firstType) {
@@ -148,7 +148,7 @@ function processFormData(formData?: FormDataMap) {
   for (const element in formData) {
     const item = formData[element];
     if (item instanceof Uint8Array) {
-      processedFormData[element] = decodeBinaryContent(item);
+      processedFormData[element] = binaryArrayToString(item);
     } else {
       processedFormData[element] = item;
     }
@@ -178,7 +178,7 @@ function getResponseBody(
    * encode it into a UInt8Array
    */
   if (requestOptions.binaryResponse || isBinaryContentType(firstType)) {
-    return encodeBinaryContent(bodyToParse);
+    return stringToBinaryArray(bodyToParse);
   }
 
   // Default to "application/json" and fallback to string;

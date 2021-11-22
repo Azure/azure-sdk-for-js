@@ -12,11 +12,11 @@ export const apiVersionPolicyName = "ApiVersionPolicy";
  * @param options - Client options
  * @returns Pipeline policy that sets the apiVersion as a query parameter on every request
  */
-export function getApiVersionPolicy(options: ClientOptions): PipelinePolicy {
+export function apiVersionPolicy(options: ClientOptions): PipelinePolicy {
   return {
     name: apiVersionPolicyName,
     sendRequest: (req, next) => {
-      if (options.apiVersion !== undefined) {
+      if (options.apiVersion) {
         const url = new URL(req.url);
         url.searchParams.append("api-version", options.apiVersion);
         req.url = url.toString();
