@@ -1095,6 +1095,11 @@
       "packageName": "@azure/arm-datalake-analytics",
       "projectFolder": "sdk/datalake-analytics/arm-datalake-analytics",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-orbital",
+      "projectFolder": "sdk/orbital/arm-orbital",
+      "versionPolicyName": "management"
     }
   ]
 }
