@@ -1863,21 +1863,6 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
         output: RuleProperties;
       }[] = [
         {
-          testCaseTitle: "Undefined rule options",
-          input: undefined,
-          output: {
-            filter: {
-              sqlExpression: "1=1",
-              sqlParameters: undefined
-            },
-            action: {
-              sqlExpression: undefined,
-              sqlParameters: undefined
-            },
-            name: managementRule1
-          }
-        },
-        {
           testCaseTitle: "Sql Filter rule options",
           input: {
             filter: {
@@ -2638,10 +2623,8 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
               "TestError: Topic path AND subscription path must be passed when invoking tests on rules"
             );
           }
-          if (!ruleOptions?.filter || !ruleOptions.action) {
-            throw new Error(
-              "TestError: ruleOptions.filter and ruleOptions.action should have been set"
-            );
+          if (!ruleOptions?.filter) {
+            throw new Error("TestError: ruleOptions.filter should have been set");
           }
           const ruleResponse = await atomClient.createRule(
             topicPath,
