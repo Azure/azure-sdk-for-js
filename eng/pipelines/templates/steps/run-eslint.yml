@@ -14,4 +14,4 @@ steps:
   - pwsh: |
       node common/scripts/install-run-rush.js build -t @azure/eslint-plugin-azure-sdk
       node common/scripts/install-run-rush.js test -t @azure/eslint-plugin-azure-sdk
-    displayName: "Run ESLine Unit Tests"
+    displayName: "Run ESLine Plugin Unit Tests"
