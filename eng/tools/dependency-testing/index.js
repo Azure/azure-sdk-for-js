@@ -48,6 +48,13 @@ function outputTestPath(projectFolderPath, sourceDir, testFolder) {
   console.log(`##vso[task.setvariable variable=PackageTestPath]${testPath}`)
   console.log(`Emitted variable "PackageTestPath" with content: ${testPath}`)
 }
+async function updateScripts(testPackageJson, packageJsonContents){
+  if(packageJsonContents.scripts["integration-test:node"]){
+    var matchIndex = packageJsonContents.scripts["integration-test:node"].match(/--timeout /);
+    if(matchIndex !== null){
+      testPackageJson.scripts["integration-test:node"] = packageJsonContents.scripts["integration-test:node"];
+  }
+}
 
 async function insertPackageJson(repoRoot, packageJsonContents, targetPackagePath, targetPackageName, versionType, testFolder) {
   const testPath = path.join(targetPackagePath, testFolder);
@@ -59,7 +66,7 @@ async function insertPackageJson(repoRoot, packageJsonContents, targetPackagePat
   else if(packageJsonContents.name.startsWith("@azure-rest/")){
     testPackageJson.name = packageJsonContents.name.replace("@azure-rest/", "azure-rest-") + "-test";
   }
-
+  await updateScripts(testPackageJson, packageJsonContents);
   testPackageJson.devDependencies = {};
   depList = {};
   var allowedVersionList = {};
