@@ -8,7 +8,7 @@ import {
   InternalPipelineOptions,
   PipelineOptions
 } from "@azure/core-rest-pipeline";
-import { OperationOptions } from "@azure/core-client";
+import { FullOperationResponse, OperationOptions } from "@azure/core-client";
 import { isTokenCredential, TokenCredential } from "@azure/core-auth";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import "@azure/core-paging";
@@ -1775,4 +1775,27 @@ export class MetricsAdvisorAdministrationClient {
       span.end();
     }
   }
+}
+interface ReturnType<T> {
+  flatResponse: T;
+  rawResponse: FullOperationResponse;
+}
+async function getRawResponse<TOptions extends OperationOptions, TResult>(
+  f: (options: TOptions) => Promise<TResult>,
+  options: TOptions
+): Promise<ReturnType<TResult>> {
+  // renaming onResponse received from customer to customerProvidedCallback
+  const { onResponse: customerProvidedCallback } = options || {};
+  let rawResponse: FullOperationResponse | undefined = undefined;
+  // flatResponseParam - is basically the flatResponse received from service call -
+  // just named it so that linter doesn't complain
+  // onResponse - includes the rawResponse and the customer's provided onResponse
+  const flatResponse = await f({
+    ...options,
+    onResponse: (response: FullOperationResponse, flatResponseParam: unknown) => {
+      rawResponse = response;
+      customerProvidedCallback?.(response, flatResponseParam);
+    }
+  });
+  return { flatResponse, rawResponse: rawResponse! };
 }
