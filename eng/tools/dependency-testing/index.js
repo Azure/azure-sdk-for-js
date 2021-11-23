@@ -48,11 +48,13 @@ function outputTestPath(projectFolderPath, sourceDir, testFolder) {
   console.log(`##vso[task.setvariable variable=PackageTestPath]${testPath}`)
   console.log(`Emitted variable "PackageTestPath" with content: ${testPath}`)
 }
+
 async function updateScripts(testPackageJson, packageJsonContents){
   if(packageJsonContents.scripts["integration-test:node"]){
     var matchIndex = packageJsonContents.scripts["integration-test:node"].match(/--timeout /);
     if(matchIndex !== null){
       testPackageJson.scripts["integration-test:node"] = packageJsonContents.scripts["integration-test:node"];
+    }
   }
 }
 
