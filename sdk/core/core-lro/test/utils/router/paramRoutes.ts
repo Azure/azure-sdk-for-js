@@ -224,7 +224,7 @@ function deleteasyncRetry(request: PipelineRequest): PipelineResponse | undefine
   return undefined;
 }
 
-// eslint-disable-next-line @azure/azure-sdk/ts-no-namespaces
+// eslint-disable-next-line @typescript-eslint/no-namespace
 namespace deleteasyncRetry {
   export let internalCounter: number = 1; // eslint-disable-line prefer-const
 }
@@ -293,7 +293,7 @@ function putasyncRetry(request: PipelineRequest): PipelineResponse | undefined {
   return undefined;
 }
 
-// eslint-disable-next-line @azure/azure-sdk/ts-no-namespaces
+// eslint-disable-next-line @typescript-eslint/no-namespace
 namespace putasyncRetry {
   export let internalCounter: number = 1; // eslint-disable-line prefer-const
 }
@@ -369,7 +369,7 @@ function postasyncRetry(request: PipelineRequest): PipelineResponse | undefined 
   return undefined;
 }
 
-// eslint-disable-next-line @azure/azure-sdk/ts-no-namespaces
+// eslint-disable-next-line @typescript-eslint/no-namespace
 namespace postasyncRetry {
   export let internalCounter: number = 1; // eslint-disable-line prefer-const
 }
