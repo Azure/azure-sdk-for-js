@@ -13,3 +13,4 @@ https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/desktopvirtualization/ar
 https://docs.microsoft.com/javascript/api/@azure/arm-datalake-analytics?view=azure-node-preview
 https://docs.microsoft.com/javascript/api/@azure/arm-orbital
 https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/orbital/arm-orbital
+https://docs.microsoft.com/javascript/api/@azure/arm-orbital?view=azure-node-preview
