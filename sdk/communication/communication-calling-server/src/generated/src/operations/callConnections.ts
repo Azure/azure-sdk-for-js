@@ -1034,12 +1034,7 @@ const getParticipantOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: {
-        type: {
-          name: "Sequence",
-          element: { type: { name: "Composite", className: "CallParticipant" } }
-        }
-      }
+      bodyMapper: Mappers.CallParticipant
     },
     400: {
       bodyMapper: Mappers.CommunicationErrorResponse,

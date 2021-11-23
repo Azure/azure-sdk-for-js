@@ -9,18 +9,44 @@ import {
   AddParticipantRequest,
   AddParticipantResult,
   RemoveParticipantRequest,
+  MuteParticipantRequest,
+  UnmuteParticipantRequest,
+  GetParticipantRequest,
   PlayAudioToParticipantRequest,
   CancelParticipantMediaOperationRequest,
-  TransferCallRequest
+  TransferCallRequest,
+  CallParticipant,
+  CallConnectionProperties,
+  AudioRoutingMode,
+  AudioRoutingGroupRequest,
+  CreateAudioRoutingGroupResult,
+  AudioRoutingGroupResult,
+  UpdateAudioRoutingGroupRequest,
+  HoldMeetingAudioRequest,
+  ResumeMeetingAudioRequest,
+  TransferCallResult
 } from "./generated/src/models";
 import {
   HangUpOptions,
+  DeleteOptions,
   PlayAudioOptions,
   CancelAllMediaOperationsOptions,
   AddParticipantOptions,
   RemoveParticipantOptions,
+  MuteParticipantOptions,
+  UnmuteParticipantOptions,
+  GetParticipantOptions,
+  GetParticipantsOptions,
   CancelMediaOperationOptions,
-  TransferCallOptions
+  TransferCallOptions,
+  KeepAliveOptions,
+  GetCallOptions,
+  CreateAudioRoutingGroupOptions,
+  DeleteAudioRoutingGroupOptions,
+  GetAudioRoutingGroupsOptions,
+  UpdateAudioRoutingGroupOptions,
+  HoldParticipantMeetingAudioOptions,
+  ResumeParticipantMeetingAudioOptions
 } from "./models";
 import {
   CommunicationIdentifier,
@@ -47,6 +73,20 @@ export interface CallConnection {
    * @param options - Additional request options contains hangUp api options.
    */
   hangUp(options?: HangUpOptions): Promise<void>;
+
+  /**
+   * Terminates the conversation for all participants in the call.
+   *
+   * @param options - Additional request options contains delete api options.
+   */
+  delete(options?: DeleteOptions): Promise<void>;
+
+  /**
+   * Keep the call alive.
+   *
+   * @param options - Additional request options contains keepAlive api options.
+   */
+  keepAlive(options?: KeepAliveOptions): Promise<void>;
 
   /**
    * Cancel all media operations in the call.
@@ -86,6 +126,48 @@ export interface CallConnection {
   ): Promise<void>;
 
   /**
+   * Mute the participant.
+   *
+   * @param participant - The identifier of the participant.
+   * @param options - Additional request options contains muteParticipant api options.
+   */
+  muteParticipant(
+    participant: CommunicationIdentifier,
+    options?: MuteParticipantOptions
+  ): Promise<void>;
+
+  /**
+   * Unmute the participant.
+   *
+   * @param participant - The identifier of the participant.
+   * @param options - Additional request options contains unmuteParticipant api options.
+   */
+  unmuteParticipant(
+    participant: CommunicationIdentifier,
+    options?: UnmuteParticipantOptions
+  ): Promise<void>;
+
+  /**
+   * Get participant from the call using identifier.
+   *
+   * @param participant - The identifier of the participant.
+   * @param options - Additional request options contains getParticipant api options.
+   */
+  getParticipant(
+    participant: CommunicationIdentifier,
+    options?: GetParticipantOptions
+  ): Promise<CallParticipant>;
+
+  /**
+   * Get participants from a call.
+   *
+   * @param options - Additional request options contains getParticipants api options.
+   */
+  getParticipants(
+    options?: GetParticipantsOptions
+  ): Promise<CallParticipant[]>;
+
+  /**
    * Play audio to a participant.
    *
    * @param participant - The identifier of the participant.
@@ -122,6 +204,87 @@ export interface CallConnection {
     targetParticipant: CommunicationIdentifier,
     userToUserInformation: string,
     options?: TransferCallOptions
+  ): Promise<TransferCallResult>;
+
+  /**
+   * Get CallConnectionProperties of this CallConnection.
+   *
+   * @param options - Additional request options contains getCall api options.
+   */
+  getCall(
+    options?: GetCallOptions
+  ): Promise<CallConnectionProperties>;
+
+  /**
+   * Create audio routing group in a call.
+   *
+   * @param audioRoutingMode - The audio routing mode.
+   * @param target - The target identities that would be receivers in the audio routing group.
+   * @param options - Additional request options contains createAudioRoutingGroup api options.
+   */
+  createAudioRoutingGroup(
+    audioRoutingMode: AudioRoutingMode,
+    targets: CommunicationIdentifier[],
+    options: CreateAudioRoutingGroupOptions
+  ): Promise<CreateAudioRoutingGroupResult>;
+
+  /**
+   * Delete audio routing group from a call.
+   *
+   * @param audioRoutingGroupId - The audio routing group id.
+   * @param options - Additional request options contains deleteAudioRoutingGroup api options.
+   */
+  deleteAudioRoutingGroup(
+    audioRoutingGroupId: string,
+    options: DeleteAudioRoutingGroupOptions
+  ): Promise<void>;
+
+  /**
+   * List audio routing groups in a call.
+   *
+   * @param audioRoutingGroupId - The audio routing group id.
+   * @param options - Additional request options contains getAudioRoutingGroups api options.
+   */
+  getAudioRoutingGroups(
+    audioRoutingGroupId: string,
+    options: GetAudioRoutingGroupsOptions
+  ): Promise<AudioRoutingGroupResult>;
+
+  /**
+   * Update audio routing group.
+   *
+   * @param audioRoutingGroupId - The audio routing group id.
+   * @param targets - The target identities that would be receivers in the audio routing group.
+   * @param options - Additional request options contains updateAudioRoutingGroup api options.
+   */
+  updateAudioRoutingGroup(
+    audioRoutingGroupId: string,
+    targets: CommunicationIdentifier[],
+    options: UpdateAudioRoutingGroupOptions
+  ): Promise<void>;
+
+  /**
+   * Removes the participant from the meeting's default audio mix
+   * so the participant does not hear anything from the meeting and cannot add audio into the meeting.
+   *
+   * @param participant - The identifier of the participant.
+   * @param options - Additional request options contains holdParticipantMeetingAudio api options.
+   */
+  holdParticipantMeetingAudio(
+    participant: CommunicationIdentifier,
+    options: HoldParticipantMeetingAudioOptions
+  ): Promise<void>;
+
+  /**
+   * Adds the participant back into the meeting's default audio mix
+   * so the participant begins to hear everything from the meeting and can add audio into the meeting.
+   *
+   * @param participant - The identifier of the participant.
+   * @param options - Additional request options contains resumeParticipantMeetingAudio api options.
+   */
+  resumeParticipantMeetingAudio(
+    participant: CommunicationIdentifier,
+    options: ResumeParticipantMeetingAudioOptions
   ): Promise<void>;
 }
 
@@ -162,9 +325,57 @@ export class CallConnectionImpl implements CallConnection {
   }
 
   /**
+   * Terminates the conversation for all participants in the call.
+   *
+   * @param options - Additional request options contains delete api options.
+   */
+   public async delete(options: DeleteOptions = {}): Promise<void> {
+    const { span, updatedOptions } = createSpan("CallConnectionRestClient-Delete", options);
+
+    try {
+      await this.callConnectionRestClient.deleteCall(
+        this.callConnectionId,
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+    } catch (e) {
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Keep the call alive.
+   *
+   * @param options - Additional request options contains keepAlive api options.
+   */
+  public async keepAlive(options: KeepAliveOptions = {}): Promise<void> {
+    const { span, updatedOptions } = createSpan("CallConnectionRestClient-KeepAlive", options);
+
+    try {
+      await this.callConnectionRestClient.keepAlive(
+        this.callConnectionId,
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+    } catch (e) {
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
    * Cancel all media operations in the call.
    *
-   * @param options - Additional request options contains hangUp api options.
+   * @param options - Additional request options contains cancelAllMediaOperations api options.
    */
   public async cancelAllMediaOperations(
     options: CancelAllMediaOperationsOptions = {}
@@ -207,8 +418,7 @@ export class CallConnectionImpl implements CallConnection {
       audioFileUri: audioUrl,
       loop: restOptions.loop,
       operationContext: restOptions.operationContext,
-      audioFileId: restOptions.audioFileId,
-      callbackUri: restOptions.callbackUrl
+      audioFileId: restOptions.audioFileId
     };
     try {
       const { _response, ...result } = await this.callConnectionRestClient.playAudio(
@@ -240,7 +450,7 @@ export class CallConnectionImpl implements CallConnection {
   ): Promise<AddParticipantResult> {
     const { operationOptions, restOptions } = extractOperationOptions(options);
     const { span, updatedOptions } = createSpan(
-      "CallConnectionRestClient-playAudio",
+      "CallConnectionRestClient-AddParticipant",
       operationOptions
     );
     const alternate_caller_id =
@@ -284,7 +494,7 @@ export class CallConnectionImpl implements CallConnection {
     options: RemoveParticipantOptions = {}
   ): Promise<void> {
     const { span, updatedOptions } = createSpan(
-      "CallConnectionRestClient-removeParticipant",
+      "CallConnectionRestClient-RemoveParticipant",
       options
     );
 
@@ -310,6 +520,147 @@ export class CallConnectionImpl implements CallConnection {
   }
 
   /**
+   * Mute the participant.
+   *
+   * @param participant - The identifier of the participant.
+   * @param options - Additional request options contains muteParticipant api options.
+   */
+  public async muteParticipant(
+    participant: CommunicationIdentifier,
+    options: MuteParticipantOptions = {}
+  ): Promise<void> {
+    const { span, updatedOptions } = createSpan(
+      "CallConnectionRestClient-MuteParticipant",
+      options
+    );
+
+    const request: MuteParticipantRequest = {
+      identifier: serializeCommunicationIdentifier(participant)
+    };
+
+    try {
+      await this.callConnectionRestClient.muteParticipant(
+        this.callConnectionId,
+        request,
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+    } catch (e) {
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Unmute the participant.
+   *
+   * @param participant - The identifier of the participant.
+   * @param options - Additional request options contains unmuteParticipant api options.
+   */
+  public async unmuteParticipant(
+    participant: CommunicationIdentifier,
+    options: UnmuteParticipantOptions = {}
+  ): Promise<void> {
+    const { span, updatedOptions } = createSpan(
+      "CallConnectionRestClient-UnmuteParticipant",
+      options
+    );
+
+    const request: UnmuteParticipantRequest = {
+      identifier: serializeCommunicationIdentifier(participant)
+    };
+
+    try {
+      await this.callConnectionRestClient.unmuteParticipant(
+        this.callConnectionId,
+        request,
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+    } catch (e) {
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Get participant from the call using identifier.
+   *
+   * @param participant - The identifier of the participant.
+   * @param options - Additional request options contains getParticipant api options.
+   */
+  public async getParticipant(
+    participant: CommunicationIdentifier,
+    options: GetParticipantOptions = {}
+  ): Promise<CallParticipant> {
+    const { span, updatedOptions } = createSpan(
+      "CallConnectionRestClient-GetParticipant",
+      options
+    );
+
+    const request: GetParticipantRequest = {
+      identifier: serializeCommunicationIdentifier(participant)
+    };
+
+    try {
+      const { _response, ...result } = await this.callConnectionRestClient.getParticipant(
+        this.callConnectionId,
+        request,
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+      return result;
+    } catch (e) {
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Get participants from a call.
+   *
+   * @param participant - The identifier of the participant.
+   * @param options - Additional request options contains getParticipants api options.
+   */
+  public async getParticipants(
+    options: GetParticipantsOptions = {}
+  ): Promise<CallParticipant[]> {
+    const { span, updatedOptions } = createSpan(
+      "CallConnectionRestClient-GetParticipants",
+      options
+    );
+
+    try {
+      const { _response, ...result } = await this.callConnectionRestClient.getParticipants(
+        this.callConnectionId,
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+
+      return result;
+    } catch (e) {
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
    * Play audio to a participant.
    *
    * @param participant - The identifier of the participant.
@@ -323,7 +674,7 @@ export class CallConnectionImpl implements CallConnection {
   ): Promise<PlayAudioResult> {
     const { operationOptions, restOptions } = extractOperationOptions(options);
     const { span, updatedOptions } = createSpan(
-      "CallConnectionRestClient-playAudio",
+      "CallConnectionRestClient-PlayAudio",
       operationOptions
     );
 
@@ -332,8 +683,7 @@ export class CallConnectionImpl implements CallConnection {
       audioFileUri: audioUrl,
       loop: restOptions.loop,
       operationContext: restOptions.operationContext,
-      audioFileId: restOptions.audioFileId,
-      callbackUri: restOptions.callbackUrl
+      audioFileId: restOptions.audioFileId
     };
 
     try {
@@ -359,7 +709,7 @@ export class CallConnectionImpl implements CallConnection {
    *
    * @param participant - The identifier of the participant.
    * @param mediaOperationId - The operationId of the media operation to cancel.
-   * @param options - Additional request options contains cancelMediaOperation api options.
+   * @param options - Additional request options contains cancelParticipantMediaOperation api options.
    */
   public async cancelParticipantMediaOperation(
     participant: CommunicationIdentifier,
@@ -367,7 +717,7 @@ export class CallConnectionImpl implements CallConnection {
     options: CancelMediaOperationOptions = {}
   ): Promise<void> {
     const { span, updatedOptions } = createSpan(
-      "CallConnectionRestClient-cancelParticipantMediaOperation",
+      "CallConnectionRestClient-CancelParticipantMediaOperation",
       options
     );
 
@@ -398,14 +748,14 @@ export class CallConnectionImpl implements CallConnection {
    *
    * @param targetParticipant - The identity of the target where call should be transfer to.
    * @param userToUserInformation - The user to user information.
-   * @param options - Additional request options contains transferCall api options.
+   * @param options - Additional request options contains transfer api options.
    */
   public async transfer(
     targetParticipant: CommunicationIdentifier,
     userToUserInformation: string,
     options: TransferCallOptions = {}
-  ): Promise<void> {
-    const { span, updatedOptions } = createSpan("CallConnectionRestClient-transferCall", options);
+  ): Promise<TransferCallResult> {
+    const { span, updatedOptions } = createSpan("CallConnectionRestClient-TransferCall", options);
 
     const request: TransferCallRequest = {
       targetParticipant: serializeCommunicationIdentifier(targetParticipant),
@@ -413,7 +763,235 @@ export class CallConnectionImpl implements CallConnection {
     };
 
     try {
-      await this.callConnectionRestClient.transfer(
+      const { _response, ...result } = await this.callConnectionRestClient.transfer(
+        this.callConnectionId,
+        request,
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+      return result;
+    } catch (e) {
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Get CallConnectionProperties of this CallConnection.
+   *
+   * @param options - Additional request options contains getCall api options.
+   */
+  public async getCall(
+    options: GetCallOptions = {}
+  ): Promise<CallConnectionProperties> {
+    const { span, updatedOptions } = createSpan("CallConnectionRestClient-GetCall", options);
+
+    try {
+      const { _response, ...result } = await this.callConnectionRestClient.getCall(
+        this.callConnectionId,
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+      return result;
+    } catch (e) {
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Create audio routing group in a call.
+   *
+   * @param audioRoutingMode - The audio routing mode.
+   * @param target - The target identities that would be receivers in the audio routing group.
+   * @param options - Additional request options contains createAudioRoutingGroup api options.
+   */
+  public async createAudioRoutingGroup(
+    audioRoutingMode: AudioRoutingMode,
+    targets: CommunicationIdentifier[],
+    options: CreateAudioRoutingGroupOptions = {}
+  ): Promise<CreateAudioRoutingGroupResult> {
+    const { span, updatedOptions } = createSpan("CallConnectionRestClient-CreateAudioRoutingGroup", options);
+
+    const request: AudioRoutingGroupRequest = {
+      audioRoutingMode: audioRoutingMode,
+      targets: targets.map((m) => serializeCommunicationIdentifier(m))
+    };
+
+    try {
+      const { _response, ...result } = await this.callConnectionRestClient.createAudioRoutingGroup(
+        this.callConnectionId,
+        request,
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+      return result;
+    } catch (e) {
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Delete audio routing group from a call.
+   *
+   * @param audioRoutingGroupId - The audio routing group id.
+   * @param options - Additional request options contains deleteAudioRoutingGroup api options.
+   */
+  public async deleteAudioRoutingGroup(
+    audioRoutingGroupId: string,
+    options: DeleteAudioRoutingGroupOptions = {}
+  ): Promise<void> {
+    const { span, updatedOptions } = createSpan("CallConnectionRestClient-DeleteAudioRoutingGroup", options);
+
+    try {
+      await this.callConnectionRestClient.deleteAudioRoutingGroup(
+        this.callConnectionId,
+        audioRoutingGroupId,
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+    } catch (e) {
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * List audio routing groups in a call.
+   *
+   * @param audioRoutingGroupId - The audio routing group id.
+   * @param options - Additional request options contains getAudioRoutingGroups api options.
+   */
+  public async getAudioRoutingGroups(
+    audioRoutingGroupId: string,
+    options: GetAudioRoutingGroupsOptions = {}
+  ): Promise<AudioRoutingGroupResult> {
+    const { span, updatedOptions } = createSpan("CallConnectionRestClient-GetAudioRoutingGroups", options);
+
+    try {
+      const { _response, ...result } = await this.callConnectionRestClient.getAudioRoutingGroups(
+        this.callConnectionId,
+        audioRoutingGroupId,
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+      return result;
+    } catch (e) {
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Update audio routing group.
+   *
+   * @param audioRoutingGroupId - The audio routing group id.
+   * @param targets - The target identities that would be receivers in the audio routing group.
+   * @param options - Additional request options contains updateAudioRoutingGroup api options.
+   */
+  public async updateAudioRoutingGroup(
+    audioRoutingGroupId: string,
+    targets: CommunicationIdentifier[],
+    options: UpdateAudioRoutingGroupOptions = {}
+  ): Promise<void> {
+    const { span, updatedOptions } = createSpan("CallConnectionRestClient-UpdateAudioRoutingGroup", options);
+
+    const request: UpdateAudioRoutingGroupRequest = {
+      targets: targets.map((m) => serializeCommunicationIdentifier(m))
+    };
+
+    try {
+      await this.callConnectionRestClient.updateAudioRoutingGroup(
+        this.callConnectionId,
+        audioRoutingGroupId,
+        request,
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+    } catch (e) {
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Removes the participant from the meeting's default audio mix
+   * so the participant does not hear anything from the meeting and cannot add audio into the meeting.
+   *
+   * @param participant - The identifier of the participant.
+   * @param options - Additional request options contains holdParticipantMeetingAudio api options.
+   */
+  public async holdParticipantMeetingAudio(
+    participant: CommunicationIdentifier,
+    options: HoldParticipantMeetingAudioOptions = {}
+  ): Promise<void> {
+    const { span, updatedOptions } = createSpan("CallConnectionRestClient-UpdateAudioRoutingGroup", options);
+
+    const request: HoldMeetingAudioRequest = {
+      identifier: serializeCommunicationIdentifier(participant)
+    };
+
+    try {
+      await this.callConnectionRestClient.holdParticipantMeetingAudio(
+        this.callConnectionId,
+        request,
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+    } catch (e) {
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Adds the participant back into the meeting's default audio mix
+   * so the participant begins to hear everything from the meeting and can add audio into the meeting.
+   *
+   * @param participant - The identifier of the participant.
+   * @param options - Additional request options contains resumeParticipantMeetingAudio api options.
+   */
+  public async resumeParticipantMeetingAudio(
+    participant: CommunicationIdentifier,
+    options: ResumeParticipantMeetingAudioOptions = {}
+  ): Promise<void> {
+    const { span, updatedOptions } = createSpan("CallConnectionRestClient-ResumeParticipantMeetingAudio", options);
+
+    const request: ResumeMeetingAudioRequest = {
+      identifier: serializeCommunicationIdentifier(participant)
+    };
+
+    try {
+      await this.callConnectionRestClient.resumeParticipantMeetingAudio(
         this.callConnectionId,
         request,
         operationOptionsToRequestOptionsBase(updatedOptions)

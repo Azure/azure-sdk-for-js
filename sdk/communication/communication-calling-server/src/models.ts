@@ -114,19 +114,32 @@ export interface AnswerCallOptions extends OperationOptions {
 export interface RejectCallOptions extends OperationOptions {
   /** The rejection reason. */
   callRejectReason?: CallRejectReason;
-  /** The callback url. */
-  callbackUrl?: string;
 }
 
 /**
  * Options to redirect call.
  */
-export interface RedirectCallOptions extends OperationOptions {
-  /** The callback url. */
-  callbackUrl?: string;
-  /** The timeout for the redirect in seconds. */
-  timeoutInSeconds?: number;
-}
+export type RedirectCallOptions = OperationOptions;
+
+/**
+ * Options to mute the participant.
+ */
+export type MuteParticipantOptions = OperationOptions;
+
+/**
+ * Options to mute the participant.
+ */
+ export type UnmuteParticipantOptions = OperationOptions;
+
+/**
+ * Options to get the participant.
+ */
+ export type GetParticipantOptions = OperationOptions;
+
+/**
+ * Options to list the participants.
+ */
+ export type GetParticipantsOptions = OperationOptions;
 
 /**
  * Options to remove participant from the call.
@@ -144,6 +157,11 @@ export type CancelMediaOperationOptions = OperationOptions;
 export type HangUpOptions = OperationOptions;
 
 /**
+ * Options to delete a call.
+ */
+export type DeleteOptions = OperationOptions;
+
+/**
  * Options to cancel all media operations.
  */
 export type CancelAllMediaOperationsOptions = OperationOptions;
@@ -152,6 +170,46 @@ export type CancelAllMediaOperationsOptions = OperationOptions;
  * Options to transfer call.
  */
 export type TransferCallOptions = OperationOptions;
+
+/**
+ * Options to keepAlive call.
+ */
+export type KeepAliveOptions = OperationOptions;
+
+/**
+ * Options to create audio routing group in a call.
+ */
+export type CreateAudioRoutingGroupOptions = OperationOptions;
+
+/**
+ * Options to delete audio routing group from a call.
+ */
+export type DeleteAudioRoutingGroupOptions = OperationOptions;
+
+/**
+ * Options to list audio routing groups in a call.
+ */
+export type GetAudioRoutingGroupsOptions = OperationOptions;
+
+/**
+ * Options to update audio routing group in a call.
+ */
+export type UpdateAudioRoutingGroupOptions = OperationOptions;
+
+/**
+ * Options to hold participant meeting audio in a call.
+ */
+export type HoldParticipantMeetingAudioOptions = OperationOptions;
+
+/**
+ * Options to hold participant meeting audio in a call.
+ */
+export type ResumeParticipantMeetingAudioOptions = OperationOptions;
+
+/**
+ * Options to get call.
+ */
+export type GetCallOptions = OperationOptions;
 
 /**
  * Options to start recording.
@@ -185,7 +243,7 @@ export type GetRecordingPropertiesOptions = OperationOptions;
 /**
  * Options to delete recording.
  */
-export type DeleteOptions = OperationOptions;
+export type DeleteRecordingOptions = OperationOptions;
 
 /**
  * Call Locator.

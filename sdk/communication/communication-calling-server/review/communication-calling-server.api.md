@@ -28,7 +28,7 @@ export interface AddParticipantResult {
 // @public
 export interface AddParticipantResultEvent {
     operationContext?: string;
-    resultInfo?: CallingOperationResultDetails;
+    resultDetails?: CallingOperationResultDetails;
     status: CallingOperationStatus;
 }
 
@@ -95,7 +95,7 @@ export class CallingServerClient {
     pauseRecording(recordingId: string, options?: PauseRecordingOptions): Promise<void>;
     playAudio(callLocator: CallLocator, audioUrl: string, options: PlayAudioOptions): Promise<PlayAudioResult>;
     playAudioToParticipant(callLocator: CallLocator, participant: CommunicationIdentifier, audioUrl: string, options: PlayAudioToParticipantOptions): Promise<PlayAudioResult>;
-    redirectCall(incomingCallContext: string, targets: CommunicationIdentifier[], options?: RedirectCallOptions): Promise<void>;
+    redirectCall(incomingCallContext: string, target: CommunicationIdentifier, options?: RedirectCallOptions): Promise<void>;
     rejectCall(incomingCallContext: string, options?: RejectCallOptions): Promise<void>;
     removeParticipant(callLocator: CallLocator, participant: CommunicationIdentifier, options?: RemoveParticipantOptions): Promise<void>;
     resumeRecording(recordingId: string, options?: ResumeRecordingOptions): Promise<void>;
@@ -246,14 +246,14 @@ export interface PlayAudioOptions extends OperationOptions {
 export interface PlayAudioResult {
     operationContext?: string;
     operationId?: string;
-    resultInfo?: CallingOperationResultDetails;
+    resultDetails?: CallingOperationResultDetails;
     status: CallingOperationStatus;
 }
 
 // @public
 export interface PlayAudioResultEvent {
     operationContext?: string;
-    resultInfo?: CallingOperationResultDetails;
+    resultDetails?: CallingOperationResultDetails;
     status: CallingOperationStatus;
 }
 
@@ -273,14 +273,10 @@ export type RecordingContentType = string;
 export type RecordingFormatType = string;
 
 // @public
-export interface RedirectCallOptions extends OperationOptions {
-    callbackUrl?: string;
-    timeoutInSeconds?: number;
-}
+export type RedirectCallOptions = OperationOptions;
 
 // @public
 export interface RejectCallOptions extends OperationOptions {
-    callbackUrl?: string;
     // Warning: (ae-forgotten-export) The symbol "CallRejectReason" needs to be exported by the entry point index.d.ts
     callRejectReason?: CallRejectReason;
 }

@@ -22,7 +22,9 @@ import {
   ResumeRecordingOptions,
   StopRecordingOptions,
   GetRecordingPropertiesOptions,
-  DeleteOptions
+  DeleteRecordingOptions,
+  GetParticipantOptions,
+  GetParticipantsOptions
 } from "./models";
 import { CallConnections, ServerCalls } from "./generated/src/operations";
 import {
@@ -42,7 +44,10 @@ import {
   CancelParticipantMediaOperationWithCallLocatorRequest,
   StartCallRecordingResult,
   StartCallRecordingWithCallLocatorRequest,
-  CallRecordingProperties
+  CallRecordingProperties,
+  CallParticipant,
+  GetParticipantWithCallLocatorRequest,
+  GetAllParticipantsWithCallLocatorRequest
 } from "./generated/src/models";
 import * as Mappers from "./generated/src/models/mappers";
 import { TokenCredential } from "@azure/core-auth";
@@ -435,6 +440,76 @@ export class CallingServerClient {
   }
 
   /**
+   * Get participants from a server call.
+   *
+   * @param callLocator - The callLocator contains call id.
+   * @param participant - The identifier of the participant.
+   * @param options - Additional request options contains getParticipant api options.
+   */
+  public async getParticipant(
+    callLocator: CallLocator,
+    participant: CommunicationIdentifier,
+    options: GetParticipantOptions = {}
+  ): Promise<CallParticipant> {
+    const { span, updatedOptions } = createSpan("ServerCallRestClient-GetParticipant", options);
+
+    const request: GetParticipantWithCallLocatorRequest = {
+      callLocator: callLocator,
+      identifier: serializeCommunicationIdentifier(participant)
+    };
+
+    try {
+      const { _response, ...result } = await this.serverCallRestClient.getParticipant(
+        request,
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+      return result;
+    } catch (e) {
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Get participant from the call using identifier.
+   *
+   * @param callLocator - The callLocator contains call id.
+   * @param options - Additional request options contains getParticipants api options.
+   */
+  public async getParticipants(
+    callLocator: CallLocator,
+    options: GetParticipantsOptions = {}
+  ): Promise<CallParticipant[]> {
+    const { span, updatedOptions } = createSpan("ServerCallRestClient-GetParticipants", options);
+
+    const request: GetAllParticipantsWithCallLocatorRequest = {
+      callLocator: callLocator,
+    };
+
+    try {
+      const { _response, ...result } = await this.serverCallRestClient.getParticipants(
+        request,
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+
+      return result;
+    } catch (e) {
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
    * Cancel media operation in the call using call_locator.
    *
    * @param callLocator - The callLocator contains call id.
@@ -530,8 +605,7 @@ export class CallingServerClient {
 
     const request: RejectCallRequest = {
       incomingCallContext: incomingCallContext,
-      callRejectReason: restOptions.callRejectReason,
-      callbackUri: restOptions.callbackUrl
+      callRejectReason: restOptions.callRejectReason
     };
 
     try {
@@ -554,25 +628,22 @@ export class CallingServerClient {
    * Reject the call.
    *
    * @param incomingCallContext - The context associated with the call.
-   * @param targets - The target identity to redirect the call to.
+   * @param target - The target identity to redirect the call to.
    * @param options - Additional request options contains redirectCall api options.
    */
   public async redirectCall(
     incomingCallContext: string,
-    targets: CommunicationIdentifier[],
+    target: CommunicationIdentifier,
     options: RedirectCallOptions = {}
   ): Promise<void> {
-    const { operationOptions, restOptions } = extractOperationOptions(options);
     const { span, updatedOptions } = createSpan(
       "ServerCallRestClient-redirectCall",
-      operationOptions
+      options
     );
 
     const request: RedirectCallRequest = {
       incomingCallContext: incomingCallContext,
-      targets: targets.map((m) => serializeCommunicationIdentifier(m)),
-      callbackUri: restOptions.callbackUrl,
-      timeoutInSeconds: restOptions.timeoutInSeconds
+      target: serializeCommunicationIdentifier(target)
     };
 
     try {
@@ -975,8 +1046,8 @@ export class CallingServerClient {
    *
    * ```
    */
-  public async delete(deleteUrl: string, options: DeleteOptions = {}): Promise<RestResponse> {
-    const { span, updatedOptions } = createSpan("ServerCallRestClient-delete", options);
+  public async deleteRecording(deleteUrl: string, options: DeleteRecordingOptions = {}): Promise<RestResponse> {
+    const { span, updatedOptions } = createSpan("ServerCallRestClient-DeleteRecording", options);
 
     const operationArguments: OperationArguments = {
       options: operationOptionsToRequestOptionsBase(updatedOptions)
