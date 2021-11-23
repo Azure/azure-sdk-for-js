@@ -25,6 +25,7 @@ export const isNode =
 if (isNode) {
   dotenv.config();
 }
+
 export interface RecordedAdminClient {
   client: MetricsAdvisorAdministrationClient;
   recorder: Recorder;
