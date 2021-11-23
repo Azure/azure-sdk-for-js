@@ -244,7 +244,7 @@ function getNumberOfReceivers(
 /**
  * @internal
  */
-// eslint-disable-next-line @azure/azure-sdk/ts-no-namespaces
+// eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace ConnectionContext {
   export function create(
     config: ConnectionConfig,
