@@ -594,10 +594,6 @@ describe("ContainerClient", () => {
       keya: "a",
       keyb: "c"
     };
-    // const tags = {
-    //   tagKaya: "taga",
-    //   tagKayb: "tagb"
-    // };
     const delimiter = "/";
     for (let i = 0; i < 2; i++) {
       const blobClient = containerClient.getBlobClient(
@@ -606,7 +602,6 @@ describe("ContainerClient", () => {
       const blockBlobClient = blobClient.getBlockBlobClient();
       await blockBlobClient.upload("", 0, {
         metadata: metadata
-        //tags: tags
       });
       blobClients.push(blobClient);
     }
@@ -668,7 +663,6 @@ describe("ContainerClient", () => {
     assert.deepStrictEqual(result3.delimiter, delimiter);
     assert.deepStrictEqual(result3.segment.blobItems!.length, 1);
     assert.ok(isSuperSet(result3.segment.blobItems![0].metadata, metadata));
-    //assert.ok(isSuperSet(result3.segment.blobItems![0].tags, tags));
     assert.ok(blobClients[0].url.indexOf(result3.segment.blobItems![0].name));
 
     for (const blob of blobClients) {

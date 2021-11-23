@@ -1280,7 +1280,7 @@ export class ContainerClient extends StorageClient {
       });
 
       response.segment.blobItems = [];
-      if ((response.segment as any)["Blob"] != undefined) {
+      if ((response.segment as any)["Blob"] !== undefined) {
         response.segment.blobItems = ProcessBlobItems((response.segment as any)["Blob"]);
       }
 
@@ -1345,12 +1345,12 @@ export class ContainerClient extends StorageClient {
       });
 
       response.segment.blobItems = [];
-      if (response.segment["Blob"] != undefined) {
+      if (response.segment["Blob"] !== undefined) {
         response.segment.blobItems = ProcessBlobItems(response.segment["Blob"]);
       }
 
       response.segment.blobPrefixes = [];
-      if (response.segment["BlobPrefix"] != undefined) {
+      if (response.segment["BlobPrefix"] !== undefined) {
         response.segment.blobPrefixes = ProcessBlobPrefixes(response.segment["BlobPrefix"]);
       }
 

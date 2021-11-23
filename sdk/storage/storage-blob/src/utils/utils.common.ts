@@ -18,7 +18,6 @@ import {
   ListBlobsHierarchySegmentResponse,
   BlobItemInternal,
   BlobPrefix,
-  BlobPropertiesInternal,
   BlobType,
   LeaseStatusType,
   LeaseStateType,
@@ -830,6 +829,19 @@ export function ConvertInternalResponseOfListBlobHierarchy(
   };
 }
 
+function decodeBase64String(value: string): Uint8Array {
+  if (isNode) {
+    return Buffer.from(value, "base64");
+  } else {
+    const byteString = atob(value);
+    const arr = new Uint8Array(byteString.length);
+    for (let i = 0; i < byteString.length; i++) {
+      arr[i] = byteString.charCodeAt(i);
+    }
+    return arr;
+  }
+}
+
 function ParseBoolean(content: any) {
   if (content === undefined) return undefined;
   if (content === "true") return true;
@@ -853,8 +865,7 @@ function ParseBlobName(blobNameInXML: any): BlobName {
 
 function ParseBlobItem(blobInXML: any): BlobItemInternal {
   const blobPropertiesInXML = blobInXML["Properties"];
-  let blobProperties: BlobPropertiesInternal;
-  blobProperties = {
+  const blobProperties = {
     createdOn: new Date(blobPropertiesInXML["Creation-Time"] as string),
     lastModified: new Date(blobPropertiesInXML["Last-Modified"] as string),
     etag: blobPropertiesInXML["Etag"] as string,
@@ -865,7 +876,7 @@ function ParseBlobItem(blobInXML: any): BlobItemInternal {
     contentType: blobPropertiesInXML["Content-Type"] as string,
     contentEncoding: blobPropertiesInXML["Content-Encoding"] as string,
     contentLanguage: blobPropertiesInXML["Content-Language"] as string,
-    contentMD5: Buffer.from(blobPropertiesInXML["Content-MD5"] as string, "base64"),
+    contentMD5: decodeBase64String(blobPropertiesInXML["Content-MD5"] as string),
     contentDisposition: blobPropertiesInXML["Content-Disposition"] as string,
     cacheControl: blobPropertiesInXML["Cache-Control"] as string,
     blobSequenceNumber:
@@ -965,8 +976,7 @@ function ParseBlobTags(blobTagsInXML: any): BlobTags | undefined {
     return undefined;
   }
 
-  let blobTagSet: BlobTag[];
-  blobTagSet = [];
+  const blobTagSet = [];
   if (blobTagsInXML["TagSet"]["Tag"] instanceof Array) {
     blobTagsInXML["TagSet"]["Tag"].forEach((blobTagInXML: any) => {
       blobTagSet.push(ParseBlobTag(blobTagInXML));
@@ -979,8 +989,7 @@ function ParseBlobTags(blobTagsInXML: any): BlobTags | undefined {
 }
 
 export function ProcessBlobItems(blobArrayInXML: any[]): BlobItemInternal[] {
-  let blobItems: BlobItemInternal[];
-  blobItems = [];
+  const blobItems = [];
 
   if (blobArrayInXML instanceof Array) {
     blobArrayInXML.forEach((blobInXML: any) => {
@@ -994,8 +1003,7 @@ export function ProcessBlobItems(blobArrayInXML: any[]): BlobItemInternal[] {
 }
 
 export function ProcessBlobPrefixes(blobPrefixesInXML: any[]): BlobPrefix[] {
-  let blobPrefixes: BlobPrefix[];
-  blobPrefixes = [];
+  const blobPrefixes = [];
 
   if (blobPrefixesInXML instanceof Array) {
     blobPrefixesInXML.forEach((blobPrefixInXML: any) => {
