@@ -43,7 +43,8 @@ import {
   AnomalyAlertConfiguration,
   DataSourceCredentialEntityUnion,
   DataSourceCredentialPatch,
-  CredentialsPageResponse
+  CredentialsPageResponse,
+  RestResponse
 } from "./models";
 import { DataSourceType, HookInfoUnion, NeedRollupEnum } from "./generated/models";
 import {
@@ -528,14 +529,17 @@ export class MetricsAdvisorAdministrationClient {
    * @param options - The options parameter.
    */
 
-  public async deleteDataFeed(id: string, options: OperationOptions = {}): Promise<void> {
+  public async deleteDataFeed(id: string, options: OperationOptions = {}): Promise<RestResponse> {
     const { span, updatedOptions: finalOptions } = createSpan(
       "MetricsAdvisorAdministrationClient-deleteDataFeed",
       options
     );
 
     try {
-      return await this.client.deleteDataFeed(id, finalOptions);
+      const response = await getRawResponse(() => this.client.deleteDataFeed(id, finalOptions), {
+        ...options
+      });
+      return response.rawResponse;
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -662,7 +666,13 @@ export class MetricsAdvisorAdministrationClient {
     );
 
     try {
-      return await this.client.deleteAnomalyDetectionConfiguration(id, finalOptions);
+      const response = await getRawResponse(
+        () => this.client.deleteAnomalyDetectionConfiguration(id, finalOptions),
+        {
+          ...options
+        }
+      );
+      return response.rawResponse;
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -787,7 +797,13 @@ export class MetricsAdvisorAdministrationClient {
     );
 
     try {
-      return await this.client.deleteAnomalyAlertingConfiguration(id, finalOptions);
+      const response = await getRawResponse(
+        () => this.client.deleteAnomalyAlertingConfiguration(id, finalOptions),
+        {
+          ...options
+        }
+      );
+      return response.rawResponse;
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -1143,7 +1159,10 @@ export class MetricsAdvisorAdministrationClient {
     );
 
     try {
-      return await this.client.deleteHook(id, finalOptions);
+      const response = await getRawResponse(() => this.client.deleteHook(id, finalOptions), {
+        ...options
+      });
+      return response.rawResponse;
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -1764,7 +1783,10 @@ export class MetricsAdvisorAdministrationClient {
     );
 
     try {
-      return await this.client.deleteCredential(id, finalOptions);
+      const response = await getRawResponse(() => this.client.deleteCredential(id, finalOptions), {
+        ...options
+      });
+      return response.rawResponse;
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
