@@ -31,7 +31,6 @@ import tsNamingDropNoun from "./ts-naming-drop-noun";
 import tsNamingOptions from "./ts-naming-options";
 import tsNamingSubclients from "./ts-naming-subclients";
 import tsNoConstEnums from "./ts-no-const-enums";
-import tsNoNamespaces from "./ts-no-namespaces";
 import tsNoWindow from "./ts-no-window";
 import tsPackageJsonAuthor from "./ts-package-json-author";
 import tsPackageJsonBugs from "./ts-package-json-bugs";
@@ -82,10 +81,8 @@ export = {
   "ts-naming-options": tsNamingOptions,
   "ts-naming-subclients": tsNamingSubclients,
   "ts-no-const-enums": tsNoConstEnums,
-  "ts-no-namespaces": tsNoNamespaces,
   "ts-no-window": tsNoWindow,
   "ts-package-json-author": tsPackageJsonAuthor,
-  "ts-package-json-sdktype": tsPackageJsonSdkType,
   "ts-package-json-bugs": tsPackageJsonBugs,
   "ts-package-json-engine-is-present": tsPackageJsonEngineIsPresent,
   "ts-package-json-files-required": tsPackageJsonFilesRequired,
@@ -97,6 +94,7 @@ export = {
   "ts-package-json-name": tsPackageJsonName,
   "ts-package-json-repo": tsPackageJsonRepo,
   "ts-package-json-required-scripts": tsPackageJsonRequiredScripts,
+  "ts-package-json-sdktype": tsPackageJsonSdkType,
   "ts-package-json-sideeffects": tsPackageJsonSideEffects,
   "ts-package-json-types": tsPackageJsonTypes,
   "ts-pagination-list": tsPaginationList,

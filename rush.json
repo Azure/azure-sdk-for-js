@@ -1097,6 +1097,16 @@
       "versionPolicyName": "management"
     },
     {
+      "packageName": "@azure/arm-batch",
+      "projectFolder": "sdk/batch/arm-batch",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-managementgroups",
+      "projectFolder": "sdk/managementgroups/arm-managementgroups",
+      "versionPolicyName": "management"
+    },
+    {
       "packageName": "@azure/arm-orbital",
       "projectFolder": "sdk/orbital/arm-orbital",
       "versionPolicyName": "management"
