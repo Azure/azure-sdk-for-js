@@ -57,13 +57,13 @@ export class ReportTransform extends Transform {
 
 /**
  * An abstract HTTP client that allows custom methods to prepare and send HTTP requests, as well as a custom method to parse the HTTP response.
- * It implements a simple `sendRequest` method that provides minimum viable error handling, and the logic that executes the abstract methods.
+ * It implements a simple `sendRequest` method that provides minimum viable error handling and the logic that executes the abstract methods.
  */
 export abstract class FetchHttpClient implements HttpClient {
   /**
-   * Provides minimum viable error handling, and the logic that executes the abstract methods.
+   * Provides minimum viable error handling and the logic that executes the abstract methods.
    * @param httpRequest - Object representing the outgoing HTTP request.
-   * @returns
+   * @returns An object representing the incoming HTTP response.
    */
   async sendRequest(httpRequest: WebResourceLike): Promise<HttpOperationResponse> {
     if (!httpRequest && typeof httpRequest !== "object") {
@@ -256,7 +256,7 @@ export abstract class FetchHttpClient implements HttpClient {
   abstract prepareRequest(httpRequest: WebResourceLike): Promise<Partial<RequestInit>>;
   /**
    * Abstract method that allows processing an incoming HTTP response.
-   * @param operationResponse - HTTP response.
+   * @param operationResponse - Object representing the incoming HTTP response.
    */
   abstract processRequest(operationResponse: HttpOperationResponse): Promise<void>;
   /**

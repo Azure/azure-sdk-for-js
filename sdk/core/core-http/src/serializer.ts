@@ -7,7 +7,7 @@ import * as utils from "./util/utils";
 import { XML_ATTRKEY, XML_CHARKEY, SerializerOptions } from "./util/serializer.common";
 
 /**
- * This file contains an XML serializer based on prior knowledge from Microsoft patterns.
+ * This file contains an OpenAPI schema serializer, used by Autorest.Typescript.
  */
 
 /**
