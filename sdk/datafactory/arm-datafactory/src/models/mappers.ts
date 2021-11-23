@@ -1818,6 +1818,12 @@ export const FactoryUpdateParameters: msRest.CompositeMapper = {
           name: "Composite",
           className: "FactoryIdentity"
         }
+      },
+      publicNetworkAccess: {
+        serializedName: "publicNetworkAccess",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -3197,6 +3203,18 @@ export const DataFlowDebugPackage: msRest.CompositeMapper = {
           className: "DataFlowDebugResource"
         }
       },
+      dataFlows: {
+        serializedName: "dataFlows",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DataFlowDebugResource"
+            }
+          }
+        }
+      },
       datasets: {
         serializedName: "datasets",
         type: {
@@ -3483,6 +3501,17 @@ export const DataFlowReference: msRest.CompositeMapper = {
         serializedName: "datasetParameters",
         type: {
           name: "Object"
+        }
+      },
+      parameters: {
+        serializedName: "parameters",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Object"
+            }
+          }
         }
       }
     },
@@ -4068,18 +4097,7 @@ export const Transformation: msRest.CompositeMapper = {
         type: {
           name: "String"
         }
-      }
-    }
-  }
-};
-
-export const DataFlowSink: msRest.CompositeMapper = {
-  serializedName: "DataFlowSink",
-  type: {
-    name: "Composite",
-    className: "DataFlowSink",
-    modelProperties: {
-      ...Transformation.type.modelProperties,
+      },
       dataset: {
         serializedName: "dataset",
         type: {
@@ -4094,6 +4112,29 @@ export const DataFlowSink: msRest.CompositeMapper = {
           className: "LinkedServiceReference"
         }
       },
+      flowlet: {
+        serializedName: "flowlet",
+        type: {
+          name: "Composite",
+          className: "DataFlowReference",
+          additionalProperties: {
+            type: {
+              name: "Object"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const DataFlowSink: msRest.CompositeMapper = {
+  serializedName: "DataFlowSink",
+  type: {
+    name: "Composite",
+    className: "DataFlowSink",
+    modelProperties: {
+      ...Transformation.type.modelProperties,
       schemaLinkedService: {
         serializedName: "schemaLinkedService",
         type: {
@@ -4129,20 +4170,6 @@ export const DataFlowSource: msRest.CompositeMapper = {
     className: "DataFlowSource",
     modelProperties: {
       ...Transformation.type.modelProperties,
-      dataset: {
-        serializedName: "dataset",
-        type: {
-          name: "Composite",
-          className: "DatasetReference"
-        }
-      },
-      linkedService: {
-        serializedName: "linkedService",
-        type: {
-          name: "Composite",
-          className: "LinkedServiceReference"
-        }
-      },
       schemaLinkedService: {
         serializedName: "schemaLinkedService",
         type: {
@@ -4196,6 +4223,78 @@ export const WranglingDataFlow: msRest.CompositeMapper = {
         serializedName: "typeProperties.script",
         type: {
           name: "String"
+        }
+      },
+      documentLocale: {
+        serializedName: "typeProperties.documentLocale",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const Flowlet: msRest.CompositeMapper = {
+  serializedName: "Flowlet",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: DataFlow.type.polymorphicDiscriminator,
+    uberParent: "DataFlow",
+    className: "Flowlet",
+    modelProperties: {
+      ...DataFlow.type.modelProperties,
+      sources: {
+        serializedName: "typeProperties.sources",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DataFlowSource"
+            }
+          }
+        }
+      },
+      sinks: {
+        serializedName: "typeProperties.sinks",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DataFlowSink"
+            }
+          }
+        }
+      },
+      transformations: {
+        serializedName: "typeProperties.transformations",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Transformation"
+            }
+          }
+        }
+      },
+      script: {
+        serializedName: "typeProperties.script",
+        type: {
+          name: "String"
+        }
+      },
+      scriptLines: {
+        serializedName: "typeProperties.scriptLines",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       }
     }
@@ -4251,6 +4350,17 @@ export const MappingDataFlow: msRest.CompositeMapper = {
         serializedName: "typeProperties.script",
         type: {
           name: "String"
+        }
+      },
+      scriptLines: {
+        serializedName: "typeProperties.scriptLines",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       }
     }
@@ -11656,18 +11766,19 @@ export const DatasetCompression: msRest.CompositeMapper = {
   serializedName: "DatasetCompression",
   type: {
     name: "Composite",
-    polymorphicDiscriminator: {
-      serializedName: "type",
-      clientName: "type"
-    },
-    uberParent: "DatasetCompression",
     className: "DatasetCompression",
     modelProperties: {
       type: {
         required: true,
         serializedName: "type",
         type: {
-          name: "String"
+          name: "Object"
+        }
+      },
+      level: {
+        serializedName: "level",
+        type: {
+          name: "Object"
         }
       }
     },
@@ -11676,114 +11787,6 @@ export const DatasetCompression: msRest.CompositeMapper = {
         name: "Object"
       }
     }
-  }
-};
-
-export const DatasetTarGZipCompression: msRest.CompositeMapper = {
-  serializedName: "TarGZip",
-  type: {
-    name: "Composite",
-    polymorphicDiscriminator: DatasetCompression.type.polymorphicDiscriminator,
-    uberParent: "DatasetCompression",
-    className: "DatasetTarGZipCompression",
-    modelProperties: {
-      ...DatasetCompression.type.modelProperties,
-      level: {
-        serializedName: "level",
-        type: {
-          name: "Object"
-        }
-      }
-    },
-    additionalProperties: DatasetCompression.type.additionalProperties
-  }
-};
-
-export const DatasetTarCompression: msRest.CompositeMapper = {
-  serializedName: "Tar",
-  type: {
-    name: "Composite",
-    polymorphicDiscriminator: DatasetCompression.type.polymorphicDiscriminator,
-    uberParent: "DatasetCompression",
-    className: "DatasetTarCompression",
-    modelProperties: {
-      ...DatasetCompression.type.modelProperties
-    },
-    additionalProperties: DatasetCompression.type.additionalProperties
-  }
-};
-
-export const DatasetZipDeflateCompression: msRest.CompositeMapper = {
-  serializedName: "ZipDeflate",
-  type: {
-    name: "Composite",
-    polymorphicDiscriminator: DatasetCompression.type.polymorphicDiscriminator,
-    uberParent: "DatasetCompression",
-    className: "DatasetZipDeflateCompression",
-    modelProperties: {
-      ...DatasetCompression.type.modelProperties,
-      level: {
-        serializedName: "level",
-        type: {
-          name: "Object"
-        }
-      }
-    },
-    additionalProperties: DatasetCompression.type.additionalProperties
-  }
-};
-
-export const DatasetDeflateCompression: msRest.CompositeMapper = {
-  serializedName: "Deflate",
-  type: {
-    name: "Composite",
-    polymorphicDiscriminator: DatasetCompression.type.polymorphicDiscriminator,
-    uberParent: "DatasetCompression",
-    className: "DatasetDeflateCompression",
-    modelProperties: {
-      ...DatasetCompression.type.modelProperties,
-      level: {
-        serializedName: "level",
-        type: {
-          name: "Object"
-        }
-      }
-    },
-    additionalProperties: DatasetCompression.type.additionalProperties
-  }
-};
-
-export const DatasetGZipCompression: msRest.CompositeMapper = {
-  serializedName: "GZip",
-  type: {
-    name: "Composite",
-    polymorphicDiscriminator: DatasetCompression.type.polymorphicDiscriminator,
-    uberParent: "DatasetCompression",
-    className: "DatasetGZipCompression",
-    modelProperties: {
-      ...DatasetCompression.type.modelProperties,
-      level: {
-        serializedName: "level",
-        type: {
-          name: "Object"
-        }
-      }
-    },
-    additionalProperties: DatasetCompression.type.additionalProperties
-  }
-};
-
-export const DatasetBZip2Compression: msRest.CompositeMapper = {
-  serializedName: "BZip2",
-  type: {
-    name: "Composite",
-    polymorphicDiscriminator: DatasetCompression.type.polymorphicDiscriminator,
-    uberParent: "DatasetCompression",
-    className: "DatasetBZip2Compression",
-    modelProperties: {
-      ...DatasetCompression.type.modelProperties
-    },
-    additionalProperties: DatasetCompression.type.additionalProperties
   }
 };
 
@@ -14837,6 +14840,34 @@ export const ActivityPolicy: msRest.CompositeMapper = {
   }
 };
 
+export const PowerQuerySinkMapping: msRest.CompositeMapper = {
+  serializedName: "PowerQuerySinkMapping",
+  type: {
+    name: "Composite",
+    className: "PowerQuerySinkMapping",
+    modelProperties: {
+      queryName: {
+        serializedName: "queryName",
+        type: {
+          name: "String"
+        }
+      },
+      dataflowSinks: {
+        serializedName: "dataflowSinks",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "PowerQuerySink"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const ExecuteDataFlowActivityTypePropertiesCompute: msRest.CompositeMapper = {
   serializedName: "ExecuteDataFlowActivityTypeProperties_compute",
   type: {
@@ -14929,6 +14960,18 @@ export const ExecuteWranglingDataflowActivity: msRest.CompositeMapper = {
             type: {
               name: "Composite",
               className: "PowerQuerySink"
+            }
+          }
+        }
+      },
+      queries: {
+        serializedName: "typeProperties.queries",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "PowerQuerySinkMapping"
             }
           }
         }
@@ -15977,6 +16020,12 @@ export const SftpReadSettings: msRest.CompositeMapper = {
         type: {
           name: "Object"
         }
+      },
+      disableChunking: {
+        serializedName: "disableChunking",
+        type: {
+          name: "Object"
+        }
       }
     },
     additionalProperties: StoreReadSettings.type.additionalProperties
@@ -16038,6 +16087,12 @@ export const FtpReadSettings: msRest.CompositeMapper = {
         serializedName: "useBinaryTransfer",
         type: {
           name: "Boolean"
+        }
+      },
+      disableChunking: {
+        serializedName: "disableChunking",
+        type: {
+          name: "Object"
         }
       }
     },
@@ -26614,6 +26669,7 @@ export const discriminators = {
   'Credential.ManagedIdentity' : ManagedIdentityCredential,
   'Credential.ServicePrincipal' : ServicePrincipalCredential,
   'DataFlow.WranglingDataFlow' : WranglingDataFlow,
+  'DataFlow.Flowlet' : Flowlet,
   'DataFlow.MappingDataFlow' : MappingDataFlow,
   'LinkedService.SharePointOnlineList' : SharePointOnlineListLinkedService,
   'LinkedService.Snowflake' : SnowflakeLinkedService,
@@ -26759,13 +26815,6 @@ export const discriminators = {
   'Dataset.ConcurObject' : ConcurObjectDataset,
   'Dataset.AzurePostgreSqlTable' : AzurePostgreSqlTableDataset,
   'Dataset.AmazonMWSObject' : AmazonMWSObjectDataset,
-  'DatasetCompression.TarGZip' : DatasetTarGZipCompression,
-  'DatasetCompression.Tar' : DatasetTarCompression,
-  'DatasetCompression.ZipDeflate' : DatasetZipDeflateCompression,
-  'DatasetCompression.Deflate' : DatasetDeflateCompression,
-  'DatasetCompression.GZip' : DatasetGZipCompression,
-  'DatasetCompression.BZip2' : DatasetBZip2Compression,
-  'DatasetCompression' : DatasetCompression,
   'DatasetStorageFormat.ParquetFormat' : ParquetFormat,
   'DatasetStorageFormat.OrcFormat' : OrcFormat,
   'DatasetStorageFormat.AvroFormat' : AvroFormat,
