@@ -628,6 +628,9 @@
 # PRLabel: %Mgmt
 sdk/desktopvirtualization/arm-desktopvirtualization @qiaozha @dw511214992
 
+# PRLabel: %Mgmt
+sdk/orbital/arm-orbital @qiaozha @dw511214992
+
 # PRLabel: %Monitor
 /sdk/monitor/ @hectorhdzg @applicationinsights-js-owners
 /sdk/monitor/monitor-query @KarishmaGhiya @maorleger
