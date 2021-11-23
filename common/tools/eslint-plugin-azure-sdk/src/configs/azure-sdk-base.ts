@@ -115,7 +115,6 @@ export default {
     //     ]
     //   }
     // ],
-    "@azure/azure-sdk/ts-config-lib": "warn",
     // https://github.com/Azure/azure-sdk-for-js/issues/7605
     "@azure/azure-sdk/ts-apisurface-supportcancellation": "off",
     // https://github.com/Azure/azure-sdk-for-js/issues/7609
