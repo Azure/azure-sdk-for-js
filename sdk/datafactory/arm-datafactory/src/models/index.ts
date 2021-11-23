@@ -1083,6 +1083,11 @@ export interface FactoryUpdateParameters {
    * Managed service identity of the factory.
    */
   identity?: FactoryIdentity;
+  /**
+   * Whether or not public network access is allowed for the data factory. Possible values include:
+   * 'Enabled', 'Disabled'
+   */
+  publicNetworkAccess?: PublicNetworkAccess;
 }
 
 /**
@@ -1292,7 +1297,8 @@ export interface PipelineRun {
    */
   readonly durationInMs?: number;
   /**
-   * The status of a pipeline run.
+   * The status of a pipeline run. Possible values: Queued, InProgress, Succeeded, Failed,
+   * Canceling, Cancelled
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly status?: string;
@@ -1737,7 +1743,7 @@ export interface DataFlowFolder {
 /**
  * Contains the possible cases for DataFlow.
  */
-export type DataFlowUnion = DataFlow | WranglingDataFlow | MappingDataFlow;
+export type DataFlowUnion = DataFlow | WranglingDataFlow | Flowlet | MappingDataFlow;
 
 /**
  * Azure Data Factory nested object which contains a flow with data movements and transformations.
@@ -1882,6 +1888,10 @@ export interface DataFlowDebugPackage {
    * Data flow instance.
    */
   dataFlow?: DataFlowDebugResource;
+  /**
+   * List of Data flows
+   */
+  dataFlows?: DataFlowDebugResource[];
   /**
    * List of datasets.
    */
@@ -2051,6 +2061,10 @@ export interface DataFlowReference {
    * Reference data flow parameters from dataset.
    */
   datasetParameters?: any;
+  /**
+   * Data flow parameters
+   */
+  parameters?: { [propertyName: string]: any };
   /**
    * Describes unknown properties. The value of an unknown property can be of "any" type.
    */
@@ -2388,12 +2402,6 @@ export interface Transformation {
    * Transformation description.
    */
   description?: string;
-}
-
-/**
- * Transformation for data flow sink.
- */
-export interface DataFlowSink extends Transformation {
   /**
    * Dataset reference.
    */
@@ -2402,6 +2410,16 @@ export interface DataFlowSink extends Transformation {
    * Linked service reference.
    */
   linkedService?: LinkedServiceReference;
+  /**
+   * Flowlet Reference
+   */
+  flowlet?: DataFlowReference;
+}
+
+/**
+ * Transformation for data flow sink.
+ */
+export interface DataFlowSink extends Transformation {
   /**
    * Schema linked service reference.
    */
@@ -2422,14 +2440,6 @@ export interface PowerQuerySink extends DataFlowSink {
  * Transformation for data flow source.
  */
 export interface DataFlowSource extends Transformation {
-  /**
-   * Dataset reference.
-   */
-  dataset?: DatasetReference;
-  /**
-   * Linked service reference.
-   */
-  linkedService?: LinkedServiceReference;
   /**
    * Schema linked service reference.
    */
@@ -2475,6 +2485,53 @@ export interface WranglingDataFlow {
    * Power query mashup script.
    */
   script?: string;
+  /**
+   * Locale of the Power query mashup document.
+   */
+  documentLocale?: string;
+}
+
+/**
+ * Data flow flowlet
+ */
+export interface Flowlet {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "Flowlet";
+  /**
+   * The description of the data flow.
+   */
+  description?: string;
+  /**
+   * List of tags that can be used for describing the data flow.
+   */
+  annotations?: any[];
+  /**
+   * The folder that this data flow is in. If not specified, Data flow will appear at the root
+   * level.
+   */
+  folder?: DataFlowFolder;
+  /**
+   * List of sources in Flowlet.
+   */
+  sources?: DataFlowSource[];
+  /**
+   * List of sinks in Flowlet.
+   */
+  sinks?: DataFlowSink[];
+  /**
+   * List of transformations in Flowlet.
+   */
+  transformations?: Transformation[];
+  /**
+   * Flowlet script.
+   */
+  script?: string;
+  /**
+   * Flowlet script lines.
+   */
+  scriptLines?: string[];
 }
 
 /**
@@ -2514,6 +2571,10 @@ export interface MappingDataFlow {
    * DataFlow script.
    */
   script?: string;
+  /**
+   * Data flow script lines.
+   */
+  scriptLines?: string[];
 }
 
 /**
@@ -10634,98 +10695,21 @@ export interface AmazonMWSObjectDataset {
 }
 
 /**
- * Contains the possible cases for DatasetCompression.
- */
-export type DatasetCompressionUnion = DatasetCompression | DatasetTarGZipCompression | DatasetTarCompression | DatasetZipDeflateCompression | DatasetDeflateCompression | DatasetGZipCompression | DatasetBZip2Compression;
-
-/**
  * The compression method used on a dataset.
  */
 export interface DatasetCompression {
   /**
-   * Polymorphic Discriminator
+   * Type of dataset compression. Type: string (or Expression with resultType string).
    */
-  type: "DatasetCompression";
+  type: any;
+  /**
+   * The dataset compression level. Type: string (or Expression with resultType string).
+   */
+  level?: any;
   /**
    * Describes unknown properties. The value of an unknown property can be of "any" type.
    */
   [property: string]: any;
-}
-
-/**
- * The TarGZip compression method used on a dataset.
- */
-export interface DatasetTarGZipCompression {
-  /**
-   * Polymorphic Discriminator
-   */
-  type: "TarGZip";
-  /**
-   * The TarGZip compression level.
-   */
-  level?: any;
-}
-
-/**
- * The Tar archive method used on a dataset.
- */
-export interface DatasetTarCompression {
-  /**
-   * Polymorphic Discriminator
-   */
-  type: "Tar";
-}
-
-/**
- * The ZipDeflate compression method used on a dataset.
- */
-export interface DatasetZipDeflateCompression {
-  /**
-   * Polymorphic Discriminator
-   */
-  type: "ZipDeflate";
-  /**
-   * The ZipDeflate compression level.
-   */
-  level?: any;
-}
-
-/**
- * The Deflate compression method used on a dataset.
- */
-export interface DatasetDeflateCompression {
-  /**
-   * Polymorphic Discriminator
-   */
-  type: "Deflate";
-  /**
-   * The Deflate compression level.
-   */
-  level?: any;
-}
-
-/**
- * The GZip compression method used on a dataset.
- */
-export interface DatasetGZipCompression {
-  /**
-   * Polymorphic Discriminator
-   */
-  type: "GZip";
-  /**
-   * The GZip compression level.
-   */
-  level?: any;
-}
-
-/**
- * The BZip2 compression method used on a dataset.
- */
-export interface DatasetBZip2Compression {
-  /**
-   * Polymorphic Discriminator
-   */
-  type: "BZip2";
 }
 
 /**
@@ -10985,7 +10969,7 @@ export interface HttpDataset {
   /**
    * The data compression method used on files.
    */
-  compression?: DatasetCompressionUnion;
+  compression?: DatasetCompression;
 }
 
 /**
@@ -12524,7 +12508,7 @@ export interface FileShareDataset {
   /**
    * The data compression method used for the file system.
    */
-  compression?: DatasetCompressionUnion;
+  compression?: DatasetCompression;
 }
 
 /**
@@ -12632,7 +12616,7 @@ export interface AzureBlobFSDataset {
   /**
    * The data compression method used for the blob storage.
    */
-  compression?: DatasetCompressionUnion;
+  compression?: DatasetCompression;
 }
 
 /**
@@ -12690,7 +12674,7 @@ export interface AzureDataLakeStoreDataset {
   /**
    * The data compression method used for the item(s) in the Azure Data Lake Store.
    */
-  compression?: DatasetCompressionUnion;
+  compression?: DatasetCompression;
 }
 
 /**
@@ -13278,7 +13262,7 @@ export interface AzureBlobDataset {
   /**
    * The data compression method used for the blob storage.
    */
-  compression?: DatasetCompressionUnion;
+  compression?: DatasetCompression;
 }
 
 /**
@@ -13637,7 +13621,7 @@ export interface BinaryDataset {
   /**
    * The data compression method used for the binary dataset.
    */
-  compression?: DatasetCompressionUnion;
+  compression?: DatasetCompression;
 }
 
 /**
@@ -13745,7 +13729,7 @@ export interface XmlDataset {
   /**
    * The data compression method used for the json dataset.
    */
-  compression?: DatasetCompressionUnion;
+  compression?: DatasetCompression;
 }
 
 /**
@@ -13801,7 +13785,7 @@ export interface JsonDataset {
   /**
    * The data compression method used for the json dataset.
    */
-  compression?: DatasetCompressionUnion;
+  compression?: DatasetCompression;
 }
 
 /**
@@ -14001,7 +13985,7 @@ export interface ExcelDataset {
   /**
    * The data compression method used for the json dataset.
    */
-  compression?: DatasetCompressionUnion;
+  compression?: DatasetCompression;
   /**
    * The null value string. Type: string (or Expression with resultType string).
    */
@@ -14127,7 +14111,7 @@ export interface AmazonS3Dataset {
   /**
    * The data compression method used for the Amazon S3 object.
    */
-  compression?: DatasetCompressionUnion;
+  compression?: DatasetCompression;
 }
 
 /**
@@ -14703,6 +14687,20 @@ export interface ActivityPolicy {
 }
 
 /**
+ * Map Power Query mashup query to sink dataset(s).
+ */
+export interface PowerQuerySinkMapping {
+  /**
+   * Name of the query in Power Query mashup document.
+   */
+  queryName?: string;
+  /**
+   * List of sinks mapped to Power Query mashup query.
+   */
+  dataflowSinks?: PowerQuerySink[];
+}
+
+/**
  * Compute properties for data flow activity.
  */
 export interface ExecuteDataFlowActivityTypePropertiesCompute {
@@ -14775,9 +14773,13 @@ export interface ExecuteWranglingDataflowActivity {
    */
   runConcurrently?: any;
   /**
-   * List of Power Query activity sinks mapped to a queryName.
+   * (Deprecated. Please use Queries). List of Power Query activity sinks mapped to a queryName.
    */
   sinks?: { [propertyName: string]: PowerQuerySink };
+  /**
+   * List of mapping for Power Query mashup query to sink dataset(s).
+   */
+  queries?: PowerQuerySinkMapping[];
   /**
    * Activity policy.
    */
@@ -15735,6 +15737,11 @@ export interface SftpReadSettings {
    * The end of file's modified datetime. Type: string (or Expression with resultType string).
    */
   modifiedDatetimeEnd?: any;
+  /**
+   * If true, disable parallel reading within each file. Default is false. Type: boolean (or
+   * Expression with resultType boolean).
+   */
+  disableChunking?: any;
 }
 
 /**
@@ -15791,6 +15798,11 @@ export interface FtpReadSettings {
    * Specify whether to use binary transfer mode for FTP stores.
    */
   useBinaryTransfer?: boolean;
+  /**
+   * If true, disable parallel reading within each file. Default is false. Type: boolean (or
+   * Expression with resultType boolean).
+   */
+  disableChunking?: any;
 }
 
 /**
