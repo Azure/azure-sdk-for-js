@@ -92,6 +92,6 @@
     "sinon": "^9.0.2",
     "@types/sinon": "^9.0.4",
     "typedoc": "0.15.2",
-    "prettier": "^1.16.4"
+    "prettier": "^2.4.1"
   }
 }
