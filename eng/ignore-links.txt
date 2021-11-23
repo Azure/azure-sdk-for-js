@@ -11,3 +11,6 @@ https://github.com/Azure/azure-digital-twins/blob/private-preview/Documentation/
 https://docs.microsoft.com/javascript/api/@azure/arm-desktopvirtualization
 https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/desktopvirtualization/arm-desktopvirtualization
 https://docs.microsoft.com/javascript/api/@azure/arm-datalake-analytics?view=azure-node-preview
+https://docs.microsoft.com/javascript/api/@azure/arm-orbital
+https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/orbital/arm-orbital
+https://docs.microsoft.com/javascript/api/@azure/arm-orbital?view=azure-node-preview

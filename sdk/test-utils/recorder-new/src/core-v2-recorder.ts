@@ -12,9 +12,10 @@ import {
   PipelineResponse,
   SendRequest
 } from "@azure/core-rest-pipeline";
-import { env, isPlaybackMode, isRecordMode } from "@azure-tools/test-recorder";
+import { isPlaybackMode, isRecordMode } from "@azure-tools/test-recorder";
 import {
   ensureExistence,
+  getTestMode,
   RecorderError,
   RecorderStartOptions,
   RecordingStateManager
@@ -62,7 +63,7 @@ export class TestProxyHttpClient {
   public variables: Record<string, string>;
 
   constructor(private testContext?: Test | undefined) {
-    this.mode = env.TEST_MODE;
+    this.mode = getTestMode();
     if (isRecordMode() || isPlaybackMode()) {
       if (this.testContext) {
         this.sessionFile = sessionFilePath(this.testContext);
@@ -172,7 +173,7 @@ export class TestProxyHttpClient {
           }
           this.recordingId = id;
           if (isPlaybackMode()) {
-            this.variables = JSON.parse(rsp.bodyAsText ?? "{}");
+            this.variables = rsp.bodyAsText ? JSON.parse(rsp.bodyAsText) : {};
           }
           if (ensureExistence(this.sanitizer, "TestProxyHttpClient.sanitizer", this.mode)) {
             // Setting the recordingId in the sanitizer,
@@ -180,14 +181,14 @@ export class TestProxyHttpClient {
             this.sanitizer.setRecordingId(this.recordingId);
             await handleEnvSetup(options.envSetupForPlayback, this.sanitizer);
           }
+          // Sanitizers to be added only in record mode
+          if (isRecordMode() && options.sanitizerOptions) {
+            // Makes a call to the proxy-tool to add the sanitizers for the current recording id
+            // Recordings of the current test will be influenced by the sanitizers that are being added here
+            await this.addSanitizers(options.sanitizerOptions);
+          }
         }
       }
-    }
-
-    if (options.sanitizerOptions) {
-      // Makes a call to the proxy-tool to add the sanitizers for the current recording id
-      // Recordings of the current test will be influenced by the sanitizers that are being added here
-      await this.addSanitizers(options.sanitizerOptions);
     }
   }
 

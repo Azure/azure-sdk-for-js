@@ -55,7 +55,7 @@ export class OptionsTest extends PerfTest<OptionsTestOptions> {
     this.minimistResult = minimist(process.argv);
   }
 
-  compare(optionName: keyof OptionsTestOptions) {
+  compare(optionName: keyof OptionsTestOptions): void {
     const longName = (this.options[optionName].longName ??
       optionName) as keyof PerfOptionDictionary<OptionsTestOptions>;
 
@@ -80,7 +80,7 @@ export class OptionsTest extends PerfTest<OptionsTestOptions> {
     }
   }
 
-  async run() {
+  async run(): Promise<void> {
     for (const key in this.options) {
       this.compare(key as keyof OptionsTestOptions);
     }

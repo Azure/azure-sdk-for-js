@@ -159,7 +159,11 @@ async function run() {
       fromNowResults2.map((v) => parseInt(v.id))
     );
   } catch (err) {
-    handleError(err);
+    if (err && err.code !== undefined) {
+      console.log("Threw, as expected");
+    } else {
+      throw err;
+    }
   } finally {
     await finish();
   }
