@@ -6,7 +6,7 @@ This package contains an isomorphic SDK (runs both in Node.js and in browsers) f
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/containerregistry/arm-containerregistry) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-containerregistry) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-containerregistry) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-containerregistry?view=azure-node-preview) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started
@@ -52,6 +52,10 @@ const { DefaultAzureCredential } = require("@azure/identity");
 const subscriptionId = "00000000-0000-0000-0000-000000000000";
 const client = new ContainerRegistryManagementClient(new DefaultAzureCredential(), subscriptionId);
 ```
+
+
+### JavaScript Bundle
+To use this client library in the browser, first you need to use a bundler. For details on how to do this, please refer to our [bundling documentation](https://aka.ms/AzureSDKBundling).
 
 ## Key concepts
 

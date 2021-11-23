@@ -11,7 +11,7 @@ import { Accounts } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { DataLakeAnalyticsAccountManagementClientContext } from "../dataLakeAnalyticsAccountManagementClientContext";
+import { DataLakeAnalyticsAccountManagementClient } from "../dataLakeAnalyticsAccountManagementClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
@@ -40,13 +40,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Accounts operations. */
 export class AccountsImpl implements Accounts {
-  private readonly client: DataLakeAnalyticsAccountManagementClientContext;
+  private readonly client: DataLakeAnalyticsAccountManagementClient;
 
   /**
    * Initialize a new instance of the class Accounts class.
    * @param client Reference to the service client
    */
-  constructor(client: DataLakeAnalyticsAccountManagementClientContext) {
+  constructor(client: DataLakeAnalyticsAccountManagementClient) {
     this.client = client;
   }
 

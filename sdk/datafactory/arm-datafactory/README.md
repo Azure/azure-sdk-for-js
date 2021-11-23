@@ -6,7 +6,7 @@ The Azure Data Factory V2 management API provides a RESTful set of web services 
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/datafactory/arm-datafactory) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-datafactory) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-datafactory) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-datafactory?view=azure-node-preview) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started
@@ -52,6 +52,10 @@ const { DefaultAzureCredential } = require("@azure/identity");
 const subscriptionId = "00000000-0000-0000-0000-000000000000";
 const client = new DataFactoryManagementClient(new DefaultAzureCredential(), subscriptionId);
 ```
+
+
+### JavaScript Bundle
+To use this client library in the browser, first you need to use a bundler. For details on how to do this, please refer to our [bundling documentation](https://aka.ms/AzureSDKBundling).
 
 ## Key concepts
 

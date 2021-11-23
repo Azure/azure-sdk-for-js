@@ -11,7 +11,7 @@ import { QuotaRequestStatus } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { AzureQuotaExtensionAPIContext } from "../azureQuotaExtensionAPIContext";
+import { AzureQuotaExtensionAPI } from "../azureQuotaExtensionAPI";
 import {
   QuotaRequestDetails,
   QuotaRequestStatusListNextOptionalParams,
@@ -25,13 +25,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing QuotaRequestStatus operations. */
 export class QuotaRequestStatusImpl implements QuotaRequestStatus {
-  private readonly client: AzureQuotaExtensionAPIContext;
+  private readonly client: AzureQuotaExtensionAPI;
 
   /**
    * Initialize a new instance of the class QuotaRequestStatus class.
    * @param client Reference to the service client
    */
-  constructor(client: AzureQuotaExtensionAPIContext) {
+  constructor(client: AzureQuotaExtensionAPI) {
     this.client = client;
   }
 

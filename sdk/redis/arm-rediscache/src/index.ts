@@ -9,5 +9,4 @@
 /// <reference lib="esnext.asynciterable" />
 export * from "./models";
 export { RedisManagementClient } from "./redisManagementClient";
-export { RedisManagementClientContext } from "./redisManagementClientContext";
 export * from "./operationsInterfaces";

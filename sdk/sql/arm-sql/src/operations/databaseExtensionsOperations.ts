@@ -6,38 +6,37 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { DatabaseExtensionsOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { SqlManagementClientContext } from "../sqlManagementClientContext";
+import { SqlManagementClient } from "../sqlManagementClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
   ImportExportExtensionsOperationResult,
-  DatabaseExtensionsOperationsListByDatabaseNextOptionalParams,
-  DatabaseExtensionsOperationsListByDatabaseOptionalParams,
-  DatabaseExtensionsOperationsGetOptionalParams,
+  DatabaseExtensionsListByDatabaseNextOptionalParams,
+  DatabaseExtensionsListByDatabaseOptionalParams,
+  DatabaseExtensionsGetOptionalParams,
   DatabaseExtensions,
-  DatabaseExtensionsOperationsCreateOrUpdateOptionalParams,
-  DatabaseExtensionsOperationsCreateOrUpdateResponse,
-  DatabaseExtensionsOperationsListByDatabaseResponse,
-  DatabaseExtensionsOperationsListByDatabaseNextResponse
+  DatabaseExtensionsCreateOrUpdateOptionalParams,
+  DatabaseExtensionsCreateOrUpdateResponse,
+  DatabaseExtensionsListByDatabaseResponse,
+  DatabaseExtensionsListByDatabaseNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing DatabaseExtensionsOperations operations. */
 export class DatabaseExtensionsOperationsImpl
   implements DatabaseExtensionsOperations {
-  private readonly client: SqlManagementClientContext;
+  private readonly client: SqlManagementClient;
 
   /**
    * Initialize a new instance of the class DatabaseExtensionsOperations class.
    * @param client Reference to the service client
    */
-  constructor(client: SqlManagementClientContext) {
+  constructor(client: SqlManagementClient) {
     this.client = client;
   }
 
@@ -53,7 +52,7 @@ export class DatabaseExtensionsOperationsImpl
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
-    options?: DatabaseExtensionsOperationsListByDatabaseOptionalParams
+    options?: DatabaseExtensionsListByDatabaseOptionalParams
   ): PagedAsyncIterableIterator<ImportExportExtensionsOperationResult> {
     const iter = this.listByDatabasePagingAll(
       resourceGroupName,
@@ -83,7 +82,7 @@ export class DatabaseExtensionsOperationsImpl
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
-    options?: DatabaseExtensionsOperationsListByDatabaseOptionalParams
+    options?: DatabaseExtensionsListByDatabaseOptionalParams
   ): AsyncIterableIterator<ImportExportExtensionsOperationResult[]> {
     let result = await this._listByDatabase(
       resourceGroupName,
@@ -110,7 +109,7 @@ export class DatabaseExtensionsOperationsImpl
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
-    options?: DatabaseExtensionsOperationsListByDatabaseOptionalParams
+    options?: DatabaseExtensionsListByDatabaseOptionalParams
   ): AsyncIterableIterator<ImportExportExtensionsOperationResult> {
     for await (const page of this.listByDatabasePagingPage(
       resourceGroupName,
@@ -136,7 +135,7 @@ export class DatabaseExtensionsOperationsImpl
     serverName: string,
     databaseName: string,
     extensionName: string,
-    options?: DatabaseExtensionsOperationsGetOptionalParams
+    options?: DatabaseExtensionsGetOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, databaseName, extensionName, options },
@@ -160,17 +159,17 @@ export class DatabaseExtensionsOperationsImpl
     databaseName: string,
     extensionName: string,
     parameters: DatabaseExtensions,
-    options?: DatabaseExtensionsOperationsCreateOrUpdateOptionalParams
+    options?: DatabaseExtensionsCreateOrUpdateOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<DatabaseExtensionsOperationsCreateOrUpdateResponse>,
-      DatabaseExtensionsOperationsCreateOrUpdateResponse
+      PollOperationState<DatabaseExtensionsCreateOrUpdateResponse>,
+      DatabaseExtensionsCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<DatabaseExtensionsOperationsCreateOrUpdateResponse> => {
+    ): Promise<DatabaseExtensionsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -240,8 +239,8 @@ export class DatabaseExtensionsOperationsImpl
     databaseName: string,
     extensionName: string,
     parameters: DatabaseExtensions,
-    options?: DatabaseExtensionsOperationsCreateOrUpdateOptionalParams
-  ): Promise<DatabaseExtensionsOperationsCreateOrUpdateResponse> {
+    options?: DatabaseExtensionsCreateOrUpdateOptionalParams
+  ): Promise<DatabaseExtensionsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       serverName,
@@ -265,8 +264,8 @@ export class DatabaseExtensionsOperationsImpl
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
-    options?: DatabaseExtensionsOperationsListByDatabaseOptionalParams
-  ): Promise<DatabaseExtensionsOperationsListByDatabaseResponse> {
+    options?: DatabaseExtensionsListByDatabaseOptionalParams
+  ): Promise<DatabaseExtensionsListByDatabaseResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, databaseName, options },
       listByDatabaseOperationSpec
@@ -287,8 +286,8 @@ export class DatabaseExtensionsOperationsImpl
     serverName: string,
     databaseName: string,
     nextLink: string,
-    options?: DatabaseExtensionsOperationsListByDatabaseNextOptionalParams
-  ): Promise<DatabaseExtensionsOperationsListByDatabaseNextResponse> {
+    options?: DatabaseExtensionsListByDatabaseNextOptionalParams
+  ): Promise<DatabaseExtensionsListByDatabaseNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, databaseName, nextLink, options },
       listByDatabaseNextOperationSpec
@@ -303,7 +302,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/extensions/{extensionName}",
   httpMethod: "GET",
   responses: { 200: {}, default: {} },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -333,8 +332,8 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters82,
-  queryParameters: [Parameters.apiVersion1],
+  requestBody: Parameters.parameters77,
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -357,7 +356,7 @@ const listByDatabaseOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -377,7 +376,7 @@ const listByDatabaseNextOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

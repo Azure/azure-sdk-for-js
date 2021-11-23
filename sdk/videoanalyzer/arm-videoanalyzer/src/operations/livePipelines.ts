@@ -11,7 +11,7 @@ import { LivePipelines } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { VideoAnalyzerContext } from "../videoAnalyzerContext";
+import { VideoAnalyzer } from "../videoAnalyzer";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
@@ -35,13 +35,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing LivePipelines operations. */
 export class LivePipelinesImpl implements LivePipelines {
-  private readonly client: VideoAnalyzerContext;
+  private readonly client: VideoAnalyzer;
 
   /**
    * Initialize a new instance of the class LivePipelines class.
    * @param client Reference to the service client
    */
-  constructor(client: VideoAnalyzerContext) {
+  constructor(client: VideoAnalyzer) {
     this.client = client;
   }
 

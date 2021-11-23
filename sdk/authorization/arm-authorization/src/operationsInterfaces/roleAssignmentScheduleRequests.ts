@@ -6,7 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   RoleAssignmentScheduleRequest,
@@ -39,8 +38,8 @@ export interface RoleAssignmentScheduleRequests {
    *              for a resource group, and
    *              '/providers/Microsoft.Subscription/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/{resource-provider}/{resource-type}/{resource-name}'
    *              for a resource.
-   * @param roleAssignmentScheduleRequestName The name of the role assignment to create. It can be any
-   *                                          valid GUID.
+   * @param roleAssignmentScheduleRequestName A GUID for the role assignment to create. The name must be
+   *                                          unique and different for each role assignment.
    * @param parameters Parameters for the role assignment schedule request.
    * @param options The options parameters.
    */

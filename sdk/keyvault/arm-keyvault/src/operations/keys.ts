@@ -6,13 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { Keys } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { KeyVaultManagementClientContext } from "../keyVaultManagementClientContext";
+import { KeyVaultManagementClient } from "../keyVaultManagementClient";
 import {
   Key,
   KeysListNextOptionalParams,
@@ -33,15 +32,15 @@ import {
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a Keys. */
+/** Class containing Keys operations. */
 export class KeysImpl implements Keys {
-  private readonly client: KeyVaultManagementClientContext;
+  private readonly client: KeyVaultManagementClient;
 
   /**
    * Initialize a new instance of the class Keys class.
    * @param client Reference to the service client
    */
-  constructor(client: KeyVaultManagementClientContext) {
+  constructor(client: KeyVaultManagementClient) {
     this.client = client;
   }
 

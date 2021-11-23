@@ -11,7 +11,7 @@ import { QuotaOperation } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { AzureQuotaExtensionAPIContext } from "../azureQuotaExtensionAPIContext";
+import { AzureQuotaExtensionAPI } from "../azureQuotaExtensionAPI";
 import {
   OperationResponse,
   QuotaOperationListNextOptionalParams,
@@ -23,13 +23,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing QuotaOperation operations. */
 export class QuotaOperationImpl implements QuotaOperation {
-  private readonly client: AzureQuotaExtensionAPIContext;
+  private readonly client: AzureQuotaExtensionAPI;
 
   /**
    * Initialize a new instance of the class QuotaOperation class.
    * @param client Reference to the service client
    */
-  constructor(client: AzureQuotaExtensionAPIContext) {
+  constructor(client: AzureQuotaExtensionAPI) {
     this.client = client;
   }
 

@@ -10,18 +10,18 @@ import { Gateways } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { OperationalInsightsManagementClientContext } from "../operationalInsightsManagementClientContext";
+import { OperationalInsightsManagementClient } from "../operationalInsightsManagementClient";
 import { GatewaysDeleteOptionalParams } from "../models";
 
 /** Class containing Gateways operations. */
 export class GatewaysImpl implements Gateways {
-  private readonly client: OperationalInsightsManagementClientContext;
+  private readonly client: OperationalInsightsManagementClient;
 
   /**
    * Initialize a new instance of the class Gateways class.
    * @param client Reference to the service client
    */
-  constructor(client: OperationalInsightsManagementClientContext) {
+  constructor(client: OperationalInsightsManagementClient) {
     this.client = client;
   }
 

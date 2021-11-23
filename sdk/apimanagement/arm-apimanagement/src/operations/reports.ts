@@ -11,7 +11,7 @@ import { Reports } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { ApiManagementClientContext } from "../apiManagementClientContext";
+import { ApiManagementClient } from "../apiManagementClient";
 import {
   ReportRecordContract,
   ReportsListByApiNextOptionalParams,
@@ -50,13 +50,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Reports operations. */
 export class ReportsImpl implements Reports {
-  private readonly client: ApiManagementClientContext;
+  private readonly client: ApiManagementClient;
 
   /**
    * Initialize a new instance of the class Reports class.
    * @param client Reference to the service client
    */
-  constructor(client: ApiManagementClientContext) {
+  constructor(client: ApiManagementClient) {
     this.client = client;
   }
 

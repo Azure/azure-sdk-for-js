@@ -11,7 +11,7 @@ import { BatchAccountOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { BatchManagementClientContext } from "../batchManagementClientContext";
+import { BatchManagementClient } from "../batchManagementClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
@@ -49,13 +49,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing BatchAccountOperations operations. */
 export class BatchAccountOperationsImpl implements BatchAccountOperations {
-  private readonly client: BatchManagementClientContext;
+  private readonly client: BatchManagementClient;
 
   /**
    * Initialize a new instance of the class BatchAccountOperations class.
    * @param client Reference to the service client
    */
-  constructor(client: BatchManagementClientContext) {
+  constructor(client: BatchManagementClient) {
     this.client = client;
   }
 

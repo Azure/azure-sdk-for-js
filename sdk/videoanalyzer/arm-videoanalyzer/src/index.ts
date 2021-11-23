@@ -9,5 +9,4 @@
 /// <reference lib="esnext.asynciterable" />
 export * from "./models";
 export { VideoAnalyzer } from "./videoAnalyzer";
-export { VideoAnalyzerContext } from "./videoAnalyzerContext";
 export * from "./operationsInterfaces";

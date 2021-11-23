@@ -11,7 +11,7 @@ import { ApplicationGroups } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { DesktopVirtualizationAPIClientContext } from "../desktopVirtualizationAPIClientContext";
+import { DesktopVirtualizationAPIClient } from "../desktopVirtualizationAPIClient";
 import {
   ApplicationGroup,
   ApplicationGroupsListByResourceGroupNextOptionalParams,
@@ -34,13 +34,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ApplicationGroups operations. */
 export class ApplicationGroupsImpl implements ApplicationGroups {
-  private readonly client: DesktopVirtualizationAPIClientContext;
+  private readonly client: DesktopVirtualizationAPIClient;
 
   /**
    * Initialize a new instance of the class ApplicationGroups class.
    * @param client Reference to the service client
    */
-  constructor(client: DesktopVirtualizationAPIClientContext) {
+  constructor(client: DesktopVirtualizationAPIClient) {
     this.client = client;
   }
 

@@ -11,7 +11,7 @@ import { PrivateLinkResourceOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { BatchManagementClientContext } from "../batchManagementClientContext";
+import { BatchManagementClient } from "../batchManagementClient";
 import {
   PrivateLinkResource,
   PrivateLinkResourceListByBatchAccountNextOptionalParams,
@@ -26,13 +26,13 @@ import {
 /** Class containing PrivateLinkResourceOperations operations. */
 export class PrivateLinkResourceOperationsImpl
   implements PrivateLinkResourceOperations {
-  private readonly client: BatchManagementClientContext;
+  private readonly client: BatchManagementClient;
 
   /**
    * Initialize a new instance of the class PrivateLinkResourceOperations class.
    * @param client Reference to the service client
    */
-  constructor(client: BatchManagementClientContext) {
+  constructor(client: BatchManagementClient) {
     this.client = client;
   }
 
