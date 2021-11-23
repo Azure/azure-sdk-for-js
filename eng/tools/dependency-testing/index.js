@@ -53,17 +53,21 @@ async function insertPackageJson(repoRoot, packageJsonContents, targetPackagePat
   const testPath = path.join(targetPackagePath, testFolder);
   var templateJson = await packageUtils.readFileJson("./templates/package.json");
   var testPackageJson = templateJson;
-  testPackageJson.name = packageJsonContents.name.replace("@azure/", "azure-") + "-test";
+  if(packageJsonContents.name.startsWith("@azure/")){
+    testPackageJson.name = packageJsonContents.name.replace("@azure/", "azure-") + "-test";
+  }
+  else if(packageJsonContents.name.startsWith("@azure-rest/")){
+    testPackageJson.name = packageJsonContents.name.replace("@azure-rest/", "azure-rest-") + "-test";
+  }
+
   testPackageJson.devDependencies = {};
   depList = {};
-  var projectFolder = path.basename(targetPackagePath);
-  var projectDir = path.basename(path.dirname(targetPackagePath));
   var allowedVersionList = {};
   depList[targetPackageName] = packageJsonContents.version;//works
   allowedVersionList[targetPackageName] = depList[targetPackageName];
   for (const package of Object.keys(packageJsonContents.dependencies)) {
     depList[package] = packageJsonContents.dependencies[package];
-    if (package.startsWith("@azure/")) {
+    if (package.startsWith("@azure/") || package.startsWith("@azure-rest/")) {
       depList[package] = await findAppropriateVersion(package, packageJsonContents.dependencies[package], repoRoot, versionType);
       if (packageJsonContents.dependencies[package] !== depList[package]) {
         console.log(package);
@@ -76,7 +80,7 @@ async function insertPackageJson(repoRoot, packageJsonContents, targetPackagePat
 
   for (const package of Object.keys(packageJsonContents.devDependencies)) {
     testPackageJson.devDependencies[package] = packageJsonContents.devDependencies[package];
-    if (package.startsWith("@azure/")) {
+    if (package.startsWith("@azure/") || package.startsWith("@azure-rest/")) {
       console.log("packagejson version before func call = " + packageJsonContents.devDependencies[package]);
       var packageVersion = packageJsonContents.devDependencies[package];
       testPackageJson.devDependencies[package] = await findAppropriateVersion(package, packageVersion, repoRoot, versionType);
@@ -96,8 +100,7 @@ async function insertPackageJson(repoRoot, packageJsonContents, targetPackagePat
 }
 
 
-async function isPackageAUtility(package, repoRoot) {
-  var thisPackage = await getPackageFromRush(repoRoot, package);
+async function isPackageAUtility(thisPackage) {
   if (thisPackage.versionPolicyName === "utility") {
     console.log(thisPackage.packageName + " utility");
     return true;
@@ -107,44 +110,44 @@ async function isPackageAUtility(package, repoRoot) {
 
 async function findAppropriateVersion(package, packageJsonDepVersion, repoRoot, versionType) {
   console.log("checking " + package + " = " + packageJsonDepVersion);
-  var isUtility = await isPackageAUtility(package, repoRoot);
-  if (isUtility) {
+  var findThisPackage = getPackageFromRush(repoRoot, package)
+  if(findThisPackage){
+   if(isPackageAUtility(findThisPackage)){
     return packageJsonDepVersion;
+   }
   }
-  else {
-    var allNPMVersions = await getVersions(package);
-    if (allNPMVersions) {
-      console.log(versionType);
-      if (versionType === "min") {
-        var minVersion = await semver.minSatisfying(JSON.parse(allNPMVersions), packageJsonDepVersion);
-        if (minVersion) {
-          return minVersion;
-        }
-        else {
-          //issue a warning
-          console.warn(`No matching semver min version found on npm for package ${package} with version ${packageJsonDepVersion}. Replacing with local version`);
-          var version = await getPackageVersion(repoRoot, package);
-          console.log(version);
-          return version;
-        }
+  var allNPMVersions = await getVersions(package);
+  if (allNPMVersions) {
+    console.log(versionType);
+    if (versionType === "min") {
+      var minVersion = await semver.minSatisfying(JSON.parse(allNPMVersions), packageJsonDepVersion);
+      if (minVersion) {
+        return minVersion;
       }
-      else if (versionType === "max") {
-        console.log("calling semver max satisfying");
-        var maxVersion = await semver.maxSatisfying(JSON.parse(allNPMVersions), packageJsonDepVersion);
-        if (maxVersion) {
-          return maxVersion;
-        }
-        else {
-          //issue a warning
-          console.warn(`No matching semver max version found on npm for package ${package} with version ${packageJsonDepVersion}. Replacing with local version`);
-          var version = await getPackageVersion(repoRoot, package);
-          console.log(version);
-          return version;
-        }
+      else {
+        //issue a warning
+        console.warn(`No matching semver min version found on npm for package ${package} with version ${packageJsonDepVersion}. Replacing with local version`);
+        var version = await getPackageVersion(repoRoot, package);
+        console.log(version);
+        return version;
       }
-      else if (versionType === "same") {
-        return packageJsonDepVersion;
+    }
+    else if (versionType === "max") {
+      console.log("calling semver max satisfying");
+      var maxVersion = await semver.maxSatisfying(JSON.parse(allNPMVersions), packageJsonDepVersion);
+      if (maxVersion) {
+        return maxVersion;
       }
+      else {
+        //issue a warning
+        console.warn(`No matching semver max version found on npm for package ${package} with version ${packageJsonDepVersion}. Replacing with local version`);
+        var version = await getPackageVersion(repoRoot, package);
+        console.log(version);
+        return version;
+      }
+    }
+    else if (versionType === "same") {
+      return packageJsonDepVersion;
     }
   }
 }
