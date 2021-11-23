@@ -539,7 +539,7 @@ export class MetricsAdvisorAdministrationClient {
       const response = await getRawResponse(() => this.client.deleteDataFeed(id, finalOptions), {
         ...options
       });
-      return response.rawResponse;
+      return { _response: response.rawResponse };
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -659,7 +659,10 @@ export class MetricsAdvisorAdministrationClient {
    * @param options - The options parameter.
    */
 
-  public async deleteDetectionConfig(id: string, options: OperationOptions = {}): Promise<void> {
+  public async deleteDetectionConfig(
+    id: string,
+    options: OperationOptions = {}
+  ): Promise<RestResponse> {
     const { span, updatedOptions: finalOptions } = createSpan(
       "MetricsAdvisorAdministrationClient-deleteDetectionConfig",
       options
@@ -672,7 +675,7 @@ export class MetricsAdvisorAdministrationClient {
           ...options
         }
       );
-      return response.rawResponse;
+      return { _response: response.rawResponse };
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -790,7 +793,10 @@ export class MetricsAdvisorAdministrationClient {
    * @param options - The options parameter.
    */
 
-  public async deleteAlertConfig(id: string, options: OperationOptions = {}): Promise<void> {
+  public async deleteAlertConfig(
+    id: string,
+    options: OperationOptions = {}
+  ): Promise<RestResponse> {
     const { span, updatedOptions: finalOptions } = createSpan(
       "MetricsAdvisorAdministrationClient-deleteAlertConfig",
       options
@@ -803,7 +809,7 @@ export class MetricsAdvisorAdministrationClient {
           ...options
         }
       );
-      return response.rawResponse;
+      return { _response: response.rawResponse };
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -1152,7 +1158,7 @@ export class MetricsAdvisorAdministrationClient {
    * @param id - id of the hook to delete
    * @param options - The options parameter
    */
-  public async deleteHook(id: string, options: OperationOptions = {}): Promise<void> {
+  public async deleteHook(id: string, options: OperationOptions = {}): Promise<RestResponse> {
     const { span, updatedOptions: finalOptions } = createSpan(
       "MetricsAdvisorAdministrationClient-deleteHook",
       options
@@ -1162,7 +1168,7 @@ export class MetricsAdvisorAdministrationClient {
       const response = await getRawResponse(() => this.client.deleteHook(id, finalOptions), {
         ...options
       });
-      return response.rawResponse;
+      return { _response: response.rawResponse };
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -1516,23 +1522,29 @@ export class MetricsAdvisorAdministrationClient {
     startTime: Date | string,
     endTime: Date | string,
     options: OperationOptions = {}
-  ): Promise<void> {
+  ): Promise<RestResponse> {
     const { span, updatedOptions: finalOptions } = createSpan(
       "MetricsAdvisorAdministrationClient-refreshDataFeedIngestion",
       options
     );
 
     try {
-      const result = await this.client.resetDataFeedIngestionStatus(
-        dataFeedId,
+      const response = await getRawResponse(
+        () =>
+          this.client.resetDataFeedIngestionStatus(
+            dataFeedId,
+            {
+              startTime: typeof startTime === "string" ? new Date(startTime) : startTime,
+              endTime: typeof endTime === "string" ? new Date(endTime) : endTime
+            },
+            finalOptions
+          ),
         {
-          startTime: typeof startTime === "string" ? new Date(startTime) : startTime,
-          endTime: typeof endTime === "string" ? new Date(endTime) : endTime
-        },
-        finalOptions
+          ...options
+        }
       );
-      logger.info(result);
-      return result;
+      logger.info(response);
+      return { _response: response.rawResponse };
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -1776,7 +1788,7 @@ export class MetricsAdvisorAdministrationClient {
   public async deleteDataSourceCredential(
     id: string,
     options: OperationOptions = {}
-  ): Promise<void> {
+  ): Promise<RestResponse> {
     const { span, updatedOptions: finalOptions } = createSpan(
       "MetricsAdvisorAdministrationClient-deleteDataSourceCredential",
       options
@@ -1786,7 +1798,7 @@ export class MetricsAdvisorAdministrationClient {
       const response = await getRawResponse(() => this.client.deleteCredential(id, finalOptions), {
         ...options
       });
-      return response.rawResponse;
+      return { _response: response.rawResponse };
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,

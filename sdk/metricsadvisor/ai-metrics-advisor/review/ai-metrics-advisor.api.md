@@ -6,6 +6,7 @@
 
 /// <reference lib="esnext.asynciterable" />
 
+import { FullOperationResponse } from '@azure/core-client';
 import { OperationOptions } from '@azure/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PipelineOptions } from '@azure/core-rest-pipeline';
@@ -857,11 +858,11 @@ export class MetricsAdvisorAdministrationClient {
     createDataSourceCredential(dataSourceCredential: DataSourceCredentialEntityUnion, options?: OperationOptions): Promise<DataSourceCredentialEntityUnion>;
     createDetectionConfig(config: Omit<AnomalyDetectionConfiguration, "id">, options?: OperationOptions): Promise<AnomalyDetectionConfiguration>;
     createHook(hookInfo: EmailNotificationHook | WebNotificationHook, options?: OperationOptions): Promise<NotificationHookUnion>;
-    deleteAlertConfig(id: string, options?: OperationOptions): Promise<void>;
-    deleteDataFeed(id: string, options?: OperationOptions): Promise<void>;
-    deleteDataSourceCredential(id: string, options?: OperationOptions): Promise<void>;
-    deleteDetectionConfig(id: string, options?: OperationOptions): Promise<void>;
-    deleteHook(id: string, options?: OperationOptions): Promise<void>;
+    deleteAlertConfig(id: string, options?: OperationOptions): Promise<RestResponse>;
+    deleteDataFeed(id: string, options?: OperationOptions): Promise<RestResponse>;
+    deleteDataSourceCredential(id: string, options?: OperationOptions): Promise<RestResponse>;
+    deleteDetectionConfig(id: string, options?: OperationOptions): Promise<RestResponse>;
+    deleteHook(id: string, options?: OperationOptions): Promise<RestResponse>;
     readonly endpointUrl: string;
     getAlertConfig(id: string, options?: OperationOptions): Promise<AnomalyAlertConfiguration>;
     getDataFeed(id: string, options?: OperationOptions): Promise<MetricsAdvisorDataFeed>;
@@ -875,7 +876,7 @@ export class MetricsAdvisorAdministrationClient {
     listDataSourceCredential(options?: ListDataSourceCredentialsOptions): PagedAsyncIterableIterator<DataSourceCredentialEntityUnion, CredentialsPageResponse>;
     listDetectionConfigs(metricId: string, options?: OperationOptions): PagedAsyncIterableIterator<AnomalyDetectionConfiguration, DetectionConfigurationsPageResponse, undefined>;
     listHooks(options?: ListHooksOptions): PagedAsyncIterableIterator<NotificationHookUnion, HooksPageResponse>;
-    refreshDataFeedIngestion(dataFeedId: string, startTime: Date | string, endTime: Date | string, options?: OperationOptions): Promise<void>;
+    refreshDataFeedIngestion(dataFeedId: string, startTime: Date | string, endTime: Date | string, options?: OperationOptions): Promise<RestResponse>;
     updateAlertConfig(id: string, patch: Partial<Omit<AnomalyAlertConfiguration, "id">>, options?: OperationOptions): Promise<AnomalyAlertConfiguration>;
     updateDataFeed(dataFeedId: string, patch: DataFeedPatch, options?: OperationOptions): Promise<MetricsAdvisorDataFeed>;
     updateDataSourceCredential(id: string, patch: DataSourceCredentialPatch, options?: OperationOptions): Promise<DataSourceCredentialEntityUnion>;
@@ -1020,6 +1021,13 @@ export type PostgreSqlDataFeedSource = {
     query: string;
     authenticationType: "Basic";
 };
+
+// @public
+export interface RestResponse {
+    // (undocumented)
+    [key: string]: any;
+    _response: FullOperationResponse;
+}
 
 // @public
 export type Severity = "Low" | "Medium" | "High";
