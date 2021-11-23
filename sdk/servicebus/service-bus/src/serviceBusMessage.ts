@@ -885,33 +885,13 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessage {
       delivery,
       shouldReorderLockToken
     );
+    this._rawAmqpMessage = _rawAmqpMessage; // need to initialize _rawAmqpMessage property to make compiler happy
     Object.assign(this, restOfMessageProps);
     // Lock on a message is applicable only in peekLock mode, but the service sets
     // the lock token even in receiveAndDelete mode if the entity in question is partitioned.
     if (receiveMode === "receiveAndDelete") {
       this.lockToken = undefined;
     }
-
-    // let actualBodyType:
-    //   | ReturnType<typeof defaultDataTransformer["decodeWithType"]>["bodyType"]
-    //   | undefined = undefined;
-
-    // if (msg.body) {
-    //   try {
-    //     const result = defaultDataTransformer.decodeWithType(msg.body);
-
-    //     this.body = result.body;
-    //     actualBodyType = result.bodyType;
-    //   } catch (err) {
-    //     this.body = undefined;
-    //   }
-    // }
-    // why above when `fromRheaMessage()` already called `defaultDataTransformer.decodeWithType()` earlier on message body
-    this.body = restOfMessageProps.body;
-
-    this._rawAmqpMessage = _rawAmqpMessage;
-    // `_rawAmqpMessage.bodyType` is also assigned already in `fromRheaMessage()`
-    // this._rawAmqpMessage.bodyType = actualBodyType;
     this.delivery = delivery;
   }
 
