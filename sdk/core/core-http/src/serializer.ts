@@ -6,12 +6,12 @@ import * as base64 from "./util/base64";
 import * as utils from "./util/utils";
 import { XML_ATTRKEY, XML_CHARKEY, SerializerOptions } from "./util/serializer.common";
 
-/**
- * This file contains an OpenAPI schema serializer, used by Autorest.Typescript.
- */
+// This file contains an OpenAPI schema serializer, used by Autorest.Typescript.
 
 /**
- * An object that serializes a string into its underlying values based on a mapper.
+ * Used to map raw response objects to final shapes.
+ * Mostly useful for unpacking/packing Dates and other encoded types that
+ * are not intrinsic to JSON.
  */
 export class Serializer {
   constructor(
@@ -26,7 +26,7 @@ export class Serializer {
   ) {}
 
   /**
-   * If a mapper has defined constraints, this function will throw if the provided value does not match those constraints.
+   * Validates constraints, if any. This function will throw if the provided value does not match those constraints.
    * @param mapper - The definition of data models.
    * @param value - The value.
    * @param objectName - Name of the object. Used in the error messages.
@@ -99,13 +99,14 @@ export class Serializer {
   }
 
   /**
-   * Serialize the given object based on its metadata defined in the mapper
+   * Serialize the given object based on its metadata defined in the mapper.
+   * Deserialize the given object based on its metadata defined in the mapper.
    *
-   * @param mapper - The mapper which defines the metadata of the serializable object
-   * @param object - A valid Javascript object to be serialized
-   * @param objectName - Name of the serialized object
-   * @param options - additional options to deserialization
-   * @returns A valid serialized Javascript object
+   * @param mapper - The mapper which defines the metadata of the serializable object.
+   * @param object - A valid Javascript object to be serialized.
+   * @param objectName - Name of the serialized object.
+   * @param options - additional options to deserialization.
+   * @returns A valid serialized Javascript object.
    */
   serialize(
     mapper: Mapper,
@@ -206,13 +207,13 @@ export class Serializer {
   }
 
   /**
-   * Deserialize the given object based on its metadata defined in the mapper
+   * Deserialize the given object based on its metadata defined in the mapper.
    *
-   * @param mapper - The mapper which defines the metadata of the serializable object
-   * @param responseBody - A valid Javascript entity to be deserialized
-   * @param objectName - Name of the deserialized object
+   * @param mapper - The mapper which defines the metadata of the serializable object.
+   * @param responseBody - A valid Javascript entity to be deserialized.
+   * @param objectName - Name of the deserialized object.
    * @param options - Controls behavior of XML parser and builder.
-   * @returns A valid deserialized Javascript object
+   * @returns A valid deserialized Javascript object.
    */
   deserialize(
     mapper: Mapper,
@@ -615,10 +616,10 @@ function serializeDictionaryType(
 }
 
 /**
- * Resolves the additionalProperties property from a referenced mapper
- * @param serializer - The serializer containing the entire set of mappers
- * @param mapper - The composite mapper to resolve
- * @param objectName - Name of the object being serialized
+ * Resolves the additionalProperties property from a referenced mapper.
+ * @param serializer - the serializer containing the entire set of mappers.
+ * @param mapper - the composite mapper to resolve.
+ * @param objectName - name of the object being serialized.
  */
 function resolveAdditionalProperties(
   serializer: Serializer,
@@ -1123,7 +1124,7 @@ function getPolymorphicDiscriminatorSafely(serializer: Serializer, typeName?: st
 }
 
 /**
- * Constraints that determine whether a Mapper applies or not.
+ * Constraints used to test values.
  */
 export interface MapperConstraints {
   /**
