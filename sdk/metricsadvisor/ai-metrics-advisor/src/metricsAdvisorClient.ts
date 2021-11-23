@@ -1439,7 +1439,7 @@ export class MetricsAdvisorClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: (e as any).message
+        message: e.message
       });
       throw e;
     } finally {
@@ -1475,7 +1475,7 @@ export class MetricsAdvisorClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: (e as any).message
+        message: e.message
       });
       throw e;
     } finally {
@@ -1503,7 +1503,7 @@ export class MetricsAdvisorClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: (e as any).message
+        message: e.message
       });
       throw e;
     } finally {
@@ -2121,7 +2121,7 @@ export class MetricsAdvisorClient {
    * let iter = client.listMetricEnrichmentStatus(metricId, startTime, endTime);
    * let result = await iter.next();
    * while (!result.done) {
-   *   console.log(` enrichment status - ${result.value.status} ${result.valu(e as any).message}`);
+   *   console.log(` enrichment status - ${result.value.status} ${result.value.message}`);
    *   console.dir(result.value);
    *   result = await iter.next();
    * }

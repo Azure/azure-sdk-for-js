@@ -288,7 +288,7 @@ export class MetricsAdvisorAdministrationClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: (e as any).message
+        message: e.message
       });
       throw e;
     } finally {
@@ -317,7 +317,7 @@ export class MetricsAdvisorAdministrationClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: (e as any).message
+        message: e.message
       });
       throw e;
     } finally {
@@ -515,7 +515,7 @@ export class MetricsAdvisorAdministrationClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: (e as any).message
+        message: e.message
       });
       throw e;
     } finally {
@@ -543,7 +543,7 @@ export class MetricsAdvisorAdministrationClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: (e as any).message
+        message: e.message
       });
       throw e;
     } finally {
@@ -580,7 +580,7 @@ export class MetricsAdvisorAdministrationClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: (e as any).message
+        message: e.message
       });
       throw e;
     } finally {
@@ -609,7 +609,7 @@ export class MetricsAdvisorAdministrationClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: (e as any).message
+        message: e.message
       });
       throw e;
     } finally {
@@ -645,7 +645,7 @@ export class MetricsAdvisorAdministrationClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: (e as any).message
+        message: e.message
       });
       throw e;
     } finally {
@@ -679,7 +679,7 @@ export class MetricsAdvisorAdministrationClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: (e as any).message
+        message: e.message
       });
       throw e;
     } finally {
@@ -715,7 +715,7 @@ export class MetricsAdvisorAdministrationClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: (e as any).message
+        message: e.message
       });
       throw e;
     } finally {
@@ -750,7 +750,7 @@ export class MetricsAdvisorAdministrationClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: (e as any).message
+        message: e.message
       });
       throw e;
     } finally {
@@ -779,7 +779,7 @@ export class MetricsAdvisorAdministrationClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: (e as any).message
+        message: e.message
       });
       throw e;
     } finally {
@@ -813,7 +813,7 @@ export class MetricsAdvisorAdministrationClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: (e as any).message
+        message: e.message
       });
       throw e;
     } finally {
@@ -971,7 +971,7 @@ export class MetricsAdvisorAdministrationClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: (e as any).message
+        message: e.message
       });
       throw e;
     } finally {
@@ -997,7 +997,7 @@ export class MetricsAdvisorAdministrationClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: (e as any).message
+        message: e.message
       });
       throw e;
     } finally {
@@ -1145,7 +1145,7 @@ export class MetricsAdvisorAdministrationClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: (e as any).message
+        message: e.message
       });
       throw e;
     } finally {
@@ -1172,7 +1172,7 @@ export class MetricsAdvisorAdministrationClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: (e as any).message
+        message: e.message
       });
       throw e;
     } finally {
@@ -1315,7 +1315,7 @@ export class MetricsAdvisorAdministrationClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: (e as any).message
+        message: e.message
       });
       throw e;
     } finally {
@@ -1548,7 +1548,7 @@ export class MetricsAdvisorAdministrationClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: (e as any).message
+        message: e.message
       });
       throw e;
     } finally {
@@ -1582,7 +1582,7 @@ export class MetricsAdvisorAdministrationClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: (e as any).message
+        message: e.message
       });
       throw e;
     } finally {
@@ -1611,7 +1611,7 @@ export class MetricsAdvisorAdministrationClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: (e as any).message
+        message: e.message
       });
       throw e;
     } finally {
@@ -1772,7 +1772,7 @@ export class MetricsAdvisorAdministrationClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: (e as any).message
+        message: e.message
       });
       throw e;
     } finally {
@@ -1802,7 +1802,7 @@ export class MetricsAdvisorAdministrationClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: (e as any).message
+        message: e.message
       });
       throw e;
     } finally {
