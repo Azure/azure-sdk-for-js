@@ -29,7 +29,7 @@ function getCachedAgent(
 }
 
 /**
- * An HTTP client that uses node-fetch.
+ * An HTTP client that uses `node-fetch`.
  */
 export class NodeFetchHttpClient extends FetchHttpClient {
   // a mapping of proxy settings string `${host}:${port}:${username}:${password}` to agent

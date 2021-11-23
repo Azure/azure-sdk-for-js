@@ -19,9 +19,9 @@ interface FetchError extends Error {
 }
 
 /**
- * String URLs.
+ * String URLs used when calling to `fetch()`.
  */
-export type CommonRequestInfo = string; // We only ever call fetch() on string urls.
+export type CommonRequestInfo = string;
 
 /**
  * An object containing information about the outgoing HTTP request.
