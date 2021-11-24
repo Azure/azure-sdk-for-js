@@ -5,7 +5,6 @@ import { AbortSignalLike } from "@azure/abort-controller";
 import { BatchPerfTest } from "./batchPerfTest";
 
 /**
- * Extends BatchPerfTest.
  *
  * This is helpful when the method being tested in the "run" method counts as one operation for one call.
  */
