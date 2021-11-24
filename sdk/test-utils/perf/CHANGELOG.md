@@ -4,7 +4,7 @@
 
 ### 2021-11-24
 
-- Adds
+- Adds `PerfTestBase` and `BatchPerfTest`.
   - `PerfTestBase` abstract class with the skeleton of the perf tests.
   - `BatchPerfTest` extends `PerfTestBase`, `BatchPerfTest` enables writing perf tests with more flexibility where the number of operations are dynamic for the method/call being tested.
   - `PerfTest` now extends `BatchPerfTest`, a single call in the "run" method for the method being tested counts as one operation - has no breaking changes now and is supposed to work as it did before.
