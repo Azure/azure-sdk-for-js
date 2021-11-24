@@ -54,7 +54,7 @@ export type PerfOptionDictionary<TOptions = Record<string, unknown>> = {
 };
 
 /**
- * This is exactly same as PerfOptionDictionary, but the "value" is required.
+ * This is exactly same as {@link PerfOptionDictionary}, but the `value` is required.
  * If it's absent and is required, we throw during validation.
  */
 export type ParsedPerfOptions<TOptions = Record<string, unknown>> = {
