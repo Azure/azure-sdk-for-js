@@ -54,6 +54,15 @@ export type PerfOptionDictionary<TOptions = Record<string, unknown>> = {
 };
 
 /**
+ * This is exactly same as PerfOptionDictionary, but the "value" is required.
+ * If it's absent and is required, we throw during validation.
+ */
+export type ParsedPerfOptions<TOptions = Record<string, unknown>> = {
+  [longName in keyof TOptions]: OptionDetails<TOptions[longName]> &
+    Pick<Required<OptionDetails<TOptions[longName]>>, "value">;
+};
+
+/**
  * These represent the default options the tests can assume.
  *
  * @interface DefaultPerfOptions
@@ -133,7 +142,7 @@ export const defaultPerfOptions: PerfOptionDictionary<DefaultPerfOptions> = {
  */
 export function parsePerfOption<TOptions>(
   options: PerfOptionDictionary<TOptions>
-): Required<PerfOptionDictionary<TOptions>> {
+): ParsedPerfOptions<TOptions> {
   const minimistResult: MinimistParsedArgs = minimist(
     process.argv,
     getBooleanOptionDetails(options)
@@ -169,7 +178,7 @@ export function parsePerfOption<TOptions>(
     };
   }
 
-  return result as Required<PerfOptionDictionary<TOptions>>;
+  return result as ParsedPerfOptions<TOptions>;
 }
 
 /**

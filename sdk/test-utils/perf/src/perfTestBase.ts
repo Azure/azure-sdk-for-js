@@ -7,7 +7,8 @@ import {
   parsePerfOption,
   DefaultPerfOptions,
   defaultPerfOptions,
-  validateOptions
+  validateOptions,
+  ParsedPerfOptions
 } from "./options";
 import { PerfParallel } from "./parallel";
 
@@ -32,11 +33,14 @@ export interface PerfTestConstructor<
 export abstract class PerfTestBase<TOptions = Record<string, unknown>> {
   public abstract options: PerfOptionDictionary<TOptions>;
 
-  public get parsedOptions(): PerfOptionDictionary<TOptions & DefaultPerfOptions> {
+  public get parsedOptions(): ParsedPerfOptions<TOptions & DefaultPerfOptions> {
     // Only validate the options if they are defined: if (when) parsedOptions is called
     // in the constructor, options will be undefined.
     if (this.options) {
-      validateOptions({ ...this.options, ...defaultPerfOptions });
+      validateOptions({
+        ...this.options,
+        ...defaultPerfOptions
+      });
     }
 
     // This cast is needed because TS thinks
@@ -46,7 +50,7 @@ export abstract class PerfTestBase<TOptions = Record<string, unknown>> {
     return parsePerfOption({
       ...this.options,
       ...defaultPerfOptions
-    }) as PerfOptionDictionary<TOptions & DefaultPerfOptions>;
+    } as PerfOptionDictionary<TOptions & DefaultPerfOptions>);
   }
 
   private static globalParallelIndex = 0;
