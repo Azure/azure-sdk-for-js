@@ -8,7 +8,7 @@
   - `PerfTestBase` is an abstract class with the skeleton needed to build other classes representing performance tests.
   - `BatchPerfTest` (which extends `PerfTestBase`) enables writing performance tests where the number of operations are dynamic.
   - `PerfTest` now extends `BatchPerfTest`. A single call in the "run" method for the method being tested counts as one operation. `PerfTest` related updates are not breaking, so existing performance tests will continue to work without changes.
-- New template type `ParsedPerfOptions<TOptions = Record<string, unknown>>` for the parsed options, which doesn't require to add/bypass the "value" existence check.
+- A new template type `ParsedPerfOptions<TOptions = Record<string, unknown>>` is added to the parsed options. This type doesn't require adding or bypassing the `value` check.
 
   - Example - `this.parsedOptions.optionName.value!` -> `this.parsedOptions.optionName.value` in the perf tests.
 
