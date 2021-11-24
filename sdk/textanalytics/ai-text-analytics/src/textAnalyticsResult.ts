@@ -15,12 +15,6 @@ import {
 import { sortResponseIdObjects } from "./util";
 
 /**
- * The result of a text analytics operation on a single input document.
- * @internal
- */
-export type TextAnalyticsResult = TextAnalyticsSuccessResult | TextAnalyticsErrorResult;
-
-/**
  * An Error Code returned from the Text Analytics service. Possible
  * values include:
  *
@@ -92,10 +86,7 @@ export interface TextAnalyticsErrorResult {
   readonly error: TextAnalyticsError;
 }
 
-/**
- * @internal
- */
-export interface StandardTextAnalyticsResultArray<T1 extends TextAnalyticsSuccessResult>
+interface StandardTextAnalyticsResultArray<T1 extends TextAnalyticsSuccessResult>
   extends Array<T1 | TextAnalyticsErrorResult> {
   /**
    * Statistics about the input document batch and how it was processed
@@ -110,10 +101,7 @@ export interface StandardTextAnalyticsResultArray<T1 extends TextAnalyticsSucces
   modelVersion: string;
 }
 
-/**
- * @internal
- */
-export interface CustomTextAnalyticsResultArray<T1 extends TextAnalyticsSuccessResult>
+interface CustomTextAnalyticsResultArray<T1 extends TextAnalyticsSuccessResult>
   extends Array<T1 | TextAnalyticsErrorResult> {
   /**
    * Statistics about the input document batch and how it was processed
@@ -131,10 +119,7 @@ export interface CustomTextAnalyticsResultArray<T1 extends TextAnalyticsSuccessR
   deploymentName: string;
 }
 
-/**
- * @internal
- */
-export interface StandardTextAnalyticsResponse<T1 extends TextAnalyticsSuccessResult> {
+interface StandardTextAnalyticsResponse<T1 extends TextAnalyticsSuccessResult> {
   /**
    * Response by document
    */
@@ -153,10 +138,7 @@ export interface StandardTextAnalyticsResponse<T1 extends TextAnalyticsSuccessRe
   modelVersion: string;
 }
 
-/**
- * @internal
- */
-export interface CustomTextAnalyticsResponse<T1 extends TextAnalyticsSuccessResult> {
+interface CustomTextAnalyticsResponse<T1 extends TextAnalyticsSuccessResult> {
   /**
    * Response by document
    */
@@ -226,25 +208,6 @@ export function makeTextAnalyticsErrorResult(
     id,
     error: intoTextAnalyticsError(error)
   };
-}
-
-/**
- * @internal
- * combines successful and erroneous results into a single array of results and
- * sort them so that the IDs order match that of the input documents array.
- * @param input - the array of documents sent to the service for processing.
- * @param response - the response received from the service.
- */
-export function combineSuccessfulAndErroneousDocuments<TSuccess extends TextAnalyticsSuccessResult>(
-  input: TextDocumentInput[],
-  response: StandardTextAnalyticsResponse<TSuccess>
-): (TSuccess | TextAnalyticsErrorResult)[] {
-  return processAndCombineSuccessfulAndErroneousDocuments(
-    input,
-    response,
-    (x) => x,
-    makeTextAnalyticsErrorResult
-  );
 }
 
 /**
