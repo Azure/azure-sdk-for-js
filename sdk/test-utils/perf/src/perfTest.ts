@@ -6,7 +6,7 @@ import { BatchPerfTest } from "./batchPerfTest";
 
 /**
  * Extends BatchPerfTest.
- * 
+ *
  * This is helpful when the method being tested in the "run" method counts as one operation for one call.
  */
 export abstract class PerfTest<TOptions = Record<string, unknown>> extends BatchPerfTest<TOptions> {
