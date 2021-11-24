@@ -96,14 +96,6 @@ describe("Botservice test", () => {
     assert.equal(res.name,botresourceName);
   });
 
-  it("bots list test", async function() {
-    const resArray = new Array();
-    for await (let item of client.bots.list()){
-        resArray.push(item);
-    }
-    assert.notEqual(resArray.length,0);
-  });
-
   it("MsTeamsChannel create test", async function() {
     const res = await client.channels.create(resourceGroup,botresourceName,"MsTeamsChannel",{
       location: "eastus",
