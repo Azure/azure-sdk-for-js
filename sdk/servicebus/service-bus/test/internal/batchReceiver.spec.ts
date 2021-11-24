@@ -1055,8 +1055,9 @@ describe("Batching Receiver", () => {
           console.log(msgs.length);
           throw new Error(testFailureMessage);
         } catch (err) {
-          assert.ok(err.message);
-          err.message.should.not.equal(testFailureMessage);
+          if (err.message) {
+            err.message.should.not.equal(testFailureMessage);
+          }
         }
 
         // Make sure that a 2nd receiveMessages call still works
