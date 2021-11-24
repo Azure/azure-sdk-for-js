@@ -1,0 +1,20 @@
+{
+  "init": {
+      "initScript": {
+        "path": ".scripts/sdk_init.sh",
+        "logPrefix": "fooScript",
+        "stdout": "Warning",
+        "stderr": "[Error|Exception]"
+      }
+    },
+  "generateAndBuild": {
+      "generateAndBuildScript": {
+        "path": ".scripts/sdk_generateAndBuild.sh"
+      }
+  },
+  "mockTest": {
+    "mockTestScript": {
+      "path": ".scripts/sdk_mockTest.sh"
+    }
+  }
+}
