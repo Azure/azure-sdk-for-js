@@ -41,10 +41,10 @@ export class MixedRealityStsClient {
 
   /**
    * Creates an instance of a MixedRealityStsClient.
-   * @param accountId The Mixed Reality service account identifier.
-   * @param accountDomain The Mixed Reality service account domain.
-   * @param keyCredential The Mixed Reality service account primary or secondary key credential.
-   * @param options Additional client options.
+   * @param accountId - The Mixed Reality service account identifier.
+   * @param accountDomain - The Mixed Reality service account domain.
+   * @param keyCredential - The Mixed Reality service account primary or secondary key credential.
+   * @param options - Additional client options.
    */
   constructor(
     accountId: string,
@@ -55,10 +55,10 @@ export class MixedRealityStsClient {
 
   /**
    * Creates an instance of a MixedRealityStsClient.
-   * @param accountId The Mixed Reality service account identifier.
-   * @param accountDomain The Mixed Reality service account domain.
-   * @param credential The credential used to access the Mixed Reality service.
-   * @param options Additional client options.
+   * @param accountId - The Mixed Reality service account identifier.
+   * @param accountDomain - The Mixed Reality service account domain.
+   * @param credential - The credential used to access the Mixed Reality service.
+   * @param options - Additional client options.
    */
   constructor(
     accountId: string,
@@ -69,10 +69,10 @@ export class MixedRealityStsClient {
 
   /**
    * Creates an instance of a MixedRealityStsClient.
-   * @param accountId The Mixed Reality service account identifier.
-   * @param accountDomain The Mixed Reality service account domain.
-   * @param credential The credential used to access the Mixed Reality service.
-   * @param options Additional client options.
+   * @param accountId - The Mixed Reality service account identifier.
+   * @param accountDomain - The Mixed Reality service account domain.
+   * @param credential - The credential used to access the Mixed Reality service.
+   * @param options - Additional client options.
    */
   constructor(
     accountId: string,
@@ -143,7 +143,7 @@ export class MixedRealityStsClient {
 
   /**
    * Retrieve a token from the STS service.
-   * @param options Operation options.
+   * @param options - Operation options.
    */
   public async getToken(options: GetTokenOptions = {}): Promise<AccessToken> {
     const internalOptions: MixedRealityStsRestClientGetTokenOptionalParams = {
