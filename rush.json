@@ -1110,6 +1110,11 @@
       "packageName": "@azure/arm-orbital",
       "projectFolder": "sdk/orbital/arm-orbital",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-botservice",
+      "projectFolder": "sdk/botservice/arm-botservice",
+      "versionPolicyName": "management"
     }
   ]
 }
