@@ -40,3 +40,5 @@ extends:
         safeName: azurecommunicationnetworktraversal
       - name: azure-tools-communication-short-codes
         safeName: azuretoolscommunicationshortcodes
+      - name: azure-communication-job-router
+        safeName: azurecommunicationjobrouter
