@@ -33,9 +33,9 @@ export class BatchSendTest extends ServiceBusTest<SendTestOptions> {
   constructor() {
     super();
     const sbMessage = {
-      body: Buffer.alloc(this.parsedOptions.messageBodySize.value!)
+      body: Buffer.alloc(this.parsedOptions.messageBodySize.value)
     };
-    this.batch = new Array(this.parsedOptions.numberOfMessages.value!).fill(sbMessage);
+    this.batch = new Array(this.parsedOptions.numberOfMessages.value).fill(sbMessage);
   }
 
   async run(): Promise<void> {
