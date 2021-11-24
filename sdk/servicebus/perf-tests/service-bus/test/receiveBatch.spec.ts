@@ -45,7 +45,7 @@ export class BatchReceiveTest extends ServiceBusTest<ReceiverOptions> {
   }
 
   /**
-   * sends the messages to be received later
+   * Sends the messages to be received later.
    */
   public async globalSetup(): Promise<void> {
     await super.globalSetup();
