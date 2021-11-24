@@ -13,6 +13,7 @@ import { PerfPolicyTest } from "./perfPolicy.spec";
 import { SleepTest } from "./sleep.spec";
 import { NodeFetchTest } from "./nodeFetch.spec";
 import { ServiceClientGetTest } from "./serviceClientGet.spec";
+import { MockReceiverTest } from "./batch/mockReceiverTest.spec";
 
 console.log("=== Starting the perf test ===");
 
@@ -26,7 +27,8 @@ const perfProgram = new PerfProgram(
     PerfPolicyTest,
     SleepTest,
     NodeFetchTest,
-    ServiceClientGetTest
+    ServiceClientGetTest,
+    MockReceiverTest
   ])
 );
 
