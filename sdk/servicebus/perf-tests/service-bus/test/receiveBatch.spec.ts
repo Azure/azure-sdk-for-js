@@ -47,7 +47,7 @@ export class BatchReceiveTest extends ServiceBusTest<ReceiverOptions> {
   /**
    * sends the messages to be received later
    */
-  public async globalSetup() {
+  public async globalSetup(): Promise<void> {
     await super.globalSetup();
     const sender = ServiceBusTest.sbClient.createSender(BatchReceiveTest.queueName);
 
@@ -65,7 +65,10 @@ export class BatchReceiveTest extends ServiceBusTest<ReceiverOptions> {
       this.parsedOptions["max-message-count"].value,
       { maxWaitTimeInMs: 500 }
     );
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     for (const _ in messages) {
+      // empty block
     }
     return messages.length;
   }
