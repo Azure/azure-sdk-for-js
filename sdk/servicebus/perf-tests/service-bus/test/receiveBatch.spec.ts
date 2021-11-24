@@ -56,7 +56,6 @@ export class BatchReceiveTest extends ServiceBusTest<ReceiverOptions> {
       "message-body-size-in-bytes": { value: messageBodySize }
     } = this.parsedOptions;
 
-    // Send messages to be able to receive as part of the test
     await sendMessages(sender, numberOfMessages, messageBodySize);
   }
 
