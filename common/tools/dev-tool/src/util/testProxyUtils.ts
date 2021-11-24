@@ -41,7 +41,7 @@ async function getRootLocation(start?: string): Promise<string> {
 
 async function getDockerRunCommand() {
   const repoRoot = await getRootLocation(); // /workspaces/azure-sdk-for-js/
-  const testProxyRecordingsLocation = "/etc/testproxy";
+  const testProxyRecordingsLocation = "/srv/testproxy";
   const allowLocalhostAccess = "--add-host host.docker.internal:host-gateway";
   const imageToLoad = `azsdkengsys.azurecr.io/engsys/testproxy-lin:${await getImageTag()}`;
   return `docker run -v ${repoRoot}:${testProxyRecordingsLocation} -p 5001:5001 -p 5000:5000 ${allowLocalhostAccess} ${imageToLoad}`;

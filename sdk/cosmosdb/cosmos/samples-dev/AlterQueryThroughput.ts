@@ -108,7 +108,11 @@ async function updateOfferForCollection(
   );
 
   if (container) {
-    const offer = client.offer(oldOfferDefinition!.id);
+    const id = oldOfferDefinition!.id;
+    if (typeof id === "undefined") {
+      throw new Error("ID for old offer is undefined");
+    }
+    const offer = client.offer(id);
     logStep("replace old offer with new offer");
     await offer.replace(newOfferDefinition);
   }
