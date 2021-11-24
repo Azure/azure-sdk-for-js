@@ -4,7 +4,6 @@
 import { ServiceBusReceiver, ServiceBusSender } from "@azure/service-bus";
 import { PerfOptionDictionary } from "@azure/test-utils-perf";
 import { ServiceBusTest } from "./sbBase.spec";
-import { AbortController } from "@azure/abort-controller";
 
 interface ReceiverOptions {
   "max-message-count": number;
@@ -13,7 +12,6 @@ interface ReceiverOptions {
 }
 
 export class BatchReceiveTest extends ServiceBusTest<ReceiverOptions> {
-  static controller: AbortController;
   static timer: NodeJS.Timeout;
   receiver: ServiceBusReceiver;
   public options: PerfOptionDictionary<ReceiverOptions> = {
@@ -56,24 +54,17 @@ export class BatchReceiveTest extends ServiceBusTest<ReceiverOptions> {
 
     const {
       "number-of-messages": { value: numberOfMessages },
-      "message-body-size-in-bytes": { value: messageBodySize },
-      warmup: { value: warmup },
-      iterations: { value: iterations },
-      duration: { value: duration }
+      "message-body-size-in-bytes": { value: messageBodySize }
     } = this.parsedOptions;
 
     // Send messages to be able to receive as part of the test
     await sendMessages(sender, numberOfMessages, messageBodySize);
-
-    // AbortSignal to make sure the test ends
-    BatchReceiveTest.controller = new AbortController();
-    BatchReceiveTest.timer = createTimer(warmup, iterations, duration);
   }
 
   public async runBatch(): Promise<number> {
     const messages = await this.receiver.receiveMessages(
       this.parsedOptions["max-message-count"].value,
-      { maxWaitTimeInMs: 500, abortSignal: BatchReceiveTest.controller.signal }
+      { maxWaitTimeInMs: 500 }
     );
     for (const _ in messages) {
     }
@@ -88,13 +79,6 @@ export class BatchReceiveTest extends ServiceBusTest<ReceiverOptions> {
     await super.globalCleanup();
     clearTimeout(BatchReceiveTest.timer);
   }
-}
-
-function createTimer(warmup: number, iterations: number, duration: number) {
-  // Timer being created for one iteration more than the duration of the test
-  return setTimeout(() => {
-    BatchReceiveTest.controller.abort();
-  }, (warmup + (1 + iterations) * duration) * 1000);
 }
 
 async function sendMessages(
