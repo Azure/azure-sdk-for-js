@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import { AbortSignalLike, AbortController } from "@azure/abort-controller";
-import { TestProxyHttpClient, TestProxyHttpClientV1 } from "./testProxyHttpClient";
 import { PerfTestBase } from "./perfTestBase";
 import { PerfParallel } from "./parallel";
 
@@ -10,26 +9,9 @@ import { PerfParallel } from "./parallel";
  * Extends PerfTestBase, enables writing perf tests with more flexibility for the methods
  * where the number of operations are dynamic for the method/call being tested.
  */
-export abstract class BatchPerfTest<TOptions = Record<string, unknown>> extends PerfTestBase<
+export abstract class EventPerfTest<TOptions = Record<string, unknown>> extends PerfTestBase<
   TOptions
 > {
-  public testProxyHttpClient!: TestProxyHttpClient;
-  public testProxyHttpClientV1!: TestProxyHttpClientV1;
-
-  public constructor() {
-    super();
-    if (this.parsedOptions["test-proxies"].value) {
-      
-    }
-  }
-
-  // Before and after running a bunch of the same this.
-  public globalSetup?(): void | Promise<void>;
-  public globalCleanup?(): void | Promise<void>;
-
-  public setup?(): void | Promise<void>;
-  public cleanup?(): void | Promise<void>;
-
   public abstract runBatch(abortSignal?: AbortSignalLike): Promise<number>;
 
   /**

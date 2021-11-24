@@ -32,13 +32,6 @@ export abstract class BatchPerfTest<TOptions = Record<string, unknown>> extends 
     }
   }
 
-  // Before and after running a bunch of the same this.
-  public globalSetup?(): void | Promise<void>;
-  public globalCleanup?(): void | Promise<void>;
-
-  public setup?(): void | Promise<void>;
-  public cleanup?(): void | Promise<void>;
-
   public abstract runBatch(abortSignal?: AbortSignalLike): Promise<number>;
 
   /**
