@@ -127,7 +127,7 @@ export interface WebResourceLike {
   requestId: string;
 
   /**
-   * Used to abort the request later.
+   * Signal of an abort controller. Can be used to abort both sending a network request and waiting for a response.
    */
   abortSignal?: AbortSignalLike;
 
@@ -270,7 +270,7 @@ export class WebResource implements WebResourceLike {
   requestId: string;
 
   /**
-   * Signal of an abort controller. Can be used to stop outgoing requests.
+   * Signal of an abort controller. Can be used to abort both sending a network request and waiting for a response.
    */
   abortSignal?: AbortSignalLike;
 
@@ -749,7 +749,7 @@ export interface RequestOptionsBase {
   customHeaders?: { [key: string]: string };
 
   /**
-   * The signal which can be used to abort requests.
+   * Signal of an abort controller. Can be used to abort both sending a network request and waiting for a response.
    */
   abortSignal?: AbortSignalLike;
 

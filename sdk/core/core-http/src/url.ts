@@ -340,6 +340,7 @@ export class URLBuilder {
   }
 
   /**
+   * Serializes the URL as a string.
    * @returns the URL as a string.
    */
   public toString(): string {

@@ -53,7 +53,7 @@ export class ApiKeyCredentials implements ServiceClientCredentials {
 // @public
 export function applyMixins(targetCtorParam: unknown, sourceCtors: any[]): void;
 
-// @public
+// @public @deprecated
 export type Authenticator = (challenge: unknown) => Promise<string>;
 
 // @public
