@@ -101,7 +101,7 @@ describe("Botservice test", () => {
     for await (let item of client.bots.list()){
         resArray.push(item);
     }
-    assert.equal(resArray.length,1);
+    assert.notEqual(resArray.length,0);
   });
 
   it("MsTeamsChannel create test", async function() {
