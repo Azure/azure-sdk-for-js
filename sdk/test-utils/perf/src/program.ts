@@ -22,7 +22,7 @@ import { PerfTestBase, PerfTestConstructor } from "./perfTestBase";
  * Use it like:
  *
  * ```ts
- * export class Delay500ms extends PerfTest<string> {
+ * export class Delay500ms extends PerfTest {
  *   public options = {};
  *   async run(): Promise<void> {
  *     await delay(500);
