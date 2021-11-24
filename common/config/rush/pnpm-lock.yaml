@@ -48,6 +48,7 @@ specifiers:
   '@rush-temp/arm-quota': file:./projects/arm-quota.tgz
   '@rush-temp/arm-recoveryservices': file:./projects/arm-recoveryservices.tgz
   '@rush-temp/arm-rediscache': file:./projects/arm-rediscache.tgz
+  '@rush-temp/arm-resourcehealth': file:./projects/arm-resourcehealth.tgz
   '@rush-temp/arm-resources': file:./projects/arm-resources.tgz
   '@rush-temp/arm-resources-subscriptions': file:./projects/arm-resources-subscriptions.tgz
   '@rush-temp/arm-security': file:./projects/arm-security.tgz
@@ -209,6 +210,7 @@ dependencies:
   '@rush-temp/arm-quota': file:projects/arm-quota.tgz
   '@rush-temp/arm-recoveryservices': file:projects/arm-recoveryservices.tgz
   '@rush-temp/arm-rediscache': file:projects/arm-rediscache.tgz
+  '@rush-temp/arm-resourcehealth': file:projects/arm-resourcehealth.tgz
   '@rush-temp/arm-resources': file:projects/arm-resources.tgz
   '@rush-temp/arm-resources-subscriptions': file:projects/arm-resources-subscriptions.tgz
   '@rush-temp/arm-security': file:projects/arm-security.tgz
@@ -8893,7 +8895,7 @@ packages:
     dev: false
 
   file:projects/arm-datafactory.tgz:
-    resolution: {integrity: sha512-ftTjq0CtO8/n+wlizCUlsf6RK3RmaarJTyt+DN07N5OsYrpoqBOrLtgqtzzvJZsDs0X9/LkyFhsOhOndBISbzA==, tarball: file:projects/arm-datafactory.tgz}
+    resolution: {integrity: sha512-wm2n/Ns8vlhtEN0s+6Dp62FqXTpObLqUM/gtWBopBYVv45/1htEURor+8vevFUbYVOMwLXrqqtk11/5qnu34RQ==, tarball: file:projects/arm-datafactory.tgz}
     name: '@rush-temp/arm-datafactory'
     version: 0.0.0
     dependencies:
@@ -8905,6 +8907,7 @@ packages:
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
+      rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
@@ -9417,6 +9420,27 @@ packages:
       uglify-js: 3.14.3
     transitivePeerDependencies:
       - supports-color
+    dev: false
+
+  file:projects/arm-resourcehealth.tgz:
+    resolution: {integrity: sha512-2aZ/KsYKwAjiAVYNgPcnIHIZ1zPnIhoqJzsV188fdQ+QJAf5uP3LuyYbqv128SbEqrHQK5XSbAgWNQiAk7DecQ==, tarball: file:projects/arm-resourcehealth.tgz}
+    name: '@rush-temp/arm-resourcehealth'
+    version: 0.0.0
+    dependencies:
+      '@microsoft/api-extractor': 7.18.19
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.14.3
     dev: false
 
   file:projects/arm-resources-subscriptions.tgz:
@@ -11490,7 +11514,7 @@ packages:
     dev: false
 
   file:projects/identity.tgz:
-    resolution: {integrity: sha512-eCD9KQuFyyjZeb0kS077iCU4UDl5M8OLnndQsn0z11tRhRVHXLtdekSjiYbOcbCXUY9QFePX2ogJ7jdesrfqlg==, tarball: file:projects/identity.tgz}
+    resolution: {integrity: sha512-tnLNHExUXaktmB8u7uICfeRdEwbfP6fhK45SznIaOE3WTKrgBA/zW7TuMiHfBdZ8flymvm8mv6YcVGI0yYdC3g==, tarball: file:projects/identity.tgz}
     name: '@rush-temp/identity'
     version: 0.0.0
     dependencies:
