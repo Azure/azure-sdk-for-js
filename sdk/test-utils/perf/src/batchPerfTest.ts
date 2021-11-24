@@ -133,14 +133,19 @@ export abstract class BatchPerfTest<TOptions = Record<string, unknown>> extends 
    * postSetup
    */
   public async postSetup() {
-    return this.recordAndStartPlayback();
+    // Records requests(in the run method) for all the instantiated PerfTest classes,
+    // and asks the proxy-tool to start playing back for future requests.
+    //
+    // Only be executed when the test-proxies option is provided.
+    // Expects the proxy tool to be up and running
+    if (this.testProxy) return this.recordAndStartPlayback();
   }
 
   /**
    * preCleanup
    */
   public async preCleanup() {
-    await this.stopPlayback();
+    if (this.testProxy) return this.stopPlayback();
   }
 
   /**

@@ -255,11 +255,7 @@ export class PerfProgram {
       }
     }
 
-    if (this.tests[0].parsedOptions["test-proxies"].value) {
-      // Records requests(in the run method) for all the instantiated PerfTest classes,
-      // and asks the proxy-tool to start playing back for future requests.
-      await Promise.all(this.tests.map((test) => test.postSetup?.()));
-    }
+    await Promise.all(this.tests.map((test) => test.postSetup?.()));
 
     if (Number(options.warmup.value) > 0) {
       await this.runTests(0, Number(options.warmup.value), "warmup");
@@ -270,9 +266,7 @@ export class PerfProgram {
       await this.runTests(i, Number(options.duration.value), "test");
     }
 
-    if (this.tests[0].parsedOptions["test-proxies"].value) {
-      await Promise.all(this.tests.map((test) => test.preCleanup?.()));
-    }
+    await Promise.all(this.tests.map((test) => test.preCleanup?.()));
 
     if (!options["no-cleanup"].value && this.tests[0].cleanup) {
       console.log(
