@@ -2,10 +2,10 @@
 // Licensed under the MIT license.
 
 import {
-  bearerTokenAuthenticationPolicy,
-  createPipelineFromOptions,
+  InternalPipelineOptions,
   TokenCredential,
-  InternalPipelineOptions
+  bearerTokenAuthenticationPolicy,
+  createPipelineFromOptions
 } from "@azure/core-http";
 import {
   MixedRealityStsRestClient,
@@ -13,7 +13,7 @@ import {
   MixedRealityStsRestClientOptionalParams
 } from "./generated";
 import { logger } from "./logger";
-import { MixedRealityStsClientOptions, GetTokenOptions } from "./models/options";
+import { GetTokenOptions, MixedRealityStsClientOptions } from "./models/options";
 import { createSpan } from "./tracing";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { SDK_VERSION } from "./constants";
@@ -146,7 +146,7 @@ export class MixedRealityStsClient {
    * @param options Operation options.
    */
   public async getToken(options: GetTokenOptions = {}): Promise<AccessToken> {
-    let internalOptions: MixedRealityStsRestClientGetTokenOptionalParams = {
+    const internalOptions: MixedRealityStsRestClientGetTokenOptionalParams = {
       ...options,
       tokenRequestOptions: {
         clientRequestId: generateCvBase()

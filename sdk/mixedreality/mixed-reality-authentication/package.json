@@ -43,11 +43,7 @@
     "README.md",
     "LICENSE"
   ],
-  "repository": {
-    "type": "git",
-    "url": "github:Azure/azure-sdk-for-js",
-    "directory": "sdk/mixedreality/mixed-reality-authentication"
-  },
+  "repository": "github:Azure/azure-sdk-for-js",
   "engines": {
     "node": ">=12.0.0"
   },
