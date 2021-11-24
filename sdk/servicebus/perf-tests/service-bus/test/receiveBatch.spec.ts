@@ -12,7 +12,6 @@ interface ReceiverOptions {
 }
 
 export class BatchReceiveTest extends ServiceBusTest<ReceiverOptions> {
-  static timer: NodeJS.Timeout;
   receiver: ServiceBusReceiver;
   public options: PerfOptionDictionary<ReceiverOptions> = {
     "number-of-messages": {
@@ -73,11 +72,6 @@ export class BatchReceiveTest extends ServiceBusTest<ReceiverOptions> {
 
   public run(): Promise<void> {
     throw new Error("run not defined - not needed");
-  }
-
-  public async globalCleanup() {
-    await super.globalCleanup();
-    clearTimeout(BatchReceiveTest.timer);
   }
 }
 
