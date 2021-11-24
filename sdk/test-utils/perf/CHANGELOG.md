@@ -2,6 +2,18 @@
 
 ## 1.0.0 (Unreleased)
 
+### 2021-11-24
+
+- Adds
+  - `PerfTestBase` abstract class with the skeleton of the perf tests.
+  - `BatchPerfTest` extends `PerfTestBase`, `BatchPerfTest` enables writing perf tests with more flexibility where the number of operations are dynamic for the method/call being tested.
+  - `PerfTest` now extends `BatchPerfTest`, a single call in the "run" method for the method being tested is counted as one operation - has no breaking changes now and is supposed to work as it did before.
+- New template type `ParsedPerfOptions<TOptions = Record<string, unknown>>` for the parsed options, which doesn't require to add/bypass the "value" existence check.
+
+  - Example - `this.parsedOptions.optionName.value!` -> `this.parsedOptions.optionName.value` in the perf tests.
+
+  [#18811](https://github.com/Azure/azure-sdk-for-js/pull/18811)
+
 ### 2021-11-18
 
 - Respect the `longName` option when provided in the options object
