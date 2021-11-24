@@ -7,6 +7,13 @@
  * regenerated.
  */
 
+export * from "./backupResourceStorageConfigsNonCRR";
+export * from "./protectionIntentOperations";
+export * from "./backupStatus";
+export * from "./featureSupport";
+export * from "./backupProtectionIntent";
+export * from "./backupUsageSummaries";
+export * from "./operations";
 export * from "./backupResourceVaultConfigs";
 export * from "./backupResourceEncryptionConfigs";
 export * from "./privateEndpointConnectionOperations";
@@ -43,6 +50,8 @@ export * from "./backupProtectableItems";
 export * from "./backupProtectionContainers";
 export * from "./securityPINs";
 export * from "./recoveryPointsRecommendedForMove";
+export * from "./resourceGuardProxies";
+export * from "./resourceGuardProxy";
 export * from "./backupUsageSummariesCRR";
 export * from "./aadProperties";
 export * from "./crossRegionRestore";
@@ -53,9 +62,3 @@ export * from "./crrOperationStatus";
 export * from "./backupResourceStorageConfigs";
 export * from "./recoveryPointsCrr";
 export * from "./backupProtectedItemsCrr";
-export * from "./protectionIntentOperations";
-export * from "./backupStatus";
-export * from "./featureSupport";
-export * from "./backupProtectionIntent";
-export * from "./backupUsageSummaries";
-export * from "./operations";
