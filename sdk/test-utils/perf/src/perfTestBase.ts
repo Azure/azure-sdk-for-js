@@ -11,6 +11,7 @@ import {
   ParsedPerfOptions
 } from "./options";
 import { PerfParallel } from "./parallel";
+import { AbortController } from "@azure/abort-controller";
 
 /**
  * Defines the behavior of the PerfTest constructor, to use the class as a value.
