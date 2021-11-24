@@ -8,22 +8,35 @@ Feature work is being tracked at [#15829](https://github.com/Azure/azure-sdk-for
 - [Azure SDK Tools Test Proxy](https://github.com/Azure/azure-sdk-tools/tree/main/tools/test-proxy/Azure.Sdk.Tools.TestProxy)
 - [Using Test Proxy with docker container](https://github.com/Azure/azure-sdk-tools/tree/main/tools/test-proxy/docker#build-and-run)
 
-## Running the proxy server
+## Running the test-proxy tool
 
-Run this command
+### With the `docker run` command
 
-> `docker run -v /workspaces/azure-sdk-for-js/:/etc/testproxy -p 5001:5001 -p 5000:5000 azsdkengsys.azurecr.io/engsys/testproxy-lin:latest`
+- Run this command
 
-Map the root directory of the azure-sdk-for-js repo to `/etc/testproxy` inside the container for an accurate location while generating recordings.
+  > `docker run -v /workspaces/azure-sdk-for-js/:/srv/testproxy -p 5001:5001 -p 5000:5000 azsdkengsys.azurecr.io/engsys/testproxy-lin:latest`
 
-(Eventually, recorder will trigger this for you!)
+  Map the root directory of the azure-sdk-for-js repo to `/srv/testproxy` inside the container for an accurate location while generating recordings.
 
-Add `--add-host host.docker.internal:host-gateway` for linux to access host's network(to access `localhost`) through `host.docker.internal`.
-Docker for Windows and Mac support `host.docker.internal` as a functioning alias for localhost.
+  (Eventually, recorder will trigger this for you!)
 
-If the above command doesn't work directly, try [Troubleshooting Access to Public Container Registry](https://github.com/Azure/azure-sdk-tools/tree/main/tools/test-proxy/docker#troubleshooting-access-to-public-container-registry).
+  Add `--add-host host.docker.internal:host-gateway` for linux to access host's network(to access `localhost`) through `host.docker.internal`.
+  Docker for Windows and Mac support `host.docker.internal` as a functioning alias for localhost.
 
-Reference: [Using Test Proxy with docker container](https://github.com/Azure/azure-sdk-tools/tree/main/tools/test-proxy/docker#build-and-run)
+  If the above command doesn't work directly, try [Troubleshooting Access to Public Container Registry](https://github.com/Azure/azure-sdk-tools/tree/main/tools/test-proxy/docker#troubleshooting-access-to-public-container-registry).
+
+  Reference: [Using Test Proxy with docker container](https://github.com/Azure/azure-sdk-tools/tree/main/tools/test-proxy/docker#build-and-run)
+
+### (OR) With the `dotnet tool`
+
+- Install [.Net 5.0](https://dotnet.microsoft.com/download)
+- Install test-proxy
+  > `dotnet tool install azure.sdk.tools.testproxy --global --add-source https://pkgs.dev.azure.com/azure-sdk/public/_packaging/azure-sdk-for-net/nuget/v3/index.json --version 1.0.0-dev*`
+- After successful installation, run the tool:
+
+  > `test-proxy --storage-location <root-of-the-repo>`
+
+  [ `root-of-the-repo example` - `/workspaces/azure-sdk-for-js` if you're on codespaces]
 
 ## Run the tests using recorder-new at `test-utils/testing-recorder-new`
 
@@ -36,6 +49,6 @@ Reference: [Using Test Proxy with docker container](https://github.com/Azure/azu
 
 For some reason, the volume mapping did not work for you, copy the recordings manually.
 
-- `docker cp <container_id>:/etc/testproxy/ temp-location`
+- `docker cp <container_id>:/srv/testproxy/ temp-location`
 
   [This will be fixed eventually [#Issue-17138](https://github.com/Azure/azure-sdk-for-js/issues/17138)]

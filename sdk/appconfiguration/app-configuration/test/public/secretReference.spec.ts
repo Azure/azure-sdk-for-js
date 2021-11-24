@@ -33,7 +33,7 @@ describe("AppConfigurationClient - SecretReference", () => {
       return {
         value: {
           secretId: `https://vault_name.vault.azure.net/secrets/${recorder.getUniqueName("name-2")}`
-        }, // TODO: It's a URL in .NET, should we leave it as a string input?
+        },
         isReadOnly: false,
         key: recorder.getUniqueName("name-3"),
         label: "label-s",

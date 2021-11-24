@@ -63,7 +63,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [getallprogrambriefs]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-short-codes/samples/v1/javascript/getAllProgramBriefs.js
 [getallshortcodes]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-short-codes/samples/v1/javascript/getAllShortCodes.js
 [getandupdateprogrambrief]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-short-codes/samples/v1/javascript/getAndUpdateProgramBrief.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/communication-short-codes
+[apiref]: https://docs.microsoft.com/javascript/api/
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azurecommunicationservicesaccount]: https://docs.microsoft.com/azure/communication-services/quickstarts/create-communication-resource
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/communication/communication-short-codes/README.md

@@ -10,14 +10,14 @@
    "status": 200,
    "response": "{\"value\":[\"__SUM__\",\"Shoes Handbags & Sunglasses\"],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/26ece682-80a6-4415-89a2-05903dd9a640/anomalies/dimension/query?$maxpagesize=2&$skip=2\"}",
    "responseHeaders": {
-    "apim-request-id": "e4aeb724-689c-4550-92b1-ec733b3a881d",
+    "apim-request-id": "12ba8e70-ec85-4dce-b756-4725860a9c73",
     "content-length": "273",
     "content-type": "application/json; charset=utf-8",
-    "date": "Mon, 08 Nov 2021 09:44:12 GMT",
+    "date": "Tue, 16 Nov 2021 02:01:23 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "233",
-    "x-request-id": "e4aeb724-689c-4550-92b1-ec733b3a881d"
+    "x-envoy-upstream-service-time": "238",
+    "x-request-id": "12ba8e70-ec85-4dce-b756-4725860a9c73"
    }
   },
   {
@@ -31,14 +31,14 @@
    "status": 200,
    "response": "{\"value\":[\"Handmade\",\"Office Products\"],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/26ece682-80a6-4415-89a2-05903dd9a640/anomalies/dimension/query?$maxpagesize=2&$skip=4\"}",
    "responseHeaders": {
-    "apim-request-id": "9fcfbb94-0dcd-4b69-893d-3184a9a1f219",
+    "apim-request-id": "bc65ae30-1fec-4176-8ede-00154b7b9cca",
     "content-length": "262",
     "content-type": "application/json; charset=utf-8",
-    "date": "Mon, 08 Nov 2021 09:44:12 GMT",
+    "date": "Tue, 16 Nov 2021 02:01:24 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "222",
-    "x-request-id": "9fcfbb94-0dcd-4b69-893d-3184a9a1f219"
+    "x-envoy-upstream-service-time": "202",
+    "x-request-id": "bc65ae30-1fec-4176-8ede-00154b7b9cca"
    }
   }
  ],

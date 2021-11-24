@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/* eslint-disable @azure/azure-sdk/ts-no-namespaces */
+/* eslint-disable @typescript-eslint/no-namespace */
 /* eslint-disable no-inner-declarations */
 
 import { logger, logErrorStackTrace } from "./log";

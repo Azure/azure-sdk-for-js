@@ -143,9 +143,6 @@ In order to release it, we need to add some tests for it to make sure we are del
         "integration-test:browser": "karma start --single-run",
         "integration-test:node": "nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 5000000 --full-trace \"dist-esm/test/{,!(browser)/**/}*.spec.js\"",
         "integration-test": "npm run integration-test:node && npm run integration-test:browser",
-        "browser": {
-          "./dist-esm/test/public/utils/env.js": "./dist-esm/test/public/utils/env.browser.js"
-        },
     ~~~
 
     Then add the following test dependencies into the `devDependencies` section.
@@ -188,7 +185,15 @@ In order to release it, we need to add some tests for it to make sure we are del
         "typedoc": "0.15.2",
         "typescript": "~4.2.0"
     ~~~
-
+   
+    Then add a browser test entry section.  
+    
+    ~~~
+      "browser": {
+        "./dist-esm/test/public/utils/env.js": "./dist-esm/test/public/utils/env.browser.js"
+      },
+    ~~~
+    
     ---
     **NOTE**
     We need to make sure those dependencies versions are align with other package.json files. You can double check it in [here](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/agrifood/agrifood-farming-rest/package.json)
