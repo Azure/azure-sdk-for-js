@@ -46,7 +46,7 @@ export type TransferProgressEvent = {
 };
 
 /**
- * The properties of an HTTP request to a web resource.
+ * A description of a HTTP request to be made to a remote server.
  */
 export interface WebResourceLike {
   /**
@@ -245,11 +245,11 @@ export class WebResource implements WebResourceLike {
    */
   operationSpec?: OperationSpec;
   /**
-   * Whether to use a credential to sign the outgoing request.
+   * Whether to send credentials (via cookies, authorization headers, or TLS client certificates) when making a request in the browser to a cross-site destination.
    */
   withCredentials: boolean;
   /**
-   * How much to wait before aborting the request, in case it remains unresponsive.
+   * How long to wait in milliseconds before aborting the request.
    */
   timeout: number;
   /**

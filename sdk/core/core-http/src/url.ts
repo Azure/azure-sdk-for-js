@@ -340,8 +340,7 @@ export class URLBuilder {
   }
 
   /**
-   * Generates a string URL.
-   * @returns String URL
+   * @returns the URL as a string.
    */
   public toString(): string {
     let result = "";
@@ -387,7 +386,7 @@ export class URLBuilder {
   }
 
   /**
-   * Parses a given string URL into a nw {@link URLBuilder}.
+   * Parses a given string URL into a new {@link URLBuilder}.
    */
   public static parse(text: string): URLBuilder {
     const result = new URLBuilder();

@@ -92,7 +92,7 @@ export class NodeFetchHttpClient extends FetchHttpClient {
   }
 
   /**
-   * Calls to `node-fetch` with the given parameters.
+   * Uses `node-fetch` to perform the request.
    */
   // eslint-disable-next-line @azure/azure-sdk/ts-apisurface-standardized-verbs
   async fetch(input: CommonRequestInfo, init?: CommonRequestInit): Promise<CommonResponse> {
@@ -128,7 +128,7 @@ export class NodeFetchHttpClient extends FetchHttpClient {
   }
 
   /**
-   * Process an HTTP response. Sets a cookie in the cookieJar if the response has a "Set-Cookie" header.
+   * Process an HTTP response. Handles persisting a cookie for subsequent requests if the response has a "Set-Cookie" header.
    */
   async processRequest(operationResponse: HttpOperationResponse): Promise<void> {
     if (this.cookieJar) {

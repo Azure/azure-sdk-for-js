@@ -11,7 +11,7 @@ import { MapperType, Serializer } from "./serializer";
 import { HttpMethods } from "./webResource";
 
 /**
- * A specification that defines how to interpret an HTTP operation, including the information of the outgoing request and the responses received.
+ * A specification that defines how to perform a particular service operation over HTTP, including how to properly serialize request information into and deserialize response information into an object payload returnable by the ServiceClient.
  */
 export interface OperationSpec {
   /**

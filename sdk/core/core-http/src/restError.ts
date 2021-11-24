@@ -9,24 +9,24 @@ import { Sanitizer } from "./util/sanitizer";
 const errorSanitizer = new Sanitizer();
 
 /**
- * An error resulting from an HTTP request to a REST provider.
+ * An error resulting from an HTTP request to a service endpoint.
  */
 export class RestError extends Error {
   /**
-   * A constant string to identify errors that may arise when sending out HTTP requests.
+   * A constant string to identify errors that may arise when making an HTTP request that indicates an issue with the transport layer (e.g. the hostname of the URL cannot be resolved via DNS.)
    */
   static readonly REQUEST_SEND_ERROR: string = "REQUEST_SEND_ERROR";
   /**
-   * A constant string to identify errors that may arise from parsing an incoming HTTP response.
+   * A constant string to identify errors that may arise from parsing an incoming HTTP response. Usually indicates a malformed HTTP body, such as an encoded JSON payload that is incomplete.
    */
   static readonly PARSE_ERROR: string = "PARSE_ERROR";
 
   /**
-   * String copy of the HTTP status code.
+   * The error code, if any. Can be one of the static error code properties (REQUEST_SEND_ERROR / PARSE_ERROR) or can be a string code from an underlying system call (E_NOENT).
    */
   code?: string;
   /**
-   * Numeric copy of the HTTP status code.
+   * The HTTP status code of the response, if one was returned.
    */
   statusCode?: number;
   /**
@@ -38,7 +38,7 @@ export class RestError extends Error {
    */
   response?: HttpOperationResponse;
   /**
-   * May contain the flattened response.
+   * Any additional details. In the case of deserialization errors, can be the processed response.
    */
   details?: unknown;
   constructor(

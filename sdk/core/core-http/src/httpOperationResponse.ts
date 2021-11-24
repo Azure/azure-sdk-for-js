@@ -82,7 +82,7 @@ export interface RestResponse {
   _response: HttpOperationResponse;
 
   /**
-   * May contain other properties.
+   * The flattened properties described by the OperationSpec, deserialized from headers and the HTTP body.
    */
   [key: string]: any;
 }

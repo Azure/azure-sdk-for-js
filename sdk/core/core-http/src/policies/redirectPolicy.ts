@@ -38,8 +38,8 @@ export const DefaultRedirectOptions: RedirectOptions = {
 };
 
 /**
- * Creates a redirect policy, which sends a new request to a different destination if a response arrives with a "location" header, and a status code between 300 and 307.
- * @param maximumRetries - Maximum number of retries.
+ * Creates a redirect policy, which sends a repeats the request to a new destination if a response arrives with a "location" header, and a status code between 300 and 307.
+ * @param maximumRetries - Maximum number of redirects to follow.
  * @returns An instance of the {@link RedirectPolicy}
  */
 export function redirectPolicy(maximumRetries = 20): RequestPolicyFactory {
@@ -51,7 +51,7 @@ export function redirectPolicy(maximumRetries = 20): RequestPolicyFactory {
 }
 
 /**
- * Sends a new request to a different destination if a response arrives with a "location" header, and a status code between 300 and 307.
+ * Resends the request to a new destination if a response arrives with a "location" header, and a status code between 300 and 307.
  */
 export class RedirectPolicy extends BaseRequestPolicy {
   constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions, readonly maxRetries = 20) {

@@ -14,7 +14,7 @@ import {
 } from "./requestPolicy";
 
 /**
- * Telemetry information. Just a key-value pair.
+ * Telemetry information. Key/value pairs to include inside the User-Agent string.
  */
 export type TelemetryInfo = { key?: string; value?: string };
 
@@ -55,7 +55,7 @@ export const getDefaultUserAgentHeaderName = getDefaultUserAgentKey;
 
 /**
  * The default approach to generate user agents.
- * Uses static information from this package, plus system information available based on the operative system running Node.js
+ * Uses static information from this package, plus system information available from the runtime.
  */
 export function getDefaultUserAgentValue(): string {
   const runtimeInfo = getRuntimeInfo();

@@ -24,7 +24,7 @@ export interface OperationOptions {
 }
 
 /**
- * Options that allow configuring the processing of outgoing HTTP requests.
+ * Options that allow configuring the handling of HTTP requests made by an SDK operation.
  */
 export interface OperationRequestOptions {
   /**

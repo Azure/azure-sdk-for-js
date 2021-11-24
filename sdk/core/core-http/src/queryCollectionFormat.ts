@@ -10,11 +10,11 @@ export enum QueryCollectionFormat {
    */
   Csv = ",",
   /**
-   * SSV: Each pair of segments joined by a single whitespace.
+   * SSV: Each pair of segments joined by a single space character.
    */
   Ssv = " ",
   /**
-   * TSV: Each pair of segments joined by a single tab.
+   * TSV: Each pair of segments joined by a single tab character.
    */
   Tsv = "\t",
   /**
@@ -22,7 +22,7 @@ export enum QueryCollectionFormat {
    */
   Pipes = "|",
   /**
-   * Pairs of segments may join with multiple formats.
+   * Denotes this is an array of values that should be passed to the server in multiple key/value pairs, e.g. `?queryParam=value1&queryParam=value2`
    */
   Multi = "Multi"
 }

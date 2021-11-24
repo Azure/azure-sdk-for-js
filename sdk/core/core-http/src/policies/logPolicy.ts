@@ -14,7 +14,7 @@ import { logger as coreLogger } from "../log";
 import { Sanitizer } from "../util/sanitizer";
 
 /**
- * Allows configuring what header values should be logged, what query parameters should be logged, and also passing a custom logger.
+ * A policy to log all outgoing HTTP requests and their associated responses. By default only a set list of headers are logged, though this can be configured. Request and response bodies are never logged.
  */
 export interface LogPolicyOptions {
   /**

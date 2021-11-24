@@ -755,8 +755,8 @@ function createDefaultRequestPolicyFactories(
 
 /**
  * Creates an HTTP pipeline based on the given options.
- * @param pipelineOptions - Defines options that are used to configure internal options of the HTTP pipeline for an SDK client.
- * @param authPolicyFactory - Optionally, a factory that creates a new RequestPolicy per-request.
+ * @param pipelineOptions - Defines options that are used to configure policies in the HTTP pipeline for an SDK client.
+ * @param authPolicyFactory - An optional authentication policy factory to use for signing requests.
  * @returns A set of options that can be passed to create a new {@link ServiceClient}.
  */
 export function createPipelineFromOptions(

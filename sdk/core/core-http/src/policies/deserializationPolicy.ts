@@ -145,12 +145,12 @@ function shouldDeserializeResponse(parsedResponse: HttpOperationResponse): boole
 }
 
 /**
- * Receives a list of the expected content types (for JSON and HTML), then the HTML response and any options to the serializer, then serializes the response into a normalized response object.
- * @param jsonContentTypes - JSON content types.
- * @param xmlContentTypes  - XML content types.
- * @param response - HTTP Response.
- * @param options  - Options to the serializer.
- * @returns A serialized HTTP operation response.
+ * Given a particular set of content types to parse as either JSON or XML, consumes the HTTP response to produce the result object defined by the request's OperationSpec.
+ * @param jsonContentTypes - Response content types to parse the body as JSON.
+ * @param xmlContentTypes  - Response content types to parse the body as XML.
+ * @param response - HTTP Response from the pipeline.
+ * @param options  - Options to the serializer, mostly for configuring the XML parser if needed.
+ * @returns A parsed HttpOperationResponse object that can be returned by the ServiceClient.
  */
 export function deserializeResponseBody(
   jsonContentTypes: string[],

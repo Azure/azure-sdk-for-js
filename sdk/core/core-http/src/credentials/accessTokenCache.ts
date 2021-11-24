@@ -48,14 +48,14 @@ export class ExpiringAccessTokenCache implements AccessTokenCache {
 
   /**
    * Saves an access token into the internal in-memory cache.
-   * @param accessToken - Access token or undefined.
+   * @param accessToken - Access token or undefined to clear the cache.
    */
   setCachedToken(accessToken: AccessToken | undefined): void {
     this.cachedToken = accessToken;
   }
 
   /**
-   * Returns the cached access token or undefined.
+   * Returns the cached access token or undefined if one is not cached.
    */
   getCachedToken(): AccessToken | undefined {
     if (

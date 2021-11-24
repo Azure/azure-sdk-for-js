@@ -92,7 +92,7 @@ export function loadNoProxy(): string[] {
 }
 
 /**
- * Returns the default proxy settings.
+ * Converts a given URL of a proxy server into `ProxySettings` or attempts to retrieve `ProxySettings` from the current environment if one is not passed.
  * @param proxyUrl - URL of the proxy
  * @returns The default proxy settings, or undefined.
  */
