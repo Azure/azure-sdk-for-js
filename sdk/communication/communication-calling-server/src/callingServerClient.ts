@@ -492,12 +492,11 @@ export class CallingServerClient {
     };
 
     try {
-      const { _response, ...result } = await this.serverCallRestClient.getParticipants(
+      const { _response } = await this.serverCallRestClient.getParticipants(
         request,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
-
-      return result;
+      return _response.parsedBody;
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,

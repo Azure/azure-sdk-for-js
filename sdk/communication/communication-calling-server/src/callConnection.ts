@@ -643,12 +643,11 @@ export class CallConnectionImpl implements CallConnection {
     );
 
     try {
-      const { _response, ...result } = await this.callConnectionRestClient.getParticipants(
+      const { _response } = await this.callConnectionRestClient.getParticipants(
         this.callConnectionId,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
-
-      return result;
+      return _response.parsedBody;
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
