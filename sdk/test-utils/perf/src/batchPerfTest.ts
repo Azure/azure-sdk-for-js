@@ -13,13 +13,8 @@ import { PerfTestBase } from "./perfTestBase";
 import { PerfParallel } from "./parallel";
 
 /**
- * Conveys the structure of any Perf this.
- * It allows developers to define the optional parameters to receive
- * in a way that aids them to auto-complete these options while adding code inside of each method.
- * It provides methods to parse the assigned options, as well as to set up and tear down any resources
- * at a global level (only one setup and teardown for the whole execution of a Perf test),
- * and at a local level, which happens once for each initialization of the test class
- * (initializations are as many as the "parallel" command line parameter specifies).
+ * Extends PerfTestBase, enables writing perf tests with more flexibility for the methods
+ * where the number of operations are dynamic for the method/call being tested.
  */
 export abstract class BatchPerfTest<TOptions = Record<string, unknown>> extends PerfTestBase<
   TOptions
@@ -58,7 +53,7 @@ export abstract class BatchPerfTest<TOptions = Record<string, unknown>> extends 
     if (this.testProxy) {
       this.testProxyHttpClientV1 = new TestProxyHttpClientV1(
         this.testProxy,
-        this.parsedOptions["insecure"].value ?? false
+        this.parsedOptions["insecure"].value
       );
       options.httpClient = this.testProxyHttpClientV1;
     }
