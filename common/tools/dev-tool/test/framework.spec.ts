@@ -27,10 +27,10 @@ describe("Command Framework", () => {
   before(() => {
     // Silence the logger
     updateBackend({
-      error: () => {},
-      warn: () => {},
-      info: () => {},
-      log: () => {}
+      error: () => { return undefined },
+      warn: () => { return undefined },
+      info: () => { return undefined },
+      log: () => { return undefined }
     });
   });
 
