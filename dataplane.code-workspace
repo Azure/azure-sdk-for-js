@@ -21,6 +21,10 @@
       "path": "sdk/communication/communication-administration"
     },
     {
+      "name": "communication-calling-server",
+      "path": "sdk/communication/communication-calling-server"
+    },
+    {
       "name": "communication-chat",
       "path": "sdk/communication/communication-chat"
     },

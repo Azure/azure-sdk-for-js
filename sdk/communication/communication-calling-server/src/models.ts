@@ -82,6 +82,28 @@ export interface PlayAudioOptions extends OperationOptions {
 }
 
 /**
+ * Options to transfer call.
+ */
+export interface TransferToParticipantOptions extends OperationOptions {
+  /** The alternate identity of the source of the call if dialing out to a pstn number */
+  alternateCallerId?: string;
+  /** The user to user information. */
+  userToUserInformation?: string;
+  /** The value to identify context of the operation. */
+  operationContext?: string;
+}
+
+/**
+ * Options to transfer call.
+ */
+export interface TransferToCallOptions extends OperationOptions {
+  /** The user to user information. */
+  userToUserInformation?: string;
+  /** The value to identify context of the operation. */
+  operationContext?: string;
+}
+
+/**
  * Options to play audio to participant.
  */
 export type PlayAudioToParticipantOptions = PlayAudioOptions;
@@ -129,17 +151,17 @@ export type MuteParticipantOptions = OperationOptions;
 /**
  * Options to mute the participant.
  */
- export type UnmuteParticipantOptions = OperationOptions;
+export type UnmuteParticipantOptions = OperationOptions;
 
 /**
  * Options to get the participant.
  */
- export type GetParticipantOptions = OperationOptions;
+export type GetParticipantOptions = OperationOptions;
 
 /**
  * Options to list the participants.
  */
- export type GetParticipantsOptions = OperationOptions;
+export type GetParticipantsOptions = OperationOptions;
 
 /**
  * Options to remove participant from the call.
@@ -165,11 +187,6 @@ export type DeleteOptions = OperationOptions;
  * Options to cancel all media operations.
  */
 export type CancelAllMediaOperationsOptions = OperationOptions;
-
-/**
- * Options to transfer call.
- */
-export type TransferCallOptions = OperationOptions;
 
 /**
  * Options to keepAlive call.

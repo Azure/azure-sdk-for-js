@@ -65,8 +65,9 @@ export interface CallConnection {
     playAudioToParticipant(participant: CommunicationIdentifier, audioUrl: string, options: PlayAudioOptions): Promise<PlayAudioResult>;
     removeParticipant(participant: CommunicationIdentifier, options?: RemoveParticipantOptions): Promise<void>;
     resumeParticipantMeetingAudio(participant: CommunicationIdentifier, options: ResumeParticipantMeetingAudioOptions): Promise<void>;
+    transferToCall(targetCallConnectionId: string, options?: TransferToCallOptions): Promise<TransferCallResult>;
     // Warning: (ae-forgotten-export) The symbol "TransferCallResult" needs to be exported by the entry point index.d.ts
-    transfer(targetParticipant: CommunicationIdentifier, userToUserInformation: string, options?: TransferCallOptions): Promise<TransferCallResult>;
+    transferToParticipant(targetParticipant: CommunicationIdentifier, options?: TransferToParticipantOptions): Promise<TransferCallResult>;
     unmuteParticipant(participant: CommunicationIdentifier, options?: UnmuteParticipantOptions): Promise<void>;
     updateAudioRoutingGroup(audioRoutingGroupId: string, targets: CommunicationIdentifier[], options: UpdateAudioRoutingGroupOptions): Promise<void>;
 }
@@ -384,7 +385,17 @@ export interface ToneReceivedEvent {
 export type ToneValue = string;
 
 // @public
-export type TransferCallOptions = OperationOptions;
+export interface TransferToCallOptions extends OperationOptions {
+    operationContext?: string;
+    userToUserInformation?: string;
+}
+
+// @public
+export interface TransferToParticipantOptions extends OperationOptions {
+    alternateCallerId?: string;
+    operationContext?: string;
+    userToUserInformation?: string;
+}
 
 // @public
 export type UnmuteParticipantOptions = OperationOptions;

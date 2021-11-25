@@ -181,12 +181,10 @@ export interface CallingOperationResultDetails {
   message?: string;
 }
 
-/** The transfer call request. */
-export interface TransferCallRequest {
+/** The transfer call to participant request. */
+export interface TransferToParticipantRequest {
   /** The identity of the target where call should be transfer to. */
-  targetParticipant?: CommunicationIdentifierModel;
-  /** The call connection id to replace the current call with. This parameter should be used for consultative transfer. */
-  targetCallConnectionId?: string;
+  targetParticipant: CommunicationIdentifierModel;
   /** The alternate identity of the transferor if transferring to a pstn number. */
   alternateCallerId?: PhoneNumberIdentifierModel;
   /** The user to user information. */
@@ -205,6 +203,16 @@ export interface TransferCallResult {
   operationContext?: string;
   /** The result info for the operation. */
   resultDetails?: CallingOperationResultDetails;
+}
+
+/** The transfer to call request. */
+export interface TransferToCallRequest {
+  /** The call connection id to replace the current call with. This parameter should be used for consultative transfer. */
+  targetCallConnectionId: string;
+  /** The user to user information. */
+  userToUserInformation?: string;
+  /** The operation context. */
+  operationContext?: string;
 }
 
 /** The audio routing group request. */
@@ -832,8 +840,20 @@ export type CallConnectionsPlayAudioResponse = PlayAudioResult & {
   };
 };
 
-/** Contains response data for the transfer operation. */
-export type CallConnectionsTransferResponse = TransferCallResult & {
+/** Contains response data for the transferToParticipant operation. */
+export type CallConnectionsTransferToParticipantResponse = TransferCallResult & {
+  /** The underlying HTTP response. */
+  _response: coreHttp.HttpResponse & {
+    /** The response body as text (string format) */
+    bodyAsText: string;
+
+    /** The response body as parsed JSON or XML */
+    parsedBody: TransferCallResult;
+  };
+};
+
+/** Contains response data for the transferToCall operation. */
+export type CallConnectionsTransferToCallResponse = TransferCallResult & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */

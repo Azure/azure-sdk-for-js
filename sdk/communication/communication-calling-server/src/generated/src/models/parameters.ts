@@ -15,7 +15,8 @@ import {
   UpdateAudioRoutingGroupRequest as UpdateAudioRoutingGroupRequestMapper,
   CreateCallRequest as CreateCallRequestMapper,
   PlayAudioRequest as PlayAudioRequestMapper,
-  TransferCallRequest as TransferCallRequestMapper,
+  TransferToParticipantRequest as TransferToParticipantRequestMapper,
+  TransferToCallRequest as TransferToCallRequestMapper,
   AudioRoutingGroupRequest as AudioRoutingGroupRequestMapper,
   AddParticipantRequest as AddParticipantRequestMapper,
   RemoveParticipantRequest as RemoveParticipantRequestMapper,
@@ -126,9 +127,14 @@ export const playAudioRequest: OperationParameter = {
   mapper: PlayAudioRequestMapper
 };
 
-export const transferCallRequest: OperationParameter = {
-  parameterPath: "transferCallRequest",
-  mapper: TransferCallRequestMapper
+export const transferToParticipantRequest: OperationParameter = {
+  parameterPath: "transferToParticipantRequest",
+  mapper: TransferToParticipantRequestMapper
+};
+
+export const transferToCallRequest: OperationParameter = {
+  parameterPath: "transferToCallRequest",
+  mapper: TransferToCallRequestMapper
 };
 
 export const audioRoutingGroupRequest: OperationParameter = {

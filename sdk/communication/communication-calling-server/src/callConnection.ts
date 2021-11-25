@@ -14,7 +14,8 @@ import {
   GetParticipantRequest,
   PlayAudioToParticipantRequest,
   CancelParticipantMediaOperationRequest,
-  TransferCallRequest,
+  TransferToParticipantRequest,
+  TransferToCallRequest,
   CallParticipant,
   CallConnectionProperties,
   AudioRoutingMode,
@@ -30,6 +31,7 @@ import {
   HangUpOptions,
   DeleteOptions,
   PlayAudioOptions,
+  PlayAudioToParticipantOptions,
   CancelAllMediaOperationsOptions,
   AddParticipantOptions,
   RemoveParticipantOptions,
@@ -38,7 +40,8 @@ import {
   GetParticipantOptions,
   GetParticipantsOptions,
   CancelMediaOperationOptions,
-  TransferCallOptions,
+  TransferToParticipantOptions,
+  TransferToCallOptions,
   KeepAliveOptions,
   GetCallOptions,
   CreateAudioRoutingGroupOptions,
@@ -163,9 +166,7 @@ export interface CallConnection {
    *
    * @param options - Additional request options contains getParticipants api options.
    */
-  getParticipants(
-    options?: GetParticipantsOptions
-  ): Promise<CallParticipant[]>;
+  getParticipants(options?: GetParticipantsOptions): Promise<CallParticipant[]>;
 
   /**
    * Play audio to a participant.
@@ -194,16 +195,25 @@ export interface CallConnection {
   ): Promise<void>;
 
   /**
-   * Transfer a call.
+   * Transfer the call to a participant.
    *
-   * @param targetParticipant - The identity of the target where call should be transfer to.
-   * @param userToUserInformation - The user to user information.
-   * @param options - Additional request options contains transferCall api options.
+   * @param targetParticipant - The target participant.
+   * @param options - Additional request options contains transferToParticipant api options.
    */
-  transfer(
+  transferToParticipant(
     targetParticipant: CommunicationIdentifier,
-    userToUserInformation: string,
-    options?: TransferCallOptions
+    options?: TransferToParticipantOptions
+  ): Promise<TransferCallResult>;
+
+  /**
+   * Transfer the current call to another call.
+   *
+   * @param targetCallConnectionId - The target call connection id to transfer to.
+   * @param options - Additional request options contains transferToCall api options.
+   */
+  transferToCall(
+    targetCallConnectionId: string,
+    options?: TransferToCallOptions
   ): Promise<TransferCallResult>;
 
   /**
@@ -211,9 +221,7 @@ export interface CallConnection {
    *
    * @param options - Additional request options contains getCall api options.
    */
-  getCall(
-    options?: GetCallOptions
-  ): Promise<CallConnectionProperties>;
+  getCall(options?: GetCallOptions): Promise<CallConnectionProperties>;
 
   /**
    * Create audio routing group in a call.
@@ -329,7 +337,7 @@ export class CallConnectionImpl implements CallConnection {
    *
    * @param options - Additional request options contains delete api options.
    */
-   public async delete(options: DeleteOptions = {}): Promise<void> {
+  public async delete(options: DeleteOptions = {}): Promise<void> {
     const { span, updatedOptions } = createSpan("CallConnectionRestClient-Delete", options);
 
     try {
@@ -453,7 +461,7 @@ export class CallConnectionImpl implements CallConnection {
       "CallConnectionRestClient-AddParticipant",
       operationOptions
     );
-    const alternate_caller_id =
+    const alternateCallerId =
       typeof restOptions?.alternateCallerId === "undefined"
         ? restOptions?.alternateCallerId
         : serializeCommunicationIdentifier({ phoneNumber: restOptions.alternateCallerId })
@@ -461,7 +469,7 @@ export class CallConnectionImpl implements CallConnection {
 
     const request: AddParticipantRequest = {
       participant: serializeCommunicationIdentifier(participant),
-      alternateCallerId: alternate_caller_id,
+      alternateCallerId: alternateCallerId,
       operationContext: restOptions?.operationContext
     };
 
@@ -601,10 +609,7 @@ export class CallConnectionImpl implements CallConnection {
     participant: CommunicationIdentifier,
     options: GetParticipantOptions = {}
   ): Promise<CallParticipant> {
-    const { span, updatedOptions } = createSpan(
-      "CallConnectionRestClient-GetParticipant",
-      options
-    );
+    const { span, updatedOptions } = createSpan("CallConnectionRestClient-GetParticipant", options);
 
     const request: GetParticipantRequest = {
       identifier: serializeCommunicationIdentifier(participant)
@@ -634,9 +639,7 @@ export class CallConnectionImpl implements CallConnection {
    * @param participant - The identifier of the participant.
    * @param options - Additional request options contains getParticipants api options.
    */
-  public async getParticipants(
-    options: GetParticipantsOptions = {}
-  ): Promise<CallParticipant[]> {
+  public async getParticipants(options: GetParticipantsOptions = {}): Promise<CallParticipant[]> {
     const { span, updatedOptions } = createSpan(
       "CallConnectionRestClient-GetParticipants",
       options
@@ -669,11 +672,11 @@ export class CallConnectionImpl implements CallConnection {
   public async playAudioToParticipant(
     participant: CommunicationIdentifier,
     audioUrl: string,
-    options: PlayAudioOptions
+    options: PlayAudioToParticipantOptions
   ): Promise<PlayAudioResult> {
     const { operationOptions, restOptions } = extractOperationOptions(options);
     const { span, updatedOptions } = createSpan(
-      "CallConnectionRestClient-PlayAudio",
+      "CallConnectionRestClient-PlayAudioToParticipant",
       operationOptions
     );
 
@@ -743,26 +746,76 @@ export class CallConnectionImpl implements CallConnection {
   }
 
   /**
-   * Transfer a call.
+   * Transfer the call to a participant.
    *
-   * @param targetParticipant - The identity of the target where call should be transfer to.
-   * @param userToUserInformation - The user to user information.
-   * @param options - Additional request options contains transfer api options.
+   * @param targetParticipant - The target participant.
+   * @param options - Additional request options contains transferToParticipant api options.
    */
-  public async transfer(
+  public async transferToParticipant(
     targetParticipant: CommunicationIdentifier,
-    userToUserInformation: string,
-    options: TransferCallOptions = {}
+    options: TransferToParticipantOptions = {}
   ): Promise<TransferCallResult> {
-    const { span, updatedOptions } = createSpan("CallConnectionRestClient-TransferCall", options);
+    const { operationOptions, restOptions } = extractOperationOptions(options);
+    const { span, updatedOptions } = createSpan(
+      "CallConnectionRestClient-TransferToParticipant",
+      operationOptions
+    );
 
-    const request: TransferCallRequest = {
+    const alternateCallerId =
+      typeof restOptions?.alternateCallerId === "undefined"
+        ? restOptions?.alternateCallerId
+        : serializeCommunicationIdentifier({ phoneNumber: restOptions.alternateCallerId })
+            .phoneNumber;
+
+    const request: TransferToParticipantRequest = {
       targetParticipant: serializeCommunicationIdentifier(targetParticipant),
-      userToUserInformation: userToUserInformation
+      alternateCallerId: alternateCallerId,
+      userToUserInformation: restOptions.userToUserInformation,
+      operationContext: restOptions.operationContext
     };
 
     try {
-      const { _response, ...result } = await this.callConnectionRestClient.transfer(
+      const { _response, ...result } = await this.callConnectionRestClient.transferToParticipant(
+        this.callConnectionId,
+        request,
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+      return result;
+    } catch (e) {
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Transfer the current call to another call.
+   *
+   * @param targetCallConnectionId - The target call connection id to transfer to.
+   * @param options - Additional request options contains transferToCall api options.
+   */
+  public async transferToCall(
+    targetCallConnectionId: string,
+    options: TransferToCallOptions = {}
+  ): Promise<TransferCallResult> {
+    const { operationOptions, restOptions } = extractOperationOptions(options);
+    const { span, updatedOptions } = createSpan(
+      "CallConnectionRestClient-TransferToCall",
+      operationOptions
+    );
+
+    const request: TransferToCallRequest = {
+      targetCallConnectionId: targetCallConnectionId,
+      userToUserInformation: restOptions.userToUserInformation,
+      operationContext: restOptions.operationContext
+    };
+
+    try {
+      const { _response, ...result } = await this.callConnectionRestClient.transferToCall(
         this.callConnectionId,
         request,
         operationOptionsToRequestOptionsBase(updatedOptions)
@@ -784,9 +837,7 @@ export class CallConnectionImpl implements CallConnection {
    *
    * @param options - Additional request options contains getCall api options.
    */
-  public async getCall(
-    options: GetCallOptions = {}
-  ): Promise<CallConnectionProperties> {
+  public async getCall(options: GetCallOptions = {}): Promise<CallConnectionProperties> {
     const { span, updatedOptions } = createSpan("CallConnectionRestClient-GetCall", options);
 
     try {
@@ -818,7 +869,10 @@ export class CallConnectionImpl implements CallConnection {
     targets: CommunicationIdentifier[],
     options: CreateAudioRoutingGroupOptions = {}
   ): Promise<CreateAudioRoutingGroupResult> {
-    const { span, updatedOptions } = createSpan("CallConnectionRestClient-CreateAudioRoutingGroup", options);
+    const { span, updatedOptions } = createSpan(
+      "CallConnectionRestClient-CreateAudioRoutingGroup",
+      options
+    );
 
     const request: AudioRoutingGroupRequest = {
       audioRoutingMode: audioRoutingMode,
@@ -853,7 +907,10 @@ export class CallConnectionImpl implements CallConnection {
     audioRoutingGroupId: string,
     options: DeleteAudioRoutingGroupOptions = {}
   ): Promise<void> {
-    const { span, updatedOptions } = createSpan("CallConnectionRestClient-DeleteAudioRoutingGroup", options);
+    const { span, updatedOptions } = createSpan(
+      "CallConnectionRestClient-DeleteAudioRoutingGroup",
+      options
+    );
 
     try {
       await this.callConnectionRestClient.deleteAudioRoutingGroup(
@@ -882,7 +939,10 @@ export class CallConnectionImpl implements CallConnection {
     audioRoutingGroupId: string,
     options: GetAudioRoutingGroupsOptions = {}
   ): Promise<AudioRoutingGroupResult> {
-    const { span, updatedOptions } = createSpan("CallConnectionRestClient-GetAudioRoutingGroups", options);
+    const { span, updatedOptions } = createSpan(
+      "CallConnectionRestClient-GetAudioRoutingGroups",
+      options
+    );
 
     try {
       const { _response, ...result } = await this.callConnectionRestClient.getAudioRoutingGroups(
@@ -914,7 +974,10 @@ export class CallConnectionImpl implements CallConnection {
     targets: CommunicationIdentifier[],
     options: UpdateAudioRoutingGroupOptions = {}
   ): Promise<void> {
-    const { span, updatedOptions } = createSpan("CallConnectionRestClient-UpdateAudioRoutingGroup", options);
+    const { span, updatedOptions } = createSpan(
+      "CallConnectionRestClient-UpdateAudioRoutingGroup",
+      options
+    );
 
     const request: UpdateAudioRoutingGroupRequest = {
       targets: targets.map((m) => serializeCommunicationIdentifier(m))
@@ -949,7 +1012,10 @@ export class CallConnectionImpl implements CallConnection {
     participant: CommunicationIdentifier,
     options: HoldParticipantMeetingAudioOptions = {}
   ): Promise<void> {
-    const { span, updatedOptions } = createSpan("CallConnectionRestClient-UpdateAudioRoutingGroup", options);
+    const { span, updatedOptions } = createSpan(
+      "CallConnectionRestClient-UpdateAudioRoutingGroup",
+      options
+    );
 
     const request: HoldMeetingAudioRequest = {
       identifier: serializeCommunicationIdentifier(participant)
@@ -983,7 +1049,10 @@ export class CallConnectionImpl implements CallConnection {
     participant: CommunicationIdentifier,
     options: ResumeParticipantMeetingAudioOptions = {}
   ): Promise<void> {
-    const { span, updatedOptions } = createSpan("CallConnectionRestClient-ResumeParticipantMeetingAudio", options);
+    const { span, updatedOptions } = createSpan(
+      "CallConnectionRestClient-ResumeParticipantMeetingAudio",
+      options
+    );
 
     const request: ResumeMeetingAudioRequest = {
       identifier: serializeCommunicationIdentifier(participant)

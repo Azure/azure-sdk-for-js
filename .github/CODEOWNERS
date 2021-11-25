@@ -35,7 +35,7 @@
 
 # PRLabel: %Communication
 /sdk/communication/communication-calling-server/ @zihzhan-msft @cochi2
-/sdk/communication/communication-identity/ @Azure/acs-identity-sdk 
+/sdk/communication/communication-identity/ @Azure/acs-identity-sdk
 /sdk/communication/communication-chat/ @LuChen-Microsoft
 /sdk/communication/communication-phone-numbers/ @miguhern @danielav7 @whisper6284 @AlonsoMondal
 /sdk/communication/communication-network-traversal/ @AriZavala2

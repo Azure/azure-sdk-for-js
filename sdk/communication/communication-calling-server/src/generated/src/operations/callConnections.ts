@@ -18,8 +18,10 @@ import {
   CallConnectionsGetCallResponse,
   PlayAudioRequest,
   CallConnectionsPlayAudioResponse,
-  TransferCallRequest,
-  CallConnectionsTransferResponse,
+  TransferToParticipantRequest,
+  CallConnectionsTransferToParticipantResponse,
+  TransferToCallRequest,
+  CallConnectionsTransferToCallResponse,
   AudioRoutingGroupRequest,
   CallConnectionsCreateAudioRoutingGroupResponse,
   CallConnectionsGetParticipantsResponse,
@@ -255,25 +257,47 @@ export class CallConnections {
   }
 
   /**
-   * Transfer the call to a participant or to another call.
+   * Transfer the call to a participant.
    * @param callConnectionId The call connection id.
-   * @param transferCallRequest The transfer call request.
+   * @param transferToParticipantRequest The transfer to participant request.
    * @param options The options parameters.
    */
-  transfer(
+  transferToParticipant(
     callConnectionId: string,
-    transferCallRequest: TransferCallRequest,
+    transferToParticipantRequest: TransferToParticipantRequest,
     options?: coreHttp.OperationOptions
-  ): Promise<CallConnectionsTransferResponse> {
+  ): Promise<CallConnectionsTransferToParticipantResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       callConnectionId,
-      transferCallRequest,
+      transferToParticipantRequest,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
     return this.client.sendOperationRequest(
       operationArguments,
-      transferOperationSpec
-    ) as Promise<CallConnectionsTransferResponse>;
+      transferToParticipantOperationSpec
+    ) as Promise<CallConnectionsTransferToParticipantResponse>;
+  }
+
+  /**
+   * Transfer the current call to another call.
+   * @param callConnectionId The call connection id.
+   * @param transferToCallRequest The transfer to call request.
+   * @param options The options parameters.
+   */
+  transferToCall(
+    callConnectionId: string,
+    transferToCallRequest: TransferToCallRequest,
+    options?: coreHttp.OperationOptions
+  ): Promise<CallConnectionsTransferToCallResponse> {
+    const operationArguments: coreHttp.OperationArguments = {
+      callConnectionId,
+      transferToCallRequest,
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
+    return this.client.sendOperationRequest(
+      operationArguments,
+      transferToCallOperationSpec
+    ) as Promise<CallConnectionsTransferToCallResponse>;
   }
 
   /**
@@ -853,8 +877,8 @@ const keepAliveOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const transferOperationSpec: coreHttp.OperationSpec = {
-  path: "/calling/callConnections/{callConnectionId}/:transfer",
+const transferToParticipantOperationSpec: coreHttp.OperationSpec = {
+  path: "/calling/callConnections/{callConnectionId}/:transferToParticipant",
   httpMethod: "POST",
   responses: {
     202: {
@@ -881,7 +905,42 @@ const transferOperationSpec: coreHttp.OperationSpec = {
       isError: true
     }
   },
-  requestBody: Parameters.transferCallRequest,
+  requestBody: Parameters.transferToParticipantRequest,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint, Parameters.callConnectionId],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const transferToCallOperationSpec: coreHttp.OperationSpec = {
+  path: "/calling/callConnections/{callConnectionId}/:transferToCall",
+  httpMethod: "POST",
+  responses: {
+    202: {
+      bodyMapper: Mappers.TransferCallResult
+    },
+    400: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    401: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    403: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    404: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    500: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    }
+  },
+  requestBody: Parameters.transferToCallRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.callConnectionId],
   headerParameters: [Parameters.accept, Parameters.contentType],

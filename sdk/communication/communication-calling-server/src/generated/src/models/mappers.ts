@@ -523,22 +523,16 @@ export const CallingOperationResultDetails: coreHttp.CompositeMapper = {
   }
 };
 
-export const TransferCallRequest: coreHttp.CompositeMapper = {
+export const TransferToParticipantRequest: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "TransferCallRequest",
+    className: "TransferToParticipantRequest",
     modelProperties: {
       targetParticipant: {
         serializedName: "targetParticipant",
         type: {
           name: "Composite",
           className: "CommunicationIdentifierModel"
-        }
-      },
-      targetCallConnectionId: {
-        serializedName: "targetCallConnectionId",
-        type: {
-          name: "String"
         }
       },
       alternateCallerId: {
@@ -593,6 +587,34 @@ export const TransferCallResult: coreHttp.CompositeMapper = {
         type: {
           name: "Composite",
           className: "CallingOperationResultDetails"
+        }
+      }
+    }
+  }
+};
+
+export const TransferToCallRequest: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TransferToCallRequest",
+    modelProperties: {
+      targetCallConnectionId: {
+        serializedName: "targetCallConnectionId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      userToUserInformation: {
+        serializedName: "userToUserInformation",
+        type: {
+          name: "String"
+        }
+      },
+      operationContext: {
+        serializedName: "operationContext",
+        type: {
+          name: "String"
         }
       }
     }

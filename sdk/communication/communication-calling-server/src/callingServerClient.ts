@@ -285,7 +285,7 @@ export class CallingServerClient {
     options: PlayAudioOptions
   ): Promise<PlayAudioResult> {
     const { operationOptions, restOptions } = extractOperationOptions(options);
-    const { span, updatedOptions } = createSpan("ServerCallRestClient-playAudio", operationOptions);
+    const { span, updatedOptions } = createSpan("ServerCallRestClient-PlayAudio", operationOptions);
 
     const request: PlayAudioWithCallLocatorRequest = {
       callLocator: callLocator,
@@ -328,7 +328,10 @@ export class CallingServerClient {
     options: PlayAudioToParticipantOptions
   ): Promise<PlayAudioResult> {
     const { operationOptions, restOptions } = extractOperationOptions(options);
-    const { span, updatedOptions } = createSpan("ServerCallRestClient-playAudio", operationOptions);
+    const { span, updatedOptions } = createSpan(
+      "ServerCallRestClient-PlayAudioToParticipant",
+      operationOptions
+    );
 
     const request: PlayAudioToParticipantWithCallLocatorRequest = {
       callLocator: callLocator,
@@ -372,7 +375,10 @@ export class CallingServerClient {
     options: AddParticipantOptions = {}
   ): Promise<AddParticipantResult> {
     const { operationOptions, restOptions } = extractOperationOptions(options);
-    const { span, updatedOptions } = createSpan("ServerCallRestClient-playAudio", operationOptions);
+    const { span, updatedOptions } = createSpan(
+      "ServerCallRestClient-AddParticipant",
+      operationOptions
+    );
     const alternate_caller_id =
       typeof restOptions?.alternateCallerId === "undefined"
         ? restOptions?.alternateCallerId
@@ -416,7 +422,7 @@ export class CallingServerClient {
     participant: CommunicationIdentifier,
     options: RemoveParticipantOptions = {}
   ): Promise<void> {
-    const { span, updatedOptions } = createSpan("ServerCallRestClient-removeParticipant", options);
+    const { span, updatedOptions } = createSpan("ServerCallRestClient-RemoveParticipant", options);
 
     const request: RemoveParticipantWithCallLocatorRequest = {
       callLocator: callLocator,
@@ -488,7 +494,7 @@ export class CallingServerClient {
     const { span, updatedOptions } = createSpan("ServerCallRestClient-GetParticipants", options);
 
     const request: GetAllParticipantsWithCallLocatorRequest = {
-      callLocator: callLocator,
+      callLocator: callLocator
     };
 
     try {
@@ -521,7 +527,7 @@ export class CallingServerClient {
     options: CancelMediaOperationOptions = {}
   ): Promise<void> {
     const { span, updatedOptions } = createSpan(
-      "ServerCallRestClient-cancelMediaOperation",
+      "ServerCallRestClient-CancelMediaOperation",
       options
     );
 
@@ -558,7 +564,7 @@ export class CallingServerClient {
   ): Promise<AnswerCallResult> {
     const { operationOptions, restOptions } = extractOperationOptions(options);
     const { span, updatedOptions } = createSpan(
-      "ServerCallRestClient-answerCall",
+      "ServerCallRestClient-AnswerCall",
       operationOptions
     );
 
@@ -598,7 +604,7 @@ export class CallingServerClient {
   ): Promise<void> {
     const { operationOptions, restOptions } = extractOperationOptions(options);
     const { span, updatedOptions } = createSpan(
-      "ServerCallRestClient-rejectCall",
+      "ServerCallRestClient-RejectCall",
       operationOptions
     );
 
@@ -635,10 +641,7 @@ export class CallingServerClient {
     target: CommunicationIdentifier,
     options: RedirectCallOptions = {}
   ): Promise<void> {
-    const { span, updatedOptions } = createSpan(
-      "ServerCallRestClient-redirectCall",
-      options
-    );
+    const { span, updatedOptions } = createSpan("ServerCallRestClient-RedirectCall", options);
 
     const request: RedirectCallRequest = {
       incomingCallContext: incomingCallContext,
@@ -676,7 +679,7 @@ export class CallingServerClient {
     options: CancelMediaOperationOptions = {}
   ): Promise<void> {
     const { span, updatedOptions } = createSpan(
-      "ServerCallRestClient-cancelParticipantMediaOperation",
+      "ServerCallRestClient-CancelParticipantMediaOperation",
       options
     );
 
@@ -714,7 +717,7 @@ export class CallingServerClient {
     recordingStateCallbackUrl: string,
     options: StartRecordingOptions = {}
   ): Promise<StartCallRecordingResult> {
-    const { span, updatedOptions } = createSpan("ServerCallRestClient-startRecording", options);
+    const { span, updatedOptions } = createSpan("ServerCallRestClient-StartRecording", options);
 
     const startCallRecordingWithCallLocatorRequest: StartCallRecordingWithCallLocatorRequest = {
       callLocator: serializeCallLocator(callLocator),
@@ -749,7 +752,7 @@ export class CallingServerClient {
     recordingId: string,
     options: PauseRecordingOptions = {}
   ): Promise<void> {
-    const { span, updatedOptions } = createSpan("ServerCallRestClient-pauseRecording", options);
+    const { span, updatedOptions } = createSpan("ServerCallRestClient-PauseRecording", options);
 
     try {
       await this.serverCallRestClient.pauseRecording(
@@ -777,7 +780,7 @@ export class CallingServerClient {
     recordingId: string,
     options: ResumeRecordingOptions = {}
   ): Promise<void> {
-    const { span, updatedOptions } = createSpan("ServerCallRestClient-resumeRecording", options);
+    const { span, updatedOptions } = createSpan("ServerCallRestClient-ResumeRecording", options);
 
     try {
       await this.serverCallRestClient.resumeRecording(
@@ -805,7 +808,7 @@ export class CallingServerClient {
     recordingId: string,
     options: StopRecordingOptions = {}
   ): Promise<void> {
-    const { span, updatedOptions } = createSpan("ServerCallRestClient-stopRecording", options);
+    const { span, updatedOptions } = createSpan("ServerCallRestClient-StopRecording", options);
 
     try {
       await this.serverCallRestClient.stopRecording(
@@ -834,7 +837,7 @@ export class CallingServerClient {
     options: GetRecordingPropertiesOptions = {}
   ): Promise<CallRecordingProperties> {
     const { span, updatedOptions } = createSpan(
-      "ServerCallRestClient-getRecordingProperties",
+      "ServerCallRestClient-GetRecordingProperties",
       options
     );
 
@@ -1045,7 +1048,10 @@ export class CallingServerClient {
    *
    * ```
    */
-  public async deleteRecording(deleteUrl: string, options: DeleteRecordingOptions = {}): Promise<RestResponse> {
+  public async deleteRecording(
+    deleteUrl: string,
+    options: DeleteRecordingOptions = {}
+  ): Promise<RestResponse> {
     const { span, updatedOptions } = createSpan("ServerCallRestClient-DeleteRecording", options);
 
     const operationArguments: OperationArguments = {
