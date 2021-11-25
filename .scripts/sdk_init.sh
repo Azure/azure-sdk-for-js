@@ -8,5 +8,3 @@ echo ========
 echo $SHELL
 echo ========
 echo $PWD
-
-node init.js
