@@ -13,7 +13,6 @@ export {
   CloudManifestFileResponse,
   Compatibility,
   CustomerSubscription,
-  CustomerSubscriptionList,
   ErrorDetails,
   ErrorResponse,
   IconUris,
