@@ -1,16 +1,19 @@
-## Release History
+## 15.0.0-beta.2 (2021-11-25)
+    
+**Features**
 
-### 15.0.0-beta.2 (Unreleased)
-
-#### Features Added
-
-#### Breaking Changes
-
-#### Bugs Fixed
-
-#### Other Changes
-
-### 15.0.0-beta.1 (2021-10-27)
+  - Added Interface AgentPoolsUpgradeNodeImageVersionHeaders
+  - Added Type Alias IpFamily
+  - Interface ContainerServiceNetworkProfile has a new optional parameter ipFamilies
+  - Interface ContainerServiceNetworkProfile has a new optional parameter podCidrs
+  - Interface ContainerServiceNetworkProfile has a new optional parameter serviceCidrs
+  - Interface ManagedClusterLoadBalancerProfileManagedOutboundIPs has a new optional parameter countIPv6
+  - Class ContainerServiceClient has a new parameter $host
+  - Class ContainerServiceClient has a new parameter apiVersion
+  - Class ContainerServiceClient has a new parameter subscriptionId
+  - Added Enum KnownIpFamily
+    
+## 15.0.0-beta.1 (2021-10-27)
 
 This is the first preview for the new version of the `@azure/arm-containerservice` package that follows the new [guidelines for TypeScript SDKs](https://azure.github.io/azure-sdk/typescript_introduction.html) for Azure services.
 
