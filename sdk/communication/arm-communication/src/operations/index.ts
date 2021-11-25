@@ -9,4 +9,3 @@
 
 export * from "./operations";
 export * from "./communicationService";
-export * from "./operationStatuses";

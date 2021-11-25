@@ -69,101 +69,6 @@ export interface LinkedNotificationHub {
 }
 
 /**
- * The resource management error additional info.
- */
-export interface ErrorAdditionalInfo {
-  /**
-   * The additional info type.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly type?: string;
-  /**
-   * The additional info.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly info?: any;
-}
-
-/**
- * The error detail.
- */
-export interface ErrorDetail {
-  /**
-   * The error code.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly code?: string;
-  /**
-   * The error message.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly message?: string;
-  /**
-   * The error target.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly target?: string;
-  /**
-   * The error details.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly details?: ErrorDetail[];
-  /**
-   * The error additional info.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly additionalInfo?: ErrorAdditionalInfo[];
-}
-
-/**
- * Common error response for all Azure Resource Manager APIs to return error details for failed
- * operations. (This also follows the OData error response format.).
- * @summary Error response
- */
-export interface ErrorResponse {
-  /**
-   * The error object.
-   */
-  error?: ErrorDetail;
-}
-
-/**
- * The current status of an async operation
- */
-export interface OperationStatus {
-  /**
-   * Fully qualified ID for the operation status.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly id?: string;
-  /**
-   * Provisioning state of the resource. Possible values include: 'Succeeded', 'Failed',
-   * 'Canceled', 'Creating', 'Deleting', 'Moving'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly status?: Status;
-  /**
-   * The start time of the operation
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly startTime?: Date;
-  /**
-   * The end time of the operation
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly endTime?: Date;
-  /**
-   * Percent of the operation that is complete
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly percentComplete?: number;
-  /**
-   * The error object.
-   */
-  error?: ErrorDetail;
-}
-
-/**
  * Metadata pertaining to creation and last modification of the resource.
  */
 export interface SystemData {
@@ -372,6 +277,65 @@ export interface AzureEntityResource extends Resource {
 }
 
 /**
+ * The resource management error additional info.
+ */
+export interface ErrorAdditionalInfo {
+  /**
+   * The additional info type.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
+   * The additional info.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly info?: any;
+}
+
+/**
+ * The error detail.
+ */
+export interface ErrorDetail {
+  /**
+   * The error code.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly code?: string;
+  /**
+   * The error message.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly message?: string;
+  /**
+   * The error target.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly target?: string;
+  /**
+   * The error details.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly details?: ErrorDetail[];
+  /**
+   * The error additional info.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+/**
+ * Common error response for all Azure Resource Manager APIs to return error details for failed
+ * operations. (This also follows the OData error response format.).
+ * @summary Error response
+ */
+export interface ErrorResponse {
+  /**
+   * The error object.
+   */
+  error?: ErrorDetail;
+}
+
+/**
  * Localized display information for this particular operation.
  */
 export interface OperationDisplay {
@@ -540,14 +504,6 @@ export interface CommunicationServiceResourceList extends Array<CommunicationSer
    */
   nextLink?: string;
 }
-
-/**
- * Defines values for Status.
- * Possible values include: 'Succeeded', 'Failed', 'Canceled', 'Creating', 'Deleting', 'Moving'
- * @readonly
- * @enum {string}
- */
-export type Status = 'Succeeded' | 'Failed' | 'Canceled' | 'Creating' | 'Deleting' | 'Moving';
 
 /**
  * Defines values for ProvisioningState.
@@ -867,25 +823,5 @@ export type CommunicationServiceListByResourceGroupNextResponse = CommunicationS
        * The response body as parsed JSON or XML
        */
       parsedBody: CommunicationServiceResourceList;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type OperationStatusesGetResponse = OperationStatus & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatus;
     };
 };

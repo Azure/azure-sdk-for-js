@@ -47,16 +47,6 @@ export const communicationServiceName: msRest.OperationURLParameter = {
     }
   }
 };
-export const location: msRest.OperationURLParameter = {
-  parameterPath: "location",
-  mapper: {
-    required: true,
-    serializedName: "location",
-    type: {
-      name: "String"
-    }
-  }
-};
 export const nextPageLink: msRest.OperationURLParameter = {
   parameterPath: "nextPageLink",
   mapper: {
@@ -68,16 +58,6 @@ export const nextPageLink: msRest.OperationURLParameter = {
   },
   skipEncoding: true
 };
-export const operationId: msRest.OperationURLParameter = {
-  parameterPath: "operationId",
-  mapper: {
-    required: true,
-    serializedName: "operationId",
-    type: {
-      name: "String"
-    }
-  }
-};
 export const resourceGroupName: msRest.OperationURLParameter = {
   parameterPath: "resourceGroupName",
   mapper: {
@@ -85,8 +65,7 @@ export const resourceGroupName: msRest.OperationURLParameter = {
     serializedName: "resourceGroupName",
     constraints: {
       MaxLength: 90,
-      MinLength: 1,
-      Pattern: /^[-\w\._\(\)]+$/
+      MinLength: 1
     },
     type: {
       name: "String"

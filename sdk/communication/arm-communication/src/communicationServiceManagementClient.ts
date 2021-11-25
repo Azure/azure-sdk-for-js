@@ -19,7 +19,6 @@ class CommunicationServiceManagementClient extends CommunicationServiceManagemen
   // Operation groups
   operations: operations.Operations;
   communicationService: operations.CommunicationService;
-  operationStatuses: operations.OperationStatuses;
 
   /**
    * Initializes a new instance of the CommunicationServiceManagementClient class.
@@ -36,7 +35,6 @@ class CommunicationServiceManagementClient extends CommunicationServiceManagemen
     super(credentials, subscriptionId, options);
     this.operations = new operations.Operations(this);
     this.communicationService = new operations.CommunicationService(this);
-    this.operationStatuses = new operations.OperationStatuses(this);
   }
 }
 
