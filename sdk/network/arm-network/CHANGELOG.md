@@ -1,16 +1,34 @@
-## Release History
+## 26.0.0-beta.3 (2021-11-25)
+    
+**Features**
 
-### 26.0.0-beta.3 (Unreleased)
-
-#### Features Added
-
-#### Breaking Changes
-
-#### Bugs Fixed
-
-#### Other Changes
-
-### 26.0.0-beta.2 (2021-11-02)
+  - Added Interface CheckDnsNameAvailabilityOptionalParams
+  - Added Interface DeleteBastionShareableLinkOptionalParams
+  - Added Interface DisconnectActiveSessionsNextOptionalParams
+  - Added Interface DisconnectActiveSessionsOptionalParams
+  - Added Interface GeneratevirtualwanvpnserverconfigurationvpnprofileOptionalParams
+  - Added Interface GetActiveSessionsNextOptionalParams
+  - Added Interface GetActiveSessionsOptionalParams
+  - Added Interface GetBastionShareableLinkNextOptionalParams
+  - Added Interface GetBastionShareableLinkOptionalParams
+  - Added Interface PutBastionShareableLinkNextOptionalParams
+  - Added Interface PutBastionShareableLinkOptionalParams
+  - Added Interface SupportedSecurityProvidersOptionalParams
+  - Added Type Alias CheckDnsNameAvailabilityResponse
+  - Added Type Alias DisconnectActiveSessionsNextResponse
+  - Added Type Alias DisconnectActiveSessionsResponse
+  - Added Type Alias GeneratevirtualwanvpnserverconfigurationvpnprofileResponse
+  - Added Type Alias GetActiveSessionsNextResponse
+  - Added Type Alias GetActiveSessionsResponse
+  - Added Type Alias GetBastionShareableLinkNextResponse
+  - Added Type Alias GetBastionShareableLinkResponse
+  - Added Type Alias PutBastionShareableLinkNextResponse
+  - Added Type Alias PutBastionShareableLinkResponse
+  - Added Type Alias SupportedSecurityProvidersResponse
+  - Class NetworkManagementClient has a new parameter $host
+  - Class NetworkManagementClient has a new parameter subscriptionId
+    
+## 26.0.0-beta.2 (2021-11-02)
     
 **Features**
 
@@ -129,7 +147,7 @@
     
 # Release History
 
-### 26.0.0-beta.1 (2021-10-09)
+## 26.0.0-beta.1 (2021-10-09)
 
 This is the first preview for the new version of the `@azure/arm-network` package that follows the new [guidelines for TypeScript SDKs](https://azure.github.io/azure-sdk/typescript_introduction.html) for Azure services.
 
