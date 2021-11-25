@@ -20,7 +20,7 @@ export const commandInfo = makeCommandInfo(
 );
 
 const prettierOptions: prettier.Options = {
-  ...(import("../../../../eslint-plugin-azure-sdk/prettier.json") as prettier.Options),
+  ...(require("../../../../eslint-plugin-azure-sdk/prettier.json") as prettier.Options),
   parser: "typescript"
 };
 
