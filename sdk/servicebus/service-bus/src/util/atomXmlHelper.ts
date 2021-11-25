@@ -27,7 +27,8 @@ import { isDefined } from "./typeGuards";
  * Represents the internal ATOM XML serializer interface
  */
 export interface AtomXmlSerializer {
-  serialize(requestBodyInJson: object): object;
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  serialize(requestBodyInJson: object): Record<string, unknown>;
 
   deserialize(response: HttpOperationResponse): Promise<HttpOperationResponse>;
 }
@@ -119,7 +120,10 @@ export function sanitizeSerializableObject(resource: { [key: string]: any }): vo
  * @param allowedProperties - The set of properties that are allowed by the service for the
  * associated operation(s);
  */
-export function serializeToAtomXmlRequest(resourceName: string, resource: unknown): object {
+export function serializeToAtomXmlRequest(
+  resourceName: string,
+  resource: unknown
+): Record<string, unknown> {
   const content: any = {};
 
   content[resourceName] = Object.assign({}, resource);
@@ -131,7 +135,7 @@ export function serializeToAtomXmlRequest(resourceName: string, resource: unknow
   };
 
   content[Constants.XML_METADATA_MARKER] = { type: "application/xml" };
-  const requestDetails: any = {
+  const requestDetails: Record<string, unknown> = {
     updated: new Date().toISOString(),
     content: content
   };
@@ -213,7 +217,7 @@ function parseAtomResult(response: HttpOperationResponse, nameProperties: string
  * @internal
  * Utility to help parse given `entry` result
  */
-function parseEntryResult(entry: any): object | undefined {
+function parseEntryResult(entry: any): Record<string, unknown> | undefined {
   let result: any;
 
   if (
@@ -279,8 +283,8 @@ function parseLinkInfo(
  * @internal
  * Utility to help parse given `feed` result
  */
-function parseFeedResult(feed: any): object[] & { nextLink?: string } {
-  const result: object[] & { nextLink?: string } = [];
+function parseFeedResult(feed: any): Record<string, unknown>[] & { nextLink?: string } {
+  const result: Record<string, unknown>[] & { nextLink?: string } = [];
   if (typeof feed === "object" && feed != null && feed.entry) {
     if (Array.isArray(feed.entry)) {
       feed.entry.forEach((entry: any) => {

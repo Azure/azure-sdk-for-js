@@ -1,4 +1,16 @@
-## 10.0.0-beta.1 (2021-11-23)
+## Release History
+
+### 10.0.0-beta.2 (Unreleased)
+
+#### Features Added
+
+#### Breaking Changes
+
+#### Bugs Fixed
+
+#### Other Changes
+
+### 10.0.0-beta.1 (2021-11-23)
     
 **Features**
 
@@ -16,7 +28,7 @@
   - Type Alias DataFlowSource no longer has parameter linkedService
   - Type Alias Flowlet no longer has parameter additionalProperties
     
-## 9.0.0-beta.1 (2021-11-10)
+### 9.0.0-beta.1 (2021-11-10)
 
 This is the first preview for the new version of the `@azure/arm-datafactory` package that follows the new [guidelines for TypeScript SDKs](https://azure.github.io/azure-sdk/typescript_introduction.html) for Azure services.
 
