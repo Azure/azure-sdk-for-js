@@ -1115,6 +1115,11 @@
       "packageName": "@azure/arm-resourcehealth",
       "projectFolder": "sdk/resourcehealth/arm-resourcehealth",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-botservice",
+      "projectFolder": "sdk/botservice/arm-botservice",
+      "versionPolicyName": "management"
     }
   ]
 }

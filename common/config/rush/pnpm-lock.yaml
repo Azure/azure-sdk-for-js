@@ -14,6 +14,7 @@ specifiers:
   '@rush-temp/arm-appservice': file:./projects/arm-appservice.tgz
   '@rush-temp/arm-authorization': file:./projects/arm-authorization.tgz
   '@rush-temp/arm-batch': file:./projects/arm-batch.tgz
+  '@rush-temp/arm-botservice': file:./projects/arm-botservice.tgz
   '@rush-temp/arm-cdn': file:./projects/arm-cdn.tgz
   '@rush-temp/arm-compute': file:./projects/arm-compute.tgz
   '@rush-temp/arm-consumption': file:./projects/arm-consumption.tgz
@@ -175,6 +176,7 @@ dependencies:
   '@rush-temp/arm-appservice': file:projects/arm-appservice.tgz
   '@rush-temp/arm-authorization': file:projects/arm-authorization.tgz
   '@rush-temp/arm-batch': file:projects/arm-batch.tgz
+  '@rush-temp/arm-botservice': file:projects/arm-botservice.tgz
   '@rush-temp/arm-cdn': file:projects/arm-cdn.tgz
   '@rush-temp/arm-compute': file:projects/arm-compute.tgz
   '@rush-temp/arm-consumption': file:projects/arm-consumption.tgz
@@ -8724,6 +8726,27 @@ packages:
       uglify-js: 3.14.3
     dev: false
 
+  file:projects/arm-botservice.tgz:
+    resolution: {integrity: sha512-l4zOv13nmgSu6x2rtntla0UpOvUbTtPw7DomEYu8iWTA6m9KwpI2K+AFMtMibnOcDnLxPp8qPj7X24nh1L1+Ug==, tarball: file:projects/arm-botservice.tgz}
+    name: '@rush-temp/arm-botservice'
+    version: 0.0.0
+    dependencies:
+      '@microsoft/api-extractor': 7.18.19
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.14.3
+    dev: false
+
   file:projects/arm-cdn.tgz:
     resolution: {integrity: sha512-0pz1nmXlUjshQA07w1Bhn37C7MSyxuReagHuf2RDmgI2Ntjsw7cw6fYdlGx8Fhio7WcT2Eixe6lH1v76Gi2M1A==, tarball: file:projects/arm-cdn.tgz}
     name: '@rush-temp/arm-cdn'
@@ -11491,7 +11514,7 @@ packages:
     dev: false
 
   file:projects/identity.tgz:
-    resolution: {integrity: sha512-eCD9KQuFyyjZeb0kS077iCU4UDl5M8OLnndQsn0z11tRhRVHXLtdekSjiYbOcbCXUY9QFePX2ogJ7jdesrfqlg==, tarball: file:projects/identity.tgz}
+    resolution: {integrity: sha512-tnLNHExUXaktmB8u7uICfeRdEwbfP6fhK45SznIaOE3WTKrgBA/zW7TuMiHfBdZ8flymvm8mv6YcVGI0yYdC3g==, tarball: file:projects/identity.tgz}
     name: '@rush-temp/identity'
     version: 0.0.0
     dependencies:
