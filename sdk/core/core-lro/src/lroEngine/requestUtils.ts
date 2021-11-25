@@ -41,7 +41,7 @@ export function inferLroMode(
       resourceLocation:
         requestMethod === "PUT"
           ? requestPath
-          : requestMethod === "POST"
+          : ["POST", "PATCH"].includes(requestMethod)
           ? getLocation(rawResponse)
           : undefined
     };

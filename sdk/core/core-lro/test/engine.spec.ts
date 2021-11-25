@@ -262,6 +262,12 @@ describe("Lro Engine", function() {
       assert.equal(result.id, "100");
     });
 
+    it("should handle patchAsync", async () => {
+      const result = await runMockedLro("PATCH", "/patchasync/202/200");
+      assert.equal(result.name, "sku");
+      assert.equal(result.id, "100");
+    });
+
     it("should handle putAsyncNoHeaderInRetry", async () => {
       const result = await runMockedLro("PUT", "/putasync/noheader/201/200");
       assert.equal(result.name, "foo");
