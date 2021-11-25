@@ -8768,12 +8768,12 @@ packages:
     dev: false
 
   file:projects/arm-compute.tgz:
-    resolution: {integrity: sha512-S1XrLCLkKlv9rF9JwaiXFfaYHJfui5KxYt14LkOGUZlG4Cpy51S6Cq6FLiycSXbEhuupEfA/zNH6gQ+QdRKwvQ==, tarball: file:projects/arm-compute.tgz}
+    resolution: {integrity: sha512-BkCflwYnJaUzui2gv6j4cLR7P4OYa+HUY7H9xHpgCYp5dS2hdqw18UNwzH6mkGgFBwx6y2VoVUglwNQYAFyByQ==, tarball: file:projects/arm-compute.tgz}
     name: '@rush-temp/arm-compute'
     version: 0.0.0
     dependencies:
       '@azure/arm-network': 26.0.0-beta.1
-      '@microsoft/api-extractor': 7.7.11
+      '@microsoft/api-extractor': 7.18.19
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -8781,13 +8781,12 @@ packages:
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
+      rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.14.3
-    transitivePeerDependencies:
-      - supports-color
     dev: false
 
   file:projects/arm-consumption.tgz:

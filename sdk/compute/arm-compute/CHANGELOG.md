@@ -1,16 +1,19 @@
-## Release History
+## 17.0.0-beta.3 (2021-11-25)
+    
+**Features**
 
-### 17.0.0-beta.3 (Unreleased)
+  - Added Type Alias Image_2
+  - Class ComputeManagementClient has a new parameter $host
+  - Class ComputeManagementClient has a new parameter subscriptionId
+  - Type Alias RestorePoint has a new parameter timeCreated
 
-#### Features Added
+**Breaking Changes**
 
-#### Breaking Changes
-
-#### Bugs Fixed
-
-#### Other Changes
-
-### 17.0.0-beta.2 (2021-10-18)
+  - Operation Images.beginCreateOrUpdate has a new signature
+  - Operation Images.beginCreateOrUpdateAndWait has a new signature
+  - Type Alias RestorePoint no longer has parameter provisioningDetails
+    
+## 17.0.0-beta.2 (2021-10-18)
     
 **Features**
 
@@ -81,7 +84,7 @@
     
 # Release History
 
-### 17.0.0-beta.1 (2021-10-09)
+## 17.0.0-beta.1 (2021-10-09)
 
 This is the first preview for the new version of the `@azure/arm-compute` package that follows the new [guidelines for TypeScript SDKs](https://azure.github.io/azure-sdk/typescript_introduction.html) for Azure services.
 
