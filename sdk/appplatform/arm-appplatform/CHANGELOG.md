@@ -1,16 +1,19 @@
-## Release History
+## 2.0.0-beta.1 (2021-11-26)
+    
+**Features**
 
-### 2.0.0-beta.2 (Unreleased)
+  - Added Interface DeploymentSettingsContainerProbeSettings
+  - Interface CustomPersistentDiskProperties has a new optional parameter readOnly
+  - Interface DeploymentSettings has a new optional parameter containerProbeSettings
+  - Class AppPlatformManagementClient has a new parameter $host
+  - Class AppPlatformManagementClient has a new parameter apiVersion
+  - Class AppPlatformManagementClient has a new parameter subscriptionId
 
-#### Features Added
+**Breaking Changes**
 
-#### Breaking Changes
-
-#### Bugs Fixed
-
-#### Other Changes
-
-### 2.0.0-beta.1 (2021-10-26)
+  - Interface CustomPersistentDiskProperties no longer has parameter readonly
+    
+## 2.0.0-beta.1 (2021-10-26)
 
 This is the first preview for the new version of the `@azure/arm-appplatform` package that follows the new [guidelines for TypeScript SDKs](https://azure.github.io/azure-sdk/typescript_introduction.html) for Azure services.
 
