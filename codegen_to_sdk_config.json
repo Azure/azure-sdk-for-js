@@ -6,7 +6,10 @@
     },
   "generateAndBuild": {
       "generateAndBuildScript": {
-        "path": ".scripts/sdk_generateAndBuild.sh"
+        "path": ".scripts/sdk_generateAndBuild.sh",
+        "stdout": {
+          "show": "Error|error"
+        }
       }
   }
 }
