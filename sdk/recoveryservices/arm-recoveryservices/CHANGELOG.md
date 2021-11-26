@@ -1,16 +1,16 @@
-## Release History
+## 5.0.0-beta.2 (2021-11-26)
+    
+**Features**
 
-### 5.0.0-beta.2 (Unreleased)
-
-#### Features Added
-
-#### Breaking Changes
-
-#### Bugs Fixed
-
-#### Other Changes
-
-### 5.0.0-beta.1 (2021-10-25)
+  - Added Interface GetOperationResultOptionalParams
+  - Added Interface GetOperationStatusOptionalParams
+  - Added Type Alias GetOperationResultResponse
+  - Added Type Alias GetOperationStatusResponse
+  - Class RecoveryServicesClient has a new parameter $host
+  - Class RecoveryServicesClient has a new parameter apiVersion
+  - Class RecoveryServicesClient has a new parameter subscriptionId
+    
+## 5.0.0-beta.1 (2021-10-25)
 
 This is the first preview for the new version of the `@azure/arm-recoveryservices` package that follows the new [guidelines for TypeScript SDKs](https://azure.github.io/azure-sdk/typescript_introduction.html) for Azure services.
 
