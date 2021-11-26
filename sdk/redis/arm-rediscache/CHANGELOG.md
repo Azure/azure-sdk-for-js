@@ -1,14 +1,12 @@
 # Release History
 
-## 6.0.0-beta.2 (Unreleased)
+## 6.0.0-beta.2 (2021-11-26)
+    
+**Features**
 
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+  - Class RedisManagementClient has a new parameter $host
+  - Class RedisManagementClient has a new parameter apiVersion
+  - Class RedisManagementClient has a new parameter subscriptionId
 
 ## 6.0.0-beta.1 (2021-10-09)
 
