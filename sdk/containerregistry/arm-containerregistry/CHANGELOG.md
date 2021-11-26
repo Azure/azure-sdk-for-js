@@ -1,3 +1,51 @@
+# Release History
+
+## 10.0.0-beta.2 (2021-11-26)
+    
+**Features**
+
+  - Added operation Registries.getPrivateLinkResource
+  - Added Interface PackageType
+  - Added Interface RegistriesGetPrivateLinkResourceOptionalParams
+  - Added Interface StorageAccountProperties
+  - Added Type Alias RegistriesGetPrivateLinkResourceResponse
+  - Class ContainerRegistryManagementClient has a new parameter $host
+  - Class ContainerRegistryManagementClient has a new parameter subscriptionId
+
+**Breaking Changes**
+
+  - Removed operation group ConnectedRegistries
+  - Removed operation group ExportPipelines
+  - Removed operation group ImportPipelines
+  - Removed operation group PipelineRuns
+  - Removed operation group ScopeMaps
+  - Removed operation group Tokens
+  - Removed operation Registries.beginGenerateCredentials
+  - Removed operation Registries.beginGenerateCredentialsAndWait
+  - Interface NetworkRuleSet no longer has parameter virtualNetworkRules
+  - Interface RegistryUpdateParameters no longer has parameter anonymousPullEnabled
+  - Class ContainerRegistryManagementClient no longer has parameter connectedRegistries
+  - Class ContainerRegistryManagementClient no longer has parameter exportPipelines
+  - Class ContainerRegistryManagementClient no longer has parameter importPipelines
+  - Class ContainerRegistryManagementClient no longer has parameter pipelineRuns
+  - Class ContainerRegistryManagementClient no longer has parameter scopeMaps
+  - Class ContainerRegistryManagementClient no longer has parameter tokens
+  - Type Alias Registry no longer has parameter anonymousPullEnabled
+  - Removed Enum KnownActivationStatus
+  - Removed Enum KnownAuditLogStatus
+  - Removed Enum KnownCertificateType
+  - Removed Enum KnownConnectedRegistryMode
+  - Removed Enum KnownConnectionState
+  - Removed Enum KnownLogLevel
+  - Removed Enum KnownPipelineOptions
+  - Removed Enum KnownPipelineRunSourceType
+  - Removed Enum KnownPipelineRunTargetType
+  - Removed Enum KnownPipelineSourceType
+  - Removed Enum KnownTlsStatus
+  - Removed Enum KnownTokenCertificateName
+  - Removed Enum KnownTokenPasswordName
+  - Removed Enum KnownTokenStatus
+    
 ## 10.0.0-beta.1 (2021-11-03)
     
 **Features**

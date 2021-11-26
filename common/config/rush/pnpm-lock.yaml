@@ -8811,7 +8811,7 @@ packages:
     dev: false
 
   file:projects/arm-containerregistry.tgz:
-    resolution: {integrity: sha512-Ll1nwuw78ynR/8a9E3Lct85LuUs7K7/aSfqw8QGLHIx2V0J4sWbVz2+WKyY7JZOXruRBUTyAzzkbgiS5z+4HwA==, tarball: file:projects/arm-containerregistry.tgz}
+    resolution: {integrity: sha512-si1/HJZ4OLzHAuxrVsQZNQv3SssXpBSFcpQGVOWTC37j48kEg0JxQREIfu0vhIteBBSLDR0IOCDA22z1QUKxyA==, tarball: file:projects/arm-containerregistry.tgz}
     name: '@rush-temp/arm-containerregistry'
     version: 0.0.0
     dependencies:
@@ -8824,14 +8824,12 @@ packages:
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
+      rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.14.3
-    transitivePeerDependencies:
-      - debug
-      - supports-color
     dev: false
 
   file:projects/arm-containerservice.tgz:
