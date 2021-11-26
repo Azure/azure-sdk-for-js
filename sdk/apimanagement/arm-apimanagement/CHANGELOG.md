@@ -1,5 +1,13 @@
 # Release History
 
+## 8.0.0-beta.3 (2021-11-26)
+    
+**Features**
+
+  - Class ApiManagementClient has a new parameter $host
+  - Class ApiManagementClient has a new parameter apiVersion
+  - Class ApiManagementClient has a new parameter subscriptionId
+
 ## 8.0.0-beta.2 (2021-11-17)
     
 **Features**
