@@ -1,16 +1,14 @@
-## Release History
+# Release History
 
-### 13.0.0-beta.2 (Unreleased)
+## 13.0.0-beta.2 (2021-11-26)
+    
+**Features**
 
-#### Features Added
-
-#### Breaking Changes
-
-#### Bugs Fixed
-
-#### Other Changes
-
-### 13.0.0-beta.1 (2021-11-16)
+  - Class EventGridManagementClient has a new parameter $host
+  - Class EventGridManagementClient has a new parameter apiVersion
+  - Class EventGridManagementClient has a new parameter subscriptionId
+    
+## 13.0.0-beta.1 (2021-11-16)
     
 **Features**
 
@@ -69,10 +67,8 @@
   - Enum KnownAdvancedFilterOperatorType no longer has value StringNotBeginsWith
   - Enum KnownAdvancedFilterOperatorType no longer has value StringNotContains
   - Enum KnownAdvancedFilterOperatorType no longer has value StringNotEndsWith
-    
-# Release History
 
-### 12.0.0-beta.1 (2021-10-09)
+## 12.0.0-beta.1 (2021-10-09)
 
 This is the first preview for the new version of the `@azure/arm-eventgrid` package that follows the new [guidelines for TypeScript SDKs](https://azure.github.io/azure-sdk/typescript_introduction.html) for Azure services.
 
