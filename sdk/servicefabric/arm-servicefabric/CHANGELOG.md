@@ -1,3 +1,11 @@
+## 2.0.0-beta.1 (2021-11-26)
+    
+**Features**
+
+  - Class ServiceFabricManagementClient has a new parameter $host
+  - Class ServiceFabricManagementClient has a new parameter apiVersion
+  - Class ServiceFabricManagementClient has a new parameter subscriptionId
+    
 ## 2.0.0-beta.1 (2021-11-03)
 
 This is the first preview for the new version of the `@azure/arm-servicefabric` package that follows the new [guidelines for TypeScript SDKs](https://azure.github.io/azure-sdk/typescript_introduction.html) for Azure services.
