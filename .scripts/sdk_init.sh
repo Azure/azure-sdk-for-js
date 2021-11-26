@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
-# rush install
+
+ls /usr/bin/node*
+
 npm install -g @microsoft/rush
 rush install
 # install release tools
