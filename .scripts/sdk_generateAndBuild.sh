@@ -1,8 +1,2 @@
 #!/usr/bin/env bash
-echo ========
-echo $1
-cat $1
-echo $2
-
-touch $2
-cat generateAndBuildOutput.json > $2
+track2-codegen-automation-for-sdk-generation --inputJsonPath=$1 --outputJsonPath=$2 --use=@autorest/typescript@6.0.0-beta.15

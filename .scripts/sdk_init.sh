@@ -1,10 +1,6 @@
 #!/usr/bin/env bash
-echo ========
-echo $1
-
-echo ========
-echo $PATH
-echo ========
-echo $SHELL
-echo ========
-echo $PWD
+# rush install
+npm install -g @microsoft/rush
+rush install
+# install release tools
+npm install -g dw-azure-track2-js-sdk-release-tools
