@@ -326,7 +326,7 @@ async function makeSampleGenerationInfo(
     return undefined as never;
   }
 
-  const moduleInfos = await processSources(projectInfo, sampleSources, fail);
+  const moduleInfos = await processSources(projectInfo, sampleSources as string[], fail);
 
   const defaultDependencies: Record<string, string> = {
     // If we are a beta package, use "next", otherwise we will use "latest"

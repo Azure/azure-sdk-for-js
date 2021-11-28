@@ -112,7 +112,7 @@ export default leafCommand(commandInfo, async (options) => {
   const jsDir = path.join(outputDir, "javascript");
   const jsFiles = findMatchingFiles(jsDir, (name, entry) => entry.isFile() && name.endsWith(".js"));
 
-  for await (const fileName of cat(tsFiles, jsFiles)) {
+  for await (const fileName of cat(tsFiles, jsFiles) as unknown as string) {
     await enableLocalRun(fileName, pkg.path, pkg.name, options["use-packages"]);
   }
 
