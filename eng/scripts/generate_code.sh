@@ -26,6 +26,7 @@ else
     TAG=$4
 fi
 
+npm install -g @microsoft/rush
 npm install -g dwtest-release-tools
 npm install -g autorest
 cd $3
