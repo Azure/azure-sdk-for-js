@@ -26,7 +26,6 @@ import {
 } from "../../src";
 import { assertAllSuccess, isSuccess } from "./utils/resultHelper";
 import { checkEntityTextOffset, checkOffsetAndLength } from "./utils/stringIndexTypeHelpers";
-import { fail } from "assert";
 
 const testDataEn = [
   "I had a wonderful trip to Seattle last week and even visited the Space Needle 2 times!",
@@ -2736,7 +2735,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           if (!docResult.error) {
             assert.equal(docResult.warnings[0].code, "DocumentTruncated");
           } else {
-            fail(
+            assert.fail(
               `Expected a warning but received an error instead with code: ${docResult.error.code}`
             );
           }
