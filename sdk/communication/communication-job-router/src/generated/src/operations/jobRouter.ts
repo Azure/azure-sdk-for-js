@@ -6,11 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { createSpan } from "../tracing";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { JobRouter } from "../operationsInterfaces";
 import * as coreHttp from "@azure/core-http";
-import * as coreTracing from "@azure/core-tracing";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { JobRouterApiClientContext } from "../jobRouterApiClientContext";
@@ -489,64 +487,34 @@ export class JobRouterImpl implements JobRouter {
    * @param body Model of channel to be created or updated
    * @param options The options parameters.
    */
-  async createOrUpdateChannel(
+  createOrUpdateChannel(
     body: UpsertChannelRequest,
     options?: JobRouterCreateOrUpdateChannelOptionalParams
   ): Promise<JobRouterCreateOrUpdateChannelResponse> {
-    const { span } = createSpan(
-      "JobRouterApiClient-createOrUpdateChannel",
-      options || {}
-    );
     const operationArguments: coreHttp.OperationArguments = {
       body,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
-    try {
-      const result = await this.client.sendOperationRequest(
-        operationArguments,
-        createOrUpdateChannelOperationSpec
-      );
-      return result as JobRouterCreateOrUpdateChannelResponse;
-    } catch (error) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
+    return this.client.sendOperationRequest(
+      operationArguments,
+      createOrUpdateChannelOperationSpec
+    ) as Promise<JobRouterCreateOrUpdateChannelResponse>;
   }
 
   /**
    * Retrieves custom channels
    * @param options The options parameters.
    */
-  private async _listChannels(
+  private _listChannels(
     options?: JobRouterListChannelsOptionalParams
   ): Promise<JobRouterListChannelsResponse> {
-    const { span } = createSpan(
-      "JobRouterApiClient-_listChannels",
-      options || {}
-    );
     const operationArguments: coreHttp.OperationArguments = {
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
-    try {
-      const result = await this.client.sendOperationRequest(
-        operationArguments,
-        listChannelsOperationSpec
-      );
-      return result as JobRouterListChannelsResponse;
-    } catch (error) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
+    return this.client.sendOperationRequest(
+      operationArguments,
+      listChannelsOperationSpec
+    ) as Promise<JobRouterListChannelsResponse>;
   }
 
   /**
@@ -554,30 +522,18 @@ export class JobRouterImpl implements JobRouter {
    * @param id Id of the channel to retrieve
    * @param options The options parameters.
    */
-  async getChannel(
+  getChannel(
     id: string,
     options?: JobRouterGetChannelOptionalParams
   ): Promise<JobRouterGetChannelResponse> {
-    const { span } = createSpan("JobRouterApiClient-getChannel", options || {});
     const operationArguments: coreHttp.OperationArguments = {
       id,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
-    try {
-      const result = await this.client.sendOperationRequest(
-        operationArguments,
-        getChannelOperationSpec
-      );
-      return result as JobRouterGetChannelResponse;
-    } catch (error) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
+    return this.client.sendOperationRequest(
+      operationArguments,
+      getChannelOperationSpec
+    ) as Promise<JobRouterGetChannelResponse>;
   }
 
   /**
@@ -585,33 +541,18 @@ export class JobRouterImpl implements JobRouter {
    * @param id Id of the channel to delete
    * @param options The options parameters.
    */
-  async deleteChannel(
+  deleteChannel(
     id: string,
     options?: JobRouterDeleteChannelOptionalParams
   ): Promise<coreHttp.RestResponse> {
-    const { span } = createSpan(
-      "JobRouterApiClient-deleteChannel",
-      options || {}
-    );
     const operationArguments: coreHttp.OperationArguments = {
       id,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
-    try {
-      const result = await this.client.sendOperationRequest(
-        operationArguments,
-        deleteChannelOperationSpec
-      );
-      return result as coreHttp.RestResponse;
-    } catch (error) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
+    return this.client.sendOperationRequest(
+      operationArguments,
+      deleteChannelOperationSpec
+    ) as Promise<coreHttp.RestResponse>;
   }
 
   /**
@@ -619,64 +560,34 @@ export class JobRouterImpl implements JobRouter {
    * @param body Request payload for creating or updating a Classification Policy
    * @param options The options parameters.
    */
-  async createOrUpdateClassificationPolicy(
+  createOrUpdateClassificationPolicy(
     body: UpsertClassificationPolicyRequest,
     options?: JobRouterCreateOrUpdateClassificationPolicyOptionalParams
   ): Promise<JobRouterCreateOrUpdateClassificationPolicyResponse> {
-    const { span } = createSpan(
-      "JobRouterApiClient-createOrUpdateClassificationPolicy",
-      options || {}
-    );
     const operationArguments: coreHttp.OperationArguments = {
       body,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
-    try {
-      const result = await this.client.sendOperationRequest(
-        operationArguments,
-        createOrUpdateClassificationPolicyOperationSpec
-      );
-      return result as JobRouterCreateOrUpdateClassificationPolicyResponse;
-    } catch (error) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
+    return this.client.sendOperationRequest(
+      operationArguments,
+      createOrUpdateClassificationPolicyOperationSpec
+    ) as Promise<JobRouterCreateOrUpdateClassificationPolicyResponse>;
   }
 
   /**
    * Retrieves existing classification policies
    * @param options The options parameters.
    */
-  private async _listClassificationPolicies(
+  private _listClassificationPolicies(
     options?: JobRouterListClassificationPoliciesOptionalParams
   ): Promise<JobRouterListClassificationPoliciesResponse> {
-    const { span } = createSpan(
-      "JobRouterApiClient-_listClassificationPolicies",
-      options || {}
-    );
     const operationArguments: coreHttp.OperationArguments = {
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
-    try {
-      const result = await this.client.sendOperationRequest(
-        operationArguments,
-        listClassificationPoliciesOperationSpec
-      );
-      return result as JobRouterListClassificationPoliciesResponse;
-    } catch (error) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
+    return this.client.sendOperationRequest(
+      operationArguments,
+      listClassificationPoliciesOperationSpec
+    ) as Promise<JobRouterListClassificationPoliciesResponse>;
   }
 
   /**
@@ -684,33 +595,18 @@ export class JobRouterImpl implements JobRouter {
    * @param id
    * @param options The options parameters.
    */
-  async getClassificationPolicy(
+  getClassificationPolicy(
     id: string,
     options?: JobRouterGetClassificationPolicyOptionalParams
   ): Promise<JobRouterGetClassificationPolicyResponse> {
-    const { span } = createSpan(
-      "JobRouterApiClient-getClassificationPolicy",
-      options || {}
-    );
     const operationArguments: coreHttp.OperationArguments = {
       id,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
-    try {
-      const result = await this.client.sendOperationRequest(
-        operationArguments,
-        getClassificationPolicyOperationSpec
-      );
-      return result as JobRouterGetClassificationPolicyResponse;
-    } catch (error) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
+    return this.client.sendOperationRequest(
+      operationArguments,
+      getClassificationPolicyOperationSpec
+    ) as Promise<JobRouterGetClassificationPolicyResponse>;
   }
 
   /**
@@ -718,33 +614,18 @@ export class JobRouterImpl implements JobRouter {
    * @param id
    * @param options The options parameters.
    */
-  async deleteClassificationPolicy(
+  deleteClassificationPolicy(
     id: string,
     options?: JobRouterDeleteClassificationPolicyOptionalParams
   ): Promise<coreHttp.RestResponse> {
-    const { span } = createSpan(
-      "JobRouterApiClient-deleteClassificationPolicy",
-      options || {}
-    );
     const operationArguments: coreHttp.OperationArguments = {
       id,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
-    try {
-      const result = await this.client.sendOperationRequest(
-        operationArguments,
-        deleteClassificationPolicyOperationSpec
-      );
-      return result as coreHttp.RestResponse;
-    } catch (error) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
+    return this.client.sendOperationRequest(
+      operationArguments,
+      deleteClassificationPolicyOperationSpec
+    ) as Promise<coreHttp.RestResponse>;
   }
 
   /**
@@ -752,64 +633,34 @@ export class JobRouterImpl implements JobRouter {
    * @param body Request payload for creating or updating a distribution policy
    * @param options The options parameters.
    */
-  async createOrUpdateDistributionPolicy(
+  createOrUpdateDistributionPolicy(
     body: UpsertDistributionPolicyRequest,
     options?: JobRouterCreateOrUpdateDistributionPolicyOptionalParams
   ): Promise<JobRouterCreateOrUpdateDistributionPolicyResponse> {
-    const { span } = createSpan(
-      "JobRouterApiClient-createOrUpdateDistributionPolicy",
-      options || {}
-    );
     const operationArguments: coreHttp.OperationArguments = {
       body,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
-    try {
-      const result = await this.client.sendOperationRequest(
-        operationArguments,
-        createOrUpdateDistributionPolicyOperationSpec
-      );
-      return result as JobRouterCreateOrUpdateDistributionPolicyResponse;
-    } catch (error) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
+    return this.client.sendOperationRequest(
+      operationArguments,
+      createOrUpdateDistributionPolicyOperationSpec
+    ) as Promise<JobRouterCreateOrUpdateDistributionPolicyResponse>;
   }
 
   /**
    * Retrieves existing distribution policies
    * @param options The options parameters.
    */
-  private async _listDistributionPolicies(
+  private _listDistributionPolicies(
     options?: JobRouterListDistributionPoliciesOptionalParams
   ): Promise<JobRouterListDistributionPoliciesResponse> {
-    const { span } = createSpan(
-      "JobRouterApiClient-_listDistributionPolicies",
-      options || {}
-    );
     const operationArguments: coreHttp.OperationArguments = {
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
-    try {
-      const result = await this.client.sendOperationRequest(
-        operationArguments,
-        listDistributionPoliciesOperationSpec
-      );
-      return result as JobRouterListDistributionPoliciesResponse;
-    } catch (error) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
+    return this.client.sendOperationRequest(
+      operationArguments,
+      listDistributionPoliciesOperationSpec
+    ) as Promise<JobRouterListDistributionPoliciesResponse>;
   }
 
   /**
@@ -817,33 +668,18 @@ export class JobRouterImpl implements JobRouter {
    * @param id
    * @param options The options parameters.
    */
-  async getDistributionPolicy(
+  getDistributionPolicy(
     id: string,
     options?: JobRouterGetDistributionPolicyOptionalParams
   ): Promise<JobRouterGetDistributionPolicyResponse> {
-    const { span } = createSpan(
-      "JobRouterApiClient-getDistributionPolicy",
-      options || {}
-    );
     const operationArguments: coreHttp.OperationArguments = {
       id,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
-    try {
-      const result = await this.client.sendOperationRequest(
-        operationArguments,
-        getDistributionPolicyOperationSpec
-      );
-      return result as JobRouterGetDistributionPolicyResponse;
-    } catch (error) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
+    return this.client.sendOperationRequest(
+      operationArguments,
+      getDistributionPolicyOperationSpec
+    ) as Promise<JobRouterGetDistributionPolicyResponse>;
   }
 
   /**
@@ -851,33 +687,18 @@ export class JobRouterImpl implements JobRouter {
    * @param id
    * @param options The options parameters.
    */
-  async deleteDistributionPolicy(
+  deleteDistributionPolicy(
     id: string,
     options?: JobRouterDeleteDistributionPolicyOptionalParams
   ): Promise<coreHttp.RestResponse> {
-    const { span } = createSpan(
-      "JobRouterApiClient-deleteDistributionPolicy",
-      options || {}
-    );
     const operationArguments: coreHttp.OperationArguments = {
       id,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
-    try {
-      const result = await this.client.sendOperationRequest(
-        operationArguments,
-        deleteDistributionPolicyOperationSpec
-      );
-      return result as coreHttp.RestResponse;
-    } catch (error) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
+    return this.client.sendOperationRequest(
+      operationArguments,
+      deleteDistributionPolicyOperationSpec
+    ) as Promise<coreHttp.RestResponse>;
   }
 
   /**
@@ -885,64 +706,34 @@ export class JobRouterImpl implements JobRouter {
    * @param body Model of Exception Policy to be created
    * @param options The options parameters.
    */
-  async createOrUpdateExceptionPolicy(
+  createOrUpdateExceptionPolicy(
     body: UpsertExceptionPolicyRequest,
     options?: JobRouterCreateOrUpdateExceptionPolicyOptionalParams
   ): Promise<JobRouterCreateOrUpdateExceptionPolicyResponse> {
-    const { span } = createSpan(
-      "JobRouterApiClient-createOrUpdateExceptionPolicy",
-      options || {}
-    );
     const operationArguments: coreHttp.OperationArguments = {
       body,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
-    try {
-      const result = await this.client.sendOperationRequest(
-        operationArguments,
-        createOrUpdateExceptionPolicyOperationSpec
-      );
-      return result as JobRouterCreateOrUpdateExceptionPolicyResponse;
-    } catch (error) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
+    return this.client.sendOperationRequest(
+      operationArguments,
+      createOrUpdateExceptionPolicyOperationSpec
+    ) as Promise<JobRouterCreateOrUpdateExceptionPolicyResponse>;
   }
 
   /**
    * Retrieves existing exception policies
    * @param options The options parameters.
    */
-  private async _listExceptionPolicies(
+  private _listExceptionPolicies(
     options?: JobRouterListExceptionPoliciesOptionalParams
   ): Promise<JobRouterListExceptionPoliciesResponse> {
-    const { span } = createSpan(
-      "JobRouterApiClient-_listExceptionPolicies",
-      options || {}
-    );
     const operationArguments: coreHttp.OperationArguments = {
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
-    try {
-      const result = await this.client.sendOperationRequest(
-        operationArguments,
-        listExceptionPoliciesOperationSpec
-      );
-      return result as JobRouterListExceptionPoliciesResponse;
-    } catch (error) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
+    return this.client.sendOperationRequest(
+      operationArguments,
+      listExceptionPoliciesOperationSpec
+    ) as Promise<JobRouterListExceptionPoliciesResponse>;
   }
 
   /**
@@ -950,33 +741,18 @@ export class JobRouterImpl implements JobRouter {
    * @param id Id of the exception policy to retrieve
    * @param options The options parameters.
    */
-  async getExceptionPolicy(
+  getExceptionPolicy(
     id: string,
     options?: JobRouterGetExceptionPolicyOptionalParams
   ): Promise<JobRouterGetExceptionPolicyResponse> {
-    const { span } = createSpan(
-      "JobRouterApiClient-getExceptionPolicy",
-      options || {}
-    );
     const operationArguments: coreHttp.OperationArguments = {
       id,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
-    try {
-      const result = await this.client.sendOperationRequest(
-        operationArguments,
-        getExceptionPolicyOperationSpec
-      );
-      return result as JobRouterGetExceptionPolicyResponse;
-    } catch (error) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
+    return this.client.sendOperationRequest(
+      operationArguments,
+      getExceptionPolicyOperationSpec
+    ) as Promise<JobRouterGetExceptionPolicyResponse>;
   }
 
   /**
@@ -984,33 +760,18 @@ export class JobRouterImpl implements JobRouter {
    * @param id Id of the exception policy to delete
    * @param options The options parameters.
    */
-  async deleteExceptionPolicy(
+  deleteExceptionPolicy(
     id: string,
     options?: JobRouterDeleteExceptionPolicyOptionalParams
   ): Promise<coreHttp.RestResponse> {
-    const { span } = createSpan(
-      "JobRouterApiClient-deleteExceptionPolicy",
-      options || {}
-    );
     const operationArguments: coreHttp.OperationArguments = {
       id,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
-    try {
-      const result = await this.client.sendOperationRequest(
-        operationArguments,
-        deleteExceptionPolicyOperationSpec
-      );
-      return result as coreHttp.RestResponse;
-    } catch (error) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
+    return this.client.sendOperationRequest(
+      operationArguments,
+      deleteExceptionPolicyOperationSpec
+    ) as Promise<coreHttp.RestResponse>;
   }
 
   /**
@@ -1018,58 +779,34 @@ export class JobRouterImpl implements JobRouter {
    * @param body Request payload for creating new jobs
    * @param options The options parameters.
    */
-  async createJob(
+  createJob(
     body: CreateJobRequest,
     options?: JobRouterCreateJobOptionalParams
   ): Promise<JobRouterCreateJobResponse> {
-    const { span } = createSpan("JobRouterApiClient-createJob", options || {});
     const operationArguments: coreHttp.OperationArguments = {
       body,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
-    try {
-      const result = await this.client.sendOperationRequest(
-        operationArguments,
-        createJobOperationSpec
-      );
-      return result as JobRouterCreateJobResponse;
-    } catch (error) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
+    return this.client.sendOperationRequest(
+      operationArguments,
+      createJobOperationSpec
+    ) as Promise<JobRouterCreateJobResponse>;
   }
 
   /**
    * Retrieves list of jobs based on filter parameters
    * @param options The options parameters.
    */
-  private async _listJobs(
+  private _listJobs(
     options?: JobRouterListJobsOptionalParams
   ): Promise<JobRouterListJobsResponse> {
-    const { span } = createSpan("JobRouterApiClient-_listJobs", options || {});
     const operationArguments: coreHttp.OperationArguments = {
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
-    try {
-      const result = await this.client.sendOperationRequest(
-        operationArguments,
-        listJobsOperationSpec
-      );
-      return result as JobRouterListJobsResponse;
-    } catch (error) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
+    return this.client.sendOperationRequest(
+      operationArguments,
+      listJobsOperationSpec
+    ) as Promise<JobRouterListJobsResponse>;
   }
 
   /**
@@ -1077,30 +814,18 @@ export class JobRouterImpl implements JobRouter {
    * @param jobId
    * @param options The options parameters.
    */
-  async getJob(
+  getJob(
     jobId: string,
     options?: JobRouterGetJobOptionalParams
   ): Promise<JobRouterGetJobResponse> {
-    const { span } = createSpan("JobRouterApiClient-getJob", options || {});
     const operationArguments: coreHttp.OperationArguments = {
       jobId,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
-    try {
-      const result = await this.client.sendOperationRequest(
-        operationArguments,
-        getJobOperationSpec
-      );
-      return result as JobRouterGetJobResponse;
-    } catch (error) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
+    return this.client.sendOperationRequest(
+      operationArguments,
+      getJobOperationSpec
+    ) as Promise<JobRouterGetJobResponse>;
   }
 
   /**
@@ -1108,33 +833,18 @@ export class JobRouterImpl implements JobRouter {
    * @param queueId
    * @param options The options parameters.
    */
-  private async _listEnqueuedJobs(
+  private _listEnqueuedJobs(
     queueId: string,
     options?: JobRouterListEnqueuedJobsOptionalParams
   ): Promise<JobRouterListEnqueuedJobsResponse> {
-    const { span } = createSpan(
-      "JobRouterApiClient-_listEnqueuedJobs",
-      options || {}
-    );
     const operationArguments: coreHttp.OperationArguments = {
       queueId,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
-    try {
-      const result = await this.client.sendOperationRequest(
-        operationArguments,
-        listEnqueuedJobsOperationSpec
-      );
-      return result as JobRouterListEnqueuedJobsResponse;
-    } catch (error) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
+    return this.client.sendOperationRequest(
+      operationArguments,
+      listEnqueuedJobsOperationSpec
+    ) as Promise<JobRouterListEnqueuedJobsResponse>;
   }
 
   /**
@@ -1143,35 +853,20 @@ export class JobRouterImpl implements JobRouter {
    * @param labels A set of key/value pairs used as metadata for a job.
    * @param options The options parameters.
    */
-  async updateJobLabels(
+  updateJobLabels(
     jobId: string,
     labels: { [propertyName: string]: any },
     options?: JobRouterUpdateJobLabelsOptionalParams
   ): Promise<JobRouterUpdateJobLabelsResponse> {
-    const { span } = createSpan(
-      "JobRouterApiClient-updateJobLabels",
-      options || {}
-    );
     const operationArguments: coreHttp.OperationArguments = {
       jobId,
       labels,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
-    try {
-      const result = await this.client.sendOperationRequest(
-        operationArguments,
-        updateJobLabelsOperationSpec
-      );
-      return result as JobRouterUpdateJobLabelsResponse;
-    } catch (error) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
+    return this.client.sendOperationRequest(
+      operationArguments,
+      updateJobLabelsOperationSpec
+    ) as Promise<JobRouterUpdateJobLabelsResponse>;
   }
 
   /**
@@ -1184,35 +879,20 @@ export class JobRouterImpl implements JobRouter {
    * @param body Request payload to update existing job and submit for classification
    * @param options The options parameters.
    */
-  async reclassifyJob(
+  reclassifyJob(
     jobId: string,
     body: ReclassifyJobRequest,
     options?: JobRouterReclassifyJobOptionalParams
   ): Promise<JobRouterReclassifyJobResponse> {
-    const { span } = createSpan(
-      "JobRouterApiClient-reclassifyJob",
-      options || {}
-    );
     const operationArguments: coreHttp.OperationArguments = {
       jobId,
       body,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
-    try {
-      const result = await this.client.sendOperationRequest(
-        operationArguments,
-        reclassifyJobOperationSpec
-      );
-      return result as JobRouterReclassifyJobResponse;
-    } catch (error) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
+    return this.client.sendOperationRequest(
+      operationArguments,
+      reclassifyJobOperationSpec
+    ) as Promise<JobRouterReclassifyJobResponse>;
   }
 
   /**
@@ -1225,33 +905,18 @@ export class JobRouterImpl implements JobRouter {
    * @param jobId
    * @param options The options parameters.
    */
-  async updateJobClassification(
+  updateJobClassification(
     jobId: string,
     options?: JobRouterUpdateJobClassificationOptionalParams
   ): Promise<JobRouterUpdateJobClassificationResponse> {
-    const { span } = createSpan(
-      "JobRouterApiClient-updateJobClassification",
-      options || {}
-    );
     const operationArguments: coreHttp.OperationArguments = {
       jobId,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
-    try {
-      const result = await this.client.sendOperationRequest(
-        operationArguments,
-        updateJobClassificationOperationSpec
-      );
-      return result as JobRouterUpdateJobClassificationResponse;
-    } catch (error) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
+    return this.client.sendOperationRequest(
+      operationArguments,
+      updateJobClassificationOperationSpec
+    ) as Promise<JobRouterUpdateJobClassificationResponse>;
   }
 
   /**
@@ -1259,30 +924,18 @@ export class JobRouterImpl implements JobRouter {
    * @param jobId
    * @param options The options parameters.
    */
-  async cancelJob(
+  cancelJob(
     jobId: string,
     options?: JobRouterCancelJobOptionalParams
   ): Promise<coreHttp.RestResponse> {
-    const { span } = createSpan("JobRouterApiClient-cancelJob", options || {});
     const operationArguments: coreHttp.OperationArguments = {
       jobId,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
-    try {
-      const result = await this.client.sendOperationRequest(
-        operationArguments,
-        cancelJobOperationSpec
-      );
-      return result as coreHttp.RestResponse;
-    } catch (error) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
+    return this.client.sendOperationRequest(
+      operationArguments,
+      cancelJobOperationSpec
+    ) as Promise<coreHttp.RestResponse>;
   }
 
   /**
@@ -1291,35 +944,20 @@ export class JobRouterImpl implements JobRouter {
    * @param assignmentId The assignment within the job to complete.
    * @param options The options parameters.
    */
-  async completeJob(
+  completeJob(
     jobId: string,
     assignmentId: string,
     options?: JobRouterCompleteJobOptionalParams
   ): Promise<coreHttp.RestResponse> {
-    const { span } = createSpan(
-      "JobRouterApiClient-completeJob",
-      options || {}
-    );
     const operationArguments: coreHttp.OperationArguments = {
       jobId,
       assignmentId,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
-    try {
-      const result = await this.client.sendOperationRequest(
-        operationArguments,
-        completeJobOperationSpec
-      );
-      return result as coreHttp.RestResponse;
-    } catch (error) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
+    return this.client.sendOperationRequest(
+      operationArguments,
+      completeJobOperationSpec
+    ) as Promise<coreHttp.RestResponse>;
   }
 
   /**
@@ -1328,32 +966,20 @@ export class JobRouterImpl implements JobRouter {
    * @param assignmentId The assignment within which the job is to be closed.
    * @param options The options parameters.
    */
-  async closeJob(
+  closeJob(
     jobId: string,
     assignmentId: string,
     options?: JobRouterCloseJobOptionalParams
   ): Promise<coreHttp.RestResponse> {
-    const { span } = createSpan("JobRouterApiClient-closeJob", options || {});
     const operationArguments: coreHttp.OperationArguments = {
       jobId,
       assignmentId,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
-    try {
-      const result = await this.client.sendOperationRequest(
-        operationArguments,
-        closeJobOperationSpec
-      );
-      return result as coreHttp.RestResponse;
-    } catch (error) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
+    return this.client.sendOperationRequest(
+      operationArguments,
+      closeJobOperationSpec
+    ) as Promise<coreHttp.RestResponse>;
   }
 
   /**
@@ -1361,33 +987,18 @@ export class JobRouterImpl implements JobRouter {
    * @param jobId
    * @param options The options parameters.
    */
-  async getInQueuePosition(
+  getInQueuePosition(
     jobId: string,
     options?: JobRouterGetInQueuePositionOptionalParams
   ): Promise<JobRouterGetInQueuePositionResponse> {
-    const { span } = createSpan(
-      "JobRouterApiClient-getInQueuePosition",
-      options || {}
-    );
     const operationArguments: coreHttp.OperationArguments = {
       jobId,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
-    try {
-      const result = await this.client.sendOperationRequest(
-        operationArguments,
-        getInQueuePositionOperationSpec
-      );
-      return result as JobRouterGetInQueuePositionResponse;
-    } catch (error) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
+    return this.client.sendOperationRequest(
+      operationArguments,
+      getInQueuePositionOperationSpec
+    ) as Promise<JobRouterGetInQueuePositionResponse>;
   }
 
   /**
@@ -1397,32 +1008,20 @@ export class JobRouterImpl implements JobRouter {
    * @param workerId
    * @param options The options parameters.
    */
-  async acceptJob(
+  acceptJob(
     offerId: string,
     workerId: string,
     options?: JobRouterAcceptJobOptionalParams
   ): Promise<JobRouterAcceptJobResponse> {
-    const { span } = createSpan("JobRouterApiClient-acceptJob", options || {});
     const operationArguments: coreHttp.OperationArguments = {
       offerId,
       workerId,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
-    try {
-      const result = await this.client.sendOperationRequest(
-        operationArguments,
-        acceptJobOperationSpec
-      );
-      return result as JobRouterAcceptJobResponse;
-    } catch (error) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
+    return this.client.sendOperationRequest(
+      operationArguments,
+      acceptJobOperationSpec
+    ) as Promise<JobRouterAcceptJobResponse>;
   }
 
   /**
@@ -1431,32 +1030,20 @@ export class JobRouterImpl implements JobRouter {
    * @param workerId
    * @param options The options parameters.
    */
-  async declineJob(
+  declineJob(
     offerId: string,
     workerId: string,
     options?: JobRouterDeclineJobOptionalParams
   ): Promise<coreHttp.RestResponse> {
-    const { span } = createSpan("JobRouterApiClient-declineJob", options || {});
     const operationArguments: coreHttp.OperationArguments = {
       offerId,
       workerId,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
-    try {
-      const result = await this.client.sendOperationRequest(
-        operationArguments,
-        declineJobOperationSpec
-      );
-      return result as coreHttp.RestResponse;
-    } catch (error) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
+    return this.client.sendOperationRequest(
+      operationArguments,
+      declineJobOperationSpec
+    ) as Promise<coreHttp.RestResponse>;
   }
 
   /**
@@ -1464,64 +1051,34 @@ export class JobRouterImpl implements JobRouter {
    * @param body Model of queue to be created or Updated
    * @param options The options parameters.
    */
-  async createOrUpdateQueue(
+  createOrUpdateQueue(
     body: UpsertQueueRequest,
     options?: JobRouterCreateOrUpdateQueueOptionalParams
   ): Promise<JobRouterCreateOrUpdateQueueResponse> {
-    const { span } = createSpan(
-      "JobRouterApiClient-createOrUpdateQueue",
-      options || {}
-    );
     const operationArguments: coreHttp.OperationArguments = {
       body,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
-    try {
-      const result = await this.client.sendOperationRequest(
-        operationArguments,
-        createOrUpdateQueueOperationSpec
-      );
-      return result as JobRouterCreateOrUpdateQueueResponse;
-    } catch (error) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
+    return this.client.sendOperationRequest(
+      operationArguments,
+      createOrUpdateQueueOperationSpec
+    ) as Promise<JobRouterCreateOrUpdateQueueResponse>;
   }
 
   /**
    * Retrieves existing queues
    * @param options The options parameters.
    */
-  private async _listQueues(
+  private _listQueues(
     options?: JobRouterListQueuesOptionalParams
   ): Promise<JobRouterListQueuesResponse> {
-    const { span } = createSpan(
-      "JobRouterApiClient-_listQueues",
-      options || {}
-    );
     const operationArguments: coreHttp.OperationArguments = {
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
-    try {
-      const result = await this.client.sendOperationRequest(
-        operationArguments,
-        listQueuesOperationSpec
-      );
-      return result as JobRouterListQueuesResponse;
-    } catch (error) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
+    return this.client.sendOperationRequest(
+      operationArguments,
+      listQueuesOperationSpec
+    ) as Promise<JobRouterListQueuesResponse>;
   }
 
   /**
@@ -1529,30 +1086,18 @@ export class JobRouterImpl implements JobRouter {
    * @param id Id of the queue to retrieve
    * @param options The options parameters.
    */
-  async getQueue(
+  getQueue(
     id: string,
     options?: JobRouterGetQueueOptionalParams
   ): Promise<JobRouterGetQueueResponse> {
-    const { span } = createSpan("JobRouterApiClient-getQueue", options || {});
     const operationArguments: coreHttp.OperationArguments = {
       id,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
-    try {
-      const result = await this.client.sendOperationRequest(
-        operationArguments,
-        getQueueOperationSpec
-      );
-      return result as JobRouterGetQueueResponse;
-    } catch (error) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
+    return this.client.sendOperationRequest(
+      operationArguments,
+      getQueueOperationSpec
+    ) as Promise<JobRouterGetQueueResponse>;
   }
 
   /**
@@ -1560,33 +1105,18 @@ export class JobRouterImpl implements JobRouter {
    * @param id Id of the queue to delete
    * @param options The options parameters.
    */
-  async deleteQueue(
+  deleteQueue(
     id: string,
     options?: JobRouterDeleteQueueOptionalParams
   ): Promise<coreHttp.RestResponse> {
-    const { span } = createSpan(
-      "JobRouterApiClient-deleteQueue",
-      options || {}
-    );
     const operationArguments: coreHttp.OperationArguments = {
       id,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
-    try {
-      const result = await this.client.sendOperationRequest(
-        operationArguments,
-        deleteQueueOperationSpec
-      );
-      return result as coreHttp.RestResponse;
-    } catch (error) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
+    return this.client.sendOperationRequest(
+      operationArguments,
+      deleteQueueOperationSpec
+    ) as Promise<coreHttp.RestResponse>;
   }
 
   /**
@@ -1594,64 +1124,34 @@ export class JobRouterImpl implements JobRouter {
    * @param body Request payload for registering workers.
    * @param options The options parameters.
    */
-  async registerWorker(
+  registerWorker(
     body: RegisterWorkerRequest,
     options?: JobRouterRegisterWorkerOptionalParams
   ): Promise<JobRouterRegisterWorkerResponse> {
-    const { span } = createSpan(
-      "JobRouterApiClient-registerWorker",
-      options || {}
-    );
     const operationArguments: coreHttp.OperationArguments = {
       body,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
-    try {
-      const result = await this.client.sendOperationRequest(
-        operationArguments,
-        registerWorkerOperationSpec
-      );
-      return result as JobRouterRegisterWorkerResponse;
-    } catch (error) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
+    return this.client.sendOperationRequest(
+      operationArguments,
+      registerWorkerOperationSpec
+    ) as Promise<JobRouterRegisterWorkerResponse>;
   }
 
   /**
    * Retrieves existing workers.
    * @param options The options parameters.
    */
-  private async _listWorkers(
+  private _listWorkers(
     options?: JobRouterListWorkersOptionalParams
   ): Promise<JobRouterListWorkersResponse> {
-    const { span } = createSpan(
-      "JobRouterApiClient-_listWorkers",
-      options || {}
-    );
     const operationArguments: coreHttp.OperationArguments = {
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
-    try {
-      const result = await this.client.sendOperationRequest(
-        operationArguments,
-        listWorkersOperationSpec
-      );
-      return result as JobRouterListWorkersResponse;
-    } catch (error) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
+    return this.client.sendOperationRequest(
+      operationArguments,
+      listWorkersOperationSpec
+    ) as Promise<JobRouterListWorkersResponse>;
   }
 
   /**
@@ -1659,33 +1159,18 @@ export class JobRouterImpl implements JobRouter {
    * @param workerId
    * @param options The options parameters.
    */
-  async deregisterWorker(
+  deregisterWorker(
     workerId: string,
     options?: JobRouterDeregisterWorkerOptionalParams
   ): Promise<coreHttp.RestResponse> {
-    const { span } = createSpan(
-      "JobRouterApiClient-deregisterWorker",
-      options || {}
-    );
     const operationArguments: coreHttp.OperationArguments = {
       workerId,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
-    try {
-      const result = await this.client.sendOperationRequest(
-        operationArguments,
-        deregisterWorkerOperationSpec
-      );
-      return result as coreHttp.RestResponse;
-    } catch (error) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
+    return this.client.sendOperationRequest(
+      operationArguments,
+      deregisterWorkerOperationSpec
+    ) as Promise<coreHttp.RestResponse>;
   }
 
   /**
@@ -1693,30 +1178,18 @@ export class JobRouterImpl implements JobRouter {
    * @param workerId
    * @param options The options parameters.
    */
-  async getWorker(
+  getWorker(
     workerId: string,
     options?: JobRouterGetWorkerOptionalParams
   ): Promise<JobRouterGetWorkerResponse> {
-    const { span } = createSpan("JobRouterApiClient-getWorker", options || {});
     const operationArguments: coreHttp.OperationArguments = {
       workerId,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
-    try {
-      const result = await this.client.sendOperationRequest(
-        operationArguments,
-        getWorkerOperationSpec
-      );
-      return result as JobRouterGetWorkerResponse;
-    } catch (error) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
+    return this.client.sendOperationRequest(
+      operationArguments,
+      getWorkerOperationSpec
+    ) as Promise<JobRouterGetWorkerResponse>;
   }
 
   /**
@@ -1725,35 +1198,20 @@ export class JobRouterImpl implements JobRouter {
    * @param assignmentId
    * @param options The options parameters.
    */
-  async releaseAssignment(
+  releaseAssignment(
     workerId: string,
     assignmentId: string,
     options?: JobRouterReleaseAssignmentOptionalParams
   ): Promise<coreHttp.RestResponse> {
-    const { span } = createSpan(
-      "JobRouterApiClient-releaseAssignment",
-      options || {}
-    );
     const operationArguments: coreHttp.OperationArguments = {
       workerId,
       assignmentId,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
-    try {
-      const result = await this.client.sendOperationRequest(
-        operationArguments,
-        releaseAssignmentOperationSpec
-      );
-      return result as coreHttp.RestResponse;
-    } catch (error) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
+    return this.client.sendOperationRequest(
+      operationArguments,
+      releaseAssignmentOperationSpec
+    ) as Promise<coreHttp.RestResponse>;
   }
 
   /**
@@ -1761,33 +1219,18 @@ export class JobRouterImpl implements JobRouter {
    * @param nextLink The nextLink from the previous successful call to the ListChannels method.
    * @param options The options parameters.
    */
-  private async _listChannelsNext(
+  private _listChannelsNext(
     nextLink: string,
     options?: JobRouterListChannelsNextOptionalParams
   ): Promise<JobRouterListChannelsNextResponse> {
-    const { span } = createSpan(
-      "JobRouterApiClient-_listChannelsNext",
-      options || {}
-    );
     const operationArguments: coreHttp.OperationArguments = {
       nextLink,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
-    try {
-      const result = await this.client.sendOperationRequest(
-        operationArguments,
-        listChannelsNextOperationSpec
-      );
-      return result as JobRouterListChannelsNextResponse;
-    } catch (error) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
+    return this.client.sendOperationRequest(
+      operationArguments,
+      listChannelsNextOperationSpec
+    ) as Promise<JobRouterListChannelsNextResponse>;
   }
 
   /**
@@ -1796,33 +1239,18 @@ export class JobRouterImpl implements JobRouter {
    *                 method.
    * @param options The options parameters.
    */
-  private async _listClassificationPoliciesNext(
+  private _listClassificationPoliciesNext(
     nextLink: string,
     options?: JobRouterListClassificationPoliciesNextOptionalParams
   ): Promise<JobRouterListClassificationPoliciesNextResponse> {
-    const { span } = createSpan(
-      "JobRouterApiClient-_listClassificationPoliciesNext",
-      options || {}
-    );
     const operationArguments: coreHttp.OperationArguments = {
       nextLink,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
-    try {
-      const result = await this.client.sendOperationRequest(
-        operationArguments,
-        listClassificationPoliciesNextOperationSpec
-      );
-      return result as JobRouterListClassificationPoliciesNextResponse;
-    } catch (error) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
+    return this.client.sendOperationRequest(
+      operationArguments,
+      listClassificationPoliciesNextOperationSpec
+    ) as Promise<JobRouterListClassificationPoliciesNextResponse>;
   }
 
   /**
@@ -1831,33 +1259,18 @@ export class JobRouterImpl implements JobRouter {
    *                 method.
    * @param options The options parameters.
    */
-  private async _listDistributionPoliciesNext(
+  private _listDistributionPoliciesNext(
     nextLink: string,
     options?: JobRouterListDistributionPoliciesNextOptionalParams
   ): Promise<JobRouterListDistributionPoliciesNextResponse> {
-    const { span } = createSpan(
-      "JobRouterApiClient-_listDistributionPoliciesNext",
-      options || {}
-    );
     const operationArguments: coreHttp.OperationArguments = {
       nextLink,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
-    try {
-      const result = await this.client.sendOperationRequest(
-        operationArguments,
-        listDistributionPoliciesNextOperationSpec
-      );
-      return result as JobRouterListDistributionPoliciesNextResponse;
-    } catch (error) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
+    return this.client.sendOperationRequest(
+      operationArguments,
+      listDistributionPoliciesNextOperationSpec
+    ) as Promise<JobRouterListDistributionPoliciesNextResponse>;
   }
 
   /**
@@ -1865,33 +1278,18 @@ export class JobRouterImpl implements JobRouter {
    * @param nextLink The nextLink from the previous successful call to the ListExceptionPolicies method.
    * @param options The options parameters.
    */
-  private async _listExceptionPoliciesNext(
+  private _listExceptionPoliciesNext(
     nextLink: string,
     options?: JobRouterListExceptionPoliciesNextOptionalParams
   ): Promise<JobRouterListExceptionPoliciesNextResponse> {
-    const { span } = createSpan(
-      "JobRouterApiClient-_listExceptionPoliciesNext",
-      options || {}
-    );
     const operationArguments: coreHttp.OperationArguments = {
       nextLink,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
-    try {
-      const result = await this.client.sendOperationRequest(
-        operationArguments,
-        listExceptionPoliciesNextOperationSpec
-      );
-      return result as JobRouterListExceptionPoliciesNextResponse;
-    } catch (error) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
+    return this.client.sendOperationRequest(
+      operationArguments,
+      listExceptionPoliciesNextOperationSpec
+    ) as Promise<JobRouterListExceptionPoliciesNextResponse>;
   }
 
   /**
@@ -1899,33 +1297,18 @@ export class JobRouterImpl implements JobRouter {
    * @param nextLink The nextLink from the previous successful call to the ListJobs method.
    * @param options The options parameters.
    */
-  private async _listJobsNext(
+  private _listJobsNext(
     nextLink: string,
     options?: JobRouterListJobsNextOptionalParams
   ): Promise<JobRouterListJobsNextResponse> {
-    const { span } = createSpan(
-      "JobRouterApiClient-_listJobsNext",
-      options || {}
-    );
     const operationArguments: coreHttp.OperationArguments = {
       nextLink,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
-    try {
-      const result = await this.client.sendOperationRequest(
-        operationArguments,
-        listJobsNextOperationSpec
-      );
-      return result as JobRouterListJobsNextResponse;
-    } catch (error) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
+    return this.client.sendOperationRequest(
+      operationArguments,
+      listJobsNextOperationSpec
+    ) as Promise<JobRouterListJobsNextResponse>;
   }
 
   /**
@@ -1934,35 +1317,20 @@ export class JobRouterImpl implements JobRouter {
    * @param nextLink The nextLink from the previous successful call to the ListEnqueuedJobs method.
    * @param options The options parameters.
    */
-  private async _listEnqueuedJobsNext(
+  private _listEnqueuedJobsNext(
     queueId: string,
     nextLink: string,
     options?: JobRouterListEnqueuedJobsNextOptionalParams
   ): Promise<JobRouterListEnqueuedJobsNextResponse> {
-    const { span } = createSpan(
-      "JobRouterApiClient-_listEnqueuedJobsNext",
-      options || {}
-    );
     const operationArguments: coreHttp.OperationArguments = {
       queueId,
       nextLink,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
-    try {
-      const result = await this.client.sendOperationRequest(
-        operationArguments,
-        listEnqueuedJobsNextOperationSpec
-      );
-      return result as JobRouterListEnqueuedJobsNextResponse;
-    } catch (error) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
+    return this.client.sendOperationRequest(
+      operationArguments,
+      listEnqueuedJobsNextOperationSpec
+    ) as Promise<JobRouterListEnqueuedJobsNextResponse>;
   }
 
   /**
@@ -1970,33 +1338,18 @@ export class JobRouterImpl implements JobRouter {
    * @param nextLink The nextLink from the previous successful call to the ListQueues method.
    * @param options The options parameters.
    */
-  private async _listQueuesNext(
+  private _listQueuesNext(
     nextLink: string,
     options?: JobRouterListQueuesNextOptionalParams
   ): Promise<JobRouterListQueuesNextResponse> {
-    const { span } = createSpan(
-      "JobRouterApiClient-_listQueuesNext",
-      options || {}
-    );
     const operationArguments: coreHttp.OperationArguments = {
       nextLink,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
-    try {
-      const result = await this.client.sendOperationRequest(
-        operationArguments,
-        listQueuesNextOperationSpec
-      );
-      return result as JobRouterListQueuesNextResponse;
-    } catch (error) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
+    return this.client.sendOperationRequest(
+      operationArguments,
+      listQueuesNextOperationSpec
+    ) as Promise<JobRouterListQueuesNextResponse>;
   }
 
   /**
@@ -2004,33 +1357,18 @@ export class JobRouterImpl implements JobRouter {
    * @param nextLink The nextLink from the previous successful call to the ListWorkers method.
    * @param options The options parameters.
    */
-  private async _listWorkersNext(
+  private _listWorkersNext(
     nextLink: string,
     options?: JobRouterListWorkersNextOptionalParams
   ): Promise<JobRouterListWorkersNextResponse> {
-    const { span } = createSpan(
-      "JobRouterApiClient-_listWorkersNext",
-      options || {}
-    );
     const operationArguments: coreHttp.OperationArguments = {
       nextLink,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
-    try {
-      const result = await this.client.sendOperationRequest(
-        operationArguments,
-        listWorkersNextOperationSpec
-      );
-      return result as JobRouterListWorkersNextResponse;
-    } catch (error) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
+    return this.client.sendOperationRequest(
+      operationArguments,
+      listWorkersNextOperationSpec
+    ) as Promise<JobRouterListWorkersNextResponse>;
   }
 }
 // Operation Specifications

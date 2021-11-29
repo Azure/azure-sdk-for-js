@@ -21,9 +21,6 @@ use-extension:
 azure-arm: false
 add-credentials: false
 use-core-v2: false
-tracing-info:
-  namespace: Microsoft.Communication
-  packagePrefix: Azure.Communication
 ```
 
 # Remove "x-ms-parameterized-host" section when copying swagger.json

@@ -2,8 +2,7 @@
 // Licensed under the MIT license.
 
 import { HttpClient, HttpHeaders, WebResourceLike, HttpOperationResponse } from "@azure/core-http";
-import { RouterClient, RouterWorker } from "../../../src";
-import { env } from "@azure/test-utils-recorder";
+import { RouterWorker } from "../../../src";
 
 export const mockWorker: RouterWorker = {
   id: "worker-id-123",
@@ -40,10 +39,4 @@ export const generateHttpClient = (status: number, parsedBody?: unknown): HttpCl
     }
   };
   return mockHttpClient;
-};
-
-export const createRouterClient = (mockHttpClient: HttpClient): RouterClient => {
-  return new RouterClient(env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING, {
-    httpClient: mockHttpClient
-  });
 };

@@ -93,17 +93,20 @@ export interface UpdateClassificationPolicyOptions extends OperationOptions {}
 /**
  * Options to get a classification policy.
  */
-export interface GetClassificationPolicyOptions extends JobRouterGetClassificationPolicyOptionalParams {}
+export interface GetClassificationPolicyOptions
+  extends JobRouterGetClassificationPolicyOptionalParams {}
 
 /**
  * Options to delete a classification policy.
  */
-export interface DeleteClassificationPolicyOptions extends JobRouterDeleteClassificationPolicyOptionalParams {}
+export interface DeleteClassificationPolicyOptions
+  extends JobRouterDeleteClassificationPolicyOptionalParams {}
 
 /**
  * Options to get classification policies.
  */
-export interface ListClassificationPoliciesOptions extends JobRouterListClassificationPoliciesOptionalParams {}
+export interface ListClassificationPoliciesOptions
+  extends JobRouterListClassificationPoliciesOptionalParams {}
 
 /**
  * Options to create or update a distribution policy.
@@ -114,17 +117,20 @@ export interface UpsertDistributionPolicyOptions
 /**
  * Options to get a distribution policy.
  */
-export interface GetDistributionPolicyOptions extends JobRouterGetDistributionPolicyOptionalParams {}
+export interface GetDistributionPolicyOptions
+  extends JobRouterGetDistributionPolicyOptionalParams {}
 
 /**
  * Options to delete a distribution policy.
  */
-export interface DeleteDistributionPolicyOptions extends JobRouterDeleteDistributionPolicyOptionalParams {}
+export interface DeleteDistributionPolicyOptions
+  extends JobRouterDeleteDistributionPolicyOptionalParams {}
 
 /**
  * Options to get distribution policies.
  */
-export interface ListDistributionPoliciesOptions extends JobRouterListDistributionPoliciesOptionalParams {}
+export interface ListDistributionPoliciesOptions
+  extends JobRouterListDistributionPoliciesOptionalParams {}
 
 /**
  * Options to create or update a exception policy.
@@ -140,12 +146,14 @@ export interface GetExceptionPolicyOptions extends JobRouterGetExceptionPolicyOp
 /**
  * Options to delete a exception policy.
  */
-export interface DeleteExceptionPolicyOptions extends JobRouterDeleteExceptionPolicyOptionalParams {}
+export interface DeleteExceptionPolicyOptions
+  extends JobRouterDeleteExceptionPolicyOptionalParams {}
 
 /**
  * Options to get exception policies.
  */
-export interface ListExceptionPoliciesOptions extends JobRouterListExceptionPoliciesOptionalParams {}
+export interface ListExceptionPoliciesOptions
+  extends JobRouterListExceptionPoliciesOptionalParams {}
 
 /**
  * Options to create a job.

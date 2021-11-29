@@ -1,12 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { env, Recorder, record } from "@azure/test-utils-recorder";
+import { Recorder, record } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { RouterClient } from "../../src";
 import { Context } from "mocha";
 import { createTestHttpClient, environmentSetup } from "./utils/recordedClient";
 import { RouterClientOptions } from "../../src";
+
+const COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING =
+  "endpoint=https://endpoint/;accesskey=banana";
 
 export interface RecordedClient<T> {
   client: T;
@@ -18,7 +21,7 @@ export function createRecordedClient(context: Context): RecordedClient<RouterCli
 
   // casting is a workaround to enable min-max testing
   return {
-    client: new RouterClient(env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING, {
+    client: new RouterClient(COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING, {
       httpClient: createTestHttpClient()
     } as RouterClientOptions),
     recorder

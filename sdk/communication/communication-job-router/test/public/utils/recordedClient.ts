@@ -4,7 +4,7 @@
 import { Context } from "mocha";
 import * as dotenv from "dotenv";
 
-import { Recorder, record, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
+import { Recorder, record, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
 import {
   DefaultHttpClient,
   HttpClient,
