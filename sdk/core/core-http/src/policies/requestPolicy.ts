@@ -18,14 +18,14 @@ export type RequestPolicyFactory = {
  */
 export interface RequestPolicy {
   /**
-   * A method that retrieves an HttpOperationResponse given a WebResourceLike describing the request to be made.
-   * @param httpRequest - WebResourceLike describing the request to be made.
+   * A method that retrieves an {@link HttpOperationResponse} given a {@link WebResourceLike} describing the request to be made.
+   * @param httpRequest - {@link WebResourceLike} describing the request to be made.
    */
   sendRequest(httpRequest: WebResourceLike): Promise<HttpOperationResponse>;
 }
 
 /**
- * The base class that defines all request policies.
+ * The base class from which all request policies derive.
  */
 export abstract class BaseRequestPolicy implements RequestPolicy {
   /**
@@ -44,7 +44,7 @@ export abstract class BaseRequestPolicy implements RequestPolicy {
 
   /**
    * Sends a network request based on the given web resource.
-   * @param webResource - A WebResourceLike that describes a HTTP request to be made.
+   * @param webResource - A {@link WebResourceLike} that describes a HTTP request to be made.
    */
   public abstract sendRequest(webResource: WebResourceLike): Promise<HttpOperationResponse>;
 

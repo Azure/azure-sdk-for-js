@@ -11,7 +11,7 @@ import {
 } from "./requestPolicy";
 
 /**
- * Generates a policy that assigns a unique request id to outgoing requests.
+ * Creates a policy that assigns a unique request id to outgoing requests.
  * @param requestIdHeaderName - The name of the header to use when assigning the unique id to the request.
  */
 export function generateClientRequestIdPolicy(

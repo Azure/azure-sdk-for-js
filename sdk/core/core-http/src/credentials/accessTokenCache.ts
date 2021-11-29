@@ -55,7 +55,7 @@ export class ExpiringAccessTokenCache implements AccessTokenCache {
   }
 
   /**
-   * Returns the cached access token or undefined if one is not cached.
+   * Returns the cached access token, or `undefined` if one is not cached or the cached one is expiring soon.
    */
   getCachedToken(): AccessToken | undefined {
     if (

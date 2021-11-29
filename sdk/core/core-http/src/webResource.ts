@@ -13,7 +13,7 @@ import { SpanOptions, Context } from "@azure/core-tracing";
 import { SerializerOptions } from "./util/serializer.common";
 
 /**
- * List of HTTP methods.
+ * List of supported HTTP methods.
  */
 export type HttpMethods =
   | "GET"
