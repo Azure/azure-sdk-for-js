@@ -1120,6 +1120,11 @@
       "packageName": "@azure/arm-botservice",
       "projectFolder": "sdk/botservice/arm-botservice",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-loadtestservice",
+      "projectFolder": "sdk/loadtestservice/arm-loadtestservice",
+      "versionPolicyName": "management"
     }
   ]
 }
