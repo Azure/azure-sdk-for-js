@@ -1122,6 +1122,11 @@
       "versionPolicyName": "management"
     },
     {
+      "packageName": "@azure/arm-search",
+      "projectFolder": "sdk/search/arm-search",
+      "versionPolicyName": "management"
+    },
+    {
       "packageName": "@azure/arm-loadtestservice",
       "projectFolder": "sdk/loadtestservice/arm-loadtestservice",
       "versionPolicyName": "management"
