@@ -11,7 +11,7 @@
 
 ### Bugs Fixed
 
-- Added a check to handle undefined value during the parsing of query parameters. Please refer [PR #18621](https://github.com/Azure/azure-sdk-for-js/pull/18621) for further details.
+- Added a check to handle undefined value during the parsing of query parameters. Please refer to [PR #18621](https://github.com/Azure/azure-sdk-for-js/pull/18621) for further details.
 
 ### Other Changes
 
