@@ -18,12 +18,12 @@ Location of cspell.json file to use when scanning. Defaults to
 Location of root folder for generating readable relative file paths. Defaults to
 the root of the repo relative to the script.
 
-.PARAMETER WorkingDirectory
+.PARAMETER PackageInstallCache
 Location of a working directory. If no location is provided a folder will be
 created in the temp folder, package*.json files will be placed in that folder.
 
-.PARAMETER LeaveWorkingDirectory
-If set the WorkingDirectory will not be deleted. Use if there are multiple
+.PARAMETER LeavePackageInstallCache
+If set the PackageInstallCache will not be deleted. Use if there are multiple
 calls to Invoke-Cspell.ps1 to prevent creating multiple working directories and
 redundant calls `npm install`.
 
@@ -61,10 +61,10 @@ param(
   [string] $SpellCheckRoot = (Resolve-Path "$PSScriptRoot/../../.."),
 
   [Parameter()]
-  [string] $WorkingDirectory = (Join-Path [System.IO.Path]::GetTempPath(), "cspell-tool-path"),
+  [string] $PackageInstallCache = (Join-Path ([System.IO.Path]::GetTempPath()) "cspell-tool-path"),
 
   [Parameter()]
-  [switch] $LeaveWorkingDirectory,
+  [switch] $LeavePackageInstallCache,
 
   [Parameter()]
   [switch] $Test
@@ -108,16 +108,16 @@ if ($Test) {
 
 # Prepare the working directory if it does not already have requirements in
 # place.
-if (!(Test-Path $WorkingDirectory)) {
-  New-Item -ItemType Directory -Path $WorkingDirectory | Out-Null
+if (!(Test-Path $PackageInstallCache)) {
+  New-Item -ItemType Directory -Path $PackageInstallCache | Out-Null
 }
 
-if (!(Test-Path "$WorkingDirectory/package.json")) {
-  Copy-Item "$PSScriptRoot/package.json" $WorkingDirectory
+if (!(Test-Path "$PackageInstallCache/package.json")) {
+  Copy-Item "$PSScriptRoot/package.json" $PackageInstallCache
 }
 
-if (!(Test-Path "$WorkingDirectory/package-lock.json")) {
-  Copy-Item "$PSScriptRoot/package-lock.json" $WorkingDirectory
+if (!(Test-Path "$PackageInstallCache/package-lock.json")) {
+  Copy-Item "$PSScriptRoot/package-lock.json" $PackageInstallCache
 }
 
 # The "files" list must always contain a file which exists, is not empty, and is
@@ -154,24 +154,27 @@ $CSpellConfigPath = Resolve-Path $CSpellConfigPath
 $SpellCheckRoot = Resolve-Path $SpellCheckRoot
 
 $originalLocation = Get-Location
-# Use the mutated configuration file when calling cspell
-$command = "npm exec -- cspell $JobType --config $CSpellConfigPath --no-must-find-files --root $SpellCheckRoot --relative"
-Write-Host $command
-$cspellOutput = npm exec -- `
-  cspell `
-  $JobType `
-  --config $CSpellConfigPath `
-  --no-must-find-files `
-  --root $SpellCheckRoot `
-  --relative
-Set-Location $originalLocation
 
-Write-Host "cspell run complete, restoring original configuration and removing temp file."
-Set-Content -Path $CSpellConfigPath -Value $cspellConfigContent -NoNewLine
-Remove-Item -Path $notExcludedFile
+try {
+  Set-Location $PackageInstallCache
+  npm install | Out-Null
 
-if (!$LeaveWorkingDirectory) {
-  Remove-Item $WorkingDirectory -Recurse -Force
+  # Use the mutated configuration file when calling cspell
+  $command = "npm exec -- cspell $JobType --config $CSpellConfigPath --no-must-find-files --root $SpellCheckRoot --relative"
+  Write-Host $command
+  $cspellOutput = npm exec -- `
+    cspell `
+    $JobType `
+    --config $CSpellConfigPath `
+    --no-must-find-files `
+    --root $SpellCheckRoot `
+    --relative
+} finally {
+  Set-Location $originalLocation
+
+  Write-Host "cspell run complete, restoring original configuration and removing temp file."
+  Set-Content -Path $CSpellConfigPath -Value $cspellConfigContent -NoNewLine
+  Remove-Item -Path $notExcludedFile
 }
 
 return $cspellOutput
