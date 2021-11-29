@@ -3,16 +3,12 @@
 
 import { AbortController } from "@azure/abort-controller";
 import { PerfTest } from "./perfTest";
-import {
-  PerfOptionDictionary,
-  parsePerfOption,
-  defaultPerfOptions,
-  DefaultPerfOptions
-} from "./options";
+import { parsePerfOption, defaultPerfOptions, DefaultPerfOptions } from "./options";
 import { PerfParallel } from "./parallel";
 import { exec } from "child_process";
 import { formatDuration } from "./utils";
 import { PerfTestBase, PerfTestConstructor } from "./perfTestBase";
+import { ParsedPerfOptions } from ".";
 
 /**
  * PerfProgram
@@ -36,7 +32,7 @@ import { PerfTestBase, PerfTestConstructor } from "./perfTestBase";
  */
 export class PerfProgram {
   private testName: string;
-  private parsedDefaultOptions: Required<PerfOptionDictionary<DefaultPerfOptions>>;
+  private parsedDefaultOptions: Required<ParsedPerfOptions<DefaultPerfOptions>>;
   private parallelNumber: number;
   private tests: PerfTestBase[];
 
@@ -127,19 +123,17 @@ export class PerfProgram {
     durationSeconds: number,
     title: string
   ): Promise<void> {
-    const parallels: PerfParallel[] = new Array<PerfParallel>(this.parallelNumber);
-
     const abortController = new AbortController();
     const durationMilliseconds = durationSeconds * 1000;
 
     // Even though we've set a setTimeout here, the eventLoop might get too busy to load it on time.
-    // For this reason, we also check if the time has passed inside of runLoop.
+    // For this reason, we also check if the time has passed inside of runAll.
     setTimeout(() => abortController.abort(), durationMilliseconds);
 
     // This is how we customize how frequently we log how many completed operations have been executed.
-    // We don't enforce this inside of runLoop, so it might never be executed, depending on the number
+    // We don't enforce this inside of runAll, so it might never be executed, depending on the number
     // of operations running.
-    const millisecondsToLog = Number(this.parsedDefaultOptions["milliseconds-to-log"].value);
+    const millisecondsToLog = this.parsedDefaultOptions["milliseconds-to-log"].value;
     console.log(
       `\n=== ${title} mode, iteration ${iterationIndex + 1}. Logs every ${millisecondsToLog /
         1000}s ===`
@@ -149,9 +143,9 @@ export class PerfProgram {
     const startMillis = new Date().getTime();
 
     const logInterval = setInterval(() => {
-      const totalCompleted = this.getCompletedOperations(parallels);
+      const totalCompleted = this.getCompletedOperations(this.tests);
       const currentCompleted = totalCompleted - lastCompleted;
-      const averageCompleted = this.getOperationsPerSecond(parallels);
+      const averageCompleted = this.getOperationsPerSecond(this.tests);
       const elapsedTime = formatDuration(new Date().getTime() - startMillis);
 
       lastCompleted = totalCompleted;
@@ -174,12 +168,8 @@ export class PerfProgram {
     // then in another loop, we wait for each one of these promises to finish.
     // This should allow for the event loop to decide when to process each test call.
     await Promise.all(
-      this.tests.map((test, i = 0) => {
-        parallels[i] = {
-          completedOperations: 0,
-          lastMillisecondsElapsed: 0
-        };
-        return test.runAll(parallels[i], durationMilliseconds, abortController);
+      this.tests.map((test) => {
+        return test.runAll(durationMilliseconds, abortController);
       })
     );
 
@@ -188,7 +178,7 @@ export class PerfProgram {
 
     // Finally, we show the results.
     console.log(`=== ${title} mode, results of iteration ${iterationIndex + 1} ===`);
-    this.logResults(parallels);
+    this.logResults(this.tests);
   }
 
   private async logPackageVersions(listTransitiveDeps: boolean): Promise<void> {
