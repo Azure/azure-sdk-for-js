@@ -120,11 +120,21 @@ if (!(Test-Path "$PackageInstallCache/package-lock.json")) {
   Copy-Item "$PSScriptRoot/package-lock.json" $PackageInstallCache
 }
 
-# The "files" list must always contain a file which exists, is not empty, and is
-# not excluded in ignorePaths. In this case it will be a file with the contents
-# "1" (no spelling errors will be detected)
-$notExcludedFile = Join-Path $SpellCheckRoot ([System.IO.Path]::GetRandomFileName())
-"1" >> $notExcludedFile
+$deleteNotExcludedFile = $false
+$notExcludedFile = ""
+if (Test-Path "$SpellCheckRoot/LICENSE") {
+  $notExcludedFile = "$SpellCheckRoot/LICENSE"
+} elseif (Test-Path "$SpellCheckRoot/LICENSE.txt") {
+  $notExcludedFile = "$SpellCheckRoot/LICENSE.txt"
+} else {
+  # If there is no LICENSE file, fall back to creating a temporary file
+  # The "files" list must always contain a file which exists, is not empty, and is
+  # not excluded in ignorePaths. In this case it will be a file with the contents
+  # "1" (no spelling errors will be detected)
+  $notExcludedFile = Join-Path $SpellCheckRoot ([System.IO.Path]::GetRandomFileName())
+  "1" >> $notExcludedFile
+  $deleteNotExcludedFile = $true
+}
 $ScanGlobs += $notExcludedFile
 
 $cspellConfigContent = Get-Content $CSpellConfigPath -Raw
@@ -174,7 +184,10 @@ try {
 
   Write-Host "cspell run complete, restoring original configuration and removing temp file."
   Set-Content -Path $CSpellConfigPath -Value $cspellConfigContent -NoNewLine
-  Remove-Item -Path $notExcludedFile
+
+  if ($deleteNotExcludedFile) {
+    Remove-Item -Path $notExcludedFile
+  }
 }
 
 return $cspellOutput
