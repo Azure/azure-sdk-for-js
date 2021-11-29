@@ -153,6 +153,21 @@ export const subscriptionId: msRest.OperationURLParameter = {
     }
   }
 };
+export const volumeGroupName: msRest.OperationURLParameter = {
+  parameterPath: "volumeGroupName",
+  mapper: {
+    required: true,
+    serializedName: "volumeGroupName",
+    constraints: {
+      MaxLength: 64,
+      MinLength: 1,
+      Pattern: /^[a-zA-Z0-9][a-zA-Z0-9\-_]{0,63}$/
+    },
+    type: {
+      name: "String"
+    }
+  }
+};
 export const volumeName: msRest.OperationURLParameter = {
   parameterPath: "volumeName",
   mapper: {
