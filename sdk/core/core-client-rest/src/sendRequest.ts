@@ -115,7 +115,11 @@ function getRequestBody(body?: unknown, contentType: string = ""): RequestBody {
   }
 
   if (ArrayBuffer.isView(body)) {
-    return { body: binaryArrayToString(body) };
+    if (body instanceof Uint8Array) {
+      return { body: binaryArrayToString(body) };
+    } else {
+      return { body: JSON.stringify(body) };
+    }
   }
 
   switch (firstType) {

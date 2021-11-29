@@ -14,21 +14,13 @@ export function stringToBinaryArray(content: string): Uint8Array {
 }
 
 /**
- * Converts binary contenty to its string representation
+ * Converts binary content to its string representation
  */
-export function binaryArrayToString(content: unknown): string {
-  if (typeof content === "string") {
-    return content;
+export function binaryArrayToString(content: Uint8Array): string {
+  let decodedBody = "";
+  for (const element of content) {
+    decodedBody += String.fromCharCode(element);
   }
 
-  if (content instanceof Uint8Array) {
-    let decodedBody = "";
-    for (const element of content) {
-      decodedBody += String.fromCharCode(element);
-    }
-
-    return decodedBody;
-  }
-
-  return JSON.stringify(content);
+  return decodedBody;
 }
