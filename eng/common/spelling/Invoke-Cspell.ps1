@@ -61,7 +61,7 @@ param(
   [string] $SpellCheckRoot = (Resolve-Path "$PSScriptRoot/../../.."),
 
   [Parameter()]
-  [string] $WorkingDirectory = (Join-Path ([System.IO.Path]::GetTempPath()) ([System.IO.Path]::GetRandomFileName())),
+  [string] $WorkingDirectory = (Join-Path [System.IO.Path]::GetTempPath(), "cspell-tool-path"),
 
   [Parameter()]
   [switch] $LeaveWorkingDirectory,
