@@ -89,7 +89,7 @@ export interface ProxySettings {
 }
 
 /**
- * Alias ProxySettings as ProxyOptions for future use.
+ * An alias of {@link ProxySettings} for future use.
  */
 export type ProxyOptions = ProxySettings;
 
