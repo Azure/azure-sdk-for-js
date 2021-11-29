@@ -6,8 +6,8 @@
       "RequestHeaders": {
         "Accept-Encoding": "gzip,deflate",
         "Connection": "keep-alive",
-        "User-Agent": "core-rest-pipeline/1.3.2 Node/v14.17.6 OS/(x64-Linux-5.4.0-1059-azure)",
-        "x-ms-client-request-id": "c211e99e-fd70-437b-9ecb-e0f19eb84ebd"
+        "User-Agent": "core-rest-pipeline/1.3.3 Node/v16.13.0 OS/(x64-Linux-5.10.60.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "540bf052-9b4c-4b3a-9b31-d09ffc95ae5d"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -15,7 +15,7 @@
         "Connection": "keep-alive",
         "Content-Length": "26",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 13 Oct 2021 20:11:56 GMT",
+        "Date": "Mon, 29 Nov 2021 22:22:45 GMT",
         "ETag": "W/\u00221a-l2n/o5TdaU5b3c0hr/H15EW8dl8\u0022",
         "Keep-Alive": "timeout=5",
         "X-Powered-By": "Express"

@@ -10,7 +10,7 @@ import {
   PipelinePolicy,
   PipelineRequest,
   PipelineResponse,
-  SendRequest
+  SendRequest,
 } from "@azure/core-rest-pipeline";
 import { isPlaybackMode, isRecordMode } from "@azure-tools/test-recorder";
 import {
@@ -18,7 +18,7 @@ import {
   getTestMode,
   RecorderError,
   RecorderStartOptions,
-  RecordingStateManager
+  RecordingStateManager,
 } from "./utils/utils";
 import { Test } from "mocha";
 import { sessionFilePath } from "./utils/sessionFilePath";
@@ -26,6 +26,7 @@ import { SanitizerOptions } from "./utils/utils";
 import { paths } from "./utils/paths";
 import { Sanitizer } from "./sanitizer";
 import { handleEnvSetup } from "./utils/envSetupForPlayback";
+import { Matcher, setMatcher } from "./matcher";
 
 /**
  * This client manages the recorder life cycle and interacts with the proxy-tool to do the recording,
@@ -162,7 +163,7 @@ export class TestProxyHttpClient {
         if (ensureExistence(this.httpClient, "TestProxyHttpClient.httpClient", this.mode)) {
           const rsp = await this.httpClient.sendRequest({
             ...req,
-            allowInsecureConnection: true
+            allowInsecureConnection: true,
           });
           if (rsp.status !== 200) {
             throw new RecorderError("Start request failed.");
@@ -212,7 +213,7 @@ export class TestProxyHttpClient {
         if (ensureExistence(this.httpClient, "TestProxyHttpClient.httpClient", this.mode)) {
           const rsp = await this.httpClient.sendRequest({
             ...req,
-            allowInsecureConnection: true
+            allowInsecureConnection: true,
           });
           if (rsp.status !== 200) {
             throw new RecorderError("Stop request failed.");
@@ -221,6 +222,15 @@ export class TestProxyHttpClient {
       } else {
         throw new RecorderError("Bad state, recordingId is not defined when called stop.");
       }
+    }
+  }
+
+  /**
+   * Sets the matcher for the current recording to the matcher specified.
+   */
+  async setMatcher(matcher: Matcher): Promise<void> {
+    if (this.httpClient && this.mode === "playback") {
+      await setMatcher(this.url, this.httpClient, matcher, this.recordingId);
     }
   }
 
@@ -255,6 +265,6 @@ export function recorderHttpPolicy(testProxyHttpClient: TestProxyHttpClient): Pi
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
       await testProxyHttpClient.modifyRequest(request);
       return next(request);
-    }
+    },
   };
 }

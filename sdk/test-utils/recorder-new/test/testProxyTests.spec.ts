@@ -5,7 +5,7 @@ import { env, isLiveMode, isPlaybackMode } from "@azure-tools/test-recorder";
 import {
   createPipelineRequest,
   HttpMethods,
-  PipelineRequestOptions
+  PipelineRequestOptions,
 } from "@azure/core-rest-pipeline";
 import { ServiceClient } from "@azure/core-client";
 import { recorderHttpPolicy, TestProxyHttpClient } from "../src";
@@ -53,7 +53,7 @@ function getTestServerUrl() {
       setTestMode(mode);
     });
 
-    beforeEach(async function() {
+    beforeEach(async function () {
       recorder = new TestProxyHttpClient(this.currentTest);
       client = new ServiceClient({ baseUri: getTestServerUrl() });
       client.pipeline.addPolicy(recorderHttpPolicy(recorder));
@@ -77,7 +77,7 @@ function getTestServerUrl() {
         url: request.url ?? getTestServerUrl() + request.path,
         body: request.body,
         method: request.method,
-        ...basePipelineReqOptions
+        ...basePipelineReqOptions,
       });
       request.headers?.forEach(({ headerName, value }) => {
         req.headers.set(headerName, value);
@@ -122,13 +122,13 @@ function getTestServerUrl() {
         const fakeSecretInfo = "fake_secret_info";
         await recorder.start({
           envSetupForPlayback: {
-            SECRET_INFO: fakeSecretInfo
-          }
+            SECRET_INFO: fakeSecretInfo,
+          },
         }); // Adds generalRegexSanitizers by default based on envSetupForPlayback
         await makeRequestAndVerifyResponse(
           {
             path: `/sample_response/${env.SECRET_INFO}`,
-            method: "GET"
+            method: "GET",
           },
           { val: "I am the answer!" }
         );
@@ -139,9 +139,9 @@ function getTestServerUrl() {
           envSetupForPlayback: {},
           sanitizerOptions: {
             removeHeaderSanitizer: {
-              headersForRemoval: ["ETag", "Date"]
-            }
-          }
+              headersForRemoval: ["ETag", "Date"],
+            },
+          },
         });
         await makeRequestAndVerifyResponse(
           { path: `/sample_response`, method: "GET" },
@@ -159,25 +159,25 @@ function getTestServerUrl() {
               {
                 jsonPath: "$.secret_info", // Handles the request body
                 regex: secretValue,
-                value: fakeSecretValue
+                value: fakeSecretValue,
               },
               {
                 jsonPath: "$.bodyProvided.secret_info", // Handles the response body
                 regex: secretValue,
-                value: fakeSecretValue
-              }
-            ]
-          }
+                value: fakeSecretValue,
+              },
+            ],
+          },
         });
         const reqBody = {
-          secret_info: isPlaybackMode() ? fakeSecretValue : secretValue
+          secret_info: isPlaybackMode() ? fakeSecretValue : secretValue,
         };
         await makeRequestAndVerifyResponse(
           {
             path: `/api/sample_request_body`,
             body: JSON.stringify(reqBody),
             method: "POST",
-            headers: [{ headerName: "Content-Type", value: "application/json" }]
+            headers: [{ headerName: "Content-Type", value: "application/json" }],
           },
           { bodyProvided: reqBody }
         );
@@ -193,10 +193,10 @@ function getTestServerUrl() {
               {
                 regex: "(.*)&SECRET=(?<secret_content>[^&]*)&(.*)",
                 value: fakeSecretValue,
-                groupForReplace: "secret_content"
-              }
-            ]
-          }
+                groupForReplace: "secret_content",
+              },
+            ],
+          },
         });
         const reqBody = `non_secret=i'm_no_secret&SECRET=${
           isPlaybackMode() ? fakeSecretValue : secretValue
@@ -206,7 +206,7 @@ function getTestServerUrl() {
             path: `/api/sample_request_body`,
             body: reqBody,
             method: "POST",
-            headers: [{ headerName: "Content-Type", value: "text/plain" }]
+            headers: [{ headerName: "Content-Type", value: "text/plain" }],
           },
           { bodyProvided: reqBody }
         );
@@ -221,10 +221,10 @@ function getTestServerUrl() {
             uriRegexSanitizers: [
               {
                 regex: secretEndpoint,
-                value: fakeEndpoint
-              }
-            ]
-          }
+                value: fakeEndpoint,
+              },
+            ],
+          },
         });
         const pathToHit = `/api/sample_request_body`;
         await makeRequestAndVerifyResponse(
@@ -233,7 +233,7 @@ function getTestServerUrl() {
               ? getTestServerUrl().replace(secretEndpoint, fakeEndpoint) + pathToHit
               : undefined,
             path: pathToHit,
-            method: "POST"
+            method: "POST",
           },
           { bodyProvided: {} }
         );
@@ -246,14 +246,14 @@ function getTestServerUrl() {
           envSetupForPlayback: {},
           sanitizerOptions: {
             uriSubscriptionIdSanitizer: {
-              value: fakeId
-            }
-          }
+              value: fakeId,
+            },
+          },
         });
         await makeRequestAndVerifyResponse(
           {
             path: `/subscriptions/${isPlaybackMode() ? fakeId : id}`,
-            method: "GET"
+            method: "GET",
           },
           { val: "I am the answer!" }
         );
@@ -267,17 +267,17 @@ function getTestServerUrl() {
               {
                 key: "your_uuid",
                 method: "guid", // What is this method exactly?
-                resetAfterFirst: false
-              }
-            ]
-          }
+                resetAfterFirst: false,
+              },
+            ],
+          },
         });
         // What if the id is part of the response body and not response headers?
 
         const firstResponse = await makeRequestAndVerifyResponse(
           {
             path: `/api/sample_uuid_in_header`,
-            method: "GET"
+            method: "GET",
           },
           undefined
         );
@@ -294,9 +294,9 @@ function getTestServerUrl() {
             headers: [
               {
                 headerName: "your_uuid",
-                value: firstResponse.headers.get("your_uuid") || ""
-              }
-            ]
+                value: firstResponse.headers.get("your_uuid") || "",
+              },
+            ],
           },
           { val: "abc" }
         );
@@ -310,16 +310,16 @@ function getTestServerUrl() {
             headerRegexSanitizers: [
               {
                 key: "your_uuid",
-                value: sanitizedValue
-              }
-            ]
-          }
+                value: sanitizedValue,
+              },
+            ],
+          },
         });
 
         await makeRequestAndVerifyResponse(
           {
             path: `/api/sample_uuid_in_header`,
-            method: "GET"
+            method: "GET",
           },
           undefined
         );
@@ -352,10 +352,10 @@ function getTestServerUrl() {
               {
                 regex: "(.*)&SECRET=(?<secret_content>[^&]*)&(.*)",
                 value: fakeSecretValue,
-                groupForReplace: "secret_content"
-              }
-            ]
-          }
+                groupForReplace: "secret_content",
+              },
+            ],
+          },
         });
         const reqBody = `non_secret=i'm_no_secret&SECRET=${
           isPlaybackMode() ? fakeSecretValue : secretValue
@@ -365,13 +365,13 @@ function getTestServerUrl() {
             path: `/api/sample_request_body`,
             body: reqBody,
             method: "POST",
-            headers: [{ headerName: "Content-Type", value: "text/plain" }]
+            headers: [{ headerName: "Content-Type", value: "text/plain" }],
           },
           { bodyProvided: reqBody }
         );
 
         await recorder.addSanitizers({
-          resetSanitizer: true
+          resetSanitizer: true,
         });
 
         const reqBodyAfterReset = `non_secret=i'm_no_secret&SECRET=${secretValue}&random=random`;
@@ -381,7 +381,7 @@ function getTestServerUrl() {
             path: `/api/sample_request_body`,
             body: reqBodyAfterReset,
             method: "POST",
-            headers: [{ headerName: "Content-Type", value: "text/plain" }]
+            headers: [{ headerName: "Content-Type", value: "text/plain" }],
           },
           { bodyProvided: reqBodyAfterReset }
         );
@@ -389,6 +389,48 @@ function getTestServerUrl() {
     });
 
     // Matchers
+
+    describe("Matchers", () => {
+      it("BodilessMatcher", async () => {
+        await recorder.start({ envSetupForPlayback: {} });
+        await recorder.setMatcher("BodilessMatcher");
+
+        // The body shouldn't matter for the match; verify this by using a
+        // different body in playback vs record mode.
+        const body = isPlaybackMode() ? "playback" : "record";
+
+        await makeRequestAndVerifyResponse(
+          {
+            path: `/sample_response`,
+            body,
+            method: "GET",
+            headers: [{ headerName: "Content-Type", value: "text/plain" }],
+          },
+          { val: "abc" }
+        );
+      });
+
+      it("HeaderlessMatcher", async () => {
+        await recorder.start({ envSetupForPlayback: {} });
+        await recorder.setMatcher("HeaderlessMatcher");
+
+        const testHeader = {
+          headerName: `X-Test-Header-${isPlaybackMode() ? "Playback" : "Record"}`,
+          value: isPlaybackMode() ? "playback" : "record",
+        };
+
+        await makeRequestAndVerifyResponse(
+          {
+            path: `/sample_response`,
+            body: "body",
+            method: "GET",
+            headers: [{ headerName: "Content-Type", value: "text/plain" }, testHeader],
+          },
+          { val: "abc" }
+        );
+      });
+    });
+
     // Transforms
 
     describe("Other methods", () => {
