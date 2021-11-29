@@ -14,7 +14,8 @@ import { logger as coreLogger } from "../log";
 import { Sanitizer } from "../util/sanitizer";
 
 /**
- * A policy to log all outgoing HTTP requests and their associated responses. By default only a set list of headers are logged, though this can be configured. Request and response bodies are never logged.
+ * Options to pass to the {@link logPolicy}.
+ * By default only a set list of headers are logged, though this can be configured. Request and response bodies are never logged.
  */
 export interface LogPolicyOptions {
   /**

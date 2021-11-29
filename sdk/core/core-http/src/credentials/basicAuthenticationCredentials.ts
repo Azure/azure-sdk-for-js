@@ -25,7 +25,7 @@ export class BasicAuthenticationCredentials implements ServiceClientCredentials 
 
   /**
    * Authorization scheme. Defaults to "Basic".
-   * More information about authorization schemes is available here: https://docs.microsoft.com/dotnet/framework/wcf/feature-details/understanding-http-authentication#http-authentication-schemes
+   * More information about authorization schemes is available here: https://developer.mozilla.org/docs/Web/HTTP/Authentication#authentication_schemes
    */
   authorizationScheme: string = DEFAULT_AUTHORIZATION_SCHEME;
 

@@ -617,9 +617,9 @@ function serializeDictionaryType(
 
 /**
  * Resolves the additionalProperties property from a referenced mapper.
- * @param serializer - the serializer containing the entire set of mappers.
- * @param mapper - the composite mapper to resolve.
- * @param objectName - name of the object being serialized.
+ * @param serializer - The serializer containing the entire set of mappers.
+ * @param mapper - The composite mapper to resolve.
+ * @param objectName - Name of the object being serialized.
  */
 function resolveAdditionalProperties(
   serializer: Serializer,
