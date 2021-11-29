@@ -16,7 +16,7 @@ export class AzureCommunicationTokenCredential implements CommunicationTokenCred
     constructor(refreshOptions: CommunicationTokenRefreshOptions);
     dispose(): void;
     getToken(options?: CommunicationGetTokenOptions): Promise<AccessToken>;
-    }
+}
 
 // @public
 export interface CommunicationGetTokenOptions {
@@ -38,6 +38,7 @@ export interface CommunicationTokenCredential {
 // @public
 export interface CommunicationTokenRefreshOptions {
     refreshProactively?: boolean;
+    refreshTimeBeforeTokenExpiryInSeconds?: number;
     token?: string;
     tokenRefresher: (abortSignal?: AbortSignalLike) => Promise<string>;
 }
@@ -161,7 +162,6 @@ export type UrlWithCredential = {
     url: string;
     credential: TokenCredential | KeyCredential;
 };
-
 
 // (No @packageDocumentation comment for this package)
 
