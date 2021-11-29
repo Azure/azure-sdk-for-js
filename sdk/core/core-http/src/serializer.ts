@@ -637,7 +637,7 @@ function resolveAdditionalProperties(
 }
 
 /**
- * Finds the mapper referenced by className
+ * Finds the mapper referenced by `className`.
  * @param serializer - The serializer containing the entire set of mappers
  * @param mapper - The composite mapper to resolve
  * @param objectName - Name of the object being serialized
@@ -1128,27 +1128,27 @@ function getPolymorphicDiscriminatorSafely(serializer: Serializer, typeName?: st
  */
 export interface MapperConstraints {
   /**
-   * The value should be lesser or equal than the InclusiveMaximum value.
+   * The value should be lesser or equal than the `InclusiveMaximum` value.
    */
   InclusiveMaximum?: number;
   /**
-   * The value should be lesser than the ExclusiveMaximum value.
+   * The value should be lesser than the `ExclusiveMaximum` value.
    */
   ExclusiveMaximum?: number;
   /**
-   * The value should be greater or equal than the InclusiveMinimum value.
+   * The value should be greater or equal than the `InclusiveMinimum` value.
    */
   InclusiveMinimum?: number;
   /**
-   * The value should be greater than the InclusiveMinimum value.
+   * The value should be greater than the `InclusiveMinimum` value.
    */
   ExclusiveMinimum?: number;
   /**
-   * The length should be smaller than the MaxLength.
+   * The length should be smaller than the `MaxLength`.
    */
   MaxLength?: number;
   /**
-   * The length should be bigger than the MinLength.
+   * The length should be bigger than the `MinLength`.
    */
   MinLength?: number;
   /**
@@ -1160,7 +1160,7 @@ export interface MapperConstraints {
    */
   MaxItems?: number;
   /**
-   * The value must contain more items than the MinItems value.
+   * The value must contain more items than the `MinItems` value.
    */
   MinItems?: number;
   /**
@@ -1168,7 +1168,7 @@ export interface MapperConstraints {
    */
   UniqueItems?: true;
   /**
-   * The value should be exactly divisible by the MultipleOf value.
+   * The value should be exactly divisible by the `MultipleOf` value.
    */
   MultipleOf?: number;
 }
@@ -1219,7 +1219,7 @@ export interface CompositeMapperType {
   name: "Composite";
 
   /**
-   * Use className to reference another type definition.
+   * Use `className` to reference another type definition.
    */
   className?: string;
 
