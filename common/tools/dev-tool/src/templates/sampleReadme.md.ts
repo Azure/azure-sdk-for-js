@@ -145,7 +145,7 @@ function exampleNodeInvocation(info: SampleReadmeConfiguration) {
 /**
  * Creates a README for a sample package from a SampleReadmeConfiguration.
  */
-export default (info: SampleReadmeConfiguration) => {
+export default (info: SampleReadmeConfiguration): string => {
   let stepCount = 1;
   const step = (content: string) => `${stepCount++}. ${content}`;
 

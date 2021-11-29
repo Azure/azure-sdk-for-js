@@ -24,7 +24,8 @@ const { name: hostPackageName } = main.require("./package.json");
 
 // We need to use whatever version of TypeScript the calling package uses to inspect syntax nodes, because
 // that is what the ts-node invocation will use, and we need to agree with it on syntax brands.
-const ts = hostPackageName === "@azure/dev-tool"
+const ts =
+  hostPackageName === "@azure/dev-tool"
     ? require(path.join(cwd, "node_modules", "typescript"))
     : main.require("typescript");
 

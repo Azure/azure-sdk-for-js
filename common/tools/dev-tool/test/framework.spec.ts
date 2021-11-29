@@ -27,10 +27,12 @@ describe("Command Framework", () => {
   before(() => {
     // Silence the logger
     updateBackend({
+      /* eslint-disable @typescript-eslint/no-empty-function */
       error: () => {},
       warn: () => {},
       info: () => {},
       log: () => {}
+      /* eslint-enable @typescript-eslint/no-empty-function */
     });
   });
 

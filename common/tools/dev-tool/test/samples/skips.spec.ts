@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
+import { Stats } from "fs";
 
 import { FileInfo } from "../../src/util/findMatchingFiles";
 import { shouldSkip } from "../../src/util/sampleConfiguration";
@@ -17,7 +18,7 @@ export async function toFileInfo(fullPath: string): Promise<FileInfo> {
     fullPath,
     dir: path.dirname(fullPath),
     name: path.basename(fullPath),
-    stat: {} as any
+    stat: {} as Stats
   };
 }
 
