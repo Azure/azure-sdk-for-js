@@ -9,16 +9,16 @@
 
 import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
-import * as Mappers from "../models/backupResourceStorageConfigsMappers";
+import * as Mappers from "../models/backupResourceStorageConfigsNonCRRMappers";
 import * as Parameters from "../models/parameters";
 import { RecoveryServicesBackupClientContext } from "../recoveryServicesBackupClientContext";
 
-/** Class representing a BackupResourceStorageConfigs. */
-export class BackupResourceStorageConfigs {
+/** Class representing a BackupResourceStorageConfigsNonCRR. */
+export class BackupResourceStorageConfigsNonCRR {
   private readonly client: RecoveryServicesBackupClientContext;
 
   /**
-   * Create a BackupResourceStorageConfigs.
+   * Create a BackupResourceStorageConfigsNonCRR.
    * @param {RecoveryServicesBackupClientContext} client Reference to the service client.
    */
   constructor(client: RecoveryServicesBackupClientContext) {
@@ -31,9 +31,9 @@ export class BackupResourceStorageConfigs {
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    * present.
    * @param [options] The optional parameters
-   * @returns Promise<Models.BackupResourceStorageConfigsGetResponse>
+   * @returns Promise<Models.BackupResourceStorageConfigsNonCRRGetResponse>
    */
-  get(vaultName: string, resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.BackupResourceStorageConfigsGetResponse>;
+  get(vaultName: string, resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.BackupResourceStorageConfigsNonCRRGetResponse>;
   /**
    * @param vaultName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
@@ -49,7 +49,7 @@ export class BackupResourceStorageConfigs {
    * @param callback The callback
    */
   get(vaultName: string, resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BackupResourceConfigResource>): void;
-  get(vaultName: string, resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BackupResourceConfigResource>, callback?: msRest.ServiceCallback<Models.BackupResourceConfigResource>): Promise<Models.BackupResourceStorageConfigsGetResponse> {
+  get(vaultName: string, resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BackupResourceConfigResource>, callback?: msRest.ServiceCallback<Models.BackupResourceConfigResource>): Promise<Models.BackupResourceStorageConfigsNonCRRGetResponse> {
     return this.client.sendOperationRequest(
       {
         vaultName,
@@ -57,7 +57,7 @@ export class BackupResourceStorageConfigs {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.BackupResourceStorageConfigsGetResponse>;
+      callback) as Promise<Models.BackupResourceStorageConfigsNonCRRGetResponse>;
   }
 
   /**
@@ -67,9 +67,9 @@ export class BackupResourceStorageConfigs {
    * present.
    * @param parameters Vault storage config request
    * @param [options] The optional parameters
-   * @returns Promise<Models.BackupResourceStorageConfigsUpdateResponse>
+   * @returns Promise<Models.BackupResourceStorageConfigsNonCRRUpdateResponse>
    */
-  update(vaultName: string, resourceGroupName: string, parameters: Models.BackupResourceConfigResource, options?: msRest.RequestOptionsBase): Promise<Models.BackupResourceStorageConfigsUpdateResponse>;
+  update(vaultName: string, resourceGroupName: string, parameters: Models.BackupResourceConfigResource, options?: msRest.RequestOptionsBase): Promise<Models.BackupResourceStorageConfigsNonCRRUpdateResponse>;
   /**
    * @param vaultName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
@@ -87,7 +87,7 @@ export class BackupResourceStorageConfigs {
    * @param callback The callback
    */
   update(vaultName: string, resourceGroupName: string, parameters: Models.BackupResourceConfigResource, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BackupResourceConfigResource>): void;
-  update(vaultName: string, resourceGroupName: string, parameters: Models.BackupResourceConfigResource, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BackupResourceConfigResource>, callback?: msRest.ServiceCallback<Models.BackupResourceConfigResource>): Promise<Models.BackupResourceStorageConfigsUpdateResponse> {
+  update(vaultName: string, resourceGroupName: string, parameters: Models.BackupResourceConfigResource, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BackupResourceConfigResource>, callback?: msRest.ServiceCallback<Models.BackupResourceConfigResource>): Promise<Models.BackupResourceStorageConfigsNonCRRUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         vaultName,
@@ -96,7 +96,7 @@ export class BackupResourceStorageConfigs {
         options
       },
       updateOperationSpec,
-      callback) as Promise<Models.BackupResourceStorageConfigsUpdateResponse>;
+      callback) as Promise<Models.BackupResourceStorageConfigsNonCRRUpdateResponse>;
   }
 
   /**
@@ -143,14 +143,14 @@ export class BackupResourceStorageConfigs {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupstorageconfig/vaultstorageconfig",
+  path: "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupstorageconfig/vaultstorageconfig",
   urlParameters: [
     Parameters.vaultName,
     Parameters.resourceGroupName,
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion1
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -168,14 +168,14 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupstorageconfig/vaultstorageconfig",
+  path: "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupstorageconfig/vaultstorageconfig",
   urlParameters: [
     Parameters.vaultName,
     Parameters.resourceGroupName,
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion1
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -200,14 +200,14 @@ const updateOperationSpec: msRest.OperationSpec = {
 
 const patchOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupstorageconfig/vaultstorageconfig",
+  path: "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupstorageconfig/vaultstorageconfig",
   urlParameters: [
     Parameters.vaultName,
     Parameters.resourceGroupName,
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion1
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage

@@ -215,6 +215,8 @@ export {
   SubProtectionPolicy,
   TargetAFSRestoreInfo,
   TargetRestoreInfo,
+  UnlockDeleteRequest,
+  UnlockDeleteResponse,
   VaultJob,
   VaultJobErrorInfo,
   VaultJobExtendedInfo,

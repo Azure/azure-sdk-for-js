@@ -36,14 +36,7 @@ export class ProtectionContainerOperationResults {
    * @param [options] The optional parameters
    * @returns Promise<Models.ProtectionContainerOperationResultsGetResponse>
    */
-  get(
-    vaultName: string,
-    resourceGroupName: string,
-    fabricName: string,
-    containerName: string,
-    operationId: string,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.ProtectionContainerOperationResultsGetResponse>;
+  get(vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, operationId: string, options?: msRest.RequestOptionsBase): Promise<Models.ProtectionContainerOperationResultsGetResponse>;
   /**
    * @param vaultName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
@@ -53,14 +46,7 @@ export class ProtectionContainerOperationResults {
    * @param operationId Operation ID which represents the operation whose result needs to be fetched.
    * @param callback The callback
    */
-  get(
-    vaultName: string,
-    resourceGroupName: string,
-    fabricName: string,
-    containerName: string,
-    operationId: string,
-    callback: msRest.ServiceCallback<Models.ProtectionContainerResource>
-  ): void;
+  get(vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, operationId: string, callback: msRest.ServiceCallback<Models.ProtectionContainerResource>): void;
   /**
    * @param vaultName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
@@ -71,26 +57,8 @@ export class ProtectionContainerOperationResults {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(
-    vaultName: string,
-    resourceGroupName: string,
-    fabricName: string,
-    containerName: string,
-    operationId: string,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.ProtectionContainerResource>
-  ): void;
-  get(
-    vaultName: string,
-    resourceGroupName: string,
-    fabricName: string,
-    containerName: string,
-    operationId: string,
-    options?:
-      | msRest.RequestOptionsBase
-      | msRest.ServiceCallback<Models.ProtectionContainerResource>,
-    callback?: msRest.ServiceCallback<Models.ProtectionContainerResource>
-  ): Promise<Models.ProtectionContainerOperationResultsGetResponse> {
+  get(vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, operationId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ProtectionContainerResource>): void;
+  get(vaultName: string, resourceGroupName: string, fabricName: string, containerName: string, operationId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ProtectionContainerResource>, callback?: msRest.ServiceCallback<Models.ProtectionContainerResource>): Promise<Models.ProtectionContainerOperationResultsGetResponse> {
     return this.client.sendOperationRequest(
       {
         vaultName,
@@ -101,8 +69,7 @@ export class ProtectionContainerOperationResults {
         options
       },
       getOperationSpec,
-      callback
-    ) as Promise<Models.ProtectionContainerOperationResultsGetResponse>;
+      callback) as Promise<Models.ProtectionContainerOperationResultsGetResponse>;
   }
 }
 
@@ -110,8 +77,7 @@ export class ProtectionContainerOperationResults {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectionContainers/{containerName}/operationResults/{operationId}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupFabrics/{fabricName}/protectionContainers/{containerName}/operationResults/{operationId}",
   urlParameters: [
     Parameters.vaultName,
     Parameters.resourceGroupName,
@@ -120,8 +86,12 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.containerName,
     Parameters.operationId
   ],
-  queryParameters: [Parameters.apiVersion0],
-  headerParameters: [Parameters.acceptLanguage],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.ProtectionContainerResource

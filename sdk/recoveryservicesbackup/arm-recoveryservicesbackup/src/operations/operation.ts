@@ -34,12 +34,7 @@ export class Operation {
    * @param [options] The optional parameters
    * @returns Promise<Models.OperationValidateResponse>
    */
-  validate(
-    vaultName: string,
-    resourceGroupName: string,
-    parameters: Models.ValidateOperationRequestUnion,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.OperationValidateResponse>;
+  validate(vaultName: string, resourceGroupName: string, parameters: Models.ValidateOperationRequestUnion, options?: msRest.RequestOptionsBase): Promise<Models.OperationValidateResponse>;
   /**
    * @param vaultName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
@@ -47,12 +42,7 @@ export class Operation {
    * @param parameters resource validate operation request
    * @param callback The callback
    */
-  validate(
-    vaultName: string,
-    resourceGroupName: string,
-    parameters: Models.ValidateOperationRequestUnion,
-    callback: msRest.ServiceCallback<Models.ValidateOperationsResponse>
-  ): void;
+  validate(vaultName: string, resourceGroupName: string, parameters: Models.ValidateOperationRequestUnion, callback: msRest.ServiceCallback<Models.ValidateOperationsResponse>): void;
   /**
    * @param vaultName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
@@ -61,20 +51,8 @@ export class Operation {
    * @param options The optional parameters
    * @param callback The callback
    */
-  validate(
-    vaultName: string,
-    resourceGroupName: string,
-    parameters: Models.ValidateOperationRequestUnion,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.ValidateOperationsResponse>
-  ): void;
-  validate(
-    vaultName: string,
-    resourceGroupName: string,
-    parameters: Models.ValidateOperationRequestUnion,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ValidateOperationsResponse>,
-    callback?: msRest.ServiceCallback<Models.ValidateOperationsResponse>
-  ): Promise<Models.OperationValidateResponse> {
+  validate(vaultName: string, resourceGroupName: string, parameters: Models.ValidateOperationRequestUnion, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ValidateOperationsResponse>): void;
+  validate(vaultName: string, resourceGroupName: string, parameters: Models.ValidateOperationRequestUnion, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ValidateOperationsResponse>, callback?: msRest.ServiceCallback<Models.ValidateOperationsResponse>): Promise<Models.OperationValidateResponse> {
     return this.client.sendOperationRequest(
       {
         vaultName,
@@ -83,8 +61,7 @@ export class Operation {
         options
       },
       validateOperationSpec,
-      callback
-    ) as Promise<Models.OperationValidateResponse>;
+      callback) as Promise<Models.OperationValidateResponse>;
   }
 }
 
@@ -92,11 +69,18 @@ export class Operation {
 const serializer = new msRest.Serializer(Mappers);
 const validateOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupValidateOperation",
-  urlParameters: [Parameters.vaultName, Parameters.resourceGroupName, Parameters.subscriptionId],
-  queryParameters: [Parameters.apiVersion0],
-  headerParameters: [Parameters.acceptLanguage],
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupValidateOperation",
+  urlParameters: [
+    Parameters.vaultName,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
   requestBody: {
     parameterPath: "parameters",
     mapper: {

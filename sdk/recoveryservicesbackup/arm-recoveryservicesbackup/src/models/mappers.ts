@@ -52,6 +52,29 @@ export const BackupResourceEncryptionConfig: msRest.CompositeMapper = {
   }
 };
 
+export const BackupResourceEncryptionConfigExtended: msRest.CompositeMapper = {
+  serializedName: "BackupResourceEncryptionConfigExtended",
+  type: {
+    name: "Composite",
+    className: "BackupResourceEncryptionConfigExtended",
+    modelProperties: {
+      ...BackupResourceEncryptionConfig.type.modelProperties,
+      userAssignedIdentity: {
+        serializedName: "userAssignedIdentity",
+        type: {
+          name: "String"
+        }
+      },
+      useSystemAssignedIdentity: {
+        serializedName: "useSystemAssignedIdentity",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
 export const Resource: msRest.CompositeMapper = {
   serializedName: "Resource",
   type: {
@@ -100,6 +123,24 @@ export const Resource: msRest.CompositeMapper = {
         serializedName: "eTag",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const BackupResourceEncryptionConfigExtendedResource: msRest.CompositeMapper = {
+  serializedName: "BackupResourceEncryptionConfigExtendedResource",
+  type: {
+    name: "Composite",
+    className: "BackupResourceEncryptionConfigExtendedResource",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "BackupResourceEncryptionConfigExtended"
         }
       }
     }
@@ -516,6 +557,17 @@ export const ProtectedItem: msRest.CompositeMapper = {
           name: "Boolean"
         }
       },
+      resourceGuardOperationRequests: {
+        serializedName: "resourceGuardOperationRequests",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
       protectedItemType: {
         required: true,
         serializedName: "protectedItemType",
@@ -903,6 +955,17 @@ export const ProtectionPolicy: msRest.CompositeMapper = {
         serializedName: "protectedItemsCount",
         type: {
           name: "Number"
+        }
+      },
+      resourceGuardOperationRequests: {
+        serializedName: "resourceGuardOperationRequests",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       },
       backupManagementType: {
@@ -1384,7 +1447,11 @@ export const AzureIaaSVMJob: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Enum",
-              allowedValues: ["Invalid", "Cancellable", "Retriable"]
+              allowedValues: [
+                "Invalid",
+                "Cancellable",
+                "Retriable"
+              ]
             }
           }
         }
@@ -1754,7 +1821,11 @@ export const AzureStorageJob: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Enum",
-              allowedValues: ["Invalid", "Cancellable", "Retriable"]
+              allowedValues: [
+                "Invalid",
+                "Cancellable",
+                "Retriable"
+              ]
             }
           }
         }
@@ -2130,7 +2201,11 @@ export const AzureWorkloadJob: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Enum",
-              allowedValues: ["Invalid", "Cancellable", "Retriable"]
+              allowedValues: [
+                "Invalid",
+                "Cancellable",
+                "Retriable"
+              ]
             }
           }
         }
@@ -2340,14 +2415,25 @@ export const RecoveryPointTierInformation: msRest.CompositeMapper = {
         serializedName: "type",
         type: {
           name: "Enum",
-          allowedValues: ["Invalid", "InstantRP", "HardenedRP", "ArchivedRP"]
+          allowedValues: [
+            "Invalid",
+            "InstantRP",
+            "HardenedRP",
+            "ArchivedRP"
+          ]
         }
       },
       status: {
         serializedName: "status",
         type: {
           name: "Enum",
-          allowedValues: ["Invalid", "Valid", "Disabled", "Deleted", "Rehydrated"]
+          allowedValues: [
+            "Invalid",
+            "Valid",
+            "Disabled",
+            "Deleted",
+            "Rehydrated"
+          ]
         }
       },
       extendedInfo: {
@@ -2740,6 +2826,143 @@ export const BMSRPQueryObject: msRest.CompositeMapper = {
   }
 };
 
+export const ClientDiscoveryDisplay: msRest.CompositeMapper = {
+  serializedName: "ClientDiscoveryDisplay",
+  type: {
+    name: "Composite",
+    className: "ClientDiscoveryDisplay",
+    modelProperties: {
+      provider: {
+        serializedName: "provider",
+        type: {
+          name: "String"
+        }
+      },
+      resource: {
+        serializedName: "resource",
+        type: {
+          name: "String"
+        }
+      },
+      operation: {
+        serializedName: "operation",
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ClientDiscoveryForLogSpecification: msRest.CompositeMapper = {
+  serializedName: "ClientDiscoveryForLogSpecification",
+  type: {
+    name: "Composite",
+    className: "ClientDiscoveryForLogSpecification",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      displayName: {
+        serializedName: "displayName",
+        type: {
+          name: "String"
+        }
+      },
+      blobDuration: {
+        serializedName: "blobDuration",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ClientDiscoveryForServiceSpecification: msRest.CompositeMapper = {
+  serializedName: "ClientDiscoveryForServiceSpecification",
+  type: {
+    name: "Composite",
+    className: "ClientDiscoveryForServiceSpecification",
+    modelProperties: {
+      logSpecifications: {
+        serializedName: "logSpecifications",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ClientDiscoveryForLogSpecification"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ClientDiscoveryForProperties: msRest.CompositeMapper = {
+  serializedName: "ClientDiscoveryForProperties",
+  type: {
+    name: "Composite",
+    className: "ClientDiscoveryForProperties",
+    modelProperties: {
+      serviceSpecification: {
+        serializedName: "serviceSpecification",
+        type: {
+          name: "Composite",
+          className: "ClientDiscoveryForServiceSpecification"
+        }
+      }
+    }
+  }
+};
+
+export const ClientDiscoveryValueForSingleApi: msRest.CompositeMapper = {
+  serializedName: "ClientDiscoveryValueForSingleApi",
+  type: {
+    name: "Composite",
+    className: "ClientDiscoveryValueForSingleApi",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      display: {
+        serializedName: "display",
+        type: {
+          name: "Composite",
+          className: "ClientDiscoveryDisplay"
+        }
+      },
+      origin: {
+        serializedName: "origin",
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "ClientDiscoveryForProperties"
+        }
+      }
+    }
+  }
+};
+
 export const DiskInformation: msRest.CompositeMapper = {
   serializedName: "DiskInformation",
   type: {
@@ -3008,7 +3231,11 @@ export const DpmJob: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Enum",
-              allowedValues: ["Invalid", "Cancellable", "Retriable"]
+              allowedValues: [
+                "Invalid",
+                "Cancellable",
+                "Retriable"
+              ]
             }
           }
         }
@@ -3030,6 +3257,58 @@ export const DpmJob: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "DpmJobExtendedInfo"
+        }
+      }
+    }
+  }
+};
+
+export const BackupResourceConfig: msRest.CompositeMapper = {
+  serializedName: "BackupResourceConfig",
+  type: {
+    name: "Composite",
+    className: "BackupResourceConfig",
+    modelProperties: {
+      storageModelType: {
+        serializedName: "storageModelType",
+        type: {
+          name: "String"
+        }
+      },
+      storageType: {
+        serializedName: "storageType",
+        type: {
+          name: "String"
+        }
+      },
+      storageTypeState: {
+        serializedName: "storageTypeState",
+        type: {
+          name: "String"
+        }
+      },
+      crossRegionRestoreFlag: {
+        serializedName: "crossRegionRestoreFlag",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const BackupResourceConfigResource: msRest.CompositeMapper = {
+  serializedName: "BackupResourceConfigResource",
+  type: {
+    name: "Composite",
+    className: "BackupResourceConfigResource",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "BackupResourceConfig"
         }
       }
     }
@@ -3301,6 +3580,50 @@ export const GenericProtectionPolicy: msRest.CompositeMapper = {
       },
       fabricName: {
         serializedName: "fabricName",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const IdentityBasedRestoreDetails: msRest.CompositeMapper = {
+  serializedName: "IdentityBasedRestoreDetails",
+  type: {
+    name: "Composite",
+    className: "IdentityBasedRestoreDetails",
+    modelProperties: {
+      objectType: {
+        serializedName: "objectType",
+        type: {
+          name: "String"
+        }
+      },
+      targetStorageAccountId: {
+        serializedName: "targetStorageAccountId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const IdentityInfo: msRest.CompositeMapper = {
+  serializedName: "IdentityInfo",
+  type: {
+    name: "Composite",
+    className: "IdentityInfo",
+    modelProperties: {
+      isSystemAssignedIdentity: {
+        serializedName: "isSystemAssignedIdentity",
+        type: {
+          name: "Boolean"
+        }
+      },
+      managedIdentityResourceId: {
+        serializedName: "managedIdentityResourceId",
         type: {
           name: "String"
         }
@@ -3774,6 +4097,20 @@ export const IaasVMRestoreRequest: msRest.CompositeMapper = {
             }
           }
         }
+      },
+      identityInfo: {
+        serializedName: "identityInfo",
+        type: {
+          name: "Composite",
+          className: "IdentityInfo"
+        }
+      },
+      identityBasedRestoreDetails: {
+        serializedName: "identityBasedRestoreDetails",
+        type: {
+          name: "Composite",
+          className: "IdentityBasedRestoreDetails"
+        }
       }
     }
   }
@@ -3943,7 +4280,14 @@ export const WeeklyRetentionFormat: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Enum",
-              allowedValues: ["First", "Second", "Third", "Fourth", "Last", "Invalid"]
+              allowedValues: [
+                "First",
+                "Second",
+                "Third",
+                "Fourth",
+                "Last",
+                "Invalid"
+              ]
             }
           }
         }
@@ -4342,7 +4686,11 @@ export const MabJob: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Enum",
-              allowedValues: ["Invalid", "Cancellable", "Retriable"]
+              allowedValues: [
+                "Invalid",
+                "Cancellable",
+                "Retriable"
+              ]
             }
           }
         }
@@ -4513,8 +4861,7 @@ export const PrepareDataMoveResponse: msRest.CompositeMapper = {
   serializedName: "PrepareDataMoveResponse",
   type: {
     name: "Composite",
-    polymorphicDiscriminator:
-      VaultStorageConfigOperationResultResponse.type.polymorphicDiscriminator,
+    polymorphicDiscriminator: VaultStorageConfigOperationResultResponse.type.polymorphicDiscriminator,
     uberParent: "VaultStorageConfigOperationResultResponse",
     className: "PrepareDataMoveResponse",
     modelProperties: {
@@ -5079,6 +5426,17 @@ export const BackupResourceVaultConfig: msRest.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      resourceGuardOperationRequests: {
+        serializedName: "resourceGuardOperationRequests",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
       }
     }
   }
@@ -5178,7 +5536,11 @@ export const VaultJob: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Enum",
-              allowedValues: ["Invalid", "Cancellable", "Retriable"]
+              allowedValues: [
+                "Invalid",
+                "Cancellable",
+                "Retriable"
+              ]
             }
           }
         }
@@ -6277,6 +6639,507 @@ export const AzureWorkloadBackupRequest: msRest.CompositeMapper = {
   }
 };
 
+export const FeatureSupportRequest: msRest.CompositeMapper = {
+  serializedName: "FeatureSupportRequest",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: {
+      serializedName: "featureType",
+      clientName: "featureType"
+    },
+    uberParent: "FeatureSupportRequest",
+    className: "FeatureSupportRequest",
+    modelProperties: {
+      featureType: {
+        required: true,
+        serializedName: "featureType",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AzureBackupGoalFeatureSupportRequest: msRest.CompositeMapper = {
+  serializedName: "AzureBackupGoals",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: FeatureSupportRequest.type.polymorphicDiscriminator,
+    uberParent: "FeatureSupportRequest",
+    className: "AzureBackupGoalFeatureSupportRequest",
+    modelProperties: {
+      ...FeatureSupportRequest.type.modelProperties
+    }
+  }
+};
+
+export const ProtectionIntent: msRest.CompositeMapper = {
+  serializedName: "ProtectionIntent",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: {
+      serializedName: "protectionIntentItemType",
+      clientName: "protectionIntentItemType"
+    },
+    uberParent: "ProtectionIntent",
+    className: "ProtectionIntent",
+    modelProperties: {
+      backupManagementType: {
+        serializedName: "backupManagementType",
+        type: {
+          name: "String"
+        }
+      },
+      sourceResourceId: {
+        serializedName: "sourceResourceId",
+        type: {
+          name: "String"
+        }
+      },
+      itemId: {
+        serializedName: "itemId",
+        type: {
+          name: "String"
+        }
+      },
+      policyId: {
+        serializedName: "policyId",
+        type: {
+          name: "String"
+        }
+      },
+      protectionState: {
+        serializedName: "protectionState",
+        type: {
+          name: "String"
+        }
+      },
+      protectionIntentItemType: {
+        required: true,
+        serializedName: "protectionIntentItemType",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AzureRecoveryServiceVaultProtectionIntent: msRest.CompositeMapper = {
+  serializedName: "RecoveryServiceVaultItem",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: ProtectionIntent.type.polymorphicDiscriminator,
+    uberParent: "ProtectionIntent",
+    className: "AzureRecoveryServiceVaultProtectionIntent",
+    modelProperties: {
+      ...ProtectionIntent.type.modelProperties
+    }
+  }
+};
+
+export const AzureResourceProtectionIntent: msRest.CompositeMapper = {
+  serializedName: "AzureResourceItem",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: ProtectionIntent.type.polymorphicDiscriminator,
+    uberParent: "ProtectionIntent",
+    className: "AzureResourceProtectionIntent",
+    modelProperties: {
+      ...ProtectionIntent.type.modelProperties,
+      friendlyName: {
+        serializedName: "friendlyName",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AzureVMResourceFeatureSupportRequest: msRest.CompositeMapper = {
+  serializedName: "AzureVMResourceBackup",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: FeatureSupportRequest.type.polymorphicDiscriminator,
+    uberParent: "FeatureSupportRequest",
+    className: "AzureVMResourceFeatureSupportRequest",
+    modelProperties: {
+      ...FeatureSupportRequest.type.modelProperties,
+      vmSize: {
+        serializedName: "vmSize",
+        type: {
+          name: "String"
+        }
+      },
+      vmSku: {
+        serializedName: "vmSku",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AzureVMResourceFeatureSupportResponse: msRest.CompositeMapper = {
+  serializedName: "AzureVMResourceFeatureSupportResponse",
+  type: {
+    name: "Composite",
+    className: "AzureVMResourceFeatureSupportResponse",
+    modelProperties: {
+      supportStatus: {
+        serializedName: "supportStatus",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AzureWorkloadAutoProtectionIntent: msRest.CompositeMapper = {
+  serializedName: "AzureWorkloadAutoProtectionIntent",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: ProtectionIntent.type.polymorphicDiscriminator,
+    uberParent: "ProtectionIntent",
+    className: "AzureWorkloadAutoProtectionIntent",
+    modelProperties: {
+      ...AzureRecoveryServiceVaultProtectionIntent.type.modelProperties
+    }
+  }
+};
+
+export const AzureWorkloadSQLAutoProtectionIntent: msRest.CompositeMapper = {
+  serializedName: "AzureWorkloadSQLAutoProtectionIntent",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: ProtectionIntent.type.polymorphicDiscriminator,
+    uberParent: "ProtectionIntent",
+    className: "AzureWorkloadSQLAutoProtectionIntent",
+    modelProperties: {
+      ...AzureWorkloadAutoProtectionIntent.type.modelProperties,
+      workloadItemType: {
+        serializedName: "workloadItemType",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const NameInfo: msRest.CompositeMapper = {
+  serializedName: "NameInfo",
+  type: {
+    name: "Composite",
+    className: "NameInfo",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "String"
+        }
+      },
+      localizedValue: {
+        serializedName: "localizedValue",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const BackupManagementUsage: msRest.CompositeMapper = {
+  serializedName: "BackupManagementUsage",
+  type: {
+    name: "Composite",
+    className: "BackupManagementUsage",
+    modelProperties: {
+      unit: {
+        serializedName: "unit",
+        type: {
+          name: "String"
+        }
+      },
+      quotaPeriod: {
+        serializedName: "quotaPeriod",
+        type: {
+          name: "String"
+        }
+      },
+      nextResetTime: {
+        serializedName: "nextResetTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      currentValue: {
+        serializedName: "currentValue",
+        type: {
+          name: "Number"
+        }
+      },
+      limit: {
+        serializedName: "limit",
+        type: {
+          name: "Number"
+        }
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "Composite",
+          className: "NameInfo"
+        }
+      }
+    }
+  }
+};
+
+export const BackupStatusRequest: msRest.CompositeMapper = {
+  serializedName: "BackupStatusRequest",
+  type: {
+    name: "Composite",
+    className: "BackupStatusRequest",
+    modelProperties: {
+      resourceType: {
+        serializedName: "resourceType",
+        type: {
+          name: "String"
+        }
+      },
+      resourceId: {
+        serializedName: "resourceId",
+        type: {
+          name: "String"
+        }
+      },
+      poLogicalName: {
+        serializedName: "poLogicalName",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const BackupStatusResponse: msRest.CompositeMapper = {
+  serializedName: "BackupStatusResponse",
+  type: {
+    name: "Composite",
+    className: "BackupStatusResponse",
+    modelProperties: {
+      protectionStatus: {
+        serializedName: "protectionStatus",
+        type: {
+          name: "String"
+        }
+      },
+      vaultId: {
+        serializedName: "vaultId",
+        type: {
+          name: "String"
+        }
+      },
+      fabricName: {
+        serializedName: "fabricName",
+        type: {
+          name: "String"
+        }
+      },
+      containerName: {
+        serializedName: "containerName",
+        type: {
+          name: "String"
+        }
+      },
+      protectedItemName: {
+        serializedName: "protectedItemName",
+        type: {
+          name: "String"
+        }
+      },
+      errorCode: {
+        serializedName: "errorCode",
+        type: {
+          name: "String"
+        }
+      },
+      errorMessage: {
+        serializedName: "errorMessage",
+        type: {
+          name: "String"
+        }
+      },
+      policyName: {
+        serializedName: "policyName",
+        type: {
+          name: "String"
+        }
+      },
+      registrationStatus: {
+        serializedName: "registrationStatus",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const BMSBackupSummariesQueryObject: msRest.CompositeMapper = {
+  serializedName: "BMSBackupSummariesQueryObject",
+  type: {
+    name: "Composite",
+    className: "BMSBackupSummariesQueryObject",
+    modelProperties: {
+      type: {
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const PreValidateEnableBackupRequest: msRest.CompositeMapper = {
+  serializedName: "PreValidateEnableBackupRequest",
+  type: {
+    name: "Composite",
+    className: "PreValidateEnableBackupRequest",
+    modelProperties: {
+      resourceType: {
+        serializedName: "resourceType",
+        type: {
+          name: "String"
+        }
+      },
+      resourceId: {
+        serializedName: "resourceId",
+        type: {
+          name: "String"
+        }
+      },
+      vaultId: {
+        serializedName: "vaultId",
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const PreValidateEnableBackupResponse: msRest.CompositeMapper = {
+  serializedName: "PreValidateEnableBackupResponse",
+  type: {
+    name: "Composite",
+    className: "PreValidateEnableBackupResponse",
+    modelProperties: {
+      status: {
+        serializedName: "status",
+        type: {
+          name: "String"
+        }
+      },
+      errorCode: {
+        serializedName: "errorCode",
+        type: {
+          name: "String"
+        }
+      },
+      errorMessage: {
+        serializedName: "errorMessage",
+        type: {
+          name: "String"
+        }
+      },
+      recommendation: {
+        serializedName: "recommendation",
+        type: {
+          name: "String"
+        }
+      },
+      containerName: {
+        serializedName: "containerName",
+        type: {
+          name: "String"
+        }
+      },
+      protectedItemName: {
+        serializedName: "protectedItemName",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ProtectionIntentQueryObject: msRest.CompositeMapper = {
+  serializedName: "ProtectionIntentQueryObject",
+  type: {
+    name: "Composite",
+    className: "ProtectionIntentQueryObject",
+    modelProperties: {
+      backupManagementType: {
+        serializedName: "backupManagementType",
+        type: {
+          name: "String"
+        }
+      },
+      itemType: {
+        serializedName: "itemType",
+        type: {
+          name: "String"
+        }
+      },
+      parentName: {
+        serializedName: "parentName",
+        type: {
+          name: "String"
+        }
+      },
+      itemName: {
+        serializedName: "itemName",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ProtectionIntentResource: msRest.CompositeMapper = {
+  serializedName: "ProtectionIntentResource",
+  type: {
+    name: "Composite",
+    className: "ProtectionIntentResource",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "ProtectionIntent"
+        }
+      }
+    }
+  }
+};
+
 export const InquiryValidation: msRest.CompositeMapper = {
   serializedName: "InquiryValidation",
   type: {
@@ -7345,6 +8208,27 @@ export const ProtectionContainerResource: msRest.CompositeMapper = {
   }
 };
 
+export const SecurityPinBase: msRest.CompositeMapper = {
+  serializedName: "SecurityPinBase",
+  type: {
+    name: "Composite",
+    className: "SecurityPinBase",
+    modelProperties: {
+      resourceGuardOperationRequests: {
+        serializedName: "resourceGuardOperationRequests",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const TokenInformation: msRest.CompositeMapper = {
   serializedName: "TokenInformation",
   type: {
@@ -7547,14 +8431,24 @@ export const MoveRPAcrossTiersRequest: msRest.CompositeMapper = {
         serializedName: "sourceTierType",
         type: {
           name: "Enum",
-          allowedValues: ["Invalid", "InstantRP", "HardenedRP", "ArchivedRP"]
+          allowedValues: [
+            "Invalid",
+            "InstantRP",
+            "HardenedRP",
+            "ArchivedRP"
+          ]
         }
       },
       targetTierType: {
         serializedName: "targetTierType",
         type: {
           name: "Enum",
-          allowedValues: ["Invalid", "InstantRP", "HardenedRP", "ArchivedRP"]
+          allowedValues: [
+            "Invalid",
+            "InstantRP",
+            "HardenedRP",
+            "ArchivedRP"
+          ]
         }
       }
     }
@@ -7588,20 +8482,25 @@ export const ListRecoveryPointsRecommendedForMoveRequest: msRest.CompositeMapper
   }
 };
 
-export const NameInfo: msRest.CompositeMapper = {
-  serializedName: "NameInfo",
+export const UnlockDeleteRequest: msRest.CompositeMapper = {
+  serializedName: "UnlockDeleteRequest",
   type: {
     name: "Composite",
-    className: "NameInfo",
+    className: "UnlockDeleteRequest",
     modelProperties: {
-      value: {
-        serializedName: "value",
+      resourceGuardOperationRequests: {
+        serializedName: "resourceGuardOperationRequests",
         type: {
-          name: "String"
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       },
-      localizedValue: {
-        serializedName: "localizedValue",
+      resourceToBeDeleted: {
+        serializedName: "resourceToBeDeleted",
         type: {
           name: "String"
         }
@@ -7610,63 +8509,96 @@ export const NameInfo: msRest.CompositeMapper = {
   }
 };
 
-export const BackupManagementUsage: msRest.CompositeMapper = {
-  serializedName: "BackupManagementUsage",
+export const UnlockDeleteResponse: msRest.CompositeMapper = {
+  serializedName: "UnlockDeleteResponse",
   type: {
     name: "Composite",
-    className: "BackupManagementUsage",
+    className: "UnlockDeleteResponse",
     modelProperties: {
-      unit: {
-        serializedName: "unit",
+      unlockDeleteExpiryTime: {
+        serializedName: "unlockDeleteExpiryTime",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ResourceGuardOperationDetail: msRest.CompositeMapper = {
+  serializedName: "ResourceGuardOperationDetail",
+  type: {
+    name: "Composite",
+    className: "ResourceGuardOperationDetail",
+    modelProperties: {
+      vaultCriticalOperation: {
+        serializedName: "vaultCriticalOperation",
         type: {
           name: "String"
         }
       },
-      quotaPeriod: {
-        serializedName: "quotaPeriod",
+      defaultResourceRequest: {
+        serializedName: "defaultResourceRequest",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ResourceGuardProxyBase: msRest.CompositeMapper = {
+  serializedName: "ResourceGuardProxyBase",
+  type: {
+    name: "Composite",
+    className: "ResourceGuardProxyBase",
+    modelProperties: {
+      resourceGuardResourceId: {
+        serializedName: "resourceGuardResourceId",
         type: {
           name: "String"
         }
       },
-      nextResetTime: {
-        serializedName: "nextResetTime",
+      resourceGuardOperationDetails: {
+        serializedName: "resourceGuardOperationDetails",
         type: {
-          name: "DateTime"
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ResourceGuardOperationDetail"
+            }
+          }
         }
       },
-      currentValue: {
-        serializedName: "currentValue",
+      lastUpdatedTime: {
+        serializedName: "lastUpdatedTime",
         type: {
-          name: "Number"
+          name: "String"
         }
       },
-      limit: {
-        serializedName: "limit",
+      description: {
+        serializedName: "description",
         type: {
-          name: "Number"
+          name: "String"
         }
-      },
-      name: {
-        serializedName: "name",
+      }
+    }
+  }
+};
+
+export const ResourceGuardProxyBaseResource: msRest.CompositeMapper = {
+  serializedName: "ResourceGuardProxyBaseResource",
+  type: {
+    name: "Composite",
+    className: "ResourceGuardProxyBaseResource",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      properties: {
+        serializedName: "properties",
         type: {
           name: "Composite",
-          className: "NameInfo"
-        }
-      }
-    }
-  }
-};
-
-export const BMSBackupSummariesQueryObject: msRest.CompositeMapper = {
-  serializedName: "BMSBackupSummariesQueryObject",
-  type: {
-    name: "Composite",
-    className: "BMSBackupSummariesQueryObject",
-    modelProperties: {
-      type: {
-        serializedName: "type",
-        type: {
-          name: "String"
+          className: "ResourceGuardProxyBase"
         }
       }
     }
@@ -7731,40 +8663,6 @@ export const AADPropertiesResource: msRest.CompositeMapper = {
   }
 };
 
-export const BackupResourceConfig: msRest.CompositeMapper = {
-  serializedName: "BackupResourceConfig",
-  type: {
-    name: "Composite",
-    className: "BackupResourceConfig",
-    modelProperties: {
-      storageModelType: {
-        serializedName: "storageModelType",
-        type: {
-          name: "String"
-        }
-      },
-      storageType: {
-        serializedName: "storageType",
-        type: {
-          name: "String"
-        }
-      },
-      storageTypeState: {
-        serializedName: "storageTypeState",
-        type: {
-          name: "String"
-        }
-      },
-      crossRegionRestoreFlag: {
-        serializedName: "crossRegionRestoreFlag",
-        type: {
-          name: "Boolean"
-        }
-      }
-    }
-  }
-};
-
 export const CrrJobRequest: msRest.CompositeMapper = {
   serializedName: "CrrJobRequest",
   type: {
@@ -7799,24 +8697,6 @@ export const CrrJobRequestResource: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "CrrJobRequest"
-        }
-      }
-    }
-  }
-};
-
-export const BackupResourceConfigResource: msRest.CompositeMapper = {
-  serializedName: "BackupResourceConfigResource",
-  type: {
-    name: "Composite",
-    className: "BackupResourceConfigResource",
-    modelProperties: {
-      ...Resource.type.modelProperties,
-      properties: {
-        serializedName: "properties",
-        type: {
-          name: "Composite",
-          className: "BackupResourceConfig"
         }
       }
     }
@@ -8169,498 +9049,21 @@ export const WorkloadCrrAccessToken: msRest.CompositeMapper = {
   }
 };
 
-export const FeatureSupportRequest: msRest.CompositeMapper = {
-  serializedName: "FeatureSupportRequest",
+export const ProtectionIntentResourceList: msRest.CompositeMapper = {
+  serializedName: "ProtectionIntentResourceList",
   type: {
     name: "Composite",
-    polymorphicDiscriminator: {
-      serializedName: "featureType",
-      clientName: "featureType"
-    },
-    uberParent: "FeatureSupportRequest",
-    className: "FeatureSupportRequest",
+    className: "ProtectionIntentResourceList",
     modelProperties: {
-      featureType: {
-        required: true,
-        serializedName: "featureType",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const AzureBackupGoalFeatureSupportRequest: msRest.CompositeMapper = {
-  serializedName: "AzureBackupGoals",
-  type: {
-    name: "Composite",
-    polymorphicDiscriminator: FeatureSupportRequest.type.polymorphicDiscriminator,
-    uberParent: "FeatureSupportRequest",
-    className: "AzureBackupGoalFeatureSupportRequest",
-    modelProperties: {
-      ...FeatureSupportRequest.type.modelProperties
-    }
-  }
-};
-
-export const ProtectionIntent: msRest.CompositeMapper = {
-  serializedName: "ProtectionIntent",
-  type: {
-    name: "Composite",
-    polymorphicDiscriminator: {
-      serializedName: "protectionIntentItemType",
-      clientName: "protectionIntentItemType"
-    },
-    uberParent: "ProtectionIntent",
-    className: "ProtectionIntent",
-    modelProperties: {
-      backupManagementType: {
-        serializedName: "backupManagementType",
-        type: {
-          name: "String"
-        }
-      },
-      sourceResourceId: {
-        serializedName: "sourceResourceId",
-        type: {
-          name: "String"
-        }
-      },
-      itemId: {
-        serializedName: "itemId",
-        type: {
-          name: "String"
-        }
-      },
-      policyId: {
-        serializedName: "policyId",
-        type: {
-          name: "String"
-        }
-      },
-      protectionState: {
-        serializedName: "protectionState",
-        type: {
-          name: "String"
-        }
-      },
-      protectionIntentItemType: {
-        required: true,
-        serializedName: "protectionIntentItemType",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const AzureRecoveryServiceVaultProtectionIntent: msRest.CompositeMapper = {
-  serializedName: "RecoveryServiceVaultItem",
-  type: {
-    name: "Composite",
-    polymorphicDiscriminator: ProtectionIntent.type.polymorphicDiscriminator,
-    uberParent: "ProtectionIntent",
-    className: "AzureRecoveryServiceVaultProtectionIntent",
-    modelProperties: {
-      ...ProtectionIntent.type.modelProperties
-    }
-  }
-};
-
-export const AzureResourceProtectionIntent: msRest.CompositeMapper = {
-  serializedName: "AzureResourceItem",
-  type: {
-    name: "Composite",
-    polymorphicDiscriminator: ProtectionIntent.type.polymorphicDiscriminator,
-    uberParent: "ProtectionIntent",
-    className: "AzureResourceProtectionIntent",
-    modelProperties: {
-      ...ProtectionIntent.type.modelProperties,
-      friendlyName: {
-        serializedName: "friendlyName",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const AzureVMResourceFeatureSupportRequest: msRest.CompositeMapper = {
-  serializedName: "AzureVMResourceBackup",
-  type: {
-    name: "Composite",
-    polymorphicDiscriminator: FeatureSupportRequest.type.polymorphicDiscriminator,
-    uberParent: "FeatureSupportRequest",
-    className: "AzureVMResourceFeatureSupportRequest",
-    modelProperties: {
-      ...FeatureSupportRequest.type.modelProperties,
-      vmSize: {
-        serializedName: "vmSize",
-        type: {
-          name: "String"
-        }
-      },
-      vmSku: {
-        serializedName: "vmSku",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const AzureVMResourceFeatureSupportResponse: msRest.CompositeMapper = {
-  serializedName: "AzureVMResourceFeatureSupportResponse",
-  type: {
-    name: "Composite",
-    className: "AzureVMResourceFeatureSupportResponse",
-    modelProperties: {
-      supportStatus: {
-        serializedName: "supportStatus",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const AzureWorkloadAutoProtectionIntent: msRest.CompositeMapper = {
-  serializedName: "AzureWorkloadAutoProtectionIntent",
-  type: {
-    name: "Composite",
-    polymorphicDiscriminator: ProtectionIntent.type.polymorphicDiscriminator,
-    uberParent: "ProtectionIntent",
-    className: "AzureWorkloadAutoProtectionIntent",
-    modelProperties: {
-      ...AzureRecoveryServiceVaultProtectionIntent.type.modelProperties
-    }
-  }
-};
-
-export const AzureWorkloadSQLAutoProtectionIntent: msRest.CompositeMapper = {
-  serializedName: "AzureWorkloadSQLAutoProtectionIntent",
-  type: {
-    name: "Composite",
-    polymorphicDiscriminator: ProtectionIntent.type.polymorphicDiscriminator,
-    uberParent: "ProtectionIntent",
-    className: "AzureWorkloadSQLAutoProtectionIntent",
-    modelProperties: {
-      ...AzureWorkloadAutoProtectionIntent.type.modelProperties,
-      workloadItemType: {
-        serializedName: "workloadItemType",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const BackupStatusRequest: msRest.CompositeMapper = {
-  serializedName: "BackupStatusRequest",
-  type: {
-    name: "Composite",
-    className: "BackupStatusRequest",
-    modelProperties: {
-      resourceType: {
-        serializedName: "resourceType",
-        type: {
-          name: "String"
-        }
-      },
-      resourceId: {
-        serializedName: "resourceId",
-        type: {
-          name: "String"
-        }
-      },
-      poLogicalName: {
-        serializedName: "poLogicalName",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const BackupStatusResponse: msRest.CompositeMapper = {
-  serializedName: "BackupStatusResponse",
-  type: {
-    name: "Composite",
-    className: "BackupStatusResponse",
-    modelProperties: {
-      protectionStatus: {
-        serializedName: "protectionStatus",
-        type: {
-          name: "String"
-        }
-      },
-      vaultId: {
-        serializedName: "vaultId",
-        type: {
-          name: "String"
-        }
-      },
-      fabricName: {
-        serializedName: "fabricName",
-        type: {
-          name: "String"
-        }
-      },
-      containerName: {
-        serializedName: "containerName",
-        type: {
-          name: "String"
-        }
-      },
-      protectedItemName: {
-        serializedName: "protectedItemName",
-        type: {
-          name: "String"
-        }
-      },
-      errorCode: {
-        serializedName: "errorCode",
-        type: {
-          name: "String"
-        }
-      },
-      errorMessage: {
-        serializedName: "errorMessage",
-        type: {
-          name: "String"
-        }
-      },
-      policyName: {
-        serializedName: "policyName",
-        type: {
-          name: "String"
-        }
-      },
-      registrationStatus: {
-        serializedName: "registrationStatus",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const PreValidateEnableBackupRequest: msRest.CompositeMapper = {
-  serializedName: "PreValidateEnableBackupRequest",
-  type: {
-    name: "Composite",
-    className: "PreValidateEnableBackupRequest",
-    modelProperties: {
-      resourceType: {
-        serializedName: "resourceType",
-        type: {
-          name: "String"
-        }
-      },
-      resourceId: {
-        serializedName: "resourceId",
-        type: {
-          name: "String"
-        }
-      },
-      vaultId: {
-        serializedName: "vaultId",
-        type: {
-          name: "String"
-        }
-      },
-      properties: {
-        serializedName: "properties",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const PreValidateEnableBackupResponse: msRest.CompositeMapper = {
-  serializedName: "PreValidateEnableBackupResponse",
-  type: {
-    name: "Composite",
-    className: "PreValidateEnableBackupResponse",
-    modelProperties: {
-      status: {
-        serializedName: "status",
-        type: {
-          name: "String"
-        }
-      },
-      errorCode: {
-        serializedName: "errorCode",
-        type: {
-          name: "String"
-        }
-      },
-      errorMessage: {
-        serializedName: "errorMessage",
-        type: {
-          name: "String"
-        }
-      },
-      recommendation: {
-        serializedName: "recommendation",
-        type: {
-          name: "String"
-        }
-      },
-      containerName: {
-        serializedName: "containerName",
-        type: {
-          name: "String"
-        }
-      },
-      protectedItemName: {
-        serializedName: "protectedItemName",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const ProtectionIntentQueryObject: msRest.CompositeMapper = {
-  serializedName: "ProtectionIntentQueryObject",
-  type: {
-    name: "Composite",
-    className: "ProtectionIntentQueryObject",
-    modelProperties: {
-      backupManagementType: {
-        serializedName: "backupManagementType",
-        type: {
-          name: "String"
-        }
-      },
-      itemType: {
-        serializedName: "itemType",
-        type: {
-          name: "String"
-        }
-      },
-      parentName: {
-        serializedName: "parentName",
-        type: {
-          name: "String"
-        }
-      },
-      itemName: {
-        serializedName: "itemName",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const ProtectionIntentResource: msRest.CompositeMapper = {
-  serializedName: "ProtectionIntentResource",
-  type: {
-    name: "Composite",
-    className: "ProtectionIntentResource",
-    modelProperties: {
-      ...Resource.type.modelProperties,
-      properties: {
-        serializedName: "properties",
-        type: {
-          name: "Composite",
-          className: "ProtectionIntent"
-        }
-      }
-    }
-  }
-};
-
-export const ClientDiscoveryDisplay: msRest.CompositeMapper = {
-  serializedName: "ClientDiscoveryDisplay",
-  type: {
-    name: "Composite",
-    className: "ClientDiscoveryDisplay",
-    modelProperties: {
-      provider: {
-        serializedName: "provider",
-        type: {
-          name: "String"
-        }
-      },
-      resource: {
-        serializedName: "resource",
-        type: {
-          name: "String"
-        }
-      },
-      operation: {
-        serializedName: "operation",
-        type: {
-          name: "String"
-        }
-      },
-      description: {
-        serializedName: "description",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const ClientDiscoveryForLogSpecification: msRest.CompositeMapper = {
-  serializedName: "ClientDiscoveryForLogSpecification",
-  type: {
-    name: "Composite",
-    className: "ClientDiscoveryForLogSpecification",
-    modelProperties: {
-      name: {
-        serializedName: "name",
-        type: {
-          name: "String"
-        }
-      },
-      displayName: {
-        serializedName: "displayName",
-        type: {
-          name: "String"
-        }
-      },
-      blobDuration: {
-        serializedName: "blobDuration",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const ClientDiscoveryForServiceSpecification: msRest.CompositeMapper = {
-  serializedName: "ClientDiscoveryForServiceSpecification",
-  type: {
-    name: "Composite",
-    className: "ClientDiscoveryForServiceSpecification",
-    modelProperties: {
-      logSpecifications: {
-        serializedName: "logSpecifications",
+      ...ResourceList.type.modelProperties,
+      value: {
+        serializedName: "",
         type: {
           name: "Sequence",
           element: {
             type: {
               name: "Composite",
-              className: "ClientDiscoveryForLogSpecification"
+              className: "ProtectionIntentResource"
             }
           }
         }
@@ -8669,53 +9072,50 @@ export const ClientDiscoveryForServiceSpecification: msRest.CompositeMapper = {
   }
 };
 
-export const ClientDiscoveryForProperties: msRest.CompositeMapper = {
-  serializedName: "ClientDiscoveryForProperties",
+export const BackupManagementUsageList: msRest.CompositeMapper = {
+  serializedName: "BackupManagementUsageList",
   type: {
     name: "Composite",
-    className: "ClientDiscoveryForProperties",
+    className: "BackupManagementUsageList",
     modelProperties: {
-      serviceSpecification: {
-        serializedName: "serviceSpecification",
+      value: {
+        serializedName: "",
         type: {
-          name: "Composite",
-          className: "ClientDiscoveryForServiceSpecification"
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "BackupManagementUsage"
+            }
+          }
         }
       }
     }
   }
 };
 
-export const ClientDiscoveryValueForSingleApi: msRest.CompositeMapper = {
-  serializedName: "ClientDiscoveryValueForSingleApi",
+export const ClientDiscoveryResponse: msRest.CompositeMapper = {
+  serializedName: "ClientDiscoveryResponse",
   type: {
     name: "Composite",
-    className: "ClientDiscoveryValueForSingleApi",
+    className: "ClientDiscoveryResponse",
     modelProperties: {
-      name: {
-        serializedName: "name",
+      value: {
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ClientDiscoveryValueForSingleApi"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
         type: {
           name: "String"
-        }
-      },
-      display: {
-        serializedName: "display",
-        type: {
-          name: "Composite",
-          className: "ClientDiscoveryDisplay"
-        }
-      },
-      origin: {
-        serializedName: "origin",
-        type: {
-          name: "String"
-        }
-      },
-      properties: {
-        serializedName: "properties",
-        type: {
-          name: "Composite",
-          className: "ClientDiscoveryForProperties"
         }
       }
     }
@@ -8929,33 +9329,11 @@ export const ProtectionContainerResourceList: msRest.CompositeMapper = {
   }
 };
 
-export const BackupManagementUsageList: msRest.CompositeMapper = {
-  serializedName: "BackupManagementUsageList",
+export const ResourceGuardProxyBaseResourceList: msRest.CompositeMapper = {
+  serializedName: "ResourceGuardProxyBaseResourceList",
   type: {
     name: "Composite",
-    className: "BackupManagementUsageList",
-    modelProperties: {
-      value: {
-        serializedName: "",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "BackupManagementUsage"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const ProtectionIntentResourceList: msRest.CompositeMapper = {
-  serializedName: "ProtectionIntentResourceList",
-  type: {
-    name: "Composite",
-    className: "ProtectionIntentResourceList",
+    className: "ResourceGuardProxyBaseResourceList",
     modelProperties: {
       ...ResourceList.type.modelProperties,
       value: {
@@ -8965,37 +9343,9 @@ export const ProtectionIntentResourceList: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ProtectionIntentResource"
+              className: "ResourceGuardProxyBaseResource"
             }
           }
-        }
-      }
-    }
-  }
-};
-
-export const ClientDiscoveryResponse: msRest.CompositeMapper = {
-  serializedName: "ClientDiscoveryResponse",
-  type: {
-    name: "Composite",
-    className: "ClientDiscoveryResponse",
-    modelProperties: {
-      value: {
-        serializedName: "",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ClientDiscoveryValueForSingleApi"
-            }
-          }
-        }
-      },
-      nextLink: {
-        serializedName: "nextLink",
-        type: {
-          name: "String"
         }
       }
     }
@@ -9003,131 +9353,132 @@ export const ClientDiscoveryResponse: msRest.CompositeMapper = {
 };
 
 export const discriminators = {
-  "ProtectedItem.AzureFileShareProtectedItem": AzureFileshareProtectedItem,
-  "RecoveryPoint.AzureFileShareRecoveryPoint": AzureFileShareRecoveryPoint,
-  "RestoreRequest.AzureFileShareRestoreRequest": AzureFileShareRestoreRequest,
-  SchedulePolicy: SchedulePolicy,
-  RetentionPolicy: RetentionPolicy,
-  "ProtectionPolicy.AzureWorkload": AzureVmWorkloadProtectionPolicy,
-  "ProtectionPolicy.AzureStorage": AzureFileShareProtectionPolicy,
-  "ProtectedItem.Microsoft.ClassicCompute/virtualMachines": AzureIaaSClassicComputeVMProtectedItem,
-  "ProtectedItem.Microsoft.Compute/virtualMachines": AzureIaaSComputeVMProtectedItem,
-  "Job.AzureIaaSVMJob": AzureIaaSVMJob,
-  "ProtectedItem.AzureIaaSVMProtectedItem": AzureIaaSVMProtectedItem,
-  "ProtectionPolicy.AzureIaasVM": AzureIaaSVMProtectionPolicy,
-  "ProtectedItem.Microsoft.Sql/servers/databases": AzureSqlProtectedItem,
-  "ProtectionPolicy.AzureSql": AzureSqlProtectionPolicy,
-  "Job.AzureStorageJob": AzureStorageJob,
-  "ProtectedItem.AzureVmWorkloadProtectedItem": AzureVmWorkloadProtectedItem,
-  "ProtectedItem.AzureVmWorkloadSAPAseDatabase": AzureVmWorkloadSAPAseDatabaseProtectedItem,
-  "ProtectedItem.AzureVmWorkloadSAPHanaDatabase": AzureVmWorkloadSAPHanaDatabaseProtectedItem,
-  "ProtectedItem.AzureVmWorkloadSQLDatabase": AzureVmWorkloadSQLDatabaseProtectedItem,
-  "Job.AzureWorkloadJob": AzureWorkloadJob,
-  "RecoveryPoint.AzureWorkloadPointInTimeRecoveryPoint": AzureWorkloadPointInTimeRecoveryPoint,
-  "RestoreRequest.AzureWorkloadPointInTimeRestoreRequest": AzureWorkloadPointInTimeRestoreRequest,
-  "RecoveryPoint.AzureWorkloadRecoveryPoint": AzureWorkloadRecoveryPoint,
-  "RestoreRequest.AzureWorkloadRestoreRequest": AzureWorkloadRestoreRequest,
-  "RecoveryPoint.AzureWorkloadSAPHanaPointInTimeRecoveryPoint": AzureWorkloadSAPHanaPointInTimeRecoveryPoint,
-  "RestoreRequest.AzureWorkloadSAPHanaPointInTimeRestoreRequest": AzureWorkloadSAPHanaPointInTimeRestoreRequest,
-  "RecoveryPoint.AzureWorkloadSAPHanaRecoveryPoint": AzureWorkloadSAPHanaRecoveryPoint,
-  "RestoreRequest.AzureWorkloadSAPHanaRestoreRequest": AzureWorkloadSAPHanaRestoreRequest,
-  "RecoveryPoint.AzureWorkloadSQLPointInTimeRecoveryPoint": AzureWorkloadSQLPointInTimeRecoveryPoint,
-  "RestoreRequest.AzureWorkloadSQLPointInTimeRestoreRequest": AzureWorkloadSQLPointInTimeRestoreRequest,
-  "RecoveryPoint.AzureWorkloadSQLRecoveryPoint": AzureWorkloadSQLRecoveryPoint,
-  "RestoreRequest.AzureWorkloadSQLRestoreRequest": AzureWorkloadSQLRestoreRequest,
-  "Job.DpmJob": DpmJob,
-  "ProtectedItem.DPMProtectedItem": DPMProtectedItem,
-  "OperationResultInfoBase.ExportJobsOperationResultInfo": ExportJobsOperationResultInfo,
-  "ProtectionPolicy.GenericProtectionPolicy": GenericProtectionPolicy,
-  "ProtectedItem.GenericProtectedItem": GenericProtectedItem,
-  "RecoveryPoint.GenericRecoveryPoint": GenericRecoveryPoint,
-  "RecoveryPoint.IaasVMRecoveryPoint": IaasVMRecoveryPoint,
-  "RestoreRequest.IaasVMRestoreRequest": IaasVMRestoreRequest,
-  Job: Job,
-  "SchedulePolicy.LogSchedulePolicy": LogSchedulePolicy,
-  "RetentionPolicy.LongTermRetentionPolicy": LongTermRetentionPolicy,
-  "SchedulePolicy.LongTermSchedulePolicy": LongTermSchedulePolicy,
-  "ProtectedItem.MabFileFolderProtectedItem": MabFileFolderProtectedItem,
-  "Job.MabJob": MabJob,
-  "ProtectionPolicy.MAB": MabProtectionPolicy,
-  "OperationResultInfoBase.OperationResultInfo": OperationResultInfo,
-  OperationResultInfoBase: OperationResultInfoBase,
-  "VaultStorageConfigOperationResultResponse.PrepareDataMoveResponse": PrepareDataMoveResponse,
-  VaultStorageConfigOperationResultResponse: VaultStorageConfigOperationResultResponse,
-  ProtectedItem: ProtectedItem,
-  ProtectionPolicy: ProtectionPolicy,
-  RecoveryPoint: RecoveryPoint,
-  RestoreRequest: RestoreRequest,
-  "RetentionPolicy.SimpleRetentionPolicy": SimpleRetentionPolicy,
-  "SchedulePolicy.SimpleSchedulePolicy": SimpleSchedulePolicy,
-  "ValidateOperationRequest.ValidateIaasVMRestoreOperationRequest": ValidateIaasVMRestoreOperationRequest,
-  ValidateOperationRequest: ValidateOperationRequest,
-  "ValidateOperationRequest.ValidateRestoreOperationRequest": ValidateRestoreOperationRequest,
-  "Job.VaultJob": VaultJob,
-  "ProtectionContainer.AzureBackupServerContainer": AzureBackupServerContainer,
-  "BackupEngineBase.AzureBackupServerEngine": AzureBackupServerEngine,
-  "BackupRequest.AzureFileShareBackupRequest": AzureFileShareBackupRequest,
-  "WorkloadProtectableItem.AzureFileShare": AzureFileShareProtectableItem,
-  "ILRRequest.AzureFileShareProvisionILRRequest": AzureFileShareProvisionILRRequest,
-  "ProtectionContainer.Microsoft.ClassicCompute/virtualMachines": AzureIaaSClassicComputeVMContainer,
-  "WorkloadProtectableItem.Microsoft.ClassicCompute/virtualMachines": AzureIaaSClassicComputeVMProtectableItem,
-  "ProtectionContainer.Microsoft.Compute/virtualMachines": AzureIaaSComputeVMContainer,
-  "WorkloadProtectableItem.Microsoft.Compute/virtualMachines": AzureIaaSComputeVMProtectableItem,
-  "ProtectionContainer.SQLAGWorkLoadContainer": AzureSQLAGWorkloadContainerProtectionContainer,
-  "ProtectionContainer.AzureSqlContainer": AzureSqlContainer,
-  "ProtectionContainer.StorageContainer": AzureStorageContainer,
-  "ProtectableContainer.StorageContainer": AzureStorageProtectableContainer,
-  "ProtectableContainer.VMAppContainer": AzureVMAppContainerProtectableContainer,
-  "ProtectionContainer.VMAppContainer": AzureVMAppContainerProtectionContainer,
-  "WorkloadItem.AzureVmWorkloadItem": AzureVmWorkloadItem,
-  "WorkloadProtectableItem.AzureVmWorkloadProtectableItem": AzureVmWorkloadProtectableItem,
-  "WorkloadItem.SAPAseDatabase": AzureVmWorkloadSAPAseDatabaseWorkloadItem,
-  "WorkloadProtectableItem.SAPAseSystem": AzureVmWorkloadSAPAseSystemProtectableItem,
-  "WorkloadItem.SAPAseSystem": AzureVmWorkloadSAPAseSystemWorkloadItem,
-  "WorkloadProtectableItem.SAPHanaDatabase": AzureVmWorkloadSAPHanaDatabaseProtectableItem,
-  "WorkloadItem.SAPHanaDatabase": AzureVmWorkloadSAPHanaDatabaseWorkloadItem,
-  "WorkloadProtectableItem.SAPHanaSystem": AzureVmWorkloadSAPHanaSystemProtectableItem,
-  "WorkloadItem.SAPHanaSystem": AzureVmWorkloadSAPHanaSystemWorkloadItem,
-  "WorkloadProtectableItem.SQLAvailabilityGroupContainer": AzureVmWorkloadSQLAvailabilityGroupProtectableItem,
-  "WorkloadProtectableItem.SQLDataBase": AzureVmWorkloadSQLDatabaseProtectableItem,
-  "WorkloadItem.SQLDataBase": AzureVmWorkloadSQLDatabaseWorkloadItem,
-  "WorkloadProtectableItem.SQLInstance": AzureVmWorkloadSQLInstanceProtectableItem,
-  "WorkloadItem.SQLInstance": AzureVmWorkloadSQLInstanceWorkloadItem,
-  "BackupRequest.AzureWorkloadBackupRequest": AzureWorkloadBackupRequest,
-  "ProtectionContainer.AzureWorkloadContainer": AzureWorkloadContainer,
-  BackupEngineBase: BackupEngineBase,
-  BackupRequest: BackupRequest,
-  "BackupEngineBase.DpmBackupEngine": DpmBackupEngine,
-  "ProtectionContainer.DPMContainer": DpmContainer,
-  "ProtectionContainer.GenericContainer": GenericContainer,
-  "BackupRequest.IaasVMBackupRequest": IaasVMBackupRequest,
-  "ProtectionContainer.IaaSVMContainer": IaaSVMContainer,
-  "ILRRequest.IaasVMILRRegistrationRequest": IaasVMILRRegistrationRequest,
-  "WorkloadProtectableItem.IaaSVMProtectableItem": IaaSVMProtectableItem,
-  ILRRequest: ILRRequest,
-  "ProtectionContainer.Windows": MabContainer,
-  OperationStatusExtendedInfo: OperationStatusExtendedInfo,
-  "OperationStatusExtendedInfo.OperationStatusJobExtendedInfo": OperationStatusJobExtendedInfo,
-  "OperationStatusExtendedInfo.OperationStatusJobsExtendedInfo": OperationStatusJobsExtendedInfo,
-  "OperationStatusExtendedInfo.OperationStatusProvisionILRExtendedInfo": OperationStatusProvisionILRExtendedInfo,
-  ProtectableContainer: ProtectableContainer,
-  ProtectionContainer: ProtectionContainer,
-  WorkloadItem: WorkloadItem,
-  WorkloadProtectableItem: WorkloadProtectableItem,
-  "RestoreRequest.AzureWorkloadSAPHanaPointInTimeRestoreWithRehydrateRequest": AzureWorkloadSAPHanaPointInTimeRestoreWithRehydrateRequest,
-  "RestoreRequest.AzureWorkloadSAPHanaRestoreWithRehydrateRequest": AzureWorkloadSAPHanaRestoreWithRehydrateRequest,
-  "RestoreRequest.AzureWorkloadSQLPointInTimeRestoreWithRehydrateRequest": AzureWorkloadSQLPointInTimeRestoreWithRehydrateRequest,
-  "RestoreRequest.AzureWorkloadSQLRestoreWithRehydrateRequest": AzureWorkloadSQLRestoreWithRehydrateRequest,
-  "RestoreRequest.IaasVMRestoreWithRehydrationRequest": IaasVMRestoreWithRehydrationRequest,
-  CrrAccessToken: CrrAccessToken,
-  "OperationStatusExtendedInfo.OperationStatusRecoveryPointExtendedInfo": OperationStatusRecoveryPointExtendedInfo,
-  "CrrAccessToken.WorkloadCrrAccessToken": WorkloadCrrAccessToken,
-  "FeatureSupportRequest.AzureBackupGoals": AzureBackupGoalFeatureSupportRequest,
-  "ProtectionIntent.RecoveryServiceVaultItem": AzureRecoveryServiceVaultProtectionIntent,
-  "ProtectionIntent.AzureResourceItem": AzureResourceProtectionIntent,
-  "FeatureSupportRequest.AzureVMResourceBackup": AzureVMResourceFeatureSupportRequest,
-  "ProtectionIntent.AzureWorkloadAutoProtectionIntent": AzureWorkloadAutoProtectionIntent,
-  "ProtectionIntent.AzureWorkloadSQLAutoProtectionIntent": AzureWorkloadSQLAutoProtectionIntent,
-  FeatureSupportRequest: FeatureSupportRequest,
-  ProtectionIntent: ProtectionIntent
+  'ProtectedItem.AzureFileShareProtectedItem' : AzureFileshareProtectedItem,
+  'RecoveryPoint.AzureFileShareRecoveryPoint' : AzureFileShareRecoveryPoint,
+  'RestoreRequest.AzureFileShareRestoreRequest' : AzureFileShareRestoreRequest,
+  'SchedulePolicy' : SchedulePolicy,
+  'RetentionPolicy' : RetentionPolicy,
+  'ProtectionPolicy.AzureWorkload' : AzureVmWorkloadProtectionPolicy,
+  'ProtectionPolicy.AzureStorage' : AzureFileShareProtectionPolicy,
+  'ProtectedItem.Microsoft.ClassicCompute/virtualMachines' : AzureIaaSClassicComputeVMProtectedItem,
+  'ProtectedItem.Microsoft.Compute/virtualMachines' : AzureIaaSComputeVMProtectedItem,
+  'Job.AzureIaaSVMJob' : AzureIaaSVMJob,
+  'ProtectedItem.AzureIaaSVMProtectedItem' : AzureIaaSVMProtectedItem,
+  'ProtectionPolicy.AzureIaasVM' : AzureIaaSVMProtectionPolicy,
+  'ProtectedItem.Microsoft.Sql/servers/databases' : AzureSqlProtectedItem,
+  'ProtectionPolicy.AzureSql' : AzureSqlProtectionPolicy,
+  'Job.AzureStorageJob' : AzureStorageJob,
+  'ProtectedItem.AzureVmWorkloadProtectedItem' : AzureVmWorkloadProtectedItem,
+  'ProtectedItem.AzureVmWorkloadSAPAseDatabase' : AzureVmWorkloadSAPAseDatabaseProtectedItem,
+  'ProtectedItem.AzureVmWorkloadSAPHanaDatabase' : AzureVmWorkloadSAPHanaDatabaseProtectedItem,
+  'ProtectedItem.AzureVmWorkloadSQLDatabase' : AzureVmWorkloadSQLDatabaseProtectedItem,
+  'Job.AzureWorkloadJob' : AzureWorkloadJob,
+  'RecoveryPoint.AzureWorkloadPointInTimeRecoveryPoint' : AzureWorkloadPointInTimeRecoveryPoint,
+  'RestoreRequest.AzureWorkloadPointInTimeRestoreRequest' : AzureWorkloadPointInTimeRestoreRequest,
+  'RecoveryPoint.AzureWorkloadRecoveryPoint' : AzureWorkloadRecoveryPoint,
+  'RestoreRequest.AzureWorkloadRestoreRequest' : AzureWorkloadRestoreRequest,
+  'RecoveryPoint.AzureWorkloadSAPHanaPointInTimeRecoveryPoint' : AzureWorkloadSAPHanaPointInTimeRecoveryPoint,
+  'RestoreRequest.AzureWorkloadSAPHanaPointInTimeRestoreRequest' : AzureWorkloadSAPHanaPointInTimeRestoreRequest,
+  'RecoveryPoint.AzureWorkloadSAPHanaRecoveryPoint' : AzureWorkloadSAPHanaRecoveryPoint,
+  'RestoreRequest.AzureWorkloadSAPHanaRestoreRequest' : AzureWorkloadSAPHanaRestoreRequest,
+  'RecoveryPoint.AzureWorkloadSQLPointInTimeRecoveryPoint' : AzureWorkloadSQLPointInTimeRecoveryPoint,
+  'RestoreRequest.AzureWorkloadSQLPointInTimeRestoreRequest' : AzureWorkloadSQLPointInTimeRestoreRequest,
+  'RecoveryPoint.AzureWorkloadSQLRecoveryPoint' : AzureWorkloadSQLRecoveryPoint,
+  'RestoreRequest.AzureWorkloadSQLRestoreRequest' : AzureWorkloadSQLRestoreRequest,
+  'Job.DpmJob' : DpmJob,
+  'ProtectedItem.DPMProtectedItem' : DPMProtectedItem,
+  'OperationResultInfoBase.ExportJobsOperationResultInfo' : ExportJobsOperationResultInfo,
+  'ProtectionPolicy.GenericProtectionPolicy' : GenericProtectionPolicy,
+  'ProtectedItem.GenericProtectedItem' : GenericProtectedItem,
+  'RecoveryPoint.GenericRecoveryPoint' : GenericRecoveryPoint,
+  'RecoveryPoint.IaasVMRecoveryPoint' : IaasVMRecoveryPoint,
+  'RestoreRequest.IaasVMRestoreRequest' : IaasVMRestoreRequest,
+  'Job' : Job,
+  'SchedulePolicy.LogSchedulePolicy' : LogSchedulePolicy,
+  'RetentionPolicy.LongTermRetentionPolicy' : LongTermRetentionPolicy,
+  'SchedulePolicy.LongTermSchedulePolicy' : LongTermSchedulePolicy,
+  'ProtectedItem.MabFileFolderProtectedItem' : MabFileFolderProtectedItem,
+  'Job.MabJob' : MabJob,
+  'ProtectionPolicy.MAB' : MabProtectionPolicy,
+  'OperationResultInfoBase.OperationResultInfo' : OperationResultInfo,
+  'OperationResultInfoBase' : OperationResultInfoBase,
+  'VaultStorageConfigOperationResultResponse.PrepareDataMoveResponse' : PrepareDataMoveResponse,
+  'VaultStorageConfigOperationResultResponse' : VaultStorageConfigOperationResultResponse,
+  'ProtectedItem' : ProtectedItem,
+  'ProtectionPolicy' : ProtectionPolicy,
+  'RecoveryPoint' : RecoveryPoint,
+  'RestoreRequest' : RestoreRequest,
+  'RetentionPolicy.SimpleRetentionPolicy' : SimpleRetentionPolicy,
+  'SchedulePolicy.SimpleSchedulePolicy' : SimpleSchedulePolicy,
+  'ValidateOperationRequest.ValidateIaasVMRestoreOperationRequest' : ValidateIaasVMRestoreOperationRequest,
+  'ValidateOperationRequest' : ValidateOperationRequest,
+  'ValidateOperationRequest.ValidateRestoreOperationRequest' : ValidateRestoreOperationRequest,
+  'Job.VaultJob' : VaultJob,
+  'ProtectionContainer.AzureBackupServerContainer' : AzureBackupServerContainer,
+  'BackupEngineBase.AzureBackupServerEngine' : AzureBackupServerEngine,
+  'BackupRequest.AzureFileShareBackupRequest' : AzureFileShareBackupRequest,
+  'WorkloadProtectableItem.AzureFileShare' : AzureFileShareProtectableItem,
+  'ILRRequest.AzureFileShareProvisionILRRequest' : AzureFileShareProvisionILRRequest,
+  'ProtectionContainer.Microsoft.ClassicCompute/virtualMachines' : AzureIaaSClassicComputeVMContainer,
+  'WorkloadProtectableItem.Microsoft.ClassicCompute/virtualMachines' : AzureIaaSClassicComputeVMProtectableItem,
+  'ProtectionContainer.Microsoft.Compute/virtualMachines' : AzureIaaSComputeVMContainer,
+  'WorkloadProtectableItem.Microsoft.Compute/virtualMachines' : AzureIaaSComputeVMProtectableItem,
+  'ProtectionContainer.SQLAGWorkLoadContainer' : AzureSQLAGWorkloadContainerProtectionContainer,
+  'ProtectionContainer.AzureSqlContainer' : AzureSqlContainer,
+  'ProtectionContainer.StorageContainer' : AzureStorageContainer,
+  'ProtectableContainer.StorageContainer' : AzureStorageProtectableContainer,
+  'ProtectableContainer.VMAppContainer' : AzureVMAppContainerProtectableContainer,
+  'ProtectionContainer.VMAppContainer' : AzureVMAppContainerProtectionContainer,
+  'WorkloadItem.AzureVmWorkloadItem' : AzureVmWorkloadItem,
+  'WorkloadProtectableItem.AzureVmWorkloadProtectableItem' : AzureVmWorkloadProtectableItem,
+  'WorkloadItem.SAPAseDatabase' : AzureVmWorkloadSAPAseDatabaseWorkloadItem,
+  'WorkloadProtectableItem.SAPAseSystem' : AzureVmWorkloadSAPAseSystemProtectableItem,
+  'WorkloadItem.SAPAseSystem' : AzureVmWorkloadSAPAseSystemWorkloadItem,
+  'WorkloadProtectableItem.SAPHanaDatabase' : AzureVmWorkloadSAPHanaDatabaseProtectableItem,
+  'WorkloadItem.SAPHanaDatabase' : AzureVmWorkloadSAPHanaDatabaseWorkloadItem,
+  'WorkloadProtectableItem.SAPHanaSystem' : AzureVmWorkloadSAPHanaSystemProtectableItem,
+  'WorkloadItem.SAPHanaSystem' : AzureVmWorkloadSAPHanaSystemWorkloadItem,
+  'WorkloadProtectableItem.SQLAvailabilityGroupContainer' : AzureVmWorkloadSQLAvailabilityGroupProtectableItem,
+  'WorkloadProtectableItem.SQLDataBase' : AzureVmWorkloadSQLDatabaseProtectableItem,
+  'WorkloadItem.SQLDataBase' : AzureVmWorkloadSQLDatabaseWorkloadItem,
+  'WorkloadProtectableItem.SQLInstance' : AzureVmWorkloadSQLInstanceProtectableItem,
+  'WorkloadItem.SQLInstance' : AzureVmWorkloadSQLInstanceWorkloadItem,
+  'BackupRequest.AzureWorkloadBackupRequest' : AzureWorkloadBackupRequest,
+  'FeatureSupportRequest.AzureBackupGoals' : AzureBackupGoalFeatureSupportRequest,
+  'ProtectionIntent.RecoveryServiceVaultItem' : AzureRecoveryServiceVaultProtectionIntent,
+  'ProtectionIntent.AzureResourceItem' : AzureResourceProtectionIntent,
+  'FeatureSupportRequest.AzureVMResourceBackup' : AzureVMResourceFeatureSupportRequest,
+  'ProtectionIntent.AzureWorkloadAutoProtectionIntent' : AzureWorkloadAutoProtectionIntent,
+  'ProtectionIntent.AzureWorkloadSQLAutoProtectionIntent' : AzureWorkloadSQLAutoProtectionIntent,
+  'FeatureSupportRequest' : FeatureSupportRequest,
+  'ProtectionIntent' : ProtectionIntent,
+  'ProtectionContainer.AzureWorkloadContainer' : AzureWorkloadContainer,
+  'BackupEngineBase' : BackupEngineBase,
+  'BackupRequest' : BackupRequest,
+  'BackupEngineBase.DpmBackupEngine' : DpmBackupEngine,
+  'ProtectionContainer.DPMContainer' : DpmContainer,
+  'ProtectionContainer.GenericContainer' : GenericContainer,
+  'BackupRequest.IaasVMBackupRequest' : IaasVMBackupRequest,
+  'ProtectionContainer.IaaSVMContainer' : IaaSVMContainer,
+  'ILRRequest.IaasVMILRRegistrationRequest' : IaasVMILRRegistrationRequest,
+  'WorkloadProtectableItem.IaaSVMProtectableItem' : IaaSVMProtectableItem,
+  'ILRRequest' : ILRRequest,
+  'ProtectionContainer.Windows' : MabContainer,
+  'OperationStatusExtendedInfo' : OperationStatusExtendedInfo,
+  'OperationStatusExtendedInfo.OperationStatusJobExtendedInfo' : OperationStatusJobExtendedInfo,
+  'OperationStatusExtendedInfo.OperationStatusJobsExtendedInfo' : OperationStatusJobsExtendedInfo,
+  'OperationStatusExtendedInfo.OperationStatusProvisionILRExtendedInfo' : OperationStatusProvisionILRExtendedInfo,
+  'ProtectableContainer' : ProtectableContainer,
+  'ProtectionContainer' : ProtectionContainer,
+  'WorkloadItem' : WorkloadItem,
+  'WorkloadProtectableItem' : WorkloadProtectableItem,
+  'RestoreRequest.AzureWorkloadSAPHanaPointInTimeRestoreWithRehydrateRequest' : AzureWorkloadSAPHanaPointInTimeRestoreWithRehydrateRequest,
+  'RestoreRequest.AzureWorkloadSAPHanaRestoreWithRehydrateRequest' : AzureWorkloadSAPHanaRestoreWithRehydrateRequest,
+  'RestoreRequest.AzureWorkloadSQLPointInTimeRestoreWithRehydrateRequest' : AzureWorkloadSQLPointInTimeRestoreWithRehydrateRequest,
+  'RestoreRequest.AzureWorkloadSQLRestoreWithRehydrateRequest' : AzureWorkloadSQLRestoreWithRehydrateRequest,
+  'RestoreRequest.IaasVMRestoreWithRehydrationRequest' : IaasVMRestoreWithRehydrationRequest,
+  'CrrAccessToken' : CrrAccessToken,
+  'OperationStatusExtendedInfo.OperationStatusRecoveryPointExtendedInfo' : OperationStatusRecoveryPointExtendedInfo,
+  'CrrAccessToken.WorkloadCrrAccessToken' : WorkloadCrrAccessToken
+
 };

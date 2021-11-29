@@ -9,16 +9,16 @@
 
 import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
-import * as Mappers from "../models/backupProtectedItemsCrrMappers";
+import * as Mappers from "../models/resourceGuardProxiesMappers";
 import * as Parameters from "../models/parameters";
 import { RecoveryServicesBackupClientContext } from "../recoveryServicesBackupClientContext";
 
-/** Class representing a BackupProtectedItemsCrr. */
-export class BackupProtectedItemsCrr {
+/** Class representing a ResourceGuardProxies. */
+export class ResourceGuardProxies {
   private readonly client: RecoveryServicesBackupClientContext;
 
   /**
-   * Create a BackupProtectedItemsCrr.
+   * Create a ResourceGuardProxies.
    * @param {RecoveryServicesBackupClientContext} client Reference to the service client.
    */
   constructor(client: RecoveryServicesBackupClientContext) {
@@ -26,21 +26,21 @@ export class BackupProtectedItemsCrr {
   }
 
   /**
-   * Provides a pageable list of all items that are backed up within a vault.
+   * List the ResourceGuardProxies under vault
    * @param vaultName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    * present.
    * @param [options] The optional parameters
-   * @returns Promise<Models.BackupProtectedItemsCrrListResponse>
+   * @returns Promise<Models.ResourceGuardProxiesGetResponse>
    */
-  list(vaultName: string, resourceGroupName: string, options?: Models.BackupProtectedItemsCrrListOptionalParams): Promise<Models.BackupProtectedItemsCrrListResponse>;
+  get(vaultName: string, resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.ResourceGuardProxiesGetResponse>;
   /**
    * @param vaultName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
    * present.
    * @param callback The callback
    */
-  list(vaultName: string, resourceGroupName: string, callback: msRest.ServiceCallback<Models.ProtectedItemResourceList>): void;
+  get(vaultName: string, resourceGroupName: string, callback: msRest.ServiceCallback<Models.ResourceGuardProxyBaseResourceList>): void;
   /**
    * @param vaultName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
@@ -48,77 +48,75 @@ export class BackupProtectedItemsCrr {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(vaultName: string, resourceGroupName: string, options: Models.BackupProtectedItemsCrrListOptionalParams, callback: msRest.ServiceCallback<Models.ProtectedItemResourceList>): void;
-  list(vaultName: string, resourceGroupName: string, options?: Models.BackupProtectedItemsCrrListOptionalParams | msRest.ServiceCallback<Models.ProtectedItemResourceList>, callback?: msRest.ServiceCallback<Models.ProtectedItemResourceList>): Promise<Models.BackupProtectedItemsCrrListResponse> {
+  get(vaultName: string, resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceGuardProxyBaseResourceList>): void;
+  get(vaultName: string, resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceGuardProxyBaseResourceList>, callback?: msRest.ServiceCallback<Models.ResourceGuardProxyBaseResourceList>): Promise<Models.ResourceGuardProxiesGetResponse> {
     return this.client.sendOperationRequest(
       {
         vaultName,
         resourceGroupName,
         options
       },
-      listOperationSpec,
-      callback) as Promise<Models.BackupProtectedItemsCrrListResponse>;
+      getOperationSpec,
+      callback) as Promise<Models.ResourceGuardProxiesGetResponse>;
   }
 
   /**
-   * Provides a pageable list of all items that are backed up within a vault.
+   * List the ResourceGuardProxies under vault
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
-   * @returns Promise<Models.BackupProtectedItemsCrrListNextResponse>
+   * @returns Promise<Models.ResourceGuardProxiesGetNextResponse>
    */
-  listNext(nextPageLink: string, options?: Models.BackupProtectedItemsCrrListNextOptionalParams): Promise<Models.BackupProtectedItemsCrrListNextResponse>;
+  getNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ResourceGuardProxiesGetNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ProtectedItemResourceList>): void;
+  getNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ResourceGuardProxyBaseResourceList>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: Models.BackupProtectedItemsCrrListNextOptionalParams, callback: msRest.ServiceCallback<Models.ProtectedItemResourceList>): void;
-  listNext(nextPageLink: string, options?: Models.BackupProtectedItemsCrrListNextOptionalParams | msRest.ServiceCallback<Models.ProtectedItemResourceList>, callback?: msRest.ServiceCallback<Models.ProtectedItemResourceList>): Promise<Models.BackupProtectedItemsCrrListNextResponse> {
+  getNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceGuardProxyBaseResourceList>): void;
+  getNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceGuardProxyBaseResourceList>, callback?: msRest.ServiceCallback<Models.ResourceGuardProxyBaseResourceList>): Promise<Models.ResourceGuardProxiesGetNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
-      listNextOperationSpec,
-      callback) as Promise<Models.BackupProtectedItemsCrrListNextResponse>;
+      getNextOperationSpec,
+      callback) as Promise<Models.ResourceGuardProxiesGetNextResponse>;
   }
 }
 
 // Operation Specifications
 const serializer = new msRest.Serializer(Mappers);
-const listOperationSpec: msRest.OperationSpec = {
+const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupProtectedItems/",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupResourceGuardProxies",
   urlParameters: [
     Parameters.vaultName,
     Parameters.resourceGroupName,
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion1,
-    Parameters.filter,
-    Parameters.skipToken
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.ProtectedItemResourceList
+      bodyMapper: Mappers.ResourceGuardProxyBaseResourceList
     },
     default: {
-      bodyMapper: Mappers.NewErrorResponse
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
 };
 
-const listNextOperationSpec: msRest.OperationSpec = {
+const getNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
@@ -126,19 +124,17 @@ const listNextOperationSpec: msRest.OperationSpec = {
     Parameters.nextPageLink
   ],
   queryParameters: [
-    Parameters.apiVersion1,
-    Parameters.filter,
-    Parameters.skipToken
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.ProtectedItemResourceList
+      bodyMapper: Mappers.ResourceGuardProxyBaseResourceList
     },
     default: {
-      bodyMapper: Mappers.NewErrorResponse
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer

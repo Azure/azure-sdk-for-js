@@ -24,6 +24,8 @@ export {
   ErrorDetail,
   IaasVMRestoreRequest,
   IaasVMRestoreWithRehydrationRequest,
+  IdentityBasedRestoreDetails,
+  IdentityInfo,
   RecoveryPointRehydrationInfo,
   RestoreFileSpecs,
   RestoreRequest,
