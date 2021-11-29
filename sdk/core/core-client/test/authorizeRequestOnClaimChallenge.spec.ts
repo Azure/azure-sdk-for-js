@@ -352,4 +352,88 @@ describe("authorizeRequestOnClaimChallenge", function() {
       assert.deepEqual(finalSendRequestHeaders, [undefined, `Bearer ${getTokenResponse.token}`]);
     });
   });
+
+  it(`a custom logger should log a reasonable message if no challenge is received`, async function() {
+    const request = createPipelineRequest({ url: "https://example.com" });
+    const getAccessTokenParameters: {
+      scopes: string | string[];
+      getTokenOptions: GetTokenOptions;
+    }[] = [];
+
+    const allParams: any[] = [];
+    const logger: any = {
+      info: (...params: any) => allParams.push(params)
+    };
+
+    const result = await authorizeRequestOnClaimChallenge({
+      async getAccessToken(scopes, getTokenOptions) {
+        getAccessTokenParameters.push({ scopes, getTokenOptions });
+        return {
+          token: "accessToken",
+          expiresOnTimestamp: new Date().getTime()
+        };
+      },
+      scopes: [],
+      response: {
+        headers: createHttpHeaders(),
+        request,
+        status: 401
+      },
+      request,
+      logger
+    });
+
+    assert.isFalse(result, "We provided no challenge, so it should return false.");
+
+    assert.equal(
+      allParams.map((x) => x.join(" ")).join("\n"),
+      `The WWW-Authenticate header was missing. Failed to perform the Continuous Access Evaluation authentication flow.`
+    );
+  });
+
+  it(`a custom logger should log a reasonable message if a bad challenge is received`, async function() {
+    const request = createPipelineRequest({ url: "https://example.com" });
+    const getAccessTokenParameters: {
+      scopes: string | string[];
+      getTokenOptions: GetTokenOptions;
+    }[] = [];
+
+    const allParams: any[] = [];
+    const logger: any = {
+      info: (...params: any) => allParams.push(params)
+    };
+
+    const result = await authorizeRequestOnClaimChallenge({
+      async getAccessToken(scopes, getTokenOptions) {
+        getAccessTokenParameters.push({ scopes, getTokenOptions });
+        return {
+          token: "accessToken",
+          expiresOnTimestamp: new Date().getTime()
+        };
+      },
+      scopes: [],
+      response: {
+        headers: createHttpHeaders({
+          "WWW-Authenticate": [
+            `Bearer authorization_uri="https://login.windows-ppe.net/", error="invalid_token"`,
+            `error_description="User session has been revoked"`,
+            `scope="https://endpoint/.default"`,
+            // Bad challenge
+            `claims=""`
+          ].join(", ")
+        }),
+        request,
+        status: 401
+      },
+      request,
+      logger
+    });
+
+    assert.isFalse(result, "We provided a bad challenge, so it should return false.");
+
+    assert.equal(
+      allParams.map((x) => x.join(" ")).join("\n"),
+      `The WWW-Authenticate header was missing the necessary "claims" to perform the Continuous Access Evaluation authentication flow.`
+    );
+  });
 });

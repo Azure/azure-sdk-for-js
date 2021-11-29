@@ -389,8 +389,11 @@ export function toRheaMessage(
   return amqpMsg;
 }
 
-/** @internal @ignore */
-export function updateMessageId(rheaMessage: RheaMessage, messageId: RheaMessage["message_id"]) {
+/** @internal */
+export function updateMessageId(
+  rheaMessage: RheaMessage,
+  messageId: RheaMessage["message_id"]
+): void {
   if (messageId != null) {
     if (typeof messageId === "string" && messageId.length > Constants.maxMessageIdLength) {
       throw new Error(
@@ -402,7 +405,7 @@ export function updateMessageId(rheaMessage: RheaMessage, messageId: RheaMessage
   }
 }
 
-/** @internal @ignore */
+/** @internal */
 export function updateScheduledTime(
   rheaMessage: RheaMessage,
   scheduledEnqueuedTimeUtc: Date | undefined
@@ -662,7 +665,6 @@ export function isServiceBusMessage(possible: unknown): possible is ServiceBusMe
 
 /**
  * @internal
- * @ignore
  */
 export function isAmqpAnnotatedMessage(possible: unknown): possible is AmqpAnnotatedMessage {
   return (

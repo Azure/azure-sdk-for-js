@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PipelineOptions } from "@azure/core-rest-pipeline";
+import { CommonClientOptions } from "@azure/core-client";
 import { GeneratedClientOptionalParams } from "../generated";
 
 /**
@@ -60,7 +60,7 @@ export const DEFAULT_GENERATED_CLIENT_OPTIONS: GeneratedClientOptionalParams = {
  * Configurable options for the Form Recognizer service clients (DocumentAnalysisClient and
  * DocumentModelAdministrationClient).
  */
-export interface FormRecognizerCommonClientOptions extends PipelineOptions {
+export interface FormRecognizerCommonClientOptions extends CommonClientOptions {
   /**
    * The version of the Form Recognizer REST API to call. Service versions 2.1 and lower (non-date-based versions) are
    * not supported by this client. To use API version 2.1, please use version 3 of the Azure Form Recognizer SDK for

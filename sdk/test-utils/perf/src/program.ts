@@ -307,7 +307,7 @@ export class PerfProgram {
         `=== Calling setup() for the ${this.parallelNumber} instantiated ${this.testName} tests ===`
       );
       for (const test of this.tests) {
-        await test.setup!();
+        await test.setup?.();
       }
     }
 
@@ -335,7 +335,7 @@ export class PerfProgram {
         `=== Calling cleanup() for the ${this.parallelNumber} instantiated ${this.testName} tests ===`
       );
       for (const test of this.tests) {
-        await test.cleanup!();
+        await test.cleanup?.();
       }
     }
 
@@ -392,11 +392,11 @@ export class PerfProgram {
     }
 
     // Call Run() once before starting recording, to avoid capturing one-time setup like authorization requests.
-    await test.run!();
+    await test.run?.();
 
     await recorder.startRecording();
     recorder._mode = "record";
-    await test.run!();
+    await test.run?.();
 
     await recorder.stopRecording();
     await recorder.startPlayback();

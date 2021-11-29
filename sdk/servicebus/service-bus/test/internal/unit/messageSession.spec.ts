@@ -31,15 +31,6 @@ const assert = chai.assert;
 
 describe("Message session unit tests", () => {
   describe("receiveMessages", () => {
-    let clock: ReturnType<typeof sinon.useFakeTimers>;
-
-    beforeEach(() => {
-      clock = sinon.useFakeTimers();
-    });
-
-    afterEach(() => {
-      clock.restore();
-    });
     const receiveModes: ReceiveMode[] = ["peekLock", "receiveAndDelete"];
 
     receiveModes.forEach((lockMode) => {
@@ -277,7 +268,7 @@ describe("Message session unit tests", () => {
 
     function setupFakeReceiver(
       batchingReceiver: MessageSession,
-      clock?: ReturnType<typeof sinon.useFakeTimers>
+      clockParam?: ReturnType<typeof sinon.useFakeTimers>
     ): {
       receiveIsReady: Promise<void>;
       emitter: EventEmitter;
@@ -328,7 +319,7 @@ describe("Message session unit tests", () => {
         },
         drainCredit: () => {
           emitter.emit(ReceiverEvents.receiverDrained, undefined);
-          clock?.runAll();
+          clockParam?.runAll();
         },
         get credit() {
           return credit;
@@ -488,7 +479,9 @@ describe("Message session unit tests", () => {
       };
 
       messageSession.subscribe(
-        async (_message) => {},
+        async (_message) => {
+          /* empty body */
+        },
         (errorArgs) => {
           errors.push({
             message: errorArgs.error.message,
