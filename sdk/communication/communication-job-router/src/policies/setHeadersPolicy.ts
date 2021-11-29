@@ -13,9 +13,8 @@ import {
 
 /**
  * Creates an HTTP pipeline policy to set extra headers.
- * @hidden
  *
- * @param headers to be set
+ * @param headers - to be set
  */
 export const createSetHeadersPolicy = (headers: {
   [propertyName: string]: any;
@@ -49,7 +48,7 @@ class SetHeadersPolicy extends BaseRequestPolicy {
    * @param webResource - The WebResource to be modified.
    */
   private async setHeaders(webResource: WebResource): Promise<WebResource> {
-    for (let key in this.headers) {
+    for (const key in this.headers) {
       webResource.headers.set(key, this.headers[key]);
     }
     return webResource;

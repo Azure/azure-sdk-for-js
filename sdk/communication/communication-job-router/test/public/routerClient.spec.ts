@@ -32,8 +32,6 @@ describe("RouterClient", function() {
   let recorder: Recorder;
   let client: RouterClient;
 
-  after(async function() {});
-
   describe("Router Operations", function() {
     beforeEach(function(this: Context) {
       ({ client, recorder } = createRecordedClient(this));
@@ -46,7 +44,7 @@ describe("RouterClient", function() {
     });
 
     it("should successfully upsert a channel", async function() {
-      let upsertChannelRequest = {
+      const upsertChannelRequest = {
         id: "channel-id-123",
         name: "test-channel"
       };

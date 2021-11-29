@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 /// <reference lib="esnext.asynciterable" />
 
-//import * as coreClient from "@azure/core-client";
 import { logger } from "./models/logger";
 import { SDK_VERSION } from "./constants";
 import { createPipelineFromOptions, InternalPipelineOptions, RestResponse } from "@azure/core-http";
@@ -188,7 +187,7 @@ export class RouterClient {
     request: UpsertChannelRequest,
     options: UpsertChannelOptions = {}
   ): Promise<UpsertChannelResponse> {
-    return await this.client.jobRouter.createOrUpdateChannel(request, options);
+    return this.client.jobRouter.createOrUpdateChannel(request, options);
   }
 
   /**
@@ -214,7 +213,7 @@ export class RouterClient {
     channelId: string,
     options: GetChannelOptions = {}
   ): Promise<RouterChannel> {
-    return await this.client.jobRouter.getChannel(channelId, options);
+    return this.client.jobRouter.getChannel(channelId, options);
   }
 
   /**
@@ -226,7 +225,7 @@ export class RouterClient {
     channelId: string,
     options: DeleteChannelOptions = {}
   ): Promise<RestResponse> {
-    return await this.client.jobRouter.deleteChannel(channelId, options);
+    return this.client.jobRouter.deleteChannel(channelId, options);
   }
 
   // Classification Policy Actions
@@ -240,7 +239,7 @@ export class RouterClient {
     request: UpsertClassificationPolicyRequest,
     options: UpsertClassificationPolicyOptions = {}
   ): Promise<UpsertClassificationPolicyResponse> {
-    return await this.client.jobRouter.createOrUpdateClassificationPolicy(request, options);
+    return this.client.jobRouter.createOrUpdateClassificationPolicy(request, options);
   }
 
   /**
@@ -263,7 +262,7 @@ export class RouterClient {
     classificationPolicyId: string,
     options: GetClassificationPolicyOptions = {}
   ): Promise<ClassificationPolicy> {
-    return await this.client.jobRouter.getClassificationPolicy(classificationPolicyId, options);
+    return this.client.jobRouter.getClassificationPolicy(classificationPolicyId, options);
   }
 
   /**
@@ -275,7 +274,7 @@ export class RouterClient {
     classificationPolicyId: string,
     options: DeleteClassificationPolicyOptions = {}
   ): Promise<RestResponse> {
-    return await this.client.jobRouter.deleteClassificationPolicy(classificationPolicyId, options);
+    return this.client.jobRouter.deleteClassificationPolicy(classificationPolicyId, options);
   }
 
   // DistributionPolicy Actions
@@ -289,7 +288,7 @@ export class RouterClient {
     request: UpsertDistributionPolicyRequest,
     options: UpsertDistributionPolicyOptions = {}
   ): Promise<UpsertDistributionPolicyResponse> {
-    return await this.client.jobRouter.createOrUpdateDistributionPolicy(request, options);
+    return this.client.jobRouter.createOrUpdateDistributionPolicy(request, options);
   }
 
   /**
@@ -312,7 +311,7 @@ export class RouterClient {
     distributionPolicyId: string,
     options: GetDistributionPolicyOptions = {}
   ): Promise<DistributionPolicy> {
-    return await this.client.jobRouter.getDistributionPolicy(distributionPolicyId, options);
+    return this.client.jobRouter.getDistributionPolicy(distributionPolicyId, options);
   }
 
   /**
@@ -324,7 +323,7 @@ export class RouterClient {
     distributionPolicyId: string,
     options: DeleteDistributionPolicyOptions = {}
   ): Promise<RestResponse> {
-    return await this.client.jobRouter.deleteDistributionPolicy(distributionPolicyId, options);
+    return this.client.jobRouter.deleteDistributionPolicy(distributionPolicyId, options);
   }
 
   // ExceptionPolicy Actions
@@ -338,7 +337,7 @@ export class RouterClient {
     request: UpsertExceptionPolicyRequest,
     options: UpsertExceptionPolicyOptions = {}
   ): Promise<UpsertExceptionPolicyResponse> {
-    return await this.client.jobRouter.createOrUpdateExceptionPolicy(request, options);
+    return this.client.jobRouter.createOrUpdateExceptionPolicy(request, options);
   }
 
   /**
@@ -361,7 +360,7 @@ export class RouterClient {
     exceptionPolicyId: string,
     options: GetExceptionPolicyOptions = {}
   ): Promise<ExceptionPolicy> {
-    return await this.client.jobRouter.getExceptionPolicy(exceptionPolicyId, options);
+    return this.client.jobRouter.getExceptionPolicy(exceptionPolicyId, options);
   }
 
   /**
@@ -373,7 +372,7 @@ export class RouterClient {
     exceptionPolicyId: string,
     options: DeleteExceptionPolicyOptions = {}
   ): Promise<RestResponse> {
-    return await this.client.jobRouter.deleteExceptionPolicy(exceptionPolicyId, options);
+    return this.client.jobRouter.deleteExceptionPolicy(exceptionPolicyId, options);
   }
 
   // Job Actions
@@ -387,7 +386,7 @@ export class RouterClient {
     request: RestCreateJobRequest,
     options: CreateJobOptions = {}
   ): Promise<CreateJobResponse> {
-    return await this.client.jobRouter.createJob(request, options);
+    return this.client.jobRouter.createJob(request, options);
   }
 
   /**
@@ -413,7 +412,7 @@ export class RouterClient {
     labels: { [propertyName: string]: LabelValue },
     options: UpdateJobLabelsOptions = {}
   ): Promise<RouterJob> {
-    return await this.client.jobRouter.updateJobLabels(jobId, labels, options);
+    return this.client.jobRouter.updateJobLabels(jobId, labels, options);
   }
 
   /**
@@ -427,7 +426,7 @@ export class RouterClient {
     request: RestReclassifyJobRequest,
     options: UpdateJobClassificationOptions = {}
   ): Promise<RouterJob> {
-    return await this.client.jobRouter.reclassifyJob(jobId, request, options);
+    return this.client.jobRouter.reclassifyJob(jobId, request, options);
   }
 
   /**
@@ -439,7 +438,7 @@ export class RouterClient {
     jobId: string,
     options: UpdateJobClassificationOptions = {}
   ): Promise<RouterJob> {
-    return await this.client.jobRouter.updateJobClassification(jobId, options);
+    return this.client.jobRouter.updateJobClassification(jobId, options);
   }
 
   /**
@@ -467,7 +466,7 @@ export class RouterClient {
     jobId: string,
     options: GetJobPositionOptions = {}
   ): Promise<JobPositionDetails> {
-    return await this.client.jobRouter.getInQueuePosition(jobId, options);
+    return this.client.jobRouter.getInQueuePosition(jobId, options);
   }
 
   /**
@@ -477,7 +476,7 @@ export class RouterClient {
    * @param options - Operation options.
    */
   public async getJob(jobId: string, options: GetJobOptions = {}): Promise<RouterJob> {
-    return await this.client.jobRouter.getJob(jobId, options);
+    return this.client.jobRouter.getJob(jobId, options);
   }
 
   /**
@@ -486,13 +485,13 @@ export class RouterClient {
    * @param options - Operation options.
    */
   public async cancelJob(jobId: string, options: CancelJobOptions = {}): Promise<RestResponse> {
-    return await this.client.jobRouter.cancelJob(jobId, options);
+    return this.client.jobRouter.cancelJob(jobId, options);
   }
 
   /**
    * Complete a job.
    * @param jobId - The ID of the job to complete.
-   * @param assignmentId The assignment Id to complete.
+   * @param assignmentId - The assignment Id to complete.
    * @param options - Operation options.
    */
   public async completeJob(
@@ -500,13 +499,13 @@ export class RouterClient {
     assignmentId: string,
     options: CompleteJobOptions = {}
   ): Promise<RestResponse> {
-    return await this.client.jobRouter.completeJob(jobId, assignmentId, options);
+    return this.client.jobRouter.completeJob(jobId, assignmentId, options);
   }
 
   /**
    * Close a job.
    * @param jobId - The ID of the job to close.
-   * @param assignmentId The assignment within which the job is to be closed.
+   * @param assignmentId - The assignment within which the job is to be closed.
    * @param options - Operation options.
    */
   public async closeJob(
@@ -514,7 +513,7 @@ export class RouterClient {
     assignmentId: string,
     options: CloseJobOptions = {}
   ): Promise<RestResponse> {
-    return await this.client.jobRouter.closeJob(jobId, assignmentId, options);
+    return this.client.jobRouter.closeJob(jobId, assignmentId, options);
   }
 
   /**
@@ -528,7 +527,7 @@ export class RouterClient {
     offerId: string,
     options: AcceptJobOptions = {}
   ): Promise<AcceptJobOfferResponse> {
-    return await this.client.jobRouter.acceptJob(offerId, workerId, options);
+    return this.client.jobRouter.acceptJob(offerId, workerId, options);
   }
 
   /**
@@ -542,7 +541,7 @@ export class RouterClient {
     offerId: string,
     options: DeclineJobOptions = {}
   ): Promise<RestResponse> {
-    return await this.client.jobRouter.declineJob(offerId, workerId, options);
+    return this.client.jobRouter.declineJob(offerId, workerId, options);
   }
 
   // Queue Actions
@@ -556,7 +555,7 @@ export class RouterClient {
     request: RestUpsertQueueRequest,
     options: UpsertQueueOptions = {}
   ): Promise<UpsertQueueResponse> {
-    return await this.client.jobRouter.createOrUpdateQueue(request, options);
+    return this.client.jobRouter.createOrUpdateQueue(request, options);
   }
 
   /**
@@ -574,7 +573,7 @@ export class RouterClient {
    * @param options - Operation options.
    */
   public async getQueue(queueId: string, options: GetQueueOptions = {}): Promise<JobQueue> {
-    return await this.client.jobRouter.getQueue(queueId, options);
+    return this.client.jobRouter.getQueue(queueId, options);
   }
 
   /**
@@ -586,7 +585,7 @@ export class RouterClient {
     queueId: string,
     options: DeleteQueueOptions = {}
   ): Promise<RestResponse> {
-    return await this.client.jobRouter.deleteQueue(queueId, options);
+    return this.client.jobRouter.deleteQueue(queueId, options);
   }
 
   // Worker Actions
@@ -600,7 +599,7 @@ export class RouterClient {
     request: RestRegisterWorkerRequest,
     options: RegisterWorkerOptions = {}
   ): Promise<RouterWorker> {
-    return await this.client.jobRouter.registerWorker(request, options);
+    return this.client.jobRouter.registerWorker(request, options);
   }
 
   /**
@@ -612,7 +611,7 @@ export class RouterClient {
     workerId: string,
     options: DeregisterWorkerOptions = {}
   ): Promise<RestResponse> {
-    return await this.client.jobRouter.deregisterWorker(workerId, options);
+    return this.client.jobRouter.deregisterWorker(workerId, options);
   }
 
   /**
@@ -626,7 +625,7 @@ export class RouterClient {
     assignmentId: string,
     options: ReleaseWorkerOptions = {}
   ): Promise<RestResponse> {
-    return await this.client.jobRouter.releaseAssignment(workerId, assignmentId, options);
+    return this.client.jobRouter.releaseAssignment(workerId, assignmentId, options);
   }
 
   /**
@@ -636,15 +635,15 @@ export class RouterClient {
    * @param options - Operation options.
    */
   public async getWorker(workerId: string, options: GetWorkerOptions = {}): Promise<RouterWorker> {
-    return await this.client.jobRouter.getWorker(workerId, options);
+    return this.client.jobRouter.getWorker(workerId, options);
   }
 
   /**
    * Gets the list of workers.
-   * @param status (Optional) If specified, select workers by worker status. Valid options are: `active`, `draining`, `inactive` and `all`.
-   * @param channelId (Optional) If specified, select workers who have a channel configuration with this channel.
-   * @param queueId (Optional) If specified, select workers who are assigned to this queue.
-   * @param hasCapacity (Optional) If set to true, select only workers who have capacity for the channel specified by `channelId` or for any channel if `channelId` not specified. If set to false, then will return all workers including workers without any capacity for jobs. Defaults to false.
+   * @param status - (Optional) If specified, select workers by worker status. Valid options are: `active`, `draining`, `inactive` and `all`.
+   * @param channelId - (Optional) If specified, select workers who have a channel configuration with this channel.
+   * @param queueId - (Optional) If specified, select workers who are assigned to this queue.
+   * @param hasCapacity - (Optional) If set to true, select only workers who have capacity for the channel specified by `channelId` or for any channel if `channelId` not specified. If set to false, then will return all workers including workers without any capacity for jobs. Defaults to false.
    * @param options - List workers options.
    */
   public listWorkers(
