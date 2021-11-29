@@ -10,7 +10,7 @@ import {
   PipelinePolicy,
   PipelineRequest,
   PipelineResponse,
-  SendRequest,
+  SendRequest
 } from "@azure/core-rest-pipeline";
 import { isPlaybackMode, isRecordMode } from "@azure-tools/test-recorder";
 import {
@@ -18,7 +18,7 @@ import {
   getTestMode,
   RecorderError,
   RecorderStartOptions,
-  RecordingStateManager,
+  RecordingStateManager
 } from "./utils/utils";
 import { Test } from "mocha";
 import { sessionFilePath } from "./utils/sessionFilePath";
@@ -163,7 +163,7 @@ export class TestProxyHttpClient {
         if (ensureExistence(this.httpClient, "TestProxyHttpClient.httpClient", this.mode)) {
           const rsp = await this.httpClient.sendRequest({
             ...req,
-            allowInsecureConnection: true,
+            allowInsecureConnection: true
           });
           if (rsp.status !== 200) {
             throw new RecorderError("Start request failed.");
@@ -213,7 +213,7 @@ export class TestProxyHttpClient {
         if (ensureExistence(this.httpClient, "TestProxyHttpClient.httpClient", this.mode)) {
           const rsp = await this.httpClient.sendRequest({
             ...req,
-            allowInsecureConnection: true,
+            allowInsecureConnection: true
           });
           if (rsp.status !== 200) {
             throw new RecorderError("Stop request failed.");
@@ -265,6 +265,6 @@ export function recorderHttpPolicy(testProxyHttpClient: TestProxyHttpClient): Pi
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
       await testProxyHttpClient.modifyRequest(request);
       return next(request);
-    },
+    }
   };
 }
