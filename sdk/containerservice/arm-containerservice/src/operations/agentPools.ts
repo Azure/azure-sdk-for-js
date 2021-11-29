@@ -483,12 +483,16 @@ const beginUpgradeNodeImageVersionOperationSpec: msRest.OperationSpec = {
     Parameters.acceptLanguage
   ],
   responses: {
-    200: {},
+    200: {
+      headersMapper: Mappers.AgentPoolsUpgradeNodeImageVersionHeaders
+    },
     202: {
-      bodyMapper: Mappers.AgentPool
+      bodyMapper: Mappers.AgentPool,
+      headersMapper: Mappers.AgentPoolsUpgradeNodeImageVersionHeaders
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.CloudError,
+      headersMapper: Mappers.AgentPoolsUpgradeNodeImageVersionHeaders
     }
   },
   serializer

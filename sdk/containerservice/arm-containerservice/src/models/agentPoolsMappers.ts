@@ -11,6 +11,7 @@ export {
   AgentPoolAvailableVersions,
   AgentPoolAvailableVersionsPropertiesAgentPoolVersionsItem,
   AgentPoolListResult,
+  AgentPoolsUpgradeNodeImageVersionHeaders,
   AgentPoolUpgradeProfile,
   AgentPoolUpgradeProfilePropertiesUpgradesItem,
   AgentPoolUpgradeSettings,
