@@ -14,6 +14,7 @@ import { SleepTest } from "./sleep.spec";
 import { NodeFetchTest } from "./nodeFetch.spec";
 import { ServiceClientGetTest } from "./serviceClientGet.spec";
 import { MockReceiverTest } from "./batch/mockReceiverTest.spec";
+import { MockEventReceiverTest } from "./event/mockEventReceiverTest.spec";
 
 console.log("=== Starting the perf test ===");
 
@@ -28,7 +29,8 @@ const perfProgram = new PerfProgram(
     SleepTest,
     NodeFetchTest,
     ServiceClientGetTest,
-    MockReceiverTest
+    MockReceiverTest,
+    MockEventReceiverTest
   ])
 );
 
