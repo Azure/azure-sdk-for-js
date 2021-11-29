@@ -28,6 +28,9 @@ function getCachedAgent(
   return isHttps ? agentCache.httpsAgent : agentCache.httpAgent;
 }
 
+/**
+ * An HTTP client that uses `node-fetch`.
+ */
 export class NodeFetchHttpClient extends FetchHttpClient {
   // a mapping of proxy settings string `${host}:${port}:${username}:${password}` to agent
   private proxyAgentMap: Map<string, AgentCache> = new Map();
@@ -88,11 +91,17 @@ export class NodeFetchHttpClient extends FetchHttpClient {
     }
   }
 
+  /**
+   * Uses `node-fetch` to perform the request.
+   */
   // eslint-disable-next-line @azure/azure-sdk/ts-apisurface-standardized-verbs
   async fetch(input: CommonRequestInfo, init?: CommonRequestInit): Promise<CommonResponse> {
     return (node_fetch(input, init) as unknown) as Promise<CommonResponse>;
   }
 
+  /**
+   * Prepares a request based on the provided web resource.
+   */
   async prepareRequest(httpRequest: WebResourceLike): Promise<Partial<RequestInit>> {
     const requestInit: Partial<RequestInit & { agent?: any; compress?: boolean }> = {};
 
@@ -118,6 +127,9 @@ export class NodeFetchHttpClient extends FetchHttpClient {
     return requestInit;
   }
 
+  /**
+   * Process an HTTP response. Handles persisting a cookie for subsequent requests if the response has a "Set-Cookie" header.
+   */
   async processRequest(operationResponse: HttpOperationResponse): Promise<void> {
     if (this.cookieJar) {
       const setCookieHeader = operationResponse.headers.get("Set-Cookie");
