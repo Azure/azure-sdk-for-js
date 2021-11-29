@@ -59,6 +59,8 @@ export class ReportTransform extends Transform {
  * An abstract HTTP client that allows custom methods to prepare and send HTTP requests, as well as a custom method to parse the HTTP response.
  * It implements a simple `sendRequest` method that provides minimum viable error handling and the logic that executes the abstract methods.
  * It's intended to be used as the base class for HTTP clients that may use `window.fetch` or an isomorphic alternative.
+ *
+ * Only supported in Node.js
  */
 export abstract class FetchHttpClient implements HttpClient {
   /**
