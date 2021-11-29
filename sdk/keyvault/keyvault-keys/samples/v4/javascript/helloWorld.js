@@ -53,6 +53,7 @@ async function main() {
   });
   console.log("updated key: ", updatedKey);
 
+  // Delete the keys
   await client.beginDeleteKey(keyName);
   await client.beginDeleteKey(ecKeyName);
   await client.beginDeleteKey(rsaKeyName);
