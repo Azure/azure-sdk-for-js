@@ -1,14 +1,10 @@
 # Release History
 
-## 2.2.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 2.2.2 (2021-12-02)
 
 ### Bugs Fixed
 
-### Other Changes
+- Fix LRO PATCH operations when their results are located in a different URL.
 
 ## 2.2.1 (2021-09-30)
 
