@@ -8,7 +8,7 @@ steps:
       versionSpec: ${{ parameters.NodeVersion }}
     displayName: "Use Node ${{ parameters.NodeVersion }}"
 
-  - ${{ if( eq(parameters.UpgradeNpm, 'true')) }}:
+  - ${{ if eq(parameters.UpgradeNpm, 'true') }}:
     - pwsh: npm install -g npm
       displayName: Upgrade NPM
 
