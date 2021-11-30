@@ -1130,6 +1130,11 @@
       "packageName": "@azure/arm-analysisservices",
       "projectFolder": "sdk/analysisservices/arm-analysisservices",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-portal",
+      "projectFolder": "sdk/portal/arm-portal",
+      "versionPolicyName": "management"
     }
   ]
 }
