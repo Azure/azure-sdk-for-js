@@ -118,7 +118,7 @@ export abstract class BatchPerfTest<TOptions = Record<string, unknown>> extends 
   }
 
   /**
-   * postSetup
+   * This runs after the `setup()` method is run.
    */
   public async postSetup() {
     // Records requests(in the run method) for all the instantiated PerfTest classes,
@@ -130,7 +130,7 @@ export abstract class BatchPerfTest<TOptions = Record<string, unknown>> extends 
   }
 
   /**
-   * preCleanup
+   * This runs before the `cleanup()` method is run.
    */
   public async preCleanup() {
     if (this.testProxy) return this.stopPlayback();
