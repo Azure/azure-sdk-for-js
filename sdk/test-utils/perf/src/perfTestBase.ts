@@ -45,9 +45,13 @@ export abstract class PerfTestBase<TOptions = Record<string, unknown>> {
     }
 
     // This cast is needed because TS thinks
+    //   ```ts
     //   PerfOptionDictionary<TOptions & DefaultPerfOptions>
-    //   is different from
-    //   PerfOptionDictionary<TOptions> & PerfOptionDictionary<DefaultPerfOptions>
+    //   ```
+    //    is different from
+    //   ```ts
+    //    PerfOptionDictionary<TOptions> & PerfOptionDictionary<DefaultPerfOptions>
+    //   ```
     return parsePerfOption({
       ...this.options,
       ...defaultPerfOptions
