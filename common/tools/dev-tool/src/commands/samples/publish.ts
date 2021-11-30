@@ -372,10 +372,14 @@ async function makeSampleGenerationInfo(
     // Resolve snippets to actual text
     customSnippets: Object.entries(sampleConfiguration.customSnippets ?? {}).reduce(
       (accum, [name, file]) => {
+        if (!file) {
+          return accum;
+        }
+
         let contents;
 
         try {
-          contents = fs.readFileSync(file!);
+          contents = fs.readFileSync(file);
         } catch (ex) {
           fail(`Failed to read custom snippet file '${file}'`, ex);
         }

@@ -75,7 +75,12 @@ async function getImageTag() {
       `${path.join(await getRootLocation(), "eng/common/testproxy/docker-start-proxy.ps1")}`,
       "utf-8"
     );
-    const tag = contentInPWSHScript.match(/\$SELECTED_IMAGE_TAG = "(.*)"/)![1];
+
+    const tag = contentInPWSHScript.match(/\$SELECTED_IMAGE_TAG = "(.*)"/)?.[1];
+    if (tag === undefined) {
+      throw new Error();
+    }
+
     log.info(`Image tag obtained from the powershell script => ${tag}\n`);
     return tag;
   } catch (_) {
