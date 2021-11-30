@@ -90,7 +90,7 @@ export default leafCommand(commandInfo, async (options) => {
           skips
         }
       )) {
-        await runSingle(fileName as string, errors);
+        await runSingle(fileName, errors);
       }
     } else {
       log.warn(`Sample ${sample} is neither a file nor a directory.`);

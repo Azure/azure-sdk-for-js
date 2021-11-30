@@ -6,7 +6,7 @@ import { assert } from "chai";
 import { FileInfo } from "../../src/util/findMatchingFiles";
 import { shouldSkip } from "../../src/util/sampleConfiguration";
 
-import fs from "fs-extra";
+import { Stats } from "fs";
 import path from "path";
 
 /**
@@ -18,7 +18,7 @@ export async function toFileInfo(fullPath: string): Promise<FileInfo> {
     fullPath,
     dir: path.dirname(fullPath),
     name: path.basename(fullPath),
-    stat: {} as fs.Stats
+    stat: {} as Stats
   };
 }
 
