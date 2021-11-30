@@ -53,7 +53,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .post('/calling/callConnections/83201300-ae79-4363-819c-6686264333cb/:playAudio', {"audioFileUri":"https://endpoint/audio/sample-message.wav","loop":true,"operationContext":"operationContext163670234793607416","audioFileId":"audioFileId163670234793509037","callbackUri":"https://endpoint/callback"})
+  .post('/calling/callConnections/83201300-ae79-4363-819c-6686264333cb/:playAudio', {"audioFileUri":"https://endpoint/audio/sample-message.wav","loop":true,"operationContext":"operationContext163670234793607416","audioFileId":"audioFileId163670234793509037"})
   .query(true)
   .reply(202, {"operationId":"6b0dcf66-7ca5-4808-a507-8e6f9da5c66f","status":"running","operationContext":"operationContext163670234793607416"}, [
   'Content-Length',

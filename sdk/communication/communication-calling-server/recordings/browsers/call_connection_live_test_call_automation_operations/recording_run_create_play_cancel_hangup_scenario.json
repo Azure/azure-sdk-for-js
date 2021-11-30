@@ -48,7 +48,7 @@
    "query": {
     "api-version": "2021-11-15-preview"
    },
-   "requestBody": "{\"audioFileUri\":\"https://endpoint/audio/sample-message.wav\",\"loop\":true,\"operationContext\":\"operationContext163670240454808334\",\"audioFileId\":\"audioFileId163670240454806937\",\"callbackUri\":\"https://endpoint/callback\"}",
+   "requestBody": "{\"audioFileUri\":\"https://endpoint/audio/sample-message.wav\",\"loop\":true,\"operationContext\":\"operationContext163670240454808334\",\"audioFileId\":\"audioFileId163670240454806937\"}",
    "status": 202,
    "response": "{\"operationId\":\"947fb7fc-0e8d-42f3-8bff-ed510f7ea496\",\"status\":\"running\",\"operationContext\":\"operationContext163670240454808334\"}",
    "responseHeaders": {

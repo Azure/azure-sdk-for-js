@@ -44,7 +44,7 @@
    "query": {
     "api-version": "2021-11-15-preview"
    },
-   "requestBody": "{\"callLocator\":{\"groupCallId\":\"1212b187-3379-51fd-ac4f-89756d7fb74a\"},\"participant\":{\"communicationUser\":{\"id\":\"8:acs:016a7064-0581-40b9-be73-6dde64d69d72_0000000d-bd96-2256-02c3-593a0d00b537\"}},\"callbackUri\":\"https://endpoint/callback\"}",
+   "requestBody": "{\"callLocator\":{\"groupCallId\":\"1212b187-3379-51fd-ac4f-89756d7fb74a\"},\"callbackUri\":\"https://endpoint/callback\",\"participant\":{\"communicationUser\":{\"id\":\"8:acs:016a7064-0581-40b9-be73-6dde64d69d72_0000000d-bd96-2256-02c3-593a0d00b537\"}}}",
    "status": 202,
    "response": "{\"participantId\":\"6ee7864f-6942-4fa1-bc66-74e0aa1901fc\"}",
    "responseHeaders": {
