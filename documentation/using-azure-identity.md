@@ -309,7 +309,11 @@ locally, you can also add a redirect URI for your development endpoint
 (e.g. `http://localhost:8080/authresponse`).
 
 A complete example of hosting your own authentication response endpoint can be
+<<<<<<< HEAD
 found in the [`authorization code manual test`](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity/test/manual/authorization-code-credential).
+=======
+found in the REMOVED BROKEN LINK
+>>>>>>> Remove spelling error temporarily
 
 ### DefaultAzureCredential
 
