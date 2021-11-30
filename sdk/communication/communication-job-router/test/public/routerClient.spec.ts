@@ -35,7 +35,7 @@ describe("RouterClient", function() {
     });
 
     afterEach(async function(this: Context) {
-      if (!this.currentTest?.isPending()) {
+      if (!this.currentTest?.isPending() && recorder) {
         await recorder.stop();
       }
     });
