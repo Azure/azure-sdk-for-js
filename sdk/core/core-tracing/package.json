@@ -5,9 +5,7 @@
   "sdk-type": "client",
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
-  "browser": {
-    "./dist-esm/src/useInstrumenter.js": "./dist-esm/src/useInstrumenter.browser.js"
-  },
+  "browser": {},
   "react-native": {
     "./dist/index.js": "./dist-esm/src/index.js"
   },

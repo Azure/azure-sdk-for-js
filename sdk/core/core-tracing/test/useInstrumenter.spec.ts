@@ -2,10 +2,10 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import { NoOpInstrumenter } from "../../src/instrumenter";
-import { getInstrumenter, useInstrumenter } from "../../src/useInstrumenter";
+import { NoOpInstrumenter } from "../src/instrumenter";
+import { getInstrumenter, useInstrumenter } from "../src/useInstrumenter";
 
-describe("useInstrumenter (node)", () => {
+describe("useInstrumenter", () => {
   it("allows setting and getting a global instrumenter", () => {
     const instrumenter = getInstrumenter();
     assert.exists(instrumenter);
