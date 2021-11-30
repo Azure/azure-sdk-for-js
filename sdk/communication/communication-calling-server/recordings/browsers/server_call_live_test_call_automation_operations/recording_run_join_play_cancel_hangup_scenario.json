@@ -44,7 +44,7 @@
    "query": {
     "api-version": "2021-11-15-preview"
    },
-   "requestBody": "{\"callLocator\":{\"groupCallId\":\"4fd574a5-bf18-5d39-82cb-ec5cb6b0450a\"},\"audioFileUri\":\"https://endpoint/audio/sample-message.wav\",\"loop\":true,\"operationContext\":\"operationContext163688047291809624\",\"audioFileId\":\"audioFileId163688047291809265\",\"callbackUri\":\"https://endpoint/callback\"}",
+   "requestBody": "{\"callLocator\":{\"groupCallId\":\"4fd574a5-bf18-5d39-82cb-ec5cb6b0450a\"},\"callbackUri\":\"https://endpoint/callback\",\"audioFileUri\":\"https://endpoint/audio/sample-message.wav\",\"loop\":true,\"operationContext\":\"operationContext163688047291809624\",\"audioFileId\":\"audioFileId163688047291809265\"}",
    "status": 202,
    "response": "{\"operationId\":\"b8201300-5d45-4af4-b336-ef31aa3457bb\",\"status\":\"running\",\"operationContext\":\"operationContext163688047291809624\"}",
    "responseHeaders": {
