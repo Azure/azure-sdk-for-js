@@ -6,7 +6,7 @@ import * as http from "http";
 import * as https from "https";
 import node_fetch from "node-fetch";
 import FormData from "form-data";
-import { AbortError } from "@azure/abort-controller";
+import { AbortError, AbortController } from "@azure/abort-controller";
 
 import { HttpOperationResponse } from "./httpOperationResponse";
 import { TransferProgressEvent, WebResourceLike } from "./webResource";
