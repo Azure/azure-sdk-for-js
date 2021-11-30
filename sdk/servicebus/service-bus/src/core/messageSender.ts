@@ -354,7 +354,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
       const amqpMessage = toRheaMessage(data, defaultDataTransformer);
 
       // TODO: this body of logic is really similar to what's in sendMessages. Unify what we can.
-      let encodedMessage = RheaMessageUtil.encode(amqpMessage);
+      const encodedMessage = RheaMessageUtil.encode(amqpMessage);
       logger.verbose("%s Sender '%s', trying to send message: %O", this.logPrefix, this.name, data);
       return await this._trySend(encodedMessage, false, options);
     } catch (err) {

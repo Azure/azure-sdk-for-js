@@ -457,7 +457,7 @@ describe("LinkEntity unit tests", () => {
       );
     }
 
-    function initCachedLinks(name: string) {
+    function initCachedLinks(name: string): void {
       connectionContext.messageReceivers[name] = {} as any;
       connectionContext.senders[name] = {} as any;
       connectionContext.managementClients[name] = {} as any;

@@ -9,14 +9,9 @@
 export {
   APIError,
   ErrorModel,
-  FaceList,
   ImageUrl,
-  LargeFaceList,
-  LargePersonGroup,
-  MetaDataContract,
   NameAndUserDataContract,
   PersistedFace,
   Person,
-  PersonGroup,
   UpdateFaceRequest
 } from "../models/mappers";

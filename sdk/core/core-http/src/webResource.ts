@@ -12,6 +12,9 @@ import { AbortSignalLike } from "@azure/abort-controller";
 import { SpanOptions, Context } from "@azure/core-tracing";
 import { SerializerOptions } from "./util/serializer.common";
 
+/**
+ * List of supported HTTP methods.
+ */
 export type HttpMethods =
   | "GET"
   | "PUT"
@@ -21,6 +24,10 @@ export type HttpMethods =
   | "HEAD"
   | "OPTIONS"
   | "TRACE";
+
+/**
+ * Possible HTTP request body types
+ */
 export type HttpRequestBody =
   | Blob
   | string
@@ -38,6 +45,9 @@ export type TransferProgressEvent = {
   loadedBytes: number;
 };
 
+/**
+ * A description of a HTTP request to be made to a remote server.
+ */
 export interface WebResourceLike {
   /**
    * The URL being accessed by the request.
@@ -56,8 +66,8 @@ export interface WebResourceLike {
    */
   headers: HttpHeadersLike;
   /**
-   * @deprecated Use streamResponseStatusCodes property instead.
    * Whether or not the body of the HttpOperationResponse should be treated as a stream.
+   * @deprecated Use streamResponseStatusCodes property instead.
    */
   streamResponseBody?: boolean;
   /**
@@ -78,6 +88,9 @@ export interface WebResourceLike {
     operationSpec: OperationSpec,
     response: HttpOperationResponse
   ) => undefined | OperationResponse;
+  /**
+   * Form data, used to build the request body.
+   */
   formData?: any;
   /**
    * A query string represented as an object.
@@ -114,7 +127,7 @@ export interface WebResourceLike {
   requestId: string;
 
   /**
-   * Used to abort the request later.
+   * Signal of an abort controller. Can be used to abort both sending a network request and waiting for a response.
    */
   abortSignal?: AbortSignalLike;
 
@@ -180,13 +193,25 @@ export function isWebResourceLike(object: unknown): object is WebResourceLike {
  * properties to initiate a request.
  */
 export class WebResource implements WebResourceLike {
+  /**
+   * URL of the outgoing request.
+   */
   url: string;
+  /**
+   * HTTP method to use.
+   */
   method: HttpMethods;
+  /**
+   * Request body.
+   */
   body?: any;
+  /**
+   * HTTP headers.
+   */
   headers: HttpHeadersLike;
   /**
-   * @deprecated Use streamResponseStatusCodes property instead.
    * Whether or not the body of the HttpOperationResponse should be treated as a stream.
+   * @deprecated Use streamResponseStatusCodes property instead.
    */
   streamResponseBody?: boolean;
   /**
@@ -207,25 +232,56 @@ export class WebResource implements WebResourceLike {
     operationSpec: OperationSpec,
     response: HttpOperationResponse
   ) => undefined | OperationResponse;
+  /**
+   * Form data, used to build the request body.
+   */
   formData?: any;
+  /**
+   * Query added to the URL.
+   */
   query?: { [key: string]: any };
+  /**
+   * Specification of the HTTP request.
+   */
   operationSpec?: OperationSpec;
+  /**
+   * Whether to send credentials (via cookies, authorization headers, or TLS client certificates) when making a request in the browser to a cross-site destination.
+   */
   withCredentials: boolean;
+  /**
+   * How long to wait in milliseconds before aborting the request.
+   */
   timeout: number;
+  /**
+   * What proxy to use, if necessary.
+   */
   proxySettings?: ProxySettings;
+  /**
+   * Whether to keep the HTTP connections alive throughout requests.
+   */
   keepAlive?: boolean;
   /**
    * Whether or not to decompress response according to Accept-Encoding header (node-fetch only)
    */
   decompressResponse?: boolean;
+  /**
+   * Unique identifier of the outgoing request.
+   */
   requestId: string;
 
+  /**
+   * Signal of an abort controller. Can be used to abort both sending a network request and waiting for a response.
+   */
   abortSignal?: AbortSignalLike;
 
-  /** Callback which fires upon upload progress. */
+  /**
+   * Callback which fires upon upload progress.
+   */
   onUploadProgress?: (progress: TransferProgressEvent) => void;
 
-  /** Callback which fires upon download progress. */
+  /**
+   * Callback which fires upon download progress.
+   */
   onDownloadProgress?: (progress: TransferProgressEvent) => void;
 
   /**
@@ -552,6 +608,9 @@ export class WebResource implements WebResourceLike {
   }
 }
 
+/**
+ * Options to prepare an outgoing HTTP request.
+ */
 export interface RequestPrepareOptions {
   /**
    * The HTTP request method. Valid values are "GET", "PUT", "HEAD", "DELETE", "OPTIONS", "POST",
@@ -598,6 +657,9 @@ export interface RequestPrepareOptions {
    *    - path-parameter-value in "string" format: `{ "path-parameter-name": "path-parameter-value" }`.
    */
   pathParameters?: { [key: string]: any | ParameterValue };
+  /**
+   * Form data, used to build the request body.
+   */
   formData?: { [key: string]: any };
   /**
    * A dictionary of request headers that need to be applied to the request.
@@ -637,8 +699,17 @@ export interface RequestPrepareOptions {
    * Indicates whether the request body is a stream (useful for file upload scenarios).
    */
   bodyIsStream?: boolean;
+  /**
+   * Signal of an abort controller. Can be used to abort both sending a network request and waiting for a response.
+   */
   abortSignal?: AbortSignalLike;
+  /**
+   * Allows keeping track of the progress of uploading the outgoing request.
+   */
   onUploadProgress?: (progress: TransferProgressEvent) => void;
+  /**
+   * Allows keeping track of the progress of downloading the incoming response.
+   */
   onDownloadProgress?: (progress: TransferProgressEvent) => void;
   /**
    * Tracing: Options used to create a span when tracing is enabled.
@@ -654,8 +725,17 @@ export interface RequestPrepareOptions {
  * The Parameter value provided for path or query parameters in RequestPrepareOptions
  */
 export interface ParameterValue {
+  /**
+   * Value of the parameter.
+   */
   value: any;
+  /**
+   * Disables URL encoding if set to true.
+   */
   skipUrlEncoding: boolean;
+  /**
+   * Parameter values may contain any other property.
+   */
   [key: string]: any;
 }
 
@@ -669,7 +749,7 @@ export interface RequestOptionsBase {
   customHeaders?: { [key: string]: string };
 
   /**
-   * The signal which can be used to abort requests.
+   * Signal of an abort controller. Can be used to abort both sending a network request and waiting for a response.
    */
   abortSignal?: AbortSignalLike;
 
@@ -700,6 +780,9 @@ export interface RequestOptionsBase {
    */
   tracingContext?: Context;
 
+  /**
+   * May contain other properties.
+   */
   [key: string]: any;
 
   /**

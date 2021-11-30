@@ -31,7 +31,7 @@ export interface PipelineOptions {
    */
   proxyOptions?: ProxyOptions;
 
-  /*
+  /**
    * Options for how HTTP connections should be maintained for future
    * requests.
    */

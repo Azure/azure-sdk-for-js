@@ -14,6 +14,12 @@ export {
   RequestOptionsBase,
   TransferProgressEvent
 } from "./webResource";
+export {
+  CommonResponse,
+  CommonRequestInit,
+  CommonRequestInfo,
+  FetchHttpClient
+} from "./fetchHttpClient";
 export { DefaultHttpClient } from "./defaultHttpClient";
 export { HttpClient } from "./httpClient";
 export { HttpHeader, HttpHeaders, HttpHeadersLike, RawHttpHeaders } from "./httpHeaders";
