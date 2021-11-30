@@ -173,7 +173,8 @@ export class ShortCodesOperationsImpl implements ShortCodesOperations {
   }
 
   /**
-   * @param programBriefId
+   * Get a US Program Brief by id.
+   * @param programBriefId Program Brief Id. Must be a valid GUID
    * @param options The options parameters.
    */
   getUSProgramBrief(
@@ -187,7 +188,8 @@ export class ShortCodesOperationsImpl implements ShortCodesOperations {
   }
 
   /**
-   * @param programBriefId
+   * Submits a US Program Brief for review.
+   * @param programBriefId Program Brief Id. Must be a valid GUID
    * @param options The options parameters.
    */
   submitUSProgramBrief(

@@ -17,7 +17,7 @@ model-date-time-as-string: false
 optional-response-headers: true
 payload-flattening-threshold: 10
 use-extension:
-  "@autorest/typescript": "6.0.0-beta.13"
+  "@autorest/typescript": "6.0.0-beta.15"
 add-credentials: false
 azure-arm: false
 skip-enum-validation: true

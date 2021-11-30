@@ -57,7 +57,8 @@ export interface ShortCodesOperations {
     options?: ShortCodesDeleteUSProgramBriefOptionalParams
   ): Promise<void>;
   /**
-   * @param programBriefId
+   * Get a US Program Brief by id.
+   * @param programBriefId Program Brief Id. Must be a valid GUID
    * @param options The options parameters.
    */
   getUSProgramBrief(
@@ -65,7 +66,8 @@ export interface ShortCodesOperations {
     options?: ShortCodesGetUSProgramBriefOptionalParams
   ): Promise<ShortCodesGetUSProgramBriefResponse>;
   /**
-   * @param programBriefId
+   * Submits a US Program Brief for review.
+   * @param programBriefId Program Brief Id. Must be a valid GUID
    * @param options The options parameters.
    */
   submitUSProgramBrief(
