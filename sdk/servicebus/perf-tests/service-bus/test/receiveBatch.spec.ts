@@ -68,9 +68,8 @@ export class BatchReceiveTest extends ServiceBusTest<ReceiverOptions> {
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     for (const _ in messages) {
-      // This is to represent the bare minimum user scenario where one would iterate over the messages
-      // and do processing on them
-      // empty block
+      // This is to represent the bare minimum user scenario where one would
+      // iterate over the messages and process them
     }
     return messages.length;
   }
