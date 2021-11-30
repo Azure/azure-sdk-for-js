@@ -106,9 +106,6 @@ export class RetriableReadableStream extends Readable {
       return;
     }
 
-    // console.log(
-    //   `Offset: ${this.offset}, Received ${data.length} from internal stream`
-    // );
     this.offset += data.length;
     if (this.onProgress) {
       this.onProgress({ loadedBytes: this.offset - this.start });
@@ -124,18 +121,10 @@ export class RetriableReadableStream extends Readable {
       return;
     }
 
-    // console.log(
-    //   `Source stream emits end or error, offset: ${
-    //     this.offset
-    //   }, dest end : ${this.end}`
-    // );
     this.removeSourceEventHandlers();
     if (this.offset - 1 === this.end) {
       this.push(null);
     } else if (this.offset <= this.end) {
-      // console.log(
-      //   `retries: ${this.retries}, max retries: ${this.maxRetries}`
-      // );
       if (this.retries < this.maxRetryRequests) {
         this.retries += 1;
         this.getter(this.offset)
