@@ -13,13 +13,16 @@ import {
   RequestPolicyOptions
 } from "./requestPolicy";
 
+/**
+ * Telemetry information. Key/value pairs to include inside the User-Agent string.
+ */
 export type TelemetryInfo = { key?: string; value?: string };
 
 /**
  * Options for adding user agent details to outgoing requests.
  */
 export interface UserAgentOptions {
-  /*
+  /**
    * String prefix to add to the user agent for outgoing requests.
    * Defaults to an empty string.
    */
@@ -50,6 +53,10 @@ function getUserAgentString(
 
 export const getDefaultUserAgentHeaderName = getDefaultUserAgentKey;
 
+/**
+ * The default approach to generate user agents.
+ * Uses static information from this package, plus system information available from the runtime.
+ */
 export function getDefaultUserAgentValue(): string {
   const runtimeInfo = getRuntimeInfo();
   const platformSpecificData = getPlatformSpecificData();
@@ -57,6 +64,11 @@ export function getDefaultUserAgentValue(): string {
   return userAgent;
 }
 
+/**
+ * Returns a policy that adds the user agent header to outgoing requests based on the given {@link TelemetryInfo}.
+ * @param userAgentData - Telemetry information.
+ * @returns A new {@link UserAgentPolicy}.
+ */
 export function userAgentPolicy(userAgentData?: TelemetryInfo): RequestPolicyFactory {
   const key: string =
     !userAgentData || userAgentData.key === undefined || userAgentData.key === null
@@ -74,6 +86,9 @@ export function userAgentPolicy(userAgentData?: TelemetryInfo): RequestPolicyFac
   };
 }
 
+/**
+ * A policy that adds the user agent header to outgoing requests based on the given {@link TelemetryInfo}.
+ */
 export class UserAgentPolicy extends BaseRequestPolicy {
   constructor(
     readonly _nextPolicy: RequestPolicy,
@@ -89,6 +104,9 @@ export class UserAgentPolicy extends BaseRequestPolicy {
     return this._nextPolicy.sendRequest(request);
   }
 
+  /**
+   * Adds the user agent header to the outgoing request.
+   */
   addUserAgentHeader(request: WebResourceLike): void {
     if (!request.headers) {
       request.headers = new HttpHeaders();

@@ -3,6 +3,9 @@
 
 import { ApiKeyCredentials, ApiKeyCredentialOptions } from "./apiKeyCredentials";
 
+/**
+ * A {@link TopicCredentials} object used for Azure Event Grid.
+ */
 export class TopicCredentials extends ApiKeyCredentials {
   /**
    * Creates a new EventGrid TopicCredentials object.

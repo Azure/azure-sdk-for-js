@@ -1127,6 +1127,11 @@
       "versionPolicyName": "management"
     },
     {
+      "packageName": "@azure/arm-analysisservices",
+      "projectFolder": "sdk/analysisservices/arm-analysisservices",
+      "versionPolicyName": "management"
+    },
+    {
       "packageName": "@azure/arm-loadtestservice",
       "projectFolder": "sdk/loadtestservice/arm-loadtestservice",
       "versionPolicyName": "management"

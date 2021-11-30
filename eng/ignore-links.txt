@@ -15,3 +15,6 @@ https://docs.microsoft.com/javascript/api/@azure/arm-orbital
 https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/orbital/arm-orbital
 https://docs.microsoft.com/javascript/api/@azure/arm-orbital?view=azure-node-preview
 https://docs.microsoft.com/javascript/api/@azure/arm-botservice?view=azure-node-preview
+https://docs.microsoft.com/javascript/api/@azure/arm-loadtestservice?view=azure-node-preview
+https://docs.microsoft.com/javascript/api/@azure/arm-loadtestservice
+https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/loadtestservice/arm-loadtestservice
