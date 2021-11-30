@@ -3,7 +3,6 @@
 
 import {
   Instrumenter,
-  TracingSpanOptions,
   TracingSpan,
   TracingContext,
   TracingSpanContext,
@@ -21,20 +20,6 @@ export class NoOpInstrumenter implements Instrumenter {
       span: new NoOpSpan(),
       tracingContext: createTracingContext({ parentContext: spanOptions?.tracingContext })
     };
-  }
-  withSpan<
-    Callback extends (
-      context: TracingContext,
-      span: Omit<TracingSpan, "end">
-    ) => ReturnType<Callback>
-  >(
-    _name: string,
-    fn: Callback,
-    _options: TracingSpanOptions,
-    callbackThis?: ThisParameterType<Callback>
-  ): Promise<ReturnType<Callback>> {
-    const { span, tracingContext } = this.startSpan();
-    return Promise.resolve(fn.call(callbackThis, tracingContext, span));
   }
   withContext<
     CallbackArgs extends unknown[],

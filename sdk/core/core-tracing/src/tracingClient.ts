@@ -67,8 +67,8 @@ export class TracingClientImpl implements TracingClient {
     ) => ReturnType<Callback>
   >(
     name: string,
+    operationOptions: Options,
     callback: Callback,
-    operationOptions?: Options,
     spanOptions?: TracingSpanOptions,
     callbackThis?: ThisParameterType<Callback>
   ): Promise<ReturnType<Callback>> {
