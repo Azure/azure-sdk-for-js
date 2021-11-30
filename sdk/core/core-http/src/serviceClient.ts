@@ -88,7 +88,10 @@ export interface ProxySettings {
   password?: string;
 }
 
-export type ProxyOptions = ProxySettings; // Alias ProxySettings as ProxyOptions for future use.
+/**
+ * An alias of {@link ProxySettings} for future use.
+ */
+export type ProxyOptions = ProxySettings;
 
 /**
  * Options to be provided while creating the client.
@@ -750,6 +753,12 @@ function createDefaultRequestPolicyFactories(
   return factories;
 }
 
+/**
+ * Creates an HTTP pipeline based on the given options.
+ * @param pipelineOptions - Defines options that are used to configure policies in the HTTP pipeline for an SDK client.
+ * @param authPolicyFactory - An optional authentication policy factory to use for signing requests.
+ * @returns A set of options that can be passed to create a new {@link ServiceClient}.
+ */
 export function createPipelineFromOptions(
   pipelineOptions: InternalPipelineOptions,
   authPolicyFactory?: RequestPolicyFactory
@@ -975,6 +984,12 @@ function getPropertyFromParameterPath(
   return result;
 }
 
+/**
+ * Parses an {@link HttpOperationResponse} into a normalized HTTP response object ({@link RestResponse}).
+ * @param _response - Wrapper object for http response.
+ * @param responseSpec - Mappers for how to parse the response properties.
+ * @returns - A normalized response object.
+ */
 export function flattenResponse(
   _response: HttpOperationResponse,
   responseSpec: OperationResponse | undefined

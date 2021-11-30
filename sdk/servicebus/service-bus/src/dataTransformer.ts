@@ -6,6 +6,26 @@ import isBuffer from "is-buffer";
 import { Buffer } from "buffer";
 import { logErrorStackTrace, logger } from "./log";
 
+/** @internal */
+export const dataSectionTypeCode = 0x75 as const;
+/** @internal */
+export const sequenceSectionTypeCode = 0x76 as const;
+/** @internal */
+export const valueSectionTypeCode = 0x77 as const;
+
+/**
+ * Mirror of the internal Section interface in rhea.
+ *
+ * @internal
+ */
+export interface RheaAmqpSection {
+  typecode:
+    | typeof dataSectionTypeCode
+    | typeof sequenceSectionTypeCode
+    | typeof valueSectionTypeCode;
+  content: any;
+}
+
 /**
  * The default data transformer that will be used by the Azure SDK.
  * @internal
@@ -64,7 +84,7 @@ export const defaultDataTransformer = {
    * of the AMQP mesage.
    *
    * @param body - The AMQP message body
-   * @return decoded body or the given body as-is.
+   * @returns decoded body or the given body as-is.
    */
   decode(body: unknown): unknown {
     let actualContent = body;
@@ -83,7 +103,7 @@ export const defaultDataTransformer = {
    * indicating which part of the AMQP message the body was decoded from.
    *
    * @param body - The AMQP message body as received from rhea.
-   * @return The decoded/raw body and the body type.
+   * @returns The decoded/raw body and the body type.
    */
   decodeWithType(
     body: unknown | RheaAmqpSection
@@ -137,11 +157,12 @@ export function isRheaAmqpSection(
  * Attempts to decode 'body' as a JSON string. If it fails it returns body
  * verbatim.
  *
- * @param body An AMQP message body.
+ * @param body - An AMQP message body.
  * @returns A JSON decoded object, or body if body was not a JSON string.
  *
  * @internal
  */
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function tryToJsonDecode(body: any): any {
   let processedBody = body;
   try {
@@ -157,24 +178,4 @@ export function tryToJsonDecode(body: any): any {
     );
   }
   return processedBody;
-}
-
-/** @internal */
-export const dataSectionTypeCode: 0x75 = 0x75;
-/** @internal */
-export const sequenceSectionTypeCode: 0x76 = 0x76;
-/** @internal */
-export const valueSectionTypeCode: 0x77 = 0x77;
-
-/**
- * Mirror of the internal Section interface in rhea.
- *
- * @internal
- */
-export interface RheaAmqpSection {
-  typecode:
-    | typeof dataSectionTypeCode
-    | typeof sequenceSectionTypeCode
-    | typeof valueSectionTypeCode;
-  content: any;
 }

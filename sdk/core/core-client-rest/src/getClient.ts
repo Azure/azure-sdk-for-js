@@ -47,7 +47,6 @@ export function getClient(
       get: (options: RequestParameters = {}): Promise<HttpResponse> => {
         return buildSendRequest(
           "GET",
-          clientOptions,
           baseUrl,
           path,
           pipeline,
@@ -58,7 +57,6 @@ export function getClient(
       post: (options: RequestParameters = {}): Promise<HttpResponse> => {
         return buildSendRequest(
           "POST",
-          clientOptions,
           baseUrl,
           path,
           pipeline,
@@ -69,7 +67,6 @@ export function getClient(
       put: (options: RequestParameters = {}): Promise<HttpResponse> => {
         return buildSendRequest(
           "PUT",
-          clientOptions,
           baseUrl,
           path,
           pipeline,
@@ -80,7 +77,6 @@ export function getClient(
       patch: (options: RequestParameters = {}): Promise<HttpResponse> => {
         return buildSendRequest(
           "PATCH",
-          clientOptions,
           baseUrl,
           path,
           pipeline,
@@ -91,7 +87,6 @@ export function getClient(
       delete: (options: RequestParameters = {}): Promise<HttpResponse> => {
         return buildSendRequest(
           "DELETE",
-          clientOptions,
           baseUrl,
           path,
           pipeline,
@@ -102,7 +97,6 @@ export function getClient(
       head: (options: RequestParameters = {}): Promise<HttpResponse> => {
         return buildSendRequest(
           "HEAD",
-          clientOptions,
           baseUrl,
           path,
           pipeline,
@@ -113,7 +107,6 @@ export function getClient(
       options: (options: RequestParameters = {}): Promise<HttpResponse> => {
         return buildSendRequest(
           "OPTIONS",
-          clientOptions,
           baseUrl,
           path,
           pipeline,
@@ -124,7 +117,6 @@ export function getClient(
       trace: (options: RequestParameters = {}): Promise<HttpResponse> => {
         return buildSendRequest(
           "TRACE",
-          clientOptions,
           baseUrl,
           path,
           pipeline,
@@ -144,7 +136,6 @@ export function getClient(
 
 function buildSendRequest(
   method: HttpMethods,
-  clientOptions: ClientOptions,
   baseUrl: string,
   path: string,
   pipeline: Pipeline,
@@ -152,14 +143,6 @@ function buildSendRequest(
   args: string[] = []
 ): Promise<HttpResponse> {
   // If the client has an api-version and the request doesn't specify one, inject the one in the client options
-  if (!requestOptions.queryParameters?.["api-version"] && clientOptions.apiVersion) {
-    if (!requestOptions.queryParameters) {
-      requestOptions.queryParameters = {};
-    }
-
-    requestOptions.queryParameters["api-version"] = clientOptions.apiVersion;
-  }
-
   const url = buildRequestUrl(baseUrl, path, args, requestOptions);
   return sendRequest(method, url, pipeline, requestOptions);
 }
