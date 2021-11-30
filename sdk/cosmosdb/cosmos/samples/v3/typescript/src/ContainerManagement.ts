@@ -10,14 +10,11 @@ import * as dotenv from "dotenv";
 dotenv.config({ path: path.resolve(__dirname, "../sample.env") });
 
 import { finish, handleError, logStep, logSampleHeader } from "./Shared/handleError";
-import { CosmosClient } from "../dist-esm";
-const {
-  COSMOS_DATABASE: databaseId,
-  COSMOS_CONTAINER: containerId,
-  COSMOS_ENDPOINT: endpoint,
-  COSMOS_KEY: key
-} = process.env;
-
+import { CosmosClient } from "@azure/cosmos";
+const key = process.env.COSMOS_KEY || "<cosmos key>";
+const endpoint = process.env.COSMOS_ENDPOINT || "<cosmos endpoint>";
+const databaseId = process.env.COSMOS_DATABASE || "<cosmos database>";
+const containerId = process.env.COSMOS_CONTAINER || "<cosmos container>";
 logSampleHeader("Container Management");
 
 // Establish a new instance of the CosmosClient to be used throughout this demo
@@ -39,9 +36,11 @@ async function run(): Promise<void> {
   logStep("Read container definition");
   const container = database.container(containerId);
   const { resource: containerDef } = await container.read();
-  console.log(`Container with url "${container.url}" was found its id is "${containerDef.id}`);
+  console.log(
+    `Container with url "${container.url}" was found its id is "${containerDef && containerDef.id}`
+  );
 
-  logStep(`Delete container ${containerDef.id}`);
+  logStep(`Delete container ${containerDef && containerDef.id}`);
   await container.delete();
   await finish();
 }

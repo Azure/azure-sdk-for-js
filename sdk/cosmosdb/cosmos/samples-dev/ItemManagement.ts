@@ -6,24 +6,21 @@
  */
 
 import path from "path";
+
 import * as dotenv from "dotenv";
 dotenv.config({ path: path.resolve(__dirname, "../sample.env") });
 
 import { logSampleHeader, handleError, finish, logStep } from "./Shared/handleError";
-import { readFileSync } from "fs";
-import { CosmosClient } from "../dist-esm";
-const {
-  COSMOS_DATABASE: databaseId,
-  COSMOS_CONTAINER: containerId,
-  COSMOS_ENDPOINT: endpoint,
-  COSMOS_KEY: key
-} = process.env;
+import { CosmosClient } from "@azure/cosmos";
+
+import { Families } from "./Data/Families.json";
+
+const key = process.env.COSMOS_KEY || "<cosmos key>";
+const endpoint = process.env.COSMOS_ENDPOINT || "<cosmos endpoint>";
+const containerId = process.env.COSMOS_CONTAINER || "<cosmos container>";
+const databaseId = process.env.COSMOS_DATABASE || "<cosmos database>";
 
 logSampleHeader("Item Management");
-
-const itemDefs = JSON.parse(
-  readFileSync(path.resolve(__dirname, "./Shared/Data/Families.json"), "utf8")
-).Families;
 
 // Establish a new instance of the CosmosClient to be used throughout this demo
 const client = new CosmosClient({ endpoint, key });
@@ -35,8 +32,8 @@ async function run(): Promise<void> {
 
   logStep("Insert items in to database '" + databaseId + "' and container '" + containerId + "'");
 
-  await Promise.all(itemDefs.map((itemDef: any) => container.items.create(itemDef)));
-  console.log(itemDefs.length + " items created");
+  await Promise.all(Families.map((itemDef: any) => container.items.create(itemDef)));
+  console.log(Families.length + " items created");
 
   logStep("List items in container '" + container.id + "'");
   const { resources: itemDefList } = await container.items.readAll().fetchAll();
@@ -44,8 +41,11 @@ async function run(): Promise<void> {
   for (const itemDef of itemDefList) {
     console.log(itemDef.id);
   }
-
-  const item = container.item(itemDefList[0].id, undefined);
+  const id = itemDefList[0]!.id;
+  if (typeof id === "undefined") {
+    throw new Error("Id is undefined");
+  }
+  const item = container.item(id, undefined);
   logStep("Read item '" + item.id + "'");
   const { resource: readDoc } = await item.read();
   console.log("item with id '" + item.id + "' found");
@@ -112,10 +112,12 @@ async function run(): Promise<void> {
   logStep("Replace item with id '" + item.id + "'");
   const { resource: updatedPerson } = await container.items.upsert(person);
 
-  console.log("The '" + person.id + "' family has lastName '" + updatedPerson.lastName + "'");
-  console.log(
-    "The '" + person.id + "' family has " + updatedPerson.children.length + " children '"
-  );
+  if (person && updatedPerson) {
+    console.log("The '" + person.id + "' family has lastName '" + updatedPerson.lastName + "'");
+    console.log(
+      "The '" + person.id + "' family has " + updatedPerson.children.length + " children '"
+    );
+  }
 
   logStep("Trying to replace item when item has changed in the database");
   // The replace item above will work even if there's a new version of item on the server from what you originally read
@@ -133,7 +135,7 @@ async function run(): Promise<void> {
     await item.replace(person, { accessCondition: { type: "IfMatch", condition: person._etag } });
     throw new Error("This should have failed!");
   } catch (err) {
-    if (err.code === 412) {
+    if (err && err.code === 412) {
       console.log("As expected, the replace item failed with a pre-condition failure");
     } else {
       throw err;
@@ -141,20 +143,28 @@ async function run(): Promise<void> {
   }
 
   const upsertSource = itemDefList[1];
-  logStep(`Upserting person ${upsertSource.id} with id ${upsertSource.id}...`);
+  logStep(
+    `Upserting person ${upsertSource && upsertSource.id} with id ${upsertSource &&
+      upsertSource.id}...`
+  );
 
   // a non-identity change will cause an update on upsert
   upsertSource.foo = "baz";
   const { resource: upsertedPerson1 } = await container.items.upsert(upsertSource);
-  console.log(`Upserted ${upsertedPerson1.id} to id ${upsertedPerson1.id}.`);
-
+  if (upsertedPerson1) {
+    console.log(`Upserted ${upsertedPerson1.id} to id ${upsertedPerson1.id}.`);
+  }
   // an identity change will cause an insert on upsert
   upsertSource.id = "HazzardFamily";
   const { resource: upsertedPerson2 } = await container.items.upsert(upsertSource);
-  console.log(`Upserted ${upsertedPerson2.id} to id ${upsertedPerson2.id}.`);
+  if (upsertedPerson2) {
+    console.log(`Upserted ${upsertedPerson2.id} to id ${upsertedPerson2.id}.`);
+  }
 
-  if (upsertedPerson1.id === upsertedPerson2.id) {
-    throw new Error("These two upserted records should have different resource IDs.");
+  if (upsertedPerson1 && upsertedPerson2) {
+    if (upsertedPerson1.id === upsertedPerson2.id) {
+      throw new Error("These two upserted records should have different resource IDs.");
+    }
   }
 
   logStep("Delete item '" + item.id + "'");

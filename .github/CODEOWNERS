@@ -35,18 +35,19 @@
 
 # PRLabel: %Communication
 /sdk/communication/communication-calling-server/ @zihzhan-msft @cochi2
-/sdk/communication/communication-identity/ @Azure/acs-identity-sdk 
+/sdk/communication/communication-identity/ @Azure/acs-identity-sdk
 /sdk/communication/communication-chat/ @LuChen-Microsoft
 /sdk/communication/communication-phone-numbers/ @miguhern @danielav7 @whisper6284 @AlonsoMondal
 /sdk/communication/communication-network-traversal/ @AriZavala2
 /sdk/communication/communication-sms/ @RoyHerrod @arifibrahim4
+/sdk/communication/communication-short-codes/ @danielav7 @AlonsoMondal @ericasp16
 /sdk/communication/communication-common/ @Azure/acs-identity-sdk
 
 # PRLabel: %Container Registry
 /sdk/containerregistry/ @jeremymeng
 
 # PRLabel: %Cosmos
-/sdk/cosmosdb/ @kushagraThapar @simorenoh @simplynaveen20 @xinlian12 @moderakh 
+/sdk/cosmosdb/ @kushagraThapar @simorenoh @simplynaveen20 @xinlian12 @moderakh @jay-most
 
 # PRLabel: %Digital Twins
 /sdk/digitaltwins/ @johngallardo
@@ -627,6 +628,9 @@
 
 # PRLabel: %Mgmt
 sdk/desktopvirtualization/arm-desktopvirtualization @qiaozha @dw511214992
+
+# PRLabel: %Mgmt
+sdk/orbital/arm-orbital @qiaozha @dw511214992
 
 # PRLabel: %Monitor
 /sdk/monitor/ @hectorhdzg @applicationinsights-js-owners

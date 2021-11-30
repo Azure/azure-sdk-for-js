@@ -9,5 +9,7 @@ import { PerfTest } from "../src";
 export class NoOp extends PerfTest {
   public options = {};
 
-  async run(): Promise<void> {}
+  async run(): Promise<void> {
+    // do nothing
+  }
 }

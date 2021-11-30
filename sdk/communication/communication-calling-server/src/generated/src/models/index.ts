@@ -157,8 +157,6 @@ export interface PlayAudioRequest {
   operationContext?: string;
   /** An id for the media in the AudioFileUri, using which we cache the media resource. */
   audioFileId?: string;
-  /** The callback Uri to receive PlayAudio status notifications. */
-  callbackUri?: string;
 }
 
 /** The response payload for play audio operation. */
@@ -170,7 +168,7 @@ export interface PlayAudioResult {
   /** The operation context provided by client. */
   operationContext?: string;
   /** The result info for the operation. */
-  resultInfo?: CallingOperationResultDetails;
+  resultDetails?: CallingOperationResultDetails;
 }
 
 /** The result details of calling operation. */
@@ -183,12 +181,10 @@ export interface CallingOperationResultDetails {
   message?: string;
 }
 
-/** The transfer call request. */
-export interface TransferCallRequest {
+/** The transfer call to participant request. */
+export interface TransferToParticipantRequest {
   /** The identity of the target where call should be transfer to. */
-  targetParticipant?: CommunicationIdentifierModel;
-  /** The call connection id to replace the current call with. This parameter should be used for consultative transfer. */
-  targetCallConnectionId?: string;
+  targetParticipant: CommunicationIdentifierModel;
   /** The alternate identity of the transferor if transferring to a pstn number. */
   alternateCallerId?: PhoneNumberIdentifierModel;
   /** The user to user information. */
@@ -206,7 +202,17 @@ export interface TransferCallResult {
   /** The operation context provided by client. */
   operationContext?: string;
   /** The result info for the operation. */
-  resultInfo?: CallingOperationResultDetails;
+  resultDetails?: CallingOperationResultDetails;
+}
+
+/** The transfer to call request. */
+export interface TransferToCallRequest {
+  /** The call connection id to replace the current call with. This parameter should be used for consultative transfer. */
+  targetCallConnectionId: string;
+  /** The user to user information. */
+  userToUserInformation?: string;
+  /** The operation context. */
+  operationContext?: string;
 }
 
 /** The audio routing group request. */
@@ -243,14 +249,14 @@ export interface CallParticipant {
 export interface AddParticipantWithCallLocatorRequest {
   /** The call locator. */
   callLocator: CallLocatorModel;
+  /** The callback URI. */
+  callbackUri?: string;
   /** The alternate identity of source participant. */
   alternateCallerId?: PhoneNumberIdentifierModel;
   /** The participant to be added to the call. */
   participant: CommunicationIdentifierModel;
   /** The operation context. */
   operationContext?: string;
-  /** The callback URI. */
-  callbackUri?: string;
 }
 
 /** The add participant result */
@@ -277,10 +283,12 @@ export interface GetParticipantWithCallLocatorRequest {
 
 /** The request payload for playing audio with call locator to participant. */
 export interface PlayAudioToParticipantWithCallLocatorRequest {
-  /** The call locator. */
-  callLocator: CallLocatorModel;
   /** The identifier of the participant to play audio to. */
   identifier: CommunicationIdentifierModel;
+  /** The call locator. */
+  callLocator: CallLocatorModel;
+  /** The callback Uri to receive PlayAudio status notifications. */
+  callbackUri?: string;
   /**
    * The media resource uri of the play audio request.
    * Currently only Wave file (.wav) format audio prompts are supported.
@@ -294,8 +302,6 @@ export interface PlayAudioToParticipantWithCallLocatorRequest {
   operationContext?: string;
   /** An id for the media in the AudioFileUri, using which we cache the media resource. */
   audioFileId?: string;
-  /** The callback Uri to receive PlayAudio status notifications. */
-  callbackUri?: string;
 }
 
 /** The request payload for stopping a media operation for a participant with call locator. */
@@ -316,8 +322,6 @@ export interface AddParticipantRequest {
   participant: CommunicationIdentifierModel;
   /** The operation context. */
   operationContext?: string;
-  /** The callback URI. */
-  callbackUri?: string;
 }
 
 /** The remove participant by identifier request. */
@@ -349,8 +353,6 @@ export interface PlayAudioToParticipantRequest {
   operationContext?: string;
   /** An id for the media in the AudioFileUri, using which we cache the media resource. */
   audioFileId?: string;
-  /** The callback Uri to receive PlayAudio status notifications. */
-  callbackUri?: string;
 }
 
 /** The request payload for stopping a media operation for a participant. */
@@ -441,6 +443,8 @@ export interface JoinCallResult {
 export interface PlayAudioWithCallLocatorRequest {
   /** The call locator. */
   callLocator: CallLocatorModel;
+  /** The callback Uri to receive PlayAudio status notifications. */
+  callbackUri?: string;
   /**
    * The media resource uri of the play audio request.
    * Currently only Wave file (.wav) format audio prompts are supported.
@@ -454,8 +458,6 @@ export interface PlayAudioWithCallLocatorRequest {
   operationContext?: string;
   /** An id for the media in the AudioFileUri, using which we cache the media resource. */
   audioFileId?: string;
-  /** The callback Uri to receive PlayAudio status notifications. */
-  callbackUri?: string;
 }
 
 /** The request payload for stopping a media operation for a participant with call locator. */
@@ -490,8 +492,6 @@ export interface RejectCallRequest {
   incomingCallContext: string;
   /** The rejection reason. */
   callRejectReason?: CallRejectReason;
-  /** The callback uri. */
-  callbackUri?: string;
 }
 
 /** The request payload for redirecting the call. */
@@ -499,11 +499,7 @@ export interface RedirectCallRequest {
   /** The context associated with the call. */
   incomingCallContext: string;
   /** The target identity to redirect the call to. */
-  targets: CommunicationIdentifierModel[];
-  /** The callback uri. */
-  callbackUri?: string;
-  /** The timeout for the redirect in seconds. */
-  timeoutInSeconds?: number;
+  target: CommunicationIdentifierModel;
 }
 
 /** The call connection state changed event. */
@@ -531,7 +527,7 @@ export interface CallRecordingStateChangeEvent {
 /** The add participant result event. */
 export interface AddParticipantResultEvent {
   /** The result details. */
-  resultInfo?: CallingOperationResultDetails;
+  resultDetails?: CallingOperationResultDetails;
   /** The operation context. */
   operationContext?: string;
   /** The status of the operation */
@@ -549,7 +545,7 @@ export interface ParticipantsUpdatedEvent {
 /** The play audio result event. */
 export interface PlayAudioResultEvent {
   /** The result details. */
-  resultInfo?: CallingOperationResultDetails;
+  resultDetails?: CallingOperationResultDetails;
   /** The operation context. */
   operationContext?: string;
   /** The status of the operation */
@@ -575,7 +571,7 @@ export interface ToneInfo {
 /** The transfer call result event. */
 export interface TransferCallResultEvent {
   /** The result details. */
-  resultInfo?: CallingOperationResultDetails;
+  resultDetails?: CallingOperationResultDetails;
   /** The operation context. */
   operationContext?: string;
   /** The status of the operation */
@@ -844,8 +840,20 @@ export type CallConnectionsPlayAudioResponse = PlayAudioResult & {
   };
 };
 
-/** Contains response data for the transfer operation. */
-export type CallConnectionsTransferResponse = TransferCallResult & {
+/** Contains response data for the transferToParticipant operation. */
+export type CallConnectionsTransferToParticipantResponse = TransferCallResult & {
+  /** The underlying HTTP response. */
+  _response: coreHttp.HttpResponse & {
+    /** The response body as text (string format) */
+    bodyAsText: string;
+
+    /** The response body as parsed JSON or XML */
+    parsedBody: TransferCallResult;
+  };
+};
+
+/** Contains response data for the transferToCall operation. */
+export type CallConnectionsTransferToCallResponse = TransferCallResult & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */
@@ -893,14 +901,14 @@ export type CallConnectionsAddParticipantResponse = AddParticipantResult & {
 };
 
 /** Contains response data for the getParticipant operation. */
-export type CallConnectionsGetParticipantResponse = CallParticipant[] & {
+export type CallConnectionsGetParticipantResponse = CallParticipant & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */
     bodyAsText: string;
 
     /** The response body as parsed JSON or XML */
-    parsedBody: CallParticipant[];
+    parsedBody: CallParticipant;
   };
 };
 
@@ -941,14 +949,14 @@ export type ServerCallsAddParticipantResponse = AddParticipantResult & {
 };
 
 /** Contains response data for the getParticipant operation. */
-export type ServerCallsGetParticipantResponse = CallParticipant[] & {
+export type ServerCallsGetParticipantResponse = CallParticipant & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */
     bodyAsText: string;
 
     /** The response body as parsed JSON or XML */
-    parsedBody: CallParticipant[];
+    parsedBody: CallParticipant;
   };
 };
 

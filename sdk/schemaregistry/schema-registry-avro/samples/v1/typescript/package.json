@@ -30,7 +30,7 @@
     "@azure/schema-registry-avro": "next",
     "dotenv": "latest",
     "@azure/identity": "^2.0.1",
-    "@azure/schema-registry": "1.0.0"
+    "@azure/schema-registry": "1.0.1"
   },
   "devDependencies": {
     "typescript": "~4.4.0",

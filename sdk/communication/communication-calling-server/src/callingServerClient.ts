@@ -22,7 +22,9 @@ import {
   ResumeRecordingOptions,
   StopRecordingOptions,
   GetRecordingPropertiesOptions,
-  DeleteOptions
+  DeleteRecordingOptions,
+  GetParticipantOptions,
+  GetParticipantsOptions
 } from "./models";
 import { CallConnections, ServerCalls } from "./generated/src/operations";
 import {
@@ -42,7 +44,10 @@ import {
   CancelParticipantMediaOperationWithCallLocatorRequest,
   StartCallRecordingResult,
   StartCallRecordingWithCallLocatorRequest,
-  CallRecordingProperties
+  CallRecordingProperties,
+  CallParticipant,
+  GetParticipantWithCallLocatorRequest,
+  GetAllParticipantsWithCallLocatorRequest
 } from "./generated/src/models";
 import * as Mappers from "./generated/src/models/mappers";
 import { TokenCredential } from "@azure/core-auth";
@@ -280,7 +285,7 @@ export class CallingServerClient {
     options: PlayAudioOptions
   ): Promise<PlayAudioResult> {
     const { operationOptions, restOptions } = extractOperationOptions(options);
-    const { span, updatedOptions } = createSpan("ServerCallRestClient-playAudio", operationOptions);
+    const { span, updatedOptions } = createSpan("ServerCallRestClient-PlayAudio", operationOptions);
 
     const request: PlayAudioWithCallLocatorRequest = {
       callLocator: callLocator,
@@ -323,7 +328,10 @@ export class CallingServerClient {
     options: PlayAudioToParticipantOptions
   ): Promise<PlayAudioResult> {
     const { operationOptions, restOptions } = extractOperationOptions(options);
-    const { span, updatedOptions } = createSpan("ServerCallRestClient-playAudio", operationOptions);
+    const { span, updatedOptions } = createSpan(
+      "ServerCallRestClient-PlayAudioToParticipant",
+      operationOptions
+    );
 
     const request: PlayAudioToParticipantWithCallLocatorRequest = {
       callLocator: callLocator,
@@ -367,7 +375,10 @@ export class CallingServerClient {
     options: AddParticipantOptions = {}
   ): Promise<AddParticipantResult> {
     const { operationOptions, restOptions } = extractOperationOptions(options);
-    const { span, updatedOptions } = createSpan("ServerCallRestClient-playAudio", operationOptions);
+    const { span, updatedOptions } = createSpan(
+      "ServerCallRestClient-AddParticipant",
+      operationOptions
+    );
     const alternate_caller_id =
       typeof restOptions?.alternateCallerId === "undefined"
         ? restOptions?.alternateCallerId
@@ -411,7 +422,7 @@ export class CallingServerClient {
     participant: CommunicationIdentifier,
     options: RemoveParticipantOptions = {}
   ): Promise<void> {
-    const { span, updatedOptions } = createSpan("ServerCallRestClient-removeParticipant", options);
+    const { span, updatedOptions } = createSpan("ServerCallRestClient-RemoveParticipant", options);
 
     const request: RemoveParticipantWithCallLocatorRequest = {
       callLocator: callLocator,
@@ -423,6 +434,75 @@ export class CallingServerClient {
         request,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
+    } catch (e) {
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Get participants from a server call.
+   *
+   * @param callLocator - The callLocator contains call id.
+   * @param participant - The identifier of the participant.
+   * @param options - Additional request options contains getParticipant api options.
+   */
+  public async getParticipant(
+    callLocator: CallLocator,
+    participant: CommunicationIdentifier,
+    options: GetParticipantOptions = {}
+  ): Promise<CallParticipant> {
+    const { span, updatedOptions } = createSpan("ServerCallRestClient-GetParticipant", options);
+
+    const request: GetParticipantWithCallLocatorRequest = {
+      callLocator: callLocator,
+      identifier: serializeCommunicationIdentifier(participant)
+    };
+
+    try {
+      const { _response, ...result } = await this.serverCallRestClient.getParticipant(
+        request,
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+      return result;
+    } catch (e) {
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Get participant from the call using identifier.
+   *
+   * @param callLocator - The callLocator contains call id.
+   * @param options - Additional request options contains getParticipants api options.
+   */
+  public async getParticipants(
+    callLocator: CallLocator,
+    options: GetParticipantsOptions = {}
+  ): Promise<CallParticipant[]> {
+    const { span, updatedOptions } = createSpan("ServerCallRestClient-GetParticipants", options);
+
+    const request: GetAllParticipantsWithCallLocatorRequest = {
+      callLocator: callLocator
+    };
+
+    try {
+      const { _response } = await this.serverCallRestClient.getParticipants(
+        request,
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+      return _response.parsedBody;
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -447,7 +527,7 @@ export class CallingServerClient {
     options: CancelMediaOperationOptions = {}
   ): Promise<void> {
     const { span, updatedOptions } = createSpan(
-      "ServerCallRestClient-cancelMediaOperation",
+      "ServerCallRestClient-CancelMediaOperation",
       options
     );
 
@@ -484,7 +564,7 @@ export class CallingServerClient {
   ): Promise<AnswerCallResult> {
     const { operationOptions, restOptions } = extractOperationOptions(options);
     const { span, updatedOptions } = createSpan(
-      "ServerCallRestClient-answerCall",
+      "ServerCallRestClient-AnswerCall",
       operationOptions
     );
 
@@ -524,14 +604,13 @@ export class CallingServerClient {
   ): Promise<void> {
     const { operationOptions, restOptions } = extractOperationOptions(options);
     const { span, updatedOptions } = createSpan(
-      "ServerCallRestClient-rejectCall",
+      "ServerCallRestClient-RejectCall",
       operationOptions
     );
 
     const request: RejectCallRequest = {
       incomingCallContext: incomingCallContext,
-      callRejectReason: restOptions.callRejectReason,
-      callbackUri: restOptions.callbackUrl
+      callRejectReason: restOptions.callRejectReason
     };
 
     try {
@@ -554,25 +633,19 @@ export class CallingServerClient {
    * Reject the call.
    *
    * @param incomingCallContext - The context associated with the call.
-   * @param targets - The target identity to redirect the call to.
+   * @param target - The target identity to redirect the call to.
    * @param options - Additional request options contains redirectCall api options.
    */
   public async redirectCall(
     incomingCallContext: string,
-    targets: CommunicationIdentifier[],
+    target: CommunicationIdentifier,
     options: RedirectCallOptions = {}
   ): Promise<void> {
-    const { operationOptions, restOptions } = extractOperationOptions(options);
-    const { span, updatedOptions } = createSpan(
-      "ServerCallRestClient-redirectCall",
-      operationOptions
-    );
+    const { span, updatedOptions } = createSpan("ServerCallRestClient-RedirectCall", options);
 
     const request: RedirectCallRequest = {
       incomingCallContext: incomingCallContext,
-      targets: targets.map((m) => serializeCommunicationIdentifier(m)),
-      callbackUri: restOptions.callbackUrl,
-      timeoutInSeconds: restOptions.timeoutInSeconds
+      target: serializeCommunicationIdentifier(target)
     };
 
     try {
@@ -606,7 +679,7 @@ export class CallingServerClient {
     options: CancelMediaOperationOptions = {}
   ): Promise<void> {
     const { span, updatedOptions } = createSpan(
-      "ServerCallRestClient-cancelParticipantMediaOperation",
+      "ServerCallRestClient-CancelParticipantMediaOperation",
       options
     );
 
@@ -644,7 +717,7 @@ export class CallingServerClient {
     recordingStateCallbackUrl: string,
     options: StartRecordingOptions = {}
   ): Promise<StartCallRecordingResult> {
-    const { span, updatedOptions } = createSpan("ServerCallRestClient-startRecording", options);
+    const { span, updatedOptions } = createSpan("ServerCallRestClient-StartRecording", options);
 
     const startCallRecordingWithCallLocatorRequest: StartCallRecordingWithCallLocatorRequest = {
       callLocator: serializeCallLocator(callLocator),
@@ -679,7 +752,7 @@ export class CallingServerClient {
     recordingId: string,
     options: PauseRecordingOptions = {}
   ): Promise<void> {
-    const { span, updatedOptions } = createSpan("ServerCallRestClient-pauseRecording", options);
+    const { span, updatedOptions } = createSpan("ServerCallRestClient-PauseRecording", options);
 
     try {
       await this.serverCallRestClient.pauseRecording(
@@ -707,7 +780,7 @@ export class CallingServerClient {
     recordingId: string,
     options: ResumeRecordingOptions = {}
   ): Promise<void> {
-    const { span, updatedOptions } = createSpan("ServerCallRestClient-resumeRecording", options);
+    const { span, updatedOptions } = createSpan("ServerCallRestClient-ResumeRecording", options);
 
     try {
       await this.serverCallRestClient.resumeRecording(
@@ -735,7 +808,7 @@ export class CallingServerClient {
     recordingId: string,
     options: StopRecordingOptions = {}
   ): Promise<void> {
-    const { span, updatedOptions } = createSpan("ServerCallRestClient-stopRecording", options);
+    const { span, updatedOptions } = createSpan("ServerCallRestClient-StopRecording", options);
 
     try {
       await this.serverCallRestClient.stopRecording(
@@ -764,7 +837,7 @@ export class CallingServerClient {
     options: GetRecordingPropertiesOptions = {}
   ): Promise<CallRecordingProperties> {
     const { span, updatedOptions } = createSpan(
-      "ServerCallRestClient-getRecordingProperties",
+      "ServerCallRestClient-GetRecordingProperties",
       options
     );
 
@@ -975,8 +1048,11 @@ export class CallingServerClient {
    *
    * ```
    */
-  public async delete(deleteUrl: string, options: DeleteOptions = {}): Promise<RestResponse> {
-    const { span, updatedOptions } = createSpan("ServerCallRestClient-delete", options);
+  public async deleteRecording(
+    deleteUrl: string,
+    options: DeleteRecordingOptions = {}
+  ): Promise<RestResponse> {
+    const { span, updatedOptions } = createSpan("ServerCallRestClient-DeleteRecording", options);
 
     const operationArguments: OperationArguments = {
       options: operationOptionsToRequestOptionsBase(updatedOptions)

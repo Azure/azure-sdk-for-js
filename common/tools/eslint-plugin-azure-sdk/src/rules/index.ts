@@ -16,6 +16,7 @@ import tsConfigEsModuleInterop from "./ts-config-esmoduleinterop";
 import tsConfigExclude from "./ts-config-exclude";
 import tsConfigForceConsistentCasingInFileNames from "./ts-config-forceconsistentcasinginfilenames";
 import tsConfigImportHelpers from "./ts-config-importhelpers";
+import tsConfigInclude from "./ts-config-include";
 import tsConfigLib from "./ts-config-lib";
 import tsConfigModule from "./ts-config-module";
 import tsConfigModuleResolution from "./ts-config-moduleresolution";
@@ -30,7 +31,6 @@ import tsNamingDropNoun from "./ts-naming-drop-noun";
 import tsNamingOptions from "./ts-naming-options";
 import tsNamingSubclients from "./ts-naming-subclients";
 import tsNoConstEnums from "./ts-no-const-enums";
-import tsNoNamespaces from "./ts-no-namespaces";
 import tsNoWindow from "./ts-no-window";
 import tsPackageJsonAuthor from "./ts-package-json-author";
 import tsPackageJsonBugs from "./ts-package-json-bugs";
@@ -66,6 +66,7 @@ export = {
   "ts-config-exclude": tsConfigExclude,
   "ts-config-forceconsistentcasinginfilenames": tsConfigForceConsistentCasingInFileNames,
   "ts-config-importhelpers": tsConfigImportHelpers,
+  "ts-config-include": tsConfigInclude,
   "ts-config-lib": tsConfigLib,
   "ts-config-module": tsConfigModule,
   "ts-config-moduleresolution": tsConfigModuleResolution,
@@ -80,10 +81,8 @@ export = {
   "ts-naming-options": tsNamingOptions,
   "ts-naming-subclients": tsNamingSubclients,
   "ts-no-const-enums": tsNoConstEnums,
-  "ts-no-namespaces": tsNoNamespaces,
   "ts-no-window": tsNoWindow,
   "ts-package-json-author": tsPackageJsonAuthor,
-  "ts-package-json-sdktype": tsPackageJsonSdkType,
   "ts-package-json-bugs": tsPackageJsonBugs,
   "ts-package-json-engine-is-present": tsPackageJsonEngineIsPresent,
   "ts-package-json-files-required": tsPackageJsonFilesRequired,
@@ -95,6 +94,7 @@ export = {
   "ts-package-json-name": tsPackageJsonName,
   "ts-package-json-repo": tsPackageJsonRepo,
   "ts-package-json-required-scripts": tsPackageJsonRequiredScripts,
+  "ts-package-json-sdktype": tsPackageJsonSdkType,
   "ts-package-json-sideeffects": tsPackageJsonSideEffects,
   "ts-package-json-types": tsPackageJsonTypes,
   "ts-pagination-list": tsPaginationList,

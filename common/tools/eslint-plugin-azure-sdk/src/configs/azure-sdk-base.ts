@@ -56,6 +56,7 @@ export default {
     "no-var": "error",
     "one-var-declaration-per-line": "error",
     "prefer-const": "error",
+    "sort-imports": "warn",
     "spaced-comment": ["error", "always", { markers: ["/"] }],
     "space-infix-ops": ["error", { int32Hint: false }],
     "use-isnan": "error",
@@ -88,7 +89,7 @@ export default {
     "@typescript-eslint/no-inferrable-types": "off",
     // We use empty extends and empty interface for shimming and renaming extensively
     "@typescript-eslint/no-empty-interface": "off",
-    "@typescript-eslint/no-namespace": "off",
+    "@typescript-eslint/no-namespace": "error",
     "@typescript-eslint/no-non-null-assertion": "off",
     "@typescript-eslint/no-unused-vars": ["warn", { argsIgnorePattern: "^_" }],
     "@typescript-eslint/no-useless-constructor": "error",

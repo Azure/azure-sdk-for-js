@@ -28,7 +28,7 @@ export interface AddParticipantResult {
 // @public
 export interface AddParticipantResultEvent {
     operationContext?: string;
-    resultInfo?: CallingOperationResultDetails;
+    resultDetails?: CallingOperationResultDetails;
     status: CallingOperationStatus;
 }
 
@@ -45,11 +45,31 @@ export interface CallConnection {
     readonly callConnectionId: string;
     cancelAllMediaOperations(options?: CancelAllMediaOperationsOptions): Promise<void>;
     cancelParticipantMediaOperation(participant: CommunicationIdentifier, mediaOperationId: string, options?: CancelMediaOperationOptions): Promise<void>;
+    // Warning: (ae-forgotten-export) The symbol "AudioRoutingMode" needs to be exported by the entry point index.d.ts
+    // Warning: (ae-forgotten-export) The symbol "CreateAudioRoutingGroupResult" needs to be exported by the entry point index.d.ts
+    createAudioRoutingGroup(audioRoutingMode: AudioRoutingMode, targets: CommunicationIdentifier[], options: CreateAudioRoutingGroupOptions): Promise<CreateAudioRoutingGroupResult>;
+    delete(options?: DeleteOptions): Promise<void>;
+    deleteAudioRoutingGroup(audioRoutingGroupId: string, options: DeleteAudioRoutingGroupOptions): Promise<void>;
+    // Warning: (ae-forgotten-export) The symbol "AudioRoutingGroupResult" needs to be exported by the entry point index.d.ts
+    getAudioRoutingGroups(audioRoutingGroupId: string, options: GetAudioRoutingGroupsOptions): Promise<AudioRoutingGroupResult>;
+    // Warning: (ae-forgotten-export) The symbol "CallConnectionProperties" needs to be exported by the entry point index.d.ts
+    getCall(options?: GetCallOptions): Promise<CallConnectionProperties>;
+    // Warning: (ae-forgotten-export) The symbol "CallParticipant" needs to be exported by the entry point index.d.ts
+    getParticipant(participant: CommunicationIdentifier, options?: GetParticipantOptions): Promise<CallParticipant>;
+    getParticipants(options?: GetParticipantsOptions): Promise<CallParticipant[]>;
     hangUp(options?: HangUpOptions): Promise<void>;
+    holdParticipantMeetingAudio(participant: CommunicationIdentifier, options: HoldParticipantMeetingAudioOptions): Promise<void>;
+    keepAlive(options?: KeepAliveOptions): Promise<void>;
+    muteParticipant(participant: CommunicationIdentifier, options?: MuteParticipantOptions): Promise<void>;
     playAudio(audioUrl: string, options: PlayAudioOptions): Promise<PlayAudioResult>;
     playAudioToParticipant(participant: CommunicationIdentifier, audioUrl: string, options: PlayAudioOptions): Promise<PlayAudioResult>;
     removeParticipant(participant: CommunicationIdentifier, options?: RemoveParticipantOptions): Promise<void>;
-    transfer(targetParticipant: CommunicationIdentifier, userToUserInformation: string, options?: TransferCallOptions): Promise<void>;
+    resumeParticipantMeetingAudio(participant: CommunicationIdentifier, options: ResumeParticipantMeetingAudioOptions): Promise<void>;
+    transferToCall(targetCallConnectionId: string, options?: TransferToCallOptions): Promise<TransferCallResult>;
+    // Warning: (ae-forgotten-export) The symbol "TransferCallResult" needs to be exported by the entry point index.d.ts
+    transferToParticipant(targetParticipant: CommunicationIdentifier, options?: TransferToParticipantOptions): Promise<TransferCallResult>;
+    unmuteParticipant(participant: CommunicationIdentifier, options?: UnmuteParticipantOptions): Promise<void>;
+    updateAudioRoutingGroup(audioRoutingGroupId: string, targets: CommunicationIdentifier[], options: UpdateAudioRoutingGroupOptions): Promise<void>;
 }
 
 // @public
@@ -85,17 +105,19 @@ export class CallingServerClient {
     cancelMediaOperation(callLocator: CallLocator, mediaOperationId: string, options?: CancelMediaOperationOptions): Promise<void>;
     cancelParticipantMediaOperation(callLocator: CallLocator, participant: CommunicationIdentifier, mediaOperationId: string, options?: CancelMediaOperationOptions): Promise<void>;
     createCallConnection(source: CommunicationIdentifier, targets: CommunicationIdentifier[], options: CreateCallConnectionOptions): Promise<CallConnection>;
-    delete(deleteUrl: string, options?: DeleteOptions): Promise<RestResponse>;
+    deleteRecording(deleteUrl: string, options?: DeleteRecordingOptions): Promise<RestResponse>;
     download(url: string, offset?: number, options?: DownloadOptions): Promise<ContentDownloadResult>;
     downloadToFile(filePath: string, contentUrl: string, offset?: number, options?: DownloadOptions): Promise<ContentDownloadResult>;
     getCallConnection(callConnectionId: string): CallConnection;
+    getParticipant(callLocator: CallLocator, participant: CommunicationIdentifier, options?: GetParticipantOptions): Promise<CallParticipant>;
+    getParticipants(callLocator: CallLocator, options?: GetParticipantsOptions): Promise<CallParticipant[]>;
     getRecordingProperties(recordingId: string, options?: GetRecordingPropertiesOptions): Promise<CallRecordingProperties>;
     initializeContentDownloader(): ContentDownloader;
     joinCall(callLocator: CallLocator, source: CommunicationIdentifier, options: JoinCallOptions): Promise<CallConnection>;
     pauseRecording(recordingId: string, options?: PauseRecordingOptions): Promise<void>;
     playAudio(callLocator: CallLocator, audioUrl: string, options: PlayAudioOptions): Promise<PlayAudioResult>;
     playAudioToParticipant(callLocator: CallLocator, participant: CommunicationIdentifier, audioUrl: string, options: PlayAudioToParticipantOptions): Promise<PlayAudioResult>;
-    redirectCall(incomingCallContext: string, targets: CommunicationIdentifier[], options?: RedirectCallOptions): Promise<void>;
+    redirectCall(incomingCallContext: string, target: CommunicationIdentifier, options?: RedirectCallOptions): Promise<void>;
     rejectCall(incomingCallContext: string, options?: RejectCallOptions): Promise<void>;
     removeParticipant(callLocator: CallLocator, participant: CommunicationIdentifier, options?: RemoveParticipantOptions): Promise<void>;
     resumeRecording(recordingId: string, options?: ResumeRecordingOptions): Promise<void>;
@@ -174,6 +196,9 @@ export type ContentDownloadResult = ContentDownloadHeaders & {
 };
 
 // @public
+export type CreateAudioRoutingGroupOptions = OperationOptions;
+
+// @public
 export interface CreateCallConnectionOptions extends OperationOptions {
     alternateCallerId?: PhoneNumberIdentifier;
     callbackUrl: string;
@@ -183,7 +208,13 @@ export interface CreateCallConnectionOptions extends OperationOptions {
 }
 
 // @public
+export type DeleteAudioRoutingGroupOptions = OperationOptions;
+
+// @public
 export type DeleteOptions = OperationOptions;
+
+// @public
+export type DeleteRecordingOptions = OperationOptions;
 
 // @public
 export interface DownloadContentOptions extends DownloadOptions {
@@ -199,7 +230,19 @@ export interface DownloadOptions extends OperationOptions {
 }
 
 // @public
+export type GetAudioRoutingGroupsOptions = OperationOptions;
+
+// @public
+export type GetCallOptions = OperationOptions;
+
+// @public
 export const getLocatorKind: (locator: CallLocator) => CallLocatorKind;
+
+// @public
+export type GetParticipantOptions = OperationOptions;
+
+// @public
+export type GetParticipantsOptions = OperationOptions;
 
 // @public
 export type GetRecordingPropertiesOptions = OperationOptions;
@@ -218,6 +261,9 @@ export interface GroupCallLocatorKind extends GroupCallLocator {
 export type HangUpOptions = OperationOptions;
 
 // @public
+export type HoldParticipantMeetingAudioOptions = OperationOptions;
+
+// @public
 export const isGroupCallLocator: (locator: CallLocator) => locator is GroupCallLocator;
 
 // @public
@@ -230,6 +276,12 @@ export interface JoinCallOptions extends OperationOptions {
     requestedMediaTypes?: CallMediaType[];
     subject?: string;
 }
+
+// @public
+export type KeepAliveOptions = OperationOptions;
+
+// @public
+export type MuteParticipantOptions = OperationOptions;
 
 // @public
 export type PauseRecordingOptions = OperationOptions;
@@ -246,14 +298,14 @@ export interface PlayAudioOptions extends OperationOptions {
 export interface PlayAudioResult {
     operationContext?: string;
     operationId?: string;
-    resultInfo?: CallingOperationResultDetails;
+    resultDetails?: CallingOperationResultDetails;
     status: CallingOperationStatus;
 }
 
 // @public
 export interface PlayAudioResultEvent {
     operationContext?: string;
-    resultInfo?: CallingOperationResultDetails;
+    resultDetails?: CallingOperationResultDetails;
     status: CallingOperationStatus;
 }
 
@@ -273,20 +325,19 @@ export type RecordingContentType = string;
 export type RecordingFormatType = string;
 
 // @public
-export interface RedirectCallOptions extends OperationOptions {
-    callbackUrl?: string;
-    timeoutInSeconds?: number;
-}
+export type RedirectCallOptions = OperationOptions;
 
 // @public
 export interface RejectCallOptions extends OperationOptions {
-    callbackUrl?: string;
     // Warning: (ae-forgotten-export) The symbol "CallRejectReason" needs to be exported by the entry point index.d.ts
     callRejectReason?: CallRejectReason;
 }
 
 // @public
 export type RemoveParticipantOptions = OperationOptions;
+
+// @public
+export type ResumeParticipantMeetingAudioOptions = OperationOptions;
 
 // @public
 export type ResumeRecordingOptions = OperationOptions;
@@ -334,7 +385,23 @@ export interface ToneReceivedEvent {
 export type ToneValue = string;
 
 // @public
-export type TransferCallOptions = OperationOptions;
+export interface TransferToCallOptions extends OperationOptions {
+    operationContext?: string;
+    userToUserInformation?: string;
+}
+
+// @public
+export interface TransferToParticipantOptions extends OperationOptions {
+    alternateCallerId?: string;
+    operationContext?: string;
+    userToUserInformation?: string;
+}
+
+// @public
+export type UnmuteParticipantOptions = OperationOptions;
+
+// @public
+export type UpdateAudioRoutingGroupOptions = OperationOptions;
 
 
 // (No @packageDocumentation comment for this package)

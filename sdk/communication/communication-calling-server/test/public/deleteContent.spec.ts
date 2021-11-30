@@ -52,7 +52,7 @@ describe("Delete Live Tests", function() {
       this.skip();
     }
 
-    const result = await callingServerServiceClient.delete(url);
+    const result = await callingServerServiceClient.deleteRecording(url);
     assert.equal(200, result._response.status);
   });
 
@@ -66,7 +66,7 @@ describe("Delete Live Tests", function() {
       const unauthorizedCallingServerServiceClient = new CallingServerClient(
         "endpoint=https://test.communication.azure.com/;accesskey=1234"
       );
-      await unauthorizedCallingServerServiceClient.delete(url);
+      await unauthorizedCallingServerServiceClient.deleteRecording(url);
     } catch (e) {
       assert.equal((e as RestError).statusCode, 401);
     }
