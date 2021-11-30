@@ -39,7 +39,7 @@ export async function main(): Promise<void> {
   const pendingCertificate = createPoller.getResult();
   console.log("Certificate: ", pendingCertificate);
 
-  // Read a certificate with their policy
+  // Read a certificate with its policy
   // Note: It will always read the latest version of the certificate
   let certificateWithPolicy = await client.getCertificate(certificateName);
   console.log("Certificate with policy:", certificateWithPolicy);
