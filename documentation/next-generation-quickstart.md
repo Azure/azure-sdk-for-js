@@ -8,9 +8,9 @@ such as Azure Identity support, HTTP pipeline, error-handling.,etc, and
 they also follow the new Azure SDK guidelines which create easy-to-use
 APIs that are idiomatic, compatible, and dependable. See [TypeScript Design Guidelines](https://azure.github.io/azure-sdk/typescript_design.html) for more information.
 
-Currently, we have previewed several packages such as `azure/arm-resources`, `@azure/arm-storage`, 
+Currently, we have GAed several packages such as `azure/arm-resources`, `@azure/arm-storage`, 
 `@azure/arm-compute`, `@azure/arm-network` for next-generation. See more from npmjs.com and find 
-the latest version under `next` tag and have a try.
+the latest version and have a try.
 
 In this basic quickstart guide, we will walk you through how to
 authenticate to Azure and start interacting with Azure resources. There are several possible approaches to

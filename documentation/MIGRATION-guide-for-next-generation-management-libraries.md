@@ -6,7 +6,7 @@ This document is intended to show the customers of the JavaScript/TypeScript man
 
 ## Current status
 
-Currently, we have previewed several packages such as `azure/arm-resources`, `@azure/arm-storage`, `@azure/arm-compute`, `@azure/arm-network` for next-generation. See more from npmjs.com and find the latest version under `next` tag and have a try.
+Currently, we have GAed several packages such as `@azure/arm-resources`, `@azure/arm-storage`, `@azure/arm-compute`, `@azure/arm-network` for next-generation. See more from npmjs.com and find the latest version and have a try.
 
 ## Why Switching to the next-generation
 
