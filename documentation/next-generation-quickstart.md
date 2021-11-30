@@ -8,7 +8,7 @@ such as Azure Identity support, HTTP pipeline, error-handling.,etc, and
 they also follow the new Azure SDK guidelines which create easy-to-use
 APIs that are idiomatic, compatible, and dependable. See [TypeScript Design Guidelines](https://azure.github.io/azure-sdk/typescript_design.html) for more information.
 
-Currently, we have GAed several packages such as `azure/arm-resources`, `@azure/arm-storage`, 
+Currently, we have released GA version of several packages such as `azure/arm-resources`, `@azure/arm-storage`, 
 `@azure/arm-compute`, `@azure/arm-network` for next-generation. See more from npmjs.com and find 
 the latest version and have a try.
 
