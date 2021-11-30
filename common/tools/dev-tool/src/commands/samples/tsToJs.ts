@@ -8,8 +8,6 @@ import { EOL } from "os";
 import * as prettier from "prettier";
 import ts from "typescript";
 
-import defaultPrettierOptions from "../../../../eslint-plugin-azure-sdk/prettier.json";
-
 import { leafCommand, makeCommandInfo } from "../../framework/command";
 
 import { createPrinter } from "../../util/printer";
@@ -22,7 +20,8 @@ export const commandInfo = makeCommandInfo(
 );
 
 const prettierOptions: prettier.Options = {
-  ...(defaultPrettierOptions as prettier.Options),
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  ...(require("../../../../eslint-plugin-azure-sdk/prettier.json") as prettier.Options),
   parser: "typescript"
 };
 
