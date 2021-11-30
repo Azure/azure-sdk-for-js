@@ -13,7 +13,7 @@ import * as msRestAzure from "@azure/ms-rest-azure-js";
 import { TokenCredential } from "@azure/core-auth";
 
 const packageName = "@azure/arm-netapp";
-const packageVersion = "14.3.0";
+const packageVersion = "14.4.0";
 
 export class AzureNetAppFilesManagementClientContext extends msRestAzure.AzureServiceClient {
   credentials: msRest.ServiceClientCredentials | TokenCredential;
@@ -50,7 +50,7 @@ export class AzureNetAppFilesManagementClientContext extends msRestAzure.AzureSe
 
     super(credentials, options);
 
-    this.apiVersion = '2021-06-01';
+    this.apiVersion = '2021-08-01';
     this.acceptLanguage = 'en-US';
     this.longRunningOperationRetryTimeout = 30;
     this.baseUri = options.baseUri || this.baseUri || "https://management.azure.com";

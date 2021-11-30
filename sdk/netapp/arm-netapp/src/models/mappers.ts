@@ -491,13 +491,6 @@ export const SubscriptionQuotaItem: msRest.CompositeMapper = {
     className: "SubscriptionQuotaItem",
     modelProperties: {
       ...ProxyResource.type.modelProperties,
-      subscriptionQuotaItemName: {
-        readOnly: true,
-        serializedName: "properties.name",
-        type: {
-          name: "String"
-        }
-      },
       current: {
         readOnly: true,
         serializedName: "properties.current",
@@ -679,6 +672,12 @@ export const ActiveDirectory: msRest.CompositeMapper = {
       },
       allowLocalNfsUsersWithLdap: {
         serializedName: "allowLocalNfsUsersWithLdap",
+        type: {
+          name: "Boolean"
+        }
+      },
+      encryptDCConnections: {
+        serializedName: "encryptDCConnections",
         type: {
           name: "Boolean"
         }
@@ -1362,6 +1361,30 @@ export const VolumePropertiesDataProtection: msRest.CompositeMapper = {
   }
 };
 
+export const PlacementKeyValuePairs: msRest.CompositeMapper = {
+  serializedName: "placementKeyValuePairs",
+  type: {
+    name: "Composite",
+    className: "PlacementKeyValuePairs",
+    modelProperties: {
+      key: {
+        required: true,
+        serializedName: "key",
+        type: {
+          name: "String"
+        }
+      },
+      value: {
+        required: true,
+        serializedName: "value",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const Volume: msRest.CompositeMapper = {
   serializedName: "volume",
   type: {
@@ -1616,10 +1639,6 @@ export const Volume: msRest.CompositeMapper = {
       throughputMibps: {
         serializedName: "properties.throughputMibps",
         defaultValue: 0,
-        constraints: {
-          InclusiveMaximum: 4500,
-          InclusiveMinimum: 0
-        },
         type: {
           name: "Number"
         }
@@ -1700,6 +1719,50 @@ export const Volume: msRest.CompositeMapper = {
         defaultValue: 0,
         type: {
           name: "Number"
+        }
+      },
+      volumeGroupName: {
+        readOnly: true,
+        serializedName: "properties.volumeGroupName",
+        type: {
+          name: "String"
+        }
+      },
+      capacityPoolResourceId: {
+        serializedName: "properties.capacityPoolResourceId",
+        type: {
+          name: "String"
+        }
+      },
+      proximityPlacementGroup: {
+        serializedName: "properties.proximityPlacementGroup",
+        type: {
+          name: "String"
+        }
+      },
+      t2Network: {
+        readOnly: true,
+        serializedName: "properties.t2Network",
+        type: {
+          name: "String"
+        }
+      },
+      volumeSpecName: {
+        serializedName: "properties.volumeSpecName",
+        type: {
+          name: "String"
+        }
+      },
+      placementRules: {
+        serializedName: "properties.placementRules",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "PlacementKeyValuePairs"
+            }
+          }
         }
       }
     }
@@ -1893,10 +1956,7 @@ export const VolumePatch: msRest.CompositeMapper = {
       },
       throughputMibps: {
         serializedName: "properties.throughputMibps",
-        constraints: {
-          InclusiveMaximum: 4500,
-          InclusiveMinimum: 1
-        },
+        defaultValue: 0,
         type: {
           name: "Number"
         }
@@ -2512,7 +2572,8 @@ export const SnapshotPolicyVolumeList: msRest.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "Object"
+              name: "Composite",
+              className: "Volume"
             }
           }
         }
@@ -2859,13 +2920,6 @@ export const BackupPolicy: msRest.CompositeMapper = {
           }
         }
       },
-      name1: {
-        readOnly: true,
-        serializedName: "properties.name",
-        type: {
-          name: "String"
-        }
-      },
       backupPolicyId: {
         readOnly: true,
         serializedName: "properties.backupPolicyId",
@@ -2972,13 +3026,6 @@ export const BackupPolicyDetails: msRest.CompositeMapper = {
           }
         }
       },
-      name1: {
-        readOnly: true,
-        serializedName: "properties.name",
-        type: {
-          name: "String"
-        }
-      },
       backupPolicyId: {
         readOnly: true,
         serializedName: "properties.backupPolicyId",
@@ -3083,13 +3130,6 @@ export const BackupPolicyPatch: msRest.CompositeMapper = {
               name: "String"
             }
           }
-        }
-      },
-      name1: {
-        readOnly: true,
-        serializedName: "properties.name",
-        type: {
-          name: "String"
         }
       },
       backupPolicyId: {
@@ -3310,6 +3350,564 @@ export const RestoreStatus: msRest.CompositeMapper = {
         serializedName: "totalTransferBytes",
         type: {
           name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const VolumeGroupMetaData: msRest.CompositeMapper = {
+  serializedName: "volumeGroupMetaData",
+  type: {
+    name: "Composite",
+    className: "VolumeGroupMetaData",
+    modelProperties: {
+      groupDescription: {
+        serializedName: "groupDescription",
+        type: {
+          name: "String"
+        }
+      },
+      applicationType: {
+        serializedName: "applicationType",
+        type: {
+          name: "String"
+        }
+      },
+      applicationIdentifier: {
+        serializedName: "applicationIdentifier",
+        type: {
+          name: "String"
+        }
+      },
+      globalPlacementRules: {
+        serializedName: "globalPlacementRules",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "PlacementKeyValuePairs"
+            }
+          }
+        }
+      },
+      deploymentSpecId: {
+        serializedName: "deploymentSpecId",
+        type: {
+          name: "String"
+        }
+      },
+      volumesCount: {
+        readOnly: true,
+        serializedName: "volumesCount",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const VolumeGroup: msRest.CompositeMapper = {
+  serializedName: "volumeGroup",
+  type: {
+    name: "Composite",
+    className: "VolumeGroup",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      id: {
+        readOnly: true,
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        readOnly: true,
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        readOnly: true,
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      provisioningState: {
+        readOnly: true,
+        serializedName: "properties.provisioningState",
+        type: {
+          name: "String"
+        }
+      },
+      groupMetaData: {
+        serializedName: "properties.groupMetaData",
+        type: {
+          name: "Composite",
+          className: "VolumeGroupMetaData"
+        }
+      }
+    }
+  }
+};
+
+export const VolumeGroupVolumeProperties: msRest.CompositeMapper = {
+  serializedName: "volumeGroupVolumeProperties",
+  type: {
+    name: "Composite",
+    className: "VolumeGroupVolumeProperties",
+    modelProperties: {
+      id: {
+        readOnly: true,
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        readOnly: true,
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      fileSystemId: {
+        readOnly: true,
+        serializedName: "properties.fileSystemId",
+        constraints: {
+          MaxLength: 36,
+          MinLength: 36,
+          Pattern: /^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$/
+        },
+        type: {
+          name: "String"
+        }
+      },
+      creationToken: {
+        required: true,
+        serializedName: "properties.creationToken",
+        constraints: {
+          MaxLength: 80,
+          MinLength: 1,
+          Pattern: /^[a-zA-Z][a-zA-Z0-9\-]{0,79}$/
+        },
+        type: {
+          name: "String"
+        }
+      },
+      serviceLevel: {
+        serializedName: "properties.serviceLevel",
+        defaultValue: 'Premium',
+        type: {
+          name: "String"
+        }
+      },
+      usageThreshold: {
+        required: true,
+        serializedName: "properties.usageThreshold",
+        defaultValue: 107374182400,
+        constraints: {
+          InclusiveMaximum: 109951162777600,
+          InclusiveMinimum: 107374182400
+        },
+        type: {
+          name: "Number"
+        }
+      },
+      exportPolicy: {
+        serializedName: "properties.exportPolicy",
+        type: {
+          name: "Composite",
+          className: "VolumePropertiesExportPolicy"
+        }
+      },
+      protocolTypes: {
+        serializedName: "properties.protocolTypes",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      provisioningState: {
+        readOnly: true,
+        serializedName: "properties.provisioningState",
+        type: {
+          name: "String"
+        }
+      },
+      snapshotId: {
+        nullable: true,
+        serializedName: "properties.snapshotId",
+        constraints: {
+          MaxLength: 36,
+          MinLength: 36,
+          Pattern: /^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}|(\\?([^\/]*[\/])*)([^\/]+)$/
+        },
+        type: {
+          name: "String"
+        }
+      },
+      backupId: {
+        nullable: true,
+        serializedName: "properties.backupId",
+        constraints: {
+          MaxLength: 36,
+          MinLength: 36,
+          Pattern: /^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}|(\\?([^\/]*[\/])*)([^\/]+)$/
+        },
+        type: {
+          name: "String"
+        }
+      },
+      baremetalTenantId: {
+        readOnly: true,
+        serializedName: "properties.baremetalTenantId",
+        type: {
+          name: "String"
+        }
+      },
+      subnetId: {
+        required: true,
+        serializedName: "properties.subnetId",
+        type: {
+          name: "String"
+        }
+      },
+      networkFeatures: {
+        serializedName: "properties.networkFeatures",
+        defaultValue: 'Basic',
+        type: {
+          name: "String"
+        }
+      },
+      networkSiblingSetId: {
+        readOnly: true,
+        serializedName: "properties.networkSiblingSetId",
+        constraints: {
+          MaxLength: 36,
+          MinLength: 36,
+          Pattern: /^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$/
+        },
+        type: {
+          name: "String"
+        }
+      },
+      storageToNetworkProximity: {
+        readOnly: true,
+        serializedName: "properties.storageToNetworkProximity",
+        type: {
+          name: "String"
+        }
+      },
+      mountTargets: {
+        readOnly: true,
+        serializedName: "properties.mountTargets",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "MountTargetProperties"
+            }
+          }
+        }
+      },
+      volumeType: {
+        serializedName: "properties.volumeType",
+        type: {
+          name: "String"
+        }
+      },
+      dataProtection: {
+        serializedName: "properties.dataProtection",
+        type: {
+          name: "Composite",
+          className: "VolumePropertiesDataProtection"
+        }
+      },
+      isRestoring: {
+        serializedName: "properties.isRestoring",
+        type: {
+          name: "Boolean"
+        }
+      },
+      snapshotDirectoryVisible: {
+        serializedName: "properties.snapshotDirectoryVisible",
+        defaultValue: true,
+        type: {
+          name: "Boolean"
+        }
+      },
+      kerberosEnabled: {
+        serializedName: "properties.kerberosEnabled",
+        defaultValue: false,
+        type: {
+          name: "Boolean"
+        }
+      },
+      securityStyle: {
+        serializedName: "properties.securityStyle",
+        defaultValue: 'unix',
+        type: {
+          name: "String"
+        }
+      },
+      smbEncryption: {
+        serializedName: "properties.smbEncryption",
+        defaultValue: false,
+        type: {
+          name: "Boolean"
+        }
+      },
+      smbContinuouslyAvailable: {
+        serializedName: "properties.smbContinuouslyAvailable",
+        defaultValue: false,
+        type: {
+          name: "Boolean"
+        }
+      },
+      throughputMibps: {
+        serializedName: "properties.throughputMibps",
+        defaultValue: 0,
+        type: {
+          name: "Number"
+        }
+      },
+      encryptionKeySource: {
+        serializedName: "properties.encryptionKeySource",
+        type: {
+          name: "String"
+        }
+      },
+      ldapEnabled: {
+        serializedName: "properties.ldapEnabled",
+        defaultValue: false,
+        type: {
+          name: "Boolean"
+        }
+      },
+      coolAccess: {
+        serializedName: "properties.coolAccess",
+        defaultValue: false,
+        type: {
+          name: "Boolean"
+        }
+      },
+      coolnessPeriod: {
+        serializedName: "properties.coolnessPeriod",
+        constraints: {
+          InclusiveMaximum: 63,
+          InclusiveMinimum: 7
+        },
+        type: {
+          name: "Number"
+        }
+      },
+      unixPermissions: {
+        nullable: true,
+        serializedName: "properties.unixPermissions",
+        defaultValue: '0770',
+        constraints: {
+          MaxLength: 4,
+          MinLength: 4
+        },
+        type: {
+          name: "String"
+        }
+      },
+      cloneProgress: {
+        nullable: true,
+        readOnly: true,
+        serializedName: "properties.cloneProgress",
+        type: {
+          name: "Number"
+        }
+      },
+      avsDataStore: {
+        serializedName: "properties.avsDataStore",
+        defaultValue: 'Disabled',
+        type: {
+          name: "String"
+        }
+      },
+      isDefaultQuotaEnabled: {
+        serializedName: "properties.isDefaultQuotaEnabled",
+        defaultValue: false,
+        type: {
+          name: "Boolean"
+        }
+      },
+      defaultUserQuotaInKiBs: {
+        serializedName: "properties.defaultUserQuotaInKiBs",
+        defaultValue: 0,
+        type: {
+          name: "Number"
+        }
+      },
+      defaultGroupQuotaInKiBs: {
+        serializedName: "properties.defaultGroupQuotaInKiBs",
+        defaultValue: 0,
+        type: {
+          name: "Number"
+        }
+      },
+      volumeGroupName: {
+        readOnly: true,
+        serializedName: "properties.volumeGroupName",
+        type: {
+          name: "String"
+        }
+      },
+      capacityPoolResourceId: {
+        serializedName: "properties.capacityPoolResourceId",
+        type: {
+          name: "String"
+        }
+      },
+      proximityPlacementGroup: {
+        serializedName: "properties.proximityPlacementGroup",
+        type: {
+          name: "String"
+        }
+      },
+      t2Network: {
+        readOnly: true,
+        serializedName: "properties.t2Network",
+        type: {
+          name: "String"
+        }
+      },
+      volumeSpecName: {
+        serializedName: "properties.volumeSpecName",
+        type: {
+          name: "String"
+        }
+      },
+      placementRules: {
+        serializedName: "properties.placementRules",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "PlacementKeyValuePairs"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const VolumeGroupDetails: msRest.CompositeMapper = {
+  serializedName: "volumeGroupDetails",
+  type: {
+    name: "Composite",
+    className: "VolumeGroupDetails",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      id: {
+        readOnly: true,
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        readOnly: true,
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        readOnly: true,
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      provisioningState: {
+        readOnly: true,
+        serializedName: "properties.provisioningState",
+        type: {
+          name: "String"
+        }
+      },
+      groupMetaData: {
+        serializedName: "properties.groupMetaData",
+        type: {
+          name: "Composite",
+          className: "VolumeGroupMetaData"
+        }
+      },
+      volumes: {
+        serializedName: "properties.volumes",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "VolumeGroupVolumeProperties"
+            }
+          }
         }
       }
     }
@@ -3593,6 +4191,28 @@ export const VaultList: msRest.CompositeMapper = {
             type: {
               name: "Composite",
               className: "Vault"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const VolumeGroupList: msRest.CompositeMapper = {
+  serializedName: "volumeGroupList",
+  type: {
+    name: "Composite",
+    className: "VolumeGroupList",
+    modelProperties: {
+      value: {
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "VolumeGroup"
             }
           }
         }

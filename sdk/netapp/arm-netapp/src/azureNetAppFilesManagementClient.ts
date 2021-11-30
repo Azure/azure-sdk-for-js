@@ -29,6 +29,7 @@ class AzureNetAppFilesManagementClient extends AzureNetAppFilesManagementClientC
   accountBackups: operations.AccountBackups;
   backupPolicies: operations.BackupPolicies;
   vaults: operations.Vaults;
+  volumeGroups: operations.VolumeGroups;
 
   /**
    * Initializes a new instance of the AzureNetAppFilesManagementClient class.
@@ -56,6 +57,7 @@ class AzureNetAppFilesManagementClient extends AzureNetAppFilesManagementClientC
     this.accountBackups = new operations.AccountBackups(this);
     this.backupPolicies = new operations.BackupPolicies(this);
     this.vaults = new operations.Vaults(this);
+    this.volumeGroups = new operations.VolumeGroups(this);
   }
 }
 

@@ -121,7 +121,13 @@ export interface MetricSpecification {
  * Log Definition of a single resource metric.
  */
 export interface LogSpecification {
+  /**
+   * Name of log specification.
+   */
   name?: string;
+  /**
+   * Display name of log specification.
+   */
   displayName?: string;
 }
 
@@ -133,6 +139,9 @@ export interface ServiceSpecification {
    * Metric specifications of operation.
    */
   metricSpecifications?: MetricSpecification[];
+  /**
+   * Log specification of operation.
+   */
   logSpecifications?: LogSpecification[];
 }
 
@@ -308,11 +317,6 @@ export interface ProxyResource extends Resource {
  */
 export interface SubscriptionQuotaItem extends ProxyResource {
   /**
-   * Quota Item name
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly subscriptionQuotaItemName?: string;
-  /**
    * The current quota value.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
@@ -426,6 +430,10 @@ export interface ActiveDirectory {
    * volumes.
    */
   allowLocalNfsUsersWithLdap?: boolean;
+  /**
+   * If enabled, Traffic between the SMB server to Domain Controller (DC) will be encrypted.
+   */
+  encryptDCConnections?: boolean;
 }
 
 /**
@@ -840,6 +848,20 @@ export interface VolumePropertiesDataProtection {
 }
 
 /**
+ * Application specific parameters for the placement of volumes in the volume group
+ */
+export interface PlacementKeyValuePairs {
+  /**
+   * Key for an application specific parameter for the placement of volumes in the volume group
+   */
+  key: string;
+  /**
+   * Value for an application specific parameter for the placement of volumes in the volume group
+   */
+  value: string;
+}
+
+/**
  * Volume resource
  */
 export interface Volume extends BaseResource {
@@ -985,7 +1007,8 @@ export interface Volume extends BaseResource {
    */
   smbContinuouslyAvailable?: boolean;
   /**
-   * Maximum throughput in Mibps that can be achieved by this volume. Default value: 0.
+   * Maximum throughput in Mibps that can be achieved by this volume and this will be accepted as
+   * input only for manual qosType volume. Default value: 0.
    */
   throughputMibps?: number;
   /**
@@ -1039,6 +1062,33 @@ export interface Volume extends BaseResource {
    * 4 KiBs applies. Default value: 0.
    */
   defaultGroupQuotaInKiBs?: number;
+  /**
+   * Volume Group Name
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly volumeGroupName?: string;
+  /**
+   * Pool Resource Id used in case of creating a volume through volume group
+   */
+  capacityPoolResourceId?: string;
+  /**
+   * Proximity placement group associated with the volume
+   */
+  proximityPlacementGroup?: string;
+  /**
+   * T2 network information
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly t2Network?: string;
+  /**
+   * Volume spec name is the application specific designation or identifier for the particular
+   * volume in a volume group for e.g. data, log
+   */
+  volumeSpecName?: string;
+  /**
+   * Volume placement rules. Application specific placement rules for the particular volume
+   */
+  placementRules?: PlacementKeyValuePairs[];
 }
 
 /**
@@ -1156,7 +1206,8 @@ export interface VolumePatch extends BaseResource {
    */
   exportPolicy?: VolumePatchPropertiesExportPolicy;
   /**
-   * Maximum throughput in Mibps that can be achieved by this volume.
+   * Maximum throughput in Mibps that can be achieved by this volume and this will be accepted as
+   * input only for manual qosType volume. Default value: 0.
    */
   throughputMibps?: number;
   /**
@@ -1534,7 +1585,7 @@ export interface SnapshotPolicyVolumeList {
   /**
    * List of volumes
    */
-  value?: any[];
+  value?: Volume[];
 }
 
 /**
@@ -1752,11 +1803,6 @@ export interface BackupPolicy extends BaseResource {
    */
   tags?: { [propertyName: string]: string };
   /**
-   * Name of backup policy
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name1?: string;
-  /**
    * Backup Policy Resource ID
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
@@ -1822,11 +1868,6 @@ export interface BackupPolicyDetails extends BaseResource {
    */
   tags?: { [propertyName: string]: string };
   /**
-   * Name of backup policy
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name1?: string;
-  /**
    * Backup Policy Resource ID
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
@@ -1891,11 +1932,6 @@ export interface BackupPolicyPatch extends BaseResource {
    * Resource tags
    */
   tags?: { [propertyName: string]: string };
-  /**
-   * Name of backup policy
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name1?: string;
   /**
    * Backup Policy Resource ID
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -2043,6 +2079,337 @@ export interface RestoreStatus {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly totalTransferBytes?: number;
+}
+
+/**
+ * Volume group properties
+ */
+export interface VolumeGroupMetaData {
+  /**
+   * Group Description
+   */
+  groupDescription?: string;
+  /**
+   * Application Type. Possible values include: 'SAP-HANA'
+   */
+  applicationType?: ApplicationType;
+  /**
+   * Application specific identifier
+   */
+  applicationIdentifier?: string;
+  /**
+   * Global volume placement rules. Application specific placement rules for the volume group
+   */
+  globalPlacementRules?: PlacementKeyValuePairs[];
+  /**
+   * Application specific identifier of deployment rules for the volume group
+   */
+  deploymentSpecId?: string;
+  /**
+   * Number of volumes in volume group
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly volumesCount?: number;
+}
+
+/**
+ * Volume group resource
+ */
+export interface VolumeGroup {
+  /**
+   * Resource location
+   */
+  location?: string;
+  /**
+   * Resource Id
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * Resource name
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * Resource type
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
+   * Resource tags
+   */
+  tags?: { [propertyName: string]: string };
+  /**
+   * Azure lifecycle management
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: string;
+  /**
+   * groupMetaData. Volume group details
+   */
+  groupMetaData?: VolumeGroupMetaData;
+}
+
+/**
+ * Volume resource
+ */
+export interface VolumeGroupVolumeProperties extends BaseResource {
+  /**
+   * Resource Id
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * Resource name
+   */
+  name?: string;
+  /**
+   * Resource type
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
+   * Resource tags
+   */
+  tags?: { [propertyName: string]: string };
+  /**
+   * FileSystem ID. Unique FileSystem Identifier.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly fileSystemId?: string;
+  /**
+   * Creation Token or File Path. A unique file path for the volume. Used when creating mount
+   * targets
+   */
+  creationToken: string;
+  /**
+   * serviceLevel. Possible values include: 'Standard', 'Premium', 'Ultra', 'StandardZRS'. Default
+   * value: 'Premium'.
+   */
+  serviceLevel?: ServiceLevel;
+  /**
+   * usageThreshold. Maximum storage quota allowed for a file system in bytes. This is a soft quota
+   * used for alerting only. Minimum size is 100 GiB. Upper limit is 100TiB. Specified in bytes.
+   * Default value: 107374182400.
+   */
+  usageThreshold: number;
+  /**
+   * exportPolicy. Set of export policy rules
+   */
+  exportPolicy?: VolumePropertiesExportPolicy;
+  /**
+   * protocolTypes. Set of protocol types, default NFSv3, CIFS for SMB protocol
+   */
+  protocolTypes?: string[];
+  /**
+   * Azure lifecycle management
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: string;
+  /**
+   * Snapshot ID. UUID v4 or resource identifier used to identify the Snapshot.
+   */
+  snapshotId?: string;
+  /**
+   * Backup ID. UUID v4 or resource identifier used to identify the Backup.
+   */
+  backupId?: string;
+  /**
+   * Baremetal Tenant ID. Unique Baremetal Tenant Identifier.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly baremetalTenantId?: string;
+  /**
+   * The Azure Resource URI for a delegated subnet. Must have the delegation
+   * Microsoft.NetApp/volumes
+   */
+  subnetId: string;
+  /**
+   * Network features. Basic network, or Standard features available to the volume. Possible values
+   * include: 'Basic', 'Standard'. Default value: 'Basic'.
+   */
+  networkFeatures?: NetworkFeatures;
+  /**
+   * Network Sibling Set ID. Network Sibling Set ID for the the group of volumes sharing networking
+   * resources.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly networkSiblingSetId?: string;
+  /**
+   * Storage to Network Proximity. Provides storage to network proximity information for the
+   * volume. Possible values include: 'Default', 'T1', 'T2'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly storageToNetworkProximity?: VolumeStorageToNetworkProximity;
+  /**
+   * mountTargets. List of mount targets
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly mountTargets?: MountTargetProperties[];
+  /**
+   * What type of volume is this. For destination volumes in Cross Region Replication, set type to
+   * DataProtection
+   */
+  volumeType?: string;
+  /**
+   * DataProtection. DataProtection type volumes include an object containing details of the
+   * replication
+   */
+  dataProtection?: VolumePropertiesDataProtection;
+  /**
+   * Restoring
+   */
+  isRestoring?: boolean;
+  /**
+   * If enabled (true) the volume will contain a read-only snapshot directory which provides access
+   * to each of the volume's snapshots (default to true). Default value: true.
+   */
+  snapshotDirectoryVisible?: boolean;
+  /**
+   * Describe if a volume is KerberosEnabled. To be use with swagger version 2020-05-01 or later.
+   * Default value: false.
+   */
+  kerberosEnabled?: boolean;
+  /**
+   * The security style of volume, default unix, defaults to ntfs for dual protocol or CIFS
+   * protocol. Possible values include: 'ntfs', 'unix'. Default value: 'unix'.
+   */
+  securityStyle?: SecurityStyle;
+  /**
+   * Enables encryption for in-flight smb3 data. Only applicable for SMB/DualProtocol volume. To be
+   * used with swagger version 2020-08-01 or later. Default value: false.
+   */
+  smbEncryption?: boolean;
+  /**
+   * Enables continuously available share property for smb volume. Only applicable for SMB volume.
+   * Default value: false.
+   */
+  smbContinuouslyAvailable?: boolean;
+  /**
+   * Maximum throughput in Mibps that can be achieved by this volume and this will be accepted as
+   * input only for manual qosType volume. Default value: 0.
+   */
+  throughputMibps?: number;
+  /**
+   * Encryption Key Source. Possible values are: 'Microsoft.NetApp'
+   */
+  encryptionKeySource?: string;
+  /**
+   * Specifies whether LDAP is enabled or not for a given NFS volume. Default value: false.
+   */
+  ldapEnabled?: boolean;
+  /**
+   * Specifies whether Cool Access(tiering) is enabled for the volume. Default value: false.
+   */
+  coolAccess?: boolean;
+  /**
+   * Specifies the number of days after which data that is not accessed by clients will be tiered.
+   */
+  coolnessPeriod?: number;
+  /**
+   * UNIX permissions for NFS volume accepted in octal 4 digit format. First digit selects the set
+   * user ID(4), set group ID (2) and sticky (1) attributes. Second digit selects permission for
+   * the owner of the file: read (4), write (2) and execute (1). Third selects permissions for
+   * other users in the same group. the fourth for other users not in the group. 0755 - gives
+   * read/write/execute permissions to owner and read/execute to group and other users. Default
+   * value: '0770'.
+   */
+  unixPermissions?: string;
+  /**
+   * When a volume is being restored from another volume's snapshot, will show the percentage
+   * completion of this cloning process. When this value is empty/null there is no cloning process
+   * currently happening on this volume. This value will update every 5 minutes during cloning.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly cloneProgress?: number;
+  /**
+   * avsDataStore. Specifies whether the volume is enabled for Azure VMware Solution (AVS)
+   * datastore purpose. Possible values include: 'Enabled', 'Disabled'. Default value: 'Disabled'.
+   */
+  avsDataStore?: AvsDataStore;
+  /**
+   * Specifies if default quota is enabled for the volume. Default value: false.
+   */
+  isDefaultQuotaEnabled?: boolean;
+  /**
+   * Default user quota for volume in KiBs. If isDefaultQuotaEnabled is set, the minimum value of 4
+   * KiBs applies . Default value: 0.
+   */
+  defaultUserQuotaInKiBs?: number;
+  /**
+   * Default group quota for volume in KiBs. If isDefaultQuotaEnabled is set, the minimum value of
+   * 4 KiBs applies. Default value: 0.
+   */
+  defaultGroupQuotaInKiBs?: number;
+  /**
+   * Volume Group Name
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly volumeGroupName?: string;
+  /**
+   * Pool Resource Id used in case of creating a volume through volume group
+   */
+  capacityPoolResourceId?: string;
+  /**
+   * Proximity placement group associated with the volume
+   */
+  proximityPlacementGroup?: string;
+  /**
+   * T2 network information
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly t2Network?: string;
+  /**
+   * Volume spec name is the application specific designation or identifier for the particular
+   * volume in a volume group for e.g. data, log
+   */
+  volumeSpecName?: string;
+  /**
+   * Volume placement rules. Application specific placement rules for the particular volume
+   */
+  placementRules?: PlacementKeyValuePairs[];
+}
+
+/**
+ * Volume group resource for create
+ */
+export interface VolumeGroupDetails {
+  /**
+   * Resource location
+   */
+  location?: string;
+  /**
+   * Resource Id
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * Resource name
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * Resource type
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
+   * Resource tags
+   */
+  tags?: { [propertyName: string]: string };
+  /**
+   * Azure lifecycle management
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: string;
+  /**
+   * groupMetaData. Volume group details
+   */
+  groupMetaData?: VolumeGroupMetaData;
+  /**
+   * List of volumes from group
+   */
+  volumes?: VolumeGroupVolumeProperties[];
 }
 
 /**
@@ -2256,6 +2623,14 @@ export interface VaultList extends Array<Vault> {
 }
 
 /**
+ * @interface
+ * List of volume group resources
+ * @extends Array<VolumeGroup>
+ */
+export interface VolumeGroupList extends Array<VolumeGroup> {
+}
+
+/**
  * Defines values for MetricAggregationType.
  * Possible values include: 'Average'
  * @readonly
@@ -2412,6 +2787,14 @@ export type MirrorState = 'Uninitialized' | 'Mirrored' | 'Broken';
  * @enum {string}
  */
 export type BackupType = 'Manual' | 'Scheduled';
+
+/**
+ * Defines values for ApplicationType.
+ * Possible values include: 'SAP-HANA'
+ * @readonly
+ * @enum {string}
+ */
+export type ApplicationType = 'SAP-HANA';
 
 /**
  * Contains response data for the list operation.
@@ -3590,5 +3973,85 @@ export type VaultsListResponse = VaultList & {
        * The response body as parsed JSON or XML
        */
       parsedBody: VaultList;
+    };
+};
+
+/**
+ * Contains response data for the listByNetAppAccount operation.
+ */
+export type VolumeGroupsListByNetAppAccountResponse = VolumeGroupList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VolumeGroupList;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type VolumeGroupsGetResponse = VolumeGroupDetails & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VolumeGroupDetails;
+    };
+};
+
+/**
+ * Contains response data for the create operation.
+ */
+export type VolumeGroupsCreateResponse = VolumeGroupDetails & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VolumeGroupDetails;
+    };
+};
+
+/**
+ * Contains response data for the beginCreate operation.
+ */
+export type VolumeGroupsBeginCreateResponse = VolumeGroupDetails & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VolumeGroupDetails;
     };
 };
