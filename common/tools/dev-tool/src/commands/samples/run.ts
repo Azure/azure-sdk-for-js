@@ -39,10 +39,7 @@ async function runSingle(name: string, accumulatedErrors: Array<[string, string]
       await sampleMain();
     }
   } catch (err) {
-    const truncatedError: string = (err as Error)
-      .toString()
-      .split("\n")[0]
-      .slice(0, 100);
+    const truncatedError: string = (err as Error).toString().split("\n")[0].slice(0, 100);
     accumulatedErrors.push([path.basename(name), truncatedError]);
     log.warn(`Error in ${name}:`);
     log.warn(err);
@@ -87,7 +84,7 @@ export default leafCommand(commandInfo, async (options) => {
         (name, entry) => entry.isFile() && /\.[jt]s$/.exec(name) !== null,
         {
           ignore: IGNORE,
-          skips
+          skips,
         }
       )) {
         await runSingle(fileName, errors);

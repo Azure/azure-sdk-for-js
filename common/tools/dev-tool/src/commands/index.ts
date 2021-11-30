@@ -12,7 +12,7 @@ const log = createPrinter("dev-tool");
 export const baseCommands = {
   about: () => import("./about"),
   package: () => import("./package"),
-  samples: () => import("./samples")
+  samples: () => import("./samples"),
 } as const;
 
 /**

@@ -59,7 +59,7 @@ export function makeCommandInfo<Opts extends CommandOptions>(
   return {
     name,
     description,
-    options: options as StrictAllowMultiple<Opts>
+    options: options as StrictAllowMultiple<Opts>,
   };
 }
 

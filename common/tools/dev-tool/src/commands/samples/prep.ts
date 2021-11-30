@@ -18,13 +18,13 @@ export const commandInfo = makeCommandInfo(
     directory: {
       kind: "string",
       description: "Base dir, default is process.cwd()",
-      default: process.cwd()
+      default: process.cwd(),
     },
     "use-packages": {
       kind: "boolean",
       description: "Use package dependencies in samples",
-      default: false
-    }
+      default: false,
+    },
   }
 );
 

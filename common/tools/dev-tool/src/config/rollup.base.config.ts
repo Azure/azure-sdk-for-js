@@ -35,7 +35,7 @@ export function openTelemetryCommonJs(): Record<string, string[]> {
       "setSpan",
       "SpanStatusCode",
       "getSpanContext",
-      "setSpanContext"
+      "setSpanContext",
     ];
   }
 
@@ -53,7 +53,7 @@ export function openTelemetryCommonJs(): Record<string, string[]> {
       "StatusCode",
       "CanonicalCode",
       "getSpanContext",
-      "setSpanContext"
+      "setSpanContext",
     ];
   }
 
@@ -85,7 +85,7 @@ function ignoreChaiCircularDependencyWarnings(warning: RollupWarning): boolean {
 
 const warningInhibitors: Array<(warning: RollupWarning) => boolean> = [
   ignoreChaiCircularDependencyWarnings,
-  ignoreNiseSinonEvalWarnings
+  ignoreNiseSinonEvalWarnings,
 ];
 
 /**
@@ -107,29 +107,29 @@ export function makeBrowserTestConfig() {
   const config: RollupOptions = {
     input: {
       include: ["dist-esm/test/**/*.spec.js"],
-      exclude: ["dist-esm/test/**/node/**"]
+      exclude: ["dist-esm/test/**/node/**"],
     },
     output: {
       file: `dist-test/index.browser.js`,
       format: "umd",
-      sourcemap: true
+      sourcemap: true,
     },
     preserveSymlinks: false,
     plugins: [
       multiEntry({ exports: false }),
       nodeResolve({
-        mainFields: ["module", "browser"]
+        mainFields: ["module", "browser"],
       }),
       cjs({
         namedExports: {
           // Chai's strange internal architecture makes it impossible to statically
           // analyze its exports.
           chai: ["version", "use", "util", "config", "expect", "should", "assert"],
-          ...openTelemetryCommonJs()
-        }
+          ...openTelemetryCommonJs(),
+        },
       }),
       json(),
-      sourcemaps()
+      sourcemaps(),
       //viz({ filename: "dist-test/browser-stats.html", sourcemap: true })
     ],
     onwarn: makeOnWarnForTesting(),
@@ -137,7 +137,7 @@ export function makeBrowserTestConfig() {
     // rollup started respecting the "sideEffects" field in package.json.  Since
     // our package.json sets "sideEffects=false", this also applies to test
     // code, which causes all tests to be removed by tree-shaking.
-    treeshake: false
+    treeshake: false,
   };
 
   return config;
@@ -148,13 +148,13 @@ export interface ConfigurationOptions {
 }
 
 const defaultConfigurationOptions: ConfigurationOptions = {
-  disableBrowserBundle: false
+  disableBrowserBundle: false,
 };
 
 export function makeConfig(pkg: PackageJson, options?: Partial<ConfigurationOptions>) {
   options = {
     ...defaultConfigurationOptions,
-    ...(options ?? {})
+    ...(options ?? {}),
   };
 
   const baseConfig = {
@@ -163,11 +163,11 @@ export function makeConfig(pkg: PackageJson, options?: Partial<ConfigurationOpti
     external: [
       ...nodeBuiltins,
       ...Object.keys(pkg.dependencies),
-      ...Object.keys(pkg.devDependencies)
+      ...Object.keys(pkg.devDependencies),
     ],
     output: { file: "dist/index.js", format: "cjs", sourcemap: true },
     preserveSymlinks: false,
-    plugins: [sourcemaps(), nodeResolve(), cjs()]
+    plugins: [sourcemaps(), nodeResolve(), cjs()],
   };
 
   const config: RollupOptions[] = [baseConfig as RollupOptions];

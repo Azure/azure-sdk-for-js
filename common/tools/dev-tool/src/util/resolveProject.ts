@@ -134,6 +134,6 @@ export async function resolveProject(workingDirectory: string): Promise<ProjectI
     name: packageJson.name,
     path,
     version: packageJson.version,
-    packageJson
+    packageJson,
   };
 }

@@ -22,7 +22,7 @@ import { ProjectInfo, resolveProject } from "../../util/resolveProject";
 import {
   getSampleConfiguration,
   MIN_SUPPORTED_NODE_VERSION,
-  SampleConfiguration
+  SampleConfiguration,
 } from "../../util/samples/configuration";
 import {
   AZSDK_META_TAG_PREFIX,
@@ -30,7 +30,7 @@ import {
   DEV_SAMPLES_BASE,
   OutputKind,
   PUBLIC_SAMPLES_BASE,
-  SampleGenerationInfo
+  SampleGenerationInfo,
 } from "../../util/samples/generation";
 
 const log = createPrinter("publish");
@@ -42,20 +42,20 @@ export const commandInfo = makeCommandInfo(
     "output-path": {
       kind: "string",
       description: "specify the path of the output directory where the samples will be written",
-      shortName: "o"
+      shortName: "o",
     },
     force: {
       kind: "boolean",
       description:
         "force writing of samples, even if the output directory is not empty (will delete everything in the output directory)",
       shortName: "f",
-      default: false
+      default: false,
     },
     "override-major-version": {
       kind: "string",
       description:
-        "override the major version used for publication (ordinarily the version in package.json)"
-    }
+        "override the major version used for publication (ordinarily the version in package.json)",
+    },
   } as const
 );
 
@@ -67,30 +67,30 @@ function createPackageJson(info: SampleGenerationInfo, outputKind: OutputKind): 
     version: "1.0.0",
     description: `${info.productName} client library samples for ${fullOutputKind}`,
     engines: {
-      node: `>=${MIN_SUPPORTED_NODE_VERSION}`
+      node: `>=${MIN_SUPPORTED_NODE_VERSION}`,
     },
     ...(outputKind === OutputKind.TypeScript
       ? {
           // We only include these in TypeScript
           scripts: {
             build: "tsc",
-            prebuild: "rimraf dist/"
-          }
+            prebuild: "rimraf dist/",
+          },
         }
       : {}),
     repository: {
       type: "git",
       url: "git+https://github.com/Azure/azure-sdk-for-js.git",
-      directory: info.projectRepoPath
+      directory: info.projectRepoPath,
     },
     keywords: info.packageKeywords,
     author: "Microsoft Corporation",
     license: "MIT",
     bugs: {
-      url: "https://github.com/Azure/azure-sdk-for-js/issues"
+      url: "https://github.com/Azure/azure-sdk-for-js/issues",
     },
     homepage: `https://github.com/Azure/azure-sdk-for-js/tree/main/${info.projectRepoPath}`,
-    ...info.computeSampleDependencies(outputKind)
+    ...info.computeSampleDependencies(outputKind),
   };
 }
 
@@ -156,7 +156,7 @@ async function makeSampleGenerationInfo(
     // If we are a beta package, use "next", otherwise we will use "latest"
     [projectInfo.name]: projectInfo.version.includes("beta") ? "next" : "latest",
     // We use this universally
-    dotenv: "latest"
+    dotenv: "latest",
   };
 
   const { packageJson } = projectInfo;
@@ -205,7 +205,7 @@ async function makeSampleGenerationInfo(
         }
         return {
           ...accum,
-          [name]: contents
+          [name]: contents,
         };
       },
       {} as SampleConfiguration["customSnippets"]
@@ -249,7 +249,7 @@ async function makeSampleGenerationInfo(
           }
           return {
             ...prev,
-            ...current
+            ...current,
           };
         }, defaultDependencies),
         ...(outputKind === OutputKind.TypeScript
@@ -259,12 +259,12 @@ async function makeSampleGenerationInfo(
               devDependencies: {
                 ...typesDependencies,
                 typescript: devToolPackageJson.dependencies.typescript,
-                rimraf: "latest"
-              }
+                rimraf: "latest",
+              },
             }
-          : {})
+          : {}),
       };
-    }
+    },
   };
 }
 
@@ -282,12 +282,12 @@ function createReadme(outputKind: OutputKind, info: SampleGenerationInfo): strin
           page_type: "sample",
           languages: [fullOutputKind],
           products: info.productSlugs,
-          urlFragment: `${info.baseName}-${fullOutputKind}`
+          urlFragment: `${info.baseName}-${fullOutputKind}`,
         },
     publicationDirectory: PUBLIC_SAMPLES_BASE + "/" + info.topLevelDirectory,
     useTypeScript: outputKind === OutputKind.TypeScript,
     ...info,
-    moduleInfos: info.moduleInfos.filter((mod) => mod.summary !== undefined)
+    moduleInfos: info.moduleInfos.filter((mod) => mod.summary !== undefined),
   });
 }
 
@@ -358,25 +358,28 @@ async function makeSamplesFactory(
           info.moduleInfos.map(({ relativeSourcePath, filePath }) =>
             file(relativeSourcePath, () => postProcess(fs.readFileSync(filePath)))
           )
-        )
+        ),
       ]),
       dir("javascript", [
         file("README.md", () => createReadme(OutputKind.JavaScript, info)),
         file("package.json", () => jsonify(createPackageJson(info, OutputKind.JavaScript))),
         copy("sample.env", path.join(projectInfo.path, "sample.env")),
         // Extract the JS Module Text from the module info structures
-        ...info.moduleInfos.map(({ relativeSourcePath, jsModuleText }) =>
-          file(relativeSourcePath.replace(/\.ts$/, ".js"), () => postProcess(jsModuleText))
-        )
+        ...info.moduleInfos
+          // Only include the modules if they were not skipped
+          .filter(({ azSdkTags: { "skip-javascript": skip } }) => !skip)
+          .map(({ relativeSourcePath, jsModuleText }) =>
+            file(relativeSourcePath.replace(/\.ts$/, ".js"), () => postProcess(jsModuleText))
+          ),
       ]),
       // Copy extraFiles by reducing all configured destinations for each input file
       ...Object.entries(info.extraFiles ?? {}).reduce(
         (accum, [source, destinations]) => [
           ...accum,
-          ...destinations.map((dest) => copy(dest, source))
+          ...destinations.map((dest) => copy(dest, source)),
         ],
         [] as FileTreeFactory[]
-      )
+      ),
     ])
   );
 }

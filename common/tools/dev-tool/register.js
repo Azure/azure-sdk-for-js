@@ -79,8 +79,8 @@ const makeTransformers = () => ({
           return node;
         },
         transformationContext
-      )
-  ]
+      ),
+  ],
 });
 
 require("ts-node").register({
@@ -93,8 +93,8 @@ require("ts-node").register({
     allowJs: true,
     esModuleInterop: true,
     paths: {
-      [packageNameToPatch]: ["./src/index"]
-    }
+      [packageNameToPatch]: ["./src/index"],
+    },
   },
-  transformers: makeTransformers()
+  transformers: makeTransformers(),
 });

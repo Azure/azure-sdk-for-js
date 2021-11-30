@@ -21,12 +21,12 @@ export const commandInfo = makeCommandInfo(
 
 const prettierOptions: prettier.Options = {
   ...(require("../../../../eslint-plugin-azure-sdk/prettier.json") as prettier.Options),
-  parser: "typescript"
+  parser: "typescript",
 };
 
 const compilerOptions: ts.CompilerOptions = {
   target: ts.ScriptTarget.ESNext,
-  module: ts.ModuleKind.ES2015
+  module: ts.ModuleKind.ES2015,
 };
 
 const NEWLINE_SIGIL = `${EOL}//@@TS-MAGIC-NEWLINE@@${EOL}`;
@@ -43,7 +43,7 @@ const REGEX_STACK: Array<[RegExp, string]> = [
   // import * as dotenv ... -> require("dotenv").config()
   [
     /import\s+\*\s+as\s+dotenv\s+from\s*"dotenv"\s*;\s*\n\s*dotenv.config\({[^{]*}\)\s*;\s*/,
-    'require("dotenv").config();\n\n'
+    'require("dotenv").config();\n\n',
   ], // Needs some special handling
   // import { ... } from -> const { ... } = require
   [/import\s+({[^}]+})\s+from\s*("[^"]+");/gs, "const $1 = require($2);"],
@@ -52,7 +52,7 @@ const REGEX_STACK: Array<[RegExp, string]> = [
   [/^export async function main/m, "async function main"],
   // Remove exports
   [/^export\s/gm, ""],
-  [/([^\n])\nmodule\.exports/g, "$1\n\nmodule.exports"]
+  [/([^\n])\nmodule\.exports/g, "$1\n\nmodule.exports"],
 ];
 
 /**
@@ -98,9 +98,9 @@ export function convert(srcText: string, transpileOptions?: ts.TranspileOptions)
   const output = ts.transpileModule(processedSrcText, {
     compilerOptions: {
       ...compilerOptions,
-      ...extraCompilerOptions
+      ...extraCompilerOptions,
     },
-    ...extraTranspileOptions
+    ...extraTranspileOptions,
   });
 
   if (output.diagnostics?.length) {
@@ -109,7 +109,7 @@ export function convert(srcText: string, transpileOptions?: ts.TranspileOptions)
     const host: ts.FormatDiagnosticsHost = {
       getNewLine: () => EOL,
       getCanonicalFileName: (path) => path,
-      getCurrentDirectory: () => process.cwd()
+      getCurrentDirectory: () => process.cwd(),
     };
 
     for (const diagnostic of output.diagnostics) {

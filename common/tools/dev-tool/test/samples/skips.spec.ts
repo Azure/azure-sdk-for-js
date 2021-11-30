@@ -17,7 +17,7 @@ export async function toFileInfo(fullPath: string): Promise<FileInfo> {
     fullPath,
     dir: path.dirname(fullPath),
     name: path.basename(fullPath),
-    stat: {} as any
+    stat: {} as any,
   };
 }
 
@@ -46,7 +46,7 @@ describe("Matching logic for sample skip lists", () => {
     "simple/proxy.js": false,
     "simple/proxy.ts": false,
     "simple/auth.js": false,
-    "simple/auth.ts": false
+    "simple/auth.ts": false,
   };
 
   for (const [name, expectation] of Object.entries(expectations)) {

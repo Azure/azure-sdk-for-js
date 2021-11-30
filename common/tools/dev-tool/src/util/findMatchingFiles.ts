@@ -43,7 +43,7 @@ export interface FindOptions {
 
 const defaultFindOptions: FindOptions = {
   ignore: [],
-  skips: []
+  skips: [],
 };
 
 /**
@@ -70,7 +70,7 @@ export async function* findMatchingFiles(
         dir,
         fullPath,
         name: file,
-        stat: await fs.stat(fullPath)
+        stat: await fs.stat(fullPath),
       });
     }
   }
