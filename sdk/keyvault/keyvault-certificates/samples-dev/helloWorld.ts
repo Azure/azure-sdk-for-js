@@ -7,9 +7,11 @@
 
 import { CertificateClient, DefaultCertificatePolicy } from "@azure/keyvault-certificates";
 import { DefaultAzureCredential } from "@azure/identity";
+import { UpdateCertificatePropertiesOptions, CertificatePolicy } from "../src/certificatesModels";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
+
 dotenv.config();
 
 export async function main(): Promise<void> {
@@ -23,47 +25,60 @@ export async function main(): Promise<void> {
 
   const client = new CertificateClient(url, credential);
 
+  // Create unique certificate name
   const uniqueString = new Date().getTime();
   const certificateName = `cert${uniqueString}`;
 
-  // Creating a self-signed certificate
+  // Create a self-signed certificate
   const createPoller = await client.beginCreateCertificate(
     certificateName,
     DefaultCertificatePolicy
   );
 
+  // Wait for long running operation to complete
   const pendingCertificate = createPoller.getResult();
   console.log("Certificate: ", pendingCertificate);
 
-  // To read a certificate with their policy:
+  // Read a certificate with their policy
+  // Note: It will always read the latest version of the certificate
   let certificateWithPolicy = await client.getCertificate(certificateName);
-  // Note: It will always read the latest version of the certificate.
-
   console.log("Certificate with policy:", certificateWithPolicy);
 
-  // To read a certificate from a specific version:
+  // Read a certificate from a specific version
+  // Note: It will not retrieve the certificate's policy
   const certificateFromVersion = await client.getCertificateVersion(
     certificateName,
     certificateWithPolicy.properties.version!
   );
-  // Note: It will not retrieve the certificate's policy.
   console.log("Certificate from a specific version:", certificateFromVersion);
 
-  const updatedCertificate = await client.updateCertificateProperties(certificateName, "", {
+  // Update certificate properties
+  const version = ""; // latest certificate
+  const properties: UpdateCertificatePropertiesOptions = {
     tags: {
-      customTag: "value"
-    }
-  });
+      projectName: "certificate-sample",
+      projectOwner: "REPLACE-WITH-YOUR-NAME"
+    },
+    enabled: true,
+    
+  };
+  const updatedCertificate = await client.updateCertificateProperties(certificateName, version, properties);
   console.log("Updated certificate:", updatedCertificate);
 
-  // Updating the certificate's policy:
-  await client.updateCertificatePolicy(certificateName, {
+  // Update the certificate's policy
+  const policy: CertificatePolicy = {
     issuerName: "Self",
-    subject: "cn=MyOtherCert"
-  });
+    subject: "cn=MyOtherCert",
+    exportable: true,
+    enabled: true
+  }
+  await client.updateCertificatePolicy(certificateName, policy);
+  
+  // Get updated certificate with policy
   certificateWithPolicy = await client.getCertificate(certificateName);
   console.log("updatedCertificate certificate's policy:", certificateWithPolicy.policy);
 
+  // Delete certificate
   const deletePoller = await client.beginDeleteCertificate(certificateName);
   const deletedCertificate = await deletePoller.pollUntilDone();
   console.log("Recovery Id: ", deletedCertificate.recoveryId);
