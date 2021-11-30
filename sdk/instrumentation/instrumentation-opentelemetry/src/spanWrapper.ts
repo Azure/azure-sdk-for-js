@@ -48,7 +48,7 @@ export class OpenTelemetrySpanWrapper implements TracingSpan {
    *
    * @returns The underlying span
    */
-  unwrap(): unknown {
+  unwrap(): Span {
     return this._span;
   }
 }
