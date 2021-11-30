@@ -38,6 +38,10 @@ stages:
             inputs:
               versionSpec: 10.x
 
+          # Downgrade npm to a version compatible with Node 10x
+          - pwsh: npm install -g npm@6.14.12
+            displayName: Install npm@6.14.12
+
           - template: ../common/pipelines/templates/steps/verify-links.yml
             parameters:
               Directory: ""
