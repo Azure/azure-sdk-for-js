@@ -43,7 +43,7 @@
     "MS-vsliveshare.vsliveshare",
     "VisualStudioExptTeam.vscodeintellicode"
   ],
-  "postCreateCommand": "echo 'skipping Oryx'" // Disable Oryx build which runs npm install and creates a phantom node_modules folder
+  "postCreateCommand": "echo 'skipping Oryx' && cd common/tools/dev-tool && npm install" // Disable Oryx build which runs npm install and creates a phantom node_modules folder
 
   // Use 'forwardPorts' to make a list of ports inside the container available locally.
   // "forwardPorts": [],

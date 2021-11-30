@@ -25,6 +25,13 @@ It provides a place to centralize scripts, resources, and processes for developm
 
 The `dev-tool about` command will print some information about how to use the command. All commands additionally accept the `--help` argument, which will print information about the usage of that specific command. For example, to show help information for the `resolve` command above, issue the command `dev-tool package resolve --help`.
 
+## Usage in this repository
+
+*To build (transpile) the sample-dev folder of a service's SDK*:
+
+1. Change the terminal to the service's `samples-dev` folder.  
+1. Run `dev-tool samples publish --force samples-dev`. The generated files are placed in the `samples` folder.
+
 ## Extending the Tool
 
 The source hierarchy matches the command hierarchy. Every sub-command has its own folder and `index.ts` file in `src/commands`, where `src/commands/index.ts` defines the behavior of the root `dev-tool` command, and each subfolder's `index.ts` file describes a nested sub-command. Every leaf node in the command tree ("leaf command") has its own TypeScript file. For example, `src/commands/about.ts` defines the behavior of the `dev-tool about` command, and `src/commands/package/resolve.ts` defines the behavior of the `dev-tool package resolve` command.
