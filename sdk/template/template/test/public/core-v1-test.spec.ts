@@ -1,7 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+//
 
 import { env, isPlaybackMode } from "@azure-tools/test-recorder";
+import { Context } from "mocha";
 import { QueueServiceClient } from "@azure/storage-queue";
 import { TestProxyHttpClientCoreV1 } from "@azure-tools/test-recorder-new";
 import { config } from "dotenv";
@@ -18,8 +20,8 @@ const recorderOptions = {
   envSetupForPlayback: {
     // In playback, we use the fake SAS URL instead of a real one which would have
     // been provided via the .env file or otherwise.
-    STORAGE_SAS_URL: fakeSASUrl,
-  },
+    STORAGE_SAS_URL: fakeSASUrl
+  }
 };
 
 const sanitizers = {
@@ -31,15 +33,15 @@ const sanitizers = {
     // This one replaces the host portion of the URL, which is dynamic based on the storage account...
     {
       regex: env.STORAGE_SAS_URL.split("/")[2],
-      value: fakeSASUrl.split("/")[2],
+      value: fakeSASUrl.split("/")[2]
     },
     // ...and this one replaces the query string which contains sensitive information relating to
     // the SAS token.
     {
       regex: env.STORAGE_SAS_URL.split("/")[3].split("?")[1],
-      value: fakeSASUrl.split("/")[3].split("?")[1],
-    },
-  ],
+      value: fakeSASUrl.split("/")[3].split("?")[1]
+    }
+  ]
 };
 
 describe("Core V1 tests using unified recorder", () => {
@@ -47,7 +49,7 @@ describe("Core V1 tests using unified recorder", () => {
 
   // Note the use of function() instead of an arrow function. This is important
   // since we pass `this.currentTest` to the client.
-  beforeEach(async function () {
+  beforeEach(async function(this: Context) {
     // Create an instance of recorder. We pass the current test as required by the client;
     // this value is used to determine the recording's location.
     recorder = new TestProxyHttpClientCoreV1(this.currentTest);
@@ -62,7 +64,7 @@ describe("Core V1 tests using unified recorder", () => {
     await recorder.stop();
   });
 
-  it("storage-queue create queue", async function () {
+  it("storage-queue create queue", async function() {
     // Along with specifying the necessary parameters for the QueueServiceClient, we pass through
     // the test proxy HTTP client, which mean that the client will use the recorder when making requests.
     const client = new QueueServiceClient(env.STORAGE_SAS_URL, undefined, { httpClient: recorder });

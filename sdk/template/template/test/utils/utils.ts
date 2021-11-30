@@ -8,7 +8,7 @@ const stringValue = "This is a string";
 export function createSimpleEntity(): TableEntity {
   return {
     partitionKey: "simpleEntity",
-    rowKey: "03590009-4169-46ce-9e33-d011dbaf308c", //uuid(),
+    rowKey: "03590009-4169-46ce-9e33-d011dbaf308c", // uuid(),
     stringTypeProperty1: stringValue,
     stringTypeProperty2: stringValue,
     stringTypeProperty3: stringValue,

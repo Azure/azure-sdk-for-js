@@ -1,12 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { env, isPlaybackMode } from "@azure-tools/test-recorder";
-import { TableEntity, TableClient } from "@azure/data-tables";
+import { TableClient, TableEntity } from "@azure/data-tables";
 import { TestProxyHttpClient, recorderHttpPolicy } from "@azure-tools/test-recorder-new";
+import { env, isPlaybackMode } from "@azure-tools/test-recorder";
+import { Context } from "mocha";
+import { SanitizerOptions } from "@azure-tools/test-recorder-new";
 import { config } from "dotenv";
 import { createSimpleEntity } from "../utils/utils";
-import { SanitizerOptions } from "@azure-tools/test-recorder-new";
 config();
 
 // A fake connection string which replaces the actual connection string in the recording.
@@ -17,18 +18,18 @@ const sanitizerOptions: SanitizerOptions = {
   connectionStringSanitizers: [
     {
       actualConnString: env.TABLES_SAS_CONNECTION_STRING,
-      fakeConnString,
-    },
+      fakeConnString
+    }
   ],
   // The removeHeaderSanitizer can be used to remove certain headers before saving a recording.
-  removeHeaderSanitizer: { headersForRemoval: ["X-Content-Type-Options"] },
+  removeHeaderSanitizer: { headersForRemoval: ["X-Content-Type-Options"] }
 };
 
 const recorderOptions = {
   envSetupForPlayback: {
-    TABLES_SAS_CONNECTION_STRING: fakeConnString,
+    TABLES_SAS_CONNECTION_STRING: fakeConnString
   },
-  sanitizerOptions,
+  sanitizerOptions
 };
 
 describe("Core V2 tests using unified recorder", () => {
@@ -36,7 +37,7 @@ describe("Core V2 tests using unified recorder", () => {
 
   // Note the use of function() instead of an arrow function. This is important
   // since we pass `this.currentTest` to the client.
-  beforeEach(async function () {
+  beforeEach(async function(this: Context) {
     // Create an instance of recorder. We pass the current test as required by the client;
     // this value is used to determine the recording's location.
     recorder = new TestProxyHttpClient(this.currentTest);
@@ -49,7 +50,7 @@ describe("Core V2 tests using unified recorder", () => {
     await recorder.stop();
   });
 
-  it("data-tables create entity", async function () {
+  it("data-tables create entity", async function() {
     // Variables can be generated in record mode, and are stored with the recording to be reused
     // in playback mode.
     if (!isPlaybackMode()) {
