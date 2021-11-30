@@ -1125,6 +1125,11 @@
       "packageName": "@azure/arm-search",
       "projectFolder": "sdk/search/arm-search",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-analysisservices",
+      "projectFolder": "sdk/analysisservices/arm-analysisservices",
+      "versionPolicyName": "management"
     }
   ]
 }
