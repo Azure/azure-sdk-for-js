@@ -2390,12 +2390,6 @@ export interface ListBlobsHierarchySegmentResponseModel {
 }
 
 // @public
-export type ListBlobsIncludeItem = "copy" | "deleted" | "metadata" | "snapshots" | "uncommittedblobs" | "versions" | "tags" | "immutabilitypolicy" | "legalhold" | "deletedwithversions";
-
-// @public
-export type ListContainersIncludeType = "metadata" | "deleted" | "system";
-
-// @public
 export interface ListContainersSegmentResponse {
     // (undocumented)
     containerItems: ContainerItem[];

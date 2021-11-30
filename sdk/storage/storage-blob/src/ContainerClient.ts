@@ -32,7 +32,6 @@ import {
   LeaseAccessConditions,
   ListBlobsFlatSegmentResponseModel,
   ListBlobsHierarchySegmentResponseModel,
-  ListBlobsIncludeItem,
   PublicAccessType,
   SignedIdentifierModel
 } from "./generatedModels";
@@ -73,6 +72,7 @@ import {
   PageBlobClient
 } from "./Clients";
 import { BlobBatchClient } from "./BlobBatchClient";
+import { ListBlobsIncludeItem } from "./generated/src";
 
 /**
  * Options to configure {@link ContainerClient.create} operation.

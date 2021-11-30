@@ -20,7 +20,6 @@ import {
   ServiceGetAccountInfoResponse,
   ServiceListContainersSegmentResponse,
   ContainerItem,
-  ListContainersIncludeType,
   UserDelegationKeyModel,
   ContainerUndeleteResponse,
   FilterBlobSegmentModel,
@@ -55,6 +54,7 @@ import { SASProtocol } from "./sas/SASQueryParameters";
 import { SasIPRange } from "./sas/SasIPRange";
 import { generateAccountSASQueryParameters } from "./sas/AccountSASSignatureValues";
 import { AccountSASServices } from "./sas/AccountSASServices";
+import { ListContainersIncludeType } from "./generated/src";
 
 /**
  * Options to configure the {@link BlobServiceClient.getProperties} operation.

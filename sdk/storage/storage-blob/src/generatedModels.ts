@@ -92,8 +92,6 @@ export {
   LeaseDurationType,
   LeaseStateType,
   LeaseStatusType,
-  ListBlobsIncludeItem,
-  ListContainersIncludeType,
   ListContainersSegmentResponse,
   FilterBlobItem as FilterBlobItemModel,
   FilterBlobSegment as FilterBlobSegmentModel,
