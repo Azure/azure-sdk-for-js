@@ -1,4 +1,4 @@
-# Guide for migrating to `@azure/storage-file-share` from `azure-storage`
+# Guide for migrating to `@azure/storage-file-share` v12 from `azure-storage`
 
 This guide is intended to assist in the migration to `@azure/storage-file-share` from the legacy `azure-storage` package. It will focus on side-by-side comparisons for similar operations between the two packages.
 
@@ -39,11 +39,11 @@ The modern `@azure/storage-file-share` client library is also benefited from the
 
 ### Package name and structure
 
-The modern client library is named `@azure/storage-file-share` and was released beginning with version 10. The legacy client library is named `azure-storage` with version of 2.x.x or below.
+The modern client library is named `@azure/storage-file-share`. The legacy client library is named `azure-storage`.
 
-The legacy library `azure-storage` grouped functionality to work with multiple services in the same package such as `Blob`, `Queue`, `Files` and `Tables`. The new `@azure/storage-file-share` is dedicated to `Files` service. New generation packages are available for the other storage services as well: `@azure/data-tables`, `@azure/storage-queue` and `@azure/storage-blob`. This provides more granular control on which dependencies to take on your project.
+The legacy library `azure-storage` grouped functionality to work with multiple services in the same package such as `Blob`, `Queue`, `Files` and `Tables`. The new `@azure/storage-file-share` is dedicated to `Files` service. New generation packages are available for the other storage services as well: `@azure/data-tables`, `@azure/storage-queue`, `@azure/storage-blob-changefeed`, `@azure/storage-file-datalake` and `@azure/storage-blob`. This provides more granular control on which dependencies to take on your project.
 
-### Constructing the clients
+### Constructing the clients with connection string
 
 Previously in `azure-storage`, you would use `createFileService` which can be used to get an instance of the `FileService` in order to perform service level operations.
 
@@ -52,11 +52,34 @@ const azure = require("azure-storage");
 const fileService = azure.createFileService("<connection-string>");
 ```
 
-Now, in `@azure/storage-file-share`, we need a `ShareServiceClient` for service level operations.
+Now, in `@azure/storage-file-share`, we will be creating an instance of `ShareServiceClient` for service level operations.
 
 ```javascript
 const { ShareServiceClient } = require("@azure/storage-file-share");
 const shareService = ShareServiceClient.fromConnectionString("<connection-string>");
+```
+
+### Constructing the clients with SAS token
+
+`azure-storage` or `@azure/storage-file-share` supports to access `Files` service with different types of credentials: anonymous, account key credentials and SAS token. This section shows samples to construct blob service clients with SAS token credentials.
+
+Previously in `azure-storage`, you can invoke method `createFileServiceWithSas` to get an instance of the `FileService` with SAS token credentials.
+
+```javascript
+const azure = require("azure-storage");
+const fileService = azure.createFileServiceWithSas(
+  "https://<account-name>.file.core.windows.net",
+  "<sas-token>"
+);
+```
+
+Now, in `@azure/storage-file-share`, you can invoke `ShareServiceClient` constructor with URL with SAS token to create a `ShareServiceClient` instance with SAS token credentials.
+
+```javascript
+const { ShareServiceClient } = require("@azure/storage-file-share");
+const shareService = new ShareServiceClient(
+  "https://<account-name>.file.core.windows.net<sas-token>"
+);
 ```
 
 ### Creating a file share
@@ -73,7 +96,7 @@ fileService.createShare(shareName, function() {
 });
 ```
 
-With `@azure/storage-file-share` you have access to all share level operations directly from the `ShareServiceClient`. Because the file share service client is not affinitized to any one share, it is ideal for scenarios where you need to create, delete, or list more than one share.
+With `@azure/storage-file-share` you can access to all share level operations directly from the `ShareServiceClient`. Because the file share service client is not affinitized to any one share, it is ideal for scenarios where you need to create, delete, or list more than one share.
 
 ```javascript
 const { ShareServiceClient, StorageSharedKeyCredential } = require("@azure/storage-file-share");
@@ -108,7 +131,7 @@ console.log(`Share created`);
 
 ### Creating a directory in the share
 
-Previously in `azure-storage`, A `FileService` instance would be used for all directory or file operations. The `createDirectory` method would take a callback to execute once the directory has been created. This forces sequential operations to be inside the callback, potentially creating a callback chain
+Previously in `azure-storage`, the `FileService` class would have methods for operations for all directory or file operations. The `createDirectory` method would take a callback to execute once the directory has been created. This forces sequential operations to be inside the callback, potentially creating a callback chain.
 
 ```javascript
 const azure = require("azure-storage");

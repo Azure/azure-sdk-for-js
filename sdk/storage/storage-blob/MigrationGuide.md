@@ -1,4 +1,4 @@
-# Guide for migrating to `@azure/storage-blob` from `azure-storage`
+# Guide for migrating to `@azure/storage-blob` v12 from `azure-storage`
 
 This guide is intended to assist in the migration to `@azure/storage-blob` from the legacy `azure-storage` package. It will focus on side-by-side comparisons for similar operations between the two packages.
 
@@ -38,11 +38,11 @@ The modern `@azure/storage-blob` client library is also benefited from the cross
 
 ### Package name and structure
 
-The modern client library is named `@azure/storage-blob` and was released beginning with version 10. The legacy client library is named `azure-storage` with version of 2.x.x or below.
+The modern client library is named `@azure/storage-blob` . The legacy client library is named `azure-storage`.
 
-The legacy library `azure-storage` grouped functionality to work with multiple services in the same package such as `Blob`, `Queue`, `Files` and `Tables`. The new `@azure/storage-blob` is dedicated to `Blob` service. New generation packages are available for the other storage services as well: `@azure/data-tables`, `@azure/storage-queue` and `@azure/storage-file-share`. This provides more granular control on which dependencies to take on your project.
+The legacy library `azure-storage` grouped functionality to work with multiple services in the same package such as `Blob`, `Queue`, `Files` and `Tables`. The new `@azure/storage-blob` is dedicated to `Blob` service. New generation packages are available for the other storage services as well: `@azure/data-tables`, `@azure/storage-queue`, `@azure/storage-blob-changefeed`, `@azure/storage-file-datalake` and `@azure/storage-file-share`. This provides more granular control on which dependencies to take on your project.
 
-### Constructing the clients
+### Constructing the clients with connection string
 
 Previously in `azure-storage`, you would use `createBlobService` which can be used to get an instance of the `BlobService` in order to perform service level operations.
 
@@ -51,16 +51,43 @@ const azure = require("azure-storage");
 const blobService = azure.createBlobService("<connection-string>");
 ```
 
-Now, in `@azure/storage-blob`, we need a `BlobServiceClient` for service level operations.
+Now, in `@azure/storage-blob`, we will be creating an instance of `BlobServiceClient` for service level operations.
 
 ```javascript
 const { BlobServiceClient } = require("@azure/storage-blob");
 const blobService = BlobServiceClient.fromConnectionString("<connection-string>");
 ```
 
+### Constructing the clients with AAD token credentials
+
+`azure-storage` or `@azure/storage-blob` supports to access `Blob` service with different types of credentials: anonymous, account key credentials, sas token, and AAD token credentials. This section shows samples to construct blob service clients with AAD token credentials.
+
+Previously in `azure-storage`, you can invoke method `createBlobServiceWithTokenCredential` to get an instance of the `BlobService` with access token for your AAD credentials.
+
+```javascript
+const azure = require("azure-storage");
+const tokenCredential = new azure.TokenCredential("<access-token>");
+const blobService = azure.createBlobServiceWithTokenCredential(
+  "https://<account-name>.blob.core.windows.net",
+  tokenCredential
+);
+```
+
+Now, for `@azure/storage-blob`, you can use a constructor of `BlobServiceClient` which accepts token credential classes provided in `@azure/identity` package to get a `BlobServiceClient` instance with AAD token credentials. In following sample, it creates an instance of `DefaultAzureCredential` which reads credentials from environment variables `AZURE_TENANT_ID`, `AZURE_CLIENT_ID` and `AZURE_CLIENT_SECRET`, and creates a `BlobServiceClient` to consume the credential instance.
+
+```javascript
+const { BlobServiceClient } = require("@azure/storage-blob");
+const { DefaultAzureCredential } = require("@azure/identity");
+const tokenCredential = new DefaultAzureCredential();
+const blobService = new BlobServiceClient(
+  "https://<account-name>.blob.core.windows.net",
+  tokenCredential
+);
+```
+
 ### Creating a container
 
-Previously in `azure-storage`, you would use a `BlobService` instance to create a container. The `createContainer` method would take a callback to execute once the blob container has been created. This forces sequential operations to be inside the callback, potentially creating a callback chain
+Previously in `azure-storage`, you would use a `BlobService` instance to create a container. The `createContainer` method would take a callback to execute once the blob container has been created. This forces sequential operations to be inside the callback, potentially creating a callback chain.
 
 ```javascript
 const azure = require("azure-storage");
@@ -72,7 +99,7 @@ blobService.createContainer(containerName, function() {
 });
 ```
 
-With `@azure/storage-blob` you have access to all container level operations directly from the `BlobServiceClient`. Because the blob service client is not affinitized to any one container, it is ideal for scenarios where you need to create, delete, or list more than one blob container.
+With `@azure/storage-blob` you can access to all container level operations directly from the `BlobServiceClient`. Because the blob service client is not affinitized to any one container, it is ideal for scenarios where you need to create, delete, or list more than one blob container.
 
 ```javascript
 const { BlobServiceClient, StorageSharedKeyCredential } = require("@azure/storage-blob");
@@ -107,7 +134,7 @@ console.log(`Container created`);
 
 ### Uploading a blob to the container
 
-Previously in `azure-storage`, A `BlobService` instance would be used for blob operations. `BlobService` has methods for blob operations for each blob type. For example, `createBlockBlobFromLocalFile` would be used to upload from a local file to a block blob.
+Previously in `azure-storage`, the `BlobService` class would have methods for operations for each blob type. For example, `BlobService.createBlockBlobFromLocalFile()` would be used to upload from a local file to a block blob.
 
 ```javascript
 const azure = require("azure-storage");
@@ -121,7 +148,7 @@ blobService.createBlockBlobFromLocalFile(containerName, blobName, filePath, func
 });
 ```
 
-Now in the new `@azure/storage-blob` SDK, instances of `BlockBlobClient`, `PageBlobClient` and `AppendBlobClient` would be used for blob operations. Method `uploadFile` of a `BlockBlobClient` can be used to upload from a local file to a block blob.
+Now in the new `@azure/storage-blob` SDK, we have dedicated classes `BlockBlobClient`, `PageBlobClient` and `AppendBlobClient` for each blob type. For example, Method `BlockBlobClient.uploadFile` can be used to upload from a local file to a block blob.
 
 ```javascript
 const { BlockBlobClient, StorageSharedKeyCredential } = require("@azure/storage-blob");

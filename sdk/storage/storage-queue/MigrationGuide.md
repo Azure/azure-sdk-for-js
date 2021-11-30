@@ -1,4 +1,4 @@
-# Guide for migrating to `@azure/storage-queue` from `azure-storage`
+# Guide for migrating to `@azure/storage-queue` v12 from `azure-storage`
 
 This guide is intended to assist in the migration to `@azure/storage-queue` from the legacy `azure-storage` package. It will focus on side-by-side comparisons for similar operations between the two packages.
 
@@ -37,11 +37,11 @@ The modern `@azure/storage-queue` client library is also benefited from the cros
 
 ### Package name and structure
 
-The modern client library is named `@azure/storage-queue` and was released beginning with version 10. The legacy client library is named `azure-storage` with version of 2.x.x or below.
+The modern client library is named `@azure/storage-queue`. The legacy client library is named `azure-storage`.
 
-The legacy library `azure-storage` grouped functionality to work with multiple services in the same package such as `Blob`, `Queue`, `Files` and `Tables`. The new `@azure/storage-queue` is dedicated to `Queue` service. New generation packages are available for the other storage services as well: `@azure/data-tables`, `@azure/storage-blob` and `@azure/storage-file-share`. This provides more granular control on which dependencies to take on your project.
+The legacy library `azure-storage` grouped functionality to work with multiple services in the same package such as `Blob`, `Queue`, `Files` and `Tables`. The new `@azure/storage-queue` is dedicated to `Queue` service. New generation packages are available for the other storage services as well: `@azure/data-tables`, `@azure/storage-blob`, `@azure/storage-blob-changefeed`, `@azure/storage-file-datalake` and `@azure/storage-file-share`. This provides more granular control on which dependencies to take on your project.
 
-### Constructing the clients
+### Constructing the clients with connection string
 
 Previously in `azure-storage`, you would use `createQueueService` which can be used to get an instance of the `QueueService` in order to perform service level operations.
 
@@ -50,16 +50,43 @@ const azure = require("azure-storage");
 const queueService = azure.createQueueService("<connection-string>");
 ```
 
-Now, in `@azure/storage-queue`, we need a `QueueServiceClient` for service level operations.
+Now, in `@azure/storage-queue`, we will be creating an instance of `QueueServiceClient` for service level operations.
 
 ```javascript
 const { QueueServiceClient } = require("@azure/storage-queue");
 const queueService = QueueServiceClient.fromConnectionString("<connection-string>");
 ```
 
+### Constructing the clients with AAD token credentials
+
+`azure-storage` or `@azure/storage-queue` supports to access `Queue` service with different types of credentials: anonymous, account key credentials, sas token, and AAD token credentials. This section shows samples to construct queue service clients with AAD token credentials.
+
+Previously in `azure-storage`, you can invoke method `createQueueServiceWithTokenCredential` to get an instance of the `QueueService` with access token for your AAD credentials.
+
+```javascript
+const azure = require("azure-storage");
+const tokenCredential = new azure.TokenCredential("<access-token>");
+const queueService = azure.createQueueServiceWithTokenCredential(
+  "https://<account-name>.queue.core.windows.net",
+  tokenCredential
+);
+```
+
+Now, for `@azure/storage-queue`, you can use a constructor of `QueueServiceClient` which accepts token credential classes provided in `@azure/identity` package to get a `BlobServiceClient` instance with AAD token credentials. In following sample, it creates an instance of `DefaultAzureCredential` which reads credentials from environment variables `AZURE_TENANT_ID`, `AZURE_CLIENT_ID` and `AZURE_CLIENT_SECRET`, and creates a `QueueServiceClient` to consume the credential instance.
+
+```javascript
+const { QueueServiceClient } = require("@azure/storage-queue");
+const { DefaultAzureCredential } = require("@azure/identity");
+const tokenCredential = new DefaultAzureCredential();
+const queueService = new QueueServiceClient(
+  "https://<account-name>.queue.core.windows.net",
+  tokenCredential
+);
+```
+
 ### Creating a queue
 
-Previously in `azure-storage`, you would use a `QueueService` instance to create a queue. The `createQueue` method would take a callback to execute once the queue has been created. This forces sequential operations to be inside the callback, potentially creating a callback chain
+Previously in `azure-storage`, you would use a `QueueService` instance to create a queue. The `createQueue` method would take a callback to execute once the queue has been created. This forces sequential operations to be inside the callback, potentially creating a callback chain.
 
 ```javascript
 const azure = require("azure-storage");
@@ -71,7 +98,7 @@ queueService.createQueue(queueName, function() {
 });
 ```
 
-With `@azure/storage-queue` you have access to all queue level operations directly from the `QueueServiceClient`. Because the queue service client is not affinitized to any one queue, it is ideal for scenarios where you need to create, delete, or list more than one queue.
+With `@azure/storage-queue` you can access to all queue level operations directly from the `QueueServiceClient`. Because the queue service client is not affinitized to any one queue, it is ideal for scenarios where you need to create, delete, or list more than one queue.
 
 ```javascript
 const { QueueServiceClient, StorageSharedKeyCredential } = require("@azure/storage-queue");
@@ -106,7 +133,7 @@ console.log(`Queue created`);
 
 ### Adding a message to the queue
 
-Previously in `azure-storage`, A `QueueService` instance would be used for queue operations. Method `createMessage` can be used to add a new message to the back of the queue.
+Previously in `azure-storage`, a `QueueService` instance would be used for queue operations. Method `createMessage` can be used to add a new message to the back of the queue.
 
 ```javascript
 const azure = require("azure-storage");
