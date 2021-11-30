@@ -8,6 +8,7 @@
 
 export {
   discriminators,
-  ErrorResponse,
-  PurgeParameters
+  CheckNameAvailabilityInput,
+  CheckNameAvailabilityOutput,
+  ErrorResponse
 } from "../models/mappers";
