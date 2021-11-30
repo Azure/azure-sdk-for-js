@@ -5,8 +5,7 @@ import { assert } from "chai";
 import { Context } from "mocha";
 import sinon from "sinon";
 import { Instrumenter, TracingSpan, TracingContext, TracingClient } from "../src/interfaces";
-import { NoOpInstrumenter, NoOpSpan } from "../src/instrumenter";
-import { useInstrumenter } from "../src/useInstrumenter";
+import { NoOpInstrumenter, NoOpSpan, useInstrumenter } from "../src/instrumenter";
 import { createTracingClient, TracingClientImpl } from "../src/tracingClient";
 import { knownContextKeys, createTracingContext } from "../src/tracingContext";
 

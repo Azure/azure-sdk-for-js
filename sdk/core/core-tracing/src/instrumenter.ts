@@ -80,3 +80,24 @@ export class NoOpSpan implements TracingSpan {
     // noop
   }
 }
+
+/** @internal */
+let instrumenterImplementation: Instrumenter = new NoOpInstrumenter();
+
+/**
+ * Extends the Azure SDK with support for a given instrumenter implementation.
+ *
+ * @param instrumenter - The instrumenter implementation to use.
+ */
+export function useInstrumenter(instrumenter: Instrumenter): void {
+  instrumenterImplementation = instrumenter;
+}
+
+/**
+ * Gets the currently set instrumenter, which is {@link NoOpInstrumenter} by default.
+ *
+ * @returns The currently set instrumenter
+ */
+export function getInstrumenter(): Instrumenter {
+  return instrumenterImplementation;
+}

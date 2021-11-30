@@ -4,7 +4,7 @@
 import { assert } from "chai";
 import { Context } from "mocha";
 import { Instrumenter, TracingSpan, TracingSpanContext } from "../src/interfaces";
-import { NoOpInstrumenter, NoOpSpan } from "../src/instrumenter";
+import { getInstrumenter, NoOpInstrumenter, NoOpSpan, useInstrumenter } from "../src/instrumenter";
 import { createTracingContext } from "../src/tracingContext";
 
 describe("Instrumenter", () => {
@@ -97,6 +97,18 @@ describe("Instrumenter", () => {
       });
       span.end();
       assert.isFalse(span.isRecording());
+    });
+  });
+
+  describe("useInstrumenter", () => {
+    it("allows setting and getting a global instrumenter", () => {
+      const instrumenter = getInstrumenter();
+      assert.exists(instrumenter);
+      assert.isTrue(instrumenter instanceof NoOpInstrumenter);
+
+      const newInstrumenter = new NoOpInstrumenter();
+      useInstrumenter(newInstrumenter);
+      assert.strictEqual(getInstrumenter(), newInstrumenter);
     });
   });
 });

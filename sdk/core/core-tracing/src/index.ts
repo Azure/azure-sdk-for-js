@@ -2,5 +2,5 @@
 // Licensed under the MIT license.
 
 export * from "./interfaces";
-export { useInstrumenter } from "./useInstrumenter";
+export { useInstrumenter } from "./instrumenter";
 export { createTracingClient } from "./tracingClient";

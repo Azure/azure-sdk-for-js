@@ -11,7 +11,7 @@ import {
   TracingSpanOptions,
   TracingSpanContext
 } from "./interfaces";
-import { getInstrumenter } from "./useInstrumenter";
+import { getInstrumenter } from "./instrumenter";
 import { knownContextKeys } from "./tracingContext";
 
 /** @internal */
