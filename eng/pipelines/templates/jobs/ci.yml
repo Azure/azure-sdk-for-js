@@ -60,6 +60,8 @@ jobs:
 
     steps:
       - template: ../steps/common.yml
+        parameters:
+          UpgradeNpm: true
 
       - template: ../steps/analyze.yml
         parameters:

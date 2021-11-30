@@ -1,3 +1,5 @@
+parameters:
+  UpgradeNpm: false
 steps:
   - template: /eng/common/pipelines/templates/steps/verify-agent-os.yml
     parameters:
@@ -9,3 +11,5 @@ steps:
       versionSpec: "3.6"
 
   - template: use-node-version.yml
+    parameters:
+      UpgradeNpm: ${{ parameters.UpgradeNpm }}
