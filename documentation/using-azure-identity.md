@@ -310,10 +310,14 @@ locally, you can also add a redirect URI for your development endpoint
 
 A complete example of hosting your own authentication response endpoint can be
 <<<<<<< HEAD
+<<<<<<< HEAD
 found in the [`authorization code manual test`](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity/test/manual/authorization-code-credential).
 =======
 found in the REMOVED BROKEN LINK
 >>>>>>> Remove spelling error temporarily
+=======
+found in the [`authorization code sample`](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/manual/authorizationCodeSample.ts).
+>>>>>>> Revert "Remove spelling error temporarily"
 
 ### DefaultAzureCredential
 
