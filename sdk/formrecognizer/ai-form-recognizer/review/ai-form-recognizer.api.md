@@ -7,10 +7,10 @@
 /// <reference types="node" />
 
 import { AzureKeyCredential } from '@azure/core-auth';
+import { CommonClientOptions } from '@azure/core-client';
 import { KeyCredential } from '@azure/core-auth';
 import { OperationOptions } from '@azure/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PipelineOptions } from '@azure/core-rest-pipeline';
 import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
 import { TokenCredential } from '@azure/core-auth';
@@ -502,7 +502,7 @@ export const FormRecognizerApiVersion: {
 };
 
 // @public
-export interface FormRecognizerCommonClientOptions extends PipelineOptions {
+export interface FormRecognizerCommonClientOptions extends CommonClientOptions {
     apiVersion?: FormRecognizerApiVersion;
 }
 

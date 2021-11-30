@@ -2,6 +2,11 @@
 # specifying a different Azure region to use when manually triggering the live
 # tests pipeline. This is useful for when we want to test in different
 # environments: Prod, Canary, etc.
+parameters:
+- name: Location
+  displayName: Location
+  type: string
+  default: centraluseuap
 
 trigger: none
 

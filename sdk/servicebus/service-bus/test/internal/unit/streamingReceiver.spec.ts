@@ -51,7 +51,7 @@ describe("StreamingReceiver unit tests", () => {
     it("if subscribe() fails we are no longer say we're receiving messages", async () => {
       const streamingReceiver = createTestStreamingReceiver("fakeEntityPath");
 
-      let isReceivingMessages: (boolean | undefined)[] = [];
+      const isReceivingMessages: (boolean | undefined)[] = [];
 
       streamingReceiver["_retryForeverFn"] = async () => {
         isReceivingMessages.push(streamingReceiver.isSubscribeActive);
@@ -167,7 +167,9 @@ describe("StreamingReceiver unit tests", () => {
           processError: async (pae) => {
             errors.push({ message: pae.error.message, errorSource: pae.errorSource });
           },
-          processMessage: async () => {},
+          processMessage: async () => {
+            /* empty body */
+          },
           forwardInternalErrors: true
         },
         {}
@@ -204,7 +206,9 @@ describe("StreamingReceiver unit tests", () => {
           processError: async (pae) => {
             errors.push({ message: pae.error.message, errorSource: pae.errorSource });
           },
-          processMessage: async () => {},
+          processMessage: async () => {
+            /* empty body */
+          },
           forwardInternalErrors: true
         },
         {}

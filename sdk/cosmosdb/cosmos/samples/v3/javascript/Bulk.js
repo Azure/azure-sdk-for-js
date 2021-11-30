@@ -50,6 +50,7 @@ async function run() {
     key: true,
     class: "2010",
   });
+
   await v2Container.items.create({
     id: deleteItemId,
     key: {},

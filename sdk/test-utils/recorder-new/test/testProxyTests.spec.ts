@@ -29,7 +29,11 @@ function getTestServerUrl() {
   // - In "record" and "playback" modes, we need to hit the localhost of the host network
   //   from the proxy tool running in the docker container.
   //   `host.docker.internal` alias can be used in the docker container to access host's network(localhost)
-  return !isLiveMode()
+  //
+  // if PROXY_MANUAL_START=true, we start the proxy tool using the dotnet tool instead of the `docker run` command
+  //  - in this case, we don't need to hit the localhost using the alias
+  //  - needed for the CI since we have difficulties with the mac machines
+  return !isLiveMode() && !(env.PROXY_MANUAL_START === "true")
     ? `http://host.docker.internal:8080` // Accessing host's network(localhost) through docker container
     : `http://127.0.0.1:8080`;
 }

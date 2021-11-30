@@ -857,6 +857,11 @@
       "versionPolicyName": "test"
     },
     {
+      "packageName": "@azure-tests/perf-template",
+      "projectFolder": "sdk/template/perf-tests/template",
+      "versionPolicyName": "test"
+    },
+    {
       "packageName": "@azure/mixed-reality-remote-rendering",
       "projectFolder": "sdk/remoterendering/mixed-reality-remote-rendering",
       "versionPolicyName": "client"
@@ -1084,6 +1089,46 @@
     {
       "packageName": "@azure/arm-consumption",
       "projectFolder": "sdk/consumption/arm-consumption",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-datalake-analytics",
+      "projectFolder": "sdk/datalake-analytics/arm-datalake-analytics",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-batch",
+      "projectFolder": "sdk/batch/arm-batch",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-managementgroups",
+      "projectFolder": "sdk/managementgroups/arm-managementgroups",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-orbital",
+      "projectFolder": "sdk/orbital/arm-orbital",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-resourcehealth",
+      "projectFolder": "sdk/resourcehealth/arm-resourcehealth",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-botservice",
+      "projectFolder": "sdk/botservice/arm-botservice",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-search",
+      "projectFolder": "sdk/search/arm-search",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-analysisservices",
+      "projectFolder": "sdk/analysisservices/arm-analysisservices",
       "versionPolicyName": "management"
     }
   ]

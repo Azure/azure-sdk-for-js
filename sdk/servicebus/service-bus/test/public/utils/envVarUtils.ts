@@ -21,8 +21,7 @@ export function getEnvVarValue(name: string): string | undefined {
   if (isNode) {
     return process.env[name];
   } else {
-    // @ts-ignore
-    return self.__env__[name];
+    return (self as any).__env__[name];
   }
 }
 
