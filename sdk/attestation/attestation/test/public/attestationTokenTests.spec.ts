@@ -10,15 +10,15 @@ import { Context } from "mocha";
 import chaiPromises from "chai-as-promised";
 chaiUse(chaiPromises);
 
-import { Recorder } from "@azure/test-utils-recorder";
+import { Recorder } from "@azure-tools/test-recorder";
 
 import { createRecorder } from "../utils/recordedClient";
 
 import { bytesToString, stringToBytes } from "../../src/utils/utf8";
 
-import { AttestationSigningKey, AttestationToken } from "../../src";
 import { createECDSKey, createRSAKey, createX509Certificate } from "../utils/cryptoUtils";
-import { encodeByteArray } from "../utils/base64url";
+import { verifyAttestationSigningKey } from "../../src/utils/helpers";
+import { AttestationTokenImpl } from "../../src/models/attestationToken";
 
 describe("AttestationTokenTests", function() {
   let recorder: Recorder;
@@ -49,7 +49,7 @@ describe("AttestationTokenTests", function() {
     assert.isTrue(privKey.length !== 0);
     assert.isTrue(cert.length !== 0);
 
-    const signingKey = new AttestationSigningKey(privKey, cert);
+    const signingKey = verifyAttestationSigningKey(privKey, cert);
     assert.isTrue(signingKey.certificate.length !== 0);
   });
 
@@ -59,7 +59,7 @@ describe("AttestationTokenTests", function() {
     assert.isTrue(privKey.length !== 0);
     assert.isTrue(cert.length !== 0);
 
-    const signingKey = new AttestationSigningKey(privKey, cert);
+    const signingKey = verifyAttestationSigningKey(privKey, cert);
     assert.isTrue(signingKey.certificate.length !== 0);
   });
 
@@ -74,7 +74,7 @@ describe("AttestationTokenTests", function() {
     assert.isTrue(privKey.length !== 0);
     assert.isTrue(cert.length !== 0);
 
-    assert.throws(() => new AttestationSigningKey(key2, cert));
+    assert.throws(() => verifyAttestationSigningKey(key2, cert));
   });
 
   /**
@@ -82,7 +82,7 @@ describe("AttestationTokenTests", function() {
    */
   it("#createUnsecuredAttestationToken", async () => {
     const sourceObject = JSON.stringify({ foo: "foo", bar: 10 });
-    const token = AttestationToken.create({ body: sourceObject });
+    const token = AttestationTokenImpl.create({ body: sourceObject });
 
     const body = token.getBody();
     assert.deepEqual({ foo: "foo", bar: 10 }, body);
@@ -93,7 +93,7 @@ describe("AttestationTokenTests", function() {
    * Creates an unsecured empty attestation token.
    */
   it("#createUnsecuredEmptyAttestationToken", async () => {
-    const token = AttestationToken.create({});
+    const token = AttestationTokenImpl.create({});
 
     // An empty unsecured attestation token has a well known value, check it.
     assert("eyJhbGciOiJub25lIn0..", token.serialize());
@@ -109,15 +109,12 @@ describe("AttestationTokenTests", function() {
     const [privKey, pubKey] = createRSAKey();
     const cert = createX509Certificate(privKey, pubKey, "certificate");
 
-    const token = AttestationToken.create({ signer: new AttestationSigningKey(privKey, cert) });
+    const token = AttestationTokenImpl.create({ privateKey: privKey, certificate: cert });
 
     assert.notEqual("none", token.algorithm);
     assert.equal(1, token.certificateChain?.certificates.length);
     if (token.certificateChain) {
-      let pemCert: string;
-      pemCert = "-----BEGIN CERTIFICATE-----\r\n";
-      pemCert += encodeByteArray(token.certificateChain.certificates[0]);
-      pemCert += "\r\n-----END CERTIFICATE-----\r\n";
+      const pemCert: string = token.certificateChain.certificates[0];
 
       const expectedCert = new jsrsasign.X509();
       expectedCert.readCertPEM(cert);
@@ -129,7 +126,7 @@ describe("AttestationTokenTests", function() {
     }
 
     // The token of course should validate.
-    token.validateToken();
+    assert.deepEqual([], token.getTokenProblems());
   });
 
   /**
@@ -152,9 +149,10 @@ describe("AttestationTokenTests", function() {
     };
 
     const sourceJson = JSON.stringify(sourceObject);
-    const token = AttestationToken.create({
+    const token = AttestationTokenImpl.create({
       body: sourceJson,
-      signer: new AttestationSigningKey(privKey, cert)
+      privateKey: privKey,
+      certificate: cert
     });
 
     // Let's look at some of the properties on the token and confirm they match
@@ -164,37 +162,39 @@ describe("AttestationTokenTests", function() {
     assert.deepEqual(sourceObject, body);
     assert.notEqual("none", token.algorithm);
 
-    expect(token.issuedAtTime?.getTime()).to.equal(currentDate.getTime());
-    expect(token.notBeforeTime?.getTime()).to.equal(currentDate.getTime());
-    expect(token.expirationTime?.getTime()).to.equal(currentDate.getTime() + 30 * 1000);
+    expect(token.issuedAt?.getTime()).to.equal(currentDate.getTime());
+    expect(token.notBefore?.getTime()).to.equal(currentDate.getTime());
+    expect(token.expiresOn?.getTime()).to.equal(currentDate.getTime() + 30 * 1000);
     expect(token.issuer).to.equal("this is an issuer");
   });
 
   it("#verifyAttestationTokenCallback", async () => {
     const sourceObject = JSON.stringify({ foo: "foo", bar: 10 });
 
-    const token = AttestationToken.create({ body: sourceObject });
+    const token = AttestationTokenImpl.create({ body: sourceObject });
 
-    expect(() =>
-      token.validateToken(undefined, {
+    assert.deepEqual(
+      [],
+      token.getTokenProblems(undefined, {
         validateToken: true,
-        validationCallback: (tokenToCheck) => {
+        validateAttestationToken: (tokenToCheck) => {
           console.log("In callback, token algorithm: " + tokenToCheck.algorithm);
+          return undefined;
         }
       })
-    ).to.not.throw();
+    );
 
-    // Note that contrary to the documentation, the "msg" parameter of throws() is
-    // text expected to be included in the exception being thrown.
-    expect(() =>
-      token.validateToken(undefined, {
-        validateToken: true,
-        validationCallback: (tokenToCheck) => {
-          console.log("In callback, token algorithm: " + tokenToCheck.algorithm);
-          throw new Error("Client validation failure");
-        }
-      })
-    ).to.throw("validation failure");
+    assert.isTrue(
+      token
+        .getTokenProblems(undefined, {
+          validateToken: true,
+          validateAttestationToken: (tokenToCheck) => {
+            console.log("In callback, token algorithm: " + tokenToCheck.algorithm);
+            return ["There was a validation failure"];
+          }
+        })
+        .find((s) => s.search("validation")) !== undefined
+    );
   });
 
   it("#verifyAttestationTokenIssuer", async () => {
@@ -210,26 +210,28 @@ describe("AttestationTokenTests", function() {
         bar: 10
       });
 
-      const token = AttestationToken.create({ body: sourceObject });
+      const token = AttestationTokenImpl.create({ body: sourceObject });
 
-      expect(() =>
-        token.validateToken(undefined, {
+      assert.deepEqual(
+        [],
+        token.getTokenProblems(undefined, {
           validateToken: true,
           validateIssuer: true,
           expectedIssuer: "this is an issuer"
         })
-      ).to.not.throw();
+      );
 
-      expect(() =>
-        token.validateToken(undefined, {
-          validateToken: true,
-          validateIssuer: true,
-          expectedIssuer: "this is a different issuer"
-        })
-      ).to.throw("issuer");
+      assert.isTrue(
+        token
+          .getTokenProblems(undefined, {
+            validateToken: true,
+            validateIssuer: true,
+            expectedIssuer: "this is a different issuer"
+          })
+          .find((s) => s.search("different issuer")) !== undefined
+      );
     }
   });
-
   it("#verifyAttestationTimeouts", async () => {
     const currentTime = Math.floor(new Date().getTime() / 1000);
 
@@ -243,15 +245,16 @@ describe("AttestationTokenTests", function() {
         bar: 10
       });
 
-      const token = AttestationToken.create({ body: sourceObject });
+      const token = AttestationTokenImpl.create({ body: sourceObject });
 
-      expect(() =>
-        token.validateToken(undefined, {
+      assert.deepEqual(
+        [],
+        token.getTokenProblems(undefined, {
           validateToken: true,
           validateExpirationTime: true,
           validateNotBeforeTime: true
         })
-      ).to.not.throw();
+      );
     }
 
     {
@@ -264,28 +267,30 @@ describe("AttestationTokenTests", function() {
         bar: 10
       });
 
-      const token = AttestationToken.create({ body: sourceObject });
+      const token = AttestationTokenImpl.create({ body: sourceObject });
 
-      expect(() =>
-        token.validateToken(undefined, {
-          validateToken: true,
-          validateExpirationTime: true,
-          validateNotBeforeTime: true
-        })
-      ).to.throw("expired");
+      assert.isTrue(
+        token
+          .getTokenProblems(undefined, {
+            validateToken: true,
+            validateExpirationTime: true,
+            validateNotBeforeTime: true
+          })
+          .find((s) => s.search("expired")) !== undefined
+      );
 
       // Validate the token again, this time specifying a validation slack of
       // 10 seconds. The token should be fine with that slack.
-      expect(() =>
-        token.validateToken(undefined, {
+      assert.deepEqual(
+        [],
+        token.getTokenProblems(undefined, {
           validateToken: true,
           validateExpirationTime: true,
           validateNotBeforeTime: true,
           timeValidationSlack: 10
         })
-      ).to.not.throw();
+      );
     }
-
     {
       // Source is only valid 5 seconds from now.
       const sourceObject = JSON.stringify({
@@ -296,24 +301,28 @@ describe("AttestationTokenTests", function() {
         bar: 10
       });
 
-      const token = AttestationToken.create({ body: sourceObject });
-      expect(() =>
-        token.validateToken(undefined, {
-          validateToken: true,
-          validateExpirationTime: true,
-          validateNotBeforeTime: true
-        })
-      ).to.throw("not yet");
+      const token = AttestationTokenImpl.create({ body: sourceObject });
+      assert.isTrue(
+        token
+          .getTokenProblems(undefined, {
+            validateToken: true,
+            validateExpirationTime: true,
+            validateNotBeforeTime: true
+          })
+          .find((s) => s.search("not yet")) !== undefined
+      );
+
       // Validate the token again, this time specifying a validation slack of
       // 10 seconds. The token should be fine with that slack.
-      expect(() =>
-        token.validateToken(undefined, {
+      assert.deepEqual(
+        [],
+        token.getTokenProblems(undefined, {
           validateToken: true,
           validateExpirationTime: true,
           validateNotBeforeTime: true,
           timeValidationSlack: 10
         })
-      ).to.not.throw();
+      );
     }
   });
 });

@@ -1,13 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import qs from "qs";
-import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
-import { TokenCredentialOptions, IdentityClient } from "../client/identityClient";
-import { createSpan } from "../util/tracing";
+import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-auth";
+import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
 import { SpanStatusCode } from "@azure/core-tracing";
+import { IdentityClient } from "../client/identityClient";
+import { TokenCredentialOptions } from "../tokenCredentialOptions";
 import { credentialLogger, formatSuccess, formatError } from "../util/logging";
 import { getIdentityTokenEndpointSuffix } from "../util/identityTokenEndpoint";
+import { createSpan } from "../util/tracing";
 import { checkTenantId } from "../util/checkTenantId";
 
 const logger = credentialLogger("UsernamePasswordCredential");
@@ -67,31 +68,29 @@ export class UsernamePasswordCredential implements TokenCredential {
     options?: GetTokenOptions
   ): Promise<AccessToken | null> {
     const { span, updatedOptions: newOptions } = createSpan(
-      "UsernamePasswordCredential-getToken",
+      "UsernamePasswordCredential.getToken",
       options
     );
     try {
       const urlSuffix = getIdentityTokenEndpointSuffix(this.tenantId);
-      const webResource = this.identityClient.createWebResource({
+      const params = new URLSearchParams({
+        response_type: "token",
+        grant_type: "password",
+        client_id: this.clientId,
+        username: this.username,
+        password: this.password,
+        scope: typeof scopes === "string" ? scopes : scopes.join(" ")
+      });
+      const webResource = createPipelineRequest({
         url: `${this.identityClient.authorityHost}/${this.tenantId}/${urlSuffix}`,
         method: "POST",
-        disableJsonStringifyOnBody: true,
-        deserializationMapper: undefined,
-        body: qs.stringify({
-          response_type: "token",
-          grant_type: "password",
-          client_id: this.clientId,
-          username: this.username,
-          password: this.password,
-          scope: typeof scopes === "string" ? scopes : scopes.join(" ")
-        }),
-        headers: {
+        body: params.toString(),
+        headers: createHttpHeaders({
           Accept: "application/json",
           "Content-Type": "application/x-www-form-urlencoded"
-        },
+        }),
         abortSignal: options && options.abortSignal,
-        spanOptions: newOptions.tracingOptions && newOptions.tracingOptions.spanOptions,
-        tracingContext: newOptions.tracingOptions && newOptions.tracingOptions.tracingContext
+        tracingOptions: newOptions.tracingOptions
       });
 
       const tokenResponse = await this.identityClient.sendTokenRequest(webResource);

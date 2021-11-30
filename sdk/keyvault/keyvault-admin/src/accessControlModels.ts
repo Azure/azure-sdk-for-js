@@ -1,21 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as coreHttp from "@azure/core-http";
+import { CommonClientOptions, OperationOptions } from "@azure/core-client";
 import { SUPPORTED_API_VERSIONS } from "./constants";
 import {
   DataAction as KeyVaultDataAction,
+  RoleScope as KeyVaultRoleScope,
   KnownDataAction as KnownKeyVaultDataAction,
-  KnownRoleScope as KnownKeyVaultRoleScope,
-  RoleScope as KeyVaultRoleScope
+  KnownRoleScope as KnownKeyVaultRoleScope
 } from "./generated/index";
 
-export { KeyVaultDataAction, KnownKeyVaultDataAction, KeyVaultRoleScope, KnownKeyVaultRoleScope };
+export { KeyVaultDataAction, KeyVaultRoleScope, KnownKeyVaultDataAction, KnownKeyVaultRoleScope };
 
 /**
  * The optional parameters accepted by the Key Vault's AccessControlClient
  */
-export interface AccessControlClientOptions extends coreHttp.PipelineOptions {
+export interface AccessControlClientOptions extends CommonClientOptions {
   /**
    * The accepted versions of the Key Vault's service API.
    */
@@ -126,39 +126,39 @@ export interface KeyVaultRoleAssignmentProperties {
  * An interface representing the optional parameters that can be
  * passed to {@link createRoleAssignment}
  */
-export interface CreateRoleAssignmentOptions extends coreHttp.OperationOptions {}
+export interface CreateRoleAssignmentOptions extends OperationOptions {}
 
 /**
  * An interface representing the optional parameters that can be
  * passed to {@link deleteRoleAssignment}
  */
-export interface DeleteRoleAssignmentOptions extends coreHttp.OperationOptions {}
+export interface DeleteRoleAssignmentOptions extends OperationOptions {}
 
 /**
  * An interface representing the optional parameters that can be
  * passed to {@link getRoleAssignment}
  */
-export interface GetRoleAssignmentOptions extends coreHttp.OperationOptions {}
+export interface GetRoleAssignmentOptions extends OperationOptions {}
 
 /**
  * An interface representing optional parameters passed to {@link listRoleAssignments}.
  */
-export interface ListRoleAssignmentsOptions extends coreHttp.OperationOptions {}
+export interface ListRoleAssignmentsOptions extends OperationOptions {}
 
 /**
  * An interface representing optional parameters passed to {@link listRoleDefinitions}.
  */
-export interface ListRoleDefinitionsOptions extends coreHttp.OperationOptions {}
+export interface ListRoleDefinitionsOptions extends OperationOptions {}
 
 /**
  * An interface representing optional parameters passed to {@link getRoleDefinition}.
  */
-export interface GetRoleDefinitionOptions extends coreHttp.OperationOptions {}
+export interface GetRoleDefinitionOptions extends OperationOptions {}
 
 /**
  * An interface representing optional parameters passed to {@link setRoleDefinition}.
  */
-export interface SetRoleDefinitionOptions extends coreHttp.OperationOptions {
+export interface SetRoleDefinitionOptions extends OperationOptions {
   /**
    * UUID used as the name of the role definition to create. If it's not provided, a new UUID will be generated.
    */
@@ -184,7 +184,7 @@ export interface SetRoleDefinitionOptions extends coreHttp.OperationOptions {
 /**
  * An interface representing optional parameters passed to {@link deleteRoleDefinition}.
  */
-export interface DeleteRoleDefinitionOptions extends coreHttp.OperationOptions {}
+export interface DeleteRoleDefinitionOptions extends OperationOptions {}
 
 /**
  * Arguments for retrieving the next page of search results.

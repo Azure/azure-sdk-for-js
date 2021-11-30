@@ -433,7 +433,8 @@ function serializeBasicTypes(typeName: string, objectName: string, value: any): 
         typeof value.pipe !== "function" &&
         !(value instanceof ArrayBuffer) &&
         !ArrayBuffer.isView(value) &&
-        !(value?.constructor?.name === "Blob")
+        // File objects count as a type of Blob, so we want to use instanceof explicitly
+        !((typeof Blob === "function" || typeof Blob === "object") && value instanceof Blob)
       ) {
         throw new Error(
           `${objectName} must be a string, Blob, ArrayBuffer, ArrayBufferView, or NodeJS.ReadableStream.`

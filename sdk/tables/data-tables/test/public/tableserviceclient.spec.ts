@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TableItem, TableServiceClient } from "../../src";
+import { TableItem, TableItemResultPage, TableServiceClient } from "../../src";
 import { Context } from "mocha";
-import { record, Recorder, isPlaybackMode, isLiveMode } from "@azure/test-utils-recorder";
+import { record, Recorder, isPlaybackMode, isLiveMode } from "@azure-tools/test-recorder";
 import {
   recordedEnvironmentSetup,
   createTableServiceClient,
@@ -14,7 +14,7 @@ import { assert } from "chai";
 import { FullOperationResponse } from "@azure/core-client";
 
 // SASConnectionString and SASToken are supported in both node and browser
-const authModes: CreateClientMode[] = ["SASConnectionString"];
+const authModes: CreateClientMode[] = ["TokenCredential", "SASConnectionString"];
 
 // Validate all supported auth strategies when running in live mode
 if (isLiveMode()) {
@@ -98,21 +98,60 @@ authModes.forEach((authMode) => {
         for await (const table of tables) {
           all.push(table);
         }
-        assert.equal(all.length, expectedTotalItems);
+        for (let i = 0; i < expectedTotalItems; i++) {
+          assert.isTrue(
+            all.some((t) => t.name === `ListTableTest${suffix}${i}`),
+            `Couldn't find table ListTableTest${suffix}${i}`
+          );
+        }
       });
 
       it("should list by page", async function() {
+        let all: TableItem[] = [];
         const maxPageSize = 5;
         const tables = client.listTables();
-        let totalItems = 0;
         for await (const page of tables.byPage({
           maxPageSize
         })) {
-          totalItems += page.length;
+          all = [...all, ...page];
           assert.isTrue(page.length <= 5);
         }
 
-        assert.equal(totalItems, expectedTotalItems);
+        for (let i = 0; i < expectedTotalItems; i++) {
+          assert.isTrue(
+            all.some((t) => t.name === `ListTableTest${suffix}${i}`),
+            `Couldn't find table ListTableTest${suffix}${i}`
+          );
+        }
+      });
+
+      it("should list a specific page with continuationToken", async function() {
+        const entities = client.listTables();
+
+        let lastPage: TableItemResultPage | undefined;
+        let lastContinuationToken: string | undefined;
+        for await (const page of entities.byPage({
+          maxPageSize: 2
+        })) {
+          if (page.continuationToken) {
+            lastContinuationToken = page.continuationToken;
+          }
+          lastPage = page;
+        }
+
+        assert.isDefined(lastPage);
+        assert.isDefined(lastContinuationToken);
+
+        let result: TableItemResultPage | undefined;
+        for await (const page of client.listTables().byPage({
+          maxPageSize: 2,
+          continuationToken: lastContinuationToken
+        })) {
+          result = page;
+          break;
+        }
+
+        assert.deepEqual(result, lastPage);
       });
     });
   });

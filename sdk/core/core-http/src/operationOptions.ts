@@ -23,6 +23,9 @@ export interface OperationOptions {
   tracingOptions?: OperationTracingOptions;
 }
 
+/**
+ * Options that allow configuring the handling of HTTP requests made by an SDK operation.
+ */
 export interface OperationRequestOptions {
   /**
    * User defined custom request headers that will be applied before the request is sent.
@@ -67,8 +70,9 @@ export function operationOptionsToRequestOptionsBase<T extends OperationOptions>
   }
 
   if (tracingOptions) {
-    result.spanOptions = tracingOptions.spanOptions;
     result.tracingContext = tracingOptions.tracingContext;
+    // By passing spanOptions if they exist at runtime, we're backwards compatible with @azure/core-tracing@preview.13 and earlier.
+    result.spanOptions = (tracingOptions as any)?.spanOptions;
   }
 
   return result;

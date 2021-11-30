@@ -68,8 +68,8 @@ npx cross-env COMMUNICATION_CONNECTION_STRING="<communication connection string>
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[getrelayconfiguration]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-network-traversal/samples/v1/typescript/src/getRelayConfiguration.ts
+[getrelayconfiguration]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-network-traversal/samples/v1/typescript/src/getRelayConfiguration.ts
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azurecommunicationservicesaccount]: https://docs.microsoft.com/azure/communication-services/quickstarts/create-communication-resource
-[package]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/communication/communication-network-traversal/README.md
+[package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/communication/communication-network-traversal/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

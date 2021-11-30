@@ -1,11 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-
+/**
+ * A set of constants used internally when processing requests.
+ */
 export const Constants = {
   /**
    * The core-http version
    */
-  coreHttpVersion: "1.2.7",
+  coreHttpVersion: "2.2.3",
 
   /**
    * Specifies HTTP.
@@ -52,7 +54,8 @@ export const Constants = {
     },
 
     StatusCodes: {
-      TooManyRequests: 429
+      TooManyRequests: 429,
+      ServiceUnavailable: 503
     }
   },
 

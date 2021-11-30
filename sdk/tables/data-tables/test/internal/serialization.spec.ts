@@ -119,7 +119,7 @@ describe("Serializer", () => {
     const base64Encoded = "VGVzdDEyMw==";
     const serialized: any = serialize({
       binProp: binValue,
-      binObjProp: { value: binValue, type: "Binary" }
+      binObjProp: { value: base64Encoded, type: "Binary" }
     });
     assert.strictEqual(serialized.binProp, base64Encoded);
     assert.strictEqual(serialized.binObjProp, base64Encoded);
@@ -190,8 +190,96 @@ describe("Deserializer", () => {
       },
       true
     );
-    assert.strictEqual(deserialized.int64ObjProp.value, int64Value);
+    assert.strictEqual(deserialized.int64ObjProp.value, `${int64Value}`);
     assert.strictEqual(deserialized.int64ObjProp.type, "Int64");
+  });
+
+  it("should return an EDM object for Int32 when disableTypeConversion is true", () => {
+    const intValue = 123;
+    const deserialized = deserialize(
+      {
+        intValue: intValue
+      },
+      true
+    );
+    assert.strictEqual(deserialized.intValue.value, `${intValue}`);
+    assert.strictEqual(deserialized.intValue.type, "Int32");
+  });
+
+  it("should return an EDM object for Boolean when disableTypeConversion is true", () => {
+    const boolValue = true;
+    const deserialized = deserialize(
+      {
+        boolValue
+      },
+      true
+    );
+    assert.strictEqual(deserialized.boolValue.value, `${boolValue}`);
+    assert.strictEqual(deserialized.boolValue.type, "Boolean");
+  });
+
+  it("should return an EDM object for String when disableTypeConversion is true", () => {
+    // JavaScript number primitive drops the decimal places if they are zero. JSON parser has no way to
+    // preserve zero decimals during parsing so 123.00 is interpreted as an integer
+    const stringValue = "foo";
+    const deserialized = deserialize(
+      {
+        stringValue
+      },
+      true
+    );
+    assert.strictEqual(deserialized.stringValue.value, stringValue);
+    assert.strictEqual(deserialized.stringValue.type, "String");
+  });
+
+  it("should return an EDM object for Int32 when decimals are zero and disableTypeConversion is true", () => {
+    // JavaScript number primitive drops the decimal places if they are zero. JSON parser has no way to
+    // preserve zero decimals during parsing so 123.00 is interpreted as an integer
+    const doubleValue = 123.0;
+    const deserialized = deserialize(
+      {
+        intValue: doubleValue
+      },
+      true
+    );
+    assert.strictEqual(deserialized.intValue.value, `${doubleValue}`);
+    assert.strictEqual(deserialized.intValue.type, "Int32");
+  });
+
+  it("should return an EDM object for Double when disableTypeConversion is true", () => {
+    // JavaScript number primitive drops the decimal places if they are zero. JSON parser has no way to
+    // preserve zero decimals during parsing so 123.00 is interpreted as an integer
+    const doubleValue = 123.01;
+    const deserialized = deserialize(
+      {
+        intValue: doubleValue
+      },
+      true
+    );
+    assert.strictEqual(deserialized.intValue.value, `${doubleValue}`);
+    assert.strictEqual(deserialized.intValue.type, "Double");
+  });
+
+  it("should return a number disableTypeConversion is false", () => {
+    const intValue = 123;
+    const deserialized = deserialize(
+      {
+        intValue: intValue
+      },
+      false
+    );
+    assert.strictEqual(deserialized.intValue, intValue);
+  });
+
+  it("should return a number when disableTypeConversion is false", () => {
+    const decimalValue = 123.0;
+    const deserialized = deserialize(
+      {
+        intValue: decimalValue
+      },
+      false
+    );
+    assert.strictEqual(deserialized.intValue, decimalValue);
   });
 
   it("should deserialize a Date value", () => {

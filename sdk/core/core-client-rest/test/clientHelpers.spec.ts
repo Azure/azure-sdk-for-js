@@ -7,6 +7,7 @@ import { bearerTokenAuthenticationPolicyName } from "@azure/core-rest-pipeline";
 import { keyCredentialAuthenticationPolicyName } from "../src/keyCredentialAuthenticationPolicy";
 import { TokenCredential } from "@azure/core-auth";
 import { fail } from "assert";
+import { apiVersionPolicyName } from "../src/apiVersionPolicy";
 describe("clientHelpers", () => {
   const mockBaseUrl = "https://example.org";
   it("should create a default pipeline with no credentials", () => {
@@ -14,10 +15,6 @@ describe("clientHelpers", () => {
     const policies = pipeline.getOrderedPolicies();
 
     assert.isDefined(policies, "default pipeline should contain policies");
-    assert.isUndefined(
-      policies.find((p) => p.name === "exponentialRetryPolicy"),
-      "pipeline shouldn't have exponentialRetryPolicy"
-    );
 
     assert.isUndefined(
       policies.find((p) => p.name === bearerTokenAuthenticationPolicyName),
@@ -27,6 +24,18 @@ describe("clientHelpers", () => {
     assert.isUndefined(
       policies.find((p) => p.name === keyCredentialAuthenticationPolicyName),
       "pipeline shouldn't have keyCredentialAuthenticationPolicyName"
+    );
+  });
+
+  it("should create a default pipeline with apiVersion policy", () => {
+    const pipeline = createDefaultPipeline(mockBaseUrl);
+    const policies = pipeline.getOrderedPolicies();
+
+    assert.isDefined(policies, "default pipeline should contain policies");
+
+    assert.isDefined(
+      policies.find((p) => p.name === apiVersionPolicyName),
+      `Pipeline policy not found in the default pipeline: ${apiVersionPolicyName}`
     );
   });
 
@@ -48,10 +57,6 @@ describe("clientHelpers", () => {
     const policies = pipeline.getOrderedPolicies();
 
     assert.isDefined(policies, "default pipeline should contain policies");
-    assert.isUndefined(
-      policies.find((p) => p.name === "exponentialRetryPolicy"),
-      "pipeline shouldn't have exponentialRetryPolicy"
-    );
 
     assert.isUndefined(
       policies.find((p) => p.name === bearerTokenAuthenticationPolicyName),
@@ -72,10 +77,6 @@ describe("clientHelpers", () => {
     const policies = pipeline.getOrderedPolicies();
 
     assert.isDefined(policies, "default pipeline should contain policies");
-    assert.isUndefined(
-      policies.find((p) => p.name === "exponentialRetryPolicy"),
-      "pipeline shouldn't have exponentialRetryPolicy"
-    );
 
     assert.isDefined(
       policies.find((p) => p.name === bearerTokenAuthenticationPolicyName),

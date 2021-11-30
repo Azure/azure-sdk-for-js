@@ -5,9 +5,9 @@
 ## Configuration
 
 ```yaml
-require: "https://github.com/Azure/azure-rest-api-specs/blob/d78816faeca788910b48ce0cfad89f85396260d6/specification/eventgrid/data-plane/readme.md"
+require: "https://github.com/Azure/azure-rest-api-specs/blob/b6f4a619bd310870334edd79eaec2d4bfeabdbbe/specification/eventgrid/data-plane/readme.md"
 package-name: "@azure/eventgrid"
-package-version: "4.3.1"
+package-version: "4.5.1"
 title: GeneratedClient
 description: EventGrid Client
 generate-metadata: false
@@ -16,16 +16,30 @@ license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 save-inputs: true
 source-code-folder-path: ./src/generated
-use-extension:
-  "@autorest/typescript": "6.0.0-dev.20210121.2"
+typescript: true
 hide-clients: true
+use-extension:
+  "@autorest/typescript": "6.0.0-beta.4"
+v3: true
 ```
 
 ## Customizations
 
-### Mark a descriminator property as "required"
+### Don't force a scheme
 
-Newer versions of AutoRest complain during validation about the descriminator property being required
+The endpoint URL will already have a scheme, don't add yet another one.
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-parameterized-host"]
+    transform: >
+      $.useSchemePrefix = false;
+```
+
+### Mark a discriminator property as "required"
+
+Newer versions of AutoRest complain during validation about the discriminator property being required
 
 ```yaml
 directive:
@@ -101,11 +115,14 @@ directive:
         if ($[definition].properties && $[definition].required === undefined) {
           const properties = Object.keys($[definition].properties);
           if (properties.length > 0) {
-            $[definition].required = properties;
+            switch (definition) {
+              case "CommunicationIdentifierModel":
+                $[definition].required = ["rawId"];
+                break;
+              default:
+                $[definition].required = properties;
+            }
           }
         }
       }
-
-      // Fix up CommunicationIdentifierModel where this huristic is wrong.
-      $["CommunicationIdentifierModel"].required = ["rawId"];
 ```

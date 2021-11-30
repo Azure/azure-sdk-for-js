@@ -6,9 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import * as coreClient from "@azure/core-client";
 
-export const QueryResults: coreHttp.CompositeMapper = {
+export const QueryResults: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "QueryResults",
@@ -29,14 +29,29 @@ export const QueryResults: coreHttp.CompositeMapper = {
       statistics: {
         serializedName: "statistics",
         type: {
-          name: "any"
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      },
+      render: {
+        serializedName: "render",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      },
+      error: {
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "ErrorInfo"
         }
       }
     }
   }
 };
 
-export const Table: coreHttp.CompositeMapper = {
+export const Table: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "Table",
@@ -71,7 +86,8 @@ export const Table: coreHttp.CompositeMapper = {
               name: "Sequence",
               element: {
                 type: {
-                  name: "String"
+                  name: "Dictionary",
+                  value: { type: { name: "any" } }
                 }
               }
             }
@@ -82,7 +98,7 @@ export const Table: coreHttp.CompositeMapper = {
   }
 };
 
-export const Column: coreHttp.CompositeMapper = {
+export const Column: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "Column",
@@ -103,23 +119,7 @@ export const Column: coreHttp.CompositeMapper = {
   }
 };
 
-export const ErrorResponse: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ErrorResponse",
-    modelProperties: {
-      error: {
-        serializedName: "error",
-        type: {
-          name: "Composite",
-          className: "ErrorInfo"
-        }
-      }
-    }
-  }
-};
-
-export const ErrorInfo: coreHttp.CompositeMapper = {
+export const ErrorInfo: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ErrorInfo",
@@ -150,7 +150,7 @@ export const ErrorInfo: coreHttp.CompositeMapper = {
           }
         }
       },
-      innererror: {
+      innerError: {
         serializedName: "innererror",
         type: {
           name: "Composite",
@@ -160,14 +160,15 @@ export const ErrorInfo: coreHttp.CompositeMapper = {
       additionalProperties: {
         serializedName: "additionalProperties",
         type: {
-          name: "any"
+          name: "Dictionary",
+          value: { type: { name: "any" } }
         }
       }
     }
   }
 };
 
-export const ErrorDetail: coreHttp.CompositeMapper = {
+export const ErrorDetail: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ErrorDetail",
@@ -212,14 +213,31 @@ export const ErrorDetail: coreHttp.CompositeMapper = {
       additionalProperties: {
         serializedName: "additionalProperties",
         type: {
-          name: "any"
+          name: "Dictionary",
+          value: { type: { name: "any" } }
         }
       }
     }
   }
 };
 
-export const QueryBody: coreHttp.CompositeMapper = {
+export const ErrorResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ErrorResponse",
+    modelProperties: {
+      error: {
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "ErrorInfo"
+        }
+      }
+    }
+  }
+};
+
+export const QueryBody: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "QueryBody",
@@ -247,45 +265,12 @@ export const QueryBody: coreHttp.CompositeMapper = {
             }
           }
         }
-      },
-      qualifiedNames: {
-        serializedName: "qualifiedNames",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      workspaceIds: {
-        serializedName: "workspaceIds",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      azureResourceIds: {
-        serializedName: "azureResourceIds",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
       }
     }
   }
 };
 
-export const MetadataResults: coreHttp.CompositeMapper = {
+export const MetadataResults: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MetadataResults",
@@ -443,7 +428,7 @@ export const MetadataResults: coreHttp.CompositeMapper = {
   }
 };
 
-export const MetadataCategory: coreHttp.CompositeMapper = {
+export const MetadataCategory: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MetadataCategory",
@@ -479,7 +464,7 @@ export const MetadataCategory: coreHttp.CompositeMapper = {
   }
 };
 
-export const MetadataCategoryRelated: coreHttp.CompositeMapper = {
+export const MetadataCategoryRelated: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MetadataCategoryRelated",
@@ -543,7 +528,7 @@ export const MetadataCategoryRelated: coreHttp.CompositeMapper = {
   }
 };
 
-export const MetadataResourceType: coreHttp.CompositeMapper = {
+export const MetadataResourceType: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MetadataResourceType",
@@ -588,13 +573,15 @@ export const MetadataResourceType: coreHttp.CompositeMapper = {
       tags: {
         serializedName: "tags",
         type: {
-          name: "any"
+          name: "Dictionary",
+          value: { type: { name: "any" } }
         }
       },
       properties: {
         serializedName: "properties",
         type: {
-          name: "any"
+          name: "Dictionary",
+          value: { type: { name: "any" } }
         }
       },
       related: {
@@ -608,7 +595,7 @@ export const MetadataResourceType: coreHttp.CompositeMapper = {
   }
 };
 
-export const MetadataResourceTypeRelated: coreHttp.CompositeMapper = {
+export const MetadataResourceTypeRelated: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MetadataResourceTypeRelated",
@@ -683,7 +670,7 @@ export const MetadataResourceTypeRelated: coreHttp.CompositeMapper = {
   }
 };
 
-export const MetadataSolution: coreHttp.CompositeMapper = {
+export const MetadataSolution: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MetadataSolution",
@@ -717,13 +704,15 @@ export const MetadataSolution: coreHttp.CompositeMapper = {
       tags: {
         serializedName: "tags",
         type: {
-          name: "any"
+          name: "Dictionary",
+          value: { type: { name: "any" } }
         }
       },
       properties: {
         serializedName: "properties",
         type: {
-          name: "any"
+          name: "Dictionary",
+          value: { type: { name: "any" } }
         }
       },
       related: {
@@ -737,7 +726,7 @@ export const MetadataSolution: coreHttp.CompositeMapper = {
   }
 };
 
-export const MetadataSolutionRelated: coreHttp.CompositeMapper = {
+export const MetadataSolutionRelated: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MetadataSolutionRelated",
@@ -802,7 +791,7 @@ export const MetadataSolutionRelated: coreHttp.CompositeMapper = {
   }
 };
 
-export const MetadataTable: coreHttp.CompositeMapper = {
+export const MetadataTable: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MetadataTable",
@@ -847,13 +836,15 @@ export const MetadataTable: coreHttp.CompositeMapper = {
       tags: {
         serializedName: "tags",
         type: {
-          name: "any"
+          name: "Dictionary",
+          value: { type: { name: "any" } }
         }
       },
       properties: {
         serializedName: "properties",
         type: {
-          name: "any"
+          name: "Dictionary",
+          value: { type: { name: "any" } }
         }
       },
       columns: {
@@ -879,7 +870,7 @@ export const MetadataTable: coreHttp.CompositeMapper = {
   }
 };
 
-export const MetadataTableColumnsItem: coreHttp.CompositeMapper = {
+export const MetadataTableColumnsItem: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MetadataTableColumnsItem",
@@ -913,14 +904,15 @@ export const MetadataTableColumnsItem: coreHttp.CompositeMapper = {
       source: {
         serializedName: "source",
         type: {
-          name: "any"
+          name: "Dictionary",
+          value: { type: { name: "any" } }
         }
       }
     }
   }
 };
 
-export const MetadataTableRelated: coreHttp.CompositeMapper = {
+export const MetadataTableRelated: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MetadataTableRelated",
@@ -995,7 +987,7 @@ export const MetadataTableRelated: coreHttp.CompositeMapper = {
   }
 };
 
-export const MetadataFunction: coreHttp.CompositeMapper = {
+export const MetadataFunction: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MetadataFunction",
@@ -1042,13 +1034,15 @@ export const MetadataFunction: coreHttp.CompositeMapper = {
       tags: {
         serializedName: "tags",
         type: {
-          name: "any"
+          name: "Dictionary",
+          value: { type: { name: "any" } }
         }
       },
       properties: {
         serializedName: "properties",
         type: {
-          name: "any"
+          name: "Dictionary",
+          value: { type: { name: "any" } }
         }
       },
       related: {
@@ -1062,7 +1056,7 @@ export const MetadataFunction: coreHttp.CompositeMapper = {
   }
 };
 
-export const MetadataFunctionRelated: coreHttp.CompositeMapper = {
+export const MetadataFunctionRelated: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MetadataFunctionRelated",
@@ -1126,7 +1120,7 @@ export const MetadataFunctionRelated: coreHttp.CompositeMapper = {
   }
 };
 
-export const MetadataQuery: coreHttp.CompositeMapper = {
+export const MetadataQuery: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MetadataQuery",
@@ -1171,13 +1165,15 @@ export const MetadataQuery: coreHttp.CompositeMapper = {
       tags: {
         serializedName: "tags",
         type: {
-          name: "any"
+          name: "Dictionary",
+          value: { type: { name: "any" } }
         }
       },
       properties: {
         serializedName: "properties",
         type: {
-          name: "any"
+          name: "Dictionary",
+          value: { type: { name: "any" } }
         }
       },
       related: {
@@ -1191,7 +1187,7 @@ export const MetadataQuery: coreHttp.CompositeMapper = {
   }
 };
 
-export const MetadataQueryRelated: coreHttp.CompositeMapper = {
+export const MetadataQueryRelated: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MetadataQueryRelated",
@@ -1244,7 +1240,7 @@ export const MetadataQueryRelated: coreHttp.CompositeMapper = {
   }
 };
 
-export const MetadataApplication: coreHttp.CompositeMapper = {
+export const MetadataApplication: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MetadataApplication",
@@ -1288,7 +1284,7 @@ export const MetadataApplication: coreHttp.CompositeMapper = {
   }
 };
 
-export const MetadataApplicationRelated: coreHttp.CompositeMapper = {
+export const MetadataApplicationRelated: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MetadataApplicationRelated",
@@ -1319,7 +1315,7 @@ export const MetadataApplicationRelated: coreHttp.CompositeMapper = {
   }
 };
 
-export const MetadataWorkspace: coreHttp.CompositeMapper = {
+export const MetadataWorkspace: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MetadataWorkspace",
@@ -1363,7 +1359,7 @@ export const MetadataWorkspace: coreHttp.CompositeMapper = {
   }
 };
 
-export const MetadataWorkspaceRelated: coreHttp.CompositeMapper = {
+export const MetadataWorkspaceRelated: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MetadataWorkspaceRelated",
@@ -1427,7 +1423,7 @@ export const MetadataWorkspaceRelated: coreHttp.CompositeMapper = {
   }
 };
 
-export const MetadataPermissions: coreHttp.CompositeMapper = {
+export const MetadataPermissions: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MetadataPermissions",
@@ -1473,7 +1469,7 @@ export const MetadataPermissions: coreHttp.CompositeMapper = {
   }
 };
 
-export const MetadataPermissionsWorkspacesItem: coreHttp.CompositeMapper = {
+export const MetadataPermissionsWorkspacesItem: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MetadataPermissionsWorkspacesItem",
@@ -1500,7 +1496,7 @@ export const MetadataPermissionsWorkspacesItem: coreHttp.CompositeMapper = {
   }
 };
 
-export const MetadataPermissionsResourcesItem: coreHttp.CompositeMapper = {
+export const MetadataPermissionsResourcesItem: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MetadataPermissionsResourcesItem",
@@ -1527,7 +1523,7 @@ export const MetadataPermissionsResourcesItem: coreHttp.CompositeMapper = {
   }
 };
 
-export const MetadataPermissionsApplicationsItem: coreHttp.CompositeMapper = {
+export const MetadataPermissionsApplicationsItem: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MetadataPermissionsApplicationsItem",
@@ -1543,19 +1539,20 @@ export const MetadataPermissionsApplicationsItem: coreHttp.CompositeMapper = {
   }
 };
 
-export const BatchRequest: coreHttp.CompositeMapper = {
+export const BatchRequest: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "BatchRequest",
     modelProperties: {
       requests: {
         serializedName: "requests",
+        required: true,
         type: {
           name: "Sequence",
           element: {
             type: {
               name: "Composite",
-              className: "LogQueryRequest"
+              className: "BatchQueryRequest"
             }
           }
         }
@@ -1564,13 +1561,14 @@ export const BatchRequest: coreHttp.CompositeMapper = {
   }
 };
 
-export const LogQueryRequest: coreHttp.CompositeMapper = {
+export const BatchQueryRequest: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "LogQueryRequest",
+    className: "BatchQueryRequest",
     modelProperties: {
       id: {
         serializedName: "id",
+        required: true,
         type: {
           name: "String"
         }
@@ -1607,6 +1605,7 @@ export const LogQueryRequest: coreHttp.CompositeMapper = {
       },
       workspace: {
         serializedName: "workspace",
+        required: true,
         type: {
           name: "String"
         }
@@ -1615,7 +1614,7 @@ export const LogQueryRequest: coreHttp.CompositeMapper = {
   }
 };
 
-export const BatchResponse: coreHttp.CompositeMapper = {
+export const BatchResponse: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "BatchResponse",
@@ -1627,7 +1626,7 @@ export const BatchResponse: coreHttp.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "LogQueryResponse"
+              className: "BatchQueryResponse"
             }
           }
         }
@@ -1636,10 +1635,10 @@ export const BatchResponse: coreHttp.CompositeMapper = {
   }
 };
 
-export const LogQueryResponse: coreHttp.CompositeMapper = {
+export const BatchQueryResponse: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "LogQueryResponse",
+    className: "BatchQueryResponse",
     modelProperties: {
       id: {
         serializedName: "id",
@@ -1657,7 +1656,7 @@ export const LogQueryResponse: coreHttp.CompositeMapper = {
         serializedName: "body",
         type: {
           name: "Composite",
-          className: "LogQueryResult"
+          className: "BatchQueryResults"
         }
       },
       headers: {
@@ -1671,10 +1670,10 @@ export const LogQueryResponse: coreHttp.CompositeMapper = {
   }
 };
 
-export const LogQueryResult: coreHttp.CompositeMapper = {
+export const BatchQueryResults: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "LogQueryResult",
+    className: "BatchQueryResults",
     modelProperties: {
       tables: {
         serializedName: "tables",
@@ -1686,6 +1685,20 @@ export const LogQueryResult: coreHttp.CompositeMapper = {
               className: "Table"
             }
           }
+        }
+      },
+      statistics: {
+        serializedName: "statistics",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      },
+      render: {
+        serializedName: "render",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
         }
       },
       error: {

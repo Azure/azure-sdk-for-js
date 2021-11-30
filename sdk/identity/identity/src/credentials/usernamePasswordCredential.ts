@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-http";
+import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
+
 import { credentialLogger } from "../util/logging";
 import { MsalUsernamePassword } from "../msal/nodeFlows/msalUsernamePassword";
 import { MsalFlow } from "../msal/flows";
@@ -16,8 +17,6 @@ const logger = credentialLogger("UsernamePasswordCredential");
  * trust so you should only use it when other, more secure credential
  * types can't be used.
  */
-// We'll be using InteractiveCredential as the base of this class, which requires us to support authenticate(),
-// to reduce the number of times we send the password over the network.
 export class UsernamePasswordCredential implements TokenCredential {
   private msalFlow: MsalFlow;
 
@@ -39,6 +38,11 @@ export class UsernamePasswordCredential implements TokenCredential {
     password: string,
     options: UsernamePasswordCredentialOptions = {}
   ) {
+    if (!tenantId || !clientId || !username || !password) {
+      throw new Error(
+        "UsernamePasswordCredential: tenantId, clientId, username and password are required parameters. To troubleshoot, visit https://aka.ms/azsdk/js/identity/usernamepasswordcredential/troubleshoot."
+      );
+    }
     this.msalFlow = new MsalUsernamePassword({
       ...options,
       logger,
@@ -51,10 +55,8 @@ export class UsernamePasswordCredential implements TokenCredential {
   }
 
   /**
-   * Authenticates with Azure Active Directory and returns an access token if
-   * successful.  If authentication cannot be performed at this time, this method may
-   * return null.  If an error occurs during authentication, an {@link AuthenticationError}
-   * containing failure details will be thrown.
+   * Authenticates with Azure Active Directory and returns an access token if successful.
+   * If authentication fails, a {@link CredentialUnavailableError} will be thrown with the details of the failure.
    *
    * If the user provided the option `disableAutomaticAuthentication`,
    * once the token can't be retrieved silently,

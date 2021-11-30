@@ -6,10 +6,18 @@ import {
   DeletedKeyItem,
   KeyAttributes,
   KeyBundle,
-  KeyItem
+  KeyItem,
+  KeyRotationPolicy as GeneratedPolicy,
+  LifetimeActions
 } from "./generated/models";
 import { parseKeyVaultKeyIdentifier } from "./identifier";
-import { DeletedKey, KeyVaultKey, JsonWebKey, KeyOperation, KeyProperties } from "./keysModels";
+import {
+  DeletedKey,
+  KeyVaultKey,
+  KeyProperties,
+  KeyRotationPolicy,
+  KeyRotationPolicyProperties
+} from "./keysModels";
 
 /**
  * @internal
@@ -27,10 +35,10 @@ export function getKeyFromKeyBundle(
   delete keyBundle.attributes;
 
   const resultObject: KeyVaultKey | DeletedKey = {
-    key: keyBundle.key as JsonWebKey,
+    key: keyBundle.key,
     id: keyBundle.key ? keyBundle.key.kid : undefined,
     name: parsedId.name,
-    keyOperations: keyBundle.key ? (keyBundle.key.keyOps as KeyOperation[]) : undefined,
+    keyOperations: keyBundle.key ? keyBundle.key.keyOps : undefined,
     keyType: keyBundle.key ? keyBundle.key.kty : undefined,
     properties: {
       tags: keyBundle.tags,
@@ -42,6 +50,8 @@ export function getKeyFromKeyBundle(
       updatedOn: attributes.updated,
       recoverableDays: attributes.recoverableDays,
       recoveryLevel: attributes.recoveryLevel,
+      exportable: attributes.exportable,
+      releasePolicy: keyBundle.releasePolicy,
 
       vaultUrl: parsedId.vaultUrl,
       version: parsedId.version,
@@ -109,3 +119,51 @@ export function getKeyPropertiesFromKeyItem(keyItem: KeyItem): KeyProperties {
 
   return resultObject;
 }
+
+/**
+ * @internal
+ */
+export const keyRotationTransformations = {
+  propertiesToGenerated: function(
+    parameters: KeyRotationPolicyProperties
+  ): Partial<GeneratedPolicy> {
+    const policy: GeneratedPolicy = {
+      attributes: {
+        expiryTime: parameters.expiresIn
+      },
+      lifetimeActions: parameters.lifetimeActions?.map((action) => {
+        const generatedAction: LifetimeActions = {
+          action: { type: action.action },
+          trigger: {}
+        };
+
+        if (action.timeAfterCreate) {
+          generatedAction.trigger!.timeAfterCreate = action.timeAfterCreate;
+        }
+
+        if (action.timeBeforeExpiry) {
+          generatedAction.trigger!.timeBeforeExpiry = action.timeBeforeExpiry;
+        }
+
+        return generatedAction;
+      })
+    };
+    return policy;
+  },
+  generatedToPublic(generated: GeneratedPolicy): KeyRotationPolicy {
+    const policy: KeyRotationPolicy = {
+      id: generated.id,
+      createdOn: generated.attributes?.created,
+      updatedOn: generated.attributes?.updated,
+      expiresIn: generated.attributes?.expiryTime,
+      lifetimeActions: generated.lifetimeActions?.map((action) => {
+        return {
+          action: action.action!.type!,
+          timeAfterCreate: action.trigger?.timeAfterCreate,
+          timeBeforeExpiry: action.trigger?.timeBeforeExpiry
+        };
+      })
+    };
+    return policy;
+  }
+};

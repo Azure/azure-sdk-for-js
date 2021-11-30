@@ -1,15 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import qs from "qs";
-import { createSpan } from "../util/tracing";
-import { CredentialUnavailableError } from "../client/errors";
-import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
-import { IdentityClient, TokenResponse, TokenCredentialOptions } from "../client/identityClient";
-import { SpanStatusCode } from "@azure/core-tracing";
-import { credentialLogger, formatSuccess, formatError } from "../util/logging";
-import { getIdentityTokenEndpointSuffix } from "../util/identityTokenEndpoint";
+import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-auth";
+import { TokenCredentialOptions } from "../tokenCredentialOptions";
+import { credentialLogger } from "../util/logging";
 import { checkTenantId } from "../util/checkTenantId";
+import { MsalAuthorizationCode } from "../msal/nodeFlows/msalAuthorizationCode";
+import { MsalFlow } from "../msal/flows";
+import { trace } from "../util/tracing";
 
 const logger = credentialLogger("AuthorizationCodeCredential");
 
@@ -21,13 +19,10 @@ const logger = credentialLogger("AuthorizationCodeCredential");
  * https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-auth-code-flow
  */
 export class AuthorizationCodeCredential implements TokenCredential {
-  private identityClient: IdentityClient;
-  private tenantId: string;
-  private clientId: string;
-  private clientSecret: string | undefined;
+  private msalFlow: MsalFlow;
+  private disableAutomaticAuthentication?: boolean;
   private authorizationCode: string;
   private redirectUri: string;
-  private lastTokenResponse: TokenResponse | null = null;
 
   /**
    * Creates an instance of CodeFlowCredential with the details needed
@@ -38,7 +33,7 @@ export class AuthorizationCodeCredential implements TokenCredential {
    * the authorization code flow to obtain an authorization code to be used
    * with this credential.  A full example of this flow is provided here:
    *
-   * https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/samples/manual/authorizationCodeSample.ts
+   * https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/manual/authorizationCodeSample.ts
    *
    * @param tenantId - The Azure Active Directory tenant (directory) ID or name.
    *                 'common' may be used when dealing with multi-tenant scenarios.
@@ -68,7 +63,7 @@ export class AuthorizationCodeCredential implements TokenCredential {
    * the authorization code flow to obtain an authorization code to be used
    * with this credential.  A full example of this flow is provided here:
    *
-   * https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/samples/manual/authorizationCodeSample.ts
+   * https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/manual/authorizationCodeSample.ts
    *
    * @param tenantId - The Azure Active Directory tenant (directory) ID or name.
    *                 'common' may be used when dealing with multi-tenant scenarios.
@@ -100,106 +95,47 @@ export class AuthorizationCodeCredential implements TokenCredential {
     options?: TokenCredentialOptions
   ) {
     checkTenantId(logger, tenantId);
-
-    this.clientId = clientId;
-    this.tenantId = tenantId;
+    let clientSecret: string | undefined = clientSecretOrAuthorizationCode;
 
     if (typeof redirectUriOrOptions === "string") {
       // the clientId+clientSecret constructor
-      this.clientSecret = clientSecretOrAuthorizationCode;
       this.authorizationCode = authorizationCodeOrRedirectUri;
       this.redirectUri = redirectUriOrOptions;
-      // options okay
+      // in this case, options are good as they come
     } else {
       // clientId only
-      this.clientSecret = undefined;
       this.authorizationCode = clientSecretOrAuthorizationCode;
       this.redirectUri = authorizationCodeOrRedirectUri as string;
+      clientSecret = undefined;
       options = redirectUriOrOptions as TokenCredentialOptions;
     }
 
-    this.identityClient = new IdentityClient(options);
+    this.msalFlow = new MsalAuthorizationCode({
+      ...options,
+      clientSecret,
+      clientId,
+      tokenCredentialOptions: options || {},
+      logger,
+      redirectUri: this.redirectUri,
+      authorizationCode: this.authorizationCode
+    });
   }
 
   /**
-   * Authenticates with Azure Active Directory and returns an access token if
-   * successful.  If authentication cannot be performed at this time, this method may
-   * return null.  If an error occurs during authentication, an {@link AuthenticationError}
-   * containing failure details will be thrown.
+   * Authenticates with Azure Active Directory and returns an access token if successful.
+   * If authentication fails, a {@link CredentialUnavailableError} will be thrown with the details of the failure.
    *
    * @param scopes - The list of scopes for which the token will have access.
    * @param options - The options used to configure any requests this
    *                TokenCredential implementation might make.
    */
-  public async getToken(
-    scopes: string | string[],
-    options?: GetTokenOptions
-  ): Promise<AccessToken> {
-    const { span, updatedOptions } = createSpan("AuthorizationCodeCredential-getToken", options);
-    try {
-      let tokenResponse: TokenResponse | null = null;
-      let scopeString = typeof scopes === "string" ? scopes : scopes.join(" ");
-      if (scopeString.indexOf("offline_access") < 0) {
-        scopeString += " offline_access";
-      }
-
-      // Try to use the refresh token first
-      if (this.lastTokenResponse && this.lastTokenResponse.refreshToken) {
-        tokenResponse = await this.identityClient.refreshAccessToken(
-          this.tenantId,
-          this.clientId,
-          scopeString,
-          this.lastTokenResponse.refreshToken,
-          this.clientSecret,
-          undefined,
-          updatedOptions
-        );
-      }
-
-      if (tokenResponse === null) {
-        const urlSuffix = getIdentityTokenEndpointSuffix(this.tenantId);
-        const webResource = this.identityClient.createWebResource({
-          url: `${this.identityClient.authorityHost}/${this.tenantId}/${urlSuffix}`,
-          method: "POST",
-          disableJsonStringifyOnBody: true,
-          deserializationMapper: undefined,
-          body: qs.stringify({
-            client_id: this.clientId,
-            grant_type: "authorization_code",
-            scope: scopeString,
-            code: this.authorizationCode,
-            redirect_uri: this.redirectUri,
-            client_secret: this.clientSecret
-          }),
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/x-www-form-urlencoded"
-          },
-          abortSignal: options && options.abortSignal,
-          spanOptions: updatedOptions?.tracingOptions?.spanOptions,
-          tracingContext: updatedOptions?.tracingOptions?.tracingContext
-        });
-
-        tokenResponse = await this.identityClient.sendTokenRequest(webResource);
-      }
-
-      this.lastTokenResponse = tokenResponse;
-      logger.getToken.info(formatSuccess(scopes));
-      const token = tokenResponse && tokenResponse.accessToken;
-
-      if (!token) {
-        throw new CredentialUnavailableError("Failed to retrieve a valid token");
-      }
-      return token;
-    } catch (err) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: err.message
+  async getToken(scopes: string | string[], options: GetTokenOptions = {}): Promise<AccessToken> {
+    return trace(`${this.constructor.name}.getToken`, options, async (newOptions) => {
+      const arrayScopes = Array.isArray(scopes) ? scopes : [scopes];
+      return this.msalFlow.getToken(arrayScopes, {
+        ...newOptions,
+        disableAutomaticAuthentication: this.disableAutomaticAuthentication
       });
-      logger.getToken.info(formatError(scopes, err));
-      throw err;
-    } finally {
-      span.end();
-    }
+    });
   }
 }

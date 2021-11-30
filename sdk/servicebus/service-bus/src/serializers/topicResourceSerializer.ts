@@ -50,7 +50,8 @@ export function buildTopicOptions(topic: CreateTopicOptions): InternalTopicOptio
     AutoDeleteOnIdle: getStringOrUndefined(topic.autoDeleteOnIdle),
     EnablePartitioning: getStringOrUndefined(topic.enablePartitioning),
     EntityAvailabilityStatus: getStringOrUndefined(topic.availabilityStatus),
-    EnableExpress: getStringOrUndefined(topic.enableExpress)
+    EnableExpress: getStringOrUndefined(topic.enableExpress),
+    MaxMessageSizeInKilobytes: getStringOrUndefined(topic.maxMessageSizeInKilobytes)
   };
 }
 
@@ -93,7 +94,11 @@ export function buildTopic(rawTopic: Record<string, any>): TopicProperties {
 
     enableExpress: getBoolean(rawTopic[Constants.ENABLE_EXPRESS], "enableExpress"),
 
-    availabilityStatus: rawTopic[Constants.ENTITY_AVAILABILITY_STATUS]
+    availabilityStatus: rawTopic[Constants.ENTITY_AVAILABILITY_STATUS],
+
+    maxMessageSizeInKilobytes: getIntegerOrUndefined(
+      rawTopic[Constants.MAX_MESSAGE_SIZE_IN_KILOBYTES]
+    )
   };
 }
 
@@ -141,6 +146,13 @@ export interface CreateTopicOptions extends OperationOptions {
    * and twice in subscription s2, m is counted as a single message.
    */
   maxSizeInMegabytes?: number;
+
+  /**
+   * The maximum message size in kilobytes for messages sent to this topic.
+   *
+   * (Configurable only for Premium Tier Service Bus namespace.)
+   */
+  maxMessageSizeInKilobytes?: number;
 
   /**
    * If enabled, the topic will detect duplicate messages within the time span
@@ -244,6 +256,13 @@ export interface TopicProperties {
   maxSizeInMegabytes: number;
 
   /**
+   * The maximum message size in kilobytes for messages sent to this queue/topic.
+   *
+   * Not applicable if service version "2017-04" is chosen when creating the `ServiceBusAdministrationClient`.
+   */
+  maxMessageSizeInKilobytes?: number;
+
+  /**
    * If enabled, the topic will detect duplicate messages within the time span
    * specified by the DuplicateDetectionHistoryTimeWindow property.
    * Settable only at topic creation time.
@@ -338,6 +357,12 @@ export interface InternalTopicOptions {
    * and twice in subscription s2, m is counted as a single message.
    */
   MaxSizeInMegabytes?: string;
+
+  /**
+   * The maximum message size in kilobytes for messages sent to this queue/topic
+   *
+   */
+  MaxMessageSizeInKilobytes?: string;
 
   /**
    * If enabled, the topic will detect duplicate messages within the time span
@@ -454,7 +479,7 @@ export interface TopicRuntimeProperties {
  * TopicResourceSerializer for serializing / deserializing Topic entities
  */
 export class TopicResourceSerializer implements AtomXmlSerializer {
-  serialize(resource: InternalTopicOptions): object {
+  serialize(resource: InternalTopicOptions): Record<string, unknown> {
     return serializeToAtomXmlRequest("TopicDescription", resource);
   }
   async deserialize(response: HttpOperationResponse): Promise<HttpOperationResponse> {

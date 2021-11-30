@@ -5,69 +5,103 @@ import { assert } from "chai";
 import { Context } from "mocha";
 import { Durations, MetricsQueryClient } from "../../src";
 
-import { createTestClientSecretCredential, getMetricsArmResourceId } from "./shared/testShared";
-
+import {
+  createRecorderAndMetricsClient,
+  getMetricsArmResourceId,
+  loggerForTest,
+  RecorderAndMetricsClient
+} from "./shared/testShared";
+import { Recorder } from "@azure-tools/test-recorder";
 describe("MetricsClient live tests", function() {
   let resourceId: string;
-  let resourceNamespace: string;
   let metricsQueryClient: MetricsQueryClient;
+  let recorder: Recorder;
 
   beforeEach(function(this: Context) {
-    ({ resourceNamespace, resourceId } = getMetricsArmResourceId(this));
-    metricsQueryClient = new MetricsQueryClient(createTestClientSecretCredential());
+    loggerForTest.verbose(`Recorder: starting...`);
+    const recordedClient: RecorderAndMetricsClient = createRecorderAndMetricsClient(this);
+    ({ resourceId } = getMetricsArmResourceId(this));
+    metricsQueryClient = recordedClient.client;
+    recorder = recordedClient.recorder;
+  });
+
+  afterEach(async function() {
+    if (recorder) {
+      loggerForTest.verbose("Recorder: stopping");
+      await recorder.stop();
+    }
   });
 
   it("getMetricDefinitions -> queryMetrics", async () => {
-    const metricDefinitions = await metricsQueryClient.getMetricDefinitions(resourceId);
-    assert.isNotEmpty(metricDefinitions.definitions);
+    const iter = metricsQueryClient.listMetricDefinitions(resourceId);
 
-    // you can only query 20 metrics at a time.
-    for (const definition of metricDefinitions.definitions) {
-      const result = await metricsQueryClient.queryMetrics(resourceId, Durations.last24Hours, {
-        metricNames: [definition.name || ""]
-      });
-
-      assert.ok(result);
-      assert.ok(result.interval);
-      assert.isNotEmpty(result.metrics);
+    let result = await iter.next();
+    assert.isNotEmpty(result);
+    const firstMetricDefinition = result.value;
+    let metricDefinitionsLength = 0;
+    while (!result.done) {
+      // you can only query 20 metrics at a time.
+      const resultQuery = await metricsQueryClient.queryResource(
+        resourceId,
+        [result.value.name || ""],
+        {}
+      );
+      assert(resultQuery);
+      assert(resultQuery.granularity);
+      assert.isNotEmpty(resultQuery.metrics);
+      result = await iter.next();
+      metricDefinitionsLength++;
     }
 
-    // do a quick run through of all the individual metrics, in groups of 20
-    // which is the max.
-    for (let i = 0; i < metricDefinitions.definitions.length; i += 20) {
-      const definitionNames = metricDefinitions.definitions
-        .slice(i, i + 20)
-        // TODO: I think the 'name' being optional is incorrect in the swagger
-        // but just in case I'll check until we fix it.
-        .map((definition) => definition.name!);
+    const metricDefinitions = iter;
+    let i = 0;
+    let definitionNames: Array<string> = [];
 
-      for (const definitionName of definitionNames) {
-        if (definitionName == null) {
-          throw new Error("Definition name for a metric was undefined/null");
-        }
+    for await (const metricDefinition of metricDefinitions) {
+      if (i % 20 === 0) {
+        definitionNames = [];
       }
+      if (metricDefinition.name == null) {
+        throw new Error("Definition name for a metric was undefined/null");
+      }
+      definitionNames.push(metricDefinition.name);
 
-      const newResults = await metricsQueryClient.queryMetrics(resourceId, Durations.last24Hours, {
-        metricNames: definitionNames
-      });
-
-      assert.ok(newResults);
-      assert.isNotEmpty(newResults.metrics);
+      i++;
+      if (i % 20 === 0 || i === metricDefinitionsLength) {
+        const newResults = await metricsQueryClient.queryResource(resourceId, definitionNames, {
+          timespan: {
+            duration: Durations.twentyFourHours
+          }
+        });
+        assert.ok(newResults);
+        assert.isNotEmpty(newResults.metrics);
+      }
     }
 
-    // query for a metric we do know about
-    metricsQueryClient.queryMetrics(resourceId, Durations.last24Hours, {
-      metricNames: ["Average_Uptime"],
-      metricNamespace: resourceNamespace
-    });
+    // pick the first query and use the namespace as well.
+
+    assert.isNotNull(firstMetricDefinition);
+    assert.isNotEmpty(firstMetricDefinition.name);
+    assert.isNotEmpty(firstMetricDefinition.namespace);
+
+    const individualMetricWithNamespace = await metricsQueryClient.queryResource(
+      resourceId,
+      [firstMetricDefinition.name!],
+      {
+        timespan: { duration: Durations.twentyFourHours },
+        metricNamespace: firstMetricDefinition.namespace
+      }
+    );
+
+    assert.ok(individualMetricWithNamespace);
   });
 
   it("listNamespaces", async () => {
-    const result = await metricsQueryClient.getMetricNamespaces(resourceId);
+    const result = metricsQueryClient.listMetricNamespaces(resourceId);
     assert.ok(result);
   });
   it("listDefinitions", async () => {
-    const result = await metricsQueryClient.getMetricDefinitions(resourceId);
+    const result = metricsQueryClient.listMetricDefinitions(resourceId);
     assert.ok(result);
   });
 });

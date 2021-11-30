@@ -1,9 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { base64Encode, base64Decode } from "./utils/bufferSerializer";
-import { EdmTypes, SignedIdentifier } from "./models";
+import { EdmTypes, SignedIdentifier, TableEntityQueryOptions } from "./models";
 import { truncatedISO8061Date } from "./utils/truncateISO8061Date";
-import { SignedIdentifier as GeneratedSignedIdentifier } from "./generated/models";
+import {
+  SignedIdentifier as GeneratedSignedIdentifier,
+  QueryOptions as GeneratedQueryOptions
+} from "./generated/models";
 
 const propertyCaseMap: Map<string, string> = new Map<string, string>([
   ["PartitionKey", "partitionKey"],
@@ -65,13 +68,11 @@ function serializeObject(obj: { value: any; type: EdmTypes }): serializedType {
     obj.type === "Guid" ||
     obj.type === "Int32" ||
     obj.type === "Int64" ||
-    obj.type === "String"
+    obj.type === "String" ||
+    obj.type === "Binary"
   ) {
     serializedValue.value = obj.value;
     serializedValue.type = Edm[obj.type];
-  } else if (obj.type === "Binary") {
-    serializedValue.value = base64Encode(obj.value);
-    serializedValue.type = Edm.Binary;
   } else {
     throw new Error(`Unknown EDM type ${typeof obj.value}`);
   }
@@ -80,7 +81,7 @@ function serializeObject(obj: { value: any; type: EdmTypes }): serializedType {
 }
 
 function getSerializedValue(value: any): serializedType {
-  if (typeof value === "object" && value?.value && value?.type) {
+  if (typeof value === "object" && value?.value !== undefined && value?.type !== undefined) {
     return serializeObject(value);
   } else {
     return serializePrimitive(value);
@@ -97,7 +98,7 @@ function translatePropertyNameForSerialization(propertyName: string): string {
   return propertyName;
 }
 
-export function serialize(obj: object): object {
+export function serialize(obj: object): Record<string, Record<string, unknown>> {
   const serialized: any = {};
   for (const [propertyName, propertyValue] of Object.entries(obj)) {
     const transformedKey = translatePropertyNameForSerialization(propertyName);
@@ -145,11 +146,46 @@ export function deserialize<T extends object = Record<string, any>>(
       if (`${key}@odata.type` in obj) {
         const type = (obj as any)[`${key}@odata.type`];
         typedValue = getTypedObject(value, type, disableTypeConversion);
+      } else if (disableTypeConversion && ["number", "string", "boolean"].includes(typeof value)) {
+        // The service, doesn't return type metadata for number, strings or booleans
+        // if automatic type conversion is disabled we'll infer the EDM object
+        typedValue = inferTypedObject(key, value);
       }
+
       deserialized[transformedKey] = typedValue;
     }
   }
   return deserialized;
+}
+
+function inferTypedObject(propertyName: string, value: number | string | boolean) {
+  // We need to skip service metadata fields such as partitionKey and rowKey and use the same value returned by the service
+  if (propertyCaseMap.has(propertyName)) {
+    return value;
+  }
+
+  switch (typeof value) {
+    case "boolean":
+      return { value: String(value), type: "Boolean" };
+    case "number":
+      return getTypedNumber(value);
+    case "string":
+      return { value, type: "String" };
+    default:
+      return value;
+  }
+}
+
+/**
+ * Returns the number when typeConversion is enabled or the EDM object with the correct number format Double or Int32 if disabled
+ */
+function getTypedNumber(value: number): { value: string; type: "Int32" | "Double" } {
+  const valueStr = String(value);
+  if (Number.isSafeInteger(value)) {
+    return { value: valueStr, type: "Int32" };
+  } else {
+    return { value: valueStr, type: "Double" };
+  }
 }
 
 export function deserializeObjectsArray<T extends object>(
@@ -207,4 +243,18 @@ export function deserializeSignedIdentifier(
       }
     };
   });
+}
+
+export function serializeQueryOptions(query: TableEntityQueryOptions): GeneratedQueryOptions {
+  const { select, ...queryOptions } = query;
+  const mappedQuery: GeneratedQueryOptions = { ...queryOptions };
+  // Properties that are always returned by the service but are not allowed in select
+  const excludeFromSelect = ["etag", "odata.etag"];
+  if (select) {
+    mappedQuery.select = select
+      .filter((p) => !excludeFromSelect.includes(p))
+      .map(translatePropertyNameForSerialization)
+      .join(",");
+  }
+  return mappedQuery;
 }

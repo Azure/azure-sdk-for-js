@@ -41,7 +41,9 @@ describe("tracingHelpers", () => {
       {
         tracingOptions: {}
       },
-      async (_newOptions, _span) => {},
+      async (_newOptions, _span) => {
+        /** empty */
+      },
       fakeCreateSpan
     );
 
@@ -108,7 +110,7 @@ describe("tracingHelpers", () => {
       "Endpoint=endpoint;Id=id;Secret=secret"
     );
 
-    let traceData = {
+    const traceData = {
       operationName: "",
       options: undefined as OperationOptions | undefined
     };

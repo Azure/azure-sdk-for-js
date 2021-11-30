@@ -6,7 +6,7 @@
  * @azsdk-weight 10
  */
 
-import { ContainerRegistryClient } from "@azure/container-registry";
+import { ContainerRegistryClient, KnownContainerRegistryAudience } from "@azure/container-registry";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 dotenv.config();
@@ -15,7 +15,9 @@ export async function main() {
   // endpoint should be in the form of "https://myregistryname.azurecr.io"
   // where "myregistryname" is the actual name of your registry
   const endpoint = process.env.CONTAINER_REGISTRY_ENDPOINT || "<endpoint>";
-  const client = new ContainerRegistryClient(endpoint, new DefaultAzureCredential());
+  const client = new ContainerRegistryClient(endpoint, new DefaultAzureCredential(), {
+    audience: KnownContainerRegistryAudience.AzureResourceManagerPublicCloud
+  });
   await listRepositoryNames(client);
 
   // Advanced: listing by pages

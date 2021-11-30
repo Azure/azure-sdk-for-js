@@ -20,7 +20,10 @@ import {
 chai.use(chaiAsPromised);
 const assert = chai.assert;
 
-describe("Sample scenarios for track 2", () => {
+/**
+ * A basic suite that exercises most of the core functionality.
+ */
+describe("Smoke tests", () => {
   let serviceBusClient: ServiceBusClientForTests;
 
   before(async () => {

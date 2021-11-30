@@ -48,7 +48,7 @@ describe("PhoneNumbersClient - headers", function() {
   });
 
   it("sets date header", function() {
-    const dateHeader = isNode ? "date" : "x-ms-date";
+    const dateHeader = "x-ms-date";
     assert.typeOf(request.headers.get(dateHeader), "string");
   });
 

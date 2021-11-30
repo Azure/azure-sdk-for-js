@@ -1,15 +1,94 @@
 # Release History
 
-## 3.11.6 (Unreleased)
+## 3.15.0 (2021-11-22)
+
+### Features Added
+- _GA_ Adds `container.item(itemId).patch()`. `patch()` is an alternative to `replace()` for item updates. https://github.com/Azure/azure-sdk-for-js/pull/16264/files#diff-7caca690c469e2025576523c0377ac71815f001024fde7c48b20cd24adaa6977R561
+- _GA_ support for Bulk operation PATCH.
+- _GA_ support for Batch operation PATCH.
+-  Added the `SasTokenProperties` type and a `createAuthorizationSasToken` function to enable scoped access to Cosmos resources with SAS tokens. For an example that demonstrates creating a SAS token and using it to authenticate a `CosmosClient`, see [the `SasTokenAuth` sample](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v3/typescript/src/SasTokenAuth.ts).
+
+### Other Changes
+- Made several changes to the sample programs to improve code quality and compatibility with Node 12, and upgraded the sample programs' dependencies.
+
+## 3.14.1 (2021-09-02)
+
+### Bugs Fixed
+
+- Fix @azure/core-rest-pipeline version for AAD auth.
+
+## 3.14.0 (2021-09-01)
 
 ### Features Added
 
-### Breaking Changes
+- _PREVIEW_ Adds `container.item(itemId).patch()`. `patch()` is an alternative to `replace()` for item updates. https://github.com/Azure/azure-sdk-for-js/pull/16264/files#diff-7caca690c469e2025576523c0377ac71815f001024fde7c48b20cd24adaa6977R561
+- _PREVIEW_ Adds support for Bulk operation PATCH.
+- _PREVIEW_ Adds support for Batch operation PATCH.
 
-### Key Bugs Fixed
+### Bugs Fixed
 
-### Fixed
+- Fixes bug where Batch was passing the wrong header for batch requests with partition keys
+- Fixes 401s when using AAD auth. AAD credentials should now work and no longer cause 429s from @azure/identity at high throughput.
 
+## 3.13.1 (2021-08-23)
+
+### Bugs Fixed
+
+- Fixed bugs in session token clearing logic. Session Not found (404, substatus 1002) was not being handled correctly by the session retry policy and would mistakenly retry the request with the same session token.
+
+## 3.13.0 (2021-08-10)
+
+### Features Added
+
+- Adds TransactionalBatch to items `container.items.batch(operations)`
+
+### Bugs Fixed
+
+- Fixed bulk requests which had operations without partitionKey specified.
+
+## 3.12.3 (2021-07-23)
+
+### Bugs Fixed
+
+- Fix bulk operations on containers with multiple partitions with nested partition keys
+
+## 3.12.2 (2021-07-21)
+
+### Features Added
+
+- Adopted target ES2017 to reduce bundle size.
+
+## 3.12.1 (2021-07-16)
+
+### Bugs Fixed
+
+- Returned default retryPolicy option `fixedRetryIntervalInMilliseconds` to its original default 0.
+
+## 3.12.0 (2021-07-06)
+
+### Features Added
+
+- With the dropping of support for Node.js versions that are no longer in LTS, the dependency on `@types/node` has been updated to version 12. Read our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
+- Added background refresher for endpoints, and new `ConnectionPolicy` options. Refreshing defaults to true, and the default refresh rate is every 5 minutes.
+
+```js
+const client = new CosmosClient({
+  endpoint,
+  key: masterKey,
+  connectionPolicy: {
+    ...defaultConnectionPolicy,
+    endpointRefreshRateInMs: 700,
+    enableBackgroundEndpointRefreshing: true
+  }
+});
+```
+
+- Added `client.dispose()` for closing the endpoint refresher verbosely. Necessary when destroying the CosmosClient inside existing processes like an express web server, or when you want to destroy the client and create a new one in the same process.
+
+```js
+const client = new CosmosClient();
+client.dispose(); // cancels background endpoint refreshing
+```
 
 ## 3.11.5 (2021-06-10)
 

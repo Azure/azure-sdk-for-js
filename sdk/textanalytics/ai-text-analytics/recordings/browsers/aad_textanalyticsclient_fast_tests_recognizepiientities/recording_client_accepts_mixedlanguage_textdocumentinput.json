@@ -4,29 +4,29 @@
    "method": "POST",
    "url": "https://login.microsoftonline.com/88888888-8888-8888-8888-888888888888/oauth2/v2.0/token",
    "query": {},
-   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default",
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fsanitized%2F",
    "status": 200,
    "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
    "responseHeaders": {
     "cache-control": "no-store, no-cache",
     "content-length": "1331",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 12 May 2021 19:17:49 GMT",
+    "date": "Sat, 23 Oct 2021 00:56:44 GMT",
     "expires": "-1",
     "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
-    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+san\"}]}",
+    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+wst\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11722.21 - WUS2 ProdSlices",
-    "x-ms-request-id": "1f623800-874c-4277-b16b-879aefc6be00"
+    "x-ms-ests-server": "2.1.12171.14 - NCUS ProdSlices",
+    "x-ms-request-id": "15ccfc8c-8bf9-41fc-9949-86f7a6960300"
    }
   },
   {
    "method": "POST",
-   "url": "https://endpoint//text/analytics/v3.1-preview.5/entities/recognition/pii",
+   "url": "https://endpoint/text/analytics/v3.2-preview.2/entities/recognition/pii",
    "query": {
     "stringIndexType": "Utf16CodeUnit"
    },
@@ -34,14 +34,13 @@
    "status": 200,
    "response": "{\"documents\":[{\"redactedText\":\"I had a wonderful trip to Seattle ********* and even visited the Space Needle 2 times!\",\"id\":\"1\",\"entities\":[{\"text\":\"last week\",\"category\":\"DateTime\",\"subcategory\":\"DateRange\",\"offset\":34,\"length\":9,\"confidenceScore\":0.8}],\"warnings\":[]},{\"redactedText\":\"Unfortunately, it rained during my entire trip to Seattle. I didn't even get to visit the Space Needle\",\"id\":\"2\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"I went to see a movie on ******** and it was perfectly average, nothing more or less than I expected.\",\"id\":\"3\",\"entities\":[{\"text\":\"Saturday\",\"category\":\"DateTime\",\"subcategory\":\"Date\",\"offset\":25,\"length\":8,\"confidenceScore\":0.8}],\"warnings\":[]},{\"redactedText\":\"Los caminos que llevan hasta Monte Rainier son espectaculares y hermosos.\",\"id\":\"4\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"La carretera estaba atascada. Había mucho tráfico el día de ****.\",\"id\":\"5\",\"entities\":[{\"text\":\"ayer\",\"category\":\"DateTime\",\"subcategory\":\"Date\",\"offset\":60,\"length\":4,\"confidenceScore\":0.8}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-01-15\"}",
    "responseHeaders": {
-    "apim-request-id": "cde0a087-e7ee-43c1-a1ac-166a351793b6",
+    "apim-request-id": "8a0f0364-a8f0-4997-9917-9236c59df2a0",
     "content-type": "application/json; charset=utf-8",
     "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=5,CognitiveServices.TextAnalytics.TextRecords=5",
-    "date": "Wed, 12 May 2021 19:17:57 GMT",
+    "date": "Sat, 23 Oct 2021 00:56:45 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "7559"
+    "x-envoy-upstream-service-time": "43"
    }
   }
  ],
@@ -49,5 +48,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "62482340a86037315fe778124cf9d3a3"
+ "hash": "5ec8aaf6662a33e07532390829e62e7a"
 }

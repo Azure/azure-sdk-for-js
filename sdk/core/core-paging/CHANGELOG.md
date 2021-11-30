@@ -1,7 +1,10 @@
 # Release History
 
-## 1.1.4 (Unreleased)
+## 1.2.0 (2021-08-30)
 
+### Features Added
+
+- Add `getPagedAsyncIterator` that does the heavy lifting to build a paged async iterator.
 
 ## 1.1.3 (2020-09-30)
 

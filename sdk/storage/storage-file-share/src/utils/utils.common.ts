@@ -3,6 +3,7 @@
 
 import { AbortSignalLike } from "@azure/abort-controller";
 import { HttpHeaders, isNode, URLBuilder } from "@azure/core-http";
+import { HttpAuthorization } from "../models";
 import { HeaderConstants, URLConstants } from "./constants";
 
 /**
@@ -344,8 +345,13 @@ export function base64decode(encodedString: string): string {
  * @param aborter -
  * @param abortError -
  */
-export async function delay(timeInMs: number, aborter?: AbortSignalLike, abortError?: Error) {
+export async function delay(
+  timeInMs: number,
+  aborter?: AbortSignalLike,
+  abortError?: Error
+): Promise<void> {
   return new Promise<void>((resolve, reject) => {
+    /* eslint-disable-next-line prefer-const */
     let timeout: any;
 
     const abortHandler = () => {
@@ -362,41 +368,12 @@ export async function delay(timeInMs: number, aborter?: AbortSignalLike, abortEr
       resolve();
     };
 
+    /* eslint-disable-next-line prefer-const */
     timeout = setTimeout(resolveHandler, timeInMs);
     if (aborter !== undefined) {
       aborter.addEventListener("abort", abortHandler);
     }
   });
-}
-
-/**
- * String.prototype.padStart()
- *
- * @param currentString -
- * @param targetLength -
- * @param padString -
- */
-export function padStart(
-  currentString: string,
-  targetLength: number,
-  padString: string = " "
-): string {
-  // TS doesn't know this code needs to run downlevel sometimes.
-  // @ts-expect-error
-  if (String.prototype.padStart) {
-    return currentString.padStart(targetLength, padString);
-  }
-
-  padString = padString || " ";
-  if (currentString.length > targetLength) {
-    return currentString;
-  } else {
-    targetLength = targetLength - currentString.length;
-    if (targetLength > padString.length) {
-      padString += padString.repeat(targetLength / padString.length);
-    }
-    return padString.slice(0, targetLength) + currentString;
-  }
 }
 
 export function sanitizeURL(url: string): string {
@@ -454,12 +431,12 @@ export function getAccountNameFromUrl(url: string): string {
 }
 
 export function isIpEndpointStyle(parsedUrl: URLBuilder): boolean {
-  if (parsedUrl.getHost() == undefined) {
+  if (parsedUrl.getHost() === undefined) {
     return false;
   }
 
   const host =
-    parsedUrl.getHost()! + (parsedUrl.getPort() == undefined ? "" : ":" + parsedUrl.getPort());
+    parsedUrl.getHost()! + (parsedUrl.getPort() === undefined ? "" : ":" + parsedUrl.getPort());
 
   // Case 1: Ipv6, use a broad regex to find out candidates whose host contains two ':'.
   // Case 2: localhost(:port), use broad regex to match port part.
@@ -529,4 +506,10 @@ export function getShareNameAndPathFromUrl(
       "Unable to extract shareName and filePath/directoryPath with provided information."
     );
   }
+}
+
+export function httpAuthorizationToString(
+  httpAuthorization?: HttpAuthorization
+): string | undefined {
+  return httpAuthorization ? httpAuthorization.scheme + " " + httpAuthorization.value : undefined;
 }

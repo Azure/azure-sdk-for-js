@@ -4,8 +4,10 @@ This package contains an isomorphic SDK for BatchServiceClient.
 
 ### Currently supported environments
 
-- Node.js version 6.x.x or higher
-- Browser JavaScript
+- [LTS versions of Node.js](https://nodejs.org/about/releases/)
+- Latest versions of Safari, Chrome, Edge, and Firefox.
+
+See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
 
 ### How to Install
 
@@ -25,25 +27,7 @@ npm install @azure/ms-rest-nodeauth
 
 ##### Authentication
 
-1. Use `AzureCliCredentials` exported from `@azure/ms-rest-nodeauth`.
-   **Please make sure to install Azure CLI and login using `az login`.**
-
-```typescript
-import { BatchServiceClient } from "@azure/batch";
-import { AzureCliCredentials } from "@azure/ms-rest-nodeauth";
-
-const batchEndpoint = process.env["AZURE_BATCH_ENDPOINT"] || "";
-async function main(): Promise<void> {
-  try {
-    const creds = await AzureCliCredentials.create({ resource: "https://batch.core.windows.net/" });
-    const client = new BatchServiceClient(creds, batchEndpoint);
-  } catch (err) {
-    console.log(err);
-  }
-}
-```
-
-2. Use the `BatchSharedKeyCredentials` exported from `@azure/batch`.
+1. Use the `BatchSharedKeyCredentials` exported from `@azure/batch`.
 
 ```typescript
 import { BatchServiceClient, BatchSharedKeyCredentials } from "@azure/batch";
@@ -62,7 +46,7 @@ async function main(): Promise<void> {
 }
 ```
 
-3. Use the `MSIVmTokenCredentials` exported from `@azure/ms-rest-nodeauth`.
+2. Use the `MSIVmTokenCredentials` exported from `@azure/ms-rest-nodeauth`.
 
 ```typescript
 import { BatchServiceClient } from "@azure/batch";

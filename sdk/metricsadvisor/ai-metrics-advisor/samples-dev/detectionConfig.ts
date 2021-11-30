@@ -73,7 +73,7 @@ async function createDetectionConfig(
       sensitivity: 50,
       anomalyDetectorDirection: "Both",
       suppressCondition: {
-        minNumber: 50,
+        minNumber: 5,
         minRatio: 50
       }
     },
@@ -92,7 +92,7 @@ async function createDetectionConfig(
   };
   const seriesGroupDetectionConditions: MetricSeriesGroupDetectionCondition[] = [
     {
-      group: { city: "Manila" },
+      groupKey: { city: "Manila" },
       conditionOperator: "AND",
       changeThresholdCondition: {
         anomalyDetectorDirection: "Both",
@@ -105,7 +105,7 @@ async function createDetectionConfig(
   ];
   const seriesDetectionConditions: MetricSingleSeriesDetectionCondition[] = [
     {
-      series: { city: "Manila", category: "Handmade" },
+      seriesKey: { city: "Manila", category: "Handmade" },
       conditionOperator: "AND",
       hardThresholdCondition: {
         anomalyDetectorDirection: "Up",
@@ -152,7 +152,7 @@ async function updateDetectionConfig(
     },
     seriesGroupDetectionConditions: [
       {
-        group: { city: "Manila" },
+        groupKey: { city: "Manila" },
         conditionOperator: "AND",
         hardThresholdCondition: {
           anomalyDetectorDirection: "Up",
@@ -163,7 +163,7 @@ async function updateDetectionConfig(
     ],
     seriesDetectionConditions: [
       {
-        series: { city: "Manila", category: "Handmade" },
+        seriesKey: { city: "Manila", category: "Handmade" },
         conditionOperator: "OR",
         changeThresholdCondition: {
           anomalyDetectorDirection: "Both",
@@ -176,8 +176,7 @@ async function updateDetectionConfig(
     ]
   };
   console.log(`Updating existing detection configuration '${configId}'`);
-  await adminClient.updateDetectionConfig(configId, patch);
-  const result = adminClient.getDetectionConfig(configId);
+  const result = await adminClient.updateDetectionConfig(configId, patch);
   console.log(result);
   return result;
 }

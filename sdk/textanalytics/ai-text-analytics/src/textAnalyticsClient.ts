@@ -7,7 +7,6 @@ import {
   bearerTokenAuthenticationPolicy
 } from "@azure/core-rest-pipeline";
 import { TokenCredential, KeyCredential, isTokenCredential } from "@azure/core-auth";
-import { SDK_VERSION } from "./constants";
 import { GeneratedClient } from "./generated/generatedClient";
 import { logger } from "./logger";
 import {
@@ -50,30 +49,42 @@ import { createSpan } from "./tracing";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { textAnalyticsAzureKeyCredentialPolicy } from "./azureKeyCredentialPolicy";
 import {
-  AddParamsToTask,
+  addParamsToTask,
   compose,
-  handleInvalidDocumentBatch,
+  compileError,
+  setCategoriesFilter,
   setOpinionMining,
+  setOrderBy,
+  setSentenceCount,
   setStrEncodingParam,
   setStrEncodingParamValue,
   StringIndexType
 } from "./util";
-import {
-  BeginAnalyzeHealthcarePoller,
-  AnalyzeHealthcareEntitiesPollerLike
-} from "./lro/health/poller";
-import {
-  BeginAnalyzeHealthcareEntitiesOptions,
-  AnalyzeHealthcareOperationState
-} from "./lro/health/operation";
 import { TextAnalyticsOperationOptions } from "./textAnalyticsOperationOptions";
-import { AnalyzeActionsPollerLike, BeginAnalyzeActionsPoller } from "./lro/analyze/poller";
+import { AnalysisPollOperationState, OperationMetadata } from "./pollerModels";
+import { CustomTextAnalyticsAction, TextAnalyticsAction } from "./textAnalyticsAction";
+import {
+  AnalyzeHealthcareEntitiesPollerLike,
+  AnalyzeHealthcareOperationState,
+  BeginAnalyzeHealthcareEntitiesOptions,
+  HealthLro,
+  isHealthDone,
+  processHealthResult,
+  updateHealthState
+} from "./healthLro";
+import { LroEngine } from "@azure/core-lro";
+import { PagedAnalyzeHealthcareEntitiesResult } from "./analyzeHealthcareEntitiesResult";
 import {
   AnalyzeActionsOperationMetadata,
+  AnalyzeActionsOperationState,
+  AnalyzeActionsPollerLike,
+  AnalyzeLro,
   BeginAnalyzeActionsOptions,
-  AnalyzeActionsOperationState
-} from "./lro/analyze/operation";
-import { AnalysisPollOperationState, OperationMetadata } from "./lro/poller";
+  isAnalyzeDone,
+  processAnalyzeResult,
+  updateAnalyzeState
+} from "./analyzeLro";
+import { PagedAnalyzeActionsResult } from "./analyzeActionsResult";
 
 export {
   BeginAnalyzeActionsOptions,
@@ -170,7 +181,7 @@ export interface RecognizePiiEntitiesOptions extends TextAnalyticsOperationOptio
    */
   stringIndexType?: StringIndexType;
   /**
-   * Specifies the list of Pii categories to return.
+   * Filters entities to ones only included in the specified array of categories
    */
   categoriesFilter?: PiiCategory[];
 }
@@ -195,12 +206,7 @@ export interface RecognizeLinkedEntitiesOptions extends TextAnalyticsOperationOp
 /**
  * Options for an entities recognition action.
  */
-export type RecognizeCategorizedEntitiesAction = {
-  /**
-   * The version of the text analytics model used by this operation on this
-   * batch of input documents.
-   */
-  modelVersion?: string;
+export interface RecognizeCategorizedEntitiesAction extends TextAnalyticsAction {
   /**
    * Specifies the measurement unit used to calculate the offset and length properties.
    * Possible units are "TextElements_v8", "UnicodeCodePoint", and "Utf16CodeUnit".
@@ -213,23 +219,22 @@ export type RecognizeCategorizedEntitiesAction = {
    * disables input logging and may limit our ability to remediate issues that occur.
    */
   disableServiceLogs?: boolean;
-};
+}
 
 /**
  * Options for a Pii entities recognition action.
  */
-export type RecognizePiiEntitiesAction = {
+export interface RecognizePiiEntitiesAction extends TextAnalyticsAction {
   /**
    * Filters entities to ones only included in the specified domain (e.g., if
    * set to 'PHI', entities in the Protected Healthcare Information domain will
    * only be returned). @see {@link https://aka.ms/tanerpii} for more information.
    */
-  domain?: PiiEntityDomain;
+  domainFilter?: PiiEntityDomain;
   /**
-   * The version of the text analytics model used by this operation on this
-   * batch of input documents.
+   * Filters entities to ones only included in the specified array of categories
    */
-  modelVersion?: string;
+  categoriesFilter?: PiiCategory[];
   /**
    * Specifies the measurement unit used to calculate the offset and length properties.
    * Possible units are "TextElements_v8", "UnicodeCodePoint", and "Utf16CodeUnit".
@@ -242,17 +247,12 @@ export type RecognizePiiEntitiesAction = {
    * enables input logging.
    */
   disableServiceLogs?: boolean;
-};
+}
 
 /**
  * Options for a key phrases recognition action.
  */
-export interface ExtractKeyPhrasesAction {
-  /**
-   * The version of the text analytics model used by this operation on this
-   * batch of input documents.
-   */
-  modelVersion?: string;
+export interface ExtractKeyPhrasesAction extends TextAnalyticsAction {
   /**
    * If set to false, you opt-in to have your text input logged for troubleshooting. By default, Text Analytics
    * will not log your input text for pii entities recognition. Setting this parameter to false,
@@ -264,12 +264,7 @@ export interface ExtractKeyPhrasesAction {
 /**
  * Options for an entities linking action.
  */
-export type RecognizeLinkedEntitiesAction = {
-  /**
-   * The version of the text analytics model used by this operation on this
-   * batch of input documents.
-   */
-  modelVersion?: string;
+export interface RecognizeLinkedEntitiesAction extends TextAnalyticsAction {
   /**
    * Specifies the measurement unit used to calculate the offset and length properties.
    * Possible units are "TextElements_v8", "UnicodeCodePoint", and "Utf16CodeUnit".
@@ -282,17 +277,12 @@ export type RecognizeLinkedEntitiesAction = {
    * disables input logging and may limit our ability to remediate issues that occur.
    */
   disableServiceLogs?: boolean;
-};
+}
 
 /**
  * Options for an analyze sentiment action.
  */
-export type AnalyzeSentimentAction = {
-  /**
-   * The version of the text analytics model used by this operation on this
-   * batch of input documents.
-   */
-  modelVersion?: string;
+export interface AnalyzeSentimentAction extends TextAnalyticsAction {
   /**
    * Specifies the measurement unit used to calculate the offset and length properties.
    * Possible units are "TextElements_v8", "UnicodeCodePoint", and "Utf16CodeUnit".
@@ -314,10 +304,86 @@ export type AnalyzeSentimentAction = {
    * More information about the feature can be found here: {@link https://docs.microsoft.com/azure/cognitive-services/text-analytics/how-tos/text-analytics-how-to-sentiment-analysis?tabs=version-3-1#opinion-mining}
    */
   includeOpinionMining?: boolean;
-};
+}
 
 /**
- * Description of collection of actions for the analyze API to perform on input documents
+ * A type representing how to sort sentences for the summarization extraction action.
+ */
+export type KnownSummarySentencesSortBy = "Offset" | "Rank";
+
+/**
+ * Options for an extract summary action.
+ */
+export interface ExtractSummaryAction extends TextAnalyticsAction {
+  /**
+   * Specifies the measurement unit used to calculate the offset and length properties.
+   * Possible units are "TextElements_v8", "UnicodeCodePoint", and "Utf16CodeUnit".
+   * The default is the JavaScript's default which is "Utf16CodeUnit".
+   */
+  stringIndexType?: StringIndexType;
+  /**
+   * If set to true, you opt-out of having your text input logged for troubleshooting. By default, Text Analytics
+   * logs your input text for 48 hours, solely to allow for troubleshooting issues. Setting this parameter to true,
+   * disables input logging and may limit our ability to remediate issues that occur.
+   */
+  disableServiceLogs?: boolean;
+  /**
+   * Specifies the number of summary sentences to return. The default number of sentences is 3.
+   */
+  maxSentenceCount?: number;
+  /**
+   * Specifies how to sort the returned sentences. Please refer to {@link KnownSummarySentencesOrderBy} for possible values.
+   */
+  orderBy?: string;
+}
+
+/**
+ * Options for a custom recognize entities action. For more information, please refer
+ * to the service documentation: {@link https://aka.ms/azsdk/textanalytics/customentityrecognition}
+ */
+export interface RecognizeCustomEntitiesAction extends CustomTextAnalyticsAction {
+  /**
+   * Specifies the measurement unit used to calculate the offset and length properties.
+   * Possible units are "TextElements_v8", "UnicodeCodePoint", and "Utf16CodeUnit".
+   * The default is the JavaScript's default which is "Utf16CodeUnit".
+   */
+  stringIndexType?: StringIndexType;
+  /**
+   * If set to true, you opt-out of having your text input logged for troubleshooting. By default, Text Analytics
+   * logs your input text for 48 hours, solely to allow for troubleshooting issues. Setting this parameter to true,
+   * disables input logging and may limit our ability to remediate issues that occur.
+   */
+  disableServiceLogs?: boolean;
+}
+
+/**
+ * Options for an custom classify document single category action. For more information, please refer
+ * to the service documentation: {@link https://aka.ms/azsdk/textanalytics/customfunctionalities}
+ */
+export interface SingleCategoryClassifyAction extends CustomTextAnalyticsAction {
+  /**
+   * If set to true, you opt-out of having your text input logged for troubleshooting. By default, Text Analytics
+   * logs your input text for 48 hours, solely to allow for troubleshooting issues. Setting this parameter to true,
+   * disables input logging and may limit our ability to remediate issues that occur.
+   */
+  disableServiceLogs?: boolean;
+}
+
+/**
+ * Options for a custom classify document multi categories action. For more information, please refer
+ * to the service documentation: {@link https://aka.ms/azsdk/textanalytics/customfunctionalities}
+ */
+export interface MultiCategoryClassifyAction extends CustomTextAnalyticsAction {
+  /**
+   * If set to true, you opt-out of having your text input logged for troubleshooting. By default, Text Analytics
+   * logs your input text for 48 hours, solely to allow for troubleshooting issues. Setting this parameter to true,
+   * disables input logging and may limit our ability to remediate issues that occur.
+   */
+  disableServiceLogs?: boolean;
+}
+
+/**
+ * Description of collection of actions for the analyze API to perform on input documents.
  */
 export interface TextAnalyticsActions {
   /**
@@ -340,6 +406,25 @@ export interface TextAnalyticsActions {
    * A collection of descriptions of sentiment analysis actions.
    */
   analyzeSentimentActions?: AnalyzeSentimentAction[];
+  /**
+   * A collection of descriptions of summarization extraction actions.
+   */
+  extractSummaryActions?: ExtractSummaryAction[];
+  /**
+   * A collection of descriptions of custom entity recognition actions. For more information, please refer
+   * to the service documentation: {@link https://aka.ms/azsdk/textanalytics/customentityrecognition}
+   */
+  recognizeCustomEntitiesActions?: RecognizeCustomEntitiesAction[];
+  /**
+   * A collection of descriptions of custom single classification actions. For more information, please refer
+   * to the service documentation: {@link https://aka.ms/azsdk/textanalytics/customfunctionalities}
+   */
+  singleCategoryClassifyActions?: SingleCategoryClassifyAction[];
+  /**
+   * A collection of descriptions of custom multi classification actions. For more information, please refer
+   * to the service documentation: {@link https://aka.ms/azsdk/textanalytics/customfunctionalities}
+   */
+  multiCategoryClassifyActions?: MultiCategoryClassifyAction[];
 }
 /**
  * Client class for interacting with Azure Text Analytics.
@@ -391,16 +476,6 @@ export class TextAnalyticsClient {
     const { defaultCountryHint = "us", defaultLanguage = "en", ...pipelineOptions } = options;
     this.defaultCountryHint = defaultCountryHint;
     this.defaultLanguage = defaultLanguage;
-
-    const libInfo = `azsdk-js-ai-textanalytics/${SDK_VERSION}`;
-    if (!pipelineOptions.userAgentOptions) {
-      pipelineOptions.userAgentOptions = {};
-    }
-    if (pipelineOptions.userAgentOptions.userAgentPrefix) {
-      pipelineOptions.userAgentOptions.userAgentPrefix = `${pipelineOptions.userAgentOptions.userAgentPrefix} ${libInfo}`;
-    } else {
-      pipelineOptions.userAgentOptions.userAgentPrefix = libInfo;
-    }
 
     const internalPipelineOptions: InternalPipelineOptions = {
       ...pipelineOptions,
@@ -588,7 +663,7 @@ export class TextAnalyticsClient {
        * earlier versions were throwing an exception that included the inner
        * code only.
        */
-      const backwardCompatibleException = handleInvalidDocumentBatch(e);
+      const backwardCompatibleException = compileError(e);
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: backwardCompatibleException.message
@@ -952,13 +1027,49 @@ export class TextAnalyticsClient {
       realOptions = (languageOrOptions as BeginAnalyzeHealthcareEntitiesOptions) || {};
     }
 
-    const { updateIntervalInMs, resumeFrom, ...restOptions } = realOptions;
-    const poller = new BeginAnalyzeHealthcarePoller({
-      client: this.client,
-      documents: realInputs,
-      options: restOptions,
-      updateIntervalInMs: updateIntervalInMs,
-      resumeFrom: resumeFrom
+    const {
+      updateIntervalInMs,
+      resumeFrom,
+      onResponse,
+      disableServiceLogs,
+      modelVersion,
+      requestOptions,
+      serializerOptions,
+      abortSignal,
+      stringIndexType,
+      includeStatistics,
+      tracingOptions
+    } = realOptions;
+    const lro = new HealthLro(
+      this.client,
+      {
+        onResponse,
+        requestOptions,
+        serializerOptions,
+        abortSignal,
+        tracingOptions
+      },
+      { loggingOptOut: disableServiceLogs, stringIndexType, modelVersion },
+      { includeStatistics },
+      realInputs
+    );
+
+    const poller = new LroEngine<
+      PagedAnalyzeHealthcareEntitiesResult,
+      AnalyzeHealthcareOperationState
+    >(lro, {
+      intervalInMs: updateIntervalInMs,
+      resumeFrom: resumeFrom,
+      processResult: processHealthResult(this.client, realInputs, {
+        onResponse,
+        requestOptions,
+        serializerOptions,
+        abortSignal,
+        tracingOptions,
+        includeStatistics
+      }),
+      isDone: isHealthDone,
+      updateState: updateHealthState
     });
 
     await poller.poll();
@@ -1015,14 +1126,45 @@ export class TextAnalyticsClient {
       realOptions = (languageOrOptions as BeginAnalyzeActionsOptions) || {};
     }
     const compiledActions = compileAnalyzeInput(actions);
-    const { updateIntervalInMs, resumeFrom, ...restOptions } = realOptions;
-    const poller = new BeginAnalyzeActionsPoller({
-      client: this.client,
-      documents: realInputs,
-      actions: compiledActions,
-      options: restOptions,
+    const {
+      updateIntervalInMs,
+      resumeFrom,
+      displayName,
+      includeStatistics,
+      onResponse,
+      requestOptions,
+      serializerOptions,
+      abortSignal,
+      tracingOptions
+    } = realOptions;
+    const lro = new AnalyzeLro(
+      this.client,
+      {
+        onResponse,
+        requestOptions,
+        serializerOptions,
+        abortSignal,
+        tracingOptions
+      },
+      { displayName },
+      { includeStatistics },
+      realInputs,
+      compiledActions
+    );
+
+    const poller = new LroEngine<PagedAnalyzeActionsResult, AnalyzeActionsOperationState>(lro, {
+      intervalInMs: updateIntervalInMs,
       resumeFrom: resumeFrom,
-      updateIntervalInMs: updateIntervalInMs
+      processResult: processAnalyzeResult(this.client, realInputs, {
+        onResponse,
+        requestOptions,
+        serializerOptions,
+        abortSignal,
+        tracingOptions,
+        includeStatistics
+      }),
+      isDone: isAnalyzeDone,
+      updateState: updateAnalyzeState
     });
 
     await poller.poll();
@@ -1036,18 +1178,26 @@ export class TextAnalyticsClient {
 function compileAnalyzeInput(actions: TextAnalyticsActions): GeneratedActions {
   return {
     entityRecognitionPiiTasks: actions.recognizePiiEntitiesActions?.map(
-      compose(setStrEncodingParam, AddParamsToTask)
+      compose(setStrEncodingParam, compose(setCategoriesFilter, addParamsToTask))
     ),
     entityRecognitionTasks: actions.recognizeEntitiesActions?.map(
-      compose(setStrEncodingParam, AddParamsToTask)
+      compose(setStrEncodingParam, addParamsToTask)
     ),
-    keyPhraseExtractionTasks: actions.extractKeyPhrasesActions?.map(AddParamsToTask),
+    keyPhraseExtractionTasks: actions.extractKeyPhrasesActions?.map(addParamsToTask),
     entityLinkingTasks: actions.recognizeLinkedEntitiesActions?.map(
-      compose(setStrEncodingParam, AddParamsToTask)
+      compose(setStrEncodingParam, addParamsToTask)
     ),
     sentimentAnalysisTasks: actions.analyzeSentimentActions?.map(
-      compose(setStrEncodingParam, compose(setOpinionMining, AddParamsToTask))
-    )
+      compose(setStrEncodingParam, compose(setOpinionMining, addParamsToTask))
+    ),
+    extractiveSummarizationTasks: actions.extractSummaryActions?.map(
+      compose(setStrEncodingParam, compose(setSentenceCount, compose(setOrderBy, addParamsToTask)))
+    ),
+    customEntityRecognitionTasks: actions.recognizeCustomEntitiesActions?.map(
+      compose(setStrEncodingParam, addParamsToTask)
+    ),
+    customSingleClassificationTasks: actions.singleCategoryClassifyActions?.map(addParamsToTask),
+    customMultiClassificationTasks: actions.multiCategoryClassifyActions?.map(addParamsToTask)
   };
 }
 

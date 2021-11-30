@@ -28,11 +28,11 @@
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/agrifood/agrifood-farming-rest",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/agrifood/agrifood-farming-rest",
   "dependencies": {
     "@azure-rest/agrifood-farming": "next",
     "dotenv": "latest",
-    "@azure/identity": "^1.1.0"
+    "@azure/identity": "^2.0.1"
   },
   "devDependencies": {
     "typescript": "~4.2.0",

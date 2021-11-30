@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { KeyCredential, SASCredential } from "@azure/core-auth";
+import { isTokenCredential, KeyCredential, SASCredential } from "@azure/core-auth";
 import { OperationOptions, CommonClientOptions } from "@azure/core-client";
 
 import { eventGridCredentialPolicy } from "./eventGridAuthenticationPolicy";
-import { SDK_VERSION } from "./constants";
+import { DEFAULT_EVENTGRID_SCOPE } from "./constants";
 import {
   SendCloudEventInput,
   SendEventGridEventInput,
@@ -20,6 +20,8 @@ import { cloudEventDistributedTracingEnricherPolicy } from "./cloudEventDistrubt
 import { createSpan } from "./tracing";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { v4 as uuidv4 } from "uuid";
+import { TokenCredential } from "@azure/core-auth";
+import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
 
 /**
  * Options for the Event Grid Client.
@@ -101,27 +103,18 @@ export class EventGridPublisherClient<T extends InputSchema> {
   constructor(
     endpointUrl: string,
     inputSchema: T,
-    credential: KeyCredential | SASCredential,
+    credential: KeyCredential | SASCredential | TokenCredential,
     options: EventGridPublisherClientOptions = {}
   ) {
     this.endpointUrl = endpointUrl;
     this.inputSchema = inputSchema;
 
-    const libInfo = `azsdk-js-eventgrid/${SDK_VERSION}`;
-    const pipelineOptions = { ...options };
+    this.client = new GeneratedClient(options);
 
-    if (!pipelineOptions.userAgentOptions) {
-      pipelineOptions.userAgentOptions = {};
-    }
+    const authPolicy = isTokenCredential(credential)
+      ? bearerTokenAuthenticationPolicy({ credential, scopes: DEFAULT_EVENTGRID_SCOPE })
+      : eventGridCredentialPolicy(credential);
 
-    if (pipelineOptions.userAgentOptions.userAgentPrefix) {
-      pipelineOptions.userAgentOptions.userAgentPrefix = `${pipelineOptions.userAgentOptions.userAgentPrefix} ${libInfo}`;
-    } else {
-      pipelineOptions.userAgentOptions.userAgentPrefix = libInfo;
-    }
-
-    this.client = new GeneratedClient(pipelineOptions);
-    const authPolicy = eventGridCredentialPolicy(credential);
     this.client.pipeline.addPolicy(authPolicy);
     this.client.pipeline.addPolicy(cloudEventDistributedTracingEnricherPolicy());
     this.apiVersion = this.client.apiVersion;

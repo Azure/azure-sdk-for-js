@@ -18,7 +18,7 @@ export async function streamToBuffer(
   buffer: Buffer,
   offset: number,
   end: number,
-  encoding?: string
+  encoding?: BufferEncoding
 ): Promise<void> {
   let pos = 0; // Position in stream
   const count = end - offset; // Total amount of data needed in stream

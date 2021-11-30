@@ -25,7 +25,6 @@ import { ConnectionContext } from "./connectionContext";
 import { LinkEntity } from "./linkEntity";
 import { EventPosition, getEventPositionFilter } from "./eventPosition";
 import { AbortError, AbortSignalLike } from "@azure/abort-controller";
-import { defaultDataTransformer } from "./dataTransformer";
 import { getRetryAttemptTimeoutInMs } from "./util/retries";
 
 /**
@@ -222,17 +221,32 @@ export class EventHubReceiver extends LinkEntity {
     if (!context.message) {
       return;
     }
-
-    const data: EventDataInternal = fromRheaMessage(context.message);
+    const data: EventDataInternal = fromRheaMessage(
+      context.message,
+      !!this.options.skipParsingBodyAsJson
+    );
+    const rawMessage = data.getRawAmqpMessage();
     const receivedEventData: ReceivedEventData = {
-      body: defaultDataTransformer.decode(context.message.body),
+      body: data.body,
       properties: data.properties,
       offset: data.offset!,
       sequenceNumber: data.sequenceNumber!,
       enqueuedTimeUtc: data.enqueuedTimeUtc!,
       partitionKey: data.partitionKey!,
-      systemProperties: data.systemProperties
+      systemProperties: data.systemProperties,
+      getRawAmqpMessage() {
+        return rawMessage;
+      }
     };
+    if (data.correlationId != null) {
+      receivedEventData.correlationId = data.correlationId;
+    }
+    if (data.contentType != null) {
+      receivedEventData.contentType = data.contentType;
+    }
+    if (data.messageId != null) {
+      receivedEventData.messageId = data.messageId;
+    }
 
     this._checkpoint = receivedEventData.sequenceNumber;
 

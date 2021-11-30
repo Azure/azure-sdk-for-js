@@ -29,7 +29,7 @@ import {
   LeaseAccessConditions
 } from "./generatedModels";
 import { Container, Service } from "./generated/src/operations";
-import { newPipeline, StoragePipelineOptions, Pipeline } from "./Pipeline";
+import { newPipeline, StoragePipelineOptions, PipelineLike, isPipelineLike } from "./Pipeline";
 import {
   ContainerClient,
   ContainerCreateOptions,
@@ -380,6 +380,10 @@ export interface ServiceGenerateAccountSasUrlOptions {
    * Optional. IP range allowed.
    */
   ipRange?: SasIPRange;
+  /**
+   * Optional. Encryption scope to use when sending requests authorized with this SAS URI.
+   */
+  encryptionScope?: string;
 }
 
 /**
@@ -404,7 +408,12 @@ export class BlobServiceClient extends StorageClient {
    *                                  `BlobEndpoint=https://myaccount.blob.core.windows.net/;QueueEndpoint=https://myaccount.queue.core.windows.net/;FileEndpoint=https://myaccount.file.core.windows.net/;TableEndpoint=https://myaccount.table.core.windows.net/;SharedAccessSignature=sasString`
    * @param options - Optional. Options to configure the HTTP pipeline.
    */
-  public static fromConnectionString(connectionString: string, options?: StoragePipelineOptions) {
+  public static fromConnectionString(
+    connectionString: string,
+    // Legacy, no fix for eslint error without breaking. Disable it for this interface.
+    /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
+    options?: StoragePipelineOptions
+  ): BlobServiceClient {
     options = options || {};
     const extractedCreds = extractConnectionStringParts(connectionString);
     if (extractedCreds.kind === "AccountConnString") {
@@ -466,6 +475,8 @@ export class BlobServiceClient extends StorageClient {
   constructor(
     url: string,
     credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
+    // Legacy, no fix for eslint error without breaking. Disable it for this interface.
+    /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
     options?: StoragePipelineOptions
   );
   /**
@@ -477,18 +488,20 @@ export class BlobServiceClient extends StorageClient {
    * @param pipeline - Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
    */
-  constructor(url: string, pipeline: Pipeline);
+  constructor(url: string, pipeline: PipelineLike);
   constructor(
     url: string,
     credentialOrPipeline?:
       | StorageSharedKeyCredential
       | AnonymousCredential
       | TokenCredential
-      | Pipeline,
+      | PipelineLike,
+    // Legacy, no fix for eslint error without breaking. Disable it for this interface.
+    /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
     options?: StoragePipelineOptions
   ) {
-    let pipeline: Pipeline;
-    if (credentialOrPipeline instanceof Pipeline) {
+    let pipeline: PipelineLike;
+    if (isPipelineLike(credentialOrPipeline)) {
       pipeline = credentialOrPipeline;
     } else if (
       (isNode && credentialOrPipeline instanceof StorageSharedKeyCredential) ||
@@ -630,6 +643,7 @@ export class BlobServiceClient extends StorageClient {
    * @param destinationContainerName - The new name of the container.
    * @param options - Options to configure Container Rename operation.
    */
+  /* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
   // @ts-ignore Need to hide this interface for now. Make it public and turn on the live tests for it when the service is ready.
   private async renameContainer(
     sourceContainerName: string,

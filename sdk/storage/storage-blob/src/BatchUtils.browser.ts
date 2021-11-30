@@ -8,7 +8,7 @@ export async function getBodyAsText(
   batchResponse: ServiceSubmitBatchResponseModel
 ): Promise<string> {
   const blob = (await batchResponse.blobBody) as Blob;
-  return await blobToString(blob);
+  return blobToString(blob);
 }
 
 export function utf8ByteLength(str: string): number {

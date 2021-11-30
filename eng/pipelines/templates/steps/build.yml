@@ -2,6 +2,7 @@ parameters:
   Artifacts: []
   TestPipeline: false
   ServiceDirectory: not-specified
+  IncludeRelease: true
 
 steps:
   - template: /eng/common/pipelines/templates/steps/set-test-pipeline-version.yml
@@ -26,6 +27,18 @@ steps:
       node common/scripts/install-run-rush.js update
     condition: and(succeeded(),eq(variables['SetDevVersion'],'true'))
     displayName: "Update package versions for dev build"
+
+  - task: Powershell@2
+    inputs:
+      filePath: $(Build.SourcesDirectory)/eng/common/scripts/Save-Package-Properties.ps1
+      arguments: >
+        -ServiceDirectory ${{parameters.ServiceDirectory}}
+        -OutDirectory $(Build.ArtifactStagingDirectory)/PackageInfo
+        -AddDevVersion
+      pwsh: true
+      workingDirectory: $(Pipeline.Workspace)
+    displayName: Update package properties with dev version
+    condition: and(succeeded(),eq(variables['SetDevVersion'],'true'))
 
   - script: |
       node common/scripts/install-run-rush.js install
@@ -55,33 +68,40 @@ steps:
       node eng/tools/rush-runner.js unlink
     displayName: "Unlink dependencies"
 
-  - template: /eng/common/pipelines/templates/steps/create-apireview.yml
+  - template: ../steps/generate-doc.yml
     parameters:
-      Artifacts: ${{ parameters.Artifacts }}
-      ArtifactPath: $(Build.SourcesDirectory)/sdk/${{ parameters.ServiceDirectory }}
+      ServiceDirectory: ${{parameters.ServiceDirectory}}
 
-  # It's important for performance to pass "sdk" as "sourceFolder" rather than as a prefix in "contents".
-  # The task first enumerates all files under "sourceFolder", then matches them against the "contents" pattern.
-  - task: CopyFiles@2
-    inputs:
-      sourceFolder: sdk
-      contents: |
-        **/$(coalesceResultFilter)/*.tgz
-        **/$(coalesceResultFilter)/browser/*.zip
-      targetFolder: $(Build.ArtifactStagingDirectory)
-      flattenFolders: true
-    displayName: "Copy packages"
+  - pwsh: |
+      $artifacts = '${{ convertToJson(parameters.Artifacts) }}' | ConvertFrom-Json
+      foreach ($artifact in $artifacts)
+      {
+        $artifactName = $artifact.name
+        Write-Host "Copying $artifactName artifacts to $(Build.ArtifactStagingDirectory)/$artifactName"
+        New-Item -Type Directory -Name $artifactName -Path $(Build.ArtifactStagingDirectory) > $null
+        Copy-Item sdk/${{parameters.ServiceDirectory}}/**/$artifactName-[0-9]*.[0-9]*.[0-9]*.tgz $(Build.ArtifactStagingDirectory)/$artifactName
+        Copy-Item sdk/${{parameters.ServiceDirectory}}/**/browser/$artifactName-[0-9]*.[0-9]*.[0-9]*.zip $(Build.ArtifactStagingDirectory)/$artifactName
+        if ($${{ parameters.IncludeRelease }} -eq $true)
+        {
+          New-Item -Type Directory -Name documentation -Path $(Build.ArtifactStagingDirectory)/$artifactName > $null
+          Copy-Item $(Build.SourcesDirectory)/docGen/$artifactName.zip $(Build.ArtifactStagingDirectory)/$artifactName/documentation
+        }
+      }
+    displayName: 'Copy Packages'
+
+  - pwsh: |
+      eng/scripts/stage-api-review-file.ps1 -PackageInfoPath $(Build.ArtifactStagingDirectory)/PackageInfo -StagingDirectory $(Build.ArtifactStagingDirectory)
+    displayName: 'Copy API extracted files'
 
   - template: /eng/common/pipelines/templates/steps/publish-artifact.yml
     parameters:
       ArtifactPath: '$(Build.ArtifactStagingDirectory)'
       ArtifactName: 'packages'
 
-  - template: ../steps/generate-doc.yml
+  - template: /eng/common/pipelines/templates/steps/create-apireview.yml
     parameters:
-      ServiceDirectory: ${{parameters.ServiceDirectory}}
+      Artifacts: ${{ parameters.Artifacts }}
 
-  - template: /eng/common/pipelines/templates/steps/publish-artifact.yml
+  - template: /eng/common/pipelines/templates/steps/detect-api-changes.yml
     parameters:
-      ArtifactPath: '$(Build.ArtifactStagingDirectory)/Documentation'
-      ArtifactName: 'documentation'
+      Artifacts: ${{ parameters.Artifacts }}

@@ -123,17 +123,25 @@ Use the `deleteUser` method to delete a user.
 await client.deleteUser(user);
 ```
 
+### Exchanging AAD access token of a Teams User for a Communication access token
+
+Use `getTokenForTeamsUser` method to exchange an AAD access token of a Teams user for a new `CommunicationAccessToken` with a matching expiration time.
+
+```typescript
+await client.getTokenForTeamsUser('<aad-access-token-of-a-teams-user>');
+```
+
 ## Troubleshooting
 
 ## Next steps
 
 Please take a look at the
-[samples](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-identity/samples)
+[samples](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-identity/samples)
 directory for detailed examples on how to use this library.
 
 ## Contributing
 
-If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md) to learn more about how to build and test the code.
+If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md) to learn more about how to build and test the code.
 
 ## Related projects
 

@@ -9,6 +9,8 @@ import { Pipeline } from '@azure/core-rest-pipeline';
 import { PipelineOptions } from '@azure/core-rest-pipeline';
 import { PipelineRequest } from '@azure/core-rest-pipeline';
 import { RawHttpHeaders } from '@azure/core-rest-pipeline';
+import { RawHttpHeadersInput } from '@azure/core-rest-pipeline';
+import { RestError } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -20,16 +22,7 @@ export interface CertificateCredential {
 // @public
 export interface Client {
     path: Function;
-    pathUnchecked: (path: string, ...args: Array<any>) => {
-        get: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
-        post: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
-        put: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
-        patch: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
-        delete: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
-        head: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
-        options: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
-        trace: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
-    };
+    pathUnchecked: PathUnchecked;
     pipeline: Pipeline;
 }
 
@@ -41,13 +34,14 @@ export type ClientOptions = PipelineOptions & {
     };
     baseUrl?: string;
     apiVersion?: string;
+    allowInsecureConnection?: boolean;
 };
 
 // @public
-export function createDefaultPipeline(baseUrl: string, credential?: TokenCredential | KeyCredential, options?: ClientOptions): Pipeline;
+export function createRestError(message: string, response: PathUncheckedResponse): RestError;
 
 // @public
-export function getClient(baseUrl: string, options?: PipelineOptions): Client;
+export function getClient(baseUrl: string, options?: ClientOptions): Client;
 
 // @public
 export function getClient(baseUrl: string, credentials?: TokenCredential | KeyCredential, options?: ClientOptions): Client;
@@ -64,22 +58,42 @@ export type HttpResponse = {
 export function isCertificateCredential(credential: unknown): credential is CertificateCredential;
 
 // @public
+export type PathParameters<TRoute extends string> = TRoute extends `${infer _Head}/{${infer _Param}}${infer Tail}` ? [
+pathParameter: string,
+...pathParameters: PathParameters<Tail>
+] : [
+];
+
+// @public
+export type PathUnchecked = <TPath extends string>(path: TPath, ...args: PathParameters<TPath>) => ResourceMethods;
+
+// @public
 export type PathUncheckedResponse = HttpResponse & {
     body: any;
 };
 
 // @public
 export type RequestParameters = {
-    headers?: RawHttpHeaders;
+    headers?: RawHttpHeadersInput;
     accept?: string;
     body?: unknown;
     queryParameters?: Record<string, unknown>;
     contentType?: string;
     allowInsecureConnection?: boolean;
+    skipUrlEncoding?: boolean;
+    binaryResponse?: boolean;
 };
 
 // @public
-export type RouteParams<TRoute extends string> = TRoute extends `{${infer _Param}}/${infer Tail}` ? [pathParam: string, ...pathParams: RouteParams<Tail>] : TRoute extends `{${infer _Param}}` ? [pathParam: string] : TRoute extends `${infer _Prefix}:${infer Tail}` ? RouteParams<`{${Tail}}`> : [];
-
+export interface ResourceMethods {
+    delete: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
+    get: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
+    head: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
+    options: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
+    patch: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
+    post: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
+    put: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
+    trace: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
+}
 
 ```

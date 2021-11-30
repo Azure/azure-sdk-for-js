@@ -1,5 +1,5 @@
 import { ArtifactsClient } from "../../src/artifactsClient";
-import { Recorder } from "@azure/test-utils-recorder";
+import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { createClient, createRecorder } from "./utils/recordedClient";
 
@@ -19,7 +19,7 @@ describe("DataFlow", () => {
   });
 
   it("should create dataFlow", async () => {
-    const poller = await client.dataFlow.createOrUpdateDataFlow(dataFlowName, {
+    const poller = await client.dataFlowOperations.beginCreateOrUpdateDataFlow(dataFlowName, {
       properties: { type: "MappingDataFlow" }
     });
 
@@ -29,7 +29,7 @@ describe("DataFlow", () => {
   }).timeout(30000);
 
   it("should list dataFlows", async () => {
-    const dataflows = client.dataFlow.listDataFlowsByWorkspace();
+    const dataflows = client.dataFlowOperations.listDataFlowsByWorkspace();
     let count = 0;
     for await (const item of dataflows) {
       if (item) {
@@ -41,23 +41,23 @@ describe("DataFlow", () => {
   }).timeout(30000);
 
   it("should get dataFlow", async () => {
-    const dataFlow = await client.dataFlow.getDataFlow(dataFlowName);
+    const dataFlow = await client.dataFlowOperations.getDataFlow(dataFlowName);
     assert.equal(dataFlow.name, dataFlowName);
   });
 
   it("should rename dataFlow", async () => {
-    const poller = await client.dataFlow.renameDataFlow(dataFlowName, {
+    const poller = await client.dataFlowOperations.beginRenameDataFlow(dataFlowName, {
       newName: renamedDataflow
     });
-    const result = await poller.pollUntilDone();
+    await poller.pollUntilDone();
 
-    assert.equal(result._response.status, 200);
+    assert.isTrue(poller.isDone());
   }).timeout(30000);
 
   it("should delete dataFlow", async () => {
-    const poller = await client.dataFlow.deleteDataFlow(renamedDataflow);
-    const result = await poller.pollUntilDone();
+    const poller = await client.dataFlowOperations.beginDeleteDataFlow(renamedDataflow);
+    await poller.pollUntilDone();
 
-    assert.equal(result._response.status, 200);
+    assert.isTrue(poller.isDone());
   }).timeout(30000);
 });

@@ -1,22 +1,35 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AccessToken, GetTokenOptions } from "@azure/core-http";
-import { IdentityClient } from "../../client/identityClient";
+import { AccessToken, GetTokenOptions } from "@azure/core-auth";
+import { IdentityClient, TokenResponseParsedBody } from "../../client/identityClient";
 
-export type MSIExpiresInParser = (requestBody: any) => number;
+/**
+ * @internal
+ */
+export type MSIExpiresInParser = (requestBody: TokenResponseParsedBody) => number;
 
+/**
+ * @internal
+ */
+export interface MSIConfiguration {
+  identityClient: IdentityClient;
+  scopes: string | string[];
+  clientId?: string;
+}
+
+/**
+ * @internal
+ */
 export interface MSI {
   isAvailable(
+    scopes: string | string[],
     identityClient?: IdentityClient,
-    resource?: string,
     clientId?: string,
     getTokenOptions?: GetTokenOptions
   ): Promise<boolean>;
   getToken(
-    identityClient: IdentityClient,
-    resource: string,
-    clientId?: string,
+    configuration: MSIConfiguration,
     getTokenOptions?: GetTokenOptions
   ): Promise<AccessToken | null>;
 }

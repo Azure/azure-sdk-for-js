@@ -103,7 +103,11 @@ async function receiveMessages(sbClient, sessionId) {
     });
 
     const now = Date.now();
-    endDate = endDate ?? now + 20000;
+
+    if (endDate == null) {
+      endDate = now + 20000;
+    }
+
     let remainingTime = endDate - now;
 
     console.log(`Waiting for ${remainingTime} milliseconds for messages to arrive.`);

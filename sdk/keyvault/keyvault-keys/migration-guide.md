@@ -249,9 +249,9 @@ console.log(operationResult.result);
 
 ## Additional samples
 
-- [Key Vault keys samples for JavaScript](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-keys/samples/v4/javascript)
+- [Key Vault keys samples for JavaScript](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/keyvault/keyvault-keys/samples/v4/javascript)
 - [General Key Vault samples for JavaScript](https://docs.microsoft.com/samples/browse/?products=azure-key-vault&languages=javascript)
-- [Key Vault keys samples for TypeScript](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-keys/samples/v4/typescript)
+- [Key Vault keys samples for TypeScript](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/keyvault/keyvault-keys/samples/v4/typescript)
 - [General Key Vault samples for TypeScript](https://docs.microsoft.com/samples/browse/?products=azure-key-vault&languages=typescript)
 
 [kvk-npm]: https://www.npmjs.com/package/@azure/keyvault-keys
@@ -259,4 +259,4 @@ console.log(operationResult.result);
 [kvc-npm]: https://www.npmjs.com/package/@azure/keyvault-certificates
 [ts-guidelines]: https://azure.github.io/azure-sdk/typescript_introduction.html
 [identity-npm]: https://www.npmjs.com/package/@azure/identity
-[identity-readme-dac]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/README.md#defaultazurecredential
+[identity-readme-dac]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/README.md#defaultazurecredential

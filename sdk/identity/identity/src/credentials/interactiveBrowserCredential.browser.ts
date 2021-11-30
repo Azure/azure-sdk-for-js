@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-http";
+import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
+
 import { credentialLogger, formatError } from "../util/logging";
 import { trace } from "../util/tracing";
 import { MsalFlow } from "../msal/flows";
 import { AuthenticationRecord } from "../msal/types";
 import { MSALAuthCode } from "../msal/browserFlows/msalAuthCode";
-import { MsalBrowserFlowOptions } from "../msal/browserFlows/browserCommon";
+import { MsalBrowserFlowOptions } from "../msal/browserFlows/msalBrowserCommon";
 import {
-  InteractiveBrowserCredentialBrowserOptions,
-  InteractiveBrowserCredentialOptions
+  InteractiveBrowserCredentialInBrowserOptions,
+  InteractiveBrowserCredentialNodeOptions
 } from "./interactiveBrowserCredentialOptions";
 
 const logger = credentialLogger("InteractiveBrowserCredential");
@@ -18,13 +19,6 @@ const logger = credentialLogger("InteractiveBrowserCredential");
 /**
  * Enables authentication to Azure Active Directory inside of the web browser
  * using the interactive login flow.
- *
- * This credential uses the [Authorization Code Flow](https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-auth-code-flow).
- * On NodeJS, it will open a browser window while it listens for a redirect response from the authentication service.
- * On browsers, it authenticates via popups. The `loginStyle` optional parameter can be set to `redirect` to authenticate by redirecting the user to an Azure secure login page, which then will redirect the user back to the web application where the authentication started.
- *
- * It's recommended that the AAD Applications used are configured to authenticate using Single Page Applications.
- * More information here: [link](https://docs.microsoft.com/en-us/azure/active-directory/develop/scenario-spa-app-registration#redirect-uri-msaljs-20-with-auth-code-flow).
  */
 export class InteractiveBrowserCredential implements TokenCredential {
   private msalFlow: MsalFlow;
@@ -35,10 +29,17 @@ export class InteractiveBrowserCredential implements TokenCredential {
    * details needed to authenticate against Azure Active Directory with
    * a user identity.
    *
+   * This credential uses the [Authorization Code Flow](https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-auth-code-flow).
+   * On Node.js, it will open a browser window while it listens for a redirect response from the authentication service.
+   * On browsers, it authenticates via popups. The `loginStyle` optional parameter can be set to `redirect` to authenticate by redirecting the user to an Azure secure login page, which then will redirect the user back to the web application where the authentication started.
+   *
+   * It's recommended that the AAD Applications used are configured to authenticate using Single Page Applications.
+   * More information here: [link](https://docs.microsoft.com/en-us/azure/active-directory/develop/scenario-spa-app-registration#redirect-uri-msaljs-20-with-auth-code-flow).
+   *
    * @param options - Options for configuring the client which makes the authentication request.
    */
   constructor(
-    options: InteractiveBrowserCredentialBrowserOptions | InteractiveBrowserCredentialOptions
+    options: InteractiveBrowserCredentialInBrowserOptions | InteractiveBrowserCredentialNodeOptions
   ) {
     if (!options?.clientId) {
       const error = new Error(
@@ -48,7 +49,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
       throw error;
     }
 
-    const browserOptions = options as InteractiveBrowserCredentialBrowserOptions;
+    const browserOptions = options as InteractiveBrowserCredentialInBrowserOptions;
     const loginStyle = browserOptions.loginStyle || "popup";
     const loginStyles = ["redirect", "popup"];
 
@@ -75,10 +76,8 @@ export class InteractiveBrowserCredential implements TokenCredential {
   }
 
   /**
-   * Authenticates with Azure Active Directory and returns an access token if
-   * successful.  If authentication cannot be performed at this time, this method may
-   * return null.  If an error occurs during authentication, an {@link AuthenticationError}
-   * containing failure details will be thrown.
+   * Authenticates with Azure Active Directory and returns an access token if successful.
+   * If authentication fails, a {@link CredentialUnavailableError} will be thrown with the details of the failure.
    *
    * If the user provided the option `disableAutomaticAuthentication`,
    * once the token can't be retrieved silently,
@@ -99,10 +98,8 @@ export class InteractiveBrowserCredential implements TokenCredential {
   }
 
   /**
-   * Authenticates with Azure Active Directory and returns an access token if
-   * successful.  If authentication cannot be performed at this time, this method may
-   * return null.  If an error occurs during authentication, an {@link AuthenticationError}
-   * containing failure details will be thrown.
+   * Authenticates with Azure Active Directory and returns an access token if successful.
+   * If authentication fails, a {@link CredentialUnavailableError} will be thrown with the details of the failure.
    *
    * If the token can't be retrieved silently, this method will require user interaction to retrieve the token.
    *

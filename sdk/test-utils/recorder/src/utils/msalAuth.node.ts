@@ -27,11 +27,11 @@ export function mockMsalAuth(importNock: NockType, plugin: (() => void) | undefi
  *
  * If msal ever changes its behavior, this needs to change - for example path/url/reply have to be updated accordingly
  */
-const pluginForClientSecretCredentialTests = () => {
-  if (env.AZURE_TENANT_ID) {
+export const pluginForClientSecretCredentialTests = (tenantId: string = env.AZURE_TENANT_ID) => {
+  if (tenantId) {
     nock("https://login.microsoftonline.com:443")
       .persist()
-      .post(`/${env.AZURE_TENANT_ID}/oauth2/v2.0/token`)
+      .post(`/${tenantId}/oauth2/v2.0/token`)
       .reply(200, {
         token_type: "Bearer",
         expires_in: 86399,

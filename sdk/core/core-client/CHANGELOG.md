@@ -1,6 +1,55 @@
 # Release History
 
-## 1.1.3 (Unreleased)
+## 1.4.0 (Unreleased)
+
+### Features Added
+
+- Added a new function `authorizeRequestOnClaimChallenge`, that can be used with the `@azure/core-rest-pipeline`'s `bearerTokenAuthenticationPolicy` to support [Continuous Access Evaluation (CAE) challenges](https://docs.microsoft.com/azure/active-directory/conditional-access/concept-continuous-access-evaluation).
+- Call the `bearerTokenAuthenticationPolicy` with the following options: `bearerTokenAuthenticationPolicy({ authorizeRequestOnChallenge: authorizeRequestOnClaimChallenge })`. Once provided, the `bearerTokenAuthenticationPolicy` policy will internally handle Continuous Access Evaluation (CAE) challenges. When it can't complete a challenge it will return the 401 (unauthorized) response from ARM.
+
+### Breaking Changes
+
+### Bugs Fixed
+
+- Added a check to handle undefined value during the parsing of query parameters. Please refer to [PR #18621](https://github.com/Azure/azure-sdk-for-js/pull/18621) for further details.
+
+### Other Changes
+
+## 1.3.2 (2021-10-25)
+
+### Bugs Fixed
+
+- Skip query parameter replacement for absolute URLs. [PR #18310](https://github.com/Azure/azure-sdk-for-js/pull/18310)
+
+## 1.3.1 (2021-09-30)
+
+### Other Changes
+
+- Updates package to work with the react native bundler. Browser APIs may still need to be pollyfilled for this package to run in react native. [PR #17783](https://github.com/Azure/azure-sdk-for-js/pull/17783)
+
+## 1.3.0 (2021-08-04)
+
+### Features Added
+
+- Updated to use version 1.0.0-preview.13 of `@azure/core-tracing`.
+
+### Key Bugs Fixed
+
+- Fixed an issue where APIs that accepted a Blob didn't work with File objects. See [#16754](https://github.com/Azure/azure-sdk-for-js/issues/16754) for more details.
+
+## 1.2.2 (2021-07-13)
+
+### Key Bugs Fixed
+
+- Fixed the return value during the flattening the response for `HEAD` HTTP Requests. This will ensure that the return value will indicate the presence/absence of the resource. Please refer [#1037](https://github.com/Azure/autorest.typescript/issues/1037) for more details.
+
+## 1.2.1 (2021-06-30)
+
+### Features Added
+
+- Moved `allowInsecureConnection` from `ServiceClientOptions` to `CommonClientOptions` [issue 15938](https://github.com/azure/azure-sdk-for-js/issues/15938)
+
+## 1.1.3 (2021-06-17)
 
 ### Key Bugs Fixed
 
@@ -28,7 +77,7 @@
 ### Breaking Changes
 
 - If the response body is empty and the mapper for it says it is nullable, then a null is returned.
-- Updated @azure/core-tracing to version `1.0.0-preview.11`. See [@azure/core-tracing CHANGELOG](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/core/core-tracing/CHANGELOG.md) for details about breaking changes with tracing.
+- Updated @azure/core-tracing to version `1.0.0-preview.11`. See [@azure/core-tracing CHANGELOG](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-tracing/CHANGELOG.md) for details about breaking changes with tracing.
 
 ## 1.0.0 (2021-03-15)
 

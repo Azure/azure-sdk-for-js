@@ -10,7 +10,7 @@ import {
   OperationParameter,
   OperationURLParameter,
   OperationQueryParameter
-} from "@azure/core-http";
+} from "@azure/core-client";
 import {
   SendReadReceiptRequest as SendReadReceiptRequestMapper,
   SendChatMessageRequest as SendChatMessageRequestMapper,
@@ -18,6 +18,7 @@ import {
   CommunicationIdentifierModel as CommunicationIdentifierModelMapper,
   AddChatParticipantsRequest as AddChatParticipantsRequestMapper,
   UpdateChatThreadRequest as UpdateChatThreadRequestMapper,
+  SendTypingNotificationRequest as SendTypingNotificationRequestMapper,
   CreateChatThreadRequest as CreateChatThreadRequestMapper
 } from "../models/mappers";
 
@@ -79,7 +80,7 @@ export const skip: OperationQueryParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-04-05-preview6",
+    defaultValue: "2021-09-07",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -161,6 +162,11 @@ export const addChatParticipantsRequest: OperationParameter = {
 export const updateChatThreadRequest: OperationParameter = {
   parameterPath: "updateChatThreadRequest",
   mapper: UpdateChatThreadRequestMapper
+};
+
+export const sendTypingNotificationRequest: OperationParameter = {
+  parameterPath: ["options", "sendTypingNotificationRequest"],
+  mapper: SendTypingNotificationRequestMapper
 };
 
 export const nextLink: OperationURLParameter = {

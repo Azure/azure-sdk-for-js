@@ -3,7 +3,8 @@
 import { Container } from "../../../src";
 import { bulkInsertItems, getTestContainer, removeAllDatabases } from "../common/TestHelpers";
 import { Constants, CosmosClient, PluginOn, CosmosClientOptions, PluginConfig } from "../../../src";
-import { masterKey, endpoint } from "../common/_testConfig";
+import { endpoint } from "../common/_testConfig";
+import { masterKey } from "../common/_fakeTestSecrets";
 import { SubStatusCodes } from "../../../src/common";
 import assert from "assert";
 
@@ -53,7 +54,7 @@ describe("Partition Splits", () => {
         on: PluginOn.request,
         plugin: async (context, next) => {
           // This plugin throws a single 410 on the *second* time we see the same partition key range ID
-          const partitionKeyRangeId = context.headers[Constants.HttpHeaders.PartitionKeyRangeID];
+          const partitionKeyRangeId = context?.headers[Constants.HttpHeaders.PartitionKeyRangeID];
           if (partitionKeyRanges.has(partitionKeyRangeId) && hasSplit === false) {
             hasSplit = true;
             const error = new Error("Fake Partition Split") as any;
@@ -70,7 +71,8 @@ describe("Partition Splits", () => {
     ];
     const client = new CosmosClient({
       ...options,
-      plugins
+      plugins,
+      connectionPolicy: { enableBackgroundEndpointRefreshing: false }
     } as any);
     const { resources } = await client
       .database(container.database.id)
@@ -91,7 +93,7 @@ describe("Partition Splits", () => {
         on: PluginOn.request,
         plugin: async (context, next) => {
           // This plugin throws a single 410 for partition key range ID 0 on every single request
-          const partitionKeyRangeId = context.headers[Constants.HttpHeaders.PartitionKeyRangeID];
+          const partitionKeyRangeId = context?.headers[Constants.HttpHeaders.PartitionKeyRangeID];
           if (partitionKeyRangeId === "0") {
             const error = new Error("Fake Partition Split") as any;
             error.code = 410;
@@ -104,7 +106,8 @@ describe("Partition Splits", () => {
     ];
     const client = new CosmosClient({
       ...options,
-      plugins
+      plugins,
+      connectionPolicy: { enableBackgroundEndpointRefreshing: false }
     } as any);
 
     // fetchAll()

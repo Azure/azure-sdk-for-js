@@ -21,8 +21,17 @@ export {
   UpsertOperationInput,
   ReplaceOperationInput,
   ReadOperationInput,
-  DeleteOperationInput
+  DeleteOperationInput,
+  PatchOperationInput,
+  BulkPatchOperation
 } from "./utils/batch";
+export {
+  PatchOperation,
+  PatchOperationType,
+  ExistingKeyOperation,
+  RemoveOperation,
+  PatchRequestBody
+} from "./utils/patch";
 export {
   ConnectionMode,
   ConsistencyLevel,
@@ -74,3 +83,5 @@ export { ChangeFeedOptions } from "./ChangeFeedOptions";
 export { ChangeFeedResponse } from "./ChangeFeedResponse";
 export { ClientContext } from "./ClientContext";
 export { GlobalEndpointManager } from "./globalEndpointManager";
+export { SasTokenPermissionKind } from "./common/constants";
+export { createAuthorizationSasToken } from "./utils/SasToken";

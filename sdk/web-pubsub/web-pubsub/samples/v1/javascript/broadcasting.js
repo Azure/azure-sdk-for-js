@@ -28,4 +28,7 @@ async function main() {
   chatHub.sendToAll(data.buffer);
 }
 
-main();
+main().catch((e) => {
+  console.error("Sample encountered an error", e);
+  process.exit(1);
+});

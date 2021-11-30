@@ -1,18 +1,22 @@
 {
-  "$schema": "https://openapistorageprod.blob.core.windows.net/sdkautomation/prod/schemas/swagger_to_sdk_config.schema.json",
-  "meta": {
-    "autorest_options": {
-      "version": "V2",
-      "typescript": "",
-      "license-header": "MICROSOFT_MIT_NO_VERSION",
-      "sdkrel:typescript-sdks-folder": ".",
-      "use": "@microsoft.azure/autorest.typescript@4.7.0"
+  "advancedOptions": {
+    "createSdkPullRequests": true,
+    "generationCallMode": "one-per-config"
+  },
+  "initOptions": {
+    "initScript": {
+      "path": "sh .scripts/automation_init.sh"
+    }
+  },
+  "generateOptions": {
+    "generateScript": {
+      "path": "sh .scripts/automation_generate.sh",
+      "stderr": {
+        "showInComment": "^\\[AUTOREST\\]",
+        "scriptError": "^\\[ERROR\\]",
+        "scriptWarning": "^\\[WARNING\\]"
+      }
     },
-    "advanced_options": {
-      "clone_dir": "./azure-sdk-for-js",
-      "create_sdk_pull_requests": true,
-      "sdk_generation_pull_request_base": "integration_branch"
-    },
-    "version": "0.2.0"
+    "parseGenerateOutput": true
   }
 }

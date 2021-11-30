@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { AbortError } from "@azure/abort-controller";
 import {
   BaseRequestPolicy,
   RequestPolicy,
@@ -9,20 +10,26 @@ import {
   WebResource,
   HttpOperationResponse,
   Constants,
-  delay,
   RestError
 } from "@azure/core-http";
+import { delay } from "@azure/core-http";
+import { RetryOptions } from "../models";
 
 /**
  * @internal
  */
-export function throttlingRetryPolicy(): RequestPolicyFactory {
+export function throttlingRetryPolicy(retryOptions?: RetryOptions): RequestPolicyFactory {
   return {
     create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {
-      return new ThrottlingRetryPolicy(nextPolicy, options);
+      return new ThrottlingRetryPolicy(nextPolicy, options, retryOptions);
     }
   };
 }
+
+const StandardAbortMessage = "The operation was aborted.";
+
+// Merge this constant with the one in core-http when we unify throttling retry policy in core-http and app-config
+const DEFAULT_CLIENT_RETRY_COUNT = 3;
 
 /**
  * This policy is a close copy of the ThrottlingRetryPolicy class from
@@ -32,20 +39,51 @@ export function throttlingRetryPolicy(): RequestPolicyFactory {
  * @internal
  */
 export class ThrottlingRetryPolicy extends BaseRequestPolicy {
-  constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions) {
+  private numberOfRetries = 0;
+  constructor(
+    nextPolicy: RequestPolicy,
+    options: RequestPolicyOptions,
+    private retryOptions: RetryOptions = { maxRetries: DEFAULT_CLIENT_RETRY_COUNT }
+  ) {
     super(nextPolicy, options);
   }
 
   public async sendRequest(httpRequest: WebResource): Promise<HttpOperationResponse> {
-    return this._nextPolicy.sendRequest(httpRequest.clone()).catch((err) => {
+    return this._nextPolicy.sendRequest(httpRequest.clone()).catch(async (err) => {
       if (isRestErrorWithHeaders(err)) {
-        const delayInMs = getDelayInMs(err.response.headers);
+        let delayInMs = getDelayInMs(err.response.headers);
 
         if (delayInMs == null) {
           throw err;
         }
 
-        return delay(delayInMs).then((_: any) => this.sendRequest(httpRequest.clone()));
+        if (
+          this.retryOptions.maxRetryDelayInMs &&
+          delayInMs > this.retryOptions.maxRetryDelayInMs
+        ) {
+          delayInMs = this.retryOptions.maxRetryDelayInMs;
+        }
+
+        this.numberOfRetries += 1;
+        await delay(delayInMs, undefined, {
+          abortSignal: httpRequest.abortSignal,
+          abortErrorMsg: StandardAbortMessage
+        });
+        if (httpRequest.abortSignal?.aborted) {
+          throw new AbortError(StandardAbortMessage);
+        }
+
+        if (this.retryOptions.maxRetries === undefined || this.retryOptions.maxRetries === null) {
+          this.retryOptions.maxRetries = DEFAULT_CLIENT_RETRY_COUNT;
+        }
+
+        if (this.numberOfRetries < this.retryOptions.maxRetries) {
+          // retries
+          return this.sendRequest(httpRequest.clone());
+        } else {
+          // passes on to the next policy
+          return this._nextPolicy.sendRequest(httpRequest.clone());
+        }
       } else {
         throw err;
       }

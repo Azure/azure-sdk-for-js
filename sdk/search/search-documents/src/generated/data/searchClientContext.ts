@@ -6,20 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import * as coreClient from "@azure/core-client";
 import {
-  ApiVersion20200630Preview,
+  ApiVersion20210430Preview,
   SearchClientOptionalParams
 } from "./models";
 
-const packageName = "@azure/search-documents";
-const packageVersion = "11.3.0-beta.1";
-
 /** @internal */
-export class SearchClientContext extends coreHttp.ServiceClient {
+export class SearchClientContext extends coreClient.ServiceClient {
   endpoint: string;
   indexName: string;
-  apiVersion: ApiVersion20200630Preview;
+  apiVersion: ApiVersion20210430Preview;
 
   /**
    * Initializes a new instance of the SearchClientContext class.
@@ -31,7 +28,7 @@ export class SearchClientContext extends coreHttp.ServiceClient {
   constructor(
     endpoint: string,
     indexName: string,
-    apiVersion: ApiVersion20200630Preview,
+    apiVersion: ApiVersion20210430Preview,
     options?: SearchClientOptionalParams
   ) {
     if (endpoint === undefined) {
@@ -48,18 +45,25 @@ export class SearchClientContext extends coreHttp.ServiceClient {
     if (!options) {
       options = {};
     }
+    const defaults: SearchClientOptionalParams = {
+      requestContentType: "application/json; charset=utf-8"
+    };
 
-    if (!options.userAgent) {
-      const defaultUserAgent = coreHttp.getDefaultUserAgentValue();
-      options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
-    }
+    const packageDetails = `azsdk-js-search-documents/11.3.0-beta.5`;
+    const userAgentPrefix =
+      options.userAgentOptions && options.userAgentOptions.userAgentPrefix
+        ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
+        : `${packageDetails}`;
 
-    super(undefined, options);
-
-    this.requestContentType = "application/json; charset=utf-8";
-
-    this.baseUri = options.endpoint || "{endpoint}/indexes('{indexName}')";
-
+    const optionsWithDefaults = {
+      ...defaults,
+      ...options,
+      userAgentOptions: {
+        userAgentPrefix
+      },
+      baseUri: options.endpoint || "{endpoint}/indexes('{indexName}')"
+    };
+    super(optionsWithDefaults);
     // Parameter assignments
     this.endpoint = endpoint;
     this.indexName = indexName;

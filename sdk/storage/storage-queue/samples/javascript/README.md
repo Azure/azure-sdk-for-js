@@ -25,7 +25,7 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 
 ## Prerequisites
 
-The sample are compatible with Node.js >= 8.0.0, except for the samples that use the async `for await` syntax, which require Node.js >= 10.0.0.
+The samples are compatible with [LTS versions of Node.js](https://nodejs.org/about/releases/).
 
 You need [an Azure subscription][freesub] and [an Azure Storage account][azstorage] to run these sample programs. Samples retrieve credentials to access the storage account from environment variables. Alternatively, edit the source code to include the appropriate credentials. See each individual sample for details on which environment variables/credentials it requires to function.
 
@@ -59,15 +59,15 @@ npx cross-env ACCOUNT_NAME="<account name>" ACCOUNT_KEY="<account key>" node bas
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[anonymouscred]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-queue/samples/javascript/anonymousCred.js
-[azureadauth]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-queue/samples/javascript/azureAdAuth.js
-[basic]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-queue/samples/javascript/basic.js
-[custompipeline]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-queue/samples/javascript/customPipeline.js
-[iterators]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-queue/samples/javascript/iterators.js
-[proxyauth]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-queue/samples/javascript/proxyAuth.js
-[sharedkeycred]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-queue/samples/javascript/sharedKeyCred.js
-[withconnstring]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-queue/samples/javascript/withConnString.js
+[anonymouscred]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-queue/samples/javascript/anonymousCred.js
+[azureadauth]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-queue/samples/javascript/azureAdAuth.js
+[basic]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-queue/samples/javascript/basic.js
+[custompipeline]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-queue/samples/javascript/customPipeline.js
+[iterators]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-queue/samples/javascript/iterators.js
+[proxyauth]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-queue/samples/javascript/proxyAuth.js
+[sharedkeycred]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-queue/samples/javascript/sharedKeyCred.js
+[withconnstring]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-queue/samples/javascript/withConnString.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/storage-queue
 [azstorage]: https://docs.microsoft.com/azure/storage/common/storage-account-overview
 [freesub]: https://azure.microsoft.com/free/
-[package]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-queue/README.md
+[package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-queue/README.md

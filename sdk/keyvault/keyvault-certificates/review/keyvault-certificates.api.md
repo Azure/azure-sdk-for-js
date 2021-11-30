@@ -4,6 +4,9 @@
 
 ```ts
 
+/// <reference lib="esnext.asynciterable" />
+
+import { AzureLogger } from '@azure/logger';
 import * as coreHttp from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PipelineOptions } from '@azure/core-http';
@@ -83,7 +86,7 @@ export class CertificateClient {
 
 // @public
 export interface CertificateClientOptions extends coreHttp.PipelineOptions {
-    serviceVersion?: "7.0" | "7.1" | "7.2";
+    serviceVersion?: "7.0" | "7.1" | "7.2" | "7.3-preview";
 }
 
 // @public
@@ -351,7 +354,7 @@ export interface KeyVaultCertificateWithPolicy extends KeyVaultCertificate {
 }
 
 // @public
-export const enum KnownCertificateKeyCurveNames {
+export enum KnownCertificateKeyCurveNames {
     P256 = "P-256",
     P256K = "P-256K",
     P384 = "P-384",
@@ -359,7 +362,7 @@ export const enum KnownCertificateKeyCurveNames {
 }
 
 // @public
-export const enum KnownCertificateKeyTypes {
+export enum KnownCertificateKeyTypes {
     EC = "EC",
     ECHSM = "EC-HSM",
     Oct = "oct",
@@ -419,7 +422,7 @@ export type ListPropertiesOfCertificateVersionsOptions = coreHttp.OperationOptio
 export type ListPropertiesOfIssuersOptions = coreHttp.OperationOptions;
 
 // @public
-export const logger: import("@azure/logger").AzureLogger;
+export const logger: AzureLogger;
 
 // @public
 export type MergeCertificateOptions = coreHttp.OperationOptions;
@@ -490,7 +493,6 @@ export interface X509CertificateProperties {
     subjectAlternativeNames?: CoreSubjectAlternativeNames;
     validityInMonths?: number;
 }
-
 
 // (No @packageDocumentation comment for this package)
 

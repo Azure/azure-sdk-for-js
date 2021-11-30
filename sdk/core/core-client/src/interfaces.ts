@@ -554,4 +554,8 @@ export interface CommonClientOptions extends PipelineOptions {
    * The HttpClient that will be used to send HTTP requests.
    */
   httpClient?: HttpClient;
+  /**
+   * Set to true if the request is sent over HTTP instead of HTTPS
+   */
+  allowInsecureConnection?: boolean;
 }

@@ -1,8 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as coreHttp from "@azure/core-http";
-
 import {
   SuppressCondition,
   SmartDetectionCondition,
@@ -122,9 +120,9 @@ export interface DataFeedIngestionSettings {
 }
 
 /**
- * Defines values for DataFeedRollupMethod.
+ * Defines values for DataFeedAutoRollupMethod.
  */
-export type DataFeedRollupMethod = "None" | "Sum" | "Max" | "Min" | "Avg" | "Count";
+export type DataFeedAutoRollupMethod = "None" | "Sum" | "Max" | "Min" | "Avg" | "Count";
 
 /**
  * Specifies the rollup settings for a data feed.
@@ -149,7 +147,7 @@ export type DataFeedRollupSettings =
       /**
        * roll up method
        */
-      rollupMethod?: DataFeedRollupMethod;
+      rollupMethod?: DataFeedAutoRollupMethod;
       /**
        * the identification value for the row of calculated all-up value.
        */
@@ -181,14 +179,7 @@ export type DataFeedAccessMode = "Private" | "Public";
  */
 export type DataFeedGranularity =
   | {
-      granularityType:
-        | "Yearly"
-        | "Monthly"
-        | "Weekly"
-        | "Daily"
-        | "Hourly"
-        | "PerMinute"
-        | "PerSecond";
+      granularityType: "Yearly" | "Monthly" | "Weekly" | "Daily" | "Hourly" | "PerMinute";
     }
   | {
       granularityType: "Custom";
@@ -201,7 +192,7 @@ export type DataFeedStatus = "Paused" | "Active";
 /**
  * Represents a Metrics Advisor data feed.
  */
-export type DataFeed = {
+export type MetricsAdvisorDataFeed = {
   /**
    * Unique id of the data feed.
    */
@@ -267,14 +258,25 @@ export type DataFeed = {
   accessMode?: DataFeedAccessMode;
 
   /**
-   * email addresses of data feed administrators
+   * The administrators of this {@link MetricsAdvisorDataFeed }.
+   * Administrators have total control over a data feed, being allowed to update, delete, or pause them.
+   * Each element in this list represents a user with administrator access, but the value of each `string` element
+   * depends on the type of authentication to be used by this administrator when communicating with the service.
+   * If {@link MetricsAdvisorKeyCredential } authentication will be used, the `string` must be the user's email address.
+   * If AAD authentication will be used instead, the `string` must uniquely identify the user's principal.
+   * For instance, for a `ClientSecretCredential`, the `string` must be the client ID.
    */
-  adminEmails?: string[];
+  admins?: string[];
 
   /**
-   * email addresses of data feed viewers
+   * The viewers of this {@link MetricsAdvisorDataFeed }.
+   * Viewers have read-only access to a data feed. Each element in this list represents a user with viewer access,
+   * but the value of each `string` element depends on the type of authentication to be used by this viewer when communicating with the service.
+   * If {@link MetricsAdvisorKeyCredential } authentication will be used, the `string` must be the user's email address.
+   * If AAD authentication will be used instead, the `string` must uniquely identify the user's principal.
+   * For instance, for a `ClientSecretCredential`, the `string` must be the client ID.
    */
-  viewerEmails?: string[];
+  viewers?: string[];
 
   /**
    * action link template for alert
@@ -284,14 +286,16 @@ export type DataFeed = {
 
 /**
  * Represents an Azure Application Insights data source.
+ * User is required to specify azureCloud, applicationId and apiKey for Create.
+ * apiKey being a secret is not returned by service.
  */
 export type AzureApplicationInsightsDataFeedSource = {
   dataSourceType: "AzureApplicationInsights";
-  /** The Azure cloud that this Azure Application Insights in */
-  azureCloud?: string;
-  /** The application id of this Azure Application Insights */
-  applicationId?: string;
-  /** The API Key that can access this Azure Application Insights */
+  /** The Azure cloud that this Azure Application Insights in.*/
+  azureCloud: string;
+  /** The application id of this Azure Application Insights.*/
+  applicationId: string;
+  /** The API Key that can access this Azure Application Insights. Required by user for Create. Not returned by service */
   apiKey?: string;
   /** The statement to query this Azure Application Insights */
   query: string;
@@ -301,11 +305,13 @@ export type AzureApplicationInsightsDataFeedSource = {
 
 /**
  * Represents an Azure Blob Storage data source.
+ * User is required to specify connectionString for Create.
+ * connectionString being a secret is not returned by service.
  */
 export type AzureBlobDataFeedSource = {
   dataSourceType: "AzureBlob";
-  /** Azure Blob connection string */
-  connectionString: string;
+  /** Azure Blob connection string. Required by user for Create. Not returned by service  */
+  connectionString?: string;
   /** Container */
   container: string;
   /** Blob Template */
@@ -316,10 +322,12 @@ export type AzureBlobDataFeedSource = {
 
 /**
  * Represents an Azure CosmosDB data source.
+ * User is required to specify connectionString for Create.
+ * connectionString being a secret is not returned by service.
  */
 export type AzureCosmosDbDataFeedSource = {
   dataSourceType: "AzureCosmosDB";
-  /** The connection string of this Azure CosmosDB */
+  /** The connection string of this Azure CosmosDB. Required by user for Create. Not returned by service */
   connectionString?: string;
   /** The statement to query this collection */
   sqlQuery: string;
@@ -337,7 +345,7 @@ export type AzureCosmosDbDataFeedSource = {
 export interface AzureDataExplorerAuthServicePrincipal {
   /** Authentication Type */
   authenticationType: "ServicePrincipal";
-  /** datasource credential id  */
+  /** dataSource credential id  */
   credentialId: string;
 }
 
@@ -347,7 +355,7 @@ export interface AzureDataExplorerAuthServicePrincipal {
 export interface AzureDataExplorerAuthServicePrincipalInKeyVault {
   /** Authentication Type */
   authenticationType: "ServicePrincipalInKV";
-  /** datasource credential id  */
+  /** dataSource credential id  */
   credentialId: string;
 }
 
@@ -377,24 +385,28 @@ export type AzureDataExplorerAuthTypes =
   | AzureDataExplorerAuthServicePrincipalInKeyVault;
 /**
  * Represents an Azure Data Explorer data source.
+ * User is required to specify connectionString for Create.
+ * connectionString being a secret is not returned by service.
  */
 export type AzureDataExplorerDataFeedSource = {
   /** Azure Data Explorer Data Source */
   dataSourceType: "AzureDataExplorer";
-  /** Database connection string */
-  connectionString: string;
+  /** Database connection string. Required by user for Create. Not returned by service */
+  connectionString?: string;
   /** Query script */
   query: string;
 } & AzureDataExplorerAuthTypes;
 
 /**
  * Represents Basic Authentication Type for Azure DataLake Storage Gen2 Source
+ * User is required to specify accountKey for Create with Basic type.
+ * accountKey being a secret is not returned by service.
  */
 export type DataLakeStorageGen2AuthBasic = {
   /** Authentication */
   authenticationType: "Basic";
-  /** Account key */
-  accountKey: string;
+  /** Account key. Required by user for Create. Not returned by service */
+  accountKey?: string;
 };
 
 /**
@@ -463,12 +475,14 @@ export type AzureDataLakeStorageGen2DataFeedSource = {
 
 /**
  * Represents an Azure Table data source.
+ * User is required to specify connectionString for Create.
+ * connectionString being a secret is not returned by service.
  */
 export type AzureTableDataFeedSource = {
   /** Azure Table data Source type */
   dataSourceType: "AzureTable";
-  /** Azure Table connection string */
-  connectionString: string;
+  /** Azure Table connection string. Required by user for Create. Not returned by service */
+  connectionString?: string;
   /** Table name */
   table: string;
   /** Query script */
@@ -478,11 +492,19 @@ export type AzureTableDataFeedSource = {
 };
 
 /**
- * Represents Basic Authentication Type for Azure Log Analytics Source
+ * Represents Basic Authentication Type for Azure Log Analytics Source.
+ * User is required to specify clientSecret for Create with Basic type.
+ * clientSecret being a secret will not be returned by the service.
  */
 export type LogAnalyticsAuthBasic = {
   /** Authentication */
   authenticationType: "Basic";
+  /** The tenant id of service principal that have access to this Log Analytics */
+  tenantId: string;
+  /** The client id of service principal that have access to this Log Analytics. */
+  clientId: string;
+  /** The client secret of service principal that have access to this Log Analytics. Required by user for Create. Not returned by service*/
+  clientSecret?: string;
 };
 
 /**
@@ -518,12 +540,6 @@ export type AzureLogAnalyticsAuthTypes =
  */
 export type AzureLogAnalyticsDataFeedSource = {
   dataSourceType: "AzureLogAnalytics";
-  /** The tenant id of service principal that have access to this Log Analytics */
-  tenantId?: string;
-  /** The client id of service principal that have access to this Log Analytics */
-  clientId?: string;
-  /** The client secret of service principal that have access to this Log Analytics */
-  clientSecret?: string;
   /** The workspace id of this Log Analytics */
   workspaceId: string;
   /** The KQL (Kusto Query Language) query to fetch data from this Log Analytics */
@@ -532,11 +548,13 @@ export type AzureLogAnalyticsDataFeedSource = {
 
 /**
  * Represents an Azure Event Hubs data source.
+ * User is required to specify connectionString for Create.
+ * connectionString being a secret is not returned by service.
  */
 export type AzureEventHubsDataFeedSource = {
   /** Azure Event Hubs data source type */
   dataSourceType: "AzureEventHubs";
-  /** The connection string of this Azure Event Hubs */
+  /** The connection string of this Azure Event Hubs. Required by user for Create. Not returned by service */
   connectionString?: string;
   /** The consumer group to be used in this data feed */
   consumerGroup: string;
@@ -546,6 +564,8 @@ export type AzureEventHubsDataFeedSource = {
 
 /**
  * Represents an InfluxDB data source.
+ * User is required to specify password for Create.
+ * password being a secret is not returned by service.
  */
 export type InfluxDbDataFeedSource = {
   /** InfluxDB data source type */
@@ -556,8 +576,8 @@ export type InfluxDbDataFeedSource = {
   database: string;
   /** Database access user */
   userName: string;
-  /** Database access password */
-  password: string;
+  /** Database access password. Required by user for Create. Not returned by service */
+  password?: string;
   /** Query script */
   query: string;
   /** Authentication type */
@@ -566,11 +586,13 @@ export type InfluxDbDataFeedSource = {
 
 /**
  * Represents a MySQL data source.
+ * User is required to specify connectionString for Create.
+ * connectionString being a secret is not returned by service.
  */
 export type MySqlDataFeedSource = {
   /** MySql data source */
   dataSourceType: "MySql";
-  /** Database connection string */
+  /** Database connection string. Required by user for Create. Not returned by service */
   connectionString?: string;
   /** Query script */
   query: string;
@@ -580,11 +602,13 @@ export type MySqlDataFeedSource = {
 
 /**
  * Represents a PostgreSQL data source.
+ * User is required to specify connectionString for Create.
+ * connectionString being a secret is not returned by service.
  */
 export type PostgreSqlDataFeedSource = {
   /** PostgreSQL data source */
   dataSourceType: "PostgreSql";
-  /** Database connection string */
+  /** Database connection string. Required by user for Create. Not returned by service */
   connectionString?: string;
   /** Query script */
   query: string;
@@ -594,12 +618,14 @@ export type PostgreSqlDataFeedSource = {
 
 /**
  * Represents a MongoDB data source.
+ * User is required to specify connectionString for Create.
+ * connectionString being a secret is not returned by service.
  */
 export type MongoDbDataFeedSource = {
   /** MongoDB data source */
   dataSourceType: "MongoDB";
-  /** MongoDB connection string */
-  connectionString: string;
+  /** MongoDB connection string. Required by user for Create. Not returned by service */
+  connectionString?: string;
   /** Database name */
   database: string;
   /** Query script */
@@ -646,7 +672,7 @@ export interface SqlServerAuthManagedIdentity {
 export interface SqlServerAuthConnectionString {
   /** Azure SQL Connection String Authentication */
   authenticationType: "AzureSQLConnectionString";
-  /** Datasource Credential Id for Sql Server datafeed authentication */
+  /** DataSource Credential Id for Sql Server datafeed authentication */
   credentialId: string;
 }
 
@@ -656,7 +682,7 @@ export interface SqlServerAuthConnectionString {
 export interface SqlServerAuthServicePrincipalInKeyVault {
   /** Service Principal in Keyvault Authentication */
   authenticationType: "ServicePrincipalInKV";
-  /** Datasource Credential Id for Sql Server datafeed authentication */
+  /** DataSource Credential Id for Sql Server datafeed authentication */
   credentialId: string;
   /** Connection string for Sql Server datafeed authentication */
   connectionString: string;
@@ -668,7 +694,7 @@ export interface SqlServerAuthServicePrincipalInKeyVault {
 export interface SqlServerAuthServicePrincipal {
   /** Service Principal Authentication */
   authenticationType: "ServicePrincipal";
-  /** Datasource Credential Id for Sql Server datafeed authentication */
+  /** DataSource Credential Id for Sql Server datafeed authentication */
   credentialId: string;
   /** Connection string for Sql Server datafeed authentication */
   connectionString: string;
@@ -759,14 +785,25 @@ export type DataFeedPatch = {
   accessMode?: DataFeedAccessMode;
 
   /**
-   * email addresses of data feed administrators
+   * The administrators of this {@link MetricsAdvisorDataFeed }.
+   * Administrators have total control over a data feed, being allowed to update, delete, or pause them.
+   * Each element in this list represents a user with administrator access, but the value of each `string` element
+   * depends on the type of authentication to be used by this administrator when communicating with the service.
+   * If {@link MetricsAdvisorKeyCredential } authentication will be used, the `string` must be the user's email address.
+   * If AAD authentication will be used instead, the `string` must uniquely identify the user's principal.
+   * For instance, for a `ClientSecretCredential`, the `string` must be the client ID.
    */
-  adminEmails?: string[];
+  admins?: string[];
 
   /**
-   * email addresses of data feed viewers
+   * The viewers of this {@link MetricsAdvisorDataFeed }.
+   * Viewers have read-only access to a data feed. Each element in this list represents a user with viewer access,
+   * but the value of each `string` element depends on the type of authentication to be used by this viewer when communicating with the service.
+   * If {@link MetricsAdvisorKeyCredential } authentication will be used, the `string` must be the user's email address.
+   * If AAD authentication will be used instead, the `string` must uniquely identify the user's principal.
+   * For instance, for a `ClientSecretCredential`, the `string` must be the client ID.
    */
-  viewerEmails?: string[];
+  viewers?: string[];
 
   /**
    * action link template for alert
@@ -780,12 +817,9 @@ export type DataFeedPatch = {
 
 /**
  * A alias type of supported data sources to pass to Update Data Feed operation.
- *
- * When not changing the data source type, the dataSourceParameter is not required.
- * When changing to a different data source type, both dataSourceType and dataSourceParameter are required.
  */
 export type DataFeedSourcePatch = Partial<DataFeedSource> & {
-  /** datasource type for patch */
+  /** dataSource type for patch */
   dataSourceType: DataFeedSource["dataSourceType"];
 };
 
@@ -797,7 +831,7 @@ export type MetricAnomalyAlertConfigurationsOperator = "AND" | "OR" | "XOR";
 /**
  * The logical operator to apply across anomaly detection conditions.
  */
-export type DetectionConditionsOperator = "AND" | "OR";
+export type DetectionConditionOperator = "AND" | "OR";
 
 /**
  * Represents properties common to anomaly detection conditions.
@@ -806,7 +840,7 @@ export interface DetectionConditionsCommon {
   /**
    * Condition operator
    */
-  conditionOperator?: DetectionConditionsOperator;
+  conditionOperator?: DetectionConditionOperator;
   /**
    * Specifies the condition for Smart Detection
    */
@@ -828,7 +862,7 @@ export interface DetectionConditionsCommonPatch {
   /**
    * Condition operator
    */
-  conditionOperator?: DetectionConditionsOperator;
+  conditionOperator?: DetectionConditionOperator;
   /**
    * Specifies the condition for Smart Detection
    */
@@ -868,7 +902,7 @@ export type MetricSeriesGroupDetectionCondition = DetectionConditionsCommon & {
   /**
    * identifies the group of time series
    */
-  group: DimensionKey;
+  groupKey: DimensionKey;
 };
 
 /**
@@ -878,7 +912,7 @@ export type MetricSingleSeriesDetectionCondition = DetectionConditionsCommon & {
   /**
    * identifies the time series
    */
-  series: DimensionKey;
+  seriesKey: DimensionKey;
 };
 
 /**
@@ -1106,9 +1140,15 @@ export interface NotificationHook {
    */
   externalLink?: string;
   /**
-   * email addresses of hook administrators
+   * The administrators of this {@link NotificationHook }.
+   * Administrators have total control over a NotificationHook, being allowed to update or delete.
+   * Each element in this list represents a user with administrator access, but the value of each `string` element
+   * depends on the type of authentication to be used by this administrator when communicating with the service.
+   * If {@link MetricsAdvisorKeyCredential } authentication will be used, the `string` must be the user's email address.
+   * If AAD authentication will be used instead, the `string` must uniquely identify the user's principal.
+   * For instance, for a `ClientSecretCredential`, the `string` must be the client ID.
    */
-  readonly adminEmails?: string[];
+  admins?: string[];
 }
 
 /**
@@ -1150,6 +1190,16 @@ export type NotificationHookPatch = {
    * new hook external link
    */
   externalLink?: string;
+  /**
+   * The administrators of this {@link NotificationHook }.
+   * Administrators have total control over a NotificationHook, being allowed to update or delete.
+   * Each element in this list represents a user with administrator access, but the value of each `string` element
+   * depends on the type of authentication to be used by this administrator when communicating with the service.
+   * If {@link MetricsAdvisorKeyCredential } authentication will be used, the `string` must be the user's email address.
+   * If AAD authentication will be used instead, the `string` must uniquely identify the user's principal.
+   * For instance, for a `ClientSecretCredential`, the `string` must be the client ID.
+   */
+  admins?: string[];
 };
 
 /**
@@ -1344,7 +1394,7 @@ export type MetricAnomalyAlertScope =
       /**
        * dimension scope
        */
-      dimensionAnomalyScope: DimensionKey;
+      seriesGroupInScope: DimensionKey;
     }
   | {
       scopeType: "TopN";
@@ -1355,7 +1405,7 @@ export type MetricAnomalyAlertScope =
     };
 
 /**
- * Defines the
+ * Defines the Boundary Conditions for the Metric
  */
 export type MetricBoundaryCondition =
   | {
@@ -1435,6 +1485,10 @@ export type MetricBoundaryCondition =
       type?: "Value" | "Mean";
     };
 
+/**
+ * Defines conditions to decide whether the detected anomalies should be
+ * included in an alert or not.
+ */
 export interface MetricAnomalyAlertConditions {
   /**
    * severity condition to trigger alert
@@ -1446,6 +1500,10 @@ export interface MetricAnomalyAlertConditions {
   metricBoundaryCondition?: MetricBoundaryCondition;
 }
 
+/**
+ * Defines alerting settings for anomalies detected by a detection
+ * configuration.
+ */
 export interface MetricAlertConfiguration {
   /**
    * Anomaly detection configuration unique id
@@ -1503,7 +1561,7 @@ export interface AnomalyAlertConfiguration {
   /**
    * dimensions used to split alert
    */
-  splitAlertByDimensions?: string[];
+  dimensionsToSplitAlert?: string[];
 }
 
 /**
@@ -1599,7 +1657,7 @@ export interface MetricSeriesDefinition {
   /**
    * identifies a time series
    */
-  dimension: Record<string, string>;
+  seriesKey: Record<string, string>;
 }
 
 /**
@@ -1627,7 +1685,7 @@ export interface MetricEnrichedSeriesData {
   /**
    * identifies the time series.
    */
-  series: DimensionKey;
+  seriesKey: DimensionKey;
   /**
    * timestamp list
    */
@@ -1661,164 +1719,15 @@ export interface MetricEnrichedSeriesData {
 // Response types
 
 /**
- * Contains response data for the getDataFeed operation.
- */
-export type GetDataFeedResponse = DataFeed & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: any;
-  };
-};
-
-/**
- * Contains response data for the getAnomalyDetectionConfiguration operation.
- */
-export type GetAnomalyDetectionConfigurationResponse = AnomalyDetectionConfiguration & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: any;
-  };
-};
-
-/**
- * Contains response data for the getAnomalyAlertConfiguration operation.
- */
-export type GetAnomalyAlertConfigurationResponse = AnomalyAlertConfiguration & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: any;
-  };
-};
-
-/**
- * Contains response data for the getHook operation.
- */
-export type GetHookResponse = NotificationHookUnion & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: any;
-  };
-};
-
-/**
- * Contains response data for the getCredentialEntity operation.
- */
-export type GetCredentialEntityResponse = DatasourceCredentialUnion & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: any;
-  };
-};
-
-/**
  * Contains response data for the getMetricEnrichedSeriesData operation.
  */
-export interface GetMetricEnrichedSeriesDataResponse extends Array<MetricEnrichedSeriesData> {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: any;
-  };
-}
+export interface GetMetricEnrichedSeriesDataResponse extends Array<MetricEnrichedSeriesData> {}
 
 /**
  * Contains response data for the getIncidentRootCause operation.
  */
 export type GetIncidentRootCauseResponse = {
   rootCauses: IncidentRootCause[];
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: any;
-  };
-};
-
-/**
- * Contains response data for the getFeedback operation.
- */
-export type GetFeedbackResponse = MetricFeedbackUnion & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: any;
-  };
 };
 
 /**
@@ -1829,20 +1738,6 @@ export interface AlertsPageResponse extends Array<AnomalyAlert> {
    * Continuation token to pass to `byPage()` to resume listing of more results if available.
    */
   continuationToken?: string;
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: any;
-  };
 }
 
 /**
@@ -1853,20 +1748,6 @@ export interface AnomaliesPageResponse extends Array<DataPointAnomaly> {
    * Continuation token to pass to `byPage()` to resume listing of more results if available.
    */
   continuationToken?: string;
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: any;
-  };
 }
 
 /**
@@ -1877,20 +1758,6 @@ export interface DimensionValuesPageResponse extends Array<string> {
    * Continuation token to pass to `byPage()` to resume listing of more results if available.
    */
   continuationToken?: string;
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: any;
-  };
 }
 
 /**
@@ -1901,20 +1768,6 @@ export interface IncidentsPageResponse extends Array<AnomalyIncident> {
    * Continuation token to pass to `byPage()` to resume listing of more results if available.
    */
   continuationToken?: string;
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: any;
-  };
 }
 
 /**
@@ -1925,22 +1778,11 @@ export interface MetricSeriesPageResponse extends Array<MetricSeriesDefinition> 
    * Continuation token to pass to `byPage()` to resume listing of more results if available.
    */
   continuationToken?: string;
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: any;
-  };
 }
 
+/**
+ * Represents Enrichment Status
+ */
 export interface EnrichmentStatus {
   /**
    * data slice timestamp.
@@ -1964,44 +1806,16 @@ export interface MetricEnrichmentStatusPageResponse extends Array<EnrichmentStat
    * Continuation token to pass to `byPage()` to resume listing of more results if available.
    */
   continuationToken?: string;
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: any;
-  };
 }
 
 /**
  * Contains response data for the listDataFeeds operation.
  */
-export interface DataFeedsPageResponse extends Array<DataFeed> {
+export interface DataFeedsPageResponse extends Array<MetricsAdvisorDataFeed> {
   /**
    * Continuation token to pass to `byPage()` to resume listing of more results if available.
    */
   continuationToken?: string;
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: any;
-  };
 }
 
 /**
@@ -2012,20 +1826,6 @@ export interface GetMetricSeriesDataResponse extends Array<MetricSeriesData> {
    * Continuation token to pass to `byPage()` to resume listing of more results if available.
    */
   continuationToken?: string;
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: any;
-  };
 }
 
 export interface IngestionStatus {
@@ -2050,20 +1850,6 @@ export interface IngestionStatusPageResponse extends Array<IngestionStatus> {
    * Continuation token to pass to `byPage()` to resume listing of more results if available.
    */
   continuationToken?: string;
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: any;
-  };
 }
 
 /**
@@ -2074,60 +1860,16 @@ export interface MetricFeedbackPageResponse extends Array<MetricFeedbackUnion> {
    * Continuation token to pass to `byPage()` to resume listing of more results if available.
    */
   continuationToken?: string;
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: any;
-  };
 }
 
 /**
  * Contains response data for the listAlertConfigs operation.
  */
-export interface AlertConfigurationsPageResponse extends Array<AnomalyAlertConfiguration> {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: any;
-  };
-}
+export interface AlertConfigurationsPageResponse extends Array<AnomalyAlertConfiguration> {}
 /**
  * Contains response data for the listAnomalyDetectionConfigurations operation.
  */
-export interface DetectionConfigurationsPageResponse extends Array<AnomalyDetectionConfiguration> {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: any;
-  };
-}
+export interface DetectionConfigurationsPageResponse extends Array<AnomalyDetectionConfiguration> {}
 
 /**
  * Contains response data for the listHooks operation.
@@ -2137,20 +1879,6 @@ export interface HooksPageResponse extends Array<NotificationHookUnion> {
    * Continuation token to pass to `byPage()` to resume listing of more results if available.
    */
   continuationToken?: string;
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: any;
-  };
 }
 
 /**
@@ -2167,27 +1895,12 @@ export type GetIngestionProgressResponse = {
    * null indicates not available
    */
   readonly latestActiveTimestamp?: number;
-} & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: any;
-  };
 };
 
 /**
  * Data Source Credential
  */
-export interface DatasourceCredential {
+export interface DataSourceCredentialEntity {
   /**
    * Unique id of data source credential
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2201,50 +1914,58 @@ export interface DatasourceCredential {
 
 /**
  * SqlServer Data Source Credential
+ * User is required to specify connectionString for Create.
+ * connectionString being a secret is not returned by service.
  */
-export interface SqlServerConnectionStringDatasourceCredential extends DatasourceCredential {
+export interface DataSourceSqlConnectionString extends DataSourceCredentialEntity {
   /** Azure Sql Connection String credential */
   type: "AzureSQLConnectionString";
-  /** The connection string for SqlServer Data Source Credential */
-  connectionString: string;
+  /** The connection string for SqlServer Data Source Credential. Required by user for Create. Not returned by service. */
+  connectionString?: string;
 }
 
 /**
- * DataLake Gen2 Shared Key Datasource Credential
+ * DataLake Gen2 Shared Key DataSource Credential
+ * User is required to specify accountKey for Create.
+ * accountKey being a secret is not returned by service.
  */
-export interface DataLakeGen2SharedKeyDatasourceCredential extends DatasourceCredential {
-  /** DataLakeGen2 Shared Key Datasource credential */
+export interface DataSourceDataLakeGen2SharedKey extends DataSourceCredentialEntity {
+  /** DataLakeGen2 Shared Key DataSource credential */
   type: "DataLakeGen2SharedKey";
-  /** The account key of the DataLake Gen2 Shared Key Datasource Credential  */
-  accountKey: string;
+  /** The account key of the DataLake Gen2 Shared Key DataSource Credential. Required by user for Create. Not returned by service. */
+  accountKey?: string;
 }
 
 /**
- * Service Principal Datasource Credential
+ * Service Principal DataSource Credential
+ * User is required to specify clientSecret for Create.
+ * clientSecret being a secret is not returned by service.
  */
-export interface ServicePrincipalDatasourceCredential extends DatasourceCredential {
-  /** Service Principal Datasource Credential */
+export interface DataSourceServicePrincipal extends DataSourceCredentialEntity {
+  /** Service Principal DataSource Credential */
   type: "ServicePrincipal";
   /** The client id of the service principal. */
   clientId: string;
-  /** The client secret of the service principal. */
-  clientSecret: string;
+  /** The client secret of the service principal. Required by user for Create. Not returned by service. */
+  clientSecret?: string;
   /** The tenant id of the service principal. */
   tenantId: string;
 }
 
 /**
- * Service Principal in KeyVault Datasource Credential
+ * Service Principal in KeyVault DataSource Credential
+ * User is required to specify keyVaultClientSecret for Create.
+ * keyVaultClientSecret being a secret is not returned by service.
  */
-export interface ServicePrincipalInKeyVaultDatasourceCredential extends DatasourceCredential {
-  /** Service Principal in KeyVault Datasource Credential */
+export interface DataSourceServicePrincipalInKeyVault extends DataSourceCredentialEntity {
+  /** Service Principal in KeyVault DataSource Credential */
   type: "ServicePrincipalInKV";
   /** The Key Vault endpoint that storing the service principal. */
   keyVaultEndpoint: string;
   /** The Client Id to access the Key Vault. */
   keyVaultClientId: string;
-  /** The Client Secret to access the Key Vault. */
-  keyVaultClientSecret: string;
+  /** The Client Secret to access the Key Vault. Required by user for Create. Not returned by service. */
+  keyVaultClientSecret?: string;
   /** The secret name of the service principal's client Id in the Key Vault. */
   servicePrincipalIdNameInKV: string;
   /** The secret name of the service principal's client secret in the Key Vault. */
@@ -2253,16 +1974,19 @@ export interface ServicePrincipalInKeyVaultDatasourceCredential extends Datasour
   tenantId: string;
 }
 
-export type DatasourceCredentialUnion =
-  | SqlServerConnectionStringDatasourceCredential
-  | DataLakeGen2SharedKeyDatasourceCredential
-  | ServicePrincipalDatasourceCredential
-  | ServicePrincipalInKeyVaultDatasourceCredential;
+/**
+ * Data Source Credential Entity Union Type
+ */
+export type DataSourceCredentialEntityUnion =
+  | DataSourceSqlConnectionString
+  | DataSourceDataLakeGen2SharedKey
+  | DataSourceServicePrincipal
+  | DataSourceServicePrincipalInKeyVault;
 
 /**
  * SqlServer Data Source Credential Patch
  */
-export interface SqlServerConnectionStringDatasourceCredentialPatch {
+export interface DataSourceSqlServerConnectionStringPatch {
   /** Azure Sql Connection String credential */
   type: "AzureSQLConnectionString";
   /** Name of data source credential */
@@ -2274,24 +1998,24 @@ export interface SqlServerConnectionStringDatasourceCredentialPatch {
 }
 
 /**
- * DataLake Gen2 Shared Key Datasource Credential Patch
+ * DataLake Gen2 Shared Key DataSource Credential Patch
  */
-export interface DataLakeGen2SharedKeyDatasourceCredentialPatch {
-  /** DataLakeGen2 Shared Key Datasource credential */
+export interface DataSourceDataLakeGen2SharedKeyPatch {
+  /** DataLakeGen2 Shared Key DataSource credential */
   type: "DataLakeGen2SharedKey";
   /** Name of data source credential */
   name?: string;
   /** Description of data source credential */
   description?: string;
-  /** The account key of the DataLake Gen2 Shared Key Datasource Credential  */
+  /** The account key of the DataLake Gen2 Shared Key DataSource Credential  */
   accountKey?: string;
 }
 
 /**
- *  Service Principal Datasource Credential Patch
+ *  Service Principal DataSource Credential Patch
  */
-export interface ServicePrincipalDatasourceCredentialPatch {
-  /** Service Principal Datasource Credential */
+export interface DataSourceServicePrincipalPatch {
+  /** Service Principal DataSource Credential */
   type: "ServicePrincipal";
   /** Name of data source credential */
   name?: string;
@@ -2306,10 +2030,10 @@ export interface ServicePrincipalDatasourceCredentialPatch {
 }
 
 /**
- *  Service Principal in KeyVault Datasource Credential Patch
+ *  Service Principal in KeyVault DataSource Credential Patch
  */
-export interface ServicePrincipalInKeyVaultDatasourceCredentialPatch {
-  /** Service Principal in KeyVault Datasource Credential */
+export interface DataSourceServicePrincipalInKeyVaultPatch {
+  /** Service Principal in KeyVault DataSource Credential */
   type: "ServicePrincipalInKV";
   /** Name of data source credential */
   name?: string;
@@ -2330,34 +2054,20 @@ export interface ServicePrincipalInKeyVaultDatasourceCredentialPatch {
 }
 
 /**
- * Datasource credential patch types
+ * DataSource credential patch types
  */
-export type DatasourceCredentialPatch =
-  | SqlServerConnectionStringDatasourceCredentialPatch
-  | DataLakeGen2SharedKeyDatasourceCredentialPatch
-  | ServicePrincipalDatasourceCredentialPatch
-  | ServicePrincipalInKeyVaultDatasourceCredentialPatch;
+export type DataSourceCredentialPatch =
+  | DataSourceSqlServerConnectionStringPatch
+  | DataSourceDataLakeGen2SharedKeyPatch
+  | DataSourceServicePrincipalPatch
+  | DataSourceServicePrincipalInKeyVaultPatch;
 
 /**
  * Contains response data for the listCredentials operation.
  */
-export interface CredentialsPageResponse extends Array<DatasourceCredentialUnion> {
+export interface CredentialsPageResponse extends Array<DataSourceCredentialEntityUnion> {
   /**
    * Continuation token to pass to `byPage()` to resume listing of more results if available.
    */
   continuationToken?: string;
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: any;
-  };
 }

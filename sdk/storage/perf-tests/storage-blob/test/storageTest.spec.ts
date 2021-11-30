@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { generateUuid } from "@azure/core-http";
-import { PerfStressTest, getEnvVar } from "@azure/test-utils-perfstress";
+import { PerfTest, getEnvVar } from "@azure/test-utils-perf";
 import {
   BlobServiceClient,
   ContainerClient,
@@ -14,7 +14,7 @@ import { getValueInConnString } from "./utils/utils";
 import * as dotenv from "dotenv";
 dotenv.config();
 
-export abstract class StorageBlobTest<TOptions> extends PerfStressTest<TOptions> {
+export abstract class StorageBlobTest<TOptions> extends PerfTest<TOptions> {
   blobServiceClient: BlobServiceClient;
   containerClient: ContainerClient;
   sharedKeyCredential: StorageSharedKeyCredential;
@@ -27,7 +27,10 @@ export abstract class StorageBlobTest<TOptions> extends PerfStressTest<TOptions>
       getValueInConnString(connectionString, "AccountName"),
       getValueInConnString(connectionString, "AccountKey")
     );
-    this.blobServiceClient = BlobServiceClient.fromConnectionString(connectionString);
+    this.blobServiceClient = BlobServiceClient.fromConnectionString(
+      connectionString,
+      this.configureClientOptionsCoreV1({})
+    );
     this.containerClient = this.blobServiceClient.getContainerClient(StorageBlobTest.containerName);
   }
 

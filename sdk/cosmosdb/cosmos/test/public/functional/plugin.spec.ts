@@ -45,6 +45,7 @@ describe("Plugin", function() {
     assert.notEqual(response, undefined);
     assert.equal(response.statusCode, successResponse.code);
     assert.deepEqual(response.resource, successResponse.result);
+    client.dispose();
   });
 
   it("should handle all operations", async function() {
@@ -86,6 +87,7 @@ describe("Plugin", function() {
     assert.notEqual(response, undefined);
     assert.equal(response.statusCode, successResponse.code);
     assert.deepEqual(response.resource, successResponse.result);
+    client.dispose();
   });
 
   it("should allow next to be called", async function() {
@@ -135,5 +137,6 @@ describe("Plugin", function() {
     assert.notEqual(response, undefined);
     assert.equal(response.statusCode, successResponse.code);
     assert.deepEqual(response.resource, successResponse.result);
+    client.dispose();
   });
 });

@@ -262,7 +262,6 @@ export const granularityName: OperationQueryParameter = {
         "Daily",
         "Hourly",
         "Minutely",
-        "Secondly",
         "Custom"
       ]
     }

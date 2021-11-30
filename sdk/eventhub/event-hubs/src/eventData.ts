@@ -2,8 +2,9 @@
 // Licensed under the MIT license.
 
 import { DeliveryAnnotations, Message as RheaMessage, MessageAnnotations } from "rhea-promise";
-import { Constants } from "@azure/core-amqp";
-import { isDefined, objectHasProperty } from "./util/typeGuards";
+import { AmqpAnnotatedMessage, Constants } from "@azure/core-amqp";
+import { isDefined, isObjectWithProperties, objectHasProperty } from "./util/typeGuards";
+import { BodyTypes, defaultDataTransformer } from "./dataTransformer";
 
 /**
  * Describes the delivery annotations.
@@ -109,6 +110,31 @@ export interface EventDataInternal {
    * The properties set by the service.
    */
   systemProperties?: { [property: string]: any };
+  /**
+   * The content type of the message. Optionally describes
+   * the payload of the message, with a descriptor following the format of RFC2045, Section 5, for
+   * example "application/json".
+   */
+  contentType?: string;
+
+  /**
+   * The correlation identifier that allows an
+   * application to specify a context for the message for the purposes of correlation, for example
+   * reflecting the MessageId of a message that is being replied to.
+   */
+  correlationId?: string | number | Buffer;
+
+  /**
+   * The message identifier is an
+   * application-defined value that uniquely identifies the message and its payload.
+   *
+   * Note: Numbers that are not whole integers are not allowed.
+   */
+  messageId?: string | number | Buffer;
+  /**
+   * Returns the underlying raw amqp message.
+   */
+  getRawAmqpMessage(): AmqpAnnotatedMessage;
 }
 
 const messagePropertiesMap = {
@@ -130,11 +156,22 @@ const messagePropertiesMap = {
 /**
  * Converts the AMQP message to an EventData.
  * @param msg - The AMQP message that needs to be converted to EventData.
+ * @param skipParsingBodyAsJson - Boolean to skip running JSON.parse() on message body when body type is `content`.
  * @hidden
  */
-export function fromRheaMessage(msg: RheaMessage): EventDataInternal {
+export function fromRheaMessage(
+  msg: RheaMessage,
+  skipParsingBodyAsJson: boolean
+): EventDataInternal {
+  const rawMessage = AmqpAnnotatedMessage.fromRheaMessage(msg);
+  const { body, bodyType } = defaultDataTransformer.decode(msg.body, skipParsingBodyAsJson);
+  rawMessage.bodyType = bodyType;
+
   const data: EventDataInternal = {
-    body: msg.body
+    body,
+    getRawAmqpMessage() {
+      return rawMessage;
+    }
   };
 
   if (msg.message_annotations) {
@@ -189,6 +226,16 @@ export function fromRheaMessage(msg: RheaMessage): EventDataInternal {
     }
   }
 
+  if (msg.content_type != null) {
+    data.contentType = msg.content_type;
+  }
+  if (msg.correlation_id != null) {
+    data.correlationId = msg.correlation_id;
+  }
+  if (msg.message_id != null) {
+    data.messageId = msg.message_id;
+  }
+
   return data;
 }
 
@@ -196,27 +243,67 @@ export function fromRheaMessage(msg: RheaMessage): EventDataInternal {
  * Converts an EventData object to an AMQP message.
  * @param data - The EventData object that needs to be converted to an AMQP message.
  * @param partitionKey - An optional key to determine the partition that this event should land in.
- * @hidden
+ * @internal
  */
-export function toRheaMessage(data: EventData, partitionKey?: string): RheaMessage {
-  const msg: RheaMessage = {
-    body: data.body
-  };
-  // As per the AMQP 1.0 spec If the message-annotations or delivery-annotations section is omitted,
-  // it is equivalent to a message-annotations section containing anempty map of annotations.
-  msg.message_annotations = {};
-  if (data.properties) {
-    msg.application_properties = data.properties;
-  }
-  if (isDefined(partitionKey)) {
-    msg.message_annotations[Constants.partitionKey] = partitionKey;
-    // Event Hub service cannot route messages to a specific partition based on the partition key
-    // if AMQP message header is an empty object. Hence we make sure that header is always present
-    // with atleast one property. Setting durable to true, helps us achieve that.
-    msg.durable = true;
+export function toRheaMessage(
+  data: EventData | AmqpAnnotatedMessage,
+  partitionKey?: string
+): RheaMessage {
+  let rheaMessage: RheaMessage;
+  if (isAmqpAnnotatedMessage(data)) {
+    rheaMessage = {
+      ...AmqpAnnotatedMessage.toRheaMessage(data),
+      body: defaultDataTransformer.encode(data.body, data.bodyType ?? "data")
+    };
+  } else {
+    let bodyType: BodyTypes = "data";
+    if (typeof (data as EventDataInternal).getRawAmqpMessage === "function") {
+      /*
+        If the event is being round-tripped, then we respect the `bodyType` of the
+        underlying AMQP message.
+      */
+      bodyType = (data as EventDataInternal).getRawAmqpMessage().bodyType ?? "data";
+    }
+
+    rheaMessage = {
+      body: defaultDataTransformer.encode(data.body, bodyType)
+    };
+    // As per the AMQP 1.0 spec If the message-annotations or delivery-annotations section is omitted,
+    // it is equivalent to a message-annotations section containing anempty map of annotations.
+    rheaMessage.message_annotations = {};
+
+    if (data.properties) {
+      rheaMessage.application_properties = data.properties;
+    }
+
+    if (isDefined(partitionKey)) {
+      rheaMessage.message_annotations[Constants.partitionKey] = partitionKey;
+      // Event Hub service cannot route messages to a specific partition based on the partition key
+      // if AMQP message header is an empty object. Hence we make sure that header is always present
+      // with atleast one property. Setting durable to true, helps us achieve that.
+      rheaMessage.durable = true;
+    }
+
+    if (data.contentType != null) {
+      rheaMessage.content_type = data.contentType;
+    }
+    if (data.correlationId != null) {
+      rheaMessage.correlation_id = data.correlationId;
+    }
+    if (data.messageId != null) {
+      if (
+        typeof data.messageId === "string" &&
+        data.messageId.length > Constants.maxMessageIdLength
+      ) {
+        throw new Error(
+          `Length of 'messageId' property on the event cannot be greater than ${Constants.maxMessageIdLength} characters.`
+        );
+      }
+      rheaMessage.message_id = data.messageId;
+    }
   }
 
-  return msg;
+  return rheaMessage;
 }
 
 /**
@@ -240,6 +327,29 @@ export interface EventData {
    * cross-language compatibility.
    */
   body: any;
+
+  /**
+   * The content type of the message. Optionally describes
+   * the payload of the message, with a descriptor following the format of RFC2045, Section 5, for
+   * example "application/json".
+   */
+  contentType?: string;
+
+  /**
+   * The correlation identifier that allows an
+   * application to specify a context for the message for the purposes of correlation, for example
+   * reflecting the MessageId of a message that is being replied to.
+   */
+  correlationId?: string | number | Buffer;
+
+  /**
+   * The message identifier is an
+   * application-defined value that uniquely identifies the message and its payload.
+   *
+   * Note: Numbers that are not whole integers are not allowed.
+   */
+  messageId?: string | number | Buffer;
+
   /**
    * Set of key value pairs that can be used to set properties specific to user application.
    */
@@ -287,6 +397,41 @@ export interface ReceivedEventData {
   systemProperties?: {
     [key: string]: any;
   };
+
+  /**
+   * The content type of the message. Optionally describes
+   * the payload of the message, with a descriptor following the format of RFC2045, Section 5, for
+   * example "application/json".
+   */
+  contentType?: string;
+
+  /**
+   * The correlation identifier that allows an
+   * application to specify a context for the message for the purposes of correlation, for example
+   * reflecting the MessageId of a message that is being replied to.
+   */
+  correlationId?: string | number | Buffer;
+
+  /**
+   * The message identifier is an
+   * application-defined value that uniquely identifies the message and its payload.
+   */
+  messageId?: string | number | Buffer;
+
+  /**
+   * Returns the underlying raw amqp message.
+   */
+  getRawAmqpMessage(): AmqpAnnotatedMessage;
+}
+
+/**
+ * @internal
+ */
+export function isAmqpAnnotatedMessage(possible: unknown): possible is AmqpAnnotatedMessage {
+  return (
+    isObjectWithProperties(possible, ["body", "bodyType"]) &&
+    !objectHasProperty(possible, "getRawAmqpMessage")
+  );
 }
 
 /**

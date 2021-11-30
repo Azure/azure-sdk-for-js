@@ -12,6 +12,7 @@ import { GeneratedClientOptionalParams } from "./models";
 /** @internal */
 export class GeneratedClientContext extends coreClient.ServiceClient {
   endpoint: string;
+  apiVersion: string;
 
   /**
    * Initializes a new instance of the GeneratedClientContext class.
@@ -28,19 +29,29 @@ export class GeneratedClientContext extends coreClient.ServiceClient {
     if (!options) {
       options = {};
     }
-
     const defaults: GeneratedClientOptionalParams = {
       requestContentType: "application/json; charset=utf-8"
     };
 
+    const packageDetails = `azsdk-js-ai-text-analytics/5.2.0-beta.3`;
+    const userAgentPrefix =
+      options.userAgentOptions && options.userAgentOptions.userAgentPrefix
+        ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
+        : `${packageDetails}`;
+
     const optionsWithDefaults = {
       ...defaults,
       ...options,
-      baseUri: options.endpoint || "{Endpoint}/text/analytics/v3.1-preview.5"
+      userAgentOptions: {
+        userAgentPrefix
+      },
+      baseUri: options.endpoint || "{Endpoint}/text/analytics/{ApiVersion}"
     };
-
     super(optionsWithDefaults);
     // Parameter assignments
     this.endpoint = endpoint;
+
+    // Assigning values to Constant parameters
+    this.apiVersion = options.apiVersion || "v3.2-preview.2";
   }
 }

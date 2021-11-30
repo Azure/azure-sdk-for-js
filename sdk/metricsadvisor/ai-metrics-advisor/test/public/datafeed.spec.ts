@@ -23,7 +23,7 @@ import {
   AzureLogAnalyticsDataFeedSource
 } from "../../src";
 import { createRecordedAdminClient, testEnv, makeCredential } from "./util/recordedClients";
-import { Recorder } from "@azure/test-utils-recorder";
+import { Recorder } from "@azure-tools/test-recorder";
 import { matrix } from "./util/matrix";
 
 matrix([[true, false]] as const, async (useAad) => {
@@ -66,7 +66,7 @@ matrix([[true, false]] as const, async (useAad) => {
           azureTableFeedName = recorder.getUniqueName("js-test-tableFeed-");
         }
         if (recorder && !eventHubsFeedName) {
-          eventHubsFeedName = recorder.getUniqueName("js-test-httpRequestFeed-");
+          eventHubsFeedName = recorder.getUniqueName("js-test-eventhubRequestFeed-");
         }
         if (recorder && !logAnalyticsFeedName) {
           logAnalyticsFeedName = recorder.getUniqueName("js-test-logAnalyticsFeed-");
@@ -319,11 +319,11 @@ matrix([[true, false]] as const, async (useAad) => {
             authenticationType: "ManagedIdentity"
           };
           const expectedIngestionSettings = {
-            ingestionStartTime: new Date(Date.UTC(2020, 7, 1)),
+            ingestionStartTime: new Date(Date.UTC(2020, 9, 30)),
             ingestionStartOffsetInSeconds: 2,
             dataSourceRequestConcurrency: 3,
-            ingestionRetryDelayInSeconds: 4,
-            stopRetryAfterInSeconds: 5
+            ingestionRetryDelayInSeconds: 64,
+            stopRetryAfterInSeconds: 65
           };
           const patch: DataFeedPatch = {
             source: {
@@ -343,11 +343,10 @@ matrix([[true, false]] as const, async (useAad) => {
               fillType: "PreviousValue"
             },
             accessMode: "Public",
-            viewerEmails: ["viewer1@example.com"],
+            viewers: ["viewer1@example.com"],
             actionLinkTemplate: "Updated Azure Blob action link template"
           };
-          await client.updateDataFeed(createdAzureBlobDataFeedId, patch);
-          const updated = await client.getDataFeed(createdAzureBlobDataFeedId);
+          const updated = await client.updateDataFeed(createdAzureBlobDataFeedId, patch);
           assert.ok(updated.id, "Expecting valid data feed");
           assert.equal(updated.source.dataSourceType, "AzureBlob");
           assert.deepStrictEqual(
@@ -365,7 +364,7 @@ matrix([[true, false]] as const, async (useAad) => {
           assert.equal((updated.rollupSettings! as any).rollupIdentificationValue, "__Existing__");
           assert.equal(updated.missingDataPointFillSettings?.fillType, "PreviousValue");
           assert.equal(updated.accessMode, "Public");
-          assert.deepStrictEqual(updated.viewerEmails, ["viewer1@example.com"]);
+          assert.deepStrictEqual(updated.viewers, ["viewer1@example.com"]);
           assert.equal(updated.actionLinkTemplate, "Updated Azure Blob action link template");
         });
 
@@ -378,7 +377,7 @@ matrix([[true, false]] as const, async (useAad) => {
             applicationId: testEnv.METRICS_ADVISOR_AZURE_APPINSIGHTS_APPLICATION_ID,
             apiKey: testEnv.METRICS_ADVISOR_AZURE_APPINSIGHTS_API_KEY,
             query:
-              "let gran=60m; let starttime=datetime(@StartTime); let endtime=starttime + gran; requests | where timestamp >= starttime and timestamp < endtime | summarize request_count = count(), duration_avg_ms = avg(duration), duration_95th_ms = percentile(duration, 95), duration_max_ms = max(duration) by resultCode"
+              "let gran=60m; let starttime=datetime(@StartTime); let endtime=starttime + gran; requests | where timestamp >= starttime and timestamp < endtime | summarize request_count = count(), duration_avg_ms = avg(duration), duration_95th_ms = percentile(duration, 95), duration_max_ms = max(duration) by resultCode"
           };
           const actual = await client.createDataFeed({
             name: appInsightsFeedName,
@@ -401,7 +400,7 @@ matrix([[true, false]] as const, async (useAad) => {
             assert.equal(actual.source.apiKey, undefined);
             assert.equal(
               actual.source.query,
-              "let gran=60m; let starttime=datetime(@StartTime); let endtime=starttime + gran; requests | where timestamp >= starttime and timestamp < endtime | summarize request_count = count(), duration_avg_ms = avg(duration), duration_95th_ms = percentile(duration, 95), duration_max_ms = max(duration) by resultCode"
+              "let gran=60m; let starttime=datetime(@StartTime); let endtime=starttime + gran; requests | where timestamp >= starttime and timestamp < endtime | summarize request_count = count(), duration_avg_ms = avg(duration), duration_95th_ms = percentile(duration, 95), duration_max_ms = max(duration) by resultCode"
             );
           }
         });
@@ -461,16 +460,16 @@ matrix([[true, false]] as const, async (useAad) => {
           assert.equal(result.value.length, 1, "Expecting one entry in second page");
         });
 
-        it("deletes an Azure Blob datafeed", async function() {
-          await verifyDataFeedDeletion(client, createdAzureBlobDataFeedId);
+        it("deletes an Azure Blob datafeed", async function(this: Context) {
+          await verifyDataFeedDeletion(this, client, createdAzureBlobDataFeedId);
         });
 
-        it("deletes an Azure Application Insights feed", async function() {
-          await verifyDataFeedDeletion(client, createdAppFeedId);
+        it("deletes an Azure Application Insights feed", async function(this: Context) {
+          await verifyDataFeedDeletion(this, client, createdAppFeedId);
         });
 
-        it("deletes an Azure SQL Server feed", async function() {
-          await verifyDataFeedDeletion(client, createdSqlServerFeedId);
+        it("deletes an Azure SQL Server feed", async function(this: Context) {
+          await verifyDataFeedDeletion(this, client, createdSqlServerFeedId);
         });
 
         it("creates an Azure Cosmos DB Feed", async () => {
@@ -506,8 +505,8 @@ matrix([[true, false]] as const, async (useAad) => {
           }
         });
 
-        it("deletes an Azure Cosmos DB", async function() {
-          await verifyDataFeedDeletion(client, createdCosmosFeedId);
+        it("deletes an Azure Cosmos DB", async function(this: Context) {
+          await verifyDataFeedDeletion(this, client, createdCosmosFeedId);
         });
 
         it("creates an Azure Data Explorer feed", async () => {
@@ -539,8 +538,8 @@ matrix([[true, false]] as const, async (useAad) => {
           }
         });
 
-        it("deletes an Azure Data Explorer feed", async function() {
-          await verifyDataFeedDeletion(client, createdAzureDataExplorerFeedId);
+        it("deletes an Azure Data Explorer feed", async function(this: Context) {
+          await verifyDataFeedDeletion(this, client, createdAzureDataExplorerFeedId);
         });
 
         it("creates an Azure Table feed", async () => {
@@ -571,8 +570,8 @@ matrix([[true, false]] as const, async (useAad) => {
           }
         });
 
-        it("deletes an Azure Table feed", async function() {
-          await verifyDataFeedDeletion(client, createdAzureTableFeedId);
+        it("deletes an Azure Table feed", async function(this: Context) {
+          await verifyDataFeedDeletion(this, client, createdAzureTableFeedId);
         });
 
         it("creates InfluxDB data feed", async () => {
@@ -581,7 +580,7 @@ matrix([[true, false]] as const, async (useAad) => {
             connectionString: "https://connect-to-influxdb",
             database: "data-feed-database",
             userName: "user",
-            password: "pwd1",
+            password: "SecretPlaceholder",
             query: "partition-key eq @start-time",
             authenticationType: "Basic"
           };
@@ -606,8 +605,8 @@ matrix([[true, false]] as const, async (useAad) => {
           }
         });
 
-        it("deletes InfluxDB data feed", async function() {
-          await verifyDataFeedDeletion(client, createdInfluxFeedId);
+        it("deletes InfluxDB data feed", async function(this: Context) {
+          await verifyDataFeedDeletion(this, client, createdInfluxFeedId);
         });
 
         it("creates MongoDB data feed", async () => {
@@ -641,8 +640,8 @@ matrix([[true, false]] as const, async (useAad) => {
           }
         });
 
-        it("deletes MongoDB data feed", async function() {
-          await verifyDataFeedDeletion(client, createdMongoDbFeedId);
+        it("deletes MongoDB data feed", async function(this: Context) {
+          await verifyDataFeedDeletion(this, client, createdMongoDbFeedId);
         });
 
         it("creates MySQL data feed", async () => {
@@ -674,8 +673,8 @@ matrix([[true, false]] as const, async (useAad) => {
           }
         });
 
-        it("deletes MySQL data feed", async function() {
-          await verifyDataFeedDeletion(client, createdMySqlFeedId);
+        it("deletes MySQL data feed", async function(this: Context) {
+          await verifyDataFeedDeletion(this, client, createdMySqlFeedId);
         });
 
         it("creates Datalake Gen 2 data feed", async () => {
@@ -709,8 +708,8 @@ matrix([[true, false]] as const, async (useAad) => {
           }
         });
 
-        it("deletes Datalake Gen 2 data feed", async function() {
-          await verifyDataFeedDeletion(client, createdDataLakeGenId);
+        it("deletes Datalake Gen 2 data feed", async function(this: Context) {
+          await verifyDataFeedDeletion(this, client, createdDataLakeGenId);
         });
 
         it.skip("creates Eventhubs data feed", async () => {
@@ -739,8 +738,8 @@ matrix([[true, false]] as const, async (useAad) => {
           }
         });
 
-        it.skip("deletes Eventhubs data feed", async function() {
-          await verifyDataFeedDeletion(client, createdEventhubsId);
+        it.skip("deletes Eventhubs data feed", async function(this: Context) {
+          await verifyDataFeedDeletion(this, client, createdEventhubsId);
         });
 
         it("creates Log Analytics data feed", async () => {
@@ -766,17 +765,19 @@ matrix([[true, false]] as const, async (useAad) => {
           createdLogAnalyticsId = actual.id;
           assert.equal(actual.source.dataSourceType, expectedSource.dataSourceType);
           if (actual.source.dataSourceType === "AzureLogAnalytics") {
-            assert.equal(actual.source.clientId, expectedSource.clientId);
-            assert.equal(actual.source.authenticationType, expectedSource.authenticationType);
             assert.equal(actual.source.query, expectedSource.query);
-            assert.equal(actual.source.tenantId, expectedSource.tenantId);
             assert.equal(actual.source.workspaceId, expectedSource.workspaceId);
-            assert.equal(actual.source.clientSecret, undefined);
+            assert.equal(actual.source.authenticationType, expectedSource.authenticationType);
+            if (actual.source.authenticationType === "Basic") {
+              assert.equal(actual.source.tenantId, expectedSource.tenantId);
+              assert.equal(actual.source.clientId, expectedSource.clientId);
+              assert.equal(actual.source.clientSecret, undefined);
+            }
           }
         });
 
-        it("deletes Log Analytics data feed", async function() {
-          await verifyDataFeedDeletion(client, createdLogAnalyticsId);
+        it("deletes Log Analytics data feed", async function(this: Context) {
+          await verifyDataFeedDeletion(this, client, createdLogAnalyticsId);
         });
 
         it("creates PostgreSQL data feed", async () => {
@@ -827,8 +828,7 @@ matrix([[true, false]] as const, async (useAad) => {
               authenticationType: "Basic"
             }
           };
-          await client.updateDataFeed(createdPostGreSqlId, patch);
-          const updated = await client.getDataFeed(createdPostGreSqlId);
+          const updated = await client.updateDataFeed(createdPostGreSqlId, patch);
           assert.ok(updated.id, "Expecting valid data feed");
           assert.equal(updated.source.dataSourceType, "MongoDB");
 
@@ -838,8 +838,8 @@ matrix([[true, false]] as const, async (useAad) => {
           );
         });
 
-        it("deletes PostgreSQL data feed", async function() {
-          await verifyDataFeedDeletion(client, createdPostGreSqlId);
+        it("deletes PostgreSQL data feed", async function(this: Context) {
+          await verifyDataFeedDeletion(this, client, createdPostGreSqlId);
         });
 
         it("creates Unknown data feed", async () => {
@@ -887,15 +887,13 @@ matrix([[true, false]] as const, async (useAad) => {
   });
 });
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export async function verifyDataFeedDeletion(
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-  this: any,
+  context: Context,
   client: MetricsAdvisorAdministrationClient,
   createdDataFeedId: string
 ): Promise<void> {
   if (!createdDataFeedId) {
-    this.skip();
+    context.skip();
   }
 
   await client.deleteDataFeed(createdDataFeedId);

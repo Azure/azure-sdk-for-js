@@ -6,10 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import { DataSources } from "../operationsInterfaces";
+import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { SearchServiceClient } from "../searchServiceClient";
+import { SearchServiceClientContext } from "../searchServiceClientContext";
 import {
   SearchIndexerDataSource,
   DataSourcesCreateOrUpdateOptionalParams,
@@ -23,15 +24,15 @@ import {
   DataSourcesCreateResponse
 } from "../models";
 
-/** Class representing a DataSources. */
-export class DataSources {
-  private readonly client: SearchServiceClient;
+/** Class containing DataSources operations. */
+export class DataSourcesImpl implements DataSources {
+  private readonly client: SearchServiceClientContext;
 
   /**
    * Initialize a new instance of the class DataSources class.
    * @param client Reference to the service client
    */
-  constructor(client: SearchServiceClient) {
+  constructor(client: SearchServiceClientContext) {
     this.client = client;
   }
 
@@ -46,15 +47,10 @@ export class DataSources {
     dataSource: SearchIndexerDataSource,
     options?: DataSourcesCreateOrUpdateOptionalParams
   ): Promise<DataSourcesCreateOrUpdateResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      dataSourceName,
-      dataSource,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { dataSourceName, dataSource, options },
       createOrUpdateOperationSpec
-    ) as Promise<DataSourcesCreateOrUpdateResponse>;
+    );
   }
 
   /**
@@ -65,15 +61,11 @@ export class DataSources {
   delete(
     dataSourceName: string,
     options?: DataSourcesDeleteOptionalParams
-  ): Promise<coreHttp.RestResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      dataSourceName,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
+  ): Promise<void> {
     return this.client.sendOperationRequest(
-      operationArguments,
+      { dataSourceName, options },
       deleteOperationSpec
-    ) as Promise<coreHttp.RestResponse>;
+    );
   }
 
   /**
@@ -85,14 +77,10 @@ export class DataSources {
     dataSourceName: string,
     options?: DataSourcesGetOptionalParams
   ): Promise<DataSourcesGetResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      dataSourceName,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { dataSourceName, options },
       getOperationSpec
-    ) as Promise<DataSourcesGetResponse>;
+    );
   }
 
   /**
@@ -102,13 +90,7 @@ export class DataSources {
   list(
     options?: DataSourcesListOptionalParams
   ): Promise<DataSourcesListResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      listOperationSpec
-    ) as Promise<DataSourcesListResponse>;
+    return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
   /**
@@ -120,20 +102,16 @@ export class DataSources {
     dataSource: SearchIndexerDataSource,
     options?: DataSourcesCreateOptionalParams
   ): Promise<DataSourcesCreateResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      dataSource,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { dataSource, options },
       createOperationSpec
-    ) as Promise<DataSourcesCreateResponse>;
+    );
   }
 }
 // Operation Specifications
-const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
+const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const createOrUpdateOperationSpec: coreHttp.OperationSpec = {
+const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path: "/datasources('{dataSourceName}')",
   httpMethod: "PUT",
   responses: {
@@ -148,7 +126,10 @@ const createOrUpdateOperationSpec: coreHttp.OperationSpec = {
     }
   },
   requestBody: Parameters.dataSource,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.skipIndexerResetRequirementForCache
+  ],
   urlParameters: [Parameters.endpoint, Parameters.dataSourceName],
   headerParameters: [
     Parameters.contentType,
@@ -161,7 +142,7 @@ const createOrUpdateOperationSpec: coreHttp.OperationSpec = {
   mediaType: "json",
   serializer
 };
-const deleteOperationSpec: coreHttp.OperationSpec = {
+const deleteOperationSpec: coreClient.OperationSpec = {
   path: "/datasources('{dataSourceName}')",
   httpMethod: "DELETE",
   responses: {
@@ -181,7 +162,7 @@ const deleteOperationSpec: coreHttp.OperationSpec = {
   ],
   serializer
 };
-const getOperationSpec: coreHttp.OperationSpec = {
+const getOperationSpec: coreClient.OperationSpec = {
   path: "/datasources('{dataSourceName}')",
   httpMethod: "GET",
   responses: {
@@ -197,7 +178,7 @@ const getOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept, Parameters.xMsClientRequestId],
   serializer
 };
-const listOperationSpec: coreHttp.OperationSpec = {
+const listOperationSpec: coreClient.OperationSpec = {
   path: "/datasources",
   httpMethod: "GET",
   responses: {
@@ -213,7 +194,7 @@ const listOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept, Parameters.xMsClientRequestId],
   serializer
 };
-const createOperationSpec: coreHttp.OperationSpec = {
+const createOperationSpec: coreClient.OperationSpec = {
   path: "/datasources",
   httpMethod: "POST",
   responses: {

@@ -1,13 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export { getTracer, setTracer } from "./tracerProxy";
-
 // Tracers and wrappers
-export { NoOpSpan } from "./tracers/noop/noOpSpan";
-export { NoOpTracer } from "./tracers/noop/noOpTracer";
-export { TestTracer, SpanGraph, SpanGraphNode } from "./tracers/test/testTracer";
-export { TestSpan } from "./tracers/test/testSpan";
 export { createSpanFunction, CreateSpanFunctionArgs } from "./createSpan";
 
 // Shared interfaces
@@ -21,9 +15,10 @@ export {
   ExceptionWithName,
   getSpan,
   getSpanContext,
+  getTracer,
   HrTime,
+  isSpanContextValid,
   Link,
-  LinkContext,
   OperationTracingOptions,
   setSpan,
   setSpanContext,

@@ -1,16 +1,59 @@
 # Release History
 
-## 1.2.7 (Unreleased)
+## 2.2.3 (Unreleased)
 
 ### Features Added
 
 ### Breaking Changes
 
-### Key Bugs Fixed
+### Bugs Fixed
+
+- Fix `HttpHeaders.rawHeaders()` to preserve header name case. As a result HttpClient now sends requests with their original header names. `HttpHeaders.toJson()` now has an option to preserve header key casing.
+
+### Other Changes
+
+## 2.2.2 (2021-11-03)
+
+### Bugs Fixed
+
+- Fix the issue of `HttpHeaders.clone()` not preserving raw header names' casing [PR #18348](https://github.com/Azure/azure-sdk-for-js/pull/18348)
+- Fix the issue of network connection not being closed when download stream is closed [PR #14015](https://github.com/Azure/azure-sdk-for-js/pull/14015)
+
+## 2.2.1 (2021-09-30)
+
+### Bugs Fixed
+
+- Fix incorrect caching of proxy agents [PR #17546](https://github.com/Azure/azure-sdk-for-js/pull/17546)
+
+## 2.2.0 (2021-09-02)
+
+### Bugs Fixed
+
+- `tracingPolicy` will no longer propagate tracing errors to the caller, and such errors will be logged instead and the operation does not get interrupted. [PR #16916](https://github.com/Azure/azure-sdk-for-js/pull/16916)
+
+## 2.1.0 (2021-07-22)
+
+### Features Added
+
+- `tracingPolicy` will no longer inject invalid traceparent headers if an incorrect tracer implementation is used.
+- `proxyPolicy` now allows passing in a list of no-proxy patterns to override global ones loaded from NO_PROXY environment variable [PR #16414](https://github.com/Azure/azure-sdk-for-js/pull/16414)
+
+## 2.0.0 (2021-06-30)
+
+### Features Added
+
+- Changed TS compilation target to ES2017 in order to produce smaller bundles and use more native platform features.
+- Added support for the `Retry-After` header on responses with status code 503, Service Unavailable.
+- Added support for multiple retries on the `ThrottlingRetryPolicy` (up to 3 by default).
+
+### Breaking Changes
+
+- Updated @azure/core-tracing to version `1.0.0-preview.12`. See [@azure/core-tracing CHANGELOG](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-tracing/CHANGELOG.md) for details about breaking changes with tracing.
 
 ### Fixed
 
 - Fixed an issue where `proxySettings` does not work when there is username but no password [Issue 15720](https://github.com/Azure/azure-sdk-for-js/issues/15720)
+- Throttling retry policy respects abort signal [#15796](https://github.com/Azure/azure-sdk-for-js/issues/15796)
 
 ## 1.2.6 (2021-06-14)
 
@@ -34,7 +77,7 @@
 
 ### Breaking Changes
 
-- Updated @azure/core-tracing to version `1.0.0-preview.11`. See [@azure/core-tracing CHANGELOG](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/core/core-tracing/CHANGELOG.md) for details about breaking changes with tracing.
+- Updated @azure/core-tracing to version `1.0.0-preview.11`. See [@azure/core-tracing CHANGELOG](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-tracing/CHANGELOG.md) for details about breaking changes with tracing.
 
 ## 1.2.3 (2021-02-04)
 

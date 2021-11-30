@@ -29,22 +29,19 @@ describe("LogsQueryClient unit tests", () => {
     };
 
     const client = new LogsQueryClient(tokenCredential, {
-      endpoint: "customEndpoint1",
-      scopes: "customScopes1"
+      endpoint: "https://customEndpoint1"
     });
 
-    assert.equal(client["_logAnalytics"].$host, "customEndpoint1");
-    assert.equal(client["_logAnalytics"]["baseUri"], "customEndpoint1");
+    assert.equal(client["_logAnalytics"].$host, "https://customEndpoint1");
+    assert.equal(client["_logAnalytics"]["_baseUri"], "https://customEndpoint1");
 
     try {
-      await client.queryLogs("workspaceId", "query", Durations.last5Minutes);
+      await client.queryWorkspace("workspaceId", "query", { duration: Durations.fiveMinutes });
       assert.fail("Should have thrown");
     } catch (err) {
       assert.deepNestedInclude(err, {
         message: "Shortcircuit auth exception"
       });
     }
-
-    assert.deepEqual(scopesPassed, ["customScopes1"]);
   });
 });

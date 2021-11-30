@@ -1,8 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import assert from "assert";
-import { assertRejects } from "../authTestUtils";
+import { assert } from "chai";
 import {
   ChainedTokenCredential,
   TokenCredential,
@@ -11,6 +10,7 @@ import {
   CredentialUnavailableError,
   AuthenticationRequiredError
 } from "../../src";
+import { getError } from "../authTestUtils";
 
 function mockCredential(returnPromise: Promise<AccessToken | null>): TokenCredential {
   return {
@@ -24,11 +24,10 @@ describe("ChainedTokenCredential", function() {
       mockCredential(Promise.reject(new CredentialUnavailableError("unavailable."))),
       mockCredential(
         Promise.reject(
-          new AuthenticationRequiredError(
-            ["https://vault.azure.net/.default"],
-            {},
-            "authentication-required."
-          )
+          new AuthenticationRequiredError({
+            scopes: ["https://vault.azure.net/.default"],
+            message: "authentication-required."
+          })
         )
       ),
       mockCredential(Promise.resolve({ token: "firstToken", expiresOnTimestamp: 0 })),
@@ -45,9 +44,15 @@ describe("ChainedTokenCredential", function() {
       mockCredential(Promise.reject(new CredentialUnavailableError("unavailable.")))
     );
 
-    await assertRejects(
-      chainedTokenCredential.getToken("scope"),
-      (err: AggregateAuthenticationError) => err.errors.length === 2
+    const error = await getError<AggregateAuthenticationError>(
+      chainedTokenCredential.getToken("scope")
+    );
+    assert.deepEqual(error.errors.length, 2);
+    assert.deepEqual(
+      error.message,
+      `ChainedTokenCredential authentication failed.
+CredentialUnavailableError: unavailable.
+CredentialUnavailableError: unavailable.`
     );
   });
 });

@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export const SDK_VERSION: string = "12.5.0";
-export const SERVICE_VERSION: string = "2020-06-12";
+export const SDK_VERSION: string = "12.8.0-beta.2";
+export const SERVICE_VERSION: string = "2020-12-06";
 
 export const KB: number = 1024;
 export const MB: number = KB * 1024;

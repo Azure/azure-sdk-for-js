@@ -12,7 +12,9 @@ import { NamedKeyCredential } from '@azure/core-auth';
 import { OperationOptions } from '@azure/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { Pipeline } from '@azure/core-rest-pipeline';
+import { RestError } from '@azure/core-rest-pipeline';
 import { SASCredential } from '@azure/core-auth';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface AccessPolicy {
@@ -81,7 +83,7 @@ export type DeleteTableEntityResponse = TableDeleteEntityHeaders;
 // @public
 export interface Edm<T extends EdmTypes> {
     type: T;
-    value: T extends "Binary" ? Uint8Array : T extends "Boolean" ? boolean : T extends "Double" ? number : T extends "Int32" ? number : string;
+    value: T extends "Binary" ? string : T extends "Boolean" ? boolean : T extends "Double" ? number : T extends "Int32" ? number : string;
 }
 
 // @public
@@ -121,7 +123,7 @@ export type GetTableEntityOptions = OperationOptions & {
 export type GetTableEntityResponse<T extends object> = TableEntityResult<T>;
 
 // @public
-export const enum KnownGeoReplicationStatusType {
+export enum KnownGeoReplicationStatusType {
     // (undocumented)
     Bootstrap = "bootstrap",
     // (undocumented)
@@ -160,6 +162,8 @@ export interface Metrics {
 
 // @public
 export function odata(strings: TemplateStringsArray, ...values: unknown[]): string;
+
+export { RestError }
 
 // @public
 export interface RetentionPolicy {
@@ -226,7 +230,9 @@ export interface SignedIdentifier {
 
 // @public
 export class TableClient {
-    constructor(url: string, tableName: string, credential: NamedKeyCredential | SASCredential, options?: TableServiceClientOptions);
+    constructor(url: string, tableName: string, credential: NamedKeyCredential, options?: TableServiceClientOptions);
+    constructor(url: string, tableName: string, credential: SASCredential, options?: TableServiceClientOptions);
+    constructor(url: string, tableName: string, credential: TokenCredential, options?: TableServiceClientOptions);
     constructor(url: string, tableName: string, options?: TableServiceClientOptions);
     createEntity<T extends object>(entity: TableEntity<T>, options?: OperationOptions): Promise<CreateTableEntityResponse>;
     createTable(options?: OperationOptions): Promise<void>;
@@ -235,7 +241,7 @@ export class TableClient {
     static fromConnectionString(connectionString: string, tableName: string, options?: TableServiceClientOptions): TableClient;
     getAccessPolicy(options?: OperationOptions): Promise<GetAccessPolicyResponse>;
     getEntity<T extends object = Record<string, unknown>>(partitionKey: string, rowKey: string, options?: GetTableEntityOptions): Promise<GetTableEntityResponse<TableEntityResult<T>>>;
-    listEntities<T extends object = Record<string, unknown>>(options?: ListTableEntitiesOptions): PagedAsyncIterableIterator<TableEntityResult<T>, TableEntityResult<T>[]>;
+    listEntities<T extends object = Record<string, unknown>>(options?: ListTableEntitiesOptions): PagedAsyncIterableIterator<TableEntityResult<T>, TableEntityResultPage<T>>;
     pipeline: Pipeline;
     setAccessPolicy(tableAcl: SignedIdentifier[], options?: OperationOptions): Promise<SetAccessPolicyResponse>;
     submitTransaction(actions: TransactionAction[]): Promise<TableTransactionResponse>;
@@ -291,6 +297,11 @@ export type TableEntityResult<T> = T & {
 };
 
 // @public
+export type TableEntityResultPage<T> = Array<TableEntityResult<T>> & {
+    continuationToken?: string;
+};
+
+// @public
 export interface TableGetAccessPolicyHeaders {
     clientRequestId?: string;
     date?: Date;
@@ -312,6 +323,11 @@ export interface TableInsertEntityHeaders {
 // @public
 export interface TableItem {
     name?: string;
+}
+
+// @public
+export interface TableItemResultPage extends Array<TableItem> {
+    continuationToken?: string;
 }
 
 // @public
@@ -358,14 +374,16 @@ export interface TableSasSignatureValues {
 
 // @public
 export class TableServiceClient {
-    constructor(url: string, credential: NamedKeyCredential | SASCredential, options?: TableServiceClientOptions);
+    constructor(url: string, credential: NamedKeyCredential, options?: TableServiceClientOptions);
+    constructor(url: string, credential: SASCredential, options?: TableServiceClientOptions);
+    constructor(url: string, credential: TokenCredential, options?: TableServiceClientOptions);
     constructor(url: string, options?: TableServiceClientOptions);
     createTable(name: string, options?: OperationOptions): Promise<void>;
     deleteTable(name: string, options?: OperationOptions): Promise<void>;
     static fromConnectionString(connectionString: string, options?: TableServiceClientOptions): TableServiceClient;
     getProperties(options?: OperationOptions): Promise<GetPropertiesResponse>;
     getStatistics(options?: OperationOptions): Promise<GetStatisticsResponse>;
-    listTables(options?: ListTableItemsOptions): PagedAsyncIterableIterator<TableItem, TableItem[]>;
+    listTables(options?: ListTableItemsOptions): PagedAsyncIterableIterator<TableItem, TableItemResultPage>;
     pipeline: Pipeline;
     setProperties(properties: ServiceProperties, options?: SetPropertiesOptions): Promise<SetPropertiesResponse>;
     url: string;
@@ -442,7 +460,6 @@ export type UpdateTableEntityOptions = OperationOptions & {
 
 // @public
 export type UpsertEntityResponse = TableMergeEntityHeaders;
-
 
 // (No @packageDocumentation comment for this package)
 

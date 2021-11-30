@@ -15,7 +15,6 @@ import { SpanStatusCode } from "@azure/core-tracing";
 import "@azure/core-paging";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 
-import { SDK_VERSION } from "./constants";
 import { logger } from "./logger";
 import { GeneratedClient } from "./generated";
 import { createSpan } from "./tracing";
@@ -30,20 +29,22 @@ import {
 import { RegistryArtifact } from "./registryArtifact";
 import { ContainerRegistryRefreshTokenCredential } from "./containerRegistryTokenCredential";
 
+const LATEST_API_VERSION = "2021-07-01";
+
 /**
  * Client options used to configure Container Registry Repository API requests.
  */
 export interface ContainerRegistryClientOptions extends PipelineOptions {
   /**
-   * Gets or sets the authentication scope to use for authentication with AAD.
-   * This defaults to the Azure Resource Manager "Azure Global" scope.  To
-   * connect to a different cloud, set this value to "&lt;resource-id&gt;/.default",
-   * where &lt;resource-id&gt; is one of the Resource IDs listed at
-   * https://docs.microsoft.com/azure/active-directory/managed-identities-azure-resources/services-support-managed-identities#azure-resource-manager.
-   * For example, to connect to the Azure Germany cloud, create a client with
-   * this set to "https://management.microsoftazure.de/.default".
+   * Gets or sets the audience to use for authentication with Azure Active Directory.
+   * The authentication scope will be set from this audience.
+   * See {@link KnownContainerRegistryAudience} for known audience values.
    */
-  authenticationScope?: string;
+  audience?: string;
+  /**
+   * The version of service API to make calls against.
+   */
+  serviceVersion?: "2021-07-01";
 }
 
 /**
@@ -75,7 +76,7 @@ export class ContainerRegistryClient {
    *    new DefaultAzureCredential()
    * );
    * ```
-   * @param endpoint - the URL to the Container Registry endpoint
+   * @param endpoint - the URL endpoint of the container registry
    * @param credential - used to authenticate requests to the service
    * @param options - optional configuration used to send requests to the service
    */
@@ -88,6 +89,8 @@ export class ContainerRegistryClient {
   /**
    * Creates an instance of a ContainerRegistryClient to interact with
    * an Azure Container Registry that has anonymous pull access enabled.
+   * Only operations that support anonymous access are enabled. Other service
+   * methods will throw errors.
    *
    * Example usage:
    * ```ts
@@ -97,7 +100,7 @@ export class ContainerRegistryClient {
    *    "<container registry API endpoint>",
    * );
    * ```
-   * @param endpoint - the URL to the Container Registry endpoint
+   * @param endpoint - the URL endpoint of the container registry
    * @param options - optional configuration used to send requests to the service
    */
   constructor(endpoint: string, options?: ContainerRegistryClientOptions);
@@ -122,17 +125,6 @@ export class ContainerRegistryClient {
       options = credentialOrOptions ?? {};
     }
 
-    // The below code helps us set a proper User-Agent header on all requests
-    const libInfo = `azsdk-js-container-registry/${SDK_VERSION}`;
-    if (!options.userAgentOptions) {
-      options.userAgentOptions = {};
-    }
-    if (options.userAgentOptions.userAgentPrefix) {
-      options.userAgentOptions.userAgentPrefix = `${options.userAgentOptions.userAgentPrefix} ${libInfo}`;
-    } else {
-      options.userAgentOptions.userAgentPrefix = libInfo;
-    }
-
     const internalPipelineOptions: InternalPipelineOptions = {
       ...options,
       loggingOptions: {
@@ -142,22 +134,30 @@ export class ContainerRegistryClient {
         additionalAllowedQueryParameters: ["last", "n", "orderby", "digest"]
       }
     };
-    const authScope = options.authenticationScope ?? "https://management.azure.com/.default";
-    const authClient = new GeneratedClient(endpoint, internalPipelineOptions);
-    this.client = new GeneratedClient(endpoint, internalPipelineOptions);
+    // Require audience now until we have a default ACR audience from the service.
+    if (!options.audience) {
+      throw new Error(
+        "ContainerRegistryClientOptions.audience must be set to initialize ContainerRegistryClient."
+      );
+    }
+
+    const defaultScope = `${options.audience}/.default`;
+    const serviceVersion = options.serviceVersion ?? LATEST_API_VERSION;
+    const authClient = new GeneratedClient(endpoint, serviceVersion, internalPipelineOptions);
+    this.client = new GeneratedClient(endpoint, serviceVersion, internalPipelineOptions);
     this.client.pipeline.addPolicy(
       bearerTokenAuthenticationPolicy({
         credential,
-        scopes: [authScope],
+        scopes: [defaultScope],
         challengeCallbacks: new ChallengeHandler(
-          new ContainerRegistryRefreshTokenCredential(authClient, authScope, credential)
+          new ContainerRegistryRefreshTokenCredential(authClient, defaultScope, credential)
         )
       })
     );
   }
 
   /**
-   * Deletes the repository identified by the given name.
+   * Deletes the repository identified by the given name and all associated artifacts.
    *
    * @param repositoryName - the name of repository to delete
    * @param options - optional configuration for the operation
@@ -186,7 +186,7 @@ export class ContainerRegistryClient {
   }
 
   /**
-   * Returns an artifact for given repository name, and a tag or digest.
+   * Returns an instance of {@link RegistryArtifact} for calling service methods related to the artifact specified by `repositoryName` and `tagOrDigest`.
    *
    * @param repositoryName - the name of repository
    * @param tagOrDigest - tag or digest of the artifact to retrieve
@@ -205,7 +205,7 @@ export class ContainerRegistryClient {
   }
 
   /**
-   * Returns an instance of {@link ContainerRepository} that interacts with a container registry repository.
+   * Returns an instance of {@link ContainerRepository} for calling service methods related to the repository specified by `repositoryName`.
    *
    * @param repositoryName - the name of repository
    */
@@ -218,7 +218,7 @@ export class ContainerRegistryClient {
   }
 
   /**
-   * Returns an async iterable iterator to list repository names.
+   * Returns an async iterable iterator to list names of repositories in this registry.
    *
    * Example usage:
    * ```javascript

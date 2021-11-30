@@ -111,7 +111,10 @@ export {
   SearchIndexStatistics,
   SearchServiceStatistics,
   SearchIndexer,
-  LexicalNormalizer
+  LexicalNormalizer,
+  SearchIndexerDataIdentity,
+  ResetDocumentsOptions,
+  ResetSkillsOptions
 } from "./serviceModels";
 export { default as GeographyPoint } from "./geographyPoint";
 export { odata } from "./odata";
@@ -134,7 +137,14 @@ export {
   Speller,
   KnownSpeller,
   CaptionResult,
-  AnswerResult
+  AnswerResult,
+  Captions,
+  QueryAnswerType,
+  QueryCaptionType,
+  QuerySpellerType,
+  KnownQuerySpellerType,
+  KnownQueryAnswerType,
+  KnownQueryCaptionType
 } from "./generated/data/models";
 export {
   RegexFlags,
@@ -212,6 +222,10 @@ export {
   CustomEntity,
   CustomEntityAlias,
   SplitSkill,
+  PIIDetectionSkill,
+  EntityRecognitionSkillV3,
+  EntityLinkingSkill,
+  SentimentSkillV3,
   TextTranslationSkill,
   WebApiSkill,
   SentimentSkillLanguage,
@@ -257,6 +271,8 @@ export {
   SoftDeleteColumnDeletionDetectionPolicy,
   SqlIntegratedChangeTrackingPolicy,
   HighWaterMarkChangeDetectionPolicy,
+  SearchIndexerDataUserAssignedIdentity,
+  SearchIndexerDataNoneIdentity,
   ServiceCounters,
   ServiceLimits,
   ResourceCounter,
@@ -298,6 +314,22 @@ export {
   SearchIndexerKnowledgeStoreBlobProjectionSelector,
   SearchIndexerKnowledgeStoreProjectionSelector,
   SearchIndexerKnowledgeStoreObjectProjectionSelector,
-  SearchIndexerKnowledgeStoreTableProjectionSelector
+  SearchIndexerKnowledgeStoreTableProjectionSelector,
+  PIIDetectionSkillMaskingMode,
+  KnownPIIDetectionSkillMaskingMode,
+  LineEnding,
+  KnownLineEnding,
+  SearchIndexerDataIdentity as BaseSearchIndexerDataIdentity,
+  SearchIndexerCache,
+  IndexerState,
+  IndexerExecutionStatusDetail,
+  KnownIndexerExecutionStatusDetail,
+  IndexingMode,
+  KnownIndexingMode,
+  SemanticSettings,
+  SemanticConfiguration,
+  PrioritizedFields,
+  SemanticField
 } from "./generated/service/models";
 export { AzureKeyCredential } from "@azure/core-auth";
+export { createSynonymMapFromFile } from "./synonymMapHelper";

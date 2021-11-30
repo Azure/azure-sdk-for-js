@@ -31,6 +31,7 @@ const getChecks = async (dir, checks) => {
         checks.isClient = true;
       }
       checks.version = settings["version"];
+      checks.packageName = settings["name"];
     }
     if (fileName == "typedoc.json") {
       checks.typedocPresent = true;
@@ -99,6 +100,7 @@ const executeTypedoc = async (exclusionList, inclusionList, generateIndexWithTem
             typedocPresent: false,
             isClient: false,
             version: "0",
+            packageName: ""
           };
           eachPackagePath = path.join(eachServicePath, eachPackage);
           pathToAssets = eachPackagePath + "/assets";
@@ -108,23 +110,26 @@ const executeTypedoc = async (exclusionList, inclusionList, generateIndexWithTem
 
             console.log(
               "checks after walk: checks.isPrivate = " +
-                checks.isPrivate +
-                ", checks.srcPresent = " +
-                checks.srcPresent +
-                ", typedocPresent = " +
-                checks.typedocPresent +
-                ", isClient = " +
-                checks.isClient +
-                ", version = " +
-                checks.version
+              checks.isPrivate +
+              ", checks.srcPresent = " +
+              checks.srcPresent +
+              ", typedocPresent = " +
+              checks.typedocPresent +
+              ", isClient = " +
+              checks.isClient +
+              ", version = " +
+              checks.version +
+              ", packageName = " +
+              checks.packageName
             );
             console.log("Path: " + eachPackagePath);
             if (!checks.isPrivate) {
               if ((argv.clientOnly && checks.isClient) || !argv.clientOnly) {
                 if (checks.srcPresent) {
+                  var artifactName = checks.packageName.replace("@", "").replace("/", "-");
                   if (argv.docGenOutput === "dg") {
                     docOutputFolder =
-                      "--out ../../../docGen/" + eachPackage + "/" + checks.version + " ./src";
+                      "--out ../../../docGen/" + artifactName + "/" + checks.version + " ./src";
                   }
 
                   let typedocProcess;

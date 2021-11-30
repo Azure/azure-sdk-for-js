@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-auth";
+import { AzureLogger } from "@azure/logger";
 import { PipelineResponse, PipelineRequest, SendRequest } from "../interfaces";
 import { PipelinePolicy } from "../pipeline";
 import { createTokenCycler } from "../util/tokenCycler";
@@ -27,6 +28,10 @@ export interface AuthorizeRequestOptions {
    * Request that the policy is trying to fulfill.
    */
   request: PipelineRequest;
+  /**
+   * A logger, if one was sent through the HTTP pipeline.
+   */
+  logger?: AzureLogger;
 }
 
 /**
@@ -49,6 +54,10 @@ export interface AuthorizeRequestOnChallengeOptions {
    * Response containing the challenge.
    */
   response: PipelineResponse;
+  /**
+   * A logger, if one was sent through the HTTP pipeline.
+   */
+  logger?: AzureLogger;
 }
 
 /**
@@ -86,6 +95,10 @@ export interface BearerTokenAuthenticationPolicyOptions {
    * If provided, after a request is sent, if it has a challenge, it can be processed to re-send the original request with the relevant challenge information.
    */
   challengeCallbacks?: ChallengeCallbacks;
+  /**
+   * A logger can be sent for debugging purposes.
+   */
+  logger?: AzureLogger;
 }
 
 /**
@@ -123,7 +136,7 @@ function getChallenge(response: PipelineResponse): string | undefined {
 export function bearerTokenAuthenticationPolicy(
   options: BearerTokenAuthenticationPolicyOptions
 ): PipelinePolicy {
-  const { credential, scopes, challengeCallbacks } = options;
+  const { credential, scopes, challengeCallbacks, logger } = options;
   const callbacks = {
     authorizeRequest: challengeCallbacks?.authorizeRequest ?? defaultAuthorizeRequest,
     authorizeRequestOnChallenge: challengeCallbacks?.authorizeRequestOnChallenge,
@@ -155,10 +168,17 @@ export function bearerTokenAuthenticationPolicy(
      * - Retrieve a token with the challenge information, then re-send the request.
      */
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
+      if (!request.url.toLowerCase().startsWith("https://")) {
+        throw new Error(
+          "Bearer token authentication is not permitted for non-TLS protected (non-https) URLs."
+        );
+      }
+
       await callbacks.authorizeRequest({
         scopes: Array.isArray(scopes) ? scopes : [scopes],
         request,
-        getAccessToken
+        getAccessToken,
+        logger
       });
 
       let response: PipelineResponse;
@@ -180,7 +200,8 @@ export function bearerTokenAuthenticationPolicy(
           scopes: Array.isArray(scopes) ? scopes : [scopes],
           request,
           response,
-          getAccessToken
+          getAccessToken,
+          logger
         });
 
         if (shouldSendRequest) {

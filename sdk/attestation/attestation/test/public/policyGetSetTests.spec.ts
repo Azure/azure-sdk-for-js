@@ -5,12 +5,13 @@
 /// <reference path="../../src/jsrsasign.d.ts"/>
 import * as jsrsasign from "jsrsasign";
 
-import { assert, use as chaiUse } from "chai";
+import { assert, expect, use as chaiUse } from "chai";
 import { Context } from "mocha";
-import chaiPromises from "chai-as-promised";
-chaiUse(chaiPromises);
+import chaiAsPromised from "chai-as-promised";
 
-import { Recorder } from "@azure/test-utils-recorder";
+chaiUse(chaiAsPromised);
+
+import { Recorder } from "@azure-tools/test-recorder";
 
 import {
   createRecordedAdminClient,
@@ -18,16 +19,10 @@ import {
   EndpointType,
   getIsolatedSigningKey
 } from "../utils/recordedClient";
-import {
-  AttestationSigningKey,
-  KnownAttestationType,
-  AttestationToken,
-  StoredAttestationPolicy,
-  AttestationType
-} from "../../src";
+import { KnownAttestationType, AttestationType, createAttestationPolicyToken } from "../../src";
 import { generateSha256Hash, createRSAKey, createX509Certificate } from "../utils/cryptoUtils";
 import { KnownPolicyModification } from "../../src/generated";
-import { encodeByteArray } from "../utils/base64url";
+import { verifyAttestationSigningKey } from "../../src/utils/helpers";
 
 describe("PolicyGetSetTests ", function() {
   let recorder: Recorder;
@@ -56,6 +51,76 @@ describe("PolicyGetSetTests ", function() {
     await testSetPolicy(KnownAttestationType.SgxEnclave, "AAD");
   });
 
+  it("Set Policy failure conditions", async () => {
+    const adminClient = createRecordedAdminClient("AAD");
+
+    const minimalPolicy = "version=1.0; authorizationrules{=> permit();}; issuancerules{};";
+
+    const [rsaKey, rsapubKey] = createRSAKey();
+    const [rsaKey2] = createRSAKey();
+    const rsaCertificate = createX509Certificate(rsaKey, rsapubKey, "CertificateName");
+
+    await expect(
+      adminClient.setPolicy(KnownAttestationType.SgxEnclave, minimalPolicy, { privateKey: rsaKey })
+    ).to.be.rejectedWith("privateKey is specified");
+
+    await expect(
+      adminClient.setPolicy(KnownAttestationType.SgxEnclave, minimalPolicy, {
+        certificate: rsaCertificate
+      })
+    ).to.be.rejectedWith("privateKey is specified");
+
+    await expect(
+      adminClient.setPolicy(KnownAttestationType.SgxEnclave, minimalPolicy, {
+        privateKey: rsaKey2,
+        certificate: rsaCertificate
+      })
+    ).to.be.rejectedWith("Key does not match Certificate");
+
+    await expect(
+      adminClient.setPolicy(KnownAttestationType.SgxEnclave, minimalPolicy, {
+        privateKey: "BogusKey",
+        certificate: rsaCertificate
+      })
+    ).to.be.rejectedWith("not supported argument");
+
+    await adminClient.setPolicy(KnownAttestationType.SgxEnclave, minimalPolicy);
+
+    await adminClient.resetPolicy(KnownAttestationType.SgxEnclave);
+  });
+
+  it("Reset Policy failure conditions", async () => {
+    const adminClient = createRecordedAdminClient("AAD");
+
+    const [rsaKey, rsapubKey] = createRSAKey();
+    const [rsaKey2] = createRSAKey();
+    const rsaCertificate = createX509Certificate(rsaKey, rsapubKey, "CertificateName");
+
+    await expect(
+      adminClient.resetPolicy(KnownAttestationType.SgxEnclave, { privateKey: rsaKey })
+    ).to.be.rejectedWith("privateKey is specified");
+
+    await expect(
+      adminClient.resetPolicy(KnownAttestationType.SgxEnclave, { certificate: rsaCertificate })
+    ).to.be.rejectedWith("privateKey is specified");
+
+    await expect(
+      adminClient.resetPolicy(KnownAttestationType.SgxEnclave, {
+        privateKey: "BogusKey",
+        certificate: rsaCertificate
+      })
+    ).to.be.rejectedWith("not supported argument");
+
+    await expect(
+      adminClient.resetPolicy(KnownAttestationType.SgxEnclave, {
+        privateKey: rsaKey2,
+        certificate: rsaCertificate
+      })
+    ).to.be.rejectedWith("Key does not match Certificate");
+
+    await adminClient.resetPolicy(KnownAttestationType.SgxEnclave);
+  });
+
   it("Set Policy SGX - AAD Secured", async () => {
     recorder.skip(
       undefined,
@@ -63,8 +128,10 @@ describe("PolicyGetSetTests ", function() {
     );
     const [rsaKey, rsapubKey] = createRSAKey();
     const rsaCertificate = createX509Certificate(rsaKey, rsapubKey, "CertificateName");
-    const signingKey = new AttestationSigningKey(rsaKey, rsaCertificate);
-    await testSetPolicy(KnownAttestationType.SgxEnclave, "AAD", signingKey);
+    await testSetPolicy(KnownAttestationType.SgxEnclave, "AAD", {
+      privateKey: rsaKey,
+      certificate: rsaCertificate
+    });
   });
 
   it("Set Policy SGX - Isolated Secured", async () => {
@@ -72,8 +139,7 @@ describe("PolicyGetSetTests ", function() {
       undefined,
       "setPolicy APIs require keys and certificates from the environment, which are not available in playback"
     );
-    const signingKeys = getIsolatedSigningKey();
-    await testSetPolicy(KnownAttestationType.SgxEnclave, "Isolated", signingKeys);
+    await testSetPolicy(KnownAttestationType.SgxEnclave, "Isolated", getIsolatedSigningKey());
   });
 
   it("Reset Policy SGX - AAD Unsecured", async () => {
@@ -87,7 +153,7 @@ describe("PolicyGetSetTests ", function() {
     );
     const [rsaKey, rsaPubKey] = createRSAKey();
     const rsaCertificate = createX509Certificate(rsaKey, rsaPubKey, "CertificateName");
-    const signingKey = new AttestationSigningKey(rsaKey, rsaCertificate);
+    const signingKey = verifyAttestationSigningKey(rsaKey, rsaCertificate);
     await testResetPolicy(KnownAttestationType.SgxEnclave, "AAD", signingKey);
   });
 
@@ -106,81 +172,84 @@ describe("PolicyGetSetTests ", function() {
   ): Promise<void> {
     const adminClient = createRecordedAdminClient(clientLocation);
     const policyResult = await adminClient.getPolicy(attestationType);
-    assert.isTrue(policyResult.value.startsWith("version="));
+    assert.isTrue(policyResult.body.startsWith("version="));
   }
 
   async function testSetPolicy(
     attestationType: AttestationType,
     clientLocation: EndpointType,
-    signer?: AttestationSigningKey
+    signer?: { privateKey: string; certificate: string }
   ): Promise<void> {
     const adminClient = createRecordedAdminClient(clientLocation);
 
     const minimalPolicy = "version=1.0; authorizationrules{=> permit();}; issuancerules{};";
 
-    const policyResult = await adminClient.setPolicy(attestationType, minimalPolicy, signer);
-
-    assert.equal(KnownPolicyModification.Updated, policyResult.value.policyResolution);
-
-    const expectedPolicy = AttestationToken.create({
-      body: new StoredAttestationPolicy(minimalPolicy).serialize(),
-      signer: signer
+    const policyResult = await adminClient.setPolicy(attestationType, minimalPolicy, {
+      privateKey: signer?.privateKey,
+      certificate: signer?.certificate
     });
+
+    assert.equal(KnownPolicyModification.Updated, policyResult.body.policyResolution);
+
+    const expectedPolicy = createAttestationPolicyToken(
+      minimalPolicy,
+      signer?.privateKey,
+      signer?.certificate
+    );
 
     const expectedHash = generateSha256Hash(expectedPolicy.serialize());
 
-    assert.isNotNull(policyResult.value.policyTokenHash);
-    if (policyResult.value.policyTokenHash) {
-      assert.equal(expectedHash.length, policyResult.value.policyTokenHash.length);
+    assert.isNotNull(policyResult.body.policyTokenHash);
+    if (policyResult.body.policyTokenHash) {
+      assert.equal(expectedHash.length, policyResult.body.policyTokenHash.length);
       for (let i: number = 0; i < expectedHash.length; i += 1) {
-        assert.equal(expectedHash[i], policyResult.value.policyTokenHash[i]);
+        assert.equal(expectedHash[i], policyResult.body.policyTokenHash[i]);
       }
     }
     if (signer !== undefined) {
-      assert.isDefined(policyResult.value.policySigner);
-      assert.isNotNull(policyResult.value.policySigner);
+      assert.isDefined(policyResult.body.policySigner);
+      assert.isNotNull(policyResult.body.policySigner);
 
-      if (policyResult.value.policySigner) {
-        let pemCert: string;
-        pemCert = "-----BEGIN CERTIFICATE-----\r\n";
-        pemCert += encodeByteArray(policyResult.value.policySigner.certificates[0]);
-        pemCert += "\r\n-----END CERTIFICATE-----\r\n";
-
+      if (policyResult.body.policySigner) {
         const expectedCert = new jsrsasign.X509();
         expectedCert.readCertPEM(signer.certificate);
 
         const actualCert = new jsrsasign.X509();
-        actualCert.readCertPEM(pemCert);
+        actualCert.readCertPEM(policyResult.body.policySigner.certificates[0]);
 
         // The signer in the response should match the signer we set in the request.
         assert.equal(expectedCert.hex, actualCert.hex);
       }
     } else {
-      assert.isUndefined(policyResult.value.policySigner);
+      assert.isUndefined(policyResult.body.policySigner);
     }
 
     const getResult = await adminClient.getPolicy(attestationType);
-    assert.equal(minimalPolicy, getResult.value);
+    assert.equal(minimalPolicy, getResult.body);
   }
 
   async function testResetPolicy(
     attestationType: AttestationType,
     clientLocation: EndpointType,
-    signer?: AttestationSigningKey
+    signer?: { privateKey: string; certificate: string }
   ): Promise<void> {
     const adminClient = createRecordedAdminClient(clientLocation);
 
     const minimalPolicy = "version=1.0; authorizationrules{=> permit();}; issuancerules{};";
 
-    const policyResult = await adminClient.setPolicy(attestationType, minimalPolicy, signer);
+    const policyResult = await adminClient.setPolicy(attestationType, minimalPolicy, {
+      privateKey: signer?.privateKey,
+      certificate: signer?.certificate
+    });
 
-    assert.equal(KnownPolicyModification.Updated, policyResult.value.policyResolution);
+    assert.equal(KnownPolicyModification.Updated, policyResult.body.policyResolution);
 
     const resetResult = await adminClient.resetPolicy(attestationType, signer);
-    assert.equal(KnownPolicyModification.Removed, resetResult.value.policyResolution);
+
+    assert.equal(KnownPolicyModification.Removed, resetResult.body.policyResolution);
 
     // The reset policy should be different from the one we just set.
     const getResult = await adminClient.getPolicy(attestationType);
-    assert.notEqual(minimalPolicy, getResult.value);
+    assert.notEqual(minimalPolicy, getResult.body);
   }
 });

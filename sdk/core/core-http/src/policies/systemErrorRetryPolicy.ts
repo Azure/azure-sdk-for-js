@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import { HttpOperationResponse } from "../httpOperationResponse";
-import * as utils from "../util/utils";
 import { WebResourceLike } from "../webResource";
 import {
   BaseRequestPolicy,
@@ -21,7 +20,16 @@ import {
   DEFAULT_CLIENT_MIN_RETRY_INTERVAL,
   isNumber
 } from "../util/exponentialBackoffStrategy";
+import { delay } from "../util/delay";
 
+/**
+ * A policy that retries when there's a system error, identified by the codes "ETIMEDOUT", "ESOCKETTIMEDOUT", "ECONNREFUSED", "ECONNRESET" or "ENOENT".
+ * @param retryCount - Maximum number of retries.
+ * @param retryInterval - The client retry interval, in milliseconds.
+ * @param minRetryInterval - The minimum retry interval, in milliseconds.
+ * @param maxRetryInterval - The maximum retry interval, in milliseconds.
+ * @returns An instance of the {@link SystemErrorRetryPolicy}
+ */
 export function systemErrorRetryPolicy(
   retryCount?: number,
   retryInterval?: number,
@@ -43,6 +51,7 @@ export function systemErrorRetryPolicy(
 }
 
 /**
+ * A policy that retries when there's a system error, identified by the codes "ETIMEDOUT", "ESOCKETTIMEDOUT", "ECONNREFUSED", "ECONNRESET" or "ENOENT".
  * @param retryCount - The client retry count.
  * @param retryInterval - The client retry interval, in milliseconds.
  * @param minRetryInterval - The minimum retry interval, in milliseconds.
@@ -107,7 +116,7 @@ async function retry(
   if (shouldRetry(policy.retryCount, shouldPolicyRetry, retryData, operationResponse, err)) {
     // If previous operation ended with an error and the policy allows a retry, do that
     try {
-      await utils.delay(retryData.retryInterval);
+      await delay(retryData.retryInterval);
       return policy._nextPolicy.sendRequest(request.clone());
     } catch (nestedErr) {
       return retry(policy, request, operationResponse, nestedErr, retryData);

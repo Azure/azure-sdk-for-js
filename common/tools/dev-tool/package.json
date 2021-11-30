@@ -2,6 +2,7 @@
   "name": "@azure/dev-tool",
   "version": "1.0.0",
   "description": "A helpful command for azure-sdk-for-js developers",
+  "sdk-type": "utility",
   "bin": {
     "dev-tool": "launch.js"
   },
@@ -26,6 +27,7 @@
     "unit-test:node": "mocha --require ts-node/register test/**/*.spec.ts",
     "unit-test:browser": "echo skipped",
     "build:samples": "echo Skipped.",
+    "test": "echo Skipped.",
     "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src"
   },
   "repository": "github:Azure/azure-sdk-for-js",
@@ -34,19 +36,20 @@
   "bugs": {
     "url": "https://github.com/azure/azure-sdk-for-js/issues"
   },
-  "homepage": "https://github.com/azure/azure-sdk-for-js/tree/master/common/tools/dev-tool/",
+  "homepage": "https://github.com/azure/azure-sdk-for-js/tree/main/common/tools/dev-tool/",
   "sideEffects": false,
   "private": true,
   "prettier": "../eslint-plugin-azure-sdk/prettier.json",
   "dependencies": {
+    "concurrently": "^6.3.0",
     "chalk": "~4.1.1",
     "dotenv": "^8.2.0",
     "fs-extra": "^8.1.0",
     "minimist": "~1.2.5",
     "prettier": "^1.16.4",
-    "ts-node": "^9.0.0",
+    "ts-node": "^10.0.0",
     "tslib": "^2.2.0",
-    "typescript": "~4.2.0",
+    "typescript": "~4.4.0",
     "yaml": "~1.10.0"
   },
   "devDependencies": {
@@ -54,14 +57,15 @@
     "@rollup/plugin-json": "^4.0.0",
     "@rollup/plugin-multi-entry": "^3.0.0",
     "@rollup/plugin-node-resolve": "^8.0.0",
+    "@types/concurrently": "^6.3.0",
     "@types/chai": "^4.1.6",
     "@types/chai-as-promised": "^7.1.0",
     "@types/fs-extra": "^8.0.0",
     "@types/minimist": "~1.2.0",
     "@types/mocha": "^7.0.2",
-    "@types/node": "^8.0.0",
+    "@types/node": "^12.0.0",
     "@types/prettier": "~2.0.1",
-    "builtin-modules": "~3.1.0",
+    "builtin-modules": "^3.1.0",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "eslint": "^7.15.0",
@@ -70,7 +74,6 @@
     "rollup": "^1.16.3",
     "rollup-plugin-sourcemaps": "^0.4.2",
     "rollup-plugin-visualizer": "^4.0.4",
-    "typedoc": "0.15.2",
-    "typescript": "~4.2.0"
+    "typedoc": "0.15.2"
   }
 }

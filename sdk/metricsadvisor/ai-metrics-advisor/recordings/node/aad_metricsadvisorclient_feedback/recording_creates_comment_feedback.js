@@ -1,11 +1,82 @@
 let nock = require('nock');
 
-module.exports.hash = "a8f499eec770cfb0ecbda9095b34bd28";
+module.exports.hash = "6ff0d17bb67055a4ef5add7605c64970";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default")
+  .get('/common/discovery/instance')
+  .query(true)
+  .reply(200, {"tenant_discovery_endpoint":"https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/v2.0/.well-known/openid-configuration","api-version":"1.1","metadata":[{"preferred_network":"login.microsoftonline.com","preferred_cache":"login.windows.net","aliases":["login.microsoftonline.com","login.windows.net","login.microsoft.com","sts.windows.net"]},{"preferred_network":"login.partner.microsoftonline.cn","preferred_cache":"login.partner.microsoftonline.cn","aliases":["login.partner.microsoftonline.cn","login.chinacloudapi.cn"]},{"preferred_network":"login.microsoftonline.de","preferred_cache":"login.microsoftonline.de","aliases":["login.microsoftonline.de"]},{"preferred_network":"login.microsoftonline.us","preferred_cache":"login.microsoftonline.us","aliases":["login.microsoftonline.us","login.usgovcloudapi.net"]},{"preferred_network":"login-us.microsoftonline.com","preferred_cache":"login-us.microsoftonline.com","aliases":["login-us.microsoftonline.com"]}]}, [
+  'Cache-Control',
+  'max-age=86400, private',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Access-Control-Allow-Origin',
+  '*',
+  'Access-Control-Allow-Methods',
+  'GET, OPTIONS',
+  'P3P',
+  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
+  'x-ms-request-id',
+  '2bab7e94-c707-4bf6-a149-d9f0cbcf5b00',
+  'x-ms-ests-server',
+  '2.1.12231.7 - NCUS ProdSlices',
+  'Set-Cookie',
+  'fpc=An_HhcdfnQZDvfd00DJvzWE; expires=Thu, 16-Dec-2021 00:32:37 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'Set-Cookie',
+  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7Wevr52E_0CWOwh7a3oex8kO5xlyF32pantv5EfVGwwmZJa9txfvDW7eJZqOp0vrMEjU2Zn3KTv_rNFDVbrs1LXR0y_-reMTtfRg56wjljiXBzAWwfUxQRVYAuGK4gm_otv1qh1Dc4RY4ojtvQ0uytN4yO0UzY3tz4bV9yA9bhgV2udcgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
+  'Set-Cookie',
+  'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
+  'Set-Cookie',
+  'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
+  'Date',
+  'Tue, 16 Nov 2021 00:32:37 GMT',
+  'Content-Length',
+  '980'
+]);
+
+nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
+  .get('/12345678-1234-1234-1234-123456789012/v2.0/.well-known/openid-configuration')
+  .reply(200, {"token_endpoint":"https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token","token_endpoint_auth_methods_supported":["client_secret_post","private_key_jwt","client_secret_basic"],"jwks_uri":"https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/discovery/v2.0/keys","response_modes_supported":["query","fragment","form_post"],"subject_types_supported":["pairwise"],"id_token_signing_alg_values_supported":["RS256"],"response_types_supported":["code","id_token","code id_token","id_token token"],"scopes_supported":["openid","profile","email","offline_access"],"issuer":"https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/v2.0","request_uri_parameter_supported":false,"userinfo_endpoint":"https://graph.microsoft.com/oidc/userinfo","authorization_endpoint":"https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/oauth2/v2.0/authorize","device_authorization_endpoint":"https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/oauth2/v2.0/devicecode","http_logout_supported":true,"frontchannel_logout_supported":true,"end_session_endpoint":"https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/oauth2/v2.0/logout","claims_supported":["sub","iss","cloud_instance_name","cloud_instance_host_name","cloud_graph_host_name","msgraph_host","aud","exp","iat","auth_time","acr","nonce","preferred_username","name","tid","ver","at_hash","c_hash","email"],"kerberos_endpoint":"https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/kerberos","tenant_region_scope":"WW","cloud_instance_name":"microsoftonline.com","cloud_graph_host_name":"graph.windows.net","msgraph_host":"graph.microsoft.com","rbac_url":"https://pas.windows.net"}, [
+  'Cache-Control',
+  'max-age=86400, private',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Access-Control-Allow-Origin',
+  '*',
+  'Access-Control-Allow-Methods',
+  'GET, OPTIONS',
+  'P3P',
+  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
+  'x-ms-request-id',
+  '3ef643a3-9510-4812-bf46-04f9f4c33c00',
+  'x-ms-ests-server',
+  '2.1.12231.7 - EUS ProdSlices',
+  'Set-Cookie',
+  'fpc=Av5th0So1ONPsLo8nMjlUTM; expires=Thu, 16-Dec-2021 00:32:37 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'Set-Cookie',
+  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrPxd_BdpUHm5iMGqA5AizJGZWLsUuqv27Q-t2kXhCG4YmRDQXGfAHZNYBWDYBrdGgzWgkmT0fWp1U70YkJXas5ISE9w-hyLsCpdONSShNLqC2qp6pvQPr_c_iIqGlE4yB0rPOwiVDhTFLNIcZGaqkPNZo5jtuql0sUjy2DCzUaNggAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
+  'Set-Cookie',
+  'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
+  'Set-Cookie',
+  'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
+  'Date',
+  'Tue, 16 Nov 2021 00:32:37 GMT',
+  'Content-Length',
+  '1753'
+]);
+
+nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
+  .post('/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token', "client_id=azure_client_id&scope=https%3A%2F%2Fsanitized%2F&grant_type=client_credentials&x-client-SKU=msal.js.node&x-client-VER=1.3.3&x-client-OS=win32&x-client-CPU=x64&x-ms-lib-capability=retry-after, h429&x-client-current-telemetry=5|771,2,,,|,&x-client-last-telemetry=5|0|||0,0&client-request-id=65e451cb-e573-4a29-ba43-a89e5267da17&client_secret=azure_client_secret&claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22cp1%22%5D%7D%7D%7D")
   .reply(200, {"token_type":"Bearer","expires_in":86399,"ext_expires_in":86399,"access_token":"access_token"}, [
   'Cache-Control',
   'no-store, no-cache',
@@ -22,59 +93,40 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  'd28edc55-afec-488d-9ed0-154727e90600',
+  '9184cac9-6c37-40c9-b9df-905dc9703a00',
   'x-ms-ests-server',
-  '2.1.11722.26 - WUS2 ProdSlices',
+  '2.1.12231.7 - EUS ProdSlices',
+  'x-ms-clitelem',
+  '1,0,0,,',
   'Set-Cookie',
-  'fpc=AvJP_5zXpMNFtNCcPwwYUd3GLH8mEQAAAMwkSdgOAAAA; expires=Fri, 02-Jul-2021 07:07:27 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=Ate5DvSlXH1KrQrj9u7dVlo; expires=Thu, 16-Dec-2021 00:32:37 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Wed, 02 Jun 2021 07:07:27 GMT',
+  'Tue, 16 Nov 2021 00:32:37 GMT',
   'Content-Length',
   '1331'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .post('/metricsadvisor/v1.0/feedback/metric', {"feedbackType":"Comment","metricId":"189ff959-d9f4-45c7-a1e0-f87c9c7ca80f","dimensionFilter":{"dimension":{"city":"Cairo","category":"Home & Garden"}},"value":{"commentValue":"This is a comment"}})
-  .reply(201, "", [
+  .post('/metricsadvisor/v1.0/feedback/metric', {"feedbackType":"Comment","metricId":"189ff959-d9f4-45c7-a1e0-f87c9c7ca80f","dimensionFilter":{"dimension":{"category":"Home & Garden","region":"Cairo"}},"value":{"commentValue":"This is a comment"}})
+  .reply(400, {"code":"BadRequest","message":""}, [
   'Content-Length',
-  '0',
-  'Location',
-  'https://endpoint/metricsadvisor/v1.0/feedback/metric/5f791eb0-28de-42bd-875e-6f2dbc9d9e0a',
-  'x-request-id',
-  'd8fd3d25-61ff-4955-a5b8-34256dea3ef4',
-  'x-envoy-upstream-service-time',
-  '307',
-  'apim-request-id',
-  'd8fd3d25-61ff-4955-a5b8-34256dea3ef4',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains; preload',
-  'x-content-type-options',
-  'nosniff',
-  'Date',
-  'Wed, 02 Jun 2021 07:07:27 GMT'
-]);
-
-nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/metricsadvisor/v1.0/feedback/metric/5f791eb0-28de-42bd-875e-6f2dbc9d9e0a')
-  .reply(200, {"feedbackId":"5f791eb0-28de-42bd-875e-6f2dbc9d9e0a","createdTime":"2021-06-02T07:07:27.624Z","userPrincipal":"azure_client_id","metricId":"189ff959-d9f4-45c7-a1e0-f87c9c7ca80f","dimensionFilter":{"dimension":{"city":"Cairo","category":"Home & Garden"}},"feedbackType":"Comment","value":{"commentValue":"This is a comment"}}, [
-  'Content-Length',
-  '345',
+  '34',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-request-id',
-  '30743a5c-571b-490b-92b6-04ac36e67728',
+  'c8059305-cfd0-4ef4-9cfd-a75ba7757e7a',
   'x-envoy-upstream-service-time',
-  '206',
+  '132',
   'apim-request-id',
-  '30743a5c-571b-490b-92b6-04ac36e67728',
+  'c8059305-cfd0-4ef4-9cfd-a75ba7757e7a',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Wed, 02 Jun 2021 07:07:27 GMT'
+  'Tue, 16 Nov 2021 00:32:36 GMT'
 ]);

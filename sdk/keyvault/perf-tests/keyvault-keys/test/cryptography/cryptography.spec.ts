@@ -1,4 +1,4 @@
-import { PerfStressOptionDictionary, PerfStressTest } from "@azure/test-utils-perfstress";
+import { PerfOptionDictionary, PerfTest } from "@azure/test-utils-perf";
 import { CryptographyClient, KeyClient } from "@azure/keyvault-keys";
 import { v4 as uuid } from "uuid";
 import { credential, keyVaultUri } from "../utils";
@@ -7,8 +7,8 @@ interface CryptographyPerfTestOptions {
   keySize: number;
 }
 
-export abstract class CryptographyTest extends PerfStressTest<CryptographyPerfTestOptions> {
-  options: PerfStressOptionDictionary<CryptographyPerfTestOptions> = {
+export abstract class CryptographyTest extends PerfTest<CryptographyPerfTestOptions> {
+  options: PerfOptionDictionary<CryptographyPerfTestOptions> = {
     keySize: {
       required: false,
       description: "The size of the key to be created",

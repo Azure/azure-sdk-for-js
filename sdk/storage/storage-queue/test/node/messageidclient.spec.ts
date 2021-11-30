@@ -4,10 +4,11 @@
 import * as assert from "assert";
 import { newPipeline } from "../../src";
 import { getQSU, getConnectionStringFromEnvironment } from "../utils";
-import { record, Recorder } from "@azure/test-utils-recorder";
+import { record, Recorder } from "@azure-tools/test-recorder";
 import { QueueClient } from "../../src/QueueClient";
 import { StorageSharedKeyCredential } from "../../src/credentials/StorageSharedKeyCredential";
 import { recorderEnvSetup } from "../utils/index.browser";
+import { Context } from "mocha";
 
 describe("QueueClient messageId methods, Node.js only", () => {
   let queueName: string;
@@ -16,7 +17,7 @@ describe("QueueClient messageId methods, Node.js only", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function() {
+  beforeEach(async function(this: Context) {
     recorder = record(this, recorderEnvSetup);
     const queueServiceClient = getQSU();
     queueName = recorder.getUniqueName("queue");
@@ -206,7 +207,6 @@ describe("QueueClient messageId methods, Node.js only", () => {
 
   it("throws error if constructor queueName parameter is empty", async () => {
     try {
-      // tslint:disable-next-line: no-unused-expression
       new QueueClient(getConnectionStringFromEnvironment(), "");
       assert.fail("Expecting an thrown error but didn't get one.");
     } catch (error) {

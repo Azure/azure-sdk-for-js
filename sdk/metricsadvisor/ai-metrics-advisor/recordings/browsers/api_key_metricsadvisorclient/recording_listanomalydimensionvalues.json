@@ -4,18 +4,18 @@
    "method": "POST",
    "url": "https://endpoint/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/26ece682-80a6-4415-89a2-05903dd9a640/anomalies/dimension/query",
    "query": {},
-   "requestBody": "{\"startTime\":\"2020-01-05T00:00:00.000Z\",\"endTime\":\"2020-11-05T00:00:00.000Z\",\"dimensionName\":\"city\"}",
+   "requestBody": "{\"startTime\":\"2021-05-05T00:00:00.000Z\",\"endTime\":\"2021-11-01T00:00:00.000Z\",\"dimensionName\":\"category\"}",
    "status": 200,
-   "response": "{\"value\":[\"__SUM__\",\"Karachi\",\"Los Angeles\",\"Delhi\",\"Manila\",\"Seoul\",\"Mumbai\",\"Beijing\",\"New York\",\"Miami\",\"Mexico City\",\"Tianjin\",\"Philadelphia\",\"Osaka\",\"Moscow\",\"Santiago\",\"Istanbul\",\"Taipei\",\"Madrid\",\"Kolkata\",\"Rio de Janeiro\",\"Shenzhen\",\"Belo Horizonte\",\"Jakarta\",\"Lahore\",\"Dallas\",\"Wuhan\",\"Cairo\",\"Hyderabad\",\"Lima\",\"Dhaka\",\"Bogota\",\"Shanghai\",\"Paris\",\"Bangkok\",\"Houston\",\"Buenos Aires\",\"Kinshasa\",\"London\",\"Chennai\",\"Bengaluru\",\"Lagos\",\"Tokyo\",\"Sao Paulo\",\"Chicago\",\"Hong Kong\",\"Chongqing\",\"Guangzhou\",\"Tehran\",\"Boston\",\"Ho Chi Minh City\",\"Khartoum\",\"Barcelona\",\"Washington\",\"Pune\",\"Shenyang\",\"Saint Petersburg\",\"Toronto\",\"Guadalajara\",\"Singapore\",\"Dongguan\",\"Luanda\",\"Baghdad\",\"Haora\"]}",
+   "response": "{\"value\":[\"__SUM__\",\"Shoes Handbags & Sunglasses\",\"Handmade\",\"Office Products\",\"Home & Garden\",\"Electronics (Consumer)\",\"Electronics (Accessories)\",\"Grocery & Gourmet Food\"]}",
    "responseHeaders": {
-    "apim-request-id": "02809105-1305-41d1-9d19-2917583b5eb7",
-    "content-length": "693",
+    "apim-request-id": "a7acf351-9858-44e1-b258-85ecfe3ab3ed",
+    "content-length": "174",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 02 Jun 2021 07:09:32 GMT",
+    "date": "Tue, 16 Nov 2021 02:01:23 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "244",
-    "x-request-id": "02809105-1305-41d1-9d19-2917583b5eb7"
+    "x-envoy-upstream-service-time": "227",
+    "x-request-id": "a7acf351-9858-44e1-b258-85ecfe3ab3ed"
    }
   }
  ],
@@ -23,5 +23,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "25633d38d29d494bc009b76e5c1b9836"
+ "hash": "f17ea6bff0cfac799327a31d124c37cf"
 }

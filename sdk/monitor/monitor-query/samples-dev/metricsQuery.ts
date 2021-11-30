@@ -21,21 +21,33 @@ export async function main() {
     throw new Error("METRICS_RESOURCE_ID must be set in the environment for this sample");
   }
 
-  const metricsResponse = await metricsQueryClient.queryMetrics(
-    metricsResourceId,
-    Durations.lastDay,
-    {
-      metricNames: ["SuccessfulRequests"],
-      interval: "P1D"
+  const iterator = metricsQueryClient.listMetricDefinitions(metricsResourceId);
+  let metricNames: string[] = [];
+  for await (const result of iterator) {
+    console.log(` metricDefinitions - ${result.id}, ${result.name}`);
+    if (result.name) {
+      metricNames.push(result.name);
     }
-  );
+  }
 
-  console.log(
-    `Query cost: ${metricsResponse.cost}, interval: ${metricsResponse.interval}, time span: ${metricsResponse.timespan}`
-  );
+  if (metricNames.length > 0) {
+    console.log(`Picking an example list of metrics to query: ${metricNames}`);
+    const metricsResponse = await metricsQueryClient.queryResource(metricsResourceId, metricNames, {
+      granularity: "PT1M",
+      timespan: { duration: Durations.fiveMinutes }
+    });
 
-  const metrics: Metric[] = metricsResponse.metrics;
-  console.log(`Metrics:`, JSON.stringify(metrics, undefined, 2));
+    console.log(
+      `Query cost: ${metricsResponse.cost}, interval: ${metricsResponse.granularity}, time span: ${metricsResponse.timespan}`
+    );
+
+    const metrics: Metric[] = metricsResponse.metrics;
+    console.log(`Metrics:`, JSON.stringify(metrics, undefined, 2));
+    const metric = metricsResponse.getMetricByName(metricNames[0]);
+    console.log(`Selected Metric: ${metricNames[0]}`, JSON.stringify(metric, undefined, 2));
+  } else {
+    console.error(`Metric names are not defined - ${metricNames}`);
+  }
 }
 
 main().catch((err) => {

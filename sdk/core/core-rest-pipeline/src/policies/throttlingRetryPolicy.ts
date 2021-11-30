@@ -11,6 +11,11 @@ import { delay } from "../util/helpers";
 export const throttlingRetryPolicyName = "throttlingRetryPolicy";
 
 /**
+ * Maximum number of retries for the throttling retry policy
+ */
+export const DEFAULT_CLIENT_MAX_RETRY_COUNT = 3;
+
+/**
  * A policy that retries when the server sends a 429 response with a Retry-After header.
  *
  * To learn more, please refer to
@@ -22,21 +27,23 @@ export function throttlingRetryPolicy(): PipelinePolicy {
   return {
     name: throttlingRetryPolicyName,
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
-      const response = await next(request);
-      if (response.status !== 429) {
-        return response;
-      }
+      let response = await next(request);
 
-      const retryAfterHeader = response.headers.get("Retry-After");
-
-      if (retryAfterHeader) {
-        const delayInMs = parseRetryAfterHeader(retryAfterHeader);
-        if (delayInMs) {
-          await delay(delayInMs);
-          return next(request);
+      for (let count = 0; count < DEFAULT_CLIENT_MAX_RETRY_COUNT; count++) {
+        if (response.status !== 429 && response.status !== 503) {
+          return response;
         }
+        const retryAfterHeader = response.headers.get("Retry-After");
+        if (!retryAfterHeader) {
+          break;
+        }
+        const delayInMs = parseRetryAfterHeader(retryAfterHeader);
+        if (!delayInMs) {
+          break;
+        }
+        await delay(delayInMs);
+        response = await next(request);
       }
-
       return response;
     }
   };

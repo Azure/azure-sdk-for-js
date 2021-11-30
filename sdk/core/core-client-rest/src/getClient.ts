@@ -5,54 +5,16 @@ import { isTokenCredential, KeyCredential, TokenCredential } from "@azure/core-a
 import { isCertificateCredential } from "./certificateCredential";
 import { HttpMethods, Pipeline, PipelineOptions } from "@azure/core-rest-pipeline";
 import { createDefaultPipeline } from "./clientHelpers";
-import { ClientOptions, HttpResponse } from "./common";
-import { RequestParameters } from "./pathClientTypes";
+import { Client, ClientOptions, HttpResponse, RequestParameters } from "./common";
 import { sendRequest } from "./sendRequest";
 import { buildRequestUrl } from "./urlHelpers";
-
-/**
- * Type to use with pathUnchecked, overrides the body type to any to allow flexibility
- */
-export type PathUncheckedResponse = HttpResponse & { body: any };
-
-/**
- * Shape of a Rest Level Client
- */
-export interface Client {
-  /**
-   * The pipeline used by this client to make requests
-   */
-  pipeline: Pipeline;
-  /**
-   * This method will be used to send request that would check the path to provide
-   * strong types
-   */
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  path: Function;
-  /**
-   * This method allows arbitrary paths and doesn't provide strong types
-   */
-  pathUnchecked: (
-    path: string,
-    ...args: Array<any>
-  ) => {
-    get: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
-    post: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
-    put: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
-    patch: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
-    delete: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
-    head: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
-    options: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
-    trace: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
-  };
-}
 
 /**
  * Creates a client with a default pipeline
  * @param baseUrl - Base endpoint for the client
  * @param options - Client options
  */
-export function getClient(baseUrl: string, options?: PipelineOptions): Client;
+export function getClient(baseUrl: string, options?: ClientOptions): Client;
 /**
  * Creates a client with a default pipeline
  * @param baseUrl - Base endpoint for the client
@@ -70,7 +32,6 @@ export function getClient(
   clientOptions: ClientOptions = {}
 ): Client {
   let credentials: TokenCredential | KeyCredential | undefined;
-
   if (credentialsOrPipelineOptions) {
     if (isCredential(credentialsOrPipelineOptions)) {
       credentials = credentialsOrPipelineOptions;
@@ -80,31 +41,88 @@ export function getClient(
   }
 
   const pipeline = createDefaultPipeline(baseUrl, credentials, clientOptions);
+  const { allowInsecureConnection } = clientOptions;
   const client = (path: string, ...args: Array<any>) => {
     return {
       get: (options: RequestParameters = {}): Promise<HttpResponse> => {
-        return buildSendRequest("GET", clientOptions, baseUrl, path, pipeline, options, args);
+        return buildSendRequest(
+          "GET",
+          baseUrl,
+          path,
+          pipeline,
+          { allowInsecureConnection, ...options },
+          args
+        );
       },
       post: (options: RequestParameters = {}): Promise<HttpResponse> => {
-        return buildSendRequest("POST", clientOptions, baseUrl, path, pipeline, options, args);
+        return buildSendRequest(
+          "POST",
+          baseUrl,
+          path,
+          pipeline,
+          { allowInsecureConnection, ...options },
+          args
+        );
       },
       put: (options: RequestParameters = {}): Promise<HttpResponse> => {
-        return buildSendRequest("PUT", clientOptions, baseUrl, path, pipeline, options, args);
+        return buildSendRequest(
+          "PUT",
+          baseUrl,
+          path,
+          pipeline,
+          { allowInsecureConnection, ...options },
+          args
+        );
       },
       patch: (options: RequestParameters = {}): Promise<HttpResponse> => {
-        return buildSendRequest("PATCH", clientOptions, baseUrl, path, pipeline, options, args);
+        return buildSendRequest(
+          "PATCH",
+          baseUrl,
+          path,
+          pipeline,
+          { allowInsecureConnection, ...options },
+          args
+        );
       },
       delete: (options: RequestParameters = {}): Promise<HttpResponse> => {
-        return buildSendRequest("DELETE", clientOptions, baseUrl, path, pipeline, options, args);
+        return buildSendRequest(
+          "DELETE",
+          baseUrl,
+          path,
+          pipeline,
+          { allowInsecureConnection, ...options },
+          args
+        );
       },
       head: (options: RequestParameters = {}): Promise<HttpResponse> => {
-        return buildSendRequest("HEAD", clientOptions, baseUrl, path, pipeline, options, args);
+        return buildSendRequest(
+          "HEAD",
+          baseUrl,
+          path,
+          pipeline,
+          { allowInsecureConnection, ...options },
+          args
+        );
       },
       options: (options: RequestParameters = {}): Promise<HttpResponse> => {
-        return buildSendRequest("OPTIONS", clientOptions, baseUrl, path, pipeline, options, args);
+        return buildSendRequest(
+          "OPTIONS",
+          baseUrl,
+          path,
+          pipeline,
+          { allowInsecureConnection, ...options },
+          args
+        );
       },
       trace: (options: RequestParameters = {}): Promise<HttpResponse> => {
-        return buildSendRequest("TRACE", clientOptions, baseUrl, path, pipeline, options, args);
+        return buildSendRequest(
+          "TRACE",
+          baseUrl,
+          path,
+          pipeline,
+          { allowInsecureConnection, ...options },
+          args
+        );
       },
     };
   };
@@ -118,7 +136,6 @@ export function getClient(
 
 function buildSendRequest(
   method: HttpMethods,
-  clientOptions: ClientOptions,
   baseUrl: string,
   path: string,
   pipeline: Pipeline,
@@ -126,14 +143,6 @@ function buildSendRequest(
   args: string[] = []
 ): Promise<HttpResponse> {
   // If the client has an api-version and the request doesn't specify one, inject the one in the client options
-  if (!requestOptions.queryParameters?.["api-version"] && clientOptions.apiVersion) {
-    if (!requestOptions.queryParameters) {
-      requestOptions.queryParameters = {};
-    }
-
-    requestOptions.queryParameters["api-version"] = clientOptions.apiVersion;
-  }
-
   const url = buildRequestUrl(baseUrl, path, args, requestOptions);
   return sendRequest(method, url, pipeline, requestOptions);
 }

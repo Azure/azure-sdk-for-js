@@ -6,13 +6,14 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import * as coreClient from "@azure/core-client";
 import * as Parameters from "./models/parameters";
 import * as Mappers from "./models/mappers";
 import { ApplicationInsightsClientContext } from "./applicationInsightsClientContext";
 import {
   ApplicationInsightsClientOptionalParams,
   TelemetryItem,
+  ApplicationInsightsClientTrackOptionalParams,
   ApplicationInsightsClientTrackResponse
 } from "./models";
 
@@ -32,22 +33,15 @@ export class ApplicationInsightsClient extends ApplicationInsightsClientContext 
    */
   track(
     body: TelemetryItem[],
-    options?: coreHttp.OperationOptions
+    options?: ApplicationInsightsClientTrackOptionalParams
   ): Promise<ApplicationInsightsClientTrackResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
-    return this.sendOperationRequest(
-      { body, options: operationOptions },
-      trackOperationSpec
-    ) as Promise<ApplicationInsightsClientTrackResponse>;
+    return this.sendOperationRequest({ body, options }, trackOperationSpec);
   }
 }
 // Operation Specifications
+const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
-
-const trackOperationSpec: coreHttp.OperationSpec = {
+const trackOperationSpec: coreClient.OperationSpec = {
   path: "/track",
   httpMethod: "POST",
   responses: {
@@ -58,19 +52,24 @@ const trackOperationSpec: coreHttp.OperationSpec = {
       bodyMapper: Mappers.TrackResponse
     },
     400: {
-      bodyMapper: Mappers.TrackResponse
+      bodyMapper: Mappers.TrackResponse,
+      isError: true
     },
     402: {
-      bodyMapper: Mappers.TrackResponse
+      bodyMapper: Mappers.TrackResponse,
+      isError: true
     },
     429: {
-      bodyMapper: Mappers.TrackResponse
+      bodyMapper: Mappers.TrackResponse,
+      isError: true
     },
     500: {
-      bodyMapper: Mappers.TrackResponse
+      bodyMapper: Mappers.TrackResponse,
+      isError: true
     },
     503: {
-      bodyMapper: Mappers.TrackResponse
+      bodyMapper: Mappers.TrackResponse,
+      isError: true
     }
   },
   requestBody: Parameters.body,

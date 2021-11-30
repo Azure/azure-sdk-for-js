@@ -4,36 +4,36 @@
    "method": "POST",
    "url": "https://endpoint/metricsadvisor/v1.0/dataFeeds",
    "query": {},
-   "requestBody": "{\"dataSourceType\":\"PostgreSql\",\"dataFeedName\":\"js-test-postgreSqlFeed-162267917625901300\",\"dataFeedDescription\":\"Data feed description\",\"granularityName\":\"Daily\",\"metrics\":[{\"metricName\":\"cost\",\"metricDisplayName\":\"cost\",\"metricDescription\":\"\"},{\"metricName\":\"revenue\",\"metricDisplayName\":\"revenue\",\"metricDescription\":\"\"}],\"dimension\":[{\"dimensionName\":\"category\",\"dimensionDisplayName\":\"category\"},{\"dimensionName\":\"city\",\"dimensionDisplayName\":\"city\"}],\"dataStartFrom\":\"2020-08-21T00:00:00.000Z\",\"startOffsetInSeconds\":0,\"maxConcurrency\":-1,\"minRetryIntervalInSeconds\":-1,\"stopRetryAfterInSeconds\":-1,\"needRollup\":\"NeedRollup\",\"rollUpMethod\":\"Sum\",\"allUpIdentification\":\"__CUSTOM_SUM__\",\"fillMissingPointType\":\"CustomValue\",\"fillMissingPointValue\":555,\"viewMode\":\"Private\",\"authenticationType\":\"Basic\",\"dataSourceParameter\":{\"connectionString\":\"https://connect-to-postgresql\",\"query\":\"{ find: postgresql,filter: { Time: @StartTime },batch: 200 }\"}}",
+   "requestBody": "{\"dataSourceType\":\"PostgreSql\",\"dataFeedName\":\"js-test-postgreSqlFeed-163702811536004919\",\"dataFeedDescription\":\"Data feed description\",\"granularityName\":\"Daily\",\"metrics\":[{\"metricName\":\"cost\",\"metricDisplayName\":\"cost\",\"metricDescription\":\"\"},{\"metricName\":\"revenue\",\"metricDisplayName\":\"revenue\",\"metricDescription\":\"\"}],\"dimension\":[{\"dimensionName\":\"category\",\"dimensionDisplayName\":\"category\"},{\"dimensionName\":\"city\",\"dimensionDisplayName\":\"city\"}],\"dataStartFrom\":\"2020-08-21T00:00:00.000Z\",\"startOffsetInSeconds\":0,\"maxConcurrency\":-1,\"minRetryIntervalInSeconds\":-1,\"stopRetryAfterInSeconds\":-1,\"needRollup\":\"NeedRollup\",\"rollUpMethod\":\"Sum\",\"allUpIdentification\":\"__CUSTOM_SUM__\",\"fillMissingPointType\":\"CustomValue\",\"fillMissingPointValue\":555,\"viewMode\":\"Private\",\"authenticationType\":\"Basic\",\"dataSourceParameter\":{\"connectionString\":\"https://connect-to-postgresql\",\"query\":\"{ find: postgresql,filter: { Time: @StartTime },batch: 200 }\"}}",
    "status": 201,
    "response": "",
    "responseHeaders": {
-    "apim-request-id": "f512f73a-f540-405a-b537-12ac068206f1",
+    "apim-request-id": "2ec7d28a-830c-4645-baf5-44cd6afef5d1",
     "content-length": "0",
-    "date": "Thu, 03 Jun 2021 00:13:45 GMT",
-    "location": "https://endpoint/metricsadvisor/v1.0/dataFeeds/a47ab471-b524-43c8-af6c-d32a7bc23e58",
+    "date": "Tue, 16 Nov 2021 02:02:10 GMT",
+    "location": "https://endpoint/metricsadvisor/v1.0/dataFeeds/cb3c799d-fc2f-47fb-b27a-fb23da331e5c",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "520",
-    "x-request-id": "f512f73a-f540-405a-b537-12ac068206f1"
+    "x-envoy-upstream-service-time": "560",
+    "x-request-id": "2ec7d28a-830c-4645-baf5-44cd6afef5d1"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/metricsadvisor/v1.0/dataFeeds/a47ab471-b524-43c8-af6c-d32a7bc23e58",
+   "url": "https://endpoint/metricsadvisor/v1.0/dataFeeds/cb3c799d-fc2f-47fb-b27a-fb23da331e5c",
    "query": {},
    "requestBody": null,
    "status": 200,
-   "response": "{\"dataFeedId\":\"a47ab471-b524-43c8-af6c-d32a7bc23e58\",\"dataFeedName\":\"js-test-postgreSqlFeed-162267917625901300\",\"metrics\":[{\"metricId\":\"50e0c47a-2141-4fee-ac14-cf28c4c0b44e\",\"metricName\":\"cost\",\"metricDisplayName\":\"cost\",\"metricDescription\":\"\"},{\"metricId\":\"9719f5f3-deaa-484e-a998-a0ce3434e2dd\",\"metricName\":\"revenue\",\"metricDisplayName\":\"revenue\",\"metricDescription\":\"\"}],\"dimension\":[{\"dimensionName\":\"category\",\"dimensionDisplayName\":\"category\"},{\"dimensionName\":\"city\",\"dimensionDisplayName\":\"city\"}],\"dataStartFrom\":\"2020-08-21T00:00:00Z\",\"dataSourceType\":\"PostgreSql\",\"timestampColumn\":\"\",\"startOffsetInSeconds\":0,\"maxQueryPerMinute\":30.0,\"granularityName\":\"Daily\",\"allUpIdentification\":\"__CUSTOM_SUM__\",\"needRollup\":\"NeedRollup\",\"fillMissingPointType\":\"CustomValue\",\"fillMissingPointValue\":555.0,\"rollUpMethod\":\"Sum\",\"dataFeedDescription\":\"Data feed description\",\"stopRetryAfterInSeconds\":-1,\"minRetryIntervalInSeconds\":-1,\"maxConcurrency\":-1,\"viewMode\":\"Private\",\"admins\":[\"kaghiya@microsoft.com\"],\"viewers\":[],\"creator\":\"kaghiya@microsoft.com\",\"status\":\"Active\",\"createdTime\":\"2021-06-03T00:13:45Z\",\"isAdmin\":true,\"actionLinkTemplate\":\"\",\"dataSourceParameter\":{\"query\":\"{ find: postgresql,filter: { Time: @StartTime },batch: 200 }\"},\"authenticationType\":\"Basic\"}",
+   "response": "{\"dataFeedId\":\"cb3c799d-fc2f-47fb-b27a-fb23da331e5c\",\"dataFeedName\":\"js-test-postgreSqlFeed-163702811536004919\",\"metrics\":[{\"metricId\":\"38d4c1dc-f391-4de8-8a29-9c448fee7ac7\",\"metricName\":\"cost\",\"metricDisplayName\":\"cost\",\"metricDescription\":\"\"},{\"metricId\":\"e61467f9-4422-4ea2-ac25-0085f6b18922\",\"metricName\":\"revenue\",\"metricDisplayName\":\"revenue\",\"metricDescription\":\"\"}],\"dimension\":[{\"dimensionName\":\"category\",\"dimensionDisplayName\":\"category\"},{\"dimensionName\":\"city\",\"dimensionDisplayName\":\"city\"}],\"dataStartFrom\":\"2020-08-21T00:00:00Z\",\"dataSourceType\":\"PostgreSql\",\"timestampColumn\":\"\",\"startOffsetInSeconds\":0,\"maxQueryPerMinute\":30.0,\"granularityName\":\"Daily\",\"allUpIdentification\":\"__CUSTOM_SUM__\",\"needRollup\":\"NeedRollup\",\"fillMissingPointType\":\"CustomValue\",\"fillMissingPointValue\":555.0,\"rollUpMethod\":\"Sum\",\"dataFeedDescription\":\"Data feed description\",\"stopRetryAfterInSeconds\":-1,\"minRetryIntervalInSeconds\":-1,\"maxConcurrency\":-1,\"viewMode\":\"Private\",\"admins\":[\"kaghiya@microsoft.com\"],\"viewers\":[],\"creator\":\"kaghiya@microsoft.com\",\"status\":\"Active\",\"createdTime\":\"2021-11-16T02:02:11Z\",\"isAdmin\":true,\"actionLinkTemplate\":\"\",\"dataSourceParameter\":{\"query\":\"{ find: postgresql,filter: { Time: @StartTime },batch: 200 }\"},\"authenticationType\":\"Basic\"}",
    "responseHeaders": {
-    "apim-request-id": "bebdec81-d4a4-49c3-98ae-b51580c29708",
+    "apim-request-id": "65743148-f172-4c17-9059-5279d77b8b5f",
     "content-length": "1272",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 03 Jun 2021 00:13:45 GMT",
+    "date": "Tue, 16 Nov 2021 02:02:11 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "171",
-    "x-request-id": "bebdec81-d4a4-49c3-98ae-b51580c29708"
+    "x-envoy-upstream-service-time": "156",
+    "x-request-id": "65743148-f172-4c17-9059-5279d77b8b5f"
    }
   }
  ],
@@ -41,5 +41,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "672f6e51b85b8e597448114003a9da49"
+ "hash": "192b51f987c4ba12aac90baefb340b18"
 }

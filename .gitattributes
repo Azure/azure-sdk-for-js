@@ -20,3 +20,6 @@ yarn.lock                    merge=binary
 # Mark recordings as auto generated
 **/recordings/**/*.js linguist-generated=true
 **/recordings/**/*.json linguist-generated=true
+
+# Mark generated code as auto generated
+**/generated/**/*.ts linguist-generated=true

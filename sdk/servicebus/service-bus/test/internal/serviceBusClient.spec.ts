@@ -5,6 +5,7 @@ import { EnvironmentCredential } from "@azure/identity";
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import * as dotenv from "dotenv";
+import { Constants as CoreAmqpConstants } from "@azure/core-amqp";
 import Long from "long";
 import {
   isServiceBusError,
@@ -294,7 +295,11 @@ describe("ServiceBusClient live tests", () => {
       });
 
       should.equal(
-        await checkWithTimeout(() => errorWasThrown === true, 10, 3000),
+        await checkWithTimeout(
+          () => errorWasThrown === true,
+          1000,
+          CoreAmqpConstants.defaultOperationTimeoutInMs * 2 // arbitrary, just don't want it to be too short.
+        ),
         true,
         "Error thrown flag must be true"
       );

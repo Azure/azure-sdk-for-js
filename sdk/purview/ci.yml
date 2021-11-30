@@ -1,28 +1,25 @@
 # NOTE: Please refer to https://aka.ms/azsdk/engsys/ci-yaml before editing this file.
-
 trigger:
   branches:
     include:
-      - master
       - main
       - release/*
       - hotfix/*
   paths:
     include:
       - sdk/purview/
-
 pr:
   branches:
     include:
-      - master
       - main
       - feature/*
       - release/*
       - hotfix/*
+    exclude:
+      - feature/v4
   paths:
     include:
       - sdk/purview/
-
 extends:
   template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
@@ -32,3 +29,9 @@ extends:
         safeName: azurerestpurviewcatalog
       - name: azure-rest-purview-scanning
         safeName: azurerestpurviewscanning
+      - name: azure-rest-purview-account
+        safeName: azurerestpurviewaccount
+      - name: azure-rest-purview-administration
+        safeName: azurerestpurviewadministration
+      - name: azure-arm-purview
+        safeName: azurearmpurview

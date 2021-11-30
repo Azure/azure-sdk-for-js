@@ -58,7 +58,7 @@ class CommunicationAccessKeyCredentialPolicy extends BaseRequestPolicy {
     const verb = webResource.method.toUpperCase();
     const utcNow = new Date().toUTCString();
     const contentHash = await shaHash(webResource.body || "");
-    const dateHeader = isNode ? "date" : "x-ms-date";
+    const dateHeader = "x-ms-date";
     const signedHeaders = `${dateHeader};host;x-ms-content-sha256`;
 
     const url = URLBuilder.parse(webResource.url);

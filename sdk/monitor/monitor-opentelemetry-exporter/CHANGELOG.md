@@ -1,8 +1,30 @@
 # Release History
 
-## 1.0.0-beta.4 (Unreleased)
+## 1.0.0-beta.6 (Unreleased)
 
-- Open Telemetry dependency updates
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 1.0.0-beta.5 (2021-10-05)
+
+### Bugs Fixed
+
+- Fixed issue with SDK version field not being populated correctly.
+
+### Other Changes
+
+- Updated mapping for Azure Monitor according to latest specs.
+
+## 1.0.0-beta.4 (2021-07-07)
+
+- Updating OpenTelemetry API to 1.0.0
+- Adding support for temporary and permanent redirect
+- Adding cleanup process for older temp files
 
 ## 1.0.0-beta.3 (2021-02-10)
 

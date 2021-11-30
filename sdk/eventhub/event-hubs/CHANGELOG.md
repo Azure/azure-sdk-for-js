@@ -1,15 +1,40 @@
 # Release History
 
-## 5.5.3 (Unreleased)
+## 5.7.0-beta.2 (Unreleased)
 
 ### Features Added
 
 ### Breaking Changes
 
-### Key Bugs Fixed
+### Bugs Fixed
 
-### Fixed
+### Other Changes
 
+## 5.7.0-beta.1 (2021-11-12)
+
+### Features Added
+
+- Added `EventHubBufferedProducerClient` with functionality to manage batching, concurrency, and sending of events implicitly. This abstracts the complexity away from applications regarding publishing events in an optimal fashion. See issue [#17699](https://github.com/Azure/azure-sdk-for-js/issues/17699) for more details.
+- Added `skipParsingBodyAsJson` optional parameter to `EventHubConsumerClient.subscribe` method. When set to `true` it will disable the client from running `JSON.parse()` on the message body when receiving the message. Not applicable if the message was sent with AMQP body type `value` or `sequence`.
+
+### Other Changes
+
+- Prevent empty spans from being created when tracing is disabled. Fixes issue [#14063](https://github.com/Azure/azure-sdk-for-js/issues/14063)
+- Updated to use the version `1.0.0-preview.13` of the `@azure/core-tracing` dependency.
+
+## 5.6.0 (2021-07-07)
+
+### Features Added
+
+- With the dropping of support for Node.js versions that are no longer in LTS, the dependency on `@types/node` has been updated to version 12. Read our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
+
+- Updated our internal core package dependencies to their latest versions in order to add support for Opentelemetry 1.0.0 which is compatible with the latest versions of our other client libraries.
+- Changed TS compilation target to ES2017 in order to produce smaller bundles and use more native platform features
+- Adds the `contentType`, `correlationId`, and `messageId` AMQP properties as top-level fields on `EventData` and `ReceivedEventData`.
+
+- Enable encoding the body of a message to the 'value' or 'sequence' sections (via AmqpAnnotatedMessage.bodyType). Using this encoding is not required but does allow you to take advantage of native AMQP serialization for supported primitives or sequences.
+
+  More information about the AMQP message body type can be found in the AMQP specification: [link](https://docs.oasis-open.org/amqp/core/v1.0/os/amqp-core-messaging-v1.0-os.html#section-message-format)
 
 ## 5.5.2 (2021-06-10)
 
@@ -164,7 +189,7 @@ changes between patch and minor updates.
   after calling `subscribe` would cause events to still be read.
 - Updated to use the latest version of the `@azure/core-amqp` package which in
   turn uses the latest version of the `rhea` package.
-  This update improves support for [bundling](https://github.com/Azure/azure-sdk-for-js/blob/master/documentation/Bundling.md) this library.
+  This update improves support for [bundling](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/Bundling.md) this library.
   ([Pull Request](https://github.com/amqp/rhea/pull/274))
 
 ## 5.0.0 (2020-01-09)
@@ -346,7 +371,7 @@ For more information, please visit https://aka.ms/azsdk/releases/july2019preview
 ### Next Steps
 
 - Refer to the `API reference documentation` to get an overview of the entire API surface.
-- Refer to our [samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs/samples) to understand the usage of the new APIs.
+- Refer to our [samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventhub/event-hubs/samples) to understand the usage of the new APIs.
 
 ## 2.1.0 (2019-06-10)
 
@@ -368,7 +393,7 @@ For more information, please visit https://aka.ms/azsdk/releases/july2019preview
 ### Bug fixes and other changes
 
 - A network connection lost error is now treated as retryable error. A new error with name `ConnectionLostError`
-  is introduced for this scenario which you can see if you enable the [logs](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/README.md#debug-logs).
+  is introduced for this scenario which you can see if you enable the [logs](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/event-hubs/README.md#debug-logs).
 - When recovering from an error that caused the underlying AMQP connection to get disconnected,
   [rhea](https://github.com/amqp/rhea/issues/205) reconnects all the older AMQP links on the connection
   resulting in the below 2 errors in the logs. We now clear rhea's internal map to avoid such reconnections.
@@ -439,7 +464,7 @@ For more information, please visit https://aka.ms/azsdk/releases/july2019preview
 ## 0.2.6 (2018-08-07)
 
 - Improved log statements.
-- Documented different mechanisms of getting the debug logs in [README](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs//#debug-logs).
+- Documented different mechanisms of getting the debug logs in [README](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventhub/event-hubs//#debug-logs).
 - Minimum dependency on `"rhea": "^0.2.18"`.
 - Fixed bugs in recovery logic
 - Added support to recover from session close for sender and receiver

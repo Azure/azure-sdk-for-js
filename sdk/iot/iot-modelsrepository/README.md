@@ -2,11 +2,12 @@
 
 This package contains an isomorphic Client Library for Azure IoT Models Repository in JavaScript. Use the Azure IoT Models Repository library for JavaScript to pull DTDL files from remote endpoints.
 
-[Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/iot/iot-modelsrepository) |
-[Package (npm)](https://www.npmjs.com/package/@azure/iot-modelsrepository/) |
-Samples
 
--------------------------------------
+Key links:
+- [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/iot/iot-modelsrepository)
+- [Package (npm)](https://www.npmjs.com/package/@azure/iot-modelsrepository/)
+- Samples
+
 
 # Getting started
 
@@ -16,8 +17,10 @@ The Azure IoT Models Repository library for JavaScript provides functionality fo
 
 ### Currently supported environments
 
-- Node.js version 8.x.x or higher
-- Browser JavaScript
+- [LTS versions of Node.js](https://nodejs.org/about/releases/)
+- Latest versions of Safari, Chrome, Edge, and Firefox.
+
+See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
 
 ### How to Install
 
@@ -36,6 +39,8 @@ npm install @azure/iot-modelsrepository
 // When no URI is provided for instantiation, the Azure IoT Models Repository global endpoint
 // https://devicemodels.azure.com/ is used and the model dependency resolution
 // configuration is set to TryFromExpanded.
+const { ModelsRepositoryClient } = require("@azure/iot-modelsrepository");
+
 const client = new ModelsRepositoryClient();
 console.log(`Initialized client point to global endpoint: ${client.repositoryLocation}`);
 ```
@@ -66,7 +71,7 @@ const models = await client.getModels(dtmi, {dependencyResolution: 'tryFromExpan
 
 // In this case the above dtmi has 2 model dependencies.
 // dtmi:com:example:Thermostat;1 and dtmi:azure:DeviceManagement:DeviceInformation;1
-console.log(`${dtmi} resolved in ${models.keys().length} interfaces.`);
+console.log(`${dtmi} resolved in ${Object.keys(models).length} interfaces.`);
 ```
 
 GitHub pull-request workflows are a core aspect of the IoT Models Repository service. To submit models, the user is expected to fork and clone the global [models repository project](https://github.com/Azure/iot-plugandplay-models) then iterate against the local copy. Changes would then be pushed to the fork (ideally in a new branch) and a PR created against the global repository.
@@ -151,7 +156,7 @@ console.log(fullyQualifiedModelPath);
 
 - Review the [DTDL Spec](https://docs.microsoft.com/azure/iot-pnp/concepts-model-parser).
 - Understand the [Device Models Repository](https://devicemodels.azure.com/).
-- Code a IoT Plug and Play 'Device' using the [Azure IoT SDK for Node](https://github.com/Azure/azure-iot-sdk-node/tree/master/device/samples/pnp/readme.md).  
+- Code a IoT Plug and Play 'Device' using the [Azure IoT SDK for Node](https://github.com/Azure/azure-iot-sdk-node/tree/master/device/samples#plug-and-play-examples).  
 
 # Related projects
 

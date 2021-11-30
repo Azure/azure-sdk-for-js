@@ -17,7 +17,10 @@ export function decompressResponsePolicy(): PipelinePolicy {
   return {
     name: decompressResponsePolicyName,
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
-      request.headers.set("Accept-Encoding", "gzip,deflate");
+      // HEAD requests have no body
+      if (request.method !== "HEAD") {
+        request.headers.set("Accept-Encoding", "gzip,deflate");
+      }
       return next(request);
     }
   };

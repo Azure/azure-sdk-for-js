@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import * as coreClient from "@azure/core-client";
 
 /** The response to a metrics query. */
 export interface Response {
@@ -16,9 +16,9 @@ export interface Response {
   timespan: string;
   /** The interval (window size) for which the metric data was returned in.  This may be adjusted in the future and returned back from what was originally requested.  This is not present if a metadata request was made. */
   interval?: string;
-  /** The namespace of the metrics been queried */
+  /** The namespace of the metrics being queried */
   namespace?: string;
-  /** The region of the resource been queried for metrics. */
+  /** The region of the resource being queried for metrics. */
   resourceregion?: string;
   /** the value of the collection. */
   value: Metric[];
@@ -33,10 +33,12 @@ export interface Metric {
   /** the name and the display name of the metric, i.e. it is localizable string. */
   name: LocalizableString;
   /** Detailed description of this metric. */
-  displayDescription: string;
+  displayDescription?: string;
   /** 'Success' or the error details on query failures for this metric. */
   errorCode?: string;
-  /** the unit of the metric. */
+  /** Error message encountered querying this specific metric. */
+  errorMessage?: string;
+  /** The unit of the metric. */
   unit: MetricUnit;
   /** the time series returned when a data query is performed. */
   timeseries: TimeSeriesElement[];
@@ -90,23 +92,23 @@ export interface ErrorResponse {
   message?: string;
 }
 
-/** Known values of {@link ApiVersion20170501Preview} that the service accepts. */
-export const enum KnownApiVersion20170501Preview {
-  /** Api Version '2017-05-01-preview' */
-  TwoThousandSeventeen0501Preview = "2017-05-01-preview"
+/** Known values of {@link ApiVersion201801} that the service accepts. */
+export enum KnownApiVersion201801 {
+  /** Api Version '2018-01-01' */
+  TwoThousandEighteen0101 = "2018-01-01"
 }
 
 /**
- * Defines values for ApiVersion20170501Preview. \
- * {@link KnownApiVersion20170501Preview} can be used interchangeably with ApiVersion20170501Preview,
+ * Defines values for ApiVersion201801. \
+ * {@link KnownApiVersion201801} can be used interchangeably with ApiVersion201801,
  *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
- * **2017-05-01-preview**: Api Version '2017-05-01-preview'
+ * ### Known values supported by the service
+ * **2018-01-01**: Api Version '2018-01-01'
  */
-export type ApiVersion20170501Preview = string;
+export type ApiVersion201801 = string;
 
 /** Known values of {@link MetricUnit} that the service accepts. */
-export const enum KnownMetricUnit {
+export enum KnownMetricUnit {
   Count = "Count",
   Bytes = "Bytes",
   Seconds = "Seconds",
@@ -126,7 +128,7 @@ export const enum KnownMetricUnit {
  * Defines values for MetricUnit. \
  * {@link KnownMetricUnit} can be used interchangeably with MetricUnit,
  *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
+ * ### Known values supported by the service
  * **Count** \
  * **Bytes** \
  * **Seconds** \
@@ -146,13 +148,13 @@ export type MetricUnit = string;
 export type ResultType = "Data" | "Metadata";
 
 /** Optional parameters. */
-export interface MetricsListOptionalParams extends coreHttp.OperationOptions {
+export interface MetricsListOptionalParams extends coreClient.OperationOptions {
   /** The timespan of the query. It is a string with the following format 'startDateTime_ISO/endDateTime_ISO'. */
   timespan?: string;
   /** The interval (i.e. timegrain) of the query. */
   interval?: string;
-  /** The name of the metric to retrieve. */
-  metric?: string;
+  /** The names of the metrics (comma separated) to retrieve. Special case: If a metricname itself has a comma in it then use %2 to indicate it. Eg: 'Metric,Name1' should be **'Metric%2Name1'** */
+  metricnames?: string;
   /** The list of aggregation types (comma separated) to retrieve. */
   aggregation?: string;
   /**
@@ -167,7 +169,7 @@ export interface MetricsListOptionalParams extends coreHttp.OperationOptions {
    * Examples: sum asc.
    */
   orderby?: string;
-  /** The **$filter** is used to reduce the set of metric data returned.<br>Example:<br>Metric contains metadata A, B and C.<br>- Return all time series of C where A = a1 and B = b1 or b2<br>**$filter=A eq ‘a1’ and B eq ‘b1’ or B eq ‘b2’ and C eq ‘*’**<br>- Invalid variant:<br>**$filter=A eq ‘a1’ and B eq ‘b1’ and C eq ‘*’ or B = ‘b2’**<br>This is invalid because the logical or operator cannot separate two different metadata names.<br>- Return all time series where A = a1, B = b1 and C = c1:<br>**$filter=A eq ‘a1’ and B eq ‘b1’ and C eq ‘c1’**<br>- Return all time series where A = a1<br>**$filter=A eq ‘a1’ and B eq ‘*’ and C eq ‘*’**. */
+  /** The **$filter** is used to reduce the set of metric data returned. Example: Metric contains metadata A, B and C. - Return all time series of C where A = a1 and B = b1 or b2 **$filter=A eq 'a1' and B eq 'b1' or B eq 'b2' and C eq '*'** - Invalid variant: **$filter=A eq 'a1' and B eq 'b1' and C eq '*' or B = 'b2'** This is invalid because the logical or operator cannot separate two different metadata names. - Return all time series where A = a1, B = b1 and C = c1: **$filter=A eq 'a1' and B eq 'b1' and C eq 'c1'** - Return all time series where A = a1 **$filter=A eq 'a1' and B eq '*' and C eq '*'**. Special case: When dimension name or dimension value uses round brackets. Eg: When dimension name is **dim (test) 1** Instead of using $filter= "dim (test) 1 eq '*' " use **$filter= "dim %2528test%2529 1 eq '*' "** When dimension name is **dim (test) 3** and dimension value is **dim3 (test) val** Instead of using $filter= "dim (test) 3 eq 'dim3 (test) val' " use **$filter= "dim %2528test%2529 3 eq 'dim3 %2528test%2529 val' "** */
   filter?: string;
   /** Reduces the set of data collected. The syntax allowed depends on the operation. See the operation's description for details. */
   resultType?: ResultType;
@@ -176,20 +178,11 @@ export interface MetricsListOptionalParams extends coreHttp.OperationOptions {
 }
 
 /** Contains response data for the list operation. */
-export type MetricsListResponse = Response & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: Response;
-  };
-};
+export type MetricsListResponse = Response;
 
 /** Optional parameters. */
 export interface MonitorManagementClientOptionalParams
-  extends coreHttp.ServiceClientOptions {
+  extends coreClient.ServiceClientOptions {
   /** server parameter */
   $host?: string;
   /** Overrides client endpoint. */

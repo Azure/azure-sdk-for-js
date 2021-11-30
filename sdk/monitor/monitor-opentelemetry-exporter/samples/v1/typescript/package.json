@@ -1,0 +1,49 @@
+{
+  "name": "azure-monitor-opentelemetry-exporter-samples-ts",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Azure Monitor Trace Exporter client library samples for TypeScript",
+  "engines": {
+    "node": ">=12.0.0"
+  },
+  "scripts": {
+    "build": "tsc",
+    "prebuild": "rimraf dist/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
+    "directory": "sdk/monitor/monitor-opentelemetry-exporter"
+  },
+  "keywords": [
+    "node",
+    "azure",
+    "monitor",
+    "javascript",
+    "applicationinsights",
+    "opentelemetry",
+    "exporter",
+    "cloud"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/monitor/monitor-opentelemetry-exporter",
+  "dependencies": {
+    "@azure/monitor-opentelemetry-exporter": "next",
+    "dotenv": "latest",
+    "@opentelemetry/api": "^1.0.1",
+    "@opentelemetry/resources": "^0.22.0",
+    "@opentelemetry/semantic-conventions": "^0.24.0",
+    "@opentelemetry/tracing": "^0.22.0",
+    "@opentelemetry/instrumentation": "0.22.0",
+    "@opentelemetry/node": "0.22.0",
+    "@opentelemetry/instrumentation-http": "0.22.0"
+  },
+  "devDependencies": {
+    "typescript": "~4.4.0",
+    "rimraf": "latest"
+  }
+}

@@ -81,7 +81,7 @@ async function getHook(client: MetricsAdvisorAdministrationClient, hookId: strin
   const result = await client.getHook(hookId);
   console.log(result.name);
   console.log(result.description);
-  console.log(result.adminEmails);
+  console.log(result.admins);
 }
 
 async function updateEmailHook(client: MetricsAdvisorAdministrationClient, hookId: string) {
@@ -92,8 +92,7 @@ async function updateEmailHook(client: MetricsAdvisorAdministrationClient, hookI
       toList: ["test2@example.com", "test3@example.com"]
     }
   };
-  await client.updateHook(hookId, emailPatch);
-  const response = await client.getHook(hookId);
+  const response = await client.updateHook(hookId, emailPatch);
   console.log(response);
   return response;
 }

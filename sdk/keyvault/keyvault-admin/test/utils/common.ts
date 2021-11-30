@@ -2,12 +2,7 @@
 // Licensed under the MIT license.
 
 import * as assert from "assert";
-import { env } from "@azure/test-utils-recorder";
-
-// Async iterator's polyfill for Node 8
-if (!Symbol || !(Symbol as any).asyncIterator) {
-  (Symbol as any).asyncIterator = Symbol.for("Symbol.asyncIterator");
-}
+import { env } from "@azure-tools/test-recorder";
 
 export async function assertThrowsAbortError(cb: () => Promise<any>): Promise<void> {
   let passed = false;

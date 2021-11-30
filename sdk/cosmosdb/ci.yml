@@ -3,28 +3,28 @@
 trigger:
   branches:
     include:
-      - master
       - main
       - release/*
       - hotfix/*
   paths:
     include:
-      - sdk/cosmosdb/
+      - sdk/cosmosdb/cosmos/
+      - sdk/cosmosdb/ci.yml
 
 pr:
   branches:
     include:
-      - master
       - main
       - feature/*
       - release/*
       - hotfix/*
   paths:
     include:
-      - sdk/cosmosdb/
+      - sdk/cosmosdb/cosmos/
+      - sdk/cosmosdb/ci.yml
 
 extends:
-  template: ../../eng/pipelines/templates/stages/cosmos-sdk-client.yml #NOTE: Non-standard template.
+  template: /eng/pipelines/templates/stages/cosmos-sdk-client.yml #NOTE: Non-standard template.
   parameters:
     ServiceDirectory: cosmosdb
     # Disable unit tests because they are no-op. Integration tests from the

@@ -741,7 +741,8 @@ const uploadRangeFromURLOperationSpec: coreHttp.OperationSpec = {
     Parameters.fileRangeWriteFromUrl,
     Parameters.sourceContentCrc64,
     Parameters.sourceIfMatchCrc64,
-    Parameters.sourceIfNoneMatchCrc64
+    Parameters.sourceIfNoneMatchCrc64,
+    Parameters.copySourceAuthorization
   ],
   isXML: true,
   serializer: xmlSerializer

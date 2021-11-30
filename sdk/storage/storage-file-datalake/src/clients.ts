@@ -219,6 +219,8 @@ export class DataLakePathClient extends StorageClient {
   public constructor(
     url: string,
     credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
+    // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
+    /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
     options?: StoragePipelineOptions
   );
 
@@ -240,6 +242,8 @@ export class DataLakePathClient extends StorageClient {
       | AnonymousCredential
       | TokenCredential
       | Pipeline,
+    // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
+    /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
     options?: StoragePipelineOptions
   ) {
     if (credentialOrPipeline instanceof Pipeline) {
@@ -282,6 +286,8 @@ export class DataLakePathClient extends StorageClient {
    * Convert current DataLakePathClient to DataLakeDirectoryClient if current path is a directory.
    *
    */
+  // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
+  /* eslint-disable-next-line @azure/azure-sdk/ts-naming-subclients */
   public toDirectoryClient(): DataLakeDirectoryClient {
     return new DataLakeDirectoryClient(this.dfsEndpointUrl, this.pipeline);
   }
@@ -290,6 +296,8 @@ export class DataLakePathClient extends StorageClient {
    * Convert current DataLakePathClient to DataLakeFileClient if current path is a file.
    *
    */
+  // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
+  /* eslint-disable-next-line @azure/azure-sdk/ts-naming-subclients */
   public toFileClient(): DataLakeFileClient {
     return new DataLakeFileClient(this.dfsEndpointUrl, this.pipeline);
   }
@@ -1018,6 +1026,8 @@ export class DataLakeDirectoryClient extends DataLakePathClient {
    *
    * @param fileName -
    */
+  // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
+  /* eslint-disable-next-line @azure/azure-sdk/ts-naming-subclients */
   public getFileClient(fileName: string): DataLakeFileClient {
     return new DataLakeFileClient(
       appendToURLPath(this.url, encodeURIComponent(fileName)),
@@ -1090,6 +1100,8 @@ export class DataLakeFileClient extends DataLakePathClient {
   public constructor(
     url: string,
     credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
+    // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
+    /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
     options?: StoragePipelineOptions
   );
 
@@ -1111,6 +1123,8 @@ export class DataLakeFileClient extends DataLakePathClient {
       | AnonymousCredential
       | TokenCredential
       | Pipeline,
+    // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
+    /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
     options?: StoragePipelineOptions
   ) {
     if (credentialOrPipeline instanceof Pipeline) {
@@ -1428,17 +1442,19 @@ export class DataLakeFileClient extends DataLakePathClient {
    */
   public async uploadFile(
     filePath: string,
+    // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
+    /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
     options: FileParallelUploadOptions = {}
   ): Promise<FileUploadResponse> {
     const { span, updatedOptions } = createSpan("DataLakeFileClient-uploadFile", options);
     try {
       const size = (await fsStat(filePath)).size;
       return await this.uploadSeekableInternal(
-        (offset: number, size: number) => {
+        (offset: number, contentSize: number) => {
           return () =>
             fsCreateReadStream(filePath, {
               autoClose: true,
-              end: offset + size - 1,
+              end: offset + contentSize - 1,
               start: offset
             });
         },

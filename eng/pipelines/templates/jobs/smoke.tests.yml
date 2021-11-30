@@ -5,9 +5,12 @@ parameters:
   - name: ServiceDirectory
     type: string
     default: ""
-  - name: Artifacts
+  - name: Artifact
     type: object
-    default: []
+    default: {}
+  - name: ArtifactName
+    type: string
+    default: 'not-specified'
 
 jobs:
   - ${{ if and(eq(parameters.Daily, false), ne(variables['Skip.Release'], 'true')) }}:
@@ -15,8 +18,8 @@ jobs:
       variables:
         - template: /eng/pipelines/templates/variables/globals.yml
       pool:
-        name: "azsdk-pool-mms-ubuntu-1804-general"
-        vmImage: "MMSUbuntu18.04"
+        name: "azsdk-pool-mms-ubuntu-2004-general"
+        vmImage: "MMSUbuntu20.04"
       displayName: Check Smoke Test Eligibility
       steps:
         - template: /eng/pipelines/templates/steps/use-node-version.yml
@@ -52,36 +55,36 @@ jobs:
       condition: and(succeeded(), eq(dependencies.smoke_test_eligibility.outputs['check_smoke_tests.RunSmokeTests'], true))
     strategy:
       matrix:
-        Mac Node10 (AzureCloud):
+        Mac Node14 (AzureCloud):
           Pool: Azure Pipelines
           OSVmImage: "macOS-10.14"
           SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources)
           ArmTemplateParameters: $(AzureCloudArmTemplateParameters)
-          NodeTestVersion: "10.x"
-        Windows Node12 (AzureCloud):
+          NodeTestVersion: "14.x"
+        Windows Node16 (AzureCloud):
           Pool: "azsdk-pool-mms-win-2019-general"
           OSVmImage: "MMS2019"
           SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources)
           ArmTemplateParameters: $(AzureCloudArmTemplateParameters)
-          NodeTestVersion: "12.x"
+          NodeTestVersion: "16.x"
         Linux Node14 (AzureCloud):
-          Pool: "azsdk-pool-mms-ubuntu-1804-general"
-          OSVmImage: "MMSUbuntu18.04"
+          Pool: "azsdk-pool-mms-ubuntu-2004-general"
+          OSVmImage: "MMSUbuntu20.04"
           SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources)
           ArmTemplateParameters: $(AzureCloudArmTemplateParameters)
           NodeTestVersion: "14.x"
         Linux Node16 (AzureCloud):
-          Pool: "azsdk-pool-mms-ubuntu-1804-general"
-          OSVmImage: "MMSUbuntu18.04"
+          Pool: "azsdk-pool-mms-ubuntu-2004-general"
+          OSVmImage: "MMSUbuntu20.04"
           SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources)
           ArmTemplateParameters: $(AzureCloudArmTemplateParameters)
           NodeTestVersion: "16.x"
-#        Linux Node10 (AzureUSGovernment):
+#        Linux Node12 (AzureUSGovernment):
 #          Pool: Azure Pipelines
 #          OSVmImage: "ubuntu-18.04"
 #          SubscriptionConfiguration: $(sub-config-gov-test-resources)
 #          ArmTemplateParameters: $(AzureUSGovernmentArmTemplateParameters)
-#          NodeTestVersion: "10.x"
+#          NodeTestVersion: "12.x"
 #        Windows Node14 (AzureUSGovernment):
 #          Pool: Azure Pipelines
 #          OSVmImage: "windows-2019"
@@ -94,12 +97,12 @@ jobs:
 #          SubscriptionConfiguration: $(sub-config-cn-test-resources)
 #          ArmTemplateParameters: $(AzureChinaCloudArmTemplateParameters)
 #          NodeTestVersion: "12.x"
-#        Windows Node10 (AzureChinaCloud):
+#        Windows Node12 (AzureChinaCloud):
 #          Pool: Azure Pipelines
 #          OSVmImage: "windows-2019"
 #          SubscriptionConfiguration: $(sub-config-cn-test-resources)
 #          ArmTemplateParameters: $(AzureChinaCloudArmTemplateParameters)
-#          NodeTestVersion: "10.x"
+#          NodeTestVersion: "12.x"
 
     pool:
       name: $(Pool)
@@ -126,15 +129,15 @@ jobs:
         workingDirectory: $(Build.SourcesDirectory)/common/tools/dev-tool
         displayName: Install dev-tool
 
+      - download: current
+        artifact: ${{parameters.ArtifactName}}
+        condition: and(succeeded(), ne('${{ parameters.Daily }}', 'true'))
       - pwsh: |
           $(Build.SourcesDirectory)/eng/common/scripts/Import-AzModules.ps1
 
           $subscriptionConfiguration = @"
             $(SubscriptionConfiguration)
           "@ | ConvertFrom-Json -AsHashtable;
-
-          $packageOverrides = @()
-          $packageOverrides += (dir env: | Where-Object { $_.Name.StartsWith("SMOKE_PACKAGE_") }).Value
 
           if ([System.Convert]::ToBoolean("${{ parameters.Daily }}")) {
             ./Initialize-SmokeTests.ps1 `
@@ -145,12 +148,25 @@ jobs:
               @subscriptionConfiguration `
               -AdditionalParameters $(ArmTemplateParameters)
           } else {
+            $packageArtifact = Get-ChildItem $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{parameters.Artifact.name}}/*.tgz
+            if ($packageArtifact.name -notmatch "${{parameters.Artifact.name}}") {
+              Write-Error "Package name mismatch: expecting ${{parameters.Artifact.name}}, found $packageArtifact.name"
+              exit 1
+            }
+            if ($packageArtifact.count -ne 1) {
+              Write-Error "Got $packageArtifact.count packages, expecting 1."
+              exit 1
+            }
+            $result = $(System.DefaultWorkingDirectory)/eng/scripts/get-npm-tags.ps1 -packageArtifact $packageArtifact -workingDirectory $(System.DefaultWorkingDirectory)/temp
+            $packageInfo = Get-Content -Path "$(Pipeline.Workspace)/${{parameters.ArtifactName}}/PackageInfo/${{parameters.Artifact.name}}.json" 
+              | ConvertFrom-Json -AsHashtable
+
             ./Initialize-SmokeTests.ps1 `
               -CI `
               -Verbose `
               -Location '$(Location)' `
-              -TagOverride $(Tag) `
-              -TagOverridePackages $packageOverrides `
+              -TagOverride $result.Tag `
+              -TagOverridePackages $packageInfo.Name `
               -ServiceDirectory ${{ parameters.ServiceDirectory }} `
               @subscriptionConfiguration `
               -AdditionalParameters $(ArmTemplateParameters)
@@ -158,11 +174,6 @@ jobs:
 
         workingDirectory: $(Build.SourcesDirectory)/common/smoke-test
         displayName: Deploy Smoke Test resources and prepare samples
-        env:
-          # Pipelines yaml does not handle transferring non-string parameter types
-          # into script blocks very well, so this is the best available workaround.
-          ${{ each artifact in parameters.Artifacts }}:
-            SMOKE_PACKAGE_${{ artifact.safeName }}: "@azure/${{ replace(artifact.name, 'azure-', '') }}"
 
       - pwsh: Get-Content ./run-manifest.json
         workingDirectory: $(Build.SourcesDirectory)/common/smoke-test

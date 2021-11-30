@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { isPlaybackMode, record, Recorder, isLiveMode } from "@azure/test-utils-recorder";
+import { isPlaybackMode, record, Recorder, isLiveMode } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
 import { Suite } from "mocha";
 import { assert } from "chai";
@@ -15,7 +15,7 @@ import {
   WAIT_TIME,
   createRandomIndexName
 } from "../utils/setup";
-import { delay } from "@azure/core-http";
+import { delay } from "../../../src/serviceUtils";
 
 const TEST_INDEX_NAME = isLiveMode() ? createRandomIndexName() : "hotel-live-test3";
 

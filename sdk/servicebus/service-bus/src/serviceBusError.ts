@@ -9,7 +9,7 @@ import { isObjectWithProperties } from "./util/typeGuards";
  * Service Bus failure codes.
  */
 export type ServiceBusErrorCode =
-  // note: This list is intended to loosely follow https://github.com/Azure/azure-sdk-for-net/blob/master/sdk/servicebus/Azure.Messaging.ServiceBus/src/Primitives/ServiceBusFailureReason.cs
+  // note: This list is intended to loosely follow https://github.com/Azure/azure-sdk-for-net/blob/main/sdk/servicebus/Azure.Messaging.ServiceBus/src/Primitives/ServiceBusFailureReason.cs
   /**
    * The exception was the result of a general error within the client library.
    */

@@ -1,15 +1,62 @@
 # Release History
 
-## 5.1.0-beta.7 (Unreleased)
+## 5.2.0-beta.3 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 5.2.0-beta.2 (2021-11-02)
+
+### Features Added
+
+- We are now targeting the service's v3.2-preview.2 API as the default instead of v3.2-preview.1.
+- Adding support for a three new actions in `beginAnalyzeActions`: `recognizeCustomEntities`, `singleCategoryClassify`, and `multiCategoryClassify`. The new actions allow you to use custom models to perform entity recognition and classification actions.
+
+### Other Changes
+
+- `beginAnalyzeActions` supports actions to be named and the name is now accessible in each action result.
+- `beginAnalyzeActions` supports multiple actions of the same type so you can pass a list of any particular action type, e.g.
+
+    ```typescript
+    await client.beginAnalyzeActions(docs, { recognizePiiEntitiesActions: [
+      { modelVersion: "latest", actionName: "action1" },
+      { modelVersion: "2021-01-15", actionName: "action2" }] 
+    });
+    ```
+
+## 5.2.0-beta.1 (2021-08-09)
+
+### Features Added
+
+- We are now targeting the service's v3.2-preview.1 API as the default instead of v3.1.
+- `beginAnalyzeActions` now supports extract summary actions.
+
+## 5.1.0 (2021-07-07)
+
+### New Features
+
+- We are now targeting the service's v3.1 API as the default instead of v3.1-preview.5.
+- `beginAnalyzeHealthcareEntities` now works with Azure Active Directory credentials.
+- `categoriesFilter` support was added to `RecognizePiiEntitiesAction`.
+- Updated our internal core package dependencies to their latest versions in order to add support for Opentelemetry 1.0.0 which is compatible with the latest versions of our other client libraries.
+- Changed TS compilation target to ES2017 in order to produce smaller bundles and use more native platform features
 
 ### Breaking Changes
 
 - `PiiEntityDomainType` was renamed to `PiiEntityDomain`.
+- `domain` property of `RecognizePiiEntitiesAction` was renamed to `domainFilter`.
+- `beginAnalyzeActions` is now limited to accept up to one action only per type.
 
 ## 5.1.0-beta.6 (2021-05-18)
 
 ### New Features
 
+- With the dropping of support for Node.js versions that are no longer in LTS, the dependency on `@types/node` has been updated to version 12. Read our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
 - We are now targeting the service's v3.1-preview.5 API as the default instead of v3.1-preview.4.
 - `beginAnalyzeActions` adds support for analyze sentiment actions.
 - `disableServiceLogs` parameter is added to most actions in `beginAnalyzeActions` that controls service-side logging.

@@ -189,7 +189,7 @@ export function toProperties(metadata?: Metadata): string | undefined {
 
   const properties = [];
   for (const key in metadata) {
-    if (metadata.hasOwnProperty(key)) {
+    if (Object.prototype.hasOwnProperty.call(metadata, key)) {
       const value = metadata[key];
       properties.push(`${key}=${base64encode(value)}`);
     }
@@ -440,9 +440,9 @@ export function toPermissionsString(permissions: PathPermissions): string {
 }
 
 export function toAccessControlChangeFailureArray(
-  aclFailedEntry: AclFailedEntry[] = []
+  aclFailedEntries: AclFailedEntry[] = []
 ): AccessControlChangeError[] {
-  return aclFailedEntry.map((aclFailedEntry: AclFailedEntry) => {
+  return aclFailedEntries.map((aclFailedEntry: AclFailedEntry) => {
     return {
       name: aclFailedEntry.name || "",
       isDirectory: (aclFailedEntry.type || "").toLowerCase() === "directory",

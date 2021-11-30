@@ -3,8 +3,11 @@
 
 import {
   AcsChatMessageDeletedEventData,
+  AcsChatMessageDeletedInThreadEventData,
   AcsChatMessageEditedEventData,
+  AcsChatMessageEditedInThreadEventData,
   AcsChatMessageReceivedEventData,
+  AcsChatMessageReceivedInThreadEventData,
   AcsChatParticipantAddedToThreadEventData,
   AcsChatParticipantAddedToThreadWithUserEventData,
   AcsChatParticipantRemovedFromThreadEventData,
@@ -15,12 +18,29 @@ import {
   AcsRecordingFileStatusUpdatedEventData,
   AcsSmsDeliveryReportReceivedEventData,
   AcsSmsReceivedEventData,
+  AcsUserDisconnectedEventData,
+  ApiManagementApiCreatedEventData,
+  ApiManagementApiDeletedEventData,
+  ApiManagementApiReleaseCreatedEventData,
+  ApiManagementApiReleaseDeletedEventData,
+  ApiManagementApiReleaseUpdatedEventData,
+  ApiManagementApiUpdatedEventData,
+  ApiManagementProductCreatedEventData,
+  ApiManagementProductDeletedEventData,
+  ApiManagementProductUpdatedEventData,
+  ApiManagementSubscriptionCreatedEventData,
+  ApiManagementSubscriptionDeletedEventData,
+  ApiManagementSubscriptionUpdatedEventData,
+  ApiManagementUserCreatedEventData,
+  ApiManagementUserDeletedEventData,
+  ApiManagementUserUpdatedEventData,
   AppConfigurationKeyValueDeletedEventData,
   AppConfigurationKeyValueModifiedEventData,
   ContainerRegistryChartDeletedEventData,
   ContainerRegistryChartPushedEventData,
   ContainerRegistryImageDeletedEventData,
   ContainerRegistryImagePushedEventData,
+  ContainerServiceNewKubernetesVersionAvailableEventData,
   EventHubCaptureFileCreatedEventData,
   IotHubDeviceConnectedEventData,
   IotHubDeviceCreatedEventData,
@@ -60,6 +80,7 @@ import {
   MediaJobProcessingEventData,
   MediaJobScheduledEventData,
   MediaJobStateChangeEventData,
+  MediaLiveEventChannelArchiveHeartbeatEventData,
   MediaLiveEventConnectionRejectedEventData,
   MediaLiveEventEncoderConnectedEventData,
   MediaLiveEventEncoderDisconnectedEventData,
@@ -122,12 +143,48 @@ export type KnownSystemEventTypes = keyof SystemEventNameToEventData;
  * A mapping of event type names to event data type interfaces.
  */
 export interface SystemEventNameToEventData {
+  /** An interface for the event data of a "Microsoft.ApiManagement.UserCreated" event. */
+  "Microsoft.ApiManagement.UserCreated": ApiManagementUserCreatedEventData;
+  /** An interface for the event data of a "Microsoft.ApiManagement.UserUpdated" event. */
+  "Microsoft.ApiManagement.UserUpdated": ApiManagementUserUpdatedEventData;
+  /** An interface for the event data of a "Microsoft.ApiManagement.UserDeleted" event. */
+  "Microsoft.ApiManagement.UserDeleted": ApiManagementUserDeletedEventData;
+  /** An interface for the event data of a "Microsoft.ApiManagement.SubscriptionCreated" event. */
+  "Microsoft.ApiManagement.SubscriptionCreated": ApiManagementSubscriptionCreatedEventData;
+  /** An interface for the event data of a "Microsoft.ApiManagement.SubscriptionUpdated" event. */
+  "Microsoft.ApiManagement.SubscriptionUpdated": ApiManagementSubscriptionUpdatedEventData;
+  /** An interface for the event data of a "Microsoft.ApiManagement.SubscriptionDeleted" event. */
+  "Microsoft.ApiManagement.SubscriptionDeleted": ApiManagementSubscriptionDeletedEventData;
+  /** An interface for the event data of a "Microsoft.ApiManagement.ProductCreated" event. */
+  "Microsoft.ApiManagement.ProductCreated": ApiManagementProductCreatedEventData;
+  /** An interface for the event data of a "Microsoft.ApiManagement.ProductUpdated" event. */
+  "Microsoft.ApiManagement.ProductUpdated": ApiManagementProductUpdatedEventData;
+  /** An interface for the event data of a "Microsoft.ApiManagement.ProductDeleted" event. */
+  "Microsoft.ApiManagement.ProductDeleted": ApiManagementProductDeletedEventData;
+  /** An interface for the event data of a "Microsoft.ApiManagement.APICreated" event. */
+  "Microsoft.ApiManagement.APICreated": ApiManagementApiCreatedEventData;
+  /** An interface for the event data of a "Microsoft.ApiManagement.APIUpdated" event. */
+  "Microsoft.ApiManagement.APIUpdated": ApiManagementApiUpdatedEventData;
+  /** An interface for the event data of a "Microsoft.ApiManagement.APIDeleted" event. */
+  "Microsoft.ApiManagement.APIDeleted": ApiManagementApiDeletedEventData;
+  /** An interface for the event data of a "Microsoft.ApiManagement.APIReleaseCreated" event. */
+  "Microsoft.ApiManagement.APIReleaseCreated": ApiManagementApiReleaseCreatedEventData;
+  /** An interface for the event data of a "Microsoft.ApiManagement.APIReleaseUpdated" event. */
+  "Microsoft.ApiManagement.APIReleaseUpdated": ApiManagementApiReleaseUpdatedEventData;
+  /** An interface for the event data of a "Microsoft.ApiManagement.APIReleaseDeleted" event. */
+  "Microsoft.ApiManagement.APIReleaseDeleted": ApiManagementApiReleaseDeletedEventData;
   /** An interface for the event data of a "Microsoft.Communication.ChatMessageReceived" event. */
   "Microsoft.Communication.ChatMessageReceived": AcsChatMessageReceivedEventData;
+  /** An interface for the event data of a "Microsoft.Communication.ChatMessageReceivedInThread" event. */
+  "Microsoft.Communication.ChatMessageReceivedInThread": AcsChatMessageReceivedInThreadEventData;
   /** An interface for the event data of a "Microsoft.Communication.ChatMessageEdited" event. */
   "Microsoft.Communication.ChatMessageEdited": AcsChatMessageEditedEventData;
+  /** An interface for the event data of a "Microsoft.Communication.ChatMessageEditedInThread" event. */
+  "Microsoft.Communication.ChatMessageEditedInThread": AcsChatMessageEditedInThreadEventData;
   /** An interface for the event data of a "Microsoft.Communication.ChatMessageDeleted" event. */
   "Microsoft.Communication.ChatMessageDeleted": AcsChatMessageDeletedEventData;
+  /** An interface for the event data of a "Microsoft.Communication.ChatMessageDeletedInThread" event. */
+  "Microsoft.Communication.ChatMessageDeletedInThread": AcsChatMessageDeletedInThreadEventData;
   /** An interface for the event data of a "Microsoft.Communication.ChatThreadCreatedWithUser" event. */
   "Microsoft.Communication.ChatThreadCreatedWithUser": AcsChatThreadCreatedWithUserEventData;
   /** An interface for the event data of a "Microsoft.Communication.ChatThreadWithUserDeleted" event. */
@@ -148,6 +205,10 @@ export interface SystemEventNameToEventData {
   "Microsoft.Communication.SMSDeliveryReportReceived": AcsSmsDeliveryReportReceivedEventData;
   /** An interface for the event data of a "Microsoft.Communication.SMSReceived" event. */
   "Microsoft.Communication.SMSReceived": AcsSmsReceivedEventData;
+  /** An interface for the event data of a "Microsoft.Communication.UserDisconnected" event. */
+  "Microsoft.Communication.UserDisconnected": AcsUserDisconnectedEventData;
+  /** An interface for the event data of a "Microsoft.ContainerService.NewKubernetesVersionAvailable" event. */
+  "Microsoft.ContainerService.NewKubernetesVersionAvailable": ContainerServiceNewKubernetesVersionAvailableEventData;
   /** An interface for the event data of a "Microsoft.AppConfiguration.KeyValueDeleted" event. */
   "Microsoft.AppConfiguration.KeyValueDeleted": AppConfigurationKeyValueDeletedEventData;
   /** An interface for the event data of a "Microsoft.AppConfiguration.KeyValueModified" event. */
@@ -244,6 +305,8 @@ export interface SystemEventNameToEventData {
   "Microsoft.Media.JobOutputProgress": MediaJobOutputProgressEventData;
   /** An interface for the event data of a "Microsoft.Media.LiveEventEncoderConnected" event. */
   "Microsoft.Media.LiveEventEncoderConnected": MediaLiveEventEncoderConnectedEventData;
+  /** An interface for the event data of a "Microsoft.Media.LiveEventChannelArchiveHeartbeat" event. */
+  "Microsoft.Media.LiveEventChannelArchiveHeartbeat": MediaLiveEventChannelArchiveHeartbeatEventData;
   /** An interface for the event data of a "Microsoft.Media.LiveEventConnectionRejected" event. */
   "Microsoft.Media.LiveEventConnectionRejected": MediaLiveEventConnectionRejectedEventData;
   /** An interface for the event data of a "Microsoft.Media.LiveEventEncoderDisconnected" event. */

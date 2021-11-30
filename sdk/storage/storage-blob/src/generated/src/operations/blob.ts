@@ -17,12 +17,6 @@ import {
   BlobGetPropertiesResponse,
   BlobDeleteOptionalParams,
   BlobDeleteResponse,
-  BlobSetAccessControlOptionalParams,
-  BlobSetAccessControlResponse,
-  BlobGetAccessControlOptionalParams,
-  BlobGetAccessControlResponse,
-  BlobRenameOptionalParams,
-  BlobRenameResponse,
   BlobUndeleteOptionalParams,
   BlobUndeleteResponse,
   BlobExpiryOptions,
@@ -30,6 +24,12 @@ import {
   BlobSetExpiryResponse,
   BlobSetHttpHeadersOptionalParams,
   BlobSetHttpHeadersResponse,
+  BlobSetImmutabilityPolicyOptionalParams,
+  BlobSetImmutabilityPolicyResponse,
+  BlobDeleteImmutabilityPolicyOptionalParams,
+  BlobDeleteImmutabilityPolicyResponse,
+  BlobSetLegalHoldOptionalParams,
+  BlobSetLegalHoldResponse,
   BlobSetMetadataOptionalParams,
   BlobSetMetadataResponse,
   BlobAcquireLeaseOptionalParams,
@@ -134,63 +134,6 @@ export class Blob {
   }
 
   /**
-   * Set the owner, group, permissions, or access control list for a blob.
-   * @param options The options parameters.
-   */
-  setAccessControl(
-    options?: BlobSetAccessControlOptionalParams
-  ): Promise<BlobSetAccessControlResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      setAccessControlOperationSpec
-    ) as Promise<BlobSetAccessControlResponse>;
-  }
-
-  /**
-   * Get the owner, group, permissions, or access control list for a blob.
-   * @param options The options parameters.
-   */
-  getAccessControl(
-    options?: BlobGetAccessControlOptionalParams
-  ): Promise<BlobGetAccessControlResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      getAccessControlOperationSpec
-    ) as Promise<BlobGetAccessControlResponse>;
-  }
-
-  /**
-   * Rename a blob/file.  By default, the destination is overwritten and if the destination already
-   * exists and has a lease the lease is broken.  This operation supports conditional HTTP requests.  For
-   * more information, see [Specifying Conditional Headers for Blob Service
-   * Operations](https://docs.microsoft.com/en-us/rest/api/storageservices/specifying-conditional-headers-for-blob-service-operations).
-   *  To fail if the destination already exists, use a conditional request with If-None-Match: "*".
-   * @param renameSource The file or directory to be renamed. The value must have the following format:
-   *                     "/{filesysystem}/{path}".  If "x-ms-properties" is specified, the properties will overwrite the
-   *                     existing properties; otherwise, the existing properties will be preserved.
-   * @param options The options parameters.
-   */
-  rename(
-    renameSource: string,
-    options?: BlobRenameOptionalParams
-  ): Promise<BlobRenameResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      renameSource,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      renameOperationSpec
-    ) as Promise<BlobRenameResponse>;
-  }
-
-  /**
    * Undelete a blob that was previously soft deleted
    * @param options The options parameters.
    */
@@ -239,6 +182,57 @@ export class Blob {
       operationArguments,
       setHttpHeadersOperationSpec
     ) as Promise<BlobSetHttpHeadersResponse>;
+  }
+
+  /**
+   * The Set Immutability Policy operation sets the immutability policy on the blob
+   * @param options The options parameters.
+   */
+  setImmutabilityPolicy(
+    options?: BlobSetImmutabilityPolicyOptionalParams
+  ): Promise<BlobSetImmutabilityPolicyResponse> {
+    const operationArguments: coreHttp.OperationArguments = {
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
+    return this.client.sendOperationRequest(
+      operationArguments,
+      setImmutabilityPolicyOperationSpec
+    ) as Promise<BlobSetImmutabilityPolicyResponse>;
+  }
+
+  /**
+   * The Delete Immutability Policy operation deletes the immutability policy on the blob
+   * @param options The options parameters.
+   */
+  deleteImmutabilityPolicy(
+    options?: BlobDeleteImmutabilityPolicyOptionalParams
+  ): Promise<BlobDeleteImmutabilityPolicyResponse> {
+    const operationArguments: coreHttp.OperationArguments = {
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
+    return this.client.sendOperationRequest(
+      operationArguments,
+      deleteImmutabilityPolicyOperationSpec
+    ) as Promise<BlobDeleteImmutabilityPolicyResponse>;
+  }
+
+  /**
+   * The Set Legal Hold operation sets a legal hold on the blob.
+   * @param legalHold Specified if a legal hold should be set on the blob.
+   * @param options The options parameters.
+   */
+  setLegalHold(
+    legalHold: boolean,
+    options?: BlobSetLegalHoldOptionalParams
+  ): Promise<BlobSetLegalHoldResponse> {
+    const operationArguments: coreHttp.OperationArguments = {
+      legalHold,
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
+    return this.client.sendOperationRequest(
+      operationArguments,
+      setLegalHoldOperationSpec
+    ) as Promise<BlobSetLegalHoldResponse>;
   }
 
   /**
@@ -560,14 +554,14 @@ const downloadOperationSpec: coreHttp.OperationSpec = {
     Parameters.leaseId,
     Parameters.ifModifiedSince,
     Parameters.ifUnmodifiedSince,
-    Parameters.ifMatch,
-    Parameters.ifNoneMatch,
     Parameters.range,
     Parameters.rangeGetContentMD5,
     Parameters.rangeGetContentCRC64,
     Parameters.encryptionKey,
     Parameters.encryptionKeySha256,
     Parameters.encryptionAlgorithm,
+    Parameters.ifMatch,
+    Parameters.ifNoneMatch,
     Parameters.ifTags
   ],
   isXML: true,
@@ -598,11 +592,11 @@ const getPropertiesOperationSpec: coreHttp.OperationSpec = {
     Parameters.leaseId,
     Parameters.ifModifiedSince,
     Parameters.ifUnmodifiedSince,
-    Parameters.ifMatch,
-    Parameters.ifNoneMatch,
     Parameters.encryptionKey,
     Parameters.encryptionKeySha256,
     Parameters.encryptionAlgorithm,
+    Parameters.ifMatch,
+    Parameters.ifNoneMatch,
     Parameters.ifTags
   ],
   isXML: true,
@@ -638,109 +632,6 @@ const deleteOperationSpec: coreHttp.OperationSpec = {
     Parameters.ifNoneMatch,
     Parameters.ifTags,
     Parameters.deleteSnapshots
-  ],
-  isXML: true,
-  serializer: xmlSerializer
-};
-const setAccessControlOperationSpec: coreHttp.OperationSpec = {
-  path: "/{filesystem}/{path}",
-  httpMethod: "PATCH",
-  responses: {
-    200: {
-      headersMapper: Mappers.BlobSetAccessControlHeaders
-    },
-    default: {
-      bodyMapper: Mappers.DataLakeStorageError,
-      headersMapper: Mappers.BlobSetAccessControlExceptionHeaders
-    }
-  },
-  queryParameters: [Parameters.timeoutInSeconds, Parameters.action5],
-  urlParameters: [Parameters.url],
-  headerParameters: [
-    Parameters.version,
-    Parameters.requestId,
-    Parameters.accept1,
-    Parameters.leaseId,
-    Parameters.ifModifiedSince,
-    Parameters.ifUnmodifiedSince,
-    Parameters.posixPermissions,
-    Parameters.ifMatch,
-    Parameters.ifNoneMatch,
-    Parameters.owner,
-    Parameters.group,
-    Parameters.posixAcl
-  ],
-  isXML: true,
-  serializer: xmlSerializer
-};
-const getAccessControlOperationSpec: coreHttp.OperationSpec = {
-  path: "/{filesystem}/{path}",
-  httpMethod: "HEAD",
-  responses: {
-    200: {
-      headersMapper: Mappers.BlobGetAccessControlHeaders
-    },
-    default: {
-      bodyMapper: Mappers.DataLakeStorageError,
-      headersMapper: Mappers.BlobGetAccessControlExceptionHeaders
-    }
-  },
-  queryParameters: [
-    Parameters.timeoutInSeconds,
-    Parameters.action6,
-    Parameters.upn
-  ],
-  urlParameters: [Parameters.url],
-  headerParameters: [
-    Parameters.version,
-    Parameters.requestId,
-    Parameters.accept1,
-    Parameters.leaseId,
-    Parameters.ifModifiedSince,
-    Parameters.ifUnmodifiedSince,
-    Parameters.ifMatch,
-    Parameters.ifNoneMatch
-  ],
-  isXML: true,
-  serializer: xmlSerializer
-};
-const renameOperationSpec: coreHttp.OperationSpec = {
-  path: "/{filesystem}/{path}",
-  httpMethod: "PUT",
-  responses: {
-    201: {
-      headersMapper: Mappers.BlobRenameHeaders
-    },
-    default: {
-      bodyMapper: Mappers.DataLakeStorageError,
-      headersMapper: Mappers.BlobRenameExceptionHeaders
-    }
-  },
-  queryParameters: [Parameters.timeoutInSeconds, Parameters.pathRenameMode],
-  urlParameters: [Parameters.url],
-  headerParameters: [
-    Parameters.version,
-    Parameters.requestId,
-    Parameters.accept1,
-    Parameters.leaseId,
-    Parameters.ifModifiedSince,
-    Parameters.ifUnmodifiedSince,
-    Parameters.sourceLeaseId,
-    Parameters.directoryProperties,
-    Parameters.posixPermissions,
-    Parameters.posixUmask,
-    Parameters.cacheControl,
-    Parameters.contentType1,
-    Parameters.contentEncoding,
-    Parameters.contentLanguage,
-    Parameters.contentDisposition,
-    Parameters.ifMatch,
-    Parameters.ifNoneMatch,
-    Parameters.renameSource,
-    Parameters.sourceIfModifiedSince,
-    Parameters.sourceIfUnmodifiedSince,
-    Parameters.sourceIfMatch,
-    Parameters.sourceIfNoneMatch
   ],
   isXML: true,
   serializer: xmlSerializer
@@ -825,6 +716,76 @@ const setHttpHeadersOperationSpec: coreHttp.OperationSpec = {
   isXML: true,
   serializer: xmlSerializer
 };
+const setImmutabilityPolicyOperationSpec: coreHttp.OperationSpec = {
+  path: "/{containerName}/{blob}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      headersMapper: Mappers.BlobSetImmutabilityPolicyHeaders
+    },
+    default: {
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.BlobSetImmutabilityPolicyExceptionHeaders
+    }
+  },
+  queryParameters: [Parameters.timeoutInSeconds, Parameters.comp12],
+  urlParameters: [Parameters.url],
+  headerParameters: [
+    Parameters.version,
+    Parameters.requestId,
+    Parameters.accept1,
+    Parameters.ifUnmodifiedSince,
+    Parameters.immutabilityPolicyExpiry,
+    Parameters.immutabilityPolicyMode
+  ],
+  isXML: true,
+  serializer: xmlSerializer
+};
+const deleteImmutabilityPolicyOperationSpec: coreHttp.OperationSpec = {
+  path: "/{containerName}/{blob}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {
+      headersMapper: Mappers.BlobDeleteImmutabilityPolicyHeaders
+    },
+    default: {
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.BlobDeleteImmutabilityPolicyExceptionHeaders
+    }
+  },
+  queryParameters: [Parameters.timeoutInSeconds, Parameters.comp12],
+  urlParameters: [Parameters.url],
+  headerParameters: [
+    Parameters.version,
+    Parameters.requestId,
+    Parameters.accept1
+  ],
+  isXML: true,
+  serializer: xmlSerializer
+};
+const setLegalHoldOperationSpec: coreHttp.OperationSpec = {
+  path: "/{containerName}/{blob}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      headersMapper: Mappers.BlobSetLegalHoldHeaders
+    },
+    default: {
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.BlobSetLegalHoldExceptionHeaders
+    }
+  },
+  queryParameters: [Parameters.timeoutInSeconds, Parameters.comp13],
+  urlParameters: [Parameters.url],
+  headerParameters: [
+    Parameters.version,
+    Parameters.requestId,
+    Parameters.accept1,
+    Parameters.legalHold
+  ],
+  isXML: true,
+  serializer: xmlSerializer
+};
 const setMetadataOperationSpec: coreHttp.OperationSpec = {
   path: "/{containerName}/{blob}",
   httpMethod: "PUT",
@@ -847,11 +808,11 @@ const setMetadataOperationSpec: coreHttp.OperationSpec = {
     Parameters.leaseId,
     Parameters.ifModifiedSince,
     Parameters.ifUnmodifiedSince,
-    Parameters.ifMatch,
-    Parameters.ifNoneMatch,
     Parameters.encryptionKey,
     Parameters.encryptionKeySha256,
     Parameters.encryptionAlgorithm,
+    Parameters.ifMatch,
+    Parameters.ifNoneMatch,
     Parameters.ifTags,
     Parameters.encryptionScope
   ],
@@ -1017,7 +978,7 @@ const createSnapshotOperationSpec: coreHttp.OperationSpec = {
       headersMapper: Mappers.BlobCreateSnapshotExceptionHeaders
     }
   },
-  queryParameters: [Parameters.timeoutInSeconds, Parameters.comp12],
+  queryParameters: [Parameters.timeoutInSeconds, Parameters.comp14],
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,
@@ -1027,11 +988,11 @@ const createSnapshotOperationSpec: coreHttp.OperationSpec = {
     Parameters.leaseId,
     Parameters.ifModifiedSince,
     Parameters.ifUnmodifiedSince,
-    Parameters.ifMatch,
-    Parameters.ifNoneMatch,
     Parameters.encryptionKey,
     Parameters.encryptionKeySha256,
     Parameters.encryptionAlgorithm,
+    Parameters.ifMatch,
+    Parameters.ifNoneMatch,
     Parameters.ifTags,
     Parameters.encryptionScope
   ],
@@ -1062,17 +1023,20 @@ const startCopyFromURLOperationSpec: coreHttp.OperationSpec = {
     Parameters.ifUnmodifiedSince,
     Parameters.ifMatch,
     Parameters.ifNoneMatch,
+    Parameters.ifTags,
+    Parameters.immutabilityPolicyExpiry,
+    Parameters.immutabilityPolicyMode,
+    Parameters.tier,
+    Parameters.rehydratePriority,
     Parameters.sourceIfModifiedSince,
     Parameters.sourceIfUnmodifiedSince,
     Parameters.sourceIfMatch,
     Parameters.sourceIfNoneMatch,
-    Parameters.ifTags,
-    Parameters.tier,
-    Parameters.rehydratePriority,
     Parameters.sourceIfTags,
     Parameters.copySource,
     Parameters.blobTagsString,
-    Parameters.sealBlob
+    Parameters.sealBlob,
+    Parameters.legalHold1
   ],
   isXML: true,
   serializer: xmlSerializer
@@ -1101,16 +1065,21 @@ const copyFromURLOperationSpec: coreHttp.OperationSpec = {
     Parameters.ifUnmodifiedSince,
     Parameters.ifMatch,
     Parameters.ifNoneMatch,
+    Parameters.ifTags,
+    Parameters.immutabilityPolicyExpiry,
+    Parameters.immutabilityPolicyMode,
+    Parameters.encryptionScope,
+    Parameters.tier,
     Parameters.sourceIfModifiedSince,
     Parameters.sourceIfUnmodifiedSince,
     Parameters.sourceIfMatch,
     Parameters.sourceIfNoneMatch,
-    Parameters.ifTags,
-    Parameters.tier,
     Parameters.copySource,
     Parameters.blobTagsString,
+    Parameters.legalHold1,
     Parameters.xMsRequiresSync,
-    Parameters.sourceContentMD5
+    Parameters.sourceContentMD5,
+    Parameters.copySourceAuthorization
   ],
   isXML: true,
   serializer: xmlSerializer
@@ -1129,7 +1098,7 @@ const abortCopyFromURLOperationSpec: coreHttp.OperationSpec = {
   },
   queryParameters: [
     Parameters.timeoutInSeconds,
-    Parameters.comp13,
+    Parameters.comp15,
     Parameters.copyId
   ],
   urlParameters: [Parameters.url],
@@ -1162,7 +1131,7 @@ const setTierOperationSpec: coreHttp.OperationSpec = {
     Parameters.timeoutInSeconds,
     Parameters.snapshot,
     Parameters.versionId,
-    Parameters.comp14
+    Parameters.comp16
   ],
   urlParameters: [Parameters.url],
   headerParameters: [
@@ -1222,7 +1191,7 @@ const queryOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [
     Parameters.timeoutInSeconds,
     Parameters.snapshot,
-    Parameters.comp15
+    Parameters.comp17
   ],
   urlParameters: [Parameters.url],
   headerParameters: [
@@ -1233,11 +1202,11 @@ const queryOperationSpec: coreHttp.OperationSpec = {
     Parameters.leaseId,
     Parameters.ifModifiedSince,
     Parameters.ifUnmodifiedSince,
-    Parameters.ifMatch,
-    Parameters.ifNoneMatch,
     Parameters.encryptionKey,
     Parameters.encryptionKeySha256,
     Parameters.encryptionAlgorithm,
+    Parameters.ifMatch,
+    Parameters.ifNoneMatch,
     Parameters.ifTags
   ],
   isXML: true,
@@ -1262,7 +1231,7 @@ const getTagsOperationSpec: coreHttp.OperationSpec = {
     Parameters.timeoutInSeconds,
     Parameters.snapshot,
     Parameters.versionId,
-    Parameters.comp16
+    Parameters.comp18
   ],
   urlParameters: [Parameters.url],
   headerParameters: [
@@ -1291,7 +1260,7 @@ const setTagsOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [
     Parameters.timeoutInSeconds,
     Parameters.versionId,
-    Parameters.comp16
+    Parameters.comp18
   ],
   urlParameters: [Parameters.url],
   headerParameters: [

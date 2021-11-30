@@ -3,7 +3,7 @@
 
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
-import assert from "assert";
+import { assert } from "chai";
 import Sinon from "sinon";
 import { AzurePowerShellCredential } from "../../../src";
 import {
@@ -15,7 +15,7 @@ import { processUtils } from "../../../src/util/processUtils";
 
 import { commandStack } from "../../../src/credentials/azurePowerShellCredential";
 
-function resetCommandStack() {
+function resetCommandStack(): void {
   commandStack[0] = formatCommand("pwsh");
   if (process.platform === "win32") {
     commandStack[1] = formatCommand("powershell");
@@ -108,7 +108,7 @@ describe("AzurePowerShellCredential", function() {
     assert.equal(error?.name, "CredentialUnavailableError");
     assert.equal(
       error?.message,
-      `Error: Unable to execute PowerShell. Ensure that it is installed in your system.`
+      `Error: Unable to execute PowerShell. Ensure that it is installed in your system. To troubleshoot, visit https://aka.ms/azsdk/js/identity/powershellcredential/troubleshoot.`
     );
 
     sandbox.restore();
@@ -136,7 +136,7 @@ describe("AzurePowerShellCredential", function() {
     assert.equal(error?.name, "CredentialUnavailableError");
     assert.equal(
       error?.message,
-      `Error: Unable to parse the output of PowerShell. Received output: Not valid JSON`
+      `Error: Unable to parse the output of PowerShell. Received output: Not valid JSON. To troubleshoot, visit https://aka.ms/azsdk/js/identity/powershellcredential/troubleshoot.`
     );
 
     sandbox.restore();
@@ -166,7 +166,7 @@ describe("AzurePowerShellCredential", function() {
       assert.equal(error?.name, "CredentialUnavailableError");
       assert.equal(
         error?.message,
-        `Error: Unable to parse the output of PowerShell. Received output: Not valid JSON`
+        `Error: Unable to parse the output of PowerShell. Received output: Not valid JSON. To troubleshoot, visit https://aka.ms/azsdk/js/identity/powershellcredential/troubleshoot.`
       );
 
       sandbox.restore();

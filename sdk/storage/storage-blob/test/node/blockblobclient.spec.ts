@@ -5,10 +5,13 @@ import * as assert from "assert";
 import * as zlib from "zlib";
 
 import {
+  base64encode,
   bodyToString,
   genearteRandomUint8Array,
   getBSU,
   getConnectionStringFromEnvironment,
+  getTokenBSU,
+  getTokenCredential,
   recorderEnvSetup
 } from "../utils";
 import {
@@ -23,10 +26,11 @@ import {
 } from "../../src";
 import { TokenCredential } from "@azure/core-http";
 import { assertClientUsesTokenCredential } from "../utils/assert";
-import { record, Recorder } from "@azure/test-utils-recorder";
+import { isPlaybackMode, record, Recorder } from "@azure-tools/test-recorder";
 import { streamToBuffer3 } from "../../src/utils/utils.node";
 import * as crypto from "crypto";
 import { BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES } from "../../src/utils/constants";
+import { Context } from "mocha";
 
 describe("BlockBlobClient Node.js only", () => {
   let containerName: string;
@@ -37,7 +41,7 @@ describe("BlockBlobClient Node.js only", () => {
   let recorder: Recorder;
 
   let blobServiceClient: BlobServiceClient;
-  beforeEach(async function() {
+  beforeEach(async function(this: Context) {
     recorder = record(this, recorderEnvSetup);
     blobServiceClient = getBSU();
     containerName = recorder.getUniqueName("container");
@@ -48,7 +52,7 @@ describe("BlockBlobClient Node.js only", () => {
     blockBlobClient = blobClient.getBlockBlobClient();
   });
 
-  afterEach(async function() {
+  afterEach(async function(this: Context) {
     if (!this.currentTest?.isPending()) {
       await containerClient.delete();
       await recorder.stop();
@@ -202,7 +206,7 @@ describe("syncUploadFromURL", () => {
     largeContent = genearteRandomUint8Array(BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES);
   });
 
-  beforeEach(async function() {
+  beforeEach(async function(this: Context) {
     recorder = record(this, recorderEnvSetup);
     const blobServiceClient = getBSU();
     const containerName = recorder.getUniqueName("container");
@@ -233,11 +237,223 @@ describe("syncUploadFromURL", () => {
     sourceBlobURLWithSAS = sourceBlob.url + "?" + sas;
   });
 
-  afterEach(async function() {
+  afterEach(async function(this: Context) {
     if (!this.currentTest?.isPending()) {
       await containerClient.delete();
       await recorder.stop();
     }
+  });
+
+  it("stageBlockFromURL - source SAS and destination bearer token", async function(this: Context) {
+    if (!isPlaybackMode()) {
+      // Enable this when STG78 - version 2020-10-02 is enabled on production.
+      this.skip();
+    }
+    const stokenBlobServiceClient = getTokenBSU();
+    const tokenNewBlockBlobClient = stokenBlobServiceClient
+      .getContainerClient(containerClient.containerName)
+      .getBlockBlobClient(blockBlobClient.name);
+
+    await tokenNewBlockBlobClient.stageBlockFromURL(
+      base64encode("1"),
+      sourceBlobURLWithSAS,
+      0,
+      content.length
+    );
+    await tokenNewBlockBlobClient.stageBlockFromURL(
+      base64encode("2"),
+      sourceBlobURLWithSAS,
+      0,
+      content.length
+    );
+
+    await blockBlobClient.commitBlockList([base64encode("1"), base64encode("2")]);
+    const listResponse = await blockBlobClient.getBlockList("committed");
+    assert.equal(listResponse.committedBlocks!.length, 2);
+    assert.equal(listResponse.committedBlocks![0].name, base64encode("1"));
+    assert.equal(listResponse.committedBlocks![0].size, content.length);
+    assert.equal(listResponse.committedBlocks![1].name, base64encode("2"));
+    assert.equal(listResponse.committedBlocks![1].size, content.length);
+  });
+
+  it("stageBlockFromURL - source bear token and destination account key", async function(this: Context) {
+    if (!isPlaybackMode()) {
+      // Enable this when STG78 - version 2020-10-02 is enabled on production.
+      this.skip();
+    }
+    const body = "HelloWorld";
+    await blockBlobClient.upload(body, body.length);
+
+    const tokenCredential = getTokenCredential();
+    const accessToken = await tokenCredential.getToken([]);
+
+    const newBlockBlobClient = containerClient.getBlockBlobClient(
+      recorder.getUniqueName("newblockblob")
+    );
+
+    await newBlockBlobClient.stageBlockFromURL(
+      base64encode("1"),
+      blockBlobClient.url,
+      0,
+      body.length,
+      {
+        sourceAuthorization: {
+          scheme: "Bearer",
+          value: accessToken!.token
+        }
+      }
+    );
+
+    await newBlockBlobClient.stageBlockFromURL(
+      base64encode("2"),
+      blockBlobClient.url,
+      0,
+      body.length,
+      {
+        sourceAuthorization: {
+          scheme: "Bearer",
+          value: accessToken!.token
+        }
+      }
+    );
+
+    await newBlockBlobClient.commitBlockList([base64encode("1"), base64encode("2")]);
+    const listResponse = await newBlockBlobClient.getBlockList("committed");
+    assert.equal(listResponse.committedBlocks!.length, 2);
+    assert.equal(listResponse.committedBlocks![0].name, base64encode("1"));
+    assert.equal(listResponse.committedBlocks![0].size, body.length);
+    assert.equal(listResponse.committedBlocks![1].name, base64encode("2"));
+    assert.equal(listResponse.committedBlocks![1].size, body.length);
+  });
+
+  it("stageBlockFromURL - destination bearer token", async function(this: Context) {
+    if (!isPlaybackMode()) {
+      // Enable this when STG78 - version 2020-10-02 is enabled on production.
+      this.skip();
+    }
+    const body = "HelloWorld";
+    await blockBlobClient.upload(body, body.length);
+
+    const tokenCredential = getTokenCredential();
+    const accessToken = await tokenCredential.getToken([]);
+
+    const stokenBlobServiceClient = getTokenBSU();
+    const newBlobName = recorder.getUniqueName("newblockblob");
+    const newBlockBlobClient = containerClient.getBlockBlobClient(newBlobName);
+    const tokenNewBlockBlobClient = stokenBlobServiceClient
+      .getContainerClient(containerClient.containerName)
+      .getBlockBlobClient(newBlobName);
+
+    await tokenNewBlockBlobClient.stageBlockFromURL(
+      base64encode("1"),
+      blockBlobClient.url,
+      0,
+      body.length,
+      {
+        sourceAuthorization: {
+          scheme: "Bearer",
+          value: accessToken!.token
+        }
+      }
+    );
+
+    await tokenNewBlockBlobClient.stageBlockFromURL(
+      base64encode("2"),
+      blockBlobClient.url,
+      0,
+      body.length,
+      {
+        sourceAuthorization: {
+          scheme: "Bearer",
+          value: accessToken!.token
+        }
+      }
+    );
+
+    await newBlockBlobClient.commitBlockList([base64encode("1"), base64encode("2")]);
+    const listResponse = await newBlockBlobClient.getBlockList("committed");
+    assert.equal(listResponse.committedBlocks!.length, 2);
+    assert.equal(listResponse.committedBlocks![0].name, base64encode("1"));
+    assert.equal(listResponse.committedBlocks![0].size, body.length);
+    assert.equal(listResponse.committedBlocks![1].name, base64encode("2"));
+    assert.equal(listResponse.committedBlocks![1].size, body.length);
+  });
+
+  it("syncUploadFromURL - source SAS and destination bearer token", async function(this: Context) {
+    if (!isPlaybackMode()) {
+      // Enable this when STG78 - version 2020-10-02 is enabled on production.
+      this.skip();
+    }
+    const stokenBlobServiceClient = getTokenBSU();
+    const tokenNewBlockBlobClient = stokenBlobServiceClient
+      .getContainerClient(containerClient.containerName)
+      .getBlockBlobClient(blockBlobClient.name);
+
+    await tokenNewBlockBlobClient.syncUploadFromURL(sourceBlobURLWithSAS);
+
+    // Validate source and destination blob content match.
+    const downloadRes = await blockBlobClient.download();
+    const downloadBuffer = await streamToBuffer3(downloadRes.readableStreamBody!);
+    assert.ok(downloadBuffer.compare(Buffer.from(content)) === 0);
+  });
+
+  it("syncUploadFromURL - source bear token and destination account key", async function(this: Context) {
+    if (!isPlaybackMode()) {
+      // Enable this when STG78 - version 2020-10-02 is enabled on production.
+      this.skip();
+    }
+    const body = "HelloWorld";
+    await blockBlobClient.upload(body, body.length);
+
+    const tokenCredential = getTokenCredential();
+    const accessToken = await tokenCredential.getToken([]);
+
+    const newBlockBlobClient = containerClient.getBlockBlobClient(
+      recorder.getUniqueName("newblockblob")
+    );
+
+    await newBlockBlobClient.syncUploadFromURL(blockBlobClient.url, {
+      sourceAuthorization: {
+        scheme: "Bearer",
+        value: accessToken!.token
+      }
+    });
+
+    // Validate source and destination blob content match.
+    const downloadRes = await newBlockBlobClient.download();
+    assert.equal(await bodyToString(downloadRes, body.length), body);
+    assert.equal(downloadRes.contentLength!, body.length);
+  });
+
+  it("syncUploadFromURL - destination bearer token", async function(this: Context) {
+    if (!isPlaybackMode()) {
+      // Enable this when STG78 - version 2020-10-02 is enabled on production.
+      this.skip();
+    }
+    const body = "HelloWorld";
+    await blockBlobClient.upload(body, body.length);
+
+    const tokenCredential = getTokenCredential();
+    const accessToken = await tokenCredential.getToken([]);
+
+    const stokenBlobServiceClient = getTokenBSU();
+    const newBlobName = recorder.getUniqueName("newblockblob");
+    const newBlockBlobClient = containerClient.getBlockBlobClient(newBlobName);
+    const tokenNewBlockBlobClient = stokenBlobServiceClient
+      .getContainerClient(containerClient.containerName)
+      .getBlockBlobClient(newBlobName);
+
+    await tokenNewBlockBlobClient.syncUploadFromURL(blockBlobClient.url, {
+      sourceAuthorization: {
+        scheme: "Bearer",
+        value: accessToken!.token
+      }
+    });
+
+    // Validate source and destination blob content match.
+    const downloadRes = await newBlockBlobClient.download();
+    assert.equal(await bodyToString(downloadRes, body.length), body);
+    assert.equal(downloadRes.contentLength!, body.length);
   });
 
   it("with default options", async () => {

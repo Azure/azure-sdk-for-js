@@ -9,7 +9,7 @@
 // A common use case for Azure Container Registries is to scan the repositories
 // in a registry and delete all but the most recent n images, or all images
 // older than a certain date.
-import { ContainerRegistryClient } from "@azure/container-registry";
+import { ContainerRegistryClient, KnownContainerRegistryAudience } from "@azure/container-registry";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 dotenv.config();
@@ -18,7 +18,9 @@ async function main() {
   // Get the service endpoint from the environment
   const endpoint = process.env.CONTAINER_REGISTRY_ENDPOINT || "<endpoint>";
   // Create a new ContainerRegistryClient
-  const client = new ContainerRegistryClient(endpoint, new DefaultAzureCredential());
+  const client = new ContainerRegistryClient(endpoint, new DefaultAzureCredential(), {
+    audience: KnownContainerRegistryAudience.AzureResourceManagerPublicCloud
+  });
 
   // Iterate through repositories
   const repositoryNames = client.listRepositoryNames();
@@ -32,13 +34,16 @@ async function main() {
     let imageCount = 0;
     // Delete images older than the first three.
     for await (const manifest of imageManifests) {
-      if (imageCount++ > imagesToKeep) {
+      imageCount++;
+      if (imageCount > imagesToKeep) {
+        const image = repository.getArtifact(manifest.digest);
         console.log(`Deleting image with digest ${manifest.digest}`);
-        console.log(`  This image has the following tags:`);
+        console.log(`  Deleting the following tags from the image:`);
         for (const tagName of manifest.tags) {
           console.log(`    ${manifest.repositoryName}:${tagName}`);
+          image.deleteTag(tagName);
         }
-        await repository.getArtifact(manifest.digest).delete();
+        await image.delete();
       }
     }
   }

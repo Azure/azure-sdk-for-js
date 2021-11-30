@@ -5,14 +5,16 @@ providing schema storage, versioning, and management. This package provides an
 Avro serializer capable of serializing and deserializing payloads containing
 Schema Registry schema identifiers and Avro-encoded data.
 
-[Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/schemaregistry/schema-registry-avro) |
-[Package (npm)](https://www.npmjs.com/package/@azure/schema-registry-avro) |
-[API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/schema-registry-avro) |
-[Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/schemaregistry/schema-registry-avro/samples)
+Key links:
+
+- [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/schemaregistry/schema-registry-avro)
+- [Package (npm)](https://www.npmjs.com/package/@azure/schema-registry-avro)
+- [API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/schema-registry-avro)
+- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/schemaregistry/schema-registry-avro/samples)
 
 ## Getting started
 
-- Node.js version 8.x.x or higher
+- [LTS versions of Node.js](https://nodejs.org/about/releases/)
 
 ### Prerequisites
 
@@ -34,7 +36,7 @@ npm install @azure/schema-registry-avro
 Provides API to serialize to and deserialize from Avro Binary Encoding plus a
 header with schema ID. Uses
 `SchemaRegistryClient` from the [@azure/schema-registry](https://www.npmjs.com/package/@azure/schema-registry) package
-to get schema IDs from schema content or vice versa.
+to get schema IDs from schema definition or vice versa. The provided API has internal cache to avoid calling the schema registry service when possible.
 
 ### Message format
 
@@ -68,8 +70,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
 const { SchemaRegistryClient } = require("@azure/schema-registry");
 const { SchemaRegistryAvroSerializer } = require("@azure/schema-registry-avro");
 
-const client = new SchemaRegistryClient("<endpoint>", new DefaultAzureCredential());
-const serializer = new SchemaRegistryAvroSerializer(client, "<group>");
+const client = new SchemaRegistryClient("<fully qualified namespace>", new DefaultAzureCredential());
+const serializer = new SchemaRegistryAvroSerializer(client, { groupName: "<group>" });
 
 // Example Avro schema
 const schema = JSON.stringify({
@@ -107,7 +109,7 @@ setLogLevel("info");
 ## Next steps
 
 Please take a look at the
-[samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/schemaregistry/schema-registry-avro/samples)
+[samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/schemaregistry/schema-registry-avro/samples)
 directory for detailed examples on how to use this library.
 
 ## Contributing
@@ -130,7 +132,7 @@ FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact
 questions or comments.
 
 If you'd like to contribute to this library, please read the [contributing
-guide](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md) to
+guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md) to
 learn more about how to build and test the code.
 
 ## Related projects
@@ -142,6 +144,5 @@ learn more about how to build and test the code.
 [azure_cli]: https://docs.microsoft.com/cli/azure
 [azure_sub]: https://azure.microsoft.com/free/
 [azure_portal]: https://portal.azure.com
-[azure_identity]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/identity/identity
-[cognitive_auth]: https://docs.microsoft.com/azure/cognitive-services/authentication
-[defaultazurecredential]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/identity/identity#defaultazurecredential
+[azure_identity]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity
+[defaultazurecredential]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential

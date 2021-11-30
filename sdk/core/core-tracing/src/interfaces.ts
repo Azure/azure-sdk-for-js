@@ -1,13 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  context as otContext,
-  getSpan as otGetSpan,
-  getSpanContext as otGetSpanContext,
-  setSpan as otSetSpan,
-  setSpanContext as otSetSpanContext
-} from "@opentelemetry/api";
+import { context as otContext, trace as otTrace } from "@opentelemetry/api";
 
 /**
  * A Tracer.
@@ -178,7 +172,7 @@ export interface ExceptionWithName {
  * @param context - context to get span from
  */
 export function getSpan(context: Context): Span | undefined {
-  return otGetSpan(context);
+  return otTrace.getSpan(context);
 }
 
 /**
@@ -188,7 +182,7 @@ export function getSpan(context: Context): Span | undefined {
  * @param span - span to set active
  */
 export function setSpan(context: Context, span: Span): Context {
-  return otSetSpan(context, span);
+  return otTrace.setSpan(context, span);
 }
 
 /**
@@ -199,7 +193,7 @@ export function setSpan(context: Context, span: Span): Context {
  * @param spanContext - span context to be wrapped
  */
 export function setSpanContext(context: Context, spanContext: SpanContext): Context {
-  return otSetSpanContext(context, spanContext);
+  return otTrace.setSpanContext(context, spanContext);
 }
 
 /**
@@ -208,7 +202,7 @@ export function setSpanContext(context: Context, spanContext: SpanContext): Cont
  * @param context - context to get values from
  */
 export function getSpanContext(context: Context): SpanContext | undefined {
-  return otGetSpanContext(context);
+  return otTrace.getSpanContext(context);
 }
 
 /**
@@ -219,6 +213,30 @@ export interface ContextAPI {
    * Get the currently active context
    */
   active(): Context;
+}
+
+/**
+ * Returns true of the given {@link SpanContext} is valid.
+ * A valid {@link SpanContext} is one which has a valid trace ID and span ID as per the spec.
+ *
+ * @param context - the {@link SpanContext} to validate.
+ *
+ * @returns true if the {@link SpanContext} is valid, false otherwise.
+ */
+export function isSpanContextValid(context: SpanContext): boolean {
+  return otTrace.isSpanContextValid(context);
+}
+
+/**
+ * Retrieves a tracer from the global tracer provider.
+ */
+export function getTracer(): Tracer;
+/**
+ * Retrieves a tracer from the global tracer provider.
+ */
+export function getTracer(name: string, version?: string): Tracer;
+export function getTracer(name?: string, version?: string): Tracer {
+  return otTrace.getTracer(name || "azure/core-tracing", version);
 }
 
 /** Entrypoint for context API */
@@ -260,7 +278,7 @@ export interface Span {
    *
    * @returns the SpanContext object associated with this Span.
    */
-  context(): SpanContext;
+  spanContext(): SpanContext;
   /**
    * Sets an attribute to the span.
    *
@@ -389,19 +407,11 @@ export interface SpanContext {
 }
 
 /**
- * Context for the linked span.
- */
-export type LinkContext = {
-  traceId: string;
-  spanId: string;
-};
-
-/**
  * Used to specify a span that is linked to another.
  */
 export interface Link {
-  /** The {@link LinkContext} of a linked span. */
-  context: LinkContext;
+  /** The {@link SpanContext} of a linked span. */
+  context: SpanContext;
 
   /** A set of {@link SpanAttributes} on the link. */
   attributes?: SpanAttributes;
@@ -456,11 +466,6 @@ export interface SpanOptions {
  * Tracing options to set on an operation.
  */
 export interface OperationTracingOptions {
-  /**
-   * OpenTelemetry SpanOptions used to create a span when tracing is enabled.
-   */
-  spanOptions?: SpanOptions;
-
   /**
    * OpenTelemetry context to use for created Spans.
    */

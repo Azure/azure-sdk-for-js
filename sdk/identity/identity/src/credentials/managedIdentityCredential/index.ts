@@ -1,28 +1,30 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-http";
-import { IdentityClient, TokenCredentialOptions } from "../../client/identityClient";
-import { createSpan } from "../../util/tracing";
-import { AuthenticationError, CredentialUnavailableError } from "../../client/errors";
 import { SpanStatusCode } from "@azure/core-tracing";
+import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
+
+import { IdentityClient } from "../../client/identityClient";
+import { TokenCredentialOptions } from "../../tokenCredentialOptions";
+import { AuthenticationError, CredentialUnavailableError } from "../../errors";
 import { credentialLogger, formatSuccess, formatError } from "../../util/logging";
-import { mapScopesToResource } from "./utils";
+import { appServiceMsi2017 } from "./appServiceMsi2017";
+import { createSpan } from "../../util/tracing";
 import { cloudShellMsi } from "./cloudShellMsi";
 import { imdsMsi } from "./imdsMsi";
 import { MSI } from "./models";
-import { appServiceMsi2017 } from "./appServiceMsi2017";
 import { arcMsi } from "./arcMsi";
+import { tokenExchangeMsi } from "./tokenExchangeMsi";
+import { fabricMsi } from "./fabricMsi";
 
 const logger = credentialLogger("ManagedIdentityCredential");
 
 /**
- * Attempts authentication using a managed identity that has been assigned
- * to the deployment environment.  This authentication type works in Azure VMs,
- * App Service and Azure Functions applications, and inside of Azure Cloud Shell.
+ * Attempts authentication using a managed identity available at the deployment environment.
+ * This authentication type works in Azure VMs, App Service instances, Azure Functions applications,
+ * Azure Kubernetes Services, Azure Service Fabric instances and inside of the Azure Cloud Shell.
  *
  * More information about configuring managed identities can be found here:
- *
  * https://docs.microsoft.com/en-us/azure/active-directory/managed-identities-azure-resources/overview
  */
 export class ManagedIdentityCredential implements TokenCredential {
@@ -65,7 +67,7 @@ export class ManagedIdentityCredential implements TokenCredential {
   private cachedMSI: MSI | undefined;
 
   private async cachedAvailableMSI(
-    resource: string,
+    scopes: string | string[],
     clientId?: string,
     getTokenOptions?: GetTokenOptions
   ): Promise<MSI> {
@@ -73,18 +75,18 @@ export class ManagedIdentityCredential implements TokenCredential {
       return this.cachedMSI;
     }
 
-    // "fabricMsi" can't be added yet because our HTTPs pipeline doesn't allow skipping the SSL verification step,
-    // which is necessary since Service Fabric only provides self-signed certificates on their Identity Endpoint.
-    const MSIs = [appServiceMsi2017, cloudShellMsi, arcMsi, imdsMsi];
+    const MSIs = [fabricMsi, appServiceMsi2017, cloudShellMsi, arcMsi, tokenExchangeMsi(), imdsMsi];
 
     for (const msi of MSIs) {
-      if (await msi.isAvailable(this.identityClient, resource, clientId, getTokenOptions)) {
+      if (await msi.isAvailable(scopes, this.identityClient, clientId, getTokenOptions)) {
         this.cachedMSI = msi;
         return msi;
       }
     }
 
-    throw new CredentialUnavailableError("ManagedIdentityCredential - No MSI credential available");
+    throw new CredentialUnavailableError(
+      `${ManagedIdentityCredential.name} - No MSI credential available`
+    );
   }
 
   private async authenticateManagedIdentity(
@@ -92,17 +94,23 @@ export class ManagedIdentityCredential implements TokenCredential {
     clientId?: string,
     getTokenOptions?: GetTokenOptions
   ): Promise<AccessToken | null> {
-    const resource = mapScopesToResource(scopes);
     const { span, updatedOptions } = createSpan(
-      "ManagedIdentityCredential-authenticateManagedIdentity",
+      `${ManagedIdentityCredential.name}.authenticateManagedIdentity`,
       getTokenOptions
     );
 
     try {
       // Determining the available MSI, and avoiding checking for other MSIs while the program is running.
-      const availableMSI = await this.cachedAvailableMSI(resource, clientId, updatedOptions);
+      const availableMSI = await this.cachedAvailableMSI(scopes, clientId, updatedOptions);
 
-      return availableMSI.getToken(this.identityClient, resource, clientId, updatedOptions);
+      return availableMSI.getToken(
+        {
+          identityClient: this.identityClient,
+          scopes,
+          clientId
+        },
+        updatedOptions
+      );
     } catch (err) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -115,10 +123,9 @@ export class ManagedIdentityCredential implements TokenCredential {
   }
 
   /**
-   * Authenticates with Azure Active Directory and returns an access token if
-   * successful.  If authentication cannot be performed at this time, this method may
-   * return null.  If an error occurs during authentication, an {@link AuthenticationError}
-   * containing failure details will be thrown.
+   * Authenticates with Azure Active Directory and returns an access token if successful.
+   * If authentication fails, a {@link CredentialUnavailableError} will be thrown with the details of the failure.
+   * If an unexpected error occurs, an {@link AuthenticationError} will be thrown with the details of the failure.
    *
    * @param scopes - The list of scopes for which the token will have access.
    * @param options - The options used to configure any requests this
@@ -130,7 +137,10 @@ export class ManagedIdentityCredential implements TokenCredential {
   ): Promise<AccessToken> {
     let result: AccessToken | null = null;
 
-    const { span, updatedOptions } = createSpan("ManagedIdentityCredential-getToken", options);
+    const { span, updatedOptions } = createSpan(
+      `${ManagedIdentityCredential.name}.getToken`,
+      options
+    );
 
     try {
       // isEndpointAvailable can be true, false, or null,
@@ -192,7 +202,7 @@ export class ManagedIdentityCredential implements TokenCredential {
       // we can safely assume the credential is unavailable.
       if (err.code === "ENETUNREACH") {
         const error = new CredentialUnavailableError(
-          "ManagedIdentityCredential is unavailable. Network unreachable."
+          `${ManagedIdentityCredential.name}: Unavailable. Network unreachable. Message: ${err.message}`
         );
 
         logger.getToken.info(formatError(scopes, error));
@@ -203,7 +213,7 @@ export class ManagedIdentityCredential implements TokenCredential {
       // we can safely assume the credential is unavailable.
       if (err.code === "EHOSTUNREACH") {
         const error = new CredentialUnavailableError(
-          "ManagedIdentityCredential is unavailable. No managed identity endpoint found."
+          `${ManagedIdentityCredential.name}: Unavailable. No managed identity endpoint found. Message: ${err.message}`
         );
 
         logger.getToken.info(formatError(scopes, error));
@@ -214,7 +224,7 @@ export class ManagedIdentityCredential implements TokenCredential {
       // and it means that the endpoint is working, but that no identity is available.
       if (err.statusCode === 400) {
         throw new CredentialUnavailableError(
-          "The managed identity endpoint is indicating there's no available identity"
+          `${ManagedIdentityCredential.name}: The managed identity endpoint is indicating there's no available identity. Message: ${err.message}`
         );
       }
 
@@ -222,13 +232,13 @@ export class ManagedIdentityCredential implements TokenCredential {
       // This will throw silently during any ChainedTokenCredential.
       if (err.statusCode === undefined) {
         throw new CredentialUnavailableError(
-          `ManagedIdentityCredential authentication failed. Message ${err.message}`
+          `${ManagedIdentityCredential.name}: Authentication failed. Message ${err.message}`
         );
       }
 
       // Any other error should break the chain.
       throw new AuthenticationError(err.statusCode, {
-        error: "ManagedIdentityCredential authentication failed.",
+        error: `${ManagedIdentityCredential.name} authentication failed.`,
         error_description: err.message
       });
     } finally {

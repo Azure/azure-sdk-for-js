@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { delay } from "../util/delay";
 import { HttpOperationResponse } from "../httpOperationResponse";
 import * as utils from "../util/utils";
 import { WebResourceLike } from "../webResource";
@@ -145,9 +146,8 @@ function extractSubscriptionUrl(url: string): string {
  * @param provider - The provider name to be registered.
  * @param originalRequest - The original request sent by the user that returned a 409 response
  * with a message that the provider is not registered.
- * @param callback - The callback that handles the RP registration
  */
-function registerRP(
+async function registerRP(
   policy: RPRegistrationPolicy,
   urlPrefix: string,
   provider: string,
@@ -159,12 +159,11 @@ function registerRP(
   reqOptions.method = "POST";
   reqOptions.url = postUrl;
 
-  return policy._nextPolicy.sendRequest(reqOptions).then((response) => {
-    if (response.status !== 200) {
-      throw new Error(`Autoregistration of ${provider} failed. Please try registering manually.`);
-    }
-    return getRegistrationStatus(policy, getUrl, originalRequest);
-  });
+  const response = await policy._nextPolicy.sendRequest(reqOptions);
+  if (response.status !== 200) {
+    throw new Error(`Autoregistration of ${provider} failed. Please try registering manually.`);
+  }
+  return getRegistrationStatus(policy, getUrl, originalRequest);
 }
 
 /**
@@ -176,7 +175,7 @@ function registerRP(
  * with a message that the provider is not registered.
  * @returns True if RP Registration is successful.
  */
-function getRegistrationStatus(
+async function getRegistrationStatus(
   policy: RPRegistrationPolicy,
   url: string,
   originalRequest: WebResourceLike
@@ -185,14 +184,12 @@ function getRegistrationStatus(
   reqOptions.url = url;
   reqOptions.method = "GET";
 
-  return policy._nextPolicy.sendRequest(reqOptions).then((res) => {
-    const obj = res.parsedBody as any;
-    if (res.parsedBody && obj.registrationState && obj.registrationState === "Registered") {
-      return true;
-    } else {
-      return utils
-        .delay(policy._retryTimeout * 1000)
-        .then(() => getRegistrationStatus(policy, url, originalRequest));
-    }
-  });
+  const res = await policy._nextPolicy.sendRequest(reqOptions);
+  const obj = res.parsedBody;
+  if (res.parsedBody && obj.registrationState && obj.registrationState === "Registered") {
+    return true;
+  } else {
+    await delay(policy._retryTimeout * 1000);
+    return getRegistrationStatus(policy, url, originalRequest);
+  }
 }

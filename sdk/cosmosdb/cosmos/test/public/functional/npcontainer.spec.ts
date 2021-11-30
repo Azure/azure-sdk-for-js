@@ -9,7 +9,8 @@ import {
   CosmosClientOptions
 } from "../../../src";
 import { removeAllDatabases, getTestContainer } from "../common/TestHelpers";
-import { endpoint, masterKey } from "../common/_testConfig";
+import { endpoint } from "../common/_testConfig";
+import { masterKey } from "../common/_fakeTestSecrets";
 import { ResourceType, HTTPMethod, StatusCodes } from "../../../src";
 
 const plugins: PluginConfig[] = [
@@ -44,6 +45,11 @@ describe("Non Partitioned Container", function() {
     await removeAllDatabases();
     const npContainer = await getTestContainer("Validate Container CRUD", legacyClient);
     container = client.database(npContainer.database.id).container(npContainer.id);
+  });
+
+  after(async () => {
+    client.dispose();
+    legacyClient.dispose();
   });
 
   it("should handle item CRUD", async () => {

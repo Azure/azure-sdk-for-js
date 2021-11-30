@@ -21,21 +21,23 @@ import {
   isNamedKeyCredential,
   NamedKeyCredential,
   SASCredential,
-  isSASCredential
+  isSASCredential,
+  TokenCredential,
+  isTokenCredential
 } from "@azure/core-auth";
 import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { LIB_INFO, TablesLoggingAllowedHeaderNames } from "./utils/constants";
+import { STORAGE_SCOPE, TablesLoggingAllowedHeaderNames } from "./utils/constants";
 import { logger } from "./logger";
 import { InternalClientPipelineOptions, OperationOptions } from "@azure/core-client";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { createSpan } from "./utils/tracing";
 import { tablesNamedKeyCredentialPolicy } from "./tablesNamedCredentialPolicy";
 import { parseXML, stringifyXML } from "@azure/core-xml";
-import { ListTableItemsResponse } from "./utils/internalModels";
 import { Pipeline } from "@azure/core-rest-pipeline";
 import { isCredential } from "./utils/isCredential";
 import { tablesSASTokenPolicy } from "./tablesSASTokenPolicy";
+import { TableItemResultPage } from "./models";
 
 /**
  * A TableServiceClient represents a Client to the Azure Tables service allowing you
@@ -57,13 +59,11 @@ export class TableServiceClient {
   /**
    * Creates a new instance of the TableServiceClient class.
    *
-   * @param url - The URL of the service account that is the target of the desired operation., such as
-   *              "https://myaccount.table.core.windows.net". You can append a SAS,
-   *              such as "https://myaccount.table.core.windows.net?sasString".
+   * @param url - The URL of the service account that is the target of the desired operation., such as "https://myaccount.table.core.windows.net".
    * @param credential - NamedKeyCredential | SASCredential used to authenticate requests. Only Supported for Node
    * @param options - Options to configure the HTTP pipeline.
    *
-   * Example using an account name/key:
+   * ### Example using an account name/key:
    *
    * ```js
    * const { AzureNamedKeyCredential, TableServiceClient } = require("@azure/data-tables")
@@ -76,11 +76,50 @@ export class TableServiceClient {
    * );
    * ```
    */
-  constructor(
-    url: string,
-    credential: NamedKeyCredential | SASCredential,
-    options?: TableServiceClientOptions
-  );
+  constructor(url: string, credential: NamedKeyCredential, options?: TableServiceClientOptions);
+  /**
+   * Creates a new instance of the TableServiceClient class.
+   *
+   * @param url - The URL of the service account that is the target of the desired operation., such as "https://myaccount.table.core.windows.net".
+   * @param credential - SASCredential used to authenticate requests
+   * @param options - Options to configure the HTTP pipeline.
+   *
+   * ### Example using a SAS Token.
+   *
+   * ```js
+   * const { AzureSASCredential, TableServiceClient } = require("@azure/data-tables")
+   * const account = "<storage account name>"
+   * const sasCredential = new AzureSASCredential(account, "<account key>");
+   *
+   * const tableServiceClient = new TableServiceClient(
+   *   `https://${account}.table.core.windows.net`,
+   *   sasCredential
+   * );
+   * ```
+   */
+  constructor(url: string, credential: SASCredential, options?: TableServiceClientOptions);
+  /**
+   * Creates a new instance of the TableServiceClient class.
+   *
+   * @param url - The URL of the service account that is the target of the desired operation., such as "https://myaccount.table.core.windows.net".
+   * @param credential - Azure Active Directory credential used to authenticate requests
+   * @param options - Options to configure the HTTP pipeline.
+   *
+   * ### Example using an Azure Active Directory credential:
+   *
+   * ```js
+   * cons { DefaultAzureCredential } = require("@azure/identity");
+   * const { TableServiceClient } = require("@azure/data-tables")
+   * const account = "<storage account name>"
+   * const credential = new DefaultAzureCredential();
+   *
+   * const tableServiceClient = new TableServiceClient(
+   *   `https://${account}.table.core.windows.net`,
+   *   credential
+   * );
+   * ```
+   */
+  constructor(url: string, credential: TokenCredential, options?: TableServiceClientOptions);
   /**
    * Creates a new instance of the TableServiceClient class.
    *
@@ -102,7 +141,11 @@ export class TableServiceClient {
   constructor(url: string, options?: TableServiceClientOptions);
   constructor(
     url: string,
-    credentialOrOptions?: NamedKeyCredential | SASCredential | TableServiceClientOptions,
+    credentialOrOptions?:
+      | NamedKeyCredential
+      | SASCredential
+      | TokenCredential
+      | TableServiceClientOptions,
     options?: TableServiceClientOptions
   ) {
     this.url = url;
@@ -111,16 +154,6 @@ export class TableServiceClient {
       (!isCredential(credentialOrOptions) ? credentialOrOptions : options) || {};
 
     clientOptions.endpoint = clientOptions.endpoint || this.url;
-
-    if (!clientOptions.userAgentOptions) {
-      clientOptions.userAgentOptions = {};
-    }
-
-    if (clientOptions.userAgentOptions.userAgentPrefix) {
-      clientOptions.userAgentOptions.userAgentPrefix = `${clientOptions.userAgentOptions.userAgentPrefix} ${LIB_INFO}`;
-    } else {
-      clientOptions.userAgentOptions.userAgentPrefix = LIB_INFO;
-    }
 
     const internalPipelineOptions: InternalClientPipelineOptions = {
       ...clientOptions,
@@ -135,9 +168,9 @@ export class TableServiceClient {
         serializationOptions: {
           stringifyXML
         }
-      }
+      },
+      ...(isTokenCredential(credential) && { credential, credentialScopes: STORAGE_SCOPE })
     };
-
     const client = new GeneratedClient(this.url, internalPipelineOptions);
     if (isNamedKeyCredential(credential)) {
       client.pipeline.addPolicy(tablesNamedKeyCredentialPolicy(credential));
@@ -257,7 +290,7 @@ export class TableServiceClient {
   public listTables(
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options?: ListTableItemsOptions
-  ): PagedAsyncIterableIterator<TableItem, TableItem[]> {
+  ): PagedAsyncIterableIterator<TableItem, TableItemResultPage> {
     const iter = this.listTablesAll(options);
 
     return {
@@ -268,10 +301,15 @@ export class TableServiceClient {
         return this;
       },
       byPage: (settings) => {
-        const pageOptions = {
+        const pageOptions: InternalListTablesOptions = {
           ...options,
           queryOptions: { top: settings?.maxPageSize }
         };
+
+        if (settings?.continuationToken) {
+          pageOptions.continuationToken = settings.continuationToken;
+        }
+
         return this.listTablesPage(pageOptions);
       }
     };
@@ -281,12 +319,12 @@ export class TableServiceClient {
     options?: InternalListTablesOptions
   ): AsyncIterableIterator<TableItem> {
     const firstPage = await this._listTables(options);
-    const { nextTableName } = firstPage;
+    const { continuationToken } = firstPage;
     yield* firstPage;
-    if (nextTableName) {
+    if (continuationToken) {
       const optionsWithContinuation: InternalListTablesOptions = {
         ...options,
-        nextTableName
+        continuationToken
       };
       for await (const page of this.listTablesPage(optionsWithContinuation)) {
         yield* page;
@@ -296,7 +334,7 @@ export class TableServiceClient {
 
   private async *listTablesPage(
     options: InternalListTablesOptions = {}
-  ): AsyncIterableIterator<TableItem[]> {
+  ): AsyncIterableIterator<TableItemResultPage> {
     const { span, updatedOptions } = createSpan("TableServiceClient-listTablesPage", options);
 
     try {
@@ -304,10 +342,10 @@ export class TableServiceClient {
 
       yield result;
 
-      while (result.nextTableName) {
+      while (result.continuationToken) {
         const optionsWithContinuation: InternalListTablesOptions = {
           ...updatedOptions,
-          nextTableName: result.nextTableName
+          continuationToken: result.continuationToken
         };
         result = await this._listTables(optionsWithContinuation);
         yield result;
@@ -320,11 +358,13 @@ export class TableServiceClient {
     }
   }
 
-  private async _listTables(options?: InternalListTablesOptions): Promise<ListTableItemsResponse> {
-    const { xMsContinuationNextTableName: nextTableName, value = [] } = await this.table.query(
-      options
-    );
-    return Object.assign([...value], { nextTableName });
+  private async _listTables(options: InternalListTablesOptions = {}): Promise<TableItemResultPage> {
+    const { continuationToken: nextTableName, ...listOptions } = options;
+    const { xMsContinuationNextTableName: continuationToken, value = [] } = await this.table.query({
+      ...listOptions,
+      nextTableName
+    });
+    return Object.assign([...value], { continuationToken });
   }
 
   /**
@@ -363,5 +403,5 @@ type InternalListTablesOptions = ListTableItemsOptions & {
   /**
    * A table query continuation token from a previous call.
    */
-  nextTableName?: string;
+  continuationToken?: string;
 };

@@ -2,15 +2,16 @@
 // Licensed under the MIT license.
 
 import * as msalCommon from "@azure/msal-common";
-import { AccessToken, GetTokenOptions, isNode } from "@azure/core-http";
+import { isNode } from "@azure/core-util";
+import { AccessToken, GetTokenOptions } from "@azure/core-auth";
+import { AbortError } from "@azure/abort-controller";
+
 import { v4 as uuidv4 } from "uuid";
 import { CredentialLogger, formatError, formatSuccess } from "../util/logging";
-import { CredentialUnavailableError } from "../client/errors";
+import { CredentialUnavailableError, AuthenticationRequiredError } from "../errors";
 import { DefaultAuthorityHost, DefaultTenantId } from "../constants";
 import { AuthenticationRecord, MsalAccountInfo, MsalResult, MsalToken } from "./types";
-import { AuthenticationRequiredError } from "./errors";
 import { MsalFlowOptions } from "./flows";
-import { AbortError } from "@azure/abort-controller";
 
 /**
  * Latest AuthenticationRecord version
@@ -30,11 +31,11 @@ export function ensureValidMsalToken(
 ): void {
   const error = (message: string): Error => {
     logger.getToken.info(message);
-    return new AuthenticationRequiredError(
-      Array.isArray(scopes) ? scopes : [scopes],
+    return new AuthenticationRequiredError({
+      scopes: Array.isArray(scopes) ? scopes : [scopes],
       getTokenOptions,
       message
-    );
+    });
   };
   if (!msalToken) {
     throw error("No response");
@@ -48,10 +49,13 @@ export function ensureValidMsalToken(
 }
 
 /**
- * Generates a valid authorityHost by combining a host with a tenantId.
+ * Generates a valid authority by combining a host with a tenantId.
  * @internal
  */
-export function getAuthorityHost(tenantId: string, host: string = DefaultAuthorityHost): string {
+export function getAuthority(tenantId: string, host?: string): string {
+  if (!host) {
+    host = DefaultAuthorityHost;
+  }
   if (host.endsWith("/")) {
     return host + tenantId;
   } else {
@@ -61,8 +65,9 @@ export function getAuthorityHost(tenantId: string, host: string = DefaultAuthori
 
 /**
  * Generates the known authorities.
- * If the tenantId is "adfs", we will return an array with the authorityHost as the only known authority.
- * Otherwise, it is safe to return an empty array.
+ * If the Tenant Id is `adfs`, the authority can't be validated since the format won't match the expected one.
+ * For that reason, we have to force MSAL to disable validating the authority
+ * by sending it within the known authorities in the MSAL configuration.
  * @internal
  */
 export function getKnownAuthorities(tenantId: string, authorityHost: string): string[] {
@@ -184,7 +189,7 @@ export class MsalBaseUtilities {
     ) {
       return error;
     }
-    return new AuthenticationRequiredError(scopes, getTokenOptions, error.message);
+    return new AuthenticationRequiredError({ scopes, getTokenOptions, message: error.message });
   }
 }
 
@@ -201,7 +206,7 @@ export function publicToMsal(account: AuthenticationRecord): msalCommon.AccountI
 
 export function msalToPublic(clientId: string, account: MsalAccountInfo): AuthenticationRecord {
   const record = {
-    authority: getAuthorityHost(account.tenantId, account.environment),
+    authority: getAuthority(account.tenantId, account.environment),
     homeAccountId: account.homeAccountId,
     tenantId: account.tenantId || DefaultTenantId,
     username: account.username,

@@ -2,6 +2,7 @@
   "name": "@azure/eslint-plugin-azure-sdk",
   "version": "3.0.0",
   "description": "An ESLint plugin enforcing design guidelines for the JavaScript/TypeScript Azure SDK",
+  "sdk-type": "utility",
   "private": true,
   "keywords": [
     "eslint",
@@ -21,7 +22,7 @@
     }
   ],
   "license": "MIT",
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/common/tools/eslint-plugin-azure-sdk/",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/common/tools/eslint-plugin-azure-sdk/",
   "repository": {
     "type": "git",
     "url": "https://github.com/Azure/azure-sdk-for-js.git",
@@ -40,8 +41,8 @@
     "build:samples": "echo Skipped.",
     "build:test": "npm run clean && tsc -p tsconfig.json",
     "clean": "rimraf dist/",
-    "format": "prettier --write \"./**/*.{ts,json,md}\"",
-    "check-format": "prettier --check \"./**/*.{ts,json,md}\"",
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"./**/*.{ts,json,md}\"",
+    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"./**/*.{ts,json,md}\"",
     "lint": "eslint src tests --ext .ts",
     "pack": "npm pack 2>&1",
     "prebuild": "npm run clean",
@@ -73,7 +74,7 @@
     "@types/estree": "~0.0.46",
     "eslint-config-prettier": "^7.0.0",
     "glob": "^7.1.2",
-    "json-schema": "^0.3.0",
+    "json-schema": "^0.4.0",
     "typescript": "~4.2.0",
     "tslib": "^2.2.0"
   },
@@ -82,7 +83,7 @@
     "@types/glob": "^7.1.1",
     "@types/json-schema": "^7.0.6",
     "@types/mocha": "^7.0.2",
-    "@types/node": "^10.12.0",
+    "@types/node": "^12.0.0",
     "@typescript-eslint/eslint-plugin": "~4.19.0",
     "@typescript-eslint/experimental-utils": "~4.19.0",
     "@typescript-eslint/parser": "~4.19.0",

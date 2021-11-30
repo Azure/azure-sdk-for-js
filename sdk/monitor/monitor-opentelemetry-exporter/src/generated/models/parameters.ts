@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { OperationParameter, OperationURLParameter } from "@azure/core-http";
+import { OperationParameter, OperationURLParameter } from "@azure/core-client";
 
 export const contentType: OperationParameter = {
   parameterPath: ["options", "contentType"],
@@ -27,7 +27,12 @@ export const body: OperationParameter = {
     required: true,
     type: {
       name: "Sequence",
-      element: { type: { name: "Composite", className: "TelemetryItem" } }
+      element: {
+        type: {
+          name: "Composite",
+          className: "TelemetryItem"
+        }
+      }
     }
   }
 };

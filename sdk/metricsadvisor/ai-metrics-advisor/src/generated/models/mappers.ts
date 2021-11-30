@@ -2047,7 +2047,6 @@ export const DataFeedDetail: coreHttp.CompositeMapper = {
             "Daily",
             "Hourly",
             "Minutely",
-            "Secondly",
             "Custom"
           ]
         }
@@ -3327,7 +3326,6 @@ export const AzureSQLConnectionStringParam: coreHttp.CompositeMapper = {
     modelProperties: {
       connectionString: {
         serializedName: "connectionString",
-        required: true,
         type: {
           name: "String"
         }
@@ -3343,7 +3341,6 @@ export const DataLakeGen2SharedKeyParam: coreHttp.CompositeMapper = {
     modelProperties: {
       accountKey: {
         serializedName: "accountKey",
-        required: true,
         type: {
           name: "String"
         }
@@ -3366,7 +3363,6 @@ export const ServicePrincipalParam: coreHttp.CompositeMapper = {
       },
       clientSecret: {
         serializedName: "clientSecret",
-        required: true,
         type: {
           name: "String"
         }
@@ -3403,7 +3399,6 @@ export const ServicePrincipalInKVParam: coreHttp.CompositeMapper = {
       },
       keyVaultClientSecret: {
         serializedName: "keyVaultClientSecret",
-        required: true,
         type: {
           name: "String"
         }

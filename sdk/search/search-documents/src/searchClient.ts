@@ -4,14 +4,13 @@
 /// <reference lib="esnext.asynciterable" />
 
 import {
-  PipelineOptions,
-  InternalPipelineOptions,
-  createPipelineFromOptions,
-  OperationOptions,
-  operationOptionsToRequestOptionsBase
-} from "@azure/core-http";
+  CommonClientOptions,
+  InternalClientPipelineOptions,
+  OperationOptions
+} from "@azure/core-client";
+import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
 import { SearchClient as GeneratedClient } from "./generated/data/searchClient";
-import { KeyCredential } from "@azure/core-auth";
+import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
 import { createSearchApiKeyCredentialPolicy } from "./searchApiKeyCredentialPolicy";
 import { SDK_VERSION } from "./constants";
 import { logger } from "./logger";
@@ -43,19 +42,26 @@ import {
   MergeOrUploadDocumentsOptions,
   SearchRequest
 } from "./indexModels";
-import { odataMetadataPolicy } from "./odataMetadataPolicy";
+import { createOdataMetadataPolicy } from "./odataMetadataPolicy";
 import { IndexDocumentsBatch } from "./indexDocumentsBatch";
 import { encode, decode } from "./base64";
 import * as utils from "./serviceUtils";
 import { IndexDocumentsClient } from "./searchIndexingBufferedSender";
+
 /**
  * Client options used to configure Cognitive Search API requests.
  */
-export interface SearchClientOptions extends PipelineOptions {
+export interface SearchClientOptions extends CommonClientOptions {
   /**
    * The API version to use when communicating with the service.
+   * @deprecated use {@Link serviceVersion} instead
    */
   apiVersion?: string;
+
+  /**
+   * The service version to use when communicating with the service.
+   */
+  serviceVersion?: string;
 }
 
 /**
@@ -68,9 +74,17 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
   /// the ContinuationToken logic will need to be updated below.
 
   /**
-   * The API version to use when communicating with the service.
+   *  The service version to use when communicating with the service.
    */
-  public readonly apiVersion: string = "2020-06-30-Preview";
+  public readonly serviceVersion: string = "2020-06-30-Preview";
+
+  /**
+   * The API version to use when communicating with the service.
+   * @deprecated use {@Link serviceVersion} instead
+   */
+  public get apiVersion(): string {
+    return this.serviceVersion;
+  }
 
   /**
    * The endpoint of the search service
@@ -110,7 +124,7 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
   constructor(
     endpoint: string,
     indexName: string,
-    credential: KeyCredential,
+    credential: KeyCredential | TokenCredential,
     options: SearchClientOptions = {}
   ) {
     this.endpoint = endpoint;
@@ -126,12 +140,12 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
       options.userAgentOptions.userAgentPrefix = libInfo;
     }
 
-    const internalPipelineOptions: InternalPipelineOptions = {
+    const internalClientPipelineOptions: InternalClientPipelineOptions = {
       ...options,
       ...{
         loggingOptions: {
           logger: logger.info,
-          allowedHeaderNames: [
+          additionalAllowedHeaderNames: [
             "elapsed-time",
             "Location",
             "OData-MaxVersion",
@@ -143,24 +157,36 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
       }
     };
 
-    const pipeline = createPipelineFromOptions(
-      internalPipelineOptions,
-      createSearchApiKeyCredentialPolicy(credential)
-    );
-    if (Array.isArray(pipeline.requestPolicyFactories)) {
-      pipeline.requestPolicyFactories.unshift(odataMetadataPolicy("none"));
-    }
-
-    let apiVersion = this.apiVersion;
-
     if (options.apiVersion) {
-      if (!["2020-06-30-Preview", "2020-06-30"].includes(options.apiVersion)) {
+      if (!["2020-06-30", "2021-04-30-Preview"].includes(options.apiVersion)) {
         throw new Error(`Invalid Api Version: ${options.apiVersion}`);
       }
-      apiVersion = options.apiVersion;
+      this.serviceVersion = options.apiVersion;
     }
 
-    this.client = new GeneratedClient(this.endpoint, this.indexName, apiVersion, pipeline);
+    if (options.serviceVersion) {
+      if (!["2020-06-30", "2021-04-30-Preview"].includes(options.serviceVersion)) {
+        throw new Error(`Invalid Service Version: ${options.serviceVersion}`);
+      }
+      this.serviceVersion = options.serviceVersion;
+    }
+
+    this.client = new GeneratedClient(
+      this.endpoint,
+      this.indexName,
+      this.serviceVersion,
+      internalClientPipelineOptions
+    );
+
+    if (isTokenCredential(credential)) {
+      this.client.pipeline.addPolicy(
+        bearerTokenAuthenticationPolicy({ credential, scopes: utils.DEFAULT_SEARCH_SCOPE })
+      );
+    } else {
+      this.client.pipeline.addPolicy(createSearchApiKeyCredentialPolicy(credential));
+    }
+
+    this.client.pipeline.addPolicy(createOdataMetadataPolicy("none"));
   }
 
   /**
@@ -170,10 +196,15 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
   public async getDocumentsCount(options: CountDocumentsOptions = {}): Promise<number> {
     const { span, updatedOptions } = createSpan("SearchClient-getDocumentsCount", options);
     try {
-      const result = await this.client.documents.count(
-        operationOptionsToRequestOptionsBase(updatedOptions)
-      );
-      return Number(result._response.bodyAsText);
+      let documentsCount: number = 0;
+      await this.client.documents.count({
+        ...updatedOptions,
+        onResponse: (response) => {
+          documentsCount = Number(response.bodyAsText);
+        }
+      });
+
+      return documentsCount;
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -217,10 +248,7 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
     const { span, updatedOptions } = createSpan("SearchClient-autocomplete", operationOptions);
 
     try {
-      const result = await this.client.documents.autocompletePost(
-        fullOptions,
-        operationOptionsToRequestOptionsBase(updatedOptions)
-      );
+      const result = await this.client.documents.autocompletePost(fullOptions, updatedOptions);
       return result;
     } catch (e) {
       span.setStatus({
@@ -239,9 +267,10 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
     nextPageParameters: SearchRequest = {}
   ): Promise<SearchDocumentsPageResult<Pick<T, Fields>>> {
     const { operationOptions, restOptions } = this.extractOperationOptions({ ...options });
-    const { select, searchFields, orderBy, ...nonFieldOptions } = restOptions;
+    const { select, searchFields, orderBy, semanticFields, ...nonFieldOptions } = restOptions;
     const fullOptions: SearchRequest = {
       searchFields: this.convertSearchFields<Fields>(searchFields),
+      semanticFields: this.convertSemanticFields(semanticFields),
       select: this.convertSelect<Fields>(select),
       orderBy: this.convertOrderBy(orderBy),
       ...nonFieldOptions,
@@ -257,7 +286,7 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
           includeTotalResultCount: fullOptions.includeTotalCount,
           searchText: searchText
         },
-        operationOptionsToRequestOptionsBase(updatedOptions)
+        updatedOptions
       );
 
       const { results, count, coverage, facets, answers, nextLink } = result;
@@ -416,10 +445,7 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
     const { span, updatedOptions } = createSpan("SearchClient-suggest", operationOptions);
 
     try {
-      const result = await this.client.documents.suggestPost(
-        fullOptions,
-        operationOptionsToRequestOptionsBase(updatedOptions)
-      );
+      const result = await this.client.documents.suggestPost(fullOptions, updatedOptions);
 
       const modifiedResult = utils.generatedSuggestDocumentsResultToPublicSuggestDocumentsResult<T>(
         result
@@ -442,17 +468,14 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
    * @param key - The primary key value of the document
    * @param options - Additional options
    */
-  public async getDocument<Fields extends keyof T>(
+  public async getDocument<Fields extends Extract<keyof T, string>>(
     key: string,
     options: GetDocumentOptions<Fields> = {}
   ): Promise<T> {
     const { span, updatedOptions } = createSpan("SearchClient-getDocument", options);
     try {
-      const result = await this.client.documents.get(
-        key,
-        operationOptionsToRequestOptionsBase(updatedOptions)
-      );
-      return deserialize<T>(result.body);
+      const result = await this.client.documents.get(key, updatedOptions);
+      return deserialize<T>(result);
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -481,11 +504,17 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
   ): Promise<IndexDocumentsResult> {
     const { span, updatedOptions } = createSpan("SearchClient-indexDocuments", options);
     try {
+      let status: number = 0;
       const result = await this.client.documents.index(
         { actions: serialize(batch.actions) },
-        operationOptionsToRequestOptionsBase(updatedOptions)
+        {
+          ...updatedOptions,
+          onResponse: (response) => {
+            status = response.status;
+          }
+        }
       );
-      if (options.throwOnAnyFailure && result._response.status === 207) {
+      if (options.throwOnAnyFailure && status === 207) {
         throw result;
       }
       return result;
@@ -681,7 +710,7 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
     obj: T
   ): {
     operationOptions: OperationOptions;
-    restOptions: Pick<T, Exclude<keyof T, keyof OperationOptions>>;
+    restOptions: any;
   } {
     const { abortSignal, requestOptions, tracingOptions, ...restOptions } = obj;
 
@@ -707,6 +736,13 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
       return searchFields.join(",");
     }
     return searchFields;
+  }
+
+  private convertSemanticFields(semanticFields?: string[]): string | undefined {
+    if (semanticFields) {
+      return semanticFields.join(",");
+    }
+    return semanticFields;
   }
 
   private convertOrderBy(orderBy?: string[]): string | undefined {

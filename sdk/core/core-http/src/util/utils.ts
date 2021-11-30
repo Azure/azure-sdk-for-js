@@ -114,16 +114,6 @@ export function executePromisesSequentially(
 }
 
 /**
- * A wrapper for setTimeout that resolves a promise after t milliseconds.
- * @param t - The number of milliseconds to be delayed.
- * @param value - The value to be resolved with after a timeout of t milliseconds.
- * @returns Resolved promise
- */
-export function delay<T>(t: number, value?: T): Promise<T | void> {
-  return new Promise((resolve) => setTimeout(() => resolve(value), t));
-}
-
-/**
  * Service callback that is returned for REST requests initiated by the service client.
  */
 export interface ServiceCallback<TResult> {

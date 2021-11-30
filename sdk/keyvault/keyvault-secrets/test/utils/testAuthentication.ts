@@ -3,7 +3,7 @@
 
 import { ClientSecretCredential } from "@azure/identity";
 import { SecretClient } from "../../src";
-import { env, record, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
+import { env, record, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
 import { uniqueString } from "./recorderUtils";
 import TestClient from "./testClient";
 import { Context } from "mocha";
@@ -30,7 +30,10 @@ export async function authenticate(that: Context): Promise<any> {
   const credential = new ClientSecretCredential(
     env.AZURE_TENANT_ID,
     env.AZURE_CLIENT_ID,
-    env.AZURE_CLIENT_SECRET
+    env.AZURE_CLIENT_SECRET,
+    {
+      authorityHost: env.AZURE_AUTHORITY_HOST
+    }
   );
 
   const keyVaultUrl = env.KEYVAULT_URI;

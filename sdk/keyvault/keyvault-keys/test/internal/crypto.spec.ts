@@ -6,8 +6,16 @@ import { Context } from "mocha";
 import chai, { assert } from "chai";
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
+import chaiExclude from "chai-exclude";
+chai.use(chaiExclude);
 import sinon from "sinon";
-import { CryptographyClient, DecryptParameters, EncryptParameters, KeyVaultKey } from "../../src";
+import {
+  CryptographyClient,
+  DecryptParameters,
+  EncryptParameters,
+  KeyClient,
+  KeyVaultKey
+} from "../../src";
 import { RsaCryptographyProvider } from "../../src/cryptography/rsaCryptographyProvider";
 import { JsonWebKey } from "../../src";
 import { stringToUint8Array } from "../utils/crypto";
@@ -33,6 +41,14 @@ describe("internal crypto tests", () => {
         () => new CryptographyClient("foo", tokenCredential),
         /not a valid Key Vault key ID/
       );
+    });
+
+    it("allows version to be omitted", () => {
+      const client = new CryptographyClient(
+        "https://my.vault.azure.net/keys/keyId",
+        tokenCredential
+      );
+      assert.equal(client.vaultUrl, "https://my.vault.azure.net");
     });
   });
 
@@ -107,6 +123,20 @@ describe("internal crypto tests", () => {
     });
   });
 
+  describe("from a keyClient", () => {
+    it("shares the generated client", () => {
+      const keyClient = new KeyClient("https://my.vault.azure.net/", tokenCredential);
+      const cryptoClient = keyClient.getCryptographyClient("keyId", { keyVersion: "v1" });
+      assert.strictEqual(keyClient["client"], cryptoClient["remoteProvider"]!["client"]);
+    });
+
+    it("supports omitting key version", () => {
+      const keyClient = new KeyClient("https://my.vault.azure.net/", tokenCredential);
+      const cryptoClient = keyClient.getCryptographyClient("keyId");
+      assert.strictEqual(keyClient["client"], cryptoClient["remoteProvider"]!["client"]);
+    });
+  });
+
   describe("Parameter passing to encrypt / decrypt", function() {
     let client: CryptographyClient;
     let cryptoProvider: CryptographyProvider;
@@ -145,7 +175,7 @@ describe("internal crypto tests", () => {
           { algorithm: "RSA1_5", plaintext: text },
           operationOptionsSinonMatcher({
             requestOptions: { timeout: 5 },
-            tracingOptions: { spanOptions: {} }
+            tracingOptions: {}
           })
         );
       });
@@ -163,7 +193,7 @@ describe("internal crypto tests", () => {
           { algorithm: "RSA1_5", plaintext: text },
           operationOptionsSinonMatcher({
             requestOptions: { timeout: 5 },
-            tracingOptions: { spanOptions: {} }
+            tracingOptions: {}
           })
         );
       });
@@ -179,7 +209,7 @@ describe("internal crypto tests", () => {
           { algorithm: "RSA1_5", ciphertext: text },
           operationOptionsSinonMatcher({
             requestOptions: { timeout: 5 },
-            tracingOptions: { spanOptions: {} }
+            tracingOptions: {}
           })
         );
       });
@@ -197,7 +227,7 @@ describe("internal crypto tests", () => {
           { algorithm: "RSA1_5", ciphertext: text },
           operationOptionsSinonMatcher({
             requestOptions: { timeout: 5 },
-            tracingOptions: { spanOptions: {} }
+            tracingOptions: {}
           })
         );
       });
@@ -427,7 +457,9 @@ function operationOptionsSinonMatcher<T extends OperationOptions>(
     assert.ok(actualOptions.tracingOptions?.tracingContext);
     delete actualOptions.tracingOptions?.tracingContext;
 
-    assert.deepEqual(expectedPropagatedOptions, actualOptions);
+    assert.deepEqualExcludingEvery(actualOptions, expectedPropagatedOptions, [
+      "spanOptions"
+    ] as any);
     return true;
   });
 }

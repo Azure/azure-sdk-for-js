@@ -12,7 +12,7 @@ enable-xml: true
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/e3850d6aa56eecad65262d0fc7815be0773bfb85/specification/storage/data-plane/Microsoft.StorageDataLake/stable/2020-06-12/DataLakeStorage.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/4a93ab078fba7f087116283c8ed169f9b8e30397/specification/storage/data-plane/Microsoft.StorageDataLake/stable/2020-06-12/DataLakeStorage.json
 model-date-time-as-string: true
 optional-response-headers: true
 v3: true
@@ -20,13 +20,33 @@ disable-async-iterators: true
 add-credentials: false
 use-extension:
   "@autorest/typescript": "6.0.0-dev.20210223.1"
-package-version: 12.5.0
+package-version: 12.8.0-beta.2
 ```
 
 ## Customizations for Track 2 Generator
 
 See the [AutoRest samples](https://github.com/Azure/autorest/tree/master/Samples/3b-custom-transformations)
 for more about how we're customizing things.
+
+### Don't include container or blob in path - we have direct URIs.
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]
+    transform: >
+      for (const property in $)
+      {
+          if (property.includes('/{filesystem}/{path}'))
+          {
+              $[property]["parameters"] = $[property]["parameters"].filter(function(param) { return (typeof param['$ref'] === "undefined") || (false == param['$ref'].endsWith("#/parameters/FileSystem") && false == param['$ref'].endsWith("#/parameters/Path"))});
+          } 
+          else if (property.includes('/{filesystem}'))
+          {
+              $[property]["parameters"] = $[property]["parameters"].filter(function(param) { return (typeof param['$ref'] === "undefined") || (false == param['$ref'].endsWith("#/parameters/FileSystem"))});
+          }
+      }
+```
 
 ### Update DataLakeStorageClientContext to StorageClientContext
 
@@ -303,11 +323,11 @@ directive:
       delete $["properties"]["DeleteTime"]
 ```
 
-### Update service version from "2020-06-12" to "2020-08-04"
+### Update service version from "2020-06-12" to "2020-10-02"
 
 ```yaml
 directive:
   - from: swagger-document
     where: $.parameters.ApiVersionParameter
-    transform: $.enum = [ "2020-08-04" ];
+    transform: $.enum = [ "2020-10-02" ];
 ```

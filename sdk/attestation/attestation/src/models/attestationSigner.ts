@@ -1,33 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/*
- * Copyright (c) Microsoft Corporation.
- * Licensed under the MIT License.
- *
- */
-
 import { JsonWebKey } from "../generated/models";
-import { base64DecodeString } from "../utils/base64";
+import { pemFromBase64 } from "../utils/helpers";
 
 /**
  * An AttestationSigner represents a signing certificate chain/Key ID combination
  * returned by the attestation service.
  */
-export class AttestationSigner {
-  /**
-   * @internal
-   *
-   * @param key - JSON Web Key describing the attestation signer.
-   */
-  constructor(key?: JsonWebKey) {
-    if (key?.kid) {
-      this.keyId = key.kid.toString();
-    }
-
-    this.certificates = key?.x5C?.map(base64DecodeString) ?? [];
-  }
-
+export interface AttestationSigner {
   /**
    * The Key ID for the signer, as defined by the "kid" parameter in
    * {@link https://datatracker.ietf.org/doc/html/rfc7517#section-4.5 | RFC 7517 section 4.5}
@@ -35,10 +16,23 @@ export class AttestationSigner {
   keyId?: string;
 
   /**
-   * An array of X.509 DER encoded certificates one of which will be used to
-   * sign an attestation token. Also the "x5c" parameter in
+   * An array of X.509 certificates DER encoded and PEM encoded one of which
+   * will be used to sign an attestation token. Also the "x5c" parameter in
    * {@link https://datatracker.ietf.org/doc/html/rfc7517#section-4.7 | RFC 7517 section 4.7}
    */
+  certificates: string[];
+}
 
-  certificates: Uint8Array[];
+/**
+ *
+ * @param key  - JsonWebKey for signing key.
+ * @returns AttestationSigner created from the JsonWebKey.
+ *
+ * @internal
+ */
+export function _attestationSignerFromGenerated(key?: JsonWebKey): AttestationSigner {
+  return {
+    keyId: key?.kid,
+    certificates: key?.x5C?.map((cert) => pemFromBase64(cert, "CERTIFICATE")) ?? []
+  };
 }

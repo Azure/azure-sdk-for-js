@@ -6,10 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import { Query } from "../operationsInterfaces";
+import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { AzureLogAnalytics } from "../azureLogAnalytics";
+import { AzureLogAnalyticsContext } from "../azureLogAnalyticsContext";
 import {
   QueryGetOptionalParams,
   QueryGetResponse,
@@ -17,18 +18,19 @@ import {
   QueryExecuteOptionalParams,
   QueryExecuteResponse,
   BatchRequest,
+  QueryBatchOptionalParams,
   QueryBatchResponse
 } from "../models";
 
-/** Class representing a Query. */
-export class Query {
-  private readonly client: AzureLogAnalytics;
+/** Class containing Query operations. */
+export class QueryImpl implements Query {
+  private readonly client: AzureLogAnalyticsContext;
 
   /**
    * Initialize a new instance of the class Query class.
    * @param client Reference to the service client
    */
-  constructor(client: AzureLogAnalytics) {
+  constructor(client: AzureLogAnalyticsContext) {
     this.client = client;
   }
 
@@ -45,15 +47,10 @@ export class Query {
     query: string,
     options?: QueryGetOptionalParams
   ): Promise<QueryGetResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      workspaceId,
-      query,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { workspaceId, query, options },
       getOperationSpec
-    ) as Promise<QueryGetResponse>;
+    );
   }
 
   /**
@@ -71,15 +68,10 @@ export class Query {
     body: QueryBody,
     options?: QueryExecuteOptionalParams
   ): Promise<QueryExecuteResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      workspaceId,
-      body,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { workspaceId, body, options },
       executeOperationSpec
-    ) as Promise<QueryExecuteResponse>;
+    );
   }
 
   /**
@@ -91,22 +83,18 @@ export class Query {
    */
   batch(
     body: BatchRequest,
-    options?: coreHttp.OperationOptions
+    options?: QueryBatchOptionalParams
   ): Promise<QueryBatchResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      body,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { body, options },
       batchOperationSpec
-    ) as Promise<QueryBatchResponse>;
+    );
   }
 }
 // Operation Specifications
-const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
+const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const getOperationSpec: coreHttp.OperationSpec = {
+const getOperationSpec: coreClient.OperationSpec = {
   path: "/workspaces/{workspaceId}/query",
   httpMethod: "GET",
   responses: {
@@ -122,7 +110,7 @@ const getOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const executeOperationSpec: coreHttp.OperationSpec = {
+const executeOperationSpec: coreClient.OperationSpec = {
   path: "/workspaces/{workspaceId}/query",
   httpMethod: "POST",
   responses: {
@@ -143,7 +131,7 @@ const executeOperationSpec: coreHttp.OperationSpec = {
   mediaType: "json",
   serializer
 };
-const batchOperationSpec: coreHttp.OperationSpec = {
+const batchOperationSpec: coreClient.OperationSpec = {
   path: "/$batch",
   httpMethod: "POST",
   responses: {

@@ -54,8 +54,8 @@ npx cross-env  node dtmiConventionsSample.js
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[dtmiconventionssample]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/iot/iot-modelsrepository/samples/v1/javascript/dtmiConventionsSample.js
-[modelresolutionsample]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/iot/iot-modelsrepository/samples/v1/javascript/modelResolutionSample.js
+[dtmiconventionssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/iot/iot-modelsrepository/samples/v1/javascript/dtmiConventionsSample.js
+[modelresolutionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/iot/iot-modelsrepository/samples/v1/javascript/modelResolutionSample.js
 [apiref]: https://docs.microsoft.com/javascript/api/
 [freesub]: https://azure.microsoft.com/free/
-[package]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/iot/iot-modelsrepository/README.md
+[package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/iot/iot-modelsrepository/README.md

@@ -16,7 +16,8 @@ import {
   TransactionAction,
   TableTransactionResponse,
   SignedIdentifier,
-  GetAccessPolicyResponse
+  GetAccessPolicyResponse,
+  TableEntityResultPage
 } from "./models";
 import {
   UpdateEntityResponse,
@@ -24,13 +25,15 @@ import {
   DeleteTableEntityResponse,
   SetAccessPolicyResponse
 } from "./generatedModels";
-import { QueryOptions as GeneratedQueryOptions } from "./generated/models";
+import { TableQueryEntitiesOptionalParams } from "./generated/models";
 import { getClientParamsFromConnectionString } from "./utils/connectionString";
 import {
   isNamedKeyCredential,
   isSASCredential,
+  isTokenCredential,
   NamedKeyCredential,
-  SASCredential
+  SASCredential,
+  TokenCredential
 } from "@azure/core-auth";
 import { tablesNamedKeyCredentialPolicy } from "./tablesNamedCredentialPolicy";
 import "@azure/core-paging";
@@ -41,10 +44,11 @@ import {
   deserializeObjectsArray,
   deserializeSignedIdentifier,
   serialize,
+  serializeQueryOptions,
   serializeSignedIdentifiers
 } from "./serialization";
 import { Table } from "./generated/operationsInterfaces";
-import { LIB_INFO, TablesLoggingAllowedHeaderNames } from "./utils/constants";
+import { STORAGE_SCOPE, TablesLoggingAllowedHeaderNames } from "./utils/constants";
 import {
   FullOperationResponse,
   InternalClientPipelineOptions,
@@ -62,6 +66,8 @@ import { isCredential } from "./utils/isCredential";
 import { tablesSASTokenPolicy } from "./tablesSASTokenPolicy";
 import { isCosmosEndpoint } from "./utils/isCosmosEndpoint";
 import { cosmosPatchPolicy } from "./cosmosPathPolicy";
+import { decodeContinuationToken, encodeContinuationToken } from "./utils/continuationToken";
+import { escapeQuotes } from "./odata";
 
 /**
  * A TableClient represents a Client to the Azure Tables service allowing you
@@ -78,8 +84,9 @@ export class TableClient {
    */
   public pipeline: Pipeline;
   private table: Table;
-  private credential?: NamedKeyCredential | SASCredential;
+  private credential?: NamedKeyCredential | SASCredential | TokenCredential;
   private transactionClient?: InternalTableTransaction;
+  private readonly allowInsecureConnection: boolean;
 
   /**
    * Name of the table to perform operations on.
@@ -89,16 +96,16 @@ export class TableClient {
   /**
    * Creates a new instance of the TableClient class.
    *
-   * @param url - The URL of the service account that is the target of the desired operation., such as
-   *                     "https://myaccount.table.core.windows.net".
+   * @param url - The URL of the service account that is the target of the desired operation, such as "https://myaccount.table.core.windows.net".
    * @param tableName - the name of the table
-   * @param credential - NamedKeyCredential or SASCredential used to authenticate requests. Only Supported for Node
+   * @param credential - NamedKeyCredential used to authenticate requests. Only Supported for Node
    * @param options - Optional. Options to configure the HTTP pipeline.
+   *
    *
    * ### Example using an account name/key:
    *
    * ```js
-   * const { AzureNamedKeyCredential, TableClient } = require("@azure/data-tables")
+   * const { AzureNamedKeyCredential, TableClient } = require("@azure/data-tables");
    * const account = "<storage account name>";
    * const accountKey = "<account key>"
    * const tableName = "<table name>";
@@ -106,15 +113,30 @@ export class TableClient {
    *
    * const client = new TableClient(
    *   `https://${account}.table.core.windows.net`,
-   *   `${tableName}`,
+   *   tableName,
    *   sharedKeyCredential
    * );
    * ```
+   */
+  constructor(
+    url: string,
+    tableName: string,
+    credential: NamedKeyCredential,
+    options?: TableClientOptions
+  );
+  /**
+   * Creates a new instance of the TableClient class.
+   *
+   * @param url - The URL of the service account that is the target of the desired operation, such as "https://myaccount.table.core.windows.net".
+   * @param tableName - the name of the table
+   * @param credential - SASCredential used to authenticate requests
+   * @param options - Optional. Options to configure the HTTP pipeline.
+   *
    *
    * ### Example using a SAS Token:
    *
    * ```js
-   * const { AzureSASCredential, TableClient } = require("@azure/data-tables")
+   * const { AzureSASCredential, TableClient } = require("@azure/data-tables");
    * const account = "<storage account name>";
    * const sasToken = "<sas-token>";
    * const tableName = "<table name>";
@@ -122,7 +144,7 @@ export class TableClient {
    *
    * const client = new TableClient(
    *   `https://${account}.table.core.windows.net`,
-   *   `${tableName}`,
+   *   tableName,
    *   sasCredential
    * );
    * ```
@@ -130,7 +152,39 @@ export class TableClient {
   constructor(
     url: string,
     tableName: string,
-    credential: NamedKeyCredential | SASCredential,
+    credential: SASCredential,
+    options?: TableClientOptions
+  );
+  /**
+   * Creates a new instance of the TableClient class.
+   *
+   * @param url - The URL of the service account that is the target of the desired operation, such as "https://myaccount.table.core.windows.net".
+   * @param tableName - the name of the table
+   * @param credential - Azure Active Directory credential used to authenticate requests
+   * @param options - Optional. Options to configure the HTTP pipeline.
+   *
+   *
+   * ### Example using an Azure Active Directory credential:
+   *
+   * ```js
+   * cons { DefaultAzureCredential } = require("@azure/identity");
+   * const { AzureSASCredential, TableClient } = require("@azure/data-tables");
+   * const account = "<storage account name>";
+   * const sasToken = "<sas-token>";
+   * const tableName = "<table name>";
+   * const credential = new DefaultAzureCredential();
+   *
+   * const client = new TableClient(
+   *   `https://${account}.table.core.windows.net`,
+   *   tableName,
+   *   credential
+   * );
+   * ```
+   */
+  constructor(
+    url: string,
+    tableName: string,
+    credential: TokenCredential,
     options?: TableClientOptions
   );
   /**
@@ -160,26 +214,20 @@ export class TableClient {
   constructor(
     url: string,
     tableName: string,
-    credentialOrOptions?: NamedKeyCredential | SASCredential | TableClientOptions,
+    credentialOrOptions?: NamedKeyCredential | SASCredential | TableClientOptions | TokenCredential,
     options: TableClientOptions = {}
   ) {
     this.url = url;
+    this.tableName = tableName;
 
     const credential = isCredential(credentialOrOptions) ? credentialOrOptions : undefined;
+    this.credential = credential;
 
     const clientOptions =
       (!isCredential(credentialOrOptions) ? credentialOrOptions : options) || {};
 
+    this.allowInsecureConnection = clientOptions.allowInsecureConnection ?? false;
     clientOptions.endpoint = clientOptions.endpoint || this.url;
-    if (!clientOptions.userAgentOptions) {
-      clientOptions.userAgentOptions = {};
-    }
-
-    if (clientOptions.userAgentOptions.userAgentPrefix) {
-      clientOptions.userAgentOptions.userAgentPrefix = `${clientOptions.userAgentOptions.userAgentPrefix} ${LIB_INFO}`;
-    } else {
-      clientOptions.userAgentOptions.userAgentPrefix = LIB_INFO;
-    }
 
     const internalPipelineOptions: InternalClientPipelineOptions = {
       ...clientOptions,
@@ -192,11 +240,13 @@ export class TableClient {
       },
       serializationOptions: {
         stringifyXML
-      }
+      },
+      ...(isTokenCredential(this.credential) && {
+        credential: this.credential,
+        credentialScopes: STORAGE_SCOPE
+      })
     };
 
-    this.tableName = tableName;
-    this.credential = credential;
     const generatedClient = new GeneratedClient(this.url, internalPipelineOptions);
     if (isNamedKeyCredential(credential)) {
       generatedClient.pipeline.addPolicy(tablesNamedKeyCredentialPolicy(credential));
@@ -340,11 +390,16 @@ export class TableClient {
 
     try {
       const { disableTypeConversion, queryOptions, ...getEntityOptions } = updatedOptions || {};
-      await this.table.queryEntitiesWithPartitionAndRowKey(this.tableName, partitionKey, rowKey, {
-        ...getEntityOptions,
-        queryOptions: this.convertQueryOptions(queryOptions || {}),
-        onResponse
-      });
+      await this.table.queryEntitiesWithPartitionAndRowKey(
+        this.tableName,
+        escapeQuotes(partitionKey),
+        escapeQuotes(rowKey),
+        {
+          ...getEntityOptions,
+          queryOptions: serializeQueryOptions(queryOptions || {}),
+          onResponse
+        }
+      );
       const tableEntity = deserialize<TableEntityResult<T>>(
         parsedBody,
         disableTypeConversion ?? false
@@ -392,7 +447,7 @@ export class TableClient {
   public listEntities<T extends object = Record<string, unknown>>(
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: ListTableEntitiesOptions = {}
-  ): PagedAsyncIterableIterator<TableEntityResult<T>, TableEntityResult<T>[]> {
+  ): PagedAsyncIterableIterator<TableEntityResult<T>, TableEntityResultPage<T>> {
     const tableName = this.tableName;
     const iter = this.listEntitiesAll<T>(tableName, options);
 
@@ -408,6 +463,11 @@ export class TableClient {
           ...options,
           queryOptions: { ...options.queryOptions, top: settings?.maxPageSize }
         };
+
+        if (settings?.continuationToken) {
+          pageOptions.continuationToken = settings.continuationToken;
+        }
+
         return this.listEntitiesPage(tableName, pageOptions);
       }
     };
@@ -418,13 +478,11 @@ export class TableClient {
     options?: InternalListTableEntitiesOptions
   ): AsyncIterableIterator<TableEntityResult<T>> {
     const firstPage = await this._listEntities<T>(tableName, options);
-    const { nextPartitionKey, nextRowKey } = firstPage;
     yield* firstPage;
-    if (nextRowKey && nextPartitionKey) {
+    if (firstPage.continuationToken) {
       const optionsWithContinuation: InternalListTableEntitiesOptions = {
         ...options,
-        nextPartitionKey,
-        nextRowKey
+        continuationToken: firstPage.continuationToken
       };
       for await (const page of this.listEntitiesPage<T>(tableName, optionsWithContinuation)) {
         yield* page;
@@ -443,12 +501,12 @@ export class TableClient {
 
       yield result;
 
-      while (result.nextPartitionKey && result.nextRowKey) {
+      while (result.continuationToken) {
         const optionsWithContinuation: InternalListTableEntitiesOptions = {
           ...updatedOptions,
-          nextPartitionKey: result.nextPartitionKey,
-          nextRowKey: result.nextRowKey
+          continuationToken: result.continuationToken
         };
+
         result = await this._listEntities(tableName, optionsWithContinuation);
 
         yield result;
@@ -467,27 +525,40 @@ export class TableClient {
   private async _listEntities<T extends object>(
     tableName: string,
     options: InternalListTableEntitiesOptions = {}
-  ): Promise<ListEntitiesResponse<TableEntityResult<T>>> {
+  ): Promise<TableEntityResultPage<T>> {
     const { disableTypeConversion = false } = options;
-    const queryOptions = this.convertQueryOptions(options.queryOptions || {});
+    const queryOptions = serializeQueryOptions(options.queryOptions || {});
+    const listEntitiesOptions: TableQueryEntitiesOptionalParams = {
+      ...options,
+      queryOptions
+    };
+
+    // If a continuation token is used, decode it and set the next row and partition key
+    if (options.continuationToken) {
+      const continuationToken = decodeContinuationToken(options.continuationToken);
+      listEntitiesOptions.nextRowKey = continuationToken.nextRowKey;
+      listEntitiesOptions.nextPartitionKey = continuationToken.nextPartitionKey;
+    }
+
     const {
       xMsContinuationNextPartitionKey: nextPartitionKey,
       xMsContinuationNextRowKey: nextRowKey,
       value
-    } = await this.table.queryEntities(tableName, {
-      ...options,
-      queryOptions
-    });
+    } = await this.table.queryEntities(tableName, listEntitiesOptions);
 
     const tableEntities = deserializeObjectsArray<TableEntityResult<T>>(
       value ?? [],
       disableTypeConversion
     );
 
-    return Object.assign([...tableEntities], {
-      nextPartitionKey,
-      nextRowKey
+    // Encode nextPartitionKey and nextRowKey as a single continuation token and add it as a
+    // property to the page.
+    const continuationToken = encodeContinuationToken(nextPartitionKey, nextRowKey);
+    const page: TableEntityResultPage<T> = Object.assign([...tableEntities], {
+      continuationToken
     });
+
+    return page;
   }
 
   /**
@@ -576,8 +647,8 @@ export class TableClient {
       };
       return await this.table.deleteEntity(
         this.tableName,
-        partitionKey,
-        rowKey,
+        escapeQuotes(partitionKey),
+        escapeQuotes(rowKey),
         etag,
         deleteOptions
       );
@@ -637,20 +708,19 @@ export class TableClient {
     const { span, updatedOptions } = createSpan(`TableClient-updateEntity-${mode}`, options);
 
     try {
-      if (!entity.partitionKey || !entity.rowKey) {
-        throw new Error("partitionKey and rowKey must be defined");
-      }
+      const partitionKey = escapeQuotes(entity.partitionKey);
+      const rowKey = escapeQuotes(entity.rowKey);
 
       const { etag = "*", ...updateEntityOptions } = updatedOptions || {};
       if (mode === "Merge") {
-        return await this.table.mergeEntity(this.tableName, entity.partitionKey, entity.rowKey, {
+        return await this.table.mergeEntity(this.tableName, partitionKey, rowKey, {
           tableEntityProperties: serialize(entity),
           ifMatch: etag,
           ...updateEntityOptions
         });
       }
       if (mode === "Replace") {
-        return await this.table.updateEntity(this.tableName, entity.partitionKey, entity.rowKey, {
+        return await this.table.updateEntity(this.tableName, partitionKey, rowKey, {
           tableEntityProperties: serialize(entity),
           ifMatch: etag,
           ...updateEntityOptions
@@ -710,19 +780,18 @@ export class TableClient {
     const { span, updatedOptions } = createSpan(`TableClient-upsertEntity-${mode}`, options);
 
     try {
-      if (!entity.partitionKey || !entity.rowKey) {
-        throw new Error("partitionKey and rowKey must be defined");
-      }
+      const partitionKey = escapeQuotes(entity.partitionKey);
+      const rowKey = escapeQuotes(entity.rowKey);
 
       if (mode === "Merge") {
-        return await this.table.mergeEntity(this.tableName, entity.partitionKey, entity.rowKey, {
+        return await this.table.mergeEntity(this.tableName, partitionKey, rowKey, {
           tableEntityProperties: serialize(entity),
           ...updatedOptions
         });
       }
 
       if (mode === "Replace") {
-        return await this.table.updateEntity(this.tableName, entity.partitionKey, entity.rowKey, {
+        return await this.table.updateEntity(this.tableName, partitionKey, rowKey, {
           tableEntityProperties: serialize(entity),
           ...updatedOptions
         });
@@ -826,7 +895,8 @@ export class TableClient {
         transactionId,
         changesetId,
         new TableClient(this.url, this.tableName),
-        this.credential
+        this.credential,
+        this.allowInsecureConnection
       );
     } else {
       this.transactionClient.reset(transactionId, changesetId, partitionKey);
@@ -850,15 +920,6 @@ export class TableClient {
     }
 
     return this.transactionClient.submitTransaction();
-  }
-
-  private convertQueryOptions(query: TableEntityQueryOptions): GeneratedQueryOptions {
-    const { select, ...queryOptions } = query;
-    const mappedQuery: GeneratedQueryOptions = { ...queryOptions };
-    if (select) {
-      mappedQuery.select = select.join(",");
-    }
-    return mappedQuery;
   }
 
   /**
@@ -898,11 +959,7 @@ interface InternalListTableEntitiesOptions extends ListTableEntitiesOptions {
   /**
    * An entity query continuation token from a previous call.
    */
-  nextPartitionKey?: string;
-  /**
-   * An entity query continuation token from a previous call.
-   */
-  nextRowKey?: string;
+  continuationToken?: string;
   /**
    * If true, automatic type conversion will be disabled and entity properties will
    * be represented by full metadata types. For example, an Int32 value will be \{value: "123", type: "Int32"\} instead of 123.

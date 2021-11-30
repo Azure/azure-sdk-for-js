@@ -4,7 +4,10 @@
 
 ```ts
 
+/// <reference types="node" />
+
 import { AbortSignalLike } from '@azure/abort-controller';
+import { AzureLogger } from '@azure/logger';
 import { BaseRequestPolicy } from '@azure/core-http';
 import * as coreHttp from '@azure/core-http';
 import { deserializationPolicy } from '@azure/core-http';
@@ -80,7 +83,7 @@ export interface AccountSASSignatureValues {
 }
 
 // @public
-export class AnonymousCredential extends Credential {
+export class AnonymousCredential extends Credential_2 {
     create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): AnonymousCredentialPolicy;
 }
 
@@ -132,7 +135,6 @@ export interface CopyFileSmbInfo {
     fileAttributes?: string;
     fileCreationTime?: string;
     fileLastWriteTime?: string;
-    // Warning: (ae-forgotten-export) The symbol "PermissionCopyModeType" needs to be exported by the entry point index.d.ts
     filePermissionCopyMode?: PermissionCopyModeType;
     ignoreReadOnly?: boolean;
     setArchiveAttribute?: boolean;
@@ -151,9 +153,10 @@ export interface CorsRule {
 }
 
 // @public
-export abstract class Credential implements RequestPolicyFactory {
+abstract class Credential_2 implements RequestPolicyFactory {
     create(_nextPolicy: RequestPolicy, _options: RequestPolicyOptions): RequestPolicy;
 }
+export { Credential_2 as Credential }
 
 // @public
 export abstract class CredentialPolicy extends BaseRequestPolicy {
@@ -308,12 +311,28 @@ export type DirectoryGetPropertiesResponse = DirectoryGetPropertiesHeaders & {
 // @public
 export interface DirectoryItem {
     // (undocumented)
+    attributes?: string;
+    // (undocumented)
+    fileId?: string;
+    // (undocumented)
     name: string;
+    // (undocumented)
+    permissionKey?: string;
+    properties?: FileProperty;
 }
 
 // @public
 export interface DirectoryListFilesAndDirectoriesOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
+    // (undocumented)
+    includeAttributes?: boolean;
+    // (undocumented)
+    includeEtag?: boolean;
+    includeExtendedInfo?: boolean;
+    // (undocumented)
+    includePermissionKey?: boolean;
+    // (undocumented)
+    includeTimestamps?: boolean;
     prefix?: string;
 }
 
@@ -717,7 +736,7 @@ export interface FileGetRangeListHeaders {
 export interface FileGetRangeListOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     leaseAccessConditions?: LeaseAccessConditions;
-    range?: Range;
+    range?: Range_2;
 }
 
 // @public
@@ -743,7 +762,13 @@ export interface FileHttpHeaders {
 // @public
 export interface FileItem {
     // (undocumented)
+    attributes?: string;
+    // (undocumented)
+    fileId?: string;
+    // (undocumented)
     name: string;
+    // (undocumented)
+    permissionKey?: string;
     properties: FileProperty;
 }
 
@@ -802,7 +827,19 @@ export interface FileProperties extends FileAndDirectorySetPropertiesCommonOptio
 
 // @public
 export interface FileProperty {
+    // (undocumented)
+    changeTime?: Date;
     contentLength: number;
+    // (undocumented)
+    creationTime?: Date;
+    // (undocumented)
+    etag?: string;
+    // (undocumented)
+    lastAccessTime?: Date;
+    // (undocumented)
+    lastModified?: Date;
+    // (undocumented)
+    lastWriteTime?: Date;
 }
 
 // @public
@@ -971,6 +1008,7 @@ export interface FileUploadRangeFromURLHeaders {
 
 // @public
 export interface FileUploadRangeFromURLOptionalParams extends coreHttp.OperationOptions {
+    copySourceAuthorization?: string;
     leaseAccessConditions?: LeaseAccessConditions;
     sourceContentCrc64?: Uint8Array;
     sourceModifiedAccessConditions?: SourceModifiedAccessConditions;
@@ -982,6 +1020,7 @@ export interface FileUploadRangeFromURLOptionalParams extends coreHttp.Operation
 export interface FileUploadRangeFromURLOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     leaseAccessConditions?: LeaseAccessConditions;
+    sourceAuthorization?: HttpAuthorization;
     sourceConditions?: SourceModifiedAccessConditions;
     sourceContentCrc64?: Uint8Array;
     timeoutInSeconds?: number;
@@ -1048,6 +1087,12 @@ export interface HandleItem {
     sessionId: string;
 }
 
+// @public
+export interface HttpAuthorization {
+    scheme: string;
+    value: string;
+}
+
 export { HttpHeaders }
 
 export { HttpOperationResponse }
@@ -1099,6 +1144,8 @@ export type LeaseStatusType = "locked" | "unlocked";
 export interface ListFilesAndDirectoriesSegmentResponse {
     // (undocumented)
     continuationToken: string;
+    // (undocumented)
+    directoryId?: string;
     // (undocumented)
     directoryPath: string;
     // (undocumented)
@@ -1160,7 +1207,7 @@ export interface ListSharesResponseModel {
 }
 
 // @public
-export const logger: import("@azure/logger").AzureLogger;
+export const logger: AzureLogger;
 
 // @public (undocumented)
 export interface Metadata {
@@ -1177,7 +1224,10 @@ export interface Metrics {
 }
 
 // @public
-export function newPipeline(credential?: Credential, pipelineOptions?: StoragePipelineOptions): Pipeline;
+export function newPipeline(credential?: Credential_2, pipelineOptions?: StoragePipelineOptions): Pipeline;
+
+// @public
+export type PermissionCopyModeType = "source" | "override";
 
 // @public
 export class Pipeline {
@@ -1193,10 +1243,11 @@ export interface PipelineOptions {
 }
 
 // @public
-export interface Range {
+interface Range_2 {
     count?: number;
     offset: number;
 }
+export { Range_2 as Range }
 
 // @public
 export interface RangeModel {
@@ -1342,7 +1393,7 @@ export type ShareAccessTier = "TransactionOptimized" | "Hot" | "Cool";
 // @public
 export class ShareClient extends StorageClient {
     constructor(connectionString: string, name: string, options?: StoragePipelineOptions);
-    constructor(url: string, credential?: Credential, options?: StoragePipelineOptions);
+    constructor(url: string, credential?: Credential_2, options?: StoragePipelineOptions);
     constructor(url: string, pipeline: Pipeline);
     create(options?: ShareCreateOptions): Promise<ShareCreateResponse>;
     createDirectory(directoryName: string, options?: DirectoryCreateOptions): Promise<{
@@ -1487,7 +1538,7 @@ export type ShareDeleteResponse = ShareDeleteHeaders & {
 
 // @public
 export class ShareDirectoryClient extends StorageClient {
-    constructor(url: string, credential?: Credential, options?: StoragePipelineOptions);
+    constructor(url: string, credential?: Credential_2, options?: StoragePipelineOptions);
     constructor(url: string, pipeline: Pipeline);
     create(options?: DirectoryCreateOptions): Promise<DirectoryCreateResponse>;
     createFile(fileName: string, size: number, options?: FileCreateOptions): Promise<{
@@ -1520,7 +1571,7 @@ export class ShareDirectoryClient extends StorageClient {
     setMetadata(metadata?: Metadata, options?: DirectorySetMetadataOptions): Promise<DirectorySetMetadataResponse>;
     setProperties(properties?: DirectoryProperties): Promise<DirectorySetPropertiesResponse>;
     get shareName(): string;
-    }
+}
 
 // @public
 export interface ShareExistsOptions extends CommonOptions {
@@ -1530,7 +1581,7 @@ export interface ShareExistsOptions extends CommonOptions {
 
 // @public
 export class ShareFileClient extends StorageClient {
-    constructor(url: string, credential?: Credential, options?: StoragePipelineOptions);
+    constructor(url: string, credential?: Credential_2, options?: StoragePipelineOptions);
     constructor(url: string, pipeline: Pipeline);
     abortCopyFromURL(copyId: string, options?: FileAbortCopyFromURLOptions): Promise<FileAbortCopyResponse>;
     clearRange(offset: number, contentLength: number, options?: FileClearRangeOptions): Promise<FileUploadRangeResponse>;
@@ -1748,7 +1799,7 @@ export class ShareLeaseClient {
     releaseLease(options?: LeaseOperationOptions): Promise<LeaseOperationResponse>;
     renewLease(options?: LeaseOperationOptions): Promise<LeaseOperationResponse>;
     get url(): string;
-    }
+}
 
 // @public
 export interface SharePermission {
@@ -1822,7 +1873,7 @@ export class ShareSASPermissions {
 
 // @public
 export class ShareServiceClient extends StorageClient {
-    constructor(url: string, credential?: Credential, options?: StoragePipelineOptions);
+    constructor(url: string, credential?: Credential_2, options?: StoragePipelineOptions);
     constructor(url: string, pipeline: Pipeline);
     createShare(shareName: string, options?: ShareCreateOptions): Promise<{
         shareCreateResponse: ShareCreateResponse;
@@ -2000,7 +2051,7 @@ export class StorageRetryPolicy extends BaseRequestPolicy {
 export class StorageRetryPolicyFactory implements RequestPolicyFactory {
     constructor(retryOptions?: StorageRetryOptions);
     create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): StorageRetryPolicy;
-    }
+}
 
 // @public
 export enum StorageRetryPolicyType {
@@ -2009,7 +2060,7 @@ export enum StorageRetryPolicyType {
 }
 
 // @public
-export class StorageSharedKeyCredential extends Credential {
+export class StorageSharedKeyCredential extends Credential_2 {
     constructor(accountName: string, accountKey: string);
     readonly accountName: string;
     computeHMACSHA256(stringToSign: string): string;
@@ -2029,7 +2080,6 @@ export type TimeNowType = "now";
 export type TimePreserveType = "preserve";
 
 export { WebResource }
-
 
 // (No @packageDocumentation comment for this package)
 

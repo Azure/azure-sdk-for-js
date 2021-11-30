@@ -6,9 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import * as coreClient from "@azure/core-client";
 
-export const MetricNamespaceCollection: coreHttp.CompositeMapper = {
+export const MetricNamespaceCollection: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MetricNamespaceCollection",
@@ -30,7 +30,7 @@ export const MetricNamespaceCollection: coreHttp.CompositeMapper = {
   }
 };
 
-export const MetricNamespace: coreHttp.CompositeMapper = {
+export const MetricNamespace: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MetricNamespace",
@@ -70,7 +70,7 @@ export const MetricNamespace: coreHttp.CompositeMapper = {
   }
 };
 
-export const MetricNamespaceName: coreHttp.CompositeMapper = {
+export const MetricNamespaceName: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MetricNamespaceName",
@@ -85,7 +85,7 @@ export const MetricNamespaceName: coreHttp.CompositeMapper = {
   }
 };
 
-export const ErrorResponse: coreHttp.CompositeMapper = {
+export const ErrorResponse: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ErrorResponse",

@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { OperationOptions } from "@azure/core-http";
-import { Column as LogsColumn, ErrorInfo } from "../generated/logquery/src";
+import { OperationOptions } from "@azure/core-client";
+import { LogsColumnType } from "../generated/logquery/src";
+import { QueryTimeInterval } from "./timeInterval";
 
 // https://dev.loganalytics.io/documentation/Using-the-API/RequestOptions
 // https://dev.loganalytics.io/documentation/Using-the-API/Timeouts
@@ -10,7 +11,15 @@ import { Column as LogsColumn, ErrorInfo } from "../generated/logquery/src";
 /**
  * Options for querying logs.
  */
-export interface QueryLogsOptions extends OperationOptions {
+export interface LogsQueryOptions extends OperationOptions {
+  /**
+   * A list of workspaces that are included in the query, except for the one set as the `workspaceId` parameter
+   * These may consist of the following identifier formats:
+   * - Qualified workspace names
+   * - Workspace IDs
+   * - Azure resource IDs
+   */
+  additionalWorkspaces?: string[];
   /**
    * The maximum amount of time the server will spend processing the query.
    * Default: 180 seconds (3 minutes), maximum allowed is 600 seconds (10 minutes)
@@ -21,6 +30,11 @@ export interface QueryLogsOptions extends OperationOptions {
    * Results will also include statistics about the query.
    */
   includeQueryStatistics?: boolean; // TODO: this data is not modeled in the current response object.
+
+  /**
+   * Results will also include visualization information, in JSON format.
+   */
+  includeVisualization?: boolean;
 }
 
 /**
@@ -34,49 +48,88 @@ export interface QueryStatistics {
   [key: string]: unknown;
 }
 
+/** The code and message for an error. */
+export interface LogsErrorInfo extends Error {
+  /** A machine readable error code. */
+  code: string;
+}
+
 /**
  * Tables and statistic results from a logs query.
  */
-export interface QueryLogsResult {
-  /** The list of tables, columns and rows. */
+
+export type LogsQueryResult = LogsQuerySuccessfulResult | LogsQueryPartialResult;
+
+/** Indicates if a query succeeded or failed or partially failed.
+ * Represented by PartialFailure" | "Success" | "Failure".
+ */
+export enum LogsQueryResultStatus {
+  /** Represents Partial Failure scenario where partial data and errors of type {@link LogsQueryPartialResult} is returned for query */
+  PartialFailure = "PartialFailure",
+  /** Represents Failure scenario where only error of type {@link LogsQueryError} is returned for query */
+  Failure = "Failure",
+  /** Represents Success scenario where all data of type {@link LogsQuerySuccessfulResult} is returned for query */
+  Success = "Success"
+}
+
+/** Result type for Success Scenario for logs query workspace and query batch operations. */
+export interface LogsQuerySuccessfulResult {
+  /** Populated results from the query. */
   tables: LogsTable[];
+  /** Indicates that the query succeeded */
+  status: LogsQueryResultStatus.Success;
   /** Statistics represented in JSON format. */
-  statistics?: any;
+  statistics?: Record<string, unknown>;
+  /** Visualization data in JSON format. */
+  visualization?: Record<string, unknown>;
 }
 
-/** Options when query logs with a batch. */
-export type QueryLogsBatchOptions = OperationOptions;
-
-/** An array of queries to run as a batch. */
-export interface QueryLogsBatch {
-  /**
-   * Queries that will be run for the batch.
-   */
-  queries: BatchQuery[];
+/** Result type for Partial Failure Scenario for logs queryWorkspace and queryBatch operations. */
+export interface LogsQueryPartialResult {
+  /** Populated results from the query. */
+  partialTables: LogsTable[];
+  /** error information for partial errors or failed queries */
+  partialError: LogsErrorInfo;
+  /** Indicates that the query partially failed.*/
+  status: LogsQueryResultStatus.PartialFailure;
+  /** Statistics represented in JSON format. */
+  statistics?: Record<string, unknown>;
+  /** Visualization data in JSON format. */
+  visualization?: Record<string, unknown>;
 }
 
-/** The Analytics query. Learn more about the [Analytics query syntax](https://azure.microsoft.com/documentation/articles/app-insights-analytics-reference/) */
-// NOTE: 'id' is added automatically by our LogsClient.
-export interface BatchQuery {
+/** Result type for Failure Scenario representing error for logs queryWorkspace and queryBatch operations. */
+export interface LogsQueryError extends Error {
+  /** A machine readable error code. */
+  code: string;
+  /** Indicates that the query failed */
+  status: LogsQueryResultStatus.Failure;
+}
+
+/** Configurable HTTP request settings for the Logs query batch operation. */
+export interface LogsQueryBatchOptions extends OperationOptions {}
+
+/** The Kusto query. For more information about Kusto, see [Kusto query overview](https://docs.microsoft.com/azure/data-explorer/kusto/query). */
+// NOTE: 'id' is added automatically by our LogsQueryClient.
+export interface QueryBatch {
   /** The workspace for this query. */
-  workspace: string;
+  workspaceId: string;
 
   // TODO: having both this and the workspaceId field co-exist on the same model seems really
   // confusing. However, this is similar to what we're offering in other languages as well.
 
   /** The query to execute. */
   query: string;
-  /** The timespan over which to query data. This is an ISO8601 time period value.  This timespan is applied in addition to any that are specified in the query expression. */
-  timespan: string;
-  /** A list of workspaces that are included in the query. */
-  workspaces?: string[];
-  /** A list of qualified workspace names that are included in the query. */
-  qualifiedNames?: string[];
-  /** A list of workspace IDs that are included in the query. */
-  workspaceIds?: string[];
-  /** A list of Azure resource IDs that are included in the query. */
-  azureResourceIds?: string[];
-
+  /** The timespan over which to query data. This timespan is applied in addition to any that are specified in the query expression. */
+  timespan: QueryTimeInterval;
+  /**
+   * A list of workspaces that are included in the query, except for the one set as the `workspaceId` parameter
+   * These may consist of the following identifier formats:
+   * - Qualified workspace names
+   * - Workspace IDs
+   * - Azure resource IDs
+   */
+  additionalWorkspaces?: string[];
   /**
    * The maximum amount of time the server will spend processing the query.
    * Default: 180 seconds (3 minutes), maximum allowed is 600 seconds (10 minutes)
@@ -87,31 +140,49 @@ export interface BatchQuery {
    * Results will also include statistics about the query.
    */
   includeQueryStatistics?: boolean; // TODO: this data is not modeled in the current response object.
+
+  /**
+   * Results will also include visualization information, in JSON format.
+   */
+  includeVisualization?: boolean;
 }
 
-/** Results for a batch query. */
-export interface QueryLogsBatchResult {
-  /** An array of responses corresponding to each individual request in a batch. */
-  results?: {
-    id?: string;
-    status?: number;
-    /** The list of tables, columns and rows. */
-    // (hoisted up from `LogQueryResult`)
-    tables?: LogsTable[];
-    error?: ErrorInfo;
-  }[];
-
-  // TODO: this is omitted from the Java models.
-  /** Error response for a batch request */
-  // error?: BatchResponseError;
-}
+/** Results for a batch query. Each result in the array is either of type
+ *  {@link LogsQueryError} or {@link LogsQueryPartialResult} or {@link LogsQuerySuccessfulResult}
+ */
+export type LogsQueryBatchResult = Array<
+  LogsQueryPartialResult | LogsQuerySuccessfulResult | LogsQueryError
+>;
 
 /** Contains the columns and rows for one table in a query response. */
 export interface LogsTable {
   /** The name of the table. */
   name: string;
   /** The list of columns in this table. */
-  columns: LogsColumn[];
-  /** The resulting rows from this query. */
+  columnDescriptors: LogsColumn[];
+  /** The two dimensional array of results from this query indexed by row and column. */
   rows: (Date | string | number | Record<string, unknown> | boolean)[][];
+}
+
+/** A column in a table. */
+export interface LogsColumn {
+  /** The name of this column. */
+  name?: string;
+  /** The data type of this column.
+   * Defines values for LogsColumnType.
+   * {@link KnownLogsColumnType} can be used interchangeably with LogsColumnType,
+   *  this enum contains the known values that the service supports.
+   * ### Known values supported by the service
+   * **bool**
+   * **datetime**
+   * **dynamic**
+   * **int**
+   * **long**
+   * **real**
+   * **string**
+   * **guid**
+   * **decimal**
+   * **timespan**
+   */
+  type?: LogsColumnType;
 }

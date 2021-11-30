@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import { HttpOperationResponse } from "../httpOperationResponse";
-import * as utils from "../util/utils";
 import { WebResourceLike } from "../webResource";
 import {
   BaseRequestPolicy,
@@ -22,7 +21,15 @@ import {
 } from "../util/exponentialBackoffStrategy";
 import { RestError } from "../restError";
 import { logger } from "../log";
+import { Constants } from "../util/constants";
+import { delay } from "../util/delay";
 
+/**
+ * Policy that retries the request as many times as configured for as long as the max retry time interval specified, each retry waiting longer to begin than the last time.
+ * @param retryCount - Maximum number of retries.
+ * @param retryInterval - Base time between retries.
+ * @param maxRetryInterval - Maximum time to wait between retries.
+ */
 export function exponentialRetryPolicy(
   retryCount?: number,
   retryInterval?: number,
@@ -45,6 +52,10 @@ export function exponentialRetryPolicy(
  * Describes the Retry Mode type. Currently supporting only Exponential.
  */
 export enum RetryMode {
+  /**
+   * Currently supported retry mode.
+   * Each time a retry happens, it will take exponentially more time than the last time.
+   */
   Exponential
 }
 
@@ -139,6 +150,10 @@ async function retry(
 ): Promise<HttpOperationResponse> {
   function shouldPolicyRetry(responseParam?: HttpOperationResponse): boolean {
     const statusCode = responseParam?.status;
+    if (statusCode === 503 && response?.headers.get(Constants.HeaderConstants.RETRY_AFTER)) {
+      return false;
+    }
+
     if (
       statusCode === undefined ||
       (statusCode < 500 && statusCode !== 408) ||
@@ -164,7 +179,7 @@ async function retry(
   if (!isAborted && shouldRetry(policy.retryCount, shouldPolicyRetry, retryData, response)) {
     logger.info(`Retrying request in ${retryData.retryInterval}`);
     try {
-      await utils.delay(retryData.retryInterval);
+      await delay(retryData.retryInterval);
       const res = await policy._nextPolicy.sendRequest(request.clone());
       return retry(policy, request, res, retryData);
     } catch (err) {

@@ -1,12 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
-import { CredentialUnavailableError } from "../client/errors";
+import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-auth";
+
+import { CredentialUnavailableError } from "../errors";
 import { credentialLogger, formatSuccess, formatError } from "../util/logging";
 import { trace } from "../util/tracing";
 import { ensureValidScope, getScopeResource } from "../util/scopeUtils";
 import { processUtils } from "../util/processUtils";
+import { AzurePowerShellCredentialOptions } from "./azurePowerShellCredentialOptions";
+import { processMultiTenantRequest } from "../util/validateMultiTenant";
+import { checkTenantId } from "../util/checkTenantId";
 
 const logger = credentialLogger("AzurePowerShellCredential");
 
@@ -59,7 +63,8 @@ export const powerShellErrors = {
 export const powerShellPublicErrorMessages = {
   login:
     "Please run 'Connect-AzAccount' from PowerShell to authenticate before using this credential.",
-  installed: `The 'Az.Account' module >= 2.2.0 is not installed. Install the Azure Az PowerShell module with: "Install-Module -Name Az -Scope CurrentUser -Repository PSGallery -Force".`
+  installed: `The 'Az.Account' module >= 2.2.0 is not installed. Install the Azure Az PowerShell module with: "Install-Module -Name Az -Scope CurrentUser -Repository PSGallery -Force".`,
+  troubleshoot: `To troubleshoot, visit https://aka.ms/azsdk/js/identity/powershellcredential/troubleshoot.`
 };
 
 // PowerShell Azure User not logged in error check.
@@ -83,20 +88,32 @@ if (isWindows) {
  * This credential will use the currently logged-in user information from the
  * Azure PowerShell module. To do so, it will read the user access token and
  * expire time with Azure PowerShell command `Get-AzAccessToken -ResourceUrl {ResourceScope}`
- *
- * To be able to use this credential:
- * - Install the Azure Az PowerShell module with:
- *   `Install-Module -Name Az -Scope CurrentUser -Repository PSGallery -Force`.
- * - You have already logged in to Azure PowerShell using the command
- * `Connect-AzAccount` from the command line.
  */
 export class AzurePowerShellCredential implements TokenCredential {
+  private tenantId?: string;
+
+  /**
+   * Creates an instance of the {@link AzurePowerShellCredential}.
+   *
+   * To use this credential:
+   * - Install the Azure Az PowerShell module with:
+   *   `Install-Module -Name Az -Scope CurrentUser -Repository PSGallery -Force`.
+   * - You have already logged in to Azure PowerShell using the command
+   * `Connect-AzAccount` from the command line.
+   *
+   * @param options - Options, to optionally allow multi-tenant requests.
+   */
+  constructor(options?: AzurePowerShellCredentialOptions) {
+    this.tenantId = options?.tenantId;
+  }
+
   /**
    * Gets the access token from Azure PowerShell
    * @param resource - The resource to use when getting the token
    */
   private async getAzurePowerShellAccessToken(
-    resource: string
+    resource: string,
+    tenantId?: string
   ): Promise<{ Token: string; ExpiresOn: string }> {
     // Clone the stack to avoid mutating it while iterating
     for (const powerShellCommand of [...commandStack]) {
@@ -108,6 +125,11 @@ export class AzurePowerShellCredential implements TokenCredential {
         continue;
       }
 
+      let tenantSection = "";
+      if (tenantId) {
+        tenantSection = `-TenantId "${tenantId}"`;
+      }
+
       const results = await runCommands([
         [
           powerShellCommand,
@@ -117,7 +139,7 @@ export class AzurePowerShellCredential implements TokenCredential {
         [
           powerShellCommand,
           "-Command",
-          `Get-AzAccessToken -ResourceUrl "${resource}" | ConvertTo-Json`
+          `Get-AzAccessToken ${tenantSection} -ResourceUrl "${resource}" | ConvertTo-Json`
         ]
       ]);
 
@@ -129,14 +151,12 @@ export class AzurePowerShellCredential implements TokenCredential {
       }
     }
 
-    throw new Error(`Unable to execute PowerShell. Ensure that it is installed in your system.`);
+    throw new Error(`Unable to execute PowerShell. Ensure that it is installed in your system`);
   }
 
   /**
-   * Authenticates with Azure Active Directory and returns an access token if
-   * successful. If authentication cannot be performed at this time, this method may
-   * return null. If an error occurs during authentication, an {@link AuthenticationError}
-   * containing failure details will be thrown.
+   * Authenticates with Azure Active Directory and returns an access token if successful.
+   * If the authentication cannot be performed through PowerShell, a {@link CredentialUnavailableError} will be thrown.
    *
    * @param scopes - The list of scopes for which the token will have access.
    * @param options - The options used to configure any requests this TokenCredential implementation might make.
@@ -144,17 +164,20 @@ export class AzurePowerShellCredential implements TokenCredential {
   public async getToken(
     scopes: string | string[],
     options: GetTokenOptions = {}
-  ): Promise<AccessToken | null> {
+  ): Promise<AccessToken> {
     return trace(`${this.constructor.name}.getToken`, options, async () => {
+      const tenantId = processMultiTenantRequest(this.tenantId, options);
+      if (tenantId) {
+        checkTenantId(logger, tenantId);
+      }
+
       const scope = typeof scopes === "string" ? scopes : scopes[0];
-
-      logger.getToken.info(`Using the scope ${scope}`);
-
       ensureValidScope(scope, logger);
+      logger.getToken.info(`Using the scope ${scope}`);
       const resource = getScopeResource(scope);
 
       try {
-        const response = await this.getAzurePowerShellAccessToken(resource);
+        const response = await this.getAzurePowerShellAccessToken(resource, tenantId);
         logger.getToken.info(formatSuccess(scopes));
         return {
           token: response.Token,
@@ -170,7 +193,9 @@ export class AzurePowerShellCredential implements TokenCredential {
           logger.getToken.info(formatError(scope, error));
           throw error;
         }
-        const error = new CredentialUnavailableError(err);
+        const error = new CredentialUnavailableError(
+          `${err}. ${powerShellPublicErrorMessages.troubleshoot}`
+        );
         logger.getToken.info(formatError(scope, error));
         throw error;
       }

@@ -2,15 +2,16 @@
 
 These sample programs show how to use the JavaScript client libraries for Monitor Query in some common scenarios.
 
-| **File Name**                       | **Description**                                                         |
-| ----------------------------------- | ----------------------------------------------------------------------- |
-| [logsQuery.js][logsquery]           | Demonstrates how to run a query against a Log Analytics workspace       |
-| [logsQueryBatch.js][logsquerybatch] | Demonstrates how to run a batch query against a Log Analytics workspace |
-| [metricsQuery.js][metricsquery]     | Demonstrates how to query metrics using the MetricsClient.              |
+| **File Name**                                                 | **Description**                                                         |
+| ------------------------------------------------------------- | ----------------------------------------------------------------------- |
+| [logsQuery.js][logsquery]                                     | Demonstrates how to run a query against a Log Analytics workspace       |
+| [logsQueryBatch.js][logsquerybatch]                           | Demonstrates how to run a batch query against a Log Analytics workspace |
+| [logsQueryMultipleWorkspaces.js][logsquerymultipleworkspaces] | Demonstrates how to run a query against a Log Analytics workspace       |
+| [metricsQuery.js][metricsquery]                               | Demonstrates how to query metrics using the MetricsClient.              |
 
 ## Prerequisites
 
-The sample programs are compatible with Node.js >=12.0.0.
+The sample programs are compatible with [LTS versions of Node.js](https://nodejs.org/about/releases/).
 
 You need [an Azure subscription][freesub] and the following Azure resources to run these sample programs:
 
@@ -48,10 +49,11 @@ npx cross-env MONITOR_WORKSPACE_ID="<monitor workspace id>" node logsQuery.js
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[logsquery]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/monitor/monitor-query/samples/v1/javascript/logsQuery.js
-[logsquerybatch]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/monitor/monitor-query/samples/v1/javascript/logsQueryBatch.js
-[metricsquery]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/monitor/monitor-query/samples/v1/javascript/metricsQuery.js
+[logsquery]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query/samples/v1/javascript/logsQuery.js
+[logsquerybatch]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query/samples/v1/javascript/logsQueryBatch.js
+[logsquerymultipleworkspaces]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query/samples/v1/javascript/logsQueryMultipleWorkspaces.js
+[metricsquery]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query/samples/v1/javascript/metricsQuery.js
 [apiref]: https://docs.microsoft.com/javascript/api/
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azuremonitor]: https://docs.microsoft.com/azure/azure-monitor/
-[package]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/monitor/monitor-query/README.md
+[package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/monitor/monitor-query/README.md

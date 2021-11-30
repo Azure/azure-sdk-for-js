@@ -5,9 +5,9 @@
   "description": "Device Update for IoT Hub is an Azure service that enables customers to publish update for their IoT devices to the cloud, and then deploy that update to their devices (approve updates to groups of devices managed and provisioned in IoT Hub). It leverages the proven security and reliability of the Windows Update platform, optimized for IoT devices. It works globally and knows when and how to update devices, enabling customers to focus on their business goals and let Device Update for IoT Hub handle the updates.",
   "version": "1.0.0-beta.2",
   "dependencies": {
-    "@azure/core-http": "^1.2.0",
+    "@azure/core-http": "^2.0.0",
     "@azure/core-paging": "^1.1.1",
-    "@azure/core-tracing": "1.0.0-preview.11",
+    "@azure/core-tracing": "1.0.0-preview.13",
     "tslib": "^2.2.0"
   },
   "keywords": [
@@ -25,9 +25,9 @@
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "@azure/identity": "2.0.0-beta.4",
-    "@microsoft/api-extractor": "7.7.11",
-    "@types/node": "^8.0.0",
+    "@azure/identity": "^2.0.1",
+    "@microsoft/api-extractor": "^7.18.11",
+    "@types/node": "^12.0.0",
     "@types/uuid": "^8.0.0",
     "cross-env": "^7.0.2",
     "dotenv": "^8.2.0",
@@ -35,8 +35,6 @@
     "mkdirp": "^1.0.4",
     "prettier": "^1.16.4",
     "rimraf": "^3.0.0",
-    "rollup-plugin-node-resolve": "^3.4.0",
-    "rollup-plugin-sourcemaps": "^0.4.2",
     "rollup": "^1.16.3",
     "source-map-support": "^0.5.9",
     "typedoc": "0.15.2",
@@ -65,7 +63,7 @@
     ]
   },
   "engines": {
-    "node": ">=8.0.0"
+    "node": ">=12.0.0"
   },
   "//sampleConfiguration": {
     "productName": "Azure IoT Hub Device Update",
@@ -84,7 +82,7 @@
     "build:node": "tsc -p . && cross-env ONLY_NODE=true rollup -c 2>&1",
     "build:samples": "echo Obsolete.",
     "build:test": "echo skip",
-    "build": "tsc -p . && rollup -c 2>&1 && api-extractor run --local",
+    "build": "npm run clean && tsc -p . && rollup -c 2>&1 && api-extractor run --local",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-* temp types *.tgz *.log",
     "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src",
@@ -97,7 +95,6 @@
     "lint:fix": "echo skip",
     "lint": "echo skip",
     "pack": "npm pack 2>&1",
-    "prebuild": "npm run clean",
     "test:browser": "echo skip",
     "test:node": "echo skip",
     "test": "echo skip",

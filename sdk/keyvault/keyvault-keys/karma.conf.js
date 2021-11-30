@@ -6,7 +6,7 @@ const {
   isPlaybackMode,
   isSoftRecordMode,
   isRecordMode
-} = require("@azure/test-utils-recorder");
+} = require("@azure-tools/test-recorder");
 
 module.exports = function(config) {
   config.set({
@@ -48,7 +48,9 @@ module.exports = function(config) {
       "KEYVAULT_NAME",
       "KEYVAULT_URI",
       "AZURE_MANAGEDHSM_URI",
-      "TEST_MODE"
+      "AZURE_KEYVAULT_ATTESTATION_URI",
+      "TEST_MODE",
+      "AZURE_AUTHORITY_HOST"
     ],
 
     reporters: ["mocha", "coverage", "junit", "json-to-file"],

@@ -6,7 +6,7 @@ import * as dotenv from "dotenv";
 import * as fs from "fs";
 import { isNode, delay } from "@azure/core-http";
 import { getBSU, recorderEnvSetup, bodyToString, getGenericCredential } from "./utils";
-import { record, Recorder } from "@azure/test-utils-recorder";
+import { record, Recorder } from "@azure-tools/test-recorder";
 import {
   ContainerClient,
   BlobServiceClient,
@@ -16,6 +16,7 @@ import {
   BlobBatch
 } from "../src";
 import { setURLParameter } from "../src/utils/utils.common";
+import { Context } from "mocha";
 dotenv.config({ path: "../.env" });
 
 describe("Blob versioning", () => {
@@ -31,7 +32,7 @@ describe("Blob versioning", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function() {
+  beforeEach(async function(this: Context) {
     recorder = record(this, recorderEnvSetup);
     blobServiceClient = getBSU();
     containerName = recorder.getUniqueName("container");
@@ -92,7 +93,7 @@ describe("Blob versioning", () => {
     }
   });
 
-  it("download a version to file", async function() {
+  it("download a version to file", async function(this: Context) {
     if (!isNode) {
       // downloadToFile only available in Node.js
       this.skip();
@@ -184,7 +185,7 @@ describe("Blob versioning", () => {
     for (let i = 0; i < blockBlobCount; i++) {
       assert.equal(resp.subResponses[i].errorCode, undefined);
       assert.equal(resp.subResponses[i].status, 202);
-      assert.ok(resp.subResponses[i].statusMessage != "");
+      assert.ok(resp.subResponses[i].statusMessage !== "");
       assert.ok(resp.subResponses[i].headers.contains("x-ms-request-id"));
       assert.equal(
         resp.subResponses[i]._request.url,

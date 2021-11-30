@@ -6,24 +6,25 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import { MetricDefinitions } from "../operationsInterfaces";
+import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { MetricsDefinitionsClient } from "../metricsDefinitionsClient";
+import { MonitorManagementClientContext } from "../monitorManagementClientContext";
 import {
   MetricDefinitionsListOptionalParams,
   MetricDefinitionsListResponse
 } from "../models";
 
-/** Class representing a MetricDefinitions. */
-export class MetricDefinitions {
-  private readonly client: MetricsDefinitionsClient;
+/** Class containing MetricDefinitions operations. */
+export class MetricDefinitionsImpl implements MetricDefinitions {
+  private readonly client: MonitorManagementClientContext;
 
   /**
    * Initialize a new instance of the class MetricDefinitions class.
    * @param client Reference to the service client
    */
-  constructor(client: MetricsDefinitionsClient) {
+  constructor(client: MonitorManagementClientContext) {
     this.client = client;
   }
 
@@ -36,21 +37,17 @@ export class MetricDefinitions {
     resourceUri: string,
     options?: MetricDefinitionsListOptionalParams
   ): Promise<MetricDefinitionsListResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      resourceUri,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { resourceUri, options },
       listOperationSpec
-    ) as Promise<MetricDefinitionsListResponse>;
+    );
   }
 }
 // Operation Specifications
-const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
+const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listOperationSpec: coreHttp.OperationSpec = {
-  path: "/{resourceUri}/providers/microsoft.insights/metricDefinitions",
+const listOperationSpec: coreClient.OperationSpec = {
+  path: "/{resourceUri}/providers/Microsoft.Insights/metricDefinitions",
   httpMethod: "GET",
   responses: {
     200: {

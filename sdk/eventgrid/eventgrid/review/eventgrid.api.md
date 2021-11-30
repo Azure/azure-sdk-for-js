@@ -10,6 +10,7 @@ import { CommonClientOptions } from '@azure/core-client';
 import { KeyCredential } from '@azure/core-auth';
 import { OperationOptions } from '@azure/core-client';
 import { SASCredential } from '@azure/core-auth';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface AcsChatEventBase {
@@ -30,8 +31,25 @@ export type AcsChatMessageDeletedEventData = AcsChatMessageEventBase & {
 };
 
 // @public
+export type AcsChatMessageDeletedInThreadEventData = AcsChatMessageEventInThreadBase & {
+    deleteTime: string;
+};
+
+// @public
 export type AcsChatMessageEditedEventData = AcsChatMessageEventBase & {
     messageBody: string;
+    metadata: {
+        [propertyName: string]: string;
+    };
+    editTime: string;
+};
+
+// @public
+export type AcsChatMessageEditedInThreadEventData = AcsChatMessageEventInThreadBase & {
+    messageBody: string;
+    metadata: {
+        [propertyName: string]: string;
+    };
     editTime: string;
 };
 
@@ -46,8 +64,29 @@ export type AcsChatMessageEventBase = AcsChatEventBase & {
 };
 
 // @public
+export type AcsChatMessageEventInThreadBase = AcsChatEventInThreadBase & {
+    messageId: string;
+    senderCommunicationIdentifier: CommunicationIdentifierModel;
+    senderDisplayName: string;
+    composeTime: string;
+    type: string;
+    version: number;
+};
+
+// @public
 export type AcsChatMessageReceivedEventData = AcsChatMessageEventBase & {
     messageBody: string;
+    metadata: {
+        [propertyName: string]: string;
+    };
+};
+
+// @public
+export type AcsChatMessageReceivedInThreadEventData = AcsChatMessageEventInThreadBase & {
+    messageBody: string;
+    metadata: {
+        [propertyName: string]: string;
+    };
 };
 
 // @public
@@ -166,6 +205,86 @@ export type AcsSmsReceivedEventData = AcsSmsEventBase & {
     message: string;
     receivedTimestamp: string;
 };
+
+// @public
+export interface AcsUserDisconnectedEventData {
+    userCommunicationIdentifier: CommunicationIdentifierModel;
+}
+
+// @public
+export interface ApiManagementApiCreatedEventData {
+    resourceUri: string;
+}
+
+// @public
+export interface ApiManagementApiDeletedEventData {
+    resourceUri: string;
+}
+
+// @public
+export interface ApiManagementApiReleaseCreatedEventData {
+    resourceUri: string;
+}
+
+// @public
+export interface ApiManagementApiReleaseDeletedEventData {
+    resourceUri: string;
+}
+
+// @public
+export interface ApiManagementApiReleaseUpdatedEventData {
+    resourceUri: string;
+}
+
+// @public
+export interface ApiManagementApiUpdatedEventData {
+    resourceUri: string;
+}
+
+// @public
+export interface ApiManagementProductCreatedEventData {
+    resourceUri: string;
+}
+
+// @public
+export interface ApiManagementProductDeletedEventData {
+    resourceUri: string;
+}
+
+// @public
+export interface ApiManagementProductUpdatedEventData {
+    resourceUri: string;
+}
+
+// @public
+export interface ApiManagementSubscriptionCreatedEventData {
+    resourceUri: string;
+}
+
+// @public
+export interface ApiManagementSubscriptionDeletedEventData {
+    resourceUri: string;
+}
+
+// @public
+export interface ApiManagementSubscriptionUpdatedEventData {
+    resourceUri: string;
+}
+
+// @public
+export interface ApiManagementUserCreatedEventData {
+    resourceUri: string;
+}
+
+// @public
+export interface ApiManagementUserDeletedEventData {
+    resourceUri: string;
+}
+
+// @public
+export interface ApiManagementUserUpdatedEventData {
+    resourceUri: string;
+}
 
 // @public
 export type AppAction = string;
@@ -311,6 +430,14 @@ export type ContainerRegistryImageDeletedEventData = ContainerRegistryEventData 
 export type ContainerRegistryImagePushedEventData = ContainerRegistryEventData & {};
 
 // @public
+export interface ContainerServiceNewKubernetesVersionAvailableEventData {
+    latestPreviewKubernetesVersion: string;
+    latestStableKubernetesVersion: string;
+    latestSupportedKubernetesVersion: string;
+    lowestMinorKubernetesVersion: string;
+}
+
+// @public
 export interface DeviceConnectionStateEvent {
     deviceConnectionStateEventInfo: DeviceConnectionStateEventInfo;
     deviceId: string;
@@ -400,7 +527,7 @@ export interface EventGridEvent<T> {
 
 // @public
 export class EventGridPublisherClient<T extends InputSchema> {
-    constructor(endpointUrl: string, inputSchema: T, credential: KeyCredential | SASCredential, options?: EventGridPublisherClientOptions);
+    constructor(endpointUrl: string, inputSchema: T, credential: KeyCredential | SASCredential | TokenCredential, options?: EventGridPublisherClientOptions);
     readonly apiVersion: string;
     readonly endpointUrl: string;
     send(events: InputSchemaToInputTypeMap[T][], options?: SendOptions): Promise<void>;
@@ -795,6 +922,12 @@ export interface MediaJobStateChangeEventData {
 }
 
 // @public
+export interface MediaLiveEventChannelArchiveHeartbeatEventData {
+    readonly channelLatencyMs: string;
+    readonly latencyResultCode: string;
+}
+
+// @public
 export interface MediaLiveEventConnectionRejectedEventData {
     readonly encoderIp: string;
     readonly encoderPort: string;
@@ -868,6 +1001,8 @@ export interface MediaLiveEventIngestHeartbeatEventData {
     readonly discontinuityCount: number;
     readonly healthy: boolean;
     readonly incomingBitrate: number;
+    readonly ingestDriftValue: string;
+    readonly lastFragmentArrivalTime: string;
     readonly lastTimestamp: string;
     readonly nonincreasingCount: number;
     readonly overlapCount: number;
@@ -875,6 +1010,8 @@ export interface MediaLiveEventIngestHeartbeatEventData {
     readonly timescale: string;
     readonly trackName: string;
     readonly trackType: string;
+    readonly transcriptionLanguage: string;
+    readonly transcriptionState: string;
     readonly unexpectedBitrate: boolean;
 }
 
@@ -1263,11 +1400,29 @@ export interface SubscriptionValidationEventData {
 
 // @public
 export interface SystemEventNameToEventData {
+    "Microsoft.ApiManagement.APICreated": ApiManagementApiCreatedEventData;
+    "Microsoft.ApiManagement.APIDeleted": ApiManagementApiDeletedEventData;
+    "Microsoft.ApiManagement.APIReleaseCreated": ApiManagementApiReleaseCreatedEventData;
+    "Microsoft.ApiManagement.APIReleaseDeleted": ApiManagementApiReleaseDeletedEventData;
+    "Microsoft.ApiManagement.APIReleaseUpdated": ApiManagementApiReleaseUpdatedEventData;
+    "Microsoft.ApiManagement.APIUpdated": ApiManagementApiUpdatedEventData;
+    "Microsoft.ApiManagement.ProductCreated": ApiManagementProductCreatedEventData;
+    "Microsoft.ApiManagement.ProductDeleted": ApiManagementProductDeletedEventData;
+    "Microsoft.ApiManagement.ProductUpdated": ApiManagementProductUpdatedEventData;
+    "Microsoft.ApiManagement.SubscriptionCreated": ApiManagementSubscriptionCreatedEventData;
+    "Microsoft.ApiManagement.SubscriptionDeleted": ApiManagementSubscriptionDeletedEventData;
+    "Microsoft.ApiManagement.SubscriptionUpdated": ApiManagementSubscriptionUpdatedEventData;
+    "Microsoft.ApiManagement.UserCreated": ApiManagementUserCreatedEventData;
+    "Microsoft.ApiManagement.UserDeleted": ApiManagementUserDeletedEventData;
+    "Microsoft.ApiManagement.UserUpdated": ApiManagementUserUpdatedEventData;
     "Microsoft.AppConfiguration.KeyValueDeleted": AppConfigurationKeyValueDeletedEventData;
     "Microsoft.AppConfiguration.KeyValueModified": AppConfigurationKeyValueModifiedEventData;
     "Microsoft.Communication.ChatMessageDeleted": AcsChatMessageDeletedEventData;
+    "Microsoft.Communication.ChatMessageDeletedInThread": AcsChatMessageDeletedInThreadEventData;
     "Microsoft.Communication.ChatMessageEdited": AcsChatMessageEditedEventData;
+    "Microsoft.Communication.ChatMessageEditedInThread": AcsChatMessageEditedInThreadEventData;
     "Microsoft.Communication.ChatMessageReceived": AcsChatMessageReceivedEventData;
+    "Microsoft.Communication.ChatMessageReceivedInThread": AcsChatMessageReceivedInThreadEventData;
     "Microsoft.Communication.ChatParticipantAddedToThreadWithUser": AcsChatParticipantAddedToThreadWithUserEventData;
     "Microsoft.Communication.ChatParticipantRemovedFromThreadWithUser": AcsChatParticipantRemovedFromThreadWithUserEventData;
     "Microsoft.Communication.ChatThreadCreatedWithUser": AcsChatThreadCreatedWithUserEventData;
@@ -1278,10 +1433,12 @@ export interface SystemEventNameToEventData {
     "Microsoft.Communication.RecordingFileStatusUpdated": AcsRecordingFileStatusUpdatedEventData;
     "Microsoft.Communication.SMSDeliveryReportReceived": AcsSmsDeliveryReportReceivedEventData;
     "Microsoft.Communication.SMSReceived": AcsSmsReceivedEventData;
+    "Microsoft.Communication.UserDisconnected": AcsUserDisconnectedEventData;
     "Microsoft.ContainerRegistry.ChartDeleted": ContainerRegistryChartDeletedEventData;
     "Microsoft.ContainerRegistry.ChartPushed": ContainerRegistryChartPushedEventData;
     "Microsoft.ContainerRegistry.ImageDeleted": ContainerRegistryImageDeletedEventData;
     "Microsoft.ContainerRegistry.ImagePushed": ContainerRegistryImagePushedEventData;
+    "Microsoft.ContainerService.NewKubernetesVersionAvailable": ContainerServiceNewKubernetesVersionAvailableEventData;
     "Microsoft.Devices.DeviceConnected": IotHubDeviceConnectedEventData;
     "Microsoft.Devices.DeviceCreated": IotHubDeviceCreatedEventData;
     "Microsoft.Devices.DeviceDeleted": IotHubDeviceDeletedEventData;
@@ -1323,6 +1480,7 @@ export interface SystemEventNameToEventData {
     "Microsoft.Media.JobProcessing": MediaJobProcessingEventData;
     "Microsoft.Media.JobScheduled": MediaJobScheduledEventData;
     "Microsoft.Media.JobStateChange": MediaJobStateChangeEventData;
+    "Microsoft.Media.LiveEventChannelArchiveHeartbeat": MediaLiveEventChannelArchiveHeartbeatEventData;
     "Microsoft.Media.LiveEventConnectionRejected": MediaLiveEventConnectionRejectedEventData;
     "Microsoft.Media.LiveEventEncoderConnected": MediaLiveEventEncoderConnectedEventData;
     "Microsoft.Media.LiveEventEncoderDisconnected": MediaLiveEventEncoderDisconnectedEventData;

@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { ChatThread, Chat } from "./operations";
+import { ChatThreadImpl, ChatImpl } from "./operations";
+import { ChatThread, Chat } from "./operationsInterfaces";
 import { ChatApiClientContext } from "./chatApiClientContext";
 import { ChatApiClientOptionalParams } from "./models";
 
@@ -18,8 +19,8 @@ export class ChatApiClient extends ChatApiClientContext {
    */
   constructor(endpoint: string, options?: ChatApiClientOptionalParams) {
     super(endpoint, options);
-    this.chatThread = new ChatThread(this);
-    this.chat = new Chat(this);
+    this.chatThread = new ChatThreadImpl(this);
+    this.chat = new ChatImpl(this);
   }
 
   chatThread: ChatThread;

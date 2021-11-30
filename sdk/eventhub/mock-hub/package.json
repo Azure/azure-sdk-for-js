@@ -13,7 +13,7 @@
   "types": "types/index.d.ts",
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
-    "build": "tsc -p .",
+    "build": "npm run clean && tsc -p .",
     "build:samples": "dev-tool samples prep && cd dist-samples && tsc -p .",
     "build:test": "echo skipped",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
@@ -27,7 +27,6 @@
     "lint:fix": "echo skipped",
     "lint": "eslint package.json src --ext .ts -f html -o mock-hub-lintReport.html || exit 0",
     "pack": "npm pack 2>&1",
-    "prebuild": "npm run clean",
     "prepare": "npm run build",
     "test": "echo \"No tests implemented\"",
     "unit-test:browser": "echo skipped",
@@ -37,7 +36,7 @@
   "repository": "github:Azure/azure-sdk-for-js",
   "license": "MIT",
   "engines": {
-    "node": ">=8.0.0"
+    "node": ">=12.0.0"
   },
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
@@ -48,11 +47,11 @@
     "README.md",
     "License"
   ],
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/mock-hub/README.md",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/mock-hub/README.md",
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "@types/node": "^8.0.0",
+    "@types/node": "^12.0.0",
     "dotenv": "^8.2.0",
     "eslint": "^7.15.0",
     "prettier": "^1.16.4",
@@ -62,7 +61,7 @@
   "dependencies": {
     "@azure/abort-controller": "^1.0.0",
     "@azure/core-asynciterator-polyfill": "^1.0.0",
-    "rhea": "^2.0.2",
+    "rhea": "^2.0.3",
     "tslib": "^2.2.0"
   },
   "//sampleConfiguration": {

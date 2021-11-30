@@ -15,7 +15,7 @@ dotenv.config();
 
 // Set these environment variables or edit the following values
 const endpoint = process.env["SCHEMA_REGISTRY_ENDPOINT"] || "<endpoint>";
-const group = process.env["SCHEMA_REGISTRY_GROUP"] || "AzureSdkSampleGroup";
+const groupName = process.env["SCHEMA_REGISTRY_GROUP"] || "AzureSdkSampleGroup";
 
 // Sample Avro Schema for user with first and last names
 const schemaObject = {
@@ -45,9 +45,9 @@ const schema = JSON.stringify(schemaObject);
 // Description of the schema for registration
 const schemaDescription: SchemaDescription = {
   name: `${schemaObject.namespace}.${schemaObject.name}`,
-  group,
-  serializationType: "avro",
-  content: schema
+  groupName,
+  format: "Avro",
+  definition: schema
 };
 
 export async function main() {
@@ -60,7 +60,7 @@ export async function main() {
   await client.registerSchema(schemaDescription);
 
   // Create a new serializer backed by the client
-  const serializer = new SchemaRegistryAvroSerializer(client, group);
+  const serializer = new SchemaRegistryAvroSerializer(client, { groupName });
 
   // serialize an object that matches the schema
   const value: User = { firstName: "Jane", lastName: "Doe" };
@@ -69,7 +69,7 @@ export async function main() {
   console.log(buffer);
 
   // deserialize the result back to an object
-  const deserializedValue = await serializer.deserialize<User>(buffer);
+  const deserializedValue = (await serializer.deserialize(buffer)) as User;
   console.log("Deserialized:");
   console.log(`${deserializedValue.firstName} ${deserializedValue.lastName}`);
 }

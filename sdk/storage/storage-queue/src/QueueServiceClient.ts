@@ -174,6 +174,8 @@ export class QueueServiceClient extends StorageClient {
    */
   public static fromConnectionString(
     connectionString: string,
+    // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
+    /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
     options?: StoragePipelineOptions
   ): QueueServiceClient {
     options = options || {};
@@ -247,6 +249,8 @@ export class QueueServiceClient extends StorageClient {
   constructor(
     url: string,
     credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
+    // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
+    /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
     options?: StoragePipelineOptions
   );
   /**
@@ -266,6 +270,8 @@ export class QueueServiceClient extends StorageClient {
       | AnonymousCredential
       | TokenCredential
       | Pipeline,
+    // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
+    /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
     options?: StoragePipelineOptions
   ) {
     let pipeline: Pipeline;

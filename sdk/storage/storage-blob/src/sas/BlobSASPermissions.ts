@@ -49,6 +49,12 @@ export class BlobSASPermissions {
         case "e":
           blobSASPermissions.execute = true;
           break;
+        case "i":
+          blobSASPermissions.setImmutabilityPolicy = true;
+          break;
+        case "y":
+          blobSASPermissions.permanentDelete = true;
+          break;
         default:
           throw new RangeError(`Invalid permission: ${char}`);
       }
@@ -91,6 +97,12 @@ export class BlobSASPermissions {
     }
     if (permissionLike.execute) {
       blobSASPermissions.execute = true;
+    }
+    if (permissionLike.setImmutabilityPolicy) {
+      blobSASPermissions.setImmutabilityPolicy = true;
+    }
+    if (permissionLike.permanentDelete) {
+      blobSASPermissions.permanentDelete = true;
     }
     return blobSASPermissions;
   }
@@ -141,6 +153,16 @@ export class BlobSASPermissions {
   public execute: boolean = false;
 
   /**
+   * Specifies SetImmutabilityPolicy access granted.
+   */
+  public setImmutabilityPolicy: boolean = false;
+
+  /**
+   * Specifies that Permanent Delete is permitted.
+   */
+  public permanentDelete: boolean = false;
+
+  /**
    * Converts the given permissions to a string. Using this method will guarantee the permissions are in an
    * order accepted by the service.
    *
@@ -174,6 +196,12 @@ export class BlobSASPermissions {
     }
     if (this.execute) {
       permissions.push("e");
+    }
+    if (this.setImmutabilityPolicy) {
+      permissions.push("i");
+    }
+    if (this.permanentDelete) {
+      permissions.push("y");
     }
     return permissions.join("");
   }
@@ -228,4 +256,14 @@ export interface BlobSASPermissionsLike {
    * Specifies Execute access granted.
    */
   execute?: boolean;
+
+  /**
+   * Specifies SetImmutabilityPolicy access granted.
+   */
+  setImmutabilityPolicy?: boolean;
+
+  /**
+   * Specifies that Permanent Delete is permitted.
+   */
+  permanentDelete?: boolean;
 }

@@ -29,7 +29,7 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 
 ## Prerequisites
 
-The sample programs are compatible with Node.js >=12.0.0.
+The sample programs are compatible with [LTS versions of Node.js](https://nodejs.org/about/releases/).
 
 You need [an Azure subscription][freesub] and the following Azure resources to run these sample programs:
 
@@ -67,18 +67,18 @@ npx cross-env METRICS_ADVISOR_ENDPOINT="<metrics advisor endpoint>" METRICS_ADVI
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[quickstart]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/metricsadvisor/ai-metrics-advisor/samples/v1/javascript/quickstart.js
-[datafeed]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/metricsadvisor/ai-metrics-advisor/samples/v1/javascript/dataFeed.js
-[datasourcecredential]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/metricsadvisor/ai-metrics-advisor/samples/v1/javascript/dataSourceCredential.js
-[detectionconfig]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/metricsadvisor/ai-metrics-advisor/samples/v1/javascript/detectionConfig.js
-[incidentsandalerts]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/metricsadvisor/ai-metrics-advisor/samples/v1/javascript/incidentsAndAlerts.js
-[ingestionstatus]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/metricsadvisor/ai-metrics-advisor/samples/v1/javascript/ingestionStatus.js
-[alertingconfig]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/metricsadvisor/ai-metrics-advisor/samples/v1/javascript/alertingConfig.js
-[hooks]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/metricsadvisor/ai-metrics-advisor/samples/v1/javascript/hooks.js
-[metricfeedback]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/metricsadvisor/ai-metrics-advisor/samples/v1/javascript/metricFeedback.js
-[metricqueries]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/metricsadvisor/ai-metrics-advisor/samples/v1/javascript/metricQueries.js
-[seriesdata]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/metricsadvisor/ai-metrics-advisor/samples/v1/javascript/seriesData.js
+[quickstart]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/metricsadvisor/ai-metrics-advisor/samples/v1/javascript/quickstart.js
+[datafeed]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/metricsadvisor/ai-metrics-advisor/samples/v1/javascript/dataFeed.js
+[datasourcecredential]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/metricsadvisor/ai-metrics-advisor/samples/v1/javascript/dataSourceCredential.js
+[detectionconfig]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/metricsadvisor/ai-metrics-advisor/samples/v1/javascript/detectionConfig.js
+[incidentsandalerts]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/metricsadvisor/ai-metrics-advisor/samples/v1/javascript/incidentsAndAlerts.js
+[ingestionstatus]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/metricsadvisor/ai-metrics-advisor/samples/v1/javascript/ingestionStatus.js
+[alertingconfig]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/metricsadvisor/ai-metrics-advisor/samples/v1/javascript/alertingConfig.js
+[hooks]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/metricsadvisor/ai-metrics-advisor/samples/v1/javascript/hooks.js
+[metricfeedback]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/metricsadvisor/ai-metrics-advisor/samples/v1/javascript/metricFeedback.js
+[metricqueries]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/metricsadvisor/ai-metrics-advisor/samples/v1/javascript/metricQueries.js
+[seriesdata]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/metricsadvisor/ai-metrics-advisor/samples/v1/javascript/seriesData.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/ai-metrics-advisor/
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azurecognitiveservicesaccount]: https://docs.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account
-[package]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/metricsadvisor/ai-metrics-advisor/README.md
+[package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/metricsadvisor/ai-metrics-advisor/README.md

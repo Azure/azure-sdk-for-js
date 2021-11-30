@@ -3,7 +3,8 @@
 import assert from "assert";
 import { Suite } from "mocha";
 import { CosmosClient, DatabaseDefinition, Database } from "../../../src";
-import { endpoint, masterKey } from "../common/_testConfig";
+import { endpoint } from "../common/_testConfig";
+import { masterKey } from "../common/_fakeTestSecrets";
 import {
   addEntropy,
   removeAllDatabases,
@@ -12,7 +13,11 @@ import {
 } from "../common/TestHelpers";
 import { DatabaseRequest } from "../../../src";
 
-const client = new CosmosClient({ endpoint, key: masterKey });
+const client = new CosmosClient({
+  endpoint,
+  key: masterKey,
+  connectionPolicy: { enableBackgroundEndpointRefreshing: false }
+});
 
 describe("NodeJS CRUD Tests", function(this: Suite) {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);

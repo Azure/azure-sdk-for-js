@@ -9,411 +9,274 @@ import debugModule from "debug";
 const debug = debugModule("azure:event-hubs:hubruntime-spec");
 import { EnvVarKeys, getEnvVars, setTracerForTest } from "./utils/testUtils";
 import { setSpan, context } from "@azure/core-tracing";
-const env = getEnvVars();
 
-import { SpanGraph } from "@azure/core-tracing";
-import { EventHubProducerClient, EventHubConsumerClient, MessagingError } from "../../src";
+import { SpanGraph } from "@azure/test-utils";
+import {
+  EventHubBufferedProducerClient,
+  EventHubProducerClient,
+  EventHubConsumerClient,
+  MessagingError
+} from "../../src";
+import { testWithServiceTypes } from "./utils/testWithServiceTypes";
+import { createMockServer } from "./utils/mockService";
 
-describe("RuntimeInformation", function(): void {
-  let producerClient: EventHubProducerClient;
-  let consumerClient: EventHubConsumerClient;
-  const service = {
-    connectionString: env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
-    path: env[EnvVarKeys.EVENTHUB_NAME]
-  };
-  before("validate environment", function(): void {
-    should.exist(
-      env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
-      "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests."
-    );
-    should.exist(
-      env[EnvVarKeys.EVENTHUB_NAME],
-      "define EVENTHUB_NAME in your environment before running integration tests."
-    );
-  });
+type ClientCommonMethods = Pick<
+  EventHubProducerClient,
+  "close" | "getEventHubProperties" | "getPartitionIds" | "getPartitionProperties"
+>;
 
-  beforeEach(async () => {
-    debug("Creating the clients..");
-    producerClient = new EventHubProducerClient(service.connectionString, service.path);
-    consumerClient = new EventHubConsumerClient(
-      EventHubConsumerClient.defaultConsumerGroupName,
-      service.connectionString,
-      service.path
-    );
-  });
+testWithServiceTypes((serviceVersion) => {
+  const env = getEnvVars();
+  if (serviceVersion === "mock") {
+    let service: ReturnType<typeof createMockServer>;
+    before("Starting mock service", () => {
+      service = createMockServer();
+      return service.start();
+    });
 
-  afterEach("close the connection", async function(): Promise<void> {
-    await producerClient.close();
-    await consumerClient.close();
-  });
-
-  function arrayOfIncreasingNumbersFromZero(length: any): Array<string> {
-    const result = new Array(length);
-    for (let i = 0; i < length; i++) {
-      result[i] = `${i}`;
-    }
-    return result;
+    after("Stopping mock service", () => {
+      return service?.stop();
+    });
   }
 
-  describe("getPartitionIds", function(): void {
-    it("EventHubProducerClient returns an array of partition IDs", async function(): Promise<void> {
-      const ids = await producerClient.getPartitionIds({});
-      ids.should.have.members(arrayOfIncreasingNumbersFromZero(ids.length));
-    });
+  describe("RuntimeInformation", function(): void {
+    const clientTypes = [
+      "EventHubBufferedProducerClient",
+      "EventHubConsumerClient",
+      "EventHubProducerClient"
+    ] as const;
+    const clientMap = new Map<typeof clientTypes[number], ClientCommonMethods>();
 
-    it("EventHubConsumerClient returns an array of partition IDs", async function(): Promise<void> {
-      const ids = await consumerClient.getPartitionIds({});
-      ids.should.have.members(arrayOfIncreasingNumbersFromZero(ids.length));
-    });
-
-    it("EventHubProducerClient can be manually traced", async function(): Promise<void> {
-      const { tracer, resetTracer } = setTracerForTest();
-
-      const rootSpan = tracer.startSpan("root");
-      const ids = await producerClient.getPartitionIds({
-        tracingOptions: {
-          tracingContext: setSpan(context.active(), rootSpan)
-        }
-      });
-      ids.should.have.members(arrayOfIncreasingNumbersFromZero(ids.length));
-      rootSpan.end();
-
-      const rootSpans = tracer.getRootSpans();
-      rootSpans.length.should.equal(1, "Should only have one root span.");
-      rootSpans[0].should.equal(rootSpan, "The root span should match what was passed in.");
-
-      const expectedGraph: SpanGraph = {
-        roots: [
-          {
-            name: rootSpan.name,
-            children: [
-              {
-                name: "Azure.EventHubs.getEventHubProperties",
-                children: []
-              }
-            ]
-          }
-        ]
-      };
-
-      tracer.getSpanGraph(rootSpan.context().traceId).should.eql(expectedGraph);
-      tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
-      resetTracer();
-    });
-
-    it("EventHubConsumerClient can be manually traced", async function(): Promise<void> {
-      const { tracer, resetTracer } = setTracerForTest();
-
-      const rootSpan = tracer.startSpan("root");
-      const ids = await consumerClient.getPartitionIds({
-        tracingOptions: {
-          tracingContext: setSpan(context.active(), rootSpan)
-        }
-      });
-      ids.should.have.members(arrayOfIncreasingNumbersFromZero(ids.length));
-      rootSpan.end();
-
-      const rootSpans = tracer.getRootSpans();
-      rootSpans.length.should.equal(1, "Should only have one root span.");
-      rootSpans[0].should.equal(rootSpan, "The root span should match what was passed in.");
-
-      const expectedGraph: SpanGraph = {
-        roots: [
-          {
-            name: rootSpan.name,
-            children: [
-              {
-                name: "Azure.EventHubs.getEventHubProperties",
-                children: []
-              }
-            ]
-          }
-        ]
-      };
-
-      tracer.getSpanGraph(rootSpan.context().traceId).should.eql(expectedGraph);
-      tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
-      resetTracer();
-    });
-  });
-
-  describe("hub runtime information", function(): void {
-    it("EventHubProducerClient gets the hub runtime information", async function(): Promise<void> {
-      const hubRuntimeInfo = await producerClient.getEventHubProperties();
-      debug(hubRuntimeInfo);
-      hubRuntimeInfo.name.should.equal(service.path);
-
-      hubRuntimeInfo.partitionIds.should.have.members(
-        arrayOfIncreasingNumbersFromZero(hubRuntimeInfo.partitionIds.length)
+    const service = {
+      connectionString: env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
+      path: env[EnvVarKeys.EVENTHUB_NAME]
+    };
+    before("validate environment", function(): void {
+      should.exist(
+        env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
+        "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests."
       );
-      hubRuntimeInfo.createdOn.should.be.instanceof(Date);
-    });
-
-    it("EventHubConsumerClient gets the hub runtime information", async function(): Promise<void> {
-      const hubRuntimeInfo = await consumerClient.getEventHubProperties();
-      debug(hubRuntimeInfo);
-      hubRuntimeInfo.name.should.equal(service.path);
-
-      hubRuntimeInfo.partitionIds.should.have.members(
-        arrayOfIncreasingNumbersFromZero(hubRuntimeInfo.partitionIds.length)
+      should.exist(
+        env[EnvVarKeys.EVENTHUB_NAME],
+        "define EVENTHUB_NAME in your environment before running integration tests."
       );
-      hubRuntimeInfo.createdOn.should.be.instanceof(Date);
     });
 
-    it("EventHubProducerClient can be manually traced", async function(): Promise<void> {
-      const { tracer, resetTracer } = setTracerForTest();
-
-      const rootSpan = tracer.startSpan("root");
-      const hubRuntimeInfo = await producerClient.getEventHubProperties({
-        tracingOptions: {
-          tracingContext: setSpan(context.active(), rootSpan)
-        }
-      });
-      hubRuntimeInfo.partitionIds.should.have.members(
-        arrayOfIncreasingNumbersFromZero(hubRuntimeInfo.partitionIds.length)
+    beforeEach(async () => {
+      debug("Creating the clients..");
+      clientMap.set(
+        "EventHubBufferedProducerClient",
+        new EventHubBufferedProducerClient(service.connectionString, service.path)
       );
-      rootSpan.end();
-
-      const rootSpans = tracer.getRootSpans();
-      rootSpans.length.should.equal(1, "Should only have one root span.");
-      rootSpans[0].should.equal(rootSpan, "The root span should match what was passed in.");
-
-      const expectedGraph: SpanGraph = {
-        roots: [
-          {
-            name: rootSpan.name,
-            children: [
-              {
-                name: "Azure.EventHubs.getEventHubProperties",
-                children: []
-              }
-            ]
-          }
-        ]
-      };
-
-      tracer.getSpanGraph(rootSpan.context().traceId).should.eql(expectedGraph);
-      tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
-      resetTracer();
-    });
-
-    it("EventHubConsumerClient can be manually traced", async function(): Promise<void> {
-      const { tracer, resetTracer } = setTracerForTest();
-
-      const rootSpan = tracer.startSpan("root");
-      const hubRuntimeInfo = await consumerClient.getEventHubProperties({
-        tracingOptions: {
-          tracingContext: setSpan(context.active(), rootSpan)
-        }
-      });
-      hubRuntimeInfo.partitionIds.should.have.members(
-        arrayOfIncreasingNumbersFromZero(hubRuntimeInfo.partitionIds.length)
+      clientMap.set(
+        "EventHubConsumerClient",
+        new EventHubConsumerClient(
+          EventHubConsumerClient.defaultConsumerGroupName,
+          service.connectionString,
+          service.path
+        )
       );
-      rootSpan.end();
-
-      const rootSpans = tracer.getRootSpans();
-      rootSpans.length.should.equal(1, "Should only have one root span.");
-      rootSpans[0].should.equal(rootSpan, "The root span should match what was passed in.");
-
-      const expectedGraph: SpanGraph = {
-        roots: [
-          {
-            name: rootSpan.name,
-            children: [
-              {
-                name: "Azure.EventHubs.getEventHubProperties",
-                children: []
-              }
-            ]
-          }
-        ]
-      };
-
-      tracer.getSpanGraph(rootSpan.context().traceId).should.eql(expectedGraph);
-      tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
-      resetTracer();
+      clientMap.set(
+        "EventHubProducerClient",
+        new EventHubProducerClient(service.connectionString, service.path)
+      );
     });
-  });
 
-  describe("partition runtime information", function(): void {
-    it("EventHubProducerClient should throw an error if partitionId is missing", async function(): Promise<
-      void
-    > {
-      try {
-        await producerClient.getPartitionProperties(undefined as any);
-        throw new Error("Test failure");
-      } catch (err) {
-        err.name.should.equal("TypeError");
-        err.message.should.equal(
-          `getPartitionProperties called without required argument "partitionId"`
-        );
+    afterEach("close the connection", async function(): Promise<void> {
+      for (const client of clientMap.values()) {
+        await client?.close();
       }
     });
 
-    it("EventHubConsumerClient should throw an error if partitionId is missing", async function(): Promise<
-      void
-    > {
-      try {
-        await consumerClient.getPartitionProperties(undefined as any);
-        throw new Error("Test failure");
-      } catch (err) {
-        err.name.should.equal("TypeError");
-        err.message.should.equal(
-          `getPartitionProperties called without required argument "partitionId"`
-        );
+    function arrayOfIncreasingNumbersFromZero(length: any): Array<string> {
+      const result = new Array(length);
+      for (let i = 0; i < length; i++) {
+        result[i] = `${i}`;
       }
-    });
+      return result;
+    }
 
-    it("EventHubProducerClient gets the partition runtime information with partitionId as a string", async function(): Promise<
-      void
-    > {
-      const partitionRuntimeInfo = await producerClient.getPartitionProperties("0");
-      debug(partitionRuntimeInfo);
-      partitionRuntimeInfo.partitionId.should.equal("0");
-      partitionRuntimeInfo.eventHubName.should.equal(service.path);
-      partitionRuntimeInfo.lastEnqueuedOnUtc.should.be.instanceof(Date);
-      should.exist(partitionRuntimeInfo.lastEnqueuedSequenceNumber);
-      should.exist(partitionRuntimeInfo.lastEnqueuedOffset);
-    });
+    clientTypes.forEach((clientType) => {
+      describe(`${clientType}.getPartitionIds`, () => {
+        it("returns an array of partition ids", async () => {
+          const client = clientMap.get(clientType)!;
+          const ids = await client.getPartitionIds({});
+          ids.should.have.members(arrayOfIncreasingNumbersFromZero(ids.length));
+        });
 
-    it("EventHubConsumerClient gets the partition runtime information with partitionId as a string", async function(): Promise<
-      void
-    > {
-      const partitionRuntimeInfo = await consumerClient.getPartitionProperties("0");
-      debug(partitionRuntimeInfo);
-      partitionRuntimeInfo.partitionId.should.equal("0");
-      partitionRuntimeInfo.eventHubName.should.equal(service.path);
-      partitionRuntimeInfo.lastEnqueuedOnUtc.should.be.instanceof(Date);
-      should.exist(partitionRuntimeInfo.lastEnqueuedSequenceNumber);
-      should.exist(partitionRuntimeInfo.lastEnqueuedOffset);
-    });
+        it("can be manually traced", async () => {
+          const client = clientMap.get(clientType)!;
+          const { tracer, resetTracer } = setTracerForTest();
 
-    it("EventHubProducerClient gets the partition runtime information with partitionId as a number", async function(): Promise<
-      void
-    > {
-      const partitionRuntimeInfo = await producerClient.getPartitionProperties(0 as any);
-      debug(partitionRuntimeInfo);
-      partitionRuntimeInfo.partitionId.should.equal("0");
-      partitionRuntimeInfo.eventHubName.should.equal(service.path);
-      partitionRuntimeInfo.lastEnqueuedOnUtc.should.be.instanceof(Date);
-      should.exist(partitionRuntimeInfo.lastEnqueuedSequenceNumber);
-      should.exist(partitionRuntimeInfo.lastEnqueuedOffset);
-    });
+          const rootSpan = tracer.startSpan("root");
+          const ids = await client.getPartitionIds({
+            tracingOptions: {
+              tracingContext: setSpan(context.active(), rootSpan)
+            }
+          });
+          ids.should.have.members(arrayOfIncreasingNumbersFromZero(ids.length));
+          rootSpan.end();
 
-    it("EventHubConsumerClient gets the partition runtime information with partitionId as a number", async function(): Promise<
-      void
-    > {
-      const partitionRuntimeInfo = await consumerClient.getPartitionProperties(0 as any);
-      debug(partitionRuntimeInfo);
-      partitionRuntimeInfo.partitionId.should.equal("0");
-      partitionRuntimeInfo.eventHubName.should.equal(service.path);
-      partitionRuntimeInfo.lastEnqueuedOnUtc.should.be.instanceof(Date);
-      should.exist(partitionRuntimeInfo.lastEnqueuedSequenceNumber);
-      should.exist(partitionRuntimeInfo.lastEnqueuedOffset);
-    });
+          const rootSpans = tracer.getRootSpans();
+          rootSpans.length.should.equal(1, "Should only have one root span.");
+          rootSpans[0].should.equal(rootSpan, "The root span should match what was passed in.");
 
-    it("EventHubProducerClient bubbles up error from service for invalid partitionId", async function(): Promise<
-      void
-    > {
-      try {
-        await producerClient.getPartitionProperties("boo");
-        throw new Error("Test failure");
-      } catch (err) {
-        debug(`>>>> Received error - `, err);
-        should.exist(err);
-        should.equal((err as MessagingError).code, "ArgumentOutOfRangeError");
-      }
-    });
-
-    it("EventHubConsumerClient bubbles up error from service for invalid partitionId", async function(): Promise<
-      void
-    > {
-      try {
-        await consumerClient.getPartitionProperties("boo");
-        throw new Error("Test failure");
-      } catch (err) {
-        debug(`>>>> Received error - `, err);
-        should.exist(err);
-        should.equal((err as MessagingError).code, "ArgumentOutOfRangeError");
-      }
-    });
-
-    it("EventHubProducerClient can be manually traced", async function(): Promise<void> {
-      const { tracer, resetTracer } = setTracerForTest();
-
-      const rootSpan = tracer.startSpan("root");
-      const partitionRuntimeInfo = await producerClient.getPartitionProperties("0", {
-        tracingOptions: {
-          tracingContext: setSpan(context.active(), rootSpan)
-        }
-      });
-      partitionRuntimeInfo.partitionId.should.equal("0");
-      partitionRuntimeInfo.eventHubName.should.equal(service.path);
-      partitionRuntimeInfo.lastEnqueuedOnUtc.should.be.instanceof(Date);
-      should.exist(partitionRuntimeInfo.lastEnqueuedSequenceNumber);
-      should.exist(partitionRuntimeInfo.lastEnqueuedOffset);
-      rootSpan.end();
-
-      const rootSpans = tracer.getRootSpans();
-      rootSpans.length.should.equal(1, "Should only have one root span.");
-      rootSpans[0].should.equal(rootSpan, "The root span should match what was passed in.");
-
-      const expectedGraph: SpanGraph = {
-        roots: [
-          {
-            name: rootSpan.name,
-            children: [
+          const expectedGraph: SpanGraph = {
+            roots: [
               {
-                name: "Azure.EventHubs.getPartitionProperties",
-                children: []
+                name: rootSpan.name,
+                children: [
+                  {
+                    name: "Azure.EventHubs.getEventHubProperties",
+                    children: []
+                  }
+                ]
               }
             ]
-          }
-        ]
-      };
+          };
 
-      tracer.getSpanGraph(rootSpan.context().traceId).should.eql(expectedGraph);
-      tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
-      resetTracer();
-    });
-
-    it("EventHubConsumerClient can be manually traced", async function(): Promise<void> {
-      const { tracer, resetTracer } = setTracerForTest();
-
-      const rootSpan = tracer.startSpan("root");
-      const partitionRuntimeInfo = await consumerClient.getPartitionProperties("0", {
-        tracingOptions: {
-          tracingContext: setSpan(context.active(), rootSpan)
-        }
+          tracer.getSpanGraph(rootSpan.spanContext().traceId).should.eql(expectedGraph);
+          tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
+          resetTracer();
+        });
       });
-      partitionRuntimeInfo.partitionId.should.equal("0");
-      partitionRuntimeInfo.eventHubName.should.equal(service.path);
-      partitionRuntimeInfo.lastEnqueuedOnUtc.should.be.instanceof(Date);
-      should.exist(partitionRuntimeInfo.lastEnqueuedSequenceNumber);
-      should.exist(partitionRuntimeInfo.lastEnqueuedOffset);
-      rootSpan.end();
 
-      const rootSpans = tracer.getRootSpans();
-      rootSpans.length.should.equal(1, "Should only have one root span.");
-      rootSpans[0].should.equal(rootSpan, "The root span should match what was passed in.");
+      describe(`${clientType}.getEventHubProperties`, () => {
+        it("gets the Event Hub runtime information", async () => {
+          const client = clientMap.get(clientType)!;
+          const hubRuntimeInfo = await client.getEventHubProperties();
+          hubRuntimeInfo.name.should.equal(service.path);
 
-      const expectedGraph: SpanGraph = {
-        roots: [
-          {
-            name: rootSpan.name,
-            children: [
+          hubRuntimeInfo.partitionIds.should.have.members(
+            arrayOfIncreasingNumbersFromZero(hubRuntimeInfo.partitionIds.length)
+          );
+          hubRuntimeInfo.createdOn.should.be.instanceof(Date);
+        });
+
+        it("can be manually traced", async function(): Promise<void> {
+          const client = clientMap.get(clientType)!;
+          const { tracer, resetTracer } = setTracerForTest();
+
+          const rootSpan = tracer.startSpan("root");
+          const hubRuntimeInfo = await client.getEventHubProperties({
+            tracingOptions: {
+              tracingContext: setSpan(context.active(), rootSpan)
+            }
+          });
+          hubRuntimeInfo.partitionIds.should.have.members(
+            arrayOfIncreasingNumbersFromZero(hubRuntimeInfo.partitionIds.length)
+          );
+          rootSpan.end();
+
+          const rootSpans = tracer.getRootSpans();
+          rootSpans.length.should.equal(1, "Should only have one root span.");
+          rootSpans[0].should.equal(rootSpan, "The root span should match what was passed in.");
+
+          const expectedGraph: SpanGraph = {
+            roots: [
               {
-                name: "Azure.EventHubs.getPartitionProperties",
-                children: []
+                name: rootSpan.name,
+                children: [
+                  {
+                    name: "Azure.EventHubs.getEventHubProperties",
+                    children: []
+                  }
+                ]
               }
             ]
-          }
-        ]
-      };
+          };
 
-      tracer.getSpanGraph(rootSpan.context().traceId).should.eql(expectedGraph);
-      tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
-      resetTracer();
+          tracer.getSpanGraph(rootSpan.spanContext().traceId).should.eql(expectedGraph);
+          tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
+          resetTracer();
+        });
+      });
+
+      describe(`${clientType}.getPartitionProperties`, () => {
+        it("should throw an error if partitionId is missing", async () => {
+          try {
+            const client = clientMap.get(clientType)!;
+            await client.getPartitionProperties(undefined as any);
+            throw new Error("Test failure");
+          } catch (err) {
+            (err as any).name.should.equal("TypeError");
+            (err as any).message.should.equal(
+              `getPartitionProperties called without required argument "partitionId"`
+            );
+          }
+        });
+
+        it("gets the partition runtime information with partitionId as a string", async () => {
+          const client = clientMap.get(clientType)!;
+          const partitionRuntimeInfo = await client.getPartitionProperties("0");
+          partitionRuntimeInfo.partitionId.should.equal("0");
+          partitionRuntimeInfo.eventHubName.should.equal(service.path);
+          partitionRuntimeInfo.lastEnqueuedOnUtc.should.be.instanceof(Date);
+          should.exist(partitionRuntimeInfo.lastEnqueuedSequenceNumber);
+          should.exist(partitionRuntimeInfo.lastEnqueuedOffset);
+        });
+
+        it("gets the partition runtime information with partitionId as a number", async () => {
+          const client = clientMap.get(clientType)!;
+          const partitionRuntimeInfo = await client.getPartitionProperties(0 as any);
+          partitionRuntimeInfo.partitionId.should.equal("0");
+          partitionRuntimeInfo.eventHubName.should.equal(service.path);
+          partitionRuntimeInfo.lastEnqueuedOnUtc.should.be.instanceof(Date);
+          should.exist(partitionRuntimeInfo.lastEnqueuedSequenceNumber);
+          should.exist(partitionRuntimeInfo.lastEnqueuedOffset);
+        });
+
+        it("bubbles up error from service for invalid partitionId", async () => {
+          try {
+            const client = clientMap.get(clientType)!;
+            await client.getPartitionProperties("boo");
+            throw new Error("Test failure");
+          } catch (err) {
+            should.exist(err);
+            should.equal((err as MessagingError).code, "ArgumentOutOfRangeError");
+          }
+        });
+
+        it("can be manually traced", async () => {
+          const client = clientMap.get(clientType)!;
+          const { tracer, resetTracer } = setTracerForTest();
+
+          const rootSpan = tracer.startSpan("root");
+          const partitionRuntimeInfo = await client.getPartitionProperties("0", {
+            tracingOptions: {
+              tracingContext: setSpan(context.active(), rootSpan)
+            }
+          });
+          partitionRuntimeInfo.partitionId.should.equal("0");
+          partitionRuntimeInfo.eventHubName.should.equal(service.path);
+          partitionRuntimeInfo.lastEnqueuedOnUtc.should.be.instanceof(Date);
+          should.exist(partitionRuntimeInfo.lastEnqueuedSequenceNumber);
+          should.exist(partitionRuntimeInfo.lastEnqueuedOffset);
+          rootSpan.end();
+
+          const rootSpans = tracer.getRootSpans();
+          rootSpans.length.should.equal(1, "Should only have one root span.");
+          rootSpans[0].should.equal(rootSpan, "The root span should match what was passed in.");
+
+          const expectedGraph: SpanGraph = {
+            roots: [
+              {
+                name: rootSpan.name,
+                children: [
+                  {
+                    name: "Azure.EventHubs.getPartitionProperties",
+                    children: []
+                  }
+                ]
+              }
+            ]
+          };
+
+          tracer.getSpanGraph(rootSpan.spanContext().traceId).should.eql(expectedGraph);
+          tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
+          resetTracer();
+        });
+      });
     });
-  });
-}).timeout(60000);
+  }).timeout(60000);
+});

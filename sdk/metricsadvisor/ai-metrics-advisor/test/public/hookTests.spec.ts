@@ -12,7 +12,7 @@ import {
   WebNotificationHookPatch
 } from "../../src";
 import { createRecordedAdminClient, makeCredential } from "./util/recordedClients";
-import { Recorder } from "@azure/test-utils-recorder";
+import { Recorder } from "@azure-tools/test-recorder";
 import { matrix } from "./util/matrix";
 
 matrix([[true, false]] as const, async (useAad) => {
@@ -61,7 +61,7 @@ matrix([[true, false]] as const, async (useAad) => {
           name: webHookName,
           description: "description",
           hookParameter: {
-            endpoint: "https://mawebhook.azurewebsites.net/api/HttpTrigger",
+            endpoint: "https://httpbin.org/post",
             username: "user",
             password: "pass"
           }
@@ -78,8 +78,7 @@ matrix([[true, false]] as const, async (useAad) => {
             toList: ["test2@example.com", "test3@example.com"]
           }
         };
-        await client.updateHook(createdEmailHookId, emailPatch);
-        const updated = await client.getHook(createdEmailHookId);
+        const updated = await client.updateHook(createdEmailHookId, emailPatch);
         assert.equal(updated.hookType, emailPatch.hookType);
         const emailHook = updated as EmailNotificationHook;
         assert.deepEqual(emailHook.hookParameter?.toList, [
@@ -92,21 +91,17 @@ matrix([[true, false]] as const, async (useAad) => {
         const webPatch: WebNotificationHookPatch = {
           hookType: "Webhook",
           hookParameter: {
-            endpoint: "https://mawebhook.azurewebsites.net/api/HttpTrigger",
+            endpoint: "https://httpbin.org/post",
             username: "user1",
-            password: "pass123"
+            password: "SecretPlaceholder"
           }
         };
-        await client.updateHook(createdWebHookId, webPatch);
-        const updated = await client.getHook(createdWebHookId);
+        const updated = await client.updateHook(createdWebHookId, webPatch);
         assert.equal(updated.hookType, webPatch.hookType);
         const webHook = updated as WebNotificationHook;
         assert.equal(webHook.hookParameter?.username, "user1");
-        assert.equal(
-          webHook.hookParameter?.endpoint,
-          "https://mawebhook.azurewebsites.net/api/HttpTrigger"
-        );
-        assert.equal(webHook.hookParameter?.password, "pass123");
+        assert.equal(webHook.hookParameter?.endpoint, "https://httpbin.org/post");
+        assert.equal(webHook.hookParameter?.password, "SecretPlaceholder");
       });
 
       it("lists hooks", async function() {

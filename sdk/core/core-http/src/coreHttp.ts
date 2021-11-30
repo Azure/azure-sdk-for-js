@@ -14,6 +14,12 @@ export {
   RequestOptionsBase,
   TransferProgressEvent
 } from "./webResource";
+export {
+  CommonResponse,
+  CommonRequestInit,
+  CommonRequestInfo,
+  FetchHttpClient
+} from "./fetchHttpClient";
 export { DefaultHttpClient } from "./defaultHttpClient";
 export { HttpClient } from "./httpClient";
 export { HttpHeader, HttpHeaders, HttpHeadersLike, RawHttpHeaders } from "./httpHeaders";
@@ -99,7 +105,6 @@ export {
 export {
   stripRequest,
   stripResponse,
-  delay,
   executePromisesSequentially,
   generateUuid,
   encodeUri,
@@ -113,7 +118,7 @@ export {
 } from "./util/utils";
 export { URLBuilder, URLQuery } from "./url";
 export { AbortSignalLike } from "@azure/abort-controller";
-
+export { delay } from "./util/delay";
 // legacy exports. Use core-tracing instead (and remove on next major version update of core-http).
 export { createSpanFunction, SpanConfig } from "./createSpanLegacy";
 

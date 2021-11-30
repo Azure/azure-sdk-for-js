@@ -3,7 +3,7 @@
 
 import { Context } from "mocha";
 
-import { env, Recorder, record, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
+import { env, Recorder, record, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
 import { ClientSecretCredential } from "@azure/identity";
 import { TokenCredential } from "@azure/core-auth";
 import {
@@ -33,7 +33,7 @@ const blobTemplate = "blob_template";
 const replaceableVariables: { [k: string]: string } = {
   AZURE_CLIENT_ID: "azure_client_id",
   AZURE_CLIENT_SECRET: "azure_client_secret",
-  AZURE_TENANT_ID: "azure_tenant_id",
+  AZURE_TENANT_ID: "12345678-1234-1234-1234-123456789012",
   METRICS_ADVISOR_SUBSCRIPTION_KEY: "sub_key",
   METRICS_ADVISOR_API_KEY: "api_key",
   METRICS_ADVISOR_ENDPOINT: "https://endpoint/",

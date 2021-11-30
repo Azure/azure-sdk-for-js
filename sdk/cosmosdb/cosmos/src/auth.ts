@@ -10,7 +10,6 @@ import {
 } from "./common";
 import { CosmosClientOptions } from "./CosmosClientOptions";
 import { CosmosHeaders } from "./queryExecutionContext";
-import { sanitizeEndpoint } from "./utils/checkURL";
 
 /** @hidden */
 export interface RequestInfo {
@@ -63,15 +62,6 @@ export async function setAuthorizationHeader(
     headers[Constants.HttpHeaders.Authorization] = encodeURIComponent(
       await clientOptions.tokenProvider({ verb, path, resourceId, resourceType, headers })
     );
-  } else if (clientOptions.aadCredentials) {
-    if (typeof clientOptions.aadCredentials?.getToken !== "function") {
-      throw new Error("Cannot use AAD Credentials without `getToken`. See @azure/identity docs");
-    }
-    const hrefEndpoint = sanitizeEndpoint(clientOptions.endpoint);
-    const token = await clientOptions.aadCredentials.getToken(`${hrefEndpoint}/.default`);
-    const AUTH_PREFIX = `type=aad&ver=1.0&sig=`;
-    const authorizationToken = `${AUTH_PREFIX}${token.token}`;
-    headers[Constants.HttpHeaders.Authorization] = encodeURIComponent(authorizationToken);
   }
 }
 

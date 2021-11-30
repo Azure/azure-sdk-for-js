@@ -4,104 +4,115 @@
 
 ```ts
 
-import { OperationOptions } from '@azure/core-http';
-import { PipelineOptions } from '@azure/core-http';
+import { CommonClientOptions } from '@azure/core-client';
+import { OperationOptions } from '@azure/core-client';
+import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type AggregationType = "None" | "Average" | "Count" | "Minimum" | "Maximum" | "Total";
 
 // @public
-export interface BatchQuery {
-    azureResourceIds?: string[];
-    includeQueryStatistics?: boolean;
-    qualifiedNames?: string[];
-    query: string;
-    serverTimeoutInSeconds?: number;
-    timespan: string;
-    workspace: string;
-    workspaceIds?: string[];
-    workspaces?: string[];
-}
-
-// @public
-export type ColumnDataType = string;
-
-// @public
 export const Durations: {
-    readonly last7Days: "P7D";
-    readonly last3Days: "P3D";
-    readonly last2Days: "P2D";
-    readonly lastDay: "P1D";
-    readonly lastHour: "PT1H";
-    readonly last4Hours: "PT4H";
-    readonly last24Hours: "P1D";
-    readonly last48Hours: "P2D";
-    readonly last30Minutes: "PT30M";
-    readonly last5Minutes: "PT5M";
+    readonly sevenDays: "P7D";
+    readonly threeDays: "P3D";
+    readonly twoDays: "P2D";
+    readonly oneDay: "P1D";
+    readonly oneHour: "PT1H";
+    readonly fourHours: "PT4H";
+    readonly twentyFourHours: "P1D";
+    readonly fourtyEightHours: "P2D";
+    readonly thirtyMinutes: "PT30M";
+    readonly fiveMinutes: "PT5M";
 };
 
 // @public
-export interface ErrorDetail {
-    additionalProperties?: any;
-    code: string;
-    message: string;
-    resources?: string[];
-    target?: string;
-    value?: string;
-}
-
-// @public
-export interface ErrorInfo {
-    additionalProperties?: any;
-    code: string;
-    details?: ErrorDetail[];
-    innererror?: ErrorInfo;
-    message: string;
-}
-
-// @public
-export interface GetMetricDefinitionsOptions extends OperationOptions {
+export interface ListMetricDefinitionsOptions extends OperationOptions {
     metricNamespace?: string;
 }
 
 // @public
-export interface GetMetricDefinitionsResult {
-    definitions: MetricDefinition[];
-}
-
-// @public
-export interface GetMetricNamespacesOptions {
+export interface ListMetricNamespacesOptions {
     startTime?: string;
-}
-
-// @public
-export interface GetMetricNamespacesResult {
-    namespaces: MetricNamespace[];
 }
 
 // @public
 export interface LogsColumn {
     name?: string;
-    type?: ColumnDataType;
+    type?: LogsColumnType;
 }
+
+// @public
+export type LogsColumnType = string;
+
+// @public
+export interface LogsErrorInfo extends Error {
+    code: string;
+}
+
+// @public
+export interface LogsQueryBatchOptions extends OperationOptions {
+}
+
+// @public
+export type LogsQueryBatchResult = Array<LogsQueryPartialResult | LogsQuerySuccessfulResult | LogsQueryError>;
 
 // @public
 export class LogsQueryClient {
     constructor(tokenCredential: TokenCredential, options?: LogsQueryClientOptions);
-    queryLogs(workspaceId: string, query: string, timespan: string, options?: QueryLogsOptions): Promise<QueryLogsResult>;
-    queryLogsBatch(batch: QueryLogsBatch, options?: QueryLogsBatchOptions): Promise<QueryLogsBatchResult>;
+    queryBatch(batch: QueryBatch[], options?: LogsQueryBatchOptions): Promise<LogsQueryBatchResult>;
+    queryWorkspace(workspaceId: string, query: string, timespan: QueryTimeInterval, options?: LogsQueryOptions): Promise<LogsQueryResult>;
 }
 
 // @public
-export interface LogsQueryClientOptions extends PipelineOptions {
+export interface LogsQueryClientOptions extends CommonClientOptions {
     endpoint?: string;
-    scopes?: string | string[];
+}
+
+// @public
+export interface LogsQueryError extends Error {
+    code: string;
+    status: LogsQueryResultStatus.Failure;
+}
+
+// @public
+export interface LogsQueryOptions extends OperationOptions {
+    additionalWorkspaces?: string[];
+    includeQueryStatistics?: boolean;
+    includeVisualization?: boolean;
+    serverTimeoutInSeconds?: number;
+}
+
+// @public
+export interface LogsQueryPartialResult {
+    partialError: LogsErrorInfo;
+    partialTables: LogsTable[];
+    statistics?: Record<string, unknown>;
+    status: LogsQueryResultStatus.PartialFailure;
+    visualization?: Record<string, unknown>;
+}
+
+// @public
+export type LogsQueryResult = LogsQuerySuccessfulResult | LogsQueryPartialResult;
+
+// @public
+export enum LogsQueryResultStatus {
+    Failure = "Failure",
+    PartialFailure = "PartialFailure",
+    Success = "Success"
+}
+
+// @public
+export interface LogsQuerySuccessfulResult {
+    statistics?: Record<string, unknown>;
+    status: LogsQueryResultStatus.Success;
+    tables: LogsTable[];
+    visualization?: Record<string, unknown>;
 }
 
 // @public
 export interface LogsTable {
-    columns: LogsColumn[];
+    columnDescriptors: LogsColumn[];
     name: string;
     rows: (Date | string | number | Record<string, unknown> | boolean)[][];
 }
@@ -114,8 +125,9 @@ export interface MetadataValue {
 
 // @public
 export interface Metric {
-    displayDescription: string;
+    description?: string;
     errorCode?: string;
+    errorMessage?: string;
     id: string;
     name: string;
     timeseries: TimeSeriesElement[];
@@ -125,21 +137,27 @@ export interface Metric {
 
 // @public
 export interface MetricAvailability {
+    granularity?: string;
     retention?: string;
-    timeGrain?: string;
 }
+
+// @public
+export type MetricClass = string;
 
 // @public
 export interface MetricDefinition {
     category?: string;
+    description?: string;
     dimensions?: string[];
-    displayDescription?: string;
     id?: string;
     isDimensionRequired?: boolean;
     metricAvailabilities?: MetricAvailability[];
+    metricClass?: MetricClass;
     name?: string;
+    namespace?: string;
     primaryAggregationType?: AggregationType;
     resourceId?: string;
+    supportedAggregationTypes?: AggregationType[];
     unit?: MetricUnit;
 }
 
@@ -147,27 +165,45 @@ export interface MetricDefinition {
 export interface MetricNamespace {
     classification?: NamespaceClassification;
     id?: string;
+    metricNamespaceName?: string;
     name?: string;
-    properties?: MetricNamespaceName;
     type?: string;
 }
 
 // @public
-export interface MetricNamespaceName {
-    metricNamespaceName?: string;
-}
-
-// @public
-export interface MetricsClientOptions extends PipelineOptions {
+export interface MetricsClientOptions extends CommonClientOptions {
     endpoint?: string;
 }
 
 // @public
 export class MetricsQueryClient {
     constructor(tokenCredential: TokenCredential, options?: MetricsClientOptions);
-    getMetricDefinitions(resourceUri: string, options?: GetMetricDefinitionsOptions): Promise<GetMetricDefinitionsResult>;
-    getMetricNamespaces(resourceUri: string, options?: GetMetricNamespacesOptions): Promise<GetMetricNamespacesResult>;
-    queryMetrics(resourceUri: string, timespan: string, options?: QueryMetricsOptions): Promise<QueryMetricsResult>;
+    listMetricDefinitions(resourceUri: string, options?: ListMetricDefinitionsOptions): PagedAsyncIterableIterator<MetricDefinition>;
+    listMetricNamespaces(resourceUri: string, options?: ListMetricNamespacesOptions): PagedAsyncIterableIterator<MetricNamespace>;
+    queryResource(resourceUri: string, metricNames: string[], options?: MetricsQueryOptions): Promise<MetricsQueryResult>;
+}
+
+// @public
+export interface MetricsQueryOptions extends OperationOptions {
+    aggregations?: AggregationType[];
+    filter?: string;
+    granularity?: string;
+    metricNamespace?: string;
+    orderBy?: string;
+    resultType?: ResultType;
+    timespan?: QueryTimeInterval;
+    top?: number;
+}
+
+// @public
+export interface MetricsQueryResult {
+    cost?: number;
+    getMetricByName(metricName: string): Metric | undefined;
+    granularity?: string;
+    metrics: Metric[];
+    namespace?: string;
+    resourceRegion?: string;
+    timespan: QueryTimeInterval;
 }
 
 // @public
@@ -187,56 +223,29 @@ export interface MetricValue {
 export type NamespaceClassification = string;
 
 // @public
-export interface QueryLogsBatch {
-    queries: BatchQuery[];
-}
-
-// @public
-export type QueryLogsBatchOptions = OperationOptions;
-
-// @public
-export interface QueryLogsBatchResult {
-    results?: {
-        id?: string;
-        status?: number;
-        tables?: LogsTable[];
-        error?: ErrorInfo;
-    }[];
-}
-
-// @public
-export interface QueryLogsOptions extends OperationOptions {
+export interface QueryBatch {
+    additionalWorkspaces?: string[];
     includeQueryStatistics?: boolean;
+    includeVisualization?: boolean;
+    query: string;
     serverTimeoutInSeconds?: number;
+    timespan: QueryTimeInterval;
+    workspaceId: string;
 }
 
 // @public
-export interface QueryLogsResult {
-    statistics?: any;
-    tables: LogsTable[];
-}
-
-// @public
-export interface QueryMetricsOptions extends OperationOptions {
-    aggregations?: string[];
-    filter?: string;
-    interval?: string;
-    metricNames?: string[];
-    metricNamespace?: string;
-    orderBy?: string;
-    resultType?: ResultType;
-    top?: number;
-}
-
-// @public
-export interface QueryMetricsResult {
-    cost?: number;
-    interval?: string;
-    metrics: Metric[];
-    namespace?: string;
-    resourceRegion?: string;
-    timespan: string;
-}
+export type QueryTimeInterval = {
+    startTime: Date;
+    endTime: Date;
+} | {
+    startTime: Date;
+    duration: string;
+} | {
+    duration: string;
+    endTime: Date;
+} | {
+    duration: string;
+};
 
 // @public
 export type ResultType = "Data" | "Metadata";
@@ -246,7 +255,6 @@ export interface TimeSeriesElement {
     data?: MetricValue[];
     metadataValues?: MetadataValue[];
 }
-
 
 // (No @packageDocumentation comment for this package)
 

@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { matrix } from "@azure/test-utils";
-import { Recorder, env, isPlaybackMode } from "@azure/test-utils-recorder";
+import { Recorder, env, isPlaybackMode } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { Context } from "mocha";
 import { PhoneNumbersClient } from "../../src";
@@ -37,11 +37,8 @@ matrix([[true, false]], async function(useAad) {
       try {
         await client.getPurchasedPhoneNumber(fake);
       } catch (error) {
-        assert.strictEqual(error.code, "PhoneNumberNotFound");
-        assert.strictEqual(
-          error.message,
-          "The specified phone number +14155550100 cannot be found."
-        );
+        assert.strictEqual(error.code, "NotFound");
+        assert.strictEqual(error.message, "Input phoneNumber +14155550100 cannot be found.");
       }
     });
   });

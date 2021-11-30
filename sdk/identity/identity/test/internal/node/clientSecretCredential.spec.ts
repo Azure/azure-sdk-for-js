@@ -4,12 +4,13 @@
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
 import Sinon from "sinon";
-import assert from "assert";
-import { env } from "@azure/test-utils-recorder";
+import { assert } from "chai";
+import { AbortController } from "@azure/abort-controller";
+import { env, delay } from "@azure-tools/test-recorder";
 import { ConfidentialClientApplication } from "@azure/msal-node";
 import { ClientSecretCredential } from "../../../src";
 import { MsalTestCleanup, msalNodeTestSetup } from "../../msalTestUtils";
-import { MsalNode } from "../../../src/msal/nodeFlows/nodeCommon";
+import { MsalNode } from "../../../src/msal/nodeFlows/msalNodeCommon";
 import { Context } from "mocha";
 
 describe("ClientSecretCredential (internal)", function() {
@@ -35,6 +36,37 @@ describe("ClientSecretCredential (internal)", function() {
 
   const scope = "https://vault.azure.net/.default";
 
+  it("Should throw if the parameteres are not correctly specified", async function() {
+    const errors: Error[] = [];
+    try {
+      new ClientSecretCredential(undefined as any, env.AZURE_CLIENT_ID, env.AZURE_CLIENT_SECRET);
+    } catch (e) {
+      errors.push(e);
+    }
+    try {
+      new ClientSecretCredential(env.AZURE_TENANT_ID, undefined as any, env.AZURE_CLIENT_SECRET);
+    } catch (e) {
+      errors.push(e);
+    }
+    try {
+      new ClientSecretCredential(env.AZURE_TENANT_ID, env.AZURE_CLIENT_ID, undefined as any);
+    } catch (e) {
+      errors.push(e);
+    }
+    try {
+      new ClientSecretCredential(undefined as any, undefined as any, undefined as any);
+    } catch (e) {
+      errors.push(e);
+    }
+    assert.equal(errors.length, 4);
+    errors.forEach((e) => {
+      assert.equal(
+        e.message,
+        "ClientSecretCredential: tenantId, clientId, and clientSecret are required parameters. To troubleshoot, visit https://aka.ms/azsdk/js/identity/serviceprincipalauthentication/troubleshoot."
+      );
+    });
+  });
+
   it("Authenticates silently after the initial request", async function() {
     const credential = new ClientSecretCredential(
       env.AZURE_TENANT_ID,
@@ -42,16 +74,42 @@ describe("ClientSecretCredential (internal)", function() {
       env.AZURE_CLIENT_SECRET
     );
 
-    await credential.getToken(scope);
+    const { token: firstToken } = await credential.getToken(scope);
     assert.equal(getTokenSilentSpy.callCount, 1);
     assert.equal(doGetTokenSpy.callCount, 1);
 
-    await credential.getToken(scope);
+    const { token: secondToken } = await credential.getToken(scope);
+    assert.strictEqual(firstToken, secondToken);
     assert.equal(getTokenSilentSpy.callCount, 2);
 
-    // Even though we're providing the same default in memory persistence cache that we use for DeviceCodeCredential,
-    // The Client Secret flow does not return the account information from the authentication service,
-    // so each time getToken gets called, we will have to acquire a new token through the service.
-    assert.equal(doGetTokenSpy.callCount, 2);
+    assert.equal(doGetTokenSpy.callCount, 1);
+  });
+
+  // TODO: Enable again once we're ready to release this feature.
+  it.skip("supports specifying the regional authority", async function() {
+    const credential = new ClientSecretCredential(
+      env.AZURE_TENANT_ID,
+      env.AZURE_CLIENT_ID,
+      env.AZURE_CLIENT_SECRET,
+      {
+        // TODO: Uncomment once we're ready to release this feature.
+        // regionalAuthority: RegionalAuthority.AutoDiscoverRegion
+      }
+    );
+
+    // We'll abort since we only want to ensure the parameters are sent appropriately.
+    const controller = new AbortController();
+    const getTokenPromise = credential.getToken(scope, {
+      abortSignal: controller.signal
+    });
+    await delay(5);
+    controller.abort();
+    try {
+      await getTokenPromise;
+    } catch (e) {
+      // Nothing to do here.
+    }
+
+    assert.equal(doGetTokenSpy.getCall(0).args[0].azureRegion, "AUTO_DISCOVER");
   });
 });

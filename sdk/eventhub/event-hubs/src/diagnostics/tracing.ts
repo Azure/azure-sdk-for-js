@@ -35,7 +35,8 @@ export function createEventHubSpan(
     tracingOptions: {
       ...operationOptions?.tracingOptions,
       spanOptions: {
-        ...operationOptions?.tracingOptions?.spanOptions,
+        // By passing spanOptions if they exist at runtime, we're backwards compatible with @azure/core-tracing@preview.13 and earlier.
+        ...(operationOptions?.tracingOptions as any)?.spanOptions,
         ...additionalSpanOptions
       }
     }
@@ -131,5 +132,5 @@ function isSpan(possibleSpan: Span | SpanContext | undefined): possibleSpan is S
   }
 
   const x = possibleSpan as Span;
-  return typeof x.context === "function";
+  return typeof x.spanContext === "function";
 }

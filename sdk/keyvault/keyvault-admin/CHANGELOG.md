@@ -1,14 +1,41 @@
 # Release History
 
-## 4.1.0-beta.1 (Unreleased)
+## 4.2.0-beta.2 (2021-11-09)
 
 ### Features Added
 
-### Breaking Changes
+- Support multi-tenant authentication against Key Vault and Managed HSM when using @azure/identity 2.0.0 or newer.
 
-### Key Bugs Fixed
+### Other Changes
 
-### Fixed
+- Updated the latest service version to 7.3.
+
+## 4.2.0-beta.1 (2021-08-10)
+
+- Move generated client to use @azure/core-rest-pipeline. For more information about Core V2, please refer to [the documentation](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core#core-v1-and-core-v2).
+
+  - With this change, the response types no longer contain the raw response `_response`. To access the raw response, an `onResponse` callback has to be passed in the request options bag.
+
+    ```typescript
+    let rawResponse: FullOperationResponse | undefined;
+    await client.getRoleDefinition(globalScope, "roleDefinitionName", {
+      onResponse: (response) => (rawResponse = response)
+    });
+    ```
+
+## 4.1.0 (2021-07-29)
+
+### New Features
+
+- Support for Node.js 8 and IE 11 has been dropped. Please see our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
+- Changed TS compilation target to ES2017 to produce smaller bundles and use more native platform features.
+- Updated our internal core package dependencies to their latest versions to add support for Opentelemetry 1.0.0, which is compatible with the latest versions of our other client libraries.
+
+## 4.1.0-beta.1 (2021-07-07)
+
+### Features Added
+
+- With the dropping of support for Node.js versions that are no longer in LTS, the dependency on `@types/node` has been updated to version 12. Read our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
 
 ## 4.0.1 (2021-06-15)
 
@@ -58,7 +85,7 @@ This release marks the general availability of the `@azure/keyvault-admin` packa
 
 ## 4.0.0-beta.2 (2021-02-09)
 
-- [Breaking] Removed `dist-browser` from the published package. To bundle the Azure SDK libraries for the browsers, please read our bundling guide: [link](https://github.com/Azure/azure-sdk-for-js/blob/master/documentation/Bundling.md).
+- [Breaking] Removed `dist-browser` from the published package. To bundle the Azure SDK libraries for the browsers, please read our bundling guide: [link](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/Bundling.md).
 - Updated the Key Vault Admin Long Running Operation Pollers to follow a more compact and meaningful approach moving forward.
 - Bug fix: The logging of HTTP requests wasn't properly working - now it has been fixed and tests have been written that verify the fix.
 - [Breaking] Return `BackupResult` and `RestoreResult` from backup/restore long running operations which will contain additional information about the operation as well any relevant data.

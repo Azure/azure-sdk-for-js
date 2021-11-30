@@ -8,7 +8,7 @@ import childProcess from "child_process";
 import { assert } from "chai";
 import { supportsTracing } from "../../../keyvault-common/test/utils/supportsTracing";
 
-import { env, Recorder } from "@azure/test-utils-recorder";
+import { env, Recorder } from "@azure-tools/test-recorder";
 import { AbortController } from "@azure/abort-controller";
 import { SecretClient } from "@azure/keyvault-secrets";
 import { ClientSecretCredential } from "@azure/identity";
@@ -65,7 +65,6 @@ describe("Certificates client - create, read, update and delete", () => {
       certificateName,
       "Unexpected name in result from beginCreateCertificate()."
     );
-    await testClient.flushCertificate(certificateName);
   });
 
   it("can abort creating a certificate", async function(this: Context) {
@@ -137,7 +136,6 @@ describe("Certificates client - create, read, update and delete", () => {
       "value",
       "Expect attribute 'tags' to be updated."
     );
-    await testClient.flushCertificate(certificateName);
   });
 
   it("can disable a certificate", async function(this: Context) {
@@ -159,8 +157,6 @@ describe("Certificates client - create, read, update and delete", () => {
 
     result = await client.getCertificate(certificateName);
     assert.equal(result.properties.enabled, false);
-
-    await testClient.flushCertificate(certificateName);
   });
 
   it("can disable a certificate version", async function(this: Context) {
@@ -184,8 +180,6 @@ describe("Certificates client - create, read, update and delete", () => {
 
     result = await client.getCertificateVersion(certificateName, version);
     assert.equal(result.properties.enabled, false);
-
-    await testClient.flushCertificate(certificateName);
   });
 
   // On playback mode, the tests happen too fast for the timeout to work
@@ -223,11 +217,13 @@ describe("Certificates client - create, read, update and delete", () => {
       certificateName,
       "Unexpected certificate name in result from beginCreateCertificate()."
     );
-    await testClient.flushCertificate(certificateName);
   });
 
   it("can get a certificate's secret in PKCS 12 format", async function(this: Context) {
-    recorder.skip("browser", "This test uses the file system.");
+    recorder.skip(
+      undefined,
+      "This test uses the file system and the certificate value has been sanitized in recordings."
+    );
     // Skipping this test from the live browser test runs, because we use the file system.
     if (!isNode) {
       this.skip();
@@ -271,8 +267,6 @@ describe("Certificates client - create, read, update and delete", () => {
         .join("")
         .replace(/\n/g, "")
     );
-
-    await testClient.flushCertificate(certificateName);
   });
 
   it("can get a certificate's secret in PEM format", async function(this: Context) {
@@ -307,8 +301,6 @@ describe("Certificates client - create, read, update and delete", () => {
 
     // The PEM encoded public certificate should be the same as the Base64 encoded CER
     assert.equal(base64CER, base64PublicCertificate);
-
-    await testClient.flushCertificate(certificateName);
   });
 
   // On playback mode, the tests happen too fast for the timeout to work
@@ -340,7 +332,6 @@ describe("Certificates client - create, read, update and delete", () => {
       certificateName,
       "Unexpected certificate name in result from beginCreateCertificate()."
     );
-    await testClient.flushCertificate(certificateName);
   });
 
   it("can get a certificate (Non Existing)", async function(this: Context) {
@@ -382,7 +373,6 @@ describe("Certificates client - create, read, update and delete", () => {
     }
 
     await poller.pollUntilDone();
-    await testClient.purgeCertificate(certificateName);
   });
 
   // On playback mode, the tests happen too fast for the timeout to work
@@ -436,8 +426,6 @@ describe("Certificates client - create, read, update and delete", () => {
         certificateName,
         "Unexpected certificate name in result from pollUntilDone()."
       );
-
-      await testClient.purgeCertificate(certificateName);
     });
 
     it("using getDeletedCertificate", async function(this: Context) {
@@ -460,8 +448,6 @@ describe("Certificates client - create, read, update and delete", () => {
         certificateName,
         "Unexpected certificate name in result from getDeletedCertificate()."
       );
-
-      await testClient.purgeCertificate(certificateName);
     });
 
     it("can not get a certificate that never existed", async function(this: Context) {
@@ -543,8 +529,6 @@ describe("Certificates client - create, read, update and delete", () => {
       error = e;
     }
     assert.equal(error.message, "Issuer not found");
-
-    await testClient.flushCertificate(certificateName);
   });
 
   it("can update a certificate's policy", async function(this: Context) {
@@ -565,12 +549,13 @@ describe("Certificates client - create, read, update and delete", () => {
     });
     const updated = await client.getCertificate(certificateName);
     assert.equal(updated.policy!.subject, "cn=MyOtherCert");
-
-    await testClient.flushCertificate(certificateName);
   });
 
   it("can read, cancel and delete a certificate's operation", async function(this: Context) {
-    const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
+    // Known flaky test due to the lag between the request and when the job gets picked up by the service.
+    this.retries(2);
+
+    const certificateName = recorder.getUniqueName("crudcertoperation");
     await client.beginCreateCertificate(
       certificateName,
       basicCertificatePolicy,
@@ -601,8 +586,6 @@ describe("Certificates client - create, read, update and delete", () => {
       error = e;
     }
     assert.equal(error.message, `Pending certificate not found: ${certificateName}`);
-
-    await testClient.flushCertificate(certificateName);
   });
 
   it("can set, read and delete a certificate's contacts", async function() {

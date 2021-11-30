@@ -1,15 +1,12 @@
 # Release History
 
-## 3.0.1 (Unreleased)
+## 3.1.0 (Unreleased)
 
 ### Features Added
 
-### Breaking Changes
-
-### Key Bugs Fixed
-
-### Fixed
-
+- Changed TS compilation target to ES2017 in order to produce smaller bundles and use more native platform features
+- With the dropping of support for Node.js versions that are no longer in LTS, the dependency on `@types/node` has been updated to version 12. Read our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
+- Updated to use the latest version of the `rhea` package.
 
 ## 3.0.0 (2021-06-09)
 
@@ -161,7 +158,7 @@ We are cleaning the public API surface by
 ## 1.0.1 (2020-02-06)
 
 - Updated to use the latest version of the `rhea` package.
-  This update improves support for [bundling](https://github.com/Azure/azure-sdk-for-js/blob/master/documentation/Bundling.md) this library.
+  This update improves support for [bundling](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/Bundling.md) this library.
 
 ## 1.0.0 (2020-01-08)
 

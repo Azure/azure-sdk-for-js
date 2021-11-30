@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AccessToken, TokenCredential, GetTokenOptions } from "@azure/core-http";
-import { AggregateAuthenticationError, CredentialUnavailableError } from "../client/errors";
+import { AccessToken, TokenCredential, GetTokenOptions } from "@azure/core-auth";
+
+import { AggregateAuthenticationError, CredentialUnavailableError } from "../errors";
 import { createSpan } from "../util/tracing";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { credentialLogger, formatSuccess, formatError } from "../util/logging";
@@ -59,7 +60,7 @@ export class ChainedTokenCredential implements TokenCredential {
     let successfulCredentialName = "";
     const errors = [];
 
-    const { span, updatedOptions } = createSpan("ChainedTokenCredential-getToken", options);
+    const { span, updatedOptions } = createSpan("ChainedTokenCredential.getToken", options);
 
     for (let i = 0; i < this._sources.length && token === null; i++) {
       try {
@@ -79,7 +80,10 @@ export class ChainedTokenCredential implements TokenCredential {
     }
 
     if (!token && errors.length > 0) {
-      const err = new AggregateAuthenticationError(errors);
+      const err = new AggregateAuthenticationError(
+        errors,
+        "ChainedTokenCredential authentication failed."
+      );
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: err.message

@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { StorageClientContext } from "./generated/src/storageClientContext";
-import { Pipeline } from "./Pipeline";
+import { PipelineLike } from "./Pipeline";
 import { escapeURLPath, getURLScheme, iEqual, getAccountNameFromUrl } from "./utils/utils.common";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
@@ -34,7 +34,7 @@ export abstract class StorageClient {
    *
    * @internal
    */
-  protected readonly pipeline: Pipeline;
+  protected readonly pipeline: PipelineLike;
   /**
    * Such as AnonymousCredential, StorageSharedKeyCredential or any credential from the `@azure/identity` package to authenticate requests to the service. You can also provide an object that implements the TokenCredential interface. If not specified, AnonymousCredential is used.
    */
@@ -53,7 +53,7 @@ export abstract class StorageClient {
    * @param url - url to resource
    * @param pipeline - request policy pipeline.
    */
-  protected constructor(url: string, pipeline: Pipeline) {
+  protected constructor(url: string, pipeline: PipelineLike) {
     // URL should be encoded and only once, protocol layer shouldn't encode URL again
     this.url = escapeURLPath(url);
     this.accountName = getAccountNameFromUrl(url);

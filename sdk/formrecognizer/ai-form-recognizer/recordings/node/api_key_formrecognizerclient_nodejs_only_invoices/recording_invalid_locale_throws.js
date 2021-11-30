@@ -1,25 +1,25 @@
 let nock = require('nock');
 
-module.exports.hash = "f9b0af32960e667684cf291afd8cedb2";
+module.exports.hash = "5beb0971d090f588e54b57e4016db9cf";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .post('/formrecognizer/v2.1/prebuilt/invoice/analyze', {"source":"https://storageaccount/testingdata/Invoice_1.pdf?sastoken"})
+  .post('/formrecognizer/documentModels/prebuilt-invoice:analyze', {"urlSource":"https://storageaccount/testingdata/Invoice_1.pdf?sastoken"})
   .query(true)
-  .reply(400, {"error":{"code":"UnsupportedLocale","innerError":{"requestId":"38b5a7c7-46d7-4b71-8e9a-168c15b4aa85"},"message":"Locale unsupported. Supported locale includes en-US."}}, [
-  'Content-Length',
-  '169',
+  .reply(400, {"error":{"code":"InvalidArgument","message":"Invalid argument.","innererror":{"code":"InvalidParameter","message":"The parameter Locale is invalid: The language code is invalid or not supported."}}}, [
+  'Transfer-Encoding',
+  'chunked',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-envoy-upstream-service-time',
-  '313',
+  '296',
   'apim-request-id',
-  '38b5a7c7-46d7-4b71-8e9a-168c15b4aa85',
+  '97104ba3-7b24-4a78-a320-6c3741c4e1ed',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Tue, 25 May 2021 18:14:24 GMT'
+  'Mon, 04 Oct 2021 18:23:38 GMT'
 ]);

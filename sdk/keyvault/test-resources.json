@@ -18,9 +18,14 @@
     },
     "testApplicationOid": {
       "type": "string",
-      "defaultValue": "b3653439-8136-4cd5-aac3-2a9460871ca6",
       "metadata": {
         "description": "The client OID to grant access to test resources."
+      }
+    },
+    "provisionerApplicationOid": {
+      "type": "string",
+      "metadata": {
+        "description": "The provisioner OID to grant access to test resources."
       }
     },
     "location": {
@@ -32,10 +37,9 @@
     },
     "hsmLocation": {
       "type": "string",
-      "defaultValue": "eastus2",
-      "allowedValues": ["eastus2", "southcentralus", "northeurope", "westeurope"],
+      "defaultValue": "[resourceGroup().location]",
       "metadata": {
-        "description": "The location of the Managed HSM. By default, this is 'eastus2'."
+        "description": "The location of the Managed HSM. By default, this is the same as the resource group."
       }
     },
     "enableHsm": {
@@ -43,13 +47,6 @@
       "defaultValue": false,
       "metadata": {
         "description": "Whether to enable deployment of Managed HSM. The default is false."
-      }
-    },
-    "enableSoftDelete": {
-      "type": "bool",
-      "defaultValue": true,
-      "metadata": {
-        "description": "Whether to enable soft delete for the Key Vault. The default is true."
       }
     },
     "keyVaultSku": {
@@ -65,16 +62,28 @@
       "metadata": {
         "description": "The base time to add 2 hours to for SAS token expiration. The default is the current time."
       }
+    },
+    "attestationImage": {
+      "type": "string",
+      "defaultValue": "keyvault-mock-attestation:latest",
+      "metadata": {
+        "description": "The attestation image to use. The default is 'keyvault-mock-attestation:latest'."
+      }
     }
   },
   "variables": {
     "kvApiVersion": "2019-09-01",
+    "attestationFarm": "[concat(parameters('baseName'), 'farm')]",
+    "attestationSite": "[concat(parameters('baseName'), 'site')]",
+    "attestationImageUri": "[concat('DOCKER|azsdkengsys.azurecr.io/', parameters('attestationImage'))]",
     "kvName": "[parameters('baseName')]",
     "hsmApiVersion": "2020-04-01-preview",
     "hsmName": "[concat(parameters('baseName'), 'hsm')]",
     "mgmtApiVersion": "2019-04-01",
     "blobContainerName": "hsmbackups",
     "primaryAccountName": "[concat(replace(parameters('baseName'), '-', ''), 'prim')]",
+    "kvAdminDefinitionId": "00482a5a-887f-4fb3-b363-3b7fe8e74483",
+    "kvAdminAssignmentName": "[guid(resourceGroup().id, variables('kvAdminDefinitionId'), parameters('testApplicationOid'))]",
     "encryption": {
       "services": {
         "blob": {
@@ -110,56 +119,22 @@
           "name": "[parameters('keyVaultSku')]"
         },
         "tenantId": "[parameters('tenantId')]",
-        "accessPolicies": [
-          {
-            "tenantId": "[parameters('tenantId')]",
-            "objectId": "[parameters('testApplicationOid')]",
-            "permissions": {
-              "keys": [
-                "get",
-                "list",
-                "update",
-                "create",
-                "import",
-                "delete",
-                "recover",
-                "backup",
-                "restore",
-                "decrypt",
-                "encrypt",
-                "unwrapKey",
-                "wrapKey",
-                "verify",
-                "sign",
-                "purge"
-              ],
-              "secrets": ["get", "list", "set", "delete", "recover", "backup", "restore", "purge"],
-              "certificates": [
-                "get",
-                "list",
-                "update",
-                "create",
-                "import",
-                "delete",
-                "recover",
-                "backup",
-                "restore",
-                "managecontacts",
-                "manageissuers",
-                "getissuers",
-                "listissuers",
-                "setissuers",
-                "deleteissuers",
-                "purge"
-              ]
-            }
-          }
-        ],
         "enabledForDeployment": false,
         "enabledForDiskEncryption": false,
         "enabledForTemplateDeployment": false,
-        "enableSoftDelete": "[parameters('enableSoftDelete')]",
+        "enableSoftDelete": true,
+        "enableRbacAuthorization": true,
         "softDeleteRetentionInDays": 7
+      }
+    },
+    {
+      "type": "Microsoft.Authorization/roleAssignments",
+      "apiVersion": "2020-04-01-preview",
+      "name": "[variables('kvAdminAssignmentName')]",
+      "properties": {
+        "roleDefinitionId": "[resourceId('Microsoft.Authorization/roleDefinitions', variables('kvAdminDefinitionId'))]",
+        "principalId": "[parameters('testApplicationOid')]",
+        "scope": "[resourceGroup().id]"
       }
     },
     {
@@ -173,10 +148,13 @@
         "name": "Standard_B1"
       },
       "properties": {
+        "publicNetworkAccess": "Enabled",
+        "networkAcls": "[variables('networkAcls')]",
         "tenantId": "[parameters('tenantId')]",
-        "initialAdminObjectIds": ["[parameters('testApplicationOid')]"],
+        "initialAdminObjectIds": "[union(array(parameters('testApplicationOid')), array(parameters('provisionerApplicationOid')))]",
         "enablePurgeProtection": false,
-        "enableSoftDelete": "[parameters('enableSoftDelete')]"
+        "enableSoftDelete": true,
+        "softDeleteRetentionInDays": 7
       }
     },
     {
@@ -227,6 +205,45 @@
       "properties": {
         "publicAccess": "None"
       }
+    },
+    {
+      "type": "Microsoft.Web/serverfarms",
+      "apiVersion": "2020-12-01",
+      "name": "[variables('attestationFarm')]",
+      "condition": "[parameters('enableHsm')]",
+      "location": "[parameters('location')]",
+      "kind": "linux",
+      "sku": {
+        "name": "B1"
+      },
+      "properties": {
+        "reserved": true
+      }
+    },
+    {
+      "type": "Microsoft.Web/sites",
+      "apiVersion": "2020-12-01",
+      "name": "[variables('attestationSite')]",
+      "condition": "[parameters('enableHsm')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/serverfarms', variables('attestationFarm'))]"
+      ],
+      "location": "[parameters('location')]",
+      "properties": {
+        "httpsOnly": true,
+        "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('attestationFarm'))]",
+        "siteConfig": {
+          "name": "[variables('attestationSite')]",
+          "alwaysOn": true,
+          "linuxFxVersion": "[variables('attestationImageUri')]",
+          "appSettings": [
+            {
+              "name": "WEBSITES_ENABLE_APP_SERVICE_STORAGE",
+              "value": "false"
+            }
+          ]
+        }
+      }
     }
   ],
   "outputs": {
@@ -262,6 +279,11 @@
     "BLOB_CONTAINER_NAME": {
       "type": "string",
       "value": "[variables('blobContainerName')]"
+    },
+    "AZURE_KEYVAULT_ATTESTATION_URI": {
+      "type": "string",
+      "condition": "[parameters('enableHsm')]",
+      "value": "[format('https://{0}/', reference(variables('attestationSite')).defaultHostName)]"
     }
   }
 }

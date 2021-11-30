@@ -209,7 +209,7 @@ export class Path {
   }
 
   /**
-   * Set the access control list for a path and subpaths.
+   * Set the access control list for a path and sub-paths.
    * @param mode Mode "set" sets POSIX access control rights on files and directories, "modify" modifies
    *             one or more POSIX access control rights  that pre-exist on files and directories, "remove" removes
    *             one or more POSIX access control rights  that were present earlier on files and directories

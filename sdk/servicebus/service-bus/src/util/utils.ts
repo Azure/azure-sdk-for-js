@@ -176,6 +176,7 @@ export function getString(value: unknown, nameOfProperty: string): string {
  * Helper utility to retrieve `string` value from given input,
  * or undefined if not passed in.
  */
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function getStringOrUndefined(value: any): string | undefined {
   if (!isDefined(value)) {
     return undefined;
@@ -203,6 +204,7 @@ export function getInteger(value: unknown, nameOfProperty: string): number {
  * Helper utility to retrieve `integer` value from given string,
  * or undefined if not passed in.
  */
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function getIntegerOrUndefined(value: any): number | undefined {
   if (!isDefined(value)) {
     return undefined;
@@ -239,6 +241,7 @@ export function getBoolean(value: unknown, nameOfProperty: string): boolean {
  * Helper utility to retrieve `boolean` value from given string,
  * or undefined if not passed in.
  */
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function getBooleanOrUndefined(value: any): boolean | undefined {
   if (!isDefined(value)) {
     return undefined;
@@ -261,6 +264,7 @@ const EMPTY_JSON_OBJECT_CONSTRUCTOR = {}.constructor;
  * @internal
  * Returns `true` if given input is a JSON like object.
  */
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function isJSONLikeObject(value: any): boolean {
   // `value.constructor === {}.constructor` differentiates among the "object"s,
   //    would filter the JSON objects and won't match any array or other kinds of objects
@@ -281,6 +285,7 @@ export function isJSONLikeObject(value: any): boolean {
  * @internal
  * Helper utility to retrieve message count details from given input,
  */
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function getMessageCountDetails(value: any): MessageCountDetails {
   const xmlnsPrefix = getXMLNSPrefix(value);
   if (!isDefined(value)) {
@@ -300,6 +305,7 @@ export function getMessageCountDetails(value: any): MessageCountDetails {
  * @internal
  * Gets the xmlns prefix from the root of the objects that are part of the parsed response body.
  */
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function getXMLNSPrefix(value: any): string {
   if (!value[Constants.XML_METADATA_MARKER]) {
     throw new Error(
@@ -378,6 +384,7 @@ export interface AuthorizationRule {
  * Helper utility to retrieve array of `AuthorizationRule` from given input,
  * or undefined if not passed in.
  */
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function getAuthorizationRulesOrUndefined(value: any): AuthorizationRule[] | undefined {
   const authorizationRules: AuthorizationRule[] = [];
 
@@ -642,3 +649,9 @@ export const getHttpResponseOnly = ({
   status,
   headers
 });
+
+/**
+ * @internal
+ * Type with the service versions for the ATOM API.
+ */
+export type ServiceBusAtomAPIVersion = "2021-05" | "2017-04";

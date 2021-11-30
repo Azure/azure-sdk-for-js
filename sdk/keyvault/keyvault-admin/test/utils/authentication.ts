@@ -2,13 +2,12 @@
 // Licensed under the MIT license.
 
 import { ClientSecretCredential } from "@azure/identity";
-import { isPlaybackMode, record, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
+import { env, isPlaybackMode, record, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
 import { KeyClient } from "@azure/keyvault-keys";
 import { v4 as uuidv4 } from "uuid";
 
 import { KeyVaultAccessControlClient, KeyVaultBackupClient } from "../../src";
 import { uniqueString } from "./recorder";
-import { DefaultHttpClient } from "@azure/core-http";
 import { getEnvironmentVariable } from "./common";
 
 export async function authenticate(that: any): Promise<any> {
@@ -62,16 +61,15 @@ export async function authenticate(that: any): Promise<any> {
   const credential = new ClientSecretCredential(
     getEnvironmentVariable("AZURE_TENANT_ID"),
     getEnvironmentVariable("AZURE_CLIENT_ID"),
-    getEnvironmentVariable("AZURE_CLIENT_SECRET")
+    getEnvironmentVariable("AZURE_CLIENT_SECRET"),
+    {
+      authorityHost: env.AZURE_AUTHORITY_HOST // undefined by default is expected
+    }
   );
 
   const keyVaultHsmUrl = getEnvironmentVariable("AZURE_MANAGEDHSM_URI");
 
-  // Passing a separate httpClient for every instance as a workaround
-  // for a caching issue when creating role assignments
-  const accessControlClient = new KeyVaultAccessControlClient(keyVaultHsmUrl, credential, {
-    httpClient: new DefaultHttpClient()
-  });
+  const accessControlClient = new KeyVaultAccessControlClient(keyVaultHsmUrl, credential);
   const keyClient = new KeyClient(keyVaultHsmUrl, credential);
   const backupClient = new KeyVaultBackupClient(keyVaultHsmUrl, credential);
 

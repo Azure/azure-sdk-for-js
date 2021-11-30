@@ -5,10 +5,12 @@ import * as assert from "assert";
 import { getQSU, getSASConnectionStringFromEnvironment } from "./utils";
 import * as dotenv from "dotenv";
 import { QueueClient, QueueServiceClient } from "../src";
-import { TestTracer, setTracer, SpanGraph, setSpan, context } from "@azure/core-tracing";
+import { setSpan, context } from "@azure/core-tracing";
+import { SpanGraph, setTracer } from "@azure/test-utils";
 import { URLBuilder, RestError } from "@azure/core-http";
-import { Recorder, record } from "@azure/test-utils-recorder";
+import { Recorder, record } from "@azure-tools/test-recorder";
 import { recorderEnvSetup } from "./utils/testutils.common";
+import { Context } from "mocha";
 dotenv.config();
 
 describe("QueueClient", () => {
@@ -18,7 +20,7 @@ describe("QueueClient", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function() {
+  beforeEach(async function(this: Context) {
     recorder = record(this, recorderEnvSetup);
     queueServiceClient = getQSU();
     queueName = recorder.getUniqueName("queue");
@@ -184,7 +186,6 @@ describe("QueueClient", () => {
 
   it("throws error if constructor queueName parameter is empty", async () => {
     try {
-      // tslint:disable-next-line: no-unused-expression
       new QueueClient(getSASConnectionStringFromEnvironment(), "");
       assert.fail("Expecting an thrown error but didn't get one.");
     } catch (error) {
@@ -197,8 +198,7 @@ describe("QueueClient", () => {
   });
 
   it("getProperties with tracing", async () => {
-    const tracer = new TestTracer();
-    setTracer(tracer);
+    const tracer = setTracer();
     const rootSpan = tracer.startSpan("root");
     await queueClient.getProperties({
       tracingOptions: {
@@ -232,7 +232,7 @@ describe("QueueClient", () => {
       ]
     };
 
-    assert.deepStrictEqual(tracer.getSpanGraph(rootSpan.context().traceId), expectedGraph);
+    assert.deepStrictEqual(tracer.getSpanGraph(rootSpan.spanContext().traceId), expectedGraph);
     assert.strictEqual(tracer.getActiveSpans().length, 0, "All spans should have had end called");
   });
 });
@@ -241,12 +241,12 @@ describe("QueueClient - Verify Name Properties", () => {
   const queueName = "queueName";
   const accountName = "myAccount";
 
-  function verifyNameProperties(url: string, accountName: string, queueName: string) {
+  function verifyNameProperties(url: string, inputAccountName: string, inputQueueName: string) {
     const newClient = new QueueClient(url);
-    assert.equal(newClient.name, queueName, "Queue name is not the same as the one provided.");
+    assert.equal(newClient.name, inputQueueName, "Queue name is not the same as the one provided.");
     assert.equal(
       newClient.accountName,
-      accountName,
+      inputAccountName,
       "Account name is not the same as the one provided."
     );
   }

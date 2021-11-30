@@ -18,7 +18,7 @@
     "build:node": "tsc -p . && cross-env ONLY_NODE=true rollup -c 2>&1",
     "build:samples": "echo Obsolete.",
     "build:test": "tsc -p . && rollup -c 2>&1",
-    "build": "tsc -p . && rollup -c 2>&1 && api-extractor run --local",
+    "build": "npm run clean && tsc -p . && rollup -c 2>&1 && api-extractor run --local",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-* test-dist temp types *.tgz *.log",
     "execute:samples": "dev-tool samples run samples-dev",
@@ -30,7 +30,6 @@
     "lint:fix": "eslint package.json api-extractor.json src test --ext .ts --fix --fix-type [problem,suggestion]",
     "lint": "eslint package.json api-extractor.json src test --ext .ts",
     "pack": "npm pack 2>&1",
-    "prebuild": "npm run clean",
     "test:browser": "npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
     "test:node": "npm run build:test && npm run unit-test:node && npm run integration-test:node",
     "test": "npm run build:test && npm run unit-test && npm run integration-test",
@@ -48,7 +47,7 @@
   ],
   "repository": "github:Azure/azure-sdk-for-js",
   "engines": {
-    "node": ">=8.0.0"
+    "node": ">=12.0.0"
   },
   "keywords": [
     "azure",
@@ -60,14 +59,14 @@
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/iot/iot-modelsrepository/",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/iot/iot-modelsrepository/",
   "sideEffects": false,
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "dependencies": {
     "@azure/core-client": "^1.0.0",
     "@azure/core-util": "^1.0.0-beta.1",
-    "@azure/core-rest-pipeline": "^1.0.3",
-    "@azure/core-tracing": "1.0.0-preview.11",
+    "@azure/core-rest-pipeline": "^1.1.0",
+    "@azure/core-tracing": "1.0.0-preview.13",
     "@azure/logger": "^1.0.0",
     "events": "^3.0.0",
     "tslib": "^2.2.0"
@@ -75,8 +74,8 @@
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "@azure/test-utils-recorder": "^1.0.0",
-    "@microsoft/api-extractor": "7.7.11",
+    "@azure-tools/test-recorder": "^1.0.0",
+    "@microsoft/api-extractor": "^7.18.11",
     "@rollup/plugin-commonjs": "11.0.2",
     "@rollup/plugin-json": "^4.0.0",
     "@rollup/plugin-multi-entry": "^3.0.0",
@@ -84,7 +83,7 @@
     "@rollup/plugin-replace": "^2.2.0",
     "@types/chai": "^4.1.6",
     "@types/mocha": "^7.0.2",
-    "@types/node": "^8.0.0",
+    "@types/node": "^12.0.0",
     "@types/sinon": "^9.0.4",
     "chai": "^4.2.0",
     "cross-env": "^7.0.2",
@@ -112,7 +111,7 @@
     "rollup-plugin-terser": "^5.1.1",
     "rollup-plugin-visualizer": "^4.0.4",
     "sinon": "^9.0.2",
-    "ts-node": "^9.0.0",
+    "ts-node": "^10.0.0",
     "typedoc": "0.15.2",
     "typescript": "~4.2.0",
     "util": "^0.12.1"

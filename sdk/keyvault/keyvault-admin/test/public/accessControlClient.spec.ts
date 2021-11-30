@@ -4,7 +4,7 @@
 import chai, { assert } from "chai";
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
-import { env, Recorder } from "@azure/test-utils-recorder";
+import { env, Recorder } from "@azure-tools/test-recorder";
 
 import {
   KeyVaultAccessControlClient,
@@ -13,7 +13,7 @@ import {
   KnownKeyVaultDataAction
 } from "../../src";
 import { authenticate } from "../utils/authentication";
-import { supportsTracing } from "../../../keyvault-common/test/utils/supportsTracing";
+import { supportsTracing } from "../utils/supportsTracing";
 
 describe("KeyVaultAccessControlClient", () => {
   let client: KeyVaultAccessControlClient;

@@ -6,14 +6,19 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import * as coreHttp from "@azure/core-http";
-import { LROPoller } from "../lro";
+import * as coreRestPipeline from "@azure/core-rest-pipeline";
+import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   LibraryResource,
+  LibraryListOptionalParams,
+  LibraryFlushOptionalParams,
+  LibraryGetOperationResultOptionalParams,
   LibraryGetOperationResultResponse,
+  LibraryDeleteOptionalParams,
+  LibraryGetOptionalParams,
   LibraryGetResponse,
+  LibraryCreateOptionalParams,
   LibraryAppendOptionalParams
 } from "../models";
 
@@ -24,17 +29,29 @@ export interface Library {
    * Lists Library.
    * @param options The options parameters.
    */
-  list(options?: coreHttp.OperationOptions): PagedAsyncIterableIterator<LibraryResource>;
+  list(
+    options?: LibraryListOptionalParams
+  ): PagedAsyncIterableIterator<LibraryResource>;
   /**
    * Flush Library
    * @param libraryName file name to upload. Minimum length of the filename should be 1 excluding the
    *                    extension length.
    * @param options The options parameters.
    */
-  flush(
+  beginFlush(
     libraryName: string,
-    options?: coreHttp.OperationOptions
-  ): Promise<LROPoller<coreHttp.RestResponse>>;
+    options?: LibraryFlushOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  /**
+   * Flush Library
+   * @param libraryName file name to upload. Minimum length of the filename should be 1 excluding the
+   *                    extension length.
+   * @param options The options parameters.
+   */
+  beginFlushAndWait(
+    libraryName: string,
+    options?: LibraryFlushOptionalParams
+  ): Promise<void>;
   /**
    * Get Operation result for Library
    * @param operationId operation id for which status is requested
@@ -42,7 +59,7 @@ export interface Library {
    */
   getOperationResult(
     operationId: string,
-    options?: coreHttp.OperationOptions
+    options?: LibraryGetOperationResultOptionalParams
   ): Promise<LibraryGetOperationResultResponse>;
   /**
    * Delete Library
@@ -50,27 +67,50 @@ export interface Library {
    *                    extension length.
    * @param options The options parameters.
    */
-  delete(
+  beginDelete(
     libraryName: string,
-    options?: coreHttp.OperationOptions
-  ): Promise<LROPoller<coreHttp.RestResponse>>;
+    options?: LibraryDeleteOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  /**
+   * Delete Library
+   * @param libraryName file name to upload. Minimum length of the filename should be 1 excluding the
+   *                    extension length.
+   * @param options The options parameters.
+   */
+  beginDeleteAndWait(
+    libraryName: string,
+    options?: LibraryDeleteOptionalParams
+  ): Promise<void>;
   /**
    * Get Library
    * @param libraryName file name to upload. Minimum length of the filename should be 1 excluding the
    *                    extension length.
    * @param options The options parameters.
    */
-  get(libraryName: string, options?: coreHttp.OperationOptions): Promise<LibraryGetResponse>;
+  get(
+    libraryName: string,
+    options?: LibraryGetOptionalParams
+  ): Promise<LibraryGetResponse>;
   /**
    * Creates a library with the library name.
    * @param libraryName file name to upload. Minimum length of the filename should be 1 excluding the
    *                    extension length.
    * @param options The options parameters.
    */
-  create(
+  beginCreate(
     libraryName: string,
-    options?: coreHttp.OperationOptions
-  ): Promise<LROPoller<coreHttp.RestResponse>>;
+    options?: LibraryCreateOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  /**
+   * Creates a library with the library name.
+   * @param libraryName file name to upload. Minimum length of the filename should be 1 excluding the
+   *                    extension length.
+   * @param options The options parameters.
+   */
+  beginCreateAndWait(
+    libraryName: string,
+    options?: LibraryCreateOptionalParams
+  ): Promise<void>;
   /**
    * Append the content to the library resource created using the create operation. The maximum content
    * size is 4MiB. Content larger than 4MiB must be appended in 4MiB chunks
@@ -81,7 +121,7 @@ export interface Library {
    */
   append(
     libraryName: string,
-    content: coreHttp.HttpRequestBody,
+    content: coreRestPipeline.RequestBodyType,
     options?: LibraryAppendOptionalParams
-  ): Promise<coreHttp.RestResponse>;
+  ): Promise<void>;
 }

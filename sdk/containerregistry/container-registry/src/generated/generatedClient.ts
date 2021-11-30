@@ -7,25 +7,35 @@
  */
 
 import {
+  ContainerRegistryImpl,
+  ContainerRegistryBlobImpl,
+  AuthenticationImpl
+} from "./operations";
+import {
   ContainerRegistry,
   ContainerRegistryBlob,
   Authentication
-} from "./operations";
+} from "./operationsInterfaces";
 import { GeneratedClientContext } from "./generatedClientContext";
-import { GeneratedClientOptionalParams } from "./models";
+import { GeneratedClientOptionalParams, ApiVersion20210701 } from "./models";
 
 /** @internal */
 export class GeneratedClient extends GeneratedClientContext {
   /**
    * Initializes a new instance of the GeneratedClient class.
    * @param url Registry login URL
+   * @param apiVersion Api Version
    * @param options The parameter options
    */
-  constructor(url: string, options?: GeneratedClientOptionalParams) {
-    super(url, options);
-    this.containerRegistry = new ContainerRegistry(this);
-    this.containerRegistryBlob = new ContainerRegistryBlob(this);
-    this.authentication = new Authentication(this);
+  constructor(
+    url: string,
+    apiVersion: ApiVersion20210701,
+    options?: GeneratedClientOptionalParams
+  ) {
+    super(url, apiVersion, options);
+    this.containerRegistry = new ContainerRegistryImpl(this);
+    this.containerRegistryBlob = new ContainerRegistryBlobImpl(this);
+    this.authentication = new AuthenticationImpl(this);
   }
 
   containerRegistry: ContainerRegistry;

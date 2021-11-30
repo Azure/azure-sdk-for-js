@@ -20,7 +20,7 @@ import {
 } from "../../src";
 import { extractConnectionStringParts } from "../../src/utils/utils.common";
 import { TokenCredential } from "@azure/core-http";
-import { env } from "@azure/test-utils-recorder";
+import { env } from "@azure-tools/test-recorder";
 import { DefaultAzureCredential } from "@azure/identity";
 
 dotenv.config();
@@ -31,11 +31,8 @@ export function getGenericCredential(accountType: string): StorageSharedKeyCrede
   const accountNameEnvVar = `${accountType}ACCOUNT_NAME`;
   const accountKeyEnvVar = `${accountType}ACCOUNT_KEY`;
 
-  let accountName: string | undefined;
-  let accountKey: string | undefined;
-
-  accountName = process.env[accountNameEnvVar];
-  accountKey = process.env[accountKeyEnvVar];
+  const accountName = process.env[accountNameEnvVar];
+  const accountKey = process.env[accountKeyEnvVar];
 
   if (!accountName || !accountKey || accountName === "" || accountKey === "") {
     throw new Error(
@@ -44,6 +41,28 @@ export function getGenericCredential(accountType: string): StorageSharedKeyCrede
   }
 
   return new StorageSharedKeyCredential(accountName, accountKey);
+}
+
+export function getEncryptionScope_1(): string {
+  const encryptionScopeEnvVar = "ENCRYPTION_SCOPE_1";
+  const encryptionScope = process.env[encryptionScopeEnvVar];
+
+  if (!encryptionScope) {
+    throw new Error(`${encryptionScopeEnvVar}  environment variables not specified.`);
+  }
+
+  return encryptionScope;
+}
+
+export function getEncryptionScope_2(): string {
+  const encryptionScopeEnvVar = "ENCRYPTION_SCOPE_2";
+  const encryptionScope = process.env[encryptionScopeEnvVar];
+
+  if (!encryptionScope) {
+    throw new Error(`${encryptionScopeEnvVar}  environment variables not specified.`);
+  }
+
+  return encryptionScope;
 }
 
 export function getGenericBSU(
@@ -71,9 +90,8 @@ export function getGenericBSU(
 
 export function getTokenCredential(): TokenCredential {
   const accountTokenEnvVar = `ACCOUNT_TOKEN`;
-  let accountToken: string | undefined;
 
-  accountToken = process.env[accountTokenEnvVar];
+  const accountToken = process.env[accountTokenEnvVar];
 
   if (!accountToken || accountToken === "") {
     throw new Error(`${accountTokenEnvVar} environment variables not specified.`);
@@ -85,9 +103,7 @@ export function getTokenCredential(): TokenCredential {
 export function getTokenBSU(): BlobServiceClient {
   const accountNameEnvVar = `ACCOUNT_NAME`;
 
-  let accountName: string | undefined;
-
-  accountName = process.env[accountNameEnvVar];
+  const accountName = process.env[accountNameEnvVar];
 
   if (!accountName || accountName === "") {
     throw new Error(`${accountNameEnvVar} environment variables not specified.`);
@@ -129,6 +145,17 @@ export function getAlternateBSU(): BlobServiceClient {
   return getGenericBSU("SECONDARY_", "-secondary");
 }
 
+export function getImmutableContainerName(): string {
+  const immutableContainerEnvVar = `IMMUTABLE_CONTAINER_NAME`;
+  const immutableContainerName = process.env[immutableContainerEnvVar];
+
+  if (!immutableContainerName) {
+    throw new Error(`${immutableContainerEnvVar} environment variables not specified.`);
+  }
+
+  return immutableContainerName;
+}
+
 export function getConnectionStringFromEnvironment(): string {
   const connectionStringEnvVar = `STORAGE_CONNECTION_STRING`;
   const connectionString = process.env[connectionStringEnvVar];
@@ -156,8 +183,7 @@ export async function bodyToString(
 ): Promise<string> {
   return new Promise<string>((resolve, reject) => {
     response.readableStreamBody!.on("readable", () => {
-      let chunk;
-      chunk = response.readableStreamBody!.read(length);
+      const chunk = response.readableStreamBody!.read(length);
       if (chunk) {
         resolve(chunk.toString());
       }
@@ -215,16 +241,18 @@ export async function createRandomLocalFile(
     }
 
     ws.on("open", () => {
-      // tslint:disable-next-line:no-empty
-      while (offsetInMB++ < blockNumber && ws.write(randomValueHex(offsetInMB))) {}
+      while (offsetInMB++ < blockNumber && ws.write(randomValueHex(offsetInMB))) {
+        /* empty */
+      }
       if (offsetInMB >= blockNumber) {
         ws.end();
       }
     });
 
     ws.on("drain", () => {
-      // tslint:disable-next-line:no-empty
-      while (offsetInMB++ < blockNumber && ws.write(randomValueHex(offsetInMB))) {}
+      while (offsetInMB++ < blockNumber && ws.write(randomValueHex(offsetInMB))) {
+        /* empty */
+      }
       if (offsetInMB >= blockNumber) {
         ws.end();
       }
@@ -262,12 +290,12 @@ export function getSASConnectionStringFromEnvironment(): string {
     {
       expiresOn: tmr,
       ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
-      permissions: AccountSASPermissions.parse("rwdlacup"),
+      permissions: AccountSASPermissions.parse("rwdlacupi"),
       protocol: SASProtocol.HttpsAndHttp,
       resourceTypes: AccountSASResourceTypes.parse("sco").toString(),
       services: AccountSASServices.parse("btqf").toString(),
       startsOn: now,
-      version: "2016-05-31"
+      version: "2020-08-04"
     },
     sharedKeyCredential as StorageSharedKeyCredential
   ).toString();

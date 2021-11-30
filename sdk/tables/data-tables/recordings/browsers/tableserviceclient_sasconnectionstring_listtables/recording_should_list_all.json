@@ -6,16 +6,18 @@
    "query": {},
    "requestBody": null,
    "status": 200,
-   "response": "{\"odata.metadata\":\"https://fakeaccount.table.core.windows.net/$metadata#Tables\",\"value\":[{\"TableName\":\"ListTableTestSASConnectionStringbrowser0\"},{\"TableName\":\"ListTableTestSASConnectionStringbrowser1\"},{\"TableName\":\"ListTableTestSASConnectionStringbrowser10\"},{\"TableName\":\"ListTableTestSASConnectionStringbrowser11\"},{\"TableName\":\"ListTableTestSASConnectionStringbrowser12\"},{\"TableName\":\"ListTableTestSASConnectionStringbrowser13\"},{\"TableName\":\"ListTableTestSASConnectionStringbrowser14\"},{\"TableName\":\"ListTableTestSASConnectionStringbrowser15\"},{\"TableName\":\"ListTableTestSASConnectionStringbrowser16\"},{\"TableName\":\"ListTableTestSASConnectionStringbrowser17\"},{\"TableName\":\"ListTableTestSASConnectionStringbrowser18\"},{\"TableName\":\"ListTableTestSASConnectionStringbrowser19\"},{\"TableName\":\"ListTableTestSASConnectionStringbrowser2\"},{\"TableName\":\"ListTableTestSASConnectionStringbrowser3\"},{\"TableName\":\"ListTableTestSASConnectionStringbrowser4\"},{\"TableName\":\"ListTableTestSASConnectionStringbrowser5\"},{\"TableName\":\"ListTableTestSASConnectionStringbrowser6\"},{\"TableName\":\"ListTableTestSASConnectionStringbrowser7\"},{\"TableName\":\"ListTableTestSASConnectionStringbrowser8\"},{\"TableName\":\"ListTableTestSASConnectionStringbrowser9\"}]}",
+   "response": "{\"odata.metadata\":\"https://fakeaccount.table.core.windows.net/$metadata#Tables\",\"value\":[{\"TableName\":\"CreateSimpleEntityBatchPerf\"},{\"TableName\":\"createTableNew\"},{\"TableName\":\"createTableNew2\"},{\"TableName\":\"createTableOld\"},{\"TableName\":\"ListTableTestSASConnectionStringbrowser0\"},{\"TableName\":\"ListTableTestSASConnectionStringbrowser1\"},{\"TableName\":\"ListTableTestSASConnectionStringbrowser10\"},{\"TableName\":\"ListTableTestSASConnectionStringbrowser11\"},{\"TableName\":\"ListTableTestSASConnectionStringbrowser12\"},{\"TableName\":\"ListTableTestSASConnectionStringbrowser13\"},{\"TableName\":\"ListTableTestSASConnectionStringbrowser14\"},{\"TableName\":\"ListTableTestSASConnectionStringbrowser15\"},{\"TableName\":\"ListTableTestSASConnectionStringbrowser16\"},{\"TableName\":\"ListTableTestSASConnectionStringbrowser17\"},{\"TableName\":\"ListTableTestSASConnectionStringbrowser18\"},{\"TableName\":\"ListTableTestSASConnectionStringbrowser19\"},{\"TableName\":\"ListTableTestSASConnectionStringbrowser2\"},{\"TableName\":\"ListTableTestSASConnectionStringbrowser3\"},{\"TableName\":\"ListTableTestSASConnectionStringbrowser4\"},{\"TableName\":\"ListTableTestSASConnectionStringbrowser5\"},{\"TableName\":\"ListTableTestSASConnectionStringbrowser6\"},{\"TableName\":\"ListTableTestSASConnectionStringbrowser7\"},{\"TableName\":\"ListTableTestSASConnectionStringbrowser8\"},{\"TableName\":\"ListTableTestSASConnectionStringbrowser9\"},{\"TableName\":\"testTable\"},{\"TableName\":\"TestTestTest\"}]}",
    "responseHeaders": {
+    "access-control-allow-origin": "*",
+    "access-control-expose-headers": "x-ms-request-id,x-ms-client-request-id,Server,x-ms-version,X-Content-Type-Options,Cache-Control,Content-Type,Content-Length,Date,Transfer-Encoding",
     "cache-control": "no-cache",
     "content-type": "application/json;odata=minimalmetadata;streaming=true;charset=utf-8",
-    "date": "Wed, 09 Jun 2021 16:22:01 GMT",
+    "date": "Tue, 07 Sep 2021 16:24:48 GMT",
     "server": "Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-ms-client-request-id": "c9d141da-78cd-43f4-89ea-07902480916b",
-    "x-ms-request-id": "a2edfe0c-3002-00fd-0f4b-5dbedd000000",
+    "x-ms-client-request-id": "50f9e941-c89b-40a2-967a-a8b067cf3b62",
+    "x-ms-request-id": "4bd6f828-3002-0090-1904-a414f3000000",
     "x-ms-version": "2019-02-02"
    }
   }
@@ -24,5 +26,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "22d5d79c185b5041cd872861d4c1c9ed"
+ "hash": "2ab4ac76346567f103806f58a1189f04"
 }

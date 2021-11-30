@@ -1,22 +1,41 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AccessToken, GetTokenOptions, RequestPrepareOptions } from "@azure/core-http";
-import { IdentityClient } from "../../client/identityClient";
+import {
+  createHttpHeaders,
+  createPipelineRequest,
+  PipelineRequestOptions
+} from "@azure/core-rest-pipeline";
+import { AccessToken, GetTokenOptions } from "@azure/core-auth";
+import { TokenResponseParsedBody } from "../../client/identityClient";
 import { credentialLogger } from "../../util/logging";
-import { MSI } from "./models";
-import { msiGenericGetToken } from "./utils";
+import { MSI, MSIConfiguration } from "./models";
+import { mapScopesToResource } from "./utils";
 
-const logger = credentialLogger("ManagedIdentityCredential - AppServiceMSI 2017");
+const msiName = "ManagedIdentityCredential - AppServiceMSI 2017";
+const logger = credentialLogger(msiName);
 
-function expiresInParser(requestBody: any): number {
-  // Parse a date format like "06/20/2019 02:57:58 +00:00" and
-  // convert it into a JavaScript-formatted date
-  return Date.parse(requestBody.expires_on);
+/**
+ * Formats the expiration date of the received token into the number of milliseconds between that date and midnight, January 1, 1970.
+ */
+function expiresOnParser(requestBody: TokenResponseParsedBody): number {
+  // App Service always returns string expires_on values.
+  return Date.parse(requestBody.expires_on! as string);
 }
 
-function prepareRequestOptions(resource: string, clientId?: string): RequestPrepareOptions {
-  const queryParameters: any = {
+/**
+ * Generates the options used on the request for an access token.
+ */
+function prepareRequestOptions(
+  scopes: string | string[],
+  clientId?: string
+): PipelineRequestOptions {
+  const resource = mapScopesToResource(scopes);
+  if (!resource) {
+    throw new Error(`${msiName}: Multiple scopes are not supported.`);
+  }
+
+  const queryParameters: Record<string, string> = {
     resource,
     "api-version": "2017-09-01"
   };
@@ -25,41 +44,62 @@ function prepareRequestOptions(resource: string, clientId?: string): RequestPrep
     queryParameters.clientid = clientId;
   }
 
+  const query = new URLSearchParams(queryParameters);
+
+  // This error should not bubble up, since we verify that this environment variable is defined in the isAvailable() method defined below.
+  if (!process.env.MSI_ENDPOINT) {
+    throw new Error(`${msiName}: Missing environment variable: MSI_ENDPOINT`);
+  }
+  if (!process.env.MSI_SECRET) {
+    throw new Error(`${msiName}: Missing environment variable: MSI_SECRET`);
+  }
+
   return {
-    url: process.env.MSI_ENDPOINT,
+    url: `${process.env.MSI_ENDPOINT}?${query.toString()}`,
     method: "GET",
-    queryParameters,
-    headers: {
+    headers: createHttpHeaders({
       Accept: "application/json",
       secret: process.env.MSI_SECRET
-    }
+    })
   };
 }
 
+/**
+ * Defines how to determine whether the Azure App Service MSI is available, and also how to retrieve a token from the Azure App Service MSI.
+ */
 export const appServiceMsi2017: MSI = {
-  async isAvailable(): Promise<boolean> {
+  async isAvailable(scopes): Promise<boolean> {
+    const resource = mapScopesToResource(scopes);
+    if (!resource) {
+      logger.info(`${msiName}: Unavailable. Multiple scopes are not supported.`);
+      return false;
+    }
     const env = process.env;
     const result = Boolean(env.MSI_ENDPOINT && env.MSI_SECRET);
     if (!result) {
-      logger.info("The Azure App Service MSI 2017 is unavailable.");
+      logger.info(
+        `${msiName}: Unavailable. The environment variables needed are: MSI_ENDPOINT and MSI_SECRET.`
+      );
     }
     return result;
   },
   async getToken(
-    identityClient: IdentityClient,
-    resource: string,
-    clientId?: string,
+    configuration: MSIConfiguration,
     getTokenOptions: GetTokenOptions = {}
   ): Promise<AccessToken | null> {
+    const { identityClient, scopes, clientId } = configuration;
+
     logger.info(
-      `Using the endpoint and the secret coming form the environment variables: MSI_ENDPOINT=${process.env.MSI_ENDPOINT} and MSI_SECRET=[REDACTED].`
+      `${msiName}: Using the endpoint and the secret coming form the environment variables: MSI_ENDPOINT=${process.env.MSI_ENDPOINT} and MSI_SECRET=[REDACTED].`
     );
 
-    return msiGenericGetToken(
-      identityClient,
-      prepareRequestOptions(resource, clientId),
-      expiresInParser,
-      getTokenOptions
-    );
+    const request = createPipelineRequest({
+      abortSignal: getTokenOptions.abortSignal,
+      ...prepareRequestOptions(scopes, clientId),
+      // Generally, MSI endpoints use the HTTP protocol, without transport layer security (TLS).
+      allowInsecureConnection: true
+    });
+    const tokenResponse = await identityClient.sendTokenRequest(request, expiresOnParser);
+    return (tokenResponse && tokenResponse.accessToken) || null;
   }
 };

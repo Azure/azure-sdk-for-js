@@ -13,25 +13,13 @@ import { Constants } from "@azure/core-http";
 import { HttpOperationResponse } from "@azure/core-http";
 import { WebResource } from "@azure/core-http";
 import { AccessTokenCache, ExpiringAccessTokenCache } from "@azure/core-http";
-
-type ValidParsedWWWAuthenticateProperties =
-  // "authorization_uri" was used in the track 1 version of KeyVault.
-  // This is not a relevant property anymore, since the service is consistently answering with "authorization".
-  // | "authorization_uri"
-  | "authorization"
-  // Even though the service is moving to "scope", both "resource" and "scope" should be supported.
-  | "resource"
-  | "scope";
-
-type ParsedWWWAuthenticate = {
-  [Key in ValidParsedWWWAuthenticateProperties]?: string;
-};
+import { parseWWWAuthenticate, ParsedWWWAuthenticate } from "./parseWWWAuthenticate";
 
 /**
  * Representation of the Authentication Challenge
  */
 export class AuthenticationChallenge {
-  constructor(public authorization: string, public scope: string) {}
+  constructor(public authorization: string, public scope: string, public tenantId?: string) {}
 
   /**
    * Checks that this AuthenticationChallenge is equal to another one given.
@@ -43,7 +31,8 @@ export class AuthenticationChallenge {
   public equalTo(other: AuthenticationChallenge | undefined): boolean {
     return other
       ? this.scope.toLowerCase() === other.scope.toLowerCase() &&
-          this.authorization.toLowerCase() === other.authorization.toLowerCase()
+          this.authorization.toLowerCase() === other.authorization.toLowerCase() &&
+          this.tenantId?.toLowerCase() === other.tenantId?.toLowerCase()
       : false;
   }
 }
@@ -84,34 +73,6 @@ export function challengeBasedAuthenticationPolicy(
 }
 
 /**
- * Parses an WWW-Authenticate response.
- * This transforms a string value like:
- * `Bearer authorization="some_authorization", resource="https://some.url"`
- * into an object like:
- * `{ authorization: "some_authorization", resource: "https://some.url" }`
- * @param wwwAuthenticate - String value in the WWW-Authenticate header
- */
-export function parseWWWAuthenticate(wwwAuthenticate: string): ParsedWWWAuthenticate {
-  // First we split the string by either `, ` or ` `.
-  const parts = wwwAuthenticate.split(/,* +/);
-  // Then we only keep the strings with an equal sign after a word and before a quote.
-  // also splitting these sections by their equal sign
-  const keyValues = parts.reduce<string[][]>(
-    (acc, str) => (str.match(/\w="/) ? [...acc, str.split("=")] : acc),
-    []
-  );
-  // Then we transform these key-value pairs back into an object.
-  const parsed = keyValues.reduce<ParsedWWWAuthenticate>(
-    (result, [key, value]: string[]) => ({
-      ...result,
-      [key]: value.slice(1, -1)
-    }),
-    {}
-  );
-  return parsed;
-}
-
-/**
  *
  * Provides a RequestPolicy that can request a token from a TokenCredential
  * implementation and then apply it to the Authorization header of a request
@@ -149,7 +110,9 @@ export class ChallengeBasedAuthenticationPolicy extends BaseRequestPolicy {
 
     // If there's no cached token in the cache, we try to get a new one.
     if (accessToken === undefined) {
-      const receivedToken = await this.credential.getToken(this.challengeCache.challenge!.scope);
+      const receivedToken = await this.credential.getToken(this.challengeCache.challenge!.scope, {
+        tenantId: this.challengeCache.challenge!.tenantId
+      });
       accessToken = receivedToken || undefined;
       this.tokenCache.setCachedToken(accessToken);
     }
@@ -179,12 +142,13 @@ export class ChallengeBasedAuthenticationPolicy extends BaseRequestPolicy {
     const parsedWWWAuth = this.parseWWWAuthenticate(wwwAuthenticate);
     const authorization = parsedWWWAuth.authorization!;
     const resource = parsedWWWAuth.resource! || parsedWWWAuth.scope!;
+    const tenantId = parsedWWWAuth.tenantId;
 
     if (!(authorization && resource)) {
       return this._nextPolicy.sendRequest(webResource);
     }
 
-    const challenge = new AuthenticationChallenge(authorization, resource + "/.default");
+    const challenge = new AuthenticationChallenge(authorization, resource + "/.default", tenantId);
 
     // Either if there's no cached challenge at this point (could have happen in parallel),
     // or if the cached challenge has a different scope,

@@ -11,11 +11,21 @@ import { PipelineOptions } from '@azure/core-http';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
+export interface CommunicationIceServer {
+    credential: string;
+    routeType: RouteType;
+    urls: string[];
+    username: string;
+}
+
+// @public
 export class CommunicationRelayClient {
     constructor(connectionString: string, options?: CommunicationRelayClientOptions);
     constructor(endpoint: string, credential: KeyCredential, options?: CommunicationRelayClientOptions);
     constructor(endpoint: string, credential: TokenCredential, options?: CommunicationRelayClientOptions);
-    getRelayConfiguration(user: CommunicationUserIdentifier, options?: OperationOptions): Promise<CommunicationRelayConfiguration>;
+    getRelayConfiguration(options?: GetRelayConfigurationOptions): Promise<CommunicationRelayConfiguration>;
+    getRelayConfiguration(routeType: RouteType, options?: GetRelayConfigurationOptions): Promise<CommunicationRelayConfiguration>;
+    getRelayConfiguration(user: CommunicationUserIdentifier, routeType?: RouteType, options?: GetRelayConfigurationOptions): Promise<CommunicationRelayConfiguration>;
 }
 
 // @public
@@ -25,16 +35,15 @@ export interface CommunicationRelayClientOptions extends PipelineOptions {
 // @public
 export interface CommunicationRelayConfiguration {
     expiresOn: Date;
-    turnServers: CommunicationTurnServer[];
+    iceServers: CommunicationIceServer[];
 }
 
 // @public
-export interface CommunicationTurnServer {
-    credential: string;
-    urls: string[];
-    username: string;
+export interface GetRelayConfigurationOptions extends OperationOptions {
 }
 
+// @public
+export type RouteType = "any" | "nearest";
 
 // (No @packageDocumentation comment for this package)
 

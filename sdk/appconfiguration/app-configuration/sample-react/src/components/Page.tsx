@@ -168,7 +168,7 @@ export default function Page(): JSX.Element {
         </div>
         <a
           className="nav-link"
-          href="https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/appconfiguration/app-configuration/samples/v1/typescript"
+          href="https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appconfiguration/app-configuration/samples/v1/typescript"
         >
           Link to App Config Samples
         </a>

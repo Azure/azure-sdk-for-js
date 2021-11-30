@@ -6,44 +6,52 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import * as coreAuth from "@azure/core-auth";
 import {
-  LinkedServiceImpl,
-  DatasetImpl,
-  PipelineImpl,
-  PipelineRunImpl,
-  TriggerImpl,
-  TriggerRunImpl,
-  DataFlowImpl,
-  DataFlowDebugSessionImpl,
-  SqlScriptImpl,
-  SparkJobDefinitionImpl,
-  NotebookImpl,
-  WorkspaceImpl,
-  SqlPoolsImpl,
+  KqlScriptsImpl,
+  KqlScriptOperationsImpl,
+  SparkConfigurationOperationsImpl,
   BigDataPoolsImpl,
+  DataFlowOperationsImpl,
+  DataFlowDebugSessionImpl,
+  DatasetOperationsImpl,
+  WorkspaceGitRepoManagementImpl,
   IntegrationRuntimesImpl,
   LibraryImpl,
-  WorkspaceGitRepoManagementImpl
+  LinkedServiceOperationsImpl,
+  NotebookOperationsImpl,
+  NotebookOperationResultImpl,
+  PipelineOperationsImpl,
+  PipelineRunOperationsImpl,
+  SparkJobDefinitionOperationsImpl,
+  SqlPoolsImpl,
+  SqlScriptOperationsImpl,
+  TriggerOperationsImpl,
+  TriggerRunOperationsImpl,
+  WorkspaceOperationsImpl
 } from "./operations";
 import {
-  LinkedService,
-  Dataset,
-  Pipeline,
-  PipelineRun,
-  Trigger,
-  TriggerRun,
-  DataFlow,
-  DataFlowDebugSession,
-  SqlScript,
-  SparkJobDefinition,
-  Notebook,
-  Workspace,
-  SqlPools,
+  KqlScripts,
+  KqlScriptOperations,
+  SparkConfigurationOperations,
   BigDataPools,
+  DataFlowOperations,
+  DataFlowDebugSession,
+  DatasetOperations,
+  WorkspaceGitRepoManagement,
   IntegrationRuntimes,
   Library,
-  WorkspaceGitRepoManagement
+  LinkedServiceOperations,
+  NotebookOperations,
+  NotebookOperationResult,
+  PipelineOperations,
+  PipelineRunOperations,
+  SparkJobDefinitionOperations,
+  SqlPools,
+  SqlScriptOperations,
+  TriggerOperations,
+  TriggerRunOperations,
+  WorkspaceOperations
 } from "./operationsInterfaces";
 import { ArtifactsClientContext } from "./artifactsClientContext";
 import { ArtifactsClientOptionalParams } from "./models";
@@ -57,45 +65,57 @@ export class ArtifactsClient extends ArtifactsClientContext {
    * @param options The parameter options
    */
   constructor(
-    credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials,
+    credentials: coreAuth.TokenCredential,
     endpoint: string,
     options?: ArtifactsClientOptionalParams
   ) {
     super(credentials, endpoint, options);
-    this.linkedService = new LinkedServiceImpl(this);
-    this.dataset = new DatasetImpl(this);
-    this.pipeline = new PipelineImpl(this);
-    this.pipelineRun = new PipelineRunImpl(this);
-    this.trigger = new TriggerImpl(this);
-    this.triggerRun = new TriggerRunImpl(this);
-    this.dataFlow = new DataFlowImpl(this);
-    this.dataFlowDebugSession = new DataFlowDebugSessionImpl(this);
-    this.sqlScript = new SqlScriptImpl(this);
-    this.sparkJobDefinition = new SparkJobDefinitionImpl(this);
-    this.notebook = new NotebookImpl(this);
-    this.workspace = new WorkspaceImpl(this);
-    this.sqlPools = new SqlPoolsImpl(this);
+    this.kqlScripts = new KqlScriptsImpl(this);
+    this.kqlScriptOperations = new KqlScriptOperationsImpl(this);
+    this.sparkConfigurationOperations = new SparkConfigurationOperationsImpl(
+      this
+    );
     this.bigDataPools = new BigDataPoolsImpl(this);
+    this.dataFlowOperations = new DataFlowOperationsImpl(this);
+    this.dataFlowDebugSession = new DataFlowDebugSessionImpl(this);
+    this.datasetOperations = new DatasetOperationsImpl(this);
+    this.workspaceGitRepoManagement = new WorkspaceGitRepoManagementImpl(this);
     this.integrationRuntimes = new IntegrationRuntimesImpl(this);
     this.library = new LibraryImpl(this);
-    this.workspaceGitRepoManagement = new WorkspaceGitRepoManagementImpl(this);
+    this.linkedServiceOperations = new LinkedServiceOperationsImpl(this);
+    this.notebookOperations = new NotebookOperationsImpl(this);
+    this.notebookOperationResult = new NotebookOperationResultImpl(this);
+    this.pipelineOperations = new PipelineOperationsImpl(this);
+    this.pipelineRunOperations = new PipelineRunOperationsImpl(this);
+    this.sparkJobDefinitionOperations = new SparkJobDefinitionOperationsImpl(
+      this
+    );
+    this.sqlPools = new SqlPoolsImpl(this);
+    this.sqlScriptOperations = new SqlScriptOperationsImpl(this);
+    this.triggerOperations = new TriggerOperationsImpl(this);
+    this.triggerRunOperations = new TriggerRunOperationsImpl(this);
+    this.workspaceOperations = new WorkspaceOperationsImpl(this);
   }
 
-  linkedService: LinkedService;
-  dataset: Dataset;
-  pipeline: Pipeline;
-  pipelineRun: PipelineRun;
-  trigger: Trigger;
-  triggerRun: TriggerRun;
-  dataFlow: DataFlow;
-  dataFlowDebugSession: DataFlowDebugSession;
-  sqlScript: SqlScript;
-  sparkJobDefinition: SparkJobDefinition;
-  notebook: Notebook;
-  workspace: Workspace;
-  sqlPools: SqlPools;
+  kqlScripts: KqlScripts;
+  kqlScriptOperations: KqlScriptOperations;
+  sparkConfigurationOperations: SparkConfigurationOperations;
   bigDataPools: BigDataPools;
+  dataFlowOperations: DataFlowOperations;
+  dataFlowDebugSession: DataFlowDebugSession;
+  datasetOperations: DatasetOperations;
+  workspaceGitRepoManagement: WorkspaceGitRepoManagement;
   integrationRuntimes: IntegrationRuntimes;
   library: Library;
-  workspaceGitRepoManagement: WorkspaceGitRepoManagement;
+  linkedServiceOperations: LinkedServiceOperations;
+  notebookOperations: NotebookOperations;
+  notebookOperationResult: NotebookOperationResult;
+  pipelineOperations: PipelineOperations;
+  pipelineRunOperations: PipelineRunOperations;
+  sparkJobDefinitionOperations: SparkJobDefinitionOperations;
+  sqlPools: SqlPools;
+  sqlScriptOperations: SqlScriptOperations;
+  triggerOperations: TriggerOperations;
+  triggerRunOperations: TriggerRunOperations;
+  workspaceOperations: WorkspaceOperations;
 }

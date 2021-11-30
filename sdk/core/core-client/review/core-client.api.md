@@ -5,6 +5,7 @@
 ```ts
 
 import { AbortSignalLike } from '@azure/abort-controller';
+import { AuthorizeRequestOnChallengeOptions } from '@azure/core-rest-pipeline';
 import { HttpClient } from '@azure/core-rest-pipeline';
 import { HttpMethods } from '@azure/core-rest-pipeline';
 import { InternalPipelineOptions } from '@azure/core-rest-pipeline';
@@ -16,6 +17,9 @@ import { PipelineRequest } from '@azure/core-rest-pipeline';
 import { PipelineResponse } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
 import { TransferProgressEvent } from '@azure/core-rest-pipeline';
+
+// @public
+export function authorizeRequestOnClaimChallenge(onChallengeOptions: AuthorizeRequestOnChallengeOptions): Promise<boolean>;
 
 // @public (undocumented)
 export interface BaseMapper {
@@ -37,6 +41,7 @@ export interface BaseMapper {
 
 // @public
 export interface CommonClientOptions extends PipelineOptions {
+    allowInsecureConnection?: boolean;
     httpClient?: HttpClient;
 }
 
@@ -351,7 +356,6 @@ export class ServiceClient {
 
 // @public
 export interface ServiceClientOptions extends CommonClientOptions {
-    allowInsecureConnection?: boolean;
     baseUri?: string;
     credential?: TokenCredential;
     credentialScopes?: string | string[];

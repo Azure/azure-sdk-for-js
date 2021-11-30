@@ -60,7 +60,7 @@ describe("proxyAgent", () => {
 
       const agent = proxyAgent.agent as HttpsAgent;
       should().exist(agent.proxyOptions.headers);
-      agent.proxyOptions.headers!.should.contain({ "user-agent": "Node.js" });
+      agent.proxyOptions.headers!.should.contain({ "User-Agent": "Node.js" });
       done();
     });
 
@@ -69,14 +69,14 @@ describe("proxyAgent", () => {
         host: "http://proxy.microsoft.com",
         port: 8080,
         username: "username",
-        password: "pass123"
+        password: "SecretPlaceholder"
       };
 
       const proxyAgent = createProxyAgent("http://example.com", proxySettings);
 
       const agent = proxyAgent.agent as HttpsAgent;
       should().exist(agent.options.proxy.proxyAuth);
-      agent.options.proxy.proxyAuth!.should.equal("username:pass123");
+      agent.options.proxy.proxyAuth!.should.equal("username:SecretPlaceholder");
       done();
     });
 

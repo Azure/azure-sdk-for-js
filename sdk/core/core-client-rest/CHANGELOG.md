@@ -1,5 +1,44 @@
 # Release History
 
+## 1.0.0-beta.9 (Unreleased)
+
+### Features Added
+
+- Handle Binary and FormData content. [#18753](https://github.com/Azure/azure-sdk-for-js/pull/18753)
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 1.0.0-beta.8 (2021-11-04)
+
+### Other Changes
+
+- Add options skipUrlEncoding to support skip path parameter encoding. [#18381](https://github.com/Azure/azure-sdk-for-js/pull/18381)
+- Adding more robust handling of request and response body. [#18478](https://github.com/Azure/azure-sdk-for-js/pull/18478)
+
+## 1.0.0-beta.7 (2021-09-02)
+
+### Other Changes
+
+- Create pipeline from scratch excluding tracingPolicy to decrease bundle size. [#17015](https://github.com/Azure/azure-sdk-for-js/pull/17015)
+- Allow number and boolean as input headers. [#17358](https://github.com/Azure/azure-sdk-for-js/pull/17358)
+
+## 1.0.0-beta.6 (2021-08-05)
+
+### Fixes
+
+- Fixed exported types [#15898](https://github.com/Azure/azure-sdk-for-js/pull/15898)
+
+## 1.0.0-beta.5 (2021-06-24)
+
+### Features Added
+
+- Expose client option to set `allowInsecureConnection` to support http. [#15831](https://github.com/Azure/azure-sdk-for-js/pull/15831)
+- Add new createRestError which takes a response to create a RestError. [#15831](https://github.com/Azure/azure-sdk-for-js/pull/15831)
+
 ## 1.0.0-beta.4 (2021-05-27)
 
 - Update @azure/core-rest-pipeline dependency to GA. [#15435](https://github.com/Azure/azure-sdk-for-js/pull/15435)

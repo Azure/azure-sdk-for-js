@@ -8,7 +8,7 @@ import { join } from "path";
 
 import { AbortController } from "@azure/abort-controller";
 import { isNode, TokenCredential } from "@azure/core-http";
-import { delay, record, Recorder } from "@azure/test-utils-recorder";
+import { delay, isPlaybackMode, record, Recorder } from "@azure-tools/test-recorder";
 
 import {
   BlobClient,
@@ -25,11 +25,16 @@ import {
   createRandomLocalFile,
   getBSU,
   getConnectionStringFromEnvironment,
+  getEncryptionScope_1,
+  getImmutableContainerName,
+  getTokenBSU,
+  getTokenCredential,
   recorderEnvSetup
 } from "../utils";
 import { assertClientUsesTokenCredential } from "../utils/assert";
 import { readStreamToLocalFileWithLogs } from "../utils/testutils.node";
 import { streamToBuffer3 } from "../../src/utils/utils.node";
+import { Context } from "mocha";
 
 dotenv.config();
 
@@ -45,7 +50,7 @@ describe("BlobClient Node.js only", () => {
   let recorder: Recorder;
 
   let blobServiceClient: BlobServiceClient;
-  beforeEach(async function() {
+  beforeEach(async function(this: Context) {
     recorder = record(this, recorderEnvSetup);
     blobServiceClient = getBSU();
     containerName = recorder.getUniqueName("container");
@@ -188,13 +193,9 @@ describe("BlobClient Node.js only", () => {
 
     // As a snapshot doesn't have leaseStatus and leaseState properties but origin blob has,
     // let assign them to undefined both for other properties' easy comparison
-    // tslint:disable-next-line:max-line-length
     result3.segment.blobItems![0].properties.leaseState = result3.segment.blobItems![1].properties.leaseState = undefined;
-    // tslint:disable-next-line:max-line-length
     result3.segment.blobItems![0].properties.leaseStatus = result3.segment.blobItems![1].properties.leaseStatus = undefined;
-    // tslint:disable-next-line:max-line-length
     result3.segment.blobItems![0].properties.accessTier = result3.segment.blobItems![1].properties.accessTier = undefined;
-    // tslint:disable-next-line:max-line-length
     result3.segment.blobItems![0].properties.accessTierInferred = result3.segment.blobItems![1].properties.accessTierInferred = undefined;
 
     assert.deepStrictEqual(
@@ -202,6 +203,138 @@ describe("BlobClient Node.js only", () => {
       result3.segment.blobItems![1].properties
     );
     assert.ok(result3.segment.blobItems![0].snapshot || result3.segment.blobItems![1].snapshot);
+  });
+
+  it("syncCopyFromURL - destination encryption scope", async function(this: Context) {
+    if (!isPlaybackMode()) {
+      // Enable this when STG79 - version 2020-12-06 is enabled on production.
+      this.skip();
+    }
+
+    let encryptionScopeName: string;
+
+    try {
+      encryptionScopeName = getEncryptionScope_1();
+    } catch {
+      this.skip();
+    }
+
+    const newBlobName = recorder.getUniqueName("copiedblob");
+    const newBlobClient = containerClient.getBlobClient(newBlobName);
+
+    // Different from startCopyFromURL, syncCopyFromURL requires sourceURL includes a valid SAS
+    const expiryTime = recorder.newDate("expiry");
+    expiryTime.setDate(expiryTime.getDate() + 1);
+
+    const factories = (containerClient as any).pipeline.factories;
+    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
+
+    const sas = generateBlobSASQueryParameters(
+      {
+        expiresOn: expiryTime,
+        permissions: BlobSASPermissions.parse("racwd"),
+        containerName,
+        blobName
+      },
+      credential
+    );
+
+    const copyURL = blobClient.url + "?" + sas;
+    const result = await newBlobClient.syncCopyFromURL(copyURL, {
+      encryptionScope: encryptionScopeName
+    });
+    assert.ok(result.copyId);
+    assert.deepStrictEqual(result.encryptionScope, encryptionScopeName);
+
+    const properties1 = await blobClient.getProperties();
+    const properties2 = await newBlobClient.getProperties();
+    assert.deepStrictEqual(properties1.contentMD5, properties2.contentMD5);
+    assert.deepStrictEqual(properties2.copyId, result.copyId);
+  });
+
+  it("syncCopyFromURL - source SAS and destination bearer token", async function(this: Context) {
+    if (!isPlaybackMode()) {
+      // Enable this when STG78 - version 2020-10-02 is enabled on production.
+      this.skip();
+    }
+    const newBlobName = recorder.getUniqueName("copiedblob");
+    const tokenBlobServiceClient = getTokenBSU();
+    const tokenNewBlobClient = tokenBlobServiceClient
+      .getContainerClient(containerName)
+      .getAppendBlobClient(newBlobName);
+    const newBlobClient = containerClient.getBlobClient(newBlobName);
+
+    // Different from startCopyFromURL, syncCopyFromURL requires sourceURL includes a valid SAS
+    const expiryTime = recorder.newDate("expiry");
+    expiryTime.setDate(expiryTime.getDate() + 1);
+
+    const factories = (containerClient as any).pipeline.factories;
+    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
+
+    const sas = generateBlobSASQueryParameters(
+      {
+        expiresOn: expiryTime,
+        permissions: BlobSASPermissions.parse("racwd"),
+        containerName,
+        blobName
+      },
+      credential
+    );
+
+    const copyURL = blobClient.url + "?" + sas;
+    const result = await tokenNewBlobClient.syncCopyFromURL(copyURL);
+    assert.ok(result.copyId);
+
+    const properties1 = await blobClient.getProperties();
+    const properties2 = await newBlobClient.getProperties();
+    assert.deepStrictEqual(properties1.contentMD5, properties2.contentMD5);
+    assert.deepStrictEqual(properties2.copyId, result.copyId);
+  });
+
+  it("syncCopyFromURL - destination bearer token", async function(this: Context) {
+    if (!isPlaybackMode()) {
+      // Enable this when STG78 - version 2020-10-02 is enabled on production.
+      this.skip();
+    }
+    const newBlobName = recorder.getUniqueName("copiedblob");
+    const tokenBlobServiceClient = getTokenBSU();
+    const tokenNewBlobClient = tokenBlobServiceClient
+      .getContainerClient(containerName)
+      .getAppendBlobClient(newBlobName);
+    const newBlobClient = containerClient.getBlobClient(newBlobName);
+
+    const result = await tokenNewBlobClient.syncCopyFromURL(blobClient.url);
+    assert.ok(result.copyId);
+
+    const properties1 = await blobClient.getProperties();
+    const properties2 = await newBlobClient.getProperties();
+    assert.deepStrictEqual(properties1.contentMD5, properties2.contentMD5);
+    assert.deepStrictEqual(properties2.copyId, result.copyId);
+  });
+
+  it("syncCopyFromURL - source bearer token and destination account key", async function(this: Context) {
+    if (!isPlaybackMode()) {
+      // Enable this when STG78 - version 2020-10-02 is enabled on production.
+      this.skip();
+    }
+    const newBlobName = recorder.getUniqueName("copiedblob");
+    const newBlobClient = containerClient.getBlobClient(newBlobName);
+
+    const tokenCredential = getTokenCredential();
+    const accessToken = await tokenCredential.getToken([]);
+
+    const result = await newBlobClient.syncCopyFromURL(blobClient.url, {
+      sourceAuthorization: {
+        scheme: "Bearer",
+        value: accessToken!.token
+      }
+    });
+    assert.ok(result.copyId);
+
+    const properties1 = await blobClient.getProperties();
+    const properties2 = await newBlobClient.getProperties();
+    assert.deepStrictEqual(properties1.contentMD5, properties2.contentMD5);
+    assert.deepStrictEqual(properties2.copyId, result.copyId);
   });
 
   it("syncCopyFromURL", async () => {
@@ -554,7 +687,9 @@ describe("BlobClient Node.js only", () => {
         .then((response) => {
           return bodyToString(response);
         })
-        .then((_data) => {})
+        .then((_data) => {
+          return;
+        })
         .catch(reject);
     });
   });
@@ -684,5 +819,115 @@ describe("BlobClient Node.js only", () => {
         ]
       }
     });
+  });
+
+  it("query should work with Parquet input configuration", async function(this: Context) {
+    // Enable the case when STG78 - version 2020-10-02 features is enabled in production.
+    this.skip();
+    const parquetFilePath = join("test", "resources", "parquet.parquet");
+    await blockBlobClient.uploadFile(parquetFilePath);
+
+    const response = await blockBlobClient.query("select * from blobstorage where id < 1;", {
+      inputTextConfiguration: {
+        kind: "parquet"
+      }
+    });
+
+    assert.deepStrictEqual(await bodyToString(response), "0,mdifjt55.ea3,mdifjt55.ea3\n");
+  });
+});
+
+describe("BlobClient Node.js Only - ImmutabilityPolicy", () => {
+  let blobServiceClient: BlobServiceClient;
+  let containerName: string;
+  let containerClient: ContainerClient;
+  let blobName: string;
+  let blobClient: BlobClient;
+  const content = "Hello World";
+
+  let recorder: Recorder;
+
+  beforeEach(async function(this: Context) {
+    recorder = record(this, recorderEnvSetup);
+    blobServiceClient = getBSU();
+    try {
+      containerName = getImmutableContainerName();
+    } catch {
+      this.skip();
+    }
+    containerClient = blobServiceClient.getContainerClient(containerName);
+    blobName = recorder.getUniqueName("blob");
+    blobClient = containerClient.getBlobClient(blobName);
+  });
+
+  afterEach(async function(this: Context) {
+    if (!this.currentTest?.isPending()) {
+      const listResult = (
+        await containerClient
+          .listBlobsFlat({
+            includeImmutabilityPolicy: true
+          })
+          .byPage()
+          .next()
+      ).value;
+
+      for (let i = 0; i < listResult.segment.blobItems!.length; ++i) {
+        const deleteBlobClient = containerClient.getBlobClient(
+          listResult.segment.blobItems[i].name
+        );
+        await deleteBlobClient.setLegalHold(false);
+        await deleteBlobClient.deleteImmutabilityPolicy();
+        await deleteBlobClient.delete();
+      }
+      await recorder.stop();
+    }
+  });
+
+  it("Blob syncCopyFromURL with immutability policy", async () => {
+    const sourceName = recorder.getUniqueName("blobsource");
+    const sourceBlobClient = containerClient.getBlockBlobClient(sourceName);
+    await sourceBlobClient.upload(content, content.length);
+
+    const aDayLater = recorder.newDate("aDayLater");
+    aDayLater.setDate(aDayLater.getDate() + 1);
+
+    const sourceUrl = await sourceBlobClient.generateSasUrl({
+      permissions: BlobSASPermissions.parse("r"),
+      expiresOn: aDayLater
+    });
+
+    const minutesLater = recorder.newDate("minutesLater");
+    minutesLater.setMinutes(minutesLater.getMinutes() + 5);
+    await blobClient.syncCopyFromURL(sourceUrl, {
+      immutabilityPolicy: {
+        expiriesOn: minutesLater,
+        policyMode: "Unlocked"
+      }
+    });
+
+    const properties = await blobClient.getProperties();
+    assert.ok(properties.immutabilityPolicyExpiresOn);
+    assert.equal(properties.immutabilityPolicyMode, "unlocked");
+  });
+
+  it("Blob syncCopyFromURL with legalhold", async () => {
+    const sourceName = recorder.getUniqueName("blobsource");
+    const sourceBlobClient = containerClient.getBlockBlobClient(sourceName);
+    await sourceBlobClient.upload(content, content.length);
+
+    const aDayLater = recorder.newDate("aDayLater");
+    aDayLater.setDate(aDayLater.getDate() + 1);
+
+    const sourceUrl = await sourceBlobClient.generateSasUrl({
+      permissions: BlobSASPermissions.parse("r"),
+      expiresOn: aDayLater
+    });
+
+    await blobClient.syncCopyFromURL(sourceUrl, {
+      legalHold: true
+    });
+
+    const properties = await blobClient.getProperties();
+    assert.ok(properties.legalHold);
   });
 });

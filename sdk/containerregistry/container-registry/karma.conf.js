@@ -9,7 +9,7 @@ const {
   isPlaybackMode,
   isSoftRecordMode,
   isRecordMode
-} = require("@azure/test-utils-recorder");
+} = require("@azure-tools/test-recorder");
 
 module.exports = function(config) {
   config.set({
@@ -58,9 +58,9 @@ module.exports = function(config) {
       "TEST_MODE",
       "CONTAINER_REGISTRY_ENDPOINT",
       "CONTAINER_REGISTRY_ANONYMOUS_ENDPOINT",
-      "AZURE_CLIENT_ID",
-      "AZURE_CLIENT_SECRET",
-      "AZURE_TENANT_ID"
+      "CONTAINERREGISTRY_CLIENT_ID",
+      "CONTAINERREGISTRY_CLIENT_SECRET",
+      "CONTAINERREGISTRY_TENANT_ID"
     ],
 
     // test results reporter to use

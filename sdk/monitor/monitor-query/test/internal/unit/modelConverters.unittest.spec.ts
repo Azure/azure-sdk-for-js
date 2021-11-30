@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as assert from "assert";
+import { assert } from "chai";
 import {
   BatchRequest as GeneratedBatchRequest,
-  LogQueryRequest
+  BatchQueryRequest
 } from "../../../src/generated/logquery/src";
 import {
   MetricsListOptionalParams as GeneratedMetricsListOptionalParams,
@@ -16,42 +16,42 @@ import {
   convertRequestOptionsForMetricsDefinitions,
   convertRequestForMetrics,
   convertResponseForMetrics,
-  convertResponseForMetricsDefinitions,
-  convertResponseForMetricNamespaces
+  convertResponseForMetricsDefinitions
 } from "../../../src/internal/modelConverters";
-import { AbortSignalLike, OperationRequestOptions } from "@azure/core-http";
+import {
+  OperationRequestOptions,
+  RawResponseCallback,
+  SerializerOptions
+} from "@azure/core-client";
 import { OperationTracingOptions } from "@azure/core-tracing";
 import {
   Durations,
-  GetMetricDefinitionsResult,
-  GetMetricNamespacesResult,
-  GetMetricDefinitionsOptions,
-  QueryMetricsOptions,
-  QueryMetricsResult
+  ListMetricDefinitionsOptions,
+  MetricsQueryOptions,
+  MetricsQueryResult
 } from "../../../src";
+import { AbortSignalLike } from "@azure/abort-controller";
 
 describe("Model unit tests", () => {
   describe("LogsClient", () => {
     it("convertToBatchRequest (simple)", () => {
-      const generatedRequest = convertRequestForQueryBatch({
-        queries: [
-          {
-            query: "the kusto query",
-            workspace: "the primary workspace id",
-            timespan: Durations.last24Hours
-          }
-        ]
-      });
+      const generatedRequest = convertRequestForQueryBatch([
+        {
+          query: "the kusto query",
+          workspaceId: "the primary workspace id",
+          timespan: { duration: Durations.twentyFourHours }
+        }
+      ]);
 
       assert.deepEqual(generatedRequest, <GeneratedBatchRequest>{
         requests: [
           {
-            id: "0", // auto-generated,
+            id: "0",
             workspace: "the primary workspace id",
             headers: undefined,
             body: {
               query: "the kusto query",
-              timespan: Durations.last24Hours
+              timespan: Durations.twentyFourHours
             }
           }
         ]
@@ -59,41 +59,32 @@ describe("Model unit tests", () => {
     });
 
     it("convertToBatchRequest (complex)", () => {
-      const generatedRequest = convertRequestForQueryBatch({
-        queries: [
-          {
-            query: "<placeholder>",
-            workspace: "<placeholder>",
-            timespan: Durations.last24Hours
-          },
-          {
-            azureResourceIds: ["resourceId1"],
-            includeQueryStatistics: true,
-            qualifiedNames: ["qualifiedName"],
-            query: "the kusto query",
-            serverTimeoutInSeconds: 100,
-            timespan: Durations.last5Minutes,
-            workspace: "the primary workspace id",
-            workspaceIds: ["additionalWorkspaceId"],
-            workspaces: ["additionalWorkspace"]
-          }
-        ]
-      });
-
-      assert.deepEqual(generatedRequest.requests?.[1], <LogQueryRequest>{
-        id: "1", // auto-generated (increments by 1 for each query in the batch)
-        workspace: "the primary workspace id",
+      const generatedRequest = convertRequestForQueryBatch([
+        {
+          query: "<placeholder>",
+          workspaceId: "<placeholder>",
+          timespan: { duration: Durations.twentyFourHours }
+        },
+        {
+          query: "the kusto query",
+          timespan: { duration: Durations.fiveMinutes },
+          workspaceId: "the primary workspace id",
+          includeQueryStatistics: true,
+          serverTimeoutInSeconds: 100,
+          additionalWorkspaces: ["additionalWorkspace", "resourceId1"]
+        }
+      ]);
+      assert.deepEqual(generatedRequest.requests?.[1], <BatchQueryRequest>{
+        body: {
+          workspaces: ["additionalWorkspace", "resourceId1"],
+          query: "the kusto query",
+          timespan: "PT5M"
+        },
         headers: {
           Prefer: "wait=100,include-statistics=true"
         },
-        body: {
-          azureResourceIds: ["resourceId1"],
-          qualifiedNames: ["qualifiedName"],
-          query: "the kusto query",
-          timespan: Durations.last5Minutes,
-          workspaceIds: ["additionalWorkspaceId"],
-          workspaces: ["additionalWorkspace"]
-        }
+        workspace: "the primary workspace id",
+        id: "1" // auto-generated (increments by 1 for each query in the batch)
       });
 
       assert.equal(generatedRequest?.requests?.length, 2);
@@ -105,49 +96,54 @@ describe("Model unit tests", () => {
       const abortSignal = {} as AbortSignalLike;
       const requestOptions = {} as OperationRequestOptions;
       const tracingOptions = {} as OperationTracingOptions;
+      const serializerOptions = {} as SerializerOptions;
+      const onResponse = {} as RawResponseCallback;
 
       // (Required<T> just to make sure I don't forget a field)
-      const track2Model: Required<QueryMetricsOptions> = {
+      const track2Model: Required<MetricsQueryOptions> = {
         abortSignal,
-        aggregations: ["agg1", "agg2"],
+        aggregations: ["Average", "Maximum"],
         filter: "arbitraryFilter",
-        interval: "arbitraryInterval",
-        metricNames: ["name1", "name2"],
+        granularity: "arbitraryInterval",
         metricNamespace: "myMetricNamespace",
         orderBy: "orderByClause",
         requestOptions,
         resultType: "Data",
         top: 10,
-        tracingOptions
+        timespan: { duration: "P20H" },
+        tracingOptions,
+        serializerOptions,
+        onResponse
       };
 
       const actualMetricsRequest: GeneratedMetricsListOptionalParams = convertRequestForMetrics(
-        "arbitraryTimespan",
+        ["name1", "name2"],
         track2Model
       );
 
-      assert.deepEqual(actualMetricsRequest, {
+      const expectedMetricsRequest: GeneratedMetricsListOptionalParams = {
         abortSignal,
-        aggregation: "agg1,agg2",
+        aggregation: "Average,Maximum",
         filter: "arbitraryFilter",
         interval: "arbitraryInterval",
-        metric: "name1,name2",
+        metricnames: "name1,name2",
         metricnamespace: "myMetricNamespace",
         orderby: "orderByClause",
         requestOptions,
         resultType: "Data",
-        timespan: "arbitraryTimespan",
+        timespan: "P20H",
         top: 10,
-        tracingOptions
-      });
+        tracingOptions,
+        serializerOptions,
+        onResponse
+      };
+
+      assert.deepEqual(actualMetricsRequest, expectedMetricsRequest);
     });
 
     it("convertRequestForMetrics (only required fields)", () => {
-      assert.deepEqual(convertRequestForMetrics(Durations.lastDay, undefined), {
-        timespan: Durations.lastDay
-      });
-      assert.deepEqual(convertRequestForMetrics(Durations.last2Days, {}), {
-        timespan: Durations.last2Days
+      assert.deepEqual(convertRequestForMetrics(["SuccessfulCalls", "TotalCalls"], {}), {
+        metricnames: "SuccessfulCalls,TotalCalls"
       });
     });
 
@@ -156,7 +152,7 @@ describe("Model unit tests", () => {
 
       const generatedResponse: Required<GeneratedMetricsListResponse> = {
         // all of these fields are just copied over verbatim...
-        timespan: "aTimespan",
+        timespan: "P10H",
         value: [
           {
             id: "fakeMetric",
@@ -197,17 +193,16 @@ describe("Model unit tests", () => {
         interval: "anInterval",
         namespace: "aNamespace",
         // ...except this one which gets a slight rename.
-        resourceregion: "aResourceRegion",
-        _response: {} as any
+        resourceregion: "aResourceRegion"
       };
 
       const actualConvertedResponse = convertResponseForMetrics(generatedResponse);
-      const expectedResponse: QueryMetricsResult = {
-        timespan: "aTimespan",
+      const expectedResponse = {
+        timespan: { duration: "P10H" },
         metrics: [
           {
             id: "fakeMetric",
-            displayDescription: "displayDescription",
+            description: "displayDescription",
             errorCode: "anErrorCode",
             name: "fakeValue",
             timeseries: [
@@ -236,25 +231,34 @@ describe("Model unit tests", () => {
           }
         ],
         cost: 100,
-        interval: "anInterval",
+        granularity: "anInterval",
         namespace: "aNamespace",
         resourceRegion: "aResourceRegion"
         // NOTE: _response is not returned as part of our track 2 response.
       };
 
-      assert.deepEqual(actualConvertedResponse, expectedResponse);
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { getMetricByName, ...rest } = actualConvertedResponse;
+      assert.deepEqual(
+        { ...rest } as Omit<MetricsQueryResult, "getMetricByName">,
+        expectedResponse
+      );
     });
 
     it("convertRequestOptionsForMetricsDefinitions (all fields)", () => {
       const abortSignal = {} as AbortSignalLike;
       const requestOptions = {} as OperationRequestOptions;
       const tracingOptions = {} as OperationTracingOptions;
+      const serializerOptions = {} as SerializerOptions;
+      const onResponse = {} as RawResponseCallback;
 
-      const track2: Required<GetMetricDefinitionsOptions> = {
+      const track2: Required<ListMetricDefinitionsOptions> = {
         abortSignal,
         requestOptions,
         tracingOptions,
-        metricNamespace: "myMetricNamespace"
+        metricNamespace: "myMetricNamespace",
+        serializerOptions,
+        onResponse
       };
 
       const actualOptions: GeneratedMetricDefinitionsListOptionalParams = convertRequestOptionsForMetricsDefinitions(
@@ -265,7 +269,9 @@ describe("Model unit tests", () => {
         abortSignal,
         requestOptions,
         tracingOptions,
-        metricnamespace: "myMetricNamespace"
+        metricnamespace: "myMetricNamespace",
+        serializerOptions,
+        onResponse
       });
     });
 
@@ -275,71 +281,60 @@ describe("Model unit tests", () => {
     });
 
     it("convertResponseForMetricsDefinitions", () => {
-      const actualResponse = convertResponseForMetricsDefinitions({
-        _response: {} as any,
-        value: [
-          {
-            dimensions: [
-              {
-                value: "the value",
-                localizedValue: "optional localized value but it's ignored"
-              }
-            ],
-            name: {
-              value: "the name"
-            },
-            id: "anything"
-          }
-        ]
-      });
+      const actualResponse = convertResponseForMetricsDefinitions([
+        {
+          dimensions: [
+            {
+              value: "the value",
+              localizedValue: "optional localized value but it's ignored"
+            }
+          ],
+          name: {
+            value: "the name"
+          },
+          id: "anything"
+        }
+      ]);
 
       assert.deepEqual(
-        <GetMetricDefinitionsResult>{
-          definitions: [
-            {
-              id: "anything",
-              name: "the name",
-              dimensions: ["the value"]
-            }
-          ]
-        },
+        [
+          {
+            id: "anything",
+            name: "the name",
+            dimensions: ["the value"]
+          }
+        ],
         actualResponse
       );
     });
 
     it("convertResponseForMetricsDefinitions (optional fields removed)", () => {
-      const actualResponse = convertResponseForMetricsDefinitions({
-        _response: {} as any,
-        value: [
+      const actualResponse = convertResponseForMetricsDefinitions([
+        {
+          id: "anything"
+        }
+      ]);
+
+      assert.deepEqual(
+        [
+          // we don't add fields if they weren't in the original response (for instance, we don't add in an
+          // undefined 'name', or 'dimensions')
           {
             id: "anything"
           }
-        ]
-      });
-
-      assert.deepEqual(
-        <GetMetricDefinitionsResult>{
-          definitions: [
-            // we don't add fields if they weren't in the original response (for instance, we don't add in an
-            // undefined 'name', or 'dimensions')
-            {
-              id: "anything"
-            }
-          ]
-        },
+        ],
         actualResponse
       );
     });
 
-    it("convertResponseForMetricNamespaces", () => {
-      const actualResponse = convertResponseForMetricNamespaces({
-        _response: {} as any,
-        value: [{ id: "anything" } as any]
-      });
+    // it("convertResponseForMetricNamespaces", () => {
+    //   const actualResponse = convertResponseForMetricNamespaces({
+    //     value: [{ id: "anything" } as any]
+    //   });
 
-      assert.deepEqual(actualResponse, <GetMetricNamespacesResult>{
-        namespaces: [{ id: "anything" } as any]
-      });
-    });
+    //   assert.deepEqual(actualResponse, <GetMetricNamespacesResult>{
+    //     namespaces: [{ id: "anything" } as any]
+    //   });
+    // });
   });
 });

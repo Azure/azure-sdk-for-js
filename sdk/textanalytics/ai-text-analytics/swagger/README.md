@@ -12,11 +12,12 @@ generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src/generated
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/1397ebcd89b83e94c674db1763b5fe97c45e74e3/specification/cognitiveservices/data-plane/TextAnalytics/preview/v3.1-preview.5/TextAnalytics.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/main/specification/cognitiveservices/data-plane/TextAnalytics/preview/v3.2-preview.2/TextAnalytics.json
 add-credentials: false
-package-version: 5.1.0-beta.6
+package-version: 5.2.0-beta.3
 v3: true
 hide-clients: true
+typescript: true
 ```
 
 ## Customizations for Track 2 Generator

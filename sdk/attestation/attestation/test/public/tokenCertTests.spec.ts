@@ -10,10 +10,9 @@ import { Context } from "mocha";
 import chaiPromises from "chai-as-promised";
 chaiUse(chaiPromises);
 
-import { Recorder } from "@azure/test-utils-recorder";
+import { Recorder } from "@azure-tools/test-recorder";
 
 import { createRecordedClient, createRecorder, getAttestationUri } from "../utils/recordedClient";
-import { encodeByteArray } from "../utils/base64url";
 import { AttestationClient } from "../../src";
 describe("TokenCertTests", function() {
   let recorder: Recorder;
@@ -47,16 +46,11 @@ describe("TokenCertTests", function() {
       assert.isDefined(key.keyId);
       assert.isDefined(key.certificates);
 
-      key.certificates.forEach((certBuffer: Uint8Array) => {
+      key.certificates.forEach((certBuffer) => {
         assert.isDefined(certBuffer);
 
-        let pemCert: string;
-        pemCert = "-----BEGIN CERTIFICATE-----\r\n";
-        pemCert += encodeByteArray(certBuffer);
-        pemCert += "\r\n-----END CERTIFICATE-----\r\n";
-
         const cert = new jsrsasign.X509();
-        cert.readCertPEM(pemCert);
+        cert.readCertPEM(certBuffer);
       });
     }
   }

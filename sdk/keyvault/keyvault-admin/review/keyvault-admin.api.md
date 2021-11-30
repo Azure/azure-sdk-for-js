@@ -4,35 +4,38 @@
 
 ```ts
 
-import * as coreHttp from '@azure/core-http';
+/// <reference lib="esnext.asynciterable" />
+
+import { CommonClientOptions } from '@azure/core-client';
+import { OperationOptions } from '@azure/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
-import { TokenCredential } from '@azure/core-http';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
-export interface AccessControlClientOptions extends coreHttp.PipelineOptions {
+export interface AccessControlClientOptions extends CommonClientOptions {
     serviceVersion?: SUPPORTED_API_VERSIONS;
 }
 
 // @public
-export interface CreateRoleAssignmentOptions extends coreHttp.OperationOptions {
+export interface CreateRoleAssignmentOptions extends OperationOptions {
 }
 
 // @public
-export interface DeleteRoleAssignmentOptions extends coreHttp.OperationOptions {
+export interface DeleteRoleAssignmentOptions extends OperationOptions {
 }
 
 // @public
-export interface DeleteRoleDefinitionOptions extends coreHttp.OperationOptions {
+export interface DeleteRoleDefinitionOptions extends OperationOptions {
 }
 
 // @public
-export interface GetRoleAssignmentOptions extends coreHttp.OperationOptions {
+export interface GetRoleAssignmentOptions extends OperationOptions {
 }
 
 // @public
-export interface GetRoleDefinitionOptions extends coreHttp.OperationOptions {
+export interface GetRoleDefinitionOptions extends OperationOptions {
 }
 
 // @public
@@ -68,7 +71,7 @@ export class KeyVaultBackupClient {
 }
 
 // @public
-export interface KeyVaultBackupClientOptions extends coreHttp.PipelineOptions {
+export interface KeyVaultBackupClientOptions extends CommonClientOptions {
     serviceVersion?: SUPPORTED_API_VERSIONS;
 }
 
@@ -76,7 +79,7 @@ export interface KeyVaultBackupClientOptions extends coreHttp.PipelineOptions {
 export type KeyVaultBackupOperationState = KeyVaultAdminPollOperationState<KeyVaultBackupResult>;
 
 // @public
-export interface KeyVaultBackupPollerOptions extends coreHttp.OperationOptions {
+export interface KeyVaultBackupPollerOptions extends OperationOptions {
     intervalInMs?: number;
     resumeFrom?: string;
 }
@@ -168,12 +171,15 @@ export enum KnownKeyVaultDataAction {
     DecryptHsmKey = "Microsoft.KeyVault/managedHsm/keys/decrypt/action",
     DeleteHsmKey = "Microsoft.KeyVault/managedHsm/keys/delete",
     DeleteRoleAssignment = "Microsoft.KeyVault/managedHsm/roleAssignments/delete/action",
+    DeleteRoleDefinition = "Microsoft.KeyVault/managedHsm/roleDefinitions/delete/action",
     DownloadHsmSecurityDomain = "Microsoft.KeyVault/managedHsm/securitydomain/download/action",
+    DownloadHsmSecurityDomainStatus = "Microsoft.KeyVault/managedHsm/securitydomain/download/read",
     EncryptHsmKey = "Microsoft.KeyVault/managedHsm/keys/encrypt/action",
     ExportHsmKey = "Microsoft.KeyVault/managedHsm/keys/export/action",
     GetRoleAssignment = "Microsoft.KeyVault/managedHsm/roleAssignments/read/action",
     ImportHsmKey = "Microsoft.KeyVault/managedHsm/keys/import/action",
     PurgeDeletedHsmKey = "Microsoft.KeyVault/managedHsm/keys/deletedKeys/delete",
+    RandomNumbersGenerate = "Microsoft.KeyVault/managedHsm/rng/action",
     ReadDeletedHsmKey = "Microsoft.KeyVault/managedHsm/keys/deletedKeys/read/action",
     ReadHsmBackupStatus = "Microsoft.KeyVault/managedHsm/backup/status/action",
     ReadHsmKey = "Microsoft.KeyVault/managedHsm/keys/read/action",
@@ -182,6 +188,7 @@ export enum KnownKeyVaultDataAction {
     ReadHsmSecurityDomainTransferKey = "Microsoft.KeyVault/managedHsm/securitydomain/transferkey/read",
     ReadRoleDefinition = "Microsoft.KeyVault/managedHsm/roleDefinitions/read/action",
     RecoverDeletedHsmKey = "Microsoft.KeyVault/managedHsm/keys/deletedKeys/recover/action",
+    ReleaseKey = "Microsoft.KeyVault/managedHsm/keys/release/action",
     RestoreHsmKeys = "Microsoft.KeyVault/managedHsm/keys/restore/action",
     SignHsmKey = "Microsoft.KeyVault/managedHsm/keys/sign/action",
     StartHsmBackup = "Microsoft.KeyVault/managedHsm/backup/start/action",
@@ -191,7 +198,8 @@ export enum KnownKeyVaultDataAction {
     VerifyHsmKey = "Microsoft.KeyVault/managedHsm/keys/verify/action",
     WrapHsmKey = "Microsoft.KeyVault/managedHsm/keys/wrap/action",
     WriteHsmKey = "Microsoft.KeyVault/managedHsm/keys/write/action",
-    WriteRoleAssignment = "Microsoft.KeyVault/managedHsm/roleAssignments/write/action"
+    WriteRoleAssignment = "Microsoft.KeyVault/managedHsm/roleAssignments/write/action",
+    WriteRoleDefinition = "Microsoft.KeyVault/managedHsm/roleDefinitions/write/action"
 }
 
 // @public
@@ -201,10 +209,10 @@ export enum KnownKeyVaultRoleScope {
 }
 
 // @public
-export const LATEST_API_VERSION = "7.2";
+export const LATEST_API_VERSION = "7.3-preview";
 
 // @public
-export interface ListRoleAssignmentsOptions extends coreHttp.OperationOptions {
+export interface ListRoleAssignmentsOptions extends OperationOptions {
 }
 
 // @public
@@ -213,7 +221,7 @@ export interface ListRoleAssignmentsPageSettings {
 }
 
 // @public
-export interface ListRoleDefinitionsOptions extends coreHttp.OperationOptions {
+export interface ListRoleDefinitionsOptions extends OperationOptions {
 }
 
 // @public
@@ -225,7 +233,7 @@ export interface ListRoleDefinitionsPageSettings {
 export const SDK_VERSION: string;
 
 // @public
-export interface SetRoleDefinitionOptions extends coreHttp.OperationOptions {
+export interface SetRoleDefinitionOptions extends OperationOptions {
     assignableScopes?: KeyVaultRoleScope[];
     description?: string;
     permissions?: KeyVaultPermission[];
@@ -234,8 +242,7 @@ export interface SetRoleDefinitionOptions extends coreHttp.OperationOptions {
 }
 
 // @public
-export type SUPPORTED_API_VERSIONS = "7.2";
-
+export type SUPPORTED_API_VERSIONS = "7.2" | "7.3-preview";
 
 // (No @packageDocumentation comment for this package)
 

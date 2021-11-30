@@ -6,21 +6,27 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import { Metadata } from "../operationsInterfaces";
+import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { AzureLogAnalytics } from "../azureLogAnalytics";
-import { MetadataGetResponse, MetadataPostResponse } from "../models";
+import { AzureLogAnalyticsContext } from "../azureLogAnalyticsContext";
+import {
+  MetadataGetOptionalParams,
+  MetadataGetResponse,
+  MetadataPostOptionalParams,
+  MetadataPostResponse
+} from "../models";
 
-/** Class representing a Metadata. */
-export class Metadata {
-  private readonly client: AzureLogAnalytics;
+/** Class containing Metadata operations. */
+export class MetadataImpl implements Metadata {
+  private readonly client: AzureLogAnalyticsContext;
 
   /**
    * Initialize a new instance of the class Metadata class.
    * @param client Reference to the service client
    */
-  constructor(client: AzureLogAnalytics) {
+  constructor(client: AzureLogAnalyticsContext) {
     this.client = client;
   }
 
@@ -33,16 +39,12 @@ export class Metadata {
    */
   get(
     workspaceId: string,
-    options?: coreHttp.OperationOptions
+    options?: MetadataGetOptionalParams
   ): Promise<MetadataGetResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      workspaceId,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { workspaceId, options },
       getOperationSpec
-    ) as Promise<MetadataGetResponse>;
+    );
   }
 
   /**
@@ -54,22 +56,18 @@ export class Metadata {
    */
   post(
     workspaceId: string,
-    options?: coreHttp.OperationOptions
+    options?: MetadataPostOptionalParams
   ): Promise<MetadataPostResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      workspaceId,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { workspaceId, options },
       postOperationSpec
-    ) as Promise<MetadataPostResponse>;
+    );
   }
 }
 // Operation Specifications
-const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
+const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const getOperationSpec: coreHttp.OperationSpec = {
+const getOperationSpec: coreClient.OperationSpec = {
   path: "/workspaces/{workspaceId}/metadata",
   httpMethod: "GET",
   responses: {
@@ -84,7 +82,7 @@ const getOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const postOperationSpec: coreHttp.OperationSpec = {
+const postOperationSpec: coreClient.OperationSpec = {
   path: "/workspaces/{workspaceId}/metadata",
   httpMethod: "POST",
   responses: {

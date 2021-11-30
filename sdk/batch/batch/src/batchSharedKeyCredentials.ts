@@ -9,7 +9,7 @@ import {
   WebResource,
   ServiceClientCredentials,
   HttpHeadersLike,
-  HttpMethods,
+  HttpMethods
 } from "@azure/ms-rest-js";
 import { HmacSha256Sign } from "./hmacSha256";
 import url from "url-parse";

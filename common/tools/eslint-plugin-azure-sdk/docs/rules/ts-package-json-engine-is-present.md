@@ -2,7 +2,7 @@
 
 Requires support for all Node LTS version.
 
-Currently, this requires `engines` in `package.json` to contain an entry for `node` set to `">=8.0.0"` unless a `nodeVersionOverride` value is present.
+Currently, this requires `engines` in `package.json` to contain an entry for `node` set to `">=12.0.0"` unless a `nodeVersionOverride` value is present.
 
 This rule is fixable using the `--fix` option.
 
@@ -13,7 +13,7 @@ This rule is fixable using the `--fix` option.
 ```json
 {
   "engines": {
-    "node": ">=8.0.0"
+    "node": ">=12.0.0"
   }
 }
 ```
@@ -23,7 +23,7 @@ This rule is fixable using the `--fix` option.
 ```json
 {
   "engine": {
-    "node": ">=8.0.0"
+    "node": ">=12.0.0"
   }
 }
 ```

@@ -91,10 +91,6 @@ $wrappingFiles = foreach ($i in 0..2) {
     Resolve-Path "$baseName.cer"
 }
 
-# TODO: Use Az module when available; for now, assumes Azure CLI is installed and in $Env:PATH.
-Log "Logging '$username' into the Azure CLI"
-az login --service-principal --tenant "$tenant" --username "$username" --password="$password"
-
 Log "Downloading security domain from '$hsmUrl'"
 
 $sdPath = Join-Path -Path $PSScriptRoot -ChildPath "$hsmName-security-domain.key"
@@ -103,15 +99,12 @@ if (Test-Path $sdpath) {
     Remove-Item $sdPath -Force
 }
 
-az keyvault security-domain download --hsm-name $hsmName --security-domain-file $sdPath --sd-quorum 2 --sd-wrapping-keys $wrappingFiles
-
+Export-AzKeyVaultSecurityDomain -Name $hsmName -Quorum 2 -Certificates $wrappingFiles -OutputPath $sdPath
 Log "Security domain downloaded to '$sdPath'; Managed HSM is now active at '$hsmUrl'"
 
-# Force a sleep to wait for Managed HSM activation to propagate through Cosmos replication. Issue tracked in AzDo.
-Log "Sleeping for 60 seconds to allow activation to propagate..."
-Start-Sleep -Seconds 60
+$testApplicationOid = $DeploymentOutputs["CLIENT_OBJECT_ID"]
 
 Log "Creating additional required role assignments for resource access."
-New-AzKeyVaultRoleAssignment -HsmName $hsmName -RoleDefinitionName "Managed HSM Crypto Officer" -ObjectID $DeploymentOutputs["CLIENT_OBJECT_ID"]
-New-AzKeyVaultRoleAssignment -HsmName $hsmName -RoleDefinitionName "Managed HSM Crypto User" -ObjectID $DeploymentOutputs["CLIENT_OBJECT_ID"]
-Log "Done."
+New-AzKeyVaultRoleAssignment -HsmName $hsmName -RoleDefinitionName "Managed HSM Crypto Officer" -ObjectID $testApplicationOid
+New-AzKeyVaultRoleAssignment -HsmName $hsmName -RoleDefinitionName "Managed HSM Crypto User" -ObjectID $testApplicationOid
+Log "Role assignments created for '$testApplicationOid'"

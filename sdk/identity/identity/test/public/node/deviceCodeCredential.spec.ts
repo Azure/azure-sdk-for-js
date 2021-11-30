@@ -3,8 +3,8 @@
 
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
-import assert from "assert";
-import { env, isLiveMode, delay, isPlaybackMode } from "@azure/test-utils-recorder";
+import { assert } from "chai";
+import { env, isLiveMode, delay, isPlaybackMode } from "@azure-tools/test-recorder";
 import { AbortController, AbortError } from "@azure/abort-controller";
 import { DeviceCodeCredential, DeviceCodePromptCallback } from "../../../src";
 import { msalNodeTestSetup, MsalTestCleanup, testTracing } from "../../msalTestUtils";
@@ -48,6 +48,22 @@ describe("DeviceCodeCredential", function() {
     assert.ok(token?.expiresOnTimestamp! > Date.now());
   });
 
+  it("authenticates with specific permissions", async function(this: Context) {
+    // These tests should not run live because this credential requires user interaction.
+    if (isLiveMode()) {
+      this.skip();
+    }
+    const credential = new DeviceCodeCredential({
+      tenantId: env.AZURE_TENANT_ID,
+      clientId: env.AZURE_CLIENT_ID
+    });
+
+    // Important: Specifying permissions on the scope parameter of getToken won't work on client credential flows.
+    const token = await credential.getToken("https://graph.microsoft.com/Calendars.Read");
+    assert.ok(token?.token);
+    assert.ok(token?.expiresOnTimestamp! > Date.now());
+  });
+
   it("authenticates and allows the customization of the prompt callback", async function(this: Context) {
     // These tests should not run live because this credential requires user interaction.
     if (isLiveMode()) {
@@ -68,6 +84,10 @@ describe("DeviceCodeCredential", function() {
   });
 
   it("allows cancelling the authentication", async function(this: Context) {
+    // Because of the user interaction, this test works inconsistently in our live test pipelines.
+    if (isLiveMode()) {
+      this.skip();
+    }
     if (isPlaybackMode()) {
       // We're automatically replacing the DeviceCode polling interval on the recorder settings,
       // which makes it so this test fails on playback.
@@ -140,7 +160,7 @@ describe("DeviceCodeCredential", function() {
       },
       children: [
         {
-          name: "Azure.Identity.DeviceCodeCredential.getToken",
+          name: "DeviceCodeCredential.getToken",
           children: []
         }
       ]

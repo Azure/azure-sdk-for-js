@@ -55,11 +55,11 @@ function isCompleteSetOfRange(partitionKeyOrderedRange: any): boolean {
     const lastRange = partitionKeyOrderedRange[partitionKeyOrderedRange.length - 1];
     isComplete =
       firstRange[Constants.PartitionKeyRange.MinInclusive] ===
-      Constants.EffectiveParitionKeyConstants.MinimumInclusiveEffectivePartitionKey;
+      Constants.EffectivePartitionKeyConstants.MinimumInclusiveEffectivePartitionKey;
     isComplete =
       isComplete &&
       lastRange[Constants.PartitionKeyRange.MaxExclusive] ===
-        Constants.EffectiveParitionKeyConstants.MaximumExclusiveEffectivePartitionKey;
+        Constants.EffectivePartitionKeyConstants.MaximumExclusiveEffectivePartitionKey;
 
     for (let i = 1; i < partitionKeyOrderedRange.length; i++) {
       const previousRange = partitionKeyOrderedRange[i - 1];

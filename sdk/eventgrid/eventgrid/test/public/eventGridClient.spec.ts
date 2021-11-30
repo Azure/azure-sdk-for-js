@@ -4,11 +4,11 @@
 import { assert } from "chai";
 import { Suite, Context } from "mocha";
 
-import { Recorder } from "@azure/test-utils-recorder";
+import { Recorder } from "@azure-tools/test-recorder";
 
 import { createRecordedClient, testEnv } from "./utils/recordedClient";
 
-import { TestTracer, setTracer } from "@azure/core-tracing";
+import { resetTracer, setTracer } from "@azure/test-utils";
 
 import { AzureKeyCredential, EventGridPublisherClient } from "../../src";
 
@@ -201,10 +201,8 @@ describe("EventGridPublisherClient", function(this: Suite) {
     });
 
     it("enriches events with distributed tracing information", async () => {
-      const tracer = new TestTracer();
-      setTracer(tracer);
+      const tracer = setTracer();
       const rootSpan = tracer.startSpan("root");
-
       await client.send(
         [
           {
@@ -231,7 +229,10 @@ describe("EventGridPublisherClient", function(this: Suite) {
       const parsedBody = JSON.parse(res?.request.body as string);
 
       assert.isArray(parsedBody);
-      assert.equal(parsedBody[0].traceparent, "00-1-3-00");
+      assert.equal(
+        parsedBody[0].traceparent,
+        "00-00000000000000000000000000000001-0000000000000003-00"
+      );
 
       const spans = tracer.getKnownSpans();
 
@@ -239,6 +240,8 @@ describe("EventGridPublisherClient", function(this: Suite) {
       assert.equal(spans[0].name, "root");
       assert.equal(spans[1].name, "Azure.Data.EventGrid.EventGridPublisherClient-send");
       assert.equal(spans[2].name, "/api/events");
+
+      resetTracer();
     });
   });
 

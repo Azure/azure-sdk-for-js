@@ -1,11 +1,11 @@
 {
   "name": "@azure/event-hubs",
   "sdk-type": "client",
-  "version": "5.5.3",
+  "version": "5.7.0-beta.2",
   "description": "Azure Event Hubs SDK for JS.",
   "author": "Microsoft Corporation",
   "license": "MIT",
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs/",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventhub/event-hubs/",
   "repository": "github:Azure/azure-sdk-for-js",
   "sideEffects": false,
   "keywords": [
@@ -19,7 +19,7 @@
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "engines": {
-    "node": ">=8.0.0"
+    "node": ">=12.0.0"
   },
   "main": "./dist/index.js",
   "module": "dist-esm/src/index.js",
@@ -32,7 +32,8 @@
     }
   },
   "browser": {
-    "./dist-esm/src/util/runtimeInfo.js": "./dist-esm/src/util/runtimeInfo.browser.js"
+    "./dist-esm/src/util/runtimeInfo.js": "./dist-esm/src/util/runtimeInfo.browser.js",
+    "./dist-esm/test/public/utils/mockService.js": "./dist-esm/test/public/utils/mockService.browser.js"
   },
   "files": [
     "dist/",
@@ -46,30 +47,30 @@
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c 2>&1",
     "build:node": "tsc -p . && cross-env ONLY_NODE=true rollup -c 2>&1",
-    "build:samples": "dev-tool samples prep && cd dist-samples && tsc",
+    "build:samples": "echo Obsolete.",
     "build:test:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c rollup.test.config.js 2>&1",
     "build:test:node": "tsc -p . && cross-env ONLY_NODE=true rollup -c rollup.test.config.js 2>&1",
-    "build:test": "tsc -p . && rollup -c rollup.test.config.js 2>&1",
+    "build:test": "tsc -p . && rollup -c rollup.test.config.js 2>&1 && npm run generate-certs",
     "build:types": "downlevel-dts types/latest types/3.1",
-    "build": "tsc -p . && rollup -c 2>&1 && api-extractor run --local && npm run build:types",
-    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "build": "npm run clean && tsc -p . && rollup -c 2>&1 && api-extractor run --local && npm run build:types",
+    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-* types *.tgz *.log",
-    "execute:samples": "npm run build:samples && echo Skipped.",
+    "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "tsc -p . && api-extractor run --local",
-    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
-    "integration-test:browser": "karma start --single-run",
-    "integration-test:node": "nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 1200000 --full-trace \"dist-esm/test/internal/*.spec.js\" \"dist-esm/test/public/*.spec.js\" \"dist-esm/test/public/**/*.spec.js\" \"dist-esm/test/internal/**/*.spec.js\"",
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
+    "generate-certs": "node ./scripts/generateCerts.js",
+    "integration-test:browser": "cross-env TEST_TARGET=live DISABLE_MULTI_VERSION_TESTING=true karma start --single-run",
+    "integration-test:node": "cross-env TEST_TARGET=live DISABLE_MULTI_VERSION_TESTING=true nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 1200000 --full-trace \"dist-esm/test/internal/*.spec.js\" \"dist-esm/test/public/*.spec.js\" \"dist-esm/test/public/**/*.spec.js\" \"dist-esm/test/internal/**/*.spec.js\"",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "lint:fix": "eslint package.json api-extractor.json src test --ext .ts --fix --fix-type [problem,suggestion]",
     "lint": "eslint package.json api-extractor.json src test --ext .ts",
     "pack": "npm pack 2>&1",
     "perf-test:node": "tsc -p . --module \"commonjs\" && node dist-esm/test/perf/track-2/index.spec.js",
-    "prebuild": "npm run clean",
     "test:browser": "npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
     "test:node": "npm run build:test && npm run unit-test:node && npm run integration-test:node",
     "test": "npm run build:test && npm run unit-test && npm run integration-test",
     "unit-test:browser": "echo skipped",
-    "unit-test:node": "echo skipped",
+    "unit-test:node": "cross-env NODE_EXTRA_CA_CERTS=\"./certs/my-private-root-ca.crt.pem\" TEST_TARGET=mock DISABLE_MULTI_VERSION_TESTING=true nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 1200000 --full-trace \"dist-esm/test/internal/*.spec.js\" \"dist-esm/test/public/*.spec.js\" \"dist-esm/test/public/**/*.spec.js\" \"dist-esm/test/internal/**/*.spec.js\"",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src"
   },
@@ -82,33 +83,52 @@
     ]
   },
   "//sampleConfiguration": {
+    "extraFiles": {
+      "./samples-browser": [
+        "browser"
+      ],
+      "./samples-express": [
+        "express"
+      ]
+    },
     "skip": [
       "iothubConnectionString.js",
+      "iothubConnectionStringWebsockets.js",
       "useWithIotHub.js",
       "usingAadAuth.js"
-    ]
+    ],
+    "productName": "Azure Event Hubs",
+    "productSlugs": [
+      "azure",
+      "azure-event-hubs"
+    ],
+    "requiredResources": {
+      "Azure Event Hub": "https://docs.microsoft.com/azure/event-hubs/event-hubs-create"
+    }
   },
   "dependencies": {
     "@azure/abort-controller": "^1.0.0",
     "@azure/core-amqp": "^3.0.0",
     "@azure/core-asynciterator-polyfill": "^1.0.0",
     "@azure/core-auth": "^1.3.0",
-    "@azure/core-tracing": "1.0.0-preview.11",
+    "@azure/core-tracing": "1.0.0-preview.13",
     "@azure/logger": "^1.0.0",
-    "buffer": "^5.2.1",
+    "buffer": "^6.0.0",
     "is-buffer": "^2.0.3",
     "jssha": "^3.1.0",
     "process": "^0.11.10",
-    "rhea-promise": "^2.0.0",
+    "rhea-promise": "^2.1.0",
     "tslib": "^2.2.0",
     "uuid": "^8.3.0"
   },
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "@azure/identity": "2.0.0-beta.4",
-    "@azure/test-utils-perfstress": "^1.0.0",
-    "@microsoft/api-extractor": "7.7.11",
+    "@azure/identity": "^2.0.1",
+    "@azure/mock-hub": "^1.0.0",
+    "@azure/test-utils": "^1.0.0",
+    "@azure/test-utils-perf": "^1.0.0",
+    "@microsoft/api-extractor": "^7.18.11",
     "@rollup/plugin-commonjs": "11.0.2",
     "@rollup/plugin-inject": "^4.0.0",
     "@rollup/plugin-json": "^4.0.0",
@@ -122,13 +142,14 @@
     "@types/debug": "^4.1.4",
     "@types/long": "^4.0.0",
     "@types/mocha": "^7.0.2",
-    "@types/node": "^8.0.0",
+    "@types/node": "^12.0.0",
     "@types/sinon": "^9.0.4",
     "@types/uuid": "^8.0.0",
     "@types/ws": "^7.2.4",
     "assert": "^1.4.1",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
+    "chai-exclude": "^2.0.2",
     "chai-string": "^1.5.0",
     "cross-env": "^7.0.2",
     "debug": "^4.1.1",
@@ -153,14 +174,14 @@
     "moment": "^2.24.0",
     "nyc": "^14.0.0",
     "prettier": "^1.16.4",
-    "puppeteer": "^3.3.0",
+    "puppeteer": "^10.2.0",
     "rimraf": "^3.0.0",
     "rollup": "^1.16.3",
     "rollup-plugin-shim": "^1.0.0",
     "rollup-plugin-sourcemaps": "^0.4.2",
     "rollup-plugin-terser": "^5.1.1",
     "sinon": "^9.0.2",
-    "ts-node": "^9.0.0",
+    "ts-node": "^10.0.0",
     "typescript": "~4.2.0",
     "ws": "^7.1.1",
     "typedoc": "0.15.2"

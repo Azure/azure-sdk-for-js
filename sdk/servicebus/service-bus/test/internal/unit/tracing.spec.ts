@@ -7,13 +7,11 @@ import {
   Context as OTContext,
   getSpanContext,
   getTracer,
-  NoOpSpan,
   setSpanContext,
   SpanOptions,
-  SpanStatusCode,
-  TestSpan,
-  TestTracer
+  SpanStatusCode
 } from "@azure/core-tracing";
+import { TestSpan, TestTracer } from "@azure/test-utils";
 import { ServiceBusMessageImpl, ServiceBusReceivedMessage } from "../../../src/serviceBusMessage";
 import {
   createAndEndProcessingSpan,
@@ -105,8 +103,12 @@ describe("Tracing tests", () => {
       ["diagnostic id 1", "diagnostic id 2"]
     );
 
+    if (!options?.tracingOptions?.tracingContext) {
+      throw new Error("TestError: options.tracingOptions.tracingContext should have been set");
+    }
+
     assert.equal(
-      getSpanContext(options?.tracingOptions?.tracingContext!)?.spanId,
+      getSpanContext(options?.tracingOptions?.tracingContext)?.spanId,
       "my parent span id",
       "Parent span should be properly passed in."
     );
@@ -288,10 +290,13 @@ describe("Tracing tests", () => {
       assert.equal(config.host, "fakeHost");
       assert.isFalse(Array.isArray(messages));
 
-      assert.equal(
-        getSpanContext(options?.tracingOptions?.tracingContext!)!.spanId,
-        "my parent span id"
-      );
+      if (!options?.tracingOptions?.tracingContext) {
+        throw new Error("TestError: options.tracingOptions.tracingContext should have been set");
+      }
+
+      const context = getSpanContext(options?.tracingOptions?.tracingContext);
+      assert.ok(context);
+      assert.equal(context?.spanId, "my parent span id");
 
       data.span = getTracer().startSpan("some span") as TestSpan;
       return data.span;
@@ -311,7 +316,7 @@ describe("Tracing tests", () => {
     };
 
     it("basic span properties are set", async () => {
-      const fakeParentSpanContext = new NoOpSpan().context();
+      const fakeParentSpanContext = tracer.startSpan("test").spanContext();
 
       createProcessingSpan([], receiverProperties, connectionConfig, {
         tracingOptions: {
@@ -324,7 +329,8 @@ describe("Tracing tests", () => {
       tracer.spanOptions!.kind!.should.equal(SpanKind.CONSUMER);
       getSpanContext(tracer.context!)!.should.equal(fakeParentSpanContext);
 
-      const attributes = tracer.getRootSpans()[0].attributes;
+      const attributes = tracer.getActiveSpans().find((s) => s.name === "Azure.ServiceBus.process")
+        ?.attributes;
 
       attributes!.should.deep.equal({
         "az.namespace": "Microsoft.ServiceBus",
@@ -377,7 +383,7 @@ describe("Tracing tests", () => {
       assert.notEqual(message, originalMessage, "Instrumenting a message should copy it");
 
       assert.ok(tracer.spanOptions, "A span should be created when we instrumented the messsage");
-      const spanContextFromSender = tracer.span?.context();
+      const spanContextFromSender = tracer.span?.spanContext();
       assert.ok(spanContextFromSender);
 
       tracer.clearTracingData();
@@ -411,7 +417,7 @@ describe("Tracing tests", () => {
       }, span);
 
       span.status!.code.should.equal(SpanStatusCode.OK);
-      span.endCalled.should.be.ok;
+      span.endCalled.should.equal(true);
     });
 
     it("trace - throws", async () => {
@@ -423,7 +429,7 @@ describe("Tracing tests", () => {
 
       span.status!.code.should.equal(SpanStatusCode.ERROR);
       span.status!.message!.should.equal("error thrown from fn");
-      span.endCalled.should.be.ok;
+      span.endCalled.should.equal(true);
     });
   });
 });
@@ -434,7 +440,7 @@ class TestTracer2 extends TestTracer {
   span: TestSpan | undefined;
   context: OTContext | undefined;
 
-  clearTracingData() {
+  clearTracingData(): void {
     this.spanName = undefined;
     this.spanOptions = undefined;
     this.span = undefined;

@@ -1,55 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { SchemaRegistryAvroSerializer } from "../src";
 import { assert, use as chaiUse } from "chai";
-import * as avro from "avsc/";
 import chaiPromises from "chai-as-promised";
-import { env, isLiveMode } from "@azure/test-utils-recorder";
-import { ClientSecretCredential } from "@azure/identity";
-
-import {
-  GetSchemaByIdOptions,
-  GetSchemaIdOptions,
-  RegisterSchemaOptions,
-  Schema,
-  SchemaDescription,
-  SchemaId,
-  SchemaRegistry,
-  SchemaRegistryClient
-} from "@azure/schema-registry";
-
-import * as dotenv from "dotenv";
-dotenv.config();
+import { testAvroType, testGroup, testSchema, testSchemaIds, testValue } from "./utils/dummies";
+import { createTestRegistry } from "./utils/mockedRegistryClient";
+import { createTestSerializer, registerTestSchema } from "./utils/mockedSerializer";
 
 chaiUse(chaiPromises);
-
-const testSchemaObject: avro.schema.RecordType = {
-  type: "record",
-  name: "AvroUser",
-  namespace: "com.azure.schemaregistry.samples",
-  fields: [
-    {
-      name: "name",
-      type: "string"
-    },
-    {
-      name: "favoriteNumber",
-      type: "int"
-    }
-  ]
-};
-
-const testGroup = "azsdk_js_test_group";
-
-const testSchemaIds = [
-  "{773E17BE-793E-40B0-98F1-0A6EA3C11895}",
-  "{DC7EF290-CDB1-4245-8EE8-3DD52965866E}"
-].map((x) => x.replace(/[{\-}]/g, ""));
-
-const testSchema = JSON.stringify(testSchemaObject);
-const testValue = { name: "Nick", favoriteNumber: 42 };
-const testAvroType = avro.Type.forSchema(testSchemaObject, { omitRecordMethods: true });
 
 describe("SchemaRegistryAvroSerializer", function() {
   it("rejects buffers that are too small", async () => {
@@ -70,14 +28,14 @@ describe("SchemaRegistryAvroSerializer", function() {
     await assert.isRejected(serializer.serialize({}, schema), /name/);
   });
 
-  it("rejects a schema with different serialization type", async () => {
+  it("rejects a schema with different format", async () => {
     const registry = createTestRegistry(true); // true means never live, we can't register non-avro schema in live service
     const serializer = await createTestSerializer(false, registry);
     const schema = await registry.registerSchema({
       name: "_",
-      content: "_",
-      serializationType: "NotAvro",
-      group: testGroup
+      definition: "_",
+      format: "NotAvro",
+      groupName: testGroup
     });
 
     const buffer = Buffer.alloc(36);
@@ -112,7 +70,9 @@ describe("SchemaRegistryAvroSerializer", function() {
     const registry = createTestRegistry();
     const schemaId = await registerTestSchema(registry);
     const serializer = await createTestSerializer(false, registry);
-    const buffer = await serializer.serialize(testValue, testSchema);
+    const arr = await serializer.serialize(testValue, testSchema);
+    assert.isUndefined((arr as Buffer).readBigInt64BE);
+    const buffer = Buffer.from(arr);
     assert.strictEqual(0x0, buffer.readUInt32BE(0));
     assert.strictEqual(schemaId, buffer.toString("utf-8", 4, 36));
     const payload = buffer.slice(36);
@@ -144,7 +104,7 @@ describe("SchemaRegistryAvroSerializer", function() {
     serializer = await createTestSerializer(false);
     assert.deepStrictEqual(await serializer.deserialize(buffer), testValue);
 
-    // throw away serializer again and cover getSchemaId instead of registerSchema
+    // throw away serializer again and cover getSchemaProperties instead of registerSchema
     serializer = await createTestSerializer(false);
     assert.deepStrictEqual(await serializer.serialize(testValue, testSchema), buffer);
   });
@@ -172,83 +132,3 @@ describe("SchemaRegistryAvroSerializer", function() {
     assert.deepStrictEqual(deserializedValue, value);
   });
 });
-
-async function createTestSerializer(
-  autoRegisterSchemas = true,
-  registry = createTestRegistry()
-): Promise<SchemaRegistryAvroSerializer> {
-  if (!autoRegisterSchemas) {
-    await registerTestSchema(registry);
-  }
-  return new SchemaRegistryAvroSerializer(registry, testGroup, { autoRegisterSchemas });
-}
-
-async function registerTestSchema(registry: SchemaRegistry): Promise<string> {
-  const schema = await registry.registerSchema({
-    name: `${testSchemaObject.namespace}.${testSchemaObject.name}`,
-    group: testGroup,
-    content: testSchema,
-    serializationType: "avro"
-  });
-  return schema.id;
-}
-
-function createTestRegistry(neverLive = false): SchemaRegistry {
-  if (!neverLive && isLiveMode()) {
-    // NOTE: These tests don't record, they use a mocked schema registry
-    // implemented below, but if we're running live, then use the real
-    // service for end-to-end integration testing.
-    return new SchemaRegistryClient(
-      env.SCHEMA_REGISTRY_ENDPOINT,
-      new ClientSecretCredential(env.AZURE_TENANT_ID, env.AZURE_CLIENT_ID, env.AZURE_CLIENT_SECRET)
-    );
-  }
-  const mapById = new Map<string, Schema>();
-  const mapByContent = new Map<string, Schema>();
-  let idCounter = 0;
-
-  return { registerSchema, getSchemaId, getSchemaById };
-
-  async function registerSchema(
-    schema: SchemaDescription,
-    _options?: RegisterSchemaOptions
-  ): Promise<SchemaId> {
-    let result = mapByContent.get(schema.content);
-    if (!result) {
-      result = {
-        id: newId(),
-        content: schema.content,
-        version: 1,
-        location: "",
-        locationById: "",
-        serializationType: schema.serializationType
-      };
-      mapByContent.set(result.content, result);
-      mapById.set(result.id, result);
-    }
-    return result;
-
-    function newId(): string {
-      if (idCounter === testSchemaIds.length) {
-        throw new Error("Out of IDs. Generate more GUIDs and paste them above.");
-      }
-      const id = testSchemaIds[idCounter];
-      idCounter++;
-      return id;
-    }
-  }
-
-  async function getSchemaId(
-    schema: SchemaDescription,
-    _options?: GetSchemaIdOptions
-  ): Promise<SchemaId | undefined> {
-    return mapByContent.get(schema.content);
-  }
-
-  async function getSchemaById(
-    id: string,
-    _options?: GetSchemaByIdOptions
-  ): Promise<Schema | undefined> {
-    return mapById.get(id);
-  }
-}

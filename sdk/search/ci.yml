@@ -1,28 +1,25 @@
 # NOTE: Please refer to https://aka.ms/azsdk/engsys/ci-yaml before editing this file.
-
 trigger:
   branches:
     include:
-      - master
       - main
       - release/*
       - hotfix/*
   paths:
     include:
       - sdk/search/
-
 pr:
   branches:
     include:
-      - master
       - main
       - feature/*
       - release/*
       - hotfix/*
+    exclude:
+      - feature/v4
   paths:
     include:
       - sdk/search/
-
 extends:
   template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
@@ -30,3 +27,5 @@ extends:
     Artifacts:
       - name: azure-search-documents
         safeName: azuresearchdocuments
+      - name: azure-arm-search
+        safeName: azurearmsearch

@@ -29,11 +29,13 @@ export {
   PremiumPageBlobTier,
   Tags,
   BlobDownloadResponseParsed,
+  BlobImmutabilityPolicy,
   ObjectReplicationPolicy,
   ObjectReplicationRule,
   ObjectReplicationStatus,
   BlobQueryArrowField,
-  BlobQueryArrowFieldType
+  BlobQueryArrowFieldType,
+  HttpAuthorization
 } from "./models";
 export * from "./Pipeline";
 export * from "./policies/AnonymousCredentialPolicy";

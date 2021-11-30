@@ -6,15 +6,16 @@ import * as dotenv from "dotenv";
 import * as fs from "fs";
 import { AbortController } from "@azure/abort-controller";
 import { isNode, URLBuilder, URLQuery } from "@azure/core-http";
-import { TestTracer, setTracer, SpanGraph } from "@azure/core-tracing";
+import { SpanGraph, setTracer } from "@azure/test-utils";
 import {
   bodyToString,
   getBSU,
   getSASConnectionStringFromEnvironment,
   recorderEnvSetup,
-  getGenericBSU
+  getGenericBSU,
+  getImmutableContainerName
 } from "./utils";
-import { record, delay, isLiveMode, Recorder } from "@azure/test-utils-recorder";
+import { record, delay, isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import {
   BlobClient,
   BlockBlobClient,
@@ -23,9 +24,10 @@ import {
   BlobServiceClient,
   RehydratePriority
 } from "../src";
-import { Test_CPK_INFO } from "./utils/constants";
+import { Test_CPK_INFO } from "./utils/fakeTestSecrets";
 import { base64encode } from "../src/utils/utils.common";
 import { context, setSpan } from "@azure/core-tracing";
+import { Context } from "mocha";
 dotenv.config();
 
 describe("BlobClient", () => {
@@ -39,7 +41,7 @@ describe("BlobClient", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function() {
+  beforeEach(async function(this: Context) {
     recorder = record(this, recorderEnvSetup);
     blobServiceClient = getBSU();
     containerName = recorder.getUniqueName("container");
@@ -51,7 +53,7 @@ describe("BlobClient", () => {
     await blockBlobClient.upload(content, content.length);
   });
 
-  afterEach(async function() {
+  afterEach(async function(this: Context) {
     if (!this.currentTest?.isPending()) {
       await containerClient.delete();
       await recorder.stop();
@@ -704,8 +706,7 @@ describe("BlobClient", () => {
   });
 
   it("download with default parameters and tracing", async () => {
-    const tracer = new TestTracer();
-    setTracer(tracer);
+    const tracer = setTracer();
 
     const rootSpan = tracer.startSpan("root");
 
@@ -742,7 +743,7 @@ describe("BlobClient", () => {
       ]
     };
 
-    assert.deepStrictEqual(tracer.getSpanGraph(rootSpan.context().traceId), expectedGraph);
+    assert.deepStrictEqual(tracer.getSpanGraph(rootSpan.spanContext().traceId), expectedGraph);
     assert.strictEqual(tracer.getActiveSpans().length, 0, "All spans should have had end called");
   });
 
@@ -849,7 +850,7 @@ describe("BlobClient", () => {
     await checkRehydratePriority("Standard");
   });
 
-  it("lastAccessed returned", async function() {
+  it("lastAccessed returned", async function(this: Context) {
     if (isLiveMode()) {
       // Skipped for now as it's not working in live tests pipeline.
       this.skip();
@@ -1340,13 +1341,13 @@ describe("BlobClient - Object Replication", () => {
     }
   ];
 
-  before(async function() {
+  before(async function(this: Context) {
     if (isLiveMode()) {
       this.skip();
     }
   });
 
-  beforeEach(async function() {
+  beforeEach(async function(this: Context) {
     recorder = record(this, recorderEnvSetup);
     srcBlobServiceClient = getGenericBSU("");
     destBlobServiceClient = getGenericBSU("ORS_DEST_");
@@ -1411,7 +1412,7 @@ describe("BlobClient - Object Replication", () => {
     assert.equal(destRes.objectReplicationSourceProperties, undefined);
   });
 
-  it("download to file", async function() {
+  it("download to file", async function(this: Context) {
     if (!isNode) {
       this.skip();
     }
@@ -1433,5 +1434,373 @@ describe("BlobClient - Object Replication", () => {
     );
     assert.equal(destRes.objectReplicationSourceProperties, undefined);
     fs.unlinkSync(dstDownloadedFilePath);
+  });
+});
+
+describe("BlobClient - ImmutabilityPolicy", () => {
+  let blobServiceClient: BlobServiceClient;
+  let containerName: string;
+  let containerClient: ContainerClient;
+  let blobName: string;
+  let blobClient: BlobClient;
+  const content = "Hello World";
+
+  let recorder: Recorder;
+
+  beforeEach(async function(this: Context) {
+    recorder = record(this, recorderEnvSetup);
+    blobServiceClient = getBSU();
+
+    try {
+      containerName = getImmutableContainerName();
+    } catch {
+      this.skip();
+    }
+
+    containerClient = blobServiceClient.getContainerClient(containerName);
+    blobName = recorder.getUniqueName("blob");
+    blobClient = containerClient.getBlobClient(blobName);
+  });
+
+  afterEach(async function(this: Context) {
+    if (!this.currentTest?.isPending()) {
+      const listResult = (
+        await containerClient
+          .listBlobsFlat()
+          .byPage()
+          .next()
+      ).value;
+
+      for (let i = 0; i < listResult.segment.blobItems!.length; ++i) {
+        const deleteBlobClient = containerClient.getBlobClient(
+          listResult.segment.blobItems[i].name
+        );
+
+        await deleteBlobClient.setLegalHold(false);
+
+        await deleteBlobClient.deleteImmutabilityPolicy();
+        await deleteBlobClient.delete();
+      }
+      await recorder.stop();
+    }
+  });
+
+  it("Set immutability policy", async () => {
+    const blockBlobClient = blobClient.getBlockBlobClient();
+    await blockBlobClient.upload(content, content.length);
+
+    const minutesLater = recorder.newDate("minutesLater");
+    minutesLater.setMinutes(minutesLater.getMinutes() + 5);
+
+    const result = await blobClient.setImmutabilityPolicy({
+      expiriesOn: minutesLater,
+      policyMode: "Unlocked"
+    });
+
+    assert.ok(result.immutabilityPolicyExpiry);
+    assert.equal(result.immutabilityPolicyMode, "unlocked");
+
+    const propertiesResult = await blobClient.getProperties();
+
+    assert.ok(propertiesResult.immutabilityPolicyExpiresOn);
+    assert.equal(propertiesResult.immutabilityPolicyMode, "unlocked");
+
+    const listResult = (
+      await containerClient
+        .listBlobsFlat({
+          includeImmutabilityPolicy: true
+        })
+        .byPage()
+        .next()
+    ).value;
+    assert.deepStrictEqual(listResult.segment.blobItems!.length, 1);
+    assert.ok(listResult.segment.blobItems[0].properties.immutabilityPolicyExpiresOn);
+    assert.equal(listResult.segment.blobItems[0].properties.immutabilityPolicyMode, "unlocked");
+
+    const downloadResult = await blobClient.download();
+    assert.ok(downloadResult.immutabilityPolicyExpiresOn);
+    assert.equal(downloadResult.immutabilityPolicyMode, "unlocked");
+  });
+
+  it("Set immutability policy with ifModified access condition", async () => {
+    const blockBlobClient = blobClient.getBlockBlobClient();
+    await blockBlobClient.upload(content, content.length);
+    const minutesBefore = recorder.newDate("minutesBefore");
+    minutesBefore.setMinutes(minutesBefore.getMinutes() - 5);
+
+    const minutesLater = recorder.newDate("minutesLater");
+    minutesLater.setMinutes(minutesLater.getMinutes() + 5);
+
+    const result = await blobClient.setImmutabilityPolicy(
+      {
+        expiriesOn: minutesLater,
+        policyMode: "Unlocked"
+      },
+      {
+        modifiedAccessCondition: {
+          ifModifiedSince: minutesBefore
+        }
+      }
+    );
+
+    assert.ok(result.immutabilityPolicyExpiry);
+    assert.equal(result.immutabilityPolicyMode, "unlocked");
+
+    const propertiesResult = await blobClient.getProperties();
+
+    assert.ok(propertiesResult.immutabilityPolicyExpiresOn);
+    assert.equal(propertiesResult.immutabilityPolicyMode, "unlocked");
+
+    const listResult = (
+      await containerClient
+        .listBlobsByHierarchy("/", {
+          includeImmutabilityPolicy: true
+        })
+        .byPage()
+        .next()
+    ).value;
+    assert.deepStrictEqual(listResult.segment.blobItems!.length, 1);
+    assert.ok(listResult.segment.blobItems[0].properties.immutabilityPolicyExpiresOn);
+    assert.equal(listResult.segment.blobItems[0].properties.immutabilityPolicyMode, "unlocked");
+
+    const downloadResult = await blobClient.download();
+    assert.ok(downloadResult.immutabilityPolicyExpiresOn);
+    assert.ok(downloadResult.immutabilityPolicyMode);
+  });
+
+  it("Set immutability policy and set legalhold and delete immutability policy", async () => {
+    const blockBlobClient = blobClient.getBlockBlobClient();
+    await blockBlobClient.upload(content, content.length);
+
+    const minutesLater = recorder.newDate("minutesLater");
+    minutesLater.setMinutes(minutesLater.getMinutes() + 5);
+
+    const result = await blobClient.setImmutabilityPolicy({
+      expiriesOn: minutesLater,
+      policyMode: "Unlocked"
+    });
+
+    assert.ok(result.immutabilityPolicyExpiry);
+    assert.equal(result.immutabilityPolicyMode, "unlocked");
+
+    let setLegalHoldResult = await blobClient.setLegalHold(true);
+    assert.equal(setLegalHoldResult.legalHold, true);
+
+    const listResult = (
+      await containerClient
+        .listBlobsFlat({
+          includeImmutabilityPolicy: true,
+          includeLegalHold: true
+        })
+        .byPage()
+        .next()
+    ).value;
+
+    assert.deepStrictEqual(listResult.segment.blobItems!.length, 1);
+    assert.ok(listResult.segment.blobItems[0].properties.immutabilityPolicyExpiresOn);
+    assert.equal(listResult.segment.blobItems[0].properties.immutabilityPolicyMode, "unlocked");
+    assert.equal(listResult.segment.blobItems[0].properties.legalHold, true);
+
+    const downloadResult = await blobClient.download();
+    assert.ok(downloadResult.immutabilityPolicyExpiresOn);
+    assert.equal(downloadResult.immutabilityPolicyMode, "unlocked");
+    assert.equal(downloadResult.legalHold, true);
+
+    setLegalHoldResult = await blobClient.setLegalHold(false);
+    assert.equal(setLegalHoldResult.legalHold, false);
+
+    await blobClient.deleteImmutabilityPolicy();
+    await blobClient.delete();
+  });
+
+  it("Set immutability policy - blob does not exist", async () => {
+    const minutesLater = recorder.newDate("minutesLater");
+    minutesLater.setMinutes(minutesLater.getMinutes() + 5);
+    let caughtException = false;
+
+    try {
+      await blobClient.setImmutabilityPolicy({
+        expiriesOn: minutesLater,
+        policyMode: "Unlocked"
+      });
+      assert.fail("setImmutabilityPolicy against a non-exist blob should not succeed");
+    } catch (error) {
+      caughtException = true;
+    }
+    assert.ok(
+      caughtException,
+      "Should catch exception when setImmutabilityPolicy against a non-exist blob"
+    );
+  });
+
+  it("Set immutability policy mode to mutable", async () => {
+    const blockBlobClient = blobClient.getBlockBlobClient();
+    await blockBlobClient.upload(content, content.length);
+
+    const minutesLater = recorder.newDate("minutesLater");
+    minutesLater.setMinutes(minutesLater.getMinutes() + 5);
+    let caughtException = false;
+
+    try {
+      await blobClient.setImmutabilityPolicy({
+        expiriesOn: minutesLater,
+        policyMode: "Mutable"
+      });
+      assert.fail("Setting ImmutabilityPolicy mode to Mutable should not succeed");
+    } catch (error) {
+      caughtException = true;
+    }
+    assert.ok(
+      caughtException,
+      "Should catch exception when setting ImmutabilityPolicy mode to Mutable"
+    );
+  });
+
+  it("Set legalhold - blob does not exist", async () => {
+    let caughtException = false;
+    try {
+      await blobClient.setLegalHold(true);
+      assert.fail("setLegalHold against a non-exist blob should not succeed");
+    } catch (error) {
+      caughtException = true;
+    }
+    assert.ok(caughtException, "Should catch exception when setLegalHold against a non-exist blob");
+  });
+
+  it("Delete immutability policy - blob does not exist", async () => {
+    let caughtException = false;
+
+    try {
+      await blobClient.deleteImmutabilityPolicy();
+      assert.fail("Delete immutability policy against a non-exist blob should not succeed");
+    } catch (error) {
+      caughtException = true;
+    }
+    assert.ok(
+      caughtException,
+      "Should catch exception when deleting immutability policy against a non-exist blob"
+    );
+  });
+
+  it("Create append blob with immutability policy", async () => {
+    const appendBlobClient = blobClient.getAppendBlobClient();
+
+    const minutesLater = recorder.newDate("minutesLater");
+    minutesLater.setMinutes(minutesLater.getMinutes() + 5);
+
+    await appendBlobClient.create({
+      immutabilityPolicy: {
+        expiriesOn: minutesLater,
+        policyMode: "Unlocked"
+      }
+    });
+
+    const properties = await blobClient.getProperties();
+    assert.ok(properties.immutabilityPolicyExpiresOn);
+    assert.equal(properties.immutabilityPolicyMode, "unlocked");
+  });
+
+  it("Create append blob with legalhold", async () => {
+    const appendBlobClient = blobClient.getAppendBlobClient();
+
+    await appendBlobClient.create({
+      legalHold: true
+    });
+
+    const properties = await blobClient.getProperties();
+    assert.ok(properties.legalHold);
+  });
+
+  it("Create page blob with immutability policy", async () => {
+    const pageBlobClient = blobClient.getPageBlobClient();
+
+    const minutesLater = recorder.newDate("minutesLater");
+    minutesLater.setMinutes(minutesLater.getMinutes() + 5);
+
+    await pageBlobClient.create(512, {
+      immutabilityPolicy: {
+        expiriesOn: minutesLater,
+        policyMode: "Unlocked"
+      }
+    });
+
+    const properties = await blobClient.getProperties();
+    assert.ok(properties.immutabilityPolicyExpiresOn);
+    assert.equal(properties.immutabilityPolicyMode, "unlocked");
+  });
+
+  it("Create page blob with legalhold", async () => {
+    const pageBlobClient = blobClient.getPageBlobClient();
+
+    await pageBlobClient.create(512, {
+      legalHold: true
+    });
+
+    const properties = await blobClient.getProperties();
+    assert.ok(properties.legalHold);
+  });
+
+  it("Commit block list with immutability policy", async () => {
+    const minutesLater = recorder.newDate("minutesLater");
+    minutesLater.setMinutes(minutesLater.getMinutes() + 5);
+
+    const blockBlob = blobClient.getBlockBlobClient();
+
+    await blockBlob.stageBlock(base64encode("1"), content, content.length);
+
+    await blockBlob.commitBlockList([base64encode("1")], {
+      immutabilityPolicy: {
+        expiriesOn: minutesLater,
+        policyMode: "Unlocked"
+      }
+    });
+
+    const properties = await blobClient.getProperties();
+    assert.ok(properties.immutabilityPolicyExpiresOn);
+    assert.equal(properties.immutabilityPolicyMode, "unlocked");
+  });
+
+  it("Commit block list with legalhold", async () => {
+    const blockBlob = blobClient.getBlockBlobClient();
+    const blockId = base64encode("1");
+
+    await blockBlob.stageBlock(blockId, content, content.length);
+    const minutesLater = recorder.newDate("minutesLater");
+    minutesLater.setMinutes(minutesLater.getMinutes() + 5);
+
+    await blockBlob.commitBlockList([blockId], {
+      legalHold: true
+    });
+
+    const properties = await blobClient.getProperties();
+    assert.ok(properties.legalHold);
+  });
+
+  it("Blockblob upload with immutability policy", async () => {
+    const blockBlob = blobClient.getBlockBlobClient();
+    const minutesLater = recorder.newDate("minutesLater");
+    minutesLater.setMinutes(minutesLater.getMinutes() + 5);
+
+    await blockBlob.upload(content, content.length, {
+      immutabilityPolicy: {
+        expiriesOn: minutesLater,
+        policyMode: "Unlocked"
+      }
+    });
+
+    const properties = await blobClient.getProperties();
+    assert.ok(properties.immutabilityPolicyExpiresOn);
+    assert.equal(properties.immutabilityPolicyMode, "unlocked");
+  });
+
+  it("Blockblob upload with legalhold", async () => {
+    const blockBlob = blobClient.getBlockBlobClient();
+
+    await blockBlob.upload(content, content.length, {
+      legalHold: true
+    });
+
+    const properties = await blobClient.getProperties();
+    assert.ok(properties.legalHold);
   });
 });

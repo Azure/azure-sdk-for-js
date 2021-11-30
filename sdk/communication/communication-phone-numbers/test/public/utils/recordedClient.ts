@@ -10,7 +10,7 @@ import {
   record,
   RecorderEnvironmentSetup,
   isPlaybackMode
-} from "@azure/test-utils-recorder";
+} from "@azure-tools/test-recorder";
 import {
   DefaultHttpClient,
   HttpClient,
@@ -37,7 +37,7 @@ const replaceableVariables: { [k: string]: string } = {
   INCLUDE_PHONENUMBER_LIVE_TESTS: "false",
   COMMUNICATION_ENDPOINT: "https://endpoint/",
   AZURE_CLIENT_ID: "SomeClientId",
-  AZURE_CLIENT_SECRET: "SomeClientSecret",
+  AZURE_CLIENT_SECRET: "azure_client_secret",
   AZURE_TENANT_ID: "SomeTenantId",
   AZURE_PHONE_NUMBER: "+14155550100",
   COMMUNICATION_SKIP_INT_PHONENUMBERS_TESTS: "false"

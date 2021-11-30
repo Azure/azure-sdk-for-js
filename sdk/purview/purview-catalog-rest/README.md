@@ -8,7 +8,11 @@ Azure Purview Catalog is a fully managed cloud service whose users can discover 
 
 **Please rely heavily on the [service's documentation][catalog_product_documentation] and our [REST client docs][rest_client] to use this library**
 
-[Source code][source_code] | [Package (NPM)][catalog_npm] | [API reference documentation][catalog_ref_docs]| [Product documentation][catalog_product_documentation]
+Key links:
+- [Source code][source_code]
+- [Package (NPM)][catalog_npm]
+- [API reference documentation][catalog_ref_docs]
+- [Product documentation][catalog_product_documentation]
 
 ## Getting started
 
@@ -54,7 +58,7 @@ Use the returned token credential to authenticate the client:
 import PurviewCatalog from "@azure-rest/purview-catalog";
 import { DefaultAzureCredential } from "@azure/identity";
 const client = PurviewCatalog(
-  "https://<my-account-name>.catalog.purview.azure.com",
+  "https://<my-account-name>.purview.azure.com",
   new DefaultAzureCredential()
 );
 ```
@@ -103,13 +107,13 @@ import { setLogLevel } from "@azure/logger";
 setLogLevel("info");
 ```
 
-For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core/logger).
+For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger).
 
 ## Next steps
 
 ## Contributing
 
-If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md) to learn more about how to build and test the code.
+If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md) to learn more about how to build and test the code.
 
 ## Related projects
 
@@ -118,14 +122,14 @@ If you'd like to contribute to this library, please read the [contributing guide
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fpurview%2Fpurview-catalog-rest%2FREADME.png)
 
 [catalog_product_documentation]: https://azure.microsoft.com/services/purview/
-[rest_client]: https://github.com/Azure/azure-sdk-for-js/blob/master/documentation/rest-clients.md
-[source_code]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/purview/purview-catalog-rest
+[rest_client]: https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/rest-clients.md
+[source_code]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/purview/purview-catalog-rest
 [catalog_npm]: https://www.npmjs.com/org/azure-rest
 [catalog_ref_docs]: https://azure.github.io/azure-sdk-for-js
 [azure_subscription]: https://azure.microsoft.com/free/
 [purview_resource]: https://docs.microsoft.com/azure/purview/create-catalog-portal
 [authenticate_with_token]: https://docs.microsoft.com/azure/cognitive-services/authentication?tabs=powershell#authenticate-with-an-authentication-token
-[azure_identity_credentials]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/identity/identity#credentials
+[azure_identity_credentials]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#credentials
 [azure_identity_npm]: https://www.npmjs.com/package/@azure/identity
 [enable_aad]: https://docs.microsoft.com/azure/purview/create-catalog-portal#add-a-security-principal-to-a-data-plane-role
-[default_azure_credential]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/identity/identity#defaultazurecredential
+[default_azure_credential]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential

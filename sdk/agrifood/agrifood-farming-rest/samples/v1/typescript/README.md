@@ -70,11 +70,11 @@ npx cross-env FARMBEATS_ENDPOINT="<farmbeats endpoint>" node dist/deleteFarmer.j
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[deletefarmer]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/agrifood/agrifood-farming-rest/samples/v1/typescript/src/deleteFarmer.ts
-[listfarmers]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/agrifood/agrifood-farming-rest/samples/v1/typescript/src/listFarmers.ts
-[createfarmer]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/agrifood/agrifood-farming-rest/samples/v1/typescript/src/createFarmer.ts
+[deletefarmer]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/agrifood/agrifood-farming-rest/samples/v1/typescript/src/deleteFarmer.ts
+[listfarmers]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/agrifood/agrifood-farming-rest/samples/v1/typescript/src/listFarmers.ts
+[createfarmer]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/agrifood/agrifood-farming-rest/samples/v1/typescript/src/createFarmer.ts
 [apiref]: https://docs.microsoft.com/javascript
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azurefarmbeatsserviceinstance]: https://docs.microsoft.com/azure/industry/agriculture/install-azure-farmbeats
-[package]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/agrifood/agrifood-farming-rest/README.md
+[package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/agrifood/agrifood-farming-rest/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

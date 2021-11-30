@@ -1,7 +1,7 @@
 {
   "name": "@azure/logger",
   "sdk-type": "client",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Microsoft Azure SDK for JavaScript - Logger",
   "main": "./dist/index.js",
   "module": "dist-esm/src/index.js",
@@ -9,36 +9,36 @@
     "./dist-esm/src/log.js": "./dist-esm/src/log.browser.js",
     "process": false
   },
+  "react-native": {
+    "./dist/index.js": "./dist-esm/src/index.js"
+  },
   "engines": {
-    "node": ">=8.0.0"
+    "node": ">=12.0.0"
   },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
-    "build:es6": "tsc -p tsconfig.json",
-    "build:nodebrowser": "rollup -c 2>&1",
-    "build:test": "rollup -c rollup.test.config.js 2>&1",
-    "build": "npm run build:es6 && npm run build:nodebrowser && npm run extract-api",
+    "build:samples": "echo Obsolete",
+    "build:test": "tsc -p . && rollup -c 2>&1",
+    "build": "npm run clean && tsc -p . && rollup -c 2>&1 && api-extractor run --local --local",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
-    "clean": "rimraf dist dist-* types temp statistics.html coverage coverage-browser .nyc_output *.tgz *.log test*.xml TEST*.xml",
+    "clean": "rimraf dist dist-* temp types *.tgz *.log",
+    "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src",
     "execute:samples": "echo skipped",
     "extract-api": "tsc -p . && api-extractor run --local",
-    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "echo skipped",
     "integration-test:node": "echo skipped",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "lint:fix": "eslint package.json api-extractor.json src test --ext .ts --fix --fix-type [problem,suggestion]",
     "lint": "eslint package.json api-extractor.json src test --ext .ts",
     "pack": "npm pack 2>&1",
-    "prebuild": "npm run clean",
     "pretest": "npm run build:test",
-    "test:browser": "npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
-    "test:node": "npm run build:test && npm run unit-test:node && npm run integration-test:node",
-    "test": "npm run build:test && npm run unit-test && npm run integration-test",
+    "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
+    "test:node": "npm run clean && tsc -p . && npm run unit-test:node && npm run integration-test:node",
+    "test": "npm run clean && tsc -p . && npm run unit-test:node && rollup -c 2>&1 && npm run unit-test:browser && npm run integration-test",
     "unit-test:browser": "karma start --single-run",
-    "unit-test:node": "cross-env TS_NODE_FILES=true TS_NODE_COMPILER_OPTIONS=\"{\\\"module\\\": \\\"commonjs\\\"}\" mocha --require ts-node/register --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --full-trace --no-timeouts \"test/*.spec.ts\"",
-    "unit-test": "npm run unit-test:node && npm run unit-test:browser",
-    "build:samples": "echo Skipped.",
-    "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src"
+    "unit-test:node": "mocha -r esm -r ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 1200000 --full-trace  --exclude \"test/**/browser/*.spec.ts\" \"test/**/*.spec.ts\"",
+    "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "types": "./types/logger.d.ts",
   "files": [
@@ -65,23 +65,19 @@
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core/logger/README.md",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger/README.md",
   "sideEffects": false,
   "dependencies": {
     "tslib": "^2.2.0"
   },
   "devDependencies": {
+    "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "@microsoft/api-extractor": "7.7.11",
-    "@rollup/plugin-commonjs": "11.0.2",
-    "@rollup/plugin-multi-entry": "^3.0.0",
-    "@rollup/plugin-node-resolve": "^8.0.0",
-    "@rollup/plugin-replace": "^2.2.0",
+    "@microsoft/api-extractor": "^7.18.11",
     "@types/chai": "^4.1.6",
     "@types/mocha": "^7.0.2",
-    "@types/node": "^8.0.0",
+    "@types/node": "^12.0.0",
     "@types/sinon": "^9.0.4",
-    "assert": "^1.4.1",
     "chai": "^4.2.0",
     "cross-env": "^7.0.2",
     "delay": "^4.2.0",
@@ -102,13 +98,11 @@
     "mocha-junit-reporter": "^1.18.0",
     "nyc": "^14.0.0",
     "prettier": "^1.16.4",
-    "puppeteer": "^3.3.0",
+    "puppeteer": "^10.2.0",
     "rimraf": "^3.0.0",
     "rollup": "^1.16.3",
-    "rollup-plugin-sourcemaps": "^0.4.2",
-    "rollup-plugin-terser": "^5.1.1",
     "sinon": "^9.0.2",
-    "ts-node": "^9.0.0",
+    "ts-node": "^10.0.0",
     "typescript": "~4.2.0",
     "typedoc": "0.15.2"
   }

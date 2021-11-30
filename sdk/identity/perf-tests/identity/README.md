@@ -1,8 +1,5 @@
 ### Guide
 
-**Important:**  
-These tests won't work on Node 8 nor Node 15.
-
 1. Build the Identity perf tests package `rush build -t perf-identity`.
 2. Copy the `sample.env` file and name it as `.env`.
 3. Populate the `.env` file with your Azure Credentials.

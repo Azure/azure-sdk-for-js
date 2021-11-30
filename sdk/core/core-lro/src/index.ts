@@ -3,3 +3,4 @@
 
 export * from "./pollOperation";
 export * from "./poller";
+export * from "./lroEngine";

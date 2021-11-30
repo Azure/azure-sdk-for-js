@@ -4,6 +4,8 @@
 
 ```ts
 
+/// <reference types="node" />
+
 import { AbortSignalLike } from '@azure/abort-controller';
 
 // @public (undocumented)
@@ -23,7 +25,7 @@ export class AvroReadableFromStream extends AvroReadable {
     get position(): number;
     // (undocumented)
     read(size: number, options?: AvroReadableReadOptions): Promise<Uint8Array>;
-    }
+}
 
 // @public (undocumented)
 export class AvroReader {
@@ -39,8 +41,7 @@ export class AvroReader {
     //
     // (undocumented)
     parseObjects(options?: AvroParseOptions): AsyncIterableIterator<Record<string, any> | null>;
-    }
-
+}
 
 // (No @packageDocumentation comment for this package)
 

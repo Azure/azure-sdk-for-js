@@ -224,13 +224,13 @@ export const commandInfo = makeCommandInfo(
     "node-versions": {
       kind: "string",
       description: "A comma separated list of node versions to use",
-      default: "8,10,12"
+      default: "12,14,16,17"
     },
     "node-version": {
       kind: "string",
       description:
         "A node version to use. You can specify multiple versions by having multiple arguments",
-      default: "14",
+      default: "",
       allowMultiple: true
     },
     "context-directory-path": {
@@ -269,7 +269,12 @@ export const commandInfo = makeCommandInfo(
 
 export default leafCommand(commandInfo, async (options) => {
   const nodeVersions = [
-    ...new Set(options["node-versions"]?.split(",").concat(options["node-version"]))
+    ...new Set(
+      options["node-versions"]
+        ?.split(",")
+        .concat(options["node-version"])
+        .filter((ver) => ver !== "" && parseInt(ver) !== NaN)
+    )
   ];
   const dockerContextDirectory: string =
     options["context-directory-path"] === ""

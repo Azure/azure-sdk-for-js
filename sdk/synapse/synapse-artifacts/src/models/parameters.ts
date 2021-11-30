@@ -10,23 +10,25 @@ import {
   OperationParameter,
   OperationURLParameter,
   OperationQueryParameter
-} from "@azure/core-http";
+} from "@azure/core-client";
 import {
-  LinkedServiceResource as LinkedServiceResourceMapper,
+  KqlScriptResource as KqlScriptResourceMapper,
   ArtifactRenameRequest as ArtifactRenameRequestMapper,
-  DatasetResource as DatasetResourceMapper,
-  PipelineResource as PipelineResourceMapper,
-  RunFilterParameters as RunFilterParametersMapper,
-  TriggerResource as TriggerResourceMapper,
+  SparkConfigurationResource as SparkConfigurationResourceMapper,
   DataFlowResource as DataFlowResourceMapper,
   CreateDataFlowDebugSessionRequest as CreateDataFlowDebugSessionRequestMapper,
   DataFlowDebugPackage as DataFlowDebugPackageMapper,
   DeleteDataFlowDebugSessionRequest as DeleteDataFlowDebugSessionRequestMapper,
   DataFlowDebugCommandRequest as DataFlowDebugCommandRequestMapper,
-  SqlScriptResource as SqlScriptResourceMapper,
-  SparkJobDefinitionResource as SparkJobDefinitionResourceMapper,
+  DatasetResource as DatasetResourceMapper,
+  GitHubAccessTokenRequest as GitHubAccessTokenRequestMapper,
+  LinkedServiceResource as LinkedServiceResourceMapper,
   NotebookResource as NotebookResourceMapper,
-  GitHubAccessTokenRequest as GitHubAccessTokenRequestMapper
+  PipelineResource as PipelineResourceMapper,
+  RunFilterParameters as RunFilterParametersMapper,
+  SparkJobDefinitionResource as SparkJobDefinitionResourceMapper,
+  SqlScriptResource as SqlScriptResourceMapper,
+  TriggerResource as TriggerResourceMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -56,13 +58,25 @@ export const endpoint: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2019-06-01-preview",
+    defaultValue: "2021-11-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
       name: "String"
     }
   }
+};
+
+export const nextLink: OperationURLParameter = {
+  parameterPath: "nextLink",
+  mapper: {
+    serializedName: "nextLink",
+    required: true,
+    type: {
+      name: "String"
+    }
+  },
+  skipEncoding: true
 };
 
 export const contentType: OperationParameter = {
@@ -77,20 +91,48 @@ export const contentType: OperationParameter = {
   }
 };
 
-export const linkedService: OperationParameter = {
-  parameterPath: "linkedService",
-  mapper: LinkedServiceResourceMapper
+export const kqlScript: OperationParameter = {
+  parameterPath: "kqlScript",
+  mapper: KqlScriptResourceMapper
 };
 
-export const linkedServiceName: OperationURLParameter = {
-  parameterPath: "linkedServiceName",
+export const kqlScriptName: OperationURLParameter = {
+  parameterPath: "kqlScriptName",
   mapper: {
-    constraints: {
-      Pattern: new RegExp("^[A-Za-z0-9_][^<>*#.%&:\\\\+?/]*$"),
-      MaxLength: 260,
-      MinLength: 1
-    },
-    serializedName: "linkedServiceName",
+    serializedName: "kqlScriptName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const renameRequest: OperationParameter = {
+  parameterPath: "renameRequest",
+  mapper: ArtifactRenameRequestMapper
+};
+
+export const apiVersion1: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2021-06-01-preview",
+    isConstant: true,
+    serializedName: "api-version",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const sparkConfiguration: OperationParameter = {
+  parameterPath: "sparkConfiguration",
+  mapper: SparkConfigurationResourceMapper
+};
+
+export const sparkConfigurationName: OperationURLParameter = {
+  parameterPath: "sparkConfigurationName",
+  mapper: {
+    serializedName: "sparkConfigurationName",
     required: true,
     type: {
       name: "String"
@@ -123,16 +165,68 @@ export const request: OperationParameter = {
   mapper: ArtifactRenameRequestMapper
 };
 
-export const nextLink: OperationURLParameter = {
-  parameterPath: "nextLink",
+export const apiVersion2: OperationQueryParameter = {
+  parameterPath: "apiVersion",
   mapper: {
-    serializedName: "nextLink",
+    defaultValue: "2020-12-01",
+    isConstant: true,
+    serializedName: "api-version",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const bigDataPoolName: OperationURLParameter = {
+  parameterPath: "bigDataPoolName",
+  mapper: {
+    serializedName: "bigDataPoolName",
     required: true,
     type: {
       name: "String"
     }
-  },
-  skipEncoding: true
+  }
+};
+
+export const dataFlow: OperationParameter = {
+  parameterPath: "dataFlow",
+  mapper: DataFlowResourceMapper
+};
+
+export const dataFlowName: OperationURLParameter = {
+  parameterPath: "dataFlowName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[A-Za-z0-9_][^<>*#.%&:\\\\+?/]*$"),
+      MaxLength: 260,
+      MinLength: 1
+    },
+    serializedName: "dataFlowName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const request1: OperationParameter = {
+  parameterPath: "request",
+  mapper: CreateDataFlowDebugSessionRequestMapper
+};
+
+export const request2: OperationParameter = {
+  parameterPath: "request",
+  mapper: DataFlowDebugPackageMapper
+};
+
+export const request3: OperationParameter = {
+  parameterPath: "request",
+  mapper: DeleteDataFlowDebugSessionRequestMapper
+};
+
+export const request4: OperationParameter = {
+  parameterPath: "request",
+  mapper: DataFlowDebugCommandRequestMapper
 };
 
 export const dataset: OperationParameter = {
@@ -149,6 +243,151 @@ export const datasetName: OperationURLParameter = {
       MinLength: 1
     },
     serializedName: "datasetName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const gitHubAccessTokenRequest: OperationParameter = {
+  parameterPath: "gitHubAccessTokenRequest",
+  mapper: GitHubAccessTokenRequestMapper
+};
+
+export const clientRequestId: OperationParameter = {
+  parameterPath: ["options", "clientRequestId"],
+  mapper: {
+    serializedName: "x-ms-client-request-id",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const integrationRuntimeName: OperationURLParameter = {
+  parameterPath: "integrationRuntimeName",
+  mapper: {
+    serializedName: "integrationRuntimeName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const libraryName: OperationURLParameter = {
+  parameterPath: "libraryName",
+  mapper: {
+    constraints: {
+      MaxLength: 100
+    },
+    serializedName: "libraryName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const operationId: OperationURLParameter = {
+  parameterPath: "operationId",
+  mapper: {
+    serializedName: "operationId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const contentType1: OperationParameter = {
+  parameterPath: ["options", "contentType"],
+  mapper: {
+    defaultValue: "application/octet-stream",
+    isConstant: true,
+    serializedName: "Content-Type",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const content: OperationParameter = {
+  parameterPath: "content",
+  mapper: {
+    serializedName: "content",
+    required: true,
+    type: {
+      name: "Stream"
+    }
+  }
+};
+
+export const accept1: OperationParameter = {
+  parameterPath: "accept",
+  mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Accept",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const comp: OperationQueryParameter = {
+  parameterPath: "comp",
+  mapper: {
+    defaultValue: "appendblock",
+    isConstant: true,
+    serializedName: "comp",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const blobConditionAppendPosition: OperationParameter = {
+  parameterPath: ["options", "blobConditionAppendPosition"],
+  mapper: {
+    serializedName: "x-ms-blob-condition-appendpos",
+    type: {
+      name: "Number"
+    }
+  }
+};
+
+export const linkedService: OperationParameter = {
+  parameterPath: "linkedService",
+  mapper: LinkedServiceResourceMapper
+};
+
+export const linkedServiceName: OperationURLParameter = {
+  parameterPath: "linkedServiceName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[A-Za-z0-9_][^<>*#.%&:\\\\+?/]*$"),
+      MaxLength: 260,
+      MinLength: 1
+    },
+    serializedName: "linkedServiceName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const notebook: OperationParameter = {
+  parameterPath: "notebook",
+  mapper: NotebookResourceMapper
+};
+
+export const notebookName: OperationURLParameter = {
+  parameterPath: "notebookName",
+  mapper: {
+    serializedName: "notebookName",
     required: true,
     type: {
       name: "String"
@@ -244,84 +483,6 @@ export const isRecursive: OperationQueryParameter = {
   }
 };
 
-export const trigger: OperationParameter = {
-  parameterPath: "trigger",
-  mapper: TriggerResourceMapper
-};
-
-export const triggerName: OperationURLParameter = {
-  parameterPath: "triggerName",
-  mapper: {
-    constraints: {
-      Pattern: new RegExp("^[A-Za-z0-9_][^<>*#.%&:\\\\+?/]*$"),
-      MaxLength: 260,
-      MinLength: 1
-    },
-    serializedName: "triggerName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const dataFlow: OperationParameter = {
-  parameterPath: "dataFlow",
-  mapper: DataFlowResourceMapper
-};
-
-export const dataFlowName: OperationURLParameter = {
-  parameterPath: "dataFlowName",
-  mapper: {
-    constraints: {
-      Pattern: new RegExp("^[A-Za-z0-9_][^<>*#.%&:\\\\+?/]*$"),
-      MaxLength: 260,
-      MinLength: 1
-    },
-    serializedName: "dataFlowName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const request1: OperationParameter = {
-  parameterPath: "request",
-  mapper: CreateDataFlowDebugSessionRequestMapper
-};
-
-export const request2: OperationParameter = {
-  parameterPath: "request",
-  mapper: DataFlowDebugPackageMapper
-};
-
-export const request3: OperationParameter = {
-  parameterPath: "request",
-  mapper: DeleteDataFlowDebugSessionRequestMapper
-};
-
-export const request4: OperationParameter = {
-  parameterPath: "request",
-  mapper: DataFlowDebugCommandRequestMapper
-};
-
-export const sqlScript: OperationParameter = {
-  parameterPath: "sqlScript",
-  mapper: SqlScriptResourceMapper
-};
-
-export const sqlScriptName: OperationURLParameter = {
-  parameterPath: "sqlScriptName",
-  mapper: {
-    serializedName: "sqlScriptName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
 export const sparkJobDefinition: OperationParameter = {
   parameterPath: "sparkJobDefinition",
   mapper: SparkJobDefinitionResourceMapper
@@ -343,22 +504,6 @@ export const sparkJobDefinitionAzureResource: OperationParameter = {
   mapper: SparkJobDefinitionResourceMapper
 };
 
-export const notebook: OperationParameter = {
-  parameterPath: "notebook",
-  mapper: NotebookResourceMapper
-};
-
-export const notebookName: OperationURLParameter = {
-  parameterPath: "notebookName",
-  mapper: {
-    serializedName: "notebookName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
 export const sqlPoolName: OperationURLParameter = {
   parameterPath: "sqlPoolName",
   mapper: {
@@ -370,10 +515,15 @@ export const sqlPoolName: OperationURLParameter = {
   }
 };
 
-export const bigDataPoolName: OperationURLParameter = {
-  parameterPath: "bigDataPoolName",
+export const sqlScript: OperationParameter = {
+  parameterPath: "sqlScript",
+  mapper: SqlScriptResourceMapper
+};
+
+export const sqlScriptName: OperationURLParameter = {
+  parameterPath: "sqlScriptName",
   mapper: {
-    serializedName: "bigDataPoolName",
+    serializedName: "sqlScriptName",
     required: true,
     type: {
       name: "String"
@@ -381,96 +531,21 @@ export const bigDataPoolName: OperationURLParameter = {
   }
 };
 
-export const integrationRuntimeName: OperationURLParameter = {
-  parameterPath: "integrationRuntimeName",
-  mapper: {
-    serializedName: "integrationRuntimeName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
+export const trigger: OperationParameter = {
+  parameterPath: "trigger",
+  mapper: TriggerResourceMapper
 };
 
-export const libraryName: OperationURLParameter = {
-  parameterPath: "libraryName",
+export const triggerName: OperationURLParameter = {
+  parameterPath: "triggerName",
   mapper: {
     constraints: {
-      MaxLength: 100
+      Pattern: new RegExp("^[A-Za-z0-9_][^<>*#.%&:\\\\+?/]*$"),
+      MaxLength: 260,
+      MinLength: 1
     },
-    serializedName: "libraryName",
+    serializedName: "triggerName",
     required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const operationId: OperationURLParameter = {
-  parameterPath: "operationId",
-  mapper: {
-    serializedName: "operationId",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const contentType1: OperationParameter = {
-  parameterPath: ["options", "contentType"],
-  mapper: {
-    defaultValue: "application/octet-stream",
-    isConstant: true,
-    serializedName: "Content-Type",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const content: OperationParameter = {
-  parameterPath: "content",
-  mapper: {
-    serializedName: "content",
-    required: true,
-    type: {
-      name: "Stream"
-    }
-  }
-};
-
-export const accept1: OperationParameter = {
-  parameterPath: "accept",
-  mapper: {
-    defaultValue: "application/json",
-    isConstant: true,
-    serializedName: "Accept",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const xMsBlobConditionAppendpos: OperationParameter = {
-  parameterPath: ["options", "xMsBlobConditionAppendpos"],
-  mapper: {
-    serializedName: "x-ms-blob-condition-appendpos",
-    type: {
-      name: "Number"
-    }
-  }
-};
-
-export const gitHubAccessTokenRequest: OperationParameter = {
-  parameterPath: "gitHubAccessTokenRequest",
-  mapper: GitHubAccessTokenRequestMapper
-};
-
-export const clientRequestId: OperationParameter = {
-  parameterPath: ["options", "clientRequestId"],
-  mapper: {
-    serializedName: "x-ms-client-request-id",
     type: {
       name: "String"
     }

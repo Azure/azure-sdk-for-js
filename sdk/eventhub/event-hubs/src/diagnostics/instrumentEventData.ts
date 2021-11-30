@@ -1,9 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { extractSpanContextFromTraceParentHeader, getTraceParentHeader } from "@azure/core-tracing";
-import { Span, SpanContext } from "@azure/core-tracing";
-import { EventData } from "../eventData";
+import {
+  extractSpanContextFromTraceParentHeader,
+  getTraceParentHeader,
+  isSpanContextValid
+} from "@azure/core-tracing";
+import { SpanContext } from "@azure/core-tracing";
+import { AmqpAnnotatedMessage } from "@azure/core-amqp";
+import { EventData, isAmqpAnnotatedMessage } from "../eventData";
+import { OperationOptions } from "../util/operationOptions";
+import { createMessageSpan } from "./tracing";
 
 /**
  * @hidden
@@ -14,23 +21,55 @@ export const TRACEPARENT_PROPERTY = "Diagnostic-Id";
  * Populates the `EventData` with `SpanContext` info to support trace propagation.
  * Creates and returns a copy of the passed in `EventData` unless the `EventData`
  * has already been instrumented.
- * @param eventData - The `EventData` to instrument.
+ * @param eventData - The `EventData` or `AmqpAnnotatedMessage` to instrument.
  * @param span - The `Span` containing the context to propagate tracing information.
  */
-export function instrumentEventData(eventData: EventData, span: Span): EventData {
-  if (eventData.properties && eventData.properties[TRACEPARENT_PROPERTY]) {
-    return eventData;
+export function instrumentEventData(
+  eventData: EventData | AmqpAnnotatedMessage,
+  options: OperationOptions,
+  entityPath: string,
+  host: string
+): { event: EventData; spanContext: SpanContext | undefined } {
+  const props = isAmqpAnnotatedMessage(eventData)
+    ? eventData.applicationProperties
+    : eventData.properties;
+
+  // check if the event has already been instrumented
+  const previouslyInstrumented = Boolean(props?.[TRACEPARENT_PROPERTY]);
+
+  if (previouslyInstrumented) {
+    return { event: eventData, spanContext: undefined };
   }
 
-  // create a copy so the original isn't modified
-  eventData = { ...eventData, properties: { ...eventData.properties } };
+  const { span: messageSpan } = createMessageSpan(options, { entityPath, host });
+  try {
+    if (!messageSpan.isRecording()) {
+      return {
+        event: eventData,
+        spanContext: undefined
+      };
+    }
 
-  const traceParent = getTraceParentHeader(span.context());
-  if (traceParent) {
-    eventData.properties![TRACEPARENT_PROPERTY] = traceParent;
+    const traceParent = getTraceParentHeader(messageSpan.spanContext());
+    if (traceParent && isSpanContextValid(messageSpan.spanContext())) {
+      const copiedProps = { ...props };
+
+      // create a copy so the original isn't modified
+      if (isAmqpAnnotatedMessage(eventData)) {
+        eventData = { ...eventData, applicationProperties: copiedProps };
+      } else {
+        eventData = { ...eventData, properties: copiedProps };
+      }
+      copiedProps[TRACEPARENT_PROPERTY] = traceParent;
+    }
+
+    return {
+      event: eventData,
+      spanContext: messageSpan.spanContext()
+    };
+  } finally {
+    messageSpan.end();
   }
-
-  return eventData;
 }
 
 /**

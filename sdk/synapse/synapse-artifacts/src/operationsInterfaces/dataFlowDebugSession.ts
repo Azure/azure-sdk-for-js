@@ -6,18 +6,21 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import * as coreHttp from "@azure/core-http";
-import { LROPoller } from "../lro";
+import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   DataFlowDebugSessionInfo,
+  DataFlowDebugSessionQueryDataFlowDebugSessionsByWorkspaceOptionalParams,
   CreateDataFlowDebugSessionRequest,
+  DataFlowDebugSessionCreateDataFlowDebugSessionOptionalParams,
   DataFlowDebugSessionCreateDataFlowDebugSessionResponse,
   DataFlowDebugPackage,
+  DataFlowDebugSessionAddDataFlowOptionalParams,
   DataFlowDebugSessionAddDataFlowResponse,
   DeleteDataFlowDebugSessionRequest,
+  DataFlowDebugSessionDeleteDataFlowDebugSessionOptionalParams,
   DataFlowDebugCommandRequest,
+  DataFlowDebugSessionExecuteCommandOptionalParams,
   DataFlowDebugSessionExecuteCommandResponse
 } from "../models";
 
@@ -29,17 +32,33 @@ export interface DataFlowDebugSession {
    * @param options The options parameters.
    */
   listQueryDataFlowDebugSessionsByWorkspace(
-    options?: coreHttp.OperationOptions
+    options?: DataFlowDebugSessionQueryDataFlowDebugSessionsByWorkspaceOptionalParams
   ): PagedAsyncIterableIterator<DataFlowDebugSessionInfo>;
   /**
    * Creates a data flow debug session.
    * @param request Data flow debug session definition
    * @param options The options parameters.
    */
-  createDataFlowDebugSession(
+  beginCreateDataFlowDebugSession(
     request: CreateDataFlowDebugSessionRequest,
-    options?: coreHttp.OperationOptions
-  ): Promise<LROPoller<DataFlowDebugSessionCreateDataFlowDebugSessionResponse>>;
+    options?: DataFlowDebugSessionCreateDataFlowDebugSessionOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<
+        DataFlowDebugSessionCreateDataFlowDebugSessionResponse
+      >,
+      DataFlowDebugSessionCreateDataFlowDebugSessionResponse
+    >
+  >;
+  /**
+   * Creates a data flow debug session.
+   * @param request Data flow debug session definition
+   * @param options The options parameters.
+   */
+  beginCreateDataFlowDebugSessionAndWait(
+    request: CreateDataFlowDebugSessionRequest,
+    options?: DataFlowDebugSessionCreateDataFlowDebugSessionOptionalParams
+  ): Promise<DataFlowDebugSessionCreateDataFlowDebugSessionResponse>;
   /**
    * Add a data flow into debug session.
    * @param request Data flow debug session definition with debug content.
@@ -47,7 +66,7 @@ export interface DataFlowDebugSession {
    */
   addDataFlow(
     request: DataFlowDebugPackage,
-    options?: coreHttp.OperationOptions
+    options?: DataFlowDebugSessionAddDataFlowOptionalParams
   ): Promise<DataFlowDebugSessionAddDataFlowResponse>;
   /**
    * Deletes a data flow debug session.
@@ -56,15 +75,29 @@ export interface DataFlowDebugSession {
    */
   deleteDataFlowDebugSession(
     request: DeleteDataFlowDebugSessionRequest,
-    options?: coreHttp.OperationOptions
-  ): Promise<coreHttp.RestResponse>;
+    options?: DataFlowDebugSessionDeleteDataFlowDebugSessionOptionalParams
+  ): Promise<void>;
   /**
    * Execute a data flow debug command.
    * @param request Data flow debug command definition.
    * @param options The options parameters.
    */
-  executeCommand(
+  beginExecuteCommand(
     request: DataFlowDebugCommandRequest,
-    options?: coreHttp.OperationOptions
-  ): Promise<LROPoller<DataFlowDebugSessionExecuteCommandResponse>>;
+    options?: DataFlowDebugSessionExecuteCommandOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<DataFlowDebugSessionExecuteCommandResponse>,
+      DataFlowDebugSessionExecuteCommandResponse
+    >
+  >;
+  /**
+   * Execute a data flow debug command.
+   * @param request Data flow debug command definition.
+   * @param options The options parameters.
+   */
+  beginExecuteCommandAndWait(
+    request: DataFlowDebugCommandRequest,
+    options?: DataFlowDebugSessionExecuteCommandOptionalParams
+  ): Promise<DataFlowDebugSessionExecuteCommandResponse>;
 }

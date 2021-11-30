@@ -15,6 +15,7 @@ function buildRequest(
 ): void {
   req.headers["webhook-request-origin"] = "xxx.webpubsub.azure.com";
   req.headers["Content-Type"] = "application/json; charset=utf-8";
+  req.headers["ce-awpsversion"] = "1.0";
   req.headers["ce-specversion"] = "1.0";
   req.headers["ce-type"] = "azure.webpubsub.user.connect";
   req.headers["ce-source"] = `/hubs/${hub}/client/${connectionId}`;
@@ -45,8 +46,8 @@ describe("Can handle user event", function() {
   it("Should not handle the request if request is not cloud events", async function() {
     const endSpy = sinon.spy(res.end);
 
-    const dispatcher = new CloudEventsDispatcher("hub1", ["*"]);
-    var result = await dispatcher.processRequest(req, res);
+    const dispatcher = new CloudEventsDispatcher("hub1");
+    const result = await dispatcher.handleRequest(req, res);
     assert.isFalse(result);
     assert.isTrue(endSpy.notCalled);
   });
@@ -55,8 +56,8 @@ describe("Can handle user event", function() {
     const endSpy = sinon.spy(res.end);
     buildRequest(req, "hub", "conn1");
 
-    const dispatcher = new CloudEventsDispatcher("hub1", ["*"]);
-    var result = await dispatcher.processRequest(req, res);
+    const dispatcher = new CloudEventsDispatcher("hub1");
+    const result = await dispatcher.handleRequest(req, res);
     assert.isFalse(result);
     assert.isTrue(endSpy.notCalled);
   });
@@ -65,8 +66,8 @@ describe("Can handle user event", function() {
     const endSpy = sinon.spy(res, "end");
     buildRequest(req, "hub", "conn1");
 
-    const dispatcher = new CloudEventsDispatcher("hub", ["*"]);
-    var result = await dispatcher.processRequest(req, res);
+    const dispatcher = new CloudEventsDispatcher("hub");
+    const result = await dispatcher.handleRequest(req, res);
     assert.isTrue(result, "should handle");
     assert.isTrue(endSpy.calledOnce, "should call once");
     assert.equal(200, res.statusCode, "should be 200");
@@ -76,8 +77,8 @@ describe("Can handle user event", function() {
     const endSpy = sinon.spy(res, "end");
     buildRequest(req, "hub", "conn1");
 
-    const dispatcher = new CloudEventsDispatcher("hub", ["*"], {});
-    var result = await dispatcher.processRequest(req, res);
+    const dispatcher = new CloudEventsDispatcher("hub", {});
+    const result = await dispatcher.handleRequest(req, res);
     assert.isTrue(result, "should handle");
     assert.isTrue(endSpy.calledOnce, "should call once");
     assert.equal(200, res.statusCode, "should be 200");
@@ -87,14 +88,14 @@ describe("Can handle user event", function() {
     const endSpy = sinon.spy(res, "end");
     buildRequest(req, "hub", "conn1");
 
-    const dispatcher = new CloudEventsDispatcher("hub", ["*"], {
-      handleUserEvent: async (_, res) => {
-        res.fail(500);
+    const dispatcher = new CloudEventsDispatcher("hub", {
+      handleUserEvent: async (_, response) => {
+        response.fail(500);
       }
     });
-    var process = dispatcher.processRequest(req, res);
+    const process = dispatcher.handleRequest(req, res);
     mockBody(req, JSON.stringify({}));
-    var result = await process;
+    const result = await process;
     assert.isTrue(result, "should handle");
     assert.isTrue(endSpy.calledOnce, "should call once");
     assert.equal(500, res.statusCode, "should be error");
@@ -104,14 +105,14 @@ describe("Can handle user event", function() {
     const endSpy = sinon.spy(res, "end");
     buildRequest(req, "hub", "conn1");
 
-    const dispatcher = new CloudEventsDispatcher("hub", ["*"], {
-      handleUserEvent: async (_, res) => {
-        res.success();
+    const dispatcher = new CloudEventsDispatcher("hub", {
+      handleUserEvent: async (_, response) => {
+        response.success();
       }
     });
-    var process = dispatcher.processRequest(req, res);
+    const process = dispatcher.handleRequest(req, res);
     mockBody(req, JSON.stringify({}));
-    var result = await process;
+    const result = await process;
     assert.isTrue(result, "should handle");
     assert.isTrue(endSpy.calledOnce, "should call once");
     assert.equal(200, res.statusCode, "should be success");
@@ -121,14 +122,14 @@ describe("Can handle user event", function() {
     const endSpy = sinon.spy(res, "end");
     buildRequest(req, "hub", "conn1");
 
-    const dispatcher = new CloudEventsDispatcher("hub", ["*"], {
-      handleUserEvent: async (_, res) => {
-        res.success("a");
+    const dispatcher = new CloudEventsDispatcher("hub", {
+      handleUserEvent: async (_, response) => {
+        response.success("a");
       }
     });
-    var process = dispatcher.processRequest(req, res);
+    const process = dispatcher.handleRequest(req, res);
     mockBody(req, JSON.stringify({}));
-    var result = await process;
+    const result = await process;
     assert.isTrue(result, "should handle");
     assert.isTrue(endSpy.calledOnce, "should call once");
     assert.equal(200, res.statusCode, "should be success");
@@ -139,14 +140,14 @@ describe("Can handle user event", function() {
     const endSpy = sinon.spy(res, "end");
     buildRequest(req, "hub", "conn1");
 
-    const dispatcher = new CloudEventsDispatcher("hub", ["*"], {
-      handleUserEvent: async (_, res) => {
-        res.success("a", "text");
+    const dispatcher = new CloudEventsDispatcher("hub", {
+      handleUserEvent: async (_, response) => {
+        response.success("a", "text");
       }
     });
-    var process = dispatcher.processRequest(req, res);
+    const process = dispatcher.handleRequest(req, res);
     mockBody(req, JSON.stringify({}));
-    var result = await process;
+    const result = await process;
     assert.isTrue(result, "should handle");
     assert.isTrue(endSpy.calledOnce, "should call once");
     assert.equal(200, res.statusCode, "should be success");
@@ -157,14 +158,14 @@ describe("Can handle user event", function() {
     const endSpy = sinon.spy(res, "end");
     buildRequest(req, "hub", "conn1");
 
-    const dispatcher = new CloudEventsDispatcher("hub", ["*"], {
-      handleUserEvent: async (_, res) => {
-        res.success("a", "json");
+    const dispatcher = new CloudEventsDispatcher("hub", {
+      handleUserEvent: async (_, response) => {
+        response.success("a", "json");
       }
     });
-    var process = dispatcher.processRequest(req, res);
+    const process = dispatcher.handleRequest(req, res);
     mockBody(req, JSON.stringify({}));
-    var result = await process;
+    const result = await process;
     assert.isTrue(result, "should handle");
     assert.isTrue(endSpy.calledOnce, "should call once");
     assert.equal(200, res.statusCode, "should be success");
@@ -172,6 +173,39 @@ describe("Can handle user event", function() {
       "application/json; charset=utf-8",
       res.getHeader("content-type"),
       "should be json"
+    );
+  });
+
+  it("Should be able to set connection state", async function() {
+    const endSpy = sinon.spy(res, "end");
+    buildRequest(req, "hub", "conn1");
+
+    const dispatcher = new CloudEventsDispatcher("hub", {
+      handleUserEvent: async (_, response) => {
+        response.setState("key1", "val1");
+        response.setState("key2", "val2");
+        response.setState("key1", "val3");
+        response.setState("key3", "");
+        response.success();
+      }
+    });
+    const process = dispatcher.handleRequest(req, res);
+    mockBody(req, JSON.stringify({}));
+    const result = await process;
+    assert.isTrue(result, "should handle");
+    assert.isTrue(endSpy.calledOnce, "should call once");
+    assert.equal(200, res.statusCode, "should be success");
+
+    assert.equal(
+      Buffer.from(
+        JSON.stringify({
+          key1: "val3",
+          key2: "val2",
+          key3: ""
+        })
+      ).toString("base64"),
+      res.getHeader("ce-connectionState"),
+      "should contain multiple state headers"
     );
   });
 });

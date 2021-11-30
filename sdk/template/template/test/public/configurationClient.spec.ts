@@ -7,7 +7,7 @@ import { Context } from "mocha";
 import { ConfigurationClient } from "../../src";
 
 import { ClientSecretCredential } from "@azure/identity";
-import { env, record, Recorder } from "@azure/test-utils-recorder";
+import { env, record, Recorder } from "@azure-tools/test-recorder";
 
 // When the recorder observes the values of these environment variables in any
 // recorded HTTP request or response, it will replace them with the values they

@@ -156,7 +156,7 @@ export class BlockBlob {
    * do this by specifying whether to commit a block from the committed block list or from the
    * uncommitted block list, or to commit the most recently uploaded version of the block, whichever list
    * it may belong to.
-   * @param blocks
+   * @param blocks Blob Blocks.
    * @param options The options parameters.
    */
   commitBlockList(
@@ -221,11 +221,11 @@ const uploadOperationSpec: coreHttp.OperationSpec = {
     Parameters.leaseId,
     Parameters.ifModifiedSince,
     Parameters.ifUnmodifiedSince,
-    Parameters.ifMatch,
-    Parameters.ifNoneMatch,
     Parameters.encryptionKey,
     Parameters.encryptionKeySha256,
     Parameters.encryptionAlgorithm,
+    Parameters.ifMatch,
+    Parameters.ifNoneMatch,
     Parameters.ifTags,
     Parameters.blobCacheControl,
     Parameters.blobContentType,
@@ -233,11 +233,14 @@ const uploadOperationSpec: coreHttp.OperationSpec = {
     Parameters.blobContentEncoding,
     Parameters.blobContentLanguage,
     Parameters.blobContentDisposition,
+    Parameters.immutabilityPolicyExpiry,
+    Parameters.immutabilityPolicyMode,
     Parameters.encryptionScope,
     Parameters.tier,
     Parameters.blobTagsString,
+    Parameters.legalHold1,
     Parameters.transactionalContentMD5,
-    Parameters.contentType2,
+    Parameters.contentType1,
     Parameters.accept2,
     Parameters.blobType2
   ],
@@ -267,15 +270,11 @@ const putBlobFromUrlOperationSpec: coreHttp.OperationSpec = {
     Parameters.leaseId,
     Parameters.ifModifiedSince,
     Parameters.ifUnmodifiedSince,
-    Parameters.ifMatch,
-    Parameters.ifNoneMatch,
-    Parameters.sourceIfModifiedSince,
-    Parameters.sourceIfUnmodifiedSince,
-    Parameters.sourceIfMatch,
-    Parameters.sourceIfNoneMatch,
     Parameters.encryptionKey,
     Parameters.encryptionKeySha256,
     Parameters.encryptionAlgorithm,
+    Parameters.ifMatch,
+    Parameters.ifNoneMatch,
     Parameters.ifTags,
     Parameters.blobCacheControl,
     Parameters.blobContentType,
@@ -285,10 +284,15 @@ const putBlobFromUrlOperationSpec: coreHttp.OperationSpec = {
     Parameters.blobContentDisposition,
     Parameters.encryptionScope,
     Parameters.tier,
+    Parameters.sourceIfModifiedSince,
+    Parameters.sourceIfUnmodifiedSince,
+    Parameters.sourceIfMatch,
+    Parameters.sourceIfNoneMatch,
     Parameters.sourceIfTags,
     Parameters.copySource,
     Parameters.blobTagsString,
     Parameters.sourceContentMD5,
+    Parameters.copySourceAuthorization,
     Parameters.transactionalContentMD5,
     Parameters.blobType2,
     Parameters.copySourceBlobProperties
@@ -311,7 +315,7 @@ const stageBlockOperationSpec: coreHttp.OperationSpec = {
   requestBody: Parameters.body1,
   queryParameters: [
     Parameters.timeoutInSeconds,
-    Parameters.comp22,
+    Parameters.comp24,
     Parameters.blockId
   ],
   urlParameters: [Parameters.url],
@@ -326,7 +330,7 @@ const stageBlockOperationSpec: coreHttp.OperationSpec = {
     Parameters.encryptionScope,
     Parameters.transactionalContentMD5,
     Parameters.transactionalContentCrc64,
-    Parameters.contentType2,
+    Parameters.contentType1,
     Parameters.accept2
   ],
   mediaType: "binary",
@@ -346,7 +350,7 @@ const stageBlockFromURLOperationSpec: coreHttp.OperationSpec = {
   },
   queryParameters: [
     Parameters.timeoutInSeconds,
-    Parameters.comp22,
+    Parameters.comp24,
     Parameters.blockId
   ],
   urlParameters: [Parameters.url],
@@ -356,15 +360,16 @@ const stageBlockFromURLOperationSpec: coreHttp.OperationSpec = {
     Parameters.accept1,
     Parameters.contentLength,
     Parameters.leaseId,
-    Parameters.sourceIfModifiedSince,
-    Parameters.sourceIfUnmodifiedSince,
-    Parameters.sourceIfMatch,
-    Parameters.sourceIfNoneMatch,
     Parameters.encryptionKey,
     Parameters.encryptionKeySha256,
     Parameters.encryptionAlgorithm,
     Parameters.encryptionScope,
+    Parameters.sourceIfModifiedSince,
+    Parameters.sourceIfUnmodifiedSince,
+    Parameters.sourceIfMatch,
+    Parameters.sourceIfNoneMatch,
     Parameters.sourceContentMD5,
+    Parameters.copySourceAuthorization,
     Parameters.sourceUrl,
     Parameters.sourceContentCrc64,
     Parameters.sourceRange1
@@ -385,7 +390,7 @@ const commitBlockListOperationSpec: coreHttp.OperationSpec = {
     }
   },
   requestBody: Parameters.blocks,
-  queryParameters: [Parameters.timeoutInSeconds, Parameters.comp23],
+  queryParameters: [Parameters.timeoutInSeconds, Parameters.comp25],
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.contentType,
@@ -396,11 +401,11 @@ const commitBlockListOperationSpec: coreHttp.OperationSpec = {
     Parameters.leaseId,
     Parameters.ifModifiedSince,
     Parameters.ifUnmodifiedSince,
-    Parameters.ifMatch,
-    Parameters.ifNoneMatch,
     Parameters.encryptionKey,
     Parameters.encryptionKeySha256,
     Parameters.encryptionAlgorithm,
+    Parameters.ifMatch,
+    Parameters.ifNoneMatch,
     Parameters.ifTags,
     Parameters.blobCacheControl,
     Parameters.blobContentType,
@@ -408,9 +413,12 @@ const commitBlockListOperationSpec: coreHttp.OperationSpec = {
     Parameters.blobContentEncoding,
     Parameters.blobContentLanguage,
     Parameters.blobContentDisposition,
+    Parameters.immutabilityPolicyExpiry,
+    Parameters.immutabilityPolicyMode,
     Parameters.encryptionScope,
     Parameters.tier,
     Parameters.blobTagsString,
+    Parameters.legalHold1,
     Parameters.transactionalContentMD5,
     Parameters.transactionalContentCrc64
   ],
@@ -435,7 +443,7 @@ const getBlockListOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [
     Parameters.timeoutInSeconds,
     Parameters.snapshot,
-    Parameters.comp23,
+    Parameters.comp25,
     Parameters.listType
   ],
   urlParameters: [Parameters.url],

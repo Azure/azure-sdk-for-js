@@ -2,12 +2,13 @@
 // Licensed under the MIT license.
 
 import * as msalBrowser from "@azure/msal-browser";
-import { MsalBrowserFlowOptions, MsalBrowser } from "./browserCommon";
-import { AccessToken } from "@azure/core-http";
+import { AccessToken } from "@azure/core-auth";
+
+import { AuthenticationRequiredError } from "../../errors";
 import { defaultLoggerCallback, msalToPublic, publicToMsal } from "../utils";
 import { AuthenticationRecord } from "../types";
-import { AuthenticationRequiredError } from "../errors";
 import { CredentialFlowGetTokenOptions } from "../credentials";
+import { MsalBrowserFlowOptions, MsalBrowser } from "./msalBrowserCommon";
 
 // We keep a copy of the redirect hash.
 const redirectHash = self.location.hash;
@@ -19,6 +20,7 @@ const redirectHash = self.location.hash;
  */
 export class MSALAuthCode extends MsalBrowser {
   protected app: msalBrowser.PublicClientApplication;
+  private loginHint?: string;
 
   /**
    * Sets up an MSAL object based on the given parameters.
@@ -28,6 +30,7 @@ export class MSALAuthCode extends MsalBrowser {
    */
   constructor(options: MsalBrowserFlowOptions) {
     super(options);
+    this.loginHint = options.loginHint;
 
     this.msalConfig.cache = {
       cacheLocation: "sessionStorage",
@@ -120,8 +123,9 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
    */
   public async login(scopes: string | string[] = []): Promise<AuthenticationRecord | undefined> {
     const arrayScopes = Array.isArray(scopes) ? scopes : [scopes];
-    const loginRequest = {
-      scopes: arrayScopes
+    const loginRequest: msalBrowser.RedirectRequest = {
+      scopes: arrayScopes,
+      loginHint: this.loginHint
     };
     switch (this.loginStyle) {
       case "redirect": {
@@ -153,12 +157,18 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
   ): Promise<AccessToken> {
     const account = await this.getActiveAccount();
     if (!account) {
-      throw new AuthenticationRequiredError(scopes, options);
+      throw new AuthenticationRequiredError({
+        scopes,
+        getTokenOptions: options,
+        message:
+          "Silent authentication failed. We couldn't retrieve an active account from the cache."
+      });
     }
 
     const parameters: msalBrowser.SilentRequest = {
-      authority: this.msalConfig.auth.authority!,
+      authority: options?.authority || this.msalConfig.auth.authority!,
       correlationId: options?.correlationId,
+      claims: options?.claims,
       account: publicToMsal(account),
       forceRefresh: false,
       scopes
@@ -182,13 +192,20 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
   ): Promise<AccessToken> {
     const account = await this.getActiveAccount();
     if (!account) {
-      throw new AuthenticationRequiredError(scopes, options);
+      throw new AuthenticationRequiredError({
+        scopes,
+        getTokenOptions: options,
+        message:
+          "Silent authentication failed. We couldn't retrieve an active account from the cache."
+      });
     }
 
     const parameters: msalBrowser.RedirectRequest = {
-      authority: this.msalConfig.auth.authority!,
+      authority: options?.authority || this.msalConfig.auth.authority!,
       correlationId: options?.correlationId,
+      claims: options?.claims,
       account: publicToMsal(account),
+      loginHint: this.loginHint,
       scopes
     };
 

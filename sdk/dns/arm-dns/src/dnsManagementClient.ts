@@ -9,6 +9,7 @@
  */
 
 import * as msRest from "@azure/ms-rest-js";
+import { TokenCredential } from "@azure/core-auth";
 import * as Models from "./models";
 import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
@@ -23,12 +24,17 @@ class DnsManagementClient extends DnsManagementClientContext {
 
   /**
    * Initializes a new instance of the DnsManagementClient class.
-   * @param credentials Credentials needed for the client to connect to Azure.
+   * @param credentials Credentials needed for the client to connect to Azure. Credentials
+   * implementing the TokenCredential interface from the @azure/identity package are recommended. For
+   * more information about these credentials, see
+   * {@link https://www.npmjs.com/package/@azure/identity}. Credentials implementing the
+   * ServiceClientCredentials interface from the older packages @azure/ms-rest-nodeauth and
+   * @azure/ms-rest-browserauth are also supported.
    * @param subscriptionId Specifies the Azure subscription ID, which uniquely identifies the
    * Microsoft Azure subscription.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.DnsManagementClientOptions) {
+  constructor(credentials: msRest.ServiceClientCredentials | TokenCredential, subscriptionId: string, options?: Models.DnsManagementClientOptions) {
     super(credentials, subscriptionId, options);
     this.recordSets = new operations.RecordSets(this);
     this.zones = new operations.Zones(this);

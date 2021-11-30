@@ -72,6 +72,7 @@ import { CommunicationRelayClient } from "@azure/communication-network-traversal
 
 const client = new CommunicationRelayClient(CONNECTION_STRING);
 ```
+
 ### Creating an instance of CommunicationIdentityClient to create a user
 
 ```typescript
@@ -86,21 +87,37 @@ Use the `createUser` method to create a new user.
 const user = await client.createUser();
 ```
 
-### Getting the configurationRelay 
+### Getting the configurationRelay
 
-Use the `getConfigurationRelay` method to get new TURN credentials
+Use the `getConfigurationRelay` method to get new TURN credentials providing a user
 
 ```typescript
 const config = relayClient.getRelayConfiguration(user);
+```
+
+Also you can call the `getConfigurationRelay` method without providing a user
+
+```typescript
+const config = relayClient.getRelayConfiguration();
+```
+
+You can specify a RouteType when calling `getConfigurationRelay`
+
+```typescript
+const config = relayClient.getRelayConfiguration(user, "nearest");
 ```
 
 ## Troubleshooting
 
 ## Next steps
 
+Please take a look at the
+[samples](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-network-traversal/samples)
+directory for detailed examples on how to use this library.
+
 ## Contributing
 
-If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md) to learn more about how to build and test the code.
+If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md) to learn more about how to build and test the code.
 
 ## Related projects
 

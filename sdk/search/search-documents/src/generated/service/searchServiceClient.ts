@@ -6,20 +6,27 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import * as coreClient from "@azure/core-client";
+import {
+  DataSourcesImpl,
+  IndexersImpl,
+  SkillsetsImpl,
+  SynonymMapsImpl,
+  IndexesImpl
+} from "./operations";
 import {
   DataSources,
   Indexers,
   Skillsets,
   SynonymMaps,
   Indexes
-} from "./operations";
+} from "./operationsInterfaces";
 import * as Parameters from "./models/parameters";
 import * as Mappers from "./models/mappers";
 import { SearchServiceClientContext } from "./searchServiceClientContext";
 import {
   SearchServiceClientOptionalParams,
-  ApiVersion20200630Preview,
+  ApiVersion20210430Preview,
   SearchServiceClientGetServiceStatisticsOptionalParams,
   SearchServiceClientGetServiceStatisticsResponse
 } from "./models";
@@ -34,15 +41,15 @@ export class SearchServiceClient extends SearchServiceClientContext {
    */
   constructor(
     endpoint: string,
-    apiVersion: ApiVersion20200630Preview,
+    apiVersion: ApiVersion20210430Preview,
     options?: SearchServiceClientOptionalParams
   ) {
     super(endpoint, apiVersion, options);
-    this.dataSources = new DataSources(this);
-    this.indexers = new Indexers(this);
-    this.skillsets = new Skillsets(this);
-    this.synonymMaps = new SynonymMaps(this);
-    this.indexes = new Indexes(this);
+    this.dataSources = new DataSourcesImpl(this);
+    this.indexers = new IndexersImpl(this);
+    this.skillsets = new SkillsetsImpl(this);
+    this.synonymMaps = new SynonymMapsImpl(this);
+    this.indexes = new IndexesImpl(this);
   }
 
   /**
@@ -52,13 +59,10 @@ export class SearchServiceClient extends SearchServiceClientContext {
   getServiceStatistics(
     options?: SearchServiceClientGetServiceStatisticsOptionalParams
   ): Promise<SearchServiceClientGetServiceStatisticsResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.sendOperationRequest(
-      operationArguments,
+      { options },
       getServiceStatisticsOperationSpec
-    ) as Promise<SearchServiceClientGetServiceStatisticsResponse>;
+    );
   }
 
   dataSources: DataSources;
@@ -68,9 +72,9 @@ export class SearchServiceClient extends SearchServiceClientContext {
   indexes: Indexes;
 }
 // Operation Specifications
-const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
+const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const getServiceStatisticsOperationSpec: coreHttp.OperationSpec = {
+const getServiceStatisticsOperationSpec: coreClient.OperationSpec = {
   path: "/servicestats",
   httpMethod: "GET",
   responses: {

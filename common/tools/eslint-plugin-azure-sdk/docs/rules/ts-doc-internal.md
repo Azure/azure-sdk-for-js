@@ -6,7 +6,7 @@ Internal objects are defined as classes, interfaces, or standalone functions tha
 
 ## Background
 
-We used to use either `@hidden` or `@ignore` to hide definitions from showing up in our docs but none of them is supported by TSDoc. However, we opted to whitelist `@hidden` with TSDoc ESLint plugin and replaced all uses of `@ignore` with `@hidden` so we can stick with just one of them.
+We used to use either `@hidden` or `@ignore` to hide definitions from showing up in our docs but none of them is supported by TSDoc. However, we opted to allow `@hidden` with TSDoc ESLint plugin and replaced all uses of `@ignore` with `@hidden` so we can stick with just one of them.
 
 ## When to use either tags
 

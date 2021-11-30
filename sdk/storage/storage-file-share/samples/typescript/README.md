@@ -27,7 +27,7 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 
 ## Prerequisites
 
-The samples are compatible with Node.js >= 8.0.0, except for the samples that use the async `for await` syntax, which require a Node.js >= 10.0.0.
+The samples are compatible with [LTS versions of Node.js](https://nodejs.org/about/releases/).
 
 Before running the samples in Node, they must be compiled to JavaScript using the TypeScript compiler. For more information on TypeScript, see the [TypeScript documentation][typescript]. Install the TypeScript compiler using
 
@@ -73,18 +73,18 @@ npx cross-env ACCOUNT_NAME="<account name>" ACCOUNT_KEY="<account key>" node dis
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[basic]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file-share/samples/typescript/src/basic.ts
-[proxyauth]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file-share/samples/typescript/src/proxyAuth.ts
-[withconnstring]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file-share/samples/typescript/src/withConnString.ts
-[iterators-files-and-directories]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file-share/samples/typescript/src/iterators-files-and-directories.ts
-[sharedkeycred]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file-share/samples/typescript/src/sharedKeyCred.ts
-[anonymouscred]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file-share/samples/typescript/src/anonymousCred.ts
-[iterators-handles]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file-share/samples/typescript/src/iterators-handles.ts
-[custompipeline]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file-share/samples/typescript/src/customPipeline.ts
-[advanced]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file-share/samples/typescript/src/advanced.ts
-[iterators-shares]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file-share/samples/typescript/src/iterators-shares.ts
+[basic]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-file-share/samples/typescript/src/basic.ts
+[proxyauth]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-file-share/samples/typescript/src/proxyAuth.ts
+[withconnstring]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-file-share/samples/typescript/src/withConnString.ts
+[iterators-files-and-directories]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-file-share/samples/typescript/src/iterators-files-and-directories.ts
+[sharedkeycred]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-file-share/samples/typescript/src/sharedKeyCred.ts
+[anonymouscred]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-file-share/samples/typescript/src/anonymousCred.ts
+[iterators-handles]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-file-share/samples/typescript/src/iterators-handles.ts
+[custompipeline]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-file-share/samples/typescript/src/customPipeline.ts
+[advanced]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-file-share/samples/typescript/src/advanced.ts
+[iterators-shares]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-file-share/samples/typescript/src/iterators-shares.ts
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/storage-file-share
 [azstorage]: https://docs.microsoft.com/azure/storage/common/storage-account-overview
 [freesub]: https://azure.microsoft.com/free/
-[package]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file-share/README.md
+[package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-file-share/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

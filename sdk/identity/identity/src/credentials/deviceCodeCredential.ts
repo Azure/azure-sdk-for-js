@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-http";
+import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
+
 import { credentialLogger } from "../util/logging";
 import { MsalDeviceCode } from "../msal/nodeFlows/msalDeviceCode";
 import { MsalFlow } from "../msal/flows";
@@ -31,6 +32,20 @@ export class DeviceCodeCredential implements TokenCredential {
    * Creates an instance of DeviceCodeCredential with the details needed
    * to initiate the device code authorization flow with Azure Active Directory.
    *
+   * A message will be logged, giving users a code that they can use to authenticate once they go to https://microsoft.com/devicelogin
+   *
+   * Developers can configure how this message is shown by passing a custom `userPromptCallback`:
+   *
+   * ```js
+   * const credential = new DeviceCodeCredential({
+   *   tenantId: env.AZURE_TENANT_ID,
+   *   clientId: env.AZURE_CLIENT_ID,
+   *   userPromptCallback: (info) => {
+   *     console.log("CUSTOMIZED PROMPT CALLBACK", info.message);
+   *   }
+   * });
+   * ```
+   *
    * @param options - Options for configuring the client which makes the authentication requests.
    */
   constructor(options?: DeviceCodeCredentialOptions) {
@@ -44,10 +59,8 @@ export class DeviceCodeCredential implements TokenCredential {
   }
 
   /**
-   * Authenticates with Azure Active Directory and returns an access token if
-   * successful.  If authentication cannot be performed at this time, this method may
-   * return null.  If an error occurs during authentication, an {@link AuthenticationError}
-   * containing failure details will be thrown.
+   * Authenticates with Azure Active Directory and returns an access token if successful.
+   * If authentication fails, a {@link CredentialUnavailableError} will be thrown with the details of the failure.
    *
    * If the user provided the option `disableAutomaticAuthentication`,
    * once the token can't be retrieved silently,
@@ -68,10 +81,8 @@ export class DeviceCodeCredential implements TokenCredential {
   }
 
   /**
-   * Authenticates with Azure Active Directory and returns an access token if
-   * successful.  If authentication cannot be performed at this time, this method may
-   * return null.  If an error occurs during authentication, an {@link AuthenticationError}
-   * containing failure details will be thrown.
+   * Authenticates with Azure Active Directory and returns an access token if successful.
+   * If authentication fails, a {@link CredentialUnavailableError} will be thrown with the details of the failure.
    *
    * If the token can't be retrieved silently, this method will require user interaction to retrieve the token.
    *

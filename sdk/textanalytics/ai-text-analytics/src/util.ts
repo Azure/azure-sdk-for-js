@@ -2,14 +2,21 @@
 // Licensed under the MIT license.
 
 import { RestError } from "@azure/core-rest-pipeline";
-import { URL, URLSearchParams } from "./utils/url";
+import { FullOperationResponse, OperationOptions, OperationSpec } from "@azure/core-client";
+import { SpanStatusCode } from "@azure/core-tracing";
 import { logger } from "./logger";
-import { StringIndexType as GeneratedStringIndexType } from "./generated";
+import {
+  ErrorResponse,
+  GeneratedClient,
+  InnerError,
+  StringIndexType as GeneratedStringIndexType,
+  TextAnalyticsError
+} from "./generated";
+import { TextAnalyticsAction } from "./textAnalyticsAction";
+import { createSpan } from "./tracing";
+import { LroResponse } from "@azure/core-lro";
 
-/**
- * @internal
- */
-export interface IdObject {
+interface IdObject {
   id: string;
 }
 
@@ -133,61 +140,41 @@ export function setOpinionMining<X extends { includeOpinionMining?: boolean }>(
 }
 
 /**
+ * Set the pii categories property
  * @internal
  */
-export function AddParamsToTask<X>(action: X): { parameters?: X } {
-  return { parameters: action };
-}
-
-/**
- * Set the modelVersion property with default if it does not exist in x.
- * @param options - operation options bag that has a {@link StringIndexType}
- * @internal
- */
-export function setModelVersionParam<X extends { modelVersion?: string }>(
+export function setCategoriesFilter<X extends { categoriesFilter?: string[] }>(
   x: X
-): X & { modelVersion: string } {
-  return { ...x, modelVersion: x.modelVersion || "latest" };
+): X & { piiCategories?: string[] } {
+  return { ...x, piiCategories: x.categoriesFilter };
+}
+
+export function setSentenceCount<X extends { maxSentenceCount?: number }>(
+  x: X
+): X & { sentenceCount?: number } {
+  return { ...x, sentenceCount: x.maxSentenceCount };
+}
+
+export function setOrderBy<X extends { orderBy?: string }>(x: X): X & { sortBy?: string } {
+  return { ...x, sortBy: x.orderBy };
 }
 
 /**
  * @internal
  */
-export interface PageParam {
-  top: number;
-  skip: number;
+export function addParamsToTask<X extends TextAnalyticsAction>(
+  action: X
+): { parameters?: Omit<X, "actionName">; taskName?: string } {
+  const { actionName, ...params } = action;
+  return { parameters: params, taskName: actionName };
 }
 
-/**
- * @internal
- */
-export function nextLinkToTopAndSkip(nextLink: string): PageParam {
-  const url = new URL(nextLink);
-  const searchParams = new URLSearchParams(url.searchParams);
-  let top: number;
-  if (searchParams.has("$top")) {
-    top = parseInt(searchParams.get("$top")!);
-  } else {
-    throw new Error(`nextLink URL does not have the $top param: ${nextLink}`);
+function appendReadableErrorMessage(currentMessage: string, innerMessage: string): string {
+  let message = currentMessage;
+  if (message.slice(-1) !== ".") {
+    message = message + ".";
   }
-  let skip: number;
-  if (searchParams.has("$skip")) {
-    skip = parseInt(searchParams.get("$skip")!);
-  } else {
-    throw new Error(`nextLink URL does not have the $skip param: ${nextLink}`);
-  }
-  return {
-    skip: skip,
-    top: top
-  };
-}
-
-/**
- * @internal
- */
-export function getOperationId(operationLocation: string): string {
-  const lastSlashIndex = operationLocation.lastIndexOf("/");
-  return operationLocation.substring(lastSlashIndex + 1);
+  return message + " " + innerMessage;
 }
 
 /**
@@ -196,48 +183,32 @@ export function getOperationId(operationLocation: string): string {
  * InvalidDocumentBatch, it exposes that as the statusCode instead.
  * @param error - the incoming error
  */
-export function handleInvalidDocumentBatch(error: unknown): any {
-  const castError = error as {
+export function compileError(errorResponse: unknown): any {
+  const castErrorResponse = errorResponse as {
     response: {
-      parsedBody?: {
-        error?: {
-          innererror?: {
-            code: string;
-            message: string;
-          };
-        };
-      };
+      parsedBody?: ErrorResponse;
     };
     statusCode: number;
   };
-  const innerCode = castError.response?.parsedBody?.error?.innererror?.code;
-  const innerMessage = castError.response?.parsedBody?.error?.innererror?.message;
-  if (innerMessage) {
-    return innerCode === "InvalidDocumentBatch"
-      ? new RestError(innerMessage, { code: innerCode, statusCode: castError.statusCode })
-      : error;
-  } else {
-    // unfortunately, the service currently does not follow the swagger definition
-    // for errors in some cases.
-    // Issue: https://msazure.visualstudio.com/Cognitive%20Services/_workitems/edit/8775003/?workitem=8972164
-    // throw new Error(
-    //   `The error coming from the service does not follow the expected structure: ${error}`
-    // );
-    logger.warning(
-      `The error coming from the service does not follow the expected structure: ${error}`
-    );
-    return error;
+  const topLevelError = castErrorResponse.response.parsedBody?.error;
+  if (!topLevelError) return errorResponse;
+  let errorMessage = topLevelError.message || "";
+  let invalidDocumentBatchCode = false;
+  function unwrap(error: TextAnalyticsError | InnerError): TextAnalyticsError {
+    if (error?.innererror !== undefined && error.innererror.message !== undefined) {
+      if (error.innererror.code === "InvalidDocumentBatch") {
+        invalidDocumentBatchCode = true;
+      }
+      errorMessage = appendReadableErrorMessage(errorMessage, error.innererror.message);
+      return unwrap(error.innererror);
+    }
+    return error as TextAnalyticsError;
   }
-}
-
-/**
- * A wrapper for setTimeout that resolves a promise after t milliseconds.
- * @internal
- * @param timeInMs - The number of milliseconds to be delayed.
- * @returns Resolved promise
- */
-export function delay(timeInMs: number): Promise<void> {
-  return new Promise((resolve) => setTimeout(() => resolve(), timeInMs));
+  unwrap(topLevelError);
+  return new RestError(errorMessage, {
+    code: invalidDocumentBatchCode ? "InvalidDocumentBatch" : topLevelError.code,
+    statusCode: castErrorResponse.statusCode
+  });
 }
 
 /**
@@ -245,4 +216,73 @@ export function delay(timeInMs: number): Promise<void> {
  */
 export function compose<T1, T2, T3>(fn1: (x: T1) => T2, fn2: (y: T2) => T3): (x: T1) => T3 {
   return (value: T1) => fn2(fn1(value));
+}
+
+/**
+ * @internal
+ */
+export async function getRawResponse<TOptions extends OperationOptions, TResult>(
+  f: (options: TOptions) => Promise<TResult>,
+  options: TOptions
+): Promise<LroResponse<TResult>> {
+  const { onResponse } = options || {};
+  let rawResponse: FullOperationResponse | undefined = undefined;
+  const flatResponse = await f({
+    ...options,
+    onResponse: (response: FullOperationResponse, flatResponseParam: unknown) => {
+      rawResponse = response;
+      onResponse?.(response, flatResponseParam);
+    }
+  });
+  return {
+    flatResponse,
+    rawResponse: {
+      statusCode: rawResponse!.status,
+      headers: rawResponse!.headers.toJSON(),
+      body: rawResponse!.parsedBody
+    }
+  };
+}
+
+/**
+ * @internal
+ */
+export async function sendGetRequest<TOptions extends OperationOptions>(
+  // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
+  client: GeneratedClient,
+  spec: OperationSpec,
+  spanStr: string,
+  options: TOptions,
+  path: string
+): Promise<LroResponse<unknown>> {
+  const { span, updatedOptions: finalOptions } = createSpan(
+    `TextAnalyticsClient-${spanStr}`,
+    options
+  );
+  try {
+    const { flatResponse, rawResponse } = await getRawResponse(
+      (paramOptions) =>
+        client.sendOperationRequest(
+          { options: paramOptions },
+          {
+            ...spec,
+            path,
+            httpMethod: "GET"
+          }
+        ),
+      finalOptions
+    );
+    return {
+      flatResponse: flatResponse,
+      rawResponse
+    };
+  } catch (e) {
+    span.setStatus({
+      code: SpanStatusCode.ERROR,
+      message: e.message
+    });
+    throw e;
+  } finally {
+    span.end();
+  }
 }

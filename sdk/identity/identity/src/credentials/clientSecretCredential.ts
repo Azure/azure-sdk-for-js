@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-http";
+import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
+
 import { MsalClientSecret } from "../msal/nodeFlows/msalClientSecret";
 import { credentialLogger } from "../util/logging";
 import { trace } from "../util/tracing";
@@ -37,6 +38,11 @@ export class ClientSecretCredential implements TokenCredential {
     clientSecret: string,
     options: ClientSecretCredentialOptions = {}
   ) {
+    if (!tenantId || !clientId || !clientSecret) {
+      throw new Error(
+        "ClientSecretCredential: tenantId, clientId, and clientSecret are required parameters. To troubleshoot, visit https://aka.ms/azsdk/js/identity/serviceprincipalauthentication/troubleshoot."
+      );
+    }
     this.msalFlow = new MsalClientSecret({
       ...options,
       logger,
@@ -48,10 +54,8 @@ export class ClientSecretCredential implements TokenCredential {
   }
 
   /**
-   * Authenticates with Azure Active Directory and returns an access token if
-   * successful.  If authentication cannot be performed at this time, this method may
-   * return null.  If an error occurs during authentication, an {@link AuthenticationError}
-   * containing failure details will be thrown.
+   * Authenticates with Azure Active Directory and returns an access token if successful.
+   * If authentication fails, a {@link CredentialUnavailableError} will be thrown with the details of the failure.
    *
    * @param scopes - The list of scopes for which the token will have access.
    * @param options - The options used to configure any requests this

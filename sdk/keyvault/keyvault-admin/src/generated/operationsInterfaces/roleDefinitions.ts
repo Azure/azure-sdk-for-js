@@ -6,7 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
 import {
   RoleDefinitionsDeleteOptionalParams,
   RoleDefinitionCreateParameters,
@@ -34,7 +33,7 @@ export interface RoleDefinitions {
     scope: string,
     roleDefinitionName: string,
     options?: RoleDefinitionsDeleteOptionalParams
-  ): Promise<coreHttp.RestResponse>;
+  ): Promise<void>;
   /**
    * Creates or updates a custom role definition.
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.

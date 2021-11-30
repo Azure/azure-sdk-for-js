@@ -1,8 +1,7 @@
 /**
  * This is the main configuration file for Rush.
  * For full documentation, please see https://rushjs.io
- */
-{
+ */{
   "$schema": "https://developer.microsoft.com/json-schemas/rush/v5/rush.schema.json",
   /**
    * (Required) This specifies the version of the Rush engine to be used in this repo.
@@ -15,7 +14,7 @@
    * path segment in the "$schema" field for all your Rush config files.  This will ensure
    * correct error-underlining and tab-completion for editors such as VS Code.
    */
-  "rushVersion": "5.40.7",
+  "rushVersion": "5.55.1",
   /**
    * The next field selects which package manager should be installed and determines its version.
    * Rush installs its own local copy of the package manager to ensure that your build process
@@ -24,7 +23,7 @@
    * Specify one of: "pnpmVersion", "npmVersion", or "yarnVersion".  See the Rush documentation
    * for details about these alternatives.
    */
-  "pnpmVersion": "5.15.0",
+  "pnpmVersion": "6.19.1",
   // "npmVersion": "4.5.0",
   // "yarnVersion": "1.9.4",
   /**
@@ -85,7 +84,7 @@
    * version. In those cases, you will need to add an entry to the "allowedAlternativeVersions"
    * section of the common-versions.json.
    */
-  "ensureConsistentVersions": true,
+  // "ensureConsistentVersions": true,
   /**
    * Large monorepos can become intimidating for newcomers if project folder paths don't follow
    * a consistent and recognizable pattern.  When the system allows nested folder trees,
@@ -186,16 +185,16 @@
      * The URL of this Git repository, used by "rush change" to determine the base branch for your PR.
      *
      * The "rush change" command needs to determine which files are affected by your PR diff.
-     * If you merged or cherry-picked commits from the master branch into your PR branch, those commits
+     * If you merged or cherry-picked commits from the main branch into your PR branch, those commits
      * should be excluded from this diff (since they belong to some other PR).  In order to do that,
      * Rush needs to know where to find the base branch for your PR.  This information cannot be
      * determined from Git alone, since the "pull request" feature is not a Git concept.  Ideally
      * Rush would use a vendor-specific protocol to query the information from GitHub, Azure DevOps, etc.
-     * But to keep things simple, "rush change" simply assumes that your PR is against the "master" branch
+     * But to keep things simple, "rush change" simply assumes that your PR is against the "main" branch
      * of the Git remote indicated by the respository.url setting in rush.json.  If you are working in
      * a GitHub "fork" of the real repo, this setting will be different from the repository URL of your
      * your PR branch, and in this situation "rush change" will also automatically invoke "git fetch"
-     * to retrieve the latest activity for the remote master branch.
+     * to retrieve the latest activity for the remote main branch.
      */
     "url": "https://github.com/Azure/azure-sdk-for-js"
   },
@@ -338,8 +337,19 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure-rest/purview-account",
+      "projectFolder": "sdk/purview/purview-account-rest",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure-rest/purview-administration",
+      "projectFolder": "sdk/purview/purview-administration-rest",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure-rest/purview-catalog",
-      "projectFolder": "sdk/purview/purview-catalog-rest"
+      "projectFolder": "sdk/purview/purview-catalog-rest",
+      "versionPolicyName": "client"
     },
     {
       "packageName": "@azure-rest/purview-scanning",
@@ -417,6 +427,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure-tools/communication-short-codes",
+      "projectFolder": "sdk/communication/communication-short-codes",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/communication-sms",
       "projectFolder": "sdk/communication/communication-sms",
       "versionPolicyName": "client"
@@ -432,8 +447,18 @@
       "versionPolicyName": "core"
     },
     {
+      "packageName": "@azure-rest/core-client-lro",
+      "projectFolder": "sdk/core/core-client-lro-rest",
+      "versionPolicyName": "core"
+    },
+    {
       "packageName": "@azure-rest/core-client",
       "projectFolder": "sdk/core/core-client-rest",
+      "versionPolicyName": "core"
+    },
+    {
+      "packageName": "@azure-rest/core-client-paging",
+      "projectFolder": "sdk/core/core-client-paging-rest",
       "versionPolicyName": "core"
     },
     {
@@ -527,6 +552,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/eventhubs-checkpointstore-table",
+      "projectFolder": "sdk/eventhub/eventhubs-checkpointstore-table",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/event-processor-host",
       "projectFolder": "sdk/eventhub/event-processor-host",
       "versionPolicyName": "client"
@@ -539,6 +569,16 @@
     {
       "packageName": "@azure/identity",
       "projectFolder": "sdk/identity/identity",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/identity-vscode",
+      "projectFolder": "sdk/identity/identity-vscode",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/identity-cache-persistence",
+      "projectFolder": "sdk/identity/identity-cache-persistence",
       "versionPolicyName": "client"
     },
     {
@@ -622,6 +662,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure-rest/synapse-access-control",
+      "projectFolder": "sdk/synapse/synapse-access-control-rest",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/synapse-artifacts",
       "projectFolder": "sdk/synapse/synapse-artifacts",
       "versionPolicyName": "client"
@@ -647,9 +692,19 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure-tests/perf-data-tables",
+      "projectFolder": "sdk/tables/perf-tests/data-tables",
+      "versionPolicyName": "test"
+    },
+    {
       "packageName": "@azure/template",
       "projectFolder": "sdk/template/template",
       "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure-tools/testing-recorder-new",
+      "projectFolder": "sdk/test-utils/testing-recorder-new",
+      "versionPolicyName": "test"
     },
     {
       "packageName": "@azure/eslint-plugin-azure-sdk",
@@ -657,13 +712,18 @@
       "versionPolicyName": "utility"
     },
     {
-      "packageName": "@azure/test-utils-recorder",
+      "packageName": "@azure-tools/test-recorder",
       "projectFolder": "sdk/test-utils/recorder",
       "versionPolicyName": "utility"
     },
     {
-      "packageName": "@azure/test-utils-perfstress",
-      "projectFolder": "sdk/test-utils/perfstress",
+      "packageName": "@azure-tools/test-recorder-new",
+      "projectFolder": "sdk/test-utils/recorder-new",
+      "versionPolicyName": "utility"
+    },
+    {
+      "packageName": "@azure/test-utils-perf",
+      "projectFolder": "sdk/test-utils/perf",
       "versionPolicyName": "utility"
     },
     {
@@ -683,7 +743,8 @@
     },
     {
       "packageName": "@azure/iot-modelsrepository",
-      "projectFolder": "sdk/iot/iot-modelsrepository"
+      "projectFolder": "sdk/iot/iot-modelsrepository",
+      "versionPolicyName": "client"
     },
     {
       "packageName": "@azure-tests/perf-ai-form-recognizer",
@@ -736,8 +797,18 @@
       "versionPolicyName": "test"
     },
     {
-      "packageName": "@azure/mixedreality-authentication",
-      "projectFolder": "sdk/mixedreality/mixedreality-authentication",
+      "packageName": "@azure-tests/perf-service-bus",
+      "projectFolder": "sdk/servicebus/perf-tests/service-bus",
+      "versionPolicyName": "test"
+    },
+    {
+      "packageName": "@azure-tests/perf-event-hubs",
+      "projectFolder": "sdk/eventhub/perf-tests/event-hubs",
+      "versionPolicyName": "test"
+    },
+    {
+      "packageName": "@azure/mixed-reality-authentication",
+      "projectFolder": "sdk/mixedreality/mixed-reality-authentication",
       "versionPolicyName": "client"
     },
     {
@@ -766,9 +837,304 @@
       "versionPolicyName": "test"
     },
     {
+      "packageName": "@azure-tests/perf-container-registry",
+      "projectFolder": "sdk/containerregistry/perf-tests/container-registry",
+      "versionPolicyName": "test"
+    },
+    {
       "packageName": "@azure-tests/perf-core-rest-pipeline",
       "projectFolder": "sdk/core/perf-tests/core-rest-pipeline",
       "versionPolicyName": "test"
+    },
+    {
+      "packageName": "@azure-tests/perf-app-configuration",
+      "projectFolder": "sdk/appconfiguration/perf-tests/app-configuration",
+      "versionPolicyName": "test"
+    },
+    {
+      "packageName": "@azure-tests/perf-monitor-query",
+      "projectFolder": "sdk/monitor/perf-tests/monitor-query",
+      "versionPolicyName": "test"
+    },
+    {
+      "packageName": "@azure-tests/perf-template",
+      "projectFolder": "sdk/template/perf-tests/template",
+      "versionPolicyName": "test"
+    },
+    {
+      "packageName": "@azure/mixed-reality-remote-rendering",
+      "projectFolder": "sdk/remoterendering/mixed-reality-remote-rendering",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/arm-network",
+      "projectFolder": "sdk/network/arm-network",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-compute",
+      "projectFolder": "sdk/compute/arm-compute",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-storage",
+      "projectFolder": "sdk/storage/arm-storage",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-resources",
+      "projectFolder": "sdk/resources/arm-resources",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-links",
+      "projectFolder": "sdk/links/arm-links",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-policy",
+      "projectFolder": "sdk/policy/arm-policy",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-locks",
+      "projectFolder": "sdk/locks/arm-locks",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-features",
+      "projectFolder": "sdk/features/arm-features",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-managedapplications",
+      "projectFolder": "sdk/managedapplications/arm-managedapplications",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-webpubsub",
+      "projectFolder": "sdk/web-pubsub/arm-webpubsub",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-keyvault",
+      "projectFolder": "sdk/keyvault/arm-keyvault",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-sql",
+      "projectFolder": "sdk/sql/arm-sql",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-appservice",
+      "projectFolder": "sdk/appservice/arm-appservice",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-resources-subscriptions",
+      "projectFolder": "sdk/resources-subscriptions/arm-resources-subscriptions",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-templatespecs",
+      "projectFolder": "sdk/templatespecs/arm-templatespecs",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-authorization",
+      "projectFolder": "sdk/authorization/arm-authorization",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-eventhub",
+      "projectFolder": "sdk/eventhub/arm-eventhub",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-purview",
+      "projectFolder": "sdk/purview/arm-purview",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-servicebus",
+      "projectFolder": "sdk/servicebus/arm-servicebus",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-apimanagement",
+      "projectFolder": "sdk/apimanagement/arm-apimanagement",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-rediscache",
+      "projectFolder": "sdk/redis/arm-rediscache",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-eventgrid",
+      "projectFolder": "sdk/eventgrid/arm-eventgrid",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-quota",
+      "projectFolder": "sdk/quota/arm-quota",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-extendedlocation",
+      "projectFolder": "sdk/extendedlocation/arm-extendedlocation",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-security",
+      "projectFolder": "sdk/security/arm-security",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-operationalinsights",
+      "projectFolder": "sdk/operationalinsights/arm-operationalinsights",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-postgresql",
+      "projectFolder": "sdk/postgresql/arm-postgresql",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-containerregistry",
+      "projectFolder": "sdk/containerregistry/arm-containerregistry",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-logic",
+      "projectFolder": "sdk/logic/arm-logic",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-recoveryservices",
+      "projectFolder": "sdk/recoveryservices/arm-recoveryservices",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-appplatform",
+      "projectFolder": "sdk/appplatform/arm-appplatform",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-containerservice",
+      "projectFolder": "sdk/containerservice/arm-containerservice",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-operations",
+      "projectFolder": "sdk/operationsmanagement/arm-operations",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-mediaservices",
+      "projectFolder": "sdk/mediaservices/arm-mediaservices",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-databricks",
+      "projectFolder": "sdk/databricks/arm-databricks",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-videoanalyzer",
+      "projectFolder": "sdk/videoanalyzer/arm-videoanalyzer",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-notificationhubs",
+      "projectFolder": "sdk/notificationhubs/arm-notificationhubs",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-streamanalytics",
+      "projectFolder": "sdk/streamanalytics/arm-streamanalytics",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-servicefabric",
+      "projectFolder": "sdk/servicefabric/arm-servicefabric",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-mysql",
+      "projectFolder": "sdk/mysql/arm-mysql",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-desktopvirtualization",
+      "projectFolder": "sdk/desktopvirtualization/arm-desktopvirtualization",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-datafactory",
+      "projectFolder": "sdk/datafactory/arm-datafactory",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-cdn",
+      "projectFolder": "sdk/cdn/arm-cdn",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-cosmosdb",
+      "projectFolder": "sdk/cosmosdb/arm-cosmosdb",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-consumption",
+      "projectFolder": "sdk/consumption/arm-consumption",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-datalake-analytics",
+      "projectFolder": "sdk/datalake-analytics/arm-datalake-analytics",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-batch",
+      "projectFolder": "sdk/batch/arm-batch",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-managementgroups",
+      "projectFolder": "sdk/managementgroups/arm-managementgroups",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-orbital",
+      "projectFolder": "sdk/orbital/arm-orbital",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-resourcehealth",
+      "projectFolder": "sdk/resourcehealth/arm-resourcehealth",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-botservice",
+      "projectFolder": "sdk/botservice/arm-botservice",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-search",
+      "projectFolder": "sdk/search/arm-search",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-analysisservices",
+      "projectFolder": "sdk/analysisservices/arm-analysisservices",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-portal",
+      "projectFolder": "sdk/portal/arm-portal",
+      "versionPolicyName": "management"
     }
   ]
 }

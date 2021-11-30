@@ -7,7 +7,6 @@
  */
 
 import * as coreClient from "@azure/core-client";
-import * as coreAuth from "@azure/core-auth";
 import { GeneratedClientOptionalParams } from "./models";
 
 export class GeneratedClientContext extends coreClient.ServiceClient {
@@ -16,18 +15,10 @@ export class GeneratedClientContext extends coreClient.ServiceClient {
 
   /**
    * Initializes a new instance of the GeneratedClientContext class.
-   * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param instanceUrl The attestation instance base URI, for example https://mytenant.attest.azure.net.
    * @param options The parameter options
    */
-  constructor(
-    credentials: coreAuth.TokenCredential,
-    instanceUrl: string,
-    options?: GeneratedClientOptionalParams
-  ) {
-    if (credentials === undefined) {
-      throw new Error("'credentials' cannot be null");
-    }
+  constructor(instanceUrl: string, options?: GeneratedClientOptionalParams) {
     if (instanceUrl === undefined) {
       throw new Error("'instanceUrl' cannot be null");
     }
@@ -37,15 +28,21 @@ export class GeneratedClientContext extends coreClient.ServiceClient {
       options = {};
     }
     const defaults: GeneratedClientOptionalParams = {
-      requestContentType: "application/json; charset=utf-8",
-      credential: credentials
+      requestContentType: "application/json; charset=utf-8"
     };
-    if (!options.credentialScopes) {
-      options.credentialScopes = ["https://attest.azure.net/.default"];
-    }
+
+    const packageDetails = `azsdk-js-attestation/1.0.1`;
+    const userAgentPrefix =
+      options.userAgentOptions && options.userAgentOptions.userAgentPrefix
+        ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
+        : `${packageDetails}`;
+
     const optionsWithDefaults = {
       ...defaults,
       ...options,
+      userAgentOptions: {
+        userAgentPrefix
+      },
       baseUri: options.endpoint || "{instanceUrl}"
     };
     super(optionsWithDefaults);

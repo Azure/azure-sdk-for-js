@@ -8,7 +8,7 @@ import {
   DigitalTwinsUpdateOptionalParams
 } from "../../src";
 import { authenticate } from "../utils/testAuthentication";
-import { Recorder } from "@azure/test-utils-recorder";
+import { Recorder } from "@azure-tools/test-recorder";
 import { delay } from "@azure/core-http";
 import chai from "chai";
 

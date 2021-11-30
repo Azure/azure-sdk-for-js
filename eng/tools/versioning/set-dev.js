@@ -77,7 +77,6 @@ const updateDependencySection = (rushPackages, dependencySection, buildId) => {
 
       const parsedPackageVersion = semver.parse(packageVersion);
       const parsedDepMinVersion = semver.minVersion(depVersionRange);
-
       if (semver.eq(parsedDepMinVersion, parsedPackageVersion)) {
         rushPackages = updatePackageVersion(rushPackages, depName, buildId);
       }
@@ -137,9 +136,10 @@ const makeDependencySectionConsistentForPackage = (rushPackages, dependencySecti
       rushPackages[depName].newVer !== undefined
     ) {
 
-      // Setting version to ^[major.minor.patch]-alpha so that this automatically matches 
+      // Setting version to >=[major.minor.patch]-alpha <[major.minor.patch]-alphb so that this automatically matches 
       // with the latest dev version published on npm
-      dependencySection[depName] = `^${parsedPackageVersion.major}.${parsedPackageVersion.minor}.${parsedPackageVersion.patch}-alpha`;
+      const versionPrefix = `${parsedPackageVersion.major}.${parsedPackageVersion.minor}.${parsedPackageVersion.patch}`;
+      dependencySection[depName] = `>=${versionPrefix}-alpha <${versionPrefix}-alphb`;
     }
   }
   return rushPackages;
@@ -173,7 +173,8 @@ const updateCommonVersions = async (repoRoot, commonVersionsConfig, package, sea
     for (var version of allowedAlternativeVersions[package]) {
       const parsedPackageVersion = semver.minVersion(version);
       if (semver.eq(parsedPackageVersion, parsedSearchVersion)) {
-        var devVersionRange = "^" + parsedSearchVersion.major + "." + parsedSearchVersion.minor + "." + parsedSearchVersion.patch + "-alpha";
+        const versionPrefix = `${parsedSearchVersion.major}.${parsedSearchVersion.minor}.${parsedSearchVersion.patch}`;
+        var devVersionRange = ">=" + versionPrefix + "-alpha <" + versionPrefix + "-alphb";
         allowedAlternativeVersions[package].push(devVersionRange);
         break;
       }
@@ -199,7 +200,7 @@ async function main(argv) {
   let targetPackages = [];
   for (const package of Object.keys(rushPackages)) {
     if (
-      ["client", "core"].includes(rushPackages[package].versionPolicy) &&
+      ["client", "core", "management"].includes(rushPackages[package].versionPolicy) &&
       rushPackages[package].projectFolder.startsWith(`sdk/${service}`) &&
       !rushPackages[package].json["private"]
     ) {

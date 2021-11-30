@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { PipelineOptions, OperationOptions } from "@azure/core-http";
+import { CommonClientOptions, OperationOptions } from "@azure/core-client";
 import {
   ChatThreadListChatMessagesOptionalParams as RestListMessagesOptions,
   ChatListChatThreadsOptionalParams as RestListChatThreadsOptions,
@@ -20,7 +20,7 @@ export {
 /**
  * Options to create chat client.
  */
-export interface ChatClientOptions extends PipelineOptions {}
+export interface ChatClientOptions extends CommonClientOptions {}
 
 /**
  * Options to create chat thread client.
@@ -112,7 +112,10 @@ export type RemoveParticipantOptions = OperationOptions;
 /**
  * Options to send typing notifications.
  */
-export type SendTypingNotificationOptions = OperationOptions;
+export interface SendTypingNotificationOptions extends OperationOptions {
+  /** The display name of the typing notification sender. This property is used to populate sender name for push notifications. */
+  senderDisplayName?: string;
+}
 
 /**
  * Options to send read receipt.

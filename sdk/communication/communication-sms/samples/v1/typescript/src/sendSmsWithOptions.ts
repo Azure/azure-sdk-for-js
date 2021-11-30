@@ -12,7 +12,7 @@ import * as dotenv from "dotenv";
 import { SmsSendOptions } from "../src/generated/src/models";
 dotenv.config();
 
-export const main = async () => {
+export async function main() {
   console.log("== Send SMS Message With Options ==");
 
   // You will need to set this environment variable or edit the following values
@@ -55,7 +55,7 @@ export const main = async () => {
   }
 
   console.log("== Done: Send SMS Message With Options ==");
-};
+}
 
 main().catch((error) => {
   console.error("Encountered an error while sending SMS: ", error);

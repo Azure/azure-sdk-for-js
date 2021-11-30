@@ -2,10 +2,16 @@
 
 ## 1.1.0 (Unreleased)
 
+### Features Added
+- With the dropping of support for Node.js versions that are no longer in LTS, the dependency on `@types/node` has been updated to version 12. Read our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
 - Updates all async methods on `BlobCheckpointStore` to accept
   an optional `options` parameter that can be used to pass in an
   `abortSignal` and `tracingOptions`.
   Resolves issue [#9492](https://github.com/Azure/azure-sdk-for-js/issues/9492).
+
+### Breaking Changes
+
+### Key Bugs Fixed
 
 ## 1.0.1 (2020-08-03)
 

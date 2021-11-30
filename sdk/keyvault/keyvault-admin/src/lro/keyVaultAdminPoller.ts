@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { delay, RequestOptionsBase } from "@azure/core-http";
+import { OperationOptions } from "@azure/core-client";
 import { Poller, PollOperation, PollOperationState } from "@azure/core-lro";
 import { KeyVaultClient } from "../generated/keyVaultClient";
 
@@ -11,7 +11,7 @@ import { KeyVaultClient } from "../generated/keyVaultClient";
 export interface KeyVaultAdminPollerOptions {
   vaultUrl: string;
   client: KeyVaultClient;
-  requestOptions?: RequestOptionsBase;
+  requestOptions?: OperationOptions;
   intervalInMs?: number;
   resumeFrom?: string;
 }
@@ -78,7 +78,7 @@ export abstract class KeyVaultAdminPoller<
    * The method used by the poller to wait before attempting to update its operation.
    */
   async delay(): Promise<void> {
-    return delay(this.intervalInMs);
+    return new Promise((resolve) => setTimeout(resolve, this.intervalInMs));
   }
 
   /**

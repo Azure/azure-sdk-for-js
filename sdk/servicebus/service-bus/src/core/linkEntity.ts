@@ -299,22 +299,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
 
     this._logger.verbose(`${this.logPrefix} permanently closing this link.`);
 
-    // Remove the underlying AMQP link from the cache
-    switch (this._linkType) {
-      case "s": {
-        delete this._context.senders[this.name];
-        break;
-      }
-      case "br":
-      case "sr": {
-        delete this._context.messageReceivers[this.name];
-        break;
-      }
-      case "ms": {
-        delete this._context.messageSessions[this.name];
-        break;
-      }
-    }
+    this.removeLinkFromContext();
 
     await this.closeLink();
     this._logger.verbose(`${this.logPrefix} permanently closed this link.`);
@@ -326,6 +311,11 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
    *
    */
   protected abstract createRheaLink(_options: LinkOptionsT<LinkT>): Promise<LinkT>;
+
+  /**
+   * Clears this link from context's link cache.
+   */
+  protected abstract removeLinkFromContext(): void;
 
   /**
    * Closes the internally held rhea link, stops the token renewal timer and sets

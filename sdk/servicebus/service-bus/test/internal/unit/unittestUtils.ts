@@ -4,7 +4,7 @@
 import { ConnectionContext } from "../../../src/connectionContext";
 import {
   AwaitableSender,
-  Receiver as RheaReceiver,
+  Receiver as RheaPromiseReceiver,
   ReceiverEvents,
   ReceiverOptions
 } from "rhea-promise";
@@ -21,7 +21,7 @@ export interface CreateConnectionContextForTestsOptions {
   host?: string;
   entityPath?: string;
   onCreateAwaitableSenderCalled?: () => void;
-  onCreateReceiverCalled?: (receiver: RheaReceiver) => void;
+  onCreateReceiverCalled?: (receiver: RheaPromiseReceiver) => void;
 }
 
 /**
@@ -79,7 +79,7 @@ export function createConnectionContextForTests(
 
         return testAwaitableSender;
       },
-      createReceiver: async (): Promise<RheaReceiver> => {
+      createReceiver: async (): Promise<RheaPromiseReceiver> => {
         const receiver = createRheaReceiverForTests();
 
         if (options?.onCreateReceiverCalled) {
@@ -165,13 +165,30 @@ export function createConnectionContextForTestsWithSessionId(
  * - It handles draining (via the .drain = true/addCredit(1) combo of operations).
  * - It respects .close(), so the state of the receiver should be accurate for isOpen().
  */
-export function createRheaReceiverForTests(options?: ReceiverOptions): RheaReceiver {
-  const receiver = new EventEmitter() as RheaReceiver;
+export function createRheaReceiverForTests(options?: ReceiverOptions): RheaPromiseReceiver {
+  const receiver = new EventEmitter() as RheaPromiseReceiver;
 
   (receiver as any).name = options?.name == null ? getUniqueName("entity") : options.name;
 
   (receiver as any).connection = {
     id: "connection-id"
+  };
+
+  const link = {
+    credit: 0,
+    drain_credit(): void {
+      // simulate drain
+      (receiver as any).credit = 0;
+      receiver.emit(ReceiverEvents.receiverDrained, undefined);
+    }
+  };
+
+  (receiver as any)["_link"] = link;
+
+  receiver.drain = false;
+
+  (receiver as any)["drainCredit"] = () => {
+    link.drain_credit();
   };
 
   (receiver as any).addCredit = (credit: number) => {
@@ -184,11 +201,6 @@ export function createRheaReceiverForTests(options?: ReceiverOptions): RheaRecei
     }
 
     (receiver as any).credit += credit;
-
-    if (credit === 1 && receiver.drain) {
-      (receiver as any).credit = 0;
-      receiver.emit(ReceiverEvents.receiverDrained, undefined);
-    }
   };
 
   mockLinkProperties(receiver);
@@ -258,7 +270,10 @@ export const retryableErrorForTests = (() => {
  * and also installs the proper cleanup handlers so all created receivers
  * are closed when each test completes.
  */
-export function addTestStreamingReceiver() {
+export function addTestStreamingReceiver(): (
+  entityPath: string,
+  options?: ReceiveOptions
+) => StreamingReceiver {
   const closeables = addCloseablesCleanup();
 
   function createTestStreamingReceiver(

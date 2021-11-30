@@ -51,6 +51,10 @@ export interface ConnectionContext {
    * The subprotocol of this connection.
    */
   subprotocol?: string;
+  /**
+   * Get the additional states for the connection, such states are perserved throughout the lifetime of the connection.
+   */
+  states: Record<string, any>;
 }
 
 /**
@@ -69,6 +73,10 @@ export interface ConnectRequest {
    * The queries that the client WebSocket connection has when it connects.
    */
   queries?: Record<string, string[]>;
+  /**
+   * The headers that the client WebSocket connection has when it connects.
+   */
+  headers?: Record<string, string[]>;
   /**
    * The subprotocols that the client WebSocket connection uses to do handshake.
    */
@@ -153,14 +161,20 @@ export interface DisconnectedRequest {
  */
 export interface ConnectResponseHandler {
   /**
+   * Set the state of the connection
+   * @param name - The name of the state
+   * @param value - The value of the state
+   */
+  setState(name: string, value: unknown): void;
+  /**
    * Return success response to the service.
-   * @param response The response for the connect event.
+   * @param response - The response for the connect event.
    */
   success(response?: ConnectResponse): void;
   /**
    * Return failed response and the service will reject the client WebSocket connection.
-   * @param code Code can be 400 user error, 401 unauthorized and 500 server error.
-   * @param detail The detail of the error.
+   * @param code - Code can be 400 user error, 401 unauthorized and 500 server error.
+   * @param detail - The detail of the error.
    */
   fail(code: 400 | 401 | 500, detail?: string): void;
 }
@@ -170,15 +184,21 @@ export interface ConnectResponseHandler {
  */
 export interface UserEventResponseHandler {
   /**
+   * Set the state of the connection
+   * @param name - The name of the state
+   * @param value - The value of the state
+   */
+  setState(name: string, value: unknown): void;
+  /**
    * Return success response with data to be delivered to the client WebSocket connection.
-   * @param data The payload data to be returned to the client.
-   * @param dataType The type of the payload data.
+   * @param data - The payload data to be returned to the client.
+   * @param dataType - The type of the payload data.
    */
   success(data?: string | ArrayBuffer, dataType?: "binary" | "text" | "json"): void;
   /**
    * Return failed response and the service will close the client WebSocket connection.
-   * @param code Code can be 400 user error, 401 unauthorized and 500 server error.
-   * @param detail The detail of the error.
+   * @param code - Code can be 400 user error, 401 unauthorized and 500 server error.
+   * @param detail - The detail of the error.
    */
   fail(code: 400 | 401 | 500, detail?: string): void;
 }
@@ -191,11 +211,6 @@ export interface WebPubSubEventHandlerOptions {
    * Custom serving path for the path of the CloudEvents handler.
    */
   path?: string;
-
-  /**
-   * Configures if you'd like to dump the incoming HTTP request.
-   */
-  dumpRequest?: boolean;
 
   /**
    * Handle 'connect' event, the service waits for the response to proceed.
@@ -220,4 +235,9 @@ export interface WebPubSubEventHandlerOptions {
    * Event triggers for "disconnected" unblocking event. This is an unblocking event and the service does not wait for the response.
    */
   onDisconnected?: (disconnectedRequest: DisconnectedRequest) => void;
+
+  /**
+   * If not specified, by default allow all the endpoints, otherwise only allow specified endpoints
+   */
+  allowedEndpoints?: string[];
 }

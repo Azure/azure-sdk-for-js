@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { AmqpAnnotatedMessage } from "@azure/core-amqp";
 import { NamedKeyCredential, SASCredential, TokenCredential } from "@azure/core-auth";
 import { SpanStatusCode, Link, Span, SpanContext, SpanKind } from "@azure/core-tracing";
 import { ConnectionContext, createConnectionContext } from "./connectionContext";
-import { instrumentEventData, TRACEPARENT_PROPERTY } from "./diagnostics/instrumentEventData";
-import { createMessageSpan } from "./diagnostics/tracing";
+import { instrumentEventData } from "./diagnostics/instrumentEventData";
 import { EventData } from "./eventData";
 import { EventDataBatch, EventDataBatchImpl, isEventDataBatch } from "./eventDataBatch";
 import { EventHubSender } from "./eventHubSender";
@@ -226,7 +226,7 @@ export class EventHubProducerClient {
    * await client.sendBatch(messages);
    * ```
    *
-   * @param batch - An array of {@link EventData}.
+   * @param batch - An array of {@link EventData} or `AmqpAnnotatedMessage`.
    * @param options - A set of options that can be specified to influence the way in which
    * events are sent to the associated Event Hub.
    * - `abortSignal`  : A signal the request to cancel the send operation.
@@ -238,7 +238,10 @@ export class EventHubProducerClient {
    * @throws MessagingError if an error is encountered while sending a message.
    * @throws Error if the underlying connection or sender has been closed.
    */
-  async sendBatch(batch: EventData[], options?: SendBatchOptions): Promise<void>;
+  async sendBatch(
+    batch: EventData[] | AmqpAnnotatedMessage[],
+    options?: SendBatchOptions
+  ): Promise<void>;
   /**
    * Sends a batch of events to the associated Event Hub.
    *
@@ -311,15 +314,12 @@ export class EventHubProducerClient {
       partitionKey = expectedOptions.partitionKey;
 
       for (let i = 0; i < batch.length; i++) {
-        const event = batch[i];
-        if (!event.properties || !event.properties[TRACEPARENT_PROPERTY]) {
-          const { span: messageSpan } = createMessageSpan(options, this._context.config);
-          // since these message spans are created from same context as the send span,
-          // these message spans don't need to be linked.
-          // replace the original event with the instrumented one
-          batch[i] = instrumentEventData(batch[i], messageSpan);
-          messageSpan.end();
-        }
+        batch[i] = instrumentEventData(
+          batch[i],
+          options,
+          this._context.config.entityPath,
+          this._context.config.host
+        ).event;
       }
     }
     if (isDefined(partitionId) && isDefined(partitionKey)) {

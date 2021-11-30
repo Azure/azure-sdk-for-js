@@ -100,7 +100,7 @@ export const timeoutInSeconds: OperationQueryParameter = {
 export const version: OperationParameter = {
   parameterPath: "version",
   mapper: {
-    defaultValue: "2020-06-12",
+    defaultValue: "2020-12-06",
     isConstant: true,
     serializedName: "x-ms-version",
     type: {
@@ -636,6 +636,36 @@ export const fileLastWriteOn: OperationParameter = {
   }
 };
 
+export const include1: OperationQueryParameter = {
+  parameterPath: ["options", "include"],
+  mapper: {
+    serializedName: "include",
+    xmlName: "include",
+    xmlElementName: "ListFilesIncludeType",
+    type: {
+      name: "Sequence",
+      element: {
+        type: {
+          name: "Enum",
+          allowedValues: ["Timestamps", "Etag", "Attributes", "PermissionKey"]
+        }
+      }
+    }
+  },
+  collectionFormat: QueryCollectionFormat.Csv
+};
+
+export const includeExtendedInfo: OperationParameter = {
+  parameterPath: ["options", "includeExtendedInfo"],
+  mapper: {
+    serializedName: "x-ms-file-extended-info",
+    xmlName: "x-ms-file-extended-info",
+    type: {
+      name: "Boolean"
+    }
+  }
+};
+
 export const comp9: OperationQueryParameter = {
   parameterPath: "comp",
   mapper: {
@@ -974,6 +1004,17 @@ export const sourceIfNoneMatchCrc64: OperationParameter = {
     xmlName: "x-ms-source-if-none-match-crc64",
     type: {
       name: "ByteArray"
+    }
+  }
+};
+
+export const copySourceAuthorization: OperationParameter = {
+  parameterPath: ["options", "copySourceAuthorization"],
+  mapper: {
+    serializedName: "x-ms-copy-source-authorization",
+    xmlName: "x-ms-copy-source-authorization",
+    type: {
+      name: "String"
     }
   }
 };

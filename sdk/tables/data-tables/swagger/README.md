@@ -6,7 +6,7 @@
 
 ```yaml
 v3: true
-package-version: 12.0.1
+package-version: 13.0.1
 package-name: "@azure/data-tables"
 title: TablesClient
 description: Tables Client
@@ -28,6 +28,16 @@ directive:
     where: $.definitions.GeoReplication
     transform: >
       $["description"] = "Geo-Replication information for the Secondary Storage Service";
+```
+
+### Fix additionalProperties type, it should be any not AnyObject. True defaults to AnyObject
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.TableEntityProperties
+    transform: >
+      $["additionalProperties"] = {};
 ```
 
 ```yaml

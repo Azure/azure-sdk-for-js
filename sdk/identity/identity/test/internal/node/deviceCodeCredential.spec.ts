@@ -4,12 +4,12 @@
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
 import Sinon from "sinon";
-import assert from "assert";
+import { assert } from "chai";
 import { PublicClientApplication } from "@azure/msal-node";
-import { env, isLiveMode } from "@azure/test-utils-recorder";
+import { env, isLiveMode } from "@azure-tools/test-recorder";
 import { DeviceCodeCredential } from "../../../src";
 import { MsalTestCleanup, msalNodeTestSetup } from "../../msalTestUtils";
-import { MsalNode } from "../../../src/msal/nodeFlows/nodeCommon";
+import { MsalNode } from "../../../src/msal/nodeFlows/msalNodeCommon";
 import { Context } from "mocha";
 
 describe("DeviceCodeCredential (internal)", function() {

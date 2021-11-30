@@ -6,7 +6,7 @@ const {
   isPlaybackMode,
   isSoftRecordMode,
   isRecordMode
-} = require("@azure/test-utils-recorder");
+} = require("@azure-tools/test-recorder");
 
 module.exports = function(config) {
   config.set({
@@ -61,6 +61,7 @@ module.exports = function(config) {
       "ACCOUNT_TOKEN",
       "MD_ACCOUNT_NAME",
       "MD_ACCOUNT_SAS",
+      "IMMUTABLE_CONTAINER_NAME",
       "ENCRYPTION_SCOPE_1",
       "ENCRYPTION_SCOPE_2",
       "ORS_DEST_ACCOUNT_NAME",

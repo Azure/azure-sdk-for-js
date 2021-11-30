@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AccessToken } from "@azure/core-http";
-import { TokenCredentialOptions } from "../client/identityClient";
+import { AccessToken } from "@azure/core-auth";
+
+import { TokenCredentialOptions } from "../tokenCredentialOptions";
 import { credentialLogger, formatError } from "../util/logging";
 import { ChainedTokenCredential } from "./chainedTokenCredential";
 
@@ -15,7 +16,7 @@ const logger = credentialLogger("DefaultAzureCredential");
  * Provides a default {@link ChainedTokenCredential} configuration for
  * applications that will be deployed to Azure.
  *
- * Only available in NodeJS.
+ * Only available in Node.js.
  */
 export class DefaultAzureCredential extends ChainedTokenCredential {
   /**

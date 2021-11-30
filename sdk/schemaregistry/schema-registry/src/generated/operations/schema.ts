@@ -6,48 +6,67 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import { Schema } from "../operationsInterfaces";
+import * as coreClient from "@azure/core-client";
+import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { GeneratedSchemaRegistryClient } from "../generatedSchemaRegistryClient";
+import { GeneratedSchemaRegistryClientContext } from "../generatedSchemaRegistryClientContext";
 import {
+  SchemaGetByIdOptionalParams,
   SchemaGetByIdResponse,
-  SerializationType,
+  SchemaGetVersionsOptionalParams,
+  SchemaGetVersionsResponse,
+  SchemaQueryIdByContentOptionalParams,
   SchemaQueryIdByContentResponse,
+  SchemaRegisterOptionalParams,
   SchemaRegisterResponse
 } from "../models";
 
-/**
- * Class representing a Schema.
- */
-export class Schema {
-  private readonly client: GeneratedSchemaRegistryClient;
+/** Class containing Schema operations. */
+export class SchemaImpl implements Schema {
+  private readonly client: GeneratedSchemaRegistryClientContext;
 
   /**
    * Initialize a new instance of the class Schema class.
    * @param client Reference to the service client
    */
-  constructor(client: GeneratedSchemaRegistryClient) {
+  constructor(client: GeneratedSchemaRegistryClientContext) {
     this.client = client;
   }
 
   /**
    * Gets a registered schema by its unique ID.  Azure Schema Registry guarantees that ID is unique
-   * within a namespace.
-   * @param schemaId References specific schema in registry namespace.
+   * within a namespace. Operation response type is based on serialization of schema requested.
+   * @param id References specific schema in registry namespace.
    * @param options The options parameters.
    */
   getById(
-    schemaId: string,
-    options?: coreHttp.OperationOptions
+    id: string,
+    options?: SchemaGetByIdOptionalParams
   ): Promise<SchemaGetByIdResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
     return this.client.sendOperationRequest(
-      { schemaId, options: operationOptions },
+      { id, options },
       getByIdOperationSpec
-    ) as Promise<SchemaGetByIdResponse>;
+    );
+  }
+
+  /**
+   * Gets the list of all versions of one schema.
+   * @param groupName Schema group under which schema is registered.  Group's serialization type should
+   *                  match the serialization type specified in the request.
+   * @param schemaName Name of schema.
+   * @param options The options parameters.
+   */
+  getVersions(
+    groupName: string,
+    schemaName: string,
+    options?: SchemaGetVersionsOptionalParams
+  ): Promise<SchemaGetVersionsResponse> {
+    return this.client.sendOperationRequest(
+      { groupName, schemaName, options },
+      getVersionsOperationSpec
+    );
   }
 
   /**
@@ -55,31 +74,22 @@ export class Schema {
    * content comparison.
    * @param groupName Schema group under which schema is registered.  Group's serialization type should
    *                  match the serialization type specified in the request.
-   * @param schemaName Name of the registered schema.
-   * @param serializationType Serialization type for the schema being registered.
+   * @param schemaName Name of schema.
+   * @param contentType Content type of the schema.
    * @param schemaContent String representation (UTF-8) of the registered schema.
    * @param options The options parameters.
    */
   queryIdByContent(
     groupName: string,
     schemaName: string,
-    serializationType: SerializationType,
-    schemaContent: string,
-    options?: coreHttp.OperationOptions
+    contentType: string,
+    schemaContent: coreRestPipeline.RequestBodyType,
+    options?: SchemaQueryIdByContentOptionalParams
   ): Promise<SchemaQueryIdByContentResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
     return this.client.sendOperationRequest(
-      {
-        groupName,
-        schemaName,
-        serializationType,
-        schemaContent,
-        options: operationOptions
-      },
+      { groupName, schemaName, contentType, schemaContent, options },
       queryIdByContentOperationSpec
-    ) as Promise<SchemaQueryIdByContentResponse>;
+    );
   }
 
   /**
@@ -89,91 +99,84 @@ export class Schema {
    *
    * @param groupName Schema group under which schema should be registered.  Group's serialization type
    *                  should match the serialization type specified in the request.
-   * @param schemaName Name of schema being registered.
-   * @param serializationType Serialization type for the schema being registered.
+   * @param schemaName Name of schema.
+   * @param contentType Content type of the schema.
    * @param schemaContent String representation (UTF-8) of the schema being registered.
    * @param options The options parameters.
    */
   register(
     groupName: string,
     schemaName: string,
-    serializationType: SerializationType,
-    schemaContent: string,
-    options?: coreHttp.OperationOptions
+    contentType: string,
+    schemaContent: coreRestPipeline.RequestBodyType,
+    options?: SchemaRegisterOptionalParams
   ): Promise<SchemaRegisterResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
     return this.client.sendOperationRequest(
-      {
-        groupName,
-        schemaName,
-        serializationType,
-        schemaContent,
-        options: operationOptions
-      },
+      { groupName, schemaName, contentType, schemaContent, options },
       registerOperationSpec
-    ) as Promise<SchemaRegisterResponse>;
+    );
   }
 }
 // Operation Specifications
+const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
-
-const getByIdOperationSpec: coreHttp.OperationSpec = {
-  path: "/$schemagroups/getSchemaById/{schema-id}",
+const getByIdOperationSpec: coreClient.OperationSpec = {
+  path: "/$schemaGroups/$schemas/{id}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: { type: { name: "String" } },
+      bodyMapper: {
+        type: { name: "Stream" },
+        serializedName: "parsedResponse"
+      },
       headersMapper: Mappers.SchemaGetByIdHeaders
     },
     default: {
-      bodyMapper: { type: { name: "String" } }
+      bodyMapper: Mappers.ErrorModel,
+      headersMapper: Mappers.SchemaGetByIdExceptionHeaders
     }
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint, Parameters.schemaId],
+  urlParameters: [Parameters.endpoint, Parameters.id],
+  headerParameters: [Parameters.accept1],
+  serializer
+};
+const getVersionsOperationSpec: coreClient.OperationSpec = {
+  path: "/$schemaGroups/{groupName}/schemas/{schemaName}/versions",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SchemaVersions
+    },
+    default: {
+      bodyMapper: Mappers.ErrorModel,
+      headersMapper: Mappers.SchemaGetVersionsExceptionHeaders
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.endpoint,
+    Parameters.groupName,
+    Parameters.schemaName
+  ],
   headerParameters: [Parameters.accept],
   serializer
 };
-const queryIdByContentOperationSpec: coreHttp.OperationSpec = {
-  path: "/$schemagroups/{group-name}/schemas/{schema-name}",
+const queryIdByContentOperationSpec: coreClient.OperationSpec = {
+  path: "/$schemaGroups/{groupName}/schemas/{schemaName}:get-id",
   httpMethod: "POST",
   responses: {
-    200: {
-      bodyMapper: Mappers.SchemaId,
+    204: {
       headersMapper: Mappers.SchemaQueryIdByContentHeaders
     },
-    default: {
-      bodyMapper: { type: { name: "String" } }
-    }
-  },
-  requestBody: Parameters.schemaContent,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.groupName,
-    Parameters.schemaName
-  ],
-  headerParameters: [
-    Parameters.contentType,
-    Parameters.accept1,
-    Parameters.serializationType
-  ],
-  mediaType: "text",
-  serializer
-};
-const registerOperationSpec: coreHttp.OperationSpec = {
-  path: "/$schemagroups/{group-name}/schemas/{schema-name}",
-  httpMethod: "PUT",
-  responses: {
-    200: {
-      bodyMapper: Mappers.SchemaId,
-      headersMapper: Mappers.SchemaRegisterHeaders
+    415: {
+      bodyMapper: Mappers.ErrorModel,
+      headersMapper: Mappers.SchemaQueryIdByContentExceptionHeaders,
+      isError: true
     },
     default: {
-      bodyMapper: { type: { name: "String" } }
+      bodyMapper: Mappers.ErrorModel,
+      headersMapper: Mappers.SchemaQueryIdByContentExceptionHeaders
     }
   },
   requestBody: Parameters.schemaContent,
@@ -183,11 +186,35 @@ const registerOperationSpec: coreHttp.OperationSpec = {
     Parameters.groupName,
     Parameters.schemaName
   ],
-  headerParameters: [
-    Parameters.contentType,
-    Parameters.accept1,
-    Parameters.serializationType
+  headerParameters: [Parameters.accept2, Parameters.contentType],
+  mediaType: "binary",
+  serializer
+};
+const registerOperationSpec: coreClient.OperationSpec = {
+  path: "/$schemaGroups/{groupName}/schemas/{schemaName}",
+  httpMethod: "PUT",
+  responses: {
+    204: {
+      headersMapper: Mappers.SchemaRegisterHeaders
+    },
+    415: {
+      bodyMapper: Mappers.ErrorModel,
+      headersMapper: Mappers.SchemaRegisterExceptionHeaders,
+      isError: true
+    },
+    default: {
+      bodyMapper: Mappers.ErrorModel,
+      headersMapper: Mappers.SchemaRegisterExceptionHeaders
+    }
+  },
+  requestBody: Parameters.schemaContent,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.endpoint,
+    Parameters.groupName,
+    Parameters.schemaName
   ],
-  mediaType: "text",
+  headerParameters: [Parameters.accept2, Parameters.contentType],
+  mediaType: "binary",
   serializer
 };

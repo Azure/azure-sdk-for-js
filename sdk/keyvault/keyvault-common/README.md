@@ -8,10 +8,10 @@ This package contains common code that needs to be shared among the other Azure 
 
 The following client libraries use this package:
 
-- [@azure/keyvault-admin](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/README.md)
-- [@azure/keyvault-certificates](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-certificates/README.md)
-- [@azure/keyvault-keys](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-keys/README.md)
-- [@azure/keyvault-secrets](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-secrets/README.md)
+- [@azure/keyvault-admin](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-admin/README.md)
+- [@azure/keyvault-certificates](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-certificates/README.md)
+- [@azure/keyvault-keys](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-keys/README.md)
+- [@azure/keyvault-secrets](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-secrets/README.md)
 
 ## Getting started
 
@@ -35,6 +35,6 @@ If you run into issues while using this library, directly or indirectly, please 
 
 ## Contributing
 
-If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md) to learn more about how to build and test the code.
+If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md) to learn more about how to build and test the code.
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fkeyvault%2Fkeyvault-common%2FREADME.png)

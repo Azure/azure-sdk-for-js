@@ -183,8 +183,30 @@ describe("BearerTokenAuthenticationPolicy", function() {
     assert.equal(expireDelayMs + 2 * getTokenDelay, Date.now() - startTime, exceptionMessage);
   });
 
-  function createRequest(operationSpec?: OperationSpec): WebResource {
-    const request = new WebResource();
+  it("throws if the target URI doesn't start with 'https'", async () => {
+    const expiresOn = Date.now() + 1000 * 60; // One minute later.
+    const credential = new MockRefreshAzureCredential(expiresOn);
+    const request = createRequest(undefined, "http://azure.com");
+    const policy = createBearerTokenPolicy("test-scope", credential);
+
+    let error: Error | undefined;
+    try {
+      await policy.sendRequest(request);
+    } catch (e) {
+      error = e;
+    }
+
+    assert.equal(
+      error?.message,
+      "Bearer token authentication is not permitted for non-TLS protected (non-https) URLs."
+    );
+  });
+
+  function createRequest(
+    operationSpec?: OperationSpec,
+    uri: string = "https://azure.com"
+  ): WebResource {
+    const request = new WebResource(uri);
     request.operationSpec = operationSpec;
     return request;
   }

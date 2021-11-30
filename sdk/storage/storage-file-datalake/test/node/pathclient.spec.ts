@@ -2,9 +2,11 @@
 // Licensed under the MIT license.
 
 import { AbortController } from "@azure/abort-controller";
-import { record, Recorder } from "@azure/test-utils-recorder";
+import { record, Recorder } from "@azure-tools/test-recorder";
 import * as assert from "assert";
 import * as dotenv from "dotenv";
+import { Context } from "mocha";
+import { join } from "path";
 
 import {
   AccessControlChangeCounters,
@@ -36,7 +38,7 @@ describe("DataLakePathClient Node.js only", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function() {
+  beforeEach(async function(this: Context) {
     recorder = record(this, recorderEnvSetup);
     serviceClient = getDataLakeServiceClient();
     fileSystemName = recorder.getUniqueName("filesystem");
@@ -427,6 +429,23 @@ describe("DataLakePathClient Node.js only", () => {
       }
     });
   });
+
+  it("query should work with Parquet input configuration", async function(this: Context) {
+    // Enable the case when STG78 - version 2020-10-02 features is enabled in production.
+    this.skip();
+    const parquetFilePath = join("test", "resources", "parquet.parquet");
+
+    const fileClient2 = fileSystemClient.getFileClient(fileName + "2");
+    await fileClient2.uploadFile(parquetFilePath);
+
+    const response = await fileClient2.query("select * from blobstorage where id < 1;", {
+      inputTextConfiguration: {
+        kind: "parquet"
+      }
+    });
+
+    assert.deepStrictEqual(await bodyToString(response), "0,mdifjt55.ea3,mdifjt55.ea3\n");
+  });
 });
 
 describe("DataLakePathClient setAccessControlRecursive Node.js only", () => {
@@ -439,7 +458,7 @@ describe("DataLakePathClient setAccessControlRecursive Node.js only", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function() {
+  beforeEach(async function(this: Context) {
     recorder = record(this, recorderEnvSetup);
     serviceClient = getDataLakeServiceClient();
     fileSystemName = recorder.getUniqueName("filesystem");

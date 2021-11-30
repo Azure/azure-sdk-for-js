@@ -2,15 +2,19 @@
 // Licensed under the MIT license.
 
 import * as msalNode from "@azure/msal-node";
+
+import { AccessToken } from "@azure/core-auth";
+
 import { Socket } from "net";
 import http from "http";
 import open from "open";
 import stoppable from "stoppable";
-import { AccessToken, GetTokenOptions } from "@azure/core-http";
+
 import { credentialLogger, formatError, formatSuccess } from "../../util/logging";
-import { MsalNodeOptions, MsalNode } from "./nodeCommon";
+import { CredentialUnavailableError } from "../../errors";
+import { MsalNodeOptions, MsalNode } from "./msalNodeCommon";
+import { CredentialFlowGetTokenOptions } from "../credentials";
 import { msalToPublic } from "../utils";
-import { CredentialUnavailableError } from "../../client/errors";
 
 /**
  * Options that can be passed to configure MSAL to handle authentication through opening a browser window.
@@ -18,6 +22,7 @@ import { CredentialUnavailableError } from "../../client/errors";
  */
 export interface MSALOpenBrowserOptions extends MsalNodeOptions {
   redirectUri: string;
+  loginHint?: string;
 }
 
 /**
@@ -37,11 +42,13 @@ export class MsalOpenBrowser extends MsalNode {
   private redirectUri: string;
   private port: number;
   private hostname: string;
+  private loginHint?: string;
 
   constructor(options: MSALOpenBrowserOptions) {
     super(options);
-    this.logger = credentialLogger("NodeJS MSAL Open Browser");
+    this.logger = credentialLogger("Node.js MSAL Open Browser");
     this.redirectUri = options.redirectUri;
+    this.loginHint = options.loginHint;
 
     const url = new URL(this.redirectUri);
     this.port = parseInt(url.port);
@@ -57,7 +64,10 @@ export class MsalOpenBrowser extends MsalNode {
     return this.publicApp!.acquireTokenByCode(request);
   }
 
-  protected doGetToken(scopes: string[], options?: GetTokenOptions): Promise<AccessToken> {
+  protected doGetToken(
+    scopes: string[],
+    options?: CredentialFlowGetTokenOptions
+  ): Promise<AccessToken> {
     return new Promise<AccessToken>((resolve, reject) => {
       const socketToDestroy: Socket[] = [];
 
@@ -84,7 +94,9 @@ export class MsalOpenBrowser extends MsalNode {
         const tokenRequest: msalNode.AuthorizationCodeRequest = {
           code: url.searchParams.get("code")!,
           redirectUri: this.redirectUri,
-          scopes: scopes
+          scopes: scopes,
+          authority: options?.authority,
+          codeVerifier: this.pkceCodes?.verifier
         };
 
         this.acquireTokenByCode(tokenRequest)
@@ -163,8 +175,30 @@ export class MsalOpenBrowser extends MsalNode {
 
       app.on("connection", (socket) => socketToDestroy.push(socket));
 
+      app.on("error", (err) => {
+        cleanup();
+        const code = (err as any).code;
+        if (code === "EACCES" || code === "EADDRINUSE") {
+          reject(
+            new CredentialUnavailableError(
+              [
+                `InteractiveBrowserCredential: Access denied to port ${this.port}.`,
+                `Try sending a redirect URI with a different port, as follows:`,
+                '`new InteractiveBrowserCredential({ redirectUri: "http://localhost:1337" })`'
+              ].join(" ")
+            )
+          );
+        } else {
+          reject(
+            new CredentialUnavailableError(
+              `InteractiveBrowserCredential: Failed to start the necessary web server. Error: ${err.message}`
+            )
+          );
+        }
+      });
+
       app.on("listening", () => {
-        const openPromise = this.openAuthCodeUrl(scopes);
+        const openPromise = this.openAuthCodeUrl(scopes, options);
 
         const abortSignal = options?.abortSignal;
         if (abortSignal) {
@@ -182,10 +216,29 @@ export class MsalOpenBrowser extends MsalNode {
     });
   }
 
-  private async openAuthCodeUrl(scopeArray: string[]): Promise<void> {
+  private pkceCodes?: {
+    verifier: string;
+    challenge: string;
+  };
+
+  private async openAuthCodeUrl(
+    scopeArray: string[],
+    options?: CredentialFlowGetTokenOptions
+  ): Promise<void> {
+    // Initialize CryptoProvider instance
+    const cryptoProvider = new msalNode.CryptoProvider();
+    // Generate PKCE Codes before starting the authorization flow
+    this.pkceCodes = await cryptoProvider.generatePkceCodes();
+
     const authCodeUrlParameters: msalNode.AuthorizationUrlRequest = {
       scopes: scopeArray,
-      redirectUri: this.redirectUri
+      correlationId: options?.correlationId,
+      redirectUri: this.redirectUri,
+      authority: options?.authority,
+      claims: options?.claims,
+      loginHint: this.loginHint,
+      codeChallenge: this.pkceCodes.challenge,
+      codeChallengeMethod: "S256" // Use SHA256 Algorithm
     };
 
     const response = await this.publicApp!.getAuthCodeUrl(authCodeUrlParameters);
@@ -193,7 +246,9 @@ export class MsalOpenBrowser extends MsalNode {
     try {
       await interactiveBrowserMockable.open(response, { wait: true });
     } catch (e) {
-      throw new CredentialUnavailableError(`Could not open a browser window. Error: ${e.message}`);
+      throw new CredentialUnavailableError(
+        `InteractiveBrowserCredential: Could not open a browser window. Error: ${e.message}`
+      );
     }
   }
 }

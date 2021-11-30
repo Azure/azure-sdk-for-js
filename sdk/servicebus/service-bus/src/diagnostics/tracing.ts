@@ -55,7 +55,8 @@ export function createServiceBusSpan(
     tracingOptions: {
       ...operationOptions?.tracingOptions,
       spanOptions: {
-        ...operationOptions?.tracingOptions?.spanOptions,
+        // By passing spanOptions if they exist at runtime, we're backwards compatible with @azure/core-tracing@preview.13 and earlier.
+        ...(operationOptions?.tracingOptions as any)?.spanOptions,
         ...additionalSpanOptions
       }
     }
@@ -130,7 +131,7 @@ export function instrumentMessage<T extends InstrumentableMessage>(
       };
     }
 
-    const traceParent = getTraceParentHeader(messageSpan.context());
+    const traceParent = getTraceParentHeader(messageSpan.spanContext());
 
     if (traceParent) {
       // create a copy so the original isn't modified
@@ -145,7 +146,7 @@ export function instrumentMessage<T extends InstrumentableMessage>(
 
     return {
       message,
-      spanContext: messageSpan.context()
+      spanContext: messageSpan.spanContext()
     };
   } finally {
     messageSpan.end();
@@ -237,5 +238,5 @@ function isSpan(possibleSpan: Span | SpanContext | undefined): possibleSpan is S
   }
 
   const x = possibleSpan as Span;
-  return typeof x.context === "function";
+  return typeof x.spanContext === "function";
 }

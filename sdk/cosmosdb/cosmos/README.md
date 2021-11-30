@@ -1,16 +1,20 @@
 # Azure Cosmos DB client library for JavaScript/TypeScript
 
 [![latest npm badge](https://img.shields.io/npm/v/%40azure%2Fcosmos/latest.svg)][npm]
-[![Build Status](https://dev.azure.com/azure-sdk/public/_apis/build/status/js/js%20-%20cosmosdb%20-%20ci?branchName=master)](https://dev.azure.com/azure-sdk/public/_build/latest?definitionId=850&branchName=master)
+[![Build Status](https://dev.azure.com/azure-sdk/public/_apis/build/status/js/js%20-%20cosmosdb%20-%20ci?branchName=main)](https://dev.azure.com/azure-sdk/public/_build/latest?definitionId=850&branchName=main)
 
-Azure Cosmos DB is a globally distributed, multi-model database service that supports document, key-value, wide-column, and graph databases. This package is intended for JavaScript/Typescript applications to interact with **SQL API** databases and the JSON documents they contain:
+Azure Cosmos DB is a globally distributed, multi-model database service that supports document, key-value, wide-column, and graph databases. This package is intended for JavaScript/TypeScript applications to interact with **SQL API** databases and the JSON documents they contain:
 
 - Create Cosmos DB databases and modify their settings
 - Create and modify containers to store collections of JSON documents
 - Create, read, update, and delete the items (JSON documents) in your containers
 - Query the documents in your database using SQL-like syntax
 
-[Package (npm)][npm] | [API reference documentation](https://docs.microsoft.com/javascript/api/@azure/cosmos/?view=azure-node-lates) | [Product documentation][cosmos_docs]
+Key links:
+
+- [Package (npm)][npm]
+- [API reference documentation](https://docs.microsoft.com/javascript/api/@azure/cosmos/?view=azure-node-lates)
+- [Product documentation][cosmos_docs]
 
 ## Getting started
 
@@ -18,7 +22,7 @@ Azure Cosmos DB is a globally distributed, multi-model database service that sup
 
 #### Azure Subscription and Cosmos DB SQL API Account
 
-You must have an [Azure Subscription][azure_sub], [Cosmos DB account][cosmos_account] (SQL API), and to use this package.
+You must have an [Azure Subscription][azure_sub], and a [Cosmos DB account][cosmos_account] (SQL API) to use this package.
 
 If you need a Cosmos DB SQL API account, you can use the Azure [Cloud Shell][cloud_shell_bash] to create one with this Azure CLI command:
 
@@ -203,7 +207,7 @@ try {
 
 ### Transpiling
 
-The Azure SDKs are designed to support ES5 JavaScript syntax and a minimum version of Node 8. If you need support for earlier JavaScript runtimes such as Internet Explorer or Node 6, you will need to transpile the SDK code as part of your build process.
+The Azure SDKs are designed to support ES5 JavaScript syntax and [LTS versions of Node.js](https://nodejs.org/about/releases/). If you need support for earlier JavaScript runtimes such as Internet Explorer or Node 6, you will need to transpile the SDK code as part of your build process.
 
 ### Handle transient errors with retries
 
@@ -233,7 +237,7 @@ For more extensive documentation on the Cosmos DB service, see the [Azure Cosmos
 - [Welcome to Azure Cosmos DB](https://docs.microsoft.com/azure/cosmos-db/community)
 - [Quick start](https://docs.microsoft.com/azure/cosmos-db/sql-api-nodejs-get-started)
 - [Tutorial](https://docs.microsoft.com/azure/cosmos-db/sql-api-nodejs-application)
-- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/cosmosdb/cosmos/samples)
+- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/cosmosdb/cosmos/samples)
 - [Introduction to Resource Model of Azure Cosmos DB Service](https://docs.microsoft.com/azure/cosmos-db/sql-api-resources)
 - [Introduction to SQL API of Azure Cosmos DB Service](https://docs.microsoft.com/azure/cosmos-db/sql-api-sql-query)
 - [Partitioning](https://docs.microsoft.com/azure/cosmos-db/sql-api-partition-data)
@@ -241,7 +245,7 @@ For more extensive documentation on the Cosmos DB service, see the [Azure Cosmos
 
 ## Contributing
 
-If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md) to learn more about how to build and test the code.
+If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md) to learn more about how to build and test the code.
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fcosmosdb%2Fcosmos%2FREADME.png)
 
@@ -263,7 +267,7 @@ If you'd like to contribute to this library, please read the [contributing guide
 [cosmos_item]: https://docs.microsoft.com/azure/cosmos-db/databases-containers-items#azure-cosmos-items
 [cosmos_request_units]: https://docs.microsoft.com/azure/cosmos-db/request-units
 [cosmos_resources]: https://docs.microsoft.com/azure/cosmos-db/databases-containers-items
-[cosmos_samples]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/cosmosdb/cosmos/samples
+[cosmos_samples]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/cosmosdb/cosmos/samples
 [cosmos_sql_queries]: https://docs.microsoft.com/azure/cosmos-db/how-to-sql-query
 [cosmos_ttl]: https://docs.microsoft.com/azure/cosmos-db/time-to-live
 [npm]: https://www.npmjs.com/package/@azure/cosmos

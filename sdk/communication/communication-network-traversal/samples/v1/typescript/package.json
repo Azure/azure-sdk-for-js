@@ -25,7 +25,7 @@
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/communication/communication-network-traversal",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/communication/communication-network-traversal",
   "dependencies": {
     "@azure/communication-network-traversal": "next",
     "dotenv": "latest",

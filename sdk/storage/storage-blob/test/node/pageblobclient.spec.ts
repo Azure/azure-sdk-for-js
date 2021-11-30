@@ -7,7 +7,9 @@ import {
   getBSU,
   getConnectionStringFromEnvironment,
   bodyToString,
-  recorderEnvSetup
+  recorderEnvSetup,
+  getTokenBSU,
+  getTokenCredential
 } from "../utils";
 import {
   newPipeline,
@@ -21,8 +23,9 @@ import {
 } from "../../src";
 import { TokenCredential } from "@azure/core-http";
 import { assertClientUsesTokenCredential } from "../utils/assert";
-import { record, delay, Recorder } from "@azure/test-utils-recorder";
-import { Test_CPK_INFO } from "../utils/constants";
+import { record, delay, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
+import { Test_CPK_INFO } from "../utils/fakeTestSecrets";
+import { Context } from "mocha";
 
 describe("PageBlobClient Node.js only", () => {
   let containerName: string;
@@ -34,7 +37,7 @@ describe("PageBlobClient Node.js only", () => {
   let recorder: Recorder;
 
   let blobServiceClient: BlobServiceClient;
-  beforeEach(async function() {
+  beforeEach(async function(this: Context) {
     recorder = record(this, recorderEnvSetup);
     blobServiceClient = getBSU();
     containerName = recorder.getUniqueName("container");
@@ -70,7 +73,7 @@ describe("PageBlobClient Node.js only", () => {
     let copySource = pageBlobClient.withSnapshot(snapshotResult.snapshot!).url;
     let copyResponse = await destPageBlobClient.startCopyIncremental(copySource);
 
-    async function waitForCopy(retries = 0) {
+    async function waitForCopy(retries = 0): Promise<void> {
       if (retries >= 30) {
         throw new Error("Check copy status exceed max retries counts");
       }
@@ -159,6 +162,122 @@ describe("PageBlobClient Node.js only", () => {
 
     await pageBlobClient.uploadPagesFromURL(`${blockBlobClient.url}?${sas}`, 0, 0, 512);
     await pageBlobClient.uploadPagesFromURL(`${blockBlobClient.url}?${sas}`, 512, 512, 512);
+
+    const page1 = await pageBlobClient.download(0, 512);
+    const page2 = await pageBlobClient.download(512, 512);
+
+    assert.equal(await bodyToString(page1, 512), "a".repeat(512));
+    assert.equal(await bodyToString(page2, 512), "b".repeat(512));
+  });
+
+  it("uploadPagesFromURL - source SAS and destination bearer token", async function(this: Context) {
+    if (!isPlaybackMode()) {
+      // Enable this when STG78 - version 2020-10-02 is enabled on production.
+      this.skip();
+    }
+    await pageBlobClient.create(1024);
+
+    const result = await blobClient.download(0);
+    assert.equal(await bodyToString(result, 1024), "\u0000".repeat(1024));
+
+    const content = "a".repeat(512) + "b".repeat(512);
+    const blockBlobName = recorder.getUniqueName("blockblob");
+    const blockBlobClient = containerClient.getBlockBlobClient(blockBlobName);
+    await blockBlobClient.upload(content, content.length);
+
+    // By default, credential is always the last element of pipeline factories
+    const factories = (blobClient as any).pipeline.factories;
+    const sharedKeyCredential = factories[factories.length - 1];
+    // Get a SAS for blobURL
+    const expiryTime = recorder.newDate("expiry");
+    expiryTime.setDate(expiryTime.getDate() + 1);
+    const sas = generateBlobSASQueryParameters(
+      {
+        expiresOn: expiryTime,
+        containerName,
+        blobName: blockBlobName,
+        permissions: BlobSASPermissions.parse("r")
+      },
+      sharedKeyCredential as StorageSharedKeyCredential
+    );
+
+    const tokenBlobServiceClient = getTokenBSU();
+    const tokenPageBlobClient = tokenBlobServiceClient
+      .getContainerClient(containerName)
+      .getPageBlobClient(blobName);
+
+    await tokenPageBlobClient.uploadPagesFromURL(`${blockBlobClient.url}?${sas}`, 0, 0, 512);
+    await tokenPageBlobClient.uploadPagesFromURL(`${blockBlobClient.url}?${sas}`, 512, 512, 512);
+
+    const page1 = await pageBlobClient.download(0, 512);
+    const page2 = await pageBlobClient.download(512, 512);
+
+    assert.equal(await bodyToString(page1, 512), "a".repeat(512));
+    assert.equal(await bodyToString(page2, 512), "b".repeat(512));
+  });
+
+  it("uploadPagesFromURL - source bear token and destination account key", async function(this: Context) {
+    if (!isPlaybackMode()) {
+      // Enable this when STG78 - version 2020-10-02 is enabled on production.
+      this.skip();
+    }
+    await pageBlobClient.create(1024);
+
+    const result = await blobClient.download(0);
+    assert.equal(await bodyToString(result, 1024), "\u0000".repeat(1024));
+
+    const content = "a".repeat(512) + "b".repeat(512);
+    const blockBlobName = recorder.getUniqueName("blockblob");
+    const blockBlobClient = containerClient.getBlockBlobClient(blockBlobName);
+
+    await blockBlobClient.upload(content, content.length);
+
+    const tokenCredential = getTokenCredential();
+    const accessToken = await tokenCredential.getToken([]);
+
+    await pageBlobClient.uploadPagesFromURL(blockBlobClient.url, 0, 0, 512, {
+      sourceAuthorization: {
+        scheme: "Bearer",
+        value: accessToken!.token
+      }
+    });
+
+    await pageBlobClient.uploadPagesFromURL(blockBlobClient.url, 512, 512, 512, {
+      sourceAuthorization: {
+        scheme: "Bearer",
+        value: accessToken!.token
+      }
+    });
+
+    const page1 = await pageBlobClient.download(0, 512);
+    const page2 = await pageBlobClient.download(512, 512);
+
+    assert.equal(await bodyToString(page1, 512), "a".repeat(512));
+    assert.equal(await bodyToString(page2, 512), "b".repeat(512));
+  });
+
+  it("uploadPagesFromURL - destination bearer token", async function(this: Context) {
+    if (!isPlaybackMode()) {
+      // Enable this when STG78 - version 2020-10-02 is enabled on production.
+      this.skip();
+    }
+    await pageBlobClient.create(1024);
+
+    const result = await blobClient.download(0);
+    assert.equal(await bodyToString(result, 1024), "\u0000".repeat(1024));
+
+    const content = "a".repeat(512) + "b".repeat(512);
+    const blockBlobName = recorder.getUniqueName("blockblob");
+    const blockBlobClient = containerClient.getBlockBlobClient(blockBlobName);
+
+    await blockBlobClient.upload(content, content.length);
+    const tokenBlobServiceClient = getTokenBSU();
+    const tokenPageBlobClient = tokenBlobServiceClient
+      .getContainerClient(containerName)
+      .getPageBlobClient(blobName);
+
+    await tokenPageBlobClient.uploadPagesFromURL(blockBlobClient.url, 0, 0, 512);
+    await tokenPageBlobClient.uploadPagesFromURL(blockBlobClient.url, 512, 512, 512);
 
     const page1 = await pageBlobClient.download(0, 512);
     const page2 = await pageBlobClient.download(512, 512);
@@ -373,6 +492,7 @@ describe("PageBlobClient Node.js only", () => {
       const copyResponse = await destPageBlobClient.startCopyIncremental(copySource);
       if (copyResponse.copyStatus === "pending") {
         // May fail as the copy succeeded during between? If so, ignore error in the abort as we don't care.
+        /* eslint no-empty: ["error", { "allowEmptyCatch": true }] */
         try {
           await destPageBlobClient.abortCopyFromURL(copyResponse.copyId!);
         } catch (err) {}

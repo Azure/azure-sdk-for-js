@@ -16,15 +16,15 @@ import {
   createRandomLocalFileWithTotalSize
 } from "../utils";
 import { RetriableReadableStreamOptions } from "../../src/utils/RetriableReadableStream";
-import { record, Recorder } from "@azure/test-utils-recorder";
+import { record, Recorder } from "@azure-tools/test-recorder";
 import { ContainerClient, BlobClient, BlockBlobClient, BlobServiceClient } from "../../src";
 import { readStreamToLocalFileWithLogs } from "../utils/testutils.node";
 import { BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES } from "../../src/utils/constants";
-import { Test_CPK_INFO } from "../utils/constants";
+import { Test_CPK_INFO } from "../utils/fakeTestSecrets";
 import { streamToBuffer2 } from "../../src/utils/utils.node";
 import { delay } from "../../src/utils/utils.common";
+import { Context } from "mocha";
 
-// tslint:disable:no-empty
 describe("Highlevel", () => {
   let containerName: string;
   let containerClient: ContainerClient;
@@ -41,7 +41,7 @@ describe("Highlevel", () => {
   let recorder: Recorder;
 
   let blobServiceClient: BlobServiceClient;
-  beforeEach(async function() {
+  beforeEach(async function(this: Context) {
     recorder = record(this, recorderEnvSetup);
     blobServiceClient = getBSU({
       keepAliveOptions: {
@@ -56,14 +56,14 @@ describe("Highlevel", () => {
     blockBlobClient = blobClient.getBlockBlobClient();
   });
 
-  afterEach(async function() {
+  afterEach(async function(this: Context) {
     if (!this.currentTest?.isPending()) {
       await containerClient.delete();
       await recorder.stop();
     }
   });
 
-  before(async function() {
+  before(async function(this: Context) {
     recorder = record(this, recorderEnvSetup);
     if (!fs.existsSync(tempFolderPath)) {
       fs.mkdirSync(tempFolderPath);
@@ -84,7 +84,7 @@ describe("Highlevel", () => {
     await recorder.stop();
   });
 
-  after(async function() {
+  after(async function(this: Context) {
     recorder = record(this, recorderEnvSetup);
     fs.unlinkSync(tempFileLarge);
     fs.unlinkSync(tempFileSmall);
@@ -218,6 +218,7 @@ describe("Highlevel", () => {
     let eventTriggered = false;
     const aborter = new AbortController();
 
+    /* eslint no-empty: ["error", { "allowEmptyCatch": true }] */
     try {
       await blockBlobClient.uploadFile(tempFileLarge, {
         abortSignal: aborter.signal,
@@ -241,6 +242,7 @@ describe("Highlevel", () => {
     let eventTriggered = false;
     const aborter = new AbortController();
 
+    /* eslint no-empty: ["error", { "allowEmptyCatch": true }] */
     try {
       await blockBlobClient.uploadFile(tempFileSmall, {
         abortSignal: aborter.signal,
@@ -498,6 +500,7 @@ describe("Highlevel", () => {
     let eventTriggered = false;
     const buf = Buffer.alloc(tempFileSmallLength);
     const aborter = new AbortController();
+    /* eslint no-empty: ["error", { "allowEmptyCatch": true }] */
     try {
       await blockBlobClient.downloadToBuffer(buf, 0, undefined, {
         abortSignal: aborter.signal,
@@ -544,6 +547,7 @@ describe("Highlevel", () => {
       concurrency: 20
     });
 
+    /* eslint-disable prefer-const */
     let retirableReadableStreamOptions: RetriableReadableStreamOptions;
     const downloadResponse = await blockBlobClient.download(0, undefined, {
       conditions: {
@@ -558,6 +562,7 @@ describe("Highlevel", () => {
     });
 
     retirableReadableStreamOptions = (downloadResponse.readableStreamBody! as any).options;
+    /* eslint-enable prefer-const */
 
     const downloadedFile = path.join(tempFolderPath, recorder.getUniqueName("downloadfile."));
     await readStreamToLocalFileWithLogs(downloadResponse.readableStreamBody!, downloadedFile);
@@ -576,6 +581,7 @@ describe("Highlevel", () => {
       concurrency: 20
     });
 
+    /* eslint-disable prefer-const */
     let retirableReadableStreamOptions: RetriableReadableStreamOptions;
     let injectedErrors = 0;
     const downloadResponse = await blockBlobClient.download(0, undefined, {
@@ -591,6 +597,7 @@ describe("Highlevel", () => {
     });
 
     retirableReadableStreamOptions = (downloadResponse.readableStreamBody! as any).options;
+    /* eslint-enable prefer-const */
 
     const downloadedFile = path.join(tempFolderPath, recorder.getUniqueName("downloadfile."));
     await readStreamToLocalFileWithLogs(downloadResponse.readableStreamBody!, downloadedFile);
@@ -611,6 +618,7 @@ describe("Highlevel", () => {
 
     const partialSize = 500 * 1024;
 
+    /* eslint-disable prefer-const */
     let retirableReadableStreamOptions: RetriableReadableStreamOptions;
     let injectedErrors = 0;
     const downloadResponse = await blockBlobClient.download(0, partialSize, {
@@ -626,6 +634,7 @@ describe("Highlevel", () => {
     });
 
     retirableReadableStreamOptions = (downloadResponse.readableStreamBody! as any).options;
+    /* eslint-enable prefer-const */
 
     const downloadedFile = path.join(tempFolderPath, recorder.getUniqueName("downloadfile."));
     await readStreamToLocalFileWithLogs(downloadResponse.readableStreamBody!, downloadedFile);

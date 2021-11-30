@@ -6,7 +6,7 @@ import { Context } from "mocha";
 import chaiPromises from "chai-as-promised";
 chaiUse(chaiPromises);
 
-import { Recorder } from "@azure/test-utils-recorder";
+import { Recorder } from "@azure-tools/test-recorder";
 
 import {
   createRecordedAdminClient,
@@ -16,8 +16,7 @@ import {
 } from "../utils/recordedClient";
 import * as base64url from "../utils/base64url";
 
-import { AttestationData } from "../../src";
-import { KnownAttestationType } from "../../src/generated";
+import { KnownAttestationType } from "../../src";
 
 describe("[AAD] Attestation Client", function() {
   let recorder: Recorder;
@@ -168,7 +167,7 @@ describe("[AAD] Attestation Client", function() {
   /* TPM Attestation can only be performed on an AAD or isolated mode client.
    */
   it("#attestTpm", async () => {
-    const client = createRecordedClient("AAD");
+    const client = createRecordedClient("AAD", true);
     const adminClient = createRecordedAdminClient("AAD");
 
     // Set the policy on the instance to a known value.
@@ -198,17 +197,27 @@ describe("[AAD] Attestation Client", function() {
     const client = createRecordedClient(endpointType);
 
     {
+      // You can't specify both runtimeData and runtimeJson.
+      await expect(
+        client.attestOpenEnclave(base64url.decodeString(_openEnclaveReport).subarray(0x10), {
+          runTimeData: binaryRuntimeData,
+          runTimeJson: binaryRuntimeData
+        })
+      ).to.eventually.be.rejectedWith("Cannot provide both runTimeData and runTimeJson");
+    }
+
+    {
       const attestationResult = await client.attestOpenEnclave(
         base64url.decodeString(_openEnclaveReport),
         {
-          runTimeData: new AttestationData(binaryRuntimeData, false)
+          runTimeData: binaryRuntimeData
         }
       );
 
-      assert.isNotNull(attestationResult.value.sgxCollateral);
-      assert.isUndefined(attestationResult.value.runtimeClaims);
-      expect(attestationResult.value.enclaveHeldData?.length).is.equal(binaryRuntimeData.length);
-      expect(attestationResult.value.enclaveHeldData).to.deep.equal(binaryRuntimeData);
+      assert.isNotNull(attestationResult.body.sgxCollateral);
+      assert.isUndefined(attestationResult.body.runTimeClaims);
+      expect(attestationResult.body.enclaveHeldData?.length).is.equal(binaryRuntimeData.length);
+      expect(attestationResult.body.enclaveHeldData).to.deep.equal(binaryRuntimeData);
 
       assert(attestationResult.token, "Expected a token from the service but did not receive one");
     }
@@ -217,19 +226,20 @@ describe("[AAD] Attestation Client", function() {
       const attestationResult = await client.attestOpenEnclave(
         base64url.decodeString(_openEnclaveReport),
         {
-          runTimeData: new AttestationData(binaryRuntimeData, true)
+          runTimeJson: binaryRuntimeData
         }
       );
 
-      assert.isNotNull(attestationResult.value.sgxCollateral);
-      assert.isDefined(attestationResult.value.runtimeClaims);
-      assert.isUndefined(attestationResult.value.enclaveHeldData);
+      assert.isNotNull(attestationResult.body.sgxCollateral);
+      assert.isDefined(attestationResult.body.runTimeClaims);
+      assert.isUndefined(attestationResult.body.enclaveHeldData);
 
       // Confirm that the JWK response out of the service makes sense and contains
       // the JSON inside the binaryRuntimeData.
-      assert.isDefined(attestationResult.value.runtimeClaims.jwk);
-      assert.isDefined(attestationResult.value.runtimeClaims.jwk.crv);
-      expect(attestationResult.value.runtimeClaims.jwk.crv).is.equal("P-256");
+      const runtimeClaims = attestationResult.body.runTimeClaims as any;
+      assert.isDefined(runtimeClaims.jwk);
+      assert.isDefined(runtimeClaims.jwk.crv);
+      expect(runtimeClaims.jwk.crv).is.equal("P-256");
 
       assert(attestationResult.token, "Expected a token from the service but did not receive one");
     }
@@ -241,21 +251,30 @@ describe("[AAD] Attestation Client", function() {
     const binaryRuntimeData = base64url.decodeString(_runtimeData);
 
     {
+      // You can't specify both runtimeData and runtimeJson.
+      await expect(
+        client.attestSgxEnclave(base64url.decodeString(_openEnclaveReport).subarray(0x10), {
+          runTimeData: binaryRuntimeData,
+          runTimeJson: binaryRuntimeData
+        })
+      ).to.eventually.be.rejectedWith("Cannot provide both runTimeData and runTimeJson");
+    }
+
+    {
       // An OpenEnclave report has a 16 byte header prepended to an SGX quote.
       //  To convert from OpenEnclave reports to SGX Quote, simplystrip the first
       //  16 bytes from the report.
       const attestationResult = await client.attestSgxEnclave(
         base64url.decodeString(_openEnclaveReport).subarray(0x10),
         {
-          runTimeData: new AttestationData(binaryRuntimeData, false)
+          runTimeData: binaryRuntimeData
         }
       );
 
-      assert.isNotNull(attestationResult.value.sgxCollateral);
-      assert.isUndefined(attestationResult.value.runtimeClaims);
-      expect(attestationResult.value.enclaveHeldData?.length).is.equal(binaryRuntimeData.length);
-      expect(attestationResult.value.enclaveHeldData).to.deep.equal(binaryRuntimeData);
-
+      assert.isNotNull(attestationResult.body.sgxCollateral);
+      assert.isUndefined(attestationResult.body.runTimeClaims);
+      expect(attestationResult.body.enclaveHeldData?.length).is.equal(binaryRuntimeData.length);
+      expect(attestationResult.body.enclaveHeldData).to.deep.equal(binaryRuntimeData);
       assert(attestationResult.token, "Expected a token from the service but did not receive one");
     }
 
@@ -266,19 +285,20 @@ describe("[AAD] Attestation Client", function() {
       const attestationResult = await client.attestSgxEnclave(
         base64url.decodeString(_openEnclaveReport).subarray(0x10),
         {
-          runTimeData: new AttestationData(binaryRuntimeData, true)
+          runTimeJson: binaryRuntimeData
         }
       );
 
-      assert.isNotNull(attestationResult.value.sgxCollateral);
-      assert.isDefined(attestationResult.value.runtimeClaims);
-      assert.isUndefined(attestationResult.value.enclaveHeldData);
+      assert.isNotNull(attestationResult.body.sgxCollateral);
+      assert.isDefined(attestationResult.body.runTimeClaims);
+      assert.isUndefined(attestationResult.body.enclaveHeldData);
 
       // Confirm that the JWK response out of the service makes sense and contains
       // the JSON inside the binaryRuntimeData.
-      assert.isDefined(attestationResult.value.runtimeClaims.jwk);
-      assert.isDefined(attestationResult.value.runtimeClaims.jwk.crv);
-      expect(attestationResult.value.runtimeClaims.jwk.crv).is.equal("P-256");
+      const runtimeClaims = attestationResult.body.runTimeClaims as any;
+      assert.isDefined(runtimeClaims.jwk);
+      assert.isDefined(runtimeClaims.jwk.crv);
+      expect(runtimeClaims.jwk.crv).is.equal("P-256");
 
       assert(attestationResult.token, "Expected a token from the service but did not receive one");
     }

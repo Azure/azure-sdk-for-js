@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { DocumentTranslatorClient } from "../../src";
-import { Recorder } from "@azure/test-utils-recorder";
+import { Recorder } from "@azure-tools/test-recorder";
 
 import { assert } from "chai";
 import { createClient, createRecorder } from "./utils/recordedClient";
@@ -27,6 +27,6 @@ describe("List Document Formats", () => {
       assert.fail(`GET "/documents/formats" failed with ${result.status}`);
     }
 
-    assert.equal(result.body.value.length, 17);
+    assert.isTrue(result.body.value.length > 0);
   });
 });

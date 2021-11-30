@@ -17,12 +17,11 @@ export enum EnvVarNames {
 /**
  * Utility to retrieve the environment variable value with given name.
  */
-function getEnvVarValue(name: string): string | undefined {
+export function getEnvVarValue(name: string): string | undefined {
   if (isNode) {
     return process.env[name];
   } else {
-    // @ts-ignore
-    return self.__env__[name];
+    return (self as any).__env__[name];
   }
 }
 

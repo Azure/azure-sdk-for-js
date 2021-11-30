@@ -11,7 +11,7 @@ import {
   proxyPolicy,
   ProxyPolicy,
   getDefaultProxySettings,
-  noProxyList,
+  globalNoProxyList,
   loadNoProxy
 } from "../../src/policies/proxyPolicy";
 import { Constants } from "../../src/coreHttp";
@@ -21,7 +21,7 @@ describe("ProxyPolicy (node)", function() {
     host: "https://example.com",
     port: 3030,
     username: "admin",
-    password: "_password"
+    password: "SecretPlaceholder"
   };
 
   const emptyRequestPolicy = {
@@ -74,8 +74,8 @@ describe("ProxyPolicy (node)", function() {
       const saved = process.env["NO_PROXY"];
       try {
         process.env[Constants.NO_PROXY] = ".foo.com, test.com";
-        noProxyList.splice(0, noProxyList.length);
-        noProxyList.push(...loadNoProxy());
+        globalNoProxyList.splice(0, globalNoProxyList.length);
+        globalNoProxyList.push(...loadNoProxy());
 
         const request = new WebResource();
         const policy = new ProxyPolicy(emptyRequestPolicy, emptyPolicyOptions, proxySettings);
@@ -99,6 +99,7 @@ describe("ProxyPolicy (node)", function() {
         await policy.sendRequest(request);
         should().not.exist(request.proxySettings);
 
+        request.proxySettings = undefined;
         request.url = "http://abcfoo.com";
         await policy.sendRequest(request);
         request.proxySettings!.should.be.deep.equal(proxySettings);
@@ -108,13 +109,63 @@ describe("ProxyPolicy (node)", function() {
         await policy.sendRequest(request);
         should().not.exist(request.proxySettings);
 
+        request.proxySettings = undefined;
         request.url = "http://www.test.com";
         await policy.sendRequest(request);
         request.proxySettings!.should.be.deep.equal(proxySettings);
       } finally {
         process.env["NO_PROXY"] = saved;
-        noProxyList.splice(0, noProxyList.length);
-        noProxyList.push(...loadNoProxy());
+        globalNoProxyList.splice(0, globalNoProxyList.length);
+        globalNoProxyList.push(...loadNoProxy());
+      }
+    });
+
+    it("should prefer custom no-proxy-list over cached global no-proxy-list", async () => {
+      const saved = process.env["NO_PROXY"];
+      try {
+        process.env[Constants.NO_PROXY] = "foo.com, test.com";
+        globalNoProxyList.splice(0, globalNoProxyList.length);
+        globalNoProxyList.push(...loadNoProxy());
+
+        const request = new WebResource();
+        const policy1 = new ProxyPolicy(emptyRequestPolicy, emptyPolicyOptions, proxySettings, [
+          "test.com"
+        ]);
+        request.url = "http://foo.com";
+        await policy1.sendRequest(request);
+        request.proxySettings!.should.be.deep.equal(proxySettings);
+
+        request.url = "http://test.com";
+        request.proxySettings = undefined;
+        await policy1.sendRequest(request);
+        should().not.exist(request.proxySettings);
+
+        request.proxySettings = undefined;
+        request.url = "http://another.com";
+        await policy1.sendRequest(request);
+        request.proxySettings!.should.be.deep.equal(proxySettings);
+
+        const policy2 = new ProxyPolicy(emptyRequestPolicy, emptyPolicyOptions, proxySettings, [
+          "foo.com"
+        ]);
+        request.url = "http://foo.com";
+        request.proxySettings = undefined;
+        await policy2.sendRequest(request);
+        should().not.exist(request.proxySettings);
+
+        request.url = "http://test.com";
+        request.proxySettings = undefined;
+        await policy2.sendRequest(request);
+        request.proxySettings!.should.be.deep.equal(proxySettings);
+
+        request.url = "http://fourth.com";
+        request.proxySettings = undefined;
+        await policy2.sendRequest(request);
+        request.proxySettings!.should.be.deep.equal(proxySettings);
+      } finally {
+        process.env["NO_PROXY"] = saved;
+        globalNoProxyList.splice(0, globalNoProxyList.length);
+        globalNoProxyList.push(...loadNoProxy());
       }
     });
   });

@@ -7,9 +7,28 @@
  */
 
 import {
+  OperationParameter,
   OperationURLParameter,
   OperationQueryParameter
 } from "@azure/core-http";
+import { CommunicationRelayConfigurationRequest as CommunicationRelayConfigurationRequestMapper } from "../models/mappers";
+
+export const contentType: OperationParameter = {
+  parameterPath: ["options", "contentType"],
+  mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Content-Type",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const body: OperationParameter = {
+  parameterPath: ["options", "body"],
+  mapper: CommunicationRelayConfigurationRequestMapper
+};
 
 export const endpoint: OperationURLParameter = {
   parameterPath: "endpoint",
@@ -23,21 +42,10 @@ export const endpoint: OperationURLParameter = {
   skipEncoding: true
 };
 
-export const id: OperationURLParameter = {
-  parameterPath: "id",
-  mapper: {
-    serializedName: "id",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-02-22-preview1",
+    defaultValue: "2021-10-08-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {

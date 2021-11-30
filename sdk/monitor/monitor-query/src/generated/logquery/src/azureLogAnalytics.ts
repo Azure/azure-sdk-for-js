@@ -6,11 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { Query, Metadata } from "./operations";
+import { QueryImpl, MetadataImpl } from "./operations";
+import { Query, Metadata } from "./operationsInterfaces";
 import { AzureLogAnalyticsContext } from "./azureLogAnalyticsContext";
 import { AzureLogAnalyticsOptionalParams } from "./models";
 
-/** @hidden */
+/** @internal */
 export class AzureLogAnalytics extends AzureLogAnalyticsContext {
   /**
    * Initializes a new instance of the AzureLogAnalytics class.
@@ -18,8 +19,8 @@ export class AzureLogAnalytics extends AzureLogAnalyticsContext {
    */
   constructor(options?: AzureLogAnalyticsOptionalParams) {
     super(options);
-    this.query = new Query(this);
-    this.metadata = new Metadata(this);
+    this.query = new QueryImpl(this);
+    this.metadata = new MetadataImpl(this);
   }
 
   query: Query;

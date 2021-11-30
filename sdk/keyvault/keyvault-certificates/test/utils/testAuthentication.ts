@@ -4,7 +4,7 @@
 import { ClientSecretCredential } from "@azure/identity";
 import { CertificateClient } from "../../src";
 import { uniqueString } from "./recorderUtils";
-import { env, record, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
+import { env, record, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
 import TestClient from "./testClient";
 import { Context } from "mocha";
 
@@ -19,18 +19,25 @@ export async function authenticate(that: Context): Promise<any> {
       KEYVAULT_URI: "https://keyvault_name.vault.azure.net/"
     },
     customizationsOnRecordings: [
-      (recording: any): any =>
+      (recording: string): string =>
         recording.replace(/"access_token":"[^"]*"/g, `"access_token":"access_token"`),
-      (recording: any): any =>
-        suffix === "" ? recording : recording.replace(new RegExp(suffix, "g"), "")
+      (recording: string): string =>
+        suffix === "" ? recording : recording.replace(new RegExp(suffix, "g"), ""),
+      (recording: string): string => {
+        // replace pkcs12 certificate value with base64 encoding of "base64_placeholder"
+        return recording.replace(/"value":"MII[^"]+"/g, `"value":"YmFzZTY0X3BsYWNlaG9sZGVy"`);
+      }
     ],
     queryParametersToSkip: []
   };
   const recorder = record(that, recorderEnvSetup);
-  const credential = await new ClientSecretCredential(
+  const credential = new ClientSecretCredential(
     env.AZURE_TENANT_ID,
     env.AZURE_CLIENT_ID,
-    env.AZURE_CLIENT_SECRET
+    env.AZURE_CLIENT_SECRET,
+    {
+      authorityHost: env.AZURE_AUTHORITY_HOST
+    }
   );
 
   const keyVaultUrl = env.KEYVAULT_URI;

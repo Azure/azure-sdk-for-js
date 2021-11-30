@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/* eslint-disable @azure/azure-sdk/ts-no-namespaces */
+/* eslint-disable @typescript-eslint/no-namespace */
 /* eslint-disable no-inner-declarations */
 
 import { logger, logErrorStackTrace } from "./log";
@@ -142,7 +142,7 @@ type ConnectionContextMethods = Omit<
 export namespace ConnectionContext {
   /**
    * The user agent string for the EventHubs client.
-   * See guideline at https://github.com/Azure/azure-sdk/blob/master/docs/design/Telemetry.mdk
+   * See guideline at https://github.com/Azure/azure-sdk/blob/main/docs/design/Telemetry.mdk
    */
   const userAgent: string = `azsdk-js-azureeventhubs/${
     packageJsonInfo.version

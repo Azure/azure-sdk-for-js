@@ -6,24 +6,25 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import { MetricNamespaces } from "../operationsInterfaces";
+import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { MetricsNamespacesClient } from "../metricsNamespacesClient";
+import { MonitorManagementClientContext } from "../monitorManagementClientContext";
 import {
   MetricNamespacesListOptionalParams,
   MetricNamespacesListResponse
 } from "../models";
 
-/** Class representing a MetricNamespaces. */
-export class MetricNamespaces {
-  private readonly client: MetricsNamespacesClient;
+/** Class containing MetricNamespaces operations. */
+export class MetricNamespacesImpl implements MetricNamespaces {
+  private readonly client: MonitorManagementClientContext;
 
   /**
    * Initialize a new instance of the class MetricNamespaces class.
    * @param client Reference to the service client
    */
-  constructor(client: MetricsNamespacesClient) {
+  constructor(client: MonitorManagementClientContext) {
     this.client = client;
   }
 
@@ -36,20 +37,16 @@ export class MetricNamespaces {
     resourceUri: string,
     options?: MetricNamespacesListOptionalParams
   ): Promise<MetricNamespacesListResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      resourceUri,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { resourceUri, options },
       listOperationSpec
-    ) as Promise<MetricNamespacesListResponse>;
+    );
   }
 }
 // Operation Specifications
-const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
+const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listOperationSpec: coreHttp.OperationSpec = {
+const listOperationSpec: coreClient.OperationSpec = {
   path: "/{resourceUri}/providers/microsoft.insights/metricNamespaces",
   httpMethod: "GET",
   responses: {

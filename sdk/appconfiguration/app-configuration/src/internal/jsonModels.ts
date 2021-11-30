@@ -11,6 +11,7 @@ export type JsonFeatureFlagValue = {
   description?: string;
   enabled: boolean;
   id?: string;
+  display_name?: string;
 };
 
 // keyvault secret reference

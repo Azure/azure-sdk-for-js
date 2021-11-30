@@ -9,6 +9,7 @@ import { PluginConfig } from "../plugins/Plugin";
 import { CosmosHeaders } from "../queryExecutionContext/CosmosHeaders";
 import { FeedOptions } from "./FeedOptions";
 import { RequestOptions } from "./RequestOptions";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
 /**
  * @hidden
@@ -31,4 +32,5 @@ export interface RequestContext {
   options: FeedOptions | RequestOptions;
   plugins: PluginConfig[];
   partitionKey?: PartitionKey;
+  pipeline?: Pipeline;
 }

@@ -17,7 +17,8 @@ import {
   PremiumPageBlobTier,
   BlobServiceClient
 } from "../src";
-import { record, Recorder } from "@azure/test-utils-recorder";
+import { record, Recorder } from "@azure-tools/test-recorder";
+import { Context } from "mocha";
 dotenv.config();
 
 describe("PageBlobClient", () => {
@@ -30,7 +31,7 @@ describe("PageBlobClient", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function() {
+  beforeEach(async function(this: Context) {
     recorder = record(this, recorderEnvSetup);
     blobServiceClient = getBSU();
     containerName = recorder.getUniqueName("container");
@@ -131,10 +132,14 @@ describe("PageBlobClient", () => {
     assert.equal(await bodyToString(result, 1024), "\u0000".repeat(1024));
 
     await pageBlobClient.uploadPages("a".repeat(512), 0, 512, {
-      onProgress: () => {}
+      onProgress: () => {
+        /* empty */
+      }
     });
     await pageBlobClient.uploadPages("b".repeat(512), 512, 512, {
-      onProgress: () => {}
+      onProgress: () => {
+        /* empty */
+      }
     });
 
     const page1 = await pageBlobClient.download(0, 512);
@@ -195,7 +200,7 @@ describe("PageBlobClient", () => {
     assert.equal(rangesDiff.clearRange![0].count, 511);
   });
 
-  it("getPageRangesDiffForManagedDisks", async function(): Promise<void> {
+  it("getPageRangesDiffForManagedDisks", async function(this: Context): Promise<void> {
     let mdBlobServiceClient: BlobServiceClient;
     try {
       mdBlobServiceClient = getGenericBSU("MD_", "");
@@ -291,7 +296,6 @@ describe("PageBlobClient", () => {
 
   it("throws error if constructor containerName parameter is empty", async () => {
     try {
-      // tslint:disable-next-line: no-unused-expression
       new PageBlobClient(getSASConnectionStringFromEnvironment(), "", "blobName");
       assert.fail("Expecting an thrown error but didn't get one.");
     } catch (error) {
@@ -305,7 +309,6 @@ describe("PageBlobClient", () => {
 
   it("throws error if constructor blobName parameter is empty", async () => {
     try {
-      // tslint:disable-next-line: no-unused-expression
       new PageBlobClient(getSASConnectionStringFromEnvironment(), "containerName", "");
       assert.fail("Expecting an thrown error but didn't get one.");
     } catch (error) {

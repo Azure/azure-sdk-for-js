@@ -27,16 +27,22 @@
     "logReaderRoleId": "73c42c96-874c-492b-b04d-ab87d138a893",
     "metricPublisherRoleId": "3913510d-42f4-4e42-8a64-420c390055eb",
     "workspaceName": "[concat(parameters('baseName'), '-logs')]",
-    "secondaryWorkspaceName": "[concat(parameters('baseName'), '-logs2')]"
+    "secondaryWorkspaceName": "[concat(parameters('baseName'), '-logs2')]",
+    "appInsightsName": "[concat(parameters('baseName'), '-ai')]"
   },
   "resources": [
     {
       "name": "[parameters('baseName')]",
       "type": "Microsoft.Insights/components",
       "location": "[parameters('location')]",
-      "apiVersion": "2015-05-01",
+      "apiVersion": "2020-02-02",
+      "kind": "web",
       "properties": {
-        "Application_Type": "other"
+        "Application_Type": "web",
+        "WorkspaceResourceId": "[resourceId('Microsoft.OperationalInsights/workspaces', variables('workspaceName'))]",
+        "IngestionMode": "LogAnalytics",
+        "publicNetworkAccessForIngestion": "Enabled",
+        "publicNetworkAccessForQuery": "Enabled"
       }
     },
     {
@@ -92,6 +98,16 @@
         "principalId": "[parameters('testApplicationOid')]",
         "scope": "[resourceGroup().id]"
       }
+    },
+    {
+      "type": "Microsoft.Insights/components",
+      "apiVersion": "2015-05-01",
+      "location": "[parameters('location')]",
+      "name": "[variables('appInsightsName')]",
+      "properties": {
+        "Application_Type": "web",
+        "applicationId": "[variables('appInsightsName')]"
+      }
     }
   ],
   "outputs": {
@@ -113,6 +129,14 @@
     },
     "METRICS_RESOURCE_NAMESPACE": {
       "value": "Microsoft.OperationalInsights/workspaces",
+      "type": "string"
+    },
+    "APPLICATIONINSIGHTS_CONNECTION_STRING": {
+      "value": "[reference(resourceId('Microsoft.Insights/components', variables('appInsightsName')), '2015-05-01').ConnectionString]",
+      "type": "string"
+    },
+    "MQ_APPLICATIONINSIGHTS_CONNECTION_STRING": {
+      "value": "[reference(resourceId('Microsoft.Insights/components', parameters('baseName')), '2015-05-01').ConnectionString]",
       "type": "string"
     }
   }

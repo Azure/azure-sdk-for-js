@@ -1,7 +1,36 @@
 # Release History
 
-## 1.0.0-beta.4 (Unreleased)
+## 1.0.0-beta.7 (Unreleased)
 
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 1.0.0-beta.6 (2021-11-09)
+
+### Features Added
+
+- Support passing service version via client options [PR #18067](https://github.com/Azure/azure-sdk-for-js/pull/18067).
+
+## 1.0.0-beta.5 (2021-09-08)
+
+### Breaking Changes
+
+- Replace `authenticationScope` with `audience` in `ContainerRegistryClientOptions`. An extensible enum `KnownContainerRegistryAudience` is introduced which has known audience values.
+
+## 1.0.0-beta.4 (2021-08-17)
+
+### Breaking Changes
+
+- `UpdateManifestPropertiesOptions` is no longer optional.
+
+### Bug Fixes
+
+- Fixed issue of thrown `TypeError: _a.spanContext is not a function` [Issue 16842](https://github.com/Azure/azure-sdk-for-js/issues/16842).
 
 ## 1.0.0-beta.3 (2021-06-08)
 

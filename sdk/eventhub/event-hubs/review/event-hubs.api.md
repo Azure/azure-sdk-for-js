@@ -4,7 +4,11 @@
 
 ```ts
 
+/// <reference types="node" />
+
 import { AbortSignalLike } from '@azure/abort-controller';
+import { AmqpAnnotatedMessage } from '@azure/core-amqp';
+import { AzureLogger } from '@azure/logger';
 import { MessagingError } from '@azure/core-amqp';
 import { NamedKeyCredential } from '@azure/core-auth';
 import { OperationTracingOptions } from '@azure/core-tracing';
@@ -16,6 +20,15 @@ import { SpanContext } from '@azure/core-tracing';
 import { TokenCredential } from '@azure/core-auth';
 import { WebSocketImpl } from 'rhea-promise';
 import { WebSocketOptions } from '@azure/core-amqp';
+
+// @public
+export interface BufferedCloseOptions extends OperationOptions {
+    flush?: boolean;
+}
+
+// @public
+export interface BufferedFlushOptions extends OperationOptions {
+}
 
 // @public
 export interface Checkpoint {
@@ -52,8 +65,15 @@ export interface CreateBatchOptions extends OperationOptions {
 export const earliestEventPosition: EventPosition;
 
 // @public
+export interface EnqueueEventOptions extends SendBatchOptions {
+}
+
+// @public
 export interface EventData {
     body: any;
+    contentType?: string;
+    correlationId?: string | number | Buffer;
+    messageId?: string | number | Buffer;
     properties?: {
         [key: string]: any;
     };
@@ -72,7 +92,31 @@ export interface EventDataBatch {
     // @internal
     readonly partitionKey?: string;
     readonly sizeInBytes: number;
-    tryAdd(eventData: EventData, options?: TryAddOptions): boolean;
+    tryAdd(eventData: EventData | AmqpAnnotatedMessage, options?: TryAddOptions): boolean;
+}
+
+// @public
+export class EventHubBufferedProducerClient {
+    constructor(connectionString: string, options: EventHubBufferedProducerClientOptions);
+    constructor(connectionString: string, eventHubName: string, options: EventHubBufferedProducerClientOptions);
+    constructor(fullyQualifiedNamespace: string, eventHubName: string, credential: TokenCredential | NamedKeyCredential | SASCredential, options: EventHubBufferedProducerClientOptions);
+    close(options?: BufferedCloseOptions): Promise<void>;
+    enqueueEvent(event: EventData | AmqpAnnotatedMessage, options?: EnqueueEventOptions): Promise<number>;
+    enqueueEvents(events: EventData[] | AmqpAnnotatedMessage[], options?: EnqueueEventOptions): Promise<number>;
+    get eventHubName(): string;
+    flush(options?: BufferedFlushOptions): Promise<void>;
+    get fullyQualifiedNamespace(): string;
+    getEventHubProperties(options?: GetEventHubPropertiesOptions): Promise<EventHubProperties>;
+    getPartitionIds(options?: GetPartitionIdsOptions): Promise<Array<string>>;
+    getPartitionProperties(partitionId: string, options?: GetPartitionPropertiesOptions): Promise<PartitionProperties>;
+}
+
+// @public
+export interface EventHubBufferedProducerClientOptions extends EventHubClientOptions {
+    maxEventBufferLengthPerPartition?: number;
+    maxWaitTimeInMs?: number;
+    onSendEventsErrorHandler: (ctx: OnSendEventsErrorContext) => Promise<void>;
+    onSendEventsSuccessHandler?: (ctx: OnSendEventsSuccessContext) => Promise<void>;
 }
 
 // @public
@@ -110,7 +154,7 @@ export class EventHubConsumerClient {
     getPartitionProperties(partitionId: string, options?: GetPartitionPropertiesOptions): Promise<PartitionProperties>;
     subscribe(handlers: SubscriptionEventHandlers, options?: SubscribeOptions): Subscription;
     subscribe(partitionId: string, handlers: SubscriptionEventHandlers, options?: SubscribeOptions): Subscription;
-    }
+}
 
 // @public
 export interface EventHubConsumerClientOptions extends EventHubClientOptions {
@@ -129,9 +173,9 @@ export class EventHubProducerClient {
     getEventHubProperties(options?: GetEventHubPropertiesOptions): Promise<EventHubProperties>;
     getPartitionIds(options?: GetPartitionIdsOptions): Promise<Array<string>>;
     getPartitionProperties(partitionId: string, options?: GetPartitionPropertiesOptions): Promise<PartitionProperties>;
-    sendBatch(batch: EventData[], options?: SendBatchOptions): Promise<void>;
+    sendBatch(batch: EventData[] | AmqpAnnotatedMessage[], options?: SendBatchOptions): Promise<void>;
     sendBatch(batch: EventDataBatch, options?: OperationOptions): Promise<void>;
-    }
+}
 
 // @public
 export interface EventHubProperties {
@@ -179,9 +223,22 @@ export interface LoadBalancingOptions {
 }
 
 // @public
-export const logger: import("@azure/logger").AzureLogger;
+export const logger: AzureLogger;
 
 export { MessagingError }
+
+// @public
+export interface OnSendEventsErrorContext {
+    error: Error;
+    events: Array<EventData | AmqpAnnotatedMessage>;
+    partitionId: string;
+}
+
+// @public
+export interface OnSendEventsSuccessContext {
+    events: Array<EventData | AmqpAnnotatedMessage>;
+    partitionId: string;
+}
 
 // @public
 export interface OperationOptions {
@@ -239,7 +296,11 @@ export type ProcessInitializeHandler = (context: PartitionContext) => Promise<vo
 // @public
 export interface ReceivedEventData {
     body: any;
+    contentType?: string;
+    correlationId?: string | number | Buffer;
     enqueuedTimeUtc: Date;
+    getRawAmqpMessage(): AmqpAnnotatedMessage;
+    messageId?: string | number | Buffer;
     offset: number;
     partitionKey: string | null;
     properties?: {
@@ -266,6 +327,7 @@ export interface SubscribeOptions {
     maxBatchSize?: number;
     maxWaitTimeInSeconds?: number;
     ownerLevel?: number;
+    skipParsingBodyAsJson?: boolean;
     startPosition?: EventPosition | {
         [partitionId: string]: EventPosition;
     };
@@ -299,7 +361,6 @@ export interface TryAddOptions {
 export { WebSocketImpl }
 
 export { WebSocketOptions }
-
 
 // (No @packageDocumentation comment for this package)
 

@@ -3,8 +3,8 @@
 
 import { AbortController } from "@azure/abort-controller";
 import { isNode, URLBuilder, delay } from "@azure/core-http";
-import { setTracer, SpanGraph, TestTracer } from "@azure/core-tracing";
-import { record, Recorder } from "@azure/test-utils-recorder";
+import { SpanGraph, setTracer } from "@azure/test-utils";
+import { record, Recorder } from "@azure-tools/test-recorder";
 import { setSpan, context } from "@azure/core-tracing";
 import * as assert from "assert";
 import * as dotenv from "dotenv";
@@ -12,6 +12,7 @@ import * as dotenv from "dotenv";
 import { DataLakeFileClient, DataLakeFileSystemClient } from "../src";
 import { toPermissionsString } from "../src/transforms";
 import { bodyToString, getDataLakeServiceClient, recorderEnvSetup } from "./utils";
+import { Context } from "mocha";
 
 dotenv.config();
 
@@ -24,7 +25,7 @@ describe("DataLakePathClient", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function() {
+  beforeEach(async function(this: Context) {
     recorder = record(this, recorderEnvSetup);
     const serviceClient = getDataLakeServiceClient();
     fileSystemName = recorder.getUniqueName("filesystem");
@@ -149,8 +150,7 @@ describe("DataLakePathClient", () => {
   });
 
   it("read with default parameters and tracing", async () => {
-    const tracer = new TestTracer();
-    setTracer(tracer);
+    const tracer = setTracer();
 
     const rootSpan = tracer.startSpan("root");
 
@@ -192,22 +192,22 @@ describe("DataLakePathClient", () => {
       ]
     };
 
-    assert.deepStrictEqual(tracer.getSpanGraph(rootSpan.context().traceId), expectedGraph);
+    assert.deepStrictEqual(tracer.getSpanGraph(rootSpan.spanContext().traceId), expectedGraph);
     assert.strictEqual(tracer.getActiveSpans().length, 0, "All spans should have had end called");
   });
 
   it("verify fileName and fileSystemName passed to the client", async () => {
     const accountName = "myaccount";
-    const fileName = "file/part/1.txt";
+    const path = "file/part/1.txt";
     const newClient = new DataLakeFileClient(
-      `https://${accountName}.dfs.core.windows.net/` + fileSystemName + "/" + fileName
+      `https://${accountName}.dfs.core.windows.net/` + fileSystemName + "/" + path
     );
     assert.equal(
       newClient.fileSystemName,
       fileSystemName,
       "File system name is not the same as the one provided."
     );
-    assert.equal(newClient.name, fileName, "File name is not the same as the one provided.");
+    assert.equal(newClient.name, path, "File name is not the same as the one provided.");
     assert.equal(
       newClient.accountName,
       accountName,
@@ -218,8 +218,8 @@ describe("DataLakePathClient", () => {
   it("append & flush should work", async () => {
     const body = "HelloWorld";
 
-    const fileName = recorder.getUniqueName("tempfile2");
-    const tempFileClient = fileSystemClient.getFileClient(fileName);
+    const tempFileName = recorder.getUniqueName("tempfile2");
+    const tempFileClient = fileSystemClient.getFileClient(tempFileName);
 
     await tempFileClient.create();
 
@@ -244,8 +244,8 @@ describe("DataLakePathClient", () => {
   it("append & flush should work with all parameters", async () => {
     const body = "HelloWorld";
 
-    const fileName = recorder.getUniqueName("tempfile2");
-    const tempFileClient = fileSystemClient.getFileClient(fileName);
+    const tempFileName = recorder.getUniqueName("tempfile2");
+    const tempFileClient = fileSystemClient.getFileClient(tempFileName);
 
     const permissions = {
       owner: { read: false, write: false, execute: false },

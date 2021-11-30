@@ -1,7 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ServiceClientCredentials, WebResource, URLBuilder } from "@azure/core-http";
+import {
+  ServiceClientCredentials,
+  WebResource,
+  URLBuilder,
+  WebResourceLike
+} from "@azure/core-http";
 import { sha256Digest, sha256Hmac } from "./internal/cryptoHelpers";
 
 /**
@@ -22,7 +27,7 @@ export class AppConfigCredential implements ServiceClientCredentials {
    * @param webResource - The WebResource to be signed.
    * @returns The signed request object.
    */
-  async signRequest(webResource: WebResource): Promise<WebResource> {
+  async signRequest(webResource: WebResourceLike): Promise<WebResource> {
     const verb = webResource.method.toUpperCase();
     const utcNow = new Date().toUTCString();
 
@@ -40,11 +45,12 @@ export class AppConfigCredential implements ServiceClientCredentials {
 
     webResource.headers.set("x-ms-date", utcNow);
     webResource.headers.set("x-ms-content-sha256", contentHash);
+    // Syntax for Authorization header
+    // Reference - https://docs.microsoft.com/en-us/azure/azure-app-configuration/rest-api-authentication-hmac#syntax
     webResource.headers.set(
       "Authorization",
-      `HMAC-SHA256 Credential=${this.credential}, SignedHeaders=${signedHeaders}, Signature=${signature}`
+      `HMAC-SHA256 Credential=${this.credential}&SignedHeaders=${signedHeaders}&Signature=${signature}`
     );
-
     return webResource;
   }
 }

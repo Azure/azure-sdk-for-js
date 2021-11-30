@@ -6,10 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import { Indexes } from "../operationsInterfaces";
+import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { SearchServiceClient } from "../searchServiceClient";
+import { SearchServiceClientContext } from "../searchServiceClientContext";
 import {
   SearchIndex,
   IndexesCreateOptionalParams,
@@ -28,15 +29,15 @@ import {
   IndexesAnalyzeResponse
 } from "../models";
 
-/** Class representing a Indexes. */
-export class Indexes {
-  private readonly client: SearchServiceClient;
+/** Class containing Indexes operations. */
+export class IndexesImpl implements Indexes {
+  private readonly client: SearchServiceClientContext;
 
   /**
    * Initialize a new instance of the class Indexes class.
    * @param client Reference to the service client
    */
-  constructor(client: SearchServiceClient) {
+  constructor(client: SearchServiceClientContext) {
     this.client = client;
   }
 
@@ -49,14 +50,10 @@ export class Indexes {
     index: SearchIndex,
     options?: IndexesCreateOptionalParams
   ): Promise<IndexesCreateResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      index,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { index, options },
       createOperationSpec
-    ) as Promise<IndexesCreateResponse>;
+    );
   }
 
   /**
@@ -64,13 +61,7 @@ export class Indexes {
    * @param options The options parameters.
    */
   list(options?: IndexesListOptionalParams): Promise<IndexesListResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      listOperationSpec
-    ) as Promise<IndexesListResponse>;
+    return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
   /**
@@ -84,15 +75,10 @@ export class Indexes {
     index: SearchIndex,
     options?: IndexesCreateOrUpdateOptionalParams
   ): Promise<IndexesCreateOrUpdateResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      indexName,
-      index,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { indexName, index, options },
       createOrUpdateOperationSpec
-    ) as Promise<IndexesCreateOrUpdateResponse>;
+    );
   }
 
   /**
@@ -105,15 +91,11 @@ export class Indexes {
   delete(
     indexName: string,
     options?: IndexesDeleteOptionalParams
-  ): Promise<coreHttp.RestResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      indexName,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
+  ): Promise<void> {
     return this.client.sendOperationRequest(
-      operationArguments,
+      { indexName, options },
       deleteOperationSpec
-    ) as Promise<coreHttp.RestResponse>;
+    );
   }
 
   /**
@@ -125,14 +107,10 @@ export class Indexes {
     indexName: string,
     options?: IndexesGetOptionalParams
   ): Promise<IndexesGetResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      indexName,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { indexName, options },
       getOperationSpec
-    ) as Promise<IndexesGetResponse>;
+    );
   }
 
   /**
@@ -144,14 +122,10 @@ export class Indexes {
     indexName: string,
     options?: IndexesGetStatisticsOptionalParams
   ): Promise<IndexesGetStatisticsResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      indexName,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { indexName, options },
       getStatisticsOperationSpec
-    ) as Promise<IndexesGetStatisticsResponse>;
+    );
   }
 
   /**
@@ -165,21 +139,16 @@ export class Indexes {
     request: AnalyzeRequest,
     options?: IndexesAnalyzeOptionalParams
   ): Promise<IndexesAnalyzeResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      indexName,
-      request,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { indexName, request, options },
       analyzeOperationSpec
-    ) as Promise<IndexesAnalyzeResponse>;
+    );
   }
 }
 // Operation Specifications
-const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
+const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const createOperationSpec: coreHttp.OperationSpec = {
+const createOperationSpec: coreClient.OperationSpec = {
   path: "/indexes",
   httpMethod: "POST",
   responses: {
@@ -201,7 +170,7 @@ const createOperationSpec: coreHttp.OperationSpec = {
   mediaType: "json",
   serializer
 };
-const listOperationSpec: coreHttp.OperationSpec = {
+const listOperationSpec: coreClient.OperationSpec = {
   path: "/indexes",
   httpMethod: "GET",
   responses: {
@@ -217,7 +186,7 @@ const listOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept, Parameters.xMsClientRequestId],
   serializer
 };
-const createOrUpdateOperationSpec: coreHttp.OperationSpec = {
+const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path: "/indexes('{indexName}')",
   httpMethod: "PUT",
   responses: {
@@ -245,7 +214,7 @@ const createOrUpdateOperationSpec: coreHttp.OperationSpec = {
   mediaType: "json",
   serializer
 };
-const deleteOperationSpec: coreHttp.OperationSpec = {
+const deleteOperationSpec: coreClient.OperationSpec = {
   path: "/indexes('{indexName}')",
   httpMethod: "DELETE",
   responses: {
@@ -265,7 +234,7 @@ const deleteOperationSpec: coreHttp.OperationSpec = {
   ],
   serializer
 };
-const getOperationSpec: coreHttp.OperationSpec = {
+const getOperationSpec: coreClient.OperationSpec = {
   path: "/indexes('{indexName}')",
   httpMethod: "GET",
   responses: {
@@ -281,7 +250,7 @@ const getOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept, Parameters.xMsClientRequestId],
   serializer
 };
-const getStatisticsOperationSpec: coreHttp.OperationSpec = {
+const getStatisticsOperationSpec: coreClient.OperationSpec = {
   path: "/indexes('{indexName}')/search.stats",
   httpMethod: "GET",
   responses: {
@@ -297,7 +266,7 @@ const getStatisticsOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept, Parameters.xMsClientRequestId],
   serializer
 };
-const analyzeOperationSpec: coreHttp.OperationSpec = {
+const analyzeOperationSpec: coreClient.OperationSpec = {
   path: "/indexes('{indexName}')/search.analyze",
   httpMethod: "POST",
   responses: {

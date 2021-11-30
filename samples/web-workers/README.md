@@ -12,7 +12,7 @@ In this sample we demonstrate how to polyfill the necessary APIs for using our l
 
 ### XML Parsing
 
-When used in the browser, our XML parsing library relies on DOM APIs to support parsing and stringifying XML. Since the DOM APIs are generally available this reduces bundle size and minimizes our dependencies. When running from a Web Worker, however, DOM APIs are not available. This is a browser limitation and requires a polyfill before importing our client libraries in web workers. 
+When used in the browser, our XML parsing library relies on DOM APIs to support parsing and stringifying XML. Since the DOM APIs are generally available this reduces bundle size and minimizes our dependencies. When running from a Web Worker, however, DOM APIs are not available. This is a browser limitation and requires a polyfill before importing our client libraries in web workers.
 
 > Note: Not all client libraries use XML. When running in a web worker, our library will emit a useful error explaining what APIs are required if they are missing so that you can add them as needed.
 
@@ -20,7 +20,7 @@ In these samples we use [JSDOM][jsdom] but you can use any library that provides
 
 ## Prerequisites
 
-The samples are compatible with Node.js >= 8.0.0.
+The samples are compatible with [LTS versions of Node.js](https://nodejs.org/about/releases/).
 
 Before running the TypeScript samples, they must be compiled to JavaScript using the TypeScript compiler. For more information on TypeScript, see the [TypeScript documentation][typescript].
 

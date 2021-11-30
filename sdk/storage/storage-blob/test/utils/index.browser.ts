@@ -10,7 +10,8 @@ import { TokenCredential } from "@azure/core-http";
 export * from "./testutils.common";
 
 export function getGenericCredential(accountType: string): AnonymousCredential {
-  accountType = accountType; // bypass compiling error
+  const anewAccountType = accountType; // bypass compiling error
+  accountType = anewAccountType;
   return new AnonymousCredential();
 }
 export function getGenericBSU(
@@ -20,9 +21,8 @@ export function getGenericBSU(
   const accountNameEnvVar = `${accountType}ACCOUNT_NAME`;
   const accountSASEnvVar = `${accountType}ACCOUNT_SAS`;
 
-  let accountName: string | undefined;
+  const accountName = (self as any).__env__[accountNameEnvVar];
   let accountSAS: string | undefined;
-  accountName = (self as any).__env__[accountNameEnvVar];
   accountSAS = (self as any).__env__[accountSASEnvVar];
 
   if (!accountName || !accountSAS || accountName === "" || accountSAS === "") {
@@ -46,9 +46,8 @@ export function getGenericBSU(
 
 export function getTokenCredential(): TokenCredential {
   const accountTokenEnvVar = `ACCOUNT_TOKEN`;
-  let accountToken: string | undefined;
 
-  accountToken = (self as any).__env__[accountTokenEnvVar];
+  const accountToken = (self as any).__env__[accountTokenEnvVar];
 
   if (!accountToken || accountToken === "") {
     throw new Error(`${accountTokenEnvVar} environment variables not specified.`);
@@ -57,12 +56,32 @@ export function getTokenCredential(): TokenCredential {
   return new SimpleTokenCredential(accountToken);
 }
 
+export function getEncryptionScope_1(): string {
+  const encryptionScopeEnvVar = "ENCRYPTION_SCOPE_1";
+  const encryptionScope = (self as any).__env__[encryptionScopeEnvVar];
+
+  if (!encryptionScope) {
+    throw new Error(`${encryptionScopeEnvVar} environment variables not specified.`);
+  }
+
+  return encryptionScope;
+}
+
+export function getEncryptionScope_2(): string {
+  const encryptionScopeEnvVar = "ENCRYPTION_SCOPE_2";
+  const encryptionScope = (self as any).__env__[encryptionScopeEnvVar];
+
+  if (!encryptionScope) {
+    throw new Error(`${encryptionScopeEnvVar} environment variables not specified.`);
+  }
+
+  return encryptionScope;
+}
+
 export function getTokenBSU(): BlobServiceClient {
   const accountNameEnvVar = `ACCOUNT_NAME`;
 
-  let accountName: string | undefined;
-
-  accountName = (self as any).__env__[accountNameEnvVar];
+  const accountName = (self as any).__env__[accountNameEnvVar];
 
   if (!accountName || accountName === "") {
     throw new Error(`${accountNameEnvVar} environment variables not specified.`);
@@ -75,6 +94,18 @@ export function getTokenBSU(): BlobServiceClient {
   });
   const blobPrimaryURL = `https://${accountName}.blob.core.windows.net/`;
   return new BlobServiceClient(blobPrimaryURL, pipeline);
+}
+
+export function getImmutableContainerName(): string {
+  const immutableContainerEnvVar = `IMMUTABLE_CONTAINER_NAME`;
+
+  const immutableContainerName = (self as any).__env__[immutableContainerEnvVar];
+
+  if (!immutableContainerName || immutableContainerName === "") {
+    throw new Error(`${immutableContainerEnvVar} environment variables not specified.`);
+  }
+
+  return immutableContainerName;
 }
 
 export function getBSU(): BlobServiceClient {
@@ -97,7 +128,6 @@ export async function bodyToString(
     readableStreamBody?: NodeJS.ReadableStream;
     blobBody?: Promise<Blob>;
   },
-  // tslint:disable-next-line:variable-name
   _length?: number
 ): Promise<string> {
   const blob = await response.blobBody!;

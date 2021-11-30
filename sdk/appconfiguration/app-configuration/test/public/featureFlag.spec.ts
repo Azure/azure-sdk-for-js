@@ -10,7 +10,7 @@ import {
   featureFlagContentType,
   featureFlagPrefix
 } from "../../src";
-import { Recorder } from "@azure/test-utils-recorder";
+import { Recorder } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
 import { FeatureFlagValue, isFeatureFlag, parseFeatureFlag } from "../../src/featureFlag";
 
@@ -18,6 +18,8 @@ describe("AppConfigurationClient - FeatureFlag", () => {
   describe("FeatureFlag configuration setting", () => {
     let client: AppConfigurationClient;
     let recorder: Recorder;
+    let baseSetting: ConfigurationSetting<FeatureFlagValue>;
+    let addResponse: AddConfigurationSettingResponse;
 
     beforeEach(async function(this: Context) {
       recorder = startRecorder(this);
@@ -51,7 +53,8 @@ describe("AppConfigurationClient - FeatureFlag", () => {
             ]
           },
           enabled: false,
-          description: "I'm a description"
+          description: "I'm a description",
+          displayName: "for display"
         },
         isReadOnly: false,
         key: `${featureFlagPrefix + recorder.getUniqueName("name-1")}`,
@@ -69,13 +72,10 @@ describe("AppConfigurationClient - FeatureFlag", () => {
       await recorder.stop();
     });
 
-    let baseSetting: ConfigurationSetting<FeatureFlagValue>;
-    let addResponse: AddConfigurationSettingResponse;
-
     function assertFeatureFlagProps(
       actual: Omit<AddConfigurationSettingResponse, "_response">,
       expected: ConfigurationSetting<FeatureFlagValue>
-    ) {
+    ): void {
       assert.equal(isFeatureFlag(actual), true, "Expected to get the feature flag");
       assert.isDefined(actual.value, "Expected the value to be defined");
       const featureFlagValue = parseFeatureFlag(actual).value;

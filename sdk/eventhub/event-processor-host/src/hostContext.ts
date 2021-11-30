@@ -331,7 +331,7 @@ export namespace HostContext {
 
   /**
    * @property {string} userAgent The user agent string for the EventHubs client.
-   * See guideline at https://github.com/Azure/azure-sdk/blob/master/docs/design/Telemetry.mdk
+   * See guideline at https://github.com/Azure/azure-sdk/blob/main/docs/design/Telemetry.mdk
    */
   const userAgent: string = `azsdk-js-azureeventprocessorhost/${
     packageInfo.version

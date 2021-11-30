@@ -160,7 +160,7 @@ export class StorageSharedKeyCredentialPolicy extends CredentialPolicy {
     if (queries) {
       const queryKeys: string[] = [];
       for (const key in queries) {
-        if (queries.hasOwnProperty(key)) {
+        if (Object.prototype.hasOwnProperty.call(queries, key)) {
           const lowercaseKey = key.toLowerCase();
           lowercaseQueries[lowercaseKey] = queries[key];
           queryKeys.push(lowercaseKey);

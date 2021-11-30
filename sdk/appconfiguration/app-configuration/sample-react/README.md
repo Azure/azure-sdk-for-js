@@ -4,7 +4,7 @@ This sample application shows how to use the Feature Flags.
 
 ## Prerequisites
 
-The samples are compatible with Node.js >= 8.0.0.
+The samples are compatible with [LTS versions of Node.js](https://nodejs.org/about/releases/).
 
 You need [an Azure subscription][freesub] and the following resources created to run this sample:
 
@@ -95,5 +95,5 @@ Take a look at our [Samples][samples] for more information about the APIs that a
 [react]: https://create-react-app.dev/
 [typescript]: https://www.typescriptlang.org/docs/home.html
 [freesub]: https://azure.microsoft.com/free
-[samples]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/appconfiguration/app-configuration/samples/v1/typescript
-[identity]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/README.md
+[samples]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appconfiguration/app-configuration/samples/v1/typescript
+[identity]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/README.md

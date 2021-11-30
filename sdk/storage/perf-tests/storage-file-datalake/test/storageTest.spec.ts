@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { getEnvVar, PerfStressTest } from "@azure/test-utils-perfstress";
+import { getEnvVar, PerfTest } from "@azure/test-utils-perf";
 
 import {
   DataLakeServiceClient,
@@ -15,7 +15,7 @@ import * as dotenv from "dotenv";
 import { v4 as generateUuid } from "uuid";
 dotenv.config();
 
-export abstract class StorageDFSTest<TOptions> extends PerfStressTest<TOptions> {
+export abstract class StorageDFSTest<TOptions> extends PerfTest<TOptions> {
   datalakeServiceClient: DataLakeServiceClient;
   fileSystemClient: DataLakeFileSystemClient;
   directoryClient: DataLakeDirectoryClient;

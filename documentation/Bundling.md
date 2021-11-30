@@ -6,7 +6,7 @@ This document will walk you through the steps required to bundle Azure SDK libra
 
 ## Install prerequisites
 
-In order to install Azure SDK libraries, you will need to install Node.js and a bunlder of your choice onto your development machine.
+In order to install Azure SDK libraries, you will need to install Node.js and a bundler of your choice onto your development machine.
 
 ### Node.js
 
@@ -223,7 +223,6 @@ export default {
     cjs({
       namedExports: {
         events: ["EventEmitter"],
-        "@opentelemetry/api": ["CanonicalCode", "SpanKind", "TraceFlags"]
       }
     }),
     json()
@@ -336,7 +335,7 @@ The above configuration may need to change based on which SDK packages your code
 We also need to install the plugins we referenced in the above file:
 
 ```
-npm install --save-dev rollup-plugin-node-resolve @rollup/plugin-commonjs @rollup/plugin-json rollup-plugin-shim rollup-plugin-typescript2
+npm install --save-dev @rollup/plugin-node-resolve @rollup/plugin-commonjs @rollup/plugin-json rollup-plugin-shim rollup-plugin-typescript2
 ```
 
 Now that we have our config file and necessary plugins installed, we can run rollup:
@@ -444,7 +443,7 @@ Now let's create a very basic [tsconfig.json](https://www.typescriptlang.org/doc
 }
 ```
 
-For more information on using Parcel with TypeScript, check out the TypeScript guide in Parcel's documentation: https://parceljs.org/typeScript.html
+For more information on using Parcel with TypeScript, check out the [TypeScript guide in Parcel's documentation](https://parceljs.org/languages/typescript/)
 
 Similar to our JS example above, let's create an `index.ts` file that imports from `@azure/storage-blob`:
 
@@ -484,4 +483,4 @@ This will emit a compiled version of `index.html`, as well as any included scrip
 
 ## Examples
 
-For real working examples of using each bundler with both TypeScript and JavaScript, please look at the [samples/Bundling](https://github.com/Azure/azure-sdk-for-js/tree/master/samples/Bundling) folder in this repository.
+For real working examples of using each bundler with both TypeScript and JavaScript, please look at the [samples/Bundling](https://github.com/Azure/azure-sdk-for-js/tree/main/samples/Bundling) folder in this repository.

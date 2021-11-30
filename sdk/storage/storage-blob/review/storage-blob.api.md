@@ -4,7 +4,10 @@
 
 ```ts
 
+/// <reference types="node" />
+
 import { AbortSignalLike } from '@azure/abort-controller';
+import { AzureLogger } from '@azure/logger';
 import { BaseRequestPolicy } from '@azure/core-http';
 import * as coreHttp from '@azure/core-http';
 import { deserializationPolicy } from '@azure/core-http';
@@ -53,8 +56,10 @@ export class AccountSASPermissions {
     static from(permissionLike: AccountSASPermissionsLike): AccountSASPermissions;
     list: boolean;
     static parse(permissions: string): AccountSASPermissions;
+    permanentDelete: boolean;
     process: boolean;
     read: boolean;
+    setImmutabilityPolicy: boolean;
     tag: boolean;
     toString(): string;
     update: boolean;
@@ -69,8 +74,10 @@ export interface AccountSASPermissionsLike {
     deleteVersion?: boolean;
     filter?: boolean;
     list?: boolean;
+    permanentDelete?: boolean;
     process?: boolean;
     read?: boolean;
+    setImmutabilityPolicy?: boolean;
     tag?: boolean;
     update?: boolean;
     write?: boolean;
@@ -97,6 +104,7 @@ export class AccountSASServices {
 
 // @public
 export interface AccountSASSignatureValues {
+    encryptionScope?: string;
     expiresOn: Date;
     ipRange?: SasIPRange;
     permissions: AccountSASPermissions;
@@ -108,7 +116,7 @@ export interface AccountSASSignatureValues {
 }
 
 // @public
-export class AnonymousCredential extends Credential {
+export class AnonymousCredential extends Credential_2 {
     create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): AnonymousCredentialPolicy;
 }
 
@@ -140,6 +148,7 @@ export interface AppendBlobAppendBlockFromURLOptions extends CommonOptions {
     conditions?: AppendBlobRequestConditions;
     customerProvidedKey?: CpkInfo;
     encryptionScope?: string;
+    sourceAuthorization?: HttpAuthorization;
     sourceConditions?: MatchConditions & ModificationConditions;
     sourceContentCrc64?: Uint8Array;
     sourceContentMD5?: Uint8Array;
@@ -192,7 +201,7 @@ export type AppendBlobAppendBlockResponse = AppendBlobAppendBlockHeaders & {
 export class AppendBlobClient extends BlobClient {
     constructor(connectionString: string, containerName: string, blobName: string, options?: StoragePipelineOptions);
     constructor(url: string, credential: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
-    constructor(url: string, pipeline: Pipeline);
+    constructor(url: string, pipeline: PipelineLike);
     appendBlock(body: HttpRequestBody, contentLength: number, options?: AppendBlobAppendBlockOptions): Promise<AppendBlobAppendBlockResponse>;
     appendBlockFromURL(sourceURL: string, sourceOffset: number, count: number, options?: AppendBlobAppendBlockFromURLOptions): Promise<AppendBlobAppendBlockFromUrlResponse>;
     create(options?: AppendBlobCreateOptions): Promise<AppendBlobCreateResponse>;
@@ -223,6 +232,8 @@ export interface AppendBlobCreateIfNotExistsOptions extends CommonOptions {
     blobHTTPHeaders?: BlobHTTPHeaders;
     customerProvidedKey?: CpkInfo;
     encryptionScope?: string;
+    immutabilityPolicy?: BlobImmutabilityPolicy;
+    legalHold?: boolean;
     metadata?: Metadata;
 }
 
@@ -238,6 +249,8 @@ export interface AppendBlobCreateOptions extends CommonOptions {
     conditions?: BlobRequestConditions;
     customerProvidedKey?: CpkInfo;
     encryptionScope?: string;
+    immutabilityPolicy?: BlobImmutabilityPolicy;
+    legalHold?: boolean;
     metadata?: Metadata;
     tags?: Tags;
 }
@@ -329,7 +342,7 @@ export class BlobBatch {
 // @public
 export class BlobBatchClient {
     constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
-    constructor(url: string, pipeline: Pipeline);
+    constructor(url: string, pipeline: PipelineLike);
     createBatch(): BlobBatch;
     deleteBlobs(urls: string[], credential: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: BlobDeleteOptions): Promise<BlobBatchDeleteBlobsResponse>;
     deleteBlobs(blobClients: BlobClient[], options?: BlobDeleteOptions): Promise<BlobBatchDeleteBlobsResponse>;
@@ -345,8 +358,7 @@ export type BlobBatchDeleteBlobsResponse = BlobBatchSubmitBatchResponse;
 export type BlobBatchSetBlobsAccessTierResponse = BlobBatchSubmitBatchResponse;
 
 // @public
-export interface BlobBatchSubmitBatchOptionalParams extends ServiceSubmitBatchOptionalParamsModel, CommonOptions {
-    abortSignal?: AbortSignalLike;
+export interface BlobBatchSubmitBatchOptionalParams extends ServiceSubmitBatchOptionalParamsModel {
 }
 
 // @public
@@ -394,13 +406,14 @@ export interface BlobChangeLeaseOptions extends CommonOptions {
 export class BlobClient extends StorageClient {
     constructor(connectionString: string, containerName: string, blobName: string, options?: StoragePipelineOptions);
     constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
-    constructor(url: string, pipeline: Pipeline);
+    constructor(url: string, pipeline: PipelineLike);
     abortCopyFromURL(copyId: string, options?: BlobAbortCopyFromURLOptions): Promise<BlobAbortCopyFromURLResponse>;
     beginCopyFromURL(copySource: string, options?: BlobBeginCopyFromURLOptions): Promise<PollerLike<PollOperationState<BlobBeginCopyFromURLResponse>, BlobBeginCopyFromURLResponse>>;
     get containerName(): string;
     createSnapshot(options?: BlobCreateSnapshotOptions): Promise<BlobCreateSnapshotResponse>;
     delete(options?: BlobDeleteOptions): Promise<BlobDeleteResponse>;
     deleteIfExists(options?: BlobDeleteOptions): Promise<BlobDeleteIfExistsResponse>;
+    deleteImmutabilityPolicy(options?: BlobDeleteImmutabilityPolicyOptions): Promise<BlobDeleteImmutabilityPolicyResponse>;
     download(offset?: number, count?: number, options?: BlobDownloadOptions): Promise<BlobDownloadResponseParsed>;
     downloadToBuffer(offset?: number, count?: number, options?: BlobDownloadToBufferOptions): Promise<Buffer>;
     downloadToBuffer(buffer: Buffer, offset?: number, count?: number, options?: BlobDownloadToBufferOptions): Promise<Buffer>;
@@ -416,6 +429,8 @@ export class BlobClient extends StorageClient {
     get name(): string;
     setAccessTier(tier: BlockBlobTier | PremiumPageBlobTier | string, options?: BlobSetTierOptions): Promise<BlobSetTierResponse>;
     setHTTPHeaders(blobHTTPHeaders?: BlobHTTPHeaders, options?: BlobSetHTTPHeadersOptions): Promise<BlobSetHTTPHeadersResponse>;
+    setImmutabilityPolicy(immutabilityPolicy: BlobImmutabilityPolicy, options?: BlobSetImmutabilityPolicyOptions): Promise<BlobSetImmutabilityPolicyResponse>;
+    setLegalHold(legalHoldEnabled: boolean, options?: BlobSetLegalHoldOptions): Promise<BlobSetLegalHoldResponse>;
     setMetadata(metadata?: Metadata, options?: BlobSetMetadataOptions): Promise<BlobSetMetadataResponse>;
     setTags(tags: Tags, options?: BlobSetTagsOptions): Promise<BlobSetTagsResponse>;
     syncCopyFromURL(copySource: string, options?: BlobSyncCopyFromURLOptions): Promise<BlobCopyFromURLResponse>;
@@ -431,6 +446,7 @@ export interface BlobCopyFromURLHeaders {
     copyId?: string;
     copyStatus?: SyncCopyStatusType;
     date?: Date;
+    encryptionScope?: string;
     errorCode?: string;
     etag?: string;
     lastModified?: Date;
@@ -492,6 +508,26 @@ export interface BlobDeleteIfExistsResponse extends BlobDeleteResponse {
 }
 
 // @public
+export interface BlobDeleteImmutabilityPolicyHeaders {
+    clientRequestId?: string;
+    date?: Date;
+    requestId?: string;
+    version?: string;
+}
+
+// @public
+export interface BlobDeleteImmutabilityPolicyOptions extends CommonOptions {
+    abortSignal?: AbortSignalLike;
+}
+
+// @public
+export type BlobDeleteImmutabilityPolicyResponse = BlobDeleteImmutabilityPolicyHeaders & {
+    _response: coreHttp.HttpResponse & {
+        parsedHeaders: BlobDeleteImmutabilityPolicyHeaders;
+    };
+};
+
+// @public
 export interface BlobDeleteOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     conditions?: BlobRequestConditions;
@@ -534,6 +570,8 @@ export interface BlobDownloadHeaders {
     encryptionScope?: string;
     errorCode?: string;
     etag?: string;
+    immutabilityPolicyExpiresOn?: Date;
+    immutabilityPolicyMode?: BlobImmutabilityPolicyMode;
     isCurrentVersion?: boolean;
     isSealed?: boolean;
     isServerEncrypted?: boolean;
@@ -542,6 +580,7 @@ export interface BlobDownloadHeaders {
     leaseDuration?: LeaseDurationType;
     leaseState?: LeaseStateType;
     leaseStatus?: LeaseStatusType;
+    legalHold?: boolean;
     // (undocumented)
     metadata?: {
         [propertyName: string]: string;
@@ -664,6 +703,8 @@ export interface BlobGetPropertiesHeaders {
     errorCode?: string;
     etag?: string;
     expiresOn?: Date;
+    immutabilityPolicyExpiresOn?: Date;
+    immutabilityPolicyMode?: BlobImmutabilityPolicyMode;
     isCurrentVersion?: boolean;
     isIncrementalCopy?: boolean;
     isSealed?: boolean;
@@ -673,6 +714,7 @@ export interface BlobGetPropertiesHeaders {
     leaseDuration?: LeaseDurationType;
     leaseState?: LeaseStateType;
     leaseStatus?: LeaseStatusType;
+    legalHold?: boolean;
     // (undocumented)
     metadata?: {
         [propertyName: string]: string;
@@ -761,9 +803,20 @@ export interface BlobHTTPHeaders {
 }
 
 // @public
+export interface BlobImmutabilityPolicy {
+    expiriesOn?: Date;
+    policyMode?: BlobImmutabilityPolicyMode;
+}
+
+// @public
+export type BlobImmutabilityPolicyMode = "Mutable" | "Unlocked" | "Locked";
+
+// @public
 export interface BlobItem {
     // (undocumented)
     deleted: boolean;
+    // (undocumented)
+    hasVersionsOnly?: boolean;
     // (undocumented)
     isCurrentVersion?: boolean;
     // (undocumented)
@@ -789,6 +842,7 @@ export interface BlobItemInternal {
     blobTags?: BlobTags;
     // (undocumented)
     deleted: boolean;
+    hasVersionsOnly?: boolean;
     // (undocumented)
     isCurrentVersion?: boolean;
     metadata?: {
@@ -816,7 +870,7 @@ export class BlobLeaseClient {
     releaseLease(options?: LeaseOperationOptions): Promise<LeaseOperationResponse>;
     renewLease(options?: LeaseOperationOptions): Promise<Lease>;
     get url(): string;
-    }
+}
 
 // @public (undocumented)
 export interface BlobPrefix {
@@ -876,6 +930,8 @@ export interface BlobProperties {
     etag: string;
     // (undocumented)
     expiresOn?: Date;
+    immutabilityPolicyExpiresOn?: Date;
+    immutabilityPolicyMode?: BlobImmutabilityPolicyMode;
     // (undocumented)
     incrementalCopy?: boolean;
     // (undocumented)
@@ -890,6 +946,7 @@ export interface BlobProperties {
     leaseState?: LeaseStateType;
     // (undocumented)
     leaseStatus?: LeaseStatusType;
+    legalHold?: boolean;
     rehydratePriority?: RehydratePriority;
     // (undocumented)
     remainingRetentionDays?: number;
@@ -982,6 +1039,11 @@ export interface BlobQueryJsonTextConfiguration {
 }
 
 // @public
+export interface BlobQueryParquetConfiguration {
+    kind: "parquet";
+}
+
+// @public
 export type BlobQueryResponseModel = BlobQueryHeaders & {
     blobBody?: Promise<Blob>;
     readableStreamBody?: NodeJS.ReadableStream;
@@ -1016,7 +1078,9 @@ export class BlobSASPermissions {
     static from(permissionLike: BlobSASPermissionsLike): BlobSASPermissions;
     move: boolean;
     static parse(permissions: string): BlobSASPermissions;
+    permanentDelete: boolean;
     read: boolean;
+    setImmutabilityPolicy: boolean;
     tag: boolean;
     toString(): string;
     write: boolean;
@@ -1030,7 +1094,9 @@ export interface BlobSASPermissionsLike {
     deleteVersion?: boolean;
     execute?: boolean;
     move?: boolean;
+    permanentDelete?: boolean;
     read?: boolean;
+    setImmutabilityPolicy?: boolean;
     tag?: boolean;
     write?: boolean;
 }
@@ -1045,6 +1111,7 @@ export interface BlobSASSignatureValues {
     contentLanguage?: string;
     contentType?: string;
     correlationId?: string;
+    encryptionScope?: string;
     expiresOn?: Date;
     identifier?: string;
     ipRange?: SasIPRange;
@@ -1060,7 +1127,7 @@ export interface BlobSASSignatureValues {
 // @public
 export class BlobServiceClient extends StorageClient {
     constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
-    constructor(url: string, pipeline: Pipeline);
+    constructor(url: string, pipeline: PipelineLike);
     createContainer(containerName: string, options?: ContainerCreateOptions): Promise<{
         containerClient: ContainerClient;
         containerCreateResponse: ContainerCreateResponse;
@@ -1122,6 +1189,51 @@ export interface BlobSetHTTPHeadersOptions extends CommonOptions {
 export type BlobSetHTTPHeadersResponse = BlobSetHTTPHeadersHeaders & {
     _response: coreHttp.HttpResponse & {
         parsedHeaders: BlobSetHTTPHeadersHeaders;
+    };
+};
+
+// @public
+export interface BlobSetImmutabilityPolicyHeaders {
+    clientRequestId?: string;
+    date?: Date;
+    immutabilityPolicyExpiry?: Date;
+    immutabilityPolicyMode?: BlobImmutabilityPolicyMode;
+    requestId?: string;
+    version?: string;
+}
+
+// @public
+export interface BlobSetImmutabilityPolicyOptions extends CommonOptions {
+    abortSignal?: AbortSignalLike;
+    // (undocumented)
+    modifiedAccessCondition?: ModificationConditions;
+}
+
+// @public
+export type BlobSetImmutabilityPolicyResponse = BlobSetImmutabilityPolicyHeaders & {
+    _response: coreHttp.HttpResponse & {
+        parsedHeaders: BlobSetImmutabilityPolicyHeaders;
+    };
+};
+
+// @public
+export interface BlobSetLegalHoldHeaders {
+    clientRequestId?: string;
+    date?: Date;
+    legalHold?: boolean;
+    requestId?: string;
+    version?: string;
+}
+
+// @public
+export interface BlobSetLegalHoldOptions extends CommonOptions {
+    abortSignal?: AbortSignalLike;
+}
+
+// @public
+export type BlobSetLegalHoldResponse = BlobSetLegalHoldHeaders & {
+    _response: coreHttp.HttpResponse & {
+        parsedHeaders: BlobSetLegalHoldHeaders;
     };
 };
 
@@ -1217,6 +1329,8 @@ export interface BlobStartCopyFromURLHeaders {
 export interface BlobStartCopyFromURLOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     conditions?: BlobRequestConditions;
+    immutabilityPolicy?: BlobImmutabilityPolicy;
+    legalHold?: boolean;
     metadata?: Metadata;
     rehydratePriority?: RehydratePriority;
     sealBlob?: boolean;
@@ -1236,7 +1350,11 @@ export type BlobStartCopyFromURLResponse = BlobStartCopyFromURLHeaders & {
 export interface BlobSyncCopyFromURLOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     conditions?: BlobRequestConditions;
+    encryptionScope?: string;
+    immutabilityPolicy?: BlobImmutabilityPolicy;
+    legalHold?: boolean;
     metadata?: Metadata;
+    sourceAuthorization?: HttpAuthorization;
     sourceConditions?: MatchConditions & ModificationConditions;
     sourceContentMD5?: Uint8Array;
     tags?: Tags;
@@ -1296,7 +1414,7 @@ export interface Block {
 export class BlockBlobClient extends BlobClient {
     constructor(connectionString: string, containerName: string, blobName: string, options?: StoragePipelineOptions);
     constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
-    constructor(url: string, pipeline: Pipeline);
+    constructor(url: string, pipeline: PipelineLike);
     commitBlockList(blocks: string[], options?: BlockBlobCommitBlockListOptions): Promise<BlockBlobCommitBlockListResponse>;
     getBlockList(listType: BlockListType, options?: BlockBlobGetBlockListOptions): Promise<BlockBlobGetBlockListResponse>;
     query(query: string, options?: BlockBlobQueryOptions): Promise<BlobDownloadResponseModel>;
@@ -1336,6 +1454,8 @@ export interface BlockBlobCommitBlockListOptions extends CommonOptions {
     conditions?: BlobRequestConditions;
     customerProvidedKey?: CpkInfo;
     encryptionScope?: string;
+    immutabilityPolicy?: BlobImmutabilityPolicy;
+    legalHold?: boolean;
     metadata?: Metadata;
     tags?: Tags;
     tier?: BlockBlobTier | string;
@@ -1421,7 +1541,7 @@ export interface BlockBlobQueryOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     conditions?: BlobRequestConditions;
     customerProvidedKey?: CpkInfo;
-    inputTextConfiguration?: BlobQueryJsonTextConfiguration | BlobQueryCsvTextConfiguration;
+    inputTextConfiguration?: BlobQueryJsonTextConfiguration | BlobQueryCsvTextConfiguration | BlobQueryParquetConfiguration;
     onError?: (error: BlobQueryError) => void;
     onProgress?: (progress: TransferProgressEvent) => void;
     outputTextConfiguration?: BlobQueryJsonTextConfiguration | BlobQueryCsvTextConfiguration | BlobQueryArrowConfiguration;
@@ -1447,7 +1567,8 @@ export interface BlockBlobStageBlockFromURLOptions extends CommonOptions {
     conditions?: LeaseAccessConditions;
     customerProvidedKey?: CpkInfo;
     encryptionScope?: string;
-    range?: Range;
+    range?: Range_2;
+    sourceAuthorization?: HttpAuthorization;
     sourceContentCrc64?: Uint8Array;
     sourceContentMD5?: Uint8Array;
 }
@@ -1500,6 +1621,7 @@ export interface BlockBlobSyncUploadFromURLOptions extends CommonOptions {
     customerProvidedKey?: CpkInfo;
     encryptionScope?: string;
     metadata?: Metadata;
+    sourceAuthorization?: HttpAuthorization;
     sourceConditions?: ModifiedAccessConditions;
     sourceContentMD5?: Uint8Array;
     tags?: Tags;
@@ -1537,6 +1659,8 @@ export interface BlockBlobUploadOptions extends CommonOptions {
     conditions?: BlobRequestConditions;
     customerProvidedKey?: CpkInfo;
     encryptionScope?: string;
+    immutabilityPolicy?: BlobImmutabilityPolicy;
+    legalHold?: boolean;
     metadata?: Metadata;
     onProgress?: (progress: TransferProgressEvent) => void;
     tags?: Tags;
@@ -1582,6 +1706,7 @@ export interface CommonGenerateSasUrlOptions {
     contentEncoding?: string;
     contentLanguage?: string;
     contentType?: string;
+    encryptionScope?: string;
     expiresOn?: Date;
     identifier?: string;
     ipRange?: SasIPRange;
@@ -1625,7 +1750,7 @@ export interface ContainerChangeLeaseOptions extends CommonOptions {
 export class ContainerClient extends StorageClient {
     constructor(connectionString: string, containerName: string, options?: StoragePipelineOptions);
     constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
-    constructor(url: string, pipeline: Pipeline);
+    constructor(url: string, pipeline: PipelineLike);
     get containerName(): string;
     create(options?: ContainerCreateOptions): Promise<ContainerCreateResponse>;
     createIfNotExists(options?: ContainerCreateOptions): Promise<ContainerCreateIfNotExistsResponse>;
@@ -1775,6 +1900,7 @@ export interface ContainerGetPropertiesHeaders {
     etag?: string;
     hasImmutabilityPolicy?: boolean;
     hasLegalHold?: boolean;
+    isImmutableStorageWithVersioningEnabled?: boolean;
     lastModified?: Date;
     leaseDuration?: LeaseDurationType;
     leaseState?: LeaseStateType;
@@ -1857,6 +1983,9 @@ export interface ContainerListBlobsOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     includeCopy?: boolean;
     includeDeleted?: boolean;
+    includeDeletedWithVersions?: boolean;
+    includeImmutabilityPolicy?: boolean;
+    includeLegalHold?: boolean;
     includeMetadata?: boolean;
     includeSnapshots?: boolean;
     includeTags?: boolean;
@@ -1877,6 +2006,7 @@ export interface ContainerProperties {
     hasImmutabilityPolicy?: boolean;
     // (undocumented)
     hasLegalHold?: boolean;
+    isImmutableStorageWithVersioningEnabled?: boolean;
     // (undocumented)
     lastModified: Date;
     // (undocumented)
@@ -1936,7 +2066,9 @@ export class ContainerSASPermissions {
     list: boolean;
     move: boolean;
     static parse(permissions: string): ContainerSASPermissions;
+    permanentDelete: boolean;
     read: boolean;
+    setImmutabilityPolicy: boolean;
     tag: boolean;
     toString(): string;
     write: boolean;
@@ -1951,7 +2083,9 @@ export interface ContainerSASPermissionsLike {
     execute?: boolean;
     list?: boolean;
     move?: boolean;
+    permanentDelete?: boolean;
     read?: boolean;
+    setImmutabilityPolicy?: boolean;
     tag?: boolean;
     write?: boolean;
 }
@@ -2045,9 +2179,10 @@ export interface CpkInfo {
 }
 
 // @public
-export abstract class Credential implements RequestPolicyFactory {
+abstract class Credential_2 implements RequestPolicyFactory {
     create(_nextPolicy: RequestPolicy, _options: RequestPolicyOptions): RequestPolicy;
 }
+export { Credential_2 as Credential }
 
 // @public
 export abstract class CredentialPolicy extends BaseRequestPolicy {
@@ -2126,6 +2261,12 @@ export interface GeoReplication {
 // @public
 export type GeoReplicationStatusType = "live" | "bootstrap" | "unavailable";
 
+// @public
+export interface HttpAuthorization {
+    scheme: string;
+    value: string;
+}
+
 export { HttpHeaders }
 
 export { HttpOperationResponse }
@@ -2133,6 +2274,9 @@ export { HttpOperationResponse }
 export { HttpRequestBody }
 
 export { IHttpClient }
+
+// @public
+export function isPipelineLike(pipeline: unknown): pipeline is PipelineLike;
 
 // @public
 export interface Lease {
@@ -2250,7 +2394,7 @@ export interface ListBlobsHierarchySegmentResponseModel {
 }
 
 // @public
-export type ListBlobsIncludeItem = "copy" | "deleted" | "metadata" | "snapshots" | "uncommittedblobs" | "versions" | "tags";
+export type ListBlobsIncludeItem = "copy" | "deleted" | "metadata" | "snapshots" | "uncommittedblobs" | "versions" | "tags" | "immutabilitypolicy" | "legalhold" | "deletedwithversions";
 
 // @public
 export type ListContainersIncludeType = "metadata" | "deleted";
@@ -2272,7 +2416,7 @@ export interface ListContainersSegmentResponse {
 }
 
 // @public
-export const logger: import("@azure/logger").AzureLogger;
+export const logger: AzureLogger;
 
 // @public
 export interface Logging {
@@ -2372,7 +2516,7 @@ export type PageBlobClearPagesResponse = PageBlobClearPagesHeaders & {
 export class PageBlobClient extends BlobClient {
     constructor(connectionString: string, containerName: string, blobName: string, options?: StoragePipelineOptions);
     constructor(url: string, credential: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
-    constructor(url: string, pipeline: Pipeline);
+    constructor(url: string, pipeline: PipelineLike);
     clearPages(offset?: number, count?: number, options?: PageBlobClearPagesOptions): Promise<PageBlobClearPagesResponse>;
     create(size: number, options?: PageBlobCreateOptions): Promise<PageBlobCreateResponse>;
     createIfNotExists(size: number, options?: PageBlobCreateIfNotExistsOptions): Promise<PageBlobCreateIfNotExistsResponse>;
@@ -2430,6 +2574,8 @@ export interface PageBlobCreateIfNotExistsOptions extends CommonOptions {
     blobSequenceNumber?: number;
     customerProvidedKey?: CpkInfo;
     encryptionScope?: string;
+    immutabilityPolicy?: BlobImmutabilityPolicy;
+    legalHold?: boolean;
     metadata?: Metadata;
     tier?: PremiumPageBlobTier | string;
 }
@@ -2447,6 +2593,8 @@ export interface PageBlobCreateOptions extends CommonOptions {
     conditions?: BlobRequestConditions;
     customerProvidedKey?: CpkInfo;
     encryptionScope?: string;
+    immutabilityPolicy?: BlobImmutabilityPolicy;
+    legalHold?: boolean;
     metadata?: Metadata;
     tags?: Tags;
     tier?: PremiumPageBlobTier | string;
@@ -2597,6 +2745,7 @@ export interface PageBlobUploadPagesFromURLOptions extends CommonOptions {
     conditions?: PageBlobRequestConditions;
     customerProvidedKey?: CpkInfo;
     encryptionScope?: string;
+    sourceAuthorization?: HttpAuthorization;
     sourceConditions?: MatchConditions & ModificationConditions;
     sourceContentCrc64?: Uint8Array;
     sourceContentMD5?: Uint8Array;
@@ -2646,8 +2795,8 @@ export type PageBlobUploadPagesResponse = PageBlobUploadPagesHeaders & {
 
 // @public
 export interface PageList {
-    clearRange?: Range[];
-    pageRange?: Range[];
+    clearRange?: Range_2[];
+    pageRange?: Range_2[];
 }
 
 // @public
@@ -2658,8 +2807,15 @@ export interface ParsedBatchResponse {
 }
 
 // @public
-export class Pipeline {
+export class Pipeline implements PipelineLike {
     constructor(factories: RequestPolicyFactory[], options?: PipelineOptions);
+    readonly factories: RequestPolicyFactory[];
+    readonly options: PipelineOptions;
+    toServiceClientOptions(): ServiceClientOptions;
+}
+
+// @public
+export interface PipelineLike {
     readonly factories: RequestPolicyFactory[];
     readonly options: PipelineOptions;
     toServiceClientOptions(): ServiceClientOptions;
@@ -2693,10 +2849,11 @@ export enum PremiumPageBlobTier {
 export type PublicAccessType = "container" | "blob";
 
 // @public
-export interface Range {
+interface Range_2 {
     count?: number;
     offset: number;
 }
+export { Range_2 as Range }
 
 // @public
 export type RehydratePriority = "High" | "Standard";
@@ -2729,7 +2886,7 @@ export enum SASProtocol {
 
 // @public
 export class SASQueryParameters {
-    constructor(version: string, signature: string, permissions?: string, services?: string, resourceTypes?: string, protocol?: SASProtocol, startsOn?: Date, expiresOn?: Date, ipRange?: SasIPRange, identifier?: string, resource?: string, cacheControl?: string, contentDisposition?: string, contentEncoding?: string, contentLanguage?: string, contentType?: string, userDelegationKey?: UserDelegationKey, preauthorizedAgentObjectId?: string, correlationId?: string);
+    constructor(version: string, signature: string, permissions?: string, services?: string, resourceTypes?: string, protocol?: SASProtocol, startsOn?: Date, expiresOn?: Date, ipRange?: SasIPRange, identifier?: string, resource?: string, cacheControl?: string, contentDisposition?: string, contentEncoding?: string, contentLanguage?: string, contentType?: string, userDelegationKey?: UserDelegationKey, preauthorizedAgentObjectId?: string, correlationId?: string, encryptionScope?: string);
     constructor(version: string, signature: string, options?: SASQueryParametersOptions);
     readonly cacheControl?: string;
     readonly contentDisposition?: string;
@@ -2737,6 +2894,7 @@ export class SASQueryParameters {
     readonly contentLanguage?: string;
     readonly contentType?: string;
     readonly correlationId?: string;
+    readonly encryptionScope?: string;
     readonly expiresOn?: Date;
     readonly identifier?: string;
     get ipRange(): SasIPRange | undefined;
@@ -2760,6 +2918,7 @@ export interface SASQueryParametersOptions {
     contentLanguage?: string;
     contentType?: string;
     correlationId?: string;
+    encryptionScope?: string;
     expiresOn?: Date;
     identifier?: string;
     ipRange?: SasIPRange;
@@ -2808,6 +2967,7 @@ export type ServiceFindBlobsByTagsSegmentResponse = FilterBlobSegment & ServiceF
 
 // @public
 export interface ServiceGenerateAccountSasUrlOptions {
+    encryptionScope?: string;
     ipRange?: SasIPRange;
     protocol?: SASProtocol;
     startsOn?: Date;
@@ -3060,7 +3220,7 @@ export class StorageRetryPolicy extends BaseRequestPolicy {
 export class StorageRetryPolicyFactory implements RequestPolicyFactory {
     constructor(retryOptions?: StorageRetryOptions);
     create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): StorageRetryPolicy;
-    }
+}
 
 // @public
 export enum StorageRetryPolicyType {
@@ -3069,7 +3229,7 @@ export enum StorageRetryPolicyType {
 }
 
 // @public
-export class StorageSharedKeyCredential extends Credential {
+export class StorageSharedKeyCredential extends Credential_2 {
     constructor(accountName: string, accountKey: string);
     readonly accountName: string;
     computeHMACSHA256(stringToSign: string): string;
@@ -3116,7 +3276,6 @@ export interface UserDelegationKeyModel {
 }
 
 export { WebResource }
-
 
 // (No @packageDocumentation comment for this package)
 

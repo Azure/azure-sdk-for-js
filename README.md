@@ -2,44 +2,52 @@
 
 [![Packages](https://img.shields.io/badge/packages-latest-blue.svg)](https://azure.github.io/azure-sdk/releases/latest/js.html) [![Dependencies](https://img.shields.io/badge/dependency-report-blue.svg)](https://azuresdkartifacts.blob.core.windows.net/azure-sdk-for-js/dependencies/dependencies.html) [![DependencyGraph](https://img.shields.io/badge/dependency-graph-blue.svg)](https://azuresdkartifacts.blob.core.windows.net/azure-sdk-for-js/dependencies/InterdependencyGraph.html)
 
-This repository is for active development of the Azure SDK for JavaScript (NodeJS & Browser). For consumers of the SDK we recommend visiting our [public developer docs](https://docs.microsoft.com/javascript/azure/) or our versioned [developer docs](https://azure.github.io/azure-sdk-for-js).
+This repository is for the Azure SDK for JavaScript (Node.js & Browser). It contains libraries for the breadth of Azure services. Management libraries are packages that you would use to provision and manage Azure resources. Client libraries are packages that you would use to consume these resources and interact with them.
 
 ## Getting started
 
-For your convenience, each service has a separate set of libraries that you can choose to use instead of one, large Azure package. To get started with a specific library, see the **README.md** file located in the library's project folder. You can find service libraries in the `/sdk` directory.
+A few helpful resources to get started are:
+
+- The readme for each package contains code samples and package information. This readme can be found in the corresponding package folder under the folder of the service of your choice in the `/sdk` folder of this repository. The same readme file can be found on the landing page for the package in [npm](https://www.npmjs.com/).
+- The API reference documentation of the latest versions of these packages, can be found at our [public developer docs](https://docs.microsoft.com/javascript/azure/).
+- The API reference documentation of older versions, can be found in our [versioned developer docs](https://azure.github.io/azure-sdk-for-js).
 
 Each service might have a number of libraries available from each of the following categories:
 
-- [Client - New Releases](#client-new-releases)
-- [Client - Previous Versions](#client-previous-versions)
+- [Client](#client)
 - [Management](#management)
 
-### Client: New Releases
+> NOTE: Some of these packages have beta versions. If you need to ensure your code is ready for production, use one of the stable, non-beta packages.
 
-New wave of packages that we are announcing as **GA** and several that are currently releasing in **preview** on `npm`. These libraries allow you to use and consume existing resources and interact with them. These libraries share a number of core functionalities found in the Azure Core package such as retries, logging, transport protocols, authentication protocols, etc. Learn more about these libraries by reading [the guidelines](https://azure.github.io/azure-sdk/typescript/guidelines/) that they follow.
+### Client
 
-You can find the [most up to date list of all of the new packages on our page](https://azure.github.io/azure-sdk/releases/latest/index.html#javascript-packages)
+Given an Azure resource already exists, you would use the client libraries to consume it and interact with it.
+Most of these libraries follow the [Azure SDK Design Guidelines for JavaScript & TypeScript](https://azure.github.io/azure-sdk/typescript_introduction.html) and share a number of core functionalities such as retries, logging, transport protocols, authentication protocols, etc. Others will be updated in the near future to follow the guidelines as well.
 
-> NOTE: If you need to ensure your code is ready for production use one of the stable, non-preview libraries.
-
-### Client: Previous Versions
-
-Last stable versions of packages that have been provided for usage with Azure and are production-ready. These libraries provide you with similar functionalities to the Preview ones as they allow you to use and consume existing resources and interact with them, for example: upload a blob. They might not implement the [guidelines](https://azure.github.io/azure-sdk/typescript_introduction.html) or have the same feature set as the Novemeber releases. They do however offer wider coverage of services.
+To get a list of all client libraries that follow the new guidelines, please visit our [Azure SDK releases page](https://azure.github.io/azure-sdk/releases/latest/js.html).
 
 ### Management
 
-Libraries which enable you to provision specific resources. They are responsible for directly mirroring and consuming Azure service's REST endpoints. You can recognize these libraries by `mgmt` or `arm` in their package names.
+Management libraries enable you to provision and manage Azure resources via the [Azure Resource Manager i.e. ARM](https://docs.microsoft.com/azure/azure-resource-manager/management/overview). You can recognize these libraries by `@azure/arm-` in their package names. These are purely auto-generated based on the swagger files that represent the APIs for resource management.
+
+Newer versions of these libraries follow the [Azure SDK Design Guidelines for TypeScript](https://azure.github.io/azure-sdk/typescript_introduction.html). These new versions provide a number of core capabilities that are shared amongst all Azure SDKs, including the intuitive Azure Identity library, an HTTP Pipeline with custom policies, error-handling, distributed tracing, and much more. A few helpful resources to get started with these are:
+
+- [List of management libraries that follow the new guidelines](https://azure.github.io/azure-sdk/releases/latest/mgmt/js.html)
+- [Documentation and code samples](https://aka.ms/azsdk/js/mgmt).
+- [Migration guide](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/MIGRATION-guide-for-next-generation-management-libraries.md) that shows how to transition from older versions of libraries.
+
+> NOTE: If you are experiencing authentication issues with the management libraries after upgrading certain packages, it's possible that you upgraded to the new versions of SDK without changing the authentication code, please refer to the migration guide mentioned above for proper instructions.
 
 ## Need help?
 
 - For detailed documentation visit our [Azure SDK for JavaScript documentation](https://aka.ms/js-docs)
 - File an issue via [GitHub Issues](https://github.com/Azure/azure-sdk-for-js/issues)
 - Check [previous questions](https://stackoverflow.com/questions/tagged/azure-sdk-js) or ask new ones on StackOverflow using `azure-sdk-js` tag.
-- Read our [Support documentation](https://github.com/Azure/azure-sdk-for-js/blob/master/SUPPORT.md).
+- Read our [Support documentation](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md).
 
 ### Community
 
-Try our [community resources](https://github.com/Azure/azure-sdk-for-js/blob/master/SUPPORT.md#community-resources).
+Try our [community resources](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md#community-resources).
 
 ### Reporting security issues and security bugs
 
@@ -47,7 +55,7 @@ Security issues and bugs should be reported privately, via email, to the Microso
 
 ## Contributing
 
-For details on contributing to this repository, see the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md).
+For details on contributing to this repository, see the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md).
 
 This project welcomes contributions and suggestions. Most contributions require you to agree to a Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us the rights to use your contribution. For details, visit
 https://cla.microsoft.com.

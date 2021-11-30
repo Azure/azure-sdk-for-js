@@ -1,0 +1,8 @@
+{
+  "commit": "01c6e5b81b5a52b433fabfa56801f5a87b942067",
+  "readme": "specification/postgresql/resource-manager/readme.md",
+  "autorest_command": "autorest --version=3.1.3 --typescript --modelerfour.lenient-model-deduplication --head-as-boolean=true --license-header=MICROSOFT_MIT_NO_VERSION --generate-test --typescript-sdks-folder=D:\\mydev\\azure-sdk-for-js ../azure-rest-api-specs/specification/postgresql/resource-manager/readme.md --tag=package-2020-01-01 --use=@autorest/typescript@6.0.0-beta.13",
+  "repository_url": "https://github.com/Azure/azure-rest-api-specs.git",
+  "tag": "package-2020-01-01",
+  "use": "@autorest/typescript@6.0.0-beta.13"
+}

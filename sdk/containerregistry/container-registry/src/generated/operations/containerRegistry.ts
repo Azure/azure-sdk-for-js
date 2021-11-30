@@ -6,27 +6,36 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { ContainerRegistry } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { GeneratedClientContext } from "../generatedClientContext";
 import {
+  ContainerRegistryCheckDockerV2SupportOptionalParams,
   ContainerRegistryGetManifestOptionalParams,
   ContainerRegistryGetManifestResponse,
   Manifest,
+  ContainerRegistryCreateManifestOptionalParams,
   ContainerRegistryCreateManifestResponse,
+  ContainerRegistryDeleteManifestOptionalParams,
   ContainerRegistryGetRepositoriesOptionalParams,
   ContainerRegistryGetRepositoriesResponse,
+  ContainerRegistryGetPropertiesOptionalParams,
   ContainerRegistryGetPropertiesResponse,
+  ContainerRegistryDeleteRepositoryOptionalParams,
   ContainerRegistryUpdatePropertiesOptionalParams,
   ContainerRegistryUpdatePropertiesResponse,
   ContainerRegistryGetTagsOptionalParams,
   ContainerRegistryGetTagsResponse,
+  ContainerRegistryGetTagPropertiesOptionalParams,
   ContainerRegistryGetTagPropertiesResponse,
   ContainerRegistryUpdateTagAttributesOptionalParams,
   ContainerRegistryUpdateTagAttributesResponse,
+  ContainerRegistryDeleteTagOptionalParams,
   ContainerRegistryGetManifestsOptionalParams,
   ContainerRegistryGetManifestsResponse,
+  ContainerRegistryGetManifestPropertiesOptionalParams,
   ContainerRegistryGetManifestPropertiesResponse,
   ContainerRegistryUpdateManifestPropertiesOptionalParams,
   ContainerRegistryUpdateManifestPropertiesResponse,
@@ -38,8 +47,8 @@ import {
   ContainerRegistryGetManifestsNextResponse
 } from "../models";
 
-/** Class representing a ContainerRegistry. */
-export class ContainerRegistry {
+/** Class containing ContainerRegistry operations. */
+export class ContainerRegistryImpl implements ContainerRegistry {
   private readonly client: GeneratedClientContext;
 
   /**
@@ -54,7 +63,9 @@ export class ContainerRegistry {
    * Tells whether this Docker Registry instance supports Docker Registry HTTP API v2
    * @param options The options parameters.
    */
-  checkDockerV2Support(options?: coreClient.OperationOptions): Promise<void> {
+  checkDockerV2Support(
+    options?: ContainerRegistryCheckDockerV2SupportOptionalParams
+  ): Promise<void> {
     return this.client.sendOperationRequest(
       { options },
       checkDockerV2SupportOperationSpec
@@ -89,7 +100,7 @@ export class ContainerRegistry {
     name: string,
     reference: string,
     payload: Manifest,
-    options?: coreClient.OperationOptions
+    options?: ContainerRegistryCreateManifestOptionalParams
   ): Promise<ContainerRegistryCreateManifestResponse> {
     return this.client.sendOperationRequest(
       { name, reference, payload, options },
@@ -107,7 +118,7 @@ export class ContainerRegistry {
   deleteManifest(
     name: string,
     reference: string,
-    options?: coreClient.OperationOptions
+    options?: ContainerRegistryDeleteManifestOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { name, reference, options },
@@ -135,7 +146,7 @@ export class ContainerRegistry {
    */
   getProperties(
     name: string,
-    options?: coreClient.OperationOptions
+    options?: ContainerRegistryGetPropertiesOptionalParams
   ): Promise<ContainerRegistryGetPropertiesResponse> {
     return this.client.sendOperationRequest(
       { name, options },
@@ -150,7 +161,7 @@ export class ContainerRegistry {
    */
   deleteRepository(
     name: string,
-    options?: coreClient.OperationOptions
+    options?: ContainerRegistryDeleteRepositoryOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { name, options },
@@ -197,7 +208,7 @@ export class ContainerRegistry {
   getTagProperties(
     name: string,
     reference: string,
-    options?: coreClient.OperationOptions
+    options?: ContainerRegistryGetTagPropertiesOptionalParams
   ): Promise<ContainerRegistryGetTagPropertiesResponse> {
     return this.client.sendOperationRequest(
       { name, reference, options },
@@ -231,7 +242,7 @@ export class ContainerRegistry {
   deleteTag(
     name: string,
     reference: string,
-    options?: coreClient.OperationOptions
+    options?: ContainerRegistryDeleteTagOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { name, reference, options },
@@ -263,7 +274,7 @@ export class ContainerRegistry {
   getManifestProperties(
     name: string,
     digest: string,
-    options?: coreClient.OperationOptions
+    options?: ContainerRegistryGetManifestPropertiesOptionalParams
   ): Promise<ContainerRegistryGetManifestPropertiesResponse> {
     return this.client.sendOperationRequest(
       { name, digest, options },
@@ -358,7 +369,7 @@ const getManifestOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Manifest
+      bodyMapper: Mappers.ManifestWrapper
     },
     default: {
       bodyMapper: Mappers.AcrErrors
@@ -412,7 +423,7 @@ const getRepositoriesOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AcrErrors
     }
   },
-  queryParameters: [Parameters.last, Parameters.n],
+  queryParameters: [Parameters.last, Parameters.n, Parameters.apiVersion],
   urlParameters: [Parameters.url],
   headerParameters: [Parameters.accept],
   serializer
@@ -428,6 +439,7 @@ const getPropertiesOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AcrErrors
     }
   },
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.url, Parameters.name],
   headerParameters: [Parameters.accept],
   serializer
@@ -442,6 +454,7 @@ const deleteRepositoryOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AcrErrors
     }
   },
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.url, Parameters.name],
   headerParameters: [Parameters.accept],
   serializer
@@ -458,6 +471,7 @@ const updatePropertiesOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.value,
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.url, Parameters.name],
   headerParameters: [Parameters.accept, Parameters.contentType1],
   mediaType: "json",
@@ -478,6 +492,7 @@ const getTagsOperationSpec: coreClient.OperationSpec = {
   queryParameters: [
     Parameters.last,
     Parameters.n,
+    Parameters.apiVersion,
     Parameters.orderby,
     Parameters.digest
   ],
@@ -496,6 +511,7 @@ const getTagPropertiesOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AcrErrors
     }
   },
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.url, Parameters.name, Parameters.reference],
   headerParameters: [Parameters.accept],
   serializer
@@ -512,6 +528,7 @@ const updateTagAttributesOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.value1,
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.url, Parameters.name, Parameters.reference],
   headerParameters: [Parameters.accept, Parameters.contentType1],
   mediaType: "json",
@@ -527,6 +544,7 @@ const deleteTagOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AcrErrors
     }
   },
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.url, Parameters.name, Parameters.reference],
   headerParameters: [Parameters.accept],
   serializer
@@ -543,7 +561,12 @@ const getManifestsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AcrErrors
     }
   },
-  queryParameters: [Parameters.last, Parameters.n, Parameters.orderby],
+  queryParameters: [
+    Parameters.last,
+    Parameters.n,
+    Parameters.apiVersion,
+    Parameters.orderby
+  ],
   urlParameters: [Parameters.url, Parameters.name],
   headerParameters: [Parameters.accept],
   serializer
@@ -559,6 +582,7 @@ const getManifestPropertiesOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AcrErrors
     }
   },
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.url, Parameters.name, Parameters.digest1],
   headerParameters: [Parameters.accept],
   serializer
@@ -575,6 +599,7 @@ const updateManifestPropertiesOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.value2,
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.url, Parameters.name, Parameters.digest1],
   headerParameters: [Parameters.accept, Parameters.contentType1],
   mediaType: "json",
@@ -592,7 +617,7 @@ const getRepositoriesNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AcrErrors
     }
   },
-  queryParameters: [Parameters.last, Parameters.n],
+  queryParameters: [Parameters.last, Parameters.n, Parameters.apiVersion],
   urlParameters: [Parameters.url, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer
@@ -612,6 +637,7 @@ const getTagsNextOperationSpec: coreClient.OperationSpec = {
   queryParameters: [
     Parameters.last,
     Parameters.n,
+    Parameters.apiVersion,
     Parameters.orderby,
     Parameters.digest
   ],
@@ -631,7 +657,12 @@ const getManifestsNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AcrErrors
     }
   },
-  queryParameters: [Parameters.last, Parameters.n, Parameters.orderby],
+  queryParameters: [
+    Parameters.last,
+    Parameters.n,
+    Parameters.apiVersion,
+    Parameters.orderby
+  ],
   urlParameters: [Parameters.url, Parameters.name, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer

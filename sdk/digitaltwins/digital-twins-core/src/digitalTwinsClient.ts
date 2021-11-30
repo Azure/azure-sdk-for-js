@@ -56,7 +56,7 @@ import { createSpan } from "./tracing";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { logger } from "./logger";
 
-export const SDK_VERSION: string = "1.0.3";
+export const SDK_VERSION: string = "1.1.0";
 
 export interface DigitalTwinsClientOptions extends PipelineOptions {
   /**
@@ -859,9 +859,9 @@ export class DigitalTwinsClient {
 
   /**
    * Decommission a model using a json patch.
-   * When a model is decomissioned, new digital twins will no longer be able to be
+   * When a model is decommissioned, new digital twins will no longer be able to be
    * defined by this model. However, existing digital twins may continue to use this model.
-   * Once a model is decomissioned, it may not be recommissioned.
+   * Once a model is decommissioned, it may not be recommissioned.
    *
    * @param modelId - The Id of the model to decommission.
    * property can be replaced.
@@ -869,10 +869,10 @@ export class DigitalTwinsClient {
    * @returns The http response.
    *
    */
-  public decomissionModel(modelId: string, options: OperationOptions = {}): Promise<RestResponse> {
+  public decommissionModel(modelId: string, options: OperationOptions = {}): Promise<RestResponse> {
     const jsonPatch = [{ op: "replace", path: "/decommissioned", value: true }];
 
-    const { span, updatedOptions } = createSpan("DigitalTwinsClient-decomissionModel", options);
+    const { span, updatedOptions } = createSpan("DigitalTwinsClient-decommissionModel", options);
     try {
       return this.client.digitalTwinModels.update(modelId, jsonPatch, updatedOptions);
     } catch (e) {
@@ -885,6 +885,11 @@ export class DigitalTwinsClient {
       span.end();
     }
   }
+
+  /**
+   * @deprecated Please use {@link DigitalTwinsClient.decommissionModel} instead.
+   */
+  public decomissionModel = this.decommissionModel;
 
   /**
    * Delete a model.

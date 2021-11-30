@@ -41,3 +41,5 @@ stages:
         METRICS_ADVISOR_MYSQL_CONNECTION_STRING: $(metricsadvisor-test-mysql-connection-string)
         METRICS_ADVISOR_POSTGRESQL_CONNECTION_STRING: $(metricsadvisor-test-postgresql-connection-string)
         METRICS_ADVISOR_ELASTICSEARCH_AUTH_HEADER: $(metricsadvisor-test-elasticsearch-auth-header)
+        METRICS_EVENTHUB_CONNECTION_STRING: $(metricsadvisor-test-eventhub-connection-string)
+        METRICS_EVENTHUB_CONSUMER_GROUP: $(metricsadvisor-test-eventhub-consumer-group)

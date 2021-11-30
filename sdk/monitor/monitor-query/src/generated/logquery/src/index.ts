@@ -9,3 +9,4 @@
 export * from "./models";
 export { AzureLogAnalytics } from "./azureLogAnalytics";
 export { AzureLogAnalyticsContext } from "./azureLogAnalyticsContext";
+export * from "./operationsInterfaces";

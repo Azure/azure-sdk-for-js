@@ -12,7 +12,7 @@ import {
   secretReferenceContentType,
   SecretReferenceValue
 } from "../../src";
-import { Recorder } from "@azure/test-utils-recorder";
+import { Recorder } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
 
 describe("AppConfigurationClient - SecretReference", () => {
@@ -33,7 +33,7 @@ describe("AppConfigurationClient - SecretReference", () => {
       return {
         value: {
           secretId: `https://vault_name.vault.azure.net/secrets/${recorder.getUniqueName("name-2")}`
-        }, // TODO: It's a URL in .NET, should we leave it as a string input?
+        },
         isReadOnly: false,
         key: recorder.getUniqueName("name-3"),
         label: "label-s",
@@ -44,7 +44,7 @@ describe("AppConfigurationClient - SecretReference", () => {
     function assertSecretReferenceProps(
       actual: Omit<AddConfigurationSettingResponse, "_response">,
       expected: ConfigurationSetting<SecretReferenceValue>
-    ) {
+    ): void {
       assert.equal(isSecretReference(actual), true, "Expected to get the SecretReference");
       const actualSecretReference = parseSecretReference(actual);
       if (isSecretReference(actual)) {

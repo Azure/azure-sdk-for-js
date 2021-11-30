@@ -1,0 +1,53 @@
+{
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/98123456-7614-3456-5678-789980112547/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fsanitized%2F",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "cache-control": "no-store, no-cache",
+    "content-length": "1321",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 29 Sep 2021 01:11:36 GMT",
+    "expires": "-1",
+    "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "pragma": "no-cache",
+    "referrer-policy": "strict-origin-when-cross-origin",
+    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+wst\"}]}",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-ests-server": "2.1.12071.16 - WUS2 ProdSlices",
+    "x-ms-request-id": "f36c0617-e7d4-4e94-a042-cd033964a200"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://api.loganalytics.io/v1/workspaces/workspace-id/query",
+   "query": {},
+   "requestBody": "{\"query\":\"AppEvents | limit 1\",\"timespan\":\"P1D\"}",
+   "status": 200,
+   "response": "{\"tables\":[{\"name\":\"PrimaryResult\",\"columns\":[{\"name\":\"TenantId\",\"type\":\"string\"},{\"name\":\"TimeGenerated\",\"type\":\"datetime\"},{\"name\":\"Name\",\"type\":\"string\"},{\"name\":\"Properties\",\"type\":\"dynamic\"},{\"name\":\"Measurements\",\"type\":\"dynamic\"},{\"name\":\"OperationName\",\"type\":\"string\"},{\"name\":\"OperationId\",\"type\":\"string\"},{\"name\":\"ParentId\",\"type\":\"string\"},{\"name\":\"SyntheticSource\",\"type\":\"string\"},{\"name\":\"SessionId\",\"type\":\"string\"},{\"name\":\"UserId\",\"type\":\"string\"},{\"name\":\"UserAuthenticatedId\",\"type\":\"string\"},{\"name\":\"UserAccountId\",\"type\":\"string\"},{\"name\":\"AppVersion\",\"type\":\"string\"},{\"name\":\"AppRoleName\",\"type\":\"string\"},{\"name\":\"AppRoleInstance\",\"type\":\"string\"},{\"name\":\"ClientType\",\"type\":\"string\"},{\"name\":\"ClientModel\",\"type\":\"string\"},{\"name\":\"ClientOS\",\"type\":\"string\"},{\"name\":\"ClientIP\",\"type\":\"string\"},{\"name\":\"ClientCity\",\"type\":\"string\"},{\"name\":\"ClientStateOrProvince\",\"type\":\"string\"},{\"name\":\"ClientCountryOrRegion\",\"type\":\"string\"},{\"name\":\"ClientBrowser\",\"type\":\"string\"},{\"name\":\"ResourceGUID\",\"type\":\"string\"},{\"name\":\"IKey\",\"type\":\"string\"},{\"name\":\"SDKVersion\",\"type\":\"string\"},{\"name\":\"ItemCount\",\"type\":\"int\"},{\"name\":\"SourceSystem\",\"type\":\"string\"},{\"name\":\"Type\",\"type\":\"string\"},{\"name\":\"_ResourceId\",\"type\":\"string\"}],\"rows\":[]}],\"statistics\":{\"query\":{\"executionTime\":0.0781814,\"resourceUsage\":{\"cache\":{\"memory\":{\"hits\":0,\"misses\":0,\"total\":0},\"disk\":{\"hits\":0,\"misses\":0,\"total\":0},\"shards\":{\"hot\":{\"hitbytes\":0,\"missbytes\":0,\"retrievebytes\":0},\"cold\":{\"hitbytes\":0,\"missbytes\":0,\"retrievebytes\":0},\"bypassbytes\":0}},\"cpu\":{\"user\":\"00:00:00.0937500\",\"kernel\":\"00:00:00\",\"totalCpu\":\"00:00:00.0937500\"},\"memory\":{\"peakPerNode\":12588000}},\"inputDatasetStatistics\":{\"extents\":{\"total\":0,\"scanned\":0,\"scannedMinDatetime\":\"0001-01-01T00:00:00.0000000Z\",\"scannedMaxDatetime\":\"0001-01-01T00:00:00.0000000Z\"},\"rows\":{\"total\":0,\"scanned\":0},\"rowstores\":{\"scannedRows\":8303,\"scannedValuesSize\":7998880},\"shards\":{\"queriesGeneric\":0,\"queriesSpecialized\":0}},\"datasetStatistics\":[{\"tableRowCount\":0,\"tableSize\":0}]}}}",
+   "responseHeaders": {
+    "access-control-allow-origin": "*",
+    "access-control-expose-headers": "Retry-After,Age,WWW-Authenticate,x-resource-identities,x-ms-status-location",
+    "age": "109",
+    "content-encoding": "gzip",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 29 Sep 2021 01:11:37 GMT",
+    "strict-transport-security": "max-age=15724800; includeSubDomains",
+    "vary": "Accept-Encoding",
+    "via": "1.1 draft-oms-65975698db-cflfp",
+    "x-content-type-options": "nosniff"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "a286a75072723520656b4e9986158590"
+}

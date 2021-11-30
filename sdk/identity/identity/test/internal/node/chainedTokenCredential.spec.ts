@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import assert from "assert";
+import { assert } from "chai";
 import { ChainedTokenCredential, TokenCredential, AccessToken } from "../../../src";
 import Sinon from "sinon";
 import { logger as chainedTokenCredentialLogger } from "../../../src/credentials/chainedTokenCredential";

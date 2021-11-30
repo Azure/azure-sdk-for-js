@@ -5,7 +5,7 @@ import { assert } from "chai";
 import { Context } from "mocha";
 import { Suite } from "mocha";
 
-import { Recorder, record, isPlaybackMode, isLiveMode } from "@azure/test-utils-recorder";
+import { Recorder, record, isPlaybackMode, isLiveMode } from "@azure-tools/test-recorder";
 
 import { createClients, environmentSetup } from "../utils/recordedClient";
 import {
@@ -14,11 +14,12 @@ import {
   AutocompleteResult,
   IndexDocumentsBatch,
   KnownSpeller,
-  KnownQueryLanguage
+  KnownQueryLanguage,
+  AzureKeyCredential
 } from "../../../src";
 import { Hotel } from "../utils/interfaces";
 import { createIndex, populateIndex, WAIT_TIME, createRandomIndexName } from "../utils/setup";
-import { delay } from "@azure/core-http";
+import { delay } from "../../../src/serviceUtils";
 
 const TEST_INDEX_NAME = isLiveMode() ? createRandomIndexName() : "hotel-live-test1";
 
@@ -254,7 +255,10 @@ describe("SearchClient", function(this: Suite) {
     assert.equal(documentCount, 11);
   });
 
-  it("search with speller", async function() {
+  // Fails in CI because the CI search service was created on or before 2019
+  // which does not have search 'speller' feature. Will resolve the
+  // resource issue and then add this test back.
+  it.skip("search with speller", async function() {
     const searchResults = await searchClient.search("budjet", {
       skip: 0,
       top: 5,
@@ -265,7 +269,10 @@ describe("SearchClient", function(this: Suite) {
     assert.equal(searchResults.count, 6);
   });
 
-  it("search with semantic ranking", async function() {
+  // Currently semantic search is available only with
+  // certain subscriptions and could not be tested in CI.
+  // So, skipping this test for now.
+  it.skip("search with semantic ranking", async function() {
     const searchResults = await searchClient.search("luxury", {
       skip: 0,
       top: 5,
@@ -274,5 +281,59 @@ describe("SearchClient", function(this: Suite) {
       queryType: "semantic"
     });
     assert.equal(searchResults.count, 1);
+  });
+});
+
+describe("SearchClient-local", () => {
+  const credential = new AzureKeyCredential("key");
+
+  describe("Passing serviceVersion", () => {
+    it("supports passing serviceVersion", () => {
+      const client = new SearchClient<Hotel>("", "", credential, {
+        serviceVersion: "2020-06-30"
+      });
+      assert.equal("2020-06-30", client.serviceVersion);
+      assert.equal("2020-06-30", client.apiVersion);
+    });
+
+    it("passing invalid apiVersion type and valid serviceVersion", () => {
+      let errorThrown = false;
+      try {
+        new SearchClient<Hotel>("", "", credential, {
+          serviceVersion: "2020-06-30",
+          apiVersion: "foo"
+        });
+      } catch (ex) {
+        errorThrown = true;
+      }
+      assert.isTrue(errorThrown, "Invalid apiVersion");
+    });
+
+    it("passing invalid serviceVersion type and valid apiVersion", () => {
+      let errorThrown = false;
+      try {
+        new SearchClient<Hotel>("", "", credential, {
+          apiVersion: "2020-06-30",
+          serviceVersion: "foo"
+        });
+      } catch (ex) {
+        errorThrown = true;
+      }
+      assert.isTrue(errorThrown, "Invalid serviceVersion");
+    });
+
+    it("supports passing the deprecated apiVersion", () => {
+      const client = new SearchClient<Hotel>("", "", credential, {
+        apiVersion: "2020-06-30"
+      });
+      assert.equal("2020-06-30", client.serviceVersion);
+      assert.equal("2020-06-30", client.apiVersion);
+    });
+
+    it("defaults to the current apiVersion", () => {
+      const client = new SearchClient<Hotel>("", "", credential);
+      assert.equal("2020-06-30-Preview", client.serviceVersion);
+      assert.equal("2020-06-30-Preview", client.apiVersion);
+    });
   });
 });

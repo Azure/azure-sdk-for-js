@@ -1,6 +1,6 @@
 # Interactive Browser Credential
 
-The `InteractiveBrowserCredential` uses [Authorization Code Flow][AuthCodeFlow], which uses [Proof Key for Code Exchange (PKCE)](https://tools.ietf.org/html/rfc7636) both on the browser and on NodeJS. Under the hood it uses [@azure/msal-node](https://www.npmjs.com/package/@azure/msal-node) for Node.js and [@azure/msal-browser](https://www.npmjs.com/package/@azure/msal-browser) in browsers.
+The `InteractiveBrowserCredential` uses [Authorization Code Flow][AuthCodeFlow], which uses [Proof Key for Code Exchange (PKCE)](https://tools.ietf.org/html/rfc7636) both on the browser and on Node.js. Under the hood it uses [@azure/msal-node](https://www.npmjs.com/package/@azure/msal-node) for Node.js and [@azure/msal-browser](https://www.npmjs.com/package/@azure/msal-browser) in browsers.
 
 `InteractiveBrowserCredential` can be used both in Node and in browsers. For each case, there are some important considerations that must be taken.
 
@@ -52,6 +52,6 @@ Then you need to visit your app registration and update the redirect URI you're 
 
 ## Sample code
 
-You can see a sample project that uses `InteractiveBrowserCredential` here: [link to the sample project](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/identity/identity/test/manual).
+You can see a sample project that uses `InteractiveBrowserCredential` here: [link to the sample project](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity/test/manual).
 
 [AuthCodeFlow]: https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-auth-code-flow

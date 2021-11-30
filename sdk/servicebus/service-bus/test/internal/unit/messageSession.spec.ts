@@ -14,10 +14,10 @@ import sinon, { SinonSpy } from "sinon";
 import { EventEmitter } from "events";
 import {
   ReceiverEvents,
-  Receiver as RheaReceiver,
   EventContext,
   Message as RheaMessage,
-  SessionEvents
+  SessionEvents,
+  Receiver as RheaPromiseReceiver
 } from "rhea-promise";
 import { OnAmqpEventAsPromise } from "../../../src/core/messageReceiver";
 import { ServiceBusMessageImpl } from "../../../src/serviceBusMessage";
@@ -31,15 +31,6 @@ const assert = chai.assert;
 
 describe("Message session unit tests", () => {
   describe("receiveMessages", () => {
-    let clock: ReturnType<typeof sinon.useFakeTimers>;
-
-    beforeEach(() => {
-      clock = sinon.useFakeTimers();
-    });
-
-    afterEach(() => {
-      clock.restore();
-    });
     const receiveModes: ReceiveMode[] = ["peekLock", "receiveAndDelete"];
 
     receiveModes.forEach((lockMode) => {
@@ -272,7 +263,7 @@ describe("Message session unit tests", () => {
 
     function setupFakeReceiver(
       batchingReceiver: MessageSession,
-      clock?: ReturnType<typeof sinon.useFakeTimers>
+      clockParam?: ReturnType<typeof sinon.useFakeTimers>
     ): {
       receiveIsReady: Promise<void>;
       emitter: EventEmitter;
@@ -280,16 +271,16 @@ describe("Message session unit tests", () => {
     } {
       const emitter = new EventEmitter();
       const { promise: receiveIsReady, resolve: resolvePromiseIsReady } = defer<void>();
-      let credits = 0;
 
       const remainingRegisteredListeners = new Set<string>();
+      let credit = 0;
 
       const fakeRheaReceiver = {
         on(evt: ReceiverEvents, handler: OnAmqpEventAsPromise) {
           emitter.on(evt, handler);
 
           if (evt === ReceiverEvents.message) {
-            --credits;
+            --credit;
           }
 
           assert.isFalse(remainingRegisteredListeners.has(evt.toString()));
@@ -318,22 +309,20 @@ describe("Message session unit tests", () => {
           }
         },
         isOpen: () => true,
-        addCredit: (_credits: number) => {
-          if (_credits === 1 && fakeRheaReceiver.drain === true) {
-            // special case - if we're draining we should initiate a drain
-            emitter.emit(ReceiverEvents.receiverDrained, undefined);
-            clock?.runAll();
-          } else {
-            credits += _credits;
-          }
+        addCredit: (_credit: number) => {
+          credit += _credit;
+        },
+        drainCredit: () => {
+          emitter.emit(ReceiverEvents.receiverDrained, undefined);
+          clockParam?.runAll();
         },
         get credit() {
-          return credits;
+          return credit;
         },
         connection: {
           id: "connection-id"
         }
-      } as RheaReceiver;
+      } as RheaPromiseReceiver;
 
       batchingReceiver["_link"] = fakeRheaReceiver;
 
@@ -484,7 +473,9 @@ describe("Message session unit tests", () => {
       };
 
       messageSession.subscribe(
-        async (_message) => {},
+        async (_message) => {
+          /* empty body */
+        },
         (errorArgs) => {
           errors.push({
             message: errorArgs.error.message,

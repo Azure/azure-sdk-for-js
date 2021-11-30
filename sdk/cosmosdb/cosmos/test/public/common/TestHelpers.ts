@@ -13,11 +13,16 @@ import {
 } from "../../../src";
 import { ItemDefinition, ItemResponse, PermissionResponse, Resource, User } from "../../../src";
 import { UserResponse } from "../../../src";
-import { endpoint, masterKey } from "./_testConfig";
+import { endpoint } from "../common/_testConfig";
+import { masterKey } from "../common/_fakeTestSecrets";
 import { DatabaseRequest } from "../../../src";
 import { ContainerRequest } from "../../../src";
 
-const defaultClient = new CosmosClient({ endpoint, key: masterKey });
+const defaultClient = new CosmosClient({
+  endpoint,
+  key: masterKey,
+  connectionPolicy: { enableBackgroundEndpointRefreshing: false }
+});
 
 export function addEntropy(name: string): string {
   return name + getEntropy();

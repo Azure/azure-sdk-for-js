@@ -6,8 +6,7 @@
  * @packageDocumentation
  */
 
-export { createDefaultPipeline } from "./clientHelpers";
 export { CertificateCredential, isCertificateCredential } from "./certificateCredential";
-export * from "./common";
+export { createRestError } from "./restError";
 export * from "./getClient";
-export * from "./pathClientTypes";
+export * from "./common";

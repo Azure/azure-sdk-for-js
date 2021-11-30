@@ -16,11 +16,10 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 | ------------------------------- | ---------------------------------------------------------------------------------- |
 | [cryptography.ts][cryptography] | Uses an Azure Key Vault key to sign/verify, encrypt/decrypt, and wrap/unwrap data. |
 | [helloWorld.ts][helloworld]     | Creates, reads, lists, and deletes keys.                                           |
-| [purgeAllKeys.ts][purgeallkeys] | Purges all deleted keys from an Azure Key Vault.                                   |
 
 ## Prerequisites
 
-The sample programs are compatible with Node.js >=12.0.0.
+The sample programs are compatible with [LTS versions of Node.js](https://nodejs.org/about/releases/).
 
 Before running the samples in Node, they must be compiled to JavaScript using the TypeScript compiler. For more information on TypeScript, see the [TypeScript documentation][typescript]. Install the TypeScript compiler using:
 
@@ -76,11 +75,10 @@ npx cross-env KEYVAULT_URI="<keyvault uri>" node dist/cryptography.js
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[cryptography]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-keys/samples/v4/typescript/src/cryptography.ts
-[helloworld]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-keys/samples/v4/typescript/src/helloWorld.ts
-[purgeallkeys]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-keys/samples/v4/typescript/src/purgeAllKeys.ts
+[cryptography]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-keys/samples/v4/typescript/src/cryptography.ts
+[helloworld]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-keys/samples/v4/typescript/src/helloWorld.ts
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/keyvault-keys
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azurekeyvault]: https://docs.microsoft.com/azure/key-vault/quick-create-portal
-[package]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-keys/README.md
+[package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/keyvault/keyvault-keys/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

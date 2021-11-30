@@ -4,7 +4,8 @@
 
 ```ts
 
-import * as coreHttp from '@azure/core-http';
+import * as coreAuth from '@azure/core-auth';
+import * as coreClient from '@azure/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 
 // @public
@@ -31,22 +32,33 @@ export interface ManagedPrivateEndpointListResponse {
 // @public
 export interface ManagedPrivateEndpointProperties {
     connectionState?: ManagedPrivateEndpointConnectionState;
+    fqdns?: string[];
     groupId?: string;
+    isCompliant?: boolean;
     readonly isReserved?: boolean;
+    name?: string;
     privateLinkResourceId?: string;
     readonly provisioningState?: string;
 }
 
-// @public (undocumented)
-export class ManagedPrivateEndpointsClient extends ManagedPrivateEndpointsClientContext {
-    constructor(credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials, endpoint: string, options?: ManagedPrivateEndpointsClientOptionalParams);
-    // (undocumented)
-    managedPrivateEndpoints: ManagedPrivateEndpointsOperation;
+// @public
+export interface ManagedPrivateEndpoints {
+    create(managedVirtualNetworkName: string, managedPrivateEndpointName: string, managedPrivateEndpoint: ManagedPrivateEndpoint, options?: ManagedPrivateEndpointsCreateOptionalParams): Promise<ManagedPrivateEndpointsCreateResponse>;
+    delete(managedVirtualNetworkName: string, managedPrivateEndpointName: string, options?: ManagedPrivateEndpointsDeleteOptionalParams): Promise<void>;
+    get(managedVirtualNetworkName: string, managedPrivateEndpointName: string, options?: ManagedPrivateEndpointsGetOptionalParams): Promise<ManagedPrivateEndpointsGetResponse>;
+    list(managedVirtualNetworkName: string, options?: ManagedPrivateEndpointsListOptionalParams): PagedAsyncIterableIterator<ManagedPrivateEndpoint>;
 }
 
 // @public (undocumented)
-export class ManagedPrivateEndpointsClientContext extends coreHttp.ServiceClient {
-    constructor(credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials, endpoint: string, options?: ManagedPrivateEndpointsClientOptionalParams);
+export class ManagedPrivateEndpointsClient extends ManagedPrivateEndpointsClientContext {
+    constructor(credentials: coreAuth.TokenCredential, endpoint: string, options?: ManagedPrivateEndpointsClientOptionalParams);
+    // (undocumented)
+    managedPrivateEndpoints: ManagedPrivateEndpoints;
+}
+
+// @public (undocumented)
+export class ManagedPrivateEndpointsClientContext extends coreClient.ServiceClient {
+    constructor(credentials: coreAuth.TokenCredential, endpoint: string, options?: ManagedPrivateEndpointsClientOptionalParams);
     // (undocumented)
     apiVersion: string;
     // (undocumented)
@@ -54,51 +66,42 @@ export class ManagedPrivateEndpointsClientContext extends coreHttp.ServiceClient
 }
 
 // @public
-export interface ManagedPrivateEndpointsClientOptionalParams extends coreHttp.ServiceClientOptions {
+export interface ManagedPrivateEndpointsClientOptionalParams extends coreClient.ServiceClientOptions {
     apiVersion?: string;
     endpoint?: string;
 }
 
 // @public
-export type ManagedPrivateEndpointsCreateResponse = ManagedPrivateEndpoint & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: ManagedPrivateEndpoint;
-    };
-};
+export interface ManagedPrivateEndpointsCreateOptionalParams extends coreClient.OperationOptions {
+}
 
 // @public
-export type ManagedPrivateEndpointsGetResponse = ManagedPrivateEndpoint & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: ManagedPrivateEndpoint;
-    };
-};
+export type ManagedPrivateEndpointsCreateResponse = ManagedPrivateEndpoint;
 
 // @public
-export type ManagedPrivateEndpointsListNextResponse = ManagedPrivateEndpointListResponse & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: ManagedPrivateEndpointListResponse;
-    };
-};
+export interface ManagedPrivateEndpointsDeleteOptionalParams extends coreClient.OperationOptions {
+}
 
 // @public
-export type ManagedPrivateEndpointsListResponse = ManagedPrivateEndpointListResponse & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: ManagedPrivateEndpointListResponse;
-    };
-};
+export interface ManagedPrivateEndpointsGetOptionalParams extends coreClient.OperationOptions {
+}
 
 // @public
-export class ManagedPrivateEndpointsOperation {
-    constructor(client: ManagedPrivateEndpointsClient);
-    create(managedVirtualNetworkName: string, managedPrivateEndpointName: string, managedPrivateEndpoint: ManagedPrivateEndpoint, options?: coreHttp.OperationOptions): Promise<ManagedPrivateEndpointsCreateResponse>;
-    delete(managedVirtualNetworkName: string, managedPrivateEndpointName: string, options?: coreHttp.OperationOptions): Promise<coreHttp.RestResponse>;
-    get(managedVirtualNetworkName: string, managedPrivateEndpointName: string, options?: coreHttp.OperationOptions): Promise<ManagedPrivateEndpointsGetResponse>;
-    list(managedVirtualNetworkName: string, options?: coreHttp.OperationOptions): PagedAsyncIterableIterator<ManagedPrivateEndpoint>;
-    }
+export type ManagedPrivateEndpointsGetResponse = ManagedPrivateEndpoint;
+
+// @public
+export interface ManagedPrivateEndpointsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ManagedPrivateEndpointsListNextResponse = ManagedPrivateEndpointListResponse;
+
+// @public
+export interface ManagedPrivateEndpointsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ManagedPrivateEndpointsListResponse = ManagedPrivateEndpointListResponse;
 
 
 // (No @packageDocumentation comment for this package)

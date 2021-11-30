@@ -12,7 +12,7 @@ enable-xml: true
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/storage-dataplane-preview/specification/storage/data-plane/Microsoft.QueueStorage/preview/2018-03-28/queue.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/4a93ab078fba7f087116283c8ed169f9b8e30397/specification/storage/data-plane/Microsoft.QueueStorage/preview/2018-03-28/queue.json
 model-date-time-as-string: true
 optional-response-headers: true
 v3: true
@@ -20,13 +20,33 @@ disable-async-iterators: true
 add-credentials: false
 use-extension:
   "@autorest/typescript": "6.0.0-dev.20210218.1"
-package-version: 12.5.0
+package-version: 12.8.0-beta.2
 ```
 
 ## Customizations for Track 2 Generator
 
 See the [AutoRest samples](https://github.com/Azure/autorest/tree/master/Samples/3b-custom-transformations)
 for more about how we're customizing things.
+
+### Don't include container or blob in path - we have direct URIs.
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]
+    transform: >
+      for (const property in $)
+      {
+          if (property.includes('/{queueName}/messages/{messageid}'))
+          {
+              $[property]["parameters"] = $[property]["parameters"].filter(function(param) { return (typeof param['$ref'] === "undefined") || (false == param['$ref'].endsWith("#/parameters/QueueName") && false == param['$ref'].endsWith("#/parameters/MessageId"))});
+          } 
+          else if (property.includes('/{queueName}'))
+          {
+              $[property]["parameters"] = $[property]["parameters"].filter(function(param) { return (typeof param['$ref'] === "undefined") || (false == param['$ref'].endsWith("#/parameters/QueueName"))});
+          }
+      }
+```
 
 ### /?restype=service&comp=properties (StorageServiceProperties renamed to QueueServiceProperties)
 
@@ -191,7 +211,7 @@ directive:
     transform: >
       $["x-ms-client-name"] = "nextVisibleOn";
   - from: swagger-document
-    where: $["x-ms-paths"]["/{queueName}/messages/{messageid}?popreceipt={popReceipt}&visibilitytimeout={visibilityTimeout}"]..responses..headers["x-ms-time-next-visible"]
+    where: $["x-ms-paths"]["/{queueName}/messages/{messageid}"]..responses..headers["x-ms-time-next-visible"]
     transform: >
       $["x-ms-client-name"] = "nextVisibleOn";
 ```
@@ -206,13 +226,13 @@ directive:
       $["x-ms-client-name"] = "queueAnalyticsLogging"
 ```
 
-### Update service version from "2018-03-28" to "2020-08-04"
+### Update service version from "2018-03-28" to "2020-12-06"
 
 ```yaml
 directive:
   - from: swagger-document
     where: $.parameters.ApiVersionParameter
-    transform: $.enum = [ "2020-08-04" ];
+    transform: $.enum = [ "2020-12-06" ];
 ```
 
 ### Rename AccessPolicy start -> startsOn
@@ -452,7 +472,7 @@ directive:
 ```yaml
 directive:
   - from: swagger-document
-    where: $["x-ms-paths"]["/{queueName}/messages?visibilitytimeout={visibilityTimeout}&messagettl={messageTimeToLive}"]["post"]["responses"]["201"]["headers"]
+    where: $["x-ms-paths"]["/{queueName}/messages"]["post"]["responses"]["201"]["headers"]
     transform: >
       $["x-ms-error-code"] = {};
       $["x-ms-error-code"]["x-ms-client-name"] = "ErrorCode";
@@ -478,7 +498,7 @@ directive:
 ```yaml
 directive:
   - from: swagger-document
-    where: $["x-ms-paths"]["/{queueName}/messages/{messageid}?popreceipt={popReceipt}&visibilitytimeout={visibilityTimeout}"]["put"]["responses"]["204"]["headers"]
+    where: $["x-ms-paths"]["/{queueName}/messages/{messageid}"]["put"]["responses"]["204"]["headers"]
     transform: >
       $["x-ms-error-code"] = {};
       $["x-ms-error-code"]["x-ms-client-name"] = "ErrorCode";
@@ -491,7 +511,7 @@ directive:
 ```yaml
 directive:
   - from: swagger-document
-    where: $["x-ms-paths"]["/{queueName}/messages/{messageid}?popreceipt={popReceipt}"]["delete"]["responses"]["204"]["headers"]
+    where: $["x-ms-paths"]["/{queueName}/messages/{messageid}"]["delete"]["responses"]["204"]["headers"]
     transform: >
       $["x-ms-error-code"] = {};
       $["x-ms-error-code"]["x-ms-client-name"] = "ErrorCode";
@@ -507,6 +527,16 @@ directive:
     where: $.definitions.GeoReplication
     transform: >
       $.description = "Geo-Replication information for the Secondary Storage Service";
+```
+
+### Define GeoReplicationStatusType as enum
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["definitions"]["GeoReplication"]["properties"]["Status"]["x-ms-enum"]
+    transform: >
+      delete $["modelAsString"];
 ```
 
 ### Add description for Metrics

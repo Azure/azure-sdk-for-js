@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { TokenCredential } from "@azure/core-http";
 import { randomBytes } from "crypto";
 import * as fs from "fs";
 import * as path from "path";
@@ -16,7 +17,8 @@ import { StorageSharedKeyCredential } from "../../src/credentials/StorageSharedK
 import { newPipeline } from "../../src/Pipeline";
 import { ShareServiceClient } from "../../src/ShareServiceClient";
 import { extractConnectionStringParts } from "../../src/utils/utils.common";
-import { getUniqueName } from "./testutils.common";
+import { getUniqueName, SimpleTokenCredential } from "./testutils.common";
+import { BlobServiceClient } from "@azure/storage-blob";
 
 export * from "./testutils.common";
 
@@ -27,11 +29,8 @@ export function getGenericBSU(
   const accountNameEnvVar = `${accountType}ACCOUNT_NAME`;
   const accountKeyEnvVar = `${accountType}ACCOUNT_KEY`;
 
-  let accountName: string | undefined;
-  let accountKey: string | undefined;
-
-  accountName = process.env[accountNameEnvVar];
-  accountKey = process.env[accountKeyEnvVar];
+  const accountName = process.env[accountNameEnvVar];
+  const accountKey = process.env[accountKeyEnvVar];
 
   if (!accountName || !accountKey || accountName === "" || accountKey === "") {
     throw new Error(
@@ -46,6 +45,10 @@ export function getGenericBSU(
   });
   const filePrimaryURL = `https://${accountName}${accountNameSuffix}.file.core.windows.net/`;
   return new ShareServiceClient(filePrimaryURL, pipeline);
+}
+
+export function getBlobServceClient(): BlobServiceClient {
+  return BlobServiceClient.fromConnectionString(getConnectionStringFromEnvironment());
 }
 
 export function getBSU(): ShareServiceClient {
@@ -87,8 +90,7 @@ export async function bodyToString(
 ): Promise<string> {
   return new Promise<string>((resolve, reject) => {
     response.readableStreamBody!.on("readable", () => {
-      let chunk;
-      chunk = response.readableStreamBody!.read(length);
+      const chunk = response.readableStreamBody!.read(length);
       if (chunk) {
         resolve(chunk.toString());
       }
@@ -119,16 +121,18 @@ export async function createRandomLocalFile(
     }
 
     ws.on("open", () => {
-      // tslint:disable-next-line:no-empty
-      while (offsetInMB++ < blockNumber && ws.write(randomValueHex())) {}
+      while (offsetInMB++ < blockNumber && ws.write(randomValueHex())) {
+        /* empty */
+      }
       if (offsetInMB >= blockNumber) {
         ws.end();
       }
     });
 
     ws.on("drain", () => {
-      // tslint:disable-next-line:no-empty
-      while (offsetInMB++ < blockNumber && ws.write(randomValueHex())) {}
+      while (offsetInMB++ < blockNumber && ws.write(randomValueHex())) {
+        /* empty */
+      }
       if (offsetInMB >= blockNumber) {
         ws.end();
       }
@@ -189,6 +193,17 @@ async function streamToBuffer(readableStream: NodeJS.ReadableStream): Promise<Bu
     });
     readableStream.on("error", reject);
   });
+}
+
+export function getTokenCredential(): TokenCredential {
+  const accountTokenEnvVar = `ACCOUNT_TOKEN`;
+  const accountToken = process.env[accountTokenEnvVar];
+
+  if (!accountToken || accountToken === "") {
+    throw new Error(`${accountTokenEnvVar} environment variables not specified.`);
+  }
+
+  return new SimpleTokenCredential(accountToken);
 }
 
 /**

@@ -18,7 +18,6 @@ import {
 import { getStreamingResponseStatusCodes } from "./interfaceHelpers";
 import { getRequestUrl } from "./urlHelpers";
 import { flattenResponse } from "./utils";
-import { URL } from "./url";
 import { getCachedDefaultHttpClient } from "./httpClientCache";
 import { getOperationRequestInfo } from "./operationHelpers";
 import { createClientPipeline } from "./pipeline";
@@ -49,10 +48,6 @@ export interface ServiceClientOptions extends CommonClientOptions {
    * A customized pipeline to use, otherwise a default one will be created.
    */
   pipeline?: Pipeline;
-  /**
-   * Set to true if the request is sent over HTTP instead of HTTPS
-   */
-  allowInsecureConnection?: boolean;
 }
 
 /**

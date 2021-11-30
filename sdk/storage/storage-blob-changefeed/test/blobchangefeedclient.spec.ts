@@ -2,16 +2,17 @@
 // Licensed under the MIT license.
 
 import * as assert from "assert";
-import { record, isPlaybackMode, Recorder } from "@azure/test-utils-recorder";
+import { record, isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
 import { recorderEnvSetup, getBlobChangeFeedClient } from "./utils";
 import { BlobChangeFeedClient, BlobChangeFeedEvent, BlobChangeFeedEventPage } from "../src";
 import { AbortController } from "@azure/abort-controller";
-import { TestTracer, setTracer } from "@azure/core-tracing";
+import { setTracer } from "@azure/test-utils";
 import { Pipeline } from "@azure/storage-blob";
 import { SDK_VERSION } from "../src/utils/constants";
 import { setSpan, context } from "@azure/core-tracing";
 
 import * as dotenv from "dotenv";
+import { Context } from "mocha";
 dotenv.config();
 
 const timeoutForLargeFileUploadingTest = 20 * 60 * 1000;
@@ -20,13 +21,13 @@ describe("BlobChangeFeedClient", async () => {
   let recorder: Recorder;
   let changeFeedClient: BlobChangeFeedClient;
 
-  before(async function() {
+  before(async function(this: Context) {
     if (process.env.CHANGE_FEED_ENABLED !== "1" && !isPlaybackMode()) {
       this.skip();
     }
   });
 
-  beforeEach(async function() {
+  beforeEach(async function(this: Context) {
     recorder = record(this, recorderEnvSetup);
     changeFeedClient = getBlobChangeFeedClient();
   });
@@ -158,8 +159,7 @@ describe("BlobChangeFeedClient", async () => {
   });
 
   it("tracing", async () => {
-    const tracer = new TestTracer();
-    setTracer(tracer);
+    const tracer = setTracer();
     const rootSpan = tracer.startSpan("root");
 
     const pageIter = changeFeedClient.listChanges({
@@ -180,13 +180,13 @@ describe("BlobChangeFeedClient: Change Feed not configured", async () => {
   let recorder: Recorder;
   let changeFeedClient: BlobChangeFeedClient;
 
-  before(async function() {
+  before(async function(this: Context) {
     if (process.env.CHANGE_FEED_ENABLED === "1" && !isPlaybackMode()) {
       this.skip();
     }
   });
 
-  beforeEach(async function() {
+  beforeEach(async function(this: Context) {
     recorder = record(this, recorderEnvSetup);
     changeFeedClient = getBlobChangeFeedClient();
   });

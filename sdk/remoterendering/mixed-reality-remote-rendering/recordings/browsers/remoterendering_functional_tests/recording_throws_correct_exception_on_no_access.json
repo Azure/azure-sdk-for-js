@@ -1,0 +1,48 @@
+{
+ "recordings": [
+  {
+   "method": "GET",
+   "url": "https://sts.eastus2.mixedreality.azure.com/Accounts/00000000-1111-2222-3333-444455556666/token",
+   "query": {
+    "api-version": "2019-02-28-preview"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"AccessToken\":\"<access_token>\"}",
+   "responseHeaders": {
+    "cache-control": "no-store,no-cache",
+    "content-length": "1219",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 30 Apr 2021 14:00:24 GMT",
+    "ms-cv": "E4zeGZyCGUKoKzKkkrWKfQ.0",
+    "pragma": "no-cache",
+    "x-content-type-options": "nosniff"
+   }
+  },
+  {
+   "method": "PUT",
+   "url": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/conversions/conversionId161979122504808396",
+   "query": {
+    "api-version": "2021-01-01"
+   },
+   "requestBody": "{\"settings\":{\"inputLocation\":{\"storageContainerUri\":\"https://sdktest.blob.core.windows.net/test\",\"blobPrefix\":\"Input\",\"relativeInputAssetPath\":\"testBox.fbx\"},\"outputLocation\":{\"storageContainerUri\":\"https://sdktest.blob.core.windows.net/test\",\"blobPrefix\":\"Output\"}}}",
+   "status": 403,
+   "response": "{\"error\":{\"code\":\"DelegatedResourceAccessError\",\"message\":\"Error accessing connected storage account due to insufficient permissions. Check if the Mixed Reality resource has correct permissions assigned. Documentation on how to link Remote Rendering Accounts to storage can be found here: https://docs.microsoft.com/azure/remote-rendering/how-tos/create-an-account#link-storage-accounts.\"}}",
+   "responseHeaders": {
+    "api-supported-versions": "2021-01-01-preview, 2021-01-01",
+    "content-length": "390",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 30 Apr 2021 14:00:24 GMT",
+    "ms-cv": "T+PTfj+/w02sOtxv+AzD9g.0",
+    "x-content-type-options": "nosniff"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {
+   "conversionId": "conversionId161979122504808396"
+  },
+  "newDate": {}
+ },
+ "hash": "5448f09c89c3f5531d50d3a4a5de8701"
+}

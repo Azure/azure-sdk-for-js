@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import * as assert from "assert";
+import { Context } from "mocha";
 import { QueueClient, QueueServiceClient } from "../../src";
 import { getConnectionStringFromEnvironment, getQSU } from "../utils";
 import { isBrowser, getUniqueName } from "../utils/testutils.common";
@@ -13,7 +14,7 @@ describe("Emulator Tests", () => {
   let queueName: string;
   let queueClient: QueueClient;
   const env = isBrowser() ? (self as any).__env__ : process.env;
-  beforeEach(async function() {
+  beforeEach(async function(this: Context) {
     if (!env.STORAGE_CONNECTION_STRING.startsWith("UseDevelopmentStorage=true")) {
       this.skip();
     }
@@ -41,14 +42,14 @@ describe("Emulator Tests", () => {
     assert.ok(eResult.messageId);
     assert.ok(eResult.popReceipt);
 
-    const queueClient = new QueueClient(getConnectionStringFromEnvironment(), queueName);
+    const tempQueueClient = new QueueClient(getConnectionStringFromEnvironment(), queueName);
 
     const buffer = Buffer.alloc(64); // 64B
     buffer.fill("a");
     buffer.write("aaaa", 0);
     const newMessage = buffer.toString();
 
-    const uResult = await queueClient.updateMessage(
+    const uResult = await tempQueueClient.updateMessage(
       eResult.messageId,
       eResult.popReceipt,
       newMessage

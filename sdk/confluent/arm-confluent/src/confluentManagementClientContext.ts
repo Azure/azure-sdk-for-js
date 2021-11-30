@@ -9,24 +9,30 @@
 
 import * as Models from "./models";
 import * as msRest from "@azure/ms-rest-js";
+import { TokenCredential } from "@azure/core-auth";
 import * as msRestAzure from "@azure/ms-rest-azure-js";
 
 const packageName = "@azure/arm-confluent";
-const packageVersion = "2.0.0";
+const packageVersion = "2.1.0";
 
 export class ConfluentManagementClientContext extends msRestAzure.AzureServiceClient {
-  credentials: msRest.ServiceClientCredentials;
+  credentials: msRest.ServiceClientCredentials | TokenCredential;
   apiVersion?: string;
   subscriptionId: string;
 
   /**
    * Initializes a new instance of the ConfluentManagementClient class.
-   * @param credentials Credentials needed for the client to connect to Azure.
+   * @param credentials Credentials needed for the client to connect to Azure. Credentials
+   * implementing the TokenCredential interface from the @azure/identity package are recommended. For
+   * more information about these credentials, see
+   * {@link https://www.npmjs.com/package/@azure/identity}. Credentials implementing the
+   * ServiceClientCredentials interface from the older packages @azure/ms-rest-nodeauth and
+   * @azure/ms-rest-browserauth are also supported.
    * @param subscriptionId Microsoft Azure subscription id
    * @param [options] The parameter options
    */
   constructor(
-    credentials: msRest.ServiceClientCredentials,
+    credentials: msRest.ServiceClientCredentials | TokenCredential,
     subscriptionId: string,
     options?: Models.ConfluentManagementClientOptions
   ) {

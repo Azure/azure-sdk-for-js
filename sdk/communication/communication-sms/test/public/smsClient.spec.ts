@@ -7,7 +7,7 @@
  */
 
 import { matrix } from "@azure/test-utils";
-import { record, Recorder, env } from "@azure/test-utils-recorder";
+import { record, Recorder, env } from "@azure-tools/test-recorder";
 import { isNode } from "@azure/core-http";
 import * as dotenv from "dotenv";
 import {

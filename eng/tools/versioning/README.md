@@ -6,7 +6,7 @@ Versioning tools make updating package versions easier. These tools target packa
 
 ### increment.js
 
-Increment the version number after a release according to [version policies](https://github.com/Azure/azure-sdk/blob/master/docs/policies/releases.md#incrementing-after-release). Uses the current version in package.json to determine the next version.
+Increment the version number after a release according to [version policies](https://github.com/Azure/azure-sdk/blob/main/docs/policies/releases.md#incrementing-after-release). Uses the current version in package.json to determine the next version.
 
 ```bash
 node increment.js --artifact-name azure-tempate
@@ -93,6 +93,5 @@ const irrelevantVersion = "1.0.0"
 ```
 
 In the above example we see a `packageVersion` that we want to replace and an `irrelevantVersion` that, if replaced, would cause problems with how the code operates. In this case, one would set the prefix to `packageVersion`. The tool matches the prefix on the line and handles any characters between the prefix and a version string (i.e. assignment operators like `=` or `:` in the case of a mapping).
-
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Feng%2Ftools%2Fversioning%2FREADME.png)

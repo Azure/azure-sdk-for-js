@@ -100,7 +100,7 @@ export const timeoutInSeconds: OperationQueryParameter = {
 export const version: OperationParameter = {
   parameterPath: "version",
   mapper: {
-    defaultValue: "2020-08-04",
+    defaultValue: "2020-12-06",
     isConstant: true,
     serializedName: "x-ms-version",
     type: {
@@ -213,19 +213,13 @@ export const include: OperationQueryParameter = {
 };
 
 export const metadata: OperationParameter = {
-  parameterPath: [
-    "options",
-    "metadata"
-  ],
+  parameterPath: ["options", "metadata"],
   mapper: {
     serializedName: "x-ms-meta",
+    xmlName: "x-ms-meta",
     type: {
       name: "Dictionary",
-      value: {
-        type: {
-          name: "String"
-        }
-      }
+      value: { type: { name: "String" } }
     },
     headerCollectionPrefix: "x-ms-meta-"
   }

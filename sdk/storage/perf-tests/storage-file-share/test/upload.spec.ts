@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { v4 as generateUuid } from "uuid";
-import { PerfStressOptionDictionary } from "@azure/test-utils-perfstress";
+import { PerfOptionDictionary } from "@azure/test-utils-perf";
 import { ShareFileClient } from "@azure/storage-file-share";
 import { StorageFileShareTest } from "./storageTest.spec";
 
@@ -15,7 +15,7 @@ export class StorageFileShareUploadTest extends StorageFileShareTest<
 > {
   fileClient: ShareFileClient;
   buffer: Buffer;
-  public options: PerfStressOptionDictionary<StorageFileShareUploadTestOptions> = {
+  public options: PerfOptionDictionary<StorageFileShareUploadTestOptions> = {
     size: {
       required: true,
       description: "Size in bytes",
@@ -32,7 +32,7 @@ export class StorageFileShareUploadTest extends StorageFileShareTest<
     this.buffer = Buffer.alloc(this.parsedOptions.size.value!);
   }
 
-  async runAsync(): Promise<void> {
+  async run(): Promise<void> {
     await this.fileClient.uploadData(this.buffer);
   }
 }

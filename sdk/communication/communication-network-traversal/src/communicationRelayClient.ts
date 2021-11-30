@@ -11,7 +11,6 @@ import { isTokenCredential, KeyCredential, TokenCredential } from "@azure/core-a
 import {
   InternalPipelineOptions,
   createPipelineFromOptions,
-  OperationOptions,
   operationOptionsToRequestOptionsBase
 } from "@azure/core-http";
 import { SpanStatusCode } from "@azure/core-tracing";
@@ -23,8 +22,12 @@ import {
 import { SDK_VERSION } from "./constants";
 import { logger } from "./common/logger";
 import { createSpan } from "./common/tracing";
-import { CommunicationRelayClientOptions } from "./models";
-import { CommunicationRelayConfiguration } from "./generated/src/models";
+import { CommunicationRelayClientOptions, GetRelayConfigurationOptions } from "./models";
+import {
+  CommunicationRelayConfiguration,
+  RouteType,
+  CommunicationNetworkTraversalIssueRelayConfigurationOptionalParams
+} from "./generated/src/models";
 
 const isCommunicationRelayClientOptions = (
   options: any
@@ -118,20 +121,79 @@ export class CommunicationRelayClient {
   /**
    * Gets a TURN credential for a user
    *
+   * @param options - Additional options for the request.
+   */
+  public async getRelayConfiguration(
+    options?: GetRelayConfigurationOptions
+  ): Promise<CommunicationRelayConfiguration>;
+
+  /**
+   * Gets a TURN credential for a user
+   *
+   * @param routeType - The specified routeType for the relay request
+   * @param options - Additional options for the request.
+   */
+  public async getRelayConfiguration(
+    routeType: RouteType,
+    options?: GetRelayConfigurationOptions
+  ): Promise<CommunicationRelayConfiguration>;
+
+  /**
+   * Gets a TURN credential for a user
+   *
    * @param user - The user for whom to issue a token
+   * @param routeType - The specified routeType for the relay request
    * @param options - Additional options for the request.
    */
   public async getRelayConfiguration(
     user: CommunicationUserIdentifier,
-    options: OperationOptions = {}
+    routeType?: RouteType,
+    options?: GetRelayConfigurationOptions
+  ): Promise<CommunicationRelayConfiguration>;
+
+  /**
+   * Gets a TURN credential for a user
+   *
+   * @param user - The user for whom to issue a token
+   * @param routeType - The specified routeType for the relay request
+   * @param options - Additional options for the request.
+   */
+  public async getRelayConfiguration(
+    paramOne?: CommunicationUserIdentifier | RouteType | GetRelayConfigurationOptions,
+    paramTwo?: RouteType | GetRelayConfigurationOptions,
+    options: GetRelayConfigurationOptions = {}
   ): Promise<CommunicationRelayConfiguration> {
+    let requestOptions: CommunicationNetworkTraversalIssueRelayConfigurationOptionalParams = options;
+
+    if (
+      typeof paramOne !== "undefined" &&
+      typeof paramOne !== "string" &&
+      "communicationUserId" in paramOne
+    ) {
+      requestOptions.body = { id: paramOne.communicationUserId };
+      if (typeof paramTwo !== "undefined" && typeof paramTwo === "string") {
+        requestOptions.body["routeType"] = paramTwo;
+      }
+    } else if (typeof paramOne !== "undefined" && typeof paramOne === "string") {
+      requestOptions.body = { routeType: paramOne };
+      if (
+        typeof paramTwo !== "undefined" &&
+        typeof paramTwo !== "string" &&
+        "requestOptions" in paramTwo
+      ) {
+        requestOptions = paramTwo;
+      }
+    } else if (typeof paramOne !== "undefined" && "requestOptions" in paramOne) {
+      requestOptions = paramOne;
+    }
+
     const { span, updatedOptions } = createSpan(
-      "CommunicationNetworkTraversal_IssueTurnCredentials",
-      options
+      "CommunicationNetworkTraversal_IssueRelayConfiguration",
+      requestOptions
     );
+
     try {
-      const { _response, ...result } = await this.client.issueTurnCredentials(
-        user.communicationUserId,
+      const { ...result } = await this.client.issueRelayConfiguration(
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
       return result;

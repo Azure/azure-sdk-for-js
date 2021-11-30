@@ -6,7 +6,6 @@ import YAML from "yaml";
 
 import prettier from "prettier";
 
-import { MIN_SUPPORTED_NODE_VERSION } from "../util/sampleConfiguration";
 import { SampleReadmeConfiguration } from "../util/sampleGenerationInfo";
 
 /**
@@ -61,7 +60,7 @@ function fileLinks(info: SampleReadmeConfiguration) {
         : relativeSourcePath.replace(/\.ts$/, ".js");
       return `[${sampleLinkTag(
         relativeSourcePath
-      )}]: https://github.com/Azure/azure-sdk-for-js/blob/master/${packageSamplesPathFragment}/${sourcePath}`;
+      )}]: https://github.com/Azure/azure-sdk-for-js/blob/main/${packageSamplesPathFragment}/${sourcePath}`;
     })
     .join("\n");
 }
@@ -166,7 +165,7 @@ ${table(info)}
 
 ## Prerequisites
 
-The sample programs are compatible with Node.js >=${MIN_SUPPORTED_NODE_VERSION}.
+The sample programs are compatible with [LTS versions of Node.js](https://nodejs.org/about/releases/).
 
 ${(() => {
   if (info.useTypeScript) {
@@ -233,7 +232,7 @@ ${fileLinks(info)}
 [apiref]: ${info.apiRefLink ?? `https://docs.microsoft.com/javascript/api/@azure/${info.baseName}`}
 [freesub]: https://azure.microsoft.com/free/
 ${resourceLinks(info)}
-[package]: https://github.com/Azure/azure-sdk-for-js/tree/master/${info.projectRepoPath}/README.md
+[package]: https://github.com/Azure/azure-sdk-for-js/tree/main/${info.projectRepoPath}/README.md
 ${info.useTypeScript ? "[typescript]: https://www.typescriptlang.org/docs/home.html\n" : ""}\
 `,
     {

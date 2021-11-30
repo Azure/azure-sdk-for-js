@@ -58,6 +58,19 @@ export const endpoint: OperationURLParameter = {
   skipEncoding: true
 };
 
+export const apiVersion: OperationURLParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "v3.2-preview.2",
+    isConstant: true,
+    serializedName: "ApiVersion",
+    type: {
+      name: "String"
+    }
+  },
+  skipEncoding: true
+};
+
 export const jobId: OperationURLParameter = {
   parameterPath: "jobId",
   mapper: {
@@ -97,6 +110,7 @@ export const top: OperationQueryParameter = {
 export const skip: OperationQueryParameter = {
   parameterPath: ["options", "skip"],
   mapper: {
+    defaultValue: 0,
     constraints: {
       InclusiveMinimum: 0
     },

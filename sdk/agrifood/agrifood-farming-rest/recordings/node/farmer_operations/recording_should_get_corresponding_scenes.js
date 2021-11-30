@@ -1,12 +1,84 @@
 let nock = require('nock');
 
-module.exports.hash = "f869b5e56104b79ee00018b5d9c84a5c";
+module.exports.hash = "f0e11d320707c455675fb6bd684f2906";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/88888888-8888-8888-8888-888888888888/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fsanitized%2F")
-  .reply(200, {"token_type":"Bearer","expires_in":86399,"ext_expires_in":86399,"access_token":"access_token"}, [ 'Cache-Control',
+  .get('/common/discovery/instance')
+  .query(true)
+  .reply(200, {"tenant_discovery_endpoint":"https://login.microsoftonline.com/88888888-8888-8888-8888-888888888888/v2.0/.well-known/openid-configuration","api-version":"1.1","metadata":[{"preferred_network":"login.microsoftonline.com","preferred_cache":"login.windows.net","aliases":["login.microsoftonline.com","login.windows.net","login.microsoft.com","sts.windows.net"]},{"preferred_network":"login.partner.microsoftonline.cn","preferred_cache":"login.partner.microsoftonline.cn","aliases":["login.partner.microsoftonline.cn","login.chinacloudapi.cn"]},{"preferred_network":"login.microsoftonline.de","preferred_cache":"login.microsoftonline.de","aliases":["login.microsoftonline.de"]},{"preferred_network":"login.microsoftonline.us","preferred_cache":"login.microsoftonline.us","aliases":["login.microsoftonline.us","login.usgovcloudapi.net"]},{"preferred_network":"login-us.microsoftonline.com","preferred_cache":"login-us.microsoftonline.com","aliases":["login-us.microsoftonline.com"]}]}, [
+  'Cache-Control',
+  'max-age=86400, private',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Access-Control-Allow-Origin',
+  '*',
+  'Access-Control-Allow-Methods',
+  'GET, OPTIONS',
+  'P3P',
+  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
+  'x-ms-request-id',
+  '1c877618-ed88-4ad8-99bd-e2926590a101',
+  'x-ms-ests-server',
+  '2.1.12171.14 - EUS ProdSlices',
+  'Set-Cookie',
+  'fpc=ArZetRJ8zSJNm6zm16cr35A; expires=Sat, 04-Dec-2021 17:00:26 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'Set-Cookie',
+  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrPwyNspqEmSeX23cbj_XQOWVhElKF-LA9McCtaIci0ZCVp4gjldIU_qxqf031m-gFtLIj_lN251mCPRLsS209PM_o2jwG0XOlBYPwNieWb4YzOIiarIOl5rdDEq6YVNqsJjuWyh15PhBdjemAkl1SP5hf95ufjYvypDcTDB0FUQwgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
+  'Set-Cookie',
+  'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
+  'Set-Cookie',
+  'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
+  'Date',
+  'Thu, 04 Nov 2021 17:00:26 GMT',
+  'Content-Length',
+  '980'
+]);
+
+nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
+  .get('/88888888-8888-8888-8888-888888888888/v2.0/.well-known/openid-configuration')
+  .reply(200, {"token_endpoint":"https://login.microsoftonline.com/88888888-8888-8888-8888-888888888888/oauth2/v2.0/token","token_endpoint_auth_methods_supported":["client_secret_post","private_key_jwt","client_secret_basic"],"jwks_uri":"https://login.microsoftonline.com/88888888-8888-8888-8888-888888888888/discovery/v2.0/keys","response_modes_supported":["query","fragment","form_post"],"subject_types_supported":["pairwise"],"id_token_signing_alg_values_supported":["RS256"],"response_types_supported":["code","id_token","code id_token","id_token token"],"scopes_supported":["openid","profile","email","offline_access"],"issuer":"https://login.microsoftonline.com/88888888-8888-8888-8888-888888888888/v2.0","request_uri_parameter_supported":false,"userinfo_endpoint":"https://graph.microsoft.com/oidc/userinfo","authorization_endpoint":"https://login.microsoftonline.com/88888888-8888-8888-8888-888888888888/oauth2/v2.0/authorize","device_authorization_endpoint":"https://login.microsoftonline.com/88888888-8888-8888-8888-888888888888/oauth2/v2.0/devicecode","http_logout_supported":true,"frontchannel_logout_supported":true,"end_session_endpoint":"https://login.microsoftonline.com/88888888-8888-8888-8888-888888888888/oauth2/v2.0/logout","claims_supported":["sub","iss","cloud_instance_name","cloud_instance_host_name","cloud_graph_host_name","msgraph_host","aud","exp","iat","auth_time","acr","nonce","preferred_username","name","tid","ver","at_hash","c_hash","email"],"kerberos_endpoint":"https://login.microsoftonline.com/88888888-8888-8888-8888-888888888888/kerberos","tenant_region_scope":"WW","cloud_instance_name":"microsoftonline.com","cloud_graph_host_name":"graph.windows.net","msgraph_host":"graph.microsoft.com","rbac_url":"https://pas.windows.net"}, [
+  'Cache-Control',
+  'max-age=86400, private',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Access-Control-Allow-Origin',
+  '*',
+  'Access-Control-Allow-Methods',
+  'GET, OPTIONS',
+  'P3P',
+  'CP="DSP CUR OTPi IND OTRi ONL FIN"',
+  'x-ms-request-id',
+  'faa15175-e4c4-4d53-a3b9-4aaec4dc7600',
+  'x-ms-ests-server',
+  '2.1.12171.15 - NCUS ProdSlices',
+  'Set-Cookie',
+  'fpc=AsYaxHcYrJlGk-9-mJxCmVs; expires=Sat, 04-Dec-2021 17:00:27 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'Set-Cookie',
+  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrjGmWvi5zLdO59J38bcFmcIXeK7oZtt5FPBIPRk5aXuIl6tk-8PqJAhpjnzzogWBEiw5zz0zmaORJ63NfyCDDlf4b1b-_ZXhaeCvdfLRAok09fL5hq_RoeMRAiKITOKl2HyJVftdKygrz39l2SM-Pn7O5hsXdli_BDZt10kRtjiogAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
+  'Set-Cookie',
+  'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
+  'Set-Cookie',
+  'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
+  'Date',
+  'Thu, 04 Nov 2021 17:00:27 GMT',
+  'Content-Length',
+  '1753'
+]);
+
+nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
+  .post('/88888888-8888-8888-8888-888888888888/oauth2/v2.0/token', "client_id=azure_client_id&scope=https%3A%2F%2Fsanitized%2F&grant_type=client_credentials&x-client-SKU=msal.js.node&x-client-VER=1.3.2&x-client-OS=linux&x-client-CPU=x64&x-ms-lib-capability=retry-after, h429&x-client-current-telemetry=5|771,2,,,|,&x-client-last-telemetry=5|0|||0,0&client-request-id=948253be-2141-43e3-b2cb-1b2fd6decee0&client_secret=azure_client_secret&claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22CP1%22%5D%7D%7D%7D")
+  .reply(200, {"token_type":"Bearer","expires_in":86399,"ext_expires_in":86399,"access_token":"access_token"}, [
+  'Cache-Control',
   'no-store, no-cache',
   'Pragma',
   'no-cache',
@@ -21,27 +93,29 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '22accbbc-80e1-4469-a0d9-6521361a0400',
+  'a43996a2-e647-427b-a509-f2d8b82c2100',
   'x-ms-ests-server',
-  '2.1.11722.21 - NCUS ProdSlices',
+  '2.1.12197.4 - EUS ProdSlices',
+  'x-ms-clitelem',
+  '1,0,0,,',
   'Set-Cookie',
-  'fpc=AvdLD2y-oatMiFpwSkE7LmV4ycTJBQAAAAelQNgOAAAA; expires=Fri, 25-Jun-2021 20:22:54 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AsId2mIQyw1LsGQgZm-o_tA; expires=Sat, 04-Dec-2021 17:00:27 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Wed, 26 May 2021 20:22:53 GMT',
+  'Thu, 04 Nov 2021 17:00:27 GMT',
   'Content-Length',
-  '1321' ]);
+  '1321'
+]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
   .get('/scenes')
   .query(true)
-  .reply(200, ["1f8b0800000000000003ecd65f4bc3301000f0ef52d0a7a54bd2fde90643e6c4a70d84f9a40f236d2f5b589b8c24ddd0e177f75a5091d64f60200fc9dd2577fc9e728dcea2ac219abf5e2397838607e1e15955188938e594504ef8ec99d279bb5ea24174b2e6ac0ab058b151b935ce488f61676a9b37d7b6a0bdd250eef86ecd97985195d8c3a32ac1b56d24eed64a1fb1f4e0fdc9cd8743571c890787d7f6e492d78eb0580a5b6520bc8bc57b6d21d6e087ed806e58988b2e8d28da27efc449913358a78c5ee0c48cd084248c9c2c9c155c6e9b6e4fc21f16dfb3de70f97b440c34cd49d3122c51056113cee978329dcd663cfd4a67a6d685b06f7d053f5478a0b86d166ef3b2da311a7b25d1418b9675b5dee0c1823365ed71ea688e15f463f0bf640ae14525dcb1c3d32436980846d2e5658767bb5a07199951de91b9a73cc8a04cd2239304199419f5c88c820cca8c7b64c6410665263d3293208332d31e9969904199b447260d32324b4557265d06199931d695612cc8a04ccf4f8ffdf9d3fb040000ffff","ec984f6b834010c5bf8be72eecc6c4c4dea450101ac821a7420f13774d96fa071285924fdf995d432976d2de3b1e44794f9df9f12ebe7f448646b8bace0fa7d641378344f26b90b7280bafc00baebe1def002ba22ec4e2ffe7d8c5804177c46167c4508f092b822ec488d814311ed994316136316bc0cf30bd14a59021323f566448876bc8de6e756b7f6e6140efbe7c465fd5f4a37dea71d39d3b2387012dc9233ef090e050ef3bffe19a99721bb9b4f89efb4be027e2fe5f5e86073a3d798cdd1c56da8072e9b256abd4e0cee962a936c69afab0c8abbca6df2cb78723ba351e36d395a20ba5b340084f990607cee47493503c2e5c87bd960efbaf295c7f4fa174d81c19e9b07f67241d3647463a6c9e8c74d81c19e9b03932a1c3fe040000ffff","ecd8bb0d80300c45d15de82d393856601ce7c3fe235023c5204387de0a57b73a30ec491918b6570686ed9581613b6560d85e1918b65b06863d2f03c38ef78261478ac1b05f148361079bc1b06fcafcd6b08b88a55a3bad4d0a299b52cbd68907a75d373d46e7e56ad8fac5b0330cfbe9c2130000ffff","ecd8b109002010c0c0fdb7b613840f6261772b1ca9b2a9ce0a3dec92f1b0ef461e76c978d82de361978c875d321e76c978d825e361978c871d321e76c978d829e361cf321ef6bbd7b787bd000000ffff","ecd8b90d00211004c15cce5f0304f784c32226ff10b031e67e0b4d0aadb66aca6232ec17c564d80f9bc9b04fca4c6bd8beb78a846275855bcbe1307883a55032b045f7eccb68d8e98b614719f6dd0be378a10c9b9591615f379261b332326c5e4686cdcac8b0591919362b23c366657e33ec0e0000ffff","ecdcb10dc0200c44d1892c6150c08c6391b0ff08285d8a38e094e856f872e357dc766560d8461918b65506866d968161bf978161fb7bc1b03dc560d83f8ac1b09dcd60d81f65b635ecac21c4eb48943b47e2aa4ca57721092ab595d64ebd1fd0a76127d3b0656ad88c3decd52b64ec612f968161cf1b2d18f6000000ffff","ecd8210100201000b1fead29c0897f81611526f7a98cc36e19875d320ebb641c76c938ec9271d825e3b043c661978cc34e19877d9771d8732f873d1173d80bb1b7877d000000ffff","ecdcc10d80200c85e1899a205191715a0afb8f60b8797942e2c5903742fff4d2efd0059ad1b05fca2c6bd8e1289b7b5271d328adf5f15d4dca9942beeaae56fb69fe34ecf8c5b0f90f7b7a0bf90f7bb20c0d7bdc88868dcad0b071191a362a43c3466568d8a80c0d1b95a161a332346c50e65f867d030000ffff","ecdc310a80300c85e1bbb8175a9b6a3c4ec5f4fe4768d78251a320226fc99e9f4cdf902f958161ab6560d8fb6560d8f65e306c4b3118f68d62306c633318f64199df1a76d8bcacd496ce89d8c5b1b42165724b62f23133cf2c436fd8e18961e31ff6e52ba4fe0a61d85a1918f6792318b6560686ad9779c5b02b000000ffff","ecd8310d0020100031ffae31c0913c1324b5d0b15fca38ec9271d825e3b04bc661978cc30e19875d320e3b651cf65ec661cfbd1cf644cc615f8839eca199c33ec8bc7ad80b0000ffff","ecdc3b0a80400c45d1bdd80746439c6439cec7fd2f41ec44783862276f09b9a4c929721b627a6dd8b1445d357649a5ab78984a360bd94af33c6bf566e7997535ecf4c5b0f90f7b780bf90f7bb00c0dfbb9110d1b95a161e332346c5486868dcad0b051191a362a43c3466568d8a00c0d1b95a161c332bf33ec030000ffff","ecdc410ac0200c44d11305946a271ea768bcff11ba2fa46ae9a665aef0c9ea11e6a53234ecf55e34ec956234ec07c568d88bcd68d837657e6bd8b569692126b1ae5112b0498765d9f580212315bbfc6157730d1b43c30edcc39ebdc2c03decc93234ec71231ab6578686ed97a1617b6568d85e99cf18f6090000ffff","ecdcc10980300c85e15dbc071289b6eb3429dd7f04cf8211a320226f859f9c3ec27bbd0c0c3b2a03c38ecac0b0833230eca80c0c3b2c03c33e2e03c3cef78261678ac1b06f148361279bc1b04fcafcd6b0b949f15985c416231553f26e95aaafd2cc46f7c2d3deb0c7833f6cc61ef6e52bfcf21ef6060000ffff","ecd8c10900200c00b1fdb776811ee2af6056c833ab641cf6ddc861978cc36e19875d320ebb641c76c938ec9271d825e3b043c661978cc34e19873dcb38ec77afaf0ffb000000ffff","ecdccb0980400c84e18a02d98798761275fb2f413c8a8cba7ad369e127a78f21ddc568d80f8ad1b03b9bd1b04fca7cd6b0cd162b75fb20e236886ba8642db3b488c829351f0f3bece9cd0e9bffb06f5f61dd5f210d1b95a1615f37a261a332346c5c86868dcad0b051191a362a43c346657e65d82b000000ffff","ecdcb10d80300c44d15de82d8103893c0eb193fd47801689400c5d742b7c5df58a7395816137cac0b05b6560d8cd3230ecfb32306c7f2f18b6a7180cfb433118b6b3190cfba1ccb0866dbc04563d6b57d9a9044dc4321b452b35c8baa56879ba1a76fe63d8f8c3ee5e21feb03bcbc0b0df1b0d62d807000000ffff","ecd8a10d00201000b1fdb7c67f38f124b8ae50d90f320ebb651c76c938ec9271d825e3b04bc661978cc30e19875d320e3b651cf65dc661efbd1cf646cc613f8839ec6976000000ffff","221066a363d8784266d88e612719a41a181a9aa7ea26a59a9be89a189aa7e89a1b1a24e95a9aa6a6a69a1a265b582683d4228f61a7101ac38ead05000000ffff","0300650c3be43b110100"], [ 'Server',
-  'nginx/1.19.1',
+  .reply(200, ["1f8b0800000000000403e4974d6ac3301085ef6268575122c9f96b209436a5ab180ac9aa5d04c51ec76a6cc948b243137af78ebd6828f6051a8116d2bc91f4be418bd125a8455e41b0f8b8043606052fc2c15616180938e594504ef8c396d2453bde8341501a5dcb040c66443236daead461d8eacac4cdb60d282715e43bbe5bf3275464210ef02a73b0ed3529ced6521d313573aeb48bd1c82647e2c0e2b60339c595256c980a53ec41383b14e7cac050811bb506ed28d127956b91b4473e8a52921a8c955a2dd1312334242123a5815ac2e9beb9ed4db86cf9ebf58ea77f2d62c059c768a87402b8f8ccf6ba5289305fd7d8b5169840b12ccdc0699c173b46874ea608aa445bb7d53ac28501abf3caa1ad608119f47b70096e0a3d114e14c21e3bfc8d10a1e043116c9c77f837abb50fe87bca3be8cf94fb811ef6a0877ea08f7bd0c77ea04f7ad0277ea04f7bd0a77ea0cf7ad0677ea0cf7bd0e75ea0cf45177dde74b337dfd7ed19eba233e6077a4f4bc3bc68699acfd2199474590142751e4023bfb77284f23f7c0b3f000000ffff","ecd8cd0a82401405e077699d300d8ee652824068d1c26d8b51c7904cc112a2a7ef8cda0fde0cdab4b96d5cccd58173391bbfafffec6c627d2d8eed878d84fd9ccb4a4e6dd55744577bfccd939260de7724ece61c5a82c84349a67732b484cf524a5d906e6cc288431f10fdad8920fe1489ecee425637477d868ac5d11aab4acbbacd5635686b6b006bd5198866250994349f01a70edbe262cad75937b9d35594e1262259b8d7c29a69baf153bd705ed80ff2240b840c522730beeb28cf4d1d95cba5e30ba9f4527962912478d7c47a8fb7e18342e5da5298f530af43313c3c91c985f4137b3cb3ee35298bee5f161fb2e8f295c551749eb2385a0227591c45e7248b243a1f5924d1f9c82289ce471649743eb248a2f3914512fdd7b278030000ffff","ecdab10d80300c44d1895c048203d32048ecfd47a0a239d35120741ee19f523de7bb8b31a613c922a613c96248e79145484f597c18845d166192944599e224298b380a932cc27bf8b92cce6d3974b88a5a3769554ddcbdc9aaee5646aff53490457b218b25ff2cfa2d8b65a395454ca794451c814816319d4816633a8d2cc6f4ba5f000000ffff","ecdbb10d80300c44d1892c19881cd2b20990b0ff084005f2a5a3012e237c974f673fd29ef4979b454ca791454ca791454ca791454ca7914548e7914548e791454ca791459f4e2f8bb58390cba23f499345a99ca4c9a23f0a912c56d2bfbc59ccd142b6a4126ded45479dc5b6b28ac5b274073986349c8f4af7cd627e228b6db378c9a233ea177f43ef000000ffff","ecdbb10d00200cc4c08928d87f397a9b9202c919c1dfe5a4bc7e04df486fca224628c922d24bb2a8f48e2c2abd238b4aefc8a2d23bb2a8f48e2c2abd238b4c0fc922d343b2a8f48e2c227d64f132485d1631c9c8e2e211fcf137f4010000ffff","ecdc4b0a80300c45d1151592c64fba9c6271ff4bb04e44f2106705792ee1063a39241df7455c1c0a932c8627f2f19dc57e0cbd7b514b932e9a5aee87d09a674b9b98792beeb69e7f7edd65b13eca627dbd86967f67f19245e1dd598ce994b2188740248b319d4816319d4616319d4616319d4616319d4616319d4616319d4616219d4716219d4716317db82c1e000000ffff","ecddbb0d80300c84e1892c99007218270fd87f0442053aa7a340e832c27fe5272bf9eac1784ca797c5de20e4b288930c5994ce24e36611472192c54efa9f6f169762a1a4ad4aae9644d7d08cf1d02c71dea3a5a93dc3a8d787224f592c6f6471dc2cdeb208464d74b3a890ce298b3002932c423a932cba741e5974e93cb2e8d27964d1a5f3c8a24b6fb278020000ffff","42bba3cdc96058dee0825ec327198c9c9145f4581f41238be85e1f41238b185e1f39238b685e1f1d59c41220237d64112d4846471675d1abc8d1358bc02b7ed10365248d2ca2659121be6631c5c2d03cd922d55237c9c8d45237d12235493725cdd8423719b4493ad9d0d4d4c81c74811ff2c86212a191c5d85a00000000ffff","0300432371a4277a0000"], [
   'Date',
-  'Wed, 26 May 2021 20:22:55 GMT',
+  'Thu, 04 Nov 2021 17:00:28 GMT',
   'Content-Type',
   'application/json; charset=utf-8',
   'Transfer-Encoding',
@@ -51,14 +125,13 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'Vary',
   'Accept-Encoding',
   'x-ms-request-id',
-  '0HM903JASEQ5E:00000003',
+  '0HMCT63I1PJNI:00000002',
   'api-supported-versions',
-  '2021-03-31-preview',
-  'api-deprecated-versions',
-  '2020-12-31-preview',
+  '2021-03-31-preview, 2021-07-31-preview',
   'x-ms-throttle-information',
-  '65',
+  '35',
   'Strict-Transport-Security',
   'max-age=15724800; includeSubDomains',
   'Content-Encoding',
-  'gzip' ]);
+  'gzip'
+]);

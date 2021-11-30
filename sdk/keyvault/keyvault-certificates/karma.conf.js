@@ -1,12 +1,12 @@
 // https://github.com/karma-runner/karma-chrome-launcher
 process.env.CHROME_BIN = require("puppeteer").executablePath();
-require("dotenv").config({ path: "../.env" });
+require("dotenv").config();
 const {
   jsonRecordingFilterFunction,
   isPlaybackMode,
   isSoftRecordMode,
   isRecordMode
-} = require("@azure/test-utils-recorder");
+} = require("@azure-tools/test-recorder");
 
 module.exports = function(config) {
   config.set({
@@ -46,7 +46,8 @@ module.exports = function(config) {
       "AZURE_CLIENT_SECRET",
       "AZURE_TENANT_ID",
       "KEYVAULT_URI",
-      "TEST_MODE"
+      "TEST_MODE",
+      "AZURE_AUTHORITY_HOST"
     ],
 
     reporters: ["mocha", "coverage", "junit", "json-to-file"],
@@ -96,7 +97,7 @@ module.exports = function(config) {
     singleRun: false,
     concurrency: 1,
 
-    browserNoActivityTimeout: 250000,
+    browserNoActivityTimeout: 350000,
     browserDisconnectTimeout: 10000,
     browserDisconnectTolerance: 3,
     browserConsoleLogOptions: {
@@ -108,7 +109,7 @@ module.exports = function(config) {
       mocha: {
         // change Karma's debug.html to the mocha web reporter
         reporter: "html",
-        timeout: "250000"
+        timeout: "350000"
       }
     }
   });
