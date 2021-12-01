@@ -1,14 +1,19 @@
+## 2.0.0-beta.1 (2021-12-01)
+    
+**Features**
+
+  - Added Interface KeyReleasePolicy
+  - Interface KeyAttributes has a new optional parameter exportable
+  - Interface KeyProperties has a new optional parameter releasePolicy
+  - Class KeyVaultManagementClient has a new parameter $host
+  - Class KeyVaultManagementClient has a new parameter apiVersion
+  - Class KeyVaultManagementClient has a new parameter subscriptionId
+  - Type Alias Key has a new parameter releasePolicy
+  - Enum KnownJsonWebKeyOperation has a new value Release
+  - Enum KnownKeyPermissions has a new value Getrotationpolicy
+  - Enum KnownKeyPermissions has a new value Setrotationpolicy
+    
 # Release History
-
-## 2.0.0-beta.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
 
 ## 2.0.0-beta.1 (2021-10-09)
 
