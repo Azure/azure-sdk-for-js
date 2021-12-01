@@ -465,7 +465,13 @@ In order to release it, we need to add some tests for it to make sure we are del
     ```
 # How to write samples
 
-There're samples for TypeScript and JavaScript and for dev, You may copy the [samples folder](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/purview/purview-account-rest/samples) and [samples-dev folder](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/purview/purview-account-rest/samples-dev) and then change everything into your own services, including package-name, sample code, readme description etc.
+There're samples for TypeScript and JavaScript and for dev, You may copy the [samples-dev folder](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/purview/purview-account-rest/samples-dev) and then change everything into your own services, including package-name, sample code, readme description etc. Then we provide tools to automatically change it into workable samples in both TypeScript and JavaScript. The steps are:  
+```shell
+npm install -g common/tools/dev-tool # make sure you are in the azure-sdk-for-js repo root directory
+cd ${PROJECT_ROOT}
+dev-tool samples publish -f 
+```
+Then you will see the workable samples in the `${PROJECT_ROOT}/samples/v1` folder. 
 
 # How to create package
 
