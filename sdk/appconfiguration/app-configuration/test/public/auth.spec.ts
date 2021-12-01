@@ -20,9 +20,7 @@ describe("Authentication", () => {
   beforeEach(async function(this: Context) {
     recorder = new TestProxyHttpClientCoreV1(this.currentTest);
     await recorder.start(recorderStartOptions);
-    credsAndEndpoint =
-      getTokenAuthenticationCredential({ httpClient: recorder.getRecorderHttpClient() }) ||
-      this.skip();
+    credsAndEndpoint = getTokenAuthenticationCredential();
   });
 
   afterEach(async function() {

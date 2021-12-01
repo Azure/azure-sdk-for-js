@@ -9,22 +9,20 @@ import {
   ListRevisionsPage
 } from "../../../src";
 import { env, isPlaybackMode } from "@azure-tools/test-recorder";
+import { RecorderStartOptions, NoOpCredential } from "@azure-tools/test-recorder-new";
 import * as assert from "assert";
 
 // allow loading from a .env file as an alternative to defining the variable
 // in the environment
 import * as dotenv from "dotenv";
-
 import {
-  DefaultAzureCredential,
+  ClientSecretCredential,
   DefaultAzureCredentialOptions,
   TokenCredential
 } from "@azure/identity";
-import { RecorderStartOptions } from "@azure-tools/test-recorder-new/types/src/utils/utils";
 dotenv.config();
 
 let connectionStringNotPresentWarning = false;
-let tokenCredentialsNotPresentWarning = false;
 
 export interface CredsAndEndpoint {
   credential: TokenCredential;
@@ -56,7 +54,7 @@ export const recorderStartOptions: RecorderStartOptions = {
 
 export function getTokenAuthenticationCredential(
   options?: DefaultAzureCredentialOptions | undefined
-): CredsAndEndpoint | undefined {
+): CredsAndEndpoint {
   const requiredEnvironmentVariables = [
     "AZ_CONFIG_ENDPOINT",
     "AZURE_CLIENT_ID",
@@ -65,20 +63,20 @@ export function getTokenAuthenticationCredential(
   ];
 
   for (const name of requiredEnvironmentVariables) {
-    const value = env[name];
-
-    if (value == null) {
-      if (tokenCredentialsNotPresentWarning) {
-        tokenCredentialsNotPresentWarning = true;
-        console.log("Functional tests not running - set client identity variables to activate");
-      }
-
-      return undefined;
+    if (env[name] == null) {
+      throw new Error("Functional tests not running - set client identity variables to activate");
     }
   }
 
   return {
-    credential: new DefaultAzureCredential(options),
+    credential: isPlaybackMode()
+      ? new NoOpCredential()
+      : new ClientSecretCredential(
+          env["AZURE_TENANT_ID"],
+          env["AZURE_CLIENT_ID"],
+          env["AZURE_CLIENT_SECRET"],
+          options
+        ),
     endpoint: env["AZ_CONFIG_ENDPOINT"]!
   };
 }

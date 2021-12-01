@@ -2,7 +2,11 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import { createAppConfigurationClientForTests, getRandomNumber, recorderStartOptions } from "./utils/testHelpers";
+import {
+  createAppConfigurationClientForTests,
+  getRandomNumber,
+  recorderStartOptions
+} from "./utils/testHelpers";
 import {
   AddConfigurationSettingResponse,
   AppConfigurationClient,
