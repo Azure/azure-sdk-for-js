@@ -6,7 +6,7 @@ import {
   TracingSpanContext
 } from "@azure/core-tracing";
 import { ContextImpl } from "./contextImpl";
-import { TestTracingSpan } from "./TestTracingSpan";
+import { TestTracingSpan } from "./testTracingSpan";
 
 export class TestInstrumeter implements Instrumenter {
   public contexts: TracingContext[] = [new ContextImpl()];
