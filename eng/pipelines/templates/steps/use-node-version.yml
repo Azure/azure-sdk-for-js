@@ -1,16 +1,11 @@
 parameters:
   NodeVersion: $(NodeVersion)
-  UpgradeNpm: false
 
 steps:
   - task: NodeTool@0
     inputs:
       versionSpec: ${{ parameters.NodeVersion }}
     displayName: "Use Node ${{ parameters.NodeVersion }}"
-
-  - ${{ if eq(parameters.UpgradeNpm, 'true') }}:
-    - pwsh: npm install -g npm
-      displayName: Upgrade NPM
 
   - pwsh: |
       $expectedVersion = "${{ parameters.NodeVersion }}"

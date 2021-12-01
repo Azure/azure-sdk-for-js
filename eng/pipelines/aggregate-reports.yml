@@ -22,9 +22,13 @@ stages:
       - job: GenerateReports
         timeoutInMinutes: 120
         steps:
-          - template: /eng/pipelines/templates/steps/use-node-version.yml
-            parameters:
-              UpgradeNpm: true
+          - task: NodeTool@0
+            inputs:
+              versionSpec: 16.x
+            displayName: Use Node.js 16.x
+
+          - pwsh: npm install -g npm
+            displayName: Upgrade NPM
 
           - task: PowerShell@2
             inputs:
@@ -33,12 +37,13 @@ stages:
               pwsh: true
             displayName: Spell check public API
 
-          - task: NodeTool@0
-            displayName: 'Use Node 10.x'
-            inputs:
-              versionSpec: 10.x
+          - template: /eng/pipelines/templates/steps/use-node-version.yml
+            parameters:
+              NodeVersion: 10.x
 
-          # Downgrade npm to a version compatible with Node 10x
+          # Downgrade npm to a version compatible with Node 10x after NPM was
+          # upgraded to run spell-check-public-api.ps1. The upgraded NPM version
+          # does not run with Node.js v10.x
           - pwsh: npm install -g npm@6.14.12
             displayName: Install npm@6.14.12
 

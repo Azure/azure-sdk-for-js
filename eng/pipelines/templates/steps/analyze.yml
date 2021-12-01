@@ -5,8 +5,6 @@ parameters:
 
 steps:
   - template: /eng/pipelines/templates/steps/use-node-version.yml
-    parameters:
-      UpgradeNpm: true
 
   - template: /eng/common/pipelines/templates/steps/check-spelling.yml
 
