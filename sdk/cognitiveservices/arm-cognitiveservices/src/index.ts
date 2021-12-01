@@ -6,12 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export {
-  ErrorAdditionalInfo,
-  ErrorDetail,
-  ErrorResponse,
-  ResourceSku,
-  ResourceSkuListResult,
-  ResourceSkuRestrictionInfo,
-  ResourceSkuRestrictions
-} from "../models/mappers";
+/// <reference lib="esnext.asynciterable" />
+export * from "./models";
+export { CognitiveServicesManagementClient } from "./cognitiveServicesManagementClient";
+export * from "./operationsInterfaces";
