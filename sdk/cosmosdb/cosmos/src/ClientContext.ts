@@ -11,7 +11,6 @@ import { PartitionKeyRange } from "./client/Container/PartitionKeyRange";
 import { Resource } from "./client/Resource";
 import { Constants, HTTPMethod, OperationType, ResourceType } from "./common/constants";
 import { getIdFromLink, getPathFromLink, parseLink } from "./common/helper";
-import { logger } from "./common/logger";
 import { StatusCodes, SubStatusCodes } from "./common/statusCodes";
 import { CosmosClientOptions } from "./CosmosClientOptions";
 import { ConnectionPolicy, ConsistencyLevel, DatabaseAccount, PartitionKey } from "./documents";
@@ -30,9 +29,9 @@ import { SessionContainer } from "./session/sessionContainer";
 import { SessionContext } from "./session/SessionContext";
 import { BulkOptions } from "./utils/batch";
 import { sanitizeEndpoint } from "./utils/checkURL";
+import { AzureLogger, createClientLogger } from "@azure/logger";
 
-/** @hidden */
-const log = logger("ClientContext");
+const logger: AzureLogger = createClientLogger("ClientContext");
 
 const QueryJsonContentType = "application/query+json";
 
@@ -177,16 +176,16 @@ export class ClientContext {
       }
     }
     this.applySessionToken(request);
-    log.info(
+    logger.info(
       "query " +
         requestId +
         " started" +
         (request.partitionKeyRangeId ? " pkrid: " + request.partitionKeyRangeId : "")
     );
-    log.silly(request);
+    logger.verbose(request);
     const start = Date.now();
     const response = await executeRequest(request);
-    log.info("query " + requestId + " finished - " + (Date.now() - start) + "ms");
+    logger.info("query " + requestId + " finished - " + (Date.now() - start) + "ms");
     this.captureSessionToken(undefined, path, OperationType.Query, response.headers);
     return this.processQueryFeedResponse(response, !!query, resultFn);
   }

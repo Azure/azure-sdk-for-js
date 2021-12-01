@@ -451,13 +451,13 @@ export class StreamingReceiver extends MessageReceiver {
    * Wraps the individual message handlers with tracing and proper error handling
    * and assigns them to `this._messageHandlers`
    *
-   * @param userHandlers The user's message handlers
-   * @param operationOptions The subscribe(options)
+   * @param userHandlers - The user's message handlers
+   * @param operationOptions - The subscribe(options)
    */
   private _setMessageHandlers(
     userHandlers: InternalMessageHandlers,
     operationOptions: OperationOptionsBase | undefined
-  ) {
+  ): void {
     const messageHandlers = {
       processError: async (args: ProcessErrorArgs) => {
         try {
@@ -550,8 +550,8 @@ export class StreamingReceiver extends MessageReceiver {
     } catch (err) {
       try {
         await this._receiverHelper.suspend();
-      } catch (err) {
-        logger.logError(err, `${this.logPrefix} receiver.suspend threw an error`);
+      } catch (error) {
+        logger.logError(error, `${this.logPrefix} receiver.suspend threw an error`);
       }
 
       throw err;
@@ -562,10 +562,10 @@ export class StreamingReceiver extends MessageReceiver {
    * Initializes the link and adds credits. If any of these operations fail any created link will
    * be closed.
    *
-   * @param caller The caller which dictates whether or not we create a new name for our created link.
-   * @param catchAndReportError A function and reports an error but does not throw it.
+   * @param caller - The caller which dictates whether or not we create a new name for our created link.
+   * @param catchAndReportError - A function and reports an error but does not throw it.
    */
-  private async _initAndAddCreditOperation(caller: "detach" | "subscribe") {
+  private async _initAndAddCreditOperation(caller: "detach" | "subscribe"): Promise<void> {
     throwErrorIfConnectionClosed(this._context);
 
     await this._messageHandlers().preInitialize();
@@ -588,9 +588,9 @@ export class StreamingReceiver extends MessageReceiver {
     } catch (err) {
       try {
         await this.closeLink();
-      } catch (err) {
+      } catch (error) {
         await this._messageHandlers().processError({
-          error: err,
+          error,
           errorSource: "receive",
           entityPath: this.entityPath,
           fullyQualifiedNamespace: this._context.config.host

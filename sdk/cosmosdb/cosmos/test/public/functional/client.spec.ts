@@ -73,7 +73,7 @@ describe("Client Tests", function(this: Suite) {
         });
         await client.databases.readAll().fetchAll();
       } catch (e) {
-        assert.equal(e.statusCode, 400);
+        assert.equal(e.name, "CredentialUnavailableError");
       }
     });
   });

@@ -14,3 +14,7 @@ https://docs.microsoft.com/javascript/api/@azure/arm-datalake-analytics?view=azu
 https://docs.microsoft.com/javascript/api/@azure/arm-orbital
 https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/orbital/arm-orbital
 https://docs.microsoft.com/javascript/api/@azure/arm-orbital?view=azure-node-preview
+https://docs.microsoft.com/javascript/api/@azure/arm-botservice?view=azure-node-preview
+https://docs.microsoft.com/javascript/api/@azure/arm-portal?view=azure-node-preview
+https://docs.microsoft.com/javascript/api/@azure/arm-portal
+https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/portal/arm-portal

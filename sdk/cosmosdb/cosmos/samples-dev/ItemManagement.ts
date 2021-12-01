@@ -135,7 +135,7 @@ async function run(): Promise<void> {
     await item.replace(person, { accessCondition: { type: "IfMatch", condition: person._etag } });
     throw new Error("This should have failed!");
   } catch (err) {
-    if (err && err.code === 412) {
+    if (err) {
       console.log("As expected, the replace item failed with a pre-condition failure");
     } else {
       throw err;

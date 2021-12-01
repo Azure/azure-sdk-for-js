@@ -16,10 +16,7 @@ import { TextAnalyticsAction } from "./textAnalyticsAction";
 import { createSpan } from "./tracing";
 import { LroResponse } from "@azure/core-lro";
 
-/**
- * @internal
- */
-export interface IdObject {
+interface IdObject {
   id: string;
 }
 
@@ -172,33 +169,6 @@ export function addParamsToTask<X extends TextAnalyticsAction>(
   return { parameters: params, taskName: actionName };
 }
 
-/**
- * Set the modelVersion property with default if it does not exist in x.
- * @param options - operation options bag that has a {@link StringIndexType}
- * @internal
- */
-export function setModelVersionParam<X extends { modelVersion?: string }>(
-  x: X
-): X & { modelVersion: string } {
-  return { ...x, modelVersion: x.modelVersion || "latest" };
-}
-
-/**
- * @internal
- */
-export interface PageParam {
-  top: number;
-  skip: number;
-}
-
-/**
- * @internal
- */
-export function getOperationId(operationLocation: string): string {
-  const lastSlashIndex = operationLocation.lastIndexOf("/");
-  return operationLocation.substring(lastSlashIndex + 1);
-}
-
 function appendReadableErrorMessage(currentMessage: string, innerMessage: string): string {
   let message = currentMessage;
   if (message.slice(-1) !== ".") {
@@ -239,16 +209,6 @@ export function compileError(errorResponse: unknown): any {
     code: invalidDocumentBatchCode ? "InvalidDocumentBatch" : topLevelError.code,
     statusCode: castErrorResponse.statusCode
   });
-}
-
-/**
- * A wrapper for setTimeout that resolves a promise after t milliseconds.
- * @internal
- * @param timeInMs - The number of milliseconds to be delayed.
- * @returns Resolved promise
- */
-export function delay(timeInMs: number): Promise<void> {
-  return new Promise((resolve) => setTimeout(() => resolve(), timeInMs));
 }
 
 /**

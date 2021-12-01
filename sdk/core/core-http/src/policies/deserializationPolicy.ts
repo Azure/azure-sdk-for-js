@@ -144,6 +144,14 @@ function shouldDeserializeResponse(parsedResponse: HttpOperationResponse): boole
   return result;
 }
 
+/**
+ * Given a particular set of content types to parse as either JSON or XML, consumes the HTTP response to produce the result object defined by the request's {@link OperationSpec}.
+ * @param jsonContentTypes - Response content types to parse the body as JSON.
+ * @param xmlContentTypes  - Response content types to parse the body as XML.
+ * @param response - HTTP Response from the pipeline.
+ * @param options  - Options to the serializer, mostly for configuring the XML parser if needed.
+ * @returns A parsed {@link HttpOperationResponse} object that can be returned by the {@link ServiceClient}.
+ */
 export function deserializeResponseBody(
   jsonContentTypes: string[],
   xmlContentTypes: string[],
