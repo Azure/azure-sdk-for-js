@@ -18,8 +18,8 @@ export interface TracingClient {
    * const myOperationResult = await withSpan("myClassName.myOperationName", (updatedOptions) => myOperation(updatedOptions), options);
    * ```
    * @param name - The name of the span. By convention this should be `${className}.${methodName}`.
-   * @param callback - The callback to be invoked with the updated options and newly created {@link TracingSpan}.
    * @param operationOptions - The original options passed to the method. The callback will receive these options with the newly created {@link TracingContext}.
+   * @param callback - The callback to be invoked with the updated options and newly created {@link TracingSpan}.
    * @param callbackThis - An optional `this` parameter to bind the callback to.
    */
   withSpan<
@@ -30,8 +30,8 @@ export interface TracingClient {
     ) => ReturnType<Callback>
   >(
     name: string,
+    operationOptions: Options,
     callback: Callback,
-    operationOptions?: Options,
     spanOptions?: TracingSpanOptions,
     callbackThis?: ThisParameterType<Callback>
   ): Promise<ReturnType<Callback>>;

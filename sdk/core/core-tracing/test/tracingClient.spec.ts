@@ -102,13 +102,9 @@ describe("TracingClient", () => {
         };
       };
       const setAttributeSpy = sinon.spy(span, "setAttribute");
-      await client.withSpan(
-        spanName,
-        async () => {
-          // no op
-        },
-        {}
-      );
+      await client.withSpan(spanName, {}, async () => {
+        // no op
+      });
       assert.isTrue(
         setAttributeSpy.calledWith("az.namespace", expectedNamespace),
         `expected span.setAttribute("az.namespace", "${expectedNamespace}") to have been called`
@@ -116,34 +112,26 @@ describe("TracingClient", () => {
     });
 
     it("passes options and span to callback", async () => {
-      await client.withSpan(
-        spanName,
-        (options, currentSpan) => {
-          assert.instanceOf(currentSpan, NoOpSpan);
-          assert.exists(options);
-          assert.equal(options.foo, "foo");
-          assert.equal(options.bar, "bar");
-          return true;
-        },
-        { foo: "foo", bar: "bar" } as any
-      );
+      await client.withSpan(spanName, { foo: "foo", bar: "bar" } as any, (options, currentSpan) => {
+        assert.instanceOf(currentSpan, NoOpSpan);
+        assert.exists(options);
+        assert.equal(options.foo, "foo");
+        assert.equal(options.bar, "bar");
+        return true;
+      });
     });
 
     it("promisifies synchronous functions", async () => {
-      const result = await (client as TracingClientImpl).withSpan(spanName, () => {
+      const result = await (client as TracingClientImpl).withSpan(spanName, {}, () => {
         return 5;
       });
       assert.equal(result, 5);
     });
 
     it("supports asynchronous functions", async () => {
-      const result = await client.withSpan(
-        spanName,
-        () => {
-          return Promise.resolve(5);
-        },
-        {}
-      );
+      const result = await client.withSpan(spanName, {}, () => {
+        return Promise.resolve(5);
+      });
       assert.equal(result, 5);
     });
 
@@ -152,13 +140,13 @@ describe("TracingClient", () => {
       const parentContext = createTracingContext().setValue(key, value);
       await client.withSpan(
         spanName,
-        (updatedOptions) => {
-          assert.strictEqual(updatedOptions.tracingOptions?.tracingContext.getValue(key), value);
-        },
         {
           tracingOptions: {
             tracingContext: parentContext
           }
+        },
+        (updatedOptions) => {
+          assert.strictEqual(updatedOptions.tracingOptions.tracingContext.getValue(key), value);
         }
       );
     });
@@ -169,10 +157,10 @@ describe("TracingClient", () => {
 
       await client.withSpan(
         spanName,
+        {},
         () => {
           assert.strictEqual(this, that);
         },
-        {},
         {},
         this
       );
@@ -189,7 +177,7 @@ describe("TracingClient", () => {
           };
         };
         const setStatusSpy = sinon.spy(span, "setStatus");
-        await client.withSpan(spanName, () => Promise.resolve(42), {});
+        await client.withSpan(spanName, {}, () => Promise.resolve(42));
 
         assert.isTrue(setStatusSpy.calledWith(sinon.match({ status: "success" })));
       });
@@ -208,7 +196,7 @@ describe("TracingClient", () => {
         const setStatusSpy = sinon.spy(span, "setStatus");
         let errorThrown = false;
         try {
-          await client.withSpan(spanName, () => Promise.reject(new Error("test")), {});
+          await client.withSpan(spanName, {}, () => Promise.reject(new Error("test")));
         } catch (err) {
           errorThrown = true;
           assert.isTrue(setStatusSpy.calledWith(sinon.match({ status: "error", error: err })));
