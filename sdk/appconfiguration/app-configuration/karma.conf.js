@@ -48,6 +48,7 @@ module.exports = function(config) {
     // environment values MUST be exported or set with same console running "karma start"
     // https://www.npmjs.com/package/karma-env-preprocessor
     envPreprocessor: [
+      "AZ_CONFIG_ENDPOINT",
       "APPCONFIG_CONNECTION_STRING",
       "AZURE_CLIENT_ID",
       "AZURE_CLIENT_SECRET",
@@ -102,7 +103,7 @@ module.exports = function(config) {
     customLaunchers: {
       ChromeHeadlessNoSandbox: {
         base: "ChromeHeadless",
-        flags: ["--no-sandbox"]
+        flags: ["--no-sandbox", "--disable-web-security"]
       }
     },
 
