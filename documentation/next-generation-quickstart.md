@@ -75,7 +75,7 @@ Install the package
 As an example, to install the Azure Compute module, you would run :
 
 ```sh
-npm i @azure/arm-compute@30.0.0-beta.1
+npm i @azure/arm-compute@latest
 ```
 You can always find the latest preview version of our next-generation management libraries via npmjs under the `next` tag of each packages.  
 
