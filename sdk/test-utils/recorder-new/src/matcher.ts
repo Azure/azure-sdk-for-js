@@ -21,9 +21,9 @@ export async function setMatcher(
     request.headers.set("x-recording-id", recordingId);
   }
 
-  const response = await httpClient.sendRequest(request);
+  const { status, bodyAsText } = await httpClient.sendRequest(request);
 
-  if (response.status !== 200) {
-    throw new RecorderError("setMatcher failed");
+  if (status < 200 || status > 299) {
+    throw new RecorderError(`setMatcher failed: ${bodyAsText}`, status);
   }
 }
