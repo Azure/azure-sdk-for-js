@@ -1172,6 +1172,7 @@
       "versionPolicyName": "management"
     },
     {
+<<<<<<< HEAD
       "packageName": "@azure/arm-monitor",
       "projectFolder": "sdk/monitor/arm-monitor",
       "versionPolicyName": "management"
@@ -1215,6 +1216,11 @@
       "packageName": "@azure/arm-containerinstance",
       "projectFolder": "sdk/containerinstance/arm-containerinstance",
       "versionPolicyName": "management"
+=======
+      "packageName": "@azure/instrumentation-opentelemetry",
+      "projectFolder": "sdk/instrumentation/instrumentation-opentelemetry",
+      "versionPolicyName": "client"
+>>>>>>> Add @azure/instrumentation-opentelemetry package (#18725)
     }
   ]
 }
