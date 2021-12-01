@@ -1165,6 +1165,11 @@
       "packageName": "@azure/arm-msi",
       "projectFolder": "sdk/msi/arm-msi",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/instrumentation-opentelemetry",
+      "projectFolder": "sdk/instrumentation/instrumentation-opentelemetry",
+      "versionPolicyName": "client"
     }
   ]
 }
