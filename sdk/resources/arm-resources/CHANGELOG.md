@@ -1,14 +1,62 @@
+## 5.0.0-beta.2 (2021-12-01)
+    
+**Features**
+
+  - Added Interface TagsCreateOrUpdateAtScopeOptionalParams
+  - Added Interface TagsCreateOrUpdateOptionalParams
+  - Added Interface TagsCreateOrUpdateValueOptionalParams
+  - Added Interface TagsDeleteAtScopeOptionalParams
+  - Added Interface TagsDeleteOptionalParams
+  - Added Interface TagsDeleteValueOptionalParams
+  - Added Interface TagsGetAtScopeOptionalParams
+  - Added Interface TagsListNextOptionalParams
+  - Added Interface TagsListOptionalParams
+  - Added Interface TagsUpdateAtScopeOptionalParams
+  - Added Type Alias TagsCreateOrUpdateAtScopeResponse
+  - Added Type Alias TagsCreateOrUpdateResponse
+  - Added Type Alias TagsCreateOrUpdateValueResponse
+  - Added Type Alias TagsGetAtScopeResponse
+  - Added Type Alias TagsListNextResponse
+  - Added Type Alias TagsListResponse
+  - Added Type Alias TagsUpdateAtScopeResponse
+  - Class ResourceManagementClient has a new parameter $host
+  - Class ResourceManagementClient has a new parameter apiVersion
+  - Class ResourceManagementClient has a new parameter subscriptionId
+
+**Breaking Changes**
+
+  - Removed operation DeploymentOperations.listAtManagementGroupScopeNext
+  - Removed operation DeploymentOperations.listAtScopeNext
+  - Removed operation DeploymentOperations.listAtSubscriptionScopeNext
+  - Removed operation DeploymentOperations.listAtTenantScopeNext
+  - Removed operation DeploymentOperations.listNext
+  - Removed operation Deployments.listAtManagementGroupScopeNext
+  - Removed operation Deployments.listAtScopeNext
+  - Removed operation Deployments.listAtSubscriptionScopeNext
+  - Removed operation Deployments.listAtTenantScopeNext
+  - Removed operation Deployments.listByResourceGroupNext
+  - Removed operation Operations.listNext
+  - Removed operation Providers.listAtTenantScopeNext
+  - Removed operation Providers.listNext
+  - Removed operation ResourceGroups.listNext
+  - Removed operation Resources.listByResourceGroupNext
+  - Removed operation Resources.listNext
+  - Removed operation TagsOperations.listNext
+  - Operation TagsOperations.createOrUpdate has a new signature
+  - Operation TagsOperations.createOrUpdateAtScope has a new signature
+  - Operation TagsOperations.createOrUpdateValue has a new signature
+  - Operation TagsOperations.delete has a new signature
+  - Operation TagsOperations.deleteAtScope has a new signature
+  - Operation TagsOperations.deleteValue has a new signature
+  - Operation TagsOperations.getAtScope has a new signature
+  - Operation TagsOperations.list has a new signature
+  - Operation TagsOperations.updateAtScope has a new signature
+  - Interface ProvidersListAtTenantScopeNextOptionalParams no longer has parameter top
+  - Interface ProvidersListAtTenantScopeOptionalParams no longer has parameter top
+  - Interface ProvidersListNextOptionalParams no longer has parameter top
+  - Interface ProvidersListOptionalParams no longer has parameter top
+    
 # Release History
-
-## 5.0.0-beta.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
 
 ## 5.0.0-beta.1 (2021-10-09)
 
