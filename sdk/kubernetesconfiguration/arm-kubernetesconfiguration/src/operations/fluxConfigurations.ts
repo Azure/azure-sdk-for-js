@@ -10,16 +10,16 @@
 import * as msRest from "@azure/ms-rest-js";
 import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
-import * as Mappers from "../models/sourceControlConfigurationsMappers";
+import * as Mappers from "../models/fluxConfigurationsMappers";
 import * as Parameters from "../models/parameters";
 import { SourceControlConfigurationClientContext } from "../sourceControlConfigurationClientContext";
 
-/** Class representing a SourceControlConfigurations. */
-export class SourceControlConfigurations {
+/** Class representing a FluxConfigurations. */
+export class FluxConfigurations {
   private readonly client: SourceControlConfigurationClientContext;
 
   /**
-   * Create a SourceControlConfigurations.
+   * Create a FluxConfigurations.
    * @param {SourceControlConfigurationClientContext} client Reference to the service client.
    */
   constructor(client: SourceControlConfigurationClientContext) {
@@ -27,7 +27,7 @@ export class SourceControlConfigurations {
   }
 
   /**
-   * Gets details of the Source Control Configuration.
+   * Gets details of the Flux Configuration.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterRp The Kubernetes cluster RP - either Microsoft.ContainerService (for AKS
    * clusters) or Microsoft.Kubernetes (for OnPrem K8S clusters). Possible values include:
@@ -36,11 +36,11 @@ export class SourceControlConfigurations {
    * AKS clusters) or connectedClusters (for OnPrem K8S clusters). Possible values include:
    * 'managedClusters', 'connectedClusters'
    * @param clusterName The name of the kubernetes cluster.
-   * @param sourceControlConfigurationName Name of the Source Control Configuration.
+   * @param fluxConfigurationName Name of the Flux Configuration.
    * @param [options] The optional parameters
-   * @returns Promise<Models.SourceControlConfigurationsGetResponse>
+   * @returns Promise<Models.FluxConfigurationsGetResponse>
    */
-  get(resourceGroupName: string, clusterRp: Models.ClusterRp15, clusterResourceName: Models.ClusterResourceName15, clusterName: string, sourceControlConfigurationName: string, options?: msRest.RequestOptionsBase): Promise<Models.SourceControlConfigurationsGetResponse>;
+  get(resourceGroupName: string, clusterRp: Models.ClusterRp9, clusterResourceName: Models.ClusterResourceName9, clusterName: string, fluxConfigurationName: string, options?: msRest.RequestOptionsBase): Promise<Models.FluxConfigurationsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterRp The Kubernetes cluster RP - either Microsoft.ContainerService (for AKS
@@ -50,10 +50,10 @@ export class SourceControlConfigurations {
    * AKS clusters) or connectedClusters (for OnPrem K8S clusters). Possible values include:
    * 'managedClusters', 'connectedClusters'
    * @param clusterName The name of the kubernetes cluster.
-   * @param sourceControlConfigurationName Name of the Source Control Configuration.
+   * @param fluxConfigurationName Name of the Flux Configuration.
    * @param callback The callback
    */
-  get(resourceGroupName: string, clusterRp: Models.ClusterRp15, clusterResourceName: Models.ClusterResourceName15, clusterName: string, sourceControlConfigurationName: string, callback: msRest.ServiceCallback<Models.SourceControlConfiguration>): void;
+  get(resourceGroupName: string, clusterRp: Models.ClusterRp9, clusterResourceName: Models.ClusterResourceName9, clusterName: string, fluxConfigurationName: string, callback: msRest.ServiceCallback<Models.FluxConfiguration>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterRp The Kubernetes cluster RP - either Microsoft.ContainerService (for AKS
@@ -63,27 +63,27 @@ export class SourceControlConfigurations {
    * AKS clusters) or connectedClusters (for OnPrem K8S clusters). Possible values include:
    * 'managedClusters', 'connectedClusters'
    * @param clusterName The name of the kubernetes cluster.
-   * @param sourceControlConfigurationName Name of the Source Control Configuration.
+   * @param fluxConfigurationName Name of the Flux Configuration.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, clusterRp: Models.ClusterRp15, clusterResourceName: Models.ClusterResourceName15, clusterName: string, sourceControlConfigurationName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SourceControlConfiguration>): void;
-  get(resourceGroupName: string, clusterRp: Models.ClusterRp15, clusterResourceName: Models.ClusterResourceName15, clusterName: string, sourceControlConfigurationName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SourceControlConfiguration>, callback?: msRest.ServiceCallback<Models.SourceControlConfiguration>): Promise<Models.SourceControlConfigurationsGetResponse> {
+  get(resourceGroupName: string, clusterRp: Models.ClusterRp9, clusterResourceName: Models.ClusterResourceName9, clusterName: string, fluxConfigurationName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FluxConfiguration>): void;
+  get(resourceGroupName: string, clusterRp: Models.ClusterRp9, clusterResourceName: Models.ClusterResourceName9, clusterName: string, fluxConfigurationName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FluxConfiguration>, callback?: msRest.ServiceCallback<Models.FluxConfiguration>): Promise<Models.FluxConfigurationsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         clusterRp,
         clusterResourceName,
         clusterName,
-        sourceControlConfigurationName,
+        fluxConfigurationName,
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.SourceControlConfigurationsGetResponse>;
+      callback) as Promise<Models.FluxConfigurationsGetResponse>;
   }
 
   /**
-   * Create a new Kubernetes Source Control Configuration.
+   * Create a new Kubernetes Flux Configuration.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterRp The Kubernetes cluster RP - either Microsoft.ContainerService (for AKS
    * clusters) or Microsoft.Kubernetes (for OnPrem K8S clusters). Possible values include:
@@ -92,59 +92,18 @@ export class SourceControlConfigurations {
    * AKS clusters) or connectedClusters (for OnPrem K8S clusters). Possible values include:
    * 'managedClusters', 'connectedClusters'
    * @param clusterName The name of the kubernetes cluster.
-   * @param sourceControlConfigurationName Name of the Source Control Configuration.
-   * @param sourceControlConfiguration Properties necessary to Create KubernetesConfiguration.
+   * @param fluxConfigurationName Name of the Flux Configuration.
+   * @param fluxConfiguration Properties necessary to Create a FluxConfiguration.
    * @param [options] The optional parameters
-   * @returns Promise<Models.SourceControlConfigurationsCreateOrUpdateResponse>
+   * @returns Promise<Models.FluxConfigurationsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, clusterRp: Models.ClusterRp16, clusterResourceName: Models.ClusterResourceName16, clusterName: string, sourceControlConfigurationName: string, sourceControlConfiguration: Models.SourceControlConfiguration, options?: msRest.RequestOptionsBase): Promise<Models.SourceControlConfigurationsCreateOrUpdateResponse>;
-  /**
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterRp The Kubernetes cluster RP - either Microsoft.ContainerService (for AKS
-   * clusters) or Microsoft.Kubernetes (for OnPrem K8S clusters). Possible values include:
-   * 'Microsoft.ContainerService', 'Microsoft.Kubernetes'
-   * @param clusterResourceName The Kubernetes cluster resource name - either managedClusters (for
-   * AKS clusters) or connectedClusters (for OnPrem K8S clusters). Possible values include:
-   * 'managedClusters', 'connectedClusters'
-   * @param clusterName The name of the kubernetes cluster.
-   * @param sourceControlConfigurationName Name of the Source Control Configuration.
-   * @param sourceControlConfiguration Properties necessary to Create KubernetesConfiguration.
-   * @param callback The callback
-   */
-  createOrUpdate(resourceGroupName: string, clusterRp: Models.ClusterRp16, clusterResourceName: Models.ClusterResourceName16, clusterName: string, sourceControlConfigurationName: string, sourceControlConfiguration: Models.SourceControlConfiguration, callback: msRest.ServiceCallback<Models.SourceControlConfiguration>): void;
-  /**
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterRp The Kubernetes cluster RP - either Microsoft.ContainerService (for AKS
-   * clusters) or Microsoft.Kubernetes (for OnPrem K8S clusters). Possible values include:
-   * 'Microsoft.ContainerService', 'Microsoft.Kubernetes'
-   * @param clusterResourceName The Kubernetes cluster resource name - either managedClusters (for
-   * AKS clusters) or connectedClusters (for OnPrem K8S clusters). Possible values include:
-   * 'managedClusters', 'connectedClusters'
-   * @param clusterName The name of the kubernetes cluster.
-   * @param sourceControlConfigurationName Name of the Source Control Configuration.
-   * @param sourceControlConfiguration Properties necessary to Create KubernetesConfiguration.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  createOrUpdate(resourceGroupName: string, clusterRp: Models.ClusterRp16, clusterResourceName: Models.ClusterResourceName16, clusterName: string, sourceControlConfigurationName: string, sourceControlConfiguration: Models.SourceControlConfiguration, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SourceControlConfiguration>): void;
-  createOrUpdate(resourceGroupName: string, clusterRp: Models.ClusterRp16, clusterResourceName: Models.ClusterResourceName16, clusterName: string, sourceControlConfigurationName: string, sourceControlConfiguration: Models.SourceControlConfiguration, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SourceControlConfiguration>, callback?: msRest.ServiceCallback<Models.SourceControlConfiguration>): Promise<Models.SourceControlConfigurationsCreateOrUpdateResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        clusterRp,
-        clusterResourceName,
-        clusterName,
-        sourceControlConfigurationName,
-        sourceControlConfiguration,
-        options
-      },
-      createOrUpdateOperationSpec,
-      callback) as Promise<Models.SourceControlConfigurationsCreateOrUpdateResponse>;
+  createOrUpdate(resourceGroupName: string, clusterRp: Models.ClusterRp10, clusterResourceName: Models.ClusterResourceName10, clusterName: string, fluxConfigurationName: string, fluxConfiguration: Models.FluxConfiguration, options?: msRest.RequestOptionsBase): Promise<Models.FluxConfigurationsCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(resourceGroupName,clusterRp,clusterResourceName,clusterName,fluxConfigurationName,fluxConfiguration,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.FluxConfigurationsCreateOrUpdateResponse>;
   }
 
   /**
-   * This will delete the YAML file used to set up the Source control configuration, thus stopping
-   * future sync from the source repo.
+   * Update an existing Kubernetes Flux Configuration.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterRp The Kubernetes cluster RP - either Microsoft.ContainerService (for AKS
    * clusters) or Microsoft.Kubernetes (for OnPrem K8S clusters). Possible values include:
@@ -153,17 +112,38 @@ export class SourceControlConfigurations {
    * AKS clusters) or connectedClusters (for OnPrem K8S clusters). Possible values include:
    * 'managedClusters', 'connectedClusters'
    * @param clusterName The name of the kubernetes cluster.
-   * @param sourceControlConfigurationName Name of the Source Control Configuration.
+   * @param fluxConfigurationName Name of the Flux Configuration.
+   * @param fluxConfigurationPatch Properties to Patch in an existing Flux Configuration.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.FluxConfigurationsUpdateResponse>
+   */
+  update(resourceGroupName: string, clusterRp: Models.ClusterRp11, clusterResourceName: Models.ClusterResourceName11, clusterName: string, fluxConfigurationName: string, fluxConfigurationPatch: Models.FluxConfigurationPatch, options?: msRest.RequestOptionsBase): Promise<Models.FluxConfigurationsUpdateResponse> {
+    return this.beginUpdate(resourceGroupName,clusterRp,clusterResourceName,clusterName,fluxConfigurationName,fluxConfigurationPatch,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.FluxConfigurationsUpdateResponse>;
+  }
+
+  /**
+   * This will delete the YAML file used to set up the Flux Configuration, thus stopping future sync
+   * from the source repo.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterRp The Kubernetes cluster RP - either Microsoft.ContainerService (for AKS
+   * clusters) or Microsoft.Kubernetes (for OnPrem K8S clusters). Possible values include:
+   * 'Microsoft.ContainerService', 'Microsoft.Kubernetes'
+   * @param clusterResourceName The Kubernetes cluster resource name - either managedClusters (for
+   * AKS clusters) or connectedClusters (for OnPrem K8S clusters). Possible values include:
+   * 'managedClusters', 'connectedClusters'
+   * @param clusterName The name of the kubernetes cluster.
+   * @param fluxConfigurationName Name of the Flux Configuration.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, clusterRp: Models.ClusterRp17, clusterResourceName: Models.ClusterResourceName17, clusterName: string, sourceControlConfigurationName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,clusterRp,clusterResourceName,clusterName,sourceControlConfigurationName,options)
+  deleteMethod(resourceGroupName: string, clusterRp: Models.ClusterRp12, clusterResourceName: Models.ClusterResourceName12, clusterName: string, fluxConfigurationName: string, options?: Models.FluxConfigurationsDeleteMethodOptionalParams): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(resourceGroupName,clusterRp,clusterResourceName,clusterName,fluxConfigurationName,options)
       .then(lroPoller => lroPoller.pollUntilFinished());
   }
 
   /**
-   * List all Source Control Configurations.
+   * List all Flux Configurations.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterRp The Kubernetes cluster RP - either Microsoft.ContainerService (for AKS
    * clusters) or Microsoft.Kubernetes (for OnPrem K8S clusters). Possible values include:
@@ -173,9 +153,9 @@ export class SourceControlConfigurations {
    * 'managedClusters', 'connectedClusters'
    * @param clusterName The name of the kubernetes cluster.
    * @param [options] The optional parameters
-   * @returns Promise<Models.SourceControlConfigurationsListResponse>
+   * @returns Promise<Models.FluxConfigurationsListResponse>
    */
-  list(resourceGroupName: string, clusterRp: Models.ClusterRp18, clusterResourceName: Models.ClusterResourceName18, clusterName: string, options?: msRest.RequestOptionsBase): Promise<Models.SourceControlConfigurationsListResponse>;
+  list(resourceGroupName: string, clusterRp: Models.ClusterRp13, clusterResourceName: Models.ClusterResourceName13, clusterName: string, options?: msRest.RequestOptionsBase): Promise<Models.FluxConfigurationsListResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterRp The Kubernetes cluster RP - either Microsoft.ContainerService (for AKS
@@ -187,7 +167,7 @@ export class SourceControlConfigurations {
    * @param clusterName The name of the kubernetes cluster.
    * @param callback The callback
    */
-  list(resourceGroupName: string, clusterRp: Models.ClusterRp18, clusterResourceName: Models.ClusterResourceName18, clusterName: string, callback: msRest.ServiceCallback<Models.SourceControlConfigurationList>): void;
+  list(resourceGroupName: string, clusterRp: Models.ClusterRp13, clusterResourceName: Models.ClusterResourceName13, clusterName: string, callback: msRest.ServiceCallback<Models.FluxConfigurationsList>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterRp The Kubernetes cluster RP - either Microsoft.ContainerService (for AKS
@@ -200,8 +180,8 @@ export class SourceControlConfigurations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, clusterRp: Models.ClusterRp18, clusterResourceName: Models.ClusterResourceName18, clusterName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SourceControlConfigurationList>): void;
-  list(resourceGroupName: string, clusterRp: Models.ClusterRp18, clusterResourceName: Models.ClusterResourceName18, clusterName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SourceControlConfigurationList>, callback?: msRest.ServiceCallback<Models.SourceControlConfigurationList>): Promise<Models.SourceControlConfigurationsListResponse> {
+  list(resourceGroupName: string, clusterRp: Models.ClusterRp13, clusterResourceName: Models.ClusterResourceName13, clusterName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FluxConfigurationsList>): void;
+  list(resourceGroupName: string, clusterRp: Models.ClusterRp13, clusterResourceName: Models.ClusterResourceName13, clusterName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FluxConfigurationsList>, callback?: msRest.ServiceCallback<Models.FluxConfigurationsList>): Promise<Models.FluxConfigurationsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -211,12 +191,11 @@ export class SourceControlConfigurations {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.SourceControlConfigurationsListResponse>;
+      callback) as Promise<Models.FluxConfigurationsListResponse>;
   }
 
   /**
-   * This will delete the YAML file used to set up the Source control configuration, thus stopping
-   * future sync from the source repo.
+   * Create a new Kubernetes Flux Configuration.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterRp The Kubernetes cluster RP - either Microsoft.ContainerService (for AKS
    * clusters) or Microsoft.Kubernetes (for OnPrem K8S clusters). Possible values include:
@@ -225,18 +204,79 @@ export class SourceControlConfigurations {
    * AKS clusters) or connectedClusters (for OnPrem K8S clusters). Possible values include:
    * 'managedClusters', 'connectedClusters'
    * @param clusterName The name of the kubernetes cluster.
-   * @param sourceControlConfigurationName Name of the Source Control Configuration.
+   * @param fluxConfigurationName Name of the Flux Configuration.
+   * @param fluxConfiguration Properties necessary to Create a FluxConfiguration.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, clusterRp: Models.ClusterRp17, clusterResourceName: Models.ClusterResourceName17, clusterName: string, sourceControlConfigurationName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(resourceGroupName: string, clusterRp: Models.ClusterRp10, clusterResourceName: Models.ClusterResourceName10, clusterName: string, fluxConfigurationName: string, fluxConfiguration: Models.FluxConfiguration, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
         clusterRp,
         clusterResourceName,
         clusterName,
-        sourceControlConfigurationName,
+        fluxConfigurationName,
+        fluxConfiguration,
+        options
+      },
+      beginCreateOrUpdateOperationSpec,
+      options);
+  }
+
+  /**
+   * Update an existing Kubernetes Flux Configuration.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterRp The Kubernetes cluster RP - either Microsoft.ContainerService (for AKS
+   * clusters) or Microsoft.Kubernetes (for OnPrem K8S clusters). Possible values include:
+   * 'Microsoft.ContainerService', 'Microsoft.Kubernetes'
+   * @param clusterResourceName The Kubernetes cluster resource name - either managedClusters (for
+   * AKS clusters) or connectedClusters (for OnPrem K8S clusters). Possible values include:
+   * 'managedClusters', 'connectedClusters'
+   * @param clusterName The name of the kubernetes cluster.
+   * @param fluxConfigurationName Name of the Flux Configuration.
+   * @param fluxConfigurationPatch Properties to Patch in an existing Flux Configuration.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginUpdate(resourceGroupName: string, clusterRp: Models.ClusterRp11, clusterResourceName: Models.ClusterResourceName11, clusterName: string, fluxConfigurationName: string, fluxConfigurationPatch: Models.FluxConfigurationPatch, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        clusterRp,
+        clusterResourceName,
+        clusterName,
+        fluxConfigurationName,
+        fluxConfigurationPatch,
+        options
+      },
+      beginUpdateOperationSpec,
+      options);
+  }
+
+  /**
+   * This will delete the YAML file used to set up the Flux Configuration, thus stopping future sync
+   * from the source repo.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterRp The Kubernetes cluster RP - either Microsoft.ContainerService (for AKS
+   * clusters) or Microsoft.Kubernetes (for OnPrem K8S clusters). Possible values include:
+   * 'Microsoft.ContainerService', 'Microsoft.Kubernetes'
+   * @param clusterResourceName The Kubernetes cluster resource name - either managedClusters (for
+   * AKS clusters) or connectedClusters (for OnPrem K8S clusters). Possible values include:
+   * 'managedClusters', 'connectedClusters'
+   * @param clusterName The name of the kubernetes cluster.
+   * @param fluxConfigurationName Name of the Flux Configuration.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginDeleteMethod(resourceGroupName: string, clusterRp: Models.ClusterRp12, clusterResourceName: Models.ClusterResourceName12, clusterName: string, fluxConfigurationName: string, options?: Models.FluxConfigurationsBeginDeleteMethodOptionalParams): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        clusterRp,
+        clusterResourceName,
+        clusterName,
+        fluxConfigurationName,
         options
       },
       beginDeleteMethodOperationSpec,
@@ -244,31 +284,31 @@ export class SourceControlConfigurations {
   }
 
   /**
-   * List all Source Control Configurations.
+   * List all Flux Configurations.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
-   * @returns Promise<Models.SourceControlConfigurationsListNextResponse>
+   * @returns Promise<Models.FluxConfigurationsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.SourceControlConfigurationsListNextResponse>;
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.FluxConfigurationsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.SourceControlConfigurationList>): void;
+  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.FluxConfigurationsList>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SourceControlConfigurationList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SourceControlConfigurationList>, callback?: msRest.ServiceCallback<Models.SourceControlConfigurationList>): Promise<Models.SourceControlConfigurationsListNextResponse> {
+  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FluxConfigurationsList>): void;
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FluxConfigurationsList>, callback?: msRest.ServiceCallback<Models.FluxConfigurationsList>): Promise<Models.FluxConfigurationsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.SourceControlConfigurationsListNextResponse>;
+      callback) as Promise<Models.FluxConfigurationsListNextResponse>;
   }
 }
 
@@ -276,14 +316,14 @@ export class SourceControlConfigurations {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{clusterRp}/{clusterResourceName}/{clusterName}/providers/Microsoft.KubernetesConfiguration/sourceControlConfigurations/{sourceControlConfigurationName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{clusterRp}/{clusterResourceName}/{clusterName}/providers/Microsoft.KubernetesConfiguration/fluxConfigurations/{fluxConfigurationName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.clusterRp,
     Parameters.clusterResourceName,
     Parameters.clusterName,
-    Parameters.sourceControlConfigurationName
+    Parameters.fluxConfigurationName
   ],
   queryParameters: [
     Parameters.apiVersion
@@ -293,45 +333,7 @@ const getOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.SourceControlConfiguration
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  serializer
-};
-
-const createOrUpdateOperationSpec: msRest.OperationSpec = {
-  httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{clusterRp}/{clusterResourceName}/{clusterName}/providers/Microsoft.KubernetesConfiguration/sourceControlConfigurations/{sourceControlConfigurationName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.clusterRp,
-    Parameters.clusterResourceName,
-    Parameters.clusterName,
-    Parameters.sourceControlConfigurationName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  requestBody: {
-    parameterPath: "sourceControlConfiguration",
-    mapper: {
-      ...Mappers.SourceControlConfiguration,
-      required: true
-    }
-  },
-  responses: {
-    200: {
-      bodyMapper: Mappers.SourceControlConfiguration
-    },
-    201: {
-      bodyMapper: Mappers.SourceControlConfiguration
+      bodyMapper: Mappers.FluxConfiguration
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -342,7 +344,7 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{clusterRp}/{clusterResourceName}/{clusterName}/providers/Microsoft.KubernetesConfiguration/sourceControlConfigurations",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{clusterRp}/{clusterResourceName}/{clusterName}/providers/Microsoft.KubernetesConfiguration/fluxConfigurations",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -358,7 +360,80 @@ const listOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.SourceControlConfigurationList
+      bodyMapper: Mappers.FluxConfigurationsList
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PUT",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{clusterRp}/{clusterResourceName}/{clusterName}/providers/Microsoft.KubernetesConfiguration/fluxConfigurations/{fluxConfigurationName}",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.clusterRp,
+    Parameters.clusterResourceName,
+    Parameters.clusterName,
+    Parameters.fluxConfigurationName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "fluxConfiguration",
+    mapper: {
+      ...Mappers.FluxConfiguration,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.FluxConfiguration
+    },
+    201: {
+      bodyMapper: Mappers.FluxConfiguration
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const beginUpdateOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PATCH",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{clusterRp}/{clusterResourceName}/{clusterName}/providers/Microsoft.KubernetesConfiguration/fluxConfigurations/{fluxConfigurationName}",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.clusterRp,
+    Parameters.clusterResourceName,
+    Parameters.clusterName,
+    Parameters.fluxConfigurationName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "fluxConfigurationPatch",
+    mapper: {
+      ...Mappers.FluxConfigurationPatch,
+      required: true
+    }
+  },
+  responses: {
+    202: {
+      bodyMapper: Mappers.FluxConfiguration
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -369,23 +444,25 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{clusterRp}/{clusterResourceName}/{clusterName}/providers/Microsoft.KubernetesConfiguration/sourceControlConfigurations/{sourceControlConfigurationName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{clusterRp}/{clusterResourceName}/{clusterName}/providers/Microsoft.KubernetesConfiguration/fluxConfigurations/{fluxConfigurationName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.clusterRp,
     Parameters.clusterResourceName,
     Parameters.clusterName,
-    Parameters.sourceControlConfigurationName
+    Parameters.fluxConfigurationName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion,
+    Parameters.forceDelete
   ],
   headerParameters: [
     Parameters.acceptLanguage
   ],
   responses: {
     200: {},
+    202: {},
     204: {},
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -409,7 +486,7 @@ const listNextOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.SourceControlConfigurationList
+      bodyMapper: Mappers.FluxConfigurationsList
     },
     default: {
       bodyMapper: Mappers.ErrorResponse

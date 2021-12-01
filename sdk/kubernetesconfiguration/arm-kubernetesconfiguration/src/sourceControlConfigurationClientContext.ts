@@ -9,16 +9,16 @@
 
 import * as Models from "./models";
 import * as msRest from "@azure/ms-rest-js";
-import { TokenCredential } from "@azure/core-auth";
 import * as msRestAzure from "@azure/ms-rest-azure-js";
+import { TokenCredential } from "@azure/core-auth";
 
 const packageName = "@azure/arm-kubernetesconfiguration";
-const packageVersion = "3.1.1";
+const packageVersion = "4.0.0";
 
 export class SourceControlConfigurationClientContext extends msRestAzure.AzureServiceClient {
   credentials: msRest.ServiceClientCredentials | TokenCredential;
-  subscriptionId: string;
   apiVersion?: string;
+  subscriptionId: string;
 
   /**
    * Initializes a new instance of the SourceControlConfigurationClient class.
@@ -28,8 +28,7 @@ export class SourceControlConfigurationClientContext extends msRestAzure.AzureSe
    * {@link https://www.npmjs.com/package/@azure/identity}. Credentials implementing the
    * ServiceClientCredentials interface from the older packages @azure/ms-rest-nodeauth and
    * @azure/ms-rest-browserauth are also supported.
-   * @param subscriptionId The Azure subscription ID. This is a GUID-formatted string (e.g.
-   * 00000000-0000-0000-0000-000000000000)
+   * @param subscriptionId The ID of the target subscription.
    * @param [options] The parameter options
    */
   constructor(credentials: msRest.ServiceClientCredentials | TokenCredential, subscriptionId: string, options?: Models.SourceControlConfigurationClientOptions) {
@@ -50,7 +49,7 @@ export class SourceControlConfigurationClientContext extends msRestAzure.AzureSe
 
     super(credentials, options);
 
-    this.apiVersion = '2021-03-01';
+    this.apiVersion = '2022-01-01-preview';
     this.acceptLanguage = 'en-US';
     this.longRunningOperationRetryTimeout = 30;
     this.baseUri = options.baseUri || this.baseUri || "https://management.azure.com";

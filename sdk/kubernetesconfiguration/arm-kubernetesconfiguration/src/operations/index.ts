@@ -7,5 +7,13 @@
  * regenerated.
  */
 
+export * from "./clusterExtensionType";
+export * from "./clusterExtensionTypes";
+export * from "./extensionTypeVersions";
+export * from "./locationExtensionTypes";
+export * from "./extensions";
+export * from "./operationStatus";
+export * from "./fluxConfigurations";
+export * from "./fluxConfigOperationStatus";
 export * from "./sourceControlConfigurations";
 export * from "./operations";

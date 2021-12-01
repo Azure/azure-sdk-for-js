@@ -18,6 +18,7 @@ export {
   ErrorResponse,
   Extension,
   ExtensionPropertiesAksAssignedIdentity,
+  ExtensionsList,
   ExtensionStatus,
   FluxConfiguration,
   GitRepositoryDefinition,
@@ -28,6 +29,7 @@ export {
   ObjectReferenceDefinition,
   ObjectStatusConditionDefinition,
   ObjectStatusDefinition,
+  PatchExtension,
   Plan,
   ProxyResource,
   RepositoryRefDefinition,
@@ -41,7 +43,6 @@ export {
   ScopeNamespace,
   Sku,
   SourceControlConfiguration,
-  SourceControlConfigurationList,
   SystemData,
   TrackedResource
 } from "../models/mappers";

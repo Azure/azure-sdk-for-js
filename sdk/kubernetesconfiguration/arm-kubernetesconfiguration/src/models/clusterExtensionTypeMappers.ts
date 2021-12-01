@@ -19,6 +19,7 @@ export {
   Extension,
   ExtensionPropertiesAksAssignedIdentity,
   ExtensionStatus,
+  ExtensionType,
   FluxConfiguration,
   GitRepositoryDefinition,
   HelmOperatorProperties,
@@ -41,7 +42,7 @@ export {
   ScopeNamespace,
   Sku,
   SourceControlConfiguration,
-  SourceControlConfigurationList,
+  SupportedScopes,
   SystemData,
   TrackedResource
 } from "../models/mappers";
