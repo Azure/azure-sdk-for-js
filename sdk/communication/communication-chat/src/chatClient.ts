@@ -27,7 +27,7 @@ import { ChatApiClient } from "./generated/src";
 import { CreateChatThreadRequest } from "./models/requests";
 import { createCommunicationTokenCredentialPolicy } from "./credential/communicationTokenCredentialPolicy";
 import { generateUuid } from "./models/uuid";
-import { SignalingClient } from "@azure/communication-signaling";
+import { ConnectionState, SignalingClient } from "@azure/communication-signaling";
 import {
   ChatEventId,
   ChatMessageReceivedEvent,
@@ -341,12 +341,25 @@ export class ChatClient {
    */
   public on(event: "participantsRemoved", listener: (e: ParticipantsRemovedEvent) => void): void;
 
-  public on(event: ChatEventId, listener: (e: any) => void): void {
+  /**
+   * Subscribe function for realTimeNotificationConnected.
+   * @param event - The realTimeNotificationConnected Event
+   * @param listener - The listener to handle the event.
+   */
+  public on(event: "realTimeNotificationConnected", listener: (e: ConnectionState) => void): void;
+  
+  /**
+   * Subscribe function for realTimeNotificationDisconnected.
+   * @param event - The realTimeNotificationDisconnected Event
+   * @param listener - The listener to handle the event.
+   */
+  public on(event: "realTimeNotificationDisconnected", listener: (e: ConnectionState) => void): void;
+
+  public on(event: ChatEventId | "realTimeNotificationConnected" | "realTimeNotificationDisconnected", listener: (e: any) => void): void {
     if (this.signalingClient === undefined) {
       throw new Error("Realtime notifications are only supported in the browser.");
     }
-
-    if (!this.isRealtimeNotificationsStarted) {
+    if (!this.isRealtimeNotificationsStarted && event !== "realTimeNotificationConnected" && event !== "realTimeNotificationDisconnected") {
       throw new Error(
         "You must call startRealtimeNotifications before you can subscribe to events."
       );
@@ -443,6 +456,15 @@ export class ChatClient {
     if (this.signalingClient === undefined) {
       throw new Error("Realtime notifications are only supported in the browser.");
     }
+    
+    this.signalingClient.on("connectionChanged", (payload) => {
+      if (payload === ConnectionState.Connected) {
+        this.emitter.emit("realTimeNotificationConnected", payload);
+      }
+      else if (payload === ConnectionState.Disconnected) {
+        this.emitter.emit("realTimeNotificationDisconnected", payload);
+      }
+    });
 
     this.signalingClient.on("chatMessageReceived", (payload) => {
       this.emitter.emit("chatMessageReceived", payload);
