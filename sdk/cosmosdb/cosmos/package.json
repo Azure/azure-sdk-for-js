@@ -38,7 +38,7 @@
     "constantPaths": [
       {
         "path": "src/common/constants.ts",
-        "prefix": "SDK_VERSION"
+        "prefix": "SDKVersion"
       }
     ]
   },
