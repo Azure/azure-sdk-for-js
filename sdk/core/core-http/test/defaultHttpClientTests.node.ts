@@ -13,7 +13,7 @@ import { DefaultHttpClient } from "../src/defaultHttpClient";
 import { WebResource, TransferProgressEvent } from "../src/webResource";
 import { getHttpMock, HttpMockFacade } from "./mockHttp";
 import { PassThrough, Readable } from "stream";
-import { ReportTransform, CommonResponse } from "../src/fetchHttpClient";
+import { ReportTransform, CommonResponse } from "../src/nodeFetchHttpClient";
 import { CompositeMapper, Serializer } from "../src/serializer";
 import { OperationSpec } from "../src/operationSpec";
 import { AbortController } from "@azure/abort-controller";
