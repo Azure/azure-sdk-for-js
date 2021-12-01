@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- Handle Binary and FormData content. [#18753](https://github.com/Azure/azure-sdk-for-js/pull/18753)
+
 ### Breaking Changes
 
 ### Bugs Fixed

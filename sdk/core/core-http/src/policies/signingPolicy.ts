@@ -11,6 +11,11 @@ import {
   RequestPolicyOptions
 } from "./requestPolicy";
 
+/**
+ * Creates a policy that signs outgoing requests by calling to the provided `authenticationProvider`'s `signRequest` method.
+ * @param authenticationProvider - The authentication provider.
+ * @returns An instance of the {@link SigningPolicy}.
+ */
 export function signingPolicy(
   authenticationProvider: ServiceClientCredentials
 ): RequestPolicyFactory {
@@ -21,6 +26,9 @@ export function signingPolicy(
   };
 }
 
+/**
+ * A policy that signs outgoing requests by calling to the provided `authenticationProvider`'s `signRequest` method.
+ */
 export class SigningPolicy extends BaseRequestPolicy {
   constructor(
     nextPolicy: RequestPolicy,

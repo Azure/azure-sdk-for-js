@@ -19,7 +19,7 @@ generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
 tag: package-2021-11-15-preview
-require: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/c2e5ae3e6d0bb5ea80493740de9d35c0ab1fe763/specification/communication/data-plane/CallingServer/readme.md
+require: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/07dc82c145c529f6cdefd458328816be2c196c5e/specification/communication/data-plane/CallingServer/readme.md
 model-date-time-as-string: false
 optional-response-headers: true
 typescript: true

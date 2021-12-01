@@ -5,8 +5,8 @@ import { env, record, Recorder, RecorderEnvironmentSetup } from "@azure-tools/te
 import { CallingServerClient, GroupCallLocator, PlayAudioOptions, CallConnection } from "../../src";
 import * as Constants from "./utils/constants";
 import { TestUtils } from "./utils/testUtils";
-import assert from "assert";
 import { Context } from "mocha";
+import { assert } from "chai";
 import { CommunicationUserIdentifier } from "@azure/communication-common";
 import { RestError } from "@azure/core-http";
 
@@ -194,14 +194,17 @@ describe("Server Call Live Test", function() {
       try {
         const callLocator: GroupCallLocator = { groupCallId: groupId };
         const added_participant_id = TestUtils.getFixedUserId(
-          "0000000d-bd96-2256-02c3-593a0d00b537"
+          "0000000e-22e2-d9a2-99c6-593a0d004ca1"
         );
         const participant: CommunicationUserIdentifier = {
           communicationUserId: added_participant_id
         };
         // Add Participant
         await TestUtils.delayIfLive();
-        await callingServer.addParticipant(callLocator, participant, Constants.CALLBACK_URL);
+        const addParticipantResult = await callingServer.addParticipant(callLocator, participant, Constants.CALLBACK_URL);
+        assert.isNotNull(addParticipantResult.operationContext);
+        assert.equal(addParticipantResult.status, "running");
+        assert.isNotNull(addParticipantResult.resultDetails);
 
         // Remove Participant
         await TestUtils.delayIfLive();

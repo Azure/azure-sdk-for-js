@@ -196,7 +196,8 @@ export const returnFaceAttributes: msRest.OperationQueryParameter = {
             "blur",
             "exposure",
             "noise",
-            "mask"
+            "mask",
+            "qualityForRecognition"
           ]
         }
       }

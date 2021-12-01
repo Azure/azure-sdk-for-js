@@ -160,7 +160,7 @@ async function run(): Promise<void> {
       fromNowResults2.map((v) => parseInt(v.id))
     );
   } catch (err) {
-    if (err && err.code !== undefined) {
+    if (err) {
       console.log("Threw, as expected");
     } else {
       throw err;

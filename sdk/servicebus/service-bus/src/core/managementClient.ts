@@ -320,6 +320,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
     };
 
     let waitTimer: ReturnType<typeof setTimeout>;
+    // eslint-disable-next-line promise/param-names
     const operationTimeout = new Promise<void>((_, reject) => {
       waitTimer = setTimeout(() => actionAfterTimeout(reject), retryTimeoutInMs);
     });
@@ -1344,12 +1345,12 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
 export function toScheduleableMessage(
   item: ServiceBusMessage | AmqpAnnotatedMessage,
   scheduledEnqueueTimeUtc: Date
-) {
+): Record<string, unknown> {
   const rheaMessage = toRheaMessage(item, defaultDataTransformer);
   updateMessageId(rheaMessage, rheaMessage.message_id || generate_uuid());
   updateScheduledTime(rheaMessage, scheduledEnqueueTimeUtc);
 
-  const entry: any = {
+  const entry: Record<string, unknown> = {
     message: RheaMessageUtil.encode(rheaMessage),
     "message-id": rheaMessage.message_id
   };

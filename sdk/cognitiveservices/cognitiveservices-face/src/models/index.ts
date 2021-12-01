@@ -330,6 +330,12 @@ export interface FaceAttributes {
    * Properties describing the presence of a mask on a given face.
    */
   mask?: Mask;
+  /**
+   * Properties describing the overall image quality regarding whether the image being used in the
+   * detection is of sufficient quality to attempt face recognition on. Possible values include:
+   * 'Low', 'Medium', 'High'
+   */
+  qualityForRecognition?: QualityForRecognition;
 }
 
 /**
@@ -454,7 +460,7 @@ export interface IdentifyRequest {
    */
   largePersonGroupId?: string;
   /**
-   * The range of maxNumOfCandidatesReturned is between 1 and 5 (default is 1). Default value: 1.
+   * The range of maxNumOfCandidatesReturned is between 1 and 100 (default is 1). Default value: 1.
    */
   maxNumOfCandidatesReturned?: number;
   /**
@@ -574,11 +580,11 @@ export interface PersistedFace {
  * A combination of user defined name and user specified data for the person,
  * largePersonGroup/personGroup, and largeFaceList/faceList.
  */
-export interface NameAndUserDataContract {
+export interface NonNullableNameAndNullableUserDataContract {
   /**
    * User defined name, maximum length is 128.
    */
-  name?: string;
+  name: string;
   /**
    * User specified data. Length should not exceed 16KB.
    */
@@ -589,7 +595,7 @@ export interface NameAndUserDataContract {
  * A combination of user defined name and user specified data and recognition model name for
  * largePersonGroup/personGroup, and largeFaceList/faceList.
  */
-export interface MetaDataContract extends NameAndUserDataContract {
+export interface MetaDataContract extends NonNullableNameAndNullableUserDataContract {
   /**
    * Possible values include: 'recognition_01', 'recognition_02', 'recognition_03',
    * 'recognition_04'. Default value: 'recognition_01'.
@@ -619,6 +625,21 @@ export interface PersonGroup extends MetaDataContract {
    * PersonGroupId of the target person group.
    */
   personGroupId: string;
+}
+
+/**
+ * A combination of user defined name and user specified data for the person,
+ * largePersonGroup/personGroup, and largeFaceList/faceList.
+ */
+export interface NameAndUserDataContract {
+  /**
+   * User defined name, maximum length is 128.
+   */
+  name?: string;
+  /**
+   * User specified data. Length should not exceed 16KB.
+   */
+  userData?: string;
 }
 
 /**
@@ -903,7 +924,7 @@ export interface FaceIdentifyOptionalParams extends msRest.RequestOptionsBase {
    */
   largePersonGroupId?: string;
   /**
-   * The range of maxNumOfCandidatesReturned is between 1 and 5 (default is 1). Default value: 1.
+   * The range of maxNumOfCandidatesReturned is between 1 and 100 (default is 1). Default value: 1.
    */
   maxNumOfCandidatesReturned?: number;
   /**
@@ -931,9 +952,11 @@ export interface FaceDetectWithUrlOptionalParams extends msRest.RequestOptionsBa
    * Analyze and return the one or more specified face attributes in the comma-separated string
    * like "returnFaceAttributes=age,gender". The available attributes depends on the
    * 'detectionModel' specified. 'detection_01' supports age, gender, headPose, smile, facialHair,
-   * glasses, emotion, hair, makeup, occlusion, accessories, blur, exposure, and noise. While
-   * 'detection_02' does not support any attributes and 'detection_03' only supports mask. Note
-   * that each face attribute analysis has additional computational and time cost.
+   * glasses, emotion, hair, makeup, occlusion, accessories, blur, exposure, noise, and
+   * qualityForRecognition. While 'detection_02' does not support any attributes and 'detection_03'
+   * only supports mask and qualityForRecognition. Additionally, qualityForRecognition is only
+   * supported when the 'recognitionModel' is specified as 'recognition_03' or 'recognition_04'.
+   * Note that each face attribute analysis has additional computational and time cost.
    */
   returnFaceAttributes?: FaceAttributeType[];
   /**
@@ -1001,9 +1024,11 @@ export interface FaceDetectWithStreamOptionalParams extends msRest.RequestOption
    * Analyze and return the one or more specified face attributes in the comma-separated string
    * like "returnFaceAttributes=age,gender". The available attributes depends on the
    * 'detectionModel' specified. 'detection_01' supports age, gender, headPose, smile, facialHair,
-   * glasses, emotion, hair, makeup, occlusion, accessories, blur, exposure, and noise. While
-   * 'detection_02' does not support any attributes and 'detection_03' only supports mask. Note
-   * that each face attribute analysis has additional computational and time cost.
+   * glasses, emotion, hair, makeup, occlusion, accessories, blur, exposure, noise, and
+   * qualityForRecognition. While 'detection_02' does not support any attributes and 'detection_03'
+   * only supports mask and qualityForRecognition. Additionally, qualityForRecognition is only
+   * supported when the 'recognitionModel' is specified as 'recognition_03' or 'recognition_04'.
+   * Note that each face attribute analysis has additional computational and time cost.
    */
   returnFaceAttributes?: FaceAttributeType[];
   /**
@@ -1142,10 +1167,6 @@ export interface PersonGroupPersonAddFaceFromStreamOptionalParams extends msRest
  */
 export interface PersonGroupCreateOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * User defined name, maximum length is 128.
-   */
-  name?: string;
-  /**
    * User specified data. Length should not exceed 16KB.
    */
   userData?: string;
@@ -1204,10 +1225,6 @@ export interface PersonGroupListOptionalParams extends msRest.RequestOptionsBase
  * Optional Parameters.
  */
 export interface FaceListCreateOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * User defined name, maximum length is 128.
-   */
-  name?: string;
   /**
    * User specified data. Length should not exceed 16KB.
    */
@@ -1412,10 +1429,6 @@ export interface LargePersonGroupPersonAddFaceFromStreamOptionalParams extends m
  */
 export interface LargePersonGroupCreateOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * User defined name, maximum length is 128.
-   */
-  name?: string;
-  /**
    * User specified data. Length should not exceed 16KB.
    */
   userData?: string;
@@ -1475,10 +1488,6 @@ export interface LargePersonGroupListOptionalParams extends msRest.RequestOption
  */
 export interface LargeFaceListCreateOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * User defined name, maximum length is 128.
-   */
-  name?: string;
-  /**
    * User specified data. Length should not exceed 16KB.
    */
   userData?: string;
@@ -1523,6 +1532,15 @@ export interface LargeFaceListListOptionalParams extends msRest.RequestOptionsBa
    * value: false.
    */
   returnRecognitionModel?: boolean;
+  /**
+   * Starting large face list id to return (used to list a range of large face lists).
+   */
+  start?: string;
+  /**
+   * Number of large face lists to return starting with the large face list id indicated by the
+   * 'start' parameter.
+   */
+  top?: number;
 }
 
 /**
@@ -1751,6 +1769,14 @@ export type NoiseLevel = 'Low' | 'Medium' | 'High';
 export type MaskType = 'noMask' | 'faceMask' | 'otherMaskOrOcclusion' | 'uncertain';
 
 /**
+ * Defines values for QualityForRecognition.
+ * Possible values include: 'Low', 'Medium', 'High'
+ * @readonly
+ * @enum {string}
+ */
+export type QualityForRecognition = 'Low' | 'Medium' | 'High';
+
+/**
  * Defines values for FindSimilarMatchMode.
  * Possible values include: 'matchPerson', 'matchFace'
  * @readonly
@@ -1793,11 +1819,12 @@ export type OperationStatusType = 'notstarted' | 'running' | 'succeeded' | 'fail
 /**
  * Defines values for FaceAttributeType.
  * Possible values include: 'age', 'gender', 'headPose', 'smile', 'facialHair', 'glasses',
- * 'emotion', 'hair', 'makeup', 'occlusion', 'accessories', 'blur', 'exposure', 'noise', 'mask'
+ * 'emotion', 'hair', 'makeup', 'occlusion', 'accessories', 'blur', 'exposure', 'noise', 'mask',
+ * 'qualityForRecognition'
  * @readonly
  * @enum {string}
  */
-export type FaceAttributeType = 'age' | 'gender' | 'headPose' | 'smile' | 'facialHair' | 'glasses' | 'emotion' | 'hair' | 'makeup' | 'occlusion' | 'accessories' | 'blur' | 'exposure' | 'noise' | 'mask';
+export type FaceAttributeType = 'age' | 'gender' | 'headPose' | 'smile' | 'facialHair' | 'glasses' | 'emotion' | 'hair' | 'makeup' | 'occlusion' | 'accessories' | 'blur' | 'exposure' | 'noise' | 'mask' | 'qualityForRecognition';
 
 /**
  * Defines values for DetectionModel.

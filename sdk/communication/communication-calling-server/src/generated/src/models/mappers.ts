@@ -757,10 +757,30 @@ export const AddParticipantResult: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "AddParticipantResult",
     modelProperties: {
-      participantId: {
-        serializedName: "participantId",
+      operationId: {
+        serializedName: "operationId",
         type: {
           name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      operationContext: {
+        serializedName: "operationContext",
+        type: {
+          name: "String"
+        }
+      },
+      resultDetails: {
+        serializedName: "resultDetails",
+        type: {
+          name: "Composite",
+          className: "CallingOperationResultDetails"
         }
       }
     }

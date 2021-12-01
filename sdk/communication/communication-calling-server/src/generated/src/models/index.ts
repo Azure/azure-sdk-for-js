@@ -261,8 +261,14 @@ export interface AddParticipantWithCallLocatorRequest {
 
 /** The add participant result */
 export interface AddParticipantResult {
-  /** The id of the added participant. */
-  participantId?: string;
+  /** The operation id. */
+  operationId?: string;
+  /** The status of the operation */
+  status: CallingOperationStatus;
+  /** The operation context provided by client. */
+  operationContext?: string;
+  /** The result info for the operation. */
+  resultDetails?: CallingOperationResultDetails;
 }
 
 /** The remove participant by identifier request. */
@@ -363,7 +369,7 @@ export interface CancelParticipantMediaOperationRequest {
   mediaOperationId: string;
 }
 
-/** The request payload for muting any participant */
+/** The request payload to mute a participant */
 export interface MuteParticipantRequest {
   /** The identifier of the participant to be muted in the call. */
   identifier: CommunicationIdentifierModel;
@@ -371,7 +377,7 @@ export interface MuteParticipantRequest {
   operationContext?: string;
 }
 
-/** The request payload for unmuting any participant */
+/** The request payload to unmute a participant */
 export interface UnmuteParticipantRequest {
   /** The identifier of the participant to be unmuted in the call. */
   identifier: CommunicationIdentifierModel;
