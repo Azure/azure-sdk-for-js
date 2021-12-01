@@ -4,8 +4,6 @@ parameters:
   TestPipeline: false
 
 steps:
-  - template: /eng/pipelines/templates/steps/use-node-version.yml
-
   - template: /eng/common/pipelines/templates/steps/check-spelling.yml
 
   - task: PowerShell@2
