@@ -1135,6 +1135,11 @@
       "packageName": "@azure/arm-portal",
       "projectFolder": "sdk/portal/arm-portal",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/instrumentation-opentelemetry",
+      "projectFolder": "sdk/instrumentation/instrumentation-opentelemetry",
+      "versionPolicyName": "client"
     }
   ]
 }

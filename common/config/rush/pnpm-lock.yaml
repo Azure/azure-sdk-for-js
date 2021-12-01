@@ -101,6 +101,7 @@ specifiers:
   '@rush-temp/identity': file:./projects/identity.tgz
   '@rush-temp/identity-cache-persistence': file:./projects/identity-cache-persistence.tgz
   '@rush-temp/identity-vscode': file:./projects/identity-vscode.tgz
+  '@rush-temp/instrumentation-opentelemetry': file:./projects/instrumentation-opentelemetry.tgz
   '@rush-temp/iot-device-update': file:./projects/iot-device-update.tgz
   '@rush-temp/iot-modelsrepository': file:./projects/iot-modelsrepository.tgz
   '@rush-temp/keyvault-admin': file:./projects/keyvault-admin.tgz
@@ -266,6 +267,7 @@ dependencies:
   '@rush-temp/identity': file:projects/identity.tgz
   '@rush-temp/identity-cache-persistence': file:projects/identity-cache-persistence.tgz
   '@rush-temp/identity-vscode': file:projects/identity-vscode.tgz
+  '@rush-temp/instrumentation-opentelemetry': file:projects/instrumentation-opentelemetry.tgz
   '@rush-temp/iot-device-update': file:projects/iot-device-update.tgz
   '@rush-temp/iot-modelsrepository': file:projects/iot-modelsrepository.tgz
   '@rush-temp/keyvault-admin': file:projects/keyvault-admin.tgz
@@ -1541,6 +1543,11 @@ packages:
       '@opentelemetry/api': 1.0.3
     dev: false
 
+  /@opentelemetry/api-metrics/0.27.0:
+    resolution: {integrity: sha512-tB79288bwjkdhPNpw4UdOEy3bacVwtol6Que7cAu8KEJ9ULjRfSiwpYEwJY/oER3xZ7zNFz0uiJ7N1jSiotpVA==}
+    engines: {node: '>=8.0.0'}
+    dev: false
+
   /@opentelemetry/api/0.10.2:
     resolution: {integrity: sha512-GtpMGd6vkzDMYcpu2t9LlhEgMy/SzBwRnz48EejlRArYqZzqSzAsKmegUK7zHgl+EOIaK9mKHhnRaQu3qw20cA==}
     engines: {node: '>=8.0.0'}
@@ -1612,9 +1619,24 @@ packages:
       - supports-color
     dev: false
 
+  /@opentelemetry/instrumentation/0.27.0_@opentelemetry+api@1.0.3:
+    resolution: {integrity: sha512-dUwY/VoDptdK8AYigwS3IKblG+unV5xIdV4VQKy+nX5aT3f7vd5PMYs4arCQSYLbLRe0s7GxK6S9dtjai/TsHQ==}
+    peerDependencies:
+      '@opentelemetry/api': ^1.0.0
+    dependencies:
+      '@opentelemetry/api': 1.0.3
+      '@opentelemetry/api-metrics': 0.27.0
+      require-in-the-middle: 5.1.0
+      semver: 7.3.5
+      shimmer: 1.2.1
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@opentelemetry/node/0.22.0_@opentelemetry+api@1.0.3:
     resolution: {integrity: sha512-+HhGbDruQ7cwejVOIYyxRa28uosnG8W95NiQZ6qE8PXXPsDSyGeftAPbtYpGit0H2f5hrVcMlwmWHeAo9xkSLA==}
     engines: {node: '>=8.0.0'}
+    deprecated: Package renamed to @opentelemetry/sdk-trace-node
     peerDependencies:
       '@opentelemetry/api': ^1.0.0
     dependencies:
@@ -1825,8 +1847,28 @@ packages:
       '@sinonjs/commons': 1.8.3
     dev: false
 
+  /@sinonjs/fake-timers/7.1.2:
+    resolution: {integrity: sha512-iQADsW4LBMISqZ6Ci1dupJL9pprqwcVFTcOsEmQOEhW+KLCVn/Y4Jrvg2k19fIHCp+iFprriYPTdRcQR8NbUPg==}
+    dependencies:
+      '@sinonjs/commons': 1.8.3
+    dev: false
+
+  /@sinonjs/fake-timers/8.1.0:
+    resolution: {integrity: sha512-OAPJUAtgeINhh/TAlUID4QTs53Njm7xzddaVlEs/SXwgtiD1tW22zAB/W1wdqfrpmikgaWQ9Fw6Ws+hsiRm5Vg==}
+    dependencies:
+      '@sinonjs/commons': 1.8.3
+    dev: false
+
   /@sinonjs/samsam/5.3.1:
     resolution: {integrity: sha512-1Hc0b1TtyfBu8ixF/tpfSHTVWKwCBLY4QJbkgnE7HcwyvT2xArDxb4K7dMgqRm3szI+LJbzmW/s4xxEhv6hwDg==}
+    dependencies:
+      '@sinonjs/commons': 1.8.3
+      lodash.get: 4.4.2
+      type-detect: 4.0.8
+    dev: false
+
+  /@sinonjs/samsam/6.0.2:
+    resolution: {integrity: sha512-jxPRPp9n93ci7b8hMfJOFDPRLFYadN6FSpeROFTR4UNF4i5b+EK6m4QXPO46BDhFgRy1JuS87zAnFOzCUwMJcQ==}
     dependencies:
       '@sinonjs/commons': 1.8.3
       lodash.get: 4.4.2
@@ -2103,6 +2145,12 @@ packages:
     dependencies:
       '@types/mime': 1.3.2
       '@types/node': 12.20.37
+    dev: false
+
+  /@types/sinon/10.0.6:
+    resolution: {integrity: sha512-6EF+wzMWvBNeGrfP3Nx60hhx+FfwSg1JJBLAAP/IdIUq0EYkqCYf70VT3PhuhPX9eLD+Dp+lNdpb/ZeHG8Yezg==}
+    dependencies:
+      '@sinonjs/fake-timers': 7.1.2
     dev: false
 
   /@types/sinon/9.0.11:
@@ -3388,6 +3436,11 @@ packages:
 
   /diff/4.0.2:
     resolution: {integrity: sha512-58lmxKSA4BNyLz+HHMUzlOEpg09FV+ev6ZMe3vJihgdxzgcwZ8VoEEPmALCZG9LmqfVoNMMKpttIYTVG6uDY7A==}
+    engines: {node: '>=0.3.1'}
+    dev: false
+
+  /diff/5.0.0:
+    resolution: {integrity: sha512-/VTCrvm5Z0JGty/BWHljh+BAiw3IK+2j87NGMu8Nwc/f48WoDAC395uomO9ZD117ZOBaHmkX1oyLvkVM/aIT3w==}
     engines: {node: '>=0.3.1'}
     dev: false
 
@@ -5888,6 +5941,16 @@ packages:
       path-to-regexp: 1.8.0
     dev: false
 
+  /nise/5.1.0:
+    resolution: {integrity: sha512-W5WlHu+wvo3PaKLsJJkgPup2LrsXCcm7AWwyNZkUnn5rwPkuPBi3Iwk5SQtN0mv+K65k7nKKjwNQ30wg3wLAQQ==}
+    dependencies:
+      '@sinonjs/commons': 1.8.3
+      '@sinonjs/fake-timers': 7.1.2
+      '@sinonjs/text-encoding': 0.7.1
+      just-extend: 4.2.1
+      path-to-regexp: 1.8.0
+    dev: false
+
   /nock/12.0.3:
     resolution: {integrity: sha512-QNb/j8kbFnKCiyqi9C5DD0jH/FubFGj5rt9NQFONXwQm3IPB0CULECg/eS3AU1KgZb/6SwUa4/DTRKhVxkGABw==}
     engines: {node: '>= 10.13'}
@@ -7055,6 +7118,17 @@ packages:
       decompress-response: 4.2.1
       once: 1.4.0
       simple-concat: 1.0.1
+    dev: false
+
+  /sinon/12.0.1:
+    resolution: {integrity: sha512-iGu29Xhym33ydkAT+aNQFBINakjq69kKO6ByPvTsm3yyIACfyQttRTP03aBP/I8GfhFmLzrnKwNNkr0ORb1udg==}
+    dependencies:
+      '@sinonjs/commons': 1.8.3
+      '@sinonjs/fake-timers': 8.1.0
+      '@sinonjs/samsam': 6.0.2
+      diff: 5.0.0
+      nise: 5.1.0
+      supports-color: 7.2.0
     dev: false
 
   /sinon/9.2.4:
@@ -10833,7 +10907,7 @@ packages:
     dev: false
 
   file:projects/core-tracing.tgz:
-    resolution: {integrity: sha512-f61XTsl+LjwqPrnFo3B2Y62ZxqWYFKRTNrV/BYqo72zS8RAfNJ/5McNTZf3KF5XMRsmDNlNCerx9M3KHWcQilA==, tarball: file:projects/core-tracing.tgz}
+    resolution: {integrity: sha512-iiCGu7f31xqEKvVKH5EWDyO1wRWhjlA1ht30sEA0ovXlgOxFlq2xr6bkNYcVUILXAmIvdyCyuCOxYJ1CEPK7tw==, tarball: file:projects/core-tracing.tgz}
     name: '@rush-temp/core-tracing'
     version: 0.0.0
     dependencies:
@@ -10965,7 +11039,7 @@ packages:
     dev: false
 
   file:projects/cosmos.tgz:
-    resolution: {integrity: sha512-MkpEMvRs6PSK3gmrUxl1T4dle8/dMBEwhNUzj+NRmcrDtovKjHRZiH//cXk3Fh3O0xlJe3Du6aTNxtQ1VIYPKg==, tarball: file:projects/cosmos.tgz}
+    resolution: {integrity: sha512-AeGLDOv/hdOpUCcWJdDLbcQKTgi6zgcAFcAP4mNkTCAU5QvHVAz2bc1xQaeA336B4YWb2JC51wS8vVMRLQGZAw==, tarball: file:projects/cosmos.tgz}
     name: '@rush-temp/cosmos'
     version: 0.0.0
     dependencies:
@@ -11660,6 +11734,56 @@ packages:
       typescript: 4.2.4
       util: 0.12.4
       uuid: 8.3.2
+    transitivePeerDependencies:
+      - bufferutil
+      - debug
+      - supports-color
+      - utf-8-validate
+    dev: false
+
+  file:projects/instrumentation-opentelemetry.tgz:
+    resolution: {integrity: sha512-T6QnQ6wVHA0RRZpRcXtL38MmoMiOFnMpDj76Awdq+9t4ZTMGY0SnXmzCNA+f78ra67S9tWgcSOOXwNI+01OAlw==, tarball: file:projects/instrumentation-opentelemetry.tgz}
+    name: '@rush-temp/instrumentation-opentelemetry'
+    version: 0.0.0
+    dependencies:
+      '@microsoft/api-extractor': 7.18.19
+      '@opentelemetry/api': 1.0.3
+      '@opentelemetry/instrumentation': 0.27.0_@opentelemetry+api@1.0.3
+      '@types/chai': 4.2.22
+      '@types/mocha': 7.0.2
+      '@types/node': 12.20.37
+      '@types/sinon': 10.0.6
+      chai: 4.3.4
+      cross-env: 7.0.3
+      dotenv: 8.6.0
+      downlevel-dts: 0.4.0
+      eslint: 7.32.0
+      esm: 3.2.25
+      inherits: 2.0.4
+      karma: 6.3.8
+      karma-chrome-launcher: 3.1.0
+      karma-coverage: 2.0.3
+      karma-edge-launcher: 0.4.2_karma@6.3.8
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 1.3.0
+      karma-ie-launcher: 1.0.0_karma@6.3.8
+      karma-json-preprocessor: 0.3.3_karma@6.3.8
+      karma-json-to-file-reporter: 1.0.1
+      karma-junit-reporter: 2.0.1_karma@6.3.8
+      karma-mocha: 2.0.1
+      karma-mocha-reporter: 2.2.5_karma@6.3.8
+      mocha: 7.2.0
+      mocha-junit-reporter: 1.23.3_mocha@7.2.0
+      nyc: 14.1.1
+      prettier: 1.19.1
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      sinon: 12.0.1
+      source-map-support: 0.5.20
+      tslib: 2.3.1
+      typedoc: 0.15.2
+      typescript: 4.2.4
+      util: 0.12.4
     transitivePeerDependencies:
       - bufferutil
       - debug
