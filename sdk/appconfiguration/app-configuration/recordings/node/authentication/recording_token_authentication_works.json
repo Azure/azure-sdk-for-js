@@ -1,0 +1,54 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://myappconfig.azconfig.io/kv/token-authentication-test-1169?api-version=1.0",
+      "RequestMethod": "PUT",
+      "RequestHeaders": {
+        "Accept": "application/vnd.microsoft.appconfig.kv\u002Bjson, application/json, application/problem\u002Bjson",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "close",
+        "Content-Length": "56",
+        "Content-Type": "application/vnd.microsoft.appconfig.kv\u002Bjson",
+        "Cookie": "",
+        "If-None-Match": "*",
+        "User-Agent": "azsdk-js-app-configuration/1.3.1 core-http/2.2.3 Node/v14.17.6 OS/(x64-Linux-5.4.0-1063-azure)",
+        "x-ms-client-request-id": "3b1b39d9-abb5-4c15-b2ab-fa2f58003e1e"
+      },
+      "RequestBody": {
+        "key": "token-authentication-test-1169",
+        "value": "hello"
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Access-Control-Allow-Credentials": "true",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Expose-Headers": "DNT, X-CustomHeader, Keep-Alive, User-Agent, X-Requested-With, If-Modified-Since, Cache-Control, Content-Type, Authorization, x-ms-client-request-id, x-ms-useragent, x-ms-content-sha256, x-ms-date, host, Accept, Accept-Datetime, Date, If-Match, If-None-Match, Sync-Token, x-ms-return-client-request-id, ETag, Last-Modified, Link, Memento-Datetime, retry-after-ms, x-ms-request-id, x-ms-client-session-id, x-ms-effective-locale, WWW-Authenticate, traceparent, tracestate",
+        "Connection": "close",
+        "Content-Type": "application/vnd.microsoft.appconfig.kv\u002Bjson; charset=utf-8",
+        "Date": "Wed, 01 Dec 2021 02:23:40 GMT",
+        "ETag": "\u0022jHnSsNSkboEWJFD7nnfzHgnZjRA\u0022",
+        "Last-Modified": "Wed, 01 Dec 2021 02:23:41 GMT",
+        "Server": "openresty/1.17.8.2",
+        "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
+        "Sync-Token": "zAJw6V16=NDoxOSM1MTExMTQ3;sn=5111147",
+        "Transfer-Encoding": "chunked",
+        "x-ms-correlation-request-id": "c520e622-75fa-4362-b6b7-de3ff0636a03",
+        "x-ms-request-id": "c520e622-75fa-4362-b6b7-de3ff0636a03"
+      },
+      "ResponseBody": {
+        "etag": "jHnSsNSkboEWJFD7nnfzHgnZjRA",
+        "key": "token-authentication-test-1169",
+        "label": null,
+        "content_type": null,
+        "value": "hello",
+        "tags": {},
+        "locked": false,
+        "last_modified": "2021-12-01T02:23:41\u002B00:00"
+      }
+    }
+  ],
+  "Variables": {
+    "label-1": "1169"
+  }
+}
