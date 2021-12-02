@@ -56,6 +56,8 @@ https://nodejs.org/en/download/
 In a console window (such as cmd, PowerShell, or Bash), create a new folder named `RouterQuickStart` and use `npx express-generator` to create a new Express app in the current folder. This will create a simple "Hello World" Express project that will listen on port `3000`, as follows:
 
 ```
+mkdir RouterQuickStart
+cd RouterQuickStart
 npx express-generator
 npm install
 DEBUG=routerquickstart:* npm start
