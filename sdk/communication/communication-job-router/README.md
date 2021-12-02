@@ -65,7 +65,7 @@ DEBUG=routerquickstart:* npm start
 
 ###Create an ACS resource under dogfood
 Refer to this doc, https://skype.visualstudio.com/SPOOL/_wiki/wikis/SPOOL.wiki/20243/Azure-dogfood-env
-Create a new resource or use existing resource. If creating a resource, select acs-pstn-dogfood as resource group.
+Create a new resource or use existing resource. If creating a resource, select `acs-pstn-dogfood` as resource group.
 
 ![image.png](/.attachments/image-1a0118bb-0063-420b-924a-943b66ef0d01.png)
 
