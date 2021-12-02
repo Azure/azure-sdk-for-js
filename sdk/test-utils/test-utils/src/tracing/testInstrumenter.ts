@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import {
   Instrumenter,
   InstrumenterSpanOptions,
@@ -12,6 +15,7 @@ export class TestInstrumeter implements Instrumenter {
   public contexts: TracingContext[] = [new ContextImpl()];
   public startedSpans: TestTracingSpan[] = [];
 
+  // TODO: spanOptions.tracingContext should be renamed to existingContext?
   startSpan(
     name: string,
     spanOptions?: InstrumenterSpanOptions

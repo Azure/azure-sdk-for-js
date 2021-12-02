@@ -5226,8 +5226,8 @@ packages:
       which: 1.3.1
     dev: false
 
-  /karma-coverage/2.0.3:
-    resolution: {integrity: sha512-atDvLQqvPcLxhED0cmXYdsPMCQuh6Asa9FMZW1bhNqlVEhJoB9qyZ2BY1gu7D/rr5GLGb5QzYO4siQskxaWP/g==}
+  /karma-coverage/2.1.0:
+    resolution: {integrity: sha512-uIejpnArNFQIovB6EPsKO/T4XofELdJWXcA2ADXztFlKhHbr0Ws6ba7wKTMVWsIhEs4iJxdhQkCQrkkhFJSZCw==}
     engines: {node: '>=10.0.0'}
     dependencies:
       istanbul-lib-coverage: 3.2.0
@@ -8293,7 +8293,7 @@ packages:
       eslint: 7.32.0
       karma: 6.3.9
       karma-chrome-launcher: 3.1.0
-      karma-coverage: 2.0.3
+      karma-coverage: 2.1.0
       karma-edge-launcher: 0.4.2_karma@6.3.9
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
@@ -8338,7 +8338,7 @@ packages:
       eslint: 7.32.0
       karma: 6.3.9
       karma-chrome-launcher: 3.1.0
-      karma-coverage: 2.0.3
+      karma-coverage: 2.1.0
       karma-edge-launcher: 0.4.2_karma@6.3.9
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
@@ -8391,7 +8391,7 @@ packages:
       inherits: 2.0.4
       karma: 6.3.9
       karma-chrome-launcher: 3.1.0
-      karma-coverage: 2.0.3
+      karma-coverage: 2.1.0
       karma-edge-launcher: 0.4.2_karma@6.3.9
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
@@ -8437,7 +8437,7 @@ packages:
       eslint: 7.32.0
       karma: 6.3.9
       karma-chrome-launcher: 3.1.0
-      karma-coverage: 2.0.3
+      karma-coverage: 2.1.0
       karma-edge-launcher: 0.4.2_karma@6.3.9
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
@@ -8484,7 +8484,7 @@ packages:
       eslint: 7.32.0
       karma: 6.3.9
       karma-chrome-launcher: 3.1.0
-      karma-coverage: 2.0.3
+      karma-coverage: 2.1.0
       karma-edge-launcher: 0.4.2_karma@6.3.9
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
@@ -8531,7 +8531,7 @@ packages:
       eslint: 7.32.0
       karma: 6.3.9
       karma-chrome-launcher: 3.1.0
-      karma-coverage: 2.0.3
+      karma-coverage: 2.1.0
       karma-edge-launcher: 0.4.2_karma@6.3.9
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
@@ -8582,7 +8582,7 @@ packages:
       eslint: 7.32.0
       karma: 6.3.9
       karma-chrome-launcher: 3.1.0
-      karma-coverage: 2.0.3
+      karma-coverage: 2.1.0
       karma-edge-launcher: 0.4.2_karma@6.3.9
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
@@ -8641,7 +8641,7 @@ packages:
       esm: 3.2.25
       karma: 6.3.9
       karma-chrome-launcher: 3.1.0
-      karma-coverage: 2.0.3
+      karma-coverage: 2.1.0
       karma-edge-launcher: 0.4.2_karma@6.3.9
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
@@ -9792,7 +9792,7 @@ packages:
       jsrsasign: 10.5.1
       karma: 6.3.9
       karma-chrome-launcher: 3.1.0
-      karma-coverage: 2.0.3
+      karma-coverage: 2.1.0
       karma-edge-launcher: 0.4.2_karma@6.3.9
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
@@ -9854,7 +9854,7 @@ packages:
       inherits: 2.0.4
       karma: 6.3.9
       karma-chrome-launcher: 3.1.0
-      karma-coverage: 2.0.3
+      karma-coverage: 2.1.0
       karma-edge-launcher: 0.4.2_karma@6.3.9
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
@@ -9916,7 +9916,7 @@ packages:
       jwt-decode: 2.2.0
       karma: 6.3.9
       karma-chrome-launcher: 3.1.0
-      karma-coverage: 2.0.3
+      karma-coverage: 2.1.0
       karma-edge-launcher: 0.4.2_karma@6.3.9
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
@@ -9971,7 +9971,7 @@ packages:
       inherits: 2.0.4
       karma: 6.3.9
       karma-chrome-launcher: 3.1.0
-      karma-coverage: 2.0.3
+      karma-coverage: 2.1.0
       karma-edge-launcher: 0.4.2_karma@6.3.9
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
@@ -10029,7 +10029,7 @@ packages:
       inherits: 2.0.4
       karma: 6.3.9
       karma-chrome-launcher: 3.1.0
-      karma-coverage: 2.0.3
+      karma-coverage: 2.1.0
       karma-edge-launcher: 0.4.2_karma@6.3.9
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
@@ -10086,7 +10086,7 @@ packages:
       inherits: 2.0.4
       karma: 6.3.9
       karma-chrome-launcher: 3.1.0
-      karma-coverage: 2.0.3
+      karma-coverage: 2.1.0
       karma-edge-launcher: 0.4.2_karma@6.3.9
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
@@ -10144,7 +10144,7 @@ packages:
       inherits: 2.0.4
       karma: 6.3.9
       karma-chrome-launcher: 3.1.0
-      karma-coverage: 2.0.3
+      karma-coverage: 2.1.0
       karma-edge-launcher: 0.4.2_karma@6.3.9
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
@@ -10201,7 +10201,7 @@ packages:
       inherits: 2.0.4
       karma: 6.3.9
       karma-chrome-launcher: 3.1.0
-      karma-coverage: 2.0.3
+      karma-coverage: 2.1.0
       karma-edge-launcher: 0.4.2_karma@6.3.9
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
@@ -10248,7 +10248,7 @@ packages:
       eslint: 7.32.0
       karma: 6.3.9
       karma-chrome-launcher: 3.1.0
-      karma-coverage: 2.0.3
+      karma-coverage: 2.1.0
       karma-edge-launcher: 0.4.2_karma@6.3.9
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
@@ -10296,7 +10296,7 @@ packages:
       inherits: 2.0.4
       karma: 6.3.9
       karma-chrome-launcher: 3.1.0
-      karma-coverage: 2.0.3
+      karma-coverage: 2.1.0
       karma-edge-launcher: 0.4.2_karma@6.3.9
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
@@ -10442,7 +10442,7 @@ packages:
       inherits: 2.0.4
       karma: 6.3.9
       karma-chrome-launcher: 3.1.0
-      karma-coverage: 2.0.3
+      karma-coverage: 2.1.0
       karma-edge-launcher: 0.4.2_karma@6.3.9
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
@@ -10487,7 +10487,7 @@ packages:
       inherits: 2.0.4
       karma: 6.3.9
       karma-chrome-launcher: 3.1.0
-      karma-coverage: 2.0.3
+      karma-coverage: 2.1.0
       karma-edge-launcher: 0.4.2_karma@6.3.9
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
@@ -10529,7 +10529,7 @@ packages:
       inherits: 2.0.4
       karma: 6.3.9
       karma-chrome-launcher: 3.1.0
-      karma-coverage: 2.0.3
+      karma-coverage: 2.1.0
       karma-edge-launcher: 0.4.2_karma@6.3.9
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
@@ -10571,7 +10571,7 @@ packages:
       inherits: 2.0.4
       karma: 6.3.9
       karma-chrome-launcher: 3.1.0
-      karma-coverage: 2.0.3
+      karma-coverage: 2.1.0
       karma-edge-launcher: 0.4.2_karma@6.3.9
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
@@ -10616,7 +10616,7 @@ packages:
       eslint: 7.32.0
       karma: 6.3.9
       karma-chrome-launcher: 3.1.0
-      karma-coverage: 2.0.3
+      karma-coverage: 2.1.0
       karma-edge-launcher: 0.4.2_karma@6.3.9
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
@@ -10726,7 +10726,7 @@ packages:
       eslint: 7.32.0
       karma: 6.3.9
       karma-chrome-launcher: 3.1.0
-      karma-coverage: 2.0.3
+      karma-coverage: 2.1.0
       karma-edge-launcher: 0.4.2_karma@6.3.9
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
@@ -10770,7 +10770,7 @@ packages:
       eslint: 7.32.0
       karma: 6.3.9
       karma-chrome-launcher: 3.1.0
-      karma-coverage: 2.0.3
+      karma-coverage: 2.1.0
       karma-edge-launcher: 0.4.2_karma@6.3.9
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
@@ -10817,7 +10817,7 @@ packages:
       inherits: 2.0.4
       karma: 6.3.9
       karma-chrome-launcher: 3.1.0
-      karma-coverage: 2.0.3
+      karma-coverage: 2.1.0
       karma-edge-launcher: 0.4.2_karma@6.3.9
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
@@ -10861,7 +10861,7 @@ packages:
       inherits: 2.0.4
       karma: 6.3.9
       karma-chrome-launcher: 3.1.0
-      karma-coverage: 2.0.3
+      karma-coverage: 2.1.0
       karma-edge-launcher: 0.4.2_karma@6.3.9
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
@@ -10904,7 +10904,7 @@ packages:
       inherits: 2.0.4
       karma: 6.3.9
       karma-chrome-launcher: 3.1.0
-      karma-coverage: 2.0.3
+      karma-coverage: 2.1.0
       karma-edge-launcher: 0.4.2_karma@6.3.9
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
@@ -10948,7 +10948,7 @@ packages:
       inherits: 2.0.4
       karma: 6.3.9
       karma-chrome-launcher: 3.1.0
-      karma-coverage: 2.0.3
+      karma-coverage: 2.1.0
       karma-edge-launcher: 0.4.2_karma@6.3.9
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
@@ -11051,7 +11051,7 @@ packages:
       inherits: 2.0.4
       karma: 6.3.9
       karma-chrome-launcher: 3.1.0
-      karma-coverage: 2.0.3
+      karma-coverage: 2.1.0
       karma-edge-launcher: 0.4.2_karma@6.3.9
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
@@ -11153,7 +11153,7 @@ packages:
       inherits: 2.0.4
       karma: 6.3.9
       karma-chrome-launcher: 3.1.0
-      karma-coverage: 2.0.3
+      karma-coverage: 2.1.0
       karma-edge-launcher: 0.4.2_karma@6.3.9
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
@@ -11265,7 +11265,7 @@ packages:
       jssha: 3.2.0
       karma: 6.3.9_debug@4.3.3
       karma-chrome-launcher: 3.1.0
-      karma-coverage: 2.0.3
+      karma-coverage: 2.1.0
       karma-edge-launcher: 0.4.2_karma@6.3.9
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
@@ -11382,7 +11382,7 @@ packages:
       eslint: 7.32.0
       karma: 6.3.9
       karma-chrome-launcher: 3.1.0
-      karma-coverage: 2.0.3
+      karma-coverage: 2.1.0
       karma-edge-launcher: 0.4.2_karma@6.3.9
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
@@ -11453,7 +11453,7 @@ packages:
       inherits: 2.0.4
       karma: 6.3.9_debug@4.3.3
       karma-chrome-launcher: 3.1.0
-      karma-coverage: 2.0.3
+      karma-coverage: 2.1.0
       karma-edge-launcher: 0.4.2_karma@6.3.9
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
@@ -11518,7 +11518,7 @@ packages:
       inherits: 2.0.4
       karma: 6.3.9_debug@4.3.3
       karma-chrome-launcher: 3.1.0
-      karma-coverage: 2.0.3
+      karma-coverage: 2.1.0
       karma-edge-launcher: 0.4.2_karma@6.3.9
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
@@ -11649,7 +11649,7 @@ packages:
       jws: 4.0.0
       karma: 6.3.9
       karma-chrome-launcher: 3.1.0
-      karma-coverage: 2.0.3
+      karma-coverage: 2.1.0
       karma-env-preprocessor: 0.1.1
       karma-junit-reporter: 2.0.1_karma@6.3.9
       karma-mocha: 2.0.1
@@ -11698,7 +11698,7 @@ packages:
       inherits: 2.0.4
       karma: 6.3.9
       karma-chrome-launcher: 3.1.0
-      karma-coverage: 2.0.3
+      karma-coverage: 2.1.0
       karma-edge-launcher: 0.4.2_karma@6.3.9
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
@@ -11776,7 +11776,7 @@ packages:
       inherits: 2.0.4
       karma: 6.3.9
       karma-chrome-launcher: 3.1.0
-      karma-coverage: 2.0.3
+      karma-coverage: 2.1.0
       karma-edge-launcher: 0.4.2_karma@6.3.9
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
@@ -11881,7 +11881,7 @@ packages:
       esm: 3.2.25
       karma: 6.3.9
       karma-chrome-launcher: 3.1.0
-      karma-coverage: 2.0.3
+      karma-coverage: 2.1.0
       karma-edge-launcher: 0.4.2_karma@6.3.9
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
@@ -11959,7 +11959,7 @@ packages:
       esm: 3.2.25
       karma: 6.3.9
       karma-chrome-launcher: 3.1.0
-      karma-coverage: 2.0.3
+      karma-coverage: 2.1.0
       karma-edge-launcher: 0.4.2_karma@6.3.9
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
@@ -12018,7 +12018,7 @@ packages:
       esm: 3.2.25
       karma: 6.3.9
       karma-chrome-launcher: 3.1.0
-      karma-coverage: 2.0.3
+      karma-coverage: 2.1.0
       karma-edge-launcher: 0.4.2_karma@6.3.9
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
@@ -12070,7 +12070,7 @@ packages:
       eslint: 7.32.0
       karma: 6.3.9
       karma-chrome-launcher: 3.1.0
-      karma-coverage: 2.0.3
+      karma-coverage: 2.1.0
       karma-edge-launcher: 0.4.2_karma@6.3.9
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
@@ -12119,7 +12119,7 @@ packages:
       inherits: 2.0.4
       karma: 6.3.9
       karma-chrome-launcher: 3.1.0
-      karma-coverage: 2.0.3
+      karma-coverage: 2.1.0
       karma-edge-launcher: 0.4.2_karma@6.3.9
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
@@ -12167,7 +12167,7 @@ packages:
       inherits: 2.0.4
       karma: 6.3.9
       karma-chrome-launcher: 3.1.0
-      karma-coverage: 2.0.3
+      karma-coverage: 2.1.0
       karma-edge-launcher: 0.4.2_karma@6.3.9
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
@@ -12274,7 +12274,7 @@ packages:
       inherits: 2.0.4
       karma: 6.3.9
       karma-chrome-launcher: 3.1.0
-      karma-coverage: 2.0.3
+      karma-coverage: 2.1.0
       karma-edge-launcher: 0.4.2_karma@6.3.9
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
@@ -12732,7 +12732,7 @@ packages:
       eslint: 7.32.0
       karma: 6.3.9
       karma-chrome-launcher: 3.1.0
-      karma-coverage: 2.0.3
+      karma-coverage: 2.1.0
       karma-edge-launcher: 0.4.2_karma@6.3.9
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
@@ -12778,7 +12778,7 @@ packages:
       eslint: 7.32.0
       karma: 6.3.9
       karma-chrome-launcher: 3.1.0
-      karma-coverage: 2.0.3
+      karma-coverage: 2.1.0
       karma-edge-launcher: 0.4.2_karma@6.3.9
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
@@ -12824,7 +12824,7 @@ packages:
       eslint: 7.32.0
       karma: 6.3.9
       karma-chrome-launcher: 3.1.0
-      karma-coverage: 2.0.3
+      karma-coverage: 2.1.0
       karma-edge-launcher: 0.4.2_karma@6.3.9
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
@@ -12870,7 +12870,7 @@ packages:
       eslint: 7.32.0
       karma: 6.3.9
       karma-chrome-launcher: 3.1.0
-      karma-coverage: 2.0.3
+      karma-coverage: 2.1.0
       karma-edge-launcher: 0.4.2_karma@6.3.9
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
@@ -12925,7 +12925,7 @@ packages:
       inherits: 2.0.4
       karma: 6.3.9
       karma-chrome-launcher: 3.1.0
-      karma-coverage: 2.0.3
+      karma-coverage: 2.1.0
       karma-edge-launcher: 0.4.2_karma@6.3.9
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
@@ -12980,7 +12980,7 @@ packages:
       eslint: 7.32.0
       karma: 6.3.9
       karma-chrome-launcher: 3.1.0
-      karma-coverage: 2.0.3
+      karma-coverage: 2.1.0
       karma-edge-launcher: 0.4.2_karma@6.3.9
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
@@ -13028,7 +13028,7 @@ packages:
       eslint: 7.32.0
       karma: 6.3.9
       karma-chrome-launcher: 3.1.0
-      karma-coverage: 2.0.3
+      karma-coverage: 2.1.0
       karma-edge-launcher: 0.4.2_karma@6.3.9
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
@@ -13080,7 +13080,7 @@ packages:
       inherits: 2.0.4
       karma: 6.3.9
       karma-chrome-launcher: 3.1.0
-      karma-coverage: 2.0.3
+      karma-coverage: 2.1.0
       karma-edge-launcher: 0.4.2_karma@6.3.9
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
@@ -13157,7 +13157,7 @@ packages:
       jssha: 3.2.0
       karma: 6.3.9_debug@4.3.3
       karma-chrome-launcher: 3.1.0
-      karma-coverage: 2.0.3
+      karma-coverage: 2.1.0
       karma-edge-launcher: 0.4.2_karma@6.3.9
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
@@ -13221,7 +13221,7 @@ packages:
       inherits: 2.0.4
       karma: 6.3.9
       karma-chrome-launcher: 3.1.0
-      karma-coverage: 2.0.3
+      karma-coverage: 2.1.0
       karma-edge-launcher: 0.4.2_karma@6.3.9
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
@@ -13285,7 +13285,7 @@ packages:
       inherits: 2.0.4
       karma: 6.3.9
       karma-chrome-launcher: 3.1.0
-      karma-coverage: 2.0.3
+      karma-coverage: 2.1.0
       karma-edge-launcher: 0.4.2_karma@6.3.9
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
@@ -13349,7 +13349,7 @@ packages:
       inherits: 2.0.4
       karma: 6.3.9
       karma-chrome-launcher: 3.1.0
-      karma-coverage: 2.0.3
+      karma-coverage: 2.1.0
       karma-edge-launcher: 0.4.2_karma@6.3.9
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
@@ -13410,7 +13410,7 @@ packages:
       inherits: 2.0.4
       karma: 6.3.9
       karma-chrome-launcher: 3.1.0
-      karma-coverage: 2.0.3
+      karma-coverage: 2.1.0
       karma-edge-launcher: 0.4.2_karma@6.3.9
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
@@ -13468,7 +13468,7 @@ packages:
       inherits: 2.0.4
       karma: 6.3.9
       karma-chrome-launcher: 3.1.0
-      karma-coverage: 2.0.3
+      karma-coverage: 2.1.0
       karma-edge-launcher: 0.4.2_karma@6.3.9
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
@@ -13527,7 +13527,7 @@ packages:
       inherits: 2.0.4
       karma: 6.3.9
       karma-chrome-launcher: 3.1.0
-      karma-coverage: 2.0.3
+      karma-coverage: 2.1.0
       karma-edge-launcher: 0.4.2_karma@6.3.9
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
@@ -13583,7 +13583,7 @@ packages:
       eslint: 7.32.0
       karma: 6.3.9
       karma-chrome-launcher: 3.1.0
-      karma-coverage: 2.0.3
+      karma-coverage: 2.1.0
       karma-edge-launcher: 0.4.2_karma@6.3.9
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
@@ -13638,7 +13638,7 @@ packages:
       eslint: 7.32.0
       karma: 6.3.9
       karma-chrome-launcher: 3.1.0
-      karma-coverage: 2.0.3
+      karma-coverage: 2.1.0
       karma-edge-launcher: 0.4.2_karma@6.3.9
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
@@ -13692,7 +13692,7 @@ packages:
       eslint: 7.32.0
       karma: 6.3.9
       karma-chrome-launcher: 3.1.0
-      karma-coverage: 2.0.3
+      karma-coverage: 2.1.0
       karma-edge-launcher: 0.4.2_karma@6.3.9
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
@@ -13743,7 +13743,7 @@ packages:
       eslint: 7.32.0
       karma: 6.3.9
       karma-chrome-launcher: 3.1.0
-      karma-coverage: 2.0.3
+      karma-coverage: 2.1.0
       karma-edge-launcher: 0.4.2_karma@6.3.9
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
@@ -13810,7 +13810,7 @@ packages:
       eslint: 7.32.0
       karma: 6.3.9
       karma-chrome-launcher: 3.1.0
-      karma-coverage: 2.0.3
+      karma-coverage: 2.1.0
       karma-edge-launcher: 0.4.2_karma@6.3.9
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
@@ -13860,7 +13860,7 @@ packages:
       inherits: 2.0.4
       karma: 6.3.9
       karma-chrome-launcher: 3.1.0
-      karma-coverage: 2.0.3
+      karma-coverage: 2.1.0
       karma-edge-launcher: 0.4.2_karma@6.3.9
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
@@ -13915,7 +13915,7 @@ packages:
       express: 4.17.1
       karma: 6.3.9
       karma-chrome-launcher: 3.1.0
-      karma-coverage: 2.0.3
+      karma-coverage: 2.1.0
       karma-edge-launcher: 0.4.2_karma@6.3.9
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
@@ -13975,7 +13975,7 @@ packages:
       fs-extra: 8.1.0
       karma: 6.3.9
       karma-chrome-launcher: 3.1.0
-      karma-coverage: 2.0.3
+      karma-coverage: 2.1.0
       karma-edge-launcher: 0.4.2_karma@6.3.9
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
@@ -14023,7 +14023,7 @@ packages:
       eslint: 7.32.0
       karma: 6.3.9
       karma-chrome-launcher: 3.1.0
-      karma-coverage: 2.0.3
+      karma-coverage: 2.1.0
       karma-env-preprocessor: 0.1.1
       minimist: 1.2.5
       node-fetch: 2.6.6
@@ -14040,13 +14040,11 @@ packages:
     dev: false
 
   file:projects/test-utils.tgz:
-    resolution: {integrity: sha512-mNAkFGRCdahoUfUgUBHK/rXrhHNsoD91poUZvHUzfF4V5Gf5+FJSetlGsuoN0loxj1ZFSLY88FvRmMDpAGAYmw==, tarball: file:projects/test-utils.tgz}
+    resolution: {integrity: sha512-6fqZk95+dihgcC+MdZ7yc7T7z+HuAG+EvoUNxA/0jl8oGtHoQXiw7u3jcg83DVVNnyk4EzwW2M67LRSrCx9p+A==, tarball: file:projects/test-utils.tgz}
     name: '@rush-temp/test-utils'
     version: 0.0.0
     dependencies:
-      '@azure/core-tracing': 1.0.0-preview.13
       '@microsoft/api-extractor': 7.18.19
-      '@opentelemetry/api': 1.0.3
       '@types/chai': 4.2.22
       '@types/mocha': 7.0.2
       '@types/node': 12.20.37
@@ -14056,7 +14054,7 @@ packages:
       eslint: 7.32.0
       karma: 6.3.9
       karma-chrome-launcher: 3.1.0
-      karma-coverage: 2.0.3
+      karma-coverage: 2.1.0
       karma-env-preprocessor: 0.1.1
       mocha: 7.2.0
       prettier: 1.19.1
@@ -14097,7 +14095,7 @@ packages:
       eslint: 7.32.0
       karma: 6.3.9
       karma-chrome-launcher: 3.1.0
-      karma-coverage: 2.0.3
+      karma-coverage: 2.1.0
       karma-edge-launcher: 0.4.2_karma@6.3.9
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
@@ -14152,7 +14150,7 @@ packages:
       inherits: 2.0.4
       karma: 6.3.9
       karma-chrome-launcher: 3.1.0
-      karma-coverage: 2.0.3
+      karma-coverage: 2.1.0
       karma-edge-launcher: 0.4.2_karma@6.3.9
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
@@ -14205,7 +14203,7 @@ packages:
       esm: 3.2.25
       karma: 6.3.9
       karma-chrome-launcher: 3.1.0
-      karma-coverage: 2.0.3
+      karma-coverage: 2.1.0
       karma-edge-launcher: 0.4.2_karma@6.3.9
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
@@ -14265,7 +14263,7 @@ packages:
       jsonwebtoken: 8.5.1
       karma: 6.3.9
       karma-chrome-launcher: 3.1.0
-      karma-coverage: 2.0.3
+      karma-coverage: 2.1.0
       karma-edge-launcher: 0.4.2_karma@6.3.9
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0

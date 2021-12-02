@@ -1,0 +1,117 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
+// Pretend this is a real client with real methods - like QueryLogsClient
+
+import { createTracingClient, TracingClient } from "@azure/core-tracing";
+import { TestTracingSpan, TestInstrumeter, ContextImpl } from "../../src";
+import { assert } from "chai";
+
+describe("TestTracingSpan", function() {
+  let subject: TestTracingSpan;
+  beforeEach(() => {
+    subject = new TestTracingSpan("test");
+  });
+
+  it("records status correctly", function() {
+    subject.setStatus({ status: "success" });
+    assert.deepEqual(subject.spanStatus, { status: "success" });
+  });
+  it("records attributes correctly", function() {
+    subject.setAttribute("attribute1", "value1");
+    subject.setAttribute("attribute2", "value2");
+    assert.equal(subject.attributes["attributes1"], "value1");
+    assert.equal(subject.attributes["attribute2"], "value2");
+  });
+  it("records calls to `end` correctly", function() {
+    assert.equal(subject.endCalled, false);
+    subject.end();
+    assert.equal(subject.endCalled, true);
+  });
+  it("records exceptions", function() {
+    const expectedException = new Error("foo");
+    subject.recordException(expectedException);
+    assert.strictEqual(subject.exception, expectedException);
+  });
+  it("allows setting spanContext?");
+});
+
+// do the saem for all methods in testInstrumenter...
+describe("TestInstrumenter", function() {
+  let instrumenter: TestInstrumeter;
+  beforeEach(function() {
+    instrumenter = new TestInstrumeter();
+  });
+  describe("#startSpan", function() {
+    it("starts a span and adds to startedSpans array", function() {
+      const { span } = instrumenter.startSpan("testSpan");
+      assert.equal(instrumenter.startedSpans.length, 1);
+      assert.equal(instrumenter.startedSpans[0], span as TestTracingSpan);
+      assert.equal(instrumenter.startedSpans[0].name, "testSpan");
+    });
+    it("returns a new context with existing attributes", function() {
+      const existingContext = new ContextImpl().setValue(Symbol.for("foo"), "bar");
+
+      const { tracingContext: newContext } = instrumenter.startSpan("testSpan", {
+        packageInformation: {
+          name: "test"
+        },
+        tracingContext: existingContext
+      });
+
+      assert.equal(newContext.getValue(Symbol.for("foo")), "bar");
+    });
+  });
+  describe("#withContext", function() {
+    it("sets the active context in synchronous functions", async function() {
+      const { tracingContext } = instrumenter.startSpan("contextTest");
+      // TODO: figure out how to be smarter about not wrapping sync functions in promise...
+      const result = await instrumenter.withContext(tracingContext, function() {
+        assert.equal(instrumenter.currentContext(), tracingContext);
+        return 42;
+      });
+
+      assert.equal(result, 42);
+      assert.notEqual(instrumenter.currentContext(), tracingContext);
+    });
+    it("sets the active context during async functions", async function() {
+      const { tracingContext } = instrumenter.startSpan("contextTest");
+      const result = await instrumenter.withContext(tracingContext, async function() {
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+        assert.equal(instrumenter.currentContext(), tracingContext);
+        return 42;
+      });
+      assert.equal(result, 42);
+      assert.notEqual(instrumenter.currentContext(), tracingContext);
+    });
+    it("resets the previous context after the function returns", async function() {
+      const existingContext = instrumenter.currentContext();
+      const { tracingContext } = instrumenter.startSpan("test");
+      await instrumenter.withContext(tracingContext, async function() {
+        // no-op
+      });
+      assert.equal(instrumenter.currentContext(), existingContext);
+    });
+  });
+});
+// do the same using MockCLientToTest and withSpan
+
+// or something that has upgraded to core-tracing preview.14
+export class MockClientToTest {
+  tracingClient: TracingClient;
+  constructor() {
+    this.tracingClient = createTracingClient({
+      namespace: "Microsoft.Test",
+      packageInformation: {
+        name: "@azure/test",
+        version: "foobar"
+      }
+    });
+  }
+
+  async mockMethod() {
+    return this.tracingClient.withSpan("test", {}, () => {});
+  }
+}
+
+// assert.supportsTracing()...

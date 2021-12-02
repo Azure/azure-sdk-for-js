@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { TracingContext } from "@azure/core-tracing";
 export class ContextImpl implements TracingContext {
   private contextMap: Map<Symbol, unknown>;
