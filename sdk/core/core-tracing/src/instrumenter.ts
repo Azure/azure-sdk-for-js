@@ -6,14 +6,16 @@ import {
   TracingSpan,
   TracingContext,
   TracingSpanContext,
-  InstrumenterSpanOptions
+  InstrumenterSpanOptions,
+  PackageInformation
 } from "./interfaces";
 import { createTracingContext } from "./tracingContext";
 
 /** @internal */
 export class NoOpInstrumenter implements Instrumenter {
   startSpan(
-    _name?: string,
+    _name: string,
+    _packageInformation: PackageInformation,
     spanOptions?: InstrumenterSpanOptions
   ): { span: TracingSpan; tracingContext: TracingContext } {
     return {

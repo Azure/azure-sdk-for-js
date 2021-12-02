@@ -22,12 +22,9 @@ describe("TracingClient", () => {
     context = createTracingContext();
 
     useInstrumenter(instrumenter);
-    client = createTracingClient({
-      namespace: expectedNamespace,
-      packageInformation: {
-        name: "test-package",
-        version: "1.0.0"
-      }
+    client = createTracingClient(expectedNamespace, {
+      name: "test-package",
+      version: "1.0.0"
     });
   });
 
@@ -60,8 +57,8 @@ describe("TracingClient", () => {
       const args = instrumenterStartSpanSpy.getCall(0).args;
 
       assert.equal(args[0], "test");
-      assert.equal(args[1]?.packageInformation?.name, "test-package");
-      assert.equal(args[1]?.packageInformation?.version, "1.0.0");
+      assert.equal(args[1].name, "test-package");
+      assert.equal(args[1].version, "1.0.0");
     });
 
     it("sets namespace on context", () => {

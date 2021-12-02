@@ -5,13 +5,13 @@
 ```ts
 
 // @public
-export function createTracingClient(options: TracingClientOptions): TracingClient;
+export function createTracingClient(namespace: string, packageInformation: PackageInformation): TracingClient;
 
 // @public
 export interface Instrumenter {
     createRequestHeaders(spanContext: TracingSpanContext): Record<string, string>;
     parseTraceparentHeader(traceparentHeader: string): TracingSpanContext | undefined;
-    startSpan(name: string, spanOptions?: InstrumenterSpanOptions): {
+    startSpan(name: string, packageInformation: PackageInformation, spanOptions?: InstrumenterSpanOptions): {
         span: TracingSpan;
         tracingContext: TracingContext;
     };
@@ -20,16 +20,18 @@ export interface Instrumenter {
 
 // @public
 export interface InstrumenterSpanOptions extends TracingSpanOptions {
-    packageInformation: {
-        name: string;
-        version?: string;
-    };
     tracingContext?: TracingContext;
 }
 
 // @public
 export interface OperationTracingOptions {
     tracingContext?: TracingContext;
+}
+
+// @public
+export interface PackageInformation {
+    name: string;
+    version?: string;
 }
 
 // @public
@@ -55,15 +57,6 @@ export interface TracingClient {
     withSpan<Options extends {
         tracingOptions?: OperationTracingOptions;
     }, Callback extends (updatedOptions: Options, span: Omit<TracingSpan, "end">) => ReturnType<Callback>>(name: string, operationOptions: Options, callback: Callback, spanOptions?: TracingSpanOptions, callbackThis?: ThisParameterType<Callback>): Promise<ReturnType<Callback>>;
-}
-
-// @public
-export interface TracingClientOptions {
-    namespace: string;
-    packageInformation: {
-        name: string;
-        version?: string;
-    };
 }
 
 // @public

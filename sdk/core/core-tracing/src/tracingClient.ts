@@ -4,12 +4,12 @@
 import {
   TracingClient,
   Instrumenter,
-  TracingClientOptions,
   OperationTracingOptions,
   TracingSpan,
   TracingContext,
   TracingSpanOptions,
-  TracingSpanContext
+  TracingSpanContext,
+  PackageInformation
 } from "./interfaces";
 import { getInstrumenter } from "./instrumenter";
 import { knownContextKeys } from "./tracingContext";
@@ -18,14 +18,12 @@ import { knownContextKeys } from "./tracingContext";
 export class TracingClientImpl implements TracingClient {
   private _namespace: string;
   private _instrumenter: Instrumenter;
-  private _packageInformation: { name: string; version?: string | undefined };
+  private _packageInformation: PackageInformation;
 
-  constructor(options?: TracingClientOptions) {
-    this._namespace = options?.namespace || "";
+  constructor(namespace: string, packageInformation: PackageInformation) {
+    this._namespace = namespace;
     this._instrumenter = getInstrumenter();
-    this._packageInformation = options?.packageInformation || {
-      name: "@azure/core-tracing"
-    };
+    this._packageInformation = packageInformation;
   }
   startSpan<Options extends { tracingOptions?: OperationTracingOptions }>(
     name: string,
@@ -36,10 +34,9 @@ export class TracingClientImpl implements TracingClient {
     tracingContext: TracingContext;
     updatedOptions: Options;
   } {
-    const startSpanResult = this._instrumenter.startSpan(name, {
+    const startSpanResult = this._instrumenter.startSpan(name, this._packageInformation, {
       ...spanOptions,
-      tracingContext: operationOptions?.tracingOptions?.tracingContext,
-      packageInformation: this._packageInformation
+      tracingContext: operationOptions?.tracingOptions?.tracingContext
     });
     let tracingContext = startSpanResult.tracingContext;
     const span = startSpanResult.span;
@@ -126,9 +123,13 @@ export class TracingClientImpl implements TracingClient {
 
 /**
  * Creates a new tracing client.
- * @param options - The options to pass to the tracing client.
+ * @param namespace - The Azure namespace to set on spans.
+ * @param packageInformation - Name and version of the package invoking this trace.
  * @returns - An instance of {@link TracingClient}.
  */
-export function createTracingClient(options: TracingClientOptions): TracingClient {
-  return new TracingClientImpl(options);
+export function createTracingClient(
+  namespace: string,
+  packageInformation: PackageInformation
+): TracingClient {
+  return new TracingClientImpl(namespace, packageInformation);
 }
