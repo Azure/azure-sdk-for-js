@@ -381,7 +381,6 @@ export interface Serializer {
 
   /**
    * Serialize the given object based on its metadata defined in the mapper.
-   * Deserialize the given object based on its metadata defined in the mapper.
    *
    * @param mapper - The mapper which defines the metadata of the serializable object.
    * @param object - A valid Javascript object to be serialized.
