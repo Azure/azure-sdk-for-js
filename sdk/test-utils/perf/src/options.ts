@@ -58,8 +58,7 @@ export type PerfOptionDictionary<TOptions = Record<string, unknown>> = {
  * If it's absent and is required, we throw during validation.
  */
 export type ParsedPerfOptions<TOptions = Record<string, unknown>> = {
-  [longName in keyof TOptions]: OptionDetails<TOptions[longName]> &
-    Pick<Required<OptionDetails<TOptions[longName]>>, "value">;
+  [longName in keyof TOptions]: OptionDetails<TOptions[longName]> & { value: TOptions[longName] };
 };
 
 /**
