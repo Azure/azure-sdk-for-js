@@ -29,7 +29,7 @@ async function run() {
     databaseName: "your-databaseName",
     containerName: "your-containerName",
     resourcePath: "your-resource-path",
-    partitionKeyValueRanges:  [] as string[],
+    partitionKeyValueRanges: [],
     startTime: new Date(),
     expiryTime: new Date(),
     keyType: 0,
