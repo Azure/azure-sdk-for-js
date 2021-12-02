@@ -437,6 +437,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/communication-job-router",
+      "projectFolder": "sdk/communication/communication-job-router",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/container-registry",
       "projectFolder": "sdk/containerregistry/container-registry",
       "versionPolicyName": "client"

@@ -1,0 +1,22 @@
+{
+ "recordings": [
+  {
+   "method": "PUT",
+   "url": "https://endpoint/routing/channels",
+   "query": {
+    "api-version": "2021-04-07-preview1"
+   },
+   "requestBody": "{\"id\":\"channel-id-123\",\"name\":\"test-channel\"}",
+   "status": 200,
+   "response": "{\"id\":\"channel-id-123\",\"name\":\"test-channel\",\"acsManaged\":false}",
+   "responseHeaders": {
+    "content-type": "application/json; charset=utf-8"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "02552a98a3398706affc5f24e47622b3"
+}
