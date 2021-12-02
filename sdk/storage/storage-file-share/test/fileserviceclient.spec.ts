@@ -554,4 +554,16 @@ describe("FileServiceClient Premium", () => {
       }
     }
   });
+
+  it("Premium Share getProperties", async function(this: Context) {
+    const shareName = recorder.getUniqueName("share");
+    const shareClient = serviceClient.getShareClient(shareName);
+
+    // create share
+    await shareClient.create();
+
+    const getRes = await shareClient.getProperties();
+    assert.ok(getRes.provisionedBandwidthMibps);
+    assert.ok(getRes.quota);
+  });
 });
