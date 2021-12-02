@@ -374,20 +374,59 @@ export interface Serializer {
   ): any;
 }
 
+/**
+ * Constraints used to test values.
+ */
 export interface MapperConstraints {
+  /**
+   * The value should be lesser or equal than the `InclusiveMaximum` value.
+   */
   InclusiveMaximum?: number;
+  /**
+   * The value should be lesser than the `ExclusiveMaximum` value.
+   */
   ExclusiveMaximum?: number;
+  /**
+   * The value should be greater or equal than the `InclusiveMinimum` value.
+   */
   InclusiveMinimum?: number;
+  /**
+   * The value should be greater than the `InclusiveMinimum` value.
+   */
   ExclusiveMinimum?: number;
+  /**
+   * The length should be smaller than the `MaxLength`.
+   */
   MaxLength?: number;
+  /**
+   * The length should be bigger than the `MinLength`.
+   */
   MinLength?: number;
+  /**
+   * The value must match the pattern.
+   */
   Pattern?: RegExp;
+  /**
+   * The value must contain fewer items than the MaxItems value.
+   */
   MaxItems?: number;
+  /**
+   * The value must contain more items than the `MinItems` value.
+   */
   MinItems?: number;
+  /**
+   * The value must contain only unique items.
+   */
   UniqueItems?: true;
+  /**
+   * The value should be exactly divisible by the `MultipleOf` value.
+   */
   MultipleOf?: number;
 }
 
+/**
+ * Type of the mapper. Includes known mappers.
+ */
 export type MapperType =
   | SimpleMapperType
   | CompositeMapperType
@@ -413,18 +452,40 @@ export interface SimpleMapperType {
     | "any";
 }
 
+/**
+ * Helps build a mapper that describes how to map a set of properties of an object based on other mappers.
+ *
+ * Only one of the following properties should be present: `className`, `modelProperties` and `additionalProperties`.
+ */
 export interface CompositeMapperType {
+  /**
+   * Name of the composite mapper type.
+   */
   name: "Composite";
 
-  // Only one of the two below properties should be present.
-  // Use className to reference another type definition,
-  // and use modelProperties/additionalProperties when the reference to the other type has been resolved.
+  /**
+   * Use `className` to reference another type definition.
+   */
   className?: string;
 
+  /**
+   * Use `modelProperties` when the reference to the other type has been resolved.
+   */
   modelProperties?: { [propertyName: string]: Mapper };
+
+  /**
+   * Use `additionalProperties` when the reference to the other type has been resolved.
+   */
   additionalProperties?: Mapper;
 
+  /**
+   * The name of the top-most parent scheme, the one that has no parents.
+   */
   uberParent?: string;
+
+  /**
+   * A polymorphic discriminator.
+   */
   polymorphicDiscriminator?: PolymorphicDiscriminator;
 }
 
@@ -433,16 +494,37 @@ export interface SequenceMapperType {
   element: Mapper;
 }
 
+/**
+ * Helps build a mapper that describes how to parse a dictionary of mapped values.
+ */
 export interface DictionaryMapperType {
+  /**
+   * Name of the sequence type mapper.
+   */
   name: "Dictionary";
+  /**
+   * The mapper to use to map the value of each property in the dictionary.
+   */
   value: Mapper;
 }
 
+/**
+ * Helps build a mapper that describes how to parse an enum value.
+ */
 export interface EnumMapperType {
+  /**
+   * Name of the enum type mapper.
+   */
   name: "Enum";
+  /**
+   * Values allowed by this mapper.
+   */
   allowedValues: any[];
 }
 
+/**
+ * The base definition of a mapper. Can be used for XML and plain JavaScript objects.
+ */
 export interface BaseMapper {
   /**
    * Name for the xml element
@@ -502,15 +584,41 @@ export interface BaseMapper {
   constraints?: MapperConstraints;
 }
 
+/**
+ * Mappers are definitions of the Data models used in the library.
+ * These data models are part of the Operation or Client definitions in the responses or parameters.
+ */
 export type Mapper = BaseMapper | CompositeMapper | SequenceMapper | DictionaryMapper | EnumMapper;
 
+/**
+ * Used to disambiguate discriminated type unions.
+ * For example, if response can have many shapes but also includes a 'kind' field (or similar),
+ * that field can be used to determine how to deserialize the response to the correct type.
+ */
 export interface PolymorphicDiscriminator {
+  /**
+   * Default property used to specify what type will be used to serialize or deserialize the object.
+   */
   serializedName: string;
+  /**
+   * Name to use on the resulting object instead of the original property name.
+   * Useful since the JSON property could be difficult to work with.
+   * For example: For a field received as `@odata.kind`, the final object could instead include a property simply named `kind`.
+   */
   clientName: string;
+  /**
+   * It may contain any other property.
+   */
   [key: string]: string;
 }
 
+/**
+ * A mapper composed of other mappers.
+ */
 export interface CompositeMapper extends BaseMapper {
+  /**
+   * The type descriptor of the `CompositeMapper`.
+   */
   type: CompositeMapperType;
 }
 
@@ -518,12 +626,27 @@ export interface SequenceMapper extends BaseMapper {
   type: SequenceMapperType;
 }
 
+/**
+ * A mapper describing plain JavaScript objects used as key/value pairs.
+ */
 export interface DictionaryMapper extends BaseMapper {
+  /**
+   * The type descriptor of the `DictionaryMapper`.
+   */
   type: DictionaryMapperType;
+  /**
+   * Optionally, a prefix to add to the header collection.
+   */
   headerCollectionPrefix?: string;
 }
 
+/**
+ * A mapper describing an enum value.
+ */
 export interface EnumMapper extends BaseMapper {
+  /**
+   * The type descriptor of the `EnumMapper`.
+   */
   type: EnumMapperType;
 }
 
