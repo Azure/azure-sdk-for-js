@@ -15,7 +15,11 @@ import {
   ServiceBusSessionReceiver,
   ServiceBusSender
 } from "../../src";
-import { DispositionType, ServiceBusReceivedMessage } from "../../src/serviceBusMessage";
+import {
+  DispositionType,
+  ServiceBusMessageState,
+  ServiceBusReceivedMessage
+} from "../../src/serviceBusMessage";
 import { getReceiverClosedErrorMsg, getSenderClosedErrorMsg } from "../../src/util/errors";
 import { EnvVarNames, getEnvVars, isNode } from "../public/utils/envVarUtils";
 import { checkWithTimeout, TestClientType, TestMessage } from "../public/utils/testUtils";
@@ -407,6 +411,7 @@ describe("ServiceBusClient live tests", () => {
             should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
             should.equal(msgs[0].body, testMessages.body, "MessageBody is different than expected");
             should.equal(msgs.length, 1, "Unexpected number of messages");
+            should.equal(msgs[0].state, ServiceBusMessageState.active);
           } finally {
             await sbClient.close();
           }

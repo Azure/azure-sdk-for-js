@@ -79,6 +79,10 @@ export interface ServiceBusMessageAnnotations extends MessageAnnotations {
    * Annotation for the message being locked until.
    */
   "x-opt-locked-until"?: Date | number;
+  /**
+   * Annotation for the message state.
+   */
+  "x-opt-message-state"?: number;
 }
 
 /**
@@ -416,6 +420,22 @@ export function updateScheduledTime(
   }
 }
 
+/** State of a message. It can be active, deferred, or scheduled. */
+export enum ServiceBusMessageState {
+  /**
+   * Specifies an active message state
+   */
+  active = 0,
+  /**
+   * Specifies a deferred message state
+   */
+  deferred = 1,
+  /**
+   * Specifies a scheduled message state
+   */
+  scheduled = 2
+}
+
 /**
  * Describes the message received from Service Bus during peek operations and so cannot be settled.
  */
@@ -494,6 +514,11 @@ export interface ServiceBusReceivedMessage extends ServiceBusMessage {
    * @readonly
    */
   readonly deadLetterSource?: string;
+  /**
+   * State of the message can be active, deferred or scheduled. Deferred messages have deferred state,
+   * scheduled messages have scheduled state, all other messages have active state.
+   */
+  readonly state?: ServiceBusMessageState;
   /**
    * The underlying raw amqp message.
    * @readonly
@@ -578,6 +603,11 @@ export function fromRheaMessage(
   if (rheaMessage.message_annotations != null) {
     if (rheaMessage.message_annotations[Constants.deadLetterSource] != null) {
       props.deadLetterSource = rheaMessage.message_annotations[Constants.deadLetterSource];
+    }
+    if (isDefined(rheaMessage.message_annotations[Constants.messageState])) {
+      props.state = rheaMessage.message_annotations[
+        Constants.messageState
+      ] as ServiceBusMessageState;
     }
     if (rheaMessage.message_annotations[Constants.enqueueSequenceNumber] != null) {
       props.enqueuedSequenceNumber =

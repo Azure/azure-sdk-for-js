@@ -414,6 +414,13 @@ export interface ServiceBusMessageBatch {
 }
 
 // @public
+export enum ServiceBusMessageState {
+    active = 0,
+    deferred = 1,
+    scheduled = 2
+}
+
+// @public
 export interface ServiceBusReceivedMessage extends ServiceBusMessage {
     readonly deadLetterErrorDescription?: string;
     readonly deadLetterReason?: string;
@@ -426,6 +433,7 @@ export interface ServiceBusReceivedMessage extends ServiceBusMessage {
     readonly lockToken?: string;
     readonly _rawAmqpMessage: AmqpAnnotatedMessage;
     readonly sequenceNumber?: Long_2;
+    readonly state?: ServiceBusMessageState;
 }
 
 // @public
