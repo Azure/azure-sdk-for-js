@@ -13,12 +13,12 @@ import { createTracingContext } from "./tracingContext";
 /** @internal */
 export class NoOpInstrumenter implements Instrumenter {
   startSpan(
-    _name?: string,
-    spanOptions?: InstrumenterSpanOptions
+    _name: string,
+    spanOptions: InstrumenterSpanOptions
   ): { span: TracingSpan; tracingContext: TracingContext } {
     return {
       span: new NoOpSpan(),
-      tracingContext: createTracingContext({ parentContext: spanOptions?.tracingContext })
+      tracingContext: createTracingContext({ parentContext: spanOptions.tracingContext })
     };
   }
   withContext<

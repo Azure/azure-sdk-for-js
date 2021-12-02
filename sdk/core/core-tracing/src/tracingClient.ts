@@ -4,12 +4,12 @@
 import {
   TracingClient,
   Instrumenter,
-  TracingClientOptions,
   OperationTracingOptions,
   TracingSpan,
   TracingContext,
   TracingSpanOptions,
-  TracingSpanContext
+  TracingSpanContext,
+  TracingClientOptions
 } from "./interfaces";
 import { getInstrumenter } from "./instrumenter";
 import { knownContextKeys } from "./tracingContext";
@@ -18,14 +18,14 @@ import { knownContextKeys } from "./tracingContext";
 export class TracingClientImpl implements TracingClient {
   private _namespace: string;
   private _instrumenter: Instrumenter;
-  private _packageInformation: { name: string; version?: string | undefined };
+  private _packageName: string;
+  private _packageVersion?: string;
 
-  constructor(options?: TracingClientOptions) {
-    this._namespace = options?.namespace || "";
+  constructor(options: TracingClientOptions) {
+    this._namespace = options.namespace;
+    this._packageName = options.packageName;
+    this._packageVersion = options.packageVersion;
     this._instrumenter = getInstrumenter();
-    this._packageInformation = options?.packageInformation || {
-      name: "@azure/core-tracing"
-    };
   }
   startSpan<Options extends { tracingOptions?: OperationTracingOptions }>(
     name: string,
@@ -38,8 +38,9 @@ export class TracingClientImpl implements TracingClient {
   } {
     const startSpanResult = this._instrumenter.startSpan(name, {
       ...spanOptions,
-      tracingContext: operationOptions?.tracingOptions?.tracingContext,
-      packageInformation: this._packageInformation
+      packageName: this._packageName,
+      packageVersion: this._packageVersion,
+      tracingContext: operationOptions?.tracingOptions?.tracingContext
     });
     let tracingContext = startSpanResult.tracingContext;
     const span = startSpanResult.span;
@@ -126,7 +127,8 @@ export class TracingClientImpl implements TracingClient {
 
 /**
  * Creates a new tracing client.
- * @param options - The options to pass to the tracing client.
+ *
+ * @param options - Options used to configure the tracing client.
  * @returns - An instance of {@link TracingClient}.
  */
 export function createTracingClient(options: TracingClientOptions): TracingClient {

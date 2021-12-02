@@ -88,8 +88,8 @@ function toOpenTelemetrySpanAttributes(
  * @param spanOptions - The {@link InstrumenterSpanOptions} to convert.
  * @returns An OpenTelemetry {@link SpanOptions} that can be used when creating a span.
  */
-export function toSpanOptions(spanOptions: InstrumenterSpanOptions): SpanOptions {
-  const { spanAttributes, spanLinks, spanKind } = spanOptions;
+export function toSpanOptions(spanOptions?: InstrumenterSpanOptions): SpanOptions {
+  const { spanAttributes, spanLinks, spanKind } = spanOptions || {};
 
   const attributes: SpanAttributes = toOpenTelemetrySpanAttributes(spanAttributes);
   const kind = toOpenTelemetrySpanKind(spanKind);
