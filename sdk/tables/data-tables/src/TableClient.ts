@@ -68,6 +68,7 @@ import { isCosmosEndpoint } from "./utils/isCosmosEndpoint";
 import { cosmosPatchPolicy } from "./cosmosPathPolicy";
 import { decodeContinuationToken, encodeContinuationToken } from "./utils/continuationToken";
 import { escapeQuotes } from "./odata";
+import { handleTableAlreadyExist } from "./utils/errorHelpers";
 
 /**
  * A TableClient represents a Client to the Azure Tables service allowing you
@@ -324,7 +325,7 @@ export class TableClient {
    * // calling create table will create the table used
    * // to instantiate the TableClient.
    * // Note: If the table already
-   * // exists this function doesn't fail.
+   * // exists this function doesn't throw.
    * await client.createTable();
    * ```
    */
@@ -334,12 +335,7 @@ export class TableClient {
     try {
       await this.table.create({ name: this.tableName }, updatedOptions);
     } catch (e) {
-      if (e.statusCode === 409) {
-        logger.info("TableClient-createTable: Table Already Exists");
-      } else {
-        span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
-        throw e;
-      }
+      handleTableAlreadyExist(e, { ...updatedOptions, span, logger });
     } finally {
       span.end();
     }

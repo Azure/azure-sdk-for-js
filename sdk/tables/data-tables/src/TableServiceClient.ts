@@ -38,6 +38,7 @@ import { Pipeline } from "@azure/core-rest-pipeline";
 import { isCredential } from "./utils/isCredential";
 import { tablesSASTokenPolicy } from "./tablesSASTokenPolicy";
 import { TableItemResultPage } from "./models";
+import { handleTableAlreadyExist } from "./utils/errorHelpers";
 
 /**
  * A TableServiceClient represents a Client to the Azure Tables service allowing you
@@ -246,17 +247,9 @@ export class TableServiceClient {
   public async createTable(name: string, options: OperationOptions = {}): Promise<void> {
     const { span, updatedOptions } = createSpan("TableServiceClient-createTable", options);
     try {
-      await this.table.create(
-        { name },
-        { ...updatedOptions, responsePreference: "return-content" }
-      );
+      await this.table.create({ name }, { ...updatedOptions });
     } catch (e) {
-      if (e.statusCode === 409) {
-        logger.info("TableServiceClient-createTable: Table Already Exists");
-      } else {
-        span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
-        throw e;
-      }
+      handleTableAlreadyExist(e, { ...updatedOptions, span, logger });
     } finally {
       span.end();
     }
