@@ -89,7 +89,7 @@ import {
 } from "./models/requests";
 
 /**
- * Checks whether the type of a value is RouterClientOptions or not.
+ * Checks whether the type of a value is {@link RouterClientOptions} or not.
  *
  * @param options - The value being checked.
  */
