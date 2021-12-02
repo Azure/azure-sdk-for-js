@@ -1145,6 +1145,11 @@
       "packageName": "@azure/arm-devtestlabs",
       "projectFolder": "sdk/devtestlabs/arm-devtestlabs",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-cognitiveservices",
+      "projectFolder": "sdk/cognitiveservices/arm-cognitiveservices",
+      "versionPolicyName": "management"
     }
   ]
 }

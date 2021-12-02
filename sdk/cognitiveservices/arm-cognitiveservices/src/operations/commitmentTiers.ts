@@ -7,26 +7,26 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { ResourceSkus } from "../operationsInterfaces";
+import { CommitmentTiers } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { CognitiveServicesManagementClient } from "../cognitiveServicesManagementClient";
 import {
-  ResourceSku,
-  ResourceSkusListNextOptionalParams,
-  ResourceSkusListOptionalParams,
-  ResourceSkusListResponse,
-  ResourceSkusListNextResponse
+  CommitmentTier,
+  CommitmentTiersListNextOptionalParams,
+  CommitmentTiersListOptionalParams,
+  CommitmentTiersListResponse,
+  CommitmentTiersListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing ResourceSkus operations. */
-export class ResourceSkusImpl implements ResourceSkus {
+/** Class containing CommitmentTiers operations. */
+export class CommitmentTiersImpl implements CommitmentTiers {
   private readonly client: CognitiveServicesManagementClient;
 
   /**
-   * Initialize a new instance of the class ResourceSkus class.
+   * Initialize a new instance of the class CommitmentTiers class.
    * @param client Reference to the service client
    */
   constructor(client: CognitiveServicesManagementClient) {
@@ -34,13 +34,15 @@ export class ResourceSkusImpl implements ResourceSkus {
   }
 
   /**
-   * Gets the list of Microsoft.CognitiveServices SKUs available for your Subscription.
+   * List Commitment Tiers.
+   * @param location Resource location.
    * @param options The options parameters.
    */
   public list(
-    options?: ResourceSkusListOptionalParams
-  ): PagedAsyncIterableIterator<ResourceSku> {
-    const iter = this.listPagingAll(options);
+    location: string,
+    options?: CommitmentTiersListOptionalParams
+  ): PagedAsyncIterableIterator<CommitmentTier> {
+    const iter = this.listPagingAll(location, options);
     return {
       next() {
         return iter.next();
@@ -49,53 +51,62 @@ export class ResourceSkusImpl implements ResourceSkus {
         return this;
       },
       byPage: () => {
-        return this.listPagingPage(options);
+        return this.listPagingPage(location, options);
       }
     };
   }
 
   private async *listPagingPage(
-    options?: ResourceSkusListOptionalParams
-  ): AsyncIterableIterator<ResourceSku[]> {
-    let result = await this._list(options);
+    location: string,
+    options?: CommitmentTiersListOptionalParams
+  ): AsyncIterableIterator<CommitmentTier[]> {
+    let result = await this._list(location, options);
     yield result.value || [];
     let continuationToken = result.nextLink;
     while (continuationToken) {
-      result = await this._listNext(continuationToken, options);
+      result = await this._listNext(location, continuationToken, options);
       continuationToken = result.nextLink;
       yield result.value || [];
     }
   }
 
   private async *listPagingAll(
-    options?: ResourceSkusListOptionalParams
-  ): AsyncIterableIterator<ResourceSku> {
-    for await (const page of this.listPagingPage(options)) {
+    location: string,
+    options?: CommitmentTiersListOptionalParams
+  ): AsyncIterableIterator<CommitmentTier> {
+    for await (const page of this.listPagingPage(location, options)) {
       yield* page;
     }
   }
 
   /**
-   * Gets the list of Microsoft.CognitiveServices SKUs available for your Subscription.
+   * List Commitment Tiers.
+   * @param location Resource location.
    * @param options The options parameters.
    */
   private _list(
-    options?: ResourceSkusListOptionalParams
-  ): Promise<ResourceSkusListResponse> {
-    return this.client.sendOperationRequest({ options }, listOperationSpec);
+    location: string,
+    options?: CommitmentTiersListOptionalParams
+  ): Promise<CommitmentTiersListResponse> {
+    return this.client.sendOperationRequest(
+      { location, options },
+      listOperationSpec
+    );
   }
 
   /**
    * ListNext
+   * @param location Resource location.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
+    location: string,
     nextLink: string,
-    options?: ResourceSkusListNextOptionalParams
-  ): Promise<ResourceSkusListNextResponse> {
+    options?: CommitmentTiersListNextOptionalParams
+  ): Promise<CommitmentTiersListNextResponse> {
     return this.client.sendOperationRequest(
-      { nextLink, options },
+      { location, nextLink, options },
       listNextOperationSpec
     );
   }
@@ -105,27 +116,11 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/skus",
+    "/subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/locations/{location}/commitmentTiers",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ResourceSkuListResult
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.subscriptionId],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ResourceSkuListResult
+      bodyMapper: Mappers.CommitmentTierListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -135,7 +130,28 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.location
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CommitmentTierListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.nextLink,
+    Parameters.location
   ],
   headerParameters: [Parameters.accept],
   serializer

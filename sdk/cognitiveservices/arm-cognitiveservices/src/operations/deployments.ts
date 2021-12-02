@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PrivateEndpointConnections } from "../operationsInterfaces";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { Deployments } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -14,23 +15,25 @@ import { CognitiveServicesManagementClient } from "../cognitiveServicesManagemen
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
-  PrivateEndpointConnectionsListOptionalParams,
-  PrivateEndpointConnectionsListResponse,
-  PrivateEndpointConnectionsGetOptionalParams,
-  PrivateEndpointConnectionsGetResponse,
-  PrivateEndpointConnection,
-  PrivateEndpointConnectionsCreateOrUpdateOptionalParams,
-  PrivateEndpointConnectionsCreateOrUpdateResponse,
-  PrivateEndpointConnectionsDeleteOptionalParams
+  Deployment,
+  DeploymentsListNextOptionalParams,
+  DeploymentsListOptionalParams,
+  DeploymentsListResponse,
+  DeploymentsGetOptionalParams,
+  DeploymentsGetResponse,
+  DeploymentsCreateOrUpdateOptionalParams,
+  DeploymentsCreateOrUpdateResponse,
+  DeploymentsDeleteOptionalParams,
+  DeploymentsListNextResponse
 } from "../models";
 
-/** Class containing PrivateEndpointConnections operations. */
-export class PrivateEndpointConnectionsImpl
-  implements PrivateEndpointConnections {
+/// <reference lib="esnext.asynciterable" />
+/** Class containing Deployments operations. */
+export class DeploymentsImpl implements Deployments {
   private readonly client: CognitiveServicesManagementClient;
 
   /**
-   * Initialize a new instance of the class PrivateEndpointConnections class.
+   * Initialize a new instance of the class Deployments class.
    * @param client Reference to the service client
    */
   constructor(client: CognitiveServicesManagementClient) {
@@ -38,16 +41,75 @@ export class PrivateEndpointConnectionsImpl
   }
 
   /**
-   * Gets the private endpoint connections associated with the Cognitive Services account.
+   * Gets the deployments associated with the Cognitive Services account.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of Cognitive Services account.
    * @param options The options parameters.
    */
-  list(
+  public list(
     resourceGroupName: string,
     accountName: string,
-    options?: PrivateEndpointConnectionsListOptionalParams
-  ): Promise<PrivateEndpointConnectionsListResponse> {
+    options?: DeploymentsListOptionalParams
+  ): PagedAsyncIterableIterator<Deployment> {
+    const iter = this.listPagingAll(resourceGroupName, accountName, options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: () => {
+        return this.listPagingPage(resourceGroupName, accountName, options);
+      }
+    };
+  }
+
+  private async *listPagingPage(
+    resourceGroupName: string,
+    accountName: string,
+    options?: DeploymentsListOptionalParams
+  ): AsyncIterableIterator<Deployment[]> {
+    let result = await this._list(resourceGroupName, accountName, options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
+    while (continuationToken) {
+      result = await this._listNext(
+        resourceGroupName,
+        accountName,
+        continuationToken,
+        options
+      );
+      continuationToken = result.nextLink;
+      yield result.value || [];
+    }
+  }
+
+  private async *listPagingAll(
+    resourceGroupName: string,
+    accountName: string,
+    options?: DeploymentsListOptionalParams
+  ): AsyncIterableIterator<Deployment> {
+    for await (const page of this.listPagingPage(
+      resourceGroupName,
+      accountName,
+      options
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Gets the deployments associated with the Cognitive Services account.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of Cognitive Services account.
+   * @param options The options parameters.
+   */
+  private _list(
+    resourceGroupName: string,
+    accountName: string,
+    options?: DeploymentsListOptionalParams
+  ): Promise<DeploymentsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, options },
       listOperationSpec
@@ -55,56 +117,48 @@ export class PrivateEndpointConnectionsImpl
   }
 
   /**
-   * Gets the specified private endpoint connection associated with the Cognitive Services account.
+   * Gets the specified deployments associated with the Cognitive Services account.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of Cognitive Services account.
-   * @param privateEndpointConnectionName The name of the private endpoint connection associated with the
-   *                                      Cognitive Services Account
+   * @param deploymentName The name of the deployment associated with the Cognitive Services Account
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     accountName: string,
-    privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsGetOptionalParams
-  ): Promise<PrivateEndpointConnectionsGetResponse> {
+    deploymentName: string,
+    options?: DeploymentsGetOptionalParams
+  ): Promise<DeploymentsGetResponse> {
     return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        accountName,
-        privateEndpointConnectionName,
-        options
-      },
+      { resourceGroupName, accountName, deploymentName, options },
       getOperationSpec
     );
   }
 
   /**
-   * Update the state of specified private endpoint connection associated with the Cognitive Services
-   * account.
+   * Update the state of specified deployments associated with the Cognitive Services account.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of Cognitive Services account.
-   * @param privateEndpointConnectionName The name of the private endpoint connection associated with the
-   *                                      Cognitive Services Account
-   * @param properties The private endpoint connection properties.
+   * @param deploymentName The name of the deployment associated with the Cognitive Services Account
+   * @param deployment The deployment properties.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
     accountName: string,
-    privateEndpointConnectionName: string,
-    properties: PrivateEndpointConnection,
-    options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams
+    deploymentName: string,
+    deployment: Deployment,
+    options?: DeploymentsCreateOrUpdateOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<PrivateEndpointConnectionsCreateOrUpdateResponse>,
-      PrivateEndpointConnectionsCreateOrUpdateResponse
+      PollOperationState<DeploymentsCreateOrUpdateResponse>,
+      DeploymentsCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<PrivateEndpointConnectionsCreateOrUpdateResponse> => {
+    ): Promise<DeploymentsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -142,13 +196,7 @@ export class PrivateEndpointConnectionsImpl
 
     const lro = new LroImpl(
       sendOperation,
-      {
-        resourceGroupName,
-        accountName,
-        privateEndpointConnectionName,
-        properties,
-        options
-      },
+      { resourceGroupName, accountName, deploymentName, deployment, options },
       createOrUpdateOperationSpec
     );
     return new LroEngine(lro, {
@@ -158,45 +206,42 @@ export class PrivateEndpointConnectionsImpl
   }
 
   /**
-   * Update the state of specified private endpoint connection associated with the Cognitive Services
-   * account.
+   * Update the state of specified deployments associated with the Cognitive Services account.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of Cognitive Services account.
-   * @param privateEndpointConnectionName The name of the private endpoint connection associated with the
-   *                                      Cognitive Services Account
-   * @param properties The private endpoint connection properties.
+   * @param deploymentName The name of the deployment associated with the Cognitive Services Account
+   * @param deployment The deployment properties.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     accountName: string,
-    privateEndpointConnectionName: string,
-    properties: PrivateEndpointConnection,
-    options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams
-  ): Promise<PrivateEndpointConnectionsCreateOrUpdateResponse> {
+    deploymentName: string,
+    deployment: Deployment,
+    options?: DeploymentsCreateOrUpdateOptionalParams
+  ): Promise<DeploymentsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       accountName,
-      privateEndpointConnectionName,
-      properties,
+      deploymentName,
+      deployment,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Deletes the specified private endpoint connection associated with the Cognitive Services account.
+   * Deletes the specified deployment associated with the Cognitive Services account.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of Cognitive Services account.
-   * @param privateEndpointConnectionName The name of the private endpoint connection associated with the
-   *                                      Cognitive Services Account
+   * @param deploymentName The name of the deployment associated with the Cognitive Services Account
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
     accountName: string,
-    privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsDeleteOptionalParams
+    deploymentName: string,
+    options?: DeploymentsDeleteOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -239,12 +284,7 @@ export class PrivateEndpointConnectionsImpl
 
     const lro = new LroImpl(
       sendOperation,
-      {
-        resourceGroupName,
-        accountName,
-        privateEndpointConnectionName,
-        options
-      },
+      { resourceGroupName, accountName, deploymentName, options },
       deleteOperationSpec
     );
     return new LroEngine(lro, {
@@ -254,26 +294,44 @@ export class PrivateEndpointConnectionsImpl
   }
 
   /**
-   * Deletes the specified private endpoint connection associated with the Cognitive Services account.
+   * Deletes the specified deployment associated with the Cognitive Services account.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of Cognitive Services account.
-   * @param privateEndpointConnectionName The name of the private endpoint connection associated with the
-   *                                      Cognitive Services Account
+   * @param deploymentName The name of the deployment associated with the Cognitive Services Account
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
     accountName: string,
-    privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsDeleteOptionalParams
+    deploymentName: string,
+    options?: DeploymentsDeleteOptionalParams
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       accountName,
-      privateEndpointConnectionName,
+      deploymentName,
       options
     );
     return poller.pollUntilDone();
+  }
+
+  /**
+   * ListNext
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of Cognitive Services account.
+   * @param nextLink The nextLink from the previous successful call to the List method.
+   * @param options The options parameters.
+   */
+  private _listNext(
+    resourceGroupName: string,
+    accountName: string,
+    nextLink: string,
+    options?: DeploymentsListNextOptionalParams
+  ): Promise<DeploymentsListNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, accountName, nextLink, options },
+      listNextOperationSpec
+    );
   }
 }
 // Operation Specifications
@@ -281,11 +339,11 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/privateEndpointConnections",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/deployments",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateEndpointConnectionListResult
+      bodyMapper: Mappers.DeploymentListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -303,11 +361,11 @@ const listOperationSpec: coreClient.OperationSpec = {
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/privateEndpointConnections/{privateEndpointConnectionName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/deployments/{deploymentName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateEndpointConnection
+      bodyMapper: Mappers.Deployment
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -319,40 +377,40 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.subscriptionId,
-    Parameters.privateEndpointConnectionName
+    Parameters.deploymentName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/privateEndpointConnections/{privateEndpointConnectionName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/deployments/{deploymentName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateEndpointConnection
+      bodyMapper: Mappers.Deployment
     },
     201: {
-      bodyMapper: Mappers.PrivateEndpointConnection
+      bodyMapper: Mappers.Deployment
     },
     202: {
-      bodyMapper: Mappers.PrivateEndpointConnection
+      bodyMapper: Mappers.Deployment
     },
     204: {
-      bodyMapper: Mappers.PrivateEndpointConnection
+      bodyMapper: Mappers.Deployment
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.properties,
+  requestBody: Parameters.deployment,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.subscriptionId,
-    Parameters.privateEndpointConnectionName
+    Parameters.deploymentName
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
@@ -360,7 +418,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/privateEndpointConnections/{privateEndpointConnectionName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/deployments/{deploymentName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -377,7 +435,29 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.subscriptionId,
-    Parameters.privateEndpointConnectionName
+    Parameters.deploymentName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DeploymentListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.subscriptionId,
+    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
   serializer
