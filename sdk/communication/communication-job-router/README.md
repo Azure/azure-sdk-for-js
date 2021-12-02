@@ -23,11 +23,13 @@ To use this client library in the browser, first you need to use a bundler. For 
 
 
 
-#Tutorial: Route customer support requests to workers using the Azure Communication Services (ACS) Router SDK (WIP)
+# Tutorial: Route customer support requests to workers using the Azure Communication Services (ACS) Router SDK (WIP)
+
 In this tutorial, you will learn:
-•	How to create a queue
-•	How to create workers and associate them with a queue
-•	How to route incoming jobs to queues
+
+- How to create a queue.
+- How to create workers and associate them with a queue.
+- How to route incoming jobs to queues.
 
 ## Key concepts
 | Name | Description |
