@@ -4,6 +4,7 @@
 import { PipelineResponse, PipelineRequest, SendRequest } from "../interfaces";
 import { PipelinePolicy } from "../pipeline";
 import { delay } from "../util/helpers";
+import { retry, RetryState } from "./retry";
 
 /**
  * The programmatic identifier of the throttlingRetryPolicy.
@@ -14,6 +15,13 @@ export const throttlingRetryPolicyName = "throttlingRetryPolicy";
  * Maximum number of retries for the throttling retry policy
  */
 export const DEFAULT_CLIENT_MAX_RETRY_COUNT = 3;
+
+/**
+ * State relevant to the throttling retries.
+ */
+interface ThrottlingRetryState extends RetryState<PipelineResponse> {
+  delayInMs?: number;
+}
 
 /**
  * A policy that retries when the server sends a 429 response with a Retry-After header.
@@ -27,24 +35,33 @@ export function throttlingRetryPolicy(): PipelinePolicy {
   return {
     name: throttlingRetryPolicyName,
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
-      let response = await next(request);
+      return retry<ThrottlingRetryState>({
+        async shouldRetry(state): Promise<boolean> {
+          const { retryCount, lastResponse } = state;
+          const maxRetriesReached = retryCount >= DEFAULT_CLIENT_MAX_RETRY_COUNT;
+          const throttlingRetryStatus =
+            lastResponse && (lastResponse.status === 429 || lastResponse.status === 503);
+          if (!lastResponse || maxRetriesReached || !throttlingRetryStatus) {
+            return false;
+          }
+          const retryAfterHeader = lastResponse.headers.get("Retry-After");
+          if (!retryAfterHeader) {
+            return false;
+          }
+          const delayInMs = parseRetryAfterHeader(retryAfterHeader);
+          if (!delayInMs) {
+            return false;
+          }
 
-      for (let count = 0; count < DEFAULT_CLIENT_MAX_RETRY_COUNT; count++) {
-        if (response.status !== 429 && response.status !== 503) {
-          return response;
+          return true;
+        },
+        async operation(): Promise<PipelineResponse> {
+          return next(request);
+        },
+        async delay({ delayInMs }): Promise<void> {
+          await delay(delayInMs!);
         }
-        const retryAfterHeader = response.headers.get("Retry-After");
-        if (!retryAfterHeader) {
-          break;
-        }
-        const delayInMs = parseRetryAfterHeader(retryAfterHeader);
-        if (!delayInMs) {
-          break;
-        }
-        await delay(delayInMs);
-        response = await next(request);
-      }
-      return response;
+      });
     }
   };
 }
