@@ -87,7 +87,7 @@ If it says `vsts-npm-auth` not found, then you need to install it first:
 `npm install -g vsts-npm-auth`
 
 
-While still in the application directory, install the Azure Communication Services Router client library for Javascript package by using the npm install --save command
+While still in the application directory, install the Azure Communication Services Router client library for JavaScript package by using the `npm install --save` command
 `npm install --save @azure-ccaap/communication-router`
 
 ## Examples
