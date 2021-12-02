@@ -160,7 +160,9 @@ export class ServiceBusStressTester {
         }
       } catch (error) {
         this.sendInfo.numberOfFailures++;
-        this.trackError("send", error as Error);
+        if (error instanceof Error) {
+          this.trackError("send", error);
+        }
         console.error("Error in sending: ", error);
       }
     }
@@ -194,7 +196,7 @@ export class ServiceBusStressTester {
       return messages;
     } catch (error) {
       this.receiveInfo.numberOfFailures++;
-      this.trackError("receive", error as Error);
+      this.trackError("receive", error);
       console.error("Error in receiving: ", error);
     }
     return [];
@@ -226,7 +228,7 @@ export class ServiceBusStressTester {
       return messages;
     } catch (error) {
       this.receiveInfo.numberOfFailures++;
-      this.trackError("receive", error as Error);
+      this.trackError("receive", error);
       console.error("Error in peeking: ", error);
     }
     return [];
@@ -297,13 +299,12 @@ export class ServiceBusStressTester {
       | "lockrenewal"
       | "sessionlockrenewal"
       | "close",
-    exception: Error,
+    exception: Error | unknown,
     extraProperties?: Record<string, string>
   ) {
     ++this._numErrors;
-
     defaultClient.trackException({
-      exception,
+      exception: exception instanceof Error ? exception : new Error(`Unknown error\n ${exception}`),
       properties: {
         from,
         ...extraProperties
@@ -366,7 +367,7 @@ export class ServiceBusStressTester {
             currentRenewalCount === undefined ? 1 : currentRenewalCount + 1;
         } catch (error) {
           this.messageLockRenewalInfo.numberOfFailures++;
-          this.trackError("lockrenewal", error as Error);
+          this.trackError("lockrenewal", error);
           console.error("Error in message lock renewal: ", error);
           clearTimeout(this.messageLockRenewalInfo.lockRenewalTimers[message.messageId as string]);
         }
@@ -396,7 +397,7 @@ export class ServiceBusStressTester {
       this.trackedMessageIds[message.messageId! as string].settledCount++;
     } catch (error) {
       console.error(`Error in message completion with id: ${message.messageId} `, error);
-      this.trackError("complete", error as Error);
+      this.trackError("complete", error);
     }
   }
 
@@ -422,7 +423,7 @@ export class ServiceBusStressTester {
         }
       } catch (error) {
         this.sessionLockRenewalInfo.numberOfFailures++;
-        this.trackError("sessionlockrenewal", error as Error);
+        this.trackError("sessionlockrenewal", error);
         console.error("Error in session lock renewal: ", error);
       }
     }, receiver.sessionLockedUntilUtc!.valueOf() - startTime.valueOf() - 10000);
@@ -440,7 +441,7 @@ export class ServiceBusStressTester {
       console.error(logError);
       this.closeInfo[type].numberOfFailures++;
 
-      this.trackError("close", error as Error, {
+      this.trackError("close", error, {
         type
       });
     }
@@ -555,7 +556,7 @@ export class ServiceBusStressTester {
       } catch (err) {
         console.log(`ERROR: error thrown by init`, err);
 
-        this.trackError("init", err as Error);
+        this.trackError("init", err);
         defaultClient.flush();
         throw err;
       }
@@ -566,7 +567,7 @@ export class ServiceBusStressTester {
       } catch (err) {
         console.log(`ERROR: error thrown by test`, err);
 
-        this.trackError("test", err as Error);
+        this.trackError("test", err);
         defaultClient.flush();
       }
     } finally {
@@ -576,7 +577,7 @@ export class ServiceBusStressTester {
         await serviceBusClient?.close();
       } catch (err) {
         defaultClient.trackException({
-          exception: err as Error,
+          exception: err instanceof Error ? err : new Error(`Unknown error\n ${err}`),
           properties: {
             from: "end"
           }
