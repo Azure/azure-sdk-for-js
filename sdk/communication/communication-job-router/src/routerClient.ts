@@ -155,11 +155,10 @@ export class RouterClient {
     }
 
     const internalPipelineOptions: InternalPipelineOptions = {
-      ...{ ...options, userAgentOptions },
-      ...{
-        loggingOptions: {
-          logger: logger.info
-        }
+      ...options,
+      userAgentOptions,
+      loggingOptions: {
+        logger: logger.info
       }
     };
 
