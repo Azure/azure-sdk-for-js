@@ -444,6 +444,7 @@ export interface BlobCopyFromURLHeaders {
     clientRequestId?: string;
     contentMD5?: Uint8Array;
     copyId?: string;
+    // Warning: (ae-forgotten-export) The symbol "SyncCopyStatusType" needs to be exported by the entry point index.d.ts
     copyStatus?: SyncCopyStatusType;
     date?: Date;
     encryptionScope?: string;
@@ -2173,6 +2174,7 @@ export interface CorsRule {
 
 // @public
 export interface CpkInfo {
+    // Warning: (ae-forgotten-export) The symbol "EncryptionAlgorithmType" needs to be exported by the entry point index.d.ts
     encryptionAlgorithm?: EncryptionAlgorithmType;
     encryptionKey?: string;
     encryptionKeySha256?: string;
@@ -2197,9 +2199,6 @@ export type CredentialPolicyCreator = (nextPolicy: RequestPolicy, options: Reque
 export type DeleteSnapshotsOptionType = "include" | "only";
 
 export { deserializationPolicy }
-
-// @public
-export type EncryptionAlgorithmType = "AES256";
 
 // @public
 export interface FilterBlobItem {
@@ -2392,12 +2391,6 @@ export interface ListBlobsHierarchySegmentResponseModel {
     // (undocumented)
     serviceEndpoint: string;
 }
-
-// @public
-export type ListBlobsIncludeItem = "copy" | "deleted" | "metadata" | "snapshots" | "uncommittedblobs" | "versions" | "tags" | "immutabilitypolicy" | "legalhold" | "deletedwithversions";
-
-// @public
-export type ListContainersIncludeType = "metadata" | "deleted";
 
 // @public
 export interface ListContainersSegmentResponse {
@@ -3071,6 +3064,7 @@ export interface ServiceListContainersOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     includeDeleted?: boolean;
     includeMetadata?: boolean;
+    includeSystem?: boolean;
     prefix?: string;
 }
 
@@ -3241,9 +3235,6 @@ export class StorageSharedKeyCredentialPolicy extends CredentialPolicy {
     constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions, factory: StorageSharedKeyCredential);
     protected signRequest(request: WebResource): WebResource;
 }
-
-// @public
-export type SyncCopyStatusType = "success";
 
 // @public
 export interface TagConditions {

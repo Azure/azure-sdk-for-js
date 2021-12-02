@@ -10,7 +10,25 @@ import {
   BlobQueryJsonTextConfiguration,
   BlobQueryParquetConfiguration
 } from "../Clients";
-import { QuerySerialization, BlobTags } from "../generated/src/models";
+import {
+  QuerySerialization,
+  BlobTags,
+  BlobName,
+  ListBlobsFlatSegmentResponse,
+  ListBlobsHierarchySegmentResponse,
+  BlobItemInternal,
+  BlobPrefix,
+  BlobType,
+  LeaseStatusType,
+  LeaseStateType,
+  LeaseDurationType,
+  CopyStatusType,
+  AccessTier,
+  ArchiveStatus,
+  RehydratePriority,
+  BlobImmutabilityPolicyMode,
+  BlobTag
+} from "../generated/src/models";
 import { DevelopmentConnectionString, HeaderConstants, URLConstants } from "./constants";
 import {
   Tags,
@@ -19,6 +37,12 @@ import {
   ObjectReplicationStatus,
   HttpAuthorization
 } from "../models";
+import {
+  ListBlobsFlatSegmentResponseModel,
+  BlobItemInternal as BlobItemInternalModel,
+  ListBlobsHierarchySegmentResponseModel,
+  BlobPrefix as BlobPrefixModel
+} from "../generatedModels";
 
 /**
  * Reserved URL characters must be properly escaped for Storage services like Blob or File.
@@ -755,4 +779,239 @@ export function httpAuthorizationToString(
   httpAuthorization?: HttpAuthorization
 ): string | undefined {
   return httpAuthorization ? httpAuthorization.scheme + " " + httpAuthorization.value : undefined;
+}
+
+export function BlobNameToString(name: BlobName): string {
+  if (name.encoded) {
+    return decodeURIComponent(name.content!);
+  } else {
+    return name.content!;
+  }
+}
+
+export function ConvertInternalResponseOfListBlobFlat(
+  internalResponse: ListBlobsFlatSegmentResponse
+): ListBlobsFlatSegmentResponseModel {
+  return {
+    ...internalResponse,
+    segment: {
+      blobItems: internalResponse.segment.blobItems.map((blobItemInteral) => {
+        const blobItem: BlobItemInternalModel = {
+          ...blobItemInteral,
+          name: BlobNameToString(blobItemInteral.name)
+        };
+        return blobItem;
+      })
+    }
+  };
+}
+
+export function ConvertInternalResponseOfListBlobHierarchy(
+  internalResponse: ListBlobsHierarchySegmentResponse
+): ListBlobsHierarchySegmentResponseModel {
+  return {
+    ...internalResponse,
+    segment: {
+      blobPrefixes: internalResponse.segment.blobPrefixes?.map((blobPrefixInternal) => {
+        const blobPrefix: BlobPrefixModel = {
+          name: BlobNameToString(blobPrefixInternal.name)
+        };
+        return blobPrefix;
+      }),
+      blobItems: internalResponse.segment.blobItems.map((blobItemInteral) => {
+        const blobItem: BlobItemInternalModel = {
+          ...blobItemInteral,
+          name: BlobNameToString(blobItemInteral.name)
+        };
+        return blobItem;
+      })
+    }
+  };
+}
+
+function decodeBase64String(value: string): Uint8Array {
+  if (isNode) {
+    return Buffer.from(value, "base64");
+  } else {
+    const byteString = atob(value);
+    const arr = new Uint8Array(byteString.length);
+    for (let i = 0; i < byteString.length; i++) {
+      arr[i] = byteString.charCodeAt(i);
+    }
+    return arr;
+  }
+}
+
+function ParseBoolean(content: any) {
+  if (content === undefined) return undefined;
+  if (content === "true") return true;
+  if (content === "false") return false;
+  return undefined;
+}
+
+function ParseBlobName(blobNameInXML: any): BlobName {
+  if (blobNameInXML["$"] !== undefined && blobNameInXML["#"] !== undefined) {
+    return {
+      encoded: ParseBoolean(blobNameInXML["$"]["Encoded"]),
+      content: blobNameInXML["#"] as string
+    };
+  } else {
+    return {
+      encoded: false,
+      content: blobNameInXML as string
+    };
+  }
+}
+
+function ParseBlobItem(blobInXML: any): BlobItemInternal {
+  const blobPropertiesInXML = blobInXML["Properties"];
+  const blobProperties = {
+    createdOn: new Date(blobPropertiesInXML["Creation-Time"] as string),
+    lastModified: new Date(blobPropertiesInXML["Last-Modified"] as string),
+    etag: blobPropertiesInXML["Etag"] as string,
+    contentLength:
+      blobPropertiesInXML["Content-Length"] === undefined
+        ? undefined
+        : parseFloat(blobPropertiesInXML["Content-Length"] as string),
+    contentType: blobPropertiesInXML["Content-Type"] as string,
+    contentEncoding: blobPropertiesInXML["Content-Encoding"] as string,
+    contentLanguage: blobPropertiesInXML["Content-Language"] as string,
+    contentMD5: decodeBase64String(blobPropertiesInXML["Content-MD5"] as string),
+    contentDisposition: blobPropertiesInXML["Content-Disposition"] as string,
+    cacheControl: blobPropertiesInXML["Cache-Control"] as string,
+    blobSequenceNumber:
+      blobPropertiesInXML["x-ms-blob-sequence-number"] === undefined
+        ? undefined
+        : parseFloat(blobPropertiesInXML["x-ms-blob-sequence-number"] as string),
+    blobType: blobPropertiesInXML["BlobType"] as BlobType,
+    leaseStatus: blobPropertiesInXML["LeaseStatus"] as LeaseStatusType,
+    leaseState: blobPropertiesInXML["LeaseState"] as LeaseStateType,
+    leaseDuration: blobPropertiesInXML["LeaseDuration"] as LeaseDurationType,
+    copyId: blobPropertiesInXML["CopyId"] as string,
+    copyStatus: blobPropertiesInXML["CopyStatus"] as CopyStatusType,
+    copySource: blobPropertiesInXML["CopySource"] as string,
+    copyProgress: blobPropertiesInXML["CopyProgress"] as string,
+    copyCompletedOn:
+      blobPropertiesInXML["CopyCompletionTime"] === undefined
+        ? undefined
+        : new Date(blobPropertiesInXML["CopyCompletionTime"] as string),
+    copyStatusDescription: blobPropertiesInXML["CopyStatusDescription"] as string,
+    serverEncrypted: ParseBoolean(blobPropertiesInXML["ServerEncrypted"]),
+    incrementalCopy: ParseBoolean(blobPropertiesInXML["IncrementalCopy"]),
+    destinationSnapshot: blobPropertiesInXML["DestinationSnapshot"] as string,
+    deletedOn:
+      blobPropertiesInXML["DeletedTime"] === undefined
+        ? undefined
+        : new Date(blobPropertiesInXML["DeletedTime"] as string),
+    remainingRetentionDays:
+      blobPropertiesInXML["RemainingRetentionDays"] === undefined
+        ? undefined
+        : parseFloat(blobPropertiesInXML["RemainingRetentionDays"] as string),
+    accessTier: blobPropertiesInXML["AccessTier"] as AccessTier,
+    accessTierInferred: ParseBoolean(blobPropertiesInXML["AccessTierInferred"]),
+    archiveStatus: blobPropertiesInXML["ArchiveStatus"] as ArchiveStatus,
+    customerProvidedKeySha256: blobPropertiesInXML["CustomerProvidedKeySha256"] as string,
+    encryptionScope: blobPropertiesInXML["EncryptionScope"] as string,
+    accessTierChangedOn:
+      blobPropertiesInXML["AccessTierChangeTime"] === undefined
+        ? undefined
+        : new Date(blobPropertiesInXML["AccessTierChangeTime"] as string),
+    tagCount:
+      blobPropertiesInXML["TagCount"] === undefined
+        ? undefined
+        : parseFloat(blobPropertiesInXML["TagCount"] as string),
+    expiresOn:
+      blobPropertiesInXML["Expiry-Time"] === undefined
+        ? undefined
+        : new Date(blobPropertiesInXML["Expiry-Time"] as string),
+    isSealed: ParseBoolean(blobPropertiesInXML["Sealed"]),
+    rehydratePriority: blobPropertiesInXML["RehydratePriority"] as RehydratePriority,
+    lastAccessedOn:
+      blobPropertiesInXML["LastAccessTime"] === undefined
+        ? undefined
+        : new Date(blobPropertiesInXML["LastAccessTime"] as string),
+    immutabilityPolicyExpiresOn:
+      blobPropertiesInXML["ImmutabilityPolicyUntilDate"] === undefined
+        ? undefined
+        : new Date(blobPropertiesInXML["ImmutabilityPolicyUntilDate"] as string),
+    immutabilityPolicyMode: blobPropertiesInXML[
+      "ImmutabilityPolicyMode"
+    ] as BlobImmutabilityPolicyMode,
+    legalHold: ParseBoolean(blobPropertiesInXML["LegalHold"])
+  };
+
+  return {
+    name: ParseBlobName(blobInXML["Name"]),
+    deleted: ParseBoolean(blobInXML["Deleted"])!,
+    snapshot: blobInXML["Snapshot"] as string,
+    versionId: blobInXML["VersionId"] as string,
+    isCurrentVersion: ParseBoolean(blobInXML["IsCurrentVersion"]),
+    properties: blobProperties,
+    metadata: blobInXML["Metadata"],
+    blobTags: ParseBlobTags(blobInXML["Tags"]),
+    objectReplicationMetadata: blobInXML["OrMetadata"],
+    hasVersionsOnly: ParseBoolean(blobInXML["HasVersionsOnly"])
+  };
+}
+
+function ParseBlobPrefix(blobPrefixInXML: any): BlobPrefix {
+  return {
+    name: ParseBlobName(blobPrefixInXML["Name"])
+  };
+}
+
+function ParseBlobTag(blobTagInXML: any): BlobTag {
+  return {
+    key: blobTagInXML["Key"],
+    value: blobTagInXML["Value"]
+  };
+}
+
+function ParseBlobTags(blobTagsInXML: any): BlobTags | undefined {
+  if (
+    blobTagsInXML === undefined ||
+    blobTagsInXML["TagSet"] === undefined ||
+    blobTagsInXML["TagSet"]["Tag"] === undefined
+  ) {
+    return undefined;
+  }
+
+  const blobTagSet = [];
+  if (blobTagsInXML["TagSet"]["Tag"] instanceof Array) {
+    blobTagsInXML["TagSet"]["Tag"].forEach((blobTagInXML: any) => {
+      blobTagSet.push(ParseBlobTag(blobTagInXML));
+    });
+  } else {
+    blobTagSet.push(ParseBlobTag(blobTagsInXML["TagSet"]["Tag"]));
+  }
+
+  return { blobTagSet: blobTagSet };
+}
+
+export function ProcessBlobItems(blobArrayInXML: any[]): BlobItemInternal[] {
+  const blobItems = [];
+
+  if (blobArrayInXML instanceof Array) {
+    blobArrayInXML.forEach((blobInXML: any) => {
+      blobItems.push(ParseBlobItem(blobInXML));
+    });
+  } else {
+    blobItems.push(ParseBlobItem(blobArrayInXML));
+  }
+
+  return blobItems;
+}
+
+export function ProcessBlobPrefixes(blobPrefixesInXML: any[]): BlobPrefix[] {
+  const blobPrefixes = [];
+
+  if (blobPrefixesInXML instanceof Array) {
+    blobPrefixesInXML.forEach((blobPrefixInXML: any) => {
+      blobPrefixes.push(ParseBlobPrefix(blobPrefixInXML));
+    });
+  } else {
+    blobPrefixes.push(ParseBlobPrefix(blobPrefixesInXML));
+  }
+
+  return blobPrefixes;
 }
