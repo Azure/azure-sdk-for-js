@@ -10,7 +10,9 @@ import {
   env,
   record,
   RecorderEnvironmentSetup,
-  Recorder
+  Recorder,
+  delay,
+  isPlaybackMode
 } from "@azure-tools/test-recorder";
 import * as assert from "assert";
 import { ClientSecretCredential } from "@azure/identity";
@@ -31,6 +33,10 @@ const recorderEnvSetup: RecorderEnvironmentSetup = {
       )
   ],
   queryParametersToSkip: []
+};
+
+export const testPollingOptions = {
+  updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
 describe("Eventgrid test", () => {
@@ -63,7 +69,7 @@ describe("Eventgrid test", () => {
   });
 
   it("topics create test", async function () {
-    const res = await client.topics.beginCreateOrUpdateAndWait(resourceGroupName, topicName, { location: "westcentralus" });
+    const res = await client.topics.beginCreateOrUpdateAndWait(resourceGroupName, topicName, { location: "westcentralus" }, testPollingOptions);
     assert.equal(res.name, topicName);
   });
 
@@ -76,7 +82,7 @@ describe("Eventgrid test", () => {
   });
 
   it("topics delete test", async function () {
-    const res = await client.topics.beginDeleteAndWait(resourceGroupName, topicName);
+    const res = await client.topics.beginDeleteAndWait(resourceGroupName, topicName, testPollingOptions);
     const resArray = new Array();
     for await (let item of client.topics.listByResourceGroup(resourceGroupName)) {
       resArray.push(item);
@@ -85,7 +91,7 @@ describe("Eventgrid test", () => {
   });
 
   it("domains create test", async function () {
-    const res = await client.domains.beginCreateOrUpdateAndWait(resourceGroupName, domainName, { location: location });
+    const res = await client.domains.beginCreateOrUpdateAndWait(resourceGroupName, domainName, { location: location }, testPollingOptions);
     assert.equal(res.name, domainName);
   });
 
@@ -95,7 +101,7 @@ describe("Eventgrid test", () => {
         tag1: "value1",
         tag2: "value2"
       }
-    });
+    }, testPollingOptions);
     //It's void response
   });
 
@@ -113,7 +119,7 @@ describe("Eventgrid test", () => {
   });
 
   it("domains delete test", async function () {
-    const res = await client.domains.beginDeleteAndWait(resourceGroupName, domainName);
+    const res = await client.domains.beginDeleteAndWait(resourceGroupName, domainName, testPollingOptions);
     const resArray = new Array();
     for await (let item of client.domains.listByResourceGroup(resourceGroupName)) {
       resArray.push(item);

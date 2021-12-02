@@ -20,12 +20,12 @@ const allowedRedirect = ["GET", "HEAD"];
  * Options for how redirect responses are handled.
  */
 export interface RedirectOptions {
-  /*
+  /**
    * When true, redirect responses are followed.  Defaults to true.
    */
   handleRedirects: boolean;
 
-  /*
+  /**
    * The maximum number of times the redirect URL will be tried before
    * failing.  Defaults to 20.
    */
@@ -37,6 +37,11 @@ export const DefaultRedirectOptions: RedirectOptions = {
   maxRetries: 20
 };
 
+/**
+ * Creates a redirect policy, which sends a repeats the request to a new destination if a response arrives with a "location" header, and a status code between 300 and 307.
+ * @param maximumRetries - Maximum number of redirects to follow.
+ * @returns An instance of the {@link RedirectPolicy}
+ */
 export function redirectPolicy(maximumRetries = 20): RequestPolicyFactory {
   return {
     create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {
@@ -45,6 +50,9 @@ export function redirectPolicy(maximumRetries = 20): RequestPolicyFactory {
   };
 }
 
+/**
+ * Resends the request to a new destination if a response arrives with a "location" header, and a status code between 300 and 307.
+ */
 export class RedirectPolicy extends BaseRequestPolicy {
   constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions, readonly maxRetries = 20) {
     super(nextPolicy, options);

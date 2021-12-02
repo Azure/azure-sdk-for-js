@@ -18,10 +18,16 @@ const replaceableVariables: { [k: string]: string } = {
   TEXT_ANALYTICS_API_KEY: "api_key",
   // Second API key
   TEXT_ANALYTICS_API_KEY_ALT: "api_key_alt",
-  ENDPOINT: "https://endpoint"
+  ENDPOINT: "https://endpoint",
+  TEXT_ANALYTICS_RECOGNIZE_CUSTOM_ENTITIES_PROJECT_NAME: "project_name",
+  TEXT_ANALYTICS_RECOGNIZE_CUSTOM_ENTITIES_DEPLOYMENT_NAME: "deployment_name",
+  TEXT_ANALYTICS_SINGLE_CATEGORY_CLASSIFY_PROJECT_NAME: "project_name",
+  TEXT_ANALYTICS_SINGLE_CATEGORY_CLASSIFY_DEPLOYMENT_NAME: "deployment_name",
+  TEXT_ANALYTICS_MULTI_CATEGORY_CLASSIFY_PROJECT_NAME: "project_name",
+  TEXT_ANALYTICS_MULTI_CATEGORY_CLASSIFY_DEPLOYMENT_NAME: "deployment_name"
 };
 
-export const environmentSetup: RecorderEnvironmentSetup = {
+const environmentSetup: RecorderEnvironmentSetup = {
   replaceableVariables,
   customizationsOnRecordings: [
     (recording: string): string =>

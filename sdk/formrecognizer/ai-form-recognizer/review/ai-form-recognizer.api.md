@@ -7,10 +7,10 @@
 /// <reference types="node" />
 
 import { AzureKeyCredential } from '@azure/core-auth';
+import { CommonClientOptions } from '@azure/core-client';
 import { KeyCredential } from '@azure/core-auth';
 import { OperationOptions } from '@azure/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PipelineOptions } from '@azure/core-rest-pipeline';
 import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
 import { TokenCredential } from '@azure/core-auth';
@@ -250,8 +250,10 @@ export interface DocumentAnalysisClientOptions extends FormRecognizerCommonClien
 
 // @public
 export interface DocumentAnalysisPollOperationState<Result = AnalyzeResult<AnalyzedDocument>> extends PollOperationState<Result> {
+    createdOn: Date;
+    lastUpdatedOn: Date;
     modelId: string;
-    operationId: string;
+    operationLocation: string;
     status: AnalyzeResultOperationStatus;
 }
 
@@ -335,6 +337,7 @@ export interface DocumentLine {
     boundingBox?: number[];
     content: string;
     spans: DocumentSpan[];
+    words: () => IterableIterator<DocumentWord>;
 }
 
 // @public
@@ -499,7 +502,7 @@ export const FormRecognizerApiVersion: {
 };
 
 // @public
-export interface FormRecognizerCommonClientOptions extends PipelineOptions {
+export interface FormRecognizerCommonClientOptions extends CommonClientOptions {
     apiVersion?: FormRecognizerApiVersion;
 }
 
@@ -1279,6 +1282,8 @@ export type TrainingPoller = PollerLike<TrainingPollOperationState, ModelInfo>;
 
 // @public
 export interface TrainingPollOperationState extends PollOperationState<ModelInfo> {
+    createdOn: Date;
+    lastUpdatedOn: Date;
     operationId: string;
     percentCompleted: number;
     status: OperationStatus;

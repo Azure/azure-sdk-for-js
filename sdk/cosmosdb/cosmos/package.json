@@ -1,6 +1,6 @@
 {
   "name": "@azure/cosmos",
-  "version": "3.14.2",
+  "version": "3.15.0",
   "description": "Microsoft Azure Cosmos DB Service Node.js SDK for SQL API",
   "sdk-type": "client",
   "keywords": [
@@ -16,8 +16,8 @@
   ],
   "author": "Microsoft Corporation",
   "main": "./dist/index.js",
-  "module": "./dist-esm/index.js",
-  "react-native": "./dist-esm/index.js",
+  "module": "./dist-esm/src/index.js",
+  "react-native": "./dist-esm/src/index.js",
   "browser": {
     "./dist-esm/request/defaultAgent.js": "./dist-esm/request/defaultAgent.browser.js",
     "./dist-esm/utils/atob.js": "./dist-esm/utils/atob.browser.js",
@@ -34,6 +34,14 @@
   ],
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/cosmosdb/cosmos/README.md",
   "sideEffects": false,
+  "//metadata": {
+    "constantPaths": [
+      {
+        "path": "src/common/constants.ts",
+        "prefix": "SDKVersion"
+      }
+    ]
+  },
   "types": "./dist/types/latest/cosmos.d.ts",
   "typesVersions": {
     "<3.6": {
@@ -52,7 +60,7 @@
     "build:src": "echo Using TypeScript && tsc --version && tsc -b --pretty",
     "build:test": "tsc",
     "build:types": "downlevel-dts dist/types/latest dist/types/3.1",
-    "build": "npm run clean && npm run extract-api && npm run build:types && node writeSDKVersion.js && npm run bundle",
+    "build": "npm run clean && npm run extract-api && npm run build:types && npm run bundle",
     "bundle": "rollup -c",
     "bundle-types": "node bundle-types.js",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"samples-dev/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
@@ -100,7 +108,8 @@
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "@azure/identity": "^1.1.0",
+    "@azure/identity": "^2.0.1",
+    "@azure/logger": "^1.0.0",
     "@microsoft/api-extractor": "^7.18.11",
     "@rollup/plugin-json": "^4.0.0",
     "@rollup/plugin-multi-entry": "^3.0.0",
@@ -154,6 +163,12 @@
     ],
     "requiredResources": {
       "Azure Cosmos DB account": "https://docs.microsoft.com/azure/cosmos-db/how-to-manage-database-account#create-an-account"
+    },
+    "extraFiles": {
+      "./samples-dev/Data/Families.json": [
+        "typescript/src/Data/Families.json",
+        "javascript/Data/Families.json"
+      ]
     }
   }
 }

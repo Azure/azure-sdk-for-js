@@ -13,16 +13,39 @@ export type RequestPolicyFactory = {
   create(nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike): RequestPolicy;
 };
 
+/**
+ * The underlying structure of a request policy.
+ */
 export interface RequestPolicy {
+  /**
+   * A method that retrieves an {@link HttpOperationResponse} given a {@link WebResourceLike} describing the request to be made.
+   * @param httpRequest - {@link WebResourceLike} describing the request to be made.
+   */
   sendRequest(httpRequest: WebResourceLike): Promise<HttpOperationResponse>;
 }
 
+/**
+ * The base class from which all request policies derive.
+ */
 export abstract class BaseRequestPolicy implements RequestPolicy {
+  /**
+   * The main method to implement that manipulates a request/response.
+   */
   protected constructor(
+    /**
+     * The next policy in the pipeline. Each policy is responsible for executing the next one if the request is to continue through the pipeline.
+     */
     readonly _nextPolicy: RequestPolicy,
+    /**
+     * The options that can be passed to a given request policy.
+     */
     readonly _options: RequestPolicyOptionsLike
   ) {}
 
+  /**
+   * Sends a network request based on the given web resource.
+   * @param webResource - A {@link WebResourceLike} that describes a HTTP request to be made.
+   */
   public abstract sendRequest(webResource: WebResourceLike): Promise<HttpOperationResponse>;
 
   /**

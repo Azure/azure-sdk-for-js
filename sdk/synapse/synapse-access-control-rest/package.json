@@ -1,0 +1,137 @@
+{
+  "name": "@azure-rest/synapse-access-control",
+  "author": "Microsoft Corporation",
+  "description": "A generated Rest Client SDK for Azure Synapse AccessControl.",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/synapse/synapse-access-control/README.md",
+  "repository": "github:Azure/azure-sdk-for-js",
+  "sdk-type": "client",
+  "version": "1.0.0-beta.1",
+  "dependencies": {
+    "@azure-rest/core-client": "1.0.0-beta.7",
+    "@azure/core-auth": "^1.3.0",
+    "@azure/core-rest-pipeline": "^1.3.0",
+    "@azure/core-paging": "^1.2.0",
+    "tslib": "^2.2.0"
+  },
+  "//metadata": {
+    "constantPaths": [
+      {
+        "path": "swagger/README.md",
+        "prefix": "package-version"
+      }
+    ]
+  },
+  "browser": {
+    "./dist-esm/test/public/utils/env.js": "./dist-esm/test/public/utils/env.browser.js"
+  },
+  "keywords": [
+    "node",
+    "azure",
+    "typescript",
+    "browser",
+    "cloud",
+    "isomorphic"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "main": "./dist/index.js",
+  "module": "./dist-esm/src/index.js",
+  "types": "./types/synapse-access-control-rest.d.ts",
+  "devDependencies": {
+    "uuid": "^8.3.0",
+    "@types/uuid": "^8.0.0",
+    "@azure/dev-tool": "^1.0.0",
+    "@azure/eslint-plugin-azure-sdk": "^3.0.0",
+    "@azure/identity": "^2.0.1",
+    "@azure-tools/test-recorder": "^1.0.0",
+    "@azure/core-util": "1.0.0-beta.1",
+    "@microsoft/api-extractor": "^7.18.11",
+    "@types/chai": "^4.1.6",
+    "@types/mocha": "^7.0.2",
+    "chai": "^4.2.0",
+    "dotenv": "^8.2.0",
+    "eslint": "^7.15.0",
+    "karma-chrome-launcher": "^3.0.0",
+    "karma-coverage": "^2.0.0",
+    "karma-env-preprocessor": "^0.1.1",
+    "karma-firefox-launcher": "^1.1.0",
+    "karma-ie-launcher": "^1.0.0",
+    "karma-junit-reporter": "^2.0.1",
+    "karma-mocha-reporter": "^2.2.5",
+    "karma-mocha": "^2.0.1",
+    "karma-sourcemap-loader": "^0.3.8",
+    "karma": "^6.2.0",
+    "mocha-junit-reporter": "^1.18.0",
+    "mocha": "^7.1.1",
+    "nyc": "^14.0.0",
+    "prettier": "^1.16.4",
+    "rimraf": "^3.0.0",
+    "rollup": "^1.16.3",
+    "uglify-js": "^3.4.9",
+    "@types/chai-as-promised": "^7.1.0",
+    "@types/node": "^12.0.0",
+    "@types/sinon": "^9.0.4",
+    "chai-as-promised": "^7.1.1",
+    "cross-env": "^7.0.2",
+    "karma-edge-launcher": "^0.4.2",
+    "karma-json-preprocessor": "^0.3.3",
+    "karma-json-to-file-reporter": "^1.0.1",
+    "karma-source-map-support": "~1.4.0",
+    "sinon": "^9.0.2",
+    "source-map-support": "^0.5.9",
+    "ts-node": "^10.0.0",
+    "typescript": "~4.2.0",
+    "typedoc": "0.15.2"
+  },
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "files": [
+    "dist/**/*.js",
+    "dist/**/*.js.map",
+    "dist/**/*.d.ts",
+    "dist/**/*.d.ts.map",
+    "dist-esm/**/*.js",
+    "dist-esm/**/*.js.map",
+    "dist-esm/**/*.d.ts",
+    "dist-esm/**/*.d.ts.map",
+    "types/synapse-access-control.d.ts",
+    "README.md",
+    "rollup.config.js",
+    "tsconfig.json"
+  ],
+  "scripts": {
+    "build": "tsc && rollup -c rollup.config.js && npm run minify && npm run extract-api",
+    "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/index.js.map'\" -o ./dist/index.min.js ./dist/index.js",
+    "pack": "npm pack 2>&1",
+    "build:test": "tsc -p . && rollup -c 2>&1",
+    "lint": "echo skip",
+    "format": "echo skip format as this package has only auto generated code",
+    "check-format": "echo skip format check as this package has only auto generated code",
+    "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser",
+    "test:node": "npm run clean && npm run build:test && npm run unit-test:node",
+    "test": "npm run clean && npm run build:test && npm run unit-test",
+    "unit-test:browser": "karma start --single-run",
+    "unit-test:node": "mocha -r esm --require ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 1200000 --full-trace \"test/{,!(browser)/**/}*.spec.ts\"",
+    "unit-test": "npm run unit-test:node && npm run unit-test:browser",
+    "extract-api": "api-extractor run --local",
+    "clean": "rimraf dist dist-* temp types *.tgz *.log",
+    "build:samples": "echo Skipped.",
+    "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src"
+  },
+  "//sampleConfiguration": {
+    "productName": "Azure Synapse Access Control Rest",
+    "productSlugs": [
+      "azure",
+      "azure-synapse"
+    ],
+    "requiredResources": {
+      "Creating and managing Synapse compute resources": "https://docs.microsoft.com/azure/synapse-analytics/security/synapse-workspace-access-control-overview#creating-and-managing-synapse-compute-resources"
+    },
+    "disableDocsMs": true,
+    "apiRefLink": "https://docs.microsoft.com/rest/api/synapse/"
+  },
+  "sideEffects": false
+}

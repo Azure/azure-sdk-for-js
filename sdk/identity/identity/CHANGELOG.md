@@ -1,18 +1,28 @@
 # Release History
 
-## 2.0.1 (Unreleased)
+## 2.0.2 (Unreleased)
 
 ### Features Added
 
-- The `ManagedIdentityCredential` now supports the Service Fabric environment.
+- Improved the error message when `InteractiveBrowserCredential` is used with an unavailable port (such as when no `redirectUri` is provided, and the port `80` is busy) and when no browser is available.
 
 ### Breaking Changes
 
 ### Bugs Fixed
 
-- Fixed a bug that caused the `AzureCliCredential` to fail on Windows. Issue [18268](https://github.com/Azure/azure-sdk-for-js/issues/18268).
+- Challenge claims now are properly being passed through to the outgoing token requests.
 
 ### Other Changes
+
+## 2.0.1 (2021-10-28)
+
+### Features Added
+
+- The `ManagedIdentityCredential` now supports the Service Fabric environment.
+
+### Bugs Fixed
+
+- Fixed a bug that caused the `AzureCliCredential` to fail on Windows. Issue [18268](https://github.com/Azure/azure-sdk-for-js/issues/18268).
 
 ## 2.0.0 (2021-10-15)
 

@@ -4,17 +4,19 @@
 import { RestError } from "@azure/core-rest-pipeline";
 import { FullOperationResponse, OperationOptions, OperationSpec } from "@azure/core-client";
 import { SpanStatusCode } from "@azure/core-tracing";
-import { URL, URLSearchParams } from "./utils/url";
 import { logger } from "./logger";
-import { GeneratedClient, StringIndexType as GeneratedStringIndexType } from "./generated";
+import {
+  ErrorResponse,
+  GeneratedClient,
+  InnerError,
+  StringIndexType as GeneratedStringIndexType,
+  TextAnalyticsError
+} from "./generated";
 import { TextAnalyticsAction } from "./textAnalyticsAction";
 import { createSpan } from "./tracing";
 import { LroResponse } from "@azure/core-lro";
 
-/**
- * @internal
- */
-export interface IdObject {
+interface IdObject {
   id: string;
 }
 
@@ -167,55 +169,12 @@ export function addParamsToTask<X extends TextAnalyticsAction>(
   return { parameters: params, taskName: actionName };
 }
 
-/**
- * Set the modelVersion property with default if it does not exist in x.
- * @param options - operation options bag that has a {@link StringIndexType}
- * @internal
- */
-export function setModelVersionParam<X extends { modelVersion?: string }>(
-  x: X
-): X & { modelVersion: string } {
-  return { ...x, modelVersion: x.modelVersion || "latest" };
-}
-
-/**
- * @internal
- */
-export interface PageParam {
-  top: number;
-  skip: number;
-}
-
-/**
- * @internal
- */
-export function nextLinkToTopAndSkip(nextLink: string): PageParam {
-  const url = new URL(nextLink);
-  const searchParams = new URLSearchParams(url.searchParams);
-  let top: number;
-  if (searchParams.has("$top")) {
-    top = parseInt(searchParams.get("$top")!);
-  } else {
-    throw new Error(`nextLink URL does not have the $top param: ${nextLink}`);
+function appendReadableErrorMessage(currentMessage: string, innerMessage: string): string {
+  let message = currentMessage;
+  if (message.slice(-1) !== ".") {
+    message = message + ".";
   }
-  let skip: number;
-  if (searchParams.has("$skip")) {
-    skip = parseInt(searchParams.get("$skip")!);
-  } else {
-    throw new Error(`nextLink URL does not have the $skip param: ${nextLink}`);
-  }
-  return {
-    skip: skip,
-    top: top
-  };
-}
-
-/**
- * @internal
- */
-export function getOperationId(operationLocation: string): string {
-  const lastSlashIndex = operationLocation.lastIndexOf("/");
-  return operationLocation.substring(lastSlashIndex + 1);
+  return message + " " + innerMessage;
 }
 
 /**
@@ -224,48 +183,32 @@ export function getOperationId(operationLocation: string): string {
  * InvalidDocumentBatch, it exposes that as the statusCode instead.
  * @param error - the incoming error
  */
-export function handleInvalidDocumentBatch(error: unknown): any {
-  const castError = error as {
+export function compileError(errorResponse: unknown): any {
+  const castErrorResponse = errorResponse as {
     response: {
-      parsedBody?: {
-        error?: {
-          innererror?: {
-            code: string;
-            message: string;
-          };
-        };
-      };
+      parsedBody?: ErrorResponse;
     };
     statusCode: number;
   };
-  const innerCode = castError.response?.parsedBody?.error?.innererror?.code;
-  const innerMessage = castError.response?.parsedBody?.error?.innererror?.message;
-  if (innerMessage) {
-    return innerCode === "InvalidDocumentBatch"
-      ? new RestError(innerMessage, { code: innerCode, statusCode: castError.statusCode })
-      : error;
-  } else {
-    // unfortunately, the service currently does not follow the swagger definition
-    // for errors in some cases.
-    // Issue: https://msazure.visualstudio.com/Cognitive%20Services/_workitems/edit/8775003/?workitem=8972164
-    // throw new Error(
-    //   `The error coming from the service does not follow the expected structure: ${error}`
-    // );
-    logger.warning(
-      `The error coming from the service does not follow the expected structure: ${error}`
-    );
-    return error;
+  const topLevelError = castErrorResponse.response.parsedBody?.error;
+  if (!topLevelError) return errorResponse;
+  let errorMessage = topLevelError.message || "";
+  let invalidDocumentBatchCode = false;
+  function unwrap(error: TextAnalyticsError | InnerError): TextAnalyticsError {
+    if (error?.innererror !== undefined && error.innererror.message !== undefined) {
+      if (error.innererror.code === "InvalidDocumentBatch") {
+        invalidDocumentBatchCode = true;
+      }
+      errorMessage = appendReadableErrorMessage(errorMessage, error.innererror.message);
+      return unwrap(error.innererror);
+    }
+    return error as TextAnalyticsError;
   }
-}
-
-/**
- * A wrapper for setTimeout that resolves a promise after t milliseconds.
- * @internal
- * @param timeInMs - The number of milliseconds to be delayed.
- * @returns Resolved promise
- */
-export function delay(timeInMs: number): Promise<void> {
-  return new Promise((resolve) => setTimeout(() => resolve(), timeInMs));
+  unwrap(topLevelError);
+  return new RestError(errorMessage, {
+    code: invalidDocumentBatchCode ? "InvalidDocumentBatch" : topLevelError.code,
+    statusCode: castErrorResponse.statusCode
+  });
 }
 
 /**

@@ -6,18 +6,18 @@
    "query": {
     "$maxpagesize": "2"
    },
-   "requestBody": "{\"startTime\":\"2020-01-05T00:00:00.000Z\",\"endTime\":\"2020-11-05T00:00:00.000Z\",\"dimensionName\":\"city\"}",
+   "requestBody": "{\"startTime\":\"2021-05-05T00:00:00.000Z\",\"endTime\":\"2021-11-01T00:00:00.000Z\",\"dimensionName\":\"category\"}",
    "status": 200,
-   "response": "{\"value\":[\"__SUM__\",\"Karachi\"],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/26ece682-80a6-4415-89a2-05903dd9a640/anomalies/dimension/query?$maxpagesize=2&$skip=2\"}",
+   "response": "{\"value\":[\"__SUM__\",\"Shoes Handbags & Sunglasses\"],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/26ece682-80a6-4415-89a2-05903dd9a640/anomalies/dimension/query?$maxpagesize=2&$skip=2\"}",
    "responseHeaders": {
-    "apim-request-id": "03e68d0e-a107-4e79-a611-1706fd98f2ca",
-    "content-length": "253",
+    "apim-request-id": "12ba8e70-ec85-4dce-b756-4725860a9c73",
+    "content-length": "273",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 02 Jun 2021 07:09:32 GMT",
+    "date": "Tue, 16 Nov 2021 02:01:23 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "255",
-    "x-request-id": "03e68d0e-a107-4e79-a611-1706fd98f2ca"
+    "x-envoy-upstream-service-time": "238",
+    "x-request-id": "12ba8e70-ec85-4dce-b756-4725860a9c73"
    }
   },
   {
@@ -27,18 +27,18 @@
     "$maxpagesize": "2",
     "$skip": "2"
    },
-   "requestBody": "{\"startTime\":\"2020-01-05T00:00:00.000Z\",\"endTime\":\"2020-11-05T00:00:00.000Z\",\"dimensionName\":\"city\"}",
+   "requestBody": "{\"startTime\":\"2021-05-05T00:00:00.000Z\",\"endTime\":\"2021-11-01T00:00:00.000Z\",\"dimensionName\":\"category\"}",
    "status": 200,
-   "response": "{\"value\":[\"Los Angeles\",\"Delhi\"],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/26ece682-80a6-4415-89a2-05903dd9a640/anomalies/dimension/query?$maxpagesize=2&$skip=4\"}",
+   "response": "{\"value\":[\"Handmade\",\"Office Products\"],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/26ece682-80a6-4415-89a2-05903dd9a640/anomalies/dimension/query?$maxpagesize=2&$skip=4\"}",
    "responseHeaders": {
-    "apim-request-id": "a0540942-d940-4132-a4dd-344fb0b8eda3",
-    "content-length": "255",
+    "apim-request-id": "bc65ae30-1fec-4176-8ede-00154b7b9cca",
+    "content-length": "262",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 02 Jun 2021 07:09:32 GMT",
+    "date": "Tue, 16 Nov 2021 02:01:24 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "255",
-    "x-request-id": "a0540942-d940-4132-a4dd-344fb0b8eda3"
+    "x-envoy-upstream-service-time": "202",
+    "x-request-id": "bc65ae30-1fec-4176-8ede-00154b7b9cca"
    }
   }
  ],
@@ -46,5 +46,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "c2d4f2e678e5b1fe4f794c4cefaef692"
+ "hash": "e872bb33bc28e16e964a3ead10f3e967"
 }

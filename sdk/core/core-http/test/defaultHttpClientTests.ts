@@ -13,7 +13,7 @@ import { DefaultHttpClient } from "../src/defaultHttpClient";
 import { RestError } from "../src/restError";
 import { WebResource, TransferProgressEvent } from "../src/webResource";
 import { getHttpMock, HttpMockFacade } from "./mockHttp";
-import { CommonResponse } from "../src/fetchHttpClient";
+import { CommonResponse } from "../src/nodeFetchHttpClient";
 
 describe("defaultHttpClient", function() {
   function sleep(ms: number): Promise<void> {

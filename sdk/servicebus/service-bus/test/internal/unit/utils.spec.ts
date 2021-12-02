@@ -393,7 +393,7 @@ function getAbortSignalWithTracking(
 ): AbortSignalLike & { ourListenersWereRemoved(): boolean } {
   const signal = (abortController.signal as any) as ReturnType<typeof getAbortSignalWithTracking>;
 
-  const allFunctions = new Set<Function>();
+  const allFunctions = new Set<(signal: AbortSignalLike, ev: any) => any>();
 
   const origAddEventListener = signal.addEventListener;
   const origRemoveEventListener = signal.removeEventListener;

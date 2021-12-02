@@ -4,7 +4,7 @@
 import { HTTP, CloudEvent } from "cloudevents";
 import { IncomingMessage, ServerResponse } from "http";
 import { URL } from "url";
-
+import { logger } from "./logger";
 import * as utils from "./utils";
 
 import {
@@ -14,9 +14,9 @@ import {
   DisconnectedRequest,
   ConnectedRequest,
   ConnectionContext,
-  WebPubSubEventHandlerOptions,
   ConnectResponseHandler,
-  UserEventResponseHandler
+  UserEventResponseHandler,
+  WebPubSubEventHandlerOptions
 } from "./cloudEventsProtocols";
 
 enum EventType {
@@ -137,37 +137,53 @@ function tryGetWebPubSubEvent(req: IncomingMessage): EventType | undefined {
   }
 }
 
+function isWebPubSubRequest(req: IncomingMessage): boolean {
+  return utils.getHttpHeader(req, "ce-awpsversion") !== undefined;
+}
+
 /**
  * @internal
  */
 export class CloudEventsDispatcher {
-  private readonly _dumpRequest: boolean;
-  private readonly _allowedOrigins: string[];
-  constructor(
-    private hub: string,
-    allowedEndpoints: string[],
-    private eventHandler?: WebPubSubEventHandlerOptions
-  ) {
-    this._dumpRequest = eventHandler?.dumpRequest ?? false;
-    this._allowedOrigins = allowedEndpoints.map((endpoint) =>
-      endpoint === "*" ? "*" : new URL(endpoint).host
-    );
-  }
-
-  public processValidateRequest(req: IncomingMessage, res: ServerResponse): boolean {
-    if (req.headers["webhook-request-origin"]) {
-      res.setHeader("WebHook-Allowed-Origin", this._allowedOrigins);
-      res.end();
-      return true;
-    } else {
-      return false;
+  private readonly _allowAll: boolean = true;
+  private readonly _allowedOrigins: Array<string> = [];
+  constructor(private hub: string, private eventHandler?: WebPubSubEventHandlerOptions) {
+    if (Array.isArray(eventHandler)) {
+      throw new Error("Unexpected WebPubSubEventHandlerOptions");
+    }
+    if (eventHandler?.allowedEndpoints !== undefined) {
+      this._allowedOrigins = eventHandler.allowedEndpoints.map((endpoint) =>
+        new URL(endpoint).host.toLowerCase()
+      );
+      this._allowAll = false;
     }
   }
 
-  public async processRequest(
-    request: IncomingMessage,
-    response: ServerResponse
-  ): Promise<boolean> {
+  public handlePreflight(req: IncomingMessage, res: ServerResponse): boolean {
+    if (!isWebPubSubRequest(req)) {
+      return false;
+    }
+    const origin = utils.getHttpHeader(req, "webhook-request-origin")?.toLowerCase();
+
+    if (origin === undefined) {
+      logger.warning("Expecting webhook-request-origin header.");
+      res.statusCode = 400;
+    } else if (this._allowAll || this._allowedOrigins.indexOf(origin!) > -1) {
+      res.setHeader("WebHook-Allowed-Origin", origin!);
+    } else {
+      logger.warning("Origin does not match the allowed origins: " + this._allowedOrigins);
+      res.statusCode = 400;
+    }
+
+    res.end();
+    return true;
+  }
+
+  public async handleRequest(request: IncomingMessage, response: ServerResponse): Promise<boolean> {
+    if (!isWebPubSubRequest(request)) {
+      return false;
+    }
+
     // check if it is a valid WebPubSub cloud events
     const origin = utils.getHttpHeader(request, "webhook-request-origin");
     if (origin === undefined) {
@@ -189,8 +205,7 @@ export class CloudEventsDispatcher {
     switch (eventType) {
       case EventType.Connect:
         if (!this.eventHandler?.handleConnect) {
-          response.statusCode = 401;
-          response.end("Connect event handler is not configured.");
+          response.end();
           return true;
         }
         break;
@@ -213,16 +228,14 @@ export class CloudEventsDispatcher {
         }
         break;
       default:
-        console.warn(`Unknown EventType ${eventType}`);
+        logger.warning(`Unknown EventType ${eventType}`);
         return false;
     }
 
     const eventRequest = await utils.convertHttpToEvent(request);
     const receivedEvent = HTTP.toEvent(eventRequest);
 
-    if (this._dumpRequest) {
-      console.log(receivedEvent);
-    }
+    logger.verbose(receivedEvent);
 
     switch (eventType) {
       case EventType.Connect: {
@@ -277,7 +290,7 @@ export class CloudEventsDispatcher {
         return true;
       }
       default:
-        console.warn(`Unknown EventType ${eventType}`);
+        logger.warning(`Unknown EventType ${eventType}`);
         return false;
     }
   }

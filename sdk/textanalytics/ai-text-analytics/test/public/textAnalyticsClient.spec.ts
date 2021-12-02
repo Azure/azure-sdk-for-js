@@ -9,7 +9,7 @@ import chaiPromises from "chai-as-promised";
 chaiUse(chaiPromises);
 
 import { matrix } from "@azure/test-utils";
-import { isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
+import { env, isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
 
 import { AuthMethod, createClient, createRecorder } from "./utils/recordedClient";
 import {
@@ -447,7 +447,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             assert.equal(e.code, "InvalidDocumentBatch");
             assert.equal(
               e.message,
-              "Batch request contains too many records. Max 5 records are permitted."
+              "Invalid document in request. Batch request contains too many records. Max 5 records are permitted."
             );
           }
         });
@@ -723,7 +723,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             assert.equal(e.code, "InvalidDocumentBatch");
             assert.equal(
               e.message,
-              "Batch request contains too many records. Max 5 records are permitted."
+              "Invalid document in request. Batch request contains too many records. Max 5 records are permitted."
             );
           }
         });
@@ -927,6 +927,164 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
       });
 
       describe("#analyze", function() {
+        it("single custom entity recognition action", async function() {
+          const docs = [
+            {
+              id: "1",
+              language: "en",
+              text:
+                "A recent report by the Government Accountability Office (GAO) found that the dramatic increase in oil and natural gas development on federal lands over the past six years has stretched the staff of the BLM to a point that it has been unable to meet its environmental protection responsibilities."
+            }
+          ];
+
+          const poller = await client.beginAnalyzeActions(
+            docs,
+            {
+              recognizeCustomEntitiesActions: [
+                {
+                  projectName: env.TEXT_ANALYTICS_RECOGNIZE_CUSTOM_ENTITIES_PROJECT_NAME,
+                  deploymentName: env.TEXT_ANALYTICS_RECOGNIZE_CUSTOM_ENTITIES_DEPLOYMENT_NAME
+                }
+              ]
+            },
+            {
+              updateIntervalInMs: pollingInterval
+            }
+          );
+          const results = await poller.pollUntilDone();
+          for await (const page of results) {
+            const entitiesResult = page.recognizeCustomEntitiesResults;
+            if (entitiesResult.length === 1) {
+              const action = entitiesResult[0];
+              if (!action.error) {
+                for (const result of action.results) {
+                  if (!result.error) {
+                    assert.isDefined(result.id);
+                    assert.isDefined(result.entities);
+                    for (const entity of result.entities) {
+                      assert.isDefined(entity.category, "entity category not found");
+                      assert.isDefined(entity.confidenceScore, "confidence score not found");
+                      assert.isDefined(entity.length, "length not found");
+                      assert.isDefined(entity.offset, "offset not found");
+                      assert.isDefined(entity.text, "text not found");
+                    }
+                  } else {
+                    assert.fail("did not expect document errors but got one.");
+                  }
+                }
+              }
+            } else {
+              assert.fail("expected an array of entities results but did not get one.");
+            }
+          }
+        });
+
+        it("single custom document single category classification action", async function() {
+          const docs = [
+            {
+              id: "1",
+              language: "en",
+              text:
+                "A recent report by the Government Accountability Office (GAO) found that the dramatic increase in oil and natural gas development on federal lands over the past six years has stretched the staff of the BLM to a point that it has been unable to meet its environmental protection responsibilities."
+            }
+          ];
+
+          const poller = await client.beginAnalyzeActions(
+            docs,
+            {
+              singleCategoryClassifyActions: [
+                {
+                  projectName: env.TEXT_ANALYTICS_SINGLE_CATEGORY_CLASSIFY_PROJECT_NAME,
+                  deploymentName: env.TEXT_ANALYTICS_SINGLE_CATEGORY_CLASSIFY_DEPLOYMENT_NAME
+                }
+              ]
+            },
+            {
+              updateIntervalInMs: pollingInterval
+            }
+          );
+          const results = await poller.pollUntilDone();
+          for await (const page of results) {
+            const classificationResult = page.singleCategoryClassifyResults;
+            if (classificationResult.length === 1) {
+              const action = classificationResult[0];
+              if (!action.error) {
+                for (const result of action.results) {
+                  if (!result.error) {
+                    assert.ok(result.id);
+                    assert.ok(result.classification);
+                    assert.ok(result.classification.category);
+                    assert.ok(result.classification.confidenceScore);
+                  } else {
+                    assert.fail("did not expect document errors but got one.");
+                  }
+                }
+              }
+            } else {
+              assert.fail(
+                `expected an array of single category classification results but got: ${JSON.stringify(
+                  classificationResult
+                )}`
+              );
+            }
+          }
+        });
+
+        it("single custom document multiple category classification action", async function() {
+          const docs = [
+            {
+              id: "1",
+              language: "en",
+              text:
+                "A recent report by the Government Accountability Office (GAO) found that the dramatic increase in oil and natural gas development on federal lands over the past six years has stretched the staff of the BLM to a point that it has been unable to meet its environmental protection responsibilities."
+            }
+          ];
+
+          const poller = await client.beginAnalyzeActions(
+            docs,
+            {
+              multiCategoryClassifyActions: [
+                {
+                  projectName: env.TEXT_ANALYTICS_MULTI_CATEGORY_CLASSIFY_PROJECT_NAME,
+                  deploymentName: env.TEXT_ANALYTICS_MULTI_CATEGORY_CLASSIFY_DEPLOYMENT_NAME
+                }
+              ]
+            },
+            {
+              updateIntervalInMs: pollingInterval
+            }
+          );
+          const results = await poller.pollUntilDone();
+          for await (const page of results) {
+            const classificationResult = page.multiCategoryClassifyResults;
+            if (classificationResult.length === 1) {
+              const action = classificationResult[0];
+              if (!action.error) {
+                for (const result of action.results) {
+                  if (!result.error) {
+                    assert.ok(result.id);
+                    assert.ok(result.classifications);
+                    for (const classification of result.classifications) {
+                      assert.ok(classification.category);
+                      assert.ok(classification.confidenceScore);
+                    }
+                  } else {
+                    assert.fail(
+                      `did not expect document errors but got: ${JSON.stringify(
+                        classificationResult
+                      )}`
+                    );
+                  }
+                }
+              }
+            } else {
+              assert.fail(
+                "expected an array of multi category classification results but did not get one."
+              );
+            }
+          }
+        });
+
         it("single extract summary action", async function() {
           // Source: https://news.microsoft.com/innovation-stories/cloud-pc-windows-365/
           const windows365ArticlePart1 = `
@@ -2064,29 +2222,54 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           }
         });
 
-        it("multiple actions per type are disallowed", async function() {
+        it("duplicate actions of the same type are disallowed", async function() {
           const docs = [{ id: "1", text: "I will go to the park." }];
 
           try {
-            await client.beginAnalyzeActions(
+            const response = await client.beginAnalyzeActions(
               docs,
               {
                 recognizePiiEntitiesActions: [
                   { modelVersion: "latest" },
-                  { modelVersion: "latest", stringIndexType: "TextElement_v8" }
+                  { modelVersion: "latest" }
                 ]
               },
               {
                 updateIntervalInMs: pollingInterval
               }
             );
-            throw new Error("Expected an error to occur");
-          } catch (e) {
-            assert.equal(
-              e.message,
-              "beginAnalyzeActions: Currently, the service can accept up to one action only for recognizePiiEntities actions."
+            assert.fail(
+              `expected a failure but received the following intead: ${JSON.stringify(
+                response,
+                null,
+                2
+              )}`
             );
+          } catch (e) {
+            assert.equal(e.code, "InvalidRequest");
+            assert.include(e.message, "Duplicate task name");
           }
+        });
+
+        it("unique multiple actions per type are allowed", async function() {
+          const docs = [{ id: "1", text: "I will go to the park." }];
+
+          const poller = await client.beginAnalyzeActions(
+            docs,
+            {
+              recognizePiiEntitiesActions: [
+                { modelVersion: "latest", actionName: "action1" },
+                { modelVersion: "latest", actionName: "action2" }
+              ]
+            },
+            {
+              updateIntervalInMs: pollingInterval
+            }
+          );
+          const pollerResult = await poller.pollUntilDone();
+          const firstResult = (await pollerResult.next()).value;
+          assert.equal(firstResult.recognizePiiEntitiesResults[0].actionName, "action1");
+          assert.equal(firstResult.recognizePiiEntitiesResults[1].actionName, "action2");
         });
       });
 
@@ -2300,7 +2483,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             assert.equal(e.code, "InvalidDocumentBatch");
             assert.equal(
               e.message,
-              "Batch request contains too many records. Max 10 records are permitted."
+              "Invalid document in request. Batch request contains too many records. Max 10 records are permitted."
             );
           }
         });
@@ -2331,7 +2514,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             assert.equal(e.code, "InvalidDocumentBatch");
             assert.equal(
               e.message,
-              "Request Payload sent is too large to be processed. Limit request size to: 524288"
+              "Invalid document in request. Request Payload sent is too large to be processed. Limit request size to: 524288"
             );
           }
         });
@@ -2524,14 +2707,9 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
         });
 
         it("all documents have errors", async function() {
-          let text = "";
-          for (let i = 0; i < 5121; ++i) {
-            text = text + "x";
-          }
           const docs = [
             { id: "1", text: "" },
-            { id: "2", language: "english", text: "I did not like the hotel we stayed at." },
-            { id: "3", text: text }
+            { id: "2", language: "english", text: "I did not like the hotel we stayed at." }
           ];
 
           const poller = await client.beginAnalyzeHealthcareEntities(docs, {
@@ -2540,7 +2718,27 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           const doc_errors = await poller.pollUntilDone();
           assert.equal((await doc_errors.next()).value.error?.code, "InvalidDocument");
           assert.equal((await doc_errors.next()).value.error?.code, "UnsupportedLanguageCode");
-          assert.equal((await doc_errors.next()).value.error?.code, "InvalidDocument");
+        });
+
+        it("big document causes a warning", async function() {
+          let text = "";
+          for (let i = 0; i < 5121; ++i) {
+            text = text + "x";
+          }
+          const docs = [{ id: "3", text: text }];
+
+          const poller = await client.beginAnalyzeHealthcareEntities(docs, {
+            updateIntervalInMs: pollingInterval
+          });
+          const results = await poller.pollUntilDone();
+          const docResult = (await results.next()).value;
+          if (!docResult.error) {
+            assert.equal(docResult.warnings[0].code, "DocumentTruncated");
+          } else {
+            assert.fail(
+              `Expected a warning but received an error instead with code: ${docResult.error.code}`
+            );
+          }
         });
 
         it("documents with duplicate IDs", async function() {

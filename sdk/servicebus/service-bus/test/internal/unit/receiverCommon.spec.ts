@@ -221,7 +221,7 @@ describe("shared receiver code", () => {
     });
 
     it("exits if operation is successful", async () => {
-      let errorMessages: string[] = [];
+      const errorMessages: string[] = [];
       let numOperationCalls = 0;
 
       await retryForever({
@@ -244,10 +244,10 @@ describe("shared receiver code", () => {
     });
 
     it("retries after each retry<> call exhausts _its_ retries", async () => {
-      let errorMessages: string[] = [];
+      const errorMessages: string[] = [];
       let numRetryCalls = 0;
 
-      const fakeRetry = async <T>() => {
+      const fakeRetry = async <T>(): Promise<T> => {
         ++numRetryCalls;
 
         if (numRetryCalls < 3) {

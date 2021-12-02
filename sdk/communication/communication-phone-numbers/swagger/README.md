@@ -22,6 +22,7 @@ add-credentials: false
 azure-arm: false
 skip-enum-validation: true
 title: Phone Numbers Client
+v3: true
 ```
 
 ## Customizations

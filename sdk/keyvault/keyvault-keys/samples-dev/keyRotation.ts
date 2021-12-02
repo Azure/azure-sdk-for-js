@@ -7,6 +7,9 @@
 
 import { KeyClient } from "@azure/keyvault-keys";
 import { DefaultAzureCredential } from "@azure/identity";
+import dayjs from "dayjs";
+import duration from "dayjs/plugin/duration";
+dayjs.extend(duration);
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -22,8 +25,7 @@ export async function main(): Promise<void> {
   const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
   const client = new KeyClient(url, credential);
 
-  const uniqueString = `KeyRotationSample${Date.now()}`;
-  const keyName = `KeyName${uniqueString}`;
+  const keyName = `key-rotation-sample-key-${Date.now()}`;
   const key = await client.createKey(keyName, "EC");
   console.log("created key", key);
 
@@ -43,11 +45,15 @@ export async function main(): Promise<void> {
   console.log("fetched policy", currentPolicy);
 
   // Update the key's automated rotation policy to notify 30 days before the key expires.
+  // By using the ISO8601 duration standard, interoperability with any 3rd party library that supports Durations is supported.
+  // In this example, we'll use Day.js (documented in https://day.js.org) to create the duration.
+  // For more information on the ISO 8601 Duration standard, please refer to the Wikipedia page on Durations:
+  // https://wikipedia.org/wiki/ISO_8601#Durations
   const updatedPolicy = await client.updateKeyRotationPolicy(key.name, {
     lifetimeActions: [
       {
         action: "Notify",
-        timeBeforeExpiry: "P30D"
+        timeBeforeExpiry: dayjs.duration({ days: 30 }).toISOString()
       }
     ],
     expiresIn: "P90D"
@@ -57,14 +63,9 @@ export async function main(): Promise<void> {
   // Rotate the key on-demand, generating a new version of the key.
   const newKeyVersion = await client.rotateKey(key.name);
   console.log("rotated key", newKeyVersion);
-
-  // Delete the key. Deleting a key is a long running operation; however, for this sample we will
-  // fire-and-forget the process and assume the key was successfully deleted.
-  await client.beginDeleteKey(key.name);
 }
 
-main().catch((err) => {
-  console.log("error code: ", err.code);
-  console.log("error message: ", err.message);
-  console.log("error stack: ", err.stack);
+main().catch((error) => {
+  console.error("An error occurred:", error);
+  process.exit(1);
 });

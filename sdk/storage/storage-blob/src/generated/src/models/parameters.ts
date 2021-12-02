@@ -103,7 +103,7 @@ export const timeoutInSeconds: OperationQueryParameter = {
 export const version: OperationParameter = {
   parameterPath: "version",
   mapper: {
-    defaultValue: "2020-10-02",
+    defaultValue: "2021-02-12",
     isConstant: true,
     serializedName: "x-ms-version",
     type: {
@@ -206,7 +206,7 @@ export const include: OperationQueryParameter = {
       element: {
         type: {
           name: "Enum",
-          allowedValues: ["metadata", "deleted"]
+          allowedValues: ["metadata", "deleted", "system"]
         }
       }
     }

@@ -43,7 +43,7 @@ export class EventGridManagementClientContext extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-eventgrid/12.0.0-beta.1`;
+    const packageDetails = `azsdk-js-arm-eventgrid/13.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -66,6 +66,6 @@ export class EventGridManagementClientContext extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2021-06-01-preview";
+    this.apiVersion = options.apiVersion || "2021-12-01";
   }
 }

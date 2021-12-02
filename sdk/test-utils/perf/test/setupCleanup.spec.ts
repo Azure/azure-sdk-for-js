@@ -17,18 +17,18 @@ export class SetupCleanupTest extends PerfTest {
     cleanup: 0
   };
 
-  public globalSetup() {
+  public globalSetup(): void {
     this.state.globalSetup++;
   }
 
-  public setup() {
+  public setup(): void {
     this.state.setup++;
   }
-  public cleanup() {
+  public cleanup(): void {
     this.state.cleanup++;
   }
 
-  public globalCleanup() {
+  public globalCleanup(): void {
     if (this.state.globalCleanup > 0) {
       throw new Error("globalCleanup() shouldn't be called more than once.");
     }
@@ -47,5 +47,7 @@ export class SetupCleanupTest extends PerfTest {
     }
   }
 
-  async run() {}
+  async run(): Promise<void> {
+    // do nothing
+  }
 }

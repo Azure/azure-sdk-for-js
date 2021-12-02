@@ -10,14 +10,11 @@ import * as dotenv from "dotenv";
 dotenv.config({ path: path.resolve(__dirname, "../sample.env") });
 
 import { handleError, finish, logStep } from "./Shared/handleError";
-import { BulkOperationType } from "../src";
+import { BulkOperationType, CosmosClient, OperationInput } from "@azure/cosmos";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-import { CosmosClient } from "../dist";
-
-const endpoint = process.env.COSMOS_ENDPOINT;
-const masterKey = process.env.COSMOS_KEY;
-
+const key = process.env.COSMOS_KEY || "<cosmos key>";
+const endpoint = process.env.COSMOS_ENDPOINT || "<cosmos endpoint>";
 function addEntropy(name: string): string {
   return name + getEntropy();
 }
@@ -29,7 +26,7 @@ function getEntropy(): string {
 async function run() {
   const containerId = "bulkContainerV2";
   const client = new CosmosClient({
-    key: masterKey,
+    key: key,
     endpoint: endpoint
   });
   const { database } = await client.databases.create({ id: addEntropy("bulk db") });
@@ -54,6 +51,7 @@ async function run() {
     key: true,
     class: "2010"
   });
+
   await v2Container.items.create({
     id: deleteItemId,
     key: {},
@@ -65,7 +63,7 @@ async function run() {
     class: "2012"
   });
 
-  const operations = [
+  const operations: OperationInput[] = [
     {
       operationType: BulkOperationType.Create,
       partitionKey: "A",

@@ -24,7 +24,7 @@ export interface HttpResponse {
   headers: HttpHeadersLike;
 }
 
-// eslint-disable-next-line @azure/azure-sdk/ts-no-namespaces
+// eslint-disable-next-line @typescript-eslint/no-namespace
 declare global {
   /**
    * Stub declaration of the browser-only Blob type.
@@ -72,8 +72,8 @@ export interface HttpOperationResponse extends HttpResponse {
 
 /**
  * The flattened response to a REST call.
- * Contains the underlying HttpOperationResponse as well as
- * the merged properties of the parsedBody, parsedHeaders, etc.
+ * Contains the underlying {@link HttpOperationResponse} as well as
+ * the merged properties of the `parsedBody`, `parsedHeaders`, etc.
  */
 export interface RestResponse {
   /**
@@ -81,5 +81,8 @@ export interface RestResponse {
    */
   _response: HttpOperationResponse;
 
+  /**
+   * The flattened properties described by the `OperationSpec`, deserialized from headers and the HTTP body.
+   */
   [key: string]: any;
 }

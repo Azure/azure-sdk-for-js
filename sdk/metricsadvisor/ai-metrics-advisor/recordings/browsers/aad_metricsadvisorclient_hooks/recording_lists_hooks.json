@@ -2,26 +2,26 @@
  "recordings": [
   {
    "method": "POST",
-   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "url": "https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token",
    "query": {},
-   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default",
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fsanitized%2F",
    "status": 200,
    "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
    "responseHeaders": {
     "cache-control": "no-store, no-cache",
     "content-length": "1331",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 02 Jun 2021 20:32:51 GMT",
+    "date": "Tue, 16 Nov 2021 02:02:22 GMT",
     "expires": "-1",
     "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
-    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+san\"}]}",
+    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+est\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11787.14 - SCUS ProdSlices",
-    "x-ms-request-id": "1f556cbd-0f69-468c-ad52-655e5ad40200"
+    "x-ms-ests-server": "2.1.12231.7 - WUS2 ProdSlices",
+    "x-ms-request-id": "15dd7e81-b7bc-4b3c-9aeb-2eebbef18800"
    }
   },
   {
@@ -32,16 +32,16 @@
    },
    "requestBody": null,
    "status": 200,
-  "response": "{\"value\":[{\"hookId\":\"2b755260-7a5a-435c-bc98-1098d5aa8280\",\"hookName\":\"js-test-emailHook-161531685527403780\",\"hookType\":\"Email\",\"externalLink\":\"\",\"description\":\"description\",\"admins\":[\"azure_client_id\"],\"hookParameter\":{\"toList\":[\"test@example.com\"]}},{\"hookId\":\"874704b3-80d3-4e78-929d-64be2accfb4f\",\"hookName\":\"js-test-emailHook-161531685824404287\",\"hookType\":\"Email\",\"externalLink\":\"\",\"description\":\"description\",\"admins\":[\"kaghiya@microsoft.com\"],\"hookParameter\":{\"toList\":[\"test@example.com\"]}},{\"hookId\":\"5710d5c4-6aae-42c9-9bdf-e9ddcc5c89d5\",\"hookName\":\"js-test-emailHook-161531705490304712\",\"hookType\":\"Email\",\"externalLink\":\"\",\"description\":\"description\",\"admins\":[\"azure_client_id\"],\"hookParameter\":{\"toList\":[\"test@example.com\"]}},{\"hookId\":\"54b8eea6-fdfc-4fd7-a7b5-b8dfa1d37d70\",\"hookName\":\"js-test-emailHook-161531705673800660\",\"hookType\":\"Email\",\"externalLink\":\"\",\"description\":\"description\",\"admins\":[\"kaghiya@microsoft.com\"],\"hookParameter\":{\"toList\":[\"test@example.com\"]}},{\"hookId\":\"806f1f85-63af-463f-b8b2-22d1f29cb248\",\"hookName\":\"js-test-emailHook-162015550185600302\",\"hookType\":\"Email\",\"externalLink\":\"\",\"description\":\"description\",\"admins\":[\"azure_client_id\"],\"hookParameter\":{\"toList\":[\"test@example.com\"]}},{\"hookId\":\"2a5859d5-6df2-463e-840d-350a980f3291\",\"hookName\":\"js-test-emailHook-162265643099209817\",\"hookType\":\"Email\",\"externalLink\":\"\",\"description\":\"description\",\"admins\":[\"kaghiya@microsoft.com\"],\"hookParameter\":{\"toList\":[\"test2@example.com\",\"test3@example.com\"]}},{\"hookId\":\"13a6da6e-1d06-4ff6-981c-a817f47f167c\",\"hookName\":\"js-test-emailHook-162266596146607008\",\"hookType\":\"Email\",\"externalLink\":\"\",\"description\":\"description\",\"admins\":[\"azure_client_id\"],\"hookParameter\":{\"toList\":[\"test2@example.com\",\"test3@example.com\"]}},{\"hookId\":\"0bfed82b-af19-4838-b5e1-5746f6781d62\",\"hookName\":\"js-test-webHook-161531253603907468\",\"hookType\":\"Webhook\",\"externalLink\":\"\",\"description\":\"description\",\"admins\":[\"azure_client_id\"],\"hookParameter\":{\"endpoint\":\"https://httpbin.org/post\",\"username\":\"user\",\"password\":\"pass\",\"headers\":null,\"certificateKey\":null,\"certificatePassword\":null}},{\"hookId\":\"e391a9c1-04bb-44cf-9a43-78a373b14bae\",\"hookName\":\"js-test-webHook-161531828969607724\",\"hookType\":\"Webhook\",\"externalLink\":\"\",\"description\":\"description\",\"admins\":[\"azure_client_id\"],\"hookParameter\":{\"endpoint\":\"https://httpbin.org/post\",\"username\":\"user\",\"password\":\"pass\",\"headers\":null,\"certificateKey\":null,\"certificatePassword\":null}},{\"hookId\":\"1ecc09b3-0ad9-4ecf-a34a-8a576de78fbd\",\"hookName\":\"js-test-webHook-161531829480305604\",\"hookType\":\"Webhook\",\"externalLink\":\"\",\"description\":\"description\",\"admins\":[\"kaghiya@microsoft.com\"],\"hookParameter\":{\"endpoint\":\"https://httpbin.org/post\",\"username\":\"user\",\"password\":\"pass\",\"headers\":null,\"certificateKey\":null,\"certificatePassword\":null}},{\"hookId\":\"dbe5351c-e639-4335-90e7-35c6f71c0a4e\",\"hookName\":\"js-test-webHook-161531859165202085\",\"hookType\":\"Webhook\",\"externalLink\":\"\",\"description\":\"description\",\"admins\":[\"azure_client_id\"],\"hookParameter\":{\"endpoint\":\"https://httpbin.org/post\",\"username\":\"user\",\"password\":\"pass\",\"headers\":null,\"certificateKey\":null,\"certificatePassword\":null}},{\"hookId\":\"1314214b-cedc-42d0-a3fe-368857bf786b\",\"hookName\":\"js-test-webHook-161531859960401262\",\"hookType\":\"Webhook\",\"externalLink\":\"\",\"description\":\"description\",\"admins\":[\"kaghiya@microsoft.com\"],\"hookParameter\":{\"endpoint\":\"https://httpbin.org/post\",\"username\":\"user\",\"password\":\"pass\",\"headers\":null,\"certificateKey\":null,\"certificatePassword\":null}},{\"hookId\":\"54b2656e-4d97-46e2-a1c2-670cb9e40f22\",\"hookName\":\"js-test-webHook-161531877402407296\",\"hookType\":\"Webhook\",\"externalLink\":\"\",\"description\":\"description\",\"admins\":[\"azure_client_id\"],\"hookParameter\":{\"endpoint\":\"https://httpbin.org/post\",\"username\":\"user\",\"password\":\"pass\",\"headers\":null,\"certificateKey\":null,\"certificatePassword\":null}},{\"hookId\":\"a8db2484-9b93-4ed0-8c76-94dfcd17fe6e\",\"hookName\":\"js-test-webHook-161531878351801649\",\"hookType\":\"Webhook\",\"externalLink\":\"\",\"description\":\"description\",\"admins\":[\"kaghiya@microsoft.com\"],\"hookParameter\":{\"endpoint\":\"https://httpbin.org/post\",\"username\":\"user\",\"password\":\"pass\",\"headers\":null,\"certificateKey\":null,\"certificatePassword\":null}},{\"hookId\":\"3b66e660-814d-4b16-891a-12f8597a0f87\",\"hookName\":\"js-test-webHook-162015550185604122\",\"hookType\":\"Webhook\",\"externalLink\":\"\",\"description\":\"description\",\"admins\":[\"azure_client_id\"],\"hookParameter\":{\"endpoint\":\"https://httpbin.org/post\",\"username\":\"user\",\"password\":\"pass\",\"headers\":null,\"certificateKey\":null,\"certificatePassword\":null}},{\"hookId\":\"6ec2b7ef-2e7e-4be7-a662-d8df6328d4bd\",\"hookName\":\"js-test-webHook-162265643099207315\",\"hookType\":\"Webhook\",\"externalLink\":\"\",\"description\":\"description\",\"admins\":[\"kaghiya@microsoft.com\"],\"hookParameter\":{\"endpoint\":\"https://mawebhook.azurewebsites.net/api/HttpTrigger\",\"username\":\"user1\",\"password\":\"SecretPlaceholder\",\"headers\":{},\"certificateKey\":\"\",\"certificatePassword\":\"\"}},{\"hookId\":\"9d3e0d59-9062-4831-95f1-b79b5c38e87a\",\"hookName\":\"js-test-webHook-162266596146700623\",\"hookType\":\"Webhook\",\"externalLink\":\"\",\"description\":\"description\",\"admins\":[\"azure_client_id\"],\"hookParameter\":{\"endpoint\":\"https://mawebhook.azurewebsites.net/api/HttpTrigger\",\"username\":\"user1\",\"password\":\"SecretPlaceholder\",\"headers\":{},\"certificateKey\":\"\",\"certificatePassword\":\"\"}}]}",
+   "response": "{\"value\":[{\"hookId\":\"8c88db0d-0020-4b7d-b88b-0a1b1c0eb315\",\"hookName\":\"js-test-emailHook-163122810639507343\",\"hookType\":\"Email\",\"externalLink\":\"\",\"description\":\"description\",\"admins\":[\"azure_client_id\",\"savaity@microsoft.com\"],\"hookParameter\":{\"toList\":[\"test@example.com\"]}},{\"hookId\":\"9c5d8942-bcaf-4184-af2b-444446c5df50\",\"hookName\":\"js-test-emailHook-163615467577705904\",\"hookType\":\"Email\",\"externalLink\":\"\",\"description\":\"description\",\"admins\":[\"azure_client_id\"],\"hookParameter\":{\"toList\":[\"test@example.com\"]}},{\"hookId\":\"919c4d20-ca07-4e36-a693-977a20aceb5c\",\"hookName\":\"js-test-emailHook-163615469774902335\",\"hookType\":\"Email\",\"externalLink\":\"\",\"description\":\"description\",\"admins\":[\"azure_client_id\"],\"hookParameter\":{\"toList\":[\"test@example.com\"]}},{\"hookId\":\"679a3c76-01ec-4abb-909e-8dae6f6d3896\",\"hookName\":\"js-test-emailHook-163667847631004143\",\"hookType\":\"Email\",\"externalLink\":\"\",\"description\":\"description\",\"admins\":[\"azure_client_id\"],\"hookParameter\":{\"toList\":[\"test@example.com\"]}},{\"hookId\":\"942727ee-c652-470e-83ac-75059ed08d75\",\"hookName\":\"js-test-emailHook-163667870166203762\",\"hookType\":\"Email\",\"externalLink\":\"\",\"description\":\"description\",\"admins\":[\"azure_client_id\"],\"hookParameter\":{\"toList\":[\"test@example.com\"]}},{\"hookId\":\"eb9f72fa-490b-4ddd-b03c-be003bcc28e0\",\"hookName\":\"js-test-emailHook-163702813807205652\",\"hookType\":\"Email\",\"externalLink\":\"\",\"description\":\"description\",\"admins\":[\"azure_client_id\"],\"hookParameter\":{\"toList\":[\"test2@example.com\",\"test3@example.com\"]}},{\"hookId\":\"8bde93da-ea72-4f5e-afeb-ce28b8d59e05\",\"hookName\":\"js-test-webHook-163702813807201393\",\"hookType\":\"Webhook\",\"externalLink\":\"\",\"description\":\"description\",\"admins\":[\"azure_client_id\"],\"hookParameter\":{\"endpoint\":\"https://httpbin.org/post\",\"username\":\"user1\",\"password\":\"SecretPlaceholder\"}}]}",
    "responseHeaders": {
-    "apim-request-id": "782b31e1-f701-47f7-acd9-2bde180d71f1",
-    "content-length": "5549",
+    "apim-request-id": "c01f1c8e-810b-4df3-a7db-6104dd515ed8",
+    "content-length": "1955",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 02 Jun 2021 20:32:51 GMT",
+    "date": "Tue, 16 Nov 2021 02:02:23 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "128",
-    "x-request-id": "782b31e1-f701-47f7-acd9-2bde180d71f1"
+    "x-envoy-upstream-service-time": "68",
+    "x-request-id": "c01f1c8e-810b-4df3-a7db-6104dd515ed8"
    }
   }
  ],
@@ -49,5 +49,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "c991dc106253868edb412d079c1fd9c2"
+ "hash": "fdc9bff2290b63c6a1801bde872425de"
 }

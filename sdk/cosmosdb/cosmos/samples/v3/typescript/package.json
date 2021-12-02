@@ -35,12 +35,12 @@
   "dependencies": {
     "@azure/cosmos": "latest",
     "dotenv": "latest",
-    "@azure/identity": "^1.1.0",
+    "@azure/identity": "^2.0.1",
     "uuid": "^8.3.0"
   },
   "devDependencies": {
     "@types/uuid": "^8.0.0",
-    "typescript": "~4.2.0",
+    "typescript": "~4.4.0",
     "rimraf": "latest"
   }
 }

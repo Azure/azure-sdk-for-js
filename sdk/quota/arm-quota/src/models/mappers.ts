@@ -757,34 +757,6 @@ export const CreateGenericQuotaRequestParameters: coreClient.CompositeMapper = {
   }
 };
 
-export const LimitObject: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "LimitObject",
-    modelProperties: {
-      value: {
-        serializedName: "value",
-        required: true,
-        type: {
-          name: "Number"
-        }
-      },
-      limitObjectType: {
-        serializedName: "limitObjectType",
-        type: {
-          name: "String"
-        }
-      },
-      limitType: {
-        serializedName: "limitType",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const QuotaRequestOneResourceSubmitResponse: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1018,16 +990,28 @@ export const QuotaRequestSubmitResponse202: coreClient.CompositeMapper = {
   }
 };
 
-export const LimitValue: coreClient.CompositeMapper = {
+export const LimitObject: coreClient.CompositeMapper = {
   serializedName: "LimitValue",
   type: {
     name: "Composite",
-    className: "LimitValue",
+    className: "LimitObject",
     uberParent: "LimitJsonObject",
     polymorphicDiscriminator: LimitJsonObject.type.polymorphicDiscriminator,
     modelProperties: {
       ...LimitJsonObject.type.modelProperties,
-      ...LimitObject.type.modelProperties
+      value: {
+        serializedName: "value",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      },
+      limitType: {
+        serializedName: "limitType",
+        type: {
+          name: "String"
+        }
+      }
     }
   }
 };
@@ -1124,5 +1108,5 @@ export const QuotaListNextHeaders: coreClient.CompositeMapper = {
 
 export let discriminators = {
   LimitJsonObject: LimitJsonObject,
-  "LimitJsonObject.LimitValue": LimitValue
+  "LimitJsonObject.LimitValue": LimitObject
 };

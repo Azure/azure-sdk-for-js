@@ -13,6 +13,8 @@
 
 ### Other Changes
 
+- Throws a better error message if provided invalid connection strings such as `undefined` to the `AppConfigurationClient` constructor. [#18356](https://github.com/Azure/azure-sdk-for-js/pull/18356)
+
 ## 1.3.0 (2021-07-26)
 
 ### Features Added

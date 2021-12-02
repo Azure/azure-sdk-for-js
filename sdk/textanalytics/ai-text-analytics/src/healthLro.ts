@@ -21,7 +21,7 @@ import { createSpan } from "./tracing";
 import {
   addStrEncodingParam,
   getRawResponse,
-  handleInvalidDocumentBatch,
+  compileError,
   sendGetRequest,
   StringIndexType
 } from "./util";
@@ -129,7 +129,7 @@ export class HealthLro implements LongRunningOperation<PagedAnalyzeHealthcareEnt
         rawResponse
       };
     } catch (e) {
-      const exception = handleInvalidDocumentBatch(e);
+      const exception = compileError(e);
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: exception.message

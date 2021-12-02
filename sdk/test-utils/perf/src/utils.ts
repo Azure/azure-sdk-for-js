@@ -10,7 +10,7 @@ import http from "http";
  * @export
  * @param {string} name
  */
-export function getEnvVar(name: string) {
+export function getEnvVar(name: string): string {
   const val = process.env[name];
   if (!val) {
     throw `Environment variable ${name} is not defined.`;
@@ -25,7 +25,7 @@ let cachedHttpsAgent: https.Agent;
  * @export
  * @param {string} name
  */
-export const getCachedHttpsAgent = (insecure: boolean) => {
+export const getCachedHttpsAgent = (insecure: boolean): https.Agent => {
   if (!cachedHttpsAgent) {
     cachedHttpsAgent = new https.Agent({
       rejectUnauthorized: !insecure
@@ -45,9 +45,11 @@ export const getCachedHttpsAgent = (insecure: boolean) => {
  * @export
  * @param {NodeJS.ReadableStream} stream A Node.js Readable stream
  */
-export async function drainStream(stream: NodeJS.ReadableStream) {
+export async function drainStream(stream: NodeJS.ReadableStream): Promise<void> {
   return new Promise((resolve, reject) => {
-    stream.on("data", () => {});
+    stream.on("data", () => {
+      // do nothing
+    });
     stream.on("end", resolve);
     stream.on("error", reject);
   });
@@ -84,4 +86,17 @@ export async function makeRequest(
  */
 export function isDefined<T>(thing: T | undefined | null): thing is T {
   return typeof thing !== "undefined" && thing !== null;
+}
+
+/**
+ * Formats a duration/time span (e.g. elapsed time) into mm:ss format.
+ *
+ * @param durationMilliseconds Duration in milliseconds
+ */
+export function formatDuration(durationMilliseconds: number): string {
+  const totalSeconds = Math.floor(durationMilliseconds / 1000);
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = Math.floor(totalSeconds % 60);
+
+  return `${minutes < 10 ? "0" : ""}${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
 }

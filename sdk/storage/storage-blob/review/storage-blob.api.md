@@ -56,6 +56,7 @@ export class AccountSASPermissions {
     static from(permissionLike: AccountSASPermissionsLike): AccountSASPermissions;
     list: boolean;
     static parse(permissions: string): AccountSASPermissions;
+    permanentDelete: boolean;
     process: boolean;
     read: boolean;
     setImmutabilityPolicy: boolean;
@@ -73,6 +74,7 @@ export interface AccountSASPermissionsLike {
     deleteVersion?: boolean;
     filter?: boolean;
     list?: boolean;
+    permanentDelete?: boolean;
     process?: boolean;
     read?: boolean;
     setImmutabilityPolicy?: boolean;
@@ -102,6 +104,7 @@ export class AccountSASServices {
 
 // @public
 export interface AccountSASSignatureValues {
+    encryptionScope?: string;
     expiresOn: Date;
     ipRange?: SasIPRange;
     permissions: AccountSASPermissions;
@@ -441,8 +444,10 @@ export interface BlobCopyFromURLHeaders {
     clientRequestId?: string;
     contentMD5?: Uint8Array;
     copyId?: string;
+    // Warning: (ae-forgotten-export) The symbol "SyncCopyStatusType" needs to be exported by the entry point index.d.ts
     copyStatus?: SyncCopyStatusType;
     date?: Date;
+    encryptionScope?: string;
     errorCode?: string;
     etag?: string;
     lastModified?: Date;
@@ -1074,6 +1079,7 @@ export class BlobSASPermissions {
     static from(permissionLike: BlobSASPermissionsLike): BlobSASPermissions;
     move: boolean;
     static parse(permissions: string): BlobSASPermissions;
+    permanentDelete: boolean;
     read: boolean;
     setImmutabilityPolicy: boolean;
     tag: boolean;
@@ -1089,6 +1095,7 @@ export interface BlobSASPermissionsLike {
     deleteVersion?: boolean;
     execute?: boolean;
     move?: boolean;
+    permanentDelete?: boolean;
     read?: boolean;
     setImmutabilityPolicy?: boolean;
     tag?: boolean;
@@ -1105,6 +1112,7 @@ export interface BlobSASSignatureValues {
     contentLanguage?: string;
     contentType?: string;
     correlationId?: string;
+    encryptionScope?: string;
     expiresOn?: Date;
     identifier?: string;
     ipRange?: SasIPRange;
@@ -1343,6 +1351,7 @@ export type BlobStartCopyFromURLResponse = BlobStartCopyFromURLHeaders & {
 export interface BlobSyncCopyFromURLOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     conditions?: BlobRequestConditions;
+    encryptionScope?: string;
     immutabilityPolicy?: BlobImmutabilityPolicy;
     legalHold?: boolean;
     metadata?: Metadata;
@@ -1698,6 +1707,7 @@ export interface CommonGenerateSasUrlOptions {
     contentEncoding?: string;
     contentLanguage?: string;
     contentType?: string;
+    encryptionScope?: string;
     expiresOn?: Date;
     identifier?: string;
     ipRange?: SasIPRange;
@@ -2057,6 +2067,7 @@ export class ContainerSASPermissions {
     list: boolean;
     move: boolean;
     static parse(permissions: string): ContainerSASPermissions;
+    permanentDelete: boolean;
     read: boolean;
     setImmutabilityPolicy: boolean;
     tag: boolean;
@@ -2073,6 +2084,7 @@ export interface ContainerSASPermissionsLike {
     execute?: boolean;
     list?: boolean;
     move?: boolean;
+    permanentDelete?: boolean;
     read?: boolean;
     setImmutabilityPolicy?: boolean;
     tag?: boolean;
@@ -2162,6 +2174,7 @@ export interface CorsRule {
 
 // @public
 export interface CpkInfo {
+    // Warning: (ae-forgotten-export) The symbol "EncryptionAlgorithmType" needs to be exported by the entry point index.d.ts
     encryptionAlgorithm?: EncryptionAlgorithmType;
     encryptionKey?: string;
     encryptionKeySha256?: string;
@@ -2186,9 +2199,6 @@ export type CredentialPolicyCreator = (nextPolicy: RequestPolicy, options: Reque
 export type DeleteSnapshotsOptionType = "include" | "only";
 
 export { deserializationPolicy }
-
-// @public
-export type EncryptionAlgorithmType = "AES256";
 
 // @public
 export interface FilterBlobItem {
@@ -2381,12 +2391,6 @@ export interface ListBlobsHierarchySegmentResponseModel {
     // (undocumented)
     serviceEndpoint: string;
 }
-
-// @public
-export type ListBlobsIncludeItem = "copy" | "deleted" | "metadata" | "snapshots" | "uncommittedblobs" | "versions" | "tags" | "immutabilitypolicy" | "legalhold" | "deletedwithversions";
-
-// @public
-export type ListContainersIncludeType = "metadata" | "deleted";
 
 // @public
 export interface ListContainersSegmentResponse {
@@ -2875,7 +2879,7 @@ export enum SASProtocol {
 
 // @public
 export class SASQueryParameters {
-    constructor(version: string, signature: string, permissions?: string, services?: string, resourceTypes?: string, protocol?: SASProtocol, startsOn?: Date, expiresOn?: Date, ipRange?: SasIPRange, identifier?: string, resource?: string, cacheControl?: string, contentDisposition?: string, contentEncoding?: string, contentLanguage?: string, contentType?: string, userDelegationKey?: UserDelegationKey, preauthorizedAgentObjectId?: string, correlationId?: string);
+    constructor(version: string, signature: string, permissions?: string, services?: string, resourceTypes?: string, protocol?: SASProtocol, startsOn?: Date, expiresOn?: Date, ipRange?: SasIPRange, identifier?: string, resource?: string, cacheControl?: string, contentDisposition?: string, contentEncoding?: string, contentLanguage?: string, contentType?: string, userDelegationKey?: UserDelegationKey, preauthorizedAgentObjectId?: string, correlationId?: string, encryptionScope?: string);
     constructor(version: string, signature: string, options?: SASQueryParametersOptions);
     readonly cacheControl?: string;
     readonly contentDisposition?: string;
@@ -2883,6 +2887,7 @@ export class SASQueryParameters {
     readonly contentLanguage?: string;
     readonly contentType?: string;
     readonly correlationId?: string;
+    readonly encryptionScope?: string;
     readonly expiresOn?: Date;
     readonly identifier?: string;
     get ipRange(): SasIPRange | undefined;
@@ -2906,6 +2911,7 @@ export interface SASQueryParametersOptions {
     contentLanguage?: string;
     contentType?: string;
     correlationId?: string;
+    encryptionScope?: string;
     expiresOn?: Date;
     identifier?: string;
     ipRange?: SasIPRange;
@@ -2954,6 +2960,7 @@ export type ServiceFindBlobsByTagsSegmentResponse = FilterBlobSegment & ServiceF
 
 // @public
 export interface ServiceGenerateAccountSasUrlOptions {
+    encryptionScope?: string;
     ipRange?: SasIPRange;
     protocol?: SASProtocol;
     startsOn?: Date;
@@ -3057,6 +3064,7 @@ export interface ServiceListContainersOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     includeDeleted?: boolean;
     includeMetadata?: boolean;
+    includeSystem?: boolean;
     prefix?: string;
 }
 
@@ -3227,9 +3235,6 @@ export class StorageSharedKeyCredentialPolicy extends CredentialPolicy {
     constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions, factory: StorageSharedKeyCredential);
     protected signRequest(request: WebResource): WebResource;
 }
-
-// @public
-export type SyncCopyStatusType = "success";
 
 // @public
 export interface TagConditions {
