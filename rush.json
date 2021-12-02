@@ -1140,6 +1140,11 @@
       "packageName": "@azure/arm-sqlvirtualmachine",
       "projectFolder": "sdk/sqlvirtualmachine/arm-sqlvirtualmachine",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-devtestlabs",
+      "projectFolder": "sdk/devtestlabs/arm-devtestlabs",
+      "versionPolicyName": "management"
     }
   ]
 }
