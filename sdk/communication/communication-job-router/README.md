@@ -45,11 +45,12 @@ In this tutorial, you will learn:
 | Exception Policy | A container of rules that define what action to take when a particular exception occurs.  This container of rules can be associated with one or more queues. |
 
 ##Setting Up
-###Install an IDE such as [VSCode](https://code.visualstudio.com/download) or [Webstorm](https://www.jetbrains.com/webstorm/download/) if you haven't (Optional)
+###Install an IDE 
+Install IDE such as [VSCode](https://code.visualstudio.com/download) or [Webstorm](https://www.jetbrains.com/webstorm/download/) if you haven't (Optional)
 
 ###Install NodeJS if you haven't
 LTS or Current version, either is ok.
-https://nodejs.org/en/download/
+https://nodejs.org/en/about/releases/
 
 ### Create a new NodeJS Express server
 
