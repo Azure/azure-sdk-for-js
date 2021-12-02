@@ -78,7 +78,7 @@ registry=https://registry.npmjs.org
 always-auth=true
 ```
 
-Then, run vsts-npm-auth to get an Azure Artifacts token added to your user-level .npmrc file
+Then, run `vsts-npm-auth` to get an Azure Artifacts token added to your user-level `.npmrc` file:
 
 `vsts-npm-auth -config .npmrc`
 
