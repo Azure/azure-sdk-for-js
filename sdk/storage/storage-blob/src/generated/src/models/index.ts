@@ -1524,7 +1524,7 @@ export interface BlobCopyFromURLHeaders {
   /** String identifier for this copy operation. */
   copyId?: string;
   /** State of the copy operation identified by x-ms-copy-id. */
-  copyStatus?: "success";
+  copyStatus?: SyncCopyStatusType;
   /** This response header is returned so that the client can check for the integrity of the copied content. This header is only returned if the source content MD5 was specified. */
   contentMD5?: Uint8Array;
   /** This response header is returned so that the client can check for the integrity of the copied content. */
@@ -2315,7 +2315,9 @@ export interface CpkInfo {
   /** Optional. Specifies the encryption key to use to encrypt the data provided in the request. If not specified, encryption is performed with the root account encryption key.  For more information, see Encryption at Rest for Azure Storage Services. */
   encryptionKey?: string;
   /** The SHA-256 hash of the provided encryption key. Must be provided if the x-ms-encryption-key header is provided. */
-  encryptionKeySha256?: string;
+  encryptionKeySha256?: string;  
+  /** The algorithm used to produce the encryption key hash. Currently, the only accepted value is \"AES256\". Must be provided if the x-ms-encryption-key header is provided. */
+  encryptionAlgorithm?: EncryptionAlgorithmType;
 }
 
 /** Parameter group */
@@ -2702,6 +2704,10 @@ export type BlockListType = "committed" | "uncommitted" | "all";
 export type SequenceNumberActionType = "max" | "update" | "increment";
 /** Defines values for QueryFormatType. */
 export type QueryFormatType = "delimited" | "json" | "arrow" | "parquet";
+/** Defines values for SyncCopyStatusType. */
+export type SyncCopyStatusType = "success";
+/** Defines values for EncryptionAlgorithmType. */
+export type EncryptionAlgorithmType = "AES256";
 
 /** Optional parameters. */
 export interface ServiceSetPropertiesOptionalParams

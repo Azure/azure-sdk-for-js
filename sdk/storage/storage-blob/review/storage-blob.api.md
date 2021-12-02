@@ -444,7 +444,8 @@ export interface BlobCopyFromURLHeaders {
     clientRequestId?: string;
     contentMD5?: Uint8Array;
     copyId?: string;
-    copyStatus?: "success";
+    // Warning: (ae-forgotten-export) The symbol "SyncCopyStatusType" needs to be exported by the entry point index.d.ts
+    copyStatus?: SyncCopyStatusType;
     date?: Date;
     encryptionScope?: string;
     errorCode?: string;
@@ -2173,6 +2174,8 @@ export interface CorsRule {
 
 // @public
 export interface CpkInfo {
+    // Warning: (ae-forgotten-export) The symbol "EncryptionAlgorithmType" needs to be exported by the entry point index.d.ts
+    encryptionAlgorithm?: EncryptionAlgorithmType;
     encryptionKey?: string;
     encryptionKeySha256?: string;
 }

@@ -1364,13 +1364,8 @@ export class ContainerClient extends StorageClient {
           ...response.segment,
           blobItems: response.segment.blobItems.map((blobItemInteral) => {
             const blobItem: BlobItem = {
+              ...blobItemInteral,
               name: BlobNameToString(blobItemInteral.name),
-              deleted: blobItemInteral.deleted,
-              snapshot: blobItemInteral.snapshot,
-              versionId: blobItemInteral.versionId,
-              isCurrentVersion: blobItemInteral.isCurrentVersion,
-              properties: blobItemInteral.properties,
-              metadata: blobItemInteral.metadata,
               tags: toTags(blobItemInteral.blobTags),
               objectReplicationSourceProperties: parseObjectReplicationRecord(
                 blobItemInteral.objectReplicationMetadata

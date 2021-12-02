@@ -10,6 +10,7 @@ import {
   CpkInfo,
   BlobDownloadResponseModel
 } from "./generatedModels";
+import { EncryptionAlgorithmAES25 } from "./utils/constants";
 
 /**
  * Blob tags.
@@ -183,6 +184,10 @@ export function toAccessTier(
 export function ensureCpkIfSpecified(cpk: CpkInfo | undefined, isHttps: boolean): void {
   if (cpk && !isHttps) {
     throw new RangeError("Customer-provided encryption key must be used over HTTPS.");
+  }
+
+  if (cpk && !cpk.encryptionAlgorithm) {
+    cpk.encryptionAlgorithm = EncryptionAlgorithmAES25;
   }
 }
 
