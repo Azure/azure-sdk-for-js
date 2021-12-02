@@ -23,6 +23,9 @@ export interface OperationOptions {
   tracingOptions?: OperationTracingOptions;
 }
 
+/**
+ * Options that allow configuring the handling of HTTP requests made by an SDK operation.
+ */
 export interface OperationRequestOptions {
   /**
    * User defined custom request headers that will be applied before the request is sent.

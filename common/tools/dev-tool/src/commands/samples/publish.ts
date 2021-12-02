@@ -81,12 +81,12 @@ function createPackageJson(info: SampleGenerationInfo, outputKind: OutputKind): 
     },
     ...(outputKind === OutputKind.TypeScript
       ? {
-          // We only include these in TypeScript
-          scripts: {
-            build: "tsc",
-            prebuild: "rimraf dist/"
-          }
+        // We only include these in TypeScript
+        scripts: {
+          build: "tsc",
+          prebuild: "rimraf dist/"
         }
+      }
       : {}),
     repository: {
       type: "git",
@@ -122,7 +122,7 @@ function isDependency(moduleSpecifier: string): boolean {
 
   // This seems like a reasonable test for "is a relative path" as long as
   // absolute path imports are forbidden.
-  const isRelativePath = /^\.\.?[\/\\]/.test(moduleSpecifier);
+  const isRelativePath = /^\.\.?[/\\]/.test(moduleSpecifier);
   return !isRelativePath;
 }
 
@@ -372,10 +372,14 @@ async function makeSampleGenerationInfo(
     // Resolve snippets to actual text
     customSnippets: Object.entries(sampleConfiguration.customSnippets ?? {}).reduce(
       (accum, [name, file]) => {
+        if (!file) {
+          return accum;
+        }
+
         let contents;
 
         try {
-          contents = fs.readFileSync(file!);
+          contents = fs.readFileSync(file);
         } catch (ex) {
           fail(`Failed to read custom snippet file '${file}'`, ex);
         }
@@ -430,14 +434,14 @@ async function makeSampleGenerationInfo(
         }, defaultDependencies),
         ...(outputKind === OutputKind.TypeScript
           ? {
-              // In TypeScript samples, we include TypeScript and `rimraf`, because they're used
-              // in the package scripts.
-              devDependencies: {
-                ...typesDependencies,
-                typescript: devToolPackageJson.dependencies.typescript,
-                rimraf: "latest"
-              }
+            // In TypeScript samples, we include TypeScript and `rimraf`, because they're used
+            // in the package scripts.
+            devDependencies: {
+              ...typesDependencies,
+              typescript: devToolPackageJson.dependencies.typescript,
+              rimraf: "latest"
             }
+          }
           : {})
       };
     }
@@ -455,11 +459,11 @@ function createReadme(outputKind: OutputKind, info: SampleGenerationInfo): strin
     frontmatter: info.disableDocsMs
       ? undefined
       : {
-          page_type: "sample",
-          languages: [fullOutputKind],
-          products: info.productSlugs,
-          urlFragment: `${info.baseName}-${fullOutputKind}`
-        },
+        page_type: "sample",
+        languages: [fullOutputKind],
+        products: info.productSlugs,
+        urlFragment: `${info.baseName}-${fullOutputKind}`
+      },
     publicationDirectory: PUBLIC_SAMPLES_BASE + "/" + info.topLevelDirectory,
     useTypeScript: outputKind === OutputKind.TypeScript,
     ...info,

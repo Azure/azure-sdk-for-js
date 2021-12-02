@@ -1120,6 +1120,21 @@
       "packageName": "@azure/arm-botservice",
       "projectFolder": "sdk/botservice/arm-botservice",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-search",
+      "projectFolder": "sdk/search/arm-search",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-analysisservices",
+      "projectFolder": "sdk/analysisservices/arm-analysisservices",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-portal",
+      "projectFolder": "sdk/portal/arm-portal",
+      "versionPolicyName": "management"
     }
   ]
 }
