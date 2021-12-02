@@ -56,6 +56,10 @@ export interface SampleGenerationInfo extends SampleConfiguration {
    */
   baseName: string;
   /**
+   * Whether or not these samples are for a beta package.
+   */
+  isBeta?: boolean;
+  /**
    * The product name that should be used for prose rendering. For example, the product name for
    * @azure/template is "Azure Template", and the product name for @azure/ai-text-analytics is
    * "Azure Text Analytics".

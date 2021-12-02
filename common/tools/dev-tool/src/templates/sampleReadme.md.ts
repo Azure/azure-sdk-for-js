@@ -153,7 +153,7 @@ export default (info: SampleReadmeConfiguration) => {
 
   return prettier.format(
     `${formatFrontmatter(info.frontmatter)}\
-# ${info.productName} client library samples for ${language}
+# ${info.productName} client library samples for ${language}${info.isBeta ? " (Beta)" : ""}
 
 ${info.customSnippets?.header ?? ""}
 

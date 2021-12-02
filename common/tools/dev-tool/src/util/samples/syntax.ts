@@ -120,9 +120,15 @@ const SUGGEST_SYNTAX: {
             );
             return "<unknown>";
           })()
-    ).replace(/\?\./g, ".");
+    )
+      // Optional chains can be recursive nodes, so we'll also just replace all '?.' with '.', since there should be an
+      // error for each node.
+      .replace(/\?\./g, ".");
+
     return `try \`${expressionText} && ${expressionText}${rhs}\` if it does not affect runtime behavior, or use an explicit \`if\` block to handle the nullish case`;
   },
+  // For Nullish Coalescing, we can suggest using || for the same effect in most cases, but it is ultimately up to the
+  // developer to decide if this is the right behavior.
   NullishCoalesce: (node) => {
     const nullish = node as ts.BinaryExpression;
     return `try \`${nullish.left.getText()} || ${nullish.right.getText()}\` if it does not affect runtime behavior, or use an explicit \`if\` block to handle the nullish case`;

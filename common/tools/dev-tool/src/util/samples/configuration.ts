@@ -72,7 +72,7 @@ export interface SampleConfiguration {
     header?: string;
     /**
      * A snippet that specifies extra prerequisites for the samples, shown
-     * beaneath the list of required resources.
+     * beneath the list of required resources.
      */
     prerequisites?: string;
     /**

@@ -15,7 +15,7 @@ import devToolPackageJson from "../../../package.json";
 import { leafCommand, makeCommandInfo } from "../../framework/command";
 import instantiateSampleReadme from "../../templates/sampleReadme.md";
 import { processSources } from "../../util/samples/processor";
-import { copy, dir, file, FileTreeFactory, temp } from "../../util/fileTree";
+import { copy, dir, file, FileTreeFactory, safeClean, temp } from "../../util/fileTree";
 import { findMatchingFiles } from "../../util/findMatchingFiles";
 import { createPrinter } from "../../util/printer";
 import { ProjectInfo, resolveProject } from "../../util/resolveProject";
@@ -44,28 +44,18 @@ export const commandInfo = makeCommandInfo(
       description: "specify the path of the output directory where the samples will be written",
       shortName: "o",
     },
-    force: {
-      kind: "boolean",
-      description:
-        "force writing of samples, even if the output directory is not empty (will delete everything in the output directory)",
-      shortName: "f",
-      default: false,
-    },
-    "override-major-version": {
-      kind: "string",
-      description:
-        "override the major version used for publication (ordinarily the version in package.json)",
-    },
   } as const
 );
 
 function createPackageJson(info: SampleGenerationInfo, outputKind: OutputKind): unknown {
   const fullOutputKind = outputKind === OutputKind.TypeScript ? "TypeScript" : "JavaScript";
   return {
-    name: `azure-${info.baseName}-samples-${outputKind}`,
+    name: `azure-${info.baseName}-samples-${outputKind}${info.isBeta ? "-beta" : ""}`,
     private: true,
     version: "1.0.0",
-    description: `${info.productName} client library samples for ${fullOutputKind}`,
+    description: `${info.productName} client library samples for ${fullOutputKind}${
+      info.isBeta ? " (Beta)" : ""
+    }`,
     engines: {
       node: `>=${MIN_SUPPORTED_NODE_VERSION}`,
     },
@@ -120,7 +110,7 @@ async function collect<T>(i: AsyncIterableIterator<T>): Promise<T[]> {
 }
 
 /**
- * Extracts the sample generation metainformation from the sample sources and
+ * Extracts the sample generation meta-information from the sample sources and
  * configuration in package.json.
  *
  * This is the function that assembles all the information that the templates
@@ -255,9 +245,10 @@ async function makeSampleGenerationInfo(
         ...(outputKind === OutputKind.TypeScript
           ? {
               // In TypeScript samples, we include TypeScript and `rimraf`, because they're used
-              // in the package scripts.
+              // in the package scripts as well as @types/node.
               devDependencies: {
                 ...typesDependencies,
+                "@types/node": `^${MIN_SUPPORTED_NODE_VERSION}`,
                 typescript: devToolPackageJson.dependencies.typescript,
                 rimraf: "latest",
               },
@@ -282,7 +273,7 @@ function createReadme(outputKind: OutputKind, info: SampleGenerationInfo): strin
           page_type: "sample",
           languages: [fullOutputKind],
           products: info.productSlugs,
-          urlFragment: `${info.baseName}-${fullOutputKind}`,
+          urlFragment: `${info.baseName}-${fullOutputKind}${info.isBeta ? "-beta" : ""}`,
         },
     publicationDirectory: PUBLIC_SAMPLES_BASE + "/" + info.topLevelDirectory,
     useTypeScript: outputKind === OutputKind.TypeScript,
@@ -299,17 +290,21 @@ function createReadme(outputKind: OutputKind, info: SampleGenerationInfo): strin
  * @param topLevelDirectory - the name of the top-level directory to create when instantiating the tree
  * @param config - the SampleConfiguration to use during generation (ordinarily defined in package.json)
  */
-async function makeSamplesFactory(
-  projectInfo: ProjectInfo,
-  topLevelDirectory: string
-): Promise<FileTreeFactory> {
+async function makeSamplesFactory(projectInfo: ProjectInfo): Promise<FileTreeFactory> {
   let hadError = false;
 
   const onError = () => {
     hadError = true;
   };
 
-  const info = await makeSampleGenerationInfo(projectInfo, topLevelDirectory, onError);
+  const isBeta = /-beta/.test(projectInfo.version);
+  const majorVersion = projectInfo.version.split(".")[0];
+  const versionFolder = `v${majorVersion}${isBeta ? "-beta" : ""}`;
+
+  log.debug("Computed full generation path:", versionFolder);
+
+  const info = await makeSampleGenerationInfo(projectInfo, versionFolder, onError);
+  info.isBeta = isBeta;
 
   if (hadError) {
     throw new Error("Instantiation of sample metadata information failed with errors.");
@@ -344,43 +339,48 @@ async function makeSamplesFactory(
   }
 
   // We use a tempdir at the outer layer to avoid creating dirty trees
-  return temp(
-    dir(topLevelDirectory, [
-      dir("typescript", [
-        file("README.md", () => createReadme(OutputKind.TypeScript, info)),
-        file("package.json", () => jsonify(createPackageJson(info, OutputKind.TypeScript))),
-        // All of the tsconfigs we use for samples should be the same.
-        file("tsconfig.json", () => jsonify(DEFAULT_TYPESCRIPT_CONFIG)),
-        copy("sample.env", path.join(projectInfo.path, "sample.env")),
-        // We copy the samples sources in to the `src` folder on the typescript side
-        dir(
-          "src",
-          info.moduleInfos.map(({ relativeSourcePath, filePath }) =>
-            file(relativeSourcePath, () => postProcess(fs.readFileSync(filePath)))
-          )
-        ),
-      ]),
-      dir("javascript", [
-        file("README.md", () => createReadme(OutputKind.JavaScript, info)),
-        file("package.json", () => jsonify(createPackageJson(info, OutputKind.JavaScript))),
-        copy("sample.env", path.join(projectInfo.path, "sample.env")),
-        // Extract the JS Module Text from the module info structures
-        ...info.moduleInfos
-          // Only include the modules if they were not skipped
-          .filter(({ azSdkTags: { "skip-javascript": skip } }) => !skip)
-          .map(({ relativeSourcePath, jsModuleText }) =>
-            file(relativeSourcePath.replace(/\.ts$/, ".js"), () => postProcess(jsModuleText))
+  return dir(
+    versionFolder,
+    safeClean(
+      temp(
+        dir(".", [
+          dir("typescript", [
+            file("README.md", () => createReadme(OutputKind.TypeScript, info)),
+            file("package.json", () => jsonify(createPackageJson(info, OutputKind.TypeScript))),
+            // All of the tsconfigs we use for samples should be the same.
+            file("tsconfig.json", () => jsonify(DEFAULT_TYPESCRIPT_CONFIG)),
+            copy("sample.env", path.join(projectInfo.path, "sample.env")),
+            // We copy the samples sources in to the `src` folder on the typescript side
+            dir(
+              "src",
+              info.moduleInfos.map(({ relativeSourcePath, filePath }) =>
+                file(relativeSourcePath, () => postProcess(fs.readFileSync(filePath)))
+              )
+            ),
+          ]),
+          dir("javascript", [
+            file("README.md", () => createReadme(OutputKind.JavaScript, info)),
+            file("package.json", () => jsonify(createPackageJson(info, OutputKind.JavaScript))),
+            copy("sample.env", path.join(projectInfo.path, "sample.env")),
+            // Extract the JS Module Text from the module info structures
+            ...info.moduleInfos
+              // Only include the modules if they were not skipped
+              .filter(({ azSdkTags: { "skip-javascript": skip } }) => !skip)
+              .map(({ relativeSourcePath, jsModuleText }) =>
+                file(relativeSourcePath.replace(/\.ts$/, ".js"), () => postProcess(jsModuleText))
+              ),
+          ]),
+          // Copy extraFiles by reducing all configured destinations for each input file
+          ...Object.entries(info.extraFiles ?? {}).reduce(
+            (accum, [source, destinations]) => [
+              ...accum,
+              ...destinations.map((dest) => copy(dest, source)),
+            ],
+            [] as FileTreeFactory[]
           ),
-      ]),
-      // Copy extraFiles by reducing all configured destinations for each input file
-      ...Object.entries(info.extraFiles ?? {}).reduce(
-        (accum, [source, destinations]) => [
-          ...accum,
-          ...destinations.map((dest) => copy(dest, source)),
-        ],
-        [] as FileTreeFactory[]
-      ),
-    ])
+        ])
+      )
+    )
   );
 }
 
@@ -391,48 +391,25 @@ async function makeSamplesFactory(
 export default leafCommand(commandInfo, async (options) => {
   const projectInfo = await resolveProject(process.cwd());
 
-  // This will become the name of the directory
-  const majorVersion = `v${options["override-major-version"] ?? projectInfo.version.split(".")[0]}`;
-
   log.info(`Creating camera-ready samples for ${projectInfo.name}@${projectInfo.version}`);
 
   const basePath = options["output-path"] ?? path.join(projectInfo.path, PUBLIC_SAMPLES_BASE);
 
-  const outputDirectory = path.join(basePath, majorVersion);
-
-  log.info("Using output path:", outputDirectory);
-
-  // We'll do a few checks to make sure we don't blow up important files on accident.
-  if (await fs.pathExists(outputDirectory)) {
-    const stats = await fs.stat(outputDirectory);
-    if (!stats.isDirectory) {
-      log.error(`Output directory ${outputDirectory} exists and is a file.`);
-      log.error("Refusing to continue. Delete the file or specify a different output directory.");
-      return false;
-    } else if (!options.force) {
-      log.error(
-        `Output directory ${outputDirectory} exists. Pass --force to delete it and create the new directory anyway.`
-      );
-      return false;
-    } else {
-      log.warn("Deleting existing samples directory:", outputDirectory);
-      await fs.remove(outputDirectory);
-    }
-  }
+  log.debug("Using output path:", basePath);
 
   // This creates the samples output
   try {
-    // Gather sample metainformation and use it to assemble a template
-    await makeSamplesFactory(projectInfo, majorVersion).then((factory) => {
-      // This is where the actual magic of creating the output from the template happens
-      return factory(basePath);
-    });
+    // Gather sample meta-information and use it to assemble a template
+    const factory = await makeSamplesFactory(projectInfo);
+
+    // This is where the actual magic of creating the output from the template happens
+    await factory(basePath);
   } catch (ex) {
     log.error((ex as Error).message);
     return false;
   }
 
-  log.success("Created camera-ready samples at", outputDirectory);
+  log.success("Created camera-ready samples.");
 
   return true;
 });
