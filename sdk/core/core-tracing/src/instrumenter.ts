@@ -6,8 +6,7 @@ import {
   TracingSpan,
   TracingContext,
   TracingSpanContext,
-  InstrumenterSpanOptions,
-  PackageInformation
+  InstrumenterSpanOptions
 } from "./interfaces";
 import { createTracingContext } from "./tracingContext";
 
@@ -15,12 +14,11 @@ import { createTracingContext } from "./tracingContext";
 export class NoOpInstrumenter implements Instrumenter {
   startSpan(
     _name: string,
-    _packageInformation: PackageInformation,
-    spanOptions?: InstrumenterSpanOptions
+    spanOptions: InstrumenterSpanOptions
   ): { span: TracingSpan; tracingContext: TracingContext } {
     return {
       span: new NoOpSpan(),
-      tracingContext: createTracingContext({ parentContext: spanOptions?.tracingContext })
+      tracingContext: createTracingContext({ parentContext: spanOptions.tracingContext })
     };
   }
   withContext<

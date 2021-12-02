@@ -9,7 +9,7 @@ import {
   TracingContext,
   TracingSpanOptions,
   TracingSpanContext,
-  PackageInformation
+  TracingClientOptions
 } from "./interfaces";
 import { getInstrumenter } from "./instrumenter";
 import { knownContextKeys } from "./tracingContext";
@@ -18,12 +18,14 @@ import { knownContextKeys } from "./tracingContext";
 export class TracingClientImpl implements TracingClient {
   private _namespace: string;
   private _instrumenter: Instrumenter;
-  private _packageInformation: PackageInformation;
+  private _packageName: string;
+  private _packageVersion?: string;
 
-  constructor(namespace: string, packageInformation: PackageInformation) {
-    this._namespace = namespace;
+  constructor(options: TracingClientOptions) {
+    this._namespace = options.namespace;
+    this._packageName = options.packageName;
+    this._packageVersion = options.packageVersion;
     this._instrumenter = getInstrumenter();
-    this._packageInformation = packageInformation;
   }
   startSpan<Options extends { tracingOptions?: OperationTracingOptions }>(
     name: string,
@@ -34,8 +36,10 @@ export class TracingClientImpl implements TracingClient {
     tracingContext: TracingContext;
     updatedOptions: Options;
   } {
-    const startSpanResult = this._instrumenter.startSpan(name, this._packageInformation, {
+    const startSpanResult = this._instrumenter.startSpan(name, {
       ...spanOptions,
+      packageName: this._packageName,
+      packageVersion: this._packageVersion,
       tracingContext: operationOptions?.tracingOptions?.tracingContext
     });
     let tracingContext = startSpanResult.tracingContext;
@@ -123,13 +127,10 @@ export class TracingClientImpl implements TracingClient {
 
 /**
  * Creates a new tracing client.
- * @param namespace - The Azure namespace to set on spans.
- * @param packageInformation - Name and version of the package invoking this trace.
+ *
+ * @param options - Options used to configure the tracing client.
  * @returns - An instance of {@link TracingClient}.
  */
-export function createTracingClient(
-  namespace: string,
-  packageInformation: PackageInformation
-): TracingClient {
-  return new TracingClientImpl(namespace, packageInformation);
+export function createTracingClient(options: TracingClientOptions): TracingClient {
+  return new TracingClientImpl(options);
 }

@@ -17,17 +17,15 @@ describe("Instrumenter", () => {
     });
 
     describe("#startSpan", () => {
-      const packageInformation = {
-        name: "test-package"
-      };
+      const packageName = "test-package";
 
       it("return no-op span", () => {
-        const { span } = instrumenter.startSpan(name, packageInformation);
+        const { span } = instrumenter.startSpan(name, { packageName });
         assert.instanceOf(span, NoOpSpan);
       });
 
       it("returns a new context", () => {
-        const { tracingContext } = instrumenter.startSpan(name, packageInformation);
+        const { tracingContext } = instrumenter.startSpan(name, { packageName });
         assert.exists(tracingContext);
       });
 
@@ -35,8 +33,9 @@ describe("Instrumenter", () => {
         const [key, value] = [Symbol.for("key"), "value"];
         const context = createTracingContext().setValue(key, value);
 
-        const { tracingContext } = instrumenter.startSpan(name, packageInformation, {
-          tracingContext: context
+        const { tracingContext } = instrumenter.startSpan(name, {
+          tracingContext: context,
+          packageName
         });
         assert.strictEqual(tracingContext.getValue(key), value);
       });
