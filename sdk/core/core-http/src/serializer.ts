@@ -26,7 +26,7 @@ export class Serializer {
   ) {}
 
   /**
-   * Validates constraints, if any. This function will throw if the provided value does not match those constraints.
+   * Validates constraints, if any. This function will throw if the provided value does not respect those constraints.
    * @param mapper - The definition of data models.
    * @param value - The value.
    * @param objectName - Name of the object. Used in the error messages.
@@ -100,7 +100,6 @@ export class Serializer {
 
   /**
    * Serialize the given object based on its metadata defined in the mapper.
-   * Deserialize the given object based on its metadata defined in the mapper.
    *
    * @param mapper - The mapper which defines the metadata of the serializable object.
    * @param object - A valid Javascript object to be serialized.
