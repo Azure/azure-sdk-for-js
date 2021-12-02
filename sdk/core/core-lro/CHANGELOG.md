@@ -4,7 +4,7 @@
 
 ### Bugs Fixed
 
-- Fix LRO PATCH operations when their results are located in a different URL.
+- Fix LRO PATCH operations when their results are located in a different URL. [PR #18820](https://github.com/Azure/azure-sdk-for-js/pull/18820)
 
 ## 2.2.1 (2021-09-30)
 
