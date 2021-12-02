@@ -70,24 +70,7 @@ Create a new resource or use existing resource. If creating a resource, select `
 ![image.png](/.attachments/image-1a0118bb-0063-420b-924a-943b66ef0d01.png)
 
 ###Install the Azure Communication Services Router SDK
-Create a file `.npmrc` to your project. Put following code into it:
-```
-@azure-ccaap:registry=https://pkgs.dev.azure.com/azure-sdk/internal/_packaging/azure-sdk-for-js-pr/npm/registry/ 
-registry=https://registry.npmjs.org
-                        
-always-auth=true
-```
-
-Then, run `vsts-npm-auth` to get an Azure Artifacts token added to your user-level `.npmrc` file:
-
-`vsts-npm-auth -config .npmrc`
-
-If it says `vsts-npm-auth` not found, then you need to install it first:
-
-`npm install -g vsts-npm-auth`
-
-
-While still in the application directory, install the Azure Communication Services Router client library for JavaScript package by using the `npm install --save` command
+In the application directory, install the Azure Communication Services Router client library for JavaScript package by using the `npm install --save` command
 `npm install --save @azure-ccaap/communication-router`
 
 ## Examples
