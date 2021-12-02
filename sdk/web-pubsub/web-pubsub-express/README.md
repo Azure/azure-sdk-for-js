@@ -38,12 +38,7 @@ npm install @azure/web-pubsub-express
 const express = require("express");
 
 const { WebPubSubEventHandler } = require("@azure/web-pubsub-express");
-const handler = new WebPubSubEventHandler("chat", {
-  handleConnect: (req, res) => {
-    // auth the connection and set the userId of the connection
-    res.success();
-  }
-});
+const handler = new WebPubSubEventHandler("chat");
 
 const app = express();
 
@@ -114,9 +109,6 @@ const express = require("express");
 
 const { WebPubSubEventHandler } = require("@azure/web-pubsub-express");
 const handler = new WebPubSubEventHandler("chat", {
-  handleConnect: (req, res) => {
-    res.success();
-  },
   allowedEndpoints: [
     "https://<yourAllowedService1>.webpubsub.azure.com",
     "https://<yourAllowedService2>.webpubsub.azure.com"
@@ -139,11 +131,7 @@ const express = require("express");
 
 const { WebPubSubEventHandler } = require("@azure/web-pubsub-express");
 const handler = new WebPubSubEventHandler("chat", {
-  path: "customPath1",
-  handleConnect: (req, res) => {
-    // auth the connection and set the userId of the connection
-    res.success();
-  }
+  path: "customPath1"
 });
 
 const app = express();
@@ -151,6 +139,7 @@ const app = express();
 app.use(handler.getMiddleware());
 
 app.listen(3000, () =>
+  // Azure WebPubSub Upstream ready at http://localhost:3000/customPath1
   console.log(`Azure WebPubSub Upstream ready at http://localhost:3000${handler.path}`)
 );
 ```

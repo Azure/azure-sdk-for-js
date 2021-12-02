@@ -12,12 +12,12 @@ dotenv.config({ path: path.resolve(__dirname, "../sample.env") });
 import { UsernamePasswordCredential } from "@azure/identity";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-import { CosmosClient } from "../dist";
+import { CosmosClient } from "@azure/cosmos";
 import { handleError, finish, logStep } from "./Shared/handleError";
 
-const endpoint = "your-endpoint";
-const masterKey = "your-master-key";
-const existingContainerId = "your-container-id";
+const key = process.env.COSMOS_KEY || "<cosmos key>";
+const endpoint = process.env.COSMOS_ENDPOINT || "<cosmos endpoint>";
+const existingContainerId = process.env.COSMOS_CONTAINER || "<cosmos container>";
 
 async function run() {
   logStep("Create credential object from @azure/identity");
@@ -35,7 +35,7 @@ async function run() {
 
   const genericClient = new CosmosClient({
     endpoint,
-    key: masterKey
+    key: key
   });
 
   logStep(

@@ -204,7 +204,7 @@ export type AmazonS3Dataset = Dataset & {
     modifiedDatetimeStart?: any;
     modifiedDatetimeEnd?: any;
     format?: DatasetStorageFormatUnion;
-    compression?: DatasetCompressionUnion;
+    compression?: DatasetCompression;
 };
 
 // @public
@@ -383,7 +383,7 @@ export type AzureBlobDataset = Dataset & {
     modifiedDatetimeStart?: any;
     modifiedDatetimeEnd?: any;
     format?: DatasetStorageFormatUnion;
-    compression?: DatasetCompressionUnion;
+    compression?: DatasetCompression;
 };
 
 // @public
@@ -392,7 +392,7 @@ export type AzureBlobFSDataset = Dataset & {
     folderPath?: any;
     fileName?: any;
     format?: DatasetStorageFormatUnion;
-    compression?: DatasetCompressionUnion;
+    compression?: DatasetCompression;
 };
 
 // @public
@@ -622,7 +622,7 @@ export type AzureDataLakeStoreDataset = Dataset & {
     folderPath?: any;
     fileName?: any;
     format?: DatasetStorageFormatUnion;
-    compression?: DatasetCompressionUnion;
+    compression?: DatasetCompression;
 };
 
 // @public
@@ -1112,7 +1112,7 @@ export type BigDataPoolsListResponse = BigDataPoolResourceInfoListResult;
 export type BinaryDataset = Dataset & {
     type: "Binary";
     location?: DatasetLocationUnion;
-    compression?: DatasetCompressionUnion;
+    compression?: DatasetCompression;
 };
 
 // @public
@@ -1471,6 +1471,9 @@ export interface CreateDataFlowDebugSessionResponse {
 }
 
 // @public
+export type CreateMode = string;
+
+// @public
 export interface CreateRunResponse {
     runId: string;
 }
@@ -1564,7 +1567,7 @@ export interface DataFlow {
     annotations?: any[];
     description?: string;
     folder?: DataFlowFolder;
-    type: "MappingDataFlow";
+    type: "MappingDataFlow" | "Flowlet";
 }
 
 // @public
@@ -1608,6 +1611,7 @@ export type DataFlowDebugCommandType = string;
 export interface DataFlowDebugPackage {
     [property: string]: any;
     dataFlow?: DataFlowDebugResource;
+    dataFlows?: DataFlowDebugResource[];
     datasets?: DatasetDebugResource[];
     debugSettings?: DataFlowDebugPackageDebugSettings;
     linkedServices?: LinkedServiceDebugResource[];
@@ -1789,6 +1793,9 @@ export interface DataFlowOperations {
 export interface DataFlowReference {
     [property: string]: any;
     datasetParameters?: any;
+    parameters?: {
+        [propertyName: string]: any;
+    };
     referenceName: string;
     type: DataFlowReferenceType;
 }
@@ -1809,15 +1816,11 @@ export type DataFlowResource = SubResource & {
 
 // @public
 export type DataFlowSink = Transformation & {
-    dataset?: DatasetReference;
-    linkedService?: LinkedServiceReference;
     schemaLinkedService?: LinkedServiceReference;
 };
 
 // @public
 export type DataFlowSource = Transformation & {
-    dataset?: DatasetReference;
-    linkedService?: LinkedServiceReference;
     schemaLinkedService?: LinkedServiceReference;
 };
 
@@ -1835,7 +1838,7 @@ export interface DataFlowStagingInfo {
 }
 
 // @public (undocumented)
-export type DataFlowUnion = DataFlow | MappingDataFlow;
+export type DataFlowUnion = DataFlow | MappingDataFlow | Flowlet;
 
 // @public
 export type DataLakeAnalyticsUsqlActivity = ExecutionActivity & {
@@ -1873,21 +1876,14 @@ export interface Dataset {
 }
 
 // @public
-export type DatasetBZip2Compression = DatasetCompression & {
-    type: "BZip2";
-};
-
-// @public
 export interface DatasetCompression {
     [property: string]: any;
-    type: "BZip2" | "GZip" | "Deflate" | "ZipDeflate" | "Tar" | "TarGZip";
+    level?: any;
+    type: any;
 }
 
 // @public
 export type DatasetCompressionLevel = string;
-
-// @public (undocumented)
-export type DatasetCompressionUnion = DatasetCompression | DatasetBZip2Compression | DatasetGZipCompression | DatasetDeflateCompression | DatasetZipDeflateCompression | DatasetTarCompression | DatasetTarGZipCompression;
 
 // @public
 export interface DatasetCreateOrUpdateDatasetOptionalParams extends coreClient.OperationOptions {
@@ -1908,12 +1904,6 @@ export interface DatasetDataElement {
 // @public
 export type DatasetDebugResource = SubResourceDebugResource & {
     properties: DatasetUnion;
-};
-
-// @public
-export type DatasetDeflateCompression = DatasetCompression & {
-    type: "Deflate";
-    level?: any;
 };
 
 // @public
@@ -1948,12 +1938,6 @@ export interface DatasetGetDatasetsByWorkspaceOptionalParams extends coreClient.
 
 // @public
 export type DatasetGetDatasetsByWorkspaceResponse = DatasetListResponse;
-
-// @public
-export type DatasetGZipCompression = DatasetCompression & {
-    type: "GZip";
-    level?: any;
-};
 
 // @public
 export interface DatasetListResponse {
@@ -2025,25 +2009,8 @@ export interface DatasetStorageFormat {
 // @public (undocumented)
 export type DatasetStorageFormatUnion = DatasetStorageFormat | TextFormat | JsonFormat | AvroFormat | OrcFormat | ParquetFormat;
 
-// @public
-export type DatasetTarCompression = DatasetCompression & {
-    type: "Tar";
-};
-
-// @public
-export type DatasetTarGZipCompression = DatasetCompression & {
-    type: "TarGZip";
-    level?: any;
-};
-
 // @public (undocumented)
 export type DatasetUnion = Dataset | AmazonS3Dataset | AvroDataset | ExcelDataset | ParquetDataset | DelimitedTextDataset | JsonDataset | XmlDataset | OrcDataset | BinaryDataset | AzureBlobDataset | AzureTableDataset | AzureSqlTableDataset | AzureSqlMITableDataset | AzureSqlDWTableDataset | CassandraTableDataset | CustomDataset | CosmosDbSqlApiCollectionDataset | DocumentDbCollectionDataset | DynamicsEntityDataset | DynamicsCrmEntityDataset | CommonDataServiceForAppsEntityDataset | AzureDataLakeStoreDataset | AzureBlobFSDataset | Office365Dataset | FileShareDataset | MongoDbCollectionDataset | MongoDbAtlasCollectionDataset | MongoDbV2CollectionDataset | CosmosDbMongoDbApiCollectionDataset | ODataResourceDataset | OracleTableDataset | AmazonRdsForOracleTableDataset | TeradataTableDataset | AzureMySqlTableDataset | AmazonRedshiftTableDataset | Db2TableDataset | RelationalTableDataset | InformixTableDataset | OdbcTableDataset | MySqlTableDataset | PostgreSqlTableDataset | MicrosoftAccessTableDataset | SalesforceObjectDataset | SalesforceServiceCloudObjectDataset | SybaseTableDataset | SapBwCubeDataset | SapCloudForCustomerResourceDataset | SapEccResourceDataset | SapHanaTableDataset | SapOpenHubTableDataset | SqlServerTableDataset | AmazonRdsForSqlServerTableDataset | RestResourceDataset | SapTableResourceDataset | WebTableDataset | AzureSearchIndexDataset | HttpDataset | AmazonMWSObjectDataset | AzurePostgreSqlTableDataset | ConcurObjectDataset | CouchbaseTableDataset | DrillTableDataset | EloquaObjectDataset | GoogleBigQueryObjectDataset | GreenplumTableDataset | HBaseObjectDataset | HiveObjectDataset | HubspotObjectDataset | ImpalaObjectDataset | JiraObjectDataset | MagentoObjectDataset | MariaDBTableDataset | AzureMariaDBTableDataset | MarketoObjectDataset | PaypalObjectDataset | PhoenixObjectDataset | PrestoObjectDataset | QuickBooksObjectDataset | ServiceNowObjectDataset | ShopifyObjectDataset | SparkObjectDataset | SquareObjectDataset | XeroObjectDataset | ZohoObjectDataset | NetezzaTableDataset | VerticaTableDataset | SalesforceMarketingCloudObjectDataset | ResponsysObjectDataset | DynamicsAXResourceDataset | OracleServiceCloudObjectDataset | AzureDataExplorerTableDataset | GoogleAdWordsObjectDataset | SnowflakeDataset | SharePointOnlineListResourceDataset | AzureDatabricksDeltaLakeDataset;
-
-// @public
-export type DatasetZipDeflateCompression = DatasetCompression & {
-    type: "ZipDeflate";
-    level?: any;
-};
 
 // @public
 export type DayOfWeek = "Sunday" | "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday";
@@ -2315,6 +2282,9 @@ export type DynamicsLinkedService = LinkedService & {
 };
 
 // @public
+export type DynamicsServicePrincipalCredentialType = string;
+
+// @public
 export type DynamicsSink = CopySink & {
     type: "DynamicsSink";
     writeBehavior: DynamicsSinkWriteBehavior;
@@ -2407,7 +2377,7 @@ export type ExcelDataset = Dataset & {
     sheetName?: any;
     range?: any;
     firstRowAsHeader?: any;
-    compression?: DatasetCompressionUnion;
+    compression?: DatasetCompression;
     nullValue?: any;
 };
 
@@ -2560,7 +2530,7 @@ export type FileShareDataset = Dataset & {
     modifiedDatetimeEnd?: any;
     format?: DatasetStorageFormatUnion;
     fileFilter?: any;
-    compression?: DatasetCompressionUnion;
+    compression?: DatasetCompression;
 };
 
 // @public
@@ -2581,6 +2551,16 @@ export type FilterActivity = ControlActivity & {
     type: "Filter";
     items: Expression;
     condition: Expression;
+};
+
+// @public
+export type Flowlet = DataFlow & {
+    type: "Flowlet";
+    sources?: DataFlowSource[];
+    sinks?: DataFlowSink[];
+    transformations?: Transformation[];
+    script?: string;
+    scriptLines?: string[];
 };
 
 // @public
@@ -3053,7 +3033,7 @@ export type HttpDataset = Dataset & {
     requestBody?: any;
     additionalHeaders?: any;
     format?: DatasetStorageFormatUnion;
-    compression?: DatasetCompressionUnion;
+    compression?: DatasetCompression;
 };
 
 // @public
@@ -3363,7 +3343,7 @@ export type JsonDataset = Dataset & {
     type: "Json";
     location?: DatasetLocationUnion;
     encodingName?: any;
-    compression?: DatasetCompressionUnion;
+    compression?: DatasetCompression;
 };
 
 // @public
@@ -3544,6 +3524,18 @@ export enum KnownCopyBehaviorType {
 }
 
 // @public
+export enum KnownCreateMode {
+    // (undocumented)
+    Default = "Default",
+    // (undocumented)
+    PointInTimeRestore = "PointInTimeRestore",
+    // (undocumented)
+    Recovery = "Recovery",
+    // (undocumented)
+    Restore = "Restore"
+}
+
+// @public
 export enum KnownDataFlowComputeType {
     // (undocumented)
     ComputeOptimized = "ComputeOptimized",
@@ -3617,6 +3609,14 @@ export enum KnownDynamicsDeploymentType {
     Online = "Online",
     // (undocumented)
     OnPremisesWithIfd = "OnPremisesWithIfd"
+}
+
+// @public
+export enum KnownDynamicsServicePrincipalCredentialType {
+    // (undocumented)
+    ServicePrincipalCert = "ServicePrincipalCert",
+    // (undocumented)
+    ServicePrincipalKey = "ServicePrincipalKey"
 }
 
 // @public
@@ -4490,7 +4490,11 @@ export interface KqlScriptContent {
 // @public (undocumented)
 export interface KqlScriptContentCurrentConnection {
     // (undocumented)
+    databaseName?: string;
+    // (undocumented)
     name?: string;
+    // (undocumented)
+    poolName?: string;
     // (undocumented)
     type?: string;
 }
@@ -4904,6 +4908,7 @@ export type MappingDataFlow = DataFlow & {
     sinks?: DataFlowSink[];
     transformations?: Transformation[];
     script?: string;
+    scriptLines?: string[];
 };
 
 // @public
@@ -7111,7 +7116,7 @@ export type SqlPool = TrackedResource & {
     provisioningState?: string;
     status?: string;
     restorePointInTime?: string;
-    createMode?: string;
+    createMode?: CreateMode;
     creationDate?: Date;
 };
 
@@ -7447,6 +7452,7 @@ export interface StagingSettings {
 // @public
 export interface StartDataFlowDebugSessionRequest {
     dataFlow?: DataFlowResource;
+    dataFlows?: DataFlowResource[];
     datasets?: DatasetResource[];
     debugSettings?: any;
     incrementalDebug?: boolean;
@@ -7664,7 +7670,10 @@ export type TrackedResource = Resource & {
 
 // @public
 export interface Transformation {
+    dataset?: DatasetReference;
     description?: string;
+    flowlet?: DataFlowReference;
+    linkedService?: LinkedServiceReference;
     name: string;
 }
 
@@ -8184,7 +8193,7 @@ export type XmlDataset = Dataset & {
     location?: DatasetLocationUnion;
     encodingName?: any;
     nullValue?: any;
-    compression?: DatasetCompressionUnion;
+    compression?: DatasetCompression;
 };
 
 // @public
@@ -8234,7 +8243,6 @@ export type ZohoSource = TabularSource & {
     type: "ZohoSource";
     query?: any;
 };
-
 
 // (No @packageDocumentation comment for this package)
 

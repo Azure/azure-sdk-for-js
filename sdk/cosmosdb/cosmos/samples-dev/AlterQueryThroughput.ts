@@ -17,13 +17,11 @@ import {
   ContainerDefinition,
   DatabaseDefinition,
   FeedResponse
-} from "../dist-esm";
-const {
-  COSMOS_DATABASE: databaseId,
-  COSMOS_CONTAINER: containerId,
-  COSMOS_ENDPOINT: endpoint,
-  COSMOS_KEY: key
-} = process.env;
+} from "@azure/cosmos";
+const key = process.env.COSMOS_KEY || "<cosmos key>";
+const endpoint = process.env.COSMOS_ENDPOINT || "<cosmos endpoint>";
+const databaseId = process.env.COSMOS_DATABASE || "<cosmos database>";
+const containerId = process.env.COSMOS_CONTAINER || "<cosmos container>";
 
 logSampleHeader("Alter Query Throughput");
 
@@ -54,9 +52,12 @@ async function run(): Promise<void> {
   logStep("Read container definition");
   const container = database.container(containerId);
   const { resource: containerDef } = await container.read();
-  console.log(`Container with url "${container.url}" was found its id is "${containerDef.id}`);
 
-  logStep(`Delete container ${containerDef.id}`);
+  const resultId = containerDef && containerDef.id;
+
+  console.log(`Container with url "${container.url}" was found its id is "${resultId}`);
+
+  logStep(`Delete container ${resultId}`);
   await container.delete();
   await finish();
 }
@@ -95,12 +96,8 @@ async function updateOfferForCollection(
       })
   );
 
-  const flat = <T>(nestedArrays: T[][]): T[] => [].concat(...nestedArrays);
-
-  const containers: (ContainerDefinition & Resource)[] = flat(
-    containerResponses.map(
-      (response: FeedResponse<ContainerDefinition & Resource>) => response.resources
-    )
+  const containers: (ContainerDefinition & Resource)[] = containerResponses.flatMap(
+    (response: FeedResponse<ContainerDefinition & Resource>) => response.resources
   );
 
   logStep("Finding container to offerDefinition");
@@ -111,7 +108,11 @@ async function updateOfferForCollection(
   );
 
   if (container) {
-    const offer = client.offer(oldOfferDefinition.id);
+    const id = oldOfferDefinition!.id;
+    if (typeof id === "undefined") {
+      throw new Error("ID for old offer is undefined");
+    }
+    const offer = client.offer(id);
     logStep("replace old offer with new offer");
     await offer.replace(newOfferDefinition);
   }

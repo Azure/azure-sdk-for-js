@@ -14,30 +14,32 @@
     "connection": "keep-alive",
     "content-length": "196",
     "content-type": "application/json; charset=utf-8",
-    "date": "Mon, 20 Sep 2021 18:55:28 GMT",
+    "date": "Mon, 08 Nov 2021 20:12:20 GMT",
     "docker-distribution-api-version": "registry/2.0",
     "server": "openresty",
     "strict-transport-security": "max-age=31536000; includeSubDomains, max-age=31536000; includeSubDomains",
     "www-authenticate": "Bearer realm=\"https://myregistry.azurecr.io/oauth2/token\",service=\"myregistry.azurecr.io\",scope=\"registry:catalog:*\"",
     "x-content-type-options": "nosniff",
-    "x-ms-correlation-request-id": "dc979d96-9f0f-436f-acd7-f06ba60bd53b"
+    "x-ms-correlation-request-id": "d43d1c3e-a22f-439a-bcb0-d9f545982082"
    }
   },
   {
    "method": "POST",
    "url": "https://myregistry.azurecr.io/oauth2/token",
-   "query": {},
-   "requestBody": "grant_type=password&service=myregistry.azurecr.io&refresh_token=&scope=registry%3Acatalog%3A*",
+   "query": {
+    "api-version": "2021-07-01"
+   },
+   "requestBody": "service=myregistry.azurecr.io&scope=registry%3Acatalog%3A*&refresh_token=&grant_type=password",
    "status": 200,
    "response": "{\"access_token\":\"access_token\"}",
    "responseHeaders": {
     "connection": "keep-alive",
     "content-type": "application/json; charset=utf-8",
-    "date": "Mon, 20 Sep 2021 18:55:28 GMT",
+    "date": "Mon, 08 Nov 2021 20:12:20 GMT",
     "server": "openresty",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "transfer-encoding": "chunked",
-    "x-ms-correlation-request-id": "c3dd5108-38eb-4aa6-bf71-48a8f920ee01",
+    "x-ms-correlation-request-id": "cbad8563-c6ff-4af0-912c-70ee3ab86d49",
     "x-ms-ratelimit-remaining-calls-per-second": "166.65"
    }
   },
@@ -55,12 +57,12 @@
     "connection": "keep-alive",
     "content-length": "112",
     "content-type": "application/json; charset=utf-8",
-    "date": "Mon, 20 Sep 2021 18:55:28 GMT",
+    "date": "Mon, 08 Nov 2021 20:12:20 GMT",
     "docker-distribution-api-version": "registry/2.0",
     "server": "openresty",
     "strict-transport-security": "max-age=31536000; includeSubDomains, max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-correlation-request-id": "c08c7a94-2faf-440e-a9c0-8550390803be"
+    "x-ms-correlation-request-id": "b9637021-9a44-4e32-97a0-a7d46ba347da"
    }
   }
  ],
@@ -68,5 +70,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "fc066e23b2fc33b080eb748a9f6d47dc"
+ "hash": "944c0fe162180c72a6cfcd9f5c8d72c9"
 }

@@ -4,6 +4,9 @@
 import { QueryCollectionFormat } from "./queryCollectionFormat";
 import { Mapper } from "./serializer";
 
+/**
+ * A path which describes how to access a particular property in a given object data source. May be a single property name, an array that denotes nested property names, or a set of multiple named properties with paths in the case of complex object values.
+ */
 export type ParameterPath = string | string[] | { [propertyName: string]: ParameterPath };
 
 /**

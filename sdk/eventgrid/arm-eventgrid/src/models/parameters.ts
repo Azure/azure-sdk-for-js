@@ -15,21 +15,14 @@ import {
   Domain as DomainMapper,
   DomainUpdateParameters as DomainUpdateParametersMapper,
   DomainRegenerateKeyRequest as DomainRegenerateKeyRequestMapper,
-  EventChannel as EventChannelMapper,
   EventSubscription as EventSubscriptionMapper,
   EventSubscriptionUpdateParameters as EventSubscriptionUpdateParametersMapper,
-  PartnerNamespace as PartnerNamespaceMapper,
-  PartnerNamespaceUpdateParameters as PartnerNamespaceUpdateParametersMapper,
-  PartnerNamespaceRegenerateKeyRequest as PartnerNamespaceRegenerateKeyRequestMapper,
-  PartnerRegistration as PartnerRegistrationMapper,
-  PartnerRegistrationUpdateParameters as PartnerRegistrationUpdateParametersMapper,
-  PartnerTopicUpdateParameters as PartnerTopicUpdateParametersMapper,
-  PrivateEndpointConnection as PrivateEndpointConnectionMapper,
-  SystemTopic as SystemTopicMapper,
-  SystemTopicUpdateParameters as SystemTopicUpdateParametersMapper,
   Topic as TopicMapper,
   TopicUpdateParameters as TopicUpdateParametersMapper,
-  TopicRegenerateKeyRequest as TopicRegenerateKeyRequestMapper
+  TopicRegenerateKeyRequest as TopicRegenerateKeyRequestMapper,
+  PrivateEndpointConnection as PrivateEndpointConnectionMapper,
+  SystemTopic as SystemTopicMapper,
+  SystemTopicUpdateParameters as SystemTopicUpdateParametersMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -92,7 +85,7 @@ export const domainName: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-06-01-preview",
+    defaultValue: "2021-12-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -169,33 +162,6 @@ export const domainTopicName: OperationURLParameter = {
       name: "String"
     }
   }
-};
-
-export const partnerNamespaceName: OperationURLParameter = {
-  parameterPath: "partnerNamespaceName",
-  mapper: {
-    serializedName: "partnerNamespaceName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const eventChannelName: OperationURLParameter = {
-  parameterPath: "eventChannelName",
-  mapper: {
-    serializedName: "eventChannelName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const eventChannelInfo: OperationParameter = {
-  parameterPath: "eventChannelInfo",
-  mapper: EventChannelMapper
 };
 
 export const scope: OperationURLParameter = {
@@ -308,56 +274,19 @@ export const systemTopicName: OperationURLParameter = {
   }
 };
 
-export const partnerTopicName: OperationURLParameter = {
-  parameterPath: "partnerTopicName",
-  mapper: {
-    serializedName: "partnerTopicName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
+export const topicInfo: OperationParameter = {
+  parameterPath: "topicInfo",
+  mapper: TopicMapper
 };
 
-export const partnerNamespaceInfo: OperationParameter = {
-  parameterPath: "partnerNamespaceInfo",
-  mapper: PartnerNamespaceMapper
-};
-
-export const partnerNamespaceUpdateParameters: OperationParameter = {
-  parameterPath: "partnerNamespaceUpdateParameters",
-  mapper: PartnerNamespaceUpdateParametersMapper
+export const topicUpdateParameters: OperationParameter = {
+  parameterPath: "topicUpdateParameters",
+  mapper: TopicUpdateParametersMapper
 };
 
 export const regenerateKeyRequest1: OperationParameter = {
   parameterPath: "regenerateKeyRequest",
-  mapper: PartnerNamespaceRegenerateKeyRequestMapper
-};
-
-export const partnerRegistrationName: OperationURLParameter = {
-  parameterPath: "partnerRegistrationName",
-  mapper: {
-    serializedName: "partnerRegistrationName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const partnerRegistrationInfo: OperationParameter = {
-  parameterPath: "partnerRegistrationInfo",
-  mapper: PartnerRegistrationMapper
-};
-
-export const partnerRegistrationUpdateParameters: OperationParameter = {
-  parameterPath: "partnerRegistrationUpdateParameters",
-  mapper: PartnerRegistrationUpdateParametersMapper
-};
-
-export const partnerTopicUpdateParameters: OperationParameter = {
-  parameterPath: "partnerTopicUpdateParameters",
-  mapper: PartnerTopicUpdateParametersMapper
+  mapper: TopicRegenerateKeyRequestMapper
 };
 
 export const parentType: OperationURLParameter = {
@@ -461,21 +390,6 @@ export const systemTopicInfo: OperationParameter = {
 export const systemTopicUpdateParameters: OperationParameter = {
   parameterPath: "systemTopicUpdateParameters",
   mapper: SystemTopicUpdateParametersMapper
-};
-
-export const topicInfo: OperationParameter = {
-  parameterPath: "topicInfo",
-  mapper: TopicMapper
-};
-
-export const topicUpdateParameters: OperationParameter = {
-  parameterPath: "topicUpdateParameters",
-  mapper: TopicUpdateParametersMapper
-};
-
-export const regenerateKeyRequest2: OperationParameter = {
-  parameterPath: "regenerateKeyRequest",
-  mapper: TopicRegenerateKeyRequestMapper
 };
 
 export const scope1: OperationURLParameter = {

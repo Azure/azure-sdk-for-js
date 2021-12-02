@@ -2707,14 +2707,9 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
         });
 
         it("all documents have errors", async function() {
-          let text = "";
-          for (let i = 0; i < 5121; ++i) {
-            text = text + "x";
-          }
           const docs = [
             { id: "1", text: "" },
-            { id: "2", language: "english", text: "I did not like the hotel we stayed at." },
-            { id: "3", text: text }
+            { id: "2", language: "english", text: "I did not like the hotel we stayed at." }
           ];
 
           const poller = await client.beginAnalyzeHealthcareEntities(docs, {
@@ -2723,7 +2718,27 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           const doc_errors = await poller.pollUntilDone();
           assert.equal((await doc_errors.next()).value.error?.code, "InvalidDocument");
           assert.equal((await doc_errors.next()).value.error?.code, "UnsupportedLanguageCode");
-          assert.equal((await doc_errors.next()).value.error?.code, "InvalidDocument");
+        });
+
+        it("big document causes a warning", async function() {
+          let text = "";
+          for (let i = 0; i < 5121; ++i) {
+            text = text + "x";
+          }
+          const docs = [{ id: "3", text: text }];
+
+          const poller = await client.beginAnalyzeHealthcareEntities(docs, {
+            updateIntervalInMs: pollingInterval
+          });
+          const results = await poller.pollUntilDone();
+          const docResult = (await results.next()).value;
+          if (!docResult.error) {
+            assert.equal(docResult.warnings[0].code, "DocumentTruncated");
+          } else {
+            assert.fail(
+              `Expected a warning but received an error instead with code: ${docResult.error.code}`
+            );
+          }
         });
 
         it("documents with duplicate IDs", async function() {

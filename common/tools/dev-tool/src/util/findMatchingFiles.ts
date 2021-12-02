@@ -57,7 +57,7 @@ export async function* findMatchingFiles(
   dir: string,
   matches: (name: string, entry: fs.Stats) => boolean,
   findOptions?: Partial<FindOptions>
-) {
+): AsyncGenerator<string> {
   const q: FileInfo[] = [];
 
   const options: FindOptions = { ...defaultFindOptions, ...findOptions };

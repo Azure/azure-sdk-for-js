@@ -10,19 +10,7 @@ import githubSourceHeaders from "./github-source-headers";
 import tsApiExtractorPublicTypes from "./ts-apiextractor-json-types";
 import tsApisurfaceStandardizedVerbs from "./ts-apisurface-standardized-verbs";
 import tsApisurfaceSupportcancellation from "./ts-apisurface-supportcancellation";
-import tsConfigAllowSyntheticDefaultImports from "./ts-config-allowsyntheticdefaultimports";
-import tsConfigDeclaration from "./ts-config-declaration";
-import tsConfigEsModuleInterop from "./ts-config-esmoduleinterop";
-import tsConfigExclude from "./ts-config-exclude";
-import tsConfigForceConsistentCasingInFileNames from "./ts-config-forceconsistentcasinginfilenames";
-import tsConfigImportHelpers from "./ts-config-importhelpers";
-import tsConfigLib from "./ts-config-lib";
-import tsConfigModule from "./ts-config-module";
-import tsConfigModuleResolution from "./ts-config-moduleresolution";
-import tsConfigNoExperimentalDecorators from "./ts-config-no-experimentaldecorators";
-import tsConfigSourceMap from "./ts-config-sourcemap";
-import tsConfigStrict from "./ts-config-strict";
-import tsConfigTarget from "./ts-config-target";
+import tsConfigInclude from "./ts-config-include";
 import tsDocInternal from "./ts-doc-internal";
 import tsErrorHandling from "./ts-error-handling";
 import tsModulesOnlyNamed from "./ts-modules-only-named";
@@ -30,10 +18,8 @@ import tsNamingDropNoun from "./ts-naming-drop-noun";
 import tsNamingOptions from "./ts-naming-options";
 import tsNamingSubclients from "./ts-naming-subclients";
 import tsNoConstEnums from "./ts-no-const-enums";
-import tsNoNamespaces from "./ts-no-namespaces";
 import tsNoWindow from "./ts-no-window";
 import tsPackageJsonAuthor from "./ts-package-json-author";
-import tsPackageJsonSdkType from "./ts-package-json-sdktype";
 import tsPackageJsonBugs from "./ts-package-json-bugs";
 import tsPackageJsonEngineIsPresent from "./ts-package-json-engine-is-present";
 import tsPackageJsonFilesRequired from "./ts-package-json-files-required";
@@ -45,6 +31,7 @@ import tsPackageJsonModule from "./ts-package-json-module";
 import tsPackageJsonName from "./ts-package-json-name";
 import tsPackageJsonRepo from "./ts-package-json-repo";
 import tsPackageJsonRequiredScripts from "./ts-package-json-required-scripts";
+import tsPackageJsonSdkType from "./ts-package-json-sdktype";
 import tsPackageJsonSideEffects from "./ts-package-json-sideeffects";
 import tsPackageJsonTypes from "./ts-package-json-types";
 import tsPaginationList from "./ts-pagination-list";
@@ -60,19 +47,7 @@ export = {
   "ts-apiextractor-json-types": tsApiExtractorPublicTypes,
   "ts-apisurface-standardized-verbs": tsApisurfaceStandardizedVerbs,
   "ts-apisurface-supportcancellation": tsApisurfaceSupportcancellation,
-  "ts-config-allowsyntheticdefaultimports": tsConfigAllowSyntheticDefaultImports,
-  "ts-config-declaration": tsConfigDeclaration,
-  "ts-config-esmoduleinterop": tsConfigEsModuleInterop,
-  "ts-config-exclude": tsConfigExclude,
-  "ts-config-forceconsistentcasinginfilenames": tsConfigForceConsistentCasingInFileNames,
-  "ts-config-importhelpers": tsConfigImportHelpers,
-  "ts-config-lib": tsConfigLib,
-  "ts-config-module": tsConfigModule,
-  "ts-config-moduleresolution": tsConfigModuleResolution,
-  "ts-config-no-experimentaldecorators": tsConfigNoExperimentalDecorators,
-  "ts-config-sourcemap": tsConfigSourceMap,
-  "ts-config-strict": tsConfigStrict,
-  "ts-config-target": tsConfigTarget,
+  "ts-config-include": tsConfigInclude,
   "ts-doc-internal": tsDocInternal,
   "ts-error-handling": tsErrorHandling,
   "ts-modules-only-named": tsModulesOnlyNamed,
@@ -80,10 +55,8 @@ export = {
   "ts-naming-options": tsNamingOptions,
   "ts-naming-subclients": tsNamingSubclients,
   "ts-no-const-enums": tsNoConstEnums,
-  "ts-no-namespaces": tsNoNamespaces,
   "ts-no-window": tsNoWindow,
   "ts-package-json-author": tsPackageJsonAuthor,
-  "ts-package-json-sdktype": tsPackageJsonSdkType,
   "ts-package-json-bugs": tsPackageJsonBugs,
   "ts-package-json-engine-is-present": tsPackageJsonEngineIsPresent,
   "ts-package-json-files-required": tsPackageJsonFilesRequired,
@@ -95,6 +68,7 @@ export = {
   "ts-package-json-name": tsPackageJsonName,
   "ts-package-json-repo": tsPackageJsonRepo,
   "ts-package-json-required-scripts": tsPackageJsonRequiredScripts,
+  "ts-package-json-sdktype": tsPackageJsonSdkType,
   "ts-package-json-sideeffects": tsPackageJsonSideEffects,
   "ts-package-json-types": tsPackageJsonTypes,
   "ts-pagination-list": tsPaginationList,

@@ -103,7 +103,7 @@ function makeOnWarnForTesting(): (warning: RollupWarning, warn: WarningHandler) 
 
 // #endregion
 
-export function makeBrowserTestConfig() {
+export function makeBrowserTestConfig(): RollupOptions {
   const config: RollupOptions = {
     input: {
       include: ["dist-esm/test/**/*.spec.js"],
@@ -151,7 +151,10 @@ const defaultConfigurationOptions: ConfigurationOptions = {
   disableBrowserBundle: false,
 };
 
-export function makeConfig(pkg: PackageJson, options?: Partial<ConfigurationOptions>) {
+export function makeConfig(
+  pkg: PackageJson,
+  options?: Partial<ConfigurationOptions>
+): RollupOptions[] {
   options = {
     ...defaultConfigurationOptions,
     ...(options ?? {}),

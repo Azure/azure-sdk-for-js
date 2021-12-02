@@ -2,6 +2,7 @@
   "name": "@azure/dev-tool",
   "version": "1.0.0",
   "description": "A helpful command for azure-sdk-for-js developers",
+  "sdk-type": "utility",
   "bin": {
     "dev-tool": "launch.js"
   },
@@ -19,7 +20,7 @@
     "integration-test:browser": "echo skipped",
     "integration-test:node": "echo skipped",
     "lint:fix": "eslint --no-eslintrc -c ../../.eslintrc.internal.json package.json src test --ext .ts --fix --fix-type [problem,suggestion]",
-    "lint": "eslint --no-eslintrc -c ../../../sdk/.eslintrc.internal.json package.json src test --ext .ts  -f html -o template-lintReport.html || exit 0",
+    "lint": "eslint --no-eslintrc -c ../../../sdk/.eslintrc.internal.json package.json src test --ext .ts",
     "pack": "npm pack 2>&1",
     "prebuild": "npm run clean",
     "unit-test": "npm run unit-test:node",
@@ -40,6 +41,7 @@
   "private": true,
   "prettier": "../eslint-plugin-azure-sdk/prettier.json",
   "dependencies": {
+    "concurrently": "^6.3.0",
     "chalk": "~4.1.1",
     "dotenv": "^8.2.0",
     "fs-extra": "^8.1.0",
@@ -55,6 +57,7 @@
     "@rollup/plugin-json": "^4.0.0",
     "@rollup/plugin-multi-entry": "^3.0.0",
     "@rollup/plugin-node-resolve": "^8.0.0",
+    "@types/concurrently": "^6.3.0",
     "@types/chai": "^4.1.6",
     "@types/chai-as-promised": "^7.1.0",
     "@types/fs-extra": "^8.0.0",

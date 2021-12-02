@@ -4,6 +4,7 @@ jobs:
   - template: /eng/common/pipelines/templates/jobs/docindex.yml
 
   - job: UpdateDocsMsBuildConfig
+    timeoutInMinutes: 90
     pool:
       vmImage: ubuntu-20.04
     variables:
@@ -23,13 +24,12 @@ jobs:
           Repositories:
             - Name: $(DocRepoOwner)/$(DocRepoName)
               WorkingDirectory: $(DocRepoLocation)
-      # Pull and build the docker image. 
+      # Pull and build the docker image.
       - template: /eng/common/pipelines/templates/steps/docker-pull-image.yml
         parameters:
           ContainerRegistryClientId: $(azuresdkimages-cr-clientid)
           ContainerRegistryClientSecret: $(azuresdkimages-cr-clientsecret)
-          ImageId: '$(DocValidationImageId)'
-          
+          ImageId: "$(DocValidationImageId)"
 
       # Call update docs ci script to onboard packages
       - task: Powershell@2
@@ -39,7 +39,7 @@ jobs:
           arguments: -DocRepoLocation $(DocRepoLocation) -ImageId '$(DocValidationImageId)'
         displayName: Update Docs Onboarding
         condition: and(succeeded(), or(eq(variables['Build.Reason'], 'Schedule'), eq(variables['Force.MainUpdate'], 'true')))
-          
+
       # Push changes to docs repo
       - template: /eng/common/pipelines/templates/steps/set-default-branch.yml
         parameters:

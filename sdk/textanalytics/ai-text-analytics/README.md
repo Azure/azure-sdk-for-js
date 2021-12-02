@@ -67,7 +67,7 @@ To create a client object to access the Text Analytics API, you will need the `e
 You can find the endpoint for your text analytics resource either in the [Azure Portal][azure_portal] or by using the [Azure CLI][azure_cli] snippet below:
 
 ```bash
-az cognitiveservices account show --name <your-resource-name> --resource-group <your-resource-group-name> --query "endpoint"
+az cognitiveservices account show --name <your-resource-name> --resource-group <your-resource-group-name> --query "properties.endpoint"
 ```
 
 #### Using an API Key

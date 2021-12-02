@@ -104,6 +104,7 @@ export interface ListRequestOptions {
 /**
  * Represents the returned response of the operation along with the raw response.
  */
+// eslint-disable-next-line @typescript-eslint/ban-types
 export type WithResponse<T extends object> = T & {
   /**
    * The underlying HTTP response.
@@ -128,6 +129,7 @@ export interface ServiceBusAdministrationClientOptions extends PipelineOptions {
 /**
  * Represents the result of list operation on entities which also contains the `continuationToken` to start iterating over from.
  */
+// eslint-disable-next-line @typescript-eslint/ban-types
 export type EntitiesResponse<T extends object> = WithResponse<Array<T>> &
   Pick<PageSettings, "continuationToken">;
 
@@ -714,6 +716,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     queueName: string,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     operationOptions?: OperationOptions
+    // eslint-disable-next-line @typescript-eslint/ban-types
   ): Promise<WithResponse<{}>> {
     const { span, updatedOptions } = createSpan(
       "ServiceBusAdministrationClient-deleteQueue",
@@ -1201,6 +1204,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     topicName: string,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     operationOptions?: OperationOptions
+    // eslint-disable-next-line @typescript-eslint/ban-types
   ): Promise<WithResponse<{}>> {
     const { span, updatedOptions } = createSpan(
       "ServiceBusAdministrationClient-deleteTopic",
@@ -1721,6 +1725,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     subscriptionName: string,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     operationOptions?: OperationOptions
+    // eslint-disable-next-line @typescript-eslint/ban-types
   ): Promise<WithResponse<{}>> {
     const { span, updatedOptions } = createSpan(
       "ServiceBusAdministrationClient-deleteSubscription",
@@ -2123,6 +2128,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     ruleName: string,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     operationOptions?: OperationOptions
+    // eslint-disable-next-line @typescript-eslint/ban-types
   ): Promise<WithResponse<{}>> {
     const { span, updatedOptions } = createSpan(
       "ServiceBusAdministrationClient-deleteRule",
@@ -2388,7 +2394,8 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       return undefined;
     }
     try {
-      return parseURL(url).searchParams.get(Constants.XML_METADATA_MARKER + "skip");
+      const value = parseURL(url).searchParams.get(Constants.XML_METADATA_MARKER + "skip");
+      return value !== null ? value : undefined;
     } catch (error) {
       throw new Error(
         `Unable to parse the '${Constants.XML_METADATA_MARKER}skip' from the next-link in the response ` +

@@ -205,8 +205,7 @@ export class CloudEventsDispatcher {
     switch (eventType) {
       case EventType.Connect:
         if (!this.eventHandler?.handleConnect) {
-          response.statusCode = 401;
-          response.end("Connect event handler is not configured.");
+          response.end();
           return true;
         }
         break;

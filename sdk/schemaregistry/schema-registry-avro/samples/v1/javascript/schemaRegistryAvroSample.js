@@ -40,8 +40,8 @@ const schema = JSON.stringify(schemaObject);
 const schemaDescription = {
   name: `${schemaObject.namespace}.${schemaObject.name}`,
   groupName,
-  format: "avro",
-  schemaDefinition: schema
+  format: "Avro",
+  definition: schema
 };
 
 async function main() {

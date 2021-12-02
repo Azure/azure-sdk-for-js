@@ -34,15 +34,21 @@ describe("ServiceBusReceiver unit tests", () => {
     receiver["_batchingReceiver"] = {
       isOpen: () => true,
       isReceivingMessages: true,
-      close: async () => {}
+      close: async () => {
+        /* empty body */
+      }
     } as BatchingReceiver;
 
     assert.isTrue(receiver["_isReceivingMessages"](), "Batching receiver is receiving messages");
 
-    const subscribeFn = async () => {
+    const subscribeFn = async (): Promise<void> => {
       receiver.subscribe({
-        processError: async (_errArgs) => {},
-        processMessage: async (_msg) => {}
+        processError: async (_errArgs) => {
+          /* empty body */
+        },
+        processMessage: async (_msg) => {
+          /* empty body */
+        }
       });
     };
 
@@ -62,8 +68,12 @@ describe("ServiceBusReceiver unit tests", () => {
       postInitialize: async () => {
         resolve();
       },
-      processError: async (_errArgs) => {},
-      processMessage: async (_msg) => {}
+      processError: async (_errArgs) => {
+        /* empty body */
+      },
+      processMessage: async (_msg) => {
+        /* empty body */
+      }
     } as InternalMessageHandlers);
 
     await subscriberInitializedPromise;

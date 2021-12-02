@@ -53,25 +53,29 @@ export class PersonGroupOperations {
    * * to handle larger scale face identification problem, please consider using
    * [LargePersonGroup](https://docs.microsoft.com/rest/api/faceapi/largepersongroup).
    * @param personGroupId Id referencing a particular person group.
+   * @param name User defined name, maximum length is 128.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  create(personGroupId: string, options?: Models.PersonGroupCreateOptionalParams): Promise<msRest.RestResponse>;
+  create(personGroupId: string, name: string, options?: Models.PersonGroupCreateOptionalParams): Promise<msRest.RestResponse>;
   /**
    * @param personGroupId Id referencing a particular person group.
+   * @param name User defined name, maximum length is 128.
    * @param callback The callback
    */
-  create(personGroupId: string, callback: msRest.ServiceCallback<void>): void;
+  create(personGroupId: string, name: string, callback: msRest.ServiceCallback<void>): void;
   /**
    * @param personGroupId Id referencing a particular person group.
+   * @param name User defined name, maximum length is 128.
    * @param options The optional parameters
    * @param callback The callback
    */
-  create(personGroupId: string, options: Models.PersonGroupCreateOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  create(personGroupId: string, options?: Models.PersonGroupCreateOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  create(personGroupId: string, name: string, options: Models.PersonGroupCreateOptionalParams, callback: msRest.ServiceCallback<void>): void;
+  create(personGroupId: string, name: string, options?: Models.PersonGroupCreateOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         personGroupId,
+        name,
         options
       },
       createOperationSpec,
@@ -270,10 +274,7 @@ const createOperationSpec: msRest.OperationSpec = {
   ],
   requestBody: {
     parameterPath: {
-      name: [
-        "options",
-        "name"
-      ],
+      name: "name",
       userData: [
         "options",
         "userData"
