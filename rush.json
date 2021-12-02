@@ -1135,6 +1135,11 @@
       "packageName": "@azure/arm-portal",
       "projectFolder": "sdk/portal/arm-portal",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-sqlvirtualmachine",
+      "projectFolder": "sdk/sqlvirtualmachine/arm-sqlvirtualmachine",
+      "versionPolicyName": "management"
     }
   ]
 }
