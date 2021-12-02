@@ -829,6 +829,17 @@ export const FaceAttributes: msRest.CompositeMapper = {
           name: "Composite",
           className: "Mask"
         }
+      },
+      qualityForRecognition: {
+        serializedName: "qualityForRecognition",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "Low",
+            "Medium",
+            "High"
+          ]
+        }
       }
     }
   }
@@ -1091,7 +1102,7 @@ export const IdentifyRequest: msRest.CompositeMapper = {
         serializedName: "maxNumOfCandidatesReturned",
         defaultValue: 1,
         constraints: {
-          InclusiveMaximum: 5,
+          InclusiveMaximum: 100,
           InclusiveMinimum: 1
         },
         type: {
@@ -1280,16 +1291,18 @@ export const PersistedFace: msRest.CompositeMapper = {
   }
 };
 
-export const NameAndUserDataContract: msRest.CompositeMapper = {
-  serializedName: "NameAndUserDataContract",
+export const NonNullableNameAndNullableUserDataContract: msRest.CompositeMapper = {
+  serializedName: "NonNullableNameAndNullableUserDataContract",
   type: {
     name: "Composite",
-    className: "NameAndUserDataContract",
+    className: "NonNullableNameAndNullableUserDataContract",
     modelProperties: {
       name: {
+        required: true,
         serializedName: "name",
         constraints: {
-          MaxLength: 128
+          MaxLength: 128,
+          MinLength: 1
         },
         type: {
           name: "String"
@@ -1314,7 +1327,7 @@ export const MetaDataContract: msRest.CompositeMapper = {
     name: "Composite",
     className: "MetaDataContract",
     modelProperties: {
-      ...NameAndUserDataContract.type.modelProperties,
+      ...NonNullableNameAndNullableUserDataContract.type.modelProperties,
       recognitionModel: {
         nullable: false,
         serializedName: "recognitionModel",
@@ -1374,6 +1387,34 @@ export const PersonGroup: msRest.CompositeMapper = {
         constraints: {
           MaxLength: 64,
           Pattern: /^[a-z0-9-_]+$/
+        },
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const NameAndUserDataContract: msRest.CompositeMapper = {
+  serializedName: "NameAndUserDataContract",
+  type: {
+    name: "Composite",
+    className: "NameAndUserDataContract",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        constraints: {
+          MaxLength: 128
+        },
+        type: {
+          name: "String"
+        }
+      },
+      userData: {
+        serializedName: "userData",
+        constraints: {
+          MaxLength: 16384
         },
         type: {
           name: "String"

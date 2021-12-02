@@ -175,6 +175,28 @@ export class MsalOpenBrowser extends MsalNode {
 
       app.on("connection", (socket) => socketToDestroy.push(socket));
 
+      app.on("error", (err) => {
+        cleanup();
+        const code = (err as any).code;
+        if (code === "EACCES" || code === "EADDRINUSE") {
+          reject(
+            new CredentialUnavailableError(
+              [
+                `InteractiveBrowserCredential: Access denied to port ${this.port}.`,
+                `Try sending a redirect URI with a different port, as follows:`,
+                '`new InteractiveBrowserCredential({ redirectUri: "http://localhost:1337" })`'
+              ].join(" ")
+            )
+          );
+        } else {
+          reject(
+            new CredentialUnavailableError(
+              `InteractiveBrowserCredential: Failed to start the necessary web server. Error: ${err.message}`
+            )
+          );
+        }
+      });
+
       app.on("listening", () => {
         const openPromise = this.openAuthCodeUrl(scopes, options);
 
@@ -224,7 +246,9 @@ export class MsalOpenBrowser extends MsalNode {
     try {
       await interactiveBrowserMockable.open(response, { wait: true });
     } catch (e) {
-      throw new CredentialUnavailableError(`Could not open a browser window. Error: ${e.message}`);
+      throw new CredentialUnavailableError(
+        `InteractiveBrowserCredential: Could not open a browser window. Error: ${e.message}`
+      );
     }
   }
 }

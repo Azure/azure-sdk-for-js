@@ -114,6 +114,7 @@ export interface ConnectionContextInternalMembers extends ConnectionContext {
  * @internal
  * Helper type to get the names of all the functions on an object.
  */
+// eslint-disable-next-line @typescript-eslint/ban-types
 type FunctionPropertyNames<T> = { [K in keyof T]: T[K] extends Function ? K : never }[keyof T];
 /**
  * @internal
@@ -178,7 +179,7 @@ async function callOnDetachedOnSessionReceivers(
   connectionContext: ConnectionContext,
   contextOrConnectionError: Error | ConnectionError | AmqpError | undefined
 ): Promise<void[]> {
-  const getSessionError = (sessionId: string, entityPath: string) => {
+  const getSessionError = (sessionId: string, entityPath: string): ServiceBusError => {
     const sessionInfo =
       `The receiver for session "${sessionId}" in "${entityPath}" has been closed and can no longer be used. ` +
       `Please create a new receiver using the "acceptSession" or "acceptNextSession" method on the ServiceBusClient.`;
@@ -243,6 +244,7 @@ function getNumberOfReceivers(
 /**
  * @internal
  */
+// eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace ConnectionContext {
   export function create(
     config: ConnectionConfig,
@@ -575,7 +577,7 @@ export namespace ConnectionContext {
       );
     }
 
-    function addConnectionListeners(connection: Connection) {
+    function addConnectionListeners(connection: Connection): void {
       // Add listeners on the connection object.
       connection.on(ConnectionEvents.connectionOpen, onConnectionOpen);
       connection.on(ConnectionEvents.disconnected, disconnected);
@@ -583,7 +585,7 @@ export namespace ConnectionContext {
       connection.on(ConnectionEvents.error, error);
     }
 
-    async function cleanConnectionContext() {
+    async function cleanConnectionContext(): Promise<void> {
       // Remove listeners from the connection object.
       connectionContext.connection.removeListener(
         ConnectionEvents.connectionOpen,

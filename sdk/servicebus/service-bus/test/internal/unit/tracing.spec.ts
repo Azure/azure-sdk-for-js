@@ -103,8 +103,12 @@ describe("Tracing tests", () => {
       ["diagnostic id 1", "diagnostic id 2"]
     );
 
+    if (!options?.tracingOptions?.tracingContext) {
+      throw new Error("TestError: options.tracingOptions.tracingContext should have been set");
+    }
+
     assert.equal(
-      getSpanContext(options?.tracingOptions?.tracingContext!)?.spanId,
+      getSpanContext(options?.tracingOptions?.tracingContext)?.spanId,
       "my parent span id",
       "Parent span should be properly passed in."
     );
@@ -286,10 +290,13 @@ describe("Tracing tests", () => {
       assert.equal(config.host, "fakeHost");
       assert.isFalse(Array.isArray(messages));
 
-      assert.equal(
-        getSpanContext(options?.tracingOptions?.tracingContext!)!.spanId,
-        "my parent span id"
-      );
+      if (!options?.tracingOptions?.tracingContext) {
+        throw new Error("TestError: options.tracingOptions.tracingContext should have been set");
+      }
+
+      const context = getSpanContext(options?.tracingOptions?.tracingContext);
+      assert.ok(context);
+      assert.equal(context?.spanId, "my parent span id");
 
       data.span = getTracer().startSpan("some span") as TestSpan;
       return data.span;
@@ -410,7 +417,7 @@ describe("Tracing tests", () => {
       }, span);
 
       span.status!.code.should.equal(SpanStatusCode.OK);
-      span.endCalled.should.be.ok;
+      span.endCalled.should.equal(true);
     });
 
     it("trace - throws", async () => {
@@ -422,7 +429,7 @@ describe("Tracing tests", () => {
 
       span.status!.code.should.equal(SpanStatusCode.ERROR);
       span.status!.message!.should.equal("error thrown from fn");
-      span.endCalled.should.be.ok;
+      span.endCalled.should.equal(true);
     });
   });
 });
@@ -433,7 +440,7 @@ class TestTracer2 extends TestTracer {
   span: TestSpan | undefined;
   context: OTContext | undefined;
 
-  clearTracingData() {
+  clearTracingData(): void {
     this.spanName = undefined;
     this.spanOptions = undefined;
     this.span = undefined;
