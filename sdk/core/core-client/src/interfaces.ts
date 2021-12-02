@@ -372,7 +372,7 @@ export interface Serializer {
   readonly isXML: boolean;
 
   /**
-   * Validates constraints, if any. This function will throw if the provided value does not match those constraints.
+   * Validates constraints, if any. This function will throw if the provided value does not respect those constraints.
    * @param mapper - The definition of data models.
    * @param value - The value.
    * @param objectName - Name of the object. Used in the error messages.
