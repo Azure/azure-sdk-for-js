@@ -22,18 +22,10 @@ import {
 export class OpenTelemetryInstrumenter implements Instrumenter {
   startSpan(
     name: string,
-    spanOptions?: InstrumenterSpanOptions
+    spanOptions: InstrumenterSpanOptions
   ): { span: TracingSpan; tracingContext: TracingContext } {
-    if (!spanOptions) {
-      spanOptions = {
-        packageInformation: {
-          name: "@azure/instrumentation-opentelemetry"
-        }
-      };
-    }
-
     const span = trace
-      .getTracer(spanOptions.packageInformation.name, spanOptions.packageInformation.version)
+      .getTracer(spanOptions.packageName, spanOptions.packageVersion)
       .startSpan(name, toSpanOptions(spanOptions));
 
     const ctx = spanOptions?.tracingContext || context.active();
