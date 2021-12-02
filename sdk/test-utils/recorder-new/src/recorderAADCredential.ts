@@ -12,6 +12,9 @@ import { AccessToken, TokenCredential } from "@azure/core-auth";
  */
 export class NoOpCredential implements TokenCredential {
   getToken(): Promise<AccessToken> {
-    return Promise.resolve({ token: "SecretPlaceholder", expiresOnTimestamp: 86400 * 1000 });
+    return Promise.resolve({
+      token: "SecretPlaceholder",
+      expiresOnTimestamp: Date.now() + 86400 * 1000
+    });
   }
 }
