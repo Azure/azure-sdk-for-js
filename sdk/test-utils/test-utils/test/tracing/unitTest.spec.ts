@@ -17,10 +17,10 @@ describe("TestTracingSpan", function() {
     subject.setStatus({ status: "success" });
     assert.deepEqual(subject.spanStatus, { status: "success" });
   });
-  it("records attributes correctly", function() {
+  it("records attributes correctly", async function() {
     subject.setAttribute("attribute1", "value1");
     subject.setAttribute("attribute2", "value2");
-    assert.equal(subject.attributes["attributes1"], "value1");
+    assert.equal(subject.attributes["attribute1"], "value1");
     assert.equal(subject.attributes["attribute2"], "value2");
   });
   it("records calls to `end` correctly", function() {
@@ -33,10 +33,11 @@ describe("TestTracingSpan", function() {
     subject.recordException(expectedException);
     assert.strictEqual(subject.exception, expectedException);
   });
-  it("allows setting spanContext?");
+  // TODO: we don't have a way to set the span context?
+  it("allows setting spanContext?", function() {});
 });
 
-// do the saem for all methods in testInstrumenter...
+// do the same for all methods in testInstrumenter...
 describe("TestInstrumenter", function() {
   let instrumenter: TestInstrumeter;
   beforeEach(function() {
@@ -96,10 +97,29 @@ describe("TestInstrumenter", function() {
 });
 // do the same using MockCLientToTest and withSpan
 
+describe("TestInstrumenter with MockClient", function() {
+  let instrumenter: TestInstrumeter;
+  let client: MockClientToTest;
+  beforeEach(function() {
+    instrumenter = new TestInstrumeter();
+    client = new MockClientToTest();
+  });
+  describe("#startSpan", function() {
+    it("starts a span and adds to startedSpans array", function() {
+      client.mockGetMethod();
+      assert.equal(instrumenter.startedSpans.length, 1);
+      assert.equal(instrumenter.startedSpans[0].name, "MockClientToTest.mockGetMethod");
+    });
+  });
+});
+
 // or something that has upgraded to core-tracing preview.14
 export class MockClientToTest {
+  private record: Record<string, string>;
   tracingClient: TracingClient;
+
   constructor() {
+    this.record = {};
     this.tracingClient = createTracingClient({
       namespace: "Microsoft.Test",
       packageInformation: {
@@ -108,9 +128,25 @@ export class MockClientToTest {
       }
     });
   }
+  // const myOperationResult = await withSpan("myClassName.myOperationName", (updatedOptions) => myOperation(updatedOptions), options);
+  async mockSetMethod() {
+    // TODO: how to pass in span options or tracing options??
+    // TODO: isn't the 2nd argument supposed to be the options for the callback??
+    const options = {
+      record: { key: "value" },
+      // TODO: without this being empty it complains - if i don't want to pass in anything
+      tracingOptions: {}
+    };
 
-  async mockMethod() {
-    return this.tracingClient.withSpan("test", {}, () => {});
+    return this.tracingClient.withSpan("MockClientToTest.mockSetMethod", options, (options) => {
+      this.record = options.record;
+    });
+  }
+
+  async mockGetMethod() {
+    return this.tracingClient.withSpan("MockClientToTest.mockGetMethod", {}, () => {
+      return this.record;
+    });
   }
 }
 

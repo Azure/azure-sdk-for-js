@@ -15,7 +15,7 @@ export interface TracingClient {
    * Example:
    *
    * ```ts
-   * const myOperationResult = await withSpan("myClassName.myOperationName", (updatedOptions) => myOperation(updatedOptions), options);
+   * const myOperationResult = await withSpan("myClassName.myOperationName", options, (updatedOptions) => myOperation(updatedOptions));
    * ```
    * @param name - The name of the span. By convention this should be `${className}.${methodName}`.
    * @param operationOptions - The original options passed to the method. The callback will receive these options with the newly created {@link TracingContext}.
