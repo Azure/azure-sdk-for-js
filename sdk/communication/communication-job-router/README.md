@@ -70,7 +70,7 @@ Create a new resource or use existing resource. If creating a resource, select `
 ![image.png](/.attachments/image-1a0118bb-0063-420b-924a-943b66ef0d01.png)
 
 ###Install the Azure Communication Services Router SDK
-Create a file .npmrc to your project. Put following code into it:
+Create a file `.npmrc` to your project. Put following code into it:
 ```
 @azure-ccaap:registry=https://pkgs.dev.azure.com/azure-sdk/internal/_packaging/azure-sdk-for-js-pr/npm/registry/ 
 registry=https://registry.npmjs.org
