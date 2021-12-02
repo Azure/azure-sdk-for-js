@@ -8,10 +8,10 @@
       "generateAndBuildScript": {
         "path": ".scripts/sdk_generateAndBuild.sh",
         "stdout": {
-          "show": "Error: |error |throw|exception"
+          "storeLogByFilter": "Error: |error |throw|exception"
         },
         "stderr": {
-          "show": "Error: |error |throw|exception"
+          "storeLogByFilter": "Error: |error |throw|exception"
         }
       }
   }
