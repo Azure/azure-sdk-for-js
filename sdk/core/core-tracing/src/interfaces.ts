@@ -92,18 +92,15 @@ export interface TracingClient {
 }
 
 /**
- * Options that can be passed to {@link createTracingClient}.
+ * Options that can be passed to {@link createTracingClient}
  */
 export interface TracingClientOptions {
-  /** The value of the az.namespace tracing attribute on any given spans */
+  /** The value of the az.namespace tracing attribute on newly created spans. */
   namespace: string;
-  /** Information about the package invoking this trace. */
-  packageInformation: {
-    /** The name of the package. */
-    name: string;
-    /** An optional package version. */
-    version?: string;
-  };
+  /** The name of the package invoking this trace. */
+  packageName: string;
+  /** An optional version of the package invoking this trace. */
+  packageVersion?: string;
 }
 
 /** The kind of span. */
@@ -158,7 +155,7 @@ export interface Instrumenter {
    */
   startSpan(
     name: string,
-    spanOptions?: InstrumenterSpanOptions
+    spanOptions: InstrumenterSpanOptions
   ): { span: TracingSpan; tracingContext: TracingContext };
   /**
    * Wraps a callback with an active context and calls the callback.
@@ -195,15 +192,12 @@ export interface Instrumenter {
  * Options passed to {@link Instrumenter.startSpan} as a superset of {@link TracingSpanOptions}.
  */
 export interface InstrumenterSpanOptions extends TracingSpanOptions {
+  /** The name of the package invoking this trace. */
+  packageName: string;
+  /** The version of the package invoking this trace. */
+  packageVersion?: string;
   /** The current tracing context. Defaults to an implementation-specific "active" context. */
   tracingContext?: TracingContext;
-  /** Information about the package invoking this trace. */
-  packageInformation: {
-    /** The name of the package. */
-    name: string;
-    /** An optional package version. */
-    version?: string;
-  };
 }
 
 /**
