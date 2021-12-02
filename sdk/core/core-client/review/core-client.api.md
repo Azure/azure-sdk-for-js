@@ -271,17 +271,14 @@ export type QueryCollectionFormat = "CSV" | "SSV" | "TSV" | "Pipes" | "Multi";
 // @public
 export type RawResponseCallback = (rawResponse: FullOperationResponse, flatResponse: unknown) => void;
 
-// @public (undocumented)
+// @public
 export interface SequenceMapper extends BaseMapper {
-    // (undocumented)
     type: SequenceMapperType;
 }
 
-// @public (undocumented)
+// @public
 export interface SequenceMapperType {
-    // (undocumented)
     element: Mapper;
-    // (undocumented)
     name: "Sequence";
 }
 
@@ -299,17 +296,12 @@ export interface SerializationPolicyOptions {
 
 // @public
 export interface Serializer {
-    // (undocumented)
     deserialize(mapper: Mapper, responseBody: any, objectName: string, options?: SerializerOptions): any;
-    // (undocumented)
     readonly isXML: boolean;
-    // (undocumented)
     readonly modelMappers: {
         [key: string]: any;
     };
-    // (undocumented)
     serialize(mapper: Mapper, object: any, objectName?: string, options?: SerializerOptions): any;
-    // (undocumented)
     validateConstraints(mapper: Mapper, value: any, objectName: string): void;
 }
 
@@ -335,9 +327,8 @@ export interface ServiceClientOptions extends CommonClientOptions {
     requestContentType?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface SimpleMapperType {
-    // (undocumented)
     name: "Base64Url" | "Boolean" | "ByteArray" | "Date" | "DateTime" | "DateTimeRfc1123" | "Object" | "Stream" | "String" | "TimeSpan" | "UnixTime" | "Uuid" | "Number" | "any";
 }
 

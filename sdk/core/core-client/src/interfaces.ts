@@ -358,14 +358,48 @@ export type RawResponseCallback = (
 
 /**
  * Used to map raw response objects to final shapes.
- * Mostly useful for unpacking/packing Dates and other encoded types that
- * are not intrinsic to JSON.
+ * Helps packing and unpacking Dates and other encoded types that are not intrinsic to JSON.
+ * Also allows pulling values from headers, as well as inserting default values and constants.
  */
 export interface Serializer {
+  /**
+   * The provided model mapper.
+   */
   readonly modelMappers: { [key: string]: any };
+  /**
+   * Whether the contents are XML or not.
+   */
   readonly isXML: boolean;
+
+  /**
+   * Validates constraints, if any. This function will throw if the provided value does not match those constraints.
+   * @param mapper - The definition of data models.
+   * @param value - The value.
+   * @param objectName - Name of the object. Used in the error messages.
+   */
   validateConstraints(mapper: Mapper, value: any, objectName: string): void;
+
+  /**
+   * Serialize the given object based on its metadata defined in the mapper.
+   * Deserialize the given object based on its metadata defined in the mapper.
+   *
+   * @param mapper - The mapper which defines the metadata of the serializable object.
+   * @param object - A valid Javascript object to be serialized.
+   * @param objectName - Name of the serialized object.
+   * @param options - additional options to deserialization.
+   * @returns A valid serialized Javascript object.
+   */
   serialize(mapper: Mapper, object: any, objectName?: string, options?: SerializerOptions): any;
+
+  /**
+   * Deserialize the given object based on its metadata defined in the mapper.
+   *
+   * @param mapper - The mapper which defines the metadata of the serializable object.
+   * @param responseBody - A valid Javascript entity to be deserialized.
+   * @param objectName - Name of the deserialized object.
+   * @param options - Controls behavior of XML parser and builder.
+   * @returns A valid deserialized Javascript object.
+   */
   deserialize(
     mapper: Mapper,
     responseBody: any,
@@ -434,7 +468,13 @@ export type MapperType =
   | DictionaryMapperType
   | EnumMapperType;
 
+/**
+ * The type of a simple mapper.
+ */
 export interface SimpleMapperType {
+  /**
+   * Name of the type of the property.
+   */
   name:
     | "Base64Url"
     | "Boolean"
@@ -489,8 +529,17 @@ export interface CompositeMapperType {
   polymorphicDiscriminator?: PolymorphicDiscriminator;
 }
 
+/**
+ * Helps build a mapper that describes how to parse a sequence of mapped values.
+ */
 export interface SequenceMapperType {
+  /**
+   * Name of the sequence type mapper.
+   */
   name: "Sequence";
+  /**
+   * The mapper to use to map each one of the properties of the sequence.
+   */
   element: Mapper;
 }
 
@@ -622,7 +671,13 @@ export interface CompositeMapper extends BaseMapper {
   type: CompositeMapperType;
 }
 
+/**
+ * A mapper describing arrays.
+ */
 export interface SequenceMapper extends BaseMapper {
+  /**
+   * The type descriptor of the `SequenceMapper`.
+   */
   type: SequenceMapperType;
 }
 
