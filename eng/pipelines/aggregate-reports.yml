@@ -27,21 +27,12 @@ stages:
               versionSpec: 16.x
             displayName: Use Node.js 16.x
 
-          - pwsh: npm install -g npm
-            displayName: Upgrade NPM
-
           - task: PowerShell@2
             inputs:
               targetType: 'filePath'
               filePath: eng/scripts/spell-check-public-api.ps1
               pwsh: true
             displayName: Spell check public API
-
-          # Downgrade npm to a version compatible with Node 10x after NPM was
-          # upgraded to run spell-check-public-api.ps1. The upgraded NPM version
-          # does not run with Node.js v10.x
-          - pwsh: npm install -g npm@6.14.12
-            displayName: Install npm@6.14.12
 
           - template: /eng/pipelines/templates/steps/use-node-version.yml
             parameters:
