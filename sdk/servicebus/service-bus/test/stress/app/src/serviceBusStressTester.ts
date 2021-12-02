@@ -160,9 +160,7 @@ export class ServiceBusStressTester {
         }
       } catch (error) {
         this.sendInfo.numberOfFailures++;
-        if (error instanceof Error) {
-          this.trackError("send", error);
-        }
+        this.trackError("send", error);
         console.error("Error in sending: ", error);
       }
     }
