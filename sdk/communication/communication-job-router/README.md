@@ -82,7 +82,7 @@ Then, run `vsts-npm-auth` to get an Azure Artifacts token added to your user-lev
 
 `vsts-npm-auth -config .npmrc`
 
-If it says vsts-npm-auth not found, then you need to install it first:
+If it says `vsts-npm-auth` not found, then you need to install it first:
 
 `npm install -g vsts-npm-auth`
 
