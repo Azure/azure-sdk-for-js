@@ -6,16 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   ObjectReplicationPolicy,
-  ObjectReplicationPoliciesOperationsListOptionalParams,
-  ObjectReplicationPoliciesOperationsGetOptionalParams,
-  ObjectReplicationPoliciesOperationsGetResponse,
-  ObjectReplicationPoliciesOperationsCreateOrUpdateOptionalParams,
-  ObjectReplicationPoliciesOperationsCreateOrUpdateResponse,
-  ObjectReplicationPoliciesOperationsDeleteOptionalParams
+  ObjectReplicationPoliciesListOptionalParams,
+  ObjectReplicationPoliciesGetOptionalParams,
+  ObjectReplicationPoliciesGetResponse,
+  ObjectReplicationPoliciesCreateOrUpdateOptionalParams,
+  ObjectReplicationPoliciesCreateOrUpdateResponse,
+  ObjectReplicationPoliciesDeleteOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -33,7 +32,7 @@ export interface ObjectReplicationPoliciesOperations {
   list(
     resourceGroupName: string,
     accountName: string,
-    options?: ObjectReplicationPoliciesOperationsListOptionalParams
+    options?: ObjectReplicationPoliciesListOptionalParams
   ): PagedAsyncIterableIterator<ObjectReplicationPolicy>;
   /**
    * Get the object replication policy of the storage account by policy ID.
@@ -52,8 +51,8 @@ export interface ObjectReplicationPoliciesOperations {
     resourceGroupName: string,
     accountName: string,
     objectReplicationPolicyId: string,
-    options?: ObjectReplicationPoliciesOperationsGetOptionalParams
-  ): Promise<ObjectReplicationPoliciesOperationsGetResponse>;
+    options?: ObjectReplicationPoliciesGetOptionalParams
+  ): Promise<ObjectReplicationPoliciesGetResponse>;
   /**
    * Create or update the object replication policy of the storage account.
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
@@ -74,8 +73,8 @@ export interface ObjectReplicationPoliciesOperations {
     accountName: string,
     objectReplicationPolicyId: string,
     properties: ObjectReplicationPolicy,
-    options?: ObjectReplicationPoliciesOperationsCreateOrUpdateOptionalParams
-  ): Promise<ObjectReplicationPoliciesOperationsCreateOrUpdateResponse>;
+    options?: ObjectReplicationPoliciesCreateOrUpdateOptionalParams
+  ): Promise<ObjectReplicationPoliciesCreateOrUpdateResponse>;
   /**
    * Deletes the object replication policy associated with the specified storage account.
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
@@ -93,6 +92,6 @@ export interface ObjectReplicationPoliciesOperations {
     resourceGroupName: string,
     accountName: string,
     objectReplicationPolicyId: string,
-    options?: ObjectReplicationPoliciesOperationsDeleteOptionalParams
+    options?: ObjectReplicationPoliciesDeleteOptionalParams
   ): Promise<void>;
 }
