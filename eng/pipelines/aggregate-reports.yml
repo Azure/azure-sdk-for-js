@@ -8,9 +8,6 @@ pr:
     include:
       - eng/pipelines/aggregate-reports.yml
 
-variables:
-  - template: /eng/pipelines/templates/variables/globals.yml
-
 pool:
   vmImage: 'windows-2019'
 
