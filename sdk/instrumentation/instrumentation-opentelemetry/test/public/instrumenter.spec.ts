@@ -181,10 +181,8 @@ describe("OpenTelemetryInstrumenter", () => {
       return (span as OpenTelemetrySpanWrapper).unwrap() as TestSpan;
     }
     let tracer: TestTracer;
-    const packageInformation = {
-      name: "test-package",
-      version: "test-version"
-    };
+    const packageName = "test-package";
+    const packageVersion = "test-version";
     beforeEach(() => {
       tracer = setTracer(tracer);
     });
@@ -194,7 +192,7 @@ describe("OpenTelemetryInstrumenter", () => {
     });
 
     it("returns a newly started TracingSpan", () => {
-      const { span } = instrumenter.startSpan("test");
+      const { span } = instrumenter.startSpan("test", { packageName, packageVersion });
       const otSpan = unwrap(span);
       assert.equal(otSpan, tracer.getActiveSpans()[0]);
       assert.equal(otSpan.kind, SpanKind.INTERNAL);
@@ -202,9 +200,9 @@ describe("OpenTelemetryInstrumenter", () => {
 
     it("passes package information to the tracer", () => {
       const getTracerSpy = sinon.spy(trace, "getTracer");
-      instrumenter.startSpan("test", { packageInformation });
+      instrumenter.startSpan("test", { packageName, packageVersion });
 
-      assert.isTrue(getTracerSpy.calledWith(packageInformation.name, packageInformation.version));
+      assert.isTrue(getTracerSpy.calledWith(packageName, packageVersion));
     });
 
     describe("with an existing context", () => {
@@ -213,7 +211,7 @@ describe("OpenTelemetryInstrumenter", () => {
 
         const { tracingContext } = instrumenter.startSpan("test", {
           tracingContext: currentContext,
-          packageInformation
+          packageName
         });
 
         assert.equal(tracingContext.getValue(Symbol.for("foo")), "bar");
@@ -224,7 +222,7 @@ describe("OpenTelemetryInstrumenter", () => {
 
         const { span, tracingContext } = instrumenter.startSpan("test", {
           tracingContext: currentContext,
-          packageInformation
+          packageName
         });
 
         assert.equal(trace.getSpan(tracingContext), unwrap(span));
@@ -235,13 +233,16 @@ describe("OpenTelemetryInstrumenter", () => {
       it("uses the active context", () => {
         const contextSpy = sinon.spy(context, "active");
 
-        instrumenter.startSpan("test");
+        instrumenter.startSpan("test", { packageName, packageVersion });
 
         assert.isTrue(contextSpy.called);
       });
 
       it("sets span on the context", () => {
-        const { span, tracingContext } = instrumenter.startSpan("test");
+        const { span, tracingContext } = instrumenter.startSpan("test", {
+          packageName,
+          packageVersion
+        });
 
         assert.equal(trace.getSpan(tracingContext), unwrap(span));
       });
@@ -255,7 +256,8 @@ describe("OpenTelemetryInstrumenter", () => {
         };
         const { span } = instrumenter.startSpan("test", {
           spanAttributes,
-          packageInformation
+          packageName,
+          packageVersion
         });
 
         assert.deepEqual(unwrap(span).attributes, spanAttributes);
@@ -264,23 +266,21 @@ describe("OpenTelemetryInstrumenter", () => {
       describe("spanKind", () => {
         it("maps spanKind correctly", () => {
           const { span } = instrumenter.startSpan("test", {
-            packageInformation,
+            packageName,
             spanKind: "client"
           });
           assert.equal(unwrap(span).kind, SpanKind.CLIENT);
         });
 
         it("defaults spanKind to INTERNAL if omitted", () => {
-          const { span } = instrumenter.startSpan("test", {
-            packageInformation
-          });
+          const { span } = instrumenter.startSpan("test", { packageName });
           assert.equal(unwrap(span).kind, SpanKind.INTERNAL);
         });
 
         // TODO: what's the right behavior? throw? log and continue?
         it("defaults spanKind to INTERNAL if an invalid spanKind is provided", () => {
           const { span } = instrumenter.startSpan("test", {
-            packageInformation,
+            packageName,
             spanKind: "foo" as TracingSpanKind
           });
           assert.equal(unwrap(span).kind, SpanKind.INTERNAL);
@@ -288,9 +288,9 @@ describe("OpenTelemetryInstrumenter", () => {
       });
 
       it("supports spanLinks", () => {
-        const { span: linkedSpan } = instrumenter.startSpan("linked");
+        const { span: linkedSpan } = instrumenter.startSpan("linked", { packageName });
         const { span } = instrumenter.startSpan("test", {
-          packageInformation,
+          packageName,
           spanLinks: [
             {
               spanContext: linkedSpan.spanContext,
