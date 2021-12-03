@@ -2,36 +2,36 @@
 // Licensed under the MIT license.
 
 import {
-  createHttpHeaders,
-  createPipelineRequest,
+  Pipeline,
+  PipelineRequest,
   PipelineResponse,
   RestError,
-  Pipeline,
-  PipelineRequest
+  createHttpHeaders,
+  createPipelineRequest
 } from "@azure/core-rest-pipeline";
 import {
-  ServiceClient,
   OperationOptions,
+  ServiceClient,
+  ServiceClientOptions,
   serializationPolicy,
-  serializationPolicyName,
-  ServiceClientOptions
+  serializationPolicyName
 } from "@azure/core-client";
 import {
   DeleteTableEntityOptions,
   TableEntity,
-  UpdateMode,
-  UpdateTableEntityOptions,
-  TableTransactionResponse,
   TableTransactionEntityResponse,
-  TransactionAction
+  TableTransactionResponse,
+  TransactionAction,
+  UpdateMode,
+  UpdateTableEntityOptions
 } from "./models";
 import {
-  isNamedKeyCredential,
-  isSASCredential,
-  isTokenCredential,
   NamedKeyCredential,
   SASCredential,
-  TokenCredential
+  TokenCredential,
+  isNamedKeyCredential,
+  isSASCredential,
+  isTokenCredential
 } from "@azure/core-auth";
 import { getAuthorizationHeader } from "./tablesNamedCredentialPolicy";
 import { TableClientLike } from "./utils/internalModels";
@@ -40,14 +40,14 @@ import { SpanStatusCode } from "@azure/core-tracing";
 import { TableServiceErrorOdataError } from "./generated";
 import { getTransactionHeaders } from "./utils/transactionHeaders";
 import {
-  getTransactionHttpRequestBody,
-  getInitialTransactionBody
+  getInitialTransactionBody,
+  getTransactionHttpRequestBody
 } from "./utils/transactionHelpers";
 import { signURLWithSAS } from "./tablesSASTokenPolicy";
 import {
   transactionHeaderFilterPolicy,
-  transactionRequestAssemblePolicy,
   transactionHeaderFilterPolicyName,
+  transactionRequestAssemblePolicy,
   transactionRequestAssemblePolicyName
 } from "./TablePolicies";
 import { isCosmosEndpoint } from "./utils/isCosmosEndpoint";
