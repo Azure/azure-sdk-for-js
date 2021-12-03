@@ -5,7 +5,7 @@ import chai from "chai";
 const should = chai.should();
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
-import { delay, ServiceBusMessage, ServiceBusMessageState } from "../../src";
+import { delay, ServiceBusMessage } from "../../src";
 import { TestClientType, TestMessage } from "./utils/testUtils";
 import {
   createServiceBusClientForTests,
@@ -103,7 +103,7 @@ describe("Deferred Messages", () => {
     if (!deferredMsg) {
       throw "No message received for sequence number";
     }
-    should.equal(deferredMsg.state, ServiceBusMessageState.deferred);
+    should.equal(deferredMsg.state, "deferred");
     should.equal(
       !!(deferredMsg as any)["delivery"],
       true,

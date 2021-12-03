@@ -59,7 +59,6 @@ export { ServiceBusClient } from "./serviceBusClient";
 export { isServiceBusError, ServiceBusError, ServiceBusErrorCode } from "./serviceBusError";
 export {
   DeadLetterOptions,
-  ServiceBusMessageState,
   ServiceBusMessage,
   ServiceBusReceivedMessage
 } from "./serviceBusMessage";

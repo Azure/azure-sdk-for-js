@@ -420,22 +420,6 @@ export function updateScheduledTime(
   }
 }
 
-/** State of a message. It can be active, deferred, or scheduled. */
-export enum ServiceBusMessageState {
-  /**
-   * Specifies an active message state
-   */
-  active = 0,
-  /**
-   * Specifies a deferred message state
-   */
-  deferred = 1,
-  /**
-   * Specifies a scheduled message state
-   */
-  scheduled = 2
-}
-
 /**
  * Describes the message received from Service Bus during peek operations and so cannot be settled.
  */
@@ -518,7 +502,7 @@ export interface ServiceBusReceivedMessage extends ServiceBusMessage {
    * State of the message can be active, deferred or scheduled. Deferred messages have deferred state,
    * scheduled messages have scheduled state, all other messages have active state.
    */
-  readonly state?: ServiceBusMessageState;
+  readonly state: "active" | "deferred" | "scheduled";
   /**
    * The underlying raw amqp message.
    * @readonly
@@ -599,15 +583,14 @@ export function fromRheaMessage(
       -readonly [P in keyof T]: T[P];
     }
   >;
-  const props: PartialWritable<ServiceBusReceivedMessage> = {};
+  const props: PartialWritable<ServiceBusReceivedMessage> & { state: "active" | "deferred" | "scheduled" } = { state: "active" };
   if (rheaMessage.message_annotations != null) {
     if (rheaMessage.message_annotations[Constants.deadLetterSource] != null) {
       props.deadLetterSource = rheaMessage.message_annotations[Constants.deadLetterSource];
     }
-    if (isDefined(rheaMessage.message_annotations[Constants.messageState])) {
-      props.state = rheaMessage.message_annotations[
-        Constants.messageState
-      ] as ServiceBusMessageState;
+    const messageState = rheaMessage.message_annotations[Constants.messageState];
+    if (isDefined(messageState) && (messageState === 1 || messageState === 2)) {
+      props.state = messageState === 1 ? "deferred" : "scheduled";
     }
     if (rheaMessage.message_annotations[Constants.enqueueSequenceNumber] != null) {
       props.enqueuedSequenceNumber =
@@ -879,6 +862,11 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessage {
    */
   readonly deadLetterSource?: string;
   /**
+   * State of the message can be active, deferred or scheduled. Deferred messages have deferred state,
+   * scheduled messages have scheduled state, all other messages have active state.
+   */
+  readonly state: "active" | "deferred" | "scheduled";
+  /**
    * The associated delivery of the received message.
    */
   readonly delivery: Delivery;
@@ -935,6 +923,7 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessage {
     this._rawAmqpMessage = _rawAmqpMessage;
     this._rawAmqpMessage.bodyType = actualBodyType;
     this.delivery = delivery;
+    this.state = restOfMessageProps.state;
   }
 
   /**

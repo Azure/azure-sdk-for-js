@@ -6,7 +6,7 @@ import Long from "long";
 const should = chai.should();
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
-import { ServiceBusMessage, delay, ServiceBusMessageState } from "../../src";
+import { ServiceBusMessage, delay } from "../../src";
 import { TestClientType, TestMessage } from "./utils/testUtils";
 import { ServiceBusReceiver } from "../../src";
 import {
@@ -65,7 +65,7 @@ describe("Sender Tests", () => {
     should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
     should.equal(msgs.length, 1, "Unexpected number of messages");
     should.equal(msgs[0].deliveryCount, 0, "DeliveryCount is different than expected");
-    should.equal(msgs[0].state, ServiceBusMessageState.active);
+    should.equal(msgs[0].state, "active");
 
     TestMessage.checkMessageContents(
       testMessage,
@@ -159,7 +159,7 @@ describe("Sender Tests", () => {
     const msgs = await receiver.receiveMessages(1);
     const msgEnqueueTime = msgs[0].enqueuedTimeUtc ? msgs[0].enqueuedTimeUtc.valueOf() : 0;
 
-    should.equal(msgs[0].state, ServiceBusMessageState.scheduled);
+    should.equal(msgs[0].state, "scheduled");
     should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
     should.equal(msgs.length, 1, "Unexpected number of messages");
     should.equal(
