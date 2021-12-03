@@ -4,7 +4,7 @@
 
 ### Features Added
 
-- Add `state` property of `ServiceBusMessageState` enum type to `ServiceBusReceivedMessage`.  [PR 18938](https://github.com/Azure/azure-sdk-for-js/pull/18938)
+- Add `state` property `ServiceBusReceivedMessage`. Its value is one of `"active"`, `"deferred"`, or `"scheduled"`. [PR 18938](https://github.com/Azure/azure-sdk-for-js/pull/18938)
 
 ### Breaking Changes
 
