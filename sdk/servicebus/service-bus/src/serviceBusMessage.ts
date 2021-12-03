@@ -589,8 +589,10 @@ export function fromRheaMessage(
       props.deadLetterSource = rheaMessage.message_annotations[Constants.deadLetterSource];
     }
     const messageState = rheaMessage.message_annotations[Constants.messageState];
-    if (isDefined(messageState) && (messageState === 1 || messageState === 2)) {
-      props.state = messageState === 1 ? "deferred" : "scheduled";
+    if (messageState === 1) {
+      props.state = "deferred";
+    } else if (messageState === 2) {
+      props.state = "scheduled";
     }
     if (rheaMessage.message_annotations[Constants.enqueueSequenceNumber] != null) {
       props.enqueuedSequenceNumber =
@@ -900,6 +902,8 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessage {
       shouldReorderLockToken
     );
     Object.assign(this, restOfMessageProps);
+    this.state = restOfMessageProps.state; // to suppress error TS2564: Property 'state' has no initializer and is not definitely assigned in the constructor.
+
     // Lock on a message is applicable only in peekLock mode, but the service sets
     // the lock token even in receiveAndDelete mode if the entity in question is partitioned.
     if (receiveMode === "receiveAndDelete") {
@@ -923,7 +927,6 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessage {
     this._rawAmqpMessage = _rawAmqpMessage;
     this._rawAmqpMessage.bodyType = actualBodyType;
     this.delivery = delivery;
-    this.state = restOfMessageProps.state;
   }
 
   /**
