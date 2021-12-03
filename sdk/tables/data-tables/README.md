@@ -204,7 +204,7 @@ main();
 #### Create a new table
 
 You can create a table through a `TableServiceClient` instance calling the `createTable` function. This function takes the name of the table to create as a parameter.
-Note that `createTable` won't throw an error when the table already exist.
+Note that `createTable` won't throw an error when the table already exists.
 
 ```javascript
 const { TableServiceClient, AzureNamedKeyCredential } = require("@azure/data-tables");
@@ -219,14 +219,15 @@ const serviceClient = new TableServiceClient(
 );
 
 async function main() {
-  const tableName = `newtable${new Date().getTime()}`;
+  const tableName = `newtable`;
+  // If the table 'newTable' already exists, createTable doesn' throw
   await serviceClient.createTable(tableName);
 }
 
 main();
 ```
 
-Here is a sample that checks if the table already existed
+Here is a sample that demonstrates how to test if the table already exists when attempting to create it:
 
 ```javascript
 const { TableServiceClient, AzureNamedKeyCredential } = require("@azure/data-tables");

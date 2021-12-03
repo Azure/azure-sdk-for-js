@@ -1,4 +1,7 @@
-import { TableClient, RestError, TableServiceClient } from "../../src";
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
+import { RestError, TableClient, TableServiceClient } from "../../src";
 import { Context } from "mocha";
 import { assert } from "chai";
 import { createTableClient, createTableServiceClient } from "./utils/recordedClient";

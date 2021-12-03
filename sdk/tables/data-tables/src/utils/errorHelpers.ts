@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { OperationOptions, OperationRequest } from "@azure/core-client";
 import { PipelineResponse, RestError } from "@azure/core-rest-pipeline";
 import { SpanStatusCode } from "@azure/core-tracing";
@@ -19,18 +22,21 @@ export type TableServiceErrorResponse = PipelineResponse & {
   request: OperationRequest;
 };
 
-export function handleTableAlreadyExist(
+export function handleTableAlreadyExists(
   error: unknown,
-  options: OperationOptions & { span?: any; logger?: AzureLogger } = {}
-) {
+  options: OperationOptions & { tableName?: string; span?: any; logger?: AzureLogger } = {}
+): void {
   const responseError = getErrorResponse(error);
   if (
     responseError &&
     responseError.status === 409 &&
     responseError.parsedBody.odataError?.code === "TableAlreadyExists"
   ) {
-    options.logger?.info("Table Already Exists");
-    options.onResponse && options.onResponse(responseError, {});
+    options.logger?.info(`Table ${options.tableName} already Exists`);
+
+    if (options.onResponse) {
+      options.onResponse(responseError, {});
+    }
   } else {
     options?.span.setStatus({ code: SpanStatusCode.ERROR, message: (error as Error)?.message });
     throw error;

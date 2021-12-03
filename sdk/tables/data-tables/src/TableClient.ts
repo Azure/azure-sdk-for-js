@@ -2,38 +2,38 @@
 // Licensed under the MIT license.
 
 import {
-  TableEntity,
-  ListTableEntitiesOptions,
-  GetTableEntityResponse,
-  UpdateTableEntityOptions,
-  DeleteTableEntityOptions,
-  GetTableEntityOptions,
-  UpdateMode,
   CreateTableEntityResponse,
-  TableEntityQueryOptions,
-  TableServiceClientOptions as TableClientOptions,
-  TableEntityResult,
-  TransactionAction,
-  TableTransactionResponse,
-  SignedIdentifier,
+  DeleteTableEntityOptions,
   GetAccessPolicyResponse,
-  TableEntityResultPage
+  GetTableEntityOptions,
+  GetTableEntityResponse,
+  ListTableEntitiesOptions,
+  SignedIdentifier,
+  TableServiceClientOptions as TableClientOptions,
+  TableEntity,
+  TableEntityQueryOptions,
+  TableEntityResult,
+  TableEntityResultPage,
+  TableTransactionResponse,
+  TransactionAction,
+  UpdateMode,
+  UpdateTableEntityOptions
 } from "./models";
 import {
-  UpdateEntityResponse,
-  UpsertEntityResponse,
   DeleteTableEntityResponse,
-  SetAccessPolicyResponse
+  SetAccessPolicyResponse,
+  UpdateEntityResponse,
+  UpsertEntityResponse
 } from "./generatedModels";
 import { TableQueryEntitiesOptionalParams } from "./generated/models";
 import { getClientParamsFromConnectionString } from "./utils/connectionString";
 import {
-  isNamedKeyCredential,
-  isSASCredential,
-  isTokenCredential,
   NamedKeyCredential,
   SASCredential,
-  TokenCredential
+  TokenCredential,
+  isNamedKeyCredential,
+  isSASCredential,
+  isTokenCredential
 } from "@azure/core-auth";
 import { tablesNamedKeyCredentialPolicy } from "./tablesNamedCredentialPolicy";
 import "@azure/core-paging";
@@ -68,7 +68,7 @@ import { isCosmosEndpoint } from "./utils/isCosmosEndpoint";
 import { cosmosPatchPolicy } from "./cosmosPathPolicy";
 import { decodeContinuationToken, encodeContinuationToken } from "./utils/continuationToken";
 import { escapeQuotes } from "./odata";
-import { handleTableAlreadyExist } from "./utils/errorHelpers";
+import { handleTableAlreadyExists } from "./utils/errorHelpers";
 
 /**
  * A TableClient represents a Client to the Azure Tables service allowing you
@@ -335,7 +335,7 @@ export class TableClient {
     try {
       await this.table.create({ name: this.tableName }, updatedOptions);
     } catch (e) {
-      handleTableAlreadyExist(e, { ...updatedOptions, span, logger });
+      handleTableAlreadyExists(e, { ...updatedOptions, span, logger, tableName: this.tableName });
     } finally {
       span.end();
     }

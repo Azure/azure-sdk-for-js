@@ -3,7 +3,7 @@
 
 import { truncatedISO8061Date } from "../utils/truncateISO8061Date";
 import { UserDelegationKey } from "./models";
-import { ipRangeToString, SasIPRange } from "./sasIPRange";
+import { SasIPRange, ipRangeToString } from "./sasIPRange";
 
 /**
  * Protocols for generated SAS.
