@@ -408,19 +408,19 @@ export interface Serializer {
 }
 
 /**
- * Constraints used to test values.
+ * Description of various value constraints such as integer ranges and string regex.
  */
 export interface MapperConstraints {
   /**
-   * The value should be lesser or equal than the `InclusiveMaximum` value.
+   * The value should be less than or equal to the `InclusiveMaximum` value.
    */
   InclusiveMaximum?: number;
   /**
-   * The value should be lesser than the `ExclusiveMaximum` value.
+   * The value should be less than the `ExclusiveMaximum` value.
    */
   ExclusiveMaximum?: number;
   /**
-   * The value should be greater or equal than the `InclusiveMinimum` value.
+   * The value should be greater than or equal to the `InclusiveMinimum` value.
    */
   InclusiveMinimum?: number;
   /**
@@ -633,7 +633,7 @@ export interface BaseMapper {
 }
 
 /**
- * Mappers are definitions of the Data models used in the library.
+ * Mappers are definitions of the data models used in the library.
  * These data models are part of the Operation or Client definitions in the responses or parameters.
  */
 export type Mapper = BaseMapper | CompositeMapper | SequenceMapper | DictionaryMapper | EnumMapper;
@@ -645,7 +645,7 @@ export type Mapper = BaseMapper | CompositeMapper | SequenceMapper | DictionaryM
  */
 export interface PolymorphicDiscriminator {
   /**
-   * Default property used to specify what type will be used to serialize or deserialize the object.
+   * Name of the discriminant property in the original JSON payload, e.g. `@odata.kind`.
    */
   serializedName: string;
   /**
