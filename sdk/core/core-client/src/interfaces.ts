@@ -513,7 +513,7 @@ export interface CompositeMapperType {
   modelProperties?: { [propertyName: string]: Mapper };
 
   /**
-   * Use `additionalProperties` when the reference to the other type has been resolved.
+   * Used when a model has `additionalProperties: true`. Allows the generic processing of unnamed model properties on the response object.
    */
   additionalProperties?: Mapper;
 
