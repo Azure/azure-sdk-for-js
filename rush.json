@@ -1150,6 +1150,11 @@
       "packageName": "@azure/arm-cognitiveservices",
       "projectFolder": "sdk/cognitiveservices/arm-cognitiveservices",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-iothub",
+      "projectFolder": "sdk/iothub/arm-iothub",
+      "versionPolicyName": "management"
     }
   ]
 }

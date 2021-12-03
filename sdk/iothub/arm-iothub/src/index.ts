@@ -6,4 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export { ErrorDetails, Operation, OperationDisplay, OperationListResult } from "../models/mappers";
+/// <reference lib="esnext.asynciterable" />
+export * from "./models";
+export { IotHubClient } from "./iotHubClient";
+export * from "./operationsInterfaces";
