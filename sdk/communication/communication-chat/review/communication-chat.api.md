@@ -65,6 +65,8 @@ export class ChatClient {
     on(event: "chatThreadPropertiesUpdated", listener: (e: ChatThreadPropertiesUpdatedEvent) => void): void;
     on(event: "participantsAdded", listener: (e: ParticipantsAddedEvent) => void): void;
     on(event: "participantsRemoved", listener: (e: ParticipantsRemovedEvent) => void): void;
+    on(event: "realTimeNotificationConnected", listener: () => void): void;
+    on(event: "realTimeNotificationDisconnected", listener: () => void): void;
     startRealtimeNotifications(): Promise<void>;
     stopRealtimeNotifications(): Promise<void>;
 }
