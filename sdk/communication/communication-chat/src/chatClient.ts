@@ -346,16 +346,16 @@ export class ChatClient {
    * @param event - The realTimeNotificationConnected Event
    * @param listener - The listener to handle the event.
    */
-  public on(event: "realTimeNotificationConnected", listener: (e: ConnectionState) => void): void;
-  
+  public on(event: "realTimeNotificationConnected", listener: () => void): void;
+
   /**
    * Subscribe function for realTimeNotificationDisconnected.
    * @param event - The realTimeNotificationDisconnected Event
    * @param listener - The listener to handle the event.
    */
-  public on(event: "realTimeNotificationDisconnected", listener: (e: ConnectionState) => void): void;
+  public on(event: "realTimeNotificationDisconnected", listener: () => void): void;
 
-  public on(event: ChatEventId | "realTimeNotificationConnected" | "realTimeNotificationDisconnected", listener: (e: any) => void): void {
+  public on(event: ChatEventId | "realTimeNotificationConnected" | "realTimeNotificationDisconnected", listener: (e?: any) => void): void {
     if (this.signalingClient === undefined) {
       throw new Error("Realtime notifications are only supported in the browser.");
     }
@@ -456,13 +456,13 @@ export class ChatClient {
     if (this.signalingClient === undefined) {
       throw new Error("Realtime notifications are only supported in the browser.");
     }
-    
+
     this.signalingClient.on("connectionChanged", (payload) => {
       if (payload === ConnectionState.Connected) {
-        this.emitter.emit("realTimeNotificationConnected", payload);
+        this.emitter.emit("realTimeNotificationConnected");
       }
       else if (payload === ConnectionState.Disconnected) {
-        this.emitter.emit("realTimeNotificationDisconnected", payload);
+        this.emitter.emit("realTimeNotificationDisconnected");
       }
     });
 
