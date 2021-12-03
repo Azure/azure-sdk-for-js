@@ -410,23 +410,29 @@ describe("Certificates client - create, read, update and delete", () => {
 
   describe("can get a deleted certificate", () => {
     it("using beginDeleteCertificate's poller", async function(this: Context) {
+      console.log("111111111111111111111");
       const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
+      console.log("222222222222222222222");
       await client.beginCreateCertificate(
         certificateName,
         basicCertificatePolicy,
         testPollerProperties
       );
+      console.log("3333333333333333333");
 
       const deletePoller = await client.beginDeleteCertificate(
         certificateName,
         testPollerProperties
       );
+      console.log("4444444444444444");
       const deletedCertificate = await deletePoller.pollUntilDone();
+      console.log("555555555555555555");
       assert.equal(
         deletedCertificate.name,
         certificateName,
         "Unexpected certificate name in result from pollUntilDone()."
       );
+      console.log("66666666666666666");
     });
 
     it("using getDeletedCertificate", async function(this: Context) {
