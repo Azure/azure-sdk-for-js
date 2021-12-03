@@ -122,7 +122,6 @@
     "@types/uuid": "^8.0.0",
     "@types/chai": "^4.1.6",
     "chai": "^4.2.0",
-    "assert": "^1.4.1",
     "cross-env": "^7.0.2",
     "dotenv": "^8.2.0",
     "eslint": "^7.15.0",
