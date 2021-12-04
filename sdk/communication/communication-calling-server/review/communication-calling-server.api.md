@@ -22,7 +22,10 @@ export interface AddParticipantOptions extends OperationOptions {
 
 // @public
 export interface AddParticipantResult {
-    participantId?: string;
+    operationContext?: string;
+    operationId?: string;
+    resultDetails?: CallingOperationResultDetails;
+    status: CallingOperationStatus;
 }
 
 // @public
