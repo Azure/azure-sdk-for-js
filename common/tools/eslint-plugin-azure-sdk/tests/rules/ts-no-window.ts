@@ -6,8 +6,8 @@
  * @author Maor Leger
  */
 
-import rule from "../../src/rules/ts-no-window";
 import { RuleTester } from "eslint";
+import rule from "../../src/rules/ts-no-window";
 
 //------------------------------------------------------------------------------
 // Tests

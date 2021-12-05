@@ -6,9 +6,9 @@
  * @author Wei Jun Tan
  */
 
-import { Rule } from "eslint";
 import { ArrayExpression, Literal, Property } from "estree";
 import { arrayToString, getRuleMetaData, getVerifiers, stripPath } from "../utils";
+import { Rule } from "eslint";
 
 //------------------------------------------------------------------------------
 // Rule Definition
