@@ -30,6 +30,7 @@ import {
   PublicAccessType,
   SignedIdentifierModel
 } from "./generatedModels";
+import { CommonOptions, StorageClient } from "./StorageClient";
 import {
   BlobNameToString,
   ConvertInternalResponseOfListBlobFlat,
@@ -44,7 +45,6 @@ import {
   toTags,
   truncatedISO8061Date
 } from "./utils/utils.common";
-import { CommonOptions, StorageClient } from "./StorageClient";
 import {
   ContainerRequestConditions,
   Metadata,
