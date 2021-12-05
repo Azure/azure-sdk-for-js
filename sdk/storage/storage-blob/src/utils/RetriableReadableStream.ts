@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TransferProgressEvent } from "@azure/core-http";
 import { Readable } from "stream";
+import { TransferProgressEvent } from "@azure/core-http";
 
 export type ReadableStreamGetter = (offset: number) => Promise<NodeJS.ReadableStream>;
 

@@ -4,23 +4,23 @@
 import * as assert from "assert";
 import * as dotenv from "dotenv";
 import {
+  BlobBatchClient,
+  BlobServiceClient,
+  BlockBlobClient,
+  ContainerClient,
+  StorageSharedKeyCredential,
+  newPipeline
+} from "../src";
+import { Recorder, record } from "@azure-tools/test-recorder";
+import {
+  SimpleTokenCredential,
   getGenericBSU,
   getGenericCredential,
+  getTokenBSU,
   getTokenCredential,
-  SimpleTokenCredential,
-  recorderEnvSetup,
-  getTokenBSU
+  recorderEnvSetup
 } from "./utils";
-import { record, Recorder } from "@azure-tools/test-recorder";
 import { BlobBatch } from "../src";
-import {
-  ContainerClient,
-  BlockBlobClient,
-  BlobServiceClient,
-  newPipeline,
-  BlobBatchClient,
-  StorageSharedKeyCredential
-} from "../src";
 import { Context } from "mocha";
 
 dotenv.config();

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { BlobTags, BlobPropertiesInternal as BlobProperties } from "./generated/src/models";
+import { BlobPropertiesInternal as BlobProperties, BlobTags } from "./generated/src/models";
 
 export {
   AccessPolicy,

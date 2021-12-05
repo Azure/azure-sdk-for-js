@@ -1,48 +1,52 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AbortSignalLike } from "@azure/abort-controller";
-import { HttpHeaders, isNode, URLBuilder, TokenCredential } from "@azure/core-http";
-
+import {
+  AccessTier,
+  ArchiveStatus,
+  BlobImmutabilityPolicyMode,
+  BlobItemInternal,
+  BlobName,
+  BlobPrefix,
+  BlobTag,
+  BlobTags,
+  BlobType,
+  CopyStatusType,
+  LeaseDurationType,
+  LeaseStateType,
+  LeaseStatusType,
+  ListBlobsFlatSegmentResponse,
+  ListBlobsHierarchySegmentResponse,
+  QuerySerialization,
+  RehydratePriority
+} from "../generated/src/models";
+import {
+  BlobItemInternal as BlobItemInternalModel,
+  BlobPrefix as BlobPrefixModel,
+  ListBlobsFlatSegmentResponseModel,
+  ListBlobsHierarchySegmentResponseModel
+} from "../generatedModels";
 import {
   BlobQueryArrowConfiguration,
   BlobQueryCsvTextConfiguration,
   BlobQueryJsonTextConfiguration,
   BlobQueryParquetConfiguration
 } from "../Clients";
-import {
-  QuerySerialization,
-  BlobTags,
-  BlobName,
-  ListBlobsFlatSegmentResponse,
-  ListBlobsHierarchySegmentResponse,
-  BlobItemInternal,
-  BlobPrefix,
-  BlobType,
-  LeaseStatusType,
-  LeaseStateType,
-  LeaseDurationType,
-  CopyStatusType,
-  AccessTier,
-  ArchiveStatus,
-  RehydratePriority,
-  BlobImmutabilityPolicyMode,
-  BlobTag
-} from "../generated/src/models";
 import { DevelopmentConnectionString, HeaderConstants, URLConstants } from "./constants";
 import {
-  Tags,
+  HttpAuthorization,
   ObjectReplicationPolicy,
   ObjectReplicationRule,
   ObjectReplicationStatus,
-  HttpAuthorization
+  Tags
 } from "../models";
 import {
-  ListBlobsFlatSegmentResponseModel,
-  BlobItemInternal as BlobItemInternalModel,
-  ListBlobsHierarchySegmentResponseModel,
-  BlobPrefix as BlobPrefixModel
-} from "../generatedModels";
+  HttpHeaders,
+  TokenCredential,
+  URLBuilder,
+  isNode
+} from "@azure/core-http";
+import { AbortSignalLike } from "@azure/abort-controller";
 
 /**
  * Reserved URL characters must be properly escaped for Storage services like Blob or File.

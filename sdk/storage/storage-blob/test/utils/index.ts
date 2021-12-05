@@ -1,27 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { randomBytes } from "crypto";
 import * as dotenv from "dotenv";
 import * as fs from "fs";
 import * as path from "path";
-
-import { SimpleTokenCredential } from "./testutils.common";
+import {
+  AccountSASPermissions,
+  AccountSASResourceTypes,
+  AccountSASServices,
+  SASProtocol,
+  generateAccountSASQueryParameters
+} from "../../src";
 import { StoragePipelineOptions, StorageSharedKeyCredential } from "../../src";
 import { BlobServiceClient } from "../../src";
-import { getUniqueName } from "./testutils.common";
-import { newPipeline } from "../../src";
-import {
-  generateAccountSASQueryParameters,
-  AccountSASPermissions,
-  SASProtocol,
-  AccountSASResourceTypes,
-  AccountSASServices
-} from "../../src";
-import { extractConnectionStringParts } from "../../src/utils/utils.common";
+import { DefaultAzureCredential } from "@azure/identity";
+import { SimpleTokenCredential } from "./testutils.common";
 import { TokenCredential } from "@azure/core-http";
 import { env } from "@azure-tools/test-recorder";
-import { DefaultAzureCredential } from "@azure/identity";
+import { extractConnectionStringParts } from "../../src/utils/utils.common";
+import { getUniqueName } from "./testutils.common";
+import { newPipeline } from "../../src";
+import { randomBytes } from "crypto";
 
 dotenv.config();
 

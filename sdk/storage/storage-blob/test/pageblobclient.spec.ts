@@ -4,21 +4,22 @@
 import * as assert from "assert";
 import * as dotenv from "dotenv";
 import {
+  BlobClient,
+  BlobServiceClient,
+  ContainerClient,
+  PageBlobClient,
+  PremiumPageBlobTier
+} from "../src";
+import { Recorder, record } from "@azure-tools/test-recorder";
+import {
   bodyToString,
   getBSU,
   getGenericBSU,
   getSASConnectionStringFromEnvironment,
   recorderEnvSetup
 } from "./utils";
-import {
-  ContainerClient,
-  BlobClient,
-  PageBlobClient,
-  PremiumPageBlobTier,
-  BlobServiceClient
-} from "../src";
-import { record, Recorder } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
+
 dotenv.config();
 
 describe("PageBlobClient", () => {

@@ -2,30 +2,30 @@
 // Licensed under the MIT license.
 
 import * as assert from "assert";
-
 import * as dotenv from "dotenv";
 import {
   AppendBlobClient,
-  newPipeline,
-  StorageSharedKeyCredential,
-  ContainerClient,
-  generateBlobSASQueryParameters,
   BlobSASPermissions,
-  BlobServiceClient
+  BlobServiceClient,
+  ContainerClient,
+  StorageSharedKeyCredential,
+  generateBlobSASQueryParameters,
+  newPipeline
 } from "../../src";
+import { Recorder, isPlaybackMode, record } from "@azure-tools/test-recorder";
 import {
+  bodyToString,
   getBSU,
   getConnectionStringFromEnvironment,
-  bodyToString,
-  recorderEnvSetup,
   getTokenBSU,
-  getTokenCredential
+  getTokenCredential,
+  recorderEnvSetup
 } from "../utils";
+import { Context } from "mocha";
+import { Test_CPK_INFO } from "../utils/fakeTestSecrets";
 import { TokenCredential } from "@azure/core-http";
 import { assertClientUsesTokenCredential } from "../utils/assert";
-import { isPlaybackMode, record, Recorder } from "@azure-tools/test-recorder";
-import { Test_CPK_INFO } from "../utils/fakeTestSecrets";
-import { Context } from "mocha";
+
 dotenv.config();
 
 describe("AppendBlobClient Node.js only", () => {

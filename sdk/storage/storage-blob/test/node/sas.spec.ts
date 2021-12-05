@@ -2,27 +2,32 @@
 // Licensed under the MIT license.
 
 import * as assert from "assert";
-
 import {
   AccountSASPermissions,
   AccountSASResourceTypes,
   AccountSASServices,
   AnonymousCredential,
+  BlobBatch,
+  BlobClient,
   BlobSASPermissions,
-  ContainerSASPermissions,
+  BlobServiceClient,
   ContainerClient,
+  ContainerSASPermissions,
+  PageBlobClient,
+  SASProtocol,
+  StorageSharedKeyCredential,
+  Tags,
+  UserDelegationKey,
   generateAccountSASQueryParameters,
   generateBlobSASQueryParameters,
-  PageBlobClient,
-  BlobServiceClient,
-  StorageSharedKeyCredential,
-  newPipeline,
-  BlobClient,
-  Tags,
-  SASProtocol,
-  UserDelegationKey,
-  BlobBatch
+  newPipeline
 } from "../../src";
+import {
+  Recorder,
+  delay,
+  isLiveMode,
+  record
+} from "@azure-tools/test-recorder";
 import {
   getBSU,
   getEncryptionScope_1,
@@ -31,9 +36,8 @@ import {
   recorderEnvSetup,
   sleep
 } from "../utils";
-import { delay, isLiveMode, record, Recorder } from "@azure-tools/test-recorder";
-import { SERVICE_VERSION } from "../../src/utils/constants";
 import { Context } from "mocha";
+import { SERVICE_VERSION } from "../../src/utils/constants";
 
 describe("Shared Access Signature (SAS) generation Node.js only", () => {
   let recorder: Recorder;

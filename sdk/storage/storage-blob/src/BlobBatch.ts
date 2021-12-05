@@ -2,34 +2,39 @@
 // Licensed under the MIT license.
 
 import {
+  BATCH_MAX_REQUEST,
+  HTTP_LINE_ENDING,
+  HTTP_VERSION_1_1,
+  HeaderConstants,
+  StorageOAuthScopes
+} from "./utils/constants";
+import {
   BaseRequestPolicy,
-  deserializationPolicy,
-  generateUuid,
   HttpHeaders,
   HttpOperationResponse,
   RequestPolicy,
   RequestPolicyFactory,
   RequestPolicyOptions,
-  WebResource,
   TokenCredential,
-  isTokenCredential,
+  WebResource,
   bearerTokenAuthenticationPolicy,
-  isNode
+  deserializationPolicy,
+  generateUuid,
+  isNode,
+  isTokenCredential
 } from "@azure/core-http";
-import { SpanStatusCode } from "@azure/core-tracing";
-import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { BlobClient, BlobDeleteOptions, BlobSetTierOptions } from "./Clients";
+import {
+  attachCredential,
+  getURLPath,
+  getURLPathAndQuery,
+  iEqual
+} from "./utils/utils.common";
 import { AccessTier } from "./generatedModels";
+import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { Mutex } from "./utils/Mutex";
 import { Pipeline } from "./Pipeline";
-import { attachCredential, getURLPath, getURLPathAndQuery, iEqual } from "./utils/utils.common";
-import {
-  HeaderConstants,
-  BATCH_MAX_REQUEST,
-  HTTP_VERSION_1_1,
-  HTTP_LINE_ENDING,
-  StorageOAuthScopes
-} from "./utils/constants";
+import { SpanStatusCode } from "@azure/core-tracing";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 import { createSpan } from "./utils/tracing";
 

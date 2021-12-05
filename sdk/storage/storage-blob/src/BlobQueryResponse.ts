@@ -1,20 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { HttpResponse, isNode } from "@azure/core-http";
-
 import {
+  BlobDownloadHeaders,
   BlobDownloadResponseModel,
+  BlobQueryResponseModel,
   BlobType,
   CopyStatusType,
   LeaseDurationType,
   LeaseStateType,
-  LeaseStatusType,
-  BlobDownloadHeaders,
-  BlobQueryResponseModel
+  LeaseStatusType
 } from "./generatedModels";
-import { Metadata } from "./models";
 import { BlobQuickQueryStream, BlobQuickQueryStreamOptions } from "./utils/BlobQuickQueryStream";
+import { HttpResponse, isNode } from "@azure/core-http";
+import { Metadata } from "./models";
 
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.

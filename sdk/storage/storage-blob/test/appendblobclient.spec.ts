@@ -1,18 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { record, Recorder } from "@azure-tools/test-recorder";
 import * as assert from "assert";
 import * as dotenv from "dotenv";
-import { Context } from "mocha";
-
 import { AppendBlobClient, ContainerClient } from "../src";
+import { Recorder, record } from "@azure-tools/test-recorder";
 import {
   bodyToString,
   getBSU,
   getSASConnectionStringFromEnvironment,
   recorderEnvSetup
 } from "./utils";
+import { Context } from "mocha";
 
 dotenv.config();
 

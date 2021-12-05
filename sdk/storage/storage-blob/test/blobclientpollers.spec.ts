@@ -3,20 +3,25 @@
 
 import * as assert from "assert";
 import * as dotenv from "dotenv";
-
-import { getBSU } from "./utils";
-import { record, Recorder, isRecordMode, isPlaybackMode } from "@azure-tools/test-recorder";
-import { recorderEnvSetup, testPollerProperties } from "./utils/testutils.common";
 import {
+  BlobBeginCopyFromURLResponse,
   BlobClient,
   BlockBlobClient,
   ContainerClient,
-  BlobBeginCopyFromURLResponse,
-  PollerLike,
-  PollOperationState
+  PollOperationState,
+  PollerLike
 } from "../src";
+import {
+  Recorder,
+  isPlaybackMode,
+  isRecordMode,
+  record
+} from "@azure-tools/test-recorder";
 import { URLBuilder, URLQuery } from "@azure/core-http";
+import { recorderEnvSetup, testPollerProperties } from "./utils/testutils.common";
 import { Context } from "mocha";
+import { getBSU } from "./utils";
+
 dotenv.config();
 
 describe("BlobClient beginCopyFromURL Poller", () => {

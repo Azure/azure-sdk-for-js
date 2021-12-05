@@ -2,20 +2,19 @@
 // Licensed under the MIT license.
 
 import * as assert from "assert";
-
-import { getBSU, getConnectionStringFromEnvironment, recorderEnvSetup } from "../utils";
-import { PublicAccessType } from "../../src";
 import {
+  BlobServiceClient,
   ContainerClient,
-  newPipeline,
-  StorageSharedKeyCredential,
   ContainerSASPermissions,
-  BlobServiceClient
+  StorageSharedKeyCredential,
+  newPipeline
 } from "../../src";
+import { Recorder, record } from "@azure-tools/test-recorder";
+import { getBSU, getConnectionStringFromEnvironment, recorderEnvSetup } from "../utils";
+import { Context } from "mocha";
+import { PublicAccessType } from "../../src";
 import { TokenCredential } from "@azure/core-http";
 import { assertClientUsesTokenCredential } from "../utils/assert";
-import { record, Recorder } from "@azure-tools/test-recorder";
-import { Context } from "mocha";
 
 describe("ContainerClient Node.js only", () => {
   let containerName: string;

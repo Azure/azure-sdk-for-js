@@ -3,14 +3,15 @@
 
 import * as assert from "assert";
 import * as dotenv from "dotenv";
-import { HttpHeaders } from "../src";
 import {
-  sanitizeHeaders,
-  sanitizeURL,
   extractConnectionStringParts,
-  isIpEndpointStyle
+  isIpEndpointStyle,
+  sanitizeHeaders,
+  sanitizeURL
 } from "../src/utils/utils.common";
+import { HttpHeaders } from "../src";
 import { URLBuilder } from "@azure/core-http";
+
 dotenv.config();
 
 describe("Utility Helpers", () => {

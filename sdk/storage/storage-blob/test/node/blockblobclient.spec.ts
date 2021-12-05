@@ -2,8 +2,19 @@
 // Licensed under the MIT license.
 
 import * as assert from "assert";
+import * as crypto from "crypto";
 import * as zlib from "zlib";
-
+import {
+  BlobClient,
+  BlobSASPermissions,
+  BlobServiceClient,
+  BlockBlobClient,
+  ContainerClient,
+  StorageSharedKeyCredential,
+  generateBlobSASQueryParameters,
+  newPipeline
+} from "../../src";
+import { Recorder, isPlaybackMode, record } from "@azure-tools/test-recorder";
 import {
   base64encode,
   bodyToString,
@@ -14,23 +25,11 @@ import {
   getTokenCredential,
   recorderEnvSetup
 } from "../utils";
-import {
-  BlockBlobClient,
-  newPipeline,
-  StorageSharedKeyCredential,
-  BlobClient,
-  ContainerClient,
-  BlobServiceClient,
-  generateBlobSASQueryParameters,
-  BlobSASPermissions
-} from "../../src";
-import { TokenCredential } from "@azure/core-http";
-import { assertClientUsesTokenCredential } from "../utils/assert";
-import { isPlaybackMode, record, Recorder } from "@azure-tools/test-recorder";
-import { streamToBuffer3 } from "../../src/utils/utils.node";
-import * as crypto from "crypto";
 import { BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES } from "../../src/utils/constants";
 import { Context } from "mocha";
+import { TokenCredential } from "@azure/core-http";
+import { assertClientUsesTokenCredential } from "../utils/assert";
+import { streamToBuffer3 } from "../../src/utils/utils.node";
 
 describe("BlockBlobClient Node.js only", () => {
   let containerName: string;

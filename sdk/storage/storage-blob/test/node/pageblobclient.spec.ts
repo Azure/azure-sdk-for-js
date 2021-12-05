@@ -2,30 +2,34 @@
 // Licensed under the MIT license.
 
 import * as assert from "assert";
-
 import {
-  getBSU,
-  getConnectionStringFromEnvironment,
-  bodyToString,
-  recorderEnvSetup,
-  getTokenBSU,
-  getTokenCredential
-} from "../utils";
-import {
-  newPipeline,
+  BlobClient,
+  BlobSASPermissions,
+  BlobServiceClient,
+  ContainerClient,
   PageBlobClient,
   StorageSharedKeyCredential,
-  ContainerClient,
-  BlobClient,
   generateBlobSASQueryParameters,
-  BlobSASPermissions,
-  BlobServiceClient
+  newPipeline
 } from "../../src";
+import {
+  Recorder,
+  delay,
+  isPlaybackMode,
+  record
+} from "@azure-tools/test-recorder";
+import {
+  bodyToString,
+  getBSU,
+  getConnectionStringFromEnvironment,
+  getTokenBSU,
+  getTokenCredential,
+  recorderEnvSetup
+} from "../utils";
+import { Context } from "mocha";
+import { Test_CPK_INFO } from "../utils/fakeTestSecrets";
 import { TokenCredential } from "@azure/core-http";
 import { assertClientUsesTokenCredential } from "../utils/assert";
-import { record, delay, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
-import { Test_CPK_INFO } from "../utils/fakeTestSecrets";
-import { Context } from "mocha";
 
 describe("PageBlobClient Node.js only", () => {
   let containerName: string;

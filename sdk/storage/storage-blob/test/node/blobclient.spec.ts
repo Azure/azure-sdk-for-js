@@ -3,23 +3,23 @@
 
 import * as assert from "assert";
 import * as dotenv from "dotenv";
-import { readFileSync, unlinkSync, existsSync, mkdirSync } from "fs";
-import { join } from "path";
-
-import { AbortController } from "@azure/abort-controller";
-import { isNode, TokenCredential } from "@azure/core-http";
-import { delay, isPlaybackMode, record, Recorder } from "@azure-tools/test-recorder";
-
 import {
   BlobClient,
   BlobSASPermissions,
   BlobServiceClient,
   BlockBlobClient,
   ContainerClient,
+  StorageSharedKeyCredential,
   generateBlobSASQueryParameters,
-  newPipeline,
-  StorageSharedKeyCredential
+  newPipeline
 } from "../../src";
+import {
+  Recorder,
+  delay,
+  isPlaybackMode,
+  record
+} from "@azure-tools/test-recorder";
+import { TokenCredential, isNode } from "@azure/core-http";
 import {
   bodyToString,
   createRandomLocalFile,
@@ -31,10 +31,18 @@ import {
   getTokenCredential,
   recorderEnvSetup
 } from "../utils";
+import {
+  existsSync,
+  mkdirSync,
+  readFileSync,
+  unlinkSync
+} from "fs";
+import { AbortController } from "@azure/abort-controller";
+import { Context } from "mocha";
 import { assertClientUsesTokenCredential } from "../utils/assert";
+import { join } from "path";
 import { readStreamToLocalFileWithLogs } from "../utils/testutils.node";
 import { streamToBuffer3 } from "../../src/utils/utils.node";
-import { Context } from "mocha";
 
 dotenv.config();
 
