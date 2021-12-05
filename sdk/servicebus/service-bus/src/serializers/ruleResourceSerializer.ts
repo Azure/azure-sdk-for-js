@@ -239,7 +239,7 @@ export function buildInternalRuleResource(rule: CreateRuleOptions): InternalRule
  * RuleResourceSerializer for serializing / deserializing Rule entities
  */
 export class RuleResourceSerializer implements AtomXmlSerializer {
-  serialize(rule: RuleProperties): object {
+  serialize(rule: RuleProperties): Record<string, unknown> {
     return serializeToAtomXmlRequest("RuleDescription", buildInternalRuleResource(rule));
   }
 
@@ -384,8 +384,9 @@ export function buildInternalRawKeyValuePairs(
     );
   }
   const rawParameters: RawKeyValuePair[] = [];
-  for (let [key, value] of Object.entries(parameters)) {
+  for (const key of Object.keys(parameters)) {
     let type: string | number | boolean;
+    let value = parameters[key];
     if (typeof value === "number") {
       type = TypeMapForRequestSerialization.double;
     } else if (typeof value === "string") {

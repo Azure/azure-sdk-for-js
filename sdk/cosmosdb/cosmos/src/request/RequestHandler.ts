@@ -8,7 +8,6 @@ import {
 } from "@azure/core-rest-pipeline";
 import { trimSlashes } from "../common";
 import { Constants } from "../common/constants";
-import { logger } from "../common/logger";
 import { executePlugins, PluginOn } from "../plugins/Plugin";
 import * as RetryUtility from "../retry/retryUtility";
 import { defaultHttpAgent, defaultHttpsAgent } from "./defaultAgent";
@@ -19,9 +18,9 @@ import { Response as CosmosResponse } from "./Response";
 import { TimeoutError } from "./TimeoutError";
 import { URL } from "../utils/url";
 import { getCachedDefaultHttpClient } from "../utils/cachedClient";
+import { AzureLogger, createClientLogger } from "@azure/logger";
 
-/** @hidden */
-const log = logger("RequestHandler");
+const logger: AzureLogger = createClientLogger("RequestHandler");
 
 async function executeRequest(requestContext: RequestContext): Promise<CosmosResponse<any>> {
   return executePlugins(requestContext, httpRequest, PluginOn.request);
@@ -112,7 +111,7 @@ async function httpRequest(
   if (response.status >= 400) {
     const errorResponse: ErrorResponse = new Error(result.message);
 
-    log.warn(
+    logger.warning(
       response.status +
         " " +
         requestContext.endpoint +

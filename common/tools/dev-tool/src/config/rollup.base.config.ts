@@ -46,15 +46,15 @@ export function openTelemetryCommonJs(): Record<string, string[]> {
       // working around a limitation in the rollup common.js plugin - it's not able to resolve these modules so the named exports listed above will not get applied. We have to drill down to the actual path.
       `../../../common/temp/node_modules/.pnpm/@opentelemetry+api@${version}/node_modules/@opentelemetry/api/build/src/index.js`
     ] = [
-      "SpanKind",
-      "TraceFlags",
-      "getSpan",
-      "setSpan",
-      "StatusCode",
-      "CanonicalCode",
-      "getSpanContext",
-      "setSpanContext"
-    ];
+        "SpanKind",
+        "TraceFlags",
+        "getSpan",
+        "setSpan",
+        "StatusCode",
+        "CanonicalCode",
+        "getSpanContext",
+        "setSpanContext"
+      ];
   }
 
   return namedExports;
@@ -72,7 +72,7 @@ function ignoreNiseSinonEvalWarnings(warning: RollupWarning): boolean {
   return (
     warning.code === "EVAL" &&
     (warning.id?.includes("node_modules/nise") || warning.id?.includes("node_modules/sinon")) ===
-      true
+    true
   );
 }
 
@@ -103,7 +103,7 @@ function makeOnWarnForTesting(): (warning: RollupWarning, warn: WarningHandler) 
 
 // #endregion
 
-export function makeBrowserTestConfig() {
+export function makeBrowserTestConfig(): RollupOptions {
   const config: RollupOptions = {
     input: {
       include: ["dist-esm/test/**/*.spec.js"],
@@ -151,7 +151,7 @@ const defaultConfigurationOptions: ConfigurationOptions = {
   disableBrowserBundle: false
 };
 
-export function makeConfig(pkg: PackageJson, options?: Partial<ConfigurationOptions>) {
+export function makeConfig(pkg: PackageJson, options?: Partial<ConfigurationOptions>): RollupOptions[] {
   options = {
     ...defaultConfigurationOptions,
     ...(options ?? {})

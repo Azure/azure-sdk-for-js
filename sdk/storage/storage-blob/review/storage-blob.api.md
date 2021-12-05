@@ -2394,12 +2394,6 @@ export interface ListBlobsHierarchySegmentResponseModel {
 }
 
 // @public
-export type ListBlobsIncludeItem = "copy" | "deleted" | "metadata" | "snapshots" | "uncommittedblobs" | "versions" | "tags" | "immutabilitypolicy" | "legalhold" | "deletedwithversions";
-
-// @public
-export type ListContainersIncludeType = "metadata" | "deleted";
-
-// @public
 export interface ListContainersSegmentResponse {
     // (undocumented)
     containerItems: ContainerItem[];
@@ -3071,6 +3065,7 @@ export interface ServiceListContainersOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     includeDeleted?: boolean;
     includeMetadata?: boolean;
+    includeSystem?: boolean;
     prefix?: string;
 }
 

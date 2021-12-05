@@ -8,7 +8,7 @@ import fs from "fs-extra";
 import { createPrinter } from "./printer";
 
 const log = createPrinter("test-proxy");
-export async function startProxyTool() {
+export async function startProxyTool(): Promise<void> {
   log.info(
     `Attempting to start test proxy at http://localhost:5000 & https://localhost:5001.\n`
   );
@@ -41,13 +41,13 @@ async function getRootLocation(start?: string): Promise<string> {
 
 async function getDockerRunCommand() {
   const repoRoot = await getRootLocation(); // /workspaces/azure-sdk-for-js/
-  const testProxyRecordingsLocation = "/etc/testproxy";
+  const testProxyRecordingsLocation = "/srv/testproxy";
   const allowLocalhostAccess = "--add-host host.docker.internal:host-gateway";
   const imageToLoad = `azsdkengsys.azurecr.io/engsys/testproxy-lin:${await getImageTag()}`;
   return `docker run -v ${repoRoot}:${testProxyRecordingsLocation} -p 5001:5001 -p 5000:5000 ${allowLocalhostAccess} ${imageToLoad}`;
 }
 
-export async function isProxyToolActive() {
+export async function isProxyToolActive(): Promise<boolean> {
   try {
     await makeRequest("http://localhost:5000/info/available", {});
     log.info(`Proxy tool seems to be active at http://localhost:5000\n`);
@@ -75,7 +75,12 @@ async function getImageTag() {
       `${path.join(await getRootLocation(), "eng/common/testproxy/docker-start-proxy.ps1")}`,
       "utf-8"
     );
-    const tag = contentInPWSHScript.match(/\$SELECTED_IMAGE_TAG \= \"(.*)\"/)![1];
+
+    const tag = contentInPWSHScript.match(/\$SELECTED_IMAGE_TAG = "(.*)"/)?.[1];
+    if (tag === undefined) {
+      throw new Error();
+    }
+
     log.info(`Image tag obtained from the powershell script => ${tag}\n`);
     return tag;
   } catch (_) {

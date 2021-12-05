@@ -14,9 +14,9 @@ Feature work is being tracked at [#15829](https://github.com/Azure/azure-sdk-for
 
 - Run this command
 
-  > `docker run -v /workspaces/azure-sdk-for-js/:/etc/testproxy -p 5001:5001 -p 5000:5000 azsdkengsys.azurecr.io/engsys/testproxy-lin:latest`
+  > `docker run -v /workspaces/azure-sdk-for-js/:/srv/testproxy -p 5001:5001 -p 5000:5000 azsdkengsys.azurecr.io/engsys/testproxy-lin:latest`
 
-  Map the root directory of the azure-sdk-for-js repo to `/etc/testproxy` inside the container for an accurate location while generating recordings.
+  Map the root directory of the azure-sdk-for-js repo to `/srv/testproxy` inside the container for an accurate location while generating recordings.
 
   (Eventually, recorder will trigger this for you!)
 
@@ -49,6 +49,6 @@ Feature work is being tracked at [#15829](https://github.com/Azure/azure-sdk-for
 
 For some reason, the volume mapping did not work for you, copy the recordings manually.
 
-- `docker cp <container_id>:/etc/testproxy/ temp-location`
+- `docker cp <container_id>:/srv/testproxy/ temp-location`
 
   [This will be fixed eventually [#Issue-17138](https://github.com/Azure/azure-sdk-for-js/issues/17138)]

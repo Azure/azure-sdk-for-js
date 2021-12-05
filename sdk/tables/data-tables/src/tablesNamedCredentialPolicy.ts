@@ -2,10 +2,10 @@
 // Licensed under the MIT license.
 
 import {
-  PipelineResponse,
+  PipelinePolicy,
   PipelineRequest,
-  SendRequest,
-  PipelinePolicy
+  PipelineResponse,
+  SendRequest
 } from "@azure/core-rest-pipeline";
 import { NamedKeyCredential } from "@azure/core-auth";
 import { HeaderConstants } from "./utils/constants";
