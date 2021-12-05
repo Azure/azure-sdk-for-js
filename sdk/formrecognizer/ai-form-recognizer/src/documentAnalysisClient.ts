@@ -488,7 +488,6 @@ export class DocumentAnalysisClient {
    *
    * This is the meat of all analysis polling operations.
    *
-   * @internal
    * @param input - either a string for URL inputs or a FormRecognizerRequestBody to upload a file directly to the Form
    *                Recognizer API
    * @param definition - operation definition (initial model ID, operation transforms, request options)
@@ -531,48 +530,48 @@ export class DocumentAnalysisClient {
       // If the user gave us a stored token, we'll poll it again
       resumeFrom !== undefined
         ? async () => {
-            const { operationLocation, modelId } = JSON.parse(resumeFrom) as {
-              operationLocation: string;
-              modelId: string;
-            };
+          const { operationLocation, modelId } = JSON.parse(resumeFrom) as {
+            operationLocation: string;
+            modelId: string;
+          };
 
-            const result = await getAnalyzeResult(operationLocation);
+          const result = await getAnalyzeResult(operationLocation);
 
-            return toDocumentAnalysisPollOperationState(
-              definition,
-              modelId,
-              operationLocation,
-              result
+          return toDocumentAnalysisPollOperationState(
+            definition,
+            modelId,
+            operationLocation,
+            result
+          );
+        }
+        : // Otherwise, we'll start a new operation from the initialModelId
+        async () => {
+          const [contentType, analyzeRequest] = toAnalyzeRequest(input);
+
+          const { operationLocation } = await this._restClient.analyzeDocument(
+            definition.initialModelId,
+            contentType as any,
+            {
+              ...definition.options,
+              analyzeRequest,
+            }
+          );
+
+          if (operationLocation === undefined) {
+            throw new Error(
+              "Unable to start analysis operation: no Operation-Location received."
             );
           }
-        : // Otherwise, we'll start a new operation from the initialModelId
-          async () => {
-            const [contentType, analyzeRequest] = toAnalyzeRequest(input);
 
-            const { operationLocation } = await this._restClient.analyzeDocument(
-              definition.initialModelId,
-              contentType as any,
-              {
-                ...definition.options,
-                analyzeRequest,
-              }
-            );
+          const result = await getAnalyzeResult(operationLocation);
 
-            if (operationLocation === undefined) {
-              throw new Error(
-                "Unable to start analysis operation: no Operation-Location received."
-              );
-            }
-
-            const result = await getAnalyzeResult(operationLocation);
-
-            return toDocumentAnalysisPollOperationState(
-              definition,
-              definition.initialModelId,
-              operationLocation,
-              result
-            );
-          };
+          return toDocumentAnalysisPollOperationState(
+            definition,
+            definition.initialModelId,
+            operationLocation,
+            result
+          );
+        };
 
     const poller = await lro<Result, DocumentAnalysisPollOperationState<Result>>(
       {

@@ -50,6 +50,7 @@
              /**
               * Other documentation
               * @internal
+              * @hidden
               */
              interface ExampleInterface {}`,
        filename: "src/test.ts"
@@ -89,7 +90,9 @@
               * Other documentation
               * @internal
               */
-              private class ExampleClass {}`,
+              private class ExampleClass {
+
+              }`,
        filename: "src/test.ts",
        errors: [
          {
@@ -118,8 +121,9 @@
              /**
               * Other documentation
               * @internal
+              * @param {object} len - length
               */
-             private function ExampleFunction() {}`,
+             private function ExampleFunction(len) {}`,
        filename: "src/test.ts",
        errors: [
          {

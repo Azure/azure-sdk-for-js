@@ -341,7 +341,6 @@ export class DocumentModelAdministrationClient {
    *
    * This is the meat of all training polling operations.
    *
-   * @internal
    * @param definition - operation definition (start operation method, request options)
    * @returns a training poller that produces a ModelInfo
    */
@@ -353,39 +352,39 @@ export class DocumentModelAdministrationClient {
     const toInit =
       resumeFrom === undefined
         ? async () => {
-            const { operationLocation } = await definition.start();
+          const { operationLocation } = await definition.start();
 
-            if (operationLocation === undefined) {
-              throw new Error(
-                "Unable to start model creation operation: no Operation-Location received."
-              );
-            }
-
-            return this._restClient.sendOperationRequest(
-              {
-                options: definition.options,
-              },
-              {
-                path: operationLocation,
-                httpMethod: "GET",
-                responses: {
-                  200: {
-                    bodyMapper: Mappers.GetOperationResponse,
-                  },
-                  default: {
-                    bodyMapper: Mappers.ErrorResponse,
-                  },
-                },
-                headerParameters: [accept1],
-                serializer: SERIALIZER,
-              }
-            ) as Promise<GetOperationResponse>;
+          if (operationLocation === undefined) {
+            throw new Error(
+              "Unable to start model creation operation: no Operation-Location received."
+            );
           }
-        : () => {
-            const { operationId } = JSON.parse(resumeFrom) as { operationId: string };
 
-            return this._restClient.getOperation(operationId, definition.options);
-          };
+          return this._restClient.sendOperationRequest(
+            {
+              options: definition.options,
+            },
+            {
+              path: operationLocation,
+              httpMethod: "GET",
+              responses: {
+                200: {
+                  bodyMapper: Mappers.GetOperationResponse,
+                },
+                default: {
+                  bodyMapper: Mappers.ErrorResponse,
+                },
+              },
+              headerParameters: [accept1],
+              serializer: SERIALIZER,
+            }
+          ) as Promise<GetOperationResponse>;
+        }
+        : () => {
+          const { operationId } = JSON.parse(resumeFrom) as { operationId: string };
+
+          return this._restClient.getOperation(operationId, definition.options);
+        };
 
     const poller = await lro<ModelInfo, TrainingPollOperationState>(
       {

@@ -319,7 +319,6 @@ export class RemoteCryptographyProvider implements CryptographyProvider {
 
   /**
    * Attempts to retrieve the ID of the key.
-   * @internal
    */
   private getKeyID(): string | undefined {
     let kid;

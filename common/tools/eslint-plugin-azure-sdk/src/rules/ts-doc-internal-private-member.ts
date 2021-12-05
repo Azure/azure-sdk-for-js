@@ -13,12 +13,14 @@ import { Node } from "estree";
 import { readFileSync } from "fs";
 import { sync as globSync } from "glob";
 import { relative } from "path";
-import { TypeChecker, SyntaxKind, Modifier } from "typescript";
-import { getLocalExports, getRuleMetaData } from "../utils";
+import { Modifier, SyntaxKind } from "typescript";
+import { getRuleMetaData } from "../utils"; //getLocalExports
 
 //------------------------------------------------------------------------------
 // Rule Definition
 //------------------------------------------------------------------------------
+
+// let exportedSettings: any;
 
 /**
  * Helper method for reporting on a node
@@ -32,15 +34,13 @@ const reportInternal = (
   node: Node,
   context: Rule.RuleContext,
   converter: ParserWeakMapESTreeToTSNode,
-  typeChecker: TypeChecker
 ): void => {
   const tsNode = converter.get(node as TSESTree.Node) as any;
-  const symbol = typeChecker.getTypeAtLocation(tsNode).getSymbol();
 
   const modifiers = converter.get(node as TSESTree.Node).modifiers;
   // if type is internal and has a TSDoc and is a private member
-  if (!context.settings.exported.includes(symbol) && tsNode.jsDoc !== undefined
-      && modifiers !== undefined && modifiers.some(
+  if (tsNode.jsDoc !== undefined
+    && modifiers !== undefined && modifiers.some(
       (modifier: Modifier): boolean => modifier.kind === SyntaxKind.PrivateKeyword)
   ) {
     // fetch all tags
@@ -105,15 +105,17 @@ export = {
     const fileName = context.getFilename();
 
     // on the first run, if on a .ts file (program.getSourceFile is file-type dependent)
-    if (context.settings.exported === undefined && /\.ts$/.test(fileName)) {
+    /*
+    if (exportedSettings === undefined && /\.ts$/.test(fileName)) {
       const packageExports = getLocalExports(context);
       if (packageExports !== undefined) {
-        context.settings.exported = packageExports;
+        exportedSettings = packageExports;
       } else {
-        context.settings.exported = [];
+        exportedSettings = [];
         return {};
       }
     }
+    */
 
     const parserServices = context.parserServices as ParserServices;
     if (
@@ -123,32 +125,22 @@ export = {
       return {};
     }
 
-    const typeChecker = parserServices.program.getTypeChecker();
     const converter = parserServices.esTreeNodeToTSNodeMap;
 
     return shouldExamineFile(fileName, exclude)
       ? {
-          // callback functions
+        // callback functions
 
-          // container declarations
-          ":matches(TSInterfaceDeclaration, ClassDeclaration, TSModuleDeclaration)": (
-            node: Node
-          ): void => reportInternal(node, context, converter, typeChecker),
+        // container declarations
+        ":matches(TSInterfaceDeclaration, ClassDeclaration, TSModuleDeclaration)": (
+          node: Node
+        ): void => reportInternal(node, context, converter),
 
-          // standalone functions
-          ":function": (node: Node): void => {
-            if (
-              context
-                .getAncestors()
-                .every(
-                  (ancestor: Node): boolean =>
-                    !["ClassBody", "TSInterfaceBody", "TSModuleBlock"].includes(ancestor.type)
-                )
-            ) {
-              reportInternal(node, context, converter, typeChecker);
-            }
-          }
+        // functions
+        ":function": (node: Node): void => {
+          reportInternal(node, context, converter);
         }
+      }
       : {};
   }
 };
