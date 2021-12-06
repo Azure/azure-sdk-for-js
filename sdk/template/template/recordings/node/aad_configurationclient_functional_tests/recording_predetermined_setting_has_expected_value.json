@@ -1,0 +1,46 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://myappconfig.azconfig.io/kv/test-key?api-version=1.0",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/vnd.microsoft.appconfig.kv\u002Bjson, application/json, application/problem\u002Bjson",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Cookie": "",
+        "User-Agent": "azsdk-js-template-template/1.0.11-beta.1 core-http/2.2.3 Node/v16.13.0 OS/(x64-Linux-5.10.60.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "ea5d9008-3c76-4603-8e3e-4384babe4f7e"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Access-Control-Allow-Credentials": "true",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Expose-Headers": "DNT, X-CustomHeader, Keep-Alive, User-Agent, X-Requested-With, If-Modified-Since, Cache-Control, Content-Type, Authorization, x-ms-client-request-id, x-ms-useragent, x-ms-content-sha256, x-ms-date, host, Accept, Accept-Datetime, Date, If-Match, If-None-Match, Sync-Token, x-ms-return-client-request-id, ETag, Last-Modified, Link, Memento-Datetime, retry-after-ms, x-ms-request-id, x-ms-client-session-id, x-ms-effective-locale, WWW-Authenticate, traceparent, tracestate",
+        "Connection": "keep-alive",
+        "Content-Type": "application/vnd.microsoft.appconfig.kv\u002Bjson; charset=utf-8",
+        "Date": "Wed, 08 Dec 2021 23:33:45 GMT",
+        "ETag": "\u0022gjZGC5V4il31mi6AuO1zeP24P55\u0022",
+        "Last-Modified": "Mon, 22 Nov 2021 20:21:05 GMT",
+        "Server": "openresty/1.17.8.2",
+        "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
+        "Sync-Token": "zAJw6V16=NToxOSM4NDY5NjA4;sn=8469608",
+        "Transfer-Encoding": "chunked",
+        "x-ms-correlation-request-id": "e0aeadef-c05e-419a-92c5-673501fb4ac6",
+        "x-ms-request-id": "e0aeadef-c05e-419a-92c5-673501fb4ac6"
+      },
+      "ResponseBody": {
+        "etag": "gjZGC5V4il31mi6AuO1zeP24P55",
+        "key": "test-key",
+        "label": null,
+        "content_type": "",
+        "value": "test-key setting",
+        "tags": {},
+        "locked": false,
+        "last_modified": "2021-11-22T20:21:05\u002B00:00"
+      }
+    }
+  ],
+  "Variables": {}
+}

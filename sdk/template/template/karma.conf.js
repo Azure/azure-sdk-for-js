@@ -3,6 +3,7 @@
 
 // https://github.com/karma-runner/karma-chrome-launcher
 process.env.CHROME_BIN = require("puppeteer").executablePath();
+process.env.RECORDINGS_RELATIVE_PATH = require("@azure-tools/test-recorder-new").relativeRecordingsPath();
 require("dotenv").config();
 const {
   jsonRecordingFilterFunction,
@@ -60,7 +61,10 @@ module.exports = function(config) {
       "APPCONFIG_TEST_SETTING_EXPECTED_VALUE",
       "AZURE_CLIENT_ID",
       "AZURE_CLIENT_SECRET",
-      "AZURE_TENANT_ID"
+      "AZURE_TENANT_ID",
+      "TABLES_SAS_CONNECTION_STRING",
+      "RECORDINGS_RELATIVE_PATH",
+      "STORAGE_SAS_URL"
     ],
 
     // test results reporter to use

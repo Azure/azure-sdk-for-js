@@ -6,9 +6,7 @@ import { TestProxyHttpClient, recorderHttpPolicy } from "@azure-tools/test-recor
 import { env, isPlaybackMode } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
 import { SanitizerOptions } from "@azure-tools/test-recorder-new";
-import { config } from "dotenv";
 import { createSimpleEntity } from "../utils/utils";
-config();
 
 // A fake connection string which replaces the actual connection string in the recording.
 const fakeConnString =

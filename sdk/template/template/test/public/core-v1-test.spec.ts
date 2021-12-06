@@ -6,8 +6,6 @@ import { env, isPlaybackMode } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
 import { QueueServiceClient } from "@azure/storage-queue";
 import { TestProxyHttpClientCoreV1 } from "@azure-tools/test-recorder-new";
-import { config } from "dotenv";
-config();
 
 // This fake URL will be used in the recording. We use a general regex sanitizer
 // (below) to replace the real SAS URL from when we record the test with this
