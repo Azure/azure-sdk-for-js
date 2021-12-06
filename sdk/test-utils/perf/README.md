@@ -45,6 +45,18 @@ Steps below constitute the workflow of a typical perf test.
 
 Check the [test folder](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/perf/test/).
 
+## Running the tests in `/test` folder
+
+> `ts-node ./test/index.spec.ts ${testClassName} ${options}`
+
+### Example
+
+> `ts-node ./test/index.spec.ts NoOp --parallel 2 --duration 7 --iterations 2 --warmup 2`
+
+If you would like to run all the tests at once in sequence, use the following command
+
+> `rushx test:node`
+
 ## Troubleshooting
 
 TODO
