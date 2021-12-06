@@ -9,14 +9,15 @@
 
 import * as Models from "./models";
 import * as msRest from "@azure/ms-rest-js";
-import { TokenCredential } from "@azure/core-auth";
 import * as msRestAzure from "@azure/ms-rest-azure-js";
+import { TokenCredential } from "@azure/core-auth";
 
 const packageName = "@azure/arm-policyinsights";
-const packageVersion = "4.1.1";
+const packageVersion = "4.2.0";
 
 export class PolicyInsightsClientContext extends msRestAzure.AzureServiceClient {
   credentials: msRest.ServiceClientCredentials | TokenCredential;
+  subscriptionId2: string;
 
   /**
    * Initializes a new instance of the PolicyInsightsClient class.
@@ -26,11 +27,15 @@ export class PolicyInsightsClientContext extends msRestAzure.AzureServiceClient 
    * {@link https://www.npmjs.com/package/@azure/identity}. Credentials implementing the
    * ServiceClientCredentials interface from the older packages @azure/ms-rest-nodeauth and
    * @azure/ms-rest-browserauth are also supported.
+   * @param subscriptionId2 The ID of the target subscription.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials | TokenCredential, options?: Models.PolicyInsightsClientOptions) {
+  constructor(credentials: msRest.ServiceClientCredentials | TokenCredential, subscriptionId2: string, options?: Models.PolicyInsightsClientOptions) {
     if (credentials == undefined) {
       throw new Error('\'credentials\' cannot be null.');
+    }
+    if (subscriptionId2 == undefined) {
+      throw new Error('\'subscriptionId2\' cannot be null.');
     }
 
     if (!options) {
@@ -48,6 +53,7 @@ export class PolicyInsightsClientContext extends msRestAzure.AzureServiceClient 
     this.baseUri = options.baseUri || this.baseUri || "https://management.azure.com";
     this.requestContentType = "application/json; charset=utf-8";
     this.credentials = credentials;
+    this.subscriptionId2 = subscriptionId2;
 
     if (options.acceptLanguage !== null && options.acceptLanguage !== undefined) {
       this.acceptLanguage = options.acceptLanguage;

@@ -279,226 +279,224 @@ export class PolicyEvents {
    * Queries policy events for the resources under the management group.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
-   * @returns Promise<Models.PolicyEventsListQueryResultsForManagementGroupNextResponse>
+   * @returns Promise<Models.PolicyEventsNextLinkResponse>
    */
-  listQueryResultsForManagementGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.PolicyEventsListQueryResultsForManagementGroupNextResponse>;
+  nextLink(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.PolicyEventsNextLinkResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listQueryResultsForManagementGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.PolicyEventsQueryResults>): void;
+  nextLink(nextPageLink: string, callback: msRest.ServiceCallback<Models.PolicyEventsQueryResults>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listQueryResultsForManagementGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PolicyEventsQueryResults>): void;
-  listQueryResultsForManagementGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PolicyEventsQueryResults>, callback?: msRest.ServiceCallback<Models.PolicyEventsQueryResults>): Promise<Models.PolicyEventsListQueryResultsForManagementGroupNextResponse> {
+  nextLink(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PolicyEventsQueryResults>): void;
+  nextLink(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PolicyEventsQueryResults>, callback?: msRest.ServiceCallback<Models.PolicyEventsQueryResults>): Promise<Models.PolicyEventsNextLinkResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
-      listQueryResultsForManagementGroupNextOperationSpec,
-      callback) as Promise<Models.PolicyEventsListQueryResultsForManagementGroupNextResponse>;
+      nextLinkOperationSpec,
+      callback) as Promise<Models.PolicyEventsNextLinkResponse>;
   }
 
   /**
    * Queries policy events for the resources under the subscription.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
-   * @returns Promise<Models.PolicyEventsListQueryResultsForSubscriptionNextResponse>
+   * @returns Promise<Models.PolicyEventsNextLink1Response>
    */
-  listQueryResultsForSubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.PolicyEventsListQueryResultsForSubscriptionNextResponse>;
+  nextLink1(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.PolicyEventsNextLink1Response>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listQueryResultsForSubscriptionNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.PolicyEventsQueryResults>): void;
+  nextLink1(nextPageLink: string, callback: msRest.ServiceCallback<Models.PolicyEventsQueryResults>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listQueryResultsForSubscriptionNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PolicyEventsQueryResults>): void;
-  listQueryResultsForSubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PolicyEventsQueryResults>, callback?: msRest.ServiceCallback<Models.PolicyEventsQueryResults>): Promise<Models.PolicyEventsListQueryResultsForSubscriptionNextResponse> {
+  nextLink1(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PolicyEventsQueryResults>): void;
+  nextLink1(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PolicyEventsQueryResults>, callback?: msRest.ServiceCallback<Models.PolicyEventsQueryResults>): Promise<Models.PolicyEventsNextLink1Response> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
-      listQueryResultsForSubscriptionNextOperationSpec,
-      callback) as Promise<Models.PolicyEventsListQueryResultsForSubscriptionNextResponse>;
+      nextLink1OperationSpec,
+      callback) as Promise<Models.PolicyEventsNextLink1Response>;
   }
 
   /**
    * Queries policy events for the resources under the resource group.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
-   * @returns Promise<Models.PolicyEventsListQueryResultsForResourceGroupNextResponse>
+   * @returns Promise<Models.PolicyEventsNextLink2Response>
    */
-  listQueryResultsForResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.PolicyEventsListQueryResultsForResourceGroupNextResponse>;
+  nextLink2(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.PolicyEventsNextLink2Response>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listQueryResultsForResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.PolicyEventsQueryResults>): void;
+  nextLink2(nextPageLink: string, callback: msRest.ServiceCallback<Models.PolicyEventsQueryResults>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listQueryResultsForResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PolicyEventsQueryResults>): void;
-  listQueryResultsForResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PolicyEventsQueryResults>, callback?: msRest.ServiceCallback<Models.PolicyEventsQueryResults>): Promise<Models.PolicyEventsListQueryResultsForResourceGroupNextResponse> {
+  nextLink2(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PolicyEventsQueryResults>): void;
+  nextLink2(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PolicyEventsQueryResults>, callback?: msRest.ServiceCallback<Models.PolicyEventsQueryResults>): Promise<Models.PolicyEventsNextLink2Response> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
-      listQueryResultsForResourceGroupNextOperationSpec,
-      callback) as Promise<Models.PolicyEventsListQueryResultsForResourceGroupNextResponse>;
+      nextLink2OperationSpec,
+      callback) as Promise<Models.PolicyEventsNextLink2Response>;
   }
 
   /**
    * Queries policy events for the resource.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
-   * @returns Promise<Models.PolicyEventsListQueryResultsForResourceNextResponse>
+   * @returns Promise<Models.PolicyEventsNextLink3Response>
    */
-  listQueryResultsForResourceNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.PolicyEventsListQueryResultsForResourceNextResponse>;
+  nextLink3(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.PolicyEventsNextLink3Response>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listQueryResultsForResourceNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.PolicyEventsQueryResults>): void;
+  nextLink3(nextPageLink: string, callback: msRest.ServiceCallback<Models.PolicyEventsQueryResults>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listQueryResultsForResourceNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PolicyEventsQueryResults>): void;
-  listQueryResultsForResourceNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PolicyEventsQueryResults>, callback?: msRest.ServiceCallback<Models.PolicyEventsQueryResults>): Promise<Models.PolicyEventsListQueryResultsForResourceNextResponse> {
+  nextLink3(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PolicyEventsQueryResults>): void;
+  nextLink3(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PolicyEventsQueryResults>, callback?: msRest.ServiceCallback<Models.PolicyEventsQueryResults>): Promise<Models.PolicyEventsNextLink3Response> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
-      listQueryResultsForResourceNextOperationSpec,
-      callback) as Promise<Models.PolicyEventsListQueryResultsForResourceNextResponse>;
+      nextLink3OperationSpec,
+      callback) as Promise<Models.PolicyEventsNextLink3Response>;
   }
 
   /**
    * Queries policy events for the subscription level policy set definition.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
-   * @returns Promise<Models.PolicyEventsListQueryResultsForPolicySetDefinitionNextResponse>
+   * @returns Promise<Models.PolicyEventsNextLink4Response>
    */
-  listQueryResultsForPolicySetDefinitionNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.PolicyEventsListQueryResultsForPolicySetDefinitionNextResponse>;
+  nextLink4(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.PolicyEventsNextLink4Response>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listQueryResultsForPolicySetDefinitionNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.PolicyEventsQueryResults>): void;
+  nextLink4(nextPageLink: string, callback: msRest.ServiceCallback<Models.PolicyEventsQueryResults>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listQueryResultsForPolicySetDefinitionNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PolicyEventsQueryResults>): void;
-  listQueryResultsForPolicySetDefinitionNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PolicyEventsQueryResults>, callback?: msRest.ServiceCallback<Models.PolicyEventsQueryResults>): Promise<Models.PolicyEventsListQueryResultsForPolicySetDefinitionNextResponse> {
+  nextLink4(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PolicyEventsQueryResults>): void;
+  nextLink4(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PolicyEventsQueryResults>, callback?: msRest.ServiceCallback<Models.PolicyEventsQueryResults>): Promise<Models.PolicyEventsNextLink4Response> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
-      listQueryResultsForPolicySetDefinitionNextOperationSpec,
-      callback) as Promise<Models.PolicyEventsListQueryResultsForPolicySetDefinitionNextResponse>;
+      nextLink4OperationSpec,
+      callback) as Promise<Models.PolicyEventsNextLink4Response>;
   }
 
   /**
    * Queries policy events for the subscription level policy definition.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
-   * @returns Promise<Models.PolicyEventsListQueryResultsForPolicyDefinitionNextResponse>
+   * @returns Promise<Models.PolicyEventsNextLink5Response>
    */
-  listQueryResultsForPolicyDefinitionNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.PolicyEventsListQueryResultsForPolicyDefinitionNextResponse>;
+  nextLink5(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.PolicyEventsNextLink5Response>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listQueryResultsForPolicyDefinitionNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.PolicyEventsQueryResults>): void;
+  nextLink5(nextPageLink: string, callback: msRest.ServiceCallback<Models.PolicyEventsQueryResults>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listQueryResultsForPolicyDefinitionNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PolicyEventsQueryResults>): void;
-  listQueryResultsForPolicyDefinitionNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PolicyEventsQueryResults>, callback?: msRest.ServiceCallback<Models.PolicyEventsQueryResults>): Promise<Models.PolicyEventsListQueryResultsForPolicyDefinitionNextResponse> {
+  nextLink5(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PolicyEventsQueryResults>): void;
+  nextLink5(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PolicyEventsQueryResults>, callback?: msRest.ServiceCallback<Models.PolicyEventsQueryResults>): Promise<Models.PolicyEventsNextLink5Response> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
-      listQueryResultsForPolicyDefinitionNextOperationSpec,
-      callback) as Promise<Models.PolicyEventsListQueryResultsForPolicyDefinitionNextResponse>;
+      nextLink5OperationSpec,
+      callback) as Promise<Models.PolicyEventsNextLink5Response>;
   }
 
   /**
    * Queries policy events for the subscription level policy assignment.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
-   * @returns
-   * Promise<Models.PolicyEventsListQueryResultsForSubscriptionLevelPolicyAssignmentNextResponse>
+   * @returns Promise<Models.PolicyEventsNextLink6Response>
    */
-  listQueryResultsForSubscriptionLevelPolicyAssignmentNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.PolicyEventsListQueryResultsForSubscriptionLevelPolicyAssignmentNextResponse>;
+  nextLink6(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.PolicyEventsNextLink6Response>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listQueryResultsForSubscriptionLevelPolicyAssignmentNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.PolicyEventsQueryResults>): void;
+  nextLink6(nextPageLink: string, callback: msRest.ServiceCallback<Models.PolicyEventsQueryResults>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listQueryResultsForSubscriptionLevelPolicyAssignmentNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PolicyEventsQueryResults>): void;
-  listQueryResultsForSubscriptionLevelPolicyAssignmentNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PolicyEventsQueryResults>, callback?: msRest.ServiceCallback<Models.PolicyEventsQueryResults>): Promise<Models.PolicyEventsListQueryResultsForSubscriptionLevelPolicyAssignmentNextResponse> {
+  nextLink6(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PolicyEventsQueryResults>): void;
+  nextLink6(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PolicyEventsQueryResults>, callback?: msRest.ServiceCallback<Models.PolicyEventsQueryResults>): Promise<Models.PolicyEventsNextLink6Response> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
-      listQueryResultsForSubscriptionLevelPolicyAssignmentNextOperationSpec,
-      callback) as Promise<Models.PolicyEventsListQueryResultsForSubscriptionLevelPolicyAssignmentNextResponse>;
+      nextLink6OperationSpec,
+      callback) as Promise<Models.PolicyEventsNextLink6Response>;
   }
 
   /**
    * Queries policy events for the resource group level policy assignment.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
-   * @returns
-   * Promise<Models.PolicyEventsListQueryResultsForResourceGroupLevelPolicyAssignmentNextResponse>
+   * @returns Promise<Models.PolicyEventsNextLink7Response>
    */
-  listQueryResultsForResourceGroupLevelPolicyAssignmentNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.PolicyEventsListQueryResultsForResourceGroupLevelPolicyAssignmentNextResponse>;
+  nextLink7(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.PolicyEventsNextLink7Response>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listQueryResultsForResourceGroupLevelPolicyAssignmentNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.PolicyEventsQueryResults>): void;
+  nextLink7(nextPageLink: string, callback: msRest.ServiceCallback<Models.PolicyEventsQueryResults>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listQueryResultsForResourceGroupLevelPolicyAssignmentNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PolicyEventsQueryResults>): void;
-  listQueryResultsForResourceGroupLevelPolicyAssignmentNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PolicyEventsQueryResults>, callback?: msRest.ServiceCallback<Models.PolicyEventsQueryResults>): Promise<Models.PolicyEventsListQueryResultsForResourceGroupLevelPolicyAssignmentNextResponse> {
+  nextLink7(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PolicyEventsQueryResults>): void;
+  nextLink7(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PolicyEventsQueryResults>, callback?: msRest.ServiceCallback<Models.PolicyEventsQueryResults>): Promise<Models.PolicyEventsNextLink7Response> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
-      listQueryResultsForResourceGroupLevelPolicyAssignmentNextOperationSpec,
-      callback) as Promise<Models.PolicyEventsListQueryResultsForResourceGroupLevelPolicyAssignmentNextResponse>;
+      nextLink7OperationSpec,
+      callback) as Promise<Models.PolicyEventsNextLink7Response>;
   }
 }
 
@@ -542,7 +540,7 @@ const listQueryResultsForSubscriptionOperationSpec: msRest.OperationSpec = {
   path: "subscriptions/{subscriptionId}/providers/Microsoft.PolicyInsights/policyEvents/{policyEventsResource}/queryResults",
   urlParameters: [
     Parameters.policyEventsResource,
-    Parameters.subscriptionId
+    Parameters.subscriptionId0
   ],
   queryParameters: [
     Parameters.apiVersion2,
@@ -574,8 +572,8 @@ const listQueryResultsForResourceGroupOperationSpec: msRest.OperationSpec = {
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PolicyInsights/policyEvents/{policyEventsResource}/queryResults",
   urlParameters: [
     Parameters.policyEventsResource,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.subscriptionId0,
+    Parameters.resourceGroupName0
   ],
   queryParameters: [
     Parameters.apiVersion2,
@@ -640,7 +638,7 @@ const listQueryResultsForPolicySetDefinitionOperationSpec: msRest.OperationSpec 
   path: "subscriptions/{subscriptionId}/providers/{authorizationNamespace}/policySetDefinitions/{policySetDefinitionName}/providers/Microsoft.PolicyInsights/policyEvents/{policyEventsResource}/queryResults",
   urlParameters: [
     Parameters.policyEventsResource,
-    Parameters.subscriptionId,
+    Parameters.subscriptionId0,
     Parameters.authorizationNamespace,
     Parameters.policySetDefinitionName
   ],
@@ -674,7 +672,7 @@ const listQueryResultsForPolicyDefinitionOperationSpec: msRest.OperationSpec = {
   path: "subscriptions/{subscriptionId}/providers/{authorizationNamespace}/policyDefinitions/{policyDefinitionName}/providers/Microsoft.PolicyInsights/policyEvents/{policyEventsResource}/queryResults",
   urlParameters: [
     Parameters.policyEventsResource,
-    Parameters.subscriptionId,
+    Parameters.subscriptionId0,
     Parameters.authorizationNamespace,
     Parameters.policyDefinitionName
   ],
@@ -708,7 +706,7 @@ const listQueryResultsForSubscriptionLevelPolicyAssignmentOperationSpec: msRest.
   path: "subscriptions/{subscriptionId}/providers/{authorizationNamespace}/policyAssignments/{policyAssignmentName}/providers/Microsoft.PolicyInsights/policyEvents/{policyEventsResource}/queryResults",
   urlParameters: [
     Parameters.policyEventsResource,
-    Parameters.subscriptionId,
+    Parameters.subscriptionId0,
     Parameters.authorizationNamespace,
     Parameters.policyAssignmentName
   ],
@@ -742,8 +740,8 @@ const listQueryResultsForResourceGroupLevelPolicyAssignmentOperationSpec: msRest
   path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{authorizationNamespace}/policyAssignments/{policyAssignmentName}/providers/Microsoft.PolicyInsights/policyEvents/{policyEventsResource}/queryResults",
   urlParameters: [
     Parameters.policyEventsResource,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
+    Parameters.subscriptionId0,
+    Parameters.resourceGroupName0,
     Parameters.authorizationNamespace,
     Parameters.policyAssignmentName
   ],
@@ -772,7 +770,7 @@ const listQueryResultsForResourceGroupLevelPolicyAssignmentOperationSpec: msRest
   serializer
 };
 
-const listQueryResultsForManagementGroupNextOperationSpec: msRest.OperationSpec = {
+const nextLinkOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
@@ -796,7 +794,7 @@ const listQueryResultsForManagementGroupNextOperationSpec: msRest.OperationSpec 
   serializer
 };
 
-const listQueryResultsForSubscriptionNextOperationSpec: msRest.OperationSpec = {
+const nextLink1OperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
@@ -820,7 +818,7 @@ const listQueryResultsForSubscriptionNextOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listQueryResultsForResourceGroupNextOperationSpec: msRest.OperationSpec = {
+const nextLink2OperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
@@ -844,7 +842,7 @@ const listQueryResultsForResourceGroupNextOperationSpec: msRest.OperationSpec = 
   serializer
 };
 
-const listQueryResultsForResourceNextOperationSpec: msRest.OperationSpec = {
+const nextLink3OperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
@@ -868,7 +866,7 @@ const listQueryResultsForResourceNextOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listQueryResultsForPolicySetDefinitionNextOperationSpec: msRest.OperationSpec = {
+const nextLink4OperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
@@ -892,7 +890,7 @@ const listQueryResultsForPolicySetDefinitionNextOperationSpec: msRest.OperationS
   serializer
 };
 
-const listQueryResultsForPolicyDefinitionNextOperationSpec: msRest.OperationSpec = {
+const nextLink5OperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
@@ -916,7 +914,7 @@ const listQueryResultsForPolicyDefinitionNextOperationSpec: msRest.OperationSpec
   serializer
 };
 
-const listQueryResultsForSubscriptionLevelPolicyAssignmentNextOperationSpec: msRest.OperationSpec = {
+const nextLink6OperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
@@ -940,7 +938,7 @@ const listQueryResultsForSubscriptionLevelPolicyAssignmentNextOperationSpec: msR
   serializer
 };
 
-const listQueryResultsForResourceGroupLevelPolicyAssignmentNextOperationSpec: msRest.OperationSpec = {
+const nextLink7OperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",

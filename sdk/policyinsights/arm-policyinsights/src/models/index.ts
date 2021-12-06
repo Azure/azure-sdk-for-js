@@ -157,6 +157,50 @@ export interface RemediationDeploymentSummary {
 }
 
 /**
+ * The remediation failure threshold settings
+ */
+export interface RemediationPropertiesFailureThreshold {
+  /**
+   * A number between 0.0 to 1.0 representing the percentage failure threshold. The remediation
+   * will fail if the percentage of failed remediation operations (i.e. failed deployments) exceeds
+   * this threshold.
+   */
+  percentage?: number;
+}
+
+/**
+ * Metadata pertaining to creation and last modification of the resource.
+ */
+export interface SystemData {
+  /**
+   * The identity that created the resource.
+   */
+  createdBy?: string;
+  /**
+   * The type of identity that created the resource. Possible values include: 'User',
+   * 'Application', 'ManagedIdentity', 'Key'
+   */
+  createdByType?: CreatedByType;
+  /**
+   * The timestamp of resource creation (UTC).
+   */
+  createdAt?: Date;
+  /**
+   * The identity that last modified the resource.
+   */
+  lastModifiedBy?: string;
+  /**
+   * The type of identity that last modified the resource. Possible values include: 'User',
+   * 'Application', 'ManagedIdentity', 'Key'
+   */
+  lastModifiedByType?: CreatedByType;
+  /**
+   * The timestamp of resource last modification (UTC)
+   */
+  lastModifiedAt?: Date;
+}
+
+/**
  * The remediation definition.
  */
 export interface Remediation extends BaseResource {
@@ -199,6 +243,33 @@ export interface Remediation extends BaseResource {
    */
   readonly deploymentStatus?: RemediationDeploymentSummary;
   /**
+   * The remediation status message. Provides additional details regarding the state of the
+   * remediation.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly statusMessage?: string;
+  /**
+   * The remediation correlation Id. Can be used to find events related to the remediation in the
+   * activity log.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly correlationId?: string;
+  /**
+   * Determines the max number of resources that can be remediated by the remediation job. If not
+   * provided, the default resource count is used.
+   */
+  resourceCount?: number;
+  /**
+   * Determines how many resources to remediate at any given time. Can be used to increase or
+   * reduce the pace of the remediation. If not provided, the default parallel deployments value is
+   * used.
+   */
+  parallelDeployments?: number;
+  /**
+   * The remediation failure threshold settings
+   */
+  failureThreshold?: RemediationPropertiesFailureThreshold;
+  /**
    * The ID of the remediation.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
@@ -213,6 +284,11 @@ export interface Remediation extends BaseResource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly name?: string;
+  /**
+   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly systemData?: SystemData;
 }
 
 /**
@@ -502,6 +578,11 @@ export interface ExpressionEvaluationDetails {
    * Expression evaluated.
    */
   expression?: string;
+  /**
+   * The kind of expression that was evaluated.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly expressionKind?: string;
   /**
    * Property path if the expression is a field or an alias.
    */
@@ -1047,6 +1128,301 @@ export interface SlimPolicyMetadata {
 }
 
 /**
+ * The information about the resource that will be evaluated.
+ */
+export interface CheckRestrictionsResourceDetails {
+  /**
+   * The resource content. This should include whatever properties are already known and can be a
+   * partial set of all resource properties.
+   */
+  resourceContent: any;
+  /**
+   * The api-version of the resource content.
+   */
+  apiVersion?: string;
+  /**
+   * The scope where the resource is being created. For example, if the resource is a child
+   * resource this would be the parent resource's resource ID.
+   */
+  scope?: string;
+}
+
+/**
+ * A field that should be evaluated against Azure Policy to determine restrictions.
+ */
+export interface PendingField {
+  /**
+   * The name of the field. This can be a top-level property like 'name' or 'type' or an Azure
+   * Policy field alias.
+   */
+  field: string;
+  /**
+   * The list of potential values for the field that should be evaluated against Azure Policy.
+   */
+  values?: string[];
+}
+
+/**
+ * The check policy restrictions parameters describing the resource that is being evaluated.
+ */
+export interface CheckRestrictionsRequest {
+  /**
+   * The information about the resource that will be evaluated.
+   */
+  resourceDetails: CheckRestrictionsResourceDetails;
+  /**
+   * The list of fields and values that should be evaluated for potential restrictions.
+   */
+  pendingFields?: PendingField[];
+}
+
+/**
+ * Resource identifiers for a policy.
+ */
+export interface PolicyReference {
+  /**
+   * The resource identifier of the policy definition.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly policyDefinitionId?: string;
+  /**
+   * The resource identifier of the policy set definition.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly policySetDefinitionId?: string;
+  /**
+   * The reference identifier of a specific policy definition within a policy set definition.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly policyDefinitionReferenceId?: string;
+  /**
+   * The resource identifier of the policy assignment.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly policyAssignmentId?: string;
+}
+
+/**
+ * The restrictions on a field imposed by a specific policy.
+ */
+export interface FieldRestriction {
+  /**
+   * The type of restriction that is imposed on the field. Possible values include: 'Required',
+   * 'Removed', 'Deny'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly result?: FieldRestrictionResult;
+  /**
+   * The value that policy will set for the field if the user does not provide a value.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly defaultValue?: string;
+  /**
+   * The values that policy either requires or denies for the field.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly values?: string[];
+  /**
+   * The details of the policy that is causing the field restriction.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly policy?: PolicyReference;
+}
+
+/**
+ * The restrictions that will be placed on a field in the resource by policy.
+ */
+export interface FieldRestrictions {
+  /**
+   * The name of the field. This can be a top-level property like 'name' or 'type' or an Azure
+   * Policy field alias.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly field?: string;
+  /**
+   * The restrictions placed on that field by policy.
+   */
+  restrictions?: FieldRestriction[];
+}
+
+/**
+ * The result of a non-compliant policy evaluation against the given resource content.
+ */
+export interface PolicyEvaluationResult {
+  /**
+   * The details of the policy that was evaluated.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly policyInfo?: PolicyReference;
+  /**
+   * The result of the policy evaluation against the resource. This will typically be
+   * 'NonCompliant' but may contain other values if errors were encountered.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly evaluationResult?: string;
+  /**
+   * The detailed results of the policy expressions and values that were evaluated.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly evaluationDetails?: PolicyEvaluationDetails;
+}
+
+/**
+ * Evaluation results for the provided partial resource content.
+ */
+export interface CheckRestrictionsResultContentEvaluationResult {
+  /**
+   * Policy evaluation results against the given resource content. This will indicate if the
+   * partial content that was provided will be denied as-is.
+   */
+  policyEvaluations?: PolicyEvaluationResult[];
+}
+
+/**
+ * The result of a check policy restrictions evaluation on a resource.
+ */
+export interface CheckRestrictionsResult {
+  /**
+   * The restrictions that will be placed on various fields in the resource by policy.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly fieldRestrictions?: FieldRestrictions[];
+  /**
+   * Evaluation results for the provided partial resource content.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly contentEvaluationResult?: CheckRestrictionsResultContentEvaluationResult;
+}
+
+/**
+ * A piece of evidence supporting the compliance state set in the attestation.
+ */
+export interface AttestationEvidence {
+  /**
+   * The description for this piece of evidence.
+   */
+  description?: string;
+  /**
+   * The URI location of the evidence.
+   */
+  sourceUri?: string;
+}
+
+/**
+ * Common fields that are returned in the response for all Azure Resource Manager resources
+ * @summary Resource
+ */
+export interface Resource extends BaseResource {
+  /**
+   * Fully qualified resource ID for the resource. Ex -
+   * /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * The name of the resource
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+   * "Microsoft.Storage/storageAccounts"
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+}
+
+/**
+ * An attestation resource.
+ */
+export interface Attestation extends Resource {
+  /**
+   * The resource ID of the policy assignment that the attestation is setting the state for.
+   */
+  policyAssignmentId: string;
+  /**
+   * The policy definition reference ID from a policy set definition that the attestation is
+   * setting the state for. If the policy assignment assigns a policy set definition the
+   * attestation can choose a definition within the set definition with this property or omit this
+   * and set the state for the entire set definition.
+   */
+  policyDefinitionReferenceId?: string;
+  /**
+   * The compliance state that should be set on the resource. Possible values include: 'Compliant',
+   * 'NonCompliant', 'Unknown'
+   */
+  complianceState?: ComplianceState;
+  /**
+   * The time the compliance state should expire.
+   */
+  expiresOn?: Date;
+  /**
+   * The person responsible for setting the state of the resource. This value is typically an Azure
+   * Active Directory object ID.
+   */
+  owner?: string;
+  /**
+   * Comments describing why this attestation was created.
+   */
+  comments?: string;
+  /**
+   * The evidence supporting the compliance state set in this attestation.
+   */
+  evidence?: AttestationEvidence[];
+  /**
+   * The status of the attestation.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: string;
+  /**
+   * The time the compliance state was last changed in this attestation.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly lastComplianceStateChangeAt?: Date;
+  /**
+   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly systemData?: SystemData;
+}
+
+/**
+ * The resource model definition for a Azure Resource Manager proxy resource. It will not have tags
+ * and a location
+ * @summary Proxy Resource
+ */
+export interface ProxyResource extends Resource {
+}
+
+/**
+ * The resource model definition for an Azure Resource Manager tracked top level resource which has
+ * 'tags' and a 'location'
+ * @summary Tracked Resource
+ */
+export interface TrackedResource extends Resource {
+  /**
+   * Resource tags.
+   */
+  tags?: { [propertyName: string]: string };
+  /**
+   * The geo-location where the resource lives
+   */
+  location: string;
+}
+
+/**
+ * The resource model definition for an Azure Resource Manager resource with an etag.
+ * @summary Entity Resource
+ */
+export interface AzureEntityResource extends Resource {
+  /**
+   * Resource Etag.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly etag?: string;
+}
+
+/**
  * Additional parameters for a set of operations.
  */
 export interface QueryOptions {
@@ -1464,6 +1840,36 @@ export interface PolicyMetadataListOptionalParams extends msRest.RequestOptionsB
 }
 
 /**
+ * Optional Parameters.
+ */
+export interface AttestationsListForSubscriptionOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Additional parameters for the operation
+   */
+  queryOptions?: QueryOptions;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface AttestationsListForResourceGroupOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Additional parameters for the operation
+   */
+  queryOptions?: QueryOptions;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface AttestationsListForResourceOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Additional parameters for the operation
+   */
+  queryOptions?: QueryOptions;
+}
+
+/**
  * An interface representing PolicyInsightsClientOptions.
  */
 export interface PolicyInsightsClientOptions extends AzureServiceClientOptions {
@@ -1563,12 +1969,49 @@ export interface PolicyMetadataCollection extends Array<SlimPolicyMetadata> {
 }
 
 /**
+ * @interface
+ * List of attestations.
+ * @extends Array<Attestation>
+ */
+export interface AttestationListResult extends Array<Attestation> {
+  /**
+   * The URL to get the next set of results.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
  * Defines values for ResourceDiscoveryMode.
  * Possible values include: 'ExistingNonCompliant', 'ReEvaluateCompliance'
  * @readonly
  * @enum {string}
  */
 export type ResourceDiscoveryMode = 'ExistingNonCompliant' | 'ReEvaluateCompliance';
+
+/**
+ * Defines values for CreatedByType.
+ * Possible values include: 'User', 'Application', 'ManagedIdentity', 'Key'
+ * @readonly
+ * @enum {string}
+ */
+export type CreatedByType = 'User' | 'Application' | 'ManagedIdentity' | 'Key';
+
+/**
+ * Defines values for FieldRestrictionResult.
+ * Possible values include: 'Required', 'Removed', 'Deny'
+ * @readonly
+ * @enum {string}
+ */
+export type FieldRestrictionResult = 'Required' | 'Removed' | 'Deny';
+
+/**
+ * Defines values for ComplianceState.
+ * Possible values include: 'Compliant', 'NonCompliant', 'Unknown'
+ * @readonly
+ * @enum {string}
+ */
+export type ComplianceState = 'Compliant' | 'NonCompliant' | 'Unknown';
 
 /**
  * Defines values for PolicyStatesResource.
@@ -2539,9 +2982,9 @@ export type PolicyEventsListQueryResultsForResourceGroupLevelPolicyAssignmentRes
 };
 
 /**
- * Contains response data for the listQueryResultsForManagementGroupNext operation.
+ * Contains response data for the nextLink operation.
  */
-export type PolicyEventsListQueryResultsForManagementGroupNextResponse = PolicyEventsQueryResults & {
+export type PolicyEventsNextLinkResponse = PolicyEventsQueryResults & {
   /**
    * The underlying HTTP response.
    */
@@ -2559,9 +3002,9 @@ export type PolicyEventsListQueryResultsForManagementGroupNextResponse = PolicyE
 };
 
 /**
- * Contains response data for the listQueryResultsForSubscriptionNext operation.
+ * Contains response data for the nextLink1 operation.
  */
-export type PolicyEventsListQueryResultsForSubscriptionNextResponse = PolicyEventsQueryResults & {
+export type PolicyEventsNextLink1Response = PolicyEventsQueryResults & {
   /**
    * The underlying HTTP response.
    */
@@ -2579,9 +3022,9 @@ export type PolicyEventsListQueryResultsForSubscriptionNextResponse = PolicyEven
 };
 
 /**
- * Contains response data for the listQueryResultsForResourceGroupNext operation.
+ * Contains response data for the nextLink2 operation.
  */
-export type PolicyEventsListQueryResultsForResourceGroupNextResponse = PolicyEventsQueryResults & {
+export type PolicyEventsNextLink2Response = PolicyEventsQueryResults & {
   /**
    * The underlying HTTP response.
    */
@@ -2599,9 +3042,9 @@ export type PolicyEventsListQueryResultsForResourceGroupNextResponse = PolicyEve
 };
 
 /**
- * Contains response data for the listQueryResultsForResourceNext operation.
+ * Contains response data for the nextLink3 operation.
  */
-export type PolicyEventsListQueryResultsForResourceNextResponse = PolicyEventsQueryResults & {
+export type PolicyEventsNextLink3Response = PolicyEventsQueryResults & {
   /**
    * The underlying HTTP response.
    */
@@ -2619,9 +3062,9 @@ export type PolicyEventsListQueryResultsForResourceNextResponse = PolicyEventsQu
 };
 
 /**
- * Contains response data for the listQueryResultsForPolicySetDefinitionNext operation.
+ * Contains response data for the nextLink4 operation.
  */
-export type PolicyEventsListQueryResultsForPolicySetDefinitionNextResponse = PolicyEventsQueryResults & {
+export type PolicyEventsNextLink4Response = PolicyEventsQueryResults & {
   /**
    * The underlying HTTP response.
    */
@@ -2639,9 +3082,9 @@ export type PolicyEventsListQueryResultsForPolicySetDefinitionNextResponse = Pol
 };
 
 /**
- * Contains response data for the listQueryResultsForPolicyDefinitionNext operation.
+ * Contains response data for the nextLink5 operation.
  */
-export type PolicyEventsListQueryResultsForPolicyDefinitionNextResponse = PolicyEventsQueryResults & {
+export type PolicyEventsNextLink5Response = PolicyEventsQueryResults & {
   /**
    * The underlying HTTP response.
    */
@@ -2659,10 +3102,9 @@ export type PolicyEventsListQueryResultsForPolicyDefinitionNextResponse = Policy
 };
 
 /**
- * Contains response data for the listQueryResultsForSubscriptionLevelPolicyAssignmentNext
- * operation.
+ * Contains response data for the nextLink6 operation.
  */
-export type PolicyEventsListQueryResultsForSubscriptionLevelPolicyAssignmentNextResponse = PolicyEventsQueryResults & {
+export type PolicyEventsNextLink6Response = PolicyEventsQueryResults & {
   /**
    * The underlying HTTP response.
    */
@@ -2680,10 +3122,9 @@ export type PolicyEventsListQueryResultsForSubscriptionLevelPolicyAssignmentNext
 };
 
 /**
- * Contains response data for the listQueryResultsForResourceGroupLevelPolicyAssignmentNext
- * operation.
+ * Contains response data for the nextLink7 operation.
  */
-export type PolicyEventsListQueryResultsForResourceGroupLevelPolicyAssignmentNextResponse = PolicyEventsQueryResults & {
+export type PolicyEventsNextLink7Response = PolicyEventsQueryResults & {
   /**
    * The underlying HTTP response.
    */
@@ -3021,9 +3462,9 @@ export type PolicyStatesSummarizeForResourceGroupLevelPolicyAssignmentResponse =
 };
 
 /**
- * Contains response data for the listQueryResultsForManagementGroupNext operation.
+ * Contains response data for the nextLink operation.
  */
-export type PolicyStatesListQueryResultsForManagementGroupNextResponse = PolicyStatesQueryResults & {
+export type PolicyStatesNextLinkResponse = PolicyStatesQueryResults & {
   /**
    * The underlying HTTP response.
    */
@@ -3041,9 +3482,9 @@ export type PolicyStatesListQueryResultsForManagementGroupNextResponse = PolicyS
 };
 
 /**
- * Contains response data for the listQueryResultsForSubscriptionNext operation.
+ * Contains response data for the nextLink1 operation.
  */
-export type PolicyStatesListQueryResultsForSubscriptionNextResponse = PolicyStatesQueryResults & {
+export type PolicyStatesNextLink1Response = PolicyStatesQueryResults & {
   /**
    * The underlying HTTP response.
    */
@@ -3061,9 +3502,9 @@ export type PolicyStatesListQueryResultsForSubscriptionNextResponse = PolicyStat
 };
 
 /**
- * Contains response data for the listQueryResultsForResourceGroupNext operation.
+ * Contains response data for the nextLink2 operation.
  */
-export type PolicyStatesListQueryResultsForResourceGroupNextResponse = PolicyStatesQueryResults & {
+export type PolicyStatesNextLink2Response = PolicyStatesQueryResults & {
   /**
    * The underlying HTTP response.
    */
@@ -3081,9 +3522,9 @@ export type PolicyStatesListQueryResultsForResourceGroupNextResponse = PolicySta
 };
 
 /**
- * Contains response data for the listQueryResultsForResourceNext operation.
+ * Contains response data for the nextLink3 operation.
  */
-export type PolicyStatesListQueryResultsForResourceNextResponse = PolicyStatesQueryResults & {
+export type PolicyStatesNextLink3Response = PolicyStatesQueryResults & {
   /**
    * The underlying HTTP response.
    */
@@ -3101,9 +3542,9 @@ export type PolicyStatesListQueryResultsForResourceNextResponse = PolicyStatesQu
 };
 
 /**
- * Contains response data for the listQueryResultsForPolicySetDefinitionNext operation.
+ * Contains response data for the nextLink4 operation.
  */
-export type PolicyStatesListQueryResultsForPolicySetDefinitionNextResponse = PolicyStatesQueryResults & {
+export type PolicyStatesNextLink4Response = PolicyStatesQueryResults & {
   /**
    * The underlying HTTP response.
    */
@@ -3121,9 +3562,9 @@ export type PolicyStatesListQueryResultsForPolicySetDefinitionNextResponse = Pol
 };
 
 /**
- * Contains response data for the listQueryResultsForPolicyDefinitionNext operation.
+ * Contains response data for the nextLink5 operation.
  */
-export type PolicyStatesListQueryResultsForPolicyDefinitionNextResponse = PolicyStatesQueryResults & {
+export type PolicyStatesNextLink5Response = PolicyStatesQueryResults & {
   /**
    * The underlying HTTP response.
    */
@@ -3141,10 +3582,9 @@ export type PolicyStatesListQueryResultsForPolicyDefinitionNextResponse = Policy
 };
 
 /**
- * Contains response data for the listQueryResultsForSubscriptionLevelPolicyAssignmentNext
- * operation.
+ * Contains response data for the nextLink6 operation.
  */
-export type PolicyStatesListQueryResultsForSubscriptionLevelPolicyAssignmentNextResponse = PolicyStatesQueryResults & {
+export type PolicyStatesNextLink6Response = PolicyStatesQueryResults & {
   /**
    * The underlying HTTP response.
    */
@@ -3162,10 +3602,9 @@ export type PolicyStatesListQueryResultsForSubscriptionLevelPolicyAssignmentNext
 };
 
 /**
- * Contains response data for the listQueryResultsForResourceGroupLevelPolicyAssignmentNext
- * operation.
+ * Contains response data for the nextLink7 operation.
  */
-export type PolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentNextResponse = PolicyStatesQueryResults & {
+export type PolicyStatesNextLink7Response = PolicyStatesQueryResults & {
   /**
    * The underlying HTTP response.
    */
@@ -3259,5 +3698,345 @@ export type PolicyMetadataListNextResponse = PolicyMetadataCollection & {
        * The response body as parsed JSON or XML
        */
       parsedBody: PolicyMetadataCollection;
+    };
+};
+
+/**
+ * Contains response data for the checkAtSubscriptionScope operation.
+ */
+export type PolicyRestrictionsCheckAtSubscriptionScopeResponse = CheckRestrictionsResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CheckRestrictionsResult;
+    };
+};
+
+/**
+ * Contains response data for the checkAtResourceGroupScope operation.
+ */
+export type PolicyRestrictionsCheckAtResourceGroupScopeResponse = CheckRestrictionsResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CheckRestrictionsResult;
+    };
+};
+
+/**
+ * Contains response data for the listForSubscription operation.
+ */
+export type AttestationsListForSubscriptionResponse = AttestationListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AttestationListResult;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdateAtSubscription operation.
+ */
+export type AttestationsCreateOrUpdateAtSubscriptionResponse = Attestation & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Attestation;
+    };
+};
+
+/**
+ * Contains response data for the getAtSubscription operation.
+ */
+export type AttestationsGetAtSubscriptionResponse = Attestation & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Attestation;
+    };
+};
+
+/**
+ * Contains response data for the listForResourceGroup operation.
+ */
+export type AttestationsListForResourceGroupResponse = AttestationListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AttestationListResult;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdateAtResourceGroup operation.
+ */
+export type AttestationsCreateOrUpdateAtResourceGroupResponse = Attestation & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Attestation;
+    };
+};
+
+/**
+ * Contains response data for the getAtResourceGroup operation.
+ */
+export type AttestationsGetAtResourceGroupResponse = Attestation & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Attestation;
+    };
+};
+
+/**
+ * Contains response data for the listForResource operation.
+ */
+export type AttestationsListForResourceResponse = AttestationListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AttestationListResult;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdateAtResource operation.
+ */
+export type AttestationsCreateOrUpdateAtResourceResponse = Attestation & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Attestation;
+    };
+};
+
+/**
+ * Contains response data for the getAtResource operation.
+ */
+export type AttestationsGetAtResourceResponse = Attestation & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Attestation;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateOrUpdateAtSubscription operation.
+ */
+export type AttestationsBeginCreateOrUpdateAtSubscriptionResponse = Attestation & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Attestation;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateOrUpdateAtResourceGroup operation.
+ */
+export type AttestationsBeginCreateOrUpdateAtResourceGroupResponse = Attestation & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Attestation;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateOrUpdateAtResource operation.
+ */
+export type AttestationsBeginCreateOrUpdateAtResourceResponse = Attestation & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Attestation;
+    };
+};
+
+/**
+ * Contains response data for the listForSubscriptionNext operation.
+ */
+export type AttestationsListForSubscriptionNextResponse = AttestationListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AttestationListResult;
+    };
+};
+
+/**
+ * Contains response data for the listForResourceGroupNext operation.
+ */
+export type AttestationsListForResourceGroupNextResponse = AttestationListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AttestationListResult;
+    };
+};
+
+/**
+ * Contains response data for the listForResourceNext operation.
+ */
+export type AttestationsListForResourceNextResponse = AttestationListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AttestationListResult;
     };
 };
