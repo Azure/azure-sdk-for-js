@@ -59,7 +59,8 @@
     "mocha": "^7.1.1",
     "@azure-tools/test-recorder": "^1.0.0",
     "tslib": "^2.2.0",
-    "@azure/core-tracing": "1.0.0-preview.14"
+    "@azure/core-tracing": "1.0.0-preview.14",
+    "@opentelemetry/api": "^1.0.3"
   },
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
