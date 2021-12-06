@@ -5,11 +5,11 @@
  * @summary Uses a CertificateClient in various ways to read a certificate as well as update a certificate's tags.
  */
 
-import { CertificateClient, DefaultCertificatePolicy } from "@azure/keyvault-certificates";
+import { CertificateClient, DefaultCertificatePolicy,
+  UpdateCertificateOptions,
+  CertificatePolicy } from "@azure/keyvault-certificates";
 import {
-  DefaultAzureCredential,
-  UpdateCertificatePropertiesOptions,
-  CertificatePolicy
+  DefaultAzureCredential
 } from "@azure/identity";
 
 // Load the .env file if it exists
@@ -57,7 +57,7 @@ export async function main(): Promise<void> {
 
   // Update certificate properties
   const version = ""; // latest certificate
-  const properties: UpdateCertificatePropertiesOptions = {
+  const properties: UpdateCertificateOptions = {
     tags: {
       projectName: "certificate-sample",
       projectOwner: "REPLACE-WITH-YOUR-NAME"
