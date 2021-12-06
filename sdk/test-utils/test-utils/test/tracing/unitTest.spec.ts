@@ -3,8 +3,13 @@
 
 // Pretend this is a real client with real methods - like QueryLogsClient
 
-import { createTracingClient, TracingClient } from "@azure/core-tracing";
-import { TestTracingSpan, TestInstrumeter, ContextImpl } from "../../src";
+import {
+  createTracingClient,
+  TracingClient,
+  TracingSpanOptions,
+  useInstrumenter
+} from "@azure/core-tracing";
+import { TestTracingSpan, TestInstrumenter, ContextImpl } from "../../src";
 import { assert } from "chai";
 
 describe("TestTracingSpan", function() {
@@ -39,9 +44,9 @@ describe("TestTracingSpan", function() {
 
 // do the same for all methods in testInstrumenter...
 describe("TestInstrumenter", function() {
-  let instrumenter: TestInstrumeter;
+  let instrumenter: TestInstrumenter;
   beforeEach(function() {
-    instrumenter = new TestInstrumeter();
+    instrumenter = new TestInstrumenter();
   });
   describe("#startSpan", function() {
     it("starts a span and adds to startedSpans array", function() {
@@ -98,17 +103,30 @@ describe("TestInstrumenter", function() {
 // do the same using MockCLientToTest and withSpan
 
 describe("TestInstrumenter with MockClient", function() {
-  let instrumenter: TestInstrumeter;
+  let instrumenter: TestInstrumenter;
   let client: MockClientToTest;
   beforeEach(function() {
-    instrumenter = new TestInstrumeter();
+    instrumenter = new TestInstrumenter();
+    useInstrumenter(instrumenter);
     client = new MockClientToTest();
   });
   describe("#startSpan", function() {
-    it("starts a span and adds to startedSpans array", function() {
-      client.mockGetMethod();
+    it("starts a span and adds to startedSpans array", async function() {
+      await client.mockGetMethod();
       assert.equal(instrumenter.startedSpans.length, 1);
       assert.equal(instrumenter.startedSpans[0].name, "MockClientToTest.mockGetMethod");
+    });
+    // how to set tracing context??
+    it("returns a new context with existing attributes", async function() {
+      const existingContext = new ContextImpl().setValue(Symbol.for("foo"), "bar");
+      const options = {
+        record: { key: "value" },
+        tracingOptions: {
+          tracingContext: existingContext
+        }
+      };
+      await client.mockSetMethod(options);
+      console.log(instrumenter.startedSpans[0]);
     });
   });
 });
@@ -129,24 +147,34 @@ export class MockClientToTest {
     });
   }
   // const myOperationResult = await withSpan("myClassName.myOperationName", (updatedOptions) => myOperation(updatedOptions), options);
-  async mockSetMethod() {
+  async mockSetMethod(record: any, options?: any) {
     // TODO: how to pass in span options or tracing options??
     // TODO: isn't the 2nd argument supposed to be the options for the callback??
-    const options = {
-      record: { key: "value" },
-      // TODO: without this being empty it complains - if i don't want to pass in anything
-      tracingOptions: {}
-    };
 
-    return this.tracingClient.withSpan("MockClientToTest.mockSetMethod", options, (options) => {
-      this.record = options.record;
-    });
+    return this.tracingClient.withSpan(
+      "MockClientToTest.mockSetMethod",
+      options,
+      (updatedOptions, span) => {
+        console.log(updatedOptions.tracingOptions.tracingContext);
+        console.log(span);
+        console.log(span.spanContext);
+        this.record = record;
+      },
+      {
+        spanKind: "consumer"
+      }
+    );
   }
 
-  async mockGetMethod() {
-    return this.tracingClient.withSpan("MockClientToTest.mockGetMethod", {}, () => {
-      return this.record;
-    });
+  async mockGetMethod(options?: any, spanOptions?: TracingSpanOptions) {
+    return this.tracingClient.withSpan(
+      "MockClientToTest.mockGetMethod",
+      options,
+      () => {
+        return this.record;
+      },
+      spanOptions
+    );
   }
 }
 

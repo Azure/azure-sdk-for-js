@@ -1,12 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TracingSpan, SpanStatus } from "@azure/core-tracing";
+import { TracingSpan, SpanStatus, TracingSpanOptions, TracingSpanKind } from "@azure/core-tracing";
 
 export class TestTracingSpan implements TracingSpan {
   name: string;
-  constructor(name: string) {
+  spanKind: TracingSpanKind | undefined;
+
+  constructor(name: string, spanOptions?: TracingSpanOptions) {
     this.name = name;
+    this.spanKind = spanOptions?.spanKind;
   }
   spanStatus?: SpanStatus;
   attributes: Record<string, unknown> = {};

@@ -11,7 +11,7 @@ import {
 import { ContextImpl } from "./contextImpl";
 import { TestTracingSpan } from "./testTracingSpan";
 
-export class TestInstrumeter implements Instrumenter {
+export class TestInstrumenter implements Instrumenter {
   public contexts: TracingContext[] = [new ContextImpl()];
   public startedSpans: TestTracingSpan[] = [];
 
@@ -20,7 +20,7 @@ export class TestInstrumeter implements Instrumenter {
     name: string,
     spanOptions?: InstrumenterSpanOptions
   ): { span: TracingSpan; tracingContext: TracingContext } {
-    const span = new TestTracingSpan(name);
+    const span = new TestTracingSpan(name, spanOptions);
     let context: TracingContext = new ContextImpl(spanOptions?.tracingContext);
     context = context.setValue(Symbol.for("span"), span);
     this.startedSpans.push(span);
