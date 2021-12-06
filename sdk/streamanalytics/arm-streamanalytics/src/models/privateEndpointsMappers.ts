@@ -69,9 +69,14 @@ export {
   PrivateLinkConnectionState,
   PrivateLinkServiceConnection,
   ProxyResource,
+  QueryTestingResult,
+  RawOutputDatasource,
+  RawReferenceInputDataSource,
+  RawStreamInputDataSource,
   ReferenceInputDataSource,
   ReferenceInputProperties,
   Resource,
+  SampleInputResult,
   ScalarFunctionProperties,
   Serialization,
   ServiceBusQueueOutputDataSource,
@@ -83,6 +88,7 @@ export {
   StreamInputProperties,
   SubResource,
   SubscriptionQuota,
+  TestDatasourceResult,
   TrackedResource,
   Transformation
 } from "../models/mappers";

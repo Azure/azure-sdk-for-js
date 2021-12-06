@@ -8,6 +8,7 @@
  */
 
 import * as msRest from "@azure/ms-rest-js";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/subscriptionsMappers";
 import * as Parameters from "../models/parameters";
@@ -27,24 +28,21 @@ export class Subscriptions {
 
   /**
    * Retrieves the subscription's current quota information in a particular region.
-   * @param location The region in which to retrieve the subscription's quota information. You can
-   * find out which regions Azure Stream Analytics is supported in here:
-   * https://azure.microsoft.com/en-us/regions/
+   * @param location The region to which the request is sent. You can find out which regions Azure
+   * Stream Analytics is supported in here: https://azure.microsoft.com/en-us/regions/
    * @param [options] The optional parameters
    * @returns Promise<Models.SubscriptionsListQuotasResponse>
    */
   listQuotas(location: string, options?: msRest.RequestOptionsBase): Promise<Models.SubscriptionsListQuotasResponse>;
   /**
-   * @param location The region in which to retrieve the subscription's quota information. You can
-   * find out which regions Azure Stream Analytics is supported in here:
-   * https://azure.microsoft.com/en-us/regions/
+   * @param location The region to which the request is sent. You can find out which regions Azure
+   * Stream Analytics is supported in here: https://azure.microsoft.com/en-us/regions/
    * @param callback The callback
    */
   listQuotas(location: string, callback: msRest.ServiceCallback<Models.SubscriptionQuotasListResult>): void;
   /**
-   * @param location The region in which to retrieve the subscription's quota information. You can
-   * find out which regions Azure Stream Analytics is supported in here:
-   * https://azure.microsoft.com/en-us/regions/
+   * @param location The region to which the request is sent. You can find out which regions Azure
+   * Stream Analytics is supported in here: https://azure.microsoft.com/en-us/regions/
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -57,6 +55,176 @@ export class Subscriptions {
       },
       listQuotasOperationSpec,
       callback) as Promise<Models.SubscriptionsListQuotasResponse>;
+  }
+
+  /**
+   * Test the Stream Analytics query on a sample input.
+   * @param testQuery The query testing object that defines the input, output, and transformation for
+   * the query testing.
+   * @param location The region to which the request is sent. You can find out which regions Azure
+   * Stream Analytics is supported in here: https://azure.microsoft.com/en-us/regions/
+   * @param [options] The optional parameters
+   * @returns Promise<Models.SubscriptionsTestQueryMethodResponse>
+   */
+  testQueryMethod(testQuery: Models.TestQuery, location: string, options?: msRest.RequestOptionsBase): Promise<Models.SubscriptionsTestQueryMethodResponse> {
+    return this.beginTestQueryMethod(testQuery,location,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.SubscriptionsTestQueryMethodResponse>;
+  }
+
+  /**
+   * Compile the Stream Analytics query.
+   * @param compileQuery The query compilation object which defines the input, output, and
+   * transformation for the query compilation.
+   * @param location The region to which the request is sent. You can find out which regions Azure
+   * Stream Analytics is supported in here: https://azure.microsoft.com/en-us/regions/
+   * @param [options] The optional parameters
+   * @returns Promise<Models.SubscriptionsCompileQueryMethodResponse>
+   */
+  compileQueryMethod(compileQuery: Models.CompileQuery, location: string, options?: msRest.RequestOptionsBase): Promise<Models.SubscriptionsCompileQueryMethodResponse>;
+  /**
+   * @param compileQuery The query compilation object which defines the input, output, and
+   * transformation for the query compilation.
+   * @param location The region to which the request is sent. You can find out which regions Azure
+   * Stream Analytics is supported in here: https://azure.microsoft.com/en-us/regions/
+   * @param callback The callback
+   */
+  compileQueryMethod(compileQuery: Models.CompileQuery, location: string, callback: msRest.ServiceCallback<Models.QueryCompilationResult>): void;
+  /**
+   * @param compileQuery The query compilation object which defines the input, output, and
+   * transformation for the query compilation.
+   * @param location The region to which the request is sent. You can find out which regions Azure
+   * Stream Analytics is supported in here: https://azure.microsoft.com/en-us/regions/
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  compileQueryMethod(compileQuery: Models.CompileQuery, location: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.QueryCompilationResult>): void;
+  compileQueryMethod(compileQuery: Models.CompileQuery, location: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.QueryCompilationResult>, callback?: msRest.ServiceCallback<Models.QueryCompilationResult>): Promise<Models.SubscriptionsCompileQueryMethodResponse> {
+    return this.client.sendOperationRequest(
+      {
+        compileQuery,
+        location,
+        options
+      },
+      compileQueryMethodOperationSpec,
+      callback) as Promise<Models.SubscriptionsCompileQueryMethodResponse>;
+  }
+
+  /**
+   * Sample the Stream Analytics input data.
+   * @param sampleInput Defines the necessary parameters for sampling the Stream Analytics input
+   * data.
+   * @param location The region to which the request is sent. You can find out which regions Azure
+   * Stream Analytics is supported in here: https://azure.microsoft.com/en-us/regions/
+   * @param [options] The optional parameters
+   * @returns Promise<Models.SubscriptionsSampleInputMethodResponse>
+   */
+  sampleInputMethod(sampleInput: Models.SampleInput, location: string, options?: msRest.RequestOptionsBase): Promise<Models.SubscriptionsSampleInputMethodResponse> {
+    return this.beginSampleInputMethod(sampleInput,location,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.SubscriptionsSampleInputMethodResponse>;
+  }
+
+  /**
+   * Test the Stream Analytics input.
+   * @param testInput Defines the necessary parameters for testing the Stream Analytics input.
+   * @param location The region to which the request is sent. You can find out which regions Azure
+   * Stream Analytics is supported in here: https://azure.microsoft.com/en-us/regions/
+   * @param [options] The optional parameters
+   * @returns Promise<Models.SubscriptionsTestInputMethodResponse>
+   */
+  testInputMethod(testInput: Models.TestInput, location: string, options?: msRest.RequestOptionsBase): Promise<Models.SubscriptionsTestInputMethodResponse> {
+    return this.beginTestInputMethod(testInput,location,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.SubscriptionsTestInputMethodResponse>;
+  }
+
+  /**
+   * Test the Stream Analytics output.
+   * @param testOutput Defines the necessary parameters for testing the Stream Analytics output.
+   * @param location The region to which the request is sent. You can find out which regions Azure
+   * Stream Analytics is supported in here: https://azure.microsoft.com/en-us/regions/
+   * @param [options] The optional parameters
+   * @returns Promise<Models.SubscriptionsTestOutputMethodResponse>
+   */
+  testOutputMethod(testOutput: Models.TestOutput, location: string, options?: msRest.RequestOptionsBase): Promise<Models.SubscriptionsTestOutputMethodResponse> {
+    return this.beginTestOutputMethod(testOutput,location,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.SubscriptionsTestOutputMethodResponse>;
+  }
+
+  /**
+   * Test the Stream Analytics query on a sample input.
+   * @param testQuery The query testing object that defines the input, output, and transformation for
+   * the query testing.
+   * @param location The region to which the request is sent. You can find out which regions Azure
+   * Stream Analytics is supported in here: https://azure.microsoft.com/en-us/regions/
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginTestQueryMethod(testQuery: Models.TestQuery, location: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        testQuery,
+        location,
+        options
+      },
+      beginTestQueryMethodOperationSpec,
+      options);
+  }
+
+  /**
+   * Sample the Stream Analytics input data.
+   * @param sampleInput Defines the necessary parameters for sampling the Stream Analytics input
+   * data.
+   * @param location The region to which the request is sent. You can find out which regions Azure
+   * Stream Analytics is supported in here: https://azure.microsoft.com/en-us/regions/
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginSampleInputMethod(sampleInput: Models.SampleInput, location: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        sampleInput,
+        location,
+        options
+      },
+      beginSampleInputMethodOperationSpec,
+      options);
+  }
+
+  /**
+   * Test the Stream Analytics input.
+   * @param testInput Defines the necessary parameters for testing the Stream Analytics input.
+   * @param location The region to which the request is sent. You can find out which regions Azure
+   * Stream Analytics is supported in here: https://azure.microsoft.com/en-us/regions/
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginTestInputMethod(testInput: Models.TestInput, location: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        testInput,
+        location,
+        options
+      },
+      beginTestInputMethodOperationSpec,
+      options);
+  }
+
+  /**
+   * Test the Stream Analytics output.
+   * @param testOutput Defines the necessary parameters for testing the Stream Analytics output.
+   * @param location The region to which the request is sent. You can find out which regions Azure
+   * Stream Analytics is supported in here: https://azure.microsoft.com/en-us/regions/
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginTestOutputMethod(testOutput: Models.TestOutput, location: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        testOutput,
+        location,
+        options
+      },
+      beginTestOutputMethodOperationSpec,
+      options);
   }
 }
 
@@ -80,7 +248,163 @@ const listQuotasOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.SubscriptionQuotasListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorModel
+    }
+  },
+  serializer
+};
+
+const compileQueryMethodOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/providers/Microsoft.StreamAnalytics/locations/{location}/compileQuery",
+  urlParameters: [
+    Parameters.location,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "compileQuery",
+    mapper: {
+      ...Mappers.CompileQuery,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.QueryCompilationResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorModel
+    }
+  },
+  serializer
+};
+
+const beginTestQueryMethodOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/providers/Microsoft.StreamAnalytics/locations/{location}/testQuery",
+  urlParameters: [
+    Parameters.location,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "testQuery",
+    mapper: {
+      ...Mappers.TestQuery,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.QueryTestingResult
+    },
+    202: {},
+    default: {
+      bodyMapper: Mappers.ErrorModel
+    }
+  },
+  serializer
+};
+
+const beginSampleInputMethodOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/providers/Microsoft.StreamAnalytics/locations/{location}/sampleInput",
+  urlParameters: [
+    Parameters.location,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "sampleInput",
+    mapper: {
+      ...Mappers.SampleInput,
+      required: true
+    }
+  },
+  responses: {
+    202: {
+      bodyMapper: Mappers.SampleInputResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorModel
+    }
+  },
+  serializer
+};
+
+const beginTestInputMethodOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/providers/Microsoft.StreamAnalytics/locations/{location}/testInput",
+  urlParameters: [
+    Parameters.location,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "testInput",
+    mapper: {
+      ...Mappers.TestInput,
+      required: true
+    }
+  },
+  responses: {
+    202: {
+      bodyMapper: Mappers.TestDatasourceResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorModel
+    }
+  },
+  serializer
+};
+
+const beginTestOutputMethodOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/providers/Microsoft.StreamAnalytics/locations/{location}/testOutput",
+  urlParameters: [
+    Parameters.location,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "testOutput",
+    mapper: {
+      ...Mappers.TestOutput,
+      required: true
+    }
+  },
+  responses: {
+    202: {
+      bodyMapper: Mappers.TestDatasourceResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorModel
     }
   },
   serializer
