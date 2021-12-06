@@ -21,6 +21,7 @@ const log = createPrinter("samples:processor");
  * during sample publication.
  */
 const SYNTAX_VIABILITY_TESTS = {
+  // This is just not possible to support due to the way we track dependency usage in samples.
   CommonJS: {
     // require(<not a literal string>)
     DynamicRequire: (node: ts.Node) =>
@@ -29,28 +30,32 @@ const SYNTAX_VIABILITY_TESTS = {
       node.expression.text === "require" &&
       !ts.isStringLiteral(node.arguments[0]),
   },
+  // These are not supported because they are niche syntaxes that are difficult to represent in CommonJS. Samples cannot
+  // rely on these to work, so we will just deny them.
   ESModule: {
     // TODO: this is difficult to support well, but we could do it by enforcing that the RHS is a static require call
     ImportEquals: ts.isImportEqualsDeclaration,
     // These are possible to support, but samples that really need them should probably have their own unique setup
     // export { ... }, export foo from "bar", export * as foo from "bar", and export { ... } from "foo";
+    //
+    // NOTE: This does not refer to exported function/class/variable declarations.
     ExportDeclaration: ts.isExportDeclaration,
-    // export = { ... }
+    // export = { ... }, export default <expression>;
+    // Doesn't apply to `export default function` or `export default class`
     ExportAssignment: ts.isExportAssignment,
-  },
-  ES2020: {
-    // 1n
-    BigInt: ts.isBigIntLiteral,
     // import("foo")
     ImportExpression: (node: ts.Node) =>
       ts.isCallExpression(node) && node.expression.kind === ts.SyntaxKind.ImportKeyword,
+  },
+  // Supported in Node 14+
+  ES2020: {
     // foo ?? bar
     NullishCoalesce: ts.isNullishCoalesce,
     // foo?.bar, foo?.(bar), and foo?.[bar]
     OptionalChain: ts.isOptionalChain,
   },
   ES2021: {
-    // x ??= y, x ||= y, and x &&= y
+    // x ??= y, x ||= y, and x &&= y (Node 15+)
     ShorthandAssignment: (node: ts.Node) =>
       ts.isBinaryExpression(node) &&
       [
@@ -58,19 +63,19 @@ const SYNTAX_VIABILITY_TESTS = {
         ts.SyntaxKind.BarBarEqualsToken,
         ts.SyntaxKind.QuestionQuestionEqualsToken,
       ].includes(node.operatorToken.kind),
-    // 1_000_000
+    // 1_000_000 (Node >= 12.8.0)
     NumericSeparator: (node: ts.Node) =>
       ts.isNumericLiteral(node) && !!node.getText().includes("_"),
   },
   ES2022: {
     // This is well-supported in TypeScript but is emitted as an assignment rather than a `static`
-    // static foo = "bar"
+    // static foo = "bar" (Node 12+, but not emitted as static by TypeScript)
     StaticField: (node: ts.Node) =>
       ts.isPropertyDeclaration(node) &&
       node.modifiers?.some((modifier) => modifier.kind === ts.SyntaxKind.StaticKeyword),
-    // #foo
+    // #foo (Node 14+)
     PrivateIdentifier: ts.isPrivateIdentifier,
-    // static { ... }
+    // static { ... } () (Node 17+)
     StaticInitializer: ts.isClassStaticBlockDeclaration,
   },
 } as const;
@@ -149,6 +154,12 @@ export interface SyntaxSupportError {
   suggest?: string;
 }
 
+/**
+ * Test a TypeScript syntax node for viability in the current Azure SDK support matrix.
+ *
+ * @param node - the node to test
+ * @returns an error or undefined (if the syntax node is okay)
+ */
 export function testSyntax(node: ts.Node): SyntaxSupportError | undefined {
   for (const [category, tests] of Object.entries(SYNTAX_VIABILITY_TESTS)) {
     for (const [syntaxName, test] of Object.entries(tests) as [SyntaxName, SyntaxTest][]) {

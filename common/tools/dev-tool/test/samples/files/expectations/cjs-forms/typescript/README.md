@@ -1,14 +1,14 @@
-# Azure Template client library samples for TypeScript
+# CommonJS client library samples for TypeScript
 
-These sample programs show how to use the TypeScript client libraries for Azure Template in some common scenarios.
+These sample programs show how to use the TypeScript client libraries for CommonJS in some common scenarios.
 
-| **File Name**                                         | **Description**                                                            |
-| ----------------------------------------------------- | -------------------------------------------------------------------------- |
-| [getConfigurationSetting.ts][getconfigurationsetting] | Demonstrates the use of a ConfigurationClient to retrieve a setting value. |
+| **File Name**     | **Description**                             |
+| ----------------- | ------------------------------------------- |
+| [index.ts][index] | validates several forms of CommonJS imports |
 
 ## Prerequisites
 
-The sample programs are compatible with Node.js >=12.0.0.
+The sample programs are compatible with [LTS versions of Node.js](https://nodejs.org/about/releases/).
 
 Before running the samples in Node, they must be compiled to JavaScript using the TypeScript compiler. For more information on TypeScript, see the [TypeScript documentation][typescript]. Install the TypeScript compiler using:
 
@@ -18,7 +18,7 @@ npm install -g typescript
 
 You need [an Azure subscription][freesub] and the following Azure resources to run these sample programs:
 
-- [Azure App Configuration][createinstance_azureappconfiguration]
+- [test][createinstance_test]
 
 Samples retrieve credentials to access the service endpoint from environment variables. Alternatively, edit the source code to include the appropriate credentials. See each individual sample for details on which environment variables/credentials it requires to function.
 
@@ -45,22 +45,22 @@ npm run build
 4. Run whichever samples you like (note that some samples may require additional setup, see the table above):
 
 ```bash
-node dist/getConfigurationSetting.ts
+node dist/index.js
 ```
 
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env APPCONFIG_ENDPOINT="<appconfig endpoint>" APPCONFIG_TEST_SETTING_KEY="<appconfig test setting key>" node dist/getConfigurationSetting.js
+npx cross-env WAIT_TIME="<wait time>" node dist/index.js
 ```
 
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[getconfigurationsetting]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/template/template/samples/v1/typescript/src/getConfigurationSetting.ts
-[apiref]: https://docs.microsoft.com/javascript/api/
+[index]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk//home/wtemple/Development/azure-sdk-for-js/common/tools/dev-tool/test/samples/files/inputs/cjs-forms/samples/v1/typescript/src/index.ts
+[apiref]: https://docs.microsoft.com/
 [freesub]: https://azure.microsoft.com/free/
-[createinstance_azureappconfiguration]: https://docs.microsoft.com/azure/azure-app-configuration/
-[package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/template/template/README.md
+[createinstance_test]: https://contoso.com
+[package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk//home/wtemple/Development/azure-sdk-for-js/common/tools/dev-tool/test/samples/files/inputs/cjs-forms/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

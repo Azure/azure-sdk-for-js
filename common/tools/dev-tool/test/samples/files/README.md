@@ -1,0 +1,34 @@
+## Azure dev-tool sample tests
+
+This directory holds test files for the sample tool. The `inputs` folder contains example sample folders, and the `expectations` folder should contain a directory with the exact same name.
+
+- inputs/ (each child of "inputs" should be like a "samples-dev" folder)
+  - a/
+    - config.json
+    - sampleB.ts
+  - b/
+    - config.json
+    - sampleB.ts
+- expectations/ (should mirror "inputs", but each folder should be like the output of sample generation)
+  - a/
+    - javascript/
+      - README.md
+      - ...
+    - typescript/
+      - README.md
+      - src/
+      - ...
+  - b/
+    - javascript/
+      - README.md
+      - ...
+    - typescript/
+      - README.md
+      - src/
+      - ...
+
+Instead of providing a `//sampleConfiguration` in a `package.json` file, a `config.json` containing _only_ the entries from the sample configuration should be placed in each input folder, e.g. `inputs/a/config.json`. These values will be passed to the generator.
+
+## Creating New Expectations
+
+You may edit the expectation files manually (for test-driven development purposes) or create new expectations by running the tests with `TEST_MODE=record`, just like when using the live test recorder. Running the sample test system in this mode is destructive (it will delete the whole `expectations` folder and replace it with whatever the current output of the tool is), but _it will refuse to run if the `expectations` folder is dirty (if it has changes in git -- note that it will still destroy **untracked** files)_.

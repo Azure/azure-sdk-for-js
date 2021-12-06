@@ -5,12 +5,15 @@
  * @summary Demonstrates the use of a ConfigurationClient to retrieve a setting value.
  */
 
-const { ConfigurationClient } = require("@azure/template");
-const { DefaultAzureCredential } = require("@azure/identity");
+import { ConfigurationClient } from "@azure/template";
+import { DefaultAzureCredential } from "@azure/identity";
 
-async function main() {
-  const endpoint = process.env.APPCONFIG_ENDPOINT ?? "<endpoint>";
-  const key = process.env.APPCONFIG_TEST_SETTING_KEY ?? "test-key";
+import * as dotenv from "dotenv";
+dotenv.config();
+
+export async function main() {
+  const endpoint = process.env.APPCONFIG_ENDPOINT || "<endpoint>";
+  const key = process.env.APPCONFIG_TEST_SETTING_KEY || "<test-key>";
 
   const client = new ConfigurationClient(endpoint, new DefaultAzureCredential());
 

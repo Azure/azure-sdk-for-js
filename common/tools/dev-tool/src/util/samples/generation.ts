@@ -1,222 +1,374 @@
-// Copyright (c) Microsoft Corporation
-// Licensed under the MIT license.
+import fs from "fs-extra";
+import { EOL } from "os";
+import path from "path";
+import { copy, dir, file, FileTreeFactory, safeClean, temp } from "../fileTree";
+import { findMatchingFiles } from "../findMatchingFiles";
+import { createPrinter } from "../printer";
+import { ProjectInfo } from "../resolveProject";
+import {
+  getSampleConfiguration,
+  MIN_SUPPORTED_NODE_VERSION,
+  SampleConfiguration,
+} from "./configuration";
+import {
+  AZSDK_META_TAG_PREFIX,
+  DEFAULT_TYPESCRIPT_CONFIG,
+  DEV_SAMPLES_BASE,
+  OutputKind,
+  PUBLIC_SAMPLES_BASE,
+  SampleGenerationInfo,
+} from "./info";
+import { processSources } from "./processor";
 
-/**
- * This module contains some types and helper values related to information
- * about generating samples.
- */
+import devToolPackageJson from "../../../package.json";
+import instantiateSampleReadme from "../../templates/sampleReadme.md";
 
-import { SampleConfiguration } from "./configuration";
+const log = createPrinter("generator");
 
-export const DEV_SAMPLES_BASE = "samples-dev";
-export const PUBLIC_SAMPLES_BASE = "samples";
-
-/**
- * Default TypeScript compiler configuration for sample projects.
- *
- * The default configuration targets ES2018 to support async iteration
- * by default with no `lib` entry.
- */
-export const DEFAULT_TYPESCRIPT_CONFIG = {
-  compilerOptions: {
-    target: "ES2018",
-    module: "commonjs",
-
-    moduleResolution: "node",
-    resolveJsonModule: true,
-
-    esModuleInterop: true,
-    allowSyntheticDefaultImports: true,
-
-    strict: true,
-    alwaysStrict: true,
-
-    outDir: "dist",
-    rootDir: "src",
-  },
-  include: ["src/**.ts"],
-};
-
-/**
- * The type of samples to output, either:
- * - "js" to output a plain JavaScript package, or
- * - "ts" to output a TypeScript package
- */
-export const enum OutputKind {
-  TypeScript = "ts",
-  JavaScript = "js",
-}
-
-/**
- * Information required for generating sample projects.
- */
-export interface SampleGenerationInfo extends SampleConfiguration {
-  /**
-   * The base part of the package name. For example, the base part of "@azure/template" is "template".
-   */
-  baseName: string;
-  /**
-   * Whether or not these samples are for a beta package.
-   */
-  isBeta?: boolean;
-  /**
-   * The product name that should be used for prose rendering. For example, the product name for
-   * @azure/template is "Azure Template", and the product name for @azure/ai-text-analytics is
-   * "Azure Text Analytics".
-   */
-  productName: string;
-  /**
-   * Optional link to the API reference. If not provided, one will be generated.
-   */
-  apiRefLink?: string;
-  /**
-   * The path to the project in the azure-sdk-for-js repo. For example, the repo path for
-   * @azure/template is "sdk/template/template". This should _NOT_ include a leading slash.
-   */
-  projectRepoPath: string;
-  /**
-   * The keywords associated with the project. For example ["azure", "cloud", "textanalytics", "typescript"];
-   */
-  packageKeywords: string[];
-  /**
-   * The path to the sample source files
-   */
-  sampleSourcesPath: string;
-  /**
-   * The top-level directory used for generating samples.
-   */
-  topLevelDirectory: string;
-  /**
-   * Information about each of the sample sources, including their text in TypeScript and JavaScript,
-   * as well as their dependencies.
-   */
-  moduleInfos: ModuleInfo[];
-  /**
-   * A function for computing the dependencies to include in a sample package.
-   *
-   * @param outputKind - the kind of the samples, either "ts" for TypeScript or "js" for JavaScript
-   * @returns - an object with `dependencies` and `devDependencies` keys containing the samples' dependencies
-   */
-  computeSampleDependencies(outputKind: OutputKind): {
-    dependencies: Record<string, string>;
-    devDependencies?: Record<string, string>;
+export function createPackageJson(info: SampleGenerationInfo, outputKind: OutputKind): unknown {
+  const fullOutputKind = outputKind === OutputKind.TypeScript ? "TypeScript" : "JavaScript";
+  return {
+    name: `azure-${info.baseName}-samples-${outputKind}${info.isBeta ? "-beta" : ""}`,
+    private: true,
+    version: "1.0.0",
+    description: `${info.productName} client library samples for ${fullOutputKind}${
+      info.isBeta ? " (Beta)" : ""
+    }`,
+    engines: {
+      node: `>=${MIN_SUPPORTED_NODE_VERSION}`,
+    },
+    ...(outputKind === OutputKind.TypeScript
+      ? {
+          // We only include these in TypeScript
+          scripts: {
+            build: "tsc",
+            prebuild: "rimraf dist/",
+          },
+        }
+      : {}),
+    repository: {
+      type: "git",
+      url: "git+https://github.com/Azure/azure-sdk-for-js.git",
+      directory: info.projectRepoPath,
+    },
+    keywords: info.packageKeywords,
+    author: "Microsoft Corporation",
+    license: "MIT",
+    bugs: {
+      url: "https://github.com/Azure/azure-sdk-for-js/issues",
+    },
+    homepage: `https://github.com/Azure/azure-sdk-for-js/tree/main/${info.projectRepoPath}`,
+    ...info.computeSampleDependencies(outputKind),
   };
 }
 
 /**
- * Information about a sample module (source file)
- */
-export interface ModuleInfo {
-  /**
-   * The absolute path to the source.
-   */
-  filePath: string;
-  /**
-   * The relative path to the source within the samples tree.
-   */
-  relativeSourcePath: string;
-  /**
-   * The contents of the source file.
-   */
-  text: string;
-  /**
-   * The transpiled JavaScript Module
-   */
-  jsModuleText: string;
-  /**
-   * The description provided by the first doc comment.
-   */
-  summary?: string;
-  /**
-   * A list of module specifiers that are imported by this
-   * source file.
-   */
-  importedModules: string[];
-  /**
-   * A list of the environment variables that the source file uses.
-   *
-   * These are determined by analyzing the source code for syntactic forms
-   * like:
-   *
-   * `process.env.<Identifier>` and `process.env[<StringLiteral>]`
-   */
-  usedEnvironmentVariables: string[];
-  /**
-   * The contents of any `azsdk` JSDoc directives encountered in the module header.
-   *
-   * {@see AzSdkMetaTags}
-   */
-  azSdkTags: AzSdkMetaTags;
-}
-
-/**
- * Information required to instantiate a sample README file.
- */
-export interface SampleReadmeConfiguration extends SampleGenerationInfo {
-  /**
-   * YAML frontmatter used for publication on docs.microsoft.com.
-   */
-  frontmatter: unknown;
-  /**
-   * Whether or not to add the TypeScript-specific bits.
-   */
-  useTypeScript: boolean;
-  /**
-   * The camera-ready samples directory name
-   */
-  publicationDirectory: string;
-}
-
-// #region AZSDK Metadata JSDoc Tags
-
-/**
- * Metainformation tags supported through `azsdk`-prefixed jsdoc tags.
+ * Processes a segmented module path to return the first segment. This is useful for packages that have nested imports
+ * such as "dayjs/plugin/duration".
  *
- * If you add a property to this type, then you should also add it to
- * {@link VALID_AZSDK_META_TAGS}.
+ * @param specifier - the module specifier to resolve to a package name
+ * @returns a package name
  */
-export interface AzSdkMetaTags {
-  /**
-   * The weight of the sample when generating its entry in the table.
-   *
-   * Weighted entries are sorted in decreasing order, and unweighted entries
-   * are assigned a default value of zero.
-   *
-   * This field is used to control the ordering of samples, to force certain
-   * samples to appear first when they would ordinarily appear later in the
-   * table alphabetically.
-   */
-  weight?: number;
-  /**
-   * Causes the sample file to be ignored entirely (will skip publication).
-   */
-  ignore?: boolean;
-  /**
-   * Causes the file to be omitted from the generated sample index (README).
-   */
-  util?: boolean;
-  /**
-   * Causes the sample file to skip JavaScript output.
-   */
-  "skip-javascript"?: boolean;
+function resolveModule(specifier: string): string {
+  const parts = specifier.split("/", 2);
+
+  // The first part could be a namespace, in which case we need to join them
+  if (parts.length > 1 && parts[0].startsWith("@")) return parts[0] + "/" + parts[1];
+  else return parts[0];
+}
+
+async function collect<T>(i: AsyncIterableIterator<T>): Promise<T[]> {
+  const out = [];
+
+  for await (const v of i) {
+    out.push(v);
+  }
+
+  return out;
 }
 
 /**
- * The prefix of an azsdk JSDoc metadata tag.
+ * Extracts the sample generation meta-information from the sample sources and
+ * configuration in package.json.
+ *
+ * This is the function that assembles all the information that the templates
+ * use to generate good output.
  */
-export const AZSDK_META_TAG_PREFIX = "azsdk-";
+export async function makeSampleGenerationInfo(
+  projectInfo: ProjectInfo,
+  sampleSourcesPath: string,
+  topLevelDirectory: string,
+  onError: () => void
+): Promise<SampleGenerationInfo> {
+  const sampleSources = await collect(
+    findMatchingFiles(sampleSourcesPath, (name) => name.endsWith(".ts"))
+  );
+
+  const sampleConfiguration = getSampleConfiguration(projectInfo.packageJson);
+
+  const baseName = projectInfo.name.split("/").slice(-1)[0];
+
+  log.debug("Determined project baseName:", baseName);
+
+  // A helper to handle configuration errors.
+  function fail(...values: unknown[]): never {
+    log.error(...values);
+    onError();
+    return undefined as never;
+  }
+
+  const moduleInfos = await processSources(sampleSourcesPath, sampleSources, fail);
+
+  const defaultDependencies: Record<string, string> = {
+    // If we are a beta package, use "next", otherwise we will use "latest"
+    [projectInfo.name]: projectInfo.version.includes("beta") ? "next" : "latest",
+    // We use this universally
+    dotenv: "latest",
+  };
+
+  const { packageJson } = projectInfo;
+
+  if (!sampleConfiguration.productSlugs && !sampleConfiguration.disableDocsMs) {
+    log.error("No extra product slugs provided (`productSlugs` in the sample configuration).");
+    log.warn(
+      "There is probably a more specific product that applies to this package! Reach out for help with the docs platform."
+    );
+    log.warn(
+      'If you do not want to publish samples to docs.microsoft.com, set `"disableDocsMs": true` in the sample configuration.'
+    );
+    onError();
+  }
+
+  return {
+    ...sampleConfiguration,
+    baseName,
+    packageKeywords:
+      projectInfo.packageJson.keywords ??
+      fail(`The package.json for ${projectInfo.name} does not specify "keywords".`),
+    projectRepoPath:
+      "sdk/" +
+      projectInfo.path
+        .split(path.sep + "sdk" + path.sep)
+        .slice(-1)[0]
+        .replace("\\", "/"),
+    // This'll be good enough most of the time, but products like Azure Form Recognizer will have
+    // to adjust using the sample configuration.
+    productName:
+      sampleConfiguration.productName ??
+      fail(`The sample configuration does not specify a "productName".`),
+    apiRefLink: sampleConfiguration.apiRefLink,
+    sampleSourcesPath,
+    topLevelDirectory,
+    moduleInfos,
+    // Resolve snippets to actual text
+    customSnippets: Object.entries(sampleConfiguration.customSnippets ?? {}).reduce(
+      (accum, [name, file]) => {
+        if (!file) {
+          return accum;
+        }
+
+        let contents;
+
+        try {
+          contents = fs.readFileSync(path.resolve(projectInfo.path, file));
+        } catch (ex) {
+          fail(`Failed to read custom snippet file '${file}'`, ex);
+        }
+        return {
+          ...accum,
+          [name]: contents,
+        };
+      },
+      {} as SampleConfiguration["customSnippets"]
+    ),
+    computeSampleDependencies(outputKind: OutputKind) {
+      // Store the `@types/*` packages the TS samples might need.
+      const typesDependencies: { [packageName: string]: string } = {};
+      return {
+        dependencies: moduleInfos.reduce((prev, source) => {
+          const current: Record<string, string> = {};
+          for (const dependency of source.importedModules.map(resolveModule)) {
+            if (prev[dependency] === undefined) {
+              const dependencyVersion =
+                sampleConfiguration.dependencyOverrides?.[dependency] ??
+                packageJson.devDependencies[dependency] ??
+                packageJson.dependencies[dependency];
+              if (dependencyVersion === undefined) {
+                log.error(
+                  `Dependency "${dependency}", imported by ${source.filePath}, has an unknown version. (Are you missing "./" for a relative path?)`
+                );
+                log.error(
+                  `Specify a version for "${dependency}" by including it in the package's "devDependencies".`
+                );
+              }
+
+              current[dependency] = dependencyVersion;
+              // It would be really weird to depend on `@types/*` in a source file but if we did
+              // it'd be handled above.
+              if (dependency.indexOf("@types/") !== 0) {
+                const typeDependency = `@types/${dependency}`;
+                const typeDependencyVersion =
+                  sampleConfiguration.dependencyOverrides?.[typeDependency] ??
+                  packageJson.devDependencies[typeDependency] ??
+                  packageJson.dependencies[typeDependency];
+
+                if (typeDependencyVersion) {
+                  typesDependencies[typeDependency] = typeDependencyVersion;
+                }
+              }
+            }
+          }
+          return {
+            ...prev,
+            ...current,
+          };
+        }, defaultDependencies),
+        ...(outputKind === OutputKind.TypeScript
+          ? {
+              // In TypeScript samples, we include TypeScript and `rimraf`, because they're used
+              // in the package scripts as well as @types/node.
+              devDependencies: {
+                ...typesDependencies,
+                "@types/node": `^${MIN_SUPPORTED_NODE_VERSION}`,
+                typescript: devToolPackageJson.dependencies.typescript,
+                rimraf: "latest",
+              },
+            }
+          : {}),
+      };
+    },
+  };
+}
 
 /**
- * An array of known metadata tags for validation.
- *
- * If you add a property to {@link AzSdkMetaTags}, then you should add it to
- * the following array.
+ * Calls the template to instantiate the sample README for this configuration
+ * and output kind.
  */
-export const VALID_AZSDK_META_TAGS: Array<keyof AzSdkMetaTags> = [
-  "weight",
-  "ignore",
-  "util",
-  "skip-javascript",
-];
+export function createReadme(outputKind: OutputKind, info: SampleGenerationInfo): string {
+  const fullOutputKind = outputKind === OutputKind.TypeScript ? "typescript" : "javascript";
 
-// #endregion
+  return instantiateSampleReadme({
+    frontmatter: info.disableDocsMs
+      ? undefined
+      : {
+          page_type: "sample",
+          languages: [fullOutputKind],
+          products: info.productSlugs,
+          urlFragment: `${info.baseName}-${fullOutputKind}${info.isBeta ? "-beta" : ""}`,
+        },
+    publicationDirectory: PUBLIC_SAMPLES_BASE + "/" + info.topLevelDirectory,
+    useTypeScript: outputKind === OutputKind.TypeScript,
+    ...info,
+    moduleInfos: info.moduleInfos.filter((mod) => mod.summary !== undefined),
+  });
+}
+
+/**
+ * Create a filesystem tree factory representing a camera-ready samples
+ * tree.
+ *
+ * @param packageBasePath - the path to the SDK client package (where package.json resides)
+ * @param topLevelDirectory - the name of the top-level directory to create when instantiating the tree
+ * @param config - the SampleConfiguration to use during generation (ordinarily defined in package.json)
+ */
+export async function makeSamplesFactory(
+  projectInfo: ProjectInfo,
+  sourcePath?: string
+): Promise<FileTreeFactory> {
+  let hadError = false;
+
+  const onError = () => {
+    hadError = true;
+  };
+
+  const isBeta = /-beta/.test(projectInfo.version);
+  const majorVersion = projectInfo.version.split(".")[0];
+  const versionFolder = `v${majorVersion}${isBeta ? "-beta" : ""}`;
+
+  log.debug("Computed full generation path:", versionFolder);
+
+  const info = await makeSampleGenerationInfo(
+    projectInfo,
+    sourcePath ?? path.join(projectInfo.path, DEV_SAMPLES_BASE),
+    versionFolder,
+    onError
+  );
+  info.isBeta = isBeta;
+
+  if (hadError) {
+    throw new Error("Instantiation of sample metadata information failed with errors.");
+  }
+
+  // Helper for writing JSON files with a terminating newline
+  const jsonify = (value: unknown) => {
+    let output = JSON.stringify(value, undefined, 2);
+    if (!output.endsWith("\n")) {
+      output += "\n";
+    }
+    return output;
+  };
+
+  /**
+   * Helper to remove azsdk- directives from the resulting module code.
+   */
+  function postProcess(moduleText: string | Buffer): string {
+    const content = Buffer.isBuffer(moduleText) ? moduleText.toString("utf8") : moduleText;
+    return (
+      content
+        .replace(new RegExp(`^\\s*\\*\\s*@${AZSDK_META_TAG_PREFIX}.*\n`, "gm"), "")
+        // We also need to clean up extra blank lines that might be left behind by
+        // removing azsdk tags. These regular expressions are extremely frustrating
+        // because they deal almost exclusively in the literal "/" and "*" characters.
+        .replace(/(\s+\*)+\//s, EOL + " */")
+        // Clean up blank lines at the beginning
+        .replace(/\/\*\*(\s+\*)*/s, `/**${EOL} *`)
+        // Finally remove empty doc comments.
+        .replace(/\s*\/\*\*(\s+\*)*\/\s*/s, EOL + EOL)
+    );
+  }
+
+  // We use a tempdir at the outer layer to avoid creating dirty trees
+  return dir(
+    versionFolder,
+    safeClean(
+      temp(
+        dir(".", [
+          dir("typescript", [
+            file("README.md", () => createReadme(OutputKind.TypeScript, info)),
+            file("package.json", () => jsonify(createPackageJson(info, OutputKind.TypeScript))),
+            // All of the tsconfigs we use for samples should be the same.
+            file("tsconfig.json", () => jsonify(DEFAULT_TYPESCRIPT_CONFIG)),
+            copy("sample.env", path.join(projectInfo.path, "sample.env")),
+            // We copy the samples sources in to the `src` folder on the typescript side
+            dir(
+              "src",
+              info.moduleInfos.map(({ relativeSourcePath, filePath }) =>
+                file(relativeSourcePath, () => postProcess(fs.readFileSync(filePath)))
+              )
+            ),
+          ]),
+          dir("javascript", [
+            file("README.md", () => createReadme(OutputKind.JavaScript, info)),
+            file("package.json", () => jsonify(createPackageJson(info, OutputKind.JavaScript))),
+            copy("sample.env", path.join(projectInfo.path, "sample.env")),
+            // Extract the JS Module Text from the module info structures
+            ...info.moduleInfos
+              // Only include the modules if they were not skipped
+              .filter(({ azSdkTags: { "skip-javascript": skip } }) => !skip)
+              .map(({ relativeSourcePath, jsModuleText }) =>
+                file(relativeSourcePath.replace(/\.ts$/, ".js"), () => postProcess(jsModuleText))
+              ),
+          ]),
+          // Copy extraFiles by reducing all configured destinations for each input file
+          ...Object.entries(info.extraFiles ?? {}).reduce(
+            (accum, [source, destinations]) => [
+              ...accum,
+              ...destinations.map((dest) => copy(dest, path.resolve(projectInfo.path, source))),
+            ],
+            [] as FileTreeFactory[]
+          ),
+        ])
+      )
+    )
+  );
+}

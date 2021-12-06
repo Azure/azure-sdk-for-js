@@ -1,9 +1,9 @@
 {
-  "name": "azure-template-samples-ts",
+  "name": "azure-template-samples-ts-beta",
   "private": true,
   "version": "1.0.0",
-  "description": "Azure Template client library samples for TypeScript",
-  "engine": {
+  "description": "Azure Template client library samples for TypeScript (Beta)",
+  "engines": {
     "node": ">=12.0.0"
   },
   "scripts": {
@@ -32,7 +32,8 @@
     "@azure/identity": "^2.0.1"
   },
   "devDependencies": {
-    "typescript": "~4.1.2",
+    "@types/node": "^12.0.0",
+    "typescript": "~4.4.0",
     "rimraf": "latest"
   }
 }

@@ -9,20 +9,14 @@ import { cwd } from "process";
 import * as ts from "typescript";
 import { convert } from "../../commands/samples/tsToJs";
 import { createPrinter } from "../printer";
-import { ProjectInfo } from "../resolveProject";
-import {
-  AzSdkMetaTags,
-  AZSDK_META_TAG_PREFIX,
-  DEV_SAMPLES_BASE,
-  ModuleInfo,
-  VALID_AZSDK_META_TAGS,
-} from "./generation";
+import { AzSdkMetaTags, AZSDK_META_TAG_PREFIX, ModuleInfo, VALID_AZSDK_META_TAGS } from "./info";
 import { testSyntax } from "./syntax";
+import { toCommonJs } from "./transforms";
 
 const log = createPrinter("samples:processor");
 
 export async function processSources(
-  projectInfo: ProjectInfo,
+  sourceDirectory: string,
   sources: string[],
   fail: (...values: unknown[]) => never
 ): Promise<ModuleInfo[]> {
@@ -76,13 +70,15 @@ export async function processSources(
     const usedEnvironmentVariables: string[] = [];
     const azSdkTags: AzSdkMetaTags = {};
 
-    const relativeSourcePath = path.relative(path.join(projectInfo.path, DEV_SAMPLES_BASE), source);
+    const relativeSourcePath = path.relative(sourceDirectory, source);
 
     const sourceProcessor: ts.TransformerFactory<ts.SourceFile> =
       (context) => (sourceFile: ts.SourceFile) => {
         const exports = sourceFile.statements
-          .filter(({ modifiers }) =>
-            modifiers?.some((modifier) => modifier.kind === ts.SyntaxKind.ExportKeyword)
+          .filter(
+            ({ modifiers }) =>
+              modifiers?.some(({ kind }) => kind === ts.SyntaxKind.ExportKeyword) &&
+              !modifiers.some(({ kind }) => kind === ts.SyntaxKind.DefaultKeyword)
           )
           .flatMap(
             (node) =>
@@ -112,20 +108,21 @@ export async function processSources(
           return ts.visitEachChild(node, visitor, context);
         };
 
-        ts.visitNode(sourceFile, visitor);
+        const visited = ts.visitNode(sourceFile, visitor);
 
         // We will only process exports for modules that appear to be util modules
         if ((summary === undefined || azSdkTags.util) && exports.length > 0) {
-          return addCommonJsExports(context, sourceFile, exports);
+          return addCommonJsExports(context, visited, exports);
         }
 
-        return sourceFile;
+        return visited;
       };
 
     const jsModuleText = convert(sourceText, {
       fileName: source,
       transformers: {
         before: [sourceProcessor],
+        after: [toCommonJs],
       },
     });
 
@@ -173,6 +170,23 @@ export async function processSources(
   });
 }
 
+/**
+ * Detects usage of environment variables and adds them to an array.
+ *
+ * This can _only_ work with property access expressions where the left hand side is a node that has the exact text
+ *
+ * "process.env"
+ *
+ * For example, it won't work with process["env"], and it won't work if process is bound to another name. It will _only_
+ * work with:
+ *
+ * - `process.env.NAME`
+ * - `process.env["NAME"]`
+ *
+ * @param node - the node to analyze for used environment variables
+ * @param sourceFile - the source file
+ * @param usedEnvironmentVariables - an array to add the environment variable names to
+ */
 function addUsedEnvironmentVariables(
   node: ts.Node,
   sourceFile: ts.SourceFile,
@@ -193,6 +207,12 @@ function addUsedEnvironmentVariables(
   }
 }
 
+/**
+ * Accumulates the names of imported modules.
+ *
+ * @param node - the node to analyze for imports
+ * @param importedModules - a list of modules to add the imports to
+ */
 function addImportedModules(node: ts.Node, importedModules: string[]) {
   if (ts.isImportDeclaration(node)) {
     importedModules.push((node.moduleSpecifier as ts.StringLiteral).text);
@@ -212,13 +232,23 @@ function addImportedModules(node: ts.Node, importedModules: string[]) {
   }
 }
 
+/**
+ * Look for Azure SDK JSDoc tags and add them to an object, and extract the value of the `summary` tag.
+ *
+ * @param tags - JSDoc tags of a node
+ * @param relativeSourcePath - the relative source path of the file
+ * @param node - the node where the tags come from (used for debug output)
+ * @param sourceFile - the source file
+ * @param azSdkTags - an object to enter azsdk tags into
+ * @returns the summary tag's value or undefined if none was found
+ */
 function extractAzSdkTags(
   tags: readonly ts.JSDocTag[],
   relativeSourcePath: string,
   node: ts.Node,
   sourceFile: ts.SourceFile,
   azSdkTags: AzSdkMetaTags
-) {
+): string | undefined {
   let summary: string | undefined;
   for (const tag of tags) {
     log.debug(`File ${relativeSourcePath} has tag ${tag.tagName.text}`);
@@ -255,26 +285,138 @@ function extractAzSdkTags(
   return summary;
 }
 
+/**
+ * Adds a node to the end of a source file containing a CommonJS module.exports = block.
+ *
+ * @param context - transformation context from the compiler API
+ * @param sourceFile - the source file to process
+ * @param exports - a list of exported symbols in the file
+ * @returns the updated SourceFile node
+ */
 function addCommonJsExports(
   context: ts.TransformationContext,
   sourceFile: ts.SourceFile,
   exports: string[]
 ): ts.SourceFile {
-  return context.factory.updateSourceFile(sourceFile, [
-    ...sourceFile.statements,
+  log.debug("Adding exports:", exports);
+
+  const factory = context.factory;
+
+  const exportEntries: ts.ObjectLiteralElementLike[] = exports.map((name) =>
+    factory.createShorthandPropertyAssignment(name)
+  );
+
+  const transformedOriginalStatements = processExportDefault(sourceFile, factory, exportEntries);
+
+  const updatedStatements = [
+    // We will handle a "default" export specially. These can only be class or function declarations when represented
+    // using the default keyword.
+    ...transformedOriginalStatements,
+    factory.createEmptyStatement(),
     // module.exports = { ... }
-    context.factory.createExpressionStatement(
-      context.factory.createAssignment(
-        context.factory.createPropertyAccessExpression(
-          context.factory.createIdentifier("module"),
-          context.factory.createIdentifier("exports")
+    factory.createExpressionStatement(
+      factory.createAssignment(
+        factory.createPropertyAccessExpression(
+          factory.createIdentifier("module"),
+          factory.createIdentifier("exports")
         ),
-        context.factory.createObjectLiteralExpression(
-          exports.map((name) => context.factory.createShorthandPropertyAssignment(name))
-        )
+        factory.createObjectLiteralExpression(exportEntries)
       )
     ),
-  ]);
+  ];
+
+  return factory.updateSourceFile(sourceFile, updatedStatements);
+}
+
+/**
+ * Handles `export default` modifiers.
+ *
+ * Default exports in the TypeScript compiler are actually handled very strangely. As a consequence, we can only handle
+ * `export default function` and `export default class` (as these are just ordinary function/class declarations with an
+ * `export` modifier and a `default` modifier at the surface level). Something like `export default {}` is actually a
+ * different kind of syntax node: ExportAssignment (the same kind as an `export =` statement). ExportAssignment
+ * statements are rejected outright by the sample tool, so we only need to consider `export default function` and
+ * `export default class`
+ *
+ * @param sourceFile - the source file to process
+ * @param factory - a context-bound NodeFactory
+ * @param exportEntries - a list to add the new default property assignments to
+ * @returns a new list of statements for the source file
+ */
+function processExportDefault(
+  sourceFile: ts.SourceFile,
+  factory: ts.NodeFactory,
+  exportEntries: ts.ObjectLiteralElementLike[]
+): ts.Statement[] {
+  return sourceFile.statements.map((statement) => {
+    const isDefault =
+      statement.modifiers?.some(({ kind }) => kind === ts.SyntaxKind.DefaultKeyword) &&
+      statement.modifiers.some(({ kind }) => kind === ts.SyntaxKind.ExportKeyword);
+
+    if (!isDefault) {
+      return statement;
+    }
+
+    // The only forms that can have `export default` modifiers are the following.
+    const decl = statement as ts.FunctionDeclaration | ts.ClassDeclaration;
+    const updatedModifiers = decl.modifiers?.filter(
+      ({ kind }) => kind !== ts.SyntaxKind.DefaultKeyword && kind !== ts.SyntaxKind.ExportKeyword
+    );
+
+    if (!decl.name) {
+      // If there is no name, the declaration is anonymous, and we will bind it as an expression in module.exports
+      const initializer = ts.isClassDeclaration(decl)
+        ? factory.createClassExpression(
+            decl.decorators,
+            updatedModifiers,
+            undefined,
+            decl.typeParameters,
+            decl.heritageClauses,
+            decl.members
+          )
+        : decl.body === undefined // This is a strange case that I assume has to do with overload declarations.
+        ? undefined
+        : factory.createFunctionExpression(
+            updatedModifiers,
+            decl.asteriskToken,
+            undefined,
+            decl.typeParameters,
+            decl.parameters,
+            decl.type,
+            decl.body
+          );
+
+      if (initializer) {
+        exportEntries.push(factory.createPropertyAssignment("default", initializer));
+      }
+
+      return factory.createEmptyStatement();
+    }
+
+    exportEntries.push(factory.createPropertyAssignment("default", decl.name));
+
+    return ts.isClassDeclaration(decl)
+      ? factory.updateClassDeclaration(
+          decl,
+          decl.decorators,
+          updatedModifiers,
+          decl.name,
+          decl.typeParameters,
+          decl.heritageClauses,
+          decl.members
+        )
+      : factory.updateFunctionDeclaration(
+          decl,
+          decl.decorators,
+          updatedModifiers,
+          decl.asteriskToken,
+          decl.name,
+          decl.typeParameters,
+          decl.parameters,
+          decl.type,
+          decl.body
+        );
+  });
 }
 
 /**

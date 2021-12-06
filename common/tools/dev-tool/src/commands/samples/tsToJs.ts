@@ -11,6 +11,7 @@ import ts from "typescript";
 import { leafCommand, makeCommandInfo } from "../../framework/command";
 
 import { createPrinter } from "../../util/printer";
+import { toCommonJs } from "../../util/samples/transforms";
 
 const log = createPrinter("ts-to-js");
 
@@ -40,20 +41,16 @@ const NEWLINE_SIGIL_SEARCH = /\r?\n\s*\/\/@@TS-MAGIC-NEWLINE@@\r?\n/;
  *
  * Given as arguments to string.replace. Called in this order.
  */
-const REGEX_STACK: Array<[RegExp, string]> = [
-  // import * as dotenv ... -> require("dotenv").config()
+const REGEX_STACK: Array<[RegExp | (() => RegExp), string]> = [
+  // `require("dotenv").config()` is just a little cleaner for CJS
   [
-    /import\s+\*\s+as\s+dotenv\s+from\s*"dotenv"\s*;\s*\n\s*dotenv.config\({[^{]*}\)\s*;\s*/,
-    'require("dotenv").config();\n\n',
-  ], // Needs some special handling
-  // import { ... } from -> const { ... } = require
-  [/import\s+({[^}]+})\s+from\s*("[^"]+");/gs, "const $1 = require($2);"],
-  [/import\s+([^\s]+)\s+from\s*("[^"]+");/g, "const $1 = require($2);"],
-  [/import\s+\*\s+as\s+([^\s]+)\s+from\s*("[^"]+");/g, "const $1 = require($2);"],
-  [/^export async function main/m, "async function main"],
-  // Remove exports
-  [/^export\s/gm, ""],
-  [/([^\n])\nmodule\.exports/g, "$1\n\nmodule.exports"],
+    /\n*const\s+dotenv\s*=\s*require\s*\(\s*"dotenv"\s*\)\s*;\s*\n*\s*dotenv\s*\.\s*config/,
+    '\n\nrequire("dotenv").config',
+  ],
+  // Remove exports. We would have to recreate all nodes to do this with the API.
+  [() => /^export(\s+default)?\s/gm, ""],
+  // Give `module.exports =` some breathing room
+  [() => /([^\n])\nmodule\.exports/g, "$1\n\nmodule.exports"],
 ];
 
 /**
@@ -67,11 +64,10 @@ function postTransform(outText: string): string {
   // that are humanly comprehensible
   text = prettier.format(text, prettierOptions);
 
-  for (const [match, replacement] of REGEX_STACK) {
+  for (const [rx, replacement] of REGEX_STACK) {
+    const match = typeof rx === "function" ? rx() : rx;
     text = text.replace(match, replacement);
   }
-
-  return text;
 
   // Format once more for the final output.
   return prettier.format(text, prettierOptions);
@@ -93,15 +89,15 @@ export function convert(srcText: string, transpileOptions?: ts.TranspileOptions)
 
   const extraCompilerOptions = transpileOptions?.compilerOptions;
 
-  const extraTranspileOptions = { ...transpileOptions };
   delete transpileOptions?.compilerOptions;
 
   const output = ts.transpileModule(processedSrcText, {
     compilerOptions: {
       ...compilerOptions,
       ...extraCompilerOptions,
+      removeComments: false,
     },
-    ...extraTranspileOptions,
+    ...transpileOptions,
   });
 
   if (output.diagnostics?.length) {
@@ -132,7 +128,12 @@ export default leafCommand(commandInfo, async (options) => {
 
   const srcText = (await fs.readFile(src)).toString("utf-8");
 
-  const outputText = convert(srcText, { fileName: src });
+  const outputText = convert(srcText, {
+    fileName: src,
+    transformers: {
+      after: [toCommonJs],
+    },
+  });
 
   await fs.ensureDir(path.dirname(dest));
   await fs.writeFile(dest, outputText);

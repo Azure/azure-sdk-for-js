@@ -16,8 +16,9 @@
     "noUnusedParameters": true,
     "downlevelIteration": true,
 
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "skipLibCheck": true
   },
-  "exclude": ["node_modules"],
+  "exclude": ["test/samples/files/expectations/**/*"],
   "include": ["./src/**/*.ts", "./test/**/*.ts"]
 }
