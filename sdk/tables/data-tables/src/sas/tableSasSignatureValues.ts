@@ -11,7 +11,7 @@ import { NamedKeyCredential } from "@azure/core-auth";
 import { computeHMACSHA256 } from "../utils/computeHMACSHA256";
 import { SERVICE_VERSION } from "../utils/constants";
 import { truncatedISO8061Date } from "../utils/truncateISO8061Date";
-import { ipRangeToString, SasIPRange } from "./sasIPRange";
+import { SasIPRange, ipRangeToString } from "./sasIPRange";
 import { SasProtocol, SasQueryParameters } from "./sasQueryParameters";
 import { TableSasPermissions, tableSasPermissionsToString } from "./tableSasPermisions";
 

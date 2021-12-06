@@ -11,7 +11,7 @@ import {
   accountSasResourceTypesToString
 } from "./accountSasResourceTypes";
 import { accountSasServicesFromString, accountSasServicesToString } from "./accountSasServices";
-import { ipRangeToString, SasIPRange } from "./sasIPRange";
+import { SasIPRange, ipRangeToString } from "./sasIPRange";
 import { SasProtocol, SasQueryParameters } from "./sasQueryParameters";
 
 /**

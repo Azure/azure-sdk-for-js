@@ -2,10 +2,10 @@
 // Licensed under the MIT license.
 
 import {
-  PipelineResponse,
-  PipelineRequest,
-  SendRequest,
   PipelinePolicy,
+  PipelineRequest,
+  PipelineResponse,
+  SendRequest,
   createHttpHeaders,
   createPipelineRequest
 } from "@azure/core-rest-pipeline";

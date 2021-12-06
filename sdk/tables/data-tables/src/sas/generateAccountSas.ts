@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { isNamedKeyCredential, NamedKeyCredential } from "@azure/core-auth";
+import { NamedKeyCredential, isNamedKeyCredential } from "@azure/core-auth";
 import { AccountSasPermissions, accountSasPermissionsFromString } from "./accountSasPermissions";
 import {
   AccountSasServices,
