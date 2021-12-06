@@ -516,7 +516,7 @@ describe("ManagedIdentityCredential", function() {
         secureResponses: [
           createResponse(200, {
             access_token: "token",
-            expires_on: 1
+            expires_in: 1
           })
         ]
       });
@@ -538,6 +538,7 @@ describe("ManagedIdentityCredential", function() {
       );
       assert.strictEqual(decodeURIComponent(body.get("scope")!), "https://service/.default");
       assert.strictEqual(authDetails.result!.token, "token");
+      assert.strictEqual(authDetails.result!.expiresOnTimestamp, 1000);
     });
 
     it("reads from the token file again only after 5 minutes have passed", async function(this: Mocha.Context) {
