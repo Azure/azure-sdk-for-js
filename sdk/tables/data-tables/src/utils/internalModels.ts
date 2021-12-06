@@ -2,19 +2,19 @@
 // Licensed under the MIT license.
 
 import {
-  TableServiceClientOptions,
-  TableEntity,
   CreateTableEntityResponse,
   DeleteTableEntityOptions,
   GetTableEntityOptions,
   GetTableEntityResponse,
   ListTableEntitiesOptions,
-  UpdateMode,
-  UpdateTableEntityOptions,
+  TableEntity,
   TableEntityResult,
   TableItem,
+  TableServiceClientOptions,
+  TableTransactionResponse,
   TransactionAction,
-  TableTransactionResponse
+  UpdateMode,
+  UpdateTableEntityOptions
 } from "../models";
 import { Pipeline, PipelineRequest } from "@azure/core-rest-pipeline";
 import { NamedKeyCredential } from "@azure/core-auth";

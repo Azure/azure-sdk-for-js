@@ -56,6 +56,31 @@ describe("BlobServiceClient", () => {
     }
   });
 
+  it("ListContainers including system containers", async function(this: Context) {
+    if (isLiveMode()) {
+      // Skip the test case until the feature is enabled in production.
+      this.skip();
+    }
+    const blobServiceClient = getBSU();
+    const result = (
+      await blobServiceClient
+        .listContainers({ includeSystem: true })
+        .byPage()
+        .next()
+    ).value;
+    assert.ok(result.containerItems!.length > 0);
+
+    let foundSystemContainer = false;
+    for (const containerItem of result.containerItems) {
+      if (containerItem.name === "$root") {
+        foundSystemContainer = true;
+        break;
+      }
+    }
+
+    assert.ok(foundSystemContainer, "System containers should be included in listing result");
+  });
+
   it("ListContainers with default parameters - null prefix shouldn't throw error", async () => {
     const blobServiceClient = getBSU();
     const result = (

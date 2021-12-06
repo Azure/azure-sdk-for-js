@@ -3,9 +3,9 @@
 
 import { Context } from "mocha";
 import {
-  SendRequest,
   PipelineRequest,
   PipelineResponse,
+  SendRequest,
   createHttpHeaders,
   createPipelineRequest
 } from "@azure/core-rest-pipeline";

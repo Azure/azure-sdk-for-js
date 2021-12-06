@@ -1680,7 +1680,7 @@ export class SasTokenProperties {
     // (undocumented)
     keyType: CosmosKeyType | number;
     // (undocumented)
-    partitionKeyValueRanges: [];
+    partitionKeyValueRanges: string[];
     // Warning: (ae-forgotten-export) The symbol "CosmosContainerChildResourceKind" needs to be exported by the entry point index.d.ts
     //
     // (undocumented)

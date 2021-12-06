@@ -65,7 +65,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-04-01",
+    defaultValue: "2021-06-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -182,6 +182,17 @@ export const parameters2: OperationParameter = {
 export const parameters3: OperationParameter = {
   parameterPath: "parameters",
   mapper: ServiceSasParametersMapper
+};
+
+export const requestType: OperationQueryParameter = {
+  parameterPath: "requestType",
+  mapper: {
+    serializedName: "requestType",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
 };
 
 export const parameters4: OperationParameter = {
