@@ -6,7 +6,7 @@ The Azure Storage Management API.
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/arm-storage) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-storage) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-storage?view=azure-node-preview) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-storage) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started
