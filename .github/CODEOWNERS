@@ -64,7 +64,7 @@
 /sdk/iot/ @YoDaMa @xirzec
 
 # PRLabel: %KeyVault
-/sdk/keyvault/ @maorleger @sadasant
+/sdk/keyvault/ @maorleger @sadasant 
 
 # PRLabel: %Service Bus
 /sdk/servicebus/ @deyaaeldeen @jeremymeng @HarshaNalluru @ramya-rao-a @richardpark-msft 
