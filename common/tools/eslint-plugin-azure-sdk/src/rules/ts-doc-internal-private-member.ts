@@ -14,13 +14,11 @@ import { readFileSync } from "fs";
 import { sync as globSync } from "glob";
 import { relative } from "path";
 import { Modifier, SyntaxKind } from "typescript";
-import { getRuleMetaData } from "../utils"; //getLocalExports
+import { getRuleMetaData } from "../utils";
 
 //------------------------------------------------------------------------------
 // Rule Definition
 //------------------------------------------------------------------------------
-
-// let exportedSettings: any;
 
 /**
  * Helper method for reporting on a node
@@ -103,19 +101,6 @@ export = {
   ),
   create: (context: Rule.RuleContext): Rule.RuleListener => {
     const fileName = context.getFilename();
-
-    // on the first run, if on a .ts file (program.getSourceFile is file-type dependent)
-    /*
-    if (exportedSettings === undefined && /\.ts$/.test(fileName)) {
-      const packageExports = getLocalExports(context);
-      if (packageExports !== undefined) {
-        exportedSettings = packageExports;
-      } else {
-        exportedSettings = [];
-        return {};
-      }
-    }
-    */
 
     const parserServices = context.parserServices as ParserServices;
     if (
