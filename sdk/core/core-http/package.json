@@ -53,7 +53,6 @@
     "./dist-esm/src/util/base64.js": "./dist-esm/src/util/base64.browser.js",
     "./dist-esm/src/util/xml.js": "./dist-esm/src/util/xml.browser.js",
     "./dist-esm/src/defaultHttpClient.js": "./dist-esm/src/defaultHttpClient.browser.js",
-    "./dist-esm/src/fetchHttpClient.js": "./dist-esm/src/fetchHttpClient.browser.js",
     "./dist-esm/src/util/inspect.js": "./dist-esm/src/util/inspect.browser.js",
     "./dist-esm/src/util/url.js": "./dist-esm/src/util/url.browser.js"
   },
