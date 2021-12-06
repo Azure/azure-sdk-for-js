@@ -72,10 +72,6 @@ export class BatchReceiveTest extends ServiceBusTest<ReceiverOptions> {
     }
     return messages.length;
   }
-
-  public run(): Promise<void> {
-    throw new Error("run not defined - not needed");
-  }
 }
 
 async function sendMessages(
