@@ -9587,7 +9587,7 @@ packages:
     dev: false
 
   file:projects/arm-resources.tgz:
-    resolution: {integrity: sha512-y3NszE6ozZSl0b3T5+1JF45w64NDRTeMC+41eT+EH0e35qU/EvHrpLqqM8lu+nDIOLb6nnEPkTqsh5oDr4OhbA==, tarball: file:projects/arm-resources.tgz}
+    resolution: {integrity: sha512-OnGTFVLnbFLJfLHJNm2F4pGCDPdXAzGGfPqxxOHajg3qJUKAv8sKQDRXkHti5NRXqy1Aqb1vIcIG2Hwh8iVkQA==, tarball: file:projects/arm-resources.tgz}
     name: '@rush-temp/arm-resources'
     version: 0.0.0
     dependencies:
@@ -9596,7 +9596,10 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
       '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
       mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-node-resolve: 3.4.0
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
