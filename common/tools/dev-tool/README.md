@@ -25,7 +25,7 @@ It provides a place to centralize scripts, resources, and processes for developm
 
 The `dev-tool about` command will print some information about how to use the command. All commands additionally accept the `--help` argument, which will print information about the usage of that specific command. For example, to show help information for the `resolve` command above, issue the command `dev-tool package resolve --help`.
 
-## Usage in this repository
+### Publishing samples
 
 *To build (transpile) the sample-dev folder of a service's SDK*:
 
