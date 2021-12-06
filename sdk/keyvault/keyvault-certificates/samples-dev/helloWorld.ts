@@ -35,7 +35,7 @@ export async function main(): Promise<void> {
     DefaultCertificatePolicy
   );
 
-  // Wait for long running operation to complete
+  // Get the pending certificate before the creation operation is complete
   const pendingCertificate = createPoller.getResult();
   console.log("Certificate: ", pendingCertificate);
 
