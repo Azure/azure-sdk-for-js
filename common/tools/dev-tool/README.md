@@ -27,7 +27,7 @@ The `dev-tool about` command will print some information about how to use the co
 
 ### Publishing samples
 
-*To build (transpile) the sample-dev folder of a service's SDK*:
+*To create/update the samples folder of a service's SDK*:
 
 1. Change the terminal to the service's `samples-dev` folder.  
 1. Run `dev-tool samples publish --force samples-dev`.
