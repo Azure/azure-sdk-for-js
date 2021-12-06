@@ -2,7 +2,7 @@
   "name": "@azure/arm-kubernetesconfiguration",
   "author": "Microsoft Corporation",
   "description": "SourceControlConfigurationClient Library with typescript type definitions for node.js and browser.",
-  "version": "3.1.1",
+  "version": "4.0.0",
   "dependencies": {
     "@azure/ms-rest-azure-js": "^2.1.0",
     "@azure/ms-rest-js": "^2.2.0",

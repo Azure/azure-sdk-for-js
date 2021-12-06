@@ -20,11 +20,15 @@ export {
   ExtensionPropertiesAksAssignedIdentity,
   ExtensionStatus,
   FluxConfiguration,
+  FluxConfigurationPatch,
+  FluxConfigurationsList,
   GitRepositoryDefinition,
+  GitRepositoryPatchDefinition,
   HelmOperatorProperties,
   HelmReleasePropertiesDefinition,
   Identity,
   KustomizationDefinition,
+  KustomizationPatchDefinition,
   ObjectReferenceDefinition,
   ObjectStatusConditionDefinition,
   ObjectStatusDefinition,
@@ -41,7 +45,6 @@ export {
   ScopeNamespace,
   Sku,
   SourceControlConfiguration,
-  SourceControlConfigurationList,
   SystemData,
   TrackedResource
 } from "../models/mappers";

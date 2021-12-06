@@ -17,6 +17,14 @@ import { SourceControlConfigurationClientContext } from "./sourceControlConfigur
 
 class SourceControlConfigurationClient extends SourceControlConfigurationClientContext {
   // Operation groups
+  clusterExtensionType: operations.ClusterExtensionType;
+  clusterExtensionTypes: operations.ClusterExtensionTypes;
+  extensionTypeVersions: operations.ExtensionTypeVersions;
+  locationExtensionTypes: operations.LocationExtensionTypes;
+  extensions: operations.Extensions;
+  operationStatus: operations.OperationStatus;
+  fluxConfigurations: operations.FluxConfigurations;
+  fluxConfigOperationStatus: operations.FluxConfigOperationStatus;
   sourceControlConfigurations: operations.SourceControlConfigurations;
   operations: operations.Operations;
 
@@ -28,12 +36,19 @@ class SourceControlConfigurationClient extends SourceControlConfigurationClientC
    * {@link https://www.npmjs.com/package/@azure/identity}. Credentials implementing the
    * ServiceClientCredentials interface from the older packages @azure/ms-rest-nodeauth and
    * @azure/ms-rest-browserauth are also supported.
-   * @param subscriptionId The Azure subscription ID. This is a GUID-formatted string (e.g.
-   * 00000000-0000-0000-0000-000000000000)
+   * @param subscriptionId The ID of the target subscription.
    * @param [options] The parameter options
    */
   constructor(credentials: msRest.ServiceClientCredentials | TokenCredential, subscriptionId: string, options?: Models.SourceControlConfigurationClientOptions) {
     super(credentials, subscriptionId, options);
+    this.clusterExtensionType = new operations.ClusterExtensionType(this);
+    this.clusterExtensionTypes = new operations.ClusterExtensionTypes(this);
+    this.extensionTypeVersions = new operations.ExtensionTypeVersions(this);
+    this.locationExtensionTypes = new operations.LocationExtensionTypes(this);
+    this.extensions = new operations.Extensions(this);
+    this.operationStatus = new operations.OperationStatus(this);
+    this.fluxConfigurations = new operations.FluxConfigurations(this);
+    this.fluxConfigOperationStatus = new operations.FluxConfigOperationStatus(this);
     this.sourceControlConfigurations = new operations.SourceControlConfigurations(this);
     this.operations = new operations.Operations(this);
   }

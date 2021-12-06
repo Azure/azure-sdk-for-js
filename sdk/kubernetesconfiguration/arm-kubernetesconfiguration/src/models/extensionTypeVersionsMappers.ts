@@ -10,7 +10,7 @@ export {
   ErrorAdditionalInfo,
   ErrorDetail,
   ErrorResponse,
-  ResourceProviderOperation,
-  ResourceProviderOperationDisplay,
-  ResourceProviderOperationList
+  ExtensionVersionList,
+  ExtensionVersionListVersionsItem,
+  SystemData
 } from "../models/mappers";

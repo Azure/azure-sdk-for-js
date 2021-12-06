@@ -12,37 +12,1083 @@ import * as msRest from "@azure/ms-rest-js";
 export { BaseResource, CloudError };
 
 /**
- * Sample result definition
+ * Common fields that are returned in the response for all Azure Resource Manager resources
+ * @summary Resource
  */
-export interface Result {
+export interface Resource extends BaseResource {
   /**
-   * Sample property of type string
+   * Fully qualified resource ID for the resource. Ex -
+   * /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  sampleProperty?: string;
+  readonly id?: string;
+  /**
+   * The name of the resource
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+   * "Microsoft.Storage/storageAccounts"
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
 }
 
 /**
- * Error definition.
+ * The resource model definition for a Azure Resource Manager proxy resource. It will not have tags
+ * and a location
+ * @summary Proxy Resource
  */
-export interface ErrorDefinition {
-  /**
-   * Service specific error code which serves as the substatus for the HTTP error code.
-   */
-  code: string;
-  /**
-   * Description of the error.
-   */
-  message: string;
+export interface ProxyResource extends Resource {
 }
 
 /**
- * Error response.
+ * Extension scope settings
+ */
+export interface ClusterScopeSettings extends ProxyResource {
+  /**
+   * Describes if multiple instances of the extension are allowed
+   */
+  allowMultipleInstances?: boolean;
+  /**
+   * Default extension release namespace
+   */
+  defaultReleaseNamespace?: string;
+}
+
+/**
+ * Extension scopes
+ */
+export interface SupportedScopes {
+  /**
+   * Default extension scopes: cluster or namespace
+   */
+  defaultScope?: string;
+  /**
+   * Scope settings
+   */
+  clusterScopeSettings?: ClusterScopeSettings;
+}
+
+/**
+ * Metadata pertaining to creation and last modification of the resource.
+ */
+export interface SystemData {
+  /**
+   * The identity that created the resource.
+   */
+  createdBy?: string;
+  /**
+   * The type of identity that created the resource. Possible values include: 'User',
+   * 'Application', 'ManagedIdentity', 'Key'
+   */
+  createdByType?: CreatedByType;
+  /**
+   * The timestamp of resource creation (UTC).
+   */
+  createdAt?: Date;
+  /**
+   * The identity that last modified the resource.
+   */
+  lastModifiedBy?: string;
+  /**
+   * The type of identity that last modified the resource. Possible values include: 'User',
+   * 'Application', 'ManagedIdentity', 'Key'
+   */
+  lastModifiedByType?: CreatedByType;
+  /**
+   * The timestamp of resource last modification (UTC)
+   */
+  lastModifiedAt?: Date;
+}
+
+/**
+ * Represents an Extension Type.
+ */
+export interface ExtensionType {
+  /**
+   * Extension release train: preview or stable
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly releaseTrains?: string[];
+  /**
+   * Cluster types. Possible values include: 'connectedClusters', 'managedClusters'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly clusterTypes?: ClusterTypes;
+  /**
+   * Extension scopes
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly supportedScopes?: SupportedScopes;
+  /**
+   * Metadata pertaining to creation and last modification of the resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly systemData?: SystemData;
+}
+
+/**
+ * An interface representing ExtensionVersionListVersionsItem.
+ */
+export interface ExtensionVersionListVersionsItem {
+  /**
+   * The release train for this Extension Type
+   */
+  releaseTrain?: string;
+  /**
+   * Versions available for this Extension Type and release train
+   */
+  versions?: string[];
+}
+
+/**
+ * The resource model definition for an Azure Resource Manager tracked top level resource which has
+ * 'tags' and a 'location'
+ * @summary Tracked Resource
+ */
+export interface TrackedResource extends Resource {
+  /**
+   * Resource tags.
+   */
+  tags?: { [propertyName: string]: string };
+  /**
+   * The geo-location where the resource lives
+   */
+  location: string;
+}
+
+/**
+ * The resource model definition for an Azure Resource Manager resource with an etag.
+ * @summary Entity Resource
+ */
+export interface AzureEntityResource extends Resource {
+  /**
+   * Resource Etag.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly etag?: string;
+}
+
+/**
+ * The resource management error additional info.
+ */
+export interface ErrorAdditionalInfo {
+  /**
+   * The additional info type.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
+   * The additional info.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly info?: any;
+}
+
+/**
+ * The error detail.
+ */
+export interface ErrorDetail {
+  /**
+   * The error code.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly code?: string;
+  /**
+   * The error message.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly message?: string;
+  /**
+   * The error target.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly target?: string;
+  /**
+   * The error details.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly details?: ErrorDetail[];
+  /**
+   * The error additional info.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+/**
+ * Common error response for all Azure Resource Manager APIs to return error details for failed
+ * operations. (This also follows the OData error response format.).
+ * @summary Error response
  */
 export interface ErrorResponse {
   /**
-   * Error definition.
+   * The error object.
    */
-  error?: ErrorDefinition;
+  error?: ErrorDetail;
+}
+
+/**
+ * Specifies that the scope of the extension is Cluster
+ */
+export interface ScopeCluster {
+  /**
+   * Namespace where the extension Release must be placed, for a Cluster scoped extension.  If this
+   * namespace does not exist, it will be created
+   */
+  releaseNamespace?: string;
+}
+
+/**
+ * Specifies that the scope of the extension is Namespace
+ */
+export interface ScopeNamespace {
+  /**
+   * Namespace where the extension will be created for an Namespace scoped extension.  If this
+   * namespace does not exist, it will be created
+   */
+  targetNamespace?: string;
+}
+
+/**
+ * Scope of the extension. It can be either Cluster or Namespace; but not both.
+ */
+export interface Scope {
+  /**
+   * Specifies that the scope of the extension is Cluster
+   */
+  cluster?: ScopeCluster;
+  /**
+   * Specifies that the scope of the extension is Namespace
+   */
+  namespace?: ScopeNamespace;
+}
+
+/**
+ * Status from the extension.
+ */
+export interface ExtensionStatus {
+  /**
+   * Status code provided by the Extension
+   */
+  code?: string;
+  /**
+   * Short description of status of the extension.
+   */
+  displayStatus?: string;
+  /**
+   * Level of the status. Possible values include: 'Error', 'Warning', 'Information'. Default
+   * value: 'Information'.
+   */
+  level?: LevelType;
+  /**
+   * Detailed message of the status from the Extension.
+   */
+  message?: string;
+  /**
+   * DateLiteral (per ISO8601) noting the time of installation status.
+   */
+  time?: string;
+}
+
+/**
+ * Identity of the Extension resource in an AKS cluster
+ */
+export interface ExtensionPropertiesAksAssignedIdentity {
+  /**
+   * The principal ID of resource identity.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly principalId?: string;
+  /**
+   * The tenant ID of resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly tenantId?: string;
+  /**
+   * The identity type. Possible values include: 'SystemAssigned'
+   */
+  type?: ResourceIdentityType;
+}
+
+/**
+ * Identity for the resource.
+ */
+export interface Identity {
+  /**
+   * The principal ID of resource identity.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly principalId?: string;
+  /**
+   * The tenant ID of resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly tenantId?: string;
+  /**
+   * The identity type. Possible values include: 'SystemAssigned'
+   */
+  type?: ResourceIdentityType;
+}
+
+/**
+ * The Extension object.
+ */
+export interface Extension extends ProxyResource {
+  /**
+   * Type of the Extension, of which this resource is an instance of.  It must be one of the
+   * Extension Types registered with Microsoft.KubernetesConfiguration by the Extension publisher.
+   */
+  extensionType?: string;
+  /**
+   * Flag to note if this extension participates in auto upgrade of minor version, or not. Default
+   * value: true.
+   */
+  autoUpgradeMinorVersion?: boolean;
+  /**
+   * ReleaseTrain this extension participates in for auto-upgrade (e.g. Stable, Preview, etc.) -
+   * only if autoUpgradeMinorVersion is 'true'. Default value: 'Stable'.
+   */
+  releaseTrain?: string;
+  /**
+   * Version of the extension for this extension, if it is 'pinned' to a specific version.
+   * autoUpgradeMinorVersion must be 'false'.
+   */
+  version?: string;
+  /**
+   * Scope at which the extension is installed.
+   */
+  scope?: Scope;
+  /**
+   * Configuration settings, as name-value pairs for configuring this extension.
+   */
+  configurationSettings?: { [propertyName: string]: string };
+  /**
+   * Configuration settings that are sensitive, as name-value pairs for configuring this extension.
+   */
+  configurationProtectedSettings?: { [propertyName: string]: string };
+  /**
+   * Status of installation of this extension. Possible values include: 'Succeeded', 'Failed',
+   * 'Canceled', 'Creating', 'Updating', 'Deleting'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * Status from this extension.
+   */
+  statuses?: ExtensionStatus[];
+  /**
+   * Error information from the Agent - e.g. errors during installation.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly errorInfo?: ErrorDetail;
+  /**
+   * Custom Location settings properties.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly customLocationSettings?: { [propertyName: string]: string };
+  /**
+   * Uri of the Helm package
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly packageUri?: string;
+  /**
+   * Identity of the Extension resource in an AKS cluster
+   */
+  aksAssignedIdentity?: ExtensionPropertiesAksAssignedIdentity;
+  /**
+   * Identity of the Extension resource
+   */
+  identity?: Identity;
+  /**
+   * Top level metadata
+   * https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/common-api-contracts.md#system-metadata-for-all-azure-resources
+   */
+  systemData?: SystemData;
+}
+
+/**
+ * The Extension Patch Request object.
+ */
+export interface PatchExtension {
+  /**
+   * Flag to note if this extension participates in auto upgrade of minor version, or not. Default
+   * value: true.
+   */
+  autoUpgradeMinorVersion?: boolean;
+  /**
+   * ReleaseTrain this extension participates in for auto-upgrade (e.g. Stable, Preview, etc.) -
+   * only if autoUpgradeMinorVersion is 'true'. Default value: 'Stable'.
+   */
+  releaseTrain?: string;
+  /**
+   * Version of the extension for this extension, if it is 'pinned' to a specific version.
+   * autoUpgradeMinorVersion must be 'false'.
+   */
+  version?: string;
+  /**
+   * Configuration settings, as name-value pairs for configuring this extension.
+   */
+  configurationSettings?: { [propertyName: string]: string };
+  /**
+   * Configuration settings that are sensitive, as name-value pairs for configuring this extension.
+   */
+  configurationProtectedSettings?: { [propertyName: string]: string };
+}
+
+/**
+ * An interface representing ResourceModelWithAllowedPropertySetIdentity.
+ */
+export interface ResourceModelWithAllowedPropertySetIdentity extends Identity {
+}
+
+/**
+ * The resource model definition representing SKU
+ */
+export interface Sku {
+  /**
+   * The name of the SKU. Ex - P3. It is typically a letter+number code
+   */
+  name: string;
+  /**
+   * This field is required to be implemented by the Resource Provider if the service has more than
+   * one tier, but is not required on a PUT. Possible values include: 'Free', 'Basic', 'Standard',
+   * 'Premium'
+   */
+  tier?: SkuTier;
+  /**
+   * The SKU size. When the name field is the combination of tier and some other value, this would
+   * be the standalone code.
+   */
+  size?: string;
+  /**
+   * If the service has different generations of hardware, for the same SKU, then that can be
+   * captured here.
+   */
+  family?: string;
+  /**
+   * If the SKU supports scale out/in then the capacity integer should be included. If scale out/in
+   * is not possible for the resource this may be omitted.
+   */
+  capacity?: number;
+}
+
+/**
+ * An interface representing ResourceModelWithAllowedPropertySetSku.
+ */
+export interface ResourceModelWithAllowedPropertySetSku extends Sku {
+}
+
+/**
+ * Plan for the resource.
+ */
+export interface Plan {
+  /**
+   * A user defined name of the 3rd Party Artifact that is being procured.
+   */
+  name: string;
+  /**
+   * The publisher of the 3rd Party Artifact that is being bought. E.g. NewRelic
+   */
+  publisher: string;
+  /**
+   * The 3rd Party artifact that is being procured. E.g. NewRelic. Product maps to the OfferID
+   * specified for the artifact at the time of Data Market onboarding.
+   */
+  product: string;
+  /**
+   * A publisher provided promotion code as provisioned in Data Market for the said
+   * product/artifact.
+   */
+  promotionCode?: string;
+  /**
+   * The version of the desired product/artifact.
+   */
+  version?: string;
+}
+
+/**
+ * An interface representing ResourceModelWithAllowedPropertySetPlan.
+ */
+export interface ResourceModelWithAllowedPropertySetPlan extends Plan {
+}
+
+/**
+ * The resource model definition containing the full set of allowed properties for a resource.
+ * Except properties bag, there cannot be a top level property outside of this set.
+ */
+export interface ResourceModelWithAllowedPropertySet extends BaseResource {
+  /**
+   * Fully qualified resource ID for the resource. Ex -
+   * /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * The name of the resource
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+   * "Microsoft.Storage/storageAccounts"
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
+   * The geo-location where the resource lives
+   */
+  location?: string;
+  /**
+   * The fully qualified resource ID of the resource that manages this resource. Indicates if this
+   * resource is managed by another Azure resource. If this is present, complete mode deployment
+   * will not delete the resource if it is removed from the template since it is managed by another
+   * resource.
+   */
+  managedBy?: string;
+  /**
+   * Metadata used by portal/tooling/etc to render different UX experiences for resources of the
+   * same type; e.g. ApiApps are a kind of Microsoft.Web/sites type.  If supported, the resource
+   * provider must validate and persist this value.
+   */
+  kind?: string;
+  /**
+   * The etag field is *not* required. If it is provided in the response body, it must also be
+   * provided as a header per the normal etag convention.  Entity tags are used for comparing two
+   * or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag
+   * (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range
+   * (section 14.27) header fields.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly etag?: string;
+  /**
+   * Resource tags.
+   */
+  tags?: { [propertyName: string]: string };
+  identity?: ResourceModelWithAllowedPropertySetIdentity;
+  sku?: ResourceModelWithAllowedPropertySetSku;
+  plan?: ResourceModelWithAllowedPropertySetPlan;
+}
+
+/**
+ * The current status of an async operation.
+ */
+export interface OperationStatusResult {
+  /**
+   * Fully qualified ID for the async operation.
+   */
+  id?: string;
+  /**
+   * Name of the async operation.
+   */
+  name?: string;
+  /**
+   * Operation status.
+   */
+  status: string;
+  /**
+   * Additional information, if available.
+   */
+  properties?: { [propertyName: string]: string };
+  /**
+   * If present, details of the operation error.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly error?: ErrorDetail;
+}
+
+/**
+ * The source reference for the GitRepository object.
+ */
+export interface RepositoryRefDefinition {
+  /**
+   * The git repository branch name to checkout.
+   */
+  branch?: string;
+  /**
+   * The git repository tag name to checkout. This takes precedence over branch.
+   */
+  tag?: string;
+  /**
+   * The semver range used to match against git repository tags. This takes precedence over tag.
+   */
+  semver?: string;
+  /**
+   * The commit SHA to checkout. This value must be combined with the branch name to be valid. This
+   * takes precedence over semver.
+   */
+  commit?: string;
+}
+
+/**
+ * Parameters to reconcile to the GitRepository source kind type.
+ */
+export interface GitRepositoryDefinition {
+  /**
+   * The URL to sync for the flux configuration git repository.
+   */
+  url?: string;
+  /**
+   * The maximum time to attempt to reconcile the cluster git repository source with the remote.
+   * Default value: 600.
+   */
+  timeoutInSeconds?: number;
+  /**
+   * The interval at which to re-reconcile the cluster git repository source with the remote.
+   * Default value: 600.
+   */
+  syncIntervalInSeconds?: number;
+  /**
+   * The source reference for the GitRepository object.
+   */
+  repositoryRef?: RepositoryRefDefinition;
+  /**
+   * Base64-encoded known_hosts value containing public SSH keys required to access private git
+   * repositories over SSH
+   */
+  sshKnownHosts?: string;
+  /**
+   * Plaintext HTTPS username used to access private git repositories over HTTPS
+   */
+  httpsUser?: string;
+  /**
+   * Base64-encoded HTTPS certificate authority contents used to access git private git
+   * repositories over HTTPS
+   */
+  httpsCACert?: string;
+  /**
+   * Name of a local secret on the Kubernetes cluster to use as the authentication secret rather
+   * than the managed or user-provided configuration secrets.
+   */
+  localAuthRef?: string;
+}
+
+/**
+ * Parameters to reconcile to the GitRepository source kind type.
+ */
+export interface GitRepositoryPatchDefinition {
+  /**
+   * The URL to sync for the flux configuration git repository.
+   */
+  url?: string;
+  /**
+   * The maximum time to attempt to reconcile the cluster git repository source with the remote.
+   */
+  timeoutInSeconds?: number;
+  /**
+   * The interval at which to re-reconcile the cluster git repository source with the remote.
+   */
+  syncIntervalInSeconds?: number;
+  /**
+   * The source reference for the GitRepository object.
+   */
+  repositoryRef?: RepositoryRefDefinition;
+  /**
+   * Base64-encoded known_hosts value containing public SSH keys required to access private git
+   * repositories over SSH
+   */
+  sshKnownHosts?: string;
+  /**
+   * Plaintext HTTPS username used to access private git repositories over HTTPS
+   */
+  httpsUser?: string;
+  /**
+   * Base64-encoded HTTPS certificate authority contents used to access git private git
+   * repositories over HTTPS
+   */
+  httpsCACert?: string;
+  /**
+   * Name of a local secret on the Kubernetes cluster to use as the authentication secret rather
+   * than the managed or user-provided configuration secrets.
+   */
+  localAuthRef?: string;
+}
+
+/**
+ * Parameters to reconcile to the GitRepository source kind type.
+ */
+export interface BucketDefinition {
+  /**
+   * The URL to sync for the flux configuration S3 bucket.
+   */
+  url?: string;
+  /**
+   * The bucket name to sync from the url endpoint for the flux configuration.
+   */
+  bucketName?: string;
+  /**
+   * Specify whether to use insecure communication when puling data from the S3 bucket. Default
+   * value: true.
+   */
+  insecure?: boolean;
+  /**
+   * The maximum time to attempt to reconcile the cluster git repository source with the remote.
+   * Default value: 600.
+   */
+  timeoutInSeconds?: number;
+  /**
+   * The interval at which to re-reconcile the cluster git repository source with the remote.
+   * Default value: 600.
+   */
+  syncIntervalInSeconds?: number;
+  /**
+   * Plaintext access key used to securely access the S3 bucket
+   */
+  accessKey?: string;
+  /**
+   * Name of a local secret on the Kubernetes cluster to use as the authentication secret rather
+   * than the managed or user-provided configuration secrets.
+   */
+  localAuthRef?: string;
+}
+
+/**
+ * Parameters to reconcile to the GitRepository source kind type.
+ */
+export interface BucketPatchDefinition {
+  /**
+   * The URL to sync for the flux configuration S3 bucket.
+   */
+  url?: string;
+  /**
+   * The bucket name to sync from the url endpoint for the flux configuration.
+   */
+  bucketName?: string;
+  /**
+   * Specify whether to use insecure communication when puling data from the S3 bucket.
+   */
+  insecure?: boolean;
+  /**
+   * The maximum time to attempt to reconcile the cluster git repository source with the remote.
+   */
+  timeoutInSeconds?: number;
+  /**
+   * The interval at which to re-reconcile the cluster git repository source with the remote.
+   */
+  syncIntervalInSeconds?: number;
+  /**
+   * Plaintext access key used to securely access the S3 bucket
+   */
+  accessKey?: string;
+  /**
+   * Name of a local secret on the Kubernetes cluster to use as the authentication secret rather
+   * than the managed or user-provided configuration secrets.
+   */
+  localAuthRef?: string;
+}
+
+/**
+ * Specify which kustomizations must succeed reconciliation on the cluster prior to reconciling
+ * this kustomization
+ */
+export interface DependsOnDefinition {
+  /**
+   * Name of the kustomization to claim dependency on
+   */
+  kustomizationName?: string;
+}
+
+/**
+ * The Kustomization defining how to reconcile the artifact pulled by the source type on the
+ * cluster.
+ */
+export interface KustomizationDefinition {
+  /**
+   * The path in the source reference to reconcile on the cluster. Default value: ''.
+   */
+  path?: string;
+  /**
+   * Specifies other Kustomizations that this Kustomization depends on. This Kustomization will not
+   * reconcile until all dependencies have completed their reconciliation.
+   */
+  dependsOn?: DependsOnDefinition[];
+  /**
+   * The maximum time to attempt to reconcile the Kustomization on the cluster. Default value: 600.
+   */
+  timeoutInSeconds?: number;
+  /**
+   * The interval at which to re-reconcile the Kustomization on the cluster. Default value: 600.
+   */
+  syncIntervalInSeconds?: number;
+  /**
+   * The interval at which to re-reconcile the Kustomization on the cluster in the event of failure
+   * on reconciliation.
+   */
+  retryIntervalInSeconds?: number;
+  /**
+   * Enable/disable garbage collections of Kubernetes objects created by this Kustomization.
+   * Default value: false.
+   */
+  prune?: boolean;
+  /**
+   * Enable/disable re-creating Kubernetes resources on the cluster when patching fails due to an
+   * immutable field change. Default value: false.
+   */
+  force?: boolean;
+}
+
+/**
+ * The Kustomization defining how to reconcile the artifact pulled by the source type on the
+ * cluster.
+ */
+export interface KustomizationPatchDefinition {
+  /**
+   * The path in the source reference to reconcile on the cluster.
+   */
+  path?: string;
+  /**
+   * Specifies other Kustomizations that this Kustomization depends on. This Kustomization will not
+   * reconcile until all dependencies have completed their reconciliation.
+   */
+  dependsOn?: DependsOnDefinition[];
+  /**
+   * The maximum time to attempt to reconcile the Kustomization on the cluster.
+   */
+  timeoutInSeconds?: number;
+  /**
+   * The interval at which to re-reconcile the Kustomization on the cluster.
+   */
+  syncIntervalInSeconds?: number;
+  /**
+   * The interval at which to re-reconcile the Kustomization on the cluster in the event of failure
+   * on reconciliation.
+   */
+  retryIntervalInSeconds?: number;
+  /**
+   * Enable/disable garbage collections of Kubernetes objects created by this Kustomization.
+   */
+  prune?: boolean;
+  /**
+   * Enable/disable re-creating Kubernetes resources on the cluster when patching fails due to an
+   * immutable field change.
+   */
+  force?: boolean;
+}
+
+/**
+ * Object reference to a Kubernetes object on a cluster
+ */
+export interface ObjectReferenceDefinition {
+  /**
+   * Name of the object
+   */
+  name?: string;
+  /**
+   * Namespace of the object
+   */
+  namespace?: string;
+}
+
+/**
+ * Status condition of Kubernetes object
+ */
+export interface ObjectStatusConditionDefinition {
+  /**
+   * Last time this status condition has changed
+   */
+  lastTransitionTime?: Date;
+  /**
+   * A more verbose description of the object status condition
+   */
+  message?: string;
+  /**
+   * Reason for the specified status condition type status
+   */
+  reason?: string;
+  /**
+   * Status of the Kubernetes object condition type
+   */
+  status?: string;
+  /**
+   * Object status condition type for this object
+   */
+  type?: string;
+}
+
+/**
+ * An interface representing HelmReleasePropertiesDefinition.
+ */
+export interface HelmReleasePropertiesDefinition {
+  /**
+   * The revision number of the last released object change
+   */
+  lastRevisionApplied?: number;
+  /**
+   * The reference to the HelmChart object used as the source to this HelmRelease
+   */
+  helmChartRef?: ObjectReferenceDefinition;
+  /**
+   * Total number of times that the HelmRelease failed to install or upgrade
+   */
+  failureCount?: number;
+  /**
+   * Number of times that the HelmRelease failed to install
+   */
+  installFailureCount?: number;
+  /**
+   * Number of times that the HelmRelease failed to upgrade
+   */
+  upgradeFailureCount?: number;
+}
+
+/**
+ * Statuses of objects deployed by the user-specified kustomizations from the git repository.
+ */
+export interface ObjectStatusDefinition {
+  /**
+   * Name of the applied object
+   */
+  name?: string;
+  /**
+   * Namespace of the applied object
+   */
+  namespace?: string;
+  /**
+   * Kind of the applied object
+   */
+  kind?: string;
+  /**
+   * Compliance state of the applied object showing whether the applied object has come into a
+   * ready state on the cluster. Possible values include: 'Compliant', 'Non-Compliant', 'Pending',
+   * 'Suspended', 'Unknown'. Default value: 'Unknown'.
+   */
+  complianceState?: FluxComplianceState;
+  /**
+   * Object reference to the Kustomization that applied this object
+   */
+  appliedBy?: ObjectReferenceDefinition;
+  /**
+   * List of Kubernetes object status conditions present on the cluster
+   */
+  statusConditions?: ObjectStatusConditionDefinition[];
+  /**
+   * Additional properties that are provided from objects of the HelmRelease kind
+   */
+  helmReleaseProperties?: HelmReleasePropertiesDefinition;
+}
+
+/**
+ * The Flux Configuration object returned in Get & Put response.
+ */
+export interface FluxConfiguration extends ProxyResource {
+  /**
+   * Scope at which the operator will be installed. Possible values include: 'cluster',
+   * 'namespace'. Default value: 'cluster'.
+   */
+  scope?: ScopeType;
+  /**
+   * The namespace to which this configuration is installed to. Maximum of 253 lower case
+   * alphanumeric characters, hyphen and period only. Default value: 'default'.
+   */
+  namespace?: string;
+  /**
+   * Source Kind to pull the configuration data from. Possible values include: 'GitRepository',
+   * 'Bucket'
+   */
+  sourceKind?: SourceKindType;
+  /**
+   * Whether this configuration should suspend its reconciliation of its kustomizations and
+   * sources. Default value: false.
+   */
+  suspend?: boolean;
+  /**
+   * Parameters to reconcile to the GitRepository source kind type.
+   */
+  gitRepository?: GitRepositoryDefinition;
+  /**
+   * Parameters to reconcile to the Bucket source kind type.
+   */
+  bucket?: BucketDefinition;
+  /**
+   * Array of kustomizations used to reconcile the artifact pulled by the source type on the
+   * cluster.
+   */
+  kustomizations?: { [propertyName: string]: KustomizationDefinition };
+  /**
+   * Key-value pairs of protected configuration settings for the configuration
+   */
+  configurationProtectedSettings?: { [propertyName: string]: string };
+  /**
+   * Statuses of the Flux Kubernetes resources created by the fluxConfiguration or created by the
+   * managed objects provisioned by the fluxConfiguration.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly statuses?: ObjectStatusDefinition[];
+  /**
+   * Public Key associated with this fluxConfiguration (either generated within the cluster or
+   * provided by the user).
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly repositoryPublicKey?: string;
+  /**
+   * Branch and SHA of the last source commit synced with the cluster.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly lastSourceUpdatedCommitId?: string;
+  /**
+   * Datetime the fluxConfiguration last synced its source on the cluster.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly lastSourceUpdatedAt?: Date;
+  /**
+   * Combined status of the Flux Kubernetes resources created by the fluxConfiguration or created
+   * by the managed objects. Possible values include: 'Compliant', 'Non-Compliant', 'Pending',
+   * 'Suspended', 'Unknown'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**.
+   * Default value: 'Unknown'.
+   */
+  readonly complianceState?: FluxComplianceState;
+  /**
+   * Status of the creation of the fluxConfiguration. Possible values include: 'Succeeded',
+   * 'Failed', 'Canceled', 'Creating', 'Updating', 'Deleting'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * Error message returned to the user in the case of provisioning failure.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly errorMessage?: string;
+  /**
+   * Top level metadata
+   * https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/common-api-contracts.md#system-metadata-for-all-azure-resources
+   */
+  systemData?: SystemData;
+}
+
+/**
+ * The Flux Configuration Patch Request object.
+ */
+export interface FluxConfigurationPatch {
+  /**
+   * Source Kind to pull the configuration data from. Possible values include: 'GitRepository',
+   * 'Bucket'
+   */
+  sourceKind?: SourceKindType;
+  /**
+   * Whether this configuration should suspend its reconciliation of its kustomizations and
+   * sources.
+   */
+  suspend?: boolean;
+  /**
+   * Parameters to reconcile to the GitRepository source kind type.
+   */
+  gitRepository?: GitRepositoryPatchDefinition;
+  /**
+   * Parameters to reconcile to the Bucket source kind type.
+   */
+  bucket?: BucketDefinition;
+  /**
+   * Array of kustomizations used to reconcile the artifact pulled by the source type on the
+   * cluster.
+   */
+  kustomizations?: { [propertyName: string]: KustomizationPatchDefinition };
+  /**
+   * Key-value pairs of protected configuration settings for the configuration
+   */
+  configurationProtectedSettings?: { [propertyName: string]: string };
 }
 
 /**
@@ -81,70 +1127,6 @@ export interface HelmOperatorProperties {
    * Values override for the operator Helm chart.
    */
   chartValues?: string;
-}
-
-/**
- * Metadata pertaining to creation and last modification of the resource.
- */
-export interface SystemData {
-  /**
-   * The identity that created the resource.
-   */
-  createdBy?: string;
-  /**
-   * The type of identity that created the resource. Possible values include: 'User',
-   * 'Application', 'ManagedIdentity', 'Key'
-   */
-  createdByType?: CreatedByType;
-  /**
-   * The timestamp of resource creation (UTC).
-   */
-  createdAt?: Date;
-  /**
-   * The identity that last modified the resource.
-   */
-  lastModifiedBy?: string;
-  /**
-   * The type of identity that last modified the resource. Possible values include: 'User',
-   * 'Application', 'ManagedIdentity', 'Key'
-   */
-  lastModifiedByType?: CreatedByType;
-  /**
-   * The type of identity that last modified the resource.
-   */
-  lastModifiedAt?: Date;
-}
-
-/**
- * Common fields that are returned in the response for all Azure Resource Manager resources
- * @summary Resource
- */
-export interface Resource extends BaseResource {
-  /**
-   * Fully qualified resource ID for the resource. Ex -
-   * /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly id?: string;
-  /**
-   * The name of the resource
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name?: string;
-  /**
-   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
-   * "Microsoft.Storage/storageAccounts"
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly type?: string;
-}
-
-/**
- * The resource model definition for a Azure Resource Manager proxy resource. It will not have tags
- * and a location
- * @summary Proxy Resource
- */
-export interface ProxyResource extends Resource {
 }
 
 /**
@@ -257,34 +1239,51 @@ export interface ResourceProviderOperation {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly isDataAction?: boolean;
-}
-
-/**
- * The resource model definition for an Azure Resource Manager tracked top level resource which has
- * 'tags' and a 'location'
- * @summary Tracked Resource
- */
-export interface TrackedResource extends Resource {
   /**
-   * Resource tags.
-   */
-  tags?: { [propertyName: string]: string };
-  /**
-   * The geo-location where the resource lives
-   */
-  location: string;
-}
-
-/**
- * The resource model definition for an Azure Resource Manager resource with an etag.
- * @summary Entity Resource
- */
-export interface AzureEntityResource extends Resource {
-  /**
-   * Resource Etag.
+   * Origin of the operation
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly etag?: string;
+  readonly origin?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface ExtensionsDeleteMethodOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Delete the extension resource in Azure - not the normal asynchronous delete.
+   */
+  forceDelete?: boolean;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface ExtensionsBeginDeleteMethodOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Delete the extension resource in Azure - not the normal asynchronous delete.
+   */
+  forceDelete?: boolean;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface FluxConfigurationsDeleteMethodOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Delete the extension resource in Azure - not the normal asynchronous delete.
+   */
+  forceDelete?: boolean;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface FluxConfigurationsBeginDeleteMethodOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Delete the extension resource in Azure - not the normal asynchronous delete.
+   */
+  forceDelete?: boolean;
 }
 
 /**
@@ -292,6 +1291,80 @@ export interface AzureEntityResource extends Resource {
  */
 export interface SourceControlConfigurationClientOptions extends AzureServiceClientOptions {
   baseUri?: string;
+}
+
+/**
+ * @interface
+ * List Extension Types
+ * @extends Array<ExtensionType>
+ */
+export interface ExtensionTypeList extends Array<ExtensionType> {
+  /**
+   * The link to fetch the next page of Extension Types
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
+ * List versions for an Extension
+ * @extends Array<ExtensionVersionListVersionsItem>
+ */
+export interface ExtensionVersionList extends Array<ExtensionVersionListVersionsItem> {
+  /**
+   * Versions available for this Extension Type
+   */
+  versions?: ExtensionVersionListVersionsItem[];
+  /**
+   * The link to fetch the next page of Extension Types
+   */
+  nextLink?: string;
+  /**
+   * Metadata pertaining to creation and last modification of the resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly systemData?: SystemData;
+}
+
+/**
+ * @interface
+ * Result of the request to list Extensions.  It contains a list of Extension objects and a URL
+ * link to get the next set of results.
+ * @extends Array<Extension>
+ */
+export interface ExtensionsList extends Array<Extension> {
+  /**
+   * URL to get the next set of extension objects, if any.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * The async operations in progress, in the cluster.
+ * @extends Array<OperationStatusResult>
+ */
+export interface OperationStatusList extends Array<OperationStatusResult> {
+  /**
+   * URL to get the next set of Operation Result objects, if any.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * Result of the request to list Flux Configurations.  It contains a list of FluxConfiguration
+ * objects and a URL link to get the next set of results.
+ * @extends Array<FluxConfiguration>
+ */
+export interface FluxConfigurationsList extends Array<FluxConfiguration> {
+  /**
+   * URL to get the next set of configuration objects, if any.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
 }
 
 /**
@@ -320,6 +1393,86 @@ export interface ResourceProviderOperationList extends Array<ResourceProviderOpe
    */
   readonly nextLink?: string;
 }
+
+/**
+ * Defines values for ClusterTypes.
+ * Possible values include: 'connectedClusters', 'managedClusters'
+ * @readonly
+ * @enum {string}
+ */
+export type ClusterTypes = 'connectedClusters' | 'managedClusters';
+
+/**
+ * Defines values for CreatedByType.
+ * Possible values include: 'User', 'Application', 'ManagedIdentity', 'Key'
+ * @readonly
+ * @enum {string}
+ */
+export type CreatedByType = 'User' | 'Application' | 'ManagedIdentity' | 'Key';
+
+/**
+ * Defines values for LevelType.
+ * Possible values include: 'Error', 'Warning', 'Information'
+ * @readonly
+ * @enum {string}
+ */
+export type LevelType = 'Error' | 'Warning' | 'Information';
+
+/**
+ * Defines values for ProvisioningState.
+ * Possible values include: 'Succeeded', 'Failed', 'Canceled', 'Creating', 'Updating', 'Deleting'
+ * @readonly
+ * @enum {string}
+ */
+export type ProvisioningState = 'Succeeded' | 'Failed' | 'Canceled' | 'Creating' | 'Updating' | 'Deleting';
+
+/**
+ * Defines values for ResourceIdentityType.
+ * Possible values include: 'SystemAssigned'
+ * @readonly
+ * @enum {string}
+ */
+export type ResourceIdentityType = 'SystemAssigned';
+
+/**
+ * Defines values for SkuTier.
+ * Possible values include: 'Free', 'Basic', 'Standard', 'Premium'
+ * @readonly
+ * @enum {string}
+ */
+export type SkuTier = 'Free' | 'Basic' | 'Standard' | 'Premium';
+
+/**
+ * Defines values for ScopeType.
+ * Possible values include: 'cluster', 'namespace'
+ * @readonly
+ * @enum {string}
+ */
+export type ScopeType = 'cluster' | 'namespace';
+
+/**
+ * Defines values for SourceKindType.
+ * Possible values include: 'GitRepository', 'Bucket'
+ * @readonly
+ * @enum {string}
+ */
+export type SourceKindType = 'GitRepository' | 'Bucket';
+
+/**
+ * Defines values for KustomizationValidationType.
+ * Possible values include: 'none', 'client', 'server'
+ * @readonly
+ * @enum {string}
+ */
+export type KustomizationValidationType = 'none' | 'client' | 'server';
+
+/**
+ * Defines values for FluxComplianceState.
+ * Possible values include: 'Compliant', 'Non-Compliant', 'Pending', 'Suspended', 'Unknown'
+ * @readonly
+ * @enum {string}
+ */
+export type FluxComplianceState = 'Compliant' | 'Non-Compliant' | 'Pending' | 'Suspended' | 'Unknown';
 
 /**
  * Defines values for ComplianceStateType.
@@ -360,14 +1513,6 @@ export type OperatorScopeType = 'cluster' | 'namespace';
  * @enum {string}
  */
 export type ProvisioningStateType = 'Accepted' | 'Deleting' | 'Running' | 'Succeeded' | 'Failed';
-
-/**
- * Defines values for CreatedByType.
- * Possible values include: 'User', 'Application', 'ManagedIdentity', 'Key'
- * @readonly
- * @enum {string}
- */
-export type CreatedByType = 'User' | 'Application' | 'ManagedIdentity' | 'Key';
 
 /**
  * Defines values for ClusterRp.
@@ -432,6 +1577,746 @@ export type ClusterRp3 = 'Microsoft.ContainerService' | 'Microsoft.Kubernetes';
  * @enum {string}
  */
 export type ClusterResourceName3 = 'managedClusters' | 'connectedClusters';
+
+/**
+ * Defines values for ClusterRp4.
+ * Possible values include: 'Microsoft.ContainerService', 'Microsoft.Kubernetes'
+ * @readonly
+ * @enum {string}
+ */
+export type ClusterRp4 = 'Microsoft.ContainerService' | 'Microsoft.Kubernetes';
+
+/**
+ * Defines values for ClusterResourceName4.
+ * Possible values include: 'managedClusters', 'connectedClusters'
+ * @readonly
+ * @enum {string}
+ */
+export type ClusterResourceName4 = 'managedClusters' | 'connectedClusters';
+
+/**
+ * Defines values for ClusterRp5.
+ * Possible values include: 'Microsoft.ContainerService', 'Microsoft.Kubernetes'
+ * @readonly
+ * @enum {string}
+ */
+export type ClusterRp5 = 'Microsoft.ContainerService' | 'Microsoft.Kubernetes';
+
+/**
+ * Defines values for ClusterResourceName5.
+ * Possible values include: 'managedClusters', 'connectedClusters'
+ * @readonly
+ * @enum {string}
+ */
+export type ClusterResourceName5 = 'managedClusters' | 'connectedClusters';
+
+/**
+ * Defines values for ClusterRp6.
+ * Possible values include: 'Microsoft.ContainerService', 'Microsoft.Kubernetes'
+ * @readonly
+ * @enum {string}
+ */
+export type ClusterRp6 = 'Microsoft.ContainerService' | 'Microsoft.Kubernetes';
+
+/**
+ * Defines values for ClusterResourceName6.
+ * Possible values include: 'managedClusters', 'connectedClusters'
+ * @readonly
+ * @enum {string}
+ */
+export type ClusterResourceName6 = 'managedClusters' | 'connectedClusters';
+
+/**
+ * Defines values for ClusterRp7.
+ * Possible values include: 'Microsoft.ContainerService', 'Microsoft.Kubernetes'
+ * @readonly
+ * @enum {string}
+ */
+export type ClusterRp7 = 'Microsoft.ContainerService' | 'Microsoft.Kubernetes';
+
+/**
+ * Defines values for ClusterResourceName7.
+ * Possible values include: 'managedClusters', 'connectedClusters'
+ * @readonly
+ * @enum {string}
+ */
+export type ClusterResourceName7 = 'managedClusters' | 'connectedClusters';
+
+/**
+ * Defines values for ClusterRp8.
+ * Possible values include: 'Microsoft.ContainerService', 'Microsoft.Kubernetes'
+ * @readonly
+ * @enum {string}
+ */
+export type ClusterRp8 = 'Microsoft.ContainerService' | 'Microsoft.Kubernetes';
+
+/**
+ * Defines values for ClusterResourceName8.
+ * Possible values include: 'managedClusters', 'connectedClusters'
+ * @readonly
+ * @enum {string}
+ */
+export type ClusterResourceName8 = 'managedClusters' | 'connectedClusters';
+
+/**
+ * Defines values for ClusterRp9.
+ * Possible values include: 'Microsoft.ContainerService', 'Microsoft.Kubernetes'
+ * @readonly
+ * @enum {string}
+ */
+export type ClusterRp9 = 'Microsoft.ContainerService' | 'Microsoft.Kubernetes';
+
+/**
+ * Defines values for ClusterResourceName9.
+ * Possible values include: 'managedClusters', 'connectedClusters'
+ * @readonly
+ * @enum {string}
+ */
+export type ClusterResourceName9 = 'managedClusters' | 'connectedClusters';
+
+/**
+ * Defines values for ClusterRp10.
+ * Possible values include: 'Microsoft.ContainerService', 'Microsoft.Kubernetes'
+ * @readonly
+ * @enum {string}
+ */
+export type ClusterRp10 = 'Microsoft.ContainerService' | 'Microsoft.Kubernetes';
+
+/**
+ * Defines values for ClusterResourceName10.
+ * Possible values include: 'managedClusters', 'connectedClusters'
+ * @readonly
+ * @enum {string}
+ */
+export type ClusterResourceName10 = 'managedClusters' | 'connectedClusters';
+
+/**
+ * Defines values for ClusterRp11.
+ * Possible values include: 'Microsoft.ContainerService', 'Microsoft.Kubernetes'
+ * @readonly
+ * @enum {string}
+ */
+export type ClusterRp11 = 'Microsoft.ContainerService' | 'Microsoft.Kubernetes';
+
+/**
+ * Defines values for ClusterResourceName11.
+ * Possible values include: 'managedClusters', 'connectedClusters'
+ * @readonly
+ * @enum {string}
+ */
+export type ClusterResourceName11 = 'managedClusters' | 'connectedClusters';
+
+/**
+ * Defines values for ClusterRp12.
+ * Possible values include: 'Microsoft.ContainerService', 'Microsoft.Kubernetes'
+ * @readonly
+ * @enum {string}
+ */
+export type ClusterRp12 = 'Microsoft.ContainerService' | 'Microsoft.Kubernetes';
+
+/**
+ * Defines values for ClusterResourceName12.
+ * Possible values include: 'managedClusters', 'connectedClusters'
+ * @readonly
+ * @enum {string}
+ */
+export type ClusterResourceName12 = 'managedClusters' | 'connectedClusters';
+
+/**
+ * Defines values for ClusterRp13.
+ * Possible values include: 'Microsoft.ContainerService', 'Microsoft.Kubernetes'
+ * @readonly
+ * @enum {string}
+ */
+export type ClusterRp13 = 'Microsoft.ContainerService' | 'Microsoft.Kubernetes';
+
+/**
+ * Defines values for ClusterResourceName13.
+ * Possible values include: 'managedClusters', 'connectedClusters'
+ * @readonly
+ * @enum {string}
+ */
+export type ClusterResourceName13 = 'managedClusters' | 'connectedClusters';
+
+/**
+ * Defines values for ClusterRp14.
+ * Possible values include: 'Microsoft.ContainerService', 'Microsoft.Kubernetes'
+ * @readonly
+ * @enum {string}
+ */
+export type ClusterRp14 = 'Microsoft.ContainerService' | 'Microsoft.Kubernetes';
+
+/**
+ * Defines values for ClusterResourceName14.
+ * Possible values include: 'managedClusters', 'connectedClusters'
+ * @readonly
+ * @enum {string}
+ */
+export type ClusterResourceName14 = 'managedClusters' | 'connectedClusters';
+
+/**
+ * Defines values for ClusterRp15.
+ * Possible values include: 'Microsoft.ContainerService', 'Microsoft.Kubernetes'
+ * @readonly
+ * @enum {string}
+ */
+export type ClusterRp15 = 'Microsoft.ContainerService' | 'Microsoft.Kubernetes';
+
+/**
+ * Defines values for ClusterResourceName15.
+ * Possible values include: 'managedClusters', 'connectedClusters'
+ * @readonly
+ * @enum {string}
+ */
+export type ClusterResourceName15 = 'managedClusters' | 'connectedClusters';
+
+/**
+ * Defines values for ClusterRp16.
+ * Possible values include: 'Microsoft.ContainerService', 'Microsoft.Kubernetes'
+ * @readonly
+ * @enum {string}
+ */
+export type ClusterRp16 = 'Microsoft.ContainerService' | 'Microsoft.Kubernetes';
+
+/**
+ * Defines values for ClusterResourceName16.
+ * Possible values include: 'managedClusters', 'connectedClusters'
+ * @readonly
+ * @enum {string}
+ */
+export type ClusterResourceName16 = 'managedClusters' | 'connectedClusters';
+
+/**
+ * Defines values for ClusterRp17.
+ * Possible values include: 'Microsoft.ContainerService', 'Microsoft.Kubernetes'
+ * @readonly
+ * @enum {string}
+ */
+export type ClusterRp17 = 'Microsoft.ContainerService' | 'Microsoft.Kubernetes';
+
+/**
+ * Defines values for ClusterResourceName17.
+ * Possible values include: 'managedClusters', 'connectedClusters'
+ * @readonly
+ * @enum {string}
+ */
+export type ClusterResourceName17 = 'managedClusters' | 'connectedClusters';
+
+/**
+ * Defines values for ClusterRp18.
+ * Possible values include: 'Microsoft.ContainerService', 'Microsoft.Kubernetes'
+ * @readonly
+ * @enum {string}
+ */
+export type ClusterRp18 = 'Microsoft.ContainerService' | 'Microsoft.Kubernetes';
+
+/**
+ * Defines values for ClusterResourceName18.
+ * Possible values include: 'managedClusters', 'connectedClusters'
+ * @readonly
+ * @enum {string}
+ */
+export type ClusterResourceName18 = 'managedClusters' | 'connectedClusters';
+
+/**
+ * Contains response data for the get operation.
+ */
+export type ClusterExtensionTypeGetResponse = ExtensionType & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ExtensionType;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type ClusterExtensionTypesListResponse = ExtensionTypeList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ExtensionTypeList;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type ClusterExtensionTypesListNextResponse = ExtensionTypeList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ExtensionTypeList;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type ExtensionTypeVersionsListResponse = ExtensionVersionList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ExtensionVersionList;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type ExtensionTypeVersionsListNextResponse = ExtensionVersionList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ExtensionVersionList;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type LocationExtensionTypesListResponse = ExtensionTypeList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ExtensionTypeList;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type LocationExtensionTypesListNextResponse = ExtensionTypeList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ExtensionTypeList;
+    };
+};
+
+/**
+ * Contains response data for the create operation.
+ */
+export type ExtensionsCreateResponse = Extension & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Extension;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type ExtensionsGetResponse = Extension & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Extension;
+    };
+};
+
+/**
+ * Contains response data for the update operation.
+ */
+export type ExtensionsUpdateResponse = Extension & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Extension;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type ExtensionsListResponse = ExtensionsList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ExtensionsList;
+    };
+};
+
+/**
+ * Contains response data for the beginCreate operation.
+ */
+export type ExtensionsBeginCreateResponse = Extension & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Extension;
+    };
+};
+
+/**
+ * Contains response data for the beginUpdate operation.
+ */
+export type ExtensionsBeginUpdateResponse = Extension & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Extension;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type ExtensionsListNextResponse = ExtensionsList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ExtensionsList;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type OperationStatusGetResponse = OperationStatusResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: OperationStatusResult;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type OperationStatusListResponse = OperationStatusList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: OperationStatusList;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type OperationStatusListNextResponse = OperationStatusList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: OperationStatusList;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type FluxConfigurationsGetResponse = FluxConfiguration & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: FluxConfiguration;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type FluxConfigurationsCreateOrUpdateResponse = FluxConfiguration & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: FluxConfiguration;
+    };
+};
+
+/**
+ * Contains response data for the update operation.
+ */
+export type FluxConfigurationsUpdateResponse = FluxConfiguration & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: FluxConfiguration;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type FluxConfigurationsListResponse = FluxConfigurationsList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: FluxConfigurationsList;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateOrUpdate operation.
+ */
+export type FluxConfigurationsBeginCreateOrUpdateResponse = FluxConfiguration & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: FluxConfiguration;
+    };
+};
+
+/**
+ * Contains response data for the beginUpdate operation.
+ */
+export type FluxConfigurationsBeginUpdateResponse = FluxConfiguration & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: FluxConfiguration;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type FluxConfigurationsListNextResponse = FluxConfigurationsList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: FluxConfigurationsList;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type FluxConfigOperationStatusGetResponse = OperationStatusResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: OperationStatusResult;
+    };
+};
 
 /**
  * Contains response data for the get operation.

@@ -24,6 +24,9 @@ export const apiVersion: msRest.OperationQueryParameter = {
   mapper: {
     required: true,
     serializedName: "api-version",
+    constraints: {
+      MinLength: 1
+    },
     type: {
       name: "String"
     }
@@ -59,6 +62,58 @@ export const clusterRp: msRest.OperationURLParameter = {
     }
   }
 };
+export const extensionName: msRest.OperationURLParameter = {
+  parameterPath: "extensionName",
+  mapper: {
+    required: true,
+    serializedName: "extensionName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const extensionTypeName: msRest.OperationURLParameter = {
+  parameterPath: "extensionTypeName",
+  mapper: {
+    required: true,
+    serializedName: "extensionTypeName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const fluxConfigurationName: msRest.OperationURLParameter = {
+  parameterPath: "fluxConfigurationName",
+  mapper: {
+    required: true,
+    serializedName: "fluxConfigurationName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const forceDelete: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "forceDelete"
+  ],
+  mapper: {
+    serializedName: "forceDelete",
+    type: {
+      name: "Boolean"
+    }
+  }
+};
+export const location: msRest.OperationURLParameter = {
+  parameterPath: "location",
+  mapper: {
+    required: true,
+    serializedName: "location",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const nextPageLink: msRest.OperationURLParameter = {
   parameterPath: "nextPageLink",
   mapper: {
@@ -70,11 +125,25 @@ export const nextPageLink: msRest.OperationURLParameter = {
   },
   skipEncoding: true
 };
+export const operationId: msRest.OperationURLParameter = {
+  parameterPath: "operationId",
+  mapper: {
+    required: true,
+    serializedName: "operationId",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const resourceGroupName: msRest.OperationURLParameter = {
   parameterPath: "resourceGroupName",
   mapper: {
     required: true,
     serializedName: "resourceGroupName",
+    constraints: {
+      MaxLength: 90,
+      MinLength: 1
+    },
     type: {
       name: "String"
     }
@@ -95,6 +164,9 @@ export const subscriptionId: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "subscriptionId",
+    constraints: {
+      MinLength: 1
+    },
     type: {
       name: "String"
     }
