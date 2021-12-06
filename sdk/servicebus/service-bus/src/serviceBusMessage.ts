@@ -583,7 +583,9 @@ export function fromRheaMessage(
       -readonly [P in keyof T]: T[P];
     }
   >;
-  const props: PartialWritable<ServiceBusReceivedMessage> & { state: "active" | "deferred" | "scheduled" } = { state: "active" };
+  const props: PartialWritable<ServiceBusReceivedMessage> & {
+    state: "active" | "deferred" | "scheduled";
+  } = { state: "active" };
   if (rheaMessage.message_annotations != null) {
     if (rheaMessage.message_annotations[Constants.deadLetterSource] != null) {
       props.deadLetterSource = rheaMessage.message_annotations[Constants.deadLetterSource];

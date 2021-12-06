@@ -14,7 +14,11 @@ import { createServiceBusLogger, ServiceBusLogger } from "../../../src/log";
 import { ProcessErrorArgs } from "../../../src/models";
 import { ServiceBusError, translateServiceBusError } from "../../../src/serviceBusError";
 import { MessagingError, RetryOperationType } from "@azure/core-amqp";
-import { DispositionType, ServiceBusMessageImpl, ServiceBusReceivedMessage } from "../../../src/serviceBusMessage";
+import {
+  DispositionType,
+  ServiceBusMessageImpl,
+  ServiceBusReceivedMessage
+} from "../../../src/serviceBusMessage";
 import { ConnectionContext } from "../../../src/connectionContext";
 import { DispositionStatusOptions } from "../../../src/core/managementClient";
 import { Delivery } from "rhea-promise";
@@ -382,7 +386,7 @@ it("getMessageIterator doesn't yield empty responses", async () => {
         {
           body: "hello",
           _rawAmqpMessage: { body: "hello" },
-          state:  "active"
+          state: "active"
         }
       ],
       allReceivedMessages,
