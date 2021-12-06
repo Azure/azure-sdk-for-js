@@ -30,7 +30,7 @@ The `dev-tool about` command will print some information about how to use the co
 *To build (transpile) the sample-dev folder of a service's SDK*:
 
 1. Change the terminal to the service's `samples-dev` folder.  
-1. Run `dev-tool samples publish --force samples-dev`. The generated files are placed in the `samples` folder.
+1. Run `dev-tool samples publish --force samples-dev`.
 
 ## Extending the Tool
 
