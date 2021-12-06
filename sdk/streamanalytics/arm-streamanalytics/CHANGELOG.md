@@ -1,3 +1,80 @@
+# Release History
+    
+## 4.0.0-beta.1 (2021-12-06)
+    
+**Features**
+
+  - Added operation StreamingJobs.beginScale
+  - Added operation StreamingJobs.beginScaleAndWait
+  - Added Interface AzureMachineLearningWebServiceInputColumn
+  - Added Interface AzureMachineLearningWebServiceInputs
+  - Added Interface AzureMachineLearningWebServiceOutputColumn
+  - Added Interface ErrorError
+  - Added Interface ScaleStreamingJobParameters
+  - Added Interface Sku
+  - Added Interface StreamingJobsScaleOptionalParams
+  - Added Type Alias AzureMachineLearningWebServiceFunctionBinding
+  - Added Type Alias AzureMachineLearningWebServiceFunctionRetrieveDefaultDefinitionParameters
+  - Added Type Alias CompressionType
+  - Added Type Alias RefreshType
+  - Added Type Alias SkuName
+  - Interface Operation has a new optional parameter isDataAction
+  - Interface StreamAnalyticsManagementClientOptionalParams has a new optional parameter apiVersion
+  - Class StreamAnalyticsManagementClient has a new parameter $host
+  - Class StreamAnalyticsManagementClient has a new parameter apiVersion
+  - Class StreamAnalyticsManagementClient has a new parameter subscriptionId
+  - Type Alias AzureSqlReferenceInputDataSource has a new parameter server
+  - Type Alias AzureSqlReferenceInputDataSource has a new parameter database
+  - Type Alias AzureSqlReferenceInputDataSource has a new parameter user
+  - Type Alias AzureSqlReferenceInputDataSource has a new parameter password
+  - Type Alias AzureSqlReferenceInputDataSource has a new parameter table
+  - Type Alias AzureSqlReferenceInputDataSource has a new parameter refreshType
+  - Type Alias AzureSqlReferenceInputDataSource has a new parameter refreshRate
+  - Type Alias AzureSqlReferenceInputDataSource has a new parameter fullSnapshotQuery
+  - Type Alias AzureSqlReferenceInputDataSource has a new parameter deltaSnapshotQuery
+  - Type Alias Cluster has a new parameter createdDate
+  - Type Alias Cluster has a new parameter clusterId
+  - Type Alias Cluster has a new parameter provisioningState
+  - Type Alias Cluster has a new parameter capacityAllocated
+  - Type Alias Cluster has a new parameter capacityAssigned
+  - Type Alias PrivateEndpoint has a new parameter createdDate
+  - Type Alias PrivateEndpoint has a new parameter manualPrivateLinkServiceConnections
+  - Type Alias ScalarFunctionProperties has a new parameter inputs
+  - Type Alias ScalarFunctionProperties has a new parameter output
+  - Type Alias ScalarFunctionProperties has a new parameter binding
+  - Type Alias ServiceBusQueueOutputDataSource has a new parameter systemPropertyColumns
+  - Type Alias ServiceBusQueueOutputDataSourceProperties has a new parameter systemPropertyColumns
+  - Type Alias Transformation has a new parameter validStreamingUnits
+  - Added Enum KnownCompressionType
+  - Added Enum KnownRefreshType
+  - Added Enum KnownSkuName
+  - Enum KnownCompatibilityLevel has a new value One2
+
+**Breaking Changes**
+
+  - Removed operation Subscriptions.beginSampleInput
+  - Removed operation Subscriptions.beginSampleInputAndWait
+  - Removed operation Subscriptions.beginTestInput
+  - Removed operation Subscriptions.beginTestInputAndWait
+  - Removed operation Subscriptions.beginTestOutput
+  - Removed operation Subscriptions.beginTestOutputAndWait
+  - Removed operation Subscriptions.beginTestQuery
+  - Removed operation Subscriptions.beginTestQueryAndWait
+  - Removed operation Subscriptions.compileQuery
+  - Deleted Class StreamAnalyticsManagementClientContext
+  - Interface FunctionProperties no longer has parameter binding
+  - Interface FunctionProperties no longer has parameter inputs
+  - Interface FunctionProperties no longer has parameter output
+  - Type Alias AzureSqlReferenceInputDataSource no longer has parameter properties
+  - Type Alias Cluster no longer has parameter properties
+  - Type Alias PrivateEndpoint no longer has parameter properties
+  - Type Alias StreamingJob no longer has parameter externals
+  - Removed Enum KnownQueryTestingResultStatus
+  - Removed Enum KnownSampleInputResultStatus
+  - Removed Enum KnownStreamingJobSkuName
+  - Removed Enum KnownTestDatasourceResultStatus
+  - Enum KnownEventSerializationType no longer has value CustomClr
+    
 ## 3.0.0-beta.1 (2021-11-02)
 
 This is the first preview for the new version of the `@azure/arm-streamanalytics` package that follows the new [guidelines for TypeScript SDKs](https://azure.github.io/azure-sdk/typescript_introduction.html) for Azure services.
