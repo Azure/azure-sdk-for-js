@@ -201,7 +201,11 @@ describe("Server Call Live Test", function() {
         };
         // Add Participant
         await TestUtils.delayIfLive();
-        const addParticipantResult = await callingServer.addParticipant(callLocator, participant, Constants.CALLBACK_URL);
+        const addParticipantResult = await callingServer.addParticipant(
+          callLocator,
+          participant,
+          Constants.CALLBACK_URL
+        );
         assert.isNotNull(addParticipantResult.operationContext);
         assert.equal(addParticipantResult.status, "running");
         assert.isNotNull(addParticipantResult.resultDetails);
