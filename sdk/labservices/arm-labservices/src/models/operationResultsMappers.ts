@@ -10,7 +10,5 @@ export {
   ErrorAdditionalInfo,
   ErrorDetail,
   ErrorResponse,
-  Operation,
-  OperationDisplay,
-  OperationListResult
+  OperationResult
 } from "../models/mappers";
