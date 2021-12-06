@@ -6,8 +6,7 @@
  */
 
 import { CertificateClient, DefaultCertificatePolicy } from "@azure/keyvault-certificates";
-import { DefaultAzureCredential } from "@azure/identity";
-import { UpdateCertificatePropertiesOptions, CertificatePolicy } from "../src/certificatesModels";
+import { DefaultAzureCredential, UpdateCertificatePropertiesOptions, CertificatePolicy } from "@azure/identity";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
