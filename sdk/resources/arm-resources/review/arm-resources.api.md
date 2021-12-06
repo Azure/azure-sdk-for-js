@@ -1126,6 +1126,8 @@ export interface ProviderResourceType {
         [propertyName: string]: string;
     };
     resourceType?: string;
+    // (undocumented)
+    zoneMappings?: ZoneMapping[];
 }
 
 // @public
@@ -1815,6 +1817,13 @@ export interface WhatIfPropertyChange {
 
 // @public
 export type WhatIfResultFormat = "ResourceIdOnly" | "FullResourcePayloads";
+
+// @public (undocumented)
+export interface ZoneMapping {
+    location?: string;
+    // (undocumented)
+    zones?: string[];
+}
 
 // (No @packageDocumentation comment for this package)
 

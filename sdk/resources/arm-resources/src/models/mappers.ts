@@ -718,6 +718,18 @@ export const ProviderResourceType: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      zoneMappings: {
+        serializedName: "zoneMappings",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ZoneMapping"
+            }
+          }
+        }
+      },
       apiProfiles: {
         serializedName: "apiProfiles",
         readOnly: true,
@@ -919,6 +931,32 @@ export const AliasPathMetadata: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ZoneMapping: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ZoneMapping",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      zones: {
+        serializedName: "zones",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       }
     }

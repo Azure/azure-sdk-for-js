@@ -316,6 +316,7 @@ export interface ProviderResourceType {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly defaultApiVersion?: string;
+  zoneMappings?: ZoneMapping[];
   /**
    * The API profiles for the resource provider.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -392,6 +393,12 @@ export interface AliasPathMetadata {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly attributes?: AliasPathAttributes;
+}
+
+export interface ZoneMapping {
+  /** The location of the zone mapping. */
+  location?: string;
+  zones?: string[];
 }
 
 export interface ApiProfile {
