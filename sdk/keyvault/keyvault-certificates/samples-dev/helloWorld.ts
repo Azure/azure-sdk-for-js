@@ -6,7 +6,11 @@
  */
 
 import { CertificateClient, DefaultCertificatePolicy } from "@azure/keyvault-certificates";
-import { DefaultAzureCredential, UpdateCertificatePropertiesOptions, CertificatePolicy } from "@azure/identity";
+import {
+  DefaultAzureCredential,
+  UpdateCertificatePropertiesOptions,
+  CertificatePolicy
+} from "@azure/identity";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -58,10 +62,13 @@ export async function main(): Promise<void> {
       projectName: "certificate-sample",
       projectOwner: "REPLACE-WITH-YOUR-NAME"
     },
-    enabled: true,
-    
+    enabled: true
   };
-  const updatedCertificate = await client.updateCertificateProperties(certificateName, version, properties);
+  const updatedCertificate = await client.updateCertificateProperties(
+    certificateName,
+    version,
+    properties
+  );
   console.log("Updated certificate:", updatedCertificate);
 
   // Update the certificate's policy
@@ -70,9 +77,9 @@ export async function main(): Promise<void> {
     subject: "cn=MyOtherCert",
     exportable: true,
     enabled: true
-  }
+  };
   await client.updateCertificatePolicy(certificateName, policy);
-  
+
   // Get updated certificate with policy
   certificateWithPolicy = await client.getCertificate(certificateName);
   console.log("updatedCertificate certificate's policy:", certificateWithPolicy.policy);
