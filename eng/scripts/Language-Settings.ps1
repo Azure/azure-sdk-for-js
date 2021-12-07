@@ -273,6 +273,8 @@ function Update-javascript-DocsMsPackages($DocsRepoLocation, $DocsMetadata, $Pac
     'preview' `
     $FilteredMetadata `
   (Join-Path $DocsRepoLocation 'ci-configs/packages-preview.json.log') `
+    $DocValidationImageId
+    
   UpdateDocsMsPackages `
     (Join-Path $DocsRepoLocation 'ci-configs/packages-latest.json') `
     'latest' `
