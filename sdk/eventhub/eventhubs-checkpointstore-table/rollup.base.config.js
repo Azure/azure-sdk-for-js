@@ -64,7 +64,7 @@ export function nodeConfig(test = false) {
     baseConfig.onwarn = (warning) => {
       if (
         warning.code === "CIRCULAR_DEPENDENCY" &&
-        warning.importer.indexOf(path.normalize("node_modules/chai/lib") === 0)
+        warning.importer.includes("node_modules/chai/lib")
       ) {
         // Chai contains circular references, but they are not fatal and can be ignored.
         return;
