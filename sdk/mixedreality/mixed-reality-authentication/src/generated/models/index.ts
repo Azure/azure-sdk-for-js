@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import * as coreClient from "@azure/core-client";
 
 /** Represents a token response message from the STS service. */
 export interface StsTokenResponseMessage {
@@ -35,30 +35,18 @@ export interface TokenRequestOptions {
 }
 
 /** Optional parameters. */
-export interface MixedRealityStsRestClientGetTokenOptionalParams
-  extends coreHttp.OperationOptions {
+export interface GetTokenOptionalParams extends coreClient.OperationOptions {
   /** Parameter group */
   tokenRequestOptions?: TokenRequestOptions;
 }
 
 /** Contains response data for the getToken operation. */
-export type MixedRealityStsRestClientGetTokenResponse = MixedRealityStsRestClientGetTokenHeaders &
-  StsTokenResponseMessage & {
-    /** The underlying HTTP response. */
-    _response: coreHttp.HttpResponse & {
-      /** The response body as text (string format) */
-      bodyAsText: string;
-
-      /** The response body as parsed JSON or XML */
-      parsedBody: StsTokenResponseMessage;
-      /** The parsed HTTP response headers. */
-      parsedHeaders: MixedRealityStsRestClientGetTokenHeaders;
-    };
-  };
+export type GetTokenResponse = MixedRealityStsRestClientGetTokenHeaders &
+  StsTokenResponseMessage;
 
 /** Optional parameters. */
 export interface MixedRealityStsRestClientOptionalParams
-  extends coreHttp.ServiceClientOptions {
+  extends coreClient.ServiceClientOptions {
   /** server parameter */
   $host?: string;
   /** Api Version */
