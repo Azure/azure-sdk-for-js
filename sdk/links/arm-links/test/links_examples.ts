@@ -49,6 +49,7 @@ describe("Links test", () => {
   let resourceGroup: string;
   let linksName: string;
   let resourceName: string;
+  let resource2Id: string;
 
   beforeEach(async function() {
     recorder = record(this, recorderEnvSetup);
@@ -84,9 +85,12 @@ describe("Links test", () => {
   it("resourceLinks create test", async function() {
     const linkId = await create_resourceId();
     const linkId2 = await create_resourceId2();
+    if( linkId2 != null){
+        resource2Id = linkId2
+    }
     const res = await client.resourceLinks.createOrUpdate(linkId+ "/providers/Microsoft.Resources/links/" + linksName,{
       properties: {
-        targetId: linkId2 || "",
+        targetId: resource2Id,
         notes: "Testing links",
       }
     })
