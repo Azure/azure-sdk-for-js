@@ -1659,6 +1659,7 @@ packages:
   /@opentelemetry/node/0.22.0_@opentelemetry+api@1.0.3:
     resolution: {integrity: sha512-+HhGbDruQ7cwejVOIYyxRa28uosnG8W95NiQZ6qE8PXXPsDSyGeftAPbtYpGit0H2f5hrVcMlwmWHeAo9xkSLA==}
     engines: {node: '>=8.0.0'}
+    deprecated: Package renamed to @opentelemetry/sdk-trace-node
     peerDependencies:
       '@opentelemetry/api': ^1.0.0
     dependencies:
@@ -8397,7 +8398,7 @@ packages:
     dev: false
 
   file:projects/ai-anomaly-detector.tgz:
-    resolution: {integrity: sha512-k60gU9MY6seTzTWHkWIZ2sH7xdTTfZMz99y00dJRNs11gu/sfqyn1MgCh3xMSvCB9FkTazsLd6oPGklpNDMpnw==, tarball: file:projects/ai-anomaly-detector.tgz}
+    resolution: {integrity: sha512-8zK6kKlIk/JYDC8Cpl7YKLvef5nOSfhL91pk8kEZ4xw1/BbeU+ZIVHlzB4ciIIstJMrqWTRnRCQiajmOccNupQ==, tarball: file:projects/ai-anomaly-detector.tgz}
     name: '@rush-temp/ai-anomaly-detector'
     version: 0.0.0
     dependencies:
@@ -9202,7 +9203,7 @@ packages:
     dev: false
 
   file:projects/arm-links.tgz:
-    resolution: {integrity: sha512-2ZTazs3FCqlUoZm0svStZ0fihgqOREebNXNXOQguP/IYxVa+LdmNM7UkouVO0WbVDo6c3yWByJkhJopxXadTcw==, tarball: file:projects/arm-links.tgz}
+    resolution: {integrity: sha512-t3TXBd/Fxm80E+cWuS3tQiUdSUeaEtul7+exkY4rNj9ecjK93FsfYTQ4a5FpR2WcEecOKQYXLYBfz4JgODQlbw==, tarball: file:projects/arm-links.tgz}
     name: '@rush-temp/arm-links'
     version: 0.0.0
     dependencies:
@@ -11541,7 +11542,7 @@ packages:
     dev: false
 
   file:projects/eventhubs-checkpointstore-blob.tgz:
-    resolution: {integrity: sha512-Xy7VJKNs9xSRvm8bpeiwnhIxeqFC38msj+rzdOPsbGOTKAHShf9GWzkt6icvkNWjTUarp0vjQIb90qIhnx6InA==, tarball: file:projects/eventhubs-checkpointstore-blob.tgz}
+    resolution: {integrity: sha512-0eUlLaPKDNrmy9rO+dhIqEs2nyap9EUEhreSguDGf6XHnRXv6khUYxE6HhOPgkqEVw0RdT2KEDnRyNd4Ln3D6Q==, tarball: file:projects/eventhubs-checkpointstore-blob.tgz}
     name: '@rush-temp/eventhubs-checkpointstore-blob'
     version: 0.0.0
     dependencies:
@@ -11607,7 +11608,7 @@ packages:
     dev: false
 
   file:projects/eventhubs-checkpointstore-table.tgz:
-    resolution: {integrity: sha512-XqPBz9OE+MtEICebS8nkcYVz8VaLgcjCrYoOvt/O5lkiuzsIJ5epCvwGG9Q0kk5HiOEjVvH63dlLzqrwH1VB9g==, tarball: file:projects/eventhubs-checkpointstore-table.tgz}
+    resolution: {integrity: sha512-7TfDPvP47kYCnypCRVDath61kPdiTKykx5ZVgFRPBfTOCYQpNeoPVFVMDmCcaa3OB4VOQaogGwsz8L18CzOimg==, tarball: file:projects/eventhubs-checkpointstore-table.tgz}
     name: '@rush-temp/eventhubs-checkpointstore-table'
     version: 0.0.0
     dependencies:
@@ -12977,7 +12978,7 @@ packages:
     dev: false
 
   file:projects/quantum-jobs.tgz:
-    resolution: {integrity: sha512-36C2mZUJMdHi31RmxsAYWIPKGx9Qbjx0/jm36UatiDvJIZOvT5D/W+Un3kfIiNIoL910MFW5TyKkipEmvUdMsw==, tarball: file:projects/quantum-jobs.tgz}
+    resolution: {integrity: sha512-RLW7PtmPkoOi+WDgc6OfeIcp8y+pCJLKAG+DOM6LR9sy37u3IR1O0cD1LgkD+MHjnmW3pZpEiSRYZjZ1K500CA==, tarball: file:projects/quantum-jobs.tgz}
     name: '@rush-temp/quantum-jobs'
     version: 0.0.0
     dependencies:
@@ -13133,7 +13134,7 @@ packages:
     dev: false
 
   file:projects/search-documents.tgz:
-    resolution: {integrity: sha512-1vVVrXpDsNF6D0jfxy6e4EIJz1anhCYtCki2uiP6bMX171TGLMFWCNpKk0Xxw2FMeJqAIVt4/UcoOpOy0dby1w==, tarball: file:projects/search-documents.tgz}
+    resolution: {integrity: sha512-mwmuvS/Y1AJF2VZiBBiUymuDe52iBz4Kwm9DrfRVFGSyRgyKuMaymSuo5Q6Q/FnSRFDnYLRMTFcetQGXAr1JFQ==, tarball: file:projects/search-documents.tgz}
     name: '@rush-temp/search-documents'
     version: 0.0.0
     dependencies:
@@ -13193,7 +13194,7 @@ packages:
     dev: false
 
   file:projects/service-bus.tgz:
-    resolution: {integrity: sha512-k0NCGj25Mmp4w98MNi3B+2+sdwYOd0oWiWYLsUcH8YstzS/PuSlbZ6A67IGJeJptdzCQhUZkRctfEXKGrn34hQ==, tarball: file:projects/service-bus.tgz}
+    resolution: {integrity: sha512-ytqGlI90K4bkj/C9qGW6iS3O+ePWtrKA7esCS6Q+Gkn1tcNGwPUitzwX3Jd7bmTih0DaEr3ByUk1ahZ2G4+8kQ==, tarball: file:projects/service-bus.tgz}
     name: '@rush-temp/service-bus'
     version: 0.0.0
     dependencies:
