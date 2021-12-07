@@ -1,8 +1,10 @@
 # Release History
 
-## 7.4.1 (Unreleased)
+## 7.5.0-beta.1 (Unreleased)
 
 ### Features Added
+
+- Add `state` property to `ServiceBusReceivedMessage`. Its value is one of `"active"`, `"deferred"`, or `"scheduled"`. [PR 18938](https://github.com/Azure/azure-sdk-for-js/pull/18938)
 
 ### Breaking Changes
 
