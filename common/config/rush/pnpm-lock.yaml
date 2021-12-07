@@ -434,8 +434,8 @@ packages:
       util: 0.11.1
     dev: false
 
-  /@azure/arm-network/26.0.0-beta.2:
-    resolution: {integrity: sha512-+esU5ad1yGYB+otkfVC9foc99cda7VAaW6zucxHmAqioCuZCihb7MOQwKjqQWw4KZN8K3dWSq5Zl0gDhkRgKQQ==}
+  /@azure/arm-network/26.0.0:
+    resolution: {integrity: sha512-Hp0Q4ZzChs8C0DUdGZOChWKMrhzZ53V0Q681puREZ9S1E6o2yWM0Vb+cYuWoyPOylwuzP2fjNjJZGtB7WuFd3w==}
     engines: {node: '>=12.0.0'}
     dependencies:
       '@azure/abort-controller': 1.0.4
@@ -8768,11 +8768,11 @@ packages:
     dev: false
 
   file:projects/arm-compute.tgz:
-    resolution: {integrity: sha512-EpNbtbaOQKf4UPC/1eE1dKQCrdPYHj/oCmwDf6m4uQtZrD2x0YPUztBcoctIocvXHxsxpIfDem62UFGdIIhpJQ==, tarball: file:projects/arm-compute.tgz}
+    resolution: {integrity: sha512-mUWGdvcleVg21qvvDGSiTlafijy84E4IlfMmHJ6x8yr/JdHV2b4yfcwev3Etvo2uGw8IPuVeilOtxP6iTz4Tkg==, tarball: file:projects/arm-compute.tgz}
     name: '@rush-temp/arm-compute'
     version: 0.0.0
     dependencies:
-      '@azure/arm-network': 26.0.0-beta.2
+      '@azure/arm-network': 26.0.0
       '@microsoft/api-extractor': 7.18.19
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
