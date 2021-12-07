@@ -124,7 +124,12 @@ export function retryPolicy(...strategies: RetryStrategy[]): PipelinePolicy {
           };
           state = strategy.updateRetryState(state);
           strategyState[i] = state;
-          if (state.throwError) {
+
+          if (request.abortSignal?.aborted) {
+            retryPolicyLogger.error(`Request aborted`);
+            retryError.push(new Error("Aborted"));
+            throw retryError;
+          } else if (state.throwError) {
             strategyLogger.error(`Retry strategy ${strategy.name} throws error:`, state.throwError);
             retryError.push(state.throwError);
             throw retryError;
@@ -151,25 +156,27 @@ export function retryPolicy(...strategies: RetryStrategy[]): PipelinePolicy {
 
 const DEFAULT_MAX_RETRIES = 3;
 
-export const defaultMaxRetriesStrategy: RetryStrategy = {
-  name: `Max retries to ${DEFAULT_MAX_RETRIES}`,
-  updateRetryState(state) {
-    const { retryCount, response, responseError } = state;
-    if (retryCount >= DEFAULT_MAX_RETRIES) {
-      state.throwError = new RestError(`Exceeded number of retries: ${DEFAULT_MAX_RETRIES}`, {
-        request: response?.request,
-        response,
-        code: responseError?.code,
-        statusCode: response?.status
-      });
+export function getMaxRetriesStrategy(maxRetries: number = DEFAULT_MAX_RETRIES): RetryStrategy {
+  return {
+    name: `Max retries to ${maxRetries}`,
+    updateRetryState(state) {
+      const { retryCount, response, responseError } = state;
+      if (retryCount >= maxRetries) {
+        state.throwError = new RestError(`Exceeded number of retries: ${maxRetries}`, {
+          request: response?.request,
+          response,
+          code: responseError?.code,
+          statusCode: response?.status
+        });
+      }
+      return state;
     }
-    return state;
-  }
-};
+  };
+}
 
 /**
  * defaultRetryPolicy is a policy that adds a default retry strategy, but also allows specifying custom retry strategies on top
  */
 export function defaultRetryPolicy(...strategies: RetryStrategy[]): PipelinePolicy {
-  return retryPolicy(defaultMaxRetriesStrategy, ...strategies);
+  return retryPolicy(getMaxRetriesStrategy(), ...strategies);
 }

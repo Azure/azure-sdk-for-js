@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { PipelineResponse } from "..";
 import { PipelinePolicy } from "../pipeline";
 import { defaultRetryPolicy, RetryStrategyState } from "./retryPolicy";
 
@@ -8,6 +9,19 @@ import { defaultRetryPolicy, RetryStrategyState } from "./retryPolicy";
  * The programmatic identifier of the throttlingRetryPolicy.
  */
 export const throttlingRetryPolicyName = "throttlingRetryPolicy";
+
+/**
+ * A response is a retry response if it has a throttling status code (429 or 503),
+ * as long as the Retry-After header has a valid value.
+ */
+export function isThrottlingRetryResponse(response?: PipelineResponse): boolean {
+  return Boolean(
+    response &&
+      (response.status === 429 || response.status === 503) &&
+      response.headers.get("Retry-After") &&
+      parseRetryAfterHeader(response.headers.get("Retry-After")!)
+  );
+}
 
 /**
  * A policy that retries when the server sends a 429 response with a Retry-After header.
@@ -22,34 +36,10 @@ export function throttlingRetryPolicy(): PipelinePolicy {
     name: throttlingRetryPolicyName,
     updateRetryState(state: RetryStrategyState): RetryStrategyState {
       const { response } = state;
-      const throttlingRetryStatus =
-        response && (response.status === 429 || response.status === 503);
-
-      // If we didn't receive a response,
-      // or if we did not receive a throttling status code,
-      // we won't retry but we won't throw a special error.
-      if (!response || !throttlingRetryStatus) {
+      if (!isThrottlingRetryResponse(response)) {
         return state;
       }
-
-      const retryAfterHeader = response.headers.get("Retry-After");
-
-      // If the Retry-After header is missing,
-      // we won't retry but we won't throw a special error.
-      if (!retryAfterHeader) {
-        return state;
-      }
-
-      const delayInMs = parseRetryAfterHeader(retryAfterHeader);
-
-      // If we couldn't parse the Retry-After header,
-      // we won't retry but we won't throw a special error.
-      if (!delayInMs) {
-        return state;
-      }
-
-      // If we were able to parse the Retry-After header, we will retry after that time has passed.
-      state.retryAfterInMs = delayInMs;
+      state.retryAfterInMs = parseRetryAfterHeader(response!.headers.get("Retry-After")!);
       return state;
     }
   });

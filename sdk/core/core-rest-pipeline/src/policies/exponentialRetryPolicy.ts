@@ -3,8 +3,9 @@
 
 import { PipelinePolicy } from "../pipeline";
 import { getRandomIntegerInclusive } from "../util/helpers";
-import { RestError } from "../restError";
-import { defaultRetryPolicy, RetryStrategyState } from "./retryPolicy";
+import { getMaxRetriesStrategy, retryPolicy, RetryStrategyState } from "./retryPolicy";
+import { isThrottlingRetryResponse } from "./throttlingRetryPolicy";
+import { PipelineResponse } from "../interfaces";
 
 /**
  * The programmatic identifier of the exponentialRetryPolicy.
@@ -40,58 +41,28 @@ export interface ExponentialRetryPolicyOptions {
 }
 
 /**
- * A policy that attempts to retry requests while introducing an exponentially increasing delay.
- * @param options - Options that configure retry logic.
+ * A response is a retry response if it has status codes:
+ * - 408, or
+ * - Greater or equal than 500, except for 501 and 505.
  */
-export function exponentialRetryPolicy(
-  options: ExponentialRetryPolicyOptions = {}
-): PipelinePolicy {
-  return defaultRetryPolicy({
+export function isExponentialRetryResponse(response?: PipelineResponse): boolean {
+  return Boolean(
+    response &&
+      (response.status === 408 ||
+        (response.status >= 500 && response.status !== 501 && response.status !== 505))
+  );
+}
+
+/**
+ * Exponential retry strategy
+ */
+export function getExponentialRetryStrategy(inputRetryInterval: number, maxRetryInterval: number) {
+  return {
     name: exponentialRetryPolicyName,
     updateRetryState(state: RetryStrategyState): RetryStrategyState {
-      const maxRetries = options.maxRetries ?? DEFAULT_CLIENT_RETRY_COUNT;
-      const inputRetryInterval = options.retryDelayInMs ?? DEFAULT_CLIENT_RETRY_INTERVAL;
-      const maxRetryInterval = options.maxRetryDelayInMs ?? DEFAULT_CLIENT_MAX_RETRY_INTERVAL;
-
-      const { response, responseError, retryCount } = state;
-
-      if (!response || responseError) {
-        state.throwError = new RestError("Failed to send the request.", {
-          code: RestError.REQUEST_SEND_ERROR,
-          statusCode: response?.status,
-          request: response?.request,
-          response: response
-        });
-        return state;
-      }
-
-      const statusCode = response?.status;
-      const retryAfterHeader = response?.headers.get("Retry-After");
-      if (statusCode === 503 && retryAfterHeader) {
+      const { response } = state;
+      if (isThrottlingRetryResponse(response) || !isExponentialRetryResponse(response)) {
         // We won't retry but we won't throw a special error.
-        return state;
-      }
-      if (
-        statusCode === undefined ||
-        (statusCode < 500 && statusCode !== 408) ||
-        statusCode === 501 ||
-        statusCode === 505
-      ) {
-        // We won't retry but we won't throw a special error.
-        return state;
-      }
-      if (response.request.abortSignal?.aborted) {
-        // We won't retry but we won't throw a special error.
-        return state;
-      }
-
-      if (maxRetries < retryCount) {
-        // We won't retry but we won't throw a special error.
-        state.throwError = new RestError(`Exceeded number of retries: ${maxRetries}`, {
-          request: response?.request,
-          response,
-          statusCode: response?.status
-        });
         return state;
       }
 
@@ -108,5 +79,22 @@ export function exponentialRetryPolicy(
       state.retryAfterInMs = delayWithJitter;
       return state;
     }
-  });
+  };
+}
+
+/**
+ * A policy that attempts to retry requests while introducing an exponentially increasing delay.
+ * @param options - Options that configure retry logic.
+ */
+export function exponentialRetryPolicy(
+  options: ExponentialRetryPolicyOptions = {}
+): PipelinePolicy {
+  const maxRetries = options.maxRetries ?? DEFAULT_CLIENT_RETRY_COUNT;
+  const inputRetryInterval = options.retryDelayInMs ?? DEFAULT_CLIENT_RETRY_INTERVAL;
+  const maxRetryInterval = options.maxRetryDelayInMs ?? DEFAULT_CLIENT_MAX_RETRY_INTERVAL;
+
+  return retryPolicy(
+    getMaxRetriesStrategy(maxRetries),
+    getExponentialRetryStrategy(inputRetryInterval, maxRetryInterval)
+  );
 }
