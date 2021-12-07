@@ -88,6 +88,9 @@ describe("Should not retry forever", () => {
       });
     } catch (error) {
       errorWasThrown = true;
+      if (!(error instanceof Error)) {
+        throw new Error("Error of unexpected kind is thrown");
+      }
       chai.assert.equal(error.name, "RestError", "Unexpected error thrown");
       chai.assert.equal(JSON.parse(error.message).status, 429, "Unexpected error thrown");
       chai.assert.equal(
