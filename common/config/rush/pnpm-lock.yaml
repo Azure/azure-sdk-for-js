@@ -1153,6 +1153,29 @@ packages:
       - supports-color
     dev: false
 
+  /@azure/service-bus/7.4.0:
+    resolution: {integrity: sha512-dznAohud/t7qT4KuQ9LsJ7ZKRpecXbunpCJi+kcfqA6aY1ffB2gYXg8odMJoIZPcxLBZiBvJIXp5P9y5IhEMgg==}
+    engines: {node: '>=12.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.0.4
+      '@azure/core-amqp': 3.0.0
+      '@azure/core-asynciterator-polyfill': 1.0.0
+      '@azure/core-auth': 1.3.2
+      '@azure/core-http': 2.2.2
+      '@azure/core-paging': 1.2.0
+      '@azure/core-tracing': 1.0.0-preview.13
+      '@azure/logger': 1.0.3
+      '@types/is-buffer': 2.0.0
+      '@types/long': 4.0.1
+      buffer: 6.0.3
+      is-buffer: 2.0.5
+      jssha: 3.2.0
+      long: 4.0.0
+      process: 0.11.10
+      rhea-promise: 2.1.0
+      tslib: 2.3.1
+    dev: false
+
   /@azure/storage-blob/12.8.0:
     resolution: {integrity: sha512-c8+Wz19xauW0bGkTCoqZH4dYfbtBniPiGiRQOn1ca6G5jsjr4azwaTk9gwjVY8r3vY2Taf95eivLzipfIfiS4A==}
     engines: {node: '>=12.0.0'}
@@ -8781,7 +8804,7 @@ packages:
     dev: false
 
   file:projects/arm-batch.tgz:
-    resolution: {integrity: sha512-8eW1sOvMT2uszhB8KTYZ+74NtSkKo3NkO2Gfmt1hDnlfhf1m9nnMiPWYFnQgJ6GdZEP6WRYOR3wH7Q4qv+iUkA==, tarball: file:projects/arm-batch.tgz}
+    resolution: {integrity: sha512-QDWMjs1TGNDU/wHWTMlAvGsBnDgX25veyFnRoHZCFlbWTTMY/yrt9teLhcXL8Jcrbn1fyEApNNtrcw0iFarr+A==, tarball: file:projects/arm-batch.tgz}
     name: '@rush-temp/arm-batch'
     version: 0.0.0
     dependencies:
@@ -8800,8 +8823,6 @@ packages:
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.14.3
-    transitivePeerDependencies:
-      - supports-color
     dev: false
 
   file:projects/arm-botservice.tgz:
@@ -11442,11 +11463,12 @@ packages:
     dev: false
 
   file:projects/eventgrid.tgz:
-    resolution: {integrity: sha512-8gU5FFbkNjNAarqfpkhmSf/agfq7aOZLTVsKRv81V7Gan+oKBq76y+uFqN1JXIqJgBo7dFkxqdqL/uDG27rtFQ==, tarball: file:projects/eventgrid.tgz}
+    resolution: {integrity: sha512-a7ok5XWs7nBhPSjqBoOpEyIADVTx3DCVxF6IBvx8nI9bQNJAgvMSEFQwQ0vkyqW2Xp9DXhXWBhBOrnx09hldqA==, tarball: file:projects/eventgrid.tgz}
     name: '@rush-temp/eventgrid'
     version: 0.0.0
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.13
+      '@azure/service-bus': 7.4.0
       '@microsoft/api-extractor': 7.18.19
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
@@ -12644,10 +12666,11 @@ packages:
     dev: false
 
   file:projects/perf-service-bus.tgz:
-    resolution: {integrity: sha512-spRBrMEsacl7wJqZkvLB+qmrs8n5JOqGjO3UNWLBce5R74kW0qyigBcxNXzSNukOMmshoTKvjvQGkmk2EgfJzw==, tarball: file:projects/perf-service-bus.tgz}
+    resolution: {integrity: sha512-b6AGPVr1lihogGBiieVyO3ohpQBiZG6Ch909QgYl7Ysed0tvD+FaPqnIzmn+Tla579Ia7Z+j9Qz1mv/tUFrknw==, tarball: file:projects/perf-service-bus.tgz}
     name: '@rush-temp/perf-service-bus'
     version: 0.0.0
     dependencies:
+      '@azure/service-bus': 7.4.0
       '@types/node': 12.20.37
       '@types/uuid': 8.3.1
       dotenv: 8.6.0
@@ -13155,7 +13178,7 @@ packages:
     dev: false
 
   file:projects/service-bus.tgz:
-    resolution: {integrity: sha512-JgWNxKYGVkDHdHm5iXEOVIwRcAt9bxNDzAkAMBphyU3PXMm4VJ6i3mKv/peBR5xRxWig8hpIpR4ff8ig98LI1A==, tarball: file:projects/service-bus.tgz}
+    resolution: {integrity: sha512-k0NCGj25Mmp4w98MNi3B+2+sdwYOd0oWiWYLsUcH8YstzS/PuSlbZ6A67IGJeJptdzCQhUZkRctfEXKGrn34hQ==, tarball: file:projects/service-bus.tgz}
     name: '@rush-temp/service-bus'
     version: 0.0.0
     dependencies:
