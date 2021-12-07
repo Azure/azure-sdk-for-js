@@ -72,25 +72,22 @@ describe("Links test", () => {
     await recorder.stop();
   });
 
-  async function create_resourceId() {
-    const result = await resources_client.resources.beginCreateOrUpdateAndWait(resourceGroup,"Microsoft.Compute","","availabilitySets",resourceName,"2019-07-01",{ location: "eastus" });
-    return result.id;
-  }
+  // async function create_resourceId() {
+  //   const result = await resources_client.resources.beginCreateOrUpdateAndWait(resourceGroup,"Microsoft.Compute","","availabilitySets",resourceName,"2019-07-01",{ location: "eastus" });
+  //   console.log(result)
+  //   return result;
+  // }
 
-  async function create_resourceId2() {
-    const result = await resources_client.resources.beginCreateOrUpdateAndWait(resourceGroup,"Microsoft.Compute","","availabilitySets",resourceName+"2","2019-07-01",{ location: "eastus" });
-    return result.id;
-  }
+  // async function create_resourceId2() {
+  //   const result = await resources_client.resources.beginCreateOrUpdateAndWait(resourceGroup,"Microsoft.Compute","","availabilitySets",resourceName+"2","2019-07-01",{ location: "eastus" });
+  //   console.log(result)
+  //   return result;
+  // }
 
   it("resourceLinks create test", async function() {
-    const linkId = await create_resourceId();
-    const linkId2 = await create_resourceId2();
-    if( linkId2 != null){
-        resource2Id = linkId2
-    }
-    const res = await client.resourceLinks.createOrUpdate(linkId+ "/providers/Microsoft.Resources/links/" + linksName,{
+    const res = await client.resourceLinks.createOrUpdate("/subscriptions/"+subscriptionId+"/resourceGroups/"+resourceGroup+"/providers/Microsoft.Compute/availabilitySets/myresourcezzz/providers/Microsoft.Resources/links/" + linksName,{
       properties: {
-        targetId: resource2Id,
+        targetId: "/subscriptions/"+subscriptionId+"/resourceGroups/"+resourceGroup+"/providers/Microsoft.Compute/availabilitySets/myresourcezzz2",
         notes: "Testing links",
       }
     })
