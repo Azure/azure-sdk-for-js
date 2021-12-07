@@ -1,27 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PipelineResponse, PipelineRequest, SendRequest } from "../interfaces";
 import { PipelinePolicy } from "../pipeline";
-import { delay } from "../util/helpers";
-import { retry, RetryState } from "./retry";
+import { defaultRetryPolicy, RetryStrategyState } from "./retryPolicy";
 
 /**
  * The programmatic identifier of the throttlingRetryPolicy.
  */
 export const throttlingRetryPolicyName = "throttlingRetryPolicy";
-
-/**
- * Maximum number of retries for the throttling retry policy
- */
-export const DEFAULT_CLIENT_MAX_RETRY_COUNT = 3;
-
-/**
- * State relevant to the throttling retries.
- */
-interface ThrottlingRetryState extends RetryState<PipelineResponse> {
-  delayInMs?: number;
-}
 
 /**
  * A policy that retries when the server sends a 429 response with a Retry-After header.
@@ -32,38 +18,41 @@ interface ThrottlingRetryState extends RetryState<PipelineResponse> {
  * https://docs.microsoft.com/en-us/azure/virtual-machines/troubleshooting/troubleshooting-throttling-errors
  */
 export function throttlingRetryPolicy(): PipelinePolicy {
-  return {
+  return defaultRetryPolicy({
     name: throttlingRetryPolicyName,
-    async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
-      return retry<ThrottlingRetryState>({
-        async shouldRetry(state): Promise<boolean> {
-          const { retryCount, lastResponse } = state;
-          const maxRetriesReached = retryCount >= DEFAULT_CLIENT_MAX_RETRY_COUNT;
-          const throttlingRetryStatus =
-            lastResponse && (lastResponse.status === 429 || lastResponse.status === 503);
-          if (!lastResponse || maxRetriesReached || !throttlingRetryStatus) {
-            return false;
-          }
-          const retryAfterHeader = lastResponse.headers.get("Retry-After");
-          if (!retryAfterHeader) {
-            return false;
-          }
-          const delayInMs = parseRetryAfterHeader(retryAfterHeader);
-          if (!delayInMs) {
-            return false;
-          }
+    updateRetryState(state: RetryStrategyState): RetryStrategyState {
+      const { response } = state;
+      const throttlingRetryStatus =
+        response && (response.status === 429 || response.status === 503);
 
-          return true;
-        },
-        async operation(): Promise<PipelineResponse> {
-          return next(request);
-        },
-        async delay({ delayInMs }): Promise<void> {
-          await delay(delayInMs!);
-        }
-      });
+      // If we didn't receive a response,
+      // or if we did not receive a throttling status code,
+      // we won't retry but we won't throw a special error.
+      if (!response || !throttlingRetryStatus) {
+        return state;
+      }
+
+      const retryAfterHeader = response.headers.get("Retry-After");
+
+      // If the Retry-After header is missing,
+      // we won't retry but we won't throw a special error.
+      if (!retryAfterHeader) {
+        return state;
+      }
+
+      const delayInMs = parseRetryAfterHeader(retryAfterHeader);
+
+      // If we couldn't parse the Retry-After header,
+      // we won't retry but we won't throw a special error.
+      if (!delayInMs) {
+        return state;
+      }
+
+      // If we were able to parse the Retry-After header, we will retry after that time has passed.
+      state.retryAfterInMs = delayInMs;
+      return state;
     }
-  };
+  });
 }
 
 /**

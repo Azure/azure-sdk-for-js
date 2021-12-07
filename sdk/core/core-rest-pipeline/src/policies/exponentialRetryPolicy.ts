@@ -1,12 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PipelineResponse, PipelineRequest, SendRequest } from "../interfaces";
 import { PipelinePolicy } from "../pipeline";
-import { logger } from "../log";
-import { delay, getRandomIntegerInclusive } from "../util/helpers";
+import { getRandomIntegerInclusive } from "../util/helpers";
 import { RestError } from "../restError";
-import { retry, RetryState } from "./retry";
+import { defaultRetryPolicy, RetryStrategyState } from "./retryPolicy";
 
 /**
  * The programmatic identifier of the exponentialRetryPolicy.
@@ -42,79 +40,73 @@ export interface ExponentialRetryPolicyOptions {
 }
 
 /**
- * State relevant to the exponential retries.
- */
-interface ExponentialRetryState extends RetryState<PipelineResponse> {
-  retryInterval?: number;
-}
-
-/**
  * A policy that attempts to retry requests while introducing an exponentially increasing delay.
  * @param options - Options that configure retry logic.
  */
 export function exponentialRetryPolicy(
   options: ExponentialRetryPolicyOptions = {}
 ): PipelinePolicy {
-  return {
+  return defaultRetryPolicy({
     name: exponentialRetryPolicyName,
-    async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
+    updateRetryState(state: RetryStrategyState): RetryStrategyState {
       const maxRetries = options.maxRetries ?? DEFAULT_CLIENT_RETRY_COUNT;
       const inputRetryInterval = options.retryDelayInMs ?? DEFAULT_CLIENT_RETRY_INTERVAL;
       const maxRetryInterval = options.maxRetryDelayInMs ?? DEFAULT_CLIENT_MAX_RETRY_INTERVAL;
 
-      return retry<ExponentialRetryState>({
-        async shouldRetry(state): Promise<boolean> {
-          const { retryCount, lastResponse } = state;
-          const statusCode = lastResponse?.status;
-          const retryAfterHeader = lastResponse?.headers.get("Retry-After");
-          if (statusCode === 503 && retryAfterHeader) {
-            return false;
-          }
-          if (
-            statusCode === undefined ||
-            (statusCode < 500 && statusCode !== 408) ||
-            statusCode === 501 ||
-            statusCode === 505
-          ) {
-            return false;
-          }
-          if (request.abortSignal?.aborted) {
-            return false;
-          }
-          return maxRetries < retryCount;
-        },
+      const { response, responseError, retryCount } = state;
 
-        async operation({ lastResponse }): Promise<PipelineResponse> {
-          try {
-            return next(request);
-          } catch (e) {
-            // If the operation failed in the end, return all errors instead of just the last one
-            const err = new RestError("Failed to send the request.", {
-              code: RestError.REQUEST_SEND_ERROR,
-              statusCode: lastResponse?.status,
-              request: lastResponse?.request,
-              response: lastResponse
-            });
-            throw err;
-          }
-        },
+      if (!response || responseError) {
+        state.throwError = new RestError("Failed to send the request.", {
+          code: RestError.REQUEST_SEND_ERROR,
+          statusCode: response?.status,
+          request: response?.request,
+          response: response
+        });
+        return state;
+      }
 
-        async delay(state): Promise<void> {
-          const retryInterval = state.retryInterval || inputRetryInterval;
-          // Exponentially increase the delay each time
-          const exponentialDelay = retryInterval * Math.pow(2, state.retryCount);
-          // Don't let the delay exceed the maximum
-          const clampedExponentialDelay = Math.min(maxRetryInterval, exponentialDelay);
-          // Allow the final value to have some "jitter" (within 50% of the delay size) so
-          // that retries across multiple clients don't occur simultaneously.
-          const delayWithJitter =
-            clampedExponentialDelay / 2 + getRandomIntegerInclusive(0, clampedExponentialDelay / 2);
+      const statusCode = response?.status;
+      const retryAfterHeader = response?.headers.get("Retry-After");
+      if (statusCode === 503 && retryAfterHeader) {
+        // We won't retry but we won't throw a special error.
+        return state;
+      }
+      if (
+        statusCode === undefined ||
+        (statusCode < 500 && statusCode !== 408) ||
+        statusCode === 501 ||
+        statusCode === 505
+      ) {
+        // We won't retry but we won't throw a special error.
+        return state;
+      }
+      if (response.request.abortSignal?.aborted) {
+        // We won't retry but we won't throw a special error.
+        return state;
+      }
 
-          state.retryInterval = delayWithJitter;
-          logger.info(`Retrying request in ${state.retryInterval}`);
-          await delay(state.retryInterval);
-        }
-      });
+      if (maxRetries < retryCount) {
+        // We won't retry but we won't throw a special error.
+        state.throwError = new RestError(`Exceeded number of retries: ${maxRetries}`, {
+          request: response?.request,
+          response,
+          statusCode: response?.status
+        });
+        return state;
+      }
+
+      const retryAfterInMs = state.retryAfterInMs || inputRetryInterval;
+      // Exponentially increase the delay each time
+      const exponentialDelay = retryAfterInMs * Math.pow(2, state.retryCount);
+      // Don't let the delay exceed the maximum
+      const clampedExponentialDelay = Math.min(maxRetryInterval, exponentialDelay);
+      // Allow the final value to have some "jitter" (within 50% of the delay size) so
+      // that retries across multiple clients don't occur simultaneously.
+      const delayWithJitter =
+        clampedExponentialDelay / 2 + getRandomIntegerInclusive(0, clampedExponentialDelay / 2);
+
+      state.retryAfterInMs = delayWithJitter;
+      return state;
     }
-  };
+  });
 }
