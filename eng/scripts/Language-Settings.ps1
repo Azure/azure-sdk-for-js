@@ -272,13 +272,12 @@ function Update-javascript-DocsMsPackages($DocsRepoLocation, $DocsMetadata, $Pac
     (Join-Path $DocsRepoLocation 'ci-configs/packages-preview.json') `
     'preview' `
     $FilteredMetadata `
-  (Join-Path $DocsRepoLocation 'ci-configs/packages-preview.json.log') `# Log file for package validation
-  $DocValidationImageId
+  (Join-Path $DocsRepoLocation 'ci-configs/packages-preview.json.log') `
   UpdateDocsMsPackages `
     (Join-Path $DocsRepoLocation 'ci-configs/packages-latest.json') `
     'latest' `
     $FilteredMetadata `
-  (Join-Path $DocsRepoLocation 'ci-configs/packages-latest.json.log') `# Log file for package validation
+  (Join-Path $DocsRepoLocation 'ci-configs/packages-latest.json.log') `
   $DocValidationImageId
 }
 
