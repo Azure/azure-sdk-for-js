@@ -142,9 +142,5 @@ describe("Policy test", () => {
 
   it("policyDefinitions delete test", async function() {
     const res = await client.policyDefinitions.deleteAtManagementGroup(policyName,groupId);
-    const resArray = new Array();
-    for await (let item of client.policyDefinitions.list()){
-      resArray.push(item);
-    }
   });
 });
