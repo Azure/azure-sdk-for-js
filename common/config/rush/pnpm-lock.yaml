@@ -8888,7 +8888,7 @@ packages:
     dev: false
 
   file:projects/arm-compute.tgz:
-    resolution: {integrity: sha512-mUWGdvcleVg21qvvDGSiTlafijy84E4IlfMmHJ6x8yr/JdHV2b4yfcwev3Etvo2uGw8IPuVeilOtxP6iTz4Tkg==, tarball: file:projects/arm-compute.tgz}
+    resolution: {integrity: sha512-zk0xILY5nmiZpZZiPD05eJEXDKOzYLSQO7j5lE9SFmtEQg7Toc5DfoXXEvpCCOx0AqmCDj9G0V9g3eXUn+d8pg==, tarball: file:projects/arm-compute.tgz}
     name: '@rush-temp/arm-compute'
     version: 0.0.0
     dependencies:
@@ -8907,8 +8907,6 @@ packages:
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.14.3
-    transitivePeerDependencies:
-      - supports-color
     dev: false
 
   file:projects/arm-consumption.tgz:
@@ -9265,7 +9263,7 @@ packages:
     dev: false
 
   file:projects/arm-managedapplications.tgz:
-    resolution: {integrity: sha512-S57AX6NhmfsjZR4IQc45ymobG+BiQakRsjxEq0bVZxD5PO1gaU//rpEr3GbVs82i0fUVsTECdOcuDjQilXEifA==, tarball: file:projects/arm-managedapplications.tgz}
+    resolution: {integrity: sha512-5kLfrfEy5OIjFS2BfTSnbWRIh5NDMaXjYdA9yWjpD+9Dk2rsI5/ifntBT7zm0klJ9YmrszjI6IjXzZw37FnLzg==, tarball: file:projects/arm-managedapplications.tgz}
     name: '@rush-temp/arm-managedapplications'
     version: 0.0.0
     dependencies:
@@ -9274,7 +9272,10 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
       '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
       mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-node-resolve: 3.4.0
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
