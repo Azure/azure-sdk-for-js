@@ -140,12 +140,12 @@ describe("Policy test", () => {
     assert.notEqual(resArray.length,0);
   });
 
-  it("policyDefinitions delete test", async function() {
-    const res = await client.policyDefinitions.deleteAtManagementGroup(policyName,groupId);
-    const resArray = new Array();
-    for await (let item of client.policyDefinitions.list()){
-      resArray.push(item);
-    }
-    assert.notEqual(resArray.length,0);
-  });
+  // it("policyDefinitions delete test", async function() {
+  //   const res = await client.policyDefinitions.deleteAtManagementGroup(policyName,groupId);
+  //   const resArray = new Array();
+  //   for await (let item of client.policyDefinitions.list()){
+  //     resArray.push(item);
+  //   }
+  //   assert.notEqual(resArray.length,0);
+  // });
 });
