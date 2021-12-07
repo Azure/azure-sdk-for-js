@@ -9,6 +9,9 @@ import { delay } from "../util/helpers";
 import { custom } from "../util/inspect";
 import { Sanitizer } from "../util/sanitizer";
 import { createClientLogger } from "@azure/logger";
+import { tryCreateSpan, tryProcessError, tryProcessResponse } from "./tracingPolicy";
+import { Span } from "@azure/core-tracing";
+import { getUserAgentValue } from "../util/userAgent";
 
 const retryPolicyLogger = createClientLogger("core-rest-pipeline retryPolicy");
 
@@ -82,23 +85,35 @@ export function retryPolicy(...strategies: RetryStrategy[]): PipelinePolicy {
       let responseError: RestError | undefined;
       const retryError = new RetryError();
 
+      let span: Span | undefined;
+      if (request.tracingOptions?.tracingContext) {
+        span = tryCreateSpan(request, getUserAgentValue(retryPolicyName));
+      }
+
       const strategyState: RetryStrategyState[] = Array(strategies.length);
       retryRequest: while (true) {
         try {
           retryPolicyLogger.info("Attempting to send request", request.requestId);
           response = await next(request);
           retryPolicyLogger.info("Received a response from request", request.requestId);
+          if (span) {
+            tryProcessResponse(span, response);
+          }
         } catch (e) {
           retryPolicyLogger.info("Received an error from request", request.requestId);
           responseError = e as RestError;
           retryError.push(responseError);
           response = responseError.response;
+          if (span) {
+            tryProcessError(span, responseError);
+          }
         }
 
         retryPolicyLogger.info(`Processing ${strategies.length} retry strategies.`);
 
         for (const [i, strategy] of strategies.entries()) {
-          retryPolicyLogger.info(`Processing retry strategy ${strategy.name}.`);
+          const strategyLogger = strategy.logger || retryPolicyLogger;
+          strategyLogger.info(`Processing retry strategy ${strategy.name}.`);
           let state: RetryStrategyState = strategyState[i];
           strategyState[i] = {
             ...state,
@@ -110,22 +125,17 @@ export function retryPolicy(...strategies: RetryStrategy[]): PipelinePolicy {
           state = strategy.updateRetryState(state);
           strategyState[i] = state;
           if (state.throwError) {
-            retryPolicyLogger.error(
-              `Retry strategy ${strategy.name} throws error:`,
-              state.throwError
-            );
+            strategyLogger.error(`Retry strategy ${strategy.name} throws error:`, state.throwError);
             retryError.push(state.throwError);
             throw retryError;
           } else if (state.retryAfterInMs) {
-            retryPolicyLogger.info(
+            strategyLogger.info(
               `Retry strategy ${strategy.name} retries after ${state.retryAfterInMs}`
             );
             await delay(state.retryAfterInMs);
             continue retryRequest;
           } else if (state.redirectTo) {
-            retryPolicyLogger.info(
-              `Retry strategy ${strategy.name} redirects to ${state.redirectTo}`
-            );
+            strategyLogger.info(`Retry strategy ${strategy.name} redirects to ${state.redirectTo}`);
             request.url = state.redirectTo;
             continue retryRequest;
           }
