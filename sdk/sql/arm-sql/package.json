@@ -3,7 +3,7 @@
   "sdk-type": "mgmt",
   "author": "Microsoft Corporation",
   "description": "A generated SDK for SqlManagementClient.",
-  "version": "9.0.0-beta.2",
+  "version": "9.0.0",
   "engines": { "node": ">=12.0.0" },
   "dependencies": {
     "@azure/core-lro": "^2.2.0",
