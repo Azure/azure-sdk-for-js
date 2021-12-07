@@ -174,10 +174,11 @@ export function createSpanFunction(args: SpanConfig): <T extends OperationOption
 };
 
 // @public
-export class DefaultHttpClient extends FetchHttpClient {
+export class DefaultHttpClient implements HttpClient {
     fetch(input: CommonRequestInfo, init?: CommonRequestInit): Promise<CommonResponse>;
     prepareRequest(httpRequest: WebResourceLike): Promise<Partial<RequestInit>>;
     processRequest(operationResponse: HttpOperationResponse): Promise<void>;
+    sendRequest(httpRequest: WebResourceLike): Promise<HttpOperationResponse>;
 }
 
 // @public
@@ -244,14 +245,6 @@ export class ExpiringAccessTokenCache implements AccessTokenCache {
 
 // @public
 export function exponentialRetryPolicy(retryCount?: number, retryInterval?: number, maxRetryInterval?: number): RequestPolicyFactory;
-
-// @public
-export abstract class FetchHttpClient implements HttpClient {
-    abstract fetch(input: CommonRequestInfo, init?: CommonRequestInit): Promise<CommonResponse>;
-    abstract prepareRequest(httpRequest: WebResourceLike): Promise<Partial<RequestInit>>;
-    abstract processRequest(operationResponse: HttpOperationResponse): Promise<void>;
-    sendRequest(httpRequest: WebResourceLike): Promise<HttpOperationResponse>;
-}
 
 // @public
 export function flattenResponse(_response: HttpOperationResponse, responseSpec: OperationResponse | undefined): RestResponse;

@@ -29,7 +29,7 @@ export class NodeFetchTest extends PerfTest<NodeFetchOptions> {
   };
 
   public setup(): void {
-    this.url = this.options.url.value as string;
+    this.url = this.parsedOptions.url.value;
   }
 
   async run(): Promise<void> {

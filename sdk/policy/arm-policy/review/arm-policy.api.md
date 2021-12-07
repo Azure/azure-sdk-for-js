@@ -435,7 +435,9 @@ export interface PolicyAssignmentUpdate {
 }
 
 // @public (undocumented)
-export class PolicyClient extends PolicyClientContext {
+export class PolicyClient extends coreClient.ServiceClient {
+    // (undocumented)
+    $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: PolicyClientOptionalParams);
     // (undocumented)
     dataPolicyManifests: DataPolicyManifests;
@@ -447,13 +449,6 @@ export class PolicyClient extends PolicyClientContext {
     policyExemptions: PolicyExemptions;
     // (undocumented)
     policySetDefinitions: PolicySetDefinitions;
-}
-
-// @public (undocumented)
-export class PolicyClientContext extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: PolicyClientOptionalParams);
     // (undocumented)
     subscriptionId: string;
 }
@@ -892,7 +887,6 @@ export interface UserAssignedIdentitiesValue {
     readonly clientId?: string;
     readonly principalId?: string;
 }
-
 
 // (No @packageDocumentation comment for this package)
 

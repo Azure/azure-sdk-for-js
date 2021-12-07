@@ -6,6 +6,14 @@ parameters:
 steps:
   - template: /eng/common/pipelines/templates/steps/check-spelling.yml
 
+  - task: PowerShell@2
+    inputs:
+      targetType: 'filePath'
+      filePath: eng/scripts/spell-check-public-api.ps1
+      arguments: -ServiceDirectory ${{ parameters.ServiceDirectory }}
+      pwsh: true
+    displayName: Spell check public API
+
   - template: /eng/common/pipelines/templates/steps/set-test-pipeline-version.yml
     parameters:
       PackageName: "@azure/template"

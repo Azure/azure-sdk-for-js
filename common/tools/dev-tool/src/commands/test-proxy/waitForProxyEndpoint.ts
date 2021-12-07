@@ -13,7 +13,7 @@ export const commandInfo = makeCommandInfo(
   {}
 );
 
-export default leafCommand(commandInfo, async (_options) => {
+export default leafCommand(commandInfo, async () => {
   const result = await checkWithTimeout(isProxyToolActive, 1000, 120000);
   return result;
 });

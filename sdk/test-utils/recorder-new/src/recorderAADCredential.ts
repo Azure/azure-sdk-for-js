@@ -11,7 +11,10 @@ import { AccessToken, TokenCredential } from "@azure/core-auth";
  * Using this NoOpCredential as your credential in playback mode would help you bypass the AAD traffic.
  */
 export class NoOpCredential implements TokenCredential {
-  async getToken(): Promise<AccessToken> {
-    return { token: "TEST TOKEN PLAYBACK", expiresOnTimestamp: 86400 * 1000 };
+  getToken(): Promise<AccessToken> {
+    return Promise.resolve({
+      token: "SecretPlaceholder",
+      expiresOnTimestamp: Date.now() + 86400 * 1000
+    });
   }
 }

@@ -157,14 +157,9 @@ export interface DeploymentOperations {
     getAtTenantScope(deploymentName: string, operationId: string, options?: DeploymentOperationsGetAtTenantScopeOptionalParams): Promise<DeploymentOperationsGetAtTenantScopeResponse>;
     list(resourceGroupName: string, deploymentName: string, options?: DeploymentOperationsListOptionalParams): PagedAsyncIterableIterator<DeploymentOperation>;
     listAtManagementGroupScope(groupId: string, deploymentName: string, options?: DeploymentOperationsListAtManagementGroupScopeOptionalParams): PagedAsyncIterableIterator<DeploymentOperation>;
-    listAtManagementGroupScopeNext(groupId: string, deploymentName: string, nextLink: string, options?: DeploymentOperationsListAtManagementGroupScopeNextOptionalParams): PagedAsyncIterableIterator<DeploymentOperation>;
     listAtScope(scope: string, deploymentName: string, options?: DeploymentOperationsListAtScopeOptionalParams): PagedAsyncIterableIterator<DeploymentOperation>;
-    listAtScopeNext(scope: string, deploymentName: string, nextLink: string, options?: DeploymentOperationsListAtScopeNextOptionalParams): PagedAsyncIterableIterator<DeploymentOperation>;
     listAtSubscriptionScope(deploymentName: string, options?: DeploymentOperationsListAtSubscriptionScopeOptionalParams): PagedAsyncIterableIterator<DeploymentOperation>;
-    listAtSubscriptionScopeNext(deploymentName: string, nextLink: string, options?: DeploymentOperationsListAtSubscriptionScopeNextOptionalParams): PagedAsyncIterableIterator<DeploymentOperation>;
     listAtTenantScope(deploymentName: string, options?: DeploymentOperationsListAtTenantScopeOptionalParams): PagedAsyncIterableIterator<DeploymentOperation>;
-    listAtTenantScopeNext(deploymentName: string, nextLink: string, options?: DeploymentOperationsListAtTenantScopeNextOptionalParams): PagedAsyncIterableIterator<DeploymentOperation>;
-    listNext(resourceGroupName: string, deploymentName: string, nextLink: string, options?: DeploymentOperationsListNextOptionalParams): PagedAsyncIterableIterator<DeploymentOperation>;
 }
 
 // @public
@@ -203,14 +198,6 @@ export interface DeploymentOperationsGetOptionalParams extends coreClient.Operat
 export type DeploymentOperationsGetResponse = DeploymentOperation;
 
 // @public
-export interface DeploymentOperationsListAtManagementGroupScopeNextNextOptionalParams extends coreClient.OperationOptions {
-    top?: number;
-}
-
-// @public
-export type DeploymentOperationsListAtManagementGroupScopeNextNextResponse = DeploymentOperationsListResult;
-
-// @public
 export interface DeploymentOperationsListAtManagementGroupScopeNextOptionalParams extends coreClient.OperationOptions {
     top?: number;
 }
@@ -225,14 +212,6 @@ export interface DeploymentOperationsListAtManagementGroupScopeOptionalParams ex
 
 // @public
 export type DeploymentOperationsListAtManagementGroupScopeResponse = DeploymentOperationsListResult;
-
-// @public
-export interface DeploymentOperationsListAtScopeNextNextOptionalParams extends coreClient.OperationOptions {
-    top?: number;
-}
-
-// @public
-export type DeploymentOperationsListAtScopeNextNextResponse = DeploymentOperationsListResult;
 
 // @public
 export interface DeploymentOperationsListAtScopeNextOptionalParams extends coreClient.OperationOptions {
@@ -251,14 +230,6 @@ export interface DeploymentOperationsListAtScopeOptionalParams extends coreClien
 export type DeploymentOperationsListAtScopeResponse = DeploymentOperationsListResult;
 
 // @public
-export interface DeploymentOperationsListAtSubscriptionScopeNextNextOptionalParams extends coreClient.OperationOptions {
-    top?: number;
-}
-
-// @public
-export type DeploymentOperationsListAtSubscriptionScopeNextNextResponse = DeploymentOperationsListResult;
-
-// @public
 export interface DeploymentOperationsListAtSubscriptionScopeNextOptionalParams extends coreClient.OperationOptions {
     top?: number;
 }
@@ -275,14 +246,6 @@ export interface DeploymentOperationsListAtSubscriptionScopeOptionalParams exten
 export type DeploymentOperationsListAtSubscriptionScopeResponse = DeploymentOperationsListResult;
 
 // @public
-export interface DeploymentOperationsListAtTenantScopeNextNextOptionalParams extends coreClient.OperationOptions {
-    top?: number;
-}
-
-// @public
-export type DeploymentOperationsListAtTenantScopeNextNextResponse = DeploymentOperationsListResult;
-
-// @public
 export interface DeploymentOperationsListAtTenantScopeNextOptionalParams extends coreClient.OperationOptions {
     top?: number;
 }
@@ -297,14 +260,6 @@ export interface DeploymentOperationsListAtTenantScopeOptionalParams extends cor
 
 // @public
 export type DeploymentOperationsListAtTenantScopeResponse = DeploymentOperationsListResult;
-
-// @public
-export interface DeploymentOperationsListNextNextOptionalParams extends coreClient.OperationOptions {
-    top?: number;
-}
-
-// @public
-export type DeploymentOperationsListNextNextResponse = DeploymentOperationsListResult;
 
 // @public
 export interface DeploymentOperationsListNextOptionalParams extends coreClient.OperationOptions {
@@ -423,15 +378,10 @@ export interface Deployments {
     getAtSubscriptionScope(deploymentName: string, options?: DeploymentsGetAtSubscriptionScopeOptionalParams): Promise<DeploymentsGetAtSubscriptionScopeResponse>;
     getAtTenantScope(deploymentName: string, options?: DeploymentsGetAtTenantScopeOptionalParams): Promise<DeploymentsGetAtTenantScopeResponse>;
     listAtManagementGroupScope(groupId: string, options?: DeploymentsListAtManagementGroupScopeOptionalParams): PagedAsyncIterableIterator<DeploymentExtended>;
-    listAtManagementGroupScopeNext(groupId: string, nextLink: string, options?: DeploymentsListAtManagementGroupScopeNextOptionalParams): PagedAsyncIterableIterator<DeploymentExtended>;
     listAtScope(scope: string, options?: DeploymentsListAtScopeOptionalParams): PagedAsyncIterableIterator<DeploymentExtended>;
-    listAtScopeNext(scope: string, nextLink: string, options?: DeploymentsListAtScopeNextOptionalParams): PagedAsyncIterableIterator<DeploymentExtended>;
     listAtSubscriptionScope(options?: DeploymentsListAtSubscriptionScopeOptionalParams): PagedAsyncIterableIterator<DeploymentExtended>;
-    listAtSubscriptionScopeNext(nextLink: string, options?: DeploymentsListAtSubscriptionScopeNextOptionalParams): PagedAsyncIterableIterator<DeploymentExtended>;
     listAtTenantScope(options?: DeploymentsListAtTenantScopeOptionalParams): PagedAsyncIterableIterator<DeploymentExtended>;
-    listAtTenantScopeNext(nextLink: string, options?: DeploymentsListAtTenantScopeNextOptionalParams): PagedAsyncIterableIterator<DeploymentExtended>;
     listByResourceGroup(resourceGroupName: string, options?: DeploymentsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<DeploymentExtended>;
-    listByResourceGroupNext(resourceGroupName: string, nextLink: string, options?: DeploymentsListByResourceGroupNextOptionalParams): PagedAsyncIterableIterator<DeploymentExtended>;
 }
 
 // @public
@@ -652,15 +602,6 @@ export interface DeploymentsGetOptionalParams extends coreClient.OperationOption
 export type DeploymentsGetResponse = DeploymentExtended;
 
 // @public
-export interface DeploymentsListAtManagementGroupScopeNextNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    top?: number;
-}
-
-// @public
-export type DeploymentsListAtManagementGroupScopeNextNextResponse = DeploymentListResult;
-
-// @public
 export interface DeploymentsListAtManagementGroupScopeNextOptionalParams extends coreClient.OperationOptions {
     filter?: string;
     top?: number;
@@ -677,15 +618,6 @@ export interface DeploymentsListAtManagementGroupScopeOptionalParams extends cor
 
 // @public
 export type DeploymentsListAtManagementGroupScopeResponse = DeploymentListResult;
-
-// @public
-export interface DeploymentsListAtScopeNextNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    top?: number;
-}
-
-// @public
-export type DeploymentsListAtScopeNextNextResponse = DeploymentListResult;
 
 // @public
 export interface DeploymentsListAtScopeNextOptionalParams extends coreClient.OperationOptions {
@@ -706,15 +638,6 @@ export interface DeploymentsListAtScopeOptionalParams extends coreClient.Operati
 export type DeploymentsListAtScopeResponse = DeploymentListResult;
 
 // @public
-export interface DeploymentsListAtSubscriptionScopeNextNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    top?: number;
-}
-
-// @public
-export type DeploymentsListAtSubscriptionScopeNextNextResponse = DeploymentListResult;
-
-// @public
 export interface DeploymentsListAtSubscriptionScopeNextOptionalParams extends coreClient.OperationOptions {
     filter?: string;
     top?: number;
@@ -733,15 +656,6 @@ export interface DeploymentsListAtSubscriptionScopeOptionalParams extends coreCl
 export type DeploymentsListAtSubscriptionScopeResponse = DeploymentListResult;
 
 // @public
-export interface DeploymentsListAtTenantScopeNextNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    top?: number;
-}
-
-// @public
-export type DeploymentsListAtTenantScopeNextNextResponse = DeploymentListResult;
-
-// @public
 export interface DeploymentsListAtTenantScopeNextOptionalParams extends coreClient.OperationOptions {
     filter?: string;
     top?: number;
@@ -758,15 +672,6 @@ export interface DeploymentsListAtTenantScopeOptionalParams extends coreClient.O
 
 // @public
 export type DeploymentsListAtTenantScopeResponse = DeploymentListResult;
-
-// @public
-export interface DeploymentsListByResourceGroupNextNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    top?: number;
-}
-
-// @public
-export type DeploymentsListByResourceGroupNextNextResponse = DeploymentListResult;
 
 // @public
 export interface DeploymentsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
@@ -1116,15 +1021,7 @@ export interface OperationListResult {
 // @public
 export interface Operations {
     list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
-    listNext(nextLink: string, options?: OperationsListNextOptionalParams): PagedAsyncIterableIterator<Operation>;
 }
-
-// @public
-export interface OperationsListNextNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OperationsListNextNextResponse = OperationListResult;
 
 // @public
 export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {
@@ -1229,6 +1126,8 @@ export interface ProviderResourceType {
         [propertyName: string]: string;
     };
     resourceType?: string;
+    // (undocumented)
+    zoneMappings?: ZoneMapping[];
 }
 
 // @public
@@ -1256,8 +1155,6 @@ export interface Providers {
     getAtTenantScope(resourceProviderNamespace: string, options?: ProvidersGetAtTenantScopeOptionalParams): Promise<ProvidersGetAtTenantScopeResponse>;
     list(options?: ProvidersListOptionalParams): PagedAsyncIterableIterator<Provider>;
     listAtTenantScope(options?: ProvidersListAtTenantScopeOptionalParams): PagedAsyncIterableIterator<Provider>;
-    listAtTenantScopeNext(nextLink: string, options?: ProvidersListAtTenantScopeNextOptionalParams): PagedAsyncIterableIterator<Provider>;
-    listNext(nextLink: string, options?: ProvidersListNextOptionalParams): PagedAsyncIterableIterator<Provider>;
     providerPermissions(resourceProviderNamespace: string, options?: ProvidersProviderPermissionsOptionalParams): Promise<ProvidersProviderPermissionsResponse>;
     register(resourceProviderNamespace: string, options?: ProvidersRegisterOptionalParams): Promise<ProvidersRegisterResponse>;
     registerAtManagementGroupScope(resourceProviderNamespace: string, groupId: string, options?: ProvidersRegisterAtManagementGroupScopeOptionalParams): Promise<void>;
@@ -1281,18 +1178,8 @@ export interface ProvidersGetOptionalParams extends coreClient.OperationOptions 
 export type ProvidersGetResponse = Provider;
 
 // @public
-export interface ProvidersListAtTenantScopeNextNextOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
-    top?: number;
-}
-
-// @public
-export type ProvidersListAtTenantScopeNextNextResponse = ProviderListResult;
-
-// @public
 export interface ProvidersListAtTenantScopeNextOptionalParams extends coreClient.OperationOptions {
     expand?: string;
-    top?: number;
 }
 
 // @public
@@ -1301,25 +1188,14 @@ export type ProvidersListAtTenantScopeNextResponse = ProviderListResult;
 // @public
 export interface ProvidersListAtTenantScopeOptionalParams extends coreClient.OperationOptions {
     expand?: string;
-    top?: number;
 }
 
 // @public
 export type ProvidersListAtTenantScopeResponse = ProviderListResult;
 
 // @public
-export interface ProvidersListNextNextOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
-    top?: number;
-}
-
-// @public
-export type ProvidersListNextNextResponse = ProviderListResult;
-
-// @public
 export interface ProvidersListNextOptionalParams extends coreClient.OperationOptions {
     expand?: string;
-    top?: number;
 }
 
 // @public
@@ -1328,7 +1204,6 @@ export type ProvidersListNextResponse = ProviderListResult;
 // @public
 export interface ProvidersListOptionalParams extends coreClient.OperationOptions {
     expand?: string;
-    top?: number;
 }
 
 // @public
@@ -1434,7 +1309,6 @@ export interface ResourceGroups {
     createOrUpdate(resourceGroupName: string, parameters: ResourceGroup, options?: ResourceGroupsCreateOrUpdateOptionalParams): Promise<ResourceGroupsCreateOrUpdateResponse>;
     get(resourceGroupName: string, options?: ResourceGroupsGetOptionalParams): Promise<ResourceGroupsGetResponse>;
     list(options?: ResourceGroupsListOptionalParams): PagedAsyncIterableIterator<ResourceGroup>;
-    listNext(nextLink: string, options?: ResourceGroupsListNextOptionalParams): PagedAsyncIterableIterator<ResourceGroup>;
     update(resourceGroupName: string, parameters: ResourceGroupPatchable, options?: ResourceGroupsUpdateOptionalParams): Promise<ResourceGroupsUpdateResponse>;
 }
 
@@ -1478,15 +1352,6 @@ export interface ResourceGroupsGetOptionalParams extends coreClient.OperationOpt
 export type ResourceGroupsGetResponse = ResourceGroup;
 
 // @public
-export interface ResourceGroupsListNextNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    top?: number;
-}
-
-// @public
-export type ResourceGroupsListNextNextResponse = ResourceGroupListResult;
-
-// @public
 export interface ResourceGroupsListNextOptionalParams extends coreClient.OperationOptions {
     filter?: string;
     top?: number;
@@ -1521,8 +1386,12 @@ export interface ResourceListResult {
 }
 
 // @public (undocumented)
-export class ResourceManagementClient extends ResourceManagementClientContext {
+export class ResourceManagementClient extends coreClient.ServiceClient {
+    // (undocumented)
+    $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: ResourceManagementClientOptionalParams);
+    // (undocumented)
+    apiVersion: string;
     // (undocumented)
     deploymentOperations: DeploymentOperations;
     // (undocumented)
@@ -1538,18 +1407,9 @@ export class ResourceManagementClient extends ResourceManagementClientContext {
     // (undocumented)
     resources: Resources;
     // (undocumented)
-    tagsOperations: TagsOperations;
-}
-
-// @public (undocumented)
-export class ResourceManagementClientContext extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: ResourceManagementClientOptionalParams);
-    // (undocumented)
-    apiVersion: string;
-    // (undocumented)
     subscriptionId: string;
+    // (undocumented)
+    tagsOperations: TagsOperations;
 }
 
 // @public
@@ -1597,8 +1457,6 @@ export interface Resources {
     getById(resourceId: string, apiVersion: string, options?: ResourcesGetByIdOptionalParams): Promise<ResourcesGetByIdResponse>;
     list(options?: ResourcesListOptionalParams): PagedAsyncIterableIterator<GenericResourceExpanded>;
     listByResourceGroup(resourceGroupName: string, options?: ResourcesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<GenericResourceExpanded>;
-    listByResourceGroupNext(resourceGroupName: string, nextLink: string, options?: ResourcesListByResourceGroupNextOptionalParams): PagedAsyncIterableIterator<GenericResourceExpanded>;
-    listNext(nextLink: string, options?: ResourcesListNextOptionalParams): PagedAsyncIterableIterator<GenericResourceExpanded>;
 }
 
 // @public
@@ -1664,16 +1522,6 @@ export interface ResourcesGetOptionalParams extends coreClient.OperationOptions 
 export type ResourcesGetResponse = GenericResource;
 
 // @public
-export interface ResourcesListByResourceGroupNextNextOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
-    filter?: string;
-    top?: number;
-}
-
-// @public
-export type ResourcesListByResourceGroupNextNextResponse = ResourceListResult;
-
-// @public
 export interface ResourcesListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
     expand?: string;
     filter?: string;
@@ -1692,16 +1540,6 @@ export interface ResourcesListByResourceGroupOptionalParams extends coreClient.O
 
 // @public
 export type ResourcesListByResourceGroupResponse = ResourceListResult;
-
-// @public
-export interface ResourcesListNextNextOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
-    filter?: string;
-    top?: number;
-}
-
-// @public
-export type ResourcesListNextNextResponse = ResourceListResult;
 
 // @public
 export interface ResourcesListNextOptionalParams extends coreClient.OperationOptions {
@@ -1826,6 +1664,60 @@ export interface Tags {
 }
 
 // @public
+export interface TagsCreateOrUpdateAtScopeOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type TagsCreateOrUpdateAtScopeResponse = TagsResource;
+
+// @public
+export interface TagsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type TagsCreateOrUpdateResponse = TagDetails;
+
+// @public
+export interface TagsCreateOrUpdateValueOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type TagsCreateOrUpdateValueResponse = TagValue;
+
+// @public
+export interface TagsDeleteAtScopeOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface TagsDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface TagsDeleteValueOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface TagsGetAtScopeOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type TagsGetAtScopeResponse = TagsResource;
+
+// @public
+export interface TagsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type TagsListNextResponse = TagsListResult;
+
+// @public
+export interface TagsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type TagsListResponse = TagsListResult;
+
+// @public
 export interface TagsListResult {
     readonly nextLink?: string;
     value?: TagDetails[];
@@ -1833,85 +1725,16 @@ export interface TagsListResult {
 
 // @public
 export interface TagsOperations {
-    createOrUpdate(tagName: string, options?: TagsOperationsCreateOrUpdateOptionalParams): Promise<TagsOperationsCreateOrUpdateResponse>;
-    createOrUpdateAtScope(scope: string, parameters: TagsResource, options?: TagsOperationsCreateOrUpdateAtScopeOptionalParams): Promise<TagsOperationsCreateOrUpdateAtScopeResponse>;
-    createOrUpdateValue(tagName: string, tagValue: string, options?: TagsOperationsCreateOrUpdateValueOptionalParams): Promise<TagsOperationsCreateOrUpdateValueResponse>;
-    delete(tagName: string, options?: TagsOperationsDeleteOptionalParams): Promise<void>;
-    deleteAtScope(scope: string, options?: TagsOperationsDeleteAtScopeOptionalParams): Promise<void>;
-    deleteValue(tagName: string, tagValue: string, options?: TagsOperationsDeleteValueOptionalParams): Promise<void>;
-    getAtScope(scope: string, options?: TagsOperationsGetAtScopeOptionalParams): Promise<TagsOperationsGetAtScopeResponse>;
-    list(options?: TagsOperationsListOptionalParams): PagedAsyncIterableIterator<TagDetails>;
-    listNext(nextLink: string, options?: TagsOperationsListNextOptionalParams): PagedAsyncIterableIterator<TagDetails>;
-    updateAtScope(scope: string, parameters: TagsPatchResource, options?: TagsOperationsUpdateAtScopeOptionalParams): Promise<TagsOperationsUpdateAtScopeResponse>;
+    createOrUpdate(tagName: string, options?: TagsCreateOrUpdateOptionalParams): Promise<TagsCreateOrUpdateResponse>;
+    createOrUpdateAtScope(scope: string, parameters: TagsResource, options?: TagsCreateOrUpdateAtScopeOptionalParams): Promise<TagsCreateOrUpdateAtScopeResponse>;
+    createOrUpdateValue(tagName: string, tagValue: string, options?: TagsCreateOrUpdateValueOptionalParams): Promise<TagsCreateOrUpdateValueResponse>;
+    delete(tagName: string, options?: TagsDeleteOptionalParams): Promise<void>;
+    deleteAtScope(scope: string, options?: TagsDeleteAtScopeOptionalParams): Promise<void>;
+    deleteValue(tagName: string, tagValue: string, options?: TagsDeleteValueOptionalParams): Promise<void>;
+    getAtScope(scope: string, options?: TagsGetAtScopeOptionalParams): Promise<TagsGetAtScopeResponse>;
+    list(options?: TagsListOptionalParams): PagedAsyncIterableIterator<TagDetails>;
+    updateAtScope(scope: string, parameters: TagsPatchResource, options?: TagsUpdateAtScopeOptionalParams): Promise<TagsUpdateAtScopeResponse>;
 }
-
-// @public
-export interface TagsOperationsCreateOrUpdateAtScopeOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type TagsOperationsCreateOrUpdateAtScopeResponse = TagsResource;
-
-// @public
-export interface TagsOperationsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type TagsOperationsCreateOrUpdateResponse = TagDetails;
-
-// @public
-export interface TagsOperationsCreateOrUpdateValueOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type TagsOperationsCreateOrUpdateValueResponse = TagValue;
-
-// @public
-export interface TagsOperationsDeleteAtScopeOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export interface TagsOperationsDeleteOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export interface TagsOperationsDeleteValueOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export interface TagsOperationsGetAtScopeOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type TagsOperationsGetAtScopeResponse = TagsResource;
-
-// @public
-export interface TagsOperationsListNextNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type TagsOperationsListNextNextResponse = TagsListResult;
-
-// @public
-export interface TagsOperationsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type TagsOperationsListNextResponse = TagsListResult;
-
-// @public
-export interface TagsOperationsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type TagsOperationsListResponse = TagsListResult;
-
-// @public
-export interface TagsOperationsUpdateAtScopeOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type TagsOperationsUpdateAtScopeResponse = TagsResource;
 
 // @public
 export type TagsPatchOperation = string;
@@ -1929,6 +1752,13 @@ export interface TagsResource {
     properties: Tags;
     readonly type?: string;
 }
+
+// @public
+export interface TagsUpdateAtScopeOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type TagsUpdateAtScopeResponse = TagsResource;
 
 // @public
 export interface TagValue {
@@ -1988,6 +1818,12 @@ export interface WhatIfPropertyChange {
 // @public
 export type WhatIfResultFormat = "ResourceIdOnly" | "FullResourcePayloads";
 
+// @public (undocumented)
+export interface ZoneMapping {
+    location?: string;
+    // (undocumented)
+    zones?: string[];
+}
 
 // (No @packageDocumentation comment for this package)
 
