@@ -612,6 +612,11 @@
       "versionPolicyName": "core"
     },
     {
+      "packageName": "@azure/maps-search",
+      "projectFolder": "sdk/maps/maps-search",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/notification-hubs",
       "projectFolder": "sdk/notificationhubs/notification-hubs",
       "versionPolicyName": "client"
