@@ -14,6 +14,7 @@ export const Constants = {
   publisher: "x-opt-publisher-name",
   viaPartitionKey: "x-opt-via-partition-key",
   deadLetterSource: "x-opt-deadletter-source",
+  messageState: "x-opt-message-state",
   enqueuedTimeAnnotation: `amqp.annotation.x-opt-enqueued-time`,
   offsetAnnotation: `amqp.annotation.x-opt-offset`,
   sequenceNumberAnnotation: `amqp.annotation.x-opt-sequence-number`,

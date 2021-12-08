@@ -6,19 +6,18 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   LedgerDigestUploads,
-  LedgerDigestUploadsOperationsListByDatabaseOptionalParams,
+  LedgerDigestUploadsListByDatabaseOptionalParams,
   LedgerDigestUploadsName,
-  LedgerDigestUploadsOperationsGetOptionalParams,
-  LedgerDigestUploadsOperationsGetResponse,
-  LedgerDigestUploadsOperationsCreateOrUpdateOptionalParams,
-  LedgerDigestUploadsOperationsCreateOrUpdateResponse,
-  LedgerDigestUploadsOperationsDisableOptionalParams,
-  LedgerDigestUploadsOperationsDisableResponse
+  LedgerDigestUploadsGetOptionalParams,
+  LedgerDigestUploadsGetResponse,
+  LedgerDigestUploadsCreateOrUpdateOptionalParams,
+  LedgerDigestUploadsCreateOrUpdateResponse,
+  LedgerDigestUploadsDisableOptionalParams,
+  LedgerDigestUploadsDisableResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -36,7 +35,7 @@ export interface LedgerDigestUploadsOperations {
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
-    options?: LedgerDigestUploadsOperationsListByDatabaseOptionalParams
+    options?: LedgerDigestUploadsListByDatabaseOptionalParams
   ): PagedAsyncIterableIterator<LedgerDigestUploads>;
   /**
    * Gets the current ledger digest upload configuration for a database.
@@ -52,8 +51,8 @@ export interface LedgerDigestUploadsOperations {
     serverName: string,
     databaseName: string,
     ledgerDigestUploads: LedgerDigestUploadsName,
-    options?: LedgerDigestUploadsOperationsGetOptionalParams
-  ): Promise<LedgerDigestUploadsOperationsGetResponse>;
+    options?: LedgerDigestUploadsGetOptionalParams
+  ): Promise<LedgerDigestUploadsGetResponse>;
   /**
    * Enables upload ledger digests to an Azure Storage account or an Azure Confidential Ledger instance.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
@@ -70,11 +69,11 @@ export interface LedgerDigestUploadsOperations {
     databaseName: string,
     ledgerDigestUploads: LedgerDigestUploadsName,
     parameters: LedgerDigestUploads,
-    options?: LedgerDigestUploadsOperationsCreateOrUpdateOptionalParams
+    options?: LedgerDigestUploadsCreateOrUpdateOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<LedgerDigestUploadsOperationsCreateOrUpdateResponse>,
-      LedgerDigestUploadsOperationsCreateOrUpdateResponse
+      PollOperationState<LedgerDigestUploadsCreateOrUpdateResponse>,
+      LedgerDigestUploadsCreateOrUpdateResponse
     >
   >;
   /**
@@ -93,8 +92,8 @@ export interface LedgerDigestUploadsOperations {
     databaseName: string,
     ledgerDigestUploads: LedgerDigestUploadsName,
     parameters: LedgerDigestUploads,
-    options?: LedgerDigestUploadsOperationsCreateOrUpdateOptionalParams
-  ): Promise<LedgerDigestUploadsOperationsCreateOrUpdateResponse>;
+    options?: LedgerDigestUploadsCreateOrUpdateOptionalParams
+  ): Promise<LedgerDigestUploadsCreateOrUpdateResponse>;
   /**
    * Disables uploading ledger digests to an Azure Storage account or an Azure Confidential Ledger
    * instance.
@@ -110,11 +109,11 @@ export interface LedgerDigestUploadsOperations {
     serverName: string,
     databaseName: string,
     ledgerDigestUploads: LedgerDigestUploadsName,
-    options?: LedgerDigestUploadsOperationsDisableOptionalParams
+    options?: LedgerDigestUploadsDisableOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<LedgerDigestUploadsOperationsDisableResponse>,
-      LedgerDigestUploadsOperationsDisableResponse
+      PollOperationState<LedgerDigestUploadsDisableResponse>,
+      LedgerDigestUploadsDisableResponse
     >
   >;
   /**
@@ -132,6 +131,6 @@ export interface LedgerDigestUploadsOperations {
     serverName: string,
     databaseName: string,
     ledgerDigestUploads: LedgerDigestUploadsName,
-    options?: LedgerDigestUploadsOperationsDisableOptionalParams
-  ): Promise<LedgerDigestUploadsOperationsDisableResponse>;
+    options?: LedgerDigestUploadsDisableOptionalParams
+  ): Promise<LedgerDigestUploadsDisableResponse>;
 }

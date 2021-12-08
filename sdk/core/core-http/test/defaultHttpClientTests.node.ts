@@ -3,20 +3,19 @@
 
 /* eslint-disable no-unused-expressions */
 
-import { assert } from "chai";
 import "chai/register-should";
-import * as sinon from "sinon";
 import * as http from "http";
-import { createReadStream, ReadStream } from "fs";
-
-import { DefaultHttpClient } from "../src/defaultHttpClient";
-import { WebResource, TransferProgressEvent } from "../src/webResource";
-import { getHttpMock, HttpMockFacade } from "./mockHttp";
-import { PassThrough, Readable } from "stream";
-import { ReportTransform, CommonResponse } from "../src/fetchHttpClient";
+import * as sinon from "sinon";
+import { CommonResponse, ReportTransform } from "../src/nodeFetchHttpClient";
 import { CompositeMapper, Serializer } from "../src/serializer";
-import { OperationSpec } from "../src/operationSpec";
+import { HttpMockFacade, getHttpMock } from "./mockHttp";
+import { PassThrough, Readable } from "stream";
+import { ReadStream, createReadStream } from "fs";
+import { TransferProgressEvent, WebResource } from "../src/webResource";
 import { AbortController } from "@azure/abort-controller";
+import { DefaultHttpClient } from "../src/defaultHttpClient";
+import { OperationSpec } from "../src/operationSpec";
+import { assert } from "chai";
 
 describe("defaultHttpClient (node)", function() {
   let httpMock: HttpMockFacade;

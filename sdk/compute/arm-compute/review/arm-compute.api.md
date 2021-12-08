@@ -4,6 +4,8 @@
 
 ```ts
 
+/// <reference types="node" />
+
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
@@ -957,7 +959,9 @@ export interface CommunityGalleryImageVersionsGetOptionalParams extends coreClie
 export type CommunityGalleryImageVersionsGetResponse = CommunityGalleryImageVersion;
 
 // @public (undocumented)
-export class ComputeManagementClient extends ComputeManagementClientContext {
+export class ComputeManagementClient extends coreClient.ServiceClient {
+    // (undocumented)
+    $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: ComputeManagementClientOptionalParams);
     // (undocumented)
     availabilitySets: AvailabilitySets;
@@ -1030,6 +1034,8 @@ export class ComputeManagementClient extends ComputeManagementClientContext {
     // (undocumented)
     sshPublicKeys: SshPublicKeys;
     // (undocumented)
+    subscriptionId: string;
+    // (undocumented)
     usageOperations: UsageOperations;
     // (undocumented)
     virtualMachineExtensionImages: VirtualMachineExtensionImages;
@@ -1057,15 +1063,6 @@ export class ComputeManagementClient extends ComputeManagementClientContext {
     virtualMachineScaleSetVMs: VirtualMachineScaleSetVMs;
     // (undocumented)
     virtualMachineSizes: VirtualMachineSizes;
-}
-
-// @public (undocumented)
-export class ComputeManagementClientContext extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: ComputeManagementClientOptionalParams);
-    // (undocumented)
-    subscriptionId: string;
 }
 
 // @public
@@ -2547,13 +2544,14 @@ export type HyperVGenerationType = string;
 export type HyperVGenerationTypes = string;
 
 // @public
-export type Image = Resource & {
+type Image_2 = Resource & {
     extendedLocation?: ExtendedLocation;
     sourceVirtualMachine?: SubResource;
     storageProfile?: ImageStorageProfile;
     readonly provisioningState?: string;
     hyperVGeneration?: HyperVGenerationTypes;
 };
+export { Image_2 as Image }
 
 // @public
 export type ImageDataDisk = ImageDisk & {
@@ -2580,7 +2578,7 @@ export interface ImageDiskReference {
 // @public
 export interface ImageListResult {
     nextLink?: string;
-    value: Image[];
+    value: Image_2[];
 }
 
 // @public
@@ -2608,15 +2606,15 @@ export type ImageReference = SubResource & {
 
 // @public
 export interface Images {
-    beginCreateOrUpdate(resourceGroupName: string, imageName: string, parameters: Image, options?: ImagesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<ImagesCreateOrUpdateResponse>, ImagesCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, imageName: string, parameters: Image, options?: ImagesCreateOrUpdateOptionalParams): Promise<ImagesCreateOrUpdateResponse>;
+    beginCreateOrUpdate(resourceGroupName: string, imageName: string, parameters: Image_2, options?: ImagesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<ImagesCreateOrUpdateResponse>, ImagesCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, imageName: string, parameters: Image_2, options?: ImagesCreateOrUpdateOptionalParams): Promise<ImagesCreateOrUpdateResponse>;
     beginDelete(resourceGroupName: string, imageName: string, options?: ImagesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, imageName: string, options?: ImagesDeleteOptionalParams): Promise<void>;
     beginUpdate(resourceGroupName: string, imageName: string, parameters: ImageUpdate, options?: ImagesUpdateOptionalParams): Promise<PollerLike<PollOperationState<ImagesUpdateResponse>, ImagesUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, imageName: string, parameters: ImageUpdate, options?: ImagesUpdateOptionalParams): Promise<ImagesUpdateResponse>;
     get(resourceGroupName: string, imageName: string, options?: ImagesGetOptionalParams): Promise<ImagesGetResponse>;
-    list(options?: ImagesListOptionalParams): PagedAsyncIterableIterator<Image>;
-    listByResourceGroup(resourceGroupName: string, options?: ImagesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Image>;
+    list(options?: ImagesListOptionalParams): PagedAsyncIterableIterator<Image_2>;
+    listByResourceGroup(resourceGroupName: string, options?: ImagesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Image_2>;
 }
 
 // @public
@@ -2626,7 +2624,7 @@ export interface ImagesCreateOrUpdateOptionalParams extends coreClient.Operation
 }
 
 // @public
-export type ImagesCreateOrUpdateResponse = Image;
+export type ImagesCreateOrUpdateResponse = Image_2;
 
 // @public
 export interface ImagesDeleteOptionalParams extends coreClient.OperationOptions {
@@ -2640,7 +2638,7 @@ export interface ImagesGetOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type ImagesGetResponse = Image;
+export type ImagesGetResponse = Image_2;
 
 // @public
 export interface ImagesListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
@@ -2684,7 +2682,7 @@ export interface ImagesUpdateOptionalParams extends coreClient.OperationOptions 
 }
 
 // @public
-export type ImagesUpdateResponse = Image;
+export type ImagesUpdateResponse = Image_2;
 
 // @public
 export type ImageUpdate = UpdateResource & {
@@ -4549,7 +4547,7 @@ export type RestorePoint = ProxyResource & {
     readonly sourceMetadata?: RestorePointSourceMetadata;
     readonly provisioningState?: string;
     readonly consistencyMode?: ConsistencyModeTypes;
-    readonly provisioningDetails?: RestorePointProvisioningDetails;
+    timeCreated?: Date;
 };
 
 // @public
@@ -4649,14 +4647,6 @@ export type RestorePointCollectionUpdate = UpdateResource & {
     readonly restorePointCollectionId?: string;
     readonly restorePoints?: RestorePoint[];
 };
-
-// @public
-export interface RestorePointProvisioningDetails {
-    creationTime?: Date;
-    statusCode?: number;
-    statusMessage?: string;
-    totalUsedSizeInBytes?: number;
-}
 
 // @public
 export interface RestorePoints {
@@ -7640,7 +7630,6 @@ export interface WinRMListener {
     certificateUrl?: string;
     protocol?: ProtocolTypes;
 }
-
 
 // (No @packageDocumentation comment for this package)
 

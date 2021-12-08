@@ -9,14 +9,12 @@ const path = require("path");
 require("dotenv").config();
 
 const { logSampleHeader, handleError, finish, logStep } = require("./Shared/handleError");
-const { CosmosClient, IndexKind, DataType } = require("../dist-esm");
+const { CosmosClient, IndexKind, DataType } = require("@azure/cosmos");
 
-const {
-  COSMOS_DATABASE: databaseId,
-  COSMOS_CONTAINER: containerId,
-  COSMOS_ENDPOINT: endpoint,
-  COSMOS_KEY: key
-} = process.env;
+const key = process.env.COSMOS_KEY || "<cosmos key>";
+const endpoint = process.env.COSMOS_ENDPOINT || "<cosmos endpoint>";
+const containerId = process.env.COSMOS_CONTAINER || "<cosmos container>";
+const databaseId = process.env.COSMOS_DATABASE || "<cosmos database>";
 
 logSampleHeader("Index Management");
 
@@ -29,7 +27,7 @@ async function run() {
   // We're using the default indexing policy because by default indexingMode == consistent & automatic == true
   // which means that by default all items added to a container are indexed as the item is written
   const { container, resource: containerDef } = await database.containers.createIfNotExists({
-    id: containerId
+    id: containerId,
   });
 
   logStep("Manually exclude an item from being indexed");
@@ -44,16 +42,19 @@ async function run() {
     { id: "item1", foo: "bar" },
     { indexingDirective: "exclude" }
   );
-  console.log("Item with id '" + itemDef.id + "' created");
+
+  if (itemDef) {
+    console.log(`Item with id  ${itemDef.id} 'created`);
+  }
 
   const querySpec = {
     query: "SELECT * FROM root r WHERE r.foo=@foo",
     parameters: [
       {
         name: "@foo",
-        value: "bar"
-      }
-    ]
+        value: "bar",
+      },
+    ],
   };
 
   console.log("Querying all items for the given item should not find any results");
@@ -79,8 +80,8 @@ async function run() {
   // but this can take some time on larger containers
   await container.replace({
     id: containerId,
-    partitionKey: containerDef.partitionKey,
-    indexingPolicy: indexingPolicySpec
+    partitionKey: containerDef && containerDef.partitionKey,
+    indexingPolicy: indexingPolicySpec,
   });
 
   // items.create() takes RequestOptions as 2nd parameter.
@@ -91,7 +92,9 @@ async function run() {
     { id: "item2", foo: "bar" },
     { indexingDirective: "include" }
   );
-  console.log("Item with id '" + itemDef2.id + "' created");
+  if (itemDef) {
+    console.log(`Item with id  ${itemDef.id} 'created`);
+  }
 
   console.log("Querying all items for a given item should find a result as it was indexed");
   const { resources: results2 } = await container.items.query(querySpec).fetchAll();
@@ -99,7 +102,7 @@ async function run() {
     throw new Error("There were meant to be results");
   } else {
     const fetchedItemDef = results2[0];
-    console.log("Item with id '" + fetchedItemDef.id + "' found");
+    console.log("Item with id '" + fetchedItemDef && fetchedItemDef.id + "' found");
   }
 
   logStep("Create a range index on string path");
@@ -109,7 +112,7 @@ async function run() {
   console.log("update container with range index on string paths");
   await container.replace({
     id: containerId,
-    partitionKey: containerDef.partitionKey,
+    partitionKey: containerDef && containerDef.partitionKey,
     indexingPolicy: {
       includedPaths: [
         {
@@ -117,19 +120,21 @@ async function run() {
           indexes: [
             {
               kind: IndexKind.Range,
-              dataType: DataType.String
+              dataType: DataType.String,
             },
             {
               kind: IndexKind.Range,
-              dataType: DataType.Number
-            }
-          ]
-        }
-      ]
-    }
+              dataType: DataType.Number,
+            },
+          ],
+        },
+      ],
+    },
   });
 
-  console.log("Container '" + containerDef.id + "' updated with new index policy");
+  if (containerDef) {
+    console.log(`Container  ${containerDef.id} 'updated with new index policy`);
+  }
 
   // create an item
   console.log("Creating item");
@@ -147,20 +152,20 @@ async function run() {
       parameters: [
         {
           name: "@value",
-          value: "a"
-        }
-      ]
+          value: "a",
+        },
+      ],
     },
     { enableScanInQuery: true }
   );
   const { resources: items, requestCharge } = await queryIterator.fetchNext();
   const itemDef3 = items[0];
-  console.log("Item '" + itemDef3.id + "' found, request charge: " + requestCharge);
+  console.log("Item '" + itemDef3 && itemDef3.id + "' found, request charge: " + requestCharge);
 
   logStep("Update index to exclude paths from indexing");
   await container.replace({
     id: containerId,
-    partitionKey: containerDef.partitionKey,
+    partitionKey: containerDef && containerDef.partitionKey,
     indexingPolicy: {
       // the special "/" must always be included somewhere. in this case we're including root
       // and then excluding specific paths
@@ -171,20 +176,23 @@ async function run() {
             {
               kind: IndexKind.Range,
               dataType: DataType.Number,
-              precision: 2
-            }
-          ]
-        }
+              precision: 2,
+            },
+          ],
+        },
       ],
       excludedPaths: [
         {
-          path: "/metaData/*"
-        }
-      ]
-    }
+          path: "/metaData/*",
+        },
+      ],
+    },
   });
 
-  console.log("Container '" + containerDef.id + "' updated with excludedPaths");
+  if (containerDef) {
+    console.log(`Container  ${containerDef.id} 'updated with excludedPaths`);
+  }
+
   // create an item
   console.log("Creating item");
   const { item: item4 } = await container.items.create({
@@ -192,8 +200,8 @@ async function run() {
     metaData: "meta",
     subDoc: {
       searchable: "searchable",
-      subSubDoc: { someProperty: "value" }
-    }
+      subSubDoc: { someProperty: "value" },
+    },
   });
 
   console.log("Item created");
@@ -207,23 +215,25 @@ async function run() {
         parameters: [
           {
             name: "@value",
-            value: "meta"
-          }
-        ]
+            value: "meta",
+          },
+        ],
       })
       .fetchAll();
     console.log(result.resources);
     throw new Error("Should've produced an error");
   } catch (err) {
-    if (err.code !== undefined) {
-      console.log("Threw, as expected");
-    } else {
-      throw err;
+    if (err instanceof Error) {
+      if (err && err.message !== undefined) {
+        console.log("Threw, as expected");
+      } else {
+        throw err;
+      }
     }
   }
 
   // You can still read the item by its id
-  console.log("Can still item.read() using '" + item4.id + "'");
+  console.log("Can still item.read() using '" + item4 && item4.id + "'");
   await item.read();
   await finish();
 }

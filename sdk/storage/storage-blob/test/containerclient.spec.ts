@@ -144,6 +144,24 @@ describe("ContainerClient", () => {
     }
   });
 
+  it("listBlobsFlat with special chars", async () => {
+    const blobName = "dir1/dir2/file\uFFFF.blob";
+    const blockBlobClient = containerClient.getBlockBlobClient(blobName);
+    await blockBlobClient.upload("", 0);
+
+    const result = (
+      await containerClient
+        .listBlobsFlat()
+        .byPage()
+        .next()
+    ).value;
+    assert.ok(result.serviceEndpoint.length > 0);
+    assert.ok(containerClient.url.indexOf(result.containerName));
+    assert.deepStrictEqual(result.continuationToken, "");
+    assert.deepStrictEqual(result.segment.blobItems!.length, 1);
+    assert.ok(blobName === result.segment.blobItems![0].name);
+  });
+
   it("listBlobsFlat with default parameters - null prefix shouldn't throw error", async () => {
     const blobClients = [];
     for (let i = 0; i < 3; i++) {
@@ -498,6 +516,50 @@ describe("ContainerClient", () => {
 
     for (const blob of blobClients) {
       await blob.delete();
+    }
+  });
+
+  it("listBlobsByHierarchy with special chars", async () => {
+    const dirNames = ["first_dir\uFFFF/", "second_dir\uFFFF/", "normal_dir/"];
+
+    for (let i = 0; i < dirNames.length; ++i) {
+      const encodedCharBlockBlobClient = containerClient.getBlockBlobClient(
+        dirNames[i] + "file\uFFFF.blob"
+      );
+      await encodedCharBlockBlobClient.upload("", 0);
+    }
+
+    const blobNames = ["first_file\uFFFF.blob", "second_file\uFFFF.blob", "NormalBlob"];
+    for (let i = 0; i < dirNames.length; ++i) {
+      const blockBlobClientWithNormalName = containerClient.getBlockBlobClient(blobNames[i]);
+      await blockBlobClientWithNormalName.upload("", 0);
+    }
+
+    const delimiter = "/";
+    const result = (
+      await containerClient
+        .listBlobsByHierarchy(delimiter)
+        .byPage()
+        .next()
+    ).value;
+    assert.ok(result.serviceEndpoint.length > 0);
+    assert.ok(containerClient.url.indexOf(result.containerName));
+    assert.deepStrictEqual(result.continuationToken, "");
+    assert.deepStrictEqual(result.delimiter, delimiter);
+    assert.deepStrictEqual(result.segment.blobPrefixes!.length, 3);
+
+    for (let i = 0; i < result.segment.blobPrefixes.length; ++i) {
+      assert.ok(
+        dirNames.includes(result.segment.blobPrefixes[i].name),
+        "Directory name for the uploaded blob should be in the prefix list"
+      );
+    }
+
+    for (let i = 0; i < result.segment.blobItems.length; ++i) {
+      assert.ok(
+        blobNames.includes(result.segment.blobItems[i].name),
+        "Uploaded blob should be in the list"
+      );
     }
   });
 

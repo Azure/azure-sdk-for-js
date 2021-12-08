@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert, AssertionError } from "chai";
-import sinon from "sinon";
-import { ThrottlingRetryPolicy } from "../../src/policies/throttlingRetryPolicy";
-import { WebResource } from "../../src/webResource";
-import { HttpOperationResponse } from "../../src/httpOperationResponse";
+import { AssertionError, assert } from "chai";
 import { Constants, HttpHeaders, RequestPolicyOptions } from "../../src/coreHttp";
 import { AbortController } from "@azure/abort-controller";
+import { HttpOperationResponse } from "../../src/httpOperationResponse";
+import { ThrottlingRetryPolicy } from "../../src/policies/throttlingRetryPolicy";
+import { WebResource } from "../../src/webResource";
+import sinon from "sinon";
 
 describe("ThrottlingRetryPolicy", () => {
   class PassThroughPolicy {

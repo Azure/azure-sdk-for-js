@@ -23,7 +23,6 @@ export async function main() {
 
   // Create user
   console.log("Creating User");
-
   const user = await identityClient.createUser();
 
   const relayClient = new CommunicationRelayClient(connectionString);

@@ -2,10 +2,10 @@
 // Licensed under the MIT license.
 
 import { RequestOptionsBase } from "@azure/core-http";
-import { TestServiceClient } from "./testServiceClient";
-import { TestPoller } from "./testPoller";
 import { TestNonCancellablePoller } from "./testNonCancellablePoller";
 import { TestOperationState } from "./testOperation";
+import { TestPoller } from "./testPoller";
+import { TestServiceClient } from "./testServiceClient";
 
 interface StartLROOptions {
   intervalInMs?: number;
