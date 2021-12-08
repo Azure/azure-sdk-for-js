@@ -40,7 +40,7 @@ import {
   TillageDataListResponse,
   WeatherDataDeleteJob,
   WeatherDataIngestionJob,
-  WeatherDataListResponse
+  WeatherDataListResponse,
 } from "./models";
 import { HttpResponse } from "@azure-rest/core-client";
 

@@ -206,7 +206,7 @@ import {
   WeatherGetDataIngestionJobDetails200Response,
   WeatherGetDataIngestionJobDetailsdefaultResponse,
   WeatherList200Response,
-  WeatherListdefaultResponse
+  WeatherListdefaultResponse,
 } from "./responses";
 import {
   ApplicationDataCreateOrUpdateParameters,
@@ -304,7 +304,7 @@ import {
   WeatherCreateDataIngestionJobParameters,
   WeatherGetDataDeleteJobDetailsParameters,
   WeatherGetDataIngestionJobDetailsParameters,
-  WeatherListParameters
+  WeatherListParameters,
 } from "./parameters";
 import { Client, ClientOptions, getClient } from "@azure-rest/core-client";
 import { TokenCredential } from "@azure/core-auth";

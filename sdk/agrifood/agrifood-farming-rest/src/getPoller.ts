@@ -5,7 +5,7 @@ import {
   PollOperationState,
   PollerLike,
   PollerOptions,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/core-client-lro";
 import { FarmBeatsRestClient } from "./farmBeats";
 import { HttpResponse } from "@azure-rest/core-client";

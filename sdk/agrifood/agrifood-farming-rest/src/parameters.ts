@@ -21,7 +21,7 @@ import {
   SeasonalField,
   TillageData,
   WeatherDataDeleteJob,
-  WeatherDataIngestionJob
+  WeatherDataIngestionJob,
 } from "./models";
 import { RequestParameters } from "@azure-rest/core-client";
 
