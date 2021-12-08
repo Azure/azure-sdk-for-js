@@ -28,7 +28,7 @@ import {
   SearchSearchNearbyPointOfInterestOptionalParams as SearchNearbyPointOfInterestOptionalParams,
   SearchSearchPointOfInterestOptionalParams as SearchPointOfInterestOptionalParams
 } from "../generated/models";
-import { BoundingBox, LatLong } from "./models";
+import { BoundingBox, LatLon } from "./models";
 import {
   FuzzySearchOptions,
   SearchAddressOptions,
@@ -43,7 +43,7 @@ import { OperationOptions } from "@azure/core-client";
 /**
  * @internal
  */
-export function toLatLongString(coordinates: LatLong): string {
+export function toLatLonString(coordinates: LatLon): string {
   return `${coordinates.latitude},${coordinates.longitude}`;
 }
 
@@ -99,8 +99,8 @@ export function mapSearchAddressOptions(
     lat: options.coordinates?.latitude,
     lon: options.coordinates?.longitude,
     radiusInMeters: options.radiusInMeters,
-    topLeft: options.boundingBox ? toLatLongString(options.boundingBox.topLeft) : undefined,
-    btmRight: options.boundingBox ? toLatLongString(options.boundingBox.bottomRight) : undefined,
+    topLeft: options.boundingBox ? toLatLonString(options.boundingBox.topLeft) : undefined,
+    btmRight: options.boundingBox ? toLatLonString(options.boundingBox.bottomRight) : undefined,
     ...mapSearchBaseOptions(options)
   };
 }
@@ -115,8 +115,8 @@ export function mapSearchPointOfInterestOptions(
     operatingHours: options.operatingHours,
     isTypeAhead: options.isTypeAhead,
     radiusInMeters: options.radiusInMeters,
-    topLeft: options.boundingBox ? toLatLongString(options.boundingBox.topLeft) : undefined,
-    btmRight: options.boundingBox ? toLatLongString(options.boundingBox.bottomRight) : undefined,
+    topLeft: options.boundingBox ? toLatLonString(options.boundingBox.topLeft) : undefined,
+    btmRight: options.boundingBox ? toLatLonString(options.boundingBox.bottomRight) : undefined,
     ...mapSearchBaseOptions(options)
   };
 }
@@ -152,11 +152,11 @@ export function mapFuzzySearchOptions(options: FuzzySearchOptions): FuzzySearchO
 /**
  * @internal
  */
-export function mapLatLongPairAbbreviatedToLatLong(
+export function mapLatLongPairAbbreviatedToLatLon(
   latLongAbbr?: LatLongPairAbbreviated
-): LatLong | undefined {
+): LatLon | undefined {
   if (latLongAbbr && latLongAbbr.lat && latLongAbbr.lon) {
-    return new LatLong(latLongAbbr.lat, latLongAbbr.lon);
+    return new LatLon(latLongAbbr.lat, latLongAbbr.lon);
   } else {
     return undefined;
   }
@@ -165,14 +165,14 @@ export function mapLatLongPairAbbreviatedToLatLong(
 /**
  * @internal
  */
-export function mapStringToLatLong(latLongStr?: string): LatLong | undefined {
-  if (latLongStr && typeof latLongStr === "string") {
-    const latLongArray = latLongStr.split(",");
-    if (latLongArray.length === 2) {
-      const lat = Number(latLongArray[0]);
-      const lon = Number(latLongArray[1]);
+export function mapStringToLatLon(LatLonStr?: string): LatLon | undefined {
+  if (LatLonStr && typeof LatLonStr === "string") {
+    const LatLonArray = LatLonStr.split(",");
+    if (LatLonArray.length === 2) {
+      const lat = Number(LatLonArray[0]);
+      const lon = Number(LatLonArray[1]);
       if (!isNaN(lat) && !isNaN(lon)) {
-        return new LatLong(lat, lon);
+        return new LatLon(lat, lon);
       }
     }
   }
@@ -184,8 +184,8 @@ export function mapStringToLatLong(latLongStr?: string): LatLong | undefined {
  */
 export function mapBoundingBox(bbox?: BoundingBoxInternal): BoundingBox | undefined {
   if (bbox && bbox.topLeft && bbox.bottomRight) {
-    const topLeft = mapLatLongPairAbbreviatedToLatLong(bbox.topLeft);
-    const bottomRight = mapLatLongPairAbbreviatedToLatLong(bbox.bottomRight);
+    const topLeft = mapLatLongPairAbbreviatedToLatLon(bbox.topLeft);
+    const bottomRight = mapLatLongPairAbbreviatedToLatLon(bbox.bottomRight);
     if (topLeft && bottomRight) {
       return new BoundingBox(topLeft, bottomRight);
     }
@@ -204,8 +204,8 @@ export function mapBoundingBoxFromCompassNotation(
     const bottomRightCoords = bbox.southWest.split(",").map((s) => Number(s));
     if (topLeftCoords.length !== 2 || bottomRightCoords.length !== 2) {
       return new BoundingBox(
-        new LatLong(topLeftCoords[0], topLeftCoords[1]),
-        new LatLong(bottomRightCoords[0], bottomRightCoords[1])
+        new LatLon(topLeftCoords[0], topLeftCoords[1]),
+        new LatLon(bottomRightCoords[0], bottomRightCoords[1])
       );
     }
   }
@@ -260,7 +260,7 @@ export function mapSearchAddressResult(
     skip: internalResult.summary?.skip,
     totalResults: internalResult.summary?.totalResults,
     fuzzyLevel: internalResult.summary?.fuzzyLevel,
-    geoBias: mapLatLongPairAbbreviatedToLatLong(internalResult.summary?.geoBias),
+    geoBias: mapLatLongPairAbbreviatedToLatLon(internalResult.summary?.geoBias),
     results: internalResult.results?.map((ir) => {
       const mappedResult: SearchAddressResultItem = {
         type: ir.type,
@@ -273,18 +273,18 @@ export function mapSearchAddressResult(
         address: mapAddress(ir.address),
         position:
           ir.position && ir.position.lat && ir.position.lon
-            ? new LatLong(ir.position.lat, ir.position.lon)
+            ? new LatLon(ir.position.lat, ir.position.lon)
             : undefined,
         viewport: mapBoundingBox(ir.viewport),
         entryPoints: ir.entryPoints?.map((p) => {
-          return { type: p.type, position: mapLatLongPairAbbreviatedToLatLong(p.position) };
+          return { type: p.type, position: mapLatLongPairAbbreviatedToLatLon(p.position) };
         }),
         addressRanges: ir.addressRanges
           ? {
               rangeLeft: ir.addressRanges.rangeLeft,
               rangeRight: ir.addressRanges.rangeRight,
-              from: mapLatLongPairAbbreviatedToLatLong(ir.addressRanges.from),
-              to: mapLatLongPairAbbreviatedToLatLong(ir.addressRanges.to)
+              from: mapLatLongPairAbbreviatedToLatLon(ir.addressRanges.from),
+              to: mapLatLongPairAbbreviatedToLatLon(ir.addressRanges.to)
             }
           : undefined,
         dataSources: ir.dataSources,
@@ -320,7 +320,7 @@ export function mapReverseSearchAddressResult(
     results: internalResult.addresses?.map((ad) => {
       const mappedResult: ReverseSearchAddressResultItem = {
         address: mapAddress(ad.address),
-        position: mapStringToLatLong(ad.position),
+        position: mapStringToLatLon(ad.position),
         roadUse: ad.roadUse,
         matchType: ad.matchType
       };
@@ -343,7 +343,7 @@ export function mapReverseSearchCrossStreetAddressResult(
     results: internalResult.addresses?.map((ad) => {
       const mappedResult: ReverseSearchCrossStreetAddressResultItem = {
         address: mapAddress(ad.address),
-        position: mapStringToLatLong(ad.position)
+        position: mapStringToLatLon(ad.position)
       };
       return removeUndefinedProperties(mappedResult);
     })

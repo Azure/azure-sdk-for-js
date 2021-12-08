@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { FuzzySearchOptions, ReverseSearchAddressOptions, SearchAddressOptions } from "./options";
-import { LatLong } from "./models";
+import { LatLon } from "./models";
 import { OperationOptions } from "@azure/core-client";
 
 /**
@@ -10,7 +10,7 @@ import { OperationOptions } from "@azure/core-client";
  */
 export interface FuzzySearchRequest {
   query: string;
-  coordinates?: LatLong;
+  coordinates?: LatLon;
   countryFilter?: string[];
   options?: FuzzySearchRequestOptions;
 }
@@ -27,7 +27,7 @@ export interface SearchAddressRequest {
  * Request object containing parameters for making reverse search address call
  */
 export interface ReverseSearchAddressRequest {
-  coordinates: LatLong;
+  coordinates: LatLon;
   options?: ReverseSearchAddressRequestOptions;
 }
 

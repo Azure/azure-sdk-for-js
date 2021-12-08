@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { BoundingBox, LatLong } from "./models";
+import { BoundingBox, LatLon } from "./models";
 import {
   DataSource,
   EntryPointType,
@@ -33,7 +33,7 @@ export interface SearchAddressResult {
   /** The maximum fuzzy level required to provide Results. */
   readonly fuzzyLevel?: number;
   /** Indication when the internal search engine has applied a geospatial bias to improve the ranking of results. */
-  readonly geoBias?: LatLong;
+  readonly geoBias?: LatLon;
   /** A list of Search API results. */
   readonly results?: SearchAddressResultItem[];
 }
@@ -57,7 +57,7 @@ export interface SearchAddressResultItem {
   /** The address of the result */
   readonly address?: Address;
   /** A location represented as a latitude and longitude using short names 'lat' & 'lon'. */
-  readonly position?: LatLong;
+  readonly position?: LatLon;
   /** The viewport that covers the result represented by the top-left and bottom-right coordinates of the viewport. */
   readonly viewport?: BoundingBox;
   /** Array of EntryPoints. Those describe the types of entrances available at the location. */
@@ -77,7 +77,7 @@ export interface EntryPoint {
   /** The type of entry point. */
   readonly type?: EntryPointType;
   /** Position of the entry point */
-  position?: LatLong;
+  position?: LatLon;
 }
 
 /** Describes the address range on both sides of the street for a search result. Coordinates for the start and end locations of the address range are included. */
@@ -87,9 +87,9 @@ export interface AddressRanges {
   /** Address range on the right side of the street. */
   rangeRight?: string;
   /** The beginning point of a street segment */
-  from?: LatLong;
+  from?: LatLon;
   /** The end point of a street segment */
-  to?: LatLong;
+  to?: LatLon;
 }
 
 export interface ReverseSearchAddressResult {
@@ -170,7 +170,7 @@ export interface ReverseSearchAddressResultItem {
   /** The address of the result */
   readonly address?: Address;
   /** Position of the result */
-  readonly position?: LatLong;
+  readonly position?: LatLon;
   /** List of road usage types at the address */
   readonly roadUse?: RoadUseType[];
   /** Information on the type of match. */
@@ -181,7 +181,7 @@ export interface ReverseSearchCrossStreetAddressResultItem {
   /** The address of the result */
   readonly address?: Address;
   /** Position of the result */
-  readonly position?: LatLong;
+  readonly position?: LatLon;
   /** List of road usage types at the address */
   readonly roadUse?: RoadUseType[];
   /** Information on the type of match. */
