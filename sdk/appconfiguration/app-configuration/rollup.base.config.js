@@ -34,10 +34,7 @@ const ignoreKnownWarnings = (warning) => {
     return;
   }
 
-  if (
-    warning.code === "CIRCULAR_DEPENDENCY" &&
-    warning.importer.includes("node_modules/chai")
-  ) {
+  if (warning.code === "CIRCULAR_DEPENDENCY" && warning.importer.includes("node_modules/chai")) {
     // Chai contains circular references, but they are not fatal and can be ignored.
     return;
   }
