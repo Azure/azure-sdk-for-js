@@ -508,11 +508,6 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
             decodedMessage as any,
             options?.skipParsingBodyAsJson ?? false
           );
-
-          message.body = defaultDataTransformer.decode(
-            message.body,
-            options?.skipParsingBodyAsJson ?? false
-          );
           messageList.push(message);
           this._lastPeekedSequenceNumber = message.sequenceNumber!;
         }
