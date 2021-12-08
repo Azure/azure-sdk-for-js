@@ -4,12 +4,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import {
-  HttpHeaders,
-  WebResource,
-  delay,
-  isNode
-} from "@azure/core-http";
+import { HttpHeaders, WebResource, delay, isNode } from "@azure/core-http";
 import { PollerCancelledError, PollerStoppedError } from "../src";
 import { TestClient } from "./utils/testClient";
 import { TestOperationState } from "./utils/testOperation";
