@@ -2,14 +2,11 @@
 // Licensed under the MIT license.
 
 import "chai/register-should";
+import { DisableResponseDecompressionPolicy, disableResponseDecompressionPolicy } from "../../src/policies/disableResponseDecompressionPolicy";
+import { HttpHeaders } from "../../src/httpHeaders";
+import { HttpOperationResponse } from "../../src/coreHttp";
 import { RequestPolicyOptions } from "../../src/policies/requestPolicy";
 import { WebResource } from "../../src/webResource";
-import { HttpHeaders } from "../../src/httpHeaders";
-import {
-  disableResponseDecompressionPolicy,
-  DisableResponseDecompressionPolicy
-} from "../../src/policies/disableResponseDecompressionPolicy";
-import { HttpOperationResponse } from "../../src/coreHttp";
 
 describe("DisableResponseDecompressionPolicy (node)", function() {
   function responseOf(r: WebResource): HttpOperationResponse {

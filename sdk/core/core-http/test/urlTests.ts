@@ -1,8 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import {
+  URLBuilder,
+  URLQuery,
+  URLToken,
+  URLTokenizer
+} from "../src/url";
 import { assert } from "chai";
-import { URLTokenizer, URLToken, URLBuilder, URLQuery } from "../src/url";
 
 describe("URLQuery", () => {
   it(`constructor()`, () => {

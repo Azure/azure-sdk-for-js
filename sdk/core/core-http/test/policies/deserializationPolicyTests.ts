@@ -1,19 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
-import { HttpHeaders } from "../../src/httpHeaders";
-import { HttpOperationResponse } from "../../src/httpOperationResponse";
-import { HttpClient, OperationSpec, Serializer, CompositeMapper } from "../../src/coreHttp";
+import {
+  CompositeMapper,
+  HttpClient,
+  OperationSpec,
+  Serializer
+} from "../../src/coreHttp";
 import {
   DeserializationPolicy,
   deserializationPolicy as createDeserializationPolicy,
-  deserializeResponseBody,
   defaultJsonContentTypes,
-  defaultXmlContentTypes
+  defaultXmlContentTypes,
+  deserializeResponseBody
 } from "../../src/policies/deserializationPolicy";
 import { RequestPolicy, RequestPolicyOptions } from "../../src/policies/requestPolicy";
+import { HttpHeaders } from "../../src/httpHeaders";
+import { HttpOperationResponse } from "../../src/httpOperationResponse";
 import { WebResource } from "../../src/webResource";
+import { assert } from "chai";
 
 describe("deserializationPolicy", function() {
   const mockPolicy: RequestPolicy = {

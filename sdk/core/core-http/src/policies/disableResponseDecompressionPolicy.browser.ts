@@ -7,11 +7,11 @@
 import {
   BaseRequestPolicy,
   RequestPolicy,
-  RequestPolicyOptions,
-  RequestPolicyFactory
+  RequestPolicyFactory,
+  RequestPolicyOptions
 } from "./requestPolicy";
-import { WebResource } from "../webResource";
 import { HttpOperationResponse } from "../httpOperationResponse";
+import { WebResource } from "../webResource";
 
 const DisbleResponseDecompressionNotSupportedInBrowser = new Error(
   "DisableResponseDecompressionPolicy is not supported in browser environment"

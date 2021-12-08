@@ -1,13 +1,18 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
+import {
+  AzureLogLevel,
+  Debugger,
+  getLogLevel,
+  setLogLevel
+} from "@azure/logger";
 import { HttpHeaders, RawHttpHeaders } from "../src/httpHeaders";
-import { HttpOperationResponse } from "../src/httpOperationResponse";
 import { LogPolicy, LogPolicyOptions } from "../src/policies/logPolicy";
 import { RequestPolicy, RequestPolicyOptions } from "../src/policies/requestPolicy";
+import { HttpOperationResponse } from "../src/httpOperationResponse";
 import { WebResource } from "../src/webResource";
-import { getLogLevel, setLogLevel, AzureLogLevel, Debugger } from "@azure/logger";
+import { assert } from "chai";
 
 function getNextPolicy(responseHeaders?: RawHttpHeaders): RequestPolicy {
   return {
