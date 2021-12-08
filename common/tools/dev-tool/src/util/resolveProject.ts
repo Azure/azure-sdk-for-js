@@ -27,6 +27,8 @@ declare global {
     name: string;
     version: string;
     description: string;
+    main: string;
+    module?: string;
     bin?: Record<string, string>;
     files: string[];
     scripts: Record<string, string>;
@@ -134,6 +136,6 @@ export async function resolveProject(workingDirectory: string): Promise<ProjectI
     name: packageJson.name,
     path,
     version: packageJson.version,
-    packageJson
+    packageJson,
   };
 }

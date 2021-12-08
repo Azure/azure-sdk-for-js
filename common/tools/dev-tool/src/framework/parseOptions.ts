@@ -75,6 +75,7 @@ export function parseOptions<Opts extends CommandOptions>(
 
   const keys = Object.keys(options);
   const argMap = getArgs(args, {
+    "--": true,
     // Once an unidentified argument is encountered, stop parsing
     stopEarly: true,
     // Use type information for hinting to minimist about how arguments should
@@ -102,7 +103,7 @@ export function parseOptions<Opts extends CommandOptions>(
 
   parseDebug("Parsed args:", JSON.stringify(argMap));
 
-  const result: ParsedOptions = { help: argMap.help, args: argMap._ };
+  const result: ParsedOptions = { help: argMap.help, args: argMap._, extraArgs: argMap["--"] };
 
   function expectType<T>(key: string, value: T, expected: string): void {
     if (Array.isArray(value)) {

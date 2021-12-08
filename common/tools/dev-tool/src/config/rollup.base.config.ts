@@ -7,6 +7,9 @@ import multiEntry from "@rollup/plugin-multi-entry";
 import json from "@rollup/plugin-json";
 
 import nodeBuiltins from "builtin-modules";
+import { createPrinter } from "../util/printer";
+
+const { debug } = createPrinter("rollup.base.config");
 
 interface PackageJson {
   name: string;
@@ -46,15 +49,15 @@ export function openTelemetryCommonJs(): Record<string, string[]> {
       // working around a limitation in the rollup common.js plugin - it's not able to resolve these modules so the named exports listed above will not get applied. We have to drill down to the actual path.
       `../../../common/temp/node_modules/.pnpm/@opentelemetry+api@${version}/node_modules/@opentelemetry/api/build/src/index.js`
     ] = [
-        "SpanKind",
-        "TraceFlags",
-        "getSpan",
-        "setSpan",
-        "StatusCode",
-        "CanonicalCode",
-        "getSpanContext",
-        "setSpanContext"
-      ];
+      "SpanKind",
+      "TraceFlags",
+      "getSpan",
+      "setSpan",
+      "StatusCode",
+      "CanonicalCode",
+      "getSpanContext",
+      "setSpanContext"
+    ];
   }
 
   return namedExports;
@@ -63,39 +66,47 @@ export function openTelemetryCommonJs(): Record<string, string[]> {
 // #region Warning Handler
 
 /**
- * A function that can determine whether a rollupwarning should be ignored. If
+ * A function that can determine whether a rollup warning should be ignored. If
  * the function returns `true`, then the warning will not be displayed.
  */
 export type WarningInhibitor = (warning: RollupWarning) => boolean;
 
-function ignoreNiseSinonEvalWarnings(warning: RollupWarning): boolean {
+function ignoreNiseSinonEval(warning: RollupWarning): boolean {
   return (
     warning.code === "EVAL" &&
     (warning.id?.includes("node_modules/nise") || warning.id?.includes("node_modules/sinon")) ===
-    true
+      true
   );
 }
 
-function ignoreChaiCircularDependencyWarnings(warning: RollupWarning): boolean {
+function ignoreChaiCircularDependency(warning: RollupWarning): boolean {
   return (
     warning.code === "CIRCULAR_DEPENDENCY" &&
     warning.importer?.includes("node_modules/chai") === true
   );
 }
 
+function ignoreOpenTelemetryThisIsUndefined(warning: RollupWarning): boolean {
+  return (
+    warning.code === "THIS_IS_UNDEFINED" &&
+    warning.id?.includes("node_modules/@opentelemetry/api") === true
+  );
+}
+
 const warningInhibitors: Array<(warning: RollupWarning) => boolean> = [
-  ignoreChaiCircularDependencyWarnings,
-  ignoreNiseSinonEvalWarnings
+  ignoreChaiCircularDependency,
+  ignoreNiseSinonEval,
+  ignoreOpenTelemetryThisIsUndefined
 ];
 
 /**
  * Construct a warning handler for the shared rollup configuration
  * that ignores certain warnings that are not relevant to testing.
  */
-function makeOnWarnForTesting(): (warning: RollupWarning, warn: WarningHandler) => void {
+export function makeOnWarnForTesting(): (warning: RollupWarning, warn: WarningHandler) => void {
   return (warning, warn) => {
-    // If every inhibitor returns false (i.e. no inhibitors), then show the warning
-    if (warningInhibitors.every((inhib) => !inhib(warning))) {
+    if (!warningInhibitors.some((inhibited) => inhibited(warning))) {
+      debug("Warning:", warning.code, warning.id);
       warn(warning);
     }
   };
@@ -121,12 +132,12 @@ export function makeBrowserTestConfig(): RollupOptions {
         mainFields: ["module", "browser"]
       }),
       cjs({
-        namedExports: {
+        /*namedExports: {
           // Chai's strange internal architecture makes it impossible to statically
           // analyze its exports.
           chai: ["version", "use", "util", "config", "expect", "should", "assert"],
           ...openTelemetryCommonJs()
-        }
+        }*/
       }),
       json(),
       sourcemaps()
@@ -151,7 +162,10 @@ const defaultConfigurationOptions: ConfigurationOptions = {
   disableBrowserBundle: false
 };
 
-export function makeConfig(pkg: PackageJson, options?: Partial<ConfigurationOptions>): RollupOptions[] {
+export function makeConfig(
+  pkg: PackageJson,
+  options?: Partial<ConfigurationOptions>
+): RollupOptions[] {
   options = {
     ...defaultConfigurationOptions,
     ...(options ?? {})

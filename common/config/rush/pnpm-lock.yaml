@@ -1740,6 +1740,22 @@ packages:
       rollup: 1.32.1
     dev: false
 
+  /@rollup/plugin-commonjs/21.0.1_rollup@2.60.2:
+    resolution: {integrity: sha512-EA+g22lbNJ8p5kuZJUYyhhDK7WgJckW5g4pNN7n4mAFUM96VuwUnNT3xr2Db2iCZPI1pJPbGyfT5mS9T1dHfMg==}
+    engines: {node: '>= 8.0.0'}
+    peerDependencies:
+      rollup: ^2.38.3
+    dependencies:
+      '@rollup/pluginutils': 3.1.0_rollup@2.60.2
+      commondir: 1.0.1
+      estree-walker: 2.0.2
+      glob: 7.2.0
+      is-reference: 1.2.1
+      magic-string: 0.25.7
+      resolve: 1.20.0
+      rollup: 2.60.2
+    dev: false
+
   /@rollup/plugin-inject/4.0.3_rollup@1.32.1:
     resolution: {integrity: sha512-lzMXmj0LZjd67MI+M8H9dk/oCxR0TYqYAdZ6ZOejWQLSUtud+FUPu4NCMAO8KyWWAalFo8ean7yFHCMvCNsCZw==}
     peerDependencies:
@@ -1760,6 +1776,15 @@ packages:
       rollup: 1.32.1
     dev: false
 
+  /@rollup/plugin-json/4.1.0_rollup@2.60.2:
+    resolution: {integrity: sha512-yfLbTdNS6amI/2OpmbiBoW12vngr5NW2jCJVZSBEz+H5KfUJZ2M7sDjk0U6GOOdCWFVScShte29o9NezJ53TPw==}
+    peerDependencies:
+      rollup: ^1.20.0 || ^2.0.0
+    dependencies:
+      '@rollup/pluginutils': 3.1.0_rollup@2.60.2
+      rollup: 2.60.2
+    dev: false
+
   /@rollup/plugin-multi-entry/3.0.1_rollup@1.32.1:
     resolution: {integrity: sha512-Gcp9E8y68Kx+Jo8zy/ZpiiAkb0W01cSqnxOz6h9bPR7MU3gaoTEdRf7xXYplwli1SBFEswXX588ESj+50Brfxw==}
     peerDependencies:
@@ -1767,6 +1792,32 @@ packages:
     dependencies:
       matched: 1.0.2
       rollup: 1.32.1
+    dev: false
+
+  /@rollup/plugin-multi-entry/4.1.0_rollup@2.60.2:
+    resolution: {integrity: sha512-nellK5pr50W0JA2+bDJbG8F79GBP802J40YRoC0wyfpTAeAn5mJ4eaFiB/MN+YoX9hgb/6RJoZl9leDjZnUFKw==}
+    engines: {node: '>=10.0.0'}
+    peerDependencies:
+      rollup: ^1.20.0 || ^2.0.0
+    dependencies:
+      '@rollup/plugin-virtual': 2.0.3_rollup@2.60.2
+      matched: 5.0.1
+      rollup: 2.60.2
+    dev: false
+
+  /@rollup/plugin-node-resolve/13.0.6_rollup@2.60.2:
+    resolution: {integrity: sha512-sFsPDMPd4gMqnh2gS0uIxELnoRUp5kBl5knxD2EO0778G1oOJv4G1vyT2cpWz75OU2jDVcXhjVUuTAczGyFNKA==}
+    engines: {node: '>= 10.0.0'}
+    peerDependencies:
+      rollup: ^2.42.0
+    dependencies:
+      '@rollup/pluginutils': 3.1.0_rollup@2.60.2
+      '@types/resolve': 1.17.1
+      builtin-modules: 3.2.0
+      deepmerge: 4.2.2
+      is-module: 1.0.0
+      resolve: 1.20.0
+      rollup: 2.60.2
     dev: false
 
   /@rollup/plugin-node-resolve/8.4.0_rollup@1.32.1:
@@ -1795,6 +1846,14 @@ packages:
       rollup: 1.32.1
     dev: false
 
+  /@rollup/plugin-virtual/2.0.3_rollup@2.60.2:
+    resolution: {integrity: sha512-pw6ziJcyjZtntQ//bkad9qXaBx665SgEL8C8KI5wO8G5iU5MPxvdWrQyVaAvjojGm9tJoS8M9Z/EEepbqieYmw==}
+    peerDependencies:
+      rollup: ^1.20.0||^2.0.0
+    dependencies:
+      rollup: 2.60.2
+    dev: false
+
   /@rollup/pluginutils/3.1.0_rollup@1.32.1:
     resolution: {integrity: sha512-GksZ6pr6TpIjHm8h9lSQ8pi8BE9VeubNT0OMJ3B5uZJ8pz73NPiqOtCog/x2/QzM1ENChPKxMDhiQuRHsqc+lg==}
     engines: {node: '>= 8.0.0'}
@@ -1805,6 +1864,18 @@ packages:
       estree-walker: 1.0.1
       picomatch: 2.3.0
       rollup: 1.32.1
+    dev: false
+
+  /@rollup/pluginutils/3.1.0_rollup@2.60.2:
+    resolution: {integrity: sha512-GksZ6pr6TpIjHm8h9lSQ8pi8BE9VeubNT0OMJ3B5uZJ8pz73NPiqOtCog/x2/QzM1ENChPKxMDhiQuRHsqc+lg==}
+    engines: {node: '>= 8.0.0'}
+    peerDependencies:
+      rollup: ^1.20.0||^2.0.0
+    dependencies:
+      '@types/estree': 0.0.39
+      estree-walker: 1.0.1
+      picomatch: 2.3.0
+      rollup: 2.60.2
     dev: false
 
   /@rushstack/node-core-library/3.19.6:
@@ -5675,6 +5746,14 @@ packages:
       resolve-dir: 1.0.1
     dev: false
 
+  /matched/5.0.1:
+    resolution: {integrity: sha512-E1fhSTPRyhAlNaNvGXAgZQlq1hL0bgYMTk/6bktVlIhzUnX/SZs7296ACdVeNJE8xFNGSuvd9IpI7vSnmcqLvw==}
+    engines: {node: '>=10'}
+    dependencies:
+      glob: 7.2.0
+      picomatch: 2.3.0
+    dev: false
+
   /md5.js/1.3.4:
     resolution: {integrity: sha1-6b296UogpawYsENA/Fdk1bCdkB0=}
     dependencies:
@@ -6880,6 +6959,22 @@ packages:
       source-map-resolve: 0.5.3
     dev: false
 
+  /rollup-plugin-sourcemaps/0.6.3_142514bbb358bd98badce3b7bf0c7f92:
+    resolution: {integrity: sha512-paFu+nT1xvuO1tPFYXGe+XnQvg4Hjqv/eIhG8i5EspfYYPBKL57X7iVbfv55aNVASg3dzWvES9dmWsL2KhfByw==}
+    engines: {node: '>=10.0.0'}
+    peerDependencies:
+      '@types/node': '>=10.0.0'
+      rollup: '>=0.31.2'
+    peerDependenciesMeta:
+      '@types/node':
+        optional: true
+    dependencies:
+      '@rollup/pluginutils': 3.1.0_rollup@2.60.2
+      '@types/node': 12.20.37
+      rollup: 2.60.2
+      source-map-resolve: 0.6.0
+    dev: false
+
   /rollup-plugin-terser/5.3.1_rollup@1.32.1:
     resolution: {integrity: sha512-1pkwkervMJQGFYvM9nscrUoncPwiKR/K+bHdjv6PFgRo3cgPHoRT83y2Aa3GvINj4539S15t/tpFPb775TDs6w==}
     peerDependencies:
@@ -6907,6 +7002,20 @@ packages:
       yargs: 16.2.0
     dev: false
 
+  /rollup-plugin-visualizer/5.5.2_rollup@2.60.2:
+    resolution: {integrity: sha512-sh+P9KhuWTzeStyRA5yNZpoEFGuj5Ph34JLMa9+muhU8CneFf9L0XE4fmAwAojJLWp//uLUEyytBPSCdZEg5AA==}
+    engines: {node: '>=10.16'}
+    hasBin: true
+    peerDependencies:
+      rollup: ^2.0.0
+    dependencies:
+      nanoid: 3.1.30
+      open: 7.4.2
+      rollup: 2.60.2
+      source-map: 0.7.3
+      yargs: 16.2.0
+    dev: false
+
   /rollup-pluginutils/2.8.2:
     resolution: {integrity: sha512-EEp9NhnUkwY8aif6bxgovPHMoMoNr2FulJziTndpt5H9RdwC47GSGuII9XxpSdzVGM0GWrNPHV6ie1LTNJPaLQ==}
     dependencies:
@@ -6920,6 +7029,14 @@ packages:
       '@types/estree': 0.0.50
       '@types/node': 12.20.37
       acorn: 7.4.1
+    dev: false
+
+  /rollup/2.60.2:
+    resolution: {integrity: sha512-1Bgjpq61sPjgoZzuiDSGvbI1tD91giZABgjCQBKM5aYLnzjq52GoDuWVwT/cm/MCxCMPU8gqQvkj8doQ5C8Oqw==}
+    engines: {node: '>=10.0.0'}
+    hasBin: true
+    optionalDependencies:
+      fsevents: 2.3.2
     dev: false
 
   /run-parallel/1.2.0:
@@ -7219,6 +7336,13 @@ packages:
       resolve-url: 0.2.1
       source-map-url: 0.4.1
       urix: 0.1.0
+    dev: false
+
+  /source-map-resolve/0.6.0:
+    resolution: {integrity: sha512-KXBr9d/fO/bWo97NXsPIAW1bFSBOuCnjbNTBMO7N59hsv5i9yzRDfcYwwt0l04+VqnKC+EwzvJZIP/qkuMgR/w==}
+    dependencies:
+      atob: 2.1.2
+      decode-uri-component: 0.2.0
     dev: false
 
   /source-map-support/0.5.20:
@@ -9202,7 +9326,7 @@ packages:
     dev: false
 
   file:projects/arm-links.tgz:
-    resolution: {integrity: sha512-2ZTazs3FCqlUoZm0svStZ0fihgqOREebNXNXOQguP/IYxVa+LdmNM7UkouVO0WbVDo6c3yWByJkhJopxXadTcw==, tarball: file:projects/arm-links.tgz}
+    resolution: {integrity: sha512-t3TXBd/Fxm80E+cWuS3tQiUdSUeaEtul7+exkY4rNj9ecjK93FsfYTQ4a5FpR2WcEecOKQYXLYBfz4JgODQlbw==, tarball: file:projects/arm-links.tgz}
     name: '@rush-temp/arm-links'
     version: 0.0.0
     dependencies:
@@ -11207,14 +11331,14 @@ packages:
     dev: false
 
   file:projects/dev-tool.tgz:
-    resolution: {integrity: sha512-kIv+fJbY2f89rQmcriGnUQSMyEfqk0ywz7kxqv71AkbY0EIe02xTQgbUpQkvyM39BLeG4XOM736TsrhK9i9vgw==, tarball: file:projects/dev-tool.tgz}
+    resolution: {integrity: sha512-yh0SWe5VkFtS4Rd2ejrsKDxvk3/Eabem7CkvkgWLWZwJ+cFrQAHafcbL2IO+/Z26SgT3Nf20L21ofo3lwG6/yg==, tarball: file:projects/dev-tool.tgz}
     name: '@rush-temp/dev-tool'
     version: 0.0.0
     dependencies:
-      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
-      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      '@rollup/plugin-commonjs': 21.0.1_rollup@2.60.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.60.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.60.2
+      '@rollup/plugin-node-resolve': 13.0.6_rollup@2.60.2
       '@types/chai': 4.2.22
       '@types/chai-as-promised': 7.1.4
       '@types/concurrently': 6.4.0
@@ -11235,9 +11359,9 @@ packages:
       mocha: 7.2.0
       prettier: 1.19.1
       rimraf: 3.0.2
-      rollup: 1.32.1
-      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
-      rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
+      rollup: 2.60.2
+      rollup-plugin-sourcemaps: 0.6.3_142514bbb358bd98badce3b7bf0c7f92
+      rollup-plugin-visualizer: 5.5.2_rollup@2.60.2
       ts-node: 10.4.0_54d7f9b57c83a5c5120be11b085b9de6
       tslib: 2.3.1
       typedoc: 0.15.2
