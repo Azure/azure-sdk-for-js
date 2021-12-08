@@ -11,8 +11,8 @@ import {
   RecorderEnvironmentSetup,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
-import { ServiceClient } from "@azure/core-client"
-import { PipelineResponse, PipelineRequest, HttpClient } from "@azure/core-rest-pipeline"
+import { ServiceClient } from "@azure/core-client";
+import { PipelineResponse, PipelineRequest, HttpClient } from "@azure/core-rest-pipeline";
 import { ShortCodesClient, ShortCodesClientOptions } from "../../../src";
 import { parseConnectionString } from "@azure/communication-common";
 import { ClientSecretCredential, DefaultAzureCredential } from "@azure/identity";
@@ -118,13 +118,14 @@ function createTestHttpClient(): HttpClient {
   const customHttpClient = new ServiceClient();
 
   const originalSendRequest = customHttpClient.sendRequest;
-  customHttpClient.sendRequest = async function (
+  customHttpClient.sendRequest = async function(
     httpRequest: PipelineRequest
   ): Promise<PipelineResponse> {
     const requestResponse = await originalSendRequest.apply(this, [httpRequest]);
 
     console.log(
-      `MS-CV header for request: ${httpRequest.url} (${requestResponse.status
+      `MS-CV header for request: ${httpRequest.url} (${
+        requestResponse.status
       } - ${requestResponse.headers.get("ms-cv")})`
     );
 

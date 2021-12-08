@@ -3,10 +3,7 @@
 
 import { HttpClient, PipelineRequest, PipelineResponse } from "@azure/core-rest-pipeline";
 
-export const createMockHttpClient = (
-  status: number = 200,
-  bodyAsText?: string
-): HttpClient => {
+export const createMockHttpClient = (status: number = 200, bodyAsText?: string): HttpClient => {
   return {
     async sendRequest(request: PipelineRequest): Promise<PipelineResponse> {
       return {
@@ -19,6 +16,4 @@ export const createMockHttpClient = (
   };
 };
 
-export const getUSProgramBriefHttpClient: HttpClient = createMockHttpClient(
-  200
-);
+export const getUSProgramBriefHttpClient: HttpClient = createMockHttpClient(200);
