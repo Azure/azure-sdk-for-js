@@ -48,6 +48,9 @@
 # PRLabel: %Cosmos
 /sdk/cosmosdb/ @kushagraThapar @simorenoh @simplynaveen20 @xinlian12 @moderakh @jay-most
 
+# ServiceLabel: %Cosmos %Service Attention
+#/<NotInRepo>/ @sajeetharan @simorenoh
+
 # PRLabel: %Digital Twins
 /sdk/digitaltwins/ @johngallardo
 
