@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { AbortController, AbortError, AbortSignal } from "../src";
 import { assert } from "chai";
-import { AbortController, AbortSignal, AbortError } from "../src";
 
 describe("AbortController", () => {
   function doAsyncOperation(aborter: AbortSignal, runningTimeinMs: number = 100): Promise<void> {
