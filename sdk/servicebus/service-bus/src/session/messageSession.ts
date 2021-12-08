@@ -181,6 +181,9 @@ export class MessageSession extends LinkEntity<Receiver> {
 
   private _totalAutoLockRenewDuration: number;
 
+  /**
+   * Whether to prevent the client from running JSON.parse() on the message body when receiving the message.
+   */
   private skipParsingBodyAsJson: boolean;
 
   public get receiverHelper(): ReceiverHelper {
