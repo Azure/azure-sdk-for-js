@@ -8646,7 +8646,7 @@ packages:
     dev: false
 
   file:projects/app-configuration.tgz:
-    resolution: {integrity: sha512-h9nLQwnEqw1OjRBrG2YmgFUD/wOCQe+fC+/45l/Kpeh2QBkLKXeJslgi5fme0YsUC0wmSsZqYaQZtn9mOCLjlw==, tarball: file:projects/app-configuration.tgz}
+    resolution: {integrity: sha512-HBZl2EancfACeRLK2hWk+nCAgXrptXnS9hX5E5SLleYzlPHovsJRBWf3bv0NopaHCgFPdRcAw5xwKa1C2tPz2g==, tarball: file:projects/app-configuration.tgz}
     name: '@rush-temp/app-configuration'
     version: 0.0.0
     dependencies:
@@ -11251,7 +11251,7 @@ packages:
     dev: false
 
   file:projects/digital-twins-core.tgz:
-    resolution: {integrity: sha512-JbiaAZTKbpTEXkwM3tXpIGF37Byi68uXKyabs92a93o5jbFaJEnlENvQjQ+xpAQR7kg/Yy1Bt/wOfEj8JopBWQ==, tarball: file:projects/digital-twins-core.tgz}
+    resolution: {integrity: sha512-LUm22jksNdxH1YVaRs5AGV46xuZ0dlNe2Ghuhfj2UkFrdimYbbqVBqceRsOmygzQncWwotAEqwW0t+agqr/knA==, tarball: file:projects/digital-twins-core.tgz}
     name: '@rush-temp/digital-twins-core'
     version: 0.0.0
     dependencies:
@@ -11424,7 +11424,7 @@ packages:
     dev: false
 
   file:projects/event-processor-host.tgz:
-    resolution: {integrity: sha512-1bsUaKknmTfFOC0w6wjYVciwePXLbmv5WQ8+YE0WLn04UW7kZala/RhlIolUx1TlS35vDKb73NHLz87KGe3g9w==, tarball: file:projects/event-processor-host.tgz}
+    resolution: {integrity: sha512-laogoDpT1udxqofK9IBRPOpvYQ/NBJcIVc9V6gPx1LB8pvbCZEkSTm0kLy1QDeI7iEyqRke4OXFcfNF/kSxing==, tarball: file:projects/event-processor-host.tgz}
     name: '@rush-temp/event-processor-host'
     version: 0.0.0
     dependencies:
