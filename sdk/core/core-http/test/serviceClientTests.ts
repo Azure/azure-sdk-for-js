@@ -20,7 +20,11 @@ import {
   deserializationPolicy,
   isNode
 } from "../src/coreHttp";
-import { ServiceClient, getOperationArgumentValueFromParameterPath, serializeRequestBody } from "../src/serviceClient";
+import {
+  ServiceClient,
+  getOperationArgumentValueFromParameterPath,
+  serializeRequestBody
+} from "../src/serviceClient";
 import { HttpClient } from "../src/httpClient";
 import { ParameterPath } from "../src/operationParameter";
 import { QueryCollectionFormat } from "../src/queryCollectionFormat";

@@ -1,12 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  AzureLogLevel,
-  Debugger,
-  getLogLevel,
-  setLogLevel
-} from "@azure/logger";
+import { AzureLogLevel, Debugger, getLogLevel, setLogLevel } from "@azure/logger";
 import { HttpHeaders, RawHttpHeaders } from "../src/httpHeaders";
 import { LogPolicy, LogPolicyOptions } from "../src/policies/logPolicy";
 import { RequestPolicy, RequestPolicyOptions } from "../src/policies/requestPolicy";

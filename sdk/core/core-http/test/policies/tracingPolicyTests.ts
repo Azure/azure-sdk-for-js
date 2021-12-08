@@ -8,13 +8,7 @@ import {
   RequestPolicyOptions,
   WebResource
 } from "../../src/coreHttp";
-import {
-  Span,
-  SpanOptions,
-  Tracer,
-  TracerProvider,
-  trace
-} from "@opentelemetry/api";
+import { Span, SpanOptions, Tracer, TracerProvider, trace } from "@opentelemetry/api";
 import {
   SpanAttributeValue,
   SpanAttributes,

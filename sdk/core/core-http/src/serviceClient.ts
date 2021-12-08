@@ -2,14 +2,12 @@
 // Licensed under the MIT license.
 
 import * as utils from "./util/utils";
+import { CompositeMapper, DictionaryMapper, Mapper, MapperType, Serializer } from "./serializer";
 import {
-  CompositeMapper,
-  DictionaryMapper,
-  Mapper,
-  MapperType,
-  Serializer
-} from "./serializer";
-import { DefaultDeserializationOptions, DeserializationContentTypes, deserializationPolicy } from "./policies/deserializationPolicy";
+  DefaultDeserializationOptions,
+  DeserializationContentTypes,
+  deserializationPolicy
+} from "./policies/deserializationPolicy";
 import { DefaultKeepAliveOptions, keepAlivePolicy } from "./policies/keepAlivePolicy";
 import { DefaultRedirectOptions, redirectPolicy } from "./policies/redirectPolicy";
 import { DefaultRetryOptions, exponentialRetryPolicy } from "./policies/exponentialRetryPolicy";
@@ -29,11 +27,19 @@ import {
   WebResourceLike,
   isWebResourceLike
 } from "./webResource";
-import { RequestPolicy, RequestPolicyFactory, RequestPolicyOptions } from "./policies/requestPolicy";
+import {
+  RequestPolicy,
+  RequestPolicyFactory,
+  RequestPolicyOptions
+} from "./policies/requestPolicy";
 import { SerializerOptions, XML_ATTRKEY, XML_CHARKEY } from "./util/serializer.common";
 import { ServiceCallback, isNode } from "./util/utils";
 import { TokenCredential, isTokenCredential } from "@azure/core-auth";
-import { getDefaultUserAgentHeaderName, getDefaultUserAgentValue, userAgentPolicy } from "./policies/userAgentPolicy";
+import {
+  getDefaultUserAgentHeaderName,
+  getDefaultUserAgentValue,
+  userAgentPolicy
+} from "./policies/userAgentPolicy";
 import { HttpClient } from "./httpClient";
 import { HttpPipelineLogger } from "./httpPipelineLogger";
 import { InternalPipelineOptions } from "./pipelineOptions";

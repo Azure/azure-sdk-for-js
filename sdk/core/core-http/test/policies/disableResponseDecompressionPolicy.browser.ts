@@ -2,7 +2,10 @@
 // Licensed under the MIT license.
 
 import "chai/register-should";
-import { DisableResponseDecompressionPolicy, disableResponseDecompressionPolicy } from "../../src/policies/disableResponseDecompressionPolicy";
+import {
+  DisableResponseDecompressionPolicy,
+  disableResponseDecompressionPolicy
+} from "../../src/policies/disableResponseDecompressionPolicy";
 import { HttpClient, Serializer, ServiceClient } from "../../src/coreHttp";
 import { HttpHeaders } from "../../src/httpHeaders";
 import { RequestPolicyOptions } from "../../src/policies/requestPolicy";
