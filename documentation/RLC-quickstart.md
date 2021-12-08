@@ -465,13 +465,37 @@ In order to release it, we need to add some tests for it to make sure we are del
     ```
 # How to write samples
 
-There're samples for TypeScript and JavaScript and for dev, You may copy the [samples-dev folder](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/purview/purview-account-rest/samples-dev) and then change everything into your own services, including package-name, sample code, readme description etc. Then we provide tools to automatically change it into workable samples in both TypeScript and JavaScript. The steps are:  
+There're samples for TypeScript and JavaScript and for dev, We provide a sample-dev template for your reference [samples-dev folder](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/template/template/samples-dev) you can then change the code into samples for your own services, including package-name, sample code, description etc.   
+After the samples-dev folder change is finished, you will need to change the tsconfig.json to make sure the dev samples can be compiled and build correctly.  
+
+You will need to add this part to the "compilerOptions" of your tsconfig.json file
+``` json
+    "paths": { "@msinternal/sql-resource-manager": ["./src/index"] } 
+```
+And change the *"include"* part into 
+```json
+  "include": ["./src/**/*.ts", "./test/**/*.ts", "samples-dev/**/*.ts"],
+```
+
+Then, we provide tools to automatically change it into workable samples in both TypeScript and JavaScript. and you just need to add a sampleConfiguration in your package.json.  
+
+You will need to add a sample configuration section in your package.json file and put the following content into it.
+```json
+  "//sampleConfiguration": {
+    "productName": "A description of your services",
+    "productSlugs": ["azure"],
+    "disableDocsMs": true,
+    "apiRefLink": "<the-link-to-your-service-on-docs.microsoft.com>"
+  }
+```
+
+Now, you can generate both JavaScript and TypeScript workable samples with the following commands.
 ```shell
 npm install -g common/tools/dev-tool # make sure you are in the azure-sdk-for-js repo root directory
 cd ${PROJECT_ROOT}
 dev-tool samples publish -f 
 ```
-Then you will see the workable samples in the `${PROJECT_ROOT}/samples/v1` folder. 
+You will see the workable samples in the `${PROJECT_ROOT}/samples/v1` folder.  
 
 # How to create package
 
