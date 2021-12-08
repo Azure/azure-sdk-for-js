@@ -2,10 +2,9 @@
 // Licensed under the MIT license.
 
 import { PipelinePolicy } from "../pipeline";
-import { getRandomIntegerInclusive } from "../util/helpers";
-import { getMaxRetriesStrategy, retryPolicy, RetryStrategyState } from "./retryPolicy";
-import { isThrottlingRetryResponse } from "./throttlingRetryPolicy";
-import { PipelineResponse } from "../interfaces";
+import { exponentialRetryStrategy } from "../retryStrategies/exponentialRetryStrategy";
+import { maxRetriesStrategy } from "../retryStrategies/maxRetriesStrategy";
+import { retryPolicy } from "./retryPolicy";
 
 /**
  * The programmatic identifier of the exponentialRetryPolicy.
@@ -41,48 +40,6 @@ export interface ExponentialRetryPolicyOptions {
 }
 
 /**
- * A response is a retry response if it has status codes:
- * - 408, or
- * - Greater or equal than 500, except for 501 and 505.
- */
-export function isExponentialRetryResponse(response?: PipelineResponse): boolean {
-  return Boolean(
-    response &&
-      (response.status === 408 ||
-        (response.status >= 500 && response.status !== 501 && response.status !== 505))
-  );
-}
-
-/**
- * Exponential retry strategy
- */
-export function getExponentialRetryStrategy(inputRetryInterval: number, maxRetryInterval: number) {
-  return {
-    name: exponentialRetryPolicyName,
-    updateRetryState(state: RetryStrategyState): RetryStrategyState {
-      const { response } = state;
-      if (isThrottlingRetryResponse(response) || !isExponentialRetryResponse(response)) {
-        // We won't retry but we won't throw a special error.
-        return state;
-      }
-
-      const retryAfterInMs = state.retryAfterInMs || inputRetryInterval;
-      // Exponentially increase the delay each time
-      const exponentialDelay = retryAfterInMs * Math.pow(2, state.retryCount);
-      // Don't let the delay exceed the maximum
-      const clampedExponentialDelay = Math.min(maxRetryInterval, exponentialDelay);
-      // Allow the final value to have some "jitter" (within 50% of the delay size) so
-      // that retries across multiple clients don't occur simultaneously.
-      const delayWithJitter =
-        clampedExponentialDelay / 2 + getRandomIntegerInclusive(0, clampedExponentialDelay / 2);
-
-      state.retryAfterInMs = delayWithJitter;
-      return state;
-    }
-  };
-}
-
-/**
  * A policy that attempts to retry requests while introducing an exponentially increasing delay.
  * @param options - Options that configure retry logic.
  */
@@ -90,11 +47,11 @@ export function exponentialRetryPolicy(
   options: ExponentialRetryPolicyOptions = {}
 ): PipelinePolicy {
   const maxRetries = options.maxRetries ?? DEFAULT_CLIENT_RETRY_COUNT;
-  const inputRetryInterval = options.retryDelayInMs ?? DEFAULT_CLIENT_RETRY_INTERVAL;
+  const retryInterval = options.retryDelayInMs ?? DEFAULT_CLIENT_RETRY_INTERVAL;
   const maxRetryInterval = options.maxRetryDelayInMs ?? DEFAULT_CLIENT_MAX_RETRY_INTERVAL;
 
   return retryPolicy(
-    getMaxRetriesStrategy(maxRetries),
-    getExponentialRetryStrategy(inputRetryInterval, maxRetryInterval)
+    maxRetriesStrategy(maxRetries),
+    exponentialRetryStrategy(retryInterval, maxRetryInterval)
   );
 }

@@ -2,20 +2,20 @@
 // Licensed under the MIT license.
 
 import { PipelinePolicy } from "../pipeline";
-import { RestError } from "../restError";
-import { getMaxRetriesStrategy, retryPolicy, RetryStrategyState } from "./retryPolicy";
-import { getExponentialRetryStrategy } from "./exponentialRetryPolicy";
+import { retryPolicy } from "./retryPolicy";
+import { systemErrorRetryStrategy } from "../retryStrategies/systemErrorRetryStrategy";
+import { maxRetriesStrategy } from "../retryStrategies/maxRetriesStrategy";
+
+/**
+ * Name of the {@link systemErrorRetryPolicy}
+ */
+export const systemErrorRetryPolicyName = "systemErrorRetryPolicy";
 
 const DEFAULT_CLIENT_RETRY_COUNT = 10;
 
 // intervals are in ms
 const DEFAULT_CLIENT_RETRY_INTERVAL = 1000;
 const DEFAULT_CLIENT_MAX_RETRY_INTERVAL = 1000 * 64;
-
-/**
- * The programmatic identifier of the systemErrorRetryPolicy.
- */
-export const systemErrorRetryPolicyName = "systemErrorRetryPolicy";
 
 /**
  * Options that control how to retry failed requests.
@@ -52,31 +52,12 @@ export function systemErrorRetryPolicy(
   const maxRetries = options.maxRetries ?? DEFAULT_CLIENT_RETRY_COUNT;
   const retryInterval = options.retryDelayInMs ?? DEFAULT_CLIENT_RETRY_INTERVAL;
   const maxRetryInterval = options.maxRetryDelayInMs ?? DEFAULT_CLIENT_MAX_RETRY_INTERVAL;
-  const exponentialRetryStrategy = getExponentialRetryStrategy(retryInterval, maxRetryInterval);
 
-  return retryPolicy(getMaxRetriesStrategy(maxRetries), {
+  return {
     name: systemErrorRetryPolicyName,
-    updateRetryState(state: RetryStrategyState): RetryStrategyState {
-      const { responseError } = state;
-      if (!isSystemError(responseError)) {
-        // We won't retry but we won't throw a special error.
-        return state;
-      }
-      // We re-use the exponentialRetryStrategy to retry.
-      return exponentialRetryStrategy.updateRetryState(state);
-    }
-  });
-}
-
-function isSystemError(err?: RestError): boolean {
-  if (!err) {
-    return false;
-  }
-  return (
-    err.code === "ETIMEDOUT" ||
-    err.code === "ESOCKETTIMEDOUT" ||
-    err.code === "ECONNREFUSED" ||
-    err.code === "ECONNRESET" ||
-    err.code === "ENOENT"
-  );
+    sendRequest: retryPolicy(
+      maxRetriesStrategy(maxRetries),
+      systemErrorRetryStrategy(retryInterval, maxRetryInterval)
+    ).sendRequest
+  };
 }
