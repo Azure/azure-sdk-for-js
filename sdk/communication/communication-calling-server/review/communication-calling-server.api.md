@@ -16,7 +16,7 @@ import { TransferProgressEvent } from '@azure/core-http';
 
 // @public
 export interface AddParticipantOptions extends OperationOptions {
-    alternateCallerId?: string;
+    alternateCallerId?: PhoneNumberIdentifier;
     operationContext?: string;
 }
 
@@ -395,7 +395,7 @@ export interface TransferToCallOptions extends OperationOptions {
 
 // @public
 export interface TransferToParticipantOptions extends OperationOptions {
-    alternateCallerId?: string;
+    alternateCallerId?: PhoneNumberIdentifier;
     operationContext?: string;
     userToUserInformation?: string;
 }

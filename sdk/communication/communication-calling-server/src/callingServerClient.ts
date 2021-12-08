@@ -192,17 +192,20 @@ export class CallingServerClient {
       operationOptions
     );
 
+    const alternateCallerId =
+      restOptions.alternateCallerId == null
+        ? undefined
+        : serializeCommunicationIdentifier({
+            phoneNumber: restOptions.alternateCallerId.phoneNumber
+          }).phoneNumber;
+
     const request: CreateCallRequest = {
       source: serializeCommunicationIdentifier(source),
       targets: targets.map((m) => serializeCommunicationIdentifier(m)),
       callbackUri: restOptions.callbackUrl,
       requestedMediaTypes: restOptions.requestedMediaTypes,
       requestedCallEvents: restOptions.requestedCallEvents,
-      alternateCallerId:
-        restOptions.alternateCallerId == null
-          ? undefined
-          : { value: restOptions.alternateCallerId.phoneNumber },
-      subject: restOptions.subject
+      alternateCallerId: alternateCallerId
     };
 
     try {
@@ -379,16 +382,17 @@ export class CallingServerClient {
       "ServerCallRestClient-AddParticipant",
       operationOptions
     );
-    const alternate_caller_id =
-      typeof restOptions?.alternateCallerId === "undefined"
-        ? restOptions?.alternateCallerId
-        : serializeCommunicationIdentifier({ phoneNumber: restOptions.alternateCallerId })
-            .phoneNumber;
+    const alternateCallerId =
+      restOptions.alternateCallerId == null
+        ? undefined
+        : serializeCommunicationIdentifier({
+            phoneNumber: restOptions.alternateCallerId.phoneNumber
+          }).phoneNumber;
 
     const request: AddParticipantWithCallLocatorRequest = {
       callLocator: callLocator,
       participant: serializeCommunicationIdentifier(participant),
-      alternateCallerId: alternate_caller_id,
+      alternateCallerId: alternateCallerId,
       operationContext: restOptions?.operationContext,
       callbackUri: callbackUrl
     };

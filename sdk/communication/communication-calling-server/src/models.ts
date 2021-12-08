@@ -86,7 +86,7 @@ export interface PlayAudioOptions extends OperationOptions {
  */
 export interface TransferToParticipantOptions extends OperationOptions {
   /** The alternate identity of the source of the call if dialing out to a pstn number */
-  alternateCallerId?: string;
+  alternateCallerId?: PhoneNumberIdentifier;
   /** The user to user information. */
   userToUserInformation?: string;
   /** The value to identify context of the operation. */
@@ -112,8 +112,8 @@ export type PlayAudioToParticipantOptions = PlayAudioOptions;
  * Options to add participant to the call.
  */
 export interface AddParticipantOptions extends OperationOptions {
-  /** The phone number to use when adding a pstn participant. */
-  alternateCallerId?: string;
+  /** The phone number identity to use when adding a pstn participant. */
+  alternateCallerId?: PhoneNumberIdentifier;
   /** The operation context. */
   operationContext?: string;
 }

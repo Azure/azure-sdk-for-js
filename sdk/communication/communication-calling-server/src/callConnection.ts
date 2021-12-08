@@ -462,10 +462,11 @@ export class CallConnectionImpl implements CallConnection {
       operationOptions
     );
     const alternateCallerId =
-      typeof restOptions?.alternateCallerId === "undefined"
-        ? restOptions?.alternateCallerId
-        : serializeCommunicationIdentifier({ phoneNumber: restOptions.alternateCallerId })
-            .phoneNumber;
+      restOptions.alternateCallerId == null
+        ? undefined
+        : serializeCommunicationIdentifier({
+            phoneNumber: restOptions.alternateCallerId.phoneNumber
+          }).phoneNumber;
 
     const request: AddParticipantRequest = {
       participant: serializeCommunicationIdentifier(participant),
@@ -762,10 +763,11 @@ export class CallConnectionImpl implements CallConnection {
     );
 
     const alternateCallerId =
-      typeof restOptions?.alternateCallerId === "undefined"
-        ? restOptions?.alternateCallerId
-        : serializeCommunicationIdentifier({ phoneNumber: restOptions.alternateCallerId })
-            .phoneNumber;
+      restOptions.alternateCallerId == null
+        ? undefined
+        : serializeCommunicationIdentifier({
+            phoneNumber: restOptions.alternateCallerId.phoneNumber
+          }).phoneNumber;
 
     const request: TransferToParticipantRequest = {
       targetParticipant: serializeCommunicationIdentifier(targetParticipant),
