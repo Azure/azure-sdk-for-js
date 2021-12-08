@@ -24,7 +24,7 @@ describe("packagejson related tests", () => {
     try {
       // For integration tests
       packageJsonContents = JSON.parse(
-        fs.readFileSync(path.join(__dirname, "../../../../package.json"), { encoding: "utf-8" })
+        fs.readFileSync(path.join(__dirname, "../../../package.json"), { encoding: "utf-8" })
       );
     } catch (e) {
       // For unit tests
