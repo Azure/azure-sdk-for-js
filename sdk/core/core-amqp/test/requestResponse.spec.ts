@@ -2,12 +2,7 @@
 // Licensed under the MIT license.
 
 import { AbortController, AbortSignalLike } from "@azure/abort-controller";
-import {
-  Connection,
-  EventContext,
-  Message as RheaMessage,
-  generate_uuid
-} from "rhea-promise";
+import { Connection, EventContext, Message as RheaMessage, generate_uuid } from "rhea-promise";
 import {
   Constants,
   ErrorNameConditionMapper,
@@ -17,7 +12,11 @@ import {
   StandardAbortMessage,
   retry
 } from "../src";
-import { DeferredPromiseWithCallback, getCodeDescriptionAndError, onMessageReceived } from "../src/requestResponseLink";
+import {
+  DeferredPromiseWithCallback,
+  getCodeDescriptionAndError,
+  onMessageReceived
+} from "../src/requestResponseLink";
 import { SinonSpy, fake, stub } from "sinon";
 import EventEmitter from "events";
 import { assert } from "chai";

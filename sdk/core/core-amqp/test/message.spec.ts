@@ -3,7 +3,10 @@
 
 import * as chai from "chai";
 import { AmqpMessageHeader, AmqpMessageProperties } from "../src";
-import { MessageHeader as RheaMessageHeader, MessageProperties as RheaMessageProperties } from "rhea-promise";
+import {
+  MessageHeader as RheaMessageHeader,
+  MessageProperties as RheaMessageProperties
+} from "rhea-promise";
 
 chai.should();
 
