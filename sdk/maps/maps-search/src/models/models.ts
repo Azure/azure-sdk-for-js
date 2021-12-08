@@ -32,19 +32,19 @@ export {
  * Bounding Box
  */
 export class BoundingBox {
-  private _topLeft: LatLong;
-  private _bottomRight: LatLong;
-  constructor(topLeft: LatLong, bottomRight: LatLong) {
+  private _topLeft: LatLon;
+  private _bottomRight: LatLon;
+  constructor(topLeft: LatLon, bottomRight: LatLon) {
     this._topLeft = topLeft;
     this._bottomRight = bottomRight;
   }
   /** Top left coordinate of the bounding box */
-  public get topLeft(): LatLong {
+  public get topLeft(): LatLon {
     return this._topLeft;
   }
 
   /** Bottom right coordinate of the bounding box */
-  public get bottomRight(): LatLong {
+  public get bottomRight(): LatLon {
     return this._bottomRight;
   }
 
@@ -69,20 +69,20 @@ export class BoundingBox {
   }
 
   /** Top right coordinate of the bounding box */
-  public get topRight(): LatLong {
-    return new LatLong(this._topLeft.latitude, this._bottomRight.longitude);
+  public get topRight(): LatLon {
+    return new LatLon(this._topLeft.latitude, this._bottomRight.longitude);
   }
 
   /** Bottom left coordinate of the bounding box */
-  public get bottomLeft(): LatLong {
-    return new LatLong(this._bottomRight.latitude, this._topLeft.longitude);
+  public get bottomLeft(): LatLon {
+    return new LatLon(this._bottomRight.latitude, this._topLeft.longitude);
   }
 }
 
 /**
  * Latitude/Longitude Pair
  */
-export class LatLong {
+export class LatLon {
   private _latitude: number;
   private _longitude: number;
   constructor(latitude: number, longitude: number) {
