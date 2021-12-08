@@ -470,13 +470,8 @@ function GetExistingPackageVersions ($PackageName, $GroupId = $null)
   }
 }
 
-function Validate-javascript-DocMsPackages { 
-  Param(
-    [Parameter(Mandatory = $true)]
-    [PSCustomObject]$PackageInfo,
-    [Parameter(Mandatory = $false)]
-    [string]$DocValidationImageId
-  ) 
+function Validate-javascript-DocMsPackages ($PackageInfo, $DocValidationImageId) 
+{ 
   $fileLocation = ""
   if ($PackageInfo.DevVersion -or $PackageInfo.Version -contains "beta") {
     $fileLocation = (Join-Path $DocsRepoLocation 'ci-configs/packages-preview.json')
