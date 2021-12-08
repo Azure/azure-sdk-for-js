@@ -2,13 +2,13 @@
 // Licensed under the MIT license.
 
 import {
-  getLongRunningPoller,
-  PollerLike,
   PollOperationState,
+  PollerLike,
   PollerOptions,
+  getLongRunningPoller
 } from "@azure-rest/core-client-lro";
-import { HttpResponse } from "@azure-rest/core-client";
 import { FarmBeatsRestClient } from "./farmBeats";
+import { HttpResponse } from "@azure-rest/core-client";
 
 /**
  * Gets a poller object to help polling for a long running operation status.
