@@ -58,7 +58,7 @@ The Azure Maps resource client id can be found in the Authentication sections in
 ```javascript
 const { SearchClient } = require("@azure/maps-search");
 const { DefaultAzureCredential } = require("@azure/identity");
-const client = new SearchClient(new DefaultAzureCredential(), { clientId: "<maps-client-id>" });
+const client = new SearchClient(new DefaultAzureCredential(), "<maps-client-id>");
 ```
 
 #### Using a Subscription Key Credential
