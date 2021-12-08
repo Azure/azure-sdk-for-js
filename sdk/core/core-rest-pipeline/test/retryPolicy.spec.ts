@@ -1,0 +1,160 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
+import { assert } from "chai";
+import * as sinon from "sinon";
+import {
+  createPipelineRequest,
+  SendRequest,
+  PipelineResponse,
+  createHttpHeaders,
+  RestError,
+  retryPolicy,
+  RetryStrategy,
+  RetryStrategyState
+} from "../src";
+
+/**
+ * System error retry strategy
+ */
+export function testRetryStrategy(): RetryStrategy {
+  return {
+    name: "testRetryStrategy",
+    meetsConditions({ responseError }) {
+      return Boolean(responseError && responseError!.code === "ENOENT");
+    },
+    updateRetryState(state: RetryStrategyState): RetryStrategyState {
+      state.retryAfterInMs = 100;
+      return state;
+    }
+  };
+}
+
+describe("retryPolicy", function() {
+  afterEach(function() {
+    sinon.restore();
+  });
+
+  it("It should allow passing custom retry strategies", async () => {
+    const request = createPipelineRequest({
+      url: "https://bing.com"
+    });
+    const testError = new RestError("Test Error!", { code: "ENOENT" });
+    const successResponse: PipelineResponse = {
+      headers: createHttpHeaders(),
+      request,
+      status: 200
+    };
+
+    const policy = retryPolicy(testRetryStrategy());
+    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    next.onFirstCall().rejects(testError);
+    next.onSecondCall().resolves(successResponse);
+
+    const clock = sinon.useFakeTimers();
+
+    const promise = policy.sendRequest(request, next);
+    assert.isTrue(next.calledOnce);
+
+    // allow the delay to occur
+    const time = await clock.nextAsync();
+    // should be at least the standard delay
+    assert.isAtLeast(time, 100);
+    assert.isTrue(next.calledTwice);
+
+    const result = await promise;
+    assert.strictEqual(result, successResponse);
+  });
+
+  it("It should give up after the default maxRetries is reached", async () => {
+    const request = createPipelineRequest({
+      url: "https://bing.com"
+    });
+    const testError = new RestError("Test Error!", { code: "ENOENT" });
+
+    const policy = retryPolicy(testRetryStrategy());
+    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    next.rejects(testError);
+
+    const clock = sinon.useFakeTimers();
+
+    let catchCalled = false;
+    const promise = policy.sendRequest(request, next);
+    promise.catch((e) => {
+      catchCalled = true;
+      assert.strictEqual(e, testError);
+    });
+    await clock.runAllAsync();
+    // should be one more than the default retry count
+    assert.strictEqual(next.callCount, 4);
+    assert.isTrue(catchCalled);
+  });
+
+  it("It should give up after maxRetries is changed", async () => {
+    const request = createPipelineRequest({
+      url: "https://bing.com"
+    });
+    const testError = new RestError("Test Error!", { code: "ENOENT" });
+
+    const policy = retryPolicy({
+      name: "testRetryStrategy",
+      meetsConditions({ responseError }) {
+        return Boolean(responseError && responseError!.code === "ENOENT");
+      },
+      updateRetryState(state: RetryStrategyState): RetryStrategyState {
+        state.maxRetries = 10;
+        state.retryAfterInMs = 100;
+        return state;
+      }
+    });
+    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    next.rejects(testError);
+
+    const clock = sinon.useFakeTimers();
+
+    let catchCalled = false;
+    const promise = policy.sendRequest(request, next);
+    promise.catch((e) => {
+      catchCalled = true;
+      assert.strictEqual(e, testError);
+    });
+    await clock.runAllAsync();
+    // should be one more than the default retry count
+    assert.strictEqual(next.callCount, 11);
+    assert.isTrue(catchCalled);
+  });
+
+  it("It should allow throwing new errors", async () => {
+    const request = createPipelineRequest({
+      url: "https://bing.com"
+    });
+    const testError = new RestError("Test Error!", { code: "ENOENT" });
+    const retryError = new RestError("Test Retry Error!");
+
+    const policy = retryPolicy({
+      name: "testRetryStrategy",
+      meetsConditions({ responseError }) {
+        return Boolean(responseError && responseError!.code === "ENOENT");
+      },
+      updateRetryState(state: RetryStrategyState): RetryStrategyState {
+        state.throwError = retryError;
+        return state;
+      }
+    });
+    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    next.rejects(testError);
+
+    const clock = sinon.useFakeTimers();
+
+    let catchCalled = false;
+    const promise = policy.sendRequest(request, next);
+    promise.catch((e) => {
+      catchCalled = true;
+      assert.strictEqual(e, retryError);
+    });
+    await clock.runAllAsync();
+    // should be one more than the default retry count
+    assert.strictEqual(next.callCount, 1);
+    assert.isTrue(catchCalled);
+  });
+});
