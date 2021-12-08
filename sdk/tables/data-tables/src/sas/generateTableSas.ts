@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { isNamedKeyCredential, NamedKeyCredential } from "@azure/core-auth";
+import { NamedKeyCredential, isNamedKeyCredential } from "@azure/core-auth";
 import { tableSasPermissionsFromString } from "./tableSasPermisions";
 import {
-  generateTableSasQueryParameters,
-  TableSasSignatureValues
+  TableSasSignatureValues,
+  generateTableSasQueryParameters
 } from "./tableSasSignatureValues";
 
 /**

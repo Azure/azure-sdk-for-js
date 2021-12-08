@@ -6,27 +6,25 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   TagDetails,
-  TagsOperationsListNextOptionalParams,
-  TagsOperationsListOptionalParams,
-  TagsOperationsDeleteValueOptionalParams,
-  TagsOperationsCreateOrUpdateValueOptionalParams,
-  TagsOperationsCreateOrUpdateValueResponse,
-  TagsOperationsCreateOrUpdateOptionalParams,
-  TagsOperationsCreateOrUpdateResponse,
-  TagsOperationsDeleteOptionalParams,
+  TagsListOptionalParams,
+  TagsDeleteValueOptionalParams,
+  TagsCreateOrUpdateValueOptionalParams,
+  TagsCreateOrUpdateValueResponse,
+  TagsCreateOrUpdateOptionalParams,
+  TagsCreateOrUpdateResponse,
+  TagsDeleteOptionalParams,
   TagsResource,
-  TagsOperationsCreateOrUpdateAtScopeOptionalParams,
-  TagsOperationsCreateOrUpdateAtScopeResponse,
+  TagsCreateOrUpdateAtScopeOptionalParams,
+  TagsCreateOrUpdateAtScopeResponse,
   TagsPatchResource,
-  TagsOperationsUpdateAtScopeOptionalParams,
-  TagsOperationsUpdateAtScopeResponse,
-  TagsOperationsGetAtScopeOptionalParams,
-  TagsOperationsGetAtScopeResponse,
-  TagsOperationsDeleteAtScopeOptionalParams
+  TagsUpdateAtScopeOptionalParams,
+  TagsUpdateAtScopeResponse,
+  TagsGetAtScopeOptionalParams,
+  TagsGetAtScopeResponse,
+  TagsDeleteAtScopeOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -40,16 +38,7 @@ export interface TagsOperations {
    * @param options The options parameters.
    */
   list(
-    options?: TagsOperationsListOptionalParams
-  ): PagedAsyncIterableIterator<TagDetails>;
-  /**
-   * ListNext
-   * @param nextLink The nextLink from the previous successful call to the List method.
-   * @param options The options parameters.
-   */
-  listNext(
-    nextLink: string,
-    options?: TagsOperationsListNextOptionalParams
+    options?: TagsListOptionalParams
   ): PagedAsyncIterableIterator<TagDetails>;
   /**
    * This operation allows deleting a value from the list of predefined values for an existing predefined
@@ -62,7 +51,7 @@ export interface TagsOperations {
   deleteValue(
     tagName: string,
     tagValue: string,
-    options?: TagsOperationsDeleteValueOptionalParams
+    options?: TagsDeleteValueOptionalParams
   ): Promise<void>;
   /**
    * This operation allows adding a value to the list of predefined values for an existing predefined tag
@@ -74,8 +63,8 @@ export interface TagsOperations {
   createOrUpdateValue(
     tagName: string,
     tagValue: string,
-    options?: TagsOperationsCreateOrUpdateValueOptionalParams
-  ): Promise<TagsOperationsCreateOrUpdateValueResponse>;
+    options?: TagsCreateOrUpdateValueOptionalParams
+  ): Promise<TagsCreateOrUpdateValueResponse>;
   /**
    * This operation allows adding a name to the list of predefined tag names for the given subscription.
    * A tag name can have a maximum of 512 characters and is case-insensitive. Tag names cannot have the
@@ -85,8 +74,8 @@ export interface TagsOperations {
    */
   createOrUpdate(
     tagName: string,
-    options?: TagsOperationsCreateOrUpdateOptionalParams
-  ): Promise<TagsOperationsCreateOrUpdateResponse>;
+    options?: TagsCreateOrUpdateOptionalParams
+  ): Promise<TagsCreateOrUpdateResponse>;
   /**
    * This operation allows deleting a name from the list of predefined tag names for the given
    * subscription. The name being deleted must not be in use as a tag name for any resource. All
@@ -94,10 +83,7 @@ export interface TagsOperations {
    * @param tagName The name of the tag.
    * @param options The options parameters.
    */
-  delete(
-    tagName: string,
-    options?: TagsOperationsDeleteOptionalParams
-  ): Promise<void>;
+  delete(tagName: string, options?: TagsDeleteOptionalParams): Promise<void>;
   /**
    * This operation allows adding or replacing the entire set of tags on the specified resource or
    * subscription. The specified entity can have a maximum of 50 tags.
@@ -108,8 +94,8 @@ export interface TagsOperations {
   createOrUpdateAtScope(
     scope: string,
     parameters: TagsResource,
-    options?: TagsOperationsCreateOrUpdateAtScopeOptionalParams
-  ): Promise<TagsOperationsCreateOrUpdateAtScopeResponse>;
+    options?: TagsCreateOrUpdateAtScopeOptionalParams
+  ): Promise<TagsCreateOrUpdateAtScopeResponse>;
   /**
    * This operation allows replacing, merging or selectively deleting tags on the specified resource or
    * subscription. The specified entity can have a maximum of 50 tags at the end of the operation. The
@@ -123,8 +109,8 @@ export interface TagsOperations {
   updateAtScope(
     scope: string,
     parameters: TagsPatchResource,
-    options?: TagsOperationsUpdateAtScopeOptionalParams
-  ): Promise<TagsOperationsUpdateAtScopeResponse>;
+    options?: TagsUpdateAtScopeOptionalParams
+  ): Promise<TagsUpdateAtScopeResponse>;
   /**
    * Gets the entire set of tags on a resource or subscription.
    * @param scope The resource scope.
@@ -132,8 +118,8 @@ export interface TagsOperations {
    */
   getAtScope(
     scope: string,
-    options?: TagsOperationsGetAtScopeOptionalParams
-  ): Promise<TagsOperationsGetAtScopeResponse>;
+    options?: TagsGetAtScopeOptionalParams
+  ): Promise<TagsGetAtScopeResponse>;
   /**
    * Deletes the entire set of tags on a resource or subscription.
    * @param scope The resource scope.
@@ -141,6 +127,6 @@ export interface TagsOperations {
    */
   deleteAtScope(
     scope: string,
-    options?: TagsOperationsDeleteAtScopeOptionalParams
+    options?: TagsDeleteAtScopeOptionalParams
   ): Promise<void>;
 }

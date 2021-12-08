@@ -94,7 +94,7 @@
 /sdk/web-pubsub/ @xirzec @bterlson @vicancy
 
 # PRLabel: %EngSys
-/sdk/template/ @Azure/azure-sdk-eng
+/sdk/template/ @praveenkuttappan @mikeharder @weshaggard @benbp
 
 /sdk/test-utils/ @HarshaNalluru @sadasant
 
@@ -651,9 +651,9 @@ sdk/portal/arm-portal @qiaozha @dw511214992
 ###########
 # Eng Sys
 ###########
-/eng/   @weshaggard @praveenkuttappan @mikeharder @danieljurek
-/**/tests.yml   @benbp
-/**/ci.yml      @praveenkuttappan
+/eng/   @praveenkuttappan @mikeharder @weshaggard @benbp
+/**/tests.yml   @praveenkuttappan @benbp
+/**/ci.yml      @praveenkuttappan @benbp
 
 ###########
 # Config

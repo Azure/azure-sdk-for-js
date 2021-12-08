@@ -3,7 +3,7 @@
 
 import { extractConnectionStringParts } from "../../src/utils/connectionString";
 import { Context } from "mocha";
-import { base64Encode, base64Decode } from "../../src/utils/bufferSerializer";
+import { base64Decode, base64Encode } from "../../src/utils/bufferSerializer";
 import { isNode } from "@azure/test-utils";
 import { assert } from "chai";
 import { ConnectionString } from "../../src/utils/internalModels";

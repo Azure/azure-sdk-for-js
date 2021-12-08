@@ -6,21 +6,18 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { ApplicationDefinitions } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { ApplicationClientContext } from "../applicationClientContext";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
-import { LroEngine } from "../lro";
-import { CoreClientLro, shouldDeserializeLro } from "../coreClientLro";
+import { ApplicationClient } from "../applicationClient";
+import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
+import { LroImpl } from "../lroImpl";
 import {
   ApplicationDefinition,
   ApplicationDefinitionsListByResourceGroupNextOptionalParams,
   ApplicationDefinitionsListByResourceGroupOptionalParams,
-  ApplicationDefinitionsListByResourceGroupNextNextOptionalParams,
   ApplicationDefinitionsGetOptionalParams,
   ApplicationDefinitionsGetResponse,
   ApplicationDefinitionsDeleteOptionalParams,
@@ -32,20 +29,19 @@ import {
   ApplicationDefinitionsDeleteByIdOptionalParams,
   ApplicationDefinitionsCreateOrUpdateByIdOptionalParams,
   ApplicationDefinitionsCreateOrUpdateByIdResponse,
-  ApplicationDefinitionsListByResourceGroupNextResponse,
-  ApplicationDefinitionsListByResourceGroupNextNextResponse
+  ApplicationDefinitionsListByResourceGroupNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a ApplicationDefinitions. */
+/** Class containing ApplicationDefinitions operations. */
 export class ApplicationDefinitionsImpl implements ApplicationDefinitions {
-  private readonly client: ApplicationClientContext;
+  private readonly client: ApplicationClient;
 
   /**
    * Initialize a new instance of the class ApplicationDefinitions class.
    * @param client Reference to the service client
    */
-  constructor(client: ApplicationClientContext) {
+  constructor(client: ApplicationClient) {
     this.client = client;
   }
 
@@ -96,76 +92,6 @@ export class ApplicationDefinitionsImpl implements ApplicationDefinitions {
   ): AsyncIterableIterator<ApplicationDefinition> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
-    )) {
-      yield* page;
-    }
-  }
-
-  /**
-   * ListByResourceGroupNext
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
-   * @param options The options parameters.
-   */
-  public listByResourceGroupNext(
-    resourceGroupName: string,
-    nextLink: string,
-    options?: ApplicationDefinitionsListByResourceGroupNextOptionalParams
-  ): PagedAsyncIterableIterator<ApplicationDefinition> {
-    const iter = this.listByResourceGroupNextPagingAll(
-      resourceGroupName,
-      nextLink,
-      options
-    );
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: () => {
-        return this.listByResourceGroupNextPagingPage(
-          resourceGroupName,
-          nextLink,
-          options
-        );
-      }
-    };
-  }
-
-  private async *listByResourceGroupNextPagingPage(
-    resourceGroupName: string,
-    nextLink: string,
-    options?: ApplicationDefinitionsListByResourceGroupNextOptionalParams
-  ): AsyncIterableIterator<ApplicationDefinition[]> {
-    let result = await this._listByResourceGroupNext(
-      resourceGroupName,
-      nextLink,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
-    while (continuationToken) {
-      result = await this._listByResourceGroupNextNext(
-        resourceGroupName,
-        continuationToken,
-        options
-      );
-      continuationToken = result.nextLink;
-      yield result.value || [];
-    }
-  }
-
-  private async *listByResourceGroupNextPagingAll(
-    resourceGroupName: string,
-    nextLink: string,
-    options?: ApplicationDefinitionsListByResourceGroupNextOptionalParams
-  ): AsyncIterableIterator<ApplicationDefinition> {
-    for await (const page of this.listByResourceGroupNextPagingPage(
-      resourceGroupName,
-      nextLink,
       options
     )) {
       yield* page;
@@ -239,12 +165,15 @@ export class ApplicationDefinitionsImpl implements ApplicationDefinitions {
       };
     };
 
-    const lro = new CoreClientLro(
+    const lro = new LroImpl(
       sendOperation,
       { resourceGroupName, applicationDefinitionName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, { intervalInMs: options?.updateIntervalInMs });
+    return new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
   }
 
   /**
@@ -323,12 +252,15 @@ export class ApplicationDefinitionsImpl implements ApplicationDefinitions {
       };
     };
 
-    const lro = new CoreClientLro(
+    const lro = new LroImpl(
       sendOperation,
       { resourceGroupName, applicationDefinitionName, parameters, options },
       createOrUpdateOperationSpec
     );
-    return new LroEngine(lro, { intervalInMs: options?.updateIntervalInMs });
+    return new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
   }
 
   /**
@@ -435,12 +367,15 @@ export class ApplicationDefinitionsImpl implements ApplicationDefinitions {
       };
     };
 
-    const lro = new CoreClientLro(
+    const lro = new LroImpl(
       sendOperation,
       { resourceGroupName, applicationDefinitionName, options },
       deleteByIdOperationSpec
     );
-    return new LroEngine(lro, { intervalInMs: options?.updateIntervalInMs });
+    return new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
   }
 
   /**
@@ -519,12 +454,15 @@ export class ApplicationDefinitionsImpl implements ApplicationDefinitions {
       };
     };
 
-    const lro = new CoreClientLro(
+    const lro = new LroImpl(
       sendOperation,
       { resourceGroupName, applicationDefinitionName, parameters, options },
       createOrUpdateByIdOperationSpec
     );
-    return new LroEngine(lro, { intervalInMs: options?.updateIntervalInMs });
+    return new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
   }
 
   /**
@@ -563,24 +501,6 @@ export class ApplicationDefinitionsImpl implements ApplicationDefinitions {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
       listByResourceGroupNextOperationSpec
-    );
-  }
-
-  /**
-   * ListByResourceGroupNextNext
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param nextLink The nextLink from the previous successful call to the ListByResourceGroupNext
-   *                 method.
-   * @param options The options parameters.
-   */
-  private _listByResourceGroupNextNext(
-    resourceGroupName: string,
-    nextLink: string,
-    options?: ApplicationDefinitionsListByResourceGroupNextNextOptionalParams
-  ): Promise<ApplicationDefinitionsListByResourceGroupNextNextResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, nextLink, options },
-      listByResourceGroupNextNextOperationSpec
     );
   }
 }
@@ -767,27 +687,6 @@ const createOrUpdateByIdOperationSpec: coreClient.OperationSpec = {
   serializer
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ApplicationDefinitionListResult
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.nextLink,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listByResourceGroupNextNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
