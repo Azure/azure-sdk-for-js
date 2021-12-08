@@ -260,7 +260,7 @@ $PackageExclusions = @{
   '@azure/core-asynciterator-polyfill'  = 'Docs CI fails https://github.com/Azure/azure-sdk-for-js/issues/16675';
 }
 
-function Update-javascript-DocsMsPackages($DocsRepoLocation, $DocsMetadata, $PackageSourceOverride, $DocValidationImageId=$ImageId) {
+function Update-javascript-DocsMsPackages($DocsRepoLocation, $DocsMetadata, $DocValidationImageId=$ImageId) {
   Write-Host "Excluded packages:"
   foreach ($excludedPackage in $PackageExclusions.Keys) {
     Write-Host "  $excludedPackage - $($PackageExclusions[$excludedPackage])"
@@ -273,8 +273,8 @@ function Update-javascript-DocsMsPackages($DocsRepoLocation, $DocsMetadata, $Pac
     'preview' `
     $FilteredMetadata `
   (Join-Path $DocsRepoLocation 'ci-configs/packages-preview.json.log') `
-    $DocValidationImageId
-    
+  $DocValidationImageId
+  
   UpdateDocsMsPackages `
     (Join-Path $DocsRepoLocation 'ci-configs/packages-latest.json') `
     'latest' `
@@ -471,8 +471,6 @@ function Validate-javascript-DocMsPackages {
   Param(
     [Parameter(Mandatory = $true)]
     [PSCustomObject]$PackageInfo,
-    [Parameter(Mandatory = $false)]
-    [string]$PackageSourceOverride,
     [Parameter(Mandatory = $false)]
     [string]$DocValidationImageId
   ) 
