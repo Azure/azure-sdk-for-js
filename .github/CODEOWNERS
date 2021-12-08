@@ -634,6 +634,9 @@ sdk/orbital/arm-orbital @qiaozha @dw511214992
 # PRLabel: %Mgmt
 sdk/portal/arm-portal @qiaozha @dw511214992
 
+# PRLabel: %Mgmt
+sdk/loadtestservice/arm-loadtestservice @qiaozha @dw511214992
+
 # PRLabel: %Monitor
 /sdk/monitor/ @hectorhdzg @applicationinsights-js-owners
 /sdk/monitor/monitor-query @KarishmaGhiya @maorleger
