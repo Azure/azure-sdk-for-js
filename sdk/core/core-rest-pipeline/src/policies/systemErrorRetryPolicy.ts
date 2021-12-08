@@ -10,12 +10,6 @@ import { systemErrorRetryStrategy } from "../retryStrategies/systemErrorRetryStr
  */
 export const systemErrorRetryPolicyName = "systemErrorRetryPolicy";
 
-const DEFAULT_CLIENT_RETRY_COUNT = 10;
-
-// intervals are in ms
-const DEFAULT_CLIENT_RETRY_INTERVAL = 1000;
-const DEFAULT_CLIENT_MAX_RETRY_INTERVAL = 1000 * 64;
-
 /**
  * Options that control how to retry failed requests.
  */
@@ -48,13 +42,8 @@ export interface SystemErrorRetryPolicyOptions {
 export function systemErrorRetryPolicy(
   options: SystemErrorRetryPolicyOptions = {}
 ): PipelinePolicy {
-  const maxRetries = options.maxRetries ?? DEFAULT_CLIENT_RETRY_COUNT;
-  const retryInterval = options.retryDelayInMs ?? DEFAULT_CLIENT_RETRY_INTERVAL;
-  const maxRetryInterval = options.maxRetryDelayInMs ?? DEFAULT_CLIENT_MAX_RETRY_INTERVAL;
-
   return {
     name: systemErrorRetryPolicyName,
-    sendRequest: retryPolicy(systemErrorRetryStrategy(maxRetries, retryInterval, maxRetryInterval))
-      .sendRequest
+    sendRequest: retryPolicy(systemErrorRetryStrategy(options)).sendRequest
   };
 }

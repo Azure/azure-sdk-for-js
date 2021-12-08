@@ -8,7 +8,7 @@ import { Sanitizer } from "../util/sanitizer";
 const errorSanitizer = new Sanitizer();
 
 /**
- * A custom error type for failed retry requests.
+ * An error that keeps track of failed retry requests.
  */
 export class RetryError extends Error {
   constructor(message: string = "Failed to retry.") {
@@ -18,10 +18,13 @@ export class RetryError extends Error {
     Object.setPrototypeOf(this, RestError.prototype);
   }
 
+  /**
+   * List of errors accumulated throughout retries.
+   */
   public errors: RestError[];
 
   /**
-   * Logging method for util.inspect in Node
+   * Logging method for util.inspect in Node.
    */
   [custom](): string {
     return (

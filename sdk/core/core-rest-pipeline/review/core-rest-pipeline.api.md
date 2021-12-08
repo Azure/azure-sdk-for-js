@@ -301,6 +301,35 @@ export interface RestErrorOptions {
 }
 
 // @public
+export class RetryError extends Error {
+    constructor(message?: string);
+    errors: RestError[];
+}
+
+// @public
+export function retryPolicy(...strategies: RetryStrategy[]): PipelinePolicy;
+
+// @public
+export interface RetryStrategy {
+    logger?: AzureLogger;
+    meetsConditions?(state: RetryStrategyState): boolean;
+    name: string;
+    updateRetryState(state: RetryStrategyState): RetryStrategyState;
+}
+
+// @public
+export interface RetryStrategyState {
+    maxRetries?: number;
+    redirectTo?: string;
+    response?: PipelineResponse;
+    responseError?: RestError;
+    retryAfterInMs?: number;
+    retryCount: number;
+    retryError: RetryError;
+    throwError?: RestError;
+}
+
+// @public
 export type SendRequest = (request: PipelineRequest) => Promise<PipelineResponse>;
 
 // @public

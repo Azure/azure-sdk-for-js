@@ -6,28 +6,65 @@ import { PipelineResponse } from "../interfaces";
 import { RestError } from "../restError";
 import { RetryError } from "./retryError";
 
+/**
+ * State that keeps track of the last retry and controls how to do the next retries.
+ */
 export interface RetryStrategyState {
-  // Max retries
+  /**
+   * Maximum number of retries.
+   */
   maxRetries?: number;
-  // Retry count
+  /**
+   * Total number of retries so far.
+   */
   retryCount: number;
-  // Retry error
+  /**
+   * Error keeping track of the errors accumulated so far.
+   */
   retryError: RetryError;
-  // Response from the last request
+  /**
+   * A {@link PipelineResponse}, if the last retry attempt succeeded.
+   */
   response?: PipelineResponse;
-  // Error from the last request
+  /**
+   * A {@link RestError}, if the last retry attempt failed.
+   */
   responseError?: RestError;
-  // Retry after the given number of milliseconds.
+  /**
+   * Controls whether to retry in a given number of milliseconds.
+   * If provided, a new retry will be attempted.
+   */
   retryAfterInMs?: number;
-  // Throw this RestError instead of retrying
+  /**
+   * Indicates to throw this error instead of retrying.
+   */
   throwError?: RestError;
-  // Retry with this new URL
+  /**
+   * Indicates to retry against this URL.
+   */
   redirectTo?: string;
 }
 
+/**
+ * A retry strategy is intended to define a small set of reasons why a pipeline should retry.
+ */
 export interface RetryStrategy {
+  /**
+   * Name of the retry strategy. Used for logging.
+   */
   name: string;
+  /**
+   * Logger. If it's not provided, a default logger for all retry policies is used.
+   */
   logger?: AzureLogger;
+  /**
+   * Function that determines whether to run the current strategy or skip it.
+   * @param state - Retry state
+   */
   meetsConditions?(state: RetryStrategyState): boolean;
+  /**
+   * Function that determines how to proceed with the subsequent requests.
+   * @param state - Retry state
+   */
   updateRetryState(state: RetryStrategyState): RetryStrategyState;
 }

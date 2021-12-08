@@ -12,8 +12,8 @@ import {
   RestError
 } from "../src";
 
-describe("systemErrorRetryPolicy", function() {
-  afterEach(function() {
+describe("systemErrorRetryPolicy", function () {
+  afterEach(function () {
     sinon.restore();
   });
 

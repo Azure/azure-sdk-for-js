@@ -4,20 +4,19 @@
 import { ProxySettings } from ".";
 import { Pipeline, createEmptyPipeline } from "./pipeline";
 import { decompressResponsePolicy } from "./policies/decompressResponsePolicy";
-import {
-  exponentialRetryPolicy,
-  ExponentialRetryPolicyOptions
-} from "./policies/exponentialRetryPolicy";
+import { ExponentialRetryPolicyOptions } from "./policies/exponentialRetryPolicy";
 import { formDataPolicy } from "./policies/formDataPolicy";
 import { logPolicy, LogPolicyOptions } from "./policies/logPolicy";
 import { proxyPolicy } from "./policies/proxyPolicy";
 import { redirectPolicy, RedirectPolicyOptions } from "./policies/redirectPolicy";
 import { setClientRequestIdPolicy } from "./policies/setClientRequestIdPolicy";
-import { systemErrorRetryPolicy } from "./policies/systemErrorRetryPolicy";
-import { throttlingRetryPolicy } from "./policies/throttlingRetryPolicy";
+import { retryPolicy } from "./policies/retryPolicy";
 import { tracingPolicy } from "./policies/tracingPolicy";
 import { userAgentPolicy, UserAgentPolicyOptions } from "./policies/userAgentPolicy";
 import { isNode } from "./util/helpers";
+import { throttlingRetryStrategy } from "./retryStrategies/throttlingRetryStrategy";
+import { systemErrorRetryStrategy } from "./retryStrategies/systemErrorRetryStrategy";
+import { exponentialRetryStrategy } from "./retryStrategies/exponentialRetryStrategy";
 
 /**
  * Defines options that are used to configure the HTTP pipeline for
@@ -72,9 +71,10 @@ export function createPipelineFromOptions(options: InternalPipelineOptions): Pip
   pipeline.addPolicy(tracingPolicy(options.userAgentOptions));
   pipeline.addPolicy(userAgentPolicy(options.userAgentOptions));
   pipeline.addPolicy(setClientRequestIdPolicy());
-  pipeline.addPolicy(throttlingRetryPolicy(), { phase: "Retry" });
-  pipeline.addPolicy(systemErrorRetryPolicy(options.retryOptions), { phase: "Retry" });
-  pipeline.addPolicy(exponentialRetryPolicy(options.retryOptions), { phase: "Retry" });
+  pipeline.addPolicy(
+    retryPolicy(throttlingRetryStrategy(), systemErrorRetryStrategy(), exponentialRetryStrategy()),
+    { phase: "Retry" }
+  );
   pipeline.addPolicy(redirectPolicy(options.redirectOptions), { afterPhase: "Retry" });
   pipeline.addPolicy(logPolicy(options.loggingOptions), { afterPhase: "Retry" });
 

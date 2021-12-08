@@ -18,7 +18,7 @@ const DEFAULT_MAX_RETRIES = 3;
 /**
  * The programmatic identifier of the retryPolicy.
  */
-export const retryPolicyName = "retryPolicy";
+const retryPolicyName = "retryPolicy";
 
 /**
  * retryPolicy is a generic policy to enable retrying requests when certain conditions are met

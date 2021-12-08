@@ -6,14 +6,40 @@ import { getRandomIntegerInclusive } from "../util/helpers";
 import { RetryStrategy, RetryStrategyState } from "./retryStrategy";
 import { throttlingRetryStrategy } from "./throttlingRetryStrategy";
 
+const DEFAULT_CLIENT_RETRY_COUNT = 10;
+
+// intervals are in milliseconds
+const DEFAULT_CLIENT_RETRY_INTERVAL = 1000;
+const DEFAULT_CLIENT_MAX_RETRY_INTERVAL = 1000 * 64;
+
 /**
  * Exponential retry strategy
  */
 export function exponentialRetryStrategy(
-  maxRetries: number,
-  retryInterval: number,
-  maxRetryInterval: number
+  options: {
+    /**
+     * The maximum number of retry attempts.  Defaults to 10.
+     */
+    maxRetries?: number;
+
+    /**
+     * The amount of delay in milliseconds between retry attempts. Defaults to 1000
+     * (1 second.) The delay increases exponentially with each retry up to a maximum
+     * specified by maxRetryDelayInMs.
+     */
+    retryDelayInMs?: number;
+
+    /**
+     * The maximum delay in milliseconds allowed before retrying an operation. Defaults
+     * to 64000 (64 seconds).
+     */
+    maxRetryDelayInMs?: number;
+  } = {}
 ): RetryStrategy {
+  const maxRetries = options.maxRetries ?? DEFAULT_CLIENT_RETRY_COUNT;
+  const retryInterval = options.retryDelayInMs ?? DEFAULT_CLIENT_RETRY_INTERVAL;
+  const maxRetryInterval = options.maxRetryDelayInMs ?? DEFAULT_CLIENT_MAX_RETRY_INTERVAL;
+
   const isThrottlingRetryResponse = throttlingRetryStrategy().meetsConditions!;
   return {
     name: "exponentialRetryStrategy",
