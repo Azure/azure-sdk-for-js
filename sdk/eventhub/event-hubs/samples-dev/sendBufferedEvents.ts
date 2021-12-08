@@ -20,7 +20,7 @@ async function handleError(ctx: OnSendEventsErrorContext): Promise<void> {
 }
 
 export async function main(): Promise<void> {
-  console.log(`Running sendEvents sample`);
+  console.log(`Running sendBufferedEvents sample`);
 
   const producer = new EventHubBufferedProducerClient(connectionString, {
     onSendEventsErrorHandler: handleError
@@ -40,11 +40,11 @@ export async function main(): Promise<void> {
       ++i;
     }
   } catch (err) {
-    console.log("Error when creating & sending a batch of events: ", err);
+    console.log("Error when enqueuing events: ", err);
   }
 
   await producer.close();
-  console.log(`Exiting sendEvents sample`);
+  console.log(`Exiting sendBufferedEvents sample`);
 }
 
 main().catch((error) => {
