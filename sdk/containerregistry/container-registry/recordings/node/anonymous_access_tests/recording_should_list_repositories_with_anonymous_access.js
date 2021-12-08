@@ -1,6 +1,6 @@
 let nock = require('nock');
 
-module.exports.hash = "f524cc3eaf0f0c60159570d26aaf8719";
+module.exports.hash = "6e2d53030688d68fea1002128770e796";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
@@ -11,13 +11,13 @@ nock('https://myregistry.azurecr.io:443', {"encodedQueryParams":true})
   'Server',
   'openresty',
   'Date',
-  'Mon, 20 Sep 2021 18:54:23 GMT',
+  'Mon, 08 Nov 2021 20:10:16 GMT',
   'Content-Type',
   'application/json; charset=utf-8',
   'Content-Length',
   '196',
   'Connection',
-  'keep-alive',
+  'close',
   'Access-Control-Expose-Headers',
   'Docker-Content-Digest',
   'Access-Control-Expose-Headers',
@@ -35,26 +35,27 @@ nock('https://myregistry.azurecr.io:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'X-Ms-Correlation-Request-Id',
-  '4790f72d-f920-4f8f-82b3-5da72341b4ba',
+  '53051afe-7b8f-4899-a720-2680d17cf855',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains'
 ]);
 
 nock('https://myregistry.azurecr.io:443', {"encodedQueryParams":true})
-  .post('/oauth2/token', "grant_type=password&service=myregistry.azurecr.io&refresh_token=&scope=registry%3Acatalog%3A*")
+  .post('/oauth2/token', "service=myregistry.azurecr.io&scope=registry%3Acatalog%3A*&refresh_token=&grant_type=password")
+  .query(true)
   .reply(200, {"access_token":"access_token"}, [
   'Server',
   'openresty',
   'Date',
-  'Mon, 20 Sep 2021 18:54:23 GMT',
+  'Mon, 08 Nov 2021 20:10:16 GMT',
   'Content-Type',
   'application/json; charset=utf-8',
   'Transfer-Encoding',
   'chunked',
   'Connection',
-  'keep-alive',
+  'close',
   'X-Ms-Correlation-Request-Id',
-  'e7edab1a-a928-4b79-88e0-fe9f627a167c',
+  '8315e6ff-6302-4dbe-a601-ec601da6e30d',
   'x-ms-ratelimit-remaining-calls-per-second',
   '166.65',
   'Strict-Transport-Security',
@@ -68,13 +69,13 @@ nock('https://myregistry.azurecr.io:443', {"encodedQueryParams":true})
   'Server',
   'openresty',
   'Date',
-  'Mon, 20 Sep 2021 18:54:23 GMT',
+  'Mon, 08 Nov 2021 20:10:16 GMT',
   'Content-Type',
   'application/json; charset=utf-8',
   'Content-Length',
   '112',
   'Connection',
-  'keep-alive',
+  'close',
   'Access-Control-Expose-Headers',
   'Docker-Content-Digest',
   'Access-Control-Expose-Headers',
@@ -90,7 +91,7 @@ nock('https://myregistry.azurecr.io:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'X-Ms-Correlation-Request-Id',
-  'a6ab3158-f5e2-4e05-a90b-54931b3aee59',
+  'f350accc-db9d-4bcf-a82b-a3a570fa8dca',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains'
 ]);

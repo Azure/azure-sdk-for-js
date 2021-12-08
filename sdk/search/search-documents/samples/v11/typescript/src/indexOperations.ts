@@ -11,6 +11,7 @@ import {
   SearchIndex,
   SearchIndexStatistics
 } from "@azure/search-documents";
+
 import * as dotenv from "dotenv";
 dotenv.config();
 
@@ -123,8 +124,9 @@ async function listIndexes(client: SearchIndexClient) {
   console.log(`List of Indexes`);
   console.log(`***************`);
   while (!listOfIndexes.done) {
+    const { similarity } = listOfIndexes.value;
     console.log(`Name: ${listOfIndexes.value.name}`);
-    console.log(`Similarity Algorithm: ${listOfIndexes.value.similarity?.odatatype}`);
+    console.log(`Similarity Algorithm: ${similarity && similarity.odatatype}`);
     console.log();
     listOfIndexes = await result.next();
   }

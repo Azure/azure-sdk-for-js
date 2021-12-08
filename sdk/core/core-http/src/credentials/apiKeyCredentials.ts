@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 import { HttpHeaders } from "../httpHeaders";
-import { WebResourceLike } from "../webResource";
 import { ServiceClientCredentials } from "./serviceClientCredentials";
+import { WebResourceLike } from "../webResource";
 
 /**
  * Describes the options to be provided while creating an instance of ApiKeyCredentials

@@ -414,12 +414,12 @@ describe("BatchingReceiver unit tests", () => {
 
       function setupBatchingReceiver(
         batchingReceiver: BatchingReceiver,
-        clock?: ReturnType<typeof sinon.useFakeTimers>
+        clockParam?: ReturnType<typeof sinon.useFakeTimers>
       ): {
         receiveIsReady: Promise<void>;
         rheaReceiver: RheaPromiseReceiver;
       } {
-        const rheaReceiver = createFakeReceiver(clock);
+        const rheaReceiver = createFakeReceiver(clockParam);
 
         batchingReceiver["_link"] = rheaReceiver;
 
@@ -654,8 +654,12 @@ describe("BatchingReceiver unit tests", () => {
           maxTimeAfterFirstMessageInMs: 1,
           maxWaitTimeInMs: 1
         },
-        () => {},
-        () => {}
+        () => {
+          /* empty body */
+        },
+        () => {
+          /* empty body */
+        }
       );
 
       assert.equal(
@@ -814,7 +818,4 @@ function assertListenersRemoved(rheaReceiver: RheaPromiseReceiver): void {
       `No listeners should be registered for ${eventName} on the receiver.session`
     );
   }
-
-  // check the session as well
-  rheaReceiver.session;
 }

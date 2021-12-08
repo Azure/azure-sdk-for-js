@@ -92,7 +92,7 @@ The `LogsQueryClient` can be used to query a Log Analytics workspace using the [
 
 ```ts
 import { DefaultAzureCredential } from "@azure/identity";
-import { Durations, LogsQueryClient } from "@azure/monitor-query";
+import { Durations, LogsQueryClient, LogsQueryResultStatus, LogsTable } from "@azure/monitor-query";
 
 const azureLogAnalyticsWorkspaceId = "<the Workspace Id for your Azure Log Analytics resource>";
 const logsQueryClient = new LogsQueryClient(new DefaultAzureCredential());
@@ -232,7 +232,7 @@ export async function main() {
 
   const result = await logsQueryClient.queryBatch(queriesBatch);
 
-  if (result.results == null) {
+  if (result == null) {
     throw new Error("No response for query");
   }
 

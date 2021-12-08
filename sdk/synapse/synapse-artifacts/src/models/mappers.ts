@@ -140,6 +140,18 @@ export const KqlScriptContentCurrentConnection: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      poolName: {
+        serializedName: "poolName",
+        type: {
+          name: "String"
+        }
+      },
+      databaseName: {
+        serializedName: "databaseName",
+        type: {
+          name: "String"
+        }
+      },
       type: {
         serializedName: "type",
         type: {
@@ -924,6 +936,18 @@ export const DataFlowDebugPackage: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "DataFlowDebugResource"
+        }
+      },
+      dataFlows: {
+        serializedName: "dataFlows",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DataFlowDebugResource"
+            }
+          }
         }
       },
       datasets: {
@@ -4375,6 +4399,13 @@ export const DataFlowReference: coreClient.CompositeMapper = {
         type: {
           name: "any"
         }
+      },
+      parameters: {
+        serializedName: "parameters",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
       }
     }
   }
@@ -4622,6 +4653,18 @@ export const StartDataFlowDebugSessionRequest: coreClient.CompositeMapper = {
           className: "DataFlowResource"
         }
       },
+      dataFlows: {
+        serializedName: "dataFlows",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DataFlowResource"
+            }
+          }
+        }
+      },
       datasets: {
         serializedName: "datasets",
         type: {
@@ -4846,6 +4889,27 @@ export const Transformation: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      dataset: {
+        serializedName: "dataset",
+        type: {
+          name: "Composite",
+          className: "DatasetReference"
+        }
+      },
+      linkedService: {
+        serializedName: "linkedService",
+        type: {
+          name: "Composite",
+          className: "LinkedServiceReference"
+        }
+      },
+      flowlet: {
+        serializedName: "flowlet",
+        type: {
+          name: "Composite",
+          className: "DataFlowReference"
+        }
       }
     }
   }
@@ -4965,22 +5029,22 @@ export const DatasetStorageFormat: coreClient.CompositeMapper = {
 };
 
 export const DatasetCompression: coreClient.CompositeMapper = {
-  serializedName: "DatasetCompression",
   type: {
     name: "Composite",
     className: "DatasetCompression",
-    uberParent: "DatasetCompression",
     additionalProperties: { type: { name: "Object" } },
-    polymorphicDiscriminator: {
-      serializedName: "type",
-      clientName: "type"
-    },
     modelProperties: {
       type: {
         serializedName: "type",
         required: true,
         type: {
-          name: "String"
+          name: "any"
+        }
+      },
+      level: {
+        serializedName: "level",
+        type: {
+          name: "any"
         }
       }
     }
@@ -7093,6 +7157,83 @@ export const MappingDataFlow: coreClient.CompositeMapper = {
         serializedName: "typeProperties.script",
         type: {
           name: "String"
+        }
+      },
+      scriptLines: {
+        serializedName: "typeProperties.scriptLines",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const Flowlet: coreClient.CompositeMapper = {
+  serializedName: "Flowlet",
+  type: {
+    name: "Composite",
+    className: "Flowlet",
+    uberParent: "DataFlow",
+    polymorphicDiscriminator: DataFlow.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...DataFlow.type.modelProperties,
+      sources: {
+        serializedName: "typeProperties.sources",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DataFlowSource"
+            }
+          }
+        }
+      },
+      sinks: {
+        serializedName: "typeProperties.sinks",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DataFlowSink"
+            }
+          }
+        }
+      },
+      transformations: {
+        serializedName: "typeProperties.transformations",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Transformation"
+            }
+          }
+        }
+      },
+      script: {
+        serializedName: "typeProperties.script",
+        type: {
+          name: "String"
+        }
+      },
+      scriptLines: {
+        serializedName: "typeProperties.scriptLines",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       }
     }
@@ -16118,20 +16259,6 @@ export const DataFlowSource: coreClient.CompositeMapper = {
     className: "DataFlowSource",
     modelProperties: {
       ...Transformation.type.modelProperties,
-      dataset: {
-        serializedName: "dataset",
-        type: {
-          name: "Composite",
-          className: "DatasetReference"
-        }
-      },
-      linkedService: {
-        serializedName: "linkedService",
-        type: {
-          name: "Composite",
-          className: "LinkedServiceReference"
-        }
-      },
       schemaLinkedService: {
         serializedName: "schemaLinkedService",
         type: {
@@ -16149,20 +16276,6 @@ export const DataFlowSink: coreClient.CompositeMapper = {
     className: "DataFlowSink",
     modelProperties: {
       ...Transformation.type.modelProperties,
-      dataset: {
-        serializedName: "dataset",
-        type: {
-          name: "Composite",
-          className: "DatasetReference"
-        }
-      },
-      linkedService: {
-        serializedName: "linkedService",
-        type: {
-          name: "Composite",
-          className: "LinkedServiceReference"
-        }
-      },
       schemaLinkedService: {
         serializedName: "schemaLinkedService",
         type: {
@@ -16525,114 +16638,6 @@ export const ParquetFormat: coreClient.CompositeMapper = {
       DatasetStorageFormat.type.polymorphicDiscriminator,
     modelProperties: {
       ...DatasetStorageFormat.type.modelProperties
-    }
-  }
-};
-
-export const DatasetBZip2Compression: coreClient.CompositeMapper = {
-  serializedName: "BZip2",
-  type: {
-    name: "Composite",
-    className: "DatasetBZip2Compression",
-    uberParent: "DatasetCompression",
-    additionalProperties: { type: { name: "Object" } },
-    polymorphicDiscriminator: DatasetCompression.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...DatasetCompression.type.modelProperties
-    }
-  }
-};
-
-export const DatasetGZipCompression: coreClient.CompositeMapper = {
-  serializedName: "GZip",
-  type: {
-    name: "Composite",
-    className: "DatasetGZipCompression",
-    uberParent: "DatasetCompression",
-    additionalProperties: { type: { name: "Object" } },
-    polymorphicDiscriminator: DatasetCompression.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...DatasetCompression.type.modelProperties,
-      level: {
-        serializedName: "level",
-        type: {
-          name: "any"
-        }
-      }
-    }
-  }
-};
-
-export const DatasetDeflateCompression: coreClient.CompositeMapper = {
-  serializedName: "Deflate",
-  type: {
-    name: "Composite",
-    className: "DatasetDeflateCompression",
-    uberParent: "DatasetCompression",
-    additionalProperties: { type: { name: "Object" } },
-    polymorphicDiscriminator: DatasetCompression.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...DatasetCompression.type.modelProperties,
-      level: {
-        serializedName: "level",
-        type: {
-          name: "any"
-        }
-      }
-    }
-  }
-};
-
-export const DatasetZipDeflateCompression: coreClient.CompositeMapper = {
-  serializedName: "ZipDeflate",
-  type: {
-    name: "Composite",
-    className: "DatasetZipDeflateCompression",
-    uberParent: "DatasetCompression",
-    additionalProperties: { type: { name: "Object" } },
-    polymorphicDiscriminator: DatasetCompression.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...DatasetCompression.type.modelProperties,
-      level: {
-        serializedName: "level",
-        type: {
-          name: "any"
-        }
-      }
-    }
-  }
-};
-
-export const DatasetTarCompression: coreClient.CompositeMapper = {
-  serializedName: "Tar",
-  type: {
-    name: "Composite",
-    className: "DatasetTarCompression",
-    uberParent: "DatasetCompression",
-    additionalProperties: { type: { name: "Object" } },
-    polymorphicDiscriminator: DatasetCompression.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...DatasetCompression.type.modelProperties
-    }
-  }
-};
-
-export const DatasetTarGZipCompression: coreClient.CompositeMapper = {
-  serializedName: "TarGZip",
-  type: {
-    name: "Composite",
-    className: "DatasetTarGZipCompression",
-    uberParent: "DatasetCompression",
-    additionalProperties: { type: { name: "Object" } },
-    polymorphicDiscriminator: DatasetCompression.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...DatasetCompression.type.modelProperties,
-      level: {
-        serializedName: "level",
-        type: {
-          name: "any"
-        }
-      }
     }
   }
 };
@@ -24720,7 +24725,6 @@ export let discriminators = {
   SecretBase: SecretBase,
   DatasetLocation: DatasetLocation,
   DatasetStorageFormat: DatasetStorageFormat,
-  DatasetCompression: DatasetCompression,
   WebLinkedServiceTypeProperties: WebLinkedServiceTypeProperties,
   StoreReadSettings: StoreReadSettings,
   StoreWriteSettings: StoreWriteSettings,
@@ -24736,6 +24740,7 @@ export let discriminators = {
   "CustomSetupBase.undefined": CustomSetupBase,
   LinkedIntegrationRuntimeType: LinkedIntegrationRuntimeType,
   "DataFlow.MappingDataFlow": MappingDataFlow,
+  "DataFlow.Flowlet": Flowlet,
   "IntegrationRuntime.Managed": ManagedIntegrationRuntime,
   "IntegrationRuntime.SelfHosted": SelfHostedIntegrationRuntime,
   "Dataset.AmazonS3Object": AmazonS3Dataset,
@@ -24958,12 +24963,6 @@ export let discriminators = {
   "DatasetStorageFormat.AvroFormat": AvroFormat,
   "DatasetStorageFormat.OrcFormat": OrcFormat,
   "DatasetStorageFormat.ParquetFormat": ParquetFormat,
-  "DatasetCompression.BZip2": DatasetBZip2Compression,
-  "DatasetCompression.GZip": DatasetGZipCompression,
-  "DatasetCompression.Deflate": DatasetDeflateCompression,
-  "DatasetCompression.ZipDeflate": DatasetZipDeflateCompression,
-  "DatasetCompression.Tar": DatasetTarCompression,
-  "DatasetCompression.TarGZip": DatasetTarGZipCompression,
   "WebLinkedServiceTypeProperties.Anonymous": WebAnonymousAuthentication,
   "WebLinkedServiceTypeProperties.Basic": WebBasicAuthentication,
   "WebLinkedServiceTypeProperties.ClientCertificate": WebClientCertificateAuthentication,

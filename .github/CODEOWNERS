@@ -39,13 +39,17 @@
 /sdk/communication/communication-phone-numbers/ @miguhern @danielav7 @whisper6284 @AlonsoMondal
 /sdk/communication/communication-network-traversal/ @AriZavala2
 /sdk/communication/communication-sms/ @RoyHerrod @arifibrahim4
+/sdk/communication/communication-short-codes/ @danielav7 @AlonsoMondal @ericasp16
 /sdk/communication/communication-common/ @Azure/acs-identity-sdk
 
 # PRLabel: %Container Registry
 /sdk/containerregistry/ @jeremymeng
 
 # PRLabel: %Cosmos
-/sdk/cosmosdb/ @kushagraThapar @simorenoh @simplynaveen20 @xinlian12 @moderakh 
+/sdk/cosmosdb/ @kushagraThapar @simorenoh @simplynaveen20 @xinlian12 @moderakh @jay-most
+
+# ServiceLabel: %Cosmos %Service Attention
+#/<NotInRepo>/ @sajeetharan @simorenoh
 
 # PRLabel: %Digital Twins
 /sdk/digitaltwins/ @johngallardo
@@ -93,7 +97,7 @@
 /sdk/web-pubsub/ @xirzec @bterlson @vicancy
 
 # PRLabel: %EngSys
-/sdk/template/ @Azure/azure-sdk-eng
+/sdk/template/ @praveenkuttappan @mikeharder @weshaggard @benbp
 
 /sdk/test-utils/ @HarshaNalluru @sadasant
 
@@ -624,6 +628,15 @@
 # PRLabel: %Mgmt
 /sdk/quota/arm-quota @qiaozha @dw511214992
 
+# PRLabel: %Mgmt
+sdk/desktopvirtualization/arm-desktopvirtualization @qiaozha @dw511214992
+
+# PRLabel: %Mgmt
+sdk/orbital/arm-orbital @qiaozha @dw511214992
+
+# PRLabel: %Mgmt
+sdk/portal/arm-portal @qiaozha @dw511214992
+
 # PRLabel: %Monitor
 /sdk/monitor/ @hectorhdzg @applicationinsights-js-owners
 /sdk/monitor/monitor-query @KarishmaGhiya @maorleger
@@ -641,9 +654,9 @@
 ###########
 # Eng Sys
 ###########
-/eng/   @weshaggard @praveenkuttappan @mikeharder @danieljurek
-/**/tests.yml   @benbp
-/**/ci.yml      @praveenkuttappan
+/eng/   @praveenkuttappan @mikeharder @weshaggard @benbp
+/**/tests.yml   @praveenkuttappan @benbp
+/**/ci.yml      @praveenkuttappan @benbp
 
 ###########
 # Config

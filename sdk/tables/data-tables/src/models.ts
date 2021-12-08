@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { TableGetAccessPolicyHeaders, TableInsertEntityHeaders } from "./generated/models";
-import { OperationOptions, CommonClientOptions } from "@azure/core-client";
+import { CommonClientOptions, OperationOptions } from "@azure/core-client";
 
 /**
  * Represents the Create or Delete Entity operation to be included in a Transaction request
@@ -199,7 +199,7 @@ export interface Edm<T extends EdmTypes> {
    * The value of the entity property
    */
   value: T extends "Binary"
-    ? Uint8Array
+    ? string
     : T extends "Boolean"
     ? boolean
     : T extends "Double"

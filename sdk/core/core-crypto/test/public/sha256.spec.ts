@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
 import { computeSha256Hash, computeSha256Hmac } from "../../src/index";
+import { assert } from "chai";
 
 describe("SHA-256", function() {
   describe("Hash", function() {

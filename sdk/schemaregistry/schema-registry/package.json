@@ -1,11 +1,13 @@
 {
   "name": "@azure/schema-registry",
-  "version": "1.0.0-beta.4",
+  "version": "1.0.2",
   "description": "Schema Registry Library with typescript type definitions for node.js and browser.",
   "sdk-type": "client",
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
-  "browser": {},
+  "browser": {
+    "./dist-esm/src/getSchemaDefinition.js": "./dist-esm/src/getSchemaDefinition.browser.js"
+  },
   "types": "types/schema-registry.d.ts",
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",

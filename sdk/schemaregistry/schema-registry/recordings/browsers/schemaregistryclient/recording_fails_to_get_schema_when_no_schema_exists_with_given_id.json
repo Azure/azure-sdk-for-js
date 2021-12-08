@@ -11,31 +11,31 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1321",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 24 Sep 2021 16:46:35 GMT",
+    "date": "Wed, 10 Nov 2021 07:53:34 GMT",
     "expires": "-1",
     "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
-    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+bno\"}]}",
+    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+est\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.12071.13 - SCUS ProdSlices",
-    "x-ms-request-id": "b596da07-b2fd-4fd5-8aa9-a28c1d993600"
+    "x-ms-ests-server": "2.1.12231.7 - EUS ProdSlices",
+    "x-ms-request-id": "930e8bba-aea5-42f9-8294-9f37ddee0800"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/$schemagroups/getSchemaById/ffffffffffffffffffffffffffffffff",
+   "url": "https://endpoint/$schemaGroups/$schemas/ffffffffffffffffffffffffffffffff",
    "query": {
-    "api-version": "2020-09-01-preview"
+    "api-version": "2021-10"
    },
    "requestBody": null,
    "status": 404,
-   "response": "{\"Code\":404,\"Detail\":\"Schema id ffffffffffffffffffffffffffffffff does not exist. TrackingId:c1aff705-221a-4d32-b916-bce0ee749898_G20, SystemTracker:endpoint:$schemagroups\\/getSchemaById\\/ffffffffffffffffffffffffffffffff, Timestamp:2021-09-24T16:46:36\"}",
+   "response": "{\"Code\":404,\"Detail\":\"Schema id ffffffffffffffffffffffffffffffff does not exist. TrackingId:c4c4395b-aec7-4b2f-b208-ee9c63d85939_G23, SystemTracker:endpoint:$schemaGroups\\/$schemas\\/ffffffffffffffffffffffffffffffff, Timestamp:2021-11-10T07:53:35\"}",
    "responseHeaders": {
     "content-type": "application/json",
-    "date": "Fri, 24 Sep 2021 16:46:36 GMT",
+    "date": "Wed, 10 Nov 2021 07:53:35 GMT",
     "server": "Microsoft-HTTPAPI/2.0",
     "strict-transport-security": "max-age=31536000",
     "transfer-encoding": "chunked"

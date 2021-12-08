@@ -6,13 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { ManagementLocks } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { ManagementLockClientContext } from "../managementLockClientContext";
+import { ManagementLockClient } from "../managementLockClient";
 import {
   ManagementLockObject,
   ManagementLocksListAtResourceGroupLevelNextOptionalParams,
@@ -23,10 +22,6 @@ import {
   ManagementLocksListAtSubscriptionLevelOptionalParams,
   ManagementLocksListByScopeNextOptionalParams,
   ManagementLocksListByScopeOptionalParams,
-  ManagementLocksListAtResourceGroupLevelNextNextOptionalParams,
-  ManagementLocksListAtResourceLevelNextNextOptionalParams,
-  ManagementLocksListAtSubscriptionLevelNextNextOptionalParams,
-  ManagementLocksListByScopeNextNextOptionalParams,
   ManagementLocksCreateOrUpdateAtResourceGroupLevelOptionalParams,
   ManagementLocksCreateOrUpdateAtResourceGroupLevelResponse,
   ManagementLocksDeleteAtResourceGroupLevelOptionalParams,
@@ -54,23 +49,19 @@ import {
   ManagementLocksListAtResourceGroupLevelNextResponse,
   ManagementLocksListAtResourceLevelNextResponse,
   ManagementLocksListAtSubscriptionLevelNextResponse,
-  ManagementLocksListByScopeNextResponse,
-  ManagementLocksListAtResourceGroupLevelNextNextResponse,
-  ManagementLocksListAtResourceLevelNextNextResponse,
-  ManagementLocksListAtSubscriptionLevelNextNextResponse,
-  ManagementLocksListByScopeNextNextResponse
+  ManagementLocksListByScopeNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a ManagementLocks. */
+/** Class containing ManagementLocks operations. */
 export class ManagementLocksImpl implements ManagementLocks {
-  private readonly client: ManagementLockClientContext;
+  private readonly client: ManagementLockClient;
 
   /**
    * Initialize a new instance of the class ManagementLocks class.
    * @param client Reference to the service client
    */
-  constructor(client: ManagementLockClientContext) {
+  constructor(client: ManagementLockClient) {
     this.client = client;
   }
 
@@ -326,299 +317,6 @@ export class ManagementLocksImpl implements ManagementLocks {
     options?: ManagementLocksListByScopeOptionalParams
   ): AsyncIterableIterator<ManagementLockObject> {
     for await (const page of this.listByScopePagingPage(scope, options)) {
-      yield* page;
-    }
-  }
-
-  /**
-   * ListAtResourceGroupLevelNext
-   * @param resourceGroupName The name of the resource group containing the locks to get.
-   * @param nextLink The nextLink from the previous successful call to the ListAtResourceGroupLevel
-   *                 method.
-   * @param options The options parameters.
-   */
-  public listAtResourceGroupLevelNext(
-    resourceGroupName: string,
-    nextLink: string,
-    options?: ManagementLocksListAtResourceGroupLevelNextOptionalParams
-  ): PagedAsyncIterableIterator<ManagementLockObject> {
-    const iter = this.listAtResourceGroupLevelNextPagingAll(
-      resourceGroupName,
-      nextLink,
-      options
-    );
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: () => {
-        return this.listAtResourceGroupLevelNextPagingPage(
-          resourceGroupName,
-          nextLink,
-          options
-        );
-      }
-    };
-  }
-
-  private async *listAtResourceGroupLevelNextPagingPage(
-    resourceGroupName: string,
-    nextLink: string,
-    options?: ManagementLocksListAtResourceGroupLevelNextOptionalParams
-  ): AsyncIterableIterator<ManagementLockObject[]> {
-    let result = await this._listAtResourceGroupLevelNext(
-      resourceGroupName,
-      nextLink,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
-    while (continuationToken) {
-      result = await this._listAtResourceGroupLevelNextNext(
-        resourceGroupName,
-        continuationToken,
-        options
-      );
-      continuationToken = result.nextLink;
-      yield result.value || [];
-    }
-  }
-
-  private async *listAtResourceGroupLevelNextPagingAll(
-    resourceGroupName: string,
-    nextLink: string,
-    options?: ManagementLocksListAtResourceGroupLevelNextOptionalParams
-  ): AsyncIterableIterator<ManagementLockObject> {
-    for await (const page of this.listAtResourceGroupLevelNextPagingPage(
-      resourceGroupName,
-      nextLink,
-      options
-    )) {
-      yield* page;
-    }
-  }
-
-  /**
-   * ListAtResourceLevelNext
-   * @param resourceGroupName The name of the resource group containing the locked resource. The name is
-   *                          case insensitive.
-   * @param resourceProviderNamespace The namespace of the resource provider.
-   * @param parentResourcePath The parent resource identity.
-   * @param resourceType The resource type of the locked resource.
-   * @param resourceName The name of the locked resource.
-   * @param nextLink The nextLink from the previous successful call to the ListAtResourceLevel method.
-   * @param options The options parameters.
-   */
-  public listAtResourceLevelNext(
-    resourceGroupName: string,
-    resourceProviderNamespace: string,
-    parentResourcePath: string,
-    resourceType: string,
-    resourceName: string,
-    nextLink: string,
-    options?: ManagementLocksListAtResourceLevelNextOptionalParams
-  ): PagedAsyncIterableIterator<ManagementLockObject> {
-    const iter = this.listAtResourceLevelNextPagingAll(
-      resourceGroupName,
-      resourceProviderNamespace,
-      parentResourcePath,
-      resourceType,
-      resourceName,
-      nextLink,
-      options
-    );
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: () => {
-        return this.listAtResourceLevelNextPagingPage(
-          resourceGroupName,
-          resourceProviderNamespace,
-          parentResourcePath,
-          resourceType,
-          resourceName,
-          nextLink,
-          options
-        );
-      }
-    };
-  }
-
-  private async *listAtResourceLevelNextPagingPage(
-    resourceGroupName: string,
-    resourceProviderNamespace: string,
-    parentResourcePath: string,
-    resourceType: string,
-    resourceName: string,
-    nextLink: string,
-    options?: ManagementLocksListAtResourceLevelNextOptionalParams
-  ): AsyncIterableIterator<ManagementLockObject[]> {
-    let result = await this._listAtResourceLevelNext(
-      resourceGroupName,
-      resourceProviderNamespace,
-      parentResourcePath,
-      resourceType,
-      resourceName,
-      nextLink,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
-    while (continuationToken) {
-      result = await this._listAtResourceLevelNextNext(
-        resourceGroupName,
-        resourceProviderNamespace,
-        parentResourcePath,
-        resourceType,
-        resourceName,
-        continuationToken,
-        options
-      );
-      continuationToken = result.nextLink;
-      yield result.value || [];
-    }
-  }
-
-  private async *listAtResourceLevelNextPagingAll(
-    resourceGroupName: string,
-    resourceProviderNamespace: string,
-    parentResourcePath: string,
-    resourceType: string,
-    resourceName: string,
-    nextLink: string,
-    options?: ManagementLocksListAtResourceLevelNextOptionalParams
-  ): AsyncIterableIterator<ManagementLockObject> {
-    for await (const page of this.listAtResourceLevelNextPagingPage(
-      resourceGroupName,
-      resourceProviderNamespace,
-      parentResourcePath,
-      resourceType,
-      resourceName,
-      nextLink,
-      options
-    )) {
-      yield* page;
-    }
-  }
-
-  /**
-   * ListAtSubscriptionLevelNext
-   * @param nextLink The nextLink from the previous successful call to the ListAtSubscriptionLevel
-   *                 method.
-   * @param options The options parameters.
-   */
-  public listAtSubscriptionLevelNext(
-    nextLink: string,
-    options?: ManagementLocksListAtSubscriptionLevelNextOptionalParams
-  ): PagedAsyncIterableIterator<ManagementLockObject> {
-    const iter = this.listAtSubscriptionLevelNextPagingAll(nextLink, options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: () => {
-        return this.listAtSubscriptionLevelNextPagingPage(nextLink, options);
-      }
-    };
-  }
-
-  private async *listAtSubscriptionLevelNextPagingPage(
-    nextLink: string,
-    options?: ManagementLocksListAtSubscriptionLevelNextOptionalParams
-  ): AsyncIterableIterator<ManagementLockObject[]> {
-    let result = await this._listAtSubscriptionLevelNext(nextLink, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
-    while (continuationToken) {
-      result = await this._listAtSubscriptionLevelNextNext(
-        continuationToken,
-        options
-      );
-      continuationToken = result.nextLink;
-      yield result.value || [];
-    }
-  }
-
-  private async *listAtSubscriptionLevelNextPagingAll(
-    nextLink: string,
-    options?: ManagementLocksListAtSubscriptionLevelNextOptionalParams
-  ): AsyncIterableIterator<ManagementLockObject> {
-    for await (const page of this.listAtSubscriptionLevelNextPagingPage(
-      nextLink,
-      options
-    )) {
-      yield* page;
-    }
-  }
-
-  /**
-   * ListByScopeNext
-   * @param scope The scope for the lock. When providing a scope for the assignment, use
-   *              '/subscriptions/{subscriptionId}' for subscriptions,
-   *              '/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}' for resource groups, and
-   *              '/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{parentResourcePathIfPresent}/{resourceType}/{resourceName}'
-   *              for resources.
-   * @param nextLink The nextLink from the previous successful call to the ListByScope method.
-   * @param options The options parameters.
-   */
-  public listByScopeNext(
-    scope: string,
-    nextLink: string,
-    options?: ManagementLocksListByScopeNextOptionalParams
-  ): PagedAsyncIterableIterator<ManagementLockObject> {
-    const iter = this.listByScopeNextPagingAll(scope, nextLink, options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: () => {
-        return this.listByScopeNextPagingPage(scope, nextLink, options);
-      }
-    };
-  }
-
-  private async *listByScopeNextPagingPage(
-    scope: string,
-    nextLink: string,
-    options?: ManagementLocksListByScopeNextOptionalParams
-  ): AsyncIterableIterator<ManagementLockObject[]> {
-    let result = await this._listByScopeNext(scope, nextLink, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
-    while (continuationToken) {
-      result = await this._listByScopeNextNext(
-        scope,
-        continuationToken,
-        options
-      );
-      continuationToken = result.nextLink;
-      yield result.value || [];
-    }
-  }
-
-  private async *listByScopeNextPagingAll(
-    scope: string,
-    nextLink: string,
-    options?: ManagementLocksListByScopeNextOptionalParams
-  ): AsyncIterableIterator<ManagementLockObject> {
-    for await (const page of this.listByScopeNextPagingPage(
-      scope,
-      nextLink,
-      options
-    )) {
       yield* page;
     }
   }
@@ -1068,96 +766,6 @@ export class ManagementLocksImpl implements ManagementLocks {
       listByScopeNextOperationSpec
     );
   }
-
-  /**
-   * ListAtResourceGroupLevelNextNext
-   * @param resourceGroupName The name of the resource group containing the locks to get.
-   * @param nextLink The nextLink from the previous successful call to the ListAtResourceGroupLevelNext
-   *                 method.
-   * @param options The options parameters.
-   */
-  private _listAtResourceGroupLevelNextNext(
-    resourceGroupName: string,
-    nextLink: string,
-    options?: ManagementLocksListAtResourceGroupLevelNextNextOptionalParams
-  ): Promise<ManagementLocksListAtResourceGroupLevelNextNextResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, nextLink, options },
-      listAtResourceGroupLevelNextNextOperationSpec
-    );
-  }
-
-  /**
-   * ListAtResourceLevelNextNext
-   * @param resourceGroupName The name of the resource group containing the locked resource. The name is
-   *                          case insensitive.
-   * @param resourceProviderNamespace The namespace of the resource provider.
-   * @param parentResourcePath The parent resource identity.
-   * @param resourceType The resource type of the locked resource.
-   * @param resourceName The name of the locked resource.
-   * @param nextLink The nextLink from the previous successful call to the ListAtResourceLevelNext
-   *                 method.
-   * @param options The options parameters.
-   */
-  private _listAtResourceLevelNextNext(
-    resourceGroupName: string,
-    resourceProviderNamespace: string,
-    parentResourcePath: string,
-    resourceType: string,
-    resourceName: string,
-    nextLink: string,
-    options?: ManagementLocksListAtResourceLevelNextNextOptionalParams
-  ): Promise<ManagementLocksListAtResourceLevelNextNextResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        resourceProviderNamespace,
-        parentResourcePath,
-        resourceType,
-        resourceName,
-        nextLink,
-        options
-      },
-      listAtResourceLevelNextNextOperationSpec
-    );
-  }
-
-  /**
-   * ListAtSubscriptionLevelNextNext
-   * @param nextLink The nextLink from the previous successful call to the ListAtSubscriptionLevelNext
-   *                 method.
-   * @param options The options parameters.
-   */
-  private _listAtSubscriptionLevelNextNext(
-    nextLink: string,
-    options?: ManagementLocksListAtSubscriptionLevelNextNextOptionalParams
-  ): Promise<ManagementLocksListAtSubscriptionLevelNextNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listAtSubscriptionLevelNextNextOperationSpec
-    );
-  }
-
-  /**
-   * ListByScopeNextNext
-   * @param scope The scope for the lock. When providing a scope for the assignment, use
-   *              '/subscriptions/{subscriptionId}' for subscriptions,
-   *              '/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}' for resource groups, and
-   *              '/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{parentResourcePathIfPresent}/{resourceType}/{resourceName}'
-   *              for resources.
-   * @param nextLink The nextLink from the previous successful call to the ListByScopeNext method.
-   * @param options The options parameters.
-   */
-  private _listByScopeNextNext(
-    scope: string,
-    nextLink: string,
-    options?: ManagementLocksListByScopeNextNextOptionalParams
-  ): Promise<ManagementLocksListByScopeNextNextResponse> {
-    return this.client.sendOperationRequest(
-      { scope, nextLink, options },
-      listByScopeNextNextOperationSpec
-    );
-  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
@@ -1506,76 +1114,6 @@ const listAtSubscriptionLevelNextOperationSpec: coreClient.OperationSpec = {
   serializer
 };
 const listByScopeNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ManagementLockListResult
-    }
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.filter],
-  urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.scope],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listAtResourceGroupLevelNextNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ManagementLockListResult
-    }
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.filter],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.nextLink,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listAtResourceLevelNextNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ManagementLockListResult
-    }
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.filter],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.nextLink,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-    Parameters.resourceProviderNamespace,
-    Parameters.parentResourcePath,
-    Parameters.resourceType,
-    Parameters.resourceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listAtSubscriptionLevelNextNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ManagementLockListResult
-    }
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.filter],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.nextLink,
-    Parameters.subscriptionId
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listByScopeNextNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {

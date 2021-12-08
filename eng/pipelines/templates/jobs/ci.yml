@@ -5,6 +5,9 @@ parameters:
   - name: TestPipeline
     type: boolean
     default: false
+  - name: TestProxy
+    type: boolean
+    default: false
   - name: ServiceDirectory
     type: string
     default: not-specified
@@ -76,3 +79,4 @@ jobs:
         AdditionalParameters:
           ServiceDirectory: ${{ parameters.ServiceDirectory }}
           Artifacts: ${{ parameters.Artifacts }}
+          TestProxy: ${{ parameters.TestProxy }}

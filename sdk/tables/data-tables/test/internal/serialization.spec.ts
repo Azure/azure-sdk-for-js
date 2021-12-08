@@ -5,10 +5,10 @@ import { assert } from "chai";
 
 import { Edm } from "../../src";
 import {
-  serialize,
   deserialize,
-  serializeSignedIdentifiers,
-  deserializeSignedIdentifier
+  deserializeSignedIdentifier,
+  serialize,
+  serializeSignedIdentifiers
 } from "../../src/serialization";
 import { isNode8 } from "@azure/test-utils";
 
@@ -119,7 +119,7 @@ describe("Serializer", () => {
     const base64Encoded = "VGVzdDEyMw==";
     const serialized: any = serialize({
       binProp: binValue,
-      binObjProp: { value: binValue, type: "Binary" }
+      binObjProp: { value: base64Encoded, type: "Binary" }
     });
     assert.strictEqual(serialized.binProp, base64Encoded);
     assert.strictEqual(serialized.binObjProp, base64Encoded);

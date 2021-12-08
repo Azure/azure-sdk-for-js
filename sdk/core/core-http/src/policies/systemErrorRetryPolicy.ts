@@ -1,8 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { HttpOperationResponse } from "../httpOperationResponse";
-import { WebResourceLike } from "../webResource";
 import {
   BaseRequestPolicy,
   RequestPolicy,
@@ -10,18 +8,28 @@ import {
   RequestPolicyOptions
 } from "./requestPolicy";
 import {
-  RetryData,
-  RetryError,
-  shouldRetry,
-  updateRetryData,
   DEFAULT_CLIENT_MAX_RETRY_INTERVAL,
+  DEFAULT_CLIENT_MIN_RETRY_INTERVAL,
   DEFAULT_CLIENT_RETRY_COUNT,
   DEFAULT_CLIENT_RETRY_INTERVAL,
-  DEFAULT_CLIENT_MIN_RETRY_INTERVAL,
-  isNumber
+  RetryData,
+  RetryError,
+  isNumber,
+  shouldRetry,
+  updateRetryData
 } from "../util/exponentialBackoffStrategy";
+import { HttpOperationResponse } from "../httpOperationResponse";
+import { WebResourceLike } from "../webResource";
 import { delay } from "../util/delay";
 
+/**
+ * A policy that retries when there's a system error, identified by the codes "ETIMEDOUT", "ESOCKETTIMEDOUT", "ECONNREFUSED", "ECONNRESET" or "ENOENT".
+ * @param retryCount - Maximum number of retries.
+ * @param retryInterval - The client retry interval, in milliseconds.
+ * @param minRetryInterval - The minimum retry interval, in milliseconds.
+ * @param maxRetryInterval - The maximum retry interval, in milliseconds.
+ * @returns An instance of the {@link SystemErrorRetryPolicy}
+ */
 export function systemErrorRetryPolicy(
   retryCount?: number,
   retryInterval?: number,
@@ -43,6 +51,7 @@ export function systemErrorRetryPolicy(
 }
 
 /**
+ * A policy that retries when there's a system error, identified by the codes "ETIMEDOUT", "ESOCKETTIMEDOUT", "ECONNREFUSED", "ECONNRESET" or "ENOENT".
  * @param retryCount - The client retry count.
  * @param retryInterval - The client retry interval, in milliseconds.
  * @param minRetryInterval - The minimum retry interval, in milliseconds.
