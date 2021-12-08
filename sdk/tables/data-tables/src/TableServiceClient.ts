@@ -5,24 +5,24 @@ import { GeneratedClient } from "./generated/generatedClient";
 import { Service, Table } from "./generated";
 import {
   ListTableItemsOptions,
-  TableServiceClientOptions,
+  TableItem,
   TableQueryOptions,
-  TableItem
+  TableServiceClientOptions
 } from "./models";
 import {
-  GetStatisticsResponse,
   GetPropertiesResponse,
-  SetPropertiesOptions,
+  GetStatisticsResponse,
   ServiceProperties,
+  SetPropertiesOptions,
   SetPropertiesResponse
 } from "./generatedModels";
 import { getClientParamsFromConnectionString } from "./utils/connectionString";
 import {
-  isNamedKeyCredential,
   NamedKeyCredential,
   SASCredential,
-  isSASCredential,
   TokenCredential,
+  isNamedKeyCredential,
+  isSASCredential,
   isTokenCredential
 } from "@azure/core-auth";
 import "@azure/core-paging";
@@ -38,6 +38,7 @@ import { Pipeline } from "@azure/core-rest-pipeline";
 import { isCredential } from "./utils/isCredential";
 import { tablesSASTokenPolicy } from "./tablesSASTokenPolicy";
 import { TableItemResultPage } from "./models";
+import { handleTableAlreadyExists } from "./utils/errorHelpers";
 
 /**
  * A TableServiceClient represents a Client to the Azure Tables service allowing you
@@ -246,17 +247,9 @@ export class TableServiceClient {
   public async createTable(name: string, options: OperationOptions = {}): Promise<void> {
     const { span, updatedOptions } = createSpan("TableServiceClient-createTable", options);
     try {
-      await this.table.create(
-        { name },
-        { ...updatedOptions, responsePreference: "return-content" }
-      );
+      await this.table.create({ name }, { ...updatedOptions });
     } catch (e) {
-      if (e.statusCode === 409) {
-        logger.info("TableServiceClient-createTable: Table Already Exists");
-      } else {
-        span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
-        throw e;
-      }
+      handleTableAlreadyExists(e, { ...updatedOptions, span, logger, tableName: name });
     } finally {
       span.end();
     }
