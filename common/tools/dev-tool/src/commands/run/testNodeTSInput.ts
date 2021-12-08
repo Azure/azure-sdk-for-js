@@ -12,14 +12,14 @@ export const commandInfo = makeCommandInfo(
       kind: "string",
       description:
         "Mocha options along with the test files(glob pattern) in TS as expected by mocha",
-      default: '--timeout 1200000 --exclude "test/**/browser/*.spec.ts" "test/**/*.spec.ts"'
-    }
+      default: '--timeout 1200000 --exclude "test/**/browser/*.spec.ts" "test/**/*.spec.ts"',
+    },
   }
 );
 
 export default leafCommand(commandInfo, async (options) => {
   return runTestsWithProxyTool({
     command: `mocha -r esm -r ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js --full-trace ${options.mocha}`,
-    name: "node-tests"
+    name: "node-tests",
   });
 });

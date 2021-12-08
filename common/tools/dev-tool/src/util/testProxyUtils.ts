@@ -9,16 +9,14 @@ import { createPrinter } from "./printer";
 
 const log = createPrinter("test-proxy");
 export async function startProxyTool(): Promise<void> {
-  log.info(
-    `Attempting to start test proxy at http://localhost:5000 & https://localhost:5001.\n`
-  );
+  log.info(`Attempting to start test proxy at http://localhost:5000 & https://localhost:5001.\n`);
 
   const subprocess = spawn(await getDockerRunCommand(), [], {
-    shell: true
+    shell: true,
   });
 
   const outFileName = "test-proxy-output.log";
-  const out = fs.createWriteStream(`./${outFileName}`, { flags: 'a' });
+  const out = fs.createWriteStream(`./${outFileName}`, { flags: "a" });
   subprocess.stdout.pipe(out);
   subprocess.stderr.pipe(out);
 

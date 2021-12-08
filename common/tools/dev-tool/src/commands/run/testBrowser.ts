@@ -11,14 +11,14 @@ export const commandInfo = makeCommandInfo(
     karma: {
       kind: "string",
       description: "Karma options (such as --single-run)",
-      default: "--single-run"
-    }
+      default: "--single-run",
+    },
   }
 );
 
 export default leafCommand(commandInfo, async (options) => {
   return runTestsWithProxyTool({
     command: `karma start ${options.karma}`,
-    name: "browser-tests"
+    name: "browser-tests",
   });
 });
