@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { delay, RequestOptionsBase, HttpOperationResponse } from "@azure/core-http";
+import { HttpOperationResponse, RequestOptionsBase, delay } from "@azure/core-http";
+import { PublicTestOperationState, TestOperationState, makeOperation } from "./testOperation";
 import { Poller } from "../../src";
 import { TestServiceClient } from "./testServiceClient";
-import { makeOperation, TestOperationState, PublicTestOperationState } from "./testOperation";
 
 export class TestPoller extends Poller<TestOperationState, string> {
   public intervalInMs: number;
