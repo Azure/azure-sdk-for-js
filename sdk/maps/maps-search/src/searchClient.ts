@@ -36,7 +36,7 @@ import {
   GeoJsonGeometryCollection,
   GeoJsonLineString,
   GeoJsonPolygon,
-  LatLong,
+  LatLon,
   StructuredAddress
 } from "./models/models";
 import {
@@ -205,7 +205,7 @@ export class SearchClient {
    */
   public async fuzzySearch(
     query: string,
-    coordinates: LatLong,
+    coordinates: LatLon,
     options?: FuzzySearchOptions
   ): Promise<SearchAddressResult>;
   /**
@@ -230,13 +230,13 @@ export class SearchClient {
    */
   public async fuzzySearch(
     query: string,
-    coordinates: LatLong,
+    coordinates: LatLon,
     countryFilter: string[],
     options?: FuzzySearchOptions
   ): Promise<SearchAddressResult>;
   public async fuzzySearch(
     query: string,
-    coordinatesOrCountryFilter: string[] | LatLong,
+    coordinatesOrCountryFilter: string[] | LatLon,
     countryFilterOrOptions?: string[] | FuzzySearchOptions,
     maybeOptions: FuzzySearchOptions = {}
   ): Promise<SearchAddressResult> {
@@ -247,7 +247,7 @@ export class SearchClient {
       : maybeOptions;
     const { span, updatedOptions } = createSpan("SearchClient-fuzzySearch", options);
     const internalOptions = mapFuzzySearchOptions(updatedOptions);
-    if (coordinatesOrCountryFilter instanceof LatLong) {
+    if (coordinatesOrCountryFilter instanceof LatLon) {
       internalOptions.lat = coordinatesOrCountryFilter.latitude;
       internalOptions.lon = coordinatesOrCountryFilter.longitude;
       if (!isPOISearchOptions<FuzzySearchOptions>(countryFilterOrOptions)) {
@@ -286,7 +286,7 @@ export class SearchClient {
    */
   public async searchPointOfInterest(
     query: string,
-    coordinates: LatLong,
+    coordinates: LatLon,
     options?: SearchPointOfInterestOptions
   ): Promise<SearchAddressResult>;
   /**
@@ -311,13 +311,13 @@ export class SearchClient {
    */
   public async searchPointOfInterest(
     query: string,
-    coordinates: LatLong,
+    coordinates: LatLon,
     countryFilter: string[],
     options?: SearchPointOfInterestOptions
   ): Promise<SearchAddressResult>;
   public async searchPointOfInterest(
     query: string,
-    coordinatesOrCountryFilter: string[] | LatLong,
+    coordinatesOrCountryFilter: string[] | LatLon,
     countryFilterOrOptions?: string[] | SearchPointOfInterestOptions,
     maybeOptions: SearchPointOfInterestOptions = {}
   ): Promise<SearchAddressResult> {
@@ -328,7 +328,7 @@ export class SearchClient {
       : maybeOptions;
     const { span, updatedOptions } = createSpan("SearchClient-searchPointOfInterest", options);
     const internalOptions = mapSearchPointOfInterestOptions(updatedOptions);
-    if (coordinatesOrCountryFilter instanceof LatLong) {
+    if (coordinatesOrCountryFilter instanceof LatLon) {
       internalOptions.lat = coordinatesOrCountryFilter.latitude;
       internalOptions.lon = coordinatesOrCountryFilter.longitude;
       if (!isPOISearchOptions<SearchPointOfInterestOptions>(countryFilterOrOptions)) {
@@ -365,7 +365,7 @@ export class SearchClient {
    * @param options - Optional parameters for the operation
    */
   public async searchNearbyPointOfInterest(
-    coordinates: LatLong,
+    coordinates: LatLon,
     options: SearchNearbyPointOfInterestOptions = {}
   ): Promise<SearchAddressResult> {
     const { span, updatedOptions } = createSpan(
@@ -401,7 +401,7 @@ export class SearchClient {
    */
   public async searchPointOfInterestCategory(
     query: string,
-    coordinates: LatLong,
+    coordinates: LatLon,
     options?: SearchPointOfInterestCategoryOptions
   ): Promise<SearchAddressResult>;
   /**
@@ -426,13 +426,13 @@ export class SearchClient {
    */
   public async searchPointOfInterestCategory(
     query: string,
-    coordinates: LatLong,
+    coordinates: LatLon,
     countryFilter: string[],
     options?: SearchPointOfInterestCategoryOptions
   ): Promise<SearchAddressResult>;
   public async searchPointOfInterestCategory(
     query: string,
-    coordinatesOrCountryFilter: string[] | LatLong,
+    coordinatesOrCountryFilter: string[] | LatLon,
     countryFilterOrOptions?: string[] | SearchPointOfInterestCategoryOptions,
     maybeOptions: SearchPointOfInterestCategoryOptions = {}
   ): Promise<SearchAddressResult> {
@@ -446,7 +446,7 @@ export class SearchClient {
       options
     );
     const internalOptions = mapSearchPointOfInterestOptions(updatedOptions);
-    if (coordinatesOrCountryFilter instanceof LatLong) {
+    if (coordinatesOrCountryFilter instanceof LatLon) {
       internalOptions.lat = coordinatesOrCountryFilter.latitude;
       internalOptions.lon = coordinatesOrCountryFilter.longitude;
       if (!isPOISearchOptions<SearchPointOfInterestOptions>(countryFilterOrOptions)) {
@@ -543,7 +543,7 @@ export class SearchClient {
    * @param options - Optional parameters for the operation
    */
   public async reverseSearchAddress(
-    coordinates: LatLong,
+    coordinates: LatLon,
     options: ReverseSearchAddressOptions = {}
   ): Promise<ReverseSearchAddressResult> {
     const { span, updatedOptions } = createSpan("SearchClient-reverseSearchAddress", options);
@@ -573,7 +573,7 @@ export class SearchClient {
    * @param options - Optional parameters for the operation
    */
   public async reverseSearchCrossStreetAddress(
-    coordinates: LatLong,
+    coordinates: LatLon,
     options: ReverseSearchCrossStreetAddressOptions = {}
   ): Promise<ReverseSearchCrossStreetAddressResult> {
     const { span, updatedOptions } = createSpan(

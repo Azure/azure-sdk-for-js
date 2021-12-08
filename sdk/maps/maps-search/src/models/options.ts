@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { BoundingBox, LatLong } from "./models";
+import { BoundingBox, LatLon } from "./models";
 import { CommonClientOptions, OperationOptions } from "@azure/core-client";
 import {
   ElectricVehicleConnector,
@@ -154,7 +154,7 @@ export interface SearchAddressOptions extends SearchAddressBaseOptions {
   /** Counter filters that limit the search to the specified countries */
   countryFilter?: string[];
   /** The coordinates where results should be biased */
-  coordinates?: LatLong;
+  coordinates?: LatLon;
 }
 
 /**
