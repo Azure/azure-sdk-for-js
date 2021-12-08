@@ -12,21 +12,21 @@ import {
   getTestUSProgramBrief,
 } from "./utils/testUSProgramBrief";
 
-describe(`ShortCodesClient - creates, gets, updates, lists, and deletes US Program Brief`, function () {
+describe(`ShortCodesClient - creates, gets, updates, lists, and deletes US Program Brief`, function() {
   let recorder: Recorder;
   let client: ShortCodesClient;
 
-  beforeEach(function (this: Context) {
+  beforeEach(function(this: Context) {
     ({ client, recorder } = createRecordedClient(this));
   });
 
-  afterEach(async function (this: Context) {
+  afterEach(async function(this: Context) {
     if (!this.currentTest?.isPending()) {
       await recorder.stop();
     }
   });
 
-  it("can create, get, update, list, and delete a US Program Brief", async function () {
+  it("can create, get, update, list, and delete a US Program Brief", async function() {
     const uspb = getTestUSProgramBrief();
     const createRequest: ShortCodesUpsertUSProgramBriefOptionalParams = {
       body: uspb,
@@ -56,11 +56,7 @@ describe(`ShortCodesClient - creates, gets, updates, lists, and deletes US Progr
     // create program brief by calling upsert
     const submitResult = await client.upsertUSProgramBrief(uspb.id, createRequest);
     assert.isOk(submitResult, "Failed to create program brief");
-    assert.equal(
-      uspb.id,
-      submitResult.id,
-      "Program brief creation returned the wrong Id"
-    );
+    assert.equal(uspb.id, submitResult.id, "Program brief creation returned the wrong Id");
 
     // get program brief, verify it was created correctly
     let getRes = await client.getUSProgramBrief(uspb.id);
@@ -75,11 +71,7 @@ describe(`ShortCodesClient - creates, gets, updates, lists, and deletes US Progr
 
     const updateResult = await client.upsertUSProgramBrief(uspb.id, updateRequest);
     assert.isOk(updateResult, "Update program brief failed");
-    assert.equal(
-      uspb.id,
-      updateResult.id,
-      "Update program brief returned the wrong Id"
-    );
+    assert.equal(uspb.id, updateResult.id, "Update program brief returned the wrong Id");
 
     // get program brief, verify it was updated correctly
     getRes = await client.getUSProgramBrief(uspb.id);
