@@ -3,7 +3,6 @@
 
 import { PipelinePolicy } from "../pipeline";
 import { exponentialRetryStrategy } from "../retryStrategies/exponentialRetryStrategy";
-import { maxRetriesStrategy } from "../retryStrategies/maxRetriesStrategy";
 import { retryPolicy } from "./retryPolicy";
 
 /**
@@ -12,7 +11,8 @@ import { retryPolicy } from "./retryPolicy";
 export const exponentialRetryPolicyName = "exponentialRetryPolicy";
 
 const DEFAULT_CLIENT_RETRY_COUNT = 10;
-// intervals are in ms
+
+// intervals are in milliseconds
 const DEFAULT_CLIENT_RETRY_INTERVAL = 1000;
 const DEFAULT_CLIENT_MAX_RETRY_INTERVAL = 1000 * 64;
 
@@ -50,8 +50,5 @@ export function exponentialRetryPolicy(
   const retryInterval = options.retryDelayInMs ?? DEFAULT_CLIENT_RETRY_INTERVAL;
   const maxRetryInterval = options.maxRetryDelayInMs ?? DEFAULT_CLIENT_MAX_RETRY_INTERVAL;
 
-  return retryPolicy(
-    maxRetriesStrategy(maxRetries),
-    exponentialRetryStrategy(retryInterval, maxRetryInterval)
-  );
+  return retryPolicy(exponentialRetryStrategy(maxRetries, retryInterval, maxRetryInterval));
 }

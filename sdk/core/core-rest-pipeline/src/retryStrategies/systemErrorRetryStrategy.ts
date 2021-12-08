@@ -12,6 +12,7 @@ const logger = createClientLogger("core-rest-pipeline systemErrorRetryStrategy")
  * System error retry strategy
  */
 export function systemErrorRetryStrategy(
+  maxRetries: number,
   retryInterval: number,
   maxRetryInterval: number
 ): RetryStrategy {
@@ -21,7 +22,8 @@ export function systemErrorRetryStrategy(
     meetsConditions({ responseError }) {
       return isSystemError(responseError);
     },
-    updateRetryState: exponentialRetryStrategy(retryInterval, maxRetryInterval).updateRetryState
+    updateRetryState: exponentialRetryStrategy(maxRetries, retryInterval, maxRetryInterval)
+      .updateRetryState
   };
 }
 

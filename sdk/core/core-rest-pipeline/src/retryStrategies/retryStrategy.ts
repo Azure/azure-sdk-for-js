@@ -7,6 +7,8 @@ import { RestError } from "../restError";
 import { RetryError } from "./retryError";
 
 export interface RetryStrategyState {
+  // Max retries
+  maxRetries?: number;
   // Retry count
   retryCount: number;
   // Retry error

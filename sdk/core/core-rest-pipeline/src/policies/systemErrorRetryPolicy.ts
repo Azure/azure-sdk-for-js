@@ -4,7 +4,6 @@
 import { PipelinePolicy } from "../pipeline";
 import { retryPolicy } from "./retryPolicy";
 import { systemErrorRetryStrategy } from "../retryStrategies/systemErrorRetryStrategy";
-import { maxRetriesStrategy } from "../retryStrategies/maxRetriesStrategy";
 
 /**
  * Name of the {@link systemErrorRetryPolicy}
@@ -55,9 +54,7 @@ export function systemErrorRetryPolicy(
 
   return {
     name: systemErrorRetryPolicyName,
-    sendRequest: retryPolicy(
-      maxRetriesStrategy(maxRetries),
-      systemErrorRetryStrategy(retryInterval, maxRetryInterval)
-    ).sendRequest
+    sendRequest: retryPolicy(systemErrorRetryStrategy(maxRetries, retryInterval, maxRetryInterval))
+      .sendRequest
   };
 }

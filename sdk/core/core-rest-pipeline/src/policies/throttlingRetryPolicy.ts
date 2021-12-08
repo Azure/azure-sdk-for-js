@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import { PipelinePolicy } from "../pipeline";
-import { maxRetriesStrategy } from "../retryStrategies/maxRetriesStrategy";
 import { throttlingRetryStrategy } from "../retryStrategies/throttlingRetryStrategy";
 import { retryPolicy } from "./retryPolicy";
 
@@ -22,6 +21,6 @@ export const throttlingRetryPolicyName = "throttlingRetryPolicy";
 export function throttlingRetryPolicy(): PipelinePolicy {
   return {
     name: throttlingRetryPolicyName,
-    sendRequest: retryPolicy(maxRetriesStrategy(), throttlingRetryStrategy()).sendRequest
+    sendRequest: retryPolicy(throttlingRetryStrategy()).sendRequest
   };
 }

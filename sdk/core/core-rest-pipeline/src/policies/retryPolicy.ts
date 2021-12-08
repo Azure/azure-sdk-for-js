@@ -13,6 +13,7 @@ import { RetryError } from "../retryStrategies/retryError";
 import { RestError } from "../restError";
 
 const retryPolicyLogger = createClientLogger("core-rest-pipeline retryPolicy");
+const DEFAULT_MAX_RETRIES = 3;
 
 /**
  * The programmatic identifier of the retryPolicy.
@@ -82,6 +83,16 @@ export function retryPolicy(...strategies: RetryStrategy[]): PipelinePolicy {
             response,
             responseError
           };
+
+          if (state.retryCount >= (state.maxRetries || DEFAULT_MAX_RETRIES)) {
+            retryPolicyLogger.info(
+              `Maximum retries reached. Returning the last received response, or throwing the last received error.`
+            );
+            if (response) {
+              return response;
+            }
+            throw responseError;
+          }
 
           if (!strategy.meetsConditions || strategy.meetsConditions(state)) {
             state = strategy.updateRetryState(state);

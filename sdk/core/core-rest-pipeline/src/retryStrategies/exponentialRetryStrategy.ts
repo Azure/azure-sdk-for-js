@@ -10,6 +10,7 @@ import { throttlingRetryStrategy } from "./throttlingRetryStrategy";
  * Exponential retry strategy
  */
 export function exponentialRetryStrategy(
+  maxRetries: number,
   retryInterval: number,
   maxRetryInterval: number
 ): RetryStrategy {
@@ -22,7 +23,9 @@ export function exponentialRetryStrategy(
       );
     },
     updateRetryState(state: RetryStrategyState): RetryStrategyState {
+      state.maxRetries = maxRetries;
       const retryAfterInMs = state.retryAfterInMs || retryInterval;
+
       // Exponentially increase the delay each time
       const exponentialDelay = retryAfterInMs * Math.pow(2, state.retryCount);
       // Don't let the delay exceed the maximum
