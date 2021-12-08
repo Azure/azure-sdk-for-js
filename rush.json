@@ -1150,6 +1150,11 @@
       "packageName": "@azure/arm-cognitiveservices",
       "projectFolder": "sdk/cognitiveservices/arm-cognitiveservices",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-imagebuilder",
+      "projectFolder": "sdk/imagebuilder/arm-imagebuilder",
+      "versionPolicyName": "management"
     }
   ]
 }
