@@ -1,8 +1,10 @@
 # Release History
 
-## 7.4.1 (Unreleased)
+## 7.5.0-beta.1 (Unreleased)
 
 ### Features Added
+
+- Add optional boolean `skipParsingBodyAsJson` property to `ServiceBusReceiverOptions` and `ServiceBusSessionReceiverOptions`. This allows users to control whether the SDK should skip parsing message body as Json object. By default, the SDK will attempt to parse message body as Json object. [PR #18692](https://github.com/Azure/azure-sdk-for-js/pull/18692)
 
 ### Breaking Changes
 
