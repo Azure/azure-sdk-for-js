@@ -3,11 +3,11 @@
 
 import {
   HttpOperationResponse,
+  RequestOptionsBase,
   ServiceClient,
   ServiceClientCredentials,
   ServiceClientOptions,
-  TokenCredential,
-  RequestOptionsBase
+  TokenCredential
 } from "@azure/core-http";
 
 interface TestServiceClientOptions extends ServiceClientOptions {}
