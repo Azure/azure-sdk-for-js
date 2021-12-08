@@ -46,7 +46,7 @@ export interface RetryStrategyState {
 }
 
 /**
- * A retry strategy is intended to define a small set of reasons why a pipeline should retry.
+ * A retry strategy is intended to define whether to retry or not, and how to retry.
  */
 export interface RetryStrategy {
   /**

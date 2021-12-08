@@ -5,7 +5,11 @@
 ### Features Added
 
 - The `bearerTokenAuthenticationPolicy` now accepts a logger.
-- Changed behavior when sending HTTP headers to preserve the original casing of header names. Iterating over `HttpHeaders` now keeps the original name casing. There is also a new `preserveCase` option for `HttpHeaders.toJSON()`. See [PR #18517](https://github.com/Azure/azure-sdk-for-js/pull/18517)
+- Changed behavior when sending HTTP headers to preserve the original casing of header names. Iterating over `HttpHeaders` now keeps the original name casing. There is also a new `preserveCase` option for `HttpHeaders.toJSON()`. See [PR #18517](https://github.com/Azure/azure-sdk-for-js/pull/18517).
+- A new `retryPolicy` is added, which allows for custom retry strategies to be added to any pipelin. With it, we're exposing some new types:
+  - `RetryStrategy`, which defines whether to retry or not, and how to retry.
+  - `RetryStrategyState`, which keeps track of the last retry and controls how to do the next retries.
+- Previous retry policies have been enhanced with better error handling, logging and tracing.
 
 ### Breaking Changes
 
