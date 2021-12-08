@@ -58,7 +58,7 @@ describe(`ShortCodesClient - creates, gets, updates, lists, and deletes US Progr
     assert.isOk(submitResult, "Failed to create program brief");
     assert.equal(
       uspb.id,
-      submitResult._response.parsedBody["id"],
+      submitResult.id,
       "Program brief creation returned the wrong Id"
     );
 
@@ -77,7 +77,7 @@ describe(`ShortCodesClient - creates, gets, updates, lists, and deletes US Progr
     assert.isOk(updateResult, "Update program brief failed");
     assert.equal(
       uspb.id,
-      updateResult._response.parsedBody["id"],
+      updateResult.id,
       "Update program brief returned the wrong Id"
     );
 
