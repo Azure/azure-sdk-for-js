@@ -5,7 +5,7 @@
  * @summary Authenticates with a client and a client's secret.
  */
 
-import { ClientSecretCredential } from "../src";
+import { ClientSecretCredential } from "@azure/identity";
 import { KeyClient } from "@azure/keyvault-keys";
 
 // Load the .env file if it exists

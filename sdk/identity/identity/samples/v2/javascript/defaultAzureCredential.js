@@ -5,7 +5,7 @@
  * @summary Tries several authentications. The simplest way to use `@azure/identity`.
  */
 
-const { DefaultAzureCredential } = require("../src");
+const { DefaultAzureCredential } = require("@azure/identity");
 const { KeyClient } = require("@azure/keyvault-keys");
 
 // Load the .env file if it exists

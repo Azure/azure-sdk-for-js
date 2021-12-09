@@ -5,7 +5,7 @@
  * @summary Tries several authentications. The simplest way to use `@azure/identity`.
  */
 
-import { DefaultAzureCredential } from "../src";
+import { DefaultAzureCredential } from "@azure/identity";
 import { KeyClient } from "@azure/keyvault-keys";
 
 // Load the .env file if it exists

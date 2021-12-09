@@ -5,7 +5,7 @@
  * @summary Authenticates with a client and a client's secret sent through environment variables.
  */
 
-const { EnvironmentCredential } = require("../src");
+const { EnvironmentCredential } = require("@azure/identity");
 const { KeyClient } = require("@azure/keyvault-keys");
 
 // Load the .env file if it exists
