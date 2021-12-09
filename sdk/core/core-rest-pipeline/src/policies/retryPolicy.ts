@@ -59,6 +59,10 @@ export function retryPolicy(...strategies: RetryStrategy[]): PipelinePolicy {
             request.requestId
           );
           responseError = e as RestError;
+          if (responseError.name !== "RestError") {
+            tryProcessError(responseError, retrySpan);
+            throw responseError;
+          }
           response = responseError.response;
           tryProcessError(responseError, retrySpan);
         }
