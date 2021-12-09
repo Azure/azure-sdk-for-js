@@ -80,7 +80,7 @@ describe("Links test", () => {
     }
   });
 
-  it("it should create a resource id", async function() {
+  it("it should create a resource id2", async function() {
     const result = await resources_client.resources.beginCreateOrUpdateAndWait(resourceGroup,"Microsoft.Compute","","availabilitySets",resourceName+"2","2019-07-01",{ location: "eastus" });
     if(result.id){
       resource2Id = result.id;
