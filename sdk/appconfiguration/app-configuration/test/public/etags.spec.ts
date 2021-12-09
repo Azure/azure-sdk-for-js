@@ -21,12 +21,12 @@ describe("etags", () => {
 
   beforeEach(async function(this: Context) {
     recorder = new TestProxyHttpClientCoreV1(this.currentTest);
+    await recorder.start(recorderStartOptions);
+    client = createAppConfigurationClientForTests({ httpClient: recorder }) || this.skip();
     if (!isPlaybackMode()) {
       recorder.variables["etags"] = `etags-${getRandomNumber()}`;
     }
     key = recorder.variables["etags"];
-    client = createAppConfigurationClientForTests({ httpClient: recorder }) || this.skip();
-    await recorder.start(recorderStartOptions);
     await client.addConfigurationSetting({
       key: key,
       value: "some value"
