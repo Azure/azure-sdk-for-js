@@ -2,7 +2,11 @@
 // Licensed under the MIT license.
 
 import * as sinon from "sinon";
-import { CreateClientMode, createTableClient, recordedEnvironmentSetup } from "./utils/recordedClient";
+import {
+  CreateClientMode,
+  createTableClient,
+  recordedEnvironmentSetup
+} from "./utils/recordedClient";
 import { Recorder, isLiveMode, isPlaybackMode, record } from "@azure-tools/test-recorder";
 import { TableClient, TableTransaction, TransactionAction, odata } from "../../src";
 import { Context } from "mocha";

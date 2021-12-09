@@ -2,7 +2,11 @@
 // Licensed under the MIT license.
 
 import { AccountSasPermissions, accountSasPermissionsFromString } from "./accountSasPermissions";
-import { AccountSasServices, accountSasServicesFromString, accountSasServicesToString } from "./accountSasServices";
+import {
+  AccountSasServices,
+  accountSasServicesFromString,
+  accountSasServicesToString
+} from "./accountSasServices";
 import { NamedKeyCredential, isNamedKeyCredential } from "@azure/core-auth";
 import { SasIPRange } from "./sasIPRange";
 import { SasProtocol } from "./sasQueryParameters";

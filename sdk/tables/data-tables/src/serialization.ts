@@ -2,7 +2,10 @@
 // Licensed under the MIT license.
 
 import { EdmTypes, SignedIdentifier, TableEntityQueryOptions } from "./models";
-import { QueryOptions as GeneratedQueryOptions, SignedIdentifier as GeneratedSignedIdentifier } from "./generated/models";
+import {
+  QueryOptions as GeneratedQueryOptions,
+  SignedIdentifier as GeneratedSignedIdentifier
+} from "./generated/models";
 import { base64Decode, base64Encode } from "./utils/bufferSerializer";
 import { truncatedISO8061Date } from "./utils/truncateISO8061Date";
 

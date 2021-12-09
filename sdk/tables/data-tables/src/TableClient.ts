@@ -20,8 +20,17 @@ import {
   UpdateMode,
   UpdateTableEntityOptions
 } from "./models";
-import { DeleteTableEntityResponse, SetAccessPolicyResponse, UpdateEntityResponse, UpsertEntityResponse } from "./generatedModels";
-import { FullOperationResponse, InternalClientPipelineOptions, OperationOptions } from "@azure/core-client";
+import {
+  DeleteTableEntityResponse,
+  SetAccessPolicyResponse,
+  UpdateEntityResponse,
+  UpsertEntityResponse
+} from "./generatedModels";
+import {
+  FullOperationResponse,
+  InternalClientPipelineOptions,
+  OperationOptions
+} from "@azure/core-client";
 import { GeneratedClient, TableDeleteEntityOptionalParams } from "./generated";
 import {
   NamedKeyCredential,

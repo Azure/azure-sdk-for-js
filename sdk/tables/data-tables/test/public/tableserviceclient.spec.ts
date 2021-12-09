@@ -1,7 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { CreateClientMode, createTableServiceClient, recordedEnvironmentSetup } from "./utils/recordedClient";
+import {
+  CreateClientMode,
+  createTableServiceClient,
+  recordedEnvironmentSetup
+} from "./utils/recordedClient";
 import { Recorder, isLiveMode, isPlaybackMode, record } from "@azure-tools/test-recorder";
 import { TableItem, TableItemResultPage, TableServiceClient } from "../../src";
 import { Context } from "mocha";

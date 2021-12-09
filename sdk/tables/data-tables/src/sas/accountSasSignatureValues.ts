@@ -4,7 +4,10 @@
 import { AccountSasPermissions, accountSasPermissionsToString } from "./accountSasPermissions";
 import { SasIPRange, ipRangeToString } from "./sasIPRange";
 import { SasProtocol, SasQueryParameters } from "./sasQueryParameters";
-import { accountSasResourceTypesFromString, accountSasResourceTypesToString } from "./accountSasResourceTypes";
+import {
+  accountSasResourceTypesFromString,
+  accountSasResourceTypesToString
+} from "./accountSasResourceTypes";
 import { accountSasServicesFromString, accountSasServicesToString } from "./accountSasServices";
 import { NamedKeyCredential } from "@azure/core-auth";
 import { SERVICE_VERSION } from "../utils/constants";

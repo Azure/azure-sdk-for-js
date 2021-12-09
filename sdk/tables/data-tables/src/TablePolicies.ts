@@ -1,7 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { HeaderConstants, TRANSACTION_HTTP_LINE_ENDING, TRANSACTION_HTTP_VERSION_1_1 } from "./utils/constants";
+import {
+  HeaderConstants,
+  TRANSACTION_HTTP_LINE_ENDING,
+  TRANSACTION_HTTP_VERSION_1_1
+} from "./utils/constants";
 import {
   PipelinePolicy,
   PipelineRequest,

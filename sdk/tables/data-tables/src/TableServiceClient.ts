@@ -10,7 +10,12 @@ import {
   SetPropertiesResponse
 } from "./generatedModels";
 import { InternalClientPipelineOptions, OperationOptions } from "@azure/core-client";
-import { ListTableItemsOptions, TableItem, TableQueryOptions, TableServiceClientOptions } from "./models";
+import {
+  ListTableItemsOptions,
+  TableItem,
+  TableQueryOptions,
+  TableServiceClientOptions
+} from "./models";
 import {
   NamedKeyCredential,
   SASCredential,

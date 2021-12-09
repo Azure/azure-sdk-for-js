@@ -33,8 +33,16 @@ import {
   createHttpHeaders,
   createPipelineRequest
 } from "@azure/core-rest-pipeline";
-import { getInitialTransactionBody, getTransactionHttpRequestBody } from "./utils/transactionHelpers";
-import { transactionHeaderFilterPolicy, transactionHeaderFilterPolicyName, transactionRequestAssemblePolicy, transactionRequestAssemblePolicyName } from "./TablePolicies";
+import {
+  getInitialTransactionBody,
+  getTransactionHttpRequestBody
+} from "./utils/transactionHelpers";
+import {
+  transactionHeaderFilterPolicy,
+  transactionHeaderFilterPolicyName,
+  transactionRequestAssemblePolicy,
+  transactionRequestAssemblePolicyName
+} from "./TablePolicies";
 import { STORAGE_SCOPE } from "./utils/constants";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { TableClientLike } from "./utils/internalModels";

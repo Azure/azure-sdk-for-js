@@ -2,7 +2,10 @@
 // Licensed under the MIT license.
 
 import { NamedKeyCredential, isNamedKeyCredential } from "@azure/core-auth";
-import { TableSasSignatureValues, generateTableSasQueryParameters } from "./tableSasSignatureValues";
+import {
+  TableSasSignatureValues,
+  generateTableSasQueryParameters
+} from "./tableSasSignatureValues";
 import { tableSasPermissionsFromString } from "./tableSasPermisions";
 
 /**

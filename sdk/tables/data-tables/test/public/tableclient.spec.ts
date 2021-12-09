@@ -1,14 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { CreateClientMode, createTableClient, recordedEnvironmentSetup } from "./utils/recordedClient";
 import {
-  Edm,
-  TableClient,
-  TableEntity,
-  TableEntityResult,
-  odata
-} from "../../src";
+  CreateClientMode,
+  createTableClient,
+  recordedEnvironmentSetup
+} from "./utils/recordedClient";
+import { Edm, TableClient, TableEntity, TableEntityResult, odata } from "../../src";
 import { Recorder, isLiveMode, isPlaybackMode, record } from "@azure-tools/test-recorder";
 import { isNode, isNode8 } from "@azure/test-utils";
 import { Context } from "mocha";
