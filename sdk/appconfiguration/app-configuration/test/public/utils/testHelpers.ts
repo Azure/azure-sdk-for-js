@@ -17,12 +17,7 @@ import {
 } from "@azure-tools/test-recorder";
 import * as assert from "assert";
 
-// allow loading from a .env file as an alternative to defining the variable
-// in the environment
-import * as dotenv from "dotenv";
-
 import { DefaultAzureCredential, TokenCredential } from "@azure/identity";
-dotenv.config();
 
 let connectionStringNotPresentWarning = false;
 let tokenCredentialsNotPresentWarning = false;
