@@ -5,10 +5,12 @@ import { AuthMethod, createClient, createRecorder } from "./utils/createClient";
 import { Context, Suite } from "mocha";
 import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { SearchClient } from "src/searchClient";
-import { assert } from "chai";
+import { assert, use as chaiUse } from "chai";
 import { matrix } from "@azure/test-utils";
+import chaiPromises from "chai-as-promised";
+chaiUse(chaiPromises);
 
-matrix([["SubscriptionKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
+matrix([["SubscriptionKey"]] as const, async (authMethod: AuthMethod) => {
   describe(`[${authMethod}] SearchClient`, function(this: Suite) {
     let recorder: Recorder;
     let client: SearchClient;
@@ -33,18 +35,22 @@ matrix([["SubscriptionKey", "AAD"]] as const, async (authMethod: AuthMethod) => 
           return assert.isRejected(client.listPolygons([]), /non-empty array/);
         });
         it("accepts string[]", async function() {
-          // TODO: Come up with test data
-          const geometryId: string[] = [];
+          const geometryId: string[] = ["00005858-5800-1200-0000-0000773670cd"];
           const results = await client.listPolygons(geometryId);
           assert.equal(results.length, geometryId.length);
-          // TODO: Assert the OK results
+          results.forEach((r) => assert.ok(r.geometryData));
         });
       });
       // describe("#fuzzySearch", function() {});
       // describe("#searchPointOfInterest", function() {});
       // describe("#searchNearbyPointOfInterest", function() {});
       // describe("#searchPointOfInterestCategory", function() {});
-      // describe("#getPointOfInterestCategoryTree", function() {});
+      describe("#getPointOfInterestCategoryTree", function() {
+        it("return a list of POI categories", async function() {
+          const results = await client.getPointOfInterestCategoryTree();
+          assert.isAtLeast(results.length, 1);
+        });
+      });
       // describe("#searchAddress", function() {});
       // describe("#reverseSearchAddress", function() {});
       // describe("#reverseSearchCrossStreetAddress", function() {});
