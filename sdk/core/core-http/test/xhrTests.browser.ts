@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
-import { parseHeaders, XhrHttpClient } from "../src/xhrHttpClient";
+import { XhrHttpClient, parseHeaders } from "../src/xhrHttpClient";
 import { WebResource } from "../src/webResource";
+import { assert } from "chai";
 
 describe("XhrHttpClient", function() {
   it("parses headers", function() {

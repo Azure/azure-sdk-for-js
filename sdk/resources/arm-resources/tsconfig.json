@@ -9,12 +9,11 @@
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
-    "preserveConstEnums": true,
     "lib": ["es6", "dom"],
     "declaration": true,
-    "outDir": "./esm",
+    "outDir": "./dist-esm",
     "importHelpers": true
   },
-  "include": ["./src/**/*.ts"],
+  "include": ["./src/**/*.ts", "./test/**/*.ts"],
   "exclude": ["node_modules"]
 }

@@ -6,16 +6,14 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { BlobContainers } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { StorageManagementClientContext } from "../storageManagementClientContext";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
-import { LroEngine } from "../lro";
-import { CoreClientLro, shouldDeserializeLro } from "../coreClientLro";
+import { StorageManagementClient } from "../storageManagementClient";
+import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
+import { LroImpl } from "../lroImpl";
 import {
   ListContainerItem,
   BlobContainersListNextOptionalParams,
@@ -51,15 +49,15 @@ import {
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a BlobContainers. */
+/** Class containing BlobContainers operations. */
 export class BlobContainersImpl implements BlobContainers {
-  private readonly client: StorageManagementClientContext;
+  private readonly client: StorageManagementClient;
 
   /**
    * Initialize a new instance of the class BlobContainers class.
    * @param client Reference to the service client
    */
-  constructor(client: StorageManagementClientContext) {
+  constructor(client: StorageManagementClient) {
     this.client = client;
   }
 
@@ -541,13 +539,16 @@ export class BlobContainersImpl implements BlobContainers {
       };
     };
 
-    const lro = new CoreClientLro(
+    const lro = new LroImpl(
       sendOperation,
       { resourceGroupName, accountName, containerName, options },
-      objectLevelWormOperationSpec,
-      "location"
+      objectLevelWormOperationSpec
     );
-    return new LroEngine(lro, { intervalInMs: options?.updateIntervalInMs });
+    return new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
+    });
   }
 
   /**

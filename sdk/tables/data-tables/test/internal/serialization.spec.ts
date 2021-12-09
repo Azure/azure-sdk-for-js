@@ -5,10 +5,10 @@ import { assert } from "chai";
 
 import { Edm } from "../../src";
 import {
-  serialize,
   deserialize,
-  serializeSignedIdentifiers,
-  deserializeSignedIdentifier
+  deserializeSignedIdentifier,
+  serialize,
+  serializeSignedIdentifiers
 } from "../../src/serialization";
 import { isNode8 } from "@azure/test-utils";
 

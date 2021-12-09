@@ -1152,6 +1152,11 @@
       "versionPolicyName": "management"
     },
     {
+      "packageName": "@azure/arm-loadtestservice",
+      "projectFolder": "sdk/loadtestservice/arm-loadtestservice",
+      "versionPolicyName": "management"
+    },
+    {
       "packageName": "@azure/arm-iothub",
       "projectFolder": "sdk/iothub/arm-iothub",
       "versionPolicyName": "management"

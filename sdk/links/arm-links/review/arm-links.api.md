@@ -9,21 +9,16 @@ import * as coreClient from '@azure/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 
 // @public (undocumented)
-export class ManagementLinkClient extends ManagementLinkClientContext {
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: ManagementLinkClientOptionalParams);
-    // (undocumented)
-    operations: Operations;
-    // (undocumented)
-    resourceLinks: ResourceLinks;
-}
-
-// @public (undocumented)
-export class ManagementLinkClientContext extends coreClient.ServiceClient {
+export class ManagementLinkClient extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: ManagementLinkClientOptionalParams);
     // (undocumented)
     apiVersion: string;
+    // (undocumented)
+    operations: Operations;
+    // (undocumented)
+    resourceLinks: ResourceLinks;
     // (undocumented)
     subscriptionId: string;
 }
@@ -58,15 +53,7 @@ export interface OperationListResult {
 // @public
 export interface Operations {
     list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
-    listNext(nextLink: string, options?: OperationsListNextOptionalParams): PagedAsyncIterableIterator<Operation>;
 }
-
-// @public
-export interface OperationsListNextNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OperationsListNextNextResponse = OperationListResult;
 
 // @public
 export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {
@@ -114,9 +101,7 @@ export interface ResourceLinks {
     delete(linkId: string, options?: ResourceLinksDeleteOptionalParams): Promise<void>;
     get(linkId: string, options?: ResourceLinksGetOptionalParams): Promise<ResourceLinksGetResponse>;
     listAtSourceScope(scope: string, options?: ResourceLinksListAtSourceScopeOptionalParams): PagedAsyncIterableIterator<ResourceLink>;
-    listAtSourceScopeNext(scope: string, nextLink: string, options?: ResourceLinksListAtSourceScopeNextOptionalParams): PagedAsyncIterableIterator<ResourceLink>;
     listAtSubscription(options?: ResourceLinksListAtSubscriptionOptionalParams): PagedAsyncIterableIterator<ResourceLink>;
-    listAtSubscriptionNext(nextLink: string, options?: ResourceLinksListAtSubscriptionNextOptionalParams): PagedAsyncIterableIterator<ResourceLink>;
 }
 
 // @public
@@ -138,13 +123,6 @@ export interface ResourceLinksGetOptionalParams extends coreClient.OperationOpti
 export type ResourceLinksGetResponse = ResourceLink;
 
 // @public
-export interface ResourceLinksListAtSourceScopeNextNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ResourceLinksListAtSourceScopeNextNextResponse = ResourceLinkResult;
-
-// @public
 export interface ResourceLinksListAtSourceScopeNextOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -157,14 +135,6 @@ export interface ResourceLinksListAtSourceScopeOptionalParams extends coreClient
 
 // @public
 export type ResourceLinksListAtSourceScopeResponse = ResourceLinkResult;
-
-// @public
-export interface ResourceLinksListAtSubscriptionNextNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-}
-
-// @public
-export type ResourceLinksListAtSubscriptionNextNextResponse = ResourceLinkResult;
 
 // @public
 export interface ResourceLinksListAtSubscriptionNextOptionalParams extends coreClient.OperationOptions {
@@ -181,7 +151,6 @@ export interface ResourceLinksListAtSubscriptionOptionalParams extends coreClien
 
 // @public
 export type ResourceLinksListAtSubscriptionResponse = ResourceLinkResult;
-
 
 // (No @packageDocumentation comment for this package)
 

@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TableClient, odata, TransactionAction, TableTransaction } from "../../src";
+import { TableClient, TableTransaction, TransactionAction, odata } from "../../src";
 import { Context } from "mocha";
 import { assert } from "chai";
-import { record, Recorder, isPlaybackMode, isLiveMode } from "@azure-tools/test-recorder";
+import { Recorder, isLiveMode, isPlaybackMode, record } from "@azure-tools/test-recorder";
 import {
-  recordedEnvironmentSetup,
+  CreateClientMode,
   createTableClient,
-  CreateClientMode
+  recordedEnvironmentSetup
 } from "./utils/recordedClient";
 import { isNode } from "@azure/test-utils";
 import { Uuid } from "../../src/utils/uuid";

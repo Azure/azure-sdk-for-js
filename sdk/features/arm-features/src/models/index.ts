@@ -82,25 +82,6 @@ export interface FeatureProperties {
   state?: string;
 }
 
-/** An Azure proxy resource. */
-export interface ProxyResource {
-  /**
-   * Azure resource Id.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * Azure resource name.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * Azure resource type.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-}
-
 export interface SubscriptionFeatureRegistrationProperties {
   /**
    * The tenantId.
@@ -188,6 +169,25 @@ export interface AuthorizationProfile {
   readonly approver?: string;
 }
 
+/** An Azure proxy resource. */
+export interface ProxyResource {
+  /**
+   * Azure resource Id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * Azure resource name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Azure resource type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+}
+
 /** The list of subscription feature registrations. */
 export interface SubscriptionFeatureRegistrationList {
   /** The link used to get the next page of subscription feature registrations list. */
@@ -246,18 +246,18 @@ export enum KnownSubscriptionFeatureRegistrationApprovalType {
 export type SubscriptionFeatureRegistrationApprovalType = string;
 
 /** Optional parameters. */
-export interface FeatureClientListOperationsOptionalParams
+export interface ListOperationsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listOperations operation. */
-export type FeatureClientListOperationsResponse = OperationListResult;
+export type ListOperationsResponse = OperationListResult;
 
 /** Optional parameters. */
-export interface FeatureClientListOperationsNextOptionalParams
+export interface ListOperationsNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listOperationsNext operation. */
-export type FeatureClientListOperationsNextResponse = OperationListResult;
+export type ListOperationsNextResponse = OperationListResult;
 
 /** Optional parameters. */
 export interface FeaturesListAllOptionalParams

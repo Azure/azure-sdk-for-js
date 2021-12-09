@@ -2,10 +2,10 @@
 // Licensed under the MIT license.
 
 import {
-  bearerTokenAuthenticationPolicy,
-  createPipelineFromOptions,
+  InternalPipelineOptions,
   TokenCredential,
-  InternalPipelineOptions
+  bearerTokenAuthenticationPolicy,
+  createPipelineFromOptions
 } from "@azure/core-http";
 import {
   MixedRealityStsRestClient,
@@ -13,7 +13,7 @@ import {
   MixedRealityStsRestClientOptionalParams
 } from "./generated";
 import { logger } from "./logger";
-import { MixedRealityStsClientOptions, GetTokenOptions } from "./models/options";
+import { GetTokenOptions, MixedRealityStsClientOptions } from "./models/options";
 import { createSpan } from "./tracing";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { SDK_VERSION } from "./constants";
@@ -41,10 +41,10 @@ export class MixedRealityStsClient {
 
   /**
    * Creates an instance of a MixedRealityStsClient.
-   * @param accountId The Mixed Reality service account identifier.
-   * @param accountDomain The Mixed Reality service account domain.
-   * @param keyCredential The Mixed Reality service account primary or secondary key credential.
-   * @param options Additional client options.
+   * @param accountId - The Mixed Reality service account identifier.
+   * @param accountDomain - The Mixed Reality service account domain.
+   * @param keyCredential - The Mixed Reality service account primary or secondary key credential.
+   * @param options - Additional client options.
    */
   constructor(
     accountId: string,
@@ -55,10 +55,10 @@ export class MixedRealityStsClient {
 
   /**
    * Creates an instance of a MixedRealityStsClient.
-   * @param accountId The Mixed Reality service account identifier.
-   * @param accountDomain The Mixed Reality service account domain.
-   * @param credential The credential used to access the Mixed Reality service.
-   * @param options Additional client options.
+   * @param accountId - The Mixed Reality service account identifier.
+   * @param accountDomain - The Mixed Reality service account domain.
+   * @param credential - The credential used to access the Mixed Reality service.
+   * @param options - Additional client options.
    */
   constructor(
     accountId: string,
@@ -69,10 +69,10 @@ export class MixedRealityStsClient {
 
   /**
    * Creates an instance of a MixedRealityStsClient.
-   * @param accountId The Mixed Reality service account identifier.
-   * @param accountDomain The Mixed Reality service account domain.
-   * @param credential The credential used to access the Mixed Reality service.
-   * @param options Additional client options.
+   * @param accountId - The Mixed Reality service account identifier.
+   * @param accountDomain - The Mixed Reality service account domain.
+   * @param credential - The credential used to access the Mixed Reality service.
+   * @param options - Additional client options.
    */
   constructor(
     accountId: string,
@@ -143,10 +143,10 @@ export class MixedRealityStsClient {
 
   /**
    * Retrieve a token from the STS service.
-   * @param options Operation options.
+   * @param options - Operation options.
    */
   public async getToken(options: GetTokenOptions = {}): Promise<AccessToken> {
-    let internalOptions: MixedRealityStsRestClientGetTokenOptionalParams = {
+    const internalOptions: MixedRealityStsRestClientGetTokenOptionalParams = {
       ...options,
       tokenRequestOptions: {
         clientRequestId: generateCvBase()
