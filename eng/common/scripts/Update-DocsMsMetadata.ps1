@@ -202,6 +202,7 @@ foreach ($packageInfoLocation in $PackageInfoJsonLocations) {
 
   # Convert package metadata json file to metadata json property.
   $packageInfo = GetPackageInfoJson $packageInfoLocation
+  Write-Host "The package Info: $packageInfo"
   # Add validation step for daily update and release
   if ($ValidateDocsMsPackagesFn -and (Test-Path "Function:$ValidateDocsMsPackagesFn")) {
     &$ValidateDocsMsPackagesFn -PackageInfo $packageInfo -PackageSourceOverride $PackageSourceOverride -DocValidationImageId $DocValidationImageId
