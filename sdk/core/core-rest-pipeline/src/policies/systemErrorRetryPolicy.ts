@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 import { PipelinePolicy } from "../pipeline";
+import { exponentialRetryStrategy } from "../retryStrategies/exponentialRetryStrategy";
 import { retryPolicy } from "./retryPolicy";
-import { systemErrorRetryStrategy } from "../retryStrategies/systemErrorRetryStrategy";
 
 /**
  * Name of the {@link systemErrorRetryPolicy}
@@ -44,6 +44,6 @@ export function systemErrorRetryPolicy(
 ): PipelinePolicy {
   return {
     name: systemErrorRetryPolicyName,
-    sendRequest: retryPolicy(systemErrorRetryStrategy(options)).sendRequest
+    sendRequest: retryPolicy(exponentialRetryStrategy(options)).sendRequest
   };
 }

@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { PipelineResponse } from "../interfaces";
+import { RestError } from "../restError";
 import { getRandomIntegerInclusive } from "../util/helpers";
 import { RetryStrategy, RetryStrategyState } from "./retryStrategy";
 import { throttlingRetryStrategy } from "./throttlingRetryStrategy";
@@ -45,7 +46,8 @@ export function exponentialRetryStrategy(
     name: "exponentialRetryStrategy",
     meetsConditions(state): boolean {
       return Boolean(
-        !isThrottlingRetryResponse(state) && isExponentialRetryResponse(state.response)
+        !isThrottlingRetryResponse(state) &&
+          (isExponentialRetryResponse(state.response) || isSystemError(state.responseError))
       );
     },
     updateRetryState(state: RetryStrategyState): RetryStrategyState {
@@ -77,5 +79,21 @@ export function isExponentialRetryResponse(response?: PipelineResponse): boolean
     response &&
       (response.status === 408 ||
         (response.status >= 500 && response.status !== 501 && response.status !== 505))
+  );
+}
+
+/**
+ * Determines whether an error from a pipeline response was triggered in the network layer.
+ */
+export function isSystemError(err?: RestError): boolean {
+  if (!err) {
+    return false;
+  }
+  return (
+    err.code === "ETIMEDOUT" ||
+    err.code === "ESOCKETTIMEDOUT" ||
+    err.code === "ECONNREFUSED" ||
+    err.code === "ECONNRESET" ||
+    err.code === "ENOENT"
   );
 }
