@@ -2,8 +2,9 @@
 // Licensed under the MIT license.
 
 import * as cnst from "../../../src/utils/constants";
-import { readFileSync } from "fs";
 import { expect } from "chai";
+import { readFileSync } from "fs";
+
 describe("constants", function() {
   it("uses same version as package.json", function() {
     const pkgjson = readFileSync("./package.json", "utf-8");
