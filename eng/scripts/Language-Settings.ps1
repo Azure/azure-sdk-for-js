@@ -470,17 +470,17 @@ function GetExistingPackageVersions ($PackageName, $GroupId = $null)
   }
 }
 
-function Validate-javascript-DocMsPackages ($PackageInfo, $DocValidationImageId) 
+function Validate-javascript-DocMsPackages ($PackageInfo, $DocRepoLocation, $DocValidationImageId) 
 { 
   $fileLocation = ""
   if ($PackageInfo.DevVersion -or $PackageInfo.Version -contains "beta") {
-    $fileLocation = (Join-Path $DocsRepoLocation 'ci-configs/packages-preview.json')
+    $fileLocation = (Join-Path $DocRepoLocation 'ci-configs/packages-preview.json')
     if ($PackageInfo.DevVersion) {
       $PackageInfo.Version = $PackageInfo.DevVersion
     }
   }
   else {
-    $fileLocation = (Join-Path $DocsRepoLocation 'ci-configs/packages-latest.json')
+    $fileLocation = (Join-Path $DocRepoLocation 'ci-configs/packages-latest.json')
   }
 
   $packageConfig = Get-Content $fileLocation -Raw | ConvertFrom-Json
