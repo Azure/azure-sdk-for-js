@@ -1,15 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
-
+import { deserialize, deserializeSignedIdentifier, serialize, serializeSignedIdentifiers } from "../../src/serialization";
 import { Edm } from "../../src";
-import {
-  deserialize,
-  deserializeSignedIdentifier,
-  serialize,
-  serializeSignedIdentifiers
-} from "../../src/serialization";
+import { assert } from "chai";
 import { isNode8 } from "@azure/test-utils";
 
 interface Entity {
