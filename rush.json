@@ -1155,6 +1155,11 @@
       "packageName": "@azure/arm-loadtestservice",
       "projectFolder": "sdk/loadtestservice/arm-loadtestservice",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-securityinsight",
+      "projectFolder": "sdk/securityinsight/arm-securityinsight",
+      "versionPolicyName": "management"
     }
   ]
 }
