@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { EventHubReceiver } from "./eventHubReceiver";
 import { logErrorStackTrace, logger } from "./log";
+import { EventHubReceiver } from "./eventHubReceiver";
 
 /**
  * Describes the receive handler object that is returned from the receive() method with handlers.
