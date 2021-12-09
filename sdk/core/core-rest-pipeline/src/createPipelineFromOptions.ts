@@ -10,13 +10,10 @@ import { logPolicy, LogPolicyOptions } from "./policies/logPolicy";
 import { proxyPolicy } from "./policies/proxyPolicy";
 import { redirectPolicy, RedirectPolicyOptions } from "./policies/redirectPolicy";
 import { setClientRequestIdPolicy } from "./policies/setClientRequestIdPolicy";
-import { retryPolicy } from "./policies/retryPolicy";
 import { tracingPolicy } from "./policies/tracingPolicy";
 import { userAgentPolicy, UserAgentPolicyOptions } from "./policies/userAgentPolicy";
+import { defaultRetryPolicy } from "./policies/defaultRetryPolicy";
 import { isNode } from "./util/helpers";
-import { throttlingRetryStrategy } from "./retryStrategies/throttlingRetryStrategy";
-import { systemErrorRetryStrategy } from "./retryStrategies/systemErrorRetryStrategy";
-import { exponentialRetryStrategy } from "./retryStrategies/exponentialRetryStrategy";
 
 /**
  * Defines options that are used to configure the HTTP pipeline for
@@ -71,10 +68,7 @@ export function createPipelineFromOptions(options: InternalPipelineOptions): Pip
   pipeline.addPolicy(tracingPolicy(options.userAgentOptions));
   pipeline.addPolicy(userAgentPolicy(options.userAgentOptions));
   pipeline.addPolicy(setClientRequestIdPolicy());
-  pipeline.addPolicy(
-    retryPolicy(throttlingRetryStrategy(), systemErrorRetryStrategy(), exponentialRetryStrategy()),
-    { phase: "Retry" }
-  );
+  pipeline.addPolicy(defaultRetryPolicy(), { phase: "Retry" });
   pipeline.addPolicy(redirectPolicy(options.redirectOptions), { afterPhase: "Retry" });
   pipeline.addPolicy(logPolicy(options.loggingOptions), { afterPhase: "Retry" });
 

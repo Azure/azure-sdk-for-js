@@ -10,6 +10,7 @@
   - `RetryStrategy`, which defines whether to retry or not, and how to retry.
   - `RetryStrategyState`, which keeps track of the last retry and controls how to do the next retries.
 - Previous retry policies have been enhanced with better error handling, logging and tracing.
+- A new `defaultRetryPolicy` is added, which has the same behavior as all of the other retry policies (`throttlingRetryPolicy`, `systemErrorRetryPolicy` and `exponentialRetryPolicy`) combined. 
 
 ### Breaking Changes
 
