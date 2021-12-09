@@ -1,7 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { DigitalTwinsAddOptionalParams, DigitalTwinsClient, DigitalTwinsDeleteOptionalParams, DigitalTwinsUpdateOptionalParams } from "../../src";
+import {
+  DigitalTwinsAddOptionalParams,
+  DigitalTwinsClient,
+  DigitalTwinsDeleteOptionalParams,
+  DigitalTwinsUpdateOptionalParams
+} from "../../src";
 import { Recorder } from "@azure-tools/test-recorder";
 import { authenticate } from "../utils/testAuthentication";
 import chai from "chai";
