@@ -2,7 +2,12 @@
 // Licensed under the MIT license.
 
 import { BlobSetMetadataResponse, ContainerClient, Metadata, RestError } from "@azure/storage-blob";
-import { Checkpoint, CheckpointStore, OperationOptions, PartitionOwnership } from "@azure/event-hubs";
+import {
+  Checkpoint,
+  CheckpointStore,
+  OperationOptions,
+  PartitionOwnership
+} from "@azure/event-hubs";
 import { logErrorStackTrace, logger } from "./log";
 import { throwTypeErrorIfParameterMissing } from "./util/error";
 
