@@ -4,7 +4,10 @@
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
 import * as path from "path";
-import { ClientCertificateCredential, TokenCachePersistenceOptions } from "../../../../identity/src";
+import {
+  ClientCertificateCredential,
+  TokenCachePersistenceOptions
+} from "../../../../identity/src";
 import { MsalTestCleanup, msalNodeTestSetup } from "../../../../identity/test/msalTestUtils";
 import { env, isPlaybackMode } from "@azure-tools/test-recorder";
 import { ConfidentialClientApplication } from "@azure/msal-node";
