@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { j2xParser, J2xOptions, validate, parse } from "fast-xml-parser";
+import { J2xOptions, j2xParser, parse, validate } from "fast-xml-parser";
 
 import { XmlOptions } from "./xml.common";
 
@@ -11,7 +11,7 @@ const toXMLOptions: Partial<J2xOptions> = {
   ignoreAttributes: false,
   format: true,
   supressEmptyNode: true,
-  indentBy: ''
+  indentBy: ""
 };
 
 /**
@@ -24,7 +24,7 @@ export function stringifyXML(obj: unknown, opts: XmlOptions = {}): string {
   const j2x = new j2xParser(toXMLOptions);
   const flattened = flattenAttributes(obj as any);
   let xml: string = j2x.parse(flattened);
-  const rootName = opts?.rootName ?? "root"
+  const rootName = opts?.rootName ?? "root";
   if (rootName) {
     xml = `<${rootName}>${xml}</${rootName}>`;
   }

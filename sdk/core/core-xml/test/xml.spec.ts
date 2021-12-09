@@ -331,16 +331,19 @@ describe("XML serializer", function() {
     });
 
     it("with element with attribute nested", async function() {
-      const xml = stringifyXML({
-        vegetable: {
-          $: { green: false },
-          fruit: {
-            $: {
-              healthy: "true"
+      const xml = stringifyXML(
+        {
+          vegetable: {
+            $: { green: false },
+            fruit: {
+              $: {
+                healthy: "true"
+              }
             }
           }
-        }
-      }, {includeRoot: false});
+        },
+        { includeRoot: false }
+      );
       assert.deepStrictEqual(
         xml,
         `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><root><vegetable green="false"><fruit healthy="true"/></vegetable></root>`
