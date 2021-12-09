@@ -1,11 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+
 import { AzureLogger, createClientLogger } from "@azure/logger";
-import { Constants } from "../common";
 import { ClientSideMetrics, QueryMetrics } from "../queryMetrics";
 import { FeedOptions, Response } from "../request";
-import { getInitialHeader } from "./headerUtils";
+import { Constants } from "../common";
 import { ExecutionContext } from "./index";
+import { getInitialHeader } from "./headerUtils";
 
 const logger: AzureLogger = createClientLogger("ClientContext");
 /** @hidden */

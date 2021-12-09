@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+
+import { DatabaseAccount, Location } from "./documents";
 import { OperationType, ResourceType, isReadRequest } from "./common";
 import { CosmosClientOptions } from "./CosmosClientOptions";
-import { Location, DatabaseAccount } from "./documents";
 import { RequestOptions } from "./index";
 import { ResourceResponse } from "./request";
 

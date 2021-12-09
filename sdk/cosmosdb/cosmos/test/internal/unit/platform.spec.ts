@@ -1,8 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import assert from "assert";
+
 import { Constants } from "../../../src/common/constants";
+import assert from "assert";
 import { getUserAgent } from "../../../src/common/platform";
+
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const packageJson = require("../../../package.json");
 const packageVersion = packageJson["version"];

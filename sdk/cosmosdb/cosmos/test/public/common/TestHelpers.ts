@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import assert from "assert";
+
 import {
   Container,
   CosmosClient,
@@ -11,12 +11,19 @@ import {
   Response,
   UserDefinition
 } from "../../../src";
-import { ItemDefinition, ItemResponse, PermissionResponse, Resource, User } from "../../../src";
+import {
+  ItemDefinition,
+  ItemResponse,
+  PermissionResponse,
+  Resource,
+  User
+} from "../../../src";
+import { ContainerRequest } from "../../../src";
+import { DatabaseRequest } from "../../../src";
 import { UserResponse } from "../../../src";
+import assert from "assert";
 import { endpoint } from "../common/_testConfig";
 import { masterKey } from "../common/_fakeTestSecrets";
-import { DatabaseRequest } from "../../../src";
-import { ContainerRequest } from "../../../src";
 
 const defaultClient = new CosmosClient({
   endpoint,

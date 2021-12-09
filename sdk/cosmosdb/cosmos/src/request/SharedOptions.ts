@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 /// <reference lib="dom" />
-import { CosmosHeaders } from "../index";
+
 import { AbortSignal } from "node-abort-controller";
+import { CosmosHeaders } from "../index";
 
 /**
  * Options that can be specified for a requested issued to the Azure Cosmos DB servers.=

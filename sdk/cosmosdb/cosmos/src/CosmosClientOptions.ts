@@ -1,11 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+
+import { ConnectionPolicy, ConsistencyLevel } from "./documents";
+import { CosmosHeaders } from "./queryExecutionContext/CosmosHeaders";
+import { PermissionDefinition } from "./client";
+import { PluginConfig } from "./plugins/Plugin";
 import { TokenCredential } from "@azure/core-auth";
 import { TokenProvider } from "./auth";
-import { PermissionDefinition } from "./client";
-import { ConnectionPolicy, ConsistencyLevel } from "./documents";
-import { PluginConfig } from "./plugins/Plugin";
-import { CosmosHeaders } from "./queryExecutionContext/CosmosHeaders";
 
 // We expose our own Agent interface to avoid taking a dependency on and leaking node types. This interface should mirror the node Agent interface
 export interface Agent {

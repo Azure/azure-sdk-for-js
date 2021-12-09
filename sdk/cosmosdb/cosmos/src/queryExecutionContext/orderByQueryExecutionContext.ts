@@ -1,12 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+
 import { ClientContext } from "../ClientContext";
-import { PartitionedQueryExecutionInfo } from "../request/ErrorResponse";
-import { FeedOptions } from "../request/FeedOptions";
 import { DocumentProducer } from "./documentProducer";
 import { ExecutionContext } from "./ExecutionContext";
+import { FeedOptions } from "../request/FeedOptions";
 import { OrderByDocumentProducerComparator } from "./orderByDocumentProducerComparator";
 import { ParallelQueryExecutionContextBase } from "./parallelQueryExecutionContextBase";
+import { PartitionedQueryExecutionInfo } from "../request/ErrorResponse";
 import { SqlQuerySpec } from "./SqlQuerySpec";
 
 /** @hidden */

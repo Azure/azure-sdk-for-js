@@ -1,12 +1,19 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { Container } from "../../../src";
+
+import {
+  Constants,
+  CosmosClient,
+  CosmosClientOptions,
+  PluginConfig,
+  PluginOn
+} from "../../../src";
 import { bulkInsertItems, getTestContainer, removeAllDatabases } from "../common/TestHelpers";
-import { Constants, CosmosClient, PluginOn, CosmosClientOptions, PluginConfig } from "../../../src";
-import { endpoint } from "../common/_testConfig";
-import { masterKey } from "../common/_fakeTestSecrets";
+import { Container } from "../../../src";
 import { SubStatusCodes } from "../../../src/common";
 import assert from "assert";
+import { endpoint } from "../common/_testConfig";
+import { masterKey } from "../common/_fakeTestSecrets";
 
 const splitError = new Error("Fake Partition Split") as any;
 splitError.code = 410;

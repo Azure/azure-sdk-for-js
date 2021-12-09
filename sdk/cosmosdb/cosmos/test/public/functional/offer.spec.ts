@@ -1,12 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import assert from "assert";
+
+import { Constants, CosmosClient } from "../../../src";
+import { getTestContainer, removeAllDatabases } from "../common/TestHelpers";
 import { Context } from "mocha";
 import { Suite } from "mocha";
-import { Constants, CosmosClient } from "../../../src";
+import assert from "assert";
 import { endpoint } from "../common/_testConfig";
 import { masterKey } from "../common/_fakeTestSecrets";
-import { getTestContainer, removeAllDatabases } from "../common/TestHelpers";
 
 const client = new CosmosClient({
   endpoint,

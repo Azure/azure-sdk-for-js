@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+
 import { CosmosHeaders } from "../../queryExecutionContext";
-import { ResourceResponse } from "../../request";
 import { Resource } from "../Resource";
+import { ResourceResponse } from "../../request";
 import { StoredProcedure } from "./StoredProcedure";
 import { StoredProcedureDefinition } from "./StoredProcedureDefinition";
 

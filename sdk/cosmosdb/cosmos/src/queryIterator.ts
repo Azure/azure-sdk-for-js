@@ -3,22 +3,22 @@
 
 /// <reference lib="esnext.asynciterable" />
 
-import { ClientContext } from "./ClientContext";
-import { getPathFromLink, ResourceType, StatusCodes } from "./common";
 import {
   CosmosHeaders,
   DefaultQueryExecutionContext,
   ExecutionContext,
   FetchFunctionCallback,
-  getInitialHeader,
-  mergeHeaders,
   PipelinedQueryExecutionContext,
-  SqlQuerySpec
+  SqlQuerySpec,
+  getInitialHeader,
+  mergeHeaders
 } from "./queryExecutionContext";
-import { Response } from "./request";
 import { ErrorResponse, PartitionedQueryExecutionInfo } from "./request/ErrorResponse";
+import { ResourceType, StatusCodes, getPathFromLink } from "./common";
+import { ClientContext } from "./ClientContext";
 import { FeedOptions } from "./request/FeedOptions";
 import { FeedResponse } from "./request/FeedResponse";
+import { Response } from "./request";
 
 /**
  * Represents a QueryIterator Object, an implementation of feed or query response that enables

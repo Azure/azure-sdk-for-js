@@ -1,32 +1,34 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { v4 } from "uuid";
-const uuid = v4;
+
+import {
+  Batch,
+  BulkOptions,
+  Operation,
+  OperationInput,
+  OperationResponse,
+  decorateBatchOperation,
+  decorateOperation,
+  getPartitionKeyToHash,
+  isKeyInRange
+} from "../../utils/batch";
+import { Container, PartitionKeyRange } from "../Container";
+import { FeedOptions, RequestOptions, Response } from "../../request";
+import { FetchFunctionCallback, SqlQuerySpec } from "../../queryExecutionContext";
+import { ResourceType, getIdFromLink, getPathFromLink, isResourceValid } from "../../common";
 import { ChangeFeedIterator } from "../../ChangeFeedIterator";
 import { ChangeFeedOptions } from "../../ChangeFeedOptions";
 import { ClientContext } from "../../ClientContext";
-import { getIdFromLink, getPathFromLink, isResourceValid, ResourceType } from "../../common";
-import { extractPartitionKey } from "../../extractPartitionKey";
-import { FetchFunctionCallback, SqlQuerySpec } from "../../queryExecutionContext";
-import { QueryIterator } from "../../queryIterator";
-import { FeedOptions, RequestOptions, Response } from "../../request";
-import { Container, PartitionKeyRange } from "../Container";
 import { Item } from "./Item";
 import { ItemDefinition } from "./ItemDefinition";
 import { ItemResponse } from "./ItemResponse";
-import {
-  Batch,
-  isKeyInRange,
-  Operation,
-  getPartitionKeyToHash,
-  decorateOperation,
-  OperationResponse,
-  OperationInput,
-  BulkOptions,
-  decorateBatchOperation
-} from "../../utils/batch";
+import { QueryIterator } from "../../queryIterator";
+import { extractPartitionKey } from "../../extractPartitionKey";
 import { hashV1PartitionKey } from "../../utils/hashing/v1";
 import { hashV2PartitionKey } from "../../utils/hashing/v2";
+import { v4 } from "uuid";
+
+const uuid = v4;
 
 /**
  * @hidden

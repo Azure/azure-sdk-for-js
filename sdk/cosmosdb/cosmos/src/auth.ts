@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { generateHeaders } from "./utils/headers";
+
 import {
   Constants,
-  getResourceIdFromPath,
   HTTPMethod,
   ResourceType,
+  getResourceIdFromPath,
   trimSlashFromLeftAndRight
 } from "./common";
 import { CosmosClientOptions } from "./CosmosClientOptions";
 import { CosmosHeaders } from "./queryExecutionContext";
+import { generateHeaders } from "./utils/headers";
 
 /** @hidden */
 export interface RequestInfo {

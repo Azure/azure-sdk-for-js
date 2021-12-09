@@ -1,11 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+
 import { CosmosHeaders } from "../../queryExecutionContext";
-import { ResourceResponse } from "../../request";
-import { Resource } from "../Resource";
 import { Permission } from "./Permission";
 import { PermissionBody } from "./PermissionBody";
 import { PermissionDefinition } from "./PermissionDefinition";
+import { Resource } from "../Resource";
+import { ResourceResponse } from "../../request";
 
 export class PermissionResponse extends ResourceResponse<
   PermissionDefinition & PermissionBody & Resource

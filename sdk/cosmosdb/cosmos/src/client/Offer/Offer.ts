@@ -1,11 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+
+import { Constants, ResourceType, isResourceValid } from "../../common";
 import { ClientContext } from "../../ClientContext";
-import { Constants, isResourceValid, ResourceType } from "../../common";
 import { CosmosClient } from "../../CosmosClient";
-import { RequestOptions } from "../../request";
 import { OfferDefinition } from "./OfferDefinition";
 import { OfferResponse } from "./OfferResponse";
+import { RequestOptions } from "../../request";
 
 /**
  * Use to read or replace an existing {@link Offer} by id.

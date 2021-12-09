@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import JSBI from "jsbi";
 import { BytePrefix } from "./prefix";
+import JSBI from "jsbi";
 
 export function writeNumberForBinaryEncodingJSBI(hash: number): Buffer {
   let payload = encodeNumberAsUInt64JSBI(hash);

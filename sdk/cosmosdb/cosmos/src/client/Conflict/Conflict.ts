@@ -1,13 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+
+import { Constants, ResourceType, getIdFromLink, getPathFromLink } from "../../common";
 import { ClientContext } from "../../ClientContext";
-import { Constants, getIdFromLink, getPathFromLink, ResourceType } from "../../common";
-import { RequestOptions } from "../../request";
-import { Container } from "../Container";
 import { ConflictDefinition } from "./ConflictDefinition";
 import { ConflictResponse } from "./ConflictResponse";
-import { undefinedPartitionKey } from "../../extractPartitionKey";
+import { Container } from "../Container";
 import { PartitionKey } from "../../documents";
+import { RequestOptions } from "../../request";
+import { undefinedPartitionKey } from "../../extractPartitionKey";
 
 /**
  * Use to read or delete a given {@link Conflict} by id.

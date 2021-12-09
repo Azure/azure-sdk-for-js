@@ -1,19 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { ClientContext } from "../../ClientContext";
+
+import { RequestOptions, ResourceResponse } from "../../request";
 import {
+  ResourceType,
   createStoredProcedureUri,
   getIdFromLink,
   getPathFromLink,
-  isResourceValid,
-  ResourceType
+  isResourceValid
 } from "../../common";
-import { PartitionKey } from "../../documents/PartitionKey";
-import { undefinedPartitionKey } from "../../extractPartitionKey";
-import { RequestOptions, ResourceResponse } from "../../request";
+import { ClientContext } from "../../ClientContext";
 import { Container } from "../Container";
+import { PartitionKey } from "../../documents/PartitionKey";
 import { StoredProcedureDefinition } from "./StoredProcedureDefinition";
 import { StoredProcedureResponse } from "./StoredProcedureResponse";
+import { undefinedPartitionKey } from "../../extractPartitionKey";
 
 /**
  * Operations for reading, replacing, deleting, or executing a specific, existing stored procedure by id.

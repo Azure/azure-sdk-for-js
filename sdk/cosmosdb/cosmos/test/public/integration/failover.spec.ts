@@ -1,8 +1,9 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { CosmosClient, PluginOn, CosmosClientOptions, PluginConfig } from "../../../src";
-import { masterKey } from "../common/_fakeTestSecrets";
+
+import { CosmosClient, CosmosClientOptions, PluginConfig, PluginOn } from "../../../src";
 import assert from "assert";
+import { masterKey } from "../common/_fakeTestSecrets";
 
 const endpoint = "https://failovertest.documents.azure.com/";
 

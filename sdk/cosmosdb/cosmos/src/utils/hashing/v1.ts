@@ -2,9 +2,9 @@
 // Licensed under the MIT license.
 
 import { doubleToByteArrayJSBI, writeNumberForBinaryEncodingJSBI } from "./encoding/number";
-import { writeStringForBinaryEncoding } from "./encoding/string";
 import { BytePrefix } from "./encoding/prefix";
 import MurmurHash from "./murmurHash";
+import { writeStringForBinaryEncoding } from "./encoding/string";
 
 const MAX_STRING_CHARS = 100;
 

@@ -1,7 +1,8 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import assert from "assert";
+
 import { CosmosClient } from "../../../src";
+import assert from "assert";
 import { getTestDatabase } from "../common/TestHelpers";
 import https from "https";
 

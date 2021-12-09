@@ -1,10 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { CosmosHeaders } from "../../queryExecutionContext";
-import { ResourceResponse } from "../../request";
-import { Resource } from "../Resource";
+
 import { Conflict } from "./Conflict";
 import { ConflictDefinition } from "./ConflictDefinition";
+import { CosmosHeaders } from "../../queryExecutionContext";
+import { Resource } from "../Resource";
+import { ResourceResponse } from "../../request";
 
 export class ConflictResponse extends ResourceResponse<ConflictDefinition & Resource> {
   constructor(

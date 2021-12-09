@@ -1,12 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { ClientContext } from "../../ClientContext";
-import { getIdFromLink, getPathFromLink, isResourceValid, ResourceType } from "../../common";
-import { SqlQuerySpec } from "../../queryExecutionContext";
-import { QueryIterator } from "../../queryIterator";
+
 import { FeedOptions, RequestOptions } from "../../request";
+import { ResourceType, getIdFromLink, getPathFromLink, isResourceValid } from "../../common";
+import { ClientContext } from "../../ClientContext";
 import { Container } from "../Container";
+import { QueryIterator } from "../../queryIterator";
 import { Resource } from "../Resource";
+import { SqlQuerySpec } from "../../queryExecutionContext";
 import { UserDefinedFunction } from "./UserDefinedFunction";
 import { UserDefinedFunctionDefinition } from "./UserDefinedFunctionDefinition";
 import { UserDefinedFunctionResponse } from "./UserDefinedFunctionResponse";

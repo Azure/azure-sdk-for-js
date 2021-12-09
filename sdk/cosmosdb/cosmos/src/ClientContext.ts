@@ -1,35 +1,33 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { v4 } from "uuid";
-const uuid = v4;
-import {
-  bearerTokenAuthenticationPolicy,
-  createEmptyPipeline,
-  Pipeline
-} from "@azure/core-rest-pipeline";
-import { PartitionKeyRange } from "./client/Container/PartitionKeyRange";
-import { Resource } from "./client/Resource";
-import { Constants, HTTPMethod, OperationType, ResourceType } from "./common/constants";
-import { getIdFromLink, getPathFromLink, parseLink } from "./common/helper";
-import { StatusCodes, SubStatusCodes } from "./common/statusCodes";
-import { CosmosClientOptions } from "./CosmosClientOptions";
+
+import { AzureLogger, createClientLogger } from "@azure/logger";
 import { ConnectionPolicy, ConsistencyLevel, DatabaseAccount, PartitionKey } from "./documents";
-import { GlobalEndpointManager } from "./globalEndpointManager";
-import { executePlugins, PluginOn } from "./plugins/Plugin";
-import { FetchFunctionCallback, SqlQuerySpec } from "./queryExecutionContext";
-import { CosmosHeaders } from "./queryExecutionContext/CosmosHeaders";
-import { QueryIterator } from "./queryIterator";
-import { ErrorResponse } from "./request";
+import { Constants, HTTPMethod, OperationType, ResourceType } from "./common/constants";
 import { FeedOptions, RequestOptions, Response } from "./request";
+import { FetchFunctionCallback, SqlQuerySpec } from "./queryExecutionContext";
+import { Pipeline, bearerTokenAuthenticationPolicy, createEmptyPipeline } from "@azure/core-rest-pipeline";
+import { PluginOn, executePlugins } from "./plugins/Plugin";
+import { StatusCodes, SubStatusCodes } from "./common/statusCodes";
+import { getIdFromLink, getPathFromLink, parseLink } from "./common/helper";
+import { BulkOptions } from "./utils/batch";
+import { CosmosClientOptions } from "./CosmosClientOptions";
+import { CosmosHeaders } from "./queryExecutionContext/CosmosHeaders";
+import { ErrorResponse } from "./request";
+import { GlobalEndpointManager } from "./globalEndpointManager";
+import { PartitionKeyRange } from "./client/Container/PartitionKeyRange";
 import { PartitionedQueryExecutionInfo } from "./request/ErrorResponse";
-import { getHeaders } from "./request/request";
+import { QueryIterator } from "./queryIterator";
 import { RequestContext } from "./request/RequestContext";
-import { request as executeRequest } from "./request/RequestHandler";
+import { Resource } from "./client/Resource";
 import { SessionContainer } from "./session/sessionContainer";
 import { SessionContext } from "./session/SessionContext";
-import { BulkOptions } from "./utils/batch";
+import { request as executeRequest } from "./request/RequestHandler";
+import { getHeaders } from "./request/request";
 import { sanitizeEndpoint } from "./utils/checkURL";
-import { AzureLogger, createClientLogger } from "@azure/logger";
+import { v4 } from "uuid";
+
+const uuid = v4;
 
 const logger: AzureLogger = createClientLogger("ClientContext");
 

@@ -1,14 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import assert from "assert";
-import { Suite } from "mocha";
+
 import { Container, ContainerDefinition } from "../../../src";
 import { DataType, IndexKind } from "../../../src";
+import { bulkInsertItems, getTestContainer, removeAllDatabases } from "../common/TestHelpers";
+import { FeedOptions } from "../../../src";
 import { QueryIterator } from "../../../src";
 import { SqlQuerySpec } from "../../../src";
-import { FeedOptions } from "../../../src";
+import { Suite } from "mocha";
 import { TestData } from "../common/TestData";
-import { bulkInsertItems, getTestContainer, removeAllDatabases } from "../common/TestHelpers";
+import assert from "assert";
 
 describe("Aggregate Query", function(this: Suite) {
   this.timeout(process.env.MOCHA_TIMEOUT || 20000);

@@ -1,12 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 /// <reference lib="esnext.asynciterable" />
+
+import { Constants, ResourceType, StatusCodes } from "./common";
 import { ChangeFeedOptions } from "./ChangeFeedOptions";
 import { ChangeFeedResponse } from "./ChangeFeedResponse";
-import { Resource } from "./client";
 import { ClientContext } from "./ClientContext";
-import { Constants, ResourceType, StatusCodes } from "./common";
 import { FeedOptions } from "./request";
+import { Resource } from "./client";
 import { Response } from "./request";
 
 /**

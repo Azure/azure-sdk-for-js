@@ -1,19 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import assert from "assert";
-import { Suite } from "mocha";
+
 import { Constants, ContainerResponse } from "../../../src";
-import { ContainerDefinition, Database, Container } from "../../../src";
-import { ContainerRequest } from "../../../src";
-import { DataType, IndexedPath, IndexingMode, IndexingPolicy, IndexKind } from "../../../src";
+import { Container, ContainerDefinition, Database } from "../../../src";
 import {
-  getTestDatabase,
-  removeAllDatabases,
-  getTestContainer,
-  assertThrowsAsync
-} from "../common/TestHelpers";
-import { SpatialType } from "../../../src";
+  DataType,
+  IndexKind,
+  IndexedPath,
+  IndexingMode,
+  IndexingPolicy
+} from "../../../src";
+import { assertThrowsAsync, getTestContainer, getTestDatabase, removeAllDatabases } from "../common/TestHelpers";
+import { ContainerRequest } from "../../../src";
 import { GeospatialType } from "../../../src";
+import { SpatialType } from "../../../src";
+import { Suite } from "mocha";
+import assert from "assert";
 
 describe("Containers", function(this: Suite) {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);

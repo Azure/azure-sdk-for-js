@@ -1,13 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { Response } from "../../request";
-import { ExecutionContext } from "../ExecutionContext";
-import { CosmosHeaders } from "../CosmosHeaders";
-import { QueryInfo } from "../../request/ErrorResponse";
-import { hashObject } from "../../utils/hashObject";
+
 import { Aggregator, createAggregator } from "../Aggregators";
-import { getInitialHeader, mergeHeaders } from "../headerUtils";
 import { emptyGroup, extractAggregateResult } from "./emptyGroup";
+import { getInitialHeader, mergeHeaders } from "../headerUtils";
+import { CosmosHeaders } from "../CosmosHeaders";
+import { ExecutionContext } from "../ExecutionContext";
+import { QueryInfo } from "../../request/ErrorResponse";
+import { Response } from "../../request";
+import { hashObject } from "../../utils/hashObject";
 
 interface GroupByResponse {
   result: GroupByResult;

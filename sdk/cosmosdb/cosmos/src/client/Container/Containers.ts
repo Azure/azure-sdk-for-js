@@ -1,24 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { ClientContext } from "../../ClientContext";
+
 import {
   Constants,
+  ResourceType,
+  StatusCodes,
   getIdFromLink,
   getPathFromLink,
-  isResourceValid,
-  ResourceType,
-  StatusCodes
+  isResourceValid
 } from "../../common";
-import { DEFAULT_PARTITION_KEY_PATH } from "../../common/partitionKeys";
-import { mergeHeaders, SqlQuerySpec } from "../../queryExecutionContext";
-import { QueryIterator } from "../../queryIterator";
 import { FeedOptions, RequestOptions } from "../../request";
-import { Database } from "../Database";
-import { Resource } from "../Resource";
+import { SqlQuerySpec, mergeHeaders } from "../../queryExecutionContext";
+import { ClientContext } from "../../ClientContext";
 import { Container } from "./Container";
 import { ContainerDefinition } from "./ContainerDefinition";
 import { ContainerRequest } from "./ContainerRequest";
 import { ContainerResponse } from "./ContainerResponse";
+import { DEFAULT_PARTITION_KEY_PATH } from "../../common/partitionKeys";
+import { Database } from "../Database";
+import { QueryIterator } from "../../queryIterator";
+import { Resource } from "../Resource";
 import { validateOffer } from "../../utils/offers";
 
 /**

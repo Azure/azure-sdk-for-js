@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { ClientContext } from "../../ClientContext";
+
 import {
+  ResourceType,
   createTriggerUri,
   getIdFromLink,
   getPathFromLink,
-  isResourceValid,
-  ResourceType
+  isResourceValid
 } from "../../common";
-import { RequestOptions } from "../../request";
+import { ClientContext } from "../../ClientContext";
 import { Container } from "../Container";
+import { RequestOptions } from "../../request";
 import { TriggerDefinition } from "./TriggerDefinition";
 import { TriggerResponse } from "./TriggerResponse";
 

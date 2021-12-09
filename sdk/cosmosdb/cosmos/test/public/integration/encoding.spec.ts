@@ -1,9 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import assert from "assert";
-import { Suite } from "mocha";
-import { IndexingMode } from "../../../src";
+
 import { getTestDatabase, removeAllDatabases } from "../common/TestHelpers";
+import { IndexingMode } from "../../../src";
+import { Suite } from "mocha";
+import assert from "assert";
 
 const testDoc = {
   id: "ABC",

@@ -1,9 +1,10 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import assert from "assert";
-import { ClientContext } from "../../../src/ClientContext";
+
 import { PartitionKeyRangeCache, QueryRange, SmartRoutingMapProvider } from "../../../src/routing";
+import { ClientContext } from "../../../src/ClientContext";
 import { MockedClientContext } from "../../public/common/MockClientContext";
+import assert from "assert";
 
 describe("Smart Routing Map Provider OverlappingRanges", function() {
   const containerLink = "dbs/7JZZAA==/colls/7JZZAOS-JQA=/";

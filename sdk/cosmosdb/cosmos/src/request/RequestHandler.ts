@@ -1,24 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import AbortController from "node-abort-controller";
-import {
-  createPipelineRequest,
-  createHttpHeaders,
-  PipelineResponse
-} from "@azure/core-rest-pipeline";
-import { trimSlashes } from "../common";
-import { Constants } from "../common/constants";
-import { executePlugins, PluginOn } from "../plugins/Plugin";
+
 import * as RetryUtility from "../retry/retryUtility";
+import { AzureLogger, createClientLogger } from "@azure/logger";
+import { PipelineResponse, createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
+import { PluginOn, executePlugins } from "../plugins/Plugin";
 import { defaultHttpAgent, defaultHttpsAgent } from "./defaultAgent";
-import { ErrorResponse } from "./ErrorResponse";
-import { bodyFromData } from "./request";
-import { RequestContext } from "./RequestContext";
+import AbortController from "node-abort-controller";
+import { Constants } from "../common/constants";
 import { Response as CosmosResponse } from "./Response";
+import { ErrorResponse } from "./ErrorResponse";
+import { RequestContext } from "./RequestContext";
 import { TimeoutError } from "./TimeoutError";
 import { URL } from "../utils/url";
+import { bodyFromData } from "./request";
 import { getCachedDefaultHttpClient } from "../utils/cachedClient";
-import { AzureLogger, createClientLogger } from "@azure/logger";
+import { trimSlashes } from "../common";
 
 const logger: AzureLogger = createClientLogger("RequestHandler");
 

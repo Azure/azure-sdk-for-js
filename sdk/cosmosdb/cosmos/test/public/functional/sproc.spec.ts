@@ -1,16 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import assert from "assert";
+
+import { Container, StoredProcedureDefinition } from "../../../src/";
+import { bulkInsertItems, getTestContainer, getTestDatabase, removeAllDatabases } from "../common/TestHelpers";
+import { Constants } from "../../../src";
 import { Context } from "mocha";
 import { Suite } from "mocha";
-import { Constants } from "../../../src";
-import { Container, StoredProcedureDefinition } from "../../../src/";
-import {
-  bulkInsertItems,
-  getTestContainer,
-  getTestDatabase,
-  removeAllDatabases
-} from "../common/TestHelpers";
+import assert from "assert";
 
 // Used for sproc
 declare let getContext: any;

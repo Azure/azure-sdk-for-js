@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import assert from "assert";
+
 import {
   ClientSideMetrics,
   QueryMetrics,
@@ -8,6 +8,7 @@ import {
   RuntimeExecutionTimes,
   TimeSpan
 } from "../../../src";
+import assert from "assert";
 
 describe("QueryMetrics", function() {
   // Properties

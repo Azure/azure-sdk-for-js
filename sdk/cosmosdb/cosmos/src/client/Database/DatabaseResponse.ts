@@ -1,10 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+
 import { CosmosHeaders } from "../../queryExecutionContext";
-import { ResourceResponse } from "../../request/ResourceResponse";
-import { Resource } from "../Resource";
 import { Database } from "./Database";
 import { DatabaseDefinition } from "./DatabaseDefinition";
+import { Resource } from "../Resource";
+import { ResourceResponse } from "../../request/ResourceResponse";
 
 /** Response object for Database operations */
 export class DatabaseResponse extends ResourceResponse<DatabaseDefinition & Resource> {
