@@ -1,22 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { DefaultAzureCredential } from "@azure/identity";
+/**
+ * @summary Demonstrates the use of EnvironmentCredential.
+ */
+
+import { EnvironmentCredential } from "../src";
 import { KeyClient } from "@azure/keyvault-keys";
 
 // Load the .env file if it exists
 require("dotenv").config();
 
-/**
- * The `DefaultAzureCredential` is appropriate for most scenarios where the application is intended to ultimately be run in the Azure Cloud.
- * This is because the `DefaultAzureCredential` combines credentials commonly used to authenticate when deployed,
- * with credentials used to authenticate in a development environment.
- *
- * For more information, you may go to our readme: [link](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential)
- */
-
 export async function main(): Promise<void> {
-  const credential = new DefaultAzureCredential();
+  // EnvironmentCredential expects the following three environment variables:
+  // - AZURE_TENANT_ID: The tenant ID in Azure Active Directory
+  // - AZURE_CLIENT_ID: The application (client) ID registered in the AAD tenant
+  // - AZURE_CLIENT_SECRET: The client secret for the registered application
+  const credential = new EnvironmentCredential();
 
   const keyVaultUrl = `https://key-vault-name.vault.azure.net`;
   const client = new KeyClient(keyVaultUrl, credential);

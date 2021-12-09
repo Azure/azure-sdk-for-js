@@ -1,7 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ClientSecretCredential } from "@azure/identity";
+/**
+ * @summary Demonstrates the use of ClientSecretCredential.
+ */
+
+import { ClientSecretCredential } from "../src";
 import { KeyClient } from "@azure/keyvault-keys";
 
 // Load the .env file if it exists
@@ -9,8 +13,8 @@ require("dotenv").config();
 
 export async function main(): Promise<void> {
   const credential = new ClientSecretCredential(
-    process.env.AZURE_TENANT_ID!,    // The tenant ID in Azure Active Directory
-    process.env.AZURE_CLIENT_ID!,    // The application (client) ID registered in the AAD tenant
+    process.env.AZURE_TENANT_ID!, // The tenant ID in Azure Active Directory
+    process.env.AZURE_CLIENT_ID!, // The application (client) ID registered in the AAD tenant
     process.env.AZURE_CLIENT_SECRET! // The client secret for the registered application
   );
 

@@ -1,18 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { EnvironmentCredential } from "@azure/identity";
+/**
+ * @summary Demonstrates the use of ClientSecretCredential.
+ */
+
+import { ClientSecretCredential } from "../src";
 import { KeyClient } from "@azure/keyvault-keys";
 
 // Load the .env file if it exists
 require("dotenv").config();
 
 export async function main(): Promise<void> {
-  // EnvironmentCredential expects the following three environment variables:
-  // - AZURE_TENANT_ID: The tenant ID in Azure Active Directory
-  // - AZURE_CLIENT_ID: The application (client) ID registered in the AAD tenant
-  // - AZURE_CLIENT_SECRET: The client secret for the registered application
-  const credential = new EnvironmentCredential();
+  const credential = new ClientSecretCredential(
+    process.env.AZURE_TENANT_ID!,    // The tenant ID in Azure Active Directory
+    process.env.AZURE_CLIENT_ID!,    // The application (client) ID registered in the AAD tenant
+    process.env.AZURE_CLIENT_SECRET! // The client secret for the registered application
+  );
 
   const keyVaultUrl = `https://key-vault-name.vault.azure.net`;
   const client = new KeyClient(keyVaultUrl, credential);
