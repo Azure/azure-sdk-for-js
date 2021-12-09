@@ -18,6 +18,7 @@ import * as assert from "assert";
 import { ClientSecretCredential } from "@azure/identity";
 import { ManagementLinkClient } from "../src/managementLinkClient";
 import { ResourceManagementClient } from "@azure/arm-resources";
+import { linkId } from "../src/models/parameters";
 
 const recorderEnvSetup: RecorderEnvironmentSetup = {
   replaceableVariables: {
@@ -49,6 +50,7 @@ describe("Links test", () => {
   let resourceGroup: string;
   let linksName: string;
   let resourceName: string;
+  let resource1Id: string;
   let resource2Id: string;
 
   beforeEach(async function() {
@@ -72,22 +74,26 @@ describe("Links test", () => {
     await recorder.stop();
   });
 
-  // async function create_resourceId() {
-  //   const result = await resources_client.resources.beginCreateOrUpdateAndWait(resourceGroup,"Microsoft.Compute","","availabilitySets",resourceName,"2019-07-01",{ location: "eastus" });
-  //   console.log(result)
-  //   return result;
-  // }
+  it("it should create a resource id", async function() {
+    const result = await resources_client.resources.beginCreateOrUpdateAndWait(resourceGroup,"Microsoft.Compute","","availabilitySets",resourceName,"2019-07-01",{ location: "eastus" });
+    if(result.id){
+      resource1Id = result.id;
+    }
+  });
 
-  // async function create_resourceId2() {
-  //   const result = await resources_client.resources.beginCreateOrUpdateAndWait(resourceGroup,"Microsoft.Compute","","availabilitySets",resourceName+"2","2019-07-01",{ location: "eastus" });
-  //   console.log(result)
-  //   return result;
-  // }
+  it("it should create a resource id", async function() {
+    const result = await resources_client.resources.beginCreateOrUpdateAndWait(resourceGroup,"Microsoft.Compute","","availabilitySets",resourceName+"2","2019-07-01",{ location: "eastus" });
+    if(result.id){
+      resource2Id = result.id;
+    }
+  });
 
   it("resourceLinks create test", async function() {
-    const res = await client.resourceLinks.createOrUpdate("/subscriptions/"+subscriptionId+"/resourceGroups/"+resourceGroup+"/providers/Microsoft.Compute/availabilitySets/myresourcezzz/providers/Microsoft.Resources/links/" + linksName,{
+    const linkId = resource1Id;
+    const linkId2 = resource2Id;
+    const res = await client.resourceLinks.createOrUpdate(linkId+"/providers/Microsoft.Resources/links/" + linksName,{
       properties: {
-        targetId: "/subscriptions/"+subscriptionId+"/resourceGroups/"+resourceGroup+"/providers/Microsoft.Compute/availabilitySets/myresourcezzz2",
+        targetId: linkId2,
         notes: "Testing links",
       }
     })
@@ -95,7 +101,7 @@ describe("Links test", () => {
   });
 
   it("resourceLinks get test", async function() {
-    const linkId = "/subscriptions/" + subscriptionId + "/resourceGroups/"+resourceGroup+"/providers/Microsoft.Compute/availabilitySets/"+resourceName+"/providers/Microsoft.Resources/links/"+linksName
+    const linkId = resource1Id+"/providers/Microsoft.Resources/links/"+linksName
     const res = await client.resourceLinks.get(linkId);
     assert.equal(res.name,linksName);
   });
@@ -109,7 +115,7 @@ describe("Links test", () => {
   });
 
   it("resourceLinks delete test", async function() {
-    const linkId = "/subscriptions/" + subscriptionId + "/resourceGroups/"+resourceGroup+"/providers/Microsoft.Compute/availabilitySets/"+resourceName+"/providers/Microsoft.Resources/links/"+linksName
+    const linkId = resource1Id+"/providers/Microsoft.Resources/links/"+linksName
     const res = await client.resourceLinks.delete(linkId);
     const resArray = new Array();
     for await (const item of client.resourceLinks.listAtSubscription()) {
