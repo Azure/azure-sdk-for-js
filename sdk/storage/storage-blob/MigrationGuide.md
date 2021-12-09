@@ -1,6 +1,6 @@
 # Guide for migrating to `@azure/storage-blob` v12 from `azure-storage`
 
-This guide is intended to assist in the migration to `@azure/storage-blob` from the legacy `azure-storage` package. It will focus on side-by-side comparisons for similar operations between the two packages.
+This guide is intended to assist in the migration to version 12 of `@azure/storage-blob` from the legacy `azure-storage` package. It will focus on side-by-side comparisons for similar operations between the two packages.
 
 We assume that you are familiar with `azure-storage`. If you are new to the Azure Storage Blob client library for JavaScript, please refer to the [README](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storage/storage-blob/README.md) and [samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-blob/samples) rather than this guide.
 
@@ -11,6 +11,8 @@ We assume that you are familiar with `azure-storage`. If you are new to the Azur
 - [Important changes](#important-changes)
   - [Package name and structure](#package-name-and-structure)
   - [Constructing the clients](#constructing-the-clients)
+    - [Constructing the clients with connection string](#constructing-the-clients-with-connection-string)
+    - [Constructing the clients with AAD token credentials](#constructing-the-clients-with-aad-token-credentials)
   - [Creating a container](#creating-a-container)
   - [Uploading a blob to the container](#uploading-a-blob-to-the-container)
   - [Fetching properties of a blob](#fetching-properties-of-a-blob)
@@ -38,29 +40,31 @@ The modern `@azure/storage-blob` client library is also benefited from the cross
 
 ### Package name and structure
 
-The modern client library is named `@azure/storage-blob` . The legacy client library is named `azure-storage`.
+The modern client library is named `@azure/storage-blob` following the [naming conventions](https://azure.github.io/azure-sdk/typescript_design.html) for the new libraries across all Azure services. The legacy client library was named `azure-storage`.
 
-The legacy library `azure-storage` grouped functionality to work with multiple services in the same package such as `Blob`, `Queue`, `Files` and `Tables`. The new `@azure/storage-blob` is dedicated to `Blob` service. New generation packages are available for the other storage services as well: `@azure/data-tables`, `@azure/storage-queue`, `@azure/storage-blob-changefeed`, `@azure/storage-file-datalake` and `@azure/storage-file-share`. This provides more granular control on which dependencies to take on your project.
+The legacy library `azure-storage` grouped functionality to work with multiple services such as `Blob`, `Queue`, `Files` and `Tables` in the same package. The new `@azure/storage-blob` package is dedicated to `Blob` service. Similary, dedicated packages are available for the other storage services as well: `@azure/data-tables`, `@azure/storage-queue`, `@azure/storage-blob-changefeed`, `@azure/storage-file-datalake` and `@azure/storage-file-share`. This reduces the bundle size if you were to use any of these packages in browser applications and provides more granular control on which dependencies to take on your project.
 
-### Constructing the clients with connection string
+### Constructing the clients
 
-Previously in `azure-storage`, you would use `createBlobService` which can be used to get an instance of the `BlobService` in order to perform service level operations.
+#### Constructing the clients with connection string
+
+Previously in `azure-storage`, you can pass the connection string to the function `createBlobService` get an instance of the `BlobService` in order to perform operations on blobs and containers.
 
 ```javascript
 const azure = require("azure-storage");
 const blobService = azure.createBlobService("<connection-string>");
 ```
 
-Now, in `@azure/storage-blob`, we will be creating an instance of `BlobServiceClient` for service level operations.
+Now, in `@azure/storage-blob`, you can pass the connection string to the static method `BlobServiceClient.fromConnectionString` to create an instance of `BlobServiceClient` to perform operations on blobs and containers.
 
 ```javascript
 const { BlobServiceClient } = require("@azure/storage-blob");
 const blobService = BlobServiceClient.fromConnectionString("<connection-string>");
 ```
 
-### Constructing the clients with AAD token credentials
+#### Constructing the clients with AAD token credentials
 
-`azure-storage` or `@azure/storage-blob` supports to access `Blob` service with different types of credentials: anonymous, account key credentials, sas token, and AAD token credentials. This section shows samples to construct blob service clients with AAD token credentials.
+Both `azure-storage` and `@azure/storage-blob` supports to access `Blob` service by creating the client with different types of credentials: anonymous, account key credentials, sas token, and AAD token credentials. This section shows the use of AAD token credentials.
 
 Previously in `azure-storage`, you can invoke method `createBlobServiceWithTokenCredential` to get an instance of the `BlobService` with access token for your AAD credentials.
 
@@ -73,7 +77,7 @@ const blobService = azure.createBlobServiceWithTokenCredential(
 );
 ```
 
-Now, for `@azure/storage-blob`, you can use a constructor of `BlobServiceClient` which accepts token credential classes provided in `@azure/identity` package to get a `BlobServiceClient` instance with AAD token credentials. In following sample, it creates an instance of `DefaultAzureCredential` which reads credentials from environment variables `AZURE_TENANT_ID`, `AZURE_CLIENT_ID` and `AZURE_CLIENT_SECRET`, and creates a `BlobServiceClient` to consume the credential instance.
+Now, for `@azure/storage-blob`, you can pass any of the [credentials from the `@azure/identity` package](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md) to the constructor of `BlobServiceClient` to make use of your AAD credentials. In following sample, it creates an instance of `DefaultAzureCredential` which reads credentials from environment variables `AZURE_TENANT_ID`, `AZURE_CLIENT_ID` and `AZURE_CLIENT_SECRET`, and creates a `BlobServiceClient` to consume the credential instance.
 
 ```javascript
 const { BlobServiceClient } = require("@azure/storage-blob");

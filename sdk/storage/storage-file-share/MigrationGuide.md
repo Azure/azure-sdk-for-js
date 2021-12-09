@@ -1,6 +1,6 @@
 # Guide for migrating to `@azure/storage-file-share` v12 from `azure-storage`
 
-This guide is intended to assist in the migration to `@azure/storage-file-share` from the legacy `azure-storage` package. It will focus on side-by-side comparisons for similar operations between the two packages.
+This guide is intended to assist in the migration to version 12 of `@azure/storage-file-share` from the legacy `azure-storage` package. It will focus on side-by-side comparisons for similar operations between the two packages.
 
 We assume that you are familiar with `azure-storage`. If you are new to the Azure Storage File client library for JavaScript, please refer to the [README](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storage/storage-file-share/README.md) and [samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-file-share/samples) rather than this guide.
 
@@ -11,6 +11,8 @@ We assume that you are familiar with `azure-storage`. If you are new to the Azur
 - [Important changes](#important-changes)
   - [Package name and structure](#package-name-and-structure)
   - [Constructing the clients](#constructing-the-clients)
+    - [Constructing the clients with connection string](#constructing-the-clients-with-connection-string)
+    - [Constructing the clients with SAS token](#constructing-the-clients-with-sas-token)
   - [Creating a file share](#creating-a-file-share)
   - [Creating a directory in the share](#creating-a-directory-in-the-share)
   - [Uploading file to a directory](#uploading-file-to-a-directory)
@@ -39,29 +41,31 @@ The modern `@azure/storage-file-share` client library is also benefited from the
 
 ### Package name and structure
 
-The modern client library is named `@azure/storage-file-share`. The legacy client library is named `azure-storage`.
+The modern client library is named `@azure/storage-file-share` following the [naming conventions](https://azure.github.io/azure-sdk/typescript_design.html) for the new libraries across all Azure services. The legacy client library was named `azure-storage`.
 
-The legacy library `azure-storage` grouped functionality to work with multiple services in the same package such as `Blob`, `Queue`, `Files` and `Tables`. The new `@azure/storage-file-share` is dedicated to `Files` service. New generation packages are available for the other storage services as well: `@azure/data-tables`, `@azure/storage-queue`, `@azure/storage-blob-changefeed`, `@azure/storage-file-datalake` and `@azure/storage-blob`. This provides more granular control on which dependencies to take on your project.
+The legacy library `azure-storage` grouped functionality to work with multiple services such as `Blob`, `Queue`, `Files` and `Tables` in the same package . The new `@azure/storage-file-share` package is dedicated to `Files` service. Similary, dedicated packages are available for the other storage services as well: `@azure/data-tables`, `@azure/storage-queue`, `@azure/storage-blob-changefeed`, `@azure/storage-file-datalake` and `@azure/storage-blob`. This reduces the bundle size if you were to use any of these packages in browser applications and provides more granular control on which dependencies to take on your project.
 
-### Constructing the clients with connection string
+### Constructing the clients
 
-Previously in `azure-storage`, you would use `createFileService` which can be used to get an instance of the `FileService` in order to perform service level operations.
+#### Constructing the clients with connection string
+
+Previously in `azure-storage`, you can pass the connection string to the function `createFileService` get an instance of the `FileService` in order to perform operations on files and shares.
 
 ```javascript
 const azure = require("azure-storage");
 const fileService = azure.createFileService("<connection-string>");
 ```
 
-Now, in `@azure/storage-file-share`, we will be creating an instance of `ShareServiceClient` for service level operations.
+Now, in `@azure/storage-file-share`, you can pass the connection string to the static method `ShareServiceClient.fromConnectionString` to create an instance of `ShareServiceClient` to perform operations on files and shares.
 
 ```javascript
 const { ShareServiceClient } = require("@azure/storage-file-share");
 const shareService = ShareServiceClient.fromConnectionString("<connection-string>");
 ```
 
-### Constructing the clients with SAS token
+#### Constructing the clients with SAS token
 
-`azure-storage` or `@azure/storage-file-share` supports to access `Files` service with different types of credentials: anonymous, account key credentials and SAS token. This section shows samples to construct blob service clients with SAS token credentials.
+Both `azure-storage` and `@azure/storage-file-share` supports to access `Files` service by creating the client with different types of credentials: anonymous, account key credentials and SAS token. This section shows the use of SAS token credentials.
 
 Previously in `azure-storage`, you can invoke method `createFileServiceWithSas` to get an instance of the `FileService` with SAS token credentials.
 
@@ -73,7 +77,7 @@ const fileService = azure.createFileServiceWithSas(
 );
 ```
 
-Now, in `@azure/storage-file-share`, you can invoke `ShareServiceClient` constructor with URL with SAS token to create a `ShareServiceClient` instance with SAS token credentials.
+Now, in `@azure/storage-file-share`, you can pass URL with SAS token to the constructor of `ShareServiceClient` to make use of your SAS token credentials.
 
 ```javascript
 const { ShareServiceClient } = require("@azure/storage-file-share");
