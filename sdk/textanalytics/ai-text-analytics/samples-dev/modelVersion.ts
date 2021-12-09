@@ -50,6 +50,8 @@ export async function main() {
            * Specify the model version by setting this property. "latest" indicates
            * the latest generaly availability version of the model. When not specified,
            * latest will be assumed. Model versions are date based, e.g "2021-06-01".
+           * See the documentation for a list of all model versions:
+           * https://docs.microsoft.com/en-us/azure/cognitive-services/language-service/named-entity-recognition/how-to-call#specify-the-ner-model
            */
           modelVersion: "latest"
         }
