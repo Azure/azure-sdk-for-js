@@ -42,7 +42,7 @@ async function run() {
   const { database } = await client.databases.createIfNotExists({ id: databaseId });
   const { container } = await database.containers.createIfNotExists({
     id: containerId,
-    partitionKey: { paths: ["/pk"] }
+    partitionKey: { paths: ["/pk"] },
   });
 
   try {
@@ -82,7 +82,7 @@ async function run() {
     console.log(`  👉 Inserted id=3`);
 
     const specificContinuationIterator = container.items.changeFeed(pk, {
-      continuation: lsn.toString()
+      continuation: lsn.toString(),
     });
     const specificPointInTimeIterator = container.items.changeFeed(pk, { startTime: now });
     const fromBeginningIterator = container.items.changeFeed(pk, { startFromBeginning: true });
@@ -159,7 +159,7 @@ async function run() {
       fromNowResults2.map((v) => parseInt(v.id))
     );
   } catch (err) {
-    if (err) {
+    if (err && err.code !== undefined) {
       console.log("Threw, as expected");
     } else {
       throw err;
