@@ -7,6 +7,8 @@ import { systemErrorRetryStrategy } from "../retryStrategies/systemErrorRetryStr
 import { throttlingRetryStrategy } from "../retryStrategies/throttlingRetryStrategy";
 import { retryPolicy } from "./retryPolicy";
 
+const DEFAULT_RETRY_POLICY_COUNT = 3;
+
 /**
  * Name of the {@link defaultRetryPolicy}
  */
@@ -23,8 +25,8 @@ export function defaultRetryPolicy(): PipelinePolicy {
     name: defaultRetryPolicyName,
     sendRequest: retryPolicy(
       throttlingRetryStrategy(),
-      systemErrorRetryStrategy(),
-      exponentialRetryStrategy()
+      systemErrorRetryStrategy({ maxRetries: DEFAULT_RETRY_POLICY_COUNT }),
+      exponentialRetryStrategy({ maxRetries: DEFAULT_RETRY_POLICY_COUNT })
     ).sendRequest
   };
 }
