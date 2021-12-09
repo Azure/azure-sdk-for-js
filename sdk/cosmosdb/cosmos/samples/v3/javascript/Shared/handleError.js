@@ -11,14 +11,14 @@ const dbId = process.env.COSMOS_DATABASE || "<cosmos database>";
 
 const client = new CosmosClient({ endpoint, key });
 
-async function handleError(error) {
+export async function handleError(error) {
   console.log("\nAn error with code '" + error.code + "' has occurred:");
   console.log(error);
   await finish();
   process.exitCode = 1;
 }
 
-async function finish() {
+export async function finish() {
   try {
     await client.database(dbId).delete();
     console.log("\nEnd of demo.");
@@ -31,16 +31,14 @@ async function finish() {
 }
 
 let currentStep = 0;
-function logStep(message) {
+export function logStep(message) {
   currentStep++;
   console.log(`\n${currentStep}: ${message}`);
 }
 
-function logSampleHeader(sampleName) {
+export function logSampleHeader(sampleName) {
   console.log("Azure Cosmos DB Node.js Samples");
   console.log("================================");
   console.log(sampleName);
   console.log("================================");
 }
-
-module.exports = { handleError, finish, logStep, logSampleHeader };

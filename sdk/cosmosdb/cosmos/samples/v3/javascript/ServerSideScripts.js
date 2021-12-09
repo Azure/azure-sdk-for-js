@@ -23,8 +23,8 @@ const client = new CosmosClient({ endpoint, key });
 const sprocParams = [
   {
     id: "myDocument",
-    foo: "bar",
-  },
+    foo: "bar"
+  }
 ];
 
 /**
@@ -40,7 +40,7 @@ const sprocParams = [
 let getContext;
 const sprocDefinition = {
   id: "upsert",
-  body: function (document) {
+  body: function(document) {
     const context = getContext();
     const collection = context.getCollection();
     const collectionLink = collection.getSelfLink();
@@ -60,7 +60,7 @@ const sprocDefinition = {
 
     // To replace the document, first issue a query to find it and then call replace.
     function tryReplace(doc, cback) {
-      retrieveDoc(doc, function (retrievedDocs) {
+      retrieveDoc(doc, function(retrievedDocs) {
         const isAccepted = collection.replaceDocument(retrievedDocs[0]._self, doc, cback);
         if (!isAccepted) throw new Error("Unable to schedule replace document");
         response.setBody({ op: "replaced" });
@@ -70,26 +70,25 @@ const sprocDefinition = {
     function retrieveDoc(doc, cback, continuation) {
       const query = {
         query: "select * from root r where r.id = @id",
-        parameters: [{ name: "@id", value: doc.id }],
+        parameters: [{ name: "@id", value: doc.id }]
       };
       const requestOptions = { continuation: continuation };
-      const isAccepted = collection.queryDocuments(
-        collectionLink,
-        query,
-        requestOptions,
-        function (err, retrievedDocs, responseOptions) {
-          if (err) throw err;
+      const isAccepted = collection.queryDocuments(collectionLink, query, requestOptions, function(
+        err,
+        retrievedDocs,
+        responseOptions
+      ) {
+        if (err) throw err;
 
-          if (retrievedDocs.length > 0) {
-            cback(retrievedDocs);
-          } else if (responseOptions.continuation) {
-            // Conservative check for continuation. Not expected to hit in practice for the "id query"
-            retrieveDoc(doc, responseOptions.continuation, cback);
-          } else {
-            throw new Error("Error in retrieving document: " + doc.id);
-          }
+        if (retrievedDocs.length > 0) {
+          cback(retrievedDocs);
+        } else if (responseOptions.continuation) {
+          // Conservative check for continuation. Not expected to hit in practice for the "id query"
+          retrieveDoc(doc, responseOptions.continuation, cback);
+        } else {
+          throw new Error("Error in retrieving document: " + doc.id);
         }
-      );
+      });
       if (!isAccepted) throw new Error("Unable to query documents");
     }
 
@@ -105,7 +104,7 @@ const sprocDefinition = {
         }
       }
     }
-  },
+  }
 };
 
 async function run() {
