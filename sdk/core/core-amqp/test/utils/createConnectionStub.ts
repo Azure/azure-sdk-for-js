@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import EventEmitter from "events";
 import { Connection } from "rhea-promise";
+import EventEmitter from "events";
 import { stub } from "sinon";
 
 /**

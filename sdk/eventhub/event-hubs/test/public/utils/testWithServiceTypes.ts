@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { isNode, TestFunctionWrapper, versionsToTest } from "@azure/test-utils";
+import { TestFunctionWrapper, isNode, versionsToTest } from "@azure/test-utils";
 import { getEnvVarValue } from "./testUtils";
 
 export type SupportedTargets = "mock" | "live";

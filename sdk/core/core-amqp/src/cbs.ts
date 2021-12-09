@@ -1,23 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TokenType } from "./auth/token";
+import { AbortError, AbortSignalLike } from "@azure/abort-controller";
 import {
-  Message as RheaMessage,
   Connection,
   EventContext,
   ReceiverEvents,
   ReceiverOptions,
+  Message as RheaMessage,
   SenderEvents,
   SenderOptions,
   generate_uuid
 } from "rhea-promise";
-import { AbortError, AbortSignalLike } from "@azure/abort-controller";
-import { Constants } from "./util/constants";
-import { logErrorStackTrace, logger } from "./log";
 import { StandardAbortMessage, translate } from "./errors";
-import { defaultCancellableLock } from "./util/utils";
+import { logErrorStackTrace, logger } from "./log";
+import { Constants } from "./util/constants";
 import { RequestResponseLink } from "./requestResponseLink";
+import { TokenType } from "./auth/token";
+import { defaultCancellableLock } from "./util/utils";
 
 /**
  * Describes the CBS Response.

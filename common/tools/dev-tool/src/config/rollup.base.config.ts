@@ -125,7 +125,7 @@ export function makeBrowserTestConfig(): RollupOptions {
           // Chai's strange internal architecture makes it impossible to statically
           // analyze its exports.
           chai: ["version", "use", "util", "config", "expect", "should", "assert"],
-          ...openTelemetryCommonJs()
+          events: ["EventEmitter"]
         }
       }),
       json(),

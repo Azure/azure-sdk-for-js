@@ -11,7 +11,7 @@ import { AvailableEndpointServices } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { NetworkManagementClientContext } from "../networkManagementClientContext";
+import { NetworkManagementClient } from "../networkManagementClient";
 import {
   EndpointServiceResult,
   AvailableEndpointServicesListNextOptionalParams,
@@ -24,13 +24,13 @@ import {
 /** Class containing AvailableEndpointServices operations. */
 export class AvailableEndpointServicesImpl
   implements AvailableEndpointServices {
-  private readonly client: NetworkManagementClientContext;
+  private readonly client: NetworkManagementClient;
 
   /**
    * Initialize a new instance of the class AvailableEndpointServices class.
    * @param client Reference to the service client
    */
-  constructor(client: NetworkManagementClientContext) {
+  constructor(client: NetworkManagementClient) {
     this.client = client;
   }
 
