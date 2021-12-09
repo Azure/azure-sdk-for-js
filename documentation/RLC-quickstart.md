@@ -465,10 +465,10 @@ In order to release it, we need to add some tests for it to make sure we are del
     ```
 # How to write samples
 
-There're samples for TypeScript and JavaScript and for dev, We provide a sample-dev template for your reference [samples-dev folder](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/template/template/samples-dev) you can then change the code into samples for your own services, including package-name, sample code, description etc.   
+We author Typescript samples under the `samples-dev` folder. You can use sample-dev template for reference [samples-dev folder](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/template/template/samples-dev)  folder and update the relevant information for your service such as package-name, sample code, description, etc.  
 After the samples-dev folder change is finished, you will need to change the tsconfig.json to make sure the dev samples can be compiled and build correctly.  
 
-You will need to add this part to the "compilerOptions" of your tsconfig.json file
+You will need to add this part to the "compilerOptions" of your tsconfig.json file so that the Samples engine could resolve the sample-dev package against the source code of the SDK.  
 ``` json
     "paths": { "@msinternal/sql-resource-manager": ["./src/index"] } 
 ```
@@ -495,7 +495,7 @@ npm install -g common/tools/dev-tool # make sure you are in the azure-sdk-for-js
 cd ${PROJECT_ROOT}
 dev-tool samples publish -f 
 ```
-You will see the workable samples in the `${PROJECT_ROOT}/samples/v1` folder.  
+You will see the workable samples in the `${PROJECT_ROOT}/samples` folder.  
 
 # How to create package
 
