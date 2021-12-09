@@ -18,7 +18,6 @@ import * as assert from "assert";
 import { ClientSecretCredential } from "@azure/identity";
 import { ManagementLinkClient } from "../src/managementLinkClient";
 import { ResourceManagementClient } from "@azure/arm-resources";
-import { linkId } from "../src/models/parameters";
 
 const recorderEnvSetup: RecorderEnvironmentSetup = {
   replaceableVariables: {
