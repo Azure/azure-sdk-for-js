@@ -5,7 +5,12 @@ import * as util from "util";
 import { Container, ContainerDefinition } from "../../../src";
 import { DataType, IndexKind } from "../../../src";
 import { FeedOptions, FeedResponse } from "../../../src";
-import { bulkInsertItems, generateDocuments, getTestContainer, removeAllDatabases } from "../common/TestHelpers";
+import {
+  bulkInsertItems,
+  generateDocuments,
+  getTestContainer,
+  removeAllDatabases
+} from "../common/TestHelpers";
 import { QueryIterator } from "../../../src";
 import { SqlQuerySpec } from "../../../src";
 import { Suite } from "mocha";

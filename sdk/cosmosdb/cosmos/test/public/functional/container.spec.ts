@@ -3,14 +3,13 @@
 
 import { Constants, ContainerResponse } from "../../../src";
 import { Container, ContainerDefinition, Database } from "../../../src";
+import { DataType, IndexKind, IndexedPath, IndexingMode, IndexingPolicy } from "../../../src";
 import {
-  DataType,
-  IndexKind,
-  IndexedPath,
-  IndexingMode,
-  IndexingPolicy
-} from "../../../src";
-import { assertThrowsAsync, getTestContainer, getTestDatabase, removeAllDatabases } from "../common/TestHelpers";
+  assertThrowsAsync,
+  getTestContainer,
+  getTestDatabase,
+  removeAllDatabases
+} from "../common/TestHelpers";
 import { ContainerRequest } from "../../../src";
 import { GeospatialType } from "../../../src";
 import { SpatialType } from "../../../src";

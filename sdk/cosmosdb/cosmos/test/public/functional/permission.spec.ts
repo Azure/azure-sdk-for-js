@@ -1,7 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { createOrUpsertPermission, getTestContainer, removeAllDatabases, replaceOrUpsertPermission } from "../common/TestHelpers";
+import {
+  createOrUpsertPermission,
+  getTestContainer,
+  removeAllDatabases,
+  replaceOrUpsertPermission
+} from "../common/TestHelpers";
 import { PermissionDefinition } from "../../../src";
 import { PermissionMode } from "../../../src";
 import { Suite } from "mocha";

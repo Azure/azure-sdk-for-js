@@ -1,13 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  Constants,
-  OperationType,
-  ResourceType,
-  getContainerLink,
-  trimSlashes
-} from "../common";
+import { Constants, OperationType, ResourceType, getContainerLink, trimSlashes } from "../common";
 import { CosmosHeaders } from "../queryExecutionContext";
 import { SessionContext } from "./SessionContext";
 import { VectorSessionToken } from "./VectorSessionToken";

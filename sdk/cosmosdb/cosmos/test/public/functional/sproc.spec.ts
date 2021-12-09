@@ -2,7 +2,12 @@
 // Licensed under the MIT license.
 
 import { Container, StoredProcedureDefinition } from "../../../src/";
-import { bulkInsertItems, getTestContainer, getTestDatabase, removeAllDatabases } from "../common/TestHelpers";
+import {
+  bulkInsertItems,
+  getTestContainer,
+  getTestDatabase,
+  removeAllDatabases
+} from "../common/TestHelpers";
 import { Constants } from "../../../src";
 import { Context } from "mocha";
 import { Suite } from "mocha";

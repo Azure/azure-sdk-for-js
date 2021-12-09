@@ -1,13 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  Constants,
-  CosmosClient,
-  CosmosClientOptions,
-  PluginConfig,
-  PluginOn
-} from "../../../src";
+import { Constants, CosmosClient, CosmosClientOptions, PluginConfig, PluginOn } from "../../../src";
 import { bulkInsertItems, getTestContainer, removeAllDatabases } from "../common/TestHelpers";
 import { Container } from "../../../src";
 import { SubStatusCodes } from "../../../src/common";

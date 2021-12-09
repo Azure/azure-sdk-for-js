@@ -3,7 +3,11 @@
 
 import * as RetryUtility from "../retry/retryUtility";
 import { AzureLogger, createClientLogger } from "@azure/logger";
-import { PipelineResponse, createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
+import {
+  PipelineResponse,
+  createHttpHeaders,
+  createPipelineRequest
+} from "@azure/core-rest-pipeline";
 import { PluginOn, executePlugins } from "../plugins/Plugin";
 import { defaultHttpAgent, defaultHttpsAgent } from "./defaultAgent";
 import AbortController from "node-abort-controller";

@@ -7,7 +7,6 @@ import { GlobalEndpointManager } from "../../../src";
 import assert from "assert";
 import { masterKey } from "../common/_fakeTestSecrets";
 
-
 const headers = {
   "access-control-allow-credentials": "true",
   "access-control-allow-origin": "",

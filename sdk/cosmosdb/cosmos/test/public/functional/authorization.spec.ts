@@ -2,7 +2,12 @@
 // Licensed under the MIT license.
 
 import { CosmosClient, PermissionMode } from "../../../src";
-import { createOrUpsertPermission, getTestContainer, getTestDatabase, removeAllDatabases } from "../common/TestHelpers";
+import {
+  createOrUpsertPermission,
+  getTestContainer,
+  getTestDatabase,
+  removeAllDatabases
+} from "../common/TestHelpers";
 import { PermissionDefinition } from "../../../src/";
 import { Suite } from "mocha";
 import assert from "assert";

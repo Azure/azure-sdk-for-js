@@ -11,13 +11,7 @@ import {
   Response,
   UserDefinition
 } from "../../../src";
-import {
-  ItemDefinition,
-  ItemResponse,
-  PermissionResponse,
-  Resource,
-  User
-} from "../../../src";
+import { ItemDefinition, ItemResponse, PermissionResponse, Resource, User } from "../../../src";
 import { ContainerRequest } from "../../../src";
 import { DatabaseRequest } from "../../../src";
 import { UserResponse } from "../../../src";

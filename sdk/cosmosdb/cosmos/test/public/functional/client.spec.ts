@@ -1,7 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { bulkInsertItems, generateDocuments, getTestContainer, getTestDatabase } from "../common/TestHelpers";
+import {
+  bulkInsertItems,
+  generateDocuments,
+  getTestContainer,
+  getTestDatabase
+} from "../common/TestHelpers";
 import AbortController from "node-abort-controller";
 import { Agent } from "http";
 import { CosmosClient } from "../../../src";

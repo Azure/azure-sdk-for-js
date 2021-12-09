@@ -2,7 +2,12 @@
 // Licensed under the MIT license.
 
 import { CosmosClient, Database, DatabaseDefinition } from "../../../src";
-import { addEntropy, assertThrowsAsync, getTestDatabase, removeAllDatabases } from "../common/TestHelpers";
+import {
+  addEntropy,
+  assertThrowsAsync,
+  getTestDatabase,
+  removeAllDatabases
+} from "../common/TestHelpers";
 import { DatabaseRequest } from "../../../src";
 import { Suite } from "mocha";
 import assert from "assert";
