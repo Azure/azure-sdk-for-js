@@ -202,9 +202,9 @@ foreach ($packageInfoLocation in $PackageInfoJsonLocations) {
 
   # Convert package metadata json file to metadata json property.
   $packageInfo = GetPackageInfoJson $packageInfoLocation
-  Write-Host "The package Info: $packageInfo"
   # Add validation step for daily update and release
   if ($ValidateDocsMsPackagesFn -and (Test-Path "Function:$ValidateDocsMsPackagesFn")) {
+    Write-Host "this is the script"
     &$ValidateDocsMsPackagesFn -PackageInfo $packageInfo -PackageSourceOverride $PackageSourceOverride -DocValidationImageId $DocValidationImageId
     if ($LASTEXITCODE) {
       LogError "The package failed Doc.Ms validation. Check https://aka.ms/azsdk/docs/docker for more details on how to diagnose this issue."
