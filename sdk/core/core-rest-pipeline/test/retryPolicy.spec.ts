@@ -506,7 +506,7 @@ describe("retryPolicy", function() {
     });
   });
 
-  describe.only("retryPolicy tracing", function() {
+  describe("retryPolicy tracing", function() {
     const TRACE_VERSION = "00";
     const mockTracerProvider = new MockTracerProvider();
 
