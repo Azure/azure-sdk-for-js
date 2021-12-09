@@ -25,12 +25,13 @@ export async function main() {
 
   const client = new TextAnalyticsClient(endpoint, new AzureKeyCredential(apiKey));
 
-  // TODO: show a list of different model versions to use from
   const recognizeEntitiesResults = await client.recognizeEntities(documents, "en", {
     /**
      * Specify the model version by setting this property. "latest" indicates
      * the latest generaly availability version of the model. When not specified,
      * latest will be assumed. Model versions are date based, e.g "2021-06-01".
+     * See the documentation for a list of all model versions:
+     * https://docs.microsoft.com/en-us/azure/cognitive-services/language-service/named-entity-recognition/how-to-call#specify-the-ner-model
      */
     modelVersion: "latest"
   });
