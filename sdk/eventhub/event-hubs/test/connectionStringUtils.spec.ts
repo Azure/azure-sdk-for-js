@@ -1,7 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { EventHubConnectionStringProperties, parseEventHubConnectionString } from "../src/util/connectionStringUtils";
+import {
+  EventHubConnectionStringProperties,
+  parseEventHubConnectionString
+} from "../src/util/connectionStringUtils";
 import chai from "chai";
 
 const assert = chai.assert;

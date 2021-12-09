@@ -2,7 +2,12 @@
 // Licensed under the MIT license.
 
 import { EnvVarKeys, getEnvVars, isNode } from "../public/utils/testUtils";
-import { EventHubConsumerClient, EventHubProducerClient, Subscription, TokenCredential } from "../../src";
+import {
+  EventHubConsumerClient,
+  EventHubProducerClient,
+  Subscription,
+  TokenCredential
+} from "../../src";
 import { ConnectionContext } from "../../src/connectionContext";
 import { MessagingError } from "@azure/core-amqp";
 import chai from "chai";

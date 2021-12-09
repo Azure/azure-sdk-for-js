@@ -4,13 +4,7 @@
 /* eslint-disable @typescript-eslint/no-namespace */
 /* eslint-disable no-inner-declarations */
 
-import {
-  Connection,
-  ConnectionEvents,
-  Dictionary,
-  EventContext,
-  OnAmqpEvent
-} from "rhea-promise";
+import { Connection, ConnectionEvents, Dictionary, EventContext, OnAmqpEvent } from "rhea-promise";
 import {
   ConnectionConfig,
   ConnectionContextBase,
@@ -19,7 +13,10 @@ import {
   SasTokenProvider,
   createSasTokenProvider
 } from "@azure/core-amqp";
-import { EventHubConnectionStringProperties, parseEventHubConnectionString } from "./util/connectionStringUtils";
+import {
+  EventHubConnectionStringProperties,
+  parseEventHubConnectionString
+} from "./util/connectionStringUtils";
 import { ManagementClient, ManagementClientOptions } from "./managementClient";
 import {
   NamedKeyCredential,

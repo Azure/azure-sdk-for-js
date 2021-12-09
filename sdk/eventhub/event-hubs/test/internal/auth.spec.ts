@@ -3,7 +3,12 @@
 
 import { AzureNamedKeyCredential, AzureSASCredential } from "@azure/core-auth";
 import { EnvVarKeys, getEnvVars } from "../public/utils/testUtils";
-import { EventHubConnectionStringProperties, EventHubConsumerClient, EventHubProducerClient, parseEventHubConnectionString } from "../../src";
+import {
+  EventHubConnectionStringProperties,
+  EventHubConsumerClient,
+  EventHubProducerClient,
+  parseEventHubConnectionString
+} from "../../src";
 import chai from "chai";
 import { createMockServer } from "../public/utils/mockService";
 import { createSasTokenProvider } from "@azure/core-amqp";

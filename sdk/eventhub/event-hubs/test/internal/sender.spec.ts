@@ -1,7 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { EnvVarKeys, getEnvVars, getStartingPositionsForTests, setTracerForTest } from "../public/utils/testUtils";
+import {
+  EnvVarKeys,
+  getEnvVars,
+  getStartingPositionsForTests,
+  setTracerForTest
+} from "../public/utils/testUtils";
 import {
   EventData,
   EventHubConsumerClient,

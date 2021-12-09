@@ -3,7 +3,11 @@
 
 import { EventData, ReceivedEventData, fromRheaMessage, toRheaMessage } from "../../src/eventData";
 import chai, { assert, should } from "chai";
-import { dataSectionTypeCode, sequenceSectionTypeCode, valueSectionTypeCode } from "../../src/dataTransformer";
+import {
+  dataSectionTypeCode,
+  sequenceSectionTypeCode,
+  valueSectionTypeCode
+} from "../../src/dataTransformer";
 import { AmqpAnnotatedMessage } from "@azure/core-amqp";
 import { Message } from "rhea-promise";
 import { testWithServiceTypes } from "../public/utils/testWithServiceTypes";

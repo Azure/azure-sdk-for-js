@@ -10,7 +10,10 @@ import {
   ReceivedEventData,
   Subscription
 } from "../../src";
-import { TRACEPARENT_PROPERTY, extractSpanContextFromEventData } from "../../src/diagnostics/instrumentEventData";
+import {
+  TRACEPARENT_PROPERTY,
+  extractSpanContextFromEventData
+} from "../../src/diagnostics/instrumentEventData";
 import { SubscriptionHandlerForTests } from "../public/utils/subscriptionHandlerForTests";
 import { TraceFlags } from "@azure/core-tracing";
 import assert from "assert";

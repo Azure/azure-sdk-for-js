@@ -1,7 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { BasicPartitionProperties, PartitionContext, SubscriptionEventHandlers } from "./eventHubConsumerClientModels";
+import {
+  BasicPartitionProperties,
+  PartitionContext,
+  SubscriptionEventHandlers
+} from "./eventHubConsumerClientModels";
 import { CheckpointStore } from "./eventProcessor";
 import { CloseReason } from "./models/public";
 import { LastEnqueuedEventProperties } from "./eventHubReceiver";

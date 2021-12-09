@@ -17,7 +17,10 @@ import {
 import { Dictionary, generate_uuid } from "rhea-promise";
 import { EnvVarKeys, getEnvVars, loopUntil } from "../public/utils/testUtils";
 import { EventProcessor, FullEventProcessorOptions } from "../../src/eventProcessor";
-import { SubscriptionHandlerForTests, sendOneMessagePerPartition } from "../public/utils/subscriptionHandlerForTests";
+import {
+  SubscriptionHandlerForTests,
+  sendOneMessagePerPartition
+} from "../public/utils/subscriptionHandlerForTests";
 import { AbortController } from "@azure/abort-controller";
 import { BalancedLoadBalancingStrategy } from "../../src/loadBalancerStrategies/balancedStrategy";
 import { Checkpoint } from "../../src/partitionProcessor";

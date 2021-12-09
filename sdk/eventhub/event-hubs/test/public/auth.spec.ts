@@ -3,7 +3,11 @@
 
 import { AzureNamedKeyCredential, AzureSASCredential } from "@azure/core-auth";
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
-import { EventHubConsumerClient, EventHubProducerClient, parseEventHubConnectionString } from "../../src/index";
+import {
+  EventHubConsumerClient,
+  EventHubProducerClient,
+  parseEventHubConnectionString
+} from "../../src/index";
 import { SinonFakeTimers, useFakeTimers } from "sinon";
 import chai from "chai";
 import { createMockServer } from "./utils/mockService";

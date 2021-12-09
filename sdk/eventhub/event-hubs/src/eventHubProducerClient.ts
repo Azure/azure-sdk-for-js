@@ -12,13 +12,7 @@ import {
 } from "./models/public";
 import { EventDataBatch, EventDataBatchImpl, isEventDataBatch } from "./eventDataBatch";
 import { EventHubProperties, PartitionProperties } from "./managementClient";
-import {
-  Link,
-  Span,
-  SpanContext,
-  SpanKind,
-  SpanStatusCode
-} from "@azure/core-tracing";
+import { Link, Span, SpanContext, SpanKind, SpanStatusCode } from "@azure/core-tracing";
 import { NamedKeyCredential, SASCredential, TokenCredential } from "@azure/core-auth";
 import { isCredential, isDefined } from "./util/typeGuards";
 import { logErrorStackTrace, logger } from "./log";

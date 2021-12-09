@@ -12,7 +12,11 @@ import {
 } from "./models/public";
 import { EventHubProperties, PartitionProperties } from "./managementClient";
 import { NamedKeyCredential, SASCredential, TokenCredential } from "@azure/core-auth";
-import { SubscribeOptions, Subscription, SubscriptionEventHandlers } from "./eventHubConsumerClientModels";
+import {
+  SubscribeOptions,
+  Subscription,
+  SubscriptionEventHandlers
+} from "./eventHubConsumerClientModels";
 import { BalancedLoadBalancingStrategy } from "./loadBalancerStrategies/balancedStrategy";
 import { Constants } from "@azure/core-amqp";
 import { GreedyLoadBalancingStrategy } from "./loadBalancerStrategies/greedyStrategy";

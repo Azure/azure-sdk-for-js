@@ -2,7 +2,12 @@
 // Licensed under the MIT license.
 
 import { EnvVarKeys, getEnvVars, setTracerForTest } from "./utils/testUtils";
-import { EventHubBufferedProducerClient, EventHubConsumerClient, EventHubProducerClient, MessagingError } from "../../src";
+import {
+  EventHubBufferedProducerClient,
+  EventHubConsumerClient,
+  EventHubProducerClient,
+  MessagingError
+} from "../../src";
 import { context, setSpan } from "@azure/core-tracing";
 import { SpanGraph } from "@azure/test-utils";
 import chai from "chai";

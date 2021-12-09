@@ -2,7 +2,12 @@
 // Licensed under the MIT license.
 
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
-import { EventData, EventHubBufferedProducerClient, OnSendEventsErrorContext, OnSendEventsSuccessContext } from "../../src/index";
+import {
+  EventData,
+  EventHubBufferedProducerClient,
+  OnSendEventsErrorContext,
+  OnSendEventsSuccessContext
+} from "../../src/index";
 import { AmqpAnnotatedMessage } from "@azure/core-amqp";
 import chai from "chai";
 import { createMockServer } from "./utils/mockService";
