@@ -96,58 +96,8 @@ You can use an authenticated client to convert an address into latitude and long
 
 ```javascript
 const credential = new DefaultAzureCredential();
-const client = new SearchClient(credential, { clientId: "<maps-client-id>" });
-const result = await client.searchAddress("json", "400 Broad, Seattle");
-```
-
-Result
-
-```yaml
-{
-  "summary":
-    {
-      "query": "400 broad seattle",
-      "queryType": "NON_NEAR",
-      "queryTime": 33,
-      "numResults": 3,
-      "offset": 0,
-      "totalResults": 3,
-      "fuzzyLevel": 1,
-    },
-  "results":
-    [
-      {
-        "type": "Point Address",
-        "id": "US/PAD/p0/27038164",
-        "score": 5.8015999794,
-        "address":
-          {
-            "streetNumber": "400",
-            "streetName": "Broad Street",
-            "municipality": "Seattle",
-            "municipalitySubdivision": "Queen Anne",
-            "countrySecondarySubdivision": "King",
-            "countrySubdivision": "WA",
-            "postalCode": "98109",
-            "extendedPostalCode": "98109-4607",
-            "countryCode": "US",
-            "country": "United States",
-            "countryCodeISO3": "USA",
-            "freeformAddress": "400 Broad Street, Seattle, WA 98109",
-            "countrySubdivisionName": "Washington",
-            "localName": "Seattle",
-          },
-        "position": { "lat": 47.62039, "lon": -122.34928 },
-        "viewport":
-          {
-            "topLeftPoint": { "lat": 47.62129, "lon": -122.35061 },
-            "btmRightPoint": { "lat": 47.61949, "lon": -122.34795 },
-          },
-        "entryPoints": [{ "type": "main", "position": { "lat": 47.61982, "lon": -122.34886 } }],
-      },
-      ...,
-    ],
-}
+const client = new SearchClient(credential, "<maps-client-id>");
+const searchResult = await client.searchAddress("400 Broad, Seattle");
 ```
 
 ### Search for an address or Point of Interest
@@ -156,72 +106,8 @@ You can use Fuzzy Search to search an address or a point of interest (POI). The 
 
 ```javascript
 const credential = new DefaultAzureCredential();
-const client = new SearchClient(credential, { clientId: "<maps-client-id>" });
-const result = await client.fuzzySearch("pizza", { countryFilter: ["Brazil"] });
-```
-
-Result
-
-```yaml
-{
-  "summary":
-    {
-      "query": "pizza",
-      "queryType": "NON_NEAR",
-      "queryTime": 6,
-      "numResults": 10,
-      "offset": 0,
-      "totalResults": 371450,
-      "fuzzyLevel": 1,
-    },
-  "results":
-    [
-      {
-        "type": "POI",
-        "id": "g6JpZK8wMjAwMDkwMDAwOTQyNTGhY6NBTkShdqdVbmlmaWVk",
-        "score": 2.1454398632,
-        "info": "search:ta:020009000094251-AD",
-        "poi":
-          {
-            "name": "Pizzeria Xavier",
-            "categorySet": [{ "id": 7315036 }],
-            "categories": ["pizza", "restaurant"],
-            "classifications":
-              [
-                {
-                  "code": "RESTAURANT",
-                  "names":
-                    [
-                      { "nameLocale": "en-US", "name": "pizza" },
-                      { "nameLocale": "en-US", "name": "restaurant" },
-                    ],
-                },
-              ],
-          },
-        "address":
-          {
-            "streetNumber": "3",
-            "streetName": "Carrer Joan Maragall",
-            "municipality": "Andorra La Vella",
-            "postalCode": "AD500",
-            "countryCode": "AD",
-            "country": "Andorra",
-            "countryCodeISO3": "AND",
-            "freeformAddress": "Carrer Joan Maragall 3, Andorra La Vella, AD500",
-            "localName": "Andorra La Vella",
-          },
-        "position": { "lat": 42.50818, "lon": 1.52935 },
-        "viewport":
-          {
-            "topLeftPoint": { "lat": 42.50908, "lon": 1.52813 },
-            "btmRightPoint": { "lat": 42.50728, "lon": 1.53057 },
-          },
-        "entryPoints": [{ "type": "main", "position": { "lat": 42.50819, "lon": 1.52936 } }],
-        "dataSources": { ... },
-      },
-      ...,
-    ],
-}
+const client = new SearchClient(credential, "<maps-client-id>");
+const fuzzySearchResult = await client.fuzzySearch("pizza", "fr");
 ```
 
 ### Make a Reverse Address Search to translate coordinate location to street address
@@ -231,52 +117,12 @@ This is often used for applications that consume GPS feeds and want to discover 
 
 ```javascript
 const credential = new DefaultAzureCredential();
-const client = new SearchClient(credential, { clientId: "<maps-client-id>" });
-const coordinate: Coordinate = {
+const client = new SearchClient(credential, "<maps-client-id>");
+const coordinate: LatLon = {
   latitude: 47.59118,
   longitude: -122.3327
 };
-const result = await client.reverseSearchAddress(coordinate);
-```
-
-Result
-
-```yaml
-{
-  "summary": { "queryTime": 6, "numResults": 1 },
-  "addresses":
-    [
-      {
-        "address":
-          {
-            "buildingNumber": "1505",
-            "street": "Edgar Martinez Drive South",
-            "streetNumber": "1505",
-            "routeNumbers": [],
-            "streetName": "Edgar Martinez Drive South",
-            "streetNameAndNumber": "1505 Edgar Martinez Drive South",
-            "municipality": "Seattle",
-            "municipalitySubdivision": "Downtown Seattle",
-            "countrySecondarySubdivision": "King",
-            "countrySubdivision": "WA",
-            "postalCode": "98134",
-            "countryCode": "US",
-            "country": "United States",
-            "countryCodeISO3": "USA",
-            "freeformAddress": "1505 Edgar Martinez Drive South, Seattle, WA 98134",
-            "countrySubdivisionName": "Washington",
-            "localName": "Seattle",
-            "boundingBox":
-              {
-                "northEast": "47.590293,-122.332326",
-                "southWest": "47.590286,-122.333248",
-                "entity": "position",
-              },
-          },
-        "position": "47.590290,-122.332726",
-      },
-    ],
-}
+const reverseSearchResult = await client.reverseSearchAddress(coordinate);
 ```
 
 ### Translate coordinate location into a human understandable cross street
@@ -285,44 +131,13 @@ Translate coordinate location into a human understandable cross street by using 
 
 ```javascript
 const credential = new DefaultAzureCredential();
-const client = new SearchClient(credential, { clientId: "<maps-client-id>" });
-const coordinate: Coordinate = {
+const client = new SearchClient(credential, "<maps-client-id>");
+const coordinate: LatLon = {
   latitude: 47.59118,
   longitude: -122.3327
 };
 
-const result = await client.reverseSearchCrossStreetAddress(coordinate);
-```
-
-Result
-
-```yaml
-{
-  "summary": { "queryTime": 121, "numResults": 1 },
-  "addresses":
-    [
-      {
-        "address":
-          {
-            "street": "Edgar Martinez Drive South",
-            "crossStreet": "Occidental Avenue South",
-            "streetName": "Occidental Avenue South & Edgar Martinez Drive South",
-            "municipality": "Seattle",
-            "municipalitySubdivision": "South Downtown",
-            "countrySecondarySubdivision": "King",
-            "countrySubdivision": "WA",
-            "postalCode": "98134",
-            "countryCode": "US",
-            "country": "United States",
-            "countryCodeISO3": "USA",
-            "freeformAddress": "Occidental Avenue South & Edgar Martinez Drive South, Seattle, WA 98134",
-            "countrySubdivisionName": "Washington",
-            "localName": "Seattle",
-          },
-        "position": "47.59029,-122.33325",
-      },
-    ],
-}
+const reverseSearchResult = await client.reverseSearchCrossStreetAddress(coordinate);
 ```
 
 ## Troubleshooting
