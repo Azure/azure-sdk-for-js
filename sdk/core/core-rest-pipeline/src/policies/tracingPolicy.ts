@@ -62,10 +62,10 @@ export function tracingPolicy(options: TracingPolicyOptions = {}): PipelinePolic
 
       try {
         const response = await next(request);
-        tryProcessResponse(response, span);
+        tryTraceResponse(response, span);
         return response;
       } catch (err) {
-        tryProcessError(err, span);
+        tryTraceError(err, span);
         throw err;
       }
     }
@@ -130,7 +130,7 @@ export function tryCreateSpan(request: PipelineRequest, userAgent?: string): Spa
   }
 }
 
-export function tryProcessError(err: any, span?: Span): void {
+export function tryTraceError(err: any, span?: Span): void {
   if (!span) {
     return;
   }
@@ -148,7 +148,7 @@ export function tryProcessError(err: any, span?: Span): void {
   }
 }
 
-export function tryProcessResponse(response: PipelineResponse, span?: Span): void {
+export function tryTraceResponse(response: PipelineResponse, span?: Span): void {
   if (!span) {
     return;
   }
