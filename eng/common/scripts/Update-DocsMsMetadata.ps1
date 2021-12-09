@@ -98,7 +98,7 @@ function GetAdjustedReadmeContent($ReadmeContent, $PackageInfo, $PackageMetadata
   $msauthor = "ramyar"
   Write-Host "Retrieve the code owner from $($PackageInfo.DirectoryPath)."
   $codeOwnerArray = ."$PSScriptRoot/get-codeowners.ps1" `
-                    -TargetDirectory $PackageInfo.DirectoryPath 
+    -TargetDirectory $PackageInfo.DirectoryPath 
   if ($codeOwnerArray) {
     Write-Host "Code Owners are $($codeOwnerArray -join ",")"
     $author = $codeOwnerArray[0]
@@ -138,7 +138,8 @@ function GetPackageInfoJson ($packageInfoJsonLocation) {
     # version is always 'dev' when interacting with NPM.
     if ($GetDocsMsDevLanguageSpecificPackageInfoFn -and (Test-Path "Function:$GetDocsMsDevLanguageSpecificPackageInfoFn")) { 
       $packageInfo = &$GetDocsMsDevLanguageSpecificPackageInfoFn $packageInfo
-    } else {
+    }
+    else {
       # Default: use the dev version from package info as the version for
       # downstream processes
       $packageInfo.Version = $packageInfo.DevVersion
@@ -154,10 +155,12 @@ function UpdateDocsMsMetadataForPackage($packageInfoJsonLocation, $packageInfo) 
   if ($packageMetadataArray.Count -eq 0) { 
     LogWarning "Could not retrieve metadata for $($packageInfo.Name) from metadata CSV. Using best effort defaults."
     $packageMetadata = $null
-  } elseif ($packageMetadataArray.Count -gt 1) { 
+  }
+  elseif ($packageMetadataArray.Count -gt 1) { 
     LogWarning "Multiple metadata entries for $($packageInfo.Name) in metadata CSV. Using first entry."
     $packageMetadata = $packageMetadataArray[0]
-  } else {
+  }
+  else {
     $packageMetadata = $packageMetadataArray[0]
   }
 
@@ -195,7 +198,7 @@ function UpdateDocsMsMetadataForPackage($packageInfoJsonLocation, $packageInfo) 
 }
 
 foreach ($packageInfoLocation in $PackageInfoJsonLocations) {
-  Write-Host "Updating metadata for package: $packageInfo"
+  Write-Host "Updating metadata for package: $packageInfoLocation"
 
   # Convert package metadata json file to metadata json property.
   $packageInfo = GetPackageInfoJson $packageInfoLocation
