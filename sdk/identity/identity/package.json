@@ -31,7 +31,6 @@
   },
   "//sampleConfiguration": {
     "productName": "Azure Identity",
-    "skipFolder": false,
     "productSlugs": [
       "azure",
       "azure-identity"

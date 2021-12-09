@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 /**
- * @summary Demonstrates the use of DefaultAzureCredential.
+ * @summary Tries several authentications. The simplest way to use `@azure/identity`.
  */
 
 import { DefaultAzureCredential } from "../src";

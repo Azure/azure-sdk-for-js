@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 /**
- * @summary Demonstrates the use of ClientSecretCredential.
+ * @summary Authenticates with a client and a client's secret.
  */
 
 const { ClientSecretCredential } = require("../src");

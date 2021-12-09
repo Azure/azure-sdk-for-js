@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 /**
- * @summary Demonstrates the use of EnvironmentCredential.
+ * @summary Authenticates with a client and a client's secret sent through environment variables.
  */
 
 import { EnvironmentCredential } from "../src";
