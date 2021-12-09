@@ -15,6 +15,7 @@ import { PipelinePolicy } from "../pipeline";
 import { URL } from "../util/url";
 import { getUserAgentValue } from "../util/userAgent";
 import { logger } from "../log";
+import { RestError } from "..";
 
 const createSpan = createSpanFunction({
   packagePrefix: "",
@@ -130,7 +131,7 @@ export function tryCreateSpan(request: PipelineRequest, userAgent?: string): Spa
   }
 }
 
-export function tryTraceError(err: any, span?: Span): void {
+export function tryTraceError(err: Error | RestError, span?: Span): void {
   if (!span) {
     return;
   }

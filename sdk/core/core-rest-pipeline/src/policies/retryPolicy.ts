@@ -32,6 +32,8 @@ export function retryPolicy(...strategies: RetryStrategy[]): PipelinePolicy {
       let retryCount = -1;
 
       const strategyState: RetryStrategyState[] = Array(strategies.length);
+
+      // eslint-disable-next-line no-constant-condition
       retryRequest: while (true) {
         retryCount += 1;
         response = undefined;

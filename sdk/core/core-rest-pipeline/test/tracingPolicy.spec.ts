@@ -66,11 +66,11 @@ export class MockSpan implements Span {
     this._endCalled = true;
   }
 
-  getStatus() {
+  getStatus(): SpanStatus {
     return this._status;
   }
 
-  setStatus(status: SpanStatus) {
+  setStatus(status: SpanStatus): this {
     this._status = status;
     return this;
   }
@@ -82,12 +82,12 @@ export class MockSpan implements Span {
     return this;
   }
 
-  setAttribute(key: string, value: SpanAttributeValue) {
+  setAttribute(key: string, value: SpanAttributeValue): this {
     this._attributes[key] = value;
     return this;
   }
 
-  getAttribute(key: string) {
+  getAttribute(key: string): SpanAttributeValue | undefined {
     return this._attributes[key];
   }
 
@@ -154,7 +154,7 @@ export class MockTracer implements Tracer {
 export class MockTracerProvider implements TracerProvider {
   private mockTracer: Tracer = new MockTracer();
 
-  setTracer(tracer: Tracer) {
+  setTracer(tracer: Tracer): void {
     this.mockTracer = tracer;
   }
 
@@ -162,11 +162,11 @@ export class MockTracerProvider implements TracerProvider {
     return this.mockTracer;
   }
 
-  register() {
+  register(): void {
     trace.setGlobalTracerProvider(this);
   }
 
-  disable() {
+  disable(): void {
     trace.disable();
   }
 }
