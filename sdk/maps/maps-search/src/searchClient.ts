@@ -176,6 +176,10 @@ export class SearchClient {
     geometryIds: string[],
     options: ListPolygonsOptions = {}
   ): Promise<Polygon[]> {
+    if (!Array.isArray(geometryIds) || geometryIds.length === 0) {
+      throw new Error("'geometryIds' must be a non-empty array");
+    }
+
     const { span, updatedOptions } = createSpan("SearchClient-listPolygons", options);
     const internalOptions = updatedOptions as ListPolygonsOptionalParams;
     try {

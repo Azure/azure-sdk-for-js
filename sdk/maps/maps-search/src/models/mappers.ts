@@ -40,12 +40,79 @@ import {
 import { FuzzySearchRequest, ReverseSearchAddressRequest, SearchAddressRequest } from "./requests";
 import { OperationOptions } from "@azure/core-client";
 
+/* LatLon / BoundingBox mappers */
+
 /**
  * @internal
  */
 export function toLatLonString(coordinates: LatLon): string {
   return `${coordinates.latitude},${coordinates.longitude}`;
 }
+
+/**
+ * @internal
+ */
+export function mapLatLongPairAbbreviatedToLatLon(
+  latLongAbbr?: LatLongPairAbbreviated
+): LatLon | undefined {
+  if (latLongAbbr && latLongAbbr.lat && latLongAbbr.lon) {
+    return new LatLon(latLongAbbr.lat, latLongAbbr.lon);
+  } else {
+    return undefined;
+  }
+}
+
+/**
+ * @internal
+ */
+export function mapStringToLatLon(LatLonStr?: string): LatLon | undefined {
+  if (LatLonStr && typeof LatLonStr === "string") {
+    const LatLonArray = LatLonStr.split(",");
+    if (LatLonArray.length === 2) {
+      const lat = Number(LatLonArray[0]);
+      const lon = Number(LatLonArray[1]);
+      if (!isNaN(lat) && !isNaN(lon)) {
+        return new LatLon(lat, lon);
+      }
+    }
+  }
+  return undefined;
+}
+
+/**
+ * @internal
+ */
+export function mapBoundingBox(bbox?: BoundingBoxInternal): BoundingBox | undefined {
+  if (bbox && bbox.topLeft && bbox.bottomRight) {
+    const topLeft = mapLatLongPairAbbreviatedToLatLon(bbox.topLeft);
+    const bottomRight = mapLatLongPairAbbreviatedToLatLon(bbox.bottomRight);
+    if (topLeft && bottomRight) {
+      return new BoundingBox(topLeft, bottomRight);
+    }
+  }
+  return undefined;
+}
+
+/**
+ * @internal
+ */
+export function mapBoundingBoxFromCompassNotation(
+  bbox?: BoundingBoxCompassNotation
+): BoundingBox | undefined {
+  if (bbox && bbox.northEast && bbox.southWest) {
+    const topLeftCoords = bbox.northEast.split(",").map((s) => Number(s));
+    const bottomRightCoords = bbox.southWest.split(",").map((s) => Number(s));
+    if (topLeftCoords.length !== 2 || bottomRightCoords.length !== 2) {
+      return new BoundingBox(
+        new LatLon(topLeftCoords[0], topLeftCoords[1]),
+        new LatLon(bottomRightCoords[0], bottomRightCoords[1])
+      );
+    }
+  }
+  return undefined;
+}
+
+/* Options mappers */
 
 /**
  * @internal
@@ -149,68 +216,7 @@ export function mapFuzzySearchOptions(options: FuzzySearchOptions): FuzzySearchO
   };
 }
 
-/**
- * @internal
- */
-export function mapLatLongPairAbbreviatedToLatLon(
-  latLongAbbr?: LatLongPairAbbreviated
-): LatLon | undefined {
-  if (latLongAbbr && latLongAbbr.lat && latLongAbbr.lon) {
-    return new LatLon(latLongAbbr.lat, latLongAbbr.lon);
-  } else {
-    return undefined;
-  }
-}
-
-/**
- * @internal
- */
-export function mapStringToLatLon(LatLonStr?: string): LatLon | undefined {
-  if (LatLonStr && typeof LatLonStr === "string") {
-    const LatLonArray = LatLonStr.split(",");
-    if (LatLonArray.length === 2) {
-      const lat = Number(LatLonArray[0]);
-      const lon = Number(LatLonArray[1]);
-      if (!isNaN(lat) && !isNaN(lon)) {
-        return new LatLon(lat, lon);
-      }
-    }
-  }
-  return undefined;
-}
-
-/**
- * @internal
- */
-export function mapBoundingBox(bbox?: BoundingBoxInternal): BoundingBox | undefined {
-  if (bbox && bbox.topLeft && bbox.bottomRight) {
-    const topLeft = mapLatLongPairAbbreviatedToLatLon(bbox.topLeft);
-    const bottomRight = mapLatLongPairAbbreviatedToLatLon(bbox.bottomRight);
-    if (topLeft && bottomRight) {
-      return new BoundingBox(topLeft, bottomRight);
-    }
-  }
-  return undefined;
-}
-
-/**
- * @internal
- */
-export function mapBoundingBoxFromCompassNotation(
-  bbox?: BoundingBoxCompassNotation
-): BoundingBox | undefined {
-  if (bbox && bbox.northEast && bbox.southWest) {
-    const topLeftCoords = bbox.northEast.split(",").map((s) => Number(s));
-    const bottomRightCoords = bbox.southWest.split(",").map((s) => Number(s));
-    if (topLeftCoords.length !== 2 || bottomRightCoords.length !== 2) {
-      return new BoundingBox(
-        new LatLon(topLeftCoords[0], topLeftCoords[1]),
-        new LatLon(bottomRightCoords[0], bottomRightCoords[1])
-      );
-    }
-  }
-  return undefined;
-}
+/* Result mappers */
 
 /**
  * @internal
@@ -402,6 +408,8 @@ export function mapReverseSearchAddressBatchResult(
   };
   return result;
 }
+
+/* Batch request mappers */
 
 /**
  * @internal

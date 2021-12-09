@@ -5,8 +5,8 @@ import { ClientSecretCredential, TokenCredential } from "@azure/identity";
 import { Recorder, RecorderEnvironmentSetup, env, record } from "@azure-tools/test-recorder";
 import { AzureKeyCredential } from "@azure/core-auth";
 import { Context } from "mocha";
-import { SearchClient } from "src/searchClient";
-import { SearchClientOptions } from "src/models/options";
+import { SearchClient } from "../../../src/searchClient";
+import { SearchClientOptions } from "../../../src/models/options";
 
 const replaceableVariables: { [k: string]: string } = {
   AZURE_CLIENT_ID: "azure_client_id",
