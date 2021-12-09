@@ -812,8 +812,6 @@ sdk/loadtestservice/arm-loadtestservice @qiaozha @dw511214992
 # ServiceLabel: %Container Service %Service Attention
 #/<NotInRepo>/          @qike-ms @jwilder @thomas1206 @seanmck
 
-# ServiceLabel: %Cosmos %Service Attention
-#/<NotInRepo>/          @simorenoh @gahl-levy
 
 # ServiceLabel: %Customer Insights %Service Attention
 #/<NotInRepo>/          @shefymk
