@@ -90,7 +90,14 @@ export function decompressResponsePolicy(): PipelinePolicy;
 export const decompressResponsePolicyName = "decompressResponsePolicy";
 
 // @public
-export function defaultRetryPolicy(): PipelinePolicy;
+export function defaultRetryPolicy(options?: DefaultRetryPolicyOptions): PipelinePolicy;
+
+// @public
+export interface DefaultRetryPolicyOptions {
+    maxRetries?: number;
+    maxRetryDelayInMs?: number;
+    retryDelayInMs?: number;
+}
 
 // @public
 export function exponentialRetryPolicy(options?: ExponentialRetryPolicyOptions): PipelinePolicy;
