@@ -60,16 +60,16 @@ describe("XML serializer", function() {
     });
 
     it("with empty element with attribute", async function() {
-      const xml = await parseXML(`<fruit healthy="true" />`);
+      const xml = await parseXML(`<fruit healthy="true"/>`);
       assert.deepStrictEqual(xml, {
         $: {
-          healthy: true
+          healthy: "true"
         }
       });
     });
 
     it("with element", async function() {
-      const xml = await parseXML("<fruit></fruit>");
+      const xml = await parseXML("<fruit/>");
       assert.deepStrictEqual(xml, ``);
     });
 
@@ -79,34 +79,34 @@ describe("XML serializer", function() {
     });
 
     it("with element with attribute", async function() {
-      const xml = await parseXML(`<fruit healthy="true"></fruit>`);
+      const xml = await parseXML(`<fruit healthy="true"/>`);
       assert.deepStrictEqual(xml, {
         $: {
-          healthy: true
+          healthy: "true"
         }
       });
     });
 
     it("with element with nested attribute", async function() {
-      const xml = await parseXML(`<vegetable><fruit healthy="true"></fruit></vegetable>`);
+      const xml = await parseXML(`<vegetable><fruit healthy="true"/></vegetable>`);
       assert.deepStrictEqual(xml, {
         fruit: {
           $: {
-            healthy: true
+            healthy: "true"
           }
         }
       });
     });
 
     it("with element with nested attribute and root", async function() {
-      const xml = await parseXML(`<vegetable><fruit healthy="true"></fruit></vegetable>`, {
+      const xml = await parseXML(`<vegetable><fruit healthy="true"/></vegetable>`, {
         includeRoot: true
       });
       assert.deepStrictEqual(xml, {
         vegetable: {
           fruit: {
             $: {
-              healthy: true
+              healthy: "true"
             }
           }
         }
@@ -117,7 +117,7 @@ describe("XML serializer", function() {
       const xml = await parseXML(`<fruit healthy="true">yum</fruit>`);
       assert.deepStrictEqual(xml, {
         $: {
-          healthy: true
+          healthy: "true"
         },
         _: "yum"
       });
@@ -135,7 +135,7 @@ describe("XML serializer", function() {
       assert.deepStrictEqual(xml, {
         apples: {
           $: {
-            tasty: true
+            tasty: "true"
           }
         }
       });
@@ -153,7 +153,7 @@ describe("XML serializer", function() {
       assert.deepStrictEqual(xml, {
         apples: {
           $: {
-            tasty: true
+            tasty: "true"
           },
           _: "yum"
         }
@@ -168,20 +168,20 @@ describe("XML serializer", function() {
     });
 
     it("with empty element with attribute", async function() {
-      const json: any = await parseXML(`<fruit healthy="true" />`, {
+      const json: any = await parseXML(`<fruit healthy="true"/>`, {
         includeRoot: true
       });
       assert.deepStrictEqual(json, {
         fruit: {
           $: {
-            healthy: true
+            healthy: "true"
           }
         }
       });
     });
 
     it("with element", async function() {
-      const json: any = await parseXML("<fruit></fruit>", { includeRoot: true });
+      const json: any = await parseXML("<fruit/>", { includeRoot: true });
       assert.deepStrictEqual(json, { fruit: `` });
     });
 
@@ -198,13 +198,13 @@ describe("XML serializer", function() {
     });
 
     it("with element with attribute", async function() {
-      const json: any = await parseXML(`<fruit healthy="true"></fruit>`, {
+      const json: any = await parseXML(`<fruit healthy="true"/>`, {
         includeRoot: true
       });
       assert.deepStrictEqual(json, {
         fruit: {
           $: {
-            healthy: true
+            healthy: "true"
           }
         }
       });
@@ -217,7 +217,7 @@ describe("XML serializer", function() {
       assert.deepStrictEqual(json, {
         fruit: {
           $: {
-            healthy: true
+            healthy: "true"
           },
           _: "yum"
         }
@@ -240,7 +240,7 @@ describe("XML serializer", function() {
       assert.deepStrictEqual(json, {
         apples: {
           $: {
-            tasty: true
+            tasty: "true"
           }
         }
       });
@@ -260,7 +260,7 @@ describe("XML serializer", function() {
       assert.deepStrictEqual(json, {
         apples: {
           $: {
-            tasty: true
+            tasty: "true"
           },
           _: "yum"
         }
@@ -285,7 +285,7 @@ describe("XML serializer", function() {
         {
           fruit: {
             $: {
-              healthy: true
+              healthy: "true"
             }
           }
         },
@@ -293,7 +293,7 @@ describe("XML serializer", function() {
       );
       assert.deepStrictEqual(
         xml,
-        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><fruits><fruit healthy="true"></fruit></fruits>`
+        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><fruits><fruit healthy="true"/></fruits>`
       );
     });
 
@@ -301,7 +301,7 @@ describe("XML serializer", function() {
       const xml = stringifyXML({ fruit: `` }, { rootName: "fruits" });
       assert.deepStrictEqual(
         xml,
-        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><fruits><fruit></fruit></fruits>`
+        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><fruits><fruit/></fruits>`
       );
     });
 
@@ -318,7 +318,7 @@ describe("XML serializer", function() {
         {
           fruit: {
             $: {
-              healthy: true
+              healthy: "true"
             }
           }
         },
@@ -326,7 +326,7 @@ describe("XML serializer", function() {
       );
       assert.deepStrictEqual(
         xml,
-        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><fruits><fruit healthy="true"></fruit></fruits>`
+        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><fruits><fruit healthy="true"/></fruits>`
       );
     });
 
@@ -336,14 +336,14 @@ describe("XML serializer", function() {
           $: { green: false },
           fruit: {
             $: {
-              healthy: true
+              healthy: "true"
             }
           }
         }
-      });
+      }, {includeRoot: false});
       assert.deepStrictEqual(
         xml,
-        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><vegetable green="false">  <fruit healthy="true"></fruit></vegetable>`
+        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><root><vegetable green="false"><fruit healthy="true"/></vegetable></root>`
       );
     });
 
@@ -352,7 +352,7 @@ describe("XML serializer", function() {
         {
           fruit: {
             $: {
-              healthy: true
+              healthy: "true"
             },
             _: "yum"
           }
@@ -370,7 +370,7 @@ describe("XML serializer", function() {
         {
           fruit: {
             $: {
-              healthy: true
+              healthy: "true"
             },
             _: "yum"
           }
@@ -394,7 +394,7 @@ describe("XML serializer", function() {
       );
       assert.deepStrictEqual(
         xml,
-        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><fruits><fruit>  <apples/></fruit></fruits>`
+        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><fruits><fruit><apples/></fruit></fruits>`
       );
     });
 
@@ -403,7 +403,7 @@ describe("XML serializer", function() {
         {
           apples: {
             $: {
-              tasty: true
+              tasty: "true"
             }
           }
         },
@@ -411,7 +411,7 @@ describe("XML serializer", function() {
       );
       assert.deepStrictEqual(
         xml,
-        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><fruits><apples tasty="true"></apples></fruits>`
+        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><fruits><apples tasty="true"/></fruits>`
       );
     });
 
@@ -433,7 +433,7 @@ describe("XML serializer", function() {
         {
           apples: {
             $: {
-              tasty: true
+              tasty: "true"
             },
             _: "yum"
           }

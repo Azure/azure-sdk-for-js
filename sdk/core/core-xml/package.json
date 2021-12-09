@@ -5,6 +5,9 @@
   "sdk-type": "client",
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
+  "browser": {
+    "./dist-esm/src/xml.js": "./dist-esm/src/xml.browser.js"
+  },
   "types": "types/latest/core-xml.d.ts",
   "typesVersions": {
     "<3.6": {

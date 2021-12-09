@@ -9,7 +9,9 @@ const toXMLOptions: Partial<J2xOptions> = {
   attributeNamePrefix: "@_",
   textNodeName: "_",
   ignoreAttributes: false,
-  format: true
+  format: true,
+  supressEmptyNode: true,
+  indentBy: ''
 };
 
 /**
@@ -22,8 +24,9 @@ export function stringifyXML(obj: unknown, opts: XmlOptions = {}): string {
   const j2x = new j2xParser(toXMLOptions);
   const flattened = flattenAttributes(obj as any);
   let xml: string = j2x.parse(flattened);
-  if (opts?.rootName) {
-    xml = `<${opts.rootName}>${xml}</${opts.rootName}>`;
+  const rootName = opts?.rootName ?? "root"
+  if (rootName) {
+    xml = `<${rootName}>${xml}</${rootName}>`;
   }
   return `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>${xml}`.replace(/\n/g, "");
 }
@@ -65,7 +68,7 @@ function flattenAttributes(obj: Record<string, any>) {
   for (const [key, value] of Object.entries(obj)) {
     if (key === "$" && value instanceof Object) {
       for (const [attName, attValue] of Object.entries(value)) {
-        attributes[`@_${attName}`] = attValue;
+        attributes[`@_${attName}`] = String(attValue);
       }
       delete obj["$"];
       if (Object.keys(attributes).length) {
@@ -88,7 +91,7 @@ function groupAttributes(obj: Record<string, any>) {
       if (!obj["$"]) {
         obj["$"] = {};
       }
-      obj["$"][`${attributeName}`] = value;
+      obj["$"][`${attributeName}`] = String(value);
       delete obj[key];
     } else if (value instanceof Object) {
       obj[key] = groupAttributes(value);
