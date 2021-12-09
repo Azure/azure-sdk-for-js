@@ -1,14 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  CheckpointStore,
-  PartitionOwnership,
-  Checkpoint,
-  OperationOptions
-} from "@azure/event-hubs";
-import { ContainerClient, Metadata, RestError, BlobSetMetadataResponse } from "@azure/storage-blob";
-import { logger, logErrorStackTrace } from "./log";
+import { BlobSetMetadataResponse, ContainerClient, Metadata, RestError } from "@azure/storage-blob";
+import { Checkpoint, CheckpointStore, OperationOptions, PartitionOwnership } from "@azure/event-hubs";
+import { logErrorStackTrace, logger } from "./log";
 import { throwTypeErrorIfParameterMissing } from "./util/error";
 
 /**

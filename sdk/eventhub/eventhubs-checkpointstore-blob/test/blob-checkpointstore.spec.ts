@@ -1,22 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import chai from "chai";
-const should = chai.should();
-import chaiAsPromised from "chai-as-promised";
-chai.use(chaiAsPromised);
-import chaiString from "chai-string";
-chai.use(chaiString);
-import debugModule from "debug";
-const debug = debugModule("azure:event-hubs:partitionPump");
-import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
-import { BlobCheckpointStore } from "../src";
+import { Checkpoint, EventHubConsumerClient, PartitionOwnership } from "@azure/event-hubs";
 import { ContainerClient, RestError } from "@azure/storage-blob";
-import { PartitionOwnership, Checkpoint, EventHubConsumerClient } from "@azure/event-hubs";
-import { Guid } from "guid-typescript";
-import { parseIntOrThrow } from "../src/blobCheckpointStore";
-import { fail } from "assert";
+import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
 import { AbortController } from "@azure/abort-controller";
+import { BlobCheckpointStore } from "../src";
+import { Guid } from "guid-typescript";
+import chai from "chai";
+import chaiAsPromised from "chai-as-promised";
+import chaiString from "chai-string";
+import debugModule from "debug";
+import { fail } from "assert";
+import { parseIntOrThrow } from "../src/blobCheckpointStore";
+
+const should = chai.should();
+chai.use(chaiAsPromised);
+chai.use(chaiString);
+const debug = debugModule("azure:event-hubs:partitionPump");
+
 const env = getEnvVars();
 
 describe("Blob Checkpoint Store", function(): void {
