@@ -9,8 +9,8 @@ import { tryCreateSpan, tryProcessError, tryProcessResponse } from "./tracingPol
 import { Span } from "@azure/core-tracing";
 import { getUserAgentValue } from "../util/userAgent";
 import { RetryStrategy, RetryStrategyState } from "../retryStrategies/retryStrategy";
-import { RetryError } from "../retryStrategies/retryError";
 import { RestError } from "../restError";
+import { AbortError } from "@azure/abort-controller";
 
 const retryPolicyLogger = createClientLogger("core-rest-pipeline retryPolicy");
 const DEFAULT_MAX_RETRIES = 3;
@@ -30,18 +30,17 @@ export function retryPolicy(...strategies: RetryStrategy[]): PipelinePolicy {
       let response: PipelineResponse | undefined;
       let responseError: RestError | undefined;
       let retryCount = -1;
-      const retryError = new RetryError();
-
-      let span: Span | undefined;
-      if (request.tracingOptions?.tracingContext) {
-        span = tryCreateSpan(request, getUserAgentValue(retryPolicyName));
-      }
 
       const strategyState: RetryStrategyState[] = Array(strategies.length);
       retryRequest: while (true) {
         retryCount += 1;
         response = undefined;
         responseError = undefined;
+
+        let retrySpan: Span | undefined;
+        if (request.tracingOptions?.tracingContext) {
+          retrySpan = tryCreateSpan(request, getUserAgentValue(retryPolicyName));
+        }
 
         try {
           retryPolicyLogger.info(
@@ -53,20 +52,15 @@ export function retryPolicy(...strategies: RetryStrategy[]): PipelinePolicy {
             `Retry ${retryCount}: Received a response from request`,
             request.requestId
           );
-          if (span) {
-            tryProcessResponse(span, response);
-          }
+          tryProcessResponse(response, retrySpan);
         } catch (e) {
           retryPolicyLogger.info(
             `Retry ${retryCount}: Received an error from request`,
             request.requestId
           );
           responseError = e as RestError;
-          retryError.errors.push(responseError);
           response = responseError.response;
-          if (span) {
-            tryProcessError(span, responseError);
-          }
+          tryProcessError(responseError, retrySpan);
         }
 
         retryPolicyLogger.info(
@@ -78,19 +72,25 @@ export function retryPolicy(...strategies: RetryStrategy[]): PipelinePolicy {
           strategyLogger.info(`Retry ${retryCount}: Processing retry strategy ${strategy.name}.`);
           let state: RetryStrategyState = {
             ...strategyState[i],
-            retryError,
             retryCount,
             response,
             responseError
           };
+
+          let strategySpan: Span | undefined;
+          if (request.tracingOptions?.tracingContext) {
+            strategySpan = tryCreateSpan(request, getUserAgentValue(strategy.name));
+          }
 
           if (state.retryCount >= (state.maxRetries || DEFAULT_MAX_RETRIES)) {
             strategyLogger.info(
               `Maximum retries reached. Returning the last received response, or throwing the last received error.`
             );
             if (response) {
+              tryProcessResponse(response, strategySpan);
               return response;
             }
+            tryProcessError(responseError, strategySpan);
             throw responseError;
           }
 
@@ -104,8 +104,9 @@ export function retryPolicy(...strategies: RetryStrategy[]): PipelinePolicy {
 
           if (request.abortSignal?.aborted) {
             strategyLogger.error(`Retry ${retryCount}: Request aborted.`);
-            retryError.errors.push(new Error("Aborted"));
-            throw retryError;
+            const abortError = new AbortError();
+            tryProcessError(abortError, strategySpan);
+            throw abortError;
           }
 
           if (state.throwError) {
@@ -113,8 +114,18 @@ export function retryPolicy(...strategies: RetryStrategy[]): PipelinePolicy {
               `Retry ${retryCount}: Retry strategy ${strategy.name} throws error:`,
               state.throwError
             );
-            retryError.errors.push(state.throwError);
-            throw retryError;
+            tryProcessError(state.throwError, strategySpan);
+            throw state.throwError;
+          }
+
+          if (strategySpan) {
+            if (response) {
+              tryProcessResponse(response, strategySpan);
+            } else if (responseError) {
+              tryProcessError(responseError, strategySpan);
+            } else {
+              strategySpan.end();
+            }
           }
 
           if (state.retryAfterInMs) {

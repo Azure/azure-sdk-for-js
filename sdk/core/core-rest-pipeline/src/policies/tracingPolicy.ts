@@ -62,10 +62,10 @@ export function tracingPolicy(options: TracingPolicyOptions = {}): PipelinePolic
 
       try {
         const response = await next(request);
-        tryProcessResponse(span, response);
+        tryProcessResponse(response, span);
         return response;
       } catch (err) {
-        tryProcessError(span, err);
+        tryProcessError(err, span);
         throw err;
       }
     }
@@ -130,7 +130,10 @@ export function tryCreateSpan(request: PipelineRequest, userAgent?: string): Spa
   }
 }
 
-export function tryProcessError(span: Span, err: any): void {
+export function tryProcessError(err: any, span?: Span): void {
+  if (!span) {
+    return;
+  }
   try {
     span.setStatus({
       code: SpanStatusCode.ERROR,
@@ -145,7 +148,10 @@ export function tryProcessError(span: Span, err: any): void {
   }
 }
 
-export function tryProcessResponse(span: Span, response: PipelineResponse): void {
+export function tryProcessResponse(response: PipelineResponse, span?: Span): void {
+  if (!span) {
+    return;
+  }
   try {
     span.setAttribute("http.status_code", response.status);
     const serviceRequestId = response.headers.get("x-ms-request-id");

@@ -12,27 +12,10 @@ import {
   createHttpHeaders,
   RestError,
   retryPolicy,
-  RetryStrategy,
   RetryStrategyState
 } from "../src";
 import { MockSpan, MockTracer, MockTracerProvider } from "./tracingPolicy.spec";
 import { setSpan, TraceFlags, context, SpanStatusCode } from "@azure/core-tracing";
-
-/**
- * System error retry strategy
- */
-export function testRetryStrategy(): RetryStrategy {
-  return {
-    name: "testRetryStrategy",
-    meetsConditions({ responseError }) {
-      return Boolean(responseError && responseError!.code === "ENOENT");
-    },
-    updateRetryState(state: RetryStrategyState): RetryStrategyState {
-      state.retryAfterInMs = 100;
-      return state;
-    }
-  };
-}
 
 describe("retryPolicy", function() {
   afterEach(function() {
@@ -50,7 +33,16 @@ describe("retryPolicy", function() {
       status: 200
     };
 
-    const policy = retryPolicy(testRetryStrategy());
+    const policy = retryPolicy({
+      name: "testRetryStrategy",
+      meetsConditions({ responseError }) {
+        return Boolean(responseError && responseError!.code === "ENOENT");
+      },
+      updateRetryState(state: RetryStrategyState): RetryStrategyState {
+        state.retryAfterInMs = 100;
+        return state;
+      }
+    });
     const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
     next.onFirstCall().rejects(testError);
     next.onSecondCall().resolves(successResponse);
@@ -76,7 +68,16 @@ describe("retryPolicy", function() {
     });
     const testError = new RestError("Test Error!", { code: "ENOENT" });
 
-    const policy = retryPolicy(testRetryStrategy());
+    const policy = retryPolicy({
+      name: "testRetryStrategy",
+      meetsConditions({ responseError }) {
+        return Boolean(responseError && responseError!.code === "ENOENT");
+      },
+      updateRetryState(state: RetryStrategyState): RetryStrategyState {
+        state.retryAfterInMs = 100;
+        return state;
+      }
+    });
     const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
     next.rejects(testError);
 
@@ -505,7 +506,7 @@ describe("retryPolicy", function() {
     });
   });
 
-  describe("retryPolicy tracing", function() {
+  describe.only("retryPolicy tracing", function() {
     const TRACE_VERSION = "00";
     const mockTracerProvider = new MockTracerProvider();
 
@@ -538,7 +539,16 @@ describe("retryPolicy", function() {
         status: 200
       };
 
-      const policy = retryPolicy(testRetryStrategy());
+      const policy = retryPolicy({
+        name: "testRetryStrategy",
+        meetsConditions({ responseError }) {
+          return Boolean(responseError && responseError!.code === "ENOENT");
+        },
+        updateRetryState(state: RetryStrategyState): RetryStrategyState {
+          state.retryAfterInMs = 100;
+          return state;
+        }
+      });
       const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
       next.onFirstCall().rejects(testError);
       next.onSecondCall().resolves(successResponse);
@@ -558,12 +568,119 @@ describe("retryPolicy", function() {
       assert.strictEqual(result, successResponse);
 
       assert.isTrue(mockTracer.startSpanCalled());
-      assert.lengthOf(mockTracer.getStartedSpans(), 1);
-      const span = mockTracer.getStartedSpans()[0];
-      assert.isTrue(span.didEnd());
-      assert.deepEqual(span.getStatus(), { code: SpanStatusCode.OK });
-      assert.equal(span.getAttribute("http.status_code"), 200);
-      assert.match(span.getAttribute("http.user_agent") as string, /^retryPolicy /);
+      assert.lengthOf(mockTracer.getStartedSpans(), 4);
+
+      const spans = mockTracer.getStartedSpans();
+      const userAgentNames: string[] = [];
+
+      for (const [index, span] of spans.entries()) {
+        assert.isTrue(span.didEnd());
+
+        userAgentNames.push((span.getAttribute("http.user_agent") as string).split(" ")[0]);
+
+        if (index < spans.length - 2) {
+          assert.deepEqual(span.getStatus(), {
+            code: SpanStatusCode.ERROR,
+            message: "Test Error!"
+          });
+        } else {
+          assert.equal(span.getAttribute("http.status_code"), 200);
+          assert.deepEqual(span.getStatus(), { code: SpanStatusCode.OK });
+        }
+      }
+
+      assert.deepEqual(userAgentNames, [
+        "retryPolicy",
+        "testRetryStrategy",
+        "retryPolicy",
+        "testRetryStrategy"
+      ]);
+
+      const expectedFlag = "01";
+
+      assert.equal(
+        request.headers.get("traceparent"),
+        `${TRACE_VERSION}-${mockTraceId}-${mockSpanId}-${expectedFlag}`
+      );
+      assert.notExists(request.headers.get("tracestate"));
+    });
+
+    it("It should support tracing when the default maxRetries is reached", async () => {
+      const mockTraceId = "11111111111111111111111111111111";
+      const mockSpanId = "2222222222222222";
+      const mockTracer = new MockTracer(mockTraceId, mockSpanId, TraceFlags.SAMPLED);
+      mockTracerProvider.setTracer(mockTracer);
+
+      const ROOT_SPAN = new MockSpan("root", "root", TraceFlags.SAMPLED, "");
+
+      const request = createPipelineRequest({
+        url: "https://bing.com",
+        tracingOptions: {
+          tracingContext: setSpan(context.active(), ROOT_SPAN)
+        }
+      });
+      const testError = new RestError("Test Error!", { code: "ENOENT" });
+
+      const policy = retryPolicy({
+        name: "testRetryStrategy",
+        meetsConditions({ responseError }) {
+          return Boolean(responseError && responseError!.code === "ENOENT");
+        },
+        updateRetryState(state: RetryStrategyState): RetryStrategyState {
+          state.retryAfterInMs = 100;
+          return state;
+        }
+      });
+      const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
+      next.rejects(testError);
+
+      const clock = sinon.useFakeTimers();
+
+      let catchCalled = false;
+      const promise = policy.sendRequest(request, next);
+      promise.catch((e) => {
+        catchCalled = true;
+        assert.strictEqual(e, testError);
+      });
+      await clock.runAllAsync();
+      assert.isTrue(catchCalled);
+      assert.strictEqual(next.callCount, 4);
+
+      assert.isTrue(mockTracer.startSpanCalled());
+      assert.lengthOf(mockTracer.getStartedSpans(), 8);
+
+      const spans = mockTracer.getStartedSpans();
+      const userAgentNames: string[] = [];
+
+      for (const [index, span] of spans.entries()) {
+        assert.isTrue(span.didEnd());
+
+        userAgentNames.push((span.getAttribute("http.user_agent") as string).split(" ")[0]);
+
+        if (index < spans.length - 2) {
+          assert.deepEqual(span.getStatus(), {
+            code: SpanStatusCode.ERROR,
+            message: "Test Error!"
+          });
+        } else {
+          assert.equal(span.getAttribute("http.status_code"), undefined);
+          assert.deepEqual(span.getStatus(), {
+            code: SpanStatusCode.ERROR,
+            message: "Test Error!"
+          });
+        }
+      }
+
+      assert.deepEqual(userAgentNames, [
+        "retryPolicy",
+        "testRetryStrategy",
+        "retryPolicy",
+        "testRetryStrategy",
+        "retryPolicy",
+        "testRetryStrategy",
+        "retryPolicy",
+        "testRetryStrategy"
+      ]);
 
       const expectedFlag = "01";
 

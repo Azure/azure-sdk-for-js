@@ -4,7 +4,6 @@
 import { AzureLogger } from "@azure/logger";
 import { PipelineResponse } from "../interfaces";
 import { RestError } from "../restError";
-import { RetryError } from "./retryError";
 
 /**
  * State that keeps track of the last retry and controls how to do the next retries.
@@ -18,10 +17,6 @@ export interface RetryStrategyState {
    * Total number of retries so far.
    */
   retryCount: number;
-  /**
-   * Error keeping track of the errors accumulated so far.
-   */
-  retryError: RetryError;
   /**
    * A {@link PipelineResponse}, if the last retry attempt succeeded.
    */
