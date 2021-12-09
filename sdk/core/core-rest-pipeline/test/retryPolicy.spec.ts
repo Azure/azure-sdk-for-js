@@ -15,6 +15,8 @@ import {
   RetryStrategy,
   RetryStrategyState
 } from "../src";
+import { MockSpan, MockTracer, MockTracerProvider } from "./tracingPolicy.spec";
+import { setSpan, TraceFlags, context, SpanStatusCode } from "@azure/core-tracing";
 
 /**
  * System error retry strategy
@@ -500,6 +502,76 @@ describe("retryPolicy", function() {
         "Maximum retries reached. Returning the last received response, or throwing the last received error."
       ],
       error: []
+    });
+  });
+
+  describe("retryPolicy tracing", function() {
+    const TRACE_VERSION = "00";
+    const mockTracerProvider = new MockTracerProvider();
+
+    beforeEach(() => {
+      mockTracerProvider.register();
+    });
+
+    afterEach(() => {
+      mockTracerProvider.disable();
+    });
+
+    it("It should support tracing", async () => {
+      const mockTraceId = "11111111111111111111111111111111";
+      const mockSpanId = "2222222222222222";
+      const mockTracer = new MockTracer(mockTraceId, mockSpanId, TraceFlags.SAMPLED);
+      mockTracerProvider.setTracer(mockTracer);
+
+      const ROOT_SPAN = new MockSpan("root", "root", TraceFlags.SAMPLED, "");
+
+      const request = createPipelineRequest({
+        url: "https://bing.com",
+        tracingOptions: {
+          tracingContext: setSpan(context.active(), ROOT_SPAN)
+        }
+      });
+      const testError = new RestError("Test Error!", { code: "ENOENT" });
+      const successResponse: PipelineResponse = {
+        headers: createHttpHeaders(),
+        request,
+        status: 200
+      };
+
+      const policy = retryPolicy(testRetryStrategy());
+      const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
+      next.onFirstCall().rejects(testError);
+      next.onSecondCall().resolves(successResponse);
+
+      const clock = sinon.useFakeTimers();
+
+      const promise = policy.sendRequest(request, next);
+      assert.isTrue(next.calledOnce);
+
+      // allow the delay to occur
+      const time = await clock.nextAsync();
+      // should be at least the standard delay
+      assert.isAtLeast(time, 100);
+      assert.isTrue(next.calledTwice);
+
+      const result = await promise;
+      assert.strictEqual(result, successResponse);
+
+      assert.isTrue(mockTracer.startSpanCalled());
+      assert.lengthOf(mockTracer.getStartedSpans(), 1);
+      const span = mockTracer.getStartedSpans()[0];
+      assert.isTrue(span.didEnd());
+      assert.deepEqual(span.getStatus(), { code: SpanStatusCode.OK });
+      assert.equal(span.getAttribute("http.status_code"), 200);
+      assert.match(span.getAttribute("http.user_agent") as string, /^retryPolicy /);
+
+      const expectedFlag = "01";
+
+      assert.equal(
+        request.headers.get("traceparent"),
+        `${TRACE_VERSION}-${mockTraceId}-${mockSpanId}-${expectedFlag}`
+      );
+      assert.notExists(request.headers.get("tracestate"));
     });
   });
 });

@@ -25,7 +25,7 @@ import {
 } from "@azure/core-tracing";
 import { TracerProvider, Tracer, Span, trace } from "@opentelemetry/api";
 
-class MockSpan implements Span {
+export class MockSpan implements Span {
   private _endCalled = false;
   private _status: SpanStatus = {
     code: SpanStatusCode.UNSET
@@ -120,7 +120,7 @@ class MockSpan implements Span {
   }
 }
 
-class MockTracer implements Tracer {
+export class MockTracer implements Tracer {
   private spans: MockSpan[] = [];
   private _startSpanCalled = false;
 
@@ -151,7 +151,7 @@ class MockTracer implements Tracer {
   }
 }
 
-class MockTracerProvider implements TracerProvider {
+export class MockTracerProvider implements TracerProvider {
   private mockTracer: Tracer = new MockTracer();
 
   setTracer(tracer: Tracer) {
