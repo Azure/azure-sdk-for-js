@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
+import { CbsClient, TokenType, defaultCancellableLock } from "../src";
 import { AbortController } from "@azure/abort-controller";
-import { CbsClient, defaultCancellableLock, TokenType } from "../src";
-import { createConnectionStub } from "./utils/createConnectionStub";
 import { Connection } from "rhea-promise";
+import { assert } from "chai";
+import { createConnectionStub } from "./utils/createConnectionStub";
 import { stub } from "sinon";
 
 describe("CbsClient", function() {

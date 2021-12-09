@@ -7,11 +7,11 @@ import {
   RequestPolicyFactory,
   RequestPolicyOptions
 } from "./requestPolicy";
+import { Constants } from "../util/constants";
 import { HttpOperationResponse } from "../httpOperationResponse";
 import { ProxySettings } from "../serviceClient";
-import { WebResourceLike } from "../webResource";
-import { Constants } from "../util/constants";
 import { URLBuilder } from "../url";
+import { WebResourceLike } from "../webResource";
 import { getEnvironmentValue } from "../util/utils";
 
 /**

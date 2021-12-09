@@ -1,35 +1,35 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
-import { HttpClient } from "../src/httpClient";
-import { QueryCollectionFormat } from "../src/queryCollectionFormat";
+import * as Mappers from "./testMappers";
 import {
+  CompositeMapper,
   DictionaryMapper,
-  MapperType,
-  Serializer,
   Mapper,
-  CompositeMapper
+  MapperType,
+  Serializer
 } from "../src/serializer";
 import {
-  serializeRequestBody,
-  ServiceClient,
-  getOperationArgumentValueFromParameterPath
-} from "../src/serviceClient";
-import { WebResource } from "../src/webResource";
-import {
-  OperationArguments,
   HttpHeaders,
-  deserializationPolicy,
-  RestResponse,
-  isNode,
+  OperationArguments,
   OperationSpec,
-  TokenCredential,
+  RestResponse,
   ServiceClientCredentials,
-  ServiceClientOptions
+  ServiceClientOptions,
+  TokenCredential,
+  deserializationPolicy,
+  isNode
 } from "../src/coreHttp";
+import {
+  ServiceClient,
+  getOperationArgumentValueFromParameterPath,
+  serializeRequestBody
+} from "../src/serviceClient";
+import { HttpClient } from "../src/httpClient";
 import { ParameterPath } from "../src/operationParameter";
-import * as Mappers from "./testMappers";
+import { QueryCollectionFormat } from "../src/queryCollectionFormat";
+import { WebResource } from "../src/webResource";
+import { assert } from "chai";
 import { getCachedDefaultHttpClient } from "../src/httpClientCache";
 
 describe("ServiceClient", function() {

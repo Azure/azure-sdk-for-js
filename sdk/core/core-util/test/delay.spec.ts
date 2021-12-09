@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { delay } from "../src";
-import { assert } from "chai";
 import * as sinon from "sinon";
+import { assert } from "chai";
+import { delay } from "../src";
 
 describe("delay", function() {
   afterEach(function() {

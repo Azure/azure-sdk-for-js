@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import * as xml2js from "xml2js";
-import { XML_ATTRKEY, XML_CHARKEY, SerializerOptions } from "./serializer.common";
+import { SerializerOptions, XML_ATTRKEY, XML_CHARKEY } from "./serializer.common";
 
 // Note: The reason we re-define all of the xml2js default settings (version 2.0) here is because the default settings object exposed
 // by the xm2js library is mutable. See https://github.com/Leonidas-from-XIV/node-xml2js/issues/536
