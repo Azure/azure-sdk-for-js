@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { AzureLogger } from "@azure/logger";
 import { assert } from "chai";
 import * as sinon from "sinon";
 import {
@@ -30,7 +31,7 @@ export function testRetryStrategy(): RetryStrategy {
   };
 }
 
-describe("retryPolicy", function() {
+describe.only("retryPolicy", function() {
   afterEach(function() {
     sinon.restore();
   });
@@ -156,5 +157,66 @@ describe("retryPolicy", function() {
     // should be one more than the default retry count
     assert.strictEqual(next.callCount, 1);
     assert.isTrue(catchCalled);
+  });
+
+  it("It should log consistent messages", async () => {
+    const request = createPipelineRequest({
+      url: "https://bing.com"
+    });
+    const testError = new RestError("Test Error!", { code: "ENOENT" });
+    const logParams: {
+      info: string[];
+      error: string[];
+    } = {
+      info: [],
+      error: []
+    };
+
+    const policy = retryPolicy({
+      name: "testRetryStrategy",
+      logger: {
+        info(...params) {
+          logParams.info.push(params.join(" "));
+        },
+        error(...params) {
+          logParams.error.push(params.join(" "));
+        }
+      } as AzureLogger,
+      meetsConditions({ responseError }) {
+        return Boolean(responseError && responseError!.code === "ENOENT");
+      },
+      updateRetryState(state: RetryStrategyState): RetryStrategyState {
+        state.retryAfterInMs = 100;
+        return state;
+      }
+    });
+    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    next.rejects(testError);
+
+    const clock = sinon.useFakeTimers();
+
+    let catchCalled = false;
+    const promise = policy.sendRequest(request, next);
+    promise.catch((e) => {
+      catchCalled = true;
+      assert.strictEqual(e, testError);
+    });
+    await clock.runAllAsync();
+    // should be one more than the default retry count
+    assert.strictEqual(next.callCount, 4);
+    assert.isTrue(catchCalled);
+
+    assert.deepEqual(logParams, {
+      info: [
+        "Retry 0: Processing retry strategy testRetryStrategy.",
+        "Retry 0: Retry strategy testRetryStrategy retries after 100",
+        "Retry 1: Processing retry strategy testRetryStrategy.",
+        "Retry 1: Retry strategy testRetryStrategy retries after 100",
+        "Retry 2: Processing retry strategy testRetryStrategy.",
+        "Retry 2: Retry strategy testRetryStrategy retries after 100",
+        "Retry 3: Processing retry strategy testRetryStrategy."
+      ],
+      error: []
+    });
   });
 });
