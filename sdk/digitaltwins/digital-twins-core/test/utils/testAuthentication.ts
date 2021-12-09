@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { RecorderEnvironmentSetup, env, record } from "@azure-tools/test-recorder";
 import { ClientSecretCredential } from "@azure/identity";
 import { DigitalTwinsClient } from "../../src";
-import { env, record, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
-import { uniqueString } from "./recorderUtils";
 import TestClient from "./testClient";
+import { uniqueString } from "./recorderUtils";
 
 export async function authenticate(that: Mocha.Context): Promise<any> {
   const keySuffix = uniqueString();

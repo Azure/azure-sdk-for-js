@@ -4,56 +4,56 @@
 /// <reference lib="esnext.asynciterable" />
 
 import {
-  TokenCredential,
-  RestResponse,
-  OperationOptions,
-  InternalPipelineOptions,
-  bearerTokenAuthenticationPolicy,
-  createPipelineFromOptions,
-  generateUuid,
-  PipelineOptions
-} from "@azure/core-http";
-import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
-import { AzureDigitalTwinsAPI as GeneratedClient } from "./generated/azureDigitalTwinsAPI";
-import {
-  DigitalTwinsGetByIdResponse,
+  DigitalTwinModelsAddOptionalParams,
+  DigitalTwinModelsAddResponse,
+  DigitalTwinModelsGetByIdOptionalParams,
+  DigitalTwinModelsGetByIdResponse,
+  DigitalTwinModelsListOptionalParams,
+  DigitalTwinModelsListResponse,
   DigitalTwinsAddOptionalParams,
-  DigitalTwinsAddResponse,
-  DigitalTwinsUpdateOptionalParams,
-  DigitalTwinsUpdateResponse,
-  DigitalTwinsDeleteOptionalParams,
-  DigitalTwinsGetComponentResponse,
-  DigitalTwinsUpdateComponentResponse,
-  DigitalTwinsUpdateComponentOptionalParams,
-  DigitalTwinsAddRelationshipResponse,
   DigitalTwinsAddRelationshipOptionalParams,
+  DigitalTwinsAddRelationshipResponse,
+  DigitalTwinsAddResponse,
+  DigitalTwinsDeleteOptionalParams,
+  DigitalTwinsDeleteRelationshipOptionalParams,
+  DigitalTwinsGetByIdResponse,
+  DigitalTwinsGetComponentResponse,
+  DigitalTwinsGetRelationshipByIdResponse,
+  DigitalTwinsListIncomingRelationshipsResponse,
+  DigitalTwinsListRelationshipsResponse,
+  DigitalTwinsModelData,
+  DigitalTwinsSendComponentTelemetryOptionalParams,
+  DigitalTwinsSendTelemetryOptionalParams,
+  DigitalTwinsUpdateComponentOptionalParams,
+  DigitalTwinsUpdateComponentResponse,
+  DigitalTwinsUpdateOptionalParams,
   DigitalTwinsUpdateRelationshipOptionalParams,
   DigitalTwinsUpdateRelationshipResponse,
-  DigitalTwinsDeleteRelationshipOptionalParams,
-  DigitalTwinsSendTelemetryOptionalParams,
-  DigitalTwinsSendComponentTelemetryOptionalParams,
-  DigitalTwinsListRelationshipsResponse,
-  IncomingRelationship,
-  DigitalTwinsListIncomingRelationshipsResponse,
-  DigitalTwinsGetRelationshipByIdResponse,
-  DigitalTwinsModelData,
-  DigitalTwinModelsGetByIdResponse,
-  DigitalTwinModelsGetByIdOptionalParams,
-  DigitalTwinModelsAddResponse,
-  DigitalTwinModelsAddOptionalParams,
-  DigitalTwinModelsListResponse,
-  DigitalTwinModelsListOptionalParams,
-  EventRoutesGetByIdResponse,
+  DigitalTwinsUpdateResponse,
   EventRoute,
   EventRoutesAddOptionalParams,
+  EventRoutesGetByIdResponse,
   EventRoutesListNextResponse,
   EventRoutesListOptionalParams,
+  IncomingRelationship,
   QueryQueryTwinsOptionalParams,
   QueryQueryTwinsResponse,
   QuerySpecification
 } from "./generated/models";
-import { createSpan } from "./tracing";
+import {
+  InternalPipelineOptions,
+  OperationOptions,
+  PipelineOptions,
+  RestResponse,
+  TokenCredential,
+  bearerTokenAuthenticationPolicy,
+  createPipelineFromOptions,
+  generateUuid
+} from "@azure/core-http";
+import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
+import { AzureDigitalTwinsAPI as GeneratedClient } from "./generated/azureDigitalTwinsAPI";
 import { SpanStatusCode } from "@azure/core-tracing";
+import { createSpan } from "./tracing";
 import { logger } from "./logger";
 
 export const SDK_VERSION: string = "1.1.0";

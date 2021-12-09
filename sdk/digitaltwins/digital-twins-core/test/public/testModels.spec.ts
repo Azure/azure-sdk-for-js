@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 import { DigitalTwinsClient } from "../../src";
-import { authenticate } from "../utils/testAuthentication";
 import { Recorder } from "@azure-tools/test-recorder";
+import { authenticate } from "../utils/testAuthentication";
 import chai from "chai";
 import { delay } from "@azure/core-http";
 

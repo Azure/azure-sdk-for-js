@@ -1,16 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  DigitalTwinsClient,
-  DigitalTwinsAddOptionalParams,
-  DigitalTwinsDeleteOptionalParams,
-  DigitalTwinsUpdateOptionalParams
-} from "../../src";
-import { authenticate } from "../utils/testAuthentication";
+import { DigitalTwinsAddOptionalParams, DigitalTwinsClient, DigitalTwinsDeleteOptionalParams, DigitalTwinsUpdateOptionalParams } from "../../src";
 import { Recorder } from "@azure-tools/test-recorder";
-import { delay } from "@azure/core-http";
+import { authenticate } from "../utils/testAuthentication";
 import chai from "chai";
+import { delay } from "@azure/core-http";
 
 const assert = chai.assert;
 const should = chai.should();

@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { DigitalTwinsClient, DigitalTwinsAddRelationshipOptionalParams } from "../../src";
-import { authenticate } from "../utils/testAuthentication";
+import { DigitalTwinsAddRelationshipOptionalParams, DigitalTwinsClient } from "../../src";
 import { Recorder } from "@azure-tools/test-recorder";
+import { authenticate } from "../utils/testAuthentication";
 import chai from "chai";
 
 const assert = chai.assert;

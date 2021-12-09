@@ -1,36 +1,36 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert, expect } from "chai";
 import * as sinon from "sinon";
 import {
-  TokenCredential,
-  OperationOptions,
-  HttpOperationResponse,
-  HttpResponse,
-  WebResource,
-  HttpHeaders
-} from "@azure/core-http";
-import {
-  DigitalTwinsUpdateOptionalParams,
-  DigitalTwinsDeleteOptionalParams,
-  DigitalTwinsUpdateComponentOptionalParams,
-  DigitalTwinsAddRelationshipOptionalParams,
-  DigitalTwinsUpdateRelationshipOptionalParams,
-  DigitalTwinsDeleteRelationshipOptionalParams,
-  DigitalTwinModelsGetByIdOptionalParams,
   DigitalTwinModelsAddOptionalParams,
+  DigitalTwinModelsDeleteOptionalParams,
+  DigitalTwinModelsGetByIdOptionalParams,
+  DigitalTwinModelsUpdateOptionalParams,
+  DigitalTwinsAddOptionalParams,
+  DigitalTwinsAddRelationshipOptionalParams,
+  DigitalTwinsDeleteOptionalParams,
+  DigitalTwinsDeleteRelationshipOptionalParams,
+  DigitalTwinsGetByIdOptionalParams,
+  DigitalTwinsGetComponentOptionalParams,
+  DigitalTwinsGetRelationshipByIdOptionalParams,
+  DigitalTwinsUpdateComponentOptionalParams,
+  DigitalTwinsUpdateOptionalParams,
+  DigitalTwinsUpdateRelationshipOptionalParams,
   EventRoute,
   EventRoutesAddOptionalParams,
   EventRoutesDeleteOptionalParams,
-  EventRoutesGetByIdOptionalParams,
-  DigitalTwinModelsDeleteOptionalParams,
-  DigitalTwinModelsUpdateOptionalParams,
-  DigitalTwinsGetRelationshipByIdOptionalParams,
-  DigitalTwinsGetComponentOptionalParams,
-  DigitalTwinsAddOptionalParams,
-  DigitalTwinsGetByIdOptionalParams
+  EventRoutesGetByIdOptionalParams
 } from "../../src/generated/models";
+import {
+  HttpHeaders,
+  HttpOperationResponse,
+  HttpResponse,
+  OperationOptions,
+  TokenCredential,
+  WebResource
+} from "@azure/core-http";
+import { assert, expect } from "chai";
 import { DigitalTwinsClient } from "../../src/index";
 import { createSpan } from "../../src/tracing";
 import { getSpanContext } from "@azure/core-tracing";
