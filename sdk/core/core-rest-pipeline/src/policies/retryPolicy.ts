@@ -85,7 +85,7 @@ export function retryPolicy(...strategies: RetryStrategy[]): PipelinePolicy {
           };
 
           if (state.retryCount >= (state.maxRetries || DEFAULT_MAX_RETRIES)) {
-            retryPolicyLogger.info(
+            strategyLogger.info(
               `Maximum retries reached. Returning the last received response, or throwing the last received error.`
             );
             if (response) {
@@ -103,7 +103,7 @@ export function retryPolicy(...strategies: RetryStrategy[]): PipelinePolicy {
           strategyState[i] = state;
 
           if (request.abortSignal?.aborted) {
-            strategyLogger.error(`Retry ${retryCount}: Request aborted`);
+            strategyLogger.error(`Retry ${retryCount}: Request aborted.`);
             retryError.errors.push(new Error("Aborted"));
             throw retryError;
           }
