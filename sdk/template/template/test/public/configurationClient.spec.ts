@@ -6,8 +6,8 @@ import { Context } from "mocha";
 
 import { ConfigurationClient } from "../../src";
 
-import { env, isPlaybackMode } from "@azure-tools/test-recorder";
-import { NoOpCredential, TestProxyHttpClientCoreV1 } from "@azure-tools/test-recorder-new";
+import { isPlaybackMode } from "@azure-tools/test-recorder";
+import { NoOpCredential, TestProxyHttpClientCoreV1, env } from "@azure-tools/test-recorder-new";
 import { TokenCredential } from "@azure/core-http";
 import { ClientSecretCredential } from "@azure/identity";
 
@@ -64,11 +64,11 @@ describe("[AAD] ConfigurationClient functional tests", function() {
     // `afterEach` hook.
     recorder = new TestProxyHttpClientCoreV1(this.currentTest);
 
+    await recorder.start({ envSetupForPlayback: replaceableVariables });
+
     // We'll be able to refer to the instantiated `client` in tests, since we
     // initialize it before each test
     client = createConfigurationClient(recorder);
-
-    await recorder.start({ envSetupForPlayback: replaceableVariables });
   });
 
   // After each test, we need to stop the recording.
