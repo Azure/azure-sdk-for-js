@@ -8,24 +8,25 @@
 
 import * as coreClient from "@azure/core-client";
 import * as coreAuth from "@azure/core-auth";
-import { ContainerServiceClientOptionalParams } from "./models";
+import { OperationsImpl, LoadTestsImpl } from "./operations";
+import { Operations, LoadTests } from "./operationsInterfaces";
+import { LoadTestClientOptionalParams } from "./models";
 
-export class ContainerServiceClientContext extends coreClient.ServiceClient {
+export class LoadTestClient extends coreClient.ServiceClient {
   $host: string;
   apiVersion: string;
   subscriptionId: string;
 
   /**
-   * Initializes a new instance of the ContainerServiceClientContext class.
+   * Initializes a new instance of the LoadTestClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
-   * @param subscriptionId Subscription credentials which uniquely identify Microsoft Azure subscription.
-   *                       The subscription ID forms part of the URI for every service call.
+   * @param subscriptionId The ID of the target subscription.
    * @param options The parameter options
    */
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: ContainerServiceClientOptionalParams
+    options?: LoadTestClientOptionalParams
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
@@ -38,12 +39,12 @@ export class ContainerServiceClientContext extends coreClient.ServiceClient {
     if (!options) {
       options = {};
     }
-    const defaults: ContainerServiceClientOptionalParams = {
+    const defaults: LoadTestClientOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-containerservice/15.0.0-beta.1`;
+    const packageDetails = `azsdk-js-arm-loadtestservice/1.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -66,6 +67,11 @@ export class ContainerServiceClientContext extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2021-09-01";
+    this.apiVersion = options.apiVersion || "2021-12-01-preview";
+    this.operations = new OperationsImpl(this);
+    this.loadTests = new LoadTestsImpl(this);
   }
+
+  operations: Operations;
+  loadTests: LoadTests;
 }

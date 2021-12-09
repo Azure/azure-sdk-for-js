@@ -146,6 +146,11 @@ export interface AgentPoolsListOptionalParams extends coreClient.OperationOption
 export type AgentPoolsListResponse = AgentPoolListResult;
 
 // @public
+export interface AgentPoolsUpgradeNodeImageVersionHeaders {
+    azureAsyncOperation?: string;
+}
+
+// @public
 export interface AgentPoolsUpgradeNodeImageVersionOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -196,10 +201,14 @@ export type Code = string;
 export type ConnectionStatus = string;
 
 // @public (undocumented)
-export class ContainerServiceClient extends ContainerServiceClientContext {
+export class ContainerServiceClient extends coreClient.ServiceClient {
+    // (undocumented)
+    $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: ContainerServiceClientOptionalParams);
     // (undocumented)
     agentPools: AgentPools;
+    // (undocumented)
+    apiVersion: string;
     // (undocumented)
     maintenanceConfigurations: MaintenanceConfigurations;
     // (undocumented)
@@ -214,15 +223,6 @@ export class ContainerServiceClient extends ContainerServiceClientContext {
     resolvePrivateLinkServiceId: ResolvePrivateLinkServiceId;
     // (undocumented)
     snapshots: Snapshots;
-}
-
-// @public (undocumented)
-export class ContainerServiceClientContext extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: ContainerServiceClientOptionalParams);
-    // (undocumented)
-    apiVersion: string;
     // (undocumented)
     subscriptionId: string;
 }
@@ -261,6 +261,7 @@ export interface ContainerServiceMasterProfile {
 export interface ContainerServiceNetworkProfile {
     dnsServiceIP?: string;
     dockerBridgeCidr?: string;
+    ipFamilies?: IpFamily[];
     loadBalancerProfile?: ManagedClusterLoadBalancerProfile;
     loadBalancerSku?: LoadBalancerSku;
     natGatewayProfile?: ManagedClusterNATGatewayProfile;
@@ -269,7 +270,9 @@ export interface ContainerServiceNetworkProfile {
     networkPolicy?: NetworkPolicy;
     outboundType?: OutboundType;
     podCidr?: string;
+    podCidrs?: string[];
     serviceCidr?: string;
+    serviceCidrs?: string[];
 }
 
 // @public
@@ -344,6 +347,9 @@ export type ExtendedLocationTypes = string;
 
 // @public
 export type GPUInstanceProfile = string;
+
+// @public
+export type IpFamily = string;
 
 // @public
 export enum KnownAgentPoolMode {
@@ -776,6 +782,14 @@ export enum KnownGPUInstanceProfile {
 }
 
 // @public
+export enum KnownIpFamily {
+    // (undocumented)
+    IPv4 = "IPv4",
+    // (undocumented)
+    IPv6 = "IPv6"
+}
+
+// @public
 export enum KnownKubeletDiskType {
     OS = "OS",
     Temporary = "Temporary"
@@ -1197,6 +1211,7 @@ export interface ManagedClusterLoadBalancerProfile {
 // @public
 export interface ManagedClusterLoadBalancerProfileManagedOutboundIPs {
     count?: number;
+    countIPv6?: number;
 }
 
 // @public
@@ -1962,7 +1977,6 @@ export interface WindowsGmsaProfile {
 
 // @public
 export type WorkloadRuntime = string;
-
 
 // (No @packageDocumentation comment for this package)
 

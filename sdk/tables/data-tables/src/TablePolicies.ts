@@ -2,6 +2,11 @@
 // Licensed under the MIT license.
 
 import {
+  HeaderConstants,
+  TRANSACTION_HTTP_LINE_ENDING,
+  TRANSACTION_HTTP_VERSION_1_1
+} from "./utils/constants";
+import {
   PipelinePolicy,
   PipelineRequest,
   PipelineResponse,
@@ -9,13 +14,8 @@ import {
   createHttpHeaders,
   createPipelineRequest
 } from "@azure/core-rest-pipeline";
-import {
-  HeaderConstants,
-  TRANSACTION_HTTP_LINE_ENDING,
-  TRANSACTION_HTTP_VERSION_1_1
-} from "./utils/constants";
-import { getChangeSetBoundary } from "./utils/transactionHelpers";
 import { URL } from "./utils/url";
+import { getChangeSetBoundary } from "./utils/transactionHelpers";
 
 export const transactionRequestAssemblePolicyName = "transactionRequestAssemblePolicy";
 

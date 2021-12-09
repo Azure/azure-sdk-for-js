@@ -1150,6 +1150,11 @@
       "packageName": "@azure/arm-cognitiveservices",
       "projectFolder": "sdk/cognitiveservices/arm-cognitiveservices",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-loadtestservice",
+      "projectFolder": "sdk/loadtestservice/arm-loadtestservice",
+      "versionPolicyName": "management"
     }
   ]
 }

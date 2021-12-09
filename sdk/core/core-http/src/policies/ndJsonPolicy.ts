@@ -7,11 +7,11 @@
 import {
   BaseRequestPolicy,
   RequestPolicy,
-  RequestPolicyOptions,
-  RequestPolicyFactory
+  RequestPolicyFactory,
+  RequestPolicyOptions
 } from "./requestPolicy";
-import { WebResourceLike } from "../webResource";
 import { HttpOperationResponse } from "../httpOperationResponse";
+import { WebResourceLike } from "../webResource";
 
 export function ndJsonPolicy(): RequestPolicyFactory {
   return {
