@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
-import { RestError } from "@azure/core-http";
 import { DeleteSecretPoller } from "../../src/lro/delete/poller";
 import { RecoverDeletedSecretPoller } from "../../src/lro/recover/poller";
+import { RestError } from "@azure/core-http";
+import { assert } from "chai";
 
 describe("The LROs properly throw on unexpected errors", () => {
   const vaultUrl = `https://keyVaultName.vault.azure.net`;

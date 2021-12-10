@@ -1,12 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  RecoverDeletedSecretPollOperation,
-  RecoverDeletedSecretPollOperationState
-} from "./operation";
-import { SecretProperties } from "../../secretsModels";
 import { KeyVaultSecretPoller, KeyVaultSecretPollerOptions } from "../keyVaultSecretPoller";
+import { RecoverDeletedSecretPollOperation, RecoverDeletedSecretPollOperationState } from "./operation";
+import { SecretProperties } from "../../secretsModels";
 
 /**
  * Class that deletes a poller that waits until a secret finishes being deleted

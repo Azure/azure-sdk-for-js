@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AbortSignalLike } from "@azure/abort-controller";
-import { PollOperationState, PollOperation } from "@azure/core-lro";
-import { OperationOptions } from "@azure/core-http";
+import { PollOperation, PollOperationState } from "@azure/core-lro";
 import { SecretPollerOptions, SecretProperties } from "../../../../src/secretsModels";
+import { AbortSignalLike } from "@azure/abort-controller";
+import { OperationOptions } from "@azure/core-http";
 
 /**
  * Options sent to the beginRestoreSecretBackup method.
