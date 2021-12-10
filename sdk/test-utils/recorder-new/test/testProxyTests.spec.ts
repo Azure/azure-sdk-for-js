@@ -117,31 +117,17 @@ function getTestServerUrl() {
     });
 
     describe("Sanitizers", () => {
-      it.skip("GeneralRegexSanitizer", async () => {
-        const fakeSASUrl =
-          "sv=2020-08-04&ss=bfqt&srt=sco&sp=rwdlacuptfx&se=2026-07-10T07:00:24Z&st=2021-07-09T23:00:24Z&spr=https&sig=fake_sig";
-
-        env.STORAGE_SAS_URL = "sv=2020-08-04&ss=bfqt&srt=sco&sp=rwdlacupitfx&se=2022-11-24T06:36:20Z&st=2021-11-23T22:36:20Z&spr=https&sig=[[SECRET]]";
-
-        const getSanitizerOptions = () => {
-          return {
-            generalRegexSanitizers: [
-              {
-                regex: env.STORAGE_SAS_URL,
-                value: fakeSASUrl,
-              }
-            ]
-          };
-        };
+      it("GeneralRegexSanitizer", async () => {
+        env.SECRET_INFO = "abcdef";
+        const fakeSecretInfo = "fake_secret_info";
         await recorder.start({
           envSetupForPlayback: {
-            STORAGE_SAS_URL: fakeSASUrl
+            SECRET_INFO: fakeSecretInfo
           }
         }); // Adds generalRegexSanitizers by default based on envSetupForPlayback
-        await recorder.addSanitizers(getSanitizerOptions());
         await makeRequestAndVerifyResponse(
           {
-            path: `/sample_response/"${env.STORAGE_SAS_URL}"`,
+            path: `/sample_response/${env.SECRET_INFO}`,
             method: "GET"
           },
           { val: "I am the answer!" }
@@ -273,7 +259,7 @@ function getTestServerUrl() {
         );
       });
 
-      it.skip("ContinuationSanitizer", async () => {
+      it("ContinuationSanitizer", async () => {
         await recorder.start({
           envSetupForPlayback: {},
           sanitizerOptions: {
@@ -296,11 +282,6 @@ function getTestServerUrl() {
           undefined
         );
 
-        // Seems to fail with
-        // Unable to find a record for the request GET http://host.docker.internal:8080/sample_response
-        // Header differences:
-        //  <your_uuid> values differ, request <985e1725-6d96-467c-89fc-fe45ef0409e4>, record <7460db09-3140-4f76-b59c-16f23e91bc4c>
-        // TODO: Scott is working on fixing the sanitizer
         await makeRequestAndVerifyResponse(
           {
             path: `/sample_response`,
