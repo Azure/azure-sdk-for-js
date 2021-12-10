@@ -6,8 +6,8 @@ import { Context } from "mocha";
 
 import { ConfigurationClient } from "../../src";
 
-import { isPlaybackMode } from "@azure-tools/test-recorder";
-import { NoOpCredential, TestProxyHttpClientCoreV1, env } from "@azure-tools/test-recorder-new";
+import { isPlaybackMode, env } from "@azure-tools/test-recorder";
+import { NoOpCredential, TestProxyHttpClientCoreV1 } from "@azure-tools/test-recorder-new";
 import { TokenCredential } from "@azure/core-http";
 import { ClientSecretCredential } from "@azure/identity";
 

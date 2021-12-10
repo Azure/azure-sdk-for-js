@@ -3,9 +3,9 @@
 
 import { TableClient, TableEntity } from "@azure/data-tables";
 import { TestProxyHttpClient, recorderHttpPolicy } from "@azure-tools/test-recorder-new";
-import { isPlaybackMode } from "@azure-tools/test-recorder";
+import { isPlaybackMode, env } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
-import { SanitizerOptions, env } from "@azure-tools/test-recorder-new";
+import { SanitizerOptions } from "@azure-tools/test-recorder-new";
 import { createSimpleEntity } from "../utils/utils";
 
 // A fake connection string which replaces the actual connection string in the recording.

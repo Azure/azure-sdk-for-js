@@ -1,8 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { isPlaybackMode, isRecordMode, setEnvironmentVariables } from "@azure-tools/test-recorder";
-import { env } from "./env";
+import {
+  env,
+  isPlaybackMode,
+  isRecordMode,
+  setEnvironmentVariables
+} from "@azure-tools/test-recorder";
 import { Sanitizer } from "../sanitizer";
 
 /**
