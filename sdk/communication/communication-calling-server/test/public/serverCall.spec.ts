@@ -1,27 +1,63 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { isLiveMode, env, record, Recorder, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
+import { matrix } from "@azure/test-utils";
+import { isLiveMode, env, record, Recorder } from "@azure-tools/test-recorder";
 import { CallingServerClient, GroupCallLocator, PlayAudioOptions, CallConnection } from "../../src";
 import * as Constants from "./utils/constants";
 import { TestUtils } from "./utils/testUtils";
+import { environmentSetup, createCallingServerClientWithToken, createCallingServerClient } from "./utils/recordedClient";
 import { Context } from "mocha";
 import { assert } from "chai";
 import { CommunicationUserIdentifier } from "@azure/communication-common";
 import { RestError } from "@azure/core-http";
 
-const replaceableVariables: { [k: string]: string } = {
-  COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING: "endpoint=https://endpoint/;accesskey=banana"
-};
+matrix([[true, false]], async function(useAad) {
+  describe(`CallingServer [Live]${useAad ? " [AAD]" : ""}`, async () => {
+    let recorder: Recorder;
+    let connectionString: string;
 
-const environmentSetup: RecorderEnvironmentSetup = {
-  replaceableVariables,
-  customizationsOnRecordings: [
-    (recording: string): string => recording.replace(/(https:\/\/)([^/',]*)/, "$1endpoint"),
-    (recording: string): string => recording.replace("endpoint:443", "endpoint")
-  ],
-  queryParametersToSkip: []
-};
+    beforeEach(async function(this: Context) {
+      recorder = record(this, environmentSetup);
+      recorder.skip(
+        undefined,
+        "A UUID is randomly generated within the SDK and used in the HTTP request and cannot be preserved."
+      );
+      connectionString =
+        env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING ||
+        "endpoint=https://endpoint/;accesskey=banana";
+      if (useAad) {
+        this.callingServerClient = createCallingServerClientWithToken();
+      } else {
+        this.callingServerClient = createCallingServerClient();
+      }
+    });
+
+    afterEach(async function(this: Context) {
+      await recorder.stop();
+    });
+
+    describe("CallingServerClient Live Test", function() {
+      it("Run basic scenario to test client creation", async function(this: Context) {
+        this.timeout(0);
+        const groupId = TestUtils.getGroupId("Run join_play_cancel_hangup scenario");
+        const fromUser = await TestUtils.getUserId("fromUser", connectionString);
+        const toUser = await TestUtils.getUserId("toUser", connectionString);
+        const callingServer = new CallingServerClient(connectionString);
+        let connections : CallConnection[] = [];
+
+        // create GroupCalls
+        try {
+          connections = await TestUtils.createCallConnections(callingServer, groupId, fromUser, toUser);
+        } finally {
+          // Hangup call
+          await TestUtils.delayIfLive();
+          await TestUtils.cleanCallConnections(connections);
+        }
+      });
+    });
+  });
+});
 
 describe("Server Call Live Test", function() {
   describe("Recording Operations", function() {
@@ -151,9 +187,9 @@ describe("Server Call Live Test", function() {
       const groupId = TestUtils.getGroupId("Run join_play_cancel_hangup scenario");
       const fromUser = await TestUtils.getUserId("fromUser", connectionString);
       const toUser = await TestUtils.getUserId("toUser", connectionString);
-      let connections = [];
-
       const callingServer = new CallingServerClient(connectionString);
+      let connections : CallConnection[] = [];
+
       // create GroupCalls
       connections = await TestUtils.createCallConnections(callingServer, groupId, fromUser, toUser);
       try {
@@ -190,9 +226,9 @@ describe("Server Call Live Test", function() {
       const groupId = TestUtils.getGroupId("Run create_add_remove_hangup scenario");
       const fromUser = await TestUtils.getUserId("fromUser", connectionString);
       const toUser = await TestUtils.getUserId("toUser", connectionString);
-      let connections = [];
-
       const callingServer = new CallingServerClient(connectionString);
+      let connections : CallConnection[] = [];
+
       // create GroupCalls
       connections = await TestUtils.createCallConnections(callingServer, groupId, fromUser, toUser);
       try {

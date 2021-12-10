@@ -1,29 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { isLiveMode, env, record, Recorder, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
+import { isLiveMode, env, record, Recorder } from "@azure-tools/test-recorder";
 import { CallingServerClient, CreateCallConnectionOptions, PlayAudioOptions } from "../../src";
 import { TestUtils } from "./utils/testUtils";
+import { environmentSetup } from "./utils/recordedClient";
 import { Context } from "mocha";
 import { assert } from "chai";
 import * as Constants from "./utils/constants";
 import { CommunicationIdentityClient } from "@azure/communication-identity";
 import { CommunicationUserIdentifier, PhoneNumberIdentifier } from "@azure/communication-common";
-const replaceableVariables: { [k: string]: string } = {
-  COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING: "endpoint=https://endpoint/;accesskey=banana",
-  COMMUNICATION_LIVETEST_STATIC_RESOURCE_IDENTIFIER: "016a7064-0581-40b9-be73-6dde64d69d72",
-  AZURE_PHONE_NUMBER: "+15551234567",
-  ALTERNATE_CALLERID: "+18445764430"
-};
-
-const environmentSetup: RecorderEnvironmentSetup = {
-  replaceableVariables,
-  customizationsOnRecordings: [
-    (recording: string): string => recording.replace(/(https:\/\/)([^/',]*)/, "$1endpoint"),
-    (recording: string): string => recording.replace("endpoint:443", "endpoint")
-  ],
-  queryParametersToSkip: []
-};
 
 describe("Call Connection Live Test", function() {
   describe("Call Automation Operations", function() {
