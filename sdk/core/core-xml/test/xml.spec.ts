@@ -60,7 +60,7 @@ describe("XML serializer", function() {
     });
 
     it("with empty element with attribute", async function() {
-      const xml = await parseXML(`<fruit healthy="true"/>`);
+      const xml = await parseXML(`<fruit healthy="true" />`);
       assert.deepStrictEqual(xml, {
         $: {
           healthy: "true"
@@ -69,7 +69,7 @@ describe("XML serializer", function() {
     });
 
     it("with element", async function() {
-      const xml = await parseXML("<fruit/>");
+      const xml = await parseXML("<fruit></fruit>");
       assert.deepStrictEqual(xml, ``);
     });
 
@@ -79,7 +79,7 @@ describe("XML serializer", function() {
     });
 
     it("with element with attribute", async function() {
-      const xml = await parseXML(`<fruit healthy="true"/>`);
+      const xml = await parseXML(`<fruit healthy="true"></fruit>`);
       assert.deepStrictEqual(xml, {
         $: {
           healthy: "true"
@@ -168,7 +168,7 @@ describe("XML serializer", function() {
     });
 
     it("with empty element with attribute", async function() {
-      const json: any = await parseXML(`<fruit healthy="true"/>`, {
+      const json: any = await parseXML(`<fruit healthy="true" />`, {
         includeRoot: true
       });
       assert.deepStrictEqual(json, {
@@ -212,7 +212,7 @@ describe("XML serializer", function() {
     });
 
     it("with element", async function() {
-      const json: any = await parseXML("<fruit/>", { includeRoot: true });
+      const json: any = await parseXML("<fruit></fruit>", { includeRoot: true });
       assert.deepStrictEqual(json, { fruit: `` });
     });
 
@@ -250,7 +250,7 @@ describe("XML serializer", function() {
     });
 
     it("with element with attribute", async function() {
-      const json: any = await parseXML(`<fruit healthy="true"/>`, {
+      const json: any = await parseXML(`<fruit healthy="true"></fruit>`, {
         includeRoot: true
       });
       assert.deepStrictEqual(json, {
@@ -438,7 +438,7 @@ describe("XML serializer", function() {
       );
     });
 
-    it("with element with child undefined element", async function() {
+    it("with element with child empty element", async function() {
       const xml = stringifyXML(
         {
           fruit: {
@@ -493,7 +493,7 @@ describe("XML serializer", function() {
             _: "yum"
           }
         },
-        { rootName: "fruits", includeRoot: true }
+        { rootName: "fruits" }
       );
       assert.deepStrictEqual(
         xml,
