@@ -1,29 +1,32 @@
 # NOTE: Please refer to https://aka.ms/azsdk/engsys/ci-yaml before editing this file.
+
 trigger:
   branches:
     include:
-      - main
-      - release/*
-      - hotfix/*
-  paths:
+	@@ -8,26 +10,26 @@ trigger:
     include:
-      - sdk/redis/
+      - sdk/cosmosdb/cosmos/
+      - sdk/cosmosdb/ci.yml
 
 pr:
   branches:
     include:
       - main
+      - feature/*
       - release/*
       - hotfix/*
   paths:
     include:
-      - sdk/redis/
+      - sdk/cosmosdb/cosmos/
+      - sdk/cosmosdb/ci.yml
 
 extends:
-  template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
+  template: /eng/pipelines/templates/stages/cosmos-sdk-client.yml #NOTE: Non-standard template.
   parameters:
-    ServiceDirectory: redis
+    ServiceDirectory: cosmosdb
+    # Disable unit tests because they are no-op. Integration tests from the
+    # cosmos-specific template handle this testing.
+    RunUnitTests: false
     Artifacts:
-      - name: azure-arm-rediscache
-        safeName: azurearmrediscache
-        
+      - name: azure-cosmos
+        safeName: azurecosmos
