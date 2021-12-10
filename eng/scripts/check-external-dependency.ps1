@@ -36,7 +36,7 @@ function Get-GithubIssue($PackageName, $IsDeprecated) {
       }
     }
   }
-  return $issues
+  return $null
 }
 
 # Create new issue if none exists for the package. or update current one if an issue exists
