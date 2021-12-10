@@ -6,8 +6,8 @@
       "RequestHeaders": {
         "Accept-Encoding": "gzip,deflate",
         "Connection": "keep-alive",
-        "User-Agent": "core-rest-pipeline/1.3.2 Node/v14.17.6 OS/(x64-Linux-5.4.0-1059-azure)",
-        "x-ms-client-request-id": "df62e045-e538-4d98-bc2c-1f08070df96e"
+        "User-Agent": "core-rest-pipeline/1.3.3 Node/v16.13.0 OS/(x64-Linux-5.10.60.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "35ec9fc3-2a79-4245-9e7c-94d67c40bf97"
       },
       "RequestBody": null,
       "StatusCode": 200,

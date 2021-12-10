@@ -9,7 +9,6 @@ import {
 } from "@azure/core-rest-pipeline";
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
 import { promisify } from "util";
-import { TokenResponseParsedBody } from "../../client/identityClient";
 import { DefaultAuthorityHost } from "../../constants";
 import { credentialLogger } from "../../util/logging";
 import { MSI, MSIConfiguration } from "./models";
@@ -18,14 +17,6 @@ const msiName = "ManagedIdentityCredential - Token Exchange";
 const logger = credentialLogger(msiName);
 
 const readFileAsync = promisify(fs.readFile);
-
-/**
- * Formats the expiration date of the received token into the number of milliseconds between that date and midnight, January 1, 1970.
- */
-function expiresOnParser(requestBody: TokenResponseParsedBody): number {
-  // Parses a string representation of the seconds since epoch into a number value
-  return Number(requestBody.expires_on);
-}
 
 /**
  * Generates the options used on the request for an access token.
@@ -124,7 +115,7 @@ export function tokenExchangeMsi(): MSI {
         // Generally, MSI endpoints use the HTTP protocol, without transport layer security (TLS).
         allowInsecureConnection: true
       });
-      const tokenResponse = await identityClient.sendTokenRequest(request, expiresOnParser);
+      const tokenResponse = await identityClient.sendTokenRequest(request);
       return (tokenResponse && tokenResponse.accessToken) || null;
     }
   };

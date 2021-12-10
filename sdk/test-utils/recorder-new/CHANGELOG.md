@@ -2,6 +2,11 @@
 
 ## 1.0.0 (Unreleased)
 
+## 2021-11-30
+
+- Adds NoOp AAD Credential for playback `NoOpCredential`. Using this as your AAD credential in playback mode would avoid the AAD traffic in playback.
+  [#18904](https://github.com/Azure/azure-sdk-for-js/pull/18904)
+
 ## 2021-11-08
 
 - Allows storing dynamically created variables in record mode. The recorder registers the variables as part of the recording and stores their values in the recording file. Using the `variables` in playback mode produces the key-value pairs that were stored in the recording file.

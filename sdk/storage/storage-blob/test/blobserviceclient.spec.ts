@@ -56,7 +56,11 @@ describe("BlobServiceClient", () => {
     }
   });
 
-  it("ListContainers including system containers", async () => {
+  it("ListContainers including system containers", async function(this: Context) {
+    if (isLiveMode()) {
+      // Skip the test case until the feature is enabled in production.
+      this.skip();
+    }
     const blobServiceClient = getBSU();
     const result = (
       await blobServiceClient

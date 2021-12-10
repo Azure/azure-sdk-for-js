@@ -6,6 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import * as coreClient from "@azure/core-client";
 import * as coreAuth from "@azure/core-auth";
 import {
   OperationsImpl,
@@ -27,10 +28,13 @@ import {
   TagsOperations,
   DeploymentOperations
 } from "./operationsInterfaces";
-import { ResourceManagementClientContext } from "./resourceManagementClientContext";
 import { ResourceManagementClientOptionalParams } from "./models";
 
-export class ResourceManagementClient extends ResourceManagementClientContext {
+export class ResourceManagementClient extends coreClient.ServiceClient {
+  $host: string;
+  apiVersion: string;
+  subscriptionId: string;
+
   /**
    * Initializes a new instance of the ResourceManagementClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
@@ -42,7 +46,46 @@ export class ResourceManagementClient extends ResourceManagementClientContext {
     subscriptionId: string,
     options?: ResourceManagementClientOptionalParams
   ) {
-    super(credentials, subscriptionId, options);
+    if (credentials === undefined) {
+      throw new Error("'credentials' cannot be null");
+    }
+    if (subscriptionId === undefined) {
+      throw new Error("'subscriptionId' cannot be null");
+    }
+
+    // Initializing default values for options
+    if (!options) {
+      options = {};
+    }
+    const defaults: ResourceManagementClientOptionalParams = {
+      requestContentType: "application/json; charset=utf-8",
+      credential: credentials
+    };
+
+    const packageDetails = `azsdk-js-arm-resources/5.0.0`;
+    const userAgentPrefix =
+      options.userAgentOptions && options.userAgentOptions.userAgentPrefix
+        ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
+        : `${packageDetails}`;
+
+    if (!options.credentialScopes) {
+      options.credentialScopes = ["https://management.azure.com/.default"];
+    }
+    const optionsWithDefaults = {
+      ...defaults,
+      ...options,
+      userAgentOptions: {
+        userAgentPrefix
+      },
+      baseUri: options.endpoint || "https://management.azure.com"
+    };
+    super(optionsWithDefaults);
+    // Parameter assignments
+    this.subscriptionId = subscriptionId;
+
+    // Assigning values to Constant parameters
+    this.$host = options.$host || "https://management.azure.com";
+    this.apiVersion = options.apiVersion || "2021-04-01";
     this.operations = new OperationsImpl(this);
     this.deployments = new DeploymentsImpl(this);
     this.providers = new ProvidersImpl(this);

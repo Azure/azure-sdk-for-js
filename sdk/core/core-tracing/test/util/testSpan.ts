@@ -2,16 +2,16 @@
 // Licensed under the MIT license.
 
 import {
-  TimeInput,
-  Tracer,
-  SpanKind,
-  SpanStatus,
-  SpanContext,
-  SpanAttributes,
-  SpanStatusCode,
-  SpanAttributeValue,
   Span,
-  SpanOptions
+  SpanAttributeValue,
+  SpanAttributes,
+  SpanContext,
+  SpanKind,
+  SpanOptions,
+  SpanStatus,
+  SpanStatusCode,
+  TimeInput,
+  Tracer
 } from "../../src/interfaces";
 
 /**

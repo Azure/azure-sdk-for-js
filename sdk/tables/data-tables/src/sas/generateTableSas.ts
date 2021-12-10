@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { isNamedKeyCredential, NamedKeyCredential } from "@azure/core-auth";
-import { tableSasPermissionsFromString } from "./tableSasPermisions";
+import { NamedKeyCredential, isNamedKeyCredential } from "@azure/core-auth";
 import {
-  generateTableSasQueryParameters,
-  TableSasSignatureValues
+  TableSasSignatureValues,
+  generateTableSasQueryParameters
 } from "./tableSasSignatureValues";
+import { tableSasPermissionsFromString } from "./tableSasPermisions";
 
 /**
  * Generates a Table Service Shared Access Signature (SAS) URI based on the client properties
