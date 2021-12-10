@@ -148,7 +148,7 @@ function getTestServerUrl() {
         );
       });
 
-      it.only("RemoveHeaderSanitizer", async () => {
+      it("RemoveHeaderSanitizer", async () => {
         await recorder.start({
           envSetupForPlayback: {},
           sanitizerOptions: {
