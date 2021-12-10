@@ -17,7 +17,7 @@ describe("etags", () => {
   let recorder: Recorder;
   let key: string;
 
-  beforeEach(async function (this: Context) {
+  beforeEach(async function(this: Context) {
     recorder = startRecorder(this);
     key = recorder.getUniqueName("etags");
     client = createAppConfigurationClientForTests() || this.skip();
@@ -27,7 +27,7 @@ describe("etags", () => {
     });
   });
 
-  afterEach(async function () {
+  afterEach(async function() {
     await deleteKeyCompletely([key], client);
     await recorder.stop();
   });

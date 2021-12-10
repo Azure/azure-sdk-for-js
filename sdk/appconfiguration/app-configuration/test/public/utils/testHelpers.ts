@@ -164,7 +164,7 @@ export async function assertThrowsRestError(
     assert.fail(`${message}: No error thrown`);
   } catch (err) {
     if (!(err instanceof RestError)) {
-      throw new Error("Error is not recognized")
+      throw new Error("Error is not recognized");
     }
     if (err.name === "RestError") {
       assert.equal(expectedStatusCode, err.statusCode, message);
@@ -186,7 +186,7 @@ export async function assertThrowsAbortError(
     assert.fail(`${message}: No error thrown`);
   } catch (e) {
     if (!(e instanceof Error)) {
-      throw new Error("Error is not recognized")
+      throw new Error("Error is not recognized");
     }
     if (isPlaybackMode() && (e.name === "FetchError" || e.name === "AbortError")) {
       return e;

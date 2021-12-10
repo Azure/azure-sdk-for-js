@@ -23,7 +23,7 @@ import * as chai from "chai";
 import { Recorder } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
 
-describe("http request related tests", function () {
+describe("http request related tests", function() {
   describe("unit tests", () => {
     describe("parseSyncToken", () => {
       it("can parse various sync tokens", () => {
@@ -111,12 +111,12 @@ describe("http request related tests", function () {
     let client: AppConfigurationClient;
     let recorder: Recorder;
 
-    beforeEach(function (this: Context) {
+    beforeEach(function(this: Context) {
       recorder = startRecorder(this);
       client = createAppConfigurationClientForTests() || this.skip();
     });
 
-    afterEach(async function () {
+    afterEach(async function() {
       await recorder.stop();
     });
 
@@ -147,7 +147,7 @@ describe("http request related tests", function () {
     let syncTokens: SyncTokens;
     let scope: nock.Scope;
 
-    beforeEach(function (this: Context) {
+    beforeEach(function(this: Context) {
       if (nock == null || nock.recorder == null) {
         this.skip();
         return;
@@ -169,7 +169,7 @@ describe("http request related tests", function () {
       scope = nock(/.*/);
     });
 
-    afterEach(function (this: Context) {
+    afterEach(function(this: Context) {
       if (nock == null || nock.recorder == null) {
         return;
       }
@@ -182,7 +182,7 @@ describe("http request related tests", function () {
       nock.cleanAll();
     });
 
-    it("policy is setup properly to send sync tokens", async function () {
+    it("policy is setup properly to send sync tokens", async function() {
       syncTokens.addSyncTokenFromHeaderValue(`hello=world;sn=1`);
 
       const policyScope = nock(/.*/, {
