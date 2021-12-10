@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { parseConnectionString } from "../util/utils";
 import { WebSocketImpl } from "rhea-promise";
 import { isDefined } from "../util/typeGuards";
+import { parseConnectionString } from "../util/utils";
 
 /**
  * Describes the options that can be provided while creating a connection config.

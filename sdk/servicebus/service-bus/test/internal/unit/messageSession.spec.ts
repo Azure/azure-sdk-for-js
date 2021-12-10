@@ -54,7 +54,8 @@ describe("Message session unit tests", () => {
             undefined,
             {
               receiveMode: lockMode,
-              retryOptions: undefined
+              retryOptions: undefined,
+              skipParsingBodyAsJson: false
             }
           );
 
@@ -84,7 +85,8 @@ describe("Message session unit tests", () => {
             undefined,
             {
               receiveMode: lockMode,
-              retryOptions: undefined
+              retryOptions: undefined,
+              skipParsingBodyAsJson: false
             }
           );
 
@@ -114,7 +116,8 @@ describe("Message session unit tests", () => {
               undefined,
               {
                 receiveMode: lockMode,
-                retryOptions: undefined
+                retryOptions: undefined,
+                skipParsingBodyAsJson: false
               }
             );
 
@@ -160,7 +163,8 @@ describe("Message session unit tests", () => {
             undefined,
             {
               receiveMode: lockMode,
-              retryOptions: undefined
+              retryOptions: undefined,
+              skipParsingBodyAsJson: false
             }
           );
 
@@ -212,7 +216,8 @@ describe("Message session unit tests", () => {
               undefined,
               {
                 receiveMode: lockMode,
-                retryOptions: undefined
+                retryOptions: undefined,
+                skipParsingBodyAsJson: false
               }
             );
 
@@ -360,7 +365,8 @@ describe("Message session unit tests", () => {
         "session id",
         {
           receiveMode: "receiveAndDelete",
-          retryOptions: undefined
+          retryOptions: undefined,
+          skipParsingBodyAsJson: false
         }
       );
 

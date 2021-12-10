@@ -6,32 +6,31 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { OperationsHealthOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { SqlManagementClientContext } from "../sqlManagementClientContext";
+import { SqlManagementClient } from "../sqlManagementClient";
 import {
   OperationsHealth,
-  OperationsHealthOperationsListByLocationNextOptionalParams,
-  OperationsHealthOperationsListByLocationOptionalParams,
-  OperationsHealthOperationsListByLocationResponse,
-  OperationsHealthOperationsListByLocationNextResponse
+  OperationsHealthListByLocationNextOptionalParams,
+  OperationsHealthListByLocationOptionalParams,
+  OperationsHealthListByLocationResponse,
+  OperationsHealthListByLocationNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing OperationsHealthOperations operations. */
 export class OperationsHealthOperationsImpl
   implements OperationsHealthOperations {
-  private readonly client: SqlManagementClientContext;
+  private readonly client: SqlManagementClient;
 
   /**
    * Initialize a new instance of the class OperationsHealthOperations class.
    * @param client Reference to the service client
    */
-  constructor(client: SqlManagementClientContext) {
+  constructor(client: SqlManagementClient) {
     this.client = client;
   }
 
@@ -42,7 +41,7 @@ export class OperationsHealthOperationsImpl
    */
   public listByLocation(
     locationName: string,
-    options?: OperationsHealthOperationsListByLocationOptionalParams
+    options?: OperationsHealthListByLocationOptionalParams
   ): PagedAsyncIterableIterator<OperationsHealth> {
     const iter = this.listByLocationPagingAll(locationName, options);
     return {
@@ -60,7 +59,7 @@ export class OperationsHealthOperationsImpl
 
   private async *listByLocationPagingPage(
     locationName: string,
-    options?: OperationsHealthOperationsListByLocationOptionalParams
+    options?: OperationsHealthListByLocationOptionalParams
   ): AsyncIterableIterator<OperationsHealth[]> {
     let result = await this._listByLocation(locationName, options);
     yield result.value || [];
@@ -78,7 +77,7 @@ export class OperationsHealthOperationsImpl
 
   private async *listByLocationPagingAll(
     locationName: string,
-    options?: OperationsHealthOperationsListByLocationOptionalParams
+    options?: OperationsHealthListByLocationOptionalParams
   ): AsyncIterableIterator<OperationsHealth> {
     for await (const page of this.listByLocationPagingPage(
       locationName,
@@ -95,8 +94,8 @@ export class OperationsHealthOperationsImpl
    */
   private _listByLocation(
     locationName: string,
-    options?: OperationsHealthOperationsListByLocationOptionalParams
-  ): Promise<OperationsHealthOperationsListByLocationResponse> {
+    options?: OperationsHealthListByLocationOptionalParams
+  ): Promise<OperationsHealthListByLocationResponse> {
     return this.client.sendOperationRequest(
       { locationName, options },
       listByLocationOperationSpec
@@ -112,8 +111,8 @@ export class OperationsHealthOperationsImpl
   private _listByLocationNext(
     locationName: string,
     nextLink: string,
-    options?: OperationsHealthOperationsListByLocationNextOptionalParams
-  ): Promise<OperationsHealthOperationsListByLocationNextResponse> {
+    options?: OperationsHealthListByLocationNextOptionalParams
+  ): Promise<OperationsHealthListByLocationNextResponse> {
     return this.client.sendOperationRequest(
       { locationName, nextLink, options },
       listByLocationNextOperationSpec

@@ -2,17 +2,11 @@
 // Licensed under the MIT license.
 
 import { Context } from "mocha";
-import * as dotenv from "dotenv";
 
 import { env, Recorder, record, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
-import { isNode } from "./testUtils";
 
 import { EventGridPublisherClient, InputSchema } from "../../../src";
 import { KeyCredential } from "@azure/core-auth";
-
-if (isNode) {
-  dotenv.config();
-}
 
 export interface RecordedClient<T extends InputSchema> {
   client: EventGridPublisherClient<T>;

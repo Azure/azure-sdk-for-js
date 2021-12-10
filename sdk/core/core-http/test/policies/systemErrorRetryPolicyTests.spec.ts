@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
-import { SystemErrorRetryPolicy } from "../../src/policies/systemErrorRetryPolicy";
-import { RetryError } from "../../src/util/exponentialBackoffStrategy";
-import { WebResource } from "../../src/webResource";
-import { HttpOperationResponse } from "../../src/httpOperationResponse";
 import { HttpHeaders, RequestPolicyOptions } from "../../src/coreHttp";
+import { HttpOperationResponse } from "../../src/httpOperationResponse";
+import { RetryError } from "../../src/util/exponentialBackoffStrategy";
+import { SystemErrorRetryPolicy } from "../../src/policies/systemErrorRetryPolicy";
+import { WebResource } from "../../src/webResource";
+import { assert } from "chai";
 
 describe("SystemErrorRetryPolicy", () => {
   class PassThroughPolicy {

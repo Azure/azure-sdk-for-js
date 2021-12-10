@@ -2,12 +2,12 @@
 // Licensed under the MIT license.
 
 import "chai/register-should";
-import { should } from "chai";
+import { ProxyPolicy, getDefaultProxySettings } from "../../src/policies/proxyPolicy";
+import { HttpHeaders } from "../../src/httpHeaders";
 import { ProxySettings } from "../../src/serviceClient";
 import { RequestPolicyOptions } from "../../src/policies/requestPolicy";
 import { WebResource } from "../../src/webResource";
-import { HttpHeaders } from "../../src/httpHeaders";
-import { ProxyPolicy, getDefaultProxySettings } from "../../src/policies/proxyPolicy";
+import { should } from "chai";
 
 describe("ProxyPolicy (browser)", function() {
   const proxySettings: ProxySettings = {
