@@ -1,5 +1,15 @@
 # Release History
-    
+
+## 5.0.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 5.0.0 (2021-12-09)
 
 The package of @azure/arm-eventhub is using our next generation design principles since version 5.0.0, which contains breaking changes.
