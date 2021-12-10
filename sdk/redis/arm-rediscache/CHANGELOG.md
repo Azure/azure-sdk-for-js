@@ -1,5 +1,15 @@
 # Release History
-    
+
+## 6.0.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 6.0.0 (2021-12-10)
 
 The package of @azure/arm-rediscache is using our next generation design principles since version 6.0.0, which contains breaking changes.
