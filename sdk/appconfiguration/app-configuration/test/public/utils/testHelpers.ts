@@ -161,7 +161,7 @@ export async function assertThrowsRestError(
   try {
     await testFunction();
     assert.fail(`${message}: No error thrown`);
-  } catch (err) {
+  } catch (err: any) {
     if (err.name === "RestError") {
       assert.equal(expectedStatusCode, err.statusCode, message);
       return err;
@@ -180,7 +180,7 @@ export async function assertThrowsAbortError(
   try {
     await testFunction();
     assert.fail(`${message}: No error thrown`);
-  } catch (e) {
+  } catch (e: any) {
     if (isPlaybackMode() && (e.name === "FetchError" || e.name === "AbortError")) {
       return e;
     } else {
