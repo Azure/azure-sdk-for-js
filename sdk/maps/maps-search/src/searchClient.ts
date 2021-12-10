@@ -110,23 +110,10 @@ export class SearchClient {
   /**
    * Creates an instance of SearchClient.
    *
-   * @param credential - An AzureKeyCredential instance used to authenticate requests to the service.
-   */
-  constructor(credential: AzureKeyCredential);
-  /**
-   * Creates an instance of SearchClient.
-   *
    * @param credential - An AzureKeyCredential instance used to authenticate requests to the service
    * @param options - Options used to configure the Search Client
    */
   constructor(credential: AzureKeyCredential, options?: SearchClientOptions);
-  /**
-   * Creates an instance of SearchClient.
-   *
-   * @param credential - An TokenCredential instance used to authenticate requests to the service
-   * @param clientId - The Azure Maps client id of a specific map resource
-   */
-  constructor(credential: TokenCredential, clientId: string);
   /**
    * Creates an instance of SearchClient.
    *
