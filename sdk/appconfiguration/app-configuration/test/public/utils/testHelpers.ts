@@ -18,6 +18,7 @@ import {
 import { assert } from "chai";
 
 import { DefaultAzureCredential, TokenCredential } from "@azure/identity";
+import { RestError } from "@azure/core-http";
 
 let connectionStringNotPresentWarning = false;
 let tokenCredentialsNotPresentWarning = false;
@@ -144,7 +145,7 @@ export function assertEqualSettings(
   actual = actual.map((setting) => {
     return {
       key: setting.key,
-      label: setting.label,
+      label: setting.label || undefined,
       value: setting.value,
       isReadOnly: setting.isReadOnly
     };
@@ -161,7 +162,10 @@ export async function assertThrowsRestError(
   try {
     await testFunction();
     assert.fail(`${message}: No error thrown`);
-  } catch (err: any) {
+  } catch (err) {
+    if (!(err instanceof RestError)) {
+      throw new Error("Error is not recognized")
+    }
     if (err.name === "RestError") {
       assert.equal(expectedStatusCode, err.statusCode, message);
       return err;
@@ -180,7 +184,10 @@ export async function assertThrowsAbortError(
   try {
     await testFunction();
     assert.fail(`${message}: No error thrown`);
-  } catch (e: any) {
+  } catch (e) {
+    if (!(e instanceof Error)) {
+      throw new Error("Error is not recognized")
+    }
     if (isPlaybackMode() && (e.name === "FetchError" || e.name === "AbortError")) {
       return e;
     } else {
