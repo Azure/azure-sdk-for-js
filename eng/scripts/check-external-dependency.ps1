@@ -15,8 +15,11 @@ param (
 $dependencyUpgradeLabel = "dependency-upgrade-required"
 $dependencyRegex = "^\+\s(?<pkg>[\S]*)\s(?<version>[\S]*)\s\((?<newVersion>[0-9\.a-b]*).*\)\s?(?<deprecated>deprecated)?"
 $RepoRoot = Resolve-Path -Path "${PSScriptRoot}/../.."
+Write-Host "Repo root: $RepoRoot"
 $rushFile = join-Path -Path $RepoRoot "rush.json"
+Write-Host "Path to rush.json: $rushFile"
 $commonConfigFile = Join-path -Path $RepoRoot "common" "config" "rush" "common-versions.json"
+Write-Host "Path to common-versions.json: $commonConfigFile"
 
 $EngCommonScriptsPath = Join-Path (Resolve-Path "${PSScriptRoot}/..") "common" "scripts"
 . (Join-Path $EngCommonScriptsPath common.ps1)
@@ -77,10 +80,11 @@ else {
   Write-Error "Failed to find $($rushFile) and/or $($commonConfigFile). Verify repo root parameter."
   exit 1
 }
-
+Write-Host "Updated rush configuraion files"
 
 try {
   # Run rush update --full
+  Write-Host "Running rush update"
   rush update --full > rush.out
   if (Test-Path "rush.out") {
     $rushUpdateOutput = Get-Content -Path "rush.out"
