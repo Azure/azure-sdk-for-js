@@ -50,7 +50,6 @@ jobs:
         -RepoName azure-sdk-for-js
         -RepoOwner azure
         -AuthToken "$(azuresdk-github-pat)"
-      workingDirectory: $(Pipeline.Workspace)
       pwsh: true
 
   - script: |
