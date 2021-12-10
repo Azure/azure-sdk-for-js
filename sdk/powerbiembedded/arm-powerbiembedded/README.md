@@ -1,103 +1,98 @@
-## Azure PowerBIEmbeddedManagementClient SDK for JavaScript
+# Azure Power BI Embedded Management client library for JavaScript
 
-This package contains an isomorphic SDK for PowerBIEmbeddedManagementClient.
+This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure Power BI Embedded Management client.
+
+Client to manage your Power BI Embedded workspace collections and retrieve workspaces.
+
+[Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/powerbiembedded/arm-powerbiembedded) |
+[Package (NPM)](https://www.npmjs.com/package/@azure/arm-powerbiembedded) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-powerbiembedded) |
+[Samples](https://github.com/Azure-Samples/azure-samples-js-management)
+
+## Getting started
 
 ### Currently supported environments
 
 - [LTS versions of Node.js](https://nodejs.org/about/releases/)
-- Latest versions of Safari, Chrome, Edge, and Firefox.
+- Latest versions of Safari, Chrome, Edge and Firefox.
 
-### How to Install
+### Prerequisites
 
-```
+- An [Azure subscription][azure_sub].
+
+### Install the `@azure/arm-powerbiembedded` package
+
+Install the Azure Power BI Embedded Management client library for JavaScript with `npm`:
+
+```bash
 npm install @azure/arm-powerbiembedded
 ```
 
-### How to use
+### Create and authenticate a `PowerBIEmbeddedManagementClient`
 
-#### nodejs - Authentication, client creation and getByName workspaceCollections as an example written in TypeScript.
+To create a client object to access the Azure Power BI Embedded Management API, you will need the `endpoint` of your Azure Power BI Embedded Management resource and a `credential`. The Azure Power BI Embedded Management client can use Azure Active Directory credentials to authenticate.
+You can find the endpoint for your Azure Power BI Embedded Management resource in the [Azure Portal][azure_portal].
 
-##### Install @azure/ms-rest-nodeauth
+You can authenticate with Azure Active Directory using a credential from the [@azure/identity][azure_identity] library or [an existing AAD Token](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-with-a-pre-fetched-access-token).
 
-```
-npm install @azure/ms-rest-nodeauth
-```
+To use the [DefaultAzureCredential][defaultazurecredential] provider shown below, or other credential providers provided with the Azure SDK, please install the `@azure/identity` package:
 
-##### Sample code
-
-```ts
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
-import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
-import { PowerBIEmbeddedManagementClient, PowerBIEmbeddedManagementModels, PowerBIEmbeddedManagementMappers } from "@azure/arm-powerbiembedded";
-const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
-
-msRestNodeAuth.interactiveLogin().then((creds) => {
-  const client = new PowerBIEmbeddedManagementClient(creds, subscriptionId);
-  const resourceGroupName = "testresourceGroupName";
-  const workspaceCollectionName = "testworkspaceCollectionName";
-  client.workspaceCollections.getByName(resourceGroupName, workspaceCollectionName).then((result) => {
-    console.log("The result is:");
-    console.log(result);
-  });
-}).catch((err) => {
-  console.error(err);
-});
+```bash
+npm install @azure/identity
 ```
 
-#### browser - Authentication, client creation and getByName workspaceCollections as an example written in JavaScript.
+You will also need to **register a new AAD application and grant access to Azure Power BI Embedded Management** by assigning the suitable role to your service principal (note: roles such as `"Owner"` will not grant the necessary permissions).
+Set the values of the client ID, tenant ID, and client secret of the AAD application as environment variables: `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, `AZURE_CLIENT_SECRET`.
 
-##### Install @azure/ms-rest-browserauth
+For more information about how to create an Azure AD Application check out [this guide](https://docs.microsoft.com/azure/active-directory/develop/howto-create-service-principal-portal).
 
+```javascript
+const { PowerBIEmbeddedManagementClient } = require("@azure/arm-powerbiembedded");
+const { DefaultAzureCredential } = require("@azure/identity");
+const subscriptionId = "00000000-0000-0000-0000-000000000000";
+const client = new PowerBIEmbeddedManagementClient(new DefaultAzureCredential(), subscriptionId);
 ```
-npm install @azure/ms-rest-browserauth
+
+
+### JavaScript Bundle
+To use this client library in the browser, first you need to use a bundler. For details on how to do this, please refer to our [bundling documentation](https://aka.ms/AzureSDKBundling).
+
+## Key concepts
+
+### PowerBIEmbeddedManagementClient
+
+`PowerBIEmbeddedManagementClient` is the primary interface for developers using the Azure Power BI Embedded Management client library. Explore the methods on this client object to understand the different features of the Azure Power BI Embedded Management service that you can access.
+
+## Troubleshooting
+
+### Logging
+
+Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
+
+```javascript
+const { setLogLevel } = require("@azure/logger");
+setLogLevel("info");
 ```
 
-##### Sample code
+For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger).
 
-See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to Azure in the browser.
+## Next steps
 
-- index.html
-```html
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <title>@azure/arm-powerbiembedded sample</title>
-    <script src="node_modules/@azure/ms-rest-js/dist/msRest.browser.js"></script>
-    <script src="node_modules/@azure/ms-rest-azure-js/dist/msRestAzure.js"></script>
-    <script src="node_modules/@azure/ms-rest-browserauth/dist/msAuth.js"></script>
-    <script src="node_modules/@azure/arm-powerbiembedded/dist/arm-powerbiembedded.js"></script>
-    <script type="text/javascript">
-      const subscriptionId = "<Subscription_Id>";
-      const authManager = new msAuth.AuthManager({
-        clientId: "<client id for your Azure AD app>",
-        tenant: "<optional tenant for your organization>"
-      });
-      authManager.finalizeLogin().then((res) => {
-        if (!res.isLoggedIn) {
-          // may cause redirects
-          authManager.login();
-        }
-        const client = new Azure.ArmPowerbiembedded.PowerBIEmbeddedManagementClient(res.creds, subscriptionId);
-        const resourceGroupName = "testresourceGroupName";
-        const workspaceCollectionName = "testworkspaceCollectionName";
-        client.workspaceCollections.getByName(resourceGroupName, workspaceCollectionName).then((result) => {
-          console.log("The result is:");
-          console.log(result);
-        }).catch((err) => {
-          console.log("An error occurred:");
-          console.error(err);
-        });
-      });
-    </script>
-  </head>
-  <body></body>
-</html>
-```
+Please take a look at the [samples](https://github.com/Azure-Samples/azure-samples-js-management) directory for detailed examples on how to use this library.
+
+## Contributing
+
+If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md) to learn more about how to build and test the code.
 
 ## Related projects
 
-- [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
-
+- [Microsoft Azure SDK for JavaScript](https://github.com/Azure/azure-sdk-for-js)
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fpowerbiembedded%2Farm-powerbiembedded%2FREADME.png)
+
+[azure_cli]: https://docs.microsoft.com/cli/azure
+[azure_sub]: https://azure.microsoft.com/free/
+[azure_sub]: https://azure.microsoft.com/free/
+[azure_portal]: https://portal.azure.com
+[azure_identity]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity
+[defaultazurecredential]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential

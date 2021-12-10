@@ -49,6 +49,7 @@ specifiers:
   '@rush-temp/arm-policy': file:./projects/arm-policy.tgz
   '@rush-temp/arm-portal': file:./projects/arm-portal.tgz
   '@rush-temp/arm-postgresql': file:./projects/arm-postgresql.tgz
+  '@rush-temp/arm-powerbiembedded': file:./projects/arm-powerbiembedded.tgz
   '@rush-temp/arm-purview': file:./projects/arm-purview.tgz
   '@rush-temp/arm-quota': file:./projects/arm-quota.tgz
   '@rush-temp/arm-recoveryservices': file:./projects/arm-recoveryservices.tgz
@@ -218,6 +219,7 @@ dependencies:
   '@rush-temp/arm-policy': file:projects/arm-policy.tgz
   '@rush-temp/arm-portal': file:projects/arm-portal.tgz
   '@rush-temp/arm-postgresql': file:projects/arm-postgresql.tgz
+  '@rush-temp/arm-powerbiembedded': file:projects/arm-powerbiembedded.tgz
   '@rush-temp/arm-purview': file:projects/arm-purview.tgz
   '@rush-temp/arm-quota': file:projects/arm-quota.tgz
   '@rush-temp/arm-recoveryservices': file:projects/arm-recoveryservices.tgz
@@ -8648,7 +8650,7 @@ packages:
     dev: false
 
   file:projects/app-configuration.tgz:
-    resolution: {integrity: sha512-HBZl2EancfACeRLK2hWk+nCAgXrptXnS9hX5E5SLleYzlPHovsJRBWf3bv0NopaHCgFPdRcAw5xwKa1C2tPz2g==, tarball: file:projects/app-configuration.tgz}
+    resolution: {integrity: sha512-h9nLQwnEqw1OjRBrG2YmgFUD/wOCQe+fC+/45l/Kpeh2QBkLKXeJslgi5fme0YsUC0wmSsZqYaQZtn9mOCLjlw==, tarball: file:projects/app-configuration.tgz}
     name: '@rush-temp/app-configuration'
     version: 0.0.0
     dependencies:
@@ -9122,7 +9124,7 @@ packages:
     dev: false
 
   file:projects/arm-eventhub.tgz:
-    resolution: {integrity: sha512-u7elK+VQEh/PpmETDYomvdkwVxKVjIPOb6dELGwpNB2cuTV0/nkZUEKeWux+36A8Lhwo5Lyc/XAkKWWlLixwWw==, tarball: file:projects/arm-eventhub.tgz}
+    resolution: {integrity: sha512-cWryEMqcziFmqSkDI9ZMhEhjBmX3UEdauByCW1fFHAJ9XGHISFxr8jpJ1hKOj+c6mbp5JBD0UIU2MyceWk/OMg==, tarball: file:projects/arm-eventhub.tgz}
     name: '@rush-temp/arm-eventhub'
     version: 0.0.0
     dependencies:
@@ -9534,6 +9536,27 @@ packages:
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.14.3
+    dev: false
+
+  file:projects/arm-powerbiembedded.tgz:
+    resolution: {integrity: sha512-BQ+wNCqDCMUwU4l1ixWUIeClrsODF9JoMgqY4TEEsV1FYZpU4tOCZGO4DKsBEHD05z3nXcw80r8Jlq5BxbvyLg==, tarball: file:projects/arm-powerbiembedded.tgz}
+    name: '@rush-temp/arm-powerbiembedded'
+    version: 0.0.0
+    dependencies:
+      '@microsoft/api-extractor': 7.18.19
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
