@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { assert } from "chai";
-import { ExpiringAccessTokenCache } from "../src/credentials/accessTokenCache";
+
 import { AccessToken } from "../src/coreHttp";
+import { ExpiringAccessTokenCache } from "../src/credentials/accessTokenCache";
+import { assert } from "chai";
 
 function mockToken(expirationDeltaMs: number): AccessToken {
   return {

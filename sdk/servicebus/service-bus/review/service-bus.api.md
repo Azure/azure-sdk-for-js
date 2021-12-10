@@ -426,6 +426,7 @@ export interface ServiceBusReceivedMessage extends ServiceBusMessage {
     readonly lockToken?: string;
     readonly _rawAmqpMessage: AmqpAnnotatedMessage;
     readonly sequenceNumber?: Long_2;
+    readonly state: "active" | "deferred" | "scheduled";
 }
 
 // @public

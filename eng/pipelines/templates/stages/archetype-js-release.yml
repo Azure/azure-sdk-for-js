@@ -140,6 +140,8 @@ stages:
                           SparseCheckoutPaths:
                             - docs-ref-services/
                             - metadata/
+                            - ci-configs/packages-latest.json
+                            - ci-configs/packages-preview.json
 
           - ${{if ne(artifact.skipPublishDocGithubIo, 'true')}}:
             - deployment: PublishDocsGitHubIO
@@ -307,3 +309,5 @@ stages:
             SparseCheckoutPaths:
               - docs-ref-services/
               - metadata/
+              - ci-configs/packages-latest.json
+              - ci-configs/packages-preview.json

@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { v4 as uuidv4 } from "uuid";
+import { Constants } from "./constants";
 import { HttpOperationResponse } from "../httpOperationResponse";
 import { RestError } from "../restError";
 import { WebResourceLike } from "../webResource";
-import { Constants } from "./constants";
 import { XML_ATTRKEY } from "./serializer.common";
+import { v4 as uuidv4 } from "uuid";
 
 const validUuidRegex = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/i;
 

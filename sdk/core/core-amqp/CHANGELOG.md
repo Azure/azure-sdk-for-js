@@ -7,6 +7,7 @@
 - Changed TS compilation target to ES2017 in order to produce smaller bundles and use more native platform features
 - With the dropping of support for Node.js versions that are no longer in LTS, the dependency on `@types/node` has been updated to version 12. Read our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
 - Updated to use the latest version of the `rhea` package.
+- Add a constant `messageState` with value of `"x-opt-message-state"` which is the name for the new message state property in the message annotations. [PR 18938](https://github.com/Azure/azure-sdk-for-js/pull/18938)
 
 ## 3.0.0 (2021-06-09)
 

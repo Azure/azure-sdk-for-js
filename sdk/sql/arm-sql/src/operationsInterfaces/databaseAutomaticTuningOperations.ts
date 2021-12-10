@@ -7,11 +7,11 @@
  */
 
 import {
-  DatabaseAutomaticTuningOperationsGetOptionalParams,
-  DatabaseAutomaticTuningOperationsGetResponse,
+  DatabaseAutomaticTuningGetOptionalParams,
+  DatabaseAutomaticTuningGetResponse,
   DatabaseAutomaticTuning,
-  DatabaseAutomaticTuningOperationsUpdateOptionalParams,
-  DatabaseAutomaticTuningOperationsUpdateResponse
+  DatabaseAutomaticTuningUpdateOptionalParams,
+  DatabaseAutomaticTuningUpdateResponse
 } from "../models";
 
 /** Interface representing a DatabaseAutomaticTuningOperations. */
@@ -28,8 +28,8 @@ export interface DatabaseAutomaticTuningOperations {
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
-    options?: DatabaseAutomaticTuningOperationsGetOptionalParams
-  ): Promise<DatabaseAutomaticTuningOperationsGetResponse>;
+    options?: DatabaseAutomaticTuningGetOptionalParams
+  ): Promise<DatabaseAutomaticTuningGetResponse>;
   /**
    * Update automatic tuning properties for target database.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
@@ -44,6 +44,6 @@ export interface DatabaseAutomaticTuningOperations {
     serverName: string,
     databaseName: string,
     parameters: DatabaseAutomaticTuning,
-    options?: DatabaseAutomaticTuningOperationsUpdateOptionalParams
-  ): Promise<DatabaseAutomaticTuningOperationsUpdateResponse>;
+    options?: DatabaseAutomaticTuningUpdateOptionalParams
+  ): Promise<DatabaseAutomaticTuningUpdateResponse>;
 }

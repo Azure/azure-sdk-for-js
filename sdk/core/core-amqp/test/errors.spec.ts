@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as chai from "chai";
-const should = chai.should();
-
 import * as Errors from "../src/errors";
+import * as chai from "chai";
 import { AbortError } from "@azure/abort-controller";
+
+const should = chai.should();
 
 class AMQPError {
   name = "AmqpProtocolError";
