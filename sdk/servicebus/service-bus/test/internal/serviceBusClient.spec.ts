@@ -364,7 +364,6 @@ describe("ServiceBusClient live tests", () => {
           } as Omit<ProcessErrorArgs, "error">);
 
           testError(args.error);
-          console.log(args.error.message);
           const namespace = sbClient.fullyQualifiedNamespace.split(".")[0];
           const entityPattern = `The messaging entity '${namespace}:topic:${entityNames.topic}.*|some-subscription-name`;
           should.equal(
