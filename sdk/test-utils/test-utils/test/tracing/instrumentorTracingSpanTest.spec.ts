@@ -9,8 +9,9 @@ import {
   TracingSpanOptions,
   useInstrumenter
 } from "@azure/core-tracing";
-import { TestTracingSpan, TestInstrumenter, ContextImpl } from "../../src";
+import { TestTracingSpan, TestInstrumenter } from "../../src";
 import { assert } from "chai";
+import { ContextImpl } from "../../src/tracing/contextImpl";
 
 describe("TestTracingSpan", function() {
   let subject: TestTracingSpan;

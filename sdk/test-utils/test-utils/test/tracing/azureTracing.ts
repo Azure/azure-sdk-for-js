@@ -1,7 +1,7 @@
 import { OperationTracingOptions, useInstrumenter } from "@azure/core-tracing";
 import { assert } from "chai";
-import { SpanGraph, SpanGraphNode, TestInstrumenter } from "../../src";
-
+import { TestInstrumenter } from "../../src";
+import { SpanGraph, SpanGraphNode } from "../../src/tracing/spanGraphModel";
 // this is the plugin used in the test file
 function chaiAzureTrace(chai: Chai.ChaiStatic, _utils: Chai.ChaiUtils) {
   // expect(() => {}).to.supportsTracing() syntax
@@ -89,10 +89,16 @@ declare global {
     interface Assertion {
       supportsTracing(): Promise<void>;
     }
-
+    //Options extends { tracingOptions?: OperationTracingOptions },
+    // Callback extends (options: Options) => unknown
     interface Assert {
-      supportsTracing<Callback extends (...args: unknown[]) => unknown>(
-        callback: Callback
+      supportsTracing<
+        Options extends { tracingOptions?: OperationTracingOptions },
+        Callback extends (options: Options) => unknown
+      >(
+        callback: Callback,
+        expectedSpanNames: string[],
+        options?: Options
       ): Promise<void>;
     }
   }
