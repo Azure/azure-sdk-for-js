@@ -6,11 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export {
-  ErrorAdditionalInfo,
-  ErrorDetail,
-  ErrorResponse,
-  SignalRUsage,
-  SignalRUsageList,
-  SignalRUsageName
-} from "../models/mappers";
+/// <reference lib="esnext.asynciterable" />
+export * from "./models";
+export { SignalRManagementClient } from "./signalRManagementClient";
+export * from "./operationsInterfaces";

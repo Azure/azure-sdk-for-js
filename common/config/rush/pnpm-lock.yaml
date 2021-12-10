@@ -60,6 +60,7 @@ specifiers:
   '@rush-temp/arm-security': file:./projects/arm-security.tgz
   '@rush-temp/arm-servicebus': file:./projects/arm-servicebus.tgz
   '@rush-temp/arm-servicefabric': file:./projects/arm-servicefabric.tgz
+  '@rush-temp/arm-signalr': file:./projects/arm-signalr.tgz
   '@rush-temp/arm-sql': file:./projects/arm-sql.tgz
   '@rush-temp/arm-sqlvirtualmachine': file:./projects/arm-sqlvirtualmachine.tgz
   '@rush-temp/arm-storage': file:./projects/arm-storage.tgz
@@ -229,6 +230,7 @@ dependencies:
   '@rush-temp/arm-security': file:projects/arm-security.tgz
   '@rush-temp/arm-servicebus': file:projects/arm-servicebus.tgz
   '@rush-temp/arm-servicefabric': file:projects/arm-servicefabric.tgz
+  '@rush-temp/arm-signalr': file:projects/arm-signalr.tgz
   '@rush-temp/arm-sql': file:projects/arm-sql.tgz
   '@rush-temp/arm-sqlvirtualmachine': file:projects/arm-sqlvirtualmachine.tgz
   '@rush-temp/arm-storage': file:projects/arm-storage.tgz
@@ -8648,7 +8650,7 @@ packages:
     dev: false
 
   file:projects/app-configuration.tgz:
-    resolution: {integrity: sha512-HBZl2EancfACeRLK2hWk+nCAgXrptXnS9hX5E5SLleYzlPHovsJRBWf3bv0NopaHCgFPdRcAw5xwKa1C2tPz2g==, tarball: file:projects/app-configuration.tgz}
+    resolution: {integrity: sha512-h9nLQwnEqw1OjRBrG2YmgFUD/wOCQe+fC+/45l/Kpeh2QBkLKXeJslgi5fme0YsUC0wmSsZqYaQZtn9mOCLjlw==, tarball: file:projects/app-configuration.tgz}
     name: '@rush-temp/app-configuration'
     version: 0.0.0
     dependencies:
@@ -9122,7 +9124,7 @@ packages:
     dev: false
 
   file:projects/arm-eventhub.tgz:
-    resolution: {integrity: sha512-u7elK+VQEh/PpmETDYomvdkwVxKVjIPOb6dELGwpNB2cuTV0/nkZUEKeWux+36A8Lhwo5Lyc/XAkKWWlLixwWw==, tarball: file:projects/arm-eventhub.tgz}
+    resolution: {integrity: sha512-cWryEMqcziFmqSkDI9ZMhEhjBmX3UEdauByCW1fFHAJ9XGHISFxr8jpJ1hKOj+c6mbp5JBD0UIU2MyceWk/OMg==, tarball: file:projects/arm-eventhub.tgz}
     name: '@rush-temp/arm-eventhub'
     version: 0.0.0
     dependencies:
@@ -9765,6 +9767,27 @@ packages:
     transitivePeerDependencies:
       - debug
       - supports-color
+    dev: false
+
+  file:projects/arm-signalr.tgz:
+    resolution: {integrity: sha512-Kt1ShOBK4aurIKsnAKlxt1rvCpQ+9LGpP7twTRgxvqy1S72ilPop6BSps+aLyguNZc8TMO4+feU2/osBq8zR4w==, tarball: file:projects/arm-signalr.tgz}
+    name: '@rush-temp/arm-signalr'
+    version: 0.0.0
+    dependencies:
+      '@microsoft/api-extractor': 7.18.19
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.14.3
     dev: false
 
   file:projects/arm-sql.tgz:
