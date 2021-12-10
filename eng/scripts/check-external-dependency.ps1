@@ -18,14 +18,13 @@ $rushFile = join-Path -Path $RepoRoot "rush.json"
 $commonConfigFile = Join-path -Path $RepoRoot "common" "config" "rush" "common-versions.json"
 
 $EngCommonScriptsPath = Join-Path (Resolve-Path "${PSScriptRoot}/..") "common" "scripts"
-Test-Path $EngCommonScriptsPath
 . (Join-Path $EngCommonScriptsPath common.ps1)
 
 
 # Check and return if an isue already exists to upgrade the package 
 function Get-GithubIssue($PackageName, $IsDeprecated) {
   $issueTitle = "Dependency package $PackageName has a new version available"
-  $issues = Get-GitHubIssues -RepoOwner $RepoOwner -RepoName $RepoName -CreatedBy "praveenkuttappan" -Labels "dependency-upgrade-required" -AuthToken $AuthToken
+  $issues = Get-GitHubIssues -RepoOwner $RepoOwner -RepoName $RepoName -CreatedBy "azure-sdk" -Labels "dependency-upgrade-required" -AuthToken $AuthToken
   if ($issues) {
     foreach ($issue in $issues) {
       if ($issue.title -eq $issueTitle) {
@@ -78,23 +77,33 @@ else {
   exit
 }
 
-# Run rush update --full
-rush update --full > rush.out
-if (Test-Path "rush.out") {
-  $rushUpdateOutput = Get-Content -Path "rush.out"
-  foreach ($line in $rushUpdateOutput) {
-    if ($line -match $dependencyRegex -and !$matches['pkg'].StartsWith("@azure")) { 
-      $p = New-Object PSObject -Property @{
-        Name         = $matches['pkg']  
-        OldVersion   = [AzureEngSemanticVersion]::ParseVersionString($matches['version'])        
-        NewVersion   = [AzureEngSemanticVersion]::ParseVersionString($matches['newVersion'])
-        IsDeprecated = ($matches['deprecated'] -eq "deprecated")
+
+try {
+  # Run rush update --full
+  rush update --full > rush.out
+  if (Test-Path "rush.out") {
+    $rushUpdateOutput = Get-Content -Path "rush.out"
+    foreach ($line in $rushUpdateOutput) {
+      if ($line -match $dependencyRegex -and !$matches['pkg'].StartsWith("@azure")) { 
+        $p = New-Object PSObject -Property @{
+          Name         = $matches['pkg']  
+          OldVersion   = [AzureEngSemanticVersion]::ParseVersionString($matches['version'])        
+          NewVersion   = [AzureEngSemanticVersion]::ParseVersionString($matches['newVersion'])
+          IsDeprecated = ($matches['deprecated'] -eq "deprecated")
+        }
+        Set-GitHubIssue -Package $p
       }
-      Set-GitHubIssue -Package $p
     }
   }
+  else {
+    Write-Error "Failed to run rush update --full"
+    exit 1
+  }
 }
-else {
-  Write-Error "Failed to run rush update --full"
-  exit
-} 
+catch {
+  Write-Error "Failed to check available new versions of external dependency."
+  exit 1
+}
+finally {
+  rush unlink & gitclean -xdf
+}
