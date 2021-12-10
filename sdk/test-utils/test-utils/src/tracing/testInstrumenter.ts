@@ -43,11 +43,7 @@ export class TestInstrumenter implements Instrumenter {
     const span = new TestSpan(this, name, spanContext, parentContext?.spanId, options);
      * 
      */
-    const span = new TestTracingSpan(
-      name,
-      spanOptions,
-      spanOptions?.tracingContext || new ContextImpl()
-    );
+    const span = new TestTracingSpan(name, spanOptions?.tracingContext, spanOptions);
     let context: TracingContext = new ContextImpl(spanOptions?.tracingContext);
     context = context.setValue(Symbol.for("span"), span);
 
