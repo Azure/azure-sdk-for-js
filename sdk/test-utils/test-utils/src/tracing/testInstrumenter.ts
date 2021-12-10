@@ -20,9 +20,37 @@ export class TestInstrumenter implements Instrumenter {
     name: string,
     spanOptions?: InstrumenterSpanOptions
   ): { span: TracingSpan; tracingContext: TracingContext } {
-    const span = new TestTracingSpan(name, spanOptions);
+    /**
+     *     
+     * 
+    const parentContext = getSpanContext(context || otContext.active());
+
+    let traceId: string;
+    let isRootSpan = false;
+
+    if (parentContext && parentContext.traceId) {
+      traceId = parentContext.traceId;
+    } else {
+      traceId = this.getNextTraceId();
+      isRootSpan = true;
+    }
+
+    const spanContext: SpanContext = {
+      traceId,
+      spanId: this.getNextSpanId(),
+      traceFlags: TraceFlags.NONE
+    };
+    const span = new TestSpan(this, name, spanContext, parentContext?.spanId, options);
+     * 
+     */
+    const span = new TestTracingSpan(
+      name,
+      spanOptions,
+      spanOptions?.tracingContext || new ContextImpl()
+    );
     let context: TracingContext = new ContextImpl(spanOptions?.tracingContext);
     context = context.setValue(Symbol.for("span"), span);
+
     this.startedSpans.push(span);
     return { span, tracingContext: context };
   }

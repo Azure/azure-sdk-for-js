@@ -1,6 +1,6 @@
-import { useInstrumenter } from "@azure/core-tracing";
+import { OperationTracingOptions, useInstrumenter } from "@azure/core-tracing";
 import { assert } from "chai";
-import { TestInstrumenter } from "../../src";
+import { SpanGraph, SpanGraphNode, TestInstrumenter } from "../../src";
 
 // this is the plugin used in the test file
 function chaiAzureTrace(chai: Chai.ChaiStatic, _utils: Chai.ChaiUtils) {
@@ -12,21 +12,23 @@ function chaiAzureTrace(chai: Chai.ChaiStatic, _utils: Chai.ChaiUtils) {
   chai.assert.supportsTracing = supportsTracing;
 }
 
-// Implementation
-async function supportsTracing<Callback extends (...args: unknown[]) => unknown>(
-  callback: Callback
-) {
+// Implementation for supportsTracing Plugin
+async function supportsTracing<
+  Options extends { tracingOptions?: OperationTracingOptions },
+  Callback extends (options: Options) => unknown
+>(callback: Callback, expectedSpanNames: string[], options?: Options) {
   const instrumenter = new TestInstrumenter();
   useInstrumenter(instrumenter);
   const { span: rootSpan, tracingContext } = instrumenter.startSpan("root");
 
-  const options = {
+  const newOptions = {
+    ...options,
     tracingOptions: {
       tracingContext: tracingContext
     }
-  };
+  } as Options;
   // TODO: pass in callback options and spanOptions
-  await callback.call(options);
+  await callback.call(undefined, newOptions);
   console.log(callback.name);
   assert.equal(instrumenter.startedSpans.length, 1);
   assert.equal(instrumenter.startedSpans[0].name, "root");
@@ -35,43 +37,50 @@ async function supportsTracing<Callback extends (...args: unknown[]) => unknown>
     instrumenter.startedSpans[0],
     "The root span should match what was passed in."
   );
-  // const parentTracingSpanContext = tracingContext.getValue(Symbol.for("span"));
+  const spanGraph = getSpanGraph(rootSpan.spanContext.traceId, instrumenter);
+  const directChildren = spanGraph.roots[0].children.map((child) => child.name);
+  assert.sameMembers(Array.from(new Set(directChildren)), expectedSpanNames);
+  // TODO:  All spans are closed??
+}
 
-  /**
-   *   const tracer = setTracer();
-  const rootSpan = tracer.startSpan("root");
-  const tracingContext = setSpan(otContext.active(), rootSpan);
+/**
+ * Return all Spans for a particular trace, grouped by their
+ * parent Span in a tree-like structure
+ * @param traceId - The traceId to return the graph for
+ */
+function getSpanGraph(traceId: string, instrumenter: TestInstrumenter): SpanGraph {
+  const traceSpans = instrumenter.startedSpans.filter((span) => {
+    return span.spanContext.traceId === traceId;
+  });
 
-  try {
-    await callback({ tracingContext });
-  } finally {
-    rootSpan.end();
+  const roots: SpanGraphNode[] = [];
+  const nodeMap: Map<string, SpanGraphNode> = new Map<string, SpanGraphNode>();
+
+  for (const span of traceSpans) {
+    const spanId = span.spanContext.spanId;
+    const node: SpanGraphNode = {
+      name: span.name,
+      children: []
+    };
+    nodeMap.set(spanId, node);
+
+    if (span.parentSpan()?.spanContext.spanId) {
+      const parentSpan = span.parentSpan()?.spanContext.spanId;
+      const parent = nodeMap.get(parentSpan!);
+      if (!parent) {
+        throw new Error(
+          `Span with name ${node.name} has an unknown parentSpan with id ${parentSpan}`
+        );
+      }
+      parent.children.push(node);
+    } else {
+      roots.push(node);
+    }
   }
 
-  // Ensure any spans created by KeyVault are parented correctly
-  let rootSpans = tracer
-    .getRootSpans()
-    .filter((span) => span.name.startsWith(prefix) || span.name === "root");
-
-  assert.equal(rootSpans.length, 1, "Should only have one root span.");
-  assert.strictEqual(rootSpan, rootSpans[0], "The root span should match what was passed in.");
-
-  // Ensure top-level children are created correctly.
-  // Testing the entire tree structure can be tricky as other packages might create their own spans.
-  const spanGraph = tracer.getSpanGraph(rootSpan.spanContext().traceId);
-  const directChildren = spanGraph.roots[0].children.map((child) => child.name);
-  // LROs might poll N times, so we'll make a unique array and compare that.
-  assert.sameMembers(Array.from(new Set(directChildren)), children);
-
-  // Ensure all spans are properly closed
-  assert.equal(tracer.getActiveSpans().length, 0, "All spans should have had end called");
-   */
-
-  /**
-   * All spans are closed
-There is only one root span (so we should be able to get the root spans)
-Expected span graph? Like, can I get all the children of a span and assert that their names are what I expect?
-   */
+  return {
+    roots
+  };
 }
 
 // types

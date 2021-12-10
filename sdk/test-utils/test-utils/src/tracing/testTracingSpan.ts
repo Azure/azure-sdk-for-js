@@ -1,15 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TracingSpan, SpanStatus, TracingSpanOptions, TracingSpanKind } from "@azure/core-tracing";
+import {
+  TracingSpan,
+  SpanStatus,
+  TracingSpanOptions,
+  TracingSpanKind,
+  TracingContext
+} from "@azure/core-tracing";
 
 export class TestTracingSpan implements TracingSpan {
   name: string;
   spanKind: TracingSpanKind | undefined;
+  /** Parent tracing context or existing */
+  tracingContext: TracingContext | undefined;
 
-  constructor(name: string, spanOptions?: TracingSpanOptions) {
+  constructor(name: string, tracingContext?: TracingContext, spanOptions?: TracingSpanOptions) {
     this.name = name;
     this.spanKind = spanOptions?.spanKind;
+    this.tracingContext = tracingContext;
   }
   spanStatus?: SpanStatus;
   attributes: Record<string, unknown> = {};
@@ -30,6 +39,10 @@ export class TestTracingSpan implements TracingSpan {
   // TODO: should we rename this?
   isRecording(): boolean {
     return true;
+  }
+
+  parentSpan(): TestTracingSpan | undefined {
+    return this.tracingContext?.getValue(Symbol.for("span")) as TestTracingSpan;
   }
   get spanContext() {
     return {
