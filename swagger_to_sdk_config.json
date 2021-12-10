@@ -18,5 +18,8 @@
       }
     },
     "parseGenerateOutput": true
+  },
+  "packageOptions": {
+    "breakingChangeLabel": "CI-BreakingChange-JavaScript"
   }
 }
