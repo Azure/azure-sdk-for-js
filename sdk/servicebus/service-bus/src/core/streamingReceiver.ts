@@ -156,7 +156,24 @@ export class StreamingReceiver extends MessageReceiver {
 
       this._lockRenewer?.stopAll(this);
 
-      if (receiver && !receiver.isItselfClosed()) {
+      let retryable: boolean = true;
+      if (receiverError) {
+        const sbError = translateServiceBusError(receiverError) as MessagingError;
+        retryable = sbError.retryable;
+        if (!retryable) {
+          logger.verbose(
+            `${this.logPrefix} non-recoverable error. Hence not calling detached from the _onAmqpClose() handler.`
+          );
+          // await this.close();
+          this._messageHandlers().processError({
+            error: sbError,
+            errorSource: "receive",
+            entityPath: this.entityPath,
+            fullyQualifiedNamespace: this._context.config.host
+          });
+        }
+      }
+      if (receiver && !receiver.isItselfClosed() && retryable) {
         await this.onDetached(receiverError);
       } else {
         logger.verbose(

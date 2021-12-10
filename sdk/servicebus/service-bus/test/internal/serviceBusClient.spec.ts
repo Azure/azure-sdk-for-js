@@ -182,9 +182,7 @@ describe("ServiceBusClient live tests", () => {
     });
   });
 
-  describe.only("Errors with non existing Queue/Topic/Subscription", async function(): Promise<
-    void
-  > {
+  describe("Errors with non existing Queue/Topic/Subscription", async function(): Promise<void> {
     let sbClient: ServiceBusClientForTests;
     let errorWasThrown: boolean;
     beforeEach(() => {
@@ -234,7 +232,7 @@ describe("ServiceBusClient live tests", () => {
       should.equal(errorWasThrown, true, "Error thrown flag must be true");
     });
 
-    it.only("throws error when receiving batch data from a non existing subscription", async function(): Promise<
+    it("throws error when receiving batch data from a non existing subscription", async function(): Promise<
       void
     > {
       const entityNames = await sbClient.test.createTestEntities(TestClientType.PartitionedTopic);
@@ -335,7 +333,7 @@ describe("ServiceBusClient live tests", () => {
       await receiver.close();
     });
 
-    it.only("throws error when receiving streaming data from a non existing subscription", async function(): Promise<
+    it("throws error when receiving streaming data from a non existing subscription", async function(): Promise<
       void
     > {
       const entityNames = await sbClient.test.createTestEntities(TestClientType.PartitionedTopic);

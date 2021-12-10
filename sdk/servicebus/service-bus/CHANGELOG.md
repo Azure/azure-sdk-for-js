@@ -10,6 +10,8 @@
 
 ### Bugs Fixed
 
+- Fixes an issue where receiver keeps trying to re-connect when subscribing to non-existent subscription.
+
 ### Other Changes
 
 ## 7.4.0 (2021-11-08)
