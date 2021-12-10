@@ -117,7 +117,7 @@ function getTestServerUrl() {
     });
 
     describe("Sanitizers", () => {
-      it("GeneralRegexSanitizer", async () => {
+      it.skip("GeneralRegexSanitizer", async () => {
         const fakeSASUrl =
           "sv=2020-08-04&ss=bfqt&srt=sco&sp=rwdlacuptfx&se=2026-07-10T07:00:24Z&st=2021-07-09T23:00:24Z&spr=https&sig=fake_sig";
 
