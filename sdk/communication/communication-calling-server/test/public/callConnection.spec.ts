@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { env, record, Recorder, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
+import { isLiveMode, env, record, Recorder, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
 import { CallingServerClient, CreateCallConnectionOptions, PlayAudioOptions } from "../../src";
 import { TestUtils } from "./utils/testUtils";
 import { Context } from "mocha";
@@ -32,7 +32,10 @@ describe("Call Connection Live Test", function() {
 
     beforeEach(async function(this: Context) {
       recorder = record(this, environmentSetup);
-      /* Place your code here*/
+
+      if (isLiveMode()) {
+        this.skip();
+      }
       connectionString = env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING;
     });
 

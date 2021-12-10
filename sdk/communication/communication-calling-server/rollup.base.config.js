@@ -91,6 +91,13 @@ export function browserConfig(test = false) {
           "if (!isNode)": "if (true)"
         }
       }),
+      shim({
+        constants: `export default {}`,
+        fs: `export default {}`,
+        os: `export default {}`,
+        dotenv: `export function config() { }`,
+        path: `export default {}`
+      }),
       nodeResolve({
         mainFields: ["module", "browser"],
         preferBuiltins: false

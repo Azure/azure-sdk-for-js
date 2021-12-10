@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { env, record, Recorder, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
+import { isLiveMode, env, record, Recorder, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
 import { CallingServerClient, GroupCallLocator, PlayAudioOptions, CallConnection } from "../../src";
 import * as Constants from "./utils/constants";
 import { TestUtils } from "./utils/testUtils";
@@ -182,6 +182,10 @@ describe("Server Call Live Test", function() {
     });
 
     it("Run create_add_remove_hangup scenario", async function(this: Context) {
+      if (isLiveMode()) {
+        this.skip();
+      }
+
       this.timeout(0);
       const groupId = TestUtils.getGroupId("Run create_add_remove_hangup scenario");
       const fromUser = await TestUtils.getUserId("fromUser", connectionString);
