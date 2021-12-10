@@ -5,3 +5,5 @@ import * as dotenv from "dotenv";
 
 // Initialize the environment
 dotenv.config();
+
+export const env = process.env;
