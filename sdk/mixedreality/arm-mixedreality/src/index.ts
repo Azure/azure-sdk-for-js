@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./operations";
-export * from "./spatialAnchorsAccounts";
-export * from "./remoteRenderingAccounts";
-export * from "./objectAnchorsAccounts";
+/// <reference lib="esnext.asynciterable" />
+export * from "./models";
+export { MixedRealityClient } from "./mixedRealityClient";
+export * from "./operationsInterfaces";

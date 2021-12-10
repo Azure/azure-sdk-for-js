@@ -7,42 +7,42 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { SpatialAnchorsAccounts } from "../operationsInterfaces";
+import { ObjectAnchorsAccounts } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { MixedRealityClient } from "../mixedRealityClient";
 import {
-  SpatialAnchorsAccount,
-  SpatialAnchorsAccountsListBySubscriptionNextOptionalParams,
-  SpatialAnchorsAccountsListBySubscriptionOptionalParams,
-  SpatialAnchorsAccountsListByResourceGroupNextOptionalParams,
-  SpatialAnchorsAccountsListByResourceGroupOptionalParams,
-  SpatialAnchorsAccountsListBySubscriptionResponse,
-  SpatialAnchorsAccountsListByResourceGroupResponse,
-  SpatialAnchorsAccountsDeleteOptionalParams,
-  SpatialAnchorsAccountsGetOptionalParams,
-  SpatialAnchorsAccountsGetResponse,
-  SpatialAnchorsAccountsUpdateOptionalParams,
-  SpatialAnchorsAccountsUpdateResponse,
-  SpatialAnchorsAccountsCreateOptionalParams,
-  SpatialAnchorsAccountsCreateResponse,
-  SpatialAnchorsAccountsListKeysOptionalParams,
-  SpatialAnchorsAccountsListKeysResponse,
+  ObjectAnchorsAccount,
+  ObjectAnchorsAccountsListBySubscriptionNextOptionalParams,
+  ObjectAnchorsAccountsListBySubscriptionOptionalParams,
+  ObjectAnchorsAccountsListByResourceGroupNextOptionalParams,
+  ObjectAnchorsAccountsListByResourceGroupOptionalParams,
+  ObjectAnchorsAccountsListBySubscriptionResponse,
+  ObjectAnchorsAccountsListByResourceGroupResponse,
+  ObjectAnchorsAccountsDeleteOptionalParams,
+  ObjectAnchorsAccountsGetOptionalParams,
+  ObjectAnchorsAccountsGetResponse,
+  ObjectAnchorsAccountsUpdateOptionalParams,
+  ObjectAnchorsAccountsUpdateResponse,
+  ObjectAnchorsAccountsCreateOptionalParams,
+  ObjectAnchorsAccountsCreateResponse,
+  ObjectAnchorsAccountsListKeysOptionalParams,
+  ObjectAnchorsAccountsListKeysResponse,
   AccountKeyRegenerateRequest,
-  SpatialAnchorsAccountsRegenerateKeysOptionalParams,
-  SpatialAnchorsAccountsRegenerateKeysResponse,
-  SpatialAnchorsAccountsListBySubscriptionNextResponse,
-  SpatialAnchorsAccountsListByResourceGroupNextResponse
+  ObjectAnchorsAccountsRegenerateKeysOptionalParams,
+  ObjectAnchorsAccountsRegenerateKeysResponse,
+  ObjectAnchorsAccountsListBySubscriptionNextResponse,
+  ObjectAnchorsAccountsListByResourceGroupNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing SpatialAnchorsAccounts operations. */
-export class SpatialAnchorsAccountsImpl implements SpatialAnchorsAccounts {
+/** Class containing ObjectAnchorsAccounts operations. */
+export class ObjectAnchorsAccountsImpl implements ObjectAnchorsAccounts {
   private readonly client: MixedRealityClient;
 
   /**
-   * Initialize a new instance of the class SpatialAnchorsAccounts class.
+   * Initialize a new instance of the class ObjectAnchorsAccounts class.
    * @param client Reference to the service client
    */
   constructor(client: MixedRealityClient) {
@@ -50,12 +50,12 @@ export class SpatialAnchorsAccountsImpl implements SpatialAnchorsAccounts {
   }
 
   /**
-   * List Spatial Anchors Accounts by Subscription
+   * List Object Anchors Accounts by Subscription
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: SpatialAnchorsAccountsListBySubscriptionOptionalParams
-  ): PagedAsyncIterableIterator<SpatialAnchorsAccount> {
+    options?: ObjectAnchorsAccountsListBySubscriptionOptionalParams
+  ): PagedAsyncIterableIterator<ObjectAnchorsAccount> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
       next() {
@@ -71,8 +71,8 @@ export class SpatialAnchorsAccountsImpl implements SpatialAnchorsAccounts {
   }
 
   private async *listBySubscriptionPagingPage(
-    options?: SpatialAnchorsAccountsListBySubscriptionOptionalParams
-  ): AsyncIterableIterator<SpatialAnchorsAccount[]> {
+    options?: ObjectAnchorsAccountsListBySubscriptionOptionalParams
+  ): AsyncIterableIterator<ObjectAnchorsAccount[]> {
     let result = await this._listBySubscription(options);
     yield result.value || [];
     let continuationToken = result.nextLink;
@@ -84,8 +84,8 @@ export class SpatialAnchorsAccountsImpl implements SpatialAnchorsAccounts {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: SpatialAnchorsAccountsListBySubscriptionOptionalParams
-  ): AsyncIterableIterator<SpatialAnchorsAccount> {
+    options?: ObjectAnchorsAccountsListBySubscriptionOptionalParams
+  ): AsyncIterableIterator<ObjectAnchorsAccount> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
     }
@@ -98,8 +98,8 @@ export class SpatialAnchorsAccountsImpl implements SpatialAnchorsAccounts {
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: SpatialAnchorsAccountsListByResourceGroupOptionalParams
-  ): PagedAsyncIterableIterator<SpatialAnchorsAccount> {
+    options?: ObjectAnchorsAccountsListByResourceGroupOptionalParams
+  ): PagedAsyncIterableIterator<ObjectAnchorsAccount> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
       next() {
@@ -116,8 +116,8 @@ export class SpatialAnchorsAccountsImpl implements SpatialAnchorsAccounts {
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: SpatialAnchorsAccountsListByResourceGroupOptionalParams
-  ): AsyncIterableIterator<SpatialAnchorsAccount[]> {
+    options?: ObjectAnchorsAccountsListByResourceGroupOptionalParams
+  ): AsyncIterableIterator<ObjectAnchorsAccount[]> {
     let result = await this._listByResourceGroup(resourceGroupName, options);
     yield result.value || [];
     let continuationToken = result.nextLink;
@@ -134,8 +134,8 @@ export class SpatialAnchorsAccountsImpl implements SpatialAnchorsAccounts {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: SpatialAnchorsAccountsListByResourceGroupOptionalParams
-  ): AsyncIterableIterator<SpatialAnchorsAccount> {
+    options?: ObjectAnchorsAccountsListByResourceGroupOptionalParams
+  ): AsyncIterableIterator<ObjectAnchorsAccount> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
       options
@@ -145,12 +145,12 @@ export class SpatialAnchorsAccountsImpl implements SpatialAnchorsAccounts {
   }
 
   /**
-   * List Spatial Anchors Accounts by Subscription
+   * List Object Anchors Accounts by Subscription
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: SpatialAnchorsAccountsListBySubscriptionOptionalParams
-  ): Promise<SpatialAnchorsAccountsListBySubscriptionResponse> {
+    options?: ObjectAnchorsAccountsListBySubscriptionOptionalParams
+  ): Promise<ObjectAnchorsAccountsListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
       listBySubscriptionOperationSpec
@@ -164,8 +164,8 @@ export class SpatialAnchorsAccountsImpl implements SpatialAnchorsAccounts {
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: SpatialAnchorsAccountsListByResourceGroupOptionalParams
-  ): Promise<SpatialAnchorsAccountsListByResourceGroupResponse> {
+    options?: ObjectAnchorsAccountsListByResourceGroupOptionalParams
+  ): Promise<ObjectAnchorsAccountsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
       listByResourceGroupOperationSpec
@@ -173,7 +173,7 @@ export class SpatialAnchorsAccountsImpl implements SpatialAnchorsAccounts {
   }
 
   /**
-   * Delete a Spatial Anchors Account.
+   * Delete an Object Anchors Account.
    * @param resourceGroupName Name of an Azure resource group.
    * @param accountName Name of an Mixed Reality Account.
    * @param options The options parameters.
@@ -181,7 +181,7 @@ export class SpatialAnchorsAccountsImpl implements SpatialAnchorsAccounts {
   delete(
     resourceGroupName: string,
     accountName: string,
-    options?: SpatialAnchorsAccountsDeleteOptionalParams
+    options?: ObjectAnchorsAccountsDeleteOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, options },
@@ -190,7 +190,7 @@ export class SpatialAnchorsAccountsImpl implements SpatialAnchorsAccounts {
   }
 
   /**
-   * Retrieve a Spatial Anchors Account.
+   * Retrieve an Object Anchors Account.
    * @param resourceGroupName Name of an Azure resource group.
    * @param accountName Name of an Mixed Reality Account.
    * @param options The options parameters.
@@ -198,8 +198,8 @@ export class SpatialAnchorsAccountsImpl implements SpatialAnchorsAccounts {
   get(
     resourceGroupName: string,
     accountName: string,
-    options?: SpatialAnchorsAccountsGetOptionalParams
-  ): Promise<SpatialAnchorsAccountsGetResponse> {
+    options?: ObjectAnchorsAccountsGetOptionalParams
+  ): Promise<ObjectAnchorsAccountsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, options },
       getOperationSpec
@@ -207,45 +207,45 @@ export class SpatialAnchorsAccountsImpl implements SpatialAnchorsAccounts {
   }
 
   /**
-   * Updating a Spatial Anchors Account
+   * Updating an Object Anchors Account
    * @param resourceGroupName Name of an Azure resource group.
    * @param accountName Name of an Mixed Reality Account.
-   * @param spatialAnchorsAccount Spatial Anchors Account parameter.
+   * @param objectAnchorsAccount Object Anchors Account parameter.
    * @param options The options parameters.
    */
   update(
     resourceGroupName: string,
     accountName: string,
-    spatialAnchorsAccount: SpatialAnchorsAccount,
-    options?: SpatialAnchorsAccountsUpdateOptionalParams
-  ): Promise<SpatialAnchorsAccountsUpdateResponse> {
+    objectAnchorsAccount: ObjectAnchorsAccount,
+    options?: ObjectAnchorsAccountsUpdateOptionalParams
+  ): Promise<ObjectAnchorsAccountsUpdateResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, accountName, spatialAnchorsAccount, options },
+      { resourceGroupName, accountName, objectAnchorsAccount, options },
       updateOperationSpec
     );
   }
 
   /**
-   * Creating or Updating a Spatial Anchors Account.
+   * Creating or Updating an object anchors Account.
    * @param resourceGroupName Name of an Azure resource group.
    * @param accountName Name of an Mixed Reality Account.
-   * @param spatialAnchorsAccount Spatial Anchors Account parameter.
+   * @param objectAnchorsAccount Object Anchors Account parameter.
    * @param options The options parameters.
    */
   create(
     resourceGroupName: string,
     accountName: string,
-    spatialAnchorsAccount: SpatialAnchorsAccount,
-    options?: SpatialAnchorsAccountsCreateOptionalParams
-  ): Promise<SpatialAnchorsAccountsCreateResponse> {
+    objectAnchorsAccount: ObjectAnchorsAccount,
+    options?: ObjectAnchorsAccountsCreateOptionalParams
+  ): Promise<ObjectAnchorsAccountsCreateResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, accountName, spatialAnchorsAccount, options },
+      { resourceGroupName, accountName, objectAnchorsAccount, options },
       createOperationSpec
     );
   }
 
   /**
-   * List Both of the 2 Keys of a Spatial Anchors Account
+   * List Both of the 2 Keys of an object anchors Account
    * @param resourceGroupName Name of an Azure resource group.
    * @param accountName Name of an Mixed Reality Account.
    * @param options The options parameters.
@@ -253,8 +253,8 @@ export class SpatialAnchorsAccountsImpl implements SpatialAnchorsAccounts {
   listKeys(
     resourceGroupName: string,
     accountName: string,
-    options?: SpatialAnchorsAccountsListKeysOptionalParams
-  ): Promise<SpatialAnchorsAccountsListKeysResponse> {
+    options?: ObjectAnchorsAccountsListKeysOptionalParams
+  ): Promise<ObjectAnchorsAccountsListKeysResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, options },
       listKeysOperationSpec
@@ -262,7 +262,7 @@ export class SpatialAnchorsAccountsImpl implements SpatialAnchorsAccounts {
   }
 
   /**
-   * Regenerate specified Key of a Spatial Anchors Account
+   * Regenerate specified Key of an object anchors Account
    * @param resourceGroupName Name of an Azure resource group.
    * @param accountName Name of an Mixed Reality Account.
    * @param regenerate Required information for key regeneration.
@@ -272,8 +272,8 @@ export class SpatialAnchorsAccountsImpl implements SpatialAnchorsAccounts {
     resourceGroupName: string,
     accountName: string,
     regenerate: AccountKeyRegenerateRequest,
-    options?: SpatialAnchorsAccountsRegenerateKeysOptionalParams
-  ): Promise<SpatialAnchorsAccountsRegenerateKeysResponse> {
+    options?: ObjectAnchorsAccountsRegenerateKeysOptionalParams
+  ): Promise<ObjectAnchorsAccountsRegenerateKeysResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, regenerate, options },
       regenerateKeysOperationSpec
@@ -287,8 +287,8 @@ export class SpatialAnchorsAccountsImpl implements SpatialAnchorsAccounts {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: SpatialAnchorsAccountsListBySubscriptionNextOptionalParams
-  ): Promise<SpatialAnchorsAccountsListBySubscriptionNextResponse> {
+    options?: ObjectAnchorsAccountsListBySubscriptionNextOptionalParams
+  ): Promise<ObjectAnchorsAccountsListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
       listBySubscriptionNextOperationSpec
@@ -304,8 +304,8 @@ export class SpatialAnchorsAccountsImpl implements SpatialAnchorsAccounts {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: SpatialAnchorsAccountsListByResourceGroupNextOptionalParams
-  ): Promise<SpatialAnchorsAccountsListByResourceGroupNextResponse> {
+    options?: ObjectAnchorsAccountsListByResourceGroupNextOptionalParams
+  ): Promise<ObjectAnchorsAccountsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
       listByResourceGroupNextOperationSpec
@@ -317,11 +317,11 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.MixedReality/spatialAnchorsAccounts",
+    "/subscriptions/{subscriptionId}/providers/Microsoft.MixedReality/objectAnchorsAccounts",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SpatialAnchorsAccountPage
+      bodyMapper: Mappers.ObjectAnchorsAccountPage
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -334,11 +334,11 @@ const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MixedReality/spatialAnchorsAccounts",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MixedReality/objectAnchorsAccounts",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SpatialAnchorsAccountPage
+      bodyMapper: Mappers.ObjectAnchorsAccountPage
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -355,7 +355,7 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MixedReality/spatialAnchorsAccounts/{accountName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MixedReality/objectAnchorsAccounts/{accountName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -376,11 +376,11 @@ const deleteOperationSpec: coreClient.OperationSpec = {
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MixedReality/spatialAnchorsAccounts/{accountName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MixedReality/objectAnchorsAccounts/{accountName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SpatialAnchorsAccount
+      bodyMapper: Mappers.ObjectAnchorsAccount
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -398,17 +398,17 @@ const getOperationSpec: coreClient.OperationSpec = {
 };
 const updateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MixedReality/spatialAnchorsAccounts/{accountName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MixedReality/objectAnchorsAccounts/{accountName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.SpatialAnchorsAccount
+      bodyMapper: Mappers.ObjectAnchorsAccount
     },
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.spatialAnchorsAccount,
+  requestBody: Parameters.objectAnchorsAccount,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -422,20 +422,20 @@ const updateOperationSpec: coreClient.OperationSpec = {
 };
 const createOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MixedReality/spatialAnchorsAccounts/{accountName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MixedReality/objectAnchorsAccounts/{accountName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.SpatialAnchorsAccount
+      bodyMapper: Mappers.ObjectAnchorsAccount
     },
     201: {
-      bodyMapper: Mappers.SpatialAnchorsAccount
+      bodyMapper: Mappers.ObjectAnchorsAccount
     },
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.spatialAnchorsAccount,
+  requestBody: Parameters.objectAnchorsAccount,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -449,7 +449,7 @@ const createOperationSpec: coreClient.OperationSpec = {
 };
 const listKeysOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MixedReality/spatialAnchorsAccounts/{accountName}/listKeys",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MixedReality/objectAnchorsAccounts/{accountName}/listKeys",
   httpMethod: "POST",
   responses: {
     200: {
@@ -471,7 +471,7 @@ const listKeysOperationSpec: coreClient.OperationSpec = {
 };
 const regenerateKeysOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MixedReality/spatialAnchorsAccounts/{accountName}/regenerateKeys",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MixedReality/objectAnchorsAccounts/{accountName}/regenerateKeys",
   httpMethod: "POST",
   responses: {
     200: {
@@ -498,7 +498,7 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SpatialAnchorsAccountPage
+      bodyMapper: Mappers.ObjectAnchorsAccountPage
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -518,7 +518,7 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SpatialAnchorsAccountPage
+      bodyMapper: Mappers.ObjectAnchorsAccountPage
     },
     default: {
       bodyMapper: Mappers.CloudError
