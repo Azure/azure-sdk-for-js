@@ -30,39 +30,20 @@ export interface ErrorResponse {
 }
 
 // @public (undocumented)
-export class FeatureClient extends FeatureClientContext {
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: FeatureClientOptionalParams);
-    // (undocumented)
-    features: Features;
-    listOperations(options?: FeatureClientListOperationsOptionalParams): PagedAsyncIterableIterator<Operation>;
-    // (undocumented)
-    subscriptionFeatureRegistrations: SubscriptionFeatureRegistrations;
-}
-
-// @public (undocumented)
-export class FeatureClientContext extends coreClient.ServiceClient {
+export class FeatureClient extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: FeatureClientOptionalParams);
     // (undocumented)
     apiVersion: string;
     // (undocumented)
+    features: Features;
+    listOperations(options?: ListOperationsOptionalParams): PagedAsyncIterableIterator<Operation>;
+    // (undocumented)
+    subscriptionFeatureRegistrations: SubscriptionFeatureRegistrations;
+    // (undocumented)
     subscriptionId: string;
 }
-
-// @public
-export interface FeatureClientListOperationsNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type FeatureClientListOperationsNextResponse = OperationListResult;
-
-// @public
-export interface FeatureClientListOperationsOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type FeatureClientListOperationsResponse = OperationListResult;
 
 // @public
 export interface FeatureClientOptionalParams extends coreClient.ServiceClientOptions {
@@ -175,6 +156,20 @@ export enum KnownSubscriptionFeatureRegistrationState {
     // (undocumented)
     Unregistering = "Unregistering"
 }
+
+// @public
+export interface ListOperationsNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ListOperationsNextResponse = OperationListResult;
+
+// @public
+export interface ListOperationsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ListOperationsResponse = OperationListResult;
 
 // @public
 export interface Operation {
@@ -294,7 +289,6 @@ export type SubscriptionFeatureRegistrationsListBySubscriptionResponse = Subscri
 
 // @public
 export type SubscriptionFeatureRegistrationState = string;
-
 
 // (No @packageDocumentation comment for this package)
 

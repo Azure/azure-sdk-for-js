@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
-import Sinon, { fake, match } from "sinon";
-import { OperationSpec } from "../../src/operationSpec";
-import { TokenCredential, AccessToken } from "@azure/core-auth";
+import { AccessToken, TokenCredential } from "@azure/core-auth";
 import { RequestPolicy, RequestPolicyOptions } from "../../src/policies/requestPolicy";
+import Sinon, { fake, match } from "sinon";
 import { Constants } from "../../src/util/constants";
-import { HttpOperationResponse } from "../../src/httpOperationResponse";
-import { HttpHeaders } from "../../src/httpHeaders";
-import { WebResource } from "../../src/webResource";
-import { bearerTokenAuthenticationPolicy } from "../../src/coreHttp";
 import { DEFAULT_CYCLER_OPTIONS } from "../../src/policies/bearerTokenAuthenticationPolicy";
+import { HttpHeaders } from "../../src/httpHeaders";
+import { HttpOperationResponse } from "../../src/httpOperationResponse";
+import { OperationSpec } from "../../src/operationSpec";
+import { WebResource } from "../../src/webResource";
+import { assert } from "chai";
+import { bearerTokenAuthenticationPolicy } from "../../src/coreHttp";
 
 const { refreshWindowInMs: defaultRefreshWindow } = DEFAULT_CYCLER_OPTIONS;
 

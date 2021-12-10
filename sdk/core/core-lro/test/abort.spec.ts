@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
-import { delay, WebResource, HttpHeaders } from "@azure/core-http";
-import { TestClient } from "./utils/testClient";
+import { HttpHeaders, WebResource, delay } from "@azure/core-http";
 import { AbortController } from "@azure/abort-controller";
 import { PollerStoppedError } from "../src";
+import { TestClient } from "./utils/testClient";
 import { TestTokenCredential } from "./utils/testTokenCredential";
+import { assert } from "chai";
 
 const testHttpHeaders: HttpHeaders = new HttpHeaders();
 const testHttpRequest: WebResource = new WebResource();
