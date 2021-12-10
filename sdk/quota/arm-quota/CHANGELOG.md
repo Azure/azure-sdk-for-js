@@ -1,3 +1,16 @@
+# Release History
+    
+## 1.0.0-beta.3 (2021-12-10)
+    
+**Features**
+
+  - Class AzureQuotaExtensionAPI has a new parameter $host
+  - Class AzureQuotaExtensionAPI has a new parameter apiVersion
+
+**Breaking Changes**
+
+  - Deleted Class AzureQuotaExtensionAPIContext
+    
 ## 1.0.0-beta.2 (2021-11-01)
     
 **Features**
