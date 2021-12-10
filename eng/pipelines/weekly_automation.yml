@@ -35,12 +35,12 @@ jobs:
     displayName: "Rush Unlink"
 
   - task: PowerShell@2
-      displayName: 'Check Dependency warnings and File GitHub Issues'
-      inputs:
-        targetType: filePath
-        filePath: "eng/scripts/check-external-dependency.ps1"
-        arguments: >
-          -RepoName: azure-sdk-for-js
-          -RepoOwner azure
-          -AuthToken "$(azuresdk-github-pat)"
-        pwsh: true
+    displayName: 'Check Dependency Warnings and File GitHub Issues'
+    inputs:
+      targetType: filePath
+      filePath: "eng/scripts/check-external-dependency.ps1"
+      arguments: >
+        -RepoName: azure-sdk-for-js
+        -RepoOwner azure
+        -AuthToken "$(azuresdk-github-pat)"
+      pwsh: true
