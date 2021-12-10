@@ -6,23 +6,22 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { OperationStatusOperations } from "../operationsInterfaces";
+import { PrivateLinkResources } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { MicrosoftStorageSync } from "../microsoftStorageSync";
 import {
-  OperationStatusGetOptionalParams,
-  OperationStatusGetResponse
+  PrivateLinkResourcesListByStorageSyncServiceOptionalParams,
+  PrivateLinkResourcesListByStorageSyncServiceResponse
 } from "../models";
 
-/** Class containing OperationStatusOperations operations. */
-export class OperationStatusOperationsImpl
-  implements OperationStatusOperations {
+/** Class containing PrivateLinkResources operations. */
+export class PrivateLinkResourcesImpl implements PrivateLinkResources {
   private readonly client: MicrosoftStorageSync;
 
   /**
-   * Initialize a new instance of the class OperationStatusOperations class.
+   * Initialize a new instance of the class PrivateLinkResources class.
    * @param client Reference to the service client
    */
   constructor(client: MicrosoftStorageSync) {
@@ -30,50 +29,41 @@ export class OperationStatusOperationsImpl
   }
 
   /**
-   * Get Operation status
+   * Gets the private link resources that need to be created for a storage sync service.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param locationName The desired region to obtain information from.
-   * @param workflowId workflow Id
-   * @param operationId operation Id
+   * @param storageSyncServiceName The name of the storage sync service name within the specified
+   *                               resource group.
    * @param options The options parameters.
    */
-  get(
+  listByStorageSyncService(
     resourceGroupName: string,
-    locationName: string,
-    workflowId: string,
-    operationId: string,
-    options?: OperationStatusGetOptionalParams
-  ): Promise<OperationStatusGetResponse> {
+    storageSyncServiceName: string,
+    options?: PrivateLinkResourcesListByStorageSyncServiceOptionalParams
+  ): Promise<PrivateLinkResourcesListByStorageSyncServiceResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, locationName, workflowId, operationId, options },
-      getOperationSpec
+      { resourceGroupName, storageSyncServiceName, options },
+      listByStorageSyncServiceOperationSpec
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const getOperationSpec: coreClient.OperationSpec = {
+const listByStorageSyncServiceOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/locations/{locationName}/workflows/{workflowId}/operations/{operationId}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageSync/storageSyncServices/{storageSyncServiceName}/privateLinkResources",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationStatus,
-      headersMapper: Mappers.OperationStatusGetHeaders
-    },
-    default: {
-      bodyMapper: Mappers.StorageSyncError
+      bodyMapper: Mappers.PrivateLinkResourceListResult
     }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.locationName,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workflowId,
-    Parameters.operationId
+    Parameters.storageSyncServiceName
   ],
   headerParameters: [Parameters.accept],
   serializer
