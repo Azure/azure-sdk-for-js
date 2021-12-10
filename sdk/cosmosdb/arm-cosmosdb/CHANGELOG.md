@@ -1,5 +1,15 @@
 # Release History
-    
+
+## 15.0.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 15.0.0 (2021-12-09)
 
 The package of @azure/arm-cosmosdb is using our next generation design principles since version 15.0.0, which contains breaking changes.
