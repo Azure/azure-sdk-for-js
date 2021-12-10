@@ -4,7 +4,7 @@ languages:
   - javascript
 products:
   - azure
-  - azure-identity
+  - azure-active-directory
 urlFragment: identity-javascript
 ---
 

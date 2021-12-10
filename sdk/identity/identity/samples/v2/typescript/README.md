@@ -4,7 +4,7 @@ languages:
   - typescript
 products:
   - azure
-  - azure-identity
+  - azure-active-directory
 urlFragment: identity-typescript
 ---
 
