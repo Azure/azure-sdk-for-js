@@ -164,7 +164,6 @@ export class StreamingReceiver extends MessageReceiver {
           logger.verbose(
             `${this.logPrefix} non-recoverable error. Hence not calling detached from the _onAmqpClose() handler.`
           );
-          // await this.close();
           this._messageHandlers().processError({
             error: sbError,
             errorSource: "receive",
