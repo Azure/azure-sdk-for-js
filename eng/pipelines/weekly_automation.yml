@@ -38,9 +38,10 @@ jobs:
     displayName: 'Check Dependency Warnings and File GitHub Issues'
     inputs:
       targetType: filePath
-      filePath: "eng/scripts/check-external-dependency.ps1"
+      filePath: $(Build.SourcesDirectory)/eng/scripts/check-external-dependency.ps1
       arguments: >
         -RepoName azure-sdk-for-js
         -RepoOwner azure
         -AuthToken "$(azuresdk-github-pat)"
+      workingDirectory: $(Pipeline.Workspace)
       pwsh: true
