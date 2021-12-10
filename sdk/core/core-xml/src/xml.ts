@@ -32,50 +32,50 @@ function getParserOptions(options: XmlOptions = {}) {
     parseNodeValue: false,
     attributeNamePrefix: ""
   };
-  /**
-   * Converts given JSON object to XML string
-   * @param obj - JSON object to be converted into XML string
-   * @param opts - Options that govern the XML building of given JSON object
-   * `rootName` indicates the name of the root element in the resulting XML
-   */
-  export function stringifyXML(obj: unknown, opts: XmlOptions = {}): string {
-    const parserOptions = getSerializerOptions(opts);
-    const j2x = new j2xParser(parserOptions);
+}
+/**
+ * Converts given JSON object to XML string
+ * @param obj - JSON object to be converted into XML string
+ * @param opts - Options that govern the XML building of given JSON object
+ * `rootName` indicates the name of the root element in the resulting XML
+ */
+export function stringifyXML(obj: unknown, opts: XmlOptions = {}): string {
+  const parserOptions = getSerializerOptions(opts);
+  const j2x = new j2xParser(parserOptions);
 
-    const node = { [parserOptions.rootNodeName]: obj };
+  const node = { [parserOptions.rootNodeName]: obj };
 
-    const xmlData: string = j2x.parse(node);
-    return `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>${xmlData}`.replace(/\n/g, "");
+  const xmlData: string = j2x.parse(node);
+  return `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>${xmlData}`.replace(/\n/g, "");
+}
+
+/**
+ * Converts given XML string into JSON
+ * @param str - String containing the XML content to be parsed into JSON
+ * @param opts - Options that govern the parsing of given xml string
+ * `includeRoot` indicates whether the root element is to be included or not in the output
+ */
+export async function parseXML(str: string, opts: XmlOptions = {}): Promise<any> {
+  if (!str) {
+    throw new Error("Document is empty");
   }
 
-  /**
-   * Converts given XML string into JSON
-   * @param str - String containing the XML content to be parsed into JSON
-   * @param opts - Options that govern the parsing of given xml string
-   * `includeRoot` indicates whether the root element is to be included or not in the output
-   */
-  export async function parseXML(str: string, opts: XmlOptions = {}): Promise<any> {
-    if (!str) {
-      throw new Error("Document is empty");
-    }
+  const validation = validate(str);
 
-    const validation = validate(str);
-
-    if (validation !== true) {
-      throw validation;
-    }
-
-    const parsedXml = parse(unescapeHTML(str), getParserOptions(opts));
-
-    if (!opts.includeRoot) {
-      for (const key of Object.keys(parsedXml)) {
-        const value = parsedXml[key];
-        return typeof value === "object" ? { ...value } : value;
-      }
-    }
-
-    return parsedXml;
+  if (validation !== true) {
+    throw validation;
   }
+
+  const parsedXml = parse(unescapeHTML(str), getParserOptions(opts));
+
+  if (!opts.includeRoot) {
+    for (const key of Object.keys(parsedXml)) {
+      const value = parsedXml[key];
+      return typeof value === "object" ? { ...value } : value;
+    }
+  }
+
+  return parsedXml;
 }
 
 function unescapeHTML(str: string) {
