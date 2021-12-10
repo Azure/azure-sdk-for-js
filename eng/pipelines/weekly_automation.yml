@@ -59,5 +59,4 @@ jobs:
 
   - script: |
       git reset --hard
-      rush unlink & git clean -xdf
     displayName: "Reset Changes"

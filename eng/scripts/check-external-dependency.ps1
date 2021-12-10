@@ -85,24 +85,19 @@ Write-Host "Updated rush configuraion files"
 try {
   # Run rush update --full
   Write-Host "Running rush update"
-  rush update --full > rush.out
-  if (Test-Path "rush.out") {
-    $rushUpdateOutput = Get-Content -Path "rush.out"
-    foreach ($line in $rushUpdateOutput) {
-      if ($line -match $dependencyRegex -and !$matches['pkg'].StartsWith("@azure")) { 
-        $p = New-Object PSObject -Property @{
-          Name         = $matches['pkg']  
-          OldVersion   = [AzureEngSemanticVersion]::ParseVersionString($matches['version'])        
-          NewVersion   = [AzureEngSemanticVersion]::ParseVersionString($matches['newVersion'])
-          IsDeprecated = ($matches['deprecated'] -eq "deprecated")
-        }
-        Set-GitHubIssue -Package $p
+  $rushUpdateOutput = rush update --full
+  Write-Host "Parsing rush update out"
+  write-host $rushUpdateOutput
+  foreach ($line in $rushUpdateOutput) {
+    if ($line -match $dependencyRegex -and !$matches['pkg'].StartsWith("@azure")) { 
+      $p = New-Object PSObject -Property @{
+        Name         = $matches['pkg']  
+        OldVersion   = [AzureEngSemanticVersion]::ParseVersionString($matches['version'])        
+        NewVersion   = [AzureEngSemanticVersion]::ParseVersionString($matches['newVersion'])
+        IsDeprecated = ($matches['deprecated'] -eq "deprecated")
       }
+      Set-GitHubIssue -Package $p
     }
-  }
-  else {
-    Write-Error "Failed to run rush update --full"
-    exit 1
   }
 }
 catch {
