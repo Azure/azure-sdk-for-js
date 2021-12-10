@@ -5,6 +5,7 @@ import cjs from "@rollup/plugin-commonjs";
 import sourcemaps from "rollup-plugin-sourcemaps";
 import multiEntry from "@rollup/plugin-multi-entry";
 import json from "@rollup/plugin-json";
+import * as path from "path";
 
 import nodeBuiltins from "builtin-modules";
 
@@ -103,11 +104,15 @@ function makeOnWarnForTesting(): (warning: RollupWarning, warn: WarningHandler) 
 
 // #endregion
 
-export function makeBrowserTestConfig(): RollupOptions {
+export function makeBrowserTestConfig(pkg: PackageJson): RollupOptions {
+  // ./dist-esm/src/index.js -> ./dist-esm
+  // ./dist-esm/keyvault-keys/src/index.js -> ./dist-esm/keyvault-keys
+  const basePath = path.dirname(path.parse(pkg["module"]).dir);
+
   const config: RollupOptions = {
     input: {
-      include: ["dist-esm/test/**/*.spec.js"],
-      exclude: ["dist-esm/test/**/node/**"]
+      include: [path.join(basePath, "test", "**", "*.spec.js")],
+      exclude: [path.join(basePath, "test", "**", "node", "**")]
     },
     output: {
       file: `dist-test/index.browser.js`,
@@ -173,7 +178,7 @@ export function makeConfig(pkg: PackageJson, options?: Partial<ConfigurationOpti
   const config: RollupOptions[] = [baseConfig as RollupOptions];
 
   if (!options.disableBrowserBundle) {
-    config.push(makeBrowserTestConfig());
+    config.push(makeBrowserTestConfig(pkg));
   }
 
   return config;
