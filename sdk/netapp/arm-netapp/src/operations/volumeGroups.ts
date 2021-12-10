@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { SnapshotPolicies } from "../operationsInterfaces";
+import { VolumeGroups } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -15,28 +15,24 @@ import { NetAppManagementClient } from "../netAppManagementClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
-  SnapshotPolicy,
-  SnapshotPoliciesListOptionalParams,
-  SnapshotPoliciesListResponse,
-  SnapshotPoliciesGetOptionalParams,
-  SnapshotPoliciesGetResponse,
-  SnapshotPoliciesCreateOptionalParams,
-  SnapshotPoliciesCreateResponse,
-  SnapshotPolicyPatch,
-  SnapshotPoliciesUpdateOptionalParams,
-  SnapshotPoliciesUpdateResponse,
-  SnapshotPoliciesDeleteOptionalParams,
-  SnapshotPoliciesListVolumesOptionalParams,
-  SnapshotPoliciesListVolumesResponse
+  VolumeGroup,
+  VolumeGroupsListByNetAppAccountOptionalParams,
+  VolumeGroupsListByNetAppAccountResponse,
+  VolumeGroupsGetOptionalParams,
+  VolumeGroupsGetResponse,
+  VolumeGroupDetails,
+  VolumeGroupsCreateOptionalParams,
+  VolumeGroupsCreateResponse,
+  VolumeGroupsDeleteOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing SnapshotPolicies operations. */
-export class SnapshotPoliciesImpl implements SnapshotPolicies {
+/** Class containing VolumeGroups operations. */
+export class VolumeGroupsImpl implements VolumeGroups {
   private readonly client: NetAppManagementClient;
 
   /**
-   * Initialize a new instance of the class SnapshotPolicies class.
+   * Initialize a new instance of the class VolumeGroups class.
    * @param client Reference to the service client
    */
   constructor(client: NetAppManagementClient) {
@@ -44,17 +40,21 @@ export class SnapshotPoliciesImpl implements SnapshotPolicies {
   }
 
   /**
-   * List snapshot policy
+   * List all volume groups for given account
    * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
    * @param options The options parameters.
    */
-  public list(
+  public listByNetAppAccount(
     resourceGroupName: string,
     accountName: string,
-    options?: SnapshotPoliciesListOptionalParams
-  ): PagedAsyncIterableIterator<SnapshotPolicy> {
-    const iter = this.listPagingAll(resourceGroupName, accountName, options);
+    options?: VolumeGroupsListByNetAppAccountOptionalParams
+  ): PagedAsyncIterableIterator<VolumeGroup> {
+    const iter = this.listByNetAppAccountPagingAll(
+      resourceGroupName,
+      accountName,
+      options
+    );
     return {
       next() {
         return iter.next();
@@ -63,26 +63,34 @@ export class SnapshotPoliciesImpl implements SnapshotPolicies {
         return this;
       },
       byPage: () => {
-        return this.listPagingPage(resourceGroupName, accountName, options);
+        return this.listByNetAppAccountPagingPage(
+          resourceGroupName,
+          accountName,
+          options
+        );
       }
     };
   }
 
-  private async *listPagingPage(
+  private async *listByNetAppAccountPagingPage(
     resourceGroupName: string,
     accountName: string,
-    options?: SnapshotPoliciesListOptionalParams
-  ): AsyncIterableIterator<SnapshotPolicy[]> {
-    let result = await this._list(resourceGroupName, accountName, options);
+    options?: VolumeGroupsListByNetAppAccountOptionalParams
+  ): AsyncIterableIterator<VolumeGroup[]> {
+    let result = await this._listByNetAppAccount(
+      resourceGroupName,
+      accountName,
+      options
+    );
     yield result.value || [];
   }
 
-  private async *listPagingAll(
+  private async *listByNetAppAccountPagingAll(
     resourceGroupName: string,
     accountName: string,
-    options?: SnapshotPoliciesListOptionalParams
-  ): AsyncIterableIterator<SnapshotPolicy> {
-    for await (const page of this.listPagingPage(
+    options?: VolumeGroupsListByNetAppAccountOptionalParams
+  ): AsyncIterableIterator<VolumeGroup> {
+    for await (const page of this.listByNetAppAccountPagingPage(
       resourceGroupName,
       accountName,
       options
@@ -92,86 +100,65 @@ export class SnapshotPoliciesImpl implements SnapshotPolicies {
   }
 
   /**
-   * List snapshot policy
+   * List all volume groups for given account
    * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
    * @param options The options parameters.
    */
-  private _list(
+  private _listByNetAppAccount(
     resourceGroupName: string,
     accountName: string,
-    options?: SnapshotPoliciesListOptionalParams
-  ): Promise<SnapshotPoliciesListResponse> {
+    options?: VolumeGroupsListByNetAppAccountOptionalParams
+  ): Promise<VolumeGroupsListByNetAppAccountResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, options },
-      listOperationSpec
+      listByNetAppAccountOperationSpec
     );
   }
 
   /**
-   * Get a snapshot Policy
+   * Get details of the specified volume group
    * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
-   * @param snapshotPolicyName The name of the snapshot policy
+   * @param volumeGroupName The name of the volumeGroup
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     accountName: string,
-    snapshotPolicyName: string,
-    options?: SnapshotPoliciesGetOptionalParams
-  ): Promise<SnapshotPoliciesGetResponse> {
+    volumeGroupName: string,
+    options?: VolumeGroupsGetOptionalParams
+  ): Promise<VolumeGroupsGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, accountName, snapshotPolicyName, options },
+      { resourceGroupName, accountName, volumeGroupName, options },
       getOperationSpec
     );
   }
 
   /**
-   * Create a snapshot policy
+   * Create a volume group along with specified volumes
    * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
-   * @param snapshotPolicyName The name of the snapshot policy
-   * @param body Snapshot policy object supplied in the body of the operation.
+   * @param volumeGroupName The name of the volumeGroup
+   * @param body Volume Group object supplied in the body of the operation.
    * @param options The options parameters.
    */
-  create(
+  async beginCreate(
     resourceGroupName: string,
     accountName: string,
-    snapshotPolicyName: string,
-    body: SnapshotPolicy,
-    options?: SnapshotPoliciesCreateOptionalParams
-  ): Promise<SnapshotPoliciesCreateResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, accountName, snapshotPolicyName, body, options },
-      createOperationSpec
-    );
-  }
-
-  /**
-   * Patch a snapshot policy
-   * @param resourceGroupName The name of the resource group.
-   * @param accountName The name of the NetApp account
-   * @param snapshotPolicyName The name of the snapshot policy
-   * @param body Snapshot policy object supplied in the body of the operation.
-   * @param options The options parameters.
-   */
-  async beginUpdate(
-    resourceGroupName: string,
-    accountName: string,
-    snapshotPolicyName: string,
-    body: SnapshotPolicyPatch,
-    options?: SnapshotPoliciesUpdateOptionalParams
+    volumeGroupName: string,
+    body: VolumeGroupDetails,
+    options?: VolumeGroupsCreateOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<SnapshotPoliciesUpdateResponse>,
-      SnapshotPoliciesUpdateResponse
+      PollOperationState<VolumeGroupsCreateResponse>,
+      VolumeGroupsCreateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<SnapshotPoliciesUpdateResponse> => {
+    ): Promise<VolumeGroupsCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -209,35 +196,34 @@ export class SnapshotPoliciesImpl implements SnapshotPolicies {
 
     const lro = new LroImpl(
       sendOperation,
-      { resourceGroupName, accountName, snapshotPolicyName, body, options },
-      updateOperationSpec
+      { resourceGroupName, accountName, volumeGroupName, body, options },
+      createOperationSpec
     );
     return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      intervalInMs: options?.updateIntervalInMs
     });
   }
 
   /**
-   * Patch a snapshot policy
+   * Create a volume group along with specified volumes
    * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
-   * @param snapshotPolicyName The name of the snapshot policy
-   * @param body Snapshot policy object supplied in the body of the operation.
+   * @param volumeGroupName The name of the volumeGroup
+   * @param body Volume Group object supplied in the body of the operation.
    * @param options The options parameters.
    */
-  async beginUpdateAndWait(
+  async beginCreateAndWait(
     resourceGroupName: string,
     accountName: string,
-    snapshotPolicyName: string,
-    body: SnapshotPolicyPatch,
-    options?: SnapshotPoliciesUpdateOptionalParams
-  ): Promise<SnapshotPoliciesUpdateResponse> {
-    const poller = await this.beginUpdate(
+    volumeGroupName: string,
+    body: VolumeGroupDetails,
+    options?: VolumeGroupsCreateOptionalParams
+  ): Promise<VolumeGroupsCreateResponse> {
+    const poller = await this.beginCreate(
       resourceGroupName,
       accountName,
-      snapshotPolicyName,
+      volumeGroupName,
       body,
       options
     );
@@ -245,17 +231,17 @@ export class SnapshotPoliciesImpl implements SnapshotPolicies {
   }
 
   /**
-   * Delete snapshot policy
+   * Delete the specified volume group only if there are no volumes under volume group.
    * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
-   * @param snapshotPolicyName The name of the snapshot policy
+   * @param volumeGroupName The name of the volumeGroup
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
     accountName: string,
-    snapshotPolicyName: string,
-    options?: SnapshotPoliciesDeleteOptionalParams
+    volumeGroupName: string,
+    options?: VolumeGroupsDeleteOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -298,67 +284,47 @@ export class SnapshotPoliciesImpl implements SnapshotPolicies {
 
     const lro = new LroImpl(
       sendOperation,
-      { resourceGroupName, accountName, snapshotPolicyName, options },
+      { resourceGroupName, accountName, volumeGroupName, options },
       deleteOperationSpec
     );
     return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      intervalInMs: options?.updateIntervalInMs
     });
   }
 
   /**
-   * Delete snapshot policy
+   * Delete the specified volume group only if there are no volumes under volume group.
    * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
-   * @param snapshotPolicyName The name of the snapshot policy
+   * @param volumeGroupName The name of the volumeGroup
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
     accountName: string,
-    snapshotPolicyName: string,
-    options?: SnapshotPoliciesDeleteOptionalParams
+    volumeGroupName: string,
+    options?: VolumeGroupsDeleteOptionalParams
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       accountName,
-      snapshotPolicyName,
+      volumeGroupName,
       options
     );
     return poller.pollUntilDone();
-  }
-
-  /**
-   * Get volumes associated with snapshot policy
-   * @param resourceGroupName The name of the resource group.
-   * @param accountName The name of the NetApp account
-   * @param snapshotPolicyName The name of the snapshot policy
-   * @param options The options parameters.
-   */
-  listVolumes(
-    resourceGroupName: string,
-    accountName: string,
-    snapshotPolicyName: string,
-    options?: SnapshotPoliciesListVolumesOptionalParams
-  ): Promise<SnapshotPoliciesListVolumesResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, accountName, snapshotPolicyName, options },
-      listVolumesOperationSpec
-    );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listOperationSpec: coreClient.OperationSpec = {
+const listByNetAppAccountOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/snapshotPolicies",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/volumeGroups",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SnapshotPoliciesList
+      bodyMapper: Mappers.VolumeGroupList
     },
     default: {}
   },
@@ -374,11 +340,11 @@ const listOperationSpec: coreClient.OperationSpec = {
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/snapshotPolicies/{snapshotPolicyName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/volumeGroups/{volumeGroupName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SnapshotPolicy
+      bodyMapper: Mappers.VolumeGroupDetails
     },
     default: {}
   },
@@ -388,64 +354,38 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
-    Parameters.snapshotPolicyName
+    Parameters.volumeGroupName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const createOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/snapshotPolicies/{snapshotPolicyName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/volumeGroups/{volumeGroupName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.SnapshotPolicy
+      bodyMapper: Mappers.VolumeGroupDetails
     },
     201: {
-      bodyMapper: Mappers.SnapshotPolicy
-    },
-    default: {}
-  },
-  requestBody: Parameters.body15,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.snapshotPolicyName
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/snapshotPolicies/{snapshotPolicyName}",
-  httpMethod: "PATCH",
-  responses: {
-    200: {
-      bodyMapper: Mappers.SnapshotPolicy
-    },
-    201: {
-      bodyMapper: Mappers.SnapshotPolicy
+      bodyMapper: Mappers.VolumeGroupDetails
     },
     202: {
-      bodyMapper: Mappers.SnapshotPolicy
+      bodyMapper: Mappers.VolumeGroupDetails
     },
     204: {
-      bodyMapper: Mappers.SnapshotPolicy
+      bodyMapper: Mappers.VolumeGroupDetails
     },
     default: {}
   },
-  requestBody: Parameters.body16,
+  requestBody: Parameters.body21,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
-    Parameters.snapshotPolicyName
+    Parameters.volumeGroupName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -453,7 +393,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/snapshotPolicies/{snapshotPolicyName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/volumeGroups/{volumeGroupName}",
   httpMethod: "DELETE",
   responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
   queryParameters: [Parameters.apiVersion],
@@ -462,28 +402,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
-    Parameters.snapshotPolicyName
+    Parameters.volumeGroupName
   ],
-  serializer
-};
-const listVolumesOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/snapshotPolicies/{snapshotPolicyName}/volumes",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.SnapshotPolicyVolumeList
-    },
-    default: {}
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.snapshotPolicyName
-  ],
-  headerParameters: [Parameters.accept],
   serializer
 };
