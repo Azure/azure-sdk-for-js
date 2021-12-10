@@ -12,7 +12,7 @@ import shim from "rollup-plugin-shim";
 import { makeBrowserTestConfig } from "@azure/dev-tool/shared-config/rollup";
 
 export function makeBrowserTestConfigPatchProcess() {
-  const config = { ...makeBrowserTestConfig(require("./package.json")) };
+  const config = { ...makeBrowserTestConfig() };
   config.plugins.push(
     replace({
       delimiters: ["", ""],
