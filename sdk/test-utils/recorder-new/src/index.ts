@@ -6,4 +6,4 @@ export { TestProxyHttpClientCoreV1 } from "./core-v1-recorder";
 export { relativeRecordingsPath } from "./utils/relativePathCalculator";
 export { SanitizerOptions, RecorderStartOptions } from "./utils/utils";
 export { NoOpCredential } from "./recorderAADCredential";
-export { env } from "@azure-tools/test-recorder";
+export { env } from "./utils/env";
