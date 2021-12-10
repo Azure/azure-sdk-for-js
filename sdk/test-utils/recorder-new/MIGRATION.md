@@ -120,22 +120,32 @@ Customizations on recordings
 
 A powerful feature of the legacy recorder was its `customizationsOnRecordings` option, which allowed for arbitrary replacements to be made to recordings. The new recorder's analog to this is the sanitizer functionality.
 
+For a simple find/replace, a `GeneralRegexSanitizer` can be used. For example:
+
+```ts
+recorder.addSanitizers({
+  generalRegexSanitizers: [
+    regex: "find",
+    value: "replace"
+  ],
+});
+```
+
+This example would replace all instances of `find` in the recording with `replace`.
+
+Other sanitizers for more complex use cases are also available.
+
 AAD and the new `NoOpCredential`
 --------------------------------
 
-Tests using AAD should make use of the new `NoOpCredential` provided by the recorder library when in playback mode. This ensures that no calls are made to AAD during playback. For example:
+The new recorder does not record AAD traffic at present. As such, tests with clients using AAD should make use of the new `NoOpCredential` provided by the recorder library when in playback mode. For example:
 
 ```ts
 const credential = isPlaybackMode() 
   ? new NoOpCredential();
-  : new ClientSecretCredential(/* ... */) 
+  : new ClientSecretCredential(/* ... */);
 ```
 
-
-### Karma and browser tests
-
-...
-
-### Dealing with AAD using NoOpCredential
+Since AAD traffic is not recorded by the new recorder, there is no longer a need to remove AAD credentials from the recording using a sanitizer.
 
 [test proxy server]: https://github.com/Azure/azure-sdk-tools/tree/main/tools/test-proxy
