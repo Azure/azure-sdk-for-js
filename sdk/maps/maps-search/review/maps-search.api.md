@@ -447,9 +447,7 @@ export interface SearchBaseOptions extends OperationOptions {
 
 // @public
 export class SearchClient {
-    constructor(credential: AzureKeyCredential);
     constructor(credential: AzureKeyCredential, options?: SearchClientOptions);
-    constructor(credential: TokenCredential, clientId: string);
     constructor(credential: TokenCredential, clientId: string, options?: SearchClientOptions);
     beginFuzzySearchBatch(requests: FuzzySearchRequest[], options?: FuzzySearchBatchOptions): Promise<PollerLike<PollOperationState<BatchResult<SearchAddressResult>>, BatchResult<SearchAddressResult>>>;
     beginReverseSearchAddressBatch(requests: ReverseSearchAddressRequest[], options?: ReverseSearchAddressBatchOptions): Promise<PollerLike<PollOperationState<BatchResult<ReverseSearchAddressResult>>, BatchResult<ReverseSearchAddressResult>>>;
