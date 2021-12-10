@@ -4,7 +4,7 @@
 import { createSpan, trace } from "../../src/internal/tracingHelpers";
 import { Span, SpanStatus, SpanStatusCode } from "@azure/core-tracing";
 
-import * as assert from "assert";
+import { assert } from "chai";
 import sinon from "sinon";
 import { AppConfigurationClient } from "../../src/appConfigurationClient";
 import { AbortSignalLike, OperationOptions } from "@azure/core-http";
@@ -91,8 +91,8 @@ describe("tracingHelpers", () => {
       );
 
       assert.fail("Exception should have been thrown from `trace` since the inner action threw");
-    } catch (err) {
-      assert.equal(err.message, "Purposefully thrown error");
+    } catch (err: any) {
+      assert.equal(err.message as string, "Purposefully thrown error");
     }
 
     assert.ok(setStatusStub, "setStatus should have been called");
@@ -172,7 +172,7 @@ describe("tracingHelpers", () => {
 
     assert.deepEqual(traceData, {
       operationName: "listConfigurationSettings",
-      options: { ...operationOptions, keyFilter: "ignored" }
+      options: { ...operationOptions, keyFilter: "ignored" } as OperationOptions
     });
 
     const it2 = appConfigurationClient.listRevisions({ keyFilter: "ignored", ...operationOptions });
@@ -180,7 +180,7 @@ describe("tracingHelpers", () => {
 
     assert.deepEqual(traceData, {
       operationName: "listRevisions",
-      options: { ...operationOptions, keyFilter: "ignored" }
+      options: { ...operationOptions, keyFilter: "ignored" } as OperationOptions
     });
   });
 });

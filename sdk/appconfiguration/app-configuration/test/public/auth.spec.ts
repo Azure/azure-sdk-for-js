@@ -7,7 +7,7 @@ import {
   getTokenAuthenticationCredential,
   CredsAndEndpoint
 } from "./utils/testHelpers";
-import * as assert from "assert";
+import { assert } from "chai";
 import { Recorder } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
 
@@ -15,15 +15,15 @@ describe("Authentication", () => {
   let credsAndEndpoint: CredsAndEndpoint;
   let recorder: Recorder;
 
-  beforeEach(function(this: Context) {
+  beforeEach(function (this: Context) {
     recorder = startRecorder(this);
     credsAndEndpoint = getTokenAuthenticationCredential() || this.skip();
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await recorder.stop();
   });
-  it("token authentication works", async function() {
+  it("token authentication works", async function () {
     const client = new AppConfigurationClient(
       credsAndEndpoint.endpoint,
       credsAndEndpoint.credential

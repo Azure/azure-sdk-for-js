@@ -9,7 +9,7 @@ import {
   startRecorder
 } from "./utils/testHelpers";
 import { AppConfigurationClient } from "../../src";
-import * as assert from "assert";
+import { assert } from "chai";
 import { Recorder } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
 
@@ -22,7 +22,7 @@ describe("AppConfigurationClient (set|clear)ReadOnly", () => {
     label: "some label"
   };
 
-  beforeEach(async function(this: Context) {
+  beforeEach(async function (this: Context) {
     recorder = startRecorder(this);
     testConfigSetting.key = recorder.getUniqueName("readOnlyTests");
     client = createAppConfigurationClientForTests() || this.skip();
@@ -30,12 +30,12 @@ describe("AppConfigurationClient (set|clear)ReadOnly", () => {
     await client.setConfigurationSetting(testConfigSetting);
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await deleteKeyCompletely([testConfigSetting.key], client);
     await recorder.stop();
   });
 
-  it("basic", async function() {
+  it("basic", async function () {
     let storedSetting = await client.getConfigurationSetting({
       key: testConfigSetting.key,
       label: testConfigSetting.label
@@ -67,7 +67,7 @@ describe("AppConfigurationClient (set|clear)ReadOnly", () => {
     );
   });
 
-  it("accepts operation options", async function() {
+  it("accepts operation options", async function () {
     await client.getConfigurationSetting({
       key: testConfigSetting.key,
       label: testConfigSetting.label

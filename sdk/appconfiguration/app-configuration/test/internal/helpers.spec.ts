@@ -13,7 +13,7 @@ import {
   formatFieldsForSelect,
   serializeAsConfigurationSettingParam
 } from "../../src/internal/helpers";
-import * as assert from "assert";
+import { assert } from "chai";
 import {
   ConfigurationSetting,
   featureFlagContentType,
@@ -155,7 +155,7 @@ describe("helper methods", () => {
         featureFlag.value = value as any;
         assert.deepEqual(
           serializeAsConfigurationSettingParam(featureFlag),
-          featureFlag,
+          featureFlag as any,
           "setting was modified"
         );
       });
@@ -170,7 +170,7 @@ describe("helper methods", () => {
         setting.value = value as any;
         assert.deepEqual(
           serializeAsConfigurationSettingParam(setting),
-          setting,
+          setting as any,
           "setting was modified"
         );
       });
@@ -184,21 +184,21 @@ describe("helper methods", () => {
         abortSignal: {
           aborted: true,
           // eslint-disable-next-line @typescript-eslint/no-empty-function
-          addEventListener: () => {},
+          addEventListener: () => { },
           // eslint-disable-next-line @typescript-eslint/no-empty-function
-          removeEventListener: () => {}
+          removeEventListener: () => { }
         },
         method: "GET",
         withCredentials: false,
         headers: new HttpHeaders(),
         timeout: 0,
         requestId: "",
-        clone: function() {
+        clone: function () {
           return this;
         },
         // eslint-disable-next-line @typescript-eslint/no-empty-function
-        validateRequestProperties: () => {},
-        prepare: function() {
+        validateRequestProperties: () => { },
+        prepare: function () {
           return this;
         }
       },

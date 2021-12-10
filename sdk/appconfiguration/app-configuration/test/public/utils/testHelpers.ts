@@ -15,7 +15,7 @@ import {
   record,
   Recorder
 } from "@azure-tools/test-recorder";
-import * as assert from "assert";
+import { assert } from "chai";
 
 import { DefaultAzureCredential, TokenCredential } from "@azure/identity";
 

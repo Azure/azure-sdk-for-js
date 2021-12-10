@@ -8,7 +8,7 @@ import {
   assertThrowsRestError,
   startRecorder
 } from "./utils/testHelpers";
-import * as assert from "assert";
+import { assert } from "chai";
 import { Recorder } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
 
@@ -21,12 +21,12 @@ describe("Various error cases", () => {
   let recorder: Recorder;
   const nonMatchingETag = "never-match-etag";
 
-  beforeEach(function(this: Context) {
+  beforeEach(function (this: Context) {
     recorder = startRecorder(this);
     client = createAppConfigurationClientForTests() || this.skip();
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await recorder.stop();
   });
 
@@ -43,7 +43,7 @@ describe("Various error cases", () => {
       nonExistentKey = "non-existent key " + addedSetting.key;
     });
 
-    afterEach(async function(this: Context) {
+    afterEach(async function (this: Context) {
       if (!this.currentTest?.isPending()) {
         await deleteKeyCompletely([addedSetting.key], client);
       }
@@ -104,7 +104,7 @@ describe("Various error cases", () => {
       nonExistentKey = "bogus key " + addedSetting.key;
     });
 
-    afterEach(async function(this: Context) {
+    afterEach(async function (this: Context) {
       if (!this.currentTest?.isPending()) {
         await deleteKeyCompletely([addedSetting.key], client);
       }
