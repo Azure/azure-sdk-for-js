@@ -1155,6 +1155,11 @@
       "packageName": "@azure/arm-loadtestservice",
       "projectFolder": "sdk/loadtestservice/arm-loadtestservice",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-relay",
+      "projectFolder": "sdk/relay/arm-relay",
+      "versionPolicyName": "management"
     }
   ]
 }
