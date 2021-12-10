@@ -2,7 +2,11 @@
 // Licensed under the MIT license.
 
 import { KeyVaultAdminPoller, KeyVaultAdminPollerOptions } from "../keyVaultAdminPoller";
-import { KeyVaultBackupOperationState, KeyVaultBackupPollOperation, KeyVaultBackupPollOperationState } from "./operation";
+import {
+  KeyVaultBackupOperationState,
+  KeyVaultBackupPollOperation,
+  KeyVaultBackupPollOperationState
+} from "./operation";
 import { KeyVaultBackupResult } from "../../backupClientModels";
 
 export interface KeyVaultBackupPollerOptions extends KeyVaultAdminPollerOptions {

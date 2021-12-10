@@ -1,9 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { KeyVaultAdminPollOperation, KeyVaultAdminPollOperationState } from "../keyVaultAdminPoller";
+import {
+  KeyVaultAdminPollOperation,
+  KeyVaultAdminPollOperationState
+} from "../keyVaultAdminPoller";
 import { KeyVaultBeginRestoreOptions, KeyVaultRestoreResult } from "../../backupClientModels";
-import { KeyVaultClientFullRestoreOperationOptionalParams, KeyVaultClientRestoreStatusResponse, RestoreOperation } from "../../generated/models";
+import {
+  KeyVaultClientFullRestoreOperationOptionalParams,
+  KeyVaultClientRestoreStatusResponse,
+  RestoreOperation
+} from "../../generated/models";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { KeyVaultClient } from "../../generated/keyVaultClient";
 import { KeyVaultClientFullRestoreOperationResponse } from "../../generated/models";
