@@ -14,7 +14,6 @@ import { PollOperationState } from '@azure/core-lro';
 export type AlexaChannel = Channel & {
     channelName: "AlexaChannel";
     properties?: AlexaChannelProperties;
-    readonly provisioningState?: string;
 };
 
 // @public
@@ -26,8 +25,12 @@ export interface AlexaChannelProperties {
 }
 
 // @public (undocumented)
-export class AzureBotService extends AzureBotServiceContext {
+export class AzureBotService extends coreClient.ServiceClient {
+    // (undocumented)
+    $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: AzureBotServiceOptionalParams);
+    // (undocumented)
+    apiVersion: string;
     // (undocumented)
     botConnection: BotConnection;
     // (undocumented)
@@ -46,15 +49,6 @@ export class AzureBotService extends AzureBotServiceContext {
     privateEndpointConnections: PrivateEndpointConnections;
     // (undocumented)
     privateLinkResources: PrivateLinkResources;
-}
-
-// @public (undocumented)
-export class AzureBotServiceContext extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: AzureBotServiceOptionalParams);
-    // (undocumented)
-    apiVersion: string;
     // (undocumented)
     subscriptionId: string;
 }
@@ -179,6 +173,7 @@ export interface BotProperties {
     publicNetworkAccess?: PublicNetworkAccess;
     publishingCredentials?: string;
     schemaTransformationVersion?: string;
+    storageResourceId?: string;
 }
 
 // @public
@@ -270,6 +265,8 @@ export type BotsUpdateResponse = Bot;
 export interface Channel {
     channelName: "AlexaChannel" | "FacebookChannel" | "EmailChannel" | "MsTeamsChannel" | "SkypeChannel" | "KikChannel" | "WebChatChannel" | "DirectLineChannel" | "TelegramChannel" | "SmsChannel" | "SlackChannel" | "LineChannel" | "DirectLineSpeechChannel";
     etag?: string;
+    location?: string;
+    readonly provisioningState?: string;
 }
 
 // @public
@@ -303,6 +300,19 @@ export interface ChannelsDeleteOptionalParams extends coreClient.OperationOption
 }
 
 // @public
+export interface ChannelSettings {
+    botIconUrl?: string;
+    botId?: string;
+    channelDisplayName?: string;
+    channelId?: string;
+    disableLocalAuth?: boolean;
+    extensionKey1?: string;
+    extensionKey2?: string;
+    isEnabled?: boolean;
+    sites?: Site[];
+}
+
+// @public
 export interface ChannelsGetOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -328,7 +338,7 @@ export interface ChannelsListWithKeysOptionalParams extends coreClient.Operation
 }
 
 // @public
-export type ChannelsListWithKeysResponse = BotChannel;
+export type ChannelsListWithKeysResponse = ListChannelWithKeysResponse;
 
 // @public
 export interface ChannelsUpdateOptionalParams extends coreClient.OperationOptions {
@@ -380,6 +390,8 @@ export interface ConnectionSettingParameter {
 export interface ConnectionSettingProperties {
     clientId?: string;
     clientSecret?: string;
+    id?: string;
+    name?: string;
     parameters?: ConnectionSettingParameter[];
     provisioningState?: string;
     scopes?: string;
@@ -403,8 +415,6 @@ export interface DirectLine {
 export type DirectLineChannel = Channel & {
     channelName: "DirectLineChannel";
     properties?: DirectLineChannelProperties;
-    provisioningState?: string;
-    location?: string;
 };
 
 // @public
@@ -438,7 +448,6 @@ export interface DirectLineSite {
 export type DirectLineSpeechChannel = Channel & {
     channelName: "DirectLineSpeechChannel";
     properties?: DirectLineSpeechChannelProperties;
-    provisioningState?: string;
 };
 
 // @public
@@ -455,7 +464,6 @@ export interface DirectLineSpeechChannelProperties {
 export type EmailChannel = Channel & {
     channelName: "EmailChannel";
     properties?: EmailChannelProperties;
-    provisioningState?: string;
 };
 
 // @public
@@ -480,8 +488,6 @@ export interface ErrorModel {
 export type FacebookChannel = Channel & {
     channelName: "FacebookChannel";
     properties?: FacebookChannelProperties;
-    provisioningState?: string;
-    location?: string;
 };
 
 // @public
@@ -649,14 +655,18 @@ export interface LineRegistration {
 }
 
 // @public
+export type ListChannelWithKeysResponse = BotChannel & {
+    resource?: ChannelUnion;
+    setting?: ChannelSettings;
+};
+
+// @public
 export type MsaAppType = string;
 
 // @public
 export type MsTeamsChannel = Channel & {
     channelName: "MsTeamsChannel";
     properties?: MsTeamsChannelProperties;
-    provisioningState?: string;
-    location?: string;
 };
 
 // @public
@@ -894,6 +904,12 @@ export interface ServiceProviderResponseList {
 }
 
 // @public
+export type Site = WebChatSite & DirectLineSite & {
+    isTokenEnabled?: boolean;
+    eTag?: string;
+};
+
+// @public
 export interface SiteInfo {
     key: Key;
     siteName: string;
@@ -935,7 +951,6 @@ export interface SkypeChannelProperties {
 export type SlackChannel = Channel & {
     channelName: "SlackChannel";
     properties?: SlackChannelProperties;
-    location?: string;
 };
 
 // @public
@@ -972,7 +987,6 @@ export interface SmsChannelProperties {
 export type TelegramChannel = Channel & {
     channelName: "TelegramChannel";
     properties?: TelegramChannelProperties;
-    provisioningState?: string;
 };
 
 // @public
@@ -986,8 +1000,6 @@ export interface TelegramChannelProperties {
 export type WebChatChannel = Channel & {
     channelName: "WebChatChannel";
     properties?: WebChatChannelProperties;
-    location?: string;
-    provisioningState?: string;
 };
 
 // @public
