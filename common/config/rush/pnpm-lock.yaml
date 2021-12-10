@@ -8978,7 +8978,7 @@ packages:
     dev: false
 
   file:projects/arm-cosmosdb.tgz:
-    resolution: {integrity: sha512-/Mxunt6kKzmvXID5hUcbVK6uAYAVmY32rP8z72NN9dUzMNANZnTW4UYIfpUqhVcmgx1v51XBrrqyFiM4srim7A==, tarball: file:projects/arm-cosmosdb.tgz}
+    resolution: {integrity: sha512-/WiC1LhbvLepYwJyUjkOh4/+dpPcXSgkElxQzud5RJRW/sj3//z7/K9jDpi01cn4/wcAxjXss3nxSIs99wURbQ==, tarball: file:projects/arm-cosmosdb.tgz}
     name: '@rush-temp/arm-cosmosdb'
     version: 0.0.0
     dependencies:
@@ -8990,6 +8990,7 @@ packages:
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
+      rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
