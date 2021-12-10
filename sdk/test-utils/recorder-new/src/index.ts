@@ -6,4 +6,7 @@ export { TestProxyHttpClientCoreV1 } from "./core-v1-recorder";
 export { relativeRecordingsPath } from "./utils/relativePathCalculator";
 export { SanitizerOptions, RecorderStartOptions } from "./utils/utils";
 export { NoOpCredential } from "./recorderAADCredential";
-export { env } from "./utils/env";
+
+// Initialize the environment
+import { config } from "dotenv";
+config();
