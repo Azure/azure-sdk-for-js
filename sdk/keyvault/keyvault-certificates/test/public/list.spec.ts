@@ -1,17 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import chai from "chai";
-import { Context } from "mocha";
 import * as assert from "assert";
-import { env, isPlaybackMode, Recorder, isRecordMode } from "@azure-tools/test-recorder";
-import { isNode } from "@azure/core-http";
-
+import { Recorder, env, isPlaybackMode, isRecordMode } from "@azure-tools/test-recorder";
 import { CertificateClient } from "../../src";
-import { assertThrowsAbortError } from "../utils/utils.common";
-import { testPollerProperties } from "../utils/recorderUtils";
-import { authenticate } from "../utils/testAuthentication";
+import { Context } from "mocha";
 import TestClient from "../utils/testClient";
+import { assertThrowsAbortError } from "../utils/utils.common";
+import { authenticate } from "../utils/testAuthentication";
+import chai from "chai";
+import { isNode } from "@azure/core-http";
+import { testPollerProperties } from "../utils/recorderUtils";
 
 const { expect } = chai;
 

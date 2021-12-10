@@ -1,16 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { CertificatePolicy, CreateCertificateOptions, KeyVaultCertificateWithPolicy } from "../../certificatesModels";
 import { CreateCertificatePollOperation, CreateCertificateState } from "./operation";
-import {
-  KeyVaultCertificateWithPolicy,
-  CreateCertificateOptions,
-  CertificatePolicy
-} from "../../certificatesModels";
-import {
-  KeyVaultCertificatePoller,
-  KeyVaultCertificatePollerOptions
-} from "../keyVaultCertificatePoller";
+import { KeyVaultCertificatePoller, KeyVaultCertificatePollerOptions } from "../keyVaultCertificatePoller";
 
 export interface CreateCertificatePollerOptions extends KeyVaultCertificatePollerOptions {
   certificatePolicy?: CertificatePolicy;

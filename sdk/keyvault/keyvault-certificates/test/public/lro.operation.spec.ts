@@ -2,18 +2,12 @@
 // Licensed under the MIT license.
 
 import * as assert from "assert";
+import { CertificateClient, CertificateOperation, DefaultCertificatePolicy, KeyVaultCertificateWithPolicy } from "../../src";
+import { Recorder, env } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
-import { env, Recorder } from "@azure-tools/test-recorder";
-
-import {
-  CertificateClient,
-  CertificateOperation,
-  DefaultCertificatePolicy,
-  KeyVaultCertificateWithPolicy
-} from "../../src";
-import { testPollerProperties } from "../utils/recorderUtils";
-import { authenticate } from "../utils/testAuthentication";
 import TestClient from "../utils/testClient";
+import { authenticate } from "../utils/testAuthentication";
+import { testPollerProperties } from "../utils/recorderUtils";
 
 describe("Certificates client - LRO - certificate operation", () => {
   const certificatePrefix = `lroOperation${env.CERTIFICATE_NAME || "CertificateName"}`;

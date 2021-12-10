@@ -2,11 +2,8 @@
 // Licensed under the MIT license.
 
 import { DeleteCertificatePollOperation, DeleteCertificatePollOperationState } from "./operation";
+import { KeyVaultCertificatePoller, KeyVaultCertificatePollerOptions } from "../keyVaultCertificatePoller";
 import { DeletedCertificate } from "../../certificatesModels";
-import {
-  KeyVaultCertificatePoller,
-  KeyVaultCertificatePollerOptions
-} from "../keyVaultCertificatePoller";
 
 export interface DeleteCertificatePollerOptions extends KeyVaultCertificatePollerOptions {}
 

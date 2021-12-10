@@ -2,12 +2,7 @@
 // Licensed under the MIT license.
 
 import * as coreHttp from "@azure/core-http";
-import {
-  DeletionRecoveryLevel,
-  KeyUsageType,
-  JsonWebKeyType as CertificateKeyType,
-  JsonWebKeyCurveName as CertificateKeyCurveName
-} from "./generated/models";
+import { JsonWebKeyCurveName as CertificateKeyCurveName, JsonWebKeyType as CertificateKeyType, DeletionRecoveryLevel, KeyUsageType } from "./generated/models";
 
 /**
  * The latest supported KeyVault service API version

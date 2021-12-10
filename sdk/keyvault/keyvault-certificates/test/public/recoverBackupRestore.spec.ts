@@ -2,15 +2,14 @@
 // Licensed under the MIT license.
 
 import * as assert from "assert";
-import { Context } from "mocha";
-import { env, isPlaybackMode, Recorder, isRecordMode } from "@azure-tools/test-recorder";
-import { isNode } from "@azure/core-http";
-
+import { Recorder, env, isPlaybackMode, isRecordMode } from "@azure-tools/test-recorder";
 import { CertificateClient } from "../../src";
-import { testPollerProperties } from "../utils/recorderUtils";
+import { Context } from "mocha";
+import TestClient from "../utils/testClient";
 import { assertThrowsAbortError } from "../utils/utils.common";
 import { authenticate } from "../utils/testAuthentication";
-import TestClient from "../utils/testClient";
+import { isNode } from "@azure/core-http";
+import { testPollerProperties } from "../utils/recorderUtils";
 
 describe("Certificates client - restore certificates and recover backups", () => {
   const prefix = `backupRestore${env.CERTIFICATE_NAME || "CertificateName"}`;

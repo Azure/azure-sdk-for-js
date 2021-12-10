@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { CertificatePollerOptions, KeyVaultCertificate } from "../../../../src/certificatesModels";
+import { PollOperation, PollOperationState } from "@azure/core-lro";
 import { AbortSignalLike } from "@azure/abort-controller";
-import { PollOperationState, PollOperation } from "@azure/core-lro";
 import { OperationOptions } from "@azure/core-http";
-import { KeyVaultCertificate, CertificatePollerOptions } from "../../../../src/certificatesModels";
 
 /**
  * Options sent to the beginRestoreCertificateBackup method.
