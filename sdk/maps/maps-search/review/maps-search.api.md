@@ -59,16 +59,9 @@ export interface BatchResult<TResult extends SearchAddressResult | ReverseSearch
 }
 
 // @public
-export class BoundingBox {
-    constructor(topLeft: LatLon, bottomRight: LatLon);
-    get bottom(): number;
-    get bottomLeft(): LatLon;
-    get bottomRight(): LatLon;
-    get left(): number;
-    get right(): number;
-    get top(): number;
-    get topLeft(): LatLon;
-    get topRight(): LatLon;
+export interface BoundingBox {
+    bottomRight: LatLon;
+    topLeft: LatLon;
 }
 
 // @public
@@ -225,11 +218,12 @@ export interface GetPointOfInterestCategoryTreeOptions extends OperationOptions 
 }
 
 // @public
-export class LatLon {
-    constructor(latitude: number, longitude: number);
-    get latitude(): number;
-    get longitude(): number;
-    }
+export interface LatLon {
+    // (undocumented)
+    latitude: number;
+    // (undocumented)
+    longitude: number;
+}
 
 // @public
 export interface ListPolygonsOptions extends OperationOptions {

@@ -31,74 +31,19 @@ export {
 /**
  * Bounding Box
  */
-export class BoundingBox {
-  private _topLeft: LatLon;
-  private _bottomRight: LatLon;
-  constructor(topLeft: LatLon, bottomRight: LatLon) {
-    this._topLeft = topLeft;
-    this._bottomRight = bottomRight;
-  }
-  /** Top left coordinate of the bounding box */
-  public get topLeft(): LatLon {
-    return this._topLeft;
-  }
-
-  /** Bottom right coordinate of the bounding box */
-  public get bottomRight(): LatLon {
-    return this._bottomRight;
-  }
-
-  /** Top latitude of the bounding box */
-  public get top(): number {
-    return this._topLeft.latitude;
-  }
-
-  /** Left longitude of the bounding box */
-  public get left(): number {
-    return this._topLeft.longitude;
-  }
-
-  /** Bottom latitude of the bounding box */
-  public get bottom(): number {
-    return this._bottomRight.latitude;
-  }
-
-  /** Right longitude of the bounding box */
-  public get right(): number {
-    return this._bottomRight.longitude;
-  }
-
-  /** Top right coordinate of the bounding box */
-  public get topRight(): LatLon {
-    return new LatLon(this._topLeft.latitude, this._bottomRight.longitude);
-  }
-
-  /** Bottom left coordinate of the bounding box */
-  public get bottomLeft(): LatLon {
-    return new LatLon(this._bottomRight.latitude, this._topLeft.longitude);
-  }
+export interface BoundingBox {
+  /** Top left corner of the bounding box */
+  topLeft: LatLon;
+  /** Bottom right corner of the bounding box */
+  bottomRight: LatLon;
 }
 
 /**
  * Latitude/Longitude Pair
  */
-export class LatLon {
-  private _latitude: number;
-  private _longitude: number;
-  constructor(latitude: number, longitude: number) {
-    this._latitude = latitude;
-    this._longitude = longitude;
-  }
-
-  /** Latitude */
-  public get latitude(): number {
-    return this._latitude;
-  }
-
-  /** Longitude */
-  public get longitude(): number {
-    return this._longitude;
-  }
+export interface LatLon {
+  latitude: number;
+  longitude: number;
 }
 
 /**

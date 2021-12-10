@@ -96,6 +96,8 @@ const isPOISearchOptions = <
 
 const isStringArray = (array: any[]): array is string[] => typeof array[0] === "string";
 
+const isLatLon = (obj: any): obj is LatLon => "latitude" in obj && "longitude" in obj;
+
 /**
  * Client class for interacting with Azure Maps Search Service.
  */
@@ -251,7 +253,7 @@ export class SearchClient {
       : maybeOptions;
     const { span, updatedOptions } = createSpan("SearchClient-fuzzySearch", options);
     const internalOptions = mapFuzzySearchOptions(updatedOptions);
-    if (coordinatesOrCountryFilter instanceof LatLon) {
+    if (isLatLon(coordinatesOrCountryFilter)) {
       internalOptions.lat = coordinatesOrCountryFilter.latitude;
       internalOptions.lon = coordinatesOrCountryFilter.longitude;
       if (!isPOISearchOptions<FuzzySearchOptions>(countryFilterOrOptions)) {
@@ -332,7 +334,7 @@ export class SearchClient {
       : maybeOptions;
     const { span, updatedOptions } = createSpan("SearchClient-searchPointOfInterest", options);
     const internalOptions = mapSearchPointOfInterestOptions(updatedOptions);
-    if (coordinatesOrCountryFilter instanceof LatLon) {
+    if (isLatLon(coordinatesOrCountryFilter)) {
       internalOptions.lat = coordinatesOrCountryFilter.latitude;
       internalOptions.lon = coordinatesOrCountryFilter.longitude;
       if (!isPOISearchOptions<SearchPointOfInterestOptions>(countryFilterOrOptions)) {
@@ -450,7 +452,7 @@ export class SearchClient {
       options
     );
     const internalOptions = mapSearchPointOfInterestOptions(updatedOptions);
-    if (coordinatesOrCountryFilter instanceof LatLon) {
+    if (isLatLon(coordinatesOrCountryFilter)) {
       internalOptions.lat = coordinatesOrCountryFilter.latitude;
       internalOptions.lon = coordinatesOrCountryFilter.longitude;
       if (!isPOISearchOptions<SearchPointOfInterestOptions>(countryFilterOrOptions)) {
