@@ -24,16 +24,12 @@ Write-Host "Path to common-versions.json: $commonConfigFile"
 $EngCommonScriptsPath = Join-Path (Resolve-Path "${PSScriptRoot}/..") "common" "scripts"
 . (Join-Path $EngCommonScriptsPath common.ps1)
 
-
+$ghIssues = Get-GitHubIssues -RepoOwner $RepoOwner -RepoName $RepoName -CreatedBy "azure-sdk" -Labels "dependency-upgrade-required" -AuthToken $AuthToken
 # Check and return if an isue already exists to upgrade the package 
-function Get-GithubIssue($PackageName, $IsDeprecated) {
-  $issueTitle = "Dependency package $PackageName has a new version available"
-  $issues = Get-GitHubIssues -RepoOwner $RepoOwner -RepoName $RepoName -CreatedBy "azure-sdk" -Labels "dependency-upgrade-required" -AuthToken $AuthToken
-  if ($issues) {
-    foreach ($issue in $issues) {
-      if ($issue.title -eq $issueTitle) {
-        return $issue
-      }
+function Get-GithubIssue($IssueTitle) {
+  foreach ($issue in $ghIssues) {
+    if ($issue.title -eq $IssueTitle) {
+      return $issue
     }
   }
   return $null
@@ -43,22 +39,25 @@ function Get-GithubIssue($PackageName, $IsDeprecated) {
 function Set-GitHubIssue($Package) {
   $pkgName = $Package.Name
   $issueTitle = "Dependency package $pkgName has a new version available"
-  $issueDesc = "We have identified a dependency on $pkgName ($($Package.OldVersion))."
+  $issueDesc = "We have identified a dependency on $pkgName ($($Package.OldVersion)). "
 
   if ($Package.IsDeprecated) {
-    $issueDesc = "Version $($Package.OldVersion) of $pkgName has been deprecated.`n"
+    $issueDesc += "Version $($Package.OldVersion) of $pkgName has been deprecated.`n"
   }
   $issueDesc += "A new version ($($Package.NewVersion)) is available now."
 
-
-  $issue = Get-GithubIssue -PackageName $Package.Name -IsDeprecated $Package.IsDeprecated
+  $issue = Get-GithubIssue -IssueTitle $issueTitle
   if ($issue) {
     if ($issue.body -ne $issueDesc) {
       $oldIssue = Update-GitHubIssue -RepoOwner $RepoOwner -RepoName $RepoName -AuthToken $AuthToken -IssueNumber $issue.number -Body $issueDesc
-      Write-Host "Updated existing issue $($oldIssue.number)"
-    }    
+      Write-Host "Updated existing issue $($oldIssue.number)"      
+    }
+    else {
+      Write-Host "Found existing issue for package $($Package.Name)"
+    }   
   }
   else {
+    write-Host "Creating issue for $pkgName"
     $newIssue = New-GitHubIssue -RepoOwner $RepoOwner -RepoName $RepoName -AuthToken $AuthToken -Title $issueTitle -Description $issueDesc  
     Write-Host "Created issue $($newIssue.number) with title '$issueTitle'"
     if ($newIssue) {
@@ -100,6 +99,7 @@ foreach ($line in $rushUpdateOutput) {
 
     if ($null -ne $p.OldVersion -and $null -ne $p.NewVersion) {
       Set-GitHubIssue -Package $p
+      Start-Sleep -s 5
     }    
   }
 }
