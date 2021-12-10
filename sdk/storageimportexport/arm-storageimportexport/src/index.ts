@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./locations";
-export * from "./jobs";
-export * from "./bitLockerKeys";
-export * from "./operations";
+/// <reference lib="esnext.asynciterable" />
+export * from "./models";
+export { StorageImportExport } from "./storageImportExport";
+export * from "./operationsInterfaces";
