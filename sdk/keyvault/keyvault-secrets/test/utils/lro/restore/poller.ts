@@ -2,7 +2,11 @@
 // Licensed under the MIT license.
 
 import { OperationOptions, delay } from "@azure/core-http";
-import { RestoreSecretBackupPollOperationState, TestSecretClientInterface, makeRestoreSecretBackupPollOperation } from "./operation";
+import {
+  RestoreSecretBackupPollOperationState,
+  TestSecretClientInterface,
+  makeRestoreSecretBackupPollOperation
+} from "./operation";
 import { Poller } from "@azure/core-lro";
 import { SecretProperties } from "../../../../src/secretsModels";
 

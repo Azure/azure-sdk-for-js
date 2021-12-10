@@ -2,7 +2,10 @@
 // Licensed under the MIT license.
 
 import { KeyVaultSecretPoller, KeyVaultSecretPollerOptions } from "../keyVaultSecretPoller";
-import { RecoverDeletedSecretPollOperation, RecoverDeletedSecretPollOperationState } from "./operation";
+import {
+  RecoverDeletedSecretPollOperation,
+  RecoverDeletedSecretPollOperationState
+} from "./operation";
 import { SecretProperties } from "../../secretsModels";
 
 /**
