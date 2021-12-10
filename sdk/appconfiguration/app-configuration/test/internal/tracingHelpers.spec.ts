@@ -91,8 +91,11 @@ describe("tracingHelpers", () => {
       );
 
       assert.fail("Exception should have been thrown from `trace` since the inner action threw");
-    } catch (err: any) {
-      assert.equal(err.message as string, "Purposefully thrown error");
+    } catch (err) {
+      if (!(err instanceof Error)) {
+        throw new Error("Error is not recognized")
+      }
+      assert.equal(err.message, "Purposefully thrown error");
     }
 
     assert.ok(setStatusStub, "setStatus should have been called");
