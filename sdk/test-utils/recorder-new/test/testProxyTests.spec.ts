@@ -118,23 +118,37 @@ function getTestServerUrl() {
 
     describe("Sanitizers", () => {
       it("GeneralRegexSanitizer", async () => {
-        env.SECRET_INFO = "abcdef";
-        const fakeSecretInfo = "fake_secret_info";
+        const fakeSASUrl =
+          "sv=2020-08-04&ss=bfqt&srt=sco&sp=rwdlacuptfx&se=2026-07-10T07:00:24Z&st=2021-07-09T23:00:24Z&spr=https&sig=fake_sig";
+
+        env.STORAGE_SAS_URL = "sv=2020-08-04&ss=bfqt&srt=sco&sp=rwdlacupitfx&se=2022-11-24T06:36:20Z&st=2021-11-23T22:36:20Z&spr=https&sig=[[SECRET]]";
+
+        const getSanitizerOptions = () => {
+          return {
+            generalRegexSanitizers: [
+              {
+                regex: env.STORAGE_SAS_URL,
+                value: fakeSASUrl,
+              }
+            ]
+          };
+        };
         await recorder.start({
           envSetupForPlayback: {
-            SECRET_INFO: fakeSecretInfo
+            STORAGE_SAS_URL: fakeSASUrl
           }
         }); // Adds generalRegexSanitizers by default based on envSetupForPlayback
+        await recorder.addSanitizers(getSanitizerOptions());
         await makeRequestAndVerifyResponse(
           {
-            path: `/sample_response/${env.SECRET_INFO}`,
+            path: `/sample_response/"${env.STORAGE_SAS_URL}"`,
             method: "GET"
           },
           { val: "I am the answer!" }
         );
       });
 
-      it("RemoveHeaderSanitizer", async () => {
+      it.only("RemoveHeaderSanitizer", async () => {
         await recorder.start({
           envSetupForPlayback: {},
           sanitizerOptions: {

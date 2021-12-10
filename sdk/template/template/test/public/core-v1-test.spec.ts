@@ -42,6 +42,8 @@ const sanitizers = {
   ]
 };
 
+console.log(env.STORAGE_SAS_URL.split("/")[3].split("?")[1]);
+
 describe("Core V1 tests using unified recorder", () => {
   let recorder: TestProxyHttpClientCoreV1;
 
