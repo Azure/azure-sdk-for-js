@@ -36,7 +36,9 @@ jobs:
   - template: /eng/common/pipelines/templates/steps/set-default-branch.yml
 
   - script: |
-      rush unlink & git clean -xdf
+      node common/scripts/install-run-rush.js install
+      node common/scripts/install-run-rush.js unlink
+      git clean -xdf
     displayName: "Rush Unlink"
 
   - task: PowerShell@2

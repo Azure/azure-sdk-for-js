@@ -85,7 +85,7 @@ Write-Host "Updated rush configuraion files"
 try {
   # Run rush update --full
   Write-Host "Running rush update"
-  $rushUpdateOutput = rush update --full
+  $rushUpdateOutput = node common/scripts/install-run-rush.js update --full
   Write-Host "Parsing rush update out"
   write-host $rushUpdateOutput
   foreach ($line in $rushUpdateOutput) {
