@@ -43,7 +43,7 @@ function Get-GithubIssue($PackageName, $IsDeprecated) {
 function Set-GitHubIssue($Package) {
   $pkgName = $Package.Name
   $issueTitle = "Dependency package $pkgName has a new version available"
-  $issueDesc = "We have identified a dependency on $pkgName ($($Package.OldVersion)). "
+  $issueDesc = "We have identified a dependency on $pkgName ($($Package.OldVersion))."
 
   if ($Package.IsDeprecated) {
     $issueDesc = "Version $($Package.OldVersion) of $pkgName has been deprecated.`n"
@@ -94,7 +94,10 @@ foreach ($line in $rushUpdateOutput) {
       NewVersion   = [AzureEngSemanticVersion]::ParseVersionString($matches['newVersion'])
       IsDeprecated = ($matches['deprecated'] -eq "deprecated")
     }
-    Set-GitHubIssue -Package $p
+
+    if ($null -ne $p.OldVersion -and $null -ne $p.NewVersion) {
+      Set-GitHubIssue -Package $p
+    }    
   }
 }
 Write-Host "Verified and filed issues"
