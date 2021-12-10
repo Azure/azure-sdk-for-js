@@ -1,7 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { CryptographyClientOptions, GetKeyOptions, KeyVaultKey, LATEST_API_VERSION } from "../keysModels";
+import {
+  CryptographyClientOptions,
+  GetKeyOptions,
+  KeyVaultKey,
+  LATEST_API_VERSION
+} from "../keysModels";
 import { CryptographyProvider, CryptographyProviderOperation } from "./models";
 import {
   DecryptOptions,
@@ -19,8 +24,17 @@ import {
   WrapKeyOptions,
   WrapResult
 } from "../cryptographyClientModels";
-import { TokenCredential, createPipelineFromOptions, isTokenCredential, signingPolicy } from "@azure/core-http";
-import { TracedFunction, challengeBasedAuthenticationPolicy, createTraceFunction } from "../../../keyvault-common/src";
+import {
+  TokenCredential,
+  createPipelineFromOptions,
+  isTokenCredential,
+  signingPolicy
+} from "@azure/core-http";
+import {
+  TracedFunction,
+  challengeBasedAuthenticationPolicy,
+  createTraceFunction
+} from "../../../keyvault-common/src";
 import { KeyVaultClient } from "../generated";
 import { SDK_VERSION } from "../constants";
 import { UnwrapResult } from "../cryptographyClientModels";

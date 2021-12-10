@@ -1,7 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { CryptographyProvider, CryptographyProviderOperation, LocalCryptographyUnsupportedError } from "./models";
+import {
+  CryptographyProvider,
+  CryptographyProviderOperation,
+  LocalCryptographyUnsupportedError
+} from "./models";
 import {
   DecryptOptions,
   DecryptParameters,

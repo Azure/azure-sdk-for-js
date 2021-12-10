@@ -2,7 +2,11 @@
 // Licensed under the MIT license.
 
 import { RequestOptionsBase, delay } from "@azure/core-http";
-import { RestoreKeyBackupPollOperationState, TestKeyClientInterface, makeRestoreKeyBackupPollOperation } from "./operation";
+import {
+  RestoreKeyBackupPollOperationState,
+  TestKeyClientInterface,
+  makeRestoreKeyBackupPollOperation
+} from "./operation";
 import { KeyVaultKey } from "../../../../src/keysModels";
 import { Poller } from "@azure/core-lro";
 

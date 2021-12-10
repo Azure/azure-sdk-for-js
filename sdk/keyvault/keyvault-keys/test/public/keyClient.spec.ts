@@ -1,9 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { CreateEcKeyOptions, GetKeyOptions, KeyClient, UpdateKeyPropertiesOptions } from "../../src";
+import {
+  CreateEcKeyOptions,
+  GetKeyOptions,
+  KeyClient,
+  UpdateKeyPropertiesOptions
+} from "../../src";
 import { Recorder, env, isPlaybackMode, isRecordMode } from "@azure-tools/test-recorder";
-import { assertThrowsAbortError, getServiceVersion, isPublicCloud, onVersions } from "../utils/utils.common";
+import {
+  assertThrowsAbortError,
+  getServiceVersion,
+  isPublicCloud,
+  onVersions
+} from "../utils/utils.common";
 import chai, { assert } from "chai";
 import { AbortController } from "@azure/abort-controller";
 import { Context } from "mocha";

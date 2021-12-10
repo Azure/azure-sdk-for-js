@@ -2,7 +2,12 @@
 // Licensed under the MIT license.
 
 import * as coreHttp from "@azure/core-http";
-import { DeletionRecoveryLevel, JsonWebKeyOperation as KeyOperation, JsonWebKeyType as KeyType, KnownJsonWebKeyType as KnownKeyTypes } from "./generated/models";
+import {
+  DeletionRecoveryLevel,
+  JsonWebKeyOperation as KeyOperation,
+  JsonWebKeyType as KeyType,
+  KnownJsonWebKeyType as KnownKeyTypes
+} from "./generated/models";
 import { KeyCurveName } from "./cryptographyClientModels";
 
 export { KeyType, KnownKeyTypes, KeyOperation };

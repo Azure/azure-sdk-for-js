@@ -8,8 +8,18 @@ import {
   KeyRotationPolicyProperties,
   KeyVaultKey
 } from "../../src/keysModels";
-import { DeletedKeyBundle, DeletedKeyItem, KeyRotationPolicy as GeneratedKeyRotationPolicy, KeyBundle } from "../../src/generated";
-import { getDeletedKeyFromDeletedKeyItem, getKeyFromKeyBundle, getKeyPropertiesFromKeyItem, keyRotationTransformations } from "../../src/transformations";
+import {
+  DeletedKeyBundle,
+  DeletedKeyItem,
+  KeyRotationPolicy as GeneratedKeyRotationPolicy,
+  KeyBundle
+} from "../../src/generated";
+import {
+  getDeletedKeyFromDeletedKeyItem,
+  getKeyFromKeyBundle,
+  getKeyPropertiesFromKeyItem,
+  keyRotationTransformations
+} from "../../src/transformations";
 import { assert } from "chai";
 import { stringToUint8Array } from "../utils/crypto";
 

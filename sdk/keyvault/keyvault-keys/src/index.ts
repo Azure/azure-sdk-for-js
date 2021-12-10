@@ -82,7 +82,12 @@ import {
   UpdateKeyPropertiesOptions,
   UpdateKeyRotationPolicyOptions
 } from "./keysModels";
-import { DeletionRecoveryLevel, KeyVaultClientGetKeysOptionalParams, KnownDeletionRecoveryLevel, KnownJsonWebKeyType } from "./generated/models";
+import {
+  DeletionRecoveryLevel,
+  KeyVaultClientGetKeysOptionalParams,
+  KnownDeletionRecoveryLevel,
+  KnownJsonWebKeyType
+} from "./generated/models";
 import { KeyVaultKeyIdentifier, parseKeyVaultKeyIdentifier } from "./identifier";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
@@ -93,7 +98,12 @@ import {
   signingPolicy
 } from "@azure/core-http";
 import { PollOperationState, PollerLike } from "@azure/core-lro";
-import { getDeletedKeyFromDeletedKeyItem, getKeyFromKeyBundle, getKeyPropertiesFromKeyItem, keyRotationTransformations } from "./transformations";
+import {
+  getDeletedKeyFromDeletedKeyItem,
+  getKeyFromKeyBundle,
+  getKeyPropertiesFromKeyItem,
+  keyRotationTransformations
+} from "./transformations";
 import { CryptographyClient } from "./cryptographyClient";
 import { DeleteKeyPoller } from "./lro/delete/poller";
 import { KeyVaultClient } from "./generated/keyVaultClient";

@@ -1,7 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AuthenticationChallenge, AuthenticationChallengeCache, challengeBasedAuthenticationPolicy, parseWWWAuthenticate } from "../../../keyvault-common/src";
+import {
+  AuthenticationChallenge,
+  AuthenticationChallengeCache,
+  challengeBasedAuthenticationPolicy,
+  parseWWWAuthenticate
+} from "../../../keyvault-common/src";
 import { HttpHeaders, WebResource, isNode } from "@azure/core-http";
 import { Recorder, env } from "@azure-tools/test-recorder";
 import { ClientSecretCredential } from "@azure/identity";
