@@ -59,10 +59,8 @@ function Set-GitHubIssue($Package) {
   else {
     write-Host "Creating issue for $pkgName"
     $newIssue = New-GitHubIssue -RepoOwner $RepoOwner -RepoName $RepoName -AuthToken $AuthToken -Title $issueTitle -Description $issueDesc  
-    Write-Host "Created issue $($newIssue.number) with title '$issueTitle'"
     if ($newIssue) {
       $out = Add-GitHubIssueLabels -RepoOwner $RepoOwner -RepoName $RepoName -AuthToken $AuthToken -Labels $dependencyUpgradeLabel -IssueNumber $newIssue.number
-      Write-Host "Added label $dependencyUpgradeLabel to issue $($newIssue.number)"
     }
   }
 }
@@ -82,11 +80,10 @@ else {
   Write-Error "Failed to find $($rushFile) and/or $($commonConfigFile). Verify repo root parameter."
   exit 1
 }
-Write-Host "Updated rush configuraion files"
+
 # Run rush update --full
 Write-Host "Running rush update"
 $rushUpdateOutput = node common/scripts/install-run-rush.js update --full
-Write-Host "Parsing rush update out"
 write-host $rushUpdateOutput
 foreach ($line in $rushUpdateOutput) {
   if ($line -match $dependencyRegex -and !$matches['pkg'].StartsWith("@azure")) { 
