@@ -33,7 +33,14 @@ export type AdvancedFilterUnion =
   | StringNotInAdvancedFilter
   | StringBeginsWithAdvancedFilter
   | StringEndsWithAdvancedFilter
-  | StringContainsAdvancedFilter;
+  | StringContainsAdvancedFilter
+  | NumberInRangeAdvancedFilter
+  | NumberNotInRangeAdvancedFilter
+  | StringNotBeginsWithAdvancedFilter
+  | StringNotEndsWithAdvancedFilter
+  | StringNotContainsAdvancedFilter
+  | IsNullOrUndefinedAdvancedFilter
+  | IsNotNullAdvancedFilter;
 export type DeadLetterDestinationUnion =
   | DeadLetterDestination
   | StorageBlobDeadLetterDestination;
@@ -270,7 +277,14 @@ export interface AdvancedFilter {
     | "StringNotIn"
     | "StringBeginsWith"
     | "StringEndsWith"
-    | "StringContains";
+    | "StringContains"
+    | "NumberInRange"
+    | "NumberNotInRange"
+    | "StringNotBeginsWith"
+    | "StringNotEndsWith"
+    | "StringNotContains"
+    | "IsNullOrUndefined"
+    | "IsNotNull";
   /** The field/property in the event based on which you want to filter. */
   key?: string;
 }
@@ -826,6 +840,58 @@ export type StringContainsAdvancedFilter = AdvancedFilter & {
   values?: string[];
 };
 
+/** NumberInRange Advanced Filter. */
+export type NumberInRangeAdvancedFilter = AdvancedFilter & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  operatorType: "NumberInRange";
+  /** The set of filter values. */
+  values?: number[][];
+};
+
+/** NumberNotInRange Advanced Filter. */
+export type NumberNotInRangeAdvancedFilter = AdvancedFilter & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  operatorType: "NumberNotInRange";
+  /** The set of filter values. */
+  values?: number[][];
+};
+
+/** StringNotBeginsWith Advanced Filter. */
+export type StringNotBeginsWithAdvancedFilter = AdvancedFilter & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  operatorType: "StringNotBeginsWith";
+  /** The set of filter values. */
+  values?: string[];
+};
+
+/** StringNotEndsWith Advanced Filter. */
+export type StringNotEndsWithAdvancedFilter = AdvancedFilter & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  operatorType: "StringNotEndsWith";
+  /** The set of filter values. */
+  values?: string[];
+};
+
+/** StringNotContains Advanced Filter. */
+export type StringNotContainsAdvancedFilter = AdvancedFilter & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  operatorType: "StringNotContains";
+  /** The set of filter values. */
+  values?: string[];
+};
+
+/** IsNullOrUndefined Advanced Filter. */
+export type IsNullOrUndefinedAdvancedFilter = AdvancedFilter & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  operatorType: "IsNullOrUndefined";
+};
+
+/** IsNotNull Advanced Filter. */
+export type IsNotNullAdvancedFilter = AdvancedFilter & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  operatorType: "IsNotNull";
+};
+
 /** Information about the storage blob based dead letter destination. */
 export type StorageBlobDeadLetterDestination = DeadLetterDestination & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -1259,7 +1325,14 @@ export enum KnownAdvancedFilterOperatorType {
   StringNotIn = "StringNotIn",
   StringBeginsWith = "StringBeginsWith",
   StringEndsWith = "StringEndsWith",
-  StringContains = "StringContains"
+  StringContains = "StringContains",
+  NumberInRange = "NumberInRange",
+  NumberNotInRange = "NumberNotInRange",
+  StringNotBeginsWith = "StringNotBeginsWith",
+  StringNotEndsWith = "StringNotEndsWith",
+  StringNotContains = "StringNotContains",
+  IsNullOrUndefined = "IsNullOrUndefined",
+  IsNotNull = "IsNotNull"
 }
 
 /**
@@ -1278,7 +1351,14 @@ export enum KnownAdvancedFilterOperatorType {
  * **StringNotIn** \
  * **StringBeginsWith** \
  * **StringEndsWith** \
- * **StringContains**
+ * **StringContains** \
+ * **NumberInRange** \
+ * **NumberNotInRange** \
+ * **StringNotBeginsWith** \
+ * **StringNotEndsWith** \
+ * **StringNotContains** \
+ * **IsNullOrUndefined** \
+ * **IsNotNull**
  */
 export type AdvancedFilterOperatorType = string;
 

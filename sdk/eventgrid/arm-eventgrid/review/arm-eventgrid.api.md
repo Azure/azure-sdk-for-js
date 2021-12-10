@@ -13,14 +13,14 @@ import { PollOperationState } from '@azure/core-lro';
 // @public
 export interface AdvancedFilter {
     key?: string;
-    operatorType: "NumberIn" | "NumberNotIn" | "NumberLessThan" | "NumberGreaterThan" | "NumberLessThanOrEquals" | "NumberGreaterThanOrEquals" | "BoolEquals" | "StringIn" | "StringNotIn" | "StringBeginsWith" | "StringEndsWith" | "StringContains";
+    operatorType: "NumberIn" | "NumberNotIn" | "NumberLessThan" | "NumberGreaterThan" | "NumberLessThanOrEquals" | "NumberGreaterThanOrEquals" | "BoolEquals" | "StringIn" | "StringNotIn" | "StringBeginsWith" | "StringEndsWith" | "StringContains" | "NumberInRange" | "NumberNotInRange" | "StringNotBeginsWith" | "StringNotEndsWith" | "StringNotContains" | "IsNullOrUndefined" | "IsNotNull";
 }
 
 // @public
 export type AdvancedFilterOperatorType = string;
 
 // @public (undocumented)
-export type AdvancedFilterUnion = AdvancedFilter | NumberInAdvancedFilter | NumberNotInAdvancedFilter | NumberLessThanAdvancedFilter | NumberGreaterThanAdvancedFilter | NumberLessThanOrEqualsAdvancedFilter | NumberGreaterThanOrEqualsAdvancedFilter | BoolEqualsAdvancedFilter | StringInAdvancedFilter | StringNotInAdvancedFilter | StringBeginsWithAdvancedFilter | StringEndsWithAdvancedFilter | StringContainsAdvancedFilter;
+export type AdvancedFilterUnion = AdvancedFilter | NumberInAdvancedFilter | NumberNotInAdvancedFilter | NumberLessThanAdvancedFilter | NumberGreaterThanAdvancedFilter | NumberLessThanOrEqualsAdvancedFilter | NumberGreaterThanOrEqualsAdvancedFilter | BoolEqualsAdvancedFilter | StringInAdvancedFilter | StringNotInAdvancedFilter | StringBeginsWithAdvancedFilter | StringEndsWithAdvancedFilter | StringContainsAdvancedFilter | NumberInRangeAdvancedFilter | NumberNotInRangeAdvancedFilter | StringNotBeginsWithAdvancedFilter | StringNotEndsWithAdvancedFilter | StringNotContainsAdvancedFilter | IsNullOrUndefinedAdvancedFilter | IsNotNullAdvancedFilter;
 
 // @public
 export type AzureFunctionEventSubscriptionDestination = EventSubscriptionDestination & {
@@ -760,6 +760,16 @@ export type InputSchemaMappingUnion = InputSchemaMapping | JsonInputSchemaMappin
 export type IpActionType = string;
 
 // @public
+export type IsNotNullAdvancedFilter = AdvancedFilter & {
+    operatorType: "IsNotNull";
+};
+
+// @public
+export type IsNullOrUndefinedAdvancedFilter = AdvancedFilter & {
+    operatorType: "IsNullOrUndefined";
+};
+
+// @public
 export interface JsonField {
     sourceField?: string;
 }
@@ -786,17 +796,25 @@ export enum KnownAdvancedFilterOperatorType {
     // (undocumented)
     BoolEquals = "BoolEquals",
     // (undocumented)
+    IsNotNull = "IsNotNull",
+    // (undocumented)
+    IsNullOrUndefined = "IsNullOrUndefined",
+    // (undocumented)
     NumberGreaterThan = "NumberGreaterThan",
     // (undocumented)
     NumberGreaterThanOrEquals = "NumberGreaterThanOrEquals",
     // (undocumented)
     NumberIn = "NumberIn",
     // (undocumented)
+    NumberInRange = "NumberInRange",
+    // (undocumented)
     NumberLessThan = "NumberLessThan",
     // (undocumented)
     NumberLessThanOrEquals = "NumberLessThanOrEquals",
     // (undocumented)
     NumberNotIn = "NumberNotIn",
+    // (undocumented)
+    NumberNotInRange = "NumberNotInRange",
     // (undocumented)
     StringBeginsWith = "StringBeginsWith",
     // (undocumented)
@@ -805,6 +823,12 @@ export enum KnownAdvancedFilterOperatorType {
     StringEndsWith = "StringEndsWith",
     // (undocumented)
     StringIn = "StringIn",
+    // (undocumented)
+    StringNotBeginsWith = "StringNotBeginsWith",
+    // (undocumented)
+    StringNotContains = "StringNotContains",
+    // (undocumented)
+    StringNotEndsWith = "StringNotEndsWith",
     // (undocumented)
     StringNotIn = "StringNotIn"
 }
@@ -1092,6 +1116,12 @@ export type NumberInAdvancedFilter = AdvancedFilter & {
 };
 
 // @public
+export type NumberInRangeAdvancedFilter = AdvancedFilter & {
+    operatorType: "NumberInRange";
+    values?: number[][];
+};
+
+// @public
 export type NumberLessThanAdvancedFilter = AdvancedFilter & {
     operatorType: "NumberLessThan";
     value?: number;
@@ -1107,6 +1137,12 @@ export type NumberLessThanOrEqualsAdvancedFilter = AdvancedFilter & {
 export type NumberNotInAdvancedFilter = AdvancedFilter & {
     operatorType: "NumberNotIn";
     values?: number[];
+};
+
+// @public
+export type NumberNotInRangeAdvancedFilter = AdvancedFilter & {
+    operatorType: "NumberNotInRange";
+    values?: number[][];
 };
 
 // @public
@@ -1345,6 +1381,24 @@ export type StringEndsWithAdvancedFilter = AdvancedFilter & {
 // @public
 export type StringInAdvancedFilter = AdvancedFilter & {
     operatorType: "StringIn";
+    values?: string[];
+};
+
+// @public
+export type StringNotBeginsWithAdvancedFilter = AdvancedFilter & {
+    operatorType: "StringNotBeginsWith";
+    values?: string[];
+};
+
+// @public
+export type StringNotContainsAdvancedFilter = AdvancedFilter & {
+    operatorType: "StringNotContains";
+    values?: string[];
+};
+
+// @public
+export type StringNotEndsWithAdvancedFilter = AdvancedFilter & {
+    operatorType: "StringNotEndsWith";
     values?: string[];
 };
 
