@@ -2,6 +2,15 @@
 
 ## 1.0.0 (Unreleased)
 
+## 2021-12-09
+
+- Add support for `setMatcher`, which can be used to instruct the proxy tool to ignore headers (using `HeaderlessMatcher`) or the request body (using `BodilessMatcher`) when matching requests to recordings.
+  
+  Example:
+  ```ts
+  await recorder.setMatcher("HeaderlessMatcher");
+  ```
+
 ## 2021-11-08
 
 - Allows storing dynamically created variables in record mode. The recorder registers the variables as part of the recording and stores their values in the recording file. Using the `variables` in playback mode produces the key-value pairs that were stored in the recording file.
