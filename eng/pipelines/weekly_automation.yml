@@ -41,9 +41,6 @@ jobs:
     vmImage: MMS2019
 
   steps:
-  - template: /eng/pipelines/templates/steps/common.yml
-  - template: /eng/common/pipelines/templates/steps/set-default-branch.yml
-
   - script: |
       rush unlink & git clean -xdf
     displayName: "Rush Unlink"
