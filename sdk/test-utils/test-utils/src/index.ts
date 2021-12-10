@@ -12,7 +12,6 @@ export {
 export { matrix } from "./matrix";
 export { isNode, isNode8 } from "./utils";
 
-export * from "./tracing/contextImpl";
 export * from "./tracing/testInstrumenter";
 export * from "./tracing/testTracingSpan";
 export { TestSpan } from "./tracing/testSpan";
