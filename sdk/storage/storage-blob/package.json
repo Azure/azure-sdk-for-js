@@ -126,7 +126,7 @@
   },
   "dependencies": {
     "@azure/abort-controller": "^1.0.0",
-    "@azure/core-http": "^2.0.0",
+    "@azure/core-http": "^2.3.0",
     "@azure/core-lro": "^2.2.0",
     "@azure/core-paging": "^1.1.1",
     "@azure/core-tracing": "1.0.0-preview.13",
@@ -135,7 +135,6 @@
     "tslib": "^2.2.0"
   },
   "devDependencies": {
-    "@azure/core-rest-pipeline": "^1.1.0",
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/identity": "^2.0.1",
@@ -148,7 +147,6 @@
     "@rollup/plugin-json": "^4.0.0",
     "@types/mocha": "^7.0.2",
     "@types/node": "^12.0.0",
-    "@types/node-fetch": "^2.5.0",
     "assert": "^1.4.1",
     "cross-env": "^7.0.2",
     "dotenv": "^8.2.0",
@@ -172,7 +170,6 @@
     "karma-sourcemap-loader": "^0.3.8",
     "mocha": "^7.1.1",
     "mocha-junit-reporter": "^1.18.0",
-    "node-fetch": "^2.6.0",
     "nyc": "^14.0.0",
     "prettier": "^1.16.4",
     "puppeteer": "^10.2.0",

@@ -3238,6 +3238,11 @@ packages:
       assert-plus: 1.0.0
     dev: false
 
+  /data-uri-to-buffer/4.0.0:
+    resolution: {integrity: sha512-Vr3mLBA8qWmcuschSLAOogKgQ/Jwxulv3RNE4FXnYWRGujzrRWQI4m12fQqRkwX06C0KanhLr4hK+GydchZsaA==}
+    engines: {node: '>= 12'}
+    dev: false
+
   /date-fns/2.25.0:
     resolution: {integrity: sha512-ovYRFnTrbGPD4nqaEqescPEv1mNwvt+UTqI3Ay9SzNtey9NZnYu6E2qCcBBgJ6/2VF1zGGygpyTDITqpQQ5e+w==}
     engines: {node: '>=0.11'}
@@ -4005,7 +4010,14 @@ packages:
       pend: 1.2.0
     dev: false
 
-  /fetch-mock/9.11.0_node-fetch@2.6.6:
+  /fetch-blob/3.1.3:
+    resolution: {integrity: sha512-ax1Y5I9w+9+JiM+wdHkhBoxew+zG4AJ2SvAD1v1szpddUIiPERVGBxrMcB2ZqW0Y3PP8bOWYv2zqQq1Jp2kqUQ==}
+    engines: {node: ^12.20 || >= 14.13}
+    dependencies:
+      web-streams-polyfill: 3.2.0
+    dev: false
+
+  /fetch-mock/9.11.0_node-fetch@3.1.0:
     resolution: {integrity: sha512-PG1XUv+x7iag5p/iNHD4/jdpxL9FtVSqRMUQhPab4hVDt80T1MH5ehzVrL2IdXO9Q2iBggArFvPqjUbHFuI58Q==}
     engines: {node: '>=4.0.0'}
     peerDependencies:
@@ -4021,7 +4033,7 @@ packages:
       glob-to-regexp: 0.4.1
       is-subset: 0.1.1
       lodash.isequal: 4.5.0
-      node-fetch: 2.6.6
+      node-fetch: 3.1.0
       path-to-regexp: 2.4.0
       querystring: 0.2.1
       whatwg-url: 6.5.0
@@ -4201,6 +4213,13 @@ packages:
       asynckit: 0.4.0
       combined-stream: 1.0.8
       mime-types: 2.1.34
+    dev: false
+
+  /formdata-polyfill/4.0.10:
+    resolution: {integrity: sha512-buewHzMvYL29jdeQTVILecSaZKnt/RJWjoZCF5OW60Z67/GmSLBkOFM7qh1PI3zFNtJbaZL5eQu1vLfazOwj4g==}
+    engines: {node: '>=12.20.0'}
+    dependencies:
+      fetch-blob: 3.1.3
     dev: false
 
   /forwarded/0.2.0:
@@ -5964,6 +5983,15 @@ packages:
     engines: {node: 4.x || >=6.0.0}
     dependencies:
       whatwg-url: 5.0.0
+    dev: false
+
+  /node-fetch/3.1.0:
+    resolution: {integrity: sha512-QU0WbIfMUjd5+MUzQOYhenAazakV7Irh1SGkWCsRzBwvm4fAhzEUaHMJ6QLP7gWT6WO9/oH2zhKMMGMuIrDyKw==}
+    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
+    dependencies:
+      data-uri-to-buffer: 4.0.0
+      fetch-blob: 3.1.3
+      formdata-polyfill: 4.0.10
     dev: false
 
   /node-releases/2.0.1:
@@ -7991,6 +8019,11 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: false
 
+  /web-streams-polyfill/3.2.0:
+    resolution: {integrity: sha512-EqPmREeOzttaLRm5HS7io98goBgZ7IVz79aDvqjD0kYXLtFZTc0T/U6wHTPKyIjb+MdN7DFIIX6hgdBEpWmfPA==}
+    engines: {node: '>= 8'}
+    dev: false
+
   /webidl-conversions/3.0.1:
     resolution: {integrity: sha1-JFNCdeKnvGvnvIZhHMFq4KVlSHE=}
     dev: false
@@ -9586,7 +9619,7 @@ packages:
     dev: false
 
   file:projects/arm-rediscache.tgz:
-    resolution: {integrity: sha512-fiy6Vhv19bezcOW5slJhYJBE1cOtziVWRYGGQ6mOmyzatTT1nBsYnPClz9v5O1OeJmCvGTFfaKQn9dcRbzHD8w==, tarball: file:projects/arm-rediscache.tgz}
+    resolution: {integrity: sha512-aOAyRJHWE7GUOtUWaHTiFCa3SurFmsvsG3u8DDDBAGlXVxSc0OCKPfyr0RkqL8k+N2dsS1s5qVzSWPfKuaP1mA==, tarball: file:projects/arm-rediscache.tgz}
     name: '@rush-temp/arm-rediscache'
     version: 0.0.0
     dependencies:
@@ -10791,7 +10824,7 @@ packages:
     dev: false
 
   file:projects/core-http.tgz:
-    resolution: {integrity: sha512-/1F76o1Bjt4fx38H40DKgXtwrNhq+bbaSlFeQS1oMht1Ha4YQjQFS9ANOdWi8Ow7lJPNCZHbYsZLODNg5OMiqA==, tarball: file:projects/core-http.tgz}
+    resolution: {integrity: sha512-mecI5VivXb0emsGtbSAdljA0DVsU4FVbPqJqygSl56r4CH07IvwbDvmTKG8vipD37XIqQUuRrB2Z1s/xNU89Hw==, tarball: file:projects/core-http.tgz}
     name: '@rush-temp/core-http'
     version: 0.0.0
     dependencies:
@@ -10816,7 +10849,7 @@ packages:
       downlevel-dts: 0.4.0
       eslint: 7.32.0
       express: 4.17.1
-      fetch-mock: 9.11.0_node-fetch@2.6.6
+      fetch-mock: 9.11.0_node-fetch@3.1.0
       form-data: 4.0.0
       glob: 7.2.0
       karma: 6.3.8
@@ -10829,7 +10862,7 @@ packages:
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 1.23.3_mocha@7.2.0
-      node-fetch: 2.6.6
+      node-fetch: 3.1.0
       npm-run-all: 4.1.5
       nyc: 14.1.1
       prettier: 1.19.1
@@ -12734,7 +12767,7 @@ packages:
     dev: false
 
   file:projects/perf-storage-blob.tgz:
-    resolution: {integrity: sha512-ESkni7JKJO+FHnw9fYjQPqpOCUNwHBfwTHURUK6LJT72fP/Qi6GE17OyHclmA3SazVg/p6csIutTzHFzUxBubA==, tarball: file:projects/perf-storage-blob.tgz}
+    resolution: {integrity: sha512-eDexfdKNDZpQcLhEawIsgEIxD+sHBhL1WNPzBXWYW7QKaO2+By1/FRDRTtDNoof9m9DqGqoqsmAQBnqiZjobWQ==, tarball: file:projects/perf-storage-blob.tgz}
     name: '@rush-temp/perf-storage-blob'
     version: 0.0.0
     dependencies:
@@ -12743,7 +12776,7 @@ packages:
       '@types/uuid': 8.3.1
       dotenv: 8.6.0
       eslint: 7.32.0
-      node-fetch: 2.6.6
+      node-fetch: 3.1.0
       prettier: 1.19.1
       rimraf: 3.0.2
       ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
@@ -13367,7 +13400,7 @@ packages:
     dev: false
 
   file:projects/storage-blob.tgz:
-    resolution: {integrity: sha512-b1nHoHla4RKc9OA/lfyeQEddBfNSxy7HpP1YRZuhQw7QFZysNv9WVjdMywiHMaP+bnGHiaHoCOVBJa/Yk2Ilkg==, tarball: file:projects/storage-blob.tgz}
+    resolution: {integrity: sha512-JFvOLt69LdA5dubZrDpXK6Xsih7vlioVEk7NqOUSPI/yN7mYobEtASRjZaD6XN5GN1HLGvnuqc9KeMEeyQjybw==, tarball: file:projects/storage-blob.tgz}
     name: '@rush-temp/storage-blob'
     version: 0.0.0
     dependencies:
@@ -13405,7 +13438,7 @@ packages:
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 1.23.3_mocha@7.2.0
-      node-fetch: 2.6.6
+      node-fetch: 3.1.0
       nyc: 14.1.1
       prettier: 1.19.1
       puppeteer: 10.4.0
@@ -14120,7 +14153,7 @@ packages:
     dev: false
 
   file:projects/test-utils-perf.tgz:
-    resolution: {integrity: sha512-LOwl++qbf54ApKHuW/fcoKzgrh/cY8jU2MAZgJ1+P1lHpW3+ooFv8kxqUm2dqcit3JzVALtEdycBtaXGER/bXw==, tarball: file:projects/test-utils-perf.tgz}
+    resolution: {integrity: sha512-KRGQbRd4Y9KbAhMt3yZY3ijBK0B0zrDhIsLxFCRmJzHsX8FfNKEu2jA9ULltKIWr5vFsSscofPNouB8vtmvOhQ==, tarball: file:projects/test-utils-perf.tgz}
     name: '@rush-temp/test-utils-perf'
     version: 0.0.0
     dependencies:
@@ -14133,7 +14166,7 @@ packages:
       karma-coverage: 2.0.3
       karma-env-preprocessor: 0.1.1
       minimist: 1.2.5
-      node-fetch: 2.6.6
+      node-fetch: 3.1.0
       prettier: 1.19.1
       rimraf: 3.0.2
       ts-node: 8.10.2_typescript@4.2.4

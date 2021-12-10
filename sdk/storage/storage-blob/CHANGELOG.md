@@ -8,6 +8,10 @@
 - Added support for listing system containers with `BlobServiceClient.listContainers()`.
 - Added support for blob names container invalid XML characters.
 
+### Other changes
+- Upgrade dependency `core-http` version to `^2.3.0`
+- Remove unused devDependencies previously added for perf testing. Perf tests later have been moved out of package folder.
+
 ## 12.9.0-beta.1 (2021-11-09)
 
 ### Features Added

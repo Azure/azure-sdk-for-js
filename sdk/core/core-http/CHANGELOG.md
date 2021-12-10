@@ -1,6 +1,6 @@
 # Release History
 
-## 2.2.3 (Unreleased)
+## 2.3.0 (Unreleased)
 
 ### Features Added
 
@@ -11,6 +11,8 @@
 - Fix `HttpHeaders.rawHeaders()` to preserve header name case. As a result HttpClient now sends requests with their original header names. `HttpHeaders.toJson()` now has an option to preserve header key casing.
 
 ### Other Changes
+
+- Upgrade dependency `node-fetch` version from v2 to v3.1.0
 
 ## 2.2.2 (2021-11-03)
 
