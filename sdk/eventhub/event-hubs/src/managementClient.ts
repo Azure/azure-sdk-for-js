@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { v4 as uuid } from "uuid";
 import {
   Constants,
   RequestResponseLink,
@@ -14,7 +13,6 @@ import {
   retry,
   translate
 } from "@azure/core-amqp";
-import { AccessToken } from "@azure/core-auth";
 import {
   EventContext,
   Message,
@@ -24,15 +22,17 @@ import {
   SenderOptions,
   generate_uuid
 } from "rhea-promise";
+import { logErrorStackTrace, logger } from "./log";
+import { throwErrorIfConnectionClosed, throwTypeErrorIfParameterMissing } from "./util/error";
+import { AbortSignalLike } from "@azure/abort-controller";
+import { AccessToken } from "@azure/core-auth";
 import { ConnectionContext } from "./connectionContext";
 import { LinkEntity } from "./linkEntity";
-import { logErrorStackTrace, logger } from "./log";
-import { getRetryAttemptTimeoutInMs } from "./util/retries";
-import { AbortSignalLike } from "@azure/abort-controller";
-import { throwErrorIfConnectionClosed, throwTypeErrorIfParameterMissing } from "./util/error";
-import { SpanStatusCode } from "@azure/core-tracing";
 import { OperationOptions } from "./util/operationOptions";
+import { SpanStatusCode } from "@azure/core-tracing";
 import { createEventHubSpan } from "./diagnostics/tracing";
+import { getRetryAttemptTimeoutInMs } from "./util/retries";
+import { v4 as uuid } from "uuid";
 
 /**
  * Describes the runtime information of an Event Hub.

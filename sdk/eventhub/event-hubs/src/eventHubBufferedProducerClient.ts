@@ -1,13 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AbortController } from "@azure/abort-controller";
-import { AmqpAnnotatedMessage } from "@azure/core-amqp";
-import { NamedKeyCredential, SASCredential, TokenCredential } from "@azure/core-auth";
-import { BatchingPartitionChannel } from "./batchingPartitionChannel";
-import { PartitionAssigner } from "./impl/partitionAssigner";
 import { EventData, EventHubProducerClient, OperationOptions } from "./index";
-import { EventHubProperties, PartitionProperties } from "./managementClient";
 import {
   EventHubClientOptions,
   GetEventHubPropertiesOptions,
@@ -15,7 +9,13 @@ import {
   GetPartitionPropertiesOptions,
   SendBatchOptions
 } from "./models/public";
+import { EventHubProperties, PartitionProperties } from "./managementClient";
+import { NamedKeyCredential, SASCredential, TokenCredential } from "@azure/core-auth";
 import { isCredential, isDefined } from "./util/typeGuards";
+import { AbortController } from "@azure/abort-controller";
+import { AmqpAnnotatedMessage } from "@azure/core-amqp";
+import { BatchingPartitionChannel } from "./batchingPartitionChannel";
+import { PartitionAssigner } from "./impl/partitionAssigner";
 
 /**
  * Contains the events that were successfully sent to the Event Hub,

@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { extractConnectionStringParts } from "../../src/utils/connectionString";
-import { Context } from "mocha";
 import { base64Decode, base64Encode } from "../../src/utils/bufferSerializer";
-import { isNode } from "@azure/test-utils";
-import { assert } from "chai";
 import { ConnectionString } from "../../src/utils/internalModels";
+import { Context } from "mocha";
+import { assert } from "chai";
+import { extractConnectionStringParts } from "../../src/utils/connectionString";
+import { isNode } from "@azure/test-utils";
 
 describe("Utility Helpers", () => {
   describe("extractConnectionStringParts", () => {
