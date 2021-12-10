@@ -6,7 +6,7 @@ Recovery Services Client
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/recoveryservices/arm-recoveryservices) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-recoveryservices) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-recoveryservices?view=azure-node-preview) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-recoveryservices) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started
