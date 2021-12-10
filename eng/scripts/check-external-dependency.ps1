@@ -48,7 +48,7 @@ function Set-GitHubIssue($Package) {
   if ($Package.IsDeprecated) {
     $issueDesc = "Version $($Package.OldVersion) of $pkgName has been deprecated.`n"
   }
-  $issueDesc += "A new version ($($Package.NewVersion) is available now."
+  $issueDesc += "A new version ($($Package.NewVersion)) is available now."
 
 
   $issue = Get-GithubIssue -PackageName $Package.Name -IsDeprecated $Package.IsDeprecated
@@ -60,7 +60,7 @@ function Set-GitHubIssue($Package) {
     Write-Host "Created issue $($newIssue.number) with title '$issueTitle'"
     if ($newIssue) {
       $out = Add-GitHubIssueLabels -RepoOwner $RepoOwner -RepoName $RepoName -AuthToken $AuthToken -Labels $dependencyUpgradeLabel -IssueNumber $newIssue.number
-      Write-Host "Addd label $dependencyUpgradeLabel to issue $($newIssue.number)"
+      Write-Host "Added label $dependencyUpgradeLabel to issue $($newIssue.number)"
     }
   }
 }
@@ -81,26 +81,20 @@ else {
   exit 1
 }
 Write-Host "Updated rush configuraion files"
-
-try {
-  # Run rush update --full
-  Write-Host "Running rush update"
-  $rushUpdateOutput = node common/scripts/install-run-rush.js update --full
-  Write-Host "Parsing rush update out"
-  write-host $rushUpdateOutput
-  foreach ($line in $rushUpdateOutput) {
-    if ($line -match $dependencyRegex -and !$matches['pkg'].StartsWith("@azure")) { 
-      $p = New-Object PSObject -Property @{
-        Name         = $matches['pkg']  
-        OldVersion   = [AzureEngSemanticVersion]::ParseVersionString($matches['version'])        
-        NewVersion   = [AzureEngSemanticVersion]::ParseVersionString($matches['newVersion'])
-        IsDeprecated = ($matches['deprecated'] -eq "deprecated")
-      }
-      Set-GitHubIssue -Package $p
+# Run rush update --full
+Write-Host "Running rush update"
+$rushUpdateOutput = node common/scripts/install-run-rush.js update --full
+Write-Host "Parsing rush update out"
+write-host $rushUpdateOutput
+foreach ($line in $rushUpdateOutput) {
+  if ($line -match $dependencyRegex -and !$matches['pkg'].StartsWith("@azure")) { 
+    $p = New-Object PSObject -Property @{
+      Name         = $matches['pkg']  
+      OldVersion   = [AzureEngSemanticVersion]::ParseVersionString($matches['version'])        
+      NewVersion   = [AzureEngSemanticVersion]::ParseVersionString($matches['newVersion'])
+      IsDeprecated = ($matches['deprecated'] -eq "deprecated")
     }
+    Set-GitHubIssue -Package $p
   }
 }
-catch {
-  Write-Error "Failed to check available new versions of external dependency."
-  exit 1
-}
+Write-Host "Verified and filed issues"
