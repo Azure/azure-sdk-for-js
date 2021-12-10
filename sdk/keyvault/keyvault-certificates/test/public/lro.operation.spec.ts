@@ -2,7 +2,12 @@
 // Licensed under the MIT license.
 
 import * as assert from "assert";
-import { CertificateClient, CertificateOperation, DefaultCertificatePolicy, KeyVaultCertificateWithPolicy } from "../../src";
+import {
+  CertificateClient,
+  CertificateOperation,
+  DefaultCertificatePolicy,
+  KeyVaultCertificateWithPolicy
+} from "../../src";
 import { Recorder, env } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
 import TestClient from "../utils/testClient";

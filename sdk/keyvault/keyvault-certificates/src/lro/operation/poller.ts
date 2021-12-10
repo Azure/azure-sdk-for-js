@@ -2,7 +2,11 @@
 // Licensed under the MIT license.
 
 import { CertificateOperationPollOperation, CertificateOperationState } from "./operation";
-import { KeyVaultCertificatePoller, KeyVaultCertificatePollerOptions, cleanState } from "../keyVaultCertificatePoller";
+import {
+  KeyVaultCertificatePoller,
+  KeyVaultCertificatePollerOptions,
+  cleanState
+} from "../keyVaultCertificatePoller";
 import { KeyVaultCertificateWithPolicy } from "../../certificatesModels";
 
 export interface CertificateOperationPollerOptions extends KeyVaultCertificatePollerOptions {}

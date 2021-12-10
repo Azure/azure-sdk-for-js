@@ -1,8 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { GetCertificateOptions, KeyVaultCertificateWithPolicy, RecoverDeletedCertificateOptions } from "../../certificatesModels";
-import { KeyVaultCertificatePollOperation, KeyVaultCertificatePollOperationState } from "../keyVaultCertificatePoller";
+import {
+  GetCertificateOptions,
+  KeyVaultCertificateWithPolicy,
+  RecoverDeletedCertificateOptions
+} from "../../certificatesModels";
+import {
+  KeyVaultCertificatePollOperation,
+  KeyVaultCertificatePollOperationState
+} from "../keyVaultCertificatePoller";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { KeyVaultClient } from "../../generated/keyVaultClient";
 import { OperationOptions } from "@azure/core-http";

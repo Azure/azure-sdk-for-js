@@ -10,8 +10,16 @@ import {
   GetPlainCertificateOperationOptions,
   KeyVaultCertificateWithPolicy
 } from "../../certificatesModels";
-import { KeyVaultCertificatePollOperation, KeyVaultCertificatePollOperationState } from "../keyVaultCertificatePoller";
-import { getCertificateOperationFromCoreOperation, getCertificateWithPolicyFromCertificateBundle, toCoreAttributes, toCorePolicy } from "../../transformations";
+import {
+  KeyVaultCertificatePollOperation,
+  KeyVaultCertificatePollOperationState
+} from "../keyVaultCertificatePoller";
+import {
+  getCertificateOperationFromCoreOperation,
+  getCertificateWithPolicyFromCertificateBundle,
+  toCoreAttributes,
+  toCorePolicy
+} from "../../transformations";
 import { CertificateOperation } from "../../generated/models";
 import { KeyVaultClient } from "../../generated/keyVaultClient";
 import { OperationOptions } from "@azure/core-http";

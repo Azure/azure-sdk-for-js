@@ -9,8 +9,15 @@ import {
   GetPlainCertificateOperationOptions,
   KeyVaultCertificateWithPolicy
 } from "../../certificatesModels";
-import { KeyVaultCertificatePollOperation, KeyVaultCertificatePollOperationState, cleanState } from "../keyVaultCertificatePoller";
-import { getCertificateOperationFromCoreOperation, getCertificateWithPolicyFromCertificateBundle } from "../../transformations";
+import {
+  KeyVaultCertificatePollOperation,
+  KeyVaultCertificatePollOperationState,
+  cleanState
+} from "../keyVaultCertificatePoller";
+import {
+  getCertificateOperationFromCoreOperation,
+  getCertificateWithPolicyFromCertificateBundle
+} from "../../transformations";
 import { KeyVaultClient } from "../../generated/keyVaultClient";
 import { OperationOptions } from "@azure/core-http";
 import { createTraceFunction } from "../../../../keyvault-common/src";
