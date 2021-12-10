@@ -31,7 +31,7 @@ jobs:
       PushArgs: "-f"
 
   - script: |
-      rush unlink & gitclean -xdf
+      rush unlink & git clean -xdf
     displayName: "Rush Unlink"
 
   - task: PowerShell@2

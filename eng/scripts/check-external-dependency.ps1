@@ -74,7 +74,7 @@ if ((Test-Path $rushFile) -and (Test-Path $commonConfigFile)) {
 }
 else {
   Write-Error "Failed to find $($rushFile) and/or $($commonConfigFile). Verify repo root parameter."
-  exit
+  exit 1
 }
 
 
@@ -105,5 +105,5 @@ catch {
   exit 1
 }
 finally {
-  rush unlink & gitclean -xdf
+  rush unlink & git clean -xdf
 }
