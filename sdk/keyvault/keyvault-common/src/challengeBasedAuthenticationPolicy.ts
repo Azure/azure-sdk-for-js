@@ -3,7 +3,12 @@
 /* eslint-disable @azure/azure-sdk/ts-use-interface-parameters */
 
 import { AccessTokenCache, ExpiringAccessTokenCache } from "@azure/core-http";
-import { BaseRequestPolicy, RequestPolicy, RequestPolicyFactory, RequestPolicyOptions } from "@azure/core-http";
+import {
+  BaseRequestPolicy,
+  RequestPolicy,
+  RequestPolicyFactory,
+  RequestPolicyOptions
+} from "@azure/core-http";
 import { ParsedWWWAuthenticate, parseWWWAuthenticate } from "./parseWWWAuthenticate";
 import { Constants } from "@azure/core-http";
 import { HttpOperationResponse } from "@azure/core-http";
