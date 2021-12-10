@@ -111,10 +111,10 @@ function makeOnWarnForTesting(): (warning: RollupWarning, warn: WarningHandler) 
 
 // #endregion
 
-export function makeBrowserTestConfig(pkg?: PackageJson): RollupOptions {
+export function makeBrowserTestConfig(pkg: PackageJson): RollupOptions {
   // ./dist-esm/src/index.js -> ./dist-esm
   // ./dist-esm/keyvault-keys/src/index.js -> ./dist-esm/keyvault-keys
-  const module = (pkg && pkg["module"]) ?? "dist-esm/src/index.js";
+  const module = pkg["module"] ?? "dist-esm/src/index.js";
   const basePath = path.dirname(path.parse(module).dir);
 
   const config: RollupOptions = {
