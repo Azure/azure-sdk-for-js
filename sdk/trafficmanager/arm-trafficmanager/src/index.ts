@@ -6,8 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./endpoints";
-export * from "./profiles";
-export * from "./geographicHierarchies";
-export * from "./heatMap";
-export * from "./trafficManagerUserMetricsKeys";
+/// <reference lib="esnext.asynciterable" />
+export * from "./models";
+export { TrafficManagerManagementClient } from "./trafficManagerManagementClient";
+export * from "./operationsInterfaces";
