@@ -2,6 +2,11 @@
 
 ## 1.0.0 (Unreleased)
 
+## 2021-12-10
+
+- Loads the .env file using with the help of "dotenv" by default.
+  [#19139](https://github.com/Azure/azure-sdk-for-js/pull/19139)
+
 ## 2021-11-30
 
 - Adds NoOp AAD Credential for playback `NoOpCredential`. Using this as your AAD credential in playback mode would avoid the AAD traffic in playback.
