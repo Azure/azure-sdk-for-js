@@ -40,7 +40,7 @@ jobs:
       targetType: filePath
       filePath: "eng/scripts/check-external-dependency.ps1"
       arguments: >
-        -RepoName: azure-sdk-for-js
+        -RepoName azure-sdk-for-js
         -RepoOwner azure
         -AuthToken "$(azuresdk-github-pat)"
       pwsh: true
