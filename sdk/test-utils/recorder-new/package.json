@@ -8,6 +8,7 @@
   "types": "./types/src/index.d.ts",
   "browser": {
     "./dist-esm/src/utils/relativePathCalculator.js": "./dist-esm/src/utils/relativePathCalculator.browser.js",
+    "./dist-esm/src/utils/env.js": "./dist-esm/src/utils/env.browser.js",
     "./dist-esm/test/utils/server.js": "./dist-esm/test/utils/server.browser.js"
   },
   "scripts": {
