@@ -325,7 +325,11 @@ export {
   IndexerExecutionStatusDetail,
   KnownIndexerExecutionStatusDetail,
   IndexingMode,
-  KnownIndexingMode
+  KnownIndexingMode,
+  SemanticSettings,
+  SemanticConfiguration,
+  PrioritizedFields,
+  SemanticField
 } from "./generated/service/models";
 export { AzureKeyCredential } from "@azure/core-auth";
 export { createSynonymMapFromFile } from "./synonymMapHelper";

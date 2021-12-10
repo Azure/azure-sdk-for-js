@@ -7,13 +7,6 @@
  */
 
 import * as coreHttp from "@azure/core-http";
-/**
- * Defines values for FileType.
- * Possible values include: 'File'
- * @readonly
- * @enum {string}
- */
-export type FileType = "File";
 
 /** Storage service properties. */
 export interface FileServiceProperties {
@@ -114,6 +107,7 @@ export interface SharePropertiesInternal {
   provisionedIops?: number;
   provisionedIngressMBps?: number;
   provisionedEgressMBps?: number;
+  provisionedBandwidthMiBps?: number;
   nextAllowedQuotaDowngradeTime?: Date;
   deletedTime?: Date;
   remainingRetentionDays?: number;
@@ -348,6 +342,8 @@ export interface ShareGetPropertiesHeaders {
   provisionedEgressMBps?: number;
   /** Returns the current share next allowed quota downgrade time. */
   nextAllowedQuotaDowngradeTime?: Date;
+  /** Returns the current share provisioned bandwidth in megabits per second. */
+  provisionedBandwidthMibps?: number;
   /** When a share is leased, specifies whether the lease is of infinite or fixed duration. */
   leaseDuration?: LeaseDurationType;
   /** Lease state of the share. */
@@ -1023,7 +1019,7 @@ export interface FileGetPropertiesHeaders {
   /** A set of name-value pairs associated with this file as user-defined metadata. */
   metadata?: { [propertyName: string]: string };
   /** Returns the type File. Reserved for future use. */
-  fileType?: FileType;
+  fileType?: string;
   /** The size of the file in bytes. This header returns the value of the 'x-ms-content-length' header that is stored with the file. */
   contentLength?: number;
   /** The content type specified for the file. The default content type is 'application/octet-stream' */

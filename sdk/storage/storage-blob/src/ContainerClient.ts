@@ -32,7 +32,6 @@ import {
   LeaseAccessConditions,
   ListBlobsFlatSegmentResponseModel,
   ListBlobsHierarchySegmentResponseModel,
-  ListBlobsIncludeItem,
   PublicAccessType,
   SignedIdentifierModel
 } from "./generatedModels";
@@ -49,9 +48,14 @@ import { convertTracingToRequestOptionsBase, createSpan } from "./utils/tracing"
 import {
   appendToURLPath,
   appendToURLQuery,
+  BlobNameToString,
+  ConvertInternalResponseOfListBlobFlat,
+  ConvertInternalResponseOfListBlobHierarchy,
   extractConnectionStringParts,
   isIpEndpointStyle,
   parseObjectReplicationRecord,
+  ProcessBlobItems,
+  ProcessBlobPrefixes,
   toTags,
   truncatedISO8061Date
 } from "./utils/utils.common";
@@ -68,6 +72,7 @@ import {
   PageBlobClient
 } from "./Clients";
 import { BlobBatchClient } from "./BlobBatchClient";
+import { ListBlobsIncludeItem } from "./generated/src";
 
 /**
  * Options to configure {@link ContainerClient.create} operation.
@@ -1274,14 +1279,23 @@ export class ContainerClient extends StorageClient {
         ...convertTracingToRequestOptionsBase(updatedOptions)
       });
 
+      response.segment.blobItems = [];
+      if ((response.segment as any)["Blob"] !== undefined) {
+        response.segment.blobItems = ProcessBlobItems((response.segment as any)["Blob"]);
+      }
+
       const wrappedResponse: ContainerListBlobFlatSegmentResponse = {
         ...response,
-        _response: response._response, // _response is made non-enumerable
+        _response: {
+          ...response._response,
+          parsedBody: ConvertInternalResponseOfListBlobFlat(response._response.parsedBody)
+        }, // _response is made non-enumerable
         segment: {
           ...response.segment,
           blobItems: response.segment.blobItems.map((blobItemInteral) => {
             const blobItem: BlobItem = {
               ...blobItemInteral,
+              name: BlobNameToString(blobItemInteral.name),
               tags: toTags(blobItemInteral.blobTags),
               objectReplicationSourceProperties: parseObjectReplicationRecord(
                 blobItemInteral.objectReplicationMetadata
@@ -1329,20 +1343,41 @@ export class ContainerClient extends StorageClient {
         ...options,
         ...convertTracingToRequestOptionsBase(updatedOptions)
       });
+
+      response.segment.blobItems = [];
+      if (response.segment["Blob"] !== undefined) {
+        response.segment.blobItems = ProcessBlobItems(response.segment["Blob"]);
+      }
+
+      response.segment.blobPrefixes = [];
+      if (response.segment["BlobPrefix"] !== undefined) {
+        response.segment.blobPrefixes = ProcessBlobPrefixes(response.segment["BlobPrefix"]);
+      }
+
       const wrappedResponse: ContainerListBlobHierarchySegmentResponse = {
         ...response,
-        _response: response._response, // _response is made non-enumerable
+        _response: {
+          ...response._response,
+          parsedBody: ConvertInternalResponseOfListBlobHierarchy(response._response.parsedBody)
+        }, // _response is made non-enumerable
         segment: {
           ...response.segment,
           blobItems: response.segment.blobItems.map((blobItemInteral) => {
             const blobItem: BlobItem = {
               ...blobItemInteral,
+              name: BlobNameToString(blobItemInteral.name),
               tags: toTags(blobItemInteral.blobTags),
               objectReplicationSourceProperties: parseObjectReplicationRecord(
                 blobItemInteral.objectReplicationMetadata
               )
             };
             return blobItem;
+          }),
+          blobPrefixes: response.segment.blobPrefixes?.map((blobPrefixInternal) => {
+            const blobPrefix: BlobPrefix = {
+              name: BlobNameToString(blobPrefixInternal.name)
+            };
+            return blobPrefix;
           })
         }
       };

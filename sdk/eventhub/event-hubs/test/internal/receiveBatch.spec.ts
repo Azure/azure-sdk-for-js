@@ -1,23 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import chai from "chai";
-const should = chai.should();
-import chaiAsPromised from "chai-as-promised";
-chai.use(chaiAsPromised);
-
+import { EnvVarKeys, getEnvVars } from "../public/utils/testUtils";
 import {
   EventData,
-  MessagingError,
   EventHubConsumerClient,
   EventHubProducerClient,
-  EventPosition
+  EventPosition,
+  MessagingError
 } from "../../src";
-import { EnvVarKeys, getEnvVars } from "../public/utils/testUtils";
 import { EventHubReceiver } from "../../src/eventHubReceiver";
-import { translate } from "@azure/core-amqp";
-import { testWithServiceTypes } from "../public/utils/testWithServiceTypes";
+import chai from "chai";
+import chaiAsPromised from "chai-as-promised";
 import { createMockServer } from "../public/utils/mockService";
+import { testWithServiceTypes } from "../public/utils/testWithServiceTypes";
+import { translate } from "@azure/core-amqp";
+
+const should = chai.should();
+chai.use(chaiAsPromised);
 
 testWithServiceTypes((serviceVersion) => {
   const env = getEnvVars();

@@ -2,61 +2,61 @@
  "recordings": [
   {
    "method": "POST",
-   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "url": "https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token",
    "query": {},
-   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default",
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fsanitized%2F",
    "status": 200,
    "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
    "responseHeaders": {
     "cache-control": "no-store, no-cache",
     "content-length": "1331",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 03 Jun 2021 00:12:15 GMT",
+    "date": "Tue, 16 Nov 2021 02:01:49 GMT",
     "expires": "-1",
     "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
-    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+wst\"}]}",
+    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+est\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11787.14 - SCUS ProdSlices",
-    "x-ms-request-id": "ad1b1ba0-514f-4bff-bda4-796872e80900"
+    "x-ms-ests-server": "2.1.12231.7 - SCUS ProdSlices",
+    "x-ms-request-id": "28cd655a-62e6-4684-aba4-94b934d01c01"
    }
   },
   {
    "method": "DELETE",
-   "url": "https://endpoint/metricsadvisor/v1.0/dataFeeds/8ee89044-881a-480b-a0cf-948693b47855",
+   "url": "https://endpoint/metricsadvisor/v1.0/dataFeeds/2af9d5c9-b071-4eb0-8d72-4e63855617b7",
    "query": {},
    "requestBody": null,
    "status": 204,
    "response": "",
    "responseHeaders": {
-    "apim-request-id": "60ad0f29-3a2d-49c2-84ac-efdd724d0f69",
+    "apim-request-id": "99dae6ae-6f63-4307-89ee-1a993e2a2ddf",
     "content-length": "0",
-    "date": "Thu, 03 Jun 2021 00:12:16 GMT",
+    "date": "Tue, 16 Nov 2021 02:01:49 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "315",
-    "x-request-id": "60ad0f29-3a2d-49c2-84ac-efdd724d0f69"
+    "x-envoy-upstream-service-time": "250",
+    "x-request-id": "99dae6ae-6f63-4307-89ee-1a993e2a2ddf"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/metricsadvisor/v1.0/dataFeeds/8ee89044-881a-480b-a0cf-948693b47855",
+   "url": "https://endpoint/metricsadvisor/v1.0/dataFeeds/2af9d5c9-b071-4eb0-8d72-4e63855617b7",
    "query": {},
    "requestBody": null,
    "status": 404,
    "response": "{\"code\":\"404 NOT_FOUND\",\"message\":\"datafeedId is invalid.\"}",
    "responseHeaders": {
-    "apim-request-id": "cd69341c-308b-4b86-94b4-738cfa368119",
+    "apim-request-id": "2a2f9f18-fa33-4e63-8204-2cd668f58059",
     "content-length": "59",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 03 Jun 2021 00:12:22 GMT",
+    "date": "Tue, 16 Nov 2021 02:01:49 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "5075",
-    "x-request-id": "cd69341c-308b-4b86-94b4-738cfa368119"
+    "x-envoy-upstream-service-time": "25",
+    "x-request-id": "2a2f9f18-fa33-4e63-8204-2cd668f58059"
    }
   }
  ],
@@ -64,5 +64,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "542408b847502f9c5601ecf072663b97"
+ "hash": "6e1efa10c40e7d84ce6ae44ee59bb781"
 }

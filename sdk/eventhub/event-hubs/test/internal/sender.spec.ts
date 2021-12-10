@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import chai from "chai";
-const should = chai.should();
-import chaiAsPromised from "chai-as-promised";
-chai.use(chaiAsPromised);
-import debugModule from "debug";
-const debug = debugModule("azure:event-hubs:sender-spec");
+import {
+  EnvVarKeys,
+  getEnvVars,
+  getStartingPositionsForTests,
+  setTracerForTest
+} from "../public/utils/testUtils";
 import {
   EventData,
   EventHubConsumerClient,
@@ -17,18 +17,19 @@ import {
   SendBatchOptions,
   TryAddOptions
 } from "../../src";
-import {
-  EnvVarKeys,
-  getEnvVars,
-  getStartingPositionsForTests,
-  setTracerForTest
-} from "../public/utils/testUtils";
 import { SpanGraph, TestSpan } from "@azure/test-utils";
-import { TRACEPARENT_PROPERTY } from "../../src/diagnostics/instrumentEventData";
+import { context, setSpan } from "@azure/core-tracing";
 import { SubscriptionHandlerForTests } from "../public/utils/subscriptionHandlerForTests";
-import { setSpan, context } from "@azure/core-tracing";
-import { testWithServiceTypes } from "../public/utils/testWithServiceTypes";
+import { TRACEPARENT_PROPERTY } from "../../src/diagnostics/instrumentEventData";
+import chai from "chai";
+import chaiAsPromised from "chai-as-promised";
 import { createMockServer } from "../public/utils/mockService";
+import debugModule from "debug";
+import { testWithServiceTypes } from "../public/utils/testWithServiceTypes";
+
+const should = chai.should();
+chai.use(chaiAsPromised);
+const debug = debugModule("azure:event-hubs:sender-spec");
 
 testWithServiceTypes((serviceVersion) => {
   const env = getEnvVars();

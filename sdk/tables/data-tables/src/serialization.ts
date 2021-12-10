@@ -1,12 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { base64Encode, base64Decode } from "./utils/bufferSerializer";
+
 import { EdmTypes, SignedIdentifier, TableEntityQueryOptions } from "./models";
-import { truncatedISO8061Date } from "./utils/truncateISO8061Date";
 import {
-  SignedIdentifier as GeneratedSignedIdentifier,
-  QueryOptions as GeneratedQueryOptions
+  QueryOptions as GeneratedQueryOptions,
+  SignedIdentifier as GeneratedSignedIdentifier
 } from "./generated/models";
+import { base64Decode, base64Encode } from "./utils/bufferSerializer";
+import { truncatedISO8061Date } from "./utils/truncateISO8061Date";
 
 const propertyCaseMap: Map<string, string> = new Map<string, string>([
   ["PartitionKey", "partitionKey"],
@@ -68,13 +69,11 @@ function serializeObject(obj: { value: any; type: EdmTypes }): serializedType {
     obj.type === "Guid" ||
     obj.type === "Int32" ||
     obj.type === "Int64" ||
-    obj.type === "String"
+    obj.type === "String" ||
+    obj.type === "Binary"
   ) {
     serializedValue.value = obj.value;
     serializedValue.type = Edm[obj.type];
-  } else if (obj.type === "Binary") {
-    serializedValue.value = base64Encode(obj.value);
-    serializedValue.type = Edm.Binary;
   } else {
     throw new Error(`Unknown EDM type ${typeof obj.value}`);
   }

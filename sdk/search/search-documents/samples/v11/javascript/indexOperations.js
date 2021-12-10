@@ -6,6 +6,7 @@
  */
 
 const { SearchIndexClient, AzureKeyCredential } = require("@azure/search-documents");
+
 const dotenv = require("dotenv");
 dotenv.config();
 
@@ -21,19 +22,19 @@ async function createIndex(indexName, client) {
       {
         type: "Edm.String",
         name: "id",
-        key: true
+        key: true,
       },
       {
         type: "Edm.Double",
         name: "awesomenessLevel",
         sortable: true,
         filterable: true,
-        facetable: true
+        facetable: true,
       },
       {
         type: "Edm.String",
         name: "description",
-        searchable: true
+        searchable: true,
       },
       {
         type: "Edm.ComplexType",
@@ -42,16 +43,16 @@ async function createIndex(indexName, client) {
           {
             type: "Collection(Edm.String)",
             name: "tags",
-            searchable: true
-          }
-        ]
+            searchable: true,
+          },
+        ],
       },
       {
         type: "Edm.Int32",
         name: "hiddenWeight",
-        hidden: true
-      }
-    ]
+        hidden: true,
+      },
+    ],
   };
   await client.createIndex(index);
 }
@@ -62,7 +63,7 @@ async function getAndUpdateIndex(indexName, client) {
   index.fields.push({
     type: "Edm.DateTimeOffset",
     name: "lastUpdatedOn",
-    filterable: true
+    filterable: true,
   });
   await client.createOrUpdateIndex(index);
 }
@@ -118,8 +119,9 @@ async function listIndexes(client) {
   console.log(`List of Indexes`);
   console.log(`***************`);
   while (!listOfIndexes.done) {
+    const { similarity } = listOfIndexes.value;
     console.log(`Name: ${listOfIndexes.value.name}`);
-    console.log(`Similarity Algorithm: ${listOfIndexes.value.similarity?.odatatype}`);
+    console.log(`Similarity Algorithm: ${similarity && similarity.odatatype}`);
     console.log();
     listOfIndexes = await result.next();
   }

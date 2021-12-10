@@ -2,37 +2,37 @@
  "recordings": [
   {
    "method": "DELETE",
-   "url": "https://endpoint/metricsadvisor/v1.0/dataFeeds/974af1c4-73f7-47ee-bafe-2502f74535cb",
+   "url": "https://endpoint/metricsadvisor/v1.0/dataFeeds/10bcc6d9-5a8a-42d6-ad7a-4c367495ee8e",
    "query": {},
    "requestBody": null,
    "status": 204,
    "response": "",
    "responseHeaders": {
-    "apim-request-id": "0a876cf4-8ceb-4f88-b76a-40735ef19ae9",
+    "apim-request-id": "394f1ada-26a2-4e2f-bf30-f157d6724f7c",
     "content-length": "0",
-    "date": "Thu, 03 Jun 2021 00:13:40 GMT",
+    "date": "Tue, 16 Nov 2021 02:02:04 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "401",
-    "x-request-id": "0a876cf4-8ceb-4f88-b76a-40735ef19ae9"
+    "x-envoy-upstream-service-time": "328",
+    "x-request-id": "394f1ada-26a2-4e2f-bf30-f157d6724f7c"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/metricsadvisor/v1.0/dataFeeds/974af1c4-73f7-47ee-bafe-2502f74535cb",
+   "url": "https://endpoint/metricsadvisor/v1.0/dataFeeds/10bcc6d9-5a8a-42d6-ad7a-4c367495ee8e",
    "query": {},
    "requestBody": null,
    "status": 404,
    "response": "{\"code\":\"404 NOT_FOUND\",\"message\":\"datafeedId is invalid.\"}",
    "responseHeaders": {
-    "apim-request-id": "88568dcb-dd23-45bf-af92-9125e9f2caf8",
+    "apim-request-id": "b2d1a109-0f45-451f-bf5c-f03af887b250",
     "content-length": "59",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 03 Jun 2021 00:13:40 GMT",
+    "date": "Tue, 16 Nov 2021 02:02:04 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "75",
-    "x-request-id": "88568dcb-dd23-45bf-af92-9125e9f2caf8"
+    "x-envoy-upstream-service-time": "64",
+    "x-request-id": "b2d1a109-0f45-451f-bf5c-f03af887b250"
    }
   }
  ],
@@ -40,5 +40,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "e218f66eada74c9869c590aabcf672ee"
+ "hash": "534708e165cf899d33f333344b9762ea"
 }

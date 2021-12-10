@@ -32,7 +32,7 @@ matrix([[true, false]], async function(useAad) {
       }
     });
 
-    it("successfully gets a turn credential providing a user identity", async function() {
+    it("successfully gets a turn credential with user identity", async function() {
       const connectionString = env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING;
       const identityClient = new CommunicationIdentityClient(connectionString);
       const user: CommunicationUserIdentifier = await identityClient.createUser();
@@ -45,12 +45,17 @@ matrix([[true, false]], async function(useAad) {
 
       const turnServers = turnCredentialResponse.iceServers;
 
+      // Should return both ANY and NEAREST routeType iceServers
+      assert.equal(turnServers.length, 2);
+
       for (const iceServer of turnServers) {
         for (const url of iceServer.urls) {
           assert.isNotNull(url);
         }
+
         assert.isNotNull(iceServer.username);
         assert.isNotNull(iceServer.credential);
+        assert.isNotNull(iceServer.routeType);
       }
     }).timeout(5000);
 
@@ -69,6 +74,56 @@ matrix([[true, false]], async function(useAad) {
         }
         assert.isNotNull(iceServer.username);
         assert.isNotNull(iceServer.credential);
+        assert.isNotNull(iceServer.routeType);
+      }
+    }).timeout(5000);
+
+    it("successfully gets a turn credential with identity and routeType any", async function() {
+      const connectionString = env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING;
+      const identityClient = new CommunicationIdentityClient(connectionString);
+      const user: CommunicationUserIdentifier = await identityClient.createUser();
+
+      const turnCredentialResponse = await client.getRelayConfiguration(user, "any");
+      assert.isNotNull(turnCredentialResponse);
+
+      const turnTokenExpiresOn = turnCredentialResponse.expiresOn;
+      assert.isNotNull(turnTokenExpiresOn);
+
+      const turnServers = turnCredentialResponse.iceServers;
+
+      for (const iceServer of turnServers) {
+        for (const url of iceServer.urls) {
+          assert.isNotNull(url);
+        }
+
+        assert.isNotNull(iceServer.username);
+        assert.isNotNull(iceServer.credential);
+        assert.isNotNull(iceServer.routeType);
+        assert.equal(iceServer.routeType, "any");
+      }
+    }).timeout(5000);
+
+    it("successfully gets a turn credential with identity routeType nearest", async function() {
+      const connectionString = env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING;
+      const identityClient = new CommunicationIdentityClient(connectionString);
+      const user: CommunicationUserIdentifier = await identityClient.createUser();
+
+      const turnCredentialResponse = await client.getRelayConfiguration(user, "nearest");
+      assert.isNotNull(turnCredentialResponse);
+
+      const turnTokenExpiresOn = turnCredentialResponse.expiresOn;
+      assert.isNotNull(turnTokenExpiresOn);
+
+      const turnServers = turnCredentialResponse.iceServers;
+
+      for (const iceServer of turnServers) {
+        for (const url of iceServer.urls) {
+          assert.isNotNull(url);
+        }
+        assert.isNotNull(iceServer.username);
+        assert.isNotNull(iceServer.credential);
+        assert.isNotNull(iceServer.routeType);
+        assert.equal(iceServer.routeType, "nearest");
       }
     }).timeout(5000);
   });

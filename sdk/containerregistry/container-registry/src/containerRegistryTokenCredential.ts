@@ -1,11 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { createSerializer, OperationOptions, OperationSpec } from "@azure/core-client";
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
-import { AcrAccessToken, AcrRefreshToken, GeneratedClient } from "./generated";
-import * as Mappers from "./generated/models/mappers";
-import * as Parameters from "./generated/models/parameters";
+import { GeneratedClient } from "./generated";
 import { base64decode } from "./utils/base64";
 
 export interface ContainerRegistryGetTokenOptions extends GetTokenOptions {
@@ -45,60 +42,6 @@ export class ContainerRegistryRefreshTokenCredential implements TokenCredential 
   }
 }
 
-const customExchangeAadTokenForAcrRefreshTokenOperationSpec: OperationSpec = {
-  path: "/oauth2/exchange",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.AcrRefreshToken
-    },
-    default: {
-      bodyMapper: Mappers.AcrErrors
-    }
-  },
-  // formDataParameters: [Parameters.aadAccesstoken],
-  requestBody: {
-    parameterPath: ["options", "payload"],
-    mapper: {
-      type: {
-        name: "Stream"
-      }
-    }
-  },
-  urlParameters: [Parameters.url],
-  headerParameters: [Parameters.contentType3, Parameters.accept4],
-  serializer: createSerializer(Mappers, /* isXml */ false)
-};
-
-interface CustomAuthOptions extends OperationOptions {
-  payload: string;
-}
-
-const customExchangeAcrRefreshTokenForAcrAccessTokenOperationSpec: OperationSpec = {
-  path: "/oauth2/token",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.AcrAccessToken
-    },
-    default: {
-      bodyMapper: Mappers.AcrErrors
-    }
-  },
-  // formDataParameters: [Parameters.acrRefreshToken],
-  requestBody: {
-    parameterPath: ["options", "payload"],
-    mapper: {
-      type: {
-        name: "Stream"
-      }
-    }
-  },
-  urlParameters: [Parameters.url],
-  headerParameters: [Parameters.contentType3, Parameters.accept4],
-  serializer: createSerializer(Mappers, /* isXml */ false)
-};
-
 export class ContainerRegistryTokenService {
   constructor(private authClient: GeneratedClient) {}
 
@@ -107,28 +50,14 @@ export class ContainerRegistryTokenService {
     service: string,
     options: GetTokenOptions
   ): Promise<AccessToken> {
-    // const acrRefreshToken = await this.authClient.authentication.exchangeAadTokenForAcrRefreshToken(
-    //   {
-    //     aadAccesstoken: {
-    //       grantType: "access_token",
-    //       service,
-    //       aadAccesstoken: aadAccessToken,
-    //     }
-    //   }
-    // );
-
-    // TODO: (jeremymeng) revert custom sendOperationRequest call after FormData is working in core
-    const payload = `grant_type=access_token&service=${encodeURIComponent(
-      service
-    )}&access_token=${encodeURIComponent(aadAccessToken)}`;
-    const customOptions: CustomAuthOptions = {
-      payload
-    };
-    const acrRefreshToken = await this.authClient.sendOperationRequest<AcrRefreshToken>(
-      { options: { ...options, ...customOptions } },
-      customExchangeAadTokenForAcrRefreshTokenOperationSpec
+    const acrRefreshToken = await this.authClient.authentication.exchangeAadAccessTokenForAcrRefreshToken(
+      "access_token",
+      service,
+      {
+        ...options,
+        accessToken: aadAccessToken
+      }
     );
-
     if (!acrRefreshToken.refreshToken) {
       throw new Error("Failed to exchange AAD access token for an ACR refresh token.");
     }
@@ -162,27 +91,12 @@ export class ContainerRegistryTokenService {
     grantType: "refresh_token" | "password",
     options: GetTokenOptions
   ): Promise<string> {
-    // const acrAccessToken = await this.authClient.authentication.exchangeAcrRefreshTokenForAcrAccessToken(
-    //   {
-    //     acrRefreshToken: {
-    //       grantType: "refresh_token",
-    //       acrRefreshToken,
-    //       service,
-    //       scope
-    //     }
-    //   }
-    // );
-
-    // TODO: (jeremymeng) revert custom sendOperationRequest call after FormData is working in core
-    const payload = `grant_type=${grantType}&service=${encodeURIComponent(service)}&refresh_token=${
-      acrRefreshToken ? encodeURIComponent(acrRefreshToken) : ""
-    }&scope=${encodeURIComponent(scope)}`;
-    const customOptions: CustomAuthOptions = {
-      payload
-    };
-    const acrAccessToken = await this.authClient.sendOperationRequest<AcrAccessToken>(
-      { options: { ...options, ...customOptions } },
-      customExchangeAcrRefreshTokenForAcrAccessTokenOperationSpec
+    const acrAccessToken = await this.authClient.authentication.exchangeAcrRefreshTokenForAcrAccessToken(
+      service,
+      scope,
+      acrRefreshToken,
+      grantType,
+      options
     );
 
     if (!acrAccessToken.accessToken) {

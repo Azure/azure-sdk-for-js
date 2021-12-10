@@ -12,9 +12,9 @@ import stoppable from "stoppable";
 
 import { credentialLogger, formatError, formatSuccess } from "../../util/logging";
 import { CredentialUnavailableError } from "../../errors";
-import { MsalNodeOptions, MsalNode } from "./nodeCommon";
-import { msalToPublic } from "../utils";
+import { MsalNodeOptions, MsalNode } from "./msalNodeCommon";
 import { CredentialFlowGetTokenOptions } from "../credentials";
+import { msalToPublic } from "../utils";
 
 /**
  * Options that can be passed to configure MSAL to handle authentication through opening a browser window.
@@ -175,6 +175,28 @@ export class MsalOpenBrowser extends MsalNode {
 
       app.on("connection", (socket) => socketToDestroy.push(socket));
 
+      app.on("error", (err) => {
+        cleanup();
+        const code = (err as any).code;
+        if (code === "EACCES" || code === "EADDRINUSE") {
+          reject(
+            new CredentialUnavailableError(
+              [
+                `InteractiveBrowserCredential: Access denied to port ${this.port}.`,
+                `Try sending a redirect URI with a different port, as follows:`,
+                '`new InteractiveBrowserCredential({ redirectUri: "http://localhost:1337" })`'
+              ].join(" ")
+            )
+          );
+        } else {
+          reject(
+            new CredentialUnavailableError(
+              `InteractiveBrowserCredential: Failed to start the necessary web server. Error: ${err.message}`
+            )
+          );
+        }
+      });
+
       app.on("listening", () => {
         const openPromise = this.openAuthCodeUrl(scopes, options);
 
@@ -210,8 +232,10 @@ export class MsalOpenBrowser extends MsalNode {
 
     const authCodeUrlParameters: msalNode.AuthorizationUrlRequest = {
       scopes: scopeArray,
+      correlationId: options?.correlationId,
       redirectUri: this.redirectUri,
       authority: options?.authority,
+      claims: options?.claims,
       loginHint: this.loginHint,
       codeChallenge: this.pkceCodes.challenge,
       codeChallengeMethod: "S256" // Use SHA256 Algorithm
@@ -222,7 +246,9 @@ export class MsalOpenBrowser extends MsalNode {
     try {
       await interactiveBrowserMockable.open(response, { wait: true });
     } catch (e) {
-      throw new CredentialUnavailableError(`Could not open a browser window. Error: ${e.message}`);
+      throw new CredentialUnavailableError(
+        `InteractiveBrowserCredential: Could not open a browser window. Error: ${e.message}`
+      );
     }
   }
 }

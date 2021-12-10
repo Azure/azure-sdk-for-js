@@ -4,18 +4,18 @@
    "method": "POST",
    "url": "https://endpoint/metricsadvisor/v1.0/metrics/189ff959-d9f4-45c7-a1e0-f87c9c7ca80f/dimension/query",
    "query": {},
-   "requestBody": "{\"dimensionName\":\"city\"}",
+   "requestBody": "{\"dimensionName\":\"category\"}",
    "status": 200,
-   "response": "{\"value\":[\"Abidjan\",\"Ahmadabad\",\"Alexandria\",\"Ankara\",\"Atlanta\",\"Baghdad\",\"Bangkok\",\"Barcelona\",\"Beijing\",\"Belo Horizonte\",\"Bengaluru\",\"Bogota\",\"Boston\",\"Brasilia\",\"Buenos Aires\",\"Cairo\",\"Chengdu\",\"Chennai\",\"Chicago\",\"Chittagong\"],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/metrics/189ff959-d9f4-45c7-a1e0-f87c9c7ca80f/dimension/query?$maxpagesize=20&$skip=20\"}",
+   "response": "{\"value\":[\"__SUM__\",\"Electronics (Accessories)\",\"Electronics (Consumer)\",\"Grocery & Gourmet Food\",\"Handmade\",\"Home & Garden\",\"Office Products\",\"Shoes Handbags & Sunglasses\"]}",
    "responseHeaders": {
-    "apim-request-id": "98bd69db-1bf5-490b-807d-77c7ab50d96d",
-    "content-length": "410",
+    "apim-request-id": "a192951d-f500-45b8-8a80-b4b176e0f79d",
+    "content-length": "174",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 02 Jun 2021 07:09:46 GMT",
+    "date": "Tue, 16 Nov 2021 02:01:27 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "115",
-    "x-request-id": "98bd69db-1bf5-490b-807d-77c7ab50d96d"
+    "x-envoy-upstream-service-time": "136",
+    "x-request-id": "a192951d-f500-45b8-8a80-b4b176e0f79d"
    }
   }
  ],
@@ -23,5 +23,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "fbff5d46b25768d6f0c433d4b82c9270"
+ "hash": "5d85e2193e699c4b8576de9410c5d710"
 }

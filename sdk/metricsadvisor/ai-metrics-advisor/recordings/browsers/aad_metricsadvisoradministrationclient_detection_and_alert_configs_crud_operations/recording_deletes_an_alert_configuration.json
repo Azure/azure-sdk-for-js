@@ -2,61 +2,61 @@
  "recordings": [
   {
    "method": "POST",
-   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "url": "https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token",
    "query": {},
-   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default",
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fsanitized%2F",
    "status": 200,
    "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
    "responseHeaders": {
     "cache-control": "no-store, no-cache",
     "content-length": "1331",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 02 Jun 2021 17:32:07 GMT",
+    "date": "Tue, 16 Nov 2021 02:00:54 GMT",
     "expires": "-1",
     "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
-    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+wst\"}]}",
+    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+est\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11722.26 - SCUS ProdSlices",
-    "x-ms-request-id": "1bf327e1-5478-4aa8-ae72-05b7d288ba00"
+    "x-ms-ests-server": "2.1.12231.7 - SCUS ProdSlices",
+    "x-ms-request-id": "2831c33e-2192-4368-8bd4-230211cb5600"
    }
   },
   {
    "method": "DELETE",
-   "url": "https://endpoint/metricsadvisor/v1.0/alert/anomaly/configurations/8421350b-810f-492c-8b9c-5a8a323978bb",
+   "url": "https://endpoint/metricsadvisor/v1.0/alert/anomaly/configurations/b18eb2a1-6098-47be-a36c-abed1fb2be83",
    "query": {},
    "requestBody": null,
    "status": 204,
    "response": "",
    "responseHeaders": {
-    "apim-request-id": "9dd95487-7c17-4239-be14-396f5a4ae5c0",
+    "apim-request-id": "5ec9f996-ef35-4545-af4b-8e8f01debcec",
     "content-length": "0",
-    "date": "Wed, 02 Jun 2021 17:32:07 GMT",
+    "date": "Tue, 16 Nov 2021 02:00:54 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "88",
-    "x-request-id": "9dd95487-7c17-4239-be14-396f5a4ae5c0"
+    "x-envoy-upstream-service-time": "352",
+    "x-request-id": "5ec9f996-ef35-4545-af4b-8e8f01debcec"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/metricsadvisor/v1.0/alert/anomaly/configurations/8421350b-810f-492c-8b9c-5a8a323978bb",
+   "url": "https://endpoint/metricsadvisor/v1.0/alert/anomaly/configurations/b18eb2a1-6098-47be-a36c-abed1fb2be83",
    "query": {},
    "requestBody": null,
    "status": 404,
-   "response": "{\"code\":\"Not Found\",\"message\":\"Not found this AnomalyAlertingConfiguration. TraceId: 634f98ce-4570-4946-a93c-7f6dcf9c2320\"}",
+   "response": "{\"code\":\"Not Found\",\"message\":\"Not found this AnomalyAlertingConfiguration. TraceId: da34a9b9-5c2b-47c2-b7ac-f1f5aa52f2ff\"}",
    "responseHeaders": {
-    "apim-request-id": "e00c54a4-5529-49ea-8b0b-4c9bcf10b713",
+    "apim-request-id": "da34a9b9-5c2b-47c2-b7ac-f1f5aa52f2ff",
     "content-length": "123",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 02 Jun 2021 17:32:07 GMT",
+    "date": "Tue, 16 Nov 2021 02:00:55 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "25",
-    "x-request-id": "e00c54a4-5529-49ea-8b0b-4c9bcf10b713"
+    "x-envoy-upstream-service-time": "189",
+    "x-request-id": "da34a9b9-5c2b-47c2-b7ac-f1f5aa52f2ff"
    }
   }
  ],
@@ -64,5 +64,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "0dafdb513726fd8f9ed136a4749b5307"
+ "hash": "79fb97703215005eb73ceabb84e7357f"
 }

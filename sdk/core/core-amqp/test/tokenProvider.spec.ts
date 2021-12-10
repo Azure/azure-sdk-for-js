@@ -1,10 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import chai from "chai";
-const should = chai.should();
 import { AzureNamedKeyCredential, AzureSASCredential } from "@azure/core-auth";
+import chai from "chai";
 import { createSasTokenProvider } from "../src/index";
+
+const should = chai.should();
 
 describe("SasTokenProvider", function(): void {
   describe("createSasTokenProvider", () => {

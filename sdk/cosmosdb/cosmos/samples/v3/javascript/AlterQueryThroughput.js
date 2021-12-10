@@ -9,13 +9,11 @@ const path = require("path");
 require("dotenv").config();
 
 const { finish, handleError, logStep, logSampleHeader } = require("./Shared/handleError");
-const { CosmosClient } = require("../dist-esm");
-const {
-  COSMOS_DATABASE: databaseId,
-  COSMOS_CONTAINER: containerId,
-  COSMOS_ENDPOINT: endpoint,
-  COSMOS_KEY: key
-} = process.env;
+const { CosmosClient } = require("@azure/cosmos");
+const key = process.env.COSMOS_KEY || "<cosmos key>";
+const endpoint = process.env.COSMOS_ENDPOINT || "<cosmos endpoint>";
+const databaseId = process.env.COSMOS_DATABASE || "<cosmos database>";
+const containerId = process.env.COSMOS_CONTAINER || "<cosmos container>";
 
 logSampleHeader("Alter Query Throughput");
 
@@ -46,9 +44,12 @@ async function run() {
   logStep("Read container definition");
   const container = database.container(containerId);
   const { resource: containerDef } = await container.read();
-  console.log(`Container with url "${container.url}" was found its id is "${containerDef.id}`);
 
-  logStep(`Delete container ${containerDef.id}`);
+  const resultId = containerDef && containerDef.id;
+
+  console.log(`Container with url "${container.url}" was found its id is "${resultId}`);
+
+  logStep(`Delete container ${resultId}`);
   await container.delete();
   await finish();
 }
@@ -62,9 +63,9 @@ async function updateOfferForCollection(newRups, dbName, collectionName, oldOffe
     content: {
       offerThroughput: newRups,
       offerIsRUPerMinuteThroughputEnabled:
-        oldOfferDefinition.content.offerIsRUPerMinuteThroughputEnabled
+        oldOfferDefinition.content.offerIsRUPerMinuteThroughputEnabled,
     },
-    offerVersion: "V2"
+    offerVersion: "V2",
   };
 
   logStep("Read all databases");
@@ -75,16 +76,11 @@ async function updateOfferForCollection(newRups, dbName, collectionName, oldOffe
     databases
       .filter((database) => database.id === dbName)
       .map((database) => {
-        return client
-          .database(database.id)
-          .containers.readAll()
-          .fetchAll();
+        return client.database(database.id).containers.readAll().fetchAll();
       })
   );
 
-  const flat = (nestedArrays) => [].concat(...nestedArrays);
-
-  const containers = flat(containerResponses.map((response) => response.resources));
+  const containers = containerResponses.flatMap((response) => response.resources);
 
   logStep("Finding container to offerDefinition");
   const container = containers.find(
@@ -94,7 +90,11 @@ async function updateOfferForCollection(newRups, dbName, collectionName, oldOffe
   );
 
   if (container) {
-    const offer = client.offer(oldOfferDefinition.id);
+    const id = oldOfferDefinition.id;
+    if (typeof id === "undefined") {
+      throw new Error("ID for old offer is undefined");
+    }
+    const offer = client.offer(id);
     logStep("replace old offer with new offer");
     await offer.replace(newOfferDefinition);
   }

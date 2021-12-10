@@ -42,7 +42,8 @@ describe("ServiceBusMessageImpl unit tests", () => {
         amqpMessage,
         { tag: fakeDeliveryTag } as Delivery,
         false,
-        "peekLock"
+        "peekLock",
+        false
       );
 
       assert.equal(sbMessage.lockToken, expectedLockToken, "Unexpected lock token found");
@@ -53,7 +54,8 @@ describe("ServiceBusMessageImpl unit tests", () => {
         amqpMessage,
         { tag: fakeDeliveryTag } as Delivery,
         false,
-        "receiveAndDelete"
+        "receiveAndDelete",
+        false
       );
 
       assert.equal(!!sbMessage.lockToken, false, "Unexpected lock token found");
@@ -105,7 +107,13 @@ describe("ServiceBusMessageImpl unit tests", () => {
       user_id: "random_user_id"
     };
 
-    const sbMessage = new ServiceBusMessageImpl(amqpMessage, fakeDelivery, false, "peekLock");
+    const sbMessage = new ServiceBusMessageImpl(
+      amqpMessage,
+      fakeDelivery,
+      false,
+      "peekLock",
+      false
+    );
 
     it("headers match", () => {
       assert.equal(sbMessage._rawAmqpMessage.header?.firstAcquirer, amqpMessage.first_acquirer);

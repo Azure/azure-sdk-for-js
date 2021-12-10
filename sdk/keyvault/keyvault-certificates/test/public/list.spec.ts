@@ -3,7 +3,7 @@
 
 import chai from "chai";
 import { Context } from "mocha";
-import * as assert from "assert";
+import { assert } from "chai";
 import { env, isPlaybackMode, Recorder, isRecordMode } from "@azure-tools/test-recorder";
 import { isNode } from "@azure/core-http";
 

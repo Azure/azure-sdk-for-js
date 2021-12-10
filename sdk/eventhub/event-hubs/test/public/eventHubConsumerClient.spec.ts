@@ -2,28 +2,28 @@
 // Licensed under the MIT license.
 
 import {
-  EventHubProducerClient,
-  Subscription,
-  SubscriptionEventHandlers,
-  latestEventPosition,
-  logger,
   CloseReason,
-  EventHubConsumerClient,
   EventData,
+  EventHubConsumerClient,
+  EventHubProducerClient,
   MessagingError,
   ReceivedEventData,
-  earliestEventPosition
+  Subscription,
+  SubscriptionEventHandlers,
+  earliestEventPosition,
+  latestEventPosition,
+  logger
 } from "../../src";
-import debugModule from "debug";
-const debug = debugModule("azure:event-hubs:receiver-spec");
-import { EnvVarKeys, loopUntil, getStartingPositionsForTests, getEnvVars } from "./utils/testUtils";
-import chai from "chai";
-import { ReceivedMessagesTester } from "./utils/receivedMessagesTester";
+import { EnvVarKeys, getEnvVars, getStartingPositionsForTests, loopUntil } from "./utils/testUtils";
 import { LogTester } from "./utils/logHelpers";
+import { ReceivedMessagesTester } from "./utils/receivedMessagesTester";
 import { TestInMemoryCheckpointStore } from "./utils/testInMemoryCheckpointStore";
-import { testWithServiceTypes } from "./utils/testWithServiceTypes";
+import chai from "chai";
 import { createMockServer } from "./utils/mockService";
+import debugModule from "debug";
+import { testWithServiceTypes } from "./utils/testWithServiceTypes";
 
+const debug = debugModule("azure:event-hubs:receiver-spec");
 const should = chai.should();
 
 testWithServiceTypes((serviceVersion) => {

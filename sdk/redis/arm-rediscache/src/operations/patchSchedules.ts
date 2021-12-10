@@ -11,7 +11,7 @@ import { PatchSchedules } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { RedisManagementClientContext } from "../redisManagementClientContext";
+import { RedisManagementClient } from "../redisManagementClient";
 import {
   RedisPatchSchedule,
   PatchSchedulesListByRedisResourceNextOptionalParams,
@@ -29,13 +29,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing PatchSchedules operations. */
 export class PatchSchedulesImpl implements PatchSchedules {
-  private readonly client: RedisManagementClientContext;
+  private readonly client: RedisManagementClient;
 
   /**
    * Initialize a new instance of the class PatchSchedules class.
    * @param client Reference to the service client
    */
-  constructor(client: RedisManagementClientContext) {
+  constructor(client: RedisManagementClient) {
     this.client = client;
   }
 
