@@ -10,6 +10,7 @@ param (
   [string]$RepoName
 )
 
+# This script will reset the repo and any changes in tracked files will be lost.
 
 $dependencyUpgradeLabel = "dependency-upgrade-required"
 $dependencyRegex = "^\+\s(?<pkg>[\S]*)\s(?<version>[\S]*)\s\((?<newVersion>[0-9\.a-b]*).*\)\s?(?<deprecated>deprecated)?"
@@ -105,5 +106,6 @@ catch {
   exit 1
 }
 finally {
+  git reset --hard
   rush unlink & git clean -xdf
 }
