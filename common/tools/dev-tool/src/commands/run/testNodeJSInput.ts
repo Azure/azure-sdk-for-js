@@ -17,9 +17,9 @@ export const commandInfo = makeCommandInfo(
   }
 );
 
-export default leafCommand(commandInfo, async (options) => {
+export default leafCommand(commandInfo, async (_options) => {
   return runTestsWithProxyTool({
-    command: `nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --full-trace ${options.mocha}`,
+    command: `nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --full-trace --timeout 1200000 \"dist-test/index.node.js\"`,
     name: "node-tests"
   });
 });
