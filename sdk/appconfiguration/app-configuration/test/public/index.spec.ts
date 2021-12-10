@@ -730,7 +730,7 @@ describe("AppConfigurationClient", () => {
       assert.ok(foundMyExactSettingToo);
     });
 
-    it("list with multiple pages", async function() {
+    it.only("list with multiple pages", async function() {
       // This occasionally hits 429 error (throttling) since we are making 100s of requests in the test to create, get and delete keys.
       // To avoid hitting the service with too many requests, skipping the test in live.
       // More details at https://github.com/Azure/azure-sdk-for-js/issues/16743
