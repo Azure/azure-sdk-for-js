@@ -1,23 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
-import { Context } from "mocha";
-import { createSandbox } from "sinon";
-import { env, Recorder } from "@azure-tools/test-recorder";
-
-import {
-  AuthenticationChallengeCache,
-  AuthenticationChallenge,
-  parseWWWAuthenticate,
-  challengeBasedAuthenticationPolicy
-} from "../../../keyvault-common/src";
-import { KeyClient } from "../../src";
-import { authenticate } from "../utils/testAuthentication";
-import TestClient from "../utils/testClient";
-import { getServiceVersion } from "../utils/utils.common";
-import { HttpHeaders, isNode, WebResource } from "@azure/core-http";
+import { AuthenticationChallenge, AuthenticationChallengeCache, challengeBasedAuthenticationPolicy, parseWWWAuthenticate } from "../../../keyvault-common/src";
+import { HttpHeaders, WebResource, isNode } from "@azure/core-http";
+import { Recorder, env } from "@azure-tools/test-recorder";
 import { ClientSecretCredential } from "@azure/identity";
+import { Context } from "mocha";
+import { KeyClient } from "../../src";
+import TestClient from "../utils/testClient";
+import { assert } from "chai";
+import { authenticate } from "../utils/testAuthentication";
+import { createSandbox } from "sinon";
+import { getServiceVersion } from "../utils/utils.common";
 import sinon from "sinon";
 
 // Following the philosophy of not testing the insides if we can test the outsides...

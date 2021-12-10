@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { SupportedVersions, supports, TestFunctionWrapper } from "@azure/test-utils";
-import { env } from "@azure-tools/test-recorder";
 import * as assert from "assert";
+import { SupportedVersions, TestFunctionWrapper, supports } from "@azure/test-utils";
 import { LATEST_API_VERSION } from "../../src/keysModels";
+import { env } from "@azure-tools/test-recorder";
 
 export function getKeyvaultName(): string {
   const keyVaultEnvVarName = "KEYVAULT_NAME";

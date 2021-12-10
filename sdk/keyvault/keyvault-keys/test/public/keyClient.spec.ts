@@ -1,32 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { CreateEcKeyOptions, GetKeyOptions, KeyClient, UpdateKeyPropertiesOptions } from "../../src";
+import { Recorder, env, isPlaybackMode, isRecordMode } from "@azure-tools/test-recorder";
+import { assertThrowsAbortError, getServiceVersion, isPublicCloud, onVersions } from "../utils/utils.common";
 import chai, { assert } from "chai";
-import chaiExclude from "chai-exclude";
-import chaiAsPromised from "chai-as-promised";
-chai.use(chaiExclude);
-chai.use(chaiAsPromised);
+import { AbortController } from "@azure/abort-controller";
 import { Context } from "mocha";
 import { RestError } from "@azure/core-http";
-import { AbortController } from "@azure/abort-controller";
-import { env, isPlaybackMode, isRecordMode, Recorder } from "@azure-tools/test-recorder";
-
-import {
-  KeyClient,
-  CreateEcKeyOptions,
-  UpdateKeyPropertiesOptions,
-  GetKeyOptions
-} from "../../src";
-import {
-  assertThrowsAbortError,
-  getServiceVersion,
-  isPublicCloud,
-  onVersions
-} from "../utils/utils.common";
-import { testPollerProperties } from "../utils/recorderUtils";
-import { authenticate } from "../utils/testAuthentication";
 import TestClient from "../utils/testClient";
+import { authenticate } from "../utils/testAuthentication";
+import chaiAsPromised from "chai-as-promised";
+import chaiExclude from "chai-exclude";
 import { supportsTracing } from "../../../keyvault-common/test/utils/supportsTracing";
+import { testPollerProperties } from "../utils/recorderUtils";
+
+chai.use(chaiExclude);
+chai.use(chaiAsPromised);
 
 describe("Keys client - create, read, update and delete operations", () => {
   const keyPrefix = `CRUD${env.KEY_NAME || "KeyName"}`;

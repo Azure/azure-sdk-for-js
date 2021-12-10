@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
-import { Context } from "mocha";
-import { env, Recorder } from "@azure-tools/test-recorder";
-import { KeyClient } from "../../src";
-import { authenticate } from "../utils/testAuthentication";
-import TestClient from "../utils/testClient";
 import { CreateOctKeyOptions, KnownKeyExportEncryptionAlgorithm } from "../../src/keysModels";
-import { getServiceVersion, onVersions } from "../utils/utils.common";
-import { supportsTracing } from "../../../keyvault-common/test/utils/supportsTracing";
-import { createRsaKey, stringToUint8Array, uint8ArrayToString } from "../utils/crypto";
 import { DefaultHttpClient, WebResource } from "@azure/core-http";
+import { Recorder, env } from "@azure-tools/test-recorder";
+import { createRsaKey, stringToUint8Array, uint8ArrayToString } from "../utils/crypto";
+import { getServiceVersion, onVersions } from "../utils/utils.common";
+import { Context } from "mocha";
+import { KeyClient } from "../../src";
+import TestClient from "../utils/testClient";
+import { assert } from "chai";
+import { authenticate } from "../utils/testAuthentication";
+import { supportsTracing } from "../../../keyvault-common/test/utils/supportsTracing";
 
 onVersions({ minVer: "7.2" }).describe(
   "Keys client - create, read, update and delete operations for managed HSM",

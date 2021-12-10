@@ -1,19 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Context } from "mocha";
-import { KeyClient, CryptographyClient, SignatureAlgorithm, KeyVaultKey } from "../../src";
 import * as chai from "chai";
-import chaiAsPromised from "chai-as-promised";
-chai.use(chaiAsPromised);
-import { isNode } from "@azure/core-http";
-import { createHash } from "crypto";
-import { authenticate } from "../utils/testAuthentication";
-import TestClient from "../utils/testClient";
+import { CryptographyClient, KeyClient, KeyVaultKey, SignatureAlgorithm } from "../../src";
 import { Recorder, env } from "@azure-tools/test-recorder";
 import { ClientSecretCredential } from "@azure/identity";
+import { Context } from "mocha";
 import { RsaCryptographyProvider } from "../../src/cryptography/rsaCryptographyProvider";
+import TestClient from "../utils/testClient";
+import { authenticate } from "../utils/testAuthentication";
+import chaiAsPromised from "chai-as-promised";
+import { createHash } from "crypto";
 import { getServiceVersion } from "../utils/utils.common";
+import { isNode } from "@azure/core-http";
+
+chai.use(chaiAsPromised);
 const { assert } = chai;
 
 describe("Local cryptography public tests", () => {

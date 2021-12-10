@@ -3,6 +3,88 @@
 /* eslint @typescript-eslint/member-ordering: 0 */
 /// <reference lib="esnext.asynciterable" />
 
+import "@azure/core-paging";
+import {
+  AesCbcDecryptParameters,
+  AesCbcEncryptParameters,
+  AesCbcEncryptionAlgorithm,
+  AesGcmDecryptParameters,
+  AesGcmEncryptParameters,
+  AesGcmEncryptionAlgorithm,
+  DecryptOptions,
+  DecryptParameters,
+  DecryptResult,
+  EncryptOptions,
+  EncryptParameters,
+  EncryptResult,
+  EncryptionAlgorithm,
+  KeyCurveName,
+  KeyWrapAlgorithm,
+  KnownEncryptionAlgorithms,
+  KnownKeyCurveNames,
+  KnownSignatureAlgorithms,
+  RsaDecryptParameters,
+  RsaEncryptParameters,
+  RsaEncryptionAlgorithm,
+  SignOptions,
+  SignResult,
+  SignatureAlgorithm,
+  UnwrapKeyOptions,
+  UnwrapResult,
+  VerifyDataOptions,
+  VerifyOptions,
+  VerifyResult,
+  WrapKeyOptions,
+  WrapResult
+} from "./cryptographyClientModels";
+import {
+  BackupKeyOptions,
+  BeginDeleteKeyOptions,
+  BeginRecoverDeletedKeyOptions,
+  CreateEcKeyOptions,
+  CreateKeyOptions,
+  CreateOctKeyOptions,
+  CreateRsaKeyOptions,
+  CryptographyClientOptions,
+  CryptographyOptions,
+  DeletedKey,
+  GetCryptographyClientOptions,
+  GetDeletedKeyOptions,
+  GetKeyOptions,
+  GetKeyRotationPolicyOptions,
+  GetRandomBytesOptions,
+  ImportKeyOptions,
+  JsonWebKey,
+  KeyClientOptions,
+  KeyExportEncryptionAlgorithm,
+  KeyOperation,
+  KeyPollerOptions,
+  KeyProperties,
+  KeyReleasePolicy,
+  KeyRotationLifetimeAction,
+  KeyRotationPolicy,
+  KeyRotationPolicyAction,
+  KeyRotationPolicyProperties,
+  KeyType,
+  KeyVaultKey,
+  KnownKeyExportEncryptionAlgorithm,
+  KnownKeyOperations,
+  KnownKeyTypes,
+  LATEST_API_VERSION,
+  ListDeletedKeysOptions,
+  ListPropertiesOfKeyVersionsOptions,
+  ListPropertiesOfKeysOptions,
+  PurgeDeletedKeyOptions,
+  ReleaseKeyOptions,
+  ReleaseKeyResult,
+  RestoreKeyBackupOptions,
+  RotateKeyOptions,
+  UpdateKeyPropertiesOptions,
+  UpdateKeyRotationPolicyOptions
+} from "./keysModels";
+import { DeletionRecoveryLevel, KeyVaultClientGetKeysOptionalParams, KnownDeletionRecoveryLevel, KnownJsonWebKeyType } from "./generated/models";
+import { KeyVaultKeyIdentifier, parseKeyVaultKeyIdentifier } from "./identifier";
+import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   PipelineOptions,
   TokenCredential,
@@ -10,116 +92,16 @@ import {
   isTokenCredential,
   signingPolicy
 } from "@azure/core-http";
-
-import { logger } from "./log";
-
-import "@azure/core-paging";
-import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
-
-import {
-  DeletionRecoveryLevel,
-  KnownDeletionRecoveryLevel,
-  KeyVaultClientGetKeysOptionalParams,
-  KnownJsonWebKeyType
-} from "./generated/models";
+import { PollOperationState, PollerLike } from "@azure/core-lro";
+import { getDeletedKeyFromDeletedKeyItem, getKeyFromKeyBundle, getKeyPropertiesFromKeyItem, keyRotationTransformations } from "./transformations";
+import { CryptographyClient } from "./cryptographyClient";
+import { DeleteKeyPoller } from "./lro/delete/poller";
 import { KeyVaultClient } from "./generated/keyVaultClient";
+import { RecoverDeletedKeyPoller } from "./lro/recover/poller";
 import { SDK_VERSION } from "./constants";
 import { challengeBasedAuthenticationPolicy } from "../../keyvault-common/src";
-
-import { DeleteKeyPoller } from "./lro/delete/poller";
-import { RecoverDeletedKeyPoller } from "./lro/recover/poller";
-
-import {
-  BackupKeyOptions,
-  CreateEcKeyOptions,
-  CreateKeyOptions,
-  CreateRsaKeyOptions,
-  CryptographyOptions,
-  DeletedKey,
-  GetDeletedKeyOptions,
-  GetKeyOptions,
-  ImportKeyOptions,
-  JsonWebKey,
-  KeyOperation,
-  KnownKeyOperations,
-  KeyPollerOptions,
-  KeyType,
-  KnownKeyTypes,
-  KnownKeyExportEncryptionAlgorithm,
-  BeginDeleteKeyOptions,
-  BeginRecoverDeletedKeyOptions,
-  KeyProperties,
-  KeyVaultKey,
-  ListPropertiesOfKeysOptions,
-  ListPropertiesOfKeyVersionsOptions,
-  ListDeletedKeysOptions,
-  PurgeDeletedKeyOptions,
-  RestoreKeyBackupOptions,
-  UpdateKeyPropertiesOptions,
-  KeyClientOptions,
-  CryptographyClientOptions,
-  LATEST_API_VERSION,
-  CreateOctKeyOptions,
-  GetRandomBytesOptions,
-  ReleaseKeyOptions,
-  ReleaseKeyResult,
-  KeyReleasePolicy,
-  KeyExportEncryptionAlgorithm,
-  GetCryptographyClientOptions,
-  RotateKeyOptions,
-  UpdateKeyRotationPolicyOptions,
-  GetKeyRotationPolicyOptions,
-  KeyRotationLifetimeAction,
-  KeyRotationPolicy,
-  KeyRotationPolicyProperties,
-  KeyRotationPolicyAction
-} from "./keysModels";
-
-import { CryptographyClient } from "./cryptographyClient";
-
-import {
-  DecryptResult,
-  KeyCurveName,
-  KnownKeyCurveNames,
-  EncryptionAlgorithm,
-  KnownEncryptionAlgorithms,
-  SignatureAlgorithm,
-  KnownSignatureAlgorithms,
-  KeyWrapAlgorithm,
-  SignResult,
-  UnwrapResult,
-  VerifyResult,
-  WrapResult,
-  EncryptResult,
-  DecryptOptions,
-  EncryptOptions,
-  SignOptions,
-  UnwrapKeyOptions,
-  VerifyOptions,
-  WrapKeyOptions,
-  EncryptParameters,
-  DecryptParameters,
-  RsaEncryptionAlgorithm,
-  RsaEncryptParameters,
-  AesGcmEncryptionAlgorithm,
-  AesCbcEncryptionAlgorithm,
-  AesCbcEncryptParameters,
-  AesGcmEncryptParameters,
-  AesCbcDecryptParameters,
-  AesGcmDecryptParameters,
-  RsaDecryptParameters,
-  VerifyDataOptions
-} from "./cryptographyClientModels";
-
-import { KeyVaultKeyIdentifier, parseKeyVaultKeyIdentifier } from "./identifier";
-import {
-  getDeletedKeyFromDeletedKeyItem,
-  getKeyFromKeyBundle,
-  getKeyPropertiesFromKeyItem,
-  keyRotationTransformations
-} from "./transformations";
 import { createTraceFunction } from "../../keyvault-common/src";
+import { logger } from "./log";
 
 export {
   CryptographyClientOptions,

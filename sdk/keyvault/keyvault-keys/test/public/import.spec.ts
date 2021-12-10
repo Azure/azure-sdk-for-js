@@ -2,14 +2,13 @@
 // Licensed under the MIT license.
 
 import * as assert from "assert";
+import { Recorder, env } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
-import { env, Recorder } from "@azure-tools/test-recorder";
-
 import { KeyClient } from "../../src";
-import { authenticate } from "../utils/testAuthentication";
 import TestClient from "../utils/testClient";
-import { getServiceVersion } from "../utils/utils.common";
+import { authenticate } from "../utils/testAuthentication";
 import { createRsaKey } from "../utils/crypto";
+import { getServiceVersion } from "../utils/utils.common";
 
 describe("Keys client - import keys", () => {
   const prefix = `import${env.CERTIFICATE_NAME || "KeyName"}`;

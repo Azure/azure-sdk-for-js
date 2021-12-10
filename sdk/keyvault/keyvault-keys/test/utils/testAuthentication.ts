@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ClientSecretCredential } from "@azure/identity";
-import { KeyClient } from "../../src";
-import { env, record, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
-import { uniqueString } from "./recorderUtils";
-import TestClient from "./testClient";
-import { Context } from "mocha";
+import { RecorderEnvironmentSetup, env, record } from "@azure-tools/test-recorder";
 import { fromBase64url, toBase64url } from "./base64url";
+import { ClientSecretCredential } from "@azure/identity";
+import { Context } from "mocha";
+import { KeyClient } from "../../src";
+import TestClient from "./testClient";
+import { uniqueString } from "./recorderUtils";
 
 const replaceableVariables = {
   AZURE_CLIENT_ID: "azure_client_id",

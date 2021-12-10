@@ -1,12 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  createHash as cryptoCreateHash,
-  createVerify as cryptoCreateVerify,
-  Verify,
-  randomBytes as cryptoRandomBytes
-} from "crypto";
+import { Verify, createHash as cryptoCreateHash, createVerify as cryptoCreateVerify, randomBytes as cryptoRandomBytes } from "crypto";
 
 /**
  * @internal
