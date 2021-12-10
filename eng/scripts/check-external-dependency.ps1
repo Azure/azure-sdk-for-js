@@ -109,7 +109,3 @@ catch {
   Write-Error "Failed to check available new versions of external dependency."
   exit 1
 }
-finally {
-  git reset --hard
-  rush unlink & git clean -xdf
-}
