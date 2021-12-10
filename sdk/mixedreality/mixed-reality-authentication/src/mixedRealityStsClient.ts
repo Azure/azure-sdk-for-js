@@ -3,8 +3,17 @@
 
 import { AccessToken, AzureKeyCredential } from "@azure/core-auth";
 import { GetTokenOptions, MixedRealityStsClientOptions } from "./models/options";
-import { InternalPipelineOptions, TokenCredential, bearerTokenAuthenticationPolicy, createPipelineFromOptions } from "@azure/core-http";
-import { MixedRealityStsRestClient, MixedRealityStsRestClientGetTokenOptionalParams, MixedRealityStsRestClientOptionalParams } from "./generated";
+import {
+  InternalPipelineOptions,
+  TokenCredential,
+  bearerTokenAuthenticationPolicy,
+  createPipelineFromOptions
+} from "@azure/core-http";
+import {
+  MixedRealityStsRestClient,
+  MixedRealityStsRestClientGetTokenOptionalParams,
+  MixedRealityStsRestClientOptionalParams
+} from "./generated";
 import { MixedRealityAccountKeyCredential } from "./models/auth";
 import { SDK_VERSION } from "./constants";
 import { SpanStatusCode } from "@azure/core-tracing";
