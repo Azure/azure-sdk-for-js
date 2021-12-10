@@ -15,34 +15,10 @@ export class TestInstrumenter implements Instrumenter {
   public contexts: TracingContext[] = [new ContextImpl()];
   public startedSpans: TestTracingSpan[] = [];
 
-  // TODO: spanOptions.tracingContext should be renamed to existingContext?
   startSpan(
     name: string,
     spanOptions?: InstrumenterSpanOptions
   ): { span: TracingSpan; tracingContext: TracingContext } {
-    /**
-     *     
-     * 
-    const parentContext = getSpanContext(context || otContext.active());
-
-    let traceId: string;
-    let isRootSpan = false;
-
-    if (parentContext && parentContext.traceId) {
-      traceId = parentContext.traceId;
-    } else {
-      traceId = this.getNextTraceId();
-      isRootSpan = true;
-    }
-
-    const spanContext: SpanContext = {
-      traceId,
-      spanId: this.getNextSpanId(),
-      traceFlags: TraceFlags.NONE
-    };
-    const span = new TestSpan(this, name, spanContext, parentContext?.spanId, options);
-     * 
-     */
     const span = new TestTracingSpan(name, spanOptions?.tracingContext, spanOptions);
     let context: TracingContext = new ContextImpl(spanOptions?.tracingContext);
     context = context.setValue(Symbol.for("span"), span);
