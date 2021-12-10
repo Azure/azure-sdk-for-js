@@ -53,7 +53,10 @@ function Set-GitHubIssue($Package) {
 
   $issue = Get-GithubIssue -PackageName $Package.Name -IsDeprecated $Package.IsDeprecated
   if ($issue) {
-    Update-GitHubIssue -RepoOwner $RepoOwner -RepoName $RepoName -AuthToken $AuthToken -IssueNumber $issue.number -Body $issueDesc
+    if ($issue.body -ne $issueDesc) {
+      $oldIssue = Update-GitHubIssue -RepoOwner $RepoOwner -RepoName $RepoName -AuthToken $AuthToken -IssueNumber $issue.number -Body $issueDesc
+      Write-Host "Updated existing issue $($oldIssue.number)"
+    }    
   }
   else {
     $newIssue = New-GitHubIssue -RepoOwner $RepoOwner -RepoName $RepoName -AuthToken $AuthToken -Title $issueTitle -Description $issueDesc  
