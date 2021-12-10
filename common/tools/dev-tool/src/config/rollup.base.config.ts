@@ -84,9 +84,16 @@ function ignoreChaiCircularDependencyWarnings(warning: RollupWarning): boolean {
   );
 }
 
+function ignoreOpenTelemetryThisIsUndefinedWarnings(warning: RollupWarning): boolean {
+  return (
+    warning.code === "THIS_IS_UNDEFINED" && warning.id?.includes("@opentelemetry/api") === true
+  );
+}
+
 const warningInhibitors: Array<(warning: RollupWarning) => boolean> = [
   ignoreChaiCircularDependencyWarnings,
-  ignoreNiseSinonEvalWarnings
+  ignoreNiseSinonEvalWarnings,
+  ignoreOpenTelemetryThisIsUndefinedWarnings
 ];
 
 /**
