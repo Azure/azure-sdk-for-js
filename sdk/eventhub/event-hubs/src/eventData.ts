@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { DeliveryAnnotations, Message as RheaMessage, MessageAnnotations } from "rhea-promise";
 import { AmqpAnnotatedMessage, Constants } from "@azure/core-amqp";
-import { isDefined, isObjectWithProperties, objectHasProperty } from "./util/typeGuards";
 import { BodyTypes, defaultDataTransformer } from "./dataTransformer";
+import { DeliveryAnnotations, MessageAnnotations, Message as RheaMessage } from "rhea-promise";
+import { isDefined, isObjectWithProperties, objectHasProperty } from "./util/typeGuards";
 
 /**
  * Describes the delivery annotations.
