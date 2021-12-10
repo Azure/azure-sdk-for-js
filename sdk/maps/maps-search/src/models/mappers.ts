@@ -45,6 +45,16 @@ import { OperationOptions } from "@azure/core-client";
 /**
  * @internal
  */
+export function toLatLon(lat: number, lon: number): LatLon {
+  return {
+    latitude: lat,
+    longitude: lon
+  };
+}
+
+/**
+ * @internal
+ */
 export function toLatLonString(coordinates: LatLon): string {
   return `${coordinates.latitude},${coordinates.longitude}`;
 }
@@ -56,7 +66,7 @@ export function mapLatLongPairAbbreviatedToLatLon(
   latLongAbbr?: LatLongPairAbbreviated
 ): LatLon | undefined {
   if (latLongAbbr && latLongAbbr.lat && latLongAbbr.lon) {
-    return new LatLon(latLongAbbr.lat, latLongAbbr.lon);
+    return toLatLon(latLongAbbr.lat, latLongAbbr.lon);
   } else {
     return undefined;
   }
@@ -72,11 +82,21 @@ export function mapStringToLatLon(LatLonStr?: string): LatLon | undefined {
       const lat = Number(LatLonArray[0]);
       const lon = Number(LatLonArray[1]);
       if (!isNaN(lat) && !isNaN(lon)) {
-        return new LatLon(lat, lon);
+        return toLatLon(lat, lon);
       }
     }
   }
   return undefined;
+}
+
+/**
+ * @internal
+ */
+export function toBoundingBox(topLeft: LatLon, bottomRight: LatLon): BoundingBox {
+  return {
+    topLeft: topLeft,
+    bottomRight: bottomRight
+  };
 }
 
 /**
@@ -87,7 +107,7 @@ export function mapBoundingBox(bbox?: BoundingBoxInternal): BoundingBox | undefi
     const topLeft = mapLatLongPairAbbreviatedToLatLon(bbox.topLeft);
     const bottomRight = mapLatLongPairAbbreviatedToLatLon(bbox.bottomRight);
     if (topLeft && bottomRight) {
-      return new BoundingBox(topLeft, bottomRight);
+      return toBoundingBox(topLeft, bottomRight);
     }
   }
   return undefined;
@@ -103,9 +123,9 @@ export function mapBoundingBoxFromCompassNotation(
     const topLeftCoords = bbox.northEast.split(",").map((s) => Number(s));
     const bottomRightCoords = bbox.southWest.split(",").map((s) => Number(s));
     if (topLeftCoords.length !== 2 || bottomRightCoords.length !== 2) {
-      return new BoundingBox(
-        new LatLon(topLeftCoords[0], topLeftCoords[1]),
-        new LatLon(bottomRightCoords[0], bottomRightCoords[1])
+      return toBoundingBox(
+        toLatLon(topLeftCoords[0], topLeftCoords[1]),
+        toLatLon(bottomRightCoords[0], bottomRightCoords[1])
       );
     }
   }
@@ -279,7 +299,7 @@ export function mapSearchAddressResult(
         address: mapAddress(ir.address),
         position:
           ir.position && ir.position.lat && ir.position.lon
-            ? new LatLon(ir.position.lat, ir.position.lon)
+            ? toLatLon(ir.position.lat, ir.position.lon)
             : undefined,
         viewport: mapBoundingBox(ir.viewport),
         entryPoints: ir.entryPoints?.map((p) => {
