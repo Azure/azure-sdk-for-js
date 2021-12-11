@@ -11,7 +11,7 @@ import { makeConfig, makeBrowserTestConfig } from "@azure/dev-tool/shared-config
 const inputs = makeConfig(require("./package.json"));
 
 if (!process.env.ONLY_NODE) {
-  // service-bus has many dependencies that we do not
+  // event-hubs has many dependencies that we do not
   // want to bring into the shared rollup config, so
   // replace the original test config with a patched one
   inputs[1] = makeBrowserTestConfigPatch();
@@ -36,13 +36,7 @@ function makeBrowserTestConfigPatch() {
     // fs, net, and tls are used by rhea and need to be shimmed
     // dotenv doesn't work in the browser, so replace it with a no-op function
     shim({
-      fs: `export default {}`,
-      net: `export default {}`,
-      tls: `export default {}`,
-      dotenv: `export function config() { }`,
-      path: `export default {}`,
-      dns: `export function resolve() { }`,
-      glob: `export default {}`
+      dotenv: `export function config() { }`
     }),
     nodeResolve({
       mainFields: ["module", "browser"],
@@ -50,8 +44,6 @@ function makeBrowserTestConfigPatch() {
     }),
     cjs({
       namedExports: {
-        events: ["EventEmitter"],
-        long: ["ZERO"],
         chai: ["should", "assert"]
       }
     }),
