@@ -23,13 +23,14 @@ export const DEFAULT_CLIENT_MAX_RETRY_COUNT = 3;
  * https://docs.microsoft.com/en-us/azure/azure-subscription-service-limits and
  * https://docs.microsoft.com/en-us/azure/virtual-machines/troubleshooting/troubleshooting-throttling-errors
  */
-export function throttlingRetryPolicy(): PipelinePolicy {
+export function throttlingRetryPolicy(maxRetryCount?: number): PipelinePolicy {
   return {
     name: throttlingRetryPolicyName,
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
       let response = await next(request);
+      const chosenMaxRetryCount = maxRetryCount ?? DEFAULT_CLIENT_MAX_RETRY_COUNT;
 
-      for (let count = 0; count < DEFAULT_CLIENT_MAX_RETRY_COUNT; count++) {
+      for (let count = 0; count < chosenMaxRetryCount; count++) {
         if (response.status !== 429 && response.status !== 503) {
           return response;
         }

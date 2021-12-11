@@ -10,6 +10,7 @@ import { TokenCredential, ClientSecretCredential } from "@azure/identity";
 
 import { AzureKeyCredential, TextAnalyticsClient, TextAnalyticsClientOptions } from "../../../src/";
 import "./env";
+import { throttlingRetryPolicy } from "@azure/core-rest-pipeline";
 
 const replaceableVariables: { [k: string]: string } = {
   AZURE_CLIENT_ID: "azure_client_id",
@@ -72,11 +73,22 @@ export function createClient(
       throw Error(`Unsupported authentication method: ${authMethod}`);
     }
   }
-  return new TextAnalyticsClient(
+  const client = new TextAnalyticsClient(
     env.ENDPOINT || "https://dummy.cognitiveservices.azure.com/",
     credential,
     options
   );
+
+  /**
+   * The service's rate limit is sometimes reached for the beginAnalyzeActoins tests
+   * because of the many calls the tests send. It appears that retrying only 3 times
+   * (the default) is not enough so I am increasing the number here to 10.
+   */
+  client["client"].pipeline.removePolicy({
+    name: "throttlingRetryPolicy"
+  });
+  client["client"].pipeline.addPolicy(throttlingRetryPolicy(10));
+  return client;
 }
 
 /**

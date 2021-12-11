@@ -323,7 +323,7 @@ export interface SystemErrorRetryPolicyOptions {
 }
 
 // @public
-export function throttlingRetryPolicy(): PipelinePolicy;
+export function throttlingRetryPolicy(maxRetryCount?: number): PipelinePolicy;
 
 // @public
 export const throttlingRetryPolicyName = "throttlingRetryPolicy";
