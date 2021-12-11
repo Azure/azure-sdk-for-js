@@ -1648,6 +1648,7 @@ packages:
   /@opentelemetry/node/0.22.0_@opentelemetry+api@1.0.3:
     resolution: {integrity: sha512-+HhGbDruQ7cwejVOIYyxRa28uosnG8W95NiQZ6qE8PXXPsDSyGeftAPbtYpGit0H2f5hrVcMlwmWHeAo9xkSLA==}
     engines: {node: '>=8.0.0'}
+    deprecated: Package renamed to @opentelemetry/sdk-trace-node
     peerDependencies:
       '@opentelemetry/api': ^1.0.0
     dependencies:
@@ -5939,8 +5940,8 @@ packages:
       semver: 5.7.1
     dev: false
 
-  /node-abort-controller/1.2.1:
-    resolution: {integrity: sha512-79PYeJuj6S9+yOHirR0JBLFOgjB6sQCir10uN6xRx25iD+ZD4ULqgRn3MwWBRaQGB0vEgReJzWwJo42T1R6YbQ==}
+  /node-abort-controller/3.0.1:
+    resolution: {integrity: sha512-/ujIVxthRs+7q6hsdjHMaj8hRG9NuWmwrz+JdRwZ14jdFoKSkm+vDsCbF9PLpnSqjaWQJuTmVtcWHNLr+vrOFw==}
     dev: false
 
   /node-addon-api/3.2.1:
@@ -9586,7 +9587,7 @@ packages:
     dev: false
 
   file:projects/arm-rediscache.tgz:
-    resolution: {integrity: sha512-fiy6Vhv19bezcOW5slJhYJBE1cOtziVWRYGGQ6mOmyzatTT1nBsYnPClz9v5O1OeJmCvGTFfaKQn9dcRbzHD8w==, tarball: file:projects/arm-rediscache.tgz}
+    resolution: {integrity: sha512-aOAyRJHWE7GUOtUWaHTiFCa3SurFmsvsG3u8DDDBAGlXVxSc0OCKPfyr0RkqL8k+N2dsS1s5qVzSWPfKuaP1mA==, tarball: file:projects/arm-rediscache.tgz}
     name: '@rush-temp/arm-rediscache'
     version: 0.0.0
     dependencies:
@@ -11126,7 +11127,7 @@ packages:
     dev: false
 
   file:projects/cosmos.tgz:
-    resolution: {integrity: sha512-AeGLDOv/hdOpUCcWJdDLbcQKTgi6zgcAFcAP4mNkTCAU5QvHVAz2bc1xQaeA336B4YWb2JC51wS8vVMRLQGZAw==, tarball: file:projects/cosmos.tgz}
+    resolution: {integrity: sha512-Pz1pN92p604dS/NMZHVYHn8LsMANsPxp5eGK4726AHJs4phugA1uQih4edKZwWqA7GIOnM2mI88vb12y4nBs5A==, tarball: file:projects/cosmos.tgz}
     name: '@rush-temp/cosmos'
     version: 0.0.0
     dependencies:
@@ -11153,7 +11154,7 @@ packages:
       jsbi: 3.2.5
       mocha: 7.2.0
       mocha-junit-reporter: 1.23.3_mocha@7.2.0
-      node-abort-controller: 1.2.1
+      node-abort-controller: 3.0.1
       prettier: 1.19.1
       priorityqueuejs: 1.0.0
       requirejs: 2.3.6
@@ -11913,7 +11914,7 @@ packages:
     dev: false
 
   file:projects/keyvault-admin.tgz:
-    resolution: {integrity: sha512-iVMo9LqkOfoBXihdqtxPmSvoQmPi9zFZ4fFpL0h1M9TpOP08eeRAmA5TFp4Cxcy7qZly3F6IHz8lRe3LNC7usA==, tarball: file:projects/keyvault-admin.tgz}
+    resolution: {integrity: sha512-OyURQxizosuo3i4RBplxomEu7CCGDoC9rXSzNGbc8Lxt+Ph3yH55Tc3cQIP4mJwQftEzrBtxYNy4KIN5+SLoyQ==, tarball: file:projects/keyvault-admin.tgz}
     name: '@rush-temp/keyvault-admin'
     version: 0.0.0
     dependencies:
@@ -12034,7 +12035,7 @@ packages:
     dev: false
 
   file:projects/keyvault-keys.tgz:
-    resolution: {integrity: sha512-lB2NNpBNlKc+zxXdpmP+QVhTk/E5Vpk1Rs4stsDAxfEcyDna4byDIh2ZfRZ+A77UB+Ye7nM7slOs5KK+pPrDzw==, tarball: file:projects/keyvault-keys.tgz}
+    resolution: {integrity: sha512-LCbWXfT8sNOffw73m/zINu+mL/bHfz+tke82E3tCNpgoHOnxNbwUVTec9l2gkb7podZaoG7/OJmUC9IF3YwkjA==, tarball: file:projects/keyvault-keys.tgz}
     name: '@rush-temp/keyvault-keys'
     version: 0.0.0
     dependencies:
