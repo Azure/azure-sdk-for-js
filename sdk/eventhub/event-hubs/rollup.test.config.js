@@ -22,17 +22,14 @@ function makeBrowserTestConfigPatch() {
   config.plugins = [
     multiEntry({ exports: false }),
     sourcemaps(),
-    replace(
-      // ms-rest-js is externalized so users must include it prior to using this bundle.
-      {
-        delimiters: ["", ""],
-        // replace dynamic checks with if (false) since this is for
-        // browser only. Rollup's dead code elimination will remove
-        // any code guarded by if (isNode) { ... }
-        "if (isNode)": "if (false)",
-        "if (!isNode)": "if (true)"
-      }
-    ),
+    replace({
+      delimiters: ["", ""],
+      // replace dynamic checks with if (false) since this is for
+      // browser only. Rollup's dead code elimination will remove
+      // any code guarded by if (isNode) { ... }
+      "if (isNode)": "if (false)",
+      "if (!isNode)": "if (true)"
+    }),
     // fs, net, and tls are used by rhea and need to be shimmed
     // dotenv doesn't work in the browser, so replace it with a no-op function
     shim({
