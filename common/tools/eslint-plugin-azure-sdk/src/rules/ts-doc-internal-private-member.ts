@@ -39,23 +39,19 @@ const reportInternal = (
       (modifier: Modifier): boolean => modifier.kind === SyntaxKind.PrivateKeyword)
   ) {
     // fetch all tags
-    let TSDocTags: string[] = [];
     tsNode.jsDoc.forEach((TSDocComment: any): void => {
-      TSDocTags = TSDocTags.concat(
-        TSDocComment.tags !== undefined
-          ? TSDocComment.tags.map((TSDocTag: any): string => TSDocTag.tagName.escapedText)
-            .filter((TSDocTag: any) => TSDocTag.match(/internal/))
-          : []
-      );
+      if (TSDocComment.tags !== undefined) {
+        TSDocComment.tags.forEach((TSDocTag: any): void => {
+          // check if any tags match internal
+          if (TSDocTag.tagName.escapedText.match(/internal/)) {
+            context.report({
+              node: node,
+              message: "private class members should not include an @internal tag"
+            });
+          }
+        });
+      }
     });
-
-    // see if any tags match internal
-    if (TSDocTags.length > 0) {
-      context.report({
-        node: node,
-        message: "private class members should not include an @internal tag"
-      });
-    }
   }
 };
 
@@ -77,14 +73,10 @@ export = {
     const converter = parserServices.esTreeNodeToTSNodeMap;
 
     return {
-      // callback functions
-
-      // container declarations
-      ":matches(TSInterfaceDeclaration, ClassDeclaration, TSModuleDeclaration)": (
+      ":matches(ClassDeclaration)": (
         node: Node
       ): void => reportInternal(node, context, converter),
 
-      // functions
       ":function": (node: Node): void => {
         reportInternal(node, context, converter);
       }
