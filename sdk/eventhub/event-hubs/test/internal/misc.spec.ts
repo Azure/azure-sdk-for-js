@@ -16,8 +16,7 @@ import {
 } from "../../src/diagnostics/instrumentEventData";
 import { SubscriptionHandlerForTests } from "../public/utils/subscriptionHandlerForTests";
 import { TraceFlags } from "@azure/core-tracing";
-import assert from "assert";
-import chai from "chai";
+import chai, { assert } from "chai";
 import chaiAsPromised from "chai-as-promised";
 import { createMockServer } from "../public/utils/mockService";
 import debugModule from "debug";
