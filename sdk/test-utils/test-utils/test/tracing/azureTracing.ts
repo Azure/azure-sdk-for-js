@@ -27,17 +27,19 @@ async function supportsTracing<
       tracingContext: tracingContext
     }
   } as Options;
-  // TODO: pass in callback options and spanOptions
   await callback.call(undefined, newOptions);
   console.log(callback.name);
-  assert.equal(instrumenter.startedSpans.length, 1);
-  assert.equal(instrumenter.startedSpans[0].name, "root");
+  // TODO: this expectation should be: assert only 1 _root_ span
+  const spanGraph = getSpanGraph(rootSpan.spanContext.traceId, instrumenter);
+  console.log(JSON.stringify(spanGraph, null, 2));
+  assert.equal(spanGraph.roots.length, 1, "There should be just one root span");
+  assert.equal(spanGraph.roots[0].name, "root");
   assert.strictEqual(
     rootSpan,
     instrumenter.startedSpans[0],
     "The root span should match what was passed in."
   );
-  const spanGraph = getSpanGraph(rootSpan.spanContext.traceId, instrumenter);
+
   const directChildren = spanGraph.roots[0].children.map((child) => child.name);
   assert.sameMembers(Array.from(new Set(directChildren)), expectedSpanNames);
   // TODO:  All spans are closed??

@@ -10,9 +10,10 @@ import {
   useInstrumenter
 } from "@azure/core-tracing";
 import { TestTracingSpan, TestInstrumenter } from "../../src";
-import { assert } from "chai";
+import chai, { assert } from "chai";
+import { chaiAzureTrace } from "./azureTracing";
 import { ContextImpl } from "../../src/tracing/contextImpl";
-
+chai.use(chaiAzureTrace);
 describe("TestTracingSpan", function() {
   let subject: TestTracingSpan;
   beforeEach(() => {
@@ -111,27 +112,47 @@ describe("TestInstrumenter with MockClient", function() {
     useInstrumenter(instrumenter);
     client = new MockClientToTest();
   });
-  describe("#startSpan", function() {
-    it("starts a span and adds to startedSpans array", async function() {
-      await client.mockGetMethod();
-      assert.equal(instrumenter.startedSpans.length, 1);
-      assert.equal(instrumenter.startedSpans[0].name, "MockClientToTest.mockGetMethod");
-    });
-    // how to set tracing context??
-    it("returns a new context with existing attributes", async function() {
-      const existingContext = new ContextImpl().setValue(Symbol.for("foo"), "bar");
-      const options = {
-        record: { key: "value" },
-        tracingOptions: {
-          tracingContext: existingContext
-        }
-      };
-      await client.mockSetMethod(options);
-      console.log(instrumenter.startedSpans[0]);
-    });
+  it("starts a span and adds to startedSpans array", async function() {
+    await client.mockGetMethod();
+    assert.equal(instrumenter.startedSpans.length, 1);
+    assert.equal(instrumenter.startedSpans[0].name, "MockClientToTest.mockGetMethod");
+  });
+  // how to set tracing context??
+  it("returns a new context with existing attributes", async function() {
+    const existingContext = new ContextImpl().setValue(Symbol.for("foo"), "bar");
+    const options = {
+      tracingOptions: {
+        tracingContext: existingContext
+      }
+    };
+    await client.mockSetMethod({ key: "value" }, options);
+    console.log(instrumenter.startedSpans[0]);
   });
 });
 
+describe("Test supportsTracing functionality", function() {
+  // let instrumenter: TestInstrumenter;
+  let client: MockClientToTest;
+  beforeEach(function() {
+    // instrumenter = new TestInstrumenter();
+    // useInstrumenter(instrumenter);
+    client = new MockClientToTest();
+  });
+  it("supportsTracing with the setMethod", function() {
+    const existingContext = new ContextImpl().setValue(Symbol.for("foo"), "bar");
+    const options = {
+      tracingOptions: {
+        tracingContext: existingContext
+      }
+    };
+
+    assert.supportsTracing(
+      () => client.mockSetMethod({ key: "value" }),
+      ["MockClientToTest.mockSetMethod"],
+      options
+    );
+  });
+});
 // or something that has upgraded to core-tracing preview.14
 export class MockClientToTest {
   private record: Record<string, string>;

@@ -36,7 +36,7 @@ export class TracingClientImpl implements TracingClient {
     tracingContext: TracingContext;
     updatedOptions: Options;
   } {
-    const startSpanResult = this._instrumenter.startSpan(name, {
+    const startSpanResult = getInstrumenter().startSpan(name, {
       ...spanOptions,
       packageName: this._packageName,
       packageVersion: this._packageVersion,
@@ -102,7 +102,7 @@ export class TracingClientImpl implements TracingClient {
     callbackThis?: ThisParameterType<Callback>,
     ...callbackArgs: CallbackArgs
   ): ReturnType<Callback> {
-    return this._instrumenter.withContext(context, callback, callbackThis, ...callbackArgs);
+    return getInstrumenter().withContext(context, callback, callbackThis, ...callbackArgs);
   }
   /**
    * Parses a traceparent header value into a span identifier.
@@ -111,7 +111,7 @@ export class TracingClientImpl implements TracingClient {
    * @returns An implementation-specific identifier for the span.
    */
   parseTraceparentHeader(traceparentHeader: string): TracingSpanContext | undefined {
-    return this._instrumenter.parseTraceparentHeader(traceparentHeader);
+    return getInstrumenter().parseTraceparentHeader(traceparentHeader);
   }
 
   /**
@@ -121,7 +121,7 @@ export class TracingClientImpl implements TracingClient {
    * @returns The set of headers to add to a request.
    */
   createRequestHeaders(spanContext: TracingSpanContext): Record<string, string> {
-    return this._instrumenter.createRequestHeaders(spanContext);
+    return getInstrumenter().createRequestHeaders(spanContext);
   }
 }
 

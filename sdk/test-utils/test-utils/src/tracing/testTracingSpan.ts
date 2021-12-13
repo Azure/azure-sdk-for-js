@@ -6,7 +6,8 @@ import {
   SpanStatus,
   TracingSpanOptions,
   TracingSpanKind,
-  TracingContext
+  TracingContext,
+  TracingSpanContext
 } from "@azure/core-tracing";
 
 export class TestTracingSpan implements TracingSpan {
@@ -14,11 +15,18 @@ export class TestTracingSpan implements TracingSpan {
   spanKind: TracingSpanKind | undefined;
   /** Parent tracing context or existing */
   tracingContext: TracingContext | undefined;
+  private _spanContext: TracingSpanContext;
 
-  constructor(name: string, tracingContext?: TracingContext, spanOptions?: TracingSpanOptions) {
+  constructor(
+    name: string,
+    tracingContext?: TracingContext,
+    spanOptions?: TracingSpanOptions,
+    spanContext?: TracingSpanContext
+  ) {
     this.name = name;
     this.spanKind = spanOptions?.spanKind;
     this.tracingContext = tracingContext;
+    this._spanContext = spanContext!;
   }
   spanStatus?: SpanStatus;
   attributes: Record<string, unknown> = {};
@@ -45,10 +53,6 @@ export class TestTracingSpan implements TracingSpan {
     return this.tracingContext?.getValue(Symbol.for("span")) as TestTracingSpan;
   }
   get spanContext() {
-    return {
-      spanId: "",
-      traceFlags: 0,
-      traceId: ""
-    };
+    return this._spanContext;
   }
 }
