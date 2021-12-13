@@ -36,7 +36,7 @@ Install the Azure Maps Search client library with `npm`:
 npm install @azure/maps-search
 ```
 
-### Create and authenticate a `SearchClient`
+### Create and authenticate a `MapsSearchClient`
 
 To create a client object to access the Azure Maps Search API, you will need a `credential` object. The Azure Maps Search client can use an Azure Active Directory credential or an Azure Key credential to authenticate.
 
@@ -56,9 +56,9 @@ You will also need to specify the Azure Maps resource you intend to use by speci
 The Azure Maps resource client id can be found in the Authentication sections in the Azure Maps resource. Please refer to the [documentation](https://docs.microsoft.com/azure/azure-maps/how-to-manage-authentication#view-authentication-details) on how to find it.
 
 ```javascript
-const { SearchClient } = require("@azure/maps-search");
+const { MapsSearchClient } = require("@azure/maps-search");
 const { DefaultAzureCredential } = require("@azure/identity");
-const client = new SearchClient(new DefaultAzureCredential(), "<maps-client-id>");
+const client = new MapsSearchClient(new DefaultAzureCredential(), "<maps-client-id>");
 ```
 
 #### Using a Subscription Key Credential
@@ -70,16 +70,16 @@ npm install @azure/core-auth
 ```
 
 ```javascript
-const { SearchClient } = require("@azure/maps-search");
+const { MapsSearchClient } = require("@azure/maps-search");
 const { AzureKeyCredential } = require("@azure/core-auth");
-const client = new SearchClient(new AzureKeyCredential("<subscription-key>"));
+const client = new MapsSearchClient(new AzureKeyCredential("<subscription-key>"));
 ```
 
 ## Key concepts
 
-### SearchClient
+### MapsSearchClient
 
-`SearchClient` is the primary interface for developers using the Azure Maps Search client library. Explore the methods on this client object to understand the different features of the Azure Search service that you can access.
+`MapsSearchClient` is the primary interface for developers using the Azure Maps Search client library. Explore the methods on this client object to understand the different features of the Azure Search service that you can access.
 
 ## Examples
 
@@ -96,7 +96,7 @@ You can use an authenticated client to convert an address into latitude and long
 
 ```javascript
 const credential = new DefaultAzureCredential();
-const client = new SearchClient(credential, "<maps-client-id>");
+const client = new MapsSearchClient(credential, "<maps-client-id>");
 const searchResult = await client.searchAddress("400 Broad, Seattle");
 ```
 
@@ -106,7 +106,7 @@ You can use Fuzzy Search to search an address or a point of interest (POI). The 
 
 ```javascript
 const credential = new DefaultAzureCredential();
-const client = new SearchClient(credential, "<maps-client-id>");
+const client = new MapsSearchClient(credential, "<maps-client-id>");
 const fuzzySearchResult = await client.fuzzySearch("pizza", "fr");
 ```
 
@@ -117,7 +117,7 @@ This is often used for applications that consume GPS feeds and want to discover 
 
 ```javascript
 const credential = new DefaultAzureCredential();
-const client = new SearchClient(credential, "<maps-client-id>");
+const client = new MapsSearchClient(credential, "<maps-client-id>");
 const coordinate: LatLon = {
   latitude: 47.59118,
   longitude: -122.3327
@@ -131,7 +131,7 @@ Translate coordinate location into a human understandable cross street by using 
 
 ```javascript
 const credential = new DefaultAzureCredential();
-const client = new SearchClient(credential, "<maps-client-id>");
+const client = new MapsSearchClient(credential, "<maps-client-id>");
 const coordinate: LatLon = {
   latitude: 47.59118,
   longitude: -122.3327

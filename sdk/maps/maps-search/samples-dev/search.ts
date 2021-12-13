@@ -8,7 +8,7 @@
 import { DefaultAzureCredential } from "@azure/identity";
 import { AzureKeyCredential } from "@azure/core-auth";
 import {
-  SearchClient,
+  MapsSearchClient,
   GeoJsonLineString,
   GeoJsonPolygon,
   StructuredAddress,
@@ -30,18 +30,18 @@ dotenv.config();
  */
 
 async function main() {
-  let client: SearchClient;
+  let client: MapsSearchClient;
 
   if (process.env.MAPS_SUBSCRIPTION_KEY) {
     // Use subscription key authentication
     const credential = new AzureKeyCredential(process.env.MAPS_SUBSCRIPTION_KEY);
-    client = new SearchClient(credential);
+    client = new MapsSearchClient(credential);
   } else {
     // Use Azure AD authentication
     if (process.env.MAPS_CLIENT_ID) {
       const credential = new DefaultAzureCredential();
       const mapsClientId = process.env.MAPS_CLIENT_ID;
-      client = new SearchClient(credential, mapsClientId);
+      client = new MapsSearchClient(credential, mapsClientId);
     } else {
       throw Error("Cannot authenticate the client.");
     }
