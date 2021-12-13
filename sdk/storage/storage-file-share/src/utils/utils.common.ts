@@ -515,3 +515,48 @@ export function httpAuthorizationToString(
 ): string | undefined {
   return httpAuthorization ? httpAuthorization.scheme + " " + httpAuthorization.value : undefined;
 }
+
+/**
+ * Get URL path and query from an URL string.
+ *
+ * @param url - Source URL string
+ */
+export function getURLPathAndQuery(url: string): string {
+  const urlParsed = URLBuilder.parse(url);
+  const pathString = urlParsed.getPath();
+  if (!pathString) {
+    throw new RangeError("Invalid url without valid path.");
+  }
+
+  let queryString = urlParsed.getQuery() || "";
+  queryString = queryString.trim();
+  if (queryString !== "") {
+    queryString = queryString.startsWith("?") ? queryString : `?${queryString}`; // Ensure query string start with '?'
+  }
+
+  return `${pathString}${queryString}`;
+}
+
+/**
+ * Set URL path.
+ *
+ * @param url -
+ * @param path -
+ */
+export function setURLPath(url: string, path?: string): string {
+  const urlParsed = URLBuilder.parse(url);
+  urlParsed.setPath(path);
+  return urlParsed.toString();
+}
+
+/**
+ * Set URL query string.
+ *
+ * @param url -
+ * @param queryString -
+ */
+export function setURLQueries(url: string, queryString: string): string {
+  const urlParsed = URLBuilder.parse(url);
+  urlParsed.setQuery(queryString);
+  return urlParsed.toString();
+}

@@ -173,6 +173,11 @@ export type DeleteSnapshotsOptionType = "include" | "include-leased";
 export { deserializationPolicy }
 
 // @public
+export interface DestinationLeaseAccessConditions {
+    destinationLeaseId?: string;
+}
+
+// @public
 export interface DirectoryCloseHandlesHeaders {
     date?: Date;
     marker?: string;
@@ -389,6 +394,28 @@ export interface DirectoryListHandlesSegmentOptions extends CommonOptions {
 export interface DirectoryProperties extends FileAndDirectorySetPropertiesCommonOptions, CommonOptions {
     abortSignal?: AbortSignalLike;
 }
+
+// @public
+export interface DirectoryRenameOptions extends CommonOptions {
+    abortSignal?: AbortSignalLike;
+    copyFileSmbInfo?: CopyFileSmbInfo;
+    destinationLeaseAccessConditions?: DestinationLeaseAccessConditions;
+    filePermission?: string;
+    filePermissionKey?: string;
+    ignoreReadOnly?: boolean;
+    replaceIfExists?: boolean;
+    sourceLeaseAccessConditions?: SourceLeaseAccessConditions;
+    timeoutInSeconds?: number;
+}
+
+// Warning: (ae-forgotten-export) The symbol "DirectoryRenameHeaders" needs to be exported by the entry point index.d.ts
+//
+// @public
+export type DirectoryRenameResponse = DirectoryRenameHeaders & {
+    _response: coreHttp.HttpResponse & {
+        parsedHeaders: DirectoryRenameHeaders;
+    };
+};
 
 // @public
 export interface DirectorySetMetadataHeaders {
@@ -841,6 +868,29 @@ export interface FileProperty {
     // (undocumented)
     lastWriteTime?: Date;
 }
+
+// @public
+export interface FileRenameOptions extends CommonOptions {
+    abortSignal?: AbortSignalLike;
+    copyFileSmbInfo?: CopyFileSmbInfo;
+    destinationLeaseAccessConditions?: DestinationLeaseAccessConditions;
+    fileHttpHeaders?: FileHttpHeaders;
+    filePermission?: string;
+    filePermissionKey?: string;
+    ignoreReadOnly?: boolean;
+    replaceIfExists?: boolean;
+    sourceLeaseAccessConditions?: SourceLeaseAccessConditions;
+    timeoutInSeconds?: number;
+}
+
+// Warning: (ae-forgotten-export) The symbol "FileRenameHeaders" needs to be exported by the entry point index.d.ts
+//
+// @public
+export type FileRenameResponse = FileRenameHeaders & {
+    _response: coreHttp.HttpResponse & {
+        parsedHeaders: FileRenameHeaders;
+    };
+};
 
 // @public
 export interface FileResizeOptions extends FileAndDirectorySetPropertiesCommonOptions, CommonOptions {
@@ -1565,6 +1615,10 @@ export class ShareDirectoryClient extends StorageClient {
     listHandles(options?: DirectoryListHandlesOptions): PagedAsyncIterableIterator<HandleItem, DirectoryListHandlesResponse>;
     get name(): string;
     get path(): string;
+    rename(destinationPath: string, options?: DirectoryRenameOptions): Promise<{
+        destinationDirectoryClient: ShareDirectoryClient;
+        directoryRenameResponse: DirectoryRenameResponse;
+    }>;
     setMetadata(metadata?: Metadata, options?: DirectorySetMetadataOptions): Promise<DirectorySetMetadataResponse>;
     setProperties(properties?: DirectoryProperties): Promise<DirectorySetPropertiesResponse>;
     get shareName(): string;
@@ -1600,6 +1654,10 @@ export class ShareFileClient extends StorageClient {
     listHandles(options?: FileListHandlesOptions): PagedAsyncIterableIterator<HandleItem, FileListHandlesResponse>;
     get name(): string;
     get path(): string;
+    rename(destinationPath: string, options?: FileRenameOptions): Promise<{
+        destinationFileClient: ShareFileClient;
+        fileRenameResponse: FileRenameResponse;
+    }>;
     resize(length: number, options?: FileResizeOptions): Promise<FileSetHTTPHeadersResponse>;
     setHttpHeaders(fileHttpHeaders?: FileHttpHeaders, options?: FileSetHttpHeadersOptions): Promise<FileSetHTTPHeadersResponse>;
     setMetadata(metadata?: Metadata, options?: FileSetMetadataOptions): Promise<FileSetMetadataResponse>;
@@ -2002,6 +2060,11 @@ export interface SignedIdentifierModel {
 // @public
 export interface SmbMultichannel {
     enabled?: boolean;
+}
+
+// @public
+export interface SourceLeaseAccessConditions {
+    sourceLeaseId?: string;
 }
 
 // @public

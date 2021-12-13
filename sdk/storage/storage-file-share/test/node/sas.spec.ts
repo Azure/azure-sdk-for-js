@@ -3,17 +3,19 @@
 
 import { assert } from "chai";
 
+
 import {
   AccountSASPermissions,
   AccountSASResourceTypes,
   AccountSASServices,
   AnonymousCredential,
-  ShareServiceClient,
   generateAccountSASQueryParameters,
   SASProtocol,
+  ShareClient,
+  ShareFileClient,
+  ShareServiceClient,
   StorageSharedKeyCredential,
 } from "../../src";
-import { ShareFileClient, ShareClient } from "../../src";
 import { FileSASPermissions } from "../../src/FileSASPermissions";
 import { generateFileSASQueryParameters } from "../../src/FileSASSignatureValues";
 import { newPipeline } from "../../src/Pipeline";
