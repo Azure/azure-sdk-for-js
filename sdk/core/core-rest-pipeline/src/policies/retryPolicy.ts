@@ -5,9 +5,6 @@ import { PipelineResponse, PipelineRequest, SendRequest } from "../interfaces";
 import { PipelinePolicy } from "../pipeline";
 import { delay } from "../util/helpers";
 import { createClientLogger } from "@azure/logger";
-import { tryCreateSpan, tryTraceError, tryTraceResponse } from "./tracingPolicy";
-import { Span } from "@azure/core-tracing";
-import { getUserAgentValue } from "../util/userAgent";
 import { RetryStrategy, RetryStrategyState } from "../retryStrategies/retryStrategy";
 import { RestError } from "../restError";
 import { AbortError } from "@azure/abort-controller";
@@ -39,11 +36,6 @@ export function retryPolicy(...strategies: RetryStrategy[]): PipelinePolicy {
         response = undefined;
         responseError = undefined;
 
-        let retrySpan: Span | undefined;
-        if (request.tracingOptions?.tracingContext) {
-          retrySpan = tryCreateSpan(request, getUserAgentValue(retryPolicyName));
-        }
-
         try {
           retryPolicyLogger.info(
             `Retry ${retryCount}: Attempting to send request`,
@@ -54,7 +46,6 @@ export function retryPolicy(...strategies: RetryStrategy[]): PipelinePolicy {
             `Retry ${retryCount}: Received a response from request`,
             request.requestId
           );
-          tryTraceResponse(response, retrySpan);
         } catch (e) {
           retryPolicyLogger.info(
             `Retry ${retryCount}: Received an error from request`,
@@ -62,11 +53,9 @@ export function retryPolicy(...strategies: RetryStrategy[]): PipelinePolicy {
           );
           responseError = e as RestError;
           if (responseError.name !== "RestError") {
-            tryTraceError(responseError, retrySpan);
             throw responseError;
           }
           response = responseError.response;
-          tryTraceError(responseError, retrySpan);
         }
 
         retryPolicyLogger.info(
@@ -83,20 +72,13 @@ export function retryPolicy(...strategies: RetryStrategy[]): PipelinePolicy {
             responseError
           };
 
-          let strategySpan: Span | undefined;
-          if (request.tracingOptions?.tracingContext) {
-            strategySpan = tryCreateSpan(request, getUserAgentValue(strategy.name));
-          }
-
           if (state.retryCount >= (state.maxRetries || DEFAULT_MAX_RETRIES)) {
             strategyLogger.info(
               `Maximum retries reached. Returning the last received response, or throwing the last received error.`
             );
             if (response) {
-              tryTraceResponse(response, strategySpan);
               return response;
             }
-            tryTraceError(responseError, strategySpan);
             throw responseError;
           }
 
@@ -111,7 +93,6 @@ export function retryPolicy(...strategies: RetryStrategy[]): PipelinePolicy {
           if (request.abortSignal?.aborted) {
             strategyLogger.error(`Retry ${retryCount}: Request aborted.`);
             const abortError = new AbortError();
-            tryTraceError(abortError, strategySpan);
             throw abortError;
           }
 
@@ -120,18 +101,7 @@ export function retryPolicy(...strategies: RetryStrategy[]): PipelinePolicy {
               `Retry ${retryCount}: Retry strategy ${strategy.name} throws error:`,
               state.throwError
             );
-            tryTraceError(state.throwError, strategySpan);
             throw state.throwError;
-          }
-
-          if (strategySpan) {
-            if (response) {
-              tryTraceResponse(response, strategySpan);
-            } else if (responseError) {
-              tryTraceError(responseError, strategySpan);
-            } else {
-              strategySpan.end();
-            }
           }
 
           if (state.retryAfterInMs) {

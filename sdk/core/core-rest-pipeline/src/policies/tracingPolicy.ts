@@ -15,7 +15,6 @@ import { PipelinePolicy } from "../pipeline";
 import { URL } from "../util/url";
 import { getUserAgentValue } from "../util/userAgent";
 import { logger } from "../log";
-import { RestError } from "..";
 
 const createSpan = createSpanFunction({
   packagePrefix: "",
@@ -63,17 +62,17 @@ export function tracingPolicy(options: TracingPolicyOptions = {}): PipelinePolic
 
       try {
         const response = await next(request);
-        tryTraceResponse(response, span);
+        tryProcessResponse(span, response);
         return response;
       } catch (err) {
-        tryTraceError(err, span);
+        tryProcessError(span, err);
         throw err;
       }
     }
   };
 }
 
-export function tryCreateSpan(request: PipelineRequest, userAgent?: string): Span | undefined {
+function tryCreateSpan(request: PipelineRequest, userAgent?: string): Span | undefined {
   try {
     const createSpanOptions: SpanOptions = {
       ...(request.tracingOptions as any)?.spanOptions,
@@ -131,10 +130,7 @@ export function tryCreateSpan(request: PipelineRequest, userAgent?: string): Spa
   }
 }
 
-export function tryTraceError(err: Error | RestError, span?: Span): void {
-  if (!span) {
-    return;
-  }
+function tryProcessError(span: Span, err: any): void {
   try {
     span.setStatus({
       code: SpanStatusCode.ERROR,
@@ -149,10 +145,7 @@ export function tryTraceError(err: Error | RestError, span?: Span): void {
   }
 }
 
-export function tryTraceResponse(response: PipelineResponse, span?: Span): void {
-  if (!span) {
-    return;
-  }
+function tryProcessResponse(span: Span, response: PipelineResponse): void {
   try {
     span.setAttribute("http.status_code", response.status);
     const serviceRequestId = response.headers.get("x-ms-request-id");
