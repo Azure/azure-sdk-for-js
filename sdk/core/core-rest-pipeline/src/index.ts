@@ -15,7 +15,8 @@ export {
   RawHttpHeaders,
   RawHttpHeadersInput,
   TransferProgressEvent,
-  RequestBodyType
+  RequestBodyType,
+  PipelineRetryOptions
 } from "./interfaces";
 export {
   AddPolicyOptions as AddPipelineOptions,

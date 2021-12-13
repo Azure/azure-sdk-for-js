@@ -178,7 +178,7 @@ export interface Pipeline {
 export interface PipelineOptions {
     proxyOptions?: ProxySettings;
     redirectOptions?: RedirectPolicyOptions;
-    retryOptions?: ExponentialRetryPolicyOptions | ThrottlingRetryPolicyOptions;
+    retryOptions?: PipelineRetryOptions;
     userAgentOptions?: UserAgentPolicyOptions;
 }
 
@@ -240,6 +240,13 @@ export interface PipelineResponse {
     readableStreamBody?: NodeJS.ReadableStream;
     request: PipelineRequest;
     status: number;
+}
+
+// @public
+export interface PipelineRetryOptions {
+    maxRetries?: number;
+    maxRetryDelayInMs?: number;
+    retryDelayInMs?: number;
 }
 
 // @public

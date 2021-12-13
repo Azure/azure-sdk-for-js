@@ -10,7 +10,6 @@ import { TokenCredential, ClientSecretCredential } from "@azure/identity";
 
 import { AzureKeyCredential, TextAnalyticsClient, TextAnalyticsClientOptions } from "../../../src/";
 import "./env";
-import { throttlingRetryPolicy } from "@azure/core-rest-pipeline";
 
 const replaceableVariables: { [k: string]: string } = {
   AZURE_CLIENT_ID: "azure_client_id",
