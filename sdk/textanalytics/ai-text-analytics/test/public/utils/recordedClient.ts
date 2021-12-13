@@ -81,13 +81,13 @@ export function createClient(
 
   /**
    * The service's rate limit is sometimes reached for the beginAnalyzeActoins tests
-   * because of the many calls the tests send. It appears that retrying only 3 times
-   * (the default) is not enough so I am increasing the number here to 10.
+   * because of the many requests the tests send. It appears that retrying only 3 times
+   * (the default) is not enough so this logic increases that to 10.
    */
   client["client"].pipeline.removePolicy({
     name: "throttlingRetryPolicy"
   });
-  client["client"].pipeline.addPolicy(throttlingRetryPolicy(10));
+  client["client"].pipeline.addPolicy(throttlingRetryPolicy({ maxRetries: 10 }));
   return client;
 }
 

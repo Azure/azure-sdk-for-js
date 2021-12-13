@@ -178,7 +178,7 @@ export interface Pipeline {
 export interface PipelineOptions {
     proxyOptions?: ProxySettings;
     redirectOptions?: RedirectPolicyOptions;
-    retryOptions?: ExponentialRetryPolicyOptions;
+    retryOptions?: ExponentialRetryPolicyOptions | ThrottlingRetryPolicyOptions;
     userAgentOptions?: UserAgentPolicyOptions;
 }
 
@@ -323,10 +323,15 @@ export interface SystemErrorRetryPolicyOptions {
 }
 
 // @public
-export function throttlingRetryPolicy(maxRetryCount?: number): PipelinePolicy;
+export function throttlingRetryPolicy(options?: ThrottlingRetryPolicyOptions): PipelinePolicy;
 
 // @public
 export const throttlingRetryPolicyName = "throttlingRetryPolicy";
+
+// @public
+export interface ThrottlingRetryPolicyOptions {
+    maxRetries?: number;
+}
 
 // @public
 export function tracingPolicy(options?: TracingPolicyOptions): PipelinePolicy;

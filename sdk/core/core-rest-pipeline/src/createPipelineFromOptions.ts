@@ -14,7 +14,10 @@ import { proxyPolicy } from "./policies/proxyPolicy";
 import { redirectPolicy, RedirectPolicyOptions } from "./policies/redirectPolicy";
 import { setClientRequestIdPolicy } from "./policies/setClientRequestIdPolicy";
 import { systemErrorRetryPolicy } from "./policies/systemErrorRetryPolicy";
-import { throttlingRetryPolicy } from "./policies/throttlingRetryPolicy";
+import {
+  throttlingRetryPolicy,
+  ThrottlingRetryPolicyOptions
+} from "./policies/throttlingRetryPolicy";
 import { tracingPolicy } from "./policies/tracingPolicy";
 import { userAgentPolicy, UserAgentPolicyOptions } from "./policies/userAgentPolicy";
 import { isNode } from "./util/helpers";
@@ -27,7 +30,7 @@ export interface PipelineOptions {
   /**
    * Options that control how to retry failed requests.
    */
-  retryOptions?: ExponentialRetryPolicyOptions;
+  retryOptions?: ExponentialRetryPolicyOptions | ThrottlingRetryPolicyOptions;
 
   /**
    * Options to configure a proxy for outgoing requests.

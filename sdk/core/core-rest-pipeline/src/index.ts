@@ -58,7 +58,11 @@ export {
   SystemErrorRetryPolicyOptions,
   systemErrorRetryPolicyName
 } from "./policies/systemErrorRetryPolicy";
-export { throttlingRetryPolicy, throttlingRetryPolicyName } from "./policies/throttlingRetryPolicy";
+export {
+  throttlingRetryPolicy,
+  throttlingRetryPolicyName,
+  ThrottlingRetryPolicyOptions
+} from "./policies/throttlingRetryPolicy";
 export { tracingPolicy, tracingPolicyName, TracingPolicyOptions } from "./policies/tracingPolicy";
 export {
   userAgentPolicy,
