@@ -72,7 +72,7 @@ export function retryPolicy(...strategies: RetryStrategy[]): PipelinePolicy {
             responseError
           };
 
-          if (state.retryCount >= (state.maxRetries || DEFAULT_MAX_RETRIES)) {
+          if (state.retryCount >= (state.maxRetries ?? DEFAULT_MAX_RETRIES)) {
             strategyLogger.info(
               `Maximum retries reached. Returning the last received response, or throwing the last received error.`
             );
