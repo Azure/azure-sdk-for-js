@@ -302,7 +302,7 @@ Apart from user name and password, this credential requires you to know the tena
 /**
  *  Authenticate with a client certificate.
  */
-function withClientCertificateCredential() {
+function withUsernamePasswordCredential() {
   let credential = new UsernamePasswordCredential(
     "<YOUR_TENANT_ID>",
     "<YOUR_CLIENT_ID>",
