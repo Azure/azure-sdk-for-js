@@ -6,11 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export {
-  discriminators,
-  CloudError,
-  Summary,
-  SummaryCollection,
-  UnresolvedDependency,
-  UnresolvedDependencyCollection
-} from "../models/mappers";
+/// <reference lib="esnext.asynciterable" />
+export * from "./models";
+export { ResourceMoverServiceAPI } from "./resourceMoverServiceAPI";
+export * from "./operationsInterfaces";

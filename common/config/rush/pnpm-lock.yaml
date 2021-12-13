@@ -55,6 +55,7 @@ specifiers:
   '@rush-temp/arm-rediscache': file:./projects/arm-rediscache.tgz
   '@rush-temp/arm-relay': file:./projects/arm-relay.tgz
   '@rush-temp/arm-resourcehealth': file:./projects/arm-resourcehealth.tgz
+  '@rush-temp/arm-resourcemover': file:./projects/arm-resourcemover.tgz
   '@rush-temp/arm-resources': file:./projects/arm-resources.tgz
   '@rush-temp/arm-resources-subscriptions': file:./projects/arm-resources-subscriptions.tgz
   '@rush-temp/arm-search': file:./projects/arm-search.tgz
@@ -225,6 +226,7 @@ dependencies:
   '@rush-temp/arm-rediscache': file:projects/arm-rediscache.tgz
   '@rush-temp/arm-relay': file:projects/arm-relay.tgz
   '@rush-temp/arm-resourcehealth': file:projects/arm-resourcehealth.tgz
+  '@rush-temp/arm-resourcemover': file:projects/arm-resourcemover.tgz
   '@rush-temp/arm-resources': file:projects/arm-resources.tgz
   '@rush-temp/arm-resources-subscriptions': file:projects/arm-resources-subscriptions.tgz
   '@rush-temp/arm-search': file:projects/arm-search.tgz
@@ -1648,6 +1650,7 @@ packages:
   /@opentelemetry/node/0.22.0_@opentelemetry+api@1.0.3:
     resolution: {integrity: sha512-+HhGbDruQ7cwejVOIYyxRa28uosnG8W95NiQZ6qE8PXXPsDSyGeftAPbtYpGit0H2f5hrVcMlwmWHeAo9xkSLA==}
     engines: {node: '>=8.0.0'}
+    deprecated: Package renamed to @opentelemetry/sdk-trace-node
     peerDependencies:
       '@opentelemetry/api': ^1.0.0
     dependencies:
@@ -9634,6 +9637,27 @@ packages:
   file:projects/arm-resourcehealth.tgz:
     resolution: {integrity: sha512-2aZ/KsYKwAjiAVYNgPcnIHIZ1zPnIhoqJzsV188fdQ+QJAf5uP3LuyYbqv128SbEqrHQK5XSbAgWNQiAk7DecQ==, tarball: file:projects/arm-resourcehealth.tgz}
     name: '@rush-temp/arm-resourcehealth'
+    version: 0.0.0
+    dependencies:
+      '@microsoft/api-extractor': 7.18.19
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.14.3
+    dev: false
+
+  file:projects/arm-resourcemover.tgz:
+    resolution: {integrity: sha512-W62MjrP8FEcrDvLZYqW2d3WEO7sGUSHB6MMZTRUGMBjuFZrU5VbhFLHXoCaia4lZFURUXiPXOIHJpCR6xhcigA==, tarball: file:projects/arm-resourcemover.tgz}
+    name: '@rush-temp/arm-resourcemover'
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.18.19

@@ -1160,6 +1160,11 @@
       "packageName": "@azure/arm-relay",
       "projectFolder": "sdk/relay/arm-relay",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-resourcemover",
+      "projectFolder": "sdk/resourcemover/arm-resourcemover",
+      "versionPolicyName": "management"
     }
   ]
 }

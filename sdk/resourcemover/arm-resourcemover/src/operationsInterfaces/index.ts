@@ -6,10 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export {
-  discriminators,
-  CloudError,
-  Display,
-  OperationsDiscovery,
-  OperationsDiscoveryCollection
-} from "../models/mappers";
+export * from "./moveCollections";
+export * from "./moveResources";
+export * from "./unresolvedDependencies";
+export * from "./operationsDiscoveryOperations";
