@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PipelineRequest } from "@azure/core-rest-pipeline";
 import { LongRunningOperation, LroResponse } from "../../src";
+import { PipelineRequest } from "@azure/core-rest-pipeline";
 
 export type SendOperationFn<T> = (request: PipelineRequest) => Promise<LroResponse<T>>;
 

@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TestSpan } from "./testSpan";
 import {
+  Context as OTContext,
   SpanContext,
   SpanOptions,
   TraceFlags,
-  Context as OTContext,
-  context as otContext,
+  Tracer,
   getSpanContext,
-  Tracer
+  context as otContext
 } from "../../src/interfaces";
+import { TestSpan } from "./testSpan";
 
 /**
  * Simple representation of a Span that only has name and child relationships.

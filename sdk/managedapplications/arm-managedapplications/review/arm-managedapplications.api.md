@@ -32,47 +32,20 @@ export interface ApplicationArtifact {
 export type ApplicationArtifactType = "Template" | "Custom";
 
 // @public (undocumented)
-export class ApplicationClient extends ApplicationClientContext {
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: ApplicationClientOptionalParams);
-    // (undocumented)
-    applicationDefinitions: ApplicationDefinitions;
-    // (undocumented)
-    applications: Applications;
-    listOperations(options?: ApplicationClientListOperationsOptionalParams): PagedAsyncIterableIterator<Operation>;
-    listOperationsNext(nextLink: string, options?: ApplicationClientListOperationsNextOptionalParams): PagedAsyncIterableIterator<Operation>;
-    }
-
-// @public (undocumented)
-export class ApplicationClientContext extends coreClient.ServiceClient {
+export class ApplicationClient extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: ApplicationClientOptionalParams);
     // (undocumented)
     apiVersion: string;
     // (undocumented)
+    applicationDefinitions: ApplicationDefinitions;
+    // (undocumented)
+    applications: Applications;
+    listOperations(options?: ListOperationsOptionalParams): PagedAsyncIterableIterator<Operation>;
+    // (undocumented)
     subscriptionId: string;
 }
-
-// @public
-export interface ApplicationClientListOperationsNextNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ApplicationClientListOperationsNextNextResponse = OperationListResult;
-
-// @public
-export interface ApplicationClientListOperationsNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ApplicationClientListOperationsNextResponse = OperationListResult;
-
-// @public
-export interface ApplicationClientListOperationsOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ApplicationClientListOperationsResponse = OperationListResult;
 
 // @public
 export interface ApplicationClientOptionalParams extends coreClient.ServiceClientOptions {
@@ -113,7 +86,6 @@ export interface ApplicationDefinitions {
     get(resourceGroupName: string, applicationDefinitionName: string, options?: ApplicationDefinitionsGetOptionalParams): Promise<ApplicationDefinitionsGetResponse>;
     getById(resourceGroupName: string, applicationDefinitionName: string, options?: ApplicationDefinitionsGetByIdOptionalParams): Promise<ApplicationDefinitionsGetByIdResponse>;
     listByResourceGroup(resourceGroupName: string, options?: ApplicationDefinitionsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<ApplicationDefinition>;
-    listByResourceGroupNext(resourceGroupName: string, nextLink: string, options?: ApplicationDefinitionsListByResourceGroupNextOptionalParams): PagedAsyncIterableIterator<ApplicationDefinition>;
 }
 
 // @public
@@ -159,13 +131,6 @@ export interface ApplicationDefinitionsGetOptionalParams extends coreClient.Oper
 
 // @public
 export type ApplicationDefinitionsGetResponse = ApplicationDefinition;
-
-// @public
-export interface ApplicationDefinitionsListByResourceGroupNextNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ApplicationDefinitionsListByResourceGroupNextNextResponse = ApplicationDefinitionListResult;
 
 // @public
 export interface ApplicationDefinitionsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
@@ -220,9 +185,7 @@ export interface Applications {
     get(resourceGroupName: string, applicationName: string, options?: ApplicationsGetOptionalParams): Promise<ApplicationsGetResponse>;
     getById(applicationId: string, options?: ApplicationsGetByIdOptionalParams): Promise<ApplicationsGetByIdResponse>;
     listByResourceGroup(resourceGroupName: string, options?: ApplicationsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Application>;
-    listByResourceGroupNext(resourceGroupName: string, nextLink: string, options?: ApplicationsListByResourceGroupNextOptionalParams): PagedAsyncIterableIterator<Application>;
     listBySubscription(options?: ApplicationsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<Application>;
-    listBySubscriptionNext(nextLink: string, options?: ApplicationsListBySubscriptionNextOptionalParams): PagedAsyncIterableIterator<Application>;
     update(resourceGroupName: string, applicationName: string, options?: ApplicationsUpdateOptionalParams): Promise<ApplicationsUpdateResponse>;
     updateById(applicationId: string, options?: ApplicationsUpdateByIdOptionalParams): Promise<ApplicationsUpdateByIdResponse>;
 }
@@ -272,13 +235,6 @@ export interface ApplicationsGetOptionalParams extends coreClient.OperationOptio
 export type ApplicationsGetResponse = Application;
 
 // @public
-export interface ApplicationsListByResourceGroupNextNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ApplicationsListByResourceGroupNextNextResponse = ApplicationListResult;
-
-// @public
 export interface ApplicationsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -291,13 +247,6 @@ export interface ApplicationsListByResourceGroupOptionalParams extends coreClien
 
 // @public
 export type ApplicationsListByResourceGroupResponse = ApplicationListResult;
-
-// @public
-export interface ApplicationsListBySubscriptionNextNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ApplicationsListBySubscriptionNextNextResponse = ApplicationListResult;
 
 // @public
 export interface ApplicationsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
@@ -377,6 +326,20 @@ export enum KnownProvisioningState {
 }
 
 // @public
+export interface ListOperationsNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ListOperationsNextResponse = OperationListResult;
+
+// @public
+export interface ListOperationsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ListOperationsResponse = OperationListResult;
+
+// @public
 export interface Operation {
     display?: OperationDisplay;
     name?: string;
@@ -436,7 +399,6 @@ export interface Sku {
     size?: string;
     tier?: string;
 }
-
 
 // (No @packageDocumentation comment for this package)
 

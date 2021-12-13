@@ -1,13 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Buffer } from "buffer";
-import * as chai from "chai";
-const should = chai.should();
 import * as assert from "assert";
-import isBuffer from "is-buffer";
+import * as chai from "chai";
 import { dataSectionTypeCode, defaultDataTransformer } from "../../src/dataTransformer";
+import { Buffer } from "buffer";
+import isBuffer from "is-buffer";
 import { testWithServiceTypes } from "../public/utils/testWithServiceTypes";
+
+const should = chai.should();
 
 testWithServiceTypes(() => {
   describe("DataTransformer", function() {

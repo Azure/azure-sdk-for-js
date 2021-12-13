@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { RequestPrepareOptions, WebResource } from "../src/webResource";
 import { assert } from "chai";
-import { WebResource, RequestPrepareOptions } from "../src/webResource";
 
 describe("WebResource", function() {
   it("supports dash in parameter name", function() {

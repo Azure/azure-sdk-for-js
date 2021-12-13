@@ -1125,6 +1125,41 @@
       "packageName": "@azure/arm-search",
       "projectFolder": "sdk/search/arm-search",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-analysisservices",
+      "projectFolder": "sdk/analysisservices/arm-analysisservices",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-portal",
+      "projectFolder": "sdk/portal/arm-portal",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-sqlvirtualmachine",
+      "projectFolder": "sdk/sqlvirtualmachine/arm-sqlvirtualmachine",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-devtestlabs",
+      "projectFolder": "sdk/devtestlabs/arm-devtestlabs",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-cognitiveservices",
+      "projectFolder": "sdk/cognitiveservices/arm-cognitiveservices",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-loadtestservice",
+      "projectFolder": "sdk/loadtestservice/arm-loadtestservice",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-relay",
+      "projectFolder": "sdk/relay/arm-relay",
+      "versionPolicyName": "management"
     }
   ]
 }

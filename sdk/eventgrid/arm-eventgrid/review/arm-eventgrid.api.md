@@ -320,8 +320,12 @@ export type Enum21 = string;
 export type EventDeliverySchema = string;
 
 // @public (undocumented)
-export class EventGridManagementClient extends EventGridManagementClientContext {
+export class EventGridManagementClient extends coreClient.ServiceClient {
+    // (undocumented)
+    $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: EventGridManagementClientOptionalParams);
+    // (undocumented)
+    apiVersion: string;
     // (undocumented)
     domains: Domains;
     // (undocumented)
@@ -337,6 +341,8 @@ export class EventGridManagementClient extends EventGridManagementClientContext 
     // (undocumented)
     privateLinkResources: PrivateLinkResources;
     // (undocumented)
+    subscriptionId: string;
+    // (undocumented)
     systemTopicEventSubscriptions: SystemTopicEventSubscriptions;
     // (undocumented)
     systemTopics: SystemTopics;
@@ -344,17 +350,6 @@ export class EventGridManagementClient extends EventGridManagementClientContext 
     topics: Topics;
     // (undocumented)
     topicTypes: TopicTypes;
-}
-
-// @public (undocumented)
-export class EventGridManagementClientContext extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: EventGridManagementClientOptionalParams);
-    // (undocumented)
-    apiVersion: string;
-    // (undocumented)
-    subscriptionId: string;
 }
 
 // @public

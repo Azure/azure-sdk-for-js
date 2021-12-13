@@ -6,13 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SubscriptionFeatureRegistrations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { FeatureClientContext } from "../featureClientContext";
+import { FeatureClient } from "../featureClient";
 import {
   SubscriptionFeatureRegistration,
   SubscriptionFeatureRegistrationsListBySubscriptionNextOptionalParams,
@@ -31,16 +30,16 @@ import {
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a SubscriptionFeatureRegistrations. */
+/** Class containing SubscriptionFeatureRegistrations operations. */
 export class SubscriptionFeatureRegistrationsImpl
   implements SubscriptionFeatureRegistrations {
-  private readonly client: FeatureClientContext;
+  private readonly client: FeatureClient;
 
   /**
    * Initialize a new instance of the class SubscriptionFeatureRegistrations class.
    * @param client Reference to the service client
    */
-  constructor(client: FeatureClientContext) {
+  constructor(client: FeatureClient) {
     this.client = client;
   }
 
