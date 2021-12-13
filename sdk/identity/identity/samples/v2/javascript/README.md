@@ -12,11 +12,11 @@ urlFragment: identity-javascript
 
 These sample programs show how to use the JavaScript client libraries for Azure Identity in some common scenarios.
 
-| **File Name**                                       | **Description**                                                                                 |
-| --------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
-| [clientSecretCredential.js][clientsecretcredential] | Authenticates with a client and a App Registration's secret.                                    |
-| [defaultAzureCredential.js][defaultazurecredential] | Tries several authentications. The simplest way to use `@azure/identity`.                       |
-| [environmentCredential.js][environmentcredential]   | Authenticates with a client and a App Registration's secret sent through environment variables. |
+| **File Name**                                       | **Description**                                                                                            |
+| --------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
+| [clientSecretCredential.js][clientsecretcredential] | Authenticates with a client and a app registration's secret.                                               |
+| [defaultAzureCredential.js][defaultazurecredential] | Tries several authentication methods using a single credential. The simplest way to use `@azure/identity`. |
+| [environmentCredential.js][environmentcredential]   | Authenticates as an app registration automatically using environment variables.                            |
 
 ## Prerequisites
 

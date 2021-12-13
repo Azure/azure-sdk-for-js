@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 /**
- * @summary Authenticates with a client and a App Registration's secret sent through environment variables.
+ * @summary Authenticates as an app registration automatically using environment variables.
  */
 
 import { EnvironmentCredential } from "@azure/identity";

@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 /**
- * @summary Authenticates with a client and a App Registration's secret.
+ * @summary Authenticates with a client and a app registration's secret.
  */
 
 import { ClientSecretCredential } from "@azure/identity";
@@ -14,8 +14,8 @@ require("dotenv").config();
 export async function main(): Promise<void> {
   const credential = new ClientSecretCredential(
     process.env.AZURE_TENANT_ID!, // The tenant ID in Azure Active Directory
-    process.env.AZURE_CLIENT_ID!, // The App Registration client ID in the AAD tenant
-    process.env.AZURE_CLIENT_SECRET! // The App Registration secret for the registered application
+    process.env.AZURE_CLIENT_ID!, // The app registration client ID in the AAD tenant
+    process.env.AZURE_CLIENT_SECRET! // The app registration secret for the registered application
   );
 
   const keyVaultUrl = `https://key-vault-name.vault.azure.net`;

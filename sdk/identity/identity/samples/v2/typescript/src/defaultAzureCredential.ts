@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 /**
- * @summary Tries several authentications. The simplest way to use `@azure/identity`.
+ * @summary Tries several authentication methods using a single credential. The simplest way to use `@azure/identity`.
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
