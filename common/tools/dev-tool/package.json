@@ -24,7 +24,7 @@
     "pack": "npm pack 2>&1",
     "prebuild": "npm run clean",
     "unit-test": "npm run unit-test:node",
-    "unit-test:node": "mocha --require ts-node/register test/**/*.spec.ts",
+    "unit-test:node": "mocha --require ts-node/register test/**/*.spec.ts test/*.spec.ts",
     "unit-test:browser": "echo skipped",
     "build:samples": "echo Skipped.",
     "test": "echo Skipped.",
