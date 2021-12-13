@@ -2361,20 +2361,6 @@ export interface OperationDisplay {
   readonly description?: string;
 }
 
-/** A list of service health statuses in a location. */
-export interface OperationsHealthListResult {
-  /**
-   * Array of results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly value?: OperationsHealth[];
-  /**
-   * Link to retrieve next page of results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
 /** Properties of a private endpoint connection. */
 export interface PrivateEndpointConnectionProperties {
   /** Private endpoint which the connection belongs to. */
@@ -5903,25 +5889,6 @@ export type ManagedServerSecurityAlertPolicy = ProxyResource & {
   readonly creationTime?: Date;
 };
 
-/** Operations health status in a location. */
-export type OperationsHealth = ProxyResource & {
-  /**
-   * Operation name for the service
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly namePropertiesName?: string;
-  /**
-   * Operation health status of the service.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly health?: string;
-  /**
-   * Health status description.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly description?: string;
-};
-
 /** A private endpoint connection */
 export type PrivateEndpointConnection = ProxyResource & {
   /** Private endpoint which the connection belongs to. */
@@ -8570,8 +8537,8 @@ export enum KnownSyncMemberDbType {
  */
 export type SyncMemberDbType = string;
 
-/** Known values of {@link Enum60} that the service accepts. */
-export enum KnownEnum60 {
+/** Known values of {@link SyncGroupsType} that the service accepts. */
+export enum KnownSyncGroupsType {
   All = "All",
   Error = "Error",
   Warning = "Warning",
@@ -8579,8 +8546,8 @@ export enum KnownEnum60 {
 }
 
 /**
- * Defines values for Enum60. \
- * {@link KnownEnum60} can be used interchangeably with Enum60,
+ * Defines values for SyncGroupsType. \
+ * {@link KnownSyncGroupsType} can be used interchangeably with SyncGroupsType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **All** \
@@ -8588,7 +8555,7 @@ export enum KnownEnum60 {
  * **Warning** \
  * **Success**
  */
-export type Enum60 = string;
+export type SyncGroupsType = string;
 
 /** Known values of {@link SyncGroupLogType} that the service accepts. */
 export enum KnownSyncGroupLogType {
@@ -12352,20 +12319,6 @@ export interface OperationsListNextOptionalParams
 
 /** Contains response data for the listNext operation. */
 export type OperationsListNextResponse = OperationListResult;
-
-/** Optional parameters. */
-export interface OperationsHealthListByLocationOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByLocation operation. */
-export type OperationsHealthListByLocationResponse = OperationsHealthListResult;
-
-/** Optional parameters. */
-export interface OperationsHealthListByLocationNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByLocationNext operation. */
-export type OperationsHealthListByLocationNextResponse = OperationsHealthListResult;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsGetOptionalParams

@@ -4890,35 +4890,6 @@ export const OperationDisplay: coreClient.CompositeMapper = {
   }
 };
 
-export const OperationsHealthListResult: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "OperationsHealthListResult",
-    modelProperties: {
-      value: {
-        serializedName: "value",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "OperationsHealth"
-            }
-          }
-        }
-      },
-      nextLink: {
-        serializedName: "nextLink",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const PrivateEndpointConnectionProperties: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -11520,37 +11491,6 @@ export const ManagedServerSecurityAlertPolicy: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "DateTime"
-        }
-      }
-    }
-  }
-};
-
-export const OperationsHealth: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "OperationsHealth",
-    modelProperties: {
-      ...ProxyResource.type.modelProperties,
-      namePropertiesName: {
-        serializedName: "properties.name",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      health: {
-        serializedName: "properties.health",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      description: {
-        serializedName: "properties.description",
-        readOnly: true,
-        type: {
-          name: "String"
         }
       }
     }

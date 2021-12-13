@@ -84,7 +84,6 @@ import {
   ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesImpl,
   ManagedServerSecurityAlertPoliciesImpl,
   OperationsImpl,
-  OperationsHealthOperationsImpl,
   PrivateEndpointConnectionsImpl,
   PrivateLinkResourcesImpl,
   RecoverableManagedDatabasesImpl,
@@ -205,7 +204,6 @@ import {
   ManagedRestorableDroppedDatabaseBackupShortTermRetentionPolicies,
   ManagedServerSecurityAlertPolicies,
   Operations,
-  OperationsHealthOperations,
   PrivateEndpointConnections,
   PrivateLinkResources,
   RecoverableManagedDatabases,
@@ -283,7 +281,7 @@ export class SqlManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-sql/9.0.0`;
+    const packageDetails = `azsdk-js-arm-sql/10.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -445,7 +443,6 @@ export class SqlManagementClient extends coreClient.ServiceClient {
       this
     );
     this.operations = new OperationsImpl(this);
-    this.operationsHealthOperations = new OperationsHealthOperationsImpl(this);
     this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
     this.privateLinkResources = new PrivateLinkResourcesImpl(this);
     this.recoverableManagedDatabases = new RecoverableManagedDatabasesImpl(
@@ -590,7 +587,6 @@ export class SqlManagementClient extends coreClient.ServiceClient {
   managedRestorableDroppedDatabaseBackupShortTermRetentionPolicies: ManagedRestorableDroppedDatabaseBackupShortTermRetentionPolicies;
   managedServerSecurityAlertPolicies: ManagedServerSecurityAlertPolicies;
   operations: Operations;
-  operationsHealthOperations: OperationsHealthOperations;
   privateEndpointConnections: PrivateEndpointConnections;
   privateLinkResources: PrivateLinkResources;
   recoverableManagedDatabases: RecoverableManagedDatabases;

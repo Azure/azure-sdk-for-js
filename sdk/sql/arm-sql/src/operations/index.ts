@@ -81,7 +81,6 @@ export * from "./managedInstanceVulnerabilityAssessments";
 export * from "./managedRestorableDroppedDatabaseBackupShortTermRetentionPolicies";
 export * from "./managedServerSecurityAlertPolicies";
 export * from "./operations";
-export * from "./operationsHealthOperations";
 export * from "./privateEndpointConnections";
 export * from "./privateLinkResources";
 export * from "./recoverableManagedDatabases";

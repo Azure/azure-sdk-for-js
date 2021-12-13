@@ -1,15 +1,20 @@
 # Release History
+    
+## 10.0.0-beta.1 (2021-12-13)
+    
+**Features**
 
-## 9.0.1 (Unreleased)
+  - Added Type Alias SyncGroupsType
+  - Added Enum KnownSyncGroupsType
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed operation group OperationsHealthOperations
+  - Operation SyncGroups.listLogs has a new signature
+  - Class SqlManagementClient no longer has parameter operationsHealthOperations
+  - Removed Enum KnownEnum60
+    
+    
 ## 9.0.0 (2021-12-07)
 
 The package of @azure/arm-sql is using our next generation design principles since version 9.0.0, which contains breaking changes.

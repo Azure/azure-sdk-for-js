@@ -22,7 +22,7 @@ import {
   SyncGroupsListHubSchemasNextOptionalParams,
   SyncGroupsListHubSchemasOptionalParams,
   SyncGroupLogProperties,
-  Enum60,
+  SyncGroupsType,
   SyncGroupsListLogsNextOptionalParams,
   SyncGroupsListLogsOptionalParams,
   SyncGroup,
@@ -223,7 +223,7 @@ export class SyncGroupsImpl implements SyncGroups {
     syncGroupName: string,
     startTime: string,
     endTime: string,
-    typeParam: Enum60,
+    typeParam: SyncGroupsType,
     options?: SyncGroupsListLogsOptionalParams
   ): PagedAsyncIterableIterator<SyncGroupLogProperties> {
     const iter = this.listLogsPagingAll(
@@ -265,7 +265,7 @@ export class SyncGroupsImpl implements SyncGroups {
     syncGroupName: string,
     startTime: string,
     endTime: string,
-    typeParam: Enum60,
+    typeParam: SyncGroupsType,
     options?: SyncGroupsListLogsOptionalParams
   ): AsyncIterableIterator<SyncGroupLogProperties[]> {
     let result = await this._listLogs(
@@ -304,7 +304,7 @@ export class SyncGroupsImpl implements SyncGroups {
     syncGroupName: string,
     startTime: string,
     endTime: string,
-    typeParam: Enum60,
+    typeParam: SyncGroupsType,
     options?: SyncGroupsListLogsOptionalParams
   ): AsyncIterableIterator<SyncGroupLogProperties> {
     for await (const page of this.listLogsPagingPage(
@@ -550,7 +550,7 @@ export class SyncGroupsImpl implements SyncGroups {
     syncGroupName: string,
     startTime: string,
     endTime: string,
-    typeParam: Enum60,
+    typeParam: SyncGroupsType,
     options?: SyncGroupsListLogsOptionalParams
   ): Promise<SyncGroupsListLogsResponse> {
     return this.client.sendOperationRequest(
@@ -1033,7 +1033,7 @@ export class SyncGroupsImpl implements SyncGroups {
     startTime: string,
     endTime: string,
     nextLink: string,
-    typeParam: Enum60,
+    typeParam: SyncGroupsType,
     options?: SyncGroupsListLogsNextOptionalParams
   ): Promise<SyncGroupsListLogsNextResponse> {
     return this.client.sendOperationRequest(
