@@ -1,7 +1,8 @@
 {
   "advancedOptions": {
     "createSdkPullRequests": true,
-    "generationCallMode": "one-per-config"
+    "generationCallMode": "one-per-config",
+    "breakingChangeTracking": true
   },
   "initOptions": {
     "initScript": {
@@ -18,5 +19,8 @@
       }
     },
     "parseGenerateOutput": true
+  },
+  "packageOptions": {
+    "breakingChangeLabel": "CI-BreakingChange-JavaScript"
   }
 }
