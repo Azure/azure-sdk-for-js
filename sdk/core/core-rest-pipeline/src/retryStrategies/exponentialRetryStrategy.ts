@@ -52,7 +52,7 @@ export function exponentialRetryStrategy(
     },
     updateRetryState(state: RetryStrategyState): RetryStrategyState {
       state.maxRetries = maxRetries;
-      const retryAfterInMs = state.retryAfterInMs || retryInterval;
+      const retryAfterInMs = state.retryAfterInMs ?? retryInterval;
 
       // Exponentially increase the delay each time
       const exponentialDelay = retryAfterInMs * Math.pow(2, state.retryCount);
