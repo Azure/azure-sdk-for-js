@@ -73,22 +73,16 @@ export function createClient(
       throw Error(`Unsupported authentication method: ${authMethod}`);
     }
   }
-  const client = new TextAnalyticsClient(
+  return new TextAnalyticsClient(
     env.ENDPOINT || "https://dummy.cognitiveservices.azure.com/",
     credential,
-    options
+    /**
+     * The service's rate limit is sometimes reached for the beginAnalyzeActoins tests
+     * because of the many requests the tests send. It appears that retrying only 3 times
+     * (the default) is not enough so this logic increases that to 10.
+     */
+    { ...options, retryOptions: { maxRetries: 10 } }
   );
-
-  /**
-   * The service's rate limit is sometimes reached for the beginAnalyzeActoins tests
-   * because of the many requests the tests send. It appears that retrying only 3 times
-   * (the default) is not enough so this logic increases that to 10.
-   */
-  client["client"].pipeline.removePolicy({
-    name: "throttlingRetryPolicy"
-  });
-  client["client"].pipeline.addPolicy(throttlingRetryPolicy({ maxRetries: 10 }));
-  return client;
 }
 
 /**
