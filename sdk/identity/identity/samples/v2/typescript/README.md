@@ -12,11 +12,11 @@ urlFragment: identity-typescript
 
 These sample programs show how to use the TypeScript client libraries for Azure Identity in some common scenarios.
 
-| **File Name**                                       | **Description**                                                                       |
-| --------------------------------------------------- | ------------------------------------------------------------------------------------- |
-| [clientSecretCredential.ts][clientsecretcredential] | Authenticates with a client and a client's secret.                                    |
-| [defaultAzureCredential.ts][defaultazurecredential] | Tries several authentications. The simplest way to use `@azure/identity`.             |
-| [environmentCredential.ts][environmentcredential]   | Authenticates with a client and a client's secret sent through environment variables. |
+| **File Name**                                       | **Description**                                                                                 |
+| --------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
+| [clientSecretCredential.ts][clientsecretcredential] | Authenticates with a client and a App Registration's secret.                                    |
+| [defaultAzureCredential.ts][defaultazurecredential] | Tries several authentications. The simplest way to use `@azure/identity`.                       |
+| [environmentCredential.ts][environmentcredential]   | Authenticates with a client and a App Registration's secret sent through environment variables. |
 
 ## Prerequisites
 
