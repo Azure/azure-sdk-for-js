@@ -151,7 +151,7 @@ describe("Web test", () => {
     assert.equal(res.name,name);
   });
 
-  it("sample test", async function() {
+  it("webApps delete test", async function() {
     const res = await client.webApps.delete(resourceGroup,name);
     const resArray = new Array();
     for await (let item of client.webApps.list()){
@@ -160,7 +160,7 @@ describe("Web test", () => {
     assert.equal(resArray.length,0);
   });
 
-  it("sample test", async function() {
+  it("appServicePlans delete test", async function() {
     const res = await client.appServicePlans.delete(resourceGroup,appservicePlanName);
     const resArray = new Array();
     for await (let item of client.appServicePlans.listByResourceGroup(resourceGroup)){
