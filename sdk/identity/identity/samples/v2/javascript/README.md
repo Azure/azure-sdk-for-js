@@ -14,7 +14,7 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 
 | **File Name**                                       | **Description**                                                                                            |
 | --------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
-| [clientSecretCredential.js][clientsecretcredential] | Authenticates with a client and a app registration's secret.                                               |
+| [clientSecretCredential.js][clientsecretcredential] | Authenticates with an app registration’s client Id and secret.                                             |
 | [defaultAzureCredential.js][defaultazurecredential] | Tries several authentication methods using a single credential. The simplest way to use `@azure/identity`. |
 | [environmentCredential.js][environmentcredential]   | Authenticates as an app registration automatically using environment variables.                            |
 
