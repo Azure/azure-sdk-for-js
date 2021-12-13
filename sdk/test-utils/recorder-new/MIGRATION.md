@@ -150,4 +150,15 @@ const credential = isPlaybackMode()
 
 Since AAD traffic is not recorded by the new recorder, there is no longer a need to remove AAD credentials from the recording using a sanitizer.
 
+Browser tests and modifications to Karma configuration
+------------------------------------------------------
+
+When running browser tests, the recorder relies on an environment variable to determine where to save the recordings. Add this snippet to your `karma.conf.js`:
+
+```ts
+const { relativeRecordingsPath } = require("@azure-tools/test-recorder-new");
+
+process.env.RECORDINGS_RELATIVE_PATH = relativeRecordingsPath();
+```
+
 [test proxy server]: https://github.com/Azure/azure-sdk-tools/tree/main/tools/test-proxy
