@@ -5,8 +5,8 @@ import { ClientSecretCredential, TokenCredential } from "@azure/identity";
 import { Recorder, RecorderEnvironmentSetup, env, record } from "@azure-tools/test-recorder";
 import { AzureKeyCredential } from "@azure/core-auth";
 import { Context } from "mocha";
-import { SearchClient } from "../../../src/searchClient";
-import { SearchClientOptions } from "../../../src/models/options";
+import { MapsSearchClient } from "../../../src/searchClient";
+import { MapsSearchClientOptions } from "../../../src/models/options";
 
 const replaceableVariables: { [k: string]: string } = {
   AZURE_CLIENT_ID: "azure_client_id",
@@ -35,12 +35,15 @@ export const environmentSetup: RecorderEnvironmentSetup = {
 
 export type AuthMethod = "SubscriptionKey" | "AAD";
 
-export function createClient(authMethod: AuthMethod, options?: SearchClientOptions): SearchClient {
+export function createClient(
+  authMethod: AuthMethod,
+  options?: MapsSearchClientOptions
+): MapsSearchClient {
   let credential: AzureKeyCredential | TokenCredential;
   switch (authMethod) {
     case "SubscriptionKey": {
       credential = new AzureKeyCredential(env.MAPS_SUBSCRIPTION_KEY);
-      return new SearchClient(credential, options);
+      return new MapsSearchClient(credential, options);
     }
     case "AAD": {
       credential = new ClientSecretCredential(
@@ -48,7 +51,7 @@ export function createClient(authMethod: AuthMethod, options?: SearchClientOptio
         env.AZURE_CLIENT_ID,
         env.AZURE_CLIENT_SECRET
       );
-      return new SearchClient(credential, env.MAPS_CLIENT_ID, options);
+      return new MapsSearchClient(credential, env.MAPS_CLIENT_ID, options);
     }
     default: {
       throw Error(`Unsupported authentication method: ${authMethod}`);

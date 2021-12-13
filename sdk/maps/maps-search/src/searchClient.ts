@@ -67,7 +67,7 @@ import {
   SearchAddressBatchOptions,
   SearchAddressOptions,
   SearchAlongRouteOptions,
-  SearchClientOptions,
+  MapsSearchClientOptions,
   SearchInsideGeometryOptions,
   SearchNearbyPointOfInterestOptions,
   SearchPointOfInterestCategoryOptions,
@@ -81,7 +81,9 @@ import { logger } from "./utils/logger";
 import { createSpan } from "./utils/tracing";
 import { SpanStatusCode } from "@azure/core-tracing";
 
-const isSearchClientOptions = (clientIdOrOptions: any): clientIdOrOptions is SearchClientOptions =>
+const isMapsSearchClientOptions = (
+  clientIdOrOptions: any
+): clientIdOrOptions is MapsSearchClientOptions =>
   clientIdOrOptions && typeof clientIdOrOptions !== "string";
 
 const isPOISearchOptions = <
@@ -101,33 +103,33 @@ const isLatLon = (obj: any): obj is LatLon => "latitude" in obj && "longitude" i
 /**
  * Client class for interacting with Azure Maps Search Service.
  */
-export class SearchClient {
+export class MapsSearchClient {
   /**
    * A reference to the auto-generated Search HTTP client.
    */
   private readonly client: GeneratedClient;
   private readonly defaultFormat: string = "json";
   /**
-   * Creates an instance of SearchClient.
+   * Creates an instance of MapsSearchClient.
    *
    * @param credential - An AzureKeyCredential instance used to authenticate requests to the service
    * @param options - Options used to configure the Search Client
    */
-  constructor(credential: AzureKeyCredential, options?: SearchClientOptions);
+  constructor(credential: AzureKeyCredential, options?: MapsSearchClientOptions);
   /**
-   * Creates an instance of SearchClient.
+   * Creates an instance of MapsSearchClient.
    *
    * @param credential - An TokenCredential instance used to authenticate requests to the service
    * @param clientId - The Azure Maps client id of a specific map resource
    * @param options - Options used to configure the Search Client
    */
-  constructor(credential: TokenCredential, clientId: string, options?: SearchClientOptions);
+  constructor(credential: TokenCredential, clientId: string, options?: MapsSearchClientOptions);
   constructor(
     credential: TokenCredential | AzureKeyCredential,
-    clientIdOrOptions?: string | SearchClientOptions,
-    maybeOptions: SearchClientOptions = {}
+    clientIdOrOptions?: string | MapsSearchClientOptions,
+    maybeOptions: MapsSearchClientOptions = {}
   ) {
-    const options = isSearchClientOptions(clientIdOrOptions) ? clientIdOrOptions : maybeOptions;
+    const options = isMapsSearchClientOptions(clientIdOrOptions) ? clientIdOrOptions : maybeOptions;
     const internalPipelineOptions: InternalPipelineOptions = {
       ...options,
       ...{
@@ -169,7 +171,7 @@ export class SearchClient {
       throw new Error("'geometryIds' must be a non-empty array");
     }
 
-    const { span, updatedOptions } = createSpan("SearchClient-listPolygons", options);
+    const { span, updatedOptions } = createSpan("MapsSearchClient-listPolygons", options);
     const internalOptions = updatedOptions as ListPolygonsOptionalParams;
     try {
       const result = await this.client.search.listPolygons(
@@ -238,7 +240,7 @@ export class SearchClient {
     )
       ? countryFilterOrOptions
       : maybeOptions;
-    const { span, updatedOptions } = createSpan("SearchClient-fuzzySearch", options);
+    const { span, updatedOptions } = createSpan("MapsSearchClient-fuzzySearch", options);
     const internalOptions = mapFuzzySearchOptions(updatedOptions);
     if (isLatLon(coordinatesOrCountryFilter)) {
       internalOptions.lat = coordinatesOrCountryFilter.latitude;
@@ -319,7 +321,7 @@ export class SearchClient {
     )
       ? countryFilterOrOptions
       : maybeOptions;
-    const { span, updatedOptions } = createSpan("SearchClient-searchPointOfInterest", options);
+    const { span, updatedOptions } = createSpan("MapsSearchClient-searchPointOfInterest", options);
     const internalOptions = mapSearchPointOfInterestOptions(updatedOptions);
     if (isLatLon(coordinatesOrCountryFilter)) {
       internalOptions.lat = coordinatesOrCountryFilter.latitude;
@@ -362,7 +364,7 @@ export class SearchClient {
     options: SearchNearbyPointOfInterestOptions = {}
   ): Promise<SearchAddressResult> {
     const { span, updatedOptions } = createSpan(
-      "SearchClient-searchNearbyPointOfInterest",
+      "MapsSearchClient-searchNearbyPointOfInterest",
       options
     );
     const internalOptions = mapSearchNearbyPointOfInterestOptions(updatedOptions);
@@ -435,7 +437,7 @@ export class SearchClient {
       ? countryFilterOrOptions
       : maybeOptions;
     const { span, updatedOptions } = createSpan(
-      "SearchClient-searchPointOfInterestCategory",
+      "MapsSearchClient-searchPointOfInterestCategory",
       options
     );
     const internalOptions = mapSearchPointOfInterestOptions(updatedOptions);
@@ -478,7 +480,7 @@ export class SearchClient {
     options: GetPointOfInterestCategoryTreeOptions = {}
   ): Promise<PointOfInterestCategory[]> {
     const { span, updatedOptions } = createSpan(
-      "SearchClient-getPointOfInterestCategoryTree",
+      "MapsSearchClient-getPointOfInterestCategoryTree",
       options
     );
     const internalOptions = updatedOptions as GetPointOfInterestCategoryTreeOptionalParams;
@@ -509,7 +511,7 @@ export class SearchClient {
     query: string,
     options: SearchAddressOptions = {}
   ): Promise<SearchAddressResult> {
-    const { span, updatedOptions } = createSpan("SearchClient-searchAddress", options);
+    const { span, updatedOptions } = createSpan("MapsSearchClient-searchAddress", options);
     const internalOptions = mapSearchAddressOptions(updatedOptions);
     try {
       const result = await this.client.search.searchAddress(
@@ -539,7 +541,7 @@ export class SearchClient {
     coordinates: LatLon,
     options: ReverseSearchAddressOptions = {}
   ): Promise<ReverseSearchAddressResult> {
-    const { span, updatedOptions } = createSpan("SearchClient-reverseSearchAddress", options);
+    const { span, updatedOptions } = createSpan("MapsSearchClient-reverseSearchAddress", options);
     const internalOptions = updatedOptions as ReverseSearchAddressOptionalParams;
     try {
       const result = await this.client.search.reverseSearchAddress(
@@ -570,7 +572,7 @@ export class SearchClient {
     options: ReverseSearchCrossStreetAddressOptions = {}
   ): Promise<ReverseSearchCrossStreetAddressResult> {
     const { span, updatedOptions } = createSpan(
-      "SearchClient-reverseSearchCrossStreetAddress",
+      "MapsSearchClient-reverseSearchCrossStreetAddress",
       options
     );
     const internalOptions = updatedOptions as ReverseSearchCrossStreetAddressOptionalParams;
@@ -602,7 +604,10 @@ export class SearchClient {
     structuredAddress: StructuredAddress,
     options: SearchStructuredAddressOptions = {}
   ): Promise<SearchAddressResult> {
-    const { span, updatedOptions } = createSpan("SearchClient-searchStructuredAddress", options);
+    const { span, updatedOptions } = createSpan(
+      "MapsSearchClient-searchStructuredAddress",
+      options
+    );
     const { countryCode, ...structuredAddressOptions } = structuredAddress;
     const internalOptions = {
       ...updatedOptions,
@@ -640,7 +645,7 @@ export class SearchClient {
     geometry: GeoJsonPolygon | GeoJsonGeometryCollection | GeoJsonFeatureCollection,
     options: SearchInsideGeometryOptions = {}
   ): Promise<SearchAddressResult> {
-    const { span, updatedOptions } = createSpan("SearchClient-searchInsideGeometry", options);
+    const { span, updatedOptions } = createSpan("MapsSearchClient-searchInsideGeometry", options);
     const internalOptions = updatedOptions as SearchInsideGeometryOptionalParams;
     try {
       const result = await this.client.search.searchInsideGeometry(
@@ -677,7 +682,7 @@ export class SearchClient {
     route: GeoJsonLineString,
     options: SearchAlongRouteOptions = {}
   ): Promise<SearchAddressResult> {
-    const { span, updatedOptions } = createSpan("SearchClient-searchAlongRoute", options);
+    const { span, updatedOptions } = createSpan("MapsSearchClient-searchAlongRoute", options);
     const internalOptions = updatedOptions as SearchAlongRouteOptionalParams;
     try {
       const result = await this.client.search.searchAlongRoute(
@@ -710,7 +715,7 @@ export class SearchClient {
     options: FuzzySearchBatchOptions = {}
   ): Promise<BatchResult<SearchAddressResult>> {
     // TODO: Check reqeusts number
-    const { span, updatedOptions } = createSpan("SearchClient-fuzzySearchBatchSync", options);
+    const { span, updatedOptions } = createSpan("MapsSearchClient-fuzzySearchBatchSync", options);
     const batchRequest = createFuzzySearchBatchRequest(requests);
     console.log(batchRequest);
     try {
@@ -747,7 +752,7 @@ export class SearchClient {
     >
   > {
     // TODO: Check reqeusts number
-    const { span, updatedOptions } = createSpan("SearchClient-beginFuzzySearchBatch", options);
+    const { span, updatedOptions } = createSpan("MapsSearchClient-beginFuzzySearchBatch", options);
     const batchRequest = createFuzzySearchBatchRequest(requests);
     try {
       const internalPoller = await this.client.search.beginFuzzySearchBatch(
@@ -781,7 +786,7 @@ export class SearchClient {
     options: SearchAddressBatchOptions = {}
   ): Promise<BatchResult<SearchAddressResult>> {
     // TODO: Check reqeusts number
-    const { span, updatedOptions } = createSpan("SearchClient-searchAddressBatchSync", options);
+    const { span, updatedOptions } = createSpan("MapsSearchClient-searchAddressBatchSync", options);
     const batchRequest = createSearchAddressBatchRequest(requests);
     console.log(batchRequest);
     try {
@@ -818,7 +823,10 @@ export class SearchClient {
     >
   > {
     // TODO: Check reqeusts number
-    const { span, updatedOptions } = createSpan("SearchClient-beginSearchAddressBatch", options);
+    const { span, updatedOptions } = createSpan(
+      "MapsSearchClient-beginSearchAddressBatch",
+      options
+    );
     const batchRequest = createSearchAddressBatchRequest(requests);
     try {
       const internalPoller = await this.client.search.beginSearchAddressBatch(
@@ -853,7 +861,7 @@ export class SearchClient {
   ): Promise<BatchResult<ReverseSearchAddressResult>> {
     // TODO: Check reqeusts number
     const { span, updatedOptions } = createSpan(
-      "SearchClient-reverseSearchAddressBatchSync",
+      "MapsSearchClient-reverseSearchAddressBatchSync",
       options
     );
     const batchRequest = createReverseSearchAddressBatchRequest(requests);
@@ -893,7 +901,7 @@ export class SearchClient {
   > {
     // TODO: Check reqeusts number
     const { span, updatedOptions } = createSpan(
-      "SearchClient-beginReverseSearchAddressBatch",
+      "MapsSearchClient-beginReverseSearchAddressBatch",
       options
     );
     const batchRequest = createReverseSearchAddressBatchRequest(requests);

@@ -8,8 +8,7 @@
 import { DefaultAzureCredential } from "@azure/identity";
 import { AzureKeyCredential } from "@azure/core-auth";
 import {
-  SearchClient,
-  LatLong,
+  MapsSearchClient,
   GeoJsonLineString,
   GeoJsonPolygon,
   StructuredAddress,
@@ -31,18 +30,18 @@ dotenv.config();
  */
 
 async function main() {
-  let client: SearchClient;
+  let client: MapsSearchClient;
 
   if (process.env.MAPS_SUBSCRIPTION_KEY) {
     // Use subscription key authentication
     const credential = new AzureKeyCredential(process.env.MAPS_SUBSCRIPTION_KEY);
-    client = new SearchClient(credential);
+    client = new MapsSearchClient(credential);
   } else {
     // Use Azure AD authentication
     if (process.env.MAPS_CLIENT_ID) {
       const credential = new DefaultAzureCredential();
       const mapsClientId = process.env.MAPS_CLIENT_ID;
-      client = new SearchClient(credential, mapsClientId);
+      client = new MapsSearchClient(credential, mapsClientId);
     } else {
       throw Error("Cannot authenticate the client.");
     }
@@ -52,7 +51,7 @@ async function main() {
   console.log(await client.searchAddress("400 Broad, Seattle"));
 
   console.log(" --- Reverse-geocode coordinates to address:");
-  const coordinates = new LatLong(47.59118, -122.3327);
+  const coordinates = { latitude: 47.59118, longitude: -122.3327 };
   console.log(await client.reverseSearchAddress(coordinates));
 
   console.log(" --- Reverse-geocode coordinates to cross street address:");
@@ -90,7 +89,7 @@ async function main() {
     }
   });
   console.log(" --- Search nearby POI:");
-  const searchNearbyCoordinate = new LatLong(40.70627, -74.011454);
+  const searchNearbyCoordinate = { latitude: 40.70627, longitude: -74.011454 };
   const searchNearbyOptions = { radiusInMeters: 8046 };
   console.log(
     await client.searchNearbyPointOfInterest(searchNearbyCoordinate, searchNearbyOptions)
@@ -105,7 +104,7 @@ async function main() {
   console.log(
     await client.searchPointOfInterest(
       searchPOIQuery,
-      new LatLong(47.606038, -122.333345),
+      { latitude: 47.606038, longitude: -122.333345 },
       searchPOIOptions
     )
   );
@@ -117,7 +116,7 @@ async function main() {
   console.log(
     await client.searchPointOfInterest(
       searchPOIQuery,
-      new LatLong(47.606038, -122.333345),
+      { latitude: 47.606038, longitude: -122.333345 },
       ["fr"],
       searchPOIOptions
     )
@@ -132,7 +131,7 @@ async function main() {
   console.log(
     await client.searchPointOfInterestCategory(
       searchPOICategoryQuery,
-      new LatLong(47.606038, -122.333345),
+      { latitude: 47.606038, longitude: -122.333345 },
       searchPOICategoryOptions
     )
   );
@@ -150,7 +149,7 @@ async function main() {
   console.log(
     await client.searchPointOfInterestCategory(
       searchPOICategoryQuery,
-      new LatLong(47.606038, -122.333345),
+      { latitude: 47.606038, longitude: -122.333345 },
       ["fr"],
       searchPOICategoryOptions
     )
@@ -248,9 +247,12 @@ async function main() {
   // };
 
   const reverseSearchAddressRequests: ReverseSearchAddressRequest[] = [
-    { coordinates: new LatLong(48.858561, 2.294911) },
-    { coordinates: new LatLong(47.639765, -122.127896), options: { radiusInMeters: 5000 } },
-    { coordinates: new LatLong(47.621028, -122.34817) }
+    { coordinates: { latitude: 48.858561, longitude: 2.294911 } },
+    {
+      coordinates: { latitude: 47.639765, longitude: -122.127896 },
+      options: { radiusInMeters: 5000 }
+    },
+    { coordinates: { latitude: 47.621028, longitude: -122.34817 } }
   ];
 
   console.log(" --- Search address reverse batch:");
@@ -279,7 +281,7 @@ async function main() {
   const fuzzySearchRequests: FuzzySearchRequest[] = [
     {
       query: "atm",
-      coordinates: new LatLong(48.858561, 2.294911),
+      coordinates: { latitude: 48.858561, longitude: 2.294911 },
       options: { radiusInMeters: 5000, top: 5 }
     },
     {
@@ -288,7 +290,7 @@ async function main() {
     },
     {
       query: "Starbucks",
-      coordinates: new LatLong(47.621028, -122.34817),
+      coordinates: { latitude: 47.621028, longitude: -122.34817 },
       options: { radiusInMeters: 5000 }
     }
   ];
