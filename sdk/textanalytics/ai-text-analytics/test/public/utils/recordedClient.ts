@@ -76,7 +76,7 @@ export function createClient(
     env.ENDPOINT || "https://dummy.cognitiveservices.azure.com/",
     credential,
     /**
-     * The service's rate limit is sometimes reached for the beginAnalyzeActoins tests
+     * The service's rate limit is sometimes reached for the beginAnalyzeActions tests
      * because of the many requests the tests send. It appears that retrying only 3 times
      * (the default) is not enough so this logic increases that to 10.
      */
