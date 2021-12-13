@@ -22,10 +22,51 @@ export interface AvailableCluster {
 
 /** Error response indicates Event Hub service is not able to process the incoming request. The reason is provided in the error message. */
 export interface ErrorResponse {
-  /** Error code. */
-  code?: string;
-  /** Error message indicating why the operation failed. */
-  message?: string;
+  /** The error object. */
+  error?: ErrorDetail;
+}
+
+/** The error detail. */
+export interface ErrorDetail {
+  /**
+   * The error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * The error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * The error target.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
+  /**
+   * The error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly details?: ErrorDetail[];
+  /**
+   * The error additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /**
+   * The additional info type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly info?: Record<string, unknown>;
 }
 
 /** The response of the List Event Hubs Clusters operation. */
@@ -34,25 +75,6 @@ export interface ClusterListResult {
   value?: Cluster[];
   /** Link to the next set of results. Empty unless the value parameter contains an incomplete list of Event Hubs Clusters. */
   nextLink?: string;
-}
-
-/** The resource definition. */
-export interface Resource {
-  /**
-   * Resource ID.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * Resource name.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * Resource type.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
 }
 
 /** SKU parameters particular to a cluster instance. */
@@ -77,6 +99,25 @@ export interface SystemData {
   lastModifiedByType?: CreatedByType;
   /** The type of identity that last modified the resource. */
   lastModifiedAt?: Date;
+}
+
+/** Common fields that are returned in the response for all Azure Resource Manager resources */
+export interface Resource {
+  /**
+   * Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The name of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
 }
 
 /** The response of the List Namespace IDs operation */
@@ -187,6 +228,30 @@ export interface ConnectionState {
   description?: string;
 }
 
+/** Common fields that are returned in the response for all Azure Resource Manager resources */
+export interface ProxyResource {
+  /**
+   * Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The name of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource. E.g. "Microsoft.EventHub/Namespaces" or "Microsoft.EventHub/Namespaces/EventHubs"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The geo-location where the resource lives
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly location?: string;
+}
+
 /** Result of the list of all private endpoint connections operation. */
 export interface PrivateEndpointConnectionListResult {
   /** A collection of private endpoint connection resources. */
@@ -240,27 +305,38 @@ export interface Operation {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly name?: string;
-  /** The object that represents the operation. */
+  /** Indicates whether the operation is a data action */
+  isDataAction?: boolean;
+  /** Display of the operation */
   display?: OperationDisplay;
+  /** Origin of the operation */
+  origin?: string;
+  /** Properties of the operation */
+  properties?: Record<string, unknown>;
 }
 
-/** The object that represents the operation. */
+/** Operation display payload */
 export interface OperationDisplay {
   /**
-   * Service provider: Microsoft.EventHub
+   * Resource provider of the operation
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provider?: string;
   /**
-   * Resource on which the operation is performed: Invoice, etc.
+   * Resource of the operation
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly resource?: string;
   /**
-   * Operation type: Read, write, delete, etc.
+   * Localized friendly name for the operation
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly operation?: string;
+  /**
+   * Localized friendly description for the operation
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly description?: string;
 }
 
 /** The result of the List EventHubs operation. */
@@ -297,6 +373,12 @@ export interface Destination {
   blobContainer?: string;
   /** Blob naming convention for archive, e.g. {Namespace}/{EventHub}/{PartitionId}/{Year}/{Month}/{Day}/{Hour}/{Minute}/{Second}. Here all the parameters (Namespace,EventHub .. etc) are mandatory irrespective of order */
   archiveNameFormat?: string;
+  /** Subscription Id of Azure Data Lake Store */
+  dataLakeSubscriptionId?: string;
+  /** The Azure Data Lake Store name for the captured events */
+  dataLakeAccountName?: string;
+  /** The destination folder path for the captured events */
+  dataLakeFolderPath?: string;
 }
 
 /** Parameter supplied to check Namespace name availability operation */
@@ -349,6 +431,14 @@ export interface NWRuleSetIpRules {
   ipMask?: string;
   /** The IP Filter Action */
   action?: NetworkRuleIPAction;
+}
+
+/** The response of the List NetworkRuleSet operation */
+export interface NetworkRuleSetListResult {
+  /** Result of the List NetworkRuleSet operation */
+  value?: NetworkRuleSet[];
+  /** Link to the next set of results. Not empty if Value contains incomplete list of NetworkRuleSet. */
+  nextLink?: string;
 }
 
 /** The response from the List namespace operation. */
@@ -414,6 +504,14 @@ export interface ConsumerGroupListResult {
   nextLink?: string;
 }
 
+/** The result of the List SchemaGroup operation. */
+export interface SchemaGroupListResult {
+  /** Result of the List SchemaGroups operation. */
+  value?: SchemaGroup[];
+  /** Link to the next set of results. Not empty if Value contains incomplete list of Schema Groups. */
+  nextLink?: string;
+}
+
 /** Definition of resource. */
 export type TrackedResource = Resource & {
   /** Resource location. */
@@ -423,7 +521,7 @@ export type TrackedResource = Resource & {
 };
 
 /** Properties of the PrivateEndpointConnection. */
-export type PrivateEndpointConnection = Resource & {
+export type PrivateEndpointConnection = ProxyResource & {
   /**
    * The system meta data relating to this resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -438,7 +536,7 @@ export type PrivateEndpointConnection = Resource & {
 };
 
 /** Single item in List or Get Event Hub operation */
-export type Eventhub = Resource & {
+export type Eventhub = ProxyResource & {
   /**
    * The system meta data relating to this resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -470,7 +568,7 @@ export type Eventhub = Resource & {
 };
 
 /** Single item in List or Get Alias(Disaster Recovery configuration) operation */
-export type ArmDisasterRecovery = Resource & {
+export type ArmDisasterRecovery = ProxyResource & {
   /**
    * The system meta data relating to this resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -498,7 +596,7 @@ export type ArmDisasterRecovery = Resource & {
 };
 
 /** Description of topic resource. */
-export type NetworkRuleSet = Resource & {
+export type NetworkRuleSet = ProxyResource & {
   /**
    * The system meta data relating to this resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -517,7 +615,7 @@ export type NetworkRuleSet = Resource & {
 };
 
 /** Single item in a List or Get AuthorizationRule operation */
-export type AuthorizationRule = Resource & {
+export type AuthorizationRule = ProxyResource & {
   /**
    * The system meta data relating to this resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -528,7 +626,7 @@ export type AuthorizationRule = Resource & {
 };
 
 /** Single item in List or Get Consumer group operation */
-export type ConsumerGroup = Resource & {
+export type ConsumerGroup = ProxyResource & {
   /**
    * The system meta data relating to this resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -546,6 +644,34 @@ export type ConsumerGroup = Resource & {
   readonly updatedAt?: Date;
   /** User Metadata is a placeholder to store user-defined string data with maximum length 1024. e.g. it can be used to store descriptive data, such as list of teams and their contact information also user-defined configuration settings can be stored. */
   userMetadata?: string;
+};
+
+/** Single item in List or Get Schema Group operation */
+export type SchemaGroup = ProxyResource & {
+  /**
+   * The system meta data relating to this resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /**
+   * Exact time the Schema Group was updated
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly updatedAtUtc?: Date;
+  /**
+   * Exact time the Schema Group was created.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdAtUtc?: Date;
+  /**
+   * The ETag value.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly eTag?: string;
+  /** dictionary object for SchemaGroup group properties */
+  groupProperties?: { [propertyName: string]: string };
+  schemaCompatibility?: SchemaCompatibility;
+  schemaType?: SchemaType;
 };
 
 /** Single Event Hubs Cluster resource in List or Get operations. */
@@ -636,6 +762,8 @@ export type EHNamespace = TrackedResource & {
   privateEndpointConnections?: PrivateEndpointConnection[];
   /** This property disables SAS authentication for the Event Hubs namespace. */
   disableLocalAuth?: boolean;
+  /** Alternate name specified when alias and namespace names are same. */
+  alternateName?: string;
 };
 
 /** Known values of {@link ClusterSkuName} that the service accepts. */
@@ -815,6 +943,56 @@ export enum KnownAccessRights {
  * **Listen**
  */
 export type AccessRights = string;
+
+/** Known values of {@link KeyType} that the service accepts. */
+export enum KnownKeyType {
+  PrimaryKey = "PrimaryKey",
+  SecondaryKey = "SecondaryKey"
+}
+
+/**
+ * Defines values for KeyType. \
+ * {@link KnownKeyType} can be used interchangeably with KeyType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **PrimaryKey** \
+ * **SecondaryKey**
+ */
+export type KeyType = string;
+
+/** Known values of {@link SchemaCompatibility} that the service accepts. */
+export enum KnownSchemaCompatibility {
+  None = "None",
+  Backward = "Backward",
+  Forward = "Forward"
+}
+
+/**
+ * Defines values for SchemaCompatibility. \
+ * {@link KnownSchemaCompatibility} can be used interchangeably with SchemaCompatibility,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **Backward** \
+ * **Forward**
+ */
+export type SchemaCompatibility = string;
+
+/** Known values of {@link SchemaType} that the service accepts. */
+export enum KnownSchemaType {
+  Unknown = "Unknown",
+  Avro = "Avro"
+}
+
+/**
+ * Defines values for SchemaType. \
+ * {@link KnownSchemaType} can be used interchangeably with SchemaType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Unknown** \
+ * **Avro**
+ */
+export type SchemaType = string;
 /** Defines values for ManagedServiceIdentityType. */
 export type ManagedServiceIdentityType =
   | "SystemAssigned"
@@ -849,8 +1027,6 @@ export type RoleDisasterRecovery =
   | "Primary"
   | "PrimaryNotReplicating"
   | "Secondary";
-/** Defines values for KeyType. */
-export type KeyType = "PrimaryKey" | "SecondaryKey";
 
 /** Optional parameters. */
 export interface ClustersListAvailableClusterRegionOptionalParams
@@ -1010,6 +1186,13 @@ export interface NamespacesGetNetworkRuleSetOptionalParams
 
 /** Contains response data for the getNetworkRuleSet operation. */
 export type NamespacesGetNetworkRuleSetResponse = NetworkRuleSet;
+
+/** Optional parameters. */
+export interface NamespacesListNetworkRuleSetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNetworkRuleSet operation. */
+export type NamespacesListNetworkRuleSetResponse = NetworkRuleSetListResult;
 
 /** Optional parameters. */
 export interface NamespacesListAuthorizationRulesOptionalParams
@@ -1340,6 +1523,48 @@ export interface ConsumerGroupsListByEventHubNextOptionalParams
 
 /** Contains response data for the listByEventHubNext operation. */
 export type ConsumerGroupsListByEventHubNextResponse = ConsumerGroupListResult;
+
+/** Optional parameters. */
+export interface SchemaRegistryListByNamespaceOptionalParams
+  extends coreClient.OperationOptions {
+  /** Skip is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skip parameter that specifies a starting point to use for subsequent calls. */
+  skip?: number;
+  /** May be used to limit the number of results to the most recent N usageDetails. */
+  top?: number;
+}
+
+/** Contains response data for the listByNamespace operation. */
+export type SchemaRegistryListByNamespaceResponse = SchemaGroupListResult;
+
+/** Optional parameters. */
+export interface SchemaRegistryCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type SchemaRegistryCreateOrUpdateResponse = SchemaGroup;
+
+/** Optional parameters. */
+export interface SchemaRegistryDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface SchemaRegistryGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type SchemaRegistryGetResponse = SchemaGroup;
+
+/** Optional parameters. */
+export interface SchemaRegistryListByNamespaceNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** Skip is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skip parameter that specifies a starting point to use for subsequent calls. */
+  skip?: number;
+  /** May be used to limit the number of results to the most recent N usageDetails. */
+  top?: number;
+}
+
+/** Contains response data for the listByNamespaceNext operation. */
+export type SchemaRegistryListByNamespaceNextResponse = SchemaGroupListResult;
 
 /** Optional parameters. */
 export interface EventHubManagementClientOptionalParams

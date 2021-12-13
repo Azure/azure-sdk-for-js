@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { Span, SpanStatusCode, createSpanFunction } from "@azure/core-tracing";
 import { OperationOptions } from "@azure/core-client";
-import { createSpanFunction, Span, SpanStatusCode } from "@azure/core-tracing";
 
 /**
  * An interface representing a function that is traced.

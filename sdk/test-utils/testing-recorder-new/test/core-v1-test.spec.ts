@@ -4,9 +4,7 @@
 import { env, isPlaybackMode } from "@azure-tools/test-recorder";
 import { QueueServiceClient } from "@azure/storage-queue";
 import { TestProxyHttpClientCoreV1 } from "@azure-tools/test-recorder-new";
-import { config } from "dotenv";
 import { RecorderStartOptions } from "@azure-tools/test-recorder-new";
-config();
 
 const fakeSASUrl =
   "https://account_name.queue.core.windows.net/?sv=2020-08-04&ss=bfqt&srt=sco&sp=rwdlacuptfx&se=2026-07-10T07:00:24Z&st=2021-07-09T23:00:24Z&spr=https&sig=fake_sig";

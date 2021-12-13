@@ -13,29 +13,6 @@ export type BackupPolicyUnion =
   | PeriodicModeBackupPolicy
   | ContinuousModeBackupPolicy;
 
-/** The core properties of ARM resources. */
-export interface ARMResourceProperties {
-  /**
-   * The unique resource identifier of the ARM resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * The name of the ARM resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * The type of Azure resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /** The location of the resource group to which the resource belongs. */
-  location?: string;
-  /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with "defaultExperience": "Cassandra". Current "defaultExperience" values also include "Table", "Graph", "DocumentDB", and "MongoDB". */
-  tags?: { [propertyName: string]: string };
-}
-
 /** Identity for the resource. */
 export interface ManagedServiceIdentity {
   /**
@@ -137,25 +114,6 @@ export interface VirtualNetworkRule {
   ignoreMissingVNetServiceEndpoint?: boolean;
 }
 
-/** Common fields that are returned in the response for all Azure Resource Manager resources */
-export interface Resource {
-  /**
-   * Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * The name of the resource
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-}
-
 /** Private endpoint which the connection belongs to. */
 export interface PrivateEndpointProperty {
   /** Resource id of the private endpoint. */
@@ -173,6 +131,25 @@ export interface PrivateLinkServiceConnectionStateProperty {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly actionsRequired?: string;
+}
+
+/** Common fields that are returned in the response for all Azure Resource Manager resources */
+export interface Resource {
+  /**
+   * Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The name of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
 }
 
 export interface ApiProperties {
@@ -258,6 +235,29 @@ export interface SystemData {
   lastModifiedByType?: CreatedByType;
   /** The timestamp of resource last modification (UTC) */
   lastModifiedAt?: Date;
+}
+
+/** The core properties of ARM resources. */
+export interface ARMResourceProperties {
+  /**
+   * The unique resource identifier of the ARM resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The name of the ARM resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The type of Azure resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /** The location of the resource group to which the resource belongs. */
+  location?: string;
+  /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with "defaultExperience": "Cassandra". Current "defaultExperience" values also include "Table", "Graph", "DocumentDB", and "MongoDB". */
+  tags?: { [propertyName: string]: string };
 }
 
 /** Parameters for patching Azure Cosmos DB database account properties. */
@@ -1125,25 +1125,6 @@ export interface LocationListResult {
   readonly value?: LocationGetResult[];
 }
 
-/** The resource model definition for a ARM proxy resource. It will have everything other than required location and tags */
-export interface ARMProxyResource {
-  /**
-   * The unique resource identifier of the database account.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * The name of the database account.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * The type of Azure resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-}
-
 /** Cosmos DB location metadata */
 export interface LocationProperties {
   /**
@@ -1161,6 +1142,25 @@ export interface LocationProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly backupStorageRedundancies?: BackupStorageRedundancy[];
+}
+
+/** The resource model definition for a ARM proxy resource. It will have everything other than required location and tags */
+export interface ARMProxyResource {
+  /**
+   * The unique resource identifier of the database account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The name of the database account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The type of Azure resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
 }
 
 /** A list of notebook workspace resources */
@@ -1598,47 +1598,6 @@ export interface ListClusters {
   value?: ClusterResource[];
 }
 
-/** The core properties of ARM resources. */
-export interface ManagedCassandraARMResourceProperties {
-  /**
-   * The unique resource identifier of the ARM resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * The name of the ARM resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * The type of Azure resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /** The location of the resource group to which the resource belongs. */
-  location?: string;
-  /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with "defaultExperience": "Cassandra". Current "defaultExperience" values also include "Table", "Graph", "DocumentDB", and "MongoDB". */
-  tags?: { [propertyName: string]: string };
-  /** Identity for the resource. */
-  identity?: ManagedCassandraManagedServiceIdentity;
-}
-
-/** Identity for the resource. */
-export interface ManagedCassandraManagedServiceIdentity {
-  /**
-   * The object id of the identity resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly principalId?: string;
-  /**
-   * The tenant id of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly tenantId?: string;
-  /** The type of the resource. */
-  type?: ManagedCassandraResourceIdentityType;
-}
-
 /** Properties of a managed Cassandra cluster. */
 export interface ClusterResourceProperties {
   /** The status of the resource at the time the operation was called. */
@@ -1691,6 +1650,47 @@ export interface SeedNode {
 export interface Certificate {
   /** PEM formatted public key. */
   pem?: string;
+}
+
+/** The core properties of ARM resources. */
+export interface ManagedCassandraARMResourceProperties {
+  /**
+   * The unique resource identifier of the ARM resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The name of the ARM resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The type of Azure resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /** The location of the resource group to which the resource belongs. */
+  location?: string;
+  /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with "defaultExperience": "Cassandra". Current "defaultExperience" values also include "Table", "Graph", "DocumentDB", and "MongoDB". */
+  tags?: { [propertyName: string]: string };
+  /** Identity for the resource. */
+  identity?: ManagedCassandraManagedServiceIdentity;
+}
+
+/** Identity for the resource. */
+export interface ManagedCassandraManagedServiceIdentity {
+  /**
+   * The object id of the identity resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The tenant id of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tenantId?: string;
+  /** The type of the resource. */
+  type?: ManagedCassandraResourceIdentityType;
 }
 
 /** Specification of which command to run where */
@@ -1834,6 +1834,23 @@ export interface PeriodicModeProperties {
   /** Enum to indicate type of backup residency */
   backupStorageRedundancy?: BackupStorageRedundancy;
 }
+
+/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
+export type ProxyResource = Resource & {};
+
+/** The object representing periodic mode backup policy. */
+export type PeriodicModeBackupPolicy = BackupPolicy & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "Periodic";
+  /** Configuration values for periodic mode backup */
+  periodicModeProperties?: PeriodicModeProperties;
+};
+
+/** The object representing continuous mode backup policy. */
+export type ContinuousModeBackupPolicy = BackupPolicy & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "Continuous";
+};
 
 /** An Azure Cosmos DB database account. */
 export type DatabaseAccountGetResults = ARMResourceProperties & {
@@ -2179,23 +2196,6 @@ export type GremlinGraphCreateUpdateParameters = ARMResourceProperties & {
   resource: GremlinGraphResource;
   /** A key-value pair of options to be applied for the request. This corresponds to the headers sent with the request. */
   options?: CreateUpdateOptions;
-};
-
-/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
-export type ProxyResource = Resource & {};
-
-/** The object representing periodic mode backup policy. */
-export type PeriodicModeBackupPolicy = BackupPolicy & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "Periodic";
-  /** Configuration values for periodic mode backup */
-  periodicModeProperties?: PeriodicModeProperties;
-};
-
-/** The object representing continuous mode backup policy. */
-export type ContinuousModeBackupPolicy = BackupPolicy & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "Continuous";
 };
 
 /** The access keys for the given database account. */
@@ -2941,22 +2941,6 @@ export enum KnownOperationType {
  */
 export type OperationType = string;
 
-/** Known values of {@link ManagedCassandraResourceIdentityType} that the service accepts. */
-export enum KnownManagedCassandraResourceIdentityType {
-  SystemAssigned = "SystemAssigned",
-  None = "None"
-}
-
-/**
- * Defines values for ManagedCassandraResourceIdentityType. \
- * {@link KnownManagedCassandraResourceIdentityType} can be used interchangeably with ManagedCassandraResourceIdentityType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **SystemAssigned** \
- * **None**
- */
-export type ManagedCassandraResourceIdentityType = string;
-
 /** Known values of {@link ManagedCassandraProvisioningState} that the service accepts. */
 export enum KnownManagedCassandraProvisioningState {
   Creating = "Creating",
@@ -2996,6 +2980,22 @@ export enum KnownAuthenticationMethod {
  * **Cassandra**
  */
 export type AuthenticationMethod = string;
+
+/** Known values of {@link ManagedCassandraResourceIdentityType} that the service accepts. */
+export enum KnownManagedCassandraResourceIdentityType {
+  SystemAssigned = "SystemAssigned",
+  None = "None"
+}
+
+/**
+ * Defines values for ManagedCassandraResourceIdentityType. \
+ * {@link KnownManagedCassandraResourceIdentityType} can be used interchangeably with ManagedCassandraResourceIdentityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **SystemAssigned** \
+ * **None**
+ */
+export type ManagedCassandraResourceIdentityType = string;
 
 /** Known values of {@link ConnectionState} that the service accepts. */
 export enum KnownConnectionState {

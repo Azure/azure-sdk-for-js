@@ -1157,6 +1157,11 @@
       "versionPolicyName": "management"
     },
     {
+      "packageName": "@azure/arm-relay",
+      "projectFolder": "sdk/relay/arm-relay",
+      "versionPolicyName": "management"
+    },
+    {
       "packageName": "@azure/arm-iothub",
       "projectFolder": "sdk/iothub/arm-iothub",
       "versionPolicyName": "management"

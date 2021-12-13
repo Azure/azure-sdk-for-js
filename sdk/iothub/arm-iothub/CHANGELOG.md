@@ -1,6 +1,6 @@
 # Release History
     
-## 6.0.0-beta.1 (2021-12-09)
+## 6.0.0-beta.1 (2021-12-13)
 
 The package of @azure/arm-iothub is using our next generation design principles since version 6.0.0-beta.1, which contains breaking changes.
 

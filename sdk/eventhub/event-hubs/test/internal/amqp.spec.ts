@@ -1,10 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import chai from "chai";
-import { Constants } from "@azure/core-amqp";
 import { fromRheaMessage, isAmqpAnnotatedMessage } from "../../src/eventData";
+import { Constants } from "@azure/core-amqp";
+import chai from "chai";
 import { testWithServiceTypes } from "../public/utils/testWithServiceTypes";
+
 const assert = chai.assert;
 
 testWithServiceTypes(() => {
