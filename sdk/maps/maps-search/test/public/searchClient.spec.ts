@@ -4,16 +4,16 @@
 import { AuthMethod, createClient, createRecorder } from "./utils/createClient";
 import { Context, Suite } from "mocha";
 import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
-import { SearchClient } from "src/searchClient";
+import { MapsSearchClient } from "src/searchClient";
 import { assert, use as chaiUse } from "chai";
 import { matrix } from "@azure/test-utils";
 import chaiPromises from "chai-as-promised";
 chaiUse(chaiPromises);
 
 matrix([["SubscriptionKey"]] as const, async (authMethod: AuthMethod) => {
-  describe(`[${authMethod}] SearchClient`, function(this: Suite) {
+  describe(`[${authMethod}] MapsSearchClient`, function(this: Suite) {
     let recorder: Recorder;
-    let client: SearchClient;
+    let client: MapsSearchClient;
     const CLITimeout = this.timeout();
     const fastTimeout = 10000;
 

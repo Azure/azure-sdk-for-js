@@ -15,7 +15,7 @@ import {
 /**
  * Client options used to configure the Search Client
  */
-export interface SearchClientOptions extends CommonClientOptions {}
+export interface MapsSearchClientOptions extends CommonClientOptions {}
 
 /**
  * Options for get polygon

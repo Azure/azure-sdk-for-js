@@ -7,7 +7,7 @@
 ```yaml
 v3: true
 package-name: "@azure/maps-search"
-title: SearchClient
+title: MapsSearchClient
 description: Azure Maps Search Client
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
