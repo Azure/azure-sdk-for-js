@@ -148,51 +148,51 @@ describe("ServiceFabric test", () => {
     assert.equal(res.value?.length,1)
   });
 
-  it("clusters update test", async function() {
-    const res = await client.clusters.beginUpdateAndWait(resourceGroup,clusterName,{
-      tags: {
-            a: "b"
-        },
-        nodeTypes: [
-            {
-                name: "nt1vm",
-                clientConnectionEndpointPort: 19000,
-                httpGatewayEndpointPort: 19007,
-                applicationPorts: {
-                    startPort: 20000,
-                    endPort: 30000
-                },
-                ephemeralPorts: {
-                    startPort: 49000,
-                    endPort: 64000
-                },
-                isPrimary: true,
-                vmInstanceCount: 5,
-                durabilityLevel: "Bronze"
-            },
-            {
-                name: "testnt1",
-                clientConnectionEndpointPort: 0,
-                httpGatewayEndpointPort: 0,
-                applicationPorts: {
-                    startPort: 1000,
-                    endPort: 2000
-                },
-                ephemeralPorts: {
-                    startPort: 3000,
-                    endPort: 4000
-                },
-                isPrimary: false,
-                vmInstanceCount: 3,
-                durabilityLevel: "Bronze"
-            }
-        ],
-        reliabilityLevel: "Bronze",
-        upgradeMode: "Automatic",
-        eventStoreServiceEnabled: true
-    },testPollingOptions);
-    assert.equal(res.upgradeMode,"Automatic");
-  });
+  // it("clusters update test", async function() {
+  //   const res = await client.clusters.beginUpdateAndWait(resourceGroup,clusterName,{
+  //     tags: {
+  //           a: "b"
+  //       },
+  //       nodeTypes: [
+  //           {
+  //               name: "nt1vm",
+  //               clientConnectionEndpointPort: 19000,
+  //               httpGatewayEndpointPort: 19007,
+  //               applicationPorts: {
+  //                   startPort: 20000,
+  //                   endPort: 30000
+  //               },
+  //               ephemeralPorts: {
+  //                   startPort: 49000,
+  //                   endPort: 64000
+  //               },
+  //               isPrimary: true,
+  //               vmInstanceCount: 5,
+  //               durabilityLevel: "Bronze"
+  //           },
+  //           {
+  //               name: "testnt1",
+  //               clientConnectionEndpointPort: 0,
+  //               httpGatewayEndpointPort: 0,
+  //               applicationPorts: {
+  //                   startPort: 1000,
+  //                   endPort: 2000
+  //               },
+  //               ephemeralPorts: {
+  //                   startPort: 3000,
+  //                   endPort: 4000
+  //               },
+  //               isPrimary: false,
+  //               vmInstanceCount: 3,
+  //               durabilityLevel: "Bronze"
+  //           }
+  //       ],
+  //       reliabilityLevel: "Bronze",
+  //       upgradeMode: "Automatic",
+  //       eventStoreServiceEnabled: true
+  //   },testPollingOptions);
+  //   assert.equal(res.upgradeMode,"Automatic");
+  // });
 
   it("applicationTypes delete test", async function() {
     const resDelete = await client.applicationTypes.beginDeleteAndWait(resourceGroup,clusterName,applicationTypeName,testPollingOptions);
