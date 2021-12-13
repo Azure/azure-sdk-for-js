@@ -1,22 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { DefaultAzureCredential } from "@azure/identity";
+/**
+ * @summary Authenticates with an app registration’s client Id and secret.
+ */
+
+import { ClientSecretCredential } from "@azure/identity";
 import { KeyClient } from "@azure/keyvault-keys";
 
 // Load the .env file if it exists
 require("dotenv").config();
 
-/**
- * The `DefaultAzureCredential` is appropriate for most scenarios where the application is intended to ultimately be run in the Azure Cloud.
- * This is because the `DefaultAzureCredential` combines credentials commonly used to authenticate when deployed,
- * with credentials used to authenticate in a development environment.
- *
- * For more information, you may go to our readme: [link](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential)
- */
-
 export async function main(): Promise<void> {
-  const credential = new DefaultAzureCredential();
+  const credential = new ClientSecretCredential(
+    process.env.AZURE_TENANT_ID!, // The tenant ID in Azure Active Directory
+    process.env.AZURE_CLIENT_ID!, // The app registration client Id in the AAD tenant
+    process.env.AZURE_CLIENT_SECRET! // The app registration secret for the registered application
+  );
 
   const keyVaultUrl = `https://key-vault-name.vault.azure.net`;
   const client = new KeyClient(keyVaultUrl, credential);

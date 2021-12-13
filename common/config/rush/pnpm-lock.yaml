@@ -908,6 +908,19 @@ packages:
       tslib: 2.3.1
     dev: false
 
+  /@azure/keyvault-keys/4.2.0:
+    resolution: {integrity: sha512-8RoXLWoB9xQ/Knf10A/G0XrQPH49CcadN5DY9qtr2UNdGPTJrlxSr8u7+/4MFwEVQI9vtIt/dUjdOT9xoFCWww==}
+    engines: {node: '>=8.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.0.4
+      '@azure/core-http': 1.2.6
+      '@azure/core-lro': 1.0.5
+      '@azure/core-paging': 1.2.0
+      '@azure/core-tracing': 1.0.0-preview.11
+      '@azure/logger': 1.0.3
+      tslib: 2.3.1
+    dev: false
+
   /@azure/keyvault-keys/4.3.0:
     resolution: {integrity: sha512-OEosl0/rE/mKD5Ji9KaQN7UH+yQnV5MS0MRhGqQIiJrG+qAvAla0MYudJzv3XvBlplpGk0+MVgyL9H3KX/UAwQ==}
     engines: {node: '>=8.0.0'}
@@ -11264,11 +11277,12 @@ packages:
     dev: false
 
   file:projects/identity.tgz:
-    resolution: {integrity: sha512-zAmsPxL+84yLtShRgsFfE4QFuFf0AByJgqJ5f02zJiyBPSBz/n3CeuEfwmbWE+g6XDqO807Dy2sbG13AK4AbEg==, tarball: file:projects/identity.tgz}
+    resolution: {integrity: sha512-QkmZNug/KiuamhpKErg2s9yln6725JpmR2QGH0Yeagl13Mw9JgEhz1nfXipLOk2Z0tcoIWxMjlGTCILzuguw1w==, tarball: file:projects/identity.tgz}
     name: '@rush-temp/identity'
     version: 0.0.0
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.13
+      '@azure/keyvault-keys': 4.2.0
       '@azure/msal-browser': 2.19.0
       '@azure/msal-common': 4.5.1
       '@azure/msal-node': 1.3.3

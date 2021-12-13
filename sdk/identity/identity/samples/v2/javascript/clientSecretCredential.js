@@ -1,6 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+/**
+ * @summary Authenticates with an app registration’s client Id and secret.
+ */
+
 const { ClientSecretCredential } = require("@azure/identity");
 const { KeyClient } = require("@azure/keyvault-keys");
 
@@ -10,8 +14,8 @@ require("dotenv").config();
 async function main() {
   const credential = new ClientSecretCredential(
     process.env.AZURE_TENANT_ID, // The tenant ID in Azure Active Directory
-    process.env.AZURE_CLIENT_ID, // The application (client) ID registered in the AAD tenant
-    process.env.AZURE_CLIENT_SECRET // The client secret for the registered application
+    process.env.AZURE_CLIENT_ID, // The app registration client Id in the AAD tenant
+    process.env.AZURE_CLIENT_SECRET // The app registration secret for the registered application
   );
 
   const keyVaultUrl = `https://key-vault-name.vault.azure.net`;

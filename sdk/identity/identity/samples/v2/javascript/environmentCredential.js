@@ -1,6 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+/**
+ * @summary Authenticates as an app registration automatically using environment variables.
+ */
+
 const { EnvironmentCredential } = require("@azure/identity");
 const { KeyClient } = require("@azure/keyvault-keys");
 
