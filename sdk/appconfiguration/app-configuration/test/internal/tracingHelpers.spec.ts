@@ -175,7 +175,9 @@ describe("tracingHelpers", () => {
 
     assert.deepEqual(traceData, {
       operationName: "listConfigurationSettings",
-      options: { ...operationOptions, keyFilter: "ignored" } as OperationOptions
+      options: { ...operationOptions, keyFilter: "ignored" } as OperationOptions & {
+        keyFilter?: string;
+      }
     });
 
     const it2 = appConfigurationClient.listRevisions({ keyFilter: "ignored", ...operationOptions });
@@ -183,7 +185,9 @@ describe("tracingHelpers", () => {
 
     assert.deepEqual(traceData, {
       operationName: "listRevisions",
-      options: { ...operationOptions, keyFilter: "ignored" } as OperationOptions
+      options: { ...operationOptions, keyFilter: "ignored" } as OperationOptions & {
+        keyFilter?: string;
+      }
     });
   });
 });
