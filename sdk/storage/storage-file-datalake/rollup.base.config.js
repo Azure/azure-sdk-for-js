@@ -157,15 +157,7 @@ export function browserConfig(test = false) {
       cjs({
         namedExports: {
           events: ["EventEmitter"],
-          chai: [
-            "version",
-            "use",
-            "util",
-            "config",
-            "expect",
-            "should",
-            "assert"
-          ],
+          chai: ["version", "use", "util", "config", "expect", "should", "assert"],
           ...openTelemetryCommonJs()
         }
       })
