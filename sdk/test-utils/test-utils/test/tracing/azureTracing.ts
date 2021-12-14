@@ -5,8 +5,12 @@ import { SpanGraph, SpanGraphNode } from "../../src/tracing/spanGraphModel";
 // this is the plugin used in the test file
 function chaiAzureTrace(chai: Chai.ChaiStatic, _utils: Chai.ChaiUtils) {
   // expect(() => {}).to.supportsTracing() syntax
-  chai.Assertion.addMethod("supportsTracing", function() {
-    this._obj.call(undefined);
+  chai.Assertion.addMethod("supportsTracing", function(
+    expectedSpanNames: string[],
+    options?: any,
+    thisArg?: any
+  ) {
+    return supportsTracing(this._obj, expectedSpanNames, options, thisArg);
   });
   // assert.supportsTracing(() => {}) syntax
   chai.assert.supportsTracing = supportsTracing;
@@ -16,10 +20,21 @@ function chaiAzureTrace(chai: Chai.ChaiStatic, _utils: Chai.ChaiUtils) {
 async function supportsTracing<
   Options extends { tracingOptions?: OperationTracingOptions },
   Callback extends (options: Options) => unknown
->(callback: Callback, expectedSpanNames: string[], options?: Options) {
+>(
+  callback: Callback,
+  expectedSpanNames: string[],
+  options?: Options,
+  thisArg?: ThisParameterType<Callback>
+) {
   const instrumenter = new TestInstrumenter();
   useInstrumenter(instrumenter);
-  const { span: rootSpan, tracingContext } = instrumenter.startSpan("root");
+  const startSpanOptions = {
+    packageInformation: {
+      name: "test"
+    },
+    ...options
+  };
+  const { span: rootSpan, tracingContext } = instrumenter.startSpan("root", startSpanOptions);
 
   const newOptions = {
     ...options,
@@ -27,10 +42,12 @@ async function supportsTracing<
       tracingContext: tracingContext
     }
   } as Options;
-  await callback.call(undefined, newOptions);
+  await callback.call(thisArg, newOptions);
   console.log(callback.name);
   // TODO: this expectation should be: assert only 1 _root_ span
+  console.log(instrumenter.startedSpans);
   const spanGraph = getSpanGraph(rootSpan.spanContext.traceId, instrumenter);
+  console.log("----SPAN GRAPH----");
   console.log(JSON.stringify(spanGraph, null, 2));
   assert.equal(spanGraph.roots.length, 1, "There should be just one root span");
   assert.equal(spanGraph.roots[0].name, "root");
@@ -54,6 +71,8 @@ function getSpanGraph(traceId: string, instrumenter: TestInstrumenter): SpanGrap
   const traceSpans = instrumenter.startedSpans.filter((span) => {
     return span.spanContext.traceId === traceId;
   });
+  console.log("---Trace Spans with same trace id");
+  console.log(JSON.stringify(traceSpans, null, 2));
 
   const roots: SpanGraphNode[] = [];
   const nodeMap: Map<string, SpanGraphNode> = new Map<string, SpanGraphNode>();
@@ -89,7 +108,7 @@ function getSpanGraph(traceId: string, instrumenter: TestInstrumenter): SpanGrap
 declare global {
   export namespace Chai {
     interface Assertion {
-      supportsTracing(): Promise<void>;
+      supportsTracing(expectedSpanNames: string[], options?: any, thisArg?: any): Promise<void>;
     }
     //Options extends { tracingOptions?: OperationTracingOptions },
     // Callback extends (options: Options) => unknown
@@ -100,7 +119,8 @@ declare global {
       >(
         callback: Callback,
         expectedSpanNames: string[],
-        options?: Options
+        options?: Options,
+        thisArg?: ThisParameterType<Callback>
       ): Promise<void>;
     }
   }

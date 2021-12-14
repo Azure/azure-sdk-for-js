@@ -10,7 +10,7 @@ import {
   useInstrumenter
 } from "@azure/core-tracing";
 import { TestTracingSpan, TestInstrumenter } from "../../src";
-import chai, { assert } from "chai";
+import chai, { assert, expect } from "chai";
 import { chaiAzureTrace } from "./azureTracing";
 import { ContextImpl } from "../../src/tracing/contextImpl";
 chai.use(chaiAzureTrace);
@@ -102,7 +102,6 @@ describe("TestInstrumenter", function() {
     });
   });
 });
-// do the same using MockCLientToTest and withSpan
 
 describe("TestInstrumenter with MockClient", function() {
   let instrumenter: TestInstrumenter;
@@ -117,40 +116,27 @@ describe("TestInstrumenter with MockClient", function() {
     assert.equal(instrumenter.startedSpans.length, 1);
     assert.equal(instrumenter.startedSpans[0].name, "MockClientToTest.mockGetMethod");
   });
-  // how to set tracing context??
-  it("returns a new context with existing attributes", async function() {
-    const existingContext = new ContextImpl().setValue(Symbol.for("foo"), "bar");
-    const options = {
-      tracingOptions: {
-        tracingContext: existingContext
-      }
-    };
-    await client.mockSetMethod({ key: "value" }, options);
-    console.log(instrumenter.startedSpans[0]);
-  });
 });
 
 describe("Test supportsTracing functionality", function() {
-  // let instrumenter: TestInstrumenter;
   let client: MockClientToTest;
   beforeEach(function() {
-    // instrumenter = new TestInstrumenter();
-    // useInstrumenter(instrumenter);
     client = new MockClientToTest();
   });
   it("supportsTracing with the setMethod", function() {
-    const existingContext = new ContextImpl().setValue(Symbol.for("foo"), "bar");
-    const options = {
-      tracingOptions: {
-        tracingContext: existingContext
-      }
-    };
+    // const existingContext = new ContextImpl().setValue(Symbol.for("foo"), "bar");
+    // const options = {
+    //   tracingOptions: {
+    //     tracingContext: existingContext
+    //   }
+    // };
 
-    assert.supportsTracing(
-      () => client.mockSetMethod({ key: "value" }),
-      ["MockClientToTest.mockSetMethod"],
-      options
-    );
+    assert.supportsTracing((options) => client.mockSetMethod({ key: "value" }, options), [
+      "MockClientToTest.mockSetMethod"
+    ]);
+    expect((options: any) => client.mockSetMethod({ key: "value" }, options)).to.supportsTracing([
+      "MockClientToTest.mockSetMethod"
+    ]);
   });
 });
 // or something that has upgraded to core-tracing preview.14
@@ -177,9 +163,10 @@ export class MockClientToTest {
       "MockClientToTest.mockSetMethod",
       options,
       (updatedOptions, span) => {
-        console.log(updatedOptions.tracingOptions.tracingContext);
+        console.log("---Inside Wth span----");
+        console.log(JSON.stringify(updatedOptions.tracingOptions.tracingContext, null, 2));
         console.log(span);
-        console.log(span.spanContext);
+        console.log("---Exiting With Span ---");
         this.record = record;
       },
       {
