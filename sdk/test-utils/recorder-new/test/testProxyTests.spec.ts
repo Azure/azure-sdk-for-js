@@ -384,6 +384,48 @@ function getTestServerUrl() {
     });
 
     // Matchers
+
+    describe("Matchers", () => {
+      it("BodilessMatcher", async () => {
+        await recorder.start({ envSetupForPlayback: {} });
+        await recorder.setMatcher("BodilessMatcher");
+
+        // The body shouldn't matter for the match; verify this by using a
+        // different body in playback vs record mode.
+        const body = isPlaybackMode() ? "playback" : "record";
+
+        await makeRequestAndVerifyResponse(
+          {
+            path: `/sample_response`,
+            body,
+            method: "GET",
+            headers: [{ headerName: "Content-Type", value: "text/plain" }]
+          },
+          { val: "abc" }
+        );
+      });
+
+      it("HeaderlessMatcher", async () => {
+        await recorder.start({ envSetupForPlayback: {} });
+        await recorder.setMatcher("HeaderlessMatcher");
+
+        const testHeader = {
+          headerName: `X-Test-Header-${isPlaybackMode() ? "Playback" : "Record"}`,
+          value: isPlaybackMode() ? "playback" : "record"
+        };
+
+        await makeRequestAndVerifyResponse(
+          {
+            path: `/sample_response`,
+            body: "body",
+            method: "GET",
+            headers: [{ headerName: "Content-Type", value: "text/plain" }, testHeader]
+          },
+          { val: "abc" }
+        );
+      });
+    });
+
     // Transforms
 
     describe("Other methods", () => {
