@@ -159,8 +159,10 @@ export class SecretClient {
 
     this.tracingClient = createTracingClient({
       namespace: "Microsoft.KeyVault",
-      packageName: "@azure/keyvault-secrets",
-      packageVersion: SDK_VERSION
+      packageInformation: {
+        name: "@azure/keyvault-secrets",
+        version: SDK_VERSION
+      }
     });
 
     this.client = new KeyVaultClient(
