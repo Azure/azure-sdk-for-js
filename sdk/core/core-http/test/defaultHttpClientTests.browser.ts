@@ -4,11 +4,10 @@
 /* eslint-disable no-unused-expressions */
 
 import "chai/register-should";
-
-import { DefaultHttpClient } from "../src/defaultHttpClient";
-import { WebResource, TransferProgressEvent } from "../src/webResource";
-import { getHttpMock, HttpMockFacade } from "./mockHttp";
 import { CompositeMapper, Serializer } from "../src/serializer";
+import { HttpMockFacade, getHttpMock } from "./mockHttp";
+import { TransferProgressEvent, WebResource } from "../src/webResource";
+import { DefaultHttpClient } from "../src/defaultHttpClient";
 import { OperationSpec } from "../src/operationSpec";
 
 describe("defaultHttpClient (browser)", function() {

@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { EventPosition } from "./eventPosition";
-import { CommonEventProcessorOptions } from "./models/private";
-import { CloseReason } from "./models/public";
-import { PartitionProcessor } from "./partitionProcessor";
-import { PartitionPump } from "./partitionPump";
 import { logErrorStackTrace, logger } from "./log";
 import { AbortSignalLike } from "@azure/abort-controller";
+import { CloseReason } from "./models/public";
+import { CommonEventProcessorOptions } from "./models/private";
 import { ConnectionContext } from "./connectionContext";
+import { EventPosition } from "./eventPosition";
+import { PartitionProcessor } from "./partitionProcessor";
+import { PartitionPump } from "./partitionPump";
 
 /**
  * The PumpManager handles the creation and removal of PartitionPumps.

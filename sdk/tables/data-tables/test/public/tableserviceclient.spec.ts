@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TableItem, TableItemResultPage, TableServiceClient } from "../../src";
-import { Context } from "mocha";
-import { Recorder, isLiveMode, isPlaybackMode, record } from "@azure-tools/test-recorder";
 import {
   CreateClientMode,
   createTableServiceClient,
   recordedEnvironmentSetup
 } from "./utils/recordedClient";
-import { isNode } from "@azure/test-utils";
-import { assert } from "chai";
+import { Recorder, isLiveMode, isPlaybackMode, record } from "@azure-tools/test-recorder";
+import { TableItem, TableItemResultPage, TableServiceClient } from "../../src";
+import { Context } from "mocha";
 import { FullOperationResponse } from "@azure/core-client";
+import { assert } from "chai";
+import { isNode } from "@azure/test-utils";
 
 // SASConnectionString and SASToken are supported in both node and browser
 const authModes: CreateClientMode[] = ["TokenCredential", "SASConnectionString"];

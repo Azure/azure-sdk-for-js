@@ -122,22 +122,7 @@ function makeBrowserTestConfig() {
       nodeResolve({
         mainFields: ["module", "browser"]
       }),
-      cjs({
-        namedExports: {
-          // Chai's strange internal architecture makes it impossible to statically
-          // analyze its exports.
-          chai: [
-            "version",
-            "use",
-            "util",
-            "config",
-            "expect",
-            "should",
-            "assert"
-          ],
-          ...openTelemetryCommonJs()
-        }
-      }),
+      cjs(),
       json(),
       sourcemaps()
       //viz({ filename: "dist-test/browser-stats.html", sourcemap: true })

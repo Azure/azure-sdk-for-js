@@ -27,11 +27,9 @@ steps:
       artifactName: package-diffs
       path: $(Build.ArtifactStagingDirectory)
 
-  - script: |
-      pip install setuptools wheel
-      pip install doc-warden==$(DocWardenVersion)
-      ward scan -d $(Build.SourcesDirectory) -c $(Build.SourcesDirectory)/eng/.docsettings.yml
-    displayName: "Verify Readmes"
+  - template: /eng/common/pipelines/templates/steps/verify-readme.yml
+    parameters:
+      ScanPath: $(Build.SourcesDirectory)/sdk/${{ parameters.ServiceDirectory }}
 
   - template: /eng/common/pipelines/templates/steps/verify-path-length.yml
     parameters:

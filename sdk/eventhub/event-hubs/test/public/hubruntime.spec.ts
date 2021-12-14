@@ -1,24 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import chai from "chai";
-const should = chai.should();
-import chaiAsPromised from "chai-as-promised";
-chai.use(chaiAsPromised);
-import debugModule from "debug";
-const debug = debugModule("azure:event-hubs:hubruntime-spec");
 import { EnvVarKeys, getEnvVars, setTracerForTest } from "./utils/testUtils";
-import { setSpan, context } from "@azure/core-tracing";
-
-import { SpanGraph } from "@azure/test-utils";
 import {
   EventHubBufferedProducerClient,
-  EventHubProducerClient,
   EventHubConsumerClient,
+  EventHubProducerClient,
   MessagingError
 } from "../../src";
-import { testWithServiceTypes } from "./utils/testWithServiceTypes";
+import { context, setSpan } from "@azure/core-tracing";
+import { SpanGraph } from "@azure/test-utils";
+import chai from "chai";
+import chaiAsPromised from "chai-as-promised";
 import { createMockServer } from "./utils/mockService";
+import debugModule from "debug";
+import { testWithServiceTypes } from "./utils/testWithServiceTypes";
+
+const should = chai.should();
+chai.use(chaiAsPromised);
+const debug = debugModule("azure:event-hubs:hubruntime-spec");
 
 type ClientCommonMethods = Pick<
   EventHubProducerClient,

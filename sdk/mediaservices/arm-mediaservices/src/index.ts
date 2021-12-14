@@ -9,5 +9,4 @@
 /// <reference lib="esnext.asynciterable" />
 export * from "./models";
 export { AzureMediaServices } from "./azureMediaServices";
-export { AzureMediaServicesContext } from "./azureMediaServicesContext";
 export * from "./operationsInterfaces";
