@@ -4,7 +4,6 @@
 import {
   RecorderStartOptions,
   NoOpCredential,
-  recorderHttpPolicy,
   TestProxyHttpClient
 } from "@azure-tools/test-recorder-new";
 import { env, isPlaybackMode } from "@azure-tools/test-recorder";
@@ -56,7 +55,6 @@ describe(`NoOp credential with Tables`, () => {
     const tableName = recorder.variables["table-name"];
     const client = new TableServiceClient(env.TABLES_URL, credential);
     recorder.configureClient(client);
-    client.pipeline.addPolicy(recorderHttpPolicy(recorder));
     await client.createTable(tableName);
     await client.deleteTable(tableName);
   });
