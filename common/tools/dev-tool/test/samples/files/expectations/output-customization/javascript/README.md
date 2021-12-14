@@ -56,4 +56,4 @@ This is an example footer text. It will appear at the bottom of the README file.
 [apiref]: https://docs.microsoft.com/javascript/api/
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azureappconfiguration]: https://docs.microsoft.com/azure/azure-app-configuration/
-[package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk//home/wtemple/Development/azure-sdk-for-js/common/tools/dev-tool/test/samples/files/inputs/output-customization/README.md
+[package]: https://github.com/Azure/azure-sdk-for-js/tree/main/common/tools/dev-tool/README.md

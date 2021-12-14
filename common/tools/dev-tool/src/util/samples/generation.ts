@@ -48,7 +48,7 @@ export function createPackageJson(info: SampleGenerationInfo, outputKind: Output
     repository: {
       type: "git",
       url: "git+https://github.com/Azure/azure-sdk-for-js.git",
-      directory: info.projectRepoPath,
+      directory: info.overridePublicationLinkFragment ?? info.projectRepoPath,
     },
     keywords: info.packageKeywords,
     author: "Microsoft Corporation",
@@ -56,7 +56,9 @@ export function createPackageJson(info: SampleGenerationInfo, outputKind: Output
     bugs: {
       url: "https://github.com/Azure/azure-sdk-for-js/issues",
     },
-    homepage: `https://github.com/Azure/azure-sdk-for-js/tree/main/${info.projectRepoPath}`,
+    homepage: `https://github.com/Azure/azure-sdk-for-js/tree/main/${
+      info.overridePublicationLinkFragment ?? info.projectRepoPath
+    }`,
     ...info.computeSampleDependencies(outputKind),
   };
 }

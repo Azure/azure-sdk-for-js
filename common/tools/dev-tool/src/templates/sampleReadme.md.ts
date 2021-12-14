@@ -142,6 +142,18 @@ function exampleNodeInvocation(info: SampleReadmeConfiguration) {
 }
 
 /**
+ * Create a link to the package.
+ * @param info - the README configuration
+ * @returns a link to the project
+ */
+function createReadmeLink(info: SampleReadmeConfiguration) {
+  const fragment = info.overridePublicationLinkFragment
+    ? info.overridePublicationLinkFragment.split("/").slice(0, -5).join("/")
+    : info.projectRepoPath;
+  return `https://github.com/Azure/azure-sdk-for-js/tree/main/${fragment}/README.md`;
+}
+
+/**
  * Creates a README for a sample package from a SampleReadmeConfiguration.
  */
 export default (info: SampleReadmeConfiguration): string => {
@@ -231,7 +243,7 @@ ${fileLinks(info)}
 [apiref]: ${info.apiRefLink ?? `https://docs.microsoft.com/javascript/api/@azure/${info.baseName}`}
 [freesub]: https://azure.microsoft.com/free/
 ${resourceLinks(info)}
-[package]: https://github.com/Azure/azure-sdk-for-js/tree/main/${info.projectRepoPath}/README.md
+[package]: ${createReadmeLink(info)}
 ${info.useTypeScript ? "[typescript]: https://www.typescriptlang.org/docs/home.html\n" : ""}\
 `,
     {

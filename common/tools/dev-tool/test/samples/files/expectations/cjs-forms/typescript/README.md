@@ -62,5 +62,5 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [apiref]: https://docs.microsoft.com/
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_test]: https://contoso.com
-[package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk//home/wtemple/Development/azure-sdk-for-js/common/tools/dev-tool/test/samples/files/inputs/cjs-forms/README.md
+[package]: https://github.com/Azure/azure-sdk-for-js/tree/main/common/tools/dev-tool/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html
