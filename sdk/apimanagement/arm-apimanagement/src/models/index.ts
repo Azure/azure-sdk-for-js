@@ -2506,6 +2506,22 @@ export interface RequestReportRecordContract {
   requestSize?: number;
 }
 
+/** The response of the list schema operation. */
+export interface GlobalSchemaCollection {
+  /**
+   * Global Schema Contract value.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: GlobalSchemaContract[];
+  /** Total record count number. */
+  count?: number;
+  /**
+   * Next page link if any.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
 /** Paged AccessInformation list representation. */
 export interface TenantSettingsCollection {
   /**
@@ -3108,15 +3124,15 @@ export type ProductContract = Resource & {
   displayName?: string;
 };
 
-/** Schema Contract details. */
+/** API Schema Contract details. */
 export type SchemaContract = Resource & {
   /** Must be a valid a media type used in a Content-Type header as defined in the RFC 2616. Media type of the schema document (e.g. application/json, application/xml). </br> - `Swagger` Schema use `application/vnd.ms-azure-apim.swagger.definitions+json` </br> - `WSDL` Schema use `application/vnd.ms-azure-apim.xsd+xml` </br> - `OpenApi` Schema use `application/vnd.oai.openapi.components+json` </br> - `WADL Schema` use `application/vnd.ms-azure-apim.wadl.grammars+xml`. */
   contentType?: string;
   /** Json escaped string defining the document representing the Schema. Used for schemas other than Swagger/OpenAPI. */
   value?: string;
-  /** Types definitions. Used for OpenAPI v2 (Swagger) schemas only, null otherwise. */
+  /** Types definitions. Used for Swagger/OpenAPI v1 schemas only, null otherwise. */
   definitions?: Record<string, unknown>;
-  /** Types definitions. Used for OpenAPI v3 schemas only, null otherwise. */
+  /** Types definitions. Used for Swagger/OpenAPI v2/v3 schemas only, null otherwise. */
   components?: Record<string, unknown>;
 };
 
@@ -3752,6 +3768,18 @@ export type SubscriptionContract = Resource & {
   stateComment?: string;
   /** Determines whether tracing is enabled */
   allowTracing?: boolean;
+};
+
+/** Global Schema Contract details. */
+export type GlobalSchemaContract = Resource & {
+  /** Schema Type. Immutable. */
+  schemaType?: SchemaType;
+  /** Free-form schema entity description. */
+  description?: string;
+  /** Json-encoded string for non json-based schema. */
+  value?: any;
+  /** Global Schema document object for json-based schema formats(e.g. json schema). */
+  document?: Record<string, unknown>;
 };
 
 /** Tenant Settings. */
@@ -5152,6 +5180,24 @@ export interface ProductPolicyCreateOrUpdateHeaders {
   eTag?: string;
 }
 
+/** Defines headers for GlobalSchema_getEntityTag operation. */
+export interface GlobalSchemaGetEntityTagHeaders {
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
+}
+
+/** Defines headers for GlobalSchema_get operation. */
+export interface GlobalSchemaGetHeaders {
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
+}
+
+/** Defines headers for GlobalSchema_createOrUpdate operation. */
+export interface GlobalSchemaCreateOrUpdateHeaders {
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
+}
+
 /** Defines headers for TenantSettings_get operation. */
 export interface TenantSettingsGetHeaders {
   /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
@@ -6354,6 +6400,24 @@ export enum KnownPrivateEndpointConnectionProvisioningState {
  * **Failed**
  */
 export type PrivateEndpointConnectionProvisioningState = string;
+
+/** Known values of {@link SchemaType} that the service accepts. */
+export enum KnownSchemaType {
+  /** Xml schema type. */
+  Xml = "xml",
+  /** Json schema type. */
+  Json = "json"
+}
+
+/**
+ * Defines values for SchemaType. \
+ * {@link KnownSchemaType} can be used interchangeably with SchemaType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **xml**: Xml schema type. \
+ * **json**: Json schema type.
+ */
+export type SchemaType = string;
 
 /** Known values of {@link SettingsTypeName} that the service accepts. */
 export enum KnownSettingsTypeName {
@@ -9843,6 +9907,68 @@ export interface ReportsListByTimeNextOptionalParams
 
 /** Contains response data for the listByTimeNext operation. */
 export type ReportsListByTimeNextResponse = ReportCollection;
+
+/** Optional parameters. */
+export interface GlobalSchemaListByServiceOptionalParams
+  extends coreClient.OperationOptions {
+  /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
+  filter?: string;
+  /** Number of records to return. */
+  top?: number;
+  /** Number of records to skip. */
+  skip?: number;
+}
+
+/** Contains response data for the listByService operation. */
+export type GlobalSchemaListByServiceResponse = GlobalSchemaCollection;
+
+/** Optional parameters. */
+export interface GlobalSchemaGetEntityTagOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getEntityTag operation. */
+export type GlobalSchemaGetEntityTagResponse = GlobalSchemaGetEntityTagHeaders;
+
+/** Optional parameters. */
+export interface GlobalSchemaGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type GlobalSchemaGetResponse = GlobalSchemaGetHeaders &
+  GlobalSchemaContract;
+
+/** Optional parameters. */
+export interface GlobalSchemaCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** ETag of the Entity. Not required when creating an entity, but required when updating an entity. */
+  ifMatch?: string;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type GlobalSchemaCreateOrUpdateResponse = GlobalSchemaCreateOrUpdateHeaders &
+  GlobalSchemaContract;
+
+/** Optional parameters. */
+export interface GlobalSchemaDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface GlobalSchemaListByServiceNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
+  filter?: string;
+  /** Number of records to return. */
+  top?: number;
+  /** Number of records to skip. */
+  skip?: number;
+}
+
+/** Contains response data for the listByServiceNext operation. */
+export type GlobalSchemaListByServiceNextResponse = GlobalSchemaCollection;
 
 /** Optional parameters. */
 export interface TenantSettingsListByServiceOptionalParams

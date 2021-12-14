@@ -705,6 +705,8 @@ export class ApiManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     gatewayHostnameConfiguration: GatewayHostnameConfiguration;
     // (undocumented)
+    globalSchema: GlobalSchema;
+    // (undocumented)
     group: Group;
     // (undocumented)
     groupUser: GroupUser;
@@ -3620,6 +3622,94 @@ export interface GenerateSsoUrlResult {
 }
 
 // @public
+export interface GlobalSchema {
+    beginCreateOrUpdate(resourceGroupName: string, serviceName: string, schemaId: string, parameters: GlobalSchemaContract, options?: GlobalSchemaCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<GlobalSchemaCreateOrUpdateResponse>, GlobalSchemaCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, serviceName: string, schemaId: string, parameters: GlobalSchemaContract, options?: GlobalSchemaCreateOrUpdateOptionalParams): Promise<GlobalSchemaCreateOrUpdateResponse>;
+    delete(resourceGroupName: string, serviceName: string, schemaId: string, ifMatch: string, options?: GlobalSchemaDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, serviceName: string, schemaId: string, options?: GlobalSchemaGetOptionalParams): Promise<GlobalSchemaGetResponse>;
+    getEntityTag(resourceGroupName: string, serviceName: string, schemaId: string, options?: GlobalSchemaGetEntityTagOptionalParams): Promise<GlobalSchemaGetEntityTagResponse>;
+    listByService(resourceGroupName: string, serviceName: string, options?: GlobalSchemaListByServiceOptionalParams): PagedAsyncIterableIterator<GlobalSchemaContract>;
+}
+
+// @public
+export interface GlobalSchemaCollection {
+    count?: number;
+    readonly nextLink?: string;
+    readonly value?: GlobalSchemaContract[];
+}
+
+// @public
+export type GlobalSchemaContract = Resource & {
+    schemaType?: SchemaType;
+    description?: string;
+    value?: any;
+    document?: Record<string, unknown>;
+};
+
+// @public
+export interface GlobalSchemaCreateOrUpdateHeaders {
+    eTag?: string;
+}
+
+// @public
+export interface GlobalSchemaCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type GlobalSchemaCreateOrUpdateResponse = GlobalSchemaCreateOrUpdateHeaders & GlobalSchemaContract;
+
+// @public
+export interface GlobalSchemaDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface GlobalSchemaGetEntityTagHeaders {
+    eTag?: string;
+}
+
+// @public
+export interface GlobalSchemaGetEntityTagOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GlobalSchemaGetEntityTagResponse = GlobalSchemaGetEntityTagHeaders;
+
+// @public
+export interface GlobalSchemaGetHeaders {
+    eTag?: string;
+}
+
+// @public
+export interface GlobalSchemaGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GlobalSchemaGetResponse = GlobalSchemaGetHeaders & GlobalSchemaContract;
+
+// @public
+export interface GlobalSchemaListByServiceNextOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+    skip?: number;
+    top?: number;
+}
+
+// @public
+export type GlobalSchemaListByServiceNextResponse = GlobalSchemaCollection;
+
+// @public
+export interface GlobalSchemaListByServiceOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+    skip?: number;
+    top?: number;
+}
+
+// @public
+export type GlobalSchemaListByServiceResponse = GlobalSchemaCollection;
+
+// @public
 export type GrantType = string;
 
 // @public
@@ -4555,6 +4645,12 @@ export enum KnownResourceSkuCapacityScaleType {
 // @public
 export enum KnownSamplingType {
     Fixed = "fixed"
+}
+
+// @public
+export enum KnownSchemaType {
+    Json = "json",
+    Xml = "xml"
 }
 
 // @public
@@ -6666,6 +6762,9 @@ export type SchemaContract = Resource & {
     definitions?: Record<string, unknown>;
     components?: Record<string, unknown>;
 };
+
+// @public
+export type SchemaType = string;
 
 // @public
 export type SettingsTypeName = string;

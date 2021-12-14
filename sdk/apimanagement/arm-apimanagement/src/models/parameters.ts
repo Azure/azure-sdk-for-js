@@ -67,6 +67,7 @@ import {
   ProductContract as ProductContractMapper,
   ProductUpdateParameters as ProductUpdateParametersMapper,
   QuotaCounterValueUpdateContract as QuotaCounterValueUpdateContractMapper,
+  GlobalSchemaContract as GlobalSchemaContractMapper,
   SubscriptionCreateParameters as SubscriptionCreateParametersMapper,
   SubscriptionUpdateParameters as SubscriptionUpdateParametersMapper,
   AccessInformationCreateParameters as AccessInformationCreateParametersMapper,
@@ -473,7 +474,6 @@ export const schemaId: OperationURLParameter = {
   parameterPath: "schemaId",
   mapper: {
     constraints: {
-      Pattern: new RegExp("^[^*#&+:<>?]+$"),
       MaxLength: 80,
       MinLength: 1
     },
@@ -1326,6 +1326,11 @@ export const interval: OperationQueryParameter = {
   }
 };
 
+export const parameters53: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: GlobalSchemaContractMapper
+};
+
 export const settingsType: OperationURLParameter = {
   parameterPath: "settingsType",
   mapper: {
@@ -1354,7 +1359,7 @@ export const sid: OperationURLParameter = {
   }
 };
 
-export const parameters53: OperationParameter = {
+export const parameters54: OperationParameter = {
   parameterPath: "parameters",
   mapper: SubscriptionCreateParametersMapper
 };
@@ -1381,7 +1386,7 @@ export const appType: OperationQueryParameter = {
   }
 };
 
-export const parameters54: OperationParameter = {
+export const parameters55: OperationParameter = {
   parameterPath: "parameters",
   mapper: SubscriptionUpdateParametersMapper
 };
@@ -1398,17 +1403,17 @@ export const accessName: OperationURLParameter = {
   }
 };
 
-export const parameters55: OperationParameter = {
+export const parameters56: OperationParameter = {
   parameterPath: "parameters",
   mapper: AccessInformationCreateParametersMapper
 };
 
-export const parameters56: OperationParameter = {
+export const parameters57: OperationParameter = {
   parameterPath: "parameters",
   mapper: AccessInformationUpdateParametersMapper
 };
 
-export const parameters57: OperationParameter = {
+export const parameters58: OperationParameter = {
   parameterPath: "parameters",
   mapper: DeployConfigurationParametersMapper
 };
@@ -1425,22 +1430,22 @@ export const configurationName: OperationURLParameter = {
   }
 };
 
-export const parameters58: OperationParameter = {
+export const parameters59: OperationParameter = {
   parameterPath: "parameters",
   mapper: SaveConfigurationParameterMapper
 };
 
-export const parameters59: OperationParameter = {
+export const parameters60: OperationParameter = {
   parameterPath: "parameters",
   mapper: UserCreateParametersMapper
 };
 
-export const parameters60: OperationParameter = {
+export const parameters61: OperationParameter = {
   parameterPath: "parameters",
   mapper: UserUpdateParametersMapper
 };
 
-export const parameters61: OperationParameter = {
+export const parameters62: OperationParameter = {
   parameterPath: "parameters",
   mapper: UserTokenParametersMapper
 };
