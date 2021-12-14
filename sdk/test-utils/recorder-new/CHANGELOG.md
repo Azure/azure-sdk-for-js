@@ -2,6 +2,10 @@
 
 ## 1.0.0 (Unreleased)
 
+## 2021-12-14
+
+- Add `configureClient` method in the `TestProxytHttpClient` which instruments the client with the recorder policy which enables the recorder to redirect the requests to the proxy tool.
+
 ## 2021-11-30
 
 - Adds NoOp AAD Credential for playback `NoOpCredential`. Using this as your AAD credential in playback mode would avoid the AAD traffic in playback.
