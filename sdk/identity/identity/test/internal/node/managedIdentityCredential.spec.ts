@@ -295,6 +295,7 @@ describe("ManagedIdentityCredential", function() {
 
   it("doesn't try IMDS endpoint again once it can't be detected", async function() {
     const credential = new ManagedIdentityCredential("errclient");
+    const DEFAULT_CLIENT_MAX_RETRY_COUNT = 10;
     const authDetails = await sendCredentialRequests({
       scopes: ["scopes"],
       credential,
@@ -302,13 +303,12 @@ describe("ManagedIdentityCredential", function() {
         // Satisfying the ping
         createResponse(200),
         // Retries until exhaustion
-        createResponse(503, {}, { "Retry-After": "2" }),
-        createResponse(503, {}, { "Retry-After": "2" }),
-        createResponse(503, {}, { "Retry-After": "2" }),
-        createResponse(503, {}, { "Retry-After": "2" })
+        ...Array(DEFAULT_CLIENT_MAX_RETRY_COUNT + 1).fill(
+          createResponse(503, {}, { "Retry-After": "2" })
+        )
       ]
     });
-    assert.equal(authDetails.requests.length, 5);
+    assert.equal(authDetails.requests.length, DEFAULT_CLIENT_MAX_RETRY_COUNT + 2);
     assert.ok(authDetails.error!.message.indexOf("authentication failed") > -1);
 
     await testContext.restore();
