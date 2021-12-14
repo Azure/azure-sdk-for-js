@@ -64,7 +64,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 
 This is an example footer text. It will appear at the bottom of the README file.
 
-[getconfigurationsetting]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk//home/wtemple/Development/azure-sdk-for-js/common/tools/dev-tool/test/samples/files/inputs/output-customization/samples/v1/typescript/src/getConfigurationSetting.ts
+[getconfigurationsetting]: https://github.com/Azure/azure-sdk-for-js/blob/main/common/tools/dev-tool/test/samples/files/expectations/output-customization/typescript/src/getConfigurationSetting.ts
 [apiref]: https://docs.microsoft.com/javascript/api/
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azureappconfiguration]: https://docs.microsoft.com/azure/azure-app-configuration/

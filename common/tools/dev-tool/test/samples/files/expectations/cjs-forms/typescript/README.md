@@ -58,7 +58,7 @@ npx cross-env WAIT_TIME="<wait time>" node dist/index.js
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[index]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk//home/wtemple/Development/azure-sdk-for-js/common/tools/dev-tool/test/samples/files/inputs/cjs-forms/samples/v1/typescript/src/index.ts
+[index]: https://github.com/Azure/azure-sdk-for-js/blob/main/common/tools/dev-tool/test/samples/files/expectations/cjs-forms/typescript/src/index.ts
 [apiref]: https://docs.microsoft.com/
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_test]: https://contoso.com

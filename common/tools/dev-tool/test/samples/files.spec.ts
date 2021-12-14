@@ -46,14 +46,16 @@ describe("File content tests", async function() {
     it(name, async function() {
       const tempOutputDir = await fs.mkdtemp(path.join(os.tmpdir(), "devToolTest"));
 
+      const version = name.includes("@") ? name.split("@")[1] : "1.0.0";
+
       try {
         const writeSamples = await makeSamplesFactory(
           {
             name,
-            version: "1.0.0",
+            version,
             packageJson: {
               ...ownPackageJson,
-              version: name.includes("@") ? name.split("@")[1] : "1.0.0",
+              version,
               keywords: [name],
               "//sampleConfiguration": {
                 ...(await import(path.join(dir, "config.json"))),
@@ -69,7 +71,7 @@ describe("File content tests", async function() {
 
         await writeSamples(tempOutputDir);
 
-        const actualPath = path.join(tempOutputDir, "v1");
+        const actualPath = path.join(tempOutputDir, (await fs.readdir(tempOutputDir))[0]);
         const expectationPath = path.join(EXPECT_PATH, name);
 
         if (shouldWriteExpectations) {

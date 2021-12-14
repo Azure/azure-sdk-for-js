@@ -46,7 +46,7 @@ npx cross-env MY_VARIABLE="<my variable>" node getConfigurationSetting.js
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[getconfigurationsetting]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk//home/wtemple/Development/azure-sdk-for-js/common/tools/dev-tool/test/samples/files/inputs/simple/samples/v1/javascript/getConfigurationSetting.js
+[getconfigurationsetting]: https://github.com/Azure/azure-sdk-for-js/blob/main/common/tools/dev-tool/test/samples/files/expectations/simple/javascript/getConfigurationSetting.js
 [apiref]: https://docs.microsoft.com/javascript/api/
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azureappconfiguration]: https://docs.microsoft.com/azure/azure-app-configuration/

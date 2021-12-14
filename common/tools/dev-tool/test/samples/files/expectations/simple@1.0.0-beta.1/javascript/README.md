@@ -1,10 +1,10 @@
-# CommonJS client library samples for JavaScript
+# Azure Template client library samples for JavaScript (Beta)
 
-These sample programs show how to use the JavaScript client libraries for CommonJS in some common scenarios.
+These sample programs show how to use the JavaScript client libraries for Azure Template in some common scenarios.
 
-| **File Name**     | **Description**                             |
-| ----------------- | ------------------------------------------- |
-| [index.js][index] | validates several forms of CommonJS imports |
+| **File Name**                                         | **Description**                             |
+| ----------------------------------------------------- | ------------------------------------------- |
+| [getConfigurationSetting.js][getconfigurationsetting] | a succinct and simple sample example (beta) |
 
 ## Prerequisites
 
@@ -12,7 +12,7 @@ The sample programs are compatible with [LTS versions of Node.js](https://nodejs
 
 You need [an Azure subscription][freesub] and the following Azure resources to run these sample programs:
 
-- [test][createinstance_test]
+- [Azure App Configuration][createinstance_azureappconfiguration]
 
 Samples retrieve credentials to access the service endpoint from environment variables. Alternatively, edit the source code to include the appropriate credentials. See each individual sample for details on which environment variables/credentials it requires to function.
 
@@ -33,21 +33,21 @@ npm install
 3. Run whichever samples you like (note that some samples may require additional setup, see the table above):
 
 ```bash
-node index.js
+node getConfigurationSetting.js
 ```
 
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env WAIT_TIME="<wait time>" node index.js
+npx cross-env MY_VARIABLE="<my variable>" node getConfigurationSetting.js
 ```
 
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[index]: https://github.com/Azure/azure-sdk-for-js/blob/main/common/tools/dev-tool/test/samples/files/expectations/cjs-forms/javascript/index.js
-[apiref]: https://docs.microsoft.com/
+[getconfigurationsetting]: https://github.com/Azure/azure-sdk-for-js/blob/main/common/tools/dev-tool/test/samples/files/expectations/simple@1.0.0-beta.1/javascript/getConfigurationSetting.js
+[apiref]: https://docs.microsoft.com/javascript/api/
 [freesub]: https://azure.microsoft.com/free/
-[createinstance_test]: https://contoso.com
-[package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk//home/wtemple/Development/azure-sdk-for-js/common/tools/dev-tool/test/samples/files/inputs/cjs-forms/README.md
+[createinstance_azureappconfiguration]: https://docs.microsoft.com/azure/azure-app-configuration/
+[package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk//home/wtemple/Development/azure-sdk-for-js/common/tools/dev-tool/test/samples/files/inputs/simple@1.0.0-beta.1/README.md
