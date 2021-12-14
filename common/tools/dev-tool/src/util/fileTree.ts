@@ -105,6 +105,16 @@ export function dir(
 }
 
 /**
+ * Pass a file tree factory through to another lazy factory. This gives a user the opportunity to observe the path name.
+ *
+ * @param thunk - a function that will yield a file tree factory given a path
+ * @returns a file tree factory that will first evaluate the thunk and then run it
+ */
+export function lazy(thunk: (name: string) => FileTreeFactory): FileTreeFactory {
+  return (name) => thunk(name)(name);
+}
+
+/**
  * A file tree factory that copies a file from a source.
  *
  * @param name - the name of the destination file (to create within the file

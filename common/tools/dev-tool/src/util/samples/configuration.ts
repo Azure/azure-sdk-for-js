@@ -101,6 +101,12 @@ export interface SampleConfiguration {
    * ```
    */
   extraFiles?: Record<string, string[]>;
+  /**
+   * Overrides the path used to create README links. This is only useful for testing.
+   *
+   * @hidden
+   */
+  overridePublicationLinkFragment?: string;
 }
 
 export const SAMPLE_CONFIGURATION_KEY = "//sampleConfiguration";

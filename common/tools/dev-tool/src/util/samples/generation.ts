@@ -1,22 +1,21 @@
 import fs from "fs-extra";
 import { EOL } from "os";
 import path from "path";
-import { copy, dir, file, FileTreeFactory, safeClean, temp } from "../fileTree";
+import { copy, dir, file, FileTreeFactory, lazy, safeClean, temp } from "../fileTree";
 import { findMatchingFiles } from "../findMatchingFiles";
 import { createPrinter } from "../printer";
-import { ProjectInfo } from "../resolveProject";
+import { ProjectInfo, resolveRoot } from "../resolveProject";
 import {
   getSampleConfiguration,
   MIN_SUPPORTED_NODE_VERSION,
-  SampleConfiguration,
+  SampleConfiguration
 } from "./configuration";
 import {
   AZSDK_META_TAG_PREFIX,
   DEFAULT_TYPESCRIPT_CONFIG,
   DEV_SAMPLES_BASE,
   OutputKind,
-  PUBLIC_SAMPLES_BASE,
-  SampleGenerationInfo,
+  SampleGenerationInfo
 } from "./info";
 import { processSources } from "./processor";
 
@@ -35,30 +34,30 @@ export function createPackageJson(info: SampleGenerationInfo, outputKind: Output
       info.isBeta ? " (Beta)" : ""
     }`,
     engines: {
-      node: `>=${MIN_SUPPORTED_NODE_VERSION}`,
+      node: `>=${MIN_SUPPORTED_NODE_VERSION}`
     },
     ...(outputKind === OutputKind.TypeScript
       ? {
           // We only include these in TypeScript
           scripts: {
             build: "tsc",
-            prebuild: "rimraf dist/",
-          },
+            prebuild: "rimraf dist/"
+          }
         }
       : {}),
     repository: {
       type: "git",
       url: "git+https://github.com/Azure/azure-sdk-for-js.git",
-      directory: info.projectRepoPath,
+      directory: info.projectRepoPath
     },
     keywords: info.packageKeywords,
     author: "Microsoft Corporation",
     license: "MIT",
     bugs: {
-      url: "https://github.com/Azure/azure-sdk-for-js/issues",
+      url: "https://github.com/Azure/azure-sdk-for-js/issues"
     },
     homepage: `https://github.com/Azure/azure-sdk-for-js/tree/main/${info.projectRepoPath}`,
-    ...info.computeSampleDependencies(outputKind),
+    ...info.computeSampleDependencies(outputKind)
   };
 }
 
@@ -123,7 +122,7 @@ export async function makeSampleGenerationInfo(
     // If we are a beta package, use "next", otherwise we will use "latest"
     [projectInfo.name]: projectInfo.version.includes("beta") ? "next" : "latest",
     // We use this universally
-    dotenv: "latest",
+    dotenv: "latest"
   };
 
   const { packageJson } = projectInfo;
@@ -176,7 +175,7 @@ export async function makeSampleGenerationInfo(
         }
         return {
           ...accum,
-          [name]: contents,
+          [name]: contents
         };
       },
       {} as SampleConfiguration["customSnippets"]
@@ -220,7 +219,7 @@ export async function makeSampleGenerationInfo(
           }
           return {
             ...prev,
-            ...current,
+            ...current
           };
         }, defaultDependencies),
         ...(outputKind === OutputKind.TypeScript
@@ -231,12 +230,12 @@ export async function makeSampleGenerationInfo(
                 ...typesDependencies,
                 "@types/node": `^${MIN_SUPPORTED_NODE_VERSION}`,
                 typescript: devToolPackageJson.dependencies.typescript,
-                rimraf: "latest",
-              },
+                rimraf: "latest"
+              }
             }
-          : {}),
+          : {})
       };
-    },
+    }
   };
 }
 
@@ -244,7 +243,11 @@ export async function makeSampleGenerationInfo(
  * Calls the template to instantiate the sample README for this configuration
  * and output kind.
  */
-export function createReadme(outputKind: OutputKind, info: SampleGenerationInfo): string {
+export function createReadme(
+  outputKind: OutputKind,
+  info: SampleGenerationInfo,
+  publicationDirectory: string
+): string {
   const fullOutputKind = outputKind === OutputKind.TypeScript ? "typescript" : "javascript";
 
   return instantiateSampleReadme({
@@ -254,12 +257,12 @@ export function createReadme(outputKind: OutputKind, info: SampleGenerationInfo)
           page_type: "sample",
           languages: [fullOutputKind],
           products: info.productSlugs,
-          urlFragment: `${info.baseName}-${fullOutputKind}${info.isBeta ? "-beta" : ""}`,
+          urlFragment: `${info.baseName}-${fullOutputKind}${info.isBeta ? "-beta" : ""}`
         },
-    publicationDirectory: PUBLIC_SAMPLES_BASE + "/" + info.topLevelDirectory,
+    publicationDirectory,
     useTypeScript: outputKind === OutputKind.TypeScript,
     ...info,
-    moduleInfos: info.moduleInfos.filter((mod) => mod.summary !== undefined),
+    moduleInfos: info.moduleInfos.filter((mod) => mod.summary !== undefined)
   });
 }
 
@@ -284,6 +287,8 @@ export async function makeSamplesFactory(
   const isBeta = /-beta/.test(projectInfo.version);
   const majorVersion = projectInfo.version.split(".")[0];
   const versionFolder = `v${majorVersion}${isBeta ? "-beta" : ""}`;
+
+  const repoRoot = await resolveRoot();
 
   log.debug("Computed full generation path:", versionFolder);
 
@@ -331,43 +336,49 @@ export async function makeSamplesFactory(
   return dir(
     versionFolder,
     safeClean(
-      temp(
-        dir(".", [
-          dir("typescript", [
-            file("README.md", () => createReadme(OutputKind.TypeScript, info)),
-            file("package.json", () => jsonify(createPackageJson(info, OutputKind.TypeScript))),
-            // All of the tsconfigs we use for samples should be the same.
-            file("tsconfig.json", () => jsonify(DEFAULT_TYPESCRIPT_CONFIG)),
-            copy("sample.env", path.join(projectInfo.path, "sample.env")),
-            // We copy the samples sources in to the `src` folder on the typescript side
-            dir(
-              "src",
-              info.moduleInfos.map(({ relativeSourcePath, filePath }) =>
-                file(relativeSourcePath, () => postProcess(fs.readFileSync(filePath)))
-              )
-            ),
-          ]),
-          dir("javascript", [
-            file("README.md", () => createReadme(OutputKind.JavaScript, info)),
-            file("package.json", () => jsonify(createPackageJson(info, OutputKind.JavaScript))),
-            copy("sample.env", path.join(projectInfo.path, "sample.env")),
-            // Extract the JS Module Text from the module info structures
-            ...info.moduleInfos
-              // Only include the modules if they were not skipped
-              .filter(({ azSdkTags: { "skip-javascript": skip } }) => !skip)
-              .map(({ relativeSourcePath, jsModuleText }) =>
-                file(relativeSourcePath.replace(/\.ts$/, ".js"), () => postProcess(jsModuleText))
+      lazy((outputDirectory) =>
+        temp(
+          dir(".", [
+            dir("typescript", [
+              file("README.md", () =>
+                createReadme(OutputKind.TypeScript, info, path.relative(repoRoot, outputDirectory))
               ),
-          ]),
-          // Copy extraFiles by reducing all configured destinations for each input file
-          ...Object.entries(info.extraFiles ?? {}).reduce(
-            (accum, [source, destinations]) => [
-              ...accum,
-              ...destinations.map((dest) => copy(dest, path.resolve(projectInfo.path, source))),
-            ],
-            [] as FileTreeFactory[]
-          ),
-        ])
+              file("package.json", () => jsonify(createPackageJson(info, OutputKind.TypeScript))),
+              // All of the tsconfigs we use for samples should be the same.
+              file("tsconfig.json", () => jsonify(DEFAULT_TYPESCRIPT_CONFIG)),
+              copy("sample.env", path.join(projectInfo.path, "sample.env")),
+              // We copy the samples sources in to the `src` folder on the typescript side
+              dir(
+                "src",
+                info.moduleInfos.map(({ relativeSourcePath, filePath }) =>
+                  file(relativeSourcePath, () => postProcess(fs.readFileSync(filePath)))
+                )
+              )
+            ]),
+            dir("javascript", [
+              file("README.md", () =>
+                createReadme(OutputKind.JavaScript, info, path.relative(repoRoot, outputDirectory))
+              ),
+              file("package.json", () => jsonify(createPackageJson(info, OutputKind.JavaScript))),
+              copy("sample.env", path.join(projectInfo.path, "sample.env")),
+              // Extract the JS Module Text from the module info structures
+              ...info.moduleInfos
+                // Only include the modules if they were not skipped
+                .filter(({ azSdkTags: { "skip-javascript": skip } }) => !skip)
+                .map(({ relativeSourcePath, jsModuleText }) =>
+                  file(relativeSourcePath.replace(/\.ts$/, ".js"), () => postProcess(jsModuleText))
+                )
+            ]),
+            // Copy extraFiles by reducing all configured destinations for each input file
+            ...Object.entries(info.extraFiles ?? {}).reduce(
+              (accum, [source, destinations]) => [
+                ...accum,
+                ...destinations.map((dest) => copy(dest, path.resolve(projectInfo.path, source)))
+              ],
+              [] as FileTreeFactory[]
+            )
+          ])
+        )
       )
     )
   );
