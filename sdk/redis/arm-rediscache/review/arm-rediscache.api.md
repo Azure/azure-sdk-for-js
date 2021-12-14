@@ -687,8 +687,12 @@ export interface RedisListUpgradeNotificationsOptionalParams extends coreClient.
 export type RedisListUpgradeNotificationsResponse = NotificationListResponse;
 
 // @public (undocumented)
-export class RedisManagementClient extends RedisManagementClientContext {
+export class RedisManagementClient extends coreClient.ServiceClient {
+    // (undocumented)
+    $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: RedisManagementClientOptionalParams);
+    // (undocumented)
+    apiVersion: string;
     // (undocumented)
     firewallRules: FirewallRules;
     // (undocumented)
@@ -703,15 +707,6 @@ export class RedisManagementClient extends RedisManagementClientContext {
     privateLinkResources: PrivateLinkResources;
     // (undocumented)
     redis: Redis;
-}
-
-// @public (undocumented)
-export class RedisManagementClientContext extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: RedisManagementClientOptionalParams);
-    // (undocumented)
-    apiVersion: string;
     // (undocumented)
     subscriptionId: string;
 }
@@ -872,7 +867,6 @@ export interface UpgradeNotification {
         [propertyName: string]: string;
     };
 }
-
 
 // (No @packageDocumentation comment for this package)
 

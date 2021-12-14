@@ -6,35 +6,34 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { DataWarehouseUserActivitiesOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { SqlManagementClientContext } from "../sqlManagementClientContext";
+import { SqlManagementClient } from "../sqlManagementClient";
 import {
   DataWarehouseUserActivities,
-  DataWarehouseUserActivitiesOperationsListByDatabaseNextOptionalParams,
-  DataWarehouseUserActivitiesOperationsListByDatabaseOptionalParams,
+  DataWarehouseUserActivitiesListByDatabaseNextOptionalParams,
+  DataWarehouseUserActivitiesListByDatabaseOptionalParams,
   DataWarehouseUserActivityName,
-  DataWarehouseUserActivitiesOperationsGetOptionalParams,
-  DataWarehouseUserActivitiesOperationsGetResponse,
-  DataWarehouseUserActivitiesOperationsListByDatabaseResponse,
-  DataWarehouseUserActivitiesOperationsListByDatabaseNextResponse
+  DataWarehouseUserActivitiesGetOptionalParams,
+  DataWarehouseUserActivitiesGetResponse,
+  DataWarehouseUserActivitiesListByDatabaseResponse,
+  DataWarehouseUserActivitiesListByDatabaseNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing DataWarehouseUserActivitiesOperations operations. */
 export class DataWarehouseUserActivitiesOperationsImpl
   implements DataWarehouseUserActivitiesOperations {
-  private readonly client: SqlManagementClientContext;
+  private readonly client: SqlManagementClient;
 
   /**
    * Initialize a new instance of the class DataWarehouseUserActivitiesOperations class.
    * @param client Reference to the service client
    */
-  constructor(client: SqlManagementClientContext) {
+  constructor(client: SqlManagementClient) {
     this.client = client;
   }
 
@@ -50,7 +49,7 @@ export class DataWarehouseUserActivitiesOperationsImpl
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
-    options?: DataWarehouseUserActivitiesOperationsListByDatabaseOptionalParams
+    options?: DataWarehouseUserActivitiesListByDatabaseOptionalParams
   ): PagedAsyncIterableIterator<DataWarehouseUserActivities> {
     const iter = this.listByDatabasePagingAll(
       resourceGroupName,
@@ -80,7 +79,7 @@ export class DataWarehouseUserActivitiesOperationsImpl
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
-    options?: DataWarehouseUserActivitiesOperationsListByDatabaseOptionalParams
+    options?: DataWarehouseUserActivitiesListByDatabaseOptionalParams
   ): AsyncIterableIterator<DataWarehouseUserActivities[]> {
     let result = await this._listByDatabase(
       resourceGroupName,
@@ -107,7 +106,7 @@ export class DataWarehouseUserActivitiesOperationsImpl
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
-    options?: DataWarehouseUserActivitiesOperationsListByDatabaseOptionalParams
+    options?: DataWarehouseUserActivitiesListByDatabaseOptionalParams
   ): AsyncIterableIterator<DataWarehouseUserActivities> {
     for await (const page of this.listByDatabasePagingPage(
       resourceGroupName,
@@ -133,8 +132,8 @@ export class DataWarehouseUserActivitiesOperationsImpl
     serverName: string,
     databaseName: string,
     dataWarehouseUserActivityName: DataWarehouseUserActivityName,
-    options?: DataWarehouseUserActivitiesOperationsGetOptionalParams
-  ): Promise<DataWarehouseUserActivitiesOperationsGetResponse> {
+    options?: DataWarehouseUserActivitiesGetOptionalParams
+  ): Promise<DataWarehouseUserActivitiesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -159,8 +158,8 @@ export class DataWarehouseUserActivitiesOperationsImpl
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
-    options?: DataWarehouseUserActivitiesOperationsListByDatabaseOptionalParams
-  ): Promise<DataWarehouseUserActivitiesOperationsListByDatabaseResponse> {
+    options?: DataWarehouseUserActivitiesListByDatabaseOptionalParams
+  ): Promise<DataWarehouseUserActivitiesListByDatabaseResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, databaseName, options },
       listByDatabaseOperationSpec
@@ -181,8 +180,8 @@ export class DataWarehouseUserActivitiesOperationsImpl
     serverName: string,
     databaseName: string,
     nextLink: string,
-    options?: DataWarehouseUserActivitiesOperationsListByDatabaseNextOptionalParams
-  ): Promise<DataWarehouseUserActivitiesOperationsListByDatabaseNextResponse> {
+    options?: DataWarehouseUserActivitiesListByDatabaseNextOptionalParams
+  ): Promise<DataWarehouseUserActivitiesListByDatabaseNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, databaseName, nextLink, options },
       listByDatabaseNextOperationSpec

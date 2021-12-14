@@ -4,10 +4,9 @@
 import * as http from "http";
 import * as https from "https";
 import * as tunnel from "tunnel";
-
+import { HttpHeadersLike } from "./httpHeaders";
 import { ProxySettings } from "./serviceClient";
 import { URLBuilder } from "./url";
-import { HttpHeadersLike } from "./httpHeaders";
 
 export type ProxyAgent = { isHttps: boolean; agent: http.Agent | https.Agent };
 export function createProxyAgent(

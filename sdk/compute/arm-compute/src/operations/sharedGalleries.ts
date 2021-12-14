@@ -11,7 +11,7 @@ import { SharedGalleries } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { ComputeManagementClientContext } from "../computeManagementClientContext";
+import { ComputeManagementClient } from "../computeManagementClient";
 import {
   SharedGallery,
   SharedGalleriesListNextOptionalParams,
@@ -25,13 +25,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing SharedGalleries operations. */
 export class SharedGalleriesImpl implements SharedGalleries {
-  private readonly client: ComputeManagementClientContext;
+  private readonly client: ComputeManagementClient;
 
   /**
    * Initialize a new instance of the class SharedGalleries class.
    * @param client Reference to the service client
    */
-  constructor(client: ComputeManagementClientContext) {
+  constructor(client: ComputeManagementClient) {
     this.client = client;
   }
 

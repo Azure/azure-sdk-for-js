@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ApiKeyCredentials, ApiKeyCredentialOptions } from "./apiKeyCredentials";
+import { ApiKeyCredentialOptions, ApiKeyCredentials } from "./apiKeyCredentials";
 
 /**
  * A {@link TopicCredentials} object used for Azure Event Grid.

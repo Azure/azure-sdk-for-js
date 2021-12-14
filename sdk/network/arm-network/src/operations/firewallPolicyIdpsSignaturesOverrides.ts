@@ -10,7 +10,7 @@ import { FirewallPolicyIdpsSignaturesOverrides } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { NetworkManagementClientContext } from "../networkManagementClientContext";
+import { NetworkManagementClient } from "../networkManagementClient";
 import {
   SignaturesOverrides,
   FirewallPolicyIdpsSignaturesOverridesPatchOptionalParams,
@@ -26,13 +26,13 @@ import {
 /** Class containing FirewallPolicyIdpsSignaturesOverrides operations. */
 export class FirewallPolicyIdpsSignaturesOverridesImpl
   implements FirewallPolicyIdpsSignaturesOverrides {
-  private readonly client: NetworkManagementClientContext;
+  private readonly client: NetworkManagementClient;
 
   /**
    * Initialize a new instance of the class FirewallPolicyIdpsSignaturesOverrides class.
    * @param client Reference to the service client
    */
-  constructor(client: NetworkManagementClientContext) {
+  constructor(client: NetworkManagementClient) {
     this.client = client;
   }
 

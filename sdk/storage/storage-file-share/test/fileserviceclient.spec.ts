@@ -556,6 +556,10 @@ describe("FileServiceClient Premium", () => {
   });
 
   it("Premium Share getProperties", async function(this: Context) {
+    if (isLiveMode()) {
+      // Skip this case until the feature is enabled in production.
+      this.skip();
+    }
     const shareName = recorder.getUniqueName("share");
     const shareClient = serviceClient.getShareClient(shareName);
 
