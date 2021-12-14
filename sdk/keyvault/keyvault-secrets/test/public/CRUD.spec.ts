@@ -35,14 +35,13 @@ describe("Secret client - create, read, update and delete operations", () => {
 
   // The tests follow
 
-  it.only("can add a secret", async function(this: Context) {
-    console.log("Running with API Version:", client["client"]["apiVersion"]);
-    // const secretName = testClient.formatName(
-    //   `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
-    // );
-    // const result = await client.setSecret(secretName, secretValue);
-    // assert.equal(result.name, secretName, "Unexpected secret name in result from setSecret().");
-    // assert.equal(result.value, secretValue, "Unexpected secret value in result from setSecret().");
+  it("can add a secret", async function(this: Context) {
+    const secretName = testClient.formatName(
+      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
+    );
+    const result = await client.setSecret(secretName, secretValue);
+    assert.equal(result.name, secretName, "Unexpected secret name in result from setSecret().");
+    assert.equal(result.value, secretValue, "Unexpected secret value in result from setSecret().");
   });
 
   // If this test is not skipped in the browser's playback, no other test will be played back.
