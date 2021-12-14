@@ -87,7 +87,7 @@ export function retryPolicy(
             strategyLogger.info(
               `Maximum retries reached. Returning the last received response, or throwing the last received error.`
             );
-            if (response) {
+            if (response !== undefined) {
               return response;
             }
             throw responseError;
