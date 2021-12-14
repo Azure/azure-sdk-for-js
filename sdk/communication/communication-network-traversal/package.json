@@ -34,8 +34,7 @@
     "test:watch": "npm run test -- --watch --reporter min",
     "unit-test:browser": "karma start --single-run",
     "unit-test:node": "mocha --reporter ../../../common/tools/mocha-multi-reporter.js dist-test/index.node.js",
-    "unit-test": "npm run unit-test:node && npm run unit-test:browser",
-    "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src"
+    "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "//sampleConfiguration": {
     "productName": "Azure Communication Services - Network Traversal",
@@ -127,7 +126,6 @@
     "rollup-plugin-terser": "^5.1.1",
     "rollup-plugin-visualizer": "^4.0.4",
     "sinon": "^9.0.2",
-    "typedoc": "0.15.2",
     "typescript": "~4.2.0"
   }
 }

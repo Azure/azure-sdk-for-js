@@ -71,8 +71,7 @@
     "test": "npm run test:node && npm run test:browser",
     "unit-test:browser": "echo skipped",
     "unit-test:node": "mocha -r esm --require ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 1200000 --full-trace \"test/internal/unit/{,!(browser)/**/}*.spec.ts\"",
-    "unit-test": "npm run unit-test:node && npm run unit-test:browser",
-    "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src"
+    "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "sideEffects": false,
   "//metadata": {
@@ -174,7 +173,6 @@
     "ws": "^7.1.1",
     "sinon": "^9.0.2",
     "@types/sinon": "^9.0.4",
-    "events": "^3.0.0",
-    "typedoc": "0.15.2"
+    "events": "^3.0.0"
   }
 }
