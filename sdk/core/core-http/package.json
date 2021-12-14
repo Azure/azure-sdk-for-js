@@ -168,7 +168,7 @@
     "puppeteer": "^10.2.0",
     "regenerator-runtime": "^0.13.3",
     "rimraf": "^3.0.0",
-    "rollup": "^1.16.3",
+    "rollup": "^2.0.0",
     "shx": "^0.3.2",
     "sinon": "^9.0.2",
     "ts-node": "^10.0.0",

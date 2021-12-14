@@ -132,7 +132,7 @@
     "prettier": "^1.16.4",
     "requirejs": "^2.3.5",
     "rimraf": "^3.0.0",
-    "rollup": "^1.16.3",
+    "rollup": "^2.0.0",
     "rollup-plugin-local-resolve": "^1.0.7",
     "sinon": "^9.0.2",
     "snap-shot-it": "^7.9.1",

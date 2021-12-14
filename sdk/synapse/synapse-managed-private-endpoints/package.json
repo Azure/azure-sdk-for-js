@@ -51,7 +51,7 @@
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/dev-tool": "^1.0.0",
     "rimraf": "^3.0.0",
-    "rollup": "^1.16.3",
+    "rollup": "^2.0.0",
     "uglify-js": "^3.4.9",
     "@microsoft/api-extractor": "^7.18.11",
     "typedoc": "0.15.2",

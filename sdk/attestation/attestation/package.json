@@ -138,7 +138,7 @@
     "nyc": "^14.0.0",
     "prettier": "^1.16.4",
     "rimraf": "^3.0.0",
-    "rollup": "^1.16.3",
+    "rollup": "^2.0.0",
     "safe-buffer": "^5.2.1",
     "source-map-support": "^0.5.9",
     "ts-node": "^10.0.0",
