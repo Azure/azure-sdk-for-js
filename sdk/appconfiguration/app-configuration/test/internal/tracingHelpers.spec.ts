@@ -92,9 +92,6 @@ describe("tracingHelpers", () => {
 
       assert.fail("Exception should have been thrown from `trace` since the inner action threw");
     } catch (err) {
-      if (!(err instanceof Error)) {
-        throw new Error("Error is not recognized");
-      }
       assert.equal(err.message, "Purposefully thrown error");
     }
 
