@@ -13,6 +13,8 @@ const a = require("./hasDefaultExport").default,
 
 const c = require("./hasDefaultExport");
 
+const f = require("./hasNamedDefaultExport").default;
+
 async function main() {
   const waitTime = process.env.WAIT_TIME || "5000";
   const delayMs = parseInt(waitTime);
@@ -24,6 +26,8 @@ async function main() {
   await a(b, 5000);
 
   await c.default(c.b, 1000);
+
+  await f(b, 1000);
 }
 
 main().catch((error) => {

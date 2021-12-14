@@ -12,6 +12,8 @@ import a, {
 
 import * as c from "./hasDefaultExport";
 
+import f from "./hasNamedDefaultExport";
+
 export async function main() {
   const waitTime = process.env.WAIT_TIME || "5000";
   const delayMs = parseInt(waitTime);
@@ -23,6 +25,8 @@ export async function main() {
   await a(b, 5000);
 
   await c.default(c.b, 1000);
+
+  await f(b, 1000);
 }
 
 main().catch((error) => {

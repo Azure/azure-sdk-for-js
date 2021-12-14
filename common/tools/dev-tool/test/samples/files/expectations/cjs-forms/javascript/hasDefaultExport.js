@@ -1,11 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-const b = "Hello world!";
+const { delay } = require("./delay");
 
-function delay(ms) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
+const b = "Hello world!";
 
 module.exports = {
   b,

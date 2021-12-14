@@ -111,7 +111,7 @@ export async function processSources(
         const visited = ts.visitNode(sourceFile, visitor);
 
         // We will only process exports for modules that appear to be util modules
-        if ((summary === undefined || azSdkTags.util) && exports.length > 0) {
+        if (summary === undefined || azSdkTags.util) {
           return addCommonJsExports(context, visited, exports);
         }
 
@@ -308,24 +308,23 @@ function addCommonJsExports(
 
   const transformedOriginalStatements = processExportDefault(sourceFile, factory, exportEntries);
 
-  const updatedStatements = [
-    // We will handle a "default" export specially. These can only be class or function declarations when represented
-    // using the default keyword.
-    ...transformedOriginalStatements,
-    factory.createEmptyStatement(),
-    // module.exports = { ... }
-    factory.createExpressionStatement(
-      factory.createAssignment(
-        factory.createPropertyAccessExpression(
-          factory.createIdentifier("module"),
-          factory.createIdentifier("exports")
-        ),
-        factory.createObjectLiteralExpression(exportEntries)
+  if (exportEntries.length > 0) {
+    transformedOriginalStatements.push(
+      factory.createEmptyStatement(),
+      // module.exports = { ... }
+      factory.createExpressionStatement(
+        factory.createAssignment(
+          factory.createPropertyAccessExpression(
+            factory.createIdentifier("module"),
+            factory.createIdentifier("exports")
+          ),
+          factory.createObjectLiteralExpression(exportEntries)
+        )
       )
-    ),
-  ];
+    );
+  }
 
-  return factory.updateSourceFile(sourceFile, updatedStatements);
+  return factory.updateSourceFile(sourceFile, transformedOriginalStatements);
 }
 
 /**

@@ -99,7 +99,7 @@ export function importDeclarationToCommonJs(
       /* exclamationToken: */ undefined,
       /* type: */ undefined,
       // If the binding was a name, and this isn't a namespace import, then we need to access .default on it.
-      ts.isIdentifier(primaryBinding) && namedBindings && !ts.isNamespaceImport(namedBindings)
+      ts.isIdentifier(primaryBinding) && (!namedBindings || !ts.isNamespaceImport(namedBindings))
         ? factory.createPropertyAccessExpression(requireCall(), "default")
         : requireCall()
     ),
