@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import * as msAssert from "./msAssert";
 import { parseXML, stringifyXML } from "../src/util/xml";
 import { assert } from "chai";
-import * as msAssert from "./msAssert";
 
 describe("XML serializer", function() {
   describe("parseXML(string)", function() {

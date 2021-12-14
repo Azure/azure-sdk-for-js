@@ -30,8 +30,6 @@ extends:
         safeName: azureeventhubs
       - name: azure-eventhubs-checkpointstore-blob
         safeName: azureeventhubscheckpointstoreblob
-      - name: azure-event-processor-host
-        safename: azureeventprocessorhost
       - name: azure-eventhubs-checkpointstore-table
         safeName: azureeventhubscheckpointstoretable
       - name: azure-arm-eventhub

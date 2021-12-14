@@ -1,13 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Context } from "mocha";
-
-import { AzureKeyCredential } from "@azure/core-auth";
-import { Recorder, RecorderEnvironmentSetup, env, record } from "@azure-tools/test-recorder";
-
-import { MixedRealityStsClient } from "../../src";
 import "./env";
+import { Recorder, RecorderEnvironmentSetup, env, record } from "@azure-tools/test-recorder";
+import { AzureKeyCredential } from "@azure/core-auth";
+import { Context } from "mocha";
+import { MixedRealityStsClient } from "../../src";
 
 // When the recorder observes the values of these environment variables
 // in any recorded HTTP request or response, it will replace them with

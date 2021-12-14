@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
+import { HttpHeaders, RequestPolicyOptions } from "../../src/coreHttp";
+import { HttpOperationResponse } from "../../src/httpOperationResponse";
 import { RedirectPolicy } from "../../src/policies/redirectPolicy";
 import { WebResource } from "../../src/webResource";
-import { HttpOperationResponse } from "../../src/httpOperationResponse";
-import { HttpHeaders, RequestPolicyOptions } from "../../src/coreHttp";
+import { assert } from "chai";
 
 describe("RedirectPolicy", () => {
   it("should not follow redirect if no location header", async () => {

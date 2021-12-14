@@ -3,8 +3,8 @@
 
 import { OperationOptions, OperationRequest } from "@azure/core-client";
 import { PipelineResponse, RestError } from "@azure/core-rest-pipeline";
-import { SpanStatusCode } from "@azure/core-tracing";
 import { AzureLogger } from "@azure/logger";
+import { SpanStatusCode } from "@azure/core-tracing";
 import { TableServiceError } from "../generated";
 
 export type TableServiceErrorResponse = PipelineResponse & {

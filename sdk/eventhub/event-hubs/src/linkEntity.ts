@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { v4 as uuid } from "uuid";
+import { AwaitableSender, Receiver } from "rhea-promise";
 import { Constants, TokenType, defaultCancellableLock, isSasTokenProvider } from "@azure/core-amqp";
+import { AbortSignalLike } from "@azure/abort-controller";
 import { AccessToken } from "@azure/core-auth";
 import { ConnectionContext } from "./connectionContext";
-import { AwaitableSender, Receiver } from "rhea-promise";
-import { logger } from "./log";
 import { getRetryAttemptTimeoutInMs } from "./util/retries";
-import { AbortSignalLike } from "@azure/abort-controller";
+import { logger } from "./log";
+import { v4 as uuid } from "uuid";
 
 /**
  * @hidden

@@ -8,6 +8,9 @@
 
 ### Bugs Fixed
 
+- Fix issue where optionality of expiresOn and permissions is not respected when signedIdentifier is provided.
+- Fix `createTable` not calling `onResponse` callback when the service returns `TableAlreadyExists`. [#18914](https://github.com/Azure/azure-sdk-for-js/pull/18914)
+
 ### Other Changes
 
 ## 13.0.0 (2021-11-11)
@@ -37,7 +40,9 @@ Thank you to our developer community members who helped to make the Azure Tables
 - Issue #18521 - `upsertEntity` doesn't work with "" for partition or row keys. [#18586](https://github.com/Azure/azure-sdk-for-js/pull/18586)
 
 ### Other Changes
+
 - Export RestError [#18635](https://github.com/Azure/azure-sdk-for-js/pull/18635). (A community contribution, courtesy of _[dhensby](https://github.com/dhensby))_
+
 ## 12.1.2 (2021-09-07)
 
 ### Bugs Fixed

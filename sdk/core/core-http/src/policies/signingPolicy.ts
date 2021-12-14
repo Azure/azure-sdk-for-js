@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ServiceClientCredentials } from "../credentials/serviceClientCredentials";
-import { HttpOperationResponse } from "../httpOperationResponse";
-import { WebResourceLike } from "../webResource";
 import {
   BaseRequestPolicy,
-  RequestPolicyFactory,
   RequestPolicy,
+  RequestPolicyFactory,
   RequestPolicyOptions
 } from "./requestPolicy";
+import { HttpOperationResponse } from "../httpOperationResponse";
+import { ServiceClientCredentials } from "../credentials/serviceClientCredentials";
+import { WebResourceLike } from "../webResource";
 
 /**
  * Creates a policy that signs outgoing requests by calling to the provided `authenticationProvider`'s `signRequest` method.

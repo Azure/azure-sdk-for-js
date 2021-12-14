@@ -1,19 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { delay } from "@azure/core-amqp";
-import chai from "chai";
 import {
   CloseReason,
   EventHubConsumerClient,
   EventHubProducerClient,
   EventPosition,
-  ReceivedEventData,
   PartitionContext,
+  ReceivedEventData,
   SubscriptionEventHandlers
 } from "../../../src";
+import chai from "chai";
+import { delay } from "@azure/core-amqp";
 import { loggerForTest } from "./logHelpers";
 import { loopUntil } from "./testUtils";
+
 const should = chai.should();
 
 export interface HandlerAndPositions {
