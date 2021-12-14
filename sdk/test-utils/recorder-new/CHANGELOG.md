@@ -2,6 +2,16 @@
 
 ## 1.0.0 (Unreleased)
 
+## 2021-12-13
+
+- Add support for `setMatcher`, which can be used to instruct the proxy tool to ignore headers (using `HeaderlessMatcher`) or the request body (using `BodilessMatcher`) when matching requests to recordings.
+
+  Example:
+
+  ```ts
+  await recorder.setMatcher("HeaderlessMatcher");
+  ```
+
 ## 2021-12-10
 
 - Loads the .env file using with the help of "dotenv" by default.
