@@ -15,11 +15,11 @@ import { RecorderError, RecordingStateManager } from "../src/utils/utils";
 describe("TestProxyClient functions", () => {
   let client: TestProxyHttpClient;
   let clientHttpClient: HttpClient;
-  let testContext: Mocha.Test;
+  let testContext: Mocha.Test | undefined;
   beforeEach(function() {
     client = new TestProxyHttpClient(this.currentTest);
     clientHttpClient = client.httpClient as HttpClient;
-    testContext = this.currentTest!;
+    testContext = this.currentTest;
   });
 
   afterEach(() => {

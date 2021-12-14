@@ -92,10 +92,14 @@ export class TestProxyHttpClient {
    * redirectRequest updates the request in record and playback modes to hit the proxy-tool with appropriate headers.
    * Works for both core-v1 and core-v2
    */
-  redirectRequest(request: WebResourceLike | PipelineRequest) {
+  redirectRequest(request: WebResourceLike | PipelineRequest): typeof request {
     if (isPlaybackMode() || isRecordMode()) {
       if (!request.headers.get("x-recording-id")) {
-        request.headers.set("x-recording-id", this.recordingId!);
+        if (this.recordingId === undefined) {
+          throw new RecorderError("Recording ID must be defined to redirect a request");
+        }
+
+        request.headers.set("x-recording-id", this.recordingId);
         request.headers.set("x-recording-mode", this.mode);
 
         const upstreamUrl = new URL(request.url);

@@ -27,8 +27,8 @@ import { RecorderError } from "./utils";
  * @export
  * @returns {string} location of the relative `recordings` folder path - `sdk/storage/storage-blob/recordings/` example
  */
-export function relativeRecordingsPath() {
-  let currentPath = process.cwd(); // Gives the current working directory
+export function relativeRecordingsPath(): string {
+  const currentPath = process.cwd(); // Gives the current working directory
 
   let rootPath = undefined;
   let expectedProjectPath = undefined;

@@ -84,7 +84,7 @@ function getTestServerUrl() {
       });
       const response = await client.sendRequest(req);
       if (expectedResponse) {
-        expect(JSON.parse(response.bodyAsText!)).to.deep.equal(expectedResponse);
+        expect(JSON.parse(response.bodyAsText ?? "{}")).to.deep.equal(expectedResponse);
       }
       // Add code to also check expected headers
       return response;
@@ -390,7 +390,12 @@ function getTestServerUrl() {
       it("transformsInfo()", async () => {
         if (!isLiveMode()) {
           await recorder.start({ envSetupForPlayback: {} });
-          await recorder["sanitizer"]!.transformsInfo();
+
+          if (!recorder["sanitizer"]) {
+            throw new Error("expected recorder.sanitizer to be defined at this point");
+          }
+
+          await recorder["sanitizer"].transformsInfo();
         }
       });
     });
