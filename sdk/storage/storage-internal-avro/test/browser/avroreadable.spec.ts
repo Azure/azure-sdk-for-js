@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as assert from "assert";
+import { assert } from "chai";
 import { AvroReadableFromBlob } from "../../src/index.browser";
 import { arraysEqual } from "../../src/utils/utils.common";
 // import { AbortController } from "@azure/abort-controller";

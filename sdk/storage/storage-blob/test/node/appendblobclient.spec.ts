@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as assert from "assert";
+import { assert } from "chai";
 
 import * as dotenv from "dotenv";
 import {
@@ -282,7 +282,7 @@ describe("AppendBlobClient Node.js only", () => {
         conditions: { tagConditions: "tag1 = 'val2'" }
       });
     } catch (err) {
-      assert.equal(err.details?.errorCode, "ConditionNotMet");
+      assert.equal((err as any).details?.errorCode, "ConditionNotMet");
       exceptionCaught = true;
     }
     assert.ok(exceptionCaught);

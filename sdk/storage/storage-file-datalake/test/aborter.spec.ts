@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as assert from "assert";
+import { assert } from "chai";
 
 import { AbortController, AbortSignal } from "@azure/abort-controller";
-import { DataLakeFileSystemClient } from "../src";
+import { DataLakeFileSystemClient, RestError } from "../src";
 import { getDataLakeServiceClient, recorderEnvSetup } from "./utils";
 import { record, Recorder } from "@azure-tools/test-recorder";
 import * as dotenv from "dotenv";
@@ -33,6 +33,9 @@ describe("Aborter", () => {
       await fileSystemClient.create({ abortSignal: AbortController.timeout(1) });
       assert.fail();
     } catch (err) {
+      if (!(err instanceof RestError)) {
+        throw new Error("Error is not recognized");
+      }
       assert.equal(err.name, "AbortError");
       assert.equal(err.message, "The operation was aborted.", "Unexpected error caught: " + err);
     }
@@ -50,6 +53,9 @@ describe("Aborter", () => {
       await response;
       assert.fail();
     } catch (err) {
+      if (!(err instanceof RestError)) {
+        throw new Error("Error is not recognized");
+      }
       assert.equal(err.name, "AbortError");
       assert.equal(err.message, "The operation was aborted.", "Unexpected error caught: " + err);
     }
@@ -75,6 +81,9 @@ describe("Aborter", () => {
       await response;
       assert.fail();
     } catch (err) {
+      if (!(err instanceof RestError)) {
+        throw new Error("Error is not recognized");
+      }
       assert.equal(err.name, "AbortError");
       assert.equal(err.message, "The operation was aborted.", "Unexpected error caught: " + err);
     }

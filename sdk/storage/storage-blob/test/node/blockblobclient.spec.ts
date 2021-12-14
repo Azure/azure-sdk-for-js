@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as assert from "assert";
+import { assert } from "chai";
 import * as zlib from "zlib";
 
 import {
@@ -24,7 +24,7 @@ import {
   generateBlobSASQueryParameters,
   BlobSASPermissions
 } from "../../src";
-import { TokenCredential } from "@azure/core-http";
+import { RestError, TokenCredential } from "@azure/core-http";
 import { assertClientUsesTokenCredential } from "../utils/assert";
 import { isPlaybackMode, record, Recorder } from "@azure-tools/test-recorder";
 import { streamToBuffer3 } from "../../src/utils/utils.node";
@@ -544,6 +544,9 @@ describe("syncUploadFromURL", () => {
       });
       assert.fail("Should have failed with unmet condition.");
     } catch (err) {
+      if (!(err instanceof RestError)) {
+        throw new Error("Error is not recognized");
+      }
       assert.deepStrictEqual(err.code, "TargetConditionNotMet");
     }
   });
@@ -563,6 +566,9 @@ describe("syncUploadFromURL", () => {
       });
       assert.fail("Should have failed with unmet condition.");
     } catch (err) {
+      if (!(err instanceof RestError)) {
+        throw new Error("Error is not recognized");
+      }
       assert.deepStrictEqual(err.code, "SourceConditionNotMet");
     }
   });
@@ -586,6 +592,9 @@ describe("syncUploadFromURL", () => {
       });
       assert.fail("Should have failed with unmet condition.");
     } catch (err) {
+      if (!(err instanceof RestError)) {
+        throw new Error("Error is not recognized");
+      }
       assert.deepStrictEqual(err.code, "Md5Mismatch");
     }
   });
@@ -612,6 +621,9 @@ describe("syncUploadFromURL", () => {
         timeoutInSeconds: 1
       });
     } catch (err) {
+      if (!(err instanceof RestError)) {
+        throw new Error("Error is not recognized");
+      }
       assert.deepStrictEqual(err.code, "OperationTimedOut");
       exceptionCaught = true;
     }

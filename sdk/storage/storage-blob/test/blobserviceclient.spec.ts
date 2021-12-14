@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as assert from "assert";
+import { assert } from "chai";
 
 import * as dotenv from "dotenv";
-import { BlobServiceClient } from "../src";
+import { BlobServiceClient, RestError } from "../src";
 import {
   getAlternateBSU,
   getBSU,
@@ -458,6 +458,9 @@ describe("BlobServiceClient", () => {
         "Expecting an error in getting properties from a deleted block blob but didn't get one."
       );
     } catch (error) {
+      if (!(error instanceof RestError)) {
+        throw new Error("Error is not recognized");
+      }
       assert.ok((error.statusCode as number) === 404);
     }
   });
@@ -493,13 +496,13 @@ describe("BlobServiceClient", () => {
     const tmr = recorder.newDate("tmr");
     tmr.setDate(tmr.getDate() + 1);
     const response = await serviceURLWithToken!.getUserDelegationKey(now, tmr);
-    assert.notDeepStrictEqual(response.value, undefined);
-    assert.notDeepStrictEqual(response.signedVersion, undefined);
-    assert.notDeepStrictEqual(response.signedTenantId, undefined);
-    assert.notDeepStrictEqual(response.signedStartsOn, undefined);
-    assert.notDeepStrictEqual(response.signedService, undefined);
-    assert.notDeepStrictEqual(response.signedObjectId, undefined);
-    assert.notDeepStrictEqual(response.signedExpiresOn, undefined);
+    assert.notDeepEqual(response.value, undefined);
+    assert.notDeepEqual(response.signedVersion, undefined);
+    assert.notDeepEqual(response.signedTenantId, undefined);
+    assert.notDeepEqual(response.signedStartsOn, undefined);
+    assert.notDeepEqual(response.signedService, undefined);
+    assert.notDeepEqual(response.signedObjectId, undefined);
+    assert.notDeepEqual(response.signedExpiresOn, undefined);
   });
 
   it("Find blob by tags should work", async function() {

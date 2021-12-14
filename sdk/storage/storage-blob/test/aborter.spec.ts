@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as assert from "assert";
+import { assert } from "chai";
 
 import { AbortController, AbortSignal } from "@azure/abort-controller";
 import { ContainerClient } from "../src";
@@ -17,14 +17,14 @@ describe("Aborter", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function(this: Context) {
+  beforeEach(async function (this: Context) {
     recorder = record(this, recorderEnvSetup);
     const blobServiceClient = getBSU();
     containerName = recorder.getUniqueName("container");
     containerClient = blobServiceClient.getContainerClient(containerName);
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await recorder.stop();
   });
 
@@ -33,8 +33,8 @@ describe("Aborter", () => {
       await containerClient.create({ abortSignal: AbortController.timeout(1) });
       assert.fail();
     } catch (err) {
-      assert.equal(err.name, "AbortError");
-      assert.equal(err.message, "The operation was aborted.", "Unexpected error caught: " + err);
+      assert.equal((err as any).name, "AbortError");
+      assert.equal((err as any).message, "The operation was aborted.", "Unexpected error caught: " + err);
     }
   });
 
@@ -50,8 +50,8 @@ describe("Aborter", () => {
       await response;
       assert.fail();
     } catch (err) {
-      assert.equal(err.name, "AbortError");
-      assert.equal(err.message, "The operation was aborted.", "Unexpected error caught: " + err);
+      assert.equal((err as any).name, "AbortError");
+      assert.equal((err as any).message, "The operation was aborted.", "Unexpected error caught: " + err);
     }
   });
 
@@ -75,8 +75,8 @@ describe("Aborter", () => {
       await response;
       assert.fail();
     } catch (err) {
-      assert.equal(err.name, "AbortError");
-      assert.equal(err.message, "The operation was aborted.", "Unexpected error caught: " + err);
+      assert.equal((err as any).name, "AbortError");
+      assert.equal((err as any).message, "The operation was aborted.", "Unexpected error caught: " + err);
     }
   });
 });

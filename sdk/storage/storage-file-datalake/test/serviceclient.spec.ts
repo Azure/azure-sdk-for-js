@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { delay, isLiveMode, record, Recorder } from "@azure-tools/test-recorder";
-import * as assert from "assert";
+import { assert } from "chai";
 import * as dotenv from "dotenv";
 import { Context } from "mocha";
 
@@ -25,11 +25,11 @@ dotenv.config();
 describe("DataLakeServiceClient", () => {
   let recorder: Recorder;
 
-  beforeEach(async function(this: Context) {
+  beforeEach(async function (this: Context) {
     recorder = record(this, recorderEnvSetup);
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await recorder.stop();
   });
 
@@ -430,7 +430,7 @@ describe("DataLakeServiceClient", () => {
   //   }
   // });
 
-  it("getUserDelegationKey should work", async function(this: Context) {
+  it("getUserDelegationKey should work", async function (this: Context) {
     // Try to get serviceURL object with TokenCredential
     // when DFS_ACCOUNT_TOKEN environment variable is set
     let serviceURLWithToken: DataLakeServiceClient | undefined;
@@ -451,13 +451,13 @@ describe("DataLakeServiceClient", () => {
     const tmr = recorder.newDate("tmr");
     tmr.setDate(tmr.getDate() + 1);
     const response = await serviceURLWithToken!.getUserDelegationKey(now, tmr);
-    assert.notDeepStrictEqual(response.value, undefined);
-    assert.notDeepStrictEqual(response.signedVersion, undefined);
-    assert.notDeepStrictEqual(response.signedTenantId, undefined);
-    assert.notDeepStrictEqual(response.signedStartsOn, undefined);
-    assert.notDeepStrictEqual(response.signedService, undefined);
-    assert.notDeepStrictEqual(response.signedObjectId, undefined);
-    assert.notDeepStrictEqual(response.signedExpiresOn, undefined);
+    assert.notDeepEqual(response.value, undefined);
+    assert.notDeepEqual(response.signedVersion, undefined);
+    assert.notDeepEqual(response.signedTenantId, undefined);
+    assert.notDeepEqual(response.signedStartsOn, undefined);
+    assert.notDeepEqual(response.signedService, undefined);
+    assert.notDeepEqual(response.signedObjectId, undefined);
+    assert.notDeepEqual(response.signedExpiresOn, undefined);
   });
 
   it("can be created from SASConnString", async () => {
@@ -475,7 +475,7 @@ describe("DataLakeServiceClient", () => {
     assert.ok(newClient.url.includes("dfs"));
   });
 
-  it("renameFileSystem should work", async function(this: Context) {
+  it("renameFileSystem should work", async function (this: Context) {
     if (isLiveMode()) {
       // Turn on this case when the Container Rename feature is ready in the service side.
       this.skip();
@@ -497,7 +497,7 @@ describe("DataLakeServiceClient", () => {
     await newFileSystemClient.delete();
   });
 
-  it("renameFileSystem should work with source lease", async function(this: Context) {
+  it("renameFileSystem should work with source lease", async function (this: Context) {
     if (isLiveMode()) {
       // Turn on this case when the Container Rename feature is ready in the service side.
       this.skip();
@@ -524,7 +524,7 @@ describe("DataLakeServiceClient", () => {
     await newFileSystemClient.delete();
   });
 
-  it("undelete and list deleted file system should work", async function(this: Context) {
+  it("undelete and list deleted file system should work", async function (this: Context) {
     let serviceClient: DataLakeServiceClient;
     try {
       serviceClient = getGenericDataLakeServiceClient("DFS_SOFT_DELETE_");

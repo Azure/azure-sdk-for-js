@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as assert from "assert";
+import { assert } from "chai";
 
 import { AbortController } from "@azure/abort-controller";
 import {
@@ -31,7 +31,7 @@ describe("Highlevel", () => {
   let recorder: Recorder;
 
   let blobServiceClient: BlobServiceClient;
-  beforeEach(async function(this: Context) {
+  beforeEach(async function (this: Context) {
     recorder = record(this, recorderEnvSetup);
     blobServiceClient = getBSU();
     containerName = recorder.getUniqueName("container");
@@ -42,14 +42,14 @@ describe("Highlevel", () => {
     blockBlobClient = blobClient.getBlockBlobClient();
   });
 
-  afterEach(async function(this: Context) {
+  afterEach(async function (this: Context) {
     if (!this.currentTest?.isPending()) {
       await containerClient.delete();
       await recorder.stop();
     }
   });
 
-  before(async function(this: Context) {
+  before(async function (this: Context) {
     recorder = record(this, recorderEnvSetup);
     tempFile1 = getBrowserFile(recorder.getUniqueName("browserfile"), tempFile1Length);
     tempFile2 = getBrowserFile(recorder.getUniqueName("browserfile2"), tempFile2Length);
@@ -70,7 +70,7 @@ describe("Highlevel", () => {
       });
       assert.fail();
     } catch (err) {
-      assert.equal(err.name, "AbortError");
+      assert.equal((err as any).name, "AbortError");
     }
   });
 
@@ -86,7 +86,7 @@ describe("Highlevel", () => {
       });
       assert.fail();
     } catch (err) {
-      assert.equal(err.name, "AbortError");
+      assert.equal((err as any).name, "AbortError");
     }
   });
 
@@ -107,7 +107,7 @@ describe("Highlevel", () => {
           aborter.abort();
         }
       });
-    } catch (err) {}
+    } catch (err) { }
     assert.ok(eventTriggered);
   });
 
@@ -128,7 +128,7 @@ describe("Highlevel", () => {
           aborter.abort();
         }
       });
-    } catch (err) {}
+    } catch (err) { }
     assert.ok(eventTriggered);
   });
 
@@ -160,7 +160,7 @@ describe("Highlevel", () => {
     assert.equal(uploadedString, downloadedString);
   });
 
-  it("uploadBrowserDataToBlockBlob should work with tags", async function() {
+  it("uploadBrowserDataToBlockBlob should work with tags", async function () {
     recorder.skip("browser", "Temp file - recorder doesn't support saving the file");
 
     const tags = {
@@ -178,7 +178,7 @@ describe("Highlevel", () => {
     assert.deepStrictEqual(response.tags, tags);
   });
 
-  it("uploadBrowserDataToBlockBlob should success when blob >= BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async function() {
+  it("uploadBrowserDataToBlockBlob should success when blob >= BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async function () {
     recorder.skip("browser", "Temp file - recorder doesn't support saving the file");
     await blockBlobClient.uploadBrowserData(tempFile1, {
       blockSize: 4 * 1024 * 1024,

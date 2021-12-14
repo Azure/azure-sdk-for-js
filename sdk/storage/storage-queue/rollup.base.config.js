@@ -125,7 +125,6 @@ export function browserConfig(test = false) {
       }),
       cjs({
         namedExports: {
-          assert: ["ok", "deepEqual", "equal", "fail", "deepStrictEqual", "strictEqual"],
           ...openTelemetryCommonJs()
         }
       })

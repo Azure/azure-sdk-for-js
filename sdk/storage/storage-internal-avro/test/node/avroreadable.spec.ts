@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import * as fs from "fs";
-import * as assert from "assert";
+import { assert } from "chai";
 import { AvroReadableFromStream } from "../../src";
 import { AbortController } from "@azure/abort-controller";
 import { Readable } from "stream";
@@ -21,7 +21,7 @@ describe("AvroReadableFromStream", () => {
     let exceptionCaught = false;
     try {
       await rfs.read(10);
-    } catch (err) {
+    } catch (err: any) {
       assert.equal(err.message, "Stream no longer readable.");
       exceptionCaught = true;
     }
@@ -36,7 +36,7 @@ describe("AvroReadableFromStream", () => {
     let AbortErrorCaught = false;
     try {
       await rfs.read(100000, { abortSignal: AbortController.timeout(1) });
-    } catch (err) {
+    } catch (err: any) {
       if (err.name === "AbortError") {
         AbortErrorCaught = true;
       }
