@@ -7,29 +7,30 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { DataExports } from "../operationsInterfaces";
+import { Tables } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { OperationalInsightsManagementClient } from "../operationalInsightsManagementClient";
 import {
-  DataExport,
-  DataExportsListByWorkspaceOptionalParams,
-  DataExportsListByWorkspaceResponse,
-  DataExportsCreateOrUpdateOptionalParams,
-  DataExportsCreateOrUpdateResponse,
-  DataExportsGetOptionalParams,
-  DataExportsGetResponse,
-  DataExportsDeleteOptionalParams
+  Table,
+  TablesListByWorkspaceOptionalParams,
+  TablesListByWorkspaceResponse,
+  TablesUpdateOptionalParams,
+  TablesUpdateResponse,
+  TablesCreateOptionalParams,
+  TablesCreateResponse,
+  TablesGetOptionalParams,
+  TablesGetResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing DataExports operations. */
-export class DataExportsImpl implements DataExports {
+/** Class containing Tables operations. */
+export class TablesImpl implements Tables {
   private readonly client: OperationalInsightsManagementClient;
 
   /**
-   * Initialize a new instance of the class DataExports class.
+   * Initialize a new instance of the class Tables class.
    * @param client Reference to the service client
    */
   constructor(client: OperationalInsightsManagementClient) {
@@ -37,7 +38,7 @@ export class DataExportsImpl implements DataExports {
   }
 
   /**
-   * Lists the data export instances within a workspace.
+   * Gets all the tables for the specified Log Analytics workspace.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param options The options parameters.
@@ -45,8 +46,8 @@ export class DataExportsImpl implements DataExports {
   public listByWorkspace(
     resourceGroupName: string,
     workspaceName: string,
-    options?: DataExportsListByWorkspaceOptionalParams
-  ): PagedAsyncIterableIterator<DataExport> {
+    options?: TablesListByWorkspaceOptionalParams
+  ): PagedAsyncIterableIterator<Table> {
     const iter = this.listByWorkspacePagingAll(
       resourceGroupName,
       workspaceName,
@@ -72,8 +73,8 @@ export class DataExportsImpl implements DataExports {
   private async *listByWorkspacePagingPage(
     resourceGroupName: string,
     workspaceName: string,
-    options?: DataExportsListByWorkspaceOptionalParams
-  ): AsyncIterableIterator<DataExport[]> {
+    options?: TablesListByWorkspaceOptionalParams
+  ): AsyncIterableIterator<Table[]> {
     let result = await this._listByWorkspace(
       resourceGroupName,
       workspaceName,
@@ -85,8 +86,8 @@ export class DataExportsImpl implements DataExports {
   private async *listByWorkspacePagingAll(
     resourceGroupName: string,
     workspaceName: string,
-    options?: DataExportsListByWorkspaceOptionalParams
-  ): AsyncIterableIterator<DataExport> {
+    options?: TablesListByWorkspaceOptionalParams
+  ): AsyncIterableIterator<Table> {
     for await (const page of this.listByWorkspacePagingPage(
       resourceGroupName,
       workspaceName,
@@ -97,7 +98,7 @@ export class DataExportsImpl implements DataExports {
   }
 
   /**
-   * Lists the data export instances within a workspace.
+   * Gets all the tables for the specified Log Analytics workspace.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param options The options parameters.
@@ -105,8 +106,8 @@ export class DataExportsImpl implements DataExports {
   private _listByWorkspace(
     resourceGroupName: string,
     workspaceName: string,
-    options?: DataExportsListByWorkspaceOptionalParams
-  ): Promise<DataExportsListByWorkspaceResponse> {
+    options?: TablesListByWorkspaceOptionalParams
+  ): Promise<TablesListByWorkspaceResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, options },
       listByWorkspaceOperationSpec
@@ -114,61 +115,63 @@ export class DataExportsImpl implements DataExports {
   }
 
   /**
-   * Create or update a data export.
+   * Updates a Log Analytics workspace table properties.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
-   * @param dataExportName The data export rule name.
-   * @param parameters The parameters required to create or update a data export.
+   * @param tableName The name of the table.
+   * @param parameters The parameters required to update table properties.
    * @param options The options parameters.
    */
-  createOrUpdate(
+  update(
     resourceGroupName: string,
     workspaceName: string,
-    dataExportName: string,
-    parameters: DataExport,
-    options?: DataExportsCreateOrUpdateOptionalParams
-  ): Promise<DataExportsCreateOrUpdateResponse> {
+    tableName: string,
+    parameters: Table,
+    options?: TablesUpdateOptionalParams
+  ): Promise<TablesUpdateResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, dataExportName, parameters, options },
-      createOrUpdateOperationSpec
+      { resourceGroupName, workspaceName, tableName, parameters, options },
+      updateOperationSpec
     );
   }
 
   /**
-   * Gets a data export instance.
+   * Updates a Log Analytics workspace table properties.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
-   * @param dataExportName The data export rule name.
+   * @param tableName The name of the table.
+   * @param parameters The parameters required to update table properties.
+   * @param options The options parameters.
+   */
+  create(
+    resourceGroupName: string,
+    workspaceName: string,
+    tableName: string,
+    parameters: Table,
+    options?: TablesCreateOptionalParams
+  ): Promise<TablesCreateResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, workspaceName, tableName, parameters, options },
+      createOperationSpec
+    );
+  }
+
+  /**
+   * Gets a Log Analytics workspace table.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the workspace.
+   * @param tableName The name of the table.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     workspaceName: string,
-    dataExportName: string,
-    options?: DataExportsGetOptionalParams
-  ): Promise<DataExportsGetResponse> {
+    tableName: string,
+    options?: TablesGetOptionalParams
+  ): Promise<TablesGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, dataExportName, options },
+      { resourceGroupName, workspaceName, tableName, options },
       getOperationSpec
-    );
-  }
-
-  /**
-   * Deletes the specified data export in a given workspace..
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace.
-   * @param dataExportName The data export rule name.
-   * @param options The options parameters.
-   */
-  delete(
-    resourceGroupName: string,
-    workspaceName: string,
-    dataExportName: string,
-    options?: DataExportsDeleteOptionalParams
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, dataExportName, options },
-      deleteOperationSpec
     );
   }
 }
@@ -177,17 +180,17 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByWorkspaceOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/dataExports",
+    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/tables",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DataExportListResult
+      bodyMapper: Mappers.TablesListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -197,29 +200,51 @@ const listByWorkspaceOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const createOrUpdateOperationSpec: coreClient.OperationSpec = {
+const updateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/dataExports/{dataExportName}",
-  httpMethod: "PUT",
+    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/tables/{tableName}",
+  httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.DataExport
-    },
-    201: {
-      bodyMapper: Mappers.DataExport
+      bodyMapper: Mappers.Table
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters,
-  queryParameters: [Parameters.apiVersion],
+  requestBody: Parameters.parameters6,
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.dataExportName
+    Parameters.tableName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const createOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/tables/{tableName}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Table
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.parameters6,
+  queryParameters: [Parameters.apiVersion2],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+    Parameters.tableName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -227,45 +252,23 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/dataExports/{dataExportName}",
+    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/tables/{tableName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DataExport
+      bodyMapper: Mappers.Table
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.dataExportName1
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/dataExports/{dataExportName}",
-  httpMethod: "DELETE",
-  responses: {
-    200: {},
-    404: {},
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName,
-    Parameters.dataExportName1
+    Parameters.tableName
   ],
   headerParameters: [Parameters.accept],
   serializer
