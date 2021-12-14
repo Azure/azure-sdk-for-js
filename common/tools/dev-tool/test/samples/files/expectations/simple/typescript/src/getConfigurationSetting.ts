@@ -5,6 +5,7 @@
  * @summary a succinct and simple sample example
  */
 
+// Load the .env file if it exists
 import * as dotenv from "dotenv";
 dotenv.config();
 

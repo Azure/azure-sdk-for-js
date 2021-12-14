@@ -16,6 +16,6 @@ export function silenceLogger() {
     },
     log: () => {
       /* do nothing */
-    }
+    },
   });
 }

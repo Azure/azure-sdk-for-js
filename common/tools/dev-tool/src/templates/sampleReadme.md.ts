@@ -49,7 +49,7 @@ function sampleLinkTag(filePath: string): string {
 function fileLinks(info: SampleReadmeConfiguration) {
   const packageSamplesPathFragment = [
     info.overridePublicationLinkFragment ?? info.publicationDirectory,
-    info.useTypeScript ? "typescript/src" : "javascript"
+    info.useTypeScript ? "typescript/src" : "javascript",
   ].join("/");
 
   return filterModules(info)
@@ -123,7 +123,7 @@ function table(info: SampleReadmeConfiguration) {
   return [
     "| **File Name** | **Description** |",
     "| ------------- | --------------- |",
-    ...contents
+    ...contents,
   ].join("\n");
 }
 
@@ -172,7 +172,7 @@ ${(() => {
       "Before running the samples in Node, they must be compiled to JavaScript using the TypeScript compiler. For more information on TypeScript, see the [TypeScript documentation][typescript]. Install the TypeScript compiler using:",
       "",
       fence("bash", "npm install -g typescript"),
-      ""
+      "",
     ].join("\n");
   } else {
     return "";
@@ -235,7 +235,7 @@ ${resourceLinks(info)}
 ${info.useTypeScript ? "[typescript]: https://www.typescriptlang.org/docs/home.html\n" : ""}\
 `,
     {
-      parser: "markdown"
+      parser: "markdown",
     }
   );
 };

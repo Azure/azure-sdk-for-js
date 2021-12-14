@@ -16,7 +16,7 @@ import { findMatchingFiles } from "../../src/util/findMatchingFiles";
 const INPUT_PATH = path.join(__dirname, "files", "inputs");
 const EXPECT_PATH = path.join(__dirname, "files", "expectations");
 
-describe("File content tests", async function() {
+describe("File content tests", async function () {
   const shouldWriteExpectations = process.env.TEST_MODE === "record";
 
   if (shouldWriteExpectations) {
@@ -25,7 +25,7 @@ describe("File content tests", async function() {
       throw new Error(
         [
           "TEST_MODE=record, but the sample expectations folder is dirty.",
-          "Commit or stash your changes before creating new expectation files"
+          "Commit or stash your changes before creating new expectation files",
         ].join(" ")
       );
     }
@@ -43,7 +43,7 @@ describe("File content tests", async function() {
   for (const dir of inputDirectories) {
     const name = path.basename(dir);
 
-    it(name, async function() {
+    it(name, async function () {
       const tempOutputDir = await fs.mkdtemp(path.join(os.tmpdir(), "devToolTest"));
 
       const version = name.includes("@") ? name.split("@")[1] : "1.0.0";
@@ -61,10 +61,10 @@ describe("File content tests", async function() {
                 ...(await import(path.join(dir, "config.json"))),
                 disableDocsMs: true,
                 overridePublicationLinkFragment:
-                  "common/tools/dev-tool/test/samples/files/expectations/" + name
-              }
+                  "common/tools/dev-tool/test/samples/files/expectations/" + name,
+              },
             },
-            path: dir
+            path: dir,
           },
           dir
         );

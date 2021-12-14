@@ -13,7 +13,7 @@ export async function startProxyTool(): Promise<void> {
   log.info(`Attempting to start test proxy at http://localhost:5000 & https://localhost:5001.\n`);
 
   const subprocess = spawn(await getDockerRunCommand(), [], {
-    shell: true
+    shell: true,
   });
 
   const outFileName = "test-proxy-output.log";

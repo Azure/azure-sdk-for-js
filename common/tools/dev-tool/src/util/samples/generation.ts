@@ -8,14 +8,14 @@ import { ProjectInfo, resolveRoot } from "../resolveProject";
 import {
   getSampleConfiguration,
   MIN_SUPPORTED_NODE_VERSION,
-  SampleConfiguration
+  SampleConfiguration,
 } from "./configuration";
 import {
   AZSDK_META_TAG_PREFIX,
   DEFAULT_TYPESCRIPT_CONFIG,
   DEV_SAMPLES_BASE,
   OutputKind,
-  SampleGenerationInfo
+  SampleGenerationInfo,
 } from "./info";
 import { processSources } from "./processor";
 
@@ -34,30 +34,30 @@ export function createPackageJson(info: SampleGenerationInfo, outputKind: Output
       info.isBeta ? " (Beta)" : ""
     }`,
     engines: {
-      node: `>=${MIN_SUPPORTED_NODE_VERSION}`
+      node: `>=${MIN_SUPPORTED_NODE_VERSION}`,
     },
     ...(outputKind === OutputKind.TypeScript
       ? {
           // We only include these in TypeScript
           scripts: {
             build: "tsc",
-            prebuild: "rimraf dist/"
-          }
+            prebuild: "rimraf dist/",
+          },
         }
       : {}),
     repository: {
       type: "git",
       url: "git+https://github.com/Azure/azure-sdk-for-js.git",
-      directory: info.projectRepoPath
+      directory: info.projectRepoPath,
     },
     keywords: info.packageKeywords,
     author: "Microsoft Corporation",
     license: "MIT",
     bugs: {
-      url: "https://github.com/Azure/azure-sdk-for-js/issues"
+      url: "https://github.com/Azure/azure-sdk-for-js/issues",
     },
     homepage: `https://github.com/Azure/azure-sdk-for-js/tree/main/${info.projectRepoPath}`,
-    ...info.computeSampleDependencies(outputKind)
+    ...info.computeSampleDependencies(outputKind),
   };
 }
 
@@ -122,7 +122,7 @@ export async function makeSampleGenerationInfo(
     // If we are a beta package, use "next", otherwise we will use "latest"
     [projectInfo.name]: projectInfo.version.includes("beta") ? "next" : "latest",
     // We use this universally
-    dotenv: "latest"
+    dotenv: "latest",
   };
 
   const { packageJson } = projectInfo;
@@ -175,7 +175,7 @@ export async function makeSampleGenerationInfo(
         }
         return {
           ...accum,
-          [name]: contents
+          [name]: contents,
         };
       },
       {} as SampleConfiguration["customSnippets"]
@@ -219,7 +219,7 @@ export async function makeSampleGenerationInfo(
           }
           return {
             ...prev,
-            ...current
+            ...current,
           };
         }, defaultDependencies),
         ...(outputKind === OutputKind.TypeScript
@@ -230,12 +230,12 @@ export async function makeSampleGenerationInfo(
                 ...typesDependencies,
                 "@types/node": `^${MIN_SUPPORTED_NODE_VERSION}`,
                 typescript: devToolPackageJson.dependencies.typescript,
-                rimraf: "latest"
-              }
+                rimraf: "latest",
+              },
             }
-          : {})
+          : {}),
       };
-    }
+    },
   };
 }
 
@@ -257,12 +257,12 @@ export function createReadme(
           page_type: "sample",
           languages: [fullOutputKind],
           products: info.productSlugs,
-          urlFragment: `${info.baseName}-${fullOutputKind}${info.isBeta ? "-beta" : ""}`
+          urlFragment: `${info.baseName}-${fullOutputKind}${info.isBeta ? "-beta" : ""}`,
         },
     publicationDirectory,
     useTypeScript: outputKind === OutputKind.TypeScript,
     ...info,
-    moduleInfos: info.moduleInfos.filter((mod) => mod.summary !== undefined)
+    moduleInfos: info.moduleInfos.filter((mod) => mod.summary !== undefined),
   });
 }
 
@@ -353,7 +353,7 @@ export async function makeSamplesFactory(
                 info.moduleInfos.map(({ relativeSourcePath, filePath }) =>
                   file(relativeSourcePath, () => postProcess(fs.readFileSync(filePath)))
                 )
-              )
+              ),
             ]),
             dir("javascript", [
               file("README.md", () =>
@@ -367,16 +367,16 @@ export async function makeSamplesFactory(
                 .filter(({ azSdkTags: { "skip-javascript": skip } }) => !skip)
                 .map(({ relativeSourcePath, jsModuleText }) =>
                   file(relativeSourcePath.replace(/\.ts$/, ".js"), () => postProcess(jsModuleText))
-                )
+                ),
             ]),
             // Copy extraFiles by reducing all configured destinations for each input file
             ...Object.entries(info.extraFiles ?? {}).reduce(
               (accum, [source, destinations]) => [
                 ...accum,
-                ...destinations.map((dest) => copy(dest, path.resolve(projectInfo.path, source)))
+                ...destinations.map((dest) => copy(dest, path.resolve(projectInfo.path, source))),
               ],
               [] as FileTreeFactory[]
-            )
+            ),
           ])
         )
       )

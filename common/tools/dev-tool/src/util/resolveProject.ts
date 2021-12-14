@@ -140,7 +140,7 @@ export async function resolveProject(workingDirectory: string): Promise<ProjectI
 
 /**
  * Finds the monorepo root.
- * 
+ *
  * @param start - an optional starting point (defaults to CWD)
  * @returns an absolute path to the root of the monorepo
  */

@@ -13,8 +13,8 @@ const simpleCommandInfo = makeCommandInfo("simple", "a simple command", {
     kind: "string",
     description: "a simple argument",
     allowMultiple: false,
-    default: "foo"
-  }
+    default: "foo",
+  },
 });
 
 interface SimpleExpectedOptionsType {
@@ -33,15 +33,15 @@ describe("Command Framework", () => {
         {
           sub: async () => ({
             commandInfo: { name: "sub", description: "a leaf command" },
-            default: leafCommand({ name: "sub", description: "a leaf command" }, async () => true)
+            default: leafCommand({ name: "sub", description: "a leaf command" }, async () => true),
           }),
           fail: async () => ({
             commandInfo: { name: "fail", description: "a command that fails" },
             default: leafCommand(
               { name: "fail", description: "a command that fails" },
               async () => false
-            )
-          })
+            ),
+          }),
         }
       );
 

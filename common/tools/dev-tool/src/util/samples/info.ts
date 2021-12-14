@@ -32,9 +32,9 @@ export const DEFAULT_TYPESCRIPT_CONFIG = {
     alwaysStrict: true,
 
     outDir: "dist",
-    rootDir: "src"
+    rootDir: "src",
   },
-  include: ["src/**.ts"]
+  include: ["src/**.ts"],
 };
 
 /**
@@ -44,7 +44,7 @@ export const DEFAULT_TYPESCRIPT_CONFIG = {
  */
 export const enum OutputKind {
   TypeScript = "ts",
-  JavaScript = "js"
+  JavaScript = "js",
 }
 
 /**
@@ -97,9 +97,7 @@ export interface SampleGenerationInfo extends SampleConfiguration {
    * @param outputKind - the kind of the samples, either "ts" for TypeScript or "js" for JavaScript
    * @returns - an object with `dependencies` and `devDependencies` keys containing the samples' dependencies
    */
-  computeSampleDependencies(
-    outputKind: OutputKind
-  ): {
+  computeSampleDependencies(outputKind: OutputKind): {
     dependencies: Record<string, string>;
     devDependencies?: Record<string, string>;
   };
@@ -218,7 +216,7 @@ export const VALID_AZSDK_META_TAGS: Array<keyof AzSdkMetaTags> = [
   "weight",
   "ignore",
   "util",
-  "skip-javascript"
+  "skip-javascript",
 ];
 
 // #endregion
