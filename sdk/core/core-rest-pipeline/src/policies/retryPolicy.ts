@@ -5,7 +5,7 @@ import { PipelineResponse, PipelineRequest, SendRequest } from "../interfaces";
 import { PipelinePolicy } from "../pipeline";
 import { delay } from "../util/helpers";
 import { createClientLogger } from "@azure/logger";
-import { RetryStrategy, RetryStrategyState } from "../retryStrategies/retryStrategy";
+import { RetryStrategy, RetryInformation, RetryModifiers } from "../retryStrategies/retryStrategy";
 import { RestError } from "../restError";
 import { AbortError } from "@azure/abort-controller";
 
@@ -18,17 +18,28 @@ const DEFAULT_MAX_RETRIES = 3;
 const retryPolicyName = "retryPolicy";
 
 /**
+ * Options to the {@link retryPolicy}
+ */
+export interface RetryPolicyOptions {
+  /**
+   * Maximum number of retries. If not specified, it will limit to 3 retries.
+   */
+  maxRetries: number;
+}
+
+/**
  * retryPolicy is a generic policy to enable retrying requests when certain conditions are met
  */
-export function retryPolicy(...strategies: RetryStrategy[]): PipelinePolicy {
+export function retryPolicy(
+  strategies: RetryStrategy[],
+  options: RetryPolicyOptions = { maxRetries: DEFAULT_MAX_RETRIES }
+): PipelinePolicy {
   return {
     name: retryPolicyName,
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
       let response: PipelineResponse | undefined;
       let responseError: RestError | undefined;
       let retryCount = -1;
-
-      const strategyState: RetryStrategyState[] = Array(strategies.length);
 
       // eslint-disable-next-line no-constant-condition
       retryRequest: while (true) {
@@ -62,17 +73,17 @@ export function retryPolicy(...strategies: RetryStrategy[]): PipelinePolicy {
           `Retry ${retryCount}: Processing ${strategies.length} retry strategies.`
         );
 
-        for (const [i, strategy] of strategies.entries()) {
+        strategiesLoop: for (const strategy of strategies) {
           const strategyLogger = strategy.logger || retryPolicyLogger;
           strategyLogger.info(`Retry ${retryCount}: Processing retry strategy ${strategy.name}.`);
-          let state: RetryStrategyState = {
-            ...strategyState[i],
+
+          const information: RetryInformation = {
             retryCount,
             response,
             responseError
           };
 
-          if (state.retryCount >= (state.maxRetries ?? DEFAULT_MAX_RETRIES)) {
+          if (information.retryCount >= options.maxRetries ?? DEFAULT_MAX_RETRIES) {
             strategyLogger.info(
               `Maximum retries reached. Returning the last received response, or throwing the last received error.`
             );
@@ -82,13 +93,17 @@ export function retryPolicy(...strategies: RetryStrategy[]): PipelinePolicy {
             throw responseError;
           }
 
-          if (!strategy.meetsConditions || strategy.meetsConditions(state)) {
-            state = strategy.updateRetryState(state);
-          } else {
-            strategyLogger.error(`Retry ${retryCount}: Does not meet conditions.`);
-            delete state.retryAfterInMs;
+          let modifiers: RetryModifiers;
+          try {
+            modifiers = strategy.retry(information);
+          } catch (e) {
+            const error = e as Error;
+            if (error.name === "SkipRetryError") {
+              strategyLogger.error(`Retry ${retryCount}: Skipped. ${error.message}`);
+              continue strategiesLoop;
+            }
+            throw e;
           }
-          strategyState[i] = state;
 
           if (request.abortSignal?.aborted) {
             strategyLogger.error(`Retry ${retryCount}: Request aborted.`);
@@ -96,27 +111,29 @@ export function retryPolicy(...strategies: RetryStrategy[]): PipelinePolicy {
             throw abortError;
           }
 
-          if (state.throwError) {
+          const { throwError, retryAfterInMs, redirectTo } = modifiers;
+
+          if (throwError) {
             strategyLogger.error(
               `Retry ${retryCount}: Retry strategy ${strategy.name} throws error:`,
-              state.throwError
+              throwError
             );
-            throw state.throwError;
+            throw throwError;
           }
 
-          if (state.retryAfterInMs) {
+          if (retryAfterInMs) {
             strategyLogger.info(
-              `Retry ${retryCount}: Retry strategy ${strategy.name} retries after ${state.retryAfterInMs}`
+              `Retry ${retryCount}: Retry strategy ${strategy.name} retries after ${retryAfterInMs}`
             );
-            await delay(state.retryAfterInMs);
+            await delay(retryAfterInMs);
             continue retryRequest;
           }
 
-          if (state.redirectTo) {
+          if (redirectTo) {
             strategyLogger.info(
-              `Retry ${retryCount}: Retry strategy ${strategy.name} redirects to ${state.redirectTo}`
+              `Retry ${retryCount}: Retry strategy ${strategy.name} redirects to ${redirectTo}`
             );
-            request.url = state.redirectTo;
+            request.url = redirectTo;
             continue retryRequest;
           }
         }

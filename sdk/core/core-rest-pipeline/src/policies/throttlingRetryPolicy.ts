@@ -21,6 +21,6 @@ export const throttlingRetryPolicyName = "throttlingRetryPolicy";
 export function throttlingRetryPolicy(): PipelinePolicy {
   return {
     name: throttlingRetryPolicyName,
-    sendRequest: retryPolicy(throttlingRetryStrategy()).sendRequest
+    sendRequest: retryPolicy([throttlingRetryStrategy()]).sendRequest
   };
 }

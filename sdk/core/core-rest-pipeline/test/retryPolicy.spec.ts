@@ -12,7 +12,7 @@ import {
   createHttpHeaders,
   RestError,
   retryPolicy,
-  RetryStrategyState
+  SkipRetryError
 } from "../src";
 
 describe("retryPolicy", function() {
@@ -31,16 +31,19 @@ describe("retryPolicy", function() {
       status: 200
     };
 
-    const policy = retryPolicy({
-      name: "testRetryStrategy",
-      meetsConditions({ responseError }) {
-        return Boolean(responseError && responseError!.code === "ENOENT");
-      },
-      updateRetryState(state: RetryStrategyState): RetryStrategyState {
-        state.retryAfterInMs = 100;
-        return state;
+    const policy = retryPolicy([
+      {
+        name: "testRetryStrategy",
+        retry({ responseError }) {
+          if (responseError?.code !== "ENOENT") {
+            throw new SkipRetryError("Invalid error");
+          }
+          return {
+            retryAfterInMs: 100
+          };
+        }
       }
-    });
+    ]);
     const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
     next.onFirstCall().rejects(testError);
     next.onSecondCall().resolves(successResponse);
@@ -66,16 +69,19 @@ describe("retryPolicy", function() {
     });
     const testError = new RestError("Test Error!", { code: "ENOENT" });
 
-    const policy = retryPolicy({
-      name: "testRetryStrategy",
-      meetsConditions({ responseError }) {
-        return Boolean(responseError && responseError!.code === "ENOENT");
-      },
-      updateRetryState(state: RetryStrategyState): RetryStrategyState {
-        state.retryAfterInMs = 100;
-        return state;
+    const policy = retryPolicy([
+      {
+        name: "testRetryStrategy",
+        retry({ responseError }) {
+          if (responseError?.code !== "ENOENT") {
+            throw new SkipRetryError("Invalid error");
+          }
+          return {
+            retryAfterInMs: 100
+          };
+        }
       }
-    });
+    ]);
     const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
     next.rejects(testError);
 
@@ -99,17 +105,25 @@ describe("retryPolicy", function() {
     });
     const testError = new RestError("Test Error!", { code: "ENOENT" });
 
-    const policy = retryPolicy({
-      name: "testRetryStrategy",
-      meetsConditions({ responseError }) {
-        return Boolean(responseError && responseError!.code === "ENOENT");
-      },
-      updateRetryState(state: RetryStrategyState): RetryStrategyState {
-        state.maxRetries = 10;
-        state.retryAfterInMs = 100;
-        return state;
+    const policy = retryPolicy(
+      [
+        {
+          name: "testRetryStrategy",
+          retry({ responseError }) {
+            if (responseError?.code !== "ENOENT") {
+              throw new SkipRetryError("Invalid error");
+            }
+            return {
+              retryAfterInMs: 100
+            };
+          }
+        }
+      ],
+      {
+        maxRetries: 10
       }
-    });
+    );
+
     const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
     next.rejects(testError);
 
@@ -133,16 +147,20 @@ describe("retryPolicy", function() {
     });
     const testError = new RestError("Test Error!", { code: "ENOENT" });
 
-    const policy = retryPolicy({
-      name: "testRetryStrategy",
-      meetsConditions({ responseError }) {
-        return Boolean(responseError && responseError!.code === "ENOENT");
-      },
-      updateRetryState(state: RetryStrategyState): RetryStrategyState {
-        state.redirectTo = "https://not-bing.com";
-        return state;
+    const policy = retryPolicy([
+      {
+        name: "testRetryStrategy",
+        retry({ responseError }) {
+          if (responseError?.code !== "ENOENT") {
+            throw new SkipRetryError("Invalid error");
+          }
+          return {
+            redirectTo: "https://not-bing.com"
+          };
+        }
       }
-    });
+    ]);
+
     const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
     next.rejects(testError);
 
@@ -168,16 +186,20 @@ describe("retryPolicy", function() {
     const testError = new RestError("Test Error!", { code: "ENOENT" });
     const retryError = new RestError("Test Retry Error!");
 
-    const policy = retryPolicy({
-      name: "testRetryStrategy",
-      meetsConditions({ responseError }) {
-        return Boolean(responseError && responseError!.code === "ENOENT");
-      },
-      updateRetryState(state: RetryStrategyState): RetryStrategyState {
-        state.throwError = retryError;
-        return state;
+    const policy = retryPolicy([
+      {
+        name: "testRetryStrategy",
+        retry({ responseError }) {
+          if (responseError?.code !== "ENOENT") {
+            throw new SkipRetryError("Invalid error");
+          }
+          return {
+            throwError: retryError
+          };
+        }
       }
-    });
+    ]);
+
     const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
     next.rejects(testError);
 
@@ -208,24 +230,28 @@ describe("retryPolicy", function() {
       error: []
     };
 
-    const policy = retryPolicy({
-      name: "testRetryStrategy",
-      logger: {
-        info(...params) {
-          logParams.info.push(params.join(" "));
-        },
-        error(...params) {
-          logParams.error.push(params.join(" "));
+    const policy = retryPolicy([
+      {
+        name: "testRetryStrategy",
+        logger: {
+          info(...params) {
+            logParams.info.push(params.join(" "));
+          },
+          error(...params) {
+            logParams.error.push(params.join(" "));
+          }
+        } as AzureLogger,
+        retry({ responseError }) {
+          if (responseError?.code !== "ENOENT") {
+            throw new SkipRetryError("Invalid error");
+          }
+          return {
+            retryAfterInMs: 100
+          };
         }
-      } as AzureLogger,
-      meetsConditions({ responseError }) {
-        return Boolean(responseError && responseError!.code === "ENOENT");
-      },
-      updateRetryState(state: RetryStrategyState): RetryStrategyState {
-        state.retryAfterInMs = 100;
-        return state;
       }
-    });
+    ]);
+
     const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
     next.rejects(testError);
 
@@ -270,24 +296,28 @@ describe("retryPolicy", function() {
       error: []
     };
 
-    const policy = retryPolicy({
-      name: "testRetryStrategy",
-      logger: {
-        info(...params) {
-          logParams.info.push(params.join(" "));
-        },
-        error(...params) {
-          logParams.error.push(params.join(" "));
+    const policy = retryPolicy([
+      {
+        name: "testRetryStrategy",
+        logger: {
+          info(...params) {
+            logParams.info.push(params.join(" "));
+          },
+          error(...params) {
+            logParams.error.push(params.join(" "));
+          }
+        } as AzureLogger,
+        retry({ responseError }) {
+          if (responseError?.code !== "ENOENT") {
+            throw new SkipRetryError("Unexpected error.");
+          }
+          return {
+            retryAfterInMs: 100
+          };
         }
-      } as AzureLogger,
-      meetsConditions({ responseError }) {
-        return Boolean(responseError && responseError!.code === "ENOENT");
-      },
-      updateRetryState(state: RetryStrategyState): RetryStrategyState {
-        state.retryAfterInMs = 100;
-        return state;
       }
-    });
+    ]);
+
     const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
     next.rejects(testError);
 
@@ -313,9 +343,9 @@ describe("retryPolicy", function() {
         "Maximum retries reached. Returning the last received response, or throwing the last received error."
       ],
       error: [
-        "Retry 0: Does not meet conditions.",
-        "Retry 1: Does not meet conditions.",
-        "Retry 2: Does not meet conditions."
+        "Retry 0: Skipped. Unexpected error.",
+        "Retry 1: Skipped. Unexpected error.",
+        "Retry 2: Skipped. Unexpected error."
       ]
     });
   });
@@ -336,24 +366,28 @@ describe("retryPolicy", function() {
       error: []
     };
 
-    const policy = retryPolicy({
-      name: "testRetryStrategy",
-      logger: {
-        info(...params) {
-          logParams.info.push(params.join(" "));
-        },
-        error(...params) {
-          logParams.error.push(params.join(" "));
+    const policy = retryPolicy([
+      {
+        name: "testRetryStrategy",
+        logger: {
+          info(...params) {
+            logParams.info.push(params.join(" "));
+          },
+          error(...params) {
+            logParams.error.push(params.join(" "));
+          }
+        } as AzureLogger,
+        retry({ responseError }) {
+          if (responseError?.code !== "ENOENT") {
+            throw new SkipRetryError("Invalid error");
+          }
+          return {
+            retryAfterInMs: 100
+          };
         }
-      } as AzureLogger,
-      meetsConditions({ responseError }) {
-        return Boolean(responseError && responseError!.code === "ENOENT");
-      },
-      updateRetryState(state: RetryStrategyState): RetryStrategyState {
-        state.retryAfterInMs = 100;
-        return state;
       }
-    });
+    ]);
+
     const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
     next.rejects(testError);
 
@@ -394,24 +428,28 @@ describe("retryPolicy", function() {
       error: []
     };
 
-    const policy = retryPolicy({
-      name: "testRetryStrategy",
-      logger: {
-        info(...params) {
-          logParams.info.push(params.join(" "));
-        },
-        error(...params) {
-          logParams.error.push(params.join(" "));
+    const policy = retryPolicy([
+      {
+        name: "testRetryStrategy",
+        logger: {
+          info(...params) {
+            logParams.info.push(params.join(" "));
+          },
+          error(...params) {
+            logParams.error.push(params.join(" "));
+          }
+        } as AzureLogger,
+        retry({ responseError }) {
+          if (responseError?.code !== "ENOENT") {
+            throw new SkipRetryError("Invalid error");
+          }
+          return {
+            throwError: retryError
+          };
         }
-      } as AzureLogger,
-      meetsConditions({ responseError }) {
-        return Boolean(responseError && responseError!.code === "ENOENT");
-      },
-      updateRetryState(state: RetryStrategyState): RetryStrategyState {
-        state.throwError = retryError;
-        return state;
       }
-    });
+    ]);
+
     const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
     next.rejects(testError);
 
@@ -452,24 +490,28 @@ describe("retryPolicy", function() {
       error: []
     };
 
-    const policy = retryPolicy({
-      name: "testRetryStrategy",
-      logger: {
-        info(...params) {
-          logParams.info.push(params.join(" "));
-        },
-        error(...params) {
-          logParams.error.push(params.join(" "));
+    const policy = retryPolicy([
+      {
+        name: "testRetryStrategy",
+        logger: {
+          info(...params) {
+            logParams.info.push(params.join(" "));
+          },
+          error(...params) {
+            logParams.error.push(params.join(" "));
+          }
+        } as AzureLogger,
+        retry({ responseError }) {
+          if (responseError?.code !== "ENOENT") {
+            throw new SkipRetryError("Invalid error");
+          }
+          return {
+            redirectTo: "https://not-bing.com"
+          };
         }
-      } as AzureLogger,
-      meetsConditions({ responseError }) {
-        return Boolean(responseError && responseError!.code === "ENOENT");
-      },
-      updateRetryState(state: RetryStrategyState): RetryStrategyState {
-        state.redirectTo = "https://not-bing.com";
-        return state;
       }
-    });
+    ]);
+
     const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
     next.rejects(testError);
 

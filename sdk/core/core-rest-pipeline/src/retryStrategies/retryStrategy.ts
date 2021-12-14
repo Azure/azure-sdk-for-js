@@ -6,17 +6,9 @@ import { PipelineResponse } from "../interfaces";
 import { RestError } from "../restError";
 
 /**
- * State that keeps track of the last retry and controls how to do the next retries.
+ * Information provided to the retry strategy about the current progress of the retry policy.
  */
-export interface RetryStrategyState {
-  /**
-   * Maximum number of retries.
-   */
-  maxRetries?: number;
-  /**
-   * Total number of retries so far.
-   */
-  retryCount: number;
+export interface RetryInformation {
   /**
    * A {@link PipelineResponse}, if the last retry attempt succeeded.
    */
@@ -26,6 +18,20 @@ export interface RetryStrategyState {
    */
   responseError?: RestError;
   /**
+   * Total number of retries so far.
+   */
+  retryCount: number;
+}
+
+/**
+ * Properties that can modify the behavior of the retry policy.
+ */
+export interface RetryModifiers {
+  /**
+   * Indicates to retry against this URL.
+   */
+  redirectTo?: string;
+  /**
    * Controls whether to retry in a given number of milliseconds.
    * If provided, a new retry will be attempted.
    */
@@ -34,10 +40,6 @@ export interface RetryStrategyState {
    * Indicates to throw this error instead of retrying.
    */
   throwError?: RestError;
-  /**
-   * Indicates to retry against this URL.
-   */
-  redirectTo?: string;
 }
 
 /**
@@ -53,13 +55,18 @@ export interface RetryStrategy {
    */
   logger?: AzureLogger;
   /**
-   * Function that determines whether to run the current strategy or skip it.
-   * @param state - Retry state
-   */
-  meetsConditions?(state: RetryStrategyState): boolean;
-  /**
    * Function that determines how to proceed with the subsequent requests.
    * @param state - Retry state
    */
-  updateRetryState(state: RetryStrategyState): RetryStrategyState;
+  retry(state: RetryInformation): RetryModifiers;
+}
+
+/**
+ * A custom error to skip retries.
+ */
+export class SkipRetryError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "SkipRetryError";
+  }
 }

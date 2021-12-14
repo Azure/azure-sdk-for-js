@@ -9,6 +9,7 @@
 - A new `retryPolicy` centralizes the retry logic and allows adding retry strategies to any pipeline. With it, we're exposing some new types:
   - `RetryStrategy` defines whether to retry and how to retry.
   - `RetryStrategyState` keeps track of the last retry and controls how to do the subsequent retries.
+  - `SkipRetryError`, which allows strategies to skip to the next one instead of retrying.
 - Previous retry policies have been enhanced with better error handling.
 - A new `defaultRetryPolicy` is added, which has the same behavior as all the other retry policies combined (`throttlingRetryPolicy`, `systemErrorRetryPolicy` and `exponentialRetryPolicy`). 
 - `createPipelineFromOptions` has been updated to ensure retries are properly traced.

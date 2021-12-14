@@ -45,12 +45,8 @@ export interface DefaultRetryPolicyOptions {
 export function defaultRetryPolicy(options: DefaultRetryPolicyOptions = {}): PipelinePolicy {
   return {
     name: defaultRetryPolicyName,
-    sendRequest: retryPolicy(
-      throttlingRetryStrategy(),
-      exponentialRetryStrategy({
-        maxRetries: DEFAULT_RETRY_POLICY_COUNT,
-        ...options
-      })
-    ).sendRequest
+    sendRequest: retryPolicy([throttlingRetryStrategy(), exponentialRetryStrategy(options)], {
+      maxRetries: DEFAULT_RETRY_POLICY_COUNT
+    }).sendRequest
   };
 }

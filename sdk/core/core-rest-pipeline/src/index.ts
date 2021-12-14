@@ -59,8 +59,13 @@ export {
   systemErrorRetryPolicyName
 } from "./policies/systemErrorRetryPolicy";
 export { throttlingRetryPolicy, throttlingRetryPolicyName } from "./policies/throttlingRetryPolicy";
-export { retryPolicy } from "./policies/retryPolicy";
-export { RetryStrategy, RetryStrategyState } from "./retryStrategies/retryStrategy";
+export { retryPolicy, RetryPolicyOptions } from "./policies/retryPolicy";
+export {
+  RetryStrategy,
+  RetryInformation,
+  RetryModifiers,
+  SkipRetryError
+} from "./retryStrategies/retryStrategy";
 export { tracingPolicy, tracingPolicyName, TracingPolicyOptions } from "./policies/tracingPolicy";
 export { defaultRetryPolicy, DefaultRetryPolicyOptions } from "./policies/defaultRetryPolicy";
 export {

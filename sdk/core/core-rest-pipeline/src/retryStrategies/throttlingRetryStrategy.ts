@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { RetryStrategy, RetryStrategyState } from "./retryStrategy";
+import { PipelineResponse } from "..";
+import { RetryStrategy, SkipRetryError } from "./retryStrategy";
 
 /**
  * Returns the number of milliseconds to wait based on a Retry-After header value.
@@ -27,7 +28,11 @@ function parseRetryAfterHeader(headerValue: string): number | undefined {
   }
 }
 
-export function isThrottlingRetryResponse({ response }: RetryStrategyState): boolean {
+/**
+ * A response is a retry response if it has a throttling status code (429 or 503),
+ * as long as the Retry-After header has a valid value.
+ */
+export function isThrottlingRetryResponse(response?: PipelineResponse): boolean {
   return Boolean(
     response &&
       (response.status === 429 || response.status === 503) &&
@@ -39,15 +44,15 @@ export function isThrottlingRetryResponse({ response }: RetryStrategyState): boo
 export function throttlingRetryStrategy(): RetryStrategy {
   return {
     name: "throttlingRetryStrategy",
-    /**
-     * A response is a retry response if it has a throttling status code (429 or 503),
-     * as long as the Retry-After header has a valid value.
-     */
-    meetsConditions: isThrottlingRetryResponse,
-    updateRetryState(state) {
-      const { response } = state;
-      state.retryAfterInMs = parseRetryAfterHeader(response!.headers.get("Retry-After")!);
-      return state;
+    retry({ response }) {
+      if (!isThrottlingRetryResponse(response)) {
+        throw new SkipRetryError(
+          "The response does not have a throttling status code (429 or 503)"
+        );
+      }
+      return {
+        retryAfterInMs: parseRetryAfterHeader(response!.headers.get("Retry-After")!)
+      };
     }
   };
 }

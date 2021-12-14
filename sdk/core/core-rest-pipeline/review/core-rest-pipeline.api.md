@@ -311,25 +311,32 @@ export interface RestErrorOptions {
 }
 
 // @public
-export function retryPolicy(...strategies: RetryStrategy[]): PipelinePolicy;
+export interface RetryInformation {
+    response?: PipelineResponse;
+    responseError?: RestError;
+    retryCount: number;
+}
+
+// @public
+export interface RetryModifiers {
+    redirectTo?: string;
+    retryAfterInMs?: number;
+    throwError?: RestError;
+}
+
+// @public
+export function retryPolicy(strategies: RetryStrategy[], options?: RetryPolicyOptions): PipelinePolicy;
+
+// @public
+export interface RetryPolicyOptions {
+    maxRetries: number;
+}
 
 // @public
 export interface RetryStrategy {
     logger?: AzureLogger;
-    meetsConditions?(state: RetryStrategyState): boolean;
     name: string;
-    updateRetryState(state: RetryStrategyState): RetryStrategyState;
-}
-
-// @public
-export interface RetryStrategyState {
-    maxRetries?: number;
-    redirectTo?: string;
-    response?: PipelineResponse;
-    responseError?: RestError;
-    retryAfterInMs?: number;
-    retryCount: number;
-    throwError?: RestError;
+    retry(state: RetryInformation): RetryModifiers;
 }
 
 // @public
@@ -340,6 +347,11 @@ export function setClientRequestIdPolicy(requestIdHeaderName?: string): Pipeline
 
 // @public
 export const setClientRequestIdPolicyName = "setClientRequestIdPolicy";
+
+// @public
+export class SkipRetryError extends Error {
+    constructor(message: string);
+}
 
 // @public
 export function systemErrorRetryPolicy(options?: SystemErrorRetryPolicyOptions): PipelinePolicy;

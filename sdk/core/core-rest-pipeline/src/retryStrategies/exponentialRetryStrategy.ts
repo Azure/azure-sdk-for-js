@@ -4,10 +4,8 @@
 import { PipelineResponse } from "../interfaces";
 import { RestError } from "../restError";
 import { getRandomIntegerInclusive } from "../util/helpers";
-import { RetryStrategy, RetryStrategyState } from "./retryStrategy";
-import { throttlingRetryStrategy } from "./throttlingRetryStrategy";
-
-const DEFAULT_CLIENT_RETRY_COUNT = 10;
+import { RetryStrategy, SkipRetryError } from "./retryStrategy";
+import { isThrottlingRetryResponse } from "./throttlingRetryStrategy";
 
 // intervals are in milliseconds
 const DEFAULT_CLIENT_RETRY_INTERVAL = 1000;
@@ -18,11 +16,6 @@ const DEFAULT_CLIENT_MAX_RETRY_INTERVAL = 1000 * 64;
  */
 export function exponentialRetryStrategy(
   options: {
-    /**
-     * The maximum number of retry attempts.  Defaults to 10.
-     */
-    maxRetries?: number;
-
     /**
      * The amount of delay in milliseconds between retry attempts. Defaults to 1000
      * (1 second.) The delay increases exponentially with each retry up to a maximum
@@ -37,25 +30,28 @@ export function exponentialRetryStrategy(
     maxRetryDelayInMs?: number;
   } = {}
 ): RetryStrategy {
-  const maxRetries = options.maxRetries ?? DEFAULT_CLIENT_RETRY_COUNT;
   const retryInterval = options.retryDelayInMs ?? DEFAULT_CLIENT_RETRY_INTERVAL;
   const maxRetryInterval = options.maxRetryDelayInMs ?? DEFAULT_CLIENT_MAX_RETRY_INTERVAL;
 
-  const isThrottlingRetryResponse = throttlingRetryStrategy().meetsConditions!;
+  let retryAfterInMs = retryInterval;
+
   return {
     name: "exponentialRetryStrategy",
-    meetsConditions(state): boolean {
-      return Boolean(
-        !isThrottlingRetryResponse(state) &&
-          (isExponentialRetryResponse(state.response) || isSystemError(state.responseError))
-      );
-    },
-    updateRetryState(state: RetryStrategyState): RetryStrategyState {
-      state.maxRetries = maxRetries;
-      const retryAfterInMs = state.retryAfterInMs ?? retryInterval;
+    retry({ retryCount, response, responseError }) {
+      if (isThrottlingRetryResponse(response)) {
+        throw new SkipRetryError(
+          "The response has a throttling status code (429 or 503), indicating it should be processed by a throttling retry strategy."
+        );
+      }
+
+      if (!(isExponentialRetryResponse(response) || isSystemError(responseError))) {
+        throw new SkipRetryError(
+          "The response does not meet the requirements to require an exponential retry strategy."
+        );
+      }
 
       // Exponentially increase the delay each time
-      const exponentialDelay = retryAfterInMs * Math.pow(2, state.retryCount);
+      const exponentialDelay = retryAfterInMs * Math.pow(2, retryCount);
       // Don't let the delay exceed the maximum
       const clampedExponentialDelay = Math.min(maxRetryInterval, exponentialDelay);
       // Allow the final value to have some "jitter" (within 50% of the delay size) so
@@ -63,8 +59,8 @@ export function exponentialRetryStrategy(
       const delayWithJitter =
         clampedExponentialDelay / 2 + getRandomIntegerInclusive(0, clampedExponentialDelay / 2);
 
-      state.retryAfterInMs = delayWithJitter;
-      return state;
+      retryAfterInMs = delayWithJitter;
+      return { retryAfterInMs };
     }
   };
 }
