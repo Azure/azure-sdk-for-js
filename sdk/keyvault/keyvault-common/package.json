@@ -58,7 +58,7 @@
   },
   "dependencies": {
     "@azure/core-http": "^2.0.0",
-    "@azure/core-tracing": "1.0.0-preview.13",
+    "@azure/core-tracing": "1.0.0-preview.14",
     "tslib": "^2.2.0"
   },
   "devDependencies": {

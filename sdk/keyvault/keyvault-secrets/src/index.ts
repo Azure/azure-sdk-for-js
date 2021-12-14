@@ -52,7 +52,7 @@ import {
 } from "./secretsModels";
 import { KeyVaultSecretIdentifier, parseKeyVaultSecretIdentifier } from "./identifier";
 import { getSecretFromSecretBundle } from "./transformations";
-import { createTraceFunction } from "../../keyvault-common/src";
+import { createTracingClient, TracingClient } from "@azure/core-tracing";
 
 export {
   SecretClientOptions,
@@ -84,8 +84,6 @@ export {
   logger
 };
 
-const withTrace = createTraceFunction("Azure.KeyVault.Secrets.SecretClient");
-
 /**
  * The SecretClient provides methods to manage {@link KeyVaultSecret} in
  * the Azure Key Vault. The client supports creating, retrieving, updating,
@@ -106,6 +104,7 @@ export class SecretClient {
    */
   private readonly client: KeyVaultClient;
 
+  private readonly tracingClient: TracingClient;
   /**
    * Creates an instance of SecretClient.
    *
@@ -158,6 +157,12 @@ export class SecretClient {
       }
     };
 
+    this.tracingClient = createTracingClient({
+      namespace: "Microsoft.KeyVault",
+      packageName: "@azure/keyvault-secrets",
+      packageVersion: SDK_VERSION
+    });
+
     this.client = new KeyVaultClient(
       pipelineOptions.serviceVersion || LATEST_API_VERSION,
       createPipelineFromOptions(internalPipelineOptions, authPolicy)
@@ -179,7 +184,7 @@ export class SecretClient {
    * @param value - The value of the secret.
    * @param options - The optional parameters.
    */
-  public setSecret(
+  public async setSecret(
     secretName: string,
     value: string,
     options: SetSecretOptions = {}
@@ -197,7 +202,7 @@ export class SecretClient {
         }
       };
     }
-    return withTrace("setSecret", unflattenedOptions, async (updatedOptions) => {
+    return this.tracingClient.withSpan("setSecret", unflattenedOptions, async (updatedOptions) => {
       const response = await this.client.setSecret(
         this.vaultUrl,
         secretName,
@@ -286,15 +291,19 @@ export class SecretClient {
       };
     }
 
-    return withTrace("updateSecretProperties", unflattenedOptions, async (updatedOptions) => {
-      const response = await this.client.updateSecret(
-        this.vaultUrl,
-        secretName,
-        secretVersion,
-        updatedOptions
-      );
-      return getSecretFromSecretBundle(response).properties;
-    });
+    return this.tracingClient.withSpan(
+      "updateSecretProperties",
+      unflattenedOptions,
+      async (updatedOptions) => {
+        const response = await this.client.updateSecret(
+          this.vaultUrl,
+          secretName,
+          secretVersion,
+          updatedOptions
+        );
+        return getSecretFromSecretBundle(response).properties;
+      }
+    );
   }
 
   /**
@@ -310,8 +319,11 @@ export class SecretClient {
    * @param secretName - The name of the secret.
    * @param options - The optional parameters.
    */
-  public getSecret(secretName: string, options: GetSecretOptions = {}): Promise<KeyVaultSecret> {
-    return withTrace("getSecret", options, async (updatedOptions) => {
+  public async getSecret(
+    secretName: string,
+    options: GetSecretOptions = {}
+  ): Promise<KeyVaultSecret> {
+    return this.tracingClient.withSpan("getSecret", options, async (updatedOptions) => {
       const response = await this.client.getSecret(
         this.vaultUrl,
         secretName,
@@ -335,11 +347,11 @@ export class SecretClient {
    * @param secretName - The name of the secret.
    * @param options - The optional parameters.
    */
-  public getDeletedSecret(
+  public async getDeletedSecret(
     secretName: string,
     options: GetDeletedSecretOptions = {}
   ): Promise<DeletedSecret> {
-    return withTrace("getDeletedSecret", options, async (updatedOptions) => {
+    return this.tracingClient.withSpan("getDeletedSecret", options, async (updatedOptions) => {
       const response = await this.client.getDeletedSecret(
         this.vaultUrl,
         secretName,
@@ -365,11 +377,11 @@ export class SecretClient {
    * @param secretName - The name of the secret.
    * @param options - The optional parameters.
    */
-  public purgeDeletedSecret(
+  public async purgeDeletedSecret(
     secretName: string,
     options: PurgeDeletedSecretOptions = {}
   ): Promise<void> {
-    return withTrace("purgeDeletedSecret", options, async (updatedOptions) => {
+    return this.tracingClient.withSpan("purgeDeletedSecret", options, async (updatedOptions) => {
       await this.client.purgeDeletedSecret(this.vaultUrl, secretName, updatedOptions);
     });
   }
@@ -434,11 +446,11 @@ export class SecretClient {
    * @param secretName - The name of the secret.
    * @param options - The optional parameters.
    */
-  public backupSecret(
+  public async backupSecret(
     secretName: string,
     options: BackupSecretOptions = {}
   ): Promise<Uint8Array | undefined> {
-    return withTrace("backupSecret", options, async (updatedOptions) => {
+    return this.tracingClient.withSpan("backupSecret", options, async (updatedOptions) => {
       const response = await this.client.backupSecret(this.vaultUrl, secretName, updatedOptions);
 
       return response.value;
@@ -460,11 +472,11 @@ export class SecretClient {
    * @param secretBundleBackup - The backup blob associated with a secret bundle.
    * @param options - The optional parameters.
    */
-  public restoreSecretBackup(
+  public async restoreSecretBackup(
     secretBundleBackup: Uint8Array,
     options: RestoreSecretBackupOptions = {}
   ): Promise<SecretProperties> {
-    return withTrace("restoreSecretBackup", options, async (updatedOptions) => {
+    return this.tracingClient.withSpan("restoreSecretBackup", options, async (updatedOptions) => {
       const response = await this.client.restoreSecret(
         this.vaultUrl,
         secretBundleBackup,
@@ -492,7 +504,7 @@ export class SecretClient {
         maxresults: continuationState.maxPageSize,
         ...options
       };
-      const currentSetResponse = await withTrace(
+      const currentSetResponse = await this.tracingClient.withSpan(
         "listPropertiesOfSecretVersions",
         optionsComplete,
         (updatedOptions) => this.client.getSecretVersions(this.vaultUrl, secretName, updatedOptions)
@@ -506,7 +518,7 @@ export class SecretClient {
       }
     }
     while (continuationState.continuationToken) {
-      const currentSetResponse = await withTrace(
+      const currentSetResponse = await this.tracingClient.withSpan(
         "listPropertiesOfSecretVersions",
         options,
         (updatedOptions) =>
@@ -597,7 +609,7 @@ export class SecretClient {
         maxresults: continuationState.maxPageSize,
         ...options
       };
-      const currentSetResponse = await withTrace(
+      const currentSetResponse = await this.tracingClient.withSpan(
         "listPropertiesOfSecrets",
         optionsComplete,
         (updatedOptions) => this.client.getSecrets(this.vaultUrl, updatedOptions)
@@ -611,7 +623,7 @@ export class SecretClient {
       }
     }
     while (continuationState.continuationToken) {
-      const currentSetResponse = await withTrace(
+      const currentSetResponse = await this.tracingClient.withSpan(
         "listPropertiesOfSecrets",
         options,
         (updatedOptions) =>
@@ -694,7 +706,7 @@ export class SecretClient {
         maxresults: continuationState.maxPageSize,
         ...options
       };
-      const currentSetResponse = await withTrace(
+      const currentSetResponse = await this.tracingClient.withSpan(
         "listDeletedSecrets",
         optionsComplete,
         (updatedOptions) => this.client.getDeletedSecrets(this.vaultUrl, updatedOptions)
@@ -707,8 +719,11 @@ export class SecretClient {
       }
     }
     while (continuationState.continuationToken) {
-      const currentSetResponse = await withTrace("lisDeletedSecrets", options, (updatedOptions) =>
-        this.client.getDeletedSecrets(continuationState.continuationToken!, updatedOptions)
+      const currentSetResponse = await this.tracingClient.withSpan(
+        "lisDeletedSecrets",
+        options,
+        (updatedOptions) =>
+          this.client.getDeletedSecrets(continuationState.continuationToken!, updatedOptions)
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
