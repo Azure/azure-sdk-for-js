@@ -681,10 +681,10 @@ describe("DataLakePathClient setAccessControlRecursive Node.js only", () => {
         }
       );
     } catch (err) {
-      assert.equal((err as any).name, "DataLakeAclChangeFailedError");
-      assert.equal((err as any).innerError.name, "AbortError");
+      assert.equal(err.name, "DataLakeAclChangeFailedError");
+      assert.equal(err.innerError.name, "AbortError");
       assert.equal(
-        (err as any).innerError.message,
+        err.innerError.message,
         "The operation was aborted.",
         "Unexpected error caught: " + err
       );

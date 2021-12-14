@@ -449,7 +449,7 @@ describe("PageBlobClient Node.js only", () => {
     const pResp = await pageBlobClient.getProperties({
       customerProvidedKey: Test_CPK_INFO
     });
-    assert.equal(pResp.contentLength, ("2048" as unknown) as number | undefined);
+    assert.equal(pResp.contentLength, 2048);
   });
 
   describe("conditional tags", () => {

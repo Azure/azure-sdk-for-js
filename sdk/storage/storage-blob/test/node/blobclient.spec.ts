@@ -7,7 +7,7 @@ import { readFileSync, unlinkSync, existsSync, mkdirSync } from "fs";
 import { join } from "path";
 
 import { AbortController } from "@azure/abort-controller";
-import { isNode, RestError, TokenCredential } from "@azure/core-http";
+import { isNode, TokenCredential } from "@azure/core-http";
 import { delay, isPlaybackMode, record, Recorder } from "@azure-tools/test-recorder";
 
 import {
@@ -380,9 +380,6 @@ describe("BlobClient Node.js only", () => {
         "AbortCopyFromClient should be failed and throw exception for an completed copy operation."
       );
     } catch (err) {
-      if (!(err instanceof RestError)) {
-        throw new Error("Error is not recognized");
-      }
       assert.ok(err.code === "InvalidHeaderValue");
     }
   });
@@ -513,7 +510,7 @@ describe("BlobClient Node.js only", () => {
         conditions: { tagConditions: "tag = 'val1'" }
       });
     } catch (e) {
-      assert.equal((e as any).details?.errorCode, "ConditionNotMet");
+      assert.equal(e.details?.errorCode, "ConditionNotMet");
       exceptionCaught = true;
     }
     assert.ok(exceptionCaught);
@@ -550,9 +547,6 @@ describe("BlobClient Node.js only", () => {
         }
       });
     } catch (err) {
-      if (!(err instanceof RestError)) {
-        throw new Error("Error is not recognized");
-      }
       assert.deepStrictEqual(err.statusCode, 304);
       return;
     }
@@ -570,9 +564,6 @@ describe("BlobClient Node.js only", () => {
         }
       });
     } catch (err) {
-      if (!(err instanceof RestError)) {
-        throw new Error("Error is not recognized");
-      }
       assert.deepStrictEqual(err.statusCode, 400);
       return;
     }
@@ -671,9 +662,6 @@ describe("BlobClient Node.js only", () => {
     try {
       await readStreamToLocalFileWithLogs(response.readableStreamBody!, downloadedFile);
     } catch (error) {
-      if (!(error instanceof RestError)) {
-        throw new Error("Error is not recognized");
-      }
       assert.deepStrictEqual(error.name, "AbortError");
       unlinkSync(downloadedFile);
       unlinkSync(tempFileLarge);

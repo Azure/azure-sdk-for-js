@@ -127,7 +127,7 @@ describe("BlobChangeFeedClient", async () => {
       await iter.next();
       assert.fail("Should have been aborted.");
     } catch (err) {
-      assert.equal((err as any).name, "AbortError");
+      assert.equal(err.name, "AbortError");
     }
   });
 

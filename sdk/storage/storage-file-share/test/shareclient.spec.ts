@@ -145,7 +145,7 @@ describe("ShareClient", () => {
         "Expecting an error in getting properties from a deleted block blob but didn't get one."
       );
     } catch (error) {
-      assert.ok(((error as any).statusCode as number) === 404);
+      assert.ok((error.statusCode as number) === 404);
     }
   });
 
@@ -163,7 +163,7 @@ describe("ShareClient", () => {
         "Expecting an error in getting properties from a deleted block blob but didn't get one."
       );
     } catch (error) {
-      assert.ok(((error as any).statusCode as number) === 404);
+      assert.ok((error.statusCode as number) === 404);
     }
   });
 
@@ -206,7 +206,7 @@ describe("ShareClient", () => {
     } catch (error) {
       assert.equal(
         "Expecting non-empty strings for name parameter",
-        (error as any).message,
+        error.message,
         "Error message is different than expected."
       );
     }

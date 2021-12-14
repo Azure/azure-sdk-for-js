@@ -21,7 +21,7 @@ describe("AvroReadableFromStream", () => {
     let exceptionCaught = false;
     try {
       await rfs.read(10);
-    } catch (err: any) {
+    } catch (err) {
       assert.equal(err.message, "Stream no longer readable.");
       exceptionCaught = true;
     }
@@ -36,7 +36,7 @@ describe("AvroReadableFromStream", () => {
     let AbortErrorCaught = false;
     try {
       await rfs.read(100000, { abortSignal: AbortController.timeout(1) });
-    } catch (err: any) {
+    } catch (err) {
       if (err.name === "AbortError") {
         AbortErrorCaught = true;
       }

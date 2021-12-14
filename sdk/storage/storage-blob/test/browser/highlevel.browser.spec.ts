@@ -70,7 +70,7 @@ describe("Highlevel", () => {
       });
       assert.fail();
     } catch (err) {
-      assert.equal((err as any).name, "AbortError");
+      assert.equal(err.name, "AbortError");
     }
   });
 
@@ -86,7 +86,7 @@ describe("Highlevel", () => {
       });
       assert.fail();
     } catch (err) {
-      assert.equal((err as any).name, "AbortError");
+      assert.equal(err.name, "AbortError");
     }
   });
 

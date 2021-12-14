@@ -282,7 +282,7 @@ describe("AppendBlobClient Node.js only", () => {
         conditions: { tagConditions: "tag1 = 'val2'" }
       });
     } catch (err) {
-      assert.equal((err as any).details?.errorCode, "ConditionNotMet");
+      assert.equal(err.details?.errorCode, "ConditionNotMet");
       exceptionCaught = true;
     }
     assert.ok(exceptionCaught);

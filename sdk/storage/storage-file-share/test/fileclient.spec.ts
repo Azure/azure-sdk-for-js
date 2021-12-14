@@ -726,7 +726,7 @@ describe("FileClient", () => {
 
       assert.fail();
     } catch (err) {
-      assert.equal((err as any).name, "AbortError");
+      assert.equal(err.name, "AbortError");
     }
     assert.ok(eventTriggered);
   });

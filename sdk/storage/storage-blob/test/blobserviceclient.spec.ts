@@ -4,7 +4,7 @@
 import { assert } from "chai";
 
 import * as dotenv from "dotenv";
-import { BlobServiceClient, RestError } from "../src";
+import { BlobServiceClient } from "../src";
 import {
   getAlternateBSU,
   getBSU,
@@ -458,9 +458,6 @@ describe("BlobServiceClient", () => {
         "Expecting an error in getting properties from a deleted block blob but didn't get one."
       );
     } catch (error) {
-      if (!(error instanceof RestError)) {
-        throw new Error("Error is not recognized");
-      }
       assert.ok((error.statusCode as number) === 404);
     }
   });

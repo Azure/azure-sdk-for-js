@@ -714,7 +714,7 @@ describe("DirectoryClient", () => {
         "Expecting an error in getting properties from a deleted block blob but didn't get one."
       );
     } catch (error) {
-      assert.ok(((error as any).statusCode as number) === 404);
+      assert.ok((error.statusCode as number) === 404);
     }
   });
 
@@ -734,7 +734,7 @@ describe("DirectoryClient", () => {
         "Expecting an error in getting properties from a deleted block blob but didn't get one."
       );
     } catch (error) {
-      assert.ok(((error as any).statusCode as number) === 404);
+      assert.ok((error.statusCode as number) === 404);
     }
     await subDirClient.delete();
   });
@@ -767,9 +767,9 @@ describe("DirectoryClient", () => {
         "Expecting an error in getting properties from a deleted block blob but didn't get one."
       );
     } catch (error) {
-      assert.ok(((error as any).statusCode as number) === 404);
+      assert.ok((error.statusCode as number) === 404);
       assert.equal(
-        (error as any).details.errorCode,
+        error.details.errorCode,
         "ResourceNotFound",
         "Error does not contain details property"
       );

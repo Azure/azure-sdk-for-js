@@ -5,7 +5,7 @@ import { assert } from "chai";
 import * as dotenv from "dotenv";
 import * as fs from "fs";
 import { AbortController } from "@azure/abort-controller";
-import { isNode, RestError, URLBuilder, URLQuery } from "@azure/core-http";
+import { isNode, URLBuilder, URLQuery } from "@azure/core-http";
 import { SpanGraph, setTracer } from "@azure/test-utils";
 import {
   bodyToString,
@@ -86,7 +86,7 @@ describe("BlobClient", () => {
         "Should have failed when setting tags without the right lease condition of a leased blob"
       );
     } catch (err) {
-      assert.deepStrictEqual((err as any).code, "LeaseIdMissing", (err as any).msg);
+      assert.deepStrictEqual(err.code, "LeaseIdMissing", err.msg);
     }
 
     try {
@@ -96,9 +96,6 @@ describe("BlobClient", () => {
         "Should have failed when setting tags without the right lease condition of a leased blob"
       );
     } catch (err) {
-      if (!(err instanceof RestError)) {
-        throw new Error("Error is not recognized");
-      }
       assert.deepStrictEqual(err.code, "LeaseIdMismatchWithBlobOperation");
     }
 
@@ -490,7 +487,7 @@ describe("BlobClient", () => {
         "AbortCopyFromClient should be failed and throw exception for an completed copy operation."
       );
     } catch (err) {
-      assert.ok(((err as any).details.errorCode = "NoPendingCopyOperation"));
+      assert.ok((err.details.errorCode = "NoPendingCopyOperation"));
     }
   });
 
@@ -559,7 +556,7 @@ describe("BlobClient", () => {
     } catch (error) {
       assert.equal(
         "Expecting non-empty strings for containerName and blobName parameters",
-        (error as any).message,
+        error.message,
         "Error message is different than expected."
       );
     }
@@ -573,7 +570,7 @@ describe("BlobClient", () => {
     } catch (error) {
       assert.equal(
         "Expecting non-empty strings for containerName and blobName parameters",
-        (error as any).message,
+        error.message,
         "Error message is different than expected."
       );
     }
@@ -821,7 +818,7 @@ describe("BlobClient", () => {
 
       await blobClient.exists({ conditions: { leaseId: guid } });
     } catch (err) {
-      assert.equal((err as any).details.errorCode, "LeaseIdMismatchWithBlobOperation");
+      assert.equal(err.details.errorCode, "LeaseIdMismatchWithBlobOperation");
       exceptionCaught = true;
     }
     assert.ok(exceptionCaught);
@@ -892,7 +889,7 @@ describe("BlobClient", () => {
       try {
         await promise;
       } catch (e) {
-        assert.equal((e as any).details?.errorCode, errorCode);
+        assert.equal(e.details?.errorCode, errorCode);
         expectedExceptionCaught = true;
       }
       return expectedExceptionCaught;

@@ -82,7 +82,7 @@ describe("AvroReader", () => {
     let AbortErrorCaught = false;
     try {
       await iter.next();
-    } catch (err : any) {
+    } catch (err) {
       if (err.name === "AbortError") {
         AbortErrorCaught = true;
       }
