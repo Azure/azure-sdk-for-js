@@ -1415,13 +1415,6 @@ packages:
       '@rushstack/node-core-library': 3.43.2
     dev: false
 
-  /@microsoft/api-extractor-model/7.7.10:
-    resolution: {integrity: sha512-gMFDXwUgoQYz9TgatyNPALDdZN4xBC3Un3fGwlzME+vM13PoJ26pGuqI7kv/OlK9+q2sgrEdxWns8D3UnLf2TA==}
-    dependencies:
-      '@microsoft/tsdoc': 0.12.19
-      '@rushstack/node-core-library': 3.19.6
-    dev: false
-
   /@microsoft/api-extractor/7.18.19:
     resolution: {integrity: sha512-aY+/XR7PtQXtnqNPFRs3/+iVRlQJpo6uLTjO2g7PqmnMywl3GBU3bCgAlV/khZtAQbIs6Le57XxmSE6rOqbcfg==}
     hasBin: true
@@ -1440,21 +1433,6 @@ packages:
       typescript: 4.4.4
     dev: false
 
-  /@microsoft/api-extractor/7.7.11:
-    resolution: {integrity: sha512-kd2kakdDoRgI54J5H11a76hyYZBMhtp4piwWAy4bYTwlQT0v/tp+G/UMMgjUL4vKf0kTNhitEUX/0LfQb1AHzQ==}
-    hasBin: true
-    dependencies:
-      '@microsoft/api-extractor-model': 7.7.10
-      '@microsoft/tsdoc': 0.12.19
-      '@rushstack/node-core-library': 3.19.6
-      '@rushstack/ts-command-line': 4.3.13
-      colors: 1.2.5
-      lodash: 4.17.21
-      resolve: 1.8.1
-      source-map: 0.6.1
-      typescript: 3.7.7
-    dev: false
-
   /@microsoft/tsdoc-config/0.15.2:
     resolution: {integrity: sha512-mK19b2wJHSdNf8znXSMYVShAHktVr/ib0Ck2FA3lsVBSEhSI/TfXT7DJQkAYgcztTuwazGcg58ZjYdk0hTCVrA==}
     dependencies:
@@ -1462,10 +1440,6 @@ packages:
       ajv: 6.12.6
       jju: 1.4.0
       resolve: 1.19.0
-    dev: false
-
-  /@microsoft/tsdoc/0.12.19:
-    resolution: {integrity: sha512-IpgPxHrNxZiMNUSXqR1l/gePKPkfAmIKoDRP9hp7OwjU29ZR8WCJsOJ8iBKgw0Qk+pFwR+8Y1cy8ImLY6e9m4A==}
     dev: false
 
   /@microsoft/tsdoc/0.13.2:
@@ -1729,18 +1703,6 @@ packages:
       rollup: 1.32.1
     dev: false
 
-  /@rushstack/node-core-library/3.19.6:
-    resolution: {integrity: sha512-1+FoymIdr9W9k0D8fdZBBPwi5YcMwh/RyESuL5bY29rLICFxSLOPK+ImVZ1OcWj9GEMsvDx5pNpJ311mHQk+MA==}
-    dependencies:
-      '@types/node': 10.17.13
-      colors: 1.2.5
-      fs-extra: 7.0.1
-      jju: 1.4.0
-      semver: 5.3.0
-      timsort: 0.3.0
-      z-schema: 3.18.4
-    dev: false
-
   /@rushstack/node-core-library/3.43.2:
     resolution: {integrity: sha512-b7AEhSf6CvZgvuDcWMFDeKx2mQSn9AVnMQVyxNxFeHCtLz3gJicqCOlw2GOXM8HKh6PInLdil/NVCDcstwSrIw==}
     dependencies:
@@ -1769,14 +1731,6 @@ packages:
       argparse: 1.0.10
       colors: 1.2.5
       string-argv: 0.3.1
-    dev: false
-
-  /@rushstack/ts-command-line/4.3.13:
-    resolution: {integrity: sha512-BUBbjYu67NJGQkpHu8aYm7kDoMFizL1qx78+72XE3mX/vDdXYJzw/FWS7TPcMJmY4kNlYs979v2B0Q0qa2wRiw==}
-    dependencies:
-      '@types/argparse': 1.0.33
-      argparse: 1.0.10
-      colors: 1.2.5
     dev: false
 
   /@sinonjs/commons/1.8.3:
@@ -1822,10 +1776,6 @@ packages:
 
   /@tsconfig/node16/1.0.2:
     resolution: {integrity: sha512-eZxlbI8GZscaGS7kkc/trHTT5xgrjH3/1n2JDwusC9iahPKWMRvRjJSAN5mCXviuTGQ/lHnhvv8Q1YTpnfz9gA==}
-    dev: false
-
-  /@types/argparse/1.0.33:
-    resolution: {integrity: sha512-VQgHxyPMTj3hIlq9SY1mctqx+Jj8kpQfoLvDlVSDNOyuYs8JYfkuY3OW/4+dO657yPmNhHpePRx0/Tje5ImNVQ==}
     dev: false
 
   /@types/argparse/1.0.38:
@@ -2020,10 +1970,6 @@ packages:
     dependencies:
       '@types/node': 12.20.37
       form-data: 3.0.1
-    dev: false
-
-  /@types/node/10.17.13:
-    resolution: {integrity: sha512-pMCcqU2zT4TjqYFrWtYHKal7Sl30Ims6ulZ4UFXxI4xbtQqK/qqKwkDoBFCfooRqqmRu9vY3xaJRwxSh673aYg==}
     dev: false
 
   /@types/node/12.20.24:
@@ -6393,12 +6339,6 @@ packages:
       path-parse: 1.0.7
     dev: false
 
-  /resolve/1.8.1:
-    resolution: {integrity: sha512-AicPrAC7Qu1JxPCZ9ZgCZlY35QgFnNqc+0LtbRNxnVw4TXvjQ72wnuL9JQcEBgXkI9JM8MsT9kaQoHcpCRJOYA==}
-    dependencies:
-      path-parse: 1.0.7
-    dev: false
-
   /reusify/1.0.4:
     resolution: {integrity: sha512-U9nH88a3fc/ekCF1l0/UP1IosiuIjyTh7hBvXVMHYgVcfGvt897Xguj2UOLDeI5BG2m7/uwyaLVT6fbtCwTyzw==}
     engines: {iojs: '>=1.0.0', node: '>=0.10.0'}
@@ -6537,11 +6477,6 @@ packages:
   /semaphore/1.1.0:
     resolution: {integrity: sha512-O4OZEaNtkMd/K0i6js9SL+gqy0ZCBMgUvlSqHKi4IBdjhe7wB8pwztUk1BbZ1fmrvpwFrPbHzqd2w5pTcJH6LA==}
     engines: {node: '>=0.8.0'}
-    dev: false
-
-  /semver/5.3.0:
-    resolution: {integrity: sha1-myzl094C0XxgEq0yaqa00M9U+U8=}
-    hasBin: true
     dev: false
 
   /semver/5.7.1:
@@ -8545,11 +8480,11 @@ packages:
     dev: false
 
   file:projects/arm-databricks.tgz:
-    resolution: {integrity: sha512-t6otub9/jRDg0NTKRSRC8ADoctIa5M6ME8RnJtFj6A5PU2xjg1kwEVAnEPb+OKhxcR+t1cvQLs9L2gfNKQLeXg==, tarball: file:projects/arm-databricks.tgz}
+    resolution: {integrity: sha512-Ek+SBz9YXzdOeAceFKup6Uq304ojJbWCpkOs1VvlgMHXq8cBvLcY2jVxjiaExq6Y3mnqQxlR3gR2JzKVBdttWA==, tarball: file:projects/arm-databricks.tgz}
     name: '@rush-temp/arm-databricks'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.7.11
+      '@microsoft/api-extractor': 7.18.19
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -8692,11 +8627,11 @@ packages:
     dev: false
 
   file:projects/arm-extendedlocation.tgz:
-    resolution: {integrity: sha512-yQpzybX1YY1UBHRwPj+yqndMFqdONGLZuF1N3YIUIJlqbUkQKGVEEiVgxN0EmSDO58fHJBMwLMj75CPFG2WmOg==, tarball: file:projects/arm-extendedlocation.tgz}
+    resolution: {integrity: sha512-MfgUQPGg4gQIi4DU9vT6+h3JxtSfeXf5s4+QTNWpfT2UU7zlB5SMUruBh4JiPKOMsUaFcERCw3mJesdDvlMKaQ==, tarball: file:projects/arm-extendedlocation.tgz}
     name: '@rush-temp/arm-extendedlocation'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.7.11
+      '@microsoft/api-extractor': 7.18.19
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -8818,11 +8753,11 @@ packages:
     dev: false
 
   file:projects/arm-logic.tgz:
-    resolution: {integrity: sha512-uoLg+ypMm6FmdfBx1ou2eGBuYGuIVdGjlNEnXeEBVRenmKcgwmrdb0bSTB6PiVN125U20FgpCb0YJDOgRuF/9w==, tarball: file:projects/arm-logic.tgz}
+    resolution: {integrity: sha512-piiBwzlLftKsuiB60Jb2ez4kgi62zcpQK5lx0BKVMp+66lMn7sn8fKA0itJjOuOn0G2bE5ZLEDTKjTDDKw0Z9w==, tarball: file:projects/arm-logic.tgz}
     name: '@rush-temp/arm-logic'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.7.11
+      '@microsoft/api-extractor': 7.18.19
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -8947,11 +8882,11 @@ packages:
     dev: false
 
   file:projects/arm-notificationhubs.tgz:
-    resolution: {integrity: sha512-WaL7o4K3SAfEvfn6tUdEYKWeNaS37XC5/dkQfcsIjKD5Ou6ZU42jCQVGS9wb+oY5KT2A/RXSJYJpL9KJVRCUiA==, tarball: file:projects/arm-notificationhubs.tgz}
+    resolution: {integrity: sha512-XeSQCDoSrd7toKIReWDHtLyUDC542x5O62Hvo/W/5SP2fHgBFmIN2kRrUDXb6WYnGH7AlpjlaRcNlEhUUqo+7Q==, tarball: file:projects/arm-notificationhubs.tgz}
     name: '@rush-temp/arm-notificationhubs'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.7.11
+      '@microsoft/api-extractor': 7.18.19
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -8967,11 +8902,11 @@ packages:
     dev: false
 
   file:projects/arm-operationalinsights.tgz:
-    resolution: {integrity: sha512-6bdNT07tb4vKV3cfDCJEf1HLAdjLyomvgTqVgYMU2WpUEh1++rgjFJf7RGDbi/h2kLJ7ERYH5xUZFXcCyFoB/g==, tarball: file:projects/arm-operationalinsights.tgz}
+    resolution: {integrity: sha512-gBlO/vSUk3NsGWIpm3EOzfRX9qwQetzRnBySYDL8GOjTMTZy5YQqzcMv05F5VE1XTi/qFiY+KGcZwhV5FQ0L4Q==, tarball: file:projects/arm-operationalinsights.tgz}
     name: '@rush-temp/arm-operationalinsights'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.7.11
+      '@microsoft/api-extractor': 7.18.19
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -8987,11 +8922,11 @@ packages:
     dev: false
 
   file:projects/arm-operations.tgz:
-    resolution: {integrity: sha512-bfQ2YR9KigdsOYK8YBti2REdvUP+3RlGDkmnlpITR/S4AJdAVHHhruvmikMDSPvi/W5po6xwE2vHKMBQIQKYlQ==, tarball: file:projects/arm-operations.tgz}
+    resolution: {integrity: sha512-gZpdG3G5eQYR4nQ0DjplqqgsGbdxFW6UCw/Ml74G/U3q7Zqv/+jmH+kvIDHZJ3YdwMOTIEAft0OMV+NQ+aAULA==, tarball: file:projects/arm-operations.tgz}
     name: '@rush-temp/arm-operations'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.7.11
+      '@microsoft/api-extractor': 7.18.19
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -9070,11 +9005,11 @@ packages:
     dev: false
 
   file:projects/arm-postgresql.tgz:
-    resolution: {integrity: sha512-TNrzPPYJKsZw7LBRmtUub1nETEBquEs64tsgOpMLat88idB1Bbm7Z6jImYGEm+oMTIsiLWd0ASZAaT3nsKkY3A==, tarball: file:projects/arm-postgresql.tgz}
+    resolution: {integrity: sha512-6Q3ZBc6Sax4GFoLiiVyGs0g1pLyv2VU35AC1wTjcYkc6G2m53nCubCtEDkh6QgGl6X+llsIEr71KK9PZNC3Gow==, tarball: file:projects/arm-postgresql.tgz}
     name: '@rush-temp/arm-postgresql'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.7.11
+      '@microsoft/api-extractor': 7.18.19
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -9108,11 +9043,11 @@ packages:
     dev: false
 
   file:projects/arm-quota.tgz:
-    resolution: {integrity: sha512-rtaLIQ4qnFja0VpqLPDIMDCulFopqMqIk5xCJmgbzYnE0abobPMp66qfu1lDK7ns/fEiLM3Ntfr/OtvYZDivBA==, tarball: file:projects/arm-quota.tgz}
+    resolution: {integrity: sha512-RJGVETIX2qgGkOUIUbQYPGibXuG90MlgaNKhIzFC7qrkXt9JXg+xooy69EZ7OeGCOwBu3qpiqRAESPu4jL8qDw==, tarball: file:projects/arm-quota.tgz}
     name: '@rush-temp/arm-quota'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.7.11
+      '@microsoft/api-extractor': 7.18.19
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -9275,11 +9210,11 @@ packages:
     dev: false
 
   file:projects/arm-security.tgz:
-    resolution: {integrity: sha512-H6aa5+i2bHOriVDn+PUCkK+41MEGxvUdTsROIVPid3VHe60jOeVVdyUrfclje0XeFUi5E4aQHZPECNYsz27A7w==, tarball: file:projects/arm-security.tgz}
+    resolution: {integrity: sha512-bgaJINuiFpBkVPyJPozqWwkUI710zyhqGyubymaep78wZS/ncMV19d6ZoY7xCIqdl6hok9Al0QK0JuV28GUKPw==, tarball: file:projects/arm-security.tgz}
     name: '@rush-temp/arm-security'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.7.11
+      '@microsoft/api-extractor': 7.18.19
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -9444,11 +9379,11 @@ packages:
     dev: false
 
   file:projects/arm-videoanalyzer.tgz:
-    resolution: {integrity: sha512-85e/n7OPI5a3aJ4G7QuGI/q0ezQ+2wH6hySHj1oplCEvz6Lfvz2nEwfsQzXPjzxoIjhn/wrd/D0B0ah5M06HwQ==, tarball: file:projects/arm-videoanalyzer.tgz}
+    resolution: {integrity: sha512-7H6zqgC1aDFFNu38qU/P4Y62dxsKyOrG39RS2WFCbc/2OUlHCI93RCOWpKs/9KrgUhQAWhuIhtM+hLTjzNtktg==, tarball: file:projects/arm-videoanalyzer.tgz}
     name: '@rush-temp/arm-videoanalyzer'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.7.11
+      '@microsoft/api-extractor': 7.18.19
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -9832,13 +9767,13 @@ packages:
     dev: false
 
   file:projects/communication-short-codes.tgz:
-    resolution: {integrity: sha512-KCv3nbbf3mFfOqax4OBY1QgKlKoFboDABjurL02e+3QcK5iXhktXnhQW3025aPnBj4ZbhablGwqaooNAnV1VQg==, tarball: file:projects/communication-short-codes.tgz}
+    resolution: {integrity: sha512-LinNxApiXrnegB3VB/GqAKaNi4dV76EVnTP1cI43SrZ0hv8FK+lzAeVpREtiW0cZmeOO5BfVZxnTrSDN24u/Hw==, tarball: file:projects/communication-short-codes.tgz}
     name: '@rush-temp/communication-short-codes'
     version: 0.0.0
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.13
       '@azure/identity': 2.0.0-beta.6
-      '@microsoft/api-extractor': 7.7.11
+      '@microsoft/api-extractor': 7.18.19
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1

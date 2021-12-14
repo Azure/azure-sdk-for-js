@@ -8,7 +8,7 @@ import {
   deleteKeyCompletely,
   assertThrowsRestError
 } from "./utils/testHelpers";
-import * as assert from "assert";
+import { assert } from "chai";
 import { Recorder } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
 
