@@ -18,6 +18,9 @@ export const toCommonJs: ts.TransformerFactory<ts.SourceFile> = (context) => (so
   const visitor: ts.Visitor = (node) => {
     if (ts.isImportDeclaration(node)) {
       return ts.visitNode(importDeclarationToCommonJs(node, context.factory, sourceFile), visitor);
+    } else if (ts.isExportDeclaration(node) || ts.isExportAssignment(node)) {
+      // TypeScript can choose to emit `export {}` in some cases, so we will remove any export declarations.
+      return context.factory.createEmptyStatement();
     }
 
     return ts.visitEachChild(node, visitor, context);

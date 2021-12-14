@@ -15,6 +15,9 @@ const c = require("./hasDefaultExport");
 
 const f = require("./hasNamedDefaultExport").default;
 
+const base = require("./defaultExportsNamedClass");
+const Anonymous = require("./defaultExportsClass").default;
+
 async function main() {
   const waitTime = process.env.WAIT_TIME || "5000";
   const delayMs = parseInt(waitTime);
@@ -24,10 +27,14 @@ async function main() {
   }
 
   await a(b, 5000);
-
   await c.default(c.b, 1000);
-
   await f(b, 1000);
+
+  const object = new Anonymous();
+  object.say();
+
+  const object2 = new base.default(base.default.name);
+  object2.say();
 }
 
 main().catch((error) => {
