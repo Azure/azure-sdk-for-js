@@ -43,7 +43,7 @@ export class NotificationHubsManagementClientContext extends coreClient.ServiceC
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-notificationhubs/2.0.0-beta.1`;
+    const packageDetails = `azsdk-js-arm-notificationhubs/2.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
