@@ -124,13 +124,6 @@ describe("Test supportsTracing functionality", function() {
     client = new MockClientToTest();
   });
   it("supportsTracing with the setMethod", function() {
-    // const existingContext = new ContextImpl().setValue(Symbol.for("foo"), "bar");
-    // const options = {
-    //   tracingOptions: {
-    //     tracingContext: existingContext
-    //   }
-    // };
-
     assert.supportsTracing((options) => client.mockSetMethod({ key: "value" }, options), [
       "MockClientToTest.mockSetMethod"
     ]);
@@ -163,10 +156,10 @@ export class MockClientToTest {
       "MockClientToTest.mockSetMethod",
       options,
       (updatedOptions, span) => {
-        console.log("---Inside Wth span----");
+        console.log("---Inside Callback of With span----");
         console.log(JSON.stringify(updatedOptions.tracingOptions.tracingContext, null, 2));
         console.log(span);
-        console.log("---Exiting With Span ---");
+        console.log("---Exiting Callback of With Span ---");
         this.record = record;
       },
       {
