@@ -16,6 +16,7 @@ import {
 import { assert } from "chai";
 import {
   ConfigurationSetting,
+  ConfigurationSettingParam,
   featureFlagContentType,
   HttpResponseField,
   HttpResponseFields,
@@ -155,7 +156,7 @@ describe("helper methods", () => {
         featureFlag.value = value as any;
         assert.deepEqual(
           serializeAsConfigurationSettingParam(featureFlag),
-          featureFlag as any,
+          (featureFlag as unknown) as ConfigurationSettingParam<string>,
           "setting was modified"
         );
       });
