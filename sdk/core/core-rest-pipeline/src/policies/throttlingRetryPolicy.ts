@@ -13,7 +13,17 @@ export const throttlingRetryPolicyName = "throttlingRetryPolicy";
 /**
  * Maximum number of retries for the throttling retry policy
  */
-export const DEFAULT_CLIENT_MAX_RETRY_COUNT = 3;
+export const DEFAULT_CLIENT_MAX_RETRY_COUNT = 10;
+
+/**
+ * Options that control how to retry failed requests.
+ */
+export interface ThrottlingRetryPolicyOptions {
+  /**
+   * The maximum number of retry attempts. Defaults to 10.
+   */
+  maxRetries?: number;
+}
 
 /**
  * A policy that retries when the server sends a 429 response with a Retry-After header.
@@ -22,14 +32,17 @@ export const DEFAULT_CLIENT_MAX_RETRY_COUNT = 3;
  * https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-manager-request-limits,
  * https://docs.microsoft.com/en-us/azure/azure-subscription-service-limits and
  * https://docs.microsoft.com/en-us/azure/virtual-machines/troubleshooting/troubleshooting-throttling-errors
+ *
+ * @param options - Options that configure retry logic.
  */
-export function throttlingRetryPolicy(): PipelinePolicy {
+export function throttlingRetryPolicy(options: ThrottlingRetryPolicyOptions = {}): PipelinePolicy {
   return {
     name: throttlingRetryPolicyName,
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
       let response = await next(request);
+      const maxRetryCount = options.maxRetries ?? DEFAULT_CLIENT_MAX_RETRY_COUNT;
 
-      for (let count = 0; count < DEFAULT_CLIENT_MAX_RETRY_COUNT; count++) {
+      for (let count = 0; count < maxRetryCount; count++) {
         if (response.status !== 429 && response.status !== 503) {
           return response;
         }
