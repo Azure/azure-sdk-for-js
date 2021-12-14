@@ -714,7 +714,7 @@ describe("DirectoryClient", () => {
         "Expecting an error in getting properties from a deleted block blob but didn't get one."
       );
     } catch (error) {
-      assert.ok((error.statusCode as number) === 404);
+      assert.ok(((error as any).statusCode as number) === 404);
     }
   });
 
@@ -734,7 +734,7 @@ describe("DirectoryClient", () => {
         "Expecting an error in getting properties from a deleted block blob but didn't get one."
       );
     } catch (error) {
-      assert.ok((error.statusCode as number) === 404);
+      assert.ok(((error as any).statusCode as number) === 404);
     }
     await subDirClient.delete();
   });
@@ -767,9 +767,9 @@ describe("DirectoryClient", () => {
         "Expecting an error in getting properties from a deleted block blob but didn't get one."
       );
     } catch (error) {
-      assert.ok((error.statusCode as number) === 404);
+      assert.ok(((error as any).statusCode as number) === 404);
       assert.equal(
-        error.details.errorCode,
+        (error as any).details.errorCode,
         "ResourceNotFound",
         "Error does not contain details property"
       );
@@ -880,12 +880,12 @@ describe("DirectoryClient", () => {
 
     if (result.handleList !== undefined && result.handleList.length > 0) {
       const handle = result.handleList[0];
-      assert.notDeepStrictEqual(handle.handleId, undefined);
-      assert.notDeepStrictEqual(handle.path, undefined);
-      assert.notDeepStrictEqual(handle.fileId, undefined);
-      assert.notDeepStrictEqual(handle.sessionId, undefined);
-      assert.notDeepStrictEqual(handle.clientIp, undefined);
-      assert.notDeepStrictEqual(handle.openTime, undefined);
+      assert.notDeepEqual(handle.handleId, undefined);
+      assert.notDeepEqual(handle.path, undefined);
+      assert.notDeepEqual(handle.fileId, undefined);
+      assert.notDeepEqual(handle.sessionId, undefined);
+      assert.notDeepEqual(handle.clientIp, undefined);
+      assert.notDeepEqual(handle.openTime, undefined);
     }
   });
 

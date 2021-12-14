@@ -726,7 +726,7 @@ describe("FileClient", () => {
 
       assert.fail();
     } catch (err) {
-      assert.equal(err.name, "AbortError");
+      assert.equal((err as any).name, "AbortError");
     }
     assert.ok(eventTriggered);
   });
@@ -742,12 +742,12 @@ describe("FileClient", () => {
     ).value;
     if (result.handleList !== undefined && result.handleList.length > 0) {
       const handle = result.handleList[0];
-      assert.notDeepStrictEqual(handle.handleId, undefined);
-      assert.notDeepStrictEqual(handle.path, undefined);
-      assert.notDeepStrictEqual(handle.fileId, undefined);
-      assert.notDeepStrictEqual(handle.sessionId, undefined);
-      assert.notDeepStrictEqual(handle.clientIp, undefined);
-      assert.notDeepStrictEqual(handle.openTime, undefined);
+      assert.notDeepEqual(handle.handleId, undefined);
+      assert.notDeepEqual(handle.path, undefined);
+      assert.notDeepEqual(handle.fileId, undefined);
+      assert.notDeepEqual(handle.sessionId, undefined);
+      assert.notDeepEqual(handle.clientIp, undefined);
+      assert.notDeepEqual(handle.openTime, undefined);
     }
   });
 

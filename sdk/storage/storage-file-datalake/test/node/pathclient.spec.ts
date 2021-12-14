@@ -555,7 +555,7 @@ describe("DataLakePathClient setAccessControlRecursive Node.js only", () => {
     );
 
     assert.deepStrictEqual(1, batchCounter);
-    assert.notDeepStrictEqual(undefined, result.continuationToken);
+    assert.notDeepEqual(undefined, result.continuationToken);
   });
 
   it("setAccessControlRecursive should work with options - batchSize", async () => {
@@ -681,10 +681,10 @@ describe("DataLakePathClient setAccessControlRecursive Node.js only", () => {
         }
       );
     } catch (err) {
-      assert.equal(err.name, "DataLakeAclChangeFailedError");
-      assert.equal(err.innerError.name, "AbortError");
+      assert.equal((err as any).name, "DataLakeAclChangeFailedError");
+      assert.equal((err as any).innerError.name, "AbortError");
       assert.equal(
-        err.innerError.message,
+        (err as any).innerError.message,
         "The operation was aborted.",
         "Unexpected error caught: " + err
       );
