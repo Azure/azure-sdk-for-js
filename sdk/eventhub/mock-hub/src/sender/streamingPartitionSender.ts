@@ -29,7 +29,7 @@ export class StreamingPartitionSender {
    * @param enableRuntimeMetric - Indicates whether partition info should be sent on each event.
    */
   constructor(
-    messageStore: MessageStore, // eslint-disable-line @azure/azure-sdk/ts-use-interface-parameters
+    messageStore: MessageStore,
     sender: Sender,
     partitionId: string,
     startPosition: EventPosition,
@@ -111,7 +111,7 @@ export class StreamingPartitionSender {
         // And away it goes!
         sender.send(outgoingMessage);
       } catch (err) {
-        if ((err as any)?.name !== "AbortError") {
+        if (err?.name !== "AbortError") {
           console.error(`Unexpected error while streaming events: `, err);
         }
       }
@@ -120,15 +120,13 @@ export class StreamingPartitionSender {
 
   private _waitForSendable(sender: Sender, abortSignal: AbortSignalLike): Promise<void> {
     return new Promise((resolve, reject) => {
-      let onSendable: (() => void) | undefined = undefined;
-
       const onAbort = (): void => {
-        sender.removeListener(SenderEvents.sendable, onSendable!);
+        sender.removeListener(SenderEvents.sendable, onSendable);
         abortSignal.removeEventListener("abort", onAbort);
         reject(new AbortError("Cancelled operation."));
       };
 
-      onSendable = () => {
+      const onSendable = (): void => {
         abortSignal.removeEventListener("abort", onAbort);
         resolve();
       };

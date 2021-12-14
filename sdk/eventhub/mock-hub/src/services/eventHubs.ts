@@ -306,7 +306,7 @@ export class MockEventHub implements IMockEventHub {
         // Probably should close the sender at this point.
         event.sender.close({
           condition: "amqp:internal-error",
-          description: (err as any)?.message ?? ""
+          description: err?.message ?? ""
         });
       }
     }
@@ -420,7 +420,7 @@ export class MockEventHub implements IMockEventHub {
     let outgoingMessage: Message;
     if (!this.isValidCbsAuth(message)) {
       outgoingMessage = {
-        correlation_id: message.message_id!.toString(),
+        correlation_id: message.message_id?.toString(),
         to: message.reply_to,
         application_properties: {
           "status-code": 404,
@@ -464,14 +464,14 @@ export class MockEventHub implements IMockEventHub {
     let outgoingMessage: Message;
     if (!this.partitionIds.includes(partitionId)) {
       outgoingMessage = generateBadPartitionInfoResponse({
-        correlationId: message.message_id!.toString(),
+        correlationId: message.message_id?.toString(),
         targetLinkName: message.reply_to
       });
     } else {
       const partitionInfo = this._messageStore.getPartitionInfo(partitionId);
       outgoingMessage = generatePartitionInfoResponse({
         ...partitionInfo,
-        correlationId: message.message_id!.toString(),
+        correlationId: message.message_id?.toString(),
         targetLinkName: message.reply_to,
         eventHubName: this._name
       });
@@ -486,8 +486,13 @@ export class MockEventHub implements IMockEventHub {
    * @param partitionId -
    */
   private _handleReceivedMessage(event: OnMessagesEvent, partitionId?: string): void {
-    const delivery = event.context.delivery!;
-    const deliverySize = (delivery as any)["data"]?.length ?? 0;
+    const delivery = event.context.delivery;
+
+    if (!delivery) {
+      throw new Error("event.context.delivery must be defined");
+    }
+
+    const deliverySize = (delivery as { data?: unknown[] })["data"]?.length ?? 0;
     const maxMessageSize =
       event.context.receiver?.get_option("max_message_size", 1024 * 1024) ?? 1024 * 1024;
     if (deliverySize >= maxMessageSize) {

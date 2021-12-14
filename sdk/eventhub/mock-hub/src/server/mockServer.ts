@@ -148,6 +148,8 @@ export class MockServer extends EventEmitter {
     return new Promise((resolve, reject) => {
       const options = this._options;
       const ONE_MB = 1024 * 1024;
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const listenOptions: ListenOptions & ConnectionOptions & any = {
         port: options.port ?? 0,
         max_frame_size: 65536,
@@ -183,7 +185,7 @@ export class MockServer extends EventEmitter {
   emit(type: "receiverClose", event: ReceiverCloseEvent): boolean;
   emit(type: "senderClose", event: SenderCloseEvent): boolean;
   emit(type: "connectionClose", event: ConnectionCloseEvent): boolean;
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types
   emit(type: string, event: any): boolean {
     return super.emit(type, event);
   }
@@ -242,6 +244,7 @@ export class MockServer extends EventEmitter {
    * @param listener -
    */
   public on(type: "onMessages", listener: (event: OnMessagesEvent) => void): this;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public on(type: string, listener: (event: any) => void): this {
     return super.on(type, listener);
   }
