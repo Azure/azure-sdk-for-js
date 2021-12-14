@@ -8,6 +8,7 @@
 import { ConfigurationClient } from "@azure/template";
 import { DefaultAzureCredential } from "@azure/identity";
 
+// Load the .env file if it exists
 import * as dotenv from "dotenv";
 dotenv.config();
 

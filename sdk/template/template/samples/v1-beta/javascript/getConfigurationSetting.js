@@ -8,6 +8,7 @@
 const { ConfigurationClient } = require("@azure/template");
 const { DefaultAzureCredential } = require("@azure/identity");
 
+// Load the .env file if it exists
 require("dotenv").config();
 
 async function main() {
