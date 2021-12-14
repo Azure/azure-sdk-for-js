@@ -68,7 +68,15 @@ export function retryPolicy(
           }
           response = responseError.response;
         }
-
+        if (retryCount >= options.maxRetries ?? DEFAULT_MAX_RETRIES) {
+          strategyLogger.info(
+            `Maximum retries reached. Returning the last received response, or throwing the last received error.`
+          );
+          if (response !== undefined) {
+            return response;
+          }
+          throw responseError;
+        }
         retryPolicyLogger.info(
           `Retry ${retryCount}: Processing ${strategies.length} retry strategies.`
         );
@@ -83,15 +91,6 @@ export function retryPolicy(
             responseError
           };
 
-          if (information.retryCount >= options.maxRetries ?? DEFAULT_MAX_RETRIES) {
-            strategyLogger.info(
-              `Maximum retries reached. Returning the last received response, or throwing the last received error.`
-            );
-            if (response !== undefined) {
-              return response;
-            }
-            throw responseError;
-          }
 
           let modifiers: RetryModifiers;
           try {
