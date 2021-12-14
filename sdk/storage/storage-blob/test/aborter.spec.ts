@@ -17,14 +17,14 @@ describe("Aborter", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
+  beforeEach(async function(this: Context) {
     recorder = record(this, recorderEnvSetup);
     const blobServiceClient = getBSU();
     containerName = recorder.getUniqueName("container");
     containerClient = blobServiceClient.getContainerClient(containerName);
   });
 
-  afterEach(async function () {
+  afterEach(async function() {
     await recorder.stop();
   });
 
@@ -34,7 +34,11 @@ describe("Aborter", () => {
       assert.fail();
     } catch (err) {
       assert.equal((err as any).name, "AbortError");
-      assert.equal((err as any).message, "The operation was aborted.", "Unexpected error caught: " + err);
+      assert.equal(
+        (err as any).message,
+        "The operation was aborted.",
+        "Unexpected error caught: " + err
+      );
     }
   });
 
@@ -51,7 +55,11 @@ describe("Aborter", () => {
       assert.fail();
     } catch (err) {
       assert.equal((err as any).name, "AbortError");
-      assert.equal((err as any).message, "The operation was aborted.", "Unexpected error caught: " + err);
+      assert.equal(
+        (err as any).message,
+        "The operation was aborted.",
+        "Unexpected error caught: " + err
+      );
     }
   });
 
@@ -76,7 +84,11 @@ describe("Aborter", () => {
       assert.fail();
     } catch (err) {
       assert.equal((err as any).name, "AbortError");
-      assert.equal((err as any).message, "The operation was aborted.", "Unexpected error caught: " + err);
+      assert.equal(
+        (err as any).message,
+        "The operation was aborted.",
+        "Unexpected error caught: " + err
+      );
     }
   });
 });

@@ -21,18 +21,18 @@ describe("BlobChangeFeedClient", async () => {
   let recorder: Recorder;
   let changeFeedClient: BlobChangeFeedClient;
 
-  before(async function (this: Context) {
+  before(async function(this: Context) {
     if (process.env.CHANGE_FEED_ENABLED !== "1" && !isPlaybackMode()) {
       this.skip();
     }
   });
 
-  beforeEach(async function (this: Context) {
+  beforeEach(async function(this: Context) {
     recorder = record(this, recorderEnvSetup);
     changeFeedClient = getBlobChangeFeedClient();
   });
 
-  afterEach(async function () {
+  afterEach(async function() {
     await recorder.stop();
   });
 
@@ -180,18 +180,18 @@ describe("BlobChangeFeedClient: Change Feed not configured", async () => {
   let recorder: Recorder;
   let changeFeedClient: BlobChangeFeedClient;
 
-  before(async function (this: Context) {
+  before(async function(this: Context) {
     if (process.env.CHANGE_FEED_ENABLED === "1" && !isPlaybackMode()) {
       this.skip();
     }
   });
 
-  beforeEach(async function (this: Context) {
+  beforeEach(async function(this: Context) {
     recorder = record(this, recorderEnvSetup);
     changeFeedClient = getBlobChangeFeedClient();
   });
 
-  afterEach(async function () {
+  afterEach(async function() {
     await recorder.stop();
   });
 

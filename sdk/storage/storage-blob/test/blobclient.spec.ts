@@ -43,7 +43,7 @@ describe("BlobClient", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
+  beforeEach(async function(this: Context) {
     recorder = record(this, recorderEnvSetup);
     blobServiceClient = getBSU();
     containerName = recorder.getUniqueName("container");
@@ -55,14 +55,14 @@ describe("BlobClient", () => {
     await blockBlobClient.upload(content, content.length);
   });
 
-  afterEach(async function (this: Context) {
+  afterEach(async function(this: Context) {
     if (!this.currentTest?.isPending()) {
       await containerClient.delete();
       await recorder.stop();
     }
   });
 
-  it("Set and get blob tags should work with lease condition", async function () {
+  it("Set and get blob tags should work with lease condition", async function() {
     const guid = "ca761232ed4211cebacd00aa0057b223";
     const leaseClient = blockBlobClient.getBlobLeaseClient(guid);
     await leaseClient.acquireLease(-1);
@@ -105,7 +105,7 @@ describe("BlobClient", () => {
     await leaseClient.releaseLease();
   });
 
-  it("Set blob tags should work", async function () {
+  it("Set blob tags should work", async function() {
     const tags = {
       tag1: "val1",
       tag2: "val2"
@@ -130,7 +130,7 @@ describe("BlobClient", () => {
     assert.deepStrictEqual(segment.value.segment.blobItems[0].tags, tags);
   });
 
-  it("Get blob tags should work with a snapshot", async function () {
+  it("Get blob tags should work with a snapshot", async function() {
     const tags = {
       tag1: "val1",
       tag2: "val2"
@@ -144,7 +144,7 @@ describe("BlobClient", () => {
     assert.deepStrictEqual(response.tags, tags);
   });
 
-  it("Create block blob should work with tags", async function () {
+  it("Create block blob should work with tags", async function() {
     await blockBlobClient.delete();
 
     const tags = {
@@ -157,7 +157,7 @@ describe("BlobClient", () => {
     assert.deepStrictEqual(response.tags, tags);
   });
 
-  it("Create append blob should work with tags", async function () {
+  it("Create append blob should work with tags", async function() {
     const tags = {
       tag1: "val1",
       tag2: "val2"
@@ -171,7 +171,7 @@ describe("BlobClient", () => {
     assert.deepStrictEqual(response.tags, tags);
   });
 
-  it("Create page blob should work with tags", async function () {
+  it("Create page blob should work with tags", async function() {
     const tags = {
       tag1: "val1",
       tag2: "val2"
@@ -855,7 +855,7 @@ describe("BlobClient", () => {
     await checkRehydratePriority("Standard");
   });
 
-  it("lastAccessed returned", async function (this: Context) {
+  it("lastAccessed returned", async function(this: Context) {
     if (isLiveMode()) {
       // Skipped for now as it's not working in live tests pipeline.
       this.skip();
@@ -883,7 +883,7 @@ describe("BlobClient", () => {
     const tagConditionMet = { tagConditions: "tag1 = 'val1'" };
     const tagConditionUnmet = { tagConditions: "tag1 = 'val2'" };
 
-    beforeEach(async function () {
+    beforeEach(async function() {
       await blobClient.setTags(tags);
     });
 
@@ -1346,13 +1346,13 @@ describe("BlobClient - Object Replication", () => {
     }
   ];
 
-  before(async function (this: Context) {
+  before(async function(this: Context) {
     if (isLiveMode()) {
       this.skip();
     }
   });
 
-  beforeEach(async function (this: Context) {
+  beforeEach(async function(this: Context) {
     recorder = record(this, recorderEnvSetup);
     srcBlobServiceClient = getGenericBSU("");
     destBlobServiceClient = getGenericBSU("ORS_DEST_");
@@ -1362,7 +1362,7 @@ describe("BlobClient - Object Replication", () => {
     destBlobClient = destContainerClient.getBlobClient(blobName);
   });
 
-  afterEach(async function () {
+  afterEach(async function() {
     await recorder.stop();
   });
 
@@ -1417,7 +1417,7 @@ describe("BlobClient - Object Replication", () => {
     assert.equal(destRes.objectReplicationSourceProperties, undefined);
   });
 
-  it("download to file", async function (this: Context) {
+  it("download to file", async function(this: Context) {
     if (!isNode) {
       this.skip();
     }
@@ -1452,7 +1452,7 @@ describe("BlobClient - ImmutabilityPolicy", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
+  beforeEach(async function(this: Context) {
     recorder = record(this, recorderEnvSetup);
     blobServiceClient = getBSU();
 
@@ -1467,7 +1467,7 @@ describe("BlobClient - ImmutabilityPolicy", () => {
     blobClient = containerClient.getBlobClient(blobName);
   });
 
-  afterEach(async function (this: Context) {
+  afterEach(async function(this: Context) {
     if (!this.currentTest?.isPending()) {
       const listResult = (
         await containerClient
