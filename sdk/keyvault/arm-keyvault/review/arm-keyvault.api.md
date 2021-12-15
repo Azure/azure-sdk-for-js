@@ -158,6 +158,7 @@ export type Key = Resource & {
     readonly keyUri?: string;
     readonly keyUriWithVersion?: string;
     rotationPolicy?: RotationPolicy;
+    releasePolicy?: KeyReleasePolicy;
 };
 
 // @public
@@ -165,6 +166,7 @@ export interface KeyAttributes {
     readonly created?: number;
     enabled?: boolean;
     expires?: number;
+    exportable?: boolean;
     notBefore?: number;
     readonly recoveryLevel?: DeletionRecoveryLevel;
     readonly updated?: number;
@@ -197,7 +199,14 @@ export interface KeyProperties {
     readonly keyUri?: string;
     readonly keyUriWithVersion?: string;
     kty?: JsonWebKeyType;
+    releasePolicy?: KeyReleasePolicy;
     rotationPolicy?: RotationPolicy;
+}
+
+// @public (undocumented)
+export interface KeyReleasePolicy {
+    contentType?: string;
+    data?: Uint8Array;
 }
 
 // @public
@@ -269,8 +278,12 @@ export interface KeysListVersionsOptionalParams extends coreClient.OperationOpti
 export type KeysListVersionsResponse = KeyListResult;
 
 // @public (undocumented)
-export class KeyVaultManagementClient extends KeyVaultManagementClientContext {
+export class KeyVaultManagementClient extends coreClient.ServiceClient {
+    // (undocumented)
+    $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: KeyVaultManagementClientOptionalParams);
+    // (undocumented)
+    apiVersion: string;
     // (undocumented)
     keys: Keys;
     // (undocumented)
@@ -288,18 +301,9 @@ export class KeyVaultManagementClient extends KeyVaultManagementClientContext {
     // (undocumented)
     secrets: Secrets;
     // (undocumented)
-    vaults: Vaults;
-}
-
-// @public (undocumented)
-export class KeyVaultManagementClientContext extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: KeyVaultManagementClientOptionalParams);
-    // (undocumented)
-    apiVersion: string;
-    // (undocumented)
     subscriptionId: string;
+    // (undocumented)
+    vaults: Vaults;
 }
 
 // @public
@@ -398,6 +402,8 @@ export enum KnownJsonWebKeyOperation {
     // (undocumented)
     Import = "import",
     // (undocumented)
+    Release = "release",
+    // (undocumented)
     Sign = "sign",
     // (undocumented)
     UnwrapKey = "unwrapKey",
@@ -436,6 +442,8 @@ export enum KnownKeyPermissions {
     // (undocumented)
     Get = "get",
     // (undocumented)
+    Getrotationpolicy = "getrotationpolicy",
+    // (undocumented)
     Import = "import",
     // (undocumented)
     List = "list",
@@ -449,6 +457,8 @@ export enum KnownKeyPermissions {
     Restore = "restore",
     // (undocumented)
     Rotate = "rotate",
+    // (undocumented)
+    Setrotationpolicy = "setrotationpolicy",
     // (undocumented)
     Sign = "sign",
     // (undocumented)
