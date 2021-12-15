@@ -3,7 +3,6 @@
 
 import {
   TracingClient,
-  Instrumenter,
   OperationTracingOptions,
   TracingSpan,
   TracingContext,
