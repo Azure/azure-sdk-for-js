@@ -16,8 +16,12 @@ export interface ApplicationInsightsAgentVersions {
 }
 
 // @public (undocumented)
-export class AppPlatformManagementClient extends AppPlatformManagementClientContext {
+export class AppPlatformManagementClient extends coreClient.ServiceClient {
+    // (undocumented)
+    $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: AppPlatformManagementClientOptionalParams);
+    // (undocumented)
+    apiVersion: string;
     // (undocumented)
     apps: Apps;
     // (undocumented)
@@ -42,15 +46,6 @@ export class AppPlatformManagementClient extends AppPlatformManagementClientCont
     skus: Skus;
     // (undocumented)
     storages: Storages;
-}
-
-// @public (undocumented)
-export class AppPlatformManagementClientContext extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: AppPlatformManagementClientOptionalParams);
-    // (undocumented)
-    apiVersion: string;
     // (undocumented)
     subscriptionId: string;
 }
@@ -561,7 +556,7 @@ export interface CustomDomainValidateResult {
 export interface CustomPersistentDiskProperties {
     mountOptions?: string[];
     mountPath: string;
-    readonly?: boolean;
+    readOnly?: boolean;
     type: "AzureFileVolume";
 }
 
@@ -656,6 +651,7 @@ export interface DeploymentsDeleteOptionalParams extends coreClient.OperationOpt
 
 // @public
 export interface DeploymentSettings {
+    containerProbeSettings?: DeploymentSettingsContainerProbeSettings;
     cpu?: number;
     environmentVariables?: {
         [propertyName: string]: string;
@@ -665,6 +661,11 @@ export interface DeploymentSettings {
     netCoreMainEntryPath?: string;
     resourceRequests?: ResourceRequests;
     runtimeVersion?: RuntimeVersion;
+}
+
+// @public
+export interface DeploymentSettingsContainerProbeSettings {
+    disableProbe?: boolean;
 }
 
 // @public
@@ -1613,7 +1614,6 @@ export interface UserSourceInfo {
 
 // @public
 export type UserSourceType = string;
-
 
 // (No @packageDocumentation comment for this package)
 

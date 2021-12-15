@@ -73,7 +73,8 @@ describe("StreamingReceiver unit tests", () => {
     it("errors thrown from the user's callback are marked as 'processMessageCallback' errors", async () => {
       const streamingReceiver = createTestStreamingReceiver("entity path", {
         lockRenewer: undefined,
-        receiveMode: "receiveAndDelete"
+        receiveMode: "receiveAndDelete",
+        skipParsingBodyAsJson: false
       });
 
       try {
@@ -243,7 +244,8 @@ describe("StreamingReceiver unit tests", () => {
   it("_setMessageHandlers", async () => {
     const streamingReceiver = createTestStreamingReceiver("entitypath", {
       lockRenewer: undefined,
-      receiveMode: "peekLock"
+      receiveMode: "peekLock",
+      skipParsingBodyAsJson: false
     });
 
     let processErrorMessages: string[] = [];

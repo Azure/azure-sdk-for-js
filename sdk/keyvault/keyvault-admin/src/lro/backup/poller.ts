@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { KeyVaultAdminPoller, KeyVaultAdminPollerOptions } from "../keyVaultAdminPoller";
 import {
-  KeyVaultBackupPollOperation,
   KeyVaultBackupOperationState,
+  KeyVaultBackupPollOperation,
   KeyVaultBackupPollOperationState
 } from "./operation";
-import { KeyVaultAdminPollerOptions, KeyVaultAdminPoller } from "../keyVaultAdminPoller";
 import { KeyVaultBackupResult } from "../../backupClientModels";
 
 export interface KeyVaultBackupPollerOptions extends KeyVaultAdminPollerOptions {

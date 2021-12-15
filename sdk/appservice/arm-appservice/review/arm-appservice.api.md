@@ -44,10 +44,10 @@ export interface AllowedAudiencesValidation {
 }
 
 // @public
-export type AllowedPrincipals = ProxyOnlyResource & {
+export interface AllowedPrincipals {
     groups?: string[];
     identities?: string[];
-};
+}
 
 // @public
 export interface AnalysisData {
@@ -99,11 +99,11 @@ export interface AppInsightsWebAppStackSettings {
 }
 
 // @public
-export type Apple = ProxyOnlyResource & {
+export interface Apple {
     enabled?: boolean;
-    registration?: AppleRegistration;
     login?: LoginScopes;
-};
+    registration?: AppleRegistration;
+}
 
 // @public
 export interface AppleRegistration {
@@ -153,10 +153,10 @@ export interface AppLogsConfiguration {
 }
 
 // @public
-export type AppRegistration = ProxyOnlyResource & {
+export interface AppRegistration {
     appId?: string;
     appSecretSettingName?: string;
-};
+}
 
 // @public
 export interface AppServiceCertificate {
@@ -1436,27 +1436,27 @@ export interface AzureActiveDirectory {
 }
 
 // @public
-export type AzureActiveDirectoryLogin = ProxyOnlyResource & {
-    loginParameters?: string[];
+export interface AzureActiveDirectoryLogin {
     disableWWWAuthenticate?: boolean;
-};
+    loginParameters?: string[];
+}
 
 // @public
-export type AzureActiveDirectoryRegistration = ProxyOnlyResource & {
-    openIdIssuer?: string;
+export interface AzureActiveDirectoryRegistration {
     clientId?: string;
-    clientSecretSettingName?: string;
-    clientSecretCertificateThumbprint?: string;
-    clientSecretCertificateSubjectAlternativeName?: string;
     clientSecretCertificateIssuer?: string;
-};
+    clientSecretCertificateSubjectAlternativeName?: string;
+    clientSecretCertificateThumbprint?: string;
+    clientSecretSettingName?: string;
+    openIdIssuer?: string;
+}
 
 // @public
-export type AzureActiveDirectoryValidation = ProxyOnlyResource & {
-    jwtClaimChecks?: JwtClaimChecks;
+export interface AzureActiveDirectoryValidation {
     allowedAudiences?: string[];
     defaultAuthorizationPolicy?: DefaultAuthorizationPolicy;
-};
+    jwtClaimChecks?: JwtClaimChecks;
+}
 
 // @public
 export interface AzureBlobStorageApplicationLogsConfig {
@@ -1476,10 +1476,10 @@ export interface AzureBlobStorageHttpLogsConfig {
 export type AzureResourceType = "Website" | "TrafficManager";
 
 // @public
-export type AzureStaticWebApps = ProxyOnlyResource & {
+export interface AzureStaticWebApps {
     enabled?: boolean;
     registration?: AzureStaticWebAppsRegistration;
-};
+}
 
 // @public
 export interface AzureStaticWebAppsRegistration {
@@ -1582,9 +1582,9 @@ export interface BillingMeterCollection {
 }
 
 // @public
-export type BlobStorageTokenStore = ProxyOnlyResource & {
+export interface BlobStorageTokenStore {
     sasUrlSettingName?: string;
-};
+}
 
 // @public
 export type BuildStatus = string;
@@ -1817,6 +1817,14 @@ export type CertificatesUpdateResponse = Certificate;
 
 // @public
 export type Channels = "Notification" | "Api" | "Email" | "Webhook" | "All";
+
+// @public
+export interface CheckNameAvailabilityOptionalParams extends coreClient.OperationOptions {
+    isFqdn?: boolean;
+}
+
+// @public
+export type CheckNameAvailabilityResponse = ResourceNameAvailability;
 
 // @public
 export type CheckNameResourceTypes = string;
@@ -2110,11 +2118,11 @@ export type CustomHostnameAnalysisResult = ProxyOnlyResource & {
 export type CustomHostNameDnsRecordType = "CName" | "A";
 
 // @public
-export type CustomOpenIdConnectProvider = ProxyOnlyResource & {
+export interface CustomOpenIdConnectProvider {
     enabled?: boolean;
-    registration?: OpenIdConnectRegistration;
     login?: OpenIdConnectLogin;
-};
+    registration?: OpenIdConnectRegistration;
+}
 
 // @public
 export interface DatabaseBackupSetting {
@@ -3168,11 +3176,32 @@ export interface GeoRegionCollection {
 }
 
 // @public
-export type GitHub = ProxyOnlyResource & {
+export interface GetPublishingUserOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GetPublishingUserResponse = User;
+
+// @public
+export interface GetSourceControlOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GetSourceControlResponse = SourceControl;
+
+// @public
+export interface GetSubscriptionDeploymentLocationsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GetSubscriptionDeploymentLocationsResponse = DeploymentLocations;
+
+// @public
+export interface GitHub {
     enabled?: boolean;
-    registration?: ClientRegistration;
     login?: LoginScopes;
-};
+    registration?: ClientRegistration;
+}
 
 // @public
 export interface GitHubActionCodeConfiguration {
@@ -3247,12 +3276,12 @@ export interface GlobalValidation {
 }
 
 // @public
-export type Google = ProxyOnlyResource & {
+export interface Google {
     enabled?: boolean;
-    registration?: ClientRegistration;
     login?: LoginScopes;
+    registration?: ClientRegistration;
     validation?: AllowedAudiencesValidation;
-};
+}
 
 // @public
 export interface HandlerMapping {
@@ -3921,12 +3950,12 @@ export interface KubeEnvironmentsUpdateOptionalParams extends coreClient.Operati
 export type KubeEnvironmentsUpdateResponse = KubeEnvironment;
 
 // @public
-export type LegacyMicrosoftAccount = ProxyOnlyResource & {
+export interface LegacyMicrosoftAccount {
     enabled?: boolean;
-    registration?: ClientRegistration;
     login?: LoginScopes;
+    registration?: ClientRegistration;
     validation?: AllowedAudiencesValidation;
-};
+}
 
 // @public
 export interface LinuxJavaContainerSettings {
@@ -3939,6 +3968,95 @@ export interface LinuxJavaContainerSettings {
     readonly java11Runtime?: string;
     readonly java8Runtime?: string;
 }
+
+// @public
+export interface ListBillingMetersNextOptionalParams extends coreClient.OperationOptions {
+    billingLocation?: string;
+    osType?: string;
+}
+
+// @public
+export type ListBillingMetersNextResponse = BillingMeterCollection;
+
+// @public
+export interface ListBillingMetersOptionalParams extends coreClient.OperationOptions {
+    billingLocation?: string;
+    osType?: string;
+}
+
+// @public
+export type ListBillingMetersResponse = BillingMeterCollection;
+
+// @public
+export interface ListGeoRegionsNextOptionalParams extends coreClient.OperationOptions {
+    linuxDynamicWorkersEnabled?: boolean;
+    linuxWorkersEnabled?: boolean;
+    sku?: SkuName;
+    xenonWorkersEnabled?: boolean;
+}
+
+// @public
+export type ListGeoRegionsNextResponse = GeoRegionCollection;
+
+// @public
+export interface ListGeoRegionsOptionalParams extends coreClient.OperationOptions {
+    linuxDynamicWorkersEnabled?: boolean;
+    linuxWorkersEnabled?: boolean;
+    sku?: SkuName;
+    xenonWorkersEnabled?: boolean;
+}
+
+// @public
+export type ListGeoRegionsResponse = GeoRegionCollection;
+
+// @public
+export interface ListPremierAddOnOffersNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ListPremierAddOnOffersNextResponse = PremierAddOnOfferCollection;
+
+// @public
+export interface ListPremierAddOnOffersOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ListPremierAddOnOffersResponse = PremierAddOnOfferCollection;
+
+// @public
+export interface ListSiteIdentifiersAssignedToHostNameNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ListSiteIdentifiersAssignedToHostNameNextResponse = IdentifierCollection;
+
+// @public
+export interface ListSiteIdentifiersAssignedToHostNameOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ListSiteIdentifiersAssignedToHostNameResponse = IdentifierCollection;
+
+// @public
+export interface ListSkusOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ListSkusResponse = SkuInfos;
+
+// @public
+export interface ListSourceControlsNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ListSourceControlsNextResponse = SourceControlCollection;
+
+// @public
+export interface ListSourceControlsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ListSourceControlsResponse = SourceControlCollection;
 
 // @public
 export type LoadBalancingMode = string;
@@ -4066,6 +4184,10 @@ export type MigrateMySqlStatus = ProxyOnlyResource & {
     readonly operationId?: string;
     readonly localMySqlEnabled?: boolean;
 };
+
+// @public
+export interface MoveOptionalParams extends coreClient.OperationOptions {
+}
 
 // @public
 export type MSDeploy = ProxyOnlyResource & {
@@ -4922,84 +5044,84 @@ export interface ResourceHealthMetadataCollection {
 }
 
 // @public
+export interface ResourceHealthMetadataGetBySiteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ResourceHealthMetadataGetBySiteResponse = ResourceHealthMetadata;
+
+// @public
+export interface ResourceHealthMetadataGetBySiteSlotOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ResourceHealthMetadataGetBySiteSlotResponse = ResourceHealthMetadata;
+
+// @public
+export interface ResourceHealthMetadataListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ResourceHealthMetadataListByResourceGroupNextResponse = ResourceHealthMetadataCollection;
+
+// @public
+export interface ResourceHealthMetadataListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ResourceHealthMetadataListByResourceGroupResponse = ResourceHealthMetadataCollection;
+
+// @public
+export interface ResourceHealthMetadataListBySiteNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ResourceHealthMetadataListBySiteNextResponse = ResourceHealthMetadataCollection;
+
+// @public
+export interface ResourceHealthMetadataListBySiteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ResourceHealthMetadataListBySiteResponse = ResourceHealthMetadataCollection;
+
+// @public
+export interface ResourceHealthMetadataListBySiteSlotNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ResourceHealthMetadataListBySiteSlotNextResponse = ResourceHealthMetadataCollection;
+
+// @public
+export interface ResourceHealthMetadataListBySiteSlotOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ResourceHealthMetadataListBySiteSlotResponse = ResourceHealthMetadataCollection;
+
+// @public
+export interface ResourceHealthMetadataListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ResourceHealthMetadataListNextResponse = ResourceHealthMetadataCollection;
+
+// @public
+export interface ResourceHealthMetadataListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ResourceHealthMetadataListResponse = ResourceHealthMetadataCollection;
+
+// @public
 export interface ResourceHealthMetadataOperations {
-    getBySite(resourceGroupName: string, name: string, options?: ResourceHealthMetadataOperationsGetBySiteOptionalParams): Promise<ResourceHealthMetadataOperationsGetBySiteResponse>;
-    getBySiteSlot(resourceGroupName: string, name: string, slot: string, options?: ResourceHealthMetadataOperationsGetBySiteSlotOptionalParams): Promise<ResourceHealthMetadataOperationsGetBySiteSlotResponse>;
-    list(options?: ResourceHealthMetadataOperationsListOptionalParams): PagedAsyncIterableIterator<ResourceHealthMetadata>;
-    listByResourceGroup(resourceGroupName: string, options?: ResourceHealthMetadataOperationsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<ResourceHealthMetadata>;
-    listBySite(resourceGroupName: string, name: string, options?: ResourceHealthMetadataOperationsListBySiteOptionalParams): PagedAsyncIterableIterator<ResourceHealthMetadata>;
-    listBySiteSlot(resourceGroupName: string, name: string, slot: string, options?: ResourceHealthMetadataOperationsListBySiteSlotOptionalParams): PagedAsyncIterableIterator<ResourceHealthMetadata>;
+    getBySite(resourceGroupName: string, name: string, options?: ResourceHealthMetadataGetBySiteOptionalParams): Promise<ResourceHealthMetadataGetBySiteResponse>;
+    getBySiteSlot(resourceGroupName: string, name: string, slot: string, options?: ResourceHealthMetadataGetBySiteSlotOptionalParams): Promise<ResourceHealthMetadataGetBySiteSlotResponse>;
+    list(options?: ResourceHealthMetadataListOptionalParams): PagedAsyncIterableIterator<ResourceHealthMetadata>;
+    listByResourceGroup(resourceGroupName: string, options?: ResourceHealthMetadataListByResourceGroupOptionalParams): PagedAsyncIterableIterator<ResourceHealthMetadata>;
+    listBySite(resourceGroupName: string, name: string, options?: ResourceHealthMetadataListBySiteOptionalParams): PagedAsyncIterableIterator<ResourceHealthMetadata>;
+    listBySiteSlot(resourceGroupName: string, name: string, slot: string, options?: ResourceHealthMetadataListBySiteSlotOptionalParams): PagedAsyncIterableIterator<ResourceHealthMetadata>;
 }
-
-// @public
-export interface ResourceHealthMetadataOperationsGetBySiteOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ResourceHealthMetadataOperationsGetBySiteResponse = ResourceHealthMetadata;
-
-// @public
-export interface ResourceHealthMetadataOperationsGetBySiteSlotOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ResourceHealthMetadataOperationsGetBySiteSlotResponse = ResourceHealthMetadata;
-
-// @public
-export interface ResourceHealthMetadataOperationsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ResourceHealthMetadataOperationsListByResourceGroupNextResponse = ResourceHealthMetadataCollection;
-
-// @public
-export interface ResourceHealthMetadataOperationsListByResourceGroupOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ResourceHealthMetadataOperationsListByResourceGroupResponse = ResourceHealthMetadataCollection;
-
-// @public
-export interface ResourceHealthMetadataOperationsListBySiteNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ResourceHealthMetadataOperationsListBySiteNextResponse = ResourceHealthMetadataCollection;
-
-// @public
-export interface ResourceHealthMetadataOperationsListBySiteOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ResourceHealthMetadataOperationsListBySiteResponse = ResourceHealthMetadataCollection;
-
-// @public
-export interface ResourceHealthMetadataOperationsListBySiteSlotNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ResourceHealthMetadataOperationsListBySiteSlotNextResponse = ResourceHealthMetadataCollection;
-
-// @public
-export interface ResourceHealthMetadataOperationsListBySiteSlotOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ResourceHealthMetadataOperationsListBySiteSlotResponse = ResourceHealthMetadataCollection;
-
-// @public
-export interface ResourceHealthMetadataOperationsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ResourceHealthMetadataOperationsListNextResponse = ResourceHealthMetadataCollection;
-
-// @public
-export interface ResourceHealthMetadataOperationsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ResourceHealthMetadataOperationsListResponse = ResourceHealthMetadataCollection;
 
 // @public
 export interface ResourceMetricAvailability {
@@ -6583,10 +6705,10 @@ export type TriggeredWebJobStatus = "Success" | "Failed" | "Error";
 export type TriggerTypes = string;
 
 // @public
-export type Twitter = ProxyOnlyResource & {
+export interface Twitter {
     enabled?: boolean;
     registration?: TwitterRegistration;
-};
+}
 
 // @public
 export interface TwitterRegistration {
@@ -6599,6 +6721,20 @@ export type UnauthenticatedClientAction = "RedirectToLoginPage" | "AllowAnonymou
 
 // @public
 export type UnauthenticatedClientActionV2 = "RedirectToLoginPage" | "AllowAnonymous" | "Return401" | "Return403";
+
+// @public
+export interface UpdatePublishingUserOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type UpdatePublishingUserResponse = User;
+
+// @public
+export interface UpdateSourceControlOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type UpdateSourceControlResponse = SourceControl;
 
 // @public
 export type Usage = ProxyOnlyResource & {
@@ -6637,6 +6773,17 @@ export interface UserAssignedIdentity {
 }
 
 // @public
+export interface ValidateMoveOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ValidateOperationResponse = ValidateResponse;
+
+// @public
+export interface ValidateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
 export interface ValidateRequest {
     appServiceEnvironment?: AppServiceEnvironment;
     capacity?: number;
@@ -6671,6 +6818,13 @@ export interface ValidateResponseError {
     code?: string;
     message?: string;
 }
+
+// @public
+export interface VerifyHostingEnvironmentVnetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type VerifyHostingEnvironmentVnetResponse = VnetValidationFailureDetails;
 
 // @public
 export interface VirtualApplication {
@@ -10361,8 +10515,12 @@ export type WebSiteInstanceStatus = ProxyOnlyResource & {
 };
 
 // @public (undocumented)
-export class WebSiteManagementClient extends WebSiteManagementClientContext {
+export class WebSiteManagementClient extends coreClient.ServiceClient {
+    // (undocumented)
+    $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: WebSiteManagementClientOptionalParams);
+    // (undocumented)
+    apiVersion: string;
     // (undocumented)
     appServiceCertificateOrders: AppServiceCertificateOrders;
     // (undocumented)
@@ -10375,7 +10533,7 @@ export class WebSiteManagementClient extends WebSiteManagementClientContext {
     certificateRegistrationProvider: CertificateRegistrationProvider;
     // (undocumented)
     certificates: Certificates;
-    checkNameAvailability(name: string, typeParam: CheckNameResourceTypes, options?: WebSiteManagementClientCheckNameAvailabilityOptionalParams): Promise<WebSiteManagementClientCheckNameAvailabilityResponse>;
+    checkNameAvailability(name: string, typeParam: CheckNameResourceTypes, options?: CheckNameAvailabilityOptionalParams): Promise<CheckNameAvailabilityResponse>;
     // (undocumented)
     deletedWebApps: DeletedWebApps;
     // (undocumented)
@@ -10384,21 +10542,20 @@ export class WebSiteManagementClient extends WebSiteManagementClientContext {
     domainRegistrationProvider: DomainRegistrationProvider;
     // (undocumented)
     domains: Domains;
-    generateGithubAccessTokenForAppserviceCLIAsync(code: string, state: string, options?: WebSiteManagementClientGenerateGithubAccessTokenForAppserviceCLIAsyncOptionalParams): Promise<WebSiteManagementClientGenerateGithubAccessTokenForAppserviceCLIAsyncResponse>;
-    getPublishingUser(options?: WebSiteManagementClientGetPublishingUserOptionalParams): Promise<WebSiteManagementClientGetPublishingUserResponse>;
-    getSourceControl(sourceControlType: string, options?: WebSiteManagementClientGetSourceControlOptionalParams): Promise<WebSiteManagementClientGetSourceControlResponse>;
-    getSubscriptionDeploymentLocations(options?: WebSiteManagementClientGetSubscriptionDeploymentLocationsOptionalParams): Promise<WebSiteManagementClientGetSubscriptionDeploymentLocationsResponse>;
+    getPublishingUser(options?: GetPublishingUserOptionalParams): Promise<GetPublishingUserResponse>;
+    getSourceControl(sourceControlType: string, options?: GetSourceControlOptionalParams): Promise<GetSourceControlResponse>;
+    getSubscriptionDeploymentLocations(options?: GetSubscriptionDeploymentLocationsOptionalParams): Promise<GetSubscriptionDeploymentLocationsResponse>;
     // (undocumented)
     global: Global;
     // (undocumented)
     kubeEnvironments: KubeEnvironments;
-    listBillingMeters(options?: WebSiteManagementClientListBillingMetersOptionalParams): PagedAsyncIterableIterator<BillingMeter>;
-    listGeoRegions(options?: WebSiteManagementClientListGeoRegionsOptionalParams): PagedAsyncIterableIterator<GeoRegion>;
-    listPremierAddOnOffers(options?: WebSiteManagementClientListPremierAddOnOffersOptionalParams): PagedAsyncIterableIterator<PremierAddOnOffer>;
-    listSiteIdentifiersAssignedToHostName(nameIdentifier: NameIdentifier, options?: WebSiteManagementClientListSiteIdentifiersAssignedToHostNameOptionalParams): PagedAsyncIterableIterator<Identifier>;
-    listSkus(options?: WebSiteManagementClientListSkusOptionalParams): Promise<WebSiteManagementClientListSkusResponse>;
-    listSourceControls(options?: WebSiteManagementClientListSourceControlsOptionalParams): PagedAsyncIterableIterator<SourceControl>;
-    move(resourceGroupName: string, moveResourceEnvelope: CsmMoveResourceEnvelope, options?: WebSiteManagementClientMoveOptionalParams): Promise<void>;
+    listBillingMeters(options?: ListBillingMetersOptionalParams): PagedAsyncIterableIterator<BillingMeter>;
+    listGeoRegions(options?: ListGeoRegionsOptionalParams): PagedAsyncIterableIterator<GeoRegion>;
+    listPremierAddOnOffers(options?: ListPremierAddOnOffersOptionalParams): PagedAsyncIterableIterator<PremierAddOnOffer>;
+    listSiteIdentifiersAssignedToHostName(nameIdentifier: NameIdentifier, options?: ListSiteIdentifiersAssignedToHostNameOptionalParams): PagedAsyncIterableIterator<Identifier>;
+    listSkus(options?: ListSkusOptionalParams): Promise<ListSkusResponse>;
+    listSourceControls(options?: ListSourceControlsOptionalParams): PagedAsyncIterableIterator<SourceControl>;
+    move(resourceGroupName: string, moveResourceEnvelope: CsmMoveResourceEnvelope, options?: MoveOptionalParams): Promise<void>;
     // (undocumented)
     provider: Provider;
     // (undocumented)
@@ -10408,154 +10565,16 @@ export class WebSiteManagementClient extends WebSiteManagementClientContext {
     // (undocumented)
     staticSites: StaticSites;
     // (undocumented)
+    subscriptionId: string;
+    // (undocumented)
     topLevelDomains: TopLevelDomains;
-    updatePublishingUser(userDetails: User, options?: WebSiteManagementClientUpdatePublishingUserOptionalParams): Promise<WebSiteManagementClientUpdatePublishingUserResponse>;
-    updateSourceControl(sourceControlType: string, requestMessage: SourceControl, options?: WebSiteManagementClientUpdateSourceControlOptionalParams): Promise<WebSiteManagementClientUpdateSourceControlResponse>;
-    validate(resourceGroupName: string, validateRequest: ValidateRequest, options?: WebSiteManagementClientValidateOptionalParams): Promise<WebSiteManagementClientValidateResponse>;
-    validateMove(resourceGroupName: string, moveResourceEnvelope: CsmMoveResourceEnvelope, options?: WebSiteManagementClientValidateMoveOptionalParams): Promise<void>;
-    verifyHostingEnvironmentVnet(parameters: VnetParameters, options?: WebSiteManagementClientVerifyHostingEnvironmentVnetOptionalParams): Promise<WebSiteManagementClientVerifyHostingEnvironmentVnetResponse>;
+    updatePublishingUser(userDetails: User, options?: UpdatePublishingUserOptionalParams): Promise<UpdatePublishingUserResponse>;
+    updateSourceControl(sourceControlType: string, requestMessage: SourceControl, options?: UpdateSourceControlOptionalParams): Promise<UpdateSourceControlResponse>;
+    validate(resourceGroupName: string, validateRequest: ValidateRequest, options?: ValidateOptionalParams): Promise<ValidateOperationResponse>;
+    validateMove(resourceGroupName: string, moveResourceEnvelope: CsmMoveResourceEnvelope, options?: ValidateMoveOptionalParams): Promise<void>;
+    verifyHostingEnvironmentVnet(parameters: VnetParameters, options?: VerifyHostingEnvironmentVnetOptionalParams): Promise<VerifyHostingEnvironmentVnetResponse>;
     // (undocumented)
     webApps: WebApps;
-}
-
-// @public
-export interface WebSiteManagementClientCheckNameAvailabilityOptionalParams extends coreClient.OperationOptions {
-    isFqdn?: boolean;
-}
-
-// @public
-export type WebSiteManagementClientCheckNameAvailabilityResponse = ResourceNameAvailability;
-
-// @public (undocumented)
-export class WebSiteManagementClientContext extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: WebSiteManagementClientOptionalParams);
-    // (undocumented)
-    apiVersion: string;
-    // (undocumented)
-    subscriptionId: string;
-}
-
-// @public
-export interface WebSiteManagementClientGenerateGithubAccessTokenForAppserviceCLIAsyncOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WebSiteManagementClientGenerateGithubAccessTokenForAppserviceCLIAsyncResponse = AppserviceGithubToken;
-
-// @public
-export interface WebSiteManagementClientGetPublishingUserOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WebSiteManagementClientGetPublishingUserResponse = User;
-
-// @public
-export interface WebSiteManagementClientGetSourceControlOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WebSiteManagementClientGetSourceControlResponse = SourceControl;
-
-// @public
-export interface WebSiteManagementClientGetSubscriptionDeploymentLocationsOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WebSiteManagementClientGetSubscriptionDeploymentLocationsResponse = DeploymentLocations;
-
-// @public
-export interface WebSiteManagementClientListBillingMetersNextOptionalParams extends coreClient.OperationOptions {
-    billingLocation?: string;
-    osType?: string;
-}
-
-// @public
-export type WebSiteManagementClientListBillingMetersNextResponse = BillingMeterCollection;
-
-// @public
-export interface WebSiteManagementClientListBillingMetersOptionalParams extends coreClient.OperationOptions {
-    billingLocation?: string;
-    osType?: string;
-}
-
-// @public
-export type WebSiteManagementClientListBillingMetersResponse = BillingMeterCollection;
-
-// @public
-export interface WebSiteManagementClientListGeoRegionsNextOptionalParams extends coreClient.OperationOptions {
-    linuxDynamicWorkersEnabled?: boolean;
-    linuxWorkersEnabled?: boolean;
-    sku?: SkuName;
-    xenonWorkersEnabled?: boolean;
-}
-
-// @public
-export type WebSiteManagementClientListGeoRegionsNextResponse = GeoRegionCollection;
-
-// @public
-export interface WebSiteManagementClientListGeoRegionsOptionalParams extends coreClient.OperationOptions {
-    linuxDynamicWorkersEnabled?: boolean;
-    linuxWorkersEnabled?: boolean;
-    sku?: SkuName;
-    xenonWorkersEnabled?: boolean;
-}
-
-// @public
-export type WebSiteManagementClientListGeoRegionsResponse = GeoRegionCollection;
-
-// @public
-export interface WebSiteManagementClientListPremierAddOnOffersNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WebSiteManagementClientListPremierAddOnOffersNextResponse = PremierAddOnOfferCollection;
-
-// @public
-export interface WebSiteManagementClientListPremierAddOnOffersOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WebSiteManagementClientListPremierAddOnOffersResponse = PremierAddOnOfferCollection;
-
-// @public
-export interface WebSiteManagementClientListSiteIdentifiersAssignedToHostNameNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WebSiteManagementClientListSiteIdentifiersAssignedToHostNameNextResponse = IdentifierCollection;
-
-// @public
-export interface WebSiteManagementClientListSiteIdentifiersAssignedToHostNameOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WebSiteManagementClientListSiteIdentifiersAssignedToHostNameResponse = IdentifierCollection;
-
-// @public
-export interface WebSiteManagementClientListSkusOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WebSiteManagementClientListSkusResponse = SkuInfos;
-
-// @public
-export interface WebSiteManagementClientListSourceControlsNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WebSiteManagementClientListSourceControlsNextResponse = SourceControlCollection;
-
-// @public
-export interface WebSiteManagementClientListSourceControlsOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WebSiteManagementClientListSourceControlsResponse = SourceControlCollection;
-
-// @public
-export interface WebSiteManagementClientMoveOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
@@ -10564,38 +10583,6 @@ export interface WebSiteManagementClientOptionalParams extends coreClient.Servic
     apiVersion?: string;
     endpoint?: string;
 }
-
-// @public
-export interface WebSiteManagementClientUpdatePublishingUserOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WebSiteManagementClientUpdatePublishingUserResponse = User;
-
-// @public
-export interface WebSiteManagementClientUpdateSourceControlOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WebSiteManagementClientUpdateSourceControlResponse = SourceControl;
-
-// @public
-export interface WebSiteManagementClientValidateMoveOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export interface WebSiteManagementClientValidateOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WebSiteManagementClientValidateResponse = ValidateResponse;
-
-// @public
-export interface WebSiteManagementClientVerifyHostingEnvironmentVnetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type WebSiteManagementClientVerifyHostingEnvironmentVnetResponse = VnetValidationFailureDetails;
 
 // @public
 export interface WindowsJavaContainerSettings {
