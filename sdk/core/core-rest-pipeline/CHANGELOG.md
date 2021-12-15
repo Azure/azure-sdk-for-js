@@ -12,7 +12,7 @@
   - `RetryStrategy` defines whether to retry and how to retry.
   - `RetryStrategyState` keeps track of the last retry and controls how to do the subsequent retries.
 - Previous retry policies have been enhanced with better error handling.
-- A new `defaultRetryPolicy` is added, which has the same behavior as all the other retry policies combined (`throttlingRetryPolicy`, `systemErrorRetryPolicy` and `exponentialRetryPolicy`). 
+- A new `defaultRetryPolicy` is added, which has the same behavior as all the other retry policies combined (`throttlingRetryPolicy`, `systemErrorRetryPolicy` and `exponentialRetryPolicy`).
 - `createPipelineFromOptions` has been updated to ensure retries are properly traced.
 
 ### Breaking Changes
