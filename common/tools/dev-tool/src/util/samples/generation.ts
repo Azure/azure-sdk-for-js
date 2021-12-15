@@ -1,5 +1,4 @@
 import fs from "fs-extra";
-import { EOL } from "os";
 import path from "path";
 import { copy, dir, file, FileTreeFactory, lazy, safeClean, temp } from "../fileTree";
 import { findMatchingFiles } from "../findMatchingFiles";
@@ -261,7 +260,7 @@ export function createReadme(
           products: info.productSlugs,
           urlFragment: `${info.baseName}-${fullOutputKind}${info.isBeta ? "-beta" : ""}`,
         },
-    publicationDirectory,
+    publicationDirectory: publicationDirectory.split(path.sep).join("/"),
     useTypeScript: outputKind === OutputKind.TypeScript,
     ...info,
     moduleInfos: info.moduleInfos.filter((mod) => mod.summary !== undefined),
@@ -326,11 +325,11 @@ export async function makeSamplesFactory(
         // We also need to clean up extra blank lines that might be left behind by
         // removing azsdk tags. These regular expressions are extremely frustrating
         // because they deal almost exclusively in the literal "/" and "*" characters.
-        .replace(/(\s+\*)+\//s, EOL + " */")
+        .replace(/(\s+\*)+\//s, "\n */")
         // Clean up blank lines at the beginning
-        .replace(/\/\*\*(\s+\*)*/s, `/**${EOL} *`)
+        .replace(/\/\*\*(\s+\*)*/s, `/**\n *`)
         // Finally remove empty doc comments.
-        .replace(/\s*\/\*\*(\s+\*)*\/\s*/s, EOL + EOL)
+        .replace(/\s*\/\*\*(\s+\*)*\/\s*/s, "\n\n")
     );
   }
 

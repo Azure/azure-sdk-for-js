@@ -44,13 +44,14 @@ const NEWLINE_SIGIL_SEARCH = /\r?\n\s*\/\/@@TS-MAGIC-NEWLINE@@\r?\n/;
 const REGEX_STACK: Array<[RegExp | (() => RegExp), string]> = [
   // `require("dotenv").config()` is just a little cleaner for CJS
   [
-    /(\n*)const\s+dotenv\s*=\s*require\s*\(\s*"dotenv"\s*\)\s*;\s*\n*\s*dotenv\s*\.\s*config/,
-    '$1require("dotenv").config',
+    () =>
+      /^const\s+dotenv\s*=\s*require\s*\(\s*"dotenv"\s*\)\s*;\s*(\r?\n)*\s*dotenv\s*\.\s*config/gm,
+    'require("dotenv").config',
   ],
   // Remove exports. We would have to recreate all nodes to do this with the API.
   [() => /^export(\s+default)?\s/gm, ""],
   // Give `module.exports =` some breathing room
-  [() => /([^\n])\nmodule\.exports/g, "$1\n\nmodule.exports"],
+  [() => /([^\n])\r?\nmodule\.exports/g, `$1${EOL + EOL}module.exports`],
 ];
 
 /**
