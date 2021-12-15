@@ -88,13 +88,11 @@ export function retryPolicy(
           const strategyLogger = strategy.logger || retryPolicyLogger;
           strategyLogger.info(`Retry ${retryCount}: Processing retry strategy ${strategy.name}.`);
 
-          const information: RetryInformation = {
+          const modifiers = strategy.retry({
             retryCount,
             response,
             responseError
-          };
-
-          const modifiers = strategy.retry(information);
+          });
 
           if (modifiers.skipStrategy) {
             strategyLogger.info(`Retry ${retryCount}: Skipped.`);
@@ -132,6 +130,10 @@ export function retryPolicy(
           logger.info(`Returning the last received response.`);
           return response;
         }
+
+        // If all the retries skip and there's no response,
+        // we're still in the retry loop, so a new request will be sent
+        // until `maxRetries` is reached.
       }
     }
   };
