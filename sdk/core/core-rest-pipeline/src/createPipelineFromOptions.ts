@@ -2,12 +2,10 @@
 // Licensed under the MIT license.
 
 import { ProxySettings } from ".";
+import { PipelineRetryOptions } from "./interfaces";
 import { Pipeline, createEmptyPipeline } from "./pipeline";
 import { decompressResponsePolicy } from "./policies/decompressResponsePolicy";
-import {
-  exponentialRetryPolicy,
-  ExponentialRetryPolicyOptions
-} from "./policies/exponentialRetryPolicy";
+import { exponentialRetryPolicy } from "./policies/exponentialRetryPolicy";
 import { formDataPolicy } from "./policies/formDataPolicy";
 import { logPolicy, LogPolicyOptions } from "./policies/logPolicy";
 import { proxyPolicy } from "./policies/proxyPolicy";
@@ -27,7 +25,7 @@ export interface PipelineOptions {
   /**
    * Options that control how to retry failed requests.
    */
-  retryOptions?: ExponentialRetryPolicyOptions;
+  retryOptions?: PipelineRetryOptions;
 
   /**
    * Options to configure a proxy for outgoing requests.
@@ -72,7 +70,7 @@ export function createPipelineFromOptions(options: InternalPipelineOptions): Pip
   pipeline.addPolicy(tracingPolicy(options.userAgentOptions));
   pipeline.addPolicy(userAgentPolicy(options.userAgentOptions));
   pipeline.addPolicy(setClientRequestIdPolicy());
-  pipeline.addPolicy(throttlingRetryPolicy(), { phase: "Retry" });
+  pipeline.addPolicy(throttlingRetryPolicy(options.retryOptions), { phase: "Retry" });
   pipeline.addPolicy(systemErrorRetryPolicy(options.retryOptions), { phase: "Retry" });
   pipeline.addPolicy(exponentialRetryPolicy(options.retryOptions), { phase: "Retry" });
   pipeline.addPolicy(redirectPolicy(options.redirectOptions), { afterPhase: "Retry" });

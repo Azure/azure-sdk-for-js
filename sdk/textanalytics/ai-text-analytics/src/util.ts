@@ -190,6 +190,9 @@ export function compileError(errorResponse: unknown): any {
     };
     statusCode: number;
   };
+  if (!castErrorResponse.response) {
+    throw errorResponse;
+  }
   const topLevelError = castErrorResponse.response.parsedBody?.error;
   if (!topLevelError) return errorResponse;
   let errorMessage = topLevelError.message || "";

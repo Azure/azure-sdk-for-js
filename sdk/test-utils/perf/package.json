@@ -63,7 +63,7 @@
     "@azure/core-http": "^2.0.0",
     "@azure/core-rest-pipeline": "^1.1.0",
     "tslib": "^2.2.0",
-    "node-fetch": "^2.6.0",
+    "node-fetch": "^2.6.6",
     "minimist": "~1.2.5",
     "@types/minimist": "~1.2.0"
   },

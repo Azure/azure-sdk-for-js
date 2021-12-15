@@ -1,16 +1,23 @@
-## Release History
+# Release History
+    
+## 1.0.0-beta.2 (2021-12-14)
+    
+**Features**
 
-### 1.0.0-beta.2 (Unreleased)
+  - Added Interface VideoAnalyzerManagementClientOptionalParams
+  - Added Class VideoAnalyzerManagementClient
+  - Added Type Alias VideoAnalyzer
+  - Add parameters of VideoAnalyzer to TypeAlias VideoAnalyzersUpdateResponse
 
-#### Features Added
+**Breaking Changes**
 
-#### Breaking Changes
-
-#### Bugs Fixed
-
-#### Other Changes
-
-### 1.0.0-beta.1 (2021-10-27)
+  - Operation VideoAnalyzers.beginCreateOrUpdate has a new signature
+  - Operation VideoAnalyzers.beginCreateOrUpdateAndWait has a new signature
+  - Deleted Class VideoAnalyzer
+  - Deleted Class VideoAnalyzerContext
+  - Delete parameters of VideoAnalyzer_2 in TypeAlias VideoAnalyzersUpdateResponse
+    
+## 1.0.0-beta.1 (2021-10-27)
 
 This is the first preview for the new version of the `@azure/arm-videoanalyzer` package that follows the new [guidelines for TypeScript SDKs](https://azure.github.io/azure-sdk/typescript_introduction.html) for Azure services.
 

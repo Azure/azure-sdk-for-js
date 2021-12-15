@@ -6,13 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { MigrationConfigs } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { ServiceBusManagementClientContext } from "../serviceBusManagementClientContext";
+import { ServiceBusManagementClient } from "../serviceBusManagementClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
@@ -34,13 +33,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing MigrationConfigs operations. */
 export class MigrationConfigsImpl implements MigrationConfigs {
-  private readonly client: ServiceBusManagementClientContext;
+  private readonly client: ServiceBusManagementClient;
 
   /**
    * Initialize a new instance of the class MigrationConfigs class.
    * @param client Reference to the service client
    */
-  constructor(client: ServiceBusManagementClientContext) {
+  constructor(client: ServiceBusManagementClient) {
     this.client = client;
   }
 
@@ -330,9 +329,9 @@ const listOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.namespaceName,
-    Parameters.subscriptionId
+    Parameters.namespaceName1
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -358,13 +357,13 @@ const createAndStartMigrationOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters14,
+  requestBody: Parameters.parameters9,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.namespaceName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.namespaceName1,
     Parameters.configName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
@@ -385,9 +384,9 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.namespaceName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.namespaceName1,
     Parameters.configName
   ],
   headerParameters: [Parameters.accept],
@@ -408,9 +407,9 @@ const getOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.namespaceName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.namespaceName1,
     Parameters.configName
   ],
   headerParameters: [Parameters.accept],
@@ -429,9 +428,9 @@ const completeMigrationOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.namespaceName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.namespaceName1,
     Parameters.configName
   ],
   headerParameters: [Parameters.accept],
@@ -450,9 +449,9 @@ const revertOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.namespaceName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.namespaceName1,
     Parameters.configName
   ],
   headerParameters: [Parameters.accept],
@@ -472,9 +471,9 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.namespaceName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.namespaceName1,
     Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
