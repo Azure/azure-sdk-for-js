@@ -85,6 +85,7 @@ export class ShortCodesClient {
     };
 
     this.client = new ShortCodesGeneratedClient(url, internalPipelineOptions);
+
     if (isTokenCredential(credential)) {
       this.client.pipeline.addPolicy(createCommunicationAuthPolicy(credential));
     } else {
