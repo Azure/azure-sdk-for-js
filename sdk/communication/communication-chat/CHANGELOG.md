@@ -6,6 +6,13 @@
 
 - Prohibit sending the typing notification request within 8 seconds of the previous request.
 
+### Features Added
+
+- Updated to @azure/communication-signaling@1.0.0-beta.12.
+- Added two new APIs:
+  - on(event: "realTimeNotificationConnected", listener: () => void): void;
+  - on(event: "realTimeNotificationDisconnected", listener: () => void): void;
+
 ## 1.1.1 (2021-10-19)
 
 ### Features Added
