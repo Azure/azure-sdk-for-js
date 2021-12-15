@@ -40,7 +40,15 @@ export interface ExponentialRetryPolicyOptions {
 export function exponentialRetryPolicy(
   options: ExponentialRetryPolicyOptions = {}
 ): PipelinePolicy {
-  return retryPolicy([exponentialRetryStrategy(options)], {
-    maxRetries: options.maxRetries ?? 10
-  });
+  return retryPolicy(
+    [
+      exponentialRetryStrategy({
+        ...options,
+        ignoreSystemErrors: true
+      })
+    ],
+    {
+      maxRetries: options.maxRetries ?? 10
+    }
+  );
 }

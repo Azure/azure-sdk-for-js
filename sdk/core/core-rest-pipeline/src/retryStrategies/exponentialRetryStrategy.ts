@@ -12,7 +12,9 @@ const DEFAULT_CLIENT_RETRY_INTERVAL = 1000;
 const DEFAULT_CLIENT_MAX_RETRY_INTERVAL = 1000 * 64;
 
 /**
- * Exponential retry strategy
+ * A retry strategy that retries with an exponentially increasing delay in these two cases:
+ * - When there are errors in the underlying transport layer (e.g. DNS lookup failures).
+ * - Or otherwise if the outgoing request fails (408, greater or equal than 500, except for 501 and 505).
  */
 export function exponentialRetryStrategy(
   options: {
@@ -28,6 +30,16 @@ export function exponentialRetryStrategy(
      * to 64000 (64 seconds).
      */
     maxRetryDelayInMs?: number;
+
+    /**
+     * If true it won't retry if it received a system error.
+     */
+    ignoreSystemErrors?: boolean;
+
+    /**
+     * If true it won't retry if it received a non-fatal HTTP status code.
+     */
+    ignoreHttpStatusCodes?: boolean;
   } = {}
 ): RetryStrategy {
   const retryInterval = options.retryDelayInMs ?? DEFAULT_CLIENT_RETRY_INTERVAL;
@@ -38,10 +50,13 @@ export function exponentialRetryStrategy(
   return {
     name: "exponentialRetryStrategy",
     retry({ retryCount, response, responseError }) {
-      if (
-        !isSystemError(responseError) &&
-        (!isExponentialRetryResponse(response) || isThrottlingRetryResponse(response))
-      ) {
+      if (isThrottlingRetryResponse(response)) {
+        return { skipStrategy: true };
+      }
+      const skippingIfSystemError = !options.ignoreSystemErrors && !isSystemError(responseError);
+      const skippingIfHttpStatusCode =
+        !options.ignoreHttpStatusCodes && !isExponentialRetryResponse(response);
+      if (skippingIfSystemError || skippingIfHttpStatusCode) {
         return { skipStrategy: true };
       }
 

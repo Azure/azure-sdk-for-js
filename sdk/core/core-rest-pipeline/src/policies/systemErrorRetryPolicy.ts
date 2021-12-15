@@ -44,8 +44,16 @@ export function systemErrorRetryPolicy(
 ): PipelinePolicy {
   return {
     name: systemErrorRetryPolicyName,
-    sendRequest: retryPolicy([exponentialRetryStrategy(options)], {
-      maxRetries: options.maxRetries ?? 10
-    }).sendRequest
+    sendRequest: retryPolicy(
+      [
+        exponentialRetryStrategy({
+          ...options,
+          ignoreHttpStatusCodes: true
+        })
+      ],
+      {
+        maxRetries: options.maxRetries ?? 10
+      }
+    ).sendRequest
   };
 }
