@@ -37,8 +37,8 @@ export interface CommunicationTokenCredential {
 
 // @public
 export interface CommunicationTokenRefreshOptions {
+    refreshIntervalBeforeTokenExpiryInSeconds?: number;
     refreshProactively?: boolean;
-    refreshTimeBeforeTokenExpiryInSeconds?: number;
     token?: string;
     tokenRefresher: (abortSignal?: AbortSignalLike) => Promise<string>;
 }

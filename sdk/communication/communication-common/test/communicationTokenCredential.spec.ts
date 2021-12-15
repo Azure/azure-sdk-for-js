@@ -119,7 +119,7 @@ describe("CommunicationTokenCredential", () => {
       tokenRefresher,
       token: generateToken(tokenValidityMinutes),
       refreshProactively: true,
-      refreshTimeBeforeTokenExpiryInSeconds: refreshMinutes * 60
+      refreshIntervalBeforeTokenExpiryInSeconds: refreshMinutes * 60
     });
     clock.tick((refreshMinutes - 5) * 60 * 1000);
     sinon.assert.notCalled(tokenRefresher);
@@ -133,7 +133,7 @@ describe("CommunicationTokenCredential", () => {
       tokenRefresher,
       token: generateToken(tokenValidityMinutes),
       refreshProactively: true,
-      refreshTimeBeforeTokenExpiryInSeconds: refreshMinutes * 60
+      refreshIntervalBeforeTokenExpiryInSeconds: refreshMinutes * 60
     });
     clock.tick((refreshMinutes + 5) * 60 * 1000);
     sinon.assert.calledOnce(tokenRefresher);
