@@ -8,7 +8,7 @@ import {
   PipelineRequestOptions
 } from "@azure/core-rest-pipeline";
 import { ServiceClient } from "@azure/core-client";
-import { recorderHttpPolicy, TestProxyHttpClient } from "../src";
+import { TestProxyHttpClient } from "../src";
 import { expect } from "chai";
 
 type TestMode = "record" | "playback" | "live" | undefined;
@@ -56,7 +56,7 @@ function getTestServerUrl() {
     beforeEach(async function() {
       recorder = new TestProxyHttpClient(this.currentTest);
       client = new ServiceClient({ baseUri: getTestServerUrl() });
-      client.pipeline.addPolicy(recorderHttpPolicy(recorder));
+      recorder.configureClient(client);
     });
 
     afterEach(async () => {
@@ -384,6 +384,48 @@ function getTestServerUrl() {
     });
 
     // Matchers
+
+    describe("Matchers", () => {
+      it("BodilessMatcher", async () => {
+        await recorder.start({ envSetupForPlayback: {} });
+        await recorder.setMatcher("BodilessMatcher");
+
+        // The body shouldn't matter for the match; verify this by using a
+        // different body in playback vs record mode.
+        const body = isPlaybackMode() ? "playback" : "record";
+
+        await makeRequestAndVerifyResponse(
+          {
+            path: `/sample_response`,
+            body,
+            method: "GET",
+            headers: [{ headerName: "Content-Type", value: "text/plain" }]
+          },
+          { val: "abc" }
+        );
+      });
+
+      it("HeaderlessMatcher", async () => {
+        await recorder.start({ envSetupForPlayback: {} });
+        await recorder.setMatcher("HeaderlessMatcher");
+
+        const testHeader = {
+          headerName: `X-Test-Header-${isPlaybackMode() ? "Playback" : "Record"}`,
+          value: isPlaybackMode() ? "playback" : "record"
+        };
+
+        await makeRequestAndVerifyResponse(
+          {
+            path: `/sample_response`,
+            body: "body",
+            method: "GET",
+            headers: [{ headerName: "Content-Type", value: "text/plain" }, testHeader]
+          },
+          { val: "abc" }
+        );
+      });
+    });
+
     // Transforms
 
     describe("Other methods", () => {

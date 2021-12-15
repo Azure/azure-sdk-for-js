@@ -2,9 +2,8 @@
 // Licensed under the MIT license.
 
 import { Buffer } from "buffer";
-import * as chai from "chai";
+import chai, { assert } from "chai";
 const should = chai.should();
-import * as assert from "assert";
 import isBuffer from "is-buffer";
 import { defaultDataTransformer } from "../../../src/dataTransformer";
 

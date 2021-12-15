@@ -1,4 +1,16 @@
-## 7.0.0-beta.1 (2021-11-18)
+## Release History
+
+### 7.0.0-beta.2 (Unreleased)
+
+#### Features Added
+
+#### Breaking Changes
+
+#### Bugs Fixed
+
+#### Other Changes
+
+### 7.0.0-beta.1 (2021-11-18)
 
 This is the first preview for the new version of the `@azure/arm-batch` package that follows the new [guidelines for TypeScript SDKs](https://azure.github.io/azure-sdk/typescript_introduction.html) for Azure services.
 

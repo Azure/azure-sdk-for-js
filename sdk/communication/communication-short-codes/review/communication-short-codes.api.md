@@ -4,6 +4,8 @@
 
 ```ts
 
+/// <reference lib="esnext.asynciterable" />
+
 import * as coreHttp from '@azure/core-http';
 import { KeyCredential } from '@azure/core-auth';
 import { OperationOptions } from '@azure/core-http';
@@ -213,7 +215,6 @@ export interface USProgramBrief {
     // (undocumented)
     trafficDetails?: TrafficDetails;
 }
-
 
 // (No @packageDocumentation comment for this package)
 

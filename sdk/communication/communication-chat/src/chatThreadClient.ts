@@ -465,13 +465,14 @@ export class ChatThreadClient {
     try {
       const dateNow = new Date();
       const { senderDisplayName, ...restOptions } = updatedOptions;
+
       if (this.canPostTypingNotification(dateNow)) {
+        this.timeOfLastTypingRequest = dateNow;
+
         await this.client.chatThread.sendTypingNotification(this.threadId, {
           sendTypingNotificationRequest: { senderDisplayName: senderDisplayName },
           ...restOptions
         });
-
-        this.timeOfLastTypingRequest = dateNow;
         return true;
       }
 

@@ -11,7 +11,7 @@ import { IdentityProvider } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { ApiManagementClientContext } from "../apiManagementClientContext";
+import { ApiManagementClient } from "../apiManagementClient";
 import {
   IdentityProviderContract,
   IdentityProviderListByServiceNextOptionalParams,
@@ -37,13 +37,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing IdentityProvider operations. */
 export class IdentityProviderImpl implements IdentityProvider {
-  private readonly client: ApiManagementClientContext;
+  private readonly client: ApiManagementClient;
 
   /**
    * Initialize a new instance of the class IdentityProvider class.
    * @param client Reference to the service client
    */
-  constructor(client: ApiManagementClientContext) {
+  constructor(client: ApiManagementClient) {
     this.client = client;
   }
 
