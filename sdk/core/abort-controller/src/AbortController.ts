@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AbortSignal, abortSignal, AbortSignalLike } from "./AbortSignal";
+import { AbortSignal, AbortSignalLike, abortSignal } from "./AbortSignal";
 
 /**
  * This error is thrown when an asynchronous operation has been aborted.

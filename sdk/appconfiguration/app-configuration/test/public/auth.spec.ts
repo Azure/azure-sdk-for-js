@@ -8,7 +8,7 @@ import {
   recorderStartOptions,
   getRandomNumber
 } from "./utils/testHelpers";
-import * as assert from "assert";
+import { assert } from "chai";
 import { Context } from "mocha";
 import { TestProxyHttpClientCoreV1 } from "@azure-tools/test-recorder-new";
 import { isPlaybackMode } from "@azure-tools/test-recorder";

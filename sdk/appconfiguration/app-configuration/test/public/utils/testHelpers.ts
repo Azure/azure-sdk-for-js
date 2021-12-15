@@ -10,17 +10,18 @@ import {
 } from "../../../src";
 import { env, isPlaybackMode } from "@azure-tools/test-recorder";
 import { RecorderStartOptions, NoOpCredential } from "@azure-tools/test-recorder-new";
-import * as assert from "assert";
 
 // allow loading from a .env file as an alternative to defining the variable
 // in the environment
-import * as dotenv from "dotenv";
 import {
   ClientSecretCredential,
   DefaultAzureCredentialOptions,
   TokenCredential
 } from "@azure/identity";
-dotenv.config();
+
+import { assert } from "chai";
+
+import { RestError } from "@azure/core-http";
 
 let connectionStringNotPresentWarning = false;
 
@@ -154,7 +155,7 @@ export function assertEqualSettings(
   actual = actual.map((setting) => {
     return {
       key: setting.key,
-      label: setting.label,
+      label: setting.label || undefined,
       value: setting.value,
       isReadOnly: setting.isReadOnly
     };
@@ -172,6 +173,9 @@ export async function assertThrowsRestError(
     await testFunction();
     assert.fail(`${message}: No error thrown`);
   } catch (err) {
+    if (!(err instanceof RestError)) {
+      throw new Error("Error is not recognized");
+    }
     if (err.name === "RestError") {
       assert.equal(expectedStatusCode, err.statusCode, message);
       return err;
@@ -191,7 +195,10 @@ export async function assertThrowsAbortError(
     await testFunction();
     assert.fail(`${message}: No error thrown`);
   } catch (e) {
-    if (!isPlaybackMode() && (e.name === "FetchError" || e.name === "AbortError")) {
+    if (!(e instanceof Error)) {
+      throw new Error("Error is not recognized");
+    }
+    if (isPlaybackMode() && (e.name === "FetchError" || e.name === "AbortError")) {
       return e;
     } else {
       assert.equal(e.name, "AbortError");

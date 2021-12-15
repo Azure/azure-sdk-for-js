@@ -26,6 +26,7 @@ import { SanitizerOptions } from "./utils/utils";
 import { paths } from "./utils/paths";
 import { Sanitizer } from "./sanitizer";
 import { handleEnvSetup } from "./utils/envSetupForPlayback";
+import { Matcher, setMatcher } from "./matcher";
 
 /**
  * This client manages the recorder life cycle and interacts with the proxy-tool to do the recording,
@@ -218,6 +219,19 @@ export class TestProxyHttpClient {
       } else {
         throw new RecorderError("Bad state, recordingId is not defined when called stop.");
       }
+    }
+  }
+
+  /**
+   * Sets the matcher for the current recording to the matcher specified.
+   */
+  async setMatcher(matcher: Matcher): Promise<void> {
+    if (this.mode === "playback") {
+      if (!this.httpClient) {
+        throw new RecorderError("httpClient should be defined in playback mode");
+      }
+
+      await setMatcher(this.url, this.httpClient, matcher, this.recordingId);
     }
   }
 

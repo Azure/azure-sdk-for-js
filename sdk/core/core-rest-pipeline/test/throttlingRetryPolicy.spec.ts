@@ -11,6 +11,7 @@ import {
   createHttpHeaders,
   throttlingRetryPolicy
 } from "../src";
+import { DEFAULT_CLIENT_MAX_RETRY_COUNT } from "../src/policies/throttlingRetryPolicy";
 
 describe("throttlingRetryPolicy", function() {
   afterEach(function() {
@@ -177,7 +178,7 @@ describe("throttlingRetryPolicy", function() {
     clock.restore();
   });
 
-  it("It should retry up to three times", async function(this: Context) {
+  it("It should retry up to the default max retries", async function(this: Context) {
     const clock = sinon.useFakeTimers();
 
     const request = createPipelineRequest({
@@ -193,11 +194,12 @@ describe("throttlingRetryPolicy", function() {
 
     const policy = throttlingRetryPolicy();
     const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
-    next.onCall(0).resolves(retryResponse);
-    next.onCall(1).resolves(retryResponse);
-    next.onCall(2).resolves(retryResponse);
+    let i = 0;
+    for (; i < DEFAULT_CLIENT_MAX_RETRY_COUNT; ++i) {
+      next.onCall(i).resolves(retryResponse);
+    }
     // This one should be returned
-    next.onCall(3).resolves({
+    next.onCall(i).resolves({
       headers: createHttpHeaders({
         "Retry-After": "1",
         "final-response": "final-response"
@@ -207,7 +209,7 @@ describe("throttlingRetryPolicy", function() {
     });
 
     const promise = policy.sendRequest(request, next);
-    await clock.tickAsync(3000);
+    await clock.tickAsync(i * 1000);
     const response = await promise;
     assert.equal(response.status, 503);
     assert.equal(response.headers.get("final-response"), "final-response");

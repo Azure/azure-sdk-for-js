@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 import debug, { Debugger } from "../src/debug";
-import { stub } from "sinon";
 import { assert } from "chai";
+import { stub } from "sinon";
 
 describe("debug", function() {
   let logger: Debugger;

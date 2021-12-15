@@ -6,13 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { PrivateEndpointConnections } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { ServiceBusManagementClientContext } from "../serviceBusManagementClientContext";
+import { ServiceBusManagementClient } from "../serviceBusManagementClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
@@ -32,13 +31,13 @@ import {
 /** Class containing PrivateEndpointConnections operations. */
 export class PrivateEndpointConnectionsImpl
   implements PrivateEndpointConnections {
-  private readonly client: ServiceBusManagementClientContext;
+  private readonly client: ServiceBusManagementClient;
 
   /**
    * Initialize a new instance of the class PrivateEndpointConnections class.
    * @param client Reference to the service client
    */
-  constructor(client: ServiceBusManagementClientContext) {
+  constructor(client: ServiceBusManagementClient) {
     this.client = client;
   }
 
@@ -297,9 +296,9 @@ const listOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.namespaceName,
-    Parameters.subscriptionId
+    Parameters.namespaceName1
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -319,13 +318,13 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters9,
+  requestBody: Parameters.parameters6,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.namespaceName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.namespaceName1,
     Parameters.privateEndpointConnectionName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
@@ -348,9 +347,9 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.namespaceName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.namespaceName1,
     Parameters.privateEndpointConnectionName
   ],
   headerParameters: [Parameters.accept],
@@ -371,9 +370,9 @@ const getOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.namespaceName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.namespaceName1,
     Parameters.privateEndpointConnectionName
   ],
   headerParameters: [Parameters.accept],
@@ -393,9 +392,9 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.namespaceName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.namespaceName1,
     Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
