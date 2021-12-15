@@ -139,7 +139,7 @@
     "karma-mocha-reporter": "^2.2.5",
     "karma-mocha": "^2.0.1",
     "karma": "^6.2.0",
-    "mocha-junit-reporter": "^1.18.0",
+    "mocha-junit-reporter": "^2.0.0",
     "mocha": "^7.1.1",
     "nyc": "^15.0.0",
     "prettier": "^1.16.4",
