@@ -45,12 +45,12 @@ beforeEach(function(this: Context) {
 });
 ```
 
-To enable the recorder, you should then initialize your SDK client as normal and attach the recorder policy to its pipeline:
+To enable the recorder, you should then initialize your SDK client as normal and use the recorder's `configureClient` method. This method will attach the necessary policies to the client for recording to be enabled.
 
 ```ts
 const client = /* ... initialize your client as normal ... */;
 // recorderHttpPolicy is provided as an export from the test-recorder-new package.
-client.pipeline.addPolicy(recorderHttpPolicy(recorder));
+recorder.configureClient(client);
 ```
 
 ### For Core v1 SDKs
