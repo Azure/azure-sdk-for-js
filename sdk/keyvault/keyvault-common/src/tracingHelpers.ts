@@ -35,9 +35,7 @@ export interface TracedFunction {
 export function createTraceFunction(_prefix: string): TracedFunction {
   const tracingClient = createTracingClient({
     namespace: "Microsoft.KeyVault",
-    packageInformation: {
-      name: "@azure/keyvault-common"
-    }
+    packageName: "@azure/keyvault-common"
   });
 
   return async function(operationName, options, cb) {
