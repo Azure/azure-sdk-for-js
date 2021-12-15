@@ -68,7 +68,7 @@ export function createPipelineFromOptions(options: InternalPipelineOptions): Pip
   pipeline.addPolicy(userAgentPolicy(options.userAgentOptions));
   pipeline.addPolicy(setClientRequestIdPolicy());
   pipeline.addPolicy(defaultRetryPolicy(), { phase: "Retry" });
-  pipeline.addPolicy(tracingPolicy(options.userAgentOptions), { phase: "Retry" });
+  pipeline.addPolicy(tracingPolicy(options.userAgentOptions), { afterPhase: "Retry" });
   pipeline.addPolicy(redirectPolicy(options.redirectOptions), { afterPhase: "Retry" });
   pipeline.addPolicy(logPolicy(options.loggingOptions), { afterPhase: "Retry" });
 
