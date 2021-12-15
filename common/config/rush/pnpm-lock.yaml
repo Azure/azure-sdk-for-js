@@ -8999,7 +8999,7 @@ packages:
     dev: false
 
   file:projects/arm-postgresql.tgz:
-    resolution: {integrity: sha512-6Q3ZBc6Sax4GFoLiiVyGs0g1pLyv2VU35AC1wTjcYkc6G2m53nCubCtEDkh6QgGl6X+llsIEr71KK9PZNC3Gow==, tarball: file:projects/arm-postgresql.tgz}
+    resolution: {integrity: sha512-zSCnZiTUuJ3qyfFeLqzJl5p8diq7IGmXoxGemsFr3ApHDmnkHdxOkA7a0aRLnM/0fxJt9Nlvi0AA6GQgq2NB1w==, tarball: file:projects/arm-postgresql.tgz}
     name: '@rush-temp/arm-postgresql'
     version: 0.0.0
     dependencies:
@@ -9011,6 +9011,7 @@ packages:
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
+      rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
@@ -9207,7 +9208,7 @@ packages:
     dev: false
 
   file:projects/arm-security.tgz:
-    resolution: {integrity: sha512-bgaJINuiFpBkVPyJPozqWwkUI710zyhqGyubymaep78wZS/ncMV19d6ZoY7xCIqdl6hok9Al0QK0JuV28GUKPw==, tarball: file:projects/arm-security.tgz}
+    resolution: {integrity: sha512-F3OhbZcyJmfqpT5xlnBR1/4sgGLw9DlPrDMZ3PmKZOlqG1joUvrcQ57aE+YAmwMR+dr2dFB3Dvyb6pP1dwQp8Q==, tarball: file:projects/arm-security.tgz}
     name: '@rush-temp/arm-security'
     version: 0.0.0
     dependencies:
@@ -9219,6 +9220,7 @@ packages:
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
+      rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
@@ -9227,7 +9229,7 @@ packages:
     dev: false
 
   file:projects/arm-servicebus.tgz:
-    resolution: {integrity: sha512-IUTGAWXcntlWJN71Tv3hOp8z6RQtTIn6WfNio1IXRKipZ7MTm3UvLDaZFkYIS8tPqzP6+ErnOt+i/twF6uGHzg==, tarball: file:projects/arm-servicebus.tgz}
+    resolution: {integrity: sha512-wpZLIJN8lPkDfOvX+vdJNe1GmwrqRaNU5eHYWWdAuag36dZYmuRnnnBt7B31oJ8mOwAjIbykSDeOYX+t9ZgghA==, tarball: file:projects/arm-servicebus.tgz}
     name: '@rush-temp/arm-servicebus'
     version: 0.0.0
     dependencies:
@@ -9236,7 +9238,10 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
       '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
       mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
