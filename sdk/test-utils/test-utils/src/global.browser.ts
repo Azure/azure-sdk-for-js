@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export function getGlobalObject(): unknown {
+export function getGlobalObject(): any {
   return self;
 }

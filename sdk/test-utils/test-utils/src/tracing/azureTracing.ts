@@ -1,6 +1,6 @@
 import { OperationTracingOptions, useInstrumenter } from "@azure/core-tracing";
 import { assert } from "chai";
-import { TestInstrumenter } from "..";
+import { TestInstrumenter } from "./testInstrumenter";
 import { SpanGraph, SpanGraphNode } from "./spanGraphModel";
 // this is the plugin used in the test file
 function chaiAzureTrace(chai: Chai.ChaiStatic, _utils: Chai.ChaiUtils): void {
