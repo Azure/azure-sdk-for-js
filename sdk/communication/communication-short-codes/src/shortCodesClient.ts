@@ -29,7 +29,7 @@ import {
 /**
  * Client options used to configure the ShortCodesClient API requests.
  */
-export interface ShortCodesClientOptions extends CommonClientOptions { }
+export interface ShortCodesClientOptions extends CommonClientOptions {}
 
 const isShortCodesClientOptions = (options: any): options is ShortCodesClientOptions =>
   options && !isKeyCredential(options) && !isTokenCredential(options);
