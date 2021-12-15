@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
 import { HashMessage, HmacMessage } from "./webworker";
+import { assert } from "chai";
 
 describe("SHA-256 (WebWorker)", function() {
   const worker = new Worker("/base/dist-test/webworker.js");

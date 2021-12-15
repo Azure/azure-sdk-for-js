@@ -27,7 +27,7 @@ const replaceableVariables: { [k: string]: string } = {
   TEXT_ANALYTICS_MULTI_CATEGORY_CLASSIFY_DEPLOYMENT_NAME: "deployment_name"
 };
 
-export const environmentSetup: RecorderEnvironmentSetup = {
+const environmentSetup: RecorderEnvironmentSetup = {
   replaceableVariables,
   customizationsOnRecordings: [
     (recording: string): string =>

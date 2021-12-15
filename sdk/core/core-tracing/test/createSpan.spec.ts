@@ -1,19 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
 import {
-  setSpan,
+  Context,
   SpanKind,
-  context as otContext,
   getSpanContext,
-  Context
+  context as otContext,
+  setSpan
 } from "../src/interfaces";
-
-import { TestSpan } from "./util/testSpan";
 import { createSpanFunction, isTracingDisabled, knownSpanAttributes } from "../src/createSpan";
 import { OperationTracingOptions } from "../src/interfaces";
+import { TestSpan } from "./util/testSpan";
 import { TestTracerProvider } from "./util/testTracerProvider";
+import { assert } from "chai";
 
 describe("createSpan", () => {
   let createSpan: ReturnType<typeof createSpanFunction>;

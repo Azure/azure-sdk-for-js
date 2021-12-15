@@ -153,7 +153,7 @@ export interface MicrosoftTeamsUserKind extends MicrosoftTeamsUserIdentifier {
 }
 
 /**
- * IdentifierKind for UnkownIdentifer.
+ * IdentifierKind for UnknownIdentifier.
  */
 export interface UnknownIdentifierKind extends UnknownIdentifier {
   /**

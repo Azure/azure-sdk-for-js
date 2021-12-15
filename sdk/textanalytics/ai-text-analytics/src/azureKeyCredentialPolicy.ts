@@ -14,7 +14,7 @@ const API_KEY_HEADER_NAME = "Ocp-Apim-Subscription-Key";
 /**
  * The programmatic identifier of the textAnalyticsAzureKeyCredentialPolicy.
  */
-export const textAnalyticsAzureKeyCredentialPolicyName = "textAnalyticsAzureKeyCredentialPolicy";
+const textAnalyticsAzureKeyCredentialPolicyName = "textAnalyticsAzureKeyCredentialPolicy";
 
 /**
  * Create an HTTP pipeline policy to authenticate a request

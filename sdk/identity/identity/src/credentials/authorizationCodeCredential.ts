@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-auth";
-import { TokenCredentialOptions } from "../client/identityClient";
+import { TokenCredentialOptions } from "../tokenCredentialOptions";
 import { credentialLogger } from "../util/logging";
 import { checkTenantId } from "../util/checkTenantId";
 import { MsalAuthorizationCode } from "../msal/nodeFlows/msalAuthorizationCode";
@@ -33,7 +33,7 @@ export class AuthorizationCodeCredential implements TokenCredential {
    * the authorization code flow to obtain an authorization code to be used
    * with this credential.  A full example of this flow is provided here:
    *
-   * https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/manual/authorizationCodeSample.ts
+   * https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/v2/manual/authorizationCodeSample.ts
    *
    * @param tenantId - The Azure Active Directory tenant (directory) ID or name.
    *                 'common' may be used when dealing with multi-tenant scenarios.
@@ -63,7 +63,7 @@ export class AuthorizationCodeCredential implements TokenCredential {
    * the authorization code flow to obtain an authorization code to be used
    * with this credential.  A full example of this flow is provided here:
    *
-   * https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/manual/authorizationCodeSample.ts
+   * https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/v2/manual/authorizationCodeSample.ts
    *
    * @param tenantId - The Azure Active Directory tenant (directory) ID or name.
    *                 'common' may be used when dealing with multi-tenant scenarios.
@@ -101,7 +101,7 @@ export class AuthorizationCodeCredential implements TokenCredential {
       // the clientId+clientSecret constructor
       this.authorizationCode = authorizationCodeOrRedirectUri;
       this.redirectUri = redirectUriOrOptions;
-      // options okay
+      // in this case, options are good as they come
     } else {
       // clientId only
       this.authorizationCode = clientSecretOrAuthorizationCode;

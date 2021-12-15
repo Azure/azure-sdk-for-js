@@ -16,7 +16,6 @@ const {
   AzureKeyCredential
 } = require("@azure/ai-form-recognizer");
 
-// Load the .env file if it exists
 const dotenv = require("dotenv");
 dotenv.config();
 

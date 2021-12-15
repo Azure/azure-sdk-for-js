@@ -2,11 +2,10 @@
 // Licensed under the MIT license.
 
 import { Connection, ConnectionOptions, generate_uuid } from "rhea-promise";
+import { getFrameworkInfo, getPlatformInfo } from "./util/runtimeInfo";
 import { CbsClient } from "./cbs";
 import { ConnectionConfig } from "./connectionConfig/connectionConfig";
-
 import { Constants } from "./util/constants";
-import { getFrameworkInfo, getPlatformInfo } from "./util/runtimeInfo";
 import { isNode } from "./util/utils";
 
 /**

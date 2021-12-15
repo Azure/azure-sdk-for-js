@@ -1,20 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { HttpOperationResponse } from "../httpOperationResponse";
-import { OperationResponse } from "../operationResponse";
-import { OperationSpec } from "../operationSpec";
-import { RestError } from "../restError";
-import { MapperType } from "../serializer";
-import { parseXML } from "../util/xml";
-import { WebResourceLike } from "../webResource";
 import {
   BaseRequestPolicy,
   RequestPolicy,
   RequestPolicyFactory,
   RequestPolicyOptions
 } from "./requestPolicy";
-import { XML_CHARKEY, SerializerOptions } from "../util/serializer.common";
+import { SerializerOptions, XML_CHARKEY } from "../util/serializer.common";
+import { HttpOperationResponse } from "../httpOperationResponse";
+import { MapperType } from "../serializer";
+import { OperationResponse } from "../operationResponse";
+import { OperationSpec } from "../operationSpec";
+import { RestError } from "../restError";
+import { WebResourceLike } from "../webResource";
+import { parseXML } from "../util/xml";
 
 /**
  * Options to configure API response deserialization.
@@ -144,6 +144,14 @@ function shouldDeserializeResponse(parsedResponse: HttpOperationResponse): boole
   return result;
 }
 
+/**
+ * Given a particular set of content types to parse as either JSON or XML, consumes the HTTP response to produce the result object defined by the request's {@link OperationSpec}.
+ * @param jsonContentTypes - Response content types to parse the body as JSON.
+ * @param xmlContentTypes  - Response content types to parse the body as XML.
+ * @param response - HTTP Response from the pipeline.
+ * @param options  - Options to the serializer, mostly for configuring the XML parser if needed.
+ * @returns A parsed {@link HttpOperationResponse} object that can be returned by the {@link ServiceClient}.
+ */
 export function deserializeResponseBody(
   jsonContentTypes: string[],
   xmlContentTypes: string[],

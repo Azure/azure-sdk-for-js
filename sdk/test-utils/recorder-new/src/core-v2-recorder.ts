@@ -12,9 +12,10 @@ import {
   PipelineResponse,
   SendRequest
 } from "@azure/core-rest-pipeline";
-import { env, isPlaybackMode, isRecordMode } from "@azure-tools/test-recorder";
+import { isPlaybackMode, isRecordMode } from "@azure-tools/test-recorder";
 import {
   ensureExistence,
+  getTestMode,
   RecorderError,
   RecorderStartOptions,
   RecordingStateManager
@@ -25,6 +26,7 @@ import { SanitizerOptions } from "./utils/utils";
 import { paths } from "./utils/paths";
 import { Sanitizer } from "./sanitizer";
 import { handleEnvSetup } from "./utils/envSetupForPlayback";
+import { Matcher, setMatcher } from "./matcher";
 
 /**
  * This client manages the recorder life cycle and interacts with the proxy-tool to do the recording,
@@ -42,8 +44,27 @@ export class TestProxyHttpClient {
   private sessionFile: string | undefined = undefined;
   private sanitizer: Sanitizer | undefined;
 
+  /**
+   * Add the dynamically created variables here in the record mode, so that the recorder registers them as part of the recording.
+   * Using this "variables" in playback mode would give the key-value pairs that are stored in record mode.
+   *
+   * Example:
+   *  ```ts
+   *       if (!isPlaybackMode()) {
+   *           recorder.variables["random-1"] = `random-${Math.ceil(Math.random() * 1000 + 1000)}`;
+   *       }
+   *  ```
+   * Use this `recorder.variables["random-1"]` whereever you'd like to use in your test.
+   *      (This would work in all three modes - record/playback/live just by adding the if-block above)
+   *
+   * Internals(How does it work?):
+   *  - recorder.stop() call sends the variables to the proxy-tool (in record mode)
+   *  - recorder.start() call loads those variables given by the proxy tool (in playback mode)
+   */
+  public variables: Record<string, string>;
+
   constructor(private testContext?: Test | undefined) {
-    this.mode = env.TEST_MODE;
+    this.mode = getTestMode();
     if (isRecordMode() || isPlaybackMode()) {
       if (this.testContext) {
         this.sessionFile = sessionFilePath(this.testContext);
@@ -55,6 +76,7 @@ export class TestProxyHttpClient {
       }
       this.sanitizer = new Sanitizer(this.mode, this.url, this.httpClient);
     }
+    this.variables = {};
   }
 
   /**
@@ -151,20 +173,23 @@ export class TestProxyHttpClient {
             throw new RecorderError("No recording ID returned for a successful start request.");
           }
           this.recordingId = id;
+          if (isPlaybackMode()) {
+            this.variables = rsp.bodyAsText ? JSON.parse(rsp.bodyAsText) : {};
+          }
           if (ensureExistence(this.sanitizer, "TestProxyHttpClient.sanitizer", this.mode)) {
             // Setting the recordingId in the sanitizer,
             // the sanitizers added will take the recording id and only be part of the current test
             this.sanitizer.setRecordingId(this.recordingId);
             await handleEnvSetup(options.envSetupForPlayback, this.sanitizer);
           }
+          // Sanitizers to be added only in record mode
+          if (isRecordMode() && options.sanitizerOptions) {
+            // Makes a call to the proxy-tool to add the sanitizers for the current recording id
+            // Recordings of the current test will be influenced by the sanitizers that are being added here
+            await this.addSanitizers(options.sanitizerOptions);
+          }
         }
       }
-    }
-
-    if (options.sanitizerOptions) {
-      // Makes a call to the proxy-tool to add the sanitizers for the current recording id
-      // Recordings of the current test will be influenced by the sanitizers that are being added here
-      await this.addSanitizers(options.sanitizerOptions);
     }
   }
 
@@ -181,6 +206,10 @@ export class TestProxyHttpClient {
         const req = this._createRecordingRequest(stopUri);
         req.headers.set("x-recording-save", "true");
 
+        if (isRecordMode()) {
+          req.headers.set("Content-Type", "application/json");
+          req.body = JSON.stringify(this.variables);
+        }
         if (ensureExistence(this.httpClient, "TestProxyHttpClient.httpClient", this.mode)) {
           const rsp = await this.httpClient.sendRequest({
             ...req,
@@ -193,6 +222,19 @@ export class TestProxyHttpClient {
       } else {
         throw new RecorderError("Bad state, recordingId is not defined when called stop.");
       }
+    }
+  }
+
+  /**
+   * Sets the matcher for the current recording to the matcher specified.
+   */
+  async setMatcher(matcher: Matcher): Promise<void> {
+    if (this.mode === "playback") {
+      if (!this.httpClient) {
+        throw new RecorderError("httpClient should be defined in playback mode");
+      }
+
+      await setMatcher(this.url, this.httpClient, matcher, this.recordingId);
     }
   }
 

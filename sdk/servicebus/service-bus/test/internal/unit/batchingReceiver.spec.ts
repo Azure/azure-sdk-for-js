@@ -53,7 +53,8 @@ describe("BatchingReceiver unit tests", () => {
         createConnectionContextForTests(),
         "fakeEntityPath",
         "peekLock",
-        1
+        1,
+        false
       );
       let wasCalled = false;
 
@@ -86,7 +87,8 @@ describe("BatchingReceiver unit tests", () => {
 
       const receiver = new BatchingReceiver(createConnectionContextForTests(), "fakeEntityPath", {
         receiveMode: "peekLock",
-        lockRenewer: undefined
+        lockRenewer: undefined,
+        skipParsingBodyAsJson: false
       });
 
       try {
@@ -105,7 +107,8 @@ describe("BatchingReceiver unit tests", () => {
 
       const receiver = new BatchingReceiver(createConnectionContextForTests(), "fakeEntityPath", {
         receiveMode: "peekLock",
-        lockRenewer: undefined
+        lockRenewer: undefined,
+        skipParsingBodyAsJson: false
       });
       closeables.push(receiver);
 
@@ -193,7 +196,8 @@ describe("BatchingReceiver unit tests", () => {
           "dummyEntityPath",
           {
             receiveMode: lockMode,
-            lockRenewer: undefined
+            lockRenewer: undefined,
+            skipParsingBodyAsJson: false
           }
         );
         closeables.push(batchingReceiver);
@@ -225,7 +229,8 @@ describe("BatchingReceiver unit tests", () => {
           "dummyEntityPath",
           {
             receiveMode: lockMode,
-            lockRenewer: undefined
+            lockRenewer: undefined,
+            skipParsingBodyAsJson: false
           }
         );
         closeables.push(receiver);
@@ -257,7 +262,8 @@ describe("BatchingReceiver unit tests", () => {
             "dummyEntityPath",
             {
               receiveMode: lockMode,
-              lockRenewer: undefined
+              lockRenewer: undefined,
+              skipParsingBodyAsJson: false
             }
           );
           closeables.push(batchingReceiver);
@@ -305,7 +311,8 @@ describe("BatchingReceiver unit tests", () => {
           "dummyEntityPath",
           {
             receiveMode: lockMode,
-            lockRenewer: undefined
+            lockRenewer: undefined,
+            skipParsingBodyAsJson: false
           }
         );
         closeables.push(batchingReceiver);
@@ -359,7 +366,8 @@ describe("BatchingReceiver unit tests", () => {
             "dummyEntityPath",
             {
               receiveMode: lockMode,
-              lockRenewer: undefined
+              lockRenewer: undefined,
+              skipParsingBodyAsJson: false
             }
           );
           closeables.push(batchingReceiver);
@@ -414,12 +422,12 @@ describe("BatchingReceiver unit tests", () => {
 
       function setupBatchingReceiver(
         batchingReceiver: BatchingReceiver,
-        clock?: ReturnType<typeof sinon.useFakeTimers>
+        clockParam?: ReturnType<typeof sinon.useFakeTimers>
       ): {
         receiveIsReady: Promise<void>;
         rheaReceiver: RheaPromiseReceiver;
       } {
-        const rheaReceiver = createFakeReceiver(clock);
+        const rheaReceiver = createFakeReceiver(clockParam);
 
         batchingReceiver["_link"] = rheaReceiver;
 
@@ -526,7 +534,8 @@ describe("BatchingReceiver unit tests", () => {
         async () => {
           return fakeRheaReceiver;
         },
-        "peekLock"
+        "peekLock",
+        false
       );
 
       assert.isFalse(batchingReceiver.isReceivingMessages);
@@ -541,7 +550,7 @@ describe("BatchingReceiver unit tests", () => {
       assert.isTrue(batchingReceiver.isReceivingMessages);
 
       await receiveIsReady;
-      await clock.tick(10 + 1);
+      clock.tick(10 + 1);
 
       await prm;
       assert.isFalse(batchingReceiver.isReceivingMessages);
@@ -556,7 +565,8 @@ describe("BatchingReceiver unit tests", () => {
         async () => {
           return fakeRheaReceiver;
         },
-        "peekLock"
+        "peekLock",
+        false
       );
 
       assert.notExists(batchingReceiver["_closeHandler"]);
@@ -572,7 +582,7 @@ describe("BatchingReceiver unit tests", () => {
       await receiveIsReady;
       assert.exists(batchingReceiver["_closeHandler"]);
 
-      await batchingReceiver.terminate(new Error("actual error"));
+      batchingReceiver.terminate(new Error("actual error"));
 
       try {
         await receiveMessagesPromise;
@@ -591,7 +601,8 @@ describe("BatchingReceiver unit tests", () => {
         async () => {
           return fakeRheaReceiver;
         },
-        "peekLock"
+        "peekLock",
+        false
       );
 
       assert.notExists(batchingReceiver["_closeHandler"]);
@@ -644,7 +655,8 @@ describe("BatchingReceiver unit tests", () => {
         async () => {
           return fakeRheaReceiver;
         },
-        "peekLock"
+        "peekLock",
+        false
       );
 
       batchingReceiverLite["_receiveMessagesImpl"](
@@ -654,8 +666,12 @@ describe("BatchingReceiver unit tests", () => {
           maxTimeAfterFirstMessageInMs: 1,
           maxWaitTimeInMs: 1
         },
-        () => {},
-        () => {}
+        () => {
+          /* empty body */
+        },
+        () => {
+          /* empty body */
+        }
       );
 
       assert.equal(
@@ -701,7 +717,8 @@ describe("BatchingReceiver unit tests", () => {
       async () => {
         return fakeRheaReceiver;
       },
-      "peekLock"
+      "peekLock",
+      false
     );
 
     const receiveIsReady = getReceiveIsReadyPromise(batchingReceiverLite);
@@ -814,7 +831,4 @@ function assertListenersRemoved(rheaReceiver: RheaPromiseReceiver): void {
       `No listeners should be registered for ${eventName} on the receiver.session`
     );
   }
-
-  // check the session as well
-  rheaReceiver.session;
 }

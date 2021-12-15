@@ -2,26 +2,26 @@
  "recordings": [
   {
    "method": "POST",
-   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "url": "https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token",
    "query": {},
-   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default",
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fsanitized%2F",
    "status": 200,
-   "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":86398,\"ext_expires_in\":86398,\"access_token\":\"access_token\"}",
    "responseHeaders": {
     "cache-control": "no-store, no-cache",
     "content-length": "1331",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 02 Jun 2021 07:08:16 GMT",
+    "date": "Tue, 16 Nov 2021 02:01:07 GMT",
     "expires": "-1",
     "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
-    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+wst\"}]}",
+    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+est\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11722.26 - WUS2 ProdSlices",
-    "x-ms-request-id": "fbb7c513-5808-42c0-84d4-26680dd29100"
+    "x-ms-ests-server": "2.1.12231.7 - WUS2 ProdSlices",
+    "x-ms-request-id": "ebce9ce4-154a-41e4-95ec-71316dd9ad00"
    }
   },
   {
@@ -30,18 +30,18 @@
    "query": {
     "$maxpagesize": "2"
    },
-   "requestBody": "{\"startTime\":\"2020-01-05T00:00:00.000Z\",\"endTime\":\"2020-11-05T00:00:00.000Z\",\"dimensionName\":\"city\"}",
+   "requestBody": "{\"startTime\":\"2021-05-05T00:00:00.000Z\",\"endTime\":\"2021-11-01T00:00:00.000Z\",\"dimensionName\":\"category\"}",
    "status": 200,
-   "response": "{\"value\":[\"__SUM__\",\"Karachi\"],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/26ece682-80a6-4415-89a2-05903dd9a640/anomalies/dimension/query?$maxpagesize=2&$skip=2\"}",
+   "response": "{\"value\":[\"__SUM__\",\"Shoes Handbags & Sunglasses\"],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/26ece682-80a6-4415-89a2-05903dd9a640/anomalies/dimension/query?$maxpagesize=2&$skip=2\"}",
    "responseHeaders": {
-    "apim-request-id": "45241c2c-ed96-41ca-be2a-6aeeab58ae6b",
-    "content-length": "253",
+    "apim-request-id": "0937b1e1-9dba-48b3-adfe-d9f955633df2",
+    "content-length": "273",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 02 Jun 2021 07:08:16 GMT",
+    "date": "Tue, 16 Nov 2021 02:01:08 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "178",
-    "x-request-id": "45241c2c-ed96-41ca-be2a-6aeeab58ae6b"
+    "x-envoy-upstream-service-time": "189",
+    "x-request-id": "0937b1e1-9dba-48b3-adfe-d9f955633df2"
    }
   },
   {
@@ -51,18 +51,18 @@
     "$maxpagesize": "2",
     "$skip": "2"
    },
-   "requestBody": "{\"startTime\":\"2020-01-05T00:00:00.000Z\",\"endTime\":\"2020-11-05T00:00:00.000Z\",\"dimensionName\":\"city\"}",
+   "requestBody": "{\"startTime\":\"2021-05-05T00:00:00.000Z\",\"endTime\":\"2021-11-01T00:00:00.000Z\",\"dimensionName\":\"category\"}",
    "status": 200,
-   "response": "{\"value\":[\"Los Angeles\",\"Delhi\"],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/26ece682-80a6-4415-89a2-05903dd9a640/anomalies/dimension/query?$maxpagesize=2&$skip=4\"}",
+   "response": "{\"value\":[\"Handmade\",\"Office Products\"],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/26ece682-80a6-4415-89a2-05903dd9a640/anomalies/dimension/query?$maxpagesize=2&$skip=4\"}",
    "responseHeaders": {
-    "apim-request-id": "eabe7464-8b11-4791-b159-ec83cf16deb7",
-    "content-length": "255",
+    "apim-request-id": "8d486726-d918-4b94-8960-7ffc608e7e42",
+    "content-length": "262",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 02 Jun 2021 07:08:16 GMT",
+    "date": "Tue, 16 Nov 2021 02:01:08 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "171",
-    "x-request-id": "eabe7464-8b11-4791-b159-ec83cf16deb7"
+    "x-envoy-upstream-service-time": "188",
+    "x-request-id": "8d486726-d918-4b94-8960-7ffc608e7e42"
    }
   }
  ],
@@ -70,5 +70,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "c2d4f2e678e5b1fe4f794c4cefaef692"
+ "hash": "e872bb33bc28e16e964a3ead10f3e967"
 }

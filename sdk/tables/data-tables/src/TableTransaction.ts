@@ -2,57 +2,57 @@
 // Licensed under the MIT license.
 
 import {
-  createHttpHeaders,
-  createPipelineRequest,
-  PipelineResponse,
-  RestError,
-  Pipeline,
-  PipelineRequest
-} from "@azure/core-rest-pipeline";
-import {
-  ServiceClient,
-  OperationOptions,
-  serializationPolicy,
-  serializationPolicyName,
-  ServiceClientOptions
-} from "@azure/core-client";
-import {
   DeleteTableEntityOptions,
   TableEntity,
-  UpdateMode,
-  UpdateTableEntityOptions,
-  TableTransactionResponse,
   TableTransactionEntityResponse,
-  TransactionAction
+  TableTransactionResponse,
+  TransactionAction,
+  UpdateMode,
+  UpdateTableEntityOptions
 } from "./models";
 import {
-  isNamedKeyCredential,
-  isSASCredential,
-  isTokenCredential,
   NamedKeyCredential,
   SASCredential,
-  TokenCredential
+  TokenCredential,
+  isNamedKeyCredential,
+  isSASCredential,
+  isTokenCredential
 } from "@azure/core-auth";
-import { getAuthorizationHeader } from "./tablesNamedCredentialPolicy";
-import { TableClientLike } from "./utils/internalModels";
-import { createSpan } from "./utils/tracing";
-import { SpanStatusCode } from "@azure/core-tracing";
-import { TableServiceErrorOdataError } from "./generated";
-import { getTransactionHeaders } from "./utils/transactionHeaders";
 import {
-  getTransactionHttpRequestBody,
-  getInitialTransactionBody
+  OperationOptions,
+  ServiceClient,
+  ServiceClientOptions,
+  serializationPolicy,
+  serializationPolicyName
+} from "@azure/core-client";
+import {
+  Pipeline,
+  PipelineRequest,
+  PipelineResponse,
+  RestError,
+  createHttpHeaders,
+  createPipelineRequest
+} from "@azure/core-rest-pipeline";
+import {
+  getInitialTransactionBody,
+  getTransactionHttpRequestBody
 } from "./utils/transactionHelpers";
-import { signURLWithSAS } from "./tablesSASTokenPolicy";
 import {
   transactionHeaderFilterPolicy,
-  transactionRequestAssemblePolicy,
   transactionHeaderFilterPolicyName,
+  transactionRequestAssemblePolicy,
   transactionRequestAssemblePolicyName
 } from "./TablePolicies";
-import { isCosmosEndpoint } from "./utils/isCosmosEndpoint";
-import { cosmosPatchPolicy } from "./cosmosPathPolicy";
 import { STORAGE_SCOPE } from "./utils/constants";
+import { SpanStatusCode } from "@azure/core-tracing";
+import { TableClientLike } from "./utils/internalModels";
+import { TableServiceErrorOdataError } from "./generated";
+import { cosmosPatchPolicy } from "./cosmosPathPolicy";
+import { createSpan } from "./utils/tracing";
+import { getAuthorizationHeader } from "./tablesNamedCredentialPolicy";
+import { getTransactionHeaders } from "./utils/transactionHeaders";
+import { isCosmosEndpoint } from "./utils/isCosmosEndpoint";
+import { signURLWithSAS } from "./tablesSASTokenPolicy";
 
 /**
  * Helper to build a list of transaction actions

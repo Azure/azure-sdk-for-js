@@ -2,26 +2,26 @@
  "recordings": [
   {
    "method": "POST",
-   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "url": "https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token",
    "query": {},
-   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default",
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fsanitized%2F",
    "status": 200,
    "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
    "responseHeaders": {
     "cache-control": "no-store, no-cache",
     "content-length": "1331",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 02 Jun 2021 07:08:20 GMT",
+    "date": "Tue, 16 Nov 2021 02:01:12 GMT",
     "expires": "-1",
     "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
-    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+wst\"}]}",
+    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+est\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11722.26 - WUS2 ProdSlices",
-    "x-ms-request-id": "a4eff776-b44f-486c-8748-c5b231c79100"
+    "x-ms-ests-server": "2.1.12231.7 - WUS2 ProdSlices",
+    "x-ms-request-id": "79a156df-eea6-4383-b247-a8bce2f8ce00"
    }
   },
   {
@@ -30,18 +30,18 @@
    "query": {
     "$maxpagesize": "2"
    },
-   "requestBody": "{\"activeSince\":\"2020-08-05T00:00:00.000Z\"}",
+   "requestBody": "{\"activeSince\":\"2021-08-05T00:00:00.000Z\"}",
    "status": 200,
-   "response": "{\"value\":[{\"metricId\":\"189ff959-d9f4-45c7-a1e0-f87c9c7ca80f\",\"dimension\":{\"city\":\"Miami\",\"category\":\"Health & Personal Care\"}},{\"metricId\":\"189ff959-d9f4-45c7-a1e0-f87c9c7ca80f\",\"dimension\":{\"city\":\"Rio de Janeiro\",\"category\":\"Historical & Advertising Collectibles\"}}],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/metrics/189ff959-d9f4-45c7-a1e0-f87c9c7ca80f/series/query?$maxpagesize=2&$skip=2\"}",
+   "response": "{\"value\":[{\"metricId\":\"189ff959-d9f4-45c7-a1e0-f87c9c7ca80f\",\"dimension\":{\"category\":\"Shoes Handbags & Sunglasses\",\"region\":\"Cairo\"}},{\"metricId\":\"189ff959-d9f4-45c7-a1e0-f87c9c7ca80f\",\"dimension\":{\"category\":\"Shoes Handbags & Sunglasses\",\"region\":\"__SUM__\"}}],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/metrics/189ff959-d9f4-45c7-a1e0-f87c9c7ca80f/series/query?$maxpagesize=2&$skip=2\"}",
    "responseHeaders": {
-    "apim-request-id": "aea1a721-1265-412c-871c-31e44e6345b4",
-    "content-length": "443",
+    "apim-request-id": "58050ce0-83c1-453b-a11d-1785b7ecfec8",
+    "content-length": "435",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 02 Jun 2021 07:08:20 GMT",
+    "date": "Tue, 16 Nov 2021 02:01:12 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "47",
-    "x-request-id": "aea1a721-1265-412c-871c-31e44e6345b4"
+    "x-envoy-upstream-service-time": "59",
+    "x-request-id": "58050ce0-83c1-453b-a11d-1785b7ecfec8"
    }
   },
   {
@@ -51,18 +51,18 @@
     "$maxpagesize": "2",
     "$skip": "2"
    },
-   "requestBody": "{\"activeSince\":\"2020-08-05T00:00:00.000Z\"}",
+   "requestBody": "{\"activeSince\":\"2021-08-05T00:00:00.000Z\"}",
    "status": 200,
-   "response": "{\"value\":[{\"metricId\":\"189ff959-d9f4-45c7-a1e0-f87c9c7ca80f\",\"dimension\":{\"city\":\"Belo Horizonte\",\"category\":\"Electronics (Consumer)\"}},{\"metricId\":\"189ff959-d9f4-45c7-a1e0-f87c9c7ca80f\",\"dimension\":{\"city\":\"Kinshasa\",\"category\":\"Beauty\"}}],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/metrics/189ff959-d9f4-45c7-a1e0-f87c9c7ca80f/series/query?$maxpagesize=2&$skip=4\"}",
+   "response": "{\"value\":[{\"metricId\":\"189ff959-d9f4-45c7-a1e0-f87c9c7ca80f\",\"dimension\":{\"category\":\"Office Products\",\"region\":\"Seoul\"}},{\"metricId\":\"189ff959-d9f4-45c7-a1e0-f87c9c7ca80f\",\"dimension\":{\"category\":\"__SUM__\",\"region\":\"Miami\"}}],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/metrics/189ff959-d9f4-45c7-a1e0-f87c9c7ca80f/series/query?$maxpagesize=2&$skip=4\"}",
    "responseHeaders": {
-    "apim-request-id": "358e796d-f212-47bd-a1ea-fffbd45f725f",
-    "content-length": "415",
+    "apim-request-id": "6e158a87-6be0-4db4-8c38-329bc9452e1c",
+    "content-length": "401",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 02 Jun 2021 07:08:20 GMT",
+    "date": "Tue, 16 Nov 2021 02:01:12 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "53",
-    "x-request-id": "358e796d-f212-47bd-a1ea-fffbd45f725f"
+    "x-envoy-upstream-service-time": "74",
+    "x-request-id": "6e158a87-6be0-4db4-8c38-329bc9452e1c"
    }
   }
  ],
@@ -70,5 +70,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "9f8ae67d376a3c5e30a4ff4999e9ef9f"
+ "hash": "5fe0ea30891204728ece130a9926a3aa"
 }

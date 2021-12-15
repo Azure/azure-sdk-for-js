@@ -20,6 +20,7 @@ export const commandInfo = makeCommandInfo(
 );
 
 const prettierOptions: prettier.Options = {
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
   ...(require("../../../../eslint-plugin-azure-sdk/prettier.json") as prettier.Options),
   parser: "typescript"
 };

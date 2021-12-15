@@ -6,15 +6,19 @@
     "noImplicitAny": true,
     "noImplicitReturns": false,
     "noFallthroughCasesInSwitch": false,
-    "outDir": "dist-esm",
+    "outDir": "./dist-esm",
     "preserveConstEnums": true,
     "removeComments": false,
     "target": "ES2017",
     "newLine": "LF",
     "resolveJsonModule": true,
+    "lib": ["es2019"],
+    "moduleResolution": "node",
     "composite": true,
     "stripInternal": true,
-    "rootDir": "src"
+    "paths": {
+      "@azure/cosmos": ["./src/index"]
+    }
   },
-  "include": ["src/**/*"]
+  "include": ["src/**/*.ts", "test/**/*.ts", "samples-dev/**/*.(ts|json)"]
 }

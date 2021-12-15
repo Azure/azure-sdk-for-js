@@ -2,10 +2,9 @@
 // Licensed under the MIT license.
 
 import * as msalNode from "@azure/msal-node";
-
 import { AccessToken } from "@azure/core-auth";
 
-import { MsalNodeOptions, MsalNode } from "./nodeCommon";
+import { MsalNodeOptions, MsalNode } from "./msalNodeCommon";
 import { CredentialFlowGetTokenOptions } from "../credentials";
 
 /**
@@ -41,7 +40,8 @@ export class MsalUsernamePassword extends MsalNode {
         username: this.username,
         password: this.password,
         correlationId: options?.correlationId,
-        authority: options?.authority
+        authority: options?.authority,
+        claims: options?.claims
       };
       const result = await this.publicApp!.acquireTokenByUsernamePassword(requestOptions);
       return this.handleResult(scopes, this.clientId, result || undefined);

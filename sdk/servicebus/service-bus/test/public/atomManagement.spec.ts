@@ -62,7 +62,7 @@ const serviceApiVersions = ["2021-05", "2017-04"];
 let serviceBusAtomManagementClient: ServiceBusAdministrationClient;
 
 // TEST_MODE must be set to "live" to run both the versions
-versionsToTest(serviceApiVersions, {}, (serviceVersion, {}) => {
+versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
   describe(`ATOM APIs - version ${serviceVersion}`, () => {
     before(() => {
       serviceBusAtomManagementClient = new ServiceBusAdministrationClient(
@@ -1863,21 +1863,6 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion, {}) => {
         output: RuleProperties;
       }[] = [
         {
-          testCaseTitle: "Undefined rule options",
-          input: undefined,
-          output: {
-            filter: {
-              sqlExpression: "1=1",
-              sqlParameters: undefined
-            },
-            action: {
-              sqlExpression: undefined,
-              sqlParameters: undefined
-            },
-            name: managementRule1
-          }
-        },
-        {
           testCaseTitle: "Sql Filter rule options",
           input: {
             filter: {
@@ -2610,16 +2595,14 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion, {}) => {
 
       switch (testEntityType) {
         case EntityType.QUEUE: {
-          const queueResponse = await atomClient.createQueue(entityPath, {
+          return atomClient.createQueue(entityPath, {
             ...queueOptions
           });
-          return queueResponse;
         }
         case EntityType.TOPIC: {
-          const topicResponse = await atomClient.createTopic(entityPath, {
+          return atomClient.createTopic(entityPath, {
             ...topicOptions
           });
-          return topicResponse;
         }
         case EntityType.SUBSCRIPTION: {
           if (!topicPath) {
@@ -2638,14 +2621,25 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion, {}) => {
               "TestError: Topic path AND subscription path must be passed when invoking tests on rules"
             );
           }
-          const ruleResponse = await atomClient.createRule(
-            topicPath,
-            subscriptionPath,
-            entityPath,
-            ruleOptions?.filter!,
-            ruleOptions?.action!
-          );
-          return ruleResponse;
+          if (!ruleOptions?.filter) {
+            throw new Error("TestError: ruleOptions.filter should have been set");
+          }
+          if (ruleOptions?.action) {
+            return atomClient.createRule(
+              topicPath,
+              subscriptionPath,
+              entityPath,
+              ruleOptions?.filter,
+              ruleOptions?.action
+            );
+          } else {
+            return atomClient.createRule(
+              topicPath,
+              subscriptionPath,
+              entityPath,
+              ruleOptions?.filter
+            );
+          }
         }
       }
       throw new Error("TestError: Unrecognized EntityType");
@@ -2985,7 +2979,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion, {}) => {
       const premiumConnectionString = getEnvVarValue("SERVICEBUS_CONNECTION_STRING_PREMIUM");
       let atomClient: ServiceBusAdministrationClient;
       let entityNameWithmaxSize: { entityName: string; maxSize: number };
-      before(function() {
+      before(function(this: Mocha.Context) {
         if (!premiumConnectionString) {
           this.skip();
         }
@@ -2995,7 +2989,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion, {}) => {
       function setEntityNameWithMaxSize(
         type: EntityType.QUEUE | EntityType.TOPIC,
         maxSize?: number
-      ) {
+      ): void {
         entityNameWithmaxSize = {
           entityName: `${type}-${maxSize}`,
           maxSize: !maxSize ? Math.ceil(1024 + Math.random() * (102400 - 1024)) : maxSize // If not provided, we'll give one that follows - "> 1024" & "< 102400"
@@ -3006,7 +3000,9 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion, {}) => {
         return Math.random() > 0.5 ? EntityType.QUEUE : EntityType.TOPIC;
       }
 
-      async function verifyAndDeleteEntity(type: EntityType.QUEUE | EntityType.TOPIC) {
+      async function verifyAndDeleteEntity(
+        type: EntityType.QUEUE | EntityType.TOPIC
+      ): Promise<void> {
         assert.equal(
           (
             await getEntity(

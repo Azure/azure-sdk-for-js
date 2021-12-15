@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
-import { RawResponse } from "../src/lroEngine/models";
 import { mockedPoller, runMockedLro } from "./utils/router";
+import { RawResponse } from "../src/lroEngine/models";
+import { assert } from "chai";
 
 describe("Lro Engine", function() {
   it("put201Succeeded", async function() {
@@ -258,6 +258,12 @@ describe("Lro Engine", function() {
 
     it("should handle putAsyncNonResource", async () => {
       const result = await runMockedLro("PUT", "/putnonresourceasync/202/200");
+      assert.equal(result.name, "sku");
+      assert.equal(result.id, "100");
+    });
+
+    it("should handle patchAsync", async () => {
+      const result = await runMockedLro("PATCH", "/patchasync/202/200");
       assert.equal(result.name, "sku");
       assert.equal(result.id, "100");
     });

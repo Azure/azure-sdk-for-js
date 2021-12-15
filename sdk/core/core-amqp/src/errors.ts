@@ -3,8 +3,8 @@
 /* eslint-disable eqeqeq */
 
 import { AmqpError, AmqpResponseStatusCode, isAmqpError as rheaIsAmqpError } from "rhea-promise";
-import { isNode, isNumber, isString } from "../src/util/utils";
 import { isDefined, isObjectWithProperties } from "./util/typeGuards";
+import { isNode, isNumber, isString } from "../src/util/utils";
 
 /**
  * The standard error message accompanying an AbortError.

@@ -20,7 +20,6 @@ import {
   ServiceGetAccountInfoResponse,
   ServiceListContainersSegmentResponse,
   ContainerItem,
-  ListContainersIncludeType,
   UserDelegationKeyModel,
   ContainerUndeleteResponse,
   FilterBlobSegmentModel,
@@ -55,6 +54,7 @@ import { SASProtocol } from "./sas/SASQueryParameters";
 import { SasIPRange } from "./sas/SasIPRange";
 import { generateAccountSASQueryParameters } from "./sas/AccountSASSignatureValues";
 import { AccountSASServices } from "./sas/AccountSASServices";
+import { ListContainersIncludeType } from "./generated/src";
 
 /**
  * Options to configure the {@link BlobServiceClient.getProperties} operation.
@@ -167,6 +167,10 @@ export interface ServiceListContainersOptions extends CommonOptions {
    * Specifies whether soft deleted containers should be included in the response.
    */
   includeDeleted?: boolean;
+  /**
+   * Specifies whether system containers should be included in the response.
+   */
+  includeSystem?: boolean;
 }
 
 /**
@@ -380,6 +384,10 @@ export interface ServiceGenerateAccountSasUrlOptions {
    * Optional. IP range allowed.
    */
   ipRange?: SasIPRange;
+  /**
+   * Optional. Encryption scope to use when sending requests authorized with this SAS URI.
+   */
+  encryptionScope?: string;
 }
 
 /**
@@ -1184,6 +1192,9 @@ export class BlobServiceClient extends StorageClient {
     }
     if (options.includeMetadata) {
       include.push("metadata");
+    }
+    if (options.includeSystem) {
+      include.push("system");
     }
 
     // AsyncIterableIterator to iterate over containers
