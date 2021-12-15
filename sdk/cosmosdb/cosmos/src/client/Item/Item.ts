@@ -103,7 +103,8 @@ export class Item {
       response.headers,
       response.code,
       response.substatus,
-      this
+      this,
+      response.cosmosException
     );
   }
 
@@ -166,7 +167,8 @@ export class Item {
       response.headers,
       response.code,
       response.substatus,
-      this
+      this,
+      response.cosmosException
     );
   }
 
@@ -203,7 +205,8 @@ export class Item {
       response.headers,
       response.code,
       response.substatus,
-      this
+      this,
+      response.cosmosException
     );
   }
 
@@ -242,7 +245,8 @@ export class Item {
       response.headers,
       response.code,
       response.substatus,
-      this
+      this,
+      response.cosmosException
     );
   }
 }

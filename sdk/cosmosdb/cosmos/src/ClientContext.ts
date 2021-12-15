@@ -185,7 +185,9 @@ export class ClientContext {
     logger.verbose(request);
     const start = Date.now();
     const response = await executeRequest(request);
-    logger.info("query " + requestId + " finished - " + (Date.now() - start) + "ms");
+    logger.info(
+      "query " + requestId + " finished - " + (Date.now() - start) + "ms" + "raw:" + response
+    );
     this.captureSessionToken(undefined, path, OperationType.Query, response.headers);
     return this.processQueryFeedResponse(response, !!query, resultFn);
   }

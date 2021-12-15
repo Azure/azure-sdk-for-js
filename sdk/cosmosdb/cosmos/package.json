@@ -107,9 +107,9 @@
   },
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
+    "@azure/logger": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/identity": "^2.0.1",
-    "@azure/logger": "^1.0.0",
     "@microsoft/api-extractor": "^7.18.11",
     "@rollup/plugin-json": "^4.0.0",
     "@rollup/plugin-multi-entry": "^3.0.0",
@@ -134,6 +134,7 @@
     "rimraf": "^3.0.0",
     "rollup": "^1.16.3",
     "rollup-plugin-local-resolve": "^1.0.7",
+    "rollup-plugin-node-builtins": "^2.1.2",
     "sinon": "^9.0.2",
     "snap-shot-it": "^7.9.1",
     "source-map-support": "^0.5.9",

@@ -229,6 +229,14 @@ export const Constants = {
   EffectivePartitionKeyConstants: {
     MinimumInclusiveEffectivePartitionKey: "",
     MaximumExclusiveEffectivePartitionKey: "FF"
+  },
+
+  ClientDiagnosticsConstants: {
+    Name: "name",
+    Id: "id",
+    Component: "component",
+    StartTime: "start time",
+    DurationInMilliseconds: "duration in milliseconds"
   }
 };
 

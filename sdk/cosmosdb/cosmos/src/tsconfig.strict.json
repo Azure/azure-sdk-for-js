@@ -122,6 +122,7 @@
     "routing/index.ts",
     "utils/SasToken.ts",
     "client/SasToken/SasTokenProperties.ts",
-    "client/SasToken/PermissionScopeValues.ts"
+    "client/SasToken/PermissionScopeValues.ts",
+    "client/Diagnostics/Diagnostic.ts"
   ]
 }

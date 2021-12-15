@@ -441,6 +441,13 @@ export const Constants: {
         MinimumInclusiveEffectivePartitionKey: string;
         MaximumExclusiveEffectivePartitionKey: string;
     };
+    ClientDiagnosticsConstants: {
+        Name: string;
+        Id: string;
+        Component: string;
+        StartTime: string;
+        DurationInMilliseconds: string;
+    };
 };
 
 // @public
@@ -886,7 +893,8 @@ export interface ItemDefinition {
 
 // @public (undocumented)
 export class ItemResponse<T extends ItemDefinition> extends ResourceResponse<T & Resource> {
-    constructor(resource: T & Resource, headers: CosmosHeaders, statusCode: number, subsstatusCode: number, item: Item);
+    // Warning: (ae-forgotten-export) The symbol "CosmosException" needs to be exported by the entry point index.d.ts
+    constructor(resource: T & Resource, headers: CosmosHeaders, statusCode: number, subsstatusCode: number, item: Item, cosmosException: CosmosException);
     readonly item: Item;
 }
 
@@ -1491,9 +1499,11 @@ export interface Resource {
 
 // @public (undocumented)
 export class ResourceResponse<TResource> {
-    constructor(resource: TResource | undefined, headers: CosmosHeaders_2, statusCode: StatusCode, substatus?: SubStatusCode);
+    constructor(resource: TResource | undefined, headers: CosmosHeaders_2, statusCode: StatusCode, substatus?: SubStatusCode, cosmosException?: CosmosException);
     // (undocumented)
     get activityId(): string;
+    // (undocumented)
+    readonly cosmosException?: CosmosException;
     // (undocumented)
     get etag(): string;
     // (undocumented)
@@ -1540,6 +1550,8 @@ export enum ResourceType {
 interface Response_2<T> {
     // (undocumented)
     code?: number;
+    // (undocumented)
+    cosmosException?: CosmosException;
     // (undocumented)
     headers: CosmosHeaders;
     // (undocumented)
