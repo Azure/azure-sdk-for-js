@@ -5,7 +5,8 @@
 ## 2021-12-14
 
 - Add `configureClient` method to the `TestProxytHttpClient` to allow instrumenting the client with the recorder policy which helps in enabling the recorder to redirect the requests of your tests to the proxy tool.
-  [#19362](https://github.com/Azure/azure-sdk-for-js/pull/19362)
+  - Also un-exports `recorderHttpPolicy` function.
+    [#19362](https://github.com/Azure/azure-sdk-for-js/pull/19362)
 
 ## 2021-12-13
 
