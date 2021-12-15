@@ -21,6 +21,10 @@ import {
   ListUSProgramBriefsOptions,
   SubmitUSProgramBriefOptions,
 } from "./models";
+import {
+  createCommunicationAccessKeyCredentialPolicy,
+  createCommunicationAuthPolicy
+} from "./utils/communicationAccessKeyCredentialPolicy";
 
 /**
  * Client options used to configure the ShortCodesClient API requests.
@@ -55,7 +59,7 @@ export class ShortCodesClient {
     credentialOrOptions?: KeyCredential | TokenCredential | ShortCodesClientOptions,
     maybeOptions: ShortCodesClientOptions = {}
   ) {
-    const { url } = parseClientArguments(connectionStringOrUrl, credentialOrOptions);
+    const { url, credential } = parseClientArguments(connectionStringOrUrl, credentialOrOptions);
     const options = isShortCodesClientOptions(credentialOrOptions)
       ? credentialOrOptions
       : maybeOptions;
@@ -81,6 +85,11 @@ export class ShortCodesClient {
     };
 
     this.client = new ShortCodesGeneratedClient(url, internalPipelineOptions);
+    if (isTokenCredential(credential)) {
+      this.client.pipeline.addPolicy(createCommunicationAuthPolicy(credential));
+    } else {
+      this.client.pipeline.addPolicy(createCommunicationAccessKeyCredentialPolicy(credential));
+    }
   }
 
   public listShortCodes(
