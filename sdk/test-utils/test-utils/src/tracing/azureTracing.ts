@@ -3,7 +3,7 @@ import { assert } from "chai";
 import { TestInstrumenter } from "..";
 import { SpanGraph, SpanGraphNode } from "./spanGraphModel";
 // this is the plugin used in the test file
-function chaiAzureTrace(chai: Chai.ChaiStatic, _utils: Chai.ChaiUtils) {
+function chaiAzureTrace(chai: Chai.ChaiStatic, _utils: Chai.ChaiUtils): void {
   // expect(() => {}).to.supportsTracing() syntax
   chai.Assertion.addMethod("supportsTracing", function(
     expectedSpanNames: string[],
@@ -102,7 +102,7 @@ function getSpanGraph(traceId: string, instrumenter: TestInstrumenter): SpanGrap
   };
 }
 
-// types
+/* eslint-disable @typescript-eslint/no-namespace */
 declare global {
   export namespace Chai {
     interface Assertion {

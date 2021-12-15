@@ -33,18 +33,18 @@ export class TestTracerProvider implements TracerProvider {
   /**
    * Registers the current tracer provider
    */
-  register() {
+  register(): void {
     trace.setGlobalTracerProvider(this);
   }
 
   /**
    * Removes global trace provider
    */
-  disable() {
+  disable(): void {
     trace.disable();
   }
 
-  setTracer(tracer: TestTracer) {
+  setTracer(tracer: TestTracer): void {
     this.tracerCache.set(TRACER_NAME, tracer);
   }
 }

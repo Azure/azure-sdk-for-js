@@ -26,9 +26,9 @@ export class TestTracingSpan implements TracingSpan {
     this.name = name;
     this.spanKind = spanOptions?.spanKind;
     this.tracingContext = tracingContext;
+    this._spanContext = spanContext;
     console.log("---Inside TestTracingSpan constructor----");
     console.log(this.tracingContext, this.name);
-    this._spanContext = spanContext!;
   }
   spanStatus?: SpanStatus;
   attributes: Record<string, unknown> = {};
