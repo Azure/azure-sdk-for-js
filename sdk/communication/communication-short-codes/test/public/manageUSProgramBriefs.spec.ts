@@ -97,5 +97,5 @@ describe(`ShortCodesClient - creates, gets, updates, lists, and deletes US Progr
       await doesProgramBriefExist(client, uspb.id),
       "Delete program brief was unsuccessful, program brief is still returned"
     );
-  }).timeout(15000);
+  }).timeout(25000);
 });
