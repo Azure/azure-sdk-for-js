@@ -253,8 +253,8 @@
       "path": "sdk/purview/purview-scanning-rest"
     },
     {
-      "name": "perfstress",
-      "path": "sdk/test-utils/perfstress"
+      "name": "perf",
+      "path": "sdk/test-utils/perf"
     },
     {
       "name": "multi-version test",
@@ -320,7 +320,8 @@
   "extensions": {
     "recommendations": [
       "dbaeumer.vscode-eslint",
-      "esbenp.prettier-vscode"
+      "esbenp.prettier-vscode",
+      "streetsidesoftware.code-spell-checker"
     ]
   }
 }

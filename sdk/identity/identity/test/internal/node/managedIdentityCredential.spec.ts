@@ -295,6 +295,7 @@ describe("ManagedIdentityCredential", function() {
 
   it("doesn't try IMDS endpoint again once it can't be detected", async function() {
     const credential = new ManagedIdentityCredential("errclient");
+    const DEFAULT_CLIENT_MAX_RETRY_COUNT = 10;
     const authDetails = await sendCredentialRequests({
       scopes: ["scopes"],
       credential,
@@ -302,13 +303,12 @@ describe("ManagedIdentityCredential", function() {
         // Satisfying the ping
         createResponse(200),
         // Retries until exhaustion
-        createResponse(503, {}, { "Retry-After": "2" }),
-        createResponse(503, {}, { "Retry-After": "2" }),
-        createResponse(503, {}, { "Retry-After": "2" }),
-        createResponse(503, {}, { "Retry-After": "2" })
+        ...Array(DEFAULT_CLIENT_MAX_RETRY_COUNT + 1).fill(
+          createResponse(503, {}, { "Retry-After": "2" })
+        )
       ]
     });
-    assert.equal(authDetails.requests.length, 5);
+    assert.equal(authDetails.requests.length, DEFAULT_CLIENT_MAX_RETRY_COUNT + 2);
     assert.ok(authDetails.error!.message.indexOf("authentication failed") > -1);
 
     await testContext.restore();
@@ -434,7 +434,7 @@ describe("ManagedIdentityCredential", function() {
         "URL does not start with expected host and path"
       );
 
-      assert.equal(authRequest.headers.authorization, `Basic ${key}`);
+      assert.equal(authRequest.headers.Authorization, `Basic ${key}`);
       if (authDetails.result!.token) {
         // We use Date.now underneath.
         assert.ok(authDetails.result!.expiresOnTimestamp);
@@ -447,10 +447,7 @@ describe("ManagedIdentityCredential", function() {
     }
   });
 
-  // "fabricMsi" isn't part of the ManagedIdentityCredential MSIs yet
-  // because our HTTPs pipeline doesn't allow skipping the SSL verification step,
-  // which is necessary since Service Fabric only provides self-signed certificates on their Identity Endpoint.
-  it.skip("sends an authorization request correctly in an Azure Fabric environment", async () => {
+  it("sends an authorization request correctly in an Azure Fabric environment", async () => {
     // Trigger App Service behavior by setting environment variables
     process.env.IDENTITY_ENDPOINT = "https://endpoint";
     process.env.IDENTITY_HEADER = "secret";
@@ -463,7 +460,7 @@ describe("ManagedIdentityCredential", function() {
       credential: new ManagedIdentityCredential("client"),
       secureResponses: [
         createResponse(200, {
-          token: "token",
+          access_token: "token",
           expires_on: 1
         })
       ]
@@ -519,7 +516,7 @@ describe("ManagedIdentityCredential", function() {
         secureResponses: [
           createResponse(200, {
             access_token: "token",
-            expires_on: 1
+            expires_in: 1
           })
         ]
       });
@@ -541,6 +538,7 @@ describe("ManagedIdentityCredential", function() {
       );
       assert.strictEqual(decodeURIComponent(body.get("scope")!), "https://service/.default");
       assert.strictEqual(authDetails.result!.token, "token");
+      assert.strictEqual(authDetails.result!.expiresOnTimestamp, 1000);
     });
 
     it("reads from the token file again only after 5 minutes have passed", async function(this: Mocha.Context) {

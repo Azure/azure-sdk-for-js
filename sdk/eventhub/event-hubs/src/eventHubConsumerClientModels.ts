@@ -2,11 +2,11 @@
 // Licensed under the MIT license.
 
 import { CloseReason } from "./models/public";
-import { ReceivedEventData } from "./eventData";
-import { LastEnqueuedEventProperties } from "./eventHubReceiver";
 import { EventPosition } from "./eventPosition";
-import { OperationTracingOptions } from "@azure/core-tracing";
+import { LastEnqueuedEventProperties } from "./eventHubReceiver";
 import { MessagingError } from "@azure/core-amqp";
+import { OperationTracingOptions } from "@azure/core-tracing";
+import { ReceivedEventData } from "./eventData";
 
 /**
  * @internal
@@ -184,7 +184,7 @@ export interface SubscribeOptions {
    * Indicates whether or not the consumer should request information on the last enqueued event on its
    * associated partition, and track that information as events are received.
 
-   * When information about the partition's last enqueued event is being tracked, each event received 
+   * When information about the partition's last enqueued event is being tracked, each event received
    * from the Event Hubs service will carry metadata about the partition that it otherwise would not. This results in a small amount of
    * additional network bandwidth consumption that is generally a favorable trade-off when considered
    * against periodically making requests for partition properties using the Event Hub client.
@@ -198,6 +198,12 @@ export interface SubscribeOptions {
    * Options for configuring tracing.
    */
   tracingOptions?: OperationTracingOptions;
+  /**
+   * Option to disable the client from running JSON.parse() on the message body when receiving the message.
+   * Not applicable if the message was sent with AMQP body type value or sequence. Use this option when you
+   * prefer to work directly with the bytes present in the message body than have the client attempt to parse it.
+   */
+  skipParsingBodyAsJson?: boolean;
 }
 
 /**

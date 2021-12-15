@@ -1,6 +1,6 @@
 let nock = require('nock');
 
-module.exports.hash = "cea98c2dd11df24fd03a475a71bfaad5";
+module.exports.hash = "d196642a2f9b21cd2d043bb992f60916";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
@@ -23,19 +23,19 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  'e0c47e95-0213-4b20-bc68-226afc10f400',
+  '4429d26e-d6a5-4b28-b81b-692d531ceb00',
   'x-ms-ests-server',
-  '2.1.11898.12 - NCUS ProdSlices',
+  '2.1.12158.6 - WUS2 ProdSlices',
   'Set-Cookie',
-  'fpc=AlWKmlww77xOo6Ig5BuHWzBz_bg1EwAAAKy9m9gOAAAA; expires=Thu, 02-Sep-2021 22:51:56 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AjSq84mzdFlGjqywcc9lKHw; expires=Mon, 22-Nov-2021 00:49:28 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrZw7LipnKGdOVlivv4ymrPkVq_bqWCmjD_ygb9_CAkoWBE7ydYlMv6r03RBttJbu1ZSmxNHQbZq5EQzMjtYPqiTleDD3LAiTnPriFT1uQCVwbZvI0pee9r19BJSGTBO2W_GDG5Dmhj2pH55Yg20M6iGvTmd0FZ-8V_-lyKSMrqyQgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
+  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7Wevr4cm3iehtajCrRNErivzycXOng7wYqiOlXw7bT8bVQHIEm2HvGqNoCDCN_PPQQFgc3A4tx71t3nnzUkPpAO5t1BwB6rEW71_EP96gQ3fI6vmnScB5qyMtq5m8syK2dZH42mh_DWiPj_xlmTxhwIYMDGwkMzPlBXviaZmlC7FOLS0gAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Tue, 03 Aug 2021 22:51:56 GMT',
+  'Sat, 23 Oct 2021 00:49:28 GMT',
   'Content-Length',
   '980'
 ]);
@@ -58,25 +58,25 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  'e89847b7-78f2-4e5f-aa7e-879ed79c3801',
+  'a2cd2958-2b6c-4be2-887e-774e9ab40300',
   'x-ms-ests-server',
-  '2.1.11898.12 - EUS ProdSlices',
+  '2.1.12171.14 - EUS ProdSlices',
   'Set-Cookie',
-  'fpc=AlWKmlww77xOo6Ig5BuHWzBz_bg1EwAAAKy9m9gOAAAA; expires=Thu, 02-Sep-2021 22:51:56 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=Ai6XjC2pMHVGn5P1mGlZzQk; expires=Mon, 22-Nov-2021 00:49:28 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrzxsgUKAX24aBtO16TfVUYHr6qEdqW0gvPBd8aZ0L5gafjXd1eB5oTG8UiNrtyg97osfTBrbNBtF1kwyef_badETbsRxlSEh6nLFVBLVV_gOWJiyXgbyXrSanAkJ6iQWfTrQv4gbNyplD4hSYQOMozn5L7SLclvHDkPLgqSiVbysgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
+  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrStaha1llOxmft4sGqhTJRgvCCaUz95mwL74GZ3EzhkSv3Du9OUSKXeA2ZAsZW185XoTkI4Vta9GgWwsyvyjwA0vJM5EYWDqx7EBKHtt04tY8OP0RZacqdhIe-NjqAJDL36TylRFonQS2qBffBdOsFgTyOKVP6lKE35iisX6trmMgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Tue, 03 Aug 2021 22:51:56 GMT',
+  'Sat, 23 Oct 2021 00:49:28 GMT',
   'Content-Length',
   '1753'
 ]);
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/88888888-8888-8888-8888-888888888888/oauth2/v2.0/token', "client_id=azure_client_id&scope=https%3A%2F%2Fsanitized%2F&grant_type=client_credentials&x-client-SKU=msal.js.node&x-client-VER=1.2.0&x-client-OS=linux&x-client-CPU=x64&x-ms-lib-capability=retry-after, h429&x-client-current-telemetry=2|771,0|,&x-client-last-telemetry=2|0|||0,0&client-request-id=b1c08a01-2609-4f9e-afc3-2d72109eb37c&client_secret=azure_client_secret")
+  .post('/88888888-8888-8888-8888-888888888888/oauth2/v2.0/token', "client_id=azure_client_id&scope=https%3A%2F%2Fsanitized%2F&grant_type=client_credentials&x-client-SKU=msal.js.node&x-client-VER=1.3.0&x-client-OS=linux&x-client-CPU=x64&x-ms-lib-capability=retry-after, h429&x-client-current-telemetry=5|771,2,,,|,&x-client-last-telemetry=5|0|||0,0&client-request-id=cecae101-1e87-496c-86a8-98d862644037&client_secret=azure_client_secret&claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22CP1%22%5D%7D%7D%7D")
   .reply(200, {"token_type":"Bearer","expires_in":86399,"ext_expires_in":86399,"access_token":"access_token"}, [
   'Cache-Control',
   'no-store, no-cache',
@@ -93,119 +93,119 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  'ab9452ee-32a6-4e83-98c1-db73aa6c4501',
+  '2d5d79f2-2c33-4a96-b75c-c15bfcb40500',
   'x-ms-ests-server',
-  '2.1.11898.12 - SCUS ProdSlices',
+  '2.1.12171.14 - SCUS ProdSlices',
   'x-ms-clitelem',
   '1,0,0,,',
   'Set-Cookie',
-  'fpc=AlWKmlww77xOo6Ig5BuHWzBz_bg1DwAAANi-m9gOAAAA; expires=Thu, 02-Sep-2021 22:51:57 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=Ah6b0JRW7uZIhPjCMPGDXdI; expires=Mon, 22-Nov-2021 00:49:28 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Tue, 03 Aug 2021 22:51:56 GMT',
+  'Sat, 23 Oct 2021 00:49:28 GMT',
   'Content-Length',
   '1331'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .post('/text/analytics/v3.2-preview.1/entities/health/jobs', {"documents":[{"id":"0","text":"This was the best day of my life.","language":"en"},{"id":"1","text":"I did not like the hotel we stayed at. It was too expensive.","language":"en"},{"id":"2","text":"The restaurant was not as good as I hoped.","language":"en"}]})
+  .post('/text/analytics/v3.2-preview.2/entities/health/jobs', {"documents":[{"id":"0","text":"This was the best day of my life.","language":"en"},{"id":"1","text":"I did not like the hotel we stayed at. It was too expensive.","language":"en"},{"id":"2","text":"The restaurant was not as good as I hoped.","language":"en"}]})
   .query(true)
   .reply(202, "", [
   'Transfer-Encoding',
   'chunked',
   'operation-location',
-  'https://endpoint/text/analytics/v3.2-preview.1/entities/health/jobs/415c4219-7a75-42c1-8c0c-d310b44e3ab1',
+  'https://endpoint/text/analytics/v3.2-preview.1/entities/health/jobs/87e7c094-9083-4abb-8469-bd1bc7041015',
   'x-envoy-upstream-service-time',
-  '195',
+  '550',
   'apim-request-id',
-  '8889f054-593f-48d5-b318-f18ed7ea8f18',
+  '8282176f-ceb9-4a0a-aff7-11bf1d210538',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Tue, 03 Aug 2021 22:51:56 GMT'
+  'Sat, 23 Oct 2021 00:49:28 GMT'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('/text/analytics/v3.2-preview.1/entities/health/jobs/415c4219-7a75-42c1-8c0c-d310b44e3ab1')
+  .get('/text/analytics/v3.2-preview.1/entities/health/jobs/87e7c094-9083-4abb-8469-bd1bc7041015')
   .query(true)
-  .reply(200, {"jobId":"415c4219-7a75-42c1-8c0c-d310b44e3ab1","lastUpdateDateTime":"2021-08-03T22:51:57Z","createdDateTime":"2021-08-03T22:51:57Z","expirationDateTime":"2021-08-04T22:51:57Z","status":"notStarted","errors":[]}, [
+  .reply(200, {"jobId":"87e7c094-9083-4abb-8469-bd1bc7041015","lastUpdateDateTime":"2021-10-23T00:49:28Z","createdDateTime":"2021-10-23T00:49:28Z","expirationDateTime":"2021-10-24T00:49:28Z","status":"notStarted","errors":[]}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-envoy-upstream-service-time',
-  '6',
+  '10',
   'apim-request-id',
-  '40f980af-4984-4926-9ee9-602ad01495d4',
+  '9222c2d3-c261-44bb-a061-529a7dfbcb0b',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Tue, 03 Aug 2021 22:51:56 GMT'
+  'Sat, 23 Oct 2021 00:49:28 GMT'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('/text/analytics/v3.2-preview.1/entities/health/jobs/415c4219-7a75-42c1-8c0c-d310b44e3ab1')
+  .get('/text/analytics/v3.2-preview.1/entities/health/jobs/87e7c094-9083-4abb-8469-bd1bc7041015')
   .query(true)
-  .reply(200, {"jobId":"415c4219-7a75-42c1-8c0c-d310b44e3ab1","lastUpdateDateTime":"2021-08-03T22:51:57Z","createdDateTime":"2021-08-03T22:51:57Z","expirationDateTime":"2021-08-04T22:51:57Z","status":"notStarted","errors":[]}, [
+  .reply(200, {"jobId":"87e7c094-9083-4abb-8469-bd1bc7041015","lastUpdateDateTime":"2021-10-23T00:49:28Z","createdDateTime":"2021-10-23T00:49:28Z","expirationDateTime":"2021-10-24T00:49:28Z","status":"notStarted","errors":[]}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-envoy-upstream-service-time',
-  '6',
+  '8',
   'apim-request-id',
-  'b3ac52ee-3416-4a3d-a892-bbb8f1698351',
+  '247ad1c4-53a8-4412-a76c-e35ff088a2c1',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Tue, 03 Aug 2021 22:51:56 GMT'
+  'Sat, 23 Oct 2021 00:49:28 GMT'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('/text/analytics/v3.2-preview.1/entities/health/jobs/415c4219-7a75-42c1-8c0c-d310b44e3ab1')
+  .get('/text/analytics/v3.2-preview.1/entities/health/jobs/87e7c094-9083-4abb-8469-bd1bc7041015')
   .query(true)
-  .reply(200, {"jobId":"415c4219-7a75-42c1-8c0c-d310b44e3ab1","lastUpdateDateTime":"2021-08-03T22:51:58Z","createdDateTime":"2021-08-03T22:51:57Z","expirationDateTime":"2021-08-04T22:51:57Z","status":"succeeded","errors":[],"results":{"documents":[{"id":"0","entities":[],"relations":[],"warnings":[]},{"id":"1","entities":[],"relations":[],"warnings":[]},{"id":"2","entities":[],"relations":[],"warnings":[]}],"errors":[],"modelVersion":"2021-05-15"}}, [
+  .reply(200, {"jobId":"87e7c094-9083-4abb-8469-bd1bc7041015","lastUpdateDateTime":"2021-10-23T00:49:29Z","createdDateTime":"2021-10-23T00:49:28Z","expirationDateTime":"2021-10-24T00:49:28Z","status":"succeeded","errors":[],"results":{"documents":[{"id":"0","entities":[],"relations":[],"warnings":[]},{"id":"1","entities":[],"relations":[],"warnings":[]},{"id":"2","entities":[],"relations":[],"warnings":[]}],"errors":[],"modelVersion":"2021-05-15"}}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-envoy-upstream-service-time',
-  '64',
+  '127',
   'apim-request-id',
-  '89e52fd2-06d1-460c-88bb-5e6890202b2d',
+  'f2e3e2f1-3789-4705-ae5b-2052e3b06f84',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Tue, 03 Aug 2021 22:51:58 GMT'
+  'Sat, 23 Oct 2021 00:49:30 GMT'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('/text/analytics/v3.2-preview.1/entities/health/jobs/415c4219-7a75-42c1-8c0c-d310b44e3ab1')
+  .get('/text/analytics/v3.2-preview.1/entities/health/jobs/87e7c094-9083-4abb-8469-bd1bc7041015')
   .query(true)
-  .reply(200, {"jobId":"415c4219-7a75-42c1-8c0c-d310b44e3ab1","lastUpdateDateTime":"2021-08-03T22:51:58Z","createdDateTime":"2021-08-03T22:51:57Z","expirationDateTime":"2021-08-04T22:51:57Z","status":"succeeded","errors":[],"results":{"documents":[{"id":"0","entities":[],"relations":[],"warnings":[]},{"id":"1","entities":[],"relations":[],"warnings":[]},{"id":"2","entities":[],"relations":[],"warnings":[]}],"errors":[],"modelVersion":"2021-05-15"}}, [
+  .reply(200, {"jobId":"87e7c094-9083-4abb-8469-bd1bc7041015","lastUpdateDateTime":"2021-10-23T00:49:29Z","createdDateTime":"2021-10-23T00:49:28Z","expirationDateTime":"2021-10-24T00:49:28Z","status":"succeeded","errors":[],"results":{"documents":[{"id":"0","entities":[],"relations":[],"warnings":[]},{"id":"1","entities":[],"relations":[],"warnings":[]},{"id":"2","entities":[],"relations":[],"warnings":[]}],"errors":[],"modelVersion":"2021-05-15"}}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-envoy-upstream-service-time',
-  '62',
+  '400',
   'apim-request-id',
-  'fa515733-7bed-4864-9ffd-108e974be482',
+  'a895d6d9-04d9-4552-9591-2f6933e2f41f',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Tue, 03 Aug 2021 22:51:58 GMT'
+  'Sat, 23 Oct 2021 00:49:31 GMT'
 ]);

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { drainStream, PerfStressOptionDictionary } from "@azure/test-utils-perfstress";
+import { drainStream, PerfOptionDictionary } from "@azure/test-utils-perf";
 import { StorageBlobTest } from "./storageTest.spec";
 import { BlockBlobClient } from "@azure/storage-blob";
 import { generateUuid } from "@azure/core-http";
@@ -11,7 +11,7 @@ interface StorageBlobDownloadTestOptions {
 }
 
 export class StorageBlobDownloadTest extends StorageBlobTest<StorageBlobDownloadTestOptions> {
-  public options: PerfStressOptionDictionary<StorageBlobDownloadTestOptions> = {
+  public options: PerfOptionDictionary<StorageBlobDownloadTestOptions> = {
     size: {
       required: true,
       description: "Size in bytes",
@@ -36,12 +36,12 @@ export class StorageBlobDownloadTest extends StorageBlobTest<StorageBlobDownload
 
     // Create a blob
     await this.blockBlobClient.upload(
-      Buffer.alloc(this.parsedOptions.size.value!),
-      this.parsedOptions.size.value!
+      Buffer.alloc(this.parsedOptions.size.value),
+      this.parsedOptions.size.value
     );
   }
 
-  async runAsync(): Promise<void> {
+  async run(): Promise<void> {
     const downloadResponse = await this.blockBlobClient.download();
     await drainStream(downloadResponse.readableStreamBody!);
   }

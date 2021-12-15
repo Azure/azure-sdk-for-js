@@ -1,22 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { processAzureAsyncOperationResult } from "./azureAsyncPolling";
-import { isBodyPollingDone, processBodyPollingOperationResult } from "./bodyPolling";
-import { processLocationPollingOperationResult } from "./locationPolling";
-import { logger } from "./logger";
 import {
-  LroResourceLocationConfig,
   GetLroStatusFromResponse,
   LongRunningOperation,
   LroConfig,
-  PollerConfig,
-  ResumablePollOperationState,
+  LroResourceLocationConfig,
   LroResponse,
-  LroStatus
+  LroStatus,
+  PollerConfig,
+  ResumablePollOperationState
 } from "./models";
-import { processPassthroughOperationResult } from "./passthrough";
 import { getPollingUrl, inferLroMode, isUnexpectedInitialResponse } from "./requestUtils";
+import { isBodyPollingDone, processBodyPollingOperationResult } from "./bodyPolling";
+import { logger } from "./logger";
+import { processAzureAsyncOperationResult } from "./azureAsyncPolling";
+import { processLocationPollingOperationResult } from "./locationPolling";
+import { processPassthroughOperationResult } from "./passthrough";
 
 /**
  * creates a stepping function that maps an LRO state to another.

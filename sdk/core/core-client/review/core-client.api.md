@@ -5,6 +5,7 @@
 ```ts
 
 import { AbortSignalLike } from '@azure/abort-controller';
+import { AuthorizeRequestOnChallengeOptions } from '@azure/core-rest-pipeline';
 import { HttpClient } from '@azure/core-rest-pipeline';
 import { HttpMethods } from '@azure/core-rest-pipeline';
 import { InternalPipelineOptions } from '@azure/core-rest-pipeline';
@@ -17,7 +18,10 @@ import { PipelineResponse } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
 import { TransferProgressEvent } from '@azure/core-rest-pipeline';
 
-// @public (undocumented)
+// @public
+export function authorizeRequestOnClaimChallenge(onChallengeOptions: AuthorizeRequestOnChallengeOptions): Promise<boolean>;
+
+// @public
 export interface BaseMapper {
     constraints?: MapperConstraints;
     defaultValue?: any;
@@ -41,27 +45,20 @@ export interface CommonClientOptions extends PipelineOptions {
     httpClient?: HttpClient;
 }
 
-// @public (undocumented)
+// @public
 export interface CompositeMapper extends BaseMapper {
-    // (undocumented)
     type: CompositeMapperType;
 }
 
-// @public (undocumented)
+// @public
 export interface CompositeMapperType {
-    // (undocumented)
     additionalProperties?: Mapper;
-    // (undocumented)
     className?: string;
-    // (undocumented)
     modelProperties?: {
         [propertyName: string]: Mapper;
     };
-    // (undocumented)
     name: "Composite";
-    // (undocumented)
     polymorphicDiscriminator?: PolymorphicDiscriminator;
-    // (undocumented)
     uberParent?: string;
 }
 
@@ -92,33 +89,26 @@ export interface DeserializationPolicyOptions {
     serializerOptions?: SerializerOptions;
 }
 
-// @public (undocumented)
+// @public
 export interface DictionaryMapper extends BaseMapper {
-    // (undocumented)
     headerCollectionPrefix?: string;
-    // (undocumented)
     type: DictionaryMapperType;
 }
 
-// @public (undocumented)
+// @public
 export interface DictionaryMapperType {
-    // (undocumented)
     name: "Dictionary";
-    // (undocumented)
     value: Mapper;
 }
 
-// @public (undocumented)
+// @public
 export interface EnumMapper extends BaseMapper {
-    // (undocumented)
     type: EnumMapperType;
 }
 
-// @public (undocumented)
+// @public
 export interface EnumMapperType {
-    // (undocumented)
     allowedValues: any[];
-    // (undocumented)
     name: "Enum";
 }
 
@@ -141,36 +131,25 @@ export interface InternalClientPipelineOptions extends InternalPipelineOptions {
     serializationOptions?: SerializationPolicyOptions;
 }
 
-// @public (undocumented)
+// @public
 export type Mapper = BaseMapper | CompositeMapper | SequenceMapper | DictionaryMapper | EnumMapper;
 
-// @public (undocumented)
+// @public
 export interface MapperConstraints {
-    // (undocumented)
     ExclusiveMaximum?: number;
-    // (undocumented)
     ExclusiveMinimum?: number;
-    // (undocumented)
     InclusiveMaximum?: number;
-    // (undocumented)
     InclusiveMinimum?: number;
-    // (undocumented)
     MaxItems?: number;
-    // (undocumented)
     MaxLength?: number;
-    // (undocumented)
     MinItems?: number;
-    // (undocumented)
     MinLength?: number;
-    // (undocumented)
     MultipleOf?: number;
-    // (undocumented)
     Pattern?: RegExp;
-    // (undocumented)
     UniqueItems?: true;
 }
 
-// @public (undocumented)
+// @public
 export type MapperType = SimpleMapperType | CompositeMapperType | SequenceMapperType | DictionaryMapperType | EnumMapperType;
 
 // @public
@@ -279,13 +258,10 @@ export type ParameterPath = string | string[] | {
     [propertyName: string]: ParameterPath;
 };
 
-// @public (undocumented)
+// @public
 export interface PolymorphicDiscriminator {
-    // (undocumented)
     [key: string]: string;
-    // (undocumented)
     clientName: string;
-    // (undocumented)
     serializedName: string;
 }
 
@@ -295,17 +271,14 @@ export type QueryCollectionFormat = "CSV" | "SSV" | "TSV" | "Pipes" | "Multi";
 // @public
 export type RawResponseCallback = (rawResponse: FullOperationResponse, flatResponse: unknown) => void;
 
-// @public (undocumented)
+// @public
 export interface SequenceMapper extends BaseMapper {
-    // (undocumented)
     type: SequenceMapperType;
 }
 
-// @public (undocumented)
+// @public
 export interface SequenceMapperType {
-    // (undocumented)
     element: Mapper;
-    // (undocumented)
     name: "Sequence";
 }
 
@@ -323,17 +296,12 @@ export interface SerializationPolicyOptions {
 
 // @public
 export interface Serializer {
-    // (undocumented)
     deserialize(mapper: Mapper, responseBody: any, objectName: string, options?: SerializerOptions): any;
-    // (undocumented)
     readonly isXML: boolean;
-    // (undocumented)
     readonly modelMappers: {
         [key: string]: any;
     };
-    // (undocumented)
     serialize(mapper: Mapper, object: any, objectName?: string, options?: SerializerOptions): any;
-    // (undocumented)
     validateConstraints(mapper: Mapper, value: any, objectName: string): void;
 }
 
@@ -359,9 +327,8 @@ export interface ServiceClientOptions extends CommonClientOptions {
     requestContentType?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface SimpleMapperType {
-    // (undocumented)
     name: "Base64Url" | "Boolean" | "ByteArray" | "Date" | "DateTime" | "DateTimeRfc1123" | "Object" | "Stream" | "String" | "TimeSpan" | "UnixTime" | "Uuid" | "Number" | "any";
 }
 
@@ -383,7 +350,6 @@ export interface XmlOptions {
     rootName?: string;
     xmlCharKey?: string;
 }
-
 
 // (No @packageDocumentation comment for this package)
 

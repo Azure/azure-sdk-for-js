@@ -1,0 +1,101 @@
+{
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://endpoint/text/analytics/v3.2-preview.2/analyze",
+   "query": {},
+   "requestBody": "{\"analysisInput\":{\"documents\":[{\"id\":\"1\",\"text\":\"A recent report by the Government Accountability Office (GAO) found that the dramatic increase in oil and natural gas development on federal lands over the past six years has stretched the staff of the BLM to a point that it has been unable to meet its environmental protection responsibilities.\",\"language\":\"en\"}]},\"tasks\":{\"customEntityRecognitionTasks\":[{\"parameters\":{\"project-name\":\"project_name\",\"deployment-name\":\"deployment_name\",\"stringIndexType\":\"Utf16CodeUnit\"}}]}}",
+   "status": 202,
+   "response": "",
+   "responseHeaders": {
+    "apim-request-id": "16543fac-9e01-4e09-8570-9b3837e0c4f7",
+    "date": "Sat, 23 Oct 2021 00:50:16 GMT",
+    "operation-location": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/8ed11eff-2986-4bf5-a9b0-d7d45756182a",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "778"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/8ed11eff-2986-4bf5-a9b0-d7d45756182a",
+   "query": {
+    "$top": "20",
+    "$skip": "0"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"8ed11eff-2986-4bf5-a9b0-d7d45756182a\",\"lastUpdateDateTime\":\"2021-10-23T00:50:16Z\",\"createdDateTime\":\"2021-10-23T00:50:16Z\",\"expirationDateTime\":\"2021-10-24T00:50:16Z\",\"status\":\"notStarted\",\"errors\":[],\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
+   "responseHeaders": {
+    "apim-request-id": "17c49461-dccd-44c9-84f4-aec3564384a9",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Sat, 23 Oct 2021 00:50:16 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "11"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/8ed11eff-2986-4bf5-a9b0-d7d45756182a",
+   "query": {
+    "$top": "20",
+    "$skip": "0"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"8ed11eff-2986-4bf5-a9b0-d7d45756182a\",\"lastUpdateDateTime\":\"2021-10-23T00:50:16Z\",\"createdDateTime\":\"2021-10-23T00:50:16Z\",\"expirationDateTime\":\"2021-10-24T00:50:16Z\",\"status\":\"notStarted\",\"errors\":[],\"tasks\":{\"completed\":0,\"failed\":0,\"inProgress\":1,\"total\":1}}",
+   "responseHeaders": {
+    "apim-request-id": "644a34d4-e92f-4fbb-8e0d-38c584e26c7d",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Sat, 23 Oct 2021 00:50:16 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "53"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/8ed11eff-2986-4bf5-a9b0-d7d45756182a",
+   "query": {
+    "$top": "20",
+    "$skip": "0"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"8ed11eff-2986-4bf5-a9b0-d7d45756182a\",\"lastUpdateDateTime\":\"2021-10-23T00:50:17Z\",\"createdDateTime\":\"2021-10-23T00:50:16Z\",\"expirationDateTime\":\"2021-10-24T00:50:16Z\",\"status\":\"succeeded\",\"errors\":[],\"tasks\":{\"completed\":1,\"failed\":0,\"inProgress\":0,\"total\":1,\"customEntityRecognitionTasks\":[{\"lastUpdateDateTime\":\"2021-10-23T00:50:17.6587474Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"1\",\"entities\":[{\"text\":\"98-0987\",\"category\":\"timeRange\",\"offset\":4,\"length\":7,\"confidenceScore\":0.55},{\"text\":\"$100\",\"category\":\"timeRange\",\"offset\":27,\"length\":4,\"confidenceScore\":0.15},{\"text\":\"John owes\",\"category\":\"artist\",\"offset\":12,\"length\":9,\"confidenceScore\":0.18},{\"text\":\"Mike\",\"category\":\"artist\",\"offset\":22,\"length\":4,\"confidenceScore\":0.35}],\"warnings\":[]}],\"errors\":[],\"projectName\":\"project_name\",\"deploymentName\":\"deployment_name\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "b1fceb10-f732-4705-950d-e04cc7ae9cea",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Sat, 23 Oct 2021 00:50:18 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "93"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/8ed11eff-2986-4bf5-a9b0-d7d45756182a",
+   "query": {
+    "$top": "20",
+    "$skip": "0"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"8ed11eff-2986-4bf5-a9b0-d7d45756182a\",\"lastUpdateDateTime\":\"2021-10-23T00:50:17Z\",\"createdDateTime\":\"2021-10-23T00:50:16Z\",\"expirationDateTime\":\"2021-10-24T00:50:16Z\",\"status\":\"succeeded\",\"errors\":[],\"tasks\":{\"completed\":1,\"failed\":0,\"inProgress\":0,\"total\":1,\"customEntityRecognitionTasks\":[{\"lastUpdateDateTime\":\"2021-10-23T00:50:17.6587474Z\",\"state\":\"succeeded\",\"results\":{\"documents\":[{\"id\":\"1\",\"entities\":[{\"text\":\"98-0987\",\"category\":\"timeRange\",\"offset\":4,\"length\":7,\"confidenceScore\":0.55},{\"text\":\"$100\",\"category\":\"timeRange\",\"offset\":27,\"length\":4,\"confidenceScore\":0.15},{\"text\":\"John owes\",\"category\":\"artist\",\"offset\":12,\"length\":9,\"confidenceScore\":0.18},{\"text\":\"Mike\",\"category\":\"artist\",\"offset\":22,\"length\":4,\"confidenceScore\":0.35}],\"warnings\":[]}],\"errors\":[],\"projectName\":\"project_name\",\"deploymentName\":\"deployment_name\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "19883640-1719-4701-90f6-01db6e2507ad",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Sat, 23 Oct 2021 00:50:18 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "86"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "63240757f49fb6f3f2c6e3eee2dc656f"
+}

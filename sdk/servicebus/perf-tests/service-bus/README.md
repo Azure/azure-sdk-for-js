@@ -15,4 +15,8 @@ To test sending messages in batches
 
 > `npm run perf-test:node -- BatchSendTest --warmup 1 --duration 25 --iterations 2 --parallel 32 --messageBodySize 10240 --numberOfMessages 10`
 
-_Note: For more default options, refer [Perf-Framework-Default-Options](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/perfstress/README.md#keyconcepts)._
+To test `receiveMessages` - receiving messages in batches
+
+> `npm run perf-test:node -- BatchReceiveTest --duration 5 --size 2000`
+
+_Note: For more default options, refer [Perf-Framework-Default-Options](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/perf/README.md#keyconcepts)._

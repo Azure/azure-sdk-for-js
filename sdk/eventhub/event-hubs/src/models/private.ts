@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { LoadBalancingStrategy } from "../loadBalancerStrategies/loadBalancingStrategy";
 import { RetryOptions } from "@azure/core-amqp";
 import { SubscribeOptions } from "../eventHubConsumerClientModels";
-import { LoadBalancingStrategy } from "../loadBalancerStrategies/loadBalancingStrategy";
 
 /**
  * The set of options to configure the behavior of an `EventHubProducer`.
@@ -76,6 +76,9 @@ export interface CommonEventProcessorOptions
  * consumers to fail if their `ownerLevel` is lower or doesn't exist.
  * - `retryOptions`: The retry options used to govern retry attempts when an issue is encountered while receiving events.
  * A simple usage can be `{ "maxRetries": 4 }`.
+ * - `skipParsingBodyAsJson` : Option to disable the client from running JSON.parse() on the message body when receiving the message.
+ * Not applicable if the message was sent with AMQP body type value or sequence. Use this option when you prefer to work directly with
+ * the bytes present in the message body than have the client attempt to parse it.
  *
  * Example usage:
  * ```js
@@ -83,7 +86,8 @@ export interface CommonEventProcessorOptions
  *     retryOptions: {
  *         maxRetries: 4
  *     },
- *     trackLastEnqueuedEventProperties: false
+ *     trackLastEnqueuedEventProperties: false,
+ *     skipParsingBodyAsJson: true
  * }
  * ```
  * @internal
@@ -107,10 +111,16 @@ export interface EventHubConsumerOptions {
    * Indicates whether or not the consumer should request information on the last enqueued event on its
    * associated partition, and track that information as events are received.
 
-   * When information about the partition's last enqueued event is being tracked, each event received 
+   * When information about the partition's last enqueued event is being tracked, each event received
    * from the Event Hubs service will carry metadata about the partition that it otherwise would not. This results in a small amount of
    * additional network bandwidth consumption that is generally a favorable trade-off when considered
    * against periodically making requests for partition properties using the Event Hub client.
    */
   trackLastEnqueuedEventProperties?: boolean;
+  /**
+   * Option to disable the client from running JSON.parse() on the message body when receiving the message.
+   * Not applicable if the message was sent with AMQP body type value or sequence. Use this option when you
+   * prefer to work directly with the bytes present in the message body than have the client attempt to parse it.
+   */
+  skipParsingBodyAsJson?: boolean;
 }

@@ -12,7 +12,7 @@ import {
 /**
  * The latest supported KeyVault service API version
  */
-export const LATEST_API_VERSION = "7.2";
+export const LATEST_API_VERSION = "7.3-preview";
 
 /**
  * The optional parameters accepted by the KeyVault's KeyClient
@@ -21,7 +21,7 @@ export interface CertificateClientOptions extends coreHttp.PipelineOptions {
   /**
    * The accepted versions of the KeyVault's service API.
    */
-  serviceVersion?: "7.0" | "7.1" | "7.2";
+  serviceVersion?: "7.0" | "7.1" | "7.2" | "7.3-preview";
 }
 
 /**
@@ -439,6 +439,7 @@ export interface CertificateProperties {
   readonly vaultUrl?: string;
   /**
    * The version of certificate. May be undefined.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly version?: string;
   /**

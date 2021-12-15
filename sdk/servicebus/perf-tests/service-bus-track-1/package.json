@@ -9,7 +9,7 @@
   "dependencies": {
     "@azure/service-bus": "^1.1.10",
     "@azure/service-bus-v7": "npm:@azure/service-bus@^7.0.0",
-    "@azure/test-utils-perfstress": "file:../../../test-utils/perfstress/azure-test-utils-perfstress-1.0.0.tgz",
+    "@azure/test-utils-perf": "file:../../../test-utils/perf/azure-test-utils-perf-1.0.0.tgz",
     "dotenv": "^8.2.0",
     "uuid": "^8.3.0"
   },

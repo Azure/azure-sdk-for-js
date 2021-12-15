@@ -11,17 +11,17 @@ import { GeneratedClientOptionalParams } from "./models";
 
 /** @internal */
 export class GeneratedClientContext extends coreClient.ServiceClient {
-  $host: string;
-  apiVersion?: string;
+  endpoint: string;
+  apiVersion: string;
 
   /**
    * Initializes a new instance of the GeneratedClientContext class.
-   * @param $host server parameter
+   * @param endpoint HTTP or HTTPS endpoint for the Web PubSub service instance.
    * @param options The parameter options
    */
-  constructor($host: string, options?: GeneratedClientOptionalParams) {
-    if ($host === undefined) {
-      throw new Error("'$host' cannot be null");
+  constructor(endpoint: string, options?: GeneratedClientOptionalParams) {
+    if (endpoint === undefined) {
+      throw new Error("'endpoint' cannot be null");
     }
 
     // Initializing default values for options
@@ -32,7 +32,7 @@ export class GeneratedClientContext extends coreClient.ServiceClient {
       requestContentType: "application/json; charset=utf-8"
     };
 
-    const packageDetails = `azsdk-js-web-pubsub/1.0.0-beta.3`;
+    const packageDetails = `azsdk-js-web-pubsub/1.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -44,13 +44,13 @@ export class GeneratedClientContext extends coreClient.ServiceClient {
       userAgentOptions: {
         userAgentPrefix
       },
-      baseUri: options.endpoint || "{$host}"
+      baseUri: options.endpoint || "{Endpoint}"
     };
     super(optionsWithDefaults);
     // Parameter assignments
-    this.$host = $host;
+    this.endpoint = endpoint;
 
     // Assigning values to Constant parameters
-    this.apiVersion = options.apiVersion || "2021-05-01-preview";
+    this.apiVersion = options.apiVersion || "2021-10-01";
   }
 }

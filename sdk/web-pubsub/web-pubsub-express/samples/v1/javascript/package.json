@@ -23,6 +23,7 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/web-pubsub/web-pubsub-express",
   "dependencies": {
     "@azure/web-pubsub-express": "next",
-    "dotenv": "latest"
+    "dotenv": "latest",
+    "express": "^4.17.1"
   }
 }

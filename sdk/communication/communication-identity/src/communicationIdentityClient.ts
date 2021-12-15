@@ -252,22 +252,22 @@ export class CommunicationIdentityClient {
   }
 
   /**
-   * Exchanges a Teams token for a new ACS access token.
+   * Exchanges an AAD access token of a Teams user for a new Communication Identity access token with a matching expiration time.
    *
-   * @param teamsToken - The Teams access token.
+   * @param teamsToken - AAD access token of a Teams user.
    * @param options - Additional options for the request.
    */
-  public async exchangeTeamsToken(
-    teamsToken: string,
+  public async getTokenForTeamsUser(
+    teamsUserAadToken: string,
     options: OperationOptions = {}
   ): Promise<CommunicationAccessToken> {
     const { span, updatedOptions } = createSpan(
-      "CommunicationIdentity-exchangeTeamsToken",
+      "CommunicationIdentity-getTokenForTeamsUser",
       options
     );
     try {
       const { _response, ...result } = await this.client.exchangeTeamsUserAccessToken(
-        { token: teamsToken },
+        { token: teamsUserAadToken },
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
       return result;

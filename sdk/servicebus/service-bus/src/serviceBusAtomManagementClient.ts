@@ -81,7 +81,8 @@ import {
   formatUserAgentPrefix,
   getHttpResponseOnly,
   isAbsoluteUrl,
-  isJSONLikeObject
+  isJSONLikeObject,
+  ServiceBusAtomAPIVersion
 } from "./util/utils";
 import { SpanStatusCode } from "@azure/core-tracing";
 
@@ -103,6 +104,7 @@ export interface ListRequestOptions {
 /**
  * Represents the returned response of the operation along with the raw response.
  */
+// eslint-disable-next-line @typescript-eslint/ban-types
 export type WithResponse<T extends object> = T & {
   /**
    * The underlying HTTP response.
@@ -111,8 +113,23 @@ export type WithResponse<T extends object> = T & {
 };
 
 /**
+ * Represents the client options of the `ServiceBusAdministrationClient`.
+ */
+export interface ServiceBusAdministrationClientOptions extends PipelineOptions {
+  /**
+   * Service version of the ATOM API.
+   *
+   * Currently supported = "2021-05" | "2017-04"
+   *
+   * Defaults to "2021-05".
+   */
+  serviceVersion?: "2021-05" | "2017-04";
+}
+
+/**
  * Represents the result of list operation on entities which also contains the `continuationToken` to start iterating over from.
  */
+// eslint-disable-next-line @typescript-eslint/ban-types
 export type EntitiesResponse<T extends object> = WithResponse<Array<T>> &
   Pick<PageSettings, "continuationToken">;
 
@@ -131,6 +148,8 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    * Reference to the endpoint with protocol prefix as extracted from input connection string.
    */
   private endpointWithProtocol: string;
+
+  private serviceVersion: ServiceBusAtomAPIVersion;
 
   /**
    * Singleton instances of serializers used across the various operations.
@@ -152,7 +171,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    * @param options - PipelineOptions
    */
   // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-  constructor(connectionString: string, options?: PipelineOptions);
+  constructor(connectionString: string, options?: ServiceBusAdministrationClientOptions);
   /**
    *
    * @param fullyQualifiedNamespace - The fully qualified namespace of your Service Bus instance which is
@@ -170,15 +189,18 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     fullyQualifiedNamespace: string,
     credential: TokenCredential | NamedKeyCredential,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    options?: PipelineOptions
+    options?: ServiceBusAdministrationClientOptions
   );
   constructor(
     fullyQualifiedNamespaceOrConnectionString1: string,
-    credentialOrOptions2?: TokenCredential | NamedKeyCredential | PipelineOptions,
+    credentialOrOptions2?:
+      | TokenCredential
+      | NamedKeyCredential
+      | ServiceBusAdministrationClientOptions,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    options3?: PipelineOptions
+    options3?: ServiceBusAdministrationClientOptions
   ) {
-    let options: PipelineOptions;
+    let options: ServiceBusAdministrationClientOptions;
     let fullyQualifiedNamespace: string;
     let credentials: SasServiceClientCredentials | TokenCredential;
     let authPolicy: RequestPolicyFactory;
@@ -226,6 +248,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     this.endpointWithProtocol = fullyQualifiedNamespace.endsWith("/")
       ? "sb://" + fullyQualifiedNamespace
       : "sb://" + fullyQualifiedNamespace + "/";
+    this.serviceVersion = options.serviceVersion ?? Constants.CURRENT_API_VERSION;
     this.credentials = credentials;
     this.namespaceResourceSerializer = new NamespaceResourceSerializer();
     this.queueResourceSerializer = new QueueResourceSerializer();
@@ -616,7 +639,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    * All queue properties must be set even though only a subset of them are actually updatable.
    * Therefore, the suggested flow is to use the output from `getQueue()`, update the desired properties in it, and then pass the modified object to `updateQueue()`.
    *
-   * See https://docs.microsoft.com/rest/api/servicebus/update-queue for more details.
+   * The properties that cannot be updated are marked as readonly in the `QueueProperties` interface.
    *
    * @param queue - Object representing the properties of the queue and the raw response.
    * `requiresSession`, `requiresDuplicateDetection`, `enablePartitioning`, and `name` can't be updated after creating the queue.
@@ -693,6 +716,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     queueName: string,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     operationOptions?: OperationOptions
+    // eslint-disable-next-line @typescript-eslint/ban-types
   ): Promise<WithResponse<{}>> {
     const { span, updatedOptions } = createSpan(
       "ServiceBusAdministrationClient-deleteQueue",
@@ -1103,7 +1127,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    * All topic properties must be set even though only a subset of them are actually updatable.
    * Therefore, the suggested flow is to use the output from `getTopic()`, update the desired properties in it, and then pass the modified object to `updateTopic()`.
    *
-   * See https://docs.microsoft.com/rest/api/servicebus/update-topic for more details.
+   * The properties that cannot be updated are marked as readonly in the `TopicProperties` interface.
    *
    * @param topic - Object representing the properties of the topic and the raw response.
    * `requiresDuplicateDetection`, `enablePartitioning`, and `name` can't be updated after creating the topic.
@@ -1180,6 +1204,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     topicName: string,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     operationOptions?: OperationOptions
+    // eslint-disable-next-line @typescript-eslint/ban-types
   ): Promise<WithResponse<{}>> {
     const { span, updatedOptions } = createSpan(
       "ServiceBusAdministrationClient-deleteTopic",
@@ -1617,6 +1642,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    * All subscription properties must be set even though only a subset of them are actually updatable.
    * Therefore, the suggested flow is to use the output from `getSubscription()`, update the desired properties in it, and then pass the modified object to `updateSubscription()`.
    *
+   * The properties that cannot be updated are marked as readonly in the `SubscriptionProperties` interface.
    * @param subscription - Object representing the properties of the subscription and the raw response.
    * `subscriptionName`, `topicName`, and `requiresSession` can't be updated after creating the subscription.
    * @param operationOptions - The options that can be used to abort, trace and control other configurations on the HTTP request.
@@ -1700,6 +1726,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     subscriptionName: string,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     operationOptions?: OperationOptions
+    // eslint-disable-next-line @typescript-eslint/ban-types
   ): Promise<WithResponse<{}>> {
     const { span, updatedOptions } = createSpan(
       "ServiceBusAdministrationClient-deleteSubscription",
@@ -2102,6 +2129,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     ruleName: string,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     operationOptions?: OperationOptions
+    // eslint-disable-next-line @typescript-eslint/ban-types
   ): Promise<WithResponse<{}>> {
     const { span, updatedOptions } = createSpan(
       "ServiceBusAdministrationClient-deleteRule",
@@ -2343,7 +2371,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     const baseUri = `https://${this.endpoint}/${path}`;
 
     const requestUrl: URLBuilder = URLBuilder.parse(baseUri);
-    requestUrl.setQueryParameter(Constants.API_VERSION_QUERY_KEY, Constants.CURRENT_API_VERSION);
+    requestUrl.setQueryParameter(Constants.API_VERSION_QUERY_KEY, this.serviceVersion);
 
     if (queryParams) {
       for (const key of Object.keys(queryParams)) {
@@ -2367,7 +2395,8 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       return undefined;
     }
     try {
-      return parseURL(url).searchParams.get(Constants.XML_METADATA_MARKER + "skip");
+      const value = parseURL(url).searchParams.get(Constants.XML_METADATA_MARKER + "skip");
+      return value !== null ? value : undefined;
     } catch (error) {
       throw new Error(
         `Unable to parse the '${Constants.XML_METADATA_MARKER}skip' from the next-link in the response ` +

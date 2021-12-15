@@ -1,0 +1,96 @@
+{
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/88888888-8888-8888-8888-888888888888/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fsanitized%2F",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "cache-control": "no-store, no-cache",
+    "content-length": "1318",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Thu, 18 Nov 2021 01:14:59 GMT",
+    "expires": "-1",
+    "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "pragma": "no-cache",
+    "referrer-policy": "strict-origin-when-cross-origin",
+    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+wst\"}]}",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-ests-server": "2.1.12249.11 - SCUS ProdSlices",
+    "x-ms-request-id": "f797c847-4ed1-4cff-8dea-459911213f00"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://endpoint/catalog/api/glossary/name/jssdkGlossary9Browser/terms/import",
+   "query": {
+    "includeTermHierarchy": "true",
+    "api-version": "2021-05-01-preview"
+   },
+   "requestBody": {},
+   "status": 202,
+   "response": "{\"id\":\"613968b6-912d-4fff-bafc-5c0820c903f7\",\"status\":\"Running\",\"createTime\":\"2021-11-18T01:15:00.638+0000\",\"lastUpdateTime\":\"2021-11-18T01:15:00.638+0000\",\"properties\":{\"importedTerms\":\"0\",\"totalTermsDetected\":\"-1\"},\"error\":{\"errorCode\":0,\"errorMessage\":\"\"}}",
+   "responseHeaders": {
+    "access-control-allow-headers": "authorization,content-type,x-xsrf-header,x-ms-client-request-id,lastmodifiedts",
+    "access-control-allow-methods": "GET,OPTIONS,HEAD,PUT,POST,DELETE,PATCH",
+    "access-control-allow-origin": "*",
+    "access-control-expose-headers": "x-ms-request-id,lastmodifiedts",
+    "cache-control": "no-store, must-revalidate, no-cache, max-age=0",
+    "content-security-policy": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Thu, 18 Nov 2021 01:15:00 GMT",
+    "expires": "0",
+    "location": "https://endpoint/catalog/api/glossary/terms/import/613968b6-912d-4fff-bafc-5c0820c903f7",
+    "pragma": "no-cache",
+    "retry-after": "5",
+    "server": "AzurePurview",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff, nosniff",
+    "x-frame-options": "DENY",
+    "x-ms-correlation-request-id": "1d0e7d2a-cebf-4d9b-9a25-ad4c78b8bd19",
+    "x-ms-request-id": "613968b6-912d-4fff-bafc-5c0820c903f7",
+    "x-xss-protection": "1; mode=block"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/catalog/api/glossary/terms/import/613968b6-912d-4fff-bafc-5c0820c903f7",
+   "query": {
+    "api-version": "2021-05-01-preview"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"id\":\"613968b6-912d-4fff-bafc-5c0820c903f7\",\"status\":\"Running\",\"createTime\":\"2021-11-18T01:15:00.638+0000\",\"lastUpdateTime\":\"2021-11-18T01:15:00.756+0000\",\"properties\":{\"importedTerms\":\"0\",\"totalTermsDetected\":\"-1\"},\"error\":{\"errorCode\":0,\"errorMessage\":\"\"}}",
+   "responseHeaders": {
+    "access-control-allow-headers": "authorization,content-type,x-xsrf-header,x-ms-client-request-id,lastmodifiedts",
+    "access-control-allow-methods": "GET,OPTIONS,HEAD,PUT,POST,DELETE,PATCH",
+    "access-control-allow-origin": "*",
+    "access-control-expose-headers": "x-ms-request-id,lastmodifiedts",
+    "cache-control": "no-store, must-revalidate, no-cache, max-age=0",
+    "content-security-policy": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Thu, 18 Nov 2021 01:15:00 GMT",
+    "expires": "0",
+    "location": "https://endpoint/catalog/api/glossary/terms/import/613968b6-912d-4fff-bafc-5c0820c903f7",
+    "pragma": "no-cache",
+    "retry-after": "5",
+    "server": "AzurePurview",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff, nosniff",
+    "x-frame-options": "DENY",
+    "x-ms-correlation-request-id": "6fbb21bb-e54f-4581-bd5f-ac7f4ed74bd4",
+    "x-ms-request-id": "425f727b-df82-45ee-8bbd-e698697fd680",
+    "x-xss-protection": "1; mode=block"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "68dc17ef2c016ad8284b99e3e5390ea1"
+}

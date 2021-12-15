@@ -6,7 +6,7 @@ This document will walk you through the steps required to bundle Azure SDK libra
 
 ## Install prerequisites
 
-In order to install Azure SDK libraries, you will need to install Node.js and a bunlder of your choice onto your development machine.
+In order to install Azure SDK libraries, you will need to install Node.js and a bundler of your choice onto your development machine.
 
 ### Node.js
 
@@ -443,7 +443,7 @@ Now let's create a very basic [tsconfig.json](https://www.typescriptlang.org/doc
 }
 ```
 
-For more information on using Parcel with TypeScript, check out the TypeScript guide in Parcel's documentation: https://parceljs.org/typeScript.html
+For more information on using Parcel with TypeScript, check out the [TypeScript guide in Parcel's documentation](https://parceljs.org/languages/typescript/)
 
 Similar to our JS example above, let's create an `index.ts` file that imports from `@azure/storage-blob`:
 

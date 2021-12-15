@@ -6,32 +6,31 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { ServiceTagInformationOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { NetworkManagementClientContext } from "../networkManagementClientContext";
+import { NetworkManagementClient } from "../networkManagementClient";
 import {
   ServiceTagInformation,
-  ServiceTagInformationOperationsListNextOptionalParams,
-  ServiceTagInformationOperationsListOptionalParams,
-  ServiceTagInformationOperationsListResponse,
-  ServiceTagInformationOperationsListNextResponse
+  ServiceTagInformationListNextOptionalParams,
+  ServiceTagInformationListOptionalParams,
+  ServiceTagInformationListResponse,
+  ServiceTagInformationListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ServiceTagInformationOperations operations. */
 export class ServiceTagInformationOperationsImpl
   implements ServiceTagInformationOperations {
-  private readonly client: NetworkManagementClientContext;
+  private readonly client: NetworkManagementClient;
 
   /**
    * Initialize a new instance of the class ServiceTagInformationOperations class.
    * @param client Reference to the service client
    */
-  constructor(client: NetworkManagementClientContext) {
+  constructor(client: NetworkManagementClient) {
     this.client = client;
   }
 
@@ -44,7 +43,7 @@ export class ServiceTagInformationOperationsImpl
    */
   public list(
     location: string,
-    options?: ServiceTagInformationOperationsListOptionalParams
+    options?: ServiceTagInformationListOptionalParams
   ): PagedAsyncIterableIterator<ServiceTagInformation> {
     const iter = this.listPagingAll(location, options);
     return {
@@ -62,7 +61,7 @@ export class ServiceTagInformationOperationsImpl
 
   private async *listPagingPage(
     location: string,
-    options?: ServiceTagInformationOperationsListOptionalParams
+    options?: ServiceTagInformationListOptionalParams
   ): AsyncIterableIterator<ServiceTagInformation[]> {
     let result = await this._list(location, options);
     yield result.value || [];
@@ -76,7 +75,7 @@ export class ServiceTagInformationOperationsImpl
 
   private async *listPagingAll(
     location: string,
-    options?: ServiceTagInformationOperationsListOptionalParams
+    options?: ServiceTagInformationListOptionalParams
   ): AsyncIterableIterator<ServiceTagInformation> {
     for await (const page of this.listPagingPage(location, options)) {
       yield* page;
@@ -92,8 +91,8 @@ export class ServiceTagInformationOperationsImpl
    */
   private _list(
     location: string,
-    options?: ServiceTagInformationOperationsListOptionalParams
-  ): Promise<ServiceTagInformationOperationsListResponse> {
+    options?: ServiceTagInformationListOptionalParams
+  ): Promise<ServiceTagInformationListResponse> {
     return this.client.sendOperationRequest(
       { location, options },
       listOperationSpec
@@ -111,8 +110,8 @@ export class ServiceTagInformationOperationsImpl
   private _listNext(
     location: string,
     nextLink: string,
-    options?: ServiceTagInformationOperationsListNextOptionalParams
-  ): Promise<ServiceTagInformationOperationsListNextResponse> {
+    options?: ServiceTagInformationListNextOptionalParams
+  ): Promise<ServiceTagInformationListNextResponse> {
     return this.client.sendOperationRequest(
       { location, nextLink, options },
       listNextOperationSpec

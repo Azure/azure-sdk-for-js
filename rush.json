@@ -1,7 +1,7 @@
 /**
  * This is the main configuration file for Rush.
  * For full documentation, please see https://rushjs.io
- */{
+ */ {
   "$schema": "https://developer.microsoft.com/json-schemas/rush/v5/rush.schema.json",
   /**
    * (Required) This specifies the version of the Rush engine to be used in this repo.
@@ -14,7 +14,7 @@
    * path segment in the "$schema" field for all your Rush config files.  This will ensure
    * correct error-underlining and tab-completion for editors such as VS Code.
    */
-  "rushVersion": "5.54.0",
+  "rushVersion": "5.55.1",
   /**
    * The next field selects which package manager should be installed and determines its version.
    * Rush installs its own local copy of the package manager to ensure that your build process
@@ -23,7 +23,7 @@
    * Specify one of: "pnpmVersion", "npmVersion", or "yarnVersion".  See the Rush documentation
    * for details about these alternatives.
    */
-  "pnpmVersion": "6.14.2",
+  "pnpmVersion": "6.19.1",
   // "npmVersion": "4.5.0",
   // "yarnVersion": "1.9.4",
   /**
@@ -427,6 +427,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure-tools/communication-short-codes",
+      "projectFolder": "sdk/communication/communication-short-codes",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/communication-sms",
       "projectFolder": "sdk/communication/communication-sms",
       "versionPolicyName": "client"
@@ -552,11 +557,6 @@
       "versionPolicyName": "client"
     },
     {
-      "packageName": "@azure/event-processor-host",
-      "projectFolder": "sdk/eventhub/event-processor-host",
-      "versionPolicyName": "client"
-    },
-    {
       "packageName": "@azure/mock-hub",
       "projectFolder": "sdk/eventhub/mock-hub",
       "versionPolicyName": "utility"
@@ -657,6 +657,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure-rest/synapse-access-control",
+      "projectFolder": "sdk/synapse/synapse-access-control-rest",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/synapse-artifacts",
       "projectFolder": "sdk/synapse/synapse-artifacts",
       "versionPolicyName": "client"
@@ -712,8 +717,8 @@
       "versionPolicyName": "utility"
     },
     {
-      "packageName": "@azure/test-utils-perfstress",
-      "projectFolder": "sdk/test-utils/perfstress",
+      "packageName": "@azure/test-utils-perf",
+      "projectFolder": "sdk/test-utils/perf",
       "versionPolicyName": "utility"
     },
     {
@@ -844,6 +849,11 @@
     {
       "packageName": "@azure-tests/perf-monitor-query",
       "projectFolder": "sdk/monitor/perf-tests/monitor-query",
+      "versionPolicyName": "test"
+    },
+    {
+      "packageName": "@azure-tests/perf-template",
+      "projectFolder": "sdk/template/perf-tests/template",
       "versionPolicyName": "test"
     },
     {
@@ -979,6 +989,171 @@
     {
       "packageName": "@azure/arm-operationalinsights",
       "projectFolder": "sdk/operationalinsights/arm-operationalinsights",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-postgresql",
+      "projectFolder": "sdk/postgresql/arm-postgresql",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-containerregistry",
+      "projectFolder": "sdk/containerregistry/arm-containerregistry",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-logic",
+      "projectFolder": "sdk/logic/arm-logic",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-recoveryservices",
+      "projectFolder": "sdk/recoveryservices/arm-recoveryservices",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-appplatform",
+      "projectFolder": "sdk/appplatform/arm-appplatform",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-containerservice",
+      "projectFolder": "sdk/containerservice/arm-containerservice",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-operations",
+      "projectFolder": "sdk/operationsmanagement/arm-operations",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-mediaservices",
+      "projectFolder": "sdk/mediaservices/arm-mediaservices",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-databricks",
+      "projectFolder": "sdk/databricks/arm-databricks",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-videoanalyzer",
+      "projectFolder": "sdk/videoanalyzer/arm-videoanalyzer",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-notificationhubs",
+      "projectFolder": "sdk/notificationhubs/arm-notificationhubs",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-streamanalytics",
+      "projectFolder": "sdk/streamanalytics/arm-streamanalytics",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-servicefabric",
+      "projectFolder": "sdk/servicefabric/arm-servicefabric",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-mysql",
+      "projectFolder": "sdk/mysql/arm-mysql",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-desktopvirtualization",
+      "projectFolder": "sdk/desktopvirtualization/arm-desktopvirtualization",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-datafactory",
+      "projectFolder": "sdk/datafactory/arm-datafactory",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-cdn",
+      "projectFolder": "sdk/cdn/arm-cdn",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-cosmosdb",
+      "projectFolder": "sdk/cosmosdb/arm-cosmosdb",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-consumption",
+      "projectFolder": "sdk/consumption/arm-consumption",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-datalake-analytics",
+      "projectFolder": "sdk/datalake-analytics/arm-datalake-analytics",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-batch",
+      "projectFolder": "sdk/batch/arm-batch",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-managementgroups",
+      "projectFolder": "sdk/managementgroups/arm-managementgroups",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-orbital",
+      "projectFolder": "sdk/orbital/arm-orbital",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-resourcehealth",
+      "projectFolder": "sdk/resourcehealth/arm-resourcehealth",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-botservice",
+      "projectFolder": "sdk/botservice/arm-botservice",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-search",
+      "projectFolder": "sdk/search/arm-search",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-analysisservices",
+      "projectFolder": "sdk/analysisservices/arm-analysisservices",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-portal",
+      "projectFolder": "sdk/portal/arm-portal",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-sqlvirtualmachine",
+      "projectFolder": "sdk/sqlvirtualmachine/arm-sqlvirtualmachine",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-devtestlabs",
+      "projectFolder": "sdk/devtestlabs/arm-devtestlabs",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-cognitiveservices",
+      "projectFolder": "sdk/cognitiveservices/arm-cognitiveservices",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-loadtestservice",
+      "projectFolder": "sdk/loadtestservice/arm-loadtestservice",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-relay",
+      "projectFolder": "sdk/relay/arm-relay",
       "versionPolicyName": "management"
     }
   ]

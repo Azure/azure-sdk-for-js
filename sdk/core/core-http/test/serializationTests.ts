@@ -3,12 +3,11 @@
 
 /* eslint-disable no-unused-expressions */
 
-import { assert } from "chai";
 import "chai/register-should";
-
 import * as msRest from "../src/coreHttp";
-import { TestClient } from "./data/TestClient/src/testClient";
 import { Mappers } from "./data/TestClient/src/models/mappers";
+import { TestClient } from "./data/TestClient/src/testClient";
+import { assert } from "chai";
 
 const Serializer = new msRest.Serializer({});
 const valid_uuid = "ceaafd1e-f936-429f-bbfc-82ee75dddc33";

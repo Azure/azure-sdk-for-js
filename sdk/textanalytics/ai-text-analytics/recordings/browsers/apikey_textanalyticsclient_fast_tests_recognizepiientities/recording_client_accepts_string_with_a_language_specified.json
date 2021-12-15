@@ -2,7 +2,7 @@
  "recordings": [
   {
    "method": "POST",
-   "url": "https://endpoint/text/analytics/v3.2-preview.1/entities/recognition/pii",
+   "url": "https://endpoint/text/analytics/v3.2-preview.2/entities/recognition/pii",
    "query": {
     "stringIndexType": "Utf16CodeUnit"
    },
@@ -10,14 +10,13 @@
    "status": 200,
    "response": "{\"documents\":[{\"redactedText\":\"I had a wonderful trip to Seattle ********* and even visited the Space Needle 2 times!\",\"id\":\"0\",\"entities\":[{\"text\":\"last week\",\"category\":\"DateTime\",\"subcategory\":\"DateRange\",\"offset\":34,\"length\":9,\"confidenceScore\":0.8}],\"warnings\":[]},{\"redactedText\":\"Unfortunately, it rained during my entire trip to Seattle. I didn't even get to visit the Space Needle\",\"id\":\"1\",\"entities\":[],\"warnings\":[]},{\"redactedText\":\"I went to see a movie on ******** and it was perfectly average, nothing more or less than I expected.\",\"id\":\"2\",\"entities\":[{\"text\":\"Saturday\",\"category\":\"DateTime\",\"subcategory\":\"Date\",\"offset\":25,\"length\":8,\"confidenceScore\":0.8}],\"warnings\":[]},{\"redactedText\":\"I didn't like the last book I read at all.\",\"id\":\"3\",\"entities\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-01-15\"}",
    "responseHeaders": {
-    "apim-request-id": "7af82909-1a66-408c-8866-b634871c509f",
+    "apim-request-id": "1f5f88e5-b0fa-4e12-852a-71780232364e",
     "content-type": "application/json; charset=utf-8",
     "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=4,CognitiveServices.TextAnalytics.TextRecords=4",
-    "date": "Tue, 03 Aug 2021 22:52:54 GMT",
+    "date": "Sat, 23 Oct 2021 00:50:10 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "39"
+    "x-envoy-upstream-service-time": "27"
    }
   }
  ],

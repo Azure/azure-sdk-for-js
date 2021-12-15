@@ -7,21 +7,29 @@
  */
 
 import * as coreClient from "@azure/core-client";
-import { GeneratedClientOptionalParams } from "./models";
+import { ApiVersion20210701, GeneratedClientOptionalParams } from "./models";
 
 /** @internal */
 export class GeneratedClientContext extends coreClient.ServiceClient {
   url: string;
-  apiVersion?: string;
+  apiVersion: ApiVersion20210701;
 
   /**
    * Initializes a new instance of the GeneratedClientContext class.
    * @param url Registry login URL
+   * @param apiVersion Api Version
    * @param options The parameter options
    */
-  constructor(url: string, options?: GeneratedClientOptionalParams) {
+  constructor(
+    url: string,
+    apiVersion: ApiVersion20210701,
+    options?: GeneratedClientOptionalParams
+  ) {
     if (url === undefined) {
       throw new Error("'url' cannot be null");
+    }
+    if (apiVersion === undefined) {
+      throw new Error("'apiVersion' cannot be null");
     }
 
     // Initializing default values for options
@@ -32,7 +40,7 @@ export class GeneratedClientContext extends coreClient.ServiceClient {
       requestContentType: "application/json; charset=utf-8"
     };
 
-    const packageDetails = `azsdk-js-container-registry/1.0.0-beta.6`;
+    const packageDetails = `azsdk-js-container-registry/1.0.0-beta.7`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -49,8 +57,6 @@ export class GeneratedClientContext extends coreClient.ServiceClient {
     super(optionsWithDefaults);
     // Parameter assignments
     this.url = url;
-
-    // Assigning values to Constant parameters
-    this.apiVersion = options.apiVersion || "2021-07-01";
+    this.apiVersion = apiVersion;
   }
 }

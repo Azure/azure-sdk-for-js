@@ -28,10 +28,10 @@ export const commandInfo = makeCommandInfo(
 async function runSingle(name: string, accumulatedErrors: Array<[string, string]>) {
   log("Running", name);
   try {
-    if (/.*[\\\/]samples(-dev)?[\\\/].*/.exec(name)) {
+    if (/.*[\\/]samples(-dev)?[\\/].*/.exec(name)) {
       // This is an un-prepared sample, so just require it and it will run.
       await import(name);
-    } else if (!/.*[\\\/]dist-samples[\\\/].*/.exec(name)) {
+    } else if (!/.*[\\/]dist-samples[\\/].*/.exec(name)) {
       // This is not an unprepared or a prepared sample
       log.error("Skipped. This file is not in any samples folder.");
     } else {

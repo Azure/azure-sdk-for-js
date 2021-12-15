@@ -1,10 +1,6 @@
 # Release History
 
-## 1.3.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 1.3.1 (2021-12-14)
 
 ### Bugs Fixed
 
@@ -12,6 +8,8 @@
   Has been fixed in [#17583](https://github.com/Azure/azure-sdk-for-js/pull/17583)
 
 ### Other Changes
+
+- Throws a better error message if provided invalid connection strings such as `undefined` to the `AppConfigurationClient` constructor. [#18356](https://github.com/Azure/azure-sdk-for-js/pull/18356)
 
 ## 1.3.0 (2021-07-26)
 

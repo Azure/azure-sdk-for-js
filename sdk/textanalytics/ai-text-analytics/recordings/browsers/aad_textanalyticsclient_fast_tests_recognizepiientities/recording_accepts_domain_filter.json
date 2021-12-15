@@ -11,38 +11,37 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1331",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 03 Aug 2021 22:59:51 GMT",
+    "date": "Sat, 23 Oct 2021 00:56:44 GMT",
     "expires": "-1",
     "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
-    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+san\"}]}",
+    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+wst\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11898.12 - SCUS ProdSlices",
-    "x-ms-request-id": "758a9522-916b-4622-8a65-d5c3e1a54a01"
+    "x-ms-ests-server": "2.1.12171.14 - SCUS ProdSlices",
+    "x-ms-request-id": "efcc41dd-167d-428c-b3f9-ad3264e60600"
    }
   },
   {
    "method": "POST",
-   "url": "https://endpoint/text/analytics/v3.2-preview.1/entities/recognition/pii",
+   "url": "https://endpoint/text/analytics/v3.2-preview.2/entities/recognition/pii",
    "query": {
     "stringIndexType": "Utf16CodeUnit",
     "domain": "PHI"
    },
    "requestBody": "{\"documents\":[{\"id\":\"0\",\"text\":\"I work at Microsoft and my phone number is 333-333-3333\",\"language\":\"en\"}]}",
    "status": 200,
-   "response": "{\"documents\":[{\"redactedText\":\"I work at ********* and my phone number is ************\",\"id\":\"0\",\"entities\":[{\"text\":\"Microsoft\",\"category\":\"Organization\",\"offset\":10,\"length\":9,\"confidenceScore\":0.95},{\"text\":\"333-333-3333\",\"category\":\"PhoneNumber\",\"offset\":43,\"length\":12,\"confidenceScore\":0.8}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-01-15\"}",
+   "response": "{\"documents\":[{\"redactedText\":\"I work at ********* and my phone number is ************\",\"id\":\"0\",\"entities\":[{\"text\":\"Microsoft\",\"category\":\"Organization\",\"offset\":10,\"length\":9,\"confidenceScore\":0.94},{\"text\":\"333-333-3333\",\"category\":\"PhoneNumber\",\"offset\":43,\"length\":12,\"confidenceScore\":0.8}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-01-15\"}",
    "responseHeaders": {
-    "apim-request-id": "3cd08d85-149f-477d-bfd3-8a311c1a73c8",
+    "apim-request-id": "01df9b5d-471a-4281-af4a-f0147faa5ade",
     "content-type": "application/json; charset=utf-8",
     "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=1,CognitiveServices.TextAnalytics.TextRecords=1",
-    "date": "Tue, 03 Aug 2021 22:59:51 GMT",
+    "date": "Sat, 23 Oct 2021 00:56:45 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "30"
+    "x-envoy-upstream-service-time": "36"
    }
   }
  ],

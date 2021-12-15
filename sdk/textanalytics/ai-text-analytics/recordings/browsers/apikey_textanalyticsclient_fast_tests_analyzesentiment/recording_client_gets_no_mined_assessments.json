@@ -2,7 +2,7 @@
  "recordings": [
   {
    "method": "POST",
-   "url": "https://endpoint/text/analytics/v3.2-preview.1/sentiment",
+   "url": "https://endpoint/text/analytics/v3.2-preview.2/sentiment",
    "query": {
     "stringIndexType": "Utf16CodeUnit",
     "opinionMining": "true"
@@ -11,14 +11,13 @@
    "status": 200,
    "response": "{\"documents\":[{\"id\":\"0\",\"sentiment\":\"neutral\",\"confidenceScores\":{\"positive\":0.1,\"neutral\":0.88,\"negative\":0.02},\"sentences\":[{\"sentiment\":\"neutral\",\"confidenceScores\":{\"positive\":0.1,\"neutral\":0.88,\"negative\":0.02},\"offset\":0,\"length\":18,\"text\":\"today is a hot day\",\"targets\":[],\"assessments\":[]}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-04-01\"}",
    "responseHeaders": {
-    "apim-request-id": "9267adb8-bf58-4bec-a3f6-873c068ab9e4",
+    "apim-request-id": "3734937e-8c60-4501-ad12-0bc4c6cf37ce",
     "content-type": "application/json; charset=utf-8",
     "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=1,CognitiveServices.TextAnalytics.TextRecords=1",
-    "date": "Tue, 03 Aug 2021 22:52:52 GMT",
+    "date": "Sat, 23 Oct 2021 00:50:08 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "107"
+    "x-envoy-upstream-service-time": "106"
    }
   }
  ],

@@ -54,8 +54,14 @@ import { IndexDocumentsClient } from "./searchIndexingBufferedSender";
 export interface SearchClientOptions extends CommonClientOptions {
   /**
    * The API version to use when communicating with the service.
+   * @deprecated use {@Link serviceVersion} instead
    */
   apiVersion?: string;
+
+  /**
+   * The service version to use when communicating with the service.
+   */
+  serviceVersion?: string;
 }
 
 /**
@@ -68,9 +74,17 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
   /// the ContinuationToken logic will need to be updated below.
 
   /**
-   * The API version to use when communicating with the service.
+   *  The service version to use when communicating with the service.
    */
-  public readonly apiVersion: string = "2020-06-30-Preview";
+  public readonly serviceVersion: string = "2020-06-30-Preview";
+
+  /**
+   * The API version to use when communicating with the service.
+   * @deprecated use {@Link serviceVersion} instead
+   */
+  public get apiVersion(): string {
+    return this.serviceVersion;
+  }
 
   /**
    * The endpoint of the search service
@@ -143,19 +157,24 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
       }
     };
 
-    let apiVersion = this.apiVersion;
-
     if (options.apiVersion) {
       if (!["2020-06-30", "2021-04-30-Preview"].includes(options.apiVersion)) {
         throw new Error(`Invalid Api Version: ${options.apiVersion}`);
       }
-      apiVersion = options.apiVersion;
+      this.serviceVersion = options.apiVersion;
+    }
+
+    if (options.serviceVersion) {
+      if (!["2020-06-30", "2021-04-30-Preview"].includes(options.serviceVersion)) {
+        throw new Error(`Invalid Service Version: ${options.serviceVersion}`);
+      }
+      this.serviceVersion = options.serviceVersion;
     }
 
     this.client = new GeneratedClient(
       this.endpoint,
       this.indexName,
-      apiVersion,
+      this.serviceVersion,
       internalClientPipelineOptions
     );
 

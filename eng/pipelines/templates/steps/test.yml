@@ -1,6 +1,7 @@
 parameters:
   Artifacts: []
   ServiceDirectory: not-specified
+  TestProxy: false
 
 steps:
   - template: /eng/common/pipelines/templates/steps/verify-agent-os.yml
@@ -25,6 +26,9 @@ steps:
 
   - template: ../steps/use-node-test-version.yml
 
+  - ${{ if eq(parameters.TestProxy, true) }}:
+    - template: /eng/common/testproxy/test-proxy-tool.yml
+  
   # Option "-p max" ensures parallelism is set to the number of cores on all platforms, which improves build times.
   # The default on Windows is "cores - 1" (microsoft/rushstack#436).
   - script: |
@@ -39,6 +43,12 @@ steps:
     displayName: "Test libraries"
     condition: and(succeeded(),eq(variables['TestType'], 'browser'))
 
+  - ${{ if eq(parameters.TestProxy, true) }}:
+    - pwsh: |
+        cat $(Build.SourcesDirectory)/test-proxy.log
+      displayName: 'Dump Test Proxy logs'
+      condition: succeededOrFailed()
+      
   # Unlink node_modules folders to significantly improve performance of subsequent tasks
   # which need to walk the directory tree (and are hardcoded to follow symlinks).
   # Retry for 30 seconds, since this command may fail with error "Another rush command is already

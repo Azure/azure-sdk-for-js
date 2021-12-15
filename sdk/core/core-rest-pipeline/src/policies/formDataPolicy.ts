@@ -18,11 +18,31 @@ export function formDataPolicy(): PipelinePolicy {
     name: formDataPolicyName,
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
       if (request.formData) {
-        prepareFormData(request.formData, request);
+        const contentType = request.headers.get("Content-Type");
+        if (contentType && contentType.indexOf("application/x-www-form-urlencoded") !== -1) {
+          request.body = wwwFormUrlEncode(request.formData);
+          request.formData = undefined;
+        } else {
+          prepareFormData(request.formData, request);
+        }
       }
       return next(request);
     }
   };
+}
+
+function wwwFormUrlEncode(formData: FormDataMap): string {
+  const urlSearchParams = new URLSearchParams();
+  for (const [key, value] of Object.entries(formData)) {
+    if (Array.isArray(value)) {
+      for (const subValue of value) {
+        urlSearchParams.append(key, subValue.toString());
+      }
+    } else {
+      urlSearchParams.append(key, value.toString());
+    }
+  }
+  return urlSearchParams.toString();
 }
 
 async function prepareFormData(formData: FormDataMap, request: PipelineRequest): Promise<void> {

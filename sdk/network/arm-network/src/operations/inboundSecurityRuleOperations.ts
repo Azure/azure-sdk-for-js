@@ -10,25 +10,25 @@ import { InboundSecurityRuleOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { NetworkManagementClientContext } from "../networkManagementClientContext";
+import { NetworkManagementClient } from "../networkManagementClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
   InboundSecurityRule,
-  InboundSecurityRuleOperationsCreateOrUpdateOptionalParams,
-  InboundSecurityRuleOperationsCreateOrUpdateResponse
+  InboundSecurityRuleCreateOrUpdateOptionalParams,
+  InboundSecurityRuleCreateOrUpdateResponse
 } from "../models";
 
 /** Class containing InboundSecurityRuleOperations operations. */
 export class InboundSecurityRuleOperationsImpl
   implements InboundSecurityRuleOperations {
-  private readonly client: NetworkManagementClientContext;
+  private readonly client: NetworkManagementClient;
 
   /**
    * Initialize a new instance of the class InboundSecurityRuleOperations class.
    * @param client Reference to the service client
    */
-  constructor(client: NetworkManagementClientContext) {
+  constructor(client: NetworkManagementClient) {
     this.client = client;
   }
 
@@ -46,17 +46,17 @@ export class InboundSecurityRuleOperationsImpl
     networkVirtualApplianceName: string,
     ruleCollectionName: string,
     parameters: InboundSecurityRule,
-    options?: InboundSecurityRuleOperationsCreateOrUpdateOptionalParams
+    options?: InboundSecurityRuleCreateOrUpdateOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<InboundSecurityRuleOperationsCreateOrUpdateResponse>,
-      InboundSecurityRuleOperationsCreateOrUpdateResponse
+      PollOperationState<InboundSecurityRuleCreateOrUpdateResponse>,
+      InboundSecurityRuleCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<InboundSecurityRuleOperationsCreateOrUpdateResponse> => {
+    ): Promise<InboundSecurityRuleCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -124,8 +124,8 @@ export class InboundSecurityRuleOperationsImpl
     networkVirtualApplianceName: string,
     ruleCollectionName: string,
     parameters: InboundSecurityRule,
-    options?: InboundSecurityRuleOperationsCreateOrUpdateOptionalParams
-  ): Promise<InboundSecurityRuleOperationsCreateOrUpdateResponse> {
+    options?: InboundSecurityRuleCreateOrUpdateOptionalParams
+  ): Promise<InboundSecurityRuleCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       networkVirtualApplianceName,
@@ -160,7 +160,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters27,
+  requestBody: Parameters.parameters31,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

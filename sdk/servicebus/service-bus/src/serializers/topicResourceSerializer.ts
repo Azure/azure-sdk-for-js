@@ -96,9 +96,8 @@ export function buildTopic(rawTopic: Record<string, any>): TopicProperties {
 
     availabilityStatus: rawTopic[Constants.ENTITY_AVAILABILITY_STATUS],
 
-    maxMessageSizeInKilobytes: getInteger(
-      rawTopic[Constants.MAX_MESSAGE_SIZE_IN_KILOBYTES],
-      "maxMessageSizeInKilobytes"
+    maxMessageSizeInKilobytes: getIntegerOrUndefined(
+      rawTopic[Constants.MAX_MESSAGE_SIZE_IN_KILOBYTES]
     )
   };
 }
@@ -258,8 +257,10 @@ export interface TopicProperties {
 
   /**
    * The maximum message size in kilobytes for messages sent to this queue/topic.
+   *
+   * Not applicable if service version "2017-04" is chosen when creating the `ServiceBusAdministrationClient`.
    */
-  maxMessageSizeInKilobytes: number;
+  maxMessageSizeInKilobytes?: number;
 
   /**
    * If enabled, the topic will detect duplicate messages within the time span
@@ -478,7 +479,7 @@ export interface TopicRuntimeProperties {
  * TopicResourceSerializer for serializing / deserializing Topic entities
  */
 export class TopicResourceSerializer implements AtomXmlSerializer {
-  serialize(resource: InternalTopicOptions): object {
+  serialize(resource: InternalTopicOptions): Record<string, unknown> {
     return serializeToAtomXmlRequest("TopicDescription", resource);
   }
   async deserialize(response: HttpOperationResponse): Promise<HttpOperationResponse> {

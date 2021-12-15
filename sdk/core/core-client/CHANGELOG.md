@@ -1,14 +1,29 @@
 # Release History
 
-## 1.3.2 (Unreleased)
+## 1.4.0 (Unreleased)
 
 ### Features Added
+
+- Added a new function `authorizeRequestOnClaimChallenge`, that can be used with the `@azure/core-rest-pipeline`'s `bearerTokenAuthenticationPolicy` to support [Continuous Access Evaluation (CAE) challenges](https://docs.microsoft.com/azure/active-directory/conditional-access/concept-continuous-access-evaluation).
+- Call the `bearerTokenAuthenticationPolicy` with the following options: `bearerTokenAuthenticationPolicy({ authorizeRequestOnChallenge: authorizeRequestOnClaimChallenge })`. Once provided, the `bearerTokenAuthenticationPolicy` policy will internally handle Continuous Access Evaluation (CAE) challenges. When it can't complete a challenge it will return the 401 (unauthorized) response from ARM.
 
 ### Breaking Changes
 
 ### Bugs Fixed
 
 ### Other Changes
+
+## 1.3.3 (2021-12-02)
+
+### Bugs Fixed
+
+- Added a check to handle undefined value during the parsing of query parameters. Please refer to [PR #18621](https://github.com/Azure/azure-sdk-for-js/pull/18621) for further details.
+
+## 1.3.2 (2021-10-25)
+
+### Bugs Fixed
+
+- Skip query parameter replacement for absolute URLs. [PR #18310](https://github.com/Azure/azure-sdk-for-js/pull/18310)
 
 ## 1.3.1 (2021-09-30)
 

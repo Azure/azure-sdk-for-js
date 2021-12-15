@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { BlobTags, BlobPropertiesInternal as BlobProperties } from "./generated/src/models";
+
 export {
   AccessPolicy,
   AccessTier,
@@ -12,12 +14,9 @@ export {
   AppendBlobAppendBlockHeaders,
   AppendBlobCreateHeaders,
   ArchiveStatus,
-  ListBlobsFlatSegmentResponse as ListBlobsFlatSegmentResponseModel,
   BlobDeleteImmutabilityPolicyHeaders,
   BlobDeleteImmutabilityPolicyResponse,
   BlobImmutabilityPolicyMode,
-  BlobItemInternal,
-  BlobFlatListSegment as BlobFlatListSegmentModel,
   BlobAbortCopyFromURLHeaders,
   BlobCopyFromURLHeaders,
   BlobCreateSnapshotHeaders,
@@ -46,7 +45,6 @@ export {
   BlobSetTierHeaders,
   BlobSetTierResponse,
   BlobSetTagsHeaders,
-  BlobPrefix,
   BlobDownloadHeaders,
   BlobDownloadResponse as BlobDownloadResponseModel,
   BlobType,
@@ -95,10 +93,6 @@ export {
   LeaseDurationType,
   LeaseStateType,
   LeaseStatusType,
-  ListBlobsHierarchySegmentResponse as ListBlobsHierarchySegmentResponseModel,
-  BlobHierarchyListSegment as BlobHierarchyListSegmentModel,
-  ListBlobsIncludeItem,
-  ListContainersIncludeType,
   ListContainersSegmentResponse,
   FilterBlobItem as FilterBlobItemModel,
   FilterBlobSegment as FilterBlobSegmentModel,
@@ -144,11 +138,11 @@ export {
   ServiceSetPropertiesHeaders,
   SkuName,
   StaticWebsite,
-  SyncCopyStatusType,
   ContainerItem,
   ServiceSubmitBatchResponse as ServiceSubmitBatchResponseModel,
   ServiceSubmitBatchOptionalParams as ServiceSubmitBatchOptionalParamsModel,
   SignedIdentifier as SignedIdentifierModel,
+  SyncCopyStatusType,
   UserDelegationKey as UserDelegationKeyModel,
   ContainerEncryptionScope,
   BlobQueryHeaders,
@@ -160,3 +154,59 @@ export {
   ContainerRenameResponse,
   ContainerRenameHeaders
 } from "./generated/src/models";
+
+// Following definitions are to avoid breaking change.
+export interface BlobPrefix {
+  name: string;
+}
+
+/** An enumeration of blobs */
+export interface ListBlobsFlatSegmentResponseModel {
+  serviceEndpoint: string;
+  containerName: string;
+  prefix?: string;
+  marker?: string;
+  maxPageSize?: number;
+  segment: BlobFlatListSegmentModel;
+  continuationToken?: string;
+}
+
+export interface BlobFlatListSegmentModel {
+  blobItems: BlobItemInternal[];
+}
+
+/** An enumeration of blobs */
+export interface ListBlobsHierarchySegmentResponseModel {
+  serviceEndpoint: string;
+  containerName: string;
+  prefix?: string;
+  marker?: string;
+  maxPageSize?: number;
+  delimiter?: string;
+  segment: BlobHierarchyListSegmentModel;
+  continuationToken?: string;
+}
+
+export interface BlobHierarchyListSegmentModel {
+  blobPrefixes?: BlobPrefix[];
+  blobItems: BlobItemInternal[];
+}
+
+/** An Azure Storage blob */
+export interface BlobItemInternal {
+  name: string;
+  deleted: boolean;
+  snapshot: string;
+  versionId?: string;
+  isCurrentVersion?: boolean;
+  /** Properties of a blob */
+  properties: BlobProperties;
+  /** Dictionary of <string> */
+  metadata?: { [propertyName: string]: string };
+  /** Blob tags */
+  blobTags?: BlobTags;
+  /** Dictionary of <string> */
+  objectReplicationMetadata?: { [propertyName: string]: string };
+  /** Inactive root blobs which have any versions would have such tag with value true. */
+  hasVersionsOnly?: boolean;
+}

@@ -15,3 +15,4 @@ export { pluginForIdentitySDK, pluginForClientSecretCredentialTests } from "./ut
 export { jsonRecordingFilterFunction } from "./basekarma.conf";
 export { generateTestRecordingFilePath } from "./utils/recordingPath";
 export { findRecordingsFolderPath } from "./utils/recordings";
+export { setEnvironmentVariables } from "./baseRecorder";

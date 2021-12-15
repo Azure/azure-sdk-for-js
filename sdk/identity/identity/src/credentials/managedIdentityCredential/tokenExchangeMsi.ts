@@ -2,30 +2,31 @@
 // Licensed under the MIT license.
 
 import fs from "fs";
-import { createHttpHeaders, PipelineRequestOptions } from "@azure/core-rest-pipeline";
+import {
+  createHttpHeaders,
+  createPipelineRequest,
+  PipelineRequestOptions
+} from "@azure/core-rest-pipeline";
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
 import { promisify } from "util";
+import { DefaultAuthorityHost } from "../../constants";
 import { credentialLogger } from "../../util/logging";
 import { MSI, MSIConfiguration } from "./models";
-import { msiGenericGetToken } from "./utils";
-import { DefaultAuthorityHost } from "../../constants";
 
 const msiName = "ManagedIdentityCredential - Token Exchange";
 const logger = credentialLogger(msiName);
 
 const readFileAsync = promisify(fs.readFile);
 
-function expiresInParser(requestBody: any): number {
-  // Parses a string representation of the seconds since epoch into a number value
-  return Number(requestBody.expires_on);
-}
-
+/**
+ * Generates the options used on the request for an access token.
+ */
 function prepareRequestOptions(
   scopes: string | string[],
   clientAssertion: string,
-  clientId?: string
+  clientId: string
 ): PipelineRequestOptions {
-  const bodyParams: any = {
+  const bodyParams: Record<string, string> = {
     scope: Array.isArray(scopes) ? scopes.join(" ") : scopes,
     client_assertion: clientAssertion,
     client_assertion_type: "urn:ietf:params:oauth:client-assertion-type:jwt-bearer",
@@ -49,6 +50,9 @@ function prepareRequestOptions(
   };
 }
 
+/**
+ * Defines how to determine whether the token exchange MSI is available, and also how to retrieve a token from the token exchange MSI.
+ */
 export function tokenExchangeMsi(): MSI {
   const azureFederatedTokenFilePath = process.env.AZURE_FEDERATED_TOKEN_FILE;
   let azureFederatedTokenFileContent: string | undefined = undefined;
@@ -105,12 +109,14 @@ export function tokenExchangeMsi(): MSI {
         );
       }
 
-      return msiGenericGetToken(
-        identityClient,
-        prepareRequestOptions(scopes, assertion, clientId || process.env.AZURE_CLIENT_ID),
-        expiresInParser,
-        getTokenOptions
-      );
+      const request = createPipelineRequest({
+        abortSignal: getTokenOptions.abortSignal,
+        ...prepareRequestOptions(scopes, assertion, clientId || process.env.AZURE_CLIENT_ID!),
+        // Generally, MSI endpoints use the HTTP protocol, without transport layer security (TLS).
+        allowInsecureConnection: true
+      });
+      const tokenResponse = await identityClient.sendTokenRequest(request);
+      return (tokenResponse && tokenResponse.accessToken) || null;
     }
   };
 }

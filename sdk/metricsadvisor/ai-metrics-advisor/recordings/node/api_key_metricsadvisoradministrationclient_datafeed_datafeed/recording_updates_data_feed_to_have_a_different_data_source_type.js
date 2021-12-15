@@ -1,47 +1,26 @@
 let nock = require('nock');
 
-module.exports.hash = "f42b96ca5c10ec9b5b2fb0467b00c31e";
+module.exports.hash = "14a59b7c0e25a01bab2e00358aaee7ae";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .patch('/metricsadvisor/v1.0/dataFeeds/6180ba7c-dc5f-4baf-9f00-898718b6b87f', {"dataSourceType":"MongoDB","authenticationType":"Basic","dataSourceParameter":{"connectionString":"https://connect-to-mongodb-patch","database":"data-feed-mongodb-patch","command":"{ find: mongodb,filter: { Time: @StartTime },batch: 200 }"}})
-  .reply(200, {"dataFeedId":"6180ba7c-dc5f-4baf-9f00-898718b6b87f","dataFeedName":"js-test-postgreSqlFeed-162267904090102577","metrics":[{"metricId":"d92b4675-3757-4d35-951e-a903948dd2ec","metricName":"cost","metricDisplayName":"cost","metricDescription":""},{"metricId":"96428b0b-fbd6-4da2-a3a1-a2a72ad3e792","metricName":"revenue","metricDisplayName":"revenue","metricDescription":""}],"dimension":[{"dimensionName":"category","dimensionDisplayName":"category"},{"dimensionName":"city","dimensionDisplayName":"city"}],"dataStartFrom":"2020-08-21T00:00:00Z","dataSourceType":"MongoDB","timestampColumn":"","startOffsetInSeconds":0,"maxQueryPerMinute":30,"granularityName":"Daily","allUpIdentification":"__CUSTOM_SUM__","needRollup":"NeedRollup","fillMissingPointType":"CustomValue","fillMissingPointValue":555,"rollUpMethod":"Sum","dataFeedDescription":"Data feed description","stopRetryAfterInSeconds":-1,"minRetryIntervalInSeconds":-1,"maxConcurrency":-1,"viewMode":"Private","admins":["kaghiya@microsoft.com"],"viewers":[],"creator":"kaghiya@microsoft.com","status":"Active","createdTime":"2021-06-03T00:11:08Z","isAdmin":true,"actionLinkTemplate":"","dataSourceParameter":{"database":"data-feed-mongodb-patch","command":"{ find: mongodb,filter: { Time: @StartTime },batch: 200 }"},"authenticationType":"Basic"}, [
+  .patch('/metricsadvisor/v1.0/dataFeeds/46342f2d-1b94-4e58-8ab8-3d35d5807157', {"dataSourceType":"MongoDB","authenticationType":"Basic","dataSourceParameter":{"connectionString":"https://connect-to-mongodb-patch","database":"data-feed-mongodb-patch","command":"{ find: mongodb,filter: { Time: @StartTime },batch: 200 }"}})
+  .reply(200, {"dataFeedId":"46342f2d-1b94-4e58-8ab8-3d35d5807157","dataFeedName":"js-test-postgreSqlFeed-163702279906508548","metrics":[{"metricId":"c3221405-a3c3-4fa5-beeb-0d77026b4573","metricName":"cost","metricDisplayName":"cost","metricDescription":""},{"metricId":"96d84ba7-d825-4951-8a53-c0386fb661c9","metricName":"revenue","metricDisplayName":"revenue","metricDescription":""}],"dimension":[{"dimensionName":"category","dimensionDisplayName":"category"},{"dimensionName":"city","dimensionDisplayName":"city"}],"dataStartFrom":"2020-08-21T00:00:00Z","dataSourceType":"MongoDB","timestampColumn":"","startOffsetInSeconds":0,"maxQueryPerMinute":30,"granularityName":"Daily","allUpIdentification":"__CUSTOM_SUM__","needRollup":"NeedRollup","fillMissingPointType":"CustomValue","fillMissingPointValue":555,"rollUpMethod":"Sum","dataFeedDescription":"Data feed description","stopRetryAfterInSeconds":-1,"minRetryIntervalInSeconds":-1,"maxConcurrency":-1,"viewMode":"Private","admins":["kaghiya@microsoft.com"],"viewers":[],"creator":"kaghiya@microsoft.com","status":"Active","createdTime":"2021-11-16T00:33:34Z","isAdmin":true,"actionLinkTemplate":"","dataSourceParameter":{"database":"data-feed-mongodb-patch","command":"{ find: mongodb,filter: { Time: @StartTime },batch: 200 }"},"authenticationType":"Basic"}, [
   'Content-Length',
   '1305',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-request-id',
-  'b56aebd0-880c-4332-82c9-167c18e1343b',
+  '623fc061-50ac-44ac-8740-6edadc76adee',
   'x-envoy-upstream-service-time',
-  '1001',
+  '700',
   'apim-request-id',
-  'b56aebd0-880c-4332-82c9-167c18e1343b',
+  '623fc061-50ac-44ac-8740-6edadc76adee',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Thu, 03 Jun 2021 00:11:09 GMT'
-]);
-
-nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/metricsadvisor/v1.0/dataFeeds/6180ba7c-dc5f-4baf-9f00-898718b6b87f')
-  .reply(200, {"dataFeedId":"6180ba7c-dc5f-4baf-9f00-898718b6b87f","dataFeedName":"js-test-postgreSqlFeed-162267904090102577","metrics":[{"metricId":"d92b4675-3757-4d35-951e-a903948dd2ec","metricName":"cost","metricDisplayName":"cost","metricDescription":""},{"metricId":"96428b0b-fbd6-4da2-a3a1-a2a72ad3e792","metricName":"revenue","metricDisplayName":"revenue","metricDescription":""}],"dimension":[{"dimensionName":"category","dimensionDisplayName":"category"},{"dimensionName":"city","dimensionDisplayName":"city"}],"dataStartFrom":"2020-08-21T00:00:00Z","dataSourceType":"MongoDB","timestampColumn":"","startOffsetInSeconds":0,"maxQueryPerMinute":30,"granularityName":"Daily","allUpIdentification":"__CUSTOM_SUM__","needRollup":"NeedRollup","fillMissingPointType":"CustomValue","fillMissingPointValue":555,"rollUpMethod":"Sum","dataFeedDescription":"Data feed description","stopRetryAfterInSeconds":-1,"minRetryIntervalInSeconds":-1,"maxConcurrency":-1,"viewMode":"Private","admins":["kaghiya@microsoft.com"],"viewers":[],"creator":"kaghiya@microsoft.com","status":"Active","createdTime":"2021-06-03T00:11:08Z","isAdmin":true,"actionLinkTemplate":"","dataSourceParameter":{"database":"data-feed-mongodb-patch","command":"{ find: mongodb,filter: { Time: @StartTime },batch: 200 }"},"authenticationType":"Basic"}, [
-  'Content-Length',
-  '1305',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'x-request-id',
-  '5be44903-f84f-4775-bdf7-905483dbb1ee',
-  'x-envoy-upstream-service-time',
-  '163',
-  'apim-request-id',
-  '5be44903-f84f-4775-bdf7-905483dbb1ee',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains; preload',
-  'x-content-type-options',
-  'nosniff',
-  'Date',
-  'Thu, 03 Jun 2021 00:11:10 GMT'
+  'Tue, 16 Nov 2021 00:33:35 GMT'
 ]);

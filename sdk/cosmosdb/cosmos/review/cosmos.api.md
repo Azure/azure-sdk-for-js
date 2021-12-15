@@ -560,6 +560,9 @@ export interface CosmosHeaders {
     [key: string]: any;
 }
 
+// @public
+export function createAuthorizationSasToken(masterKey: string, sasTokenProperties: SasTokenProperties): Promise<string>;
+
 // @public (undocumented)
 export type CreateOperation = OperationWithItem & {
     operationType: typeof BulkOperationType.Create;
@@ -1568,6 +1571,130 @@ export class RuntimeExecutionTimes {
     readonly userDefinedFunctionExecutionTime: TimeSpan;
     // (undocumented)
     static readonly zero: RuntimeExecutionTimes;
+}
+
+// @public (undocumented)
+export enum SasTokenPermissionKind {
+    // (undocumented)
+    ContainerCreateItems = 1,
+    // (undocumented)
+    ContainerCreateStoreProcedure = 16,
+    // (undocumented)
+    ContainerCreateTriggers = 256,
+    // (undocumented)
+    ContainerCreateUserDefinedFunctions = 2048,
+    // (undocumented)
+    ContainerDeleteConflicts = 16384,
+    // (undocumented)
+    ContainerDeleteItems = 128,
+    // (undocumented)
+    ContainerDeleteStoreProcedure = 64,
+    // (undocumented)
+    ContainerDeleteTriggers = 1024,
+    // (undocumented)
+    ContainerDeleteUserDefinedFunctions = 8192,
+    // (undocumented)
+    ContainerExecuteQueries = 1,
+    // (undocumented)
+    ContainerExecuteStoredProcedure = 128,
+    // (undocumented)
+    ContainerFullAccess = 4294967295,
+    // (undocumented)
+    ContainerReadAny = 64,
+    // (undocumented)
+    ContainerReadConflicts = 32,
+    // (undocumented)
+    ContainerReadFeeds = 2,
+    // (undocumented)
+    ContainerReadStoreProcedure = 4,
+    // (undocumented)
+    ContainerReadTriggers = 16,
+    // (undocumented)
+    ContainerReadUserDefinedFunctions = 8,
+    // (undocumented)
+    ContainerReplaceItems = 2,
+    // (undocumented)
+    ContainerReplaceStoreProcedure = 32,
+    // (undocumented)
+    ContainerReplaceTriggers = 512,
+    // (undocumented)
+    ContainerReplaceUserDefinedFunctions = 4096,
+    // (undocumented)
+    ContainerUpsertItems = 4,
+    // (undocumented)
+    ItemDelete = 262144,
+    // (undocumented)
+    ItemFullAccess = 65,
+    // (undocumented)
+    ItemRead = 64,
+    // (undocumented)
+    ItemReadAny = 65536,
+    // (undocumented)
+    ItemReplace = 65536,
+    // (undocumented)
+    ItemUpsert = 131072,
+    // (undocumented)
+    StoreProcedureDelete = 2097152,
+    // (undocumented)
+    StoreProcedureExecute = 4194304,
+    // (undocumented)
+    StoreProcedureRead = 128,
+    // (undocumented)
+    StoreProcedureReplace = 1048576,
+    // (undocumented)
+    TriggerDelete = 67108864,
+    // (undocumented)
+    TriggerRead = 512,
+    // (undocumented)
+    TriggerReplace = 33554432,
+    // (undocumented)
+    UserDefinedFuntionDelete = 16777216,
+    // (undocumented)
+    UserDefinedFuntionRead = 256,
+    // (undocumented)
+    UserDefinedFuntionReplace = 8388608
+}
+
+// @public (undocumented)
+export class SasTokenProperties {
+    // (undocumented)
+    containerName: string;
+    // (undocumented)
+    controlPlaneReaderScope: number;
+    // (undocumented)
+    controlPlaneWriterScope: number;
+    // (undocumented)
+    cosmosContainerChildResourceKind: CosmosContainerChildResourceKind;
+    // (undocumented)
+    cosmosKeyType: CosmosKeyType;
+    // (undocumented)
+    databaseName: string;
+    // (undocumented)
+    dataPlaneReaderScope: number;
+    // (undocumented)
+    dataPlaneWriterScope: number;
+    // (undocumented)
+    expiryTime: Date;
+    // Warning: (ae-forgotten-export) The symbol "CosmosKeyType" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    keyType: CosmosKeyType | number;
+    // (undocumented)
+    partitionKeyValueRanges: string[];
+    // Warning: (ae-forgotten-export) The symbol "CosmosContainerChildResourceKind" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    resourceKind: CosmosContainerChildResourceKind;
+    // (undocumented)
+    resourceName: string;
+    // (undocumented)
+    resourcePath: string;
+    // (undocumented)
+    startTime: Date;
+    // (undocumented)
+    user: string;
+    // (undocumented)
+    userTag: string;
 }
 
 // @public (undocumented)

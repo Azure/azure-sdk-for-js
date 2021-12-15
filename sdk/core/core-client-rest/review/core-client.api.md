@@ -22,16 +22,7 @@ export interface CertificateCredential {
 // @public
 export interface Client {
     path: Function;
-    pathUnchecked: (path: string, ...args: Array<any>) => {
-        get: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
-        post: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
-        put: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
-        patch: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
-        delete: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
-        head: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
-        options: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
-        trace: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
-    };
+    pathUnchecked: PathUnchecked;
     pipeline: Pipeline;
 }
 
@@ -45,9 +36,6 @@ export type ClientOptions = PipelineOptions & {
     apiVersion?: string;
     allowInsecureConnection?: boolean;
 };
-
-// @public
-export function createDefaultPipeline(baseUrl: string, credential?: TokenCredential | KeyCredential, options?: ClientOptions): Pipeline;
 
 // @public
 export function createRestError(message: string, response: PathUncheckedResponse): RestError;
@@ -70,6 +58,16 @@ export type HttpResponse = {
 export function isCertificateCredential(credential: unknown): credential is CertificateCredential;
 
 // @public
+export type PathParameters<TRoute extends string> = TRoute extends `${infer _Head}/{${infer _Param}}${infer Tail}` ? [
+pathParameter: string,
+...pathParameters: PathParameters<Tail>
+] : [
+];
+
+// @public
+export type PathUnchecked = <TPath extends string>(path: TPath, ...args: PathParameters<TPath>) => ResourceMethods;
+
+// @public
 export type PathUncheckedResponse = HttpResponse & {
     body: any;
 };
@@ -82,14 +80,20 @@ export type RequestParameters = {
     queryParameters?: Record<string, unknown>;
     contentType?: string;
     allowInsecureConnection?: boolean;
+    skipUrlEncoding?: boolean;
+    binaryResponse?: boolean;
 };
 
 // @public
-export type RouteParams<TRoute extends string> = TRoute extends `${infer _Head}/{${infer _Param}}${infer Tail}` ? [
-    pathParam: string,
-    ...pathParams: RouteParams<Tail>
-] : [
-];
-
+export interface ResourceMethods {
+    delete: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
+    get: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
+    head: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
+    options: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
+    patch: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
+    post: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
+    put: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
+    trace: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
+}
 
 ```

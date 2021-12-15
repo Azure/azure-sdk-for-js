@@ -1,14 +1,29 @@
 # Release History
 
-## 7.4.0-beta.2 (Unreleased)
+## 7.5.0-beta.1 (Unreleased)
 
 ### Features Added
+
+- Add `state` property to `ServiceBusReceivedMessage`. Its value is one of `"active"`, `"deferred"`, or `"scheduled"`. [PR #18938](https://github.com/Azure/azure-sdk-for-js/pull/18938)
+- Add optional boolean `skipParsingBodyAsJson` property to `ServiceBusReceiverOptions` and `ServiceBusSessionReceiverOptions`. By default, the client attempts to parse message body as JSON object, and this new parameter controls whether the client should skip performing this parsing. [PR #18692](https://github.com/Azure/azure-sdk-for-js/pull/18692)
 
 ### Breaking Changes
 
 ### Bugs Fixed
 
 ### Other Changes
+
+## 7.4.0 (2021-11-08)
+
+### Features Added
+
+- Allowing the service API version to be configurable when using `ServiceBusAdministrationClient` as part of the constructor client options.
+  Supported versions being "2021-05" and "2017-04".
+  [#18254](https://github.com/Azure/azure-sdk-for-js/pull/18254)
+
+### Bugs Fixed
+
+- Resolves an issue ([#17932](https://github.com/Azure/azure-sdk-for-js/issues/17932)) of receivers not being closed correctly when service bus client is closed.
 
 ## 7.4.0-beta.1 (2021-10-04)
 

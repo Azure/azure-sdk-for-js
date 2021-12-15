@@ -201,7 +201,7 @@ export interface QueueProperties {
     forwardTo?: string;
     lockDuration: string;
     maxDeliveryCount: number;
-    maxMessageSizeInKilobytes: number;
+    maxMessageSizeInKilobytes?: number;
     maxSizeInMegabytes: number;
     readonly name: string;
     readonly requiresDuplicateDetection: boolean;
@@ -243,8 +243,8 @@ export interface RuleProperties {
 
 // @public
 export class ServiceBusAdministrationClient extends ServiceClient {
-    constructor(connectionString: string, options?: PipelineOptions);
-    constructor(fullyQualifiedNamespace: string, credential: TokenCredential | NamedKeyCredential, options?: PipelineOptions);
+    constructor(connectionString: string, options?: ServiceBusAdministrationClientOptions);
+    constructor(fullyQualifiedNamespace: string, credential: TokenCredential | NamedKeyCredential, options?: ServiceBusAdministrationClientOptions);
     createQueue(queueName: string, options?: CreateQueueOptions): Promise<WithResponse<QueueProperties>>;
     createRule(topicName: string, subscriptionName: string, ruleName: string, ruleFilter: SqlRuleFilter | CorrelationRuleFilter, operationOptions?: OperationOptions): Promise<WithResponse<RuleProperties>>;
     createRule(topicName: string, subscriptionName: string, ruleName: string, ruleFilter: SqlRuleFilter | CorrelationRuleFilter, ruleAction: SqlRuleAction, operationOptions?: OperationOptions): Promise<WithResponse<RuleProperties>>;
@@ -277,6 +277,11 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     updateRule(topicName: string, subscriptionName: string, rule: WithResponse<RuleProperties>, operationOptions?: OperationOptions): Promise<WithResponse<RuleProperties>>;
     updateSubscription(subscription: WithResponse<SubscriptionProperties>, operationOptions?: OperationOptions): Promise<WithResponse<SubscriptionProperties>>;
     updateTopic(topic: WithResponse<TopicProperties>, operationOptions?: OperationOptions): Promise<WithResponse<TopicProperties>>;
+}
+
+// @public
+export interface ServiceBusAdministrationClientOptions extends PipelineOptions {
+    serviceVersion?: "2021-05" | "2017-04";
 }
 
 // @public
@@ -421,6 +426,7 @@ export interface ServiceBusReceivedMessage extends ServiceBusMessage {
     readonly lockToken?: string;
     readonly _rawAmqpMessage: AmqpAnnotatedMessage;
     readonly sequenceNumber?: Long_2;
+    readonly state: "active" | "deferred" | "scheduled";
 }
 
 // @public
@@ -453,6 +459,7 @@ export interface ServiceBusReceiver {
 export interface ServiceBusReceiverOptions {
     maxAutoLockRenewalDurationInMs?: number;
     receiveMode?: "peekLock" | "receiveAndDelete";
+    skipParsingBodyAsJson?: boolean;
     subQueueType?: "deadLetter" | "transferDeadLetter";
 }
 
@@ -483,6 +490,7 @@ export interface ServiceBusSessionReceiver extends ServiceBusReceiver {
 export interface ServiceBusSessionReceiverOptions extends OperationOptionsBase {
     maxAutoLockRenewalDurationInMs?: number;
     receiveMode?: "peekLock" | "receiveAndDelete";
+    skipParsingBodyAsJson?: boolean;
 }
 
 // @public
@@ -554,7 +562,7 @@ export interface TopicProperties {
     enableBatchedOperations: boolean;
     readonly enableExpress: boolean;
     readonly enablePartitioning: boolean;
-    maxMessageSizeInKilobytes: number;
+    maxMessageSizeInKilobytes?: number;
     maxSizeInMegabytes: number;
     readonly name: string;
     readonly requiresDuplicateDetection: boolean;

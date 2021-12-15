@@ -3,7 +3,7 @@
 
 import { SupportedVersions, supports, TestFunctionWrapper } from "@azure/test-utils";
 import { env } from "@azure-tools/test-recorder";
-import * as assert from "assert";
+import { assert } from "chai";
 import { LATEST_API_VERSION } from "../../src/keysModels";
 
 export function getKeyvaultName(): string {
@@ -58,4 +58,13 @@ export function onVersions(
   serviceVersion?: string
 ): TestFunctionWrapper {
   return supports(serviceVersion || getServiceVersion(), supportedVersions, serviceVersions);
+}
+
+/**
+ * Acts as a proxy to check with we're running on public or sovereign cloud.
+ *
+ * @returns - true if running on public cloud, false otherwise.
+ */
+export function isPublicCloud(): boolean {
+  return (env.AZURE_AUTHORITY_HOST ?? "").includes(".microsoftonline.com");
 }

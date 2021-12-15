@@ -1,26 +1,26 @@
 let nock = require('nock');
 
-module.exports.hash = "100d49946ff5cc61cc6db4eadf46eb8a";
+module.exports.hash = "f5aae12f1d0ddc6bd2f382d8aabc6198";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .post('/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/26ece682-80a6-4415-89a2-05903dd9a640/anomalies/dimension/query', {"startTime":"2020-01-05T00:00:00.000Z","endTime":"2020-11-05T00:00:00.000Z","dimensionName":"city"})
-  .reply(200, {"value":["__SUM__","Karachi","Los Angeles","Delhi","Manila","Seoul","Mumbai","Beijing","New York","Miami","Mexico City","Tianjin","Philadelphia","Osaka","Moscow","Santiago","Istanbul","Taipei","Madrid","Kolkata","Rio de Janeiro","Shenzhen","Belo Horizonte","Jakarta","Lahore","Dallas","Wuhan","Cairo","Hyderabad","Lima","Dhaka","Bogota","Shanghai","Paris","Bangkok","Houston","Buenos Aires","Kinshasa","London","Chennai","Bengaluru","Lagos","Tokyo","Sao Paulo","Chicago","Hong Kong","Chongqing","Guangzhou","Tehran","Boston","Ho Chi Minh City","Khartoum","Barcelona","Washington","Pune","Shenyang","Saint Petersburg","Toronto","Guadalajara","Singapore","Dongguan","Luanda","Baghdad","Haora"]}, [
+  .post('/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/26ece682-80a6-4415-89a2-05903dd9a640/anomalies/dimension/query', {"startTime":"2021-01-05T00:00:00.000Z","endTime":"2021-11-05T00:00:00.000Z","dimensionName":"category"})
+  .reply(200, {"value":["__SUM__","Shoes Handbags & Sunglasses","Handmade","Office Products","Home & Garden","Electronics (Consumer)","Electronics (Accessories)","Grocery & Gourmet Food"]}, [
   'Content-Length',
-  '693',
+  '174',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-request-id',
-  'e8039faf-dac1-4208-87bd-20e9faefa5bf',
+  '9b52acad-d1e7-4291-9fb9-f2c24cb6e2c3',
   'x-envoy-upstream-service-time',
-  '211',
+  '231',
   'apim-request-id',
-  'e8039faf-dac1-4208-87bd-20e9faefa5bf',
+  '9b52acad-d1e7-4291-9fb9-f2c24cb6e2c3',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Wed, 02 Jun 2021 07:07:54 GMT'
+  'Tue, 16 Nov 2021 00:32:42 GMT'
 ]);

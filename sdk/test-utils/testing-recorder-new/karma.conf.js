@@ -52,9 +52,12 @@ module.exports = function(config) {
     // https://www.npmjs.com/package/karma-env-preprocessor
     envPreprocessor: [
       "TEST_MODE",
-      "STORAGE_CONNECTION_STRING",
       "STORAGE_SAS_URL",
+      "TABLES_URL",
       "TABLES_SAS_CONNECTION_STRING",
+      "AZURE_CLIENT_ID",
+      "AZURE_CLIENT_SECRET",
+      "AZURE_TENANT_ID",
       "RECORDINGS_RELATIVE_PATH"
     ],
 
@@ -100,7 +103,13 @@ module.exports = function(config) {
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
     // 'ChromeHeadless', 'Chrome', 'Firefox', 'Edge', 'IE'
-    browsers: ["ChromeHeadless"],
+    browsers: ["ChromeHeadlessNoSandbox"],
+    customLaunchers: {
+      ChromeHeadlessNoSandbox: {
+        base: "ChromeHeadless",
+        flags: ["--no-sandbox", "--disable-web-security"]
+      }
+    },
 
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits
