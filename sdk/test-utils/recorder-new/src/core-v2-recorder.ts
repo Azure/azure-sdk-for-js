@@ -81,18 +81,18 @@ export class TestProxyHttpClient {
   /**
    * For core-v1 (core-http)
    */
-  redirectRequest(request: WebResourceLike): WebResourceLike;
+  redirectRequest(request: WebResourceLike): void;
 
   /**
    * For core-v2 (core-rest-pipeline)
    */
-  redirectRequest(request: PipelineRequest): PipelineRequest;
+  redirectRequest(request: PipelineRequest): void;
 
   /**
    * redirectRequest updates the request in record and playback modes to hit the proxy-tool with appropriate headers.
    * Works for both core-v1 and core-v2
    */
-  redirectRequest(request: WebResourceLike | PipelineRequest): typeof request {
+  redirectRequest(request: WebResourceLike | PipelineRequest): void {
     if (isPlaybackMode() || isRecordMode()) {
       if (!request.headers.get("x-recording-id")) {
         if (this.recordingId === undefined) {
@@ -113,7 +113,6 @@ export class TestProxyHttpClient {
         request.url = redirectedUrl.toString();
       }
     }
-    return request;
   }
 
   /**
@@ -135,7 +134,7 @@ export class TestProxyHttpClient {
   async modifyRequest(request: PipelineRequest): Promise<PipelineRequest> {
     if (isPlaybackMode() || isRecordMode()) {
       if (this.recordingId) {
-        request = this.redirectRequest(request);
+        this.redirectRequest(request);
         request.allowInsecureConnection = true;
       }
     }
