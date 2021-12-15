@@ -32,7 +32,7 @@ export class TestInstrumenter implements Instrumenter {
   ): { span: TracingSpan; tracingContext: TracingContext } {
     const tracingContext = spanOptions?.tracingContext || this.currentContext();
     const parentSpan = tracingContext.getValue(Symbol.for("span")) as TestTracingSpan;
-    var traceId;
+    let traceId;
     if (parentSpan) {
       traceId = parentSpan.spanContext.traceId;
     } else {

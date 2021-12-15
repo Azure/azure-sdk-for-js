@@ -3,7 +3,7 @@
 
 import { TracingContext } from "@azure/core-tracing";
 export class ContextImpl implements TracingContext {
-  private contextMap: Map<Symbol, unknown>;
+  private contextMap: Map<symbol, unknown>;
 
   constructor(parentContext?: TracingContext) {
     if (parentContext && !(parentContext instanceof ContextImpl)) {

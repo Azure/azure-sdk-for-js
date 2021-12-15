@@ -32,7 +32,7 @@ export class TestTracingSpan implements TracingSpan {
   }
   spanStatus?: SpanStatus;
   attributes: Record<string, unknown> = {};
-  endCalled: boolean = false;
+  endCalled = false;
   exception?: string | Error;
   setStatus(status: SpanStatus): void {
     this.spanStatus = status;

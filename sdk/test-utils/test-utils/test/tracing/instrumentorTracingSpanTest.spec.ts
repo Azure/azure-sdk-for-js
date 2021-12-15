@@ -40,8 +40,6 @@ describe("TestTracingSpan", function() {
     subject.recordException(expectedException);
     assert.strictEqual(subject.exception, expectedException);
   });
-  // TODO: we don't have a way to set the span context?
-  it("allows setting spanContext?", function() {});
 });
 
 // do the same for all methods in testInstrumenter...
