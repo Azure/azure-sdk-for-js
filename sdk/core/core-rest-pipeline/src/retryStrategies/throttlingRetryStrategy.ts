@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { PipelineResponse } from "..";
-import { RetryStrategy, SkipRetryError } from "./retryStrategy";
+import { RetryStrategy } from "./retryStrategy";
 
 /**
  * Returns the number of milliseconds to wait based on a Retry-After header value.
@@ -46,9 +46,7 @@ export function throttlingRetryStrategy(): RetryStrategy {
     name: "throttlingRetryStrategy",
     retry({ response }) {
       if (!isThrottlingRetryResponse(response)) {
-        throw new SkipRetryError(
-          "The response does not have a throttling status code (429 or 503)"
-        );
+        return { skipStrategy: true };
       }
       return {
         retryAfterInMs: parseRetryAfterHeader(response!.headers.get("Retry-After")!)

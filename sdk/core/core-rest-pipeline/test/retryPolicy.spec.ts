@@ -11,8 +11,7 @@ import {
   PipelineResponse,
   createHttpHeaders,
   RestError,
-  retryPolicy,
-  SkipRetryError
+  retryPolicy
 } from "../src";
 
 describe("retryPolicy", function() {
@@ -36,7 +35,7 @@ describe("retryPolicy", function() {
         name: "testRetryStrategy",
         retry({ responseError }) {
           if (responseError?.code !== "ENOENT") {
-            throw new SkipRetryError("Invalid error");
+            return { skipStrategy: true };
           }
           return {
             retryAfterInMs: 100
@@ -74,7 +73,7 @@ describe("retryPolicy", function() {
         name: "testRetryStrategy",
         retry({ responseError }) {
           if (responseError?.code !== "ENOENT") {
-            throw new SkipRetryError("Invalid error");
+            return { skipStrategy: true };
           }
           return {
             retryAfterInMs: 100
@@ -111,7 +110,7 @@ describe("retryPolicy", function() {
           name: "testRetryStrategy",
           retry({ responseError }) {
             if (responseError?.code !== "ENOENT") {
-              throw new SkipRetryError("Invalid error");
+              return { skipStrategy: true };
             }
             return {
               retryAfterInMs: 100
@@ -152,7 +151,7 @@ describe("retryPolicy", function() {
         name: "testRetryStrategy",
         retry({ responseError }) {
           if (responseError?.code !== "ENOENT") {
-            throw new SkipRetryError("Invalid error");
+            return { skipStrategy: true };
           }
           return {
             redirectTo: "https://not-bing.com"
@@ -191,7 +190,7 @@ describe("retryPolicy", function() {
         name: "testRetryStrategy",
         retry({ responseError }) {
           if (responseError?.code !== "ENOENT") {
-            throw new SkipRetryError("Invalid error");
+            return { skipStrategy: true };
           }
           return {
             throwError: retryError
@@ -217,11 +216,7 @@ describe("retryPolicy", function() {
     assert.isTrue(catchCalled);
   });
 
-  it("It should log consistent messages", async () => {
-    const request = createPipelineRequest({
-      url: "https://bing.com"
-    });
-    const testError = new RestError("Test Error!", { code: "ENOENT" });
+  function makeTestLogger(): { logger: AzureLogger; params: { info: string[]; error: string[] } } {
     const logParams: {
       info: string[];
       error: string[];
@@ -230,27 +225,48 @@ describe("retryPolicy", function() {
       error: []
     };
 
-    const policy = retryPolicy([
-      {
-        name: "testRetryStrategy",
-        logger: {
-          info(...params) {
-            logParams.info.push(params.join(" "));
-          },
-          error(...params) {
-            logParams.error.push(params.join(" "));
-          }
-        } as AzureLogger,
-        retry({ responseError }) {
-          if (responseError?.code !== "ENOENT") {
-            throw new SkipRetryError("Invalid error");
-          }
-          return {
-            retryAfterInMs: 100
-          };
-        }
+    const logger: AzureLogger = {
+      info(...params) {
+        logParams.info.push(params.join(" "));
+      },
+      error(...params) {
+        logParams.error.push(params.join(" "));
       }
-    ]);
+    } as AzureLogger;
+
+    return {
+      logger,
+      params: logParams
+    };
+  }
+
+  it("It should log consistent messages", async () => {
+    const request = createPipelineRequest({
+      url: "https://bing.com"
+    });
+    const testError = new RestError("Test Error!", { code: "ENOENT" });
+    const policyLogger = makeTestLogger();
+    const strategyLogger = makeTestLogger();
+
+    const policy = retryPolicy(
+      [
+        {
+          name: "testRetryStrategy",
+          logger: strategyLogger.logger,
+          retry({ responseError }) {
+            if (responseError?.code !== "ENOENT") {
+              return { skipStrategy: true };
+            }
+            return {
+              retryAfterInMs: 100
+            };
+          }
+        }
+      ],
+      {
+        logger: policyLogger.logger
+      }
+    );
 
     const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
     next.rejects(testError);
@@ -268,16 +284,38 @@ describe("retryPolicy", function() {
     assert.strictEqual(next.callCount, 4);
     assert.isTrue(catchCalled);
 
-    assert.deepEqual(logParams, {
+    assert.deepEqual(
+      policyLogger.params.info.map((x) => x.replace(/ request .*/g, " request [Request Id]")),
+      [
+        "Retry 0: Attempting to send request [Request Id]",
+        "Retry 0: Processing 1 retry strategies.",
+        "Retry 1: Attempting to send request [Request Id]",
+        "Retry 1: Processing 1 retry strategies.",
+        "Retry 2: Attempting to send request [Request Id]",
+        "Retry 2: Processing 1 retry strategies.",
+        "Retry 3: Attempting to send request [Request Id]",
+        "Retry 3: Maximum retries reached. Returning the last received response, or throwing the last received error."
+      ]
+    );
+
+    assert.deepEqual(
+      policyLogger.params.error.map((x) => x.replace(/ request .*/g, " request [Request Id]")),
+      [
+        "Retry 0: Received an error from request [Request Id]",
+        "Retry 1: Received an error from request [Request Id]",
+        "Retry 2: Received an error from request [Request Id]",
+        "Retry 3: Received an error from request [Request Id]"
+      ]
+    );
+
+    assert.deepEqual(strategyLogger.params, {
       info: [
         "Retry 0: Processing retry strategy testRetryStrategy.",
         "Retry 0: Retry strategy testRetryStrategy retries after 100",
         "Retry 1: Processing retry strategy testRetryStrategy.",
         "Retry 1: Retry strategy testRetryStrategy retries after 100",
         "Retry 2: Processing retry strategy testRetryStrategy.",
-        "Retry 2: Retry strategy testRetryStrategy retries after 100",
-        "Retry 3: Processing retry strategy testRetryStrategy.",
-        "Maximum retries reached. Returning the last received response, or throwing the last received error."
+        "Retry 2: Retry strategy testRetryStrategy retries after 100"
       ],
       error: []
     });
@@ -288,35 +326,28 @@ describe("retryPolicy", function() {
       url: "https://bing.com"
     });
     const testError = new RestError("Test Error!", { code: "NOT-ENOENT" });
-    const logParams: {
-      info: string[];
-      error: string[];
-    } = {
-      info: [],
-      error: []
-    };
+    const policyLogger = makeTestLogger();
+    const strategyLogger = makeTestLogger();
 
-    const policy = retryPolicy([
-      {
-        name: "testRetryStrategy",
-        logger: {
-          info(...params) {
-            logParams.info.push(params.join(" "));
-          },
-          error(...params) {
-            logParams.error.push(params.join(" "));
+    const policy = retryPolicy(
+      [
+        {
+          name: "testRetryStrategy",
+          logger: strategyLogger.logger,
+          retry({ responseError }) {
+            if (responseError?.code !== "ENOENT") {
+              return { skipStrategy: true };
+            }
+            return {
+              retryAfterInMs: 100
+            };
           }
-        } as AzureLogger,
-        retry({ responseError }) {
-          if (responseError?.code !== "ENOENT") {
-            throw new SkipRetryError("Unexpected error.");
-          }
-          return {
-            retryAfterInMs: 100
-          };
         }
+      ],
+      {
+        logger: policyLogger.logger
       }
-    ]);
+    );
 
     const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
     next.rejects(testError);
@@ -334,19 +365,40 @@ describe("retryPolicy", function() {
     assert.strictEqual(next.callCount, 4);
     assert.isTrue(catchCalled);
 
-    assert.deepEqual(logParams, {
+    assert.deepEqual(
+      policyLogger.params.info.map((x) => x.replace(/ request .*/g, " request [Request Id]")),
+      [
+        "Retry 0: Attempting to send request [Request Id]",
+        "Retry 0: Processing 1 retry strategies.",
+        "Retry 1: Attempting to send request [Request Id]",
+        "Retry 1: Processing 1 retry strategies.",
+        "Retry 2: Attempting to send request [Request Id]",
+        "Retry 2: Processing 1 retry strategies.",
+        "Retry 3: Attempting to send request [Request Id]",
+        "Retry 3: Maximum retries reached. Returning the last received response, or throwing the last received error."
+      ]
+    );
+
+    assert.deepEqual(
+      policyLogger.params.error.map((x) => x.replace(/ request .*/g, " request [Request Id]")),
+      [
+        "Retry 0: Received an error from request [Request Id]",
+        "Retry 1: Received an error from request [Request Id]",
+        "Retry 2: Received an error from request [Request Id]",
+        "Retry 3: Received an error from request [Request Id]"
+      ]
+    );
+
+    assert.deepEqual(strategyLogger.params, {
       info: [
         "Retry 0: Processing retry strategy testRetryStrategy.",
+        "Retry 0: Skipped.",
         "Retry 1: Processing retry strategy testRetryStrategy.",
+        "Retry 1: Skipped.",
         "Retry 2: Processing retry strategy testRetryStrategy.",
-        "Retry 3: Processing retry strategy testRetryStrategy.",
-        "Maximum retries reached. Returning the last received response, or throwing the last received error."
+        "Retry 2: Skipped."
       ],
-      error: [
-        "Retry 0: Skipped. Unexpected error.",
-        "Retry 1: Skipped. Unexpected error.",
-        "Retry 2: Skipped. Unexpected error."
-      ]
+      error: []
     });
   });
 
@@ -358,35 +410,28 @@ describe("retryPolicy", function() {
     request.abortSignal = abortController.signal;
 
     const testError = new RestError("Test Error!", { code: "ENOENT" });
-    const logParams: {
-      info: string[];
-      error: string[];
-    } = {
-      info: [],
-      error: []
-    };
+    const policyLogger = makeTestLogger();
+    const strategyLogger = makeTestLogger();
 
-    const policy = retryPolicy([
-      {
-        name: "testRetryStrategy",
-        logger: {
-          info(...params) {
-            logParams.info.push(params.join(" "));
-          },
-          error(...params) {
-            logParams.error.push(params.join(" "));
+    const policy = retryPolicy(
+      [
+        {
+          name: "testRetryStrategy",
+          logger: strategyLogger.logger,
+          retry({ responseError }) {
+            if (responseError?.code !== "ENOENT") {
+              return { skipStrategy: true };
+            }
+            return {
+              retryAfterInMs: 100
+            };
           }
-        } as AzureLogger,
-        retry({ responseError }) {
-          if (responseError?.code !== "ENOENT") {
-            throw new SkipRetryError("Invalid error");
-          }
-          return {
-            retryAfterInMs: 100
-          };
         }
+      ],
+      {
+        logger: policyLogger.logger
       }
-    ]);
+    );
 
     const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
     next.rejects(testError);
@@ -407,9 +452,19 @@ describe("retryPolicy", function() {
     assert.strictEqual(next.callCount, 1);
     assert.isTrue(catchCalled);
 
-    assert.deepEqual(logParams, {
-      info: ["Retry 0: Processing retry strategy testRetryStrategy."],
-      error: ["Retry 0: Request aborted."]
+    assert.deepEqual(
+      policyLogger.params.info.map((x) => x.replace(/ request .*/g, " request [Request Id]")),
+      ["Retry 0: Attempting to send request [Request Id]"]
+    );
+
+    assert.deepEqual(
+      policyLogger.params.error.map((x) => x.replace(/ request .*/g, " request [Request Id]")),
+      ["Retry 0: Received an error from request [Request Id]", "Retry 0: Request aborted."]
+    );
+
+    assert.deepEqual(strategyLogger.params, {
+      info: [],
+      error: []
     });
   });
 
@@ -419,36 +474,28 @@ describe("retryPolicy", function() {
     });
     const testError = new RestError("Test Error!", { code: "ENOENT" });
     const retryError = new RestError("Test Retry Error!");
+    const policyLogger = makeTestLogger();
+    const strategyLogger = makeTestLogger();
 
-    const logParams: {
-      info: string[];
-      error: string[];
-    } = {
-      info: [],
-      error: []
-    };
-
-    const policy = retryPolicy([
-      {
-        name: "testRetryStrategy",
-        logger: {
-          info(...params) {
-            logParams.info.push(params.join(" "));
-          },
-          error(...params) {
-            logParams.error.push(params.join(" "));
+    const policy = retryPolicy(
+      [
+        {
+          name: "testRetryStrategy",
+          logger: strategyLogger.logger,
+          retry({ responseError }) {
+            if (responseError?.code !== "ENOENT") {
+              return { skipStrategy: true };
+            }
+            return {
+              throwError: retryError
+            };
           }
-        } as AzureLogger,
-        retry({ responseError }) {
-          if (responseError?.code !== "ENOENT") {
-            throw new SkipRetryError("Invalid error");
-          }
-          return {
-            throwError: retryError
-          };
         }
+      ],
+      {
+        logger: policyLogger.logger
       }
-    ]);
+    );
 
     const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
     next.rejects(testError);
@@ -468,7 +515,20 @@ describe("retryPolicy", function() {
     assert.strictEqual(next.callCount, 1);
     assert.isTrue(catchCalled);
 
-    assert.deepEqual(logParams, {
+    assert.deepEqual(
+      policyLogger.params.info.map((x) => x.replace(/ request .*/g, " request [Request Id]")),
+      [
+        "Retry 0: Attempting to send request [Request Id]",
+        "Retry 0: Processing 1 retry strategies."
+      ]
+    );
+
+    assert.deepEqual(
+      policyLogger.params.error.map((x) => x.replace(/ request .*/g, " request [Request Id]")),
+      ["Retry 0: Received an error from request [Request Id]"]
+    );
+
+    assert.deepEqual(strategyLogger.params, {
       info: ["Retry 0: Processing retry strategy testRetryStrategy."],
       error: [
         "Retry 0: Retry strategy testRetryStrategy throws error: RestError: Test Retry Error!"
@@ -481,36 +541,28 @@ describe("retryPolicy", function() {
       url: "https://bing.com"
     });
     const testError = new RestError("Test Error!", { code: "ENOENT" });
+    const policyLogger = makeTestLogger();
+    const strategyLogger = makeTestLogger();
 
-    const logParams: {
-      info: string[];
-      error: string[];
-    } = {
-      info: [],
-      error: []
-    };
-
-    const policy = retryPolicy([
-      {
-        name: "testRetryStrategy",
-        logger: {
-          info(...params) {
-            logParams.info.push(params.join(" "));
-          },
-          error(...params) {
-            logParams.error.push(params.join(" "));
+    const policy = retryPolicy(
+      [
+        {
+          name: "testRetryStrategy",
+          logger: strategyLogger.logger,
+          retry({ responseError }) {
+            if (responseError?.code !== "ENOENT") {
+              return { skipStrategy: true };
+            }
+            return {
+              redirectTo: "https://not-bing.com"
+            };
           }
-        } as AzureLogger,
-        retry({ responseError }) {
-          if (responseError?.code !== "ENOENT") {
-            throw new SkipRetryError("Invalid error");
-          }
-          return {
-            redirectTo: "https://not-bing.com"
-          };
         }
+      ],
+      {
+        logger: policyLogger.logger
       }
-    ]);
+    );
 
     const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
     next.rejects(testError);
@@ -531,16 +583,38 @@ describe("retryPolicy", function() {
     assert.isTrue(catchCalled);
     assert.strictEqual(request.url, "https://not-bing.com");
 
-    assert.deepEqual(logParams, {
+    assert.deepEqual(
+      policyLogger.params.info.map((x) => x.replace(/ request .*/g, " request [Request Id]")),
+      [
+        "Retry 0: Attempting to send request [Request Id]",
+        "Retry 0: Processing 1 retry strategies.",
+        "Retry 1: Attempting to send request [Request Id]",
+        "Retry 1: Processing 1 retry strategies.",
+        "Retry 2: Attempting to send request [Request Id]",
+        "Retry 2: Processing 1 retry strategies.",
+        "Retry 3: Attempting to send request [Request Id]",
+        "Retry 3: Maximum retries reached. Returning the last received response, or throwing the last received error."
+      ]
+    );
+
+    assert.deepEqual(
+      policyLogger.params.error.map((x) => x.replace(/ request .*/g, " request [Request Id]")),
+      [
+        "Retry 0: Received an error from request [Request Id]",
+        "Retry 1: Received an error from request [Request Id]",
+        "Retry 2: Received an error from request [Request Id]",
+        "Retry 3: Received an error from request [Request Id]"
+      ]
+    );
+
+    assert.deepEqual(strategyLogger.params, {
       info: [
         "Retry 0: Processing retry strategy testRetryStrategy.",
         "Retry 0: Retry strategy testRetryStrategy redirects to https://not-bing.com",
         "Retry 1: Processing retry strategy testRetryStrategy.",
         "Retry 1: Retry strategy testRetryStrategy redirects to https://not-bing.com",
         "Retry 2: Processing retry strategy testRetryStrategy.",
-        "Retry 2: Retry strategy testRetryStrategy redirects to https://not-bing.com",
-        "Retry 3: Processing retry strategy testRetryStrategy.",
-        "Maximum retries reached. Returning the last received response, or throwing the last received error."
+        "Retry 2: Retry strategy testRetryStrategy redirects to https://not-bing.com"
       ],
       error: []
     });

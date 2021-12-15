@@ -4,7 +4,7 @@
 import { PipelineResponse } from "../interfaces";
 import { RestError } from "../restError";
 import { getRandomIntegerInclusive } from "../util/helpers";
-import { RetryStrategy, SkipRetryError } from "./retryStrategy";
+import { RetryStrategy } from "./retryStrategy";
 import { isThrottlingRetryResponse } from "./throttlingRetryStrategy";
 
 // intervals are in milliseconds
@@ -39,15 +39,11 @@ export function exponentialRetryStrategy(
     name: "exponentialRetryStrategy",
     retry({ retryCount, response, responseError }) {
       if (isThrottlingRetryResponse(response)) {
-        throw new SkipRetryError(
-          "The response has a throttling status code (429 or 503), indicating it should be processed by a throttling retry strategy."
-        );
+        return { skipStrategy: true };
       }
 
       if (!(isExponentialRetryResponse(response) || isSystemError(responseError))) {
-        throw new SkipRetryError(
-          "The response does not meet the requirements to require an exponential retry strategy."
-        );
+        return { skipStrategy: true };
       }
 
       // Exponentially increase the delay each time

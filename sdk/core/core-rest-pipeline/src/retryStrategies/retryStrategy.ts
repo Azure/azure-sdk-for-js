@@ -28,6 +28,10 @@ export interface RetryInformation {
  */
 export interface RetryModifiers {
   /**
+   * If true, allows skipping the current strategy from running on the retry policy.
+   */
+  skipStrategy?: boolean;
+  /**
    * Indicates to retry against this URL.
    */
   redirectTo?: string;
@@ -51,7 +55,7 @@ export interface RetryStrategy {
    */
   name: string;
   /**
-   * Logger. If it's not provided, a default logger for all retry policies is used.
+   * Logger. If it's not provided, a default logger for all retry strategies is used.
    */
   logger?: AzureLogger;
   /**
@@ -59,14 +63,4 @@ export interface RetryStrategy {
    * @param state - Retry state
    */
   retry(state: RetryInformation): RetryModifiers;
-}
-
-/**
- * A custom error to skip retries.
- */
-export class SkipRetryError extends Error {
-  constructor(message: string) {
-    super(message);
-    this.name = "SkipRetryError";
-  }
 }

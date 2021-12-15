@@ -5,9 +5,10 @@ import { PipelineResponse, PipelineRequest, SendRequest } from "../interfaces";
 import { PipelinePolicy } from "../pipeline";
 import { delay } from "../util/helpers";
 import { createClientLogger } from "@azure/logger";
-import { RetryStrategy, RetryInformation, RetryModifiers } from "../retryStrategies/retryStrategy";
+import { RetryStrategy, RetryInformation } from "../retryStrategies/retryStrategy";
 import { RestError } from "../restError";
 import { AbortError } from "@azure/abort-controller";
+import { AzureLogger } from "@azure/logger";
 
 const retryPolicyLogger = createClientLogger("core-rest-pipeline retryPolicy");
 const DEFAULT_MAX_RETRIES = 3;
@@ -24,7 +25,11 @@ export interface RetryPolicyOptions {
   /**
    * Maximum number of retries. If not specified, it will limit to 3 retries.
    */
-  maxRetries: number;
+  maxRetries?: number;
+  /**
+   * Logger. If it's not provided, a default logger is used.
+   */
+  logger?: AzureLogger;
 }
 
 /**
@@ -34,6 +39,7 @@ export function retryPolicy(
   strategies: RetryStrategy[],
   options: RetryPolicyOptions = { maxRetries: DEFAULT_MAX_RETRIES }
 ): PipelinePolicy {
+  const logger = options.logger || retryPolicyLogger;
   return {
     name: retryPolicyName,
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
@@ -48,38 +54,35 @@ export function retryPolicy(
         responseError = undefined;
 
         try {
-          retryPolicyLogger.info(
-            `Retry ${retryCount}: Attempting to send request`,
-            request.requestId
-          );
+          logger.info(`Retry ${retryCount}: Attempting to send request`, request.requestId);
           response = await next(request);
-          retryPolicyLogger.info(
-            `Retry ${retryCount}: Received a response from request`,
-            request.requestId
-          );
+          logger.info(`Retry ${retryCount}: Received a response from request`, request.requestId);
         } catch (e) {
-          retryPolicyLogger.info(
-            `Retry ${retryCount}: Received an error from request`,
-            request.requestId
-          );
+          logger.error(`Retry ${retryCount}: Received an error from request`, request.requestId);
           responseError = e as RestError;
-          if (responseError.name !== "RestError") {
-            throw responseError;
+          if (!e || responseError.name !== "RestError") {
+            throw e;
           }
           response = responseError.response;
         }
-        if (retryCount >= options.maxRetries ?? DEFAULT_MAX_RETRIES) {
-          strategyLogger.info(
-            `Maximum retries reached. Returning the last received response, or throwing the last received error.`
+
+        if (request.abortSignal?.aborted) {
+          logger.error(`Retry ${retryCount}: Request aborted.`);
+          const abortError = new AbortError();
+          throw abortError;
+        }
+
+        if (retryCount >= (options.maxRetries ?? DEFAULT_MAX_RETRIES)) {
+          logger.info(
+            `Retry ${retryCount}: Maximum retries reached. Returning the last received response, or throwing the last received error.`
           );
           if (response !== undefined) {
             return response;
           }
           throw responseError;
         }
-        retryPolicyLogger.info(
-          `Retry ${retryCount}: Processing ${strategies.length} retry strategies.`
-        );
+
+        logger.info(`Retry ${retryCount}: Processing ${strategies.length} retry strategies.`);
 
         strategiesLoop: for (const strategy of strategies) {
           const strategyLogger = strategy.logger || retryPolicyLogger;
@@ -91,23 +94,11 @@ export function retryPolicy(
             responseError
           };
 
+          const modifiers = strategy.retry(information);
 
-          let modifiers: RetryModifiers;
-          try {
-            modifiers = strategy.retry(information);
-          } catch (e) {
-            const error = e as Error;
-            if (error.name === "SkipRetryError") {
-              strategyLogger.error(`Retry ${retryCount}: Skipped. ${error.message}`);
-              continue strategiesLoop;
-            }
-            throw e;
-          }
-
-          if (request.abortSignal?.aborted) {
-            strategyLogger.error(`Retry ${retryCount}: Request aborted.`);
-            const abortError = new AbortError();
-            throw abortError;
+          if (modifiers.skipStrategy) {
+            strategyLogger.info(`Retry ${retryCount}: Skipped.`);
+            continue strategiesLoop;
           }
 
           const { throwError, retryAfterInMs, redirectTo } = modifiers;
@@ -136,8 +127,9 @@ export function retryPolicy(
             continue retryRequest;
           }
         }
-        retryPolicyLogger.info(`No retry strategy left. Returning the last received response.`);
+
         if (response) {
+          logger.info(`Returning the last received response.`);
           return response;
         }
       }
