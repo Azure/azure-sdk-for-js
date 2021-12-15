@@ -258,19 +258,13 @@ export class TestProxyHttpClient {
   }
 
   /**
-   * configureClient
-   *
-   * For core-v2 - libraries depending on core-rest-pipeline
+   * For core-v2 - libraries depending on core-rest-pipeline.
    * Apply this method on the client to get the recorder policy added to your client's pipeline policies.
-   *
-   * This method expects your client to have the public `pipeline : Pipeline` object available on the client
-   * to enable adding a new policy through it.
    */
-  public configureClient<T>(client: T & { pipeline: Pipeline }): T {
+  public configureClient(client: { pipeline: Pipeline }): void {
     if (!isLiveMode()) {
       client.pipeline.addPolicy(recorderHttpPolicy(this));
     }
-    return client;
   }
 }
 
