@@ -1,49 +1,49 @@
 {
- "recordings": [
-  {
-   "method": "POST",
-   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
-   "query": {},
-   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default",
-   "status": 200,
-   "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
-   "responseHeaders": {
-    "cache-control": "no-store, no-cache",
-    "content-length": "1331",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 20 Jan 2021 18:39:58 GMT",
-    "expires": "-1",
-    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
-    "pragma": "no-cache",
-    "referrer-policy": "strict-origin-when-cross-origin",
-    "strict-transport-security": "max-age=31536000; includeSubDomains",
-    "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11419.13 - KRSLR1 ProdSlices",
-    "x-ms-request-id": "deffab32-a5c2-4455-b215-2361270e7e00"
-   }
+  "recordings": [
+    {
+      "method": "POST",
+      "url": "https://login.microsoftonline.com/72698866-8641-4147-9144-24744011447/oauth2/v2.0/token",
+      "query": {},
+      "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default",
+      "status": 200,
+      "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
+      "responseHeaders": {
+        "cache-control": "no-store, no-cache",
+        "content-length": "1331",
+        "content-type": "application/json; charset=utf-8",
+        "date": "Wed, 20 Jan 2021 18:39:58 GMT",
+        "expires": "-1",
+        "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+        "pragma": "no-cache",
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "strict-transport-security": "max-age=31536000; includeSubDomains",
+        "x-content-type-options": "nosniff",
+        "x-ms-ests-server": "2.1.11419.13 - KRSLR1 ProdSlices",
+        "x-ms-request-id": "deffab32-a5c2-4455-b215-2361270e7e00"
+      }
+    },
+    {
+      "method": "POST",
+      "url": "https://endpoint/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/26ece682-80a6-4415-89a2-05903dd9a640/anomalies/dimension/query",
+      "query": {},
+      "requestBody": "{\"startTime\":\"2020-01-05T00:00:00.000Z\",\"endTime\":\"2020-11-05T00:00:00.000Z\",\"dimensionName\":\"city\"}",
+      "status": 200,
+      "response": "{\"value\":[\"Karachi\",\"__SUM__\",\"Los Angeles\",\"Delhi\",\"Manila\",\"Seoul\",\"Mumbai\",\"Beijing\",\"New York\",\"Miami\",\"Mexico City\",\"Tianjin\",\"Philadelphia\",\"Osaka\",\"Moscow\",\"Santiago\",\"Istanbul\",\"Taipei\",\"Madrid\",\"Kolkata\",\"Rio de Janeiro\",\"Shenzhen\",\"Belo Horizonte\",\"Jakarta\",\"Lahore\",\"Dallas\",\"Wuhan\",\"Cairo\",\"Hyderabad\",\"Lima\",\"Dhaka\",\"Bogota\",\"Shanghai\",\"Paris\",\"Bangkok\",\"Houston\",\"Buenos Aires\",\"Kinshasa\",\"London\",\"Chennai\",\"Bengaluru\",\"Lagos\",\"Tokyo\",\"Sao Paulo\",\"Chicago\",\"Hong Kong\",\"Chongqing\",\"Guangzhou\",\"Tehran\",\"Boston\",\"Ho Chi Minh City\",\"Khartoum\",\"Barcelona\",\"Washington\",\"Pune\",\"Shenyang\",\"Saint Petersburg\",\"Toronto\",\"Guadalajara\",\"Singapore\",\"Dongguan\",\"Luanda\",\"Baghdad\",\"Haora\"],\"@nextLink\":null}",
+      "responseHeaders": {
+        "apim-request-id": "e5873281-d253-47e3-b433-35b06480d5af",
+        "content-length": "710",
+        "content-type": "application/json; charset=utf-8",
+        "date": "Wed, 20 Jan 2021 18:39:59 GMT",
+        "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+        "x-content-type-options": "nosniff",
+        "x-envoy-upstream-service-time": "130",
+        "x-request-id": "e5873281-d253-47e3-b433-35b06480d5af"
+      }
+    }
+  ],
+  "uniqueTestInfo": {
+    "uniqueName": {},
+    "newDate": {}
   },
-  {
-   "method": "POST",
-   "url": "https://endpoint/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/26ece682-80a6-4415-89a2-05903dd9a640/anomalies/dimension/query",
-   "query": {},
-   "requestBody": "{\"startTime\":\"2020-01-05T00:00:00.000Z\",\"endTime\":\"2020-11-05T00:00:00.000Z\",\"dimensionName\":\"city\"}",
-   "status": 200,
-   "response": "{\"value\":[\"Karachi\",\"__SUM__\",\"Los Angeles\",\"Delhi\",\"Manila\",\"Seoul\",\"Mumbai\",\"Beijing\",\"New York\",\"Miami\",\"Mexico City\",\"Tianjin\",\"Philadelphia\",\"Osaka\",\"Moscow\",\"Santiago\",\"Istanbul\",\"Taipei\",\"Madrid\",\"Kolkata\",\"Rio de Janeiro\",\"Shenzhen\",\"Belo Horizonte\",\"Jakarta\",\"Lahore\",\"Dallas\",\"Wuhan\",\"Cairo\",\"Hyderabad\",\"Lima\",\"Dhaka\",\"Bogota\",\"Shanghai\",\"Paris\",\"Bangkok\",\"Houston\",\"Buenos Aires\",\"Kinshasa\",\"London\",\"Chennai\",\"Bengaluru\",\"Lagos\",\"Tokyo\",\"Sao Paulo\",\"Chicago\",\"Hong Kong\",\"Chongqing\",\"Guangzhou\",\"Tehran\",\"Boston\",\"Ho Chi Minh City\",\"Khartoum\",\"Barcelona\",\"Washington\",\"Pune\",\"Shenyang\",\"Saint Petersburg\",\"Toronto\",\"Guadalajara\",\"Singapore\",\"Dongguan\",\"Luanda\",\"Baghdad\",\"Haora\"],\"@nextLink\":null}",
-   "responseHeaders": {
-    "apim-request-id": "e5873281-d253-47e3-b433-35b06480d5af",
-    "content-length": "710",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 20 Jan 2021 18:39:59 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "130",
-    "x-request-id": "e5873281-d253-47e3-b433-35b06480d5af"
-   }
-  }
- ],
- "uniqueTestInfo": {
-  "uniqueName": {},
-  "newDate": {}
- },
- "hash": "efe50dbae8c3a5e904a5fc8a853a8ac5"
+  "hash": "efe50dbae8c3a5e904a5fc8a853a8ac5"
 }

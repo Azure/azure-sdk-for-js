@@ -6,12 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   ApplicationDefinition,
-  ApplicationDefinitionsListByResourceGroupNextOptionalParams,
   ApplicationDefinitionsListByResourceGroupOptionalParams,
   ApplicationDefinitionsGetOptionalParams,
   ApplicationDefinitionsGetResponse,
@@ -36,17 +34,6 @@ export interface ApplicationDefinitions {
   listByResourceGroup(
     resourceGroupName: string,
     options?: ApplicationDefinitionsListByResourceGroupOptionalParams
-  ): PagedAsyncIterableIterator<ApplicationDefinition>;
-  /**
-   * ListByResourceGroupNext
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
-   * @param options The options parameters.
-   */
-  listByResourceGroupNext(
-    resourceGroupName: string,
-    nextLink: string,
-    options?: ApplicationDefinitionsListByResourceGroupNextOptionalParams
   ): PagedAsyncIterableIterator<ApplicationDefinition>;
   /**
    * Gets the managed application definition.

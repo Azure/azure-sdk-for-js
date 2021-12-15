@@ -6,2303 +6,1515 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import * as coreClient from "@azure/core-client";
 
-export { BaseResource, CloudError };
-
-/**
- * The resource model definition.
- */
-export interface Resource extends BaseResource {
+/** Data Lake Analytics account list information. */
+export interface DataLakeAnalyticsAccountListResult {
   /**
-   * The resource identifer.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * The results of the list operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: DataLakeAnalyticsAccountBasic[];
+  /**
+   * The current number of data lake analytics accounts under this subscription.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly count?: number;
+  /**
+   * The link (url) to the next page of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** The basic account specific properties that are associated with an underlying Data Lake Analytics account. */
+export interface DataLakeAnalyticsAccountPropertiesBasic {
+  /**
+   * The unique identifier associated with this Data Lake Analytics account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly accountId?: string;
+  /**
+   * The provisioning status of the Data Lake Analytics account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: DataLakeAnalyticsAccountStatus;
+  /**
+   * The state of the Data Lake Analytics account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly state?: DataLakeAnalyticsAccountState;
+  /**
+   * The account creation time.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly creationTime?: Date;
+  /**
+   * The account last modified time.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastModifiedTime?: Date;
+  /**
+   * The full CName endpoint for this account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly endpoint?: string;
+}
+
+/** The resource model definition. */
+export interface Resource {
+  /**
+   * The resource identifier.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly id?: string;
   /**
    * The resource name.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly name?: string;
   /**
    * The resource type.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly type?: string;
   /**
    * The resource location.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly location?: string;
   /**
    * The resource tags.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly tags?: { [propertyName: string]: string };
 }
 
-/**
- * The resource model definition for a nested resource.
- */
-export interface SubResource extends BaseResource {
-  /**
-   * The resource identifier.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly id?: string;
-  /**
-   * The resource name.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name?: string;
-  /**
-   * The resource type.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly type?: string;
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
 }
 
-/**
- * Data Lake Store account information.
- */
-export interface DataLakeStoreAccountInformation extends SubResource {
-  /**
-   * The optional suffix for the Data Lake Store account.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly suffix?: string;
-}
-
-/**
- * Azure Storage account information.
- */
-export interface StorageAccountInformation extends SubResource {
-  /**
-   * The optional suffix for the storage account.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly suffix?: string;
-}
-
-/**
- * Data Lake Analytics compute policy information.
- */
-export interface ComputePolicy extends SubResource {
-  /**
-   * The AAD object identifier for the entity to create a policy for.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly objectId?: string;
-  /**
-   * The type of AAD object the object identifier refers to. Possible values include: 'User',
-   * 'Group', 'ServicePrincipal'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly objectType?: AADObjectType;
-  /**
-   * The maximum degree of parallelism per job this user can use to submit jobs.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly maxDegreeOfParallelismPerJob?: number;
-  /**
-   * The minimum priority per job this user can use to submit jobs.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly minPriorityPerJob?: number;
-}
-
-/**
- * An interface representing HiveMetastore.
- */
-export interface HiveMetastore extends SubResource {
-  /**
-   * The serverUri for the Hive MetaStore
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly serverUri?: string;
-  /**
-   * The databaseName for the Hive MetaStore
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly databaseName?: string;
-  /**
-   * The runtimeVersion for the Hive MetaStore
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly runtimeVersion?: string;
-  /**
-   * The userName for the Hive MetaStore
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly userName?: string;
-  /**
-   * The password for the Hive MetaStore
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly password?: string;
-  /**
-   * The current state of the NestedResource. Possible values include: 'Succeeded', 'Canceled',
-   * 'Failed'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly nestedResourceProvisioningState?: NestedResourceProvisioningState;
-}
-
-/**
- * Data Lake Analytics  VirtualNetwork Rule information.
- */
-export interface VirtualNetworkRule extends SubResource {
-  /**
-   * The resource identifier for the subnet
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly subnetId?: string;
-  /**
-   * The current state of the VirtualNetwork Rule. Possible values include: 'Active',
-   * 'NetworkSourceDeleted', 'Failed'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly virtualNetworkRuleState?: VirtualNetworkRuleState;
-}
-
-/**
- * Data Lake Analytics firewall rule information.
- */
-export interface FirewallRule extends SubResource {
-  /**
-   * The start IP address for the firewall rule. This can be either ipv4 or ipv6. Start and End
-   * should be in the same protocol.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly startIpAddress?: string;
-  /**
-   * The end IP address for the firewall rule. This can be either ipv4 or ipv6. Start and End
-   * should be in the same protocol.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly endIpAddress?: string;
-}
-
-/**
- * A Data Lake Analytics account object, containing all information associated with the named Data
- * Lake Analytics account.
- */
-export interface DataLakeAnalyticsAccount extends Resource {
-  /**
-   * The unique identifier associated with this Data Lake Analytics account.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly accountId?: string;
-  /**
-   * The provisioning status of the Data Lake Analytics account. Possible values include: 'Failed',
-   * 'Creating', 'Running', 'Succeeded', 'Patching', 'Suspending', 'Resuming', 'Deleting',
-   * 'Deleted', 'Undeleting', 'Canceled'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly provisioningState?: DataLakeAnalyticsAccountStatus;
-  /**
-   * The state of the Data Lake Analytics account. Possible values include: 'Active', 'Suspended'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly state?: DataLakeAnalyticsAccountState;
-  /**
-   * The account creation time.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly creationTime?: Date;
-  /**
-   * The account last modified time.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly lastModifiedTime?: Date;
-  /**
-   * The full CName endpoint for this account.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly endpoint?: string;
-  /**
-   * The default Data Lake Store account associated with this account.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly defaultDataLakeStoreAccount?: string;
-  /**
-   * The list of Data Lake Store accounts associated with this account.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly dataLakeStoreAccounts?: DataLakeStoreAccountInformation[];
-  /**
-   * The list of Azure Blob Storage accounts associated with this account.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly storageAccounts?: StorageAccountInformation[];
-  /**
-   * The list of compute policies associated with this account.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly computePolicies?: ComputePolicy[];
-  /**
-   * The list of hiveMetastores associated with this account.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly hiveMetastores?: HiveMetastore[];
-  /**
-   * The list of virtualNetwork rules associated with this account.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly virtualNetworkRules?: VirtualNetworkRule[];
-  /**
-   * The list of firewall rules associated with this account.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly firewallRules?: FirewallRule[];
-  /**
-   * The current state of the IP address firewall for this account. Possible values include:
-   * 'Enabled', 'Disabled'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly firewallState?: FirewallState;
-  /**
-   * The current state of allowing or disallowing IPs originating within Azure through the
-   * firewall. If the firewall is disabled, this is not enforced. Possible values include:
-   * 'Enabled', 'Disabled'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly firewallAllowAzureIps?: FirewallAllowAzureIpsState;
-  /**
-   * The commitment tier for the next month. Possible values include: 'Consumption',
-   * 'Commitment_100AUHours', 'Commitment_500AUHours', 'Commitment_1000AUHours',
-   * 'Commitment_5000AUHours', 'Commitment_10000AUHours', 'Commitment_50000AUHours',
-   * 'Commitment_100000AUHours', 'Commitment_500000AUHours'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly newTier?: TierType;
-  /**
-   * The commitment tier in use for the current month. Possible values include: 'Consumption',
-   * 'Commitment_100AUHours', 'Commitment_500AUHours', 'Commitment_1000AUHours',
-   * 'Commitment_5000AUHours', 'Commitment_10000AUHours', 'Commitment_50000AUHours',
-   * 'Commitment_100000AUHours', 'Commitment_500000AUHours'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly currentTier?: TierType;
-  /**
-   * The maximum supported jobs running under the account at the same time. Default value: 3.
-   */
-  maxJobCount?: number;
-  /**
-   * The system defined maximum supported jobs running under the account at the same time, which
-   * restricts the maximum number of running jobs the user can set for the account.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly systemMaxJobCount?: number;
-  /**
-   * The maximum supported degree of parallelism for this account. Default value: 30.
-   */
-  maxDegreeOfParallelism?: number;
-  /**
-   * The system defined maximum supported degree of parallelism for this account, which restricts
-   * the maximum value of parallelism the user can set for the account.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly systemMaxDegreeOfParallelism?: number;
-  /**
-   * The maximum supported degree of parallelism per job for this account.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly maxDegreeOfParallelismPerJob?: number;
-  /**
-   * The minimum supported priority per job for this account.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly minPriorityPerJob?: number;
-  /**
-   * The number of days that job metadata is retained. Default value: 30.
-   */
-  queryStoreRetention?: number;
-  /**
-   * The current state of the DebugDataAccessLevel for this account. Possible values include:
-   * 'All', 'Customer', 'None'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly debugDataAccessLevel?: DebugDataAccessLevel;
-}
-
-/**
- * A Data Lake Analytics account object, containing all information associated with the named Data
- * Lake Analytics account.
- */
-export interface DataLakeAnalyticsAccountBasic extends Resource {
-  /**
-   * The unique identifier associated with this Data Lake Analytics account.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly accountId?: string;
-  /**
-   * The provisioning status of the Data Lake Analytics account. Possible values include: 'Failed',
-   * 'Creating', 'Running', 'Succeeded', 'Patching', 'Suspending', 'Resuming', 'Deleting',
-   * 'Deleted', 'Undeleting', 'Canceled'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly provisioningState?: DataLakeAnalyticsAccountStatus;
-  /**
-   * The state of the Data Lake Analytics account. Possible values include: 'Active', 'Suspended'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly state?: DataLakeAnalyticsAccountState;
-  /**
-   * The account creation time.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly creationTime?: Date;
-  /**
-   * The account last modified time.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly lastModifiedTime?: Date;
-  /**
-   * The full CName endpoint for this account.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly endpoint?: string;
-}
-
-/**
- * Azure Storage blob container information.
- */
-export interface StorageContainer extends SubResource {
-  /**
-   * The last modified time of the blob container.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly lastModifiedTime?: Date;
-}
-
-/**
- * SAS token information.
- */
-export interface SasTokenInformation {
-  /**
-   * The access token for the associated Azure Storage Container.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly accessToken?: string;
-}
-
-/**
- * Data Lake Analytics VirtualNetwork rule list information.
- */
-export interface VirtualNetworkRuleListResult {
-  /**
-   * The results of the list operation.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly value?: VirtualNetworkRule[];
-  /**
-   * The link (url) to the next page of results.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly nextLink?: string;
-}
-
-/**
- * Data Lake Analytics HiveMetastore list information.
- */
-export interface HiveMetastoreListResult {
-  /**
-   * The results of the list operation.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly value?: HiveMetastore[];
-  /**
-   * The link (url) to the next page of results.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly nextLink?: string;
-}
-
-/**
- * The display information for a particular operation.
- */
-export interface OperationDisplay {
-  /**
-   * The resource provider of the operation.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly provider?: string;
-  /**
-   * The resource type of the operation.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly resource?: string;
-  /**
-   * A friendly name of the operation.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly operation?: string;
-  /**
-   * A friendly description of the operation.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly description?: string;
-}
-
-/**
- * An interface representing OperationMetaMetricAvailabilitiesSpecification.
- */
-export interface OperationMetaMetricAvailabilitiesSpecification {
-  /**
-   * The timegrain for OperationMetaMetricAvailabilitiesSpecification.
-   */
-  timeGrain?: string;
-  /**
-   * The blobDuration for OperationMetaMetricAvailabilitiesSpecification.
-   */
-  blobDuration?: string;
-}
-
-/**
- * An interface representing OperationMetaMetricSpecification.
- */
-export interface OperationMetaMetricSpecification {
-  /**
-   * The name for OperationMetaMetricSpecification.
-   */
-  name?: string;
-  /**
-   * The displayName for OperationMetaMetricSpecification.
-   */
-  displayName?: string;
-  /**
-   * The unit for OperationMetaMetricSpecification.
-   */
-  unit?: string;
-  /**
-   * The aggregationType for OperationMetaMetricSpecification.
-   */
-  aggregationType?: string;
-  /**
-   * The availabilities for OperationMetaMetricSpecification.
-   */
-  availabilities?: OperationMetaMetricAvailabilitiesSpecification[];
-}
-
-/**
- * An interface representing OperationMetaLogSpecification.
- */
-export interface OperationMetaLogSpecification {
-  /**
-   * The name for OperationMetaLogSpecification.
-   */
-  name?: string;
-  /**
-   * The displayName for OperationMetaLogSpecification.
-   */
-  displayName?: string;
-  /**
-   * The blobDuration for OperationMetaLogSpecification.
-   */
-  blobDuration?: string;
-}
-
-/**
- * An interface representing OperationMetaServiceSpecification.
- */
-export interface OperationMetaServiceSpecification {
-  /**
-   * The metricSpecifications for OperationMetaServiceSpecification.
-   */
-  metricSpecifications?: OperationMetaMetricSpecification[];
-  /**
-   * The logSpecifications for OperationMetaServiceSpecification.
-   */
-  logSpecifications?: OperationMetaLogSpecification[];
-}
-
-/**
- * An interface representing OperationMetaPropertyInfo.
- */
-export interface OperationMetaPropertyInfo {
-  /**
-   * The operations OperationMetaServiceSpecification.
-   */
-  serviceSpecification?: OperationMetaServiceSpecification;
-}
-
-/**
- * An available operation for Data Lake Analytics.
- */
-export interface Operation {
-  /**
-   * The name of the operation.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name?: string;
-  /**
-   * The display information for the operation.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly display?: OperationDisplay;
-  /**
-   * The OperationMetaPropertyInfo for the operation.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly properties?: OperationMetaPropertyInfo;
-  /**
-   * The intended executor of the operation. Possible values include: 'user', 'system',
-   * 'user,system'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly origin?: OperationOrigin;
-}
-
-/**
- * The list of available operations for Data Lake Analytics.
- */
-export interface OperationListResult {
-  /**
-   * The results of the list operation.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly value?: Operation[];
-  /**
-   * The link (url) to the next page of results.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly nextLink?: string;
-}
-
-/**
- * Subscription-level properties and limits for Data Lake Analytics.
- */
-export interface CapabilityInformation {
-  /**
-   * The subscription credentials that uniquely identifies the subscription.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly subscriptionId?: string;
-  /**
-   * The subscription state. Possible values include: 'Registered', 'Suspended', 'Deleted',
-   * 'Unregistered', 'Warned'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly state?: SubscriptionState;
-  /**
-   * The maximum supported number of accounts under this subscription.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly maxAccountCount?: number;
-  /**
-   * The current number of accounts under this subscription.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly accountCount?: number;
-  /**
-   * The Boolean value of true or false to indicate the maintenance state.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly migrationState?: boolean;
-}
-
-/**
- * Data Lake Analytics account name availability result information.
- */
-export interface NameAvailabilityInformation {
-  /**
-   * The Boolean value of true or false to indicate whether the Data Lake Analytics account name is
-   * available or not.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly nameAvailable?: boolean;
-  /**
-   * The reason why the Data Lake Analytics account name is not available, if nameAvailable is
-   * false.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly reason?: string;
-  /**
-   * The message describing why the Data Lake Analytics account name is not available, if
-   * nameAvailable is false.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly message?: string;
-}
-
-/**
- * The parameters used to add a new Data Lake Store account while creating a new Data Lake
- * Analytics account.
- */
-export interface AddDataLakeStoreWithAccountParameters {
-  /**
-   * The unique name of the Data Lake Store account to add.
-   */
-  name: string;
-  /**
-   * The optional suffix for the Data Lake Store account.
-   */
-  suffix?: string;
-}
-
-/**
- * The parameters used to add a new Azure Storage account while creating a new Data Lake Analytics
- * account.
- */
-export interface AddStorageAccountWithAccountParameters {
-  /**
-   * The unique name of the Azure Storage account to add.
-   */
-  name: string;
-  /**
-   * The access key associated with this Azure Storage account that will be used to connect to it.
-   */
-  accessKey: string;
-  /**
-   * The optional suffix for the storage account.
-   */
-  suffix?: string;
-}
-
-/**
- * The parameters used to create a new compute policy while creating a new Data Lake Analytics
- * account.
- */
-export interface CreateComputePolicyWithAccountParameters {
-  /**
-   * The unique name of the compute policy to create.
-   */
-  name: string;
-  /**
-   * The AAD object identifier for the entity to create a policy for.
-   */
-  objectId: string;
-  /**
-   * The type of AAD object the object identifier refers to. Possible values include: 'User',
-   * 'Group', 'ServicePrincipal'
-   */
-  objectType: AADObjectType;
-  /**
-   * The maximum degree of parallelism per job this user can use to submit jobs. This property, the
-   * min priority per job property, or both must be passed.
-   */
-  maxDegreeOfParallelismPerJob?: number;
-  /**
-   * The minimum priority per job this user can use to submit jobs. This property, the max degree
-   * of parallelism per job property, or both must be passed.
-   */
-  minPriorityPerJob?: number;
-}
-
-/**
- * The parameters used to create a new firewall rule while creating a new Data Lake Analytics
- * account.
- */
-export interface CreateFirewallRuleWithAccountParameters {
-  /**
-   * The unique name of the firewall rule to create.
-   */
-  name: string;
-  /**
-   * The start IP address for the firewall rule. This can be either ipv4 or ipv6. Start and End
-   * should be in the same protocol.
-   */
-  startIpAddress: string;
-  /**
-   * The end IP address for the firewall rule. This can be either ipv4 or ipv6. Start and End
-   * should be in the same protocol.
-   */
-  endIpAddress: string;
-}
-
-/**
- * The parameters to use for creating a Data Lake Analytics account.
- */
-export interface CreateDataLakeAnalyticsAccountParameters {
-  /**
-   * The resource location.
-   */
-  location: string;
-  /**
-   * The resource tags.
-   */
-  tags?: { [propertyName: string]: string };
-  /**
-   * The default Data Lake Store account associated with this account.
-   */
-  defaultDataLakeStoreAccount: string;
-  /**
-   * The list of Data Lake Store accounts associated with this account.
-   */
-  dataLakeStoreAccounts: AddDataLakeStoreWithAccountParameters[];
-  /**
-   * The list of Azure Blob Storage accounts associated with this account.
-   */
-  storageAccounts?: AddStorageAccountWithAccountParameters[];
-  /**
-   * The list of compute policies associated with this account.
-   */
-  computePolicies?: CreateComputePolicyWithAccountParameters[];
-  /**
-   * The list of firewall rules associated with this account.
-   */
-  firewallRules?: CreateFirewallRuleWithAccountParameters[];
-  /**
-   * The current state of the IP address firewall for this account. Possible values include:
-   * 'Enabled', 'Disabled'
-   */
-  firewallState?: FirewallState;
-  /**
-   * The current state of allowing or disallowing IPs originating within Azure through the
-   * firewall. If the firewall is disabled, this is not enforced. Possible values include:
-   * 'Enabled', 'Disabled'
-   */
-  firewallAllowAzureIps?: FirewallAllowAzureIpsState;
-  /**
-   * The commitment tier for the next month. Possible values include: 'Consumption',
-   * 'Commitment_100AUHours', 'Commitment_500AUHours', 'Commitment_1000AUHours',
-   * 'Commitment_5000AUHours', 'Commitment_10000AUHours', 'Commitment_50000AUHours',
-   * 'Commitment_100000AUHours', 'Commitment_500000AUHours'
-   */
-  newTier?: TierType;
-  /**
-   * The maximum supported jobs running under the account at the same time. Default value: 3.
-   */
-  maxJobCount?: number;
-  /**
-   * The maximum supported degree of parallelism for this account. Default value: 30.
-   */
-  maxDegreeOfParallelism?: number;
-  /**
-   * The maximum supported degree of parallelism per job for this account.
-   */
-  maxDegreeOfParallelismPerJob?: number;
-  /**
-   * The minimum supported priority per job for this account.
-   */
-  minPriorityPerJob?: number;
-  /**
-   * The number of days that job metadata is retained. Default value: 30.
-   */
-  queryStoreRetention?: number;
-}
-
-/**
- * The parameters used to update a Data Lake Store account while updating a Data Lake Analytics
- * account.
- */
-export interface UpdateDataLakeStoreWithAccountParameters {
-  /**
-   * The unique name of the Data Lake Store account to update.
-   */
-  name: string;
-  /**
-   * The optional suffix for the Data Lake Store account.
-   */
-  suffix?: string;
-}
-
-/**
- * The parameters used to update an Azure Storage account while updating a Data Lake Analytics
- * account.
- */
-export interface UpdateStorageAccountWithAccountParameters {
-  /**
-   * The unique name of the Azure Storage account to update.
-   */
-  name: string;
-  /**
-   * The updated access key associated with this Azure Storage account that will be used to connect
-   * to it.
-   */
-  accessKey?: string;
-  /**
-   * The optional suffix for the storage account.
-   */
-  suffix?: string;
-}
-
-/**
- * The parameters used to update a compute policy while updating a Data Lake Analytics account.
- */
-export interface UpdateComputePolicyWithAccountParameters {
-  /**
-   * The unique name of the compute policy to update.
-   */
-  name: string;
-  /**
-   * The AAD object identifier for the entity to create a policy for.
-   */
-  objectId?: string;
-  /**
-   * The type of AAD object the object identifier refers to. Possible values include: 'User',
-   * 'Group', 'ServicePrincipal'
-   */
-  objectType?: AADObjectType;
-  /**
-   * The maximum degree of parallelism per job this user can use to submit jobs. This property, the
-   * min priority per job property, or both must be passed.
-   */
-  maxDegreeOfParallelismPerJob?: number;
-  /**
-   * The minimum priority per job this user can use to submit jobs. This property, the max degree
-   * of parallelism per job property, or both must be passed.
-   */
-  minPriorityPerJob?: number;
-}
-
-/**
- * The parameters used to update a firewall rule while updating a Data Lake Analytics account.
- */
-export interface UpdateFirewallRuleWithAccountParameters {
-  /**
-   * The unique name of the firewall rule to update.
-   */
-  name: string;
-  /**
-   * The start IP address for the firewall rule. This can be either ipv4 or ipv6. Start and End
-   * should be in the same protocol.
-   */
-  startIpAddress?: string;
-  /**
-   * The end IP address for the firewall rule. This can be either ipv4 or ipv6. Start and End
-   * should be in the same protocol.
-   */
-  endIpAddress?: string;
-}
-
-/**
- * The parameters that can be used to update an existing Data Lake Analytics account.
- */
-export interface UpdateDataLakeAnalyticsAccountParameters {
-  /**
-   * The resource tags.
-   */
-  tags?: { [propertyName: string]: string };
-  /**
-   * The list of Data Lake Store accounts associated with this account.
-   */
-  dataLakeStoreAccounts?: UpdateDataLakeStoreWithAccountParameters[];
-  /**
-   * The list of Azure Blob storage accounts associated with this account.
-   */
-  storageAccounts?: UpdateStorageAccountWithAccountParameters[];
-  /**
-   * The list of compute policies associated with this account.
-   */
-  computePolicies?: UpdateComputePolicyWithAccountParameters[];
-  /**
-   * The list of firewall rules associated with this account.
-   */
-  firewallRules?: UpdateFirewallRuleWithAccountParameters[];
-  /**
-   * The current state of the IP address firewall for this account. Disabling the firewall does not
-   * remove existing rules, they will just be ignored until the firewall is re-enabled. Possible
-   * values include: 'Enabled', 'Disabled'
-   */
-  firewallState?: FirewallState;
-  /**
-   * The current state of allowing or disallowing IPs originating within Azure through the
-   * firewall. If the firewall is disabled, this is not enforced. Possible values include:
-   * 'Enabled', 'Disabled'
-   */
-  firewallAllowAzureIps?: FirewallAllowAzureIpsState;
-  /**
-   * The commitment tier to use for next month. Possible values include: 'Consumption',
-   * 'Commitment_100AUHours', 'Commitment_500AUHours', 'Commitment_1000AUHours',
-   * 'Commitment_5000AUHours', 'Commitment_10000AUHours', 'Commitment_50000AUHours',
-   * 'Commitment_100000AUHours', 'Commitment_500000AUHours'
-   */
-  newTier?: TierType;
-  /**
-   * The maximum supported jobs running under the account at the same time.
-   */
-  maxJobCount?: number;
-  /**
-   * The maximum supported degree of parallelism for this account.
-   */
-  maxDegreeOfParallelism?: number;
-  /**
-   * The maximum supported degree of parallelism per job for this account.
-   */
-  maxDegreeOfParallelismPerJob?: number;
-  /**
-   * The minimum supported priority per job for this account.
-   */
-  minPriorityPerJob?: number;
-  /**
-   * The number of days that job metadata is retained.
-   */
-  queryStoreRetention?: number;
-}
-
-/**
- * The parameters used to add a new Data Lake Store account.
- */
-export interface AddDataLakeStoreParameters {
-  /**
-   * The optional suffix for the Data Lake Store account.
-   */
-  suffix?: string;
-}
-
-/**
- * The parameters used to add a new Azure Storage account.
- */
-export interface AddStorageAccountParameters {
-  /**
-   * The access key associated with this Azure Storage account that will be used to connect to it.
-   */
-  accessKey: string;
-  /**
-   * The optional suffix for the storage account.
-   */
-  suffix?: string;
-}
-
-/**
- * The parameters used to update an Azure Storage account.
- */
-export interface UpdateStorageAccountParameters {
-  /**
-   * The updated access key associated with this Azure Storage account that will be used to connect
-   * to it.
-   */
-  accessKey?: string;
-  /**
-   * The optional suffix for the storage account.
-   */
-  suffix?: string;
-}
-
-/**
- * The parameters used to create a new compute policy.
- */
-export interface CreateOrUpdateComputePolicyParameters {
-  /**
-   * The AAD object identifier for the entity to create a policy for.
-   */
-  objectId: string;
-  /**
-   * The type of AAD object the object identifier refers to. Possible values include: 'User',
-   * 'Group', 'ServicePrincipal'
-   */
-  objectType: AADObjectType;
-  /**
-   * The maximum degree of parallelism per job this user can use to submit jobs. This property, the
-   * min priority per job property, or both must be passed.
-   */
-  maxDegreeOfParallelismPerJob?: number;
-  /**
-   * The minimum priority per job this user can use to submit jobs. This property, the max degree
-   * of parallelism per job property, or both must be passed.
-   */
-  minPriorityPerJob?: number;
-}
-
-/**
- * The parameters used to update a compute policy.
- */
-export interface UpdateComputePolicyParameters {
-  /**
-   * The AAD object identifier for the entity to create a policy for.
-   */
-  objectId?: string;
-  /**
-   * The type of AAD object the object identifier refers to. Possible values include: 'User',
-   * 'Group', 'ServicePrincipal'
-   */
-  objectType?: AADObjectType;
-  /**
-   * The maximum degree of parallelism per job this user can use to submit jobs. This property, the
-   * min priority per job property, or both must be passed.
-   */
-  maxDegreeOfParallelismPerJob?: number;
-  /**
-   * The minimum priority per job this user can use to submit jobs. This property, the max degree
-   * of parallelism per job property, or both must be passed.
-   */
-  minPriorityPerJob?: number;
-}
-
-/**
- * The parameters used to create a new firewall rule.
- */
-export interface CreateOrUpdateFirewallRuleParameters {
-  /**
-   * The start IP address for the firewall rule. This can be either ipv4 or ipv6. Start and End
-   * should be in the same protocol.
-   */
-  startIpAddress: string;
-  /**
-   * The end IP address for the firewall rule. This can be either ipv4 or ipv6. Start and End
-   * should be in the same protocol.
-   */
-  endIpAddress: string;
-}
-
-/**
- * The parameters used to update a firewall rule.
- */
-export interface UpdateFirewallRuleParameters {
-  /**
-   * The start IP address for the firewall rule. This can be either ipv4 or ipv6. Start and End
-   * should be in the same protocol.
-   */
-  startIpAddress?: string;
-  /**
-   * The end IP address for the firewall rule. This can be either ipv4 or ipv6. Start and End
-   * should be in the same protocol.
-   */
-  endIpAddress?: string;
-}
-
-/**
- * Data Lake Analytics account name availability check parameters.
- */
-export interface CheckNameAvailabilityParameters {
-  /**
-   * The Data Lake Analytics name to check availability for.
-   */
-  name: string;
-}
-
-/**
- * The resource management error additional info.
- */
-export interface ErrorAdditionalInfo {
-  /**
-   * The additional info type.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly type?: string;
-  /**
-   * The additional info.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly info?: any;
-}
-
-/**
- * The error detail.
- */
+/** The error detail. */
 export interface ErrorDetail {
   /**
    * The error code.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly code?: string;
   /**
    * The error message.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly message?: string;
   /**
    * The error target.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly target?: string;
   /**
    * The error details.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly details?: ErrorDetail[];
   /**
    * The error additional info.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly additionalInfo?: ErrorAdditionalInfo[];
 }
 
-/**
- * Common error response for all Azure Resource Manager APIs to return error details for failed
- * operations. (This also follows the OData error response format.).
- * @summary Error response
- */
-export interface ErrorResponse {
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
   /**
-   * The error object.
+   * The additional info type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  error?: ErrorDetail;
+  readonly type?: string;
+  /**
+   * The additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly info?: Record<string, unknown>;
+}
+
+/** The parameters to use for creating a Data Lake Analytics account. */
+export interface CreateDataLakeAnalyticsAccountParameters {
+  /** The resource location. */
+  location: string;
+  /** The resource tags. */
+  tags?: { [propertyName: string]: string };
+  /** The default Data Lake Store account associated with this account. */
+  defaultDataLakeStoreAccount: string;
+  /** The list of Data Lake Store accounts associated with this account. */
+  dataLakeStoreAccounts: AddDataLakeStoreWithAccountParameters[];
+  /** The list of Azure Blob Storage accounts associated with this account. */
+  storageAccounts?: AddStorageAccountWithAccountParameters[];
+  /** The list of compute policies associated with this account. */
+  computePolicies?: CreateComputePolicyWithAccountParameters[];
+  /** The list of firewall rules associated with this account. */
+  firewallRules?: CreateFirewallRuleWithAccountParameters[];
+  /** The current state of the IP address firewall for this account. */
+  firewallState?: FirewallState;
+  /** The current state of allowing or disallowing IPs originating within Azure through the firewall. If the firewall is disabled, this is not enforced. */
+  firewallAllowAzureIps?: FirewallAllowAzureIpsState;
+  /** The commitment tier for the next month. */
+  newTier?: TierType;
+  /** The maximum supported jobs running under the account at the same time. */
+  maxJobCount?: number;
+  /** The maximum supported degree of parallelism for this account. */
+  maxDegreeOfParallelism?: number;
+  /** The maximum supported degree of parallelism per job for this account. */
+  maxDegreeOfParallelismPerJob?: number;
+  /** The minimum supported priority per job for this account. */
+  minPriorityPerJob?: number;
+  /** The number of days that job metadata is retained. */
+  queryStoreRetention?: number;
+}
+
+/** The parameters used to add a new Data Lake Store account while creating a new Data Lake Analytics account. */
+export interface AddDataLakeStoreWithAccountParameters {
+  /** The unique name of the Data Lake Store account to add. */
+  name: string;
+  /** The optional suffix for the Data Lake Store account. */
+  suffix?: string;
+}
+
+/** The parameters used to add a new Azure Storage account while creating a new Data Lake Analytics account. */
+export interface AddStorageAccountWithAccountParameters {
+  /** The unique name of the Azure Storage account to add. */
+  name: string;
+  /** The access key associated with this Azure Storage account that will be used to connect to it. */
+  accessKey: string;
+  /** The optional suffix for the storage account. */
+  suffix?: string;
+}
+
+/** The parameters used to create a new compute policy while creating a new Data Lake Analytics account. */
+export interface CreateComputePolicyWithAccountParameters {
+  /** The unique name of the compute policy to create. */
+  name: string;
+  /** The AAD object identifier for the entity to create a policy for. */
+  objectId: string;
+  /** The type of AAD object the object identifier refers to. */
+  objectType: AADObjectType;
+  /** The maximum degree of parallelism per job this user can use to submit jobs. This property, the min priority per job property, or both must be passed. */
+  maxDegreeOfParallelismPerJob?: number;
+  /** The minimum priority per job this user can use to submit jobs. This property, the max degree of parallelism per job property, or both must be passed. */
+  minPriorityPerJob?: number;
+}
+
+/** The parameters used to create a new firewall rule while creating a new Data Lake Analytics account. */
+export interface CreateFirewallRuleWithAccountParameters {
+  /** The unique name of the firewall rule to create. */
+  name: string;
+  /** The start IP address for the firewall rule. This can be either ipv4 or ipv6. Start and End should be in the same protocol. */
+  startIpAddress: string;
+  /** The end IP address for the firewall rule. This can be either ipv4 or ipv6. Start and End should be in the same protocol. */
+  endIpAddress: string;
+}
+
+/** The resource model definition for a nested resource. */
+export interface SubResource {
+  /**
+   * The resource identifier.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The resource name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The resource type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+}
+
+/** The parameters that can be used to update an existing Data Lake Analytics account. */
+export interface UpdateDataLakeAnalyticsAccountParameters {
+  /** The resource tags. */
+  tags?: { [propertyName: string]: string };
+  /** The list of Data Lake Store accounts associated with this account. */
+  dataLakeStoreAccounts?: UpdateDataLakeStoreWithAccountParameters[];
+  /** The list of Azure Blob storage accounts associated with this account. */
+  storageAccounts?: UpdateStorageAccountWithAccountParameters[];
+  /** The list of compute policies associated with this account. */
+  computePolicies?: UpdateComputePolicyWithAccountParameters[];
+  /** The list of firewall rules associated with this account. */
+  firewallRules?: UpdateFirewallRuleWithAccountParameters[];
+  /** The current state of the IP address firewall for this account. Disabling the firewall does not remove existing rules, they will just be ignored until the firewall is re-enabled. */
+  firewallState?: FirewallState;
+  /** The current state of allowing or disallowing IPs originating within Azure through the firewall. If the firewall is disabled, this is not enforced. */
+  firewallAllowAzureIps?: FirewallAllowAzureIpsState;
+  /** The commitment tier to use for next month. */
+  newTier?: TierType;
+  /** The maximum supported jobs running under the account at the same time. */
+  maxJobCount?: number;
+  /** The maximum supported degree of parallelism for this account. */
+  maxDegreeOfParallelism?: number;
+  /** The maximum supported degree of parallelism per job for this account. */
+  maxDegreeOfParallelismPerJob?: number;
+  /** The minimum supported priority per job for this account. */
+  minPriorityPerJob?: number;
+  /** The number of days that job metadata is retained. */
+  queryStoreRetention?: number;
+}
+
+/** The parameters used to update a Data Lake Store account while updating a Data Lake Analytics account. */
+export interface UpdateDataLakeStoreWithAccountParameters {
+  /** The unique name of the Data Lake Store account to update. */
+  name: string;
+  /** The optional suffix for the Data Lake Store account. */
+  suffix?: string;
+}
+
+/** The parameters used to update an Azure Storage account while updating a Data Lake Analytics account. */
+export interface UpdateStorageAccountWithAccountParameters {
+  /** The unique name of the Azure Storage account to update. */
+  name: string;
+  /** The updated access key associated with this Azure Storage account that will be used to connect to it. */
+  accessKey?: string;
+  /** The optional suffix for the storage account. */
+  suffix?: string;
+}
+
+/** The parameters used to update a compute policy while updating a Data Lake Analytics account. */
+export interface UpdateComputePolicyWithAccountParameters {
+  /** The unique name of the compute policy to update. */
+  name: string;
+  /** The AAD object identifier for the entity to create a policy for. */
+  objectId?: string;
+  /** The type of AAD object the object identifier refers to. */
+  objectType?: AADObjectType;
+  /** The maximum degree of parallelism per job this user can use to submit jobs. This property, the min priority per job property, or both must be passed. */
+  maxDegreeOfParallelismPerJob?: number;
+  /** The minimum priority per job this user can use to submit jobs. This property, the max degree of parallelism per job property, or both must be passed. */
+  minPriorityPerJob?: number;
+}
+
+/** The parameters used to update a firewall rule while updating a Data Lake Analytics account. */
+export interface UpdateFirewallRuleWithAccountParameters {
+  /** The unique name of the firewall rule to update. */
+  name: string;
+  /** The start IP address for the firewall rule. This can be either ipv4 or ipv6. Start and End should be in the same protocol. */
+  startIpAddress?: string;
+  /** The end IP address for the firewall rule. This can be either ipv4 or ipv6. Start and End should be in the same protocol. */
+  endIpAddress?: string;
+}
+
+/** Data Lake Store account list information. */
+export interface DataLakeStoreAccountInformationListResult {
+  /**
+   * The results of the list operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: DataLakeStoreAccountInformation[];
+  /**
+   * The link (url) to the next page of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** The parameters used to add a new Data Lake Store account. */
+export interface AddDataLakeStoreParameters {
+  /** The optional suffix for the Data Lake Store account. */
+  suffix?: string;
+}
+
+/** Azure Storage account list information. */
+export interface StorageAccountInformationListResult {
+  /**
+   * The results of the list operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: StorageAccountInformation[];
+  /**
+   * The link (url) to the next page of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** The parameters used to add a new Azure Storage account. */
+export interface AddStorageAccountParameters {
+  /** The access key associated with this Azure Storage account that will be used to connect to it. */
+  accessKey: string;
+  /** The optional suffix for the storage account. */
+  suffix?: string;
+}
+
+/** The parameters used to update an Azure Storage account. */
+export interface UpdateStorageAccountParameters {
+  /** The updated access key associated with this Azure Storage account that will be used to connect to it. */
+  accessKey?: string;
+  /** The optional suffix for the storage account. */
+  suffix?: string;
+}
+
+/** The list of blob containers associated with the storage account attached to the Data Lake Analytics account. */
+export interface StorageContainerListResult {
+  /**
+   * The results of the list operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: StorageContainer[];
+  /**
+   * The link (url) to the next page of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** The SAS response that contains the storage account, container and associated SAS token for connection use. */
+export interface SasTokenInformationListResult {
+  /**
+   * The results of the list operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: SasTokenInformation[];
+  /**
+   * The link (url) to the next page of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** SAS token information. */
+export interface SasTokenInformation {
+  /**
+   * The access token for the associated Azure Storage Container.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly accessToken?: string;
+}
+
+/** The list of compute policies in the account. */
+export interface ComputePolicyListResult {
+  /**
+   * The results of the list operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: ComputePolicy[];
+  /**
+   * The link (url) to the next page of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** The parameters used to create a new compute policy. */
+export interface CreateOrUpdateComputePolicyParameters {
+  /** The AAD object identifier for the entity to create a policy for. */
+  objectId: string;
+  /** The type of AAD object the object identifier refers to. */
+  objectType: AADObjectType;
+  /** The maximum degree of parallelism per job this user can use to submit jobs. This property, the min priority per job property, or both must be passed. */
+  maxDegreeOfParallelismPerJob?: number;
+  /** The minimum priority per job this user can use to submit jobs. This property, the max degree of parallelism per job property, or both must be passed. */
+  minPriorityPerJob?: number;
+}
+
+/** The parameters used to update a compute policy. */
+export interface UpdateComputePolicyParameters {
+  /** The AAD object identifier for the entity to create a policy for. */
+  objectId?: string;
+  /** The type of AAD object the object identifier refers to. */
+  objectType?: AADObjectType;
+  /** The maximum degree of parallelism per job this user can use to submit jobs. This property, the min priority per job property, or both must be passed. */
+  maxDegreeOfParallelismPerJob?: number;
+  /** The minimum priority per job this user can use to submit jobs. This property, the max degree of parallelism per job property, or both must be passed. */
+  minPriorityPerJob?: number;
+}
+
+/** Data Lake Analytics firewall rule list information. */
+export interface FirewallRuleListResult {
+  /**
+   * The results of the list operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: FirewallRule[];
+  /**
+   * The link (url) to the next page of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** The parameters used to create a new firewall rule. */
+export interface CreateOrUpdateFirewallRuleParameters {
+  /** The start IP address for the firewall rule. This can be either ipv4 or ipv6. Start and End should be in the same protocol. */
+  startIpAddress: string;
+  /** The end IP address for the firewall rule. This can be either ipv4 or ipv6. Start and End should be in the same protocol. */
+  endIpAddress: string;
+}
+
+/** The parameters used to update a firewall rule. */
+export interface UpdateFirewallRuleParameters {
+  /** The start IP address for the firewall rule. This can be either ipv4 or ipv6. Start and End should be in the same protocol. */
+  startIpAddress?: string;
+  /** The end IP address for the firewall rule. This can be either ipv4 or ipv6. Start and End should be in the same protocol. */
+  endIpAddress?: string;
+}
+
+/** The list of available operations for Data Lake Analytics. */
+export interface OperationListResult {
+  /**
+   * The results of the list operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: Operation[];
+  /**
+   * The link (url) to the next page of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** An available operation for Data Lake Analytics. */
+export interface Operation {
+  /**
+   * The name of the operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The display information for the operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly display?: OperationDisplay;
+  /**
+   * The OperationMetaPropertyInfo for the operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly properties?: OperationMetaPropertyInfo;
+  /**
+   * The intended executor of the operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly origin?: OperationOrigin;
+}
+
+/** The display information for a particular operation. */
+export interface OperationDisplay {
+  /**
+   * The resource provider of the operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provider?: string;
+  /**
+   * The resource type of the operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resource?: string;
+  /**
+   * A friendly name of the operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly operation?: string;
+  /**
+   * A friendly description of the operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly description?: string;
+}
+
+export interface OperationMetaPropertyInfo {
+  /** The operations OperationMetaServiceSpecification. */
+  serviceSpecification?: OperationMetaServiceSpecification;
+}
+
+export interface OperationMetaServiceSpecification {
+  /** The metricSpecifications for OperationMetaServiceSpecification. */
+  metricSpecifications?: OperationMetaMetricSpecification[];
+  /** The logSpecifications for OperationMetaServiceSpecification. */
+  logSpecifications?: OperationMetaLogSpecification[];
+}
+
+export interface OperationMetaMetricSpecification {
+  /** The name for OperationMetaMetricSpecification. */
+  name?: string;
+  /** The displayName for OperationMetaMetricSpecification. */
+  displayDescription?: string;
+  /** The displayName for OperationMetaMetricSpecification. */
+  displayName?: string;
+  /** The unit for OperationMetaMetricSpecification. */
+  unit?: string;
+  /** The aggregationType for OperationMetaMetricSpecification. */
+  aggregationType?: string;
+  /** The availabilities for OperationMetaMetricSpecification. */
+  availabilities?: OperationMetaMetricAvailabilitiesSpecification[];
+}
+
+export interface OperationMetaMetricAvailabilitiesSpecification {
+  /** The timegrain for OperationMetaMetricAvailabilitiesSpecification. */
+  timeGrain?: string;
+  /** The blobDuration for OperationMetaMetricAvailabilitiesSpecification. */
+  blobDuration?: string;
+}
+
+export interface OperationMetaLogSpecification {
+  /** The name for OperationMetaLogSpecification. */
+  name?: string;
+  /** The displayName for OperationMetaLogSpecification. */
+  displayName?: string;
+  /** The blobDuration for OperationMetaLogSpecification. */
+  blobDuration?: string;
+}
+
+/** Subscription-level properties and limits for Data Lake Analytics. */
+export interface CapabilityInformation {
+  /**
+   * The subscription credentials that uniquely identifies the subscription.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly subscriptionId?: string;
+  /**
+   * The subscription state.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly state?: SubscriptionState;
+  /**
+   * The maximum supported number of accounts under this subscription.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly maxAccountCount?: number;
+  /**
+   * The current number of accounts under this subscription.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly accountCount?: number;
+  /**
+   * The Boolean value of true or false to indicate the maintenance state.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly migrationState?: boolean;
+}
+
+/** Data Lake Analytics account name availability check parameters. */
+export interface CheckNameAvailabilityParameters {
+  /** The Data Lake Analytics name to check availability for. */
+  name: string;
+  /** The resource type. Note: This should not be set by the user, as the constant value is Microsoft.DataLakeAnalytics/accounts */
+  type: "Microsoft.DataLakeAnalytics/accounts";
+}
+
+/** Data Lake Analytics account name availability result information. */
+export interface NameAvailabilityInformation {
+  /**
+   * The Boolean value of true or false to indicate whether the Data Lake Analytics account name is available or not.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nameAvailable?: boolean;
+  /**
+   * The reason why the Data Lake Analytics account name is not available, if nameAvailable is false.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly reason?: string;
+  /**
+   * The message describing why the Data Lake Analytics account name is not available, if nameAvailable is false.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+}
+
+/** Data Lake Analytics VirtualNetwork rule list information. */
+export interface VirtualNetworkRuleListResult {
+  /**
+   * The results of the list operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: VirtualNetworkRule[];
+  /**
+   * The link (url) to the next page of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Data Lake Analytics HiveMetastore list information. */
+export interface HiveMetastoreListResult {
+  /**
+   * The results of the list operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: HiveMetastore[];
+  /**
+   * The link (url) to the next page of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** The account specific properties that are associated with an underlying Data Lake Analytics account. Returned only when retrieving a specific account. */
+export type DataLakeAnalyticsAccountProperties = DataLakeAnalyticsAccountPropertiesBasic & {
+  /**
+   * The type of the default Data Lake Store account associated with this account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly defaultDataLakeStoreAccountType?: string;
+  /**
+   * The default Data Lake Store account associated with this account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly defaultDataLakeStoreAccount?: string;
+  /**
+   * The list of Data Lake Store accounts associated with this account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly dataLakeStoreAccounts?: DataLakeStoreAccountInformation[];
+  /** The list of Data Lake Store accounts associated with this account. */
+  publicDataLakeStoreAccounts?: DataLakeStoreAccountInformation[];
+  /**
+   * The list of Azure Blob Storage accounts associated with this account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly storageAccounts?: StorageAccountInformation[];
+  /**
+   * The list of compute policies associated with this account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly computePolicies?: ComputePolicy[];
+  /**
+   * The list of hiveMetastores associated with this account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly hiveMetastores?: HiveMetastore[];
+  /**
+   * The list of virtualNetwork rules associated with this account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly virtualNetworkRules?: VirtualNetworkRule[];
+  /**
+   * The list of firewall rules associated with this account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly firewallRules?: FirewallRule[];
+  /** The current state of the IP address firewall for this account. */
+  firewallState?: FirewallState;
+  /** The current state of allowing or disallowing IPs originating within Azure through the firewall. If the firewall is disabled, this is not enforced. */
+  firewallAllowAzureIps?: FirewallAllowAzureIpsState;
+  /** The commitment tier for the next month. */
+  newTier?: TierType;
+  /**
+   * The commitment tier in use for the current month.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly currentTier?: TierType;
+  /** The maximum supported jobs running under the account at the same time. */
+  maxJobCount?: number;
+  /**
+   * The maximum supported active jobs under the account at the same time.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly maxActiveJobCountPerUser?: number;
+  /**
+   * The maximum supported jobs queued under the account at the same time.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly maxQueuedJobCountPerUser?: number;
+  /**
+   * The maximum supported active jobs under the account at the same time.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly maxJobRunningTimeInMin?: number;
+  /**
+   * The system defined maximum supported jobs running under the account at the same time, which restricts the maximum number of running jobs the user can set for the account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemMaxJobCount?: number;
+  /** The maximum supported degree of parallelism for this account. */
+  maxDegreeOfParallelism?: number;
+  /**
+   * The system defined maximum supported degree of parallelism for this account, which restricts the maximum value of parallelism the user can set for the account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemMaxDegreeOfParallelism?: number;
+  /** The maximum supported degree of parallelism per job for this account. */
+  maxDegreeOfParallelismPerJob?: number;
+  /**
+   * The minimum supported priority per job for this account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly minPriorityPerJob?: number;
+  /** The number of days that job metadata is retained. */
+  queryStoreRetention?: number;
+  /**
+   * The current state of the DebugDataAccessLevel for this account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly debugDataAccessLevel?: DebugDataAccessLevel;
+};
+
+/** A Data Lake Analytics account object, containing all information associated with the named Data Lake Analytics account. */
+export type DataLakeAnalyticsAccountBasic = Resource & {
+  /**
+   * The unique identifier associated with this Data Lake Analytics account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly accountId?: string;
+  /**
+   * The provisioning status of the Data Lake Analytics account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: DataLakeAnalyticsAccountStatus;
+  /**
+   * The state of the Data Lake Analytics account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly state?: DataLakeAnalyticsAccountState;
+  /**
+   * The account creation time.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly creationTime?: Date;
+  /**
+   * The account last modified time.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastModifiedTime?: Date;
+  /**
+   * The full CName endpoint for this account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly endpoint?: string;
+};
+
+/** A Data Lake Analytics account object, containing all information associated with the named Data Lake Analytics account. */
+export type DataLakeAnalyticsAccount = Resource & {
+  /**
+   * The unique identifier associated with this Data Lake Analytics account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly accountId?: string;
+  /**
+   * The provisioning status of the Data Lake Analytics account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: DataLakeAnalyticsAccountStatus;
+  /**
+   * The state of the Data Lake Analytics account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly state?: DataLakeAnalyticsAccountState;
+  /**
+   * The account creation time.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly creationTime?: Date;
+  /**
+   * The account last modified time.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastModifiedTime?: Date;
+  /**
+   * The full CName endpoint for this account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly endpoint?: string;
+  /**
+   * The type of the default Data Lake Store account associated with this account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly defaultDataLakeStoreAccountType?: string;
+  /**
+   * The default Data Lake Store account associated with this account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly defaultDataLakeStoreAccount?: string;
+  /**
+   * The list of Data Lake Store accounts associated with this account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly dataLakeStoreAccounts?: DataLakeStoreAccountInformation[];
+  /** The list of Data Lake Store accounts associated with this account. */
+  publicDataLakeStoreAccounts?: DataLakeStoreAccountInformation[];
+  /**
+   * The list of Azure Blob Storage accounts associated with this account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly storageAccounts?: StorageAccountInformation[];
+  /**
+   * The list of compute policies associated with this account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly computePolicies?: ComputePolicy[];
+  /**
+   * The list of hiveMetastores associated with this account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly hiveMetastores?: HiveMetastore[];
+  /**
+   * The list of virtualNetwork rules associated with this account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly virtualNetworkRules?: VirtualNetworkRule[];
+  /**
+   * The list of firewall rules associated with this account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly firewallRules?: FirewallRule[];
+  /** The current state of the IP address firewall for this account. */
+  firewallState?: FirewallState;
+  /** The current state of allowing or disallowing IPs originating within Azure through the firewall. If the firewall is disabled, this is not enforced. */
+  firewallAllowAzureIps?: FirewallAllowAzureIpsState;
+  /** The commitment tier for the next month. */
+  newTier?: TierType;
+  /**
+   * The commitment tier in use for the current month.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly currentTier?: TierType;
+  /** The maximum supported jobs running under the account at the same time. */
+  maxJobCount?: number;
+  /**
+   * The maximum supported active jobs under the account at the same time.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly maxActiveJobCountPerUser?: number;
+  /**
+   * The maximum supported jobs queued under the account at the same time.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly maxQueuedJobCountPerUser?: number;
+  /**
+   * The maximum supported active jobs under the account at the same time.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly maxJobRunningTimeInMin?: number;
+  /**
+   * The system defined maximum supported jobs running under the account at the same time, which restricts the maximum number of running jobs the user can set for the account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemMaxJobCount?: number;
+  /** The maximum supported degree of parallelism for this account. */
+  maxDegreeOfParallelism?: number;
+  /**
+   * The system defined maximum supported degree of parallelism for this account, which restricts the maximum value of parallelism the user can set for the account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemMaxDegreeOfParallelism?: number;
+  /** The maximum supported degree of parallelism per job for this account. */
+  maxDegreeOfParallelismPerJob?: number;
+  /**
+   * The minimum supported priority per job for this account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly minPriorityPerJob?: number;
+  /** The number of days that job metadata is retained. */
+  queryStoreRetention?: number;
+  /**
+   * The current state of the DebugDataAccessLevel for this account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly debugDataAccessLevel?: DebugDataAccessLevel;
+};
+
+/** Data Lake Store account information. */
+export type DataLakeStoreAccountInformation = SubResource & {
+  /**
+   * The optional suffix for the Data Lake Store account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly suffix?: string;
+};
+
+/** Azure Storage account information. */
+export type StorageAccountInformation = SubResource & {
+  /**
+   * The optional suffix for the storage account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly suffix?: string;
+};
+
+/** Data Lake Analytics compute policy information. */
+export type ComputePolicy = SubResource & {
+  /**
+   * The AAD object identifier for the entity to create a policy for.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly objectId?: string;
+  /**
+   * The type of AAD object the object identifier refers to.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly objectType?: AADObjectType;
+  /**
+   * The maximum degree of parallelism per job this user can use to submit jobs.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly maxDegreeOfParallelismPerJob?: number;
+  /**
+   * The minimum priority per job this user can use to submit jobs.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly minPriorityPerJob?: number;
+};
+
+export type HiveMetastore = SubResource & {
+  /**
+   * The serverUri for the Hive MetaStore
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly serverUri?: string;
+  /**
+   * The databaseName for the Hive MetaStore
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly databaseName?: string;
+  /**
+   * The runtimeVersion for the Hive MetaStore
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly runtimeVersion?: string;
+  /**
+   * The userName for the Hive MetaStore
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly userName?: string;
+  /**
+   * The password for the Hive MetaStore
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly password?: string;
+  /**
+   * The current state of the NestedResource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nestedResourceProvisioningState?: NestedResourceProvisioningState;
+};
+
+/** Data Lake Analytics  VirtualNetwork Rule information. */
+export type VirtualNetworkRule = SubResource & {
+  /**
+   * The resource identifier for the subnet
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly subnetId?: string;
+  /**
+   * The current state of the VirtualNetwork Rule
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly virtualNetworkRuleState?: VirtualNetworkRuleState;
+};
+
+/** Data Lake Analytics firewall rule information. */
+export type FirewallRule = SubResource & {
+  /**
+   * The start IP address for the firewall rule. This can be either ipv4 or ipv6. Start and End should be in the same protocol.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly startIpAddress?: string;
+  /**
+   * The end IP address for the firewall rule. This can be either ipv4 or ipv6. Start and End should be in the same protocol.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly endIpAddress?: string;
+};
+
+/** Azure Storage blob container information. */
+export type StorageContainer = SubResource & {
+  /**
+   * The last modified time of the blob container.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastModifiedTime?: Date;
+};
+
+/** Known values of {@link AADObjectType} that the service accepts. */
+export enum KnownAADObjectType {
+  User = "User",
+  Group = "Group",
+  ServicePrincipal = "ServicePrincipal"
 }
 
 /**
- * Optional Parameters.
+ * Defines values for AADObjectType. \
+ * {@link KnownAADObjectType} can be used interchangeably with AADObjectType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **User** \
+ * **Group** \
+ * **ServicePrincipal**
  */
-export interface AccountsListOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * OData filter. Optional.
-   */
+export type AADObjectType = string;
+
+/** Known values of {@link OperationOrigin} that the service accepts. */
+export enum KnownOperationOrigin {
+  User = "user",
+  System = "system",
+  UserSystem = "user,system"
+}
+
+/**
+ * Defines values for OperationOrigin. \
+ * {@link KnownOperationOrigin} can be used interchangeably with OperationOrigin,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **user** \
+ * **system** \
+ * **user,system**
+ */
+export type OperationOrigin = string;
+
+/** Known values of {@link SubscriptionState} that the service accepts. */
+export enum KnownSubscriptionState {
+  Registered = "Registered",
+  Suspended = "Suspended",
+  Deleted = "Deleted",
+  Unregistered = "Unregistered",
+  Warned = "Warned"
+}
+
+/**
+ * Defines values for SubscriptionState. \
+ * {@link KnownSubscriptionState} can be used interchangeably with SubscriptionState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Registered** \
+ * **Suspended** \
+ * **Deleted** \
+ * **Unregistered** \
+ * **Warned**
+ */
+export type SubscriptionState = string;
+/** Defines values for DataLakeAnalyticsAccountStatus. */
+export type DataLakeAnalyticsAccountStatus =
+  | "Failed"
+  | "Creating"
+  | "Running"
+  | "Succeeded"
+  | "Patching"
+  | "Suspending"
+  | "Resuming"
+  | "Deleting"
+  | "Deleted"
+  | "Undeleting"
+  | "Canceled";
+/** Defines values for DataLakeAnalyticsAccountState. */
+export type DataLakeAnalyticsAccountState = "Active" | "Suspended";
+/** Defines values for FirewallState. */
+export type FirewallState = "Enabled" | "Disabled";
+/** Defines values for FirewallAllowAzureIpsState. */
+export type FirewallAllowAzureIpsState = "Enabled" | "Disabled";
+/** Defines values for TierType. */
+export type TierType =
+  | "Consumption"
+  | "Commitment_100AUHours"
+  | "Commitment_500AUHours"
+  | "Commitment_1000AUHours"
+  | "Commitment_5000AUHours"
+  | "Commitment_10000AUHours"
+  | "Commitment_50000AUHours"
+  | "Commitment_100000AUHours"
+  | "Commitment_500000AUHours";
+/** Defines values for NestedResourceProvisioningState. */
+export type NestedResourceProvisioningState =
+  | "Succeeded"
+  | "Canceled"
+  | "Failed";
+/** Defines values for VirtualNetworkRuleState. */
+export type VirtualNetworkRuleState =
+  | "Active"
+  | "NetworkSourceDeleted"
+  | "Failed";
+/** Defines values for DebugDataAccessLevel. */
+export type DebugDataAccessLevel = "All" | "Customer" | "None";
+
+/** Optional parameters. */
+export interface AccountsListOptionalParams
+  extends coreClient.OperationOptions {
+  /** OData filter. Optional. */
   filter?: string;
-  /**
-   * The number of items to return. Optional.
-   */
+  /** The number of items to return. Optional. */
   top?: number;
-  /**
-   * The number of items to skip over before returning elements. Optional.
-   */
+  /** The number of items to skip over before returning elements. Optional. */
   skip?: number;
-  /**
-   * OData Select statement. Limits the properties on each entry to just those requested, e.g.
-   * Categories?$select=CategoryName,Description. Optional.
-   */
+  /** OData Select statement. Limits the properties on each entry to just those requested, e.g. Categories?$select=CategoryName,Description. Optional. */
   select?: string;
-  /**
-   * OrderBy clause. One or more comma-separated expressions with an optional "asc" (the default)
-   * or "desc" depending on the order you'd like the values sorted, e.g.
-   * Categories?$orderby=CategoryName desc. Optional.
-   */
+  /** OrderBy clause. One or more comma-separated expressions with an optional "asc" (the default) or "desc" depending on the order you'd like the values sorted, e.g. Categories?$orderby=CategoryName desc. Optional. */
   orderby?: string;
-  /**
-   * The Boolean value of true or false to request a count of the matching resources included with
-   * the resources in the response, e.g. Categories?$count=true. Optional.
-   */
+  /** The Boolean value of true or false to request a count of the matching resources included with the resources in the response, e.g. Categories?$count=true. Optional. */
   count?: boolean;
 }
 
-/**
- * Optional Parameters.
- */
-export interface AccountsListByResourceGroupOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * OData filter. Optional.
-   */
+/** Contains response data for the list operation. */
+export type AccountsListResponse = DataLakeAnalyticsAccountListResult;
+
+/** Optional parameters. */
+export interface AccountsListByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {
+  /** OData filter. Optional. */
   filter?: string;
-  /**
-   * The number of items to return. Optional.
-   */
+  /** The number of items to return. Optional. */
   top?: number;
-  /**
-   * The number of items to skip over before returning elements. Optional.
-   */
+  /** The number of items to skip over before returning elements. Optional. */
   skip?: number;
-  /**
-   * OData Select statement. Limits the properties on each entry to just those requested, e.g.
-   * Categories?$select=CategoryName,Description. Optional.
-   */
+  /** OData Select statement. Limits the properties on each entry to just those requested, e.g. Categories?$select=CategoryName,Description. Optional. */
   select?: string;
-  /**
-   * OrderBy clause. One or more comma-separated expressions with an optional "asc" (the default)
-   * or "desc" depending on the order you'd like the values sorted, e.g.
-   * Categories?$orderby=CategoryName desc. Optional.
-   */
+  /** OrderBy clause. One or more comma-separated expressions with an optional "asc" (the default) or "desc" depending on the order you'd like the values sorted, e.g. Categories?$orderby=CategoryName desc. Optional. */
   orderby?: string;
-  /**
-   * The Boolean value of true or false to request a count of the matching resources included with
-   * the resources in the response, e.g. Categories?$count=true. Optional.
-   */
+  /** The Boolean value of true or false to request a count of the matching resources included with the resources in the response, e.g. Categories?$count=true. Optional. */
   count?: boolean;
 }
 
-/**
- * Optional Parameters.
- */
-export interface AccountsUpdateOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Parameters supplied to the update Data Lake Analytics account operation.
-   */
+/** Contains response data for the listByResourceGroup operation. */
+export type AccountsListByResourceGroupResponse = DataLakeAnalyticsAccountListResult;
+
+/** Optional parameters. */
+export interface AccountsCreateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the create operation. */
+export type AccountsCreateResponse = DataLakeAnalyticsAccount;
+
+/** Optional parameters. */
+export interface AccountsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type AccountsGetResponse = DataLakeAnalyticsAccount;
+
+/** Optional parameters. */
+export interface AccountsUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Parameters supplied to the update Data Lake Analytics account operation. */
   parameters?: UpdateDataLakeAnalyticsAccountParameters;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
 }
 
-/**
- * Optional Parameters.
- */
-export interface AccountsBeginUpdateOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Parameters supplied to the update Data Lake Analytics account operation.
-   */
-  parameters?: UpdateDataLakeAnalyticsAccountParameters;
+/** Contains response data for the update operation. */
+export type AccountsUpdateResponse = DataLakeAnalyticsAccount;
+
+/** Optional parameters. */
+export interface AccountsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
 }
 
-/**
- * Optional Parameters.
- */
-export interface AccountsListNextOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * OData filter. Optional.
-   */
+/** Optional parameters. */
+export interface AccountsCheckNameAvailabilityOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the checkNameAvailability operation. */
+export type AccountsCheckNameAvailabilityResponse = NameAvailabilityInformation;
+
+/** Optional parameters. */
+export interface AccountsListNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** OData filter. Optional. */
   filter?: string;
-  /**
-   * The number of items to return. Optional.
-   */
+  /** The number of items to return. Optional. */
   top?: number;
-  /**
-   * The number of items to skip over before returning elements. Optional.
-   */
+  /** The number of items to skip over before returning elements. Optional. */
   skip?: number;
-  /**
-   * OData Select statement. Limits the properties on each entry to just those requested, e.g.
-   * Categories?$select=CategoryName,Description. Optional.
-   */
+  /** OData Select statement. Limits the properties on each entry to just those requested, e.g. Categories?$select=CategoryName,Description. Optional. */
   select?: string;
-  /**
-   * OrderBy clause. One or more comma-separated expressions with an optional "asc" (the default)
-   * or "desc" depending on the order you'd like the values sorted, e.g.
-   * Categories?$orderby=CategoryName desc. Optional.
-   */
+  /** OrderBy clause. One or more comma-separated expressions with an optional "asc" (the default) or "desc" depending on the order you'd like the values sorted, e.g. Categories?$orderby=CategoryName desc. Optional. */
   orderby?: string;
-  /**
-   * The Boolean value of true or false to request a count of the matching resources included with
-   * the resources in the response, e.g. Categories?$count=true. Optional.
-   */
+  /** The Boolean value of true or false to request a count of the matching resources included with the resources in the response, e.g. Categories?$count=true. Optional. */
   count?: boolean;
 }
 
-/**
- * Optional Parameters.
- */
-export interface AccountsListByResourceGroupNextOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * OData filter. Optional.
-   */
+/** Contains response data for the listNext operation. */
+export type AccountsListNextResponse = DataLakeAnalyticsAccountListResult;
+
+/** Optional parameters. */
+export interface AccountsListByResourceGroupNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** OData filter. Optional. */
   filter?: string;
-  /**
-   * The number of items to return. Optional.
-   */
+  /** The number of items to return. Optional. */
   top?: number;
-  /**
-   * The number of items to skip over before returning elements. Optional.
-   */
+  /** The number of items to skip over before returning elements. Optional. */
   skip?: number;
-  /**
-   * OData Select statement. Limits the properties on each entry to just those requested, e.g.
-   * Categories?$select=CategoryName,Description. Optional.
-   */
+  /** OData Select statement. Limits the properties on each entry to just those requested, e.g. Categories?$select=CategoryName,Description. Optional. */
   select?: string;
-  /**
-   * OrderBy clause. One or more comma-separated expressions with an optional "asc" (the default)
-   * or "desc" depending on the order you'd like the values sorted, e.g.
-   * Categories?$orderby=CategoryName desc. Optional.
-   */
+  /** OrderBy clause. One or more comma-separated expressions with an optional "asc" (the default) or "desc" depending on the order you'd like the values sorted, e.g. Categories?$orderby=CategoryName desc. Optional. */
   orderby?: string;
-  /**
-   * The Boolean value of true or false to request a count of the matching resources included with
-   * the resources in the response, e.g. Categories?$count=true. Optional.
-   */
+  /** The Boolean value of true or false to request a count of the matching resources included with the resources in the response, e.g. Categories?$count=true. Optional. */
   count?: boolean;
 }
 
-/**
- * Optional Parameters.
- */
-export interface DataLakeStoreAccountsListByAccountOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * OData filter. Optional.
-   */
+/** Contains response data for the listByResourceGroupNext operation. */
+export type AccountsListByResourceGroupNextResponse = DataLakeAnalyticsAccountListResult;
+
+/** Optional parameters. */
+export interface DataLakeStoreAccountsListByAccountOptionalParams
+  extends coreClient.OperationOptions {
+  /** OData filter. Optional. */
   filter?: string;
-  /**
-   * The number of items to return. Optional.
-   */
+  /** The number of items to return. Optional. */
   top?: number;
-  /**
-   * The number of items to skip over before returning elements. Optional.
-   */
+  /** The number of items to skip over before returning elements. Optional. */
   skip?: number;
-  /**
-   * OData Select statement. Limits the properties on each entry to just those requested, e.g.
-   * Categories?$select=CategoryName,Description. Optional.
-   */
+  /** OData Select statement. Limits the properties on each entry to just those requested, e.g. Categories?$select=CategoryName,Description. Optional. */
   select?: string;
-  /**
-   * OrderBy clause. One or more comma-separated expressions with an optional "asc" (the default)
-   * or "desc" depending on the order you'd like the values sorted, e.g.
-   * Categories?$orderby=CategoryName desc. Optional.
-   */
+  /** OrderBy clause. One or more comma-separated expressions with an optional "asc" (the default) or "desc" depending on the order you'd like the values sorted, e.g. Categories?$orderby=CategoryName desc. Optional. */
   orderby?: string;
-  /**
-   * The Boolean value of true or false to request a count of the matching resources included with
-   * the resources in the response, e.g. Categories?$count=true. Optional.
-   */
+  /** The Boolean value of true or false to request a count of the matching resources included with the resources in the response, e.g. Categories?$count=true. Optional. */
   count?: boolean;
 }
 
-/**
- * Optional Parameters.
- */
-export interface DataLakeStoreAccountsAddOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The details of the Data Lake Store account.
-   */
+/** Contains response data for the listByAccount operation. */
+export type DataLakeStoreAccountsListByAccountResponse = DataLakeStoreAccountInformationListResult;
+
+/** Optional parameters. */
+export interface DataLakeStoreAccountsAddOptionalParams
+  extends coreClient.OperationOptions {
+  /** The details of the Data Lake Store account. */
   parameters?: AddDataLakeStoreParameters;
 }
 
-/**
- * Optional Parameters.
- */
-export interface DataLakeStoreAccountsListByAccountNextOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * OData filter. Optional.
-   */
+/** Optional parameters. */
+export interface DataLakeStoreAccountsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type DataLakeStoreAccountsGetResponse = DataLakeStoreAccountInformation;
+
+/** Optional parameters. */
+export interface DataLakeStoreAccountsDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface DataLakeStoreAccountsListByAccountNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** OData filter. Optional. */
   filter?: string;
-  /**
-   * The number of items to return. Optional.
-   */
+  /** The number of items to return. Optional. */
   top?: number;
-  /**
-   * The number of items to skip over before returning elements. Optional.
-   */
+  /** The number of items to skip over before returning elements. Optional. */
   skip?: number;
-  /**
-   * OData Select statement. Limits the properties on each entry to just those requested, e.g.
-   * Categories?$select=CategoryName,Description. Optional.
-   */
+  /** OData Select statement. Limits the properties on each entry to just those requested, e.g. Categories?$select=CategoryName,Description. Optional. */
   select?: string;
-  /**
-   * OrderBy clause. One or more comma-separated expressions with an optional "asc" (the default)
-   * or "desc" depending on the order you'd like the values sorted, e.g.
-   * Categories?$orderby=CategoryName desc. Optional.
-   */
+  /** OrderBy clause. One or more comma-separated expressions with an optional "asc" (the default) or "desc" depending on the order you'd like the values sorted, e.g. Categories?$orderby=CategoryName desc. Optional. */
   orderby?: string;
-  /**
-   * The Boolean value of true or false to request a count of the matching resources included with
-   * the resources in the response, e.g. Categories?$count=true. Optional.
-   */
+  /** The Boolean value of true or false to request a count of the matching resources included with the resources in the response, e.g. Categories?$count=true. Optional. */
   count?: boolean;
 }
 
-/**
- * Optional Parameters.
- */
-export interface StorageAccountsListByAccountOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The OData filter. Optional.
-   */
+/** Contains response data for the listByAccountNext operation. */
+export type DataLakeStoreAccountsListByAccountNextResponse = DataLakeStoreAccountInformationListResult;
+
+/** Optional parameters. */
+export interface StorageAccountsListByAccountOptionalParams
+  extends coreClient.OperationOptions {
+  /** The OData filter. Optional. */
   filter?: string;
-  /**
-   * The number of items to return. Optional.
-   */
+  /** The number of items to return. Optional. */
   top?: number;
-  /**
-   * The number of items to skip over before returning elements. Optional.
-   */
+  /** The number of items to skip over before returning elements. Optional. */
   skip?: number;
-  /**
-   * OData Select statement. Limits the properties on each entry to just those requested, e.g.
-   * Categories?$select=CategoryName,Description. Optional.
-   */
+  /** OData Select statement. Limits the properties on each entry to just those requested, e.g. Categories?$select=CategoryName,Description. Optional. */
   select?: string;
-  /**
-   * OrderBy clause. One or more comma-separated expressions with an optional "asc" (the default)
-   * or "desc" depending on the order you'd like the values sorted, e.g.
-   * Categories?$orderby=CategoryName desc. Optional.
-   */
+  /** OrderBy clause. One or more comma-separated expressions with an optional "asc" (the default) or "desc" depending on the order you'd like the values sorted, e.g. Categories?$orderby=CategoryName desc. Optional. */
   orderby?: string;
-  /**
-   * The Boolean value of true or false to request a count of the matching resources included with
-   * the resources in the response, e.g. Categories?$count=true. Optional.
-   */
+  /** The Boolean value of true or false to request a count of the matching resources included with the resources in the response, e.g. Categories?$count=true. Optional. */
   count?: boolean;
 }
 
-/**
- * Optional Parameters.
- */
-export interface StorageAccountsUpdateOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The parameters containing the access key and suffix to update the storage account with, if
-   * any. Passing nothing results in no change.
-   */
+/** Contains response data for the listByAccount operation. */
+export type StorageAccountsListByAccountResponse = StorageAccountInformationListResult;
+
+/** Optional parameters. */
+export interface StorageAccountsAddOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface StorageAccountsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type StorageAccountsGetResponse = StorageAccountInformation;
+
+/** Optional parameters. */
+export interface StorageAccountsUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** The parameters containing the access key and suffix to update the storage account with, if any. Passing nothing results in no change. */
   parameters?: UpdateStorageAccountParameters;
 }
 
-/**
- * Optional Parameters.
- */
-export interface StorageAccountsListByAccountNextOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The OData filter. Optional.
-   */
+/** Optional parameters. */
+export interface StorageAccountsDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface StorageAccountsListStorageContainersOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listStorageContainers operation. */
+export type StorageAccountsListStorageContainersResponse = StorageContainerListResult;
+
+/** Optional parameters. */
+export interface StorageAccountsGetStorageContainerOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getStorageContainer operation. */
+export type StorageAccountsGetStorageContainerResponse = StorageContainer;
+
+/** Optional parameters. */
+export interface StorageAccountsListSasTokensOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listSasTokens operation. */
+export type StorageAccountsListSasTokensResponse = SasTokenInformationListResult;
+
+/** Optional parameters. */
+export interface StorageAccountsListByAccountNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** The OData filter. Optional. */
   filter?: string;
-  /**
-   * The number of items to return. Optional.
-   */
+  /** The number of items to return. Optional. */
   top?: number;
-  /**
-   * The number of items to skip over before returning elements. Optional.
-   */
+  /** The number of items to skip over before returning elements. Optional. */
   skip?: number;
-  /**
-   * OData Select statement. Limits the properties on each entry to just those requested, e.g.
-   * Categories?$select=CategoryName,Description. Optional.
-   */
+  /** OData Select statement. Limits the properties on each entry to just those requested, e.g. Categories?$select=CategoryName,Description. Optional. */
   select?: string;
-  /**
-   * OrderBy clause. One or more comma-separated expressions with an optional "asc" (the default)
-   * or "desc" depending on the order you'd like the values sorted, e.g.
-   * Categories?$orderby=CategoryName desc. Optional.
-   */
+  /** OrderBy clause. One or more comma-separated expressions with an optional "asc" (the default) or "desc" depending on the order you'd like the values sorted, e.g. Categories?$orderby=CategoryName desc. Optional. */
   orderby?: string;
-  /**
-   * The Boolean value of true or false to request a count of the matching resources included with
-   * the resources in the response, e.g. Categories?$count=true. Optional.
-   */
+  /** The Boolean value of true or false to request a count of the matching resources included with the resources in the response, e.g. Categories?$count=true. Optional. */
   count?: boolean;
 }
 
-/**
- * Optional Parameters.
- */
-export interface ComputePoliciesUpdateOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Parameters supplied to update the compute policy.
-   */
+/** Contains response data for the listByAccountNext operation. */
+export type StorageAccountsListByAccountNextResponse = StorageAccountInformationListResult;
+
+/** Optional parameters. */
+export interface StorageAccountsListStorageContainersNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listStorageContainersNext operation. */
+export type StorageAccountsListStorageContainersNextResponse = StorageContainerListResult;
+
+/** Optional parameters. */
+export interface StorageAccountsListSasTokensNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listSasTokensNext operation. */
+export type StorageAccountsListSasTokensNextResponse = SasTokenInformationListResult;
+
+/** Optional parameters. */
+export interface ComputePoliciesListByAccountOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByAccount operation. */
+export type ComputePoliciesListByAccountResponse = ComputePolicyListResult;
+
+/** Optional parameters. */
+export interface ComputePoliciesCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type ComputePoliciesCreateOrUpdateResponse = ComputePolicy;
+
+/** Optional parameters. */
+export interface ComputePoliciesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ComputePoliciesGetResponse = ComputePolicy;
+
+/** Optional parameters. */
+export interface ComputePoliciesUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Parameters supplied to update the compute policy. */
   parameters?: UpdateComputePolicyParameters;
 }
 
-/**
- * Optional Parameters.
- */
-export interface FirewallRulesUpdateOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Parameters supplied to update the firewall rule.
-   */
+/** Contains response data for the update operation. */
+export type ComputePoliciesUpdateResponse = ComputePolicy;
+
+/** Optional parameters. */
+export interface ComputePoliciesDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface ComputePoliciesListByAccountNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByAccountNext operation. */
+export type ComputePoliciesListByAccountNextResponse = ComputePolicyListResult;
+
+/** Optional parameters. */
+export interface FirewallRulesListByAccountOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByAccount operation. */
+export type FirewallRulesListByAccountResponse = FirewallRuleListResult;
+
+/** Optional parameters. */
+export interface FirewallRulesCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type FirewallRulesCreateOrUpdateResponse = FirewallRule;
+
+/** Optional parameters. */
+export interface FirewallRulesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type FirewallRulesGetResponse = FirewallRule;
+
+/** Optional parameters. */
+export interface FirewallRulesUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Parameters supplied to update the firewall rule. */
   parameters?: UpdateFirewallRuleParameters;
 }
 
-/**
- * An interface representing DataLakeAnalyticsAccountManagementClientOptions.
- */
-export interface DataLakeAnalyticsAccountManagementClientOptions extends AzureServiceClientOptions {
-  baseUri?: string;
+/** Contains response data for the update operation. */
+export type FirewallRulesUpdateResponse = FirewallRule;
+
+/** Optional parameters. */
+export interface FirewallRulesDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface FirewallRulesListByAccountNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByAccountNext operation. */
+export type FirewallRulesListByAccountNextResponse = FirewallRuleListResult;
+
+/** Optional parameters. */
+export interface OperationsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type OperationsListResponse = OperationListResult;
+
+/** Optional parameters. */
+export interface LocationsGetCapabilityOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getCapability operation. */
+export type LocationsGetCapabilityResponse = CapabilityInformation;
+
+/** Optional parameters. */
+export interface DataLakeAnalyticsAccountManagementClientOptionalParams
+  extends coreClient.ServiceClientOptions {
+  /** server parameter */
+  $host?: string;
+  /** Api Version */
+  apiVersion?: string;
+  /** Overrides client endpoint. */
+  endpoint?: string;
 }
-
-/**
- * @interface
- * Data Lake Analytics account list information.
- * @extends Array<DataLakeAnalyticsAccountBasic>
- */
-export interface DataLakeAnalyticsAccountListResult extends Array<DataLakeAnalyticsAccountBasic> {
-  /**
-   * The link (url) to the next page of results.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly nextLink?: string;
-}
-
-/**
- * @interface
- * Data Lake Store account list information.
- * @extends Array<DataLakeStoreAccountInformation>
- */
-export interface DataLakeStoreAccountInformationListResult extends Array<DataLakeStoreAccountInformation> {
-  /**
-   * The link (url) to the next page of results.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly nextLink?: string;
-}
-
-/**
- * @interface
- * Azure Storage account list information.
- * @extends Array<StorageAccountInformation>
- */
-export interface StorageAccountInformationListResult extends Array<StorageAccountInformation> {
-  /**
-   * The link (url) to the next page of results.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly nextLink?: string;
-}
-
-/**
- * @interface
- * The list of blob containers associated with the storage account attached to the Data Lake
- * Analytics account.
- * @extends Array<StorageContainer>
- */
-export interface StorageContainerListResult extends Array<StorageContainer> {
-  /**
-   * The link (url) to the next page of results.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly nextLink?: string;
-}
-
-/**
- * @interface
- * The SAS response that contains the storage account, container and associated SAS token for
- * connection use.
- * @extends Array<SasTokenInformation>
- */
-export interface SasTokenInformationListResult extends Array<SasTokenInformation> {
-  /**
-   * The link (url) to the next page of results.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly nextLink?: string;
-}
-
-/**
- * @interface
- * The list of compute policies in the account.
- * @extends Array<ComputePolicy>
- */
-export interface ComputePolicyListResult extends Array<ComputePolicy> {
-  /**
-   * The link (url) to the next page of results.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly nextLink?: string;
-}
-
-/**
- * @interface
- * Data Lake Analytics firewall rule list information.
- * @extends Array<FirewallRule>
- */
-export interface FirewallRuleListResult extends Array<FirewallRule> {
-  /**
-   * The link (url) to the next page of results.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly nextLink?: string;
-}
-
-/**
- * Defines values for AADObjectType.
- * Possible values include: 'User', 'Group', 'ServicePrincipal'
- * @readonly
- * @enum {string}
- */
-export type AADObjectType = 'User' | 'Group' | 'ServicePrincipal';
-
-/**
- * Defines values for NestedResourceProvisioningState.
- * Possible values include: 'Succeeded', 'Canceled', 'Failed'
- * @readonly
- * @enum {string}
- */
-export type NestedResourceProvisioningState = 'Succeeded' | 'Canceled' | 'Failed';
-
-/**
- * Defines values for VirtualNetworkRuleState.
- * Possible values include: 'Active', 'NetworkSourceDeleted', 'Failed'
- * @readonly
- * @enum {string}
- */
-export type VirtualNetworkRuleState = 'Active' | 'NetworkSourceDeleted' | 'Failed';
-
-/**
- * Defines values for FirewallState.
- * Possible values include: 'Enabled', 'Disabled'
- * @readonly
- * @enum {string}
- */
-export type FirewallState = 'Enabled' | 'Disabled';
-
-/**
- * Defines values for FirewallAllowAzureIpsState.
- * Possible values include: 'Enabled', 'Disabled'
- * @readonly
- * @enum {string}
- */
-export type FirewallAllowAzureIpsState = 'Enabled' | 'Disabled';
-
-/**
- * Defines values for TierType.
- * Possible values include: 'Consumption', 'Commitment_100AUHours', 'Commitment_500AUHours',
- * 'Commitment_1000AUHours', 'Commitment_5000AUHours', 'Commitment_10000AUHours',
- * 'Commitment_50000AUHours', 'Commitment_100000AUHours', 'Commitment_500000AUHours'
- * @readonly
- * @enum {string}
- */
-export type TierType = 'Consumption' | 'Commitment_100AUHours' | 'Commitment_500AUHours' | 'Commitment_1000AUHours' | 'Commitment_5000AUHours' | 'Commitment_10000AUHours' | 'Commitment_50000AUHours' | 'Commitment_100000AUHours' | 'Commitment_500000AUHours';
-
-/**
- * Defines values for DebugDataAccessLevel.
- * Possible values include: 'All', 'Customer', 'None'
- * @readonly
- * @enum {string}
- */
-export type DebugDataAccessLevel = 'All' | 'Customer' | 'None';
-
-/**
- * Defines values for DataLakeAnalyticsAccountStatus.
- * Possible values include: 'Failed', 'Creating', 'Running', 'Succeeded', 'Patching', 'Suspending',
- * 'Resuming', 'Deleting', 'Deleted', 'Undeleting', 'Canceled'
- * @readonly
- * @enum {string}
- */
-export type DataLakeAnalyticsAccountStatus = 'Failed' | 'Creating' | 'Running' | 'Succeeded' | 'Patching' | 'Suspending' | 'Resuming' | 'Deleting' | 'Deleted' | 'Undeleting' | 'Canceled';
-
-/**
- * Defines values for DataLakeAnalyticsAccountState.
- * Possible values include: 'Active', 'Suspended'
- * @readonly
- * @enum {string}
- */
-export type DataLakeAnalyticsAccountState = 'Active' | 'Suspended';
-
-/**
- * Defines values for OperationOrigin.
- * Possible values include: 'user', 'system', 'user,system'
- * @readonly
- * @enum {string}
- */
-export type OperationOrigin = 'user' | 'system' | 'user,system';
-
-/**
- * Defines values for SubscriptionState.
- * Possible values include: 'Registered', 'Suspended', 'Deleted', 'Unregistered', 'Warned'
- * @readonly
- * @enum {string}
- */
-export type SubscriptionState = 'Registered' | 'Suspended' | 'Deleted' | 'Unregistered' | 'Warned';
-
-/**
- * Contains response data for the list operation.
- */
-export type AccountsListResponse = DataLakeAnalyticsAccountListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DataLakeAnalyticsAccountListResult;
-    };
-};
-
-/**
- * Contains response data for the listByResourceGroup operation.
- */
-export type AccountsListByResourceGroupResponse = DataLakeAnalyticsAccountListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DataLakeAnalyticsAccountListResult;
-    };
-};
-
-/**
- * Contains response data for the create operation.
- */
-export type AccountsCreateResponse = DataLakeAnalyticsAccount & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DataLakeAnalyticsAccount;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type AccountsGetResponse = DataLakeAnalyticsAccount & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DataLakeAnalyticsAccount;
-    };
-};
-
-/**
- * Contains response data for the update operation.
- */
-export type AccountsUpdateResponse = DataLakeAnalyticsAccount & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DataLakeAnalyticsAccount;
-    };
-};
-
-/**
- * Contains response data for the checkNameAvailability operation.
- */
-export type AccountsCheckNameAvailabilityResponse = NameAvailabilityInformation & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NameAvailabilityInformation;
-    };
-};
-
-/**
- * Contains response data for the beginCreate operation.
- */
-export type AccountsBeginCreateResponse = DataLakeAnalyticsAccount & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DataLakeAnalyticsAccount;
-    };
-};
-
-/**
- * Contains response data for the beginUpdate operation.
- */
-export type AccountsBeginUpdateResponse = DataLakeAnalyticsAccount & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DataLakeAnalyticsAccount;
-    };
-};
-
-/**
- * Contains response data for the listNext operation.
- */
-export type AccountsListNextResponse = DataLakeAnalyticsAccountListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DataLakeAnalyticsAccountListResult;
-    };
-};
-
-/**
- * Contains response data for the listByResourceGroupNext operation.
- */
-export type AccountsListByResourceGroupNextResponse = DataLakeAnalyticsAccountListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DataLakeAnalyticsAccountListResult;
-    };
-};
-
-/**
- * Contains response data for the listByAccount operation.
- */
-export type DataLakeStoreAccountsListByAccountResponse = DataLakeStoreAccountInformationListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DataLakeStoreAccountInformationListResult;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type DataLakeStoreAccountsGetResponse = DataLakeStoreAccountInformation & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DataLakeStoreAccountInformation;
-    };
-};
-
-/**
- * Contains response data for the listByAccountNext operation.
- */
-export type DataLakeStoreAccountsListByAccountNextResponse = DataLakeStoreAccountInformationListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DataLakeStoreAccountInformationListResult;
-    };
-};
-
-/**
- * Contains response data for the listByAccount operation.
- */
-export type StorageAccountsListByAccountResponse = StorageAccountInformationListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: StorageAccountInformationListResult;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type StorageAccountsGetResponse = StorageAccountInformation & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: StorageAccountInformation;
-    };
-};
-
-/**
- * Contains response data for the listStorageContainers operation.
- */
-export type StorageAccountsListStorageContainersResponse = StorageContainerListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: StorageContainerListResult;
-    };
-};
-
-/**
- * Contains response data for the getStorageContainer operation.
- */
-export type StorageAccountsGetStorageContainerResponse = StorageContainer & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: StorageContainer;
-    };
-};
-
-/**
- * Contains response data for the listSasTokens operation.
- */
-export type StorageAccountsListSasTokensResponse = SasTokenInformationListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SasTokenInformationListResult;
-    };
-};
-
-/**
- * Contains response data for the listByAccountNext operation.
- */
-export type StorageAccountsListByAccountNextResponse = StorageAccountInformationListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: StorageAccountInformationListResult;
-    };
-};
-
-/**
- * Contains response data for the listStorageContainersNext operation.
- */
-export type StorageAccountsListStorageContainersNextResponse = StorageContainerListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: StorageContainerListResult;
-    };
-};
-
-/**
- * Contains response data for the listSasTokensNext operation.
- */
-export type StorageAccountsListSasTokensNextResponse = SasTokenInformationListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SasTokenInformationListResult;
-    };
-};
-
-/**
- * Contains response data for the listByAccount operation.
- */
-export type ComputePoliciesListByAccountResponse = ComputePolicyListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ComputePolicyListResult;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type ComputePoliciesCreateOrUpdateResponse = ComputePolicy & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ComputePolicy;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type ComputePoliciesGetResponse = ComputePolicy & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ComputePolicy;
-    };
-};
-
-/**
- * Contains response data for the update operation.
- */
-export type ComputePoliciesUpdateResponse = ComputePolicy & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ComputePolicy;
-    };
-};
-
-/**
- * Contains response data for the listByAccountNext operation.
- */
-export type ComputePoliciesListByAccountNextResponse = ComputePolicyListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ComputePolicyListResult;
-    };
-};
-
-/**
- * Contains response data for the listByAccount operation.
- */
-export type FirewallRulesListByAccountResponse = FirewallRuleListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: FirewallRuleListResult;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type FirewallRulesCreateOrUpdateResponse = FirewallRule & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: FirewallRule;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type FirewallRulesGetResponse = FirewallRule & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: FirewallRule;
-    };
-};
-
-/**
- * Contains response data for the update operation.
- */
-export type FirewallRulesUpdateResponse = FirewallRule & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: FirewallRule;
-    };
-};
-
-/**
- * Contains response data for the listByAccountNext operation.
- */
-export type FirewallRulesListByAccountNextResponse = FirewallRuleListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: FirewallRuleListResult;
-    };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type OperationsListResponse = OperationListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
-};
-
-/**
- * Contains response data for the getCapability operation.
- */
-export type LocationsGetCapabilityResponse = CapabilityInformation & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CapabilityInformation;
-    };
-};

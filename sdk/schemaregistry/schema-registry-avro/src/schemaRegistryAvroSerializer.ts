@@ -167,14 +167,14 @@ export class SchemaRegistryAvroSerializer {
       throw new Error(`Schema with ID '${schemaId}' not found.`);
     }
 
-    if (!schemaResponse.format.match(/^avro$/i)) {
+    if (!schemaResponse.properties.format.match(/^avro$/i)) {
       throw new Error(
-        `Schema with ID '${schemaResponse.id}' has format '${schemaResponse.format}', not 'avro'.`
+        `Schema with ID '${schemaResponse.properties.id}' has format '${schemaResponse.properties.format}', not 'avro'.`
       );
     }
 
-    const avroType = this.getAvroTypeForSchema(schemaResponse.schemaDefinition);
-    return this.cache(schemaId, schemaResponse.schemaDefinition, avroType);
+    const avroType = this.getAvroTypeForSchema(schemaResponse.definition);
+    return this.cache(schemaId, schemaResponse.definition, avroType);
   }
 
   private async getSchemaByDefinition(schema: string): Promise<CacheEntry> {
@@ -197,21 +197,25 @@ export class SchemaRegistryAvroSerializer {
     const description: SchemaDescription = {
       groupName: this.schemaGroup,
       name: avroType.name,
-      format: "avro",
-      schemaDefinition: schema
+      format: "Avro",
+      definition: schema
     };
 
     let id: string;
     if (this.autoRegisterSchemas) {
       id = (await this.registry.registerSchema(description)).id;
     } else {
-      const response = await this.registry.getSchemaProperties(description);
-      if (!response) {
-        throw new Error(
-          `Schema '${description.name}' not found in registry group '${description.groupName}', or not found to have matching definition.`
-        );
+      try {
+        id = (await this.registry.getSchemaProperties(description)).id;
+      } catch (e) {
+        if (e.statusCode === 404) {
+          throw new Error(
+            `Schema '${description.name}' not found in registry group '${description.groupName}', or not found to have matching definition.`
+          );
+        } else {
+          throw e;
+        }
       }
-      id = response.id;
     }
 
     return this.cache(id, schema, avroType);

@@ -6,7 +6,7 @@ import { assert } from "chai";
 import { parseOptions } from "../src/framework/parseOptions";
 import { makeCommandInfo, subCommand, leafCommand } from "../src/framework/command";
 
-import { updateBackend } from "../src/util/printer";
+import { silenceLogger } from "./util";
 
 const simpleCommandInfo = makeCommandInfo("simple", "a simple command", {
   simpleArg: {
@@ -24,15 +24,7 @@ interface SimpleExpectedOptionsType {
 }
 
 describe("Command Framework", () => {
-  before(() => {
-    // Silence the logger
-    updateBackend({
-      error: () => {},
-      warn: () => {},
-      info: () => {},
-      log: () => {}
-    });
-  });
+  before(silenceLogger);
 
   describe("subCommand", () => {
     it("simple dispatcher", async () => {

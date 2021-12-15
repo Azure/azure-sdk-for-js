@@ -10,7 +10,7 @@ import { ResolvePrivateLinkServiceId } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { ContainerServiceClientContext } from "../containerServiceClientContext";
+import { ContainerServiceClient } from "../containerServiceClient";
 import {
   PrivateLinkResource,
   ResolvePrivateLinkServiceIdPostOptionalParams,
@@ -20,13 +20,13 @@ import {
 /** Class containing ResolvePrivateLinkServiceId operations. */
 export class ResolvePrivateLinkServiceIdImpl
   implements ResolvePrivateLinkServiceId {
-  private readonly client: ContainerServiceClientContext;
+  private readonly client: ContainerServiceClient;
 
   /**
    * Initialize a new instance of the class ResolvePrivateLinkServiceId class.
    * @param client Reference to the service client
    */
-  constructor(client: ContainerServiceClientContext) {
+  constructor(client: ContainerServiceClient) {
     this.client = client;
   }
 

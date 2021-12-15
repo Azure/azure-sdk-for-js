@@ -6,16 +6,16 @@
    "query": {},
    "requestBody": "{\"startTime\":\"2020-10-30T00:00:00.000Z\",\"endTime\":\"2020-11-01T00:00:00.000Z\"}",
    "status": 200,
-   "response": "{\"value\":[{\"timestamp\":\"2020-10-31T00:00:00Z\",\"status\":\"NotStarted\",\"message\":\"\"},{\"timestamp\":\"2020-10-30T00:00:00Z\",\"status\":\"NotStarted\",\"message\":\"\"}]}",
+   "response": "{\"value\":[{\"timestamp\":\"2020-10-31T00:00:00Z\",\"status\":\"Running\",\"message\":\"\"},{\"timestamp\":\"2020-10-30T00:00:00Z\",\"status\":\"Running\",\"message\":\"\"}]}",
    "responseHeaders": {
-    "apim-request-id": "4d4b8b5d-683b-4146-8803-36b1ce413672",
-    "content-length": "155",
+    "apim-request-id": "afc89d26-a90f-4072-a31a-688f5ccd8c60",
+    "content-length": "149",
     "content-type": "application/json; charset=utf-8",
-    "date": "Mon, 08 Nov 2021 09:43:47 GMT",
+    "date": "Tue, 16 Nov 2021 02:00:58 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "379",
-    "x-request-id": "4d4b8b5d-683b-4146-8803-36b1ce413672"
+    "x-envoy-upstream-service-time": "280",
+    "x-request-id": "afc89d26-a90f-4072-a31a-688f5ccd8c60"
    }
   }
  ],

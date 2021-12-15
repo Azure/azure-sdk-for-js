@@ -1,6 +1,6 @@
 let nock = require('nock');
 
-module.exports.hash = "36127f43aefa7c87e3b14a44690b4280";
+module.exports.hash = "9bffdd9e78d97841b9f11917b9f35378";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
@@ -11,13 +11,13 @@ nock('https://myregistry.azurecr.io:443', {"encodedQueryParams":true})
   'Server',
   'openresty',
   'Date',
-  'Mon, 20 Sep 2021 18:54:23 GMT',
+  'Mon, 08 Nov 2021 20:10:17 GMT',
   'Content-Type',
   'application/json; charset=utf-8',
   'Content-Length',
   '223',
   'Connection',
-  'keep-alive',
+  'close',
   'Access-Control-Expose-Headers',
   'Docker-Content-Digest',
   'Access-Control-Expose-Headers',
@@ -35,28 +35,29 @@ nock('https://myregistry.azurecr.io:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'X-Ms-Correlation-Request-Id',
-  '05a3ea4b-dd6d-496b-95c4-0c04706c58c9',
+  '14ea2103-d3f8-4f4d-82e9-288d17885e1e',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains'
 ]);
 
 nock('https://myregistry.azurecr.io:443', {"encodedQueryParams":true})
-  .post('/oauth2/token', "grant_type=password&service=myregistry.azurecr.io&refresh_token=&scope=repository%3Alibrary%2Fhello-world%3Ametadata_write")
+  .post('/oauth2/token', "service=myregistry.azurecr.io&scope=repository%3Alibrary%2Fhello-world%3Ametadata_write&refresh_token=&grant_type=password")
+  .query(true)
   .reply(200, {"access_token":"access_token"}, [
   'Server',
   'openresty',
   'Date',
-  'Mon, 20 Sep 2021 18:54:23 GMT',
+  'Mon, 08 Nov 2021 20:10:17 GMT',
   'Content-Type',
   'application/json; charset=utf-8',
   'Transfer-Encoding',
   'chunked',
   'Connection',
-  'keep-alive',
+  'close',
   'X-Ms-Correlation-Request-Id',
-  '2d9568a1-5273-480a-8ef7-98345077f033',
+  '7ee112df-b7fd-4e9b-9260-9adfaee5d5a4',
   'x-ms-ratelimit-remaining-calls-per-second',
-  '166.633333',
+  '166.65',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains'
 ]);
@@ -68,13 +69,13 @@ nock('https://myregistry.azurecr.io:443', {"encodedQueryParams":true})
   'Server',
   'openresty',
   'Date',
-  'Mon, 20 Sep 2021 18:54:23 GMT',
+  'Mon, 08 Nov 2021 20:10:17 GMT',
   'Content-Type',
   'application/json; charset=utf-8',
   'Content-Length',
   '223',
   'Connection',
-  'keep-alive',
+  'close',
   'Access-Control-Expose-Headers',
   'Docker-Content-Digest',
   'Access-Control-Expose-Headers',
@@ -92,7 +93,7 @@ nock('https://myregistry.azurecr.io:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'X-Ms-Correlation-Request-Id',
-  '537a71ed-04aa-4834-8fbb-20d39467214e',
+  '2686d567-5612-4dce-8ec5-7a29ac91a5bc',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains'
 ]);

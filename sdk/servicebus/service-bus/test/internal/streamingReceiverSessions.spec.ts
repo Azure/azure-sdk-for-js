@@ -646,7 +646,7 @@ describe("Streaming with sessions", () => {
     });
 
     const iterationLimit = 1;
-    const createSessionId = (maxConcurrentCalls: number | undefined, i: number) =>
+    const createSessionId = (maxConcurrentCalls: number | undefined, i: number): string =>
       `max-concurrent-calls-session-${maxConcurrentCalls}[${i}]`;
 
     // to (occasionally) reproduce session overlap issue mentioned in:
@@ -671,7 +671,9 @@ describe("Streaming with sessions", () => {
 
           sessionReceiver.subscribe(
             {
-              async processMessage(_message: ServiceBusReceivedMessage) {},
+              async processMessage(_message: ServiceBusReceivedMessage) {
+                /* empty body */
+              },
               async processError(args: ProcessErrorArgs) {
                 processErrorArgs = args;
               }
@@ -698,7 +700,7 @@ describe("Streaming with sessions", () => {
       await afterEachTest();
     });
 
-    async function testReceiveMessages(entityNames: EntityName): Promise<void> {
+    async function testReceiveMessages(entityNamesParam: EntityName): Promise<void> {
       const totalNumOfMessages = 5;
       let num = 1;
       const messages = [];
@@ -739,23 +741,23 @@ describe("Streaming with sessions", () => {
         0,
         `Expected 0 messages, but received ${receivedMsgs.length}`
       );
-      receiver = await serviceBusClient.test.acceptNextSessionWithPeekLock(entityNames);
+      receiver = await serviceBusClient.test.acceptNextSessionWithPeekLock(entityNamesParam);
       await testPeekMsgsLength(receiver, totalNumOfMessages);
     }
 
     it(
       testClientType + ": Not receive messages after receiver is closed",
       async function(): Promise<void> {
-        const entityNames = await beforeEachTest();
-        await testReceiveMessages(entityNames);
+        const entity = await beforeEachTest();
+        await testReceiveMessages(entity);
       }
     );
 
     it(
       testClientType + ": (Receive And Delete mode) Not receive messages after receiver is closed",
       async function(): Promise<void> {
-        const entityNames = await beforeEachTest("receiveAndDelete");
-        await testReceiveMessages(entityNames);
+        const entity = await beforeEachTest("receiveAndDelete");
+        await testReceiveMessages(entity);
       }
     );
   });

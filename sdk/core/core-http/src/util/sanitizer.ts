@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { URLBuilder, URLQuery } from "../url";
-import { isObject, UnknownObject } from "./utils";
+import { UnknownObject, isObject } from "./utils";
 
 export interface SanitizerOptions {
   /**

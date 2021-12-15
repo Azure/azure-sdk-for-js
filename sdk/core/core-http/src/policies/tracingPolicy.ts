@@ -2,22 +2,22 @@
 // Licensed under the MIT license.
 
 import {
-  getTraceParentHeader,
-  createSpanFunction,
+  BaseRequestPolicy,
+  RequestPolicy,
+  RequestPolicyFactory,
+  RequestPolicyOptions
+} from "./requestPolicy";
+import {
+  Span,
   SpanKind,
   SpanStatusCode,
-  isSpanContextValid,
-  Span
+  createSpanFunction,
+  getTraceParentHeader,
+  isSpanContextValid
 } from "@azure/core-tracing";
-import {
-  RequestPolicyFactory,
-  RequestPolicy,
-  RequestPolicyOptions,
-  BaseRequestPolicy
-} from "./requestPolicy";
-import { WebResourceLike } from "../webResource";
 import { HttpOperationResponse } from "../httpOperationResponse";
 import { URLBuilder } from "../url";
+import { WebResourceLike } from "../webResource";
 import { logger } from "../log";
 
 const createSpan = createSpanFunction({
@@ -25,10 +25,21 @@ const createSpan = createSpanFunction({
   namespace: ""
 });
 
+/**
+ * Options to customize the tracing policy.
+ */
 export interface TracingPolicyOptions {
+  /**
+   * User agent used to better identify the outgoing requests traced by the tracing policy.
+   */
   userAgent?: string;
 }
 
+/**
+ * Creates a policy that wraps outgoing requests with a tracing span.
+ * @param tracingOptions - Tracing options.
+ * @returns An instance of the {@link TracingPolicy} class.
+ */
 export function tracingPolicy(tracingOptions: TracingPolicyOptions = {}): RequestPolicyFactory {
   return {
     create(nextPolicy: RequestPolicy, options: RequestPolicyOptions) {
@@ -37,6 +48,9 @@ export function tracingPolicy(tracingOptions: TracingPolicyOptions = {}): Reques
   };
 }
 
+/**
+ * A policy that wraps outgoing requests with a tracing span.
+ */
 export class TracingPolicy extends BaseRequestPolicy {
   private userAgent?: string;
 

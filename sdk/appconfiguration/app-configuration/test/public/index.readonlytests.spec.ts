@@ -9,7 +9,7 @@ import {
   startRecorder
 } from "./utils/testHelpers";
 import { AppConfigurationClient } from "../../src";
-import * as assert from "assert";
+import { assert } from "chai";
 import { Recorder } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
 

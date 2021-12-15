@@ -1,7 +1,7 @@
 {
   "name": "@azure/storage-queue",
   "sdk-type": "client",
-  "version": "12.8.0-beta.1",
+  "version": "12.8.0-beta.2",
   "description": "Microsoft Azure Storage SDK for JavaScript - Queue",
   "main": "./dist/index.js",
   "module": "./dist-esm/src/index.js",
@@ -51,8 +51,7 @@
     "unit-test:browser": "karma start --single-run",
     "unit-test:node": "mocha --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --full-trace -t 120000 \"dist-test/index.node.js\"",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
-    "emulator-tests": "cross-env STORAGE_CONNECTION_STRING=UseDevelopmentStorage=true && npm run test:node",
-    "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src"
+    "emulator-tests": "cross-env STORAGE_CONNECTION_STRING=UseDevelopmentStorage=true && npm run test:node"
   },
   "files": [
     "BreakingChanges.md",
@@ -150,8 +149,8 @@
     "karma-mocha-reporter": "^2.2.5",
     "karma-sourcemap-loader": "^0.3.8",
     "mocha": "^7.1.1",
-    "mocha-junit-reporter": "^1.18.0",
-    "nyc": "^14.0.0",
+    "mocha-junit-reporter": "^2.0.0",
+    "nyc": "^15.0.0",
     "prettier": "^1.16.4",
     "puppeteer": "^10.2.0",
     "rimraf": "^3.0.0",
@@ -163,7 +162,6 @@
     "source-map-support": "^0.5.9",
     "ts-node": "^10.0.0",
     "typescript": "~4.2.0",
-    "typedoc": "0.15.2",
     "util": "^0.12.1"
   }
 }

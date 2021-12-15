@@ -66,7 +66,7 @@ describe("New session token", function() {
       resourceId: "1"
     });
     assert.equal(responseToken, token);
-    assert.equal(responseToken, rqContext.headers["x-ms-session-token"]);
+    assert.equal(responseToken, rqContext?.headers["x-ms-session-token"]);
   });
 });
 

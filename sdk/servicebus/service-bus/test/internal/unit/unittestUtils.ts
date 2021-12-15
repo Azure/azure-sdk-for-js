@@ -270,7 +270,10 @@ export const retryableErrorForTests = (() => {
  * and also installs the proper cleanup handlers so all created receivers
  * are closed when each test completes.
  */
-export function addTestStreamingReceiver() {
+export function addTestStreamingReceiver(): (
+  entityPath: string,
+  options?: ReceiveOptions
+) => StreamingReceiver {
   const closeables = addCloseablesCleanup();
 
   function createTestStreamingReceiver(
@@ -283,7 +286,8 @@ export function addTestStreamingReceiver() {
       options = {
         lockRenewer: undefined,
         receiveMode: <ReceiveMode>"peekLock",
-        maxConcurrentCalls: 101
+        maxConcurrentCalls: 101,
+        skipParsingBodyAsJson: false
       };
     }
 

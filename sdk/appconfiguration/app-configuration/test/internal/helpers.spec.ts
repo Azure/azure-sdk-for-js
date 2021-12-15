@@ -13,9 +13,10 @@ import {
   formatFieldsForSelect,
   serializeAsConfigurationSettingParam
 } from "../../src/internal/helpers";
-import * as assert from "assert";
+import { assert } from "chai";
 import {
   ConfigurationSetting,
+  ConfigurationSettingParam,
   featureFlagContentType,
   HttpResponseField,
   HttpResponseFields,
@@ -155,7 +156,7 @@ describe("helper methods", () => {
         featureFlag.value = value as any;
         assert.deepEqual(
           serializeAsConfigurationSettingParam(featureFlag),
-          featureFlag,
+          (featureFlag as unknown) as ConfigurationSettingParam<string>,
           "setting was modified"
         );
       });
@@ -170,7 +171,7 @@ describe("helper methods", () => {
         setting.value = value as any;
         assert.deepEqual(
           serializeAsConfigurationSettingParam(setting),
-          setting,
+          setting as any,
           "setting was modified"
         );
       });

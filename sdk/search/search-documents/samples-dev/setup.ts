@@ -2,7 +2,8 @@
 // Licensed under the MIT license.
 
 /**
- * @summary Defines the utility methods.
+ * Defines the utility methods.
+ * @azsdk-util
  */
 
 import { SearchIndexClient, SearchIndex, KnownAnalyzerNames } from "@azure/search-documents";
@@ -20,7 +21,7 @@ export const documentKeyRetriever: (document: Hotel) => string = (document: Hote
  * @returns Promise that is resolved after timeInMs
  */
 export function delay(timeInMs: number): Promise<void> {
-  return new Promise((resolve) => setTimeout(() => resolve(), timeInMs));
+  return new Promise((resolve) => setTimeout(resolve, timeInMs));
 }
 
 // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters

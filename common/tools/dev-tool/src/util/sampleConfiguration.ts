@@ -142,7 +142,7 @@ const removeJsTsExtensions = (name: string): string => name.replace(/\.[jt]s$/, 
  * @param info - FileInfo of a sample file to be considered
  * @param skips - a list of strings that identify files to be skipped
  */
-export function shouldSkip(info: FileInfo, skips: string[]) {
+export function shouldSkip(info: FileInfo, skips: string[]): boolean {
   // Add a slash to the skip if necessary
   const addFirstSlash = (skip: string): string => (skip.startsWith("/") ? skip : "/" + skip);
 

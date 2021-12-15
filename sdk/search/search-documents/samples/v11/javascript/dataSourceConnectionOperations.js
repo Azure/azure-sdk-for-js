@@ -6,6 +6,7 @@
  */
 
 const { SearchIndexerClient, AzureKeyCredential } = require("@azure/search-documents");
+
 const dotenv = require("dotenv");
 dotenv.config();
 
@@ -21,9 +22,9 @@ async function createDataSourceConnection(dataSourceConnectionName, client) {
     description: "My Data Source 1",
     type: "cosmosdb",
     container: {
-      name: "my-container-1"
+      name: "my-container-1",
     },
-    connectionString
+    connectionString,
   };
   await client.createDataSourceConnection(dataSourceConnection);
 }

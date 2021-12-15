@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
+import { HttpHeaders } from "../src/coreHttp";
+import { HttpOperationResponse } from "../src/httpOperationResponse";
 import { RestError } from "../src/restError";
 import { WebResource } from "../src/webResource";
-import { HttpOperationResponse } from "../src/httpOperationResponse";
+import { assert } from "chai";
 import { inspect } from "util";
-import { HttpHeaders } from "../src/coreHttp";
 
 describe("RestError", function() {
   it("serializes properly in node", function() {

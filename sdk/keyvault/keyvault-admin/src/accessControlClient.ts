@@ -2,36 +2,33 @@
 // Licensed under the MIT license.
 /// <reference lib="esnext.asynciterable" />
 
-import { TokenCredential } from "@azure/core-auth";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-
-import { createTraceFunction } from "./tracingHelpers";
-import { KeyVaultClient } from "./generated/keyVaultClient";
-import { RoleAssignmentsListForScopeOptionalParams } from "./generated/models";
-
 import {
-  CreateRoleAssignmentOptions,
-  KeyVaultRoleAssignment,
   AccessControlClientOptions,
-  KeyVaultRoleScope,
+  CreateRoleAssignmentOptions,
   DeleteRoleAssignmentOptions,
-  ListRoleAssignmentsOptions,
-  ListRoleDefinitionsOptions,
-  KeyVaultRoleDefinition,
+  DeleteRoleDefinitionOptions,
   GetRoleAssignmentOptions,
-  ListRoleDefinitionsPageSettings,
-  ListRoleAssignmentsPageSettings,
   GetRoleDefinitionOptions,
-  SetRoleDefinitionOptions,
-  DeleteRoleDefinitionOptions
+  KeyVaultRoleAssignment,
+  KeyVaultRoleDefinition,
+  KeyVaultRoleScope,
+  ListRoleAssignmentsOptions,
+  ListRoleAssignmentsPageSettings,
+  ListRoleDefinitionsOptions,
+  ListRoleDefinitionsPageSettings,
+  SetRoleDefinitionOptions
 } from "./accessControlModels";
-
 import { LATEST_API_VERSION, authenticationScopes } from "./constants";
-import { mappings } from "./mappings";
-import { logger } from "./log";
-import { v4 as v4uuid } from "uuid";
+import { KeyVaultClient } from "./generated/keyVaultClient";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { RoleAssignmentsListForScopeOptionalParams } from "./generated/models";
+import { TokenCredential } from "@azure/core-auth";
 import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
 import { createChallengeCallbacks } from "./challengeAuthenticationCallbacks";
+import { createTraceFunction } from "./tracingHelpers";
+import { logger } from "./log";
+import { mappings } from "./mappings";
+import { v4 as v4uuid } from "uuid";
 
 const withTrace = createTraceFunction("Azure.KeyVault.Admin.KeyVaultAccessControlClient");
 

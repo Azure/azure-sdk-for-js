@@ -14,7 +14,11 @@ import { createServiceBusLogger, ServiceBusLogger } from "../../../src/log";
 import { ProcessErrorArgs } from "../../../src/models";
 import { ServiceBusError, translateServiceBusError } from "../../../src/serviceBusError";
 import { MessagingError, RetryOperationType } from "@azure/core-amqp";
-import { DispositionType, ServiceBusMessageImpl } from "../../../src/serviceBusMessage";
+import {
+  DispositionType,
+  ServiceBusMessageImpl,
+  ServiceBusReceivedMessage
+} from "../../../src/serviceBusMessage";
 import { ConnectionContext } from "../../../src/connectionContext";
 import { DispositionStatusOptions } from "../../../src/core/managementClient";
 import { Delivery } from "rhea-promise";
@@ -221,7 +225,7 @@ describe("shared receiver code", () => {
     });
 
     it("exits if operation is successful", async () => {
-      let errorMessages: string[] = [];
+      const errorMessages: string[] = [];
       let numOperationCalls = 0;
 
       await retryForever({
@@ -244,10 +248,10 @@ describe("shared receiver code", () => {
     });
 
     it("retries after each retry<> call exhausts _its_ retries", async () => {
-      let errorMessages: string[] = [];
+      const errorMessages: string[] = [];
       let numRetryCalls = 0;
 
-      const fakeRetry = async <T>() => {
+      const fakeRetry = async <T>(): Promise<T> => {
         ++numRetryCalls;
 
         if (numRetryCalls < 3) {
@@ -343,12 +347,13 @@ it("error handler wrapper", () => {
 });
 
 it("getMessageIterator doesn't yield empty responses", async () => {
-  const messages = [
+  const messages: ServiceBusReceivedMessage[][] = [
     [],
     [
       {
         body: "hello",
-        _rawAmqpMessage: { body: "hello" }
+        _rawAmqpMessage: { body: "hello" },
+        state: "active"
       }
     ]
   ];
@@ -380,7 +385,8 @@ it("getMessageIterator doesn't yield empty responses", async () => {
       [
         {
           body: "hello",
-          _rawAmqpMessage: { body: "hello" }
+          _rawAmqpMessage: { body: "hello" },
+          state: "active"
         }
       ],
       allReceivedMessages,
