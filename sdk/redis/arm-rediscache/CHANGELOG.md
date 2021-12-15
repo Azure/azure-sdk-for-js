@@ -1,15 +1,20 @@
 # Release History
+    
+## 6.1.0 (2021-12-15)
+    
+**Features**
 
-## 6.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface ManagedServiceIdentity
+  - Added Interface UserAssignedIdentity
+  - Added Type Alias ManagedServiceIdentityType
+  - Interface RedisCommonPropertiesRedisConfiguration has a new optional parameter preferredDataArchiveAuthMethod
+  - Interface RedisCommonPropertiesRedisConfiguration has a new optional parameter preferredDataPersistenceAuthMethod
+  - Interface RedisCreateParameters has a new optional parameter identity
+  - Interface RedisUpdateParameters has a new optional parameter identity
+  - Type Alias RedisResource has a new parameter identity
+  - Added Enum KnownManagedServiceIdentityType
+    
+    
 ## 6.0.0 (2021-12-10)
 
 The package of @azure/arm-rediscache is using our next generation design principles since version 6.0.0, which contains breaking changes.

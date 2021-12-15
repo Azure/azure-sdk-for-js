@@ -102,6 +102,18 @@ export enum KnownDefaultName {
 }
 
 // @public
+export enum KnownManagedServiceIdentityType {
+    // (undocumented)
+    None = "None",
+    // (undocumented)
+    SystemAssigned = "SystemAssigned",
+    // (undocumented)
+    SystemAssignedUserAssigned = "SystemAssigned, UserAssigned",
+    // (undocumented)
+    UserAssigned = "UserAssigned"
+}
+
+// @public
 export enum KnownPrivateEndpointConnectionProvisioningState {
     // (undocumented)
     Creating = "Creating",
@@ -239,6 +251,19 @@ export interface LinkedServerListOptionalParams extends coreClient.OperationOpti
 
 // @public
 export type LinkedServerListResponse = RedisLinkedServerWithPropertiesList;
+
+// @public
+export interface ManagedServiceIdentity {
+    readonly principalId?: string;
+    readonly tenantId?: string;
+    type: ManagedServiceIdentityType;
+    userAssignedIdentities?: {
+        [propertyName: string]: UserAssignedIdentity;
+    };
+}
+
+// @public
+export type ManagedServiceIdentityType = string;
 
 // @public
 export interface NotificationListResponse {
@@ -483,6 +508,8 @@ export interface RedisCommonPropertiesRedisConfiguration {
     maxmemoryDelta?: string;
     maxmemoryPolicy?: string;
     maxmemoryReserved?: string;
+    readonly preferredDataArchiveAuthMethod?: string;
+    readonly preferredDataPersistenceAuthMethod?: string;
     rdbBackupEnabled?: string;
     rdbBackupFrequency?: string;
     rdbBackupMaxSnapshotCount?: string;
@@ -498,6 +525,7 @@ export interface RedisCreateOptionalParams extends coreClient.OperationOptions {
 // @public
 export interface RedisCreateParameters {
     enableNonSslPort?: boolean;
+    identity?: ManagedServiceIdentity;
     location: string;
     minimumTlsVersion?: TlsVersion;
     publicNetworkAccess?: PublicNetworkAccess;
@@ -763,6 +791,7 @@ export type RedisRegenerateKeyResponse = RedisAccessKeys;
 // @public
 export type RedisResource = TrackedResource & {
     zones?: string[];
+    identity?: ManagedServiceIdentity;
     redisConfiguration?: RedisCommonPropertiesRedisConfiguration;
     redisVersion?: string;
     enableNonSslPort?: boolean;
@@ -794,6 +823,7 @@ export interface RedisUpdateOptionalParams extends coreClient.OperationOptions {
 // @public
 export interface RedisUpdateParameters {
     enableNonSslPort?: boolean;
+    identity?: ManagedServiceIdentity;
     minimumTlsVersion?: TlsVersion;
     publicNetworkAccess?: PublicNetworkAccess;
     redisConfiguration?: RedisCommonPropertiesRedisConfiguration;
@@ -866,6 +896,12 @@ export interface UpgradeNotification {
     readonly upsellNotification?: {
         [propertyName: string]: string;
     };
+}
+
+// @public
+export interface UserAssignedIdentity {
+    readonly clientId?: string;
+    readonly principalId?: string;
 }
 
 // (No @packageDocumentation comment for this package)
