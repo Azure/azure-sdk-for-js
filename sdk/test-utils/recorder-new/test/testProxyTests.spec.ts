@@ -84,7 +84,11 @@ function getTestServerUrl() {
       });
       const response = await client.sendRequest(req);
       if (expectedResponse) {
-        expect(JSON.parse(response.bodyAsText ?? "{}")).to.deep.equal(expectedResponse);
+        if (!response.bodyAsText) {
+          throw new Error("Expected response.bodyAsText to be defined");
+        }
+
+        expect(JSON.parse(response.bodyAsText)).to.deep.equal(expectedResponse);
       }
       // Add code to also check expected headers
       return response;
