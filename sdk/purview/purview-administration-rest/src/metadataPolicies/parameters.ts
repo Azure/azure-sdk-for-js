@@ -15,12 +15,20 @@ export interface MetadataPolicyListAllQueryParam {
   queryParameters?: MetadataPolicyListAllQueryParamProperties;
 }
 
-export type MetadataPolicyListAllParameters = MetadataPolicyListAllQueryParam & RequestParameters;
+export type MetadataPolicyListAllParameters = MetadataPolicyListAllQueryParam &
+  RequestParameters;
 
 export interface MetadataPolicyUpdateBodyParam {
   /** Policy to be updated. */
   body?: MetadataPolicy;
 }
 
-export type MetadataPolicyUpdateParameters = MetadataPolicyUpdateBodyParam & RequestParameters;
+export interface MetadataPolicyUpdateMediaTypesParam {
+  /** Request content type */
+  contentType?: "application/json";
+}
+
+export type MetadataPolicyUpdateParameters = MetadataPolicyUpdateMediaTypesParam &
+  MetadataPolicyUpdateBodyParam &
+  RequestParameters;
 export type MetadataPolicyGetParameters = RequestParameters;

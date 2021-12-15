@@ -30,6 +30,7 @@ package-version: 1.0.0-beta.2
 rest-level-client: true
 add-credentials: true
 credential-scopes: "https://purview.azure.net/.default"
-use-extension:
-  "@autorest/typescript": "latest"
+batch:
+  - purview-metadata: true
+  - purview-account: true
 ```

@@ -1,10 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as Models from "./models";
-import * as Pagination from "./paginateHelper";
-import * as Parameters from "./parameters";
-import * as Client from "./clientDefinitions";
-import * as Responses from "./responses";
-export { PurviewMetadataPoliciesClient } from "./purviewMetadataPolicies";
-export { Models, Pagination, Parameters, Client, Responses };
+import PurviewMetadataPolicies from "./purviewMetadataPolicies";
+
+export * from "./purviewMetadataPolicies";
+export * from "./parameters";
+export * from "./responses";
+export * from "./models";
+export * from "./outputModels";
+export * from "./paginateHelper";
+
+export default PurviewMetadataPolicies;

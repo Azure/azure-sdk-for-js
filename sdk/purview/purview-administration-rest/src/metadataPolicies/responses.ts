@@ -1,14 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { HttpResponse } from "@azure-rest/core-client";
 import { RawHttpHeaders } from "@azure/core-rest-pipeline";
-import { ErrorResponseModel, MetadataPolicy, MetadataPolicyList, MetadataRoleList } from "./models";
+import { HttpResponse } from "@azure-rest/core-client";
+import {
+  MetadataRoleListOutput,
+  ErrorResponseModelOutput,
+  MetadataPolicyListOutput,
+  MetadataPolicyOutput
+} from "./outputModels";
 
 /** Lists roles for Purview Account */
 export interface MetadataRolesList200Response extends HttpResponse {
   status: "200";
-  body: MetadataRoleList;
+  body: MetadataRoleListOutput;
 }
 
 export interface MetadataRolesListdefaultHeaders {
@@ -19,14 +24,14 @@ export interface MetadataRolesListdefaultHeaders {
 /** Lists roles for Purview Account */
 export interface MetadataRolesListdefaultResponse extends HttpResponse {
   status: "500";
-  body: ErrorResponseModel;
+  body: ErrorResponseModelOutput;
   headers: RawHttpHeaders & MetadataRolesListdefaultHeaders;
 }
 
 /** List or Get metadata policies */
 export interface MetadataPolicyListAll200Response extends HttpResponse {
   status: "200";
-  body: MetadataPolicyList;
+  body: MetadataPolicyListOutput;
 }
 
 export interface MetadataPolicyListAlldefaultHeaders {
@@ -37,14 +42,14 @@ export interface MetadataPolicyListAlldefaultHeaders {
 /** List or Get metadata policies */
 export interface MetadataPolicyListAlldefaultResponse extends HttpResponse {
   status: "500";
-  body: ErrorResponseModel;
+  body: ErrorResponseModelOutput;
   headers: RawHttpHeaders & MetadataPolicyListAlldefaultHeaders;
 }
 
 /** Updates a metadata policy */
 export interface MetadataPolicyUpdate200Response extends HttpResponse {
   status: "200";
-  body: MetadataPolicy;
+  body: MetadataPolicyOutput;
 }
 
 export interface MetadataPolicyUpdatedefaultHeaders {
@@ -55,14 +60,14 @@ export interface MetadataPolicyUpdatedefaultHeaders {
 /** Updates a metadata policy */
 export interface MetadataPolicyUpdatedefaultResponse extends HttpResponse {
   status: "500";
-  body: ErrorResponseModel;
+  body: ErrorResponseModelOutput;
   headers: RawHttpHeaders & MetadataPolicyUpdatedefaultHeaders;
 }
 
 /** Gets a metadata policy */
 export interface MetadataPolicyGet200Response extends HttpResponse {
   status: "200";
-  body: MetadataPolicy;
+  body: MetadataPolicyOutput;
 }
 
 export interface MetadataPolicyGetdefaultHeaders {
@@ -73,6 +78,6 @@ export interface MetadataPolicyGetdefaultHeaders {
 /** Gets a metadata policy */
 export interface MetadataPolicyGetdefaultResponse extends HttpResponse {
   status: "500";
-  body: ErrorResponseModel;
+  body: ErrorResponseModelOutput;
   headers: RawHttpHeaders & MetadataPolicyGetdefaultHeaders;
 }
