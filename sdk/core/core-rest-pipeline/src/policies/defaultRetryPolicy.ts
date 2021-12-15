@@ -46,7 +46,7 @@ export function defaultRetryPolicy(options: DefaultRetryPolicyOptions = {}): Pip
   return {
     name: defaultRetryPolicyName,
     sendRequest: retryPolicy([throttlingRetryStrategy(), exponentialRetryStrategy(options)], {
-      maxRetries: DEFAULT_RETRY_POLICY_COUNT
+      maxRetries: options.maxRetries ?? DEFAULT_RETRY_POLICY_COUNT
     }).sendRequest
   };
 }
