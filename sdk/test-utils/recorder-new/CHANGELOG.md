@@ -4,7 +4,8 @@
 
 ## 2021-12-14
 
-- Add `configureClient` method in the `TestProxytHttpClient` which instruments the client with the recorder policy which enables the recorder to redirect the requests to the proxy tool.
+- Add `configureClient` method to the `TestProxytHttpClient` to allow instrumenting the client with the recorder policy which helps in enabling the recorder to redirect the requests of your tests to the proxy tool.
+  []()
 
 ## 2021-11-30
 
