@@ -7453,19 +7453,6 @@ packages:
         optional: true
     dev: false
 
-  /ws/7.5.6:
-    resolution: {integrity: sha512-6GLgCqo2cy2A2rjCNFlxQS6ZljG/coZfZXclldI8FB/1G3CCI36Zd8xy2HrFVACi8tfk5XrgLQEk+P0Tnz9UcA==}
-    engines: {node: '>=8.3.0'}
-    peerDependencies:
-      bufferutil: ^4.0.1
-      utf-8-validate: ^5.0.2
-    peerDependenciesMeta:
-      bufferutil:
-        optional: true
-      utf-8-validate:
-        optional: true
-    dev: false
-
   /ws/8.2.3:
     resolution: {integrity: sha512-wBuoj1BDpC6ZQ1B7DWQBYVLphPWkm8i9Y0/3YdHjHKHiohOJ1ws+3OccDWtH+PoC9DZD5WOTrJvNbWvjS6JWaA==}
     engines: {node: '>=10.0.0'}
@@ -9773,7 +9760,7 @@ packages:
     dev: false
 
   file:projects/core-amqp.tgz:
-    resolution: {integrity: sha512-UQmk98sgY31h+wivKNHPs6oIZ5bO9KGdS4UdTlNK1iyfWaC1vMMyDfL9o+8E5tR59tLAnjPkAl7utTElXXHtVg==, tarball: file:projects/core-amqp.tgz}
+    resolution: {integrity: sha512-a1ZsNVUsAwPYzz5ljUg/WU8DlDXo5xA/D+RiFtqIrmjQDMx/6FWM/exKbFuYVZCzl7+jyU01oT+gCZeSeYc5cg==, tarball: file:projects/core-amqp.tgz}
     name: '@rush-temp/core-amqp'
     version: 0.0.0
     dependencies:
@@ -9821,7 +9808,7 @@ packages:
       typescript: 4.2.4
       url: 0.11.0
       util: 0.12.4
-      ws: 7.5.6
+      ws: 8.3.0
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
@@ -10646,7 +10633,7 @@ packages:
     dev: false
 
   file:projects/event-hubs.tgz:
-    resolution: {integrity: sha512-T522siSDQndHt25WvUoqNVJO9ecbu1UCXr0EUxYDYk168o5we6C/powhRtNinc5PJNQHxjlSLQb3wES2pUGmFw==, tarball: file:projects/event-hubs.tgz}
+    resolution: {integrity: sha512-QKo+ksa6MGdQm2cw3Rh1iZkW4yCs5227Y7uhLtIpODfLotbCM0Vjo4ecwZickPdmkFLepUzB6woCuJbb7eU9ZQ==, tarball: file:projects/event-hubs.tgz}
     name: '@rush-temp/event-hubs'
     version: 0.0.0
     dependencies:
@@ -10712,7 +10699,7 @@ packages:
       tslib: 2.3.1
       typescript: 4.2.4
       uuid: 8.3.2
-      ws: 7.5.6
+      ws: 8.3.0
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
@@ -12347,7 +12334,7 @@ packages:
     dev: false
 
   file:projects/service-bus.tgz:
-    resolution: {integrity: sha512-x2iDaBo3YfQAL8Ng8c7eDyZbEO+JRE+Fo9+AeZEkjgv8B0MF+OYd8g8DHeL0czLQc5FQjO2eLi9WTSCvi9+QbQ==, tarball: file:projects/service-bus.tgz}
+    resolution: {integrity: sha512-C0bmD0b/wKoYFOc3PsbSlHaXbsPpZ7qFkpfHdyTE8mk4N+uaQGhbX5Q+F5eLZj86wo8tkx6gH7FZvrFxmBdQ5A==, tarball: file:projects/service-bus.tgz}
     name: '@rush-temp/service-bus'
     version: 0.0.0
     dependencies:
@@ -12405,7 +12392,7 @@ packages:
       ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
       tslib: 2.3.1
       typescript: 4.2.4
-      ws: 7.5.6
+      ws: 8.3.0
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
