@@ -326,10 +326,10 @@ export interface RetryInformation {
 
 // @public
 export interface RetryModifiers {
+    errorToThrow?: RestError;
     redirectTo?: string;
     retryAfterInMs?: number;
     skipStrategy?: boolean;
-    throwError?: RestError;
 }
 
 // @public

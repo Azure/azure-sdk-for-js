@@ -193,7 +193,7 @@ describe("retryPolicy", function() {
             return { skipStrategy: true };
           }
           return {
-            throwError: retryError
+            errorToThrow: retryError
           };
         }
       }
@@ -487,7 +487,7 @@ describe("retryPolicy", function() {
               return { skipStrategy: true };
             }
             return {
-              throwError: retryError
+              errorToThrow: retryError
             };
           }
         }

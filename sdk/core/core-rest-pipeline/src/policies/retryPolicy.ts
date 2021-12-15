@@ -99,14 +99,14 @@ export function retryPolicy(
             continue strategiesLoop;
           }
 
-          const { throwError, retryAfterInMs, redirectTo } = modifiers;
+          const { errorToThrow, retryAfterInMs, redirectTo } = modifiers;
 
-          if (throwError) {
+          if (errorToThrow) {
             strategyLogger.error(
               `Retry ${retryCount}: Retry strategy ${strategy.name} throws error:`,
-              throwError
+              errorToThrow
             );
-            throw throwError;
+            throw errorToThrow;
           }
 
           if (retryAfterInMs) {

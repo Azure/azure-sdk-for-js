@@ -43,7 +43,7 @@ export interface RetryModifiers {
   /**
    * Indicates to throw this error instead of retrying.
    */
-  throwError?: RestError;
+  errorToThrow?: RestError;
 }
 
 /**
