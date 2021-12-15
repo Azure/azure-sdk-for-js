@@ -11,7 +11,7 @@ import {
 } from "@azure/core-tracing";
 import { TestTracingSpan, TestInstrumenter } from "../../src";
 import chai, { assert, expect } from "chai";
-import { chaiAzureTrace } from "./azureTracing";
+import { chaiAzureTrace } from "../../src/tracing/azureTracing";
 import { ContextImpl } from "../../src/tracing/contextImpl";
 chai.use(chaiAzureTrace);
 describe("TestTracingSpan", function() {
@@ -61,9 +61,7 @@ describe("TestInstrumenter", function() {
       const existingContext = new ContextImpl().setValue(Symbol.for("foo"), "bar");
 
       const { tracingContext: newContext } = instrumenter.startSpan("testSpan", {
-        packageInformation: {
-          name: "test"
-        },
+        packageName: "test",
         tracingContext: existingContext
       });
 
@@ -141,10 +139,8 @@ export class MockClientToTest {
     this.record = {};
     this.tracingClient = createTracingClient({
       namespace: "Microsoft.Test",
-      packageInformation: {
-        name: "@azure/test",
-        version: "foobar"
-      }
+      packageName: "@azure/test",
+      packageVersion: "foobar"
     });
   }
   // const myOperationResult = await withSpan("myClassName.myOperationName", (updatedOptions) => myOperation(updatedOptions), options);

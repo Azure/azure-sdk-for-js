@@ -1,7 +1,7 @@
 import { OperationTracingOptions, useInstrumenter } from "@azure/core-tracing";
 import { assert } from "chai";
-import { TestInstrumenter } from "../../src";
-import { SpanGraph, SpanGraphNode } from "../../src/tracing/spanGraphModel";
+import { TestInstrumenter } from "..";
+import { SpanGraph, SpanGraphNode } from "./spanGraphModel";
 // this is the plugin used in the test file
 function chaiAzureTrace(chai: Chai.ChaiStatic, _utils: Chai.ChaiUtils) {
   // expect(() => {}).to.supportsTracing() syntax
@@ -29,9 +29,7 @@ async function supportsTracing<
   const instrumenter = new TestInstrumenter();
   useInstrumenter(instrumenter);
   const startSpanOptions = {
-    packageInformation: {
-      name: "test"
-    },
+    packageName: "test",
     ...options
   };
   const { span: rootSpan, tracingContext } = instrumenter.startSpan("root", startSpanOptions);
