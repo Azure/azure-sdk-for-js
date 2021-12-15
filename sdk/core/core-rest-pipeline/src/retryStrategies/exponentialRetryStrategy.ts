@@ -38,11 +38,10 @@ export function exponentialRetryStrategy(
   return {
     name: "exponentialRetryStrategy",
     retry({ retryCount, response, responseError }) {
-      if (isThrottlingRetryResponse(response)) {
-        return { skipStrategy: true };
-      }
-
-      if (!(isExponentialRetryResponse(response) || isSystemError(responseError))) {
+      if (
+        !isSystemError(responseError) &&
+        (!isExponentialRetryResponse(response) || isThrottlingRetryResponse(response))
+      ) {
         return { skipStrategy: true };
       }
 
