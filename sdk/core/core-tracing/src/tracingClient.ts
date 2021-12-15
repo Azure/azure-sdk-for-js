@@ -17,7 +17,6 @@ import { knownContextKeys } from "./tracingContext";
 /** @internal */
 export class TracingClientImpl implements TracingClient {
   private _namespace: string;
-  private _instrumenter: Instrumenter;
   private _packageName: string;
   private _packageVersion?: string;
 
@@ -25,7 +24,6 @@ export class TracingClientImpl implements TracingClient {
     this._namespace = options.namespace;
     this._packageName = options.packageName;
     this._packageVersion = options.packageVersion;
-    this._instrumenter = getInstrumenter();
   }
   startSpan<Options extends { tracingOptions?: OperationTracingOptions }>(
     name: string,
