@@ -8,7 +8,7 @@ import {
   PipelineRequestOptions
 } from "@azure/core-rest-pipeline";
 import { ServiceClient } from "@azure/core-client";
-import { recorderHttpPolicy, TestProxyHttpClient } from "../src";
+import { TestProxyHttpClient } from "../src";
 import { expect } from "chai";
 
 type TestMode = "record" | "playback" | "live" | undefined;
@@ -56,7 +56,7 @@ function getTestServerUrl() {
     beforeEach(async function() {
       recorder = new TestProxyHttpClient(this.currentTest);
       client = new ServiceClient({ baseUri: getTestServerUrl() });
-      client.pipeline.addPolicy(recorderHttpPolicy(recorder));
+      recorder.configureClient(client);
     });
 
     afterEach(async () => {

@@ -7,12 +7,13 @@ import {
   createPipelineRequest,
   HttpClient,
   HttpMethods,
+  Pipeline,
   PipelinePolicy,
   PipelineRequest,
   PipelineResponse,
   SendRequest
 } from "@azure/core-rest-pipeline";
-import { isPlaybackMode, isRecordMode } from "@azure-tools/test-recorder";
+import { isLiveMode, isPlaybackMode, isRecordMode } from "@azure-tools/test-recorder";
 import {
   ensureExistence,
   getTestMode,
@@ -254,6 +255,16 @@ export class TestProxyHttpClient {
       req.headers.set("x-recording-id", this.recordingId);
     }
     return req;
+  }
+
+  /**
+   * For core-v2 - libraries depending on core-rest-pipeline.
+   * This method adds the recording policy to the input client's pipeline.
+   */
+  public configureClient(client: { pipeline: Pipeline }): void {
+    if (!isLiveMode()) {
+      client.pipeline.addPolicy(recorderHttpPolicy(this));
+    }
   }
 }
 
