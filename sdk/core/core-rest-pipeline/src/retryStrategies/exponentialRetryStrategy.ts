@@ -66,10 +66,8 @@ export function exponentialRetryStrategy(
       const clampedExponentialDelay = Math.min(maxRetryInterval, exponentialDelay);
       // Allow the final value to have some "jitter" (within 50% of the delay size) so
       // that retries across multiple clients don't occur simultaneously.
-      const delayWithJitter =
+      retryAfterInMs =
         clampedExponentialDelay / 2 + getRandomIntegerInclusive(0, clampedExponentialDelay / 2);
-
-      retryAfterInMs = delayWithJitter;
       return { retryAfterInMs };
     }
   };
