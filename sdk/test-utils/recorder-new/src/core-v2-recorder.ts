@@ -250,7 +250,7 @@ export class TestProxyHttpClient {
    * Apply this method on the client to get the recorder policy added to your client's pipeline policies.
    *
    * This method expects your client to have the public `pipeline : Pipeline` object available on the client
-   * to enable recorder to add a new policy through it.
+   * to enable adding a new policy through it.
    */
   public configureClient<T>(client: T & { pipeline: Pipeline }): T {
     if (!isLiveMode()) {
