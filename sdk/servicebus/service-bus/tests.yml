@@ -5,6 +5,8 @@ stages:
     parameters:
       PackageName: "@azure/service-bus"
       ServiceDirectory: servicebus
+      MatrixFilters:
+        - Pool=.*Pipelines
       TimeoutInMinutes: 180
       Clouds: 'Public,Canary'
       EnvVars:

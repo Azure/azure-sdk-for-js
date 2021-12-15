@@ -61,11 +61,19 @@ describe("Sender Tests", () => {
       : TestMessage.getSample();
     await sender.sendMessages(testMessage);
     const msgs = await receiver.receiveMessages(1);
+    // remove message first in case any assertion fails to ensure we don't have lingering message
+    await receiver.completeMessage(msgs[0]);
 
     should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
     should.equal(msgs.length, 1, "Unexpected number of messages");
     should.equal(msgs[0].deliveryCount, 0, "DeliveryCount is different than expected");
-    should.equal(msgs[0].state, "active");
+    should.equal(msgs[0].messageId, testMessage.messageId);
+    // the message could be in "scheduled" state because we set `scheduledEnqueueTimeUtc` property
+    should.equal(
+      msgs[0].state === "active" || msgs[0].state === "scheduled",
+      true,
+      `actual message state: ${msgs[0].state}`
+    );
 
     TestMessage.checkMessageContents(
       testMessage,
@@ -73,8 +81,6 @@ describe("Sender Tests", () => {
       entityName.usesSessions,
       entityName.isPartitioned
     );
-
-    await receiver.completeMessage(msgs[0]);
 
     await testPeekMsgsLength(receiver, 0);
   }
@@ -89,6 +95,22 @@ describe("Sender Tests", () => {
     await testSimpleSend();
   });
 
+  it(withSessionTestClientType + ": Received message has active state", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(withSessionTestClientType);
+    const testMessage = entityName.usesSessions
+      ? TestMessage.getSessionSample()
+      : TestMessage.getSample();
+    // Ensure the message is not scheduled.
+    delete testMessage.scheduledEnqueueTimeUtc;
+    await sender.sendMessages(testMessage);
+    const msgs = await receiver.receiveMessages(1);
+    // remove message first in case any assertion fails to ensure we don't have lingering message
+    await receiver.completeMessage(msgs[0]);
+    should.equal(msgs[0].state === "active", true, `actual message state: ${msgs[0].state}`);
+  });
+
   async function testSimpleSendArray(): Promise<void> {
     const testMessages = [];
     testMessages.push(
@@ -101,8 +123,25 @@ describe("Sender Tests", () => {
     await sender.sendMessages(testMessages);
     const msgs = await receiver.receiveMessages(2);
 
+    // remove messages first in case any assertion fails to ensure we don't have lingering messages
+    await receiver.completeMessage(msgs[0]);
+    await receiver.completeMessage(msgs[1]);
+
     should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
     should.equal(msgs.length, 2, "Unexpected number of messages");
+
+    should.equal(
+      msgs[0].messageId === testMessages[0].messageId ||
+        msgs[0].messageId === testMessages[1].messageId,
+      true,
+      `Unexpected message with id ${msgs[0].messageId}`
+    );
+    should.equal(
+      msgs[1].messageId === testMessages[0].messageId ||
+        msgs[1].messageId === testMessages[1].messageId,
+      true,
+      `Unexpected message with id ${msgs[1].messageId}`
+    );
 
     if (testMessages[0].messageId === msgs[0].messageId) {
       TestMessage.checkMessageContents(
@@ -131,9 +170,6 @@ describe("Sender Tests", () => {
         entityName.isPartitioned
       );
     }
-
-    await receiver.completeMessage(msgs[0]);
-    await receiver.completeMessage(msgs[1]);
 
     await testPeekMsgsLength(receiver, 0);
   }
