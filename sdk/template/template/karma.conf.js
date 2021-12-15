@@ -62,9 +62,7 @@ module.exports = function(config) {
       "AZURE_CLIENT_ID",
       "AZURE_CLIENT_SECRET",
       "AZURE_TENANT_ID",
-      "TABLES_SAS_CONNECTION_STRING",
-      "RECORDINGS_RELATIVE_PATH",
-      "STORAGE_SAS_URL"
+      "RECORDINGS_RELATIVE_PATH"
     ],
 
     // test results reporter to use
