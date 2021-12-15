@@ -1,27 +1,27 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { AccessToken, AzureKeyCredential } from "@azure/core-auth";
+import { GetTokenOptions, MixedRealityStsClientOptions } from "./models/options";
 import {
-  bearerTokenAuthenticationPolicy,
-  createPipelineFromOptions,
+  InternalPipelineOptions,
   TokenCredential,
-  InternalPipelineOptions
+  bearerTokenAuthenticationPolicy,
+  createPipelineFromOptions
 } from "@azure/core-http";
 import {
   MixedRealityStsRestClient,
   MixedRealityStsRestClientGetTokenOptionalParams,
   MixedRealityStsRestClientOptionalParams
 } from "./generated";
-import { logger } from "./logger";
-import { MixedRealityStsClientOptions, GetTokenOptions } from "./models/options";
-import { createSpan } from "./tracing";
-import { SpanStatusCode } from "@azure/core-tracing";
-import { SDK_VERSION } from "./constants";
-import { constructAuthenticationEndpointFromDomain } from "./util/authenticationEndpoint";
-import { AccessToken, AzureKeyCredential } from "@azure/core-auth";
 import { MixedRealityAccountKeyCredential } from "./models/auth";
-import { mapToAccessToken } from "./models/mappers";
+import { SDK_VERSION } from "./constants";
+import { SpanStatusCode } from "@azure/core-tracing";
+import { constructAuthenticationEndpointFromDomain } from "./util/authenticationEndpoint";
+import { createSpan } from "./tracing";
 import { generateCvBase } from "./util/cv";
+import { logger } from "./logger";
+import { mapToAccessToken } from "./models/mappers";
 
 /**
  * Represents the Mixed Reality STS client for retrieving STS tokens used to access Mixed Reality services.
@@ -41,10 +41,10 @@ export class MixedRealityStsClient {
 
   /**
    * Creates an instance of a MixedRealityStsClient.
-   * @param accountId The Mixed Reality service account identifier.
-   * @param accountDomain The Mixed Reality service account domain.
-   * @param keyCredential The Mixed Reality service account primary or secondary key credential.
-   * @param options Additional client options.
+   * @param accountId - The Mixed Reality service account identifier.
+   * @param accountDomain - The Mixed Reality service account domain.
+   * @param keyCredential - The Mixed Reality service account primary or secondary key credential.
+   * @param options - Additional client options.
    */
   constructor(
     accountId: string,
@@ -55,10 +55,10 @@ export class MixedRealityStsClient {
 
   /**
    * Creates an instance of a MixedRealityStsClient.
-   * @param accountId The Mixed Reality service account identifier.
-   * @param accountDomain The Mixed Reality service account domain.
-   * @param credential The credential used to access the Mixed Reality service.
-   * @param options Additional client options.
+   * @param accountId - The Mixed Reality service account identifier.
+   * @param accountDomain - The Mixed Reality service account domain.
+   * @param credential - The credential used to access the Mixed Reality service.
+   * @param options - Additional client options.
    */
   constructor(
     accountId: string,
@@ -69,10 +69,10 @@ export class MixedRealityStsClient {
 
   /**
    * Creates an instance of a MixedRealityStsClient.
-   * @param accountId The Mixed Reality service account identifier.
-   * @param accountDomain The Mixed Reality service account domain.
-   * @param credential The credential used to access the Mixed Reality service.
-   * @param options Additional client options.
+   * @param accountId - The Mixed Reality service account identifier.
+   * @param accountDomain - The Mixed Reality service account domain.
+   * @param credential - The credential used to access the Mixed Reality service.
+   * @param options - Additional client options.
    */
   constructor(
     accountId: string,
@@ -143,10 +143,10 @@ export class MixedRealityStsClient {
 
   /**
    * Retrieve a token from the STS service.
-   * @param options Operation options.
+   * @param options - Operation options.
    */
   public async getToken(options: GetTokenOptions = {}): Promise<AccessToken> {
-    let internalOptions: MixedRealityStsRestClientGetTokenOptionalParams = {
+    const internalOptions: MixedRealityStsRestClientGetTokenOptionalParams = {
       ...options,
       tokenRequestOptions: {
         clientRequestId: generateCvBase()

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { XML_ATTRKEY, XML_CHARKEY, SerializerOptions } from "./serializer.common";
+import { SerializerOptions, XML_ATTRKEY, XML_CHARKEY } from "./serializer.common";
 
 if (!self.document || !self.DOMParser || !self.Node || !self.XMLSerializer) {
   throw new Error(

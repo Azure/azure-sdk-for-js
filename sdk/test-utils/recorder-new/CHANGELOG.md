@@ -6,6 +6,21 @@
 
 - Add `configureClient` method in the `TestProxytHttpClient` which instruments the client with the recorder policy which enables the recorder to redirect the requests to the proxy tool.
 
+## 2021-12-13
+
+- Add support for `setMatcher`, which can be used to instruct the proxy tool to ignore headers (using `HeaderlessMatcher`) or the request body (using `BodilessMatcher`) when matching requests to recordings.
+
+  Example:
+
+  ```ts
+  await recorder.setMatcher("HeaderlessMatcher");
+  ```
+
+## 2021-12-10
+
+- Loads the .env file using with the help of "dotenv" by default.
+  [#19139](https://github.com/Azure/azure-sdk-for-js/pull/19139)
+
 ## 2021-11-30
 
 - Adds NoOp AAD Credential for playback `NoOpCredential`. Using this as your AAD credential in playback mode would avoid the AAD traffic in playback.

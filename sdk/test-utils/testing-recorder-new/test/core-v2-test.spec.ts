@@ -4,10 +4,8 @@
 import { env, isPlaybackMode } from "@azure-tools/test-recorder";
 import { TableEntity, TableClient } from "@azure/data-tables";
 import { TestProxyHttpClient, RecorderStartOptions } from "@azure-tools/test-recorder-new";
-import { config } from "dotenv";
 import { createSimpleEntity } from "./utils/utils";
 import { SanitizerOptions } from "@azure-tools/test-recorder-new";
-config();
 
 const fakeConnString =
   "TableEndpoint=https://fakeaccountname.table.core.windows.net/;SharedAccessSignature=st=2021-08-03T08:52:15Z&spr=https&sig=fakesigval";

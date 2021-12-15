@@ -46,7 +46,8 @@ describe("AMQP message encoding", () => {
       } as any) as Message,
       {} as Delivery,
       false,
-      "receiveAndDelete"
+      "receiveAndDelete",
+      false
     );
 
   it("isAmqpAnnotatedMessage", () => {

@@ -4,9 +4,8 @@
 /* eslint-disable no-unused-expressions */
 
 import "chai/register-should";
-
-import { HttpOperationResponse } from "../src/httpOperationResponse";
 import { RequestPolicy, RequestPolicyOptions } from "../src/policies/requestPolicy";
+import { HttpOperationResponse } from "../src/httpOperationResponse";
 import { WebResource } from "../src/webResource";
 import { userAgentPolicy } from "../src/policies/userAgentPolicy";
 

@@ -1,21 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { Link, Span, SpanKind, SpanStatusCode } from "@azure/core-tracing";
 import { logErrorStackTrace, logger } from "./log";
-import { CommonEventProcessorOptions } from "./models/private";
-import { CloseReason } from "./models/public";
-import { EventPosition } from "./eventPosition";
-import { PartitionProcessor } from "./partitionProcessor";
-import { EventHubReceiver } from "./eventHubReceiver";
 import { AbortController } from "@azure/abort-controller";
+import { CloseReason } from "./models/public";
+import { CommonEventProcessorOptions } from "./models/private";
+import { ConnectionContext } from "./connectionContext";
+import { EventHubConnectionConfig } from "./eventhubConnectionConfig";
+import { EventHubReceiver } from "./eventHubReceiver";
+import { EventPosition } from "./eventPosition";
 import { MessagingError } from "@azure/core-amqp";
 import { OperationOptions } from "./util/operationOptions";
-import { SpanStatusCode, Link, Span, SpanKind } from "@azure/core-tracing";
-import { extractSpanContextFromEventData } from "./diagnostics/instrumentEventData";
+import { PartitionProcessor } from "./partitionProcessor";
 import { ReceivedEventData } from "./eventData";
-import { ConnectionContext } from "./connectionContext";
 import { createEventHubSpan } from "./diagnostics/tracing";
-import { EventHubConnectionConfig } from "./eventhubConnectionConfig";
+import { extractSpanContextFromEventData } from "./diagnostics/instrumentEventData";
 
 /**
  * @internal

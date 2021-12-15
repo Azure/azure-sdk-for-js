@@ -12,6 +12,8 @@
 
 ### Other Changes
 
+- Update dependency `node-fetch` version to `2.6.6` to address advisory [CVE-2020-15168](https://github.com/advisories/GHSA-w7rc-rwvf-8q5r)
+
 ## 2.2.2 (2021-11-03)
 
 ### Bugs Fixed

@@ -10,7 +10,7 @@ import { ExtensionTopics } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { EventGridManagementClientContext } from "../eventGridManagementClientContext";
+import { EventGridManagementClient } from "../eventGridManagementClient";
 import {
   ExtensionTopicsGetOptionalParams,
   ExtensionTopicsGetResponse
@@ -18,13 +18,13 @@ import {
 
 /** Class containing ExtensionTopics operations. */
 export class ExtensionTopicsImpl implements ExtensionTopics {
-  private readonly client: EventGridManagementClientContext;
+  private readonly client: EventGridManagementClient;
 
   /**
    * Initialize a new instance of the class ExtensionTopics class.
    * @param client Reference to the service client
    */
-  constructor(client: EventGridManagementClientContext) {
+  constructor(client: EventGridManagementClient) {
     this.client = client;
   }
 

@@ -34,8 +34,8 @@ export class ServiceClientGetTest extends PerfTest<ServiceClientGetOptions> {
   constructor() {
     super();
 
-    const url = this.parsedOptions.url.value as string;
-    const insecure = this.parsedOptions.insecure.value as boolean;
+    const url = this.parsedOptions.url.value;
+    const insecure = this.parsedOptions.insecure.value;
 
     this.client = this.configureClient(new ServiceClient());
     this.request = createPipelineRequest({

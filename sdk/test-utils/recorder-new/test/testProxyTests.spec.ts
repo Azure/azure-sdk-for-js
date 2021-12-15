@@ -259,7 +259,7 @@ function getTestServerUrl() {
         );
       });
 
-      it.skip("ContinuationSanitizer", async () => {
+      it("ContinuationSanitizer", async () => {
         await recorder.start({
           envSetupForPlayback: {},
           sanitizerOptions: {
@@ -282,11 +282,6 @@ function getTestServerUrl() {
           undefined
         );
 
-        // Seems to fail with
-        // Unable to find a record for the request GET http://host.docker.internal:8080/sample_response
-        // Header differences:
-        //  <your_uuid> values differ, request <985e1725-6d96-467c-89fc-fe45ef0409e4>, record <7460db09-3140-4f76-b59c-16f23e91bc4c>
-        // TODO: Scott is working on fixing the sanitizer
         await makeRequestAndVerifyResponse(
           {
             path: `/sample_response`,
@@ -389,6 +384,48 @@ function getTestServerUrl() {
     });
 
     // Matchers
+
+    describe("Matchers", () => {
+      it("BodilessMatcher", async () => {
+        await recorder.start({ envSetupForPlayback: {} });
+        await recorder.setMatcher("BodilessMatcher");
+
+        // The body shouldn't matter for the match; verify this by using a
+        // different body in playback vs record mode.
+        const body = isPlaybackMode() ? "playback" : "record";
+
+        await makeRequestAndVerifyResponse(
+          {
+            path: `/sample_response`,
+            body,
+            method: "GET",
+            headers: [{ headerName: "Content-Type", value: "text/plain" }]
+          },
+          { val: "abc" }
+        );
+      });
+
+      it("HeaderlessMatcher", async () => {
+        await recorder.start({ envSetupForPlayback: {} });
+        await recorder.setMatcher("HeaderlessMatcher");
+
+        const testHeader = {
+          headerName: `X-Test-Header-${isPlaybackMode() ? "Playback" : "Record"}`,
+          value: isPlaybackMode() ? "playback" : "record"
+        };
+
+        await makeRequestAndVerifyResponse(
+          {
+            path: `/sample_response`,
+            body: "body",
+            method: "GET",
+            headers: [{ headerName: "Content-Type", value: "text/plain" }, testHeader]
+          },
+          { val: "abc" }
+        );
+      });
+    });
+
     // Transforms
 
     describe("Other methods", () => {

@@ -1,18 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { AzureNamedKeyCredential, AzureSASCredential } from "@azure/core-auth";
+import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
 import {
   EventHubConsumerClient,
   EventHubProducerClient,
   parseEventHubConnectionString
 } from "../../src/index";
-import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
-import chai from "chai";
-import { AzureNamedKeyCredential, AzureSASCredential } from "@azure/core-auth";
-import { createSasTokenProvider } from "@azure/core-amqp";
 import { SinonFakeTimers, useFakeTimers } from "sinon";
-import { testWithServiceTypes } from "./utils/testWithServiceTypes";
+import chai from "chai";
 import { createMockServer } from "./utils/mockService";
+import { createSasTokenProvider } from "@azure/core-amqp";
+import { testWithServiceTypes } from "./utils/testWithServiceTypes";
 
 const should = chai.should();
 

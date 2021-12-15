@@ -4,11 +4,11 @@
 import {
   BaseRequestPolicy,
   RequestPolicy,
-  RequestPolicyOptions,
-  RequestPolicyFactory
+  RequestPolicyFactory,
+  RequestPolicyOptions
 } from "./requestPolicy";
-import { WebResource } from "../webResource";
 import { HttpOperationResponse } from "../httpOperationResponse";
+import { WebResource } from "../webResource";
 
 /**
  * Returns a request policy factory that can be used to create an instance of
