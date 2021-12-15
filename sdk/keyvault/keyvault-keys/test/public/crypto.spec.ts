@@ -1,20 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
-import { supportsTracing } from "../../../keyvault-common/test/utils/supportsTracing";
 import { Context } from "mocha";
 import { createHash } from "crypto";
 import { Recorder, env, isLiveMode } from "@azure-tools/test-recorder";
 import { ClientSecretCredential } from "@azure/identity";
 
-import { CryptographyClient, KeyVaultKey, KeyClient } from "../../src";
+import { CryptographyClient, KeyVaultKey, KeyClient, EncryptOptions } from "../../src";
 import { authenticate } from "../utils/testAuthentication";
 import TestClient from "../utils/testClient";
 import { stringToUint8Array, uint8ArrayToString } from "../utils/crypto";
 import { RsaCryptographyProvider } from "../../src/cryptography/rsaCryptographyProvider";
 import { getServiceVersion } from "../utils/utils.common";
 import { isNode } from "@azure/core-http";
+import chai, { assert } from "chai";
+import { chaiAzureTrace } from "@azure/test-utils";
+chai.use(chaiAzureTrace);
 
 describe("CryptographyClient (all decrypts happen remotely)", () => {
   const keyPrefix = `crypto${env.KEY_NAME || "KeyName"}`;
@@ -180,9 +181,9 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
     });
 
     it("supports tracing", async function() {
-      await supportsTracing(
-        (tracingOptions) =>
-          cryptoClient.encrypt("RSA1_5", stringToUint8Array("data"), { tracingOptions }),
+      await assert.supportsTracing(
+        (tracingOptions: EncryptOptions | undefined) =>
+          cryptoClient.encrypt("RSA1_5", stringToUint8Array("data"), tracingOptions),
         ["Azure.KeyVault.Keys.CryptographyClient.encrypt"]
       );
     });

@@ -4,6 +4,8 @@
 import chai, { assert } from "chai";
 import chaiExclude from "chai-exclude";
 import chaiAsPromised from "chai-as-promised";
+import { chaiAzureTrace } from "@azure/test-utils";
+chai.use(chaiAzureTrace);
 chai.use(chaiExclude);
 chai.use(chaiAsPromised);
 import { Context } from "mocha";
@@ -26,7 +28,6 @@ import {
 import { testPollerProperties } from "../utils/recorderUtils";
 import { authenticate } from "../utils/testAuthentication";
 import TestClient from "../utils/testClient";
-import { supportsTracing } from "../../../keyvault-common/test/utils/supportsTracing";
 
 describe("Keys client - create, read, update and delete operations", () => {
   const keyPrefix = `CRUD${env.KEY_NAME || "KeyName"}`;
@@ -401,8 +402,8 @@ describe("Keys client - create, read, update and delete operations", () => {
 
   it("supports tracing", async function(this: Context) {
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
-    await supportsTracing(
-      (tracingOptions) => client.createKey(keyName, "RSA", { tracingOptions }),
+    await assert.supportsTracing(
+      (tracingOptions) => client.createKey(keyName, "RSA", tracingOptions),
       ["Azure.KeyVault.Keys.KeyClient.createKey"]
     );
   });
@@ -429,9 +430,10 @@ describe("Keys client - create, read, update and delete operations", () => {
         const keyName = recorder.getUniqueName("keyrotatetracing");
         const key = await client.createKey(keyName, "RSA");
 
-        await supportsTracing((tracingOptions) => client.rotateKey(key.name, { tracingOptions }), [
-          "Azure.KeyVault.Keys.KeyClient.rotateKey"
-        ]);
+        await assert.supportsTracing(
+          (tracingOptions) => client.rotateKey(key.name, tracingOptions),
+          ["Azure.KeyVault.Keys.KeyClient.rotateKey"]
+        );
       });
 
       it("updateKeyRotationPolicy supports creating a new rotation policy and fetching it", async () => {
@@ -496,7 +498,7 @@ describe("Keys client - create, read, update and delete operations", () => {
         const keyName = recorder.getUniqueName("updaterotationpolicy");
         const key = await client.createKey(keyName, "EC");
 
-        await supportsTracing(
+        await assert.supportsTracing(
           (tracingOptions) =>
             client.updateKeyRotationPolicy(
               key.name,
@@ -509,7 +511,7 @@ describe("Keys client - create, read, update and delete operations", () => {
                 ],
                 expiresIn: "P90D"
               },
-              { tracingOptions }
+              tracingOptions
             ),
           ["Azure.KeyVault.Keys.KeyClient.updateKeyRotationPolicy"]
         );
@@ -533,8 +535,8 @@ describe("Keys client - create, read, update and delete operations", () => {
           ]
         });
 
-        await supportsTracing(
-          (tracingOptions) => client.getKeyRotationPolicy(key.name, { tracingOptions }),
+        await assert.supportsTracing(
+          (tracingOptions) => client.getKeyRotationPolicy(key.name, tracingOptions),
           ["Azure.KeyVault.Keys.KeyClient.getKeyRotationPolicy"]
         );
       });

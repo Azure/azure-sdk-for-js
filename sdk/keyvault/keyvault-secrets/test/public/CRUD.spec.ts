@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 import { Context } from "mocha";
-import { assert } from "chai";
-import { supportsTracing } from "../../../keyvault-common/test/utils/supportsTracing";
+import chai, { assert } from "chai";
+import { chaiAzureTrace } from "@azure/test-utils";
 import { env, Recorder } from "@azure-tools/test-recorder";
 import { AbortController } from "@azure/abort-controller";
 
@@ -12,6 +12,7 @@ import { assertThrowsAbortError } from "../utils/utils.common";
 import { testPollerProperties } from "../utils/recorderUtils";
 import { authenticate } from "../utils/testAuthentication";
 import TestClient from "../utils/testClient";
+chai.use(chaiAzureTrace);
 
 describe("Secret client - create, read, update and delete operations", () => {
   const secretValue = "SECRET_VALUE";
@@ -371,8 +372,8 @@ describe("Secret client - create, read, update and delete operations", () => {
     const secretName = testClient.formatName(
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
     );
-    await supportsTracing(
-      (tracingOptions) => client.setSecret(secretName, "value", { tracingOptions }),
+    await assert.supportsTracing(
+      (tracingOptions) => client.setSecret(secretName, "value", tracingOptions),
       ["Azure.KeyVault.Secrets.SecretClient.setSecret"]
     );
   });

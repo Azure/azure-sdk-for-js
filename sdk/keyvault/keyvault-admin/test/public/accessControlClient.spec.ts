@@ -13,7 +13,8 @@ import {
   KnownKeyVaultDataAction
 } from "../../src";
 import { authenticate } from "../utils/authentication";
-import { supportsTracing } from "../utils/supportsTracing";
+import { chaiAzureTrace } from "@azure/test-utils";
+chai.use(chaiAzureTrace);
 
 describe("KeyVaultAccessControlClient", () => {
   let client: KeyVaultAccessControlClient;
@@ -187,12 +188,14 @@ describe("KeyVaultAccessControlClient", () => {
     });
 
     it("supports tracing", async function() {
-      await supportsTracing(
+      await assert.supportsTracing(
         async (tracingOptions) => {
           try {
-            await client.getRoleDefinition(globalScope, "Managed HSM Crypto Auditor", {
+            await client.getRoleDefinition(
+              globalScope,
+              "Managed HSM Crypto Auditor",
               tracingOptions
-            });
+            );
           } catch (error) {
             if (error.statusCode !== 404) {
               throw error;
@@ -280,10 +283,10 @@ describe("KeyVaultAccessControlClient", () => {
     });
 
     it("supports tracing", async function() {
-      await supportsTracing(
+      await assert.supportsTracing(
         async (tracingOptions) => {
           try {
-            await client.getRoleAssignment(globalScope, generateFakeUUID(), { tracingOptions });
+            await client.getRoleAssignment(globalScope, generateFakeUUID(), tracingOptions);
           } catch (err) {
             if (err.statusCode !== 404) {
               throw err;
