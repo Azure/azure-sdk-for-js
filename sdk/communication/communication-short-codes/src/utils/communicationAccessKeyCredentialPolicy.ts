@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { isTokenCredential, KeyCredential, TokenCredential } from "@azure/core-auth";
 import {
   PipelinePolicy,
@@ -9,7 +12,6 @@ import { shaHash, shaHMAC } from "./cryptoUtils";
 export const communicationAccessKeyCredentialPolicyName = "CommunicationAccessKeyCredentialPolicy";
 /**
  * Creates an HTTP pipeline policy to authenticate a request using a `KeyCredential`.
- * @hidden
  *
  * @param credential - The key credential.
  */

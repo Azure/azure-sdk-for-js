@@ -64,7 +64,9 @@ export function createRecordedClient(context: Context): RecordedClient<ShortCode
   };
 }
 
-export function createMockToken() {
+export function createMockToken(): {
+  getToken: (_scopes: string) => Promise<{ token: string; expiresOnTimestamp: number }>;
+} {
   return {
     getToken: async (_scopes: string) => {
       return { token: "testToken", expiresOnTimestamp: 11111 };
