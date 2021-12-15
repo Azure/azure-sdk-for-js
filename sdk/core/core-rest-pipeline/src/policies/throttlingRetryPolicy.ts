@@ -26,7 +26,6 @@ export interface ThrottlingRetryPolicyOptions {
 }
 
 /**
->>>>>>> Azure/main
  * A policy that retries when the server sends a 429 response with a Retry-After header.
  *
  * To learn more, please refer to
@@ -40,7 +39,7 @@ export function throttlingRetryPolicy(options: ThrottlingRetryPolicyOptions = {}
   return {
     name: throttlingRetryPolicyName,
     sendRequest: retryPolicy([throttlingRetryStrategy()], {
-      maxRetries: options.maxRetries
+      maxRetries: options.maxRetries ?? DEFAULT_CLIENT_MAX_RETRY_COUNT
     }).sendRequest
   };
 }
