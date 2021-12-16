@@ -9396,7 +9396,7 @@ packages:
     dev: false
 
   file:projects/arm-webpubsub.tgz:
-    resolution: {integrity: sha512-outReJxntlsc+34E+MMqYNybnLClXCh8GSmgwhybPn1YwfEUFmD2lG9P+w4HDstkAshJ0gDu5su/JBlpU94AkQ==, tarball: file:projects/arm-webpubsub.tgz}
+    resolution: {integrity: sha512-eLY8zVVnNv6rhrsCO3lDa/BWU7ep4cfwt3mOU0Dli0yd8n+OqxouRs6zPC0caWYCBxVjYT/Zl+zyTSR/hPPphQ==, tarball: file:projects/arm-webpubsub.tgz}
     name: '@rush-temp/arm-webpubsub'
     version: 0.0.0
     dependencies:
@@ -9405,7 +9405,10 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
       '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
       mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-node-resolve: 3.4.0
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1

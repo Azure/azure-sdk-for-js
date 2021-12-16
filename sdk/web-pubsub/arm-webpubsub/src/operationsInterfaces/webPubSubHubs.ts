@@ -9,20 +9,20 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
-  PrivateEndpointConnection,
-  WebPubSubPrivateEndpointConnectionsListOptionalParams,
-  WebPubSubPrivateEndpointConnectionsGetOptionalParams,
-  WebPubSubPrivateEndpointConnectionsGetResponse,
-  WebPubSubPrivateEndpointConnectionsUpdateOptionalParams,
-  WebPubSubPrivateEndpointConnectionsUpdateResponse,
-  WebPubSubPrivateEndpointConnectionsDeleteOptionalParams
+  WebPubSubHub,
+  WebPubSubHubsListOptionalParams,
+  WebPubSubHubsGetOptionalParams,
+  WebPubSubHubsGetResponse,
+  WebPubSubHubsCreateOrUpdateOptionalParams,
+  WebPubSubHubsCreateOrUpdateResponse,
+  WebPubSubHubsDeleteOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Interface representing a WebPubSubPrivateEndpointConnections. */
-export interface WebPubSubPrivateEndpointConnections {
+/** Interface representing a WebPubSubHubs. */
+export interface WebPubSubHubs {
   /**
-   * List private endpoint connections
+   * List hub settings.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param resourceName The name of the resource.
@@ -31,64 +31,85 @@ export interface WebPubSubPrivateEndpointConnections {
   list(
     resourceGroupName: string,
     resourceName: string,
-    options?: WebPubSubPrivateEndpointConnectionsListOptionalParams
-  ): PagedAsyncIterableIterator<PrivateEndpointConnection>;
+    options?: WebPubSubHubsListOptionalParams
+  ): PagedAsyncIterableIterator<WebPubSubHub>;
   /**
-   * Get the specified private endpoint connection
-   * @param privateEndpointConnectionName The name of the private endpoint connection
+   * Get a hub setting.
+   * @param hubName The hub name.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param resourceName The name of the resource.
    * @param options The options parameters.
    */
   get(
-    privateEndpointConnectionName: string,
+    hubName: string,
     resourceGroupName: string,
     resourceName: string,
-    options?: WebPubSubPrivateEndpointConnectionsGetOptionalParams
-  ): Promise<WebPubSubPrivateEndpointConnectionsGetResponse>;
+    options?: WebPubSubHubsGetOptionalParams
+  ): Promise<WebPubSubHubsGetResponse>;
   /**
-   * Update the state of specified private endpoint connection
-   * @param privateEndpointConnectionName The name of the private endpoint connection
+   * Create or update a hub setting.
+   * @param hubName The hub name.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param resourceName The name of the resource.
-   * @param parameters The resource of private endpoint and its properties
+   * @param parameters The resource of WebPubSubHub and its properties
    * @param options The options parameters.
    */
-  update(
-    privateEndpointConnectionName: string,
+  beginCreateOrUpdate(
+    hubName: string,
     resourceGroupName: string,
     resourceName: string,
-    parameters: PrivateEndpointConnection,
-    options?: WebPubSubPrivateEndpointConnectionsUpdateOptionalParams
-  ): Promise<WebPubSubPrivateEndpointConnectionsUpdateResponse>;
+    parameters: WebPubSubHub,
+    options?: WebPubSubHubsCreateOrUpdateOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<WebPubSubHubsCreateOrUpdateResponse>,
+      WebPubSubHubsCreateOrUpdateResponse
+    >
+  >;
   /**
-   * Delete the specified private endpoint connection
-   * @param privateEndpointConnectionName The name of the private endpoint connection
+   * Create or update a hub setting.
+   * @param hubName The hub name.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceName The name of the resource.
+   * @param parameters The resource of WebPubSubHub and its properties
+   * @param options The options parameters.
+   */
+  beginCreateOrUpdateAndWait(
+    hubName: string,
+    resourceGroupName: string,
+    resourceName: string,
+    parameters: WebPubSubHub,
+    options?: WebPubSubHubsCreateOrUpdateOptionalParams
+  ): Promise<WebPubSubHubsCreateOrUpdateResponse>;
+  /**
+   * Delete a hub setting.
+   * @param hubName The hub name.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param resourceName The name of the resource.
    * @param options The options parameters.
    */
   beginDelete(
-    privateEndpointConnectionName: string,
+    hubName: string,
     resourceGroupName: string,
     resourceName: string,
-    options?: WebPubSubPrivateEndpointConnectionsDeleteOptionalParams
+    options?: WebPubSubHubsDeleteOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
-   * Delete the specified private endpoint connection
-   * @param privateEndpointConnectionName The name of the private endpoint connection
+   * Delete a hub setting.
+   * @param hubName The hub name.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param resourceName The name of the resource.
    * @param options The options parameters.
    */
   beginDeleteAndWait(
-    privateEndpointConnectionName: string,
+    hubName: string,
     resourceGroupName: string,
     resourceName: string,
-    options?: WebPubSubPrivateEndpointConnectionsDeleteOptionalParams
+    options?: WebPubSubHubsDeleteOptionalParams
   ): Promise<void>;
 }
