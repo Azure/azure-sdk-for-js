@@ -191,6 +191,9 @@ describe("ServiceFabric test", () => {
         upgradeMode: "Automatic",
         eventStoreServiceEnabled: true
     },testPollingOptions);
+    if(isPlaybackMode()) { 
+      this.skip(); 
+    }
     assert.equal(res.upgradeMode,"Automatic");
   });
 
