@@ -23,6 +23,10 @@ It provides a place to centralize scripts, resources, and processes for developm
   - `run` (execute a sample or all samples within a directory)
   - `check-node-versions` (execute samples with different node versions, typically in preparation for release)
 
+[TODO]
+- Add for proxy tool
+- Add for test commands
+
 The `dev-tool about` command will print some information about how to use the command. All commands additionally accept the `--help` argument, which will print information about the usage of that specific command. For example, to show help information for the `resolve` command above, issue the command `dev-tool package resolve --help`.
 
 ## Extending the Tool
