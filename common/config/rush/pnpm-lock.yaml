@@ -165,6 +165,7 @@ specifiers:
   '@rush-temp/test-utils': file:./projects/test-utils.tgz
   '@rush-temp/test-utils-perf': file:./projects/test-utils-perf.tgz
   '@rush-temp/testing-recorder-new': file:./projects/testing-recorder-new.tgz
+  '@rush-temp/vi': file:./projects/vi.tgz
   '@rush-temp/video-analyzer-edge': file:./projects/video-analyzer-edge.tgz
   '@rush-temp/web-pubsub': file:./projects/web-pubsub.tgz
   '@rush-temp/web-pubsub-express': file:./projects/web-pubsub-express.tgz
@@ -334,6 +335,7 @@ dependencies:
   '@rush-temp/test-utils': file:projects/test-utils.tgz
   '@rush-temp/test-utils-perf': file:projects/test-utils-perf.tgz
   '@rush-temp/testing-recorder-new': file:projects/testing-recorder-new.tgz
+  '@rush-temp/vi': file:projects/vi.tgz
   '@rush-temp/video-analyzer-edge': file:projects/video-analyzer-edge.tgz
   '@rush-temp/web-pubsub': file:projects/web-pubsub.tgz
   '@rush-temp/web-pubsub-express': file:projects/web-pubsub-express.tgz
@@ -1424,6 +1426,7 @@ packages:
   /@opentelemetry/node/0.22.0_@opentelemetry+api@1.0.3:
     resolution: {integrity: sha512-+HhGbDruQ7cwejVOIYyxRa28uosnG8W95NiQZ6qE8PXXPsDSyGeftAPbtYpGit0H2f5hrVcMlwmWHeAo9xkSLA==}
     engines: {node: '>=8.0.0'}
+    deprecated: Package renamed to @opentelemetry/sdk-trace-node
     peerDependencies:
       '@opentelemetry/api': ^1.0.0
     dependencies:
@@ -11792,7 +11795,7 @@ packages:
     dev: false
 
   file:projects/perf-keyvault-secrets.tgz:
-    resolution: {integrity: sha512-avhQXwbltqT5pi+VKaxXD93vUueYplVEVFqdkoP/5AwtflINKPXdvV17z+T88UolGILztw0rp2eylPU+Ug+Tig==, tarball: file:projects/perf-keyvault-secrets.tgz}
+    resolution: {integrity: sha512-6PXCroWdlod0WXXgBFQxJqbvFl5g6rQhpzVViP+tyYi68/SczLCtrSoT3jBfWt749Z0SM3R30CsdvBeLLgwx5A==, tarball: file:projects/perf-keyvault-secrets.tgz}
     name: '@rush-temp/perf-keyvault-secrets'
     version: 0.0.0
     dependencies:
@@ -13313,6 +13316,27 @@ packages:
       - debug
       - supports-color
       - utf-8-validate
+    dev: false
+
+  file:projects/vi.tgz:
+    resolution: {integrity: sha512-xXK9q5icNrF8WjsOTJ9p+JiwJNWdN/XzGgfr29qb7NDUwmH8rvRW/xzy9tepHNTHykUzCjeq56HYwSKb1UFbDQ==, tarball: file:projects/vi.tgz}
+    name: '@rush-temp/vi'
+    version: 0.0.0
+    dependencies:
+      '@microsoft/api-extractor': 7.19.2
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.14.5
     dev: false
 
   file:projects/video-analyzer-edge.tgz:
