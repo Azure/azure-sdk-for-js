@@ -101,17 +101,21 @@ function getTestServerUrl() {
     it("sample_response with random string in path", async () => {
       await recorder.start({ envSetupForPlayback: {} });
 
-      if (!isPlaybackMode()) {
-        recorder.variables["random-1"] = `random-${Math.ceil(Math.random() * 1000 + 1000)}`;
-        recorder.variables["random-2"] = "known-string";
-      }
-
       await makeRequestAndVerifyResponse(
-        { path: `/sample_response/${recorder.variables["random-1"]}`, method: "GET" },
+        {
+          path: `/sample_response/${recorder.variable(
+            "random-1",
+            `random-${Math.ceil(Math.random() * 1000 + 1000)}`
+          )}`,
+          method: "GET"
+        },
         { val: "I am the answer!" }
       );
       await makeRequestAndVerifyResponse(
-        { path: `/sample_response/${recorder.variables["random-2"]}`, method: "GET" },
+        {
+          path: `/sample_response/${recorder.variable("random-2", "known-string")}`,
+          method: "GET"
+        },
         { val: "I am the answer!" }
       );
     });

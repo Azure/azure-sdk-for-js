@@ -257,6 +257,40 @@ describe("TestProxyClient functions", () => {
     });
   });
 
+  describe("variable method", () => {
+    it("throws an error in record mode if a variable is accessed without giving it a value", () => {
+      env.TEST_MODE = "record";
+      expect(() => client.variable("nonExistentVariable")).to.throw(
+        "Tried to access uninitialized variable: nonExistentVariable. You must initialize it with a value before using it."
+      );
+    });
+
+    it("sets the variable correctly in record mode", () => {
+      env.TEST_MODE = "record";
+      client.variable("var1", "value");
+      expect(client["variables"]["var1"]).to.equal("value");
+    });
+
+    it("allows for the shorthand syntax to be used in record mode after a variable is initialized", () => {
+      env.TEST_MODE = "record";
+      client.variable("var1", "value");
+      expect(client.variable("var1")).to.equal("value");
+    });
+
+    it("recalls the variable in playback mode", () => {
+      env.TEST_MODE = "playback";
+      client["variables"]["var1"] = "realValue";
+      expect(client.variable("var1", "ignored")).to.equal("realValue");
+    });
+
+    it("throws an error if a variable does not exist in playback mode", () => {
+      env.TEST_MODE = "playback";
+      expect(() => client.variable("var1", "ignored")).to.throw(
+        "Tried to access a variable in playback that was not set in recording: var1"
+      );
+    });
+  });
+
   describe("_createRecordingRequest", () => {
     it("_createRecordingRequest adds the recording-file and recording-id headers", () => {
       client.recordingId = "dummy-recording-id";
