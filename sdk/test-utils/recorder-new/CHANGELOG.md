@@ -2,6 +2,26 @@
 
 ## 1.0.0 (Unreleased)
 
+## 2021-12-15
+
+- Change the API for using variables. Variables can now be accessed using the syntax:
+
+  ```ts
+  const variable = recorder.variable(<variable name>, <value in record mode>);
+  ```
+
+  A shorthand is also added for when accessing a variable a second time in
+  the same test, which does not require an initial value be set, e.g.:
+
+  ```ts
+  recorder.variable("variableName", <value in record mode>);
+
+  // later on in your code
+  const value = recorder.variable("variableName");
+  ```
+
+  [#19388](https://github.com/Azure/azure-sdk-for-js/pull/19388)
+
 ## 2021-12-14
 
 - Add `configureClient` method to the `TestProxytHttpClient` to allow instrumenting the client with the recorder policy which helps in enabling the recorder to redirect the requests of your tests to the proxy tool.
