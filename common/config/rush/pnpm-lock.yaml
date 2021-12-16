@@ -8325,7 +8325,7 @@ packages:
     dev: false
 
   file:projects/arm-cdn.tgz:
-    resolution: {integrity: sha512-0pz1nmXlUjshQA07w1Bhn37C7MSyxuReagHuf2RDmgI2Ntjsw7cw6fYdlGx8Fhio7WcT2Eixe6lH1v76Gi2M1A==, tarball: file:projects/arm-cdn.tgz}
+    resolution: {integrity: sha512-QCvULGUI7auPq6N0y49Ye1S3MoCEEytee1/fE9MrZgfiq99sQwZTM847vICIxOajGHBPWbr+OhHWO/ysLBQGOg==, tarball: file:projects/arm-cdn.tgz}
     name: '@rush-temp/arm-cdn'
     version: 0.0.0
     dependencies:
@@ -8337,6 +8337,7 @@ packages:
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
+      rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
