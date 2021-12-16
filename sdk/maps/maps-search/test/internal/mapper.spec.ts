@@ -4,19 +4,40 @@
 import { BoundingBox, LatLon } from "../../src/models/models";
 import { assert } from "chai";
 import {
+  extractOperationOptions,
   mapBoundingBox,
   mapBoundingBoxFromCompassNotation,
+  mapFuzzySearchOptions,
   mapLatLongPairAbbreviatedToLatLon,
+  mapSearchAddressOptions,
+  mapSearchBaseOptions,
+  mapSearchExtraFilterOptions,
+  mapSearchPointOfInterestOptions,
   mapStringToLatLon,
   toBoundingBox,
   toLatLon,
   toLatLonString
 } from "../../src/models/mappers";
 import {
+  FuzzySearchOptions,
+  SearchAddressBaseOptions,
+  SearchAddressOptions,
+  SearchBaseOptions,
+  SearchExtraFilterOptions,
+  SearchNearbyPointOfInterestOptions,
+  SearchPointOfInterestOptions
+} from "../../src/models/options";
+import {
   LatLongPairAbbreviated,
   BoundingBox as BoundingBoxInternal,
   BoundingBoxCompassNotation
 } from "../../src/generated";
+import {
+  SearchSearchAddressOptionalParams as SearchAddressOptionalParams,
+  SearchSearchPointOfInterestOptionalParams as SearchPointOfInterestOptionalParams,
+  SearchFuzzySearchOptionalParams as FuzzySearchOptionalParams
+} from "../../src/generated/models";
+import { OperationOptions } from "@azure/core-client";
 
 describe("LatLon/BoundingBox mappers", () => {
   describe("toLatLon", () => {
@@ -116,7 +137,7 @@ describe("LatLon/BoundingBox mappers", () => {
     });
   });
 
-  xdescribe("mapBoundingBoxFromCompassNotation", () => {
+  describe("mapBoundingBoxFromCompassNotation", () => {
     const northEast = "45.2,12.4";
     const southWest = "45.1,12.3";
 
@@ -129,6 +150,10 @@ describe("LatLon/BoundingBox mappers", () => {
       assert.hasAllKeys(bbox, ["topLeft", "bottomRight"]);
       assert.isDefined(bbox.topLeft);
       assert.isDefined(bbox.bottomRight);
+      assert.equal(bbox.topLeft.latitude, 45.2);
+      assert.equal(bbox.topLeft.longitude, 12.3);
+      assert.equal(bbox.bottomRight.latitude, 45.1);
+      assert.equal(bbox.bottomRight.longitude, 12.4);
     });
 
     it("should not convert to a BoundingBox is some properties are null", () => {
@@ -151,13 +176,122 @@ describe("LatLon/BoundingBox mappers", () => {
 });
 
 describe("Options mappers", () => {
-  describe("extractOperationOptions", () => {});
-  describe("mapSearchBaseOptions", () => {});
-  describe("mapSearchExtraFilterOptions", () => {});
-  describe("mapSearchAddressOptions", () => {});
-  describe("mapSearchPointOfInterestOptions", () => {});
-  describe("mapSearchNearbyPointOfInterestOptions", () => {});
-  describe("mapFuzzySearchOptions", () => {});
+  const operationOptionsKeys: (keyof OperationOptions)[] = [
+    "abortSignal",
+    "requestOptions",
+    "tracingOptions",
+    "serializerOptions",
+    "onResponse"
+  ];
+  const searchBaseOptionsKeys: (keyof SearchBaseOptions)[] = [
+    ...operationOptionsKeys,
+    "top",
+    "skip",
+    "language",
+    "extendedPostalCodesFor",
+    "localizedMapView"
+  ];
+  const searchExtraFilterOptionsKeys: (keyof SearchExtraFilterOptions)[] = [
+    "categoryFilter",
+    "brandFilter",
+    "electricVehicleConnectorFilter"
+  ];
+
+  const searchAddressOptionalParamsKeys: (keyof SearchAddressOptionalParams)[] = [
+    ...searchBaseOptionsKeys,
+    "isTypeAhead",
+    "countryFilter",
+    "lat",
+    "lon",
+    "radiusInMeters",
+    "topLeft",
+    "btmRight"
+  ];
+
+  const searchPointOfInterestOptionalParamsKeys: (keyof SearchPointOfInterestOptionalParams)[] = [
+    ...searchBaseOptionsKeys,
+    "operatingHours",
+    "isTypeAhead",
+    "radiusInMeters",
+    "topLeft",
+    "btmRight"
+  ];
+
+  const fuzzySearchOptionalParams: (keyof FuzzySearchOptionalParams)[] = [
+    ...searchPointOfInterestOptionalParamsKeys,
+    "entityType",
+    "minFuzzyLevel",
+    "maxFuzzyLevel",
+    "indexFilter"
+  ];
+
+  describe("extractOperationOptions", () => {
+    it("should only return properties of OperationOptions", () => {
+      const options: SearchBaseOptions = {
+        top: 5,
+        skip: 1
+      };
+      const convertedOptions = extractOperationOptions(options);
+      assert.hasAllKeys(convertedOptions, operationOptionsKeys);
+      assert.doesNotHaveAnyKeys(convertedOptions, ["top", "skip"]);
+    });
+  });
+  describe("mapSearchBaseOptions", () => {
+    it("should only return properties of SearchBaseOptions", () => {
+      const options: SearchAddressBaseOptions = {
+        isTypeAhead: true
+      };
+      const convertedOptions = mapSearchBaseOptions(options);
+      assert.hasAllKeys(convertedOptions, searchBaseOptionsKeys);
+      assert.doesNotHaveAnyKeys(convertedOptions, ["isTypeAhead"]);
+    });
+  });
+  describe("mapSearchExtraFilterOptions", () => {
+    it("should only return properties of SearchExtraFilterOptions", () => {
+      const options: SearchNearbyPointOfInterestOptions = {
+        radiusInMeters: 5000
+      };
+      const convertedOptions = mapSearchExtraFilterOptions(options);
+      assert.hasAllKeys(convertedOptions, searchExtraFilterOptionsKeys);
+      assert.doesNotHaveAnyKeys(convertedOptions, ["radiusInMeters"]);
+    });
+  });
+  describe("mapSearchAddressOptions", () => {
+    it("should only return properties of SearchAddressOptionalParams", () => {
+      const options: SearchAddressOptions = {
+        coordinates: { latitude: 50, longitude: 100 }
+      };
+      const convertedOptions = mapSearchAddressOptions(options);
+      assert.hasAllKeys(convertedOptions, searchAddressOptionalParamsKeys);
+      assert.doesNotHaveAnyKeys(convertedOptions, ["coordinates"]);
+    });
+  });
+  describe("mapSearchPointOfInterestOptions", () => {
+    it("should only return properties of SearchPointOfInterestOptionalParams", () => {
+      const options: SearchPointOfInterestOptions = {
+        boundingBox: {
+          bottomRight: { latitude: 60, longitude: 50 },
+          topLeft: { latitude: 61, longitude: 49 }
+        }
+      };
+      const convertedOptions = mapSearchPointOfInterestOptions(options);
+      assert.hasAllKeys(convertedOptions, searchPointOfInterestOptionalParamsKeys);
+      assert.doesNotHaveAnyKeys(convertedOptions, ["boundingBox"]);
+    });
+  });
+  describe("mapFuzzySearchOptions", () => {
+    it("should only return properties of FuzzySearchOptionalParams", () => {
+      const options: FuzzySearchOptions = {
+        boundingBox: {
+          bottomRight: { latitude: 60, longitude: 50 },
+          topLeft: { latitude: 61, longitude: 49 }
+        }
+      };
+      const convertedOptions = mapFuzzySearchOptions(options);
+      assert.hasAllKeys(convertedOptions, fuzzySearchOptionalParams);
+      assert.doesNotHaveAnyKeys(convertedOptions, ["boundingBox"]);
+    });
+  });
 });
 
 describe("Result mappers", () => {
