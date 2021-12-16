@@ -20,9 +20,9 @@ You will use this library to control the recorder from your tests. The API is so
 
 ## Changes to NPM scripts
 
-For the unified recorder client library to work, the [test proxy server] must be active while you are running your tests. Helpers have been added to the `dev-tool` package which manage starting and stopping the test proxy server before and after your tests are run. These helpers use the test proxy server Docker image. Therefore, Docker must be installed in your development environment.
+For the unified recorder client library to work, the [test proxy server] must be active while you are running your tests. Helpers have been added to the `dev-tool` package which manage starting and stopping the test proxy server before and after your tests are run.
 
-The script defined in `package.json` to run the browser tests should be replaced with `dev-tool run test:browser`, and the script to run the Node tests should look something like `dev tool run test:node-ts-input --mocha=\"--timeout 1200000 'test/**/*.spec.ts'`. In the case of the Node tests, the `--mocha="..."` parameter can be used to specify arguments to be passed through to Mocha. For example:
+Update your test scripts based on the following examples:
 
 | Script              | Before migration                                                                                                                                                                         | After migration                                                                                                                        |
 | :------------------ | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------- |
