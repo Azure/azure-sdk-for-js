@@ -6,11 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export {
-  ErrorAdditionalInfo,
-  ErrorDetail,
-  ErrorResponse,
-  OperationDisplay,
-  OperationListResult,
-  OperationResult
-} from "../models/mappers";
+/// <reference lib="esnext.asynciterable" />
+export * from "./models";
+export { MicrosoftDatadogClient } from "./microsoftDatadogClient";
+export * from "./operationsInterfaces";
