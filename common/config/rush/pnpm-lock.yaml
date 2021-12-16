@@ -9353,7 +9353,7 @@ packages:
     dev: false
 
   file:projects/arm-templatespecs.tgz:
-    resolution: {integrity: sha512-RgFlqAwnq0UphGTsIEF+hkpnM8jej+SkZtCk9SNx58wLRKIVX9+CDqYOXqtsHgKwYSP+vIopZcyKqYefF7/VPg==, tarball: file:projects/arm-templatespecs.tgz}
+    resolution: {integrity: sha512-PsUhG3/DdSL17PowykaRCmgY50iuzawFwrM+wyKMoxzhOY/W4saWMWRz+ggnc8OyaAX19fZuTq56vOZrQyb9Qw==, tarball: file:projects/arm-templatespecs.tgz}
     name: '@rush-temp/arm-templatespecs'
     version: 0.0.0
     dependencies:
@@ -9362,7 +9362,10 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
       '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
       mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-node-resolve: 3.4.0
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
@@ -11222,7 +11225,7 @@ packages:
       '@azure/keyvault-keys': 4.2.0
       '@azure/msal-browser': 2.19.0
       '@azure/msal-common': 4.5.1
-      '@azure/msal-node': 1.3.3
+      '@azure/msal-node': 1.4.0
       '@microsoft/api-extractor': 7.18.19
       '@types/chai': 4.2.22
       '@types/jws': 3.2.4
