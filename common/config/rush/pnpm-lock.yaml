@@ -439,25 +439,9 @@ packages:
       - supports-color
     dev: false
 
-  /@azure/arm-network/26.0.0-beta.1:
-    resolution: {integrity: sha512-uTX8AmRmyXZO2EDY+4ZOy8OGg7acetv7RqGVE+r5YxwUdp7z7cws/gR0NCwWs0j474yk8Wp4p60IfhUKHVcWRg==}
+  /@azure/arm-network/26.0.0:
+    resolution: {integrity: sha512-Hp0Q4ZzChs8C0DUdGZOChWKMrhzZ53V0Q681puREZ9S1E6o2yWM0Vb+cYuWoyPOylwuzP2fjNjJZGtB7WuFd3w==}
     engines: {node: '>=12.0.0'}
-    dependencies:
-      '@azure/abort-controller': 1.0.4
-      '@azure/core-auth': 1.3.2
-      '@azure/core-client': 1.3.2
-      '@azure/core-lro': 2.2.1
-      '@azure/core-paging': 1.2.0
-      '@azure/core-rest-pipeline': 1.3.2
-      tslib: 2.3.1
-    transitivePeerDependencies:
-      - supports-color
-    dev: false
-
-  /@azure/arm-network/30.0.0-beta.3:
-    resolution: {integrity: sha512-+wjvjsWQ4CNsA96jvQxbWkRQrkbPqf7rHUuV9O3aj5wD2ECkDVvhvy8TjRE2UWuEPJoFkJkKrpaAwx2xNIZJBg==}
-    engines: {node: '>=12.0.0'}
-    deprecated: it's deprecated
     dependencies:
       '@azure/abort-controller': 1.0.4
       '@azure/core-auth': 1.3.2
@@ -1568,6 +1552,7 @@ packages:
   /@opentelemetry/node/0.22.0_@opentelemetry+api@1.0.3:
     resolution: {integrity: sha512-+HhGbDruQ7cwejVOIYyxRa28uosnG8W95NiQZ6qE8PXXPsDSyGeftAPbtYpGit0H2f5hrVcMlwmWHeAo9xkSLA==}
     engines: {node: '>=8.0.0'}
+    deprecated: Package renamed to @opentelemetry/sdk-trace-node
     peerDependencies:
       '@opentelemetry/api': ^1.0.0
     dependencies:
@@ -8367,11 +8352,11 @@ packages:
     dev: false
 
   file:projects/arm-compute.tgz:
-    resolution: {integrity: sha512-zk0xILY5nmiZpZZiPD05eJEXDKOzYLSQO7j5lE9SFmtEQg7Toc5DfoXXEvpCCOx0AqmCDj9G0V9g3eXUn+d8pg==, tarball: file:projects/arm-compute.tgz}
+    resolution: {integrity: sha512-mUWGdvcleVg21qvvDGSiTlafijy84E4IlfMmHJ6x8yr/JdHV2b4yfcwev3Etvo2uGw8IPuVeilOtxP6iTz4Tkg==, tarball: file:projects/arm-compute.tgz}
     name: '@rush-temp/arm-compute'
     version: 0.0.0
     dependencies:
-      '@azure/arm-network': 26.0.0-beta.1
+      '@azure/arm-network': 26.0.0
       '@microsoft/api-extractor': 7.18.19
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
@@ -8386,6 +8371,8 @@ packages:
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.14.3
+    transitivePeerDependencies:
+      - supports-color
     dev: false
 
   file:projects/arm-consumption.tgz:
@@ -8596,11 +8583,11 @@ packages:
     dev: false
 
   file:projects/arm-eventhub.tgz:
-    resolution: {integrity: sha512-cWryEMqcziFmqSkDI9ZMhEhjBmX3UEdauByCW1fFHAJ9XGHISFxr8jpJ1hKOj+c6mbp5JBD0UIU2MyceWk/OMg==, tarball: file:projects/arm-eventhub.tgz}
+    resolution: {integrity: sha512-ZMNIWom4QHGKA3dCguAK1lNPHY+ujrSpZJuVLaNZEQDLfBjqRB55k9N5AJl2+DrMHP93qy7QlEEnSxUHw1aJpw==, tarball: file:projects/arm-eventhub.tgz}
     name: '@rush-temp/arm-eventhub'
     version: 0.0.0
     dependencies:
-      '@azure/arm-network': 30.0.0-beta.3
+      '@azure/arm-network': 26.0.0
       '@azure/arm-storage': 30.0.0-beta.2
       '@microsoft/api-extractor': 7.18.19
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
@@ -8616,6 +8603,8 @@ packages:
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.14.3
+    transitivePeerDependencies:
+      - supports-color
     dev: false
 
   file:projects/arm-extendedlocation.tgz:
@@ -9078,11 +9067,11 @@ packages:
     dev: false
 
   file:projects/arm-rediscache.tgz:
-    resolution: {integrity: sha512-aOAyRJHWE7GUOtUWaHTiFCa3SurFmsvsG3u8DDDBAGlXVxSc0OCKPfyr0RkqL8k+N2dsS1s5qVzSWPfKuaP1mA==, tarball: file:projects/arm-rediscache.tgz}
+    resolution: {integrity: sha512-9uCdadMEY0g5ab+7LuuNJt7c6irmn1uae0gzHyDnkXRGc0nsfFQD8w77VthvP1HzW4M4nPVSXVFAcRKOxfoSQA==, tarball: file:projects/arm-rediscache.tgz}
     name: '@rush-temp/arm-rediscache'
     version: 0.0.0
     dependencies:
-      '@azure/arm-network': 30.0.0-beta.3
+      '@azure/arm-network': 26.0.0
       '@microsoft/api-extractor': 7.18.19
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
@@ -9097,6 +9086,8 @@ packages:
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.14.3
+    transitivePeerDependencies:
+      - supports-color
     dev: false
 
   file:projects/arm-relay.tgz:
@@ -11222,7 +11213,7 @@ packages:
       '@azure/keyvault-keys': 4.2.0
       '@azure/msal-browser': 2.19.0
       '@azure/msal-common': 4.5.1
-      '@azure/msal-node': 1.3.3
+      '@azure/msal-node': 1.4.0
       '@microsoft/api-extractor': 7.18.19
       '@types/chai': 4.2.22
       '@types/jws': 3.2.4
