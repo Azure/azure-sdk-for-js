@@ -51,7 +51,7 @@ export function getRealAndFakePairs(
   connectionString: string,
   fakeConnString: string
 ): Record<string, string> {
-  let realAndFakePairs: Record<string, string> = {};
+  const realAndFakePairs: Record<string, string> = {};
   const fakeValues = getConnStringAsJSON(fakeConnString);
   const realValues = getConnStringAsJSON(connectionString);
   for (const key in fakeValues) {

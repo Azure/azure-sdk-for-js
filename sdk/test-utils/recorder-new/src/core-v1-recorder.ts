@@ -24,7 +24,7 @@ export class TestProxyHttpClientCoreV1 extends TestProxyHttpClient {
   async sendRequest(request: WebResourceLike): Promise<HttpOperationResponse> {
     if (isPlaybackMode() || isRecordMode()) {
       if (this.recordingId) {
-        request = this.redirectRequest(request);
+        this.redirectRequest(request);
       }
     }
     return this.httpClientCoreV1.sendRequest(request);
