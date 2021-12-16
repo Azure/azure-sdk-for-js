@@ -50,14 +50,19 @@ export function exponentialRetryStrategy(
   return {
     name: "exponentialRetryStrategy",
     retry({ retryCount, response, responseError }) {
-      if (isThrottlingRetryResponse(response)) {
+      const matchedSystemError = isSystemError(responseError);
+      const ignoreSystemErrors = matchedSystemError && options.ignoreSystemErrors;
+
+      const isExponential = isExponentialRetryResponse(response);
+      const ignoreExponentialResponse = isExponential && options.ignoreHttpStatusCodes;
+      const unknownResponse = response && (isThrottlingRetryResponse(response) || !isExponential);
+
+      if (unknownResponse || ignoreExponentialResponse || ignoreSystemErrors) {
         return { skipStrategy: true };
       }
-      const skippingIfSystemError = !options.ignoreSystemErrors && !isSystemError(responseError);
-      const skippingIfHttpStatusCode =
-        !options.ignoreHttpStatusCodes && !isExponentialRetryResponse(response);
-      if (skippingIfSystemError || skippingIfHttpStatusCode) {
-        return { skipStrategy: true };
+
+      if (responseError && !matchedSystemError) {
+        return { errorToThrow: responseError };
       }
 
       // Exponentially increase the delay each time
