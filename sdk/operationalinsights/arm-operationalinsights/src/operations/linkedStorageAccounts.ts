@@ -11,7 +11,7 @@ import { LinkedStorageAccounts } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { OperationalInsightsManagementClientContext } from "../operationalInsightsManagementClientContext";
+import { OperationalInsightsManagementClient } from "../operationalInsightsManagementClient";
 import {
   LinkedStorageAccountsResource,
   LinkedStorageAccountsListByWorkspaceOptionalParams,
@@ -27,13 +27,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing LinkedStorageAccounts operations. */
 export class LinkedStorageAccountsImpl implements LinkedStorageAccounts {
-  private readonly client: OperationalInsightsManagementClientContext;
+  private readonly client: OperationalInsightsManagementClient;
 
   /**
    * Initialize a new instance of the class LinkedStorageAccounts class.
    * @param client Reference to the service client
    */
-  constructor(client: OperationalInsightsManagementClientContext) {
+  constructor(client: OperationalInsightsManagementClient) {
     this.client = client;
   }
 

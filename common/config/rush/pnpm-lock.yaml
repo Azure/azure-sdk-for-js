@@ -8704,7 +8704,7 @@ packages:
     dev: false
 
   file:projects/arm-operationalinsights.tgz:
-    resolution: {integrity: sha512-gBlO/vSUk3NsGWIpm3EOzfRX9qwQetzRnBySYDL8GOjTMTZy5YQqzcMv05F5VE1XTi/qFiY+KGcZwhV5FQ0L4Q==, tarball: file:projects/arm-operationalinsights.tgz}
+    resolution: {integrity: sha512-aCOEc9JiPgRSPW5sSz+jEIATAz64iWyKGgCEEIx7/MeTgkvw2BRcfA5Hod2fNS+nOP3KCIeH/Pqbqc+if65uQw==, tarball: file:projects/arm-operationalinsights.tgz}
     name: '@rush-temp/arm-operationalinsights'
     version: 0.0.0
     dependencies:
@@ -8716,6 +8716,7 @@ packages:
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
+      rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
