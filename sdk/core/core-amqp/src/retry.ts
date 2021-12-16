@@ -219,21 +219,23 @@ export async function retry<T>(config: RetryConfig<T>): Promise<T> {
         i,
         err
       );
-      let targetDelayInMs = config.retryOptions.retryDelayInMs;
-      if (config.retryOptions.mode === RetryMode.Exponential) {
-        let incrementDelta = Math.pow(2, i) - 1;
-        const boundedRandDelta =
-          config.retryOptions.retryDelayInMs * 0.8 +
-          Math.floor(
-            Math.random() *
-              (config.retryOptions.retryDelayInMs * 1.2 - config.retryOptions.retryDelayInMs * 0.8)
-          );
-        incrementDelta *= boundedRandDelta;
-
-        targetDelayInMs = Math.min(incrementDelta, config.retryOptions.maxRetryDelayInMs);
-      }
 
       if (lastError && lastError.retryable && totalNumberOfAttempts > i) {
+        let targetDelayInMs = config.retryOptions.retryDelayInMs;
+        if (config.retryOptions.mode === RetryMode.Exponential) {
+          let incrementDelta = Math.pow(2, i) - 1;
+          const boundedRandDelta =
+            config.retryOptions.retryDelayInMs * 0.8 +
+            Math.floor(
+              Math.random() *
+                (config.retryOptions.retryDelayInMs * 1.2 -
+                  config.retryOptions.retryDelayInMs * 0.8)
+            );
+          incrementDelta *= boundedRandDelta;
+
+          targetDelayInMs = Math.min(incrementDelta, config.retryOptions.maxRetryDelayInMs);
+        }
+
         logger.verbose(
           "[%s] Sleeping for %d milliseconds for '%s'.",
           config.connectionId,
