@@ -221,10 +221,14 @@ export type ChargeSummaryKind = string;
 export type ChargeSummaryUnion = ChargeSummary | LegacyChargeSummary | ModernChargeSummary;
 
 // @public (undocumented)
-export class ConsumptionManagementClient extends ConsumptionManagementClientContext {
+export class ConsumptionManagementClient extends coreClient.ServiceClient {
+    // (undocumented)
+    $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: ConsumptionManagementClientOptionalParams);
     // (undocumented)
     aggregatedCost: AggregatedCost;
+    // (undocumented)
+    apiVersion: string;
     // (undocumented)
     balances: Balances;
     // (undocumented)
@@ -254,20 +258,11 @@ export class ConsumptionManagementClient extends ConsumptionManagementClientCont
     // (undocumented)
     reservationTransactions: ReservationTransactions;
     // (undocumented)
+    subscriptionId: string;
+    // (undocumented)
     tags: Tags;
     // (undocumented)
     usageDetails: UsageDetails;
-}
-
-// @public (undocumented)
-export class ConsumptionManagementClientContext extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: ConsumptionManagementClientOptionalParams);
-    // (undocumented)
-    apiVersion: string;
-    // (undocumented)
-    subscriptionId: string;
 }
 
 // @public
@@ -666,12 +661,45 @@ export type LegacyReservationRecommendation = ReservationRecommendation & {
     readonly totalCostWithReservedInstances?: number;
     readonly netSavings?: number;
     readonly firstUsageDate?: Date;
-    readonly scope?: string;
+    scope: string;
     readonly skuProperties?: SkuProperty[];
 };
 
 // @public
+export interface LegacyReservationRecommendationProperties {
+    readonly costWithNoReservedInstances?: number;
+    readonly firstUsageDate?: Date;
+    readonly instanceFlexibilityGroup?: string;
+    readonly instanceFlexibilityRatio?: number;
+    readonly lookBackPeriod?: string;
+    readonly meterId?: string;
+    readonly netSavings?: number;
+    readonly normalizedSize?: string;
+    readonly recommendedQuantity?: number;
+    readonly recommendedQuantityNormalized?: number;
+    readonly resourceType?: string;
+    scope: "Single" | "Shared";
+    readonly skuProperties?: SkuProperty[];
+    readonly term?: string;
+    readonly totalCostWithReservedInstances?: number;
+}
+
+// @public (undocumented)
+export type LegacyReservationRecommendationPropertiesUnion = LegacyReservationRecommendationProperties | LegacySingleScopeReservationRecommendationProperties | LegacySharedScopeReservationRecommendationProperties;
+
+// @public
 export type LegacyReservationTransaction = ReservationTransaction & {};
+
+// @public
+export type LegacySharedScopeReservationRecommendationProperties = LegacyReservationRecommendationProperties & {
+    scope: "Shared";
+};
+
+// @public
+export type LegacySingleScopeReservationRecommendationProperties = LegacyReservationRecommendationProperties & {
+    scope: "Single";
+    readonly subscriptionId?: string;
+};
 
 // @public
 export type LegacyUsageDetail = UsageDetail & {
